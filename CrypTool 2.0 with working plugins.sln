@@ -53,8 +53,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IncDec", "CrypPlugins\IncDe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dictionary", "CrypPlugins\Dictionary\Dictionary.csproj", "{84E0B32B-70EE-4033-A2B8-2F0B41043D3D}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "CrypSetup", "CrypSetup\CrypSetup.vdproj", "{5ABDA3E1-ED71-43C1-BB27-F7F02711F0C7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playfair", "CrypPlugins\Playfair\Playfair.csproj", "{5DA3E5DB-62B9-4621-AA69-56512BDECE7B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Factorizer", "CrypPlugins\Factorizer\Factorizer.csproj", "{3A4251D0-DAB0-4A1C-94A4-75BC2C2A5DEE}"
@@ -365,16 +363,6 @@ Global
 		{84E0B32B-70EE-4033-A2B8-2F0B41043D3D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{84E0B32B-70EE-4033-A2B8-2F0B41043D3D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{84E0B32B-70EE-4033-A2B8-2F0B41043D3D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{5ABDA3E1-ED71-43C1-BB27-F7F02711F0C7}.Debug|.NET.ActiveCfg = Debug
-		{5ABDA3E1-ED71-43C1-BB27-F7F02711F0C7}.Debug|.NET.Build.0 = Debug
-		{5ABDA3E1-ED71-43C1-BB27-F7F02711F0C7}.Debug|Any CPU.ActiveCfg = Debug
-		{5ABDA3E1-ED71-43C1-BB27-F7F02711F0C7}.Debug|Any CPU.Build.0 = Debug
-		{5ABDA3E1-ED71-43C1-BB27-F7F02711F0C7}.Debug|Mixed Platforms.ActiveCfg = Debug
-		{5ABDA3E1-ED71-43C1-BB27-F7F02711F0C7}.Release|.NET.ActiveCfg = Release
-		{5ABDA3E1-ED71-43C1-BB27-F7F02711F0C7}.Release|.NET.Build.0 = Release
-		{5ABDA3E1-ED71-43C1-BB27-F7F02711F0C7}.Release|Any CPU.ActiveCfg = Release
-		{5ABDA3E1-ED71-43C1-BB27-F7F02711F0C7}.Release|Any CPU.Build.0 = Release
-		{5ABDA3E1-ED71-43C1-BB27-F7F02711F0C7}.Release|Mixed Platforms.ActiveCfg = Release
 		{5DA3E5DB-62B9-4621-AA69-56512BDECE7B}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{5DA3E5DB-62B9-4621-AA69-56512BDECE7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5DA3E5DB-62B9-4621-AA69-56512BDECE7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
