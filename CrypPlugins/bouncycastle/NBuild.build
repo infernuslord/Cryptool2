@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<project name="bccrypto-csharp" default="compile-release" basedir=".">
+
+  <!-- Build for .NET Framework 1.1 -->
+    <property name="nant.settings.currentframework" value="net-1.1" />
+    <property name="compile-defines" value="NET_1_1" />
+
+  <!-- Build for .NET Compact Framework 1.0 -->
+  <!--
+    <property name="nant.settings.currentframework" value="netcf-1.0" />
+    <property name="compile-defines" value="NETCF_1_0" />
+  -->
+
+
+  <property name="api-debugpath" value="./api/bin/debug" />
+  <property name="api-releasepath" value="./api/bin/release" />
+  <property name="api-srcpath" value="./src" />
+  <property name="bzip2-srcpath" value="./bzip2/src" />
+  <property name="test-srcpath" value="./test/src" />
+  <property name="test-datapath" value="./test/data" />
+  <property name="api-spikepath" value="./spike" />
+  <property name="api-libpath" value="./lib" />
+  <property name="test-binpath" value="./test/bin"/>
+  <property name="dist-path" value="./dist"/>
+
+  <property name="nunit-lib" value="C:/Program Files/NUnit 2.2.9/bin" />
+  <!--<property name="nunit-lib" value="/usr/lib/nunit" />-->
+
+  <!-- Version -->
+  <property name ="version" value ="1.2"/>
+  <property name="name" value="BouncyCastle.Crypto"/>
+
+  <target name="clean">
+    <delete failonerror="false" dir="./api" />
+    <delete failonerror="false" dir="${dist-path}" />
+    <delete failonerror="false" dir="${test-binpath}" />
+    <delete failonerror="false" file="./TestResult.xml" />
+  </target>
+
+  <!-- Compile api in debug mode and compile tests -->
+  <target name="compile-debug">
+    <echo message="Compiling Debug"/>
+    <echo message="Compiling API in debug mode."/>
+    <mkdir dir="${api-debugpath}"/>
+    <csc target="library" noconfig="true" nostdlib="true" output="${api-debugpath}/${name}.dll"
+      verbose="false" debug="true" define="${compile-defines}">
+      <sources>
+        <include name="${api-srcpath}/**/*.cs"/>
+        <include name="${bzip2-srcpath}/**/*.cs"/>
+<!--
+        <exclude name="${api-srcpath}/**/examples/**/*.cs"/>
+        <exclude name="${api-srcpath}/**/test/**/*.cs"/>
+        <include name="${api-spikepath}/**/*.cs"/>
+        <exclude name="${api-spikepath}/**/examples/**/*.cs"/>
+        <exclude name="${api-spikepath}/**/test/**/*.cs"/>
+-->
+      </sources>
+      <references>
+        <!--<include name="${api-libpath}/*.dll"/>-->
+        <include name="mscorlib.dll"/>
+        <include name="System.dll"/>
+      </references>
+    </csc>
+
+    <copy file="${api-debugpath}/${name}.dll" tofile="${test-binpath}/${name}.dll" />
+    <copy file="${api-debugpath}/${name}.pdb" tofile="${test-binpath}/${name}.pdb" />
+
+    <echo message="Compiling Tests."/>
+    <mkdir dir="${api-debugpath}"/>
+    <csc target="library" noconfig="true" nostdlib="true" output="${test-binpath}/BCTest.dll"
+      verbose="false" debug="true" define="${compile-defines}">
+      <sources>
+        <include name="${test-srcpath}/**/*.cs"/>
+<!--
+        <include name="${api-srcpath}/**/examples/**/*.cs"/>
+        <include name="${api-srcpath}/**/test/**/*.cs"/>
+        <include name="${api-spikepath}/**/examples/**/*.cs"/>
+        <include name="${api-spikepath}/**/test/**/*.cs"/>
+-->
+      </sources>
+      <resources prefix="crypto" dynamicprefix="true">
+        <include name="${test-datapath}/**/*.*"/>
+        <exclude name="${test-datapath}/**/README.txt"/>
+      </resources>
+      <references>
+        <!--<include name="${api-libpath}/*.dll"/>-->
+        <include name="mscorlib.dll"/>
+        <include name="System.dll"/>
+        <include name="${nunit-lib}/*.dll"/>
+        <include name="${test-binpath}/${name}.dll"/>
+      </references>
+    </csc>
+  </target>
+
+  <!-- Compile Release.-->
+  <target name="compile-release">
+    <echo message="Compiling Release"/>
+    <echo message="Compiling API in release mode."/>
+    <mkdir dir="${api-releasepath}"/>
+    <csc target="library" noconfig="true" nostdlib="true" output="${api-releasepath}/${name}.dll"
+      verbose="false" debug="false" optimize="true" define="${compile-defines}">
+      <sources>
+        <include name="${api-srcpath}/**/*.cs"/>
+        <include name="${bzip2-srcpath}/**/*.cs"/>
+<!--
+        <exclude name="${api-srcpath}/**/examples/**/*.cs"/>
+        <exclude name="${api-srcpath}/**/test/**/*.cs"/>
+        <include name="${api-spikepath}/**/*.cs"/>
+        <exclude name="${api-spikepath}/**/examples/**/*.cs"/>
+        <exclude name="${api-spikepath}/**/test/**/*.cs"/>
+-->
+      </sources>
+      <references>
+        <!--<include name="${api-libpath}/*.dll"/>-->
+        <include name="mscorlib.dll"/>
+        <include name="System.dll"/>
+      </references>
+    </csc>
+  </target>
+
+  <!-- Make distribution.-->
+  <target name="dist">
+    <echo message="Building signed assembly for release ${version}"/>
+    <mkdir dir="${dist-path}"/>
+    <csc target="library" noconfig="true" nostdlib="true" output="${dist-path}/${name}.dll"
+      verbose="false" debug="false" optimize="true" define="${compile-defines};STRONG_NAME">
+      <sources>
+        <include name="${api-srcpath}/**/*.cs"/>
+        <include name="${bzip2-srcpath}/**/*.cs"/>
+      </sources>
+      <references>
+        <include name="mscorlib.dll"/>
+        <include name="System.dll"/>
+      </references>
+    </csc>
+  </target>
+
+  <target name="all" depends="compile-debug, compile-release"/>
+
+  <target name="test" depends="compile-debug">
+    <exec program="${nunit-lib}/nunit-console.exe" commandline="/labels testcfg.nunit" workingdir="${nant.project.basedir}"></exec>
+  </target>
+
+</project>

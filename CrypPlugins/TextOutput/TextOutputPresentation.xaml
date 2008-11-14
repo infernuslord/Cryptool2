@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="TextOutput.TextOutputPresentation"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Height="302" Width="751">
+    <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="25*" />
+      <RowDefinition Height="25*" />
+      <RowDefinition Height="25*" />
+      <RowDefinition Height="25*" />
+    </Grid.RowDefinitions>
+    <TextBox Name="textBoxString" Grid.Row="0" Margin="0,29,0,0" IsEnabled="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True" />
+    <Label Height="28" Name="labelString" VerticalAlignment="Top" Background="#DFDFDF">String</Label>
+
+    <TextBox Name="textBoxStream" Grid.Row="1" Margin="0,29,0,0" IsEnabled="True" TextWrapping="Wrap" IsReadOnly="True" VerticalScrollBarVisibility="Auto" />
+    <Label Grid.Row="1" Height="28" Name="labelStream" VerticalAlignment="Top" Background="#FF9B28">Stream displayed as string</Label>
+
+    <TextBox Name="textBoxStreamByte" Grid.Row="2" Margin="0,29,0,0" IsEnabled="True" TextWrapping="Wrap" IsReadOnly="True" VerticalScrollBarVisibility="Auto" />
+    <Label Grid.Row="2" Height="28" Name="labelStreamByte" VerticalAlignment="Top" Background="#FF9B28">Stream displayed as hex value</Label>
+
+    <TextBox Name="textBoxByteArray" Grid.Row="3" Margin="0,29,0,0" IsEnabled="True" TextWrapping="Wrap" IsReadOnly="True" VerticalScrollBarVisibility="Auto" />
+    <Label Grid.Row="3" Height="28" Name="labelByteArray" VerticalAlignment="Top" Background="Aqua">Byte Array</Label>
+
+  </Grid>
+</UserControl>

@@ -1,0 +1,14 @@
+<FlowDocument PagePadding="5,0,5,0" AllowDrop="True" NumberSubstitution.CultureSource="User" 
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              Background="White">
+  <Paragraph>
+    <Run FontWeight="Bold" FontSize="18.6666666666667" xml:lang="de-de">
+      <Run.TextDecorations>
+        <TextDecoration Location="Underline" />
+      </Run.TextDecorations>ADFGVX
+    </Run>
+  </Paragraph>
+  <Paragraph>
+    <Run FontSize="14.6666666666667" xml:lang="de-de">The ADFGVX cipher was a field cipher used by the german army during World War I. ADFGVX was in fact an extension of an earlier cipher called ADFGX. Invented by Colonel Fritz Nebel and introduced in March 1918, the cipher was a fractionating transposition cipher which combined a modified Polybius square with a single columnar transposition. The cipher is named after the six possible letters used in the ciphertext: A, D, F, G, V and X. These letters were chosen deliberately because they sound very different from each other when transmitted via morse code. The intention was to reduce the possibility of operator error.</Run>
+  </Paragraph>
+</FlowDocument>

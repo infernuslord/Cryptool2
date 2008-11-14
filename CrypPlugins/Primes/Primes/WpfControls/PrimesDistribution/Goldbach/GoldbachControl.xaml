@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="Primes.WpfControls.PrimesDistribution.Goldbach.GoldbachControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:comps="clr-namespace:Primes.WpfControls.Components">
+  <UserControl.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary  Source="../../Resources/Shared.xaml"/>
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </UserControl.Resources>
+
+  <Grid Name="gridContent">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <StackPanel Grid.Row="0" Name="spInput">
+      <comps:InputRangeControl x:Name="ircGoldbach" InputRangeControlType="Horizontal" ShowButtons="True" ShowCalcInput="False"/>
+      <TextBlock Name="tbinfo" Visibility="Collapsed"/>
+    </StackPanel>
+    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+      <Viewbox Stretch="Uniform">
+        <Viewbox.LayoutTransform>
+          <TransformGroup>
+            <ScaleTransform ScaleX="{Binding ElementName=silderScale, Path=Value}" ScaleY="{Binding ElementName=silderScale, Path=Value}"/>
+          </TransformGroup>
+        </Viewbox.LayoutTransform>
+        <Canvas Name="PaintArea" SizeChanged="PaintArea_SizeChanged"/>
+      </Viewbox>
+    </ScrollViewer>
+    <StackPanel Grid.Row="2" Name="spSlider">
+      <Slider Name="silderScale" Minimum="0.9" Maximum="5" Value="0.9"/>
+    </StackPanel>
+  </Grid>
+</UserControl>

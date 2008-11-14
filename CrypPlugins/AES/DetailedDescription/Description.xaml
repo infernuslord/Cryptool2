@@ -1,0 +1,14 @@
+<FlowDocument PagePadding="5,0,5,0" AllowDrop="True" NumberSubstitution.CultureSource="User" 
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              Background="White">
+  <Paragraph>
+    <Run FontWeight="Bold" FontSize="18.6666666666667" xml:lang="de-de">
+      <Run.TextDecorations>
+        <TextDecoration Location="Underline" />
+      </Run.TextDecorations> AES
+    </Run>
+  </Paragraph>
+  <Paragraph>
+    <Run FontSize="14.6666666666667" xml:lang="de-de">In cryptography, the Advanced Encryption Standard (AES), also known as Rijndael, is a block cipher adopted as an encryption standard by the U.S. government. It has been analyzed extensively and is now used worldwide, as was the case with its predecessor, the Data Encryption Standard (DES). AES was announced by National Institute of Standards and Technology (NIST) as U.S. FIPS PUB 197 (FIPS 197) on November 26, 2001 after a 5-year standardization process (see Advanced Encryption Standard process for more details). It became effective as a standard May 26, 2002. As of 2006, AES is one of the most popular algorithms used in symmetric key cryptography.  This marks the first time that the public has had access to a cipher approved by NSA for top secret information.\n\nStrictly speaking, AES is not precisely Rijndael (although in practice they are used interchangeably) as Rijndael supports a larger range of block and key sizes; AES has a fixed block size of 128 bits and a key size of 128, 192, or 256 bits, whereas Rijndael can be specified with key and block sizes in any multiple of 32 bits, with a minimum of 128 bits and a maximum of 256 bits.</Run>
+  </Paragraph>
+</FlowDocument>

@@ -1,0 +1,175 @@
+﻿<FlowDocument PagePadding="5,0,5,0" AllowDrop="True" NumberSubstitution.CultureSource="User"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Background="White" Name="flowDoc">
+    <Paragraph Margin="0,0,0,0" TextAlignment="Center" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span FontWeight="Bold" FontSize="16" xml:lang="de-de">
+            <Span.TextDecorations>
+                <TextDecoration Location="Underline" />
+            </Span.TextDecorations> Using the "WEP protocol" plugin (WEP)
+        </Span>
+    </Paragraph>
+
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span xml:lang="de-de">This WEP plugin allows you to encrypt or decrypt the input data
+    according to the
+        </Span>
+        <Span FontStyle="Italic" xml:lang="de-de">Wired Equivalent Privacy</Span>
+        <Span xml:lang="de-de">(WEP) protocol. Let's give you a short overview over the WEP protocol.
+        </Span>
+    </Paragraph>
+
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span xml:lang="de-de">Developed and published by the</Span>
+        <Span FontStyle="Italic" xml:lang="de-de">Institute of Electrical and Electronics Engineers
+        </Span>
+        <Span xml:lang="de-de">(IEEE) in 1999, the WEP protocol was the first protocol for security matters
+            within a Wireless Local Area Network (WLAN). The main features are encryption and decryption of
+            transmitted packets, and an
+        </Span>
+        <Span FontStyle="Italic" xml:lang="de-de">Integrity Check Value
+        </Span>
+        <Span xml:lang="de-de">(ICV), which is used to detect transmission errors within the packets.
+        </Span>
+    </Paragraph>
+
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span xml:lang="de-de">Let's first see how the encryption and decryption is done. According to
+            the protocol, there is a key used, which consists of either 5, 13 or 29 bytes. In this WEP plugin,
+            there are only keysizes of 5 and 13 bytes supported. This key is called here
+        </Span>
+        <Span FontStyle="Italic">RootKey
+        </Span>
+        <Span xml:lang="de-de">(RK). This RK is concatenated with a packet individual
+        </Span>
+        <Span FontStyle="Italic" xml:lang="de-de">Initialisation Vector</Span>
+        <Span xml:lang="de-de">(IV), consisting of 3 bytes. So the key K, which is in fact used to encrypt
+            or decrypt a packet i is:
+        </Span>
+        <Span xml:lang="de-de"></Span>
+    </Paragraph>
+
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Center" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span xml:lang="de-de">K of packet i = (IV of packet i || RK).
+        </Span>
+    </Paragraph>
+
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span xml:lang="de-de">The packets are encrypted / decrypted with the RC4 algorithm, a simple
+            stream cipher algorithm.
+        </Span>
+    </Paragraph>
+
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span xml:lang="de-de">You can choose if the plugin is going to encrypt or to decrypt either in the
+        </Span>
+        <Span FontStyle="Italic" xml:lang="de-de">Algorithm Settings</Span>
+        <Span xml:lang="de-de">(within the drop down menu "Action"):</Span>
+    </Paragraph>
+
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <InlineUIContainer>
+            <Image Width="192" Height="202" Source="/WEP;Component/DetailedDescription/Images/WEP_AS_A.jpg" />
+        </InlineUIContainer>
+    </Paragraph>
+
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span xml:lang="de-de">or by right clicking on the plugin in the editor:
+        </Span>
+    </Paragraph>
+
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <InlineUIContainer>
+            <Image Width="240" Height="180" Source="/WEP;Component/DetailedDescription/Images/WEP_Settings_rightClick.jpg" />
+        </InlineUIContainer>
+    </Paragraph>
+
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span xml:lang="de-de">If the packets are going to be encrypted, for each packet a ICV is computed.
+            It's called
+        </Span>
+        <Span FontStyle="Italic" xml:lang="de-de">Cyclic Redundancy Check</Span>
+        <Span xml:lang="de-de">(CRC) and is based on a polynomial division with a well defined 32 bit polynom.
+            The result is a checksum of 32 bit, which protects the packet against transmission errors, but not
+            against manipulation. This checksum is added to the packet, and then the packet will be encrypted.
+        </Span>
+    </Paragraph>
+
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span xml:lang="de-de">This step is missing within the decryption. Instead, the ICV is removed from the
+            packet. In a real world szenario, the receiver of a packet would compute the ICV himself again
+            and compare the two ICVs. If they wouldn't be equal, the packet would be requested from the sender
+            again.
+        </Span>
+    </Paragraph>
+
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span xml:lang="de-de">Now let's have a look on how you can use this WEP plugin. This plugin is part
+            of a prepared workspace, which you can find in the CrypTool 2.0 SampleProjects folder. It's called
+            "AttackWEP-01.cte" and provides the following workflow:
+        </Span>
+    </Paragraph>
+
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span xml:lang="de-de">The packets, which are created from the "Internet frame generator" plugin (IFG),
+            are delivered to this WEP plugin. This encrypted packets are then delivered to the "Attacks on the WEP
+            protocol" plugin, which simulates one of three provided attacks against the WEP protocol.
+        </Span>
+    </Paragraph>
+
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span xml:lang="de-de">The following plugins are involved in the chain (besides the above mentioned
+            ones): The "TextInput" plugin, the "Number Input" plugin, the "Multiplexer" plugin and the
+            "IncDec" plugin. The "TextInput" provides the key for this WEP plugin.
+        </Span>
+    </Paragraph>
+
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <InlineUIContainer>
+            <Image Width="522" Height="266" Source="/WEP;Component/DetailedDescription/Images/SW_AWEP.jpg" />
+        </InlineUIContainer>
+    </Paragraph>
+
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span xml:lang="de-de">The packets, which are encrypted within this plugin, are then
+            delivered to the "Attacks on the WEP protocol" plugin. This plugin tries to recover the key,
+            which has been used to encrypt of the packets. There are three attacks possible:
+            The "FMS attack", the "Korek attack" and the "PTW attack" (for details, please have a look
+            at the description tab of the "Attacks on the WEP protocol" plugin).
+        </Span>
+    </Paragraph>
+
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span xml:lang="de-de">If the recovery of this key has not been successful with the number of packets
+            adjusted in the IFG plugin, the "Attacks on the WEP protocol" plugin provides the value "false"
+            at one of it's output. This value goes to the "Multiplexer" plugin, which decides whether the number
+            provided by the "IncDec" plugin will be forwarded or not. If the value, provided by the "Attacks on the
+            WEP protocol" plugin, is "false", the "Multiplexer" plugin will forward the incremented integer value.
+            This incremented value is also forwarded to the IFG plugin, which will then create the requested packet in
+            the requested amount once again. If the value provided from the "Attacks on the WEP protocol" plugin is
+            "true", the "Multiplexer" plugin will forward nothing, and the chain stops working.
+        </Span>
+    </Paragraph>
+
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span xml:lang="de-de">So this workflow is a loop, which doesn't stop until the key has been recovered
+    successful.
+        </Span>
+    </Paragraph>
+</FlowDocument>
