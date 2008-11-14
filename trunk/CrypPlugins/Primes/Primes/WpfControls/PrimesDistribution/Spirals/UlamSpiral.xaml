@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="Primes.WpfControls.PrimesDistribution.Spirals.UlamSpiral"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:lang="clr-namespace:Primes.Resources.lang.WpfControls.Distribution"
+             xmlns:comps="clr-namespace:Primes.WpfControls.Components">
+  <UserControl.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary  Source="../../Resources/Shared.xaml"/>
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </UserControl.Resources>
+  <Grid Name="cgrid" >
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
+
+    </Grid.RowDefinitions>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Grid.Row="0" Name="sv">
+      <Viewbox Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Name="vb" RenderTransformOrigin="0.5, 0.5">
+        <Canvas Name="PaintArea">
+        </Canvas>
+        <Viewbox.LayoutTransform>
+          <TransformGroup>
+            <ScaleTransform ScaleX="{Binding ElementName=silderScale, Path=Value}" ScaleY="{Binding ElementName=silderScale, Path=Value}"/>
+            <RotateTransform Angle="{Binding ElementName=silderRotate, Path=Value}" x:Name="rtf"/>
+          </TransformGroup>
+        </Viewbox.LayoutTransform>
+      </Viewbox>
+    </ScrollViewer>
+    <StackPanel Grid.Row="1" Name="pnlSliders">
+      <TextBlock HorizontalAlignment="Left" Text="{x:Static lang:Distribution.ulam_zoom}"></TextBlock>
+      <Slider Name="silderScale" Minimum="0.5" Maximum="2" Value="1"/>
+      <DockPanel>
+        <TextBlock HorizontalAlignment="Left" Text="{x:Static lang:Distribution.ulam_rotate}"></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Name="lblRotation">0°</TextBlock>
+      </DockPanel>
+      <Slider Name="silderRotate" Minimum="0" Maximum="360" Value="0" ValueChanged="silderRotate_ValueChanged"/>
+    </StackPanel>
+  </Grid>
+</UserControl>

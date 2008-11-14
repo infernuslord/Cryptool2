@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="Primes.WpfControls.NumberTheory.NumberTheoryFunctions.NumberTheoryFunctionsControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:comps="clr-namespace:Primes.WpfControls.Components"
+             xmlns:lang="clr-namespace:Primes.Resources.lang.Numbertheory"
+             Loaded="UserControl_Loaded"
+    >
+  <UserControl.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../../Resources/Shared.xaml"/>
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </UserControl.Resources>
+  <Grid Margin="5" >
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <comps:InputRangeControl Grid.Row="0" x:Name="irc" Title="Eingabe" BorderThickness="1" InputRangeControlType="Horizontal" BorderBrush="Gray" />
+    <GroupBox Grid.Row="1" Header="{x:Static lang:Numbertheory.groupbox_choosefunctions}">
+    <Grid HorizontalAlignment="Left" Name="gridChooseFunctions">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition MinWidth="200"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition MinWidth="200"/>
+      </Grid.ColumnDefinitions>
+      <ListBox x:Uid="lbSource" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" Grid.Column="0" Name="lbSource" DisplayMemberPath="Description" Drop="lbDestination_Drop" PreviewMouseLeftButtonDown="lbSource_PreviewMouseLeftButtonDown" SelectionMode="Extended"/>
+      <StackPanel x:Uid="StackPanel_1" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Margin="5">
+        <Button x:Uid="btnToExec" Name="btnToExec" Click="btnToExec_Click" Margin="5" Width="50">&gt;&gt;</Button>
+        <Button x:Uid="btnToDontExec" Name="btnToDontExec" Margin="5" Click="btnToDontExec_Click">&lt;&lt;</Button>
+
+      </StackPanel>
+      <ListBox x:Uid="lbDestination" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" Grid.Column="2" Name="lbDestination" DisplayMemberPath="Description" Drop="lbDestination_Drop" PreviewMouseLeftButtonDown="lbSource_PreviewMouseLeftButtonDown" SelectionMode="Extended"/>
+
+
+    </Grid>
+      </GroupBox>
+    <StackPanel Name="spGrid" Grid.Row="2" Background="AntiqueWhite">
+      <WindowsFormsHost Name="DataGridViewHost" Height="{Binding ElementName=spGrid, Path=ActualHeight}">
+        <WindowsFormsHost.ContextMenu>
+          <ContextMenu>
+            <MenuItem Header="test"/>
+          </ContextMenu>
+        </WindowsFormsHost.ContextMenu>
+      </WindowsFormsHost>
+    </StackPanel>
+  </Grid>
+</UserControl>
