@@ -69,7 +69,7 @@
     <PostBuildEvent>cd "$(ProjectDir)"
 cd ..\CrypWin\$(OutDir)
 
-del /F /S /Q /s /q "CrypCore*.*"
+del /F /Q /q "CrypCore*.*"
 copy "$(TargetDir)CrypCore*.*" "./"</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -95,7 +95,7 @@
 cd ..\..\CrypWin\$(OutDir)
 if not exist "./CrypPlugins" mkdir "./CrypPlugins"
 
-del /F /S /Q /s /q "ADFGVX*.*"
+del /F /Q /q "ADFGVX*.*"
 copy "$(TargetDir)ADFGVX*.*" "./CrypPlugins"</PostBuildEvent>
   </PropertyGroup>
 </Project>
