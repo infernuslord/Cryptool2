@@ -134,7 +134,7 @@
     <PostBuildEvent>cd "$(ProjectDir)"
 cd ..\CrypWin\$(OutDir)
 
-del /F /S /Q /s /q "CrypPluginBase*.*"
+del /F /Q /q "CrypPluginBase*.*"
 copy "$(TargetDir)CrypPluginBase*.*" "./"</PostBuildEvent>
   </PropertyGroup>
 </Project>
