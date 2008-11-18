@@ -335,6 +335,8 @@ namespace Primes.WpfControls.Primetest
           return fermat;
         else if (tbctrl.SelectedItem == tabItemMillerRabin)
           return millerrabin;
+        else if (tbctrl.SelectedItem == tabItemSoa)
+          return soa;
         else return null;
       }
     }
@@ -399,6 +401,11 @@ namespace Primes.WpfControls.Primetest
       {
         OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.Primetest_MillerRabin);
       }
+      else if (sender == tabItemSoa)
+      {
+        OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.Generation_SieveOfAtkin);
+      }
+
     }
   }
 }
