@@ -359,8 +359,10 @@ namespace Primes.WpfVisualization
           SetUserControl(m_NumberTheoryControl, 1);
           break;
         case NavigationCommandType.SieveOfAtkin:
+          if (m_PrimetestControl == null) m_PrimetestControl = new PrimetestControl();
+
           //if (m_SieveOfAtkinControl == null) m_SieveOfAtkinControl = new SieveOfAtkinControl();
-          SetUserControl(m_PrimetestControl,2);
+          SetUserControl(m_PrimetestControl,3);
           break;
 
       }

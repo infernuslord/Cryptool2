@@ -10,9 +10,11 @@
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
-    <GroupBox Grid.Row="0" Header="{x:Static lang:PrimesGeneration.soa_generateprimesto}">
+<!--
+      <GroupBox Grid.Row="0" Header="{x:Static lang:PrimesGeneration.soa_generateprimesto}">
       <comps:InputSingleControl x:Name="isc" InputRangeControlType="Horizontal"  FreeTextboxWidth="200" ShowCalcInput="False"/>
       </GroupBox>
+      -->
     <this:SieveOfAtkin x:Name="soa" Grid.Row="1"/>
   </Grid>
 </UserControl>

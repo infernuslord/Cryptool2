@@ -231,47 +231,26 @@ namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
     {
       InitializeComponent();
       InitInputSingleControl();
-      soa.Cancel += new Primes.Library.VoidDelegate(soa_Stop);
-      soa.Start += new Primes.Library.VoidDelegate(soa_Start);
-      soa.Stop += new Primes.Library.VoidDelegate(soa_Stop);
+      soa.Cancel += new Primes.Library.VoidDelegate(FireCancelEvent);
+      soa.Start += new Primes.Library.VoidDelegate(FireStartEvent);
+      soa.Stop += new Primes.Library.VoidDelegate(FireStopEvent);
     }
 
     private void InitInputSingleControl()
     {
-      isc.Execute += new Primes.WpfControls.Components.ExecuteSingleDelegate(isc_Execute);
-      isc.Cancel += new Primes.Library.VoidDelegate(isc_Cancel);
 
-      InputValidator<GmpBigInteger> iv = new InputValidator<GmpBigInteger>();
-      iv.Validator = new BigIntegerMinValueMaxValueValidator(null,GmpBigInteger.Seven,GmpBigInteger.ValueOf(10000));
+      //InputValidator<GmpBigInteger> iv = new InputValidator<GmpBigInteger>();
+      //iv.Validator = new BigIntegerMinValueMaxValueValidator(null,GmpBigInteger.Seven,GmpBigInteger.ValueOf(10000));
 
-      isc.AddInputValidator(InputSingleControl.Free, iv);
-    }
-    void soa_Stop()
-    {
-      isc.UnLockControls();
+      //isc.AddInputValidator(InputSingleControl.Free, iv);
     }
 
-    void soa_Start()
-    {
-      isc.LockControls();
-    }
-
-    void isc_Cancel()
-    {
-      soa.CancelSieve();
-    }
-
-    void isc_Execute(LibGmpWrapper.GmpBigInteger value)
-    {
-      soa.Execute(value);
-      
-    }
 
     #region IPrimeMethodDivision Members
 
     public void Dispose()
     {
-      isc_Cancel();
+      CancelExecute();
     }
 
     public void Init()
@@ -297,21 +276,42 @@ namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
 
     public event Primes.Library.VoidDelegate Start;
 
+    private void FireStartEvent()
+    {
+      if (Start != null) Start();
+    }
     public event Primes.Library.VoidDelegate Stop;
+    private void FireStopEvent()
+    {
+      if (Stop != null) Stop();
+    }
 
     public event Primes.Library.VoidDelegate Cancel;
+    private void FireCancelEvent()
+    {
+      if (Cancel != null) Cancel();
+    }
 
     public event Primes.Library.CallbackDelegateGetInteger ForceGetInteger;
+    private void FireForceGetInteger()
+    {
+      if (ForceGetInteger != null) ForceGetInteger(new Primes.Library.ExecuteIntegerDelegate(Execute));
+    }
 
     public event Primes.Library.CallbackDelegateGetInteger ForceGetIntegerInterval;
+    private void FireForceGetIntegerInterval()
+    {
+      if (ForceGetIntegerInterval != null) ForceGetIntegerInterval(new Primes.Library.ExecuteIntegerDelegate(Execute));
+    }
 
     public void Execute(GmpBigInteger value)
     {
-      
+      soa.Execute(value);
     }
 
     public void CancelExecute()
     {
+      soa.CancelSieve();
       
     }
 
