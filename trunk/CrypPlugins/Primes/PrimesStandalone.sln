@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypPluginBase", "..\..\Cry
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Primes.Standalone", "Primes.Standalone\Primes.Standalone.csproj", "{BF52E371-532E-49B1-81D0-0F0E6657C147}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypCore", "..\..\CrypCore\CrypCore.csproj", "{FF5D473C-0716-4D3E-9078-2EBD979F94C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypUiPluginBase", "..\..\CrypUiPluginBase\CrypUiPluginBase.csproj", "{928CF4D4-3967-41C7-9962-BA9FB40FAD9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +29,14 @@ Global
 		{BF52E371-532E-49B1-81D0-0F0E6657C147}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF52E371-532E-49B1-81D0-0F0E6657C147}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF52E371-532E-49B1-81D0-0F0E6657C147}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF5D473C-0716-4D3E-9078-2EBD979F94C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF5D473C-0716-4D3E-9078-2EBD979F94C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF5D473C-0716-4D3E-9078-2EBD979F94C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF5D473C-0716-4D3E-9078-2EBD979F94C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{928CF4D4-3967-41C7-9962-BA9FB40FAD9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{928CF4D4-3967-41C7-9962-BA9FB40FAD9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{928CF4D4-3967-41C7-9962-BA9FB40FAD9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{928CF4D4-3967-41C7-9962-BA9FB40FAD9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
