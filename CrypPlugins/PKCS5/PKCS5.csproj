@@ -80,6 +80,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="key.snk" />
+    <None Include="SubWorkspaces\pkcs5-aes128-cbc-pad-decrypt.sws">
+    </None>
+    <None Include="SubWorkspaces\pkcs5-aes128-cbc-pad-encrypt.sws" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="PKCS5.png" />
