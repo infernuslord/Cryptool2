@@ -93,6 +93,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Internet_frame_generator", 
 EndProject
 Project("{8BC9CEB9-8B4A-11D0-8D11-00A0C91BC942}") = "CrypWin.exe", "CrypWin\bin\Debug\CrypWin.exe", "{4106F971-1A59-4900-871A-25FC4699BD85}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PKCS5", "CrypPlugins\PKCS5\PKCS5.csproj", "{80200C92-77FC-4508-B520-D51530BE2608}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -559,6 +561,16 @@ Global
 		{4106F971-1A59-4900-871A-25FC4699BD85}.Release|.NET.ActiveCfg = Debug
 		{4106F971-1A59-4900-871A-25FC4699BD85}.Release|Any CPU.ActiveCfg = Debug
 		{4106F971-1A59-4900-871A-25FC4699BD85}.Release|Mixed Platforms.ActiveCfg = Debug
+		{80200C92-77FC-4508-B520-D51530BE2608}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{80200C92-77FC-4508-B520-D51530BE2608}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80200C92-77FC-4508-B520-D51530BE2608}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80200C92-77FC-4508-B520-D51530BE2608}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{80200C92-77FC-4508-B520-D51530BE2608}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{80200C92-77FC-4508-B520-D51530BE2608}.Release|.NET.ActiveCfg = Release|Any CPU
+		{80200C92-77FC-4508-B520-D51530BE2608}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80200C92-77FC-4508-B520-D51530BE2608}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80200C92-77FC-4508-B520-D51530BE2608}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{80200C92-77FC-4508-B520-D51530BE2608}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
