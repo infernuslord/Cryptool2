@@ -274,7 +274,13 @@ namespace Cryptool.Playfair
         [TaskPane("Key value (multiple letters)","Enter one or multiple key values",null,2,false,DisplayLevel.Beginner,ControlType.TextBox,null)]
         public string Key
         {
-            get { return key.ToUpper();}
+            get 
+            {
+              if (key != null)
+                return key.ToUpper();
+              else
+                return null;
+            }
             set
             {
                 if (value.ToUpper() != key) HasChanges = true;
