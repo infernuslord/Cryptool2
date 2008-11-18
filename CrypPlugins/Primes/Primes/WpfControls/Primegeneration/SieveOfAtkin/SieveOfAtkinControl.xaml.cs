@@ -218,13 +218,14 @@ using Primes.WpfControls.Validation;
 using Primes.WpfControls.Validation.Validator;
 using LibGmpWrapper;
 using Primes.WpfControls.Components;
+using Primes.WpfControls.Primetest;
 
 namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
 {
   /// <summary>
   /// Interaction logic for SieveOfAtkinControl.xaml
   /// </summary>
-  public partial class SieveOfAtkinControl : UserControl, IPrimeMethodDivision
+  public partial class SieveOfAtkinControl : UserControl, IPrimeTest
   {
     public SieveOfAtkinControl()
     {
@@ -279,6 +280,44 @@ namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
 
     public void SetTab(int i)
     {
+    }
+
+    #endregion
+
+    #region IPrimeTest Members
+
+    public IValidator<GmpBigInteger> Validator
+    {
+      get { return new BigIntegerMinValueMaxValueValidator(null, GmpBigInteger.Seven, GmpBigInteger.ValueOf(10000)); }
+    }
+
+    #endregion
+
+    #region IPrimeVisualization Members
+
+    public event Primes.Library.VoidDelegate Start;
+
+    public event Primes.Library.VoidDelegate Stop;
+
+    public event Primes.Library.VoidDelegate Cancel;
+
+    public event Primes.Library.CallbackDelegateGetInteger ForceGetInteger;
+
+    public event Primes.Library.CallbackDelegateGetInteger ForceGetIntegerInterval;
+
+    public void Execute(GmpBigInteger value)
+    {
+      
+    }
+
+    public void CancelExecute()
+    {
+      
+    }
+
+    public void Execute(GmpBigInteger from, GmpBigInteger to)
+    {
+      
     }
 
     #endregion
