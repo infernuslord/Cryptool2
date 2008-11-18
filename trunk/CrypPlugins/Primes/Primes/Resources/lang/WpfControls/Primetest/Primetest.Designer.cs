@@ -349,6 +349,15 @@ namespace Primes.Resources.lang.WpfControls.Primetest {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sieb des Atkin.
+        /// </summary>
+        public static string test_soa {
+            get {
+                return ResourceManager.GetString("test_soa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sieb des Eratosthenes.
         /// </summary>
         public static string test_soe {

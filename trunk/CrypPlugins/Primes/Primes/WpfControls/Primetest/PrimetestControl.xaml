@@ -5,6 +5,7 @@
              xmlns:sieveOfEratosthenes="clr-namespace:Primes.WpfControls.Primetest.SieveOfEratosthenes"
              xmlns:millerrabin="clr-namespace:Primes.WpfControls.Primetest.MillerRabin"
              xmlns:fermat="clr-namespace:Primes.WpfControls.Primetest.TestOfFermat"
+             xmlns:soa="clr-namespace:Primes.WpfControls.Primegeneration.SieveOfAtkin"
              xmlns:comps="clr-namespace:Primes.WpfControls.Components"
              xmlns:lang="clr-namespace:Primes.Resources.lang.WpfControls.Primetest"
 VerticalAlignment="Stretch" HorizontalAlignment="Stretch"             
@@ -52,7 +53,10 @@ VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
       <comps:HelpTabItem Header="{x:Static lang:Primetest.test_millerrabin}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="tabItemMillerRabin" HelpButtonClick="TabItem_HelpButtonClick" >
         <millerrabin:MillerRabinControl x:Name="millerrabin"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
       </comps:HelpTabItem>
-    </TabControl>
+        <comps:HelpTabItem Header="{x:Static lang:Primetest.test_soa}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="tabItemSoa" HelpButtonClick="TabItem_HelpButtonClick" >
+          <soa:SieveOfAtkinControl x:Name="soa"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        </comps:HelpTabItem>
+      </TabControl>
 
 
     </Grid>

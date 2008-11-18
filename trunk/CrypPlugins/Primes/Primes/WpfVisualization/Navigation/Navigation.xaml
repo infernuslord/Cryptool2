@@ -36,6 +36,7 @@
         <Hyperlink Name="lnkFacQS" Click="lnk_Click">
           <x:Static Member="lang:Navigation.qs"></x:Static>
           </Hyperlink>
+
       </TreeViewItem>
       <TreeViewItem Header="{x:Static lang:Navigation.primetest}" IsExpanded="True" Expanded="TreeViewItem_Expanded" Collapsed="TreeViewItem_Expanded">
         <Hyperlink Name="lnkTestEratothenes" Click="lnk_Click">
@@ -43,14 +44,15 @@
         </Hyperlink>
         <Hyperlink Name="lnkTestMillerRabin" Click="lnk_Click">
           <x:Static Member="lang:Navigation.millerrabin"></x:Static></Hyperlink>
+        <Hyperlink Name="lnkSieveOfAtkin" Click="lnk_Click">
+          <x:Static Member="lang:Navigation.sieveofatkin"></x:Static>
+
+        </Hyperlink>
+
       </TreeViewItem>
       <Hyperlink Name="lnkGenPrimes" Click="lnk_Click">
         <x:Static Member="lang:Navigation.genprimes"></x:Static>
         </Hyperlink>
-      <Hyperlink Name="lnkSieveOfAtkin" Click="lnk_Click">
-        <x:Static Member="lang:Navigation.sieveofatkin"></x:Static>
-        
-      </Hyperlink>
 
       <TreeViewItem Header="{x:Static lang:Navigation.distribution}" IsExpanded="True" Expanded="TreeViewItem_Expanded" Collapsed="TreeViewItem_Expanded">
         <Hyperlink Name="lnkDistribNumberline" Click="lnk_Click">

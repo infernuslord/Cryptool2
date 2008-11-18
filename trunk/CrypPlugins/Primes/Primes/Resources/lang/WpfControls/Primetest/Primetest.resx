@@ -213,6 +213,9 @@
   <data name="test_millerrabin" xml:space="preserve">
     <value>Der Miller/Rabin-Test</value>
   </data>
+  <data name="test_soa" xml:space="preserve">
+    <value>Sieb des Atkin</value>
+  </data>
   <data name="test_soe" xml:space="preserve">
     <value>Sieb des Eratosthenes</value>
   </data>
