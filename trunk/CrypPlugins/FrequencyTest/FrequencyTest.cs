@@ -42,7 +42,7 @@ namespace Cryptool.FrequencyTest
         
         
         
-        private string outputString = "";
+        private string stringOutput = "";
         private string stringInput;
 
         public static DataSource Data = new DataSource();
@@ -62,13 +62,13 @@ namespace Cryptool.FrequencyTest
         }
 
         [PropertyInfo(Direction.Output, "Text output", "The string after processing with the Frequency test", "",false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public string OutputString
+        public string StringOutput
         {
-            get { return outputString; }
+            get { return stringOutput; }
             set
             {
-                outputString = value;
-                OnPropertyChanged("OutputString");
+                stringOutput = value;
+                OnPropertyChanged("StringOutput");
                
             }
         }
@@ -137,10 +137,13 @@ namespace Cryptool.FrequencyTest
                             workstring1.Append(c);
                         }
                     }
-                    
-                    workstring2 =  workstring1.ToString();
-                }
 
+                    workstring2 = workstring1.ToString();
+                }
+                else 
+                {
+                    workstring2 = workstring;
+                }
                
                 
                 string tempString="";
@@ -152,10 +155,10 @@ namespace Cryptool.FrequencyTest
                 //    OnGuiLogNotificationOccured(this, new GuiLogEventArgs("Creating list", this, NotificationLevel.Info));
                 //}
 
-                while (l >= 0 & l <= StringInput.Length - 1)
+                while (l >= 0 & l <= workstring2.Length - 1)
                 {
 
-                    tempString+=StringInput[l];
+                    tempString+=workstring2[l];
                     l++;
                     if (l % settings.GrammLength == 0 & l > 0)
                     {
@@ -210,14 +213,14 @@ namespace Cryptool.FrequencyTest
                 //});
                 
                 //OUTPUT
-                OutputString = "";
+                stringOutput = "";
                 //DataSource present=new DataSource();
                 for (int x = 0; x < countedGramms.Count; x++)
                   {
                      
-                    OutputString += countedGramms[x] + ":" + amountCharacters[x] + ":" + percentageCharacters[x] + '\n';
+                    stringOutput += countedGramms[x] + ":" + amountCharacters[x] + ":" + percentageCharacters[x] + Environment.NewLine;
                   }
-
+                 OnPropertyChanged("StringOutput");
 
                
                
