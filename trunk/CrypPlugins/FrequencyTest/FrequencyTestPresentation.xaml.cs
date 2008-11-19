@@ -19,34 +19,31 @@ namespace Cryptool.FrequencyTest
     /// </summary>
     public partial class FrequencyTestPresentation : UserControl
     {
-        private DataSource source = FrequencyTest.Data ;
+       // public static DependencyProperty  DataSource = FrequencyTest.Data ;
        
         
 
         public  FrequencyTestPresentation()
         {
-            try
-            {
-                InitializeComponent();
-            }
-            catch (Exception ex)
-            {
-               // Log error (including InnerExceptions!)
-                //Handle exception
-               
-            }
+           InitializeComponent();
+        }
 
-            
+             public void Refresh(object sender, RoutedEventArgs e)
+        {
+           
+            DataSource source = (DataSource)this.Resources["source"];
+            source.ValueCollection.Clear();
+            for (int i = 0; i < FrequencyTest.Data.ValueCollection.Count; i++)
+            {
+
+                source.ValueCollection.Add(FrequencyTest.Data.ValueCollection[i]);
+            }
+        }
                        
 
-            FrequencyTest.Data = (DataSource)this.Resources["source"];
             
-        }
+            
        
-        public void UpdateData(DataSource ds)
-        {
-            source = ds;
-        }        
         
         
     }
