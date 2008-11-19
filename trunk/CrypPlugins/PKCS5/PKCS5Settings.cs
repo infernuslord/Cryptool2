@@ -30,7 +30,7 @@ namespace PKCS5
     /// <summary>
     /// 
     /// </summary>
-    class PKCS5Settings : ISettings
+    public class PKCS5Settings : ISettings
     {
 
 
