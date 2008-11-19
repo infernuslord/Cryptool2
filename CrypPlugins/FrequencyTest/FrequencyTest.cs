@@ -186,8 +186,8 @@ namespace Cryptool.FrequencyTest
                     Data.AddtoCollection(tempInt);
                     percentageCharacters.Add(Math.Round(Convert.ToDouble(tempInt) * settings.GrammLength / Convert.ToDouble(StringInput.Length) * 100, 3));
                     countedGramms.Add(gramms[n]);
-                    presentation.UpdateData(Data);
-                    //presentation.Refresh();
+                    //presentation.UpdateData(Data);
+                    //presentation.
                     
                     
                     //outputString += gramms[n] + ":" + amountCharacters + ":" + percentageCharacters + Environment.NewLine;
@@ -202,12 +202,12 @@ namespace Cryptool.FrequencyTest
                 }
 
                 
-                Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Send, (ThreadStart)delegate
-                {
+                //Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Send, (ThreadStart)delegate
+               // {
                     
-                   Presentation= presentation;
-                   Presentation.UpdateLayout();
-                });
+                //   Presentation= presentation;
+                 //  Presentation.UpdateLayout();
+                //});
                 
                 //OUTPUT
                 OutputString = "";
@@ -285,9 +285,9 @@ namespace Cryptool.FrequencyTest
   public  class DataSource 
     {
     
-       private  Collection<int> valueCollection;
+       private  ObservableCollection<int> valueCollection;
 
-        public  Collection<int> ValueCollection
+        public  ObservableCollection<int> ValueCollection
         {
             get { return valueCollection; }
             set { valueCollection = value; }
@@ -300,7 +300,7 @@ namespace Cryptool.FrequencyTest
        
        public DataSource(){
         
-           valueCollection = new Collection<int>();
+           valueCollection = new ObservableCollection<int>();
            //valueCollection.Add(200);
                                   
             
@@ -314,16 +314,6 @@ namespace Cryptool.FrequencyTest
     }
 
 
-  public static class ExtensionMethods
-  {
-
-      private static Action EmptyDelegate = delegate() { };
-
-
-      public static void Refresh(this UIElement uiElement)
-      {
-         uiElement.Dispatcher.Invoke(DispatcherPriority.Render, EmptyDelegate);
-      }
-  }
+  
   
 }
