@@ -67,7 +67,7 @@ namespace System.Security.Cryptography
             switch (selectedShaFunction)
             {
                 case ShaFunction.MD5:
-                    return 64;
+                    return 16;
 
                 case ShaFunction.SHA1:
                     return 20;
