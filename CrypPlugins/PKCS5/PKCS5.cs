@@ -105,7 +105,7 @@ namespace PKCS5
         #region Input key / password
 
         // Input key
-        private byte[] key = { 0 };
+        private byte[] key = { };
         private dataCanal keyCanal = dataCanal.none;
 
         /// <summary>
@@ -132,9 +132,12 @@ namespace PKCS5
             }
             set
             {
-                if (keyCanal != dataCanal.none && keyCanal != dataCanal.streamCanal)
-                    GuiLogMessage("Duplicate input key not allowed!", NotificationLevel.Error);
-                keyCanal = dataCanal.streamCanal;
+							if (null == value)
+								return;
+
+							if (keyCanal != dataCanal.none && keyCanal != dataCanal.streamCanal)
+								GuiLogMessage("Duplicate input key not allowed!", NotificationLevel.Error);
+							keyCanal = dataCanal.streamCanal;
 
                 long len = value.Length;
                 key = new byte[len];
@@ -160,9 +163,9 @@ namespace PKCS5
             }
             set
             {
-                if (keyCanal != dataCanal.none && keyCanal != dataCanal.byteCanal)
-                    GuiLogMessage("Duplicate key data not allowed!", NotificationLevel.Error);
-                keyCanal = dataCanal.byteCanal;
+							if (keyCanal != dataCanal.none && keyCanal != dataCanal.byteCanal)
+								GuiLogMessage("Duplicate key data not allowed!", NotificationLevel.Error);
+							keyCanal = dataCanal.byteCanal;
 
                 long len = value.Length;
                 key = new byte[len];
@@ -179,7 +182,7 @@ namespace PKCS5
         #region Salt data / Seed data
 
         // Salt Data
-        private byte[] salt = { 0 };
+        private byte[] salt = { };
         private dataCanal saltCanal = dataCanal.none;
 
         /// <summary>
@@ -206,6 +209,9 @@ namespace PKCS5
             }
             set
             {
+							if (null == value)
+								return;
+
                 if (saltCanal != dataCanal.none && saltCanal != dataCanal.streamCanal)
                     GuiLogMessage("Duplicate salt input not allowed!", NotificationLevel.Error);
                 saltCanal = dataCanal.streamCanal;
@@ -255,7 +261,7 @@ namespace PKCS5
 
         // Output
         private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
-        private byte[] outputData = { 0 };
+        private byte[] outputData = { };
 
         /// <summary>
         /// Notifies the update output.
@@ -303,14 +309,14 @@ namespace PKCS5
                 GuiLogMessage("Got HashOutputData.", NotificationLevel.Debug);
                 return this.outputData;
             }
-            set
-            {
-                if (outputData != value)
-                {
-                    this.outputData = value;
-                }
-                NotifyUpdateOutput();
-            }
+						//set
+						//{
+						//    if (outputData != value)
+						//    {
+						//        this.outputData = value;
+						//    }
+						//    NotifyUpdateOutput();
+						//}
         }
 
         /// <summary>

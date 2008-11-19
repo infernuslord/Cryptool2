@@ -220,18 +220,8 @@ namespace System.Security.Cryptography
             for (int i = 0; i < cbReturn; i++)
                 key[i] = 0;
 
-            // check parameters
-            if (password.Length == 0)
-                return key;
-            //throw new ArgumentOutOfRangeException("Password", "password must be not empty; a minimum of 8 bytes is recommended.");
-
-            if (rgbSalt.Length == 0)
-                return key;
-            //throw new ArgumentOutOfRangeException("Salt", "Salt must be not empty; a minimum of 8 bytes is recommended.");
-
             if (count <= 0)
-                return key;
-            //throw new ArgumentOutOfRangeException("Count", "Count must be positive; a minimum of 1000 is recommended.");
+                count = 1;
 
             int hLen = GetHashLength();
 
