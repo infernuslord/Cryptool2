@@ -28,21 +28,19 @@ using System.Windows.Controls;
 namespace PKCS5
 {
     /// <summary>
-    /// 
+    /// Settings for PKCS#5 v2
     /// </summary>
     public class PKCS5Settings : ISettings
     {
-
-
         private bool hasChanges = false;
 
-
-        private PKCS5MaskGenerationMethod.ShaFunction selectedShaFunction = PKCS5MaskGenerationMethod.ShaFunction.SHA256;
-       // static string[] menu = Enum.GetNames(typeof(PKCS5MaskGenerationMethod.ShaFunction)).Clone();
-        
-        private int count = 1000;
-
         #region ISettings Member
+
+
+			/// <summary>
+			/// selected internal hash HMAC function
+			/// </summary>
+			  private PKCS5MaskGenerationMethod.ShaFunction selectedShaFunction = PKCS5MaskGenerationMethod.ShaFunction.SHA256;
 
         [ContextMenu("SHA Function", "Select the hash function (MD5, SHA1 or one out of the SHA2 family)", 0, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new string[] {"MD5", "SHA1", "SHA256", "SHA384", "SHA512"})]
         [TaskPane("SHA Function", "Select the hash function (MD2, SHA1 or one out of the SHA2 family)", "", 0, true, DisplayLevel.Beginner, ControlType.ComboBox, new string[] {"MD5", "SHA1", "SHA256", "SHA384", "SHA512"})]
@@ -60,7 +58,11 @@ namespace PKCS5
             }
         }
 
-        [TaskPane("Count", "Count - iteration count for Hash function, a value greather 1000 is recommended.", "", 1, false, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RangeInteger, 1, 9999)]
+			/// <summary>
+			/// count of hash loops
+			/// </summary>
+				private int count = 1000;
+				[TaskPane("Count", "Count - iteration count for Hash function, a value greather 1000 is recommended.", "", 1, false, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RangeInteger, 1, 9999)]
         public int Count
         {
             get
@@ -76,6 +78,34 @@ namespace PKCS5
                 OnPropertyChanged("Settings");
             }
         }
+
+			/// <summary>
+			/// length of calculated hash in bits
+			/// </summary>
+				private int length = 256;
+				[TaskPane("Length", "Hash Length, the hash length in bits, must be a multiple of 8.", "", 2, false, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RangeInteger, -64, 2048)]
+				public int Length
+				{
+					get
+					{
+						return length;
+					}
+					set
+					{
+						length = value;
+						if (length < 0) // change from bytes to bits [hack]
+							length *= -8;
+						
+						while ((length & 0x07) != 0) // go to the next multiple of 8
+							length++;
+
+						hasChanges = true;
+						OnPropertyChanged("Settings");
+					}
+				}
+
+
+
         /// <summary>
         /// Gets or sets a value indicating whether this instance has changes.
         /// </summary>

@@ -328,7 +328,7 @@ namespace PKCS5
 
             pkcs5Hash.SelectedShaFunction = (PKCS5MaskGenerationMethod.ShaFunction)settings.SHAFunction;
 
-            outputData = pkcs5Hash.GenerateMask(this.key, this.salt, settings.Count, pkcs5Hash.GetHashLength());
+            outputData = pkcs5Hash.GenerateMask(this.key, this.salt, settings.Count, settings.Length >> 3);
 
             NotifyUpdateOutput();
         }
