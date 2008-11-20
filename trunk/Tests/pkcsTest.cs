@@ -70,7 +70,10 @@ namespace Tests
 
 			set.Count = 1000;
 			set.SHAFunction = (int) System.Security.Cryptography.PKCS5MaskGenerationMethod.ShaFunction.MD5;
-			
+			set.Length = 24 * 8;
+
+			p.Settings = set;
+
 			p.Hash();
 
 			byte[] h = p.HashOutputData;
