@@ -10,7 +10,7 @@ namespace FriedmanTest
 {
     [PluginInfo(false,
             "Friedman Test",
-            "Calculates the keylenght of a polyalphabetic substitusion cipher",
+            "Calculates the probable keylenght of a polyalphabetic substitusion cipher",
             "URL",
             "FriedmanTest/icon.png")]
     public class FriedmanTest : IStatistic
@@ -21,14 +21,14 @@ namespace FriedmanTest
         }
     #region Private Variables
     private int integerValue;
-    private string stringInput;
-    private string outputString;
+    private string stringInput="";
+    private string stringOutput="";
     #endregion
 
 
     #region Properties (Inputs/Outputs)
 
-    [PropertyInfo(Direction.Input, "The string to be analyzed", "blablah", "",false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.Input, "The string to be analyzed", "Caution: Aplaying a string, other than the one outputed from the FrequencyTest plug-in, will result in ilogical results", "",false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
     public string StringInput
     {
         get
@@ -37,7 +37,7 @@ namespace FriedmanTest
         }
         set { stringInput = value; OnPropertyChanged("StringInput"); }
     }
-    [PropertyInfo(Direction.Output, "Integer value.", "The last generated ineteger value.", "",false , false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.Output,"Probable key length.", "For greater accuracy, please refer to the string output.", "",false , false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
     public int IntegerValue
     {
         get { return integerValue; }
@@ -51,14 +51,14 @@ namespace FriedmanTest
         }
     }
 
-    [PropertyInfo(Direction.Output, "Text output", "The string after processing with the Friedman Test", "", false,false, DisplayLevel.Beginner, QuickWatchFormat.Text,null)]
-    public string OutputString
+    [PropertyInfo(Direction.Output, "Probable key length", "If the key length result seems to be ilogical...", "", false,false, DisplayLevel.Beginner, QuickWatchFormat.Text,null)]
+    public string StringOutput
     {
-        get { return this.outputString; }
+        get { return this.stringOutput; }
         set
         {
-            outputString = value;
-            OnPropertyChanged("OutputString");
+            stringOutput = value;
+            OnPropertyChanged("StringOutput");
         }
     }
     #endregion
@@ -101,18 +101,16 @@ namespace FriedmanTest
             {
                 //Edit the input from Frequency Test in order to extract the observed letter frequencies
                 string string1 = stringInput;
-                
-                
-                
-                string1 = stringInput.Replace(Environment.NewLine, ":");
-            
+                string string2 = string1.Replace(Environment.NewLine, ":");
+               
                
                 string[] split = null;
+
+
+
                 
+                split = string2.Split(':');
                 
-                
-                
-                split = string1.Split(':');
                 //Now we put the needed absolute values of the letter frequencies into an array
                 int[] absolutevalue = new int[Convert.ToInt32(split.Length / 3)];
                
@@ -154,11 +152,15 @@ namespace FriedmanTest
                 double obIC = summ1/normTexLen; //Calculates the observed index of coincidence
                 //outputString = Convert.ToString(Convert.ToDecimal(obIC));
                 //OnPropertyChanged("OutputString");
-                double Kr = 0.038; //Kappa "random" - expected coincidence rate for a uniform distribution of the same alphabet. In this case 1/26, hence we should have a 26 letter alphabet on the input. 
+                double Kr = 0.038; //Kappa "random" - expected coincidence rate for a uniform distribution of the alphabet. In this case 1/26, hence we should have a 26 letter alphabet on the input. 
                 double Kp = 0.065; //Kappa "plain-text" 
                 double keyLen = 0.027 * texLen / (((texLen - 1) * obIC) - (Kr * texLen) + Kp);
-                outputString = Convert.ToString(keyLen);
+                stringOutput = Convert.ToString(keyLen);
                 OnPropertyChanged("OutputString");
+                if (OnPluginProgressChanged != null)
+                {
+                    OnPluginProgressChanged(this, new PluginProgressEventArgs(texLen, texLen));
+                }
             }
 
         }
