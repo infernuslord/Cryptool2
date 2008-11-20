@@ -10,18 +10,12 @@ namespace Cryptool.FrequencyTest
     public class FrequencyTestSettings : ISettings
     {
         #region ISettings Members
-        
+
+        private bool hasChanges;
         public bool HasChanges
         {
-            get
-            {
-                return false;
-                //throw new NotImplementedException();
-            }
-            set
-            {
-                //throw new NotImplementedException();
-            }
+            get { return hasChanges; }
+            set { hasChanges = value; }
         }
 
         #endregion
