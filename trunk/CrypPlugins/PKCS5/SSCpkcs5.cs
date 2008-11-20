@@ -22,7 +22,9 @@ using System.Diagnostics;
 
 namespace System.Security.Cryptography
 {
-
+    /// <summary>
+    /// insert PKSC #5 v2 into default namespace
+    /// </summary>
     [ComVisibleAttribute(true)]
     public class PKCS5MaskGenerationMethod : System.Security.Cryptography.MaskGenerationMethod
     {
@@ -62,9 +64,9 @@ namespace System.Security.Cryptography
         /// </summary>
         /// <param name="shaf">The shaf.</param>
         /// <returns></returns>
-        public int GetHashLength()
+        private int GetHashLength()
         {
-            switch (selectedShaFunction)
+            switch (this.SelectedShaFunction)
             {
                 case ShaFunction.MD5:
                     return 16;
@@ -121,7 +123,7 @@ namespace System.Security.Cryptography
                 default:
                     throw new ArgumentOutOfRangeException("SelectedShaFunction");
             }
-
+         
             ha.Key = key;
             byte[] h = ha.ComputeHash(salt);
             ha.Clear();
@@ -229,19 +231,17 @@ namespace System.Security.Cryptography
             // let fillBytes be the number of bytes in the last block.
             int blockCount = cbReturn / hLen + 1;
             int fillBytes = cbReturn - (blockCount - 1) * hLen;
-            //if (fillBytes == 0)
-            //  blockCount--;
 
-#if DEBUG
-            {
-                string msg = string.Format("Generate {0} blocks with {1} bytes.", blockCount, hLen);
-                Debug.WriteLine(msg);
-                msg = string.Format("The last block has {0} bytes.", fillBytes);
-                Debug.WriteLine(msg);
-                msg = string.Format("requested bytes {0} - generating {1} bytes.", cbReturn, (blockCount - 1) * hLen + fillBytes);
-                Debug.WriteLine(msg);
-            }
-#endif
+//#if DEBUG
+//            {
+//                string msg = string.Format("Generate {0} blocks with {1} bytes.", blockCount, hLen);
+//                Debug.WriteLine(msg);
+//                msg = string.Format("The last block has {0} bytes.", fillBytes);
+//                Debug.WriteLine(msg);
+//                msg = string.Format("requested bytes {0} - generating {1} bytes.", cbReturn, (blockCount - 1) * hLen + fillBytes);
+//                Debug.WriteLine(msg);
+//            }
+//#endif
 
             if (blockCount > 255)
             {
@@ -253,7 +253,7 @@ namespace System.Security.Cryptography
 
             for (int blockIndex = 0; blockIndex < blockCount - 1; blockIndex++)
             {
-                byte[] block = GenKeyBlock(password, rgbSalt, count, blockIndex);
+                byte[] block = GenKeyBlock(password, rgbSalt, count, blockIndex+1);
                 for (int i = 0; i < hLen; i++)
                     key[outPos++] = block[i];
             }
