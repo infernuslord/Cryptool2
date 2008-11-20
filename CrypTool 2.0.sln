@@ -100,12 +100,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B2A0D8D8-D323-47A2-9C45-78EADE3A2297}"
 	ProjectSection(SolutionItems) = preProject
 		CrypTool 2.0.vsmdi = CrypTool 2.0.vsmdi
+		CrypTool 2.01.vsmdi = CrypTool 2.01.vsmdi
+		CrypTool 2.02.vsmdi = CrypTool 2.02.vsmdi
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
 	EndProjectSection
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = CrypTool 2.0.vsmdi
+		CategoryFile = CrypTool 2.02.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
