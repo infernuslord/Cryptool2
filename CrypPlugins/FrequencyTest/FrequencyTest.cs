@@ -12,6 +12,7 @@ using System.Collections;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
+
 namespace Cryptool.FrequencyTest
 {
     [PluginInfo(false,
@@ -24,29 +25,11 @@ namespace Cryptool.FrequencyTest
     
     public partial class FrequencyTest : IStatistic
     {
-               
-        
-        public FrequencyTest()
-        {
-           
-            settings = new FrequencyTestSettings();
-            
-        }
-       
-
-       
-       
-        
-      
-        
-        
-        
-        
         private string stringOutput = "";
         private string stringInput;
 
         public static DataSource Data = new DataSource();
-        FrequencyTestPresentation presentation =new FrequencyTestPresentation();
+        
         
 
         #region Properties (Inputs/Outputs)
@@ -90,16 +73,19 @@ namespace Cryptool.FrequencyTest
             get { return settings; }
             set { settings = (FrequencyTestSettings)value; }
         }
-
-        public UserControl Presentation
+        private FrequencyTestPresentation presentation;
+        public FrequencyTest()
         {
-            get {  return presentation;}
-            set { this.presentation=(FrequencyTestPresentation)value;}
+        settings = new FrequencyTestSettings();
+        presentation = new FrequencyTestPresentation(this);
+        Presentation = presentation;
         }
+        public UserControl Presentation { get; private set; }
+
 
         public UserControl QuickWatchPresentation
         {
-            get { return presentation; }
+            get { return null; }
         }
 
         public void PreExecution()
@@ -107,10 +93,6 @@ namespace Cryptool.FrequencyTest
             //throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Here comes a comment about this method.
-        /// </summary>
-        
         public void Execute()
         {
             
@@ -149,12 +131,6 @@ namespace Cryptool.FrequencyTest
                 string tempString="";
                 int l = 0;
                 ArrayList gramms = new ArrayList();
-                
-                //  if (OnGuiLogNotificationOccured != null)
-                //{
-                //    OnGuiLogNotificationOccured(this, new GuiLogEventArgs("Creating list", this, NotificationLevel.Info));
-                //}
-
                 while (l >= 0 & l <= workstring2.Length - 1)
                 {
 
@@ -166,21 +142,15 @@ namespace Cryptool.FrequencyTest
                         tempString = "";
                     }
 
-                  //  if (OnPluginProgressChanged != null)
-                   // {
-                    //    OnPluginProgressChanged(this, new PluginProgressEventArgs(l, StringInput.Length - 1));
-                   // }
                 }
                 
-                 gramms.Sort();
-                //DataSource Data = new DataSource();
+                gramms.Sort();
                 ArrayList amountCharacters=new ArrayList();
                 ArrayList percentageCharacters = new ArrayList();
                 ArrayList countedGramms= new ArrayList();
                 int tempInt=0;
                 Data.ValueCollection.Clear();
 
-                //FrequencyTestPresentation presentation1 = new FrequencyTestPresentation();
                 for (int n = 0; n < gramms.Count; n++)
                 {
                     
@@ -189,51 +159,23 @@ namespace Cryptool.FrequencyTest
                     Data.AddtoCollection(tempInt);
                     percentageCharacters.Add(Math.Round(Convert.ToDouble(tempInt) * settings.GrammLength / Convert.ToDouble(StringInput.Length) * 100, 3));
                     countedGramms.Add(gramms[n]);
-                    //presentation.UpdateData(Data);
-                    //presentation.
-                    
-                    
-                    //outputString += gramms[n] + ":" + amountCharacters + ":" + percentageCharacters + Environment.NewLine;
-                    //OnPropertyChanged("OutputString");
-
-                    
                     n = gramms.LastIndexOf( gramms[n]);
-                                     
-                    
-                    
-                    
+                  
                 }
 
-                
-                //Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Send, (ThreadStart)delegate
-               // {
-                    
-                //   Presentation= presentation;
-                 //  Presentation.UpdateLayout();
-                //});
-                
                 //OUTPUT
                 stringOutput = "";
-                //DataSource present=new DataSource();
                 for (int x = 0; x < countedGramms.Count; x++)
                   {
                      
                     stringOutput += countedGramms[x] + ":" + amountCharacters[x] + ":" + percentageCharacters[x] + Environment.NewLine;
                   }
                  OnPropertyChanged("StringOutput");
-
-               
-               
-                
-              //  Thread.Sleep(500);
-
-                
-                    
-                    
-                    
-                   
-               
-                
+                 if (OnPluginProgressChanged != null)
+                      {
+                         OnPluginProgressChanged(this, new PluginProgressEventArgs(l, l));
+                      }
+                 presentation.OpenPresentationFile();
             }
 
             

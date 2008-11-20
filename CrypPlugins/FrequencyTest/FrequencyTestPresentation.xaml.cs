@@ -12,6 +12,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
+using System.Windows.Automation.Provider;
+using System.Windows.Automation.Peers;
+using Cryptool.FrequencyTest;
+using System.Windows.Threading;
 namespace Cryptool.FrequencyTest
 {
     /// <summary>
@@ -20,31 +24,45 @@ namespace Cryptool.FrequencyTest
     public partial class FrequencyTestPresentation : UserControl
     {
        // public static DependencyProperty  DataSource = FrequencyTest.Data ;
-       
-        
 
-        public  FrequencyTestPresentation()
+
+        private FrequencyTest freqT;
+        public  FrequencyTestPresentation(FrequencyTest FrequencyTest)
         {
            InitializeComponent();
+           this.freqT = FrequencyTest;
+           //this.freqT.Settings.PropertyChanged+=Settings_PropertyChanged;
+           //freqT.OnPluginProgressChanged
         }
-
-             public void Refresh(object sender, RoutedEventArgs e)
+       // void Settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    //{
+     // try
+     // {
+      //  if (e.PropertyName == "StringOutput")
+      //  {
+          
+       //   OpenPresentationFile();
+       // }
+     // }
+     // catch {}
+    //}
+        public void OpenPresentationFile()
         {
-           
-            DataSource source = (DataSource)this.Resources["source"];
-            source.ValueCollection.Clear();
-            for (int i = 0; i < FrequencyTest.Data.ValueCollection.Count; i++)
+            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
+                if (freqT.StringOutput != null)
+                {
+                    DataSource source = (DataSource)this.Resources["source"];
+                    source.ValueCollection.Clear();
+                    for (int i = 0; i < FrequencyTest.Data.ValueCollection.Count; i++)
+                    {
 
-                source.ValueCollection.Add(FrequencyTest.Data.ValueCollection[i]);
-            }
+                        source.ValueCollection.Add(FrequencyTest.Data.ValueCollection[i]);
+                    }
+                }
+                    
+                
+            }, null);
         }
-                       
-
-            
-            
-       
-        
-        
     }
 }
