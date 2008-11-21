@@ -368,6 +368,27 @@ namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
       list[3] = true;
       list[5] = true;
 
+      for (int i = 7; i < list.Length; i++)
+      {
+        if (list[i])
+        {
+          numbergrid.MarkNumber(GmpBigInteger.ValueOf(i), Brushes.LightBlue);
+          log.Info(
+            String.Format(
+              Primes.Resources.lang.WpfControls.Generation.PrimesGeneration.soa_fourthsolutionfound,
+              new object[] { i.ToString(), i.ToString()}));
+          for (int j = i * i; j < list.Length; j += i)
+          {
+            list[j] = false;
+            numbergrid.MarkNumber(GmpBigInteger.ValueOf(j), Brushes.Transparent);
+            log.Info(
+              String.Format(
+              Primes.Resources.lang.WpfControls.Generation.PrimesGeneration.soa_fithsolutionfound,
+              new object[] { j.ToString(), i.ToString()}));
+
+          }
+        }
+      }
       numbergrid.Sieved = list;
       //for (int i = 7; i < list.Length; i++)
       //{

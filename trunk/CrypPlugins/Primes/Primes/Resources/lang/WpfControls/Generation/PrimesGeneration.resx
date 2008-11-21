@@ -264,4 +264,10 @@
   <data name="soa_thirdsolutionfound" xml:space="preserve">
     <value>Eine Lösung wurde gefunden. 3 * {0}² - {1}² = {2}. Setzte {3} = {4}.</value>
   </data>
+  <data name="soa_fithsolutionfound" xml:space="preserve">
+    <value>{0} ist ein Vielfaches von {1} und darum keine Primzahl </value>
+  </data>
+  <data name="soa_fourthsolutionfound" xml:space="preserve">
+    <value>{0} wurde als Primzahl identifiziert. Entferne alle Vielfachen von {1}</value>
+  </data>
 </root>
