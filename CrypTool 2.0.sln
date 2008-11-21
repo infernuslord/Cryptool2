@@ -96,12 +96,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PKCS5", "CrypPlugins\PKCS5\PKCS5.csproj", "{80200C92-77FC-4508-B520-D51530BE2608}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B2A0D8D8-D323-47A2-9C45-78EADE3A2297}"
-	ProjectSection(SolutionItems) = preProject
-		CrypTool 2.0.vsmdi = CrypTool 2.0.vsmdi
-		CrypTool 2.01.vsmdi = CrypTool 2.01.vsmdi
-		CrypTool 2.02.vsmdi = CrypTool 2.02.vsmdi
-		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTestMethods", "DevTestMethods\DevTestMethods.csproj", "{F4CCBE43-F19E-49A1-982E-B66919F5D701}"
 EndProject
