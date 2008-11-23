@@ -217,7 +217,7 @@ namespace Cryptool.TextInput
     private bool hasChanges = false;
     #endregion
 
-    public enum EncodingTypes { Default = 0, Unicode = 2, UTF7 = 3, UTF8 = 4, UTF32 = 5, ASCII = 6, BigEndianUnicode = 7 };
+    public enum EncodingTypes { Default = 0, Unicode = 1, UTF7 = 2, UTF8 = 3, UTF32 = 4, ASCII = 5, BigEndianUnicode = 6 };
     
     public delegate void TextInputLogMessage(string message, NotificationLevel loglevel);
     public event TextInputLogMessage OnLogMessage;
@@ -246,7 +246,7 @@ namespace Cryptool.TextInput
       get { return this.encoding; }
       set
       {
-        if (this.Encoding != value)
+        if (this.encoding != value)
         {
           hasChanges = true;
           this.encoding = value;
@@ -268,10 +268,10 @@ namespace Cryptool.TextInput
       }
       set
       {
-        if (this.encoding != (EncodingTypes)value)
+        if (this.Encoding != (EncodingTypes)value)
         {
           hasChanges = true;
-          this.encoding = (EncodingTypes)value;
+          this.Encoding = (EncodingTypes)value;
           OnPropertyChanged("EncodingSetting");
           HasChanges = true;
         }
