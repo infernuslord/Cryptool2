@@ -18,16 +18,15 @@
                 
                <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" >
                 
-                   <Rectangle Width="Auto"/>
+                   <Rectangle Width="15"/>
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
 
                     <TextBlock HorizontalAlignment="Center" Text="{Binding Path=Percent}">
-                        %
                     </TextBlock>
 
+                    <Rectangle Height="3"/>
 
-
-                    <Rectangle Height="{Binding Path=Amount}" Width="15" StrokeThickness="1" Stroke="Beige" RadiusX="5" RadiusY="5" >
+                    <Rectangle Height="{Binding Path=Amount}" Width="30" StrokeThickness="1" Stroke="Beige" RadiusX="5" RadiusY="5" >
                         <Rectangle.BitmapEffect>
                             <DropShadowBitmapEffect />
                         </Rectangle.BitmapEffect>
@@ -41,6 +40,8 @@
 
 
                     </Rectangle>
+
+                    <Rectangle Height="10" />
 
                     <TextBlock HorizontalAlignment="Center" Text="{Binding Path=Caption}"/>
 
@@ -62,8 +63,10 @@
    
         <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto"  ScrollViewer.HorizontalScrollBarVisibility="Auto">
         <StackPanel>
-        <TextBlock TextAlignment="Center" FontSize="18" Foreground="Blue" FontWeight="Bold" FontFamily="Veranda" OpacityMask="Turquoise">Frequency Test Chart</TextBlock> 
-           <ItemsControl 
+        <TextBlock TextAlignment="Center" FontSize="20" Foreground="DarkBlue"  FontFamily="Academy" OpacityMask="Turquoise">Frequency Test Chart</TextBlock>
+        <TextBlock TextAlignment="Center" FontSize="17" Foreground="DarkBlue"  FontFamily="Academy" OpacityMask="Turquoise">in Percentage Values</TextBlock>
+            <Rectangle Height="25"/>
+            <ItemsControl 
              
              ItemsSource="{Binding Source={StaticResource source},Path=ValueCollection}"
              ItemTemplate="{StaticResource template}" ItemsPanel="{StaticResource panelTemplate}">
