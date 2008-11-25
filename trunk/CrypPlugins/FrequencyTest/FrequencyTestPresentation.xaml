@@ -18,7 +18,7 @@
                 
                <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" >
                 
-                   <Rectangle Width="15"/>
+                   <Rectangle Width="5"/>
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
 
                     <TextBlock HorizontalAlignment="Center" Text="{Binding Path=Percent}">
@@ -63,9 +63,10 @@
    
         <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto"  ScrollViewer.HorizontalScrollBarVisibility="Auto">
         <StackPanel>
-        <TextBlock TextAlignment="Center" FontSize="20" Foreground="DarkBlue"  FontFamily="Academy" OpacityMask="Turquoise">Frequency Test Chart</TextBlock>
-        <TextBlock TextAlignment="Center" FontSize="17" Foreground="DarkBlue"  FontFamily="Academy" OpacityMask="Turquoise">in Percentage Values</TextBlock>
-            <Rectangle Height="25"/>
+        <TextBlock TextAlignment="Center" FontSize="20" Foreground="DarkBlue"  FontFamily="Academy" OpacityMask="Turquoise" Text="Character Frequencies (in %)"></TextBlock>
+        
+            
+            
             <ItemsControl 
              
              ItemsSource="{Binding Source={StaticResource source},Path=ValueCollection}"
