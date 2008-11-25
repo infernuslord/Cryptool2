@@ -143,7 +143,7 @@ namespace Cryptool.FrequencyTest
                 ArrayList countedGramms= new ArrayList();
                 int tempInt=0;
                 Data.ValueCollection.Clear();
-
+                double bigestheight=0;
                 for (int n = 0; n < gramms.Count; n++)
                 {
 
@@ -151,30 +151,40 @@ namespace Cryptool.FrequencyTest
                     amountCharacters.Add(tempInt);
                     percentageCharacters.Add(Math.Round(Convert.ToDouble(tempInt) * settings.GrammLength / Convert.ToDouble(StringInput.Length) * 100, 3));
                     countedGramms.Add(gramms[n]);
-                    int height=0;
-                    if (workstring2.Length <= 50)
-                    { height = tempInt * 20; }
-                    if (workstring2.Length <= 100&&workstring2.Length>50)
-                    { height = tempInt * 10; }
-                    if (workstring2.Length <= 200 && workstring2.Length > 100)
-                    { height = tempInt * 5; }
-                    if (workstring2.Length <= 300 && workstring2.Length > 200)
-                    { height = tempInt * 3; }
-                    if (workstring2.Length <= 400 && workstring2.Length > 300)
-                    { height = tempInt * 2; }
-                    if (workstring2.Length > 400)
-                    { height = tempInt; }
-                    else
+                    
+                   // if (workstring2.Length <= 50)
+                   // { height = tempInt * 20; }
+                  //  if (workstring2.Length <= 100&&workstring2.Length>50)
+                   // { height = tempInt * 10; }
+                  //  if (workstring2.Length <= 200 && workstring2.Length > 100)
+                  //  { height = tempInt * 5; }
+                  //  if (workstring2.Length <= 300 && workstring2.Length > 200)
+                  //  { height = tempInt * 3; }
+                  //  if (workstring2.Length <= 400 && workstring2.Length > 300)
+                  //  { height = tempInt * 2; }
+                  //  if (workstring2.Length > 400)
+                  //  { height = tempInt; }
+                  //  else
+                  //  {
+                    if (bigestheight< (double)percentageCharacters[percentageCharacters.Count-1])
                     {
-                        height = tempInt; 
+                        bigestheight = (double)percentageCharacters[percentageCharacters.Count - 1]; 
                     }
-                    CollectionElement row = new CollectionElement(height, (double)percentageCharacters[percentageCharacters.Count - 1],(string)countedGramms[countedGramms.Count - 1] );
+                   // }
+                   // CollectionElement row = new CollectionElement(height, (double)percentageCharacters[percentageCharacters.Count - 1],(string)countedGramms[countedGramms.Count - 1] );
 
-                    Data.ValueCollection.Add(row);
+                   // Data.ValueCollection.Add(row);
                     n = gramms.LastIndexOf(gramms[n]);
 
                 }
 
+                //percentageCharacters.
+                for (int n = 0; n < countedGramms.Count; n++)
+                {
+                    int height = Convert.ToInt32((double)percentageCharacters[n] * (180 / bigestheight));
+                    CollectionElement row = new CollectionElement(height, (double)percentageCharacters[n], (string)countedGramms[n]);
+                    Data.ValueCollection.Add(row);
+                }
                 //OUTPUT
                 stringOutput = "";
                 for (int x = 0; x < countedGramms.Count; x++)
@@ -301,16 +311,23 @@ namespace Cryptool.FrequencyTest
             set { valueCollection = value; }
         }
 
-        public void AddtoCollection(CollectionElement i)
-        {
-            valueCollection.Add(i);
-        }
+        //public void AddtoCollection(int i, double d, string s)
+       // {
+        //    CollectionElement z = new CollectionElement(i, d, s);
+        //    valueCollection.Add(z);
+       // }
 
         public DataSource()
         {
-
+           // CollectionElement z= new CollectionElement(30,30.5,"qqq");
             valueCollection = new ObservableCollection<CollectionElement>();
-           
+           // valueCollection.Add(z);
+           // CollectionElement y = new CollectionElement(30, 30.5, "qqq");
+            //CollectionElement s = new CollectionElement(30, 30.5, "qqq");
+           // valueCollection.Add(s);
+           // valueCollection.Add(y);
+           // CollectionElement q = new CollectionElement(30, 30.5, "qqq");
+           // valueCollection.Add(q);
         }
     }
 }
