@@ -26,11 +26,12 @@ namespace Cryptool.FrequencyTest
        // public static DependencyProperty  DataSource = FrequencyTest.Data ;
 
 
-        private FrequencyTest freqT;
+        //private FrequencyTest freqT;
         public  FrequencyTestPresentation(FrequencyTest FrequencyTest)
         {
            InitializeComponent();
-           this.freqT = FrequencyTest;
+           //this.freqT = FrequencyTest;
+           
            //this.freqT.Settings.PropertyChanged+=Settings_PropertyChanged;
            //freqT.OnPluginProgressChanged
         }
@@ -50,16 +51,15 @@ namespace Cryptool.FrequencyTest
         {
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                if (freqT.StringOutput != null)
-                {
+               // if (freqT.StringOutput != null)
+               // {
                     DataSource source = (DataSource)this.Resources["source"];
                     source.ValueCollection.Clear();
                     for (int i = 0; i < FrequencyTest.Data.ValueCollection.Count; i++)
                     {
-
                         source.ValueCollection.Add(FrequencyTest.Data.ValueCollection[i]);
                     }
-                }
+                //}
                     
                 
             }, null);
