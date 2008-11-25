@@ -6,7 +6,7 @@
     SnapsToDevicePixels="True" 
     HorizontalAlignment="Center"
              Height="Auto"
-             Width="Auto">
+             Width="Auto" >
     
     <UserControl.Resources>
         
@@ -18,14 +18,16 @@
                 
                <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" >
                 
-                   <Rectangle Width="5"/>
+                   <Rectangle Width="Auto"/>
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
 
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding}">%</TextBlock>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Path=Percent}">
+                        %
+                    </TextBlock>
 
 
 
-                    <Rectangle Height="{Binding}" Width="25" StrokeThickness="1" Stroke="Beige" RadiusX="5" RadiusY="5" >
+                    <Rectangle Height="{Binding Path=Amount}" Width="15" StrokeThickness="1" Stroke="Beige" RadiusX="5" RadiusY="5" >
                         <Rectangle.BitmapEffect>
                             <DropShadowBitmapEffect />
                         </Rectangle.BitmapEffect>
@@ -40,7 +42,7 @@
 
                     </Rectangle>
 
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding}"/>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding Path=Caption}"/>
 
 
                 </StackPanel>
@@ -58,11 +60,9 @@
     
     
    
-        
-        
-       
+        <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto"  ScrollViewer.HorizontalScrollBarVisibility="Auto">
         <StackPanel>
-        <TextBlock TextAlignment="Center" FontSize="15"   >Frequency Test Chart</TextBlock> 
+        <TextBlock TextAlignment="Center" FontSize="18" Foreground="Blue" FontWeight="Bold" FontFamily="Veranda" OpacityMask="Turquoise">Frequency Test Chart</TextBlock> 
            <ItemsControl 
              
              ItemsSource="{Binding Source={StaticResource source},Path=ValueCollection}"
@@ -72,6 +72,7 @@
            
                           
         </StackPanel>
-    
+    </ScrollViewer>
     
 </UserControl>
+    

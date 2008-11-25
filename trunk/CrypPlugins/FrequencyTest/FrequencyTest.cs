@@ -44,7 +44,7 @@ namespace Cryptool.FrequencyTest
             set { stringInput = value; OnPropertyChanged("StringInput"); }
         }
 
-        [PropertyInfo(Direction.Output, "Text output", "The string after processing with the Frequency test", "",false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.Output, "Text output", " letter:absolute frequency of the letter:relative frequency of the letter (in %)  ", "",false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public string StringOutput
         {
             get { return stringOutput; }
@@ -95,12 +95,8 @@ namespace Cryptool.FrequencyTest
 
         public void Execute()
         {
-            
-           
-            
             if (stringInput != null)
             {
-
                 string workstring = stringInput;
                 string workstring2 = "";
                 if (settings.CaseSensitivity == 0)
@@ -109,7 +105,7 @@ namespace Cryptool.FrequencyTest
                 }
                 if (settings.unknownSymbolHandling == 1)
                 {
-                    char[] validchars = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+                    char[] validchars = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z' };
                     string strValidChars = new string(validchars);
                     StringBuilder workstring1 = new StringBuilder();
                     foreach (char c in workstring.ToCharArray())
@@ -119,15 +115,12 @@ namespace Cryptool.FrequencyTest
                             workstring1.Append(c);
                         }
                     }
-
                     workstring2 = workstring1.ToString();
                 }
                 else 
                 {
                     workstring2 = workstring;
                 }
-               
-                
                 string tempString="";
                 int l = 0;
                 ArrayList gramms = new ArrayList();
@@ -153,14 +146,33 @@ namespace Cryptool.FrequencyTest
 
                 for (int n = 0; n < gramms.Count; n++)
                 {
-                    
-                    tempInt=gramms.LastIndexOf(gramms[n]) - gramms.IndexOf(gramms[n]) + 1;
+
+                    tempInt = gramms.LastIndexOf(gramms[n]) - gramms.IndexOf(gramms[n]) + 1;
                     amountCharacters.Add(tempInt);
-                    Data.AddtoCollection(tempInt);
                     percentageCharacters.Add(Math.Round(Convert.ToDouble(tempInt) * settings.GrammLength / Convert.ToDouble(StringInput.Length) * 100, 3));
                     countedGramms.Add(gramms[n]);
-                    n = gramms.LastIndexOf( gramms[n]);
-                  
+                    int height=0;
+                    if (workstring2.Length <= 50)
+                    { height = tempInt * 20; }
+                    if (workstring2.Length <= 100&&workstring2.Length>50)
+                    { height = tempInt * 10; }
+                    if (workstring2.Length <= 200 && workstring2.Length > 100)
+                    { height = tempInt * 5; }
+                    if (workstring2.Length <= 300 && workstring2.Length > 200)
+                    { height = tempInt * 3; }
+                    if (workstring2.Length <= 400 && workstring2.Length > 300)
+                    { height = tempInt * 2; }
+                    if (workstring2.Length > 400)
+                    { height = tempInt; }
+                    else
+                    {
+                        height = tempInt; 
+                    }
+                    CollectionElement row = new CollectionElement(height, (double)percentageCharacters[percentageCharacters.Count - 1],(string)countedGramms[countedGramms.Count - 1] );
+
+                    Data.ValueCollection.Add(row);
+                    n = gramms.LastIndexOf(gramms[n]);
+
                 }
 
                 //OUTPUT
@@ -224,41 +236,86 @@ namespace Cryptool.FrequencyTest
         }
 
         #endregion
+
+
     }
 
-    
-  public  class DataSource 
+    public class CollectionElement
     {
-    
-       private  ObservableCollection<int> valueCollection;
 
-        public  ObservableCollection<int> ValueCollection
+
+        private string m_caption;
+        private double m_percent;
+        private int m_amount;
+
+
+
+        public CollectionElement(int amount, double percent, string caption)
+        {
+            m_amount = amount;
+            m_caption = caption;
+            m_percent = percent;
+        }
+
+
+
+
+
+       
+        public string Caption
+        {
+            get { return m_caption; }
+            set
+            {
+                m_caption = value;
+            }
+        }
+
+
+        public double Percent
+        {
+            get { return m_percent; }
+            set
+            {
+                m_percent = value;
+            }
+        }
+        public int Amount
+        {
+            get { return m_amount; }
+            set
+            {
+                m_amount = value;
+            }
+        }
+
+    }
+    public class DataSource
+    {
+
+        private ObservableCollection<CollectionElement> valueCollection;
+
+        public ObservableCollection<CollectionElement> ValueCollection
         {
             get { return valueCollection; }
             set { valueCollection = value; }
         }
 
-        public void AddtoCollection(int i)
+        public void AddtoCollection(CollectionElement i)
         {
-            valueCollection.Add(i);     
-        }
-       
-       public DataSource(){
-        
-           valueCollection = new ObservableCollection<int>();
-           //valueCollection.Add(200);
-                                  
-            
-
-
+            valueCollection.Add(i);
         }
 
+        public DataSource()
+        {
 
-
-       
+            valueCollection = new ObservableCollection<CollectionElement>();
+           
+        }
     }
-
-
-  
-  
 }
+
+
+
+
+
