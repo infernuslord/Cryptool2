@@ -6,9 +6,9 @@ using Cryptool.PluginBase;
 using Cryptool.PluginBase.Analysis;
 using System.ComponentModel;
 
-namespace KasiskiTest
+namespace Cryptool.KasiskiTest
 {
-    class KasiskiTestSettings : ISettings
+   public  class KasiskiTestSettings : ISettings
     {
         #region ISettings Members
 
@@ -31,9 +31,7 @@ namespace KasiskiTest
         public int unknownSymbolHandling = 1;
         public int grammLength = 3;
         public int factorSize = 20;
-        /// <summary>
-        /// Visible setting how to deal with alphabet case. 0 = case insentive, 1 = case sensitive
-        /// </summary>
+        
        
         [PropertySaveOrder(1)]
         [TaskPane("Gramm Length (integer)", "Enter maximum gramm length to be examined. Minimum/default = 3", "", 1, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]
