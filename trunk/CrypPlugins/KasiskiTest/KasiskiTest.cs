@@ -19,7 +19,7 @@ namespace Cryptool.KasiskiTest
       "KasiskiTest/icon.png")]
     public class KasiskiTest : IStatistic
     {
-        public static DataSource Data = new DataSource();
+        
         
 
         #region Private Variables
@@ -27,7 +27,7 @@ namespace Cryptool.KasiskiTest
         private string stringOutput;
         private string stringInput;
         #endregion
-
+        public static DataSource Data = new DataSource();
         #region Properties (Inputs/Outputs)
 
         [PropertyInfo(Direction.Input, "The string to be analyzed", "blablah", "", true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
@@ -91,11 +91,11 @@ namespace Cryptool.KasiskiTest
 
 
 
-        private KasiskiTestPresentation presentation;
+        public KasiskiTestPresentation presentation;
         public KasiskiTest()
         {
             settings = new KasiskiTestSettings();
-            KasiskiTestPresentation presentation = new KasiskiTestPresentation(this);
+            presentation = new KasiskiTestPresentation(this);
             Presentation = presentation;
         }
        public UserControl Presentation { get; private set; }
@@ -240,21 +240,31 @@ break;
 
                 }
                 Data.ValueCollection.Clear();
-                for (int n = 2; n < factorCounter.Count()-1; n++)
+                double bigestheight = 0;
+                for (int z = 1; z <= factorCounter.Count(); z++)
+                {
+                    if (bigestheight < (double)factorCounter[z - 1])
+                    {
+                        bigestheight = (double)factorCounter[z - 1];
+                    }
+                }
+                 
+                for (int n = 2; n <= factorCounter.Count()-1; n++)
                 {
                     
-                    CollectionElement row = new CollectionElement(n, factorCounter[n]);
+                    CollectionElement row = new CollectionElement(n, factorCounter[n], (factorCounter[n]*(200/bigestheight)) );
                     Data.ValueCollection.Add(row);
                 }
-                presentation.OpenPresentationFile();
+                
 
                 // OUTPUT
                 StringOutput = "";
                 for(int i=2; i<=factorCounter.Count()-1; i++)
                 
                 {
-                    StringOutput +=i+":"+Convert.ToString(factorCounter[i])+"\n";
+                    StringOutput +=i+":"+Convert.ToString(factorCounter[i])+Environment.NewLine;
                 }
+                presentation.OpenPresentationFile();
 
              //   for (int k = 0; k <= checkedGramms.Count - 1; k++)
              //   {
