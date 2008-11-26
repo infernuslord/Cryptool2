@@ -59,6 +59,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollectionElement.cs" />
+    <Compile Include="DataSource.cs" />
     <Compile Include="FrequencyTest.cs" />
     <Compile Include="FrequencyTestPresentation.xaml.cs">
       <DependentUpon>FrequencyTestPresentation.xaml</DependentUpon>
