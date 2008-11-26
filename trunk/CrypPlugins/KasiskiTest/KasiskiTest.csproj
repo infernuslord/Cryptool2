@@ -59,12 +59,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollectionElement.cs" />
+    <Compile Include="DataSource.cs" />
     <Compile Include="KasiskiTest.cs" />
-    <Compile Include="KasiskiTestSettings.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="KasiskiTestPresentation.xaml.cs">
       <DependentUpon>KasiskiTestPresentation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="KasiskiTestSettings.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="key.snk" />
