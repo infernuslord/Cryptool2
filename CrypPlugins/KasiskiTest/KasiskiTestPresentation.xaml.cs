@@ -23,13 +23,15 @@ namespace Cryptool.KasiskiTest
     
     public partial class KasiskiTestPresentation: UserControl
     {
-        
 
 
-       
+
+        //private KasiskiTest kTest;
         public KasiskiTestPresentation(KasiskiTest KasiskiTest)
         {
+            //this.kTest = KasiskiTest;
             InitializeComponent();
+            //OpenPresentationFile();
            
         }
         

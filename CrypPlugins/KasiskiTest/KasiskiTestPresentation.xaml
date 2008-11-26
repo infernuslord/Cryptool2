@@ -26,7 +26,7 @@
 
                     <Rectangle Height="3"/>
 
-                    <Rectangle Height="{Binding Path=Amount}" Width="30" StrokeThickness="1" Stroke="Beige" RadiusX="5" RadiusY="5" >
+                    <Rectangle Height="{Binding Path=Height}" Width="30" StrokeThickness="1" Stroke="Beige" RadiusX="5" RadiusY="5" >
                         <Rectangle.BitmapEffect>
                             <DropShadowBitmapEffect />
                         </Rectangle.BitmapEffect>
@@ -63,7 +63,7 @@
 
     <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto"  ScrollViewer.HorizontalScrollBarVisibility="Auto">
         <StackPanel>
-            <TextBlock TextAlignment="Center" FontSize="20" Foreground="DarkBlue"  FontFamily="Academy" OpacityMask="Turquoise" Text="Kasiski's Test Analysis"></TextBlock>
+            <TextBlock TextAlignment="Center" FontSize="20" Foreground="DarkBlue"  FontFamily="Academy" OpacityMask="Turquoise" Text="Probable key lengths. Probability increases with Factor Count"></TextBlock>
 
 
 
