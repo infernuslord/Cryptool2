@@ -3017,7 +3017,7 @@
         </member>
         <member name="P:AnotherEditor.Properties.Dialogs.sws_metaInfo_rquired">
             <summary>
-              Looks up a localized string similar to You need to provide valid subworkspace description using subworkspaceMeta Info..
+              Looks up a localized string similar to You need to provide valid subworkspace info element to enter a description for this subworkspace..
             </summary>
         </member>
         <member name="P:AnotherEditor.Properties.Dialogs.sws_unconnected_tunnel_input">
