@@ -67,7 +67,7 @@
         
             
             
-            <ItemsControl 
+            <ItemsControl HorizontalAlignment="Center"
              
              ItemsSource="{Binding Source={StaticResource source},Path=ValueCollection}"
              ItemTemplate="{StaticResource template}" ItemsPanel="{StaticResource panelTemplate}">

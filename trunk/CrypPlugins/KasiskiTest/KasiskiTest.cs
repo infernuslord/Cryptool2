@@ -240,19 +240,19 @@ break;
 
                 }
                 Data.ValueCollection.Clear();
-                double bigestheight = 0;
-                for (int z = 1; z <= factorCounter.Count(); z++)
+                double bigestheight = factorCounter[2];
+                for (int z = 3; z <= factorCounter.Count()-1; z++)
                 {
-                    if (bigestheight < (double)factorCounter[z - 1])
+                    if (bigestheight < (double)factorCounter[z])
                     {
-                        bigestheight = (double)factorCounter[z - 1];
+                        bigestheight = (double)factorCounter[z];
                     }
                 }
                  
                 for (int n = 2; n <= factorCounter.Count()-1; n++)
                 {
                     
-                    CollectionElement row = new CollectionElement(n, factorCounter[n], (factorCounter[n]*(200/bigestheight)) );
+                    CollectionElement row = new CollectionElement(n, factorCounter[n], (factorCounter[n]*(180/bigestheight)) );
                     Data.ValueCollection.Add(row);
                 }
                 
