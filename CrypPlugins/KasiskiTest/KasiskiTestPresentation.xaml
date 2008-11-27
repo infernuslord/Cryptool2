@@ -2,9 +2,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:Cryptool.KasiskiTest"        
-    Background="Transparent"
+    Background="Wheat"
     SnapsToDevicePixels="True" 
-    HorizontalAlignment="Center"
+    HorizontalAlignment="Stretch"
              Height="Auto"
              Width="Auto" >
 
@@ -21,7 +21,7 @@
                 <Rectangle Width="5"/>
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
 
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding Path=Amount}">
+                    <TextBlock HorizontalAlignment="Center" Foreground="Black" ToolTip="Number of hits for the coresponding factor"  Text="{Binding Path=Amount}">
                     </TextBlock>
 
                     <Rectangle Height="3"/>
@@ -33,8 +33,8 @@
 
                         <Rectangle.Fill>
                             <RadialGradientBrush >
-                                <GradientStop Color="Turquoise" Offset="0" />
-                                <GradientStop Color="DarkBlue" Offset="1" />
+                                <GradientStop Color="Wheat" Offset="0" />
+                                <GradientStop Color="DarkOliveGreen" Offset="1" />
                             </RadialGradientBrush>
                         </Rectangle.Fill>
 
@@ -43,10 +43,11 @@
 
                     <Rectangle Height="10" />
 
-                    <TextBlock HorizontalAlignment="Center" Text="{Binding Path=Factor}"/>
+                    <TextBlock HorizontalAlignment="Center" Foreground="Black" Text="{Binding Path=Factor}"/>
 
 
                 </StackPanel>
+                
             </StackPanel>
 
         </DataTemplate>
@@ -63,11 +64,18 @@
 
     <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto"  ScrollViewer.HorizontalScrollBarVisibility="Auto">
         <StackPanel>
-            <TextBlock TextAlignment="Center" FontSize="20" Foreground="DarkBlue"  FontFamily="Academy" OpacityMask="Turquoise" Text="Probable key lengths. Probability increases with Factor Count"></TextBlock>
+            <TextBlock TextAlignment="Center" IsHyphenationEnabled="True" FontSize="18" Foreground="Black"  FontFamily="Academy" OpacityMask="Turquoise" Text="Frequency of factors composing the distances "
+                ToolTip="Tip:The keylength could be one of the most frequent factors or a multiple "  >
+                
+            </TextBlock>
+            
+            <TextBlock TextAlignment="Center" IsHyphenationEnabled="True" FontSize="18" Foreground="Black"  FontFamily="Academy" OpacityMask="Turquoise" Text="between identical strings in the cyphertext"
+                 ToolTip="Tip:The keylength could be one of the most frequent factors or a multiple "      >
+                
+            </TextBlock>
 
 
-
-            <ItemsControl 
+            <ItemsControl  HorizontalAlignment="Center"
              
              ItemsSource="{Binding Source={StaticResource source},Path=ValueCollection}"
              ItemTemplate="{StaticResource template}" ItemsPanel="{StaticResource panelTemplate}">
