@@ -14,7 +14,7 @@ using System.Security.Cryptography;
 
 namespace Cryptool.TEA
 {
-    [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum", "http://www.ruhr-uni-bochum.de")]
+    [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for Embedded Security (EmSec)", "http://www.crypto.ruhr-uni-bochum.de/")]
     [PluginInfo(false, "TEA", "Tiny Encryption Algorithm", "TEA/DetailedDescription/Description.xaml", "TEA/Images/tea.png", "TEA/Images/encrypt.png", "TEA/Images/decrypt.png")]
     [EncryptionType(EncryptionType.SymmetricBlock)]
     public class TEA : IEncryption
@@ -25,7 +25,6 @@ namespace Cryptool.TEA
         private CryptoolStream inputStream;
         private CryptoolStream outputStream;
         private byte[] inputKey;
-        private CryptoolStream p_crypto_stream;
         private bool stop = false;
         private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
 
@@ -124,13 +123,6 @@ namespace Cryptool.TEA
                     stream.Close();
                 }
                 listCryptoolStreamsOut.Clear();
-
-                if (p_crypto_stream != null)
-                {
-                    p_crypto_stream.Flush();
-                    p_crypto_stream.Close();
-                    p_crypto_stream = null;
-                }
             }
             catch (Exception ex)
             {
@@ -308,8 +300,6 @@ namespace Cryptool.TEA
                 }*/
 
                 long outbytes = outputStream.Length;
-                //p_crypto_stream.Flush();
-                //p_crypto_stream.Close();
                 DateTime stopTime = DateTime.Now;
                 TimeSpan duration = stopTime - startTime;
                 //(outputStream as CryptoolStream).FinishWrite();
