@@ -12,6 +12,7 @@ using System.Windows.Controls;
 
 namespace Cryptool.KasiskiTest
 {
+    [Author("Georgi Angelov & Danail Vazov", "vazov@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
     [PluginInfo(false,
       "Kasiski's Test",
       "Calculates possible keylenghts of a polyalphabetic substitusion cipher",

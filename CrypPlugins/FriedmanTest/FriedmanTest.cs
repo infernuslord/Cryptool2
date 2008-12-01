@@ -8,6 +8,7 @@ using System.ComponentModel;
 
 namespace FriedmanTest
 {
+    [Author("Georgi Angelov & Danail Vazov", "vazov@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
     [PluginInfo(false,
             "Friedman Test",
             "Calculates the probable keylenght of a polyalphabetic substitusion cipher",
