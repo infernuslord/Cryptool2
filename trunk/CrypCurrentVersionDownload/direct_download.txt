@@ -1,2 +1,0 @@
-version=2.0.3236
-url=https://www.cryptool.org/trac/CrypTool2/export/27/trunk/CrypCurrentVersionDownload/Cryptool-Setup-v2.0.3236a%28beta%29.msi
