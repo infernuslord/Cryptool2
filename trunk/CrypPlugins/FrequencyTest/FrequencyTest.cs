@@ -13,13 +13,15 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 
+
 namespace Cryptool.FrequencyTest
 {
+    [Author("Georgi Angelov & Danail Vazov", "angelov@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
     [PluginInfo(false,
     "Frequency Test",
-    "Calculates the frequency of letters of a string.",
+    "Calculates the frequency of letters or groups of letters in a string.",
     "URL",
-    "FrequencyTest/icon.png")]    
+    "FrequencyTest/icon.png")]
     
      
     
@@ -27,6 +29,7 @@ namespace Cryptool.FrequencyTest
     {
         private string stringOutput = "";
         private string stringInput;
+       // private ArrayList
 
         public static DataSource Data = new DataSource();
         
@@ -34,7 +37,7 @@ namespace Cryptool.FrequencyTest
 
         #region Properties (Inputs/Outputs)
 
-        [PropertyInfo(Direction.Input, "The string to be analyzed", "blablah", "",true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.Input, "The string to be analyzed", "Text Input", "",true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public string StringInput
         {
             get
@@ -55,7 +58,18 @@ namespace Cryptool.FrequencyTest
                
             }
         }
-       
+
+        /*[PropertyInfo(Direction.Output, "List output", " letter:absolute frequency of the letter:relative frequency of the letter (in %)  ", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public ArrayList ListOutput
+        {
+            get { return ListOutput; }
+            set
+            {
+                listOutput = value;
+                OnPropertyChanged("ListOutput");
+
+            }
+        } */
         #endregion
 
 
@@ -103,7 +117,7 @@ namespace Cryptool.FrequencyTest
                 {
                     workstring = workstring.ToLower();
                 }
-                if (settings.unknownSymbolHandling == 1)
+                if (settings.unknownSymbolHandling == 0)
                 {
                     char[] validchars = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z' };
                     string strValidChars = new string(validchars);
@@ -152,20 +166,7 @@ namespace Cryptool.FrequencyTest
                     percentageCharacters.Add(Math.Round(Convert.ToDouble(tempInt) * settings.GrammLength / Convert.ToDouble(StringInput.Length) * 100, 3));
                     countedGramms.Add(gramms[n]);
                     
-                   // if (workstring2.Length <= 50)
-                   // { height = tempInt * 20; }
-                  //  if (workstring2.Length <= 100&&workstring2.Length>50)
-                   // { height = tempInt * 10; }
-                  //  if (workstring2.Length <= 200 && workstring2.Length > 100)
-                  //  { height = tempInt * 5; }
-                  //  if (workstring2.Length <= 300 && workstring2.Length > 200)
-                  //  { height = tempInt * 3; }
-                  //  if (workstring2.Length <= 400 && workstring2.Length > 300)
-                  //  { height = tempInt * 2; }
-                  //  if (workstring2.Length > 400)
-                  //  { height = tempInt; }
-                  //  else
-                  //  {
+                  
                     if (bigestheight< (double)percentageCharacters[percentageCharacters.Count-1])
                     {
                         bigestheight = (double)percentageCharacters[percentageCharacters.Count - 1]; 
