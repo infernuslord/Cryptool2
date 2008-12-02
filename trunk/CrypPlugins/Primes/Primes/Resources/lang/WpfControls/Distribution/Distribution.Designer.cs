@@ -142,7 +142,7 @@ namespace Primes.Resources.lang.WpfControls.Distribution {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Das logarihtmische Integral.
+        ///   Looks up a localized string similar to Das logarithmische Integral.
         /// </summary>
         public static string graph_linname {
             get {

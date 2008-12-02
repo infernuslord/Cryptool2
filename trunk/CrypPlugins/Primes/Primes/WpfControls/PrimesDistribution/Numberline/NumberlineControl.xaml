@@ -197,6 +197,8 @@
     </ResourceDictionary>
 
   </UserControl.Resources>
+  
+  
   <Grid Margin="20">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
@@ -281,43 +283,13 @@
     </Grid>
     <TextBlock Grid.Row="2" TextWrapping="Wrap" Margin="0,10,0,10" Text="{x:Static lang:Distribution.numberline_maxinterval}">
       </TextBlock>
-
-    <Grid Grid.Row="4" VerticalAlignment="Top" HorizontalAlignment="Stretch" >
+    <Grid Grid.Row="3" Margin="0,0,0,0">
       <Grid.RowDefinitions>
-        <RowDefinition Height="10" />
-        <RowDefinition Height="30" />
+        <RowDefinition  Height="Auto"/>
+        <RowDefinition Height="*"/>
       </Grid.RowDefinitions>
-      <!--<Canvas Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="ActuallNumberButtonArea" Background="Transparent" MouseMove="ActuallNumberButtonArea_MouseMove" MouseLeave="ActuallNumberButtonArea_MouseLeave">-->
-      <Canvas Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="ActuallNumberButtonArea" Background="Transparent" MouseMove="ActuallNumberButtonArea_MouseMove">
-
-        <Polygon Canvas.Top="0" Canvas.Left="0" Name="pFromNumber" Points="0,0, 15,0, 7.5,10" Fill="Blue" Stroke="Black" StrokeThickness="0.5" ToolTip="von" Width="0">
-
-        </Polygon>
-        <Polygon Canvas.Top="0" Canvas.Left="0" Name="pToNumber" Points="0,0, 15,0, 7.5,10" Fill="Violet" Stroke="Black" StrokeThickness="0.5" ToolTip="bis" Width="0">
-
-        </Polygon>
-        <DockPanel Canvas.Top="0" Canvas.Left="0" Name="pActualNumber">
-          <Polygon Canvas.Top="0" Canvas.Left="0"  Points="0,0, 15,0, 7.5,10" Fill="Yellow" Stroke="Black" StrokeThickness="0.5" DragDrop.DragEnter="pActualNumber_DragEnter" />
-          <TextBlock Canvas.Top="0" Canvas.Left="0" Name="textActualNumber" Text="2" FontSize="10" VerticalAlignment="Top" Margin="0"/>
-          
-        </DockPanel>
-      </Canvas>
-      <Canvas Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="LineArea" Background="Transparent" >
-        <Rectangle Height="2" Fill="Black" Name="numberline" Canvas.Top="20">
-
-        </Rectangle>
-      </Canvas>
-
-      <!--<Canvas Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="PaintArea" Background="Transparent" MouseMove="ActuallNumberButtonArea_MouseMove" MouseLeave="ActuallNumberButtonArea_MouseLeave">-->
-      <Canvas Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="PaintArea" Background="Transparent" >
-
-      </Canvas>
-
-
-    </Grid>
-    <StackPanel Grid.Row="2" Margin="0,14,0,0">
-      <TextBlock Margin="14,0,0,0" Name="tbInfoError" Foreground="Blue"></TextBlock>
-      <Grid Margin="0,0,0,10">
+      <TextBlock Grid.Row="0" Name="tbInfoError" Foreground="Blue" Height="Auto"></TextBlock>
+      <Grid Margin="0,0,0,10" Grid.Row="1">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="Auto" />
@@ -370,6 +342,7 @@
           <StackPanel Grid.Column="2">
             <TextBlock HorizontalAlignment="Center" Text="{x:Static lang:Distribution.numberline_pointsdisplayed}"></TextBlock>
             <TextBlock HorizontalAlignment="Center" Name="lblCountPoints" VerticalAlignment="Center">44</TextBlock>
+
           </StackPanel>
 
           <Button Cursor="Hand" Template="{StaticResource rightscrollbutton}" Height="30" Width="30" Grid.Column="3" Name="btnScrollRight" MouseEnter="btnScroll_MouseEnter" MouseLeave="btnScrollRight_MouseLeave" ToolTip="{x:Static lang:Distribution.numberline_tooltipscrollright}">
@@ -405,10 +378,45 @@
 
         </Polygon>
       </Grid>
-    </StackPanel>
-    <Button Grid.Row="3" HorizontalAlignment="Center" Margin="5" Padding="2" Name="btnCancelAll" Click="btnCancelAll_Click" IsEnabled="False" Content="{x:Static lang:Distribution.numberline_cancelcalculations}"></Button>
+    </Grid>
+    <Button Grid.Row="4" HorizontalAlignment="Center" Margin="5" Padding="2" Name="btnCancelAll" Click="btnCancelAll_Click" IsEnabled="False" Content="{x:Static lang:Distribution.numberline_cancelcalculations}"></Button>
 
-    <ScrollViewer Grid.Row="5" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+    <Grid Grid.Row="5" VerticalAlignment="Top" HorizontalAlignment="Stretch" >
+      <Grid.RowDefinitions>
+        <RowDefinition Height="10" />
+        <RowDefinition Height="30" />
+      </Grid.RowDefinitions>
+      <!--<Canvas Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="ActuallNumberButtonArea" Background="Transparent" MouseMove="ActuallNumberButtonArea_MouseMove" MouseLeave="ActuallNumberButtonArea_MouseLeave">-->
+      <Canvas Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="ActuallNumberButtonArea" Background="Transparent" MouseMove="ActuallNumberButtonArea_MouseMove">
+
+        <Polygon Canvas.Top="0" Canvas.Left="0" Name="pFromNumber" Points="0,0, 15,0, 7.5,10" Fill="Blue" Stroke="Black" StrokeThickness="0.5" ToolTip="von" Width="0">
+
+        </Polygon>
+        <Polygon Canvas.Top="0" Canvas.Left="0" Name="pToNumber" Points="0,0, 15,0, 7.5,10" Fill="Violet" Stroke="Black" StrokeThickness="0.5" ToolTip="bis" Width="0">
+
+        </Polygon>
+        <DockPanel Canvas.Top="0" Canvas.Left="0" Name="pActualNumber">
+          <Polygon Canvas.Top="0" Canvas.Left="0"  Points="0,0, 15,0, 7.5,10" Fill="Yellow" Stroke="Black" StrokeThickness="0.5" DragDrop.DragEnter="pActualNumber_DragEnter" />
+          <TextBlock Canvas.Top="0" Canvas.Left="0" Name="textActualNumber" Text="2" FontSize="10" VerticalAlignment="Top" Margin="0"/>
+          
+        </DockPanel>
+      </Canvas>
+      <Canvas Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="LineArea" Background="Transparent" >
+        <Rectangle Height="2" Fill="Black" Name="numberline" Canvas.Top="20">
+
+        </Rectangle>
+      </Canvas>
+
+      <!--<Canvas Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="PaintArea" Background="Transparent" MouseMove="ActuallNumberButtonArea_MouseMove" MouseLeave="ActuallNumberButtonArea_MouseLeave">-->
+      <Canvas Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="PaintArea" Background="Transparent" >
+
+      </Canvas>
+
+
+    </Grid>
+
+
+    <ScrollViewer Grid.Row="6" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
 
       <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="pnlContent" MinWidth="500" >
 
