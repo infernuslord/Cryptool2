@@ -48,8 +48,8 @@ namespace Cryptool.KasiskiTest
             }
         }
         [PropertySaveOrder(2)]
-        [ContextMenu("Unknown symbol handling", "What should be done with encountered characters at the input which are not in the alphabet?", 4, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "Ignore (leave unmodified)", "Remove" })]
-        [TaskPane("Unknown symbol handling", "What should be done with encountered characters at the input which are not in the alphabet?", null, 4, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Ignore (leave unmodified)", "Remove" })]
+        [ContextMenu("Handling of Unknown Characters", "What should be done with encountered characters at the input which are not in the alphabet?", 4, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "Ignore (leave unmodified)", "Remove" })]
+        [TaskPane("Handling of Unknown Characters", "What should be done with encountered characters at the input which are not in the alphabet?", null, 4, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Ignore (leave unmodified)", "Remove" })]
         public int RemoveUnknownSymbols
         {
             get { return this.unknownSymbolHandling; }
@@ -81,8 +81,8 @@ namespace Cryptool.KasiskiTest
 
 
         [PropertySaveOrder(4)]
-        [ContextMenu("Case Sensitivity ", "is a==A ? \n Pay attention to the Alphabet used in the Cyphertext as well as the 'Case Sensitivity' of Vigenere cypher if the case ", 4, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "Yes 'a' should equal 'A'", "No 'a' should not equal 'A'" })]
-        [TaskPane("Case Sensitivity ", "is a==A ? \n Pay attention to the Alphabet used in the Cyphertext as well as the 'Case Sensitivity' of Vigenere cypher if the case ", null, 4, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Yes 'a' should equal 'A'", "No 'a' should not equal 'A'" })]
+        [ContextMenu("Case Sensitivity ", "Is a==A ? \n Please pay attention to the alphabet used in the given ciphertext as well as the 'Case Sensitivity' of the applied Vigenère cipher.", 4, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "Yes 'a' should equal 'A'", "No 'a' should not equal 'A'" })]
+        [TaskPane("Case Sensitivity ", "Is a==A ? \n Please pay attention to the alphabet used in the given ciphertext as well as the 'Case Sensitivity' of the applied Vigenère cipher.", null, 4, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Yes 'a' should equal 'A'", "No 'a' should not equal 'A'" })]
         public int CaseSensitivity
         {
             get { return this.caseSensitivity; }

@@ -15,7 +15,7 @@ namespace Cryptool.KasiskiTest
     [Author("Georgi Angelov & Danail Vazov", "vazov@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
     [PluginInfo(false,
       "Kasiski's Test",
-      "Calculates possible keylenghts of a polyalphabetic substitusion cipher",
+      "Calculates possible key lenghts of a polyalphabetic substitution cipher.",
       "URL",
       "KasiskiTest/icon.png")]
     public class KasiskiTest : IStatistic

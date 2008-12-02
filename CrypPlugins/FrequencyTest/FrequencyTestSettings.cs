@@ -45,7 +45,7 @@ namespace Cryptool.FrequencyTest
             }
         }
         [PropertySaveOrder(2)]
-        [TaskPane("Gramm Length (integer)", "Groups of how many characters should be checked?", "", 1,false, DisplayLevel.Expert, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]
+        [TaskPane("Enter the length of the gramms to be investigated.", "Groups of how many characters should be checked?", "", 1, false, DisplayLevel.Expert, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]
         public int GrammLength
         {
             get { return this.grammLength; }
@@ -59,8 +59,8 @@ namespace Cryptool.FrequencyTest
             }
         }
         [PropertySaveOrder(3)]
-        [ContextMenu("Non alphabetic characters ", "What should be done with encountered characters at the input which are not in the alphabet?", 4, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "Don't count", "Count" })]
-        [TaskPane("Non alphabetic characters", "What should be done with encountered characters at the input which are not in the alphabet?", null, 4, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Don't count", "Count" })]
+        [ContextMenu("Handling of unknown characters", "What should be done with encountered characters at the input which are not in the alphabet?", 4, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "Don't count", "Count" })]
+        [TaskPane("Handling of unknown characters", "What should be done with encountered characters at the input which are not in the alphabet?", null, 4, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Don't count", "Count" })]
         public int RemoveUnknownSymbols
         {
             get { return this.unknownSymbolHandling; }
