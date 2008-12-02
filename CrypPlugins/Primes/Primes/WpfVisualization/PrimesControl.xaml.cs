@@ -222,6 +222,7 @@ using Primes.WpfControls.PrimesDistribution.Spirals;
 using Primes.WpfControls.Primetest;
 using Primes.WpfControls.Start;
 using System.Threading;
+using System.Diagnostics;
 
 namespace Primes.WpfVisualization
 {
@@ -273,6 +274,7 @@ namespace Primes.WpfVisualization
       InitializeComponent();
       Initialize();
       settings = new PrimesSettings();
+       
     }
 
 
@@ -614,6 +616,17 @@ namespace Primes.WpfVisualization
         Navigate(NavigationCommandType.Start);
       }, null);
       (m_StartControl as StartControl).OnStartpageLinkClick += new Navigate(Navigate);
+      this.MouseRightButtonDown += new MouseButtonEventHandler(PrimesControl_MouseRightButtonDown);
+
+
+    }
+
+    void PrimesControl_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+    {
+      if (this.Parent != null)
+      {
+        if ((this.Parent as Control).ContextMenu != null) (this.Parent as Control).ContextMenu.Visibility = Visibility.Hidden;
+      }
     }
 
 
@@ -631,7 +644,9 @@ namespace Primes.WpfVisualization
     }
     public UserControl Presentation
     {
-      get { return this; }
+      get {
+        return this; 
+      }
     }
 
     public UserControl QuickWatchPresentation
