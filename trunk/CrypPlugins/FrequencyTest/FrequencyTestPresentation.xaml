@@ -6,19 +6,20 @@
     SnapsToDevicePixels="True" 
     HorizontalAlignment="Center"
              Height="Auto"
-             Width="Auto" >
+             Width="Auto" 
+            x:Name="usercontrol" >
     
-    <UserControl.Resources>
-        
+        <UserControl.Resources>
+
         <local:DataSource x:Key="source"/>
-        
-        
+
+
         <DataTemplate x:Key="template" >
-            
-                
-               <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" >
-                
-                   <Rectangle Width="5"/>
+
+
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" >
+
+                <Rectangle Width="5"/>
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
 
                     <TextBlock HorizontalAlignment="Center" Text="{Binding Path=Percent}">
@@ -37,46 +38,68 @@
                                 <GradientStop Color="DarkBlue" Offset="1" />
                             </RadialGradientBrush>
                         </Rectangle.Fill>
-
-
+                      <!--
+                         <Rectangle.LayoutTransform>
+                            
+                        </Rectangle.LayoutTransform>
+-->
                     </Rectangle>
 
                     <Rectangle Height="10" />
 
                     <TextBlock HorizontalAlignment="Center" Text="{Binding Path=Caption}"/>
-
-
+       
                 </StackPanel>
-            </StackPanel>
                 
+            </StackPanel>
+            
+
         </DataTemplate>
-        
-        
+
+
         <ItemsPanelTemplate x:Key="panelTemplate">
             <StackPanel Orientation="Horizontal"/>
-                
+
         </ItemsPanelTemplate>
-        
+
     </UserControl.Resources>
     
-    
-   
-        <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto"  ScrollViewer.HorizontalScrollBarVisibility="Auto">
-        <StackPanel>
-        <TextBlock TextAlignment="Center" FontSize="20" Foreground="DarkBlue"  FontFamily="Academy" OpacityMask="Turquoise" Text="Character Frequencies (in %)"></TextBlock>
+      <StackPanel VerticalAlignment="Bottom" Orientation="Vertical">
+       <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto"  ScrollViewer.HorizontalScrollBarVisibility="Auto">
         
+           <Grid >
+        <Grid.LayoutTransform>
             
-            
-            <ItemsControl HorizontalAlignment="Center"
+            <ScaleTransform   ScaleX="{Binding ElementName=sli,Path=Value}" ScaleY="{Binding
+                         RelativeSource={RelativeSource Self},Path=ScaleX}"/>
+        </Grid.LayoutTransform>
+
+       
+
+            <StackPanel VerticalAlignment="Bottom">
+
+                
+               <TextBlock TextAlignment="Center" FontSize="20" Foreground="DarkBlue"  FontFamily="Academy" OpacityMask="Turquoise" Text="Character Frequencies (in %)" ></TextBlock>
+
+                <ItemsControl HorizontalAlignment="Center" 
              
              ItemsSource="{Binding Source={StaticResource source},Path=ValueCollection}"
              ItemTemplate="{StaticResource template}" ItemsPanel="{StaticResource panelTemplate}">
-                
-            </ItemsControl>
-           
-                          
-        </StackPanel>
-    </ScrollViewer>
+
+                </ItemsControl>
+              
+
+            </StackPanel>
     
+        
+   </Grid>
+
+
+        </ScrollViewer>
+        <Slider x:Name="sli" Width="100" HorizontalAlignment="Center" Minimum="0.2" 
+                Maximum="2" Value="1"/>
+    </StackPanel>
+    
+   
 </UserControl>
     
