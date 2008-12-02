@@ -1,4 +1,16 @@
-﻿using System;
+﻿//////////////////////////////////////////////////////////////////////////////////////////////////
+// CrypTool V2
+// © 2008 - Gerhard Junker
+// Apache License see http://www.apache.org/licenses/
+//
+// $HeadURL$
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// $Revision::                                                                                $://
+// $Author::                                                                                  $://
+// $Date::                                                                                    $://
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
