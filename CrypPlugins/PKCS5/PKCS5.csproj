@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{80200C92-77FC-4508-B520-D51530BE2608}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -80,8 +80,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="key.snk" />
-    <None Include="SubWorkspaces\pkcs5-aes128-cbc-pad-decrypt.cte" />
-    <None Include="SubWorkspaces\pkcs5-aes128-cbc-pad-encrypt.cte" />
+    <None Include="SubWorkspaces\pkcs5-aes128-cbc-decrypt.sws" />
+    <None Include="SubWorkspaces\pkcs5-aes128-cbc-encrypt.sws" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="PKCS5.png" />
@@ -103,6 +103,8 @@ cd ..\..\CrypWin\$(OutDir)
 if not exist "./CrypPlugins" mkdir "./CrypPlugins"
 
 del /F /S /Q /s /q "PKCS5*.*"
-copy "$(TargetDir)PKCS5*.*" "./CrypPlugins"</PostBuildEvent>
+copy "$(TargetDir)PKCS5*.*" ".\CrypPlugins"
+copy "$(ProjectDir)Subworkspaces\*.*" ".\CrypPlugins"
+</PostBuildEvent>
   </PropertyGroup>
 </Project>
