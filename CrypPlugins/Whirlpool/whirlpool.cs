@@ -43,7 +43,7 @@ namespace Whirlpool
 		// The number of rounds of the internal dedicated block cipher.
 		const int R = 10;
 
-		ulong[] bitLength;  // global number of hashed bits (256-bit counter) 
+		byte[]  bitLength;  // global number of hashed bits (256-bit counter) 
 		byte[]  buffer;		  // buffer of data to hash 
 		ulong   bufferBits; // current number of bits on the buffer 
 		ulong   bufferPos;  // current (possibly incomplete) byte slot on the buffer 
@@ -52,7 +52,7 @@ namespace Whirlpool
 		public WhirlpoolHash()
 		{
 			// all values are zeroed by default
-			bitLength = new ulong[LENGTHBYTES];
+			bitLength = new byte[LENGTHBYTES];
 			buffer = new byte[WBLOCKBYTES];
 			hash = new ulong[DIGESTBYTES / 8];
 		}
@@ -92,8 +92,8 @@ namespace Whirlpool
 			ulong value = sourceBits;
 			for (i = 31, carry = 0; i >= 0 && (carry != 0 || value != 0); i--)
 			{
-				carry += bitLength[i] + ((ulong)value & 0xff);
-				bitLength[i] = (ulong)carry;
+				carry += bitLength[i] + (value & 0xff);
+				bitLength[i] = (byte)carry;
 				carry >>= 8;
 				value >>= 8;
 			}
@@ -195,7 +195,7 @@ namespace Whirlpool
 			for (int i = 0; i < LENGTHBYTES; i++)
 			{
 				int j = i + WBLOCKBYTES - LENGTHBYTES;
-				buffer[j] = (byte)(bitLength[i] & 0xff);
+				buffer[j] = bitLength[i];
 			}
 
 			// process data block:

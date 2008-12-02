@@ -67,7 +67,7 @@ namespace Whirlpool
 		#endregion
 
 		[TestMethod]
-		public void TestMethodAbc()
+		public void WhirlpoolTestMethod()
 		{
 			// iso_test_vectors
 
