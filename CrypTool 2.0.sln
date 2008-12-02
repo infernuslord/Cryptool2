@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypCore", "CrypCore\CrypCo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextInput", "CrypPlugins\TextInput\TextInput.csproj", "{475E8850-4D82-4C5E-AD19-5FDA82BC7576}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypUiPluginBase", "CrypUiPluginBase\CrypUiPluginBase.csproj", "{928CF4D4-3967-41C7-9962-BA9FB40FAD9A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Caesar", "CrypPlugins\Caesar\Caesar.csproj", "{AFBEAA94-3998-4C4A-805F-670ECF12029E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamComparator", "CrypPlugins\StreamComparator\StreamComparator.csproj", "{C867D829-43FC-429D-A68D-B969D627CE3C}"
@@ -147,16 +145,6 @@ Global
 		{475E8850-4D82-4C5E-AD19-5FDA82BC7576}.Release|Any CPU.Build.0 = Release|Any CPU
 		{475E8850-4D82-4C5E-AD19-5FDA82BC7576}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{475E8850-4D82-4C5E-AD19-5FDA82BC7576}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{928CF4D4-3967-41C7-9962-BA9FB40FAD9A}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{928CF4D4-3967-41C7-9962-BA9FB40FAD9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{928CF4D4-3967-41C7-9962-BA9FB40FAD9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{928CF4D4-3967-41C7-9962-BA9FB40FAD9A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{928CF4D4-3967-41C7-9962-BA9FB40FAD9A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{928CF4D4-3967-41C7-9962-BA9FB40FAD9A}.Release|.NET.ActiveCfg = Release|Any CPU
-		{928CF4D4-3967-41C7-9962-BA9FB40FAD9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{928CF4D4-3967-41C7-9962-BA9FB40FAD9A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{928CF4D4-3967-41C7-9962-BA9FB40FAD9A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{928CF4D4-3967-41C7-9962-BA9FB40FAD9A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{AFBEAA94-3998-4C4A-805F-670ECF12029E}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{AFBEAA94-3998-4C4A-805F-670ECF12029E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AFBEAA94-3998-4C4A-805F-670ECF12029E}.Debug|Any CPU.Build.0 = Debug|Any CPU
