@@ -5,6 +5,7 @@ using System.Text;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Analysis;
 using System.ComponentModel;
+using System.Collections;
 
 namespace FriedmanTest
 {
@@ -21,33 +22,24 @@ namespace FriedmanTest
 
         }
     #region Private Variables
-    private int integerValue;
-    private string stringInput="";
+    private double keyLength;
     private string stringOutput="";
+    private int [] arrayInput;
     #endregion
 
 
     #region Properties (Inputs/Outputs)
 
-    [PropertyInfo(Direction.Input, "The string to be analyzed", "Caution: Aplaying a string, other than the one outputed from the FrequencyTest plug-in, will result in ilogical results", "",false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-    public string StringInput
-    {
-        get
-        {
-            return stringInput;
-        }
-        set { stringInput = value; OnPropertyChanged("StringInput"); }
-    }
     [PropertyInfo(Direction.Output,"Probable key length.", "For greater accuracy, please refer to the string output.", "",false , false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-    public int IntegerValue
+    public double KeyLength
     {
-        get { return integerValue; }
+        get { return keyLength; }
         set
         {
-            if (value != integerValue)
+            if (value != keyLength)
             {
-                integerValue = value;
-                OnPropertyChanged("IntegerValue");
+                keyLength = value;
+                OnPropertyChanged("KeyLength");
             }
         }
     }
@@ -62,6 +54,17 @@ namespace FriedmanTest
             OnPropertyChanged("StringOutput");
         }
     }
+    [PropertyInfo(Direction.Input, "List input", "absolute frequency of the letter, as calculated by FrequencyTest", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    public int [] ArrayInput
+    {
+        get { return arrayInput; }
+        set
+        {
+            arrayInput = value;
+            OnPropertyChanged("ArrayInput");
+
+        }
+    } 
     #endregion
 
 
@@ -98,7 +101,7 @@ namespace FriedmanTest
         public void Execute()
         {
             
-            if (stringInput != null)
+            if (arrayInput != null)
             {
                 double Kp; //Kappa "plain-text"
                 //Now we set the Kappa plain-text coefficient. Default is English.
@@ -111,29 +114,14 @@ namespace FriedmanTest
                     case 5: Kp = 0.0745; break;
                     default: Kp = 0.0667; break;
                 }
-                //Edit the input from Frequency Test in order to extract the observed letter frequencies
-                string string1 = stringInput;
-                string string2 = string1.Replace(Environment.NewLine, ":");
-               
-               
-                string[] split = null;
-
-
-
                 
-                split = string2.Split(':');
                 
                 //Now we put the needed absolute values of the letter frequencies into an array
-                int[] absolutevalue = new int[Convert.ToInt32(split.Length / 3)];
-               
-                int j = 0;
-                for (int i = 1; i <= split.Length-2; i=i+3)
-                { 
-                absolutevalue[j] = Convert.ToInt32(split[i]);
-                j++;
-
+                int[] absolutevalue = new int[arrayInput.Length];
+                for (int i = 0; i <= arrayInput.Length-1;i++ )
+                {
+                    absolutevalue[i] = arrayInput[i];
                 }
-               
                 //Now we begin calculation of the arithmetic sum of the frequencies
                 int[] summ=new int [absolutevalue.Length];
                 for (int d = 0; d < absolutevalue.Length; d++)
@@ -147,28 +135,20 @@ namespace FriedmanTest
                      summ1 += z;
                      
                 }
-                //outputString = Convert.ToString(summ1);
-                //OnPropertyChanged("OutputString");
-
                 //Now we calculate the length of text from the observed letter frequencies
                 int texLen = 0;
                 foreach (int y in absolutevalue)
                 {
                     texLen += y;
                 }
-                //outputString = Convert.ToString(texLen);
-                //OnPropertyChanged("OutputString");
                 double normTexLen = texLen * (texLen - 1); //Normalize the text length in order to calculate the observed index of coincidence
-                //outputString = Convert.ToString(Convert.ToDecimal(normTexLen));
-                //OnPropertyChanged("OutputString");
                 double obIC = summ1/normTexLen; //Calculates the observed index of coincidence
-                //outputString = Convert.ToString(Convert.ToDecimal(obIC));
-                //OnPropertyChanged("OutputString");
-                double Kr = 0.038; //Kappa "random" - expected coincidence rate for a uniform distribution of the alphabet. In this case 1/26, hence we should have a 26 letter alphabet on the input. 
-                 
+                double Kr = 0.038; //Kappa "random" - expected coincidence rate for a uniform distribution of the alphabet. In this case 1/26, hence we should have a 26 letter alphabet on the input.   
                 double keyLen = 0.027 * texLen / (((texLen - 1) * obIC) - (Kr * texLen) + Kp);
                 stringOutput = Convert.ToString(keyLen);
+                keyLength = keyLen;
                 OnPropertyChanged("OutputString");
+                OnPropertyChanged("KeyLength");
                 if (OnPluginProgressChanged != null)
                 {
                     OnPluginProgressChanged(this, new PluginProgressEventArgs(texLen, texLen));
