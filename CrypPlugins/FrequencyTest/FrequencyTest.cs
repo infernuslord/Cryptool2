@@ -26,10 +26,10 @@ namespace Cryptool.FrequencyTest
      
     
     public partial class FrequencyTest : IStatistic
-    {
+    {   
         private string stringOutput = "";
         private string stringInput;
-       // private ArrayList
+        private int [] arrayOutput;
 
         public static DataSource Data = new DataSource();
         
@@ -59,17 +59,17 @@ namespace Cryptool.FrequencyTest
             }
         }
 
-        /*[PropertyInfo(Direction.Output, "List output", " letter:absolute frequency of the letter:relative frequency of the letter (in %)  ", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public ArrayList ListOutput
+        [PropertyInfo(Direction.Output, "List output", "absolute frequency of a letter", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public int[] ArrayOutput
         {
-            get { return ListOutput; }
+            get { return arrayOutput; }
             set
             {
-                listOutput = value;
+                arrayOutput = value;
                 OnPropertyChanged("ListOutput");
 
             }
-        } */
+        } 
         #endregion
 
 
@@ -188,12 +188,15 @@ namespace Cryptool.FrequencyTest
                 }
                 //OUTPUT
                 stringOutput = "";
+                arrayOutput = new int [amountCharacters.Count];
                 for (int x = 0; x < countedGramms.Count; x++)
                   {
                      
                     stringOutput += countedGramms[x] + ":" + amountCharacters[x] + ":" + percentageCharacters[x] + Environment.NewLine;
+                    arrayOutput[x] = (int)amountCharacters[x];
                   }
                  OnPropertyChanged("StringOutput");
+                 OnPropertyChanged("ArrayOutput");
                  if (OnPluginProgressChanged != null)
                       {
                          OnPluginProgressChanged(this, new PluginProgressEventArgs(l, l));
