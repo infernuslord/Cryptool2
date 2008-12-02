@@ -93,14 +93,12 @@ namespace Cryptool.FrequencyTest
         settings = new FrequencyTestSettings();
         presentation = new FrequencyTestPresentation(this);
         Presentation = presentation;
+        QuickWatchPresentation = presentation;
         }
         public UserControl Presentation { get; private set; }
 
 
-        public UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
+        public UserControl QuickWatchPresentation { get; private set; }
 
         public void PreExecution()
         {

@@ -25,14 +25,14 @@ namespace Cryptool.FrequencyTest
 
         public DataSource()
         {
-            // CollectionElement z= new CollectionElement(30,30.5,"qqq");
+             //CollectionElement z= new CollectionElement(30,30.5,"qqq");
             valueCollection = new ObservableCollection<CollectionElement>();
-            // valueCollection.Add(z);
-            // CollectionElement y = new CollectionElement(30, 30.5, "qqq");
-            //CollectionElement s = new CollectionElement(30, 30.5, "qqq");
-            // valueCollection.Add(s);
-            // valueCollection.Add(y);
-            // CollectionElement q = new CollectionElement(30, 30.5, "qqq");
+           //  valueCollection.Add(z);
+           //  CollectionElement y = new CollectionElement(30, 30.5, "qqq");
+          //  CollectionElement s = new CollectionElement(30, 30.5, "qqq");
+           //  valueCollection.Add(s);
+           //  valueCollection.Add(y);
+           //  CollectionElement q = new CollectionElement(30, 30.5, "qqq");
             // valueCollection.Add(q);
         }
     }
