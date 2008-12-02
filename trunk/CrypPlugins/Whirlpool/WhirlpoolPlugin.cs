@@ -48,6 +48,7 @@ namespace Whirlpool
 			byteCanal
 		};
 
+        WhirlpoolSettings whirlpoolSetting = new WhirlpoolSettings();
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WPHash"/> class.
@@ -62,15 +63,18 @@ namespace Whirlpool
 		/// <value>The settings.</value>
 		public ISettings Settings
 		{
-			get;
-			set;
+			get
+            {
+                return whirlpoolSetting;
+            }
 		}
 
 
 		#region Input data
 
 		// Input input
-		private byte[] input = { };
+        private static byte[] empty = {};
+		private byte[] input = empty;
 		private dataCanal inputCanal = dataCanal.none;
 
 		/// <summary>
@@ -97,19 +101,20 @@ namespace Whirlpool
 			}
 			set
 			{
-				if (null == value)
-					return;
-
 				if (inputCanal != dataCanal.none && inputCanal != dataCanal.streamCanal)
 					GuiLogMessage("Duplicate input key not allowed!", NotificationLevel.Error);
 				inputCanal = dataCanal.streamCanal;
 
-				long len = value.Length;
-				input = new byte[len];
+                if (null == value)
+                    input = empty;
+                else
+                {
+                    long len = value.Length;
+                    input = new byte[len];
 
-				for (long i = 0; i < len; i++)
-					input[i] = (byte)value.ReadByte();
-
+                    for (long i = 0; i < len; i++)
+                        input[i] = (byte)value.ReadByte();
+                }
 				NotifyUpdateInput();
 				GuiLogMessage("InputStream changed.", NotificationLevel.Debug);
 			}
@@ -132,14 +137,18 @@ namespace Whirlpool
 					GuiLogMessage("Duplicate input data not allowed!", NotificationLevel.Error);
 				inputCanal = dataCanal.byteCanal;
 
-				long len = value.Length;
-				input = new byte[len];
+                if (null == value)
+                    input = empty;
+                else
+                {
+				    long len = value.Length;
+				    input = new byte[len];
 
-				for (long i = 0; i < len; i++)
-					input[i] = value[i];
-
+				    for (long i = 0; i < len; i++)
+					    input[i] = value[i];
+                }
 				NotifyUpdateInput();
-				GuiLogMessage("KInputData changed.", NotificationLevel.Debug);
+				GuiLogMessage("InputData changed.", NotificationLevel.Debug);
 			}
 		}
 		#endregion
@@ -211,7 +220,15 @@ namespace Whirlpool
 		/// </summary>
 		public void Hash()
 		{
-			// ToDo
+            WhirlpoolHash wh = new WhirlpoolHash();
+
+            wh.Add(input);
+            wh.Finish();
+
+            outputData = wh.Hash;
+            wh = null;
+
+
 			NotifyUpdateOutput();
 		}
 		#endregion

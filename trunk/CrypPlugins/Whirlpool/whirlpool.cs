@@ -63,6 +63,17 @@ namespace Whirlpool
 			digest = null;
 		}
 
+        /// <summary>
+        /// Adds the specified source.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        public void Add(byte[] source)
+        {
+            ulong bits = 0;
+            if (null != source)
+                bits = (ulong)source.Length * 8;
+            Add(source, bits);
+        }
 
 		/// <summary>
 		/// Adds data.
@@ -207,7 +218,7 @@ namespace Whirlpool
 			// process data block:
 			processBuffer();
 
-			byte[] digest = new byte[DIGESTBYTES];
+			digest = new byte[DIGESTBYTES];
 
 			for (int i = 0; i < DIGESTBYTES / 8; i++)
 			{
