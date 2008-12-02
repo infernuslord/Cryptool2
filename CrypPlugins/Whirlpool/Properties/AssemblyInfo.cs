@@ -8,10 +8,10 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Whirlpool")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("BKG")]
-[assembly: AssemblyProduct("Whirlpool")]
-[assembly: AssemblyCopyright("Copyright © BKG 2008")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCompany("CrypTool.org")]
+[assembly: AssemblyProduct("Whirlpool Plugin")]
+[assembly: AssemblyCopyright("Copyright © CrypTool 2008")]
+[assembly: AssemblyTrademark("CrypTool.org")]
 [assembly: AssemblyCulture("")]
 
 // Durch Festlegen von ComVisible auf "false" werden die Typen in dieser Assembly unsichtbar 
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 //
 // Sie können alle Werte angeben oder die standardmäßigen Revisions- und Buildnummern 
 // übernehmen, indem Sie "*" eingeben:
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("2.0.0.0")]
+[assembly: AssemblyFileVersion("2.0.0.0")]
