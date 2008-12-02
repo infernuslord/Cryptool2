@@ -132,12 +132,12 @@ namespace PKCS5
             }
             set
             {
-							if (null == value)
-								return;
+                if (null == value)
+                    return;
 
-							if (keyCanal != dataCanal.none && keyCanal != dataCanal.streamCanal)
-								GuiLogMessage("Duplicate input key not allowed!", NotificationLevel.Error);
-							keyCanal = dataCanal.streamCanal;
+                if (keyCanal != dataCanal.none && keyCanal != dataCanal.streamCanal)
+                    GuiLogMessage("Duplicate input key not allowed!", NotificationLevel.Error);
+                keyCanal = dataCanal.streamCanal;
 
                 long len = value.Length;
                 key = new byte[len];
