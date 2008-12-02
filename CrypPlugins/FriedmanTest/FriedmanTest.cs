@@ -100,6 +100,17 @@ namespace FriedmanTest
             
             if (stringInput != null)
             {
+                double Kp; //Kappa "plain-text"
+                //Now we set the Kappa plain-text coefficient. Default is English.
+                switch (settings.Kappa)
+                {
+                    case 1: Kp = 0.0762; break;
+                    case 2: Kp = 0.0778; break;
+                    case 3: Kp = 0.0770; break;
+                    case 4: Kp = 0.0738; break;
+                    case 5: Kp = 0.0745; break;
+                    default: Kp = 0.0667; break;
+                }
                 //Edit the input from Frequency Test in order to extract the observed letter frequencies
                 string string1 = stringInput;
                 string string2 = string1.Replace(Environment.NewLine, ":");
@@ -154,7 +165,7 @@ namespace FriedmanTest
                 //outputString = Convert.ToString(Convert.ToDecimal(obIC));
                 //OnPropertyChanged("OutputString");
                 double Kr = 0.038; //Kappa "random" - expected coincidence rate for a uniform distribution of the alphabet. In this case 1/26, hence we should have a 26 letter alphabet on the input. 
-                double Kp = 0.065; //Kappa "plain-text" 
+                 
                 double keyLen = 0.027 * texLen / (((texLen - 1) * obIC) - (Kr * texLen) + Kp);
                 stringOutput = Convert.ToString(keyLen);
                 OnPropertyChanged("OutputString");
