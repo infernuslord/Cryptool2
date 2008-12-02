@@ -49,12 +49,18 @@ namespace Whirlpool
 		ulong   bufferPos;  // current (possibly incomplete) byte slot on the buffer 
 		ulong[] hash;       // the hashing state
 
+		byte[]  digest;			// the final whirlpool hash of input data
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="WhirlpoolHash"/> class.
+		/// </summary>
 		public WhirlpoolHash()
 		{
 			// all values are zeroed by default
 			bitLength = new byte[LENGTHBYTES];
 			buffer = new byte[WBLOCKBYTES];
 			hash = new ulong[DIGESTBYTES / 8];
+			digest = null;
 		}
 
 
@@ -200,31 +206,40 @@ namespace Whirlpool
 
 			// process data block:
 			processBuffer();
+
+			byte[] digest = new byte[DIGESTBYTES];
+
+			for (int i = 0; i < DIGESTBYTES / 8; i++)
+			{
+				int j = i * 8;
+				digest[j + 0] = (byte)(hash[i] >> 56);
+				digest[j + 1] = (byte)(hash[i] >> 48);
+				digest[j + 2] = (byte)(hash[i] >> 40);
+				digest[j + 3] = (byte)(hash[i] >> 32);
+				digest[j + 4] = (byte)(hash[i] >> 24);
+				digest[j + 5] = (byte)(hash[i] >> 16);
+				digest[j + 6] = (byte)(hash[i] >> 8);
+				digest[j + 7] = (byte)(hash[i]);
+			}
 		}
 
 
+		/// <summary>
+		/// Gets the hash.
+		/// </summary>
+		/// <value>The hash.</value>
 		public byte[] Hash
 		{
 			get
 			{
-				byte[] digest = new byte[DIGESTBYTES];
-
-					for (int i = 0; i < DIGESTBYTES / 8; i++)
-					{
-						int j = i * 8;
-						digest[j + 0] = (byte)(hash[i] >> 56);
-						digest[j + 1] = (byte)(hash[i] >> 48);
-						digest[j + 2] = (byte)(hash[i] >> 40);
-						digest[j + 3] = (byte)(hash[i] >> 32);
-						digest[j + 4] = (byte)(hash[i] >> 24);
-						digest[j + 5] = (byte)(hash[i] >> 16);
-						digest[j + 6] = (byte)(hash[i] >> 8);
-						digest[j + 7] = (byte)(hash[i]);
-				}
 				return digest;
 			}
 		}
 
+		/// <summary>
+		/// Releases unmanaged resources and performs other cleanup operations before the
+		/// <see cref="WhirlpoolHash"/> is reclaimed by garbage collection.
+		/// </summary>
 		~WhirlpoolHash()
 		{
 			bitLength = null;
@@ -797,7 +812,7 @@ namespace Whirlpool
 		void processBuffer()
 		{
 			int r;
-			ulong[] K     = new ulong[8];    // the round key 
+			ulong[] K     = new ulong[8];    // the round input 
 			ulong[] block = new ulong[8];    // mu(buffer) 
 			ulong[] state = new ulong[8];    // the cipher state 
 			ulong[] L     = new ulong[8];
