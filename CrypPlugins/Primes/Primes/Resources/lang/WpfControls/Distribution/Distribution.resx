@@ -145,7 +145,7 @@
     <value>Die Anzahl der Primzahlen nach dem logarothmischen Integral wird berechnet</value>
   </data>
   <data name="graph_linname" xml:space="preserve">
-    <value>Das logarihtmische Integral</value>
+    <value>Das logarithmische Integral</value>
   </data>
   <data name="graph_pincountinfo" xml:space="preserve">
     <value>Die tatsächliche Anzahl der Primzahlen beträgt:</value>
