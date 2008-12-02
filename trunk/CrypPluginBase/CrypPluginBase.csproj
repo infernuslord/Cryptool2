@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="AuthorAttribute.cs" />
     <Compile Include="ContextMenuAttribute.cs" />
+    <Compile Include="IApplication.cs" />
     <Compile Include="RibbonBarAttribute.cs" />
     <Compile Include="EditorSpecificPluginAttribute.cs" />
     <Compile Include="DynamicProperty.cs" />
@@ -116,10 +117,6 @@
     <ProjectReference Include="..\CrypCore\CrypCore.csproj">
       <Project>{FF5D473C-0716-4D3E-9078-2EBD979F94C6}</Project>
       <Name>CrypCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CrypUiPluginBase\CrypUiPluginBase.csproj">
-      <Project>{928CF4D4-3967-41C7-9962-BA9FB40FAD9A}</Project>
-      <Name>CrypUiPluginBase</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
