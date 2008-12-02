@@ -12,7 +12,7 @@ namespace FriedmanTest
     [Author("Georgi Angelov & Danail Vazov", "vazov@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
     [PluginInfo(false,
             "Friedman Test",
-            "Calculates the probable keylenght of a polyalphabetic substitusion cipher",
+            "Calculates the probable key lenght of a polyalphabetic substitution cipher.",
             "URL",
             "FriedmanTest/icon.png")]
     public class FriedmanTest : IStatistic
