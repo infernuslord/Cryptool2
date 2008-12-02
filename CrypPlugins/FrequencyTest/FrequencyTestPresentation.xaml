@@ -27,7 +27,7 @@
 
                     <Rectangle Height="3"/>
 
-                    <Rectangle Height="{Binding Path=Amount}" Width="30" StrokeThickness="1" Stroke="Beige" RadiusX="5" RadiusY="5" >
+                    <Rectangle Height="{Binding Path=Amount}" Width="30" StrokeThickness="1" Stroke="Beige" RadiusX="5" RadiusY="5" ToolTip="{Binding Path=Caption}" >
                         <Rectangle.BitmapEffect>
                             <DropShadowBitmapEffect />
                         </Rectangle.BitmapEffect>
@@ -64,15 +64,15 @@
 
     </UserControl.Resources>
     
-      <StackPanel VerticalAlignment="Bottom" Orientation="Vertical">
+      <StackPanel VerticalAlignment="Bottom" Orientation="Vertical" >
        <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto"  ScrollViewer.HorizontalScrollBarVisibility="Auto">
         
-           <Grid >
-        <Grid.LayoutTransform>
+           <Grid VerticalAlignment="Bottom" >
+           <Grid.LayoutTransform>
             
-            <ScaleTransform   ScaleX="{Binding ElementName=sli,Path=Value}" ScaleY="{Binding
-                         RelativeSource={RelativeSource Self},Path=ScaleX}"/>
-        </Grid.LayoutTransform>
+              <ScaleTransform   ScaleX="{Binding ElementName=sli,Path=Value}" ScaleY="{Binding
+                         ElementName=sli, Path=Value}"/>
+           </Grid.LayoutTransform>
 
        
 
@@ -81,22 +81,22 @@
                 
                <TextBlock TextAlignment="Center" FontSize="20" Foreground="DarkBlue"  FontFamily="Academy" OpacityMask="Turquoise" Text="Character Frequencies (in %)" ></TextBlock>
 
-                <ItemsControl HorizontalAlignment="Center" 
+               <ItemsControl HorizontalAlignment="Center" VerticalAlignment="Bottom"
              
-             ItemsSource="{Binding Source={StaticResource source},Path=ValueCollection}"
-             ItemTemplate="{StaticResource template}" ItemsPanel="{StaticResource panelTemplate}">
+                 ItemsSource="{Binding Source={StaticResource source},Path=ValueCollection}"
+                 ItemTemplate="{StaticResource template}" ItemsPanel="{StaticResource panelTemplate}">
 
-                </ItemsControl>
+               </ItemsControl>
               
 
             </StackPanel>
     
         
-   </Grid>
+          </Grid>
 
 
         </ScrollViewer>
-        <Slider x:Name="sli" Width="100" HorizontalAlignment="Center" Minimum="0.2" 
+        <Slider x:Name="sli" Width="100" HorizontalAlignment="Center" Minimum="0.2" VerticalAlignment="Bottom" 
                 Maximum="2" Value="1"/>
     </StackPanel>
     
