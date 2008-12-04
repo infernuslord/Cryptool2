@@ -208,6 +208,10 @@ using System.Text;
 
 namespace Cryptool.PluginBase
 {
+  /// <summary>
+  /// This optional attribute can be used to display author information in the 
+  /// settings pane. 
+  /// </summary>
   [AttributeUsage(AttributeTargets.Class)]
   public class AuthorAttribute : Attribute
   {
@@ -216,6 +220,13 @@ namespace Cryptool.PluginBase
     public readonly string Institute;
     public readonly string URL;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AuthorAttribute"/> class.
+    /// </summary>
+    /// <param name="author">The author.</param>
+    /// <param name="email">The email - optional, validated with regex.</param>
+    /// <param name="institute">The institute - optional.</param>
+    /// <param name="url">The URL - optional, validated with regex.</param>
     public AuthorAttribute(string author, string email, string institute, string url)
     {
       this.Author = author;
