@@ -43,7 +43,7 @@ namespace PKCS5
 			  private PKCS5MaskGenerationMethod.ShaFunction selectedShaFunction = PKCS5MaskGenerationMethod.ShaFunction.SHA256;
 
         [ContextMenu("SHA Function", "Select the hash function (MD5, SHA1 or one out of the SHA2 family)", 0, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new string[] {"MD5", "SHA1", "SHA256", "SHA384", "SHA512"})]
-        [TaskPane("SHA Function", "Select the hash function (MD2, SHA1 or one out of the SHA2 family)", "", 0, true, DisplayLevel.Beginner, ControlType.ComboBox, new string[] {"MD5", "SHA1", "SHA256", "SHA384", "SHA512"})]
+        [TaskPane("Select hash function", "Select the hash function (MD2, SHA1 or one out of the SHA2 family)", "", 0, true, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "MD5", "SHA1", "SHA256", "SHA384", "SHA512" })]
         public int SHAFunction
         {
             get
@@ -62,7 +62,7 @@ namespace PKCS5
 			/// count of hash loops
 			/// </summary>
 				private int count = 1000;
-				[TaskPane("Count", "Count - iteration count for Hash function, a value greather 1000 is recommended.", "", 1, false, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RangeInteger, 1, 9999)]
+        [TaskPane("Number of iterations (counter)", "The counter determines how often the hash function is applied. A value bigger than 1000 is recommended.", "", 1, false, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RangeInteger, 1, 9999)]
         public int Count
         {
             get
@@ -83,7 +83,7 @@ namespace PKCS5
 			/// length of calculated hash in bits
 			/// </summary>
 				private int length = 256;
-				[TaskPane("Length", "Hash Length, the hash length in bits, must be a multiple of 8.", "", 2, false, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RangeInteger, -64, 2048)]
+        [TaskPane("Length of output key", "The length of the output in bits must be a multiple of 8.", "", 2, false, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RangeInteger, -64, 2048)]
 				public int Length
 				{
 					get

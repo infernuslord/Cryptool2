@@ -34,7 +34,7 @@ namespace Cryptool.KasiskiTest
         
        
         [PropertySaveOrder(1)]
-        [TaskPane("Gramm Length (integer)", "Enter maximum gramm length to be examined. Minimum/default = 3", "", 1, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]
+        [TaskPane("Gram length (integer)", "Enter maximum gramm length to be examined. Minimum/default = 3", "", 1, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]
         public int GrammLength
         {
             get { return this.grammLength; }

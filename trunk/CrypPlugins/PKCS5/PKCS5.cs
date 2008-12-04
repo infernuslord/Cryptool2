@@ -24,7 +24,7 @@ using Cryptool.PluginBase.Miscellaneous;
 
 namespace PKCS5
 {
-    [Author("Gerhard Junker", null, "private project member", "http://nothing.info")]
+    [Author("Gerhard Junker", null, "private project member", null)]
     [PluginInfo(false, "PKCS#5", "PKCS#5 V2.1 Hash", "", "PKCS5/PKCS5.png")]
     public class PKCS5 : IHash
     {

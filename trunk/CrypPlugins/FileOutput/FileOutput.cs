@@ -278,11 +278,7 @@ namespace FileOutput
       set
       {
         Progress(0.5, 1.0);
-        if (settings.TargetFilename == null || settings.TargetFilename == string.Empty)
-        {
-          GuiLogMessage("You have to select a target filename before using this plugin as output.", NotificationLevel.Error);
-        }
-        else if (value != null)
+        if (value != null)
         {          
           listCryptoolStreamsOut.Add(value);
           GuiLogMessage("Received ICryptoolStream: " + value.FileName, NotificationLevel.Debug);
@@ -395,6 +391,10 @@ namespace FileOutput
       InputFile = null;
       DispatcherHelper.ExecuteMethod(fileOutputPresentation.Dispatcher,
         fileOutputPresentation, "ClosePresentationFile", null);
+      if (settings.TargetFilename == null || settings.TargetFilename == string.Empty)
+      {
+        GuiLogMessage("You have to select a target filename before using this plugin as output.", NotificationLevel.Error);
+      }
     }
 
     public void PostExecution()
