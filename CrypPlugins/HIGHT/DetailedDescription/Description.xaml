@@ -1,0 +1,18 @@
+<FlowDocument PagePadding="5,0,5,0" AllowDrop="True" NumberSubstitution.CultureSource="User" 
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              Background="White">
+
+  <Paragraph>
+      <Run FontWeight="Bold" FontSize="18.6666666666667" xml:lang="de-de">
+          <Run.TextDecorations>
+              <TextDecoration Location="Underline" />
+          </Run.TextDecorations> TEA (Tiny Encryption Algorithm)
+      </Run>
+  </Paragraph>
+  <Paragraph>
+      <Run FontSize="14.6666666666667" xml:lang="de-de">HIGHT is a block cipher proposed by Deukjo Hong et al. which is working on a 64-bit block length and a 128-bit key length. It was proposed to be used at ubiquitous computing devices such as a sensor in USN or a RFID tag at CHES ’06. It is predestinated for its application area due to its low-resource hardware implementation. The specialty of HIGHT is its use of simple operations such as exclusive-or, addition mod 28, and bitwise rotation. HIGHT is designed for being implemented in hardware to have a low cost of gates.</Run>
+  </Paragraph>
+  <Paragraph>
+      <Run FontSize="14.6666666666667" xml:lang="de-de">The cipher is a variant of generalized Feistel network. It consists of an initial transformation, 32 rounds using 4 subkeys at a time, a final transformation and a key schedule producing 128 subkeys. HIGHTs key schedule algorithm is designed to keep the original value of the master key after generating all whitening keys and all subkeys. Therefore the subkeys are generated on the fly in encryption and decryption.</Run>
+  </Paragraph>
+</FlowDocument>
