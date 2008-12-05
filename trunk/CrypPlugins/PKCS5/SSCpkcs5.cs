@@ -59,14 +59,15 @@ namespace System.Security.Cryptography
             }
         }
 
-        /// <summary>
-        /// Gets the length of the hash.
-        /// </summary>
-        /// <param name="shaf">The shaf.</param>
-        /// <returns></returns>
-        private int GetHashLength()
+
+				/// <summary>
+				/// Gets the length of the hash.
+				/// </summary>
+				/// <param name="SelectedShaFunction">The selected sha function.</param>
+				/// <returns></returns>
+				public static int GetHashLength(ShaFunction SelectedShaFunction)
         {
-            switch (this.SelectedShaFunction)
+            switch (SelectedShaFunction)
             {
                 case ShaFunction.MD5:
                     return 16;
@@ -225,7 +226,7 @@ namespace System.Security.Cryptography
             if (count <= 0)
                 count = 1;
 
-            int hLen = GetHashLength();
+						int hLen = GetHashLength(this.SelectedShaFunction);
 
             // Let blockCount be the number of hLen-bytes blocks in the derived key, rounding up,
             // let fillBytes be the number of bytes in the last block.
