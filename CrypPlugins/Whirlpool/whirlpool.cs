@@ -63,17 +63,32 @@ namespace Whirlpool
 			digest = null;
 		}
 
-        /// <summary>
-        /// Adds the specified source.
-        /// </summary>
-        /// <param name="source">The source.</param>
-        public void Add(byte[] source)
-        {
-            ulong bits = 0;
-            if (null != source)
-                bits = (ulong)source.Length * 8;
-            Add(source, bits);
-        }
+		/// <summary>
+		/// Releases unmanaged and - optionally - managed resources
+		/// </summary>
+		/// <param name="disposing"><c>true</c>to release both managed and unmanaged resources; 
+		/// <c>false</c> to release only unmanaged resources.</param>
+		public void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				bitLength = null;
+				buffer = null;
+				hash = null;
+			}
+		}
+
+		/// <summary>
+		/// Adds the specified source.
+		/// </summary>
+		/// <param name="source">The source.</param>
+		public void Add(byte[] source)
+		{
+			ulong bits = 0;
+			if (null != source)
+				bits = (ulong)source.Length * 8;
+			Add(source, bits);
+		}
 
 		/// <summary>
 		/// Adds data.
