@@ -24,7 +24,7 @@ using Cryptool.PluginBase.Miscellaneous;
 
 namespace Whirlpool
 {
-	[Author("Gerhard Junker", null, "private project member", null)]
+	[Author("Gerhard Junker", null, "private project member", "http://www.uni-siegen.de")]
   [PluginInfo(false, "Whirlpool", "Whirlpool hash function", "", "Whirlpool/Whirlpool.png")]
 	public class WPHash : IHash
 	{
@@ -67,6 +67,13 @@ namespace Whirlpool
             {
                 return whirlpoolSetting;
             }
+			set
+			{
+				whirlpoolSetting = (WhirlpoolSettings)value;
+				OnPropertyChanged("Settings");
+				GuiLogMessage("Settings changed.", NotificationLevel.Debug);
+			}
+
 		}
 
 

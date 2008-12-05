@@ -40,10 +40,17 @@ namespace PKCS5
 			/// <summary>
 			/// selected internal hash HMAC function
 			/// </summary>
-			  private PKCS5MaskGenerationMethod.ShaFunction selectedShaFunction = PKCS5MaskGenerationMethod.ShaFunction.SHA256;
+			  private PKCS5MaskGenerationMethod.ShaFunction selectedShaFunction 
+					= PKCS5MaskGenerationMethod.ShaFunction.SHA256;
 
-        [ContextMenu("SHA Function", "Select the hash function (MD5, SHA1 or one out of the SHA2 family)", 0, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new string[] {"MD5", "SHA1", "SHA256", "SHA384", "SHA512"})]
-        [TaskPane("Select hash function", "Select the hash function (MD2, SHA1 or one out of the SHA2 family)", "", 0, true, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "MD5", "SHA1", "SHA256", "SHA384", "SHA512" })]
+        [ContextMenu("SHA Function",
+					"Select the hash function (MD5, SHA1 or one out of the SHA2 family)", 0, 
+					DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, 
+					new string[] {"MD5", "SHA1", "SHA256", "SHA384", "SHA512"})]
+        [TaskPane("Select hash function", 
+					"Select the hash function (MD2, SHA1 or one out of the SHA2 family)", "", 0, true, 
+					DisplayLevel.Beginner, ControlType.ComboBox, 
+					new string[] { "MD5", "SHA1", "SHA256", "SHA384", "SHA512" })]
         public int SHAFunction
         {
             get
@@ -53,8 +60,12 @@ namespace PKCS5
             set
             {
                 this.selectedShaFunction = (PKCS5MaskGenerationMethod.ShaFunction)value;
-                hasChanges = true;
-                OnPropertyChanged("Settings");
+								//CheckLength();
+								// set to max hash length
+								length = PKCS5MaskGenerationMethod.GetHashLength(selectedShaFunction) * 8;
+								hasChanges = true;
+								OnPropertyChanged("SHAFunction");
+								OnPropertyChanged("Length");
             }
         }
 
@@ -62,7 +73,10 @@ namespace PKCS5
 			/// count of hash loops
 			/// </summary>
 				private int count = 1000;
-        [TaskPane("Number of iterations (counter)", "The counter determines how often the hash function is applied. A value bigger than 1000 is recommended.", "", 1, false, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RangeInteger, 1, 9999)]
+        [TaskPane("Number of iterations (counter)", 
+					"The counter determines how often the hash function is applied." + 
+					" A value bigger than 1000 is recommended.", "", 1, false, 	
+					DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RangeInteger, 1, 9999)]
         public int Count
         {
             get
@@ -75,7 +89,7 @@ namespace PKCS5
                 if (count == 0)
                     count = 1000;
                 hasChanges = true;
-                OnPropertyChanged("Settings");
+                OnPropertyChanged("Count");
             }
         }
 
@@ -83,7 +97,9 @@ namespace PKCS5
 			/// length of calculated hash in bits
 			/// </summary>
 				private int length = 256;
-        [TaskPane("Length of output key", "The length of the output in bits must be a multiple of 8.", "", 2, false, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RangeInteger, -64, 2048)]
+        [TaskPane("Length of output key", 
+					"The length of the output in bits must be a multiple of 8.", "", 2, false, 
+					DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RangeInteger, -64, 2048)]
 				public int Length
 				{
 					get
@@ -99,12 +115,26 @@ namespace PKCS5
 						while ((length & 0x07) != 0) // go to the next multiple of 8
 							length++;
 
+						//CheckLength();
+
 						hasChanges = true;
-						OnPropertyChanged("Settings");
+						OnPropertyChanged("Length");
 					}
 				}
 
-
+				/// <summary>
+				/// Checks the length.
+				/// </summary>
+				private void CheckLength()
+				{
+					// get max length of this hash
+					int newlen = PKCS5MaskGenerationMethod.GetHashLength(selectedShaFunction) * 8;
+					if (newlen < length)
+					{
+						length = newlen; // reduce it to max length
+						hasChanges = true;
+					}
+				}
 
         /// <summary>
         /// Gets or sets a value indicating whether this instance has changes.

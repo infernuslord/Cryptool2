@@ -24,7 +24,7 @@ using Cryptool.PluginBase.Miscellaneous;
 
 namespace PKCS5
 {
-    [Author("Gerhard Junker", null, "private project member", null)]
+	[Author("Gerhard Junker", null, "private project member", "http://www.uni-siegen.de")]
     [PluginInfo(false, "PKCS#5", "PKCS#5 V2.1 Hash", "", "PKCS5/PKCS5.png")]
     public class PKCS5 : IHash
     {
@@ -75,7 +75,6 @@ namespace PKCS5
             {
                 settings = (PKCS5Settings)value;
                 OnPropertyChanged("Settings");
-                NotifyUpdateKey();
                 GuiLogMessage("Settings changed.", NotificationLevel.Debug);
             }
         }
@@ -277,7 +276,8 @@ namespace PKCS5
         /// Gets or sets the output data stream.
         /// </summary>
         /// <value>The output data stream.</value>
-        [PropertyInfo(Direction.Output, "Hashed Stream", "Output stream of the hashed value", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.Output, "Hashed Stream", "Output stream of the hashed value", "", 
+					true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public CryptoolStream HashOutputStream
         {
             get
@@ -301,7 +301,8 @@ namespace PKCS5
         /// Gets the output data.
         /// </summary>
         /// <value>The output data.</value>
-        [PropertyInfo(Direction.Output, "Hashed Data", "Output data of the hashed value", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.Output, "Hashed Data", "Output data of the hashed value", "", 
+					true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public byte[] HashOutputData
         {
             get
@@ -324,11 +325,14 @@ namespace PKCS5
         /// </summary>
         public void Hash()
         {
-            System.Security.Cryptography.PKCS5MaskGenerationMethod pkcs5Hash = new System.Security.Cryptography.PKCS5MaskGenerationMethod();
+            System.Security.Cryptography.PKCS5MaskGenerationMethod pkcs5Hash = 
+							new System.Security.Cryptography.PKCS5MaskGenerationMethod();
 
-            pkcs5Hash.SelectedShaFunction = (PKCS5MaskGenerationMethod.ShaFunction)settings.SHAFunction;
+            pkcs5Hash.SelectedShaFunction = 
+							(PKCS5MaskGenerationMethod.ShaFunction)settings.SHAFunction;
 
-            outputData = pkcs5Hash.GenerateMask(this.key, this.salt, settings.Count, settings.Length >> 3);
+            outputData = 
+							pkcs5Hash.GenerateMask(this.key, this.salt, settings.Count, settings.Length >> 3);
 
             NotifyUpdateOutput();
         }
@@ -466,7 +470,8 @@ namespace PKCS5
         /// <param name="logLevel">The log level.</param>
         private void GuiLogMessage(string message, NotificationLevel logLevel)
         {
-            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, 
+							new GuiLogEventArgs(message, this, logLevel));
         }
 
         #endregion
