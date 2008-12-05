@@ -182,8 +182,8 @@ namespace Whirlpool
 				if (outputData != null)
 				{
 					outputDataStream = new CryptoolStream();
-					outputDataStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputData);
 					listCryptoolStreamsOut.Add(outputDataStream);
+					outputDataStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputData);
 				}
 				GuiLogMessage("Got HashOutputStream.", NotificationLevel.Debug);
 				return outputDataStream;
@@ -349,6 +349,7 @@ namespace Whirlpool
 		/// <param name="name">The name.</param>
 		protected void OnPropertyChanged(string name)
 		{
+			EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
 		}
 
 		/// <summary>
