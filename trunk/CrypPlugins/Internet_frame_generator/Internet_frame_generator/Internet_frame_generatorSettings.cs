@@ -56,7 +56,7 @@ namespace Cryptool.Internet_frame_generator
         /// <summary>
         /// How many files are going to be saved (if saving is wanted).
         /// </summary>
-        [TaskPane("Number of packets:",
+        [TaskPane("Number of packets",
             "How many packets do you want to create?\nPlease type in a number beteen 1 and 100,000.",
             "",
             2,
@@ -79,73 +79,6 @@ namespace Cryptool.Internet_frame_generator
             }
         }
 
-        /*/// <summary>
-        /// 0 = don't save, 1 = save to file.
-        /// </summary>
-        [ContextMenu("Output",
-            "Do you want to apply the packets for further plugins or save them to a file?",
-            3,
-            DisplayLevel.Beginner,
-            ContextMenuControlType.ComboBox,
-            new int[] { 1, 2 },
-            new string[] { "For further plugins", "Save to file" })]
-        [TaskPane("Output",
-            "Do you want to apply the packets for further plugins or save them to a file?",
-            "",
-            3,
-            false,
-            DisplayLevel.Beginner,
-            ControlType.ComboBox,
-            new String[] { "For further plugins", "Save to file" })]
-        public int Mode
-        {
-            get { return this.mode; }
-            set
-            {
-                if (this.mode != value)
-                {
-                    hasChanges = true;
-                }
-                this.mode = (int)value;
-                if (this.mode == 0)
-                {
-                    SaveFileName = string.Empty;
-                    
-                }
-                OnPropertyChanged("Mode");
-            }
-        }
-
-        [TaskPane("Target Filename",
-            "File to write data into.",
-            null,
-            4,
-            false,
-            DisplayLevel.Beginner,
-            ControlType.SaveFileDialog,
-            "All Files (*.*)|*.*")]
-        public string SaveFileName
-        {
-            get { return saveFileName; }
-            set
-            {
-                saveFileName = value;
-                OnPropertyChanged("SaveFileName");
-            }
-        }
-
-        /*[TaskPane("Close file",
-            "Close file",
-            null,
-            5,
-            false,
-            DisplayLevel.Beginner,
-            ControlType.Button)]
-        public void CloseFile()
-        {
-            SaveFileName = string.Empty;
-        }*/
-
         #endregion
 
         #region ISettings Member
@@ -157,8 +90,6 @@ namespace Cryptool.Internet_frame_generator
         }
 
         #endregion
-
-        
 
         #region INotifyPropertyChanged Member
 

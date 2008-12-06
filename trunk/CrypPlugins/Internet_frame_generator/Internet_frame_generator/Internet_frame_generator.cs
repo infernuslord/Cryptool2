@@ -62,28 +62,6 @@ namespace Cryptool.Internet_frame_generator
             }
         }
 
-        /*[PropertyInfo(Direction.Output,
-            "Output list",
-            "Internet frames",
-            "",
-            false,
-            false,
-            DisplayLevel.Beginner,
-            QuickWatchFormat.Text,
-            "OutputListQuickWatchConverter")]
-        public List<byte[]> OutputList
-        {
-            get
-            {
-                return this.outputList;
-            }
-            set
-            {
-                this.outputList = (List<byte[]>)value;
-                OnPropertyChanged("OutputList");
-            }
-        }*/
-
         [PropertyInfo(Direction.Output,
             "Output stream",
             "Internet frames",
@@ -670,10 +648,28 @@ namespace Cryptool.Internet_frame_generator
         }
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+        private void GuiLogMessage(string message, NotificationLevel logLevel)
+        {
+            if (OnGuiLogNotificationOccured != null)
+            {
+                OnGuiLogNotificationOccured(this, new GuiLogEventArgs(message, this, logLevel));
+            }
+        }
 
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+        private void Progress(double value, double max)
+        {
+            if (OnPluginProgressChanged != null)
+            {
+                OnPluginProgressChanged(this, new PluginProgressEventArgs(value, max));
+            }
+        }
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
+
+        
+
+        
 
         public void Pause()
         {
@@ -726,21 +722,7 @@ namespace Cryptool.Internet_frame_generator
 
         #endregion
 
-        private void Progress(double value, double max)
-        {
-            if (OnPluginProgressChanged != null)
-            {
-                OnPluginProgressChanged(this, new PluginProgressEventArgs(value, max));
-            }
-        }
-
-        private void GuiLogMessage(string message, NotificationLevel logLevel)
-        {
-            if (OnGuiLogNotificationOccured != null)
-            {
-                OnGuiLogNotificationOccured(this, new GuiLogEventArgs(message, this, logLevel));
-            }
-        }
+        #region Public interface
 
         /// <summary>
         /// Constructor. Creates an instance of <see cref="IPPacketGenerator"/>IPPacketGenrator.
@@ -756,5 +738,7 @@ namespace Cryptool.Internet_frame_generator
         {
             if (OnPluginStatusChanged != null) OnPluginStatusChanged(this, args);
         }
+
+        #endregion
     }
 }

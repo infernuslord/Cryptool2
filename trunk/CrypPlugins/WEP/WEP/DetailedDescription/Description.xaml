@@ -37,7 +37,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Background="Wh
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
         <Span xml:lang="de-de">Let's first see how the encryption and decryption is done. According to
             the protocol, there is a key used, which consists of either 5, 13 or 29 bytes. In this WEP plugin,
-            there are only keysizes of 5 and 13 bytes supported. This key is called here
+            there are only key sizes of 5 and 13 bytes supported. This key is called here
         </Span>
         <Span FontStyle="Italic">RootKey
         </Span>
@@ -65,8 +65,13 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Background="Wh
 
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
-        <Span xml:lang="de-de">You can choose if the plugin is going to encrypt or to decrypt either in the
+        <Span xml:lang="de-de">You can choose if the plugin is going to encrypt or to decrypt
         </Span>
+    </Paragraph>
+    
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333"/>
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span xml:lang="de-de">- either in the</Span>
         <Span FontStyle="Italic" xml:lang="de-de">Algorithm Settings</Span>
         <Span xml:lang="de-de">(within the drop down menu "Action"):</Span>
     </Paragraph>
@@ -80,7 +85,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Background="Wh
 
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
-        <Span xml:lang="de-de">or by right clicking on the plugin in the editor:
+        <Span xml:lang="de-de">- or by right clicking on the plugin in the editor:
         </Span>
     </Paragraph>
 
@@ -106,7 +111,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Background="Wh
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
         <Span xml:lang="de-de">This step is missing within the decryption. Instead, the ICV is removed from the
-            packet. In a real world szenario, the receiver of a packet would compute the ICV himself again
+            packet. In a real world scenario, the receiver of a packet would compute the ICV himself again
             and compare the two ICVs. If they wouldn't be equal, the packet would be requested from the sender
             again.
         </Span>
@@ -123,7 +128,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Background="Wh
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
         <Span xml:lang="de-de">The packets, which are created from the "Internet frame generator" plugin (IFG),
-            are delivered to this WEP plugin. This encrypted packets are then delivered to the "Attacks on the WEP
+            are delivered to this WEP plugin. These encrypted packets are then delivered to the "Attacks on the WEP
             protocol" plugin, which simulates one of three provided attacks against the WEP protocol.
         </Span>
     </Paragraph>
@@ -148,7 +153,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Background="Wh
         <Span xml:lang="de-de">The packets, which are encrypted within this plugin, are then
             delivered to the "Attacks on the WEP protocol" plugin. This plugin tries to recover the key,
             which has been used to encrypt of the packets. There are three attacks possible:
-            The "FMS attack", the "Korek attack" and the "PTW attack" (for details, please have a look
+            The "FMS attack", the "KoreK attack" and the "PTW attack" (for details, please have a look
             at the description tab of the "Attacks on the WEP protocol" plugin).
         </Span>
     </Paragraph>
@@ -169,7 +174,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Background="Wh
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
         <Span xml:lang="de-de">So this workflow is a loop, which doesn't stop until the key has been recovered
-    successful.
+            successfully.
         </Span>
     </Paragraph>
 </FlowDocument>

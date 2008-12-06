@@ -60,28 +60,6 @@ namespace Cryptool.WEP
                                                                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                                                                0xFF, 0xFF, 0x00, 0x00, 0x69, 0x00, 0x00, 0x00};
 
-        /*[PropertyInfo(Direction.Input,
-            "Input list",
-            "Data to be encrypted or decrypted",
-            "",
-            false,
-            false,
-            DisplayLevel.Beginner,
-            QuickWatchFormat.Text,
-            "InputByteListQuickWatchConverter")]
-        public List<byte[]> InputByteList
-        {
-            get
-            {
-                return this.internalByteList;
-            }
-            set
-            {
-                this.internalByteList= (List<byte[]>)value;
-                OnPropertyChanged("InputByteList");
-            }
-        }*/
-
         [PropertyInfo(Direction.Input,
             "Input stream",
             "Data to be encrypted or decrypted",
@@ -132,28 +110,6 @@ namespace Cryptool.WEP
             }
         }
 
-        /*[PropertyInfo(Direction.Output,
-            "Output list",
-            "Encrypted / decrypted data",
-            "",
-            false,
-            false,
-            DisplayLevel.Beginner,
-            QuickWatchFormat.Text,
-            "OutputByteListQuickWatchConverter")]
-        public List<byte[]> OutputByteList
-        {
-            get
-            {
-                return this.outputByteList;
-            }
-            set
-            {
-                this.outputByteList = (List<byte[]>)value;
-                OnPropertyChanged("OutputByteList");
-            }
-        }*/
-
         [PropertyInfo(Direction.Output,
             "Output stream",
             "Encrypted / decrypted data",
@@ -183,54 +139,6 @@ namespace Cryptool.WEP
                 OnPropertyChanged("OutputStream");
             }
         }
-
-        /*public object InputByteListQuickWatchConverter(object PropertyNameToConvert)
-        {
-            string ret = string.Empty;
-            if (internalByteList == null) { return ret; }
-            int limit = 0;
-            if (internalByteList.Count < 4)
-            {
-                limit = InputByteList.Count;
-            }
-            else
-            {
-                limit = 4;
-            }
-            for (int i = 0; i < limit; i++)
-            {
-                byte[] array = internalByteList.ElementAt(i);
-                for (int j = 0; j < array.Length; j++)
-                {
-                    ret += String.Format("{0:X2}", array[j]);
-                }
-            }
-            return ret;
-        }
-
-        public object OutputByteListQuickWatchConverter(object PropertyNameToConvert)
-        {
-            string ret = string.Empty;
-            if (outputByteList == null) { return ret; }
-            int limit = 0;
-            if (outputByteList.Count < 4)
-            {
-                limit = outputByteList.Count;
-            }
-            else
-            {
-                limit = 4;
-            }
-            for (int i = 0; i < limit; i++)
-            {
-                byte[] array = outputByteList.ElementAt(i);
-                for (int j = 0; j < array.Length; j++)
-                {
-                    ret += String.Format("{0:X2}", array[j]);
-                }
-            }
-            return ret;
-        }*/
 
         #endregion
 
@@ -635,7 +543,6 @@ namespace Cryptool.WEP
         }
 
         #endregion
-
 
         #region IPlugin Member
 
