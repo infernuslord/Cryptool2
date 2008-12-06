@@ -57,17 +57,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthorAttribute.cs" />
-    <Compile Include="ContextMenuAttribute.cs" />
+    <Compile Include="Attributes\AuthorAttribute.cs" />
+    <Compile Include="Attributes\ContextMenuAttribute.cs" />
     <Compile Include="IApplication.cs" />
-    <Compile Include="RibbonBarAttribute.cs" />
-    <Compile Include="EditorSpecificPluginAttribute.cs" />
+    <Compile Include="Attributes\RibbonBarAttribute.cs" />
+    <Compile Include="Attributes\EditorSpecificPluginAttribute.cs" />
     <Compile Include="DynamicProperty.cs" />
     <Compile Include="Generator\IGenerator.cs" />
     <Compile Include="Miscellaneous\DescriptionHyperlink.cs" />
     <Compile Include="Miscellaneous\EventsHelper.cs" />
-    <Compile Include="PropertySaveOrderAttribute.cs" />
-    <Compile Include="IntegerRangeAttribute.cs" />
+    <Compile Include="Attributes\PropertySaveOrderAttribute.cs" />
+    <Compile Include="Attributes\IntegerRangeAttribute.cs" />
     <Compile Include="Cryptography\EncryptionExtension.cs" />
     <Compile Include="Cryptography\EncryptionTypeAttribute.cs">
       <SubType>Code</SubType>
@@ -76,14 +76,14 @@
     <Compile Include="Editor\DragDropDataObject.cs" />
     <Compile Include="Editor\EditorExtension.cs" />
     <Compile Include="Editor\EditorInfoAttribute.cs" />
-    <Compile Include="PropertyInfoAttribute.cs">
+    <Compile Include="Attributes\PropertyInfoAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PluginExtension.cs" />
-    <Compile Include="PluginInfoAttribute.cs">
+    <Compile Include="Attributes\PluginInfoAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TaskPaneAttribute.cs" />
+    <Compile Include="Attributes\TaskPaneAttribute.cs" />
     <Compile Include="Delegates.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="EventArgs.cs" />

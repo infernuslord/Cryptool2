@@ -220,7 +220,7 @@ using System.Runtime.Remoting.Contexts;
 
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
-  [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
+    [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
     [PluginInfo(false, "AES", "Advanced Encryption Standard (Rijndael)", "AES/DetailedDescription/Description.xaml", "AES/Images/AES.png", "AES/Images/encrypt.png", "AES/Images/decrypt.png", "AES/Rijndael.png")]
     [EncryptionType(EncryptionType.SymmetricBlock)]    
     public class AES : ContextBoundObject, IEncryption
