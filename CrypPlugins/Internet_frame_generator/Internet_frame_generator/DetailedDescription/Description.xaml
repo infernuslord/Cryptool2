@@ -23,8 +23,13 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
-        <Span xml:lang="de-de">You can choose the kind of packets either in the
+        <Span xml:lang="de-de">You can choose the kind of packets
         </Span>
+    </Paragraph>
+    
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span xml:lang="de-de">- either in the</Span>
         <Span FontStyle="Italic" xml:lang="de-de">Algorithm Settings</Span>
         <Span xml:lang="de-de">(within the drop down menu "Kind of packet"):
         </Span>
@@ -39,7 +44,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
-        <Span xml:lang="de-de">or by right clicking on the plugin in the editor:
+        <Span xml:lang="de-de">- or by right clicking on the plugin in the editor:
         </Span>
     </Paragraph>
 
@@ -61,7 +66,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
         <Span xml:lang="de-de">You can also adjust how many packets are going to be created. This can only be done within the
         </Span>
         <Span FontStyle="Italic" xml:lang="de-de">Algorithm Settings</Span>
-        <Span xml:lang="de-de">by entering the according number in the textfield "Number of packets":</Span>
+        <Span xml:lang="de-de">by entering the according number in the text field "Number of packets":</Span>
     </Paragraph>
 
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
@@ -122,7 +127,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
         <Span xml:lang="de-de">The packets, which are encrypted by the "WEP protocol" plugin, are
             delivered to the "Attacks on the WEP protocol" plugin. This plugin tries to recover the key,
             which has been used to encrypt the packets. There are three attacks possible: The "FMS attack",
-            the "Korek attack" and the "PTW attack" (for details, please have a look at the description tab of the
+            the "KoreK attack" and the "PTW attack" (for details, please have a look at the description tab of the
             "Attacks on the WEP protocol" plugin).</Span>
     </Paragraph>
 
@@ -142,7 +147,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
         <Span xml:lang="de-de">So this workflow is a loop, which doesn't stop until the key has been recovered
-            successful.
+            successfully.
         </Span>
     </Paragraph>
 

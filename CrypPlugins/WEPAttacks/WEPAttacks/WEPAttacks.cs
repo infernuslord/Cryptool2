@@ -142,6 +142,8 @@ namespace Cryptool.WEPAttacks
 
         #endregion
 
+        #region Public interface
+
         public WEPAttacks()
         {
             settings = new WEPAttacksSettings();
@@ -152,6 +154,8 @@ namespace Cryptool.WEPAttacks
         {
             if (OnPluginStatusChanged != null) OnPluginStatusChanged(this, args);
         }
+
+        #endregion
 
         #region Private methods
 
@@ -254,6 +258,7 @@ namespace Cryptool.WEPAttacks
                 {
                     GuiLogMessage("Got " + tempList.Count.ToString("#,#", CultureInfo.InstalledUICulture) + " packets.", NotificationLevel.Info);
                 }
+                presentation.setNumberOfSniffedPackages(tempList.Count + counter);
             }
         }
 
@@ -669,7 +674,7 @@ namespace Cryptool.WEPAttacks
                 }
                 if (packetUsed) { usedPacktesCounter++; }
                 counter++;
-                presentation.setNumberOfSniffedPackages(counter);
+                //presentation.setNumberOfSniffedPackages(counter);
                 presentation.setUsedIVs(usedPacktesCounter);
                 if (packetUsed && (counter > 300.000))
                 {
@@ -1020,7 +1025,7 @@ namespace Cryptool.WEPAttacks
                 }
                 if (usedPacket) { usedPacktesCounter++; }
                 counter++;
-                presentation.setNumberOfSniffedPackages(counter);
+                //presentation.setNumberOfSniffedPackages(counter);
                 presentation.setUsedIVs(usedPacktesCounter);
                 if (usedPacket && (counter > 300000))
                 {
@@ -1198,7 +1203,7 @@ namespace Cryptool.WEPAttacks
                 }
                 counter++;
                 usedPacktesCounter++;
-                presentation.setNumberOfSniffedPackages(counter);
+                //presentation.setNumberOfSniffedPackages(counter);
                 presentation.setUsedIVs(usedPacktesCounter);
                 if (counter > 20000)
                 {

@@ -20,6 +20,7 @@ namespace Cryptool.WEPAttacks
         private int action = 0;
         private bool fileOrNot = false;
         private bool hasChanges = false;
+        private string dataSource = string.Empty;
 
         /// <summary>
         /// Action. 0 => FMS, 1 => KoreK, 2 => PTW
@@ -56,13 +57,6 @@ namespace Cryptool.WEPAttacks
         /// <summary>
         /// true => source is data, false => source is another plugin (NOT "File Input"!!!)
         /// </summary>
-        /*[ContextMenu("Data comes from file",
-            "Does the data come from file or not?",
-            2,
-            DisplayLevel.Beginner,
-            ContextMenuControlType.CheckBox,
-            new int[] { 1, 2 },
-            new string[] { "Data comes from file" })]*/
         [TaskPane("Data comes from file",
             "Does the data come from file or not?",
             "",
@@ -88,71 +82,37 @@ namespace Cryptool.WEPAttacks
             }
         }
 
-        /*/// <summary>
-        /// 0 = get from other plugin, 1 = load from file
+        /// <summary>
+        /// Indicates whether data comes from file or from another plugin (most propably the "Internet frame generator" plugin).
+        /// Needed to react if attack was not successful.
         /// </summary>
-        [ContextMenu("Input",
-            "Do you want to load packets from a file or get them from other plugins?",
-            2,
-            DisplayLevel.Beginner,
-            ContextMenuControlType.ComboBox,
-            new int[] { 1, 2 },
-            "Get from other plugin",
-            "Load from file")]
-        [TaskPane("Input",
-            "Dou you want to load packets from a file or get them from other plugins?",
-            "",
-            2,
-            false,
-            DisplayLevel.Beginner,
-            ControlType.ComboBox,
-            new String[] { "Get from other plugin", "Load from file" })]
-        public int InputMode
-        {
-            get { return this.inputMode; }
-            set
-            {
-                if ((int)value != inputMode)
-                {
-                    hasChanges = true;
-                }
-                this.inputMode = (int)value;
-                if (this.inputMode == 0)
-                {
-                    LoadFileName = string.Empty;
-                }
-                OnPropertyChanged("InputMode");
-            }
-        }
+         
+        // Radiobuttons are not implemented yet, so I coment them out (11-25-2008)
 
-        [TaskPane("Load FileName",
-            "File to load data from.",
-            null,
+        /*[TaskPane("Dealing with end of given data",
+            "Dealing with end of given data",
+            "groupRadiobutton",
             3,
             false,
             DisplayLevel.Beginner,
-            ControlType.OpenFileDialog,
-            "All Files (*.*)|*.*")]
-        public string LoadFileName
+            ControlType.RadioButton,
+            new string[]{"Data comes from file (finish, if attack is not successful)",
+                "Data comes from IFG (wait for further package, if attack is not successful yet)"})]
+        public string DataSource
         {
-            get { return loadFileName; }
+            get
+            {
+                return this.dataSource;
+            }
             set
             {
-                loadFileName = value;
-                OnPropertyChanged("LoadFileName");
+                if ((string)value != dataSource)
+                {
+                    hasChanges = true;
+                }
+                this.dataSource = (string)value;
+                OnPropertyChanged("DataSource");
             }
-        }
-
-        /*[TaskPane("Close file",
-            "Close file",
-            null,
-            4,
-            false,
-            DisplayLevel.Beginner,
-            ControlType.Button)]
-        public void CloseFile()
-        {
-            LoadFileName = string.Empty;
         }*/
 
         #endregion
