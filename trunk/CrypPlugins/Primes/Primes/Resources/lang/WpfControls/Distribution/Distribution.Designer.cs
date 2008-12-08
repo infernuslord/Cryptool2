@@ -728,6 +728,15 @@ namespace Primes.Resources.lang.WpfControls.Distribution {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Anzahl der Primzahlen.
+        /// </summary>
+        public static string tabitemgraph {
+            get {
+                return ResourceManager.GetString("tabitemgraph", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Zahlengrid.
         /// </summary>
         public static string tabitemnumbergrid {

@@ -364,4 +364,7 @@ Auf der Zahlengeraden kann ein Intervall der Breite zwischen 10 und 90 Zahlen an
   <data name="ulam_zoom" xml:space="preserve">
     <value>Die Spirale zoomen</value>
   </data>
+  <data name="tabitemgraph" xml:space="preserve">
+    <value>Anzahl der Primzahlen</value>
+  </data>
 </root>
