@@ -7,6 +7,7 @@
              xmlns:goldbach="clr-namespace:Primes.WpfControls.PrimesDistribution.Goldbach"
              xmlns:comps="clr-namespace:Primes.WpfControls.Components"
              xmlns:lang="clr-namespace:Primes.Resources.lang.WpfControls.Distribution"
+             xmlns:graph="clr-namespace:Primes.WpfControls.PrimesDistribution.Graph"
              
     VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
   <UserControl.Resources>
@@ -37,6 +38,9 @@
       </comps:HelpTabItem>
       <comps:HelpTabItem x:Name="tabItemNumbergrid" Header="{x:Static lang:Distribution.tabitemnumbergrid}" HelpButtonClick="tabitem_HelpButtonClick">
         <numberrect:NumberRectangleControl x:Name="numberrectctrl" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+      </comps:HelpTabItem>
+      <comps:HelpTabItem x:Name="tabItemGraph" Header="{x:Static lang:Distribution.tabitemgraph}" HelpButtonClick="tabitem_HelpButtonClick">
+        <graph:GraphControl x:Name="graphcontrol" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
       </comps:HelpTabItem>
       <comps:HelpTabItem x:Name="tabItemUlam" Header="{x:Static lang:Distribution.tabitemulam}" HelpButtonClick="tabitem_HelpButtonClick">
         <ulam:PrimesprialControl x:Name="spiralCtrl"/>

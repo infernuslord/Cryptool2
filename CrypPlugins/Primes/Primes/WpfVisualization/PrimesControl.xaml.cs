@@ -302,7 +302,9 @@ namespace Primes.WpfVisualization
           break;
         case NavigationCommandType.Graph:
           if (m_GraphControl == null) m_GraphControl = new GraphControl();
-          SetUserControl(m_GraphControl);
+          if (m_PrimesInNaturalNumbersControl == null) m_PrimesInNaturalNumbersControl = new PrimesInNaturalNumbersControl();
+
+          SetUserControl(m_PrimesInNaturalNumbersControl,2);
           break;
         case NavigationCommandType.Start:
           if (m_StartControl == null) m_StartControl = new StartControl();

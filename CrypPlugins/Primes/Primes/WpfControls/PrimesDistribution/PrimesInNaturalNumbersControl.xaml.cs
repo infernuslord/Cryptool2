@@ -299,6 +299,11 @@ namespace Primes.WpfControls.PrimesDistribution
       {
         OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.Distribution_Numberline);
       }
+      else if (sender == tabItemGraph)
+      {
+        OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.Graph_PrimesCount);
+      }
+
       e.Handled = true;
 
     }
