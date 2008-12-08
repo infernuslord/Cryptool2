@@ -134,19 +134,15 @@ namespace Cryptool.FrequencyTest
                     workstring2 = workstring;
                 }
                 string tempString="";
-                int l = 0;
+               
                 ArrayList gramms = new ArrayList();
-                while (l >= 0 & l <= workstring2.Length - 1)
+                int l = 0;
+                for (l = 0; l <= workstring2.Length - settings.GrammLength-1;l++ )
                 {
-
-                    tempString+=workstring2[l];
-                    l++;
-                    if (l % settings.GrammLength == 0 & l > 0)
-                    {
-                        gramms.Add(tempString);
-                        tempString = "";
-                    }
-
+                    
+                    gramms.Add(workstring2.Substring(l,settings.GrammLength));
+                             
+                    
                 }
                 
                 gramms.Sort();
@@ -195,10 +191,10 @@ namespace Cryptool.FrequencyTest
                   }
                  OnPropertyChanged("StringOutput");
                  OnPropertyChanged("ArrayOutput");
-                 if (OnPluginProgressChanged != null)
-                      {
-                         OnPluginProgressChanged(this, new PluginProgressEventArgs(l, l));
-                      }
+               //  if (OnPluginProgressChanged != null)
+                 //     {
+                   //      OnPluginProgressChanged(this, new PluginProgressEventArgs(l, l));
+                     // }
                  presentation.OpenPresentationFile();
             }
 
