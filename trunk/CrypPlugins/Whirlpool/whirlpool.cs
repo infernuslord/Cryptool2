@@ -130,7 +130,8 @@ namespace Whirlpool
 				value >>= 8;
 			}
 
-			// process data in chunks of 8 bits (a more efficient approach would be to take whole-word chunks):
+			// process data in chunks of 8 bits 
+			// (a more efficient approach would be to take whole-word chunks):
 			while (sourceBits > 8)
 			{
 				// N.B. at least source[sourcePos] and source[sourcePos+1] contain data. 
@@ -843,7 +844,7 @@ namespace Whirlpool
 			ulong[] state = new ulong[8];    // the cipher state 
 			ulong[] L     = new ulong[8];
 
-#if DEBUG
+#if DEBUG2
 			Debug.WriteLine("The 8x8 matrix Z' derived from the data-string is as follows.");
 			for (int ibuffer = 0; ibuffer < WBLOCKBYTES; ibuffer += 8)
 			{
@@ -880,7 +881,7 @@ namespace Whirlpool
 			state[6] = block[6] ^ (K[6] = hash[6]);
 			state[7] = block[7] ^ (K[7] = hash[7]);
 
-#if DEBUG
+#if DEBUG2
 			Debug.WriteLine("The K_0 matrix (from the initialization value IV) and X'' matrix are as follows.\n");
 
 			for (int i = 0; i < DIGESTBYTES / 8; i++)
@@ -1071,7 +1072,7 @@ namespace Whirlpool
 				state[5] = L[5];
 				state[6] = L[6];
 				state[7] = L[7];
-#if DEBUG
+#if DEBUG2
 				Debug.WriteLine("i = " + r + "\n");
 				for (int i = 0; i < DIGESTBYTES / 8; i++)
 				{
@@ -1093,7 +1094,7 @@ namespace Whirlpool
 			hash[6] ^= state[6] ^ block[6];
 			hash[7] ^= state[7] ^ block[7];
 
-#if DEBUG
+#if DEBUG2
 			//printf("Intermediate hash value (after Miyaguchi-Preneel):\n");
 			Debug.WriteLine("The value of Y' output from the round-function is as follows.\n");
 			for (int i = 0; i < DIGESTBYTES / 8; i++)
