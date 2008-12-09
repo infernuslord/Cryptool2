@@ -59,25 +59,26 @@ namespace PKCS5
 
         #region Settings
 
-        private PKCS5Settings settings;
+				private PKCS5Settings settings;
 
-        /// <summary>
-        /// Gets or sets the settings.
-        /// </summary>
-        /// <value>The settings.</value>
-        public ISettings Settings
-        {
-            get
-            {
-                return settings;
-            }
-            set
-            {
-                settings = (PKCS5Settings)value;
-                OnPropertyChanged("Settings");
-                GuiLogMessage("Settings changed.", NotificationLevel.Debug);
-            }
-        }
+				/// <summary>
+				/// Gets or sets the settings.
+				/// </summary>
+				/// <value>The settings.</value>
+				public ISettings Settings
+				{
+					get
+					{
+						return settings;
+					}
+					set
+					{
+						settings = (PKCS5Settings)value;
+						OnPropertyChanged("Settings");
+						GuiLogMessage("Settings changed.", NotificationLevel.Debug);
+					}
+				}
+
 
         /// <summary>
         /// Gets or sets a value indicating whether this instance has changes.
@@ -135,7 +136,7 @@ namespace PKCS5
                     return;
 
                 if (keyCanal != dataCanal.none && keyCanal != dataCanal.streamCanal)
-                    GuiLogMessage("Duplicate input key not allowed!", NotificationLevel.Error);
+                    GuiLogMessage("Duplicate input key not allowed!", NotificationLevel.Warning);
                 keyCanal = dataCanal.streamCanal;
 
                 long len = value.Length;
@@ -163,7 +164,7 @@ namespace PKCS5
             set
             {
 							if (keyCanal != dataCanal.none && keyCanal != dataCanal.byteCanal)
-								GuiLogMessage("Duplicate key data not allowed!", NotificationLevel.Error);
+								GuiLogMessage("Duplicate key data not allowed!", NotificationLevel.Warning);
 							keyCanal = dataCanal.byteCanal;
 
                 long len = value.Length;
@@ -212,7 +213,7 @@ namespace PKCS5
 								return;
 
                 if (saltCanal != dataCanal.none && saltCanal != dataCanal.streamCanal)
-                    GuiLogMessage("Duplicate salt input not allowed!", NotificationLevel.Error);
+                    GuiLogMessage("Duplicate salt input not allowed!", NotificationLevel.Warning);
                 saltCanal = dataCanal.streamCanal;
 
                 long len = value.Length;
@@ -241,7 +242,7 @@ namespace PKCS5
             set
             {
                 if (saltCanal != dataCanal.none && saltCanal != dataCanal.byteCanal)
-                    GuiLogMessage("Duplicate salt input not allowed!", NotificationLevel.Error);
+                    GuiLogMessage("Duplicate salt input not allowed!", NotificationLevel.Warning);
                 saltCanal = dataCanal.byteCanal;
 
                 long len = value.Length;
