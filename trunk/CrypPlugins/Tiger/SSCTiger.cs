@@ -3,11 +3,11 @@
 // © 2008 - Gerhard Junker
 // Apache License see http://www.apache.org/licenses/
 //
-// $HeadURL: https://www.cryptool.org/svn/CrypTool2/trunk/CrypPlugins/PKCS5/SSCpkcs5.cs $
+// $HeadURL$
 //////////////////////////////////////////////////////////////////////////////////////////////////
-// $Revision:: 121                                                                            $://
-// $Author:: junker                                                                           $://
-// $Date:: 2008-12-05 10:55:45 +0100 (Fr, 05 Dez 2008)                                        $://
+// $Revision::                                                                                $://
+// $Author::                                                                                  $://
+// $Date::                                                                                    $://
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 using System;
