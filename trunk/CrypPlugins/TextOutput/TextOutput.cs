@@ -224,19 +224,7 @@ namespace TextOutput
   [PluginInfo(false, "TextOutput", "Simple text output", "", "TextOutput/icon.png")]
   public class TextOutput : DependencyObject, IOutput
   {
-    # region dps
-    public static readonly DependencyProperty StringContentProperty =
-      DependencyProperty.Register("StringContent", typeof(String), typeof(TextOutput),
-      new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
-    public static readonly DependencyProperty StreamContentProperty =
-      DependencyProperty.Register("StreamContent", typeof(CryptoolStream), typeof(TextOutput),
-      new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
-    public static readonly DependencyProperty ByteArrayContentProperty =
-      DependencyProperty.Register("ByteArrayContent", typeof(byte[]), typeof(TextOutput),
-      new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-    # endregion
+    private readonly string inputOne = "InputOne";
 
     #region Private variables
     private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
@@ -248,13 +236,30 @@ namespace TextOutput
     /// plugin(red/yellow) would be lost if sending the messages right on property set.
     /// </summary>
     private Dictionary<string, NotificationLevel> dicWarningsAndErros = new Dictionary<string, NotificationLevel>();
+    private bool canSendPropertiesChangedEvent = true;
+    private int inputs = 0;
     #endregion
+
+    #region events
+    public event DynamicPropertiesChanged OnDynamicPropertiesChanged;
+    public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+    public event PropertyChangedEventHandler PropertyChanged;
+    #pragma warning disable 67
+    public event StatusChangedEventHandler OnPluginStatusChanged;
+    #pragma warning restore
+    #endregion events
 
     # region constructor
     public TextOutput()
     {
       Presentation = new TextOutputPresentation();
-      settings = new TextOutputSettings();
+      settings = new TextOutputSettings(this);
+      settings.OnGuiLogNotificationOccured += settings_OnGuiLogNotificationOccured;
+      CanChangeDynamicProperty = true;
+      // No dynProp event in constructor - editor will read the property initial without the event.
+      // event can cause problems when using save files and is processed after 
+      // connections have been restored. 
+      CreateInputOutput(false);
     }
     # endregion
 
@@ -267,239 +272,226 @@ namespace TextOutput
       set { settings = (TextOutputSettings)value; }
     }
 
-    [PropertyInfo(Direction.Input, "Text", "Text can be viewed in a text box.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-    public string StringInput
+    public void CreateInputOutput(bool announcePropertyChange)
     {
-      get
-      {
-        return (string)textOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
-        {
-          return textOutputPresentation.textBoxString.Text;
-        }, null);
-      }
-      set
-      {
-        try
-        {
-          if (value != null)
-          {
-            textOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            {
-              if (settings.Append)
-              {
-                if (textOutputPresentation.textBoxString.Text.Length > settings.MaxLength)
-                {
-                  GuiLogMessage("Text exceeds size limit. Deleting text...", NotificationLevel.Info);
-                  textOutputPresentation.textBoxString.Text = string.Empty;
-                }
+      DicDynamicProperties.Clear();
+      AddInput(inputOne, "Input value");
+      if (announcePropertyChange) DynamicPropertiesChanged();
+    }
 
-                // append line breaks only if not first line
-                if (textOutputPresentation.textBoxString.Text != null && textOutputPresentation.textBoxString.Text.Length > 0)
-                {
-                  for (int i = 0; i < settings.AppendBreaks; i++)
-                  {
-                    textOutputPresentation.textBoxString.AppendText("\n");
-                  }
-                }
-                textOutputPresentation.textBoxString.AppendText(value);
-                textOutputPresentation.textBoxString.ScrollToEnd();
-              }
-              else textOutputPresentation.textBoxString.Text = value;
-            }, value);
-            OnPropertyChanged("StringInput");
-          }
-          else
-            AddMessage("Got null value for Text", NotificationLevel.Error);
-        }
-        catch (Exception exception)
-        {
-          GuiLogMessage(exception.Message, NotificationLevel.Error);
-          GuiLogMessage(exception.StackTrace, NotificationLevel.Error);
-        }
+    private void DynamicPropertiesChanged()
+    {
+      if (OnDynamicPropertiesChanged != null) OnDynamicPropertiesChanged(this);
+    }
+
+    private void settings_OnGuiLogNotificationOccured(IPlugin sender, GuiLogEventArgs args)
+    {
+      EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(args.Message, this, args.NotificationLevel));
+    }
+
+    public Dictionary<string, DynamicProperty> dicDynamicProperties = new Dictionary<string, DynamicProperty>();
+
+    [DynamicPropertyInfo("methodGetValue", "methodSetValue", "CanChangeDynamicProperty", "OnDynamicPropertiesChanged", "CanSendPropertiesChangedEvent")]
+    public Dictionary<string, DynamicProperty> DicDynamicProperties
+    {
+      get { return dicDynamicProperties; }
+      set { dicDynamicProperties = value; }
+    }
+
+    public bool CanChangeDynamicProperty
+    {
+      get { return settings.CanChangeProperty; }
+      set { settings.CanChangeProperty = value; }
+    }
+
+    public bool CanSendPropertiesChangedEvent
+    {
+      get { return canSendPropertiesChangedEvent; }
+      set { canSendPropertiesChangedEvent = value; }
+    }
+
+
+    private Type getCurrentType()
+    {
+      switch (settings.CurrentDataType)
+      {
+        case TextOutputSettings.DynamicDataTypes.CryptoolStream:
+          return typeof(CryptoolStream);
+        case TextOutputSettings.DynamicDataTypes.String:
+          return typeof(string);
+        case TextOutputSettings.DynamicDataTypes.ByteArray:
+          return typeof(byte[]);
+        case TextOutputSettings.DynamicDataTypes.Boolean:
+          return typeof(bool);
+        case TextOutputSettings.DynamicDataTypes.Integer:
+          return typeof(int);
+        default:
+          return null;
       }
     }
 
-    [PropertyInfo(Direction.Input, "Stream", "Input stream will be converted to ASCII text and Hex string an and can be viewed in a text box.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-    public CryptoolStream StreamInput
+    private QuickWatchFormat getQuickWatchFormat()
     {
-      get
+      Type type = getCurrentType();
+      if (type == typeof(CryptoolStream))
+        return QuickWatchFormat.Hex;
+      else if (type == typeof(string))
+        return QuickWatchFormat.Text;
+      else if (type == typeof(byte[]))
+        return QuickWatchFormat.Hex;
+      else if (type == typeof(bool))
+        return QuickWatchFormat.Text;
+      else if (type == typeof(int))
+        return QuickWatchFormat.Text;
+      else
+        return QuickWatchFormat.None;
+    }
+
+    private object getCurrentValue(string name)
+    {
+      if (DicDynamicProperties.ContainsKey(name))
       {
-        object stream = textOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
+        switch (settings.CurrentDataType)
         {
-          if (textOutputPresentation.textBoxStream.Text != null && textOutputPresentation.textBoxStream.Text != string.Empty)
-          {
-            CryptoolStream cryptoolStream = new CryptoolStream();
-            cryptoolStream.OpenRead(this.GetPluginInfoAttribute().Caption, Encoding.Default.GetBytes(textOutputPresentation.textBoxStream.Text));
-            listCryptoolStreamsOut.Add(cryptoolStream);
-            return cryptoolStream;
-          }
-          return null;
-        }, null);
-        return stream as CryptoolStream;
+          case TextOutputSettings.DynamicDataTypes.CryptoolStream:
+            if ((CryptoolStream)DicDynamicProperties[name].Value != null)
+            {
+              CryptoolStream cryptoolStream = new CryptoolStream();
+              listCryptoolStreamsOut.Add(cryptoolStream);
+              cryptoolStream.OpenRead(((CryptoolStream)DicDynamicProperties[name].Value).FileName);
+              return cryptoolStream;
+            }
+            else
+              return null;
+          case TextOutputSettings.DynamicDataTypes.String:
+            return DicDynamicProperties[name].Value;
+          case TextOutputSettings.DynamicDataTypes.ByteArray:
+            return DicDynamicProperties[name].Value;
+          case TextOutputSettings.DynamicDataTypes.Boolean:
+            return DicDynamicProperties[name].Value;
+          case TextOutputSettings.DynamicDataTypes.Integer:
+            return DicDynamicProperties[name].Value;
+          default:
+            return null;
+        }
       }
-      set
+      return null;
+    }
+
+    private void AddInput(string name, string toolTip)
+    {
+      inputs++;
+      if (name == null || name == string.Empty) name = "Input " + inputs;
+      DicDynamicProperties.Add(name,
+        new DynamicProperty(name, getCurrentType(),
+          new PropertyInfoAttribute(Direction.Input, name, toolTip, "", false, true, DisplayLevel.Beginner, getQuickWatchFormat(), null)));
+    }
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
+    public void methodSetValue(string propertyKey, object value)
+    {
+      try
       {
-        GuiLogMessage("Got stream.", NotificationLevel.Info);
-        Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+        if (DicDynamicProperties.ContainsKey(propertyKey))
         {
-          SetValue(StreamContentProperty, value);
-        }, value);
+          DicDynamicProperties[propertyKey].Value = value;
+        }
 
-        textOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+        string fillValue = null;
+        if (value is String || value is string)
         {
-          if (settings.Append)
-          {
-            if (textOutputPresentation.textBoxStream.Text.Length > settings.MaxLength)
-            {
-              GuiLogMessage("Stream textBox exceeds size limit. Deleting text...", NotificationLevel.Info);
-              textOutputPresentation.textBoxStream.Text = string.Empty;
-              textOutputPresentation.textBoxByteArray.Text = string.Empty;
-            }
-
-            // append line breaks only if not first line
-            if (textOutputPresentation.textBoxStream.Text != null && textOutputPresentation.textBoxStream.Text.Length > 0)
-            {
-              for (int i = 0; i < settings.AppendBreaks; i++)
-              {
-                textOutputPresentation.textBoxStream.AppendText("\n");
-              }
-            }
-          }
-        }, string.Empty);
-
-        // process input
-        if (value != null && value.Length > 0)
+          fillValue = value as string;
+        }
+        else if (value is int)
         {
+          fillValue = ((int)value).ToString();
+        }
+        else if (value is bool)
+        {
+          fillValue = ((bool)value).ToString();
+        }
+        else if (value is CryptoolStream)
+        {
+          listCryptoolStreamsOut.Add((CryptoolStream)value);
+          CryptoolStream stream = value as CryptoolStream;
           GuiLogMessage("Stream: Filling TextBoxes now...", NotificationLevel.Debug);
-          if (value.Length > settings.MaxLength)
-            AddMessage("WARNING - Stream is too large (" + (value.Length / 1024).ToString("0.00") + " kB), output will be truncated to " + (settings.MaxLength / 1024).ToString("0.00") + "kB", NotificationLevel.Warning);
-          byte[] byteValues = new byte[Math.Min(settings.MaxLength, value.Length)];
+          if (stream.Length > settings.MaxLength)
+            AddMessage("WARNING - Stream is too large (" + (stream.Length / 1024).ToString("0.00") + " kB), output will be truncated to " + (settings.MaxLength / 1024).ToString("0.00") + "kB", NotificationLevel.Warning);
+          byte[] byteValues = new byte[Math.Min(settings.MaxLength, stream.Length)];
           int bytesRead;
-          value.Seek(0, SeekOrigin.Begin);
-          bytesRead = value.Read(byteValues, 0, byteValues.Length);
-
-          String strTxt = GetStringForSelectedEncoding(byteValues);
-
-          StringBuilder strHex = new StringBuilder();
-          for (int i = 0; i < bytesRead; i++)
+          stream.Seek(0, SeekOrigin.Begin);
+          bytesRead = stream.Read(byteValues, 0, byteValues.Length);
+          fillValue = GetStringForSelectedEncoding(byteValues);
+        }
+        else if (value is byte[])
+        {
+          byte[] byteArray = value as byte[];
+          GuiLogMessage("Byte array: Filling textbox now...", NotificationLevel.Debug);
+          if (byteArray.Length > settings.MaxLength)
           {
-            strHex.Append(String.Format("{0:X2}", byteValues[i]));
+            AddMessage("WARNING - byte array is too large (" + (byteArray.Length / 1024).ToString("0.00") + " kB), output will be truncated to " + (settings.MaxLength / 1024).ToString("0.00") + "kB", NotificationLevel.Warning);
           }
 
-          textOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+          long size = byteArray.Length;
+          if (size > settings.MaxLength)
           {
-            if (settings.Append)
-            {
-              textOutputPresentation.textBoxStream.AppendText(strTxt);
-              textOutputPresentation.textBoxStream.ScrollToEnd();
-            }
-            else
-              textOutputPresentation.textBoxStream.Text = strTxt;
-          }, strTxt);
-
-          // used to return correct value to quickWatch requests
-          textOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-          {
-            if (settings.Append)
-            {
-              textOutputPresentation.textBoxStreamByte.AppendText(strHex.ToString());
-              textOutputPresentation.textBoxStreamByte.ScrollToEnd();
-            }
-            else
-              textOutputPresentation.textBoxStreamByte.Text = strHex.ToString();
-          }, strHex);
-          GuiLogMessage("TextBoxes filled.", NotificationLevel.Debug);
-          OnPropertyChanged("StreamInput");
-        }
-        else
-        {
-          if (value == null)
-            AddMessage("Stream: value is null.", NotificationLevel.Warning);
-          else if (value.Length == 0)
-            AddMessage("Stream length is 0.", NotificationLevel.Warning);
-        }
-
-      }
-    }
-
-
-    private byte[] byteArrayInput;
-    [PropertyInfo(Direction.Input, "Byte array", "Byte array will be converted to hex-value.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-    public byte[] ByteArrayInput
-    {
-      get
-      {
-        object value = textOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
-        {
-          if (textOutputPresentation.textBoxByteArray.Text != null && textOutputPresentation.textBoxByteArray.Text != string.Empty)
-            return Encoding.Default.GetBytes(textOutputPresentation.textBoxByteArray.Text);
-          return null;
-        }, null);
-        return value as byte[];
-      }
-      set
-      {
-        GuiLogMessage("Got byte array.", NotificationLevel.Debug);
-        if (value != null)
-        {
-          // Progress(50, 100);
-          GuiLogMessage("Byte array: Filling textbox now...", NotificationLevel.Debug);
-          if (value.Length > settings.MaxLength)
-            AddMessage("WARNING - byte array is too large (" + (value.Length / 1024).ToString("0.00") + " kB), output will be truncated to " + (settings.MaxLength / 1024).ToString("0.00") + "kB", NotificationLevel.Warning);
-
-          textOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-          {
-            if (settings.Append)
-            {
-              // set empty
-              if (textOutputPresentation.textBoxByteArray.Text.Length > settings.MaxLength)
-              {
-                GuiLogMessage("byte array textbox exceeds size limit. Deleting text...", NotificationLevel.Info);
-                textOutputPresentation.textBoxByteArray.Text = string.Empty;
-              }
-              // append line breaks only if not first line
-              if (textOutputPresentation.textBoxByteArray.Text != null && textOutputPresentation.textBoxByteArray.Text.Length > 0)
-              {
-                for (int i = 0; i < settings.AppendBreaks; i++)
-                {
-                  textOutputPresentation.textBoxByteArray.AppendText("\n");
-                }
-              }
-            }
-          }, string.Empty);
-
-          long size = value.Length; if (size > settings.MaxLength) size = settings.MaxLength;
+            size = settings.MaxLength;
+          }
           byte[] sizedArray = new byte[size];
           for (int i = 0; i < size; i++)
           {
-            sizedArray[i] = value[i];
+            sizedArray[i] = byteArray[i];
           }
+          fillValue = GetStringForSelectedEncoding(sizedArray);
+        }
 
-          string converted = GetStringForSelectedEncoding(sizedArray);
-
-          textOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+        if (fillValue != null)
+        {
+          Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
           {
             if (settings.Append)
             {
-              textOutputPresentation.textBoxByteArray.AppendText(converted);
-              textOutputPresentation.textBoxByteArray.ScrollToEnd();
+              if (textOutputPresentation.textBox.Text.Length > settings.MaxLength)
+              {
+                GuiLogMessage("Text exceeds size limit. Deleting text...", NotificationLevel.Info);
+                textOutputPresentation.textBox.Text = string.Empty;
+              }
+
+              // append line breaks only if not first line
+              if (textOutputPresentation.textBox.Text != null && textOutputPresentation.textBox.Text.Length > 0)
+              {
+                for (int i = 0; i < settings.AppendBreaks; i++)
+                {
+                  textOutputPresentation.textBox.AppendText("\n");
+                }
+              }
+              textOutputPresentation.textBox.AppendText(fillValue);
+              textOutputPresentation.textBox.ScrollToEnd();
             }
             else
-              textOutputPresentation.textBoxByteArray.Text = converted;
-          }, converted);
-          GuiLogMessage("Byte array: Textbox filled.", NotificationLevel.Debug);
+            {
+              textOutputPresentation.textBox.Text = fillValue;
+            }
+            textOutputPresentation.labelBytes.Content = string.Format("{0:0,0}", Encoding.Default.GetBytes(textOutputPresentation.textBox.Text.ToCharArray()).Length) + " Bytes";
+          }, fillValue);
+          OnPropertyChanged("StringInput");
+        }
 
-          byteArrayInput = Encoding.Default.GetBytes(converted.ToCharArray());
-          OnPropertyChanged("ByteArrayInput");
-        }
-        else
-        {
-          if (value == null)
-            AddMessage("Byte array: value is null.", NotificationLevel.Warning);
-        }
+        OnPropertyChanged(propertyKey);
+      }
+      catch (Exception ex)
+      {
+        GuiLogMessage(ex.Message, NotificationLevel.Error);
       }
     }
 
+    private List<string> listBuffer = new List<string>();
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
+    public object methodGetValue(string propertyKey)
+    {
+      return getCurrentValue(propertyKey); // QuickWatchDataCall to Input values
+    }
 
     #endregion
 
@@ -551,9 +543,7 @@ namespace TextOutput
     # endregion
 
     #region INotifyPropertyChanged Members
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
+    
     public void OnPropertyChanged(string name)
     {
       EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
@@ -572,7 +562,7 @@ namespace TextOutput
 
     public UserControl QuickWatchPresentation
     {
-      get { return null; }
+      get { return Presentation; }
     }
 
     public void Initialize()
@@ -600,11 +590,15 @@ namespace TextOutput
       {
         textOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
         {
-          textOutputPresentation.textBoxByteArray.Text = null;
-          textOutputPresentation.textBoxStream.Text = null;
-          textOutputPresentation.textBoxStreamByte.Text = null;
-          textOutputPresentation.textBoxString.Text = null;
+          textOutputPresentation.textBox.Text = null;
         }, null);
+      }
+      foreach (DynamicProperty item in dicDynamicProperties.Values)
+      {
+        if (item.Value is CryptoolStream)
+        {
+          item.Value = null;
+        }
       }
       Dispose();
     }
@@ -614,11 +608,6 @@ namespace TextOutput
       Dispose();
     }
 
-#pragma warning disable 67
-		public event StatusChangedEventHandler OnPluginStatusChanged;
-#pragma warning restore
-
-    public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
     private void GuiLogMessage(string message, NotificationLevel logLevel)
     {
       EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));

@@ -4,22 +4,12 @@
     Height="302" Width="751">
     <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition Height="25*" />
-      <RowDefinition Height="25*" />
-      <RowDefinition Height="25*" />
-      <RowDefinition Height="25*" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <TextBox Name="textBoxString" Grid.Row="0" Margin="0,29,0,0" IsEnabled="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True" />
-    <Label Height="28" Name="labelString" VerticalAlignment="Top" Background="#DFDFDF">String</Label>
-
-    <TextBox Name="textBoxStream" Grid.Row="1" Margin="0,29,0,0" IsEnabled="True" TextWrapping="Wrap" IsReadOnly="True" VerticalScrollBarVisibility="Auto" />
-    <Label Grid.Row="1" Height="28" Name="labelStream" VerticalAlignment="Top" Background="#FF9B28">Stream displayed as string</Label>
-
-    <TextBox Name="textBoxStreamByte" Grid.Row="2" Margin="0,29,0,0" IsEnabled="True" TextWrapping="Wrap" IsReadOnly="True" VerticalScrollBarVisibility="Auto" />
-    <Label Grid.Row="2" Height="28" Name="labelStreamByte" VerticalAlignment="Top" Background="#FF9B28">Stream displayed as hex value</Label>
-
-    <TextBox Name="textBoxByteArray" Grid.Row="3" Margin="0,29,0,0" IsEnabled="True" TextWrapping="Wrap" IsReadOnly="True" VerticalScrollBarVisibility="Auto" />
-    <Label Grid.Row="3" Height="28" Name="labelByteArray" VerticalAlignment="Top" Background="Aqua">Byte Array</Label>
-
-  </Grid>
+    <Label Padding="0" Grid.Row="0" Name="labelString" VerticalAlignment="Top" Background="#DFDFDF">Input</Label>
+    <TextBox Name="textBox" Grid.Row="1" Margin="0" IsEnabled="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True" />    
+    <Label Padding="0" Grid.Row="2" Name="labelBytes" VerticalAlignment="Top" Background="#DFDFDF">0 Bytes</Label>
+    </Grid>
 </UserControl>
