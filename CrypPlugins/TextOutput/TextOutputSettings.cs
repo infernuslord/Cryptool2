@@ -207,6 +207,7 @@ using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
 using System.ComponentModel;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace TextOutput
 {
@@ -216,9 +217,20 @@ namespace TextOutput
     private EncodingTypes encoding = EncodingTypes.Default;
     private int maxLength = 65536; //64kB
     private bool hasChanges = false;
+    private TextOutput myTextOutput;
     #endregion
 
-    public enum EncodingTypes { Default = 0, Unicode = 2, UTF7 = 3, UTF8 = 4, UTF32 = 5, ASCII = 6, BigEndianUnicode = 7 };
+    public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+
+    public enum EncodingTypes { Default = 0, Unicode = 1, UTF7 = 2, UTF8 = 3, UTF32 = 4, ASCII = 5, BigEndianUnicode = 6 };
+    public enum DynamicDataTypes { CryptoolStream, String, ByteArray, Boolean, Integer };
+    public bool CanChangeProperty { get; set; }
+
+    public TextOutputSettings(TextOutput textOutput)
+    {
+      if (textOutput == null) throw new ArgumentException("textOutput");
+      myTextOutput = textOutput;
+    }
 
     /// <summary>
     /// Retrieves the current used encoding, or sets it.
@@ -233,6 +245,8 @@ namespace TextOutput
         OnPropertyChanged("EncodingSetting");
       }
     }
+
+    #region settings
 
     /// <summary>
     /// Encoding property used in the Settings pane. 
@@ -319,6 +333,48 @@ namespace TextOutput
       }
     }
 
+    private DynamicDataTypes currentDataType;
+    public DynamicDataTypes CurrentDataType
+    {
+      get { return currentDataType; }
+      set
+      {
+        if (currentDataType != value)
+        {
+          currentDataType = value;
+
+          // Changes must be applied synchronously, because onLoad of save file 
+          // the Properties have to be set correctly BEFORE init of restore connections starts.
+          //
+          // The flag CanSendPropertiesChangedEvent will be set to false while loading a save file 
+          // right after creating plugin instance. Next this Property will be set by the editor-loading-method. 
+          // Here we set the new type without sending an event, because the event could be processed after
+          // the connections have been restored. That would result in an unuseable workspace or throw an exception
+          // while executing the init method.
+          myTextOutput.CreateInputOutput(myTextOutput.CanSendPropertiesChangedEvent);
+          // OnPropertyChanged("CurrentDataType");
+        }
+      }
+    }
+
+    [TaskPane("Type", "Select DataType of plugin.", "", 2, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "CryptoolStream", "string", "byte[]", "boolean", "int" })]
+    public int DataType
+    {
+      get { return (int)CurrentDataType; }
+      set
+      {
+        if (CanChangeProperty)
+        {
+          if (value != (int)CurrentDataType) HasChanges = true;
+          CurrentDataType = (DynamicDataTypes)value;
+        }
+        else EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, null, new GuiLogEventArgs("Can't change type while plugin is connected.", null, NotificationLevel.Warning));
+        OnPropertyChanged("DataType");
+      }
+    }
+
+    # endregion settings
+
     #region INotifyPropertyChanged Members
 
     public event PropertyChangedEventHandler PropertyChanged;
@@ -327,7 +383,7 @@ namespace TextOutput
     {
       if (PropertyChanged != null)
       {
-        PropertyChanged(this, new PropertyChangedEventArgs(name));
+        EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
       }
     }
 

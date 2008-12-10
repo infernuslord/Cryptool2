@@ -243,6 +243,7 @@ namespace Cryptool.TextInput
     {
       this.NotifyUpdate();
       settings.HasChanges = true;
+      textInputPresentation.labelBytesCount.Content = string.Format("{0:0,0}", Encoding.Default.GetBytes(textInputPresentation.textBoxInputText.Text.ToCharArray()).Length) + " Bytes";
     }
 
     void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)

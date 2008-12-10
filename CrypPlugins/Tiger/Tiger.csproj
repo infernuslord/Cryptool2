@@ -70,4 +70,12 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>cd "$(ProjectDir)"
+cd ..\..\CrypWin\$(OutDir)
+if not exist "./CrypPlugins" mkdir "./CrypPlugins"
+
+del /F /S /Q /s /q "Tiger.*"
+copy "$(TargetDir)Tiger.*" "./CrypPlugins"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
