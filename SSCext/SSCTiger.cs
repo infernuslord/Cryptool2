@@ -22,7 +22,7 @@ using System.Diagnostics;
 
 namespace System.Security.Cryptography
 {
-	public class Tiger : HashAlgorithm
+	public class TIGER : HashAlgorithm
 	{
 
 		const int PASSES = 3;
@@ -42,9 +42,9 @@ namespace System.Security.Cryptography
 		//        Dim block As Long() = New Long(7) {}
 
 		/// <summary>
-		/// Initializes A new instance of the <see cref="Tiger"/> class.
+		/// Initializes A new instance of the <see cref="TIGER"/> class.
 		/// </summary>
-		public Tiger() : base()
+		public TIGER() : base()
 		{
 			buffer = new byte[BLOCKSIZE];
 			block  = new ulong[8];
@@ -583,39 +583,4 @@ namespace System.Security.Cryptography
 
 	}
 }
-
-
-
-//        Public Shared Function SelfTest() As Boolean
-
-//            ' (NESSIE test vector)
-//            Dim TEST_DATA As String = "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq"
-//            Dim TEST_HASH() As Byte = { _
-//                0xF, 0x7B, 0xF9, 0xA1, 0x9B, 0x9C, 0x58, 0xF2,
-//                0xB7, 0x61, 0xD, 0xF7, 0xE8, 0x4F, 0xA, 0xC3,
-//                0xA7, 0x1C, 0x63, 0x1E, 0x7B, 0x53, 0xF7, 0x8E}
-
-//            Dim i As Integer
-//            Dim tg As Tiger
-//            Dim hash() As Byte
-//            Dim enc As ASCIIEncoding
-
-//            tg = New Tiger
-//            tg.Initialize()
-
-//            enc = New ASCIIEncoding
-//            hash = tg.ComputeHash(enc.GetBytes(TEST_DATA))
-
-//            If hash.Length <> TEST_HASH.Length Then
-//                Return False
-//            End If
-
-//            For i = 0 To TEST_HASH.Length - 1
-//                If hash(i) <> TEST_HASH(i) Then
-//                    Return False
-//                End If
-//            Next
-
-//            Return True
-//        End Function
 

@@ -20,262 +20,262 @@ using System.Diagnostics;
 
 namespace Whirlpool
 {
-	/// <summary>
-	// The Whirlpool algorithm was developed by 
-	// Paulo S. L. M. Barreto and Vincent Rijmen.
-	//
-	// See
-	//      P.S.L.M. Barreto, V. Rijmen,
-	//      ``The Whirlpool hashing function,''
-	//      NESSIE submission, 2000 (tweaked version, 2001),
-	//      <https://www.cosic.esat.kuleuven.ac.be/nessie/workshop/submissions/whirlpool.zip>
-	// 
-	/// </summary>
-	public class WhirlpoolHash
-	{
-		const int DIGESTBYTES = 64;
-		const int DIGESTBITS  = DIGESTBYTES * 8;
-		const int WBLOCKBYTES = 64;
-		const int WBLOCKBITS  = WBLOCKBYTES * 8;
-		const int LENGTHBYTES = 32;
-		const int LENGTHBITS  = LENGTHBYTES * 8;
+  /// <summary>
+  // The Whirlpool algorithm was developed by 
+  // Paulo S. L. M. Barreto and Vincent Rijmen.
+  //
+  // See
+  //      P.S.L.M. Barreto, V. Rijmen,
+  //      ``The Whirlpool hashing function,''
+  //      NESSIE submission, 2000 (tweaked version, 2001),
+  //      <https://www.cosic.esat.kuleuven.ac.be/nessie/workshop/submissions/whirlpool.zip>
+  // 
+  /// </summary>
+  public class WhirlpoolHash
+  {
+    const int DIGESTBYTES = 64;
+    const int DIGESTBITS  = DIGESTBYTES * 8;
+    const int WBLOCKBYTES = 64;
+    const int WBLOCKBITS  = WBLOCKBYTES * 8;
+    const int LENGTHBYTES = 32;
+    const int LENGTHBITS  = LENGTHBYTES * 8;
 
-		// The number of rounds of the internal dedicated block cipher.
-		const int R = 10;
+    // The number of rounds of the internal dedicated block cipher.
+    const int R = 10;
 
-		byte[]  bitLength;  // global number of hashed bits (256-bit counter) 
-		byte[]  buffer;		  // buffer of data to hash 
-		ulong   bufferBits; // current number of bits on the buffer 
-		ulong   bufferPos;  // current (possibly incomplete) byte slot on the buffer 
-		ulong[] hash;       // the hashing state
+    byte[]  bitLength;  // global number of hashed bits (256-bit counter) 
+    byte[]  buffer;		  // buffer of data to hash 
+    ulong   bufferBits; // current number of bits on the buffer 
+    ulong   bufferPos;  // current (possibly incomplete) byte slot on the buffer 
+    ulong[] hash;       // the hashing state
 
-		byte[]  digest;			// the final whirlpool hash of input data
+    byte[]  digest;			// the final whirlpool hash of input data
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="WhirlpoolHash"/> class.
-		/// </summary>
-		public WhirlpoolHash()
-		{
-			// all values are zeroed by default
-			bitLength = new byte[LENGTHBYTES];
-			buffer = new byte[WBLOCKBYTES];
-			hash = new ulong[DIGESTBYTES / 8];
-			digest = null;
-		}
+    /// <summary>
+    /// Initializes a new instance of the <see cref="WhirlpoolHash"/> class.
+    /// </summary>
+    public WhirlpoolHash()
+    {
+      // all values are zeroed by default
+      bitLength = new byte[LENGTHBYTES];
+      buffer = new byte[WBLOCKBYTES];
+      hash = new ulong[DIGESTBYTES / 8];
+      digest = null;
+    }
 
-		/// <summary>
-		/// Releases unmanaged and - optionally - managed resources
-		/// </summary>
-		/// <param name="disposing"><c>true</c>to release both managed and unmanaged resources; 
-		/// <c>false</c> to release only unmanaged resources.</param>
-		public void Dispose(bool disposing)
-		{
-			if (disposing)
-			{
-				bitLength = null;
-				buffer = null;
-				hash = null;
-			}
-		}
+    /// <summary>
+    /// Releases unmanaged and - optionally - managed resources
+    /// </summary>
+    /// <param name="disposing"><c>true</c>to release both managed and unmanaged resources; 
+    /// <c>false</c> to release only unmanaged resources.</param>
+    public void Dispose(bool disposing)
+    {
+      if (disposing)
+      {
+        bitLength = null;
+        buffer = null;
+        hash = null;
+      }
+    }
 
-		/// <summary>
-		/// Adds the specified source.
-		/// </summary>
-		/// <param name="source">The source.</param>
-		public void Add(byte[] source)
-		{
-			ulong bits = 0;
-			if (null != source)
-				bits = (ulong)source.Length * 8;
-			Add(source, bits);
-		}
+    /// <summary>
+    /// Adds the specified source.
+    /// </summary>
+    /// <param name="source">The source.</param>
+    public void Add(byte[] source)
+    {
+      ulong bits = 0;
+      if (null != source)
+        bits = (ulong)source.Length * 8;
+      Add(source, bits);
+    }
 
-		/// <summary>
-		/// Adds data.
-		/// </summary>
-		/// <param name="source">plaintext data to hash.</param>
-		/// <param name="sourceBits">how many bits of plaintext to process.</param>
-		public void Add(byte[] source, ulong sourceBits)
-		{
-			//                    sourcePos
-			//                    |
-			//                    +-------+-------+-------
-			//                       ||||||||||||||||||||| source
-			//                    +-------+-------+-------
-			// +-------+-------+-------+-------+-------+-------
-			// ||||||||||||||||||||||                           buffer
-			// +-------+-------+-------+-------+-------+-------
-			//                 |
-			//                 bufferPos
+    /// <summary>
+    /// Adds data.
+    /// </summary>
+    /// <param name="source">plaintext data to hash.</param>
+    /// <param name="sourceBits">how many bits of plaintext to process.</param>
+    public void Add(byte[] source, ulong sourceBits)
+    {
+      //                    sourcePos
+      //                    |
+      //                    +-------+-------+-------
+      //                       ||||||||||||||||||||| source
+      //                    +-------+-------+-------
+      // +-------+-------+-------+-------+-------+-------
+      // ||||||||||||||||||||||                           buffer
+      // +-------+-------+-------+-------+-------+-------
+      //                 |
+      //                 bufferPos
 
-			// index of leftmost source ulong containing data (1 to 8 bits). 
-			ulong sourcePos    = 0;
+      // index of leftmost source ulong containing data (1 to 8 bits). 
+      ulong sourcePos    = 0;
 
-			// space on source[sourcePos]. 
-			byte sourceGap    = (byte)((8 - (sourceBits % 8)) % 8);
+      // space on source[sourcePos]. 
+      byte sourceGap    = (byte)((8 - (sourceBits % 8)) % 8);
 
-			// occupied bits on buffer[bufferPos]. 
-			byte bufferRem    = (byte)(bufferBits % 8);
-			ulong i;
-			byte b;
-			ulong carry;
+      // occupied bits on buffer[bufferPos]. 
+      byte bufferRem    = (byte)(bufferBits % 8);
+      ulong i;
+      byte b;
+      ulong carry;
 
-			// tally the length of the added data:
-			ulong value = sourceBits;
-			for (i = 31, carry = 0; i >= 0 && (carry != 0 || value != 0); i--)
-			{
-				carry += bitLength[i] + (value & 0xff);
-				bitLength[i] = (byte)carry;
-				carry >>= 8;
-				value >>= 8;
-			}
+      // tally the length of the added data:
+      ulong value = sourceBits;
+      for (i = 31, carry = 0; i >= 0 && (carry != 0 || value != 0); i--)
+      {
+        carry += bitLength[i] + (value & 0xff);
+        bitLength[i] = (byte)carry;
+        carry >>= 8;
+        value >>= 8;
+      }
 
-			// process data in chunks of 8 bits 
-			// (a more efficient approach would be to take whole-word chunks):
-			while (sourceBits > 8)
-			{
-				// N.B. at least source[sourcePos] and source[sourcePos+1] contain data. 
-				// take a byte from the source:
-				ulong s0 = source[sourcePos];
-				ulong s1 = source[sourcePos + 1];
-				b = (byte)(((s0 << sourceGap) & 0x00ff) |
-						((s1 & 0x00ff) >> (8 - sourceGap)));
+      // process data in chunks of 8 bits 
+      // (a more efficient approach would be to take whole-word chunks):
+      while (sourceBits > 8)
+      {
+        // N.B. at least source[sourcePos] and source[sourcePos+1] contain data. 
+        // take a byte from the source:
+        ulong s0 = source[sourcePos];
+        ulong s1 = source[sourcePos + 1];
+        b = (byte)(((s0 << sourceGap) & 0x00ff) |
+            ((s1 & 0x00ff) >> (8 - sourceGap)));
 
-				// process this byte:
-				buffer[bufferPos++] |= (byte)(b >> bufferRem);
-				bufferBits += (ulong)(8 - bufferRem);
-				if (bufferBits == DIGESTBITS)
-				{
-					// process data block:
-					processBuffer();
-					// reset buffer:
-					bufferBits = bufferPos = 0;
-				}
-				buffer[bufferPos] = (byte)(b << (8 - bufferRem));
-				bufferBits += bufferRem;
-				// proceed to remaining data:
-				sourceBits -= 8;
-				sourcePos++;
-			}
+        // process this byte:
+        buffer[bufferPos++] |= (byte)(b >> bufferRem);
+        bufferBits += (ulong)(8 - bufferRem);
+        if (bufferBits == DIGESTBITS)
+        {
+          // process data block:
+          processBuffer();
+          // reset buffer:
+          bufferBits = bufferPos = 0;
+        }
+        buffer[bufferPos] = (byte)(b << (8 - bufferRem));
+        bufferBits += bufferRem;
+        // proceed to remaining data:
+        sourceBits -= 8;
+        sourcePos++;
+      }
 
-			// now 0 <= sourceBits <= 8;
-			// furthermore, all data (if any is left) is in source[sourcePos].
-			if (sourceBits > 0)
-			{
-				b = (byte)((source[sourcePos] << sourceGap) & 0x00ff); /* bits are left-justified on b. */
-				// process the remaining bits:
-				buffer[bufferPos] |= (byte)(b >> bufferRem);
-			}
-			else
-			{
-				b = 0;
-			}
-			if (bufferRem + sourceBits < 8)
-			{
-				// all remaining data fits on buffer[bufferPos],
-				// and there still remains some space.
-				bufferBits += sourceBits;
-			}
-			else
-			{
-				// buffer[bufferPos] is full:
-				bufferPos++;
-				ulong diff = (ulong)(8 - bufferRem); /* bufferBits = 8*bufferPos; */
-				bufferBits += diff;
-				sourceBits -= diff;
-				// now 0 <= sourceBits < 8;
-				// furthermore, all data (if any is left) is in source[sourcePos].
-				if (bufferBits == DIGESTBITS)
-				{
-					// process data block:
-					processBuffer();
-					// reset buffer:
-					bufferBits = bufferPos = 0;
-				}
-				buffer[bufferPos] = (byte)(b << (8 - bufferRem));
-				bufferBits += sourceBits;
-			}
-		}
+      // now 0 <= sourceBits <= 8;
+      // furthermore, all data (if any is left) is in source[sourcePos].
+      if (sourceBits > 0)
+      {
+        b = (byte)((source[sourcePos] << sourceGap) & 0x00ff); /* bits are left-justified on b. */
+        // process the remaining bits:
+        buffer[bufferPos] |= (byte)(b >> bufferRem);
+      }
+      else
+      {
+        b = 0;
+      }
+      if (bufferRem + sourceBits < 8)
+      {
+        // all remaining data fits on buffer[bufferPos],
+        // and there still remains some space.
+        bufferBits += sourceBits;
+      }
+      else
+      {
+        // buffer[bufferPos] is full:
+        bufferPos++;
+        ulong diff = (ulong)(8 - bufferRem); /* bufferBits = 8*bufferPos; */
+        bufferBits += diff;
+        sourceBits -= diff;
+        // now 0 <= sourceBits < 8;
+        // furthermore, all data (if any is left) is in source[sourcePos].
+        if (bufferBits == DIGESTBITS)
+        {
+          // process data block:
+          processBuffer();
+          // reset buffer:
+          bufferBits = bufferPos = 0;
+        }
+        buffer[bufferPos] = (byte)(b << (8 - bufferRem));
+        bufferBits += sourceBits;
+      }
+    }
 
-		public void Finish()
-		{
-			// append a '1'-bit:
-			buffer[bufferPos] |= (byte)(0x80U >> (int)(bufferBits % 8));
-			// all remaining bits on the current ulong are set to zero. 
-			bufferPos++;
+    public void Finish()
+    {
+      // append a '1'-bit:
+      buffer[bufferPos] |= (byte)(0x80U >> (int)(bufferBits % 8));
+      // all remaining bits on the current ulong are set to zero. 
+      bufferPos++;
 
-			// pad with zero bits to complete (N*WBLOCKBITS - LENGTHBITS) bits:
-			if (bufferPos > WBLOCKBYTES - LENGTHBYTES)
-			{
-				if (bufferPos < WBLOCKBYTES)
-				{
-					for (ulong i = bufferPos; i < WBLOCKBYTES; i++)
-						buffer[i] = 0;
-				}
-				// process data block:
-				processBuffer();
-				// reset buffer:
-				bufferPos = 0;
-			}
-			if (bufferPos < WBLOCKBYTES - LENGTHBYTES)
-			{
-				for (ulong i = bufferPos; i < (WBLOCKBYTES - LENGTHBYTES); i++)
-					buffer[i] = 0;
-			}
-			bufferPos = WBLOCKBYTES - LENGTHBYTES;
-			// append bit length of hashed data:
-			// memcpy(&buffer[WBLOCKBYTES - LENGTHBYTES], bitLength, LENGTHBYTES);
-			for (int i = 0; i < LENGTHBYTES; i++)
-			{
-				int j = i + WBLOCKBYTES - LENGTHBYTES;
-				buffer[j] = bitLength[i];
-			}
+      // pad with zero bits to complete (N*WBLOCKBITS - LENGTHBITS) bits:
+      if (bufferPos > WBLOCKBYTES - LENGTHBYTES)
+      {
+        if (bufferPos < WBLOCKBYTES)
+        {
+          for (ulong i = bufferPos; i < WBLOCKBYTES; i++)
+            buffer[i] = 0;
+        }
+        // process data block:
+        processBuffer();
+        // reset buffer:
+        bufferPos = 0;
+      }
+      if (bufferPos < WBLOCKBYTES - LENGTHBYTES)
+      {
+        for (ulong i = bufferPos; i < (WBLOCKBYTES - LENGTHBYTES); i++)
+          buffer[i] = 0;
+      }
+      bufferPos = WBLOCKBYTES - LENGTHBYTES;
+      // append bit length of hashed data:
+      // memcpy(&buffer[WBLOCKBYTES - LENGTHBYTES], bitLength, LENGTHBYTES);
+      for (int i = 0; i < LENGTHBYTES; i++)
+      {
+        int j = i + WBLOCKBYTES - LENGTHBYTES;
+        buffer[j] = bitLength[i];
+      }
 
-			// process data block:
-			processBuffer();
+      // process data block:
+      processBuffer();
 
-			digest = new byte[DIGESTBYTES];
+      digest = new byte[DIGESTBYTES];
 
-			for (int i = 0; i < DIGESTBYTES / 8; i++)
-			{
-				int j = i * 8;
-				digest[j + 0] = (byte)(hash[i] >> 56);
-				digest[j + 1] = (byte)(hash[i] >> 48);
-				digest[j + 2] = (byte)(hash[i] >> 40);
-				digest[j + 3] = (byte)(hash[i] >> 32);
-				digest[j + 4] = (byte)(hash[i] >> 24);
-				digest[j + 5] = (byte)(hash[i] >> 16);
-				digest[j + 6] = (byte)(hash[i] >> 8);
-				digest[j + 7] = (byte)(hash[i]);
-			}
-		}
-
-
-		/// <summary>
-		/// Gets the hash.
-		/// </summary>
-		/// <value>The hash.</value>
-		public byte[] Hash
-		{
-			get
-			{
-				return digest;
-			}
-		}
-
-		/// <summary>
-		/// Releases unmanaged resources and performs other cleanup operations before the
-		/// <see cref="WhirlpoolHash"/> is reclaimed by garbage collection.
-		/// </summary>
-		~WhirlpoolHash()
-		{
-			bitLength = null;
-			buffer = null;
-			hash = null;
-		}
+      for (int i = 0; i < DIGESTBYTES / 8; i++)
+      {
+        int j = i * 8;
+        digest[j + 0] = (byte)(hash[i] >> 56);
+        digest[j + 1] = (byte)(hash[i] >> 48);
+        digest[j + 2] = (byte)(hash[i] >> 40);
+        digest[j + 3] = (byte)(hash[i] >> 32);
+        digest[j + 4] = (byte)(hash[i] >> 24);
+        digest[j + 5] = (byte)(hash[i] >> 16);
+        digest[j + 6] = (byte)(hash[i] >> 8);
+        digest[j + 7] = (byte)(hash[i]);
+      }
+    }
 
 
-		readonly static ulong[] C0 = 
+    /// <summary>
+    /// Gets the hash.
+    /// </summary>
+    /// <value>The hash.</value>
+    public byte[] Hash
+    {
+      get
+      {
+        return digest;
+      }
+    }
+
+    /// <summary>
+    /// Releases unmanaged resources and performs other cleanup operations before the
+    /// <see cref="WhirlpoolHash"/> is reclaimed by garbage collection.
+    /// </summary>
+    ~WhirlpoolHash()
+    {
+      bitLength = null;
+      buffer = null;
+      hash = null;
+    }
+
+
+    readonly static ulong[] C0 = 
 		{
 			0x18186018c07830d8, 0x23238c2305af4626, 0xc6c63fc67ef991b8, 0xe8e887e8136fcdfb,
 			0x878726874ca113cb, 0xb8b8dab8a9626d11, 0x0101040108050209, 0x4f4f214f426e9e0d,
@@ -343,7 +343,7 @@ namespace Whirlpool
 			0x2828a0285d885075, 0x5c5c6d5cda31b886, 0xf8f8c7f8933fed6b, 0x8686228644a411c2
 		};
 
-		readonly static ulong[] C1 = 
+    readonly static ulong[] C1 = 
 		{
 			0xd818186018c07830, 0x2623238c2305af46, 0xb8c6c63fc67ef991, 0xfbe8e887e8136fcd,
 			0xcb878726874ca113, 0x11b8b8dab8a9626d, 0x0901010401080502, 0x0d4f4f214f426e9e,
@@ -411,7 +411,7 @@ namespace Whirlpool
 			0x752828a0285d8850, 0x865c5c6d5cda31b8, 0x6bf8f8c7f8933fed, 0xc28686228644a411
 		};
 
-		readonly static ulong[] C2 = 
+    readonly static ulong[] C2 = 
 		{
 			0x30d818186018c078, 0x462623238c2305af, 0x91b8c6c63fc67ef9, 0xcdfbe8e887e8136f,
 			0x13cb878726874ca1, 0x6d11b8b8dab8a962, 0x0209010104010805, 0x9e0d4f4f214f426e,
@@ -479,7 +479,7 @@ namespace Whirlpool
 			0x50752828a0285d88, 0xb8865c5c6d5cda31, 0xed6bf8f8c7f8933f, 0x11c28686228644a4
 		};
 
-		readonly static ulong[] C3 = 
+    readonly static ulong[] C3 = 
 		{
 			0x7830d818186018c0, 0xaf462623238c2305, 0xf991b8c6c63fc67e, 0x6fcdfbe8e887e813,
 			0xa113cb878726874c, 0x626d11b8b8dab8a9, 0x0502090101040108, 0x6e9e0d4f4f214f42,
@@ -547,7 +547,7 @@ namespace Whirlpool
 			0x8850752828a0285d, 0x31b8865c5c6d5cda, 0x3fed6bf8f8c7f893, 0xa411c28686228644
 		};
 
-		readonly static ulong[] C4 = 
+    readonly static ulong[] C4 = 
 		{
 			0xc07830d818186018, 0x05af462623238c23, 0x7ef991b8c6c63fc6, 0x136fcdfbe8e887e8,
 			0x4ca113cb87872687, 0xa9626d11b8b8dab8, 0x0805020901010401, 0x426e9e0d4f4f214f,
@@ -615,7 +615,7 @@ namespace Whirlpool
 			0x5d8850752828a028, 0xda31b8865c5c6d5c, 0x933fed6bf8f8c7f8, 0x44a411c286862286
 		};
 
-		readonly static ulong[] C5 = 
+    readonly static ulong[] C5 = 
 		{
 			0x18c07830d8181860, 0x2305af462623238c, 0xc67ef991b8c6c63f, 0xe8136fcdfbe8e887,
 			0x874ca113cb878726, 0xb8a9626d11b8b8da, 0x0108050209010104, 0x4f426e9e0d4f4f21,
@@ -683,7 +683,7 @@ namespace Whirlpool
 			0x285d8850752828a0, 0x5cda31b8865c5c6d, 0xf8933fed6bf8f8c7, 0x8644a411c2868622
 		};
 
-		readonly static ulong[] C6 = 
+    readonly static ulong[] C6 = 
 		{
 			0x6018c07830d81818, 0x8c2305af46262323, 0x3fc67ef991b8c6c6, 0x87e8136fcdfbe8e8,
 			0x26874ca113cb8787, 0xdab8a9626d11b8b8, 0x0401080502090101, 0x214f426e9e0d4f4f,
@@ -751,7 +751,7 @@ namespace Whirlpool
 			0xa0285d8850752828, 0x6d5cda31b8865c5c, 0xc7f8933fed6bf8f8, 0x228644a411c28686
 		};
 
-		readonly static ulong[] C7 = 
+    readonly static ulong[] C7 = 
 		{
 			0x186018c07830d818, 0x238c2305af462623, 0xc63fc67ef991b8c6, 0xe887e8136fcdfbe8,
 			0x8726874ca113cb87, 0xb8dab8a9626d11b8, 0x0104010805020901, 0x4f214f426e9e0d4f,
@@ -819,7 +819,7 @@ namespace Whirlpool
 			0x28a0285d88507528, 0x5c6d5cda31b8865c, 0xf8c7f8933fed6bf8, 0x86228644a411c286
 		};
 
-		readonly static ulong[] rc = 
+    readonly static ulong[] rc = 
 		{
 			0x0000000000000000,
 			0x1823c6e887b8014f,
@@ -835,14 +835,14 @@ namespace Whirlpool
 		};
 
 
-		// The core Whirlpool transform.
-		void processBuffer()
-		{
-			int r;
-			ulong[] K     = new ulong[8];    // the round input 
-			ulong[] block = new ulong[8];    // mu(buffer) 
-			ulong[] state = new ulong[8];    // the cipher state 
-			ulong[] L     = new ulong[8];
+    // The core Whirlpool transform.
+    void processBuffer()
+    {
+      int r;
+      ulong[] K     = new ulong[8];    // the round input 
+      ulong[] block = new ulong[8];    // mu(buffer) 
+      ulong[] state = new ulong[8];    // the cipher state 
+      ulong[] L     = new ulong[8];
 
 #if DEBUG2
 			Debug.WriteLine("The 8x8 matrix Z' derived from the data-string is as follows.");
@@ -856,30 +856,30 @@ namespace Whirlpool
 			Debug.WriteLine("\n");
 #endif
 
-			// map the buffer to a block:
-			for (int i = 0; i < 8; i++)
-			{
-				int ibuffer = i * 8;
-				block[i] =
-						(((ulong)buffer[ibuffer + 0]) << 56) ^
-						(((ulong)buffer[ibuffer + 1] & 0xffL) << 48) ^
-						(((ulong)buffer[ibuffer + 2] & 0xffL) << 40) ^
-						(((ulong)buffer[ibuffer + 3] & 0xffL) << 32) ^
-						(((ulong)buffer[ibuffer + 4] & 0xffL) << 24) ^
-						(((ulong)buffer[ibuffer + 5] & 0xffL) << 16) ^
-						(((ulong)buffer[ibuffer + 6] & 0xffL) << 8) ^
-						(((ulong)buffer[ibuffer + 7] & 0xffL));
-			}
+      // map the buffer to a block:
+      for (int i = 0; i < 8; i++)
+      {
+        int ibuffer = i * 8;
+        block[i] =
+            (((ulong)buffer[ibuffer + 0]) << 56) ^
+            (((ulong)buffer[ibuffer + 1] & 0xffL) << 48) ^
+            (((ulong)buffer[ibuffer + 2] & 0xffL) << 40) ^
+            (((ulong)buffer[ibuffer + 3] & 0xffL) << 32) ^
+            (((ulong)buffer[ibuffer + 4] & 0xffL) << 24) ^
+            (((ulong)buffer[ibuffer + 5] & 0xffL) << 16) ^
+            (((ulong)buffer[ibuffer + 6] & 0xffL) << 8) ^
+            (((ulong)buffer[ibuffer + 7] & 0xffL));
+      }
 
-			// compute and apply K^0 to the cipher state:
-			state[0] = block[0] ^ (K[0] = hash[0]);
-			state[1] = block[1] ^ (K[1] = hash[1]);
-			state[2] = block[2] ^ (K[2] = hash[2]);
-			state[3] = block[3] ^ (K[3] = hash[3]);
-			state[4] = block[4] ^ (K[4] = hash[4]);
-			state[5] = block[5] ^ (K[5] = hash[5]);
-			state[6] = block[6] ^ (K[6] = hash[6]);
-			state[7] = block[7] ^ (K[7] = hash[7]);
+      // compute and apply K^0 to the cipher state:
+      state[0] = block[0] ^ (K[0] = hash[0]);
+      state[1] = block[1] ^ (K[1] = hash[1]);
+      state[2] = block[2] ^ (K[2] = hash[2]);
+      state[3] = block[3] ^ (K[3] = hash[3]);
+      state[4] = block[4] ^ (K[4] = hash[4]);
+      state[5] = block[5] ^ (K[5] = hash[5]);
+      state[6] = block[6] ^ (K[6] = hash[6]);
+      state[7] = block[7] ^ (K[7] = hash[7]);
 
 #if DEBUG2
 			Debug.WriteLine("The K_0 matrix (from the initialization value IV) and X'' matrix are as follows.\n");
@@ -893,185 +893,185 @@ namespace Whirlpool
 			Debug.WriteLine("The following are (hexadecimal representations of) the successive values of the variables K_i for i = 1 to 10 and W'.");
 			Debug.WriteLine("");
 #endif
-			/*
+      /*
    * iterate over all rounds:
    */
-			for (r = 1; r <= R; r++)
-			{
-				/*
-				 * compute K^r from K^{r-1}:
-				 */
-				L[0] =
-						C0[(ulong)(K[0] >> 56)] ^
-						C1[(ulong)(K[7] >> 48) & 0xff] ^
-						C2[(ulong)(K[6] >> 40) & 0xff] ^
-						C3[(ulong)(K[5] >> 32) & 0xff] ^
-						C4[(ulong)(K[4] >> 24) & 0xff] ^
-						C5[(ulong)(K[3] >> 16) & 0xff] ^
-						C6[(ulong)(K[2] >> 8) & 0xff] ^
-						C7[(ulong)(K[1]) & 0xff] ^ rc[r];
-				L[1] =
-						C0[(ulong)(K[1] >> 56)] ^
-						C1[(ulong)(K[0] >> 48) & 0xff] ^
-						C2[(ulong)(K[7] >> 40) & 0xff] ^
-						C3[(ulong)(K[6] >> 32) & 0xff] ^
-						C4[(ulong)(K[5] >> 24) & 0xff] ^
-						C5[(ulong)(K[4] >> 16) & 0xff] ^
-						C6[(ulong)(K[3] >> 8) & 0xff] ^
-						C7[(ulong)(K[2]) & 0xff];
-				L[2] =
-						C0[(ulong)(K[2] >> 56)] ^
-						C1[(ulong)(K[1] >> 48) & 0xff] ^
-						C2[(ulong)(K[0] >> 40) & 0xff] ^
-						C3[(ulong)(K[7] >> 32) & 0xff] ^
-						C4[(ulong)(K[6] >> 24) & 0xff] ^
-						C5[(ulong)(K[5] >> 16) & 0xff] ^
-						C6[(ulong)(K[4] >> 8) & 0xff] ^
-						C7[(ulong)(K[3]) & 0xff];
-				L[3] =
-						C0[(ulong)(K[3] >> 56)] ^
-						C1[(ulong)(K[2] >> 48) & 0xff] ^
-						C2[(ulong)(K[1] >> 40) & 0xff] ^
-						C3[(ulong)(K[0] >> 32) & 0xff] ^
-						C4[(ulong)(K[7] >> 24) & 0xff] ^
-						C5[(ulong)(K[6] >> 16) & 0xff] ^
-						C6[(ulong)(K[5] >> 8) & 0xff] ^
-						C7[(ulong)(K[4]) & 0xff];
-				L[4] =
-						C0[(ulong)(K[4] >> 56)] ^
-						C1[(ulong)(K[3] >> 48) & 0xff] ^
-						C2[(ulong)(K[2] >> 40) & 0xff] ^
-						C3[(ulong)(K[1] >> 32) & 0xff] ^
-						C4[(ulong)(K[0] >> 24) & 0xff] ^
-						C5[(ulong)(K[7] >> 16) & 0xff] ^
-						C6[(ulong)(K[6] >> 8) & 0xff] ^
-						C7[(ulong)(K[5]) & 0xff];
-				L[5] =
-						C0[(ulong)(K[5] >> 56)] ^
-						C1[(ulong)(K[4] >> 48) & 0xff] ^
-						C2[(ulong)(K[3] >> 40) & 0xff] ^
-						C3[(ulong)(K[2] >> 32) & 0xff] ^
-						C4[(ulong)(K[1] >> 24) & 0xff] ^
-						C5[(ulong)(K[0] >> 16) & 0xff] ^
-						C6[(ulong)(K[7] >> 8) & 0xff] ^
-						C7[(ulong)(K[6]) & 0xff];
-				L[6] =
-						C0[(ulong)(K[6] >> 56)] ^
-						C1[(ulong)(K[5] >> 48) & 0xff] ^
-						C2[(ulong)(K[4] >> 40) & 0xff] ^
-						C3[(ulong)(K[3] >> 32) & 0xff] ^
-						C4[(ulong)(K[2] >> 24) & 0xff] ^
-						C5[(ulong)(K[1] >> 16) & 0xff] ^
-						C6[(ulong)(K[0] >> 8) & 0xff] ^
-						C7[(ulong)(K[7]) & 0xff];
-				L[7] =
-						C0[(ulong)(K[7] >> 56)] ^
-						C1[(ulong)(K[6] >> 48) & 0xff] ^
-						C2[(ulong)(K[5] >> 40) & 0xff] ^
-						C3[(ulong)(K[4] >> 32) & 0xff] ^
-						C4[(ulong)(K[3] >> 24) & 0xff] ^
-						C5[(ulong)(K[2] >> 16) & 0xff] ^
-						C6[(ulong)(K[1] >> 8) & 0xff] ^
-						C7[(ulong)(K[0]) & 0xff];
-				K[0] = L[0];
-				K[1] = L[1];
-				K[2] = L[2];
-				K[3] = L[3];
-				K[4] = L[4];
-				K[5] = L[5];
-				K[6] = L[6];
-				K[7] = L[7];
-				/*
-				 * apply the r-th round transformation:
-				 */
-				L[0] =
-						C0[(ulong)(state[0] >> 56)] ^
-						C1[(ulong)(state[7] >> 48) & 0xff] ^
-						C2[(ulong)(state[6] >> 40) & 0xff] ^
-						C3[(ulong)(state[5] >> 32) & 0xff] ^
-						C4[(ulong)(state[4] >> 24) & 0xff] ^
-						C5[(ulong)(state[3] >> 16) & 0xff] ^
-						C6[(ulong)(state[2] >> 8) & 0xff] ^
-						C7[(ulong)(state[1]) & 0xff] ^
-						K[0];
-				L[1] =
-						C0[(ulong)(state[1] >> 56)] ^
-						C1[(ulong)(state[0] >> 48) & 0xff] ^
-						C2[(ulong)(state[7] >> 40) & 0xff] ^
-						C3[(ulong)(state[6] >> 32) & 0xff] ^
-						C4[(ulong)(state[5] >> 24) & 0xff] ^
-						C5[(ulong)(state[4] >> 16) & 0xff] ^
-						C6[(ulong)(state[3] >> 8) & 0xff] ^
-						C7[(ulong)(state[2]) & 0xff] ^
-						K[1];
-				L[2] =
-						C0[(ulong)(state[2] >> 56)] ^
-						C1[(ulong)(state[1] >> 48) & 0xff] ^
-						C2[(ulong)(state[0] >> 40) & 0xff] ^
-						C3[(ulong)(state[7] >> 32) & 0xff] ^
-						C4[(ulong)(state[6] >> 24) & 0xff] ^
-						C5[(ulong)(state[5] >> 16) & 0xff] ^
-						C6[(ulong)(state[4] >> 8) & 0xff] ^
-						C7[(ulong)(state[3]) & 0xff] ^
-						K[2];
-				L[3] =
-						C0[(ulong)(state[3] >> 56)] ^
-						C1[(ulong)(state[2] >> 48) & 0xff] ^
-						C2[(ulong)(state[1] >> 40) & 0xff] ^
-						C3[(ulong)(state[0] >> 32) & 0xff] ^
-						C4[(ulong)(state[7] >> 24) & 0xff] ^
-						C5[(ulong)(state[6] >> 16) & 0xff] ^
-						C6[(ulong)(state[5] >> 8) & 0xff] ^
-						C7[(ulong)(state[4]) & 0xff] ^
-						K[3];
-				L[4] =
-						C0[(ulong)(state[4] >> 56)] ^
-						C1[(ulong)(state[3] >> 48) & 0xff] ^
-						C2[(ulong)(state[2] >> 40) & 0xff] ^
-						C3[(ulong)(state[1] >> 32) & 0xff] ^
-						C4[(ulong)(state[0] >> 24) & 0xff] ^
-						C5[(ulong)(state[7] >> 16) & 0xff] ^
-						C6[(ulong)(state[6] >> 8) & 0xff] ^
-						C7[(ulong)(state[5]) & 0xff] ^
-						K[4];
-				L[5] =
-						C0[(ulong)(state[5] >> 56)] ^
-						C1[(ulong)(state[4] >> 48) & 0xff] ^
-						C2[(ulong)(state[3] >> 40) & 0xff] ^
-						C3[(ulong)(state[2] >> 32) & 0xff] ^
-						C4[(ulong)(state[1] >> 24) & 0xff] ^
-						C5[(ulong)(state[0] >> 16) & 0xff] ^
-						C6[(ulong)(state[7] >> 8) & 0xff] ^
-						C7[(ulong)(state[6]) & 0xff] ^
-						K[5];
-				L[6] =
-						C0[(ulong)(state[6] >> 56)] ^
-						C1[(ulong)(state[5] >> 48) & 0xff] ^
-						C2[(ulong)(state[4] >> 40) & 0xff] ^
-						C3[(ulong)(state[3] >> 32) & 0xff] ^
-						C4[(ulong)(state[2] >> 24) & 0xff] ^
-						C5[(ulong)(state[1] >> 16) & 0xff] ^
-						C6[(ulong)(state[0] >> 8) & 0xff] ^
-						C7[(ulong)(state[7]) & 0xff] ^
-						K[6];
-				L[7] =
-						C0[(ulong)(state[7] >> 56)] ^
-						C1[(ulong)(state[6] >> 48) & 0xff] ^
-						C2[(ulong)(state[5] >> 40) & 0xff] ^
-						C3[(ulong)(state[4] >> 32) & 0xff] ^
-						C4[(ulong)(state[3] >> 24) & 0xff] ^
-						C5[(ulong)(state[2] >> 16) & 0xff] ^
-						C6[(ulong)(state[1] >> 8) & 0xff] ^
-						C7[(ulong)(state[0]) & 0xff] ^
-						K[7];
-				state[0] = L[0];
-				state[1] = L[1];
-				state[2] = L[2];
-				state[3] = L[3];
-				state[4] = L[4];
-				state[5] = L[5];
-				state[6] = L[6];
-				state[7] = L[7];
+      for (r = 1; r <= R; r++)
+      {
+        /*
+         * compute K^r from K^{r-1}:
+         */
+        L[0] =
+            C0[(ulong)(K[0] >> 56)] ^
+            C1[(ulong)(K[7] >> 48) & 0xff] ^
+            C2[(ulong)(K[6] >> 40) & 0xff] ^
+            C3[(ulong)(K[5] >> 32) & 0xff] ^
+            C4[(ulong)(K[4] >> 24) & 0xff] ^
+            C5[(ulong)(K[3] >> 16) & 0xff] ^
+            C6[(ulong)(K[2] >> 8) & 0xff] ^
+            C7[(ulong)(K[1]) & 0xff] ^ rc[r];
+        L[1] =
+            C0[(ulong)(K[1] >> 56)] ^
+            C1[(ulong)(K[0] >> 48) & 0xff] ^
+            C2[(ulong)(K[7] >> 40) & 0xff] ^
+            C3[(ulong)(K[6] >> 32) & 0xff] ^
+            C4[(ulong)(K[5] >> 24) & 0xff] ^
+            C5[(ulong)(K[4] >> 16) & 0xff] ^
+            C6[(ulong)(K[3] >> 8) & 0xff] ^
+            C7[(ulong)(K[2]) & 0xff];
+        L[2] =
+            C0[(ulong)(K[2] >> 56)] ^
+            C1[(ulong)(K[1] >> 48) & 0xff] ^
+            C2[(ulong)(K[0] >> 40) & 0xff] ^
+            C3[(ulong)(K[7] >> 32) & 0xff] ^
+            C4[(ulong)(K[6] >> 24) & 0xff] ^
+            C5[(ulong)(K[5] >> 16) & 0xff] ^
+            C6[(ulong)(K[4] >> 8) & 0xff] ^
+            C7[(ulong)(K[3]) & 0xff];
+        L[3] =
+            C0[(ulong)(K[3] >> 56)] ^
+            C1[(ulong)(K[2] >> 48) & 0xff] ^
+            C2[(ulong)(K[1] >> 40) & 0xff] ^
+            C3[(ulong)(K[0] >> 32) & 0xff] ^
+            C4[(ulong)(K[7] >> 24) & 0xff] ^
+            C5[(ulong)(K[6] >> 16) & 0xff] ^
+            C6[(ulong)(K[5] >> 8) & 0xff] ^
+            C7[(ulong)(K[4]) & 0xff];
+        L[4] =
+            C0[(ulong)(K[4] >> 56)] ^
+            C1[(ulong)(K[3] >> 48) & 0xff] ^
+            C2[(ulong)(K[2] >> 40) & 0xff] ^
+            C3[(ulong)(K[1] >> 32) & 0xff] ^
+            C4[(ulong)(K[0] >> 24) & 0xff] ^
+            C5[(ulong)(K[7] >> 16) & 0xff] ^
+            C6[(ulong)(K[6] >> 8) & 0xff] ^
+            C7[(ulong)(K[5]) & 0xff];
+        L[5] =
+            C0[(ulong)(K[5] >> 56)] ^
+            C1[(ulong)(K[4] >> 48) & 0xff] ^
+            C2[(ulong)(K[3] >> 40) & 0xff] ^
+            C3[(ulong)(K[2] >> 32) & 0xff] ^
+            C4[(ulong)(K[1] >> 24) & 0xff] ^
+            C5[(ulong)(K[0] >> 16) & 0xff] ^
+            C6[(ulong)(K[7] >> 8) & 0xff] ^
+            C7[(ulong)(K[6]) & 0xff];
+        L[6] =
+            C0[(ulong)(K[6] >> 56)] ^
+            C1[(ulong)(K[5] >> 48) & 0xff] ^
+            C2[(ulong)(K[4] >> 40) & 0xff] ^
+            C3[(ulong)(K[3] >> 32) & 0xff] ^
+            C4[(ulong)(K[2] >> 24) & 0xff] ^
+            C5[(ulong)(K[1] >> 16) & 0xff] ^
+            C6[(ulong)(K[0] >> 8) & 0xff] ^
+            C7[(ulong)(K[7]) & 0xff];
+        L[7] =
+            C0[(ulong)(K[7] >> 56)] ^
+            C1[(ulong)(K[6] >> 48) & 0xff] ^
+            C2[(ulong)(K[5] >> 40) & 0xff] ^
+            C3[(ulong)(K[4] >> 32) & 0xff] ^
+            C4[(ulong)(K[3] >> 24) & 0xff] ^
+            C5[(ulong)(K[2] >> 16) & 0xff] ^
+            C6[(ulong)(K[1] >> 8) & 0xff] ^
+            C7[(ulong)(K[0]) & 0xff];
+        K[0] = L[0];
+        K[1] = L[1];
+        K[2] = L[2];
+        K[3] = L[3];
+        K[4] = L[4];
+        K[5] = L[5];
+        K[6] = L[6];
+        K[7] = L[7];
+        /*
+         * apply the r-th round transformation:
+         */
+        L[0] =
+            C0[(ulong)(state[0] >> 56)] ^
+            C1[(ulong)(state[7] >> 48) & 0xff] ^
+            C2[(ulong)(state[6] >> 40) & 0xff] ^
+            C3[(ulong)(state[5] >> 32) & 0xff] ^
+            C4[(ulong)(state[4] >> 24) & 0xff] ^
+            C5[(ulong)(state[3] >> 16) & 0xff] ^
+            C6[(ulong)(state[2] >> 8) & 0xff] ^
+            C7[(ulong)(state[1]) & 0xff] ^
+            K[0];
+        L[1] =
+            C0[(ulong)(state[1] >> 56)] ^
+            C1[(ulong)(state[0] >> 48) & 0xff] ^
+            C2[(ulong)(state[7] >> 40) & 0xff] ^
+            C3[(ulong)(state[6] >> 32) & 0xff] ^
+            C4[(ulong)(state[5] >> 24) & 0xff] ^
+            C5[(ulong)(state[4] >> 16) & 0xff] ^
+            C6[(ulong)(state[3] >> 8) & 0xff] ^
+            C7[(ulong)(state[2]) & 0xff] ^
+            K[1];
+        L[2] =
+            C0[(ulong)(state[2] >> 56)] ^
+            C1[(ulong)(state[1] >> 48) & 0xff] ^
+            C2[(ulong)(state[0] >> 40) & 0xff] ^
+            C3[(ulong)(state[7] >> 32) & 0xff] ^
+            C4[(ulong)(state[6] >> 24) & 0xff] ^
+            C5[(ulong)(state[5] >> 16) & 0xff] ^
+            C6[(ulong)(state[4] >> 8) & 0xff] ^
+            C7[(ulong)(state[3]) & 0xff] ^
+            K[2];
+        L[3] =
+            C0[(ulong)(state[3] >> 56)] ^
+            C1[(ulong)(state[2] >> 48) & 0xff] ^
+            C2[(ulong)(state[1] >> 40) & 0xff] ^
+            C3[(ulong)(state[0] >> 32) & 0xff] ^
+            C4[(ulong)(state[7] >> 24) & 0xff] ^
+            C5[(ulong)(state[6] >> 16) & 0xff] ^
+            C6[(ulong)(state[5] >> 8) & 0xff] ^
+            C7[(ulong)(state[4]) & 0xff] ^
+            K[3];
+        L[4] =
+            C0[(ulong)(state[4] >> 56)] ^
+            C1[(ulong)(state[3] >> 48) & 0xff] ^
+            C2[(ulong)(state[2] >> 40) & 0xff] ^
+            C3[(ulong)(state[1] >> 32) & 0xff] ^
+            C4[(ulong)(state[0] >> 24) & 0xff] ^
+            C5[(ulong)(state[7] >> 16) & 0xff] ^
+            C6[(ulong)(state[6] >> 8) & 0xff] ^
+            C7[(ulong)(state[5]) & 0xff] ^
+            K[4];
+        L[5] =
+            C0[(ulong)(state[5] >> 56)] ^
+            C1[(ulong)(state[4] >> 48) & 0xff] ^
+            C2[(ulong)(state[3] >> 40) & 0xff] ^
+            C3[(ulong)(state[2] >> 32) & 0xff] ^
+            C4[(ulong)(state[1] >> 24) & 0xff] ^
+            C5[(ulong)(state[0] >> 16) & 0xff] ^
+            C6[(ulong)(state[7] >> 8) & 0xff] ^
+            C7[(ulong)(state[6]) & 0xff] ^
+            K[5];
+        L[6] =
+            C0[(ulong)(state[6] >> 56)] ^
+            C1[(ulong)(state[5] >> 48) & 0xff] ^
+            C2[(ulong)(state[4] >> 40) & 0xff] ^
+            C3[(ulong)(state[3] >> 32) & 0xff] ^
+            C4[(ulong)(state[2] >> 24) & 0xff] ^
+            C5[(ulong)(state[1] >> 16) & 0xff] ^
+            C6[(ulong)(state[0] >> 8) & 0xff] ^
+            C7[(ulong)(state[7]) & 0xff] ^
+            K[6];
+        L[7] =
+            C0[(ulong)(state[7] >> 56)] ^
+            C1[(ulong)(state[6] >> 48) & 0xff] ^
+            C2[(ulong)(state[5] >> 40) & 0xff] ^
+            C3[(ulong)(state[4] >> 32) & 0xff] ^
+            C4[(ulong)(state[3] >> 24) & 0xff] ^
+            C5[(ulong)(state[2] >> 16) & 0xff] ^
+            C6[(ulong)(state[1] >> 8) & 0xff] ^
+            C7[(ulong)(state[0]) & 0xff] ^
+            K[7];
+        state[0] = L[0];
+        state[1] = L[1];
+        state[2] = L[2];
+        state[3] = L[3];
+        state[4] = L[4];
+        state[5] = L[5];
+        state[6] = L[6];
+        state[7] = L[7];
 #if DEBUG2
 				Debug.WriteLine("i = " + r + "\n");
 				for (int i = 0; i < DIGESTBYTES / 8; i++)
@@ -1082,17 +1082,17 @@ namespace Whirlpool
 				Debug.WriteLine("\n");
 #endif
 
-			} // for (r = 1; r <= R; r++)
+      } // for (r = 1; r <= R; r++)
 
-			// apply the Miyaguchi-Preneel compression function:
-			hash[0] ^= state[0] ^ block[0];
-			hash[1] ^= state[1] ^ block[1];
-			hash[2] ^= state[2] ^ block[2];
-			hash[3] ^= state[3] ^ block[3];
-			hash[4] ^= state[4] ^ block[4];
-			hash[5] ^= state[5] ^ block[5];
-			hash[6] ^= state[6] ^ block[6];
-			hash[7] ^= state[7] ^ block[7];
+      // apply the Miyaguchi-Preneel compression function:
+      hash[0] ^= state[0] ^ block[0];
+      hash[1] ^= state[1] ^ block[1];
+      hash[2] ^= state[2] ^ block[2];
+      hash[3] ^= state[3] ^ block[3];
+      hash[4] ^= state[4] ^ block[4];
+      hash[5] ^= state[5] ^ block[5];
+      hash[6] ^= state[6] ^ block[6];
+      hash[7] ^= state[7] ^ block[7];
 
 #if DEBUG2
 			//printf("Intermediate hash value (after Miyaguchi-Preneel):\n");
@@ -1104,7 +1104,7 @@ namespace Whirlpool
 			}
 			Debug.WriteLine("");
 #endif
-		} // processBuffer
-	}
+    } // processBuffer
+  }
 }
 
