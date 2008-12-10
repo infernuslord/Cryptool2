@@ -12,111 +12,61 @@
 
 using System;
 using System.Text;
+
+using System.Security.Cryptography;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Tiger
+namespace Tests
 {
-	/// <summary>
-	/// Zusammenfassungsbeschreibung für UnitTest1
-	/// </summary>
-	[TestClass]
-	public class Tiger
-	{
-		public Tiger()
-		{
-		}
+  /// <summary>
+  /// Testclass for Tiger hash
+  /// </summary>
+  [TestClass]
+  public class TigerTest
+  {
 
-		private TestContext testContextInstance;
+    public TigerTest()
+    {
+      // nothing to do
+    }
 
-		/// <summary>
-		///Ruft den Textkontext mit Informationen über
-		///den aktueen Testlauf sowie Funktionalität für diesen auf oder legt diese fest.
-		///</summary>
-		public TestContext TestContext
-		{
-			get
-			{
-				return testContextInstance;
-			}
-			set
-			{
-				testContextInstance = value;
-			}
-		}
+    private TestContext testContextInstance;
+    public TestContext TestContext
+    {
+      get
+      {
+        return testContextInstance;
+      }
+      set
+      {
+        testContextInstance = value;
+      }
+    }
 
-		#region Zusätzliche Testattribute
-		//
-		// Sie können beim Schreiben der Tests folgende zusätzliche Attribute verwenden:
-		//
-		// Verwenden Sie ClassInitialize, um vor Ausführung des ersten Tests in der Klasse Code auszuführen.
-		// [ClassInitialize()]
-		// public static void MyClassInitialize(TestContext testContext) { }
-		//
-		// Verwenden Sie ClassCleanup, um nach Ausführung aer Tests in einer Klasse Code auszuführen.
-		// [ClassCleanup()]
-		// public static void MyClassCleanup() { }
-		//
-		// Mit TestInitialize können Sie vor jedem einzelnen Test Code ausführen. 
-		// [TestInitialize()]
-		// public void MyTestInitialize() { }
-		//
-		// Mit TestCleanup können Sie nach jedem einzelnen Test Code ausführen.
-		// [TestCleanup()]
-		// public void MyTestCleanup() { }
-		//
-		#endregion
+    [TestMethod]
+    public void TigerTestMethod()
+    {
 
-		[TestMethod]
-		public void TigerTestMethod()
-		{
-			// iso_test_vectors
+      string TEST_DATA = "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq";
+      byte[] TEST_HASH = { 
+                      0xF, 0x7B, 0xF9, 0xA1, 0x9B, 0x9C, 0x58, 0xF2,
+                      0xB7, 0x61, 0xD, 0xF7, 0xE8, 0x4F, 0xA, 0xC3,
+                      0xA7, 0x1C, 0x63, 0x1E, 0x7B, 0x53, 0xF7, 0x8E};
 
-			string[] source =
-			{
-				""
-			};
+      
+      ASCIIEncoding enc = new ASCIIEncoding();
+      
+      TIGER tg = new TIGER();
 
-			// ToDo !!!!!!!!!!!!
-			string[] result =
-			{
-				"19FA61D75522A4669B44E39C1D2E1726C530232130D407F89AFEE0964997F7A73E83BE698B288FEBCF88E3E03C4F0757EA8964E59B63D93708B138CC42A66EB3"
-			};
+      tg.Initialize();
 
+      byte[] hash = tg.ComputeHash(enc.GetBytes(TEST_DATA));
 
-			int tests = source.Length;
-			for (int t = 0; t < tests; t++)
-			{
-				//TigerHash wh = new TigerHash();
+      Assert.AreEqual(hash.Length, TEST_HASH.Length, "invalid hash length.");
 
-				//testContextInstance.WriteLine(" Test " + t.ToString());
-				//testContextInstance.WriteLine(" data = " + source[t]);
-
-				//char[] src = source[t].ToCharArray();
-				//int length = src.Length;
-				//byte[] data = new byte[length];
-
-				//for (uint i = 0; i < length; i++)
-				//  data[i] = (byte)(src[i]);
-
-				//wh.Add(data, (ulong)(length * 8));
-				//wh.Finish();
-
-				//byte[] res = wh.Hash;
-
-				//Assert.AreEqual(res.Length, 64, "Hash Length invalid.");
-
-				//string tmp = "";
-				//foreach (byte b in res)
-				//{
-				//  if (b < 0x10)
-				//    tmp += "0";
-				//  tmp += b.ToString("X");
-				//}
-				//Assert.AreEqual(result[t], tmp, "Hash is invalid.");
-
-				//testContextInstance.WriteLine(" expected   = " + result[t]);
-				//testContextInstance.WriteLine(" calculated = " + tmp);
-			}
-		}
-	}
+      for (int i = 0; i < hash.Length; i++)
+        Assert.AreEqual(hash[i], TEST_HASH[i], "Invalid hash value.");
+    }
+  }
 }

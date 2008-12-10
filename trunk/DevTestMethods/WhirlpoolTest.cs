@@ -95,6 +95,7 @@ namespace Whirlpool
 				"2A987EA40F917061F5D6F0A0E4644F488A7A5A52DEEE656207C562F988E95C6916BDC8031BC5BE1B7B947639FE050B56939BAAA0ADFF9AE6745B7B181C3BE3FD"
 			};
 
+      ASCIIEncoding enc = new ASCIIEncoding();
 
 			int tests = source.Length;
 			for (int t = 0; t < tests; t++)
@@ -104,14 +105,9 @@ namespace Whirlpool
 				testContextInstance.WriteLine(" Test " + t.ToString());
 				testContextInstance.WriteLine(" data = " + source[t]);
 
-				char[] src = source[t].ToCharArray();
-				int length = src.Length;
-				byte[] data = new byte[length];
+        byte[] data = enc.GetBytes(source[t]);
 
-				for (uint i = 0; i < length; i++)
-					data[i] = (byte)(src[i]);
-
-				wh.Add(data, (ulong)(length * 8));
+				wh.Add(data);
 				wh.Finish();
 
 				byte[] res = wh.Hash;
