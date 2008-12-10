@@ -456,7 +456,10 @@ namespace Cryptool.Playfair
         /// <summary>
         /// Fire, if status has to be shown in the progress bar
         /// </summary>
-        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+#pragma warning disable 67
+				public event StatusChangedEventHandler OnPluginStatusChanged;
+#pragma warning restore
+        
 
         /// <summary>
         /// Fire, if a message has to be shonw in the status bar
@@ -602,7 +605,9 @@ namespace Cryptool.Playfair
 
         #region IPlugin Members
 
-        public event StatusChangedEventHandler OnPluginStatusChanged;
+#pragma warning disable 67
+				public event StatusChangedEventHandler OnPluginStatusChanged;
+#pragma warning restore
 
         public void Execute()
         {

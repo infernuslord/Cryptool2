@@ -614,7 +614,9 @@ namespace TextOutput
       Dispose();
     }
 
-    public event StatusChangedEventHandler OnPluginStatusChanged;
+#pragma warning disable 67
+		public event StatusChangedEventHandler OnPluginStatusChanged;
+#pragma warning restore
 
     public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
     private void GuiLogMessage(string message, NotificationLevel logLevel)

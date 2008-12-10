@@ -267,11 +267,11 @@ namespace Dictionary
 
     #region IPlugin Members
 
-    public event StatusChangedEventHandler OnPluginStatusChanged;
-
-    public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-
-    public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+#pragma warning disable 67
+		public event StatusChangedEventHandler OnPluginStatusChanged;
+		public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+		public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+#pragma warning restore
 
     public ISettings Settings
     {

@@ -333,9 +333,11 @@ namespace Cryptool.Caesar
 
         #region IPlugin Members
 
-        public event StatusChangedEventHandler OnPluginStatusChanged;        
+#pragma warning disable 67
+			public event StatusChangedEventHandler OnPluginStatusChanged;
+#pragma warning restore
 
-        public void Execute()
+			public void Execute()
         {
             switch (settings.Action)
             {

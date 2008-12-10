@@ -217,7 +217,10 @@ namespace Cryptool.MD5
 
       #region INotifyPropertyChanged Members
 
-      public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+#pragma warning disable 67
+			public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+#pragma warning restore
+			
 
       #endregion
 

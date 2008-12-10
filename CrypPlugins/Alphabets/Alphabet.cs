@@ -289,9 +289,13 @@ namespace Cryptool.Alphabets
 
       #region IPlugin Members
 
-      public event StatusChangedEventHandler OnPluginStatusChanged;
-
-      public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+#pragma warning disable 67
+			public event StatusChangedEventHandler OnPluginStatusChanged;
+			public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+			public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+#pragma warning restore
+		
+      
       private void GuiLogMessage(string message, NotificationLevel logLevel)
       {
         if (OnGuiLogNotificationOccured != null)
@@ -299,8 +303,6 @@ namespace Cryptool.Alphabets
           OnGuiLogNotificationOccured(this, new GuiLogEventArgs(message, this, logLevel));
         }
       }
-
-      public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
       public UserControl QuickWatchPresentation
       {
