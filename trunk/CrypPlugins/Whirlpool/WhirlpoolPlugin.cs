@@ -227,15 +227,10 @@ namespace Whirlpool
     /// </summary>
     public void Hash()
     {
-      WhirlpoolHash wh = new WhirlpoolHash();
-
-      wh.Add(input);
-      wh.Finish();
-
-      outputData = wh.Hash;
+      HMACWHIRLPOOL wh = new HMACWHIRLPOOL();
+      wh.Initialize();
+      outputData = wh.ComputeHash(input);
       wh = null;
-
-
       NotifyUpdateOutput();
     }
     #endregion

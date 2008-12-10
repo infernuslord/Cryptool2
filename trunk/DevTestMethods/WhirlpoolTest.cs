@@ -12,66 +12,44 @@
 
 using System;
 using System.Text;
+
+using System.Security.Cryptography;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Whirlpool
+namespace Tests
 {
-	/// <summary>
-	/// Zusammenfassungsbeschreibung für UnitTest1
-	/// </summary>
-	[TestClass]
-	public class Whirlpool
-	{
-		public Whirlpool()
-		{
-		}
+  /// <summary>
+  /// Test class for Whirlpool
+  /// </summary>
+  [TestClass]
+  public class WhirlpoolTest
+  {
 
-		private TestContext testContextInstance;
+    public WhirlpoolTest()
+    {
+      // nothing ToDo
+    }
 
-		/// <summary>
-		///Ruft den Textkontext mit Informationen über
-		///den aktueen Testlauf sowie Funktionalität für diesen auf oder legt diese fest.
-		///</summary>
-		public TestContext TestContext
-		{
-			get
-			{
-				return testContextInstance;
-			}
-			set
-			{
-				testContextInstance = value;
-			}
-		}
+    private TestContext testContextInstance;
+    public TestContext TestContext
+    {
+      get
+      {
+        return testContextInstance;
+      }
+      set
+      {
+        testContextInstance = value;
+      }
+    }
 
-		#region Zusätzliche Testattribute
-		//
-		// Sie können beim Schreiben der Tests folgende zusätzliche Attribute verwenden:
-		//
-		// Verwenden Sie ClassInitialize, um vor Ausführung des ersten Tests in der Klasse Code auszuführen.
-		// [ClassInitialize()]
-		// public static void MyClassInitialize(TestContext testContext) { }
-		//
-		// Verwenden Sie ClassCleanup, um nach Ausführung aer Tests in einer Klasse Code auszuführen.
-		// [ClassCleanup()]
-		// public static void MyClassCleanup() { }
-		//
-		// Mit TestInitialize können Sie vor jedem einzelnen Test Code ausführen. 
-		// [TestInitialize()]
-		// public void MyTestInitialize() { }
-		//
-		// Mit TestCleanup können Sie nach jedem einzelnen Test Code ausführen.
-		// [TestCleanup()]
-		// public void MyTestCleanup() { }
-		//
-		#endregion
+    [TestMethod]
+    public void WhirlpoolTestMethod()
+    {
+      // iso_test_vectors
 
-		[TestMethod]
-		public void WhirlpoolTestMethod()
-		{
-			// iso_test_vectors
-
-			string[] source =
+      string[] source =
 			{
 				"",
 				"a",
@@ -83,7 +61,7 @@ namespace Whirlpool
 				"abcdbcdecdefdefgefghfghighijhijk"
 			};
 
-			string[] result =
+      string[] result =
 			{
 				"19FA61D75522A4669B44E39C1D2E1726C530232130D407F89AFEE0964997F7A73E83BE698B288FEBCF88E3E03C4F0757EA8964E59B63D93708B138CC42A66EB3",
 				"8ACA2602792AEC6F11A67206531FB7D7F0DFF59413145E6973C45001D0087B42D11BC645413AEFF63A42391A39145A591A92200D560195E53B478584FDAE231A",
@@ -97,35 +75,31 @@ namespace Whirlpool
 
       ASCIIEncoding enc = new ASCIIEncoding();
 
-			int tests = source.Length;
-			for (int t = 0; t < tests; t++)
-			{
-				WhirlpoolHash wh = new WhirlpoolHash();
+      int tests = source.Length;
+      for (int t = 0; t < tests; t++)
+      {
+        HMACWHIRLPOOL wh = new HMACWHIRLPOOL();
+        wh.Initialize();
 
-				testContextInstance.WriteLine(" Test " + t.ToString());
-				testContextInstance.WriteLine(" data = " + source[t]);
+        testContextInstance.WriteLine(" Test " + t.ToString());
+        testContextInstance.WriteLine(" data = " + source[t]);
 
-        byte[] data = enc.GetBytes(source[t]);
+        byte[] res = wh.ComputeHash(enc.GetBytes(source[t]));
 
-				wh.Add(data);
-				wh.Finish();
+        Assert.AreEqual(res.Length, 64, "Hash Length invalid.");
 
-				byte[] res = wh.Hash;
+        string tmp = "";
+        foreach (byte b in res)
+        {
+          if (b < 0x10)
+            tmp += "0";
+          tmp += b.ToString("X");
+        }
+        Assert.AreEqual(result[t], tmp, "Hash is invalid.");
 
-				Assert.AreEqual(res.Length, 64,"Hash Length invalid.");
-
-				string tmp = "";
-				foreach (byte b in res)
-				{
-					if (b < 0x10)
-						tmp += "0";
-					tmp += b.ToString("X");
-				}
-				Assert.AreEqual(result[t], tmp, "Hash is invalid.");
-
-				testContextInstance.WriteLine(" expected   = " + result[t]);
-				testContextInstance.WriteLine(" calculated = " + tmp);
-			}
-		}
-	}
+        testContextInstance.WriteLine(" expected   = " + result[t]);
+        testContextInstance.WriteLine(" calculated = " + tmp);
+      }
+    }
+  }
 }

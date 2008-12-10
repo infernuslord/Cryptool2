@@ -57,7 +57,7 @@ namespace Tests
       
       ASCIIEncoding enc = new ASCIIEncoding();
       
-      TIGER tg = new TIGER();
+      HMACTIGER tg = new HMACTIGER();
 
       tg.Initialize();
 
