@@ -606,7 +606,7 @@ namespace Cryptool.Playfair
         #region IPlugin Members
 
 #pragma warning disable 67
-				public event StatusChangedEventHandler OnPluginStatusChanged;
+        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 #pragma warning restore
 
         public void Execute()
