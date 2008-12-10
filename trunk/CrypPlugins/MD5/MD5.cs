@@ -387,7 +387,9 @@ namespace Cryptool.MD5
 
         #region IPlugin Members
 
-        public event StatusChangedEventHandler OnPluginStatusChanged;
+#pragma warning disable 67
+				public event StatusChangedEventHandler OnPluginStatusChanged;
+#pragma warning restore
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         private void GuiLogMessage(string message, NotificationLevel logLevel)

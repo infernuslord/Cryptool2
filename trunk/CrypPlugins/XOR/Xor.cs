@@ -464,7 +464,9 @@ namespace Cryptool.XOR
 
         #region IPlugin Members
 
-        public event StatusChangedEventHandler OnPluginStatusChanged;
+#pragma warning disable 67
+				public event StatusChangedEventHandler OnPluginStatusChanged;
+#pragma warning restore
 
         public void Execute()
         {

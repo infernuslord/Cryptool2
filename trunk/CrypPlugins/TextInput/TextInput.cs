@@ -454,7 +454,9 @@ namespace Cryptool.TextInput
 
     #region IPlugin Members
 
-    public event StatusChangedEventHandler OnPluginStatusChanged;
+#pragma warning disable 67
+		public event StatusChangedEventHandler OnPluginStatusChanged;
+#pragma warning restore
 
     public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 

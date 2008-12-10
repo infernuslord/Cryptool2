@@ -275,15 +275,17 @@ namespace Splitter
 
     #region IPlugin Members
 
-    public event StatusChangedEventHandler OnPluginStatusChanged;
-
+#pragma warning disable 67
+		public event StatusChangedEventHandler OnPluginStatusChanged;
+		public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+#pragma warning restore
+    
     public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
     private void GuiLogMessage(string message, NotificationLevel logLevel)
     {
       EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
     }
 
-    public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
     public ISettings Settings
     {
