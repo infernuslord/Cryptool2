@@ -60,6 +60,10 @@
       <Project>{3A68ECB5-6074-4A8D-A6BD-2413C5A4B243}</Project>
       <Name>Whirlpool</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SSCext\SSCext.csproj">
+      <Project>{E46A6AA6-56EE-4AE5-8725-DCD07DC95527}</Project>
+      <Name>SSCext</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

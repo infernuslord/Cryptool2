@@ -50,7 +50,6 @@
   <ItemGroup>
     <Compile Include="Tiger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SSCTiger.cs" />
     <Compile Include="TigerSetting.cs" />
   </ItemGroup>
   <ItemGroup>
