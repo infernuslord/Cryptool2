@@ -22,7 +22,7 @@ using System.Diagnostics;
 
 namespace System.Security.Cryptography
 {
-	public class TIGER : HashAlgorithm
+	public class HMACTIGER : HashAlgorithm
 	{
 
 		const int PASSES = 3;
@@ -42,9 +42,9 @@ namespace System.Security.Cryptography
 		//        Dim block As Long() = New Long(7) {}
 
 		/// <summary>
-		/// Initializes A new instance of the <see cref="TIGER"/> class.
+		/// Initializes A new instance of the <see cref="HMACTIGER"/> class.
 		/// </summary>
-		public TIGER() : base()
+		public HMACTIGER() : base()
 		{
 			buffer = new byte[BLOCKSIZE];
 			block  = new ulong[8];
