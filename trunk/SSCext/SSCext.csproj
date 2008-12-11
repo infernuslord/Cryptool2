@@ -48,6 +48,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SSCpkcs5.cs" />
     <Compile Include="SSCTiger.cs" />
+    <Compile Include="SSCTiger2.cs" />
     <Compile Include="SSCwhirl.cs" />
   </ItemGroup>
   <ItemGroup>
