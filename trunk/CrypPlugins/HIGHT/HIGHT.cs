@@ -15,7 +15,7 @@ using System.Security.Cryptography;
 namespace Cryptool.HIGHT
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for Embedded Security (EmSec)", "http://www.crypto.ruhr-uni-bochum.de/")]
-    [PluginInfo(false, "HIGHT", "HIGHT: high security and light weight", "HIGHT/DetailedDescription/Description.xaml", "HIGHT/Images/HIGHT.png", "HIGHT/Images/encrypt.png", "HIGHT/Images/decrypt.png")]
+    [PluginInfo(false, "HIGHT", "HIGHT is a HIgh security and liGHT weight block cipher", "HIGHT/DetailedDescription/Description.xaml", "HIGHT/Images/HIGHT.png", "HIGHT/Images/encrypt.png", "HIGHT/Images/decrypt.png")]
     [EncryptionType(EncryptionType.SymmetricBlock)]
     public class HIGHT : IEncryption
     {
