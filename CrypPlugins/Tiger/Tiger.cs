@@ -10,6 +10,13 @@
 // $Date::                                                                                    $://
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+//
+// based on an VisualBasic implementation of Markus Hahn - Thanks.
+// THIS is the WEAK version 1!!!
+// more at http://www.cs.technion.ac.il/~biham/Reports/Tiger/
+//
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

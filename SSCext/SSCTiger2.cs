@@ -24,7 +24,7 @@ using System.Diagnostics;
 
 namespace System.Security.Cryptography
 {
-  public class HMACTIGER : HashAlgorithm
+  public class HMACTIGER2 : HashAlgorithm
   {
 
     const int PASSES = 3;
@@ -46,7 +46,7 @@ namespace System.Security.Cryptography
     /// <summary>
     /// Initializes A new instance of the <see cref="HMACTIGER"/> class.
     /// </summary>
-    public HMACTIGER()
+    public HMACTIGER2()
       : base()
     {
       buffer = new byte[BLOCKSIZE];
@@ -60,7 +60,7 @@ namespace System.Security.Cryptography
       A = 0x0123456789ABCDEF;
       B = 0xFEDCBA9876543210;
       C = 0xF096A5B4C3B2E187;
-
+  
       bufPos = 0;
       length = 0;
     }
@@ -610,14 +610,14 @@ namespace System.Security.Cryptography
     private void Round(ref ulong a, ref ulong b, ref ulong c, ulong x, ulong mul)
     {
       c ^= x;
-      a -= t1[((c) >> (0 * 8)) & 0xFF] ^
+      a -= t1[((c) >> (0 * 8)) & 0xFF] ^ 
            t2[((c) >> (2 * 8)) & 0xFF] ^
-           t3[((c) >> (4 * 8)) & 0xFF] ^
+           t3[((c) >> (4 * 8)) & 0xFF] ^ 
            t4[((c) >> (6 * 8)) & 0xFF];
 
-      b += t4[((c) >> (1 * 8)) & 0xFF] ^
+      b += t4[((c) >> (1 * 8)) & 0xFF] ^ 
            t3[((c) >> (3 * 8)) & 0xFF] ^
-           t2[((c) >> (5 * 8)) & 0xFF] ^
+           t2[((c) >> (5 * 8)) & 0xFF] ^ 
            t1[((c) >> (7 * 8)) & 0xFF];
       b *= mul;
     }
@@ -635,25 +635,25 @@ namespace System.Security.Cryptography
       Round(ref b, ref c, ref a, block[7], mul);
     }
 
-
+    
     private void KeySchedule()
     {
-      block[0] -= block[7] ^ 0xA5A5A5A5A5A5A5A5;
-      block[1] ^= block[0];
-      block[2] += block[1];
-      block[3] -= block[2] ^ ((~block[1]) << 19);
-      block[4] ^= block[3];
-      block[5] += block[4];
-      block[6] -= block[5] ^ ((~block[4]) >> 23);
-      block[7] ^= block[6];
-      block[0] += block[7];
-      block[1] -= block[0] ^ ((~block[7]) << 19);
-      block[2] ^= block[1];
-      block[3] += block[2];
-      block[4] -= block[3] ^ ((~block[2]) >> 23);
-      block[5] ^= block[4];
-      block[6] += block[5];
-      block[7] -= block[6] ^ 0x0123456789ABCDEF;
+      block[0] -= block[7] ^ 0xA5A5A5A5A5A5A5A5; 
+      block[1] ^= block[0]; 
+      block[2] += block[1]; 
+      block[3] -= block[2] ^ ((~block[1])<<19); 
+      block[4] ^= block[3]; 
+      block[5] += block[4]; 
+      block[6] -= block[5] ^ ((~block[4])>>23); 
+      block[7] ^= block[6]; 
+      block[0] += block[7]; 
+      block[1] -= block[0] ^ ((~block[7])<<19); 
+      block[2] ^= block[1]; 
+      block[3] += block[2]; 
+      block[4] -= block[3] ^ ((~block[2])>>23); 
+      block[5] ^= block[4]; 
+      block[6] += block[5]; 
+      block[7] -= block[6] ^ 0x0123456789ABCDEF;    
     }
 
     private void Compress()
@@ -678,7 +678,7 @@ namespace System.Security.Cryptography
         KeySchedule();
 
         Pass(ref A, ref B, ref C, 9);
-
+        
         ulong tmpa =A;
         A = C;
         C = B;
@@ -699,7 +699,7 @@ namespace System.Security.Cryptography
       while (pos < BLOCKSIZE)
       {
         block[i] =
-          (((ulong)(buffer[pos + 7]) << 56) |
+          (((ulong)(buffer[pos + 7])         << 56) |
           (((ulong)(buffer[pos + 6]) & 0xFF) << 48) |
           (((ulong)(buffer[pos + 5]) & 0xFF) << 40) |
           (((ulong)(buffer[pos + 4]) & 0xFF) << 32) |
@@ -715,7 +715,7 @@ namespace System.Security.Cryptography
     }
 
 
-    /// <summary>
+   /// <summary>
     /// When overridden in a derived class, 
     /// routes data written to the object into the hash algorithm for computing the hash.
     /// </summary>
@@ -777,7 +777,7 @@ namespace System.Security.Cryptography
     {
       byte[] result;
 
-      buffer[bufPos++] = 0x01;
+      buffer[bufPos++] = 0x80;
 
       if ((BLOCKSIZE - 8) < bufPos) // was <= before and wrong! fixed in v1.0.2
       {
