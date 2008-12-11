@@ -45,32 +45,7 @@ namespace Tests
     }
 
     [TestMethod]
-    public void TigerTestMethod1()
-    {
-
-      string TEST_DATA = "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq";
-      byte[] TEST_HASH = { 
-                      0x0F, 0x7B, 0xF9, 0xA1, 0x9B, 0x9C, 0x58, 0xF2,
-                      0xB7, 0x61, 0x0D, 0xF7, 0xE8, 0x4F, 0x0A, 0xC3,
-                      0xA7, 0x1C, 0x63, 0x1E, 0x7B, 0x53, 0xF7, 0x8E};
-
-      
-      ASCIIEncoding enc = new ASCIIEncoding();
-      
-      HMACTIGER tg = new HMACTIGER();
-
-      tg.Initialize();
-
-      byte[] hash = tg.ComputeHash(enc.GetBytes(TEST_DATA));
-
-      Assert.AreEqual(hash.Length, TEST_HASH.Length, "invalid hash length.");
-
-      for (int i = 0; i < hash.Length; i++)
-        Assert.AreEqual(hash[i], TEST_HASH[i], "Invalid hash value.");
-    }
-
-    [TestMethod]
-    public void TigerTestMethod2()
+    public void TigerTestMethod()
     {
       // test vectors from 
       // http://www.cs.technion.ac.il/~biham/Reports/Tiger/tiger2-test-vectors-nessie-format.dat
