@@ -34,7 +34,7 @@ namespace Tiger
 {
 
 	[Author("Gerhard Junker", null, "private project member", "http://www.uni-siegen.de")]
-	[PluginInfo(false, "Tiger", "Tiger V1.0.2 Hash", "", "Tiger/Tiger.png")]
+	[PluginInfo(false, "Tiger", "Tiger2 V1.0.2 Hash", "", "Tiger/Tiger1.png")]
 	public class Tiger : IHash
 	{
 
@@ -73,19 +73,19 @@ namespace Tiger
 		/// Gets or sets the settings.
 		/// </summary>
 		/// <value>The settings.</value>
-		public ISettings Settings
-		{
-			get
-			{
-				return settings;
-			}
-			set
-			{
-				settings = (TigerSettings)value;
-				OnPropertyChanged("Settings");
-				GuiLogMessage("Settings changed.", NotificationLevel.Debug);
-			}
-		}
+    public ISettings Settings
+    {
+      get
+      {
+        return settings;
+      }
+      set
+      {
+        settings = (TigerSettings)value;
+        OnPropertyChanged("Settings");
+        GuiLogMessage("Settings changed.", NotificationLevel.Debug);
+      }
+    }
 
 		/// <summary>
 		/// Gets or sets A value indicating whether this instance has changes.
@@ -109,51 +109,52 @@ namespace Tiger
 
 		#endregion
 
-		#region Input key / password
+		#region Input inputdata / password
 
-		// Input key
-		private byte[] key = { };
-		private dataCanal keyCanal = dataCanal.none;
+		// Input inputdata
+		private byte[] inputdata = { };
+		private dataCanal inputCanal = dataCanal.none;
 
 		/// <summary>
 		/// Notifies the update input.
 		/// </summary>
-		private void NotifyUpdateKey()
+		private void NotifyUpdateInput()
 		{
-			OnPropertyChanged("KeyStream");
-			OnPropertyChanged("KeyData");
+			OnPropertyChanged("InputStream");
+			OnPropertyChanged("InputData");
 		}
 
 		/// <summary>
-		/// Gets or sets the input data.
+		/// Gets or sets the input inputdata.
 		/// </summary>
-		/// <value>The input key.</value>
-		[PropertyInfo(Direction.Input, "Key Stream", "Key stream to be hashed", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
-		public CryptoolStream KeyStream
+		/// <value>The input inputdata.</value>
+		[PropertyInfo(Direction.Input, "Input Data Stream", "Input data stream to be hashed", "", 
+      false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+		public CryptoolStream InputStream
 		{
 			get
 			{
-				CryptoolStream keyDataStream = new CryptoolStream();
-				keyDataStream.OpenRead(this.GetPluginInfoAttribute().Caption, key);
-				return keyDataStream;
+				CryptoolStream inputStream = new CryptoolStream();
+				inputStream.OpenRead(this.GetPluginInfoAttribute().Caption, inputdata);
+				return inputStream;
 			}
 			set
 			{
 				if (null == value)
 					return;
 
-				if (keyCanal != dataCanal.none && keyCanal != dataCanal.streamCanal)
-					GuiLogMessage("Duplicate input key not allowed!", NotificationLevel.Error);
-				keyCanal = dataCanal.streamCanal;
+				if (inputCanal != dataCanal.none && inputCanal != dataCanal.streamCanal)
+					GuiLogMessage("Duplicate input data not allowed!", NotificationLevel.Error);
+				inputCanal = dataCanal.streamCanal;
 
 				long len = value.Length;
-				key = new byte[len];
+				inputdata = new byte[len];
 
 				for (long i = 0; i < len; i++)
-					key[i] = (byte)value.ReadByte();
+					inputdata[i] = (byte)value.ReadByte();
 
-				NotifyUpdateKey();
-				GuiLogMessage("KeyStream changed.", NotificationLevel.Debug);
+				NotifyUpdateInput();
+				GuiLogMessage("InputStream changed.", NotificationLevel.Debug);
 			}
 		}
 
@@ -161,105 +162,28 @@ namespace Tiger
 		/// Gets the input data.
 		/// </summary>
 		/// <value>The input data.</value>
-		[PropertyInfo(Direction.Input, "Key Data", "Key stream to be hashed", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
-		public byte[] KeyData
+		[PropertyInfo(Direction.Input, "Input Data", "Input Data to be hashed", "", 
+      false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+		public byte[] InputData
 		{
 			get
 			{
-				return key;
+				return inputdata;
 			}
 			set
 			{
-				if (keyCanal != dataCanal.none && keyCanal != dataCanal.byteCanal)
-					GuiLogMessage("Duplicate key data not allowed!", NotificationLevel.Error);
-				keyCanal = dataCanal.byteCanal;
+				if (inputCanal != dataCanal.none && inputCanal != dataCanal.byteCanal)
+					GuiLogMessage("Duplicate Data data not allowed!", NotificationLevel.Error);
+				inputCanal = dataCanal.byteCanal;
 
 				long len = value.Length;
-				key = new byte[len];
+				inputdata = new byte[len];
 
 				for (long i = 0; i < len; i++)
-					key[i] = value[i];
+					inputdata[i] = value[i];
 
-				NotifyUpdateKey();
-				GuiLogMessage("KeyData changed.", NotificationLevel.Debug);
-			}
-		}
-		#endregion
-
-		#region Salt data / Seed data
-
-		// Salt Data
-		private byte[] salt = { };
-		private dataCanal saltCanal = dataCanal.none;
-
-		/// <summary>
-		/// Notifies the update salt.
-		/// </summary>
-		private void NotifyUpdateSalt()
-		{
-			OnPropertyChanged("SaltStream");
-			OnPropertyChanged("SaltData");
-		}
-
-		/// <summary>
-		/// Gets or sets the salt data.
-		/// </summary>
-		/// <value>The salt data.</value>
-		[PropertyInfo(Direction.Input, "Salt Stream", "Salt - Input salt data to change the PKCS hash", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
-		public CryptoolStream SaltStream
-		{
-			get
-			{
-				CryptoolStream saltDataStream = new CryptoolStream();
-				saltDataStream.OpenRead(this.GetPluginInfoAttribute().Caption, salt);
-				return saltDataStream;
-			}
-			set
-			{
-				if (null == value)
-					return;
-
-				if (saltCanal != dataCanal.none && saltCanal != dataCanal.streamCanal)
-					GuiLogMessage("Duplicate salt input not allowed!", NotificationLevel.Error);
-				saltCanal = dataCanal.streamCanal;
-
-				long len = value.Length;
-				salt = new byte[len];
-
-				for (long i = 0; i < len; i++)
-					salt[i] = (byte)value.ReadByte();
-
-				NotifyUpdateSalt();
-				GuiLogMessage("SaltStream changed.", NotificationLevel.Debug);
-			}
-		}
-
-		/// <summary>
-		/// Gets or sets the salt data.
-		/// </summary>
-		/// <value>The salt data.</value>
-		[PropertyInfo(Direction.Input, "Salt Data", "Salt - Input salt data to to be change the PKCS hash", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
-		public byte[] SaltData
-		{
-			get
-			{
-				return salt;
-			}
-
-			set
-			{
-				if (saltCanal != dataCanal.none && saltCanal != dataCanal.byteCanal)
-					GuiLogMessage("Duplicate salt input not allowed!", NotificationLevel.Error);
-				saltCanal = dataCanal.byteCanal;
-
-				long len = value.Length;
-				salt = new byte[len];
-
-				for (long i = 0; i < len; i++)
-					salt[i] = value[i];
-
-				NotifyUpdateSalt();
-				GuiLogMessage("SaltData changed.", NotificationLevel.Debug);
+				NotifyUpdateInput();
+				GuiLogMessage("InputData changed.", NotificationLevel.Debug);
 			}
 		}
 		#endregion
@@ -281,9 +205,9 @@ namespace Tiger
 
 
 		/// <summary>
-		/// Gets or sets the output data stream.
+		/// Gets or sets the output inputdata stream.
 		/// </summary>
-		/// <value>The output data stream.</value>
+		/// <value>The output inputdata stream.</value>
 		[PropertyInfo(Direction.Output, "Hashed Stream", "Output stream of the hashed value", "",
 			true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
 		public CryptoolStream HashOutputStream
@@ -306,9 +230,9 @@ namespace Tiger
 		}
 
 		/// <summary>
-		/// Gets the output data.
+		/// Gets the output inputdata.
 		/// </summary>
-		/// <value>The output data.</value>
+		/// <value>The output inputdata.</value>
 		[PropertyInfo(Direction.Output, "Hashed Data", "Output data of the hashed value", "",
 			true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
 		public byte[] HashOutputData
@@ -330,10 +254,12 @@ namespace Tiger
 
 		#endregion
 
-		void Hash()
-		{}
-
-
+    void Hash()
+    {
+      HMACTIGER2 tg = new HMACTIGER2();
+      outputData = tg.ComputeHash(inputdata);
+      NotifyUpdateOutput();
+    }
 
 		#region IPlugin Member
 
@@ -345,55 +271,84 @@ namespace Tiger
 #pragma warning restore
 
 
+    /// <summary>
+    /// Provide all presentation stuff in this user control, it will be opened in an tab.
+    /// Return null if your plugin has no presentation.
+    /// </summary>
+    /// <value>The presentation.</value>
 		public System.Windows.Controls.UserControl Presentation
 		{
 			get
 			{
-				throw new NotImplementedException();
+        return null;
 			}
 		}
 
+    /// <summary>
+    /// Gets the quick watch presentation 
+    /// </summary>
+    /// <value>The quick watch presentation.</value>
 		public System.Windows.Controls.UserControl QuickWatchPresentation
 		{
 			get
 			{
-				throw new NotImplementedException();
+        return null;
 			}
 		}
 
+    /// <summary>
+    /// Will be called from editor before right before chain-run starts
+    /// </summary>
 		public void PreExecution()
 		{
-			throw new NotImplementedException();
 		}
 
+    /// <summary>
+    /// Will be called from editor while chain-run is active and after last necessary input
+    /// for plugin has been set.
+    /// </summary>
 		public void Execute()
 		{
-			throw new NotImplementedException();
+      Hash();
 		}
 
+    /// <summary>
+    /// Will be called from editor after last plugin in chain has finished its work.
+    /// </summary>
 		public void PostExecution()
 		{
-			throw new NotImplementedException();
 		}
+
 
 		public void Pause()
 		{
-			throw new NotImplementedException();
 		}
 
+    /// <summary>
+    /// Will be called from editor while chain-run is active. Plugin hast to stop work immediately.
+    /// </summary>
 		public void Stop()
 		{
-			throw new NotImplementedException();
 		}
 
+    /// <summary>
+    /// Will be called from editor after restoring settings and before adding to workspace.
+    /// </summary>
 		public void Initialize()
 		{
-			throw new NotImplementedException();
 		}
 
+    /// <summary>
+    /// Will be called from editor when element is deleted from worksapce.
+    /// Releases unmanaged and - optionally - managed resources
+    /// </summary>
 		public void Dispose()
 		{
-			throw new NotImplementedException();
+      foreach (CryptoolStream stream in listCryptoolStreamsOut)
+      {
+        stream.Close();
+      }
+      listCryptoolStreamsOut.Clear();
 		}
 
 		#endregion
@@ -410,10 +365,12 @@ namespace Tiger
 		{
 			if (PropertyChanged != null)
 			{
-				if (name == "Settings")
-					Hash();
-				else
-					PropertyChanged(this, new PropertyChangedEventArgs(name));
+        if (name == "Settings")
+        {
+          Hash();
+        }
+        else
+          PropertyChanged(this, new PropertyChangedEventArgs(name));
 			}
 		}
 
@@ -429,10 +386,6 @@ namespace Tiger
 				new GuiLogEventArgs(message, this, logLevel));
 		}
 
-
 		#endregion
-
-
-
 	}
 }
