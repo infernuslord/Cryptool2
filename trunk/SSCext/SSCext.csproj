@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SSC2fish.cs" />
     <Compile Include="SSCpkcs5.cs" />
     <Compile Include="SSCTiger.cs" />
     <Compile Include="SSCTiger2.cs" />
