@@ -110,6 +110,8 @@
         </member>
         <member name="M:AnotherEditor.DragDrop.ProjectManager.SelectionManager_PluginChanged(System.Object,Cryptool.PluginBase.PluginChangedEventArgs)">
             <summary>
+            Send plugin changed events to editor (will be forwarded to CrypWin). If no plugin was
+            selected, the editor will be sent as selected plugin.
             This method is registred at all worspaceManagers, so we get all events together here
             </summary>
             <param name="sender"></param>
@@ -2878,6 +2880,11 @@
         <member name="P:AnotherEditor.Properties.Dialogs.plugin_not_part_of_chain_run">
             <summary>
               Looks up a localized string similar to &quot;Plugin: &quot;{0}&quot; will not be part of chain run. Not all mandatory inputs connected. Marked transparent. (Use stop button to flush marker)&quot;.
+            </summary>
+        </member>
+        <member name="P:AnotherEditor.Properties.Dialogs.plugin_opened_presentation">
+            <summary>
+              Looks up a localized string similar to Opened {0}&apos;s presentation..
             </summary>
         </member>
         <member name="P:AnotherEditor.Properties.Dialogs.plugin_removed">
