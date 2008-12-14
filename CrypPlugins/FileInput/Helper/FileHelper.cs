@@ -264,11 +264,32 @@ namespace FileInput.Helper
       if (filename != null && filename != string.Empty && File.Exists(filename))
       {
         FileInfo fi = new FileInfo(filename);
-        return fi.Length / 1024 / 1024;
+        return fi.Length;
       }
       else return 0;
     }
 
+    public static string FilesizeReadable(string filename)
+    {
+      double size = Filesize(filename);
+      if (size > 1073741824)
+      {
+        return string.Format("{0:##.##}", size / 1024 / 1024 / 1024) + " GB";
+      }
+      else if (size > 1048576)
+      {
+        return string.Format("{0:##.##}", size / 1024 / 1024) + " MB";
+      }
+      else if (size > 1024)
+      {
+        return string.Format("{0:##.##}", size / 1024) + " KB";
+      }
+      else if (size > 0)
+      {
+        return string.Format("{0:##.##}", size) + " Byte";
+      }
+      return string.Empty;
+    }
 
     public static string OpenFile()
     {

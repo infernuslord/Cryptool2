@@ -243,6 +243,7 @@ namespace FileInput
       if (e.PropertyName == "OpenFilename" && File.Exists(settings.OpenFilename))
       {
         fileInputPresentation.OpenFile(settings.OpenFilename);
+        GuiLogMessage("Opened file: " + settings.OpenFilename + " " + FileHelper.FilesizeReadable(settings.OpenFilename), NotificationLevel.Info);
       }
       else if (e.PropertyName == "OpenFilename" && settings.OpenFilename == null)
       {
@@ -285,39 +286,6 @@ namespace FileInput
       }
       set { } // readonly
     }
-
-    /* TODO:
-     * 
-     * removed due to converter memory exeptions when using large files
-     * stream2byte should be done using an separate converter. 
-     * 
-    [PropertyInfo(Direction.Output, "ByteArray Output", "Selected file as byteArray.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
-    public byte[] ByteOutput
-    {
-      get
-      {
-        try
-        {
-          if (File.Exists(settings.OpenFilename))
-          {
-            Progress(0.5, 1.0);
-            FileStream tempStream = FileHelper.GetFileStreamReadOnly(settings.OpenFilename);
-            byte[] returnValue = StreamHelper.ReadFully(tempStream, Math.Min(MAX_BYTE_ARRAY_SIZE, System.Convert.ToInt32(tempStream.Length)));
-            tempStream.Close();
-            Progress(1.0, 1.0);
-            return returnValue;
-          }
-          return null;
-        }
-        catch (Exception exception)
-        {
-          GuiLogMessage(exception.Message, NotificationLevel.Error);
-          return null;
-        }
-      }
-      set { } // readonly
-    }
-    */
 
     #endregion
 
