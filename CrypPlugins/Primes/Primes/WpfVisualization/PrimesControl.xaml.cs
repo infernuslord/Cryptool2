@@ -320,7 +320,7 @@ namespace Primes.WpfVisualization
           break;
         case NavigationCommandType.PrimeDistrib_Ulam:
           if (m_PrimesInNaturalNumbersControl == null) m_PrimesInNaturalNumbersControl = new PrimesInNaturalNumbersControl();
-          SetUserControl(m_PrimesInNaturalNumbersControl, 2);
+          SetUserControl(m_PrimesInNaturalNumbersControl, 3);
           break;
         case NavigationCommandType.PrimeDistrib_Numberline:
           if (m_PrimesInNaturalNumbersControl == null) m_PrimesInNaturalNumbersControl = new PrimesInNaturalNumbersControl();
@@ -334,7 +334,7 @@ namespace Primes.WpfVisualization
         case NavigationCommandType.PrimeDistrib_Goldbach:
           if (m_PrimesInNaturalNumbersControl == null) m_PrimesInNaturalNumbersControl = new PrimesInNaturalNumbersControl();
 
-          SetUserControl(m_PrimesInNaturalNumbersControl, 3);
+          SetUserControl(m_PrimesInNaturalNumbersControl, 4);
           break;
 
         case NavigationCommandType.Primespirals:
