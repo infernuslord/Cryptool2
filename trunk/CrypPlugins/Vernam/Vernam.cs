@@ -404,7 +404,7 @@ namespace Cryptool.Vernam
 
         private void ProcessVernam(VernamMode mode)
         {
-            if (inputString != null)
+            if (inputString != null && inputKey != null)
             {
                 StringBuilder output = new StringBuilder(string.Empty);
                 inputKey = refillKey(inputKey, inputString.Length);

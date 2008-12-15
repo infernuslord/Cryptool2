@@ -185,7 +185,7 @@ namespace Cryptool.Caesar
         }
         
         [PropertySaveOrder(5)]
-        [TaskPane("Shift value (integer)", "Enter the number of letters to shift. For instance a value of 1 means that the plaintext character a gets mapped to the ciphertext character B, b to C and so on.", null, 2, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]        
+        [TaskPane("Key as integer", "Enter the number of letters to shift. For instance a value of 1 means that the plaintext character a gets mapped to the ciphertext character B, b to C and so on.", null, 2, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]        
         public int ShiftValue
         {
             get { return shiftValue; }
@@ -194,7 +194,7 @@ namespace Cryptool.Caesar
 
 
         [PropertySaveOrder(6)]
-        [TaskPaneAttribute("Shift key (single letter)", "Enter a single letter as the key. This letter will be mapped to to the letter A", null, 3, false, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RegEx, "^([A-Z]|[a-z]){1,1}$")]
+        [TaskPaneAttribute("Key as single letter", "Enter a single letter as the key. This letter is mapped to an integer stating the position in the alphabet. The values for \"Key as integer\" and \"Key as single letter” are always synchronized.", null, 3, false, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RegEx, "^([A-Z]|[a-z]){1,1}$")]
         public string ShiftChar
         {
             get { return this.shiftChar.ToString(); }
