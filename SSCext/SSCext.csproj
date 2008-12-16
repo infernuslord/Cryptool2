@@ -51,6 +51,8 @@
     <Compile Include="SSCTiger.cs" />
     <Compile Include="SSCTiger2.cs" />
     <Compile Include="SSCwhirl.cs" />
+    <Compile Include="TwofishBase.cs" />
+    <Compile Include="TwofishEncryption.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="license.txt" />

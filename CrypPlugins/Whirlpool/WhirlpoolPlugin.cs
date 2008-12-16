@@ -10,6 +10,20 @@
 // $Date::                                                                                    $://
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
+// The Whirlpool algorithm was developed by
+// Paulo S. L. M. Barreto and Vincent Rijmen</a>.
+//
+// This implementation is based on the reference implementation found at
+// http://www.larc.usp.br/~pbarreto/whirlpool.zip
+// .. and moved from C to C#
+
+// Read more at
+// http://en.wikipedia.org/wiki/Whirlpool_(cryptography)
+// http://de.wikipedia.org/wiki/Whirlpool_(Algorithmus) 
+// http://www.larc.usp.br/~pbarreto/WhirlpoolPage.html
+
+
+ 
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,7 +39,8 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Whirlpool
 {
   [Author("Gerhard Junker", null, "private project member", null)]
-  [PluginInfo(false, "Whirlpool", "Whirlpool hash function", "", "Whirlpool/Whirlpool1.png")]
+  [PluginInfo(false, "Whirlpool", "Whirlpool hash function",
+    "http://en.wikipedia.org/wiki/Whirlpool_(cryptography)", "Whirlpool/Whirlpool1.png")]
   public class WPHash : IHash
   {
 
@@ -82,7 +97,7 @@ namespace Whirlpool
     // Input input
     private static byte[] empty = { };
     private byte[] input = empty;
-    private dataCanal inputCanal = dataCanal.none;
+    //private dataCanal inputCanal = dataCanal.none;
 
     /// <summary>
     /// Notifies the update input.
@@ -108,9 +123,9 @@ namespace Whirlpool
       }
       set
       {
-        if (inputCanal != dataCanal.none && inputCanal != dataCanal.streamCanal)
-          GuiLogMessage("Duplicate input key not allowed!", NotificationLevel.Error);
-        inputCanal = dataCanal.streamCanal;
+        //if (inputCanal != dataCanal.none && inputCanal != dataCanal.streamCanal)
+        //  GuiLogMessage("Duplicate input key not allowed!", NotificationLevel.Error);
+        //inputCanal = dataCanal.streamCanal;
 
         if (null == value)
           input = empty;
@@ -140,9 +155,9 @@ namespace Whirlpool
       }
       set
       {
-        if (inputCanal != dataCanal.none && inputCanal != dataCanal.byteCanal)
-          GuiLogMessage("Duplicate input data not allowed!", NotificationLevel.Error);
-        inputCanal = dataCanal.byteCanal;
+        //if (inputCanal != dataCanal.none && inputCanal != dataCanal.byteCanal)
+        //  GuiLogMessage("Duplicate input data not allowed!", NotificationLevel.Error);
+        //inputCanal = dataCanal.byteCanal;
 
         if (null == value)
           input = empty;

@@ -10,6 +10,10 @@
 // $Date::                                                                                    $://
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
+// see http://tools.ietf.org/html/rfc2898
+// based on ftp://ftp.rsasecurity.com/pub/pkcs/pkcs-5v2/pkcs5v2_1.pdf
+
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,8 +28,8 @@ using Cryptool.PluginBase.Miscellaneous;
 
 namespace PKCS5
 {
-  [Author("Gerhard Junker", null, "private project member", "http://www.uni-siegen.de")]
-  [PluginInfo(false, "PKCS#5", "PKCS#5 V2.1 Hash", "", "PKCS5/PKCS5.png")]
+  [Author("Gerhard Junker", null, "private project member", null)]
+  [PluginInfo(false, "PKCS#5", "PKCS#5 V2.1 Hash", "http://tools.ietf.org/html/rfc2898", "PKCS5/PKCS5.png")]
   public class PKCS5 : IHash
   {
 

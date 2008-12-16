@@ -11,11 +11,15 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+// read more about Tiger
 //
-// based on an VisualBasic implementation of Markus Hahn - Thanks.
-// THIS is the WEAK version 1!!!
-// more at http://www.cs.technion.ac.il/~biham/Reports/Tiger/
+// http://en.wikipedia.org/wiki/Tiger_(cryptography)
+// http://de.wikipedia.org/wiki/Tiger_(Hashfunktion)
+// http://www.cs.technion.ac.il/~biham/Reports/Tiger/
 //
+// based first on an VisualBasic implementation of Markus Hahn - Thanks.
+// from http://www.hotpixel.net/software.html
+// and changed to fit more the published algorithm
 
 using System;
 using System.Collections.Generic;
@@ -33,8 +37,9 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Tiger
 {
 
-	[Author("Gerhard Junker", null, "private project member", "http://www.uni-siegen.de")]
-	[PluginInfo(false, "Tiger", "Tiger2 V1.0.2 Hash", "", "Tiger/Tiger1.png")]
+	[Author("Gerhard Junker", null, "private project member", null)]
+  [PluginInfo(false, "Tiger", "Tiger2 V1.0.2 Hash", 
+    "http://en.wikipedia.org/wiki/Tiger_(cryptography)", "Tiger/Tiger1.png")]
 	public class Tiger : IHash
 	{
 
@@ -140,12 +145,14 @@ namespace Tiger
 			}
 			set
 			{
-				if (null == value)
-					return;
-
-				if (inputCanal != dataCanal.none && inputCanal != dataCanal.streamCanal)
-					GuiLogMessage("Duplicate input data not allowed!", NotificationLevel.Error);
-				inputCanal = dataCanal.streamCanal;
+        if (null == value)
+        {
+          inputdata = new byte[0];
+          return;
+        }
+        //if (inputCanal != dataCanal.none && inputCanal != dataCanal.streamCanal)
+        //  GuiLogMessage("Duplicate input data not allowed!", NotificationLevel.Error);
+        //inputCanal = dataCanal.streamCanal;
 
 				long len = value.Length;
 				inputdata = new byte[len];
@@ -172,10 +179,14 @@ namespace Tiger
 			}
 			set
 			{
-				if (inputCanal != dataCanal.none && inputCanal != dataCanal.byteCanal)
-					GuiLogMessage("Duplicate Data data not allowed!", NotificationLevel.Error);
-				inputCanal = dataCanal.byteCanal;
-
+        //if (inputCanal != dataCanal.none && inputCanal != dataCanal.byteCanal)
+        //  GuiLogMessage("Duplicate Data data not allowed!", NotificationLevel.Error);
+        //inputCanal = dataCanal.byteCanal;
+        if (null == value)
+        {
+          inputdata = new byte[0];
+          return;
+        }
 				long len = value.Length;
 				inputdata = new byte[len];
 
@@ -242,14 +253,6 @@ namespace Tiger
 				GuiLogMessage("Got HashOutputData.", NotificationLevel.Debug);
 				return this.outputData;
 			}
-			//set
-			//{
-			//    if (outputData != value)
-			//    {
-			//        this.outputData = value;
-			//    }
-			//    NotifyUpdateOutput();
-			//}
 		}
 
 		#endregion

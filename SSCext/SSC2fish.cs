@@ -26,7 +26,7 @@ namespace System.Security.Cryptography
   /// 
   /// </summary>
   [ComVisibleAttribute(true)]
-  class TWOFISH : SymmetricAlgorithm
+  partial class TWOFISH : SymmetricAlgorithm
   {
     private const int	BLOCK_SIZE   = 128;
     private const int	ROUNDS       =  16;
@@ -66,8 +66,8 @@ namespace System.Security.Cryptography
       if (Mode == CipherMode.CBC)
         IV = rgbIV;
 
-      // ToDo
-      throw new NotImplementedException();
+      return new TwofishEncryption(KeySize, ref KeyValue, ref IVValue, ModeValue, 
+        TWOFISH.EncryptionDirection.Decrypting);
     }
 
     /// <summary>
@@ -85,8 +85,8 @@ namespace System.Security.Cryptography
       if (Mode == CipherMode.CBC)
         IV = rgbIV;
 
-      // ToDo
-      throw new NotImplementedException();
+      return new TwofishEncryption(KeySize, ref KeyValue, ref IVValue, ModeValue, 
+        TWOFISH.EncryptionDirection.Encrypting);
     }
 
     /// <summary>
@@ -134,7 +134,6 @@ namespace System.Security.Cryptography
         }
         ModeValue = value;
       }
-
     }
   }
 }
