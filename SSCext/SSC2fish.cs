@@ -26,29 +26,41 @@ namespace System.Security.Cryptography
   /// 
   /// </summary>
   [ComVisibleAttribute(true)]
-  partial class TWOFISH : SymmetricAlgorithm
+  public partial class TwofishManaged : SymmetricAlgorithm
   {
     private const int	BLOCK_SIZE   = 128;
     private const int	ROUNDS       =  16;
     private const int	MAX_KEY_BITS = 256;
     private const int	MIN_KEY_BITS = 128;
 
+    private int blockSize = BLOCK_SIZE;
+    private int keySize = MIN_KEY_BITS;
+
+    private byte[] key = null;
+    private byte[] iv = null;
+
+    private CipherMode  cipherMode = CipherMode.CBC;
+    private PaddingMode paddingMode = PaddingMode.Zeros;
+
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="TWOFISH"/> class.
+    /// Initializes a new instance of the <see cref="TwofishManaged"/> class.
     /// </summary>
     /// <exception cref="T:System.Security.Cryptography.CryptographicException">
     /// The implementation of the class derived from the symmetric algorithm is not valid.
     /// </exception>
-    public TWOFISH()
+    public TwofishManaged() 
     {
-      BlockSize = BLOCK_SIZE;   // valid: 128 = 16 bytes 
-      KeySize   = MIN_KEY_BITS; // valid: 128, 192, 256
-
-      Padding   = PaddingMode.Zeros;
-      ModeValue = CipherMode.ECB;
-
       Key = new byte[KeySize   / 8]; // zeroed by default
       IV  = new byte[BlockSize / 8]; // zeroed by default
+    }
+
+    public static new TwofishManaged Create()
+    {
+      TwofishManaged fm = new TwofishManaged();
+      fm.GenerateKey();
+      fm.GenerateIV();
+      return fm;
     }
 
     /// <summary>
@@ -61,13 +73,13 @@ namespace System.Security.Cryptography
     /// <returns>A symmetric decryptor object.</returns>
     public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[] rgbIV)
     {
-      Key = rgbKey;
+      key = rgbKey;
 
-      if (Mode == CipherMode.CBC)
-        IV = rgbIV;
+      if (cipherMode == CipherMode.CBC)
+        iv = rgbIV;
 
-      return new TwofishEncryption(KeySize, ref KeyValue, ref IVValue, ModeValue, 
-        TWOFISH.EncryptionDirection.Decrypting);
+      return new TwofishEncryption(keySize, ref key, ref iv, cipherMode, 
+        TwofishManaged.EncryptionDirection.Decrypting);
     }
 
     /// <summary>
@@ -80,13 +92,13 @@ namespace System.Security.Cryptography
     /// <returns>A symmetric encryptor object.</returns>
     public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[] rgbIV)
     {
-      Key = rgbKey; // this appears to make a new copy
+      key = rgbKey; // this appears to make a new copy
 
-      if (Mode == CipherMode.CBC)
-        IV = rgbIV;
+      if (cipherMode == CipherMode.CBC)
+        iv = rgbIV;
 
-      return new TwofishEncryption(KeySize, ref KeyValue, ref IVValue, ModeValue, 
-        TWOFISH.EncryptionDirection.Encrypting);
+      return new TwofishEncryption(keySize, ref key, ref iv, cipherMode, 
+        TwofishManaged.EncryptionDirection.Encrypting);
     }
 
     /// <summary>
@@ -95,7 +107,10 @@ namespace System.Security.Cryptography
     /// </summary>
     public override void GenerateIV()
     {
-      Array.Clear(IV, 0, IV.Length);
+      if ((iv == null) || (iv.Length == 0))
+        iv  = new byte[blockSize / 8]; // zeroed by default
+      else
+        Array.Clear(iv, 0, IV.Length);
     }
 
     /// <summary>
@@ -104,20 +119,23 @@ namespace System.Security.Cryptography
     /// </summary>
     public override void GenerateKey()
     {
-      Array.Clear(Key, 0, Key.Length);
+      if ((key == null) || (key.Length == 0))
+        key = new byte[keySize   / 8]; // zeroed by default
+      else
+        Array.Clear(key, 0, Key.Length);
     }
 
 
     /// <summary>
-    /// Gets or sets the mode for operation of the symmetric algorithm.
+    /// Gets or sets the cipherMode for operation of the symmetric algorithm.
     /// </summary>
     /// <value></value>
     /// <returns>
-    /// The mode for operation of the symmetric algorithm. 
+    /// The cipherMode for operation of the symmetric algorithm. 
     /// The default is <see cref="F:System.Security.Cryptography.CipherMode.CBC"/>.
     /// </returns>
     /// <exception cref="T:System.Security.Cryptography.CryptographicException">
-    /// The cipher mode is not one of the <see cref="T:System.Security.Cryptography.CipherMode"/> values.
+    /// The cipher cipherMode is not one of the <see cref="T:System.Security.Cryptography.CipherMode"/> values.
     /// </exception>
     public override CipherMode Mode
     {
@@ -135,5 +153,127 @@ namespace System.Security.Cryptography
         ModeValue = value;
       }
     }
+
+    /// <summary>
+    /// Gets or sets the blocksize.
+    /// </summary>
+    /// <value>The blocksize.</value>
+    public int Blocksize
+    {
+      get
+      {
+        return blockSize;
+      }
+      set
+      {
+        blockSize = value;
+      }
+    }
+
+    /// <summary>
+    /// Gets or sets the keysize.
+    /// </summary>
+    /// <value>The keysize.</value>
+    public int Keysize
+    {
+      get
+      {
+        return keySize;
+      }
+      set
+      {
+        if (ValidKeySize(value))
+          keySize = value;
+      }
+    }
+
+
+    /// <summary>
+    /// Valids the size of the key.
+    /// </summary>
+    /// <param name="keysize">The keysize.</param>
+    /// <returns></returns>
+    public new bool ValidKeySize(int keysize)
+    {
+      switch (keysize)
+      {
+        case 128:
+        case 192:
+        case 256:
+          return true;
+        default:
+          return false;
+      }
+    }
+    /// <summary>
+    /// Gets or sets the secret key for the symmetric algorithm.
+    /// </summary>
+    /// <value></value>
+    /// <returns>
+    /// The secret key to use for the symmetric algorithm.
+    /// </returns>
+    /// <exception cref="T:System.ArgumentNullException">
+    /// An attempt was made to set the key to null.
+    /// </exception>
+    /// <exception cref="T:System.Security.Cryptography.CryptographicException">
+    /// The key size is invalid.
+    /// </exception>
+    public override byte[] Key
+    {
+      set
+      {
+        key = value;
+      }
+      get
+      {
+        return key;
+      }
+    }
+
+    
+    /// <summary>
+    /// Gets or sets the initialization vector 
+    /// (<see cref="P:System.Security.Cryptography.SymmetricAlgorithm.IV"/>) for the symmetric algorithm.
+    /// </summary>
+    /// <value></value>
+    /// <returns>
+    /// The initialization vector.
+    /// </returns>
+    /// <exception cref="T:System.ArgumentNullException">
+    /// An attempt was made to set the initialization vector to null.
+    /// </exception>
+    /// <exception cref="T:System.Security.Cryptography.CryptographicException">
+    /// An attempt was made to set the initialization vector to an invalid size.
+    /// </exception>
+    public override byte[] IV
+    {
+      set
+      {
+        iv = value;
+      }
+      get
+      {
+        return iv;
+      }
+    }
+
+
+    /// <summary>
+    /// Gets or sets the padding cipherMode.
+    /// </summary>
+    /// <value>The padding cipherMode.</value>
+    public PaddingMode PaddingMode
+    {
+      get
+      {
+        return paddingMode;
+      }
+      set
+      {
+        paddingMode = value;
+      }
+    }
+  
+  
   }
 }
