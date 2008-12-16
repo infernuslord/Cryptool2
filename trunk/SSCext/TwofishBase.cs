@@ -10,7 +10,8 @@
 // $Date::                                                                                    $://
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-// see http://www.codeproject.com/KB/recipes/twofish_csharp.aspx
+// more about at http://www.schneier.com/twofish.html
+// used sources from http://www.codeproject.com/KB/recipes/twofish_csharp.aspx
 
 using System;
 using System.Diagnostics;
@@ -18,7 +19,7 @@ using System.Security.Cryptography;
 
 namespace System.Security.Cryptography
 {
-  partial class TWOFISH
+  partial class TwofishManaged
   {
 
     public enum EncryptionDirection
@@ -28,7 +29,7 @@ namespace System.Security.Cryptography
     }
 
     /// <summary>
-    /// Summary description for TWOFISH.
+    /// Summary description for TwofishManaged.
     /// </summary>
     internal class TwofishBase
     {
@@ -80,24 +81,24 @@ namespace System.Security.Cryptography
         switch (((keyLen + 63) / 64) & 3)
         {
           case 0:		/* 256 bits of key */
-            b[0] = (byte)(P8x8[P_04, b[0]] ^ b0(k32[3]));
-            b[1] = (byte)(P8x8[P_14, b[1]] ^ b1(k32[3]));
-            b[2] = (byte)(P8x8[P_24, b[2]] ^ b2(k32[3]));
-            b[3] = (byte)(P8x8[P_34, b[3]] ^ b3(k32[3]));
+            b[0] = (byte)(p8[P_04, b[0]] ^ b0(k32[3]));
+            b[1] = (byte)(p8[P_14, b[1]] ^ b1(k32[3]));
+            b[2] = (byte)(p8[P_24, b[2]] ^ b2(k32[3]));
+            b[3] = (byte)(p8[P_34, b[3]] ^ b3(k32[3]));
             /* fall thru, having pre-processed b[0]..b[3] with k32[3] */
             goto case 3;
           case 3:		/* 192 bits of key */
-            b[0] = (byte)(P8x8[P_03, b[0]] ^ b0(k32[2]));
-            b[1] = (byte)(P8x8[P_13, b[1]] ^ b1(k32[2]));
-            b[2] = (byte)(P8x8[P_23, b[2]] ^ b2(k32[2]));
-            b[3] = (byte)(P8x8[P_33, b[3]] ^ b3(k32[2]));
+            b[0] = (byte)(p8[P_03, b[0]] ^ b0(k32[2]));
+            b[1] = (byte)(p8[P_13, b[1]] ^ b1(k32[2]));
+            b[2] = (byte)(p8[P_23, b[2]] ^ b2(k32[2]));
+            b[3] = (byte)(p8[P_33, b[3]] ^ b3(k32[2]));
             /* fall thru, having pre-processed b[0]..b[3] with k32[2] */
             goto case 2;
           case 2:		/* 128 bits of key */
-            b[0] = P8x8[P_00, P8x8[P_01, P8x8[P_02, b[0]] ^ b0(k32[1])] ^ b0(k32[0])];
-            b[1] = P8x8[P_10, P8x8[P_11, P8x8[P_12, b[1]] ^ b1(k32[1])] ^ b1(k32[0])];
-            b[2] = P8x8[P_20, P8x8[P_21, P8x8[P_22, b[2]] ^ b2(k32[1])] ^ b2(k32[0])];
-            b[3] = P8x8[P_30, P8x8[P_31, P8x8[P_32, b[3]] ^ b3(k32[1])] ^ b3(k32[0])];
+            b[0] = p8[P_00, p8[P_01, p8[P_02, b[0]] ^ b0(k32[1])] ^ b0(k32[0])];
+            b[1] = p8[P_10, p8[P_11, p8[P_12, b[1]] ^ b1(k32[1])] ^ b1(k32[0])];
+            b[2] = p8[P_20, p8[P_21, p8[P_22, b[2]] ^ b2(k32[1])] ^ b2(k32[0])];
+            b[3] = p8[P_30, p8[P_31, p8[P_32, b[3]] ^ b3(k32[1])] ^ b3(k32[0])];
             break;
         }
 
@@ -299,11 +300,6 @@ namespace System.Security.Cryptography
       static private readonly int	MAX_KEY_BITS = 256;	/* max number of bits of key */
       static private readonly int	MIN_KEY_BITS = 128;	/* min number of bits of key (zero pad) */
 
-      //#define		VALID_SIG	 0x48534946	/* initialization signature ('FISH') */
-      //#define		MCT_OUTER			400	/* MCT outer loop */
-      //#define		MCT_INNER		  10000	/* MCT inner loop */
-      //#define		REENTRANT			  1	/* nonzero forces reentrant code (slightly slower) */
-
       static private readonly int	INPUT_WHITEN = 0;	/* subkey array indices */
       static private readonly int	OUTPUT_WHITEN = (INPUT_WHITEN + BLOCK_SIZE / 32);
       static private readonly int	ROUND_SUBKEYS = (OUTPUT_WHITEN + BLOCK_SIZE / 32);	/* use 2 * (# rounds) */
@@ -331,30 +327,6 @@ namespace System.Security.Cryptography
         x = (x << 8) ^ (g3 << 24) ^ (g2 << 16) ^ (g3 << 8) ^ b;
       }
 
-      /*	Macros for the MDS matrix
-      *	The MDS matrix is (using primitive polynomial 169):
-      *      01  EF  5B  5B
-      *      5B  EF  EF  01
-      *      EF  5B  01  EF
-      *      EF  01  EF  5B
-      *----------------------------------------------------------------
-      * More statistical properties of this matrix (from MDS.EXE output):
-      *
-      * Min Hamming weight (one byte difference) =  8. Max=26.  Total =  1020.
-      * Prob[8]:      7    23    42    20    52    95    88    94   121   128    91
-      *             102    76    41    24     8     4     1     3     0     0     0
-      * Runs[8]:      2     4     5     6     7     8     9    11
-      * MSBs[8]:      1     4    15     8    18    38    40    43
-      * HW= 8: 05040705 0A080E0A 14101C14 28203828 50407050 01499101 A080E0A0 
-      * HW= 9: 04050707 080A0E0E 10141C1C 20283838 40507070 80A0E0E0 C6432020 07070504 
-      *        0E0E0A08 1C1C1410 38382820 70705040 E0E0A080 202043C6 05070407 0A0E080E 
-      *        141C101C 28382038 50704070 A0E080E0 4320C620 02924B02 089A4508 
-      * Min Hamming weight (two byte difference) =  3. Max=28.  Total = 390150.
-      * Prob[3]:      7    18    55   149   270   914  2185  5761 11363 20719 32079
-      *           43492 51612 53851 52098 42015 31117 20854 11538  6223  2492  1033
-      * MDS OK, ROR:   6+  7+  8+  9+ 10+ 11+ 12+ 13+ 14+ 15+ 16+
-      *               17+ 18+ 19+ 20+ 21+ 22+ 23+ 24+ 25+ 26+
-      */
       static private readonly int	MDS_GF_FDBK	= 0x169;	/* primitive polynomial for GF(256)*/
       static private int LFSR1(int x)
       {
@@ -494,28 +466,10 @@ namespace System.Security.Cryptography
       static private readonly int	P_33 = (P_31 ^ 1);
       static private readonly int	P_34 = 1;
 
-      /* fixed 8x8 permutation S-boxes */
 
-      /***********************************************************************
-      *  07:07:14  05/30/98  [4x4]  TestCnt=256. keySize=128. CRC=4BD14D9E.
-      * maxKeyed:  dpMax = 18. lpMax =100. fixPt =  8. skXor =  0. skDup =  6. 
-      * log2(dpMax[ 6..18])=   --- 15.42  1.33  0.89  4.05  7.98 12.05
-      * log2(lpMax[ 7..12])=  9.32  1.01  1.16  4.23  8.02 12.45
-      * log2(fixPt[ 0.. 8])=  1.44  1.44  2.44  4.06  6.01  8.21 11.07 14.09 17.00
-      * log2(skXor[ 0.. 0])
-      * log2(skDup[ 0.. 6])=   ---  2.37  0.44  3.94  8.36 13.04 17.99
-      ***********************************************************************/
-      static private byte[,] P8x8 = 
+      static private byte[,] p8 = 
 		  {
-			  /*  p0:   */
-			  /*  dpMax      = 10.  lpMax      = 64.  cycleCnt=   1  1  1  0.         */
-			  /* 817D6F320B59ECA4.ECB81235F4A6709D.BA5E6D90C8F32471.D7F4126E9B3085CA. */
-			  /* Karnaugh maps:
-			  *  0111 0001 0011 1010. 0001 1001 1100 1111. 1001 1110 0011 1110. 1101 0101 1111 1001. 
-			  *  0101 1111 1100 0100. 1011 0101 0010 0000. 0101 1000 1100 0101. 1000 0111 0011 0010. 
-			  *  0000 1001 1110 1101. 1011 1000 1010 0011. 0011 1001 0101 0000. 0100 0010 0101 1011. 
-			  *  0111 0100 0001 0110. 1000 1011 1110 1001. 0011 0011 1001 1101. 1101 0101 0000 1100. 
-			  */
+			    /*  p0:   */
 				  {
 				  0xA9, 0x67, 0xB3, 0xE8, 0x04, 0xFD, 0xA3, 0x76, 
 				  0x9A, 0x92, 0x80, 0x78, 0xE4, 0xDD, 0xD1, 0x38, 
@@ -551,14 +505,6 @@ namespace System.Security.Cryptography
 				  0x6F, 0x9D, 0x36, 0x42, 0x4A, 0x5E, 0xC1, 0xE0
 			  },
 			  /*  p1:   */
-			  /*  dpMax      = 10.  lpMax      = 64.  cycleCnt=   2  0  0  1.         */
-			  /* 28BDF76E31940AC5.1E2B4C376DA5F908.4C75169A0ED82B3F.B951C3DE647F208A. */
-			  /* Karnaugh maps:
-			  *  0011 1001 0010 0111. 1010 0111 0100 0110. 0011 0001 1111 0100. 1111 1000 0001 1100. 
-			  *  1100 1111 1111 1010. 0011 0011 1110 0100. 1001 0110 0100 0011. 0101 0110 1011 1011. 
-			  *  0010 0100 0011 0101. 1100 1000 1000 1110. 0111 1111 0010 0110. 0000 1010 0000 0011. 
-			  *  1101 1000 0010 0001. 0110 1001 1110 0101. 0001 0100 0101 0111. 0011 1011 1111 0010. 
-			  */
 			  {
 				  0x75, 0xF3, 0xC6, 0xF4, 0xDB, 0x7B, 0xFB, 0xC8, 
 				  0x4A, 0xD3, 0xE6, 0x6B, 0x45, 0x7D, 0xE8, 0x4B, 
