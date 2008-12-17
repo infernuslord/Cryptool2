@@ -109,6 +109,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiger", "CrypPlugins\Tiger\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSCext", "SSCext\SSCext.csproj", "{E46A6AA6-56EE-4AE5-8725-DCD07DC95527}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twofish", "CrypPlugins\Twofish\Twofish.csproj", "{B2F7104B-C302-409A-B6C7-3A74B6E5C5A1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -645,6 +647,16 @@ Global
 		{E46A6AA6-56EE-4AE5-8725-DCD07DC95527}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E46A6AA6-56EE-4AE5-8725-DCD07DC95527}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E46A6AA6-56EE-4AE5-8725-DCD07DC95527}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B2F7104B-C302-409A-B6C7-3A74B6E5C5A1}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{B2F7104B-C302-409A-B6C7-3A74B6E5C5A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2F7104B-C302-409A-B6C7-3A74B6E5C5A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2F7104B-C302-409A-B6C7-3A74B6E5C5A1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B2F7104B-C302-409A-B6C7-3A74B6E5C5A1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B2F7104B-C302-409A-B6C7-3A74B6E5C5A1}.Release|.NET.ActiveCfg = Release|Any CPU
+		{B2F7104B-C302-409A-B6C7-3A74B6E5C5A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2F7104B-C302-409A-B6C7-3A74B6E5C5A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2F7104B-C302-409A-B6C7-3A74B6E5C5A1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B2F7104B-C302-409A-B6C7-3A74B6E5C5A1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
