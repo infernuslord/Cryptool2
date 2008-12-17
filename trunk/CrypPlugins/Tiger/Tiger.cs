@@ -118,7 +118,7 @@ namespace Tiger
 
 		// Input inputdata
 		private byte[] inputdata = { };
-		private dataCanal inputCanal = dataCanal.none;
+		//private dataCanal inputCanal = dataCanal.none;
 
 		/// <summary>
 		/// Notifies the update input.
