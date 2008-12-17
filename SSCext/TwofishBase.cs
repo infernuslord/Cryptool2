@@ -302,7 +302,7 @@ namespace System.Security.Cryptography
       static private readonly int	ROUNDS_192   = 16;	/* default number of rounds for 192-bit keys*/
       static private readonly int	ROUNDS_256   = 16;	/* default number of rounds for 256-bit keys*/
       static private readonly int	MAX_KEY_BITS = 256;	/* max number of bits of key */
-      static private readonly int	MIN_KEY_BITS = 128;	/* min number of bits of key (zero pad) */
+     // static private readonly int	MIN_KEY_BITS = 128;	/* min number of bits of key (zero pad) */
 
       static private readonly int	INPUT_WHITEN = 0;	/* subkey array indices */
       static private readonly int	OUTPUT_WHITEN = (INPUT_WHITEN + BLOCK_SIZE / 32);

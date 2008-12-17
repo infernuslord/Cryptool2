@@ -14,7 +14,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Cryptography;
@@ -33,6 +32,15 @@ namespace Twofish
   [EncryptionType(EncryptionType.SymmetricBlock)]
   public class Twofish : IEncryption
   {
+
+    public Twofish()
+    {
+      settings = new TwofishSettings();
+
+      ASCIIEncoding enc = new ASCIIEncoding();
+      outputData = enc.GetBytes("NOT yet implemented.");
+    }
+
     #region IPlugin Member
 
 
@@ -58,7 +66,6 @@ namespace Twofish
       {
         settings = (TwofishSettings)value;
         OnPropertyChanged("Settings");
-        GuiLogMessage("Settings changed.", NotificationLevel.Debug);
       }
     }
 
@@ -75,17 +82,6 @@ namespace Twofish
       }
     }
 
-    /// <summary>
-    /// Gets the quick watch presentation 
-    /// will be displayed inside of the plugin presentation-element. 
-    /// You can return the existing Presentation if it makes sense to display 
-    /// it inside a small area. But be aware that 
-    /// if Presentation is displayed in QuickWatchPresentation 
-    /// you can't open Presentation it in a tab before you
-    /// you close QuickWatchPresentation;
-    /// Return null if your plugin has no QuickWatchPresentation.
-    /// </summary>
-    /// <value>The quick watch presentation.</value>
     public System.Windows.Controls.UserControl QuickWatchPresentation
     {
       get
@@ -100,7 +96,7 @@ namespace Twofish
 
     public void Execute()
     {
-      throw new NotImplementedException();
+      GuiLogMessage("NOT yet complete implemented.", NotificationLevel.Warning);
     }
 
     public void PostExecution()
@@ -119,11 +115,159 @@ namespace Twofish
     {
     }
 
+    /// <summary>
+    /// Will be called from editor when element is deleted from worksapce.
+    /// Releases unmanaged and - optionally - managed resources
+    /// </summary>
     public void Dispose()
     {
+      foreach (CryptoolStream stream in listCryptoolStreamsOut)
+      {
+        stream.Close();
+      }
+      listCryptoolStreamsOut.Clear();
     }
 
     #endregion
+
+    private void Crypt()
+    {
+      GuiLogMessage("NOT yet implemented.", NotificationLevel.Warning);
+
+
+      NotifyUpdateOutput();
+    }
+
+    #region Input inputdata
+
+    // Input inputdata
+		private byte[] inputdata = { };
+
+		/// <summary>
+		/// Notifies the update input.
+		/// </summary>
+		private void NotifyUpdateInput()
+		{
+			OnPropertyChanged("InputStream");
+			OnPropertyChanged("InputData");
+		}
+
+		/// <summary>
+		/// Gets or sets the input inputdata.
+		/// </summary>
+		/// <value>The input inputdata.</value>
+		[PropertyInfo(Direction.Input, "Input Data Stream", "Input data stream to process", "", 
+      false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+		public CryptoolStream InputStream
+		{
+			get
+			{
+				CryptoolStream inputStream = new CryptoolStream();
+				inputStream.OpenRead(this.GetPluginInfoAttribute().Caption, inputdata);
+				return inputStream;
+			}
+			set
+			{
+        if (null == value)
+        {
+          inputdata = new byte[0];
+          return;
+        }
+
+				long len = value.Length;
+				inputdata = new byte[len];
+
+				for (long i = 0; i < len; i++)
+					inputdata[i] = (byte)value.ReadByte();
+
+				NotifyUpdateInput();
+			}
+		}
+
+		/// <summary>
+		/// Gets the input data.
+		/// </summary>
+		/// <value>The input data.</value>
+		[PropertyInfo(Direction.Input, "Input Data", "Input Data to process", "", 
+      false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+		public byte[] InputData
+		{
+			get
+			{
+				return inputdata;
+			}
+			set
+			{
+        if (null == value)
+        {
+          inputdata = new byte[0];
+          return;
+        }
+				long len = value.Length;
+				inputdata = new byte[len];
+
+				for (long i = 0; i < len; i++)
+					inputdata[i] = value[i];
+
+				NotifyUpdateInput();
+			}
+		}
+		#endregion
+
+    #region Output
+
+    // Output
+    private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
+    private byte[] outputData = { };
+
+    /// <summary>
+    /// Notifies the update output.
+    /// </summary>
+    private void NotifyUpdateOutput()
+    {
+      OnPropertyChanged("OutputStream");
+      OnPropertyChanged("OutputData");
+    }
+
+
+    /// <summary>
+    /// Gets or sets the output inputdata stream.
+    /// </summary>
+    /// <value>The output inputdata stream.</value>
+    [PropertyInfo(Direction.Output, "Output Stream", "Output stream", "",
+      true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null) ]
+    public CryptoolStream OutputStream
+    {
+      get
+      {
+        CryptoolStream outputDataStream = null;
+        if (outputData != null)
+        {
+          outputDataStream = new CryptoolStream();
+          outputDataStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputData);
+          listCryptoolStreamsOut.Add(outputDataStream);
+        }
+        return outputDataStream;
+      }
+    }
+
+    /// <summary>
+    /// Gets the output inputdata.
+    /// </summary>
+    /// <value>The output inputdata.</value>
+    [PropertyInfo(Direction.Output, "Output Data", "Output data", "",
+      true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    public byte[] OutputData
+    {
+      get
+      {
+        return this.outputData;
+      }
+    }
+
+    #endregion
+
+
 
     #region INotifyPropertyChanged Member
 
@@ -138,7 +282,7 @@ namespace Twofish
       {
         if (name == "Settings")
         {
-          //Hash();
+          Crypt();
         }
         else
           PropertyChanged(this, new PropertyChangedEventArgs(name));
