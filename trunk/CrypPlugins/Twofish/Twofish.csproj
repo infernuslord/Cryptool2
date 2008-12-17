@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{67C393B3-1FC5-4B3D-A42B-2455B5DF4C31}</ProjectGuid>
+    <ProjectGuid>{B2F7104B-C302-409A-B6C7-3A74B6E5C5A1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tiger</RootNamespace>
-    <AssemblyName>Tiger</AssemblyName>
+    <RootNamespace>Twofish</RootNamespace>
+    <AssemblyName>Twofish</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -46,9 +46,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Tiger.cs" />
+    <Compile Include="TwofishSetting.cs" />
+    <Compile Include="Twofish.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TigerSetting.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CrypCore\CrypCore.csproj">
@@ -65,10 +65,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Tiger.png" />
+    <ApplicationDefinition Include="Twofish.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Tiger1.png" />
+    <ApplicationDefinition Include="Twofish1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -78,12 +78,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <PropertyGroup>
-    <PostBuildEvent>cd "$(ProjectDir)"
-cd ..\..\CrypWin\$(OutDir)
-if not exist "./CrypPlugins" mkdir "./CrypPlugins"
-
-del /F /S /Q /s /q "Tiger.*"
-copy "$(TargetDir)Tiger.*" "./CrypPlugins"</PostBuildEvent>
-  </PropertyGroup>
 </Project>

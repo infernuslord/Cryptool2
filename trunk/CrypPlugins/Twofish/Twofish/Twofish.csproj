@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{67C393B3-1FC5-4B3D-A42B-2455B5DF4C31}</ProjectGuid>
+    <ProjectGuid>{B2F7104B-C302-409A-B6C7-3A74B6E5C5A1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tiger</RootNamespace>
-    <AssemblyName>Tiger</AssemblyName>
+    <RootNamespace>Twofish</RootNamespace>
+    <AssemblyName>Twofish</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,44 +31,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="PresentationFramework">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="WindowsBase">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Tiger.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TigerSetting.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\CrypCore\CrypCore.csproj">
-      <Project>{FF5D473C-0716-4D3E-9078-2EBD979F94C6}</Project>
-      <Name>CrypCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
-      <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
-      <Name>CrypPluginBase</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SSCext\SSCext.csproj">
-      <Project>{E46A6AA6-56EE-4AE5-8725-DCD07DC95527}</Project>
-      <Name>SSCext</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Tiger.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Tiger1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -78,12 +56,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <PropertyGroup>
-    <PostBuildEvent>cd "$(ProjectDir)"
-cd ..\..\CrypWin\$(OutDir)
-if not exist "./CrypPlugins" mkdir "./CrypPlugins"
-
-del /F /S /Q /s /q "Tiger.*"
-copy "$(TargetDir)Tiger.*" "./CrypPlugins"</PostBuildEvent>
-  </PropertyGroup>
 </Project>
