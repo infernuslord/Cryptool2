@@ -78,6 +78,9 @@ namespace System.Security.Cryptography
       if (cipherMode == CipherMode.CBC)
         iv = rgbIV;
 
+      int kl = rgbKey.Length * 8;
+      if (ValidKeySize(kl)) keySize = kl;
+
       return new TwofishEncryption(keySize, ref key, ref iv, cipherMode, 
         TwofishManaged.EncryptionDirection.Decrypting);
     }
@@ -96,6 +99,9 @@ namespace System.Security.Cryptography
 
       if (cipherMode == CipherMode.CBC)
         iv = rgbIV;
+
+      int kl = rgbKey.Length * 8;
+      if (ValidKeySize(kl)) keySize = kl;
 
       return new TwofishEncryption(keySize, ref key, ref iv, cipherMode, 
         TwofishManaged.EncryptionDirection.Encrypting);

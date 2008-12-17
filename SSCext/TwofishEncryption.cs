@@ -57,6 +57,11 @@ namespace System.Security.Cryptography
 
         encryptionDirection = direction;
         reKey(keyLen, ref Key);
+
+#if DEBUG2
+        for (int i =  0; i < Key.Length; i++)
+          Debug.WriteLine(i.ToString("00") + " " + Key[i].ToString("x"));
+#endif
       }
 
       // need to have this method due to IDisposable - just can't think of a reason to use it for in this class

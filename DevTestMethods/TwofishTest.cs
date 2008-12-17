@@ -12,7 +12,7 @@
 
 using System;
 using System.Text;
-
+using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Collections.Generic;
 
@@ -62,14 +62,32 @@ namespace Tests
       return hex;
     }
 
+    /// <summary>
+    /// Converts the byte to hex.
+    /// </summary>
+    /// <param name="bytes">The bytes.</param>
+    /// <returns></returns>
+    private string ConvertByteToHex(byte[] bytes)
+    {
+      string tmp = "";
+      foreach (byte b in bytes)
+      {
+        if (b < 0x10)
+          tmp += "0";
+        tmp += b.ToString("X");
+      }
+      return tmp;
+    }
+
     [TestMethod]
     public void TwofishTestMethod()
     {
       // test vectors from 
-      // http://www.schneier.com/code/ecb_ival.txt
+      // http://www.schneier.com/plain/ecb_ival.txt
       //
       string[] source = 
       { 
+        "00000000000000000000000000000000",
         "00000000000000000000000000000000",
         "00000000000000000000000000000000"
       };
@@ -85,7 +103,7 @@ namespace Tests
       {
         "00000000000000000000000000000000",
         "0123456789ABCDEFFEDCBA98765432100011223344556677",
-        "0123456789ABCDEFFEDCBA987654321000112233445566778899AABBCCDDEEFF"
+        "0123456789ABCDEFFEDCBA987654321000112233445566778899AABBCCDDEEFF",
       };
 
       byte[] iv =   { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -101,35 +119,38 @@ namespace Tests
 
         testContextInstance.WriteLine(" key  = " + key[i]);
 
-        ICryptoTransform tr =  tf.CreateEncryptor(ConvertHexToByte(key[i]), iv);
+        byte[] myKey = ConvertHexToByte(key[i]);
+        ICryptoTransform encrypt =  tf.CreateEncryptor(myKey, iv);
 
-        byte[] code = ConvertHexToByte(source[i]);
+        byte[] plain = ConvertHexToByte(source[i]);
 
-        //int olength = code.Length;
+        //int olength = plain.Length;
         //olength += (16 - (olength % 16));
         
-        //byte[] ct = new byte[olength];
+        //byte[] code = new byte[olength];
 
         //int pos = 0;
-        //while (code.Length > 16)
+        //while (plain.Length > 16)
         //{
-        //  tr.TransformBlock(code, pos, 16, ref ct, pos);
+        //  encrypt.TransformBlock(plain, pos, 16, ref code, pos);
         //}
         
-        byte[] ct = tr.TransformFinalBlock(code, 0, code.Length);
+        byte[] code = encrypt.TransformFinalBlock(plain, 0, plain.Length);
 
-        string tmp = "";
-        foreach (byte b in ct)
-        {
-          if (b < 0x10)
-            tmp += "0";
-          tmp += b.ToString("X");
-        }
-
+        string tmp = ConvertByteToHex(code);
         testContextInstance.WriteLine(" expected   = " + result[i]);
         testContextInstance.WriteLine(" calculated = " + tmp);
 
         Assert.AreEqual(tmp, result[i]);
+
+        ICryptoTransform decrypt =  tf.CreateDecryptor(myKey, iv);
+
+        byte[] plain2 = decrypt.TransformFinalBlock(code, 0, code.Length);
+        string source2 = ConvertByteToHex(plain2);
+        testContextInstance.WriteLine(" expected   = " + source[i]);
+        testContextInstance.WriteLine(" calculated = " + source2);
+
+        Assert.AreEqual(source[i], source2);
       }
     }
 

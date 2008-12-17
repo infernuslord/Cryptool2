@@ -43,6 +43,42 @@ namespace Tests
       }
     }
 
+    /// <summary>
+    /// Converts the hex to byte.
+    /// </summary>
+    /// <param name="str">The STR.</param>
+    /// <returns></returns>
+    private byte[] ConvertHexToByte(string str)
+    {
+      int len = str.Length / 2;
+      byte[] hex = new byte[len];
+      for (int j = 0; j < len; j++)
+      {
+        hex[j] = byte.Parse(str.Substring(0, 2), System.Globalization.NumberStyles.AllowHexSpecifier);
+        str = str.Substring(2);
+      }
+
+      return hex;
+    }
+
+    /// <summary>
+    /// Converts the byte to hex.
+    /// </summary>
+    /// <param name="bytes">The bytes.</param>
+    /// <returns></returns>
+    private string ConvertByteToHex(byte[] bytes)
+    {
+      string tmp = "";
+      foreach (byte b in bytes)
+      {
+        if (b < 0x10)
+          tmp += "0";
+        tmp += b.ToString("X");
+      }
+      return tmp;
+    }
+
+
     private void pkcs5part(byte[] key, byte[] salt, int hmac, int count, byte[] result)
     {
       PKCS5Settings set = new PKCS5Settings();
@@ -55,15 +91,8 @@ namespace Tests
       p.KeyData = key;
       p.SaltData = salt;
 
-      string tmp = "key is  ";
-      foreach (byte b in key)
-        tmp += b.ToString("x2") + " ";
-      testContextInstance.WriteLine(tmp);
-
-      tmp = "salt is ";
-      foreach (byte b in salt)
-        tmp += b.ToString("x2") + " ";
-      testContextInstance.WriteLine(tmp);
+      testContextInstance.WriteLine("key is  " + ConvertByteToHex(key));
+      testContextInstance.WriteLine("salt is " + ConvertByteToHex(salt));
 
       p.Hash();
       byte[] h = p.HashOutputData;
@@ -72,15 +101,8 @@ namespace Tests
       // both arrays of same size?
       Assert.AreEqual(h.Length, result.Length, "Different hash sizes found");
 
-      tmp = "expected hash is  ";
-      foreach (byte b in result)
-        tmp += b.ToString("x2") + " ";
-      testContextInstance.WriteLine(tmp);
-
-      tmp = "calculated hash is ";
-      foreach (byte b in h)
-        tmp += b.ToString("x2") + " ";
-      testContextInstance.WriteLine(tmp);
+      testContextInstance.WriteLine("expected hash is  " + ConvertByteToHex(result));
+      testContextInstance.WriteLine("calculated hash is " + ConvertByteToHex(h));
 
       // the next compares references etc ... but not the array content :-(
       // Assert.AreEqual<byte[]>(result, h, "Different hash values found");
