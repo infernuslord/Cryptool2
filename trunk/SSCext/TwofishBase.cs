@@ -206,7 +206,11 @@ namespace System.Security.Cryptography
       protected void blockEncrypt(ref uint[] x)
       {
         uint t0,t1,tmp;
+#if DEBUG2
 
+        for (int i = 0; i < subKeys.Length; i++)
+          Debug.WriteLine("SubKey " + subKeys[i].ToString("x"));
+#endif
         for (int i=0; i < BLOCK_SIZE / 32; i++)	/* copy in the block, add whitening */
         {
           x[i] ^= subKeys[INPUT_WHITEN + i];
