@@ -19,10 +19,8 @@ using Cryptool.PluginBase;
 using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
-using System.Collections;
-using System.IO;
 using System.ComponentModel;
-
+using System.Security.Cryptography;
 
 namespace Twofish
 {
@@ -33,12 +31,12 @@ namespace Twofish
   public class Twofish : IEncryption
   {
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Twofish"/> class.
+    /// </summary>
     public Twofish()
     {
       settings = new TwofishSettings();
-
-      ASCIIEncoding enc = new ASCIIEncoding();
-      outputData = enc.GetBytes("NOT yet implemented.");
     }
 
     #region IPlugin Member
@@ -96,7 +94,7 @@ namespace Twofish
 
     public void Execute()
     {
-      GuiLogMessage("NOT yet complete implemented.", NotificationLevel.Warning);
+      Crypt();
     }
 
     public void PostExecution()
@@ -130,13 +128,6 @@ namespace Twofish
 
     #endregion
 
-    private void Crypt()
-    {
-      GuiLogMessage("NOT yet implemented.", NotificationLevel.Warning);
-
-
-      NotifyUpdateOutput();
-    }
 
     #region Input inputdata
 
@@ -214,6 +205,78 @@ namespace Twofish
 		}
 		#endregion
 
+    #region Key data 
+
+    // Salt Data
+    private byte[] key = { };
+
+    /// <summary>
+    /// Notifies the update key.
+    /// </summary>
+    private void NotifyUpdateKey()
+    {
+      OnPropertyChanged("KeyStream");
+      OnPropertyChanged("KeyData");
+    }
+
+    /// <summary>
+    /// Gets or sets the key data.
+    /// </summary>
+    /// <value>The key data.</value>
+    [PropertyInfo(Direction.Input, "Key Stream", "Key - Input key data", 
+      "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+    public CryptoolStream KeyStream
+    {
+      get
+      {
+        CryptoolStream keyDataStream = new CryptoolStream();
+        keyDataStream.OpenRead(this.GetPluginInfoAttribute().Caption, key);
+        return keyDataStream;
+      }
+      set
+      {
+        if (null == value)
+          return;
+
+        long len = value.Length;
+        key = new byte[len];
+
+        for (long i = 0; i < len; i++)
+          key[i] = (byte)value.ReadByte();
+
+        NotifyUpdateKey();
+        GuiLogMessage("KeyStream changed.", NotificationLevel.Debug);
+      }
+    }
+
+    /// <summary>
+    /// Gets or sets the key data.
+    /// </summary>
+    /// <value>The key data.</value>
+    [PropertyInfo(Direction.Input, "Key Data", "Key - Input key data", 
+      "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+    public byte[] KeyData
+    {
+      get
+      {
+        return key;
+      }
+
+      set
+      {
+        long len = value.Length;
+        key = new byte[len];
+
+        for (long i = 0; i < len; i++)
+          key[i] = value[i];
+
+        NotifyUpdateKey();
+        GuiLogMessage("KeyData changed.", NotificationLevel.Debug);
+      }
+    }
+    #endregion
+
+
     #region Output
 
     // Output
@@ -235,7 +298,7 @@ namespace Twofish
     /// </summary>
     /// <value>The output inputdata stream.</value>
     [PropertyInfo(Direction.Output, "Output Stream", "Output stream", "",
-      true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null) ]
+      true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null) ]
     public CryptoolStream OutputStream
     {
       get
@@ -256,7 +319,7 @@ namespace Twofish
     /// </summary>
     /// <value>The output inputdata.</value>
     [PropertyInfo(Direction.Output, "Output Data", "Output data", "",
-      true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+      true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
     public byte[] OutputData
     {
       get
@@ -302,5 +365,61 @@ namespace Twofish
     }
 
     #endregion
+
+
+    private void Crypt()
+    {
+      byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+      // fit key to correct length
+      byte[] k2 = new byte[settings.KeyLength / 8];
+      for (int i = 0; i < settings.KeyLength / 8; i++)
+        if (i < key.Length)
+          k2[i] = key[i];
+        else
+          k2[i] = 0;
+    
+
+      TwofishManaged tf = TwofishManaged.Create();
+
+      tf.Mode = (settings.Mode == 0) ? CipherMode.CBC : CipherMode.ECB;
+      
+      int pos = 0;
+      if (outputData.Length != inputdata.Length)  
+        outputData = new byte[inputdata.Length];
+
+      switch (settings.Action)
+      {
+        case 0: // encrypt
+          {
+            ICryptoTransform encrypt =  tf.CreateEncryptor(k2, iv);
+
+            while (inputdata.Length - pos > encrypt.InputBlockSize)
+            {
+              pos += encrypt.TransformBlock(inputdata, pos, encrypt.InputBlockSize, outputData, pos);
+            }
+            byte[] final = encrypt.TransformFinalBlock(inputdata, pos, inputdata.Length - pos);
+            final.CopyTo(outputData, pos);
+            encrypt.Dispose();
+            break;
+          }
+        case 1: // decrypt
+          {
+            ICryptoTransform decrypt =  tf.CreateDecryptor(k2, iv);
+
+            while (inputdata.Length - pos > decrypt.InputBlockSize)
+            {
+              pos += decrypt.TransformBlock(inputdata, pos, decrypt.InputBlockSize, outputData, pos);
+            }
+            byte[] final = decrypt.TransformFinalBlock(inputdata, pos, inputdata.Length);
+            final.CopyTo(outputData, pos);
+            decrypt.Dispose();
+            break;
+          }
+      }
+
+      NotifyUpdateOutput();
+    }
+
   }
 }

@@ -26,10 +26,12 @@ using System.Windows.Controls;
 
 namespace Twofish
 {
-  class TwofishSettings : ISettings
+  public class TwofishSettings : ISettings
   {
 
     private bool hasChanges = false;
+
+    static int[] keyTab = { 128, 192, 256};
 
     #region ISettings Member
 
@@ -65,13 +67,13 @@ namespace Twofish
     {
       get
       {
-        return this.action;
+        return action;
       }
       set
       {
         if (((int)value) != action)
           hasChanges = true;
-        this.action = (int)value;
+        action = (int)value;
         OnPropertyChanged("Action");
       }
     }
@@ -89,7 +91,7 @@ namespace Twofish
     {
       get
       {
-        return this.mode;
+        return mode;
       }
 
       set
@@ -98,6 +100,44 @@ namespace Twofish
           hasChanges = true;
         this.mode = (int)value;
         OnPropertyChanged("Mode");
+      }
+    }
+
+
+    int keySize = 0;
+    [ContextMenu("KeySize", 
+      "Select the key size. Note that providing a longer key will result in cutting the overlapping bytes, " +
+      "providing a shorter key will result in filling up with zeroes.", 3, 
+      DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, "128 Bits", "192 Bits", "256 Bits")]
+    [TaskPane("KeySize", 
+      "Select the key size. Note that providing a longer key will result in cutting the overlapping bytes, "+
+      "providing a shorter key will result in filling up with zeroes.", "", 3, false, 
+      DisplayLevel.Beginner, ControlType.ComboBox, new String[] { "128 Bits", "192 Bits", "256 Bits" })]
+    public int KeySize
+    {
+      get
+      {
+        return keySize;
+      }
+      set
+      {
+        if (((int)value) != keySize)
+          hasChanges = true;
+        keySize = (int)value;
+        OnPropertyChanged("KeySize");
+      }
+    }
+
+
+    /// <summary>
+    /// Gets the length of the key.
+    /// </summary>
+    /// <value>The length of the key.</value>
+    public int KeyLength
+    {
+      get
+      {
+        return keyTab[keySize];
       }
     }
 
