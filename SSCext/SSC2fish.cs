@@ -160,11 +160,18 @@ namespace System.Security.Cryptography
       }
     }
 
+
     /// <summary>
-    /// Gets or sets the blocksize.
+    /// Gets or sets the block size, in bits, of the cryptographic operation.
     /// </summary>
-    /// <value>The blocksize.</value>
-    public int Blocksize
+    /// <value></value>
+    /// <returns>
+    /// The block size, in bits.
+    /// </returns>
+    /// <exception cref="T:System.Security.Cryptography.CryptographicException">
+    /// The block size is invalid.
+    /// </exception>
+    public override int BlockSize
     {
       get
       {
@@ -173,8 +180,10 @@ namespace System.Security.Cryptography
       set
       {
         blockSize = value;
+        base.BlockSize = blockSize;
       }
     }
+
 
     /// <summary>
     /// Gets or sets the keysize.
@@ -279,7 +288,23 @@ namespace System.Security.Cryptography
         paddingMode = value;
       }
     }
-  
-  
+
+
+    /// <summary>
+    /// Gets the key sizes, in bits, that are supported by the symmetric algorithm.
+    /// </summary>
+    /// <value></value>
+    /// <returns>
+    /// An array that contains the key sizes supported by the algorithm.
+    /// </returns>
+    public override KeySizes[] LegalKeySizes
+    {
+      get
+      {
+        KeySizes[] ks = new KeySizes[1];
+        ks[0] = new KeySizes(128, 256, 64);
+        return ks;
+      }
+    }
   }
 }
