@@ -210,4 +210,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("Cryptool CrypCore")]
 [assembly: AssemblyCopyright("Copyright © Martin Saternus 2008")]
 [assembly: ComVisible(false)]
-[assembly: AssemblyVersion("2.0.3258.00001")]
+[assembly: AssemblyVersion("2.0.3276.00001")]

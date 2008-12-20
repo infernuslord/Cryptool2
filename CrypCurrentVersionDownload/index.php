@@ -1,7 +1,7 @@
 <html>
 <head>
  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
- <meta http-equiv="refresh" content="1; URL=http://cryptool2.vs.uni-due.de/downloads/program/curversion/Cryptool-Setup-v2.0.3236a(beta).msi">
+ <meta http-equiv="refresh" content="1; URL=http://cryptool2.vs.uni-due.de/downloads/program/curversion/CrypTool-Setup-v2.0.3276a(beta).msi">
 </head>
 <body>
 <?php
@@ -24,11 +24,11 @@ if (file_exists($config_file)) {
 } else echo "No such file: " . $config_file;
 
 ?>
-If your download doesn't start now, click <a href="<?php echo 'http://cryptool2.vs.uni-due.de/downloads/program/curversion/Cryptool-Setup-v' . $config_values['version'] . '.msi';?>">here</a>.
+If your download doesn't start now, click <a href="<?php echo 'http://cryptool2.vs.uni-due.de/downloads/program/curversion/CrypTool-Setup-v' . $config_values['version'] . '.msi';?>">here</a>.
 
 <script language="javascript" type="text/javascript">
 <!-- // JavaScript-Bereich fr ltere Browser auskommentieren
-    window.location.href = 'http://cryptool2.vs.uni-due.de/downloads/program/curversion/Cryptool-Setup-v<?php echo $config_values['version'];?>.msi';
+    window.location.href = 'http://cryptool2.vs.uni-due.de/downloads/program/curversion/CrypTool-Setup-v<?php echo $config_values['version'];?>.msi';
 // -->
 </script>
 </body>
