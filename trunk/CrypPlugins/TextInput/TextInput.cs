@@ -439,7 +439,7 @@ namespace Cryptool.TextInput
     public void PreExecution()
     {
       byteArrayOutput = null;
-      textInputPresentation.labelBytesCount.Content = "0 Bytes";
+      // textInputPresentation.labelBytesCount.Content = "0 Bytes";
     }
 
     public void PostExecution()
