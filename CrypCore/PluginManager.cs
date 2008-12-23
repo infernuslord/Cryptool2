@@ -256,7 +256,7 @@ namespace Cryptool.Core
         public PluginManager() 
         { 
             this.customPluginStore = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), PluginDirecory);
-            this.globalPluginStore = Path.Combine(Directory.GetCurrentDirectory(), PluginDirecory);
+            this.globalPluginStore = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), PluginDirecory);
             this.loadedAssemblies = new Dictionary<string, Assembly>();
             this.loadedTypes = new Dictionary<string, Type>();          
         }
