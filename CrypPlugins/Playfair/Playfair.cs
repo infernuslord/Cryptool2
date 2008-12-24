@@ -216,7 +216,7 @@ using System.ComponentModel;
 namespace Cryptool.Playfair
 {
     [Author("Sebastian Przybylski","sebastian@przybylski.org","Uni Siegen","http://www.uni-siegen.de")]
-  [PluginInfo(false, "Playfair", "Playfair -- classic digraph substitution cipher", "Caesar/DetailedDescription/Description.xaml", "Playfair/icon.png")]
+    [PluginInfo(false, "Playfair", "Playfair -- classic digraph substitution cipher", "Playfair/DetailedDescription/Description.xaml", "Playfair/icon.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class Playfair : IEncryption
     {
