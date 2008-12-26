@@ -1,0 +1,54 @@
+<FlowDocument PagePadding="5,0,5,0" AllowDrop="True" NumberSubstitution.CultureSource="User" 
+			  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+			  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			  xmlns:misc="clr-namespace:Cryptool.PluginBase.Miscellaneous;assembly=CrypPluginBase"
+			  Background="White">
+
+  <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+    <Span FontFamily="Georgia" FontWeight="Bold" FontSize="18.6666666666667" Foreground="#FF15428B" xml:lang="en-us">
+      <Span.TextDecorations>
+        <TextDecoration Location="Underline" />
+      </Span.TextDecorations> Playfair Cipher
+    </Span>
+  </Paragraph>
+  <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16" />
+
+  <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+    <misc:DescriptionHyperlink NavigateUri="http://en.wikipedia.org/wiki/Playfair_cipher">http://en.wikipedia.org/wiki/Playfair_cipher</misc:DescriptionHyperlink>
+  </Paragraph>
+
+  <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16" />
+  <Paragraph Margin="0,6.67,0,6.67" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+    <Span xml:lang="en-gb">The Playfair encryption algorithm was developed by Charles Wheatstone in 1854.</Span>
+  </Paragraph>
+  <Paragraph Margin="0,6.67,0,6.67" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+    <Span xml:lang="en-gb">To start with, one requires an encryption key (a pass phrase or password). This password is entered in a 5x5 or 6x6 matrix. The remaining cells in the matrix are then filled in with the remaining letters of the alphabet. Any characters which was already entered are omitted. In the case of the 5x5 matrix, the J in the alphabet is left out.</Span>
+  </Paragraph>
+  <Paragraph Margin="0,6.67,0,6.67" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+    <Span xml:lang="en-gb">The message to be encrypted is then written down in groups of two characters each (digrams).</Span>
+  </Paragraph>
+  <Paragraph Margin="0,6.67,0,6.67" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+    <Span xml:lang="en-gb">To improve security, it is possible before doing the encryption process to eliminate any letter duplications in the cleartext by inserting separators (for example, the letter X), because pairs of identical letters provide attackers with a lot of useful information.</Span>
+  </Paragraph>
+  <Paragraph Margin="0,6.67,0,6.67" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+    <Span xml:lang="en-gb" xml:space="preserve">Because letter pairs are used, the algorithm is more difficult to break than cryptosystems which only use individual letters. Thus, for example, a frequency analysis is less informative. For similar reasons modern symmetric ciphers do not operate on single bits or single bytes, but - like IDEA for example - operate with 64 bit (i.e. 8-character) blocks.</Span>
+  </Paragraph>
+  <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16" />
+  <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16" />
+  <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+    <Span xml:lang="en-gb" xml:space="preserve">When the letters of the password are entered in the matrix any double character in the password is replaced by the next free letter in the alphabet - as each letter may occur only once in the matrix. If the option </Span>
+    <Span FontWeight="Bold" xml:lang="en-gb">ignore duplicates within the key phrase</Span>
+    <Span xml:lang="en-gb">is enabled, double letters in the password are instead simply ignored.</Span>
+  </Paragraph>
+  <Paragraph Margin="0,6.67,0,6.67" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+    <Span xml:lang="en-gb" xml:space="preserve">The option </Span>
+    <Span FontWeight="Bold" xml:lang="en-gb">Separate pairs in the plaintext</Span>
+    <Span xml:lang="en-gb">is only effective when encrypting: Double letters in the cleartext are separated by the insertion of a separator (e.g. an X). A double X is being separated by insertion of another separator (e.g. Q).</Span>
+  </Paragraph>
+  <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+    <Span xml:lang="en-gb" xml:space="preserve">The option </Span>
+    <Span FontWeight="Bold" xml:lang="en-gb">Remove non-alphabet symbols in plaintext</Span>
+    <Span xml:lang="en-gb">is used to confine the cleartext to the alphabet used (depending on the size of the matrix). Under this option in the 5x5 matrix all J's are transformed into I's.</Span>
+  </Paragraph>
+  <Paragraph />
+</FlowDocument>

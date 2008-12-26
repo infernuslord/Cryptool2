@@ -1,0 +1,69 @@
+<FlowDocument PagePadding="5,0,5,0" AllowDrop="True" NumberSubstitution.CultureSource="User" 
+			  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+			  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			  xmlns:misc="clr-namespace:Cryptool.PluginBase.Miscellaneous;assembly=CrypPluginBase"
+			  Background="White">
+  
+  <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+    <Span FontFamily="Georgia" FontWeight="Bold" FontSize="18.6666666666667" Foreground="#FF15428B" xml:lang="en-us">
+      <Span.TextDecorations>
+        <TextDecoration Location="Underline" />
+      </Span.TextDecorations> Vernam Cipher
+    </Span>
+  </Paragraph>
+  
+  <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16" />
+
+  <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+    <misc:DescriptionHyperlink NavigateUri="http://en.wikipedia.org/wiki/Vernam_cipher">http://en.wikipedia.org/wiki/Vernam_cipher</misc:DescriptionHyperlink>
+  </Paragraph>
+
+  <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+    <misc:DescriptionHyperlink NavigateUri="http://en.wikipedia.org/wiki/One-time_pad">http://en.wikipedia.org/wiki/One-time_pad</misc:DescriptionHyperlink>
+  </Paragraph>
+
+  <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16" />
+  
+  <Paragraph Margin="0,6.67,0,6.67" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+    <Span xml:lang="en-gb">The Vernam encryption algorithm works exactly in the same way as the binary XOR encryption.</Span>
+  </Paragraph>
+  <Paragraph Margin="0,6.67,0,6.67" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+    <Span xml:lang="en-gb">However, since encryption by means of XOR is relatively easy to break with a short key, here a longer key stream is used. XOR encryption is (provably) secure if the key stream contains random bits only and if the key stream is at least as long as the document to be encrypted (an encryption method fulfilling these requirements is called a one-time pad).</Span>
+  </Paragraph>
+  <Paragraph Margin="0,6.67,0,6.67" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+    <Span xml:lang="en-gb">
+      <Span.TextDecorations>
+        <TextDecoration Location="Underline" />
+      </Span.TextDecorations> Remark 1
+    </Span>
+    <Span xml:lang="en-gb">:</Span>
+    <Span FontFamily="Times New Roman" FontSize="16" xml:lang="en-gb">
+      <LineBreak />
+    </Span>
+    <Span xml:lang="en-gb">This implementation does not check, whether the key stream is random or whether the data of the key stream is longer than the data of the cleartext.</Span>
+  </Paragraph>
+  <Paragraph Margin="0,6.67,0,6.67" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+    <Span xml:lang="en-gb">
+      <Span.TextDecorations>
+        <TextDecoration Location="Underline" />
+      </Span.TextDecorations> Remark 2
+    </Span>
+    <Span xml:lang="en-gb">:</Span>
+    <Span FontFamily="Times New Roman" FontSize="16" xml:lang="en-gb">
+      <LineBreak />
+    </Span>
+    <Span xml:lang="en-gb">If the cleartext is longer than the key stream, then the key is automatically applied cyclically (repeated again and again).</Span>
+  </Paragraph>
+  <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+    <Span xml:lang="en-gb">
+      <Span.TextDecorations>
+        <TextDecoration Location="Underline" />
+      </Span.TextDecorations> Remark 3
+    </Span>
+    <Span xml:lang="en-gb">:</Span>
+    <Span FontFamily="Times New Roman" FontSize="16" xml:lang="en-gb">
+      <LineBreak />
+    </Span>
+    <Run xml:lang="en-gb">The character "A" in the key stream for Vernam has the same effect on a byte in the cleartext as the two hex numbers "41" for the XOR encryption. In an analogous manner, "4F" has the same effect as the ACSII character "O".</Run>
+  </Paragraph>
+</FlowDocument>
