@@ -10,11 +10,10 @@
 		</Span.TextDecorations>ADFGVX Cipher
 		</Span>
 	</Paragraph>
-	
-	<Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16" /><Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
-	</Paragraph>
-	
-	<Paragraph>
+  
+  <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16" />
+  
+	<Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
 		<misc:DescriptionHyperlink NavigateUri="http://en.wikipedia.org/wiki/ADFGVX_cipher">http://en.wikipedia.org/wiki/ADFGVX_cipher</misc:DescriptionHyperlink>
 	</Paragraph>
 	

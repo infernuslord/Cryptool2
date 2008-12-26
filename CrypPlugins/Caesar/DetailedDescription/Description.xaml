@@ -12,16 +12,14 @@
         </Span>
     </Paragraph>
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16" />
+  
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
-        <Hyperlink NavigateUri="http://en.wikipedia.org/wiki/Caesar_cipher">
-            <Span Foreground="#FF0000FF" xml:lang="en-us">
-                <Span.TextDecorations>
-                    <TextDecoration Location="Underline" />
-                </Span.TextDecorations> http://en.wikipedia.org/wiki/Caesar_cipher
-            </Span>
-        </Hyperlink>
+      <Span Foreground="#FF0000FF" xml:lang="en-us">
+        <misc:DescriptionHyperlink NavigateUri="http://en.wikipedia.org/wiki/Caesar_cipher">http://en.wikipedia.org/wiki/Caesar_cipher</misc:DescriptionHyperlink>
+      </Span>
     </Paragraph>
-    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16" />
+
+  <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16" />
     <Paragraph Margin="0,6.67,0,6.67" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
         <Span xml:lang="en-gb">This encryption algorithm already used by the Roman general and dictator Caesar substitutes single letters: The substitution rule is that the letters of the cleartext alphabet are shifted by a special value (key).</Span>
     </Paragraph>
