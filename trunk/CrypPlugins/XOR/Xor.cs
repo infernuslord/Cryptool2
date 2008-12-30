@@ -216,7 +216,7 @@ using System.Windows.Controls;
 namespace Cryptool.XOR
 {
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo(false, "XOR", "XOR -- substitution cipher which is build by simple exclusive disjunction (XOR) operations", "", "XOR/icon.png", "XOR/Images/encrypt.png", "XOR/Images/decrypt.png")]
+    [PluginInfo(false, "XOR", "XOR -- substitution cipher which is build by simple exclusive disjunction (XOR) operations", "XOR/DetailedDescription/Description.xaml", "XOR/icon.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class Xor : IEncryption
     {
