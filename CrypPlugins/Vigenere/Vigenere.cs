@@ -214,7 +214,7 @@ using Cryptool.PluginBase.IO;
 namespace Cryptool.Vigenere
 {
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo(false, "Vigenère", "Vigenère -- classic polyalphabetic substitution cipher", null, "Vigenere/icon.png", "Vigenere/Images/encrypt.png", "Vigenere/Images/decrypt.png")]
+    [PluginInfo(false, "Vigenère", "Vigenère -- classic polyalphabetic substitution cipher", "Vigenere/DetailedDescription/Description.xaml", "Vigenere/icon.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class Vigenere : IEncryption
     {
