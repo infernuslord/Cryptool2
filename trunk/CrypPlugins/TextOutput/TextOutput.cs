@@ -325,26 +325,11 @@ namespace TextOutput
           return typeof(bool);
         case TextOutputSettings.DynamicDataTypes.Integer:
           return typeof(int);
+        case TextOutputSettings.DynamicDataTypes.Object:
+          return typeof(object);
         default:
           return null;
       }
-    }
-
-    private QuickWatchFormat getQuickWatchFormat()
-    {
-      Type type = getCurrentType();
-      if (type == typeof(CryptoolStream))
-        return QuickWatchFormat.Hex;
-      else if (type == typeof(string))
-        return QuickWatchFormat.Text;
-      else if (type == typeof(byte[]))
-        return QuickWatchFormat.Hex;
-      else if (type == typeof(bool))
-        return QuickWatchFormat.Text;
-      else if (type == typeof(int))
-        return QuickWatchFormat.Text;
-      else
-        return QuickWatchFormat.None;
     }
 
     private object getCurrentValue(string name)
@@ -371,6 +356,8 @@ namespace TextOutput
             return DicDynamicProperties[name].Value;
           case TextOutputSettings.DynamicDataTypes.Integer:
             return DicDynamicProperties[name].Value;
+          case TextOutputSettings.DynamicDataTypes.Object:
+            return DicDynamicProperties[name].Value;
           default:
             return null;
         }
@@ -384,7 +371,8 @@ namespace TextOutput
       if (name == null || name == string.Empty) name = "Input " + inputs;
       DicDynamicProperties.Add(name,
         new DynamicProperty(name, getCurrentType(),
-          new PropertyInfoAttribute(Direction.Input, name, toolTip, "", false, true, DisplayLevel.Beginner, getQuickWatchFormat(), null)));
+          new PropertyInfoAttribute(Direction.Input, name, toolTip, "", false, true, DisplayLevel.Beginner, QuickWatchFormat.None, null))
+      );
     }
 
     [MethodImpl(MethodImplOptions.Synchronized)]
@@ -398,7 +386,11 @@ namespace TextOutput
         }
 
         string fillValue = null;
-        if (value is String || value is string)
+        if (value is object || value is Object)
+        {
+          fillValue = value.ToString();
+        }
+        else if (value is String || value is string)
         {
           fillValue = value as string;
         }
