@@ -862,6 +862,11 @@
               Looks up a localized string similar to Redo.
             </summary>
         </member>
+        <member name="P:AnotherEditor.Properties.Visuals.remove_workspace">
+            <summary>
+              Looks up a localized string similar to Remove workspace.
+            </summary>
+        </member>
         <member name="P:AnotherEditor.Properties.Visuals.running_title">
             <summary>
               Looks up a localized string similar to  (Running).
