@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4E2D7D54-2C6B-46E2-ACFA-BDA517679AE1}</ProjectGuid>
+    <ProjectGuid>{7520A48F-E118-44C7-935F-2FC9A80D1181}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SmartCard</RootNamespace>
-    <AssemblyName>SmartCard</AssemblyName>
+    <RootNamespace>SmartInterpreter</RootNamespace>
+    <AssemblyName>SmartInterpreter</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
@@ -56,13 +56,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="pcscWrapper\pcscConstants.cs" />
-    <Compile Include="pcscWrapper\pcscImports.cs" />
-    <Compile Include="pcscWrapper\pcscStructures.cs" />
-    <Compile Include="pcscWrapper\pcscWrapper.cs" />
-    <Compile Include="SmartCard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SmartCardSettings.cs" />
+    <Compile Include="SmartInterpreter.cs" />
+    <Compile Include="SmartInterpreterSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
@@ -89,7 +85,7 @@
 cd ..\..\CrypWin\$(OutDir)
 if not exist "./CrypPlugins" mkdir "./CrypPlugins"
 
-del /F /Q /q "SmartCard*.*"
-copy "$(TargetDir)SmartCard*.*" "./CrypPlugins"</PostBuildEvent>
+del /F /Q /q "SmartInterpreter*.*"
+copy "$(TargetDir)SmartInterpreter*.*" "./CrypPlugins"</PostBuildEvent>
   </PropertyGroup>
 </Project>

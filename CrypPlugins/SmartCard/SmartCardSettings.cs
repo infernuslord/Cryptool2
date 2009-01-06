@@ -13,6 +13,8 @@ namespace SmartCard
   {
     private ObservableCollection<string> collection = new ObservableCollection<string>();
 
+    public static string VirtualReader = "Virtual Cardreader";
+
     #region ISettings Members
 
     private bool hasChanges = false;
@@ -35,9 +37,7 @@ namespace SmartCard
 
     public SmartCardSettings()
     {
-      collection.Add("Virtual Cardreader");
-      collection.Add("Cardreader1");
-      Collection = collection;
+        this.SearchCardReaders();
     }
 
     [TaskPane("SmartCard reader", "Select your reader.", "", 0, false, DisplayLevel.Beginner, ControlType.DynamicComboBox, new string[] { "Collection" })]
@@ -55,9 +55,51 @@ namespace SmartCard
     [TaskPane("Search Card Readers", "Search for readers connected to system.", "", 1, false, DisplayLevel.Beginner, ControlType.Button)]
     public void SearchCardReaders()
     {
-      GuiLogMessage("found N new readers", NotificationLevel.Info);
-      collection.Clear();
-      collection.Add("Cardreader2");
+        int hContext = pcscWrapper.EstablishContext();
+        String[] sReaders = pcscWrapper.ListReaders(hContext);
+
+        collection.Clear();
+
+        collection.Add(VirtualReader);
+
+        if (sReaders != null)
+        {
+            foreach (String sReader in sReaders)
+            {
+                pcscWrapper.READERSTATE rState = pcscWrapper.getReaderState(hContext, sReader);
+
+                GuiLogMessage("Reader found : " + sReader, NotificationLevel.Info);
+
+                // Debug Messages
+                GuiLogMessage("Reader Status: 0x" + System.Convert.ToString(rState.dwEventState, 16), NotificationLevel.Debug);
+                if ((rState.dwEventState & (UInt32)pcscWrapper.CardState.PRESENT) == 0)
+                {
+                    GuiLogMessage("Reader is empty.", NotificationLevel.Debug);
+                }
+                else
+                {
+                    // ATR aufbereiten
+                    StringBuilder ATRHex = new StringBuilder();
+                    for (int i = 0; i < rState.cbAtr; i++)
+                    {
+                        ATRHex.Append(" 0x" + rState.rgbAtr[i].ToString("X2"));
+                    }
+                    GuiLogMessage("smartcard's ATR:" + ATRHex.ToString(), NotificationLevel.Debug);
+                    if ((rState.dwEventState & (UInt32)pcscWrapper.CardState.EXCLUSIVE) != 0)
+                    {
+                        GuiLogMessage("Reader is exclusively used by another application.", NotificationLevel.Debug);
+                    }
+                }
+                collection.Add(sReader);
+            }
+        }
+        else
+        {
+            GuiLogMessage("No reader found.", NotificationLevel.Info);
+        }
+
+      pcscWrapper.ReleaseContext(hContext);
+
       Collection = collection;
       CardReader = 0;
     }
