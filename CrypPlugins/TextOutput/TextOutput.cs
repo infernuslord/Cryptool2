@@ -386,11 +386,8 @@ namespace TextOutput
         }
 
         string fillValue = null;
-        if (value is object || value is Object)
-        {
-          fillValue = value.ToString();
-        }
-        else if (value is String || value is string)
+
+        if (value is String || value is string)
         {
           fillValue = value as string;
         }
@@ -435,6 +432,10 @@ namespace TextOutput
             sizedArray[i] = byteArray[i];
           }
           fillValue = GetStringForSelectedEncoding(sizedArray);
+        }
+        else if (value is object || value is Object)
+        {
+          fillValue = value.ToString();
         }
 
         if (fillValue != null)
