@@ -207,4 +207,5 @@ namespace Cryptool.Core
 {
     public delegate void CrypCoreExceptionEventHandler(object sender, PluginManagerEventArgs args);
     public delegate void CrypCoreDebugEventHandler(object sender, PluginManagerEventArgs args);
+    public delegate void CrypCorePluginLoadedHandler(object sender, PluginLoadedEventArgs args);
 }

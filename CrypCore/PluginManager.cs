@@ -214,6 +214,11 @@ namespace Cryptool.Core
     public class PluginManager
     {
         /// <summary>
+        /// Counter for the dll files that were found
+        /// </summary>
+        private int availablePluginsApproximation = 0;
+
+        /// <summary>
         /// Subdirectory to store plugins
         /// </summary>
         private const string PluginDirecory = "CrypPlugins";
@@ -227,6 +232,11 @@ namespace Cryptool.Core
         /// Fires if an info occurs
         /// </summary>
         public event CrypCoreDebugEventHandler OnDebugMessageOccured;
+
+        /// <summary>
+        /// Occurs when a plugin was loaded
+        /// </summary>
+        public event CrypCorePluginLoadedHandler OnPluginLoaded;
         
         /// <summary>
         /// Custom Plugin Store Directory
@@ -288,16 +298,29 @@ namespace Cryptool.Core
         /// <param name="state">Load type from all plugins or from signed only</param>
         /// <returns></returns>
         public Dictionary<string, Type> LoadTypes(AssemblySigningRequirement state)
-        {            
+        {
             if (Directory.Exists(globalPluginStore))
-                FindAssemblies(new DirectoryInfo(globalPluginStore), state, foundAssemblies);
+            {
+              availablePluginsApproximation = AvailablePluginsApproximation(new DirectoryInfo(globalPluginStore));
+              FindAssemblies(new DirectoryInfo(globalPluginStore), state, foundAssemblies);
+            }
 
-            if (!Directory.Exists(customPluginStore))
-                Directory.CreateDirectory(customPluginStore);
-
-            FindAssemblies(new DirectoryInfo(customPluginStore), state, foundAssemblies);
+            // custom plugin store is not supported yet
+            //if (!Directory.Exists(customPluginStore))
+            //    Directory.CreateDirectory(customPluginStore);
+            //FindAssemblies(new DirectoryInfo(customPluginStore), state, foundAssemblies);
             LoadTypes(foundAssemblies);
             return this.loadedTypes;
+        }
+
+        private int AvailablePluginsApproximation(DirectoryInfo directory)
+        {
+          int count = 0;
+          foreach (DirectoryInfo subDirectory in directory.GetDirectories())
+          {
+            count = AvailablePluginsApproximation(subDirectory);
+          }
+          return directory.GetFiles("*.dll").Length;
         }
 
         /// <summary>
@@ -313,11 +336,14 @@ namespace Cryptool.Core
                 FindAssemblies(subDirectory, state, foundAssemblies);
             }
 
+            int currentPosition = 0;
             foreach (FileInfo fileInfo in directory.GetFiles("*.dll"))
             {
+                currentPosition++;
                 try
                 {
                     Assembly asm = Assembly.LoadFile(fileInfo.FullName);
+                    
                     string key = GetAssemblyKey(asm.FullName, state);
                     if (key == null)
                         throw new UnknownFileFormatException(fileInfo.FullName);
@@ -336,7 +362,13 @@ namespace Cryptool.Core
                       }
 
                     if (sendMessage)
+                    {
                         SendDebugMessage("Loaded Assembly \"" + asm.FullName + "\" from file: " + fileInfo.FullName);
+                        if (OnPluginLoaded != null)
+                        {
+                          OnPluginLoaded(this, new PluginLoadedEventArgs(currentPosition, this.availablePluginsApproximation, asm.GetName().Name + " Version=" + asm.GetName().Version.ToString()));
+                        }                          
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -365,7 +397,9 @@ namespace Cryptool.Core
                     {
                       this.loadedTypes.Add(type.FullName, type);
                       if (!this.loadedAssemblies.ContainsKey(assemblyName.Name))
+                      {
                         this.loadedAssemblies.Add(assemblyName.Name, asm);
+                      }
                     }
                   }
                 }

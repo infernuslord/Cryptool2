@@ -219,6 +219,9 @@ using System.Windows.Controls;
 using System.Runtime.CompilerServices;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Runtime.Remoting.Contexts;
+using System.Windows;
+using System.Windows.Threading;
+using System.Threading;
 
 
 namespace Cryptool.PRESENT
@@ -245,8 +248,8 @@ namespace Cryptool.PRESENT
     
     public PRESENT()
     {
-      this.settings = new PRESENTSettings();
       this.presentation = new PRESENTAnimation();
+      this.settings = new PRESENTSettings();      
     }
 
     public ISettings Settings
@@ -599,6 +602,7 @@ namespace Cryptool.PRESENT
 
     public void Initialize()
     {
+      
     }
  
     public void Dispose()

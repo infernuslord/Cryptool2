@@ -202,35 +202,46 @@
 */
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows;
 
-namespace Cryptool.Core
+namespace Cryptool.PluginBase
 {
-    public class PluginManagerEventArgs : EventArgs
+  /// <summary>
+  /// This optional attribute can be used to display author information in the 
+  /// settings pane. 
+  /// </summary>
+  [AttributeUsage(AttributeTargets.Property)]
+  public class SettingsFormatAttribute : Attribute
+  {
+    /// <summary>
+    /// Optical Ident of 
+    /// </summary>
+    public readonly int Ident;
+
+
+    /// <summary>
+    /// The font weight for the headline text
+    /// </summary>
+    public readonly FontWeight FontWeight;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SettingsFormatAttribute"/> class.
+    /// </summary>
+    /// <param name="indent">The indent.</param>
+    public SettingsFormatAttribute(int indent, string fontWeight)
     {
-        public readonly Exception Exception;
-
-        public PluginManagerEventArgs(Exception exception)
-        {
-            this.Exception = exception;
-        }
-
-        public PluginManagerEventArgs(string message)
-        {
-           this.Exception = new Exception(message);
-        }
-    }
-
-    public class PluginLoadedEventArgs : EventArgs
-    {
-      public readonly int CurrentPluginNumber;
-      public readonly int NumberPluginsFound;
-      public readonly string AssemblyName;
-
-      public PluginLoadedEventArgs(int currentPluginNumber, int numberPluginsFound, string assemblyName)
+      this.Ident = indent;
+      try
       {
-        this.CurrentPluginNumber = currentPluginNumber;
-        this.NumberPluginsFound = numberPluginsFound;
-        this.AssemblyName = assemblyName;
+        this.FontWeight = (FontWeight)new FontWeightConverter().ConvertFromString(fontWeight);
+      }
+      catch (Exception ex)
+      {
+        this.FontWeight = FontWeights.Normal;
       }
     }
+  }
 }
