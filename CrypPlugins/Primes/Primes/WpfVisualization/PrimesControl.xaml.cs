@@ -229,8 +229,7 @@ namespace Primes.WpfVisualization
   /// <summary>
   /// Interaction logic for PrimesControl.xaml
   /// </summary>
-  [Author("Timo Eckhardt", "T-Eckhardt@gmx.de", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo(false, "Primes", "Primes", "", "Primes/icon.png")] 
+
   public partial class PrimesControl : UserControl, ITool
   {
     private IPrimeMethodDivision m_ActualControl = null;
