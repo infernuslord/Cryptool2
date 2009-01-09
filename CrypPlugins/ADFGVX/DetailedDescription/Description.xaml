@@ -1,22 +1,78 @@
 <FlowDocument PagePadding="5,0,5,0" AllowDrop="True" NumberSubstitution.CultureSource="User" 
-			  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-			  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			  xmlns:misc="clr-namespace:Cryptool.PluginBase.Miscellaneous;assembly=CrypPluginBase"
-			  Background="White">
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	            xmlns:misc="clr-namespace:Cryptool.PluginBase.Miscellaneous;assembly=CrypPluginBase"
+	            Background="White">
     
-	<Paragraph Margin="0,0,0,0" TextAlignment="Justify" FontFamily="Georgia" FontSize="18.6666666666667">
-		<Span FontWeight="Bold" Foreground="#FF15428B" xml:lang="en-us">
-		<Span.TextDecorations><TextDecoration Location="Underline" />
-		</Span.TextDecorations>ADFGVX Cipher
-		</Span>
-	</Paragraph>
-  
-  <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16" />
-  
-	<Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
-		<misc:DescriptionHyperlink NavigateUri="http://en.wikipedia.org/wiki/ADFGVX_cipher">http://en.wikipedia.org/wiki/ADFGVX_cipher</misc:DescriptionHyperlink>
-	</Paragraph>
-	
-	<Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16" /><Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16"><Span xml:lang="en-gb" xml:space="preserve">The ADFGVX encoding method was developed by Fritz Nebel, a colonel of the German communications corps, and it was first employed in spring 1918 by the German army. The procedure is an effective </Span><Span FontWeight="Bold" xml:lang="en-gb">two-stage</Span><Run xml:lang="en-gb" xml:space="preserve"> </Run><Run xml:lang="de-de">cascading cipher</Run><Span xml:lang="en-gb">, consisting of a substitution followed by a column transposition. So the whole key of the ADFGVX cipher consists of two partial keys.</Span><Span FontFamily="Times New Roman" FontSize="16" xml:lang="en-gb"><LineBreak /></Span><Span FontFamily="Times New Roman" FontSize="16" xml:lang="en-gb"><LineBreak /></Span><Span xml:lang="en-gb" xml:space="preserve">The plaintext </Span><Span FontWeight="Bold" xml:lang="en-gb">alphabet</Span><Span xml:lang="en-gb"> consists exactly of the letters 'A' to 'Z' and the digits '0' to '9'.</Span><Span FontFamily="Times New Roman" FontSize="16" xml:lang="en-gb"><LineBreak /></Span><Span FontFamily="Times New Roman" FontSize="16" xml:lang="en-gb"><LineBreak /></Span><Span xml:lang="en-gb" xml:space="preserve">The </Span><Span FontWeight="Bold" xml:lang="en-gb">substitution</Span><Span xml:lang="en-gb"> is executed by means of a 6x6-matrix, containing all elements of the alphabet in random order. This order is the substitution key. The rows and columns of the matrix are identified by the letters A, D, F, G, V and X, which make up the ciphertext alphabet.</Span><Span FontFamily="Times New Roman" FontSize="16" xml:lang="en-gb"><LineBreak /></Span><Span FontFamily="Times New Roman" FontSize="16" xml:lang="en-gb"><LineBreak /></Span><Span xml:lang="en-gb" xml:space="preserve">The </Span><Span FontWeight="Bold" xml:lang="en-gb">first encryption stage (substitution)</Span><Span xml:lang="en-gb"> determines the position of each plaintext letter within the matrix and replaces it by its row- and column-indicator pair. This way, every plaintext letter is replaced by two ciphertext letters.</Span><Span FontFamily="Times New Roman" FontSize="16" xml:lang="en-gb"><LineBreak /></Span><Span FontFamily="Times New Roman" FontSize="16" xml:lang="en-gb"><LineBreak /></Span><Span xml:lang="en-gb" xml:space="preserve">During the </Span><Span FontWeight="Bold" xml:lang="en-gb">second encryption stage (transposition)</Span><Span xml:lang="en-gb"> the ciphertext generated in the first stage is further encoded by means of a single column transposition. The basis of this transposition is the transposition password, which must consist exclusively of the letters 'A' to 'Z'; redundant characters are not allowed. Thus, the password length is restricted to a maximum of 26 characters.</Span><Span FontFamily="Times New Roman" FontSize="16" xml:lang="en-gb"><LineBreak /></Span><Span FontFamily="Times New Roman" FontSize="16" xml:lang="en-gb"><LineBreak /></Span><Span xml:lang="en-gb">The transposition password forms the second part of the ADFGVX key. The transposition again is realized through a matrix. The first row is filled with the transposition password, which determines the number of columns. The stage 1 ciphertext is then written into the matrix line by line. Now the columns of the matrix are swapped in such a way, that the letters of the transposition password are arranged in alphabetical order. Finally, the stage 2 ciphertext is extracted from the matrix column by column.</Span><Span FontFamily="Times New Roman" FontSize="16" xml:lang="en-gb"><LineBreak /></Span><Span FontFamily="Times New Roman" FontSize="16" xml:lang="en-gb"><LineBreak /></Span><Run xml:lang="en-gb">The security of this cipher is based on the fact that the two ciphertext letters substituting every plaintext letter are separated by the transposition, making a frequency analysis of the bigrams useless.</Run>
-	</Paragraph>
+    <Paragraph Margin="0,0,0,0" TextAlignment="Justify" FontFamily="Georgia" FontSize="18.6666666666667">
+        <Span FontWeight="Bold" Foreground="#FF15428B" xml:lang="en-us">
+            <Span.TextDecorations>
+                <TextDecoration Location="Underline" />
+            </Span.TextDecorations> ADFGVX Cipher
+        </Span>
+    </Paragraph>
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16" />
+
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+        <Span Foreground="#FF0000FF" xml:lang="en-us">
+            <misc:DescriptionHyperlink NavigateUri="http://en.wikipedia.org/wiki/ADFGVX_cipher">http://en.wikipedia.org/wiki/ADFGVX_cipher</misc:DescriptionHyperlink>
+        </Span>
+    </Paragraph>
+
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+        <Span Foreground="#FF15428B" xml:lang="en-gb" xml:space="preserve">The ADFGVX encoding method was developed by Fritz Nebel, a colonel of the German communications corps, and it was first employed in spring 1918 by the German army. The procedure is an effective </Span>
+        <Span FontWeight="Bold" Foreground="#FF15428B" xml:lang="en-gb">two-stage</Span>
+        <Span Foreground="#FF15428B" xml:lang="en-gb">cascading cipher, consisting of a substitution followed by a column transposition. So the whole key of the ADFGVX cipher consists of two partial keys.</Span>
+        <Span FontFamily="Times New Roman" FontSize="16" Foreground="#FF15428B" xml:lang="en-gb">
+            <LineBreak />
+        </Span>
+        <Span FontFamily="Times New Roman" FontSize="16" Foreground="#FF15428B" xml:lang="en-gb">
+            <LineBreak />
+        </Span>
+        <Span Foreground="#FF15428B" xml:lang="en-gb" xml:space="preserve">The plaintext </Span>
+        <Span FontWeight="Bold" Foreground="#FF15428B" xml:lang="en-gb" xml:space="preserve">alphabet </Span>
+        <Span Foreground="#FF15428B" xml:lang="en-gb">consists exactly of the letters 'A' to 'Z' and the digits '0' to '9'.</Span>
+        <Span FontFamily="Times New Roman" FontSize="16" Foreground="#FF15428B" xml:lang="en-gb">
+            <LineBreak />
+        </Span>
+        <Span FontFamily="Times New Roman" FontSize="16" Foreground="#FF15428B" xml:lang="en-gb">
+            <LineBreak />
+        </Span>
+        <Span Foreground="#FF15428B" xml:lang="en-gb" xml:space="preserve">The </Span>
+        <Span FontWeight="Bold" Foreground="#FF15428B" xml:lang="en-gb" xml:space="preserve">substitution </Span>
+        <Span Foreground="#FF15428B" xml:lang="en-gb">is executed by means of a 6x6-matrix, containing all elements of the alphabet in random order. This order is the substitution key. The rows and columns of the matrix are identified by the letters A, D, F, G, V and X, which make up the ciphertext alphabet.</Span>
+        <Span FontFamily="Times New Roman" FontSize="16" Foreground="#FF15428B" xml:lang="en-gb">
+            <LineBreak />
+        </Span>
+        <Span FontFamily="Times New Roman" FontSize="16" Foreground="#FF15428B" xml:lang="en-gb">
+            <LineBreak />
+        </Span>
+        <Span Foreground="#FF15428B" xml:lang="en-gb" xml:space="preserve">The </Span>
+        <Span FontWeight="Bold" Foreground="#FF15428B" xml:lang="en-gb" xml:space="preserve">first encryption stage (substitution) </Span>
+        <Span Foreground="#FF15428B" xml:lang="en-gb">determines the position of each plaintext letter within the matrix and replaces it by its row- and column-indicator pair. This way, every plaintext letter is replaced by two ciphertext letters.</Span>
+        <Span FontFamily="Times New Roman" FontSize="16" Foreground="#FF15428B" xml:lang="en-gb">
+            <LineBreak />
+        </Span>
+        <Span FontFamily="Times New Roman" FontSize="16" Foreground="#FF15428B" xml:lang="en-gb">
+            <LineBreak />
+        </Span>
+        <Span Foreground="#FF15428B" xml:lang="en-gb" xml:space="preserve">During the </Span>
+        <Span FontWeight="Bold" Foreground="#FF15428B" xml:lang="en-gb" xml:space="preserve">second encryption stage (transposition) </Span>
+        <Span Foreground="#FF15428B" xml:lang="en-gb">the ciphertext generated in the first stage is further encoded by means of a single column transposition. The basis of this transposition is the transposition password, which must consist exclusively of the letters 'A' to 'Z'; redundant characters are not allowed. Thus, the password length is restricted to a maximum of 26 characters.</Span>
+        <Span FontFamily="Times New Roman" FontSize="16" Foreground="#FF15428B" xml:lang="en-gb">
+            <LineBreak />
+        </Span>
+        <Span FontFamily="Times New Roman" FontSize="16" Foreground="#FF15428B" xml:lang="en-gb">
+            <LineBreak />
+        </Span>
+        <Span Foreground="#FF15428B" xml:lang="en-gb">The transposition password forms the second part of the ADFGVX key. The transposition again is realized through a matrix. The first row is filled with the transposition password, which determines the number of columns. The stage 1 ciphertext is then written into the matrix line by line. Now the columns of the matrix are swapped in such a way, that the letters of the transposition password are arranged in alphabetical order. Finally, the stage 2 ciphertext is extracted from the matrix column by column.</Span>
+        <Span FontFamily="Times New Roman" FontSize="16" Foreground="#FF15428B" xml:lang="en-gb">
+            <LineBreak />
+        </Span>
+        <Span FontFamily="Times New Roman" FontSize="16" Foreground="#FF15428B" xml:lang="en-gb">
+            <LineBreak />
+        </Span>
+        <Run Foreground="#FF15428B" xml:lang="en-gb">The security of this cipher is based on the fact that the two ciphertext letters substituting every plaintext letter are separated by the transposition, making a frequency analysis of the bi-grams useless.</Run>
+    </Paragraph>
 </FlowDocument>
