@@ -8,7 +8,7 @@ using Primes.WpfVisualization;
 
 namespace Primes
 {
-  [Author("Timo Eckhardt", "timo.eckhardt@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
+  [Author("Timo Eckhardt", "T-Eckhardt@gmx.de", "Uni Siegen", "http://www.uni-siegen.de")]
   [PluginInfo(false, "Primes", "Primes", "", "Primes/icon.png")] 
   public class PrimesPlugin:ITool
   {
@@ -22,7 +22,7 @@ namespace Primes
 
     public Cryptool.PluginBase.ISettings Settings
     {
-      get { throw new NotImplementedException(); }
+      get { return null; }
     }
 
     public System.Windows.Controls.UserControl Presentation
