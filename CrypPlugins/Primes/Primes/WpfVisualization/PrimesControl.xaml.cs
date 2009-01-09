@@ -230,7 +230,7 @@ namespace Primes.WpfVisualization
   /// Interaction logic for PrimesControl.xaml
   /// </summary>
 
-  public partial class PrimesControl : UserControl, ITool
+  public partial class PrimesControl : UserControl
   {
     private IPrimeMethodDivision m_ActualControl = null;
     private IPrimeMethodDivision m_FactorizationControl = null;
@@ -635,13 +635,13 @@ namespace Primes.WpfVisualization
     public event PluginProgressChangedEventHandler OnPluginProgressChanged;
     private void FireOnStatusBarProgressbarValueChanged(double val)
     {
-      if (OnPluginProgressChanged != null) OnPluginProgressChanged(this, new PluginProgressEventArgs(val, 17));
+      //if (OnPluginProgressChanged != null) OnPluginProgressChanged(this, new PluginProgressEventArgs(val, 17));
     }
 
     public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
     private void FireOnGuiLogNotificationOccured()
     {
-      if (OnGuiLogNotificationOccured != null) OnGuiLogNotificationOccured(this,new GuiLogEventArgs("",this,NotificationLevel.Info));
+      //if (OnGuiLogNotificationOccured != null) OnGuiLogNotificationOccured(this,new GuiLogEventArgs("",this,NotificationLevel.Info));
     }
     public UserControl Presentation
     {
@@ -728,7 +728,7 @@ namespace Primes.WpfVisualization
 
     private void FirePluginStatusChangedEvent()
     {
-      if (OnPluginStatusChanged != null) OnPluginStatusChanged(this, new StatusEventArgs(0));
+      //if (OnPluginStatusChanged != null) OnPluginStatusChanged(this, new StatusEventArgs(0));
     }
 
     public ISettings Settings
