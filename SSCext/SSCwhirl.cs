@@ -22,7 +22,7 @@ using System.Diagnostics;
 
 namespace System.Security.Cryptography
 {
-  public class HMACWHIRLPOOL : HashAlgorithm
+  public class HMACWHIRLPOOL : HMAC
   {
     const int DIGESTBYTES = 64;
     const int DIGESTBITS  = DIGESTBYTES * 8;
@@ -54,8 +54,51 @@ namespace System.Security.Cryptography
       bitLength = new byte[LENGTHBYTES];
       buffer = new byte[WBLOCKBYTES];
       hash = new ulong[DIGESTBYTES / 8];
+
+      HashName = "Whirlpool";
+
+      //Key
+      if ((KeyValue != null) && (KeyValue.Length > 0))
+        HashCore(KeyValue, 0, KeyValue.Length);
     }
 
+    /// <summary>
+    /// When overridden in A derived class, gets A value indicating whether multiple blocks can be transformed.
+    /// </summary>
+    /// <value></value>
+    /// <returns>true if multiple blocks can be transformed; otherwise, false.
+    /// </returns>
+    public override bool CanTransformMultipleBlocks
+    {
+      get
+      {
+        return true;
+      }
+    }
+
+    /// <summary>
+    /// Gets or sets the key to use in the hash algorithm.
+    /// </summary>
+    /// <value></value>
+    /// <returns>
+    /// The key to use in the hash algorithm.
+    /// </returns>
+    /// <exception cref="T:System.Security.Cryptography.CryptographicException">
+    /// An attempt is made to change the <see cref="P:System.Security.Cryptography.HMAC.Key"/> property 
+    /// after hashing has begun.
+    /// </exception>
+    public override byte[] Key
+    {
+      get
+      {
+        return base.Key;
+      }
+      set
+      {
+        base.Key = value;
+        Initialize();
+      }
+    }
 
     /// <summary>
     /// routes data written to the object into the hash algorithm for computing the hash.
@@ -166,8 +209,6 @@ namespace System.Security.Cryptography
         bufferBits += sourceBits;
       }
     }
-
-
 
     /// <summary>
     /// finalizes the hash computation after the last data is processed by the cryptographic stream object.
@@ -824,7 +865,7 @@ namespace System.Security.Cryptography
       state[6] = block[6] ^ (K[6] = hash[6]);
       state[7] = block[7] ^ (K[7] = hash[7]);
 
-     // iterate over all rounds:
+      // iterate over all rounds:
       for (r = 1; r <= R; r++)
       {
         // compute K^r from K^{r-1}:
