@@ -43,14 +43,14 @@ namespace PKCS5
     private PKCS5MaskGenerationMethod.ShaFunction selectedShaFunction 
 					= PKCS5MaskGenerationMethod.ShaFunction.SHA256;
 
-    [ContextMenu("SHA Function",
-      "Select the hash function (MD5, SHA1 or one out of the SHA2 family)", 0,
+    [ContextMenu("Hash Function",
+      "Select the hash function (MD5, one out of the SHA family, TIGER or WHIRLPOOL)", 0,
       DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null,
-      new string[] { "MD5", "SHA1", "SHA256", "SHA384", "SHA512" })]
+      new string[] { "MD5", "SHA1", "SHA256", "SHA384", "SHA512", "TIGER", "WHIRLPOOL" })]
     [TaskPane("Select hash function",
-      "Select the hash function (MD2, SHA1 or one out of the SHA2 family)", "", 0, true,
+      "Select the hash function (MD5, one out of the SHA family, TIGER or WHIRLPOOL)", "", 0, true,
       DisplayLevel.Beginner, ControlType.ComboBox,
-      new string[] { "MD5", "SHA1", "SHA256", "SHA384", "SHA512" })]
+      new string[] { "MD5", "SHA1", "SHA256", "SHA384", "SHA512", "TIGER", "WHIRLPOOL" })]
     public int SHAFunction
     {
       get
@@ -60,7 +60,6 @@ namespace PKCS5
       set
       {
         this.selectedShaFunction = (PKCS5MaskGenerationMethod.ShaFunction)value;
-        //CheckLength();
         // set to max hash length
         length = PKCS5MaskGenerationMethod.GetHashLength(selectedShaFunction) * 8;
         hasChanges = true;
@@ -114,8 +113,6 @@ namespace PKCS5
 
         while ((length & 0x07) != 0) // go to the next multiple of 8
           length++;
-
-        //CheckLength();
 
         hasChanges = true;
         OnPropertyChanged("Length");

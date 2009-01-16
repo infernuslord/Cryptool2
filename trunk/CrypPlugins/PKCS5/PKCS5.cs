@@ -34,26 +34,6 @@ namespace PKCS5
   {
 
     /// <summary>
-    /// can only handle one input canal
-    /// </summary>
-    private enum dataCanal
-    {
-      /// <summary>
-      /// nothing assigned
-      /// </summary>
-      none,
-      /// <summary>
-      /// using stream interface
-      /// </summary>
-      streamCanal,
-      /// <summary>
-      /// using byte array interface
-      /// </summary>
-      byteCanal
-    };
-
-
-    /// <summary>
     /// Initializes a new instance of the <see cref="PKCS5"/> class.
     /// </summary>
     public PKCS5()
@@ -110,7 +90,6 @@ namespace PKCS5
 
     // Input key
     private byte[] key = { };
-    private dataCanal keyCanal = dataCanal.none;
 
     /// <summary>
     /// Notifies the update input.
@@ -139,10 +118,6 @@ namespace PKCS5
         if (null == value)
           return;
 
-        if (keyCanal != dataCanal.none && keyCanal != dataCanal.streamCanal)
-          GuiLogMessage("Duplicate input key not allowed!", NotificationLevel.Warning);
-        keyCanal = dataCanal.streamCanal;
-
         long len = value.Length;
         key = new byte[len];
 
@@ -167,10 +142,6 @@ namespace PKCS5
       }
       set
       {
-        if (keyCanal != dataCanal.none && keyCanal != dataCanal.byteCanal)
-          GuiLogMessage("Duplicate key data not allowed!", NotificationLevel.Warning);
-        keyCanal = dataCanal.byteCanal;
-
         long len = value.Length;
         key = new byte[len];
 
@@ -187,7 +158,6 @@ namespace PKCS5
 
     // Salt Data
     private byte[] salt = { };
-    private dataCanal saltCanal = dataCanal.none;
 
     /// <summary>
     /// Notifies the update salt.
@@ -215,11 +185,6 @@ namespace PKCS5
       {
         if (null == value)
           return;
-
-        if (saltCanal != dataCanal.none && saltCanal != dataCanal.streamCanal)
-          GuiLogMessage("Duplicate salt input not allowed!", NotificationLevel.Warning);
-        saltCanal = dataCanal.streamCanal;
-
         long len = value.Length;
         salt = new byte[len];
 
@@ -245,10 +210,6 @@ namespace PKCS5
 
       set
       {
-        if (saltCanal != dataCanal.none && saltCanal != dataCanal.byteCanal)
-          GuiLogMessage("Duplicate salt input not allowed!", NotificationLevel.Warning);
-        saltCanal = dataCanal.byteCanal;
-
         long len = value.Length;
         salt = new byte[len];
 
@@ -315,14 +276,6 @@ namespace PKCS5
         GuiLogMessage("Got HashOutputData.", NotificationLevel.Debug);
         return this.outputData;
       }
-      //set
-      //{
-      //    if (outputData != value)
-      //    {
-      //        this.outputData = value;
-      //    }
-      //    NotifyUpdateOutput();
-      //}
     }
 
     /// <summary>

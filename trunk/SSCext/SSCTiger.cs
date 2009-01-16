@@ -24,7 +24,7 @@ using System.Diagnostics;
 
 namespace System.Security.Cryptography
 {
-  public class HMACTIGER : HashAlgorithm
+  public class HMACTIGER : HMAC
   {
 
     const int PASSES = 3;
@@ -63,9 +63,39 @@ namespace System.Security.Cryptography
 
       bufPos = 0;
       length = 0;
+
+      HashName = "Tiger1";
+
+      //Key
+      if ((KeyValue != null) && (KeyValue.Length > 0))
+        HashCore(KeyValue, 0, KeyValue.Length);
     }
 
+    /// <summary>
+    /// Gets or sets the key to use in the hash algorithm.
+    /// </summary>
+    /// <value></value>
+    /// <returns>
+    /// The key to use in the hash algorithm.
+    /// </returns>
+    /// <exception cref="T:System.Security.Cryptography.CryptographicException">
+    /// An attempt is made to change the <see cref="P:System.Security.Cryptography.HMAC.Key"/> property 
+    /// after hashing has begun.
+    /// </exception>
+    public override byte[] Key
+    {
+      get
+      {
+        return base.Key;
+      }
+      set
+      {
+        base.Key = value;
+        Initialize();
+      }
+    }
 
+    
     /// <summary>
     /// When overridden in A derived class, gets A value indicating whether multiple blocks can be transformed.
     /// </summary>
