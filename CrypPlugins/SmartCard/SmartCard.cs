@@ -12,7 +12,7 @@ using Cryptool.PluginBase.Cryptography;
 namespace SmartCard
 {
   [Author("Malte Gronau", null, "", "")]
-  [PluginInfo(false, "SmartCard", "SmartCard operations.", "", "SmartCard/Images/SmartCard.png")]
+  [PluginInfo(false, "SmartCard", "SmartCard operations.", "SmartCard/DetailedDescription/Description.xaml", "SmartCard/Images/SmartCard.png")]
   public class SmartCard : IThroughput
   {
     # region private variables
