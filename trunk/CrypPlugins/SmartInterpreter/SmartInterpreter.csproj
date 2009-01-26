@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{7520A48F-E118-44C7-935F-2FC9A80D1181}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -67,10 +67,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\SmartCard.png" />
+    <None Include="key.snk" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="key.snk" />
+    <Resource Include="Images\SmartInterpreter.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
