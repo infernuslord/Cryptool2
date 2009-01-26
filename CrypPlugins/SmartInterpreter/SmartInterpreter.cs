@@ -12,7 +12,7 @@ using Cryptool.PluginBase.Cryptography;
 namespace SmartInterpreter
 {
   [Author("Malte Gronau", "malte.gronau@web.de", "", "")]
-  [PluginInfo(false, "SmartInterpreter", "SmartCard Script Interpreter.", "", "SmartInterpreter/Images/SmartCard.png")]
+  [PluginInfo(false, "SmartInterpreter", "SmartCard Script Interpreter.", "", "SmartInterpreter/Images/SmartInterpreter.png")]
   public class SmartInterpreter : IThroughput
   {
     # region private variables
