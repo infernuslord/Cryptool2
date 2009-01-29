@@ -215,6 +215,7 @@ namespace TextOutput
   {
     #region Private variables
     private EncodingTypes encoding = EncodingTypes.Default;
+    private PresentationFormat presentation = PresentationFormat.Text;
     private int maxLength = 65536; //64kB
     private bool hasChanges = false;
     private TextOutput myTextOutput;
@@ -224,6 +225,8 @@ namespace TextOutput
 
     public enum EncodingTypes { Default = 0, Unicode = 1, UTF7 = 2, UTF8 = 3, UTF32 = 4, ASCII = 5, BigEndianUnicode = 6 };
     public enum DynamicDataTypes { CryptoolStream, String, ByteArray, Boolean, Integer , Object};
+    public enum PresentationFormat { Text, Hex, Base64 }
+
     public bool CanChangeProperty { get; set; }
 
     public TextOutputSettings(TextOutput textOutput)
@@ -246,13 +249,24 @@ namespace TextOutput
       }
     }
 
+    public PresentationFormat Presentation
+    {
+      get { return this.presentation; }
+      set
+      {
+        if (this.presentation != value) hasChanges = true;
+        this.presentation = value;
+        OnPropertyChanged("Presentation");
+      }
+    }
+
     #region settings
 
     /// <summary>
     /// Encoding property used in the Settings pane. 
     /// </summary>
-    [ContextMenu("Stream encoding", "Choose the expected encoding of the input stream and byte array.", 1, DisplayLevel.Experienced, ContextMenuControlType.ComboBox, null, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
-    [TaskPane("Stream encoding", "Choose the expected encoding of the input stream and byte array. (The stream/byte[] will be interpreted as set here, no matter what the bytes really mean)", null, 1, false, DisplayLevel.Experienced, ControlType.ComboBox, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
+    [ContextMenu("Input encoding", "Choose the expected encoding of the input.", 1, DisplayLevel.Experienced, ContextMenuControlType.ComboBox, null, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
+    [TaskPane("Input encoding", "Choose the expected encoding of the input. (The input will be interpreted as set here, no matter what the bytes really mean)", null, 1, false, DisplayLevel.Experienced, ControlType.ComboBox, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
     public int EncodingSetting
     {
       get
@@ -267,10 +281,32 @@ namespace TextOutput
       }
     }
 
+
+    /// <summary>
+    /// Gets or sets the presentation format setting.
+    /// </summary>
+    /// <value>The presentation format setting.</value>
+    [ContextMenu("Presentation format", "Choose the format that will be used te present the input data.", 2, DisplayLevel.Experienced, ContextMenuControlType.ComboBox, null, new string[] { "Text", "Hex", "Base64" })]
+    [TaskPane("Presentation format", "Choose the format that will be used te present the input data.", null, 2, false, DisplayLevel.Experienced, ControlType.ComboBox, new string[] { "Text", "Hex", "Base64" })]
+    public int PresentationFormatSetting
+    {
+      get
+      {
+        return (int)this.presentation;
+      }
+      set
+      {
+        if (this.presentation != (PresentationFormat)value) HasChanges = true;
+        this.presentation = (PresentationFormat)value;
+        OnPropertyChanged("PresentationFormatSetting");
+      }
+    }
+
+
     /// <summary>
     /// Maximum size property used in the settings pane. 
     /// </summary>
-    [TaskPane("Maximum length", "Provide the maximum number of bytes to convert.", null, 2, false, DisplayLevel.Professional, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 65536)]
+    [TaskPane("Maximum length", "Provide the maximum number of bytes to convert.", null, 3, false, DisplayLevel.Professional, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 65536)]
     public int MaxLength
     {
       get
@@ -286,8 +322,8 @@ namespace TextOutput
     }
 
     private bool append = false;
-    [ContextMenu("Append text input", "With this checkbox enabled, incoming text will be appended to the current text.", 3, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Append text input" })]
-    [TaskPane("Append text input", "With this checkbox enabled, incoming text will be appended to the current text.", "Append", 3, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+    [ContextMenu("Append text input", "With this checkbox enabled, incoming text will be appended to the current text.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Append text input" })]
+    [TaskPane("Append text input", "With this checkbox enabled, incoming text will be appended to the current text.", "Append", 0, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
     public bool Append
     {
       get { return append; }
@@ -302,7 +338,7 @@ namespace TextOutput
     }
 
     private int appendBreaks = 1;
-    [TaskPane("Append n-breaks", "Defines how much new lines are added after new input. (Applies only if \"Append text input\" is active.)", "Append", 4, false, DisplayLevel.Experienced, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+    [TaskPane("Append n-breaks", "Defines how much new lines are added after new input. (Applies only if \"Append text input\" is active.)", "Append", 0, false, DisplayLevel.Experienced, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
     public int AppendBreaks
     {
       get { return this.appendBreaks; }
@@ -313,22 +349,6 @@ namespace TextOutput
           this.appendBreaks = value;
           OnPropertyChanged("AppendBreaks");
           HasChanges = true;
-        }
-      }
-    }
-
-    private bool flushOnPreExecution = true;
-    [ContextMenu("Flush text on PreExec", "Flush all text boxes on PreExecution call.", 5, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, new string[] {"Flush text on PreExec"})]
-    [TaskPane("Flush text on PreExec", "Flush all text boxes on PreExecution call.", null, 5, false, DisplayLevel.Beginner, ControlType.CheckBox, null)]
-    public bool FlushOnPreExecution
-    {
-      get { return flushOnPreExecution; }
-      set
-      {
-        if (value != flushOnPreExecution)
-        {
-          flushOnPreExecution = value;
-          OnPropertyChanged("FlushOnPreExecution");
         }
       }
     }
@@ -357,7 +377,7 @@ namespace TextOutput
       }
     }
 
-    [TaskPane("Type", "Select DataType of plugin.", "", 2, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "CryptoolStream", "string", "byte[]", "boolean", "int", "object"})]
+    [TaskPane("Type", "Select DataType of plugin.", "", 4, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "CryptoolStream", "string", "byte[]", "boolean", "int", "object" })]
     public int DataType
     {
       get { return (int)CurrentDataType; }
@@ -373,6 +393,21 @@ namespace TextOutput
       }
     }
 
+    private bool flushOnPreExecution = true;
+    [ContextMenu("Flush text on PreExec", "Flush all text boxes on PreExecution call.", 5, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, new string[] {"Flush text on PreExec"})]
+    [TaskPane("Flush text on PreExec", "Flush all text boxes on PreExecution call.", null, 5, false, DisplayLevel.Beginner, ControlType.CheckBox, null)]
+    public bool FlushOnPreExecution
+    {
+      get { return flushOnPreExecution; }
+      set
+      {
+        if (value != flushOnPreExecution)
+        {
+          flushOnPreExecution = value;
+          OnPropertyChanged("FlushOnPreExecution");
+        }
+      }
+    }
     # endregion settings
 
     #region INotifyPropertyChanged Members
