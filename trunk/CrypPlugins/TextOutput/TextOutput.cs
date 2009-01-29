@@ -436,10 +436,32 @@ namespace TextOutput
         else if (value is object || value is Object)
         {
           fillValue = value.ToString();
+          if (fillValue != null && fillValue.Length > settings.MaxLength)
+          {
+            fillValue = fillValue.Substring(0, settings.MaxLength);
+          }
         }
 
         if (fillValue != null)
         {
+          // Presentation format conversion
+          switch (settings.Presentation)
+          {
+            case TextOutputSettings.PresentationFormat.Text:
+              // nothin to do here
+              break;
+            case TextOutputSettings.PresentationFormat.Hex:
+              byte[] byteValues = Encoding.Default.GetBytes(fillValue.ToCharArray());
+              fillValue = BitConverter.ToString(byteValues, 0, byteValues.Length).Replace("-", "");
+              break;
+            case TextOutputSettings.PresentationFormat.Base64:
+              fillValue = Convert.ToBase64String(Encoding.Default.GetBytes(fillValue.ToCharArray()));
+              break;
+            default:
+              break;
+          }
+
+
           Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
           {
             if (settings.Append)
