@@ -253,6 +253,7 @@ namespace TextOutput
     public TextOutput()
     {
       Presentation = new TextOutputPresentation();
+      QuickWatchPresentation = new TextOutputPresentation();
       settings = new TextOutputSettings(this);
       settings.OnGuiLogNotificationOccured += settings_OnGuiLogNotificationOccured;
       CanChangeDynamicProperty = true;
@@ -470,6 +471,7 @@ namespace TextOutput
               {
                 GuiLogMessage("Text exceeds size limit. Deleting text...", NotificationLevel.Info);
                 textOutputPresentation.textBox.Text = string.Empty;
+                textOutputQuickWatchPresentation.textBox.Text = string.Empty;
               }
 
               // append line breaks only if not first line
@@ -478,16 +480,22 @@ namespace TextOutput
                 for (int i = 0; i < settings.AppendBreaks; i++)
                 {
                   textOutputPresentation.textBox.AppendText("\n");
+                  textOutputQuickWatchPresentation.textBox.AppendText("\n");
                 }
               }
               textOutputPresentation.textBox.AppendText(fillValue);
+              textOutputQuickWatchPresentation.textBox.AppendText(fillValue);
+
               textOutputPresentation.textBox.ScrollToEnd();
+              textOutputQuickWatchPresentation.textBox.ScrollToEnd();
             }
             else
             {
               textOutputPresentation.textBox.Text = fillValue;
+              textOutputQuickWatchPresentation.textBox.Text = fillValue;
             }
             textOutputPresentation.labelBytes.Content = string.Format("{0:0,0}", Encoding.Default.GetBytes(textOutputPresentation.textBox.Text.ToCharArray()).Length) + " Bytes";
+            textOutputQuickWatchPresentation.labelBytes.Content = string.Format("{0:0,0}", Encoding.Default.GetBytes(textOutputPresentation.textBox.Text.ToCharArray()).Length) + " Bytes";
           }, fillValue);
           OnPropertyChanged("StringInput");
         }
@@ -573,12 +581,14 @@ namespace TextOutput
       get { return Presentation as TextOutputPresentation; }
     }
 
+    private TextOutputPresentation textOutputQuickWatchPresentation
+    {
+      get { return QuickWatchPresentation as TextOutputPresentation; }
+    }
+
     public UserControl Presentation { get; private set; }
 
-    public UserControl QuickWatchPresentation
-    {
-      get { return Presentation; }
-    }
+    public UserControl QuickWatchPresentation { get; private set; }
 
     public void Initialize()
     {
@@ -606,6 +616,7 @@ namespace TextOutput
         textOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
         {
           textOutputPresentation.textBox.Text = null;
+          textOutputQuickWatchPresentation.textBox.Text = null;
         }, null);
       }
       foreach (DynamicProperty item in dicDynamicProperties.Values)
