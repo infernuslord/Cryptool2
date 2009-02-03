@@ -13,7 +13,7 @@ namespace Primes
   public class PrimesPlugin:ITool
   {
     #region IPlugin Members
-    private static PrimesControl m_PrimesPlugin = null;
+    private PrimesControl m_PrimesPlugin = null;
     public event Cryptool.PluginBase.StatusChangedEventHandler OnPluginStatusChanged;
 
     public event Cryptool.PluginBase.GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
