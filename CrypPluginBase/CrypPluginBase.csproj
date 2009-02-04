@@ -101,6 +101,11 @@
     <Compile Include="Editor\IEditor.cs" />
     <Compile Include="IPlugin.cs" />
     <Compile Include="ISettings.cs" />
+    <Compile Include="Resources\Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
     <Compile Include="Tool\ITool.cs" />
     <Compile Include="IO\IInput.cs" />
     <Compile Include="IO\IIOMisc.cs" />
@@ -119,6 +124,12 @@
       <Project>{FF5D473C-0716-4D3E-9078-2EBD979F94C6}</Project>
       <Name>CrypCore</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Resource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

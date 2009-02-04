@@ -209,11 +209,20 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Documents;
 using System.Windows.Markup;
+using Cryptool.PluginBase.Miscellaneous;
+using Cryptool.PluginBase.Resources;
 
 namespace Cryptool.PluginBase
 {
     public static class PluginExtension
     {
+        public static event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+
+        private static void GuiLogMessage(string message, NotificationLevel logLevel)
+        {
+          EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, null, new GuiLogEventArgs(message, null, logLevel));
+        }
+
         /// <summary>
         /// Gets the properties marked with the PropertyInfoAttribute.
         /// </summary>
@@ -352,7 +361,14 @@ namespace Cryptool.PluginBase
             img.Source = BitmapFrame.Create(new Uri(string.Format("pack://application:,,,/{0};component/{1}", icon.Substring(0, sIndex), icon.Substring(sIndex + 1))));
             return img;
           }
-          catch { return null; }
+          catch (Exception exception)
+          {
+            if (type != null)
+              GuiLogMessage(string.Format(Resource.plugin_extension_error_get_image, new object[] { type.Name, exception.Message }), NotificationLevel.Error);
+            else
+              GuiLogMessage(exception.Message, NotificationLevel.Error);
+            return null;
+          }
         }
 
         public static FlowDocument GetDescriptionDocument(this IPlugin plugin)
@@ -364,19 +380,34 @@ namespace Cryptool.PluginBase
             XamlReader xaml = new XamlReader();
             return (FlowDocument)xaml.LoadAsync(Application.GetResourceStream(new Uri(string.Format("pack://application:,,,/{0};component/{1}", description.Substring(0, sIndex), description.Substring(sIndex + 1)))).Stream);
           }
-          catch { return null; }
+          catch (Exception exception)
+          {
+            if (plugin != null)
+              GuiLogMessage(string.Format(Resource.plugin_extension_error_get_description, new object[] { plugin.GetType().Name, exception.Message }), NotificationLevel.Error);
+            else
+              GuiLogMessage(exception.Message, NotificationLevel.Error);
+            return null; 
+          }
         }
 
         public static IPlugin CreateObject(this Type type)
         {
-            if (type.GetInterface(typeof(IPlugin).Name) != null)
-                try {
-                    return (IPlugin)Activator.CreateInstance(type);
-                } catch (Exception e) {
-                    //needs some work to return error messages etc
-                    return null;
-                }
-            return null;
+          if (type.GetInterface(typeof(IPlugin).Name) != null)
+          {
+            try
+            {
+              return (IPlugin)Activator.CreateInstance(type);
+            }
+            catch (Exception exception)
+            {
+              if (type != null)
+                GuiLogMessage(string.Format(Resource.plugin_extension_error_get_description, new object[] { type.Name, exception.Message }), NotificationLevel.Error);
+              else
+                GuiLogMessage(exception.Message, NotificationLevel.Error);
+              return null;
+            }
+          }
+          return null;
         }
     }
 }
