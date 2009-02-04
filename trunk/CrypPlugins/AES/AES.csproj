@@ -70,9 +70,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="AES.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\decrypt.png" />
     <Resource Include="Images\encrypt.png" />
   </ItemGroup>
@@ -83,7 +80,7 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Rijndael.png" />
+    <Resource Include="Images\Rijndael.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\AES.png" />
