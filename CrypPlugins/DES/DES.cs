@@ -12,7 +12,7 @@ using System.Windows.Controls;
 
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
-    [PluginInfo(false, "DES", "Data Encryption Standard", null, "DES/icon.png","DES/Images/encrypt.png","DES/Images/decrypt.png")]
+    [PluginInfo(false, "DES", "Data Encryption Standard", "DES/DetailedDescription/Description.xaml", "DES/icon.png", "DES/Images/encrypt.png", "DES/Images/decrypt.png")]
     [EncryptionType(EncryptionType.SymmetricBlock)]
     public class DES : IEncryption
     {
