@@ -214,7 +214,8 @@ using Cryptool.PluginBase.IO;
 namespace Cryptool.Vernam
 {
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo(false, "Vernam", "Vernam -- substitution cipher / stream cipher which is build by XORing the plaintext with a (pseudo) random stream of data to generate the ciphertext [One-time-Pad]", "Vernam/DetailedDescription/Description.xaml", "Vernam/icon.png")]
+    [PluginInfo(false, "Vernam", "Vernam -- substitution cipher / stream cipher which is build by XORing the plaintext with a (pseudo) random stream of data to generate the ciphertext [One-time-Pad]", "Vernam/DetailedDescription/Description.xaml",
+      "Vernam/Images/icon.png", "Vernam/Images/encrypt.png", "Vernam/Images/decrypt.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class Vernam : IEncryption
     {

@@ -15,7 +15,8 @@ using System.Windows.Controls;
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo(false, "Triple DES", "Triple Data Encryption Standard", null, "TripleDES/icon.png","TripleDES/Images/encrypt.png","TripleDES/Images/decrypt.png")]
+    [PluginInfo(false, "Triple DES", "Triple Data Encryption Standard", null, 
+      "TripleDES/Images/icon.png", "TripleDES/Images/encrypt.png", "TripleDES/Images/decrypt.png")]
     [EncryptionType(EncryptionType.SymmetricBlock)]
     public class TripleDES : IEncryption
     {

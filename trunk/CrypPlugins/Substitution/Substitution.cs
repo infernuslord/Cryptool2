@@ -216,7 +216,8 @@ using System.Windows.Controls;
 namespace Cryptool.Substitution
 {
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo(false, "Substitution", "Substitution -- classic character-based mono-alphabetic substitution", "Substitution/DetailedDescription/Description.xaml", "Substitution/icon.png")]
+    [PluginInfo(false, "Substitution", "Substitution -- classic character-based mono-alphabetic substitution", "Substitution/DetailedDescription/Description.xaml",
+      "Substitution/Images/icon.png", "Substitution/Images/encrypt.png", "Substitution/Images/decrypt.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class Substitution : IEncryption
     {

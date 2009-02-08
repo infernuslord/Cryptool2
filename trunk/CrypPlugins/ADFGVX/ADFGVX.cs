@@ -218,7 +218,7 @@ namespace Cryptool.ADFGVX
     [Author("Sebastian Przybylski","sebastian@przybylski.org","Uni-Siegen","http://www.uni-siegen.de")]
     [PluginInfo(false,"ADFGVX",
         "ADFGVX -- cipher used in WW1, combining substitution and transposition",
-        "ADFGVX/DetailedDescription/Description.xaml", "ADFGVX/icon.png")]
+        "ADFGVX/DetailedDescription/Description.xaml", "ADFGVX/Images/icon.png", "ADFGVX/Images/encrypt.png", "ADFGVX/Images/decrypt.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class ADFGVX : IEncryption
     {
