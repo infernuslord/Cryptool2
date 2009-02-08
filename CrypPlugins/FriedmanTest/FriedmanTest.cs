@@ -13,8 +13,8 @@ namespace FriedmanTest
     [PluginInfo(false,
             "Friedman Test",
             "Calculates the probable key lenght of a polyalphabetic substitution cipher.",
-            "URL",
-            "FriedmanTest/icon.png")]
+            "FriedmanTest/DetailedDescription/Description.xaml",
+            "FriedmanTest/friedman.png")]
     public class FriedmanTest : IStatistic
     {public FriedmanTest()
         {
@@ -143,7 +143,7 @@ namespace FriedmanTest
                 }
                 double normTexLen = texLen * (texLen - 1); //Normalize the text length in order to calculate the observed index of coincidence
                 double obIC = summ1/normTexLen; //Calculates the observed index of coincidence
-                double Kr = 0.038; //Kappa "random" - expected coincidence rate for a uniform distribution of the alphabet. In this case 1/26, hence we should have a 26 letter alphabet on the input.   
+                double Kr = 0.019; //Kappa "random" - expected coincidence rate for a uniform distribution of the alphabet. In this case 1/26, hence we should have a 26 letter alphabet on the input.   
                 double keyLen = 0.027 * texLen / (((texLen - 1) * obIC) - (Kr * texLen) + Kp);
                 stringOutput = Convert.ToString(keyLen);
                 keyLength = keyLen;
