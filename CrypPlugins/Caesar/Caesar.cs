@@ -15,7 +15,8 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Caesar
 {
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo(false, "Caesar", "Caesar -- classic alphabet shift substitution cipher", "Caesar/DetailedDescription/Description.xaml", "Caesar/Images/Caesar.png")] 
+    [PluginInfo(false, "Caesar", "Caesar -- classic alphabet shift substitution cipher", "Caesar/DetailedDescription/Description.xaml",
+      "Caesar/Images/Caesar.png", "Caesar/Images/encrypt.png", "Caesar/Images/decrypt.png")] 
     [EncryptionType(EncryptionType.Classic)]
     public class Caesar :  IEncryption
     {
