@@ -2,16 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Analysis;
 using System.ComponentModel;
 using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Markup;
+using Cryptool.PluginBase.IO;
 using System.Collections.ObjectModel;
 using Cryptool.FrequencyTest;
 using System.Collections;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
+using System.Runtime.CompilerServices;
+using Cryptool.PluginBase.Miscellaneous;
+
+using System.Runtime.Remoting.Contexts;
 
 
 namespace Cryptool.FrequencyTest
@@ -20,7 +28,7 @@ namespace Cryptool.FrequencyTest
     [PluginInfo(false,
     "Frequency Test",
     "Calculates the frequency of letters or groups of letters in a string.",
-    "URL",
+    "FrequencyTest/DetailedDescription/Description.xaml",
     "FrequencyTest/icon.png")]
     
      
