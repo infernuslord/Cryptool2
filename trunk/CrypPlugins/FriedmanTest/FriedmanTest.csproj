@@ -54,6 +54,9 @@
     <Reference Include="UIAutomationClientsideProviders">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UIAutomationProvider">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -74,6 +77,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="DetailedDescription\Description.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="DetailedDescription\Images\friedman1.jpg" />
+    <Resource Include="DetailedDescription\Images\friedman_sett1.jpg" />
+    <Resource Include="friedman.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="DetailedDescription\Images\formula1.JPG" />
+    <Resource Include="DetailedDescription\Images\formula2.JPG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
