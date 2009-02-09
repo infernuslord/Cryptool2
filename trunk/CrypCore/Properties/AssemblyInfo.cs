@@ -205,9 +205,9 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Cryptool CrypCore")]
+[assembly: AssemblyTitle("CrypTool CrypCore")]
 [assembly: AssemblyCompany("Lehrstuhl Verteilte Systeme - Universität Duisburg-Essen")]
-[assembly: AssemblyProduct("Cryptool CrypCore")]
+[assembly: AssemblyProduct("CrypTool CrypCore")]
 [assembly: AssemblyCopyright("Copyright © Martin Saternus 2008")]
 [assembly: ComVisible(false)]
-[assembly: AssemblyVersion("2.0.3294.00001")]
+[assembly: AssemblyVersion("2.0.3327.00001")]
