@@ -30,7 +30,7 @@ namespace Cryptool.WEPAttacks
             1,
             DisplayLevel.Beginner,
             ContextMenuControlType.ComboBox,
-            new int[] { 1, 2, 3 },
+            null,
             new string[] { "\"FMS\"", "\"KoreK\"", "\"PTW\"" })]
         [TaskPane("Kind of attack",
             "Kind of attack",
