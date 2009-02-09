@@ -1,0 +1,65 @@
+﻿<FlowDocument PagePadding="5,0,5,0" AllowDrop="True" 
+              NumberSubstitution.CultureSource="User" 
+              Background="White" FontFamily="Tahoma"
+              FontSize="10"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Paragraph>
+        <Run FontWeight="Bold" FontSize="24">The Kaski test</Run>
+    </Paragraph>
+    <Paragraph>
+        <Run FontSize="12" xml:space="preserve">The Kasiski test is a method of attacking polyalphabetic substituton ciphers in order to find out the length of their keyword.</Run>
+    </Paragraph>
+    <Paragraph>
+        <Run FontSize="13.3333333333333">The method was first developed by Charles Babbage and later by Prussian infantry officer Friedrich Wilhelm Kasiski, who also published the method in 1863.</Run>
+    </Paragraph>
+    <Paragraph>
+        <Run FontSize="13.3333333333333">The Kasiski examination involves looking for strings of characters that are repeated in the ciphertext. The strings should be three characters long or more for the examination to be successful. Then, the distances between consecutive occurrences of the strings are likely to be multiples of the length of the keyword.</Run>
+    </Paragraph>
+    <Paragraph>
+        <Run FontSize="13.3333333333333">The reason this test works is that if a repeated string occurs in the plaintext, and the distance between them is a multiple of the keyword length, the keyword letters will line up in the same way with both occurrences of the string. For example, consider the plaintext:</Run>
+    </Paragraph>
+    <Paragraph>
+        <Run FontWeight="Bold" FontSize="14" xml:lang="de-de">crypto is short for cryptography</Run>
+    </Paragraph>
+    <Paragraph>
+        <Run FontSize="13.3333333333333" xml:lang="de-de">In this case the repeated string is “crypto” the distances between repetitions being 20 characters. Let us now line up the plaintext with first a six-character keyword "abcdef" (6 does not divide 20) and a five-character keyword "abcde" (5 divides 20).</Run>
+    </Paragraph>
+    <Paragraph>
+        <Run FontWeight="Bold" FontSize="14">abcdef</Run>
+        <Run FontSize="14" xml:lang="de-de">abcdefabcdefab</Run>
+        <Run FontWeight="Bold" FontSize="14">cdefab</Run>
+        <Run FontSize="14" xml:lang="de-de">cdefabc</Run>
+    </Paragraph>
+    <Paragraph>
+        <Run FontSize="14" xml:lang="de-de">crypto is short for cryptography</Run>
+    </Paragraph>
+    <Paragraph>
+        <Run FontSize="13.3333333333333">Notice that the first instance of "crypto" lines up with "abcdef" and the second instance lines up with "cdefab". The two instances will encrypt to different ciphertexts. Let's see what happens when we encrypt the same text with a keyworld of length 5.</Run>
+    </Paragraph>
+    <Paragraph>
+        <Run FontWeight="Bold" FontSize="14">abcdea</Run>
+        <Run FontSize="14" xml:lang="de-de">bcdeabcdeabcde</Run>
+        <Run FontWeight="Bold" FontSize="14">abcdea</Run>
+        <Run FontSize="14" xml:lang="de-de">cdeabc</Run>
+    </Paragraph>
+    <Paragraph>
+        <Run FontWeight="Bold" FontSize="14">crypto</Run>
+        <Run FontSize="14" xml:lang="de-de">is short for</Run>
+        <Run FontWeight="Bold" FontSize="14">crypto</Run>
+        <Run FontSize="14" xml:lang="de-de">graphy</Run>
+    </Paragraph>
+    <Paragraph>
+        <Run FontSize="13.3333333333333">Note that both occurrences of "crypto" now line up with "abcdea". The two instances will encrypt to the same ciphertext and the Kasiski examination will be effective.</Run>
+    </Paragraph>
+    <Paragraph>
+        <Run FontSize="13.3333333333333">The Plug-in itself takes a string (of polyalphabetic ciphertext, for the test to work accurately) as an input and, after certain analysis has been done to the input, yields a string output.  The Plug-in in action looks something like this:</Run>
+        <InlineUIContainer>
+            <Image Source="/KasiskiTest;Component/DetailedDescription/Images/Kasiski.jpg" />
+        </InlineUIContainer>
+        <Run FontSize="13.3333333333333">Just conect the plug-in as depicted in the screenshot, or alternatively open the "Statistics-Test-Classical-02-be.cte" file, which is to be found in the ProjectSamples folder of Cryptool 2.0. On the text output of the plug-in you will get numbers sorted in two columns. The two columns are devided by the column (":") sign. The left column contains all factors (and therefore keylengths) the plug-in took into conssideration. Each value on the right corresponds to a factor on the left, and represents the number of times this particular factor was encountered during the examination of the input string. From the screenshot we can see that in this case the factor "3" is encountered 342 times. This is more than two times as often as the next most common factor. Therefore it can be said the length of the keyword for this case is three.</Run>
+    </Paragraph>
+    <Paragraph>
+        <Run FontSize="13.3333333333333"></Run>
+    </Paragraph>
+    
+</FlowDocument>

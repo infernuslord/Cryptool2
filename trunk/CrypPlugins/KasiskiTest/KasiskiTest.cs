@@ -16,7 +16,7 @@ namespace Cryptool.KasiskiTest
     [PluginInfo(false,
       "Kasiski's Test",
       "Calculates possible key lenghts of a polyalphabetic substitution cipher.",
-      "URL",
+      "KasiskiTest/DetailedDescription/Description.xaml",
       "KasiskiTest/icon.png")]
     public class KasiskiTest : IStatistic
     {
