@@ -4,7 +4,7 @@
               FontSize="10"
               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
     <Paragraph>
-        <Run FontWeight="Bold" FontSize="24">The Kaski test</Run>
+        <Run FontWeight="Bold" FontSize="24">The Kasiski Test</Run>
     </Paragraph>
     <Paragraph>
         <Run FontSize="12" xml:space="preserve">The Kasiski test is a method of attacking polyalphabetic substituton ciphers in order to find out the length of their keyword.</Run>
@@ -72,7 +72,7 @@ tions. The settings Panel for the plug-in look like this: </Span>
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
         <InlineUIContainer>
-            <Image Source="/KasiskiTest;Component/DetailedDescription/Images/Kasiski_settings.jpg" />
+            <Image MaxWidth="200" Source="/KasiskiTest;Component/DetailedDescription/Images/Kasiski_settings.jpg" />
         </InlineUIContainer>
     </Paragraph>
 
@@ -154,7 +154,7 @@ clicking	the	expanding sign	under	the	plug-in	icon.</Span>
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
         <InlineUIContainer>
-            <Image Source="/KasiskiTest;Component/DetailedDescription/Images/Kasiski_Quick.jpg" />
+            <Image MaxWidth="300" Source="/KasiskiTest;Component/DetailedDescription/Images/Kasiski_Quick.jpg" />
         </InlineUIContainer>
     </Paragraph>
 
