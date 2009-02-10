@@ -60,31 +60,47 @@
 
     </UserControl.Resources>
 
+    <StackPanel VerticalAlignment="Bottom" Orientation="Vertical" >
+
+        <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto"  ScrollViewer.HorizontalScrollBarVisibility="Auto">
+
+            <Grid VerticalAlignment="Bottom" >
+
+                <Grid.LayoutTransform>
+
+                    <ScaleTransform   ScaleX="{Binding ElementName=sli,Path=Value}" ScaleY="{Binding
+                         ElementName=sli, Path=Value}"/>
+                </Grid.LayoutTransform>
 
 
-    <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto"  ScrollViewer.HorizontalScrollBarVisibility="Auto">
-        <StackPanel>
-            <TextBlock TextAlignment="Center" IsHyphenationEnabled="True" FontSize="18" Foreground="Black"  FontFamily="Academy" OpacityMask="Turquoise" Text="Frequency of factors composing the distances "
+
+                <StackPanel>
+                    <TextBlock TextAlignment="Center" IsHyphenationEnabled="True" FontSize="18" Foreground="Black"  FontFamily="Academy" OpacityMask="Turquoise" Text="Frequency of factors composing the distances "
                 ToolTip="Tip:The keylength could be one of the most frequent factors or a multiple "  >
                 
             </TextBlock>
-            
-            <TextBlock TextAlignment="Center" IsHyphenationEnabled="True" FontSize="18" Foreground="Black"  FontFamily="Academy" OpacityMask="Turquoise" Text="between identical strings in the cyphertext"
+
+                    <TextBlock TextAlignment="Center" IsHyphenationEnabled="True" FontSize="18" Foreground="Black"  FontFamily="Academy" OpacityMask="Turquoise" Text="between identical strings in the cyphertext"
                  ToolTip="Tip:The keylength could be one of the most frequent factors or a multiple "      >
                 
             </TextBlock>
 
 
-            <ItemsControl  HorizontalAlignment="Center"
+                    <ItemsControl  HorizontalAlignment="Center"
              
              ItemsSource="{Binding Source={StaticResource source},Path=ValueCollection}"
              ItemTemplate="{StaticResource template}" ItemsPanel="{StaticResource panelTemplate}">
 
-            </ItemsControl>
+                    </ItemsControl>
 
 
-        </StackPanel>
-    </ScrollViewer>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+        <Slider x:Name="sli" Width="100" HorizontalAlignment="Center" Minimum="0.2" VerticalAlignment="Bottom" 
+                Maximum="2" Value="1"/>
+
+    </StackPanel>
 
 </UserControl>
     

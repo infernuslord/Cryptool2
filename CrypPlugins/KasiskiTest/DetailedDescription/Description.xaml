@@ -130,19 +130,33 @@ like this:</Span>
         </InlineUIContainer>
     </Paragraph>
 
+    
+
+
+
+
+
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
         <Span xml:lang="de-de">At the bottom of each bar is its corresponding factor, above it the frequency with which this 
 factor is encountered. In this case it is not exactly obvious which one of three most frequent factors (2,3 and 6) is the actual 
 key-length. With some practise would be easy to make predictions with high possibility for truth. Here six is the key length. Two and three have higher values because they are factors of six. Keep in mind that Bigger factors with relatively high frequency should have priority as a probable key length. Pay special attention to prime numbers. Using the Friedman test plug-in as a supplement to this method should make the decision for key length easier.	</Span>
-    
-    
-    
+     
+    </Paragraph>
+
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span xml:lang="de-de">The graph can be accessed also as quick watch presentation directly on the work feld by 
+clicking	the	expanding sign	under	the	plug-in	icon.</Span>
     </Paragraph>
 
 
-   
-
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <InlineUIContainer>
+            <Image Source="/KasiskiTest;Component/DetailedDescription/Images/Kasiski_Quick.jpg" />
+        </InlineUIContainer>
+    </Paragraph>
 
 
 

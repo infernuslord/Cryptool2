@@ -95,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="DetailedDescription\Images\Kasiski_pres.jpg" />
+    <Resource Include="DetailedDescription\Images\Kasiski_Quick.jpg" />
     <Resource Include="DetailedDescription\Images\Kasiski_settings.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
