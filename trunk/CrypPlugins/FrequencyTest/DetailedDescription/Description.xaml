@@ -29,7 +29,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Background="Wh
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
         <InlineUIContainer>
-            <Image Width="522" Height="300" Source="/FrequencyTest;Component/DetailedDescription/Images/pic11.jpg" />
+            <Image Source="/FrequencyTest;Component/DetailedDescription/Images/pic11.jpg" />
         </InlineUIContainer>
     </Paragraph>
     
@@ -79,7 +79,7 @@ cipher	text.</Span>
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
         <InlineUIContainer>
-            <Image Width="522" Height="130" Source="/FrequencyTest;Component/DetailedDescription/Images/pic3.jpg" />
+            <Image Source="/FrequencyTest;Component/DetailedDescription/Images/pic3.jpg" />
         </InlineUIContainer>
     </Paragraph>
 
@@ -92,7 +92,7 @@ cipher	text.</Span>
     
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
         <InlineUIContainer>
-            <Image Width="230" Height="650" Source="/FrequencyTest;Component/DetailedDescription/Images/pic4.jpg" />
+            <Image Source="/FrequencyTest;Component/DetailedDescription/Images/pic4.jpg" />
         </InlineUIContainer>
     </Paragraph>
 
@@ -104,7 +104,7 @@ cipher	text.</Span>
         <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
         <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
         <InlineUIContainer>
-            <Image Width="280" Height="250" Source="/FrequencyTest;Component/DetailedDescription/Images/pic5.jpg" />
+            <Image Source="/FrequencyTest;Component/DetailedDescription/Images/pic5.jpg" />
         </InlineUIContainer>
     </Paragraph>
 
@@ -137,7 +137,7 @@ page over the project work feld. It can be accessed by double click on the plug-
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
         <InlineUIContainer>
-            <Image Width="522" Height="130" Source="/FrequencyTest;Component/DetailedDescription/Images/pic6.jpg" />
+            <Image Source="/FrequencyTest;Component/DetailedDescription/Images/pic6.jpg" />
         </InlineUIContainer>
     </Paragraph>
 
@@ -153,7 +153,7 @@ clicking	the	expanding sign	under	the	plug-in	icon. </Span>
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
         <InlineUIContainer>
-            <Image Width="522" Height="130" Source="/FrequencyTest;Component/DetailedDescription/Images/pic7.jpg" />
+            <Image Source="/FrequencyTest;Component/DetailedDescription/Images/pic7.jpg" />
         </InlineUIContainer>
     </Paragraph>
     
