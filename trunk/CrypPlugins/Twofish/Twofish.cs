@@ -26,7 +26,7 @@ namespace Twofish
 {
   [Author("Gerhard Junker", null, "private project member", null)]
   [PluginInfo(false, "Twofish", "Twofish -- cipher",
-    "http://www.schneier.com/twofish.html", "twofish/twofish1.png")]
+    "Twofish/DetailedDescription/Description.xaml", "Twofish/Images/Twofish.png", "Twofish/Images/encrypt.png", "Twofish/Images/decrypt.png")]
   [EncryptionType(EncryptionType.SymmetricBlock)]
   public class Twofish : IEncryption
   {
