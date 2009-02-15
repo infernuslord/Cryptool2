@@ -292,7 +292,7 @@ namespace Cryptool.Playfair
         }
 
         [PropertySaveOrder(4)]
-        [TaskPane("Alphabet cipher","This is the used alphabet cipher to encrypt/decrypt.",null,3,false,DisplayLevel.Expert,ControlType.TextBox,"")]
+        [TaskPane("Alphabet", "This is the used alphabet cipher to encrypt/decrypt.", null, 3, false, DisplayLevel.Expert, ControlType.TextBox, "")]
         public string AlphabetMatrix
         {
             get { return this.alphabetMatrix; }

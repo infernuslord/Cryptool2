@@ -3537,7 +3537,7 @@
             <param name="dpi">The dpi.</param>
             <param name="dpo">The dpo.</param>
         </member>
-        <member name="M:DragDrop.Interfaces.IWorkspaceManager.SwitchDockPoint(DragDrop.Interfaces.IConnector,DragDrop.Interfaces.IConnector)">
+        <member name="M:DragDrop.Interfaces.IWorkspaceManager.SwitchDockPoint(DragDrop.Interfaces.IConnector,DragDrop.Interfaces.IConnector,AnotherEditor.DragDrop.Connectors.Connection)">
             <summary>
             Switches the dock point.
             </summary>
@@ -3900,7 +3900,7 @@
             Stops running chain.
             </summary>
         </member>
-        <member name="M:DragDrop.WorkspaceManager.SwitchDockPoint(DragDrop.Interfaces.IConnector,DragDrop.Interfaces.IConnector)">
+        <member name="M:DragDrop.WorkspaceManager.SwitchDockPoint(DragDrop.Interfaces.IConnector,DragDrop.Interfaces.IConnector,AnotherEditor.DragDrop.Connectors.Connection)">
             <summary>
             Changes existing connection 
             </summary>
@@ -6009,7 +6009,7 @@
             means set a new start or end-point to an connection. 
             </summary>
         </member>
-        <member name="M:DragDrop.Commands.SwitchDockPointsCommand.#ctor(DragDrop.Interfaces.IWorkspaceManager,DragDrop.Interfaces.IConnector,DragDrop.Interfaces.IConnector)">
+        <member name="M:DragDrop.Commands.SwitchDockPointsCommand.#ctor(DragDrop.Interfaces.IWorkspaceManager,DragDrop.Interfaces.IConnector,DragDrop.Interfaces.IConnector,AnotherEditor.DragDrop.Connectors.Connection)">
             <summary>
             Initializes a new instance of the <see cref="T:DragDrop.Commands.SwitchDockPointsCommand"/> class.
             </summary>

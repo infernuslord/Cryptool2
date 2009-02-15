@@ -259,7 +259,7 @@ namespace Cryptool.TextInput
     /// Encoding property used in the Settings pane. 
     /// </summary>
     [ContextMenu("Stream encoding", "Choose the expected encoding of the byte array and stream.", 1, DisplayLevel.Experienced, ContextMenuControlType.ComboBox, null, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
-    [TaskPane("Stream encoding", "Choose the expected encoding of the byte array and stream.", "", 1, false, DisplayLevel.Experienced, ControlType.ComboBox, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
+    [TaskPane("Stream encoding", "Choose the expected encoding of the byte array and stream.", "", 1, false, DisplayLevel.Experienced, ControlType.RadioButton, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
     public int EncodingSetting
     {
       get
