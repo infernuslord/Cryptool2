@@ -355,7 +355,7 @@ namespace Cryptool.PluginBase
         {
           try
           {
-            string icon = type.GetPluginInfoAttribute().Icons[index];
+            string icon = type.GetPluginInfoAttribute().Icons[index];            
             int sIndex = icon.IndexOf('/');
             Image img = new Image();
             img.Source = BitmapFrame.Create(new Uri(string.Format("pack://application:,,,/{0};component/{1}", icon.Substring(0, sIndex), icon.Substring(sIndex + 1))));
@@ -376,9 +376,14 @@ namespace Cryptool.PluginBase
           try
           {
             string description = plugin.GetPluginInfoAttribute().DescriptionUrl;
-            int sIndex = description.IndexOf('/');
-            XamlReader xaml = new XamlReader();
-            return (FlowDocument)xaml.LoadAsync(Application.GetResourceStream(new Uri(string.Format("pack://application:,,,/{0};component/{1}", description.Substring(0, sIndex), description.Substring(sIndex + 1)))).Stream);
+            if (description != null && description != string.Empty && description != "")
+            {
+              int sIndex = description.IndexOf('/');
+              if (sIndex == -1) return null;
+              XamlReader xaml = new XamlReader();
+              return (FlowDocument)xaml.LoadAsync(Application.GetResourceStream(new Uri(string.Format("pack://application:,,,/{0};component/{1}", description.Substring(0, sIndex), description.Substring(sIndex + 1)))).Stream);
+            }
+            return null;
           }
           catch (Exception exception)
           {

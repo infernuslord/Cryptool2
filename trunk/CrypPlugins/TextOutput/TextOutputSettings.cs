@@ -266,7 +266,7 @@ namespace TextOutput
     /// Encoding property used in the Settings pane. 
     /// </summary>
     [ContextMenu("Input encoding", "Choose the expected encoding of the input.", 1, DisplayLevel.Experienced, ContextMenuControlType.ComboBox, null, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
-    [TaskPane("Input encoding", "Choose the expected encoding of the input. (The input will be interpreted as set here, no matter what the bytes really mean)", null, 1, false, DisplayLevel.Experienced, ControlType.ComboBox, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
+    [TaskPane("Input encoding", "Choose the expected encoding of the input. (The input will be interpreted as set here, no matter what the bytes really mean)", null, 1, false, DisplayLevel.Experienced, ControlType.RadioButton, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
     public int EncodingSetting
     {
       get
@@ -287,7 +287,7 @@ namespace TextOutput
     /// </summary>
     /// <value>The presentation format setting.</value>
     [ContextMenu("Presentation format", "Choose the format that will be used te present the input data.", 2, DisplayLevel.Experienced, ContextMenuControlType.ComboBox, null, new string[] { "Text", "Hex", "Base64" })]
-    [TaskPane("Presentation format", "Choose the format that will be used te present the input data.", null, 2, false, DisplayLevel.Experienced, ControlType.ComboBox, new string[] { "Text", "Hex", "Base64" })]
+    [TaskPane("Presentation format", "Choose the format that will be used te present the input data.", null, 2, false, DisplayLevel.Experienced, ControlType.RadioButton, new string[] { "Text", "Hex", "Base64" })]
     public int PresentationFormatSetting
     {
       get

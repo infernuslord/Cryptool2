@@ -211,6 +211,30 @@ namespace Cryptool.Caesar
             }
         }
 
+        [SettingsFormat(0, "Normal")]
+        [PropertySaveOrder(9)]
+        [TaskPane("Alphabet", "This is the used alphabet.", null, 6, false, DisplayLevel.Expert, ControlType.TextBox, "")]
+        public string AlphabetSymbols
+        {
+          get { return this.alphabet; }
+          set
+          {
+            string a = removeEqualChars(value);
+            if (a.Length == 0) // cannot accept empty alphabets
+            {
+              LogMessage("Ignoring empty alphabet from user! Using previous alphabet: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
+            }
+            else if (!alphabet.Equals(a))
+            {
+              HasChanges = true;
+              this.alphabet = a;
+              setKeyByValue(shiftValue); //re-evaluate if the shiftvalue is still within the range
+              LogMessage("Accepted new alphabet from user: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
+              OnPropertyChanged("AlphabetSymbols");
+            }
+          }
+        }
+
         /// <summary>
         /// Visible setting how to deal with alphabet case. 0 = case insentive, 1 = case sensitive
         /// </summary>   
@@ -257,35 +281,6 @@ namespace Cryptool.Caesar
                 }
 
                 OnPropertyChanged("AlphabetCase");
-            }
-        }
-
-        [SettingsFormat(0, "Bold")]
-        [PropertySaveOrder(9)]
-        [TaskPane("Alphabet", "This is the used alphabet.", null, 6, false, DisplayLevel.Expert, ControlType.TextBox, "")]
-        public string AlphabetSymbols
-        {
-            get { return this.alphabet; }
-            set
-            {
-                string a = removeEqualChars(value);
-                if (a.Length == 0) // cannot accept empty alphabets
-                {
-                    LogMessage("Ignoring empty alphabet from user! Using previous alphabet: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
-                }
-                else if (!alphabet.Equals(a))
-                {
-                    HasChanges = true;
-                    this.alphabet = a;
-                    setKeyByValue(shiftValue); //re-evaluate if the shiftvalue is still within the range
-                    LogMessage("Accepted new alphabet from user: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
-                    OnPropertyChanged("AlphabetSymbols");
-                }
-                //else if (a != value)
-                //{
-                //  // chars were removed -> force GUI update
-                //  OnPropertyChanged("AlphabetSymbols");
-                //}
             }
         }
 
