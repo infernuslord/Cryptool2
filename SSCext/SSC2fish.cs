@@ -75,11 +75,16 @@ namespace System.Security.Cryptography
     {
       key = rgbKey;
 
-      if (cipherMode == CipherMode.CBC)
-        iv = rgbIV;
+      Array.Clear(iv, 0, iv.Length);
 
-      int kl = rgbKey.Length * 8;
-      if (ValidKeySize(kl)) keySize = kl;
+      if (null != rgbIV)
+      {
+          for (int i = 0; i < iv.Length && i < rgbIV.Length; i++)
+              iv[i] = rgbIV[i];
+      }
+
+        int kl = rgbKey.Length * 8;
+        if (ValidKeySize(kl)) keySize = kl;
 
       return new TwofishEncryption(keySize, ref key, ref iv, cipherMode, 
         TwofishManaged.EncryptionDirection.Decrypting);
@@ -97,8 +102,13 @@ namespace System.Security.Cryptography
     {
       key = rgbKey; // this appears to make a new copy
 
-      if (cipherMode == CipherMode.CBC)
-        iv = rgbIV;
+      Array.Clear(iv, 0, iv.Length);
+
+      if (null != rgbIV)
+      {
+          for (int i = 0; i < iv.Length && i < rgbIV.Length; i++)
+              iv[i] = rgbIV[i];
+      }
 
       int kl = rgbKey.Length * 8;
       if (ValidKeySize(kl)) keySize = kl;
@@ -114,9 +124,9 @@ namespace System.Security.Cryptography
     public override void GenerateIV()
     {
       if ((iv == null) || (iv.Length == 0))
-        iv  = new byte[blockSize / 8]; // zeroed by default
+        iv  = new byte[16]; // zeroed by default
       else
-        Array.Clear(iv, 0, IV.Length);
+        Array.Clear(iv, 0, iv.Length);
     }
 
     /// <summary>
@@ -264,7 +274,9 @@ namespace System.Security.Cryptography
     {
       set
       {
-        iv = value;
+          Array.Clear(iv, 0, iv.Length);
+          for (int i = 0; i < iv.Length && i < value.Length; i++ )
+              iv[i] = value[i];
       }
       get
       {

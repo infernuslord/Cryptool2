@@ -30,6 +30,8 @@ namespace Twofish
   [EncryptionType(EncryptionType.SymmetricBlock)]
   public class Twofish : IEncryption
   {
+      private byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Twofish"/> class.
@@ -274,7 +276,32 @@ namespace Twofish
         GuiLogMessage("KeyData changed.", NotificationLevel.Debug);
       }
     }
+
     #endregion
+
+    [PropertyInfo(Direction.Input, "IV", "Initialization Vector", "",
+    false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+    public byte[] IV
+    {
+        get
+        {
+            return iv;
+        }
+        set
+        {
+            Array.Clear(iv, 0, iv.Length);
+
+            if (null == value)
+                return;
+
+            for (int i = 0; i < value.Length && i < iv.Length; i++)
+                iv[i] = value[i];
+
+            NotifyUpdateInput();
+            GuiLogMessage("InputData changed.", NotificationLevel.Debug);
+        }
+    }
+
 
 
     #region Output
@@ -369,8 +396,6 @@ namespace Twofish
 
     private void Crypt()
     {
-      byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-
       // fit key to correct length
       byte[] k2 = new byte[settings.KeyLength / 8];
       for (int i = 0; i < settings.KeyLength / 8; i++)
@@ -385,8 +410,15 @@ namespace Twofish
       tf.Mode = (settings.Mode == 0) ? CipherMode.CBC : CipherMode.ECB;
       
       int pos = 0;
-      if (outputData.Length != inputdata.Length)  
-        outputData = new byte[inputdata.Length];
+
+      int len = inputdata.Length;
+      if (settings.Action == 0) // input padding
+      {
+          if (len % 16 != 0)
+              len += (16 - len % 16);
+      }
+      if (outputData.Length != len)  
+        outputData = new byte[len];
 
       switch (settings.Action)
       {
@@ -399,7 +431,7 @@ namespace Twofish
               pos += encrypt.TransformBlock(inputdata, pos, encrypt.InputBlockSize, outputData, pos);
             }
             byte[] final = encrypt.TransformFinalBlock(inputdata, pos, inputdata.Length - pos);
-            final.CopyTo(outputData, pos);
+            Array.Copy(final, 0, outputData, pos, 16);
             encrypt.Dispose();
             break;
           }
@@ -411,8 +443,11 @@ namespace Twofish
             {
               pos += decrypt.TransformBlock(inputdata, pos, decrypt.InputBlockSize, outputData, pos);
             }
-            byte[] final = decrypt.TransformFinalBlock(inputdata, pos, inputdata.Length);
-            final.CopyTo(outputData, pos);
+            byte[] final = decrypt.TransformFinalBlock(inputdata, pos, 16);
+
+              for (int i = pos; i < outputData.Length; i++)
+                outputData[i] = final[i - pos];
+
             decrypt.Dispose();
             break;
           }
