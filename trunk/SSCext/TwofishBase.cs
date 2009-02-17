@@ -288,7 +288,7 @@ namespace System.Security.Cryptography
 
       protected uint[] sboxKeys = new uint[MAX_KEY_BITS / 64];	/* key bits used for S-boxes */
       protected uint[] subKeys = new uint[TOTAL_SUBKEYS];		/* round subkeys, input/output whitening bits */
-      protected uint[] Key = { 0, 0, 0, 0, 0, 0, 0, 0 };				//new int[MAX_KEY_BITS/32];
+      protected uint[] Key = { 0, 0, 0, 0, 0, 0, 0, 0 };		//new int[MAX_KEY_BITS/32];
       protected uint[] IV = { 0, 0, 0, 0 };						// this should be one block size
       private int keyLength;
       private int rounds;
