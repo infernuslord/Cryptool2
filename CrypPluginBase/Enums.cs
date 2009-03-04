@@ -232,9 +232,6 @@ namespace Cryptool.PluginBase
     {
         TextBox,
         ComboBox,
-        /// <summary>
-        /// not implemented yet
-        /// </summary>
         RadioButton,
         CheckBox,
         OpenFileDialog,
@@ -282,5 +279,10 @@ namespace Cryptool.PluginBase
     public enum DisplayPluginMode
     {
       Normal, Disabled
+    }
+
+    public enum StatusChangedMode
+    {
+      ImageUpdate, Presentation, QuickWatchPresentation
     }
 }

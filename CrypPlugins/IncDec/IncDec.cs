@@ -232,10 +232,10 @@ namespace IncDec
         switch (settings.CurrentMode)
         {
           case IncDecSettings.Operator.Increment:
-            EventsHelper.StatusChanged(OnPluginStatusChanged, this, new StatusEventArgs(0));
+            EventsHelper.StatusChanged(OnPluginStatusChanged, this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 0));
             break;
           case IncDecSettings.Operator.Decrement:
-            EventsHelper.StatusChanged(OnPluginStatusChanged, this, new StatusEventArgs(1));
+            EventsHelper.StatusChanged(OnPluginStatusChanged, this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 1));
             break;
           default:
             break;

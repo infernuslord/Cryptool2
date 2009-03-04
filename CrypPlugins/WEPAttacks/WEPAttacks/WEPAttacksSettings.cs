@@ -124,7 +124,7 @@ namespace Cryptool.WEPAttacks
         {
             if (OnPluginStatusChanged != null)
             {
-                OnPluginStatusChanged(null, new StatusEventArgs(Icon));
+                OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, Icon));
             }
         }
 

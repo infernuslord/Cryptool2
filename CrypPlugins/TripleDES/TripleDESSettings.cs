@@ -79,7 +79,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         private void ChangePluginIcon(int Icon)
         {
-            if (OnPluginStatusChanged != null) OnPluginStatusChanged(null, new StatusEventArgs(Icon));
+            if (OnPluginStatusChanged != null) OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, Icon));
         }
     }
 }

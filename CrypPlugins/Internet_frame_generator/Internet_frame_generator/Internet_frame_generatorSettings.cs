@@ -98,7 +98,7 @@ namespace Cryptool.Internet_frame_generator
         {
             if (OnPluginStatusChanged != null)
             {
-                OnPluginStatusChanged(null, new StatusEventArgs(Icon));
+                OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, Icon));
             }
         }
 

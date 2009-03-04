@@ -39,7 +39,7 @@ namespace SmartInterpreter
     {
       if (OnPluginStatusChanged != null)
       {
-        OnPluginStatusChanged(this, new StatusEventArgs(imageNumber));
+        OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, imageNumber));
       }
     }
 

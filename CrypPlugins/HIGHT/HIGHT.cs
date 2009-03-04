@@ -773,7 +773,7 @@ namespace Cryptool.HIGHT
 
         private void StatusChanged(int imageIndex)
         {
-            EventsHelper.StatusChanged(OnPluginStatusChanged, this, new StatusEventArgs(imageIndex));
+            EventsHelper.StatusChanged(OnPluginStatusChanged, this, new StatusEventArgs(StatusChangedMode.ImageUpdate, imageIndex));
         }
 
         #endregion
