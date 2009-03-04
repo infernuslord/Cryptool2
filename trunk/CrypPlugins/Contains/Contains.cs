@@ -357,9 +357,9 @@ namespace Contains
         result = value;
         OnPropertyChanged("Result");
         if (result)
-          EventsHelper.StatusChanged(OnPluginStatusChanged, this, new StatusEventArgs(1));
+          EventsHelper.StatusChanged(OnPluginStatusChanged, this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 1));
         else
-          EventsHelper.StatusChanged(OnPluginStatusChanged, this, new StatusEventArgs(2));
+          EventsHelper.StatusChanged(OnPluginStatusChanged, this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 2));
       }
     }
 

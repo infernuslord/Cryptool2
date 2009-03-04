@@ -210,14 +210,24 @@ namespace Cryptool.PluginBase
   public class StatusEventArgs : EventArgs
   {
     public readonly int ImageIndex;
+    public readonly StatusChangedMode StatusChangedMode;
 
-    public StatusEventArgs(int imageIndex)
+    public StatusEventArgs(StatusChangedMode statusChangedMode, int imageIndex)
     {
       this.ImageIndex = imageIndex;
+      this.StatusChangedMode = statusChangedMode;
+    }
+
+    public StatusEventArgs(StatusChangedMode statusChangedMode)
+    {
+      if (statusChangedMode == StatusChangedMode.ImageUpdate)
+      {
+        throw new ArgumentException("statusChangedMode");
+      }
+      this.StatusChangedMode = statusChangedMode;
     }
   }
-
-  //message, this, logLevel
+  
   public class GuiLogEventArgs : EventArgs
   {
     private string title = string.Empty;
