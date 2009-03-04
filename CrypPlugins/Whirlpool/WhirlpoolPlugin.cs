@@ -39,8 +39,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Whirlpool
 {
   [Author("Gerhard Junker", null, "private project member", null)]
-  [PluginInfo(false, "Whirlpool", "Whirlpool hash function",
-    "http://en.wikipedia.org/wiki/Whirlpool_(cryptography)", "Whirlpool/Whirlpool1.png")]
+  [PluginInfo(false, "Whirlpool", "Whirlpool hash function", "", "Whirlpool/Whirlpool1.png")]
   public class WPHash : IHash
   {
 
