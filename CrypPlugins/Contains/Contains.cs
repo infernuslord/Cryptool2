@@ -388,7 +388,7 @@ namespace Contains
 
     public void PreExecution()
     {
-      EventsHelper.StatusChanged(OnPluginStatusChanged, this, new StatusEventArgs(0));
+      EventsHelper.StatusChanged(OnPluginStatusChanged, this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 0));
       // set hits to zero
       List<StringSearchResult> list = new List<StringSearchResult>();
       presentation.SetData(list.ToArray());
