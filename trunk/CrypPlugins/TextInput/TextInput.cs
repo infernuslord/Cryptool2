@@ -280,7 +280,7 @@ namespace Cryptool.TextInput
       [MethodImpl(MethodImplOptions.Synchronized)]
       get
       {        
-        GuiLogMessage("Got request for text...", NotificationLevel.Debug);
+        // GuiLogMessage("Got request for text...", NotificationLevel.Debug);
         string ret = (string)this.textInputPresentation.textBoxInputText.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
         {          
           return textInputPresentation.textBoxInputText.Text;
@@ -310,7 +310,7 @@ namespace Cryptool.TextInput
 
           cryptoolStream.OpenRead(this.GetPluginInfoAttribute().Caption, arr);
           // ShowProgress(100, 100);
-          GuiLogMessage("Got request for Stream. CryptoolStream created: " + cryptoolStream.FileName, NotificationLevel.Debug);
+          // GuiLogMessage("Got request for Stream. CryptoolStream created: " + cryptoolStream.FileName, NotificationLevel.Debug);
           return cryptoolStream;
         }
         GuiLogMessage("Stream: No input provided. Returning null", NotificationLevel.Warning);
@@ -327,7 +327,7 @@ namespace Cryptool.TextInput
       [MethodImpl(MethodImplOptions.Synchronized)]
       get
       {
-        GuiLogMessage("Got request for ByteArray...", NotificationLevel.Debug);
+        // GuiLogMessage("Got request for ByteArray...", NotificationLevel.Debug);
         byteArrayOutput = GetByteArray(true);
         if (byteArrayOutput == null)
         {

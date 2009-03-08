@@ -238,6 +238,7 @@ namespace TextOutput
     private Dictionary<string, NotificationLevel> dicWarningsAndErros = new Dictionary<string, NotificationLevel>();
     private bool canSendPropertiesChangedEvent = true;
     private int inputs = 0;
+    private string fillValue;
     #endregion
 
     #region events
@@ -256,12 +257,14 @@ namespace TextOutput
       QuickWatchPresentation = new TextOutputPresentation();
       settings = new TextOutputSettings(this);
       settings.OnGuiLogNotificationOccured += settings_OnGuiLogNotificationOccured;
+      settings.PropertyChanged += settings_PropertyChanged;
       CanChangeDynamicProperty = true;
       // No dynProp event in constructor - editor will read the property initial without the event.
       // event can cause problems when using save files and is processed after 
       // connections have been restored. 
       CreateInputOutput(false);
     }
+
     # endregion
 
     # region Properties
@@ -288,6 +291,14 @@ namespace TextOutput
     private void settings_OnGuiLogNotificationOccured(IPlugin sender, GuiLogEventArgs args)
     {
       EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(args.Message, this, args.NotificationLevel));
+    }
+
+    void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if (e.PropertyName == "PresentationFormatSetting" && fillValue != null)
+      {
+        setText(fillValue);
+      }
     }
 
     public Dictionary<string, DynamicProperty> dicDynamicProperties = new Dictionary<string, DynamicProperty>();
@@ -386,7 +397,7 @@ namespace TextOutput
           DicDynamicProperties[propertyKey].Value = value;
         }
 
-        string fillValue = null;
+        fillValue = null;
 
         if (value is String || value is string)
         {
@@ -404,7 +415,7 @@ namespace TextOutput
         {
           listCryptoolStreamsOut.Add((CryptoolStream)value);
           CryptoolStream stream = value as CryptoolStream;
-          GuiLogMessage("Stream: Filling TextBoxes now...", NotificationLevel.Debug);
+          // GuiLogMessage("Stream: Filling TextBoxes now...", NotificationLevel.Debug);
           if (stream.Length > settings.MaxLength)
             AddMessage("WARNING - Stream is too large (" + (stream.Length / 1024).ToString("0.00") + " kB), output will be truncated to " + (settings.MaxLength / 1024).ToString("0.00") + "kB", NotificationLevel.Warning);
           byte[] byteValues = new byte[Math.Min(settings.MaxLength, stream.Length)];
@@ -416,7 +427,7 @@ namespace TextOutput
         else if (value is byte[])
         {
           byte[] byteArray = value as byte[];
-          GuiLogMessage("Byte array: Filling textbox now...", NotificationLevel.Debug);
+          // GuiLogMessage("Byte array: Filling textbox now...", NotificationLevel.Debug);
           if (byteArray.Length > settings.MaxLength)
           {
             AddMessage("WARNING - byte array is too large (" + (byteArray.Length / 1024).ToString("0.00") + " kB), output will be truncated to " + (settings.MaxLength / 1024).ToString("0.00") + "kB", NotificationLevel.Warning);
@@ -445,58 +456,7 @@ namespace TextOutput
 
         if (fillValue != null)
         {
-          // Presentation format conversion
-          switch (settings.Presentation)
-          {
-            case TextOutputSettings.PresentationFormat.Text:
-              // nothin to do here
-              break;
-            case TextOutputSettings.PresentationFormat.Hex:
-              byte[] byteValues = Encoding.Default.GetBytes(fillValue.ToCharArray());
-              fillValue = BitConverter.ToString(byteValues, 0, byteValues.Length).Replace("-", "");
-              break;
-            case TextOutputSettings.PresentationFormat.Base64:
-              fillValue = Convert.ToBase64String(Encoding.Default.GetBytes(fillValue.ToCharArray()));
-              break;
-            default:
-              break;
-          }
-
-
-          Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-          {
-            if (settings.Append)
-            {
-              if (textOutputPresentation.textBox.Text.Length > settings.MaxLength)
-              {
-                GuiLogMessage("Text exceeds size limit. Deleting text...", NotificationLevel.Info);
-                textOutputPresentation.textBox.Text = string.Empty;
-                textOutputQuickWatchPresentation.textBox.Text = string.Empty;
-              }
-
-              // append line breaks only if not first line
-              if (textOutputPresentation.textBox.Text != null && textOutputPresentation.textBox.Text.Length > 0)
-              {
-                for (int i = 0; i < settings.AppendBreaks; i++)
-                {
-                  textOutputPresentation.textBox.AppendText("\n");
-                  textOutputQuickWatchPresentation.textBox.AppendText("\n");
-                }
-              }
-              textOutputPresentation.textBox.AppendText(fillValue);
-              textOutputQuickWatchPresentation.textBox.AppendText(fillValue);
-
-              textOutputPresentation.textBox.ScrollToEnd();
-              textOutputQuickWatchPresentation.textBox.ScrollToEnd();
-            }
-            else
-            {
-              textOutputPresentation.textBox.Text = fillValue;
-              textOutputQuickWatchPresentation.textBox.Text = fillValue;
-            }
-            textOutputPresentation.labelBytes.Content = string.Format("{0:0,0}", Encoding.Default.GetBytes(textOutputPresentation.textBox.Text.ToCharArray()).Length) + " Bytes";
-            textOutputQuickWatchPresentation.labelBytes.Content = string.Format("{0:0,0}", Encoding.Default.GetBytes(textOutputPresentation.textBox.Text.ToCharArray()).Length) + " Bytes";
-          }, fillValue);
+          setText(fillValue);
           OnPropertyChanged("StringInput");
         }
 
@@ -505,6 +465,65 @@ namespace TextOutput
       catch (Exception ex)
       {
         GuiLogMessage(ex.Message, NotificationLevel.Error);
+      }
+    }
+
+    private void setText(string fillValue)
+    {
+      if (fillValue != null)
+      {
+        // Presentation format conversion
+        switch (settings.Presentation)
+        {
+          case TextOutputSettings.PresentationFormat.Text:
+            // nothin to do here
+            break;
+          case TextOutputSettings.PresentationFormat.Hex:
+            byte[] byteValues = Encoding.Default.GetBytes(fillValue.ToCharArray());
+            fillValue = BitConverter.ToString(byteValues, 0, byteValues.Length).Replace("-", "");
+            break;
+          case TextOutputSettings.PresentationFormat.Base64:
+            fillValue = Convert.ToBase64String(Encoding.Default.GetBytes(fillValue.ToCharArray()));
+            break;
+          default:
+            break;
+        }
+
+
+        Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+        {
+          if (settings.Append)
+          {
+            if (textOutputPresentation.textBox.Text.Length > settings.MaxLength)
+            {
+              GuiLogMessage("Text exceeds size limit. Deleting text...", NotificationLevel.Debug);
+              textOutputPresentation.textBox.Text = string.Empty;
+              textOutputQuickWatchPresentation.textBox.Text = string.Empty;
+            }
+
+            // append line breaks only if not first line
+            if (textOutputPresentation.textBox.Text != null && textOutputPresentation.textBox.Text.Length > 0)
+            {
+              for (int i = 0; i < settings.AppendBreaks; i++)
+              {
+                textOutputPresentation.textBox.AppendText("\n");
+                textOutputQuickWatchPresentation.textBox.AppendText("\n");
+              }
+            }
+            textOutputPresentation.textBox.AppendText(fillValue);
+            textOutputQuickWatchPresentation.textBox.AppendText(fillValue);
+
+            textOutputPresentation.textBox.ScrollToEnd();
+            textOutputQuickWatchPresentation.textBox.ScrollToEnd();
+          }
+          else
+          {
+            textOutputPresentation.textBox.Text = fillValue;
+            textOutputQuickWatchPresentation.textBox.Text = fillValue;
+          }
+          textOutputPresentation.labelBytes.Content = string.Format("{0:0,0}", Encoding.Default.GetBytes(textOutputPresentation.textBox.Text.ToCharArray()).Length) + " Bytes";
+          textOutputQuickWatchPresentation.labelBytes.Content = string.Format("{0:0,0}", Encoding.Default.GetBytes(textOutputPresentation.textBox.Text.ToCharArray()).Length) + " Bytes";
+        }, fillValue);
       }
     }
 
@@ -523,7 +542,7 @@ namespace TextOutput
     {
       if (arrByte != null)
       {
-        GuiLogMessage("Converting from \"" + settings.Encoding.ToString() + "\"...", NotificationLevel.Info);
+        GuiLogMessage("Converting from \"" + settings.Encoding.ToString() + "\"...", NotificationLevel.Debug);
         string returnValue;
 
         // here conversion happens
