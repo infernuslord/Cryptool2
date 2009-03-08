@@ -255,6 +255,14 @@
             <param name="point">The point.</param>
             <param name="swsTitle">The SWS title.</param>
         </member>
+        <member name="M:AnotherEditor.DragDrop.ProjectManager.plugin_OnPluginStatusChanged(Cryptool.PluginBase.IPlugin,Cryptool.PluginBase.StatusEventArgs)">
+            <summary>
+            If plugin want's to change the GUI e.g. because of a setting change or data input 
+            this event is fired and we have to update to tab with the presentation.
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="args">The <see cref="T:Cryptool.PluginBase.StatusEventArgs"/> instance containing the event data.</param>
+        </member>
         <member name="M:AnotherEditor.DragDrop.ProjectManager.AddWorkspaceManager">
             <summary>
             Adds the workspace.
