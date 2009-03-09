@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{25DB2B47-A457-4EC2-960B-395CE07AE093}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -117,6 +117,7 @@
     <Compile Include="Validation\RegExRule.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Architecture\CrypTool2-Architecture.cd" />
     <None Include="key.snk" />
   </ItemGroup>
   <ItemGroup>
