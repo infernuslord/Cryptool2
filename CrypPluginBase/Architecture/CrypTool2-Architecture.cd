@@ -1,0 +1,528 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Input / Output">
+    <Position X="9.767" Y="2.879" Height="0.263" Width="6.726" />
+  </Comment>
+  <Comment CommentText="Encryption">
+    <Position X="17.25" Y="2.863" Height="0.263" Width="3.498" />
+  </Comment>
+  <Comment CommentText="Generators">
+    <Position X="21.021" Y="8.214" Height="0.263" Width="5.034" />
+  </Comment>
+  <Comment CommentText="Cryptanalysis">
+    <Position X="9.772" Y="7.218" Height="0.263" Width="6.758" />
+  </Comment>
+  <Comment CommentText="Hashes">
+    <Position X="17.279" Y="7.213" Height="0.263" Width="1.491" />
+  </Comment>
+  <Comment CommentText="Tools">
+    <Position X="19.045" Y="7.218" Height="0.263" Width="1.717" />
+  </Comment>
+  <Comment CommentText="Editors">
+    <Position X="21.893" Y="4.737" Height="0.75" Width="0.7" />
+  </Comment>
+  <Class Name="Cryptool.PluginBase.AuthorAttribute" Collapsed="true">
+    <Position X="36.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAgAAAACAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Attributes\AuthorAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.ContextMenuAttribute" Collapsed="true">
+    <Position X="40.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAgAAAgACAAACEAAAAAAAAA=</HashCode>
+      <FileName>Attributes\ContextMenuAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.EditorSpecificPluginAttribute" Collapsed="true">
+    <Position X="45.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Attributes\EditorSpecificPluginAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.EditorSpecificPluginInfo" Collapsed="true">
+    <Position X="36.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAAQAAACAE=</HashCode>
+      <FileName>Attributes\EditorSpecificPluginAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.ContextMenuEntry" Collapsed="true">
+    <Position X="42" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Attributes\EditorSpecificPluginAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.PluginInfoAttribute" Collapsed="true">
+    <Position X="40.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAACAAAAAAAAgAAAAAAAAgCAAAAAAAAAA=</HashCode>
+      <FileName>Attributes\PluginInfoAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.PropertyInfoAttribute" Collapsed="true">
+    <Position X="45.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACQABAgAACAACBAgCAAAAABAAAA=</HashCode>
+      <FileName>Attributes\PropertyInfoAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.PropertySaveOrderAttribute" Collapsed="true">
+    <Position X="36.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Attributes\PropertySaveOrderAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.RibbonBarAttribute" Collapsed="true">
+    <Position X="42" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEABAAAAAAAAAAAAAAAAAgAAAgACAAACAEAAAAIAAE=</HashCode>
+      <FileName>Attributes\RibbonBarAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.SettingsFormatAttribute" Collapsed="true">
+    <Position X="43.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAEAA=</HashCode>
+      <FileName>Attributes\SettingsFormatAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.TaskPaneAttribute" Collapsed="true">
+    <Position X="36.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEABAAAAAQAAAAQCAAAABgAAAkACAAAiAEAAAAAACE=</HashCode>
+      <FileName>Attributes\TaskPaneAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.DynamicProperty" Collapsed="true">
+    <Position X="38.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAQAgAAAAAAA=</HashCode>
+      <FileName>DynamicProperty.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.DynamicPropertyInfoAttribute" Collapsed="true">
+    <Position X="40.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAAAAAAABIAAABEAAAAAAAAAAAAA=</HashCode>
+      <FileName>DynamicProperty.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.StatusEventArgs" Collapsed="true">
+    <Position X="45.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>EventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.GuiLogEventArgs" Collapsed="true">
+    <Position X="43.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAEABAAAEAAAAAAAAAAQAAAAAIAAAAAA=</HashCode>
+      <FileName>EventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.PluginProgressEventArgs" Collapsed="true">
+    <Position X="42" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>EventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.PluginChangedEventArgs" Collapsed="true">
+    <Position X="36.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAAAAAAAABAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>EventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.ChangeDisplayLevelEventArgs" Collapsed="true">
+    <Position X="38.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.ProjectTitleChangedEventArgs" Collapsed="true">
+    <Position X="43.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.PluginExtension" Collapsed="true">
+    <Position X="38.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAARAQAQAAAAAEAEAQACAAAgEIAAIAAAAAAKA=</HashCode>
+      <FileName>PluginExtension.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.Cryptography.EncryptionExtension" Collapsed="true">
+    <Position X="38.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cryptography\EncryptionExtension.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.Cryptography.EncryptionTypeAttribute" Collapsed="true">
+    <Position X="17.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cryptography\EncryptionTypeAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.Editor.DragDropDataObject" Collapsed="true">
+    <Position X="36.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>Editor\DragDropDataObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.Editor.EditorExtension" Collapsed="true">
+    <Position X="42" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Editor\EditorExtension.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.Editor.EditorInfoAttribute" Collapsed="true">
+    <Position X="43.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Editor\EditorInfoAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.IO.CryptoolStream" Collapsed="true">
+    <Position X="43.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAECAAQAIoGEAAIABgAAQgABAQAEAQAAHIACA=</HashCode>
+      <FileName>IO\CryptoolStream.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.Miscellaneous.DescriptionHyperlink" Collapsed="true">
+    <Position X="45.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Miscellaneous\DescriptionHyperlink.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.Miscellaneous.EventsHelper" Collapsed="true">
+    <Position X="42" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEQAAAAAAAAAAAAgEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Miscellaneous\EventsHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.Resources.Resource" Collapsed="true">
+    <Position X="40.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAgABQgAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.Validation.IntegerRule" Collapsed="true">
+    <Position X="45.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAECAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Validation\IntegerRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.PluginBase.Validation.RegExRule" Collapsed="true">
+    <Position X="38.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Validation\RegExRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Cryptool.PluginBase.Analysis.IAnalysisMisc" Collapsed="true">
+    <Position X="9.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Analysis\IAnalysisMisc.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Cryptool.PluginBase.Analysis.IDifferential" Collapsed="true">
+    <Position X="11.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Analysis\IDifferential.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Cryptool.PluginBase.Analysis.ISpecific" Collapsed="true">
+    <Position X="13.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Analysis\ISpecific.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Cryptool.PluginBase.Analysis.IStatistic" Collapsed="true">
+    <Position X="15" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Analysis\IStatistic.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Cryptool.PluginBase.IPlugin" Collapsed="true">
+    <Position X="16.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACgAAIAACAAAQQgAAAAAEAAAACAAAAAsAAAAAACAAA=</HashCode>
+      <FileName>IPlugin.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Cryptool.PluginBase.ISettings" Collapsed="true">
+    <Position X="14.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ISettings.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Cryptool.PluginBase.Cryptography.ICryptographyMisc" Collapsed="true">
+    <Position X="19" Y="3.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cryptography\ICryptographyMisc.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Cryptool.PluginBase.Cryptography.IEncryption" Collapsed="true">
+    <Position X="17.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cryptography\IEncryption.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Cryptool.PluginBase.Cryptography.IHash" Collapsed="true">
+    <Position X="17.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cryptography\IHash.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Cryptool.PluginBase.Editor.IEditor" Collapsed="true">
+    <Position X="20.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACYAAIAABAAAJGAIAEAEAQABAABACAAQAAAgABEoAAA=</HashCode>
+      <FileName>Editor\IEditor.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Cryptool.PluginBase.Generator.IGenerator" Collapsed="true">
+    <Position X="22.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Generator\IGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Cryptool.PluginBase.Generator.IGeneratorMisc" Collapsed="true">
+    <Position X="24.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Generator\IGeneratorMisc.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Cryptool.PluginBase.Generator.IKeyGenerator" Collapsed="true">
+    <Position X="22.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Generator\IKeyGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Cryptool.PluginBase.Generator.IRandomNumberGenerator" Collapsed="true">
+    <Position X="21" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Generator\IRandomNumberGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Cryptool.UiPluginBase.IApplication" Collapsed="true">
+    <Position X="18" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IApplication.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Cryptool.PluginBase.IO.IInput" Collapsed="true">
+    <Position X="15" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IO\IInput.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Cryptool.PluginBase.IO.IIOMisc" Collapsed="true">
+    <Position X="9.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IO\IIOMisc.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Cryptool.PluginBase.IO.IOutput" Collapsed="true">
+    <Position X="13.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IO\IOutput.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Cryptool.PluginBase.IO.IThroughput" Collapsed="true">
+    <Position X="11.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IO\IThroughput.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Cryptool.PluginBase.Tool.ITool" Collapsed="true">
+    <Position X="19" Y="6.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tool\ITool.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Cryptool.PluginBase.Direction" Collapsed="true">
+    <Position X="40.25" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Cryptool.PluginBase.DisplayLevel" Collapsed="true">
+    <Position X="42" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAABAAAAAAAAAAEAAAAAQAAAAAA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Cryptool.PluginBase.QuickWatchFormat" Collapsed="true">
+    <Position X="42" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAABAAAAAAAAAACAEAAAA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Cryptool.PluginBase.ControlType" Collapsed="true">
+    <Position X="38.5" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gUQAAAAAAAIAAAAAAAAAEAAAAEAAAACAAAAAAgQABAA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Cryptool.PluginBase.ContextMenuControlType" Collapsed="true">
+    <Position X="36.75" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Cryptool.PluginBase.NotificationLevel" Collapsed="true">
+    <Position X="40.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAYAAAAAAABAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Cryptool.PluginBase.ValidationType" Collapsed="true">
+    <Position X="45.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAQAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Cryptool.PluginBase.EncodingTypes" Collapsed="true">
+    <Position X="45.5" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEBgAAAEAAAAAAAAAIAAARAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Cryptool.PluginBase.DisplayPluginMode" Collapsed="true">
+    <Position X="43.75" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Cryptool.PluginBase.StatusChangedMode" Collapsed="true">
+    <Position X="43.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAACAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Cryptool.PluginBase.Cryptography.EncryptionType" Collapsed="true">
+    <Position X="38.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQABAAEAAAAAAAAAAAAAAAAAAAAAAAgAACAAAAA=</HashCode>
+      <FileName>Cryptography\Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Cryptool.PluginBase.Cryptography.EncryptionAlgorithmAction" Collapsed="true">
+    <Position X="36.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cryptography\Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="Cryptool.PluginBase.StatusChangedEventHandler" Collapsed="true">
+    <Position X="40.25" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>Delegates.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Cryptool.PluginBase.GuiLogNotificationEventHandler" Collapsed="true">
+    <Position X="42" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Delegates.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Cryptool.PluginBase.PluginProgressChangedEventHandler" Collapsed="true">
+    <Position X="45.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Delegates.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Cryptool.PluginBase.SelectedPluginChangedHandler" Collapsed="true">
+    <Position X="38.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Delegates.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Cryptool.PluginBase.ChangeDisplayLevelHandler" Collapsed="true">
+    <Position X="36.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Delegates.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Cryptool.PluginBase.ProjectTitleChangedHandler" Collapsed="true">
+    <Position X="36.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Delegates.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Cryptool.PluginBase.OpenProjectFileHandler" Collapsed="true">
+    <Position X="43.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Delegates.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Cryptool.PluginBase.EditorSpecificPluginsChanged" Collapsed="true">
+    <Position X="40.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Delegates.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Cryptool.PluginBase.DynamicPropertiesChanged" Collapsed="true">
+    <Position X="38.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Delegates.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>
