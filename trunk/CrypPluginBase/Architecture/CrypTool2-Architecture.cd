@@ -19,7 +19,7 @@
     <Position X="19.045" Y="7.218" Height="0.263" Width="1.717" />
   </Comment>
   <Comment CommentText="Editors">
-    <Position X="21.893" Y="4.737" Height="0.75" Width="0.7" />
+    <Position X="21.841" Y="4.737" Height="0.75" Width="0.7" />
   </Comment>
   <Class Name="Cryptool.PluginBase.AuthorAttribute" Collapsed="true">
     <Position X="36.75" Y="2.75" Width="1.5" />
@@ -91,8 +91,8 @@
       <FileName>Attributes\SettingsFormatAttribute.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Cryptool.PluginBase.TaskPaneAttribute" Collapsed="true">
-    <Position X="36.75" Y="7.75" Width="1.5" />
+  <Class Name="Cryptool.PluginBase.TaskPaneAttribute">
+    <Position X="32.5" Y="5.25" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAEABAAAAAQAAAAQCAAAABgAAAkACAAAiAEAAAAAACE=</HashCode>
       <FileName>Attributes\TaskPaneAttribute.cs</FileName>

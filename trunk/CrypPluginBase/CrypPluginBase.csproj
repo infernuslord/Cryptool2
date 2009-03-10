@@ -118,6 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Architecture\CrypTool2-Architecture.cd" />
+    <None Include="Architecture\Interface-Details.cd" />
     <None Include="key.snk" />
   </ItemGroup>
   <ItemGroup>
