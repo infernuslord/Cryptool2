@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{2830F337-A7A3-4A68-87AC-64F3AA79C70B}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -74,6 +74,7 @@
     <Compile Include="CalculatorLib\CalcProcessor.cs" />
     <Compile Include="CalculatorLib\CalcToken.cs" />
     <Compile Include="CalculatorLib\CalcVariables.cs" />
+    <Compile Include="Library\Pair.cs" />
     <Compile Include="Options\OptionVersionInfo.xaml.cs">
       <DependentUpon>OptionVersionInfo.xaml</DependentUpon>
     </Compile>

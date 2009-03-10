@@ -308,5 +308,8 @@ namespace Primes.WpfControls.Components.Arrows
                 return base.DefiningGeometry;
             }
         }
+
+
+
     }
 }

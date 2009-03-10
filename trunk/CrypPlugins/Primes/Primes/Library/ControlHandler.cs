@@ -454,34 +454,69 @@ namespace Primes.Library
       return ExecuteMethod(m_Dispatcher, obj, methodname, parameters);
     }
 
+      public static object ExecuteMethod(object obj, string methodname, object parameter)
+    {
+        return ExecuteMethod(m_Dispatcher, obj, methodname, new object[] { parameter });
+    }
+
     public static object ExecuteMethod(Dispatcher dispatcher, object obj, string methodname, object[] parameters)
     {
       return dispatcher.Invoke(DispatcherPriority.Send, new ExecuteMethodDelegate(DoExecuteMethod), obj, new object[] { methodname, parameters });
     }
-    private static object DoExecuteMethod(object obj, string methodname, object[] parameters)
-    {
-      MethodInfo mi = obj.GetType().GetMethod(methodname);
-      
-      if (mi == null)
-      {
 
-        foreach (Type t in obj.GetType().GetInterfaces())
-        {
-          mi =  t.GetMethod(methodname);
-          if (mi != null) break;
-        }
-      }
-      try
-      {
-        if (mi != null)
-          return mi.Invoke(obj, parameters);
-      }
-      catch
-      {
-      }
-      return null;
+    public static object ExecuteMethod(Dispatcher dispatcher, object obj, string methodname, object[] parameters, Type[] types)
+    {
+        return dispatcher.Invoke(DispatcherPriority.Send, new ExecuteMethodDelegate(DoExecuteMethod), obj, new object[] { methodname, parameters, types });
     }
 
+
+    private static object DoExecuteMethod(object obj, string methodname, object[] parameters)
+    {
+        Type[] types = null;
+        List<object> _parameters = new List<object>();
+        foreach (object o in parameters)
+        {
+            if (o.GetType() == typeof(Type[]))
+                types = (Type[])o;
+            else
+                _parameters.Add(o);
+        }
+        MethodInfo mi = null;
+        
+        if (types != null)
+        {
+            mi = obj.GetType().GetMethod(methodname, types);
+        }
+        else
+        {
+            mi = obj.GetType().GetMethod(methodname);
+        }
+        if (mi == null)
+        {
+
+            foreach (Type t in obj.GetType().GetInterfaces())
+            {
+                if (types != null)
+                {
+                    mi = t.GetType().GetMethod(methodname, types);
+                }
+                else
+                {
+                    mi = t.GetType().GetMethod(methodname);
+                }
+                if (mi != null) break;
+            }
+        }
+        try
+        {
+            if (mi != null)
+                return mi.Invoke(obj, _parameters.ToArray());
+        }
+        catch
+        {
+        }
+        return null;
+    }
     #endregion
 
   }
