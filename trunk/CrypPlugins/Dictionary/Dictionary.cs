@@ -214,6 +214,7 @@ using System.Collections;
 using System.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Diagnostics;
+using System.Collections.ObjectModel;
 
 namespace Dictionary
 {
@@ -226,11 +227,36 @@ namespace Dictionary
     private const string PluginDirecory = "CrypPlugins";
     private CryptoolDictionarySettings settings = new CryptoolDictionarySettings();
     private Dictionary<string, string> dicValues;
+    private readonly string path;
+    private const string DIC_MARKER = "081C0520-0062-49f2-9832-5F043682F45E";
+    private List<FileInfo> dicFiles = new List<FileInfo>();
     # endregion private_variables
+
+    public List<FileInfo> DicFiles
+    {
+      get { return dicFiles; }
+      set { dicFiles = value; }
+    }
+
+    public string CurrentDicFilename
+    {
+      get
+      {
+        try
+        {
+          return DicFiles[settings.Dictionary].Name;
+        }
+        catch (Exception)
+        {
+          return null;
+        }
+      }
+    }
 
     public CryptoolDictionary()
     {
       settings.PropertyChanged += settings_PropertyChanged;
+      path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, PluginDirecory);
     }
 
     /// <summary>
@@ -252,13 +278,13 @@ namespace Dictionary
     {
       get 
       {
-        if (dicValues != null && dicValues.ContainsKey(settings.CurrentDicName))
-          return dicValues[settings.CurrentDicName];
+        if (dicValues != null && dicValues.ContainsKey(CurrentDicFilename))
+          return dicValues[CurrentDicFilename];
         else if (dicValues != null)
         {
           GetCurrentDictionary();
-          if (dicValues.ContainsKey(settings.CurrentDicName))
-            return dicValues[settings.CurrentDicName];
+          if (dicValues.ContainsKey(CurrentDicFilename))
+            return dicValues[CurrentDicFilename];
         }
         return null;
       }
@@ -272,6 +298,11 @@ namespace Dictionary
 		public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 		public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 #pragma warning restore
+
+    private void GuiLogMessage(string message, NotificationLevel logLevel)
+    {
+      EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
+    }
 
     public ISettings Settings
     {
@@ -329,12 +360,20 @@ namespace Dictionary
     }
 
     [MethodImpl(MethodImplOptions.Synchronized)]
-    private static void LoadContent(string dicName, string fileName, Dictionary<string, string> dic, char delimiter)
+    private static void LoadContent(string dicKey, string fileName, Dictionary<string, string> dic, char delimiter)
     {      
-      if (!dic.ContainsKey(dicName))
+      if (!dic.ContainsKey(dicKey))
       {        
-        string[] theWords = System.IO.File.ReadAllLines(fileName);
-        dic.Add(dicName, string.Join(delimiter.ToString(), theWords));
+        // string[] theWords = System.IO.File.ReadAllLines(fileName);
+        StreamReader sr = new StreamReader(File.OpenRead(fileName));
+        List<string> list = new List<string>();
+        sr.ReadLine(); 
+        sr.ReadLine();
+        while (!sr.EndOfStream)
+        {
+          list.Add(sr.ReadLine());
+        }        
+        dic.Add(dicKey, string.Join(delimiter.ToString(), list.ToArray()));
       }
     }
 
@@ -346,16 +385,15 @@ namespace Dictionary
       try
       {
         dicValues = GetDictionary();
-        if (dicValues != null && !dicValues.ContainsKey(settings.CurrentDicName))
+        if (dicValues != null && !dicValues.ContainsKey(CurrentDicFilename))
         {
-          string file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Path.Combine(PluginDirecory, settings.CurrentDicName));
+          string file = Path.Combine(path, CurrentDicFilename);
           if (File.Exists(file))
           {
-            // 
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(string.Format(Properties.Resources.loading_dic_now, new object[] { settings.CurrentDicName }), this, NotificationLevel.Info));
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
-            LoadContent(settings.CurrentDicName, file, dicValues, settings.Delimiter[0]);
+            LoadContent(CurrentDicFilename, file, dicValues, settings.Delimiter[0]);
             stopWatch.Stop();
             // This log msg is shown on init after first using this plugin, even if event subscription
             // should not have been done yet. Results from using static LoadContent method.
@@ -373,7 +411,41 @@ namespace Dictionary
 
     public void Initialize()
     {
-      GetCurrentDictionary();
+      try
+      {
+        settings.Collection = new ObservableCollection<string>();
+        // load dics
+        DirectoryInfo directory = new DirectoryInfo(path);
+        foreach (FileInfo fileInfo in directory.GetFiles("*.txt"))
+        {
+          try
+          {
+            StreamReader sr = new StreamReader(File.OpenRead(fileInfo.FullName));
+            if (sr.ReadLine().Contains(DIC_MARKER))
+            {
+              // seems to be a dic that we want do use... 
+              // if dic description is provided we will use it...
+              string[] dicName = sr.ReadLine().Split(new string[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
+              if (dicName.Length == 2)
+              {
+                settings.Collection.Add(dicName[1]);
+                DicFiles.Add(fileInfo);
+              }
+            }
+            sr.Close();
+          }
+          catch (Exception ex)
+          {
+            GuiLogMessage(ex.Message, NotificationLevel.Warning);
+          }
+        }
+
+        GetCurrentDictionary();
+      }
+      catch (Exception exception)
+      {
+        GuiLogMessage(exception.Message, NotificationLevel.Error);
+      }
     }
 
     public void Dispose()
