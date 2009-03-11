@@ -208,50 +208,58 @@ using System.Text;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
+using System.IO;
 
 namespace Dictionary
 {
   public class CryptoolDictionarySettings : ISettings
   {
-    private const string GermanDic = "Dictionary_wordsGER.txt";
-    private const string EnglishDic = "Dictionary_2of12.txt";
-    
-    private WordDics currentDictionary;
+    # region private_variables
+    private int currentDictionary;
+    private ObservableCollection<string> collection = new ObservableCollection<string>();
+    # endregion private_variables
 
     public string CurrentDicName
     {
       get
       {
-        switch (currentDictionary)
+        try
         {
-          case WordDics.german:
-            return GermanDic;
-          case WordDics.english:
-            return EnglishDic;
-          default:
-            return null;
+          return Collection[currentDictionary];
+        }
+        catch (Exception)
+        {
+          return null;
         }
       }
     }
 
-    public enum WordDics
-    {
-      german, english
-    }
-
-    [ContextMenu("Dictionary", "Select dictionary with keywords.", 0, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new string[] { "German", "English" })]
-    [TaskPane("Dictionary", "Select dictionary with keywords.", "", 0, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "German", "English" })]
+    [TaskPane("Dictionary", "Select dictionary with keywords.", "", 0, false, DisplayLevel.Beginner, ControlType.DynamicComboBox, new string[] { "Collection" })]
     public int Dictionary
     {
-      get { return (int)currentDictionary; }
+      get { return currentDictionary; }
       set
       {
-        if (value != (int)currentDictionary)
+        if (value != currentDictionary)
         {
           HasChanges = true;
-          this.currentDictionary = (WordDics)value;
+          this.currentDictionary = value;
           OnPropertyChanged("Dictionary");
         }
+      }
+    }
+
+    public ObservableCollection<string> Collection
+    {
+      get { return collection; }
+      set
+      {
+        if (value != collection)
+        {
+          collection = value;
+        }
+        OnPropertyChanged("Collection");
       }
     }
 

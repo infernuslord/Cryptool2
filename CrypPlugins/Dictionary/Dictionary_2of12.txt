@@ -1,3 +1,5 @@
+dictionary marker:{081C0520-0062-49f2-9832-5F043682F45E}
+dictionary name:english
 a
 aardvark
 abaci
