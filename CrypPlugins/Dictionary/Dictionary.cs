@@ -385,7 +385,7 @@ namespace Dictionary
       try
       {
         dicValues = GetDictionary();
-        if (dicValues != null && !dicValues.ContainsKey(CurrentDicFilename))
+        if (dicValues != null && CurrentDicFilename != null && !dicValues.ContainsKey(CurrentDicFilename))
         {
           string file = Path.Combine(path, CurrentDicFilename);
           if (File.Exists(file))
