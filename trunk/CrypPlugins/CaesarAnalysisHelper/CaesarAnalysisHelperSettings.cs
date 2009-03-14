@@ -15,7 +15,8 @@ namespace Cryptool.CaesarAnalysisHelper
             set
             {
                 frequentChar = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("FrequentChar"));
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs("FrequentChar"));
             }
         }
 

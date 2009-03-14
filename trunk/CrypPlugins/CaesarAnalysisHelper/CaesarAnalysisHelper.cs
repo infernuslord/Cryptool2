@@ -65,7 +65,6 @@ namespace Cryptool.CaesarAnalysisHelper
                 try
                 {
                     int HighestCount = 0;
-                    string Char = string.Empty;
                     foreach (var s in inputList.Split(new[] { "\r\n" }, StringSplitOptions.None))
                     {
                         string[] tmpArr = s.Split(new[] { ':' });
@@ -77,7 +76,7 @@ namespace Cryptool.CaesarAnalysisHelper
                             {
                                 HighestCount = Count;
                                 key = tmpArr[0][0]-settings.FrequentChar;
-                                GuiNotification(string.Format("New highest count: {0}",Char));
+                                GuiNotification(string.Format("New highest count: {0}", tmpArr[0][0]));
                             }
                         }
                     }
