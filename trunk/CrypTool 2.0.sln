@@ -89,8 +89,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WEPAttacks", "CrypPlugins\W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Internet_frame_generator", "CrypPlugins\Internet_frame_generator\Internet_frame_generator\Internet_frame_generator.csproj", "{A42A026A-CE2F-421D-BE46-93E659485A9C}"
 EndProject
-Project("{8BC9CEB9-8B4A-11D0-8D11-00A0C91BC942}") = "CrypWin.exe", "CrypWin\bin\Debug\CrypWin.exe", "{4106F971-1A59-4900-871A-25FC4699BD85}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PKCS5", "CrypPlugins\PKCS5\PKCS5.csproj", "{80200C92-77FC-4508-B520-D51530BE2608}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B2A0D8D8-D323-47A2-9C45-78EADE3A2297}"
@@ -118,10 +116,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartInterpreter", "CrypPlu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Twofish", "CrypPlugins\Twofish\Twofish.csproj", "{B2F7104B-C302-409A-B6C7-3A74B6E5C5A1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyTale", "CrypPlugins\SkyTale\SkyTale.csproj", "{56617BC2-3504-410C-AB98-E551EFCE4E3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaesarAnalysisHelper", "CrypPlugins\CaesarAnalysisHelper\CaesarAnalysisHelper.csproj", "{F8150D58-1AD6-4411-AF27-FC8578D24C73}"
+EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = CrypTool 2.0.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
 		Debug|Any CPU = Debug|Any CPU
@@ -571,12 +570,6 @@ Global
 		{A42A026A-CE2F-421D-BE46-93E659485A9C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A42A026A-CE2F-421D-BE46-93E659485A9C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{A42A026A-CE2F-421D-BE46-93E659485A9C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{4106F971-1A59-4900-871A-25FC4699BD85}.Debug|.NET.ActiveCfg = Debug
-		{4106F971-1A59-4900-871A-25FC4699BD85}.Debug|Any CPU.ActiveCfg = Debug
-		{4106F971-1A59-4900-871A-25FC4699BD85}.Debug|Mixed Platforms.ActiveCfg = Debug
-		{4106F971-1A59-4900-871A-25FC4699BD85}.Release|.NET.ActiveCfg = Debug
-		{4106F971-1A59-4900-871A-25FC4699BD85}.Release|Any CPU.ActiveCfg = Debug
-		{4106F971-1A59-4900-871A-25FC4699BD85}.Release|Mixed Platforms.ActiveCfg = Debug
 		{80200C92-77FC-4508-B520-D51530BE2608}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{80200C92-77FC-4508-B520-D51530BE2608}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{80200C92-77FC-4508-B520-D51530BE2608}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -687,6 +680,26 @@ Global
 		{B2F7104B-C302-409A-B6C7-3A74B6E5C5A1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B2F7104B-C302-409A-B6C7-3A74B6E5C5A1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B2F7104B-C302-409A-B6C7-3A74B6E5C5A1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{56617BC2-3504-410C-AB98-E551EFCE4E3D}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{56617BC2-3504-410C-AB98-E551EFCE4E3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56617BC2-3504-410C-AB98-E551EFCE4E3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56617BC2-3504-410C-AB98-E551EFCE4E3D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{56617BC2-3504-410C-AB98-E551EFCE4E3D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{56617BC2-3504-410C-AB98-E551EFCE4E3D}.Release|.NET.ActiveCfg = Release|Any CPU
+		{56617BC2-3504-410C-AB98-E551EFCE4E3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56617BC2-3504-410C-AB98-E551EFCE4E3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56617BC2-3504-410C-AB98-E551EFCE4E3D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{56617BC2-3504-410C-AB98-E551EFCE4E3D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F8150D58-1AD6-4411-AF27-FC8578D24C73}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{F8150D58-1AD6-4411-AF27-FC8578D24C73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8150D58-1AD6-4411-AF27-FC8578D24C73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8150D58-1AD6-4411-AF27-FC8578D24C73}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F8150D58-1AD6-4411-AF27-FC8578D24C73}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F8150D58-1AD6-4411-AF27-FC8578D24C73}.Release|.NET.ActiveCfg = Release|Any CPU
+		{F8150D58-1AD6-4411-AF27-FC8578D24C73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8150D58-1AD6-4411-AF27-FC8578D24C73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8150D58-1AD6-4411-AF27-FC8578D24C73}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F8150D58-1AD6-4411-AF27-FC8578D24C73}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
