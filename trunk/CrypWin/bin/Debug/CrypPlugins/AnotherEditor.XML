@@ -2775,6 +2775,11 @@
               Looks up a localized string similar to Errors occured when loading the plugins. Connections not loaded..
             </summary>
         </member>
+        <member name="P:AnotherEditor.Properties.Dialogs.exception_setting_property_of_plugin">
+            <summary>
+              Looks up a localized string similar to An exception occured while setting property &quot;{0}&quot; of plugin: {1}.
+            </summary>
+        </member>
         <member name="P:AnotherEditor.Properties.Dialogs.executed_successfull">
             <summary>
               Looks up a localized string similar to Chain successfully executed..

@@ -95,7 +95,7 @@
 cd ..\..\CrypWin\$(OutDir)
 if not exist "./CrypPlugins" mkdir "./CrypPlugins"
 
-del /F /S /Q /s /q "Caesar*.*"
-copy "$(TargetDir)Caesar*.*" "./CrypPlugins"</PostBuildEvent>
+del /F /S /Q /s /q "Caesar.*"
+copy "$(TargetDir)Caesar.*" "./CrypPlugins"</PostBuildEvent>
   </PropertyGroup>
 </Project>
