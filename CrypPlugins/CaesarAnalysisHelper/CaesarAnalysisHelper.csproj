@@ -77,7 +77,10 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>cd $(SolutionDir)\CrypWin\$(OutDir)
+if not exist "./CrypPlugins" mkdir "./CrypPlugins"
+
+del /F /S /Q /s /q "$(ProjectName).*"
+copy "$(TargetDir)$(ProjectName).*" "./CrypPlugins"</PostBuildEvent>
   </PropertyGroup>
 </Project>
