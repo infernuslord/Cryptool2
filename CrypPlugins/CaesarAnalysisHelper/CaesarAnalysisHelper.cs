@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
@@ -14,10 +13,12 @@ namespace Cryptool.CaesarAnalysisHelper
     }
 
     [Author("Fabian Enkler", "", "", "")]
-    [PluginInfo(false, "CaesarAnalysisHelper", "", "", "CaesarAnalysisHelper/icon.png")]
+    [PluginInfo(false, "CaesarAnalysisHelper", "This plugin is designed in order to make a cryptanalysis of a caesarcipher based on the frequency test.", "", "CaesarAnalysisHelper/icon.png")]
     public class CaesarAnalysisHelper : IThroughput
     {
         private readonly CaesarAnalysisHelperSettings settings;
+        private string inputList = string.Empty;
+        private int key;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event StatusChangedEventHandler OnPluginStatusChanged;
@@ -32,11 +33,7 @@ namespace Cryptool.CaesarAnalysisHelper
         public ISettings Settings
         {
             get { return settings; }
-        }
-
-        private string inputList = string.Empty;
-        private int key;
-        private readonly List<FrequencyObject> ObjectList = new List<FrequencyObject>();
+        } 
 
         [PropertyInfo(Direction.Input, "List Input", "This is the analysis input from the frequency test.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text,
             null)]
@@ -150,8 +147,13 @@ namespace Cryptool.CaesarAnalysisHelper
 
         private void GuiNotification(string text)
         {
+            GuiNotification(text,NotificationLevel.Debug);
+        }
+
+        private void GuiNotification(string text, NotificationLevel Level)
+        {
             if (OnGuiLogNotificationOccured != null)
-                OnGuiLogNotificationOccured(this, new GuiLogEventArgs(text, this, NotificationLevel.Debug));
+                OnGuiLogNotificationOccured(this, new GuiLogEventArgs(text, this, Level));
         }
     }
 }
