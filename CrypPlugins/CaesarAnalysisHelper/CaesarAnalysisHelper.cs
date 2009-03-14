@@ -38,7 +38,7 @@ namespace Cryptool.CaesarAnalysisHelper
         private int key;
         private readonly List<FrequencyObject> ObjectList = new List<FrequencyObject>();
 
-        [PropertyInfo(Direction.Input, "List Input", "", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text,
+        [PropertyInfo(Direction.Input, "List Input", "This is the analysis input from the frequency test.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text,
             null)]
         public string InputList
         {
@@ -51,7 +51,7 @@ namespace Cryptool.CaesarAnalysisHelper
             }
         }
 
-        [PropertyInfo(Direction.Output, "Key", "", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.Output, "Key", "This is the estimated key.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public int Key
         {
             get
