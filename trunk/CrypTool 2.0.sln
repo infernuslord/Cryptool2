@@ -119,6 +119,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyTale", "CrypPlugins\SkyTale\SkyTale.csproj", "{56617BC2-3504-410C-AB98-E551EFCE4E3D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaesarAnalysisHelper", "CrypPlugins\CaesarAnalysisHelper\CaesarAnalysisHelper.csproj", "{F8150D58-1AD6-4411-AF27-FC8578D24C73}"
+	ProjectSection(ProjectDependencies) = postProject
+		{25DB2B47-A457-4EC2-960B-395CE07AE093} = {25DB2B47-A457-4EC2-960B-395CE07AE093}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB9-8B4A-11D0-8D11-00A0C91BC942}") = "CrypWin.exe", "CrypWin\bin\Release\CrypWin.exe", "{A19FB702-DEBF-4EAB-895A-86D4E7AE9529}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -700,6 +705,12 @@ Global
 		{F8150D58-1AD6-4411-AF27-FC8578D24C73}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F8150D58-1AD6-4411-AF27-FC8578D24C73}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{F8150D58-1AD6-4411-AF27-FC8578D24C73}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A19FB702-DEBF-4EAB-895A-86D4E7AE9529}.Debug|.NET.ActiveCfg = Debug
+		{A19FB702-DEBF-4EAB-895A-86D4E7AE9529}.Debug|Any CPU.ActiveCfg = Debug
+		{A19FB702-DEBF-4EAB-895A-86D4E7AE9529}.Debug|Mixed Platforms.ActiveCfg = Debug
+		{A19FB702-DEBF-4EAB-895A-86D4E7AE9529}.Release|.NET.ActiveCfg = Debug
+		{A19FB702-DEBF-4EAB-895A-86D4E7AE9529}.Release|Any CPU.ActiveCfg = Debug
+		{A19FB702-DEBF-4EAB-895A-86D4E7AE9529}.Release|Mixed Platforms.ActiveCfg = Debug
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
