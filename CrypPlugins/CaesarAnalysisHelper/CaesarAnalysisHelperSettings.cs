@@ -1,32 +1,76 @@
+using System;
 using Cryptool.PluginBase;
 using System.ComponentModel;
 
 namespace Cryptool.CaesarAnalysisHelper
 {
+    public enum Language
+    {
+        German,
+        English,
+        French,
+        Spanish
+    }
+
     class CaesarAnalysisHelperSettings : ISettings
     {
-        private char frequentChar = 'e';
+        internal char FrequentChar = 'e';
 
-        [PropertySaveOrder(0)]
-        [TaskPane("Frequent Char", "The most frequent char in the text's language.", null, 4, false, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RegEx, "^([a-z]){1,1}$")]
-        public char FrequentChar
+        private Language Lang = Language.German;
+
+        [TaskPane("Language", "The text's language.", null, 0, false, DisplayLevel.Beginner, ControlType.ComboBox, new[] { "German", "English", "French", "Spanish" })]
+        public string TextLanguage
         {
-            get { return frequentChar; }
+            get
+            {
+                return Lang.ToString();
+            }
             set
             {
-                frequentChar = value;
-                if (PropertyChanged != null)
-                    PropertyChanged(this, new PropertyChangedEventArgs("FrequentChar"));
+                try
+                {
+                    Lang = (Language)Enum.Parse(typeof(Language), value);
+                    OnPropertyChanged("Language");
+                    switch (Lang)
+                    {
+                        case Language.German:
+                        case Language.English:
+                        case Language.French:
+                        case Language.Spanish:
+                            FrequentChar = 'e';
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                catch (Exception)
+                {
+                }
             }
         }
 
-        [PropertySaveOrder(1)]
+        private bool hasChanges;
         public bool HasChanges
         {
-            get;
-            set;
+            get { return hasChanges; }
+            set
+            {
+                if (value != hasChanges)
+                {
+                    hasChanges = value;
+                    OnPropertyChanged("HasChanges");
+                }
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            if (name.ToLower() != "haschanges")
+                HasChanges = true;
+        }
     }
 }
