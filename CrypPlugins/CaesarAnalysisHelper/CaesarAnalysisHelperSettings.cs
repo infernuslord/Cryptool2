@@ -30,7 +30,6 @@ namespace Cryptool.CaesarAnalysisHelper
                 try
                 {
                     Lang = (Language)Enum.Parse(typeof(Language), value);
-                    OnPropertyChanged("Language");
                     switch (Lang)
                     {
                         case Language.German:
@@ -42,6 +41,7 @@ namespace Cryptool.CaesarAnalysisHelper
                         default:
                             break;
                     }
+                    OnPropertyChanged("TextLanguage");
                 }
                 catch (Exception)
                 {
