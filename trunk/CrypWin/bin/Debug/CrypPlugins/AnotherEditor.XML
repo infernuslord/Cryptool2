@@ -2715,6 +2715,11 @@
               Looks up a localized string similar to Can&apos;t find defined CanSendDynamicPropertiesChangedEvent property..
             </summary>
         </member>
+        <member name="P:AnotherEditor.Properties.Dialogs.context_menu_attribute_type_warning">
+            <summary>
+              Looks up a localized string similar to ContextMenu attribute with parameter &quot;{0}&quot; can only be used with {1} properties. The property &quot;{2}&quot; is of type: {3}.
+            </summary>
+        </member>
         <member name="P:AnotherEditor.Properties.Dialogs.contextMenu_error">
             <summary>
               Looks up a localized string similar to Error creating context menu entry for plugin &quot;{0}&quot; on property &quot;{1}&quot;. Type is set to &quot;{2}&quot;, but no ControlValues given..
