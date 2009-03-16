@@ -2835,6 +2835,11 @@
               Looks up a localized string similar to open.
             </summary>
         </member>
+        <member name="P:AnotherEditor.Properties.Dialogs.persistance_manager_no_workspaces_in_file">
+            <summary>
+              Looks up a localized string similar to No workspaces were found in file &quot;{0}&quot;. The file is probably damaged..
+            </summary>
+        </member>
         <member name="P:AnotherEditor.Properties.Dialogs.persistance_manager_properties_do_not_match">
             <summary>
               Looks up a localized string similar to Properties of savefile and plugin do not match: {0}.
