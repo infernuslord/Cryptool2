@@ -77,10 +77,11 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>cd $(SolutionDir)\CrypWin\$(OutDir)
+    <PostBuildEvent>cd "$(ProjectDir)"
+cd ..\..\CrypWin\$(OutDir)
 if not exist "./CrypPlugins" mkdir "./CrypPlugins"
 
-del /F /S /Q /s /q "$(ProjectName).*"
-copy "$(TargetDir)$(ProjectName).*" "./CrypPlugins"</PostBuildEvent>
+del /F /S /Q /s /q "SkyTale.*"
+copy "$(TargetDir)SkyTale.*" "./CrypPlugins"</PostBuildEvent>
   </PropertyGroup>
 </Project>
