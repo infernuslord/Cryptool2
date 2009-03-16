@@ -5,12 +5,13 @@ using System.Windows.Controls;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
 using System.Collections.Generic;
+using Cryptool.PluginBase.Analysis;
 
 namespace Cryptool.CaesarAnalysisHelper
 {
     [Author("Fabian Enkler", "", "", "")]
     [PluginInfo(false, "CaesarAnalysisHelper", "This plugin is designed in order to make a cryptanalysis of a caesarcipher based on the frequency test.", "", "CaesarAnalysisHelper/icon.png")]
-    public class CaesarAnalysisHelper : IThroughput
+    public class CaesarAnalysisHelper : IAnalysisMisc
     {
         private readonly CaesarAnalysisHelperSettings settings;
 
