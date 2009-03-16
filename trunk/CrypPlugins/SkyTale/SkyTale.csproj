@@ -3,13 +3,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{56617BC2-3504-410C-AB98-E551EFCE4E3D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>$safeprojectname$</RootNamespace>
-    <AssemblyName>$safeprojectname$</AssemblyName>
+    <AssemblyName>SkyTale</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -63,7 +63,7 @@
     <Compile Include="SkyTaleSettings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="icon.png" />
+    <Resource Include="icon.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="key.snk" />
@@ -76,4 +76,11 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>cd $(SolutionDir)\CrypWin\$(OutDir)
+if not exist "./CrypPlugins" mkdir "./CrypPlugins"
+
+del /F /S /Q /s /q "$(ProjectName).*"
+copy "$(TargetDir)$(ProjectName).*" "./CrypPlugins"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

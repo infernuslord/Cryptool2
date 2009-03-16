@@ -1,30 +1,70 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.ComponentModel;
 using Cryptool.PluginBase;
 
 namespace Cryptool.SkyTale
 {
-	class SkyTaleSettings : ISettings
-	{
-	    private string charsPerTurn;
-	    private string charsPerColumn;
+    internal enum Action
+    {
+        Encrypt,
+        Decrypt
+    }
 
-        public bool HasChanges
+    class SkyTaleSettings : ISettings
+    {
+        private Action action = Cryptool.SkyTale.Action.Encrypt;
+        [TaskPane("Action", "Select the Algorithm action", null, 0, false, DisplayLevel.Beginner, ControlType.ComboBox, new [] { "Encrypt", "Decrypt" })]
+        public int Action
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { return (int)action; }
             set
             {
-                throw new NotImplementedException();
+                try
+                {
+                    action = (Action)value;
+                    OnPropertyChanged("Action");
+                }
+                catch (Exception)
+                {
+                    action = Cryptool.SkyTale.Action.Encrypt;
+                }
             }
         }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
+        private int stickSize = 1;
+        [TaskPane("Stick size", "This is the size of the used stick.", null, 1, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 2, 100)]
+        public int StickSize
+        {
+            get { return stickSize; }
+            set
+            {
+                stickSize = value;
+                OnPropertyChanged("StickSize");
+            }
+        }
 
+        private bool hasChanges;
+        public bool HasChanges
+        {
+            get { return hasChanges; }
+            set
+            {
+                if (value != hasChanges)
+                {
+                    hasChanges = value;
+                    OnPropertyChanged("HasChanges");
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            if (name.ToLower() != "haschanges")
+                HasChanges = true;
+        }
     }
 }

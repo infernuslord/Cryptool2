@@ -8,12 +8,6 @@ using System.Collections.Generic;
 
 namespace Cryptool.CaesarAnalysisHelper
 {
-    class FrequencyObject
-    {
-        public char Char { get; set; }
-        public int Frequency { get; set; }
-    }
-
     [Author("Fabian Enkler", "", "", "")]
     [PluginInfo(false, "CaesarAnalysisHelper", "This plugin is designed in order to make a cryptanalysis of a caesarcipher based on the frequency test.", "", "CaesarAnalysisHelper/icon.png")]
     public class CaesarAnalysisHelper : IThroughput
@@ -35,6 +29,18 @@ namespace Cryptool.CaesarAnalysisHelper
             get { return settings; }
         }
 
+        private string encryptedText;
+        [PropertyInfo(Direction.Input, "Encrypted text", "The caesar encrpyted text", null, false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public string EncryptedText
+        {
+            get { return encryptedText; }
+            set
+            {
+                encryptedText = value;
+                OnPropertyChanged("EncryptedText");
+            }
+        }
+
         private string frequencyList = string.Empty;
         [PropertyInfo(Direction.Input, "Frequency List", "This is the analysis input from the frequency test.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text,
             null)]
@@ -45,18 +51,6 @@ namespace Cryptool.CaesarAnalysisHelper
             {
                 frequencyList = value;
                 OnPropertyChanged("FrequencyList");
-            }
-        }
-
-        private string encryptedText;
-        [PropertyInfo(Direction.Input, "Encrypted text", "The caesar encrpyted text", null, false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public string EncryptedText
-        {
-            get { return encryptedText; }
-            set
-            {
-                encryptedText = value;
-                OnPropertyChanged("EncryptedText");
             }
         }
 
@@ -82,9 +76,19 @@ namespace Cryptool.CaesarAnalysisHelper
                 bruteForceDecryptedText = value;
                 OnPropertyChanged("BruteForceDecryptedText");
             }
+        }*/
+
+        private int key;
+        [PropertyInfo(Direction.Output, "Key", "This is the estimated key.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public int Key
+        {
+            get
+            {
+                return key;
+            }
         }
 
-        private string bruteForceEncryptedText;
+        /*private string bruteForceEncryptedText;
         [PropertyInfo(Direction.Output, "Bruteforce encrypted text", "This the text, which should be encrypted by the caesar plugin with bruteforce.", null, false, false, DisplayLevel.Professional, QuickWatchFormat.Text, null)]
         public string BruteForceEnCryptedText
         {
@@ -108,16 +112,6 @@ namespace Cryptool.CaesarAnalysisHelper
             }
         }*/
 
-        private int key;
-        [PropertyInfo(Direction.Output, "Key", "This is the estimated key.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public int Key
-        {
-            get
-            {
-                return key;
-            }
-        }
-
         public void CryptoAnalysis()
         {
             var KeyList = new Dictionary<int, int>();
@@ -137,7 +131,7 @@ namespace Cryptool.CaesarAnalysisHelper
             }
 
             Counter = 0;
-            foreach (var i in CountBigrams2(encryptedText))
+            foreach (var i in CountBigrams(encryptedText))
             {
                 if (Counter < 5)
                 {
@@ -177,7 +171,7 @@ namespace Cryptool.CaesarAnalysisHelper
                     if (!string.IsNullOrEmpty(s))
                     {
                         string[] tmpArr = s.Split(new[] { ':' });
-                        if (tmpArr.Length > 0)
+                        if (tmpArr.Length > 1)
                         {
 
                             char c = tmpArr[0][0];
@@ -206,7 +200,7 @@ namespace Cryptool.CaesarAnalysisHelper
             return new List<int>();
         }
 
-        private List<int> CountBigrams2(string text)
+        private static List<int> CountBigrams(string text)
         {
             if (!string.IsNullOrEmpty(text))
             {
@@ -267,117 +261,6 @@ namespace Cryptool.CaesarAnalysisHelper
             return new List<int>();
         }
 
-        private List<int> CountBigrams(string text)
-        {
-            if (!string.IsNullOrEmpty(text))
-            {
-                var BigramList = new List<string>();
-
-                for (int i = 0; i < text.Length - 1; i++)
-                {
-                    string tmp = text.Substring(i, 2);
-                    BigramList.Add(tmp);
-                }
-                var Result = new List<int>();
-                var KeyList = new Dictionary<int, int>();
-                foreach (var c in BigramList)
-                {
-                    int Distance = c[0] - c[1];
-                    if (Distance < 0)
-                        Distance = c[1] - c[0];
-                    int tmpKey;
-                    switch (Distance)
-                    {
-                        case 'n' - 'e':
-                            tmpKey = c[0] - 'e';
-                            if (c[0] - 'e' == c[1] - 'n')
-                            {
-                                if (!KeyList.ContainsKey(tmpKey))
-                                    KeyList.Add(tmpKey, 0);
-                                KeyList[tmpKey]++;
-                            }
-                            break;
-                        case 'r' - 'e':
-                            tmpKey = c[0] - 'e';
-                            if (c[0] - 'e' == c[1] - 'r')
-                            {
-                                if (!KeyList.ContainsKey(tmpKey))
-                                    KeyList.Add(tmpKey, 0);
-                                KeyList[tmpKey]++;
-                            }
-                            break;
-                        case 'h' - 'c':
-                            tmpKey = c[0] - 'c';
-                            if (c[0] - 'c' == c[1] - 'h')
-                            {
-                                if (!KeyList.ContainsKey(tmpKey))
-                                    KeyList.Add(tmpKey, 0);
-                                KeyList[tmpKey]++;
-                            }
-                            break;
-                        case 'i' - 'e':
-                            if (c[0] < c[1])
-                            {
-                                tmpKey = c[0] - 'e';
-                                if (c[0] - 'e' == c[1] - 'i')
-                                {
-                                    if (!KeyList.ContainsKey(tmpKey))
-                                        KeyList.Add(tmpKey, 0);
-                                    KeyList[tmpKey]++;
-                                }
-                            }
-                            else
-                            {
-                                tmpKey = c[0] - 'i';
-                                if (c[0] - 'i' == c[1] - 'e')
-                                {
-                                    if (!KeyList.ContainsKey(tmpKey))
-                                        KeyList.Add(tmpKey, 0);
-                                    KeyList[tmpKey]++;
-                                }
-                            }
-
-                            break;
-                        case 't' - 'e':
-                            tmpKey = c[0] - 't';
-                            if (c[0] - 't' == c[1] - 'e')
-                            {
-                                if (!KeyList.ContainsKey(tmpKey))
-                                    KeyList.Add(tmpKey, 0);
-                                KeyList[tmpKey]++;
-                            }
-                            break;
-                        case 'e' - 'd':
-                            tmpKey = c[0] - 'd';
-                            if (c[0] - 'd' == c[1] - 'e')
-                            {
-                                if (!KeyList.ContainsKey(tmpKey))
-                                    KeyList.Add(tmpKey, 0);
-                                KeyList[tmpKey]++;
-                            }
-                            break;
-                    }
-                }
-
-                var items2 = (from k in KeyList.Keys
-                              orderby KeyList[k] descending
-                              select k);
-                foreach (var s in items2)
-                {
-                    Result.Add(s);
-                }
-
-                return Result;
-            }
-            return new List<int>();
-        }
-
-
-
-
-
-
-
         public UserControl Presentation
         {
             get { return null; }
@@ -433,15 +316,19 @@ namespace Cryptool.CaesarAnalysisHelper
             }
         }
 
+/*
         private void GuiNotification(string text)
         {
             GuiNotification(text, NotificationLevel.Debug);
         }
+*/
 
+/*
         private void GuiNotification(string text, NotificationLevel Level)
         {
             if (OnGuiLogNotificationOccured != null)
                 OnGuiLogNotificationOccured(this, new GuiLogEventArgs(text, this, Level));
         }
+*/
     }
 }
