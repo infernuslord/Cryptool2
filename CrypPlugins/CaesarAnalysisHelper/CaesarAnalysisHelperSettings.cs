@@ -20,17 +20,17 @@ namespace Cryptool.CaesarAnalysisHelper
 
         [ContextMenu("Language", "The Language", 0, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new[] { "German", "English", "French", "Spanish" })]
         [TaskPane("Language", "The text's language.", null, 0, false, DisplayLevel.Beginner, ControlType.ComboBox, new[] { "German", "English", "French", "Spanish" })]
-        public string TextLanguage
+        public int TextLanguage
         {
             get
             {
-                return Lang.ToString();
+                return (int)Lang;
             }
             set
             {
                 try
                 {
-                    Lang = (Language)Enum.Parse(typeof(Language), value);
+                    Lang = (Language)value;
                     switch (Lang)
                     {
                         case Language.German:
