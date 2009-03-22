@@ -2,17 +2,18 @@
 using System.ComponentModel;
 using Cryptool.PluginBase;
 
-namespace Cryptool.SkyTale
+namespace Cryptool.Scytale
 {
-    internal enum Action
-    {
-        Encrypt,
-        Decrypt
-    }
 
-    class ScyTaleSettings : ISettings
+    public class ScytaleSettings : ISettings
     {
-        private Action action = SkyTale.Action.Encrypt;
+        private enum Actions
+        {
+          Encrypt,
+          Decrypt
+        }
+
+        private Actions action = Actions.Encrypt;
         [ContextMenu("Action","Select the Algorithm action",0,DisplayLevel.Beginner,ContextMenuControlType.ComboBox,null, new [] { "Encrypt", "Decrypt" })]
         [TaskPane("Action", "Select the Algorithm action", null, 0, false, DisplayLevel.Beginner, ControlType.ComboBox, new [] { "Encrypt", "Decrypt" })]
         public int Action
@@ -22,12 +23,12 @@ namespace Cryptool.SkyTale
             {
                 try
                 {
-                    action = (Action)value;
+                    action = (Actions)value;
                     OnPropertyChanged("Action");
                 }
                 catch (Exception)
                 {
-                    action = SkyTale.Action.Encrypt;
+                    action = Actions.Encrypt;
                 }
             }
         }
