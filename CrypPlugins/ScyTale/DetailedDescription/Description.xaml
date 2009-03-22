@@ -15,7 +15,7 @@
   
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
       <Span Foreground="#FF0000FF" xml:lang="en-us">
-        <misc:DescriptionHyperlink NavigateUri="http://en.wikipedia.org/wiki/Data_Encryption_Standard">http://en.wikipedia.org/wiki/Scytale</misc:DescriptionHyperlink>
+        <misc:DescriptionHyperlink NavigateUri="http://en.wikipedia.org/wiki/Scytale">http://en.wikipedia.org/wiki/Scytale</misc:DescriptionHyperlink>
       </Span>
     </Paragraph>
 </FlowDocument>

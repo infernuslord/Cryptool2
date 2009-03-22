@@ -3,14 +3,14 @@ using System.Windows.Controls;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Cryptography;
 
-namespace Cryptool.SkyTale
+namespace Cryptool.Scytale
 {
     [Author("Fabian Enkler", "", "", "")]
-    [PluginInfo(false, "ScyTale", "This the classical ScyTale cipher.", "ScyTale/DetailedDescription/Description.xaml", "ScyTale/icon.png")]
+    [PluginInfo(false, "Scytale", "Scytale -- classic transposition cipher", "Scytale/DetailedDescription/Description.xaml", "Scytale/icon.png")]
     [EncryptionType(EncryptionType.Classic)]
-    class ScyTale : IEncryption
+    public class Scytale : IEncryption
     {
-        private readonly ScyTaleSettings settings;
+        private readonly ScytaleSettings settings;
         private int CharsPerRow;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -18,13 +18,13 @@ namespace Cryptool.SkyTale
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
-        public ScyTale()
+        public Scytale()
         {
-            this.settings = new ScyTaleSettings();
+            this.settings = new ScytaleSettings();
         }
 
         private string inputString = string.Empty;
-        [PropertyInfo(Direction.Input, "Text input", "Input a string to be processed by the SkyTale cipher", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.Input, "Text input", "Input a string to be processed by the Scytale cipher", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -39,7 +39,7 @@ namespace Cryptool.SkyTale
         }
 
         private string outputString = string.Empty;
-        [PropertyInfo(Direction.Output, "Text output", "The string after processing with the SkyTale cipher", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.Output, "Text output", "The string after processing with the Scytale cipher", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }
