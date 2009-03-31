@@ -1,7 +1,7 @@
 <html>
 <head>
  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
- <meta http-equiv="refresh" content="1; URL=http://cryptool2.vs.uni-due.de/downloads/program/curversion/CrypTool-Setup-v2.0.3346a(beta).msi">
+ <meta http-equiv="refresh" content="1; URL=http://cryptool2.vs.uni-due.de/downloads/program/curversion/CrypTool-Setup-v2.0.3377a(beta).msi">
 </head>
 <body>
 <?php
