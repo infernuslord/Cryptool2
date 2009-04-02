@@ -125,6 +125,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScyTale", "CrypPlugins\ScyT
 EndProject
 Project("{8BC9CEB9-8B4A-11D0-8D11-00A0C91BC942}") = "CrypWin.exe", "CrypWin\bin\Debug\CrypWin.exe", "{45D0BFE5-C915-4453-BF3D-9101A8A3D0C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypCoreSearchTest", "CrypCoreSearchTest\CrypCoreSearchTest.csproj", "{90C71656-814E-48BF-A625-7B7E2B8F126C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FF5D473C-0716-4D3E-9078-2EBD979F94C6} = {FF5D473C-0716-4D3E-9078-2EBD979F94C6}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -711,6 +716,16 @@ Global
 		{45D0BFE5-C915-4453-BF3D-9101A8A3D0C4}.Release|.NET.ActiveCfg = Debug
 		{45D0BFE5-C915-4453-BF3D-9101A8A3D0C4}.Release|Any CPU.ActiveCfg = Debug
 		{45D0BFE5-C915-4453-BF3D-9101A8A3D0C4}.Release|Mixed Platforms.ActiveCfg = Debug
+		{90C71656-814E-48BF-A625-7B7E2B8F126C}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{90C71656-814E-48BF-A625-7B7E2B8F126C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90C71656-814E-48BF-A625-7B7E2B8F126C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90C71656-814E-48BF-A625-7B7E2B8F126C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{90C71656-814E-48BF-A625-7B7E2B8F126C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{90C71656-814E-48BF-A625-7B7E2B8F126C}.Release|.NET.ActiveCfg = Release|Any CPU
+		{90C71656-814E-48BF-A625-7B7E2B8F126C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90C71656-814E-48BF-A625-7B7E2B8F126C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90C71656-814E-48BF-A625-7B7E2B8F126C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{90C71656-814E-48BF-A625-7B7E2B8F126C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
