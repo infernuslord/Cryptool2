@@ -1,0 +1,18 @@
+<FlowDocument PagePadding="5,0,5,0" AllowDrop="True" NumberSubstitution.CultureSource="User" 
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              Background="White">
+
+  <Paragraph>
+      <Run FontWeight="Bold" FontSize="18.6666666666667" xml:lang="de-de">
+          <Run.TextDecorations>
+              <TextDecoration Location="Underline" />
+          </Run.TextDecorations> LFSR (Linear Feedback Shift Register)
+      </Run>
+  </Paragraph>
+  <Paragraph>
+      <Run FontSize="14.6666666666667" xml:lang="de-de">foo</Run>
+  </Paragraph>
+  <Paragraph>
+      <Run FontSize="14.6666666666667" xml:lang="de-de">bar</Run>
+  </Paragraph>
+</FlowDocument>
