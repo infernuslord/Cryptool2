@@ -51,8 +51,8 @@ namespace System.Security.Cryptography
     /// </exception>
     public TwofishManaged() 
     {
-      Key = new byte[KeySize   / 8]; // zeroed by default
-      IV  = new byte[BlockSize / 8]; // zeroed by default
+      key = new byte[KeySize   / 8]; // zeroed by default
+      iv  = new byte[BlockSize / 8]; // zeroed by default
     }
 
     public static new TwofishManaged Create()
