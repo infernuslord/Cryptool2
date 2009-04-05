@@ -21,6 +21,8 @@ namespace CrypCoreSearchTest
             foreach(var Result in Provider.Search(Console.ReadLine()))
             {
                 Console.WriteLine(Result.Plugin);
+                Console.WriteLine(Result.Score);
+                Console.WriteLine(Result.Context);
             }
             Console.ReadKey();
         }

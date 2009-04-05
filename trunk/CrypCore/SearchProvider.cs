@@ -8,7 +8,8 @@ using Lucene.Net.Index;
 using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
-using Directory=System.IO.Directory;
+using Directory = System.IO.Directory;
+using System;
 
 namespace Cryptool.Core
 {
@@ -16,10 +17,13 @@ namespace Cryptool.Core
     {
         public string Plugin { get; set; }
         public string Context { get; set; }
+        public float Score { get; set; }
     }
 
     public class SearchProvider
     {
+        private const string ContentField = "content";
+        private const string PluginField = "plugin";
         //private const string HelpFilePath = "";
         //private const string IndexPath = "";
         public string HelpFilePath { get; set; }
@@ -27,7 +31,7 @@ namespace Cryptool.Core
 
         public List<SearchResult> Search(string SearchString)
         {
-            var LocalSearch = new LocalSearchTool {IndexPath = IndexPath};
+            var LocalSearch = new LocalSearchTool { IndexPath = IndexPath };
             LocalSearch.Search(SearchString);
 
 
@@ -45,19 +49,17 @@ namespace Cryptool.Core
 
             var indexWriter = new
             IndexWriter(dir, analyzer, true);
-            
+
             indexWriter.SetMaxFieldLength(int.MaxValue);
 
-            foreach(var File in Directory.GetFiles(HelpFilePath))
+            foreach (var File in Directory.GetFiles(HelpFilePath))
             {
                 var text = GetTextFromXaml(File);
                 var doc = new Document();
 
-                var fldContent =
-                    new Field("content", text, Field.Store.YES, Field.Index.TOKENIZED,
+                var fldContent = new Field(ContentField, text, Field.Store.YES, Field.Index.TOKENIZED,
                               Field.TermVector.WITH_POSITIONS_OFFSETS);
-                var fldName =
-                    new Field("plugin", Path.GetFileNameWithoutExtension(Path.GetFileName(File)), Field.Store.YES, Field.Index.NO,
+                var fldName = new Field(PluginField, Path.GetFileNameWithoutExtension(Path.GetFileName(File)), Field.Store.YES, Field.Index.NO,
                               Field.TermVector.NO);
                 doc.Add(fldContent);
                 doc.Add(fldName);
@@ -94,10 +96,13 @@ namespace Cryptool.Core
     {
         public List<SearchResult> SearchResults { get; set; }
 
+        protected const string ContentField = "content";
+        protected const string PluginField = "plugin";
+
 
         public virtual void Search(string SearchString)
         {
-            SearchResults = new List<SearchResult>();   
+            SearchResults = new List<SearchResult>();
         }
     }
 
@@ -105,14 +110,21 @@ namespace Cryptool.Core
     {
         public string IndexPath { get; set; }
 
+        private const int ContextLeftOffset = 15;
+        private const int ContextRightOffset = 35;
+        private const int ContextLength = ContextLeftOffset + ContextRightOffset;
+
         public override void Search(string SearchString)
         {
             base.Search(SearchString);
+            SearchString = SearchString.ToLower();
             var dir = FSDirectory.GetDirectory(IndexPath, false);
 
             var searcher = new IndexSearcher(dir);
 
-            var parser = new QueryParser("content", new StandardAnalyzer());
+            IndexReader Reader = searcher.Reader;
+
+            var parser = new QueryParser(ContentField, new StandardAnalyzer());
             Query query = parser.Parse(SearchString);
 
             Lucene.Net.Search.Hits hits = searcher.Search(query);
@@ -120,22 +132,33 @@ namespace Cryptool.Core
             for (int i = 0; i < hits.Length(); i++)
             {
                 Document doc = hits.Doc(i);
-
-                var positions = searcher.Reader.TermPositions(new Term("content", SearchString));
-                positions.GetHashCode();
-
-                var text = doc.Get("content");
-                text.GetHashCode();
-                while (positions.Next())
+                string text = doc.Get(ContentField);
+                var tpv = (TermPositionVector)Reader.GetTermFreqVector(hits.Id(i), ContentField);
+                String[] DocTerms = tpv.GetTerms();
+                int[] freq = tpv.GetTermFrequencies();
+                for (int t = 0; t < freq.Length; t++)
                 {
-                    var Doc = positions.Doc();
-                    Doc.GetHashCode();
-                    var position = positions.NextPosition();
-                    position.GetHashCode();
+                    if (DocTerms[t].Equals(SearchString))
+                    {
+                        TermVectorOffsetInfo[] offsets = tpv.GetOffsets(t);
+                        int[] pos = tpv.GetTermPositions(t);
+
+                        for (int tp = 0; tp < pos.Length; tp++)
+                        {
+                            int start = offsets[tp].GetStartOffset();
+                            int indexStart = start - ContextLeftOffset < 0 ? 0 : start - ContextLeftOffset;
+                            int contextstart = 0;
+                            if (indexStart > 0)
+                                contextstart = text.IndexOf(' ', indexStart) + 1;
+                            int contextlength = text.IndexOf(' ', contextstart + ContextLength) - contextstart;
+                            string context = contextstart + contextlength > text.Length ? text.Substring(contextstart) : text.Substring(contextstart, contextlength);
+                            SearchResults.Add(new SearchResult { Plugin = doc.Get(PluginField), Context = context, Score = hits.Score(i) });
+                        }
+                    }
                 }
 
-                SearchResults.Add(new SearchResult { Plugin = doc.Get("plugin") });
             }
         }
     }
 }
+
