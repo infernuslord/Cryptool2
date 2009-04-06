@@ -58,6 +58,16 @@
   <ItemGroup>
     <Compile Include="Caesar.cs" />
     <Compile Include="CaesarSettings.cs" />
+    <Compile Include="Resources\res.de-DE.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>res.de-DE.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\res.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>res.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +91,16 @@
   <ItemGroup>
     <Resource Include="Images\decrypt.png" />
     <Resource Include="Images\encrypt.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\res.de-DE.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>res.de-DE.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\res.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>res.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

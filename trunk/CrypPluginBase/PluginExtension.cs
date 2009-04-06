@@ -211,6 +211,7 @@ using System.Windows.Documents;
 using System.Windows.Markup;
 using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.PluginBase.Resources;
+using System.Resources;
 
 namespace Cryptool.PluginBase
 {
@@ -367,6 +368,28 @@ namespace Cryptool.PluginBase
               GuiLogMessage(string.Format(Resource.plugin_extension_error_get_image, new object[] { type.Name, exception.Message }), NotificationLevel.Error);
             else
               GuiLogMessage(exception.Message, NotificationLevel.Error);
+            return null;
+          }
+        }
+
+        /// <summary>
+        /// Still in test phase - do not call this method!
+        /// </summary>
+        /// <param name="plugin">The plugin.</param>
+        /// <param name="keyword">The keyword.</param>
+        /// <returns></returns>
+        public static string GetPluginStringResource(this IPlugin plugin, string keyword)
+        {
+          try
+          {
+            // Get resource file from plugin assembly -> <Namespace>.<ResourceFileName> without "resx" file extension
+            ResourceManager resman = new ResourceManager(plugin.GetPluginInfoAttribute().ResourceFile, plugin.GetType().Assembly);             
+            // Load the translation for the keyword e.g.:
+            return resman.GetString(keyword);
+          }
+          catch (Exception exception)
+          {
+            GuiLogMessage(exception.Message, NotificationLevel.Error);
             return null;
           }
         }

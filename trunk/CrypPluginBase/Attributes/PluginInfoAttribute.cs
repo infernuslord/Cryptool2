@@ -208,6 +208,7 @@ namespace Cryptool.PluginBase
     [AttributeUsage(AttributeTargets.Class)]
     public class PluginInfoAttribute : Attribute
     {
+        public readonly string ResourceFile;
         public readonly bool Startable;
         public readonly string Caption;
         public readonly string ToolTip;
@@ -229,6 +230,25 @@ namespace Cryptool.PluginBase
             this.ToolTip = toolTip;
             this.DescriptionUrl = descriptionUrl;
             this.Icons = icons;
+        }
+
+        /// <summary>
+        /// Temp. two constructors while not all plugins are switched to new multi language mode.
+        /// </summary>
+        /// <param name="resourceFile">The resource file.</param>
+        /// <param name="startable">if set to <c>true</c> [startable].</param>
+        /// <param name="caption">The caption.</param>
+        /// <param name="toolTip">The tool tip.</param>
+        /// <param name="descriptionUrl">The description URL.</param>
+        /// <param name="icons">The icons.</param>
+        public PluginInfoAttribute(string resourceFile, bool startable, string caption, string toolTip, string descriptionUrl, params string[] icons)
+        {
+          this.ResourceFile = resourceFile;
+          this.Startable = startable;
+          this.Caption = caption;
+          this.ToolTip = toolTip;
+          this.DescriptionUrl = descriptionUrl;
+          this.Icons = icons;
         }
     }
 }
