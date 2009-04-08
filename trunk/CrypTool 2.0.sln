@@ -130,6 +130,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypCoreSearchTest", "CrypC
 		{FF5D473C-0716-4D3E-9078-2EBD979F94C6} = {FF5D473C-0716-4D3E-9078-2EBD979F94C6}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nihilist", "CrypPlugins\Nihilist\Nihilist.csproj", "{FB8BAD02-DDE2-411E-A495-071232CFDE58}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -726,6 +728,16 @@ Global
 		{90C71656-814E-48BF-A625-7B7E2B8F126C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{90C71656-814E-48BF-A625-7B7E2B8F126C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{90C71656-814E-48BF-A625-7B7E2B8F126C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{FB8BAD02-DDE2-411E-A495-071232CFDE58}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{FB8BAD02-DDE2-411E-A495-071232CFDE58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB8BAD02-DDE2-411E-A495-071232CFDE58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB8BAD02-DDE2-411E-A495-071232CFDE58}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FB8BAD02-DDE2-411E-A495-071232CFDE58}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{FB8BAD02-DDE2-411E-A495-071232CFDE58}.Release|.NET.ActiveCfg = Release|Any CPU
+		{FB8BAD02-DDE2-411E-A495-071232CFDE58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB8BAD02-DDE2-411E-A495-071232CFDE58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB8BAD02-DDE2-411E-A495-071232CFDE58}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FB8BAD02-DDE2-411E-A495-071232CFDE58}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
