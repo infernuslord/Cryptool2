@@ -1,0 +1,8 @@
+﻿<UserControl x:Class="Cryptool.LFSR.LFSRPresentation"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Height="Auto" Width="Auto" Margin="0" Background="White" BorderBrush="Black" BorderThickness="1">
+    <Grid Height="Auto" Width="Auto" Margin="0" Name="myGrid" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Label Content="Press Play to view Presentation." Name="infoText"></Label>
+    </Grid>
+</UserControl>
