@@ -212,6 +212,9 @@ using System.Windows.Markup;
 using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.PluginBase.Resources;
 using System.Resources;
+using System.Threading;
+using System.Globalization;
+using System.Collections;
 
 namespace Cryptool.PluginBase
 {
@@ -329,7 +332,14 @@ namespace Cryptool.PluginBase
         {
             PluginInfoAttribute[] attributes = (PluginInfoAttribute[])type.GetCustomAttributes(typeof(PluginInfoAttribute), false);
             if (attributes.Length == 1)
-                return attributes[0];
+            {
+              // if resource file is set - keys are used instead of values. resource access necessary 
+              if (attributes[0].ResourceFile != null)
+              {
+                attributes[0].PluginType = type;
+              }
+              return attributes[0];
+            }
             return null;
         }
 
@@ -382,10 +392,7 @@ namespace Cryptool.PluginBase
         {
           try
           {
-            // Get resource file from plugin assembly -> <Namespace>.<ResourceFileName> without "resx" file extension
-            ResourceManager resman = new ResourceManager(plugin.GetPluginInfoAttribute().ResourceFile, plugin.GetType().Assembly);             
-            // Load the translation for the keyword e.g.:
-            return resman.GetString(keyword);
+            return plugin.GetType().GetPluginStringResource(keyword);
           }
           catch (Exception exception)
           {
@@ -393,6 +400,26 @@ namespace Cryptool.PluginBase
             return null;
           }
         }
+
+        public static string GetPluginStringResource(this Type type, string keyword)
+        {
+          try
+          {
+            // Get resource file from plugin assembly -> <Namespace>.<ResourceFileName> without "resx" file extension
+            ResourceManager resman = new ResourceManager(type.GetPluginInfoAttribute().ResourceFile, type.Assembly);
+
+            string[] resources = type.Assembly.GetManifestResourceNames();
+            string test = resman.GetString("toolTip", new CultureInfo("de-DE"));
+
+            // Load the translation for the keyword
+            return resman.GetString(keyword);
+          }
+          catch (Exception exception)
+          {
+            GuiLogMessage(exception.Message, NotificationLevel.Error);
+            return null;
+          }
+        }        
 
         public static FlowDocument GetDescriptionDocument(this IPlugin plugin)
         {
@@ -424,7 +451,7 @@ namespace Cryptool.PluginBase
           {
             try
             {
-              return (IPlugin)Activator.CreateInstance(type);
+              return (IPlugin)Activator.CreateInstance(type);              
             }
             catch (Exception exception)
             {

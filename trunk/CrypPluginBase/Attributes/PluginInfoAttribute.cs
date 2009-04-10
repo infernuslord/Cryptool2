@@ -208,12 +208,58 @@ namespace Cryptool.PluginBase
     [AttributeUsage(AttributeTargets.Class)]
     public class PluginInfoAttribute : Attribute
     {
-        public readonly string ResourceFile;
-        public readonly bool Startable;
-        public readonly string Caption;
-        public readonly string ToolTip;
+        # region multi language properties
+      private readonly string caption;
+        public string Caption
+        {
+          get 
+          {
+            if (MultiLanguage)
+              return PluginType.GetPluginStringResource(caption);
+            else
+              return caption; 
+          }
+        }
+
+        public readonly string toolTip;
+        public string ToolTip
+        {
+          get
+          {
+            if (MultiLanguage)
+              return PluginType.GetPluginStringResource(toolTip);
+            else
+              return toolTip;
+          }
+        }
+        # endregion multi language properties
+
+        # region no-translation
+        public readonly bool Startable;      
         public readonly string DescriptionUrl;
         public readonly string[] Icons;
+        # endregion
+
+        # region translation helpers
+        public readonly string ResourceFile;
+        private Type pluginType;
+
+        /// <summary>
+        /// Gets or sets the type of the plugin. This value is set by extension method if ResourceFile exists. 
+        /// It is used to access the plugins resources to translate the text elements.
+        /// </summary>
+        /// <value>The type of the plugin.</value>
+        public Type PluginType
+        {
+          get { return pluginType; }
+          set { pluginType = value; }
+        }
+
+        private bool MultiLanguage
+        {
+          get { return ResourceFile != null && PluginType != null; }
+        }
+        # endregion translation helpers
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PluginInfoAttribute"/> class.
@@ -226,8 +272,8 @@ namespace Cryptool.PluginBase
         public PluginInfoAttribute(bool startable, string caption, string toolTip, string descriptionUrl, params string[] icons)
           {
             this.Startable = startable;
-            this.Caption = caption;
-            this.ToolTip = toolTip;
+            this.caption = caption;
+            this.toolTip = toolTip;
             this.DescriptionUrl = descriptionUrl;
             this.Icons = icons;
         }
@@ -245,8 +291,8 @@ namespace Cryptool.PluginBase
         {
           this.ResourceFile = resourceFile;
           this.Startable = startable;
-          this.Caption = caption;
-          this.ToolTip = toolTip;
+          this.caption = caption;
+          this.toolTip = toolTip;
           this.DescriptionUrl = descriptionUrl;
           this.Icons = icons;
         }
