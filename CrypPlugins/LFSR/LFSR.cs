@@ -524,12 +524,12 @@ namespace Cryptool.LFSR
         public void PreExecution()
         {
             Dispose();
+            lFSRPresentation.DeleteAll(100);
         }
 
         public void Stop()
         {
             StatusChanged((int)LFSRImage.Default);
-            lFSRPresentation.DeleteAll(100);
             //getNewSeed = true;
             this.stop = true;
         }

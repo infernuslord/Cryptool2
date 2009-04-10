@@ -189,6 +189,7 @@ namespace Cryptool.LFSR
                     myTextBoxes[i].TextAlignment = TextAlignment.Center;
                     myTextBoxes[i].VerticalContentAlignment = VerticalAlignment.Center;
                     myTextBoxes[i].BorderBrush = Brushes.Black;
+                    if (i % 2 != 0) myTextBoxes[i].Background = Brushes.LightGray;
 
                     myGrid.Children.Add(myTextBoxes[i]);
 
