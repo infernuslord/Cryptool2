@@ -120,7 +120,13 @@
   <data name="pluginName" xml:space="preserve">
     <value>Caesar</value>
   </data>
-  <data name="toolTip" xml:space="preserve">
+  <data name="pluginToolTip" xml:space="preserve">
     <value>Caesar -- classic alphabet shift substitution cipher</value>
+  </data>
+  <data name="propStreamOutputDescription" xml:space="preserve">
+    <value>The string after processing with the Caesar cipher is converted to a stream. Default encoding is used.</value>
+  </data>
+  <data name="propStreamOutputToolTip" xml:space="preserve">
+    <value>Stream output</value>
   </data>
 </root>

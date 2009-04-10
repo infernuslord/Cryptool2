@@ -209,7 +209,7 @@ namespace Cryptool.PluginBase
     public class PluginInfoAttribute : Attribute
     {
         # region multi language properties
-      private readonly string caption;
+        private readonly string caption;
         public string Caption
         {
           get 

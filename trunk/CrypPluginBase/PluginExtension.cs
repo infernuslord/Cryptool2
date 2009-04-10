@@ -242,7 +242,7 @@ namespace Cryptool.PluginBase
                 {
                     PropertyInfoAttribute attr  = attributes[0];
                     attr.PropertyName = pInfo.Name;
-                    // attr.PropertyInfo = pInfo;
+                    attr.PluginType = plugin.GetType();
                     propertyInfos.Add(attr);
                 }
 	        }
@@ -409,7 +409,7 @@ namespace Cryptool.PluginBase
             ResourceManager resman = new ResourceManager(type.GetPluginInfoAttribute().ResourceFile, type.Assembly);
 
             string[] resources = type.Assembly.GetManifestResourceNames();
-            string test = resman.GetString("toolTip", new CultureInfo("de-DE"));
+            // string test = resman.GetString("toolTip", new CultureInfo("de-DE"));
 
             // Load the translation for the keyword
             return resman.GetString(keyword);
