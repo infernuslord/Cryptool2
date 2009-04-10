@@ -209,17 +209,61 @@ namespace Cryptool.PluginBase
     [AttributeUsage(AttributeTargets.Property)]
     public class PropertyInfoAttribute : Attribute
     {
-        public readonly string Caption;
-        public readonly string ToolTip;
+        # region multi language properties
+        public readonly string caption;
+        public string Caption
+        {
+          get
+          {
+            if (MultiLanguage)
+              return PluginType.GetPluginStringResource(caption);
+            else
+              return caption;
+          }
+        }
+        
+        public readonly string toolTip;
+        public string ToolTip
+        {
+          get
+          {
+            if (MultiLanguage)
+              return PluginType.GetPluginStringResource(toolTip);
+            else
+              return toolTip;
+          }
+        }
+        # endregion multi language properties
+
         public readonly string DescriptionUrl;
         public readonly Direction Direction;
         public readonly bool Mandatory;        
-        public readonly DisplayLevel DisplayLevel;
-        // public PropertyInfo PropertyInfo;
+        public readonly DisplayLevel DisplayLevel;        
         public QuickWatchFormat QuickWatchFormat;
         public string PropertyName; // will be set in extension-method
         public readonly string QuickWatchConversionMethod;
         public readonly bool HasDefaultValue;
+
+        # region translation helpers
+        public readonly string ResourceFile;
+        private Type pluginType;
+
+        /// <summary>
+        /// Gets or sets the type of the plugin. This value is set by extension method if ResourceFile exists. 
+        /// It is used to access the plugins resources to translate the text elements.
+        /// </summary>
+        /// <value>The type of the plugin.</value>
+        public Type PluginType
+        {
+          get { return pluginType; }
+          set { pluginType = value; }
+        }
+
+        private bool MultiLanguage
+        {
+          get { return ResourceFile != null && PluginType != null; }
+        }
+        # endregion translation helpers
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyInfoAttribute"/> class.
@@ -234,8 +278,8 @@ namespace Cryptool.PluginBase
         /// <param name="quickWatchConversion">Methodname of converstion method.</param>
         public PropertyInfoAttribute(Direction direction, string caption, string toolTip, string descriptionUrl, bool mandatory, bool hasDefaultValue, DisplayLevel displayLevel, QuickWatchFormat quickWatchFormat, string quickWatchConversionMethod)
         {
-            this.Caption = caption;
-            this.ToolTip = toolTip;
+            this.caption = caption;
+            this.toolTip = toolTip;
             this.DescriptionUrl = descriptionUrl;
             this.Direction = direction;
             this.Mandatory = mandatory;
@@ -243,6 +287,20 @@ namespace Cryptool.PluginBase
             this.QuickWatchFormat = quickWatchFormat;
             this.QuickWatchConversionMethod = quickWatchConversionMethod;
             this.HasDefaultValue = hasDefaultValue;
+        }
+
+        public PropertyInfoAttribute(string resourceFile, Direction direction, string caption, string toolTip, string descriptionUrl, bool mandatory, bool hasDefaultValue, DisplayLevel displayLevel, QuickWatchFormat quickWatchFormat, string quickWatchConversionMethod)
+        {
+          this.caption = caption;
+          this.toolTip = toolTip;
+          this.DescriptionUrl = descriptionUrl;
+          this.Direction = direction;
+          this.Mandatory = mandatory;
+          this.DisplayLevel = displayLevel;
+          this.QuickWatchFormat = quickWatchFormat;
+          this.QuickWatchConversionMethod = quickWatchConversionMethod;
+          this.HasDefaultValue = hasDefaultValue;
+          this.ResourceFile = resourceFile;
         }
 
     }

@@ -120,7 +120,7 @@
   <data name="pluginName" xml:space="preserve">
     <value>Caesar</value>
   </data>
-  <data name="toolTip" xml:space="preserve">
+  <data name="pluginToolTip" xml:space="preserve">
     <value>Caesar – Klassische Substitutionsverschlüsselung durch Alphabet_Shift</value>
   </data>
 </root>

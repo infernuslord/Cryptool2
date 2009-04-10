@@ -15,7 +15,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Caesar
 {
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("Cryptool.Caesar.Resources.res", false, "pluginName", "toolTip", "Caesar/DetailedDescription/Description.xaml",
+    [PluginInfo("Cryptool.Caesar.Resources.res", false, "pluginName", "pluginToolTip", "Caesar/DetailedDescription/Description.xaml",
       "Caesar/Images/Caesar.png", "Caesar/Images/encrypt.png", "Caesar/Images/decrypt.png")] 
     [EncryptionType(EncryptionType.Classic)]
     public class Caesar :  IEncryption
@@ -51,7 +51,7 @@ namespace Cryptool.Caesar
         }
 
 
-        [PropertyInfo(Direction.Output, "Stream output", "The string after processing with the Caesar cipher is converted to a stream. Default encoding is used.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo("Cryptool.Caesar.Resources.res", Direction.Output, "propStreamOutputToolTip", "propStreamOutputDescription", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public CryptoolStream OutputData
         {
             get
