@@ -3,16 +3,20 @@
               Background="White">
 
   <Paragraph>
-      <Run FontWeight="Bold" FontSize="18.6666666666667" xml:lang="de-de">
-          <Run.TextDecorations>
-              <TextDecoration Location="Underline" />
-          </Run.TextDecorations> LFSR (Linear Feedback Shift Register)
+      <Run FontWeight="Bold" FontSize="14" FontFamily="Calibri" xml:lang="de-de">
+        LFSR (Linear Feedback Shift Register)
       </Run>
   </Paragraph>
   <Paragraph>
-      <Run FontSize="14.6666666666667" xml:lang="de-de">foo</Run>
+      <Run FontSize="11" FontFamily="Cambria" xml:lang="de-de">A linear feedback shift register (LFSR) is a shift register whose input bit is a linear function of its previous state.</Run>
   </Paragraph>
   <Paragraph>
-      <Run FontSize="14.6666666666667" xml:lang="de-de">bar</Run>
+      <Run FontSize="11" FontFamily="Cambria" xml:lang="de-de">The only linear functions of single bits are xor and inverse-xor; thus it is a shift register whose input bit is driven by the exclusive-or (xor) of some bits of the overall shift register value.</Run>
+  </Paragraph>
+  <Paragraph>
+      <Run FontSize="11" FontFamily="Cambria" xml:lang="de-de">The initial value of the LFSR is called the seed, and because the operation of the register is deterministic, the stream of values produced by the register is completely determined by its current (or previous) state. Likewise, because the register has a finite number of possible states, it must eventually enter a repeating cycle. However, an LFSR with a well-chosen feedback function can produce a sequence of bits which appears random and which has a very long cycle.</Run>
+  </Paragraph>
+  <Paragraph>
+      <Run FontSize="11" FontFamily="Cambria" xml:lang="de-de">Applications of LFSRs include generating pseudo-random numbers, pseudo-noise sequences, fast digital counters, and whitening sequences. Both hardware and software implementations of LFSRs are common.</Run>
   </Paragraph>
 </FlowDocument>

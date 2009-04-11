@@ -45,12 +45,13 @@ namespace Cryptool.LFSR
             {
                 // hide initial textbox
                 infoText.Visibility = Visibility.Hidden;
+                polynomialText.Visibility = Visibility.Visible;
 
                 // add lines and triangles
                 Line HoriLine1 = new Line();
                 HoriLine1.X1 = 5;
                 HoriLine1.Y1 = 18;
-                HoriLine1.X2 = 180;
+                HoriLine1.X2 = 60 + state.Length * 30;
                 HoriLine1.Y2 = 18;
                 HoriLine1.Stroke = Brushes.Black;
                 HoriLine1.StrokeThickness = 1;
@@ -59,7 +60,7 @@ namespace Cryptool.LFSR
                 Line HoriLine2 = new Line();
                 HoriLine2.X1 = 5;
                 HoriLine2.Y1 = 47;
-                HoriLine2.X2 = 150;
+                HoriLine2.X2 = 30 + state.Length * 30;
                 HoriLine2.Y2 = 47;
                 HoriLine2.Stroke = Brushes.Black;
                 HoriLine1.StrokeThickness = 1;
@@ -67,27 +68,31 @@ namespace Cryptool.LFSR
 
                 Line VertLine1 = new Line();
                 VertLine1.X1 = 5;
-                VertLine1.Y1 = 18;
+                VertLine1.Y1 = 17.5;
                 VertLine1.X2 = 5;
-                VertLine1.Y2 = 48;
+                VertLine1.Y2 = 47.5;
                 VertLine1.Stroke = Brushes.Black;
                 VertLine1.StrokeThickness = 1;
                 myGrid.Children.Add(VertLine1);
 
                 Line VertLine2 = new Line();
-                VertLine2.X1 = 150;
-                VertLine2.Y1 = 18;
-                VertLine2.X2 = 150;
-                VertLine2.Y2 = 48;
+                VertLine2.X1 = 30 + state.Length * 30;
+                VertLine2.Y1 = 17.5;
+                VertLine2.X2 = 30 + state.Length * 30;
+                VertLine2.Y2 = 47.5;
                 VertLine2.Stroke = Brushes.Black;
                 VertLine2.StrokeThickness = 1;
                 myGrid.Children.Add(VertLine2);
 
-                // adjust lines
-                HoriLine1.X2 = 60 + state.Length * 30;
-                HoriLine2.X2 = 30 + state.Length * 30;
-                VertLine2.X1 = 30 + state.Length * 30;
-                VertLine2.X2 = 30 + state.Length * 30;
+                // add connection circle
+                Ellipse ConnectionCircle = new Ellipse();
+                ConnectionCircle.HorizontalAlignment = HorizontalAlignment.Left;
+                ConnectionCircle.VerticalAlignment = VerticalAlignment.Top;
+                ConnectionCircle.Fill = Brushes.Black;
+                ConnectionCircle.Width = 4;
+                ConnectionCircle.Height = 4;
+                ConnectionCircle.Margin = new Thickness(27.5 + state.Length * 30, 15.5, 0, 0);
+                myGrid.Children.Add(ConnectionCircle);
 
                 // add left triangle ////////////////////
                 // Create a path to draw a geometry with.
@@ -107,10 +112,10 @@ namespace Cryptool.LFSR
 
                     // Begin the triangle at the point specified. Notice that the shape is set to 
                     // be closed so only two lines need to be specified below to make the triangle.
-                    ctx.BeginFigure(new Point(13, 14), true /* is filled */, true /* is closed */);
+                    ctx.BeginFigure(new Point(13, 15), true /* is filled */, true /* is closed */);
 
                     // Draw a line to the next specified point.
-                    ctx.LineTo(new Point(13, 22), true /* is stroked */, false /* is smooth join */);
+                    ctx.LineTo(new Point(13, 21), true /* is stroked */, false /* is smooth join */);
 
                     // Draw another line to the next specified point.
                     ctx.LineTo(new Point(20, 18), true /* is stroked */, false /* is smooth join */);
@@ -143,10 +148,10 @@ namespace Cryptool.LFSR
 
                     // Begin the triangle at the point specified. Notice that the shape is set to 
                     // be closed so only two lines need to be specified below to make the triangle.
-                    ctx.BeginFigure(new Point(60 + state.Length * 30, 14), true /* is filled */, true /* is closed */);
+                    ctx.BeginFigure(new Point(60 + state.Length * 30, 15), true /* is filled */, true /* is closed */);
 
                     // Draw a line to the next specified point.
-                    ctx.LineTo(new Point(60 + state.Length * 30, 22), true /* is stroked */, false /* is smooth join */);
+                    ctx.LineTo(new Point(60 + state.Length * 30, 21), true /* is stroked */, false /* is smooth join */);
 
                     // Draw another line to the next specified point.
                     ctx.LineTo(new Point(67 + state.Length * 30, 18), true /* is stroked */, false /* is smooth join */);
@@ -175,7 +180,7 @@ namespace Cryptool.LFSR
                 for (i = 0; i < state.Length; i++)
                 {
                     // add textboxes
-                    left = (double)i * 30 + 20;
+                    left = (double)i * 29 + 20;
                     myTextBoxes[i] = new TextBox();
                     myTextBoxes[i].Margin = new Thickness(left, 3, 0, 0);
                     myTextBoxes[i].Width = 30;
@@ -210,16 +215,16 @@ namespace Cryptool.LFSR
                         myEllipses[i] = new Ellipse();
                         myEllipses[i].Name = "ellipseXOR" + i;
                         myEllipses[i].Stroke = Brushes.Black;
-                        myEllipses[i].Margin = new Thickness(7, 7, 7, 7);
+                        myEllipses[i].Margin = new Thickness(9, 9, 9, 9);
 
                         myLines[i] = new Line();
                         myLines[i].Name = "VertLineXOR" + i;
                         myLines[i].Stroke = Brushes.Black;
                         myLines[i].StrokeThickness = 1;
                         myLines[i].X1 = 15;
-                        myLines[i].Y1 = 0;
+                        myLines[i].Y1 = 0.5;
                         myLines[i].X2 = 15;
-                        myLines[i].Y2 = 22;
+                        myLines[i].Y2 = 20;
 
                         myGrids[i].Children.Add(myEllipses[i]);
                         myGrids[i].Children.Add(myLines[i]);
@@ -252,15 +257,31 @@ namespace Cryptool.LFSR
                 // get the textboxes as children of myGrid. textboxes are 7, 9, 11, ...
                 Visual childVisual;
                 int i;
+                string polynomial = "Feedback polynomial: \n";
                 for (i = 0; i < state.Length; i++)
                 {
                     childVisual = (Visual)VisualTreeHelper.GetChild(myGrid, 7 + i * 2);
                     childVisual.SetValue(TextBox.TextProperty, state[i].ToString());
+                    
+                    //build polynomial
+                    int power;
+                    power = (i - state.Length + 1) * -1 % state.Length;
+                    if (tapSequence[i] == '1')
+                    {
+                        if (power == 1) polynomial += "x + ";
+                        else if (power != 0) polynomial += "x^" + power + " + ";
+                        else polynomial += "1";
+                    }
                 }
 
                 // update output label
                 childVisual = (Visual)VisualTreeHelper.GetChild(myGrid, 9 + (i-1) * 2);
                 childVisual.SetValue(Label.ContentProperty, output);
+
+                // update polynome
+                childVisual = (Visual)VisualTreeHelper.GetChild(polynomialGrid, 0);
+                childVisual.SetValue(Label.ContentProperty, polynomial);
+
             }, null);
         }
 
@@ -268,8 +289,9 @@ namespace Cryptool.LFSR
         {
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                // remove all elements except infoText beginning with the second child
-                myGrid.Children.RemoveRange(1, end);
+                // remove all elements
+                myGrid.Children.RemoveRange(0, end);
+                polynomialText.Visibility = Visibility.Hidden;
 
                 // show initial infoText again
                 infoText.Visibility = Visibility.Visible;
