@@ -256,6 +256,7 @@ namespace Cryptool.LFSR
 
         public void Execute()
         {
+            lFSRPresentation.DeleteAll(100);
             processLFSR();
         }
 
@@ -272,12 +273,14 @@ namespace Cryptool.LFSR
                 if (inputSeed == null || (inputSeed != null && inputSeed.Length == 0))
                 {
                     GuiLogMessage("No Seed given. Aborting now.", NotificationLevel.Error);
+                    if (!settings.UseBoolClock) inputClock.Close();
                     return;
                 }
 
                 if (inputTapSequence == null || (inputTapSequence != null && inputTapSequence.Length == 0))
                 {
                     GuiLogMessage("No TapSequence given. Aborting now.", NotificationLevel.Error);
+                    if (!settings.UseBoolClock) inputClock.Close();
                     return;
                 }
 
@@ -285,6 +288,7 @@ namespace Cryptool.LFSR
                 {
                     // stop, because seed and tapSequence must have same length
                     GuiLogMessage("ERROR - Seed and tapSequence must have same length. Aborting now.", NotificationLevel.Error);
+                    if (!settings.UseBoolClock) inputClock.Close();
                     return;
                 }
 
@@ -362,9 +366,11 @@ namespace Cryptool.LFSR
                 {
                     // read stream clocks
                     checkForInputClock();
+                    inputClock.OpenWrite("LFSR Restart");
                     String stringClock = inputClock.ReadByte().ToString();
                     inputClock.Position = 0;
                     if (String.Equals(stringClock, "49")) myClock = true; else myClock = false;
+                    //inputClock.Close();
                 }
 
                 // check if Rounds are given
@@ -524,7 +530,6 @@ namespace Cryptool.LFSR
         public void PreExecution()
         {
             Dispose();
-            lFSRPresentation.DeleteAll(100);
         }
 
         public void Stop()
