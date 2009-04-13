@@ -214,7 +214,7 @@ namespace Cryptool.PluginBase
         {
           get 
           {
-            if (MultiLanguage)
+            if (MultiLanguage && caption != null)
               return PluginType.GetPluginStringResource(caption);
             else
               return caption; 
@@ -226,7 +226,7 @@ namespace Cryptool.PluginBase
         {
           get
           {
-            if (MultiLanguage)
+            if (MultiLanguage && toolTip != null)
               return PluginType.GetPluginStringResource(toolTip);
             else
               return toolTip;
