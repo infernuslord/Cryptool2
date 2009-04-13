@@ -21,7 +21,7 @@ namespace Cryptool.LFSR
 
         private bool hasChanges = false;
         
-        private int rounds = 4; //how many bits will be generated
+        /*private int rounds = 4; //how many bits will be generated
         //[ContextMenu("Rounds", "How many bits shall be generated?", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 10, 50, 100 }, "10 bits", "50 bits", "100 bits")]
         //[TaskPane("Rounds", "How many bits shall be generated?", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
         [TaskPane("Rounds", "How many bits shall be generated?", null, 0, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
@@ -33,7 +33,7 @@ namespace Cryptool.LFSR
                 OnPropertyChanged("Rounds");
                 HasChanges = true;
             }
-        }
+        }*/
 
         private bool useBoolClock = false;
         [ContextMenu("Use BoolClock", "With this checkbox enabled, BoolClock will be used.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Use Boolean clock?" })]

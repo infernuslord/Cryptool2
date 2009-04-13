@@ -35,13 +35,17 @@ namespace Cryptool.LFSR
         private CryptoolStream outputStream;
         private bool outputBool;
         private bool inputClockBool;
-        private bool stop = false;
-        private int outputInt;
-        //private bool getNewSeed = true;
+        
         private LFSRPresentation lFSRPresentation;
         private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
 
         #endregion
+
+        public bool stop = false;
+        public bool newSeed = true;
+        public String seedbuffer = "0";
+        public String tapSequencebuffer = "1";
+        public Char outputbuffer = '0';
 
         public LFSR()
         {
@@ -125,7 +129,7 @@ namespace Cryptool.LFSR
         [PropertyInfo(Direction.Output, "Output stream", "LFSR Output Stream", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public CryptoolStream OutputStream
         {
-            [MethodImpl(MethodImplOptions.Synchronized)]
+            //[MethodImpl(MethodImplOptions.Synchronized)]
             get
             {
                 if (this.outputStream != null)
@@ -137,7 +141,7 @@ namespace Cryptool.LFSR
                 }
                 return null;
             }
-            [MethodImpl(MethodImplOptions.Synchronized)]
+            //[MethodImpl(MethodImplOptions.Synchronized)]
             set
             {
                 outputStream = value;
@@ -149,26 +153,11 @@ namespace Cryptool.LFSR
         [PropertyInfo(Direction.Output, "Boolean Output", "Boolean Output.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool OutputBool
         {
-            [MethodImpl(MethodImplOptions.Synchronized)]
             get { return outputBool; }
-            [MethodImpl(MethodImplOptions.Synchronized)]
             set
             {
                 outputBool = (bool)value;
                 OnPropertyChanged("OutputBool");
-            }
-        }
-
-        [PropertyInfo(Direction.Output, "Int Output", "Int Output.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public int OutputInt
-        {
-            [MethodImpl(MethodImplOptions.Synchronized)]
-            get { return outputInt; }
-            [MethodImpl(MethodImplOptions.Synchronized)]
-            set
-            {
-                outputInt = (int)value;
-                OnPropertyChanged("OutputInt");
             }
         }
 
@@ -297,18 +286,14 @@ namespace Cryptool.LFSR
 
                 GuiLogMessage("inputTapSequence length [bits]: " + tapSequenceBits.ToString(), NotificationLevel.Debug);
                 GuiLogMessage("inputSeed length [bits]: " + seedBits.ToString(), NotificationLevel.Debug);
-                
-                String seedbuffer = "0";
-                String tapSequencebuffer;
-                Char outputbuffer;
 
-                //read seed one time until stop of chain
-                /*if (getNewSeed)
+                //read seed only one time until stop of chain
+                if (newSeed)
                 {
                     seedbuffer = inputSeed;
-                    getNewSeed = false;
-                }*/
-                seedbuffer = inputSeed;
+                    newSeed = false;
+                }
+                //seedbuffer = inputSeed;
                 
                 // read tapSequence
                 tapSequencebuffer = inputTapSequence;
@@ -374,11 +359,12 @@ namespace Cryptool.LFSR
                 }
 
                 // check if Rounds are given
-                int defaultRounds = 4;
+                int defaultRounds = 1;
                 int actualRounds;
 
                 // check if Rounds in settings are given
-                if (settings.Rounds == 0) actualRounds = defaultRounds; else actualRounds = settings.Rounds;
+                //if (settings.Rounds == 0) actualRounds = defaultRounds; else actualRounds = settings.Rounds;
+                actualRounds = defaultRounds;
                 
                 // Here we go!
                 //GuiLogMessage("Action is: Now!", NotificationLevel.Debug);
@@ -398,10 +384,6 @@ namespace Cryptool.LFSR
                     {
                         StatusChanged((int)LFSRImage.Encode);
 
-                        // make int output
-                        if (seedCharArray[seedBits - 1] == '0') outputInt = 0;
-                        else outputInt = 1;
-
                         // make bool output
                         if (seedCharArray[seedBits - 1] == '0') outputBool = false;
                         else outputBool = true;
@@ -413,7 +395,6 @@ namespace Cryptool.LFSR
 
                         // update outputs
                         OnPropertyChanged("OutputBool");
-                        OnPropertyChanged("OutputInt");
                         OnPropertyChanged("OutputStream");
 
                         // shift seed array
@@ -453,7 +434,8 @@ namespace Cryptool.LFSR
                         lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, outputBit);
 
                         // write current "seed" back to seedbuffer
-                        //seedbuffer = seedCharArray.ToString();
+                        seedbuffer = null;
+                        foreach (char c in seedCharArray) seedbuffer += c;
 
                         //GuiLogMessage("New Bit: " + newBit.ToString(), NotificationLevel.Info);
                     }
@@ -535,8 +517,8 @@ namespace Cryptool.LFSR
         public void Stop()
         {
             StatusChanged((int)LFSRImage.Default);
-            //getNewSeed = true;
-            this.stop = true;
+            newSeed = true;
+            stop = true;
         }
 
         public UserControl Presentation { get; private set; }
