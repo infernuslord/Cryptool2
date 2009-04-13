@@ -215,7 +215,7 @@ namespace Cryptool.PluginBase
         {
           get
           {
-            if (MultiLanguage)
+            if (MultiLanguage && caption != null)
               return PluginType.GetPluginStringResource(caption);
             else
               return caption;
@@ -227,7 +227,7 @@ namespace Cryptool.PluginBase
         {
           get
           {
-            if (MultiLanguage)
+            if (MultiLanguage && toolTip != null)
               return PluginType.GetPluginStringResource(toolTip);
             else
               return toolTip;
@@ -245,7 +245,6 @@ namespace Cryptool.PluginBase
         public readonly bool HasDefaultValue;
 
         # region translation helpers
-        public readonly string ResourceFile;
         private Type pluginType;
 
         /// <summary>
@@ -261,7 +260,7 @@ namespace Cryptool.PluginBase
 
         private bool MultiLanguage
         {
-          get { return ResourceFile != null && PluginType != null; }
+          get { return PluginType != null; }
         }
         # endregion translation helpers
 
@@ -287,20 +286,6 @@ namespace Cryptool.PluginBase
             this.QuickWatchFormat = quickWatchFormat;
             this.QuickWatchConversionMethod = quickWatchConversionMethod;
             this.HasDefaultValue = hasDefaultValue;
-        }
-
-        public PropertyInfoAttribute(string resourceFile, Direction direction, string caption, string toolTip, string descriptionUrl, bool mandatory, bool hasDefaultValue, DisplayLevel displayLevel, QuickWatchFormat quickWatchFormat, string quickWatchConversionMethod)
-        {
-          this.caption = caption;
-          this.toolTip = toolTip;
-          this.DescriptionUrl = descriptionUrl;
-          this.Direction = direction;
-          this.Mandatory = mandatory;
-          this.DisplayLevel = displayLevel;
-          this.QuickWatchFormat = quickWatchFormat;
-          this.QuickWatchConversionMethod = quickWatchConversionMethod;
-          this.HasDefaultValue = hasDefaultValue;
-          this.ResourceFile = resourceFile;
         }
 
     }

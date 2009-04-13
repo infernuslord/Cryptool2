@@ -51,7 +51,7 @@ namespace Cryptool.Caesar
         }
 
 
-        [PropertyInfo("Cryptool.Caesar.Resources.res", Direction.Output, "propStreamOutputToolTip", "propStreamOutputDescription", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.Output, "propStreamOutputToolTip", "propStreamOutputDescription", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public CryptoolStream OutputData
         {
             get

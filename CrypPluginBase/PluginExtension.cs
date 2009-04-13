@@ -242,7 +242,9 @@ namespace Cryptool.PluginBase
                 {
                     PropertyInfoAttribute attr  = attributes[0];
                     attr.PropertyName = pInfo.Name;
-                    attr.PluginType = plugin.GetType();
+                    // does plugin have a resource file for translation?
+                    if (plugin.GetPluginInfoAttribute().ResourceFile != null)
+                      attr.PluginType = plugin.GetType();
                     propertyInfos.Add(attr);
                 }
 	        }
@@ -356,6 +358,75 @@ namespace Cryptool.PluginBase
           return null;
         }
 
+        public static TaskPaneAttribute[] GetSettingsProperties(this ISettings settings, IPlugin plugin)
+        {
+          return GetSettingsProperties(settings.GetType(), plugin);
+        }
+
+        public static TaskPaneAttribute[] GetSettingsProperties(this Type type, IPlugin plugin)
+        {
+          try
+          {
+            List<TaskPaneAttribute> taskPaneAttributes = new List<TaskPaneAttribute>();
+            foreach (PropertyInfo pInfo in type.GetProperties())
+            {
+              TaskPaneAttribute[] attributes = (TaskPaneAttribute[])pInfo.GetCustomAttributes(typeof(TaskPaneAttribute), false);
+              if (attributes != null && attributes.Length == 1)
+              {
+                TaskPaneAttribute attr = attributes[0];
+                attr.PropertyName = pInfo.Name;
+                // does plugin have a resource file for translation?
+                if (plugin.GetType().GetPluginInfoAttribute().ResourceFile != null)
+                  attr.PluginType = plugin.GetType();
+                taskPaneAttributes.Add(attr);
+              }
+            }
+
+            foreach (MethodInfo mInfo in type.GetMethods())
+            {
+              if (mInfo.IsPublic && mInfo.GetParameters().Length == 0)
+              {
+                TaskPaneAttribute[] attributes = (TaskPaneAttribute[])mInfo.GetCustomAttributes(typeof(TaskPaneAttribute), false);
+                if (attributes != null && attributes.Length == 1)
+                {
+                  TaskPaneAttribute attr = attributes[0];
+                  attr.PropertyName = mInfo.Name;
+                  // does plugin have a resource file for translation?
+                  if (plugin.GetType().GetPluginInfoAttribute().ResourceFile != null)
+                    attr.PluginType = plugin.GetType();
+                  taskPaneAttributes.Add(attr);
+                }
+              }
+            }
+
+            return taskPaneAttributes.ToArray();
+          }
+          catch (Exception ex)
+          {
+            GuiLogMessage(ex.Message, NotificationLevel.Error);
+          }
+          return null;
+        }
+
+        public static SettingsFormatAttribute GetSettingsFormat(this ISettings settings, string propertyName)
+        {
+          return GetSettingsFormat(settings.GetType(), propertyName);
+        }
+
+        public static SettingsFormatAttribute GetSettingsFormat(this Type type, string propertyName)
+        {
+          try
+          {
+            SettingsFormatAttribute[] settingsFormat = (SettingsFormatAttribute[])type.GetProperty(propertyName).GetCustomAttributes(typeof(SettingsFormatAttribute), false);
+            if (settingsFormat != null && settingsFormat.Length == 1)
+              return settingsFormat[0];
+          }
+          catch (Exception ex)
+          {
+            GuiLogMessage(ex.Message, NotificationLevel.Error);
+          }
+          return null;
+        }    
 
         public static Image GetImage(this IPlugin plugin, int index)
         {
@@ -412,12 +483,16 @@ namespace Cryptool.PluginBase
             // string test = resman.GetString("toolTip", new CultureInfo("de-DE"));
 
             // Load the translation for the keyword
-            return resman.GetString(keyword);
+            string translation = resman.GetString(keyword);
+            if (translation != null)
+              return translation;
+            else
+              return keyword;
           }
           catch (Exception exception)
           {
             GuiLogMessage(exception.Message, NotificationLevel.Error);
-            return null;
+            return keyword;
           }
         }        
 

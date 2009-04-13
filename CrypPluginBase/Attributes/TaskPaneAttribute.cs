@@ -208,16 +208,50 @@ namespace Cryptool.PluginBase
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Method)]    
     public class TaskPaneAttribute : Attribute
     {
-        public readonly string Caption;
-        public readonly string ToolTip;
-        public readonly string GroupName;
+        # region multi language properties        
+        private readonly string caption;
+        public string Caption
+        {          
+          get
+          {
+            if (MultiLanguage && caption != null)
+              return PluginType.GetPluginStringResource(caption);
+            else
+              return caption;
+          }
+        }
+
+        private readonly string toolTip;
+        public string ToolTip
+        {
+          get
+          {
+            if (MultiLanguage && toolTip != null)
+              return PluginType.GetPluginStringResource(toolTip);
+            else
+              return toolTip;
+          }
+        }
+
+        public readonly string groupName;
+        public string GroupName
+        {
+          get
+          {
+            if (MultiLanguage && groupName != null)
+              return PluginType.GetPluginStringResource(groupName);
+            else
+              return groupName;
+          }
+        }
+        # endregion multi language properties
+
         public readonly int Order;        
         public readonly DisplayLevel DisplayLevel;
         public readonly ControlType ControlType;        
         public readonly string[] ControlValues;
         public readonly string FileExtension;
-        
-      
+              
         public readonly ValidationType ValidationType;
         public readonly string RegularExpression;
         public readonly int IntegerMinValue;
@@ -225,9 +259,45 @@ namespace Cryptool.PluginBase
         public readonly double DoubleMinValue;
         public readonly double DoubleMaxValue;
 
+        // TODO: can this attribute be deleted?
         public readonly string SourcePropertyName;
         public bool ChangeableWhileExecuting;
 
+        private string propertyName;
+        public string PropertyName
+        {
+          get { return propertyName; }
+          set 
+          { 
+            // This value should be readonly but for user convenience we set it in extension method. 
+            // This setter should only be accessed once.
+            if (propertyName == null)
+              propertyName = value;
+            else
+              throw new ArgumentException("This setter should only be accessed once.");
+          }
+        }
+
+
+        # region translation helpers
+        private Type pluginType;
+
+        /// <summary>
+        /// Gets or sets the type of the plugin. This value is set by extension method if ResourceFile exists. 
+        /// It is used to access the plugins resources to translate the text elements.
+        /// </summary>
+        /// <value>The type of the plugin.</value>
+        public Type PluginType
+        {
+          get { return pluginType; }
+          set { pluginType = value; }
+        }
+
+        private bool MultiLanguage
+        {
+          get { return PluginType != null; }
+        }
+        # endregion translation helpers
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TaskPaneAttribute"/> class.
@@ -243,9 +313,9 @@ namespace Cryptool.PluginBase
         /// helpAnchor
         public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, DisplayLevel displayLevel, ControlType controlType, params string[] controlValues)
         {
-            this.Caption = caption;
-            this.ToolTip = toolTip;
-            this.GroupName = groupName;
+            this.caption = caption;
+            this.toolTip = toolTip;
+            this.groupName = groupName;
             this.Order = order;              
             this.DisplayLevel = displayLevel;
             this.ControlType = controlType;            
@@ -258,9 +328,9 @@ namespace Cryptool.PluginBase
         /// </summary>
         public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, DisplayLevel displayLevel, ControlType controlType, ValidationType validationType, string regularExpression)
         {
-          this.Caption = caption;
-          this.ToolTip = toolTip;
-          this.GroupName = groupName;
+          this.caption = caption;
+          this.toolTip = toolTip;
+          this.groupName = groupName;
           this.Order = order;
           this.DisplayLevel = displayLevel;          
           this.ControlType = controlType;          
@@ -274,9 +344,9 @@ namespace Cryptool.PluginBase
         /// </summary>
         public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, DisplayLevel displayLevel, ControlType controlType, ValidationType validationType, int integerMinValue, int integerMaxValue)
         {
-          this.Caption = caption;
-          this.ToolTip = toolTip;
-          this.GroupName = groupName;
+          this.caption = caption;
+          this.toolTip = toolTip;
+          this.groupName = groupName;
           this.Order = order;
           this.DisplayLevel = displayLevel;
           this.ControlType = controlType;
@@ -291,9 +361,9 @@ namespace Cryptool.PluginBase
         /// </summary>
         public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, DisplayLevel displayLevel, ControlType controlType, ValidationType validationType, double doubleMinValue, double doubleMaxValue)
         {
-          this.Caption = caption;
-          this.ToolTip = toolTip;
-          this.GroupName = groupName;
+          this.caption = caption;
+          this.toolTip = toolTip;
+          this.groupName = groupName;
           this.Order = order;
           this.DisplayLevel = displayLevel;
           this.ControlType = controlType;
@@ -308,9 +378,9 @@ namespace Cryptool.PluginBase
         /// </summary>
         public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, DisplayLevel displayLevel, ControlType controlType, double doubleMinValue, double doubleMaxValue)
         {
-          this.Caption = caption;
-          this.ToolTip = toolTip;
-          this.GroupName = groupName;
+          this.caption = caption;
+          this.toolTip = toolTip;
+          this.groupName = groupName;
           this.Order = order;
           this.DisplayLevel = displayLevel;
           this.ControlType = controlType;          
@@ -329,9 +399,9 @@ namespace Cryptool.PluginBase
         /// <param name="controlType">Type of the control should be button in this construcor.</param>
         public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, DisplayLevel displayLevel, ControlType controlType)
         {
-          this.Caption = caption;
-          this.ToolTip = toolTip;
-          this.GroupName = groupName;
+          this.caption = caption;
+          this.toolTip = toolTip;
+          this.groupName = groupName;
           this.Order = order;
           this.DisplayLevel = displayLevel;
           this.ControlType = controlType;
