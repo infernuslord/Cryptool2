@@ -23,7 +23,7 @@ using System.Text.RegularExpressions;
 
 namespace Cryptool.LFSR
 {
-    [Author("Soeren Rinne", "soeren.rinne@cryptool.org", "Ruhr-Universitaet Bochum, Chair for Embedded Security (EmSec)", "http://www.crypto.ruhr-uni-bochum.de/")]
+    [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
     [PluginInfo(false, "LFSR", "Linear Feedback Shift Register (simple version)", "LFSR/DetailedDescription/Description.xaml", "LFSR/Images/LFSR.png", "LFSR/Images/encrypt.png", "LFSR/Images/decrypt.png")]
     [EncryptionType(EncryptionType.SymmetricBlock)]
     public class LFSR : IThroughput
@@ -43,11 +43,17 @@ namespace Cryptool.LFSR
 
         #endregion
 
+        #region public variables
+
         public bool stop = false;
         public bool newSeed = true;
         public String seedbuffer = "0";
         public String tapSequencebuffer = "1";
         public Char outputbuffer = '0';
+
+        #endregion
+
+        #region public interfaces
 
         public LFSR()
         {
@@ -199,6 +205,10 @@ namespace Cryptool.LFSR
             this.stop = false;
         }
 
+        #endregion
+
+        #region private functions
+
         private void checkForInputTapSequence()
         {
             if ((inputTapSequence == null || (inputTapSequence != null && inputTapSequence.Length == 0)))
@@ -298,6 +308,8 @@ namespace Cryptool.LFSR
             Regex keinHoch0oder1 = new Regex("(x\\^[0-1]\\+)+");
             return !keinHoch0oder1.IsMatch(strPoly) && objPolynomial.IsMatch(strPoly);
         }
+
+        #endregion
 
         public void Execute()
         {
@@ -579,6 +591,8 @@ namespace Cryptool.LFSR
             }
         }
 
+        #region events and stuff
+
         public void Initialize()
         {
             //throw new NotImplementedException();
@@ -627,6 +641,8 @@ namespace Cryptool.LFSR
             get { return Presentation; }
         }
 
+        #endregion
+
         #region INotifyPropertyChanged Members
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
@@ -648,10 +664,14 @@ namespace Cryptool.LFSR
         #endregion
     }
 
+    #region Image
+
     enum LFSRImage
     {
         Default,
         Encode,
         Decode
     }
+
+    #endregion
 }
