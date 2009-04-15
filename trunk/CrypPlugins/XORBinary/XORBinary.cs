@@ -212,12 +212,13 @@ using System.IO;
 using System.ComponentModel;
 using Cryptool.PluginBase.IO;
 using System.Windows.Controls;
+// for [MethodImpl(MethodImplOptions.Synchronized)]
+using System.Runtime.CompilerServices;
 
 namespace Cryptool.XORBinary
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Uni Bochum", "http://www.rub.de")]
-    [PluginInfo(false, "XORBinary", "Simple Binary XOR", "XORBinary/DetailedDescription/Description.xaml",
-      "XORBinary/Images/icon.png", "XORBinary/Images/icon.png", "XORBinary/Images/icon.png")]
+    [PluginInfo(false, "XORBinary", "Simple Binary XOR", "XORBinary/DetailedDescription/Description.xaml", "XORBinary/Images/icon.png", "XORBinary/Images/icon.png", "XORBinary/Images/icon.png")]
     public class XORBinary : IThroughput
     {
 
@@ -260,7 +261,9 @@ namespace Cryptool.XORBinary
         [PropertyInfo(Direction.Input, "XOR Input One", "Input a boolean value to be processed by XOR", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool InputOne
         {
+            [MethodImpl(MethodImplOptions.Synchronized)]
             get { return this.inputOne; }
+            [MethodImpl(MethodImplOptions.Synchronized)]
             set
             {
                 this.inputOne = value;
@@ -273,7 +276,9 @@ namespace Cryptool.XORBinary
         [PropertyInfo(Direction.Input, "XOR Input Two", "Input a boolean value to be processed by XOR", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool InputTwo
         {
+            [MethodImpl(MethodImplOptions.Synchronized)]
             get { return this.inputTwo; }
+            [MethodImpl(MethodImplOptions.Synchronized)]
             set
             {
                 this.inputTwo = value;
@@ -286,13 +291,13 @@ namespace Cryptool.XORBinary
         [PropertyInfo(Direction.Output, "XOR Output", "Output after XORing input one and two. Only fires up, if both inputs are fresh.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool Output
         {
+            [MethodImpl(MethodImplOptions.Synchronized)]
             get
             {
                 return output;
             }
             set
-            {
-                // is readonly
+            {   // is readonly
             }
         }
 
@@ -310,16 +315,6 @@ namespace Cryptool.XORBinary
         public void Dispose()
         {
         }
-
-        /// <summary>
-        /// Fire, if progress bar has to be updated
-        /// </summary>
-        //public event PluginProgressChangedEventHandler OnPluginProgressChanged;
-
-        /// <summary>
-        /// Fire, if new message has to be shown in the status bar
-        /// </summary>
-        //public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 
         public UserControl Presentation
         {

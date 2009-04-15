@@ -106,24 +106,26 @@ namespace Cryptool.Plugins.CLK
     }
 
     public void Execute()
-    {        
-        process(settings.CLKTimeout);
-        //change picture
-        if (settings.SetClockToTrue) StatusChanged((int)CLKImage.True);
-        else StatusChanged((int)CLKImage.False);
+    {
+        if (settings.CLKTimeout <= 499)
+        {
+            GuiLogMessage("Are you trying to generate bulk output? Please do not use CLK plugin for this purpose. Try setting the number of rounds in the corresponding plugin settings.", NotificationLevel.Warning);
+        }
+        else
+        {
+            process(settings.CLKTimeout);
+            //change picture
+            if (settings.SetClockToTrue) StatusChanged((int)CLKImage.True);
+            else StatusChanged((int)CLKImage.False);
+        }
         
     }
 
     private void process(int timeout)
     {
-        
-        // Normally, the timer is declared at the class level, so
-        // that it doesn't go out of scope when the method ends.
-        // In this example, the timer is needed only while Main 
-        // is executing. However, KeepAlive must be used at the
-        // end of Main, to prevent the JIT compiler from allowing 
-        // aggressive garbage collection to occur before Main 
-        // ends.
+        // first fire up an event, then get the timer to handle that for us
+        OnPropertyChanged("Output");
+        myRounds--;
 
         // Hook up the Elapsed event for the timer.
         aTimer.Elapsed += new ElapsedEventHandler(sendCLKSignal);

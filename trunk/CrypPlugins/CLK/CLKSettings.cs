@@ -11,8 +11,8 @@ namespace Cryptool.Plugins.CLK
   public class CLKSettings : ISettings
   {
     # region private variables
-    private bool hasChanges;
-    private bool setClockToTrue;
+    private bool hasChanges = false;
+    private bool setClockToTrue = true;
     private int clkTimeout = 2000;
     # endregion private variables
 
@@ -33,6 +33,7 @@ namespace Cryptool.Plugins.CLK
         {
             this.setClockToTrue = value;
             OnPropertyChanged("SetClockToTrue");
+            HasChanges = true;
         }
      
     }
@@ -62,6 +63,7 @@ namespace Cryptool.Plugins.CLK
         {
             this.clkTimeout = value;
             OnPropertyChanged("CLKTimeout");
+            HasChanges = true;
         }
 
     }
@@ -75,7 +77,8 @@ namespace Cryptool.Plugins.CLK
         get { return this.rounds; }
         set
         {
-            this.rounds = value;
+            if (value <= 0) this.rounds = 1;
+            else this.rounds = value;
             OnPropertyChanged("Rounds");
             HasChanges = true;
         }
