@@ -217,7 +217,7 @@ using System.Runtime.CompilerServices;
 
 namespace Cryptool.XORBinary
 {
-    [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Uni Bochum", "http://www.rub.de")]
+    [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
     [PluginInfo(false, "XORBinary", "Simple Binary XOR", "XORBinary/DetailedDescription/Description.xaml", "XORBinary/Images/icon.png", "XORBinary/Images/icon.png", "XORBinary/Images/icon.png")]
     public class XORBinary : IThroughput
     {

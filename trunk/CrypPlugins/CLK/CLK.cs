@@ -14,7 +14,7 @@ using System.Timers;
 
 namespace Cryptool.Plugins.CLK
 {
-  [Author("Soeren Rinne", "soeren.rinne@cryptool.org", "Uni Bochum", "http://www.rub.de")]
+    [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
   [PluginInfo(true, "CLK", "Simple clock for clock-based plugins.", null, "CLK/icon.png", "CLK/Images/true.png", "CLK/Images/false.png")]
   public class CLK : IInput
   {
@@ -130,7 +130,7 @@ namespace Cryptool.Plugins.CLK
         // Hook up the Elapsed event for the timer.
         aTimer.Elapsed += new ElapsedEventHandler(sendCLKSignal);
 
-        // Set the Interval to 2 seconds (2000 milliseconds).
+        // Set the Interval to 'timeout' seconds (in milliseconds).
         aTimer.Interval = timeout;
         aTimer.Enabled = true;
 
@@ -147,6 +147,7 @@ namespace Cryptool.Plugins.CLK
         }
         else
         {
+            // disable timer
             aTimer.Enabled = false;
             // globally remove timer event
             aTimer.Elapsed -= new ElapsedEventHandler(sendCLKSignal);
@@ -164,6 +165,7 @@ namespace Cryptool.Plugins.CLK
 
     public void Stop()
     {
+        // disable timer
         aTimer.Enabled = false;
         // globally remove timer event
         aTimer.Elapsed -= new ElapsedEventHandler(sendCLKSignal);
@@ -171,10 +173,10 @@ namespace Cryptool.Plugins.CLK
 
     public void Initialize()
     {
-      output = settings.SetClockToTrue;
-      if (output) StatusChanged((int)CLKImage.True);
-      else StatusChanged((int)CLKImage.False);
-      settings.CLKTimeout = timeout;
+        output = settings.SetClockToTrue;
+        if (output) StatusChanged((int)CLKImage.True);
+        else StatusChanged((int)CLKImage.False);
+        settings.CLKTimeout = timeout;
     }
 
     public void Dispose()
