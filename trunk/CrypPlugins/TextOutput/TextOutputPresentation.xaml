@@ -8,7 +8,7 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <Label Padding="0" Grid.Row="0" Name="labelString" VerticalAlignment="Top" Background="#DFDFDF">Input</Label>
+    <!--<Label Padding="0" Grid.Row="0" Name="labelString" VerticalAlignment="Top" Background="#DFDFDF">Input</Label>-->
     <TextBox Name="textBox" Grid.Row="1" Margin="0" IsEnabled="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True" />    
     <Label Padding="0" Grid.Row="2" Name="labelBytes" VerticalAlignment="Top" Background="#DFDFDF">0 Bytes</Label>
     </Grid>
