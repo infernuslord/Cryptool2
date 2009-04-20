@@ -57,6 +57,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\ControllerPropertyAttribute.cs" />
     <Compile Include="Attributes\SettingsFormatAttribute.cs" />
     <Compile Include="Attributes\ContextMenuAttribute.cs" />
     <Compile Include="Attributes\AuthorAttribute.cs" />
