@@ -254,7 +254,7 @@ namespace FileInput
       }
     }
 
-    [TaskPane("Close File", "Close File", null, 2, false, DisplayLevel.Beginner, ControlType.Button)]
+    [TaskPane("Close file", "Close file", null, 2, false, DisplayLevel.Beginner, ControlType.Button)]
     public void CloseFile()
     {
       OpenFilename = null;
