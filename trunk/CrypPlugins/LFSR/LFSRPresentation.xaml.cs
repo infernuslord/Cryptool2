@@ -39,7 +39,7 @@ namespace Cryptool.LFSR
             //DeleteAll(100);*/
         }
 
-        public void DrawLFSR(char[] state, char[] tapSequence)
+        public void DrawLFSR(char[] state, char[] tapSequence, int clockingBit)
         {
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
@@ -60,7 +60,7 @@ namespace Cryptool.LFSR
                 Line HoriLine2 = new Line();
                 HoriLine2.X1 = 5;
                 HoriLine2.Y1 = 47;
-                HoriLine2.X2 = 30 + state.Length * 30;
+                HoriLine2.X2 = 35 + (state.Length - 1) * 29;
                 HoriLine2.Y2 = 47;
                 HoriLine2.Stroke = Brushes.Black;
                 HoriLine1.StrokeThickness = 1;
@@ -76,23 +76,23 @@ namespace Cryptool.LFSR
                 myGrid.Children.Add(VertLine1);
 
                 Line VertLine2 = new Line();
-                VertLine2.X1 = 30 + state.Length * 30;
-                VertLine2.Y1 = 17.5;
-                VertLine2.X2 = 30 + state.Length * 30;
-                VertLine2.Y2 = 47.5;
+                VertLine2.X1 = 35 + (state.Length - 1) * 29;
+                VertLine2.Y1 = 32;
+                VertLine2.X2 = 35 + (state.Length - 1) * 29;
+                VertLine2.Y2 = 47;
                 VertLine2.Stroke = Brushes.Black;
                 VertLine2.StrokeThickness = 1;
                 myGrid.Children.Add(VertLine2);
 
                 // add connection circle
-                Ellipse ConnectionCircle = new Ellipse();
+                /*Ellipse ConnectionCircle = new Ellipse();
                 ConnectionCircle.HorizontalAlignment = HorizontalAlignment.Left;
                 ConnectionCircle.VerticalAlignment = VerticalAlignment.Top;
                 ConnectionCircle.Fill = Brushes.Black;
                 ConnectionCircle.Width = 4;
                 ConnectionCircle.Height = 4;
                 ConnectionCircle.Margin = new Thickness(27.5 + state.Length * 30, 15.5, 0, 0);
-                myGrid.Children.Add(ConnectionCircle);
+                myGrid.Children.Add(ConnectionCircle);*/
 
                 // add left triangle ////////////////////
                 // Create a path to draw a geometry with.
@@ -172,7 +172,9 @@ namespace Cryptool.LFSR
                 TextBox[] myTextBoxes = new TextBox[state.Length];
                 Grid[] myGrids = new Grid[state.Length];
                 Ellipse[] myEllipses = new Ellipse[state.Length];
-                Line[] myLines = new Line[state.Length];
+                Line[] myLinesVert = new Line[state.Length];
+                Line[] myLinesVertRed = new Line[state.Length];
+                Line[] myLinesHori = new Line[state.Length];
 
                 // add TextBoxes
                 int i;
@@ -194,7 +196,12 @@ namespace Cryptool.LFSR
                     myTextBoxes[i].TextAlignment = TextAlignment.Center;
                     myTextBoxes[i].VerticalContentAlignment = VerticalAlignment.Center;
                     myTextBoxes[i].BorderBrush = Brushes.Black;
-                    if (i % 2 != 0) myTextBoxes[i].Background = Brushes.LightGray;
+                    //if (i % 2 != 0) myTextBoxes[i].Background = Brushes.Lavender;
+                    if (i != 0)
+                    {
+                        if (tapSequence[i] == '1') myTextBoxes[i].Background = Brushes.DodgerBlue;
+                    }
+                    if (clockingBit == i) myTextBoxes[i].Background = Brushes.Orange;
 
                     myGrid.Children.Add(myTextBoxes[i]);
 
@@ -214,24 +221,45 @@ namespace Cryptool.LFSR
                     {
                         myEllipses[i] = new Ellipse();
                         myEllipses[i].Name = "ellipseXOR" + i;
-                        myEllipses[i].Stroke = Brushes.Black;
+                        myEllipses[i].Stroke = Brushes.DodgerBlue;
                         myEllipses[i].Margin = new Thickness(9, 9, 9, 9);
 
-                        myLines[i] = new Line();
-                        myLines[i].Name = "VertLineXOR" + i;
-                        myLines[i].Stroke = Brushes.Black;
-                        myLines[i].StrokeThickness = 1;
-                        myLines[i].X1 = 15;
-                        myLines[i].Y1 = 0.5;
-                        myLines[i].X2 = 15;
-                        myLines[i].Y2 = 20;
+                        myLinesVert[i] = new Line();
+                        myLinesVert[i].Name = "VertLineXOR" + i;
+                        myLinesVert[i].Stroke = Brushes.Black;
+                        myLinesVert[i].StrokeThickness = 1;
+                        myLinesVert[i].X1 = 15;
+                        myLinesVert[i].Y1 = 0.5;
+                        myLinesVert[i].X2 = 15;
+                        myLinesVert[i].Y2 = 9;
+
+                        myLinesVertRed[i] = new Line();
+                        myLinesVertRed[i].Name = "VertLineXORRed" + i;
+                        myLinesVertRed[i].Stroke = Brushes.DodgerBlue;
+                        myLinesVertRed[i].StrokeThickness = 1;
+                        myLinesVertRed[i].X1 = 15;
+                        myLinesVertRed[i].Y1 = 9;
+                        myLinesVertRed[i].X2 = 15;
+                        myLinesVertRed[i].Y2 = 20;
+
+                        myLinesHori[i] = new Line();
+                        myLinesHori[i].Name = "HoriLineXOR" + i;
+                        myLinesHori[i].Stroke = Brushes.DodgerBlue;
+                        myLinesHori[i].StrokeThickness = 1;
+                        myLinesHori[i].X1 = 9;
+                        myLinesHori[i].Y1 = 15;
+                        myLinesHori[i].X2 = 20;
+                        myLinesHori[i].Y2 = 15;
 
                         myGrids[i].Children.Add(myEllipses[i]);
-                        myGrids[i].Children.Add(myLines[i]);
+                        myGrids[i].Children.Add(myLinesVert[i]);
+                        myGrids[i].Children.Add(myLinesVertRed[i]);
+                        myGrids[i].Children.Add(myLinesHori[i]);
                     }
                 }
-                // disable last XOR
-                myGrids[i-1].Visibility = Visibility.Hidden;
+                // disable last and first XOR
+                myGrids[0].Visibility = Visibility.Hidden;
+                myGrids[state.Length - 1].Visibility = Visibility.Hidden;
 
                 // add output bit label
                 Label outPutLabel = new Label();
@@ -243,6 +271,7 @@ namespace Cryptool.LFSR
                 outPutLabel.VerticalContentAlignment = VerticalAlignment.Center;
                 outPutLabel.HorizontalAlignment = HorizontalAlignment.Left;
                 outPutLabel.VerticalAlignment = VerticalAlignment.Top;
+                outPutLabel.Name = "outputLabel";
                 myGrid.Children.Add(outPutLabel);
 
             }, null);
@@ -254,15 +283,23 @@ namespace Cryptool.LFSR
             // fill the boxes with current state
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                // get the textboxes as children of myGrid. textboxes are 7, 9, 11, ...
+                // get the textboxes as children of myGrid. textboxes are 6 + 2 + 2 + ... [don't forget to change line 314, Col 73]
                 Visual childVisual;
                 int i;
                 string polynomial = "Feedback polynomial: \n";
                 for (i = 0; i < state.Length; i++)
                 {
-                    childVisual = (Visual)VisualTreeHelper.GetChild(myGrid, 7 + i * 2);
+                    childVisual = (Visual)VisualTreeHelper.GetChild(myGrid, 6 + i * 2);
                     childVisual.SetValue(TextBox.TextProperty, state[i].ToString());
-                    
+
+                    /*
+                    // this only seems to work for children not added at runtime
+                    Label myInfoText = myGrid.FindName("infoText") as Label;
+                    if (myInfoText != null)
+                    {
+                        myInfoText.Background = Brushes.DodgerBlue;
+                    }*/
+
                     //build polynomial
                     int power;
                     power = (i - state.Length + 1) * -1 % state.Length;
@@ -275,7 +312,7 @@ namespace Cryptool.LFSR
                 }
 
                 // update output label
-                childVisual = (Visual)VisualTreeHelper.GetChild(myGrid, 9 + (i-1) * 2);
+                childVisual = (Visual)VisualTreeHelper.GetChild(myGrid, 8 + (i-1) * 2);
                 childVisual.SetValue(Label.ContentProperty, output);
 
                 // update polynome

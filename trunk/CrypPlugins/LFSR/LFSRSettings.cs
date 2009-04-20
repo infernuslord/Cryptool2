@@ -35,6 +35,33 @@ namespace Cryptool.LFSR
             }
         }
 
+        private int clockingBit = 0;
+        [TaskPane("Clocking Bit", "Which bit shall be generated as an additional output? For example as an clocking bit.", null, 0, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        public int ClockingBit
+        {
+            get { return this.clockingBit; }
+            set
+            {
+                this.clockingBit = value;
+                OnPropertyChanged("ClockingBit");
+                HasChanges = true;
+            }
+        }
+
+        private bool useClockingBit = false;
+        [ContextMenu("Use ClockingBit", "With this checkbox enabled, the clocking bit will be generated.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Use clocking bit?" })]
+        [TaskPane("Use ClockingBit", "With this checkbox enabled, clocking bit will be generated.", null, 1, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+        public bool UseClockingBit
+        {
+            get { return this.useClockingBit; }
+            set
+            {
+                this.useClockingBit = (bool)value;
+                OnPropertyChanged("UseClockingBit");
+                HasChanges = true;
+            }
+        }
+
         private bool useBoolClock = false;
         [ContextMenu("Use BoolClock", "With this checkbox enabled, BoolClock will be used.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Use Boolean clock?" })]
         [TaskPane("Use BoolClock", "With this checkbox enabled, BoolClock will be used.", null, 1, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
@@ -45,6 +72,20 @@ namespace Cryptool.LFSR
             {
                 this.useBoolClock = (bool)value;
                 OnPropertyChanged("UseBoolClock");
+                HasChanges = true;
+            }
+        }
+
+        private bool alwaysCreateOutput = false;
+        [ContextMenu("Always create output", "With this checkbox enabled, an output will be generated, even though the clock is set to false. The output bit will be the bit from the last clock cycle.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Always generate output?" })]
+        [TaskPane("Always create output", "With this checkbox enabled, an output will be generated, even though the clock is set to false. The output bit will be the bit from the last clock cycle.", null, 1, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+        public bool AlwaysCreateOutput
+        {
+            get { return this.alwaysCreateOutput; }
+            set
+            {
+                this.alwaysCreateOutput = (bool)value;
+                OnPropertyChanged("AlwaysCreateOutput");
                 HasChanges = true;
             }
         }
