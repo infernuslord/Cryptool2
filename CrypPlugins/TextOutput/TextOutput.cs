@@ -409,7 +409,14 @@ namespace TextOutput
         }
         else if (value is bool)
         {
-          fillValue = ((bool)value).ToString();
+            if (settings.BooleanAsNumeric)
+            {
+                fillValue = Convert.ToInt32(value).ToString();
+            }
+            else
+            {
+                fillValue = ((bool)value).ToString();
+            }
         }
         else if (value is CryptoolStream)
         {

@@ -332,6 +332,7 @@ namespace TextOutput
         if (value != append)
         {
           append = value;
+          hasChanges = true;
           OnPropertyChanged("Append");
         }
       }
@@ -393,9 +394,26 @@ namespace TextOutput
       }
     }
 
+    private bool booleanAsNumeric = false;
+    [ContextMenu("Display boolean as numeric value", "With this checkbox enabled, incoming boolean values will be displayed as numeric values (1/0 instead of True/False).", 5, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Display boolean as numeric value" })]
+    [TaskPane("Display boolean as numeric value", "With this checkbox enabled, incoming boolean values will be displayed as numeric values (1/0 instead of True/False).", null, 5, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+    public bool BooleanAsNumeric
+    {
+        get { return booleanAsNumeric; }
+        set
+        {
+            if (value != booleanAsNumeric)
+            {
+                booleanAsNumeric = value;
+                hasChanges = true;
+                OnPropertyChanged("BooleanAsNumeric");
+            }
+        }
+    }
+
     private bool flushOnPreExecution = true;
-    [ContextMenu("Flush text on PreExec", "Flush all text boxes on PreExecution call.", 5, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, new string[] {"Flush text on PreExec"})]
-    [TaskPane("Flush text on PreExec", "Flush all text boxes on PreExecution call.", null, 5, false, DisplayLevel.Beginner, ControlType.CheckBox, null)]
+    [ContextMenu("Flush text on PreExec", "Flush all text boxes on PreExecution call.", 6, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, new string[] {"Flush text on PreExec"})]
+    [TaskPane("Flush text on PreExec", "Flush all text boxes on PreExecution call.", null, 6, false, DisplayLevel.Beginner, ControlType.CheckBox, null)]
     public bool FlushOnPreExecution
     {
       get { return flushOnPreExecution; }
@@ -404,6 +422,7 @@ namespace TextOutput
         if (value != flushOnPreExecution)
         {
           flushOnPreExecution = value;
+          hasChanges = true;
           OnPropertyChanged("FlushOnPreExecution");
         }
       }
