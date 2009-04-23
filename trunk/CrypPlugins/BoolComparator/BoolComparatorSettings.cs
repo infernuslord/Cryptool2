@@ -209,9 +209,9 @@ using System.IO;
 using Cryptool.PluginBase;
 using System.ComponentModel;
 
-namespace Cryptool.XORBinary
+namespace Cryptool.BoolComparator
 {
-    public class XORBinarySettings : ISettings
+    public class BoolComparatorSettings : ISettings
     {
         #region Public Xor specific interface
 

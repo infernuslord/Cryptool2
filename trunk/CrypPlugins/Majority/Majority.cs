@@ -393,28 +393,21 @@ namespace Cryptool.Majority
 
         public void Execute()
         {
-            if (inputOneFlag == 1)
+            if (inputOneFlag == 1 && inputTwoFlag == 1 && inputThreeFlag == 1)
             {
-                if (inputTwoFlag == 1)
-                {
-                    if (inputThreeFlag == 1)
-                    {
+                // flag all inputs as dirty
+                inputOneFlag = -1;
+                inputTwoFlag = -1;
+                inputThreeFlag = -1;
 
-                        // flag all inputs as dirty
-                        inputOneFlag = -1;
-                        inputTwoFlag = -1;
-                        inputThreeFlag = -1;
-
-                        // generate output
-                        int cntZeros = 0;
-                        int cntOnes = 1;
-                        if (inputOne) cntOnes++; else cntZeros++;
-                        if (inputTwo) cntOnes++; else cntZeros++;
-                        if (inputThree) cntOnes++; else cntZeros++;
-                        if (cntOnes >= cntZeros) output = true; else output = false;
-                        OnPropertyChanged("Output");
-                    }
-                }
+                // generate output
+                int cntZeros = 0;
+                int cntOnes = 0;
+                if (inputOne) cntOnes++; else cntZeros++;
+                if (inputTwo) cntOnes++; else cntZeros++;
+                if (inputThree) cntOnes++; else cntZeros++;
+                if (cntOnes >= cntZeros) output = true; else output = false;
+                OnPropertyChanged("Output");
             }
         }
 

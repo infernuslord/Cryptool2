@@ -225,8 +225,8 @@ namespace Cryptool.ANDBinary
         #region Private variables
 
         private ANDBinarySettings settings;
-        private bool inputOne = true;
-        private bool inputTwo = true;
+        private bool inputOne = false;
+        private bool inputTwo = false;
         private bool output;
 
         #endregion
@@ -307,10 +307,11 @@ namespace Cryptool.ANDBinary
 
         public void Initialize()
         {
-            // should inputs be dirty or clean at the beginning?
-            // set both inputs clean
-            inputOneFlag = 1;
-            inputTwoFlag = 1;
+            // set input flags according to settings
+            if (settings.FlagInputOne) inputOneFlag = 1;
+            else inputOneFlag = -1;
+            if (settings.FlagInputTwo) inputTwoFlag = 1;
+            else inputTwoFlag = -1;
         }
 
         public void Dispose()
@@ -377,17 +378,14 @@ namespace Cryptool.ANDBinary
 
         public void Execute()
         {
-            if (inputOneFlag == 1)
-            {
-                if (inputTwoFlag == 1)
-                {
-                    // flag all inputs as dirty
-                    inputOneFlag = -1;
-                    inputTwoFlag = -1;
+            if (inputOneFlag == 1 && inputTwoFlag == 1)
+            {                
+                // flag all inputs as dirty
+                inputOneFlag = -1;
+                inputTwoFlag = -1;
 
-                    output = inputOne & inputTwo;
-                    OnPropertyChanged("Output");
-                }
+                output = inputOne & inputTwo;
+                OnPropertyChanged("Output");
             }
         }
 

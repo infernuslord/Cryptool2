@@ -205,89 +205,192 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.IO;
 using Cryptool.PluginBase;
+using Cryptool.PluginBase.Cryptography;
+
+using System.IO;
 using System.ComponentModel;
+using Cryptool.PluginBase.IO;
+using System.Windows.Controls;
+// for [MethodImpl(MethodImplOptions.Synchronized)]
+using System.Runtime.CompilerServices;
 
-namespace Cryptool.XORBinary
+namespace Cryptool.BoolComparator
 {
-    public class XORBinarySettings : ISettings
+    [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
+    [PluginInfo(false, "BoolComparator", "Simple Binary AND", "BoolComparator/DetailedDescription/Description.xaml", "BoolComparator/Images/icon.png", "BoolComparator/Images/icon.png", "BoolComparator/Images/icon.png")]
+    public class BoolComparator : IThroughput
     {
-        #region Public Xor specific interface
-
-        /// <summary>
-        /// We use this delegate to send log messages from the settings class to the Xor plugin
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="msg"></param>
-        /// <param name="logLevel"></param>
-        public delegate void XorLogMessage(string msg, NotificationLevel logLevel);
-
-        /// <summary>
-        /// Fire if a new message has to be shown in the status bar
-        /// </summary>
-        public event XorLogMessage LogMessage;
-        
-        /// <summary>
-        /// Returns true if some settigns have been changed. This value should be set
-        /// externally to false e.g. when a project was saved.
-        /// </summary>
-        [PropertySaveOrder(0)]
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
-        }
-
-        bool flagInputOne;
-        [ContextMenu("Declare Flag I1 clean", " yes / no ", 0, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, "Set Flag of Input One to clean at the beginning of the chain.")]
-        [TaskPaneAttribute("Declare Flag I1 clean", " yes / no ", "", 0, false, DisplayLevel.Beginner, ControlType.CheckBox, null)]
-        public bool FlagInputOne
-        {
-            get { return this.flagInputOne; }
-            set
-            {
-                this.flagInputOne = value;
-                OnPropertyChanged("FlagInputOne");
-                HasChanges = true;
-            }
-
-        }
-
-        bool flagInputTwo;
-        [ContextMenu("Declare Flag I2 clean", " yes / no ", 0, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, "Set Flag of Input Two to clean at the beginning of the chain.")]
-        [TaskPaneAttribute("Declare Flag I2 clean", " yes / no ", "", 0, false, DisplayLevel.Beginner, ControlType.CheckBox, null)]
-        public bool FlagInputTwo
-        {
-            get { return this.flagInputTwo; }
-            set
-            {
-                this.flagInputTwo = value;
-                OnPropertyChanged("FlagInputTwo");
-                HasChanges = true;
-            }
-
-        }
-
-        #endregion
 
         #region Private variables
 
-        private bool hasChanges;
+        private BoolComparatorSettings settings;
+        private bool inputOne;
+        private bool inputTwo;
+        private bool output;
 
         #endregion
 
+        #region Public variables
+        public int inputOneFlag;
+        public int inputTwoFlag;
+        #endregion
+
+        #region Public interface
+
+        /// <summary>
+        /// Contructor
+        /// </summary>
+        public BoolComparator()
+        {
+            this.settings = new BoolComparatorSettings();
+            ((BoolComparatorSettings)(this.settings)).LogMessage += Xor_LogMessage;
+        }
+
+        /// <summary>
+        /// Get or set all settings for this algorithm
+        /// </summary>
+        public ISettings Settings
+        {
+            get { return (ISettings)this.settings;
+            }
+            set { this.settings = (BoolComparatorSettings)value;
+            }
+        }
+
+        [PropertyInfo(Direction.Input, "Input One", "Input a boolean value to be compared", "", true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public bool InputOne
+        {
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            get { return this.inputOne; }
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            set
+            {
+                this.inputOne = value;
+                OnPropertyChanged("InputOne");
+                // clean inputOne
+                inputOneFlag = 1;
+            }
+        }
+
+        [PropertyInfo(Direction.Input, "Input Two", "Input a boolean value to be compared", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public bool InputTwo
+        {
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            get { return this.inputTwo; }
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            set
+            {
+                this.inputTwo = value;
+                OnPropertyChanged("InputTwo");
+                // clean inputTwo
+                inputTwoFlag = 1;
+            }
+        }
+
+        [PropertyInfo(Direction.Output, "Output", "Output after comparing input one and two. Only fires up, if both inputs are fresh.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public bool Output
+        {
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            get
+            {
+                return output;
+            }
+            set
+            {   // is readonly
+            }
+        }
+
+        #endregion
+
+        #region IPlugin members
+
+        public void Initialize()
+        {
+            // set input flags according to settings
+            if (settings.FlagInputOne) inputOneFlag = 1;
+            else inputOneFlag = -1;
+            if (settings.FlagInputTwo) inputTwoFlag = 1;
+            else inputTwoFlag = -1;
+        }
+
+        public void Dispose()
+        {
+        }
+
+        public UserControl Presentation
+        {
+            get { return null; }
+        }
+
+        public UserControl QuickWatchPresentation
+        {
+            get { return null; }
+        }
+
+        public void Stop()
+        {
+        }
+
+        public void PostExecution()
+        {
+        }
+
+        public void PreExecution()
+        {
+        }
+
+        #endregion
 
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged(string name)
+        public void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
+        }
+
+        #endregion
+
+        #region Private methods
+
+        private void Xor_LogMessage(string msg, NotificationLevel logLevel)
+        {
+            /*if (OnGuiLogNotificationOccured != null)
+            {
+                OnGuiLogNotificationOccured(this, new GuiLogEventArgs(msg, this, logLevel));
+            }*/
+        }
+
+        #endregion
+
+        #region IPlugin Members
+
+#pragma warning disable 67
+        public event StatusChangedEventHandler OnPluginStatusChanged;
+        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+#pragma warning restore
+
+        public void Execute()
+        {
+            if (inputOneFlag == 1 && inputTwoFlag == 1)
+            {
+                // flag all inputs as dirty
+                inputOneFlag = -1;
+                inputTwoFlag = -1;
+
+                if (inputOne == inputTwo) output = true; else output = false;
+                OnPropertyChanged("Output");
+            }
+        }
+
+        public void Pause()
+        {
         }
 
         #endregion

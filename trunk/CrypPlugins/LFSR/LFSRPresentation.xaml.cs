@@ -278,7 +278,7 @@ namespace Cryptool.LFSR
 
         }
 
-        public void FillBoxes(char[] state, char[] tapSequence, char output)
+        public void FillBoxes(char[] state, char[] tapSequence, char output, string polynomial)
         {
             // fill the boxes with current state
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -286,7 +286,7 @@ namespace Cryptool.LFSR
                 // get the textboxes as children of myGrid. textboxes are 6 + 2 + 2 + ... [don't forget to change line 314, Col 73]
                 Visual childVisual;
                 int i;
-                string polynomial = "Feedback polynomial: \n";
+                
                 for (i = 0; i < state.Length; i++)
                 {
                     childVisual = (Visual)VisualTreeHelper.GetChild(myGrid, 6 + i * 2);
@@ -299,16 +299,6 @@ namespace Cryptool.LFSR
                     {
                         myInfoText.Background = Brushes.DodgerBlue;
                     }*/
-
-                    //build polynomial
-                    int power;
-                    power = (i - state.Length + 1) * -1 % state.Length;
-                    if (tapSequence[i] == '1')
-                    {
-                        if (power == 1) polynomial += "x + ";
-                        else if (power != 0) polynomial += "x^" + power + " + ";
-                        else polynomial += "1";
-                    }
                 }
 
                 // update output label

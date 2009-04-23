@@ -51,6 +51,7 @@ namespace Cryptool.LFSR
         public String seedbuffer = "0";
         public String tapSequencebuffer = "1";
         public Char outputbuffer = '0';
+        public bool lastInputPropertyClock = false;
 
         #endregion
 
@@ -82,6 +83,7 @@ namespace Cryptool.LFSR
             {
                 inputTapSequence = value;
                 OnPropertyChanged("InputTapSequence");
+                lastInputPropertyClock = false;
             }
         }
 
@@ -95,9 +97,10 @@ namespace Cryptool.LFSR
             {
                 inputSeed = value;
                 OnPropertyChanged("InputSeed");
+                lastInputPropertyClock = false;
             }
         }
-
+        /*
         [PropertyInfo(Direction.Input, "Clock", "Optional clock input. LFSR only advances if clock is 1.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public CryptoolStream InputClock
         {
@@ -120,7 +123,7 @@ namespace Cryptool.LFSR
                 if (value != null) listCryptoolStreamsOut.Add(value);
                 OnPropertyChanged("InputClock");
             }
-        }
+        }*/
 
         [PropertyInfo(Direction.Input, "Clock", "Optional clock input. LFSR only advances if clock is true.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public Boolean InputClockBool
@@ -132,10 +135,11 @@ namespace Cryptool.LFSR
             {
                 inputClockBool = value;
                 OnPropertyChanged("InputClockBool");
+                lastInputPropertyClock = true;
             }
         }
 
-        [PropertyInfo(Direction.Output, "Output stream", "LFSR Output Stream", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.Output, "Output stream", "LFSR Stream Output. Use this fpr bulk output.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public CryptoolStream OutputStream
         {
             //[MethodImpl(MethodImplOptions.Synchronized)]
@@ -159,7 +163,7 @@ namespace Cryptool.LFSR
             }
         }
 
-        [PropertyInfo(Direction.Output, "Boolean Output", "Boolean Output.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.Output, "Boolean Output", "LFSR Boolean Output. Use this output together with a clock input.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool OutputBool
         {
             get { return outputBool; }
@@ -170,7 +174,7 @@ namespace Cryptool.LFSR
             }
         }
 
-        [PropertyInfo(Direction.Output, "Clocking Bit Output", "Clocking Bit Output.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.Output, "Clocking Bit Output", "Clocking Bit Output.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool OutputClockingBit
         {
             get { return outputClockingBit; }
@@ -322,7 +326,7 @@ namespace Cryptool.LFSR
         }
 
         // Function to turn around tapSequence (01101 -> 10110)
-        private char[] TurnAround(char[] tapSequence)
+        private char[] ReverseOrder(char[] tapSequence)
         {
             //String tempString = new String(tapSequence);
             //GuiLogMessage("tapSequence before = " + tempString, NotificationLevel.Info);
@@ -341,6 +345,27 @@ namespace Cryptool.LFSR
             return tempCharArray;
         }
 
+        private string BuildPolynomialFromBinary(char [] tapSequence)
+        {
+            string polynomial = "Feedback polynomial: \n";
+            char[] tempTapSequence = ReverseOrder(tapSequence);
+            int power;
+
+            //build polynomial
+            for (int i = 0; i < tapSequence.Length; i++)
+            {
+                power = (i - tapSequence.Length + 1) * -1 % tapSequence.Length;
+                if (tempTapSequence[i] == '1')
+                {
+                    if (power == 1) polynomial += "x + ";
+                    else if (power != 0) polynomial += "x^" + power + " + ";
+                    else polynomial += "1";
+                }
+            }
+
+            return  polynomial;
+        }
+
         #endregion
 
         public void Execute()
@@ -351,6 +376,13 @@ namespace Cryptool.LFSR
 
         private void processLFSR()
         {
+            // check if event was from the boolean clock input
+            // if so, check if boolean clock should be used
+            // if not, do not process LFSR
+            if (lastInputPropertyClock)
+            {
+                if (!settings.UseBoolClock) return;
+            }
             // process LFSR
             
             try
@@ -431,7 +463,7 @@ namespace Cryptool.LFSR
                 }
 
                 // convert tapSequence into char array
-                char[] tapSequenceCharArray = TurnAround(tapSequencebuffer.ToCharArray());
+                char[] tapSequenceCharArray = ReverseOrder(tapSequencebuffer.ToCharArray());
 
                 if (tapSequencebuffer.Length != inputSeed.Length)
                 {
@@ -508,7 +540,7 @@ namespace Cryptool.LFSR
                 }
 
                 // check if Rounds are given
-                int defaultRounds = 4;
+                int defaultRounds = 1;
                 int actualRounds;
 
                 // check if Rounds in settings are given and use them only if no bool clock is selected
@@ -583,7 +615,7 @@ namespace Cryptool.LFSR
                         seedCharArray[0] = newBit;
 
                         //update quickwatch presentation
-                        lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, outputBit);
+                        lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, outputBit, BuildPolynomialFromBinary(tapSequenceCharArray));
 
                         // write current "seed" back to seedbuffer
                         seedbuffer = null;
@@ -613,13 +645,13 @@ namespace Cryptool.LFSR
                             OnPropertyChanged("OutputStream");
 
                             //update quickwatch presentation
-                            lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, seedCharArray[seedBits - 1]);
+                            lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, seedCharArray[seedBits - 1], BuildPolynomialFromBinary(tapSequenceCharArray));
                             /////////
                         }
                         else
                         {
                             // update quickwatch with current state but without any output bit
-                            lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, ' ');
+                            lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, ' ', BuildPolynomialFromBinary(tapSequenceCharArray));
                         }
 
                         //GuiLogMessage("LFSR Clock is 0, no computation.", NotificationLevel.Info);

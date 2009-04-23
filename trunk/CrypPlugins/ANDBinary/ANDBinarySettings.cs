@@ -239,6 +239,36 @@ namespace Cryptool.ANDBinary
             set { hasChanges = value; }
         }
 
+        bool flagInputOne;
+        [ContextMenu("Declare Flag I1 clean", " yes / no ", 0, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, "Set Flag of Input One to clean at the beginning of the chain.")]
+        [TaskPaneAttribute("Declare Flag I1 clean", " yes / no ", "", 0, false, DisplayLevel.Beginner, ControlType.CheckBox, null)]
+        public bool FlagInputOne
+        {
+            get { return this.flagInputOne; }
+            set
+            {
+                this.flagInputOne = value;
+                OnPropertyChanged("FlagInputOne");
+                HasChanges = true;
+            }
+
+        }
+
+        bool flagInputTwo;
+        [ContextMenu("Declare Flag I2 clean", " yes / no ", 0, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, "Set Flag of Input Two to clean at the beginning of the chain.")]
+        [TaskPaneAttribute("Declare Flag I2 clean", " yes / no ", "", 0, false, DisplayLevel.Beginner, ControlType.CheckBox, null)]
+        public bool FlagInputTwo
+        {
+            get { return this.flagInputTwo; }
+            set
+            {
+                this.flagInputTwo = value;
+                OnPropertyChanged("FlagInputTwo");
+                HasChanges = true;
+            }
+
+        }
+
         #endregion
 
         #region Private variables
