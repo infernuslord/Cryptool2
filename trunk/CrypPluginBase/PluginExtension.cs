@@ -375,6 +375,7 @@ namespace Cryptool.PluginBase
               {
                 ControllerPropertyAttribute attr = attributes[0];
                 attr.PropertyName = pInfo.Name;
+                attr.PropertyType = pInfo.PropertyType;
                 // does plugin have a resource file for translation?
                 if (type.GetPluginInfoAttribute().ResourceFile != null)
                   attr.PluginType = type;

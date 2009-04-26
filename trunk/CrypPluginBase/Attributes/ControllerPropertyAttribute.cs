@@ -238,20 +238,15 @@ namespace Cryptool.PluginBase
         public readonly Direction Direction;
         public readonly DisplayLevel DisplayLevel;        
         public string PropertyName; // will be set in extension-method
+        public Type PropertyType;
 
         # region translation helpers
-        private Type pluginType;
-
         /// <summary>
         /// Gets or sets the type of the plugin. This value is set by extension method if ResourceFile exists. 
         /// It is used to access the plugins resources to translate the text elements.
         /// </summary>
         /// <value>The type of the plugin.</value>
-        public Type PluginType
-        {
-          get { return pluginType; }
-          set { pluginType = value; }
-        }
+        public Type PluginType;
 
         private bool MultiLanguage
         {
