@@ -141,34 +141,33 @@ namespace Cryptool.FrequencyTest
                 {
                     workstring2 = workstring;
                 }
-                string tempString="";
+
                
                 ArrayList gramms = new ArrayList();
                 int l = 0;
-                for (l = 0; l <= workstring2.Length - settings.GrammLength-1;l++ )
+                for (l = 0; l < workstring2.Length - settings.GrammLength + 1; l++ )
                 {
-                    
                     gramms.Add(workstring2.Substring(l,settings.GrammLength));
-                             
-                    
                 }
                 
                 gramms.Sort();
-                ArrayList amountCharacters=new ArrayList();
+                
+				ArrayList amountCharacters=new ArrayList();
                 ArrayList percentageCharacters = new ArrayList();
                 ArrayList countedGramms= new ArrayList();
                 int tempInt=0;
                 Data.ValueCollection.Clear();
                 double bigestheight=0;
+
                 for (int n = 0; n < gramms.Count; n++)
                 {
-
                     tempInt = gramms.LastIndexOf(gramms[n]) - gramms.IndexOf(gramms[n]) + 1;
                     amountCharacters.Add(tempInt);
-                    percentageCharacters.Add(Math.Round(Convert.ToDouble(tempInt) * settings.GrammLength / Convert.ToDouble(StringInput.Length) * 100, 3));
-                    countedGramms.Add(gramms[n]);
+					
+					percentageCharacters.Add(Math.Round(Convert.ToDouble(tempInt) / Convert.ToDouble(StringInput.Length - settings.GrammLength +1) * 100, 3));
                     
-                  
+					countedGramms.Add(gramms[n]);
+                    
                     if (bigestheight< (double)percentageCharacters[percentageCharacters.Count-1])
                     {
                         bigestheight = (double)percentageCharacters[percentageCharacters.Count - 1]; 
