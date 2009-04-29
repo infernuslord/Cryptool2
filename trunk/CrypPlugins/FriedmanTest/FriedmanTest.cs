@@ -103,8 +103,11 @@ namespace FriedmanTest
             
             if (arrayInput != null)
             {
-                double Kp; //Kappa "plain-text"
-                //Now we set the Kappa plain-text coefficient. Default is English.
+                double Kp; //Kappa "language"
+				long cipherTextLength = 0; //n
+				long countDoubleCharacters = 0;
+
+				//Now we set the Kappa plain-text coefficient. Default is English.
                 switch (settings.Kappa)
                 {
                     case 1: Kp = 0.0762; break;
@@ -114,44 +117,23 @@ namespace FriedmanTest
                     case 5: Kp = 0.0745; break;
                     default: Kp = 0.0667; break;
                 }
+ 
+				for (int i = 0; i < arrayInput.Length; i++)
+				{
+					cipherTextLength += arrayInput[i];
+					countDoubleCharacters += (arrayInput[i] * (arrayInput[i] - 1));
+				}
+
+				double kappaCiphertext = ((double)countDoubleCharacters / (double)(cipherTextLength * (cipherTextLength - 1)));
+				double keyLen = 0.0377 * cipherTextLength / (((cipherTextLength - 1) * kappaCiphertext) - (0.0385 * cipherTextLength) + Kp);
                 
-                
-                //Now we put the needed absolute values of the letter frequencies into an array
-                int[] absolutevalue = new int[arrayInput.Length];
-                for (int i = 0; i <= arrayInput.Length-1;i++ )
-                {
-                    absolutevalue[i] = arrayInput[i];
-                }
-                //Now we begin calculation of the arithmetic sum of the frequencies
-                int[] summ=new int [absolutevalue.Length];
-                for (int d = 0; d < absolutevalue.Length; d++)
-                    {
-                        summ[d] = absolutevalue[d] * (absolutevalue[d] - 1);
-                        
-                    }
-                int summ1 = 0;
-                foreach (int z in summ) 
-                {
-                     summ1 += z;
-                     
-                }
-                //Now we calculate the length of text from the observed letter frequencies
-                int texLen = 0;
-                foreach (int y in absolutevalue)
-                {
-                    texLen += y;
-                }
-                double normTexLen = texLen * (texLen - 1); //Normalize the text length in order to calculate the observed index of coincidence
-                double obIC = summ1/normTexLen; //Calculates the observed index of coincidence
-                double Kr = 0.019; //Kappa "random" - expected coincidence rate for a uniform distribution of the alphabet. In this case 1/26, hence we should have a 26 letter alphabet on the input.   
-                double keyLen = 0.027 * texLen / (((texLen - 1) * obIC) - (Kr * texLen) + Kp);
-                stringOutput = Convert.ToString(keyLen);
+				stringOutput = Convert.ToString(keyLen);
                 keyLength = keyLen;
                 OnPropertyChanged("OutputString");
                 OnPropertyChanged("KeyLength");
                 if (OnPluginProgressChanged != null)
                 {
-                    OnPluginProgressChanged(this, new PluginProgressEventArgs(texLen, texLen));
+					OnPluginProgressChanged(this, new PluginProgressEventArgs(cipherTextLength, cipherTextLength));
                 }
             }
 
