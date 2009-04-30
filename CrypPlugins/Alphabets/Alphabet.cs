@@ -209,11 +209,12 @@ using Cryptool.PluginBase;
 using System.ComponentModel;
 using System.Windows.Controls;
 using Cryptool.PluginBase.IO;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Alphabets
 {
-  [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo(false, "Alphabets", "Alphabets Plugin", "", "Alphabets/icon.gif")]    
+    [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
+    [PluginInfo(true, "Alphabets", "Alphabets Plugin", "", "Alphabets/icon.gif")]    
     public class Alphabet : IInput
     {
       private AlphabetPresentation alphabetPresentation;
@@ -291,10 +292,9 @@ namespace Cryptool.Alphabets
 
 #pragma warning disable 67
 			public event StatusChangedEventHandler OnPluginStatusChanged;
-			public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-			public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 #pragma warning restore
-		
+            public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+            public event PluginProgressChangedEventHandler OnPluginProgressChanged;
       
       private void GuiLogMessage(string message, NotificationLevel logLevel)
       {
@@ -310,7 +310,9 @@ namespace Cryptool.Alphabets
       }
 
       public void Execute()
-      {        
+      {
+          OnPropertyChanged("AlphabetOutput");
+          ShowProgress(100, 100);
       }
 
       public void Pause()
@@ -318,6 +320,13 @@ namespace Cryptool.Alphabets
         
       }
 
+      #endregion
+
+      #region Private
+      private void ShowProgress(double value, double max)
+      {
+          EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+      }
       #endregion
     }
 }

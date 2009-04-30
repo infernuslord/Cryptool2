@@ -295,7 +295,7 @@ namespace Cryptool.Substitution
             }
         }
 
-        [PropertyInfo(Direction.Input, "External alphabet input","Input a string containing the alphabet which should be used by Substitution.\nIf no alphabet is provided on the input, the internal alphabet will be used.", null, false, false, DisplayLevel.Expert, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.Input, "Plaintext Alphabet","Input a string containing the plaintext-alphabet which should be used by Substitution.\nIf no alphabet is provided on the input, the internal alphabet will be used.", null, false, false, DisplayLevel.Expert, QuickWatchFormat.Text, null)]
         public string InputAlphabet
         {
             get { return ((SubstitutionSettings)this.settings).AlphabetSymbols; }
@@ -309,7 +309,7 @@ namespace Cryptool.Substitution
             }
         }
 
-        [PropertyInfo(Direction.Input, "Shift value (integer)","Same setting as key value in Settings-Pane but as dynamic input.", null, false, false,DisplayLevel.Expert, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.Input, "Key (or substitution/cipher alphabet)","Same setting as key value in settings. \nIf you use a key shorter than the plaintext-alphabet, \nthe remaining characters of the cipher-alphabet will be filled up \naccording to the setting in the plug-ins settings pane. \nIf your key has the same length as the plaintext-alphabet, \nyou can perform the most general monoalphabetic substitution.", null, false, false,DisplayLevel.Expert, QuickWatchFormat.Text, null)]
         public string KeyValue
         {
             get { return settings.KeyValue; }
