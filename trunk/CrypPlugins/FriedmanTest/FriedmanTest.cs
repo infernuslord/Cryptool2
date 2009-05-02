@@ -6,6 +6,7 @@ using Cryptool.PluginBase;
 using Cryptool.PluginBase.Analysis;
 using System.ComponentModel;
 using System.Collections;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace FriedmanTest
 {
@@ -16,67 +17,92 @@ namespace FriedmanTest
             "FriedmanTest/DetailedDescription/Description.xaml",
             "FriedmanTest/friedman.png")]
     public class FriedmanTest : IStatistic
-    {public FriedmanTest()
+    {
+        public FriedmanTest()
         {
             settings = new FriedmanTestSettings();
-
         }
-    #region Private Variables
-    private double keyLength;
-    private string stringOutput="";
-    private int [] arrayInput;
-    #endregion
 
-
-    #region Properties (Inputs/Outputs)
-
-    [PropertyInfo(Direction.Output,"Probable key length.", "For greater accuracy, please refer to the string output.", "",false , false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-    public double KeyLength
-    {
-        get { return keyLength; }
-        set
-        {
-            if (value != keyLength)
-            {
-                keyLength = value;
-                OnPropertyChanged("KeyLength");
-            }
-        }
-    }
-
-    [PropertyInfo(Direction.Output, "Probable key length", "If the key length result seems to be ilogical...", "", false,false, DisplayLevel.Beginner, QuickWatchFormat.Text,null)]
-    public string StringOutput
-    {
-        get { return this.stringOutput; }
-        set
-        {
-            stringOutput = value;
-            OnPropertyChanged("StringOutput");
-        }
-    }
-    [PropertyInfo(Direction.Input, "List input", "absolute frequency of the letter, as calculated by FrequencyTest", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-    public int [] ArrayInput
-    {
-        get { return arrayInput; }
-        set
-        {
-            arrayInput = value;
-            OnPropertyChanged("ArrayInput");
-
-        }
-    } 
-    #endregion
-
-
-    #region IPlugin Members
-
-    public event StatusChangedEventHandler OnPluginStatusChanged;
-
-        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-
-        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+        #region Private Variables
 
         private FriedmanTestSettings settings;
+        private double keyLength = 0;
+        private double kappaCiphertext = 0;
+        private string stringOutput="";
+        private int [] arrayInput;
+
+        #endregion
+
+        #region Private methods
+
+        private void ShowStatusBarMessage(string message, NotificationLevel logLevel)
+        {
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
+        }
+
+        private void ShowProgress(double value, double max)
+        {
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+        }
+
+        #endregion
+
+        #region Properties (Inputs/Outputs)
+
+        [PropertyInfo(Direction.Output, "Results", "This ouput provides the results of the Friedman test \nas key/value pairs, one per each line.", "", false,false, DisplayLevel.Beginner, QuickWatchFormat.Text,null)]
+        public string StringOutput
+        {
+            get { return this.stringOutput; }
+            set { }
+        }
+
+        [PropertyInfo(Direction.Output, "Probable key length value.", "This value gives the probable key length of the analyzed text.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, "KeyLengthQuickWatchConverter")]
+        public double KeyLength
+        {
+            get { return keyLength; }
+            set { }
+        }
+
+        [PropertyInfo(Direction.Output, "Index of coincidence (IC)", "This output provides the calculated index of coincidence of the provided \noccurences of letters (frequency analysis).", "", false, false, DisplayLevel.Expert, QuickWatchFormat.Text, "KappaCiphertextQuickWatchConverter")]
+        public double KappaCiphertext
+        {
+            get { return kappaCiphertext; }
+            set { }
+        }
+
+        [PropertyInfo(Direction.Input, "Letter count input", "This input accepts a list (array) with the absolute number of letter \noccurences in an encrypted text. This list can be generated e.g. with the frequency test.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
+        public int [] ArrayInput
+        {
+            get { return arrayInput; }
+            set
+            {
+                arrayInput = value;
+                OnPropertyChanged("ArrayInput");
+            }
+        }
+        #endregion
+
+        #region Input/Output convertor
+
+        public object KappaCiphertextQuickWatchConverter(string PropertyNameToConvert)
+        {
+            return kappaCiphertext.ToString();
+        }
+
+        public object KeyLengthQuickWatchConverter(string PropertyNameToConvert)
+        {
+            return keyLength.ToString();
+        }
+
+        #endregion
+
+        #region IPlugin Members
+
+        public event StatusChangedEventHandler OnPluginStatusChanged;
+        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+
+        
         public ISettings Settings
         {
             get { return settings; }
@@ -95,17 +121,17 @@ namespace FriedmanTest
 
         public void PreExecution()
         {
-            //throw new NotImplementedException();
+            //nothing to do
         }
 
         public void Execute()
         {
-            
             if (arrayInput != null)
             {
                 double Kp; //Kappa "language"
 				long cipherTextLength = 0; //n
 				long countDoubleCharacters = 0;
+                string ciphermode = "monoalphabetic/cleartext";
 
 				//Now we set the Kappa plain-text coefficient. Default is English.
                 switch (settings.Kappa)
@@ -117,24 +143,44 @@ namespace FriedmanTest
                     case 5: Kp = 0.0745; break;
                     default: Kp = 0.0667; break;
                 }
- 
+
+                ShowStatusBarMessage("Using IC = " + Kp.ToString() + " for analysis...", NotificationLevel.Info);
+
+
+                if (arrayInput.Length < 2)
+                {
+                    // error, only one letter?
+                    ShowStatusBarMessage("Error - cannot analyze an array of a single letter.", NotificationLevel.Error);
+                    return;
+                }
+
 				for (int i = 0; i < arrayInput.Length; i++)
 				{
 					cipherTextLength += arrayInput[i];
 					countDoubleCharacters += (arrayInput[i] * (arrayInput[i] - 1));
+
+                    // show some progress
+                    ShowProgress(i, (arrayInput.Length + 1));
 				}
 
-				double kappaCiphertext = ((double)countDoubleCharacters / (double)(cipherTextLength * (cipherTextLength - 1)));
-				double keyLen = 0.0377 * cipherTextLength / (((cipherTextLength - 1) * kappaCiphertext) - (0.0385 * cipherTextLength) + Kp);
-                
-				stringOutput = Convert.ToString(keyLen);
-                keyLength = keyLen;
-                OnPropertyChanged("OutputString");
-                OnPropertyChanged("KeyLength");
-                if (OnPluginProgressChanged != null)
+                ShowStatusBarMessage(String.Format("Input analyzed: Got {0} different letters in a text of total length {1}.",arrayInput.Length,cipherTextLength), NotificationLevel.Info);
+
+				kappaCiphertext = ((double)countDoubleCharacters / (double)(cipherTextLength * (cipherTextLength - 1)));
+                keyLength = 0.0377 * cipherTextLength / (((cipherTextLength - 1) * kappaCiphertext) - (0.0385 * cipherTextLength) + Kp);
+
+                if (Math.Abs(Kp - kappaCiphertext) > 0.01)
                 {
-					OnPluginProgressChanged(this, new PluginProgressEventArgs(cipherTextLength, cipherTextLength));
+                    ciphermode = "polyalphabetic";
                 }
+
+                stringOutput = String.Format("KeyLen = {0}\nIC_analyzed = {1}\nIC_provided = {2}\nMode = {3}", keyLength.ToString("0.00000"), kappaCiphertext.ToString("0.00000"), Kp,ciphermode);
+
+            
+                OnPropertyChanged("StringOutput");
+                OnPropertyChanged("KeyLength");
+                OnPropertyChanged("KappaCiphertext");
+                // final step of progress
+                ShowProgress(100, 100);
             }
 
         }
