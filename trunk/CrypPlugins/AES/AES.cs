@@ -319,6 +319,23 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
+        private object controllerInput;
+        [ControllerProperty(Direction.Input, "Controller Input", "", DisplayLevel.Beginner)]
+        public object ControllerInput
+        {
+          get { return controllerInput; }
+          set { controllerInput = value; }
+        }
+
+        private object controllerOutput;
+
+        [ControllerProperty(Direction.Output, "Controller Output", "", DisplayLevel.Beginner)]
+        public object ControllerOutput
+        {
+          get { return controllerOutput; }
+          set { controllerOutput = value; }
+        }    
+
         private void ConfigureAlg(SymmetricAlgorithm alg)
         {
             // first set all paramter, then assign input values!
@@ -419,6 +436,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         public void Execute()
         {
             process(settings.Action);
+            PropertyChanged(this, new PropertyChangedEventArgs("ControllerOutput"));
         }
 
         private void process(int action)

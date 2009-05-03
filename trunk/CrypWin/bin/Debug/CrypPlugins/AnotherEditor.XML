@@ -2403,6 +2403,14 @@
             	<c>true</c> if this instance is connected; otherwise, <c>false</c>.
             </value>
         </member>
+        <member name="P:AnotherEditor.DragDrop.Connectors.Connector.IsController">
+            <summary>
+            Gets a value indicating whether this instance is controller.
+            </summary>
+            <value>
+            	<c>true</c> if this instance is controller; otherwise, <c>false</c>.
+            </value>
+        </member>
         <member name="P:AnotherEditor.DragDrop.Connectors.Connector.IsConnectedOrOptional">
             <summary>
             Gets a value indicating whether this instance is connected or optional.
