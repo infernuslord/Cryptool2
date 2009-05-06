@@ -307,11 +307,6 @@ namespace Cryptool.BoolComparator
 
         public void Initialize()
         {
-            // set input flags according to settings
-            if (settings.FlagInputOne) inputOneFlag = 1;
-            else inputOneFlag = -1;
-            if (settings.FlagInputTwo) inputTwoFlag = 1;
-            else inputTwoFlag = -1;
         }
 
         public void Dispose()
@@ -338,6 +333,11 @@ namespace Cryptool.BoolComparator
 
         public void PreExecution()
         {
+            // set input flags according to settings
+            if (settings.FlagInputOne) inputOneFlag = 1;
+            else inputOneFlag = -1;
+            if (settings.FlagInputTwo) inputTwoFlag = 1;
+            else inputTwoFlag = -1;
         }
 
         #endregion

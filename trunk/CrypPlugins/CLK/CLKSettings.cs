@@ -13,6 +13,7 @@ namespace Cryptool.Plugins.CLK
     # region private variables
     private bool hasChanges = false;
     private bool setClockToTrue = true;
+    private bool useEvent = false;
     private int clkTimeout = 2000;
     # endregion private variables
 
@@ -63,6 +64,20 @@ namespace Cryptool.Plugins.CLK
         {
             this.clkTimeout = value;
             OnPropertyChanged("CLKTimeout");
+            HasChanges = true;
+        }
+
+    }
+
+    [ContextMenu("Use input event instead of clock", " yes / no ", 0, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, "Use input event instead of clock")]
+    [TaskPaneAttribute("Use input event instead of clock", " yes / no ", "", 0, true, DisplayLevel.Beginner, ControlType.CheckBox, null)]
+    public bool UseEvent
+    {
+        get { return this.useEvent; }
+        set
+        {
+            this.useEvent = value;
+            OnPropertyChanged("UseEvent");
             HasChanges = true;
         }
 

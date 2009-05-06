@@ -269,6 +269,21 @@ namespace Cryptool.ANDBinary
 
         }
 
+        bool invertInputOne;
+        [ContextMenu("Invert I1", " yes / no ", 0, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, "Invert Input 1.")]
+        [TaskPaneAttribute("Invert I1", " yes / no ", "", 0, false, DisplayLevel.Beginner, ControlType.CheckBox, null)]
+        public bool InvertInputOne
+        {
+            get { return this.invertInputOne; }
+            set
+            {
+                this.invertInputOne = value;
+                OnPropertyChanged("InvertInputOne");
+                HasChanges = true;
+            }
+
+        }
+
         #endregion
 
         #region Private variables

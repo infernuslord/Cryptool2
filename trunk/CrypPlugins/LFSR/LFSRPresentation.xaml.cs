@@ -197,10 +197,10 @@ namespace Cryptool.LFSR
                     myTextBoxes[i].VerticalContentAlignment = VerticalAlignment.Center;
                     myTextBoxes[i].BorderBrush = Brushes.Black;
                     //if (i % 2 != 0) myTextBoxes[i].Background = Brushes.Lavender;
-                    if (i != 0)
-                    {
+                    //if (i != 0)
+                    //{
                         if (tapSequence[i] == '1') myTextBoxes[i].Background = Brushes.DodgerBlue;
-                    }
+                    //}
                     if (clockingBit == i) myTextBoxes[i].Background = Brushes.Orange;
 
                     myGrid.Children.Add(myTextBoxes[i]);
@@ -257,8 +257,8 @@ namespace Cryptool.LFSR
                         myGrids[i].Children.Add(myLinesHori[i]);
                     }
                 }
-                // disable last and first XOR
-                myGrids[0].Visibility = Visibility.Hidden;
+                // disable /*last*/ and first XOR
+                //myGrids[0].Visibility = Visibility.Hidden;
                 myGrids[state.Length - 1].Visibility = Visibility.Hidden;
 
                 // add output bit label

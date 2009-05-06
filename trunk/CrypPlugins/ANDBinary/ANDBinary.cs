@@ -205,20 +205,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Cryptool.PluginBase;
-using Cryptool.PluginBase.Cryptography;
 
+using Cryptool.PluginBase;
 using System.IO;
 using System.ComponentModel;
+using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.IO;
 using System.Windows.Controls;
+using Cryptool.PluginBase.Miscellaneous;
+using System.Security.Cryptography;
 // for [MethodImpl(MethodImplOptions.Synchronized)]
 using System.Runtime.CompilerServices;
 
 namespace Cryptool.ANDBinary
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo(false, "ANDBinary", "Simple Binary AND", "ANDBinary/DetailedDescription/Description.xaml", "ANDBinary/Images/icon.png", "ANDBinary/Images/icon.png", "ANDBinary/Images/icon.png")]
+    [PluginInfo(false, "ANDBinary", "Simple Binary AND", "ANDBinary/DetailedDescription/Description.xaml", "ANDBinary/Images/icon.png", "ANDBinary/Images/iconInput1Inverted.png", "ANDBinary/Images/iconInput2Inverted.png", "ANDBinary/Images/iconOutputInverted.png")]
     public class ANDBinary : IThroughput
     {
 
@@ -262,7 +264,15 @@ namespace Cryptool.ANDBinary
         public bool InputOne
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
-            get { return this.inputOne; }
+            get
+            {
+                /*if (settings.InvertInputOne)
+                {
+                    return (!inputOne);
+                }
+                else*/ return this.inputOne;
+            }
+
             [MethodImpl(MethodImplOptions.Synchronized)]
             set
             {
@@ -306,12 +316,7 @@ namespace Cryptool.ANDBinary
         #region IPlugin members
 
         public void Initialize()
-        {
-            // set input flags according to settings
-            if (settings.FlagInputOne) inputOneFlag = 1;
-            else inputOneFlag = -1;
-            if (settings.FlagInputTwo) inputTwoFlag = 1;
-            else inputTwoFlag = -1;
+        {            
         }
 
         public void Dispose()
@@ -338,6 +343,15 @@ namespace Cryptool.ANDBinary
 
         public void PreExecution()
         {
+            // set input flags according to settings
+            if (settings.FlagInputOne) inputOneFlag = 1;
+            else inputOneFlag = -1;
+            if (settings.FlagInputTwo) inputTwoFlag = 1;
+            else inputTwoFlag = -1;
+
+            // set icon according to settings
+            if (settings.InvertInputOne) StatusChanged((int)ANDImage.Input1Inverted);
+            else StatusChanged((int)ANDImage.Default);
         }
 
         #endregion
@@ -345,6 +359,8 @@ namespace Cryptool.ANDBinary
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public event StatusChangedEventHandler OnPluginStatusChanged;
 
         public void OnPropertyChanged(string name)
         {
@@ -370,11 +386,10 @@ namespace Cryptool.ANDBinary
 
         #region IPlugin Members
 
-#pragma warning disable 67
-        public event StatusChangedEventHandler OnPluginStatusChanged;
+//#pragma warning disable 67
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
-#pragma warning restore
+//#pragma warning restore
 
         public void Execute()
         {
@@ -383,8 +398,10 @@ namespace Cryptool.ANDBinary
                 // flag all inputs as dirty
                 inputOneFlag = -1;
                 inputTwoFlag = -1;
-
-                output = inputOne & inputTwo;
+                if (settings.InvertInputOne)
+                {
+                    output = !inputOne & inputTwo;
+                } else output = inputOne & inputTwo;
                 OnPropertyChanged("Output");
             }
         }
@@ -393,6 +410,23 @@ namespace Cryptool.ANDBinary
         {
         }
 
+        private void StatusChanged(int imageIndex)
+        {
+            EventsHelper.StatusChanged(OnPluginStatusChanged, this, new StatusEventArgs(StatusChangedMode.ImageUpdate, imageIndex));
+        }
+
         #endregion
     }
+
+    #region Image
+
+    enum ANDImage
+    {
+        Default,
+        Input1Inverted,
+        Input2Inverted,
+        OutputInverted
+    }
+
+    #endregion
 }

@@ -287,6 +287,14 @@ namespace Cryptool.XORBinary
                 inputTwoFlag = 1;
             }
         }
+        /*
+        private bool controllerInput;
+        [ControllerProperty(Direction.Input, "Controller Input", "", DisplayLevel.Beginner)]
+        public object ControllerInput
+        {
+            get { return controllerInput; }
+            set { controllerInput = (bool)value; }
+        }*/
 
         [PropertyInfo(Direction.Output, "XOR Output", "Output after XORing input one and two. Only fires up, if both inputs are fresh.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool Output
@@ -307,11 +315,6 @@ namespace Cryptool.XORBinary
 
         public void Initialize()
         {
-            // set input flags according to settings
-            if (settings.FlagInputOne) inputOneFlag = 1;
-            else inputOneFlag = -1;
-            if (settings.FlagInputTwo) inputTwoFlag = 1;
-            else inputTwoFlag = -1;
         }
 
         public void Dispose()
@@ -338,6 +341,11 @@ namespace Cryptool.XORBinary
 
         public void PreExecution()
         {
+            // set input flags according to settings
+            if (settings.FlagInputOne) inputOneFlag = 1;
+            else inputOneFlag = -1;
+            if (settings.FlagInputTwo) inputTwoFlag = 1;
+            else inputTwoFlag = -1;
         }
 
         #endregion

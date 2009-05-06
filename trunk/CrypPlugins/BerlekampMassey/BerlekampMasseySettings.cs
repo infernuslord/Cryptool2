@@ -205,215 +205,59 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Cryptool.PluginBase;
-using Cryptool.PluginBase.Cryptography;
-
 using System.IO;
+using Cryptool.PluginBase;
 using System.ComponentModel;
-using Cryptool.PluginBase.IO;
-using System.Windows.Controls;
-// for [MethodImpl(MethodImplOptions.Synchronized)]
-using System.Runtime.CompilerServices;
 
-namespace Cryptool.Majority
+namespace Cryptool.BerlekampMassey
 {
-    [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo(true, "Majority", "Computes the majority of three boolean inputs\n1, if sum(1)>=sum(0); 0 else", "Majority/DetailedDescription/Description.xaml", "Majority/Images/icon.png", "Majority/Images/icon.png", "Majority/Images/icon.png")]
-    public class Majority : IThroughput
+    public class BerlekampMasseySettings : ISettings
     {
+        #region Public Xor specific interface
+
+        /// <summary>
+        /// We use this delegate to send log messages from the settings class to the Xor plugin
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="msg"></param>
+        /// <param name="logLevel"></param>
+        public delegate void XorLogMessage(string msg, NotificationLevel logLevel);
+
+        /// <summary>
+        /// Fire if a new message has to be shown in the status bar
+        /// </summary>
+        public event XorLogMessage LogMessage;
+        
+        /// <summary>
+        /// Returns true if some settigns have been changed. This value should be set
+        /// externally to false e.g. when a project was saved.
+        /// </summary>
+        [PropertySaveOrder(0)]
+        public bool HasChanges
+        {
+            get { return hasChanges; }
+            set { hasChanges = value; }
+        }
+
+        #endregion
 
         #region Private variables
 
-        private MajoritySettings settings;
-        private bool inputOne;
-        private bool inputTwo;
-        private bool inputThree;
-        private bool output;
+        private bool hasChanges;
 
         #endregion
 
-        #region Public variables
-        public int inputOneFlag = -1;
-        public int inputTwoFlag = -1;
-        public int inputThreeFlag = -1;
-        #endregion
-
-        #region Public interface
-
-        /// <summary>
-        /// Contructor
-        /// </summary>
-        public Majority()
-        {
-            this.settings = new MajoritySettings();
-            ((MajoritySettings)(this.settings)).LogMessage += Xor_LogMessage;
-        }
-
-        /// <summary>
-        /// Get or set all settings for this algorithm
-        /// </summary>
-        public ISettings Settings
-        {
-            get { return (ISettings)this.settings;
-            }
-            set { this.settings = (MajoritySettings)value;
-            }
-        }
-
-        [PropertyInfo(Direction.Input, "Majority Input One", " ", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public bool InputOne
-        {
-            [MethodImpl(MethodImplOptions.Synchronized)]
-            get { return this.inputOne; }
-            [MethodImpl(MethodImplOptions.Synchronized)]
-            set
-            {
-                this.inputOne = value;
-                OnPropertyChanged("InputOne");
-                // clean inputOne
-                inputOneFlag = 1;
-            }
-        }
-
-        [PropertyInfo(Direction.Input, "Majority Input Two", " ", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public bool InputTwo
-        {
-            [MethodImpl(MethodImplOptions.Synchronized)]
-            get { return this.inputTwo; }
-            [MethodImpl(MethodImplOptions.Synchronized)]
-            set
-            {
-                this.inputTwo = value;
-                OnPropertyChanged("InputTwo");
-                // clean inputTwo
-                inputTwoFlag = 1;
-            }
-        }
-
-        [PropertyInfo(Direction.Input, "Majority Input Three", " ", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public bool InputThree
-        {
-            [MethodImpl(MethodImplOptions.Synchronized)]
-            get { return this.inputThree; }
-            [MethodImpl(MethodImplOptions.Synchronized)]
-            set
-            {
-                this.inputThree = value;
-                OnPropertyChanged("InputThree");
-                // clean inputTwo
-                inputThreeFlag = 1;
-            }
-        }
-
-        [PropertyInfo(Direction.Output, "Majority Output", " ", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public bool Output
-        {
-            [MethodImpl(MethodImplOptions.Synchronized)]
-            get
-            {
-                return output;
-            }
-            set
-            {   // is readonly
-            }
-        }
-
-        #endregion
-
-        #region IPlugin members
-
-        public void Initialize()
-        {
-        }
-
-        public void Dispose()
-        {
-        }
-
-        public UserControl Presentation
-        {
-            get { return null; }
-        }
-
-        public UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
-        public void Stop()
-        {
-        }
-
-        public void PostExecution()
-        {
-        }
-
-        public void PreExecution()
-        {
-            // set all inputs dirty
-            inputOneFlag = -1;
-            inputTwoFlag = -1;
-            inputThreeFlag = -1;
-        }
-
-        #endregion
 
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void OnPropertyChanged(string name)
+        protected void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
-        }
-
-        #endregion
-
-        #region Private methods
-
-        private void Xor_LogMessage(string msg, NotificationLevel logLevel)
-        {
-            /*if (OnGuiLogNotificationOccured != null)
-            {
-                OnGuiLogNotificationOccured(this, new GuiLogEventArgs(msg, this, logLevel));
-            }*/
-        }
-
-        #endregion
-
-        #region IPlugin Members
-
-#pragma warning disable 67
-        public event StatusChangedEventHandler OnPluginStatusChanged;
-        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
-#pragma warning restore
-
-        public void Execute()
-        {
-            if (inputOneFlag == 1 && inputTwoFlag == 1 && inputThreeFlag == 1)
-            {
-                // flag all inputs as dirty
-                inputOneFlag = -1;
-                inputTwoFlag = -1;
-                inputThreeFlag = -1;
-
-                // generate output
-                int cntZeros = 0;
-                int cntOnes = 0;
-                if (inputOne) cntOnes++; else cntZeros++;
-                if (inputTwo) cntOnes++; else cntZeros++;
-                if (inputThree) cntOnes++; else cntZeros++;
-                if (cntOnes >= cntZeros) output = true; else output = false;
-                OnPropertyChanged("Output");
-            }
-        }
-
-        public void Pause()
-        {
         }
 
         #endregion
