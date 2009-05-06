@@ -20,12 +20,14 @@ namespace Cryptool.Plugins.CLK
   {
     # region private variables
     private bool output;
+    private bool eventInput;
     private int timeout = 2000;
     private int rounds = 10;
     private Timer aTimer = new Timer();
     # endregion private variables
 
     public int myRounds;
+    public DateTime startTime;
 
     public CLK()
     {
@@ -73,6 +75,17 @@ namespace Cryptool.Plugins.CLK
         }
     }
 
+    [PropertyInfo(Direction.Input, "EventInput", "EventInput", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    public bool EventInput
+    {
+        get { return eventInput; }
+        set
+        {
+            eventInput = value;
+            OnPropertyChanged("EventInput");
+        }
+    }
+
 
     # endregion public interface
 
@@ -103,22 +116,42 @@ namespace Cryptool.Plugins.CLK
 
         myRounds = settings.Rounds;
         GuiLogMessage("myRounds: " + myRounds.ToString(), NotificationLevel.Info);
+
+        startTime = DateTime.Now;
     }
 
     public void Execute()
     {
-        if (settings.CLKTimeout <= 499)
+        if (settings.UseEvent)
         {
-            GuiLogMessage("Are you trying to generate bulk output? Please do not use CLK plugin for this purpose. Try setting the number of rounds in the corresponding plugin settings.", NotificationLevel.Warning);
+            if (myRounds != 0)
+            {
+                OnPropertyChanged("Output");
+                myRounds--;
+            }
+            else
+            {
+                // stop counter
+                DateTime stopTime = DateTime.Now;
+                // compute overall time
+                TimeSpan duration = stopTime - startTime;
+                GuiLogMessage("Overall time used: " + duration, NotificationLevel.Info);
+            }
         }
         else
         {
-            process(settings.CLKTimeout);
-            //change picture
-            if (settings.SetClockToTrue) StatusChanged((int)CLKImage.True);
-            else StatusChanged((int)CLKImage.False);
+            if (settings.CLKTimeout <= 499)
+            {
+                GuiLogMessage("Are you trying to generate bulk output? Please do not use CLK plugin for this purpose. Try setting the number of rounds in the corresponding plugin settings.", NotificationLevel.Warning);
+            }
+            else
+            {
+                process(settings.CLKTimeout);
+                //change picture
+                if (settings.SetClockToTrue) StatusChanged((int)CLKImage.True);
+                else StatusChanged((int)CLKImage.False);
+            }
         }
-        
     }
 
     private void process(int timeout)

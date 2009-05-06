@@ -24,7 +24,7 @@ using System.Text.RegularExpressions;
 namespace Cryptool.LFSR
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo(false, "LFSR", "Linear Feedback Shift Register (simple version)", "LFSR/DetailedDescription/Description.xaml", "LFSR/Images/LFSR.png", "LFSR/Images/encrypt.png", "LFSR/Images/decrypt.png")]
+    [PluginInfo(false, "LFSR", "Linear Feedback Shift Register", "LFSR/DetailedDescription/Description.xaml", "LFSR/Images/LFSR.png", "LFSR/Images/encrypt.png", "LFSR/Images/decrypt.png")]
     [EncryptionType(EncryptionType.SymmetricBlock)]
     public class LFSR : IThroughput
     {
@@ -35,6 +35,7 @@ namespace Cryptool.LFSR
         private String inputSeed;
         private CryptoolStream inputClock;
         private CryptoolStream outputStream;
+        private String outputString;
         private bool outputBool;
         private bool inputClockBool;
         private bool outputClockingBit;
@@ -51,7 +52,16 @@ namespace Cryptool.LFSR
         public String seedbuffer = "0";
         public String tapSequencebuffer = "1";
         public Char outputbuffer = '0';
-        public bool lastInputPropertyClock = false;
+        public bool lastInputPropertyWasBoolClock = false;
+
+        // for process()
+        public char[] tapSequenceCharArray = null;
+        public int seedBits = 1; // dummy value for compiler
+        public int actualRounds = 1; // dummy value for compiler
+        public Boolean myClock = true;
+        public char[] seedCharArray = null;
+        public int clocking;
+        public string outputStringBuffer = null;
 
         #endregion
 
@@ -83,7 +93,7 @@ namespace Cryptool.LFSR
             {
                 inputTapSequence = value;
                 OnPropertyChanged("InputTapSequence");
-                lastInputPropertyClock = false;
+                lastInputPropertyWasBoolClock = false;
             }
         }
 
@@ -97,7 +107,7 @@ namespace Cryptool.LFSR
             {
                 inputSeed = value;
                 OnPropertyChanged("InputSeed");
-                lastInputPropertyClock = false;
+                lastInputPropertyWasBoolClock = false;
             }
         }
         /*
@@ -135,11 +145,11 @@ namespace Cryptool.LFSR
             {
                 inputClockBool = value;
                 OnPropertyChanged("InputClockBool");
-                lastInputPropertyClock = true;
+                lastInputPropertyWasBoolClock = true;
             }
         }
 
-        [PropertyInfo(Direction.Output, "Output stream", "LFSR Stream Output. Use this fpr bulk output.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.Output, "Output stream", "LFSR Stream Output. Use this for bulk output.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public CryptoolStream OutputStream
         {
             //[MethodImpl(MethodImplOptions.Synchronized)]
@@ -163,6 +173,17 @@ namespace Cryptool.LFSR
             }
         }
 
+        [PropertyInfo(Direction.Output, "String Output", "Produces the output bits as a string with length==rounds. Use this output without a clock input.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public String OutputString
+        {
+            get { return outputString; }
+            set
+            {
+                outputString = value.ToString();
+                OnPropertyChanged("OutputString");
+            }
+        }
+
         [PropertyInfo(Direction.Output, "Boolean Output", "LFSR Boolean Output. Use this output together with a clock input.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool OutputBool
         {
@@ -170,7 +191,7 @@ namespace Cryptool.LFSR
             set
             {
                 outputBool = (bool)value;
-                OnPropertyChanged("OutputBool");
+                //OnPropertyChanged("OutputBool");
             }
         }
 
@@ -184,6 +205,14 @@ namespace Cryptool.LFSR
                 OnPropertyChanged("OutputClockingBit");
             }
         }
+        /*
+        private bool controllerOutput;
+        [ControllerProperty(Direction.Output, "Controller Output", "", DisplayLevel.Beginner)]
+        public object ControllerOutput
+        {
+            get { return controllerOutput; }
+            set { controllerOutput = (bool)value; }
+        }*/
 
         public void Dispose()
         {
@@ -191,6 +220,8 @@ namespace Cryptool.LFSR
             {
                 stop = false;
                 outputStream = null;
+                outputString = null;
+                outputStringBuffer = null;
                 inputClock = null;
                 inputTapSequence = null;
                 inputSeed = null;
@@ -309,7 +340,9 @@ namespace Cryptool.LFSR
             }
             if (gotX) strPolyBinary += 1;
             else strPolyBinary += 0;
-            strPolyBinary += 1;
+
+            strPolyBinary = new String(ReverseOrder(strPolyBinary.ToCharArray()));
+            //GuiLogMessage("strPolyBinary is: " + strPolyBinary, NotificationLevel.Info);
 
             return strPolyBinary;
         }
@@ -354,14 +387,16 @@ namespace Cryptool.LFSR
             //build polynomial
             for (int i = 0; i < tapSequence.Length; i++)
             {
-                power = (i - tapSequence.Length + 1) * -1 % tapSequence.Length;
+                power = (i - tapSequence.Length + 1) * -1 % tapSequence.Length + 1;
                 if (tempTapSequence[i] == '1')
                 {
                     if (power == 1) polynomial += "x + ";
                     else if (power != 0) polynomial += "x^" + power + " + ";
-                    else polynomial += "1";
+                    //else polynomial += "1";
                 }
             }
+            // add last "+1"
+            polynomial += "1";
 
             return  polynomial;
         }
@@ -379,158 +414,189 @@ namespace Cryptool.LFSR
             // check if event was from the boolean clock input
             // if so, check if boolean clock should be used
             // if not, do not process LFSR
-            if (lastInputPropertyClock)
+            if (lastInputPropertyWasBoolClock)
             {
                 if (!settings.UseBoolClock) return;
+            }
+                // if last event wasn't from the clock but clock shall be
+                // the only event to start from, do not go on
+            else
+            {
+                if (settings.UseBoolClock) return;
             }
             // process LFSR
             
             try
             {
-                checkForInputTapSequence();
-                checkForInputSeed();
-
-                if (inputSeed == null || (inputSeed != null && inputSeed.Length == 0))
-                {
-                    GuiLogMessage("No Seed given. Aborting now.", NotificationLevel.Error);
-                    if (!settings.UseBoolClock) inputClock.Close();
-                    return;
-                }
-
-                if (inputTapSequence == null || (inputTapSequence != null && inputTapSequence.Length == 0))
-                {
-                    GuiLogMessage("No TapSequence given. Aborting now.", NotificationLevel.Error);
-                    if (!settings.UseBoolClock) inputClock.Close();
-                    return;
-                }
-
-                // read tapSequence
-                tapSequencebuffer = inputTapSequence;
-                
-                // check if tapSequence is binary
-                bool tapSeqisBool = true;
-                foreach (char character in tapSequencebuffer)
-                {
-                    if (character != '0' && character != '1')
-                    {
-                        tapSeqisBool = false;
-                        //return;
-                    }
-                }
-
-                // if tapSequence is not binary, await polynomial
-                if (!tapSeqisBool)
-                {
-                    GuiLogMessage("TapSequence is not binary. Awaiting polynomial.", NotificationLevel.Info);
-                    if (IsPolynomial(tapSequencebuffer))
-                    {
-                        GuiLogMessage(tapSequencebuffer + " is a valid polynomial.", NotificationLevel.Info);
-                        tapSequencebuffer = MakeBinary(tapSequencebuffer);
-                        GuiLogMessage("Polynomial in binary form: " + tapSequencebuffer, NotificationLevel.Info);
-
-                        // check if polynomial has false length
-                        if (tapSequencebuffer.Length != inputSeed.Length)
-                        {
-                            /*// check if its too long
-                            if (inputSeed.Length - tapSequencebuffer.Length < 0)
-                            {
-                                GuiLogMessage("ERROR - Your polynomial " + tapSequencebuffer + " is TOO LONG (" + tapSequencebuffer.Length + " Bits) for your seed. Aborting now.", NotificationLevel.Error);
-                                if (!settings.UseBoolClock) inputClock.Close();
-                                return;
-                            }
-                            // seems to be too short, so fill it with zeros at the beginning
-                            else
-                            {
-                                for (int j = inputSeed.Length - tapSequencebuffer.Length; j > 0; j--)
-                                {
-                                    tapSequencebuffer = "0" + tapSequencebuffer;
-                                }
-                            }*/
-                            GuiLogMessage("ERROR - Your polynomial " + tapSequencebuffer + " has to be the same length (" + tapSequencebuffer.Length + " Bits) as your seed (" + inputSeed.Length + " Bits). Aborting now.", NotificationLevel.Error);
-                            if (!settings.UseBoolClock) inputClock.Close();
-                            return;
-                        }
-
-                        //GuiLogMessage("Polynomial after length fitting: " + tapSequencebuffer, NotificationLevel.Info);
-                    }
-                    else
-                    {
-                        GuiLogMessage("ERROR - " + tapSequencebuffer + " is NOT a valid polynomial. Aborting now.", NotificationLevel.Error);
-                        //Console.WriteLine("\n{0} is NOT a valid polynomial.", tapSequencebuffer);
-                        if (!settings.UseBoolClock) inputClock.Close();
-                        return;
-                    }
-                }
-
-                // convert tapSequence into char array
-                char[] tapSequenceCharArray = ReverseOrder(tapSequencebuffer.ToCharArray());
-
-                if (tapSequencebuffer.Length != inputSeed.Length)
-                {
-                    // stop, because seed and tapSequence must have same length
-                    GuiLogMessage("ERROR - Seed and tapSequence must have same length. Aborting now.", NotificationLevel.Error);
-                    if (!settings.UseBoolClock) inputClock.Close();
-                    return;
-                }
-
-                int tapSequenceBits = inputTapSequence.Length;
-                int seedBits = inputSeed.Length;
-
-                GuiLogMessage("inputTapSequence length [bits]: " + tapSequenceBits.ToString(), NotificationLevel.Debug);
-                GuiLogMessage("inputSeed length [bits]: " + seedBits.ToString(), NotificationLevel.Debug);
-
-                //read seed only one time until stop of chain
-                if (newSeed)
-                {
-                    seedbuffer = inputSeed;
-                    newSeed = false;
-                }
-
-                //check if last and first tap is 1, otherwise stop
-                if (tapSequenceCharArray[tapSequenceCharArray.Length - 1] == '0')
-                {
-                    GuiLogMessage("ERROR - Last tap of tapSequence must be 1. Aborting now.", NotificationLevel.Error);
-                    return;
-                }
-                else if (tapSequenceCharArray[0] == '0')
-                {
-                    GuiLogMessage("ERROR - First tap of tapSequence must be 1. Aborting now.", NotificationLevel.Error);
-                    return;
-                }
-
-                // convert seed into char array
-                char[] seedCharArray = seedbuffer.ToCharArray();
-
-                // check if seed is binary
-                foreach (char character in seedCharArray)
-                {
-                    if (character != '0' && character != '1')
-                    {
-                        GuiLogMessage("ERROR 0 - Seed has to be binary. Aborting now. Character is: " + character, NotificationLevel.Error);
-                        return;
-                    }
-                }
-                int clocking;
-                if (settings.UseClockingBit) clocking = settings.ClockingBit; else clocking = -1;
-                lFSRPresentation.DrawLFSR(seedCharArray, tapSequenceCharArray, clocking);
+                /*char[] tapSequenceCharArray = null;
+                int seedBits = 1; // dummy value for compiler
+                int actualRounds = 1; // dummy value for compiler
+                Boolean myClock = true;
+                char[] seedCharArray = null;
 
                 // open output stream
                 outputStream = new CryptoolStream();
                 listCryptoolStreamsOut.Add(outputStream);
                 outputStream.OpenWrite(this.GetPluginInfoAttribute().Caption);
+                */
 
+                // make all this stuff only one time at the beginning of our chainrun
+                if (newSeed)
+                {
+                    checkForInputTapSequence();
+                    checkForInputSeed();
+
+                    if (inputSeed == null || (inputSeed != null && inputSeed.Length == 0))
+                    {
+                        GuiLogMessage("No Seed given. Aborting now.", NotificationLevel.Error);
+                        if (!settings.UseBoolClock) inputClock.Close();
+                        return;
+                    }
+
+                    if (inputTapSequence == null || (inputTapSequence != null && inputTapSequence.Length == 0))
+                    {
+                        GuiLogMessage("No TapSequence given. Aborting now.", NotificationLevel.Error);
+                        if (!settings.UseBoolClock) inputClock.Close();
+                        return;
+                    }
+
+                    // read tapSequence
+                    tapSequencebuffer = inputTapSequence;
+
+                    // check if tapSequence is binary
+                    bool tapSeqisBool = true;
+                    foreach (char character in tapSequencebuffer)
+                    {
+                        if (character != '0' && character != '1')
+                        {
+                            tapSeqisBool = false;
+                            //return;
+                        }
+                    }
+
+                    // if tapSequence is not binary, await polynomial
+                    if (!tapSeqisBool)
+                    {
+                        GuiLogMessage("TapSequence is not binary. Awaiting polynomial.", NotificationLevel.Info);
+                        if (IsPolynomial(tapSequencebuffer))
+                        {
+                            GuiLogMessage(tapSequencebuffer + " is a valid polynomial.", NotificationLevel.Info);
+                            tapSequencebuffer = MakeBinary(tapSequencebuffer);
+                            GuiLogMessage("Polynomial in binary form: " + tapSequencebuffer, NotificationLevel.Info);
+
+                            // check if polynomial has false length
+                            if (tapSequencebuffer.Length != inputSeed.Length)
+                            {
+                                /*// check if its too long
+                                if (inputSeed.Length - tapSequencebuffer.Length < 0)
+                                {
+                                    GuiLogMessage("ERROR - Your polynomial " + tapSequencebuffer + " is TOO LONG (" + tapSequencebuffer.Length + " Bits) for your seed. Aborting now.", NotificationLevel.Error);
+                                    if (!settings.UseBoolClock) inputClock.Close();
+                                    return;
+                                }
+                                // seems to be too short, so fill it with zeros at the beginning
+                                else
+                                {
+                                    for (int j = inputSeed.Length - tapSequencebuffer.Length; j > 0; j--)
+                                    {
+                                        tapSequencebuffer = "0" + tapSequencebuffer;
+                                    }
+                                }*/
+                                GuiLogMessage("ERROR - Your polynomial " + tapSequencebuffer + " has to be the same length (" + tapSequencebuffer.Length + " Bits) as your seed (" + inputSeed.Length + " Bits). Aborting now.", NotificationLevel.Error);
+                                if (!settings.UseBoolClock) inputClock.Close();
+                                return;
+                            }
+
+                            //GuiLogMessage("Polynomial after length fitting: " + tapSequencebuffer, NotificationLevel.Info);
+                        }
+                        else
+                        {
+                            GuiLogMessage("ERROR - " + tapSequencebuffer + " is NOT a valid polynomial. Aborting now.", NotificationLevel.Error);
+                            //Console.WriteLine("\n{0} is NOT a valid polynomial.", tapSequencebuffer);
+                            if (!settings.UseBoolClock) inputClock.Close();
+                            return;
+                        }
+                    }
+
+                    // convert tapSequence into char array
+                    //tapSequenceCharArray = ReverseOrder(tapSequencebuffer.ToCharArray());
+                    tapSequenceCharArray = tapSequencebuffer.ToCharArray();
+
+                    if (tapSequencebuffer.Length != inputSeed.Length)
+                    {
+                        // stop, because seed and tapSequence must have same length
+                        GuiLogMessage("ERROR - Seed and tapSequence must have same length. Aborting now.", NotificationLevel.Error);
+                        if (!settings.UseBoolClock) inputClock.Close();
+                        return;
+                    }
+
+                    int tapSequenceBits = inputTapSequence.Length;
+                    seedBits = inputSeed.Length;
+
+                    GuiLogMessage("inputTapSequence length [bits]: " + tapSequenceBits.ToString(), NotificationLevel.Debug);
+                    GuiLogMessage("inputSeed length [bits]: " + seedBits.ToString(), NotificationLevel.Debug);
+
+                    //read seed only one time until stop of chain
+                    seedbuffer = inputSeed;
+                    newSeed = false;
+
+                    //check if last tap is 1, otherwise stop
+                    if (tapSequenceCharArray[tapSequenceCharArray.Length - 1] == '0')
+                    {
+                        GuiLogMessage("ERROR - Last tap of tapSequence must be 1. Aborting now.", NotificationLevel.Error);
+                        return;
+                    }
+
+                    // convert seed into char array
+                    seedCharArray = seedbuffer.ToCharArray();
+
+                    // check if seed is binary
+                    foreach (char character in seedCharArray)
+                    {
+                        if (character != '0' && character != '1')
+                        {
+                            GuiLogMessage("ERROR 0 - Seed has to be binary. Aborting now. Character is: " + character, NotificationLevel.Error);
+                            return;
+                        }
+                    }
+                    if (settings.UseClockingBit) clocking = settings.ClockingBit; else clocking = -1;
+
+                    /*// check which clock to use
+                    if (settings.UseBoolClock)
+                    {
+                        myClock = inputClockBool;
+                    }
+                    else if (!settings.UseBoolClock)
+                    {
+                        // read stream clock
+                        checkForInputClock();
+                        inputClock.OpenWrite("LFSR Restart");
+                        String stringClock = inputClock.ReadByte().ToString();
+                        inputClock.Position = 0;
+                        if (String.Equals(stringClock, "49")) myClock = true; else myClock = false;
+                        //inputClock.Close();
+                    }*/
+
+                    // check if Rounds are given
+                    int defaultRounds = 1;
+
+                    // check if Rounds in settings are given and use them only if no bool clock is selected
+                    if (!settings.UseBoolClock)
+                    {
+                        if (settings.Rounds == 0) actualRounds = defaultRounds; else actualRounds = settings.Rounds;
+                    }
+                    else actualRounds = 1;
+                }
                 
-
+                // Here we go!
                 // check which clock to use
-                Boolean myClock = true;
-
                 if (settings.UseBoolClock)
                 {
                     myClock = inputClockBool;
                 }
                 else if (!settings.UseBoolClock)
                 {
-                    // read stream clocks
+                    // read stream clock
                     checkForInputClock();
                     inputClock.OpenWrite("LFSR Restart");
                     String stringClock = inputClock.ReadByte().ToString();
@@ -539,25 +605,24 @@ namespace Cryptool.LFSR
                     //inputClock.Close();
                 }
 
-                // check if Rounds are given
-                int defaultRounds = 1;
-                int actualRounds;
-
-                // check if Rounds in settings are given and use them only if no bool clock is selected
-                if (!settings.UseBoolClock)
+                // draw LFSR Quickwatch
+                if (!settings.NoQuickwatch)
                 {
-                    if (settings.Rounds == 0) actualRounds = defaultRounds; else actualRounds = settings.Rounds;
+                    lFSRPresentation.DrawLFSR(seedCharArray, tapSequenceCharArray, clocking);
                 }
-                else actualRounds = 1;
-                
-                // Here we go!
+
+                // open output stream
+                outputStream = new CryptoolStream();
+                listCryptoolStreamsOut.Add(outputStream);
+                outputStream.OpenWrite(this.GetPluginInfoAttribute().Caption);
+
                 //GuiLogMessage("Action is: Now!", NotificationLevel.Debug);
                 DateTime startTime = DateTime.Now;
 
                 //////////////////////////////////////////////////////
                 // compute LFSR //////////////////////////////////////
                 //////////////////////////////////////////////////////
-                GuiLogMessage("Starting computation", NotificationLevel.Info);
+                GuiLogMessage("Starting computation", NotificationLevel.Debug);
                 
                 int i = 0;
                 
@@ -573,9 +638,10 @@ namespace Cryptool.LFSR
                         else outputBool = true;
                         //GuiLogMessage("OutputBool is: " + outputBool.ToString(), NotificationLevel.Info);
 
-                        // write last bit to output buffer, stream and bool
+                        // write last bit to output buffer, output stream buffer, stream and bool
                         outputbuffer = seedCharArray[seedBits - 1];
                         outputStream.Write((Byte)outputbuffer);
+                        if (!settings.UseBoolClock) outputStringBuffer += seedCharArray[seedBits - 1];
 
                         // update outputs
                         OnPropertyChanged("OutputBool");
@@ -586,7 +652,7 @@ namespace Cryptool.LFSR
 
                         // compute new bit
                         bool firstDone = false;
-                        for (int j = 1; j < seedBits; j++)
+                        for (int j = 0; j < seedBits; j++)
                         {
                             // check if tapSequence is 1
                             if (tapSequenceCharArray[j] == '1')
@@ -611,11 +677,15 @@ namespace Cryptool.LFSR
                         for (int j = seedBits - 1; j > 0; j--)
                         {
                             seedCharArray[j] = seedCharArray[j - 1];
+                            //GuiLogMessage("seedCharArray[" + j + "] is: " + seedCharArray[j], NotificationLevel.Info);
                         }
                         seedCharArray[0] = newBit;
 
                         //update quickwatch presentation
-                        lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, outputBit, BuildPolynomialFromBinary(tapSequenceCharArray));
+                        if (!settings.NoQuickwatch)
+                        {
+                            lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, outputBit, BuildPolynomialFromBinary(tapSequenceCharArray));
+                        }
 
                         // write current "seed" back to seedbuffer
                         seedbuffer = null;
@@ -630,28 +700,52 @@ namespace Cryptool.LFSR
                         if (settings.AlwaysCreateOutput)
                         {
                             /////////
-                            // but nevertheless fire an output event with old value
+                            // but nevertheless fire an output event with dirty value / old value
                             /////////
-                            // make bool output
-                            if (seedCharArray[seedBits - 1] == '0') outputBool = false;
-                            else outputBool = true;
-                            //GuiLogMessage("OutputBool is: " + outputBool.ToString(), NotificationLevel.Info);
+                            if (settings.CreateDirtyOutputOnFalseClock)
+                            {
+                                outputBool = false;
+                                outputbuffer = '2';
+                                outputStream.Write((Byte)outputbuffer);
 
-                            // write last bit to output buffer, stream and bool
-                            outputbuffer = seedCharArray[seedBits - 1];
-                            outputStream.Write((Byte)outputbuffer);
+                                OnPropertyChanged("OutputBool");
+                                OnPropertyChanged("OutputStream");
 
-                            OnPropertyChanged("OutputBool");
-                            OnPropertyChanged("OutputStream");
+                                //update quickwatch presentation
+                                if (!settings.NoQuickwatch)
+                                {
+                                    lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, '2', BuildPolynomialFromBinary(tapSequenceCharArray));
+                                }
+                            }
+                            else
+                            {
+                                // make bool output
+                                if (seedCharArray[seedBits - 1] == '0') outputBool = false;
+                                else outputBool = true;
+                                //GuiLogMessage("OutputBool is: " + outputBool.ToString(), NotificationLevel.Info);
 
-                            //update quickwatch presentation
-                            lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, seedCharArray[seedBits - 1], BuildPolynomialFromBinary(tapSequenceCharArray));
+                                // write last bit to output buffer, stream and bool
+                                outputbuffer = seedCharArray[seedBits - 1];
+                                outputStream.Write((Byte)outputbuffer);
+
+                                OnPropertyChanged("OutputBool");
+                                OnPropertyChanged("OutputStream");
+
+                                //update quickwatch presentation
+                                if (!settings.NoQuickwatch)
+                                {
+                                    lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, seedCharArray[seedBits - 1], BuildPolynomialFromBinary(tapSequenceCharArray));
+                                }
+                            }
                             /////////
                         }
                         else
                         {
                             // update quickwatch with current state but without any output bit
-                            lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, ' ', BuildPolynomialFromBinary(tapSequenceCharArray));
+                            if (!settings.NoQuickwatch)
+                            {
+                                lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, ' ', BuildPolynomialFromBinary(tapSequenceCharArray));
+                            }
                         }
 
                         //GuiLogMessage("LFSR Clock is 0, no computation.", NotificationLevel.Info);
@@ -674,9 +768,16 @@ namespace Cryptool.LFSR
 
                 if (!stop)
                 {
-                    GuiLogMessage("Complete!", NotificationLevel.Info);
+                    // finally write output string if no bool-clock was used
+                    if (!settings.UseBoolClock)
+                    {
+                        outputString = outputStringBuffer;
+                        OnPropertyChanged("OutputString");
+                    }
 
-                    GuiLogMessage("Time used: " + duration, NotificationLevel.Info);
+                    GuiLogMessage("Complete!", NotificationLevel.Debug);
+
+                    GuiLogMessage("Time used: " + duration, NotificationLevel.Debug);
                     outputStream.Close();
                     if (!settings.UseBoolClock) inputClock.Close();
                     OnPropertyChanged("OutputStream");
@@ -686,7 +787,7 @@ namespace Cryptool.LFSR
                 {
                     outputStream.Close();
                     if (!settings.UseBoolClock) inputClock.Close();
-                    GuiLogMessage("Aborted!", NotificationLevel.Info);
+                    GuiLogMessage("Aborted!", NotificationLevel.Debug);
                 }
             }
             catch (Exception exception)

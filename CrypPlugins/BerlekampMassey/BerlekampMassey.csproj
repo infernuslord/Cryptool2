@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7CB63D6E-10F0-413B-AEF8-2D6727F2C0BB}</ProjectGuid>
+    <ProjectGuid>{07BBFCE4-CAFB-41F4-A888-6D847D6DC3F9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cryptool.ANDBinary</RootNamespace>
-    <AssemblyName>ANDBinary</AssemblyName>
+    <RootNamespace>Cryptool.BerlekampMassey</RootNamespace>
+    <AssemblyName>BerlekampMassey</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
@@ -57,8 +57,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ANDBinary.cs" />
-    <Compile Include="ANDBinarySettings.cs" />
+    <Compile Include="BerlekampMassey.cs" />
+    <Compile Include="BerlekampMasseySettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="key.snk" />
@@ -78,11 +78,6 @@
       <SubType>Designer</SubType>
     </Resource>
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\iconInput1Inverted.png" />
-    <Resource Include="Images\iconInput2Inverted.png" />
-    <Resource Include="Images\iconOutputInverted.png" />
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -96,7 +91,7 @@
 cd ..\..\CrypWin\$(OutDir)
 if not exist "./CrypPlugins" mkdir "./CrypPlugins"
 
-del /F /S /Q /s /q "ANDBinary*.*"
-copy "$(TargetDir)ANDBinary*.*" "./CrypPlugins"</PostBuildEvent>
+del /F /S /Q /s /q "BerlekampMassey*.*"
+copy "$(TargetDir)BerlekampMassey*.*" "./CrypPlugins"</PostBuildEvent>
   </PropertyGroup>
 </Project>

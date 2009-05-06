@@ -24,13 +24,27 @@ namespace Cryptool.LFSR
         private int rounds = 1; //how many bits will be generated
         //[ContextMenu("Rounds", "How many bits shall be generated?", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 10, 50, 100 }, "10 bits", "50 bits", "100 bits")]
         //[TaskPane("Rounds", "How many bits shall be generated?", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
-        [TaskPane("Number of rounds", "How many bits shall be generated? Note: This only applies if no boolean clock is used.", null, 2, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        [TaskPane("Number of rounds", "How many bits shall be generated? Note: This only applies if no boolean clock is used.", null, 0, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int Rounds
         {
             get { return this.rounds; }
             set { 
                 this.rounds = value;
                 OnPropertyChanged("Rounds");
+                HasChanges = true;
+            }
+        }
+
+        private bool noQuickwatch = false;
+        [ContextMenu("Do not display Quickwatch", "With this checkbox enabled, no quickwatch will be generated for better performance.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Display Quickwatch?" })]
+        [TaskPane("Do not display Quickwatch", "With this checkbox enabled, no quickwatch will be generated for better performance.", null, 1, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+        public bool NoQuickwatch
+        {
+            get { return this.noQuickwatch; }
+            set
+            {
+                this.noQuickwatch = (bool)value;
+                OnPropertyChanged("NoQuickwatch");
                 HasChanges = true;
             }
         }
@@ -86,6 +100,20 @@ namespace Cryptool.LFSR
             {
                 this.alwaysCreateOutput = (bool)value;
                 OnPropertyChanged("AlwaysCreateOutput");
+                HasChanges = true;
+            }
+        }
+
+        private bool createDirtyOutputOnFalseClock = false;
+        [ContextMenu("Create dirty output on false clock", "With this checkbox enabled, an the output is the dirty (-1) if the clock is set to false.", 2, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Create dirty output?" })]
+        [TaskPane("Create dirty output on false clock", "With this checkbox enabled, an the output is the dirty (-1) if the clock is set to false.", "Clock Properties", 2, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+        public bool CreateDirtyOutputOnFalseClock
+        {
+            get { return this.createDirtyOutputOnFalseClock; }
+            set
+            {
+                this.createDirtyOutputOnFalseClock = (bool)value;
+                OnPropertyChanged("CreateDirtyOutputOnFalseClock");
                 HasChanges = true;
             }
         }
