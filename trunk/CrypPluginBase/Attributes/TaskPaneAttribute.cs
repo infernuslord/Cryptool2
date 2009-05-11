@@ -202,6 +202,7 @@
 */
 
 using System;
+using System.Reflection;
 
 namespace Cryptool.PluginBase
 {
@@ -262,6 +263,20 @@ namespace Cryptool.PluginBase
         // TODO: can this attribute be deleted?
         public readonly string SourcePropertyName;
         public bool ChangeableWhileExecuting;
+
+        private MethodInfo method;
+
+        public MethodInfo Method
+        {
+          get { return method; }
+          set 
+          {
+            if (method == null)
+              method = value; 
+            else
+              throw new ArgumentException("This setter should only be accessed once.");
+          }
+        }
 
         private string propertyName;
         public string PropertyName
