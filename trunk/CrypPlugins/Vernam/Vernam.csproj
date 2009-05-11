@@ -63,10 +63,6 @@
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\SSCext\SSCext.csproj">
-      <Project>{E46A6AA6-56EE-4AE5-8725-DCD07DC95527}</Project>
-      <Name>SSCext</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="DetailedDescription\Description.xaml">
