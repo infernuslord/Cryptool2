@@ -2405,7 +2405,7 @@
         </member>
         <member name="P:AnotherEditor.DragDrop.Connectors.Connector.IsController">
             <summary>
-            Gets a value indicating whether this instance is controller.
+            Gets or sets a value indicating whether this instance is controller.
             </summary>
             <value>
             	<c>true</c> if this instance is controller; otherwise, <c>false</c>.
@@ -3085,6 +3085,11 @@
         <member name="P:AnotherEditor.Properties.Dialogs.user_control_double_use_warning">
             <summary>
               Looks up a localized string similar to This plugin uses the same UserControl for Presentation and QuickWatchPresentation. QuickWatchPresentation is opened right now - so presentation can&apos;t be displayed in tab again. Close QuickWatch-View and try to open the presentation again..
+            </summary>
+        </member>
+        <member name="P:AnotherEditor.Properties.Dialogs.warning_dropped_event_data">
+            <summary>
+              Looks up a localized string similar to Data events were fired to fast, hence packet from {0} to {1} was dropped..
             </summary>
         </member>
         <member name="P:AnotherEditor.Properties.Dialogs.workspace">
