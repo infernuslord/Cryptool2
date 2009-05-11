@@ -443,11 +443,15 @@ namespace Cryptool.PluginBase
 
         public static SettingsFormatAttribute GetSettingsFormat(this ISettings settings, string propertyName)
         {
+          if (settings == null || propertyName == null || propertyName == string.Empty)
+            return null;
           return GetSettingsFormat(settings.GetType(), propertyName);
         }
 
         public static SettingsFormatAttribute GetSettingsFormat(this Type type, string propertyName)
         {
+          if (type == null || propertyName == null || propertyName == string.Empty)
+            return null;
           try
           {
             if (type.GetProperty(propertyName) != null)
