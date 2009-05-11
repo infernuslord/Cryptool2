@@ -423,7 +423,7 @@ namespace Cryptool.PluginBase
                 if (attributes != null && attributes.Length == 1)
                 {
                   TaskPaneAttribute attr = attributes[0];
-                  attr.PropertyName = mInfo.Name;
+                  attr.Method = mInfo;
                   // does plugin have a resource file for translation?
                   if (plugin.GetType().GetPluginInfoAttribute().ResourceFile != null)
                     attr.PluginType = plugin.GetType();
