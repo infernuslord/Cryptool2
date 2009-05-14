@@ -258,7 +258,10 @@ namespace FileInput
     public void CloseFile()
     {
       OpenFilename = null;
+      FI.doit();
     }
+
+    public FileInput.FileInputClass FI;
 
     #region INotifyPropertyChanged Members
 
