@@ -236,7 +236,6 @@ namespace FileInput
       Presentation = fileInputPresentation;
       fileInputPresentation.UscHexBoc.OnExceptionOccured += UscHexBoc_OnExceptionOccured;
       fileInputPresentation.UscHexBoc.OnInformationOccured += UscHexBoc_OnInformationOccured;
-      settings.FI = this;
     }
 
     void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -397,25 +396,6 @@ namespace FileInput
     {
     }
 
-    [ControllerProperty(Direction.Input, "Controller Input", "", DisplayLevel.Beginner)]
-    public object ControllerInput
-    {
-      get { return controllerInput; }
-      set { controllerInput = value; }
-    }
-    private object controllerInput;
-    private object controllerOutput;
-
-    [ControllerProperty(Direction.Output, "Controller Output", "", DisplayLevel.Beginner)]
-    public object ControllerOutput
-    {
-      get { return controllerOutput; }
-      set { controllerOutput = value; }
-    }
-    public void doit()
-    {
-      OnPropertyChanged("ControllerOutput");
-    }
     #endregion
   }
 }
