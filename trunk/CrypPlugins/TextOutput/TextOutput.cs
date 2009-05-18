@@ -337,6 +337,8 @@ namespace TextOutput
           return typeof(bool);
         case TextOutputSettings.DynamicDataTypes.Integer:
           return typeof(int);
+        case TextOutputSettings.DynamicDataTypes.Double:
+          return typeof(double);
         case TextOutputSettings.DynamicDataTypes.Object:
           return typeof(object);
         default:
@@ -367,6 +369,8 @@ namespace TextOutput
           case TextOutputSettings.DynamicDataTypes.Boolean:
             return DicDynamicProperties[name].Value;
           case TextOutputSettings.DynamicDataTypes.Integer:
+            return DicDynamicProperties[name].Value;
+          case TextOutputSettings.DynamicDataTypes.Double:
             return DicDynamicProperties[name].Value;
           case TextOutputSettings.DynamicDataTypes.Object:
             return DicDynamicProperties[name].Value;
@@ -406,6 +410,10 @@ namespace TextOutput
         else if (value is int)
         {
           fillValue = ((int)value).ToString();
+        }
+        else if (value is double)
+        {
+            fillValue = ((double)value).ToString();
         }
         else if (value is bool)
         {
