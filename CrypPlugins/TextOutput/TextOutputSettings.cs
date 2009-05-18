@@ -224,7 +224,7 @@ namespace TextOutput
     public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 
     public enum EncodingTypes { Default = 0, Unicode = 1, UTF7 = 2, UTF8 = 3, UTF32 = 4, ASCII = 5, BigEndianUnicode = 6 };
-    public enum DynamicDataTypes { CryptoolStream, String, ByteArray, Boolean, Integer , Object};
+    public enum DynamicDataTypes { CryptoolStream, String, ByteArray, Boolean, Integer , Double, Object};
     public enum PresentationFormat { Text, Hex, Base64 }
 
     public bool CanChangeProperty { get; set; }
@@ -378,7 +378,7 @@ namespace TextOutput
       }
     }
 
-    [TaskPane("Type", "Select DataType of plugin.", "", 4, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "CryptoolStream", "string", "byte[]", "boolean", "int", "object" })]
+    [TaskPane("Type", "Select DataType of plugin.", "", 4, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "CryptoolStream", "string", "byte[]", "boolean", "int", "double", "object" })]
     public int DataType
     {
       get { return (int)CurrentDataType; }
