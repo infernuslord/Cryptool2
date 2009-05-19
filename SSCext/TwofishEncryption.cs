@@ -133,24 +133,16 @@ namespace System.Security.Cryptography
         if (inputCount > 0)
         {
           outputBuffer = new byte[16]; // blocksize
-          byte[] tmp = new byte[16];
           uint[] x=new uint[4];
 
-        
-          // Padding
-          Array.Clear(tmp, 0, tmp.Length);
-          for (int i = 0; i < inputCount; i++)
-              tmp[i] = inputBuffer[inputOffset + i];
-
-        
           // load it up
           for (int i=0; i < 4; i++) // should be okay as we have already said to pad with zeros
           {
             x[i] = 
-              (uint)(tmp[i * 4 + 3] << 24) | 
-              (uint)(tmp[i * 4 + 2] << 16) |
-              (uint)(tmp[i * 4 + 1] <<  8) | 
-              (uint)(tmp[i * 4 + 0]      );
+              (uint)(inputBuffer[i * 4 + 3 + inputOffset] << 24) | 
+              (uint)(inputBuffer[i * 4 + 2 + inputOffset] << 16) |
+              (uint)(inputBuffer[i * 4 + 1 + inputOffset] <<  8) | 
+              (uint)(inputBuffer[i * 4 + 0 + inputOffset]      );
 
           }
 
@@ -177,16 +169,7 @@ namespace System.Security.Cryptography
           outputBuffer = new byte[0]; // the .NET framework doesn't like it if you return null - this calms it down
         }
 
-        if (encryptionDirection == EncryptionDirection.Encrypting)
-            return outputBuffer;
-
-        int len = 15;
-        while(len >= 0 && outputBuffer[len] == 0) len--;
-
-        byte[] erg = new byte[len + 1];
-
-        Array.Copy(outputBuffer, erg, len + 1);
-        return erg;
+        return outputBuffer;
       }
 
       // not worked out this property yet - placing break points here just don't get caught.
