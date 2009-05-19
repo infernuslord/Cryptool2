@@ -106,12 +106,13 @@ namespace Tests
         "0123456789ABCDEFFEDCBA987654321000112233445566778899AABBCCDDEEFF",
       };
 
-      byte[] iv =   { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
       ASCIIEncoding enc = new ASCIIEncoding();
 
       for (int i = 0; i < source.Length; i++)
       {
+        byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        
         testContextInstance.WriteLine(" Test " + i.ToString());
         testContextInstance.WriteLine(" data = " + source[i]);
 
@@ -123,17 +124,6 @@ namespace Tests
         ICryptoTransform encrypt =  tf.CreateEncryptor(myKey, iv);
 
         byte[] plain = ConvertHexToByte(source[i]);
-
-        //int olength = plain.Length;
-        //olength += (16 - (olength % 16));
-        
-        //byte[] code = new byte[olength];
-
-        //int pos = 0;
-        //while (plain.Length > 16)
-        //{
-        //  encrypt.TransformBlock(plain, pos, 16, ref code, pos);
-        //}
         
         byte[] code = encrypt.TransformFinalBlock(plain, 0, plain.Length);
 
