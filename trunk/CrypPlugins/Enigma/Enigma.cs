@@ -560,50 +560,47 @@ namespace Cryptool.Enigma
 
             // get the position of each rotor
             char[] key = settings.Key.ToCharArray();
-            int keyIndex = key.Length - 1;
             int rotor4Pos = 0;
             if (settings.Model == 4 && key.Length == 4)
             {
                 // M4 "Shark" uses 4 rotors
                 rotor4Pos = settings.Alphabet.IndexOf(key[0]);
             }
-            int rotor1Pos = settings.Alphabet.IndexOf(key[keyIndex--]);
-            int rotor2Pos = settings.Alphabet.IndexOf(key[keyIndex--]);
-            int rotor3Pos = settings.Alphabet.IndexOf(key[keyIndex]);
+            int rotor1Pos = settings.Alphabet.IndexOf(key[key.Length - 1]);
+            int rotor2Pos = settings.Alphabet.IndexOf(key[key.Length - 2]);
+            int rotor3Pos = settings.Alphabet.IndexOf(key[key.Length - 3]);
 
 
             //check notches and update the rotor position
-            keyIndex = key.Length - 1;
             foreach (char n in rotor1notches)
             {
-                if (n == key[keyIndex--]) rotor2Pos = (rotor2Pos + 1) % aLength;    
+                if (n == key[key.Length - 1]) rotor2Pos = (rotor2Pos + 1) % aLength;    
             }
 
             foreach (char n in rotor2notches)
             {
-                if (n == key[keyIndex--]) rotor3Pos = (rotor3Pos + 1) % aLength;
+                if (n == key[key.Length - 2]) rotor3Pos = (rotor3Pos + 1) % aLength;
             }
 
             foreach (char n in rotor3notches)
             {
-                if (n == key[keyIndex]) rotor4Pos = (rotor4Pos + 1) % aLength;
+                if (n == key[key.Length - 3]) rotor4Pos = (rotor4Pos + 1) % aLength;
             }
 
             rotor1Pos = (rotor1Pos + 1) % aLength;
-            keyIndex = key.Length - 1;
-            
-            key[keyIndex--] = A[rotor1Pos];
-            key[keyIndex--] = A[rotor2Pos];
-            key[keyIndex--] = A[rotor3Pos];
-            if (settings.Model == 4 && key.Length == 4) key[keyIndex] = A[rotor4Pos];
+
+            key[key.Length - 1] = A[rotor1Pos];
+            key[key.Length - 2] = A[rotor2Pos];
+            key[key.Length - 3] = A[rotor3Pos];
+            if (settings.Model == 4 && key.Length == 4) key[0] = A[rotor4Pos];
 
             // write back the updated rotor settings
             settings.Key = new string(key);
 
             //add the ring-offset
-            rotor1Pos = (aLength + rotor1Pos - settings.Ring1) % 26;
-            rotor2Pos = (aLength + rotor2Pos - settings.Ring2) % 26;
-            rotor3Pos = (aLength + rotor3Pos - settings.Ring3) % 26;
+            rotor1Pos = (aLength + rotor1Pos - (settings.Ring1 - 1)) % aLength;
+            rotor2Pos = (aLength + rotor2Pos - (settings.Ring2 - 1)) % aLength;
+            rotor3Pos = (aLength + rotor3Pos - (settings.Ring3 - 1)) % aLength;
 
             // now do the substitution
             ch = A[aLength + A.IndexOf(rotor1For[aLength + A.IndexOf(ch) + rotor1Pos]) - rotor1Pos];
