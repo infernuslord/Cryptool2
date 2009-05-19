@@ -241,10 +241,10 @@ namespace Cryptool.Enigma
         private int rotor3 = 2;
         private int rotor4 = 0;
 
-        private int ring1 = 0;
-        private int ring2 = 0;
-        private int ring3 = 0;
-        private int ring4 = 0;
+        private int ring1 = 1; // 01 = A, 02 = B ...
+        private int ring2 = 1; 
+        private int ring3 = 1;
+        private int ring4 = 1;
 
         private int reflector = 1;
 
@@ -628,51 +628,63 @@ namespace Cryptool.Enigma
 
         #region Used ring settings
 
-        [TaskPane("Ring 1 (right)", "Select the the offset for ring 1", "Ring settings", 20, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger,0,26)]
+        [TaskPane("Ring 1 (right)", "Select the the offset for ring 1", "Ring settings", 20, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger,1,26)]
         public int Ring1
         {
-            get { return this.ring1; }
+            get { return ring1; }
             set
             {
-                if (((int)value) != ring1) hasChanges = true;
-                this.ring1 = (int)value;
-                OnPropertyChanged("Ring1");
+                if (value != ring1)
+                {
+                    hasChanges = true;
+                    ring1 = value;
+                    OnPropertyChanged("Ring1");
+                }
             }
         }
 
-        [TaskPane("Ring 2", "Select the the offset for ring 2", "Ring settings", 21, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 26)]
+        [TaskPane("Ring 2", "Select the the offset for ring 2", "Ring settings", 21, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 26)]
         public int Ring2
         {
-            get { return this.ring2; }
+            get { return ring2; }
             set
             {
-                if (((int)value) != ring2) hasChanges = true;
-                this.ring2 = (int)value;
-                OnPropertyChanged("Ring2");
+                if (value != ring2)
+                {
+                    hasChanges = true;
+                    ring2 = value;
+                    OnPropertyChanged("Ring2");
+                }
             }
         }
 
-        [TaskPane("Ring 3", "Select the the offset for ring 3", "Ring settings", 22, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 26)]
+        [TaskPane("Ring 3", "Select the the offset for ring 3", "Ring settings", 22, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 26)]
         public int Ring3
         {
-            get { return this.ring3; }
+            get { return ring3; }
             set
             {
-                if (((int)value) != ring3) hasChanges = true;
-                this.ring3 = (int)value;
-                OnPropertyChanged("Ring3");
+                if (value != ring3)
+                {
+                    hasChanges = true;
+                    ring3 = value;
+                    OnPropertyChanged("Ring3");
+                }
             }
         }
 
-        [TaskPane("Ring 4 (left)", "Select the the offset for ring 4", "Ring settings", 23, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 26)]
+        [TaskPane("Ring 4 (left)", "Select the the offset for ring 4", "Ring settings", 23, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 26)]
         public int Ring4
         {
-            get { return this.ring4; }
+            get { return ring4; }
             set
             {
-                if (((int)value) != ring4) hasChanges = true;
-                this.ring4 = (int)value;
-                OnPropertyChanged("Ring4");
+                if (value != ring4)
+                {
+                    hasChanges = true;
+                    ring4 = value;
+                    OnPropertyChanged("Ring4");
+                }
             }
         }
 
