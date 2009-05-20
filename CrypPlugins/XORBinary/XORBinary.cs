@@ -205,13 +205,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Cryptool.PluginBase;
-using Cryptool.PluginBase.Cryptography;
 
+using Cryptool.PluginBase;
 using System.IO;
 using System.ComponentModel;
+using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.IO;
 using System.Windows.Controls;
+using Cryptool.PluginBase.Miscellaneous;
+using System.Security.Cryptography;
 // for [MethodImpl(MethodImplOptions.Synchronized)]
 using System.Runtime.CompilerServices;
 
@@ -234,6 +236,7 @@ namespace Cryptool.XORBinary
         #region Public variables
         public int inputOneFlag;
         public int inputTwoFlag;
+        public int globalControllerCount;
         #endregion
 
         #region Public interface
@@ -287,14 +290,17 @@ namespace Cryptool.XORBinary
                 inputTwoFlag = 1;
             }
         }
-        /*
+        
         private bool controllerInput;
         [ControllerProperty(Direction.Input, "Controller Input", "", DisplayLevel.Beginner)]
         public object ControllerInput
         {
             get { return controllerInput; }
-            set { controllerInput = (bool)value; }
-        }*/
+            set { controllerInput = (bool)value;
+            globalControllerCount++;
+            GuiLogMessage("globalControllerCount: " + globalControllerCount, NotificationLevel.Info);
+            }
+        }
 
         [PropertyInfo(Direction.Output, "XOR Output", "Output after XORing input one and two. Only fires up, if both inputs are fresh.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool Output
@@ -346,6 +352,8 @@ namespace Cryptool.XORBinary
             else inputOneFlag = -1;
             if (settings.FlagInputTwo) inputTwoFlag = 1;
             else inputTwoFlag = -1;
+
+            globalControllerCount = 0;
         }
 
         #endregion
@@ -380,9 +388,14 @@ namespace Cryptool.XORBinary
 
 #pragma warning disable 67
         public event StatusChangedEventHandler OnPluginStatusChanged;
-        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 #pragma warning restore
+
+        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+        private void GuiLogMessage(string message, NotificationLevel logLevel)
+        {
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
+        }
 
         public void Execute()
         {
@@ -391,6 +404,9 @@ namespace Cryptool.XORBinary
                 // flag all inputs as dirty
                 inputOneFlag = -1;
                 inputTwoFlag = -1;
+
+                // reset ControllerCount
+                globalControllerCount = 0;
 
                 output = inputOne ^ inputTwo;
                 OnPropertyChanged("Output");

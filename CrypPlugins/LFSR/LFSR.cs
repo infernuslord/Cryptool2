@@ -205,14 +205,14 @@ namespace Cryptool.LFSR
                 OnPropertyChanged("OutputClockingBit");
             }
         }
-        /*
+        
         private bool controllerOutput;
         [ControllerProperty(Direction.Output, "Controller Output", "", DisplayLevel.Beginner)]
         public object ControllerOutput
         {
             get { return controllerOutput; }
             set { controllerOutput = (bool)value; }
-        }*/
+        }
 
         public void Dispose()
         {
@@ -417,12 +417,14 @@ namespace Cryptool.LFSR
             if (lastInputPropertyWasBoolClock)
             {
                 if (!settings.UseBoolClock) return;
+                //GuiLogMessage("First if.", NotificationLevel.Info);
             }
                 // if last event wasn't from the clock but clock shall be
                 // the only event to start from, do not go on
             else
             {
                 if (settings.UseBoolClock) return;
+                //GuiLogMessage("Second if.", NotificationLevel.Info);
             }
             // process LFSR
             
@@ -559,7 +561,17 @@ namespace Cryptool.LFSR
                             return;
                         }
                     }
-                    if (settings.UseClockingBit) clocking = settings.ClockingBit; else clocking = -1;
+                    if (settings.UseClockingBit)
+                    {
+                        if (settings.ClockingBit < seedCharArray.Length) clocking = (seedCharArray.Length - settings.ClockingBit - 1);
+                        else
+                        {
+                            clocking = -1;
+                            GuiLogMessage("WARNING: Clocking Bit is too high. Ignored.", NotificationLevel.Warning);
+                        }
+
+                    }
+                    else clocking = -1;
 
                     /*// check which clock to use
                     if (settings.UseBoolClock)
@@ -754,12 +766,18 @@ namespace Cryptool.LFSR
                     // in both cases update "clocking bit" if set in settings
                     if (settings.UseClockingBit)
                     {
-                        // make clocking bit output
-                        if (seedCharArray[settings.ClockingBit] == '0') outputClockingBit = false;
-                        else outputClockingBit = true;
-                        OnPropertyChanged("OutputClockingBit");
+                        // make clocking bit output only if its not out of bounds
+                        if (clocking != -1)
+                        {
+                            if (seedCharArray[clocking] == '0') outputClockingBit = false;
+                            else outputClockingBit = true;
+                            OnPropertyChanged("OutputClockingBit");
+                        }
                     }
                 }
+
+                controllerOutput = true;
+                OnPropertyChanged("ControllerOutput");
 
                 // stop counter
                 DateTime stopTime = DateTime.Now;
