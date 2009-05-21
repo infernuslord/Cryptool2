@@ -98,7 +98,9 @@ namespace FriedmanTest
 
         #region IPlugin Members
 
+#pragma warning disable 67
         public event StatusChangedEventHandler OnPluginStatusChanged;
+#pragma warning restore
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
@@ -144,7 +146,7 @@ namespace FriedmanTest
                     default: Kp = 0.0667; break;
                 }
 
-                ShowStatusBarMessage("Using IC = " + Kp.ToString() + " for analysis...", NotificationLevel.Info);
+                ShowStatusBarMessage("Using IC = " + Kp.ToString() + " for analysis...", NotificationLevel.Debug);
 
 
                 if (arrayInput.Length < 2)
@@ -163,7 +165,7 @@ namespace FriedmanTest
                     ShowProgress(i, (arrayInput.Length + 1));
 				}
 
-                ShowStatusBarMessage(String.Format("Input analyzed: Got {0} different letters in a text of total length {1}.",arrayInput.Length,cipherTextLength), NotificationLevel.Info);
+                ShowStatusBarMessage(String.Format("Input analyzed: Got {0} different letters in a text of total length {1}.",arrayInput.Length,cipherTextLength), NotificationLevel.Debug);
 
 				kappaCiphertext = ((double)countDoubleCharacters / (double)(cipherTextLength * (cipherTextLength - 1)));
                 keyLength = 0.0377 * cipherTextLength / (((cipherTextLength - 1) * kappaCiphertext) - (0.0385 * cipherTextLength) + Kp);
