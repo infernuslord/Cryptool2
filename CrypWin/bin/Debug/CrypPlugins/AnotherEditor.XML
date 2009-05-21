@@ -7139,6 +7139,12 @@
             </summary>
             <value>The delay value.</value>
         </member>
+        <member name="P:AnotherEditor.AnotherEditorSettings.MemUsage">
+            <summary>
+            Gets or sets the global execution delay.
+            </summary>
+            <value>The global execution delay.</value>
+        </member>
         <member name="P:AnotherEditor.AnotherEditorSettings.CollectionWorkspaces">
             <summary>
             Gets or sets the collection workspaces.
