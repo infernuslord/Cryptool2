@@ -16,9 +16,12 @@ namespace Cryptool.CaesarAnalysisHelper
         private readonly CaesarAnalysisHelperSettings settings;
 
         public event PropertyChangedEventHandler PropertyChanged;
+        // disable the warning, if we don't intend to use these events..
+#pragma warning disable 67
         public event StatusChangedEventHandler OnPluginStatusChanged;
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+#pragma warning restore
 
         public CaesarAnalysisHelper()
         {

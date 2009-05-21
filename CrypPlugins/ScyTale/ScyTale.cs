@@ -14,9 +14,11 @@ namespace Cryptool.Scytale
         private int CharsPerRow;
 
         public event PropertyChangedEventHandler PropertyChanged;
+#pragma warning disable 67
         public event StatusChangedEventHandler OnPluginStatusChanged;
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+#pragma warning restore
 
         public Scytale()
         {
