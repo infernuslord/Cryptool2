@@ -24,14 +24,14 @@ namespace Cryptool.KasiskiTest
         
 
         #region Private Variables
-        private int integerValue;
+        private int [] integerArray;
         private string stringOutput;
         private string stringInput;
         #endregion
         public static DataSource Data = new DataSource();
         #region Properties (Inputs/Outputs)
 
-        [PropertyInfo(Direction.Input, "The string to be analyzed", "blablah", "", true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.Input, "The string to be analyzed", "The input string should be a cipher text encrypted using the Vigenere cipher.", "", true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public string StringInput
         {
             get
@@ -41,22 +41,22 @@ namespace Cryptool.KasiskiTest
             set { stringInput = value; OnPropertyChanged("StringInput"); }
         }
        
-        [PropertyInfo(Direction.Output, "Integer value.", "The last generated ineteger value.", "",false , false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-    public int IntegerValue
-    {
-        get { return integerValue; }
+        [PropertyInfo(Direction.Output, "Integer Array", "An Array containing proposed keylengths as integers. Used by the VigenereAnalyser.", "",true , true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public int [] IntegerArray
+        {
+        get { return integerArray; }
         set
         {
-            if (value != integerValue)
+            if (value != integerArray)
             {
-                integerValue = value;
-                OnPropertyChanged("IntegerValue");
+                integerArray = value;
+                OnPropertyChanged("IntegerArray");
             }
         }
     }
      
     
-        [PropertyInfo(Direction.Output, "The string to be outputed", "blablah", "", true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.Output, "Multiples of the keylength and the amount of times they are encountered.", "Keylength is either the most common factor, or a multiple of it.", "", true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public string StringOutput
         {
             get
@@ -145,16 +145,12 @@ namespace Cryptool.KasiskiTest
 
                    //CASE SENSITIVITY
 
-                if (settings.caseSensitivity == 0) { workstring2=workstring2.ToUpper(); }                         
-                
-                
-               
-                
-                //int grammLength = 3; - Setting for maximum gramm length now avaliable in Settings Panel
+                if (settings.caseSensitivity == 0) 
+                { 
+                    workstring2=workstring2.ToUpper(); 
+                }                         
                 ArrayList checkedGramms = new ArrayList();
                 ArrayList distances = new ArrayList();
-
-                int g = 0;
                 string grammToSearch;
 
                  
@@ -172,11 +168,6 @@ namespace Cryptool.KasiskiTest
                     {
                         grammToSearch = workstring2.Substring(i, d);   //  get every gramm(substring) with gramLength from Settings
 
-
-                        //if (g <= checkedGramms.Length - 1)    // 
-                        //{
-
-                            
                             for (int n = i + settings.grammLength; n <= workstring2.Length - settings.grammLength; n++)  //go through workString starting after the end of the taken grammToSearch
                             {
                                 if (grammToSearch == workstring2.Substring(n, d)) //if grammToSearch in workString
@@ -189,7 +180,6 @@ break;
 
 
                             }
-                        //}
                        
                     }
                 }
@@ -201,13 +191,6 @@ break;
 
                 //TODO: SPEED !@#$%^& !!!
 
-                             
-                
-                
-                //int[] copyOfDistances = distances.GetType(); //Copy distances to find largest member
-                //Array.Copy(distances, copyOfDistances, distances.Length);
-                //Array.Sort(copyOfDistances);
-                //int sqrtOfLargestDist = Convert.ToInt32(Math.Sqrt(copyOfDistances[copyOfDistances.Length - 1])); //sqrtOf largest distance will give the maximum number of prime factors of the distance for example if the distance is a power of 2 which is the worst case
                 int x=0;
 
 
@@ -238,6 +221,9 @@ break;
                     //if (factors[z, 0] == 0) { factors[z, 0] = numberToFactorize; } //numberToFactorize is prime and is put on first place
 
                 }
+                integerArray = factorCounter;
+                OnPropertyChanged("IntegerArray");
+
                 Data.ValueCollection.Clear();
                 double bigestheight = factorCounter[2];
                 for (int z = 3; z <= factorCounter.Count()-1; z++)
@@ -247,62 +233,24 @@ break;
                         bigestheight = (double)factorCounter[z];
                     }
                 }
-                 
+               
                 for (int n = 2; n <= factorCounter.Count()-1; n++)
                 {
                     
                     CollectionElement row = new CollectionElement(n, factorCounter[n], (factorCounter[n]*(180/bigestheight)) );
                     Data.ValueCollection.Add(row);
                 }
-                
-
+              
                 // OUTPUT
                 StringOutput = "";
-                for(int i=2; i<=factorCounter.Count()-1; i++)
-                
+                for (int i = 2; i <= factorCounter.Count() - 1; i++)
                 {
-                    StringOutput +=i+":"+Convert.ToString(factorCounter[i])+Environment.NewLine;
+                    StringOutput += i + ":" + Convert.ToString(factorCounter[i]) + Environment.NewLine;
+                    OnPropertyChanged("StringOutput");
                 }
+                
                 presentation.OpenPresentationFile();
-
-             //   for (int k = 0; k <= checkedGramms.Count - 1; k++)
-             //   {
-             //       if (Convert.ToInt32(distances[k] )!= 0)
-             //       { StringOutput += checkedGramms[k] + "/" + Convert.ToString(distances[k]);
-             //         for (int l = 0; l <= settings.factorSize /*sqrtOfLargestDist */ - 1; l++)
-             //           {
-             //               if (factors[k, l] != 0) { StringOutput += "/" + Convert.ToString(factors[k, l]); }
-///
-          //              }
-          //              StringOutput += '\n';
-          //          }
-          //          
-           //     }   
-           //     
-                //find the most frequent factor
-              //  int biggestSoFar=0;
-              //  int biggestSoFarIndex=0;
-             //  
-             //   for (int j = 0; j <= factorCounter.Length - 1; j++)
-              //  {
-              //      if (factorCounter[j] > biggestSoFar)
-               //     {
-                //        
-                //        biggestSoFar = factorCounter[j];
-                //        biggestSoFarIndex = j;
-                //    }
-               //     
-               // }
-               // if (biggestSoFarIndex % 2 == 0)
-               // {
-               //     StringOutput += '\n' + "The probable keylength is a multiple of: " + biggestSoFarIndex ;
-               /// }
-               // else
-               // {
-           //
-              //      StringOutput += '\n' + "most frequent factor is:" + biggestSoFarIndex + '\n' + "with: " + biggestSoFar + " hits";
-             //   }
-             //   integerValue = biggestSoFarIndex;
+               
             } 
 
         }
