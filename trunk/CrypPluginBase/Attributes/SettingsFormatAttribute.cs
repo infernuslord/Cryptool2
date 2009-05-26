@@ -206,6 +206,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Media;
 
 namespace Cryptool.PluginBase
 {
@@ -221,11 +222,20 @@ namespace Cryptool.PluginBase
     /// </summary>
     public readonly int Ident;
 
-
     /// <summary>
     /// The font weight for the headline text
     /// </summary>
     public readonly FontWeight FontWeight;
+
+    /// <summary>
+    /// Foreground color
+    /// </summary>
+    public readonly Brush ForeGround;
+
+    /// <summary>
+    /// Background color
+    /// </summary>
+    public readonly Brush BackGround;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsFormatAttribute"/> class.
@@ -233,14 +243,42 @@ namespace Cryptool.PluginBase
     /// <param name="indent">The indent.</param>
     public SettingsFormatAttribute(int indent, string fontWeight)
     {
+      new SettingsFormatAttribute(indent, fontWeight, "Black", "White");
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SettingsFormatAttribute"/> class.
+    /// </summary>
+    /// <param name="indent">The indent.</param>
+    /// <param name="fontWeight">The font weight.</param>
+    /// <param name="foreGroundColor">Color of the fore ground.</param>
+    /// <param name="backGroundColor">Color of the back ground.</param>
+    public SettingsFormatAttribute(int indent, string fontWeight, string foreGroundColor, string backGroundColor)
+    {
       this.Ident = indent;
       try
       {
         this.FontWeight = (FontWeight)new FontWeightConverter().ConvertFromString(fontWeight);
       }
-      catch (Exception ex)
+      catch
       {
         this.FontWeight = FontWeights.Normal;
+      }
+      try
+      {        
+        this.ForeGround = (Brush)new BrushConverter().ConvertFromString(foreGroundColor);
+      }
+      catch
+      {
+        this.ForeGround = Brushes.Black;
+      }
+      try
+      {
+        this.BackGround = (Brush)new BrushConverter().ConvertFromString(backGroundColor);
+      }
+      catch
+      {
+        this.BackGround = Brushes.White;
       }
     }
   }
