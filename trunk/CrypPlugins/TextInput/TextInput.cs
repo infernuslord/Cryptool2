@@ -265,6 +265,7 @@ namespace Cryptool.TextInput
       OnPropertyChanged("TextOutput");
       OnPropertyChanged("StreamOutput");
       OnPropertyChanged("ByteArrayOutput");
+      OnPropertyChanged("BoolArrayOutput");
     }
 
     void settings_OnLogMessage(string message, NotificationLevel loglevel)
@@ -341,45 +342,90 @@ namespace Cryptool.TextInput
 
     public byte[] GetByteArray(bool showMessage)
     {
-      string data = (string)this.textInputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
-      {
-        return textInputPresentation.textBoxInputText.Text;
-      }, null);
-
-      if ((data != null) && (data.Length != 0))
-      {
-        // here conversion happens        
-        switch (settings.Encoding)
+        string data = (string)this.textInputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
         {
-          case TextInputSettings.EncodingTypes.Default:
-            byteArrayOutput = Encoding.Default.GetBytes(data.ToCharArray());
-            break;
-          case TextInputSettings.EncodingTypes.Unicode:
-            byteArrayOutput = Encoding.Unicode.GetBytes(data.ToCharArray());
-            break;
-          case TextInputSettings.EncodingTypes.UTF7:
-            byteArrayOutput = Encoding.UTF7.GetBytes(data.ToCharArray());
-            break;
-          case TextInputSettings.EncodingTypes.UTF8:
-            byteArrayOutput = Encoding.UTF8.GetBytes(data.ToCharArray());
-            break;
-          case TextInputSettings.EncodingTypes.UTF32:
-            byteArrayOutput = Encoding.UTF32.GetBytes(data.ToCharArray());
-            break;
-          case TextInputSettings.EncodingTypes.ASCII:
-            byteArrayOutput = Encoding.ASCII.GetBytes(data.ToCharArray());
-            break;
-          case TextInputSettings.EncodingTypes.BigEndianUnicode:
-            byteArrayOutput = Encoding.BigEndianUnicode.GetBytes(data.ToCharArray());
-            break;
-          default:
-            byteArrayOutput = Encoding.Default.GetBytes(data.ToCharArray());
-            break;
-        }
-        return byteArrayOutput;
-      }
+            return textInputPresentation.textBoxInputText.Text;
+        }, null);
 
-      return null;
+        if ((data != null) && (data.Length != 0))
+        {
+            // here conversion happens        
+            switch (settings.Encoding)
+            {
+                case TextInputSettings.EncodingTypes.Default:
+                    byteArrayOutput = Encoding.Default.GetBytes(data.ToCharArray());
+                    break;
+                case TextInputSettings.EncodingTypes.Unicode:
+                    byteArrayOutput = Encoding.Unicode.GetBytes(data.ToCharArray());
+                    break;
+                case TextInputSettings.EncodingTypes.UTF7:
+                    byteArrayOutput = Encoding.UTF7.GetBytes(data.ToCharArray());
+                    break;
+                case TextInputSettings.EncodingTypes.UTF8:
+                    byteArrayOutput = Encoding.UTF8.GetBytes(data.ToCharArray());
+                    break;
+                case TextInputSettings.EncodingTypes.UTF32:
+                    byteArrayOutput = Encoding.UTF32.GetBytes(data.ToCharArray());
+                    break;
+                case TextInputSettings.EncodingTypes.ASCII:
+                    byteArrayOutput = Encoding.ASCII.GetBytes(data.ToCharArray());
+                    break;
+                case TextInputSettings.EncodingTypes.BigEndianUnicode:
+                    byteArrayOutput = Encoding.BigEndianUnicode.GetBytes(data.ToCharArray());
+                    break;
+                default:
+                    byteArrayOutput = Encoding.Default.GetBytes(data.ToCharArray());
+                    break;
+            }
+            return byteArrayOutput;
+        }
+
+        return null;
+    }
+
+    private bool[] boolArrayOutput;
+    [PropertyInfo(Direction.Output, "BoolArray", "The text input converted to bool array ('0' char equals false, else true).", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
+    public bool[] BoolArrayOutput
+    {
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        get
+        {
+            // GuiLogMessage("Got request for BoolArray...", NotificationLevel.Debug);
+            boolArrayOutput = GetBoolArray(true);
+            if (boolArrayOutput == null)
+            {
+                GuiLogMessage("BoolArray: No input provided. Returning null", NotificationLevel.Warning);
+                return null;
+            }
+            return boolArrayOutput;
+        }
+        set { } // readonly
+    }
+
+    public bool[] GetBoolArray(bool showMessage)
+    {
+        string data = (string)this.textInputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
+        {
+            return textInputPresentation.textBoxInputText.Text;
+        }, null);
+
+        if ((data != null) && (data.Length != 0))
+        {
+            // convert data into char array
+            char[] dataCharArray = data.ToCharArray();
+
+            boolArrayOutput = new bool[data.Length];
+
+            for (int i = 0; i < data.Length; i++)
+            {
+               boolArrayOutput[i] = (Convert.ToInt64(dataCharArray[i]) == 48) ? false : true;
+               //if (Convert.ToInt64(dataCharArray[i]) == 48) boolArrayOutput[i] = false; else boolArrayOutput[i] = true;
+            }
+
+            return boolArrayOutput;
+        }
+
+        return null;
     }
 
     #endregion

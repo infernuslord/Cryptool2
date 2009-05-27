@@ -219,7 +219,7 @@ using System.Runtime.CompilerServices;
 namespace Cryptool.BerlekampMassey
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo(false, "BerlekampMassey", "Berlekamp-Massey-Algorithm", "BerlekampMassey/DetailedDescription/Description.xaml", "BerlekampMassey/Images/icon.png", "BerlekampMassey/Images/icon.png", "BerlekampMassey/Images/icon.png")]
+    [PluginInfo(false, "BerlekampMassey", "Berlekamp-Massey-Algorithm", "BerlekampMassey/DetailedDescription/Description.xaml", "BerlekampMassey/Images/icon2.png", "BerlekampMassey/Images/icon2.png", "BerlekampMassey/Images/icon2.png")]
     public class BerlekampMassey : IThroughput
     {
 
