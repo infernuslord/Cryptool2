@@ -19,7 +19,7 @@ using System.Text.RegularExpressions;
 namespace BinaryFunctionParser
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo(false, "BinaryFunctionParser", "Binary Function Parser", null, "BinaryFunctionParser/Images/icon.png")]
+    [PluginInfo(false, "Binary Function Parser", "Binary Function Parser. Computes the result of a boolean function f(i).", null, "BinaryFunctionParser/Images/icon2.png")]
     public class BinaryFunctionParser : IThroughput
     {
         #region Private variables
@@ -28,7 +28,7 @@ namespace BinaryFunctionParser
         private string inputFunction;
         private bool inputVariableOne;
         private bool inputVariableTwo;
-        private bool inputVariableThree;
+        private bool[] inputVariableThree;
         private bool output;
 
         #endregion
@@ -52,7 +52,7 @@ namespace BinaryFunctionParser
             //((BinaryFunctionParserSettings)(this.settings)).LogMessage += Xor_LogMessage;
         }
 
-        [PropertyInfo(Direction.Input, "BooleanFunction", "Boolean function to compute.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.Input, "Boolean Function f(i)", "Boolean function f(i) to compute.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public String InputFunction
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -65,7 +65,7 @@ namespace BinaryFunctionParser
             }
         }
 
-        [PropertyInfo(Direction.Input, "Function Variable One", "Input a boolean value to be processed by the function", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.Input, "Function Variable One (i_1)", "Input a boolean value to be processed by the function", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool InputOne
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -88,7 +88,7 @@ namespace BinaryFunctionParser
             }
         }
 
-        [PropertyInfo(Direction.Input, "Function Variable Two", "Input a boolean value to be processed by the function", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.Input, "Function Variable Two (i_2)", "Input a boolean value to be processed by the function", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool InputTwo
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -112,8 +112,8 @@ namespace BinaryFunctionParser
             }
         }
 
-        [PropertyInfo(Direction.Input, "Function Variable Three", "Input a boolean value to be processed by the function", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public bool InputThree
+        [PropertyInfo(Direction.Input, "Function Variable Three (i_3j)", "Input a boolean value to be processed by the function", "", true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public bool[] InputThree
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
             get
@@ -225,17 +225,51 @@ namespace BinaryFunctionParser
         private string ReplaceVariables(string strExpressionWithVariables)
         {
             string strExpression;
-            string strInputVariableOne, strInputVariableTwo, strInputVariableThree;
+            string strInputVariableOne, strInputVariableTwo;
+            char[] strInputVariableThree = new char[inputVariableThree.Length];
 
             // get numeric values from bool inputs
             if (inputVariableOne) strInputVariableOne = "1"; else strInputVariableOne = "0";
             if (inputVariableTwo) strInputVariableTwo = "1"; else strInputVariableTwo = "0";
-            if (inputVariableThree) strInputVariableThree = "1"; else strInputVariableThree = "0";
+            //if (inputVariableThree) strInputVariableThree = "1"; else strInputVariableThree = "0";
+            for (int i = 0; i < inputVariableThree.Length; i++)
+            {
+                strInputVariableThree[i] = inputVariableThree[i] ? '1' : '0';
+            }
 
             // replace variables with value
             strExpression = strExpressionWithVariables.Replace("i_1", strInputVariableOne);
             strExpression = strExpression.Replace("i_2", strInputVariableTwo);
-            strExpression = strExpression.Replace("i_3", strInputVariableThree);
+            for (int i = 0; i < inputVariableThree.Length; i++)
+            {
+                string replacement = "i_3" + i;
+                strExpression = strExpression.Replace(replacement, strInputVariableThree[i].ToString());
+            }
+            //strExpression = strExpression.Replace("i_3", strInputVariableThree);
+
+            // replace AND, NAND, OR, NOR, XOR, NXOR with symbols
+            // NAND => -
+            strExpression = strExpression.Replace("NAND", "-");
+            // AND => +
+            strExpression = strExpression.Replace("AND", "+");
+
+            // NOR => _
+            strExpression = strExpression.Replace("NOR", "_");
+
+            // NXOR => °
+            strExpression = strExpression.Replace("NXOR", "°");
+            // XOR => *
+            strExpression = strExpression.Replace("XOR", "*");
+
+            // OR => |
+            strExpression = strExpression.Replace("OR", "|");
+
+            // replace ^ and v with symbols
+            // ^ => AND => +
+            strExpression = strExpression.Replace("^", "+");
+
+            // v => OR => |
+            strExpression = strExpression.Replace("v", "|");
 
             return strExpression;
         }
@@ -246,7 +280,7 @@ namespace BinaryFunctionParser
             strExpression = strExpression.Replace(" ", "");
 
             // test expression
-            Regex objBoolExpression = new Regex("([0-1]([\\*]|[\\+]|[v])+[0-1]{1})");
+            Regex objBoolExpression = new Regex("([0-1]([\\*]|[\\+]|[\\|]|[\\-]|[_]|[°]|[v]|[\\^])+[0-1]{1})");
             if (!objBoolExpression.IsMatch(strExpression))
             {
                 return "foo";
@@ -260,7 +294,7 @@ namespace BinaryFunctionParser
         private ATreeNode FillTree(string strExpression)
         {
             // fill tree
-            //char[] charPolynomial = { '0', '*', '1', '+', '0', '*', '1', '+', '1' };
+            //char[] charPolynomial = { '0', '*', '1', '+', '0', '*', '1', '+', '1' }; // sample for debug
             char[] charPolynomial = strExpression.ToCharArray();
             int i;
             ATreeNode[] treeArray = new ATreeNode[charPolynomial.Length];
@@ -327,12 +361,24 @@ namespace BinaryFunctionParser
                     X = EvaluateTree(X, NodePointer.LeftChild) && EvaluateTree(X, NodePointer.RightChild);
                     break;
 
+                case "-":
+                    X = !(EvaluateTree(X, NodePointer.LeftChild) && EvaluateTree(X, NodePointer.RightChild));
+                    break;
+
                 case "*":
                     X = EvaluateTree(X, NodePointer.LeftChild) ^ EvaluateTree(X, NodePointer.RightChild);
                     break;
 
-                case "v":
+                case "°":
+                    X = !(EvaluateTree(X, NodePointer.LeftChild) ^ EvaluateTree(X, NodePointer.RightChild));
+                    break;
+
+                case "|":
                     X = EvaluateTree(X, NodePointer.LeftChild) | EvaluateTree(X, NodePointer.RightChild);
+                    break;
+
+                case "_":
+                    X = !(EvaluateTree(X, NodePointer.LeftChild) | EvaluateTree(X, NodePointer.RightChild));
                     break;
 
                 case "XVariable":
