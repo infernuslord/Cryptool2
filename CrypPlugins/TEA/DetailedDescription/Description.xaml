@@ -15,4 +15,18 @@
   <Paragraph>
       <Run FontSize="14.6666666666667" xml:lang="de-de">TEA operates on 64-bit blocks and uses a 128-bit key. It has a Feistel structure with a suggested 64 rounds, typically implemented in pairs termed cycles. It has an extremely simple key schedule, mixing all of the key material in exactly the same way for each cycle. Different multiples of a magic constant are used to prevent simple attacks based on the symmetry of the rounds. The magic constant, 2654435769 (Decimal) or 9E3779B9 (Hex) is chosen to be (2^32 / phi) where phi is the golden ratio.</Run>
   </Paragraph>
+  
+  <Paragraph>
+      <Run FontWeight="Bold" FontSize="18.6666666666667" xml:lang="de-de">
+          <Run.TextDecorations>
+              <TextDecoration Location="Underline" />
+          </Run.TextDecorations> XTEA (eXtended TEA)
+      </Run>
+  </Paragraph>
+  <Paragraph>
+      <Run FontSize="14.6666666666667" xml:lang="de-de">In cryptography, XTEA (eXtended TEA) is a block cipher designed to correct weaknesses in TEA. The cipher's designers were David Wheeler and Roger Needham of the Cambridge Computer Laboratory, and the algorithm was presented in an unpublished technical report in 1997 (Needham and Wheeler, 1997).</Run>
+  </Paragraph>
+  <Paragraph>
+      <Run FontSize="14.6666666666667" xml:lang="de-de">Like TEA, XTEA is a 64-bit block Feistel network with a 128-bit key and a suggested 64 rounds. Several differences from TEA are apparent, including a somewhat more complex key-schedule and a rearrangement of the shifts, XORs, and additions.</Run>
+  </Paragraph>
 </FlowDocument>

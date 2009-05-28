@@ -374,7 +374,7 @@ namespace Cryptool.TEA
 
             uint sum = 0;
             uint delta = 0x9e3779b9;
-            uint n = 32;
+            uint n = 64;
 
             while (n-- > 0)
             {
@@ -394,8 +394,8 @@ namespace Cryptool.TEA
 
         private void decode_tea(uint[] v, uint[] k)
         {
-            uint n = 32;
-            uint sum = 0xC6EF3720;
+            uint n = 64;
+            uint sum = 0x8DDE6E40; // for 64 rounds, for 32 rounds it would be 0xC6EF3720
 
             uint k0 = k[0], k1 = k[1], k2 = k[2], k3 = k[3];
             uint y = v[0];
