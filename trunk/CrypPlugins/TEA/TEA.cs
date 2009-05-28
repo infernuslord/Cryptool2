@@ -15,7 +15,7 @@ using System.Security.Cryptography;
 namespace Cryptool.TEA
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for Embedded Security (EmSec)", "http://www.crypto.ruhr-uni-bochum.de/")]
-    [PluginInfo(false, "TEA", "Tiny Encryption Algorithm", "TEA/DetailedDescription/Description.xaml", "TEA/Images/tea.png", "TEA/Images/encrypt.png", "TEA/Images/decrypt.png")]
+    [PluginInfo(false, "TEA", "Tiny Encryption Algorithm", "TEA/DetailedDescription/Description.xaml", "TEA/Images/tea.png", "TEA/Images/encrypt.png", "TEA/Images/decrypt.png", "TEA/Images/encryptX.png", "TEA/Images/decryptX.png")]
     [EncryptionType(EncryptionType.SymmetricBlock)]
     public class TEA : IEncryption
     {
@@ -248,21 +248,31 @@ namespace Cryptool.TEA
                 }
 
                 //encryption or decryption
-                GuiLogMessage("Action is: " + action, NotificationLevel.Debug);
+                //GuiLogMessage("Action is: " + action, NotificationLevel.Debug);
                 DateTime startTime = DateTime.Now;
                 
                 uint[] vector = new uint[2];
 
                 if (action == 0)
                 {
-                    StatusChanged((int)TEAImage.Encode);
                     GuiLogMessage("Starting encryption [Keysize=128 Bits, Blocksize=64 Bits]", NotificationLevel.Info);
                     for (int i = 0; i <= blocks-1; i++)
                     {
                         vector[0] = BitConverter.ToUInt32(inputbuffer, (i * 8));
                         vector[1] = BitConverter.ToUInt32(inputbuffer, (i * 8 + 4));
 
-                        encode(vector, key);
+                        // see in settings which version of TEA to use
+                        if (settings.Version == 0)
+                        {
+                            encode_tea(vector, key);
+                            StatusChanged((int)TEAImage.Encode);
+                        }
+                        else if (settings.Version == 1)
+                        {
+                            encode_xtea((uint)settings.Rounds, vector, key);
+                            StatusChanged((int)TEAImage.EncodeX);
+                        }
+
                         //write buffer to output stream
                         outputbuffer = BitConverter.GetBytes(vector[0]);
                         outputStream.Write(outputbuffer, 0, 4);
@@ -270,14 +280,24 @@ namespace Cryptool.TEA
                         outputStream.Write(outputbuffer, 0, 4);
                     }
                 } else if (action == 1) {
-                    StatusChanged((int)TEAImage.Decode);
                     GuiLogMessage("Starting decryption [Keysize=128 Bits, Blocksize=64 Bits]", NotificationLevel.Info);
                     for (int i = 0; i <= blocks-1; i++)
                     {
                         vector[0] = BitConverter.ToUInt32(inputbuffer, i * 8);
                         vector[1] = BitConverter.ToUInt32(inputbuffer, i * 8 + 4);
 
-                        decode(vector, key);
+                        // see in settings which version of TEA to use
+                        if (settings.Version == 0)
+                        {
+                            decode_tea(vector, key);
+                            StatusChanged((int)TEAImage.Decode);
+                        }
+                        else if (settings.Version == 1)
+                        {
+                            decode_xtea((uint)settings.Rounds, vector, key);
+                            StatusChanged((int)TEAImage.DecodeX);
+                        }
+
                         //write buffer to output stream
                         outputbuffer = BitConverter.GetBytes(vector[0]);
                         outputStream.Write(outputbuffer, 0, 4);
@@ -314,7 +334,7 @@ namespace Cryptool.TEA
                     {
                         GuiLogMessage("Decryption complete! (in: " + inputStream.Length.ToString() + " bytes, out: " + outbytes.ToString() + " bytes)", NotificationLevel.Info);
                     }
-                    GuiLogMessage("Wrote data to file: " + outputStream.FileName, NotificationLevel.Info);
+                    GuiLogMessage("Wrote data to file: " + outputStream.FileName, NotificationLevel.Debug);
                     GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
                     outputStream.Close();
                     OnPropertyChanged("OutputStream");
@@ -345,14 +365,67 @@ namespace Cryptool.TEA
             }
         }
 
-        private void encode(uint[] v, uint[] k)
+        private void encode_tea(uint[] v, uint[] k)
+        {
+            uint y = v[0];
+            uint z = v[1];
+
+            uint k0 = k[0], k1 = k[1], k2 = k[2], k3 = k[3];
+
+            uint sum = 0;
+            uint delta = 0x9e3779b9;
+            uint n = 32;
+
+            while (n-- > 0)
+            {
+                /*
+                 sum += delta;
+                 v0 += ((v1<<4) + k0) ^ (v1 + sum) ^ ((v1>>5) + k1);
+                 v1 += ((v0<<4) + k2) ^ (v0 + sum) ^ ((v0>>5) + k3);
+                */
+                sum += delta;
+                y += ((z << 4) + k0) ^ (z + sum) ^ ((z >> 5) + k1);
+                z += ((y << 4) + k2) ^ (y + sum) ^ ((y >> 5) + k3);
+            }
+
+            v[0] = y;
+            v[1] = z;
+        }
+
+        private void decode_tea(uint[] v, uint[] k)
+        {
+            uint n = 32;
+            uint sum = 0xC6EF3720;
+
+            uint k0 = k[0], k1 = k[1], k2 = k[2], k3 = k[3];
+            uint y = v[0];
+            uint z = v[1];
+            uint delta = 0x9e3779b9;
+
+            while (n-- > 0)
+            {
+                /*
+                 v1 -= ((v0<<4) + k2) ^ (v0 + sum) ^ ((v0>>5) + k3);
+                 v0 -= ((v1<<4) + k0) ^ (v1 + sum) ^ ((v1>>5) + k1);
+                 sum -= delta;
+                */
+                z -= ((y << 4) + k2) ^ (y + sum) ^ ((y >> 5) + k3);
+                y -= ((z << 4) + k0) ^ (z + sum) ^ ((z >> 5) + k1);
+                sum -= delta;
+            }
+
+            v[0] = y;
+            v[1] = z;
+        }
+
+        private void encode_xtea(uint rounds, uint[] v, uint[] k)
         {
             uint y = v[0];
             uint z = v[1];
 
             uint sum = 0;
             uint delta = 0x9e3779b9;
-            uint n = 32;
+            uint n = rounds;
 
             while (n-- > 0)
             {
@@ -365,15 +438,15 @@ namespace Cryptool.TEA
             v[1] = z;
         }
 
-        private void decode(uint[] v, uint[] k)
+        private void decode_xtea(uint rounds, uint[] v, uint[] k)
         {
-            uint n = 32;
+            uint n = rounds;
             uint sum;
             uint y = v[0];
             uint z = v[1];
             uint delta = 0x9e3779b9;
 
-            sum = delta << 5;
+            sum = delta * n;
 
             while (n-- > 0)
             {
@@ -400,7 +473,6 @@ namespace Cryptool.TEA
 
         public void Initialize()
         {
-            //throw new NotImplementedException();
         }
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
@@ -419,7 +491,6 @@ namespace Cryptool.TEA
 
         public void Pause()
         {
-            //throw new NotImplementedException();
         }
 
         public void PostExecution()
@@ -472,6 +543,8 @@ namespace Cryptool.TEA
     {
         Default,
         Encode,
-        Decode
+        Decode,
+        EncodeX,
+        DecodeX
     }
 }
