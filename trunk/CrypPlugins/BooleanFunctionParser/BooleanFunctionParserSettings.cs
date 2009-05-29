@@ -11,9 +11,9 @@ using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Security.Cryptography;
 
-namespace BinaryFunctionParser
+namespace BooleanFunctionParser
 {
-    class BinaryFunctionParserSettings : ISettings
+    class BooleanFunctionParserSettings : ISettings
     {
         #region Private variables
 

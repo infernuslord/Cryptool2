@@ -8,8 +8,8 @@
     <ProjectGuid>{AE633B61-EA75-40F0-BFF8-04B707FB1159}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cryptool.BinaryFunctionParser</RootNamespace>
-    <AssemblyName>BinaryFunctionParser</AssemblyName>
+    <RootNamespace>Cryptool.BooleanFunctionParser</RootNamespace>
+    <AssemblyName>BooleanFunctionParser</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
@@ -60,8 +60,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BinaryFunctionParser.cs" />
-    <Compile Include="BinaryFunctionParserSettings.cs" />
+    <Compile Include="BooleanFunctionParser.cs" />
+    <Compile Include="BooleanFunctionParserSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +72,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\icon2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="DetailedDescription\Description.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -86,7 +92,7 @@
 cd ..\..\CrypWin\$(OutDir)
 if not exist "./CrypPlugins" mkdir "./CrypPlugins"
 
-del /F /S /Q /s /q "BinaryFunctionParser*.*"
-copy "$(TargetDir)BinaryFunctionParser*.*" "./CrypPlugins"</PostBuildEvent>
+del /F /S /Q /s /q "BooleanFunctionParser*.*"
+copy "$(TargetDir)BooleanFunctionParser*.*" "./CrypPlugins"</PostBuildEvent>
   </PropertyGroup>
 </Project>

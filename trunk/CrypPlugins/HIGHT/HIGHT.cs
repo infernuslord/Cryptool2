@@ -257,7 +257,7 @@ namespace Cryptool.HIGHT
                 {
                     StatusChanged((int)HIGHTImage.Encode);
                     GuiLogMessage("Starting encryption [Keysize=128 Bits, Blocksize=64 Bits]", NotificationLevel.Info);
-                    for (int i = 0; i <= blocks-1; i++)
+                    for (int i = 0; i <= blocks - 1; i++)
                     {
                         vector[0] = BitConverter.ToUInt32(inputbuffer, (i * 8));
                         vector[1] = BitConverter.ToUInt32(inputbuffer, (i * 8 + 4));
@@ -276,7 +276,7 @@ namespace Cryptool.HIGHT
                 } else if (action == 1) {
                     StatusChanged((int)HIGHTImage.Decode);
                     GuiLogMessage("Starting decryption [Keysize=128 Bits, Blocksize=64 Bits]", NotificationLevel.Info);
-                    for (int i = 0; i <= blocks-1; i++)
+                    for (int i = 0; i <= blocks - 1; i++)
                     {
                         vector[0] = BitConverter.ToUInt32(inputbuffer, i * 8);
                         vector[1] = BitConverter.ToUInt32(inputbuffer, i * 8 + 4);
@@ -316,7 +316,7 @@ namespace Cryptool.HIGHT
                     {
                         GuiLogMessage("Decryption complete! (in: " + inputStream.Length.ToString() + " bytes, out: " + outbytes.ToString() + " bytes)", NotificationLevel.Info);
                     }
-                    GuiLogMessage("Wrote data to file: " + outputStream.FileName, NotificationLevel.Info);
+                    GuiLogMessage("Wrote data to file: " + outputStream.FileName, NotificationLevel.Debug);
                     GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
                     outputStream.Close();
                     OnPropertyChanged("OutputStream");
@@ -347,7 +347,7 @@ namespace Cryptool.HIGHT
             }
         }
 
-        uint[] F0 = new uint[256] {
+        public uint[] F0 = new uint[256] {
 		        0, 134, 13, 139, 26, 156, 23, 145, 52, 178, 57, 191, 46, 168, 35, 165, 
 		        104, 238, 101, 227, 114, 244, 127, 249, 92, 218, 81, 215, 70, 192, 75, 205, 
 		        208, 86, 221, 91, 202, 76, 199, 65, 228, 98, 233, 111, 254, 120, 243, 117, 
@@ -365,7 +365,7 @@ namespace Cryptool.HIGHT
 		        50, 180, 63, 185, 40, 174, 37, 163, 6, 128, 11, 141, 28, 154, 17, 151, 
 		        90, 220, 87, 209, 64, 198, 77, 203, 110, 232, 99, 229, 116, 242, 121, 255};
 
-        uint[] F1 = new uint[256] {
+        public uint[] F1 = new uint[256] {
 		        0, 88, 176, 232, 97, 57, 209, 137, 194, 154, 114, 42, 163, 251, 19, 75, 
 		        133, 221, 53, 109, 228, 188, 84, 12, 71, 31, 247, 175, 38, 126, 150, 206, 
 		        11, 83, 187, 227, 106, 50, 218, 130, 201, 145, 121, 33, 168, 240, 24, 64, 
@@ -383,7 +383,7 @@ namespace Cryptool.HIGHT
 		        49, 105, 129, 217, 80, 8, 224, 184, 243, 171, 67, 27, 146, 202, 34, 122, 
 		        180, 236, 4, 92, 213, 141, 101, 61, 118, 46, 198, 158, 23, 79, 167, 255};
 
-        uint Delta0 = 0x5a;
+        public uint Delta0 = 0x5a;
 
         private uint LFSR_h(uint state) {
             uint temp = state & 0x9;							
@@ -435,7 +435,7 @@ namespace Cryptool.HIGHT
             x7 = (x7 ^ (F0[x6] + sk[i + 3]))%256;
         }
 
-        static uint[] Delta = new uint[128];
+        public static uint[] Delta = new uint[128];
 
         private void HIGHT_Enc(uint[] x, ref uint[] y, uint[] mk, uint[] sk) {
 
@@ -551,6 +551,8 @@ namespace Cryptool.HIGHT
             uint[] Cipher = new uint[8];
             uint[] temp, Plain_tmp, Cipher_tmp = new uint[8];
             uint[] key_temp = new uint[16];
+
+            //MK = Plain = SK = Cipher = temp = Plain_tmp = Cipher_tmp = key_temp = null;
 
             // convert key into 8 bit values
             key_temp = key;
@@ -711,7 +713,6 @@ namespace Cryptool.HIGHT
 
         public void Initialize()
         {
-            //throw new NotImplementedException();
         }
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
@@ -730,7 +731,6 @@ namespace Cryptool.HIGHT
 
         public void Pause()
         {
-            //throw new NotImplementedException();
         }
 
         public void PostExecution()

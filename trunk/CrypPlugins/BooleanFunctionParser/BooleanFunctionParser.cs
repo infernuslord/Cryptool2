@@ -16,15 +16,15 @@ using System.Runtime.CompilerServices;
 // for RegEx
 using System.Text.RegularExpressions;
 
-namespace BinaryFunctionParser
+namespace BooleanFunctionParser
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo(false, "Binary Function Parser", "Binary Function Parser. Computes the result of a boolean function f(i).", null, "BinaryFunctionParser/Images/icon2.png")]
-    public class BinaryFunctionParser : IThroughput
+    [PluginInfo(false, "Boolean Function Parser", "Boolean Function Parser (BFP). Computes the result of a boolean function f(i).", "BooleanFunctionParser/DetailedDescription/Description.xaml", "BooleanFunctionParser/Images/icon2.png")]
+    public class BooleanFunctionParser : IThroughput
     {
         #region Private variables
 
-        private BinaryFunctionParserSettings settings;
+        private BooleanFunctionParserSettings settings;
         private string inputFunction;
         private bool inputVariableOne;
         private bool inputVariableTwo;
@@ -46,10 +46,10 @@ namespace BinaryFunctionParser
         /// <summary>
         /// Contructor
         /// </summary>
-        public BinaryFunctionParser()
+        public BooleanFunctionParser()
         {
-            this.settings = new BinaryFunctionParserSettings();
-            //((BinaryFunctionParserSettings)(this.settings)).LogMessage += Xor_LogMessage;
+            this.settings = new BooleanFunctionParserSettings();
+            //((BooleanFunctionParserSettings)(this.settings)).LogMessage += Xor_LogMessage;
         }
 
         [PropertyInfo(Direction.Input, "Boolean Function f(i)", "Boolean function f(i) to compute.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
@@ -411,7 +411,7 @@ namespace BinaryFunctionParser
             }
             set
             {
-                this.settings = (BinaryFunctionParserSettings)value;
+                this.settings = (BooleanFunctionParserSettings)value;
             }
         }
 
