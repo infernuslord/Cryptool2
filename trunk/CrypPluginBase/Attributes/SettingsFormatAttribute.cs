@@ -207,6 +207,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Controls;
 
 namespace Cryptool.PluginBase
 {
@@ -238,12 +239,17 @@ namespace Cryptool.PluginBase
     public readonly Brush BackGround;
 
     /// <summary>
+    /// Stackpanel alignment
+    /// </summary>
+    public readonly Orientation Orientation;
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="SettingsFormatAttribute"/> class.
     /// </summary>
     /// <param name="indent">The indent.</param>
     public SettingsFormatAttribute(int indent, string fontWeight)
     {
-      new SettingsFormatAttribute(indent, fontWeight, "Black", "White");
+      new SettingsFormatAttribute(indent, fontWeight, "Black", "White", Orientation.Vertical);
     }
 
     /// <summary>
@@ -253,11 +259,12 @@ namespace Cryptool.PluginBase
     /// <param name="fontWeight">The font weight.</param>
     /// <param name="foreGroundColor">Color of the fore ground.</param>
     /// <param name="backGroundColor">Color of the back ground.</param>
-    public SettingsFormatAttribute(int indent, string fontWeight, string foreGroundColor, string backGroundColor)
+    public SettingsFormatAttribute(int indent, string fontWeight, string foreGroundColor, string backGroundColor, Orientation orientation)
     {
       this.Ident = indent;
       try
       {
+
         this.FontWeight = (FontWeight)new FontWeightConverter().ConvertFromString(fontWeight);
       }
       catch
@@ -280,6 +287,7 @@ namespace Cryptool.PluginBase
       {
         this.BackGround = Brushes.White;
       }
+      this.Orientation = orientation;
     }
   }
 }
