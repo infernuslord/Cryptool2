@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows;
 using Cryptool.PluginBase;
+using System.Windows.Media;
 
 namespace Cryptool.Caesar
 {
@@ -211,7 +212,7 @@ namespace Cryptool.Caesar
             }
         }
 
-        [SettingsFormat(0, "Normal")]
+        [SettingsFormat(0, "Normal", "Red", "Yellow")]
         [PropertySaveOrder(9)]
         [TaskPane("Alphabet", "This is the used alphabet.", null, 6, false, DisplayLevel.Expert, ControlType.TextBox, "")]
         public string AlphabetSymbols
