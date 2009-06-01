@@ -1,6 +1,6 @@
 <FlowDocument PagePadding="5,0,5,0" AllowDrop="True" NumberSubstitution.CultureSource="User" 
               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-              Background="White">
+              Background="White" Foreground="Black">
   <Paragraph FontWeight="Bold" FontSize="16" FontFamily="Calibri" TextDecorations="Underline">
       Boolean Function Parser
   </Paragraph>
@@ -17,13 +17,17 @@
       Example 1: Valid binary functions without variables
   </Paragraph>
   <Paragraph Background="#F2F2F2" Padding="2" FontSize="10" FontFamily="Courier New">
-      1 * 0 + 1 | 0<LineBreak/>
-      1 XOR 0 AND 1 OR 0<LineBreak/>
+      1 XOR 0 AND 1 OR 0
+  </Paragraph>
+  <Paragraph Background="#F2F2F2" Padding="2" FontSize="10" FontFamily="Courier New">
+      1 * 0 + 1 | 0
+  </Paragraph>
+  <Paragraph Background="#F2F2F2" Padding="2" FontSize="10" FontFamily="Courier New">
       1 * 0 + 1 OR 0
   </Paragraph>
   </Section>
   <Paragraph FontSize="11" FontFamily="Cambria">
-      Note that the BFP normally works on binary constants. So any symbol other than "0" will be interpreted and parsed as "1". For example an "u" will be interpreted as a "1".
+      Note that the BFP only works on binary constants, more precisely in GF(2) (also known as F<Span BaselineAlignment="Subscript">2</Span> or Z/2Z).
   </Paragraph>
   <Paragraph FontSize="11" FontFamily="Cambria">
       As you are able to select the <Bold>number of input variables</Bold> in the settings pane, your functions may contain variables.
@@ -66,7 +70,7 @@
       This version may contain static content as well.
   </Paragraph>
   <Paragraph FontSize="11" FontFamily="Cambria">
-      As a reference here is the truth table of the binary functions interpreted by the BFP:
+      As a reference the following table shows the truth table of the binary functions interpreted by the BFP:
   </Paragraph>
   <Table CellSpacing="2" FontSize="11" FontFamily="Cambria">
 
@@ -225,4 +229,14 @@
   </TableRowGroup>
   
   </Table>
+  <Paragraph FontSize="12" FontFamily="Cambria" FontWeight="Bold">
+      <LineBreak/>Notes on the implementation by the author
+  </Paragraph>
+  <Paragraph FontSize="11" FontFamily="Cambria">
+      The binary function is internally populated into a parse tree. Every node of the tree has a type, a left child, a right child, and,
+      in case of a constant type, a constant data field. So a simple tree filled by the function "1 * 1" has a root node with type "*", a left child node with type constant,
+      and a right child node with type constant. Both constant nodes have value "1" in their constant data field. At the moment the parse tree isn't balanced at all when populated by the plugin.
+      The result is computed by recursively walking down from the root to the lowest leaf of the tree.<LineBreak/>
+      For more information you may want to take a look at the "Parse Trees" paper by John Kennedy (http://homepage.smc.edu/kennedy_john/parsetrees.pdf), which gives a good introduction on parse trees.
+  </Paragraph>
 </FlowDocument>

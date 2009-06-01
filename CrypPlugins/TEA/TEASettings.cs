@@ -22,7 +22,7 @@ namespace Cryptool.TEA
         private bool hasChanges = false;
         private int action = 0; //0=encrypt, 1=decrypt
         private int padding = 0; //0="Zeros"=default, 1="None", 2="PKCS7"
-        private int version = 0; //0="TEA"=default, 1="XTEA"
+        private int version = 0; //0="TEA"=default, 1="XTEA, 2=XXTEA"
         private int rounds = 64;
 
         [ContextMenu("Action","Do you want the input data to be encrypted or decrypted?",1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 1, 2}, "Encrypt","Decrypt")]
@@ -46,8 +46,8 @@ namespace Cryptool.TEA
             }
         }
 
-        [ContextMenu("TEA version", "Select the version of TEA you want to use.", 4, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, "TEA", "XTEA")]
-        [TaskPane("TEA version", "Select the version of TEA you want to use.", "", 4, false, DisplayLevel.Experienced, ControlType.ComboBox, new String[] { "TEA (1994)", "XTEA (1997)" })]
+        [ContextMenu("TEA version", "Select the version of TEA you want to use.", 4, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, "TEA", "XTEA", "XXTEA")]
+        [TaskPane("TEA version", "Select the version of TEA you want to use.", "", 4, false, DisplayLevel.Experienced, ControlType.ComboBox, new String[] { "TEA (1994)", "XTEA (1997)", "XXTEA (1998)" })]
         public int Version
         {
             get { return this.version; }
