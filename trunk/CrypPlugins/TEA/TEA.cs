@@ -231,6 +231,7 @@ namespace Cryptool.TEA
                 //GuiLogMessage("vector[1] before coding: " + vector[1].ToString(), NotificationLevel.Debug);
 
                 uint[] key = new uint[4];
+                long[] longKey = new long[4];
                 long keybytes = inputKey.Length;
                 GuiLogMessage("inputKey length [byte]: " + keybytes.ToString(), NotificationLevel.Debug);
 
@@ -241,10 +242,20 @@ namespace Cryptool.TEA
                 }
                 else
                 {
-                    key[0] = BitConverter.ToUInt32(inputKey, 0);
-                    key[1] = BitConverter.ToUInt32(inputKey, 4);
-                    key[2] = BitConverter.ToUInt32(inputKey, 8);
-                    key[3] = BitConverter.ToUInt32(inputKey, 12);
+                    if (settings.Version != 2)
+                    {
+                        key[0] = BitConverter.ToUInt32(inputKey, 0);
+                        key[1] = BitConverter.ToUInt32(inputKey, 4);
+                        key[2] = BitConverter.ToUInt32(inputKey, 8);
+                        key[3] = BitConverter.ToUInt32(inputKey, 12);
+                    }
+                    else
+                    {
+                        longKey[0] = (long)BitConverter.ToUInt32(inputKey, 0);
+                        longKey[1] = (long)BitConverter.ToUInt32(inputKey, 4);
+                        longKey[2] = (long)BitConverter.ToUInt32(inputKey, 8);
+                        longKey[3] = (long)BitConverter.ToUInt32(inputKey, 12);
+                    }
                 }
 
                 //encryption or decryption
@@ -252,6 +263,7 @@ namespace Cryptool.TEA
                 DateTime startTime = DateTime.Now;
                 
                 uint[] vector = new uint[2];
+                long[] longVector = new long[2];
 
                 if (action == 0)
                 {
@@ -270,6 +282,11 @@ namespace Cryptool.TEA
                         else if (settings.Version == 1)
                         {
                             encode_xtea((uint)settings.Rounds, vector, key);
+                            StatusChanged((int)TEAImage.EncodeX);
+                        }
+                        else if (settings.Version == 2)
+                        {
+                            btea(vector, 2, key);
                             StatusChanged((int)TEAImage.EncodeX);
                         }
 
@@ -295,6 +312,11 @@ namespace Cryptool.TEA
                         else if (settings.Version == 1)
                         {
                             decode_xtea((uint)settings.Rounds, vector, key);
+                            StatusChanged((int)TEAImage.DecodeX);
+                        }
+                        else if (settings.Version == 2)
+                        {
+                            btea(vector, -2, key);
                             StatusChanged((int)TEAImage.DecodeX);
                         }
 
@@ -458,6 +480,59 @@ namespace Cryptool.TEA
             v[0] = y;
             v[1] = z;
         }
+
+        private uint btea(uint[] v, int n, uint[] k) {
+            int m = n;
+            if (n < -1) m = -n;
+            uint z=v[m-1], y=v[0], sum=0, e, DELTA=0x9e3779b9;
+            
+            int p, q;
+
+            uint MX;
+
+            if (n > 1) {          /* Coding Part */
+              q = 6 + 52/n;
+              while (q-- > 0) {
+                sum += DELTA;
+                e = (sum >> 2) & 3;
+                for (p=0; p<n-1; p++) {
+                    y = v[p+1];
+                    MX = (z>>5^y<<2) + (y>>3^z<<4)^(sum^y) + (k[p&3^e]^z);
+                    z = v[p] += MX;
+                }
+                y = v[0];
+                GuiLogMessage("y: " + y.ToString("X"), NotificationLevel.Info);
+                MX = (z >> 5 ^ y << 2) + (y >> 3 ^ z << 4) ^ (sum ^ y) + (k[p & 3 ^ e] ^ z);
+                z = v[n-1] += MX;
+                GuiLogMessage("z: " + z.ToString("X"), NotificationLevel.Info);
+              }
+
+              GuiLogMessage("v[n-1]: " + v[n - 1].ToString("X"), NotificationLevel.Info);
+              GuiLogMessage("v[0]: " + v[0].ToString("X"), NotificationLevel.Info);
+
+              return 0 ; 
+            } else if (n < -1) {  /* Decoding Part */
+              n = -n;
+              q = 6 + 52/n;
+              sum = (uint)q*DELTA ;
+              while (sum != 0) {
+                e = (sum >> 2) & 3;
+                for (p = n - 1; p > 0; p--)
+                {
+                    z = v[p - 1];
+                    MX = (z >> 5 ^ y << 2) + (y >> 3 ^ z << 4) ^ (sum ^ y) + (k[p & 3 ^ e] ^ z);
+                    y = v[p] -= MX;
+                }
+                z = v[n - 1];
+                MX = (z >> 5 ^ y << 2) + (y >> 3 ^ z << 4) ^ (sum ^ y) + (k[p & 3 ^ e] ^ z);
+                y = v[0] -= MX;
+                sum -= DELTA;
+              }
+              return 0;
+            }
+            return 1;
+        }
+
 
         public void Encrypt()
         {
