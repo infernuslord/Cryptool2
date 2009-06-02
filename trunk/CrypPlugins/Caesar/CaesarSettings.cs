@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows;
 using Cryptool.PluginBase;
 using System.Windows.Media;
+using System.Windows.Controls;
 
 namespace Cryptool.Caesar
 {
@@ -211,8 +212,8 @@ namespace Cryptool.Caesar
                 OnPropertyChanged("UnknownSymbolHandling");
             }
         }
-
-        [SettingsFormat(0, "Normal", "Red", "Yellow")]
+        // fort testing:
+        //[SettingsFormat(0, "Normal", "Red", "Yellow", Orientation.Horizontal)]
         [PropertySaveOrder(9)]
         [TaskPane("Alphabet", "This is the used alphabet.", null, 6, false, DisplayLevel.Expert, ControlType.TextBox, "")]
         public string AlphabetSymbols
@@ -239,7 +240,7 @@ namespace Cryptool.Caesar
         /// <summary>
         /// Visible setting how to deal with alphabet case. 0 = case insentive, 1 = case sensitive
         /// </summary>   
-        [SettingsFormat(1, "Normal")]
+        //[SettingsFormat(1, "Normal")]
         [PropertySaveOrder(8)]
         [ContextMenu("Alphabet case sensitivity", "Should upper and lower case be treated differently? (Should a == A)", 7, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "Case insensitive", "Case sensitive" })]
         [TaskPane("Alphabet case sensitivity", "Should upper and lower case be treated differently? (Should a == A)", null, 7, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Case insensitive", "Case sensitive" })]
