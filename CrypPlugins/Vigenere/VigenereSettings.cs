@@ -277,7 +277,7 @@ namespace Cryptool.Vigenere
         private string lowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
         private string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private char[] shiftChar = { 'B', 'C', 'D' };
-        private int[] shiftValue = { 1, 2, 3 };
+        public int[] shiftValue = { 1, 2, 3 };
         private UnknownSymbolHandlingMode unknowSymbolHandling = UnknownSymbolHandlingMode.Ignore;
         private int caseSensitiveAlphabet = 0; //0=case insensitive, 1 = case sensitive
         #endregion
@@ -330,7 +330,7 @@ namespace Cryptool.Vigenere
         /// Set the new shiftValue and the new shiftCharacter to offset % alphabet.Length
         /// </summary>
         /// <param name="offset"></param>
-        private void setKeyByValue(int[] offset)
+        public void setKeyByValue(int[] offset)
         {
             hasChanges = true;
 
