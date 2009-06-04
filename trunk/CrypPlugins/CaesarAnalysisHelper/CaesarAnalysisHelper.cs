@@ -196,8 +196,15 @@ namespace Cryptool.CaesarAnalysisHelper
                 foreach (var c in items)
                 {
                     int tmp = c - settings.FrequentChar;
+                    int temp = 26 + tmp;
+                    if (tmp < 0)
+                        Result.Add(temp);    
                     if (tmp > 0)
                         Result.Add(tmp);
+                    if (tmp == 0)
+                        Result.Add(tmp);
+                        
+                    
                 }
                 return Result;
             }
