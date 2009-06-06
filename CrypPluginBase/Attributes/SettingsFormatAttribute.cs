@@ -225,8 +225,18 @@ namespace Cryptool.PluginBase
 
     /// <summary>
     /// The font weight for the headline text
+    /// 
+    /// Valid values are: 
+    /// 
+    /// For Black, Bold, DemiBold, ExtraBold, Heavy, Medium, SemiBold, or UltraBold: Bold is enabled. 
+    /// For ExtraLight, Light, Normal, Regular, Thin, or UltraLight: Bold is disabled. 
     /// </summary>
     public readonly FontWeight FontWeight;
+
+    /// <summary>
+    /// The font style for the headline text
+    /// </summary>
+    public readonly FontStyle FontStyle;
 
     /// <summary>
     /// Foreground color
@@ -247,9 +257,8 @@ namespace Cryptool.PluginBase
     /// Initializes a new instance of the <see cref="SettingsFormatAttribute"/> class.
     /// </summary>
     /// <param name="indent">The indent.</param>
-    public SettingsFormatAttribute(int indent, string fontWeight)
-    {
-      new SettingsFormatAttribute(indent, fontWeight, "Black", "White", Orientation.Vertical);
+    public SettingsFormatAttribute(int indent, string fontWeight, string fontStyle) : this(indent, fontWeight, fontStyle, "Black", "White", Orientation.Vertical)
+    {      
     }
 
     /// <summary>
@@ -259,17 +268,24 @@ namespace Cryptool.PluginBase
     /// <param name="fontWeight">The font weight.</param>
     /// <param name="foreGroundColor">Color of the fore ground.</param>
     /// <param name="backGroundColor">Color of the back ground.</param>
-    public SettingsFormatAttribute(int indent, string fontWeight, string foreGroundColor, string backGroundColor, Orientation orientation)
+    public SettingsFormatAttribute(int indent, string fontWeight, string fontStyle, string foreGroundColor, string backGroundColor, Orientation orientation)
     {
       this.Ident = indent;
       try
-      {
-
+      {        
         this.FontWeight = (FontWeight)new FontWeightConverter().ConvertFromString(fontWeight);
       }
       catch
       {
         this.FontWeight = FontWeights.Normal;
+      }
+      try
+      {
+        this.FontStyle = (FontStyle)new FontStyleConverter().ConvertFromString(fontStyle);
+      }
+      catch
+      {
+        this.FontStyle = FontStyles.Normal;
       }
       try
       {        
