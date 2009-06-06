@@ -2247,6 +2247,12 @@
             </summary>
             <value>The height.</value>
         </member>
+        <member name="P:DragDrop.Interfaces.IWorkspace.Offset">
+            <summary>
+            Gets or sets the offset.
+            </summary>
+            <value>The offset.</value>
+        </member>
         <member name="P:DragDrop.Interfaces.IWorkspace.Dispatcher">
             <summary>
             Gets the dispatcher.
@@ -4279,6 +4285,12 @@
             </summary>
             <value></value>
             <returns>The transform this element should use. The default is <see cref="P:System.Windows.Media.Transform.Identity"/>.</returns>
+        </member>
+        <member name="P:DragDrop.Workspace.Offset">
+            <summary>
+            Snap to grid function.
+            </summary>
+            <value>The offset.</value>
         </member>
         <member name="P:DragDrop.Workspace.Width">
             <summary>
@@ -7134,6 +7146,18 @@
             <value>The global execution delay.</value>
         </member>
         <member name="P:AnotherEditor.AnotherEditorSettings.DelayValue">
+            <summary>
+            Gets or sets the delay value.
+            </summary>
+            <value>The delay value.</value>
+        </member>
+        <member name="P:AnotherEditor.AnotherEditorSettings.SnapToGrid">
+            <summary>
+            Gets or sets the snap to grid vertical.
+            </summary>
+            <value>The snap to grid vertical.</value>
+        </member>
+        <member name="P:AnotherEditor.AnotherEditorSettings.Offset">
             <summary>
             Gets or sets the delay value.
             </summary>
