@@ -213,7 +213,7 @@ namespace Cryptool.Caesar
             }
         }
 
-        [SettingsFormat(0, "Normal", "Black", "White", Orientation.Vertical)]
+        [SettingsFormat(0, "Normal", "Normal", "Black", "White", Orientation.Vertical)]
         [PropertySaveOrder(9)]
         [TaskPane("Alphabet", "This is the used alphabet.", null, 6, false, DisplayLevel.Expert, ControlType.TextBox, "")]
         public string AlphabetSymbols
