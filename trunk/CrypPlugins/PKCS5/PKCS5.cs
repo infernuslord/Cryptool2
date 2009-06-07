@@ -32,6 +32,13 @@ namespace PKCS5
   [PluginInfo(false, "PKCS#5", "PKCS#5 V2.1 Hash", "http://tools.ietf.org/html/rfc2898", "PKCS5/PKCS5.png")]
   public class PKCS5 : IHash
   {
+    private enum argType
+    {
+      Object, // unknown - default
+      Stream,
+      ByteArray,
+      String
+    };
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PKCS5"/> class.
@@ -86,140 +93,243 @@ namespace PKCS5
 
     #endregion
 
+    private string GetStringForSelectedEncoding(byte[] arrByte)
+    {
+      if (arrByte != null)
+      {
+        string returnValue;
+
+        // here conversion happens
+        switch (settings.Encoding)
+        {
+          case PKCS5Settings.EncodingTypes.Default:
+            returnValue = Encoding.Default.GetString(arrByte, 0, arrByte.Length);
+            break;
+          case PKCS5Settings.EncodingTypes.Unicode:
+            returnValue = Encoding.Unicode.GetString(arrByte, 0, arrByte.Length);
+            break;
+          case PKCS5Settings.EncodingTypes.UTF7:
+            returnValue = Encoding.UTF7.GetString(arrByte, 0, arrByte.Length);
+            break;
+          case PKCS5Settings.EncodingTypes.UTF8:
+            returnValue = Encoding.UTF8.GetString(arrByte, 0, arrByte.Length);
+            break;
+          case PKCS5Settings.EncodingTypes.UTF32:
+            returnValue = Encoding.UTF32.GetString(arrByte, 0, arrByte.Length);
+            break;
+          case PKCS5Settings.EncodingTypes.ASCII:
+            returnValue = Encoding.ASCII.GetString(arrByte, 0, arrByte.Length);
+            break;
+          case PKCS5Settings.EncodingTypes.BigEndianUnicode:
+            returnValue = Encoding.BigEndianUnicode.GetString(arrByte, 0, arrByte.Length);
+            break;
+          default:
+            returnValue = Encoding.Default.GetString(arrByte, 0, arrByte.Length);
+            break;
+        }
+        return returnValue;
+      }
+      return null;
+    }
+
+
+    public byte[] GetByteArrayForSelectedEncodingByteArray(string data)
+    {
+      byte[] byteArrayOutput = null;
+
+      if ((data != null) && (data.Length != 0))
+      {
+        // here conversion happens        
+        switch (settings.Encoding)
+        {
+          case PKCS5Settings.EncodingTypes.Default:
+            byteArrayOutput = Encoding.Default.GetBytes(data.ToCharArray());
+            break;
+          case PKCS5Settings.EncodingTypes.Unicode:
+            byteArrayOutput = Encoding.Unicode.GetBytes(data.ToCharArray());
+            break;
+          case PKCS5Settings.EncodingTypes.UTF7:
+            byteArrayOutput = Encoding.UTF7.GetBytes(data.ToCharArray());
+            break;
+          case PKCS5Settings.EncodingTypes.UTF8:
+            byteArrayOutput = Encoding.UTF8.GetBytes(data.ToCharArray());
+            break;
+          case PKCS5Settings.EncodingTypes.UTF32:
+            byteArrayOutput = Encoding.UTF32.GetBytes(data.ToCharArray());
+            break;
+          case PKCS5Settings.EncodingTypes.ASCII:
+            byteArrayOutput = Encoding.ASCII.GetBytes(data.ToCharArray());
+            break;
+          case PKCS5Settings.EncodingTypes.BigEndianUnicode:
+            byteArrayOutput = Encoding.BigEndianUnicode.GetBytes(data.ToCharArray());
+            break;
+          default:
+            byteArrayOutput = Encoding.Default.GetBytes(data.ToCharArray());
+            break;
+        }
+        return byteArrayOutput;
+      }
+
+      return null;
+    }
+
+
     #region Input key / password
 
     // Input key
     private byte[] key = { };
-
-    /// <summary>
-    /// Notifies the update input.
-    /// </summary>
-    private void NotifyUpdateKey()
-    {
-      OnPropertyChanged("KeyStream");
-      OnPropertyChanged("KeyData");
-    }
+    private argType keyType = argType.Object;
 
     /// <summary>
     /// Gets or sets the input data.
     /// </summary>
     /// <value>The input key.</value>
-    [PropertyInfo(Direction.Input, "Key Stream", "Key stream to be hashed", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
-    public CryptoolStream KeyStream
+    [PropertyInfo(Direction.Input, "Key", "Key to be hashed", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+    public System.Object Key
     {
       get
       {
-        CryptoolStream keyDataStream = new CryptoolStream();
-        keyDataStream.OpenRead(this.GetPluginInfoAttribute().Caption, key);
-        return keyDataStream;
+        switch(keyType)
+        {
+          default:
+          //case argType.Object:
+          //case argType.Stream:
+            {
+              CryptoolStream keyDataStream = new CryptoolStream();
+              keyDataStream.OpenRead(this.GetPluginInfoAttribute().Caption, key);
+              return keyDataStream;
+            }
+
+          case argType.ByteArray:
+            return key;
+
+          case argType.String:
+            return GetStringForSelectedEncoding(key);
+        }
       }
       set
       {
         if (null == value)
           return;
 
-        long len = value.Length;
-        key = new byte[len];
+        if (Object.ReferenceEquals(value.GetType(), typeof(CryptoolStream)))
+        {
+          keyType = argType.Stream;
 
-        for (long i = 0; i < len; i++)
-          key[i] = (byte)value.ReadByte();
+          CryptoolStream cst = (CryptoolStream)value;
+          long len = cst.Length;
+          key = new byte[len];
 
-        NotifyUpdateKey();
-        GuiLogMessage("KeyStream changed.", NotificationLevel.Debug);
+          for (long i = 0; i < len; i++)
+            key[i] = (byte)cst.ReadByte();
+
+        }
+        else if (Object.ReferenceEquals(value.GetType(), typeof(byte[])))
+        {
+          keyType = argType.ByteArray;
+
+          byte[] ba = (byte[])value;
+          
+          long len = ba.Length;
+          key = new byte[len];
+
+          for (long i = 0; i < len; i++)
+            key[i] = ba[i];
+        }
+        else if (Object.ReferenceEquals(value.GetType(), typeof(string)))
+        {
+          string str = (string) value;
+          key = GetByteArrayForSelectedEncodingByteArray(str);
+        }
+        else
+        {
+          throw new InvalidCastException("Invalid data type for Key property.");
+        }
+
+        OnPropertyChanged("Key");
+        GuiLogMessage("Key changed.", NotificationLevel.Debug);
       }
     }
 
-    /// <summary>
-    /// Gets the input data.
-    /// </summary>
-    /// <value>The input data.</value>
-    [PropertyInfo(Direction.Input, "Key Data", "Key stream to be hashed", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
-    public byte[] KeyData
-    {
-      get
-      {
-        return key;
-      }
-      set
-      {
-        long len = value.Length;
-        key = new byte[len];
-
-        for (long i = 0; i < len; i++)
-          key[i] = value[i];
-
-        NotifyUpdateKey();
-        GuiLogMessage("KeyData changed.", NotificationLevel.Debug);
-      }
-    }
     #endregion
 
     #region Salt data / Seed data
 
     // Salt Data
     private byte[] salt = { };
-
-    /// <summary>
-    /// Notifies the update salt.
-    /// </summary>
-    private void NotifyUpdateSalt()
-    {
-      OnPropertyChanged("SaltStream");
-      OnPropertyChanged("SaltData");
-    }
+    argType saltType = argType.Object;
 
     /// <summary>
     /// Gets or sets the salt data.
     /// </summary>
     /// <value>The salt data.</value>
-    [PropertyInfo(Direction.Input, "Salt Stream", "Salt - Input salt data to change the PKCS hash", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
-    public CryptoolStream SaltStream
+    [PropertyInfo(Direction.Input, "Salt", "Salt - Input salt data to change the PKCS hash", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+    public Object Salt
     {
       get
       {
-        CryptoolStream saltDataStream = new CryptoolStream();
-        saltDataStream.OpenRead(this.GetPluginInfoAttribute().Caption, salt);
-        return saltDataStream;
+        switch (saltType)
+        {
+          default:
+          //case argType.Object:
+          //case argType.Stream:
+            {
+              CryptoolStream saltDataStream = new CryptoolStream();
+              saltDataStream.OpenRead(this.GetPluginInfoAttribute().Caption, salt);
+              return saltDataStream;
+            }
+
+          case argType.ByteArray:
+            return salt;
+
+          case argType.String:
+            return GetStringForSelectedEncoding(salt);
+        }
       }
       set
       {
         if (null == value)
           return;
-        long len = value.Length;
-        salt = new byte[len];
 
-        for (long i = 0; i < len; i++)
-          salt[i] = (byte)value.ReadByte();
+        if (Object.ReferenceEquals(value.GetType(), typeof(CryptoolStream)))
+        {
+          saltType = argType.Stream;
 
-        NotifyUpdateSalt();
-        GuiLogMessage("SaltStream changed.", NotificationLevel.Debug);
+          CryptoolStream cst = (CryptoolStream)value;
+          long len = cst.Length;
+          salt = new byte[len];
+
+          for (long i = 0; i < len; i++)
+            salt[i] = (byte)cst.ReadByte();
+        }
+        else if (Object.ReferenceEquals(value.GetType(), typeof(byte[])))
+        {
+          saltType = argType.ByteArray;
+
+          byte[] ba = (byte[])value;
+
+          long len = ba.Length;
+          salt = new byte[len];
+
+          for (long i = 0; i < len; i++)
+            salt[i] = ba[i];
+        }
+        else if (Object.ReferenceEquals(value.GetType(), typeof(string)))
+        {
+          string str = (string)value;
+          salt = GetByteArrayForSelectedEncodingByteArray(str);
+        }
+
+        else
+        {
+          throw new InvalidCastException("Invalid data type for Salt property.");
+        }
+
+        OnPropertyChanged("Salt");
+        GuiLogMessage("Salt changed.", NotificationLevel.Debug);
       }
     }
-
-    /// <summary>
-    /// Gets or sets the salt data.
-    /// </summary>
-    /// <value>The salt data.</value>
-    [PropertyInfo(Direction.Input, "Salt Data", "Salt - Input salt data to to be change the PKCS hash", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
-    public byte[] SaltData
-    {
-      get
-      {
-        return salt;
-      }
-
-      set
-      {
-        long len = value.Length;
-        salt = new byte[len];
-
-        for (long i = 0; i < len; i++)
-          salt[i] = value[i];
-
-        NotifyUpdateSalt();
-        GuiLogMessage("SaltData changed.", NotificationLevel.Debug);
-      }
-    }
+ 
     #endregion
 
     #region Output
