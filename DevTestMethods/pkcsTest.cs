@@ -88,8 +88,8 @@ namespace Tests
 
       PKCS5.PKCS5 p = new PKCS5.PKCS5();
       p.Settings = set;
-      p.KeyData = key;
-      p.SaltData = salt;
+      p.Key = key;
+      p.Salt = salt;
 
       testContextInstance.WriteLine("key is  " + ConvertByteToHex(key));
       testContextInstance.WriteLine("salt is " + ConvertByteToHex(salt));

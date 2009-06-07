@@ -36,6 +36,34 @@ namespace PKCS5
 
     #region ISettings Member
 
+    public enum EncodingTypes
+    {
+      Default = 0,
+      Unicode = 1,
+      UTF7 = 2,
+      UTF8 = 3,
+      UTF32 = 4,
+      ASCII = 5,
+      BigEndianUnicode = 6
+    };
+    private EncodingTypes encoding = EncodingTypes.Default;
+    /// <summary>
+    /// Retrieves the current used encoding, or sets it.
+    /// </summary>
+    public EncodingTypes Encoding
+    {
+      get
+      {
+        return this.encoding;
+      }
+      set
+      {
+        if (this.Encoding != value)
+          hasChanges = true;
+        this.encoding = value;
+        OnPropertyChanged("EncodingSetting");
+      }
+    }
 
     /// <summary>
     /// selected internal hash HMAC function
@@ -118,6 +146,32 @@ namespace PKCS5
         OnPropertyChanged("Length");
       }
     }
+
+
+
+    /// <summary>
+    /// Encoding property used in the Settings pane. 
+    /// </summary>
+    [ContextMenu("String encoding", "Choose the expected encoding of strings (input & output).", 1, DisplayLevel.Experienced, ContextMenuControlType.ComboBox, null, 
+      new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
+    [TaskPane("String encoding", "Choose the expected encoding of strings (input & output).", 
+      null, 1, false, DisplayLevel.Experienced, ControlType.RadioButton, 
+      new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
+    public int EncodingSetting
+    {
+      get
+      {
+        return (int)this.encoding;
+      }
+      set
+      {
+        if (this.encoding != (EncodingTypes)value)
+          HasChanges = true;
+        this.encoding = (EncodingTypes)value;
+        OnPropertyChanged("EncodingSetting");
+      }
+    }
+
 
     /// <summary>
     /// Checks the length.
