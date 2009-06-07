@@ -218,6 +218,7 @@ namespace Cryptool.PluginBase
   [AttributeUsage(AttributeTargets.Property)]
   public class SettingsFormatAttribute : Attribute
   {
+    #region public_properties
     /// <summary>
     /// Optical Ident of 
     /// </summary>
@@ -254,11 +255,32 @@ namespace Cryptool.PluginBase
     public readonly Orientation Orientation;
 
     /// <summary>
+    /// Column width of column one. Is only used when no group is selected. 
+    /// Value samples: Auto, Auto or 1*, 2* Last sample indicates that column 1
+    /// wants to be given twice as much of the available space as the row marked with 1*. 
+    /// </summary>
+    public readonly GridLength WidthCol1;
+
+    /// <summary>
+    /// Column width of column two. Is only used when no group is selected. 
+    /// </summary>
+    public readonly GridLength WidthCol2;
+    #endregion public_properties
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="SettingsFormatAttribute"/> class.
     /// </summary>
     /// <param name="indent">The indent.</param>
-    public SettingsFormatAttribute(int indent, string fontWeight, string fontStyle) : this(indent, fontWeight, fontStyle, "Black", "White", Orientation.Vertical)
+    public SettingsFormatAttribute(int indent, string fontWeight, string fontStyle) : this(indent, fontWeight, fontStyle, "Black", "White", Orientation.Vertical, "Auto", "Auto")
     {      
+    }
+
+    /// <summary>
+    /// This constructor should be used when using vertical orientation, because values for column width are not used in this case.
+    /// </summary>
+    public SettingsFormatAttribute(int indent, string fontWeight, string fontStyle, string foreGroundColor, string backGroundColor, Orientation orientation)
+      : this(indent, fontWeight, fontStyle, foreGroundColor, backGroundColor, orientation, "Auto", "Auto")
+    {
     }
 
     /// <summary>
@@ -266,9 +288,13 @@ namespace Cryptool.PluginBase
     /// </summary>
     /// <param name="indent">The indent.</param>
     /// <param name="fontWeight">The font weight.</param>
+    /// <param name="fontStyle">The font style.</param>
     /// <param name="foreGroundColor">Color of the fore ground.</param>
     /// <param name="backGroundColor">Color of the back ground.</param>
-    public SettingsFormatAttribute(int indent, string fontWeight, string fontStyle, string foreGroundColor, string backGroundColor, Orientation orientation)
+    /// <param name="orientation">The orientation.</param>
+    /// <param name="widthCol1">The width col1.</param>
+    /// <param name="widthCol2">The width col2.</param>
+    public SettingsFormatAttribute(int indent, string fontWeight, string fontStyle, string foreGroundColor, string backGroundColor, Orientation orientation, string widthCol1, string widthCol2)
     {
       this.Ident = indent;
       try
@@ -303,7 +329,25 @@ namespace Cryptool.PluginBase
       {
         this.BackGround = Brushes.White;
       }
+
       this.Orientation = orientation;
+      
+      try
+      {
+        this.WidthCol1 = (GridLength)new GridLengthConverter().ConvertFromString(widthCol1);
+      }
+      catch
+      {
+        this.WidthCol1 = new GridLength();
+      }
+      try
+      {
+        this.WidthCol2 = (GridLength)new GridLengthConverter().ConvertFromString(widthCol2);
+      }
+      catch
+      {
+        this.WidthCol2 = new GridLength();
+      }      
     }
   }
 }
