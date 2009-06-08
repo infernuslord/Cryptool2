@@ -443,10 +443,13 @@ namespace Twofish
             {
               pos += decrypt.TransformBlock(inputdata, pos, decrypt.InputBlockSize, outputData, pos);
             }
-            byte[] final = decrypt.TransformFinalBlock(inputdata, pos, 16);
+            if (inputdata.Length > 0)
+            {
+              byte[] final = decrypt.TransformFinalBlock(inputdata, pos, 16);
 
               for (int i = pos; i < outputData.Length; i++)
                 outputData[i] = final[i - pos];
+            }
 
             decrypt.Dispose();
             break;
