@@ -214,6 +214,12 @@ namespace Cryptool.PluginBase
   /// <summary>
   /// This optional attribute can be used to display author information in the 
   /// settings pane. 
+  /// 
+  /// Some usage samples:
+  /// [SettingsFormat(0, "UltraBold", "Italic", "Black", "White", Orientation.Horizontal)] - Default column width is "*"
+  /// [SettingsFormat(0, "UltraBold", "Italic", "Black", "White", Orientation.Horizontal, "Auto", "Auto")]
+  /// [SettingsFormat(0, "UltraBold", "Italic", "Black", "White", Orientation.Horizontal, "1*", "5*")]
+  /// [SettingsFormat(0, "UltraBold", "Italic", "Black", "White", Orientation.Horizontal, "group1")] - group one should be used at least twice, otherwise it would be bootless. 
   /// </summary>
   [AttributeUsage(AttributeTargets.Property)]
   public class SettingsFormatAttribute : Attribute
@@ -265,13 +271,31 @@ namespace Cryptool.PluginBase
     /// Column width of column two. Is only used when no group is selected. 
     /// </summary>
     public readonly GridLength WidthCol2;
+
+    /// <summary>
+    /// You can place more n itmes in a vertical group using the same group name for different task pane settings.
+    /// </summary>
+    public readonly string VerticalGroup;
+
+    /// <summary>
+    /// Gets a value indicating whether this instance has vertical group.
+    /// </summary>
+    /// <value>
+    /// 	<c>true</c> if this instance has vertical group; otherwise, <c>false</c>.
+    /// </value>
+    public bool HasVerticalGroup
+    {
+      get { return VerticalGroup != null && VerticalGroup != string.Empty; }
+    }
     #endregion public_properties
 
+    private const string DEFAULT_COL_WIDTH = "*";
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsFormatAttribute"/> class.
     /// </summary>
     /// <param name="indent">The indent.</param>
-    public SettingsFormatAttribute(int indent, string fontWeight, string fontStyle) : this(indent, fontWeight, fontStyle, "Black", "White", Orientation.Vertical, "Auto", "Auto")
+    public SettingsFormatAttribute(int indent, string fontWeight, string fontStyle)
+      : this(indent, fontWeight, fontStyle, "Black", "White", Orientation.Vertical, DEFAULT_COL_WIDTH, DEFAULT_COL_WIDTH, null)
     {      
     }
 
@@ -279,7 +303,20 @@ namespace Cryptool.PluginBase
     /// This constructor should be used when using vertical orientation, because values for column width are not used in this case.
     /// </summary>
     public SettingsFormatAttribute(int indent, string fontWeight, string fontStyle, string foreGroundColor, string backGroundColor, Orientation orientation)
-      : this(indent, fontWeight, fontStyle, foreGroundColor, backGroundColor, orientation, "Auto", "Auto")
+      : this(indent, fontWeight, fontStyle, foreGroundColor, backGroundColor, orientation, DEFAULT_COL_WIDTH, DEFAULT_COL_WIDTH, null)
+    {
+    }
+
+    /// <summary>
+    /// This constructor should be used when using vertical orientation with sub groups
+    /// </summary>
+    public SettingsFormatAttribute(int indent, string fontWeight, string fontStyle, string foreGroundColor, string backGroundColor, Orientation orientation, string verticalGroup)
+      : this(indent, fontWeight, fontStyle, foreGroundColor, backGroundColor, orientation, DEFAULT_COL_WIDTH, DEFAULT_COL_WIDTH, verticalGroup)
+    {
+    }
+
+    public SettingsFormatAttribute(int indent, string fontWeight, string fontStyle, string foreGroundColor, string backGroundColor, Orientation orientation, string widthCol1, string widthCol2)
+      : this(indent, fontWeight, fontStyle, foreGroundColor, backGroundColor, orientation, widthCol1, widthCol2, null)
     {
     }
 
@@ -294,7 +331,8 @@ namespace Cryptool.PluginBase
     /// <param name="orientation">The orientation.</param>
     /// <param name="widthCol1">The width col1.</param>
     /// <param name="widthCol2">The width col2.</param>
-    public SettingsFormatAttribute(int indent, string fontWeight, string fontStyle, string foreGroundColor, string backGroundColor, Orientation orientation, string widthCol1, string widthCol2)
+    /// <param name="verticalGroup">The vertical group.</param>
+    public SettingsFormatAttribute(int indent, string fontWeight, string fontStyle, string foreGroundColor, string backGroundColor, Orientation orientation, string widthCol1, string widthCol2, string verticalGroup)
     {
       this.Ident = indent;
       try
@@ -347,7 +385,8 @@ namespace Cryptool.PluginBase
       catch
       {
         this.WidthCol2 = new GridLength();
-      }      
+      }
+      this.VerticalGroup = verticalGroup;
     }
   }
 }
