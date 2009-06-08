@@ -245,6 +245,11 @@ namespace Cryptool.PluginBase
               return groupName;
           }
         }
+
+        public bool HasGroupName
+        {
+          get { return groupName != null && groupName != string.Empty; }
+        }
         # endregion multi language properties
 
         public readonly int Order;        
