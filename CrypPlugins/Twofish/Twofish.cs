@@ -443,9 +443,9 @@ namespace Twofish
             {
               pos += decrypt.TransformBlock(inputdata, pos, decrypt.InputBlockSize, outputData, pos);
             }
-            if (inputdata.Length > 0)
+            if (inputdata.Length - pos >  0)
             {
-              byte[] final = decrypt.TransformFinalBlock(inputdata, pos, 16);
+              byte[] final = decrypt.TransformFinalBlock(inputdata, pos, inputdata.Length - pos);
 
               for (int i = pos; i < outputData.Length; i++)
                 outputData[i] = final[i - pos];
