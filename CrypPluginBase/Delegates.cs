@@ -254,4 +254,6 @@ namespace Cryptool.PluginBase
   /// change of dynamic properties.
   /// </summary>
   public delegate void DynamicPropertiesChanged(IPlugin plugin);
+
+  public delegate void TaskPaneAttributeChangedHandler(IPlugin plugin, TaskPaneAttributeChangedEventArgs args);
 }

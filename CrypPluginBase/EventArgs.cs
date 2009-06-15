@@ -203,6 +203,7 @@
 
 using System;
 using Cryptool.PluginBase.Editor;
+using System.Collections.Generic;
 
 namespace Cryptool.PluginBase
 {
@@ -306,6 +307,26 @@ namespace Cryptool.PluginBase
     public ProjectTitleChangedEventArgs(string title)
     {
       this.Title = title;      
+    }
+  }
+
+  public class TaskPaneAttributeChangedEventArgs : EventArgs
+  {
+    public readonly string Property;
+    public readonly List<string> Properties;
+
+    public TaskPaneAttributeChangedEventArgs(string property)
+    {
+      if (property == null || property == string.Empty)
+        throw new ArgumentException("property");
+      this.Property = property;
+    }
+
+    public TaskPaneAttributeChangedEventArgs(List<string> properties)
+    {
+      if (properties == null)
+        throw new ArgumentException("properties");
+      this.Properties = properties;
     }
   }
 
