@@ -9,6 +9,9 @@ using Cryptool.PluginBase.IO;
 using System.ComponentModel;
 using System.Windows.Documents;
 using Cryptool.PluginBase.Miscellaneous;
+using System.Windows.Controls;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace Cryptool.VigenereAnalyser
 {
@@ -20,7 +23,7 @@ namespace Cryptool.VigenereAnalyser
 
     public class VigenereAnalyser:IStatistic
     {
-        
+        private VAPresentation vaPresentation;
         private char[] validchars = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' }; //Sets alphabet of valid characters
         private int[] keywordOutput;
         private string frequencyOutput="";
@@ -152,14 +155,43 @@ namespace Cryptool.VigenereAnalyser
         {
             get { return settings; }
             set { settings = (VigenereAnalyserSettings)value; }
+
+        }
+        public UserControl Presentation { get; private set; }
+
+        public UserControl QuickWatchPresentation
+        {
+            get { return Presentation; }
         }
         public VigenereAnalyser() 
         {
             settings = new VigenereAnalyserSettings();
+            vaPresentation = new VAPresentation();
+
+            Presentation = vaPresentation;
+            vaPresentation.textBoxInputText.TextChanged +=textBoxInputText_TextChanged;
+        }
+        void textBoxInputText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //this.NotifyUpdate();
+            settings.HasChanges = true;
+            
+        }
+        public void Initialize()
+        {
+            if (vaPresentation.textBoxInputText != null)
+                vaPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    vaPresentation.textBoxInputText.Text = settings.Text;
+                }, null);
         }
         public void Dispose()
         {
-            //throw new NotImplementedException();
+            settings.Text = (string)vaPresentation.textBoxInputText.Dispatcher.Invoke(
+        DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
+        {
+            return vaPresentation.textBoxInputText.Text;
+        }, null);
         }
         public void PreExecution()
         {
@@ -377,19 +409,49 @@ namespace Cryptool.VigenereAnalyser
                    }
                    
                }
-               if (keys.Length-1==n) 
+               if (keys.Length-1==n)
                {
                    keywordOutput = keyword;
                    OnPropertyChanged("KeywordOutput");
+                   /*if ()
+                   {
+                       int k = 0;
+                       int[] keyword1 = new int[settings.Text.Length];
+                       foreach (char g in settings.Text)
+                       {   for (int f =0;f<=validchars.Length-1;f++)
+                       {
+                           if (g == validchars[f])
+                           {
+                               keyword1[k] = f;
+                               k++;
+                           }
+                        }
+                       }
+                       keywordOutput = keyword1;
+                       OnPropertyChanged("KeywordOutput");
+
+                   }*/
                }
+               StringBuilder keywordstring = new StringBuilder();
+               foreach (int r in keyword)
+               {
+                   keywordstring.Append(validchars[r]);
+               }
+
+               settings.Text = keywordstring.ToString();
+               Initialize();
+               string value = (string)this.vaPresentation.textBoxInputText.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
+               {
+                   return vaPresentation.textBoxInputText.Text;
+               }, vaPresentation);
+
+               if (value == null || value == string.Empty)
+                   ShowStatusBarMessage("No input value returning null.", NotificationLevel.Warning);
                
             }
         }
 
-        public void Initialize()
-        {
-            //throw new NotImplementedException();
-        }
+       
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 
@@ -404,26 +466,12 @@ namespace Cryptool.VigenereAnalyser
 
         public void PostExecution()
         {
+            Dispose();
             kasiskiInput = null;
             probableKeylength = 0;
             //inputChange = false;
             v = 0;
         }
-
-        
-
-        public System.Windows.Controls.UserControl Presentation
-        {
-            get { return null; }
-        }
-
-        public System.Windows.Controls.UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
-        
-
         public void Stop()
         {
             //throw new NotImplementedException();

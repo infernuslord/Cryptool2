@@ -13,13 +13,22 @@ namespace Cryptool.VigenereAnalyser
     {
         #region ISettings Members
 
-        private bool hasChanges;
+        private bool hasChanges = false;
         public bool HasChanges
         {
             get { return hasChanges; }
-            set { hasChanges = value; }
+            set { hasChanges = value; OnPropertyChanged("HasChanges"); }
         }
-
+        private string text;
+        public string Text
+        {
+            get { return text; }
+            set
+            {
+                if (value != text) hasChanges = true;
+                text = value;
+            }
+        }
         #endregion
 
         #region INotifyPropertyChanged Members
