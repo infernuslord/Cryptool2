@@ -206,6 +206,7 @@ using Cryptool.PluginBase.Editor;
 
 namespace Cryptool.PluginBase
 {
+  #region public interface delegates
   /// <summary>
   /// Used by plugins to inform the editor about internal status changes. E.g. a comparator
   /// plugin can send a new icon to show after comparison was done.
@@ -221,7 +222,9 @@ namespace Cryptool.PluginBase
   /// Used to notify the editor about prgress changes in execution method.
   /// </summary>
   public delegate void PluginProgressChangedEventHandler(IPlugin sender, PluginProgressEventArgs args);
+  #endregion public interface delegates
 
+  # region editor delegates
   /// <summary>
   /// Used by editor plugins to communicate the selected plugin to CrypWin.
   /// </summary>
@@ -248,12 +251,18 @@ namespace Cryptool.PluginBase
   /// This occurs after a new SubWorkspace was created.
   /// </summary>
   public delegate void EditorSpecificPluginsChanged(IEditor editor);
+  # endregion editor delegates
 
+  #region optional delegates
   /// <summary>
   /// This optional delegate can be used by plugins to inform editors of an 
   /// change of dynamic properties.
   /// </summary>
   public delegate void DynamicPropertiesChanged(IPlugin plugin);
 
+  /// <summary>
+  /// This optional delegate can be used to hide task pane settings.
+  /// </summary>
   public delegate void TaskPaneAttributeChangedHandler(IPlugin plugin, TaskPaneAttributeChangedEventArgs args);
+  #endregion optional delegates
 }
