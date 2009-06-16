@@ -204,6 +204,7 @@
 using System;
 using Cryptool.PluginBase.Editor;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace Cryptool.PluginBase
 {
@@ -312,19 +313,20 @@ namespace Cryptool.PluginBase
 
   public class TaskPaneAttributeChangedEventArgs : EventArgs
   {
-    public readonly string Property;
-    public readonly List<string> Properties;
+    public readonly Dictionary<string, Visibility> Properties;
 
-    public TaskPaneAttributeChangedEventArgs(string property)
+
+    public TaskPaneAttributeChangedEventArgs(string property, Visibility visible)
     {
       if (property == null || property == string.Empty)
         throw new ArgumentException("property");
-      this.Property = property;
+      Properties = new Dictionary<string, Visibility>();
+      Properties.Add(property, visible);
     }
 
-    public TaskPaneAttributeChangedEventArgs(List<string> properties)
+    public TaskPaneAttributeChangedEventArgs(Dictionary<string, Visibility> properties)
     {
-      if (properties == null)
+      if (properties == null || properties.Count == 0)
         throw new ArgumentException("properties");
       this.Properties = properties;
     }

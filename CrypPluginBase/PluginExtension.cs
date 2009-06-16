@@ -315,6 +315,16 @@ namespace Cryptool.PluginBase
           return null;
         }
 
+        public static EventInfo GetTaskPaneAttributeChanged(this IPlugin settings)
+        {
+          foreach (EventInfo eventInfo in settings.GetType().GetEvents())
+          {
+            if (eventInfo.EventHandlerType == typeof(TaskPaneAttributeChangedHandler))
+              return eventInfo;
+          }
+          return null;
+        }
+
         public static void SetPropertyValue(this IPlugin plugin, PropertyInfo property, object value)
         {
             property.SetValue(plugin, value, null);
