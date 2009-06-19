@@ -7100,6 +7100,7 @@
             <summary>
             Initializes a new instance of the <see cref="T:AnotherEditor.AnotherEditorSettings"/> class.
             </summary>
+            
         </member>
         <member name="M:AnotherEditor.AnotherEditorSettings.AddWorkspace">
             <summary>
@@ -7121,11 +7122,6 @@
             Called when [property changed].
             </summary>
             <param name="name">The name.</param>
-        </member>
-        <member name="E:AnotherEditor.AnotherEditorSettings.OnAnotherEditorStatusBarTextChanged">
-            <summary>
-            Occurs when [on another editor status bar text changed].
-            </summary>
         </member>
         <member name="P:AnotherEditor.AnotherEditorSettings.ProjectManager">
             <summary>
@@ -7193,6 +7189,11 @@
             <value>
             	<c>true</c> if this instance has changes; otherwise, <c>false</c>.
             </value>
+        </member>
+        <member name="E:AnotherEditor.AnotherEditorSettings.OnAnotherEditorStatusBarTextChanged">
+            <summary>
+            Occurs when [on another editor status bar text changed].
+            </summary>    
         </member>
         <member name="T:AnotherEditor.Extensions.DispatcherHelper">
             <summary>
