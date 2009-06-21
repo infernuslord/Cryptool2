@@ -315,9 +315,9 @@ namespace Cryptool.PluginBase
           return null;
         }
 
-        public static EventInfo GetTaskPaneAttributeChanged(this IPlugin plugin)
+        public static EventInfo GetTaskPaneAttributeChanged(this ISettings settings)
         {
-          foreach (EventInfo eventInfo in plugin.GetType().GetEvents())
+          foreach (EventInfo eventInfo in settings.GetType().GetEvents())
           {
             if (eventInfo.EventHandlerType == typeof(TaskPaneAttributeChangedHandler))
               return eventInfo;

@@ -78,6 +78,7 @@ namespace Cryptool.Caesar
         // private int shiftValue = 2;
         private UnknownSymbolHandlingMode unknownSymbolHandling = UnknownSymbolHandlingMode.Ignore;
         private int caseSensitiveAlphabet = 0; // 0 = case insensitve, 1 = case sensitive
+        private bool sensitivityEnabled = true;
         #endregion
 
         #region Private methods
@@ -302,6 +303,28 @@ namespace Cryptool.Caesar
 
         #endregion
 
+        #region TaskPaneAttributeChanged-Sample
+        /// <summary>
+        /// This event is just used here for sample reasons
+        /// </summary>
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
 
+        [TaskPane("Enable/Disable sensitivity", "This setting is just a sample and shows how to enable / disable a setting.", "AttributeChangedSample", 8, false, DisplayLevel.Beginner, ControlType.Button)]
+        public void EnableDisableSesitivity()
+        {
+          if (TaskPaneAttributeChanged!= null)
+          {
+            sensitivityEnabled = !sensitivityEnabled;
+            if (sensitivityEnabled)
+            {
+              TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs("AlphabetCase", Visibility.Visible));
+            }
+            else
+            {
+              TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs("AlphabetCase", Visibility.Collapsed));
+            }
+          }
+        }
+        #endregion TaskPaneAttributeChanged-Sample
     }
 }

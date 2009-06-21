@@ -121,6 +121,7 @@ namespace Cryptool.Caesar
             if (value != settings.ShiftKey)
             {
               settings.ShiftKey = value;
+              // Execute();
             }
           }
         }
@@ -164,8 +165,6 @@ namespace Cryptool.Caesar
           get { return settings.HasChanges; }
           set { settings.HasChanges = value; }
         }
-
-        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
 
         /// <summary>
         /// Feuern, wenn sich sich eine Änderung des Fortschrittsbalkens ergibt 
@@ -351,10 +350,6 @@ namespace Cryptool.Caesar
                     break;
                 default:
                     break;
-            }
-            if (this.TaskPaneAttributeChanged != null)
-            {
-              TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs("Action", System.Windows.Visibility.Collapsed));
             }
         }
 
