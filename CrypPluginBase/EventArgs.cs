@@ -315,7 +315,11 @@ namespace Cryptool.PluginBase
   {
     public readonly Dictionary<string, Visibility> Properties;
 
-
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TaskPaneAttributeChangedEventArgs"/> class.
+    /// </summary>
+    /// <param name="property">The property.</param>
+    /// <param name="visible">The visible.</param>
     public TaskPaneAttributeChangedEventArgs(string property, Visibility visible)
     {
       if (property == null || property == string.Empty)
@@ -324,6 +328,10 @@ namespace Cryptool.PluginBase
       Properties.Add(property, visible);
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TaskPaneAttributeChangedEventArgs"/> class.
+    /// </summary>
+    /// <param name="properties">The property list</param>
     public TaskPaneAttributeChangedEventArgs(Dictionary<string, Visibility> properties)
     {
       if (properties == null || properties.Count == 0)
