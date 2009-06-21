@@ -263,6 +263,6 @@ namespace Cryptool.PluginBase
   /// <summary>
   /// This optional delegate can be used to hide task pane settings.
   /// </summary>
-  public delegate void TaskPaneAttributeChangedHandler(IPlugin plugin, TaskPaneAttributeChangedEventArgs args);
+  public delegate void TaskPaneAttributeChangedHandler(ISettings settings, TaskPaneAttributeChangedEventArgs args);
   #endregion optional delegates
 }
