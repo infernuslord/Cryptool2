@@ -315,9 +315,9 @@ namespace Cryptool.PluginBase
           return null;
         }
 
-        public static EventInfo GetTaskPaneAttributeChanged(this IPlugin settings)
+        public static EventInfo GetTaskPaneAttributeChanged(this IPlugin plugin)
         {
-          foreach (EventInfo eventInfo in settings.GetType().GetEvents())
+          foreach (EventInfo eventInfo in plugin.GetType().GetEvents())
           {
             if (eventInfo.EventHandlerType == typeof(TaskPaneAttributeChangedHandler))
               return eventInfo;
@@ -434,6 +434,7 @@ namespace Cryptool.PluginBase
                 {
                   TaskPaneAttribute attr = attributes[0];
                   attr.Method = mInfo;
+                  attr.PropertyName = mInfo.Name;
                   // does plugin have a resource file for translation?
                   if (plugin.GetType().GetPluginInfoAttribute().ResourceFile != null)
                     attr.PluginType = plugin.GetType();
