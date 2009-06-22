@@ -19,62 +19,34 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
         #endregion
-        public int unknownSymbolHandling = 0;
-        //private int trimInputString=0;
-        private int caseSensitivity = 0;
-        private int grammLength = 1;
+        
+        
+        private int fastAproach = 0;
+        
 
         /// <summary>
         /// Visible setting how to deal with alphabet case. 0 = case insentive, 1 = case sensitive
         /// </summary>
         [PropertySaveOrder(1)]
-        [ContextMenu("Alphabet case sensitivity", "Should upper and lower case be treated differently? (Should a == A)", 7, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "Case insensitive", "Case sensitive" })]
-        [TaskPane("Alphabet case sensitivity", "Should upper and lower case be treated differently? (Should a == A)", "", 7, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Case insensitive", "Case sensitive" })]
-        public int CaseSensitivity
+        [ContextMenu("Fast Aproach", "Using Fast Aproach dramatically reduce the time needed as only two decryption attempts are made. ", 7, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "Don't use Fast Aproach", "Use Fast Aproach" })]
+        [TaskPane("Fast Aproach", "Using Fast Aproach dramatically reduce the time needed as only two decryption attempts are made. ", "", 7, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Don't Use Fast Aproach", "Use Fast Aproach" })]
+        public int FastAproach
         {
-            get { return this.caseSensitivity; }
+            get { return this.fastAproach; }
             set
             {
-                if (value != caseSensitivity)
+                if (value != fastAproach)
                 {
                     HasChanges = true;
-                    caseSensitivity = value;
+                    fastAproach = value;
                 }
 
-                OnPropertyChanged("CaseSensitivity");
+                OnPropertyChanged("Fast Aproach");
             }
         }
-        [PropertySaveOrder(2)]
-        [TaskPane("Enter the length of the gramms to be investigated.", "Groups of how many characters should be checked?", "", 1, false, DisplayLevel.Expert, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]
-        public int GrammLength
-        {
-            get { return this.grammLength; }
-            set
-            {
-                if (value != grammLength)
-                {
-                    HasChanges = true;
-                    grammLength = value;
-                }
-            }
-        }
-        [PropertySaveOrder(3)]
-        [ContextMenu("Handling of unknown characters", "What should be done with encountered characters at the input which are not in the alphabet?", 4, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "Don't count", "Count" })]
-        [TaskPane("Handling of unknown characters", "What should be done with encountered characters at the input which are not in the alphabet?", null, 4, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Don't count", "Count" })]
-        public int RemoveUnknownSymbols
-        {
-            get { return this.unknownSymbolHandling; }
-            set
-            {
-                if (value != unknownSymbolHandling)
-                {
-                    HasChanges = true;
-                    unknownSymbolHandling = value;
-                }
 
-                OnPropertyChanged("RemoveUnknownSymbols");
-            }
-        }
+        
+       
 
         #region INotifyPropertyChanged Members
 

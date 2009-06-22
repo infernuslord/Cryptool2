@@ -27,7 +27,7 @@ namespace Cryptool.MonoalphabeticAnalysis
     [Author("Georgi Angelov", "angelov@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
     [PluginInfo(false,
     "MonoalphabeticAnalysis",
-    "Proposes Alphabet for the substitution cypher.",
+    "Proposes Alphabet for the substitution cipher.",
     "",
     "MonoalphabeticAnalysis/icon.png")]
 
@@ -38,8 +38,8 @@ namespace Cryptool.MonoalphabeticAnalysis
         private string stringOutput = "";
         private string statisticTextFrequencyInput_Monograms="";
         private string statisticTextFrequencyInput_Digrams="";
-        private string cypherTextFrequencyInput_Monograms="";
-        private string decypherAttempt_Digrams=""; //After the initial alphabet is proposed and decrypt from substitution plug-in is generated, the result is analysed with Frequencytest concerning digrams and fed back to MonoalphabeticAnalysis as input.
+        private string cipherTextFrequencyInput_Monograms="";
+        private string decipherAttempt_Digrams=""; //After the initial alphabet is proposed and decrypt from substitution plug-in is generated, the result is analysed with Frequencytest concerning digrams and fed back to MonoalphabeticAnalysis as input.
         public string GoodAlphabet = null;
         public string NextAlphabet = null;
         private double alphabetGoodnes = 0;
@@ -73,24 +73,24 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
 
-        [PropertyInfo(Direction.Input, "CypherTextFrequencyInput_Monograms", "CypherTextFrequencyInput_Monograms", "", true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public string CypherTextFrequencyInput_Monograms
+        [PropertyInfo(Direction.Input, "CipherTextFrequencyInput_Monograms", "CipherTextFrequencyInput_Monograms", "", true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public string CipherTextFrequencyInput_Monograms
         {
             get
             {
-                return cypherTextFrequencyInput_Monograms;
+                return cipherTextFrequencyInput_Monograms;
             }
-            set { cypherTextFrequencyInput_Monograms = value; OnPropertyChanged("CypherTextFrequencyInput_Monograms"); }
+            set { cipherTextFrequencyInput_Monograms = value; OnPropertyChanged("CipherTextFrequencyInput_Monograms"); }
         }
 
-        [PropertyInfo(Direction.Input, "DecypherAttempt_Digrams", "DecypherAttempt_Digrams", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public string DecypherAttempt_Digrams
+        [PropertyInfo(Direction.Input, "DecipherAttempt_Digrams", "DecipherAttempt_Digrams", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public string DecipherAttempt_Digrams
         {
             get
             {
-                return decypherAttempt_Digrams;
+                return decipherAttempt_Digrams;
             }
-            set { decypherAttempt_Digrams = value; OnPropertyChanged("DecypherAttempt_Digrams"); }
+            set { decipherAttempt_Digrams = value; OnPropertyChanged("DecipherAttempt_Digrams"); }
         }
 
 
@@ -170,53 +170,87 @@ namespace Cryptool.MonoalphabeticAnalysis
         {
             
 
-            if (cypherTextFrequencyInput_Monograms != "")
+            if (cipherTextFrequencyInput_Monograms != "") 
             {
                    //if Optional Statistical input not used -> use variables from pre-analysed Text (James Clavel's Shogun)  
                  if (statisticTextFrequencyInput_Monograms == "") statisticTextFrequencyInput_Monograms = ShogunStatistics.ShogunMonograms;
 
 
-                 if (GoodAlphabet == null)
+                 if (GoodAlphabet == null) //first pass
                  {
-                    //decypherAttempt_Digrams equals null means initial alphabet should be generated
+                     //GoodAlphabet equals null means initial alphabet should be generated
                     string alphabet = "";
-                    ArrayList mapping1 = InitialMapping(cypherTextFrequencyInput_Monograms, statisticTextFrequencyInput_Monograms);
+                    ArrayList mapping1 = InitialMapping(cipherTextFrequencyInput_Monograms, statisticTextFrequencyInput_Monograms);
 
                     alphabet = AlphabetFromMapping(mapping1);
 
                     GoodAlphabet = alphabet;
-                    stringOutput = alphabet;
+                    stringOutput = MapDecryptKeyAlphabet(alphabet);
                     OnPropertyChanged("StringOutput");
 
                  }
 
+                
 
-
-                 if (GoodAlphabet != null && decypherAttempt_Digrams!="")
+                 if (GoodAlphabet != null && decipherAttempt_Digrams!="" && AlphabetcounterB < GoodAlphabet.Length)
                  {
 
                      double goodness = ReturnAlphabetGoodness();
                      if (alphabetGoodnes == 0) //secondpass
-                     { 
-                         alphabetGoodnes = goodness;
+                     {
+
+                         if (settings.FastAproach==1)
+                         {
+                             alphabetGoodnes = goodness;
+                             FastAproach();
+
+
+                         }
+
+
+                         else
+                         {
+                             alphabetGoodnes = goodness;
+                             string alphabet1 = GenerateNextAlphabet();
+                             NextAlphabet = alphabet1;
+                             stringOutput = MapDecryptKeyAlphabet(NextAlphabet);
+                             OnPropertyChanged("StringOutput");
+                         }
+                         
+
+
+
                      } 
-                     if (alphabetGoodnes > goodness) //third pass and on if condition applies
+                     
+                     if (alphabetGoodnes > goodness && settings.FastAproach==0) //third pass and on 
                      {
                          GoodAlphabet = NextAlphabet;
                          alphabetGoodnes = goodness;
+                         
+                         string alphabet1 = GenerateNextAlphabet();
+                         NextAlphabet = alphabet1;
+                         stringOutput = MapDecryptKeyAlphabet(NextAlphabet);
+                         OnPropertyChanged("StringOutput");
                      }
 
-                     string alphabet1 = GenerateNextAlphabet();
-                     NextAlphabet = alphabet1;
-                     stringOutput = NextAlphabet;
-                     OnPropertyChanged("StringOutput");
+                     if (alphabetGoodnes < goodness && settings.FastAproach == 0)
+                     {
+                         string alphabet1 = GenerateNextAlphabet();
+                         NextAlphabet = alphabet1;
+                         stringOutput = MapDecryptKeyAlphabet(NextAlphabet);
+                         OnPropertyChanged("StringOutput");
+                     }
 
-
-
+                     if (AlphabetcounterB == GoodAlphabet.Length)
+                     {
+                         stringOutput = MapDecryptKeyAlphabet(GoodAlphabet);
+                         OnPropertyChanged("StringOutput");
+                     }
 
                  }
 
-
+               
+               
 
             }
 
@@ -319,16 +353,16 @@ namespace Cryptool.MonoalphabeticAnalysis
        public ArrayList InitialMapping(string cyString, string statString)
         {
             if (statisticTextFrequencyInput_Monograms == "") statisticTextFrequencyInput_Monograms = ShogunStatistics.ShogunMonograms;
-            ArrayList cypherTextFrequencies = ReturnSortedList(cyString, SortElements.SortElemetsBy.byFrequency);
+            ArrayList cipherTextFrequencies = ReturnSortedList(cyString, SortElements.SortElemetsBy.byFrequency);
             ArrayList statisticFrequencies = ReturnSortedList(statString, SortElements.SortElemetsBy.byFrequency);
 
             ArrayList mappings = new ArrayList();
 
-            if (cypherTextFrequencies.Count == statisticFrequencies.Count)
+            if (cipherTextFrequencies.Count == statisticFrequencies.Count)
             {
-                for (int i = 0; i < cypherTextFrequencies.Count ; i++)
+                for (int i = 0; i < cipherTextFrequencies.Count ; i++)
                 {
-                    CollectionElement a1 = (CollectionElement)cypherTextFrequencies[i];
+                    CollectionElement a1 = (CollectionElement)cipherTextFrequencies[i];
                     CollectionElement a2 = (CollectionElement)statisticFrequencies[i];
                     double frequencyDifference = Math.Abs(a1.Frequency - a2.Frequency);
                     CollectionElement row = new CollectionElement(a1.Caption, frequencyDifference, a2.Caption);
@@ -349,6 +383,7 @@ namespace Cryptool.MonoalphabeticAnalysis
 
         //ALPHABET FROM MAPPING//
 
+
       public string AlphabetFromMapping(ArrayList mapping)
         {
             string alphabet = "";
@@ -366,15 +401,18 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
      
-       //RETURN ALPHABET GOODNESS// Revision Needed!!!
+       //RETURN ALPHABET GOODNESS// 
+
         
       public double ReturnAlphabetGoodness() 
       {
           if (statisticTextFrequencyInput_Digrams == "") StatisticTextFrequencyInput_Digrams = ShogunStatistics.ShogunDigrams;//if Optional Statistical input not used -> use variables from pre-analysed Text (James Clavel's Shogun)
 
-          double[,] statisticDigramSquare = GetDigramFrequencySquare(StatisticTextFrequencyInput_Digrams);
-          double[,] decypherAttemptDigrams = GetDigramFrequencySquare(DecypherAttempt_Digrams);
-         // double[,] digramFrequencyDifferences = new double[GoodAlphabet.Length, GoodAlphabet.Length];
+          double[,] statisticDigramSquare = GetDigramFrequencySquare(StatisticTextFrequencyInput_Digrams);    
+               
+         
+          double[,] decipherAttemptDigrams = GetDigramFrequencySquare(DecipherAttempt_Digrams);
+          
           double goodness=new double();
 
 
@@ -382,80 +420,24 @@ namespace Cryptool.MonoalphabeticAnalysis
           {
               for (int n = 0; n < GoodAlphabet.Length; n++)
               {
-                  goodness +=Math.Abs( statisticDigramSquare[i, n] - decypherAttemptDigrams[i, n]);
+                  goodness +=Math.Abs( statisticDigramSquare[i, n] - decipherAttemptDigrams[i, n]);
               }
           }
 
 
           return goodness;
 
-
-
-
-
-         /* ArrayList statisticList_Digrams = ReturnSortedList(statisticTextFrequencyInput_Digrams, SortElements.SortElemetsBy.byFrequency);
-
-          ArrayList decypherAttemptList_Digrams = ReturnSortedList(digramsFrequencies, SortElements.SortElemetsBy.byFrequency);
-
-          ArrayList digramFrequencyDifference = statisticList_Digrams;
-
-          for (int i = 0; i < decypherAttemptList_Digrams.Count; i++)
-          {
-              CollectionElement a1 = (CollectionElement)decypherAttemptList_Digrams[i];
-              string name1 = a1.Caption;
-
-              for (int n = 0; n < statisticList_Digrams.Count; n++)
-              {
-                  CollectionElement a2 = (CollectionElement)statisticList_Digrams[n];
-                  string name2 = a2.Caption;
-                  if (name1 == name2)
-                  {
-                      double difference = a2.Frequency - a1.Frequency;
-                      CollectionElement row = new CollectionElement(name1, difference, "");
-                      digramFrequencyDifference[n] = (Object)row;
-                  }
-                  if (name1[0] != name2[0]) break;
-              }
-
-
-          }
-          double sumOfDigramFrequencyDifferences = 0;
-
-          for (int m = 0; m < digramFrequencyDifference.Count; m++)
-          {
-              CollectionElement z = (CollectionElement)digramFrequencyDifference[m];
-              sumOfDigramFrequencyDifferences = sumOfDigramFrequencyDifferences + z.Frequency;
-          }
-
-          return Math.Abs(sumOfDigramFrequencyDifferences); */
-
-         /* decypherAttemptList_Digrams.Reverse();
-          statisticList_Digrams.Reverse();
-          int hits=0;
-
-          //CollectionElement[,] darray = new CollectionElement[GoodAlphabet.Length,GoodAlphabet.Length];
-          for (int i = 0; i < 30; i++)
-          {
-              CollectionElement a1 = (CollectionElement)decypherAttemptList_Digrams[i];
-              CollectionElement a2 = (CollectionElement)statisticList_Digrams[i];
-
-
-
-              if (a1.Caption == a2.Caption) hits += GoodAlphabet.Length * GoodAlphabet.Length - i * GoodAlphabet.Length;
-          }
-
-          return hits; */
-
       }
 
 
        //GENERATE NEXT ALPHABET//
 
+
       public string GenerateNextAlphabet ()
       {
           //string alphabet = GoodAlphabet;
           
-          if (AlphabetcounterB != GoodAlphabet.Length)  //TO DO:OTHER WAY TO REALY EXIT
+          if (AlphabetcounterB != GoodAlphabet.Length)  
           {
               char[] alphabet=GoodAlphabet.ToCharArray();
 
@@ -473,7 +455,7 @@ namespace Cryptool.MonoalphabeticAnalysis
               alphabet1 = new string(alphabet);
               return alphabet1;
           }
-          else { return GoodAlphabet; } //TO DO: OTHER WAY TO REALY EXIT
+          else { return GoodAlphabet; } 
 
       }
 
@@ -505,6 +487,130 @@ namespace Cryptool.MonoalphabeticAnalysis
           return digramFrequencySquare;
                  
       }
+
+
+        //FAST APROACH//  
+
+
+
+      public void FastAproach() 
+      {
+          if (statisticTextFrequencyInput_Digrams == "") StatisticTextFrequencyInput_Digrams = ShogunStatistics.ShogunDigrams;//if Optional Statistical input not used -> use variables from pre-analysed Text (James Clavel's Shogun)
+
+          double[,] statisticDigramSquare = GetDigramFrequencySquare(StatisticTextFrequencyInput_Digrams);
+          double[,] digramFrequencyAttemptSquare = new double[GoodAlphabet.Length, GoodAlphabet.Length];
+          digramFrequencyAttemptSquare=GetDigramFrequencySquare(decipherAttempt_Digrams);
+
+
+
+          double[,] swappingSquare = new double[GoodAlphabet.Length, GoodAlphabet.Length];
+          swappingSquare.Initialize();
+         
+          
+          while (AlphabetcounterB < GoodAlphabet.Length-1)
+          {
+
+              for (int q = 0; q < GoodAlphabet.Length; q++)
+              {
+                  for (int z = 0; z < GoodAlphabet.Length; z++)
+                  {
+                      swappingSquare[q, z] = digramFrequencyAttemptSquare[q, z];
+                  }
+              }
+
+              char[] orderedAlphabet = GoodAlphabet.ToCharArray();
+              Array.Sort(orderedAlphabet);
+              int swapIndex1 = Array.IndexOf(orderedAlphabet,GoodAlphabet[AlphabetCounterA-1]);                         //Find Corespondant places in ordered alphabet
+              int swapIndex2 = Array.IndexOf(orderedAlphabet, GoodAlphabet[AlphabetCounterA + AlphabetcounterB - 1]);
+              
+              
+              //Swap two rows          
+              
+              for (int i = 0; i < swappingSquare.GetLength(0); i++)
+              {
+                  double holder1 = swappingSquare[swapIndex1, i];
+                  swappingSquare[swapIndex1 , i] = swappingSquare[swapIndex2, i];
+                  swappingSquare[swapIndex2, i] = holder1;
+
+
+              }
+
+              int breakpoint = 0;
+
+              //Swap two columns
+              for (int n = 0; n < swappingSquare.GetLength(0); n++)
+              {
+                  double holder2 = swappingSquare[n, swapIndex1];
+                  swappingSquare[n,swapIndex1] = swappingSquare[n, swapIndex2];
+                  swappingSquare[n, swapIndex2] = holder2;
+              
+              }
+
+                           
+              
+              double goodness1 = 0;
+
+
+              for (int m = 0; m < swappingSquare.GetLength(0); m++)
+              {
+                  for (int g = 0; g < swappingSquare.GetLength(0); g++)
+                  {
+                      goodness1 += Math.Abs(statisticDigramSquare[m, g] - swappingSquare[m, g]);
+                  }
+              }
+
+              NextAlphabet = GenerateNextAlphabet();
+
+              if (goodness1 < alphabetGoodnes) 
+              {
+                  GoodAlphabet = NextAlphabet;
+                  alphabetGoodnes = goodness1;
+
+                  for (int q = 0; q < GoodAlphabet.Length; q++)
+                  {
+                      for (int z = 0; z < GoodAlphabet.Length; z++)
+                      {
+                          digramFrequencyAttemptSquare[q, z] = swappingSquare[q, z];
+                      }
+                  }
+              }
+                           
+
+                      
+
+
+          }
+
+          stringOutput = MapDecryptKeyAlphabet(GoodAlphabet);
+          OnPropertyChanged("StringOutput");
+
+
+      }
+
+      
+        //MAPDECRYPTALPHABET//
+        
+        public string MapDecryptKeyAlphabet(string alph) 
+        {
+
+
+             string alphabet1 = "";
+          
+             char[] AlphabetCharArray = alph.ToCharArray();
+             char[] orderedAlphabet = alph.ToCharArray();
+            Array.Sort(orderedAlphabet);
+          
+          
+            for (int i = 0; i < alph.Length; i++)
+            {
+                 int mapIndex = Array.IndexOf(AlphabetCharArray, orderedAlphabet[i]);
+                 alphabet1 += orderedAlphabet[mapIndex];
+             }
+
+             return alphabet1;
+      
+        }
+
 
 
         #endregion CUSTOM METHODS
