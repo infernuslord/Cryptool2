@@ -9,7 +9,7 @@ using System.Windows;
 namespace Nihilist
 {
     [Author("Fabian Enkler", "", "", "")]
-    [PluginInfo(false, "Nihilist", "Nihilist cipher", "", "Nihilist/icon.png")]
+    [PluginInfo(false, "Nihilist", "Nihilist -- classic digraph polyalphabetic substitution cipher substituting each letter by a 2-digit-number", "", "Nihilist/icon.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class Nihilist : IEncryption
     {
