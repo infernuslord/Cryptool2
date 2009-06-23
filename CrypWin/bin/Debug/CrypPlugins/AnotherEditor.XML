@@ -2953,6 +2953,11 @@
               Looks up a localized string similar to Plugin &quot;{0}&quot; threw an exception on SET Property &quot;{1}&quot;: {2}.
             </summary>
         </member>
+        <member name="P:AnotherEditor.Properties.Dialogs.presentation_not_available_warning">
+            <summary>
+              Looks up a localized string similar to The plugin {0} does not provide a description. Please add a descripiton that describes the functionality of the plugin..
+            </summary>
+        </member>
         <member name="P:AnotherEditor.Properties.Dialogs.project_loaded_successful">
             <summary>
               Looks up a localized string similar to Project file &quot;{0}&quot; loaded successfully..
@@ -6404,7 +6409,7 @@
         </member>
         <member name="M:AnotherEditor.AnotherEditor.Initialize">
             <summary>
-            Dummy - not used here. 
+            Will be called from editor after restoring settings and before adding to workspace.
             </summary>
         </member>
         <member name="M:AnotherEditor.AnotherEditor.Dispose">

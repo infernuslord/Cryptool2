@@ -225,7 +225,7 @@ using Cryptool.PluginBase.IO;
 namespace Cryptool.Enigma
 {
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo(false, "Enigma", "Polyalphabetic rotor-cipher machine.", null,
+    [PluginInfo(false, "Enigma", "Polyalphabetic rotor-cipher machine", null,
       "Enigma/Images/Enigma.png", "Enigma/Images/encrypt.png", "Enigma/Images/decrypt.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class Enigma: IEncryption
