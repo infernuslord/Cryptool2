@@ -316,12 +316,12 @@ namespace Cryptool.Caesar
           {
             sensitivityEnabled = !sensitivityEnabled;
             if (sensitivityEnabled)
-            {
-              TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs("AlphabetCase", Visibility.Visible));
+            {              
+              TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("AlphabetCase", Visibility.Visible)));
             }
             else
             {
-              TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs("AlphabetCase", Visibility.Collapsed));
+              TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("AlphabetCase", Visibility.Collapsed)));
             }
           }
         }

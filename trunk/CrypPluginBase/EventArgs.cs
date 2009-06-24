@@ -313,30 +313,51 @@ namespace Cryptool.PluginBase
 
   public class TaskPaneAttributeChangedEventArgs : EventArgs
   {
-    public readonly Dictionary<string, Visibility> Properties;
+    public readonly List<TaskPaneAttribteContainer> ListTaskPaneAttributeContainer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TaskPaneAttributeChangedEventArgs"/> class.
     /// </summary>
     /// <param name="property">The property.</param>
     /// <param name="visible">The visible.</param>
-    public TaskPaneAttributeChangedEventArgs(string property, Visibility visible)
+    public TaskPaneAttributeChangedEventArgs(TaskPaneAttribteContainer tpac)
     {
-      if (property == null || property == string.Empty)
-        throw new ArgumentException("property");
-      Properties = new Dictionary<string, Visibility>();
-      Properties.Add(property, visible);
+      if (tpac == null)
+        throw new ArgumentException("tpac is null");
+      ListTaskPaneAttributeContainer = new List<TaskPaneAttribteContainer>();
+      ListTaskPaneAttributeContainer.Add(tpac);
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TaskPaneAttributeChangedEventArgs"/> class.
     /// </summary>
     /// <param name="properties">The property list</param>
-    public TaskPaneAttributeChangedEventArgs(Dictionary<string, Visibility> properties)
+    public TaskPaneAttributeChangedEventArgs(List<TaskPaneAttribteContainer> listTaskPaneAttributeContainer)
     {
-      if (properties == null || properties.Count == 0)
-        throw new ArgumentException("properties");
-      this.Properties = properties;
+      if (listTaskPaneAttributeContainer == null || listTaskPaneAttributeContainer.Count == 0)
+        throw new ArgumentException("listTaskPaneAttributeContainer is null or empty");
+      this.ListTaskPaneAttributeContainer = listTaskPaneAttributeContainer;
+    }
+  }
+
+  public class TaskPaneAttribteContainer
+  {
+    public readonly string Property;
+    public readonly Visibility Visibility;
+    public readonly TaskPaneAttribute TaskPaneAttribute;
+
+    public TaskPaneAttribteContainer(string property, Visibility visibility)
+      : this(property, visibility, null)
+    {
+    }
+
+    public TaskPaneAttribteContainer(string property, Visibility visibility, TaskPaneAttribute taskPaneAttribute)
+    {
+      if (property == null || property == string.Empty)
+        throw new ArgumentException("property is null or empty");
+      this.Property = property;
+      this.Visibility = visibility;
+      this.TaskPaneAttribute = taskPaneAttribute;
     }
   }
 
