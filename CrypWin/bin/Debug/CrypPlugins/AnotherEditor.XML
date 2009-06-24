@@ -900,6 +900,31 @@
               Looks up a localized string similar to Encrypt.
             </summary>
         </member>
+        <member name="P:AnotherEditor.Properties.Visuals.settingGroupMisc">
+            <summary>
+              Looks up a localized string similar to Miscellaneous.
+            </summary>
+        </member>
+        <member name="P:AnotherEditor.Properties.Visuals.settingMemUsageOff">
+            <summary>
+              Looks up a localized string similar to Mem usage off.
+            </summary>
+        </member>
+        <member name="P:AnotherEditor.Properties.Visuals.settingMemUsageOff_ToolTip">
+            <summary>
+              Looks up a localized string similar to Disable display of memory usage of CrypTool.
+            </summary>
+        </member>
+        <member name="P:AnotherEditor.Properties.Visuals.settingMemUsageOn">
+            <summary>
+              Looks up a localized string similar to Mem usage on.
+            </summary>
+        </member>
+        <member name="P:AnotherEditor.Properties.Visuals.settingMemUsageOn_ToolTip">
+            <summary>
+              Looks up a localized string similar to Enable display of memory usage of CrypTool.
+            </summary>
+        </member>
         <member name="P:AnotherEditor.Properties.Visuals.show_description">
             <summary>
               Looks up a localized string similar to Show description.

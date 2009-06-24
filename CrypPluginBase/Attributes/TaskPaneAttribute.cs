@@ -203,6 +203,7 @@
 
 using System;
 using System.Reflection;
+using System.Windows;
 
 namespace Cryptool.PluginBase
 {
@@ -297,7 +298,6 @@ namespace Cryptool.PluginBase
               throw new ArgumentException("This setter should only be accessed once.");
           }
         }
-
 
         # region translation helpers
         private Type pluginType;
