@@ -46,7 +46,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="WhirlpoolPlugin.cs" />
     <Compile Include="WhirlpoolSettings.cs" />
   </ItemGroup>
@@ -70,6 +70,9 @@
   <ItemGroup>
     <Content Include="license.txt" />
     <Resource Include="whirlpool1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
