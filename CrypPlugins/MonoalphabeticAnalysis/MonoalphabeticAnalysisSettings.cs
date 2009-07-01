@@ -28,7 +28,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         /// Visible setting how to deal with alphabet case. 0 = case insentive, 1 = case sensitive
         /// </summary>
         [PropertySaveOrder(1)]
-        [ContextMenu("Fast Aproach", "Using Fast Aproach dramatically reduce the time needed as only two decryption attempts are made. ", 7, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "Don't use Fast Aproach", "Use Fast Aproach" })]
+        [ContextMenu("Generate Internally", "Using Fast Aproach dramatically reduce the time needed as only two decryption attempts are made. ", 7, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "Don't use Fast Aproach", "Use Fast Aproach" })]
         [TaskPane("Fast Aproach", "Using Fast Aproach dramatically reduce the time needed as only two decryption attempts are made. ", "", 7, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Don't Use Fast Aproach", "Use Fast Aproach" })]
         public int FastAproach
         {
