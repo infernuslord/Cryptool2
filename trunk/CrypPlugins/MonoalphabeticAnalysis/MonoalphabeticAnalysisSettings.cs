@@ -24,12 +24,10 @@ namespace Cryptool.MonoalphabeticAnalysis
         private int fastAproach = 0;
         
 
-        /// <summary>
-        /// Visible setting how to deal with alphabet case. 0 = case insentive, 1 = case sensitive
-        /// </summary>
+        
         [PropertySaveOrder(1)]
-        [ContextMenu("Generate Internally", "Using Fast Aproach dramatically reduce the time needed as only two decryption attempts are made. ", 7, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "Don't use Fast Aproach", "Use Fast Aproach" })]
-        [TaskPane("Fast Aproach", "Using Fast Aproach dramatically reduce the time needed as only two decryption attempts are made. ", "", 7, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Don't Use Fast Aproach", "Use Fast Aproach" })]
+        [ContextMenu("Generate digram matrix internally", "When the digram matrix is generated internally, the time for calculating the cost function is significantly reduced. ", 7, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "Don't generate internally", "Generate internally" })]
+        [TaskPane("Digram matrix", "When the digram matrix is generated internally, the time for calculating the cost function is significantly reduced.", "", 7, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Don't generate internally", "Generate internally" })]
         public int FastAproach
         {
             get { return this.fastAproach; }
