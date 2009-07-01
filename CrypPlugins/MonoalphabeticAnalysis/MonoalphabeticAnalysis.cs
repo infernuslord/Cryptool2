@@ -275,11 +275,17 @@ namespace Cryptool.MonoalphabeticAnalysis
 
         public void Stop()
         {
-            //statisticTextFrequencyInput_Monograms = "";
-            //OnPropertyChanged("StatisticTextFrequencyInput_Monograms");
-           // statisticTextFrequencyInput_Digrams = "";
-            //OnPropertyChanged("StatisticTextFrequencyInput_Digrams");
-            
+        stringOutput = "";
+        textStatisticInput_Monograms = ""; 
+        textStatisticInput_Digrams="";
+        cipherTextFrequencyInput_Monograms = "";
+        decipherAttempt_Digrams = ""; 
+        GoodAlphabet = null;
+        NextAlphabet = null;
+        alphabetGoodnes = 0;
+        AlphabetCounterA = 1;
+        AlphabetcounterB = 1;
+        
             //throw new NotImplementedException();
         }
 
