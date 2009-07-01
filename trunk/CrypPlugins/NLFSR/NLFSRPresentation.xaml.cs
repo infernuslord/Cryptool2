@@ -15,15 +15,15 @@ using System.Threading;
 using System.Windows.Automation.Peers;
 using System.Windows.Threading;
 
-namespace Cryptool.LFSR
+namespace Cryptool.NLFSR
 {
     /// <summary>
-    /// Interaction logic for LFSRPresentation.xaml
+    /// Interaction logic for NLFSRPresentation.xaml
     /// </summary>
 
-    public partial class LFSRPresentation : UserControl
+    public partial class NLFSRPresentation : UserControl
     {
-        public LFSRPresentation()
+        public NLFSRPresentation()
         {
             InitializeComponent();
             /*
@@ -34,12 +34,12 @@ namespace Cryptool.LFSR
             char[] myState = { '0', '1', '0', '0' };
             char output = '1';
 
-            DrawLFSR(myState, tapSequence);
+            DrawNLFSR(myState, tapSequence);
             FillBoxes(myState, tapSequence, output);
             //DeleteAll(100);*/
         }
 
-        public void DrawLFSR(char[] state, char[] tapSequence, int clockingBit)
+        public void DrawNLFSR(char[] state, char[] tapSequence, int clockingBit)
         {
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
@@ -196,7 +196,6 @@ namespace Cryptool.LFSR
                     myTextBoxes[i].TextAlignment = TextAlignment.Center;
                     myTextBoxes[i].VerticalContentAlignment = VerticalAlignment.Center;
                     myTextBoxes[i].BorderBrush = Brushes.Black;
-                    //if (tapSequence[i] == '1') myTextBoxes[i].Background = Brushes.DodgerBlue;
                     if (clockingBit == i) myTextBoxes[i].Background = Brushes.Orange;
 
                     myGrid.Children.Add(myTextBoxes[i]);
@@ -215,7 +214,7 @@ namespace Cryptool.LFSR
                     if (tapSequence[i] == '0') myGrids[i].Visibility = Visibility.Hidden;
                     else
                     {
-                        myEllipses[i] = new Ellipse();
+                        /*myEllipses[i] = new Ellipse();
                         myEllipses[i].Name = "ellipseXOR" + i;
                         myEllipses[i].Stroke = Brushes.DodgerBlue;
                         myEllipses[i].Margin = new Thickness(9, 9, 9, 9);
@@ -250,7 +249,7 @@ namespace Cryptool.LFSR
                         myGrids[i].Children.Add(myEllipses[i]);
                         myGrids[i].Children.Add(myLinesVert[i]);
                         myGrids[i].Children.Add(myLinesVertRed[i]);
-                        myGrids[i].Children.Add(myLinesHori[i]);
+                        myGrids[i].Children.Add(myLinesHori[i]);*/
                     }
                 }
                 // disable /*last*/ and first XOR
@@ -302,8 +301,8 @@ namespace Cryptool.LFSR
                 childVisual.SetValue(Label.ContentProperty, output);
 
                 // update polynome
-                childVisual = (Visual)VisualTreeHelper.GetChild(polynomialGrid, 0);
-                childVisual.SetValue(Label.ContentProperty, polynomial);
+                //childVisual = (Visual)VisualTreeHelper.GetChild(polynomialGrid, 0);
+                //childVisual.SetValue(Label.ContentProperty, polynomial);
 
             }, null);
         }

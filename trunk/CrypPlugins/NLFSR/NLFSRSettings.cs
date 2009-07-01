@@ -13,9 +13,9 @@ using System.Runtime.CompilerServices;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Runtime.Remoting.Contexts;
 
-namespace Cryptool.LFSR
+namespace Cryptool.NLFSR
 {
-    public class LFSRSettings : ISettings
+    public class NLFSRSettings : ISettings
     {
         #region ISettings Members
 
@@ -24,7 +24,7 @@ namespace Cryptool.LFSR
         private int rounds = 1; //how many bits will be generated
         //[ContextMenu("Rounds", "How many bits shall be generated?", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 10, 50, 100 }, "10 bits", "50 bits", "100 bits")]
         //[TaskPane("Rounds", "How many bits shall be generated?", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
-        [TaskPane("Number of rounds", "How many bits shall be generated? Note: This only applies if no boolean clock is used.", null, 2, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        [TaskPane("Number of rounds", "How many bits shall be generated? Note: This only applies if no boolean clock is used.", null, 0, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int Rounds
         {
             get { return this.rounds; }
@@ -35,37 +35,9 @@ namespace Cryptool.LFSR
             }
         }
 
-        string polynomial;
-        [TaskPane("Polynomial", "Define the feedback polynomial either in a textual or a numeric way. For example x^5 +x^2 + 1 which is equal to 10010", null, 0, false, DisplayLevel.Beginner, ControlType.TextBox)]
-        public string Polynomial
-        {
-            get { return this.polynomial; }
-            set
-            {
-                this.polynomial = value;
-                OnPropertyChanged("Polynomial");
-                HasChanges = true;
-            }
-        }
-
-
-
-        string seed;
-        [TaskPane("Seed", "Define the seed of the LFSR. For example 11100", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
-        public string Seed
-        {
-            get { return this.seed; }
-            set
-            {
-                this.seed = value;
-                OnPropertyChanged("Seed");
-                HasChanges = true;
-            }
-        }
-
         private bool noQuickwatch = false;
         [ContextMenu("Do not display Quickwatch", "With this checkbox enabled, no quickwatch will be generated for better performance.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Display Quickwatch?" })]
-        [TaskPane("Do not display Quickwatch", "With this checkbox enabled, no quickwatch will be generated for better performance.", null, 3, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+        [TaskPane("Do not display Quickwatch", "With this checkbox enabled, no quickwatch will be generated for better performance.", null, 1, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
         public bool NoQuickwatch
         {
             get { return this.noQuickwatch; }

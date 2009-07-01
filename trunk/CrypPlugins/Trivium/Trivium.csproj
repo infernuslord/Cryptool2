@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1C42ADB9-643E-4B1C-A862-7DBE3CD22A7A}</ProjectGuid>
+    <ProjectGuid>{118668D4-613C-4D27-973B-092D5B25A692}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TEA</RootNamespace>
-    <AssemblyName>TEA</AssemblyName>
+    <RootNamespace>Trivium</RootNamespace>
+    <AssemblyName>Trivium</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
@@ -57,8 +57,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TEA.cs" />
-    <Compile Include="TEASettings.cs" />
+    <Compile Include="Trivium.cs" />
+    <Compile Include="TriviumSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="key.snk" />
@@ -68,7 +68,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\encrypt.png" />
-    <Resource Include="Images\tea.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icon.png" />
@@ -80,13 +79,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="DetailedDescription\Images\TEA.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="DetailedDescription\Description.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\decryptX.png" />
+    <Resource Include="Images\encryptX.png" />
+    <Resource Include="Images\Trivium.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -101,7 +102,7 @@
 cd ..\..\CrypWin\$(OutDir)
 if not exist "./CrypPlugins" mkdir "./CrypPlugins"
 
-del /F /S /Q /s /q "TEA*.*"
-copy "$(TargetDir)TEA*.*" "./CrypPlugins"</PostBuildEvent>
+del /F /S /Q /s /q "Trivium*.*"
+copy "$(TargetDir)Trivium*.*" "./CrypPlugins"</PostBuildEvent>
   </PropertyGroup>
 </Project>
