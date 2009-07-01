@@ -36,13 +36,13 @@ namespace Cryptool.MonoalphabeticAnalysis
     public partial class MonoalphabeticAnalysis : IStatistic
     {
         private string stringOutput = "";
-        private string statisticTextFrequencyInput_Monograms="";
-        private string statisticTextFrequencyInput_Digrams="";
-        private string cipherTextFrequencyInput_Monograms="";
-        private string decipherAttempt_Digrams=""; //After the initial alphabet is proposed and decrypt from substitution plug-in is generated, the result is analysed with Frequencytest concerning digrams and fed back to MonoalphabeticAnalysis as input.
+        private string textStatisticInput_Monograms = ""; //Generated from FrequencyTest. Contains monogram/letter frequencies of  arbitrary text. Used for initial mapping and proposal of alphabet.
+        private string textStatisticInput_Digrams="";//Generated from FrequencyTest. It is Used in the Cost Function for each proposed alphabet to generate the alphabetGoodness number.
+        private string cipherTextFrequencyInput_Monograms = ""; //Generated from FrequencyTest. Compared with textStatisticInput_Monograms and used for initial mapping of letters and first proposal alphabet.
+        private string decipherAttempt_Digrams = ""; //Generated from FrequencyTest. After the initial alphabet is proposed and decryption attempt from substitution plug-in is generated, the result is analysed with Frequencytest set on digrams and fed to MonoalphabeticAnalysis as input. It is used on the second pass through the execute method. 
         public string GoodAlphabet = null;
         public string NextAlphabet = null;
-        private double alphabetGoodnes = 0;
+        private double alphabetGoodnes = 0;//result of the cost function. Used in ReturnAlphabetGoodness method.
         public int AlphabetCounterA = 1;
         public int AlphabetcounterB = 1;
         
@@ -51,14 +51,14 @@ namespace Cryptool.MonoalphabeticAnalysis
 
         #region Properties (Inputs/Outputs)
 
-        [PropertyInfo(Direction.Input, "StatisticTextFrequencyInput_Monograms", "StatisticTextFrequencyInput_Monograms", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public string StatisticTextFrequencyInput_Monograms
+        [PropertyInfo(Direction.Input, "TextStatisticInput_Monograms", "TextStatisticInput_Monograms", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public string TextStatisticInput_Monograms
         {
             get
             {
-                return statisticTextFrequencyInput_Monograms;
+                return textStatisticInput_Monograms;
             }
-            set { statisticTextFrequencyInput_Monograms = value; OnPropertyChanged("StatisticTextFrequencyInput_Monograms"); }
+            set { textStatisticInput_Monograms = value; OnPropertyChanged("textStatisticInput_Monograms"); }
         }
 
 
@@ -67,9 +67,9 @@ namespace Cryptool.MonoalphabeticAnalysis
         {
             get
             {
-                return statisticTextFrequencyInput_Digrams;
+                return textStatisticInput_Digrams;
             }
-            set { statisticTextFrequencyInput_Digrams = value; OnPropertyChanged("StatisticTextFrequencyInput_Digrams"); }
+            set { textStatisticInput_Digrams = value; OnPropertyChanged("StatisticTextFrequencyInput_Digrams"); }
         }
 
 
@@ -163,24 +163,24 @@ namespace Cryptool.MonoalphabeticAnalysis
         
         
         //////////////
-        //EXECUTE!!!//
+        //EXECUTE!!!//    //IMPLEMENTATION ATTEMPT OF THE ALGORITHM: Jakobsen, Thomas(1995)'A FAST METHOD FOR CRYPTANALYSIS OF SUBSTITUTION CIPHERS',Cryptologia,19:3,265 — 274
         //////////////
       
-        public void Execute()
+        public void Execute() 
         {
             
 
             if (cipherTextFrequencyInput_Monograms != "") 
             {
-                   //if Optional Statistical input not used -> use variables from pre-analysed Text (James Clavel's Shogun)  
-                 if (statisticTextFrequencyInput_Monograms == "") statisticTextFrequencyInput_Monograms = ShogunStatistics.ShogunMonograms;
+                   //if Optional Statistical input not used -> use variables from pre-analysed Text (James Clavel's Shogun in our case)  
+                if (TextStatisticInput_Monograms == "") textStatisticInput_Monograms = ShogunStatistics.ShogunMonograms;
 
 
                  if (GoodAlphabet == null) //first pass
                  {
                      //GoodAlphabet equals null means initial alphabet should be generated
                     string alphabet = "";
-                    ArrayList mapping1 = InitialMapping(cipherTextFrequencyInput_Monograms, statisticTextFrequencyInput_Monograms);
+                    ArrayList mapping1 = InitialMapping(cipherTextFrequencyInput_Monograms, textStatisticInput_Monograms);
 
                     alphabet = AlphabetFromMapping(mapping1);
 
@@ -352,7 +352,7 @@ namespace Cryptool.MonoalphabeticAnalysis
 
        public ArrayList InitialMapping(string cyString, string statString)
         {
-            if (statisticTextFrequencyInput_Monograms == "") statisticTextFrequencyInput_Monograms = ShogunStatistics.ShogunMonograms;
+            if (textStatisticInput_Monograms == "") textStatisticInput_Monograms = ShogunStatistics.ShogunMonograms;
             ArrayList cipherTextFrequencies = ReturnSortedList(cyString, SortElements.SortElemetsBy.byFrequency);
             ArrayList statisticFrequencies = ReturnSortedList(statString, SortElements.SortElemetsBy.byFrequency);
 
@@ -406,7 +406,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         
       public double ReturnAlphabetGoodness() 
       {
-          if (statisticTextFrequencyInput_Digrams == "") StatisticTextFrequencyInput_Digrams = ShogunStatistics.ShogunDigrams;//if Optional Statistical input not used -> use variables from pre-analysed Text (James Clavel's Shogun)
+          if (textStatisticInput_Digrams == "") textStatisticInput_Digrams = ShogunStatistics.ShogunDigrams;//if Optional Statistical input not used -> use variables from pre-analysed Text (James Clavel's Shogun)
 
           double[,] statisticDigramSquare = GetDigramFrequencySquare(StatisticTextFrequencyInput_Digrams);    
                
@@ -495,7 +495,7 @@ namespace Cryptool.MonoalphabeticAnalysis
 
       public void FastAproach() 
       {
-          if (statisticTextFrequencyInput_Digrams == "") StatisticTextFrequencyInput_Digrams = ShogunStatistics.ShogunDigrams;//if Optional Statistical input not used -> use variables from pre-analysed Text (James Clavel's Shogun)
+          if (textStatisticInput_Digrams == "") StatisticTextFrequencyInput_Digrams = ShogunStatistics.ShogunDigrams;//if Optional Statistical input not used -> use variables from pre-analysed Text (James Clavel's Shogun)
 
           double[,] statisticDigramSquare = GetDigramFrequencySquare(StatisticTextFrequencyInput_Digrams);
           double[,] digramFrequencyAttemptSquare = new double[GoodAlphabet.Length, GoodAlphabet.Length];
