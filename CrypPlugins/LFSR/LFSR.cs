@@ -24,7 +24,7 @@ using System.Text.RegularExpressions;
 namespace Cryptool.LFSR
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo(true, "LFSR", "Linear Feedback Shift Register", "LFSR/DetailedDescription/Description.xaml", "LFSR/Images/LFSR.png", "LFSR/Images/encrypt.png", "LFSR/Images/decrypt.png")]
+    [PluginInfo(false, "LFSR", "Linear Feedback Shift Register", "LFSR/DetailedDescription/Description.xaml", "LFSR/Images/LFSR.png", "LFSR/Images/encrypt.png", "LFSR/Images/decrypt.png")]
     [EncryptionType(EncryptionType.SymmetricBlock)]
     public class LFSR : IThroughput
     {
@@ -33,11 +33,10 @@ namespace Cryptool.LFSR
         private LFSRSettings settings;
         private String inputTapSequence;
         private String inputSeed;
-        private CryptoolStream inputClock;
         private CryptoolStream outputStream;
         private String outputString;
         private bool outputBool;
-        private bool inputClockBool;
+        private bool inputClockBool = true;
         private bool outputClockingBit;
         
         private LFSRPresentation lFSRPresentation;
@@ -83,7 +82,7 @@ namespace Cryptool.LFSR
             set { this.settings = (LFSRSettings)value; }
         }
 
-        [PropertyInfo(Direction.Input, "TapSequence", "TapSequence function in binary presentation.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.Input, "TapSequence", "TapSequence function in binary presentation.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public String InputTapSequence
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -97,7 +96,7 @@ namespace Cryptool.LFSR
             }
         }
 
-        [PropertyInfo(Direction.Input, "Seed", "Seed of the LFSR in binary presentation.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.Input, "Seed", "Seed of the LFSR in binary presentation.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public String InputSeed
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -199,16 +198,8 @@ namespace Cryptool.LFSR
                 outputStream = null;
                 outputString = null;
                 outputStringBuffer = null;
-                inputClock = null;
                 inputTapSequence = null;
                 inputSeed = null;
-
-                if (inputClock != null)
-                {
-                    inputClock.Flush();
-                    inputClock.Close();
-                    inputClock = null;
-                }
 
                 if (outputStream != null)
                 {
@@ -233,21 +224,18 @@ namespace Cryptool.LFSR
 
         #region private functions
 
-        private bool checkForInputTapSequence()
+        private int checkForInputTapSequence()
         {
-            if ((settings.Polynomial == null || (settings.Polynomial != null && settings.Polynomial.Length == 0)))
+            /*if ((settings.Polynomial == null || (settings.Polynomial != null && settings.Polynomial.Length == 0)))
             {
                 // awaiting polynomial from input
                 GuiLogMessage("No feedback polynomial given in settings. Awaiting external input.", NotificationLevel.Info);
-                /*GuiLogMessage("No feedback polynomial given in settings.", NotificationLevel.Error);
-                if (!settings.UseBoolClock) inputClock.Close();
-                return;*/
             }
             else
             {
                 inputTapSequence = settings.Polynomial;
-                return true;
-            }
+                return 1;
+            }*/
 
             if ((inputTapSequence == null || (inputTapSequence != null && inputTapSequence.Length == 0)))
             {
@@ -257,29 +245,26 @@ namespace Cryptool.LFSR
                 inputTapSequence = dummystring;
                 // write a warning to the outside world
                 GuiLogMessage("WARNING - No TapSequence provided. Using dummy data (" + dummystring + ").", NotificationLevel.Warning);
-                return true;
+                return 1;
             }
             else
             {
-                return false;
+                return 0;
             }
         }
 
-        private bool checkForInputSeed()
+        private int checkForInputSeed()
         {
-            if ((settings.Seed == null || (settings.Seed != null && settings.Seed.Length == 0)))
+            /*if ((settings.Seed == null || (settings.Seed != null && settings.Seed.Length == 0)))
             {
                 // awaiting seed from input
                 GuiLogMessage("No seed given in settings. Awaiting external input.", NotificationLevel.Info);
-                /*GuiLogMessage("No seed given in settings.", NotificationLevel.Error);
-                if (!settings.UseBoolClock) inputClock.Close();
-                return;*/
             }
             else
             {
                 inputSeed = settings.Seed;
-                return true;
-            }
+                return 1;
+            }*/
 
             if ((inputSeed == null || (inputSeed != null && inputSeed.Length == 0)))
             {
@@ -289,24 +274,11 @@ namespace Cryptool.LFSR
                 inputSeed = dummystring;
                 // write a warning to the outside world
                 GuiLogMessage("WARNING - No Seed provided. Using dummy data (" + dummystring + ").", NotificationLevel.Warning);
-                return true;
+                return 1;
             }
             else
             {
-                return false;
-            }
-        }
-
-        private void checkForInputClock()
-        {
-            if ((inputClock == null || (inputClock != null && inputClock.Length == 0)))
-            {
-                //create some input
-                String dummystring = "1";
-                this.inputClock = new CryptoolStream();
-                this.inputClock.OpenRead(this.GetPluginInfoAttribute().Caption, Encoding.Default.GetBytes(dummystring.ToCharArray()));
-                // write a warning to the outside world
-                GuiLogMessage("FYI - No clock input provided. Assuming number of rounds specified in LFSR settings.", NotificationLevel.Info);
+                return 0;
             }
         }
 
@@ -460,8 +432,8 @@ namespace Cryptool.LFSR
                 // make all this stuff only one time at the beginning of our chainrun
                 if (newSeed)
                 {
-                    if (!checkForInputTapSequence()) return;
-                    if (!checkForInputSeed()) return;
+                    if (checkForInputTapSequence() == 1) return;
+                    if (checkForInputSeed() == 1) return;
 
                     /*if (inputSeed == null || (inputSeed != null && inputSeed.Length == 0))
                     {
@@ -520,7 +492,7 @@ namespace Cryptool.LFSR
                                     }
                                 }*/
                                 GuiLogMessage("ERROR - Your polynomial " + tapSequencebuffer + " has to be the same length (" + tapSequencebuffer.Length + " Bits) as your seed (" + inputSeed.Length + " Bits). Aborting now.", NotificationLevel.Error);
-                                if (!settings.UseBoolClock) inputClock.Close();
+                                Dispose();
                                 return;
                             }
 
@@ -530,7 +502,7 @@ namespace Cryptool.LFSR
                         {
                             GuiLogMessage("ERROR - " + tapSequencebuffer + " is NOT a valid polynomial. Aborting now.", NotificationLevel.Error);
                             //Console.WriteLine("\n{0} is NOT a valid polynomial.", tapSequencebuffer);
-                            if (!settings.UseBoolClock) inputClock.Close();
+                            Dispose();
                             return;
                         }
                     }
@@ -543,7 +515,7 @@ namespace Cryptool.LFSR
                     {
                         // stop, because seed and tapSequence must have same length
                         GuiLogMessage("ERROR - Seed and tapSequence must have same length. Aborting now.", NotificationLevel.Error);
-                        if (!settings.UseBoolClock) inputClock.Close();
+                        Dispose();
                         return;
                     }
 
@@ -576,7 +548,7 @@ namespace Cryptool.LFSR
                             return;
                         }
                     }
-                    if (settings.UseClockingBit)
+                    if (settings.UseAdditionalOutputBit)
                     {
                         if (settings.ClockingBit < seedCharArray.Length) clocking = (seedCharArray.Length - settings.ClockingBit - 1);
                         else
@@ -623,13 +595,7 @@ namespace Cryptool.LFSR
                 }
                 else if (!settings.UseBoolClock)
                 {
-                    // read stream clock
-                    checkForInputClock();
-                    inputClock.OpenWrite("LFSR Restart");
-                    String stringClock = inputClock.ReadByte().ToString();
-                    inputClock.Position = 0;
-                    if (String.Equals(stringClock, "49")) myClock = true; else myClock = false;
-                    //inputClock.Close();
+                    myClock = true;
                 }
 
                 // draw LFSR Quickwatch
@@ -729,7 +695,8 @@ namespace Cryptool.LFSR
                             /////////
                             // but nevertheless fire an output event with dirty value / old value
                             /////////
-                            if (settings.CreateDirtyOutputOnFalseClock)
+                            //TODO: revert comment, if there will be a dirty output again
+                            /*if (settings.CreateDirtyOutputOnFalseClock)
                             {
                                 outputBool = false;
                                 outputbuffer = '2';
@@ -745,7 +712,7 @@ namespace Cryptool.LFSR
                                 }
                             }
                             else
-                            {
+                            {*/
                                 // make bool output
                                 if (seedCharArray[seedBits - 1] == '0') outputBool = false;
                                 else outputBool = true;
@@ -763,7 +730,7 @@ namespace Cryptool.LFSR
                                 {
                                     lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, seedCharArray[seedBits - 1], BuildPolynomialFromBinary(tapSequenceCharArray));
                                 }
-                            }
+                            //}
                             /////////
                         }
                         else
@@ -778,8 +745,8 @@ namespace Cryptool.LFSR
                         //GuiLogMessage("LFSR Clock is 0, no computation.", NotificationLevel.Info);
                         //return;
                     }
-                    // in both cases update "clocking bit" if set in settings
-                    if (settings.UseClockingBit)
+                    // in both cases update additional output bit if set in settings
+                    if (settings.UseAdditionalOutputBit)
                     {
                         // make clocking bit output only if its not out of bounds
                         if (clocking != -1)
@@ -812,14 +779,12 @@ namespace Cryptool.LFSR
 
                     GuiLogMessage("Time used: " + duration, NotificationLevel.Debug);
                     outputStream.Close();
-                    if (!settings.UseBoolClock) inputClock.Close();
                     OnPropertyChanged("OutputStream");
                 }
 
                 if (stop)
                 {
                     outputStream.Close();
-                    if (!settings.UseBoolClock) inputClock.Close();
                     GuiLogMessage("Aborted!", NotificationLevel.Debug);
                 }
             }
