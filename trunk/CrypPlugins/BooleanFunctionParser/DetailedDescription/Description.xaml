@@ -63,7 +63,7 @@
       Example 2.3: Valid binary functions with array variables
   </Paragraph>
   <Paragraph Background="#F2F2F2" Padding="2" FontSize="10" FontFamily="Courier New">
-      i_1<Run Foreground="#A21A17">0</Run> * i_1<Run Foreground="#A21A17">1</Run>
+      i_1<Run Foreground="#A21A17">.0</Run> * i_1<Run Foreground="#A21A17">.1</Run>
   </Paragraph>
   </Section>
   <Paragraph FontSize="11" FontFamily="Cambria">

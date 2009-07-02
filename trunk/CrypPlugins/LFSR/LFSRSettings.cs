@@ -24,7 +24,7 @@ namespace Cryptool.LFSR
         private int rounds = 1; //how many bits will be generated
         //[ContextMenu("Rounds", "How many bits shall be generated?", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 10, 50, 100 }, "10 bits", "50 bits", "100 bits")]
         //[TaskPane("Rounds", "How many bits shall be generated?", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
-        [TaskPane("Number of rounds", "How many bits shall be generated? Note: This only applies if no boolean clock is used.", null, 2, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        [TaskPane("Number of rounds", "How many bits shall be generated? Note: This only applies if no external clock is used.", null, 2, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int Rounds
         {
             get { return this.rounds; }
@@ -35,7 +35,7 @@ namespace Cryptool.LFSR
             }
         }
 
-        string polynomial;
+        /*string polynomial;
         [TaskPane("Polynomial", "Define the feedback polynomial either in a textual or a numeric way. For example x^5 +x^2 + 1 which is equal to 10010", null, 0, false, DisplayLevel.Beginner, ControlType.TextBox)]
         public string Polynomial
         {
@@ -61,11 +61,11 @@ namespace Cryptool.LFSR
                 OnPropertyChanged("Seed");
                 HasChanges = true;
             }
-        }
+        }*/
 
         private bool noQuickwatch = false;
-        [ContextMenu("Do not display Quickwatch", "With this checkbox enabled, no quickwatch will be generated for better performance.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Display Quickwatch?" })]
-        [TaskPane("Do not display Quickwatch", "With this checkbox enabled, no quickwatch will be generated for better performance.", null, 3, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+        [ContextMenu("Do not display Quickwatch", "With this checkbox enabled, no quickwatch will be generated for a better performance.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Display Quickwatch?" })]
+        [TaskPane("Do not display Quickwatch", "With this checkbox enabled, no quickwatch will be generated for a better performance.", null, 3, false, DisplayLevel.Experienced, ControlType.CheckBox, "", null)]
         public bool NoQuickwatch
         {
             get { return this.noQuickwatch; }
@@ -78,7 +78,7 @@ namespace Cryptool.LFSR
         }
 
         private int clockingBit = 0;
-        [TaskPane("Clocking bit number", "Which bit shall be generated as an additional output? For example as an clocking bit.", "Additional Output Bit", 0, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        [TaskPane("Additional output bit #", "Which bit shall be generated as an additional output? For example as an clocking bit.", "Additional Output Bit", 0, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int ClockingBit
         {
             get { return this.clockingBit; }
@@ -90,23 +90,23 @@ namespace Cryptool.LFSR
             }
         }
 
-        private bool useClockingBit = false;
-        [ContextMenu("Use clocking bit", "With this checkbox enabled, the clocking bit will be generated.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Use clocking bit?" })]
-        [TaskPane("Use clocking bit", "With this checkbox enabled, clocking bit will be generated.", "Additional Output Bit", 1, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
-        public bool UseClockingBit
+        private bool useAdditionalOutputBit = false;
+        [ContextMenu("Generate add. output bit", "With this checkbox enabled, the additional output bit will be generated.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Generate additional output bit?" })]
+        [TaskPane("Generate add. output bit", "With this checkbox enabled, the additional output bit will be generated.", "Additional Output Bit", 1, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+        public bool UseAdditionalOutputBit
         {
-            get { return this.useClockingBit; }
+            get { return this.useAdditionalOutputBit; }
             set
             {
-                this.useClockingBit = (bool)value;
+                this.useAdditionalOutputBit = (bool)value;
                 OnPropertyChanged("UseClockingBit");
                 HasChanges = true;
             }
         }
 
         private bool useBoolClock = false;
-        [ContextMenu("Use BoolClock", "With this checkbox enabled, BoolClock will be used.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Use Boolean clock?" })]
-        [TaskPane("Use BoolClock", "With this checkbox enabled, BoolClock will be used.", "Clock Properties", 0, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+        [ContextMenu("Use external clock", "With this checkbox enabled, an external clock will be used.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Use external clock?" })]
+        [TaskPane("Use external clock", "With this checkbox enabled, an external clock will be used (i.e. the CLK-Plugin)", "Clock Properties", 0, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
         public bool UseBoolClock
         {
             get { return this.useBoolClock; }
@@ -132,7 +132,7 @@ namespace Cryptool.LFSR
             }
         }
 
-        private bool createDirtyOutputOnFalseClock = false;
+        /*private bool createDirtyOutputOnFalseClock = false;
         [ContextMenu("Create dirty output on false clock", "With this checkbox enabled, an the output is the dirty (-1) if the clock is set to false.", 2, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Create dirty output?" })]
         [TaskPane("Create dirty output on false clock", "With this checkbox enabled, an the output is the dirty (-1) if the clock is set to false.", "Clock Properties", 2, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
         public bool CreateDirtyOutputOnFalseClock
@@ -144,7 +144,7 @@ namespace Cryptool.LFSR
                 OnPropertyChanged("CreateDirtyOutputOnFalseClock");
                 HasChanges = true;
             }
-        }
+        }*/
 
         public bool HasChanges
         {

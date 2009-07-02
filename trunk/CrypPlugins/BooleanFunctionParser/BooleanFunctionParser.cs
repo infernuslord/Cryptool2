@@ -26,18 +26,19 @@ namespace BooleanFunctionParser
 
         private BooleanFunctionParserSettings settings;
         private string inputFunction;
-        private bool inputVariableOne;
-        private bool inputVariableTwo;
+        private bool[] inputVariableOne;
+        private bool[] inputVariableTwo;
         private bool[] inputVariableThree;
         private bool output;
+        private bool lastInputWasFunction = false;
 
         #endregion
 
         #region Public variables
 
-        public int inputOneFlag;
-        public int inputTwoFlag;
-        public int inputThreeFlag;
+        public int inputOneFlag = 0;
+        public int inputTwoFlag = 0;
+        public int inputThreeFlag = 0;
 
         #endregion
 
@@ -61,12 +62,13 @@ namespace BooleanFunctionParser
             set
             {
                 inputFunction = value;
+                lastInputWasFunction = true;
                 OnPropertyChanged("InputFunction");
             }
         }
 
-        [PropertyInfo(Direction.Input, "Function Variable One (i_1)", "Input a boolean value to be processed by the function", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public bool InputOne
+        [PropertyInfo(Direction.Input, "Function Variable One (i_1.j)", "Input a boolean value to be processed by the function", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public bool[] InputOne
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
             get
@@ -82,14 +84,15 @@ namespace BooleanFunctionParser
             set
             {
                 this.inputVariableOne = value;
+                lastInputWasFunction = false;
                 OnPropertyChanged("InputOne");
                 // clean inputOne
                 inputOneFlag = 1;
             }
         }
 
-        [PropertyInfo(Direction.Input, "Function Variable Two (i_2)", "Input a boolean value to be processed by the function", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public bool InputTwo
+        [PropertyInfo(Direction.Input, "Function Variable Two (i_2.j)", "Input a boolean value to be processed by the function", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public bool[] InputTwo
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
             get
@@ -106,13 +109,14 @@ namespace BooleanFunctionParser
             set
             {
                 this.inputVariableTwo = value;
+                lastInputWasFunction = false;
                 OnPropertyChanged("InputTwo");
                 // clean inputOne
                 inputTwoFlag = 1;
             }
         }
 
-        [PropertyInfo(Direction.Input, "Function Variable Three (i_3j)", "Input a boolean value to be processed by the function", "", true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.Input, "Function Variable Three (i_3.j)", "Input a boolean value to be processed by the function", "", true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool[] InputThree
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -130,6 +134,7 @@ namespace BooleanFunctionParser
             set
             {
                 this.inputVariableThree = value;
+                lastInputWasFunction = false;
                 OnPropertyChanged("InputThree");
                 // clean inputOne
                 inputThreeFlag = 1;
@@ -162,20 +167,24 @@ namespace BooleanFunctionParser
         {
             try
             {
-                // get function from input and replace variables
-                string strExpression = ReplaceVariables(inputFunction);
-                // test if function is valid
-                string strExpressionTested = TestFunction(strExpression);
-                if (strExpressionTested == "foo")
+                // do calculation only, if last event wasn't from the function input
+                if (lastInputWasFunction == false)
                 {
-                    GuiLogMessage(strExpression + " is not a binary expression (e.g. 1 + 0 * 1). Aborting now.", NotificationLevel.Error);
-                    return;
-                }
-                else
-                {
-                    GuiLogMessage("Your expression with variables replaced: " + strExpression, NotificationLevel.Info);
-                    output = EvaluateTree(output, FillTree(strExpressionTested));
-                    OnPropertyChanged("Output");
+                    // get function from input and replace variables
+                    string strExpression = ReplaceVariables(inputFunction);
+                    // test if function is valid
+                    string strExpressionTested = TestFunction(strExpression);
+                    if (strExpressionTested == "foo")
+                    {
+                        GuiLogMessage(strExpression + " is not a binary expression (e.g. 1 + 0 * 1). Aborting now.", NotificationLevel.Error);
+                        return;
+                    }
+                    else
+                    {
+                        GuiLogMessage("Your expression with variables replaced: " + strExpression, NotificationLevel.Info);
+                        output = EvaluateTree(output, FillTree(strExpressionTested));
+                        OnPropertyChanged("Output");
+                    }
                 }
             }
             catch (Exception exception)
@@ -224,28 +233,44 @@ namespace BooleanFunctionParser
 
         private string ReplaceVariables(string strExpressionWithVariables)
         {
-            string strExpression;
-            string strInputVariableOne, strInputVariableTwo;
-            char[] strInputVariableThree = new char[inputVariableThree.Length];
+            string strExpression = strExpressionWithVariables;
 
-            // get numeric values from bool inputs
-            if (inputVariableOne) strInputVariableOne = "1"; else strInputVariableOne = "0";
-            if (inputVariableTwo) strInputVariableTwo = "1"; else strInputVariableTwo = "0";
-            //if (inputVariableThree) strInputVariableThree = "1"; else strInputVariableThree = "0";
-            for (int i = 0; i < inputVariableThree.Length; i++)
+            // replace variables with value and get numeric values from bool inputs
+            if (inputOneFlag == 1)
             {
-                strInputVariableThree[i] = inputVariableThree[i] ? '1' : '0';
+                char[] strInputVariableOne = new char[inputVariableOne.Length];
+                for (int i = 0; i < inputVariableOne.Length; i++)
+                {
+                    // get numeric values from bool inputs
+                    strInputVariableOne[i] = inputVariableOne[i] ? '1' : '0';
+                    // replace variables with value
+                    string replacement = "i_1." + i;
+                    strExpression = strExpression.Replace(replacement, strInputVariableOne[i].ToString());
+                }
             }
-
-            // replace variables with value
-            strExpression = strExpressionWithVariables.Replace("i_1", strInputVariableOne);
-            strExpression = strExpression.Replace("i_2", strInputVariableTwo);
-            for (int i = 0; i < inputVariableThree.Length; i++)
+            if (inputTwoFlag == 1)
             {
-                string replacement = "i_3" + i;
-                strExpression = strExpression.Replace(replacement, strInputVariableThree[i].ToString());
+                char[] strInputVariableTwo = new char[inputVariableTwo.Length];
+                for (int i = 0; i < inputVariableTwo.Length; i++)
+                {
+                    // get numeric values from bool inputs
+                    strInputVariableTwo[i] = inputVariableTwo[i] ? '1' : '0';
+                    string replacement = "i_2." + i;
+                    strExpression = strExpression.Replace(replacement, strInputVariableTwo[i].ToString());
+                }
             }
-            //strExpression = strExpression.Replace("i_3", strInputVariableThree);
+            if (inputThreeFlag == 1)
+            {
+                char[] strInputVariableThree = new char[inputVariableThree.Length];
+                for (int i = 0; i < inputVariableThree.Length; i++)
+                {
+                    // get numeric values from bool inputs
+                    strInputVariableThree[i] = inputVariableThree[i] ? '1' : '0';
+                    string replacement = "i_3." + i;
+                    strExpression = strExpression.Replace(replacement, strInputVariableThree[i].ToString());
+                }
+            }
+            
 
             // replace AND, NAND, OR, NOR, XOR, NXOR with symbols
             // NAND => -
