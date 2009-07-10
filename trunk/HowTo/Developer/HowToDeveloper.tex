@@ -1,0 +1,86 @@
+\documentclass[11pt, a4paper, parskip=half, version=last, final, notitlepage]{scrartcl}
+
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\pagestyle{headings}
+
+%\pagestyle{fancy} %eigener Seitenstil
+%\fancyhf{} %alle Kopf- und Fuﬂzeilenfelder bereinigen
+%\fancyhead[L]{\middlemark} %Kopfzeile links
+%\fancyhead[C]{} %zentrierte Kopfzeile
+%\fancyhead[R]{Name} %Kopfzeile rechts
+%\renewcommand{\headrulewidth}{0.4pt} %obere Trennlinie
+%\fancyfoot[C]{\thepage} %Seitennummer
+%\renewcommand{\footrulewidth}{0.4pt} %untere Trennlinie
+
+\usepackage{url}
+\usepackage{wrapfig}
+\usepackage{color}
+\usepackage{colortbl}
+
+\usepackage[absolute]{textpos}
+
+% finetune the gaps between figure and text in the subfigure environment (basically close the gap as much as possible)
+%\renewcommand{\subfigtopskip}{0pt}
+%\renewcommand{\subfigbottomskip}{0pt}
+
+% some color definitions for the pdf statements below
+\definecolor{mygrey}{rgb}{0.45,0.45,0.45}
+\definecolor{mydarkgrey}{rgb}{0.2,0.2,0.2}
+\definecolor{red}{rgb}{1.0,0.33,0.33}
+\definecolor{orange}{rgb}{1.00,0.73,0.33}
+\definecolor{yellow}{rgb}{0.95,0.92,0.}
+\definecolor{lightgreen}{rgb}{0.3,0.95,0.46}
+\definecolor{titleblue}{rgb}{0.03,0.10,0.46}
+
+% Metadata and configuration of the pdf output:
+% Do not forget to enter the correct title, author, subject und keywords
+
+% For screen viewing it is nice to have references marked in a slightly different
+% color than the rest of the text. Since they will be hyperlinks to the 
+% referenced objects.
+\usepackage[pdftex,
+             pdftitle={},
+             colorlinks,
+             linkcolor={mydarkgrey},
+             citecolor={mygrey},
+             urlcolor={blue},
+             plainpages={false},
+             bookmarksnumbered={true},
+             pdfauthor={},
+             pdfsubject={},
+             pdfkeywords={},
+             pdfstartview={FitBH}]{hyperref}
+             
+% To avoid nasty mistakes like having comments directly in the textflow
+% the following \todo macro was defined. With that you can enter
+% \todo{What I still have to do here} 
+% inside of your text and a marker will appear at the page's margin with the 
+% text "What I still have to do here".
+% The first line activates this feature. If you comment it out and uncomment
+% the second line below there will be no error messages and no todos will be shown
+% anymore. So - even if you have forgotten to delete one of them - they will not appear
+% in the final printout. 
+\newcommand{\todo}[1]{\marginpar{\textcolor{red}{ToDo:} #1}}
+
+%\usepackage[automark]{scrpage2}
+\usepackage{pdfsync}
+%\pagestyle{scrheadings}
+%\usepackage{fancyhdr}
+
+\title{CrypTool 2.0}
+\subtitle{Developer Manual}
+\author{Sebastian Przybylski \and Arno Wacker \and Matth‰us Wander \and Fabian Enkler}
+
+\begin{document}
+	%\maketitle
+	\include{frontpage}
+	
+	\tableofcontents
+	\include{part1}
+	\include{part2}
+
+\end{document}
