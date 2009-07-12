@@ -452,6 +452,57 @@ namespace Cryptool.PluginBase
           return null;
         }
 
+        public static RibbonBarAttribute[] GetRibbonBarSettingsProperties(this ISettings settings, IPlugin plugin)
+        {
+          return GetRibbonBarSettingsProperties(settings.GetType(), plugin);
+        }
+
+        public static RibbonBarAttribute[] GetRibbonBarSettingsProperties(this Type type, IPlugin plugin)
+        {
+          try
+          {
+            List<RibbonBarAttribute> taskPaneAttributes = new List<RibbonBarAttribute>();
+            foreach (PropertyInfo pInfo in type.GetProperties())
+            {
+              RibbonBarAttribute[] attributes = (RibbonBarAttribute[])pInfo.GetCustomAttributes(typeof(RibbonBarAttribute), false);
+              if (attributes != null && attributes.Length == 1)
+              {
+                RibbonBarAttribute attr = attributes[0];
+                attr.PropertyName = pInfo.Name;
+                // does plugin have a resource file for translation?
+                if (plugin.GetType().GetPluginInfoAttribute().ResourceFile != null)
+                  attr.PluginType = plugin.GetType();
+                taskPaneAttributes.Add(attr);
+              }
+            }
+
+            foreach (MethodInfo mInfo in type.GetMethods())
+            {
+              if (mInfo.IsPublic && mInfo.GetParameters().Length == 0)
+              {
+                RibbonBarAttribute[] attributes = (RibbonBarAttribute[])mInfo.GetCustomAttributes(typeof(RibbonBarAttribute), false);
+                if (attributes != null && attributes.Length == 1)
+                {
+                  RibbonBarAttribute attr = attributes[0];
+                  attr.Method = mInfo;
+                  attr.PropertyName = mInfo.Name;
+                  // does plugin have a resource file for translation?
+                  if (plugin.GetType().GetPluginInfoAttribute().ResourceFile != null)
+                    attr.PluginType = plugin.GetType();
+                  taskPaneAttributes.Add(attr);
+                }
+              }
+            }
+
+            return taskPaneAttributes.ToArray();
+          }
+          catch (Exception ex)
+          {
+            GuiLogMessage(ex.Message, NotificationLevel.Error);
+          }
+          return null;
+        }
+
         public static SettingsFormatAttribute GetSettingsFormat(this ISettings settings, string propertyName)
         {
           if (settings == null || propertyName == null || propertyName == string.Empty)
@@ -504,12 +555,6 @@ namespace Cryptool.PluginBase
           }
         }
 
-        /// <summary>
-        /// Still in test phase - do not call this method!
-        /// </summary>
-        /// <param name="plugin">The plugin.</param>
-        /// <param name="keyword">The keyword.</param>
-        /// <returns></returns>
         public static string GetPluginStringResource(this IPlugin plugin, string keyword)
         {
           try
