@@ -271,7 +271,6 @@ namespace Cryptool.PluginBase
         public bool ChangeableWhileExecuting;
 
         private MethodInfo method;
-
         public MethodInfo Method
         {
           get { return method; }
