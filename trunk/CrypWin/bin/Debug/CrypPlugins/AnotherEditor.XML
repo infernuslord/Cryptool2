@@ -2773,6 +2773,11 @@
               Looks up a localized string similar to current.
             </summary>
         </member>
+        <member name="P:AnotherEditor.Properties.Dialogs.current_mem_usage">
+            <summary>
+              Looks up a localized string similar to Current memory usage: .
+            </summary>
+        </member>
         <member name="P:AnotherEditor.Properties.Dialogs.delete">
             <summary>
               Looks up a localized string similar to delete.
@@ -2853,9 +2858,19 @@
               Looks up a localized string similar to Can&apos;t start now. Init of following plugins is still in progress: .
             </summary>
         </member>
+        <member name="P:AnotherEditor.Properties.Dialogs.innerException">
+            <summary>
+              Looks up a localized string similar to Inner exception: .
+            </summary>
+        </member>
         <member name="P:AnotherEditor.Properties.Dialogs.items">
             <summary>
               Looks up a localized string similar to elements.
+            </summary>
+        </member>
+        <member name="P:AnotherEditor.Properties.Dialogs.lineBreak">
+            <summary>
+              Looks up a localized string similar to \n.
             </summary>
         </member>
         <member name="P:AnotherEditor.Properties.Dialogs.no_presentation_available">
