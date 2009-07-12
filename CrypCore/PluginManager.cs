@@ -407,16 +407,14 @@ namespace Cryptool.Core
                 {
                   if (OnExceptionOccured != null)
                   {
-                    OnExceptionOccured(this, new PluginManagerEventArgs(new TypeLoadException(asm.FullName)));
-                    OnExceptionOccured(this, new PluginManagerEventArgs(tle.LoaderExceptions[0]));                    
+                    OnExceptionOccured(this, new PluginManagerEventArgs(new TypeLoadException(asm.FullName + "\n" + tle.LoaderExceptions[0].Message)));
                   }
                 }
                 catch (Exception exception)
                 {
                   if (OnExceptionOccured != null)
                   {
-                    OnExceptionOccured(this, new PluginManagerEventArgs(new TypeLoadException(asm.FullName)));
-                    OnExceptionOccured(this, new PluginManagerEventArgs(exception));
+                    OnExceptionOccured(this, new PluginManagerEventArgs(new TypeLoadException(asm.FullName + "\n" + exception.Message)));
                   }
                 }
             }
