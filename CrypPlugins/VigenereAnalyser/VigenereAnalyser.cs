@@ -23,21 +23,37 @@ namespace Cryptool.VigenereAnalyser
 
     public class VigenereAnalyser:IStatistic
     {
+        public int shiftKey = 0;
+        private double[] elf;
         private VAPresentation vaPresentation;
         private char[] validchars = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' }; //Sets alphabet of valid characters
-        private int[] keywordOutput;
+        private string keywordOutput;
         private string frequencyOutput="";
         private string stringOutput = "";
         private string stringInput;
         private double friedmanInput;
         private int [] kasiskiInput;
-        private int caesarKey;
+        private string frequencyStats;
         private string[] vigToCaes;
         private int v=0;
         private int probableKeylength = 0;
-        int[] keys;
+        private char FrequentChar = 'e';
+        public List <int> keys;
+        public List<string> fStats=new List<string>();
         //private bool inputChange = false;
-        
+        public class Stats
+        {
+                public char letter;
+                public int absoluteFrequency;
+                public double relativeFrequency;
+                public Stats(char letter, int absoluteFrequency, double relativeFrequency)
+                {
+                  this.letter = letter;
+                  this.absoluteFrequency=absoluteFrequency;
+                  this.relativeFrequency = relativeFrequency;
+                }
+            
+            }
         
 
         #region Private methods
@@ -52,8 +68,145 @@ namespace Cryptool.VigenereAnalyser
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }
         #endregion
+
+        #region Custom methods
+
+        private List<int> CaesarAnalysis(string text)
+        {
+            var Dic = new Dictionary<char, int>();
+
+            if (!string.IsNullOrEmpty(text))
+            {
+                foreach (var s in text.Split(new[] { "\r\n" }, StringSplitOptions.None))
+                {
+                    if (!string.IsNullOrEmpty(s))
+                    {
+                        string[] tmpArr = s.Split(new[] { ':' });
+                        if (tmpArr.Length > 1)
+                        {
+
+                            char c = tmpArr[0][0];
+                            int Count;
+                            int.TryParse(tmpArr[1], out Count);
+                            if (!Dic.ContainsKey(c))
+                                Dic.Add(c, 0);
+                            Dic[c] += Count;
+                        }
+                    }
+                }
+
+                var items = (from k in Dic.Keys
+                             orderby Dic[k] descending
+                             select k);
+
+                keys = new List<int>();
+                foreach (var c in items)
+                {
+                    int tmp = c - FrequentChar;
+                    int temp = 26 + tmp;
+                    if (tmp < 0)
+                        keys.Add(temp);
+                    if (tmp > 0)
+                        keys.Add(tmp);
+                    if (tmp == 0)
+                        keys.Add(tmp);
+
+
+                }
+                return keys;
+            }
+            return new List<int>();
+        }
+        private int chiSquare(string text)
+        {   
+            text=text.Replace(Environment.NewLine, ":");
+            char [] delimiter = {':'};
+            string[] splitStats = text.Split(delimiter);
+            List<Stats> freqStats = new List<Stats>();
+            for (int i = 0; i <splitStats.Length - 1; i = i + 3)
+            {
+                freqStats.Add(new Stats(System.Convert.ToChar(splitStats[i]), System.Convert.ToInt32(splitStats[i + 1]), System.Convert.ToDouble(splitStats[i + 2]))) ;
+            }
+            int textLength=0;
+            List<int> observedFrequencies = new List<int>();
+            freqStats.ForEach(delegate(Stats s)
+            {
+                textLength += s.absoluteFrequency;
+            });
+            double[] expectedFrequencies = elf;
+            if (freqStats.Count != elf.Length)
+            {
+                char []check =new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+                int l = 0;
+                for (int t = 0; t <= check.Length - 1;t++ )
+                {
+                       
+                        if (l <= freqStats.Count - 1)
+                        {
+                            Stats r = freqStats.ElementAt(l);
+                            if (check[t] == r.letter)
+                            {
+                                observedFrequencies.Add(r.absoluteFrequency);
+                                l++;
+                            }
+                            else 
+                            {
+                                observedFrequencies.Add(0);
+                            }
+                        }
+                        else
+                        {
+                            observedFrequencies.Add(0);
+                        }
+                }
+            }
+            List<double> correctedFrequencies = new List<double>();
+            foreach (double d in expectedFrequencies)
+            {   
+                correctedFrequencies.Add((d / 100) * textLength);
+            }
+            double [] eFrequencies = correctedFrequencies.ToArray();
+            //int[] oFrequencies = observedFrequencies.ToArray();
+            double [] chiStats = new double[26];
+            foreach (int f in observedFrequencies)
+            {
+                double chi = 0;
+                double chiS = 0;
+                int g = observedFrequencies.IndexOf(f);
+                for (int j = 0; j <= 25; j++)
+                {
+                    int n = g + j;
+                    if (n == 25||n>25)
+                    {
+                        n = n - 25;
+                    }
+                    chi = observedFrequencies[n];
+                    chiS = Math.Pow(chi, 2);
+                    chiS = chiS / eFrequencies[g];
+                    chiStats[j] += chiS;
+                }
+            }
+            
+            foreach (double k in chiStats)
+            {   
+                shiftKey=Array.IndexOf(chiStats , k);
+                for (int l = Array.IndexOf(chiStats, k) + 1; l < chiStats.Length; l++)
+                {
+                    if (chiStats[l]<chiStats[shiftKey] )
+                    {
+                        shiftKey = l;
+                    }
+                }
+               
+            }
+            return shiftKey;
+
+
+        }
+        #endregion
+
         #region Properties (Inputs/Outputs)
-        
+
         [PropertyInfo(Direction.Input, "Double precission floating point value.", "Keylength as proposed by the Friedman Test.", "", true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public double FriedmanInput
         {
@@ -92,7 +245,7 @@ namespace Cryptool.VigenereAnalyser
             }
         }
         [PropertyInfo(Direction.Output, "Integer Array.", "Keyword represented as an integer Array.", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public int[] KeywordOutput
+        public string KeywordOutput
         {
             get { return keywordOutput; }
             set
@@ -106,15 +259,15 @@ namespace Cryptool.VigenereAnalyser
             }
         }
         [PropertyInfo(Direction.Input, "String", "Please only connect to the text output of the Frequency Test.", "", true, true, DisplayLevel.Expert, QuickWatchFormat.Text, null)]
-        public int CaesarKey
+        public string FrequencyStats
         {
-            get { return caesarKey; }
+            get { return frequencyStats; }
             set
             {
-                if (value != caesarKey)
+                if (value != frequencyStats)
                 {
-                    caesarKey = value;
-                    OnPropertyChanged("CaesarKey");
+                    frequencyStats = value;
+                    OnPropertyChanged("FrequencyStats");
                     //inputChange = true;
                     v++;
                 }
@@ -173,9 +326,13 @@ namespace Cryptool.VigenereAnalyser
         }
         void textBoxInputText_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //this.NotifyUpdate();
+            this.NotifyUpdate();
             settings.HasChanges = true;
             
+        }
+        public void NotifyUpdate()
+        {
+            settings.Text = vaPresentation.textBoxInputText.Text;
         }
         public void Initialize()
         {
@@ -195,12 +352,12 @@ namespace Cryptool.VigenereAnalyser
         }
         public void PreExecution()
         {
-            
-            caesarKey = 0;
+            keywordOutput = null;
+            fStats.Clear();
+            frequencyStats = null;
             frequencyOutput = null;
             vigToCaes = null;
             probableKeylength = 0;
-            //inputChange = false;
             keys = null;
             
 
@@ -208,9 +365,19 @@ namespace Cryptool.VigenereAnalyser
         public void Execute()
         {
            if (kasiskiInput != null)
-            {
-                if (vigToCaes==null)
+           {
+                //double [] elf;
+                switch (settings.ELF)
                 {
+                   case 1: elf = new double[26] { 8.167, 1.492, 2.782, 4.253, 12.702, 2.228, 2.015, 6.094, 6.966, 0.153, 0.772, 4.025, 2.406, 6.749, 7.507, 1.929, 0.095, 5.987, 6.327, 9.056, 2.758, 0.978, 2.360, 0.150, 1.974, 0.074 }; break;
+                   case 2: elf = new double[26] { 8.167, 1.492, 2.782, 4.253, 12.702, 2.228, 2.015, 6.094, 6.966, 0.153, 0.772, 4.025, 2.406, 6.749, 7.507, 1.929, 0.095, 5.987, 6.327, 9.056, 2.758, 0.978, 2.360, 0.150, 1.974, 0.074 }; break;
+                   case 3: elf = new double[26] { 8.167, 1.492, 2.782, 4.253, 12.702, 2.228, 2.015, 6.094, 6.966, 0.153, 0.772, 4.025, 2.406, 6.749, 7.507, 1.929, 0.095, 5.987, 6.327, 9.056, 2.758, 0.978, 2.360, 0.150, 1.974, 0.074 }; break;
+                   case 4: elf = new double[26] { 8.167, 1.492, 2.782, 4.253, 12.702, 2.228, 2.015, 6.094, 6.966, 0.153, 0.772, 4.025, 2.406, 6.749, 7.507, 1.929, 0.095, 5.987, 6.327, 9.056, 2.758, 0.978, 2.360, 0.150, 1.974, 0.074 }; break;
+                   case 5: elf = new double[26] { 8.167, 1.492, 2.782, 4.253, 12.702, 2.228, 2.015, 6.094, 6.966, 0.153, 0.772, 4.025, 2.406, 6.749, 7.507, 1.929, 0.095, 5.987, 6.327, 9.056, 2.758, 0.978, 2.360, 0.150, 1.974, 0.074 }; break;
+                   default: elf = new double[26] { 8.167, 1.492, 2.782, 4.253, 12.702, 2.228, 2.015, 6.094, 6.966, 0.153, 0.772, 4.025, 2.406, 6.749, 7.507, 1.929, 0.095, 5.987, 6.327, 9.056, 2.758, 0.978, 2.360, 0.150, 1.974, 0.074 }; break;
+                }
+                if (vigToCaes==null)
+                {   
                     double friedmanKey = friedmanInput;
                     int[] kasiskiFactors = kasiskiInput;
                     string workString = stringInput;
@@ -311,6 +478,7 @@ namespace Cryptool.VigenereAnalyser
                         {
                             probableKeylength = factors1[0];
                         }
+                        else { probableKeylength = factors1[1]; }
                     }
                     if (a == 3)
                     {
@@ -377,77 +545,51 @@ namespace Cryptool.VigenereAnalyser
                     //Hence each string is encrypted using the Caeser cipher, and a Frequency Test for each string should give us a good idea of what the shift key is for the respective string.
                     //Furthermore the vigenerToCaesar is allready sorted in such a way that the index of each element coresponds to the position of its respective shift key in the whole key.
                     vigToCaes = vigenereToCaesar;
-                    keys = new int[probableKeylength + 1];
                     factors1 = null;
                     
                 }
                 if (vigToCaes != null)
                 {
-
-
                     if (v <= probableKeylength - 1)
                     {
                         frequencyOutput = vigToCaes[v];
                         OnPropertyChanged("FrequencyOutput");
                     }
-                    keys[v] = caesarKey;
-
-
-
+                    if (frequencyStats != null && frequencyStats != string.Empty&&!fStats.Contains(frequencyStats))
+                    {
+                        fStats.Add(frequencyStats);
+                    }
                 }
-               
-              //After the loop on the workspace was executed probableKeylength-times the array keys contains the actual key in form of shift values.
-               int []keyword=new int [keys.Length-1];
-               int n = 0;
-               if (v==probableKeylength)
-               {
-                   
-                   for (int t = 1; t <= keys.Length - 1; t++)
-                   {
-                       keyword[n] = keys[t];
-                       n++;
-                   }
-                   
-               }
-               if (keys.Length-1==n)
-               {
-                   keywordOutput = keyword;
-                   OnPropertyChanged("KeywordOutput");
-                   /*if ()
-                   {
-                       int k = 0;
-                       int[] keyword1 = new int[settings.Text.Length];
-                       foreach (char g in settings.Text)
-                       {   for (int f =0;f<=validchars.Length-1;f++)
-                       {
-                           if (g == validchars[f])
-                           {
-                               keyword1[k] = f;
-                               k++;
-                           }
+                if (v == probableKeylength)
+                {
+                    List<List<int>> keyList= new List<List<int>>();
+                    List<int> chiList = new List<int>();
+                    foreach (string c in fStats)
+                    {
+                        if (c != null)
+                        {
+                            CaesarAnalysis(c);
+                            chiSquare(c);
+                            keyList.Add(keys);
+                            chiList.Add(shiftKey);
                         }
-                       }
-                       keywordOutput = keyword1;
-                       OnPropertyChanged("KeywordOutput");
-
-                   }*/
-               }
-               StringBuilder keywordstring = new StringBuilder();
-               foreach (int r in keyword)
-               {
-                   keywordstring.Append(validchars[r]);
-               }
-
-               settings.Text = keywordstring.ToString();
-               Initialize();
-               string value = (string)this.vaPresentation.textBoxInputText.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
-               {
-                   return vaPresentation.textBoxInputText.Text;
-               }, vaPresentation);
-
-               if (value == null || value == string.Empty)
-                   ShowStatusBarMessage("No input value returning null.", NotificationLevel.Warning);
-               
+                    }
+                    int[] probableKeyword = new int[probableKeylength];
+                    for (int f = 0; f <= probableKeylength - 1; f++)
+                    {
+                        int [] tempKey = keyList.ElementAt(f).ToArray();
+                        probableKeyword[f]=tempKey[0];
+                        tempKey = null;
+                    }
+                    keyList = null;
+                    StringBuilder keywordstring = new StringBuilder();
+                    foreach(int r in probableKeyword)
+                    {
+                        keywordstring.Append(validchars[r]);
+                    }
+                    keywordOutput = keywordstring.ToString();
+                    OnPropertyChanged("KeywordOutput");
+                }
             }
         }
 
@@ -465,11 +607,10 @@ namespace Cryptool.VigenereAnalyser
         }
 
         public void PostExecution()
-        {
+        {   
+            frequencyStats = null;
             Dispose();
             kasiskiInput = null;
-            probableKeylength = 0;
-            //inputChange = false;
             v = 0;
         }
         public void Stop()

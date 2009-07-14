@@ -12,8 +12,20 @@ namespace Cryptool.VigenereAnalyser
     class VigenereAnalyserSettings : ISettings
     {
         #region ISettings Members
-
+        private int elf = 0;
         private bool hasChanges = false;
+        [ContextMenu("Letter Frequency", "Select the language to be analysed", 2, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new String[] { "English", "German", "French", "Spanish", "Italian", "Portugeese" })]
+        [TaskPane("Letter Frequency", "Select the language to be analysed", null, 2, false, DisplayLevel.Experienced, ControlType.ComboBox, new String[] { "English", "German", "French", "Spanish", "Italian", "Portugeese" })]
+        public int ELF // Expected Letter Frequencies
+        {
+            get { return this.elf; }
+            set
+            {
+                if (((int)value) != elf) hasChanges = true;
+                this.elf = (int)value;
+                OnPropertyChanged("ELF");
+            }
+        }
         public bool HasChanges
         {
             get { return hasChanges; }
