@@ -225,7 +225,7 @@ namespace Cryptool.Vigenere
         private CryptoolStream outputData;
         private string inputString;
         private string outputString;
-        //private int[] shiftValue;
+        private char[] keyword;
         private enum VigenereMode { encrypt, decrypt };
         private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
 
@@ -310,14 +310,14 @@ namespace Cryptool.Vigenere
             }
         }
         [PropertyInfo(Direction.Input, "String", "Keyword as derived by the VigenereAnalyser", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public int[] ShiftValue
+        public string ShiftValue
         {
-            get { return settings.shiftValue; }
+            get { return settings.ShiftChar; }
             set
             {
-                if (value != settings.shiftValue)
+                if (value != settings.ShiftChar)
                 {
-                    settings.shiftValue=value;
+                    settings.ShiftChar=value;
                     OnPropertyChanged("ShiftValue");
 
                 }

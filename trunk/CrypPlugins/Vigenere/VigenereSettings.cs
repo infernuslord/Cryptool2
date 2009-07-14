@@ -277,7 +277,7 @@ namespace Cryptool.Vigenere
         private string lowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
         private string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private char[] shiftChar = { 'B', 'C', 'D' };
-        public int[] shiftValue = { 1, 2, 3 };
+        private int[] shiftValue = { 1, 2, 3 };
         private UnknownSymbolHandlingMode unknowSymbolHandling = UnknownSymbolHandlingMode.Ignore;
         private int caseSensitiveAlphabet = 0; //0=case insensitive, 1 = case sensitive
         #endregion
