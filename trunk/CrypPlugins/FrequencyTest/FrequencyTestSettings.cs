@@ -19,10 +19,29 @@ namespace Cryptool.FrequencyTest
         }
 
         #endregion
-        public int unknownSymbolHandling = 0;
+
+        //private int scaling = 1;
+        private int unknownSymbolHandling = 0;
         //private int trimInputString=0;
         private int caseSensitivity = 0;
         private int grammLength = 1;
+        //private int boundaryFragments = 1;
+
+        //[TaskPane("Scaling", "Scale the result? Default is procentual.", "", 0, false, DisplayLevel.Experienced, ControlType.ComboBox, new string[] { "No (absolute)", "Procentual", "log2" })]
+        //public int Scaling
+        //{
+        //    get { return this.scaling; }
+        //    set
+        //    {
+        //        if (value != scaling)
+        //        {
+        //            HasChanges = true;
+        //            scaling = value;
+        //        }
+
+        //        OnPropertyChanged("Scaling");
+        //    }
+        //}
         
         /// <summary>
         /// Visible setting how to deal with alphabet case. 0 = case insentive, 1 = case sensitive
@@ -44,6 +63,7 @@ namespace Cryptool.FrequencyTest
                 OnPropertyChanged("CaseSensitivity");
             }
         }
+
         [PropertySaveOrder(2)]
         [TaskPane("Enter the length of the gramms to be investigated.", "Groups of how many characters should be checked?", "", 1, false, DisplayLevel.Expert, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]
         public int GrammLength
@@ -58,6 +78,7 @@ namespace Cryptool.FrequencyTest
                 }
             }
         }
+
         [PropertySaveOrder(3)]
         [ContextMenu("Handling of unknown characters", "What should be done with encountered characters at the input which are not in the alphabet?", 4, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "Don't count", "Count" })]
         [TaskPane("Handling of unknown characters", "What should be done with encountered characters at the input which are not in the alphabet?", null, 4, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Don't count", "Count" })]
@@ -75,6 +96,36 @@ namespace Cryptool.FrequencyTest
                 OnPropertyChanged("RemoveUnknownSymbols");
             }
         }
+
+        /// <summary>
+        /// This option is to choose whether additional n-grams shall be used at word boundary for n-grams with n>=2.
+        /// Example trigrams for the word "cherry":
+        /// che
+        /// her
+        /// err
+        /// rry
+        /// The following fragments at word boundary may be included optionally:
+        /// __c
+        /// _ch
+        /// ry_
+        /// y__
+        /// The underline char represents a whitespace.
+        /// </summary>
+        //[TaskPane("Word boundary fragments", "Include additional fragments with whitespaces at word boundary? Only relevant for length >= 2.", "", 10, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Include fragments", "No fragments at boundary" })]
+        //public int BoundaryFragments
+        //{
+        //    get { return this.boundaryFragments; }
+        //    set
+        //    {
+        //        if (value != boundaryFragments)
+        //        {
+        //            HasChanges = true;
+        //            boundaryFragments = value;
+        //        }
+
+        //        OnPropertyChanged("BoundaryFragments");
+        //    }
+        //}
         
         #region INotifyPropertyChanged Members
 

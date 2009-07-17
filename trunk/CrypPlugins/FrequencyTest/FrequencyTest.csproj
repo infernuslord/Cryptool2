@@ -120,6 +120,6 @@ cd ..\..\CrypWin\$(OutDir)
 if not exist "./CrypPlugins" mkdir "./CrypPlugins"
 
 del /F /S /Q /s /q "FrequencyTest*.*"
-copy "$(TargetDir)*.*" "./CrypPlugins"</PostBuildEvent>
+copy "$(TargetDir)FrequencyTest*.*" "./CrypPlugins"</PostBuildEvent>
   </PropertyGroup>
 </Project>
