@@ -55,9 +55,9 @@ namespace Cryptool.FrequencyTest
                // {
                     DataSource source = (DataSource)this.Resources["source"];
                     source.ValueCollection.Clear();
-                    for (int i = 0; i < FrequencyTest.Data.ValueCollection.Count; i++)
+                    for (int i = 0; i < FrequencyTest.data.ValueCollection.Count; i++)
                     {
-                        source.ValueCollection.Add(FrequencyTest.Data.ValueCollection[i]);
+                        source.ValueCollection.Add(FrequencyTest.data.ValueCollection[i]);
                     }
                 //}
                     
