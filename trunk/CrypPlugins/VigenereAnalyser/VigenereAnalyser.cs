@@ -23,6 +23,9 @@ namespace Cryptool.VigenereAnalyser
 
     public class VigenereAnalyser:IStatistic
     {
+        public string cipherText;
+        public double sequenceIC;
+        public int RC_keyLength;
         public int shiftKey = 0;
         private double[] elf;
         private VAPresentation vaPresentation;
@@ -128,7 +131,7 @@ namespace Cryptool.VigenereAnalyser
                 freqStats.Add(new Stats(System.Convert.ToChar(splitStats[i]), System.Convert.ToInt32(splitStats[i + 1]), System.Convert.ToDouble(splitStats[i + 2]))) ;
             }
             int textLength=0;
-            List<int> observedFrequencies = new List<int>();
+            List<double> observedFrequencies = new List<double>();
             freqStats.ForEach(delegate(Stats s)
             {
                 textLength += s.absoluteFrequency;
@@ -138,70 +141,127 @@ namespace Cryptool.VigenereAnalyser
             {
                 char []check =new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
                 int l = 0;
+                int c = 0;
+                
                 for (int t = 0; t <= check.Length - 1;t++ )
                 {
-                       
-                        if (l <= freqStats.Count - 1)
+
+                    if (c <= freqStats.Count - 1)
+                    {
+                        
+                        Stats r = freqStats.ElementAt(c);
+                        if (check[t] == r.letter)
                         {
-                            Stats r = freqStats.ElementAt(l);
-                            if (check[t] == r.letter)
-                            {
-                                observedFrequencies.Add(r.absoluteFrequency);
-                                l++;
-                            }
-                            else 
-                            {
-                                observedFrequencies.Add(0);
-                            }
+                            observedFrequencies.Add(r.relativeFrequency);
+                            l++;
+                            c++;
                         }
                         else
                         {
-                            observedFrequencies.Add(0);
+                            observedFrequencies.Add(0.0);
+                            l--;
                         }
+                    }
+                    else 
+                    {
+                        observedFrequencies.Add(0.0);
+                    }
                 }
             }
-            List<double> correctedFrequencies = new List<double>();
-            foreach (double d in expectedFrequencies)
-            {   
-                correctedFrequencies.Add((d / 100) * textLength);
-            }
-            double [] eFrequencies = correctedFrequencies.ToArray();
-            //int[] oFrequencies = observedFrequencies.ToArray();
             double [] chiStats = new double[26];
-            foreach (int f in observedFrequencies)
+            for (int y = 0; y <= observedFrequencies.Count - 1;y++)
             {
                 double chi = 0;
                 double chiS = 0;
-                int g = observedFrequencies.IndexOf(f);
                 for (int j = 0; j <= 25; j++)
                 {
-                    int n = g + j;
-                    if (n == 25||n>25)
+                    int n = y + j;
+                    if (n > 25)
                     {
                         n = n - 25;
                     }
-                    chi = observedFrequencies[n];
+                    chi = observedFrequencies[n]-expectedFrequencies[y];
                     chiS = Math.Pow(chi, 2);
-                    chiS = chiS / eFrequencies[g];
+                    chiS = chiS / expectedFrequencies[y];
                     chiStats[j] += chiS;
                 }
+                
+
             }
-            
+            shiftKey = 0;
+            int b=0;
             foreach (double k in chiStats)
-            {   
-                shiftKey=Array.IndexOf(chiStats , k);
-                for (int l = Array.IndexOf(chiStats, k) + 1; l < chiStats.Length; l++)
+            {
+                 if (chiStats[b]<chiStats[shiftKey] )
+                 {
+                     shiftKey = b;
+                 }
+                 b++;
+             }
+             return shiftKey;
+
+
+        }
+
+        private double seqIC (int d)
+        {
+            int j=0;
+            char[] cText = cipherText.ToCharArray();
+            int n = cText.Length;
+            int[] freq = new int[26];
+            int length = 0;
+            double[] IC = new double[d];
+            double sum,sum1;
+            char checkChar = 'a';
+            for (int i = 0; i < d; i++)
+            {
+                for(int y=0;y<=freq.Length-1;y++)
                 {
-                    if (chiStats[l]<chiStats[shiftKey] )
-                    {
-                        shiftKey = l;
-                    }
+                    freq[y] = 0;
                 }
+                j=1;
+                int index=d*(j-1)+i;
+                do
+                {
+                    freq[cText[index]-checkChar]+=1;
+                    j++;
+                }
+                while((index=d*(j-1)+i)<n);
+                length = j-1;
+                sum = 0.0;
+                for (int f = 0; f < 26; f++)
+                {
+                    sum += freq[f] * (freq[f] - 1);
+                }
+                IC[i] = sum / (length*(length-1));
                
             }
-            return shiftKey;
-
-
+            sum1 = 0.0;
+            for (int k = 0; k < d; k++)
+            {
+               sum1 += Math.Pow((IC[k] - 0.066), 2);
+            }
+            return sequenceIC = Math.Sqrt((sum1 / d));
+            
+            
+        }
+        private int RCtest()
+        {
+            int max_keyLength = 30;
+            double check;
+            double max_diff = 0.002;
+            RC_keyLength = 1;
+            double min_keyLength=seqIC(1);
+            for (int i = 2; i <max_keyLength; i++)
+            {
+                 check = seqIC(i);
+                 if (min_keyLength-check>max_diff)
+                 {
+                     RC_keyLength = i;
+                     min_keyLength = check;
+                 }
+            }
+            return RC_keyLength;
         }
         #endregion
 
@@ -366,7 +426,7 @@ namespace Cryptool.VigenereAnalyser
         {
            if (kasiskiInput != null)
            {
-                //double [] elf;
+                //take care of settings first...
                 switch (settings.ELF)
                 {
                    case 1: elf = new double[26] { 8.167, 1.492, 2.782, 4.253, 12.702, 2.228, 2.015, 6.094, 6.966, 0.153, 0.772, 4.025, 2.406, 6.749, 7.507, 1.929, 0.095, 5.987, 6.327, 9.056, 2.758, 0.978, 2.360, 0.150, 1.974, 0.074 }; break;
@@ -376,6 +436,7 @@ namespace Cryptool.VigenereAnalyser
                    case 5: elf = new double[26] { 8.167, 1.492, 2.782, 4.253, 12.702, 2.228, 2.015, 6.094, 6.966, 0.153, 0.772, 4.025, 2.406, 6.749, 7.507, 1.929, 0.095, 5.987, 6.327, 9.056, 2.758, 0.978, 2.360, 0.150, 1.974, 0.074 }; break;
                    default: elf = new double[26] { 8.167, 1.492, 2.782, 4.253, 12.702, 2.228, 2.015, 6.094, 6.966, 0.153, 0.772, 4.025, 2.406, 6.749, 7.507, 1.929, 0.095, 5.987, 6.327, 9.056, 2.758, 0.978, 2.360, 0.150, 1.974, 0.074 }; break;
                 }
+                
                 if (vigToCaes==null)
                 {   
                     double friedmanKey = friedmanInput;
@@ -383,7 +444,7 @@ namespace Cryptool.VigenereAnalyser
                     string workString = stringInput;
                     string workstring2 = "";
                     //int probableKeylength=0;
-                    //Convert the cipher text into a format suitable for analysing i.e. remove all non-plaintext characters.
+                    //Convert the cipher text into a format suitable for analysing i.e. remove all non-plaintext characters. //TO DO alphabet input...
                     
                     string strValidChars = new string(validchars);
                     StringBuilder workstring1 = new StringBuilder();
@@ -398,129 +459,139 @@ namespace Cryptool.VigenereAnalyser
 
                     workstring2 = workstring1.ToString(); // Now copy workstring1 to workstring2. Needed because workstring1 can not be altered once its built
                     workstring2 = workstring2.ToLower();
-                    string cipherText = workstring2;
-                    //Start analysing the keylenghts proposed by the Friedman and Kasiski tests, and find the most propbable keylength.
-                    int[] primes = new int[] { 5  ,    7  ,   11   ,  13   ,  17  ,   19 ,    23  ,   29 ,
+                    cipherText = workstring2;
+                    if (settings.internalKeyLengthAnalysis == 1) 
+                    {
+                        RCtest();
+                        probableKeylength = RC_keyLength;
+
+                    }
+                    if (settings.internalKeyLengthAnalysis == 0)
+                    {
+                        //Start analysing the keylenghts proposed by the Friedman and Kasiski tests, and find the most propbable keylength.
+                        int[] primes = new int[] { 5  ,    7  ,   11   ,  13   ,  17  ,   19 ,    23  ,   29 ,
                 31   ,  37  ,   41 ,    43  ,   47  ,   53}; //Basic Array of prime numbers...replace with a primes generator or some sieve algorithm???
-                    int biggestSoFar = 0;
-                    int biggestSoFarIndex = 0;
-                    int z = 0;
-                    //Now we initialize an empty jagged array in which plausable keylengths with their respective probabilities will be stored
-                    int[][] proposedKeylengths = 
+                        int biggestSoFar = 0;
+                        int biggestSoFarIndex = 0;
+                        int z = 0;
+                        //Now we initialize an empty jagged array in which plausable keylengths with their respective probabilities will be stored
+                        int[][] proposedKeylengths = 
                 {
                  new int[] {0,0,0,0,0,0,0,0,0,0,0},
                  new int[] {0,0,0,0,0,0,0,0,0,0,0}
     
                 };
-                    //Fill up the array
-                    for (int j = kasiskiFactors.Length - 1; j >= 0; j--)
-                    {
-                        if (kasiskiFactors[j] > biggestSoFar)
+                        //Fill up the array
+                        for (int j = kasiskiFactors.Length - 1; j >= 0; j--)
                         {
-                            biggestSoFar = kasiskiFactors[j];
-                            biggestSoFarIndex = j;
-                            proposedKeylengths[0][z] = j;
-                            proposedKeylengths[1][z] = kasiskiFactors[j];
-                            z++;
+                            if (kasiskiFactors[j] > biggestSoFar)
+                            {
+                                biggestSoFar = kasiskiFactors[j];
+                                biggestSoFarIndex = j;
+                                proposedKeylengths[0][z] = j;
+                                proposedKeylengths[1][z] = kasiskiFactors[j];
+                                z++;
+
+                            }
+                        }
+                        //The resulting array contains some plausible keylengths and some not so plausible keylengths. 
+                        //The variable "biggestSoFarIndex" contains the most common factor, hence most plausible keylength. Problem - biggestSoFarIndex is 2...
+
+                        //After the most common factor is found check if this factor is a prime number. If yes - job done, this is indeed the key length.
+                        foreach (int s in primes)
+                        {
+                            if (s == biggestSoFarIndex)
+                            {
+                                probableKeylength = biggestSoFarIndex;
+                                goto Massages;
+                            }
+                        }
+                        //In case the most common factor is not prime...well tough luck. We'll have to make some assumptions...
+                        //First of all let's sort out unprobable keylengths.
+                        double check1 = 0.55 * biggestSoFar;
+                        int check = Convert.ToInt32(check1);
+                        for (int r = 0; r <= proposedKeylengths[0].Length - 1; r++)
+                        {
+                            if (proposedKeylengths[1][r] < check)
+                            {
+                                proposedKeylengths[0][r] = 0;
+                                proposedKeylengths[1][r] = 0;
+                            }
 
                         }
-                    }
-                    //The resulting array contains some plausible keylengths and some not so plausible keylengths. 
-                    //The variable "biggestSoFarIndex" contains the most common factor, hence most plausible keylength. Problem - biggestSoFarIndex is 2...
+                        //The unprobalbe keylengths are now replaced with zeroes.
+                        //Get rid of the zeroes...
+                        ArrayList factors = new ArrayList();
+                        ArrayList count = new ArrayList();
+                        for (int d = 0; d <= proposedKeylengths[0].Length - 1; d++)
+                        {
+                            if (proposedKeylengths[0][d] != 0)
+                            {
+                                factors.Add(proposedKeylengths[0][d]);
+                                count.Add(proposedKeylengths[1][d]);
+                            }
+                        }
+                        //The dynamic arrays "factors" and "count" now contain only the most prorbale keylengths and their respective probability.
+                        //For ease of access convert the dynamic arrays in to normal ones
+                        int[] factors1 = (int[])factors.ToArray(typeof(int));
+                        int[] count1 = (int[])count.ToArray(typeof(int));
+                        int a = factors1.Length;
+                        //Now check the difference in probability between the most common and most uncommon factors
+                        double smallestCount = count1[0]; //c# does not implicitly convert between int and double, hence two new variables are needed
+                        double biggestCount = count1[a - 1];
+                        double controlValue = smallestCount / biggestCount;
+                        //Now can make some assumptions...
+                        if (a > 3)
+                        {
+                            if (factors1[0] % factors1[a - 1] == 0 && factors1[0] % factors1[a - 2] == 0 && factors1[0] % factors1[a - 3] == 0 && controlValue > 0.65)
+                            {
+                                probableKeylength = factors1[0];
+                            }
+                            else { probableKeylength = factors1[1]; }
+                        }
+                        if (a == 3)
+                        {
+                            if (factors1[0] % factors1[a - 1] == 0 && factors1[0] % factors1[a - 2] == 0 && controlValue > 0.75)
+                            {
+                                probableKeylength = factors1[0];
+                            }
+                            if (factors1[0] % factors1[a - 2] == 0 && factors1[0] % factors1[a - 1] != 0 && controlValue > 0.6)
+                            {
+                                probableKeylength = factors1[0];
+                            }
 
-                    //After the most common factor is found check if this factor is a prime number. If yes - job done, this is indeed the key length.
-                    foreach (int s in primes)
-                    {
-                        if (s == biggestSoFarIndex)
-                        {
-                            probableKeylength = biggestSoFarIndex;
-                            goto Massages;
                         }
-                    }
-                    //In case the most common factor is not prime...well tough luck. We'll have to make some assumptions...
-                    //First of all let's sort out unprobable keylengths.
-                    double check1 = 0.55 * biggestSoFar;
-                    int check = Convert.ToInt32(check1);
-                    for (int r = 0; r <= proposedKeylengths[0].Length - 1; r++)
-                    {
-                        if (proposedKeylengths[1][r] < check)
+                        if (a == 2)
                         {
-                            proposedKeylengths[0][r] = 0;
-                            proposedKeylengths[1][r] = 0;
-                        }
+                            if (factors1[0] % factors1[a - 1] == 0 && controlValue > 0.75)
+                            {
+                                probableKeylength = factors1[0];
+                            }
 
-                    }
-                    //The unprobalbe keylengths are now replaced with zeroes.
-                    //Get rid of the zeroes...
-                    ArrayList factors = new ArrayList();
-                    ArrayList count = new ArrayList();
-                    for (int d = 0; d <= proposedKeylengths[0].Length - 1; d++)
-                    {
-                        if (proposedKeylengths[0][d] != 0)
-                        {
-                            factors.Add(proposedKeylengths[0][d]);
-                            count.Add(proposedKeylengths[1][d]);
                         }
-                    }
-                    //The dynamic arrays "factors" and "count" now contain only the most prorbale keylengths and their respective probability.
-                    //For ease of access convert the dynamic arrays in to normal ones
-                    int[] factors1 = (int[])factors.ToArray(typeof(int));
-                    int[] count1 = (int[])count.ToArray(typeof(int));
-                    int a = factors1.Length;
-                    //Now check the difference in probability between the most common and most uncommon factors
-                    double smallestCount = count1[0]; //c# does not implicitly convert between int and double, hence two new variables are needed
-                    double biggestCount = count1[a - 1];
-                    double controlValue = smallestCount / biggestCount;
-                    //Now can make some assumptions...
-                    if (a > 3)
-                    {
-                        if (factors1[0] % factors1[a - 1] == 0 && factors1[0] % factors1[a - 2] == 0 && factors1[0] % factors1[a - 3] == 0 && controlValue > 0.65)
+                        if (a == 1)
                         {
                             probableKeylength = factors1[0];
                         }
-                        else { probableKeylength = factors1[1]; }
-                    }
-                    if (a == 3)
-                    {
-                        if (factors1[0] % factors1[a - 1] == 0 && factors1[0] % factors1[a - 2] == 0 && controlValue > 0.75)
-                        {
-                            probableKeylength = factors1[0];
-                        }
-                        if (factors1[0] % factors1[a - 2] == 0 && factors1[0] % factors1[a - 1] != 0 && controlValue > 0.6)
-                        {
-                            probableKeylength = factors1[0];
-                        }
-
-                    }
-                    if (a == 2)
-                    {
-                        if (factors1[0] % factors1[a - 1] == 0 && controlValue > 0.75)
-                        {
-                            probableKeylength = factors1[0];
-                        }
-
-                    }
-                    if (a == 1)
-                    {
-                        probableKeylength = factors1[0];
-                    }
                     //Now that we've made some rudimentary decission making, let's check if it has payed off...
-                Massages:
-                    if (Math.Abs(probableKeylength - friedmanKey) < 1)
-                    {
-                        ShowStatusBarMessage("Analysed proposed keylengths. The derived keylength is the correct value." + "" + "Derived keylength is:" + probableKeylength.ToString(), NotificationLevel.Info);
-                    }
-                    if (Math.Abs(probableKeylength - friedmanKey) > 1 && Math.Abs(probableKeylength - friedmanKey) < 2)
-                    {
-                        ShowStatusBarMessage("Analysed proposed keylengths. The derived keylength is probably the correct value" + "" + "Derived keylength is:" + probableKeylength.ToString(), NotificationLevel.Info);
-                    }
-                    if (Math.Abs(probableKeylength - friedmanKey) > 2 && Math.Abs(probableKeylength - friedmanKey) < 3)
-                    {
-                        ShowStatusBarMessage("Analysed proposed keylengths. The derived keylength may not be the correct value." + "" + "Derived keylength is:" + probableKeylength.ToString(), NotificationLevel.Info);
-                    }
-                    if (Math.Abs(probableKeylength - friedmanKey) > 3)
-                    {
-                        ShowStatusBarMessage("Analysed proposed keylengths. Friedman or Kasiski test provided a value that was wrong. A manual analysis may be needed to confirm the derived keylength." + "" + "Derived keylength is:" + probableKeylength.ToString(), NotificationLevel.Info);
+                    Massages:
+                        if (Math.Abs(probableKeylength - friedmanKey) < 1)
+                        {
+                            ShowStatusBarMessage("Analysed proposed keylengths. The derived keylength is the correct value." + "" + "Derived keylength is:" + probableKeylength.ToString(), NotificationLevel.Info);
+                        }
+                        if (Math.Abs(probableKeylength - friedmanKey) > 1 && Math.Abs(probableKeylength - friedmanKey) < 2)
+                        {
+                            ShowStatusBarMessage("Analysed proposed keylengths. The derived keylength is probably the correct value" + "" + "Derived keylength is:" + probableKeylength.ToString(), NotificationLevel.Info);
+                        }
+                        if (Math.Abs(probableKeylength - friedmanKey) > 2 && Math.Abs(probableKeylength - friedmanKey) < 3)
+                        {
+                            ShowStatusBarMessage("Analysed proposed keylengths. The derived keylength may not be the correct value." + "" + "Derived keylength is:" + probableKeylength.ToString(), NotificationLevel.Info);
+                        }
+                        if (Math.Abs(probableKeylength - friedmanKey) > 3)
+                        {
+                            ShowStatusBarMessage("Analysed proposed keylengths. Friedman or Kasiski test provided a value that was wrong. A manual analysis may be needed to confirm the derived keylength." + "" + "Derived keylength is:" + probableKeylength.ToString(), NotificationLevel.Info);
+                        }
+                        factors1 = null;
                     }
                     //Now we have a good idea of the keylength used to encrypt the ciphertext recived on the stringInput.
                     //Let's start with the analysis of the Vigenere cipher proper.
@@ -545,7 +616,7 @@ namespace Cryptool.VigenereAnalyser
                     //Hence each string is encrypted using the Caeser cipher, and a Frequency Test for each string should give us a good idea of what the shift key is for the respective string.
                     //Furthermore the vigenerToCaesar is allready sorted in such a way that the index of each element coresponds to the position of its respective shift key in the whole key.
                     vigToCaes = vigenereToCaesar;
-                    factors1 = null;
+                    
                     
                 }
                 if (vigToCaes != null)
@@ -580,6 +651,7 @@ namespace Cryptool.VigenereAnalyser
                         int [] tempKey = keyList.ElementAt(f).ToArray();
                         probableKeyword[f]=tempKey[0];
                         tempKey = null;
+                        //probableKeyword[f] = chiList.ElementAt(f);
                     }
                     keyList = null;
                     StringBuilder keywordstring = new StringBuilder();

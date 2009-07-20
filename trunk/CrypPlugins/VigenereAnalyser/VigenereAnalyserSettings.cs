@@ -13,9 +13,10 @@ namespace Cryptool.VigenereAnalyser
     {
         #region ISettings Members
         private int elf = 0;
+        public int internalKeyLengthAnalysis = 0;
         private bool hasChanges = false;
-        [ContextMenu("Letter Frequency", "Select the language to be analysed", 2, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new String[] { "English", "German", "French", "Spanish", "Italian", "Portugeese" })]
-        [TaskPane("Letter Frequency", "Select the language to be analysed", null, 2, false, DisplayLevel.Experienced, ControlType.ComboBox, new String[] { "English", "German", "French", "Spanish", "Italian", "Portugeese" })]
+        [ContextMenu("Expected Letter Frequency of a language", "Select the Null hypothesis for the Chi-square statistic", 2, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new String[] { "English", "German", "French", "Spanish", "Italian", "Portugeese" })]
+        [TaskPane("Expected Letter Frequency of a language", "Select the Null hypothesis for the Chi-square statistic", null, 2, false, DisplayLevel.Experienced, ControlType.ComboBox, new String[] { "English", "German", "French", "Spanish", "Italian", "Portugeese" })]
         public int ELF // Expected Letter Frequencies
         {
             get { return this.elf; }
@@ -24,6 +25,18 @@ namespace Cryptool.VigenereAnalyser
                 if (((int)value) != elf) hasChanges = true;
                 this.elf = (int)value;
                 OnPropertyChanged("ELF");
+            }
+        }
+        [ContextMenu("Method of keylength analysis", "Select the internal or external method for analysis of the keylength", 2, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new String[] { "Use Kasiski and Friedman tests (external)","Use Regression-Covariance test (internal)" })]
+        [TaskPane("Method of keylength analysis", "Select the internal or external method for analysis of the keylength", null, 2, false, DisplayLevel.Experienced, ControlType.ComboBox, new String[] { "Use Kasiski and Friedman tests (external)", "Use Regression-Covariance test (internal)" })]
+        public int InternalKeyLengthAnalysis 
+        {
+            get { return this.internalKeyLengthAnalysis; }
+            set
+            {
+                if (((int)value) != internalKeyLengthAnalysis) hasChanges = true;
+                this.internalKeyLengthAnalysis = (int)value;
+                OnPropertyChanged("internalKeyLengthAnalysis");
             }
         }
         public bool HasChanges
