@@ -415,7 +415,7 @@ namespace Cryptool.Enigma
                         plugboard[i] = settings.Alphabet[j];
                         plugboard[j] = settings.Alphabet[i];
 
-                        core.setInternalConfig(enigmaConfig.Rotor1, enigmaConfig.Rotor2, enigmaConfig.Rotor3, 0, settings.Reflector, enigmaConfig.Ring1, enigmaConfig.Ring2, 1, 1, plugboard.ToString());
+                        core.setInternalConfig(enigmaConfig.Rotor1, enigmaConfig.Rotor2, enigmaConfig.Rotor3, 0, settings.Reflector, enigmaConfig.Ring1, enigmaConfig.Ring2, enigmaConfig.Ring3, 1, plugboard.ToString());
 
 
                         int r1pos = settings.Alphabet.IndexOf(enigmaConfig.Key[2]);
