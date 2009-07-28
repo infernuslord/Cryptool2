@@ -34,11 +34,17 @@ namespace Cryptool.FrequencyTest
     {
         #region Const and variable definition
 
-        private string stringOutput = "";
-        private string stringInput;
-        private int [] arrayOutput;
+        public const int ABSOLUTE = 0;
+        public const int PERCENTAGED = 1;
+        public const int LOG2 = 2;
 
-        // TODO: this shall be an algorithm setting or an optional input
+        private string stringInput;
+
+        private string stringOutput = "";
+        private int[] arrayOutput = new int[0];
+        private SortedDictionary<string, double[]> grams = new SortedDictionary<string, double[]>();
+
+        // TODO: this shall be an algorithm setting or an optional word
         private const string validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         internal static DataSource data = new DataSource();
@@ -61,17 +67,50 @@ namespace Cryptool.FrequencyTest
             }
         }
 
-        [PropertyInfo(Direction.Output, "Text output", " letter:absolute frequency of the letter:relative frequency of the letter (in %)  ", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.Output, "Text output", "letter:absolute frequency of the letter:relative frequency of the letter (in %)", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public string StringOutput
         {
             get { return stringOutput; }
         }
 
-        [PropertyInfo(Direction.Output, "List output", "absolute frequency of a letter", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.Output, "List output", "absolute frequency of a letter", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.None, "QuickWatchArray")]
         public int[] ArrayOutput
         {
             get { return arrayOutput; }
-        } 
+        }
+
+        public object QuickWatchArray(string propertyNameToConvert)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (int i in arrayOutput)
+            {
+                sb.Append(i);
+                sb.AppendLine();
+            }
+            return sb.ToString();
+        }
+
+        [PropertyInfo(Direction.Output, "Dictionary output", "Found grams and their quantities in different scalings", "", false, false, DisplayLevel.Experienced, QuickWatchFormat.None, "QuickWatchDictionary")]
+        public IDictionary<string, double[]> DictionaryOutput
+        {
+            get { return grams; }
+        
+        }
+
+        public object QuickWatchDictionary(string propertyNameToConvert)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (KeyValuePair<string, double[]> item in grams)
+            {
+                sb.Append(item.Key);
+                for (int i = 0; i < item.Value.Length; i++)
+                {
+                    sb.Append(";" + item.Value[i]);
+                }
+                sb.AppendLine();
+            }
+            return sb.ToString();
+        }
         #endregion
 
         #region IPlugin Members
@@ -101,89 +140,98 @@ namespace Cryptool.FrequencyTest
 
         public void Execute()
         {
-            if (stringInput != null)
+            if (stringInput == null)
             {
-                string workstring = stringInput;
-                if (settings.CaseSensitivity == 0)
-                {
-                    workstring = workstring.ToLower();
-                }
-                if (settings.RemoveUnknownSymbols == 0)
-                {
-                    StringBuilder workstring2 = new StringBuilder();
-                    foreach (char c in workstring)
-                    {
-                        if (validChars.Contains(c))
-                        {
-                            workstring2.Append(c);
-                        }
-                    }
-                    workstring = workstring2.ToString();
-                }
-
-                // Any change in the input discards and recalculates the output. This is not that effective.
-                data.ValueCollection.Clear();
-
-                SortedDictionary<string, GramCount> grams = new SortedDictionary<string, GramCount>();
-
-                for (int i = 0; i < workstring.Length - settings.GrammLength + 1; i++)
-                {
-                    string g = workstring.Substring(i, settings.GrammLength);
-                    if (!grams.ContainsKey(g))
-                    {
-                        grams[g] = new GramCount(1);
-                    }
-                    else
-                    {
-                        grams[g].Absolute++;
-                    }
-                }
-
-                int sum = grams.Values.Sum(item => item.Absolute);
-                GuiLogMessage("Sum of all n-gram counts is: " + sum, NotificationLevel.Debug);
-
-                // calculate scaled values
-                foreach (GramCount g in grams.Values)
-                {
-                    g.Percentaged = Math.Round(g.Absolute / (double)sum * 100, 3);
-                    g.Log2 = Math.Log(g.Absolute, 2);
-                }
-
-                double max = grams.Values.Max(item => item.Percentaged);
-                GuiLogMessage("Max n-gram percentage is: " + max, NotificationLevel.Debug);
-
-                // calculate presentation bars height
-                foreach (KeyValuePair<string, GramCount> item in grams)
-                {
-                    int height = (int) (item.Value.Percentaged * (160 / max));
-                    CollectionElement row = new CollectionElement(height, item.Value.Percentaged, item.Key);
-                    data.ValueCollection.Add(row);
-                }
-
-                // OUTPUT
-                StringBuilder sb = new StringBuilder();
-                arrayOutput = new int[grams.Count];
-                for (int i = 0; i < grams.Count; i++)
-                {
-                    KeyValuePair<string, GramCount> item = grams.ElementAt(i);
-
-                    sb.Append(item.Key + ":");
-                    sb.Append(item.Value.Absolute + ":");
-                    sb.Append(item.Value.Percentaged + Environment.NewLine);
-
-                    arrayOutput[i] = item.Value.Absolute;
-                }
-                stringOutput = sb.ToString();
-
-                OnPropertyChanged("StringOutput");
-                OnPropertyChanged("ArrayOutput");
-                //  if (OnPluginProgressChanged != null)
-                //     {
-                //      OnPluginProgressChanged(this, new PluginProgressEventArgs(l, l));
-                // }
-                presentation.OpenPresentationFile();
+                return;
             }
-            
+
+            // Any change in the word discards and recalculates the output. This is not that effective.
+            data.ValueCollection.Clear();
+            grams.Clear();
+
+            string workstring = stringInput;
+
+            if (settings.BoundaryFragments == 1)
+            {
+                foreach (string word in new WordTokenizer(workstring))
+                {
+                    ProcessWord(word);
+                }
+            }
+            else
+            {
+                ProcessWord(workstring);
+            }
+
+            double sum = grams.Values.Sum(item => item[ABSOLUTE]);
+            GuiLogMessage("Sum of all n-gram counts is: " + sum, NotificationLevel.Debug);
+
+            // calculate scaled values
+            foreach (double[] g in grams.Values)
+            {
+                g[PERCENTAGED] = g[ABSOLUTE] / sum;
+                g[LOG2] = Math.Log(g[ABSOLUTE], 2);
+            }
+
+            double max = grams.Values.Max(item => item[PERCENTAGED]);
+            GuiLogMessage("Max n-gram percentage is: " + max, NotificationLevel.Debug);
+
+            // calculate presentation bars height
+            foreach (KeyValuePair<string, double[]> item in grams)
+            {
+                int height = (int) (item.Value[PERCENTAGED] * (160 / max));
+                CollectionElement row = new CollectionElement(height, Math.Round(item.Value[PERCENTAGED] * 100, 3), item.Key);
+                data.ValueCollection.Add(row);
+            }
+
+            // OUTPUT
+            StringBuilder sb = new StringBuilder();
+            arrayOutput = new int[grams.Count];
+            for (int i = 0; i < grams.Count; i++)
+            {
+                KeyValuePair<string, double[]> item = grams.ElementAt(i);
+
+                sb.Append(item.Key + ":");
+                sb.Append(item.Value[ABSOLUTE] + ":");
+                sb.Append(Math.Round(item.Value[PERCENTAGED] * 100, 3) + Environment.NewLine);
+
+                arrayOutput[i] = (int) item.Value[ABSOLUTE];
+            }
+            stringOutput = sb.ToString();
+
+            OnPropertyChanged("StringOutput");
+            OnPropertyChanged("ArrayOutput");
+            OnPropertyChanged("DictionaryOutput");
+            //  if (OnPluginProgressChanged != null)
+            //     {
+            //      OnPluginProgressChanged(this, new PluginProgressEventArgs(l, l));
+            // }
+            presentation.OpenPresentationFile();
+        }
+
+        private void ProcessWord(string workstring)
+        {
+            if (settings.ProcessUnknownSymbols == 0)
+            {
+                workstring = StringUtil.StripUnknownSymbols(validChars, workstring);
+            }
+
+            if (workstring.Length == 0)
+            {
+                return;
+            }
+
+            foreach (string g in new GramTokenizer(workstring, settings.GrammLength, settings.BoundaryFragments==1, settings.CaseSensitivity==1))
+            {
+                if (!grams.ContainsKey(g))
+                {
+                    grams[g] = new double[] { 1, 0, 0 };
+                }
+                else
+                {
+                    grams[g][ABSOLUTE]++;
+                }
+            }
         }
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
@@ -191,8 +239,6 @@ namespace Cryptool.FrequencyTest
         {
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(p, this, notificationLevel));
         }
-
-        
 
         public void PostExecution()
         {
@@ -240,39 +286,6 @@ namespace Cryptool.FrequencyTest
 
         #endregion
 
-    }
-
-    public class GramCount
-    {
-        public int Absolute
-        {
-            get;
-            internal set;
-        }
-
-        public double Percentaged
-        {
-            get;
-            internal set;
-        }
-
-        public double Log2
-        {
-            get;
-            internal set;
-        }
-
-        internal GramCount(int absolute)
-        {
-            this.Absolute = absolute;
-            this.Percentaged = -1;
-            this.Log2 = -1;
-        }
-
-        public override string ToString()
-        {
-            return "GramCount[Absolute=" + Absolute + ", Percentaged=" + Percentaged + ", Log2=" + Log2 + "]";
-        }
     }
    
   

@@ -224,7 +224,7 @@ using Cryptool.PluginBase.IO;
 
 namespace Cryptool.Enigma
 {
-    [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-duisburg-essen.de")]
+    [Author("Dr. Arno Wacker, Matthäus Wander", "arno.wacker@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-duisburg-essen.de")]
     [PluginInfo(false, "Enigma", "Polyalphabetic rotor-cipher machine", null,
       "Enigma/Images/Enigma.png", "Enigma/Images/encrypt.png", "Enigma/Images/decrypt.png")]
     [EncryptionType(EncryptionType.Classic)]
@@ -236,6 +236,7 @@ namespace Cryptool.Enigma
         private EnigmaCore core;
         private EnigmaAnalyzer analyzer;
         private string inputString;
+        private IDictionary<string, double[]> inputGrams;
         private string outputString;
         private string savedKey;
         
@@ -391,6 +392,20 @@ namespace Cryptool.Enigma
             }
         }
 
+        [PropertyInfo(Direction.Input, "n-gram dictionary", "Dictionary with gram counts", "", false, false, DisplayLevel.Experienced, QuickWatchFormat.Text, "FrequencyTest.QuickWatchDictionary")]
+        public IDictionary<string, double[]> InputGrams
+        {
+            get { return this.inputGrams; }
+            set
+            {
+                if (value != inputGrams)
+                {
+                    this.inputGrams = value;
+                    OnPropertyChanged("InputGrams");
+                }
+            }
+        }
+
         [PropertyInfo(Direction.Output, "Text output", "The string after processing with the Enigma machine", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public string OutputString
         {
@@ -467,7 +482,7 @@ namespace Cryptool.Enigma
                     string preformatedText = preFormatInput(inputString);
 
                     // perform the analysis
-                    outputString = postFormatOutput(analyzer.Analyze(preformatedText));
+                    outputString = postFormatOutput(analyzer.Analyze(preformatedText, inputGrams));
                     OnPropertyChanged("OutputString");
 
                     ShowProgress(1000, 1000);
