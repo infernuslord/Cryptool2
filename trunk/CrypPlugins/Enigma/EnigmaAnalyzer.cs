@@ -49,10 +49,6 @@ namespace Cryptool.Enigma
 
         #region Private member variables and constants
 
-        private const int ABSOLUTE = 0;
-        private const int PERCENTAGED = 1;
-        private const int LOG2 = 2;
-
         Enigma pluginFacade;
         EnigmaSettings settings;
         EnigmaCore core;
@@ -377,12 +373,14 @@ namespace Cryptool.Enigma
         /// <param name="enigmaConfig">A partial enigma configuration to be used</param>
         /// <param name="maxPlugs">The maximum numer of plugs to be searched. Note that if no more improvement can be found the algortihm may terminate earlier</param>
         /// <param name="text">The cipertext</param>
-        private void analyzePlugs(analysisConfigSettings enigmaConfig, int maxPlugs, string text)
+        /// <returns>best decrypted result string</returns>
+        private string analyzePlugs(analysisConfigSettings enigmaConfig, int maxPlugs, string text)
         {
             string tmp;
             bool plugFound = false;
             int trials = 0;
-            enigmaConfig.Score = calculatePlugScore(encrypt(enigmaConfig, text, enigmaConfig.PlugBoard));
+            string bestResult = encrypt(enigmaConfig, text, enigmaConfig.PlugBoard);
+            enigmaConfig.Score = calculatePlugScore(bestResult);
 
             if (grams == null)
                 pluginFacade.LogMessage("Using legacy IC method to analyze plugs", NotificationLevel.Debug);
@@ -427,13 +425,15 @@ namespace Cryptool.Enigma
                         plugboard[i] = settings.Alphabet[j];
                         plugboard[j] = settings.Alphabet[i];
 
-                        double newScore = calculatePlugScore(encrypt(enigmaConfig, text, plugboard.ToString()));
+                        string result = encrypt(enigmaConfig, text, plugboard.ToString());
+                        double newScore = calculatePlugScore(result);
                         trials++;
 
                         if (newScore > enigmaConfig.Score)
                         {
                             enigmaConfig.Score = newScore;
                             enigmaConfig.PlugBoard = plugboard.ToString();
+                            bestResult = result;
                             plugFound = true;
                         }
                     }
@@ -451,6 +451,8 @@ namespace Cryptool.Enigma
                 if (!plugFound)
                     break;
             }
+
+            return bestResult;
         }
 
         private string encrypt(analysisConfigSettings enigmaConfig, string text, string plugboard)
@@ -617,7 +619,7 @@ namespace Cryptool.Enigma
             {
                 if (workstring.Contains(settings.CaseHandling == 0 ? item.Key : item.Key.ToUpper()))
                 {
-                    score += item.Value[LOG2];
+                    score += item.Value[Enigma.LOG2];
                 }
             }
 
@@ -671,7 +673,6 @@ namespace Cryptool.Enigma
         #endregion
 
         #endregion
-
 
         #region Properties
         #endregion
@@ -779,7 +780,13 @@ namespace Cryptool.Enigma
 
                 for (int j = analysisCandidates.Count - 1; j >= 0; j--)
                 {
-                    analyzePlugs(analysisCandidates[j], settings.MaxSearchedPlugs, preformatedText);
+                    string result = analyzePlugs(analysisCandidates[j], settings.MaxSearchedPlugs, preformatedText);
+
+                    // fire the event, so someting becomes visible..
+                    if (OnIntermediateResult != null)
+                    {
+                        OnIntermediateResult(this, new IntermediateResultEventArgs() { Result = result });
+                    }
                 }
 
                 analysisCandidates.Sort();
@@ -805,11 +812,12 @@ namespace Cryptool.Enigma
             // decrypt with best option
             analysisConfigSettings bestConfig = analysisCandidates[analysisCandidates.Count - 1];
 
-            core.setInternalConfig(bestConfig.Rotor1, bestConfig.Rotor2, bestConfig.Rotor3, 0, settings.Reflector, bestConfig.Ring1, bestConfig.Ring2, bestConfig.Ring3, 1, bestConfig.PlugBoard);
-            int r1p = settings.Alphabet.IndexOf(bestConfig.Key[2]);
-            int r2p = settings.Alphabet.IndexOf(bestConfig.Key[1]);
-            int r3p = settings.Alphabet.IndexOf(bestConfig.Key[0]);
-            return core.Encrypt(r1p, r2p, r3p, 0, preformatedText);
+            foreach (analysisConfigSettings config in analysisCandidates)
+            {
+                pluginFacade.LogMessage(encrypt(config, preformatedText, config.PlugBoard), NotificationLevel.Debug);
+            }
+
+            return encrypt(bestConfig, preformatedText, bestConfig.PlugBoard);
         }
 
         /// <summary>

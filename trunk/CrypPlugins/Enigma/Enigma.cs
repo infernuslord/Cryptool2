@@ -219,6 +219,9 @@ using Cryptool.PluginBase;
 using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.PluginBase.IO;
+using System.IO;
+using System.Reflection;
+using System.Resources;
 
 
 
@@ -230,7 +233,11 @@ namespace Cryptool.Enigma
     [EncryptionType(EncryptionType.Classic)]
     public class Enigma: IEncryption
     {
-        #region Private variables
+        #region Private variables and constants
+
+        internal const int ABSOLUTE = 0;
+        internal const int PERCENTAGED = 1;
+        internal const int LOG2 = 2;
 
         private EnigmaSettings settings;
         private EnigmaCore core;
@@ -333,9 +340,64 @@ namespace Cryptool.Enigma
 
         #endregion
 
+        #region n-gram frequencies
+
+        private IDictionary<string, double[]> LoadDefaultStatistics(int length)
+        {
+            SortedDictionary<string, double[]> grams = new SortedDictionary<string, double[]>();
+
+            StreamReader reader = new StreamReader(Path.Combine(PluginResource.directoryPath, GetStatisticsFilename(length)));
+
+            string line;
+
+            while ((line = reader.ReadLine()) != null)
+            {
+                if (line.StartsWith("#"))
+                    continue;
+
+                string[] tokens = new WordTokenizer(line).ToArray();
+                Debug.Assert(tokens.Length == 2, "Expected 2 tokens, found " + tokens.Length + " on one line");
+
+                grams.Add(tokens[0], new double[] { Double.Parse(tokens[1]), 0, 0 });
+            }
+
+            double sum = grams.Values.Sum(item => item[ABSOLUTE]);
+            LogMessage("Sum of all n-gram counts is: " + sum, NotificationLevel.Debug);
+
+            // calculate scaled values
+            foreach (double[] g in grams.Values)
+            {
+                g[PERCENTAGED] = g[ABSOLUTE] / sum;
+                g[LOG2] = Math.Log(g[ABSOLUTE], 2);
+            }
+
+            return grams;
+        }
+
+        /// <summary>
+        /// Get file name for default n-gram frequencies.
+        /// </summary>
+        /// <param name="length"></param>
+        /// <exception cref="NotSupportedException">No default n-gram frequencies available</exception>
+        /// <returns></returns>
+        private string GetStatisticsFilename(int length)
+        {
+            switch(length)
+            {
+                case 2:
+                    return "Enigma_BigramFrequency1941.txt";
+                case 3:
+                    return "Enigma_TrigramFrequency1941.txt";
+                default:
+                    throw new NotSupportedException("There is no known default statistic for an n-gram length of " + length);
+            }
+        }
+
         #endregion
 
-        #region Contstructor
+        #endregion
+
+        #region Constructor
 
         public Enigma()
         {
@@ -392,7 +454,7 @@ namespace Cryptool.Enigma
             }
         }
 
-        [PropertyInfo(Direction.Input, "n-gram dictionary", "Dictionary with gram counts", "", false, false, DisplayLevel.Experienced, QuickWatchFormat.Text, "FrequencyTest.QuickWatchDictionary")]
+        [PropertyInfo(Direction.Input, "n-gram dictionary", "Dictionary with gram counts (string -> [absolute, percentaged, log2])", "", false, false, DisplayLevel.Experienced, QuickWatchFormat.Text, "FrequencyTest.QuickWatchDictionary")]
         public IDictionary<string, double[]> InputGrams
         {
             get { return this.inputGrams; }
@@ -476,6 +538,32 @@ namespace Cryptool.Enigma
                     break;
                 case 1:
                     LogMessage("Enigma analysis starting ...", NotificationLevel.Info);
+
+                    if (inputGrams == null && settings.PlugSearchMethod >= 1)
+                    {
+                        LogMessage("No n-gram statistics given, trying to load defaults", NotificationLevel.Info);
+                        try
+                        {
+                            inputGrams = LoadDefaultStatistics(settings.GetGramLength());
+                        }
+                        catch (NotSupportedException e)
+                        {
+                            LogMessage(e.Message, NotificationLevel.Error);
+                            return;
+                        }
+                    }
+
+                    if (inputGrams != null && settings.PlugSearchMethod == 0)
+                    {
+                        LogMessage("The connected n-gram dictionary won't be used by selected plug search method (IC)", NotificationLevel.Warning);
+                    }
+                    if (inputGrams != null && inputGrams.Count > 0)
+                    {
+                        if (inputGrams.First().Key.Length != settings.GetGramLength())
+                        {
+                            LogMessage("The length of the used n-gram statistics does not match the selected plug search method", NotificationLevel.Warning);
+                        }
+                    }
 
                     //prepare for analysis
                     LogMessage("ANALYSIS: Preformatting text...", NotificationLevel.Debug);

@@ -79,6 +79,14 @@
     <Resource Include="Images\Enigma.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Enigma_BigramFrequency1941.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Enigma_TrigramFrequency1941.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="DetailedDescription\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -94,7 +102,7 @@
 cd ..\..\CrypWin\$(OutDir)
 if not exist "./CrypPlugins" mkdir "./CrypPlugins"
 
-del /F /S /Q /s /q "Enigma.*"
-copy "$(TargetDir)Enigma.*" "./CrypPlugins"</PostBuildEvent>
+del /F /S /Q /s /q "Enigma*"
+copy "$(TargetDir)Enigma*" "./CrypPlugins"</PostBuildEvent>
   </PropertyGroup>
 </Project>
