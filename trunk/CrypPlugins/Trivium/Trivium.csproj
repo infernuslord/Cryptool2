@@ -64,12 +64,6 @@
     <None Include="key.snk" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\decrypt.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\encrypt.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="icon.png" />
   </ItemGroup>
   <ItemGroup>
@@ -83,10 +77,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\decryptX.png" />
-    <Resource Include="Images\encryptX.png" />
     <Resource Include="Images\Trivium.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

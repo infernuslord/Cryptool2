@@ -14,7 +14,7 @@ using System.Security.Cryptography;
 
 namespace Cryptool.Trivium
 {
-    [Author("Soeren Rinne & Daehyun Strobel", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for Embedded Security (EmSec)", "http://www.crypto.ruhr-uni-bochum.de/")]
+    [Author("Soeren Rinne, David Oruba & Daehyun Strobel", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for Embedded Security (EmSec)", "http://www.trust.ruhr-uni-bochum.de/")]
     [PluginInfo(false, "Trivium", "Trivium", "Trivium/DetailedDescription/Description.xaml", "Trivium/icon.png", "Trivium/Images/encrypt.png", "Trivium/Images/decrypt.png")]
     [EncryptionType(EncryptionType.SymmetricBlock)]
     public class Trivium : IEncryption
@@ -22,7 +22,7 @@ namespace Cryptool.Trivium
         #region IPlugin Members
 
         private TriviumSettings settings;
-        private string inputString;
+        private string inputString = null;
         private string outputString;
         private string inputKey;
         private string inputIV;
@@ -50,7 +50,7 @@ namespace Cryptool.Trivium
             set { this.settings = (TriviumSettings)value; }
         }
 
-        [PropertyInfo(Direction.Input, "Input", "Data to be encrypted or decrypted.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        /*[PropertyInfo(Direction.Input, "Input", "Data to be encrypted or decrypted.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -59,7 +59,7 @@ namespace Cryptool.Trivium
                 this.inputString = value;
                 OnPropertyChanged("InputString");
             }
-        }
+        }*/
 
         [PropertyInfo(Direction.Input, "Key", "Must be 10 bytes (80 bit) in Hex.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public string InputKey
@@ -223,20 +223,55 @@ namespace Cryptool.Trivium
                         bin[i * 4 + 2] = 1;
                         bin[i * 4 + 3] = 1;
                         break;
+                    case 'A':
+                        bin[i * 4] = 1;
+                        bin[i * 4 + 1] = 0;
+                        bin[i * 4 + 2] = 1;
+                        bin[i * 4 + 3] = 0;
+                        break;
+                    case 'B':
+                        bin[i * 4] = 1;
+                        bin[i * 4 + 1] = 0;
+                        bin[i * 4 + 2] = 1;
+                        bin[i * 4 + 3] = 1;
+                        break;
+                    case 'C':
+                        bin[i * 4] = 1;
+                        bin[i * 4 + 1] = 1;
+                        bin[i * 4 + 2] = 0;
+                        bin[i * 4 + 3] = 0;
+                        break;
+                    case 'D':
+                        bin[i * 4] = 1;
+                        bin[i * 4 + 1] = 1;
+                        bin[i * 4 + 2] = 0;
+                        bin[i * 4 + 3] = 1;
+                        break;
+                    case 'E':
+                        bin[i * 4] = 1;
+                        bin[i * 4 + 1] = 1;
+                        bin[i * 4 + 2] = 1;
+                        bin[i * 4 + 3] = 0;
+                        break;
+                    case 'F':
+                        bin[i * 4] = 1;
+                        bin[i * 4 + 1] = 1;
+                        bin[i * 4 + 2] = 1;
+                        bin[i * 4 + 3] = 1;
+                        break;
                 }
             }
 
             return bin;
         }
 
-        private char[] bintohex(int[] bin)
+        private string bintohex(string bin)
         {
             int i;
-            char[] hex = new char[bin.Length / 16];
-            GuiLogMessage("output length: " + hex.Length, NotificationLevel.Info);
+            string hex = null;
             string temp;
 
-            for (i = 0; i < hex.Length; i++)
+            for (i = 0; i < bin.Length / 4; i++)
             {
                 temp = null;
                 temp += bin[i * 4];
@@ -247,52 +282,52 @@ namespace Cryptool.Trivium
                 switch (temp)
                 {
                     case "0000":
-                        hex[i] = '0';
+                        hex += '0';
                         break;
                     case "0001":
-                        hex[i] = '1';
+                        hex += '1';
                         break;
                     case "0010":
-                        hex[i] = '2';
+                        hex += '2';
                         break;
                     case "0011":
-                        hex[i] = '3';
+                        hex += '3';
                         break;
                     case "0100":
-                        hex[i] = '4';
+                        hex += '4';
                         break;
                     case "0101":
-                        hex[i] = '5';
+                        hex += '5';
                         break;
                     case "0110":
-                        hex[i] = '6';
+                        hex += '6';
                         break;
                     case "0111":
-                        hex[i] = '7';
+                        hex += '7';
                         break;
                     case "1000":
-                        hex[i] = '8';
+                        hex += '8';
                         break;
                     case "1001":
-                        hex[i] = '9';
+                        hex += '9';
                         break;
                     case "1010":
-                        hex[i] = 'a';
+                        hex += 'A';
                         break;
                     case "1011":
-                        hex[i] = 'b';
+                        hex += 'B';
                         break;
                     case "1100":
-                        hex[i] = 'c';
+                        hex += 'C';
                         break;
                     case "1101":
-                        hex[i] = 'd';
+                        hex += 'D';
                         break;
                     case "1110":
-                        hex[i] = 'e';
+                        hex += 'E';
                         break;
                     case "1111":
-                        hex[i] = 'f';
+                        hex += 'F';
                         break;
                 }
             }
@@ -303,7 +338,7 @@ namespace Cryptool.Trivium
 
         public void Execute()
         {
-            process(settings.Action);
+            process(1);
         }
 
         private void process(int action)
@@ -311,100 +346,61 @@ namespace Cryptool.Trivium
             //Encrypt/Decrypt String
             try
             {
-                //read input
-                int[] inputIntArray = new int[inputString.Length * 4];
-                inputIntArray = hextobin(inputString.ToCharArray());
-                long inputbytes = inputIntArray.Length;
-
-                GuiLogMessage("input length [byte]: " + inputbytes, NotificationLevel.Info);
-
-                long keybytes = inputKey.Length;
-                int[] key = new int[keybytes];
-
-                GuiLogMessage("inputKey length [byte]: " + keybytes.ToString(), NotificationLevel.Debug);
-
-                if (keybytes != 20)
-                {
-                    GuiLogMessage("Given key has false length. Please provide a key with 20 Bytes length in Hex notation. Aborting now.", NotificationLevel.Error);
-                    return;
-                }
-
-                long IVbytes = inputIV.Length;
-                int[] IV = new int[IVbytes];
-                GuiLogMessage("inputIV length [byte]: " + IVbytes.ToString(), NotificationLevel.Debug);
-
-                if (IVbytes != 20)
-                {
-                    GuiLogMessage("Given IV has false length. Please provide an IV with 20 Bytes length in Hex notation. Aborting now.", NotificationLevel.Error);
-                    return;
-                }
-
-                // convert from hex to binary
-                IV = hextobin(inputIV.ToCharArray());
-                key = hextobin(inputKey.ToCharArray());
+                //string IV_string = "288ff65dc42b92f960c7";
+                //string key_string = "0f62b5085bae0154a7fa";
+                string IV_string = inputIV;
+                string key_string = inputKey;
+                int[] IV = new int[IV_string.Length * 4];
+                int[] key = new int[key_string.Length * 4];
+                
+                IV = hextobin(IV_string.ToCharArray());
+                key = hextobin(key_string.ToCharArray());
 
                 GuiLogMessage("length of IV: " + IV.Length, NotificationLevel.Info);
                 GuiLogMessage("length of key: " + key.Length, NotificationLevel.Info);
 
                 string keystream;
 
+                int keyStreamLength = settings.KeystreamLength;
+                if ((keyStreamLength % 32) != 0)
+                {
+                    GuiLogMessage("Keystream length must be a multiple of 32. " + keyStreamLength + " != 32", NotificationLevel.Error);
+                    return;
+                }
+
                 // encryption/decryption
                 DateTime startTime = DateTime.Now;
 
-                if (action == 0)
-                {
-                    GuiLogMessage("Starting encryption [Keysize=80 Bits]", NotificationLevel.Info);
-                    // init Trivium
-                    initTrivium(IV, key);
+                GuiLogMessage("Starting encryption [Keysize=80 Bits]", NotificationLevel.Info);
 
-                    // generate keystream with length of inputbytes
-                    keystream = keystreamTrivium((int)inputbytes);
-                    char[] charKeystream = keystream.ToCharArray();
-                    int[] keystreamIntArray = hextobin(charKeystream);
-                    int[] outputIntArray = new int[keystreamIntArray.Length];
 
-                    char[] keyTemp = bintohex(keystreamIntArray);
-                    string keyTempstr = null;
 
-                    for (int i = 0; i < keyTemp.Length; i++)
-                    {
-                        keyTempstr += keyTemp[i];
-                    }
+                // init Trivium
+                initTrivium(IV, key);
 
-                    GuiLogMessage("keystream: " + keyTempstr, NotificationLevel.Info);
-
-                    // compute XOR with input and keystream
-                    for (int i = 0; i < inputbytes; i++)
-                    {
-                        //generate XOR inputs
-                        int one = inputIntArray[i];
-                        int two = keystreamIntArray[i];
-                        //GuiLogMessage("one: " + one + ", two: " + two, NotificationLevel.Info);
-                        outputIntArray[i] = one ^ two;
-                    }
-                    char[] outputCharArray = bintohex(outputIntArray);
-                    for (int i = 0; i < outputCharArray.Length; i++)
-                    {
-                        outputString += outputCharArray[i];
-                    }
-                    OnPropertyChanged("OutputString");
-                } else if (action == 1) {
-                    
-                }
-
+                // generate keystream with given length (TODO: length of inputbytes)
+                // ACHTUNG, mag keine grossen zahlen als inputs
+                // EDIT 30.07.09: Jetzt mag er große Zahlen ;)
+                keystream = keystreamTrivium(settings.KeystreamLength);
+                
                 DateTime stopTime = DateTime.Now;
                 TimeSpan duration = stopTime - startTime;
 
+                if (!settings.HexOutput)
+                {
+                    outputString = keystream;
+                    GuiLogMessage("Keystream hex: " + bintohex(keystream), NotificationLevel.Info);
+                }
+                else
+                {
+                    outputString = bintohex(keystream);
+                    GuiLogMessage("Keystream binary: " + keystream, NotificationLevel.Info);
+                }
+                OnPropertyChanged("OutputString");
+
                 if (!stop)
                 {
-                    if (action == 0)
-                    {
-                        //GuiLogMessage("Encryption complete! (in: " + inputStream.Length.ToString() + " bytes, out: " + outbytes.ToString() + " bytes)", NotificationLevel.Info);
-                    }
-                    else
-                    {
-                        //GuiLogMessage("Decryption complete! (in: " + inputStream.Length.ToString() + " bytes, out: " + outbytes.ToString() + " bytes)", NotificationLevel.Info);
-                    }
+                    GuiLogMessage("Encryption complete! (keystream length: " + keystream.Length + " bit)", NotificationLevel.Info);
                 }
 
                 if (stop)
@@ -425,6 +421,30 @@ namespace Cryptool.Trivium
         private void initTrivium(int[] IV, int[] key)
         {
 	        int i,j;
+
+            int[] buffer = new int[8];
+
+            if (settings.UseByteSwapping)
+            {
+                // Byte-Swapping Key
+                for (int l = 0; l < 10; l++)
+                {
+                    for (int k = 0; k < 8; k++)
+                        buffer[k] = key[((l * 8) + 7) - k];
+                    for (int k = 0; k < 8; k++)
+                        key[(l * 8) + k] = buffer[k];
+                }
+
+                // Byte-Swapping IV
+                for (int l = 0; l < 10; l++)
+                {
+                    for (int k = 0; k < 8; k++)
+                        buffer[k] = IV[((l * 8) + 7) - k];
+                    for (int k = 0; k < 8; k++)
+                        IV[(l * 8) + k] = buffer[k];
+                }
+            }
+
 	        for (i = 0; i < 80; i++){
 		        a[i] = (uint)key[i]; // hier key rein als binär
 		        b[i] = (uint)IV[i]; // hier IV rein als binär
@@ -475,6 +495,7 @@ namespace Cryptool.Trivium
             uint z;
 
             string keystreamZ = null;
+            List<int> keyOutput = new List<int>();
 
             for (i = 0; i < nBits; i++)
             {
@@ -483,7 +504,10 @@ namespace Cryptool.Trivium
                 t3 = c[65] ^ c[110];
                 z = t1 ^ t2 ^ t3;
 
-                keystreamZ += z;
+                if (!settings.UseByteSwapping)
+                    keystreamZ += z;
+                else
+                    keyOutput.Add((int)z);
 
                 t1 = t1 ^ (a[90] & a[91]) ^ b[77];
                 t2 = t2 ^ (b[81] & b[82]) ^ c[86];
@@ -497,6 +521,30 @@ namespace Cryptool.Trivium
                 a[0] = t3;
                 b[0] = t1;
                 c[0] = t2;
+            }
+
+            if (settings.UseByteSwapping)
+            {
+                int[] temp = new int[nBits];
+
+                // Little-Endian für den Keystream
+                for (int k = 0; k < nBits; k++)
+                    temp[k] = keyOutput[k];
+                for (int l = 0; l < nBits / 32; l++)
+                {
+                    for (int k = 0; k < 8; k++)
+                    {
+                        keyOutput[(l * 32) + k] = (char)temp[(l * 32) + 24 + k];
+                        keyOutput[(l * 32) + 8 + k] = (char)temp[(l * 32) + 16 + k];
+                        keyOutput[(l * 32) + 16 + k] = (char)temp[(l * 32) + 8 + k];
+                        keyOutput[(l * 32) + 24 + k] = (char)temp[(l * 32) + k];
+                    }
+                }
+                GuiLogMessage(keyOutput.Count.ToString(), NotificationLevel.Info);
+                foreach (int k in keyOutput)
+                {
+                    keystreamZ += k.ToString();
+                }
             }
 
             return keystreamZ;

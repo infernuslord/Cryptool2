@@ -20,14 +20,46 @@ namespace Cryptool.Trivium
         #region ISettings Members
 
         private bool hasChanges = false;
-        private int action = 0; //0=encrypt, 1=decrypt
 
-        [ContextMenu("Action","Do you want the input data to be encrypted or decrypted?",1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 1, 2}, "Encrypt","Decrypt")]
-        [TaskPane("Action", "Do you want the input data to be encrypted or decrypted?", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
-        public int Action
+        private int keystreamLength = 32;
+        [TaskPane("Length of keystream", "How many bits of keystream in bits should be generated? Must be a multiple of 32.", null, 0, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        public int KeystreamLength
         {
-            get { return this.action; }
-            set { this.action = (int)value; }
+            get { return this.keystreamLength; }
+            set
+            {
+                this.keystreamLength = value;
+                //OnPropertyChanged("KeystreamLength");
+                HasChanges = true;
+            }
+        }
+
+        private bool useByteSwapping = false;
+        [ContextMenu("Use byte swapping", "With this checkbox enabled, output bytes will be swapped.", 1, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Use byte swapping?" })]
+        [TaskPane("Use byte swapping", "With this checkbox enabled, output bytes will be swapped.", null, 1, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+        public bool UseByteSwapping
+        {
+            get { return this.useByteSwapping; }
+            set
+            {
+                this.useByteSwapping = (bool)value;
+                //OnPropertyChanged("UseByteSwapping");
+                HasChanges = true;
+            }
+        }
+
+        private bool hexOutput = false;
+        [ContextMenu("Generate Hex output", "With this checkbox enabled, output bytes will be displayed in hex.", 1, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Display as hex?" })]
+        [TaskPane("Generate Hex output", "With this checkbox enabled, output bytes will be displayed in hex.", null, 1, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+        public bool HexOutput
+        {
+            get { return this.hexOutput; }
+            set
+            {
+                this.hexOutput = (bool)value;
+                //OnPropertyChanged("HexOutput");
+                HasChanges = true;
+            }
         }
 
         public bool HasChanges
