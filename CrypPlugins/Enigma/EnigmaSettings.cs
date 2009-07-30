@@ -236,7 +236,6 @@ namespace Cryptool.Enigma
         private string key = "AAA";
         private string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-        private int maxSearchedPlugs = 10;
         private bool analyzeRotors = true;
         private bool analyzeKey = true;
         private bool analyzeRings = true;
@@ -249,6 +248,9 @@ namespace Cryptool.Enigma
         private bool analysisUseRotorVI = true;
         private bool analysisUseRotorVII = true;
         private bool analysisUseRotorVIII = true;
+
+        private int maxSearchedPlugs = 10;
+        private int plugSearchMethod = 2;
 
         private int rotor1 = 0;
         private int rotor2 = 1;
@@ -320,9 +322,26 @@ namespace Cryptool.Enigma
 
         #endregion
 
-        #region Public Methods
+        #region Public and Internal Methods
 
-        
+        /// <summary>
+        /// Return the expected length of n-grams statistics for the selected PlugSearchMethod.
+        /// </summary>
+        /// <returns></returns>
+        internal int GetGramLength()
+        {
+            switch (plugSearchMethod)
+            {
+                case 0:
+                    return 1;
+                case 1:
+                    return 2;
+                case 2:
+                    return 3;
+                default:
+                    return -1;
+            }
+        }
 
         public void resetPlugBoard()
         {
@@ -740,6 +759,21 @@ namespace Cryptool.Enigma
                     hasChanges = true;
                     maxSearchedPlugs = value;
                     OnPropertyChanged("MaxSearchedPlugs");
+                }
+            }
+        }
+
+        [TaskPane("Plug search method", "Which method should be used to assess the best plugboard configuration?", "Analysis options", 9, false, DisplayLevel.Experienced, ControlType.ComboBox, new string[] { "Index of coincidence", "log2-bigram", "log2-trigram" })]
+        public int PlugSearchMethod
+        {
+            get { return this.plugSearchMethod; }
+            set
+            {
+                if (value != plugSearchMethod)
+                {
+                    hasChanges = true;
+                    plugSearchMethod = value;
+                    OnPropertyChanged("PlugSearchMethod");
                 }
             }
         }
