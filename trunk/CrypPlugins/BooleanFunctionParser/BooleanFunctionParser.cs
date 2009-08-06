@@ -182,7 +182,8 @@ namespace BooleanFunctionParser
                     else
                     {
                         GuiLogMessage("Your expression with variables replaced: " + strExpression, NotificationLevel.Info);
-                        output = EvaluateTree(output, FillTree(strExpressionTested));
+                        //output = EvaluateTree(output, FillTree(strExpressionTested));
+                        output = EvaluateString(strExpressionTested);
                         OnPropertyChanged("Output");
                     }
                 }
@@ -229,6 +230,22 @@ namespace BooleanFunctionParser
         public void PreExecution()
         {
             
+        }
+
+        /* ***********************************************************************
+         * Function to be used later in the M/S mode
+         * inputs:
+         * string function - the boolean function to be computed with variables
+         * bool[] inputVariables - a boolean array to replace the variables
+         * 
+         * ouput:
+         * bool - the one bit long result of the given function
+         * ***********************************************************************
+        */
+        private bool ParseBooleanFunction(string function, bool[] inputVariables)
+        {
+            // TODO: call ReplaceVariables with a bool[]
+            return true;
         }
 
         private string ReplaceVariables(string strExpressionWithVariables)
@@ -374,6 +391,100 @@ namespace BooleanFunctionParser
             }
 
             return treeArray[treeArray.Length - 2];
+        }
+
+        private bool EvaluateString(string function)
+        {
+            string temp;
+
+            // test for parenthesis
+            int positionLeftParenthesis = function.IndexOf("(");
+            int positionRightParenthesis = function.LastIndexOf(")");
+
+            GuiLogMessage("Position ( & ): " + positionLeftParenthesis + ", " + positionRightParenthesis, NotificationLevel.Info);
+
+            if (positionLeftParenthesis != -1 && positionRightParenthesis != -1)
+            {
+                temp = function.Substring(positionLeftParenthesis + 1, positionRightParenthesis - positionLeftParenthesis - 1);
+                GuiLogMessage("New function: " + temp, NotificationLevel.Info);
+                bool parenthesisResult = EvaluateString(temp);
+                function = function.Remove(positionLeftParenthesis, positionRightParenthesis - positionLeftParenthesis + 1);
+                function = function.Insert(positionLeftParenthesis, Convert.ToInt32(parenthesisResult).ToString());
+            }
+
+            GuiLogMessage("Function after(:  " + function, NotificationLevel.Info);
+
+            // test for exclamation mark aka not
+            int positionExclamationMark = function.IndexOf("!");
+
+            while (positionExclamationMark != -1)
+            {
+                GuiLogMessage("Position !: " + positionExclamationMark, NotificationLevel.Info);
+
+                // remove exclamation mark
+                function = function.Remove(positionExclamationMark, 1);
+
+                // invert the binary digit following the excl. mark
+                string toInvert = function.Substring(positionExclamationMark, 1);
+                GuiLogMessage("toInvert: " + toInvert, NotificationLevel.Info);
+
+                if (toInvert == "1") toInvert = "0";
+                else toInvert = "1";
+                // remove old value
+                function = function.Remove(positionExclamationMark, 1);
+                // insert new value
+                function = function.Insert(positionExclamationMark, toInvert);
+
+                // any other nots in there?
+                positionExclamationMark = function.IndexOf("!");
+            }
+
+            GuiLogMessage("Function after!:  " + function, NotificationLevel.Info);
+
+
+            // now we should have only +, *, 0, 1 in our function string
+            // so we can be begin to compute the result
+            char[] functionCharArray = function.ToCharArray();
+            bool result = false;
+            bool resultTemp;
+
+            if (functionCharArray[0] == '1') resultTemp = true;
+            else resultTemp = false;
+
+            // we compute the result in 2 cycles, because we want * computed before + ("Punkt-vor-Strich")
+            for (int cycle = 0; cycle < 2; cycle++)
+            {
+                for (int i = 1; i < ((function.Length + 1) / 2); i++)
+                {
+                    int j = 2 * i;
+                    char operator1 = functionCharArray[j - 1];
+                    bool operator2;
+                    if (functionCharArray[j] == '1') operator2 = true;
+                    else operator2 = false;
+
+                    // in the first cycle only compute *
+                    if (cycle == 0)
+                    {
+                        if (operator1 == '*')
+                        {
+                            result = result ^ resultTemp;
+                            resultTemp = operator2;
+                        }
+                    }
+                    // in the second cycle compute +
+                    else
+                    {
+                        if (operator1 == '+')
+                        {
+                            resultTemp = resultTemp & operator2;
+                        }
+                    }
+                }
+            }
+
+            result = result ^ resultTemp;
+
+            return result;
         }
 
         private bool EvaluateTree(bool X, ATreeNode NodePointer)
