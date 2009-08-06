@@ -43,7 +43,7 @@ namespace Cryptool.Internet_frame_generator
                                                             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                                                             0x60, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00};
 
-        [PropertyInfo(Direction.Input,
+        [PropertyInfo(Direction.InputData,
             "Counter",
             "Counter",
             "",
@@ -62,7 +62,7 @@ namespace Cryptool.Internet_frame_generator
             }
         }
 
-        [PropertyInfo(Direction.Output,
+        [PropertyInfo(Direction.OutputData,
             "Output stream",
             "Internet frames",
             "",

@@ -237,7 +237,7 @@ namespace NumberGenerator
     #region properties
 
     private int integerValue;
-    [PropertyInfo(Direction.Output, "Integer value.", "The generated ineteger value.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "Integer value.", "The generated ineteger value.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
     public int IntegerValue
     {
       get { return integerValue; }

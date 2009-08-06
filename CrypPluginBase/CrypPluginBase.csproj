@@ -61,11 +61,13 @@
     <Compile Include="Attributes\SettingsFormatAttribute.cs" />
     <Compile Include="Attributes\ContextMenuAttribute.cs" />
     <Compile Include="Attributes\AuthorAttribute.cs" />
+    <Compile Include="Control\IControlEncryption.cs" />
     <Compile Include="IApplication.cs" />
     <Compile Include="Attributes\RibbonBarAttribute.cs" />
     <Compile Include="Attributes\EditorSpecificPluginAttribute.cs" />
     <Compile Include="DynamicProperty.cs" />
     <Compile Include="Generator\IGenerator.cs" />
+    <Compile Include="Control\IControl.cs" />
     <Compile Include="Miscellaneous\DescriptionHyperlink.cs" />
     <Compile Include="Miscellaneous\EventsHelper.cs" />
     <Compile Include="Attributes\PropertySaveOrderAttribute.cs" />

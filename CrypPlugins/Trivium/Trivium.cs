@@ -61,7 +61,7 @@ namespace Cryptool.Trivium
             }
         }
 
-        [PropertyInfo(Direction.Input, "Key", "Must be 10 bytes (80 bit) in Hex.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Key", "Must be 10 bytes (80 bit) in Hex.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public string InputKey
         {
             get { return this.inputKey; }
@@ -74,7 +74,7 @@ namespace Cryptool.Trivium
 
 
 
-        [PropertyInfo(Direction.Input, "IV", "Must be 10 bytes (80 bit) in Hex.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "IV", "Must be 10 bytes (80 bit) in Hex.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public string InputIV
         {
             get { return this.inputIV; }
@@ -85,7 +85,7 @@ namespace Cryptool.Trivium
             }
         }
 
-        [PropertyInfo(Direction.Output, "Output stream", "Encrypted or decrypted output data", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "Output stream", "Encrypted or decrypted output data", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public string OutputString
         {
             get { return this.outputString; }

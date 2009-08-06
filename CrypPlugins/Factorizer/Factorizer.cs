@@ -339,7 +339,7 @@ namespace Factorizer
     #region Properties
     private GmpBigInteger m_Input = null;
     private string m_InputString;
-    [PropertyInfo(Direction.Input, "String input", "A string that represents a natural number", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "String input", "A string that represents a natural number", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
     public string InputString
     {
       get { return m_InputString; }
@@ -372,7 +372,7 @@ namespace Factorizer
     }
     private string m_Factor;
 
-    [PropertyInfo(Direction.Output, "A prime factor", "A string that represents a factor that is a prime. ", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "A prime factor", "A string that represents a factor that is a prime. ", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
     public string Factor
     {
       get { return m_Factor; }
@@ -386,7 +386,7 @@ namespace Factorizer
     }
     private string m_Remainder;
 
-    [PropertyInfo(Direction.Output, "Remainder", "Remainder", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "Remainder", "Remainder", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
     public string Remainder
     {
       get { return m_Remainder; }

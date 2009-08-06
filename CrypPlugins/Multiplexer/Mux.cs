@@ -357,7 +357,7 @@ namespace Multiplexer
       if (name == null || name == string.Empty) name = "Input " + inputs;      
       DicDynamicProperties.Add(name, 
         new DynamicProperty(name, getCurrentType(),
-          new PropertyInfoAttribute(Direction.Input, name, toolTip, "", false, true, DisplayLevel.Beginner, getQuickWatchFormat(), null)));
+          new PropertyInfoAttribute(Direction.InputData, name, toolTip, "", false, true, DisplayLevel.Beginner, getQuickWatchFormat(), null)));
       dicInputBuffer.Add(name, 0);
     }
 
@@ -368,7 +368,7 @@ namespace Multiplexer
       
       DicDynamicProperties.Add(name,
         new DynamicProperty(name, getCurrentType(),
-          new PropertyInfoAttribute(Direction.Output, name, "", "", false, false, DisplayLevel.Beginner, getQuickWatchFormat(), null)));
+          new PropertyInfoAttribute(Direction.OutputData, name, "", "", false, false, DisplayLevel.Beginner, getQuickWatchFormat(), null)));
     }
 
     [MethodImpl(MethodImplOptions.Synchronized)]
@@ -403,7 +403,7 @@ namespace Multiplexer
     }
 
     private bool inputSwitch;
-    [PropertyInfo(Direction.Input, "Input switch", "Selects the input.", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "Input switch", "Selects the input.", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
     public bool InputSwitch    
     {
       [MethodImpl(MethodImplOptions.Synchronized)]

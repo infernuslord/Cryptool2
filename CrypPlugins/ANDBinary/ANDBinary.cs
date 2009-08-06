@@ -260,7 +260,7 @@ namespace Cryptool.ANDBinary
             }
         }
 
-        [PropertyInfo(Direction.Input, "AND Input One", "Input a boolean value to be processed by AND", "", true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "AND Input One", "Input a boolean value to be processed by AND", "", true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool InputOne
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -283,7 +283,7 @@ namespace Cryptool.ANDBinary
             }
         }
 
-        [PropertyInfo(Direction.Input, "AND Input Two", "Input a boolean value to be processed by AND", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "AND Input Two", "Input a boolean value to be processed by AND", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool InputTwo
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -298,7 +298,7 @@ namespace Cryptool.ANDBinary
             }
         }
 
-        [PropertyInfo(Direction.Output, "AND Output", "Output after ANDing input one and two. Only fires up, if both inputs are fresh.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "AND Output", "Output after ANDing input one and two. Only fires up, if both inputs are fresh.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool Output
         {
             [MethodImpl(MethodImplOptions.Synchronized)]

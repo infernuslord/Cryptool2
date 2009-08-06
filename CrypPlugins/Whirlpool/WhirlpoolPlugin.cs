@@ -111,7 +111,7 @@ namespace Whirlpool
     /// Gets or sets the input data.
     /// </summary>
     /// <value>The input input.</value>
-    [PropertyInfo(Direction.Input, "Input Stream", "Input stream to be hashed", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.InputData, "Input Stream", "Input stream to be hashed", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
     public CryptoolStream InputStream
     {
       get
@@ -145,7 +145,7 @@ namespace Whirlpool
     /// Gets the input data.
     /// </summary>
     /// <value>The input data.</value>
-    [PropertyInfo(Direction.Input, "Input Data", "Input stream to be hashed", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.InputData, "Input Data", "Input stream to be hashed", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
     public byte[] InputData
     {
       get
@@ -194,7 +194,7 @@ namespace Whirlpool
     /// Gets or sets the output data stream.
     /// </summary>
     /// <value>The output data stream.</value>
-    [PropertyInfo(Direction.Output, "Hashed Stream", "Output stream of the hashed value", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.OutputData, "Hashed Stream", "Output stream of the hashed value", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
     public CryptoolStream HashOutputStream
     {
       get
@@ -218,7 +218,7 @@ namespace Whirlpool
     /// Gets the output data.
     /// </summary>
     /// <value>The output data.</value>
-    [PropertyInfo(Direction.Output, "Hashed Data", "Output data of the hashed value", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.OutputData, "Hashed Data", "Output data of the hashed value", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
     public byte[] HashOutputData
     {
       get

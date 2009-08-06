@@ -9,6 +9,7 @@ using System.ComponentModel;
 using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.IO;
 using System.Windows.Controls;
+using Cryptool.PluginBase.Control;
 
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
@@ -44,7 +45,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             set { this.settings = (DESSettings)value; }
         }
 
-        [PropertyInfo(Direction.Input, "Input", "Data to be encrypted or decrypted", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public CryptoolStream InputStream
         {
             get 
@@ -66,7 +67,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.Input, "Key", "Must be 8 bytes.", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Key", "Must be 8 bytes.", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public byte[] InputKey
         {
             get { return this.inputKey; }
@@ -77,7 +78,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.Input, "IV", "IV to be used in chaining modes, must be the same as the Blocksize in bytes (8 bytes).", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "IV", "IV to be used in chaining modes, must be the same as the Blocksize in bytes (8 bytes).", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public byte[] InputIV
         {
             get { return this.inputIV; }
@@ -88,7 +89,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
         
-        [PropertyInfo(Direction.Output, "Output stream", "Encrypted or decrypted output data", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "Output stream", "Encrypted or decrypted output data", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public CryptoolStream OutputStream
         {
             get
@@ -358,5 +359,63 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
         #endregion
+
+        private IControlEncryption testSlave;
+        [PropertyInfo(Direction.ControlSlave, "DES Slave", "Direct access to DES.", "", DisplayLevel.Beginner)]
+        public IControlEncryption TestSlave
+        {
+          get
+          {
+            if (testSlave == null)
+              testSlave = new DESControl(this);
+            return testSlave;
+          }
+        }    
+    }
+
+    public class DESControl : IControlEncryption
+    {
+      private DES plugin;
+
+      public DESControl(DES Plugin)
+      {
+        this.plugin = Plugin;
+      }
+
+      #region IControlEncryption Members
+
+      public byte[] Encrypt(byte[] key, byte[] data, byte[] iv)
+      {
+        ((DESSettings)plugin.Settings).Action = 0;
+        return execute(key, data, iv);
+      }
+
+      public byte[] Decrypt(byte[] key, byte[] data, byte[] iv)
+      {
+        ((DESSettings)plugin.Settings).Action = 1;
+        return execute(key, data, iv);
+      }
+
+      private byte[] execute(byte[] key, byte[] data, byte[] iv)
+      {
+        plugin.InputKey = key;
+        plugin.InputIV = iv;
+        CryptoolStream cs = new CryptoolStream();
+        cs.OpenRead(this.GetType().Name, data);
+        plugin.InputStream = cs;
+        plugin.Execute();
+        CryptoolStream output = plugin.OutputStream;
+
+        byte[] byteValues = new byte[output.Length];
+        int bytesRead;
+        output.Seek(0, SeekOrigin.Begin);
+        bytesRead = output.Read(byteValues, 0, byteValues.Length);
+        plugin.Dispose();
+        cs.Close();
+        output.Close();
+        return byteValues;
+      }
+
+      #endregion
     }
 }

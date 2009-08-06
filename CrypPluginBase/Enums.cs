@@ -208,8 +208,10 @@ namespace Cryptool.PluginBase
 
     public enum Direction
     {
-        Input,
-        Output
+        InputData,
+        OutputData, 
+        ControlSlave, 
+        ControlMaster
     }
 
     public enum DisplayLevel

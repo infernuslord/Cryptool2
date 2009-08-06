@@ -225,7 +225,7 @@ namespace Splitter
 
     # region public interfacde
 
-    [PropertyInfo(Direction.Input, "Dictionary", "The dictionary to split.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "Dictionary", "The dictionary to split.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
     public string DictionaryInputString
     {
       get { return this.dictionaryInputString; }
@@ -241,7 +241,7 @@ namespace Splitter
     }
 
     private bool fireNext;
-    [PropertyInfo(Direction.Input, "Fire next", "If dictionary is set and true/false (depends on settings) arrives here one word is fires and deleted from list.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "Fire next", "If dictionary is set and true/false (depends on settings) arrives here one word is fires and deleted from list.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
     public bool FireNext
     {
       get { return fireNext; }
@@ -259,7 +259,7 @@ namespace Splitter
 
 
     private string outputString;
-    [PropertyInfo(Direction.Output, "Text output", "The words will be fired on this output", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "Text output", "The words will be fired on this output", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
     public string OutputString
     {
       get { return this.outputString; }

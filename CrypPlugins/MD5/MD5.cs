@@ -246,7 +246,7 @@ namespace Cryptool.MD5
             set { this.settings = (MD5Settings)value; }
         }
 
-        [PropertyInfo(Direction.Input, "Input stream", "Input data to be hashed", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Input stream", "Input data to be hashed", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public CryptoolStream InputData
         {
           
@@ -269,7 +269,7 @@ namespace Cryptool.MD5
             }
         }
 
-        [PropertyInfo(Direction.Output, "Hashed value", "Output data of the hashed value as Stream", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "Hashed value", "Output data of the hashed value as Stream", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public CryptoolStream OutputDataStream
         {
           
@@ -288,7 +288,7 @@ namespace Cryptool.MD5
           set { } // readonly
         }
 
-        [PropertyInfo(Direction.Output, "Hashed value", "Output data of the hashed value as byte array", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "Hashed value", "Output data of the hashed value as byte array", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public byte[] OutputData 
         {
           

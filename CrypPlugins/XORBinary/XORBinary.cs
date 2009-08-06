@@ -261,7 +261,7 @@ namespace Cryptool.XORBinary
             }
         }
 
-        [PropertyInfo(Direction.Input, "XOR Input One", "Input a boolean value to be processed by XOR", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "XOR Input One", "Input a boolean value to be processed by XOR", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool InputOne
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -276,7 +276,7 @@ namespace Cryptool.XORBinary
             }
         }
 
-        [PropertyInfo(Direction.Input, "XOR Input Two", "Input a boolean value to be processed by XOR", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "XOR Input Two", "Input a boolean value to be processed by XOR", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool InputTwo
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -292,7 +292,7 @@ namespace Cryptool.XORBinary
         }
         
         private bool controllerInput;
-        [ControllerProperty(Direction.Input, "Controller Input", "", DisplayLevel.Beginner)]
+        [ControllerProperty(Direction.InputData, "Controller Input", "", DisplayLevel.Beginner)]
         public object ControllerInput
         {
             get { return controllerInput; }
@@ -302,7 +302,7 @@ namespace Cryptool.XORBinary
             }
         }
 
-        [PropertyInfo(Direction.Output, "XOR Output", "Output after XORing input one and two. Only fires up, if both inputs are fresh.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "XOR Output", "Output after XORing input one and two. Only fires up, if both inputs are fresh.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool Output
         {
             [MethodImpl(MethodImplOptions.Synchronized)]

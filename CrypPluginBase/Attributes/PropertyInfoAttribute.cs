@@ -203,12 +203,18 @@
 
 using System;
 using System.Reflection;
+using Cryptool.PluginBase.Control;
+using System.Collections.Generic;
 
 namespace Cryptool.PluginBase
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class PropertyInfoAttribute : Attribute
     {
+        #region messages
+        protected const string EMPTY_GUID = "Empty or null GUID is not allowed.";
+        #endregion
+
         # region multi language properties
         public readonly string caption;
         public string Caption
@@ -235,14 +241,17 @@ namespace Cryptool.PluginBase
         }
         # endregion multi language properties
 
+        # region normal properties
         public readonly string DescriptionUrl;
         public readonly Direction Direction;
         public readonly bool Mandatory;        
         public readonly DisplayLevel DisplayLevel;        
         public QuickWatchFormat QuickWatchFormat;
         public string PropertyName; // will be set in extension-method
+        public PropertyInfo PropertyInfo { get; set; } // will be set in extension-method
         public readonly string QuickWatchConversionMethod;
-        public readonly bool HasDefaultValue;
+        public readonly bool HasDefaultValue;        
+        #endregion normal properties
 
         # region translation helpers
         private Type pluginType;
@@ -252,7 +261,7 @@ namespace Cryptool.PluginBase
         /// It is used to access the plugins resources to translate the text elements.
         /// </summary>
         /// <value>The type of the plugin.</value>
-        public Type PluginType
+        public Type PluginType // will be set in extension-method
         {
           get { return pluginType; }
           set { pluginType = value; }
@@ -260,10 +269,11 @@ namespace Cryptool.PluginBase
 
         private bool MultiLanguage
         {
-          get { return PluginType != null; }
+          get { return PluginType != null && PluginType.GetPluginInfoAttribute().ResourceFile != null; }
         }
-        # endregion translation helpers
+        # endregion translation helpers     
 
+        #region constructor
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyInfoAttribute"/> class.
         /// </summary>
@@ -277,9 +287,9 @@ namespace Cryptool.PluginBase
         /// <param name="quickWatchConversion">Methodname of converstion method.</param>
         public PropertyInfoAttribute(Direction direction, string caption, string toolTip, string descriptionUrl, bool mandatory, bool hasDefaultValue, DisplayLevel displayLevel, QuickWatchFormat quickWatchFormat, string quickWatchConversionMethod)
         {
-            this.caption = caption;
-            this.toolTip = toolTip;
-            this.DescriptionUrl = descriptionUrl;
+            this.caption = caption == null ? "" : caption;
+            this.toolTip = toolTip == null ? "" : toolTip;
+            this.DescriptionUrl = descriptionUrl == null ? "" : descriptionUrl;
             this.Direction = direction;
             this.Mandatory = mandatory;
             this.DisplayLevel = displayLevel;
@@ -288,5 +298,11 @@ namespace Cryptool.PluginBase
             this.HasDefaultValue = hasDefaultValue;
         }
 
+        public PropertyInfoAttribute(Direction direction, string caption, string toolTip, string descriptionUrl, DisplayLevel displayLevel) 
+          : this (direction, caption, toolTip, descriptionUrl, false, false, displayLevel, QuickWatchFormat.None, null)
+        {
+        }
+
+        #endregion constructor
     }
-}
+  }

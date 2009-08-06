@@ -240,7 +240,7 @@ namespace Cryptool.Plugins.Convertor
             set { this.settings = (StreamToStringConverterSettings)value; }
         }
 
-        [PropertyInfo(Direction.Output, "Text output", "The string after decoding the bytes from the input stream.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Text output", "The string after decoding the bytes from the input stream.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }
@@ -256,7 +256,7 @@ namespace Cryptool.Plugins.Convertor
           return outputString;
         }
 
-        [PropertyInfo(Direction.Input, "Stream input", "Input stream will be converted to ASCII text. The encoding given in the settings will be used.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, "InputStreamQuickWatchConverter")]
+        [PropertyInfo(Direction.InputData, "Stream input", "Input stream will be converted to ASCII text. The encoding given in the settings will be used.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, "InputStreamQuickWatchConverter")]
         public CryptoolStream InputStream
         {            
             get 

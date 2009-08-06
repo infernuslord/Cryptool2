@@ -82,7 +82,7 @@ namespace Cryptool.LFSR
             set { this.settings = (LFSRSettings)value; }
         }
 
-        [PropertyInfo(Direction.Input, "TapSequence", "TapSequence function in binary presentation.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "TapSequence", "TapSequence function in binary presentation.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public String InputTapSequence
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -96,7 +96,7 @@ namespace Cryptool.LFSR
             }
         }
 
-        [PropertyInfo(Direction.Input, "Seed", "Seed of the LFSR in binary presentation.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Seed", "Seed of the LFSR in binary presentation.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public String InputSeed
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -110,7 +110,7 @@ namespace Cryptool.LFSR
             }
         }
 
-        [PropertyInfo(Direction.Input, "Clock", "Optional clock input. LFSR only advances if clock is true.", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Clock", "Optional clock input. LFSR only advances if clock is true.", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public Boolean InputClockBool
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -124,7 +124,7 @@ namespace Cryptool.LFSR
             }
         }
 
-        [PropertyInfo(Direction.Output, "Output stream", "LFSR Stream Output. Use this for bulk output.", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "Output stream", "LFSR Stream Output. Use this for bulk output.", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public CryptoolStream OutputStream
         {
             //[MethodImpl(MethodImplOptions.Synchronized)]
@@ -148,7 +148,7 @@ namespace Cryptool.LFSR
             }
         }
 
-        [PropertyInfo(Direction.Output, "String Output", "Produces the output bits as a string with length==rounds. Use this output without a clock input.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "String Output", "Produces the output bits as a string with length==rounds. Use this output without a clock input.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public String OutputString
         {
             get { return outputString; }
@@ -159,7 +159,7 @@ namespace Cryptool.LFSR
             }
         }
 
-        [PropertyInfo(Direction.Output, "Boolean Output", "LFSR Boolean Output. Use this output together with a clock input.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Boolean Output", "LFSR Boolean Output. Use this output together with a clock input.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool OutputBool
         {
             get { return outputBool; }
@@ -170,7 +170,7 @@ namespace Cryptool.LFSR
             }
         }
 
-        [PropertyInfo(Direction.Output, "Clocking Bit Output", "Clocking Bit Output.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Clocking Bit Output", "Clocking Bit Output.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool OutputClockingBit
         {
             get { return outputClockingBit; }

@@ -70,7 +70,7 @@ namespace Cryptool.CRC
             set { settings = value; }
         }
 
-        [PropertyInfo(Direction.Input, "Input stream", "Input data to be hashed", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Input stream", "Input data to be hashed", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public CryptoolStream InputData
         {
             get
@@ -91,7 +91,7 @@ namespace Cryptool.CRC
             }
         }
 
-        [PropertyInfo(Direction.Output, "Hash value", "Output hash value as byta array", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "Hash value", "Output hash value as byta array", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public byte[] OutputData
         {
             get
@@ -106,7 +106,7 @@ namespace Cryptool.CRC
             }
         }
 
-        [PropertyInfo(Direction.Output, "Hash value", "Output hash value as Stream", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "Hash value", "Output hash value as Stream", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public CryptoolStream OutputDataStream
         {
             get

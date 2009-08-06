@@ -260,7 +260,7 @@ namespace Cryptool.PRESENT
       set { this.settings = (PRESENTSettings)value; }
     }
 
-    [PropertyInfo(Direction.Input, "Input", "Data to be encrypted or decrypted.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
     public CryptoolStream InputStream
     {
       
@@ -287,7 +287,7 @@ namespace Cryptool.PRESENT
       }
     }
 
-    [PropertyInfo(Direction.Input, "Key", "Must be 10 or 16 bytes.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.InputData, "Key", "Must be 10 or 16 bytes.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
     public byte[] InputKey
     {
       
@@ -303,7 +303,7 @@ namespace Cryptool.PRESENT
       }
     }
 
-    [PropertyInfo(Direction.Input, "IV", "IV to be used in chaining modes, must be 8 bytes.", "", false, false, DisplayLevel.Professional, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.InputData, "IV", "IV to be used in chaining modes, must be 8 bytes.", "", false, false, DisplayLevel.Professional, QuickWatchFormat.Hex, null)]
     public byte[] InputIV
     {
       
@@ -319,7 +319,7 @@ namespace Cryptool.PRESENT
       }
     }
 
-    [PropertyInfo(Direction.Output, "Output stream", "Encrypted or decrypted output data", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.OutputData, "Output stream", "Encrypted or decrypted output data", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
     public CryptoolStream OutputStream
     {
       

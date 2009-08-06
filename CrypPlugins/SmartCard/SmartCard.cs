@@ -71,7 +71,7 @@ namespace SmartCard
 
     #region IO
 
-    [PropertyInfo(Direction.Input, "Data Input", "The input as readable Hex String.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "Data Input", "The input as readable Hex String.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
     public String DataInput
     {
         get
@@ -91,7 +91,7 @@ namespace SmartCard
         }
     }
 
-    [PropertyInfo(Direction.Output, "Logging Output", "Logging output of APDU/RAPDU", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "Logging Output", "Logging output of APDU/RAPDU", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
     public String LogString
     {
         get
@@ -105,7 +105,7 @@ namespace SmartCard
         }
     }
 
-    [PropertyInfo(Direction.Output, "Response", "The response of the card reader.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.OutputData, "Response", "The response of the card reader.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
     public byte[] Response
     {
       get { return response; }

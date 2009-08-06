@@ -440,7 +440,7 @@ namespace Cryptool.Enigma
 
         #region Connector properties
 
-        [PropertyInfo(Direction.Input, "Text input", "Input a string to be processed by the Enigma machine", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Text input", "Input a string to be processed by the Enigma machine", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -454,7 +454,7 @@ namespace Cryptool.Enigma
             }
         }
 
-        [PropertyInfo(Direction.Input, "n-gram dictionary", "Dictionary with gram counts (string -> [absolute, percentaged, log2])", "", false, false, DisplayLevel.Experienced, QuickWatchFormat.Text, "FrequencyTest.QuickWatchDictionary")]
+        [PropertyInfo(Direction.InputData, "n-gram dictionary", "Dictionary with gram counts (string -> [absolute, percentaged, log2])", "", false, false, DisplayLevel.Experienced, QuickWatchFormat.Text, "FrequencyTest.QuickWatchDictionary")]
         public IDictionary<string, double[]> InputGrams
         {
             get { return this.inputGrams; }
@@ -468,7 +468,7 @@ namespace Cryptool.Enigma
             }
         }
 
-        [PropertyInfo(Direction.Output, "Text output", "The string after processing with the Enigma machine", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Text output", "The string after processing with the Enigma machine", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }

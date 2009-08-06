@@ -259,7 +259,7 @@ namespace FileInput
       set { settings = (FileInputSettings)value; }
     }
 
-    [PropertyInfo(Direction.Output, "Stream Output", "Selected file as stream.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.OutputData, "Stream Output", "Selected file as stream.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
     public CryptoolStream StreamOutput
     {
       get

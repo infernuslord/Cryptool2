@@ -61,7 +61,7 @@ namespace Cryptool.WEPAttacks
         /* external help objects */
         private WEPAttacksPresentation presentation = new WEPAttacksPresentation();
 
-        [PropertyInfo(Direction.Input,
+        [PropertyInfo(Direction.InputData,
             "Input stream",
             "Encrypted WEP packets",
             "",
@@ -91,7 +91,7 @@ namespace Cryptool.WEPAttacks
             }
         }
 
-        [PropertyInfo(Direction.Output,
+        [PropertyInfo(Direction.OutputData,
             "Success",
             "Indicates if attack was successful or not",
             "",
@@ -110,7 +110,7 @@ namespace Cryptool.WEPAttacks
             }
         }
 
-        [PropertyInfo(Direction.Output,
+        [PropertyInfo(Direction.OutputData,
             "Output stream",
             "Decrypted frames",
             "",

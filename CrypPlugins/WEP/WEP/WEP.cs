@@ -60,7 +60,7 @@ namespace Cryptool.WEP
                                                                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                                                                0xFF, 0xFF, 0x00, 0x00, 0x69, 0x00, 0x00, 0x00};
 
-        [PropertyInfo(Direction.Input,
+        [PropertyInfo(Direction.InputData,
             "Input stream",
             "Data to be encrypted or decrypted",
             "",
@@ -91,7 +91,7 @@ namespace Cryptool.WEP
         }
 
         [PropertyInfo(
-            Direction.Input,
+            Direction.InputData,
             "Key",
             "Must be 5 or 13 bytes.",
             "",
@@ -110,7 +110,7 @@ namespace Cryptool.WEP
             }
         }
 
-        [PropertyInfo(Direction.Output,
+        [PropertyInfo(Direction.OutputData,
             "Output stream",
             "Encrypted / decrypted data",
             "",

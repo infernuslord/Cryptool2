@@ -84,7 +84,7 @@ namespace Cryptool.NLFSR
             set { this.settings = (NLFSRSettings)value; }
         }
 
-        [PropertyInfo(Direction.Input, "TapSequence", "TapSequence function in binary presentation.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "TapSequence", "TapSequence function in binary presentation.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public String InputTapSequence
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -98,7 +98,7 @@ namespace Cryptool.NLFSR
             }
         }
 
-        [PropertyInfo(Direction.Input, "Seed", "Seed of the NLFSR in binary presentation.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Seed", "Seed of the NLFSR in binary presentation.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public String InputSeed
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -136,7 +136,7 @@ namespace Cryptool.NLFSR
             }
         }*/
 
-        [PropertyInfo(Direction.Input, "Clock", "Optional clock input. NLFSR only advances if clock is true.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Clock", "Optional clock input. NLFSR only advances if clock is true.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public Boolean InputClockBool
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -150,7 +150,7 @@ namespace Cryptool.NLFSR
             }
         }
 
-        [PropertyInfo(Direction.Output, "Output stream", "NLFSR Stream Output. Use this for bulk output.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "Output stream", "NLFSR Stream Output. Use this for bulk output.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public CryptoolStream OutputStream
         {
             //[MethodImpl(MethodImplOptions.Synchronized)]
@@ -174,7 +174,7 @@ namespace Cryptool.NLFSR
             }
         }
 
-        [PropertyInfo(Direction.Output, "String Output", "Produces the output bits as a string with length==rounds. Use this output without a clock input.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "String Output", "Produces the output bits as a string with length==rounds. Use this output without a clock input.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public String OutputString
         {
             get { return outputString; }
@@ -185,7 +185,7 @@ namespace Cryptool.NLFSR
             }
         }
 
-        [PropertyInfo(Direction.Output, "Boolean Output", "NLFSR Boolean Output. Use this output together with a clock input.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Boolean Output", "NLFSR Boolean Output. Use this output together with a clock input.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool OutputBool
         {
             get { return outputBool; }
@@ -196,7 +196,7 @@ namespace Cryptool.NLFSR
             }
         }
 
-        [PropertyInfo(Direction.Output, "Clocking Bit Output", "Clocking Bit Output.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Clocking Bit Output", "Clocking Bit Output.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool OutputClockingBit
         {
             get { return outputClockingBit; }
@@ -208,7 +208,7 @@ namespace Cryptool.NLFSR
         }
         
         private bool controllerOutput;
-        [ControllerProperty(Direction.Output, "Controller Output", "", DisplayLevel.Beginner)]
+        [ControllerProperty(Direction.OutputData, "Controller Output", "", DisplayLevel.Beginner)]
         public object ControllerOutput
         {
             get { return controllerOutput; }
