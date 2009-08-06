@@ -252,7 +252,7 @@ namespace Cryptool.Playfair
             set { this.settings = (PlayfairSettings)value; }
         }
 
-        [PropertyInfo(Direction.Output,"Stream output","The string after processing with the Playfair cipher is converted to a stream. Default encoding is used.","",false,false, DisplayLevel.Beginner,QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData,"Stream output","The string after processing with the Playfair cipher is converted to a stream. Default encoding is used.","",false,false, DisplayLevel.Beginner,QuickWatchFormat.Text, null)]
         public CryptoolStream OutputData
         {
             get
@@ -272,7 +272,7 @@ namespace Cryptool.Playfair
             set { }
         }
 
-        [PropertyInfo(Direction.Input,"Text input","Input a string to be processed by the Playfair cipher","",true,false,DisplayLevel.Beginner,QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData,"Text input","Input a string to be processed by the Playfair cipher","",true,false,DisplayLevel.Beginner,QuickWatchFormat.Text, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -286,7 +286,7 @@ namespace Cryptool.Playfair
             }
         }
 
-        [PropertyInfo(Direction.Output,"Pre-formated input string","If Pre-format text option is enabled the input string is confined to the alphabet used.",null,false,false,DisplayLevel.Beginner,QuickWatchFormat.Text,null)]
+        [PropertyInfo(Direction.OutputData,"Pre-formated input string","If Pre-format text option is enabled the input string is confined to the alphabet used.",null,false,false,DisplayLevel.Beginner,QuickWatchFormat.Text,null)]
         public string PreFormatedInputString
         {
             get { return this.preFormatedInputString; }
@@ -297,7 +297,7 @@ namespace Cryptool.Playfair
             }
         }
 
-        [PropertyInfo(Direction.Output,"Text output","The string after processing with the Playfair cipher","",false,false,DisplayLevel.Beginner,QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData,"Text output","The string after processing with the Playfair cipher","",false,false,DisplayLevel.Beginner,QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }

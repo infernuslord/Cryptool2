@@ -215,6 +215,7 @@ using System.Resources;
 using System.Threading;
 using System.Globalization;
 using System.Collections;
+using Cryptool.PluginBase.Control;
 
 namespace Cryptool.PluginBase
 {
@@ -242,9 +243,8 @@ namespace Cryptool.PluginBase
                 {
                     PropertyInfoAttribute attr  = attributes[0];
                     attr.PropertyName = pInfo.Name;
-                    // does plugin have a resource file for translation?
-                    if (plugin.GetPluginInfoAttribute().ResourceFile != null)
-                      attr.PluginType = plugin.GetType();
+                    attr.PluginType = plugin.GetType();
+                    attr.PropertyInfo = pInfo;
                     propertyInfos.Add(attr);
                 }
 	        }
@@ -357,20 +357,27 @@ namespace Cryptool.PluginBase
 
         public static AuthorAttribute GetPluginAuthorAttribute(this IPlugin plugin)
         {
-          return GetPluginAuthorAttribute(plugin.GetType());
+          if (plugin != null)
+            return GetPluginAuthorAttribute(plugin.GetType());
+          return null;
         }
 
         public static AuthorAttribute GetPluginAuthorAttribute(this Type type)
         {
+          if (type == null)
+            return null;
           AuthorAttribute[] attributes = (AuthorAttribute[])type.GetCustomAttributes(typeof(AuthorAttribute), false);
           if (attributes.Length == 1)
             return attributes[0];
-          return null;
+          else
+            return null;
         }
 
         public static ControllerPropertyAttribute[] GetControllerPropertyAttribute(this IPlugin plugin)
         {
-          return GetControllerPropertyAttribute(plugin.GetType());
+          if (plugin != null)
+            return GetControllerPropertyAttribute(plugin.GetType());
+          return null;
         }
 
         public static ControllerPropertyAttribute[] GetControllerPropertyAttribute(this Type type)

@@ -52,7 +52,7 @@ namespace Cryptool.PrimesGenerator
 
 
     private string m_OutputString;
-    [PropertyInfo(Direction.Output, "Text output", "A primenumber", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "Text output", "A primenumber", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
     public string OutputString
     {
       get { return this.m_OutputString; }

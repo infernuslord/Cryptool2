@@ -20,7 +20,7 @@ namespace Cryptool.Plugins.ToString
     # endregion private variables
 
     # region public interface
-    [PropertyInfo(Direction.Input, "Input", "Input", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "Input", "Input", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
     public int Input
     {
       get { return input; }
@@ -32,7 +32,7 @@ namespace Cryptool.Plugins.ToString
       }
     }
 
-    [PropertyInfo(Direction.Output, "Output", "Output.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "Output", "Output.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
     public string Output
     {
       get 

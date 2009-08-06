@@ -251,7 +251,7 @@ namespace Cryptool.Vigenere
             set { this.settings = (VigenereSettings)value; }
         }
 
-        [PropertyInfo(Direction.Output, "Stream output", "The string after processing with the Vigenère cipher is converted to a stream.Default encoding is used.", null, false, false, DisplayLevel.Beginner,QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Stream output", "The string after processing with the Vigenère cipher is converted to a stream.Default encoding is used.", null, false, false, DisplayLevel.Beginner,QuickWatchFormat.Text, null)]
         public CryptoolStream OutputData
         {
             get
@@ -271,7 +271,7 @@ namespace Cryptool.Vigenere
             set { }
         }
 
-        [PropertyInfo(Direction.Input, "Text input", "Input a string to be processed by the Vigenère cipher", null, true, false, DisplayLevel.Beginner,QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Text input", "Input a string to be processed by the Vigenère cipher", null, true, false, DisplayLevel.Beginner,QuickWatchFormat.Text, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -285,7 +285,7 @@ namespace Cryptool.Vigenere
             }
         }
 
-        [PropertyInfo(Direction.Output,"Text output", "The string after processing with the Vigenère cipher", null, false, false, DisplayLevel.Beginner,QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData,"Text output", "The string after processing with the Vigenère cipher", null, false, false, DisplayLevel.Beginner,QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }
@@ -296,7 +296,7 @@ namespace Cryptool.Vigenere
             }
         }
 
-        [PropertyInfo(Direction.Input, "External alphabet input", "Input a string containing the alhabet which should be used by Vigenère. If no alphabet is provided on this input, the internal alphabet will be used.", null, false, false, DisplayLevel.Expert,QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "External alphabet input", "Input a string containing the alhabet which should be used by Vigenère. If no alphabet is provided on this input, the internal alphabet will be used.", null, false, false, DisplayLevel.Expert,QuickWatchFormat.Text, null)]
         public string InputAlphabet
         {
             get { return ((VigenereSettings)this.settings).AlphabetSymbols; }
@@ -309,7 +309,7 @@ namespace Cryptool.Vigenere
                 }
             }
         }
-        [PropertyInfo(Direction.Input, "String", "Keyword as derived by the VigenereAnalyser", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "String", "Keyword as derived by the VigenereAnalyser", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public string ShiftValue
         {
             get { return settings.ShiftChar; }

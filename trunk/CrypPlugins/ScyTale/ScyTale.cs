@@ -26,7 +26,7 @@ namespace Cryptool.Scytale
         }
 
         private string inputString = string.Empty;
-        [PropertyInfo(Direction.Input, "Text input", "Input a string to be processed by the Scytale cipher", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Text input", "Input a string to be processed by the Scytale cipher", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -41,7 +41,7 @@ namespace Cryptool.Scytale
         }
 
         private string outputString = string.Empty;
-        [PropertyInfo(Direction.Output, "Text output", "The string after processing with the Scytale cipher", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Text output", "The string after processing with the Scytale cipher", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }

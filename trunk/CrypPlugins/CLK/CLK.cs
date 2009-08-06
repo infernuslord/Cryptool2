@@ -61,7 +61,7 @@ namespace Cryptool.Plugins.CLK
 
     # region public interface
        
-    [PropertyInfo(Direction.Output, "Output", "Output.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "Output", "Output.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
     public bool Output
     {
         get { return output; }
@@ -75,7 +75,7 @@ namespace Cryptool.Plugins.CLK
         }
     }
 
-    [PropertyInfo(Direction.Input, "EventInput", "EventInput", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "EventInput", "EventInput", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
     public bool EventInput
     {
         get { return eventInput; }

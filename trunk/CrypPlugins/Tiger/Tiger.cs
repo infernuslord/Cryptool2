@@ -133,7 +133,7 @@ namespace Tiger
     /// Gets or sets the input inputdata.
     /// </summary>
     /// <value>The input inputdata.</value>
-    [PropertyInfo(Direction.Input, "Input Data Stream", "Input data stream to be hashed", "",
+    [PropertyInfo(Direction.InputData, "Input Data Stream", "Input data stream to be hashed", "",
       false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
     public CryptoolStream InputStream
     {
@@ -169,7 +169,7 @@ namespace Tiger
     /// Gets the input data.
     /// </summary>
     /// <value>The input data.</value>
-    [PropertyInfo(Direction.Input, "Input Data", "Input Data to be hashed", "",
+    [PropertyInfo(Direction.InputData, "Input Data", "Input Data to be hashed", "",
       false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
     public byte[] InputData
     {
@@ -219,7 +219,7 @@ namespace Tiger
     /// Gets or sets the output inputdata stream.
     /// </summary>
     /// <value>The output inputdata stream.</value>
-    [PropertyInfo(Direction.Output, "Hashed Stream", "Output stream of the hashed value", "",
+    [PropertyInfo(Direction.OutputData, "Hashed Stream", "Output stream of the hashed value", "",
       true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
     public CryptoolStream HashOutputStream
     {
@@ -244,7 +244,7 @@ namespace Tiger
     /// Gets the output inputdata.
     /// </summary>
     /// <value>The output inputdata.</value>
-    [PropertyInfo(Direction.Output, "Hashed Data", "Output data of the hashed value", "",
+    [PropertyInfo(Direction.OutputData, "Hashed Data", "Output data of the hashed value", "",
       true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
     public byte[] HashOutputData
     {

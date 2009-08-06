@@ -49,28 +49,28 @@ namespace FriedmanTest
 
         #region Properties (Inputs/Outputs)
 
-        [PropertyInfo(Direction.Output, "Results", "This ouput provides the results of the Friedman test \nas key/value pairs, one per each line.", "", false,false, DisplayLevel.Beginner, QuickWatchFormat.Text,null)]
+        [PropertyInfo(Direction.OutputData, "Results", "This ouput provides the results of the Friedman test \nas key/value pairs, one per each line.", "", false,false, DisplayLevel.Beginner, QuickWatchFormat.Text,null)]
         public string StringOutput
         {
             get { return this.stringOutput; }
             set { }
         }
 
-        [PropertyInfo(Direction.Output, "Probable key length value.", "This value gives the probable key length of the analyzed text.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, "KeyLengthQuickWatchConverter")]
+        [PropertyInfo(Direction.OutputData, "Probable key length value.", "This value gives the probable key length of the analyzed text.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, "KeyLengthQuickWatchConverter")]
         public double KeyLength
         {
             get { return keyLength; }
             set { }
         }
 
-        [PropertyInfo(Direction.Output, "Index of coincidence (IC)", "This output provides the calculated index of coincidence of the provided \noccurences of letters (frequency analysis).", "", false, false, DisplayLevel.Expert, QuickWatchFormat.Text, "KappaCiphertextQuickWatchConverter")]
+        [PropertyInfo(Direction.OutputData, "Index of coincidence (IC)", "This output provides the calculated index of coincidence of the provided \noccurences of letters (frequency analysis).", "", false, false, DisplayLevel.Expert, QuickWatchFormat.Text, "KappaCiphertextQuickWatchConverter")]
         public double KappaCiphertext
         {
             get { return kappaCiphertext; }
             set { }
         }
 
-        [PropertyInfo(Direction.Input, "Letter count input", "This input accepts a list (array) with the absolute number of letter \noccurences in an encrypted text. This list can be generated e.g. with the frequency test.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "Letter count input", "This input accepts a list (array) with the absolute number of letter \noccurences in an encrypted text. This list can be generated e.g. with the frequency test.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
         public int [] ArrayInput
         {
             get { return arrayInput; }

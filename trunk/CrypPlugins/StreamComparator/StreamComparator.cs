@@ -48,7 +48,7 @@ namespace Cryptool.StreamComparator
 
     #region Properties
 
-    [PropertyInfo(Direction.Input, "Stream one", "First stream to compare", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.InputData, "Stream one", "First stream to compare", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
     public CryptoolStream InputOne
     {
       get 
@@ -65,7 +65,7 @@ namespace Cryptool.StreamComparator
       set { streamOne = value; }
     }
 
-    [PropertyInfo(Direction.Input, "Stream two", "Second stream to compare", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.InputData, "Stream two", "Second stream to compare", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
     public CryptoolStream InputTwo
     {
       get 
@@ -83,7 +83,7 @@ namespace Cryptool.StreamComparator
     }
 
     private bool inputsAreEqual;
-    [PropertyInfo(Direction.Output, "Comparator achievement", "Ture if streams are equal, otherwise false.", "", false, false, DisplayLevel.Expert, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "Comparator achievement", "Ture if streams are equal, otherwise false.", "", false, false, DisplayLevel.Expert, QuickWatchFormat.Text, null)]
     public bool InputsAreEqual
     {
       get { return inputsAreEqual; }

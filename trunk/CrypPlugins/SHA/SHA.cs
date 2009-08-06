@@ -282,7 +282,7 @@ namespace SHA
 
         #endregion
 
-        [PropertyInfo(Direction.Input, "Input stream", "Input data to be hashed", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Input stream", "Input data to be hashed", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public CryptoolStream InputData
         {
             get 
@@ -305,7 +305,7 @@ namespace SHA
             }
         }
 
-        [PropertyInfo(Direction.Output, "Hashed value", "Output data of the hashed value as Stream", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "Hashed value", "Output data of the hashed value as Stream", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public CryptoolStream OutputDataStream
         {
             get
@@ -322,7 +322,7 @@ namespace SHA
             set { } //readonly
         }
 
-        [PropertyInfo(Direction.Output, "Hashed value", "Output data of the hashed value as byte array", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "Hashed value", "Output data of the hashed value as byte array", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public byte[] OutputData
         {
             get { return this.outputData; }

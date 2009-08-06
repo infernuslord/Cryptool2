@@ -254,7 +254,7 @@ namespace Cryptool.BerlekampMassey
             }
         }
 
-        [PropertyInfo(Direction.Input, "Input Sequence", "", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Input Sequence", "", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public String Input
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -268,7 +268,7 @@ namespace Cryptool.BerlekampMassey
             }
         }
 
-        [PropertyInfo(Direction.Output, "Minimal Length L", "", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Minimal Length L", "", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public int Output
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -281,7 +281,7 @@ namespace Cryptool.BerlekampMassey
             }
         }
 
-        [PropertyInfo(Direction.Output, "Feedback Polynomial C(D)", "", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Feedback Polynomial C(D)", "", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public String PolynomialOutput
         {
             [MethodImpl(MethodImplOptions.Synchronized)]

@@ -42,7 +42,7 @@ namespace Cryptool.HIGHT
             set { this.settings = (HIGHTSettings)value; }
         }
 
-        [PropertyInfo(Direction.Input, "Input", "Data to be encrypted or decrypted.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public CryptoolStream InputStream
         {
             get 
@@ -64,7 +64,7 @@ namespace Cryptool.HIGHT
             }
         }
 
-        [PropertyInfo(Direction.Input, "Key", "Must be 16 bytes (128 bit).", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Key", "Must be 16 bytes (128 bit).", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public byte[] InputKey
         {
             get { return this.inputKey; }
@@ -75,7 +75,7 @@ namespace Cryptool.HIGHT
             }
         }
 
-        [PropertyInfo(Direction.Output, "Output stream", "Encrypted or decrypted output data", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "Output stream", "Encrypted or decrypted output data", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public CryptoolStream OutputStream
         {
             get

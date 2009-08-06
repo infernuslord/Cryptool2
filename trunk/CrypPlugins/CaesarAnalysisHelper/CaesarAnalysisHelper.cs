@@ -34,7 +34,7 @@ namespace Cryptool.CaesarAnalysisHelper
         }
 
         private string encryptedText;
-        [PropertyInfo(Direction.Input, "Encrypted text", "The caesar encrpyted text", null, false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Encrypted text", "The caesar encrpyted text", null, false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public string EncryptedText
         {
             get { return encryptedText; }
@@ -46,7 +46,7 @@ namespace Cryptool.CaesarAnalysisHelper
         }
 
         private string frequencyList = string.Empty;
-        [PropertyInfo(Direction.Input, "Frequency List", "This is the analysis input from the frequency test.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text,
+        [PropertyInfo(Direction.InputData, "Frequency List", "This is the analysis input from the frequency test.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text,
             null)]
         public string FrequencyList
         {
@@ -83,7 +83,7 @@ namespace Cryptool.CaesarAnalysisHelper
         }*/
 
         private int key;
-        [PropertyInfo(Direction.Output, "Key", "This is the estimated key.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Key", "This is the estimated key.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public int Key
         {
             get

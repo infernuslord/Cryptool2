@@ -215,6 +215,7 @@ using System.Windows.Controls;
 using System.Runtime.CompilerServices;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Runtime.Remoting.Contexts;
+using Cryptool.PluginBase.Control;
 
 
 
@@ -222,7 +223,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 {
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
     [PluginInfo(false, "AES", "Advanced Encryption Standard (Rijndael)", "AES/DetailedDescription/Description.xaml", "AES/Images/AES.png", "AES/Images/encrypt.png", "AES/Images/decrypt.png", "AES/Images/Rijndael.png")]
-    [EncryptionType(EncryptionType.SymmetricBlock)]    
+    [EncryptionType(EncryptionType.SymmetricBlock)]
     public class AES : ContextBoundObject, IEncryption
     {
         #region Private variables
@@ -253,7 +254,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             set { this.settings = (AESSettings)value; }
         }
 
-        [PropertyInfo(Direction.Input, "Input", "Data to be encrypted or decrypted", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public CryptoolStream InputStream
         {
             get 
@@ -275,7 +276,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.Input, "Key", "The provided key should be 16, 24 or 32 bytes, dependig on the settings. Too short/long keys will be extended/truncated!", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Key", "The provided key should be 16, 24 or 32 bytes, dependig on the settings. Too short/long keys will be extended/truncated!", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public byte[] InputKey
         {
             get { return this.inputKey; }
@@ -286,7 +287,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.Input, "IV", "The initialisation vector (IV) which is used in chaining modes. It always must be the same as the blocksize.", "", true, false, DisplayLevel.Professional, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "IV", "The initialisation vector (IV) which is used in chaining modes. It always must be the same as the blocksize.", "", true, false, DisplayLevel.Professional, QuickWatchFormat.Hex, null)]
         public byte[] InputIV
         {
             get { return this.inputIV; }
@@ -297,7 +298,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.Output, "Output stream", "Encrypted or decrypted output data", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "Output stream", "Encrypted or decrypted output data", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public CryptoolStream OutputStream
         {
             get 
@@ -460,7 +461,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             byte[] buffer = new byte[p_alg.BlockSize / 8];
             int bytesRead;
             int position = 0;
-            GuiLogMessage("Starting encryption [Keysize=" + p_alg.KeySize.ToString() + " Bits, Blocksize=" + p_alg.BlockSize.ToString() + " Bits]", NotificationLevel.Info);
+            string mode = action == 0 ? "encryption" : "decryption";
+            GuiLogMessage("Starting " + mode + " [Keysize=" + p_alg.KeySize.ToString() + " Bits, Blocksize=" + p_alg.BlockSize.ToString() + " Bits]", NotificationLevel.Info);
             DateTime startTime = DateTime.Now;
             while ((bytesRead = p_crypto_stream.Read(buffer, 0, buffer.Length)) > 0 && !stop)
             {
@@ -475,7 +477,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
 
             long outbytes = outputStream.Length;
-            p_crypto_stream.Flush();
+            p_crypto_stream.Flush();            
             // p_crypto_stream.Close();
             DateTime stopTime = DateTime.Now;
             TimeSpan duration = stopTime - startTime;
@@ -483,13 +485,14 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
             if (!stop)
             {
-                GuiLogMessage("Encryption complete! (in: " + inputStream.Length.ToString() + " bytes, out: " + outbytes.ToString() + " bytes)", NotificationLevel.Info);
+                mode = action == 0 ? "Encryption" : "Decryption";
+                GuiLogMessage(mode + " complete! (in: " + inputStream.Length.ToString() + " bytes, out: " + outbytes.ToString() + " bytes)", NotificationLevel.Info);
                 GuiLogMessage("Wrote data to file: " + outputStream.FileName, NotificationLevel.Info);
                 GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
                 outputStream.Close();
                 OnPropertyChanged("OutputStream");
             }
-
+            CryptoolStream test = outputStream;
             if (stop)
             {
                 outputStream.Close();
@@ -640,5 +643,65 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
         #endregion
+
+        private IControlEncryption testSlave;
+        [PropertyInfo(Direction.ControlSlave, "AES Slave", "aösdflkj", "", DisplayLevel.Beginner)]
+        public IControlEncryption TestSlave
+        {
+          get 
+          {
+            if (testSlave == null)
+              testSlave = new AESControl(this);
+            return testSlave; 
+          }
+        }     
+    }
+
+    public class AESControl : IControlEncryption
+    {
+      private AES plugin;
+      private AES dec;
+
+      public AESControl(AES Plugin)
+      {
+        this.plugin = Plugin;
+        dec = (AES)plugin.GetType().CreateObject();
+      }
+
+      #region IControlEncryption Members
+
+      public byte[] Encrypt(byte[] key, byte[] data, byte[] iv)
+      {
+        ((AESSettings)plugin.Settings).Action = 0;
+        return execute(key, data, iv);
+      }
+
+      public byte[] Decrypt(byte[] key, byte[] data, byte[] iv)
+      {
+        ((AESSettings)plugin.Settings).Action = 1;
+        return execute(key, data, iv);
+      }
+
+      private byte[] execute(byte[] key, byte[] data, byte[] iv)
+      {
+        plugin.InputKey = key;
+        plugin.InputIV = iv;
+        CryptoolStream cs = new CryptoolStream();
+        cs.OpenRead(this.GetType().Name, data);
+        plugin.InputStream = cs;
+        plugin.Execute();
+        CryptoolStream output = plugin.OutputStream;
+
+        byte[] byteValues = new byte[output.Length];
+        int bytesRead;
+        output.Seek(0, SeekOrigin.Begin);
+        bytesRead = output.Read(byteValues, 0, byteValues.Length);
+        plugin.Dispose();
+        cs.Close();
+        output.Close();
+        return byteValues;
+      }
+
+      #endregion
     }
 }

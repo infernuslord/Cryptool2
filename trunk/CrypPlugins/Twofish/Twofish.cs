@@ -149,7 +149,7 @@ namespace Twofish
 		/// Gets or sets the input inputdata.
 		/// </summary>
 		/// <value>The input inputdata.</value>
-		[PropertyInfo(Direction.Input, "Input Data Stream", "Input data stream to process", "", 
+		[PropertyInfo(Direction.InputData, "Input Data Stream", "Input data stream to process", "", 
       false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
 		public CryptoolStream InputStream
 		{
@@ -181,7 +181,7 @@ namespace Twofish
 		/// Gets the input data.
 		/// </summary>
 		/// <value>The input data.</value>
-		[PropertyInfo(Direction.Input, "Input Data", "Input Data to process", "", 
+		[PropertyInfo(Direction.InputData, "Input Data", "Input Data to process", "", 
       false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
 		public byte[] InputData
 		{
@@ -225,7 +225,7 @@ namespace Twofish
     /// Gets or sets the key data.
     /// </summary>
     /// <value>The key data.</value>
-    [PropertyInfo(Direction.Input, "Key Stream", "Key - Input key data", 
+    [PropertyInfo(Direction.InputData, "Key Stream", "Key - Input key data", 
       "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
     public CryptoolStream KeyStream
     {
@@ -255,7 +255,7 @@ namespace Twofish
     /// Gets or sets the key data.
     /// </summary>
     /// <value>The key data.</value>
-    [PropertyInfo(Direction.Input, "Key Data", "Key - Input key data", 
+    [PropertyInfo(Direction.InputData, "Key Data", "Key - Input key data", 
       "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
     public byte[] KeyData
     {
@@ -279,7 +279,7 @@ namespace Twofish
 
     #endregion
 
-    [PropertyInfo(Direction.Input, "IV", "Initialization Vector", "",
+    [PropertyInfo(Direction.InputData, "IV", "Initialization Vector", "",
     false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
     public byte[] IV
     {
@@ -324,7 +324,7 @@ namespace Twofish
     /// Gets or sets the output inputdata stream.
     /// </summary>
     /// <value>The output inputdata stream.</value>
-    [PropertyInfo(Direction.Output, "Output Stream", "Output stream", "",
+    [PropertyInfo(Direction.OutputData, "Output Stream", "Output stream", "",
       true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null) ]
     public CryptoolStream OutputStream
     {
@@ -345,7 +345,7 @@ namespace Twofish
     /// Gets the output inputdata.
     /// </summary>
     /// <value>The output inputdata.</value>
-    [PropertyInfo(Direction.Output, "Output Data", "Output data", "",
+    [PropertyInfo(Direction.OutputData, "Output Data", "Output data", "",
       true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
     public byte[] OutputData
     {

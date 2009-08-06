@@ -275,7 +275,7 @@ namespace Cryptool.TextInput
 
     # region Properties
 
-    [PropertyInfo(Direction.Output, "Text", "Simple text to use as input for other plug-ins.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.OutputData, "Text", "Simple text to use as input for other plug-ins.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
     public string TextOutput
     {
       [MethodImpl(MethodImplOptions.Synchronized)]
@@ -297,7 +297,7 @@ namespace Cryptool.TextInput
       set { }
     }
 
-    [PropertyInfo(Direction.Output, "Stream", "The text input converted to memory stream.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.OutputData, "Stream", "The text input converted to memory stream.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
     public CryptoolStream StreamOutput
     {
       [MethodImpl(MethodImplOptions.Synchronized)]
@@ -322,7 +322,7 @@ namespace Cryptool.TextInput
     }
 
     private byte[] byteArrayOutput;
-    [PropertyInfo(Direction.Output, "ByteArray", "The hex values as byte array.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.OutputData, "ByteArray", "The hex values as byte array.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
     public byte[] ByteArrayOutput
     {
       [MethodImpl(MethodImplOptions.Synchronized)]
@@ -384,7 +384,7 @@ namespace Cryptool.TextInput
     }
 
     private bool[] boolArrayOutput;
-    [PropertyInfo(Direction.Output, "BoolArray", "The text input converted to bool array ('0' char equals false, else true).", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.OutputData, "BoolArray", "The text input converted to bool array ('0' char equals false, else true).", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
     public bool[] BoolArrayOutput
     {
         [MethodImpl(MethodImplOptions.Synchronized)]

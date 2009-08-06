@@ -40,7 +40,7 @@ namespace Cryptool.Plugins.NOR
 
     # region public interface
        
-    [PropertyInfo(Direction.Input, "Input one", "Input one.", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "Input one", "Input one.", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
     public bool InputOne
     {
       [MethodImpl(MethodImplOptions.Synchronized)]
@@ -57,7 +57,7 @@ namespace Cryptool.Plugins.NOR
       }
     }
     
-    [PropertyInfo(Direction.Input, "Input two", "Input two.", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "Input two", "Input two.", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
     public bool InputTwo
     {
       [MethodImpl(MethodImplOptions.Synchronized)]
@@ -74,7 +74,7 @@ namespace Cryptool.Plugins.NOR
       }
     }
 
-    [PropertyInfo(Direction.Output, "Output", "Output.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "Output", "Output.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
     public bool Output
     {
       [MethodImpl(MethodImplOptions.Synchronized)]

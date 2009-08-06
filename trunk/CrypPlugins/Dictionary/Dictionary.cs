@@ -273,7 +273,7 @@ namespace Dictionary
       }
     }
     
-    [PropertyInfo(Direction.Output, "Dictionary Output", "Values from dictionary as string.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "Dictionary Output", "Values from dictionary as string.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
     public string OutputString
     {
       get 

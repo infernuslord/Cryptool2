@@ -387,7 +387,7 @@ namespace TextOutput
       if (name == null || name == string.Empty) name = "Input " + inputs;
       DicDynamicProperties.Add(name,
         new DynamicProperty(name, getCurrentType(),
-          new PropertyInfoAttribute(Direction.Input, name, toolTip, "", false, true, DisplayLevel.Beginner, QuickWatchFormat.None, null))
+          new PropertyInfoAttribute(Direction.InputData, name, toolTip, "", false, true, DisplayLevel.Beginner, QuickWatchFormat.None, null))
       );
     }
 

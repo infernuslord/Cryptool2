@@ -70,7 +70,7 @@ namespace SmartInterpreter
 
     #region IO
 
-    [PropertyInfo(Direction.Input, "Data Input", "The input data as readable Hex String.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "Data Input", "The input data as readable Hex String.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
     public String DataInput
     {
         get
@@ -101,7 +101,7 @@ namespace SmartInterpreter
         }
     }
 
-    [PropertyInfo(Direction.Input, "Response Input", "The response input of the card reader.", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.InputData, "Response Input", "The response input of the card reader.", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
     public byte[] Response
     {
         get {
@@ -159,7 +159,7 @@ namespace SmartInterpreter
         }
     }
 
-    [PropertyInfo(Direction.Output, "Command Output", "Command output for smartcard", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "Command Output", "Command output for smartcard", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
     public String APDUString
     {
         get

@@ -264,7 +264,7 @@ namespace ClipboardInput
     }
 
     #region Interface
-    [PropertyInfo(Direction.Output, "Clipboard data stream", "Stream of data recieved from clipboard", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "Clipboard data stream", "Stream of data recieved from clipboard", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
     public CryptoolStream StreamOutput
     {
       get

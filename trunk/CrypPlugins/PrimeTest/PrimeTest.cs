@@ -99,7 +99,7 @@ namespace PrimeTest
     #region Properties
     private string m_InputString;
     GmpBigInteger m_Value = null;
-    [PropertyInfo(Direction.Input, "Text input", "Input a string that represent a natural number", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text,null)]
+    [PropertyInfo(Direction.InputData, "Text input", "Input a string that represent a natural number", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text,null)]
     public string InputString
     {
       get { return this.m_InputString; }
@@ -131,7 +131,7 @@ namespace PrimeTest
 
     private bool m_Output;
     // [QuickWatch(QuickWatchFormat.Text, DisplayLevel.Beginner, null)]
-    [PropertyInfo(Direction.Output, "Boolean output", "True if input is a prime number, otherwise false", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "Boolean output", "True if input is a prime number, otherwise false", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
     public bool Output
     {
       get { return this.m_Output; }

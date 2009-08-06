@@ -246,7 +246,7 @@ namespace Cryptool.Plugins.Convertor
           return inputString;
         }
 
-        [PropertyInfo(Direction.Output, "Stream output", "The stream after encoding the text from the input.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, "OutputStreamQuickWatchConverter")]
+        [PropertyInfo(Direction.OutputData, "Stream output", "The stream after encoding the text from the input.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, "OutputStreamQuickWatchConverter")]
         public CryptoolStream OutputStream
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -269,7 +269,7 @@ namespace Cryptool.Plugins.Convertor
             }
         }
 
-        [PropertyInfo(Direction.Input, "Text input", "The input text will be converted to a byte stream by using the encoding given in the settings.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Text input", "The input text will be converted to a byte stream by using the encoding given in the settings.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public string InputText
         {
             get { return this.inputString;  }
