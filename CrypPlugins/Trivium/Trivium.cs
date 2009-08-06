@@ -50,7 +50,7 @@ namespace Cryptool.Trivium
             set { this.settings = (TriviumSettings)value; }
         }
 
-        /*[PropertyInfo(Direction.Input, "Input", "Data to be encrypted or decrypted.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.Input, "Input", "Data to be encrypted or decrypted.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -59,7 +59,7 @@ namespace Cryptool.Trivium
                 this.inputString = value;
                 OnPropertyChanged("InputString");
             }
-        }*/
+        }
 
         [PropertyInfo(Direction.Input, "Key", "Must be 10 bytes (80 bit) in Hex.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public string InputKey
@@ -335,21 +335,39 @@ namespace Cryptool.Trivium
             return hex;
         }
 
+        // TODO: check if input is boolean or hex
+        // returns -1 if no hex
+        // returns 1 is hex
+        private int checkInput(string input)
+        {
+            int returnValue = 1;
+            return returnValue;
+        }
+
 
         public void Execute()
         {
             process(1);
         }
 
-        private void process(int action)
+        private void process(int padding)
         {
             //Encrypt/Decrypt String
             try
             {
+                // a test vector; should have the following output:
+                // FC9659CB953A37F...
                 //string IV_string = "288ff65dc42b92f960c7";
                 //string key_string = "0f62b5085bae0154a7fa";
+                string input_string = inputString;
+
+                // check input string
+                if (checkInput(input_string) == -1)
+                    return;
+
                 string IV_string = inputIV;
                 string key_string = inputKey;
+
                 int[] IV = new int[IV_string.Length * 4];
                 int[] key = new int[key_string.Length * 4];
                 
@@ -358,6 +376,18 @@ namespace Cryptool.Trivium
 
                 GuiLogMessage("length of IV: " + IV.Length, NotificationLevel.Info);
                 GuiLogMessage("length of key: " + key.Length, NotificationLevel.Info);
+
+                // test if padding to do
+                int bitsToPad = (32 - input_string.Length % 32) % 32;
+                GuiLogMessage("Bits to pad: " + bitsToPad, NotificationLevel.Info);
+                // pad partial block with zeros
+                if (bitsToPad != 0)
+                {
+                    for (int i = 0; i < bitsToPad; i++)
+                    {
+                        input_string += "0";
+                    }
+                }
 
                 string keystream;
 
@@ -373,15 +403,21 @@ namespace Cryptool.Trivium
 
                 GuiLogMessage("Starting encryption [Keysize=80 Bits]", NotificationLevel.Info);
 
-
-
                 // init Trivium
                 initTrivium(IV, key);
 
-                // generate keystream with given length (TODO: length of inputbytes)
+                // generate keystream with given length (TODO: padding if inputstring % 32 != 0)
                 // ACHTUNG, mag keine grossen zahlen als inputs
                 // EDIT 30.07.09: Jetzt mag er große Zahlen ;)
-                keystream = keystreamTrivium(settings.KeystreamLength);
+                if (settings.KeystreamLength <= 0)
+                {
+                    keystream = keystreamTrivium(input_string.Length);
+                    //GuiLogMessage("DEBUG: inputString.Length + bitsToPad: " + (inputString.Length + bitsToPad), NotificationLevel.Info);
+                }
+                else
+                {
+                    keystream = keystreamTrivium(settings.KeystreamLength);
+                }
                 
                 DateTime stopTime = DateTime.Now;
                 TimeSpan duration = stopTime - startTime;
@@ -400,7 +436,7 @@ namespace Cryptool.Trivium
 
                 if (!stop)
                 {
-                    GuiLogMessage("Encryption complete! (keystream length: " + keystream.Length + " bit)", NotificationLevel.Info);
+                    GuiLogMessage("Encryption complete in " + duration + "! (input length : " + input_string.Length + ", keystream/output length: " + keystream.Length + " bit)", NotificationLevel.Info);
                 }
 
                 if (stop)
