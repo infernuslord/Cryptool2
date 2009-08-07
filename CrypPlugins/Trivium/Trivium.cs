@@ -50,7 +50,7 @@ namespace Cryptool.Trivium
             set { this.settings = (TriviumSettings)value; }
         }
 
-        [PropertyInfo(Direction.Input, "Input", "Data to be encrypted or decrypted.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public string InputString
         {
             get { return this.inputString; }
