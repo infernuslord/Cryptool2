@@ -53,7 +53,7 @@ namespace BooleanFunctionParser
             //((BooleanFunctionParserSettings)(this.settings)).LogMessage += Xor_LogMessage;
         }
 
-        [PropertyInfo(Direction.Input, "Boolean Function f(i)", "Boolean function f(i) to compute.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Boolean Function f(i)", "Boolean function f(i) to compute.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public String InputFunction
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -67,7 +67,7 @@ namespace BooleanFunctionParser
             }
         }
 
-        [PropertyInfo(Direction.Input, "Function Variable One (i_1.j)", "Input a boolean value to be processed by the function", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Function Variable One (i_1.j)", "Input a boolean value to be processed by the function", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool[] InputOne
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -91,7 +91,7 @@ namespace BooleanFunctionParser
             }
         }
 
-        [PropertyInfo(Direction.Input, "Function Variable Two (i_2.j)", "Input a boolean value to be processed by the function", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Function Variable Two (i_2.j)", "Input a boolean value to be processed by the function", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool[] InputTwo
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -116,7 +116,7 @@ namespace BooleanFunctionParser
             }
         }
 
-        [PropertyInfo(Direction.Input, "Function Variable Three (i_3.j)", "Input a boolean value to be processed by the function", "", true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Function Variable Three (i_3.j)", "Input a boolean value to be processed by the function", "", true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool[] InputThree
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -141,7 +141,7 @@ namespace BooleanFunctionParser
             }
         }
 
-        [PropertyInfo(Direction.Output, "Function output", "Output after procesing the given function.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Function output", "Output after procesing the given function.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool Output
         {
             [MethodImpl(MethodImplOptions.Synchronized)]

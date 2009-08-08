@@ -260,7 +260,7 @@ namespace Cryptool.Majority
             }
         }
 
-        [PropertyInfo(Direction.Input, "Majority Input One", " ", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Majority Input One", " ", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool InputOne
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -275,7 +275,7 @@ namespace Cryptool.Majority
             }
         }
 
-        [PropertyInfo(Direction.Input, "Majority Input Two", " ", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Majority Input Two", " ", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool InputTwo
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -290,7 +290,7 @@ namespace Cryptool.Majority
             }
         }
 
-        [PropertyInfo(Direction.Input, "Majority Input Three", " ", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Majority Input Three", " ", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool InputThree
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -305,7 +305,7 @@ namespace Cryptool.Majority
             }
         }
 
-        [PropertyInfo(Direction.Output, "Majority Output", " ", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Majority Output", " ", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool Output
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
