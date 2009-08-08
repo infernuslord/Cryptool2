@@ -258,7 +258,7 @@ namespace Cryptool.BoolComparator
             }
         }
 
-        [PropertyInfo(Direction.Input, "Input One", "Input a boolean value to be compared", "", true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Input One", "Input a boolean value to be compared", "", true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool InputOne
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -273,7 +273,7 @@ namespace Cryptool.BoolComparator
             }
         }
 
-        [PropertyInfo(Direction.Input, "Input Two", "Input a boolean value to be compared", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Input Two", "Input a boolean value to be compared", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool InputTwo
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -288,7 +288,7 @@ namespace Cryptool.BoolComparator
             }
         }
 
-        [PropertyInfo(Direction.Output, "Output", "Output after comparing input one and two. Only fires up, if both inputs are fresh.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Output", "Output after comparing input one and two. Only fires up, if both inputs are fresh.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool Output
         {
             [MethodImpl(MethodImplOptions.Synchronized)]

@@ -252,7 +252,7 @@ namespace Cryptool.BoolToInt
             }
         }
 
-        [PropertyInfo(Direction.Input, "Input", "Input a boolean value to be processed", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Input", "Input a boolean value to be processed", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool Input
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -266,7 +266,7 @@ namespace Cryptool.BoolToInt
             }
         }
 
-        [PropertyInfo(Direction.Output, "Output", "Output after converting Boolean to Integer.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Output", "Output after converting Boolean to Integer.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public int Output
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
