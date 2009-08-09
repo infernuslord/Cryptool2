@@ -233,17 +233,24 @@ namespace Cryptool.Enigma
     [EncryptionType(EncryptionType.Classic)]
     public class Enigma: IEncryption
     {
-        #region Private variables and constants
+        #region Constants
 
         internal const int ABSOLUTE = 0;
         internal const int PERCENTAGED = 1;
         internal const int LOG2 = 2;
+        internal const int SINKOV = 3;
+
+        #endregion
+
+        #region Private variables
 
         private EnigmaSettings settings;
         private EnigmaCore core;
         private EnigmaAnalyzer analyzer;
         private string inputString;
-        private IDictionary<string, double[]> inputGrams;
+        private IDictionary<int, IDictionary<string, double[]>> statistics;
+        // FIXME: enable optional statistics input
+        //private IDictionary<string, double[]> inputTriGrams;
         private string outputString;
         private string savedKey;
         
@@ -269,6 +276,25 @@ namespace Cryptool.Enigma
             return postFormatOutput(core.Encrypt(rotor1Pos, rotor2Pos, rotor3Pos, rotor4Pos, preFormatInput(text)));
         }
 
+        internal class UnknownToken
+        {
+            internal string text;
+            internal int position;
+
+            internal UnknownToken(char c, int position)
+            {
+                this.text = char.ToString(c);
+                this.position = position;
+            }
+
+            public override string ToString()
+            {
+                return "[" + text + "," + position + "]";
+            }
+        }
+
+        IList<UnknownToken> unknownList = new List<UnknownToken>();
+
         /// <summary>
         /// Format the string to contain only alphabet characters in upper case
         /// </summary>
@@ -277,30 +303,49 @@ namespace Cryptool.Enigma
         private string preFormatInput(string text)
         {
             StringBuilder result = new StringBuilder();
+            bool newToken = true;
+            unknownList.Clear();
 
-            foreach (char c in text)
+            for (int i = 0; i < text.Length; i++)
             {
-                if (!settings.Alphabet.Contains(char.ToUpper(c)))
+                if (settings.Alphabet.Contains(char.ToUpper(text[i])))
                 {
-                    switch (settings.UnknownSymbolHandling)
+                    newToken = true;
+                    result.Append(char.ToUpper(text[i])); // FIXME: shall save positions of lowercase letters
+                }
+                else if (settings.UnknownSymbolHandling != 1) // 1 := remove
+                {
+                    // 0 := preserve, 2 := replace by X
+                    char symbol = settings.UnknownSymbolHandling == 0 ? text[i] : 'X';
+
+                    if (newToken)
                     {
-                        case 0: // ignore
-                            result.Append(c);
-                            break;
-                        case 1: // remove
-                            continue;
-                        case 2: // replace by X
-                            result.Append('X');
-                            break;
+                        unknownList.Add(new UnknownToken(symbol, i));
+                        newToken = false;
+                    }
+                    else
+                    {
+                        unknownList.Last().text += symbol;
                     }
                 }
-                else
-                    result.Append(c);
             }
 
-            return result.ToString();
+            return result.ToString().ToUpper();
 
         }
+
+        //// legacy code
+        //switch (settings.UnknownSymbolHandling)
+        //{
+        //    case 0: // ignore
+        //        result.Append(c);
+        //        break;
+        //    case 1: // remove
+        //        continue;
+        //    case 2: // replace by X
+        //        result.Append('X');
+        //        break;
+        //}
 
         /// <summary>
         /// Formats the string processed by the encryption for presentation according
@@ -310,16 +355,23 @@ namespace Cryptool.Enigma
         /// <returns>The formatted text for output</returns>
         private string postFormatOutput(string text)
         {
+            StringBuilder workstring = new StringBuilder(text);
+            foreach (UnknownToken token in unknownList)
+            {
+                workstring.Insert(token.position, token.text);
+            }
+
             switch (settings.CaseHandling)
             {
+                default:
                 case 0: // preserve
-                    break;
+                    // FIXME: shall restore lowercase letters
+                    return workstring.ToString();
                 case 1: // upper
-                    return text.ToUpper();
+                    return workstring.ToString().ToUpper();
                 case 2: // lower
-                    return text.ToLower();
+                    return workstring.ToString().ToLower();
             }
-            return text;
         }
 
         #endregion
@@ -327,14 +379,14 @@ namespace Cryptool.Enigma
         #region Analyzer event handler
 
         /// <summary>
-        /// This venthandler is called, when the analyzer has an intermediate result
+        /// This eventhandler is called, when the analyzer has an intermediate result
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void analyzer_OnIntermediateResult(object sender, IntermediateResultEventArgs e)
         {
             // Got an intermidate results from the analyzer, hence display it
-            outputString = e.Result;
+            outputString = postFormatOutput(e.Result);
             OnPropertyChanged("OutputString");
         }
 
@@ -344,21 +396,22 @@ namespace Cryptool.Enigma
 
         private IDictionary<string, double[]> LoadDefaultStatistics(int length)
         {
-            SortedDictionary<string, double[]> grams = new SortedDictionary<string, double[]>();
+            Dictionary<string, double[]> grams = new Dictionary<string, double[]>();
 
             StreamReader reader = new StreamReader(Path.Combine(PluginResource.directoryPath, GetStatisticsFilename(length)));
 
             string line;
-
             while ((line = reader.ReadLine()) != null)
             {
                 if (line.StartsWith("#"))
                     continue;
 
                 string[] tokens = new WordTokenizer(line).ToArray();
+                if (tokens.Length == 0)
+                    continue;
                 Debug.Assert(tokens.Length == 2, "Expected 2 tokens, found " + tokens.Length + " on one line");
 
-                grams.Add(tokens[0], new double[] { Double.Parse(tokens[1]), 0, 0 });
+                grams.Add(tokens[0], new double[] { Double.Parse(tokens[1]), 0, 0, 0 });
             }
 
             double sum = grams.Values.Sum(item => item[ABSOLUTE]);
@@ -369,6 +422,7 @@ namespace Cryptool.Enigma
             {
                 g[PERCENTAGED] = g[ABSOLUTE] / sum;
                 g[LOG2] = Math.Log(g[ABSOLUTE], 2);
+                g[SINKOV] = Math.Log(g[PERCENTAGED], Math.E);
             }
 
             return grams;
@@ -382,15 +436,12 @@ namespace Cryptool.Enigma
         /// <returns></returns>
         private string GetStatisticsFilename(int length)
         {
-            switch(length)
+            if (length < 1)
             {
-                case 2:
-                    return "Enigma_BigramFrequency1941.txt";
-                case 3:
-                    return "Enigma_TrigramFrequency1941.txt";
-                default:
-                    throw new NotSupportedException("There is no known default statistic for an n-gram length of " + length);
+                throw new ArgumentOutOfRangeException("There is no known default statistic for an n-gram length of " + length);
             }
+
+            return "Enigma_" + length + "gram_Frequency.txt";
         }
 
         #endregion
@@ -405,6 +456,7 @@ namespace Cryptool.Enigma
             this.core = new EnigmaCore(this);
             this.analyzer = new EnigmaAnalyzer(this);
             this.analyzer.OnIntermediateResult += new EventHandler<IntermediateResultEventArgs>(analyzer_OnIntermediateResult);
+            this.statistics = new Dictionary<int, IDictionary<string, double[]>>();
         }
 
         #endregion
@@ -454,19 +506,19 @@ namespace Cryptool.Enigma
             }
         }
 
-        [PropertyInfo(Direction.InputData, "n-gram dictionary", "Dictionary with gram counts (string -> [absolute, percentaged, log2])", "", false, false, DisplayLevel.Experienced, QuickWatchFormat.Text, "FrequencyTest.QuickWatchDictionary")]
-        public IDictionary<string, double[]> InputGrams
-        {
-            get { return this.inputGrams; }
-            set
-            {
-                if (value != inputGrams)
-                {
-                    this.inputGrams = value;
-                    OnPropertyChanged("InputGrams");
-                }
-            }
-        }
+        //[PropertyInfo(Direction.InputData, "n-gram dictionary", "Dictionary with gram counts (string -> [absolute, percentaged, log2])", "", false, false, DisplayLevel.Experienced, QuickWatchFormat.Text, "FrequencyTest.QuickWatchDictionary")]
+        //public IDictionary<string, double[]> InputGrams
+        //{
+        //    get { return this.inputTriGrams; }
+        //    set
+        //    {
+        //        if (value != inputTriGrams)
+        //        {
+        //            this.inputTriGrams = value;
+        //            OnPropertyChanged("InputTriGrams");
+        //        }
+        //    }
+        //}
 
         [PropertyInfo(Direction.OutputData, "Text output", "The string after processing with the Enigma machine", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public string OutputString
@@ -531,7 +583,8 @@ namespace Cryptool.Enigma
                         0, inputString);
 
 
-                    LogMessage("Enigma encryption done. The resulting index of coincidences is " + analyzer.IndexOfCoincidences(outputString), NotificationLevel.Info);
+                    // FIXME: output all scorings
+                    LogMessage("Enigma encryption done. The resulting index of coincidences is " + analyzer.calculateScore(outputString, 1), NotificationLevel.Info);
 
                     // "fire" the output
                     OnPropertyChanged("OutputString");
@@ -539,38 +592,12 @@ namespace Cryptool.Enigma
                 case 1:
                     LogMessage("Enigma analysis starting ...", NotificationLevel.Info);
 
-                    if (inputGrams == null && settings.PlugSearchMethod >= 1)
-                    {
-                        LogMessage("No n-gram statistics given, trying to load defaults", NotificationLevel.Info);
-                        try
-                        {
-                            inputGrams = LoadDefaultStatistics(settings.GetGramLength());
-                        }
-                        catch (NotSupportedException e)
-                        {
-                            LogMessage(e.Message, NotificationLevel.Error);
-                            return;
-                        }
-                    }
-
-                    if (inputGrams != null && settings.PlugSearchMethod == 0)
-                    {
-                        LogMessage("The connected n-gram dictionary won't be used by selected plug search method (IC)", NotificationLevel.Warning);
-                    }
-                    if (inputGrams != null && inputGrams.Count > 0)
-                    {
-                        if (inputGrams.First().Key.Length != settings.GetGramLength())
-                        {
-                            LogMessage("The length of the used n-gram statistics does not match the selected plug search method", NotificationLevel.Warning);
-                        }
-                    }
-
                     //prepare for analysis
                     LogMessage("ANALYSIS: Preformatting text...", NotificationLevel.Debug);
                     string preformatedText = preFormatInput(inputString);
 
                     // perform the analysis
-                    outputString = postFormatOutput(analyzer.Analyze(preformatedText, inputGrams));
+                    outputString = postFormatOutput(analyzer.Analyze(preformatedText));
                     OnPropertyChanged("OutputString");
 
                     ShowProgress(1000, 1000);
@@ -661,6 +688,21 @@ namespace Cryptool.Enigma
                 result.Append("-- no plugs --");
 
             return result.ToString();
+        }
+
+        public IDictionary<string, double[]> GetStatistics(int gramLength)
+        {
+            // FIXME: inputTriGrams is not being used!
+
+            // FIXME: implement exception handling
+
+            if (!statistics.ContainsKey(gramLength))
+            {
+                LogMessage("Trying to load default statistics for " + gramLength + "-grams", NotificationLevel.Info);
+                statistics[gramLength] = LoadDefaultStatistics(gramLength);
+            }
+
+            return statistics[gramLength];
         }
 
         #endregion

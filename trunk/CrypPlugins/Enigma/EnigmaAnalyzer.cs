@@ -58,8 +58,6 @@ namespace Cryptool.Enigma
         private List<analysisConfigSettings> analysisCandidates = new List<analysisConfigSettings>();
         private const int maxAnalysisEntries = 10; // should go in settings under "Analysis Options"
 
-        private IDictionary<string, double[]> grams;
-
         #endregion
 
         #region Private member methods
@@ -170,17 +168,17 @@ namespace Cryptool.Enigma
         private string checkKey(int rotor1Pos, int rotor2Pos, int rotor3Pos, string text)
         {
             string result = core.Encrypt(rotor1Pos, rotor2Pos, rotor3Pos, 0, text);
-            double newIC = calculateIC(result);
+            double newScore = calculateScore(result, settings.KeySearchMethod);
 
             if (analysisCandidates.Count >= maxAnalysisEntries)
             {
                 // List is full, check if we need to remove one
-                if (newIC > analysisCandidates[0].Score)
+                if (newScore > analysisCandidates[0].Score)
                 {
                     double currentMax = analysisCandidates[analysisCandidates.Count - 1].Score;
 
                     analysisConfigSettings csetting = new analysisConfigSettings();
-                    csetting.Score = newIC;
+                    csetting.Score = newScore;
                     csetting.Rotor1 = core.Rotor1;
                     csetting.Rotor2 = core.Rotor2;
                     csetting.Rotor3 = core.Rotor3;
@@ -197,13 +195,13 @@ namespace Cryptool.Enigma
                     analysisCandidates.RemoveAt(0);
 
 
-                    if (newIC > currentMax)
+                    if (newScore > currentMax)
                     {
                         // new best option
                         string status = String.Format("ANALYSIS: ==> Found better rotor settings: {0},{1},{2}; {3},{4},{5}; Key: {6}; I.C.={7} <==",
                         (rotorEnum)csetting.Rotor3, (rotorEnum)csetting.Rotor2, (rotorEnum)csetting.Rotor1,
                         csetting.Ring3.ToString("00"), csetting.Ring2.ToString("00"), csetting.Ring1.ToString("00"),
-                        csetting.Key, newIC.ToString());
+                        csetting.Key, newScore.ToString());
                         pluginFacade.LogMessage(status, NotificationLevel.Info);
 
                         printBestCandidates();
@@ -223,7 +221,7 @@ namespace Cryptool.Enigma
                 //there is room left, hence add the element
 
                 analysisConfigSettings csetting = new analysisConfigSettings();
-                csetting.Score = newIC;
+                csetting.Score = newScore;
                 csetting.Rotor1 = core.Rotor1;
                 csetting.Rotor2 = core.Rotor2;
                 csetting.Rotor3 = core.Rotor3;
@@ -290,12 +288,12 @@ namespace Cryptool.Enigma
 
                     string result = core.Encrypt(rotatedR1Pos, r2pos, r3pos, 0, text);
 
-                    double newIC = calculateIC(result);
+                    double newScore = calculateScore(result, settings.KeySearchMethod);
 
-                    if (newIC > enigmaConfig.Score)
+                    if (newScore > enigmaConfig.Score)
                     {
                         //better value, hence update the data
-                        enigmaConfig.Score = newIC;
+                        enigmaConfig.Score = newScore;
                         enigmaConfig.Ring1 = i;
                         enigmaConfig.Key = settings.Alphabet[r3pos].ToString() + settings.Alphabet[r2pos].ToString() + settings.Alphabet[rotatedR1Pos].ToString();
                     }
@@ -319,12 +317,12 @@ namespace Cryptool.Enigma
 
                     string result = core.Encrypt(r1pos, rotatedR2Pos, r3pos, 0, text);
 
-                    double newIC = calculateIC(result);
+                    double newScore = calculateScore(result, settings.KeySearchMethod);
 
-                    if (newIC > enigmaConfig.Score)
+                    if (newScore > enigmaConfig.Score)
                     {
                         //better value, hence update the data
-                        enigmaConfig.Score = newIC;
+                        enigmaConfig.Score = newScore;
                         enigmaConfig.Ring2 = i;
                         enigmaConfig.Key = settings.Alphabet[r3pos].ToString() + settings.Alphabet[rotatedR2Pos].ToString() + settings.Alphabet[r1pos].ToString();
                     }
@@ -341,12 +339,12 @@ namespace Cryptool.Enigma
                         {
                             core.setInternalConfig(enigmaConfig.Rotor1, enigmaConfig.Rotor2, enigmaConfig.Rotor3, 0, settings.Reflector, k, j, i, 1, enigmaConfig.PlugBoard);
                             string result = core.Encrypt(r1pos, r2pos, r3pos, 0, text);
-                            double newIC = calculateIC(result);
+                            double newScore = calculateScore(result, settings.KeySearchMethod);
 
-                            if (newIC > enigmaConfig.Score)
+                            if (newScore > enigmaConfig.Score)
                             {
                                 //better value, hence update the data
-                                enigmaConfig.Score = newIC;
+                                enigmaConfig.Score = newScore;
                                 enigmaConfig.Ring1 = k;
                                 enigmaConfig.Ring2 = j;
                                 enigmaConfig.Ring2 = i;
@@ -380,12 +378,7 @@ namespace Cryptool.Enigma
             bool plugFound = false;
             int trials = 0;
             string bestResult = encrypt(enigmaConfig, text, enigmaConfig.PlugBoard);
-            enigmaConfig.Score = calculatePlugScore(bestResult);
-
-            if (grams == null)
-                pluginFacade.LogMessage("Using legacy IC method to analyze plugs", NotificationLevel.Debug);
-            else
-                pluginFacade.LogMessage("Using new trigram method to analyze plugs", NotificationLevel.Debug);
+            enigmaConfig.Score = calculateScore(bestResult, settings.PlugSearchMethod);
 
             for (int n = 0; n < maxPlugs; n++)
             {
@@ -426,7 +419,7 @@ namespace Cryptool.Enigma
                         plugboard[j] = settings.Alphabet[i];
 
                         string result = encrypt(enigmaConfig, text, plugboard.ToString());
-                        double newScore = calculatePlugScore(result);
+                        double newScore = calculateScore(result, settings.PlugSearchMethod);
                         trials++;
 
                         if (newScore > enigmaConfig.Score)
@@ -436,7 +429,12 @@ namespace Cryptool.Enigma
                             bestResult = result;
                             plugFound = true;
                         }
+
+                        if (stop)
+                            break;
                     }
+                    if (stop)
+                        break;
                 }
 
 
@@ -448,7 +446,7 @@ namespace Cryptool.Enigma
                 pluginFacade.LogMessage(msg, NotificationLevel.Info);
 
                 // no plug could lead to a better result, hence abort plug search.
-                if (!plugFound)
+                if (!plugFound || stop)
                     break;
             }
 
@@ -507,15 +505,15 @@ namespace Cryptool.Enigma
 
             // start with the unmodified
             core.setInternalConfig(enigmaConfig.Rotor1, enigmaConfig.Rotor2, enigmaConfig.Rotor3, 0, settings.Reflector, enigmaConfig.Ring1, enigmaConfig.Ring2, enigmaConfig.Ring3, 1, unmodifiedPlugboard);
-            double unmodifiedScore = calculatePlugScore(core.Encrypt(r1pos, r2pos, r3pos, 0, text));
+            double unmodifiedScore = calculateScore(core.Encrypt(r1pos, r2pos, r3pos, 0, text), settings.PlugSearchMethod);
 
             // now o2p
             core.setInternalConfig(enigmaConfig.Rotor1, enigmaConfig.Rotor2, enigmaConfig.Rotor3, 0, settings.Reflector, enigmaConfig.Ring1, enigmaConfig.Ring2, enigmaConfig.Ring3, 1, o2pPlugPlugboard.ToString());
-            double o2pScore = calculatePlugScore(core.Encrypt(r1pos, r2pos, r3pos, 0, text));
+            double o2pScore = calculateScore(core.Encrypt(r1pos, r2pos, r3pos, 0, text), settings.PlugSearchMethod);
 
             // now c2o
             core.setInternalConfig(enigmaConfig.Rotor1, enigmaConfig.Rotor2, enigmaConfig.Rotor3, 0, settings.Reflector, enigmaConfig.Ring1, enigmaConfig.Ring2, enigmaConfig.Ring3, 1, c2oPlugboard.ToString());
-            double c2oScore = calculatePlugScore(core.Encrypt(r1pos, r2pos, r3pos, 0, text));
+            double c2oScore = calculateScore(core.Encrypt(r1pos, r2pos, r3pos, 0, text), settings.PlugSearchMethod);
 
             string bestPlugBoard = enigmaConfig.PlugBoard;
             double newScore;
@@ -568,59 +566,87 @@ namespace Cryptool.Enigma
 
         #region Helper methods
 
-        private double calculatePlugScore(string input)
-        {
-            return grams == null ? calculateIC(input) : calculateTrigrams(input);
-        }
-
-        /// <summary>
-        /// The method calculates and returns the index of coincidences of a given text
-        /// </summary>
-        /// <param name="input">The index if coincidences of this text will be calculated</param>
-        /// <returns>The index of coincidences</returns>
-        private double calculateIC(string input)
-        {
-            int[] statistics = new int[settings.Alphabet.Length];
-            long cipherTextLength = 0; //input.Length; //n
-            long countDoubleCharacters = 0;
-
-            // first count the frequency of (single) letters
-            foreach (char c in input)
-            {
-                int i = settings.Alphabet.IndexOf(char.ToUpper(c));
-                if (i >= 0) statistics[i]++;
-            }
-
-
-            // now calculate the index of coincidences
-            for (int i = 0; i < statistics.Length; i++)
-            {
-                cipherTextLength += statistics[i];
-                countDoubleCharacters += (statistics[i] * (statistics[i] - 1));
-            }
-
-            return ((double)countDoubleCharacters / (double)(cipherTextLength * (cipherTextLength - 1)));
-        }
-
         /// <summary>
         /// This method calculates a trigram log2 score of a given text on the basis of a given grams dictionary.
         /// Case is insensitive.
         /// </summary>
         /// <param name="input">The text to be scored</param>
-        /// <param name="grams">The scoring values to be used</param>
+        /// <param name="length">n-gram length</param>
         /// <returns>The trigram score result</returns>
-        private double calculateTrigrams(string input)
+        private double calculateNGrams(string input, int length, int valueSelection)
         {
             double score = 0;
-            string workstring = StringUtil.StripUnknownSymbols(settings.Alphabet, input);
+            IDictionary<string, double[]> corpusGrams = pluginFacade.GetStatistics(length);
 
-            // FIXME: this causes an exception when analysis is started before pending plugin search has finished
-            foreach (KeyValuePair<string, double[]> item in grams)
+            // FIXME: case handling?
+
+            HashSet<string> inputGrams = new HashSet<string>();
+
+            foreach (string g in new GramTokenizer(input, length, false))
             {
-                if (workstring.Contains(settings.CaseHandling == 0 ? item.Key : item.Key.ToUpper()))
+                // ensure each n-gram is counted only once
+                if (inputGrams.Add(g))
                 {
-                    score += item.Value[Enigma.LOG2];
+                    if (corpusGrams.ContainsKey(g))
+                    {
+                        score += corpusGrams[g][valueSelection];
+                    }
                 }
+            }
+
+            return score;
+        }
+
+        private IDictionary<string, double[]> calculateConditional(string input, int length)
+        {
+            IDictionary<string, double[]> inputGrams = new Dictionary<string, double[]>();
+
+            foreach (string g in new GramTokenizer(input, length, false))
+            {
+                if (inputGrams.ContainsKey(g))
+                {
+                    inputGrams[g][Enigma.ABSOLUTE]++;
+                }
+                else
+                {
+                    inputGrams[g] = new double[] { 1, 0 };
+                }
+            }
+
+            double sum = inputGrams.Values.Sum(item => item[Enigma.ABSOLUTE]);
+            foreach (double[] values in inputGrams.Values)
+            {
+                values[Enigma.PERCENTAGED] = values[Enigma.ABSOLUTE] / sum;
+            }
+
+            return inputGrams;
+        }
+
+        private double calculateSinkov(string input, int length)
+        {
+            double score = 0;
+            IDictionary<string, double[]> corpusGrams = pluginFacade.GetStatistics(length);
+            IDictionary<string, double[]> inputGrams = calculateConditional(input, length);
+
+            foreach (KeyValuePair<string, double[]> item in inputGrams)
+            {
+                if (corpusGrams.ContainsKey(item.Key))
+                {
+                    score += item.Value[Enigma.PERCENTAGED] * corpusGrams[item.Key][Enigma.SINKOV];
+                }
+            }
+
+            return score;
+        }
+
+        private double calculateEntropy(string input, int length)
+        {
+            double score = 0;
+            IDictionary<string, double[]> inputGrams = calculateConditional(input, length);
+
+            foreach (double[] values in inputGrams.Values)
+            {
+                score += values[Enigma.PERCENTAGED] * Math.Log(values[Enigma.PERCENTAGED], 2);
             }
 
             return score;
@@ -706,15 +732,34 @@ namespace Cryptool.Enigma
         /// </summary>
         /// <param name="preformatedText">The preformated text for analysis</param>
         /// <returns>The cleartext as decoded with the analyzed key</returns>
-        public string Analyze(string preformatedText, IDictionary<string, double[]> grams)
+        public string Analyze(string preformatedText)
         {
             pluginFacade.LogMessage("=========> ANALYSIS OF ENIGMA MESSAGE STARTED <=========", NotificationLevel.Info);
 
             // some initialisation
-            this.grams = grams;
             analysisCandidates.Clear();
             stop = false;
 
+            AnalyzeRun(preformatedText);
+
+            pluginFacade.LogMessage("=========> ANALYSIS OF ENIGMA MESSAGE DONE <=========", NotificationLevel.Info);
+
+            // switch back to verbose core
+            core.VerboseLevel = VerboseLevels.VeryVerbose;
+
+            // decrypt with best option
+            analysisConfigSettings bestConfig = analysisCandidates[analysisCandidates.Count - 1];
+
+            foreach (analysisConfigSettings config in analysisCandidates)
+            {
+                pluginFacade.LogMessage(encrypt(config, preformatedText, config.PlugBoard), NotificationLevel.Debug);
+            }
+
+            return encrypt(bestConfig, preformatedText, bestConfig.PlugBoard);
+        }
+
+        private void AnalyzeRun(string preformatedText)
+        {
             if (settings.AnalyzeRotors)
             {
                 pluginFacade.LogMessage("ANALYSIS: ====> Stage 1 - Searching used rotors <====", NotificationLevel.Info);
@@ -743,6 +788,9 @@ namespace Cryptool.Enigma
 
             printBestCandidates();
 
+            if (stop)
+                return;
+
             // put the core in quiet mode, since now many internal changes occur
             core.VerboseLevel = VerboseLevels.Quiet;
 
@@ -750,10 +798,13 @@ namespace Cryptool.Enigma
             {
                 pluginFacade.LogMessage("ANALYSIS: ====> Stage 2 - Searching ring positions <====", NotificationLevel.Info);
 
-                for (int j = analysisCandidates.Count - 1; j >= 0; j--)
+                if (!stop)
                 {
-                    analysisCandidates[j].PlugBoard = settings.Alphabet; // empty plugs
-                    analyzeRings(analysisCandidates[j], preformatedText);
+                    for (int j = analysisCandidates.Count - 1; j >= 0; j--)
+                    {
+                        analysisCandidates[j].PlugBoard = settings.Alphabet; // empty plugs
+                        analyzeRings(analysisCandidates[j], preformatedText);
+                    }
                 }
 
                 analysisCandidates.Sort();
@@ -773,6 +824,8 @@ namespace Cryptool.Enigma
 
             printBestCandidates();
 
+            if (stop)
+                return;
 
             if (settings.AnalyzePlugs)
             {
@@ -802,22 +855,6 @@ namespace Cryptool.Enigma
             }
 
             printBestCandidates();
-
-
-            pluginFacade.LogMessage("=========> ANALYSIS OF ENIGMA MESSAGE DONE <=========", NotificationLevel.Info);
-
-            // switch back to verbose core
-            core.VerboseLevel = VerboseLevels.VeryVerbose;
-
-            // decrypt with best option
-            analysisConfigSettings bestConfig = analysisCandidates[analysisCandidates.Count - 1];
-
-            foreach (analysisConfigSettings config in analysisCandidates)
-            {
-                pluginFacade.LogMessage(encrypt(config, preformatedText, config.PlugBoard), NotificationLevel.Debug);
-            }
-
-            return encrypt(bestConfig, preformatedText, bestConfig.PlugBoard);
         }
 
         /// <summary>
@@ -829,13 +866,51 @@ namespace Cryptool.Enigma
         }
 
         /// <summary>
-        /// Returns the Index of coincidences of a given text
+        /// The method calculates and returns the index of coincidences of a given text
         /// </summary>
-        /// <param name="text">The text</param>
+        /// <param name="input">The index if coincidences of this text will be calculated</param>
         /// <returns>The index of coincidences</returns>
-        public double IndexOfCoincidences(string text)
+        public double calculateIC(string input)
         {
-            return calculateIC(text);
+            int[] statistics = new int[settings.Alphabet.Length];
+            long cipherTextLength = 0; //input.Length; //n
+            long countDoubleCharacters = 0;
+
+            // first count the frequency of (single) letters
+            foreach (char c in input)
+            {
+                int i = settings.Alphabet.IndexOf(char.ToUpper(c));
+                if (i >= 0) statistics[i]++;
+            }
+
+
+            // now calculate the index of coincidences
+            for (int i = 0; i < statistics.Length; i++)
+            {
+                cipherTextLength += statistics[i];
+                countDoubleCharacters += (statistics[i] * (statistics[i] - 1));
+            }
+
+            return ((double)countDoubleCharacters / (double)(cipherTextLength * (cipherTextLength - 1)));
+        }
+
+        public double calculateScore(string input, int searchMethod)
+        {
+            switch (searchMethod)
+            {
+                case 0:
+                    return calculateIC(input);
+                case 1:
+                case 2:
+                    return calculateNGrams(input, settings.GetGramLength(searchMethod), Enigma.LOG2);
+                case 3:
+                case 4:
+                    return calculateSinkov(input, settings.GetGramLength(searchMethod));
+                case 5:
+                    return calculateEntropy(input, settings.GetGramLength(searchMethod));
+                default:
+                    throw new NotSupportedException("Search method not supported");
+            }
         }
 
         #endregion

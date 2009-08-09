@@ -79,12 +79,17 @@
     <Resource Include="Images\Enigma.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Enigma_BigramFrequency1941.txt">
+    <None Include="Enigma_2gram_Frequency.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Enigma_TrigramFrequency1941.txt">
+    <None Include="Enigma_3gram_Frequency.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Enigma_1gram_Frequency.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DetailedDescription\" />

@@ -297,13 +297,13 @@ namespace Cryptool.Enigma
         /// <param name="rotor2Pos">Position of rotor 2 (middle)</param>
         /// <param name="rotor3Pos">Position of rotor 3 (slowest)</param>
         /// <param name="rotor4Pos">Position of rotor 4 (extra rotor for M4)</param>
-        /// <param name="text">The text for en/decryption. All letters which are not in the alphabet are returned unprocessed.</param>
+        /// <param name="input">The text for en/decryption. All letters which are not in the alphabet are returned unprocessed.</param>
         /// <returns>The encrypted/decrypted string</returns>
-        public string Encrypt(int rotor1Pos, int rotor2Pos, int rotor3Pos, int rotor4Pos, string text)
+        public string Encrypt(int rotor1Pos, int rotor2Pos, int rotor3Pos, int rotor4Pos, string input)
         {
 
             if (!Stopwatch.IsHighResolution)
-                logMessage("No high resolution timer available. Time measurments will be inaccurate!", NotificationLevel.Warning);
+                logMessage("No high resolution timer available. Time measurements will be inaccurate!", NotificationLevel.Warning);
 
 
             // Start the stopwatch
@@ -316,25 +316,16 @@ namespace Cryptool.Enigma
             iCfg.Rotor4pos = rotor4Pos;
 
             // now perform the enigma operation for each character
-            StringBuilder result = new StringBuilder();
-            int i = 0;
+            char[] result = new char[input.Length];
 
-            foreach (char c in text)
+            for (int i = 0; i < input.Length; i++)
             {
-                if (settings.Alphabet.Contains(char.ToUpper(c)))
-                {
-                    if (char.IsLower(c))
-                        result.Append(char.ToLower(enigmacrypt(char.ToUpper(c))));
-                    else
-                        result.Append(enigmacrypt(c));
-                }
-                else
-                    result.Append(c);
+                result[i] = enigmacrypt(input[i]);
 
                 //update the status, if we are not in anylzing mode
                 // this must be deactivated during analysis, since it takes a lot of time
                 if (settings.Action == 0)
-                    pluginFacade.ShowProgress(++i, text.Length);
+                    pluginFacade.ShowProgress(i, input.Length);
             }
 
             // Stop the stopwatch
@@ -342,9 +333,9 @@ namespace Cryptool.Enigma
 
             // Print some info on the console, if not in analyzing mode.
             if (settings.Action == 0)
-                logMessage(String.Format("Enigma processing done! Processed {0} characters in {1} ms!", text.Length, sw.ElapsedMilliseconds), NotificationLevel.Info);
+                logMessage(String.Format("Enigma processing done! Processed {0} characters in {1} ms!", input.Length, sw.ElapsedMilliseconds), NotificationLevel.Info);
 
-            return result.ToString();
+            return new string(result);
         }
 
         /// <summary>
@@ -475,7 +466,7 @@ namespace Cryptool.Enigma
         /// <returns>The substituted character</returns>
         private char enigmaPlugBoard(char c)
         {
-            return iCfg.PlugBoard[settings.Alphabet.IndexOf(c)];
+            return iCfg.PlugBoard[settings.AlphabetIndexOf(c)];
         }
 
 
@@ -492,14 +483,14 @@ namespace Cryptool.Enigma
             //check notches and update the rotor position
             foreach (char n in rotor1notches)
             {
-                if (settings.Alphabet.IndexOf(n) == iCfg.Rotor1pos) iCfg.Rotor2pos = (iCfg.Rotor2pos + 1) % alen;
-            }            
+                if (settings.AlphabetIndexOf(n) == iCfg.Rotor1pos) iCfg.Rotor2pos = (iCfg.Rotor2pos + 1) % alen;
+            }
 
             foreach (char n in rotor2notches)
             {
                 int currentRotor2pos = iCfg.Rotor2pos;
 
-                if (settings.Alphabet.IndexOf(n) == currentRotor2pos)
+                if (settings.AlphabetIndexOf(n) == currentRotor2pos)
                 {
                     iCfg.Rotor3pos = (iCfg.Rotor3pos + 1) % alen;
                     iCfg.Rotor2pos = (iCfg.Rotor2pos + 1) % alen; // double-stepping, step of rotor 3 takes rotor 2 with it (and 1, but 1 steps anyway)
@@ -508,7 +499,7 @@ namespace Cryptool.Enigma
 
             foreach (char n in rotor3notches)
             {
-                if (settings.Alphabet.IndexOf(n) == iCfg.Rotor3pos) iCfg.Rotor4pos = (iCfg.Rotor4pos + 1) % alen;
+                if (settings.AlphabetIndexOf(n) == iCfg.Rotor3pos) iCfg.Rotor4pos = (iCfg.Rotor4pos + 1) % alen;
             }
 
             // Rotor 1 always steps
@@ -526,13 +517,13 @@ namespace Cryptool.Enigma
             //int rotor3Pos = (alen + iCfg.Rotor3pos - (iCfg.Ring3pos - 1)) % alen; // slower alternative
 
             // now do the substitution
-            ch = A3[alen + A3.IndexOf(rotor1For[alen + A3.IndexOf(ch) + rotor1Pos]) - rotor1Pos];
-            ch = A3[alen + A3.IndexOf(rotor2For[alen + A3.IndexOf(ch) + rotor2Pos]) - rotor2Pos];
-            ch = A3[alen + A3.IndexOf(rotor3For[alen + A3.IndexOf(ch) + rotor3Pos]) - rotor3Pos];
-            ch = reflector[alen + A3.IndexOf(ch)];
-            ch = A3[alen + A3.IndexOf(rotor3Rev[alen + A3.IndexOf(ch) + rotor3Pos]) - rotor3Pos];
-            ch = A3[alen + A3.IndexOf(rotor2Rev[alen + A3.IndexOf(ch) + rotor2Pos]) - rotor2Pos];
-            ch = A3[alen + A3.IndexOf(rotor1Rev[alen + A3.IndexOf(ch) + rotor1Pos]) - rotor1Pos];
+            ch = A3[alen + settings.AlphabetIndexOf(rotor1For[alen + settings.AlphabetIndexOf(ch) + rotor1Pos]) - rotor1Pos];
+            ch = A3[alen + settings.AlphabetIndexOf(rotor2For[alen + settings.AlphabetIndexOf(ch) + rotor2Pos]) - rotor2Pos];
+            ch = A3[alen + settings.AlphabetIndexOf(rotor3For[alen + settings.AlphabetIndexOf(ch) + rotor3Pos]) - rotor3Pos];
+            ch = reflector[alen + settings.AlphabetIndexOf(ch)];
+            ch = A3[alen + settings.AlphabetIndexOf(rotor3Rev[alen + settings.AlphabetIndexOf(ch) + rotor3Pos]) - rotor3Pos];
+            ch = A3[alen + settings.AlphabetIndexOf(rotor2Rev[alen + settings.AlphabetIndexOf(ch) + rotor2Pos]) - rotor2Pos];
+            ch = A3[alen + settings.AlphabetIndexOf(rotor1Rev[alen + settings.AlphabetIndexOf(ch) + rotor1Pos]) - rotor1Pos];
 
             return ch;
         }
