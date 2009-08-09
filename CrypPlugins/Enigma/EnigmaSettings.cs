@@ -250,6 +250,7 @@ namespace Cryptool.Enigma
         private bool analysisUseRotorVIII = true;
 
         private int maxSearchedPlugs = 10;
+        private int keySearchMethod = 0;
         private int plugSearchMethod = 2;
 
         private int rotor1 = 0;
@@ -325,12 +326,12 @@ namespace Cryptool.Enigma
         #region Public and Internal Methods
 
         /// <summary>
-        /// Return the expected length of n-grams statistics for the selected PlugSearchMethod.
+        /// Return the expected length of n-grams statistics for the given search method.
         /// </summary>
         /// <returns></returns>
-        internal int GetGramLength()
+        public int GetGramLength(int searchMethod)
         {
-            switch (plugSearchMethod)
+            switch (searchMethod)
             {
                 case 0:
                     return 1;
@@ -338,8 +339,14 @@ namespace Cryptool.Enigma
                     return 2;
                 case 2:
                     return 3;
+                case 3:
+                    return 1;
+                case 4:
+                    return 2;
+                case 5:
+                    return 1;
                 default:
-                    return -1;
+                    throw new NotSupportedException("Search method with index " + searchMethod + " is unknown");
             }
         }
 
@@ -347,6 +354,11 @@ namespace Cryptool.Enigma
         {
             plugBoard = new StringBuilder("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
             OnPropertyChanged("PlugBoardDisplay");
+        }
+
+        public int AlphabetIndexOf(char c)
+        {
+            return c - 'A';
         }
 
         #endregion
@@ -383,6 +395,7 @@ namespace Cryptool.Enigma
         [TaskPane("Enigma model", "Please select which Enigma model you want to use. This settings influences the available rotors and their inner cabling.", 
             null, 0, false, DisplayLevel.Beginner, ControlType.ComboBox,
             new string[] { "Enigma A/B - since 1924", "Enigma D", "Reichsbahn (Rocket) - since 1941", "Enigma I / M3", "M4 (Shark)", "K-Model", "G (Defense model)" })]
+        [PropertySaveOrder(1)]
         public int Model
         {
             get { return this.model; }
@@ -474,8 +487,9 @@ namespace Cryptool.Enigma
         }
 
 
-        [TaskPane("Operation mode", "Select the mode of operation for this Enigma simulator. Nate that all Enigmas since Enigma D are working with a reflector and therefore there is not difference between encrypting an decrypting.",
+        [TaskPane("Operation mode", "Select the mode of operation for this Enigma simulator. Note that all Enigmas since Enigma D are working with a reflector and therefore there is not difference between encrypting an decrypting.",
             null, 2, false, DisplayLevel.Beginner, ControlType.DynamicComboBox, new string[] { "ActionStrings" })]
+        [PropertySaveOrder(9)]
         public int Action
         {
             get { return this.action; }
@@ -490,6 +504,7 @@ namespace Cryptool.Enigma
         /// <summary>
         /// This collection contains the values for the Action combobox.
         /// </summary>
+        [PropertySaveOrder(9)]
         public ObservableCollection<string> ActionStrings
         {
             get { return actionStrings; }
@@ -763,7 +778,27 @@ namespace Cryptool.Enigma
             }
         }
 
-        [TaskPane("Plug search method", "Which method should be used to assess the best plugboard configuration?", "Analysis options", 9, false, DisplayLevel.Experienced, ControlType.ComboBox, new string[] { "Index of coincidence", "log2-bigram", "log2-trigram" })]
+        public static string[] GetConstArray()
+        {
+            return new string[] { "foo", "bar" };
+        }
+
+        [TaskPane("Rotor/Ring/Key search method", "Which method should be used to assess the best rotor configuration?", "Analysis options", 9, false, DisplayLevel.Experienced, ControlType.ComboBox, new string[] { "Index of coincidence", "log2-bigram", "log2-trigram", "Sinkov unigram", "Sinkov bigram", "Unigram entropy" })]
+        public int KeySearchMethod
+        {
+            get { return this.keySearchMethod; }
+            set
+            {
+                if (value != keySearchMethod)
+                {
+                    hasChanges = true;
+                    keySearchMethod = value;
+                    OnPropertyChanged("KeySearchMethod");
+                }
+            }
+        }
+
+        [TaskPane("Plug search method", "Which method should be used to assess the best plugboard configuration?", "Analysis options", 9, false, DisplayLevel.Experienced, ControlType.ComboBox, new string[] { "Index of coincidence", "log2-bigram", "log2-trigram", "Sinkov unigram", "Sinkov bigram", "Unigram entropy" })]
         public int PlugSearchMethod
         {
             get { return this.plugSearchMethod; }
