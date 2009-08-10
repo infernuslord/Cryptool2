@@ -37,6 +37,7 @@ namespace Cryptool.FrequencyTest
         public const int ABSOLUTE = 0;
         public const int PERCENTAGED = 1;
         public const int LOG2 = 2;
+        public const int SINKOV = 3;
 
         private string stringInput;
 
@@ -171,6 +172,7 @@ namespace Cryptool.FrequencyTest
             {
                 g[PERCENTAGED] = g[ABSOLUTE] / sum;
                 g[LOG2] = Math.Log(g[ABSOLUTE], 2);
+                g[SINKOV] = Math.Log(g[PERCENTAGED], Math.E);
             }
 
             double max = grams.Values.Max(item => item[PERCENTAGED]);
@@ -225,7 +227,7 @@ namespace Cryptool.FrequencyTest
             {
                 if (!grams.ContainsKey(g))
                 {
-                    grams[g] = new double[] { 1, 0, 0 };
+                    grams[g] = new double[] { 1, 0, 0, 0 };
                 }
                 else
                 {
