@@ -43,7 +43,6 @@ namespace Cryptool.VigenereAnalyser
         private char FrequentChar = 'e';
         public List <int> keys;
         public List<string> fStats=new List<string>();
-        //private bool inputChange = false;
         public class Stats
         {
                 public char letter;
@@ -97,7 +96,6 @@ namespace Cryptool.VigenereAnalyser
                         }
                     }
                 }
-
                 var items = (from k in Dic.Keys
                              orderby Dic[k] descending
                              select k);
@@ -113,8 +111,6 @@ namespace Cryptool.VigenereAnalyser
                         keys.Add(tmp);
                     if (tmp == 0)
                         keys.Add(tmp);
-
-
                 }
                 return keys;
             }
@@ -136,71 +132,82 @@ namespace Cryptool.VigenereAnalyser
             {
                 textLength += s.absoluteFrequency;
             });
-            double[] expectedFrequencies = elf;
+            double[] expectedFrequencies = new double[elf.Length];
+            for (int g = 0; g <= elf.Length - 1;g++ )
+            {
+                expectedFrequencies[g] = elf[g]/100;
+            }
             if (freqStats.Count != elf.Length)
             {
-                char []check =new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+                char[] check = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
                 int l = 0;
                 int c = 0;
-                
-                for (int t = 0; t <= check.Length - 1;t++ )
+
+                for (int t = 0; t <= check.Length - 1; t++)
                 {
 
                     if (c <= freqStats.Count - 1)
                     {
-                        
+
                         Stats r = freqStats.ElementAt(c);
                         if (check[t] == r.letter)
                         {
-                            observedFrequencies.Add(r.relativeFrequency);
+                            observedFrequencies.Add(r.relativeFrequency/100);
                             l++;
                             c++;
                         }
                         else
                         {
-                            observedFrequencies.Add(0.0);
+                            observedFrequencies.Add(0.00000);
                             l--;
                         }
                     }
-                    else 
+                    else
                     {
-                        observedFrequencies.Add(0.0);
+                        observedFrequencies.Add(0.00000);
                     }
                 }
             }
+            else 
+            {
+                freqStats.ForEach(delegate(Stats s)
+                {
+                    observedFrequencies.Add(s.relativeFrequency/100);
+                });
+            }
             double [] chiStats = new double[26];
-            for (int y = 0; y <= observedFrequencies.Count - 1;y++)
+            for (int y = 0; y <=25 ;y++)
             {
                 double chi = 0;
                 double chiS = 0;
-                for (int j = 0; j <= 25; j++)
+                for (int j = 0; j<=observedFrequencies.Count - 1; j++)
                 {
-                    int n = y + j;
-                    if (n > 25)
+                    int n = (y + j)%26;
+                    /*if (n > 25)
                     {
                         n = n - 25;
-                    }
-                    chi = observedFrequencies[n]-expectedFrequencies[y];
-                    chiS = Math.Pow(chi, 2);
-                    chiS = chiS / expectedFrequencies[y];
-                    chiStats[j] += chiS;
+                    }*/
+                    chi = expectedFrequencies[j]-observedFrequencies[n];
+                    chiS = (Math.Pow(chi, 2));
+                    chiStats[y] += chiS;
                 }
                 
-
             }
             shiftKey = 0;
             int b=0;
             foreach (double k in chiStats)
             {
-                 if (chiStats[b]<chiStats[shiftKey] )
+                 if (chiStats[b]-chiStats[shiftKey]<0.002 )
                  {
                      shiftKey = b;
                  }
                  b++;
-             }
-             return shiftKey;
-
-
+            }
+            /*if (shiftKey > 19)
+            {
+                shiftKey++;
+            }*/
+            return shiftKey;
         }
 
         private double seqIC (int d)
@@ -442,8 +449,6 @@ namespace Cryptool.VigenereAnalyser
                     double friedmanKey = friedmanInput;
                     int[] kasiskiFactors = kasiskiInput;
                     string workString = stringInput;
-                    string workstring2 = "";
-                    //int probableKeylength=0;
                     //Convert the cipher text into a format suitable for analysing i.e. remove all non-plaintext characters. //TO DO alphabet input...
                     
                     string strValidChars = new string(validchars);
@@ -457,9 +462,8 @@ namespace Cryptool.VigenereAnalyser
                         }
                     }
 
-                    workstring2 = workstring1.ToString(); // Now copy workstring1 to workstring2. Needed because workstring1 can not be altered once its built
-                    workstring2 = workstring2.ToLower();
-                    cipherText = workstring2;
+                    cipherText = workstring1.ToString(); // Now copy workstring1 to workstring2. Needed because workstring1 can not be altered once its built
+                    cipherText = cipherText.ToLower();
                     if (settings.internalKeyLengthAnalysis == 1) 
                     {
                         RCtest();
@@ -633,27 +637,44 @@ namespace Cryptool.VigenereAnalyser
                 }
                 if (v == probableKeylength)
                 {
-                    List<List<int>> keyList= new List<List<int>>();
-                    List<int> chiList = new List<int>();
-                    foreach (string c in fStats)
+                    int[] probableKeyword = new int[probableKeylength];
+                    if (settings.columnAnalysis == 0)
                     {
-                        if (c != null)
+                        List<List<int>> keyList = new List<List<int>>();
+                        foreach (string c in fStats)
                         {
-                            CaesarAnalysis(c);
-                            chiSquare(c);
-                            keyList.Add(keys);
-                            chiList.Add(shiftKey);
+                            if (c != null)
+                            {
+                                CaesarAnalysis(c);
+                                keyList.Add(keys);
+                            }
+                        }
+                        for (int f = 0; f <= probableKeylength - 1; f++)
+                        {
+                            int[] tempKey = keyList.ElementAt(f).ToArray();
+                            probableKeyword[f]=tempKey[0];
+                            tempKey = null;
+                        }
+                        keyList = null;
+
+                    }
+                    if (settings.columnAnalysis == 1)
+                    {
+                        List<int> chiList = new List<int>();
+                        foreach (string c in fStats)
+                        {
+                            if (c != null)
+                            {
+                                chiSquare(c);
+                                chiList.Add(shiftKey);
+                            }
+                        }
+                        for (int f = 0; f <= probableKeylength - 1; f++)
+                        {
+                            
+                            probableKeyword[f] = chiList.ElementAt(f);
                         }
                     }
-                    int[] probableKeyword = new int[probableKeylength];
-                    for (int f = 0; f <= probableKeylength - 1; f++)
-                    {
-                        int [] tempKey = keyList.ElementAt(f).ToArray();
-                        probableKeyword[f]=tempKey[0];
-                        tempKey = null;
-                        //probableKeyword[f] = chiList.ElementAt(f);
-                    }
-                    keyList = null;
                     StringBuilder keywordstring = new StringBuilder();
                     foreach(int r in probableKeyword)
                     {
