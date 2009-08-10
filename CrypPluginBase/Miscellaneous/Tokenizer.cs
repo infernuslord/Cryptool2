@@ -53,7 +53,8 @@ namespace Cryptool.PluginBase.Miscellaneous
 
     public class WordTokenEnum : IEnumerator<string>
     {
-        private readonly Regex boundary = new Regex("\\b");
+        //private readonly Regex boundary = new Regex("\\b");
+        private readonly Regex boundary = new Regex("[ \n\t]+");
 
         private string[] tokens;
         private int position;
@@ -107,16 +108,18 @@ namespace Cryptool.PluginBase.Miscellaneous
 
         public bool MoveNext()
         {
-            do
-            {
-                if (++position >= tokens.Length)
-                {
-                    return false;
-                }
-            }
-            while (! boundary.IsMatch(tokens[position]));
+            return ++position < tokens.Length;
+                
+            //do
+            //{
+            //    if (++position >= tokens.Length)
+            //    {
+            //        return false;
+            //    }
+            //}
+            //while (! boundary.IsMatch(tokens[position]));
 
-            return true;
+            //return true;
         }
 
         public void Reset()
@@ -141,11 +144,7 @@ namespace Cryptool.PluginBase.Miscellaneous
         {
         }
 
-        public GramTokenizer(string word, int gramLength, bool includeFragments) : this(word, gramLength, includeFragments, false)
-        {
-        }
-
-        public GramTokenizer(string word, int gramLength, bool includeFragments, bool caseSensitive)
+        public GramTokenizer(string word, int gramLength, bool includeFragments)
         {
             if (word == null || word.Length < 1)
             {
@@ -166,15 +165,31 @@ namespace Cryptool.PluginBase.Miscellaneous
                 this.word = word;
             }
 
-            if (!caseSensitive)
-            {
-                this.word = this.word.ToUpper();
-            }
-
             this.gramLength = gramLength;
             this.includeFragments = includeFragments;
+        }
 
+        /// <summary>
+        /// Tokenizes the whole input and returns a dictionary with all found grams and their quantity
+        /// </summary>
+        /// <returns></returns>
+        public IDictionary<string, int> ToDictionary()
+        {
+            IDictionary<string, int> dict = new Dictionary<string, int>();
 
+            foreach (string gram in this)
+            {
+                if (dict.ContainsKey(gram))
+                {
+                    dict[gram]++;
+                }
+                else
+                {
+                    dict[gram] = 1;
+                }
+            }
+
+            return dict;
         }
 
         #region IEnumerable<string> Members

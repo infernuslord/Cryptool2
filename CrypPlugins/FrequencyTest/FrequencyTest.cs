@@ -221,7 +221,7 @@ namespace Cryptool.FrequencyTest
                 return;
             }
 
-            foreach (string g in new GramTokenizer(workstring, settings.GrammLength, settings.BoundaryFragments==1, settings.CaseSensitivity==1))
+            foreach (string g in new GramTokenizer(workstring, settings.GrammLength, settings.BoundaryFragments==1))
             {
                 if (!grams.ContainsKey(g))
                 {
