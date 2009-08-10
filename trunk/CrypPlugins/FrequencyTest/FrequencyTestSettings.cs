@@ -94,6 +94,7 @@ namespace Cryptool.FrequencyTest
         /// y__
         /// The underline char represents a whitespace.
         /// </summary>
+        [PropertySaveOrder(4)]
         [TaskPane("Word boundary fragments", "Include additional fragments with whitespaces at word boundary? Only relevant for gramLength >= 2.", "", 10, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "No fragments at boundary", "Include fragments" })]
         public int BoundaryFragments
         {

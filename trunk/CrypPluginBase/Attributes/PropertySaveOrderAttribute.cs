@@ -206,10 +206,10 @@ using System;
 namespace Cryptool.PluginBase
 {
     /// <summary>
-    /// This attribute is optional for the properties of the ISettings class. If 
+    /// This attribute is optional for the properties of the ISettings class. If
     /// you need an explicit order (see Caesar for example) you can use this
-    /// Attribute. If the order doesn't matter, just skip using this attribute 
-    /// and your properties will be stored in alphabetical order. 
+    /// Attribute. If the order doesn't matter, just skip using this attribute
+    /// and your properties will be stored in alphabetical order.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
     public class PropertySaveOrderAttribute : Attribute
@@ -219,7 +219,7 @@ namespace Cryptool.PluginBase
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertySaveOrderAttribute"/> class.
         /// </summary>
-        /// <param name="order">The order in which the property will be saved andrestored.</param>
+        /// <param name="order">The order in which the property will be saved and restored.</param>
         public PropertySaveOrderAttribute(int order)
         {
             this.Order = order;
