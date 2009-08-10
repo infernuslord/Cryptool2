@@ -87,9 +87,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Enigma_1gram_Frequency.txt">
+    <None Include="Enigma_1gram_Frequency.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DetailedDescription\" />
