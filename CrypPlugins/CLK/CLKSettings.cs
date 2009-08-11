@@ -5,6 +5,8 @@ using System.Text;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
+// for Visibility
+using System.Windows;
 
 namespace Cryptool.Plugins.CLK
 {
@@ -79,6 +81,10 @@ namespace Cryptool.Plugins.CLK
             this.useEvent = value;
             OnPropertyChanged("UseEvent");
             HasChanges = true;
+            if (this.useEvent)
+                SettingChanged("CLKTimeout", Visibility.Collapsed);
+            else
+                SettingChanged("CLKTimeout", Visibility.Visible);
         }
 
     }
@@ -105,9 +111,37 @@ namespace Cryptool.Plugins.CLK
 
     public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-    protected void OnPropertyChanged(string name)
+    // this event is for disabling stuff in the settings pane
+    public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
+
+    public void OnPropertyChanged(string name)
     {
-      EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
+        if (PropertyChanged != null)
+        {
+            EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
+        }
+    }
+
+    /* SettingChanged(MEM_USAGE_PROPERTY, Visibility.Visible);
+    SettingChanged(BUTTON_MEM_USAGE_PROPERTY, Visibility.Visible, new TaskPaneAttribute(Properties.Visuals.settingMemUsageOff,
+        Properties.Visuals.settingMemUsageOff_ToolTip, Properties.Visuals.settingGroupMisc, 5, false, DisplayLevel.Beginner, ControlType.Button));
+     */
+
+    // these 2 functions are for disabling stuff in the settings pane
+    private void SettingChanged(string setting, Visibility vis)
+    {
+        if (TaskPaneAttributeChanged != null)
+        {
+            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer(setting, vis)));
+        }
+    }
+
+    private void SettingChanged(string setting, Visibility vis, TaskPaneAttribute tpa)
+    {
+        if (TaskPaneAttributeChanged != null)
+        {
+            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer(setting, vis, tpa)));
+        }
     }
 
     #endregion
