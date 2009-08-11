@@ -31,7 +31,14 @@ namespace BooleanFunctionParser
         private bool[] inputVariableThree;
         private bool output;
         private bool lastInputWasFunction = false;
+        private int inputs = 0;
+        private string fillValue;
+        private bool canSendPropertiesChangedEvent = true;
 
+        #endregion
+
+        #region Events
+        public event DynamicPropertiesChanged OnDynamicPropertiesChanged;
         #endregion
 
         #region Public variables
@@ -50,7 +57,12 @@ namespace BooleanFunctionParser
         public BooleanFunctionParser()
         {
             this.settings = new BooleanFunctionParserSettings();
-            //((BooleanFunctionParserSettings)(this.settings)).LogMessage += Xor_LogMessage;
+            settings.PropertyChanged += settings_PropertyChanged;
+            CanChangeDynamicProperty = true;
+            // No dynProp event in constructor - editor will read the property initial without the event.
+            // event can cause problems when using save files and is processed after 
+            // connections have been restored. 
+            CreateInputOutput(false);
         }
 
         [PropertyInfo(Direction.InputData, "Boolean Function f(i)", "Boolean function f(i) to compute.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
@@ -186,6 +198,9 @@ namespace BooleanFunctionParser
                         output = EvaluateString(strExpressionTested);
                         OnPropertyChanged("Output");
                     }
+                    // Just testing
+                    bool[] test = (bool[])getCurrentValue("Input 2");
+                    GuiLogMessage("InputTest: " + test[0].ToString(), NotificationLevel.Info);
                 }
             }
             catch (Exception exception)
@@ -217,6 +232,15 @@ namespace BooleanFunctionParser
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
 
+        // catches PropertyChanged event from settings
+        void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "CountOfInputs")
+            {
+                CreateInputOutput(true);
+            }
+        }
+
         public void Pause()
         {
             
@@ -230,6 +254,23 @@ namespace BooleanFunctionParser
         public void PreExecution()
         {
             
+        }
+
+        public void CreateInputOutput(bool announcePropertyChange)
+        {
+            try
+            {
+                DicDynamicProperties.Clear();
+                for (int i = 0; i < settings.CountOfInputs; i++)
+                {
+                    AddInput("Input " + i, "Test Input " + i);
+                    if (announcePropertyChange) DynamicPropertiesChanged();
+                }
+            }
+            catch (Exception exception)
+            {
+                GuiLogMessage(exception.Message, NotificationLevel.Error);
+            }
         }
 
         /* ***********************************************************************
@@ -333,6 +374,7 @@ namespace BooleanFunctionParser
             }
         }
 
+        /* NOT NEEDED ANYMORE
         private ATreeNode FillTree(string strExpression)
         {
             // fill tree
@@ -365,14 +407,6 @@ namespace BooleanFunctionParser
                 else
                 // should be an operand
                 {
-
-                    /*if (charPolynomial[i] == '!')
-                    {
-                        // ! operand
-                        // TO DO
-                    }
-                    else*/
-                    {
                         // * or + operands
                         if (i == 1)
                         {
@@ -384,14 +418,13 @@ namespace BooleanFunctionParser
                             treeArray[i] = new ATreeNode(charPolynomial[i].ToString());
                             treeArray[i].LeftChild = treeArray[i - 2];
                         }
-                    }
                 }
                 // debug output
                 //Console.Out.Write(treeArray[i].NodeType + " ");
             }
 
             return treeArray[treeArray.Length - 2];
-        }
+        }*/
 
         private bool EvaluateString(string function)
         {
@@ -401,32 +434,32 @@ namespace BooleanFunctionParser
             int positionLeftParenthesis = function.IndexOf("(");
             int positionRightParenthesis = function.LastIndexOf(")");
 
-            GuiLogMessage("Position ( & ): " + positionLeftParenthesis + ", " + positionRightParenthesis, NotificationLevel.Info);
+            GuiLogMessage("Position ( & ): " + positionLeftParenthesis + ", " + positionRightParenthesis, NotificationLevel.Debug);
 
             if (positionLeftParenthesis != -1 && positionRightParenthesis != -1)
             {
                 temp = function.Substring(positionLeftParenthesis + 1, positionRightParenthesis - positionLeftParenthesis - 1);
-                GuiLogMessage("New function: " + temp, NotificationLevel.Info);
+                GuiLogMessage("New function: " + temp, NotificationLevel.Debug);
                 bool parenthesisResult = EvaluateString(temp);
                 function = function.Remove(positionLeftParenthesis, positionRightParenthesis - positionLeftParenthesis + 1);
                 function = function.Insert(positionLeftParenthesis, Convert.ToInt32(parenthesisResult).ToString());
             }
 
-            GuiLogMessage("Function after(:  " + function, NotificationLevel.Info);
+            GuiLogMessage("Function after(:  " + function, NotificationLevel.Debug);
 
             // test for exclamation mark aka not
             int positionExclamationMark = function.IndexOf("!");
 
             while (positionExclamationMark != -1)
             {
-                GuiLogMessage("Position !: " + positionExclamationMark, NotificationLevel.Info);
+                GuiLogMessage("Position !: " + positionExclamationMark, NotificationLevel.Debug);
 
                 // remove exclamation mark
                 function = function.Remove(positionExclamationMark, 1);
 
                 // invert the binary digit following the excl. mark
                 string toInvert = function.Substring(positionExclamationMark, 1);
-                GuiLogMessage("toInvert: " + toInvert, NotificationLevel.Info);
+                GuiLogMessage("toInvert: " + toInvert, NotificationLevel.Debug);
 
                 if (toInvert == "1") toInvert = "0";
                 else toInvert = "1";
@@ -439,7 +472,7 @@ namespace BooleanFunctionParser
                 positionExclamationMark = function.IndexOf("!");
             }
 
-            GuiLogMessage("Function after!:  " + function, NotificationLevel.Info);
+            GuiLogMessage("Function after!:  " + function, NotificationLevel.Debug);
 
 
             // now we should have only +, *, 0, 1 in our function string
@@ -487,6 +520,7 @@ namespace BooleanFunctionParser
             return result;
         }
 
+        /* NOT NEEDED ANYMORE
         private bool EvaluateTree(bool X, ATreeNode NodePointer)
         {
             //float RightTemp, LeftTemp, UnaryTemp;
@@ -528,6 +562,50 @@ namespace BooleanFunctionParser
 
             return X;
         }
+        */
+
+        private object getCurrentValue(string name)
+        {
+            if (DicDynamicProperties.ContainsKey(name))
+            {
+                return DicDynamicProperties[name].Value;
+            }
+            return null;
+        }
+        
+        private void AddInput(string name, string toolTip)
+        {
+            inputs++;
+            if (name == null || name == string.Empty) name = "Input " + inputs;
+            DicDynamicProperties.Add(name,
+              new DynamicProperty(name, typeof(bool[]),
+                new PropertyInfoAttribute(Direction.InputData, name, toolTip, "", false, true, DisplayLevel.Beginner, QuickWatchFormat.None, null))
+            );
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public object methodGetValue(string propertyKey)
+        {
+            return getCurrentValue(propertyKey); // QuickWatchDataCall to Input values
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void methodSetValue(string propertyKey, object value)
+        {
+            try
+            {
+                if (DicDynamicProperties.ContainsKey(propertyKey))
+                {
+                    DicDynamicProperties[propertyKey].Value = value;
+                }
+
+                OnPropertyChanged(propertyKey);
+            }
+            catch (Exception ex)
+            {
+                GuiLogMessage(ex.Message, NotificationLevel.Error);
+            }
+        }
 
         public System.Windows.Controls.UserControl Presentation
         {
@@ -556,6 +634,32 @@ namespace BooleanFunctionParser
             
         }
 
+        public Dictionary<string, DynamicProperty> dicDynamicProperties = new Dictionary<string, DynamicProperty>();
+
+        [DynamicPropertyInfo("methodGetValue", "methodSetValue", "CanChangeDynamicProperty", "OnDynamicPropertiesChanged", "CanSendPropertiesChangedEvent")]
+        public Dictionary<string, DynamicProperty> DicDynamicProperties
+        {
+            get { return dicDynamicProperties; }
+            set { dicDynamicProperties = value; }
+        }
+
+        public bool CanChangeDynamicProperty
+        {
+            get { return settings.CanChangeProperty; }
+            set { settings.CanChangeProperty = value; }
+        }
+
+        public bool CanSendPropertiesChangedEvent
+        {
+            get { return canSendPropertiesChangedEvent; }
+            set { canSendPropertiesChangedEvent = value; }
+        }
+
+        private void DynamicPropertiesChanged()
+        {
+            if (OnDynamicPropertiesChanged != null) OnDynamicPropertiesChanged(this);
+        }
+
         #endregion
 
         #region INotifyPropertyChanged Members
@@ -573,6 +677,7 @@ namespace BooleanFunctionParser
         #endregion
     }
 
+    /* NOT NEEDED ANYMORE
     public class ATreeNode
     {
         #region private variables
@@ -583,10 +688,10 @@ namespace BooleanFunctionParser
         private string _nodeType;
         private bool _constantData;
 
-        /*private enum _nodeType
-        {
-            Add,Subtract,Multiply,Divide,Power,AbsValue,Log,Negation,Sine,Square,SquareRoot,XVariable,Constant
-        }*/
+        //private enum _nodeType
+        //{
+        //   Add,Subtract,Multiply,Divide,Power,AbsValue,Log,Negation,Sine,Square,SquareRoot,XVariable,Constant
+        //}
 
         #endregion
 
@@ -635,4 +740,5 @@ namespace BooleanFunctionParser
             _leftChild = _rightChild = _unaryChild = null;
         }
     }
+*/
 }

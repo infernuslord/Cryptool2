@@ -13,6 +13,9 @@ using System.Runtime.CompilerServices;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Runtime.Remoting.Contexts;
 
+// for Visibility
+using System.Windows;
+
 namespace Cryptool.LFSR
 {
     public class LFSRSettings : ISettings
@@ -77,22 +80,9 @@ namespace Cryptool.LFSR
             }
         }
 
-        private int clockingBit = 0;
-        [TaskPane("Additional output bit #", "Which bit shall be generated as an additional output? For example as an clocking bit.", "Additional Output Bit", 0, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
-        public int ClockingBit
-        {
-            get { return this.clockingBit; }
-            set
-            {
-                this.clockingBit = value;
-                OnPropertyChanged("ClockingBit");
-                HasChanges = true;
-            }
-        }
-
         private bool useAdditionalOutputBit = false;
         [ContextMenu("Generate add. output bit", "With this checkbox enabled, the additional output bit will be generated.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Generate additional output bit?" })]
-        [TaskPane("Generate add. output bit", "With this checkbox enabled, the additional output bit will be generated.", "Additional Output Bit", 1, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+        [TaskPane("Generate add. output bit", "With this checkbox enabled, the additional output bit will be generated.", "Additional Output Bit", 0, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
         public bool UseAdditionalOutputBit
         {
             get { return this.useAdditionalOutputBit; }
@@ -100,6 +90,23 @@ namespace Cryptool.LFSR
             {
                 this.useAdditionalOutputBit = (bool)value;
                 OnPropertyChanged("UseClockingBit");
+                HasChanges = true;
+                if (this.useAdditionalOutputBit)
+                    SettingChanged("ClockingBit", Visibility.Visible);
+                else
+                    SettingChanged("ClockingBit", Visibility.Collapsed);
+            }
+        }
+
+        private int clockingBit = 0;
+        [TaskPane("Additional output bit #", "Which bit shall be generated as an additional output? For example as an clocking bit.", "Additional Output Bit", 1, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        public int ClockingBit
+        {
+            get { return this.clockingBit; }
+            set
+            {
+                this.clockingBit = value;
+                OnPropertyChanged("ClockingBit");
                 HasChanges = true;
             }
         }
@@ -115,6 +122,10 @@ namespace Cryptool.LFSR
                 this.useBoolClock = (bool)value;
                 OnPropertyChanged("UseBoolClock");
                 HasChanges = true;
+                if (this.useBoolClock)
+                    SettingChanged("Rounds", Visibility.Collapsed);
+                else
+                    SettingChanged("Rounds", Visibility.Visible);
             }
         }
 
@@ -158,12 +169,37 @@ namespace Cryptool.LFSR
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        // this event is for disabling stuff in the settings pane
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
+
         public void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)
             {
                 EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
             }
+        }
+
+        /* SettingChanged(MEM_USAGE_PROPERTY, Visibility.Visible);
+        SettingChanged(BUTTON_MEM_USAGE_PROPERTY, Visibility.Visible, new TaskPaneAttribute(Properties.Visuals.settingMemUsageOff,
+            Properties.Visuals.settingMemUsageOff_ToolTip, Properties.Visuals.settingGroupMisc, 5, false, DisplayLevel.Beginner, ControlType.Button));
+         */
+
+        // these 2 functions are for disabling stuff in the settings pane
+        private void SettingChanged(string setting, Visibility vis)
+        {
+          if (TaskPaneAttributeChanged != null)
+          {
+            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer(setting, vis)));
+          }
+        }
+
+        private void SettingChanged(string setting, Visibility vis, TaskPaneAttribute tpa)
+        {
+          if (TaskPaneAttributeChanged != null)
+          {
+            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer(setting, vis, tpa)));
+          }
         }
 
         #endregion
