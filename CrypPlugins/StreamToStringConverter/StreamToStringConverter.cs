@@ -389,8 +389,11 @@ namespace Cryptool.Plugins.Convertor
                     case StreamToStringConverterSettings.EncodingTypes.Default:
                         outputString = Encoding.Default.GetString(byteValues, 0, bytesRead);
                         break;
-                    case StreamToStringConverterSettings.EncodingTypes.Binary:
+                    case StreamToStringConverterSettings.EncodingTypes.Base64Binary:
                         outputString = Convert.ToBase64String(byteValues, 0, bytesRead);
+                        break;
+                    case StreamToStringConverterSettings.EncodingTypes.HexStringBinary:
+                        outputString = convertBytesToHexString(byteValues, 0, bytesRead);
                         break;
                     case StreamToStringConverterSettings.EncodingTypes.Unicode:
                         outputString = Encoding.Unicode.GetString(byteValues, 0, bytesRead);
@@ -427,6 +430,16 @@ namespace Cryptool.Plugins.Convertor
             }        
         }
 
+        private string convertBytesToHexString(byte[] array, int start, int count)
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int i = start; i < (start+count); i++)
+            {
+               sb.Append(array[i].ToString("X2"));
+               sb.Append(" ");
+            }
+            return sb.ToString();
+        }
 
         private void ShowStatusBarMessage(string message, NotificationLevel logLevel)
         {

@@ -400,7 +400,7 @@ namespace Cryptool.Plugins.Convertor
                         outputBytes = Encoding.Default.GetBytes(value);
                         outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputBytes);
                         break;
-                    case StringToStreamConverterSettings.EncodingTypes.Binary:
+                    case StringToStreamConverterSettings.EncodingTypes.Base64Binary:
                         try
                         {
                           // outputStream = new CryptoolStream();
@@ -411,6 +411,18 @@ namespace Cryptool.Plugins.Convertor
                         {
                             ShowStatusBarMessage("Error converting input! Not a valid base64 string (" + ex.Message + ")", NotificationLevel.Error);
                             // outputStream = null;
+                            return;
+                        }
+                        break;
+                    case StringToStreamConverterSettings.EncodingTypes.HexStringBinary:
+                        try
+                        {
+                            outputBytes = convertStringToByteArray(value);
+                            outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputBytes);
+                        }
+                        catch (Exception ex)
+                        {
+                            ShowStatusBarMessage("Error converting input! Not a valid hex-string (" + ex.Message + ")", NotificationLevel.Error);
                             return;
                         }
                         break;
@@ -466,6 +478,36 @@ namespace Cryptool.Plugins.Convertor
             }
         
         }
+
+
+        private byte[] convertStringToByteArray(String hexString)
+        {
+            if (null == hexString)
+                return new byte[0];
+            
+            StringBuilder cleanHexString = new StringBuilder();
+
+            //cleanup the input
+            foreach (char c in hexString)
+            {
+                if (Uri.IsHexDigit(c))
+                    cleanHexString.Append(c);
+            }
+
+            int numberChars = cleanHexString.Length;
+
+            if (numberChars < 2) // Need at least 2 chars to make one byte
+                return new byte[0];
+
+            byte[] bytes = new byte[numberChars / 2];
+
+            for (int i = 0; i < numberChars; i += 2)
+            {
+                bytes[i / 2] = Convert.ToByte(cleanHexString.ToString().Substring(i, 2), 16);
+            }
+            return bytes;
+        }
+
 
         private void ShowStatusBarMessage(string message, NotificationLevel logLevel)
         {
