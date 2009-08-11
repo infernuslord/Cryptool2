@@ -214,7 +214,7 @@ namespace Cryptool.Plugins.Convertor
     {
         #region Public StringToStreamConverter specific properties
 
-        public enum EncodingTypes { Default = 0, Binary = 1, Unicode = 2, UTF7 = 3, UTF8 = 4, UTF32 = 5, ASCII = 6, BigEndianUnicode = 7 };
+        public enum EncodingTypes { Default = 0, Base64Binary = 1, HexStringBinary = 2, Unicode = 3, UTF7 = 4, UTF8 = 5, UTF32 = 6, ASCII = 7, BigEndianUnicode = 8 };
 
         /// <summary>
         /// Retrieves the current used encoding, or sets it.
@@ -248,8 +248,8 @@ namespace Cryptool.Plugins.Convertor
         /// <summary>
         /// Encoding property used in the Settings pane. 
         /// </summary>
-        [ContextMenu("Output stream encoding", "Choose the encoding of the output stream. (Byte encoding)", 1, DisplayLevel.Experienced, ContextMenuControlType.ComboBox, null, new string[] { "Default", "Binary data (convert from base64)", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
-        [TaskPane("Output stream encoding", "Choose the encoding of the output stream. (Byte encoding)", "", 1, false, DisplayLevel.Experienced, ControlType.ComboBox, new string[] { "Default", "Binary data (convert from base64)", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
+        [ContextMenu("Output stream encoding", "Choose the encoding of the output stream. (Byte encoding)", 1, DisplayLevel.Experienced, ContextMenuControlType.ComboBox, null, new string[] { "Default", "Binary data (convert from base64)", "Binary data (convert from hex-string)", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
+        [TaskPane("Output stream encoding", "Choose the encoding of the output stream. (Byte encoding)", "", 1, false, DisplayLevel.Experienced, ControlType.ComboBox, new string[] { "Default", "Binary data (convert from base64)", "Binary data (convert from hex-string)", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
         public int EncodingSetting
         {
             get
