@@ -287,7 +287,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.InputData, "IV", "The initialisation vector (IV) which is used in chaining modes. It always must be the same as the blocksize.", "", true, false, DisplayLevel.Professional, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "IV", "The initialisation vector (IV) which is used in chaining modes. It always must be the same as the blocksize.", "", false, false, DisplayLevel.Professional, QuickWatchFormat.Hex, null)]
         public byte[] InputIV
         {
             get { return this.inputIV; }
@@ -360,39 +360,26 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 GuiLogMessage("WARNING - No key provided. Using 0x000..00!", NotificationLevel.Warning);
             }
 
+            int keySizeInBytes = (16 + settings.Keysize * 8);
+
             //prepare a long enough key
-            byte[] key = new byte[32];
-            int len = inputKey.Length;
-            if (len > (16 + settings.Keysize * 8))
+            byte[] key = new byte[keySizeInBytes];
+
+            // copy the input key into the temporary key array
+            Array.Copy(inputKey, key, Math.Min(inputKey.Length, key.Length));
+
+            // Note: the SymmetricAlgorithm.Key setter clones the passed byte[] array and keeps his own copy
+            alg.Key = key;
+
+            if (inputKey.Length > keySizeInBytes)
             {
-                GuiLogMessage("Overlength (" + inputKey.Length*8+" Bits) key provided. Removing trailing bytes to fit the desired key length of " + (16 + settings.Keysize*8)*8 + " Bits!", NotificationLevel.Warning);
-                len = (16 + settings.Keysize * 8);
+                GuiLogMessage("Overlength (" + inputKey.Length * 8 + " Bits) key provided. Removing trailing bytes to fit the desired key length of " + (keySizeInBytes * 8) + " Bits: " + bytesToHexString(key), NotificationLevel.Warning);
             }
 
-            if (len < (16 + settings.Keysize * 8))
+            if (inputKey.Length < keySizeInBytes)
             {
-                GuiLogMessage("Short (" + inputKey.Length * 8 + " Bits) key provided. Adding zero bytes to fill up to the desired key length of " + (16 + settings.Keysize * 8) * 8 + " Bits!", NotificationLevel.Warning);
+                GuiLogMessage("Short (" + inputKey.Length * 8 + " Bits) key provided. Adding zero bytes to fill up to the desired key length of " + (keySizeInBytes * 8) + " Bits: " + bytesToHexString(key), NotificationLevel.Warning);
             }
-
-            // copy the input key into the temproary key array
-            Array.Copy(inputKey, key, len);
-
-            switch (settings.Keysize)
-            {
-                case 1: // 192 Bits
-                    alg.Key = new byte[24];
-                    Array.Copy(key, alg.Key, 24);
-                    break;
-                case 2: // 256 Bits
-                    alg.Key = new byte[32];
-                    Array.Copy(key, alg.Key, 32);
-                    break;
-                default: // Default = 0: 128 Bits
-                    alg.Key = new byte[16];
-                    Array.Copy(key, alg.Key, 16);
-                    break;
-            }
-            
 
             //check for a valid IV
             if (this.inputIV == null)
@@ -402,6 +389,16 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 GuiLogMessage("WARNING - No IV provided. Using 0x000..00!", NotificationLevel.Warning);
             }
             alg.IV = this.inputIV;
+        }
+
+        private string bytesToHexString(byte[] array)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (byte b in array)
+            {
+                sb.Append(b.ToString("X2"));
+            }
+            return sb.ToString();
         }
 
         private void checkForInputStream()
