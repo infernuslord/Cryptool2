@@ -204,10 +204,10 @@ namespace Cryptool.FrequencyTest
             OnPropertyChanged("StringOutput");
             OnPropertyChanged("ArrayOutput");
             OnPropertyChanged("DictionaryOutput");
-            //  if (OnPluginProgressChanged != null)
-            //     {
-            //      OnPluginProgressChanged(this, new PluginProgressEventArgs(l, l));
-            // }
+            if (OnPluginProgressChanged != null)
+            {
+                OnPluginProgressChanged(this, new PluginProgressEventArgs(1, 1));
+            }
             presentation.OpenPresentationFile();
         }
 
@@ -221,6 +221,11 @@ namespace Cryptool.FrequencyTest
             if (workstring.Length == 0)
             {
                 return;
+            }
+
+            if (settings.CaseSensitivity == 0)
+            {
+                workstring = workstring.ToUpper();
             }
 
             foreach (string g in new GramTokenizer(workstring, settings.GrammLength, settings.BoundaryFragments==1))
