@@ -263,9 +263,23 @@ namespace Cryptool.Plugins.Convertor
             }
             set
             {
-                if (value != null) listCryptoolStreamsOut.Add(value);
-                outputStream = value;
-                OnPropertyChanged("OutputStream");
+            }
+        }
+
+        [PropertyInfo(Direction.OutputData, "byte[] output", "The stream after encoding the text from the input.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        public byte[] OutputBytes
+        {
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            get
+            {
+                if (outputBytes != null)
+                {
+                    return outputBytes;
+                }
+                return null;
+            }
+            set
+            {
             }
         }
 
@@ -361,6 +375,7 @@ namespace Cryptool.Plugins.Convertor
         private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
         private StringToStreamConverterSettings settings;
         private CryptoolStream outputStream = null;
+        private byte[] outputBytes = null;
         private string inputString;
         #endregion
 
@@ -382,13 +397,15 @@ namespace Cryptool.Plugins.Convertor
                 {
                     case StringToStreamConverterSettings.EncodingTypes.Default:
                     // outputStream = new CryptoolStream();
-                        outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, Encoding.Default.GetBytes(value.ToCharArray()));
+                        outputBytes = Encoding.Default.GetBytes(value);
+                        outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputBytes);
                         break;
                     case StringToStreamConverterSettings.EncodingTypes.Binary:
                         try
                         {
                           // outputStream = new CryptoolStream();
-                            outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, Convert.FromBase64String(value));
+                            outputBytes = Convert.FromBase64String(value);
+                            outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputBytes);
                         }
                         catch (Exception ex)
                         {
@@ -399,43 +416,52 @@ namespace Cryptool.Plugins.Convertor
                         break;
                     case StringToStreamConverterSettings.EncodingTypes.Unicode:
                         // outputStream = new CryptoolStream();
-                        outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, Encoding.Unicode.GetBytes(value.ToCharArray()));
+                        outputBytes = Encoding.Unicode.GetBytes(value);
+                        outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputBytes);
                         break;
                     case StringToStreamConverterSettings.EncodingTypes.UTF7:
                         // outputStream = new CryptoolStream();
-                        outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, Encoding.UTF7.GetBytes(value.ToCharArray()));
+                        outputBytes = Encoding.UTF7.GetBytes(value);
+                        outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputBytes);
                         break;
                     case StringToStreamConverterSettings.EncodingTypes.UTF8:
                         // outputStream = new CryptoolStream();
-                        outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, Encoding.UTF8.GetBytes(value.ToCharArray()));
+                        outputBytes = Encoding.UTF8.GetBytes(value);
+                        outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputBytes);
                         break;
                     case StringToStreamConverterSettings.EncodingTypes.UTF32:
                         // outputStream = new CryptoolStream();
-                        outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, Encoding.UTF32.GetBytes(value.ToCharArray()));
+                        outputBytes = Encoding.UTF32.GetBytes(value);
+                        outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputBytes);
                         break;
                     case StringToStreamConverterSettings.EncodingTypes.ASCII:
                         // outputStream = new CryptoolStream();
-                        outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, Encoding.ASCII.GetBytes(value.ToCharArray()));
+                        outputBytes = Encoding.ASCII.GetBytes(value);
+                        outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputBytes);
                         break;
                     case StringToStreamConverterSettings.EncodingTypes.BigEndianUnicode:
                         // outputStream = new CryptoolStream();
-                        outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, Encoding.BigEndianUnicode.GetBytes(value.ToCharArray()));
+                        outputBytes = Encoding.BigEndianUnicode.GetBytes(value);
+                        outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputBytes);
                         break;
                     default:
                         // outputStream = new CryptoolStream();
-                        outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, Encoding.Default.GetBytes(value.ToCharArray()));
+                        outputBytes = Encoding.Default.GetBytes(value);
+                        outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputBytes);
                         break;
                 }
                                 
                 ShowStatusBarMessage("Input converted.", NotificationLevel.Info);
                 ShowProgress(100, 100);
                 OnPropertyChanged("InputString");
+                OnPropertyChanged("OutputBytes");
                 OnPropertyChanged("OutputStream");
             }
             else
             {
                 inputString = null;
                 outputStream = null;
+                outputBytes = null;
                 ShowStatusBarMessage("String input is empty. Nothing to convert.", NotificationLevel.Warning);
             }
         
