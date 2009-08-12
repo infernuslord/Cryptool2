@@ -396,14 +396,12 @@ namespace Cryptool.Plugins.Convertor
                 switch (settings.Encoding)
                 {
                     case StringToStreamConverterSettings.EncodingTypes.Default:
-                    // outputStream = new CryptoolStream();
                         outputBytes = Encoding.Default.GetBytes(value);
                         outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputBytes);
                         break;
                     case StringToStreamConverterSettings.EncodingTypes.Base64Binary:
                         try
                         {
-                          // outputStream = new CryptoolStream();
                             outputBytes = Convert.FromBase64String(value);
                             outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputBytes);
                         }
@@ -417,7 +415,7 @@ namespace Cryptool.Plugins.Convertor
                     case StringToStreamConverterSettings.EncodingTypes.HexStringBinary:
                         try
                         {
-                            outputBytes = convertStringToByteArray(value);
+                            outputBytes = convertHexStringToByteArray(value);
                             outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputBytes);
                         }
                         catch (Exception ex)
@@ -426,38 +424,43 @@ namespace Cryptool.Plugins.Convertor
                             return;
                         }
                         break;
+                    case StringToStreamConverterSettings.EncodingTypes.OctalStringBinary:
+                        try
+                        {
+                            outputBytes = convertOctalStringToByteArray(value);
+                            outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputBytes);
+                        }
+                        catch (Exception ex)
+                        {
+                            ShowStatusBarMessage("Error converting input! Not a valid octal-string (" + ex.Message + ")", NotificationLevel.Error);
+                            return;
+                        }
+                        break;
                     case StringToStreamConverterSettings.EncodingTypes.Unicode:
-                        // outputStream = new CryptoolStream();
                         outputBytes = Encoding.Unicode.GetBytes(value);
                         outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputBytes);
                         break;
                     case StringToStreamConverterSettings.EncodingTypes.UTF7:
-                        // outputStream = new CryptoolStream();
                         outputBytes = Encoding.UTF7.GetBytes(value);
                         outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputBytes);
                         break;
                     case StringToStreamConverterSettings.EncodingTypes.UTF8:
-                        // outputStream = new CryptoolStream();
                         outputBytes = Encoding.UTF8.GetBytes(value);
                         outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputBytes);
                         break;
                     case StringToStreamConverterSettings.EncodingTypes.UTF32:
-                        // outputStream = new CryptoolStream();
                         outputBytes = Encoding.UTF32.GetBytes(value);
                         outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputBytes);
                         break;
                     case StringToStreamConverterSettings.EncodingTypes.ASCII:
-                        // outputStream = new CryptoolStream();
                         outputBytes = Encoding.ASCII.GetBytes(value);
                         outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputBytes);
                         break;
                     case StringToStreamConverterSettings.EncodingTypes.BigEndianUnicode:
-                        // outputStream = new CryptoolStream();
                         outputBytes = Encoding.BigEndianUnicode.GetBytes(value);
                         outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputBytes);
                         break;
                     default:
-                        // outputStream = new CryptoolStream();
                         outputBytes = Encoding.Default.GetBytes(value);
                         outputStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputBytes);
                         break;
@@ -480,7 +483,7 @@ namespace Cryptool.Plugins.Convertor
         }
 
 
-        private byte[] convertStringToByteArray(String hexString)
+        private byte[] convertHexStringToByteArray(String hexString)
         {
             if (null == hexString)
                 return new byte[0];
@@ -508,6 +511,34 @@ namespace Cryptool.Plugins.Convertor
             return bytes;
         }
 
+
+        private byte[] convertOctalStringToByteArray(String octalString)
+        {
+            if (null == octalString)
+                return new byte[0];
+
+            StringBuilder cleanOctalString = new StringBuilder();
+
+            //cleanup the input
+            foreach (char c in octalString)
+            {
+                if (char.IsDigit(c) && c!='8' && c!='9')
+                    cleanOctalString.Append(c);
+            }
+
+            int numberChars = cleanOctalString.Length;
+
+            if (numberChars < 3) // Need at least 3 chars to make one byte
+                return new byte[0];
+
+            byte[] bytes = new byte[numberChars / 3];
+
+            for (int i = 0; i < numberChars; i += 3)
+            {
+                bytes[i / 3] = Convert.ToByte(cleanOctalString.ToString().Substring(i, 3), 8);
+            }
+            return bytes;
+        }
 
         private void ShowStatusBarMessage(string message, NotificationLevel logLevel)
         {
