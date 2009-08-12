@@ -220,7 +220,7 @@ namespace Cryptool.Plugins.Convertor
 
         #region Public StreamToStringConverter specific properties
 
-        public enum EncodingTypes { Default = 0, Base64Binary = 1, HexStringBinary = 2, Unicode = 3, UTF7 = 4, UTF8 = 5, UTF32 = 6, ASCII = 7, BigEndianUnicode = 8 };
+        public enum EncodingTypes { Default = 0, Base64Binary = 1, HexStringBinary = 2, OctalStringBinary = 3, Unicode = 4, UTF7 = 5, UTF8 = 6, UTF32 = 7, ASCII = 8, BigEndianUnicode = 9 };
 
         /// <summary>
         /// Retrieves the current used encoding, or sets it.
@@ -253,8 +253,8 @@ namespace Cryptool.Plugins.Convertor
         /// <summary>
         /// Encoding property used in the Settings pane. 
         /// </summary>
-        [ContextMenu("Input stream encoding", "Choose the expected encoding of the input stream.", 1, DisplayLevel.Experienced, ContextMenuControlType.ComboBox, null, new string[] { "Default system encoding", "Binary data (convert to base64)", "Binary data (convert to hex-string)", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
-        [TaskPane("Input stream encoding", "Choose the expected encoding of the input stream. (The stream will be interpreted as set here, no matter what the bytes really mean)", null, 1, false, DisplayLevel.Experienced, ControlType.ComboBox, new string[] { "Default system encoding", "Binary data (convert to base64)", "Binary data (convert to hex-string)", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
+        [ContextMenu("Input stream encoding", "Choose the expected encoding of the input stream.", 1, DisplayLevel.Experienced, ContextMenuControlType.ComboBox, null, new string[] { "Default system encoding", "Binary data (convert to base64)", "Binary data (convert to hex-string)", "Binary data (convert to octal-string)", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
+        [TaskPane("Input stream encoding", "Choose the expected encoding of the input stream. (The stream will be interpreted as set here, no matter what the bytes really mean)", null, 1, false, DisplayLevel.Experienced, ControlType.ComboBox, new string[] { "Default system encoding", "Binary data (convert to base64)", "Binary data (convert to hex-string)", "Binary data (convert to octal-string)", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
         public int EncodingSetting
         {
             get

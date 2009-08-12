@@ -395,6 +395,9 @@ namespace Cryptool.Plugins.Convertor
                     case StreamToStringConverterSettings.EncodingTypes.HexStringBinary:
                         outputString = convertBytesToHexString(byteValues, 0, bytesRead);
                         break;
+                    case StreamToStringConverterSettings.EncodingTypes.OctalStringBinary:
+                        outputString = convertBytesToOctalString(byteValues, 0, bytesRead);
+                        break;
                     case StreamToStringConverterSettings.EncodingTypes.Unicode:
                         outputString = Encoding.Unicode.GetString(byteValues, 0, bytesRead);
                         break;
@@ -437,6 +440,18 @@ namespace Cryptool.Plugins.Convertor
             {
                sb.Append(array[i].ToString("X2"));
                sb.Append(" ");
+            }
+            return sb.ToString();
+        }
+
+        private string convertBytesToOctalString(byte[] array, int start, int count)
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int i = start; i < (start + count); i++)
+            {
+                string val = String.Format("{0,3}",Convert.ToString(array[i], 8));
+                sb.Append(val.Replace(' ','0'));
+                sb.Append(" ");
             }
             return sb.ToString();
         }
