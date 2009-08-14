@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
+using System.Collections;
 
 namespace Cryptool.PluginBase.Miscellaneous
 {
@@ -32,11 +33,20 @@ namespace Cryptool.PluginBase.Miscellaneous
             this.input = input;
         }
 
+        /// <summary>
+        /// Returns enumerator with access to some special methods.
+        /// </summary>
+        /// <returns></returns>
+        public WordTokenEnum GetSpecialEnumerator()
+        {
+            return new WordTokenEnum(input);
+        }
+
         #region IEnumerable<string> Members
 
         public IEnumerator<string> GetEnumerator()
         {
-            return new WordTokenEnum(input);
+            return GetSpecialEnumerator();
         }
 
         #endregion
@@ -45,7 +55,7 @@ namespace Cryptool.PluginBase.Miscellaneous
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return new WordTokenEnum(input);
+            return GetSpecialEnumerator();
         }
 
         #endregion
@@ -53,16 +63,14 @@ namespace Cryptool.PluginBase.Miscellaneous
 
     public class WordTokenEnum : IEnumerator<string>
     {
-        //private readonly Regex boundary = new Regex("\\b");
-        private readonly Regex boundary = new Regex("[ \n\t]+");
 
-        private string[] tokens;
-        private int position;
+        private string input;
+        private int offset = -1;
+        private string token = null;
 
         public WordTokenEnum(string input)
         {
-            tokens = boundary.Split(input);
-            position = -1;
+            this.input = input;
         }
 
         #region IEnumerator<string> Members
@@ -74,14 +82,10 @@ namespace Cryptool.PluginBase.Miscellaneous
         {
             get
             {
-                try
-                {
-                    return tokens[position];
-                }
-                catch (IndexOutOfRangeException e)
-                {
-                    throw new InvalidOperationException();
-                }
+                if (token == null)
+                    throw new InvalidOperationException("Enumerator does not point on a valid token");;
+
+                return token;
             }
         }
 
@@ -91,14 +95,14 @@ namespace Cryptool.PluginBase.Miscellaneous
 
         public void Dispose()
         {
-            tokens = null;
         }
 
         #endregion
 
         #region IEnumerator Members
 
-        object System.Collections.IEnumerator.Current
+        // explicit implementation of non-generic interface
+        object IEnumerator.Current
         {
             get
             {
@@ -108,23 +112,75 @@ namespace Cryptool.PluginBase.Miscellaneous
 
         public bool MoveNext()
         {
-            return ++position < tokens.Length;
-                
-            //do
-            //{
-            //    if (++position >= tokens.Length)
-            //    {
-            //        return false;
-            //    }
-            //}
-            //while (! boundary.IsMatch(tokens[position]));
+            StringBuilder sb = new StringBuilder();
 
-            //return true;
+            bool foundWord = false;
+            bool feeding = true;
+
+            do
+            {
+                if (++offset >= input.Length) // end of string
+                {
+                    if (foundWord)
+                    {
+                        break; // stop loop gracefully
+                    }
+                    else
+                    {
+                        token = null;
+                        return false; // abort
+                    }
+                }
+
+                switch (input[offset])
+                {
+                    case '\r':
+                    case '\n':
+                    case ' ':
+                        if (foundWord) // found delimiter at the end of a word
+                            feeding = false;
+                        break;
+                    default: // got letter
+                        foundWord = true;
+                        sb.Append(input[offset]);
+                        break;
+                }
+            } while (feeding);
+
+            token = sb.ToString();
+            return true;
         }
 
         public void Reset()
         {
-            position = -1;
+            offset = -1;
+            token = null;
+        }
+
+        #endregion
+
+        #region Additional properties
+
+        /// <summary>
+        /// Returns current position in processing input string.
+        /// </summary>
+        public int Position
+        {
+            get
+            {
+                return Math.Max(offset, 0);
+            }
+        }
+
+        /// <summary>
+        /// Returns length of input string.
+        /// </summary>
+        public int Length
+        {
+            get
+            {
+                return input.Length;
+            }
         }
 
         #endregion

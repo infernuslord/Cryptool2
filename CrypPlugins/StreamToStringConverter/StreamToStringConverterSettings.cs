@@ -273,7 +273,7 @@ namespace Cryptool.Plugins.Convertor
         /// <summary>
         /// Maximum size property used in the settings pane. 
         /// </summary>        
-        [TaskPane("Maximum length", "Provide the maximum number of bytes to convert.", null, 2, false, DisplayLevel.Professional, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 65536)]
+        [TaskPane("Maximum length", "Provide the maximum number of bytes to convert.", null, 2, false, DisplayLevel.Professional, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, int.MaxValue)]
         public int MaxLength
         {
             get
