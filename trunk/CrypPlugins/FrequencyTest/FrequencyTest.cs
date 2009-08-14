@@ -1,26 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using System.IO;
+using System.Windows.Controls;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Analysis;
-using System.ComponentModel;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Markup;
-using Cryptool.PluginBase.IO;
-using System.Collections.ObjectModel;
-using Cryptool.FrequencyTest;
-using System.Collections;
-using System.Threading;
-using System.Windows;
-using System.Windows.Threading;
-using System.Runtime.CompilerServices;
 using Cryptool.PluginBase.Miscellaneous;
-
-using System.Runtime.Remoting.Contexts;
-
 
 namespace Cryptool.FrequencyTest
 {
@@ -100,17 +86,20 @@ namespace Cryptool.FrequencyTest
 
         public object QuickWatchDictionary(string propertyNameToConvert)
         {
-            StringBuilder sb = new StringBuilder();
-            foreach (KeyValuePair<string, double[]> item in grams)
+            lock (grams)
             {
-                sb.Append(item.Key);
-                for (int i = 0; i < item.Value.Length; i++)
+                StringBuilder sb = new StringBuilder();
+                foreach (KeyValuePair<string, double[]> item in grams)
                 {
-                    sb.Append(";" + item.Value[i]);
+                    sb.Append(item.Key);
+                    for (int i = 0; i < item.Value.Length; i++)
+                    {
+                        sb.Append(";" + item.Value[i]);
+                    }
+                    sb.AppendLine();
                 }
-                sb.AppendLine();
+                return sb.ToString();
             }
-            return sb.ToString();
         }
         #endregion
 
@@ -146,33 +135,36 @@ namespace Cryptool.FrequencyTest
                 return;
             }
 
-            // Any change in the word discards and recalculates the output. This is not that effective.
-            data.ValueCollection.Clear();
-            grams.Clear();
-
             string workstring = stringInput;
 
-            if (settings.BoundaryFragments == 1)
+            // Any change in the word discards and recalculates the output. This is not that effective.
+            lock (grams)
             {
-                foreach (string word in new WordTokenizer(workstring))
+                data.ValueCollection.Clear();
+                grams.Clear();
+
+                if (settings.BoundaryFragments == 1)
                 {
-                    ProcessWord(word);
+                    foreach (string word in new WordTokenizer(workstring))
+                    {
+                        ProcessWord(word);
+                    }
                 }
-            }
-            else
-            {
-                ProcessWord(workstring);
-            }
+                else
+                {
+                    ProcessWord(workstring);
+                }
 
-            double sum = grams.Values.Sum(item => item[ABSOLUTE]);
-            GuiLogMessage("Sum of all n-gram counts is: " + sum, NotificationLevel.Debug);
+                double sum = grams.Values.Sum(item => item[ABSOLUTE]);
+                GuiLogMessage("Sum of all n-gram counts is: " + sum, NotificationLevel.Debug);
 
-            // calculate scaled values
-            foreach (double[] g in grams.Values)
-            {
-                g[PERCENTAGED] = g[ABSOLUTE] / sum;
-                g[LOG2] = Math.Log(g[ABSOLUTE], 2);
-                g[SINKOV] = Math.Log(g[PERCENTAGED], Math.E);
+                // calculate scaled values
+                foreach (double[] g in grams.Values)
+                {
+                    g[PERCENTAGED] = g[ABSOLUTE] / sum;
+                    g[LOG2] = Math.Log(g[ABSOLUTE], 2);
+                    g[SINKOV] = Math.Log(g[PERCENTAGED], Math.E);
+                }
             }
 
             double max = grams.Values.Max(item => item[PERCENTAGED]);
@@ -204,10 +196,10 @@ namespace Cryptool.FrequencyTest
             OnPropertyChanged("StringOutput");
             OnPropertyChanged("ArrayOutput");
             OnPropertyChanged("DictionaryOutput");
-            if (OnPluginProgressChanged != null)
-            {
-                OnPluginProgressChanged(this, new PluginProgressEventArgs(1, 1));
-            }
+            //if (OnPluginProgressChanged != null)
+            //{
+            //    OnPluginProgressChanged(this, new PluginProgressEventArgs(1, 1));
+            //}
             presentation.OpenPresentationFile();
         }
 
