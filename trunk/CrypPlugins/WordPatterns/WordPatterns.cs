@@ -137,9 +137,11 @@ namespace WordPatterns
                     string word = enumerator.Current;
                     Pattern p = new Pattern(word);
 
+                    // two calls to Pattern.GetHashCode()
                     if (!dictPatterns.ContainsKey(p))
                         dictPatterns[p] = new List<string>();
 
+                    // one call to Pattern.GetHashCode() and one to Pattern.Equals()
                     dictPatterns[p].Add(word);
 
                     if (++wordCount % 10000 == 0)
@@ -174,7 +176,10 @@ namespace WordPatterns
 
         internal class Pattern
         {
+            private const int prime = 31;
+
             private int[] patternArray;
+            private int hashCode = 1;
 
             internal Pattern(string word)
             {
@@ -193,26 +198,21 @@ namespace WordPatterns
                     {
                         seenLetters[word[i]] = patternArray[i] = ++letterNumber; // create new letter number
                     }
+
+                    // Fast hash algorithm similar to FNV.
+                    hashCode = prime * hashCode + patternArray[i];
                 }
 
                 seenLetters = null;
             }
 
             /// <summary>
-            /// Fast hash algorithm similar to FNV.
+            /// Returns pre-calculated hash code.
             /// </summary>
             /// <returns></returns>
             public override int GetHashCode()
             {
-                const int prime = 31;
-                int hash = 1;
-
-                foreach (int x in patternArray)
-                {
-                    hash = prime * hash + x;
-                }
-
-                return hash;
+                return hashCode;
             }
 
             /// <summary>
@@ -222,16 +222,23 @@ namespace WordPatterns
             /// <returns></returns>
             public override bool Equals(object obj)
             {
-                if (obj.GetType() != typeof(Pattern))
+                // identical object
+                if (this == obj)
+                    return true;
+
+                // uneven types
+                if (!(obj is Pattern))
                     return false;
 
-                Pattern another = (Pattern)obj;
+                Pattern another = obj as Pattern;
 
+                // uneven pattern lengths
                 if (patternArray.Length != another.patternArray.Length)
                     return false;
 
                 for (int i = 0; i < patternArray.Length; i++)
                 {
+                    // uneven pattern content
                     if (patternArray[i] != another.patternArray[i])
                         return false;
                 }

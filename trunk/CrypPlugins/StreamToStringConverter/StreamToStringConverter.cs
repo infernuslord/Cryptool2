@@ -369,7 +369,7 @@ namespace Cryptool.Plugins.Convertor
 
         private void processInput(CryptoolStream value)
         {
-            ShowStatusBarMessage("Got stream input.", NotificationLevel.Info);        
+            ShowStatusBarMessage("Got stream input.", NotificationLevel.Debug);        
         
             if (value != null)
             {                
