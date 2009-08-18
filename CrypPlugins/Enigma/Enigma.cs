@@ -216,6 +216,7 @@ using System.Diagnostics;
 
 //Cryptool 2.0 specific includes
 using Cryptool.PluginBase;
+using Cryptool.PluginBase.Analysis;
 using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.PluginBase.IO;
@@ -231,7 +232,7 @@ namespace Cryptool.Enigma
     [PluginInfo(false, "Enigma", "Polyalphabetic rotor-cipher machine", null,
       "Enigma/Images/Enigma.png", "Enigma/Images/encrypt.png", "Enigma/Images/decrypt.png")]
     [EncryptionType(EncryptionType.Classic)]
-    public class Enigma: IEncryption
+    public class Enigma: IEncryption, ISpecific
     {
         #region Constants
 

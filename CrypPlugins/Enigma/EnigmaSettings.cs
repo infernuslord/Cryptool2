@@ -249,8 +249,8 @@ namespace Cryptool.Enigma
         private bool analysisUseRotorVII = true;
         private bool analysisUseRotorVIII = true;
 
-        private int maxSearchedPlugs = 10;
         private int keySearchMethod = 0;
+        private int maxSearchedPlugs = 10;
         private int plugSearchMethod = 2;
 
         private int rotor1 = 0;
@@ -746,6 +746,21 @@ namespace Cryptool.Enigma
             }
         }
 
+        [TaskPane("Rotor/Ring/Key search method", "Which method should be used to assess the best rotor configuration?", "Analysis options", 8, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Index of coincidence", "log2-bigram", "log2-trigram", "Sinkov unigram", "Sinkov bigram", "Unigram entropy" })]
+        public int KeySearchMethod
+        {
+            get { return this.keySearchMethod; }
+            set
+            {
+                if (value != keySearchMethod)
+                {
+                    hasChanges = true;
+                    keySearchMethod = value;
+                    OnPropertyChanged("KeySearchMethod");
+                }
+            }
+        }
+
         [TaskPane("Analyze plugs", "If checked, the analysis tries to detect the correct plug settings. If unchecked, the values from the plugboard are used.",
             "Analysis options", 9, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
         public bool AnalyzePlugs
@@ -778,27 +793,7 @@ namespace Cryptool.Enigma
             }
         }
 
-        public static string[] GetConstArray()
-        {
-            return new string[] { "foo", "bar" };
-        }
-
-        [TaskPane("Rotor/Ring/Key search method", "Which method should be used to assess the best rotor configuration?", "Analysis options", 9, false, DisplayLevel.Experienced, ControlType.ComboBox, new string[] { "Index of coincidence", "log2-bigram", "log2-trigram", "Sinkov unigram", "Sinkov bigram", "Unigram entropy" })]
-        public int KeySearchMethod
-        {
-            get { return this.keySearchMethod; }
-            set
-            {
-                if (value != keySearchMethod)
-                {
-                    hasChanges = true;
-                    keySearchMethod = value;
-                    OnPropertyChanged("KeySearchMethod");
-                }
-            }
-        }
-
-        [TaskPane("Plug search method", "Which method should be used to assess the best plugboard configuration?", "Analysis options", 9, false, DisplayLevel.Experienced, ControlType.ComboBox, new string[] { "Index of coincidence", "log2-bigram", "log2-trigram", "Sinkov unigram", "Sinkov bigram", "Unigram entropy" })]
+        [TaskPane("Plug search method", "Which method should be used to assess the best plugboard configuration?", "Analysis options", 9, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Index of coincidence", "log2-bigram", "log2-trigram", "Sinkov unigram", "Sinkov bigram", "Unigram entropy" })]
         public int PlugSearchMethod
         {
             get { return this.plugSearchMethod; }
