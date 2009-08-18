@@ -216,7 +216,7 @@ using System.Windows.Controls;
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo(false, "Rivest Cipher / Ron's Code", "Rivest Cipher / Ron's Code", null, "RC2/icon.png", "RC2/Images/encrypt.png", "RC2/Images/decrypt.png")]
+    [PluginInfo(false, "Rivest Cipher - Ron's Code", "Rivest Cipher - Ron's Code", null, "RC2/icon.png", "RC2/Images/encrypt.png", "RC2/Images/decrypt.png")]
     [EncryptionType(EncryptionType.SymmetricBlock)]
     public class RC2 : IEncryption
     {
@@ -489,6 +489,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 stop = false;
                 inputKey = null;
                 inputIV = null;
+                inputStream = null;
+                outputStream = null;
 
                 foreach (CryptoolStream stream in listCryptoolStreamsOut)
                 {
