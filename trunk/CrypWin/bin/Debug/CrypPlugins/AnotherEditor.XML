@@ -702,12 +702,19 @@
         </member>
         <member name="T:AnotherEditor.DragDrop.PropertyInfoComparer">
             <summary>
-            Used to create alphabetic order on save and load. 
+            Used to create order on save and load. Properties will be ordered alphabetically or numerically, if
+            PropertySaveOrderAttribute is being used. If properties with and without PropertySaveOrder are
+            being used in parallel, properties with PropertySaveOrder will be listed first, following by
+            alphabetically ordered properties without PropertySaveOrderAttribute.
             </summary>
         </member>
         <member name="M:AnotherEditor.DragDrop.PropertyInfoComparer.Compare(System.Reflection.PropertyInfo,System.Reflection.PropertyInfo)">
             <summary>
-            Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.
+            Compares two properties by PropertySaveOrderAttribute and returns a value indicating whether one is less than,
+            equal to or greater than the other. If only one of the two properties has the attribute set, it has always higher
+            priority (smaller value) than the other one. If neither of them has the attribute set, they are compared by
+            alphabet.
+            
             </summary>
             <param name="x">The first object to compare.</param>
             <param name="y">The second object to compare.</param>
