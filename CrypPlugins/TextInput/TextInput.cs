@@ -289,7 +289,7 @@ namespace Cryptool.TextInput
         
         if (ret == null || ret == string.Empty)
         {
-          GuiLogMessage("Text: No text provided. Returning null", NotificationLevel.Warning);
+          GuiLogMessage("Text: No text provided. Returning null", NotificationLevel.Debug);
           return null;
         }
         return ret;
@@ -314,7 +314,7 @@ namespace Cryptool.TextInput
           // GuiLogMessage("Got request for Stream. CryptoolStream created: " + cryptoolStream.FileName, NotificationLevel.Debug);
           return cryptoolStream;
         }
-        GuiLogMessage("Stream: No input provided. Returning null", NotificationLevel.Warning);
+        GuiLogMessage("Stream: No input provided. Returning null", NotificationLevel.Debug);
         // ShowProgress(100, 100);
         return null;
       }
@@ -332,7 +332,7 @@ namespace Cryptool.TextInput
         byteArrayOutput = GetByteArray(true);
         if (byteArrayOutput == null)
         {
-          GuiLogMessage("ByteArray: No input provided. Returning null", NotificationLevel.Warning);
+          GuiLogMessage("ByteArray: No input provided. Returning null", NotificationLevel.Debug);
           return null;
         }
         return byteArrayOutput;
@@ -394,7 +394,7 @@ namespace Cryptool.TextInput
             boolArrayOutput = GetBoolArray(true);
             if (boolArrayOutput == null)
             {
-                GuiLogMessage("BoolArray: No input provided. Returning null", NotificationLevel.Warning);
+                GuiLogMessage("BoolArray: No input provided. Returning null", NotificationLevel.Debug);
                 return null;
             }
             return boolArrayOutput;
@@ -475,7 +475,7 @@ namespace Cryptool.TextInput
       }, textInputPresentation);
 
       if (value == null || value == string.Empty)
-        GuiLogMessage("No input value returning null.", NotificationLevel.Warning); 
+        GuiLogMessage("No input value returning null.", NotificationLevel.Debug); 
     }
 
     public void Stop()

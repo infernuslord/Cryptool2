@@ -388,7 +388,7 @@ namespace Cryptool.Plugins.Convertor
             if ((value != null) && (value.Length != 0))
             {                
                 ShowProgress(50, 100);
-                ShowStatusBarMessage("Converting input ...", NotificationLevel.Info);
+                ShowStatusBarMessage("Converting input ...", NotificationLevel.Debug);
                 outputStream = new CryptoolStream();
                 listCryptoolStreamsOut.Add(outputStream);
                 
