@@ -186,7 +186,7 @@
       same "printed page" as the copyright notice for easier
       identification within third-party archives.
 
-   Copyright [2008] [Martin Saternus, University of Duisburg-Essen]
+   Copyright [2008] [Dr. Arno Wacker, University of Duisburg-Essen]
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -207,5 +207,13 @@ namespace Cryptool.PluginBase.Cryptography
 {
     public interface IHash : IPlugin
     {
+    }
+
+    public interface ICheckSumHash : IHash
+    {
+    }
+
+    public interface ICryptographicHash : IHash
+    { 
     }
 }

@@ -97,7 +97,7 @@
     <Compile Include="Analysis\ISpecific.cs" />
     <Compile Include="Analysis\IStatistic.cs" />
     <Compile Include="Cryptography\IEncryption.cs" />
-    <Compile Include="Cryptography\IHash.cs" />
+    <Compile Include="Hash\IHash.cs" />
     <Compile Include="Cryptography\ICryptographyMisc.cs" />
     <Compile Include="Generator\IKeyGenerator.cs" />
     <Compile Include="Generator\IGeneratorMisc.cs" />

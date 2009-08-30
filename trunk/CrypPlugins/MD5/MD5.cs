@@ -222,8 +222,9 @@ using System.Runtime.Remoting.Contexts;
 namespace Cryptool.MD5
 {
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo(false, "MD5", "MD5 hash function", "MD5/DetailedDescription/Description.xaml", "MD5/MD5.png")]    
-    public class MD5 : IHash
+    [PluginInfo(false, "MD5", "MD5 hash function", "MD5/DetailedDescription/Description.xaml", "MD5/MD5.png")]
+    [EncryptionType(EncryptionType.Classic)]
+    public class MD5 : ICryptographicHash
     {
         #region Private variables
         private MD5Settings settings;
