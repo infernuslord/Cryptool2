@@ -43,7 +43,7 @@ namespace Cryptool.CRC
 {
     [Author("Matthäus Wander", "matthaeus.wander@uni-due.de", "Fachgebiet Verteilte Systeme, Universität Duisburg-Essen", "http://www.vs.uni-due.de")]
     [PluginInfo(false, "CRC32", "Non-cryptographic hash function", null, "CRC/icon.png")]
-    public class CRC : IHash
+    public class CRC : ICheckSumHash
     {
         #region Constants and private variables
 

@@ -220,7 +220,7 @@ namespace RIPEMD160
 {
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
     [PluginInfo(false, "RIPEMD160", "RIPEMD160 hash function", "", "RIPEMD160/RMD160.png")]    
-    public class RIPEMD160 : IHash
+    public class RIPEMD160 : ICryptographicHash
     {
         #region Private variables
         private RIPEMD160Settings settings;

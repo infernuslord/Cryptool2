@@ -40,7 +40,7 @@ namespace Tiger
   [Author("Gerhard Junker", null, "private project member", null)]
   [PluginInfo(false, "Tiger", "Tiger2 V1.0.2 Hash",
     "Tiger/DetailedDescription/Description.xaml", "Tiger/Tiger1.png")]
-  public class Tiger : IHash
+  public class Tiger : ICryptographicHash
   {
 
     /// <summary>

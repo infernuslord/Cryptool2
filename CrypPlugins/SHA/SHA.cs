@@ -220,7 +220,7 @@ namespace SHA
 {
   [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
     [PluginInfo(false, "SHA", "SHA hash functions", "", "SHA/SHA.png")]    
-    public class SHA : IHash
+    public class SHA : ICryptographicHash
     {
         private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
         private SHASettings settings;
