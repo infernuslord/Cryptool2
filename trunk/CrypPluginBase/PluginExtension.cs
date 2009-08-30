@@ -373,41 +373,6 @@ namespace Cryptool.PluginBase
             return null;
         }
 
-        public static ControllerPropertyAttribute[] GetControllerPropertyAttribute(this IPlugin plugin)
-        {
-          if (plugin != null)
-            return GetControllerPropertyAttribute(plugin.GetType());
-          return null;
-        }
-
-        public static ControllerPropertyAttribute[] GetControllerPropertyAttribute(this Type type)
-        {
-          try
-          {
-            List<ControllerPropertyAttribute> taskPaneAttributes = new List<ControllerPropertyAttribute>();
-            foreach (PropertyInfo pInfo in type.GetProperties())
-            {
-              ControllerPropertyAttribute[] attributes = (ControllerPropertyAttribute[])pInfo.GetCustomAttributes(typeof(ControllerPropertyAttribute), false);
-              if (attributes != null && attributes.Length == 1)
-              {
-                ControllerPropertyAttribute attr = attributes[0];
-                attr.PropertyName = pInfo.Name;
-                attr.PropertyType = pInfo.PropertyType;
-                // does plugin have a resource file for translation?
-                if (type.GetPluginInfoAttribute().ResourceFile != null)
-                  attr.PluginType = type;
-                taskPaneAttributes.Add(attr);
-              }
-            }
-            return taskPaneAttributes.ToArray();
-          }
-          catch (Exception ex)
-          {
-            GuiLogMessage(ex.Message, NotificationLevel.Error);
-          }
-          return null;
-        }
-
         public static TaskPaneAttribute[] GetSettingsProperties(this ISettings settings, IPlugin plugin)
         {
           return GetSettingsProperties(settings.GetType(), plugin);
