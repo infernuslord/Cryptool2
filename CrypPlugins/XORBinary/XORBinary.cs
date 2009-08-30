@@ -292,7 +292,7 @@ namespace Cryptool.XORBinary
         }
         
         private bool controllerInput;
-        [ControllerProperty(Direction.InputData, "Controller Input", "", DisplayLevel.Beginner)]
+        // [ControllerProperty(Direction.InputData, "Controller Input", "", DisplayLevel.Beginner)]
         public object ControllerInput
         {
             get { return controllerInput; }

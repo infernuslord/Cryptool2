@@ -208,7 +208,7 @@ namespace Cryptool.NLFSR
         }
         
         private bool controllerOutput;
-        [ControllerProperty(Direction.OutputData, "Controller Output", "", DisplayLevel.Beginner)]
+        // [ControllerProperty(Direction.OutputData, "Controller Output", "", DisplayLevel.Beginner)]
         public object ControllerOutput
         {
             get { return controllerOutput; }
