@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{AE633B61-EA75-40F0-BFF8-04B707FB1159}</ProjectGuid>
+    <ProjectGuid>{273EA298-0198-4CA5-B10A-D85FE6FE5499}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cryptool.BooleanFunctionParser</RootNamespace>
-    <AssemblyName>BooleanFunctionParser</AssemblyName>
+    <RootNamespace>BooleanFunctionParserController</RootNamespace>
+    <AssemblyName>BooleanFunctionParserController</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
@@ -33,19 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BooleanFunctionParserController, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6ffa0264846191ab, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\BooleanFunctionParserController\bin\Debug\BooleanFunctionParserController.dll</HintPath>
-    </Reference>
-    <Reference Include="CrypPluginBase, Version=2.0.3410.1, Culture=neutral, PublicKeyToken=db26bd0a20dcbd5c, processorArchitecture=MSIL">
+    <Reference Include="BooleanFunctionParserController, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6ffa0264846191ab, processorArchitecture=MSIL" />
+    <Reference Include="CrypPluginBase, Version=2.0.3517.1, Culture=neutral, PublicKeyToken=db26bd0a20dcbd5c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\CrypPluginBase\bin\Debug\CrypPluginBase.dll</HintPath>
-    </Reference>
-    <Reference Include="PresentationCore">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="PresentationFramework">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -59,29 +50,13 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BooleanFunctionParser.cs" />
-    <Compile Include="BooleanFunctionParserSettings.cs" />
+    <Compile Include="IControlSolveFunction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="key.snk" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\icon2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="DetailedDescription\Description.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -96,7 +71,7 @@
 cd ..\..\CrypWin\$(OutDir)
 if not exist "./CrypPlugins" mkdir "./CrypPlugins"
 
-del /F /S /Q /s /q "BooleanFunctionParser*.*"
-copy "$(TargetDir)BooleanFunctionParser*.*" "./CrypPlugins"</PostBuildEvent>
+del /F /S /Q /s /q "BooleanFunctionParserController*.*"
+copy "$(TargetDir)BooleanFunctionParserController*.*" "./CrypPlugins"</PostBuildEvent>
   </PropertyGroup>
 </Project>
