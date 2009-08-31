@@ -15,6 +15,10 @@ using System.Security.Cryptography;
 using System.Runtime.CompilerServices;
 // for RegEx
 using System.Text.RegularExpressions;
+// for IControl
+using Cryptool.PluginBase.Control;
+// reference to the BFPController interface
+using Cryptool.BooleanFunctionParserController;
 
 namespace BooleanFunctionParser
 {
@@ -283,10 +287,11 @@ namespace BooleanFunctionParser
          * bool - the one bit long result of the given function
          * ***********************************************************************
         */
-        private bool ParseBooleanFunction(string function, bool[] inputVariables)
+        public bool ParseBooleanFunction(string function, bool[] inputVariables)
         {
             // TODO: call ReplaceVariables with a bool[]
-            return true;
+            // this dummy function just returns the first value of the data[] array
+            return inputVariables[0];
         }
 
         private string ReplaceVariables(string strExpressionWithVariables)
@@ -675,6 +680,21 @@ namespace BooleanFunctionParser
         }
 
         #endregion
+
+        #region IControl
+
+        private IControlSolveFunction testSlave;
+        [PropertyInfo(Direction.ControlSlave, "BFP Slave", "Direct access to BFP.", "", DisplayLevel.Beginner)]
+        public IControlSolveFunction TestSlave
+        {
+            get
+            {
+                if (testSlave == null)
+                    testSlave = new BFPControl(this);
+                return testSlave;
+            }
+        }    
+        #endregion
     }
 
     /* NOT NEEDED ANYMORE
@@ -741,4 +761,31 @@ namespace BooleanFunctionParser
         }
     }
 */
+    
+    public class BFPControl : IControlSolveFunction
+    {
+        private BooleanFunctionParser plugin;
+
+        public BFPControl(BooleanFunctionParser Plugin)
+        {
+            this.plugin = Plugin;
+        }
+
+        #region IControlEncryption Members
+
+        // here comes the slave side implementation of SolveFunction
+        public int SolveFunction(string function, bool[] data)
+        {
+            bool resultBool;
+            int resultInt;
+
+            // the result is computed by calling the ParseBooleanFunction (step into it with F11)
+            resultBool = plugin.ParseBooleanFunction(function, data);
+            // the result is converted into an integer
+            resultInt = Convert.ToInt32(resultBool);
+            return resultInt;
+        }
+
+        #endregion
+    }
 }
