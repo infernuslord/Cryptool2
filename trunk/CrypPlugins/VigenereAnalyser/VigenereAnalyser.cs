@@ -25,9 +25,10 @@ namespace Cryptool.VigenereAnalyser
     {
         public string cipherText;
         public double sequenceIC;
-        public int RC_keyLength;
+        public int IC_keyLength;
         public int shiftKey = 0;
         private double[] elf;
+        private double eic;
         private VAPresentation vaPresentation;
         private char[] validchars = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' }; //Sets alphabet of valid characters
         private string keywordOutput;
@@ -116,7 +117,7 @@ namespace Cryptool.VigenereAnalyser
             }
             return new List<int>();
         }
-        private int chiSquare(string text)
+        private int leastSquares(string text)
         {   
             text=text.Replace(Environment.NewLine, ":");
             char [] delimiter = {':'};
@@ -183,10 +184,6 @@ namespace Cryptool.VigenereAnalyser
                 for (int j = 0; j<=observedFrequencies.Count - 1; j++)
                 {
                     int n = (y + j)%26;
-                    /*if (n > 25)
-                    {
-                        n = n - 25;
-                    }*/
                     chi = expectedFrequencies[j]-observedFrequencies[n];
                     chiS = (Math.Pow(chi, 2));
                     chiStats[y] += chiS;
@@ -246,29 +243,34 @@ namespace Cryptool.VigenereAnalyser
             sum1 = 0.0;
             for (int k = 0; k < d; k++)
             {
-               sum1 += Math.Pow((IC[k] - 0.066), 2);
+               sum1 += Math.Pow((IC[k] - eic), 2);
             }
             return sequenceIC = Math.Sqrt((sum1 / d));
             
             
         }
-        private int RCtest()
+        private int sieveIC()
         {
-            int max_keyLength = 30;
+            int max_keyLength = settings.Max_Keylength;
+            if (cipherText.Length < max_keyLength)
+            {
+                ShowStatusBarMessage("The maximum keylength to be analysed is bigger than the length of the ciphertext. Adjusting maximum keylength to be equal to the ciphertext length, in order to avoid errors.", NotificationLevel.Info);
+                max_keyLength = cipherText.Length - 1;
+            }
             double check;
             double max_diff = 0.002;
-            RC_keyLength = 1;
+            IC_keyLength = 1;
             double min_keyLength=seqIC(1);
             for (int i = 2; i <max_keyLength; i++)
             {
                  check = seqIC(i);
                  if (min_keyLength-check>max_diff)
                  {
-                     RC_keyLength = i;
+                     IC_keyLength = i;
                      min_keyLength = check;
                  }
             }
-            return RC_keyLength;
+            return IC_keyLength;
         }
         #endregion
 
@@ -434,15 +436,24 @@ namespace Cryptool.VigenereAnalyser
            if (kasiskiInput != null)
            {
                 //take care of settings first...
-                switch (settings.ELF)
-                {
-                   case 1: elf = new double[26] { 8.167, 1.492, 2.782, 4.253, 12.702, 2.228, 2.015, 6.094, 6.966, 0.153, 0.772, 4.025, 2.406, 6.749, 7.507, 1.929, 0.095, 5.987, 6.327, 9.056, 2.758, 0.978, 2.360, 0.150, 1.974, 0.074 }; break;
-                   case 2: elf = new double[26] { 8.167, 1.492, 2.782, 4.253, 12.702, 2.228, 2.015, 6.094, 6.966, 0.153, 0.772, 4.025, 2.406, 6.749, 7.507, 1.929, 0.095, 5.987, 6.327, 9.056, 2.758, 0.978, 2.360, 0.150, 1.974, 0.074 }; break;
+               switch (settings.EIC)
+               {
+                   case 1: eic=0.0766; break;
+                   case 2: eic = 0.0746; break;
+                   case 3: eic=0.0775; break;
+                   case 4: eic =0.0775; break;
+                   case 5: eic = 0.074528; break;
+                   default: eic = 0.0665; break;
+               }
+               switch (settings.ELF)
+               {
+                   case 1: elf = new double[26] { 6.51, 1.89, 3.06, 5.08, 17.4, 1.66, 3.01, 4.76, 7.55, 0.27, 1.21, 3.44, 2.53, 9.78, 2.51, 0.79, 0.02, 7, 7.27, 6.15, 4.35, 0.67, 1.89, 0.03, 0.04, 1.13 }; break;
+                   case 2: elf = new double[26] { 7.636, 0.901, 3.26, 3.669, 14.715, 1.066, 0.866, 0.737, 7.529, 0.545, 0.049, 5.456, 2.968, 7.095, 5.378, 3.021, 1.362, 6.553, 7.948, 7.244, 6.311, 1.628, 0.114, 0.387, 0.308, 0.136 }; break;
                    case 3: elf = new double[26] { 8.167, 1.492, 2.782, 4.253, 12.702, 2.228, 2.015, 6.094, 6.966, 0.153, 0.772, 4.025, 2.406, 6.749, 7.507, 1.929, 0.095, 5.987, 6.327, 9.056, 2.758, 0.978, 2.360, 0.150, 1.974, 0.074 }; break;
                    case 4: elf = new double[26] { 8.167, 1.492, 2.782, 4.253, 12.702, 2.228, 2.015, 6.094, 6.966, 0.153, 0.772, 4.025, 2.406, 6.749, 7.507, 1.929, 0.095, 5.987, 6.327, 9.056, 2.758, 0.978, 2.360, 0.150, 1.974, 0.074 }; break;
                    case 5: elf = new double[26] { 8.167, 1.492, 2.782, 4.253, 12.702, 2.228, 2.015, 6.094, 6.966, 0.153, 0.772, 4.025, 2.406, 6.749, 7.507, 1.929, 0.095, 5.987, 6.327, 9.056, 2.758, 0.978, 2.360, 0.150, 1.974, 0.074 }; break;
                    default: elf = new double[26] { 8.167, 1.492, 2.782, 4.253, 12.702, 2.228, 2.015, 6.094, 6.966, 0.153, 0.772, 4.025, 2.406, 6.749, 7.507, 1.929, 0.095, 5.987, 6.327, 9.056, 2.758, 0.978, 2.360, 0.150, 1.974, 0.074 }; break;
-                }
+               }
                 
                 if (vigToCaes==null)
                 {   
@@ -466,8 +477,8 @@ namespace Cryptool.VigenereAnalyser
                     cipherText = cipherText.ToLower();
                     if (settings.internalKeyLengthAnalysis == 1) 
                     {
-                        RCtest();
-                        probableKeylength = RC_keyLength;
+                        sieveIC();
+                        probableKeylength = IC_keyLength;
 
                     }
                     if (settings.internalKeyLengthAnalysis == 0)
@@ -481,8 +492,8 @@ namespace Cryptool.VigenereAnalyser
                         //Now we initialize an empty jagged array in which plausable keylengths with their respective probabilities will be stored
                         int[][] proposedKeylengths = 
                 {
-                 new int[] {0,0,0,0,0,0,0,0,0,0,0},
-                 new int[] {0,0,0,0,0,0,0,0,0,0,0}
+                 new int[] {0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                 new int[] {0,0,0,0,0,0,0,0,0,0,0,0,0,0}
     
                 };
                         //Fill up the array
@@ -665,7 +676,7 @@ namespace Cryptool.VigenereAnalyser
                         {
                             if (c != null)
                             {
-                                chiSquare(c);
+                                leastSquares(c);
                                 chiList.Add(shiftKey);
                             }
                         }
