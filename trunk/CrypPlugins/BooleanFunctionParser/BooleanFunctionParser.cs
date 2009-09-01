@@ -186,25 +186,13 @@ namespace BooleanFunctionParser
                 // do calculation only, if last event wasn't from the function input
                 if (lastInputWasFunction == false)
                 {
-                    // get function from input and replace variables
-                    string strExpression = ReplaceVariables(inputFunction);
-                    // test if function is valid
-                    string strExpressionTested = TestFunction(strExpression);
-                    if (strExpressionTested == "foo")
-                    {
-                        GuiLogMessage(strExpression + " is not a binary expression (e.g. 1 + 0 * 1). Aborting now.", NotificationLevel.Error);
-                        return;
-                    }
+                    int intOutput = ParseBooleanFunction(inputFunction, null);
+                    if (intOutput == -1) return;
                     else
                     {
-                        GuiLogMessage("Your expression with variables replaced: " + strExpression, NotificationLevel.Info);
-                        //output = EvaluateTree(output, FillTree(strExpressionTested));
-                        output = EvaluateString(strExpressionTested);
+                        output = Convert.ToBoolean(intOutput);
                         OnPropertyChanged("Output");
                     }
-                    // Just testing
-                    bool[] test = (bool[])getCurrentValue("Input 2");
-                    GuiLogMessage("InputTest: " + test[0].ToString(), NotificationLevel.Info);
                 }
             }
             catch (Exception exception)
@@ -287,19 +275,36 @@ namespace BooleanFunctionParser
          * bool - the one bit long result of the given function
          * ***********************************************************************
         */
-        public bool ParseBooleanFunction(string function, bool[] inputVariables)
+        public int ParseBooleanFunction(string function, bool[] inputVariables)
         {
-            // TODO: call ReplaceVariables with a bool[]
-            // this dummy function just returns the first value of the data[] array
-            return inputVariables[0];
+            // get function from input and replace variables
+            string strExpression = ReplaceVariables(function, inputVariables);
+            // test if function is valid
+            string strExpressionTested = TestFunction(strExpression);
+            if (strExpressionTested == "foo")
+            {
+                GuiLogMessage(strExpression + " is not a binary expression (e.g. 1 + 0 * 1). Aborting now.", NotificationLevel.Error);
+                return -1;
+            }
+            else
+            {
+                GuiLogMessage("Your expression with variables replaced: " + strExpression, NotificationLevel.Info);
+                //output = EvaluateTree(output, FillTree(strExpressionTested));
+                output = EvaluateString(strExpressionTested);
+            }
+            // Just testing
+            //bool[] test = (bool[])getCurrentValue("Input 2");
+            //GuiLogMessage("InputTest: " + test[0].ToString(), NotificationLevel.Info);
+
+            return Convert.ToInt32(output);
         }
 
-        private string ReplaceVariables(string strExpressionWithVariables)
+        private string ReplaceVariables(string strExpressionWithVariables, bool[] externData)
         {
             string strExpression = strExpressionWithVariables;
 
-            // replace variables with value and get numeric values from bool inputs
-            if (inputOneFlag == 1)
+            // replace variables with value and get numeric values from boolean inputs (if there are any)
+            if (inputOneFlag == 1 && inputVariableOne.Length != 0)
             {
                 char[] strInputVariableOne = new char[inputVariableOne.Length];
                 for (int i = 0; i < inputVariableOne.Length; i++)
@@ -311,7 +316,7 @@ namespace BooleanFunctionParser
                     strExpression = strExpression.Replace(replacement, strInputVariableOne[i].ToString());
                 }
             }
-            if (inputTwoFlag == 1)
+            if (inputTwoFlag == 1 && inputVariableTwo.Length != 0)
             {
                 char[] strInputVariableTwo = new char[inputVariableTwo.Length];
                 for (int i = 0; i < inputVariableTwo.Length; i++)
@@ -322,7 +327,7 @@ namespace BooleanFunctionParser
                     strExpression = strExpression.Replace(replacement, strInputVariableTwo[i].ToString());
                 }
             }
-            if (inputThreeFlag == 1)
+            if (inputThreeFlag == 1 && inputVariableThree.Length != 0)
             {
                 char[] strInputVariableThree = new char[inputVariableThree.Length];
                 for (int i = 0; i < inputVariableThree.Length; i++)
@@ -331,6 +336,18 @@ namespace BooleanFunctionParser
                     strInputVariableThree[i] = inputVariableThree[i] ? '1' : '0';
                     string replacement = "i_3." + i;
                     strExpression = strExpression.Replace(replacement, strInputVariableThree[i].ToString());
+                }
+            }
+            // replace extern data (i_0.*) (if there is any)
+            if (externData.Length != 0)
+            {
+                char[] strInputVariableExtern = new char[externData.Length];
+                for (int i = 0; i < strInputVariableExtern.Length; i++)
+                {
+                    // get numeric values from bool inputs
+                    strInputVariableExtern[i] = externData[i] ? '1' : '0';
+                    string replacement = "i_0." + i;
+                    strExpression = strExpression.Replace(replacement, strInputVariableExtern[i].ToString());
                 }
             }
             
@@ -362,6 +379,7 @@ namespace BooleanFunctionParser
             return strExpression;
         }
 
+        // validates expression in function
         private string TestFunction(string strExpression)
         {
             // remove spaces from given expression
@@ -431,6 +449,7 @@ namespace BooleanFunctionParser
             return treeArray[treeArray.Length - 2];
         }*/
 
+        // solves string with variables replaced by values
         private bool EvaluateString(string function)
         {
             string temp;
@@ -776,13 +795,12 @@ namespace BooleanFunctionParser
         // here comes the slave side implementation of SolveFunction
         public int SolveFunction(string function, bool[] data)
         {
-            bool resultBool;
             int resultInt;
 
             // the result is computed by calling the ParseBooleanFunction (step into it with F11)
-            resultBool = plugin.ParseBooleanFunction(function, data);
-            // the result is converted into an integer
-            resultInt = Convert.ToInt32(resultBool);
+            // returns -1 on error (e.g. not a valid function)
+            resultInt = plugin.ParseBooleanFunction(function, data);
+
             return resultInt;
         }
 
