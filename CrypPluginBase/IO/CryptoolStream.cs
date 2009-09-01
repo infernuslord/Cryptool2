@@ -287,14 +287,13 @@ namespace Cryptool.PluginBase.IO
         /// </summary>
         /// <param name="Plugin"></param>
         /// <param name="Bytes"></param>
-        public void OpenRead(string pluginCaption, byte[] Bytes)
+        public void OpenRead(byte[] Bytes)
         {
-          if (pluginCaption == null) throw new ArgumentException("Plugin");
           if (Bytes == null) throw new ArgumentException("Bytes");
 
           try
           {
-            this.fileName = Path.Combine(directoryName, pluginCaption + Guid.NewGuid() + "." + TempFileExtension);
+            this.fileName = Path.Combine(directoryName, Guid.NewGuid() + "." + TempFileExtension);
             this.fileStream = new FileStream(this.fileName, FileMode.CreateNew);
 
             fileStream.Write(Bytes, 0, Bytes.Length);
@@ -308,7 +307,14 @@ namespace Cryptool.PluginBase.IO
             isReadOnly = true;
           }
           catch
-          { }
+          { } // FIXME: either handle or don't catch
+        }
+
+
+        [Obsolete("pluginCaption is not used anymore, use OpenRead(byte[]) instead")]
+        public void OpenRead(string pluginCaption, byte[] Bytes)
+        {
+          OpenRead(Bytes);
         }
 
         public void OpenRead(string fileName)
@@ -342,13 +348,19 @@ namespace Cryptool.PluginBase.IO
         #endregion read
 
         # region write
+        [Obsolete("pluginCaption is not used anymore, use OpenWrite() instead")]
         public void OpenWrite(string pluginCaption)
+        {
+            OpenWrite();
+        }
+
+        public void OpenWrite()
         {
             if (this.fileStream != null)
                 this.fileStream.Position = 0;
             else
             {
-                this.fileName = Path.Combine(directoryName, pluginCaption + Guid.NewGuid() + "." + TempFileExtension);
+                this.fileName = Path.Combine(directoryName, Guid.NewGuid() + "." + TempFileExtension);
                 this.fileStream = new FileStream(this.fileName, FileMode.CreateNew);
             }
             isReadOnly = false;
