@@ -945,11 +945,11 @@ namespace Cryptool.CubeAttack
                     try
                     {
                         // here comes the function to be solved, now just a dummy
-                        string function = "";
+                        string function = "i_0.0 + i_0.1";
                         // the result of the function
                         int result = -1;
                         // the data to fill the functin variables
-                        bool[] data = new bool[] { true, true };
+                        bool[] data = new bool[] { false, true };
                         // the result is computed by calling the SolveFunction function with parameters
                         // the SolveFunction is also implemented by the slave, the BooleanFunctionParser
                         result = testProperty.SolveFunction(function, data);
