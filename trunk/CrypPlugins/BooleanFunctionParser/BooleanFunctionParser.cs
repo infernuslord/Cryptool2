@@ -17,7 +17,7 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 // for IControl
 using Cryptool.PluginBase.Control;
-// reference to the BFPController interface
+// reference to the BFPController interface (own dll)
 using Cryptool.BooleanFunctionParserController;
 
 namespace BooleanFunctionParser
@@ -53,7 +53,7 @@ namespace BooleanFunctionParser
 
         #endregion
 
-        #region Public interface
+        #region Public interfaces
 
         /// <summary>
         /// Contructor
@@ -63,6 +63,7 @@ namespace BooleanFunctionParser
             this.settings = new BooleanFunctionParserSettings();
             settings.PropertyChanged += settings_PropertyChanged;
             CanChangeDynamicProperty = true;
+            // Thomas says:
             // No dynProp event in constructor - editor will read the property initial without the event.
             // event can cause problems when using save files and is processed after 
             // connections have been restored. 
@@ -89,11 +90,7 @@ namespace BooleanFunctionParser
             [MethodImpl(MethodImplOptions.Synchronized)]
             get
             {
-                /*if (settings.InvertInputOne)
-                {
-                    return (!inputOne);
-                }
-                else*/ return this.inputVariableOne;
+                return this.inputVariableOne;
             }
 
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -113,11 +110,6 @@ namespace BooleanFunctionParser
             [MethodImpl(MethodImplOptions.Synchronized)]
             get
             {
-                /*if (settings.InvertInputOne)
-                {
-                    return (!inputOne);
-                }
-                else*/
                 return this.inputVariableTwo;
             }
 
@@ -132,17 +124,12 @@ namespace BooleanFunctionParser
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Function Variable Three (i_3.j)", "Input a boolean value to be processed by the function", "", true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Function Variable Three (i_3.j)", "Input a boolean value to be processed by the function", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool[] InputThree
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
             get
             {
-                /*if (settings.InvertInputOne)
-                {
-                    return (!inputOne);
-                }
-                else*/
                 return this.inputVariableThree;
             }
 
@@ -227,6 +214,7 @@ namespace BooleanFunctionParser
         // catches PropertyChanged event from settings
         void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            // if the count of inputs has been change, renew all inputs
             if (e.PropertyName == "CountOfInputs")
             {
                 CreateInputOutput(true);
@@ -265,19 +253,19 @@ namespace BooleanFunctionParser
             }
         }
 
-        /* ***********************************************************************
-         * Function to be used later in the M/S mode
+        /* *******************************************************************************
+         * Main function to be used in the M/S mode and in general
          * inputs:
          * string function - the boolean function to be computed with variables
          * bool[] inputVariables - a boolean array to replace the variables
          * 
          * ouput:
-         * bool - the one bit long result of the given function
-         * ***********************************************************************
+         * int - the one bit long result of the given function; returns -1 on any failure
+         * *******************************************************************************
         */
         public int ParseBooleanFunction(string function, bool[] inputVariables)
         {
-            // get function from input and replace variables
+            // get function from input and replace variables with data
             string strExpression = ReplaceVariables(function, inputVariables);
             // test if function is valid
             string strExpressionTested = TestFunction(strExpression);
@@ -289,7 +277,6 @@ namespace BooleanFunctionParser
             else
             {
                 GuiLogMessage("Your expression with variables replaced: " + strExpression, NotificationLevel.Info);
-                //output = EvaluateTree(output, FillTree(strExpressionTested));
                 output = EvaluateString(strExpressionTested);
             }
             // Just testing
@@ -298,6 +285,8 @@ namespace BooleanFunctionParser
 
             return Convert.ToInt32(output);
         }
+
+        #region private functions
 
         private string ReplaceVariables(string strExpressionWithVariables, bool[] externData)
         {
@@ -339,7 +328,7 @@ namespace BooleanFunctionParser
                 }
             }
             // replace extern data (i_0.*) (if there is any)
-            if (externData.Length != 0)
+            if (externData != null && externData.Length != 0)
             {
                 char[] strInputVariableExtern = new char[externData.Length];
                 for (int i = 0; i < strInputVariableExtern.Length; i++)
@@ -383,71 +372,29 @@ namespace BooleanFunctionParser
         private string TestFunction(string strExpression)
         {
             // remove spaces from given expression
-            strExpression = strExpression.Replace(" ", "");
+            string strExpressionNormalized = strExpression.Replace(" ", "");
+
+            // test if count of '(' equals count of ')'
+            Regex countLeftPRegEx = new Regex(@"\(");
+            Regex countRightPRegEx = new Regex(@"\)");
+            if (countLeftPRegEx.Matches(strExpressionNormalized).Count != countRightPRegEx.Matches(strExpressionNormalized).Count)
+            {
+                GuiLogMessage("The count of ( is not equal to the count of )", NotificationLevel.Error);
+                return "foo";
+            }
 
             // test expression
-            Regex objBoolExpression = new Regex("([0-1]([\\*]|[\\+]|[\\|]|[\\-]|[_]|[°]|[v]|[\\^])+[0-1]{1})");
-            if (!objBoolExpression.IsMatch(strExpression))
+            Regex objBoolExpression = new Regex(@"([\(]?[\!]?)([0-1]([\\*]|[\\+]|[\\|]|[\\-]|[_]|[°]|[v]|[\\^]|[\\!])+[0-1]{1})");
+            if (!objBoolExpression.IsMatch(strExpressionNormalized))
             {
+                GuiLogMessage("That's not a legal function", NotificationLevel.Error);
                 return "foo";
             }
             else
             {
-                return strExpression;
+                return strExpressionNormalized;
             }
         }
-
-        /* NOT NEEDED ANYMORE
-        private ATreeNode FillTree(string strExpression)
-        {
-            // fill tree
-            //char[] charPolynomial = { '0', '*', '1', '+', '0', '*', '1', '+', '1' }; // sample for debug
-            char[] charPolynomial = strExpression.ToCharArray();
-            int i;
-            ATreeNode[] treeArray = new ATreeNode[charPolynomial.Length];
-
-            for (i = 0; i < charPolynomial.Length; i++)
-            {
-                if (Char.IsDigit(charPolynomial[i]))
-                // should be a digit
-                {
-                    if (i == 0)
-                    {
-                        // first digit
-                        treeArray[i] = new ATreeNode("Constant");
-                        if (charPolynomial[i] == '0') treeArray[i].ConstantData = false;
-                        else treeArray[i].ConstantData = true;
-                    }
-                    else
-                    {
-                        // any other digit
-                        treeArray[i] = new ATreeNode("Constant");
-                        if (charPolynomial[i] == '0') treeArray[i].ConstantData = false;
-                        else treeArray[i].ConstantData = true;
-                        treeArray[i - 1].RightChild = treeArray[i];
-                    }
-                }
-                else
-                // should be an operand
-                {
-                        // * or + operands
-                        if (i == 1)
-                        {
-                            treeArray[i] = new ATreeNode(charPolynomial[i].ToString());
-                            treeArray[i].LeftChild = treeArray[i - 1];
-                        }
-                        else
-                        {
-                            treeArray[i] = new ATreeNode(charPolynomial[i].ToString());
-                            treeArray[i].LeftChild = treeArray[i - 2];
-                        }
-                }
-                // debug output
-                //Console.Out.Write(treeArray[i].NodeType + " ");
-            }
-
-            return treeArray[treeArray.Length - 2];
-        }*/
 
         // solves string with variables replaced by values
         private bool EvaluateString(string function)
@@ -469,14 +416,14 @@ namespace BooleanFunctionParser
                 function = function.Insert(positionLeftParenthesis, Convert.ToInt32(parenthesisResult).ToString());
             }
 
-            GuiLogMessage("Function after(:  " + function, NotificationLevel.Debug);
+            GuiLogMessage("Function after '(':  " + function, NotificationLevel.Debug);
 
-            // test for exclamation mark aka not
+            // test for exclamation mark aka 'NOT'
             int positionExclamationMark = function.IndexOf("!");
 
             while (positionExclamationMark != -1)
             {
-                GuiLogMessage("Position !: " + positionExclamationMark, NotificationLevel.Debug);
+                GuiLogMessage("Position of '!': " + positionExclamationMark, NotificationLevel.Debug);
 
                 // remove exclamation mark
                 function = function.Remove(positionExclamationMark, 1);
@@ -492,101 +439,74 @@ namespace BooleanFunctionParser
                 // insert new value
                 function = function.Insert(positionExclamationMark, toInvert);
 
-                // any other nots in there?
+                // any other NOTs in there?
                 positionExclamationMark = function.IndexOf("!");
             }
 
-            GuiLogMessage("Function after!:  " + function, NotificationLevel.Debug);
+            GuiLogMessage("Function after '!':  " + function, NotificationLevel.Debug);
 
+            // test for XOR aka '*'
+            int positionXOR = function.IndexOf("*");
 
-            // now we should have only +, *, 0, 1 in our function string
-            // so we can be begin to compute the result
-            char[] functionCharArray = function.ToCharArray();
-            bool result = false;
-            bool resultTemp;
-
-            if (functionCharArray[0] == '1') resultTemp = true;
-            else resultTemp = false;
-
-            // we compute the result in 2 cycles, because we want * computed before + ("Punkt-vor-Strich")
-            for (int cycle = 0; cycle < 2; cycle++)
+            while (positionXOR != -1)
             {
-                for (int i = 1; i < ((function.Length + 1) / 2); i++)
-                {
-                    int j = 2 * i;
-                    char operator1 = functionCharArray[j - 1];
-                    bool operator2;
-                    if (functionCharArray[j] == '1') operator2 = true;
-                    else operator2 = false;
+                GuiLogMessage("Position of '*': " + positionXOR, NotificationLevel.Debug);
 
-                    // in the first cycle only compute *
-                    if (cycle == 0)
-                    {
-                        if (operator1 == '*')
-                        {
-                            result = result ^ resultTemp;
-                            resultTemp = operator2;
-                        }
-                    }
-                    // in the second cycle compute +
-                    else
-                    {
-                        if (operator1 == '+')
-                        {
-                            resultTemp = resultTemp & operator2;
-                        }
-                    }
-                }
+                // remove XOR
+                function = function.Remove(positionXOR, 1);
+
+
+                // get both operands
+                string operator1 = function.Substring(positionXOR - 1, 1);
+                string operator2 = function.Substring(positionXOR, 1);
+                GuiLogMessage("op1 and op2: " + operator1 + ", " + operator2, NotificationLevel.Debug);
+
+                string product = (Int32.Parse(operator1) ^ Int32.Parse(operator2)).ToString();
+                GuiLogMessage("product: " + product, NotificationLevel.Debug);
+                // remove old values
+                function = function.Remove(positionXOR, 1);
+                function = function.Remove(positionXOR - 1, 1);
+                // insert new value
+                function = function.Insert(positionXOR - 1, product);
+                GuiLogMessage("function: " + function, NotificationLevel.Debug);
+
+                // any other XORs in there?
+                positionXOR = function.IndexOf("*");
             }
 
-            result = result ^ resultTemp;
+            // test for AND aka '+'
+            int positionAND = function.IndexOf("+");
+
+            while (positionAND != -1)
+            {
+                GuiLogMessage("Position of '+': " + positionAND, NotificationLevel.Debug);
+
+                // remove XOR
+                function = function.Remove(positionAND, 1);
+
+
+                // get both operands
+                string operator1 = function.Substring(positionAND - 1, 1);
+                string operator2 = function.Substring(positionAND, 1);
+                GuiLogMessage("op1 and op2: " + operator1 + ", " + operator2, NotificationLevel.Debug);
+
+                string sum = (Int32.Parse(operator1) & Int32.Parse(operator2)).ToString();
+                GuiLogMessage("sum: " + sum, NotificationLevel.Debug);
+                // remove old values
+                function = function.Remove(positionAND, 1);
+                function = function.Remove(positionAND - 1, 1);
+                // insert new value
+                function = function.Insert(positionAND - 1, sum);
+                GuiLogMessage("function: " + function, NotificationLevel.Debug);
+
+                // any other ANDs in there?
+                positionAND = function.IndexOf("+");
+            }
+
+            bool result = Convert.ToBoolean(Int32.Parse(function));
 
             return result;
         }
-
-        /* NOT NEEDED ANYMORE
-        private bool EvaluateTree(bool X, ATreeNode NodePointer)
-        {
-            //float RightTemp, LeftTemp, UnaryTemp;
-
-            switch (NodePointer.NodeType)
-            {
-                case "+":
-                    X = EvaluateTree(X, NodePointer.LeftChild) && EvaluateTree(X, NodePointer.RightChild);
-                    break;
-
-                case "-":
-                    X = !(EvaluateTree(X, NodePointer.LeftChild) && EvaluateTree(X, NodePointer.RightChild));
-                    break;
-
-                case "*":
-                    X = EvaluateTree(X, NodePointer.LeftChild) ^ EvaluateTree(X, NodePointer.RightChild);
-                    break;
-
-                case "°":
-                    X = !(EvaluateTree(X, NodePointer.LeftChild) ^ EvaluateTree(X, NodePointer.RightChild));
-                    break;
-
-                case "|":
-                    X = EvaluateTree(X, NodePointer.LeftChild) | EvaluateTree(X, NodePointer.RightChild);
-                    break;
-
-                case "_":
-                    X = !(EvaluateTree(X, NodePointer.LeftChild) | EvaluateTree(X, NodePointer.RightChild));
-                    break;
-
-                case "XVariable":
-                    // X = X;
-                    break;
-
-                case "Constant":
-                    X = NodePointer.ConstantData;
-                    break;
-            }
-
-            return X;
-        }
-        */
 
         private object getCurrentValue(string name)
         {
@@ -606,6 +526,8 @@ namespace BooleanFunctionParser
                 new PropertyInfoAttribute(Direction.InputData, name, toolTip, "", false, true, DisplayLevel.Beginner, QuickWatchFormat.None, null))
             );
         }
+
+        #endregion
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public object methodGetValue(string propertyKey)
@@ -712,75 +634,13 @@ namespace BooleanFunctionParser
                     testSlave = new BFPControl(this);
                 return testSlave;
             }
-        }    
+        }
+
         #endregion
     }
 
-    /* NOT NEEDED ANYMORE
-    public class ATreeNode
-    {
-        #region private variables
+    #region BFPControl : IControlSolveFunction
 
-        private ATreeNode _leftChild;
-        private ATreeNode _rightChild;
-        private ATreeNode _unaryChild;
-        private string _nodeType;
-        private bool _constantData;
-
-        //private enum _nodeType
-        //{
-        //   Add,Subtract,Multiply,Divide,Power,AbsValue,Log,Negation,Sine,Square,SquareRoot,XVariable,Constant
-        //}
-
-        #endregion
-
-        #region public interfaces
-
-        public ATreeNode LeftChild
-        {
-            get { return _leftChild; }
-            set { _leftChild = value; }
-        }
-
-        public ATreeNode RightChild
-        {
-            get { return _rightChild; }
-            set { _rightChild = value; }
-        }
-
-        public ATreeNode UnaryChild
-        {
-            get { return _unaryChild; }
-            set { _unaryChild = value; }
-        }
-
-        public string NodeType
-        {
-            get { return _nodeType; }
-        }
-
-        public bool ConstantData
-        {
-            get { return _constantData; }
-            set { _constantData = value; }
-        }
-
-        public bool HasChildren
-        {
-            get { return (_leftChild != null || _rightChild != null); }
-        }
-
-        #endregion
-
-        // Constructor
-        public ATreeNode(string nodeType)
-        {
-            _nodeType = nodeType;
-            _leftChild = _rightChild = _unaryChild = null;
-        }
-    }
-*/
-    
     public class BFPControl : IControlSolveFunction
     {
         private BooleanFunctionParser plugin;
@@ -806,4 +666,6 @@ namespace BooleanFunctionParser
 
         #endregion
     }
+
+    #endregion
 }
