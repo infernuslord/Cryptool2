@@ -274,10 +274,6 @@ namespace Cryptool.CubeAttack
         {
             try
             {
-                if (lastEventwasInputBB)
-                    lastEventwasInputBB = false;
-                else
-                {
                     switch (settings.Action)
                     {
                         case 0:
@@ -289,7 +285,6 @@ namespace Cryptool.CubeAttack
                             SetPublicBits();
                             break;
                     }
-                }
             }
             catch (Exception ex)
             {
@@ -304,6 +299,55 @@ namespace Cryptool.CubeAttack
         // Returns the output bit of the master polynomial P
         public int Blackbox(int[] v, int[] x)
         {
+            int result = -1;
+            try
+            {
+                bool[] vBool = new bool[v.Length];
+                bool[] xBool = new bool[x.Length];
+
+                for (int i = 0; i < v.Length; i++)
+                {
+                    vBool[i] = Convert.ToBoolean(v[i]); //v[i] > 0 ? true : false; 
+                    xBool[i] = x[i] > 0 ? true : false;
+                }
+
+                bool[] vx = new bool[v.Length + x.Length];
+                System.Buffer.BlockCopy(vBool, 0, vx, 0, vBool.Length);
+                System.Buffer.BlockCopy(xBool, 0, vx, vBool.Length, xBool.Length);
+
+                bool[] temp1 = new bool[6];
+                temp1[0] = true;
+                temp1[1] = false;
+                temp1[2] = false;
+                temp1[3] = true;
+                temp1[4] = false;
+                temp1[5] = false;
+
+                int[] temp = new int[6];
+                temp[0] = 1;
+                temp[3] = 1;
+
+                string function = "i_0.0 + i_0.1 + i_0.3 * i_0.0 + i_0.1 + i_0.5 * i_0.2 + i_0.3 + i_0.4 * i_0.0 + i_0.3 * i_0.0 + i_0.4 * i_0.1 + i_0.5 * i_0.2 + i_0.4 * i_0.3 + i_0.5 * i_0.0 * i_0.1 * i_0.3 * i_0.4 * 1";
+
+                string fnc = "i_0.0 + i_0.1 + i_0.3";
+                CubeAttack_LogMessage("Parser = " + TestProperty.SolveFunction(function, temp1).ToString(), NotificationLevel.Info);
+                CubeAttack_LogMessage("Intern = " + (temp[0] & temp[1] & temp[3] ^ temp[0] & temp[1] & temp[5] ^ temp[2] & temp[3] & temp[4] ^ temp[0] & temp[3] ^ temp[0] & temp[4] ^ temp[1] & temp[5] ^ temp[2] & temp[4] ^ temp[3] & temp[5] ^ temp[0] ^ temp[1] ^ temp[3] ^ temp[4] ^ 1), NotificationLevel.Info);
+
+                result = TestProperty.SolveFunction(function, vx);
+                
+            }
+            catch (Exception ex)
+            {
+                CubeAttack_LogMessage("Error: " + ex, NotificationLevel.Error);
+            }
+            if (result == -1)
+            {
+                CubeAttack_LogMessage("Error: -1", NotificationLevel.Error);
+                return result;
+            }
+            else
+                return result;
+
             // ****** Beispiel Master Polynome ******
             //return v[0] & x[0] ^ v[0] & x[1] ^ v[1] & x[1] ^ v[0] ^ x[1] ^ v[0] & v[1] ^ v[1] & x[0] & x[1] ^ 1;
             //return v[0] & x[0] ^ v[0] & x[1] ^ v[1] & x[1] ^ v[0] ^ x[1] ^ v[0] & v[1] ^ v[1] & x[0] & x[1] ^ 1;
@@ -314,7 +358,7 @@ namespace Cryptool.CubeAttack
             //return v[0] & v[1] & x[0] ^ v[0] & v[1] & x[2] ^ v[2] & x[0] & x[1] ^ v[0] & x[0] ^ v[0] & x[1] ^ v[1] & x[2] ^
                //  v[2] & x[1] ^ x[0] & x[2] ^ v[0] ^ v[1] ^ x[0] ^ x[1] ^ 1;
 
-            return v[0] & v[1] & x[2] ^ v[2] & v[4] & x[1] ^ v[0] & v[3] & x[3] ^ v[0] & v[3] & x[2] ^
+            /*return v[0] & v[1] & x[2] ^ v[2] & v[4] & x[1] ^ v[0] & v[3] & x[3] ^ v[0] & v[3] & x[2] ^
                 v[1] & v[2] & x[1] ^ v[3] & v[4] & x[4] ^ v[2] & v[4] & x[3] ^ v[2] & v[4] & x[4] ^
                 v[2] & v[4] & x[0] ^ v[2] & v[4] & x[2] ^ v[0] & v[1] & v[2] ^ v[0] & v[1] ^ v[3] & x[1] ^
                 v[3] & v[4] ^ x[1] & x[2] ^ x[1] & x[3] ^ v[4] ^ x[2] ^ x[1] ^ x[0] ^ v[1] & x[4]; 

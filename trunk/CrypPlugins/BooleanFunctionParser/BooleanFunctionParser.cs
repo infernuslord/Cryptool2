@@ -344,8 +344,8 @@ namespace BooleanFunctionParser
             // replace AND, NAND, OR, NOR, XOR, NXOR with symbols
             // NAND => -
             strExpression = strExpression.Replace("NAND", "-");
-            // AND => +
-            strExpression = strExpression.Replace("AND", "+");
+            // AND => *
+            strExpression = strExpression.Replace("AND", "*");
 
             // NOR => _
             strExpression = strExpression.Replace("NOR", "_");
@@ -353,17 +353,17 @@ namespace BooleanFunctionParser
             // NXOR => °
             strExpression = strExpression.Replace("NXOR", "°");
             // XOR => *
-            strExpression = strExpression.Replace("XOR", "*");
+            strExpression = strExpression.Replace("XOR", "+");
 
             // OR => |
             strExpression = strExpression.Replace("OR", "|");
 
-            // replace ^ and v with symbols
-            // ^ => AND => +
+            // replace ^ and & with symbols
+            // ^ => XOR => +
             strExpression = strExpression.Replace("^", "+");
 
-            // v => OR => |
-            strExpression = strExpression.Replace("v", "|");
+            // & => AND => *
+            strExpression = strExpression.Replace("&", "*");
 
             return strExpression;
         }
@@ -445,41 +445,12 @@ namespace BooleanFunctionParser
 
             GuiLogMessage("Function after '!':  " + function, NotificationLevel.Debug);
 
-            // test for XOR aka '*'
-            int positionXOR = function.IndexOf("*");
-
-            while (positionXOR != -1)
-            {
-                GuiLogMessage("Position of '*': " + positionXOR, NotificationLevel.Debug);
-
-                // remove XOR
-                function = function.Remove(positionXOR, 1);
-
-
-                // get both operands
-                string operator1 = function.Substring(positionXOR - 1, 1);
-                string operator2 = function.Substring(positionXOR, 1);
-                GuiLogMessage("op1 and op2: " + operator1 + ", " + operator2, NotificationLevel.Debug);
-
-                string product = (Int32.Parse(operator1) ^ Int32.Parse(operator2)).ToString();
-                GuiLogMessage("product: " + product, NotificationLevel.Debug);
-                // remove old values
-                function = function.Remove(positionXOR, 1);
-                function = function.Remove(positionXOR - 1, 1);
-                // insert new value
-                function = function.Insert(positionXOR - 1, product);
-                GuiLogMessage("function: " + function, NotificationLevel.Debug);
-
-                // any other XORs in there?
-                positionXOR = function.IndexOf("*");
-            }
-
-            // test for AND aka '+'
-            int positionAND = function.IndexOf("+");
+            // test for AND aka '*'
+            int positionAND = function.IndexOf("*");
 
             while (positionAND != -1)
             {
-                GuiLogMessage("Position of '+': " + positionAND, NotificationLevel.Debug);
+                GuiLogMessage("Position of '*': " + positionAND, NotificationLevel.Debug);
 
                 // remove XOR
                 function = function.Remove(positionAND, 1);
@@ -490,17 +461,46 @@ namespace BooleanFunctionParser
                 string operator2 = function.Substring(positionAND, 1);
                 GuiLogMessage("op1 and op2: " + operator1 + ", " + operator2, NotificationLevel.Debug);
 
-                string sum = (Int32.Parse(operator1) & Int32.Parse(operator2)).ToString();
-                GuiLogMessage("sum: " + sum, NotificationLevel.Debug);
+                string product = (Int32.Parse(operator1) & Int32.Parse(operator2)).ToString();
+                GuiLogMessage("product: " + product, NotificationLevel.Debug);
                 // remove old values
                 function = function.Remove(positionAND, 1);
                 function = function.Remove(positionAND - 1, 1);
                 // insert new value
-                function = function.Insert(positionAND - 1, sum);
+                function = function.Insert(positionAND - 1, product);
                 GuiLogMessage("function: " + function, NotificationLevel.Debug);
 
                 // any other ANDs in there?
-                positionAND = function.IndexOf("+");
+                positionAND = function.IndexOf("*");
+            }
+
+            // test for XOR aka '+'
+            int positionXOR = function.IndexOf("+");
+
+            while (positionXOR != -1)
+            {
+                GuiLogMessage("Position of '+': " + positionXOR, NotificationLevel.Debug);
+
+                // remove XOR
+                function = function.Remove(positionXOR, 1);
+
+
+                // get both operands
+                string operator1 = function.Substring(positionXOR - 1, 1);
+                string operator2 = function.Substring(positionXOR, 1);
+                GuiLogMessage("op1 and op2: " + operator1 + ", " + operator2, NotificationLevel.Debug);
+
+                string sum = (Int32.Parse(operator1) ^ Int32.Parse(operator2)).ToString();
+                GuiLogMessage("sum: " + sum, NotificationLevel.Debug);
+                // remove old values
+                function = function.Remove(positionXOR, 1);
+                function = function.Remove(positionXOR - 1, 1);
+                // insert new value
+                function = function.Insert(positionXOR - 1, sum);
+                GuiLogMessage("function: " + function, NotificationLevel.Debug);
+
+                // any other XORs in there?
+                positionXOR = function.IndexOf("+");
             }
 
             bool result = Convert.ToBoolean(Int32.Parse(function));
