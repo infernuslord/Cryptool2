@@ -140,8 +140,6 @@ Project("{8BC9CEB9-8B4A-11D0-8D11-00A0C91BC942}") = "CrypWin.exe", "CrypWin\bin\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordPatterns", "CrypPlugins\WordPatterns\WordPatterns.csproj", "{627580E2-0CFC-4C4E-983E-AA7E0D7547F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ByteToStringConverter", "CrypPlugins\ByteToStringConverter - Kopie\ByteToStringConverter.csproj", "{79497AA3-1D43-4DCB-90C5-5361FB93BC91}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -788,16 +786,6 @@ Global
 		{627580E2-0CFC-4C4E-983E-AA7E0D7547F4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{627580E2-0CFC-4C4E-983E-AA7E0D7547F4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{627580E2-0CFC-4C4E-983E-AA7E0D7547F4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{79497AA3-1D43-4DCB-90C5-5361FB93BC91}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{79497AA3-1D43-4DCB-90C5-5361FB93BC91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{79497AA3-1D43-4DCB-90C5-5361FB93BC91}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{79497AA3-1D43-4DCB-90C5-5361FB93BC91}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{79497AA3-1D43-4DCB-90C5-5361FB93BC91}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{79497AA3-1D43-4DCB-90C5-5361FB93BC91}.Release|.NET.ActiveCfg = Release|Any CPU
-		{79497AA3-1D43-4DCB-90C5-5361FB93BC91}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{79497AA3-1D43-4DCB-90C5-5361FB93BC91}.Release|Any CPU.Build.0 = Release|Any CPU
-		{79497AA3-1D43-4DCB-90C5-5361FB93BC91}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{79497AA3-1D43-4DCB-90C5-5361FB93BC91}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
