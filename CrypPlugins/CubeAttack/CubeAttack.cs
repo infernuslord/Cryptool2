@@ -272,19 +272,31 @@ namespace Cryptool.CubeAttack
 
         public void Execute()
         {
-            if (lastEventwasInputBB)
-                lastEventwasInputBB = false;
-            else
+            try
             {
-                switch (settings.Action)
+                if (lastEventwasInputBB)
+                    lastEventwasInputBB = false;
+                else
                 {
-                    case 0:
-                        FindMaxterms();
-                        break;
-                    case 1:
-                        SetPublicBits();
-                        break;
+                    switch (settings.Action)
+                    {
+                        case 0:
+                            int result = TestProperty.SolveFunction("i_0.0 + i_0.1", new bool[] { true, false });
+                            CubeAttack_LogMessage("Rückgabewert innerhalb der Execute: " + result, NotificationLevel.Info);
+                            FindMaxterms();
+                            break;
+                        case 1:
+                            SetPublicBits();
+                            break;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                CubeAttack_LogMessage("Error: " +  ex, NotificationLevel.Error);
+            }
+            finally
+            {
                 ProgressChanged(1.0, 1.0);
             }
         }
@@ -942,7 +954,7 @@ namespace Cryptool.CubeAttack
                 if (value != null)
                 {
                     testProperty = value;
-                    try
+                    /* try
                     {
                         // here comes the function to be solved, now just a dummy
                         string function = "i_0.0 + i_0.1";
@@ -959,6 +971,7 @@ namespace Cryptool.CubeAttack
                     {
                         GuiLogMessage("Problem: " + ex, NotificationLevel.Error);
                     }
+                    */
                 }
             }
         }
