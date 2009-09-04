@@ -9,17 +9,23 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-        <Label Name="labelInputFunction" Grid.Row="0" VerticalAlignment="Top" Margin="0" Padding="0">
+        <Label Name="labelInputFunction" Grid.Row="0" VerticalAlignment="Top" Margin="4" Padding="0">
             Boolean function:
         </Label>
-        <TextBox Name="textBoxInputFunction" Grid.Row="1" AcceptsTab="True"
-               TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" 
-               AcceptsReturn="True" />
-        <Label Name="labelInputData" Grid.Row="2" VerticalAlignment="Top" Margin="0" Padding="0">
+        <TextBox Name="textBoxInputFunction" Grid.Row="1" AcceptsTab="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True">
+            <TextBox.Background>
+                <ImageBrush ImageSource="Images\function.gif" AlignmentX="Right" AlignmentY="Bottom" Stretch="None" />
+            </TextBox.Background>
+        </TextBox>
+        <Label Name="labelInputData" Grid.Row="2" VerticalAlignment="Top" Margin="4" Padding="0" >
             Data:
         </Label>
         <TextBox Name="textBoxInputData" Grid.Row="3" AcceptsTab="True"
                TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" 
-               AcceptsReturn="True" />
+               AcceptsReturn="True" >
+            <TextBox.Background>
+                <ImageBrush ImageSource="Images\data.gif" AlignmentX="Right" AlignmentY="Bottom" Stretch="None" />
+            </TextBox.Background>
+        </TextBox>
     </Grid>
 </UserControl>
