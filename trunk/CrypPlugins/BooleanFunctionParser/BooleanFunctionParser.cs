@@ -19,8 +19,11 @@ using System.Text.RegularExpressions;
 using Cryptool.PluginBase.Control;
 // reference to the BFPController interface (own dll)
 using Cryptool.BooleanFunctionParserController;
+// for QuickwatchPresentaton
+using System.Windows.Threading;
+using System.Threading;
 
-namespace BooleanFunctionParser
+namespace Cryptool.BooleanFunctionParser
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
     [PluginInfo(false, "Boolean Function Parser", "Boolean Function Parser (BFP). Computes the result of a boolean function f(i).", "BooleanFunctionParser/DetailedDescription/Description.xaml", "BooleanFunctionParser/Images/icon2.png")]
@@ -28,6 +31,7 @@ namespace BooleanFunctionParser
     {
         #region Private variables
 
+        private BooleanFunctionParserPresentation booleanFunctionParserPresentation;
         private BooleanFunctionParserSettings settings;
         private string inputFunction;
         private bool[] inputVariableOne;
@@ -62,12 +66,23 @@ namespace BooleanFunctionParser
         {
             this.settings = new BooleanFunctionParserSettings();
             settings.PropertyChanged += settings_PropertyChanged;
+
+            booleanFunctionParserPresentation = new BooleanFunctionParserPresentation();
+            Presentation = booleanFunctionParserPresentation;
+            booleanFunctionParserPresentation.textBoxInputFunction.TextChanged += textBoxInput_TextChanged;
+            booleanFunctionParserPresentation.textBoxInputData.TextChanged += textBoxInput_TextChanged;
+
             CanChangeDynamicProperty = true;
             // Thomas says:
             // No dynProp event in constructor - editor will read the property initial without the event.
             // event can cause problems when using save files and is processed after 
             // connections have been restored. 
             CreateInputOutput(false);
+        }
+
+        void textBoxInput_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            settings.HasChanges = true;
         }
 
         [PropertyInfo(Direction.InputData, "Boolean Function f(i)", "Boolean function f(i) to compute.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
@@ -163,16 +178,25 @@ namespace BooleanFunctionParser
 
         public void Dispose()
         {
-            
+            settings.Function = (string)booleanFunctionParserPresentation.textBoxInputFunction.Dispatcher.Invoke(
+                DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
+                {
+                    return booleanFunctionParserPresentation.textBoxInputFunction.Text;
+                }, null);
+            settings.Data = (string)booleanFunctionParserPresentation.textBoxInputData.Dispatcher.Invoke(
+               DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
+               {
+                   return booleanFunctionParserPresentation.textBoxInputData.Text;
+               }, null);
         }
 
         public void Execute()
         {
             try
             {
-                // do calculation only, if last event wasn't from the function input
-                if (lastInputWasFunction == false)
-                {
+                // do calculation only, if last event was from the function input
+                //if (lastInputWasFunction == true)
+                //{
                     int intOutput = ParseBooleanFunction(inputFunction, null);
                     if (intOutput == -1) return;
                     else
@@ -180,7 +204,7 @@ namespace BooleanFunctionParser
                         output = Convert.ToBoolean(intOutput);
                         OnPropertyChanged("Output");
                     }
-                }
+                //}
             }
             catch (Exception exception)
             {
@@ -194,7 +218,16 @@ namespace BooleanFunctionParser
 
         public void Initialize()
         {
-            
+            if (booleanFunctionParserPresentation.textBoxInputFunction != null)
+                booleanFunctionParserPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    booleanFunctionParserPresentation.textBoxInputFunction.Text = settings.Function;
+                }, null);
+            if (booleanFunctionParserPresentation.textBoxInputData != null)
+                booleanFunctionParserPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    booleanFunctionParserPresentation.textBoxInputData.Text = settings.Data;
+                }, null);
         }
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
@@ -265,6 +298,22 @@ namespace BooleanFunctionParser
         */
         public int ParseBooleanFunction(string function, bool[] inputVariables)
         {
+            // if function is empty, use input funtion (could happen in case of a master/slave call) or quickwatch function
+            // get quickwatch function
+            string quickwatchFunction = (string)this.booleanFunctionParserPresentation.textBoxInputFunction.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
+            {
+                return booleanFunctionParserPresentation.textBoxInputFunction.Text;
+            }, booleanFunctionParserPresentation);
+
+            if (function == null)
+            {
+                if (inputFunction != null && inputFunction != string.Empty)
+                    function = inputFunction;
+                else if (quickwatchFunction != null && quickwatchFunction != string.Empty)
+                    function = quickwatchFunction;
+                else
+                    return -1;
+            }
             // get function from input and replace variables with data
             string strExpression = ReplaceVariables(function, inputVariables);
             // test if function is valid
@@ -293,7 +342,7 @@ namespace BooleanFunctionParser
             string strExpression = strExpressionWithVariables;
 
             // replace variables with value and get numeric values from boolean inputs (if there are any)
-            if (inputOneFlag == 1 && inputVariableOne.Length != 0)
+            if (inputOneFlag == 1 && inputVariableOne != null)
             {
                 char[] strInputVariableOne = new char[inputVariableOne.Length];
                 for (int i = 0; i < inputVariableOne.Length; i++)
@@ -305,7 +354,7 @@ namespace BooleanFunctionParser
                     strExpression = strExpression.Replace(replacement, strInputVariableOne[i].ToString());
                 }
             }
-            if (inputTwoFlag == 1 && inputVariableTwo.Length != 0)
+            if (inputTwoFlag == 1 && inputVariableTwo != null)
             {
                 char[] strInputVariableTwo = new char[inputVariableTwo.Length];
                 for (int i = 0; i < inputVariableTwo.Length; i++)
@@ -316,7 +365,7 @@ namespace BooleanFunctionParser
                     strExpression = strExpression.Replace(replacement, strInputVariableTwo[i].ToString());
                 }
             }
-            if (inputThreeFlag == 1 && inputVariableThree.Length != 0)
+            if (inputThreeFlag == 1 && inputVariableThree != null)
             {
                 char[] strInputVariableThree = new char[inputVariableThree.Length];
                 for (int i = 0; i < inputVariableThree.Length; i++)
@@ -337,6 +386,21 @@ namespace BooleanFunctionParser
                     strInputVariableExtern[i] = externData[i] ? '1' : '0';
                     string replacement = "i_0." + i;
                     strExpression = strExpression.Replace(replacement, strInputVariableExtern[i].ToString());
+                }
+            }
+            // replace quickwatch data (i_q.*) (if there is any)
+            string quickwatchData = (string)this.booleanFunctionParserPresentation.textBoxInputData.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
+            {
+                return booleanFunctionParserPresentation.textBoxInputData.Text;
+            }, booleanFunctionParserPresentation);
+            if (quickwatchData == null || quickwatchData != string.Empty)
+            {
+                char[] strInputVariableQuickwatch = new char[quickwatchData.Length];
+                strInputVariableQuickwatch = quickwatchData.ToCharArray();
+                for (int i = 0; i < strInputVariableQuickwatch.Length; i++)
+                {
+                    string replacement = "i_q." + i;
+                    strExpression = strExpression.Replace(replacement, strInputVariableQuickwatch[i].ToString());
                 }
             }
             
@@ -553,15 +617,12 @@ namespace BooleanFunctionParser
             }
         }
 
-        public System.Windows.Controls.UserControl Presentation
-        {
-            get { return null; }
-        }
-
         public System.Windows.Controls.UserControl QuickWatchPresentation
         {
-            get { return null; }
+            get { return Presentation; }
         }
+
+        public UserControl Presentation { get; private set; }
 
         public ISettings Settings
         {
@@ -624,15 +685,15 @@ namespace BooleanFunctionParser
 
         #region IControl
 
-        private IControlSolveFunction testSlave;
+        private IControlSolveFunction bfpSlave;
         [PropertyInfo(Direction.ControlSlave, "BFP Slave", "Direct access to BFP.", "", DisplayLevel.Beginner)]
-        public IControlSolveFunction TestSlave
+        public IControlSolveFunction BFPSlave
         {
             get
             {
-                if (testSlave == null)
-                    testSlave = new BFPControl(this);
-                return testSlave;
+                if (bfpSlave == null)
+                    bfpSlave = new BFPControl(this);
+                return bfpSlave;
             }
         }
 
