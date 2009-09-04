@@ -469,32 +469,32 @@ namespace Cryptool.BooleanFunctionParser
             int positionLeftParenthesis = function.IndexOf("(");
             int positionRightParenthesis = function.LastIndexOf(")");
 
-            GuiLogMessage("Position ( & ): " + positionLeftParenthesis + ", " + positionRightParenthesis, NotificationLevel.Debug);
+            //GuiLogMessage("Position ( & ): " + positionLeftParenthesis + ", " + positionRightParenthesis, NotificationLevel.Debug);
 
             if (positionLeftParenthesis != -1 && positionRightParenthesis != -1)
             {
                 temp = function.Substring(positionLeftParenthesis + 1, positionRightParenthesis - positionLeftParenthesis - 1);
-                GuiLogMessage("New function: " + temp, NotificationLevel.Debug);
+                //GuiLogMessage("New function: " + temp, NotificationLevel.Debug);
                 bool parenthesisResult = EvaluateString(temp);
                 function = function.Remove(positionLeftParenthesis, positionRightParenthesis - positionLeftParenthesis + 1);
                 function = function.Insert(positionLeftParenthesis, Convert.ToInt32(parenthesisResult).ToString());
             }
 
-            GuiLogMessage("Function after '(':  " + function, NotificationLevel.Debug);
+            //GuiLogMessage("Function after '(':  " + function, NotificationLevel.Debug);
 
             // test for exclamation mark aka 'NOT'
             int positionExclamationMark = function.IndexOf("!");
 
             while (positionExclamationMark != -1)
             {
-                GuiLogMessage("Position of '!': " + positionExclamationMark, NotificationLevel.Debug);
+                //GuiLogMessage("Position of '!': " + positionExclamationMark, NotificationLevel.Debug);
 
                 // remove exclamation mark
                 function = function.Remove(positionExclamationMark, 1);
 
                 // invert the binary digit following the excl. mark
                 string toInvert = function.Substring(positionExclamationMark, 1);
-                GuiLogMessage("toInvert: " + toInvert, NotificationLevel.Debug);
+                //GuiLogMessage("toInvert: " + toInvert, NotificationLevel.Debug);
 
                 if (toInvert == "1") toInvert = "0";
                 else toInvert = "1";
@@ -507,14 +507,14 @@ namespace Cryptool.BooleanFunctionParser
                 positionExclamationMark = function.IndexOf("!");
             }
 
-            GuiLogMessage("Function after '!':  " + function, NotificationLevel.Debug);
+            //GuiLogMessage("Function after '!':  " + function, NotificationLevel.Debug);
 
             // test for AND aka '*'
             int positionAND = function.IndexOf("*");
 
             while (positionAND != -1)
             {
-                GuiLogMessage("Position of '*': " + positionAND, NotificationLevel.Debug);
+                //GuiLogMessage("Position of '*': " + positionAND, NotificationLevel.Debug);
 
                 // remove XOR
                 function = function.Remove(positionAND, 1);
@@ -523,16 +523,16 @@ namespace Cryptool.BooleanFunctionParser
                 // get both operands
                 string operator1 = function.Substring(positionAND - 1, 1);
                 string operator2 = function.Substring(positionAND, 1);
-                GuiLogMessage("op1 and op2: " + operator1 + ", " + operator2, NotificationLevel.Debug);
+                //GuiLogMessage("op1 and op2: " + operator1 + ", " + operator2, NotificationLevel.Debug);
 
                 string product = (Int32.Parse(operator1) & Int32.Parse(operator2)).ToString();
-                GuiLogMessage("product: " + product, NotificationLevel.Debug);
+                //GuiLogMessage("product: " + product, NotificationLevel.Debug);
                 // remove old values
                 function = function.Remove(positionAND, 1);
                 function = function.Remove(positionAND - 1, 1);
                 // insert new value
                 function = function.Insert(positionAND - 1, product);
-                GuiLogMessage("function: " + function, NotificationLevel.Debug);
+                //GuiLogMessage("function: " + function, NotificationLevel.Debug);
 
                 // any other ANDs in there?
                 positionAND = function.IndexOf("*");
@@ -543,7 +543,7 @@ namespace Cryptool.BooleanFunctionParser
 
             while (positionXOR != -1)
             {
-                GuiLogMessage("Position of '+': " + positionXOR, NotificationLevel.Debug);
+                //GuiLogMessage("Position of '+': " + positionXOR, NotificationLevel.Debug);
 
                 // remove XOR
                 function = function.Remove(positionXOR, 1);
@@ -552,16 +552,16 @@ namespace Cryptool.BooleanFunctionParser
                 // get both operands
                 string operator1 = function.Substring(positionXOR - 1, 1);
                 string operator2 = function.Substring(positionXOR, 1);
-                GuiLogMessage("op1 and op2: " + operator1 + ", " + operator2, NotificationLevel.Debug);
+                //GuiLogMessage("op1 and op2: " + operator1 + ", " + operator2, NotificationLevel.Debug);
 
                 string sum = (Int32.Parse(operator1) ^ Int32.Parse(operator2)).ToString();
-                GuiLogMessage("sum: " + sum, NotificationLevel.Debug);
+                //GuiLogMessage("sum: " + sum, NotificationLevel.Debug);
                 // remove old values
                 function = function.Remove(positionXOR, 1);
                 function = function.Remove(positionXOR - 1, 1);
                 // insert new value
                 function = function.Insert(positionXOR - 1, sum);
-                GuiLogMessage("function: " + function, NotificationLevel.Debug);
+                //GuiLogMessage("function: " + function, NotificationLevel.Debug);
 
                 // any other XORs in there?
                 positionXOR = function.IndexOf("+");
