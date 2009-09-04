@@ -11,13 +11,39 @@ using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Security.Cryptography;
 
-namespace BooleanFunctionParser
+namespace Cryptool.BooleanFunctionParser
 {
     class BooleanFunctionParserSettings : ISettings
     {
         #region Private variables
 
         private bool hasChanges;
+
+        #endregion
+
+        #region for Quickwatch
+
+        private string function;
+        public string Function
+        {
+            get { return function; }
+            set
+            {
+                if (value != function) hasChanges = true;
+                function = value;
+            }
+        }
+
+        private string data;
+        public string Data
+        {
+            get { return data; }
+            set
+            {
+                if (value != data) hasChanges = true;
+                data = value;
+            }
+        }
 
         #endregion
 
