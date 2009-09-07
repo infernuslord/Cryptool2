@@ -54,10 +54,21 @@ namespace Cryptool.Plugins.Substring
         {
             if (inputString != null)
             {
-                outputString = inputString.Substring(inputPos, inputLength);
+                
+                    if ((settings.IntegerStartValue <= inputString.Length) & ((settings.IntegerStartValue + settings.IntegerLengthValue) <= inputString.Length))
+                    {
+                        OutputString = inputString.Substring(settings.IntegerStartValue, settings.IntegerLengthValue);
+                        return;
+                    }
+                    else
+                    {
+                        GuiLogMessage("Your Startposition and/or Length for Substring are invalid", NotificationLevel.Info); 
+                    }
+                
             }
             
         }
+
 
         public void PostExecution()
         {
@@ -112,6 +123,7 @@ namespace Cryptool.Plugins.Substring
             set
             {
                 this.inputPos = value;
+                settings.IntegerStartValue = value;
                 OnPropertyChanged("InputPosition");
             }
         }
@@ -126,6 +138,7 @@ namespace Cryptool.Plugins.Substring
             set
             {
                 this.inputLength = value;
+                settings.IntegerLengthValue = value;
                 OnPropertyChanged("InputLength");
             }
         }
@@ -163,7 +176,11 @@ namespace Cryptool.Plugins.Substring
         {
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }
-        
+
+        private void GuiLogMessage(string p,NotificationLevel notificationLevel)
+        {
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(p, this, notificationLevel));
+        }
 
         #endregion
 
