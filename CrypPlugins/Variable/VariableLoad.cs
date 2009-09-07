@@ -1,0 +1,141 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Cryptool.PluginBase;
+using Cryptool.PluginBase.IO;
+using System.Collections;
+using Cryptool.PluginBase.Miscellaneous;
+using System.ComponentModel;
+
+namespace Cryptool.Plugins.Variable
+{
+    [Author("Sven Rech", "sven.rech@cryptool.com", "Uni Duisburg-Essen", "http://www.uni-due.de")]
+    [PluginInfo(true, "VariableLoad", "Variable Load", null, "Variable/loadIcon.png")]
+    class VariableLoad : IInput
+    {
+        #region Private variables
+
+        private VariableSettings settings;
+        private object loadObject;
+
+        #endregion
+
+        public VariableLoad()
+        {
+            this.settings = new VariableSettings();
+            
+        }
+
+        public ISettings Settings
+        {
+            get { return settings; }
+            set { settings = (VariableSettings)value; }
+        }
+
+        #region Properties
+
+        [PropertyInfo(Direction.OutputData, "Variable Load Object", "Object to be loaded from the corresponding variable", "", DisplayLevel.Beginner)]
+        public object VariableLoadObject
+        {
+            get
+            {
+                return loadObject;
+            }
+            set
+            {
+                loadObject = value;
+                OnPropertyChanged("VariableLoadObject");
+            }
+        }
+        #endregion
+
+        private void onVariableStore(string variable, object input)
+        {
+            if (variable == settings.VariableName)
+            {
+                VariableLoadObject = input;
+                ProgressChanged(1.0, 1.0);
+            }
+        }
+
+        #region IPlugin Members
+
+        public event StatusChangedEventHandler OnPluginStatusChanged;
+
+        public System.Windows.Controls.UserControl Presentation
+        {
+            get { return null; }
+        }
+
+        public System.Windows.Controls.UserControl QuickWatchPresentation
+        {
+            get { return null; }
+        }
+
+        public void PreExecution()
+        {
+            Dispose();
+            VariableStore.OnVariableStore += new StoreVariable(onVariableStore);
+        }
+
+        public void Execute()
+        {            
+        }
+
+        public void PostExecution()
+        {
+            Dispose();
+        }
+
+        public void Pause()
+        {
+           
+        }
+
+        public void Stop()
+        {
+          
+        }
+
+        public void Initialize()
+        {
+            
+        }
+
+        public void Dispose()
+        {
+            VariableStore.OnVariableStore -= onVariableStore;
+        }
+
+        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+
+        private void GuiLogMessage(string p, NotificationLevel notificationLevel)
+        {
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(p, this, notificationLevel));
+        }
+
+        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+
+        private void ProgressChanged(double value, double max)
+        {
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+        }
+
+        #endregion
+
+        #region INotifyPropertyChanged Members
+
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string p)
+        {
+            EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(p));
+        }
+
+        #endregion
+
+
+    }
+}
