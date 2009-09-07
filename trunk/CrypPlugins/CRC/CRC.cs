@@ -91,7 +91,7 @@ namespace Cryptool.CRC
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Hash value", "Output hash value as byta array", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "Hash value", "Output hash value as byte array", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public byte[] OutputData
         {
             get
@@ -188,12 +188,10 @@ namespace Cryptool.CRC
         }
 
         /// <summary>
-        /// This methods builds the lookup table to allow a fast hashing implementation.
-        /// It appears to be called more often than necessary (TODO: analyze).
+        /// This methods builds the lookup table depending on generator polynom to allow a fast hashing implementation.
         /// </summary>
         public void Initialize()
         {
-            // FIXME: this message does not appear in CT2 log. Bug?
             GuiLogMessage("Initializing CRC-32 tables", NotificationLevel.Debug);
 
             uint poly = 0xEDB88320; // reversed presentation of polynom 0x04C11DB7
