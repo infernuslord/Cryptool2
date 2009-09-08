@@ -29,7 +29,7 @@ namespace Cryptool.FrequencyTest
 
         private string stringOutput = "";
         private int[] arrayOutput = new int[0];
-        private SortedDictionary<string, double[]> grams = new SortedDictionary<string, double[]>();
+        private IDictionary<string, double[]> grams = new SortedDictionary<string, double[]>();
 
         // TODO: this shall be an algorithm setting or an optional word
         private const string validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
