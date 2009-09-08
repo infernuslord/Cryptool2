@@ -18,6 +18,7 @@ namespace Cryptool.BooleanFunctionParser
         #region Private variables
 
         private bool hasChanges;
+        private bool useBFPforCube = false;
 
         #endregion
 
@@ -45,6 +46,28 @@ namespace Cryptool.BooleanFunctionParser
             }
         }
 
+        private string functionCube;
+        public string FunctionCube
+        {
+            get { return functionCube; }
+            set
+            {
+                if (value != functionCube) hasChanges = true;
+                functionCube = value;
+            }
+        }
+
+        private string dataCube;
+        public string DataCube
+        {
+            get { return dataCube; }
+            set
+            {
+                if (value != dataCube) hasChanges = true;
+                dataCube = value;
+            }
+        }
+
         #endregion
 
         #region ISettings Members
@@ -59,6 +82,31 @@ namespace Cryptool.BooleanFunctionParser
                 this.countOfInputs = value;
                 OnPropertyChanged("CountOfInputs");
                 HasChanges = true;
+            }
+        }
+
+        [ContextMenu("Use BFP for CubeAttack",
+            "Adjust the BFP for use with Cube Attack.",
+            2,
+            DisplayLevel.Beginner,
+            ContextMenuControlType.CheckBox,
+            null,
+            "")]
+        [TaskPane("Use BFP for CubeAttack",
+            "Adjust the BFP for use with Cube Attack.",
+            null,
+            1,
+            false,
+            DisplayLevel.Expert,
+            ControlType.CheckBox, "")]
+        public bool UseBFPforCube
+        {
+            get { return this.useBFPforCube; }
+            set
+            {
+                if (value != this.useBFPforCube) HasChanges = true;
+                this.useBFPforCube = value;
+                OnPropertyChanged("UseBFPforCube");
             }
         }
 

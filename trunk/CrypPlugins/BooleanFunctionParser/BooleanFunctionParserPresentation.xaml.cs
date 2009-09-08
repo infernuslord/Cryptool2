@@ -214,6 +214,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace Cryptool.BooleanFunctionParser
 {
@@ -231,6 +233,43 @@ namespace Cryptool.BooleanFunctionParser
 
       public string getTextBoxInputFunctionText() {
           return textBoxInputFunction.Text;
+      }
+
+      public void SwitchCubeView(bool switchView) {
+          GridLengthConverter myGridLengthConverter = new GridLengthConverter();
+          if (!switchView)
+          {
+              GridLength col0Length = (GridLength)myGridLengthConverter.ConvertFromString("1*");
+              GridLength col1Length = (GridLength)myGridLengthConverter.ConvertFromString("0");
+              if (col0 != null)
+                  Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                  {
+                      col0.Width = col0Length;
+                  }, null);
+              //col0.Width = System.Windows.GridLength.Auto;
+              if (col1 != null)
+                  Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                  {
+                      col1.Width = col1Length;
+                  }, null);
+              //col1.Width = col1Length;
+          }
+          else
+          {
+              GridLength colLength = (GridLength)myGridLengthConverter.ConvertFromString("1*");
+              if (col0 != null)
+                  Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                  {
+                      col0.Width = colLength;
+                  }, null);
+              //col0.Width = colLength;
+              if (col1 != null)
+                  Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                  {
+                      col1.Width = colLength;
+                  }, null);
+              //col1.Width = colLength;
+          }
       }
 
   }

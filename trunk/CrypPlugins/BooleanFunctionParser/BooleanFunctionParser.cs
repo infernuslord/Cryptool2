@@ -188,6 +188,16 @@ namespace Cryptool.BooleanFunctionParser
                {
                    return booleanFunctionParserPresentation.textBoxInputData.Text;
                }, null);
+            settings.FunctionCube = (string)booleanFunctionParserPresentation.textBoxInputFunction2.Dispatcher.Invoke(
+                DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
+                {
+                    return booleanFunctionParserPresentation.textBoxInputFunction2.Text;
+                }, null);
+            settings.DataCube = (string)booleanFunctionParserPresentation.textBoxInputData2.Dispatcher.Invoke(
+               DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
+               {
+                   return booleanFunctionParserPresentation.textBoxInputData2.Text;
+               }, null);
         }
 
         public void Execute()
@@ -197,7 +207,7 @@ namespace Cryptool.BooleanFunctionParser
                 // do calculation only, if last event was from the function input
                 //if (lastInputWasFunction == true)
                 //{
-                    int intOutput = ParseBooleanFunction(inputFunction, null);
+                    int intOutput = ParseBooleanFunction(inputFunction, null, 0);
                     if (intOutput == -1) return;
                     else
                     {
@@ -228,6 +238,16 @@ namespace Cryptool.BooleanFunctionParser
                 {
                     booleanFunctionParserPresentation.textBoxInputData.Text = settings.Data;
                 }, null);
+            if (booleanFunctionParserPresentation.textBoxInputFunction2 != null)
+                booleanFunctionParserPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    booleanFunctionParserPresentation.textBoxInputFunction2.Text = settings.FunctionCube;
+                }, null);
+            if (booleanFunctionParserPresentation.textBoxInputData2 != null)
+                booleanFunctionParserPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    booleanFunctionParserPresentation.textBoxInputData2.Text = settings.DataCube;
+                }, null);
         }
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
@@ -251,6 +271,10 @@ namespace Cryptool.BooleanFunctionParser
             if (e.PropertyName == "CountOfInputs")
             {
                 CreateInputOutput(true);
+            }
+            else if (e.PropertyName == "UseBFPforCube")
+            {
+                booleanFunctionParserPresentation.SwitchCubeView(settings.UseBFPforCube);
             }
         }
 
@@ -296,7 +320,7 @@ namespace Cryptool.BooleanFunctionParser
          * int - the one bit long result of the given function; returns -1 on any failure
          * *******************************************************************************
         */
-        public int ParseBooleanFunction(string function, bool[] inputVariables)
+        public int ParseBooleanFunction(string function, bool[] inputVariables, int switchInputs)
         {
             // if function is empty, use input funtion (could happen in case of a master/slave call) or quickwatch function
             // get quickwatch function
@@ -304,18 +328,24 @@ namespace Cryptool.BooleanFunctionParser
             {
                 return booleanFunctionParserPresentation.textBoxInputFunction.Text;
             }, booleanFunctionParserPresentation);
+            string quickwatchFunctionCube = (string)this.booleanFunctionParserPresentation.textBoxInputFunction2.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
+            {
+                return booleanFunctionParserPresentation.textBoxInputFunction2.Text;
+            }, booleanFunctionParserPresentation);
 
-            if (function == null)
+            if (function == null || function == string.Empty)
             {
                 if (inputFunction != null && inputFunction != string.Empty)
                     function = inputFunction;
-                else if (quickwatchFunction != null && quickwatchFunction != string.Empty)
+                else if (quickwatchFunction != null && quickwatchFunction != string.Empty && switchInputs == 1)
                     function = quickwatchFunction;
+                else if (quickwatchFunctionCube != null && quickwatchFunctionCube != string.Empty && switchInputs == 2)
+                    function = quickwatchFunctionCube;
                 else
                     return -1;
             }
-            // get function from input and replace variables with data
-            string strExpression = ReplaceVariables(function, inputVariables);
+            // replace variables with data
+            string strExpression = ReplaceVariables(function, inputVariables, switchInputs);
             // test if function is valid
             string strExpressionTested = TestFunction(strExpression);
             if (strExpressionTested == "foo")
@@ -325,7 +355,7 @@ namespace Cryptool.BooleanFunctionParser
             }
             else
             {
-                GuiLogMessage("Your expression with variables replaced: " + strExpression, NotificationLevel.Info);
+                //GuiLogMessage("Your expression with variables replaced: " + strExpression, NotificationLevel.Info);
                 output = EvaluateString(strExpressionTested);
             }
             // Just testing
@@ -337,7 +367,7 @@ namespace Cryptool.BooleanFunctionParser
 
         #region private functions
 
-        private string ReplaceVariables(string strExpressionWithVariables, bool[] externData)
+        private string ReplaceVariables(string strExpressionWithVariables, bool[] externData, int switchData)
         {
             string strExpression = strExpressionWithVariables;
 
@@ -389,18 +419,37 @@ namespace Cryptool.BooleanFunctionParser
                 }
             }
             // replace quickwatch data (i_q.*) (if there is any)
-            string quickwatchData = (string)this.booleanFunctionParserPresentation.textBoxInputData.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
+            if (switchData == 1 || switchData == 0)
             {
-                return booleanFunctionParserPresentation.textBoxInputData.Text;
-            }, booleanFunctionParserPresentation);
-            if (quickwatchData == null || quickwatchData != string.Empty)
-            {
-                char[] strInputVariableQuickwatch = new char[quickwatchData.Length];
-                strInputVariableQuickwatch = quickwatchData.ToCharArray();
-                for (int i = 0; i < strInputVariableQuickwatch.Length; i++)
+                string quickwatchData = (string)this.booleanFunctionParserPresentation.textBoxInputData.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
                 {
-                    string replacement = "i_q." + i;
-                    strExpression = strExpression.Replace(replacement, strInputVariableQuickwatch[i].ToString());
+                    return booleanFunctionParserPresentation.textBoxInputData.Text;
+                }, booleanFunctionParserPresentation);
+                if (quickwatchData == null || quickwatchData != string.Empty)
+                {
+                    char[] strInputVariableQuickwatch = new char[quickwatchData.Length];
+                    strInputVariableQuickwatch = quickwatchData.ToCharArray();
+                    for (int i = 0; i < strInputVariableQuickwatch.Length; i++)
+                    {
+                        string replacement = "i_q." + i;
+                        strExpression = strExpression.Replace(replacement, strInputVariableQuickwatch[i].ToString());
+                    }
+                }
+            } if (switchData == 2)
+            {
+                string quickwatchDataCube = (string)this.booleanFunctionParserPresentation.textBoxInputData2.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
+                {
+                    return booleanFunctionParserPresentation.textBoxInputData2.Text;
+                }, booleanFunctionParserPresentation);
+                if (quickwatchDataCube == null || quickwatchDataCube != string.Empty)
+                {
+                    char[] strInputVariableQuickwatch = new char[quickwatchDataCube.Length];
+                    strInputVariableQuickwatch = quickwatchDataCube.ToCharArray();
+                    for (int i = 0; i < strInputVariableQuickwatch.Length; i++)
+                    {
+                        string replacement = "i_q." + i;
+                        strExpression = strExpression.Replace(replacement, strInputVariableQuickwatch[i].ToString());
+                    }
                 }
             }
             
@@ -714,13 +763,13 @@ namespace Cryptool.BooleanFunctionParser
         #region IControlEncryption Members
 
         // here comes the slave side implementation of SolveFunction
-        public int SolveFunction(string function, bool[] data)
+        public int SolveFunction(string function, bool[] data, int switchInputs)
         {
             int resultInt;
 
             // the result is computed by calling the ParseBooleanFunction (step into it with F11)
             // returns -1 on error (e.g. not a valid function)
-            resultInt = plugin.ParseBooleanFunction(function, data);
+            resultInt = plugin.ParseBooleanFunction(function, data, switchInputs);
 
             return resultInt;
         }
