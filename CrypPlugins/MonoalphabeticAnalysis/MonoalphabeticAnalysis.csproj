@@ -135,6 +135,14 @@ del /F /S /Q /s /q "MonoalphabeticAnalysis*.*"
 copy "$(TargetDir)*.*" "./CrypPlugins"</PostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="MonoalphabeticAnalysis_di_en.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="MonoalphabeticAnalysis_mo_en.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
 </Project>

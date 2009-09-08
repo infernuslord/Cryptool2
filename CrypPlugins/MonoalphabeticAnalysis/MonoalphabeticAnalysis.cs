@@ -45,8 +45,9 @@ namespace Cryptool.MonoalphabeticAnalysis
         private double alphabetGoodnes = 0;//result of the cost function. Used in ReturnAlphabetGoodness method.
         public int AlphabetCounterA = 1;
         public int AlphabetcounterB = 1;
-        
-
+        public string PathToMonogramStatistics = "CrypPlugins/MonoalphabeticAnalysis_mo_en.txt";
+        public string PathToDigramStatistics = "CrypPlugins/MonoalphabeticAnalysis_di_en.txt";
+        private string alphabetCaseInsensitive = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 
         #region Properties (Inputs/Outputs)
@@ -172,9 +173,14 @@ namespace Cryptool.MonoalphabeticAnalysis
 
             if (cipherTextFrequencyInput_Monograms != "") 
             {
-                   //if Optional Statistical input not used -> use variables from pre-analysed Text (James Clavel's Shogun in our case)  
-                if (TextStatisticInput_Monograms == "") textStatisticInput_Monograms = ShogunStatistics.ShogunMonograms;
 
+               //File.WriteAllText("veriinterestingfilewithmonogramstatistic", textStatisticInput_Monograms);
+               // File.WriteAllText("veriinterestingfilewithdigramstatistic", textStatisticInput_Digrams);
+               
+               // ImplementSettings();
+                //if Optional Statistical input not used -> use variables from pre-analysed Text (James Clavel's Shogun in our case)  
+                if (textStatisticInput_Monograms == "") textStatisticInput_Monograms = ShogunStatistics.ShogunMonograms;//File.ReadAllText(PathToMonogramStatistics);
+                if (textStatisticInput_Digrams == "") textStatisticInput_Digrams = ShogunStatistics.ShogunDigrams;//File.ReadAllText(PathToDigramStatistics);
 
                  if (GoodAlphabet == null) //first pass
                  {
@@ -191,7 +197,7 @@ namespace Cryptool.MonoalphabeticAnalysis
                  }
 
                 
-
+                
                  if (GoodAlphabet != null && decipherAttempt_Digrams!="" && AlphabetcounterB < GoodAlphabet.Length)
                  {
 
@@ -285,7 +291,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         alphabetGoodnes = 0;
         AlphabetCounterA = 1;
         AlphabetcounterB = 1;
-        
+       
             //throw new NotImplementedException();
         }
 
@@ -358,9 +364,49 @@ namespace Cryptool.MonoalphabeticAnalysis
 
        public ArrayList InitialMapping(string cyString, string statString)
         {
-            if (textStatisticInput_Monograms == "") textStatisticInput_Monograms = ShogunStatistics.ShogunMonograms;
-            ArrayList cipherTextFrequencies = ReturnSortedList(cyString, SortElements.SortElemetsBy.byFrequency);
-            ArrayList statisticFrequencies = ReturnSortedList(statString, SortElements.SortElemetsBy.byFrequency);
+            //if (textStatisticInput_Monograms == "") textStatisticInput_Monograms = ShogunStatistics.ShogunMonograms;
+            ArrayList cipherTextFrequencies = ReturnSortedList(cyString.ToUpper(), SortElements.SortElemetsBy.byFrequency);
+            ArrayList statisticFrequencies = ReturnSortedList(statString.ToUpper(), SortElements.SortElemetsBy.byFrequency);
+
+            char[] alphab = alphabetCaseInsensitive.ToCharArray();
+            
+
+            
+           //if letter from the alphabet is not listed as frequency, a frequency of 0 must be filled in
+           foreach (char item1 in alphab)
+           {
+                bool found1 = false;
+                foreach (CollectionElement item2 in cipherTextFrequencies)
+                {
+                    if (item1.ToString()==item2.Caption)
+                    {
+                        found1 = true;
+                    }        
+                }
+                if (found1==false)
+                {
+                    CollectionElement row1 = new CollectionElement(item1.ToString(), 0, "");
+                    cipherTextFrequencies.Add(row1);
+                }
+
+                found1 = false;
+                foreach (CollectionElement item3 in statisticFrequencies)
+                {
+                    if (item1.ToString() == item3.Caption)
+                    {
+                        found1 = true;
+                    }
+                }
+                if (found1 == false)
+                {
+                    CollectionElement row2 = new CollectionElement(item1.ToString(), 0, "");
+                    statisticFrequencies.Add(row2);
+                }
+            
+            }
+
+
+
 
             ArrayList mappings = new ArrayList();
 
@@ -412,7 +458,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         
       public double ReturnAlphabetGoodness() 
       {
-          if (textStatisticInput_Digrams == "") textStatisticInput_Digrams = ShogunStatistics.ShogunDigrams;//if Optional Statistical input not used -> use variables from pre-analysed Text (James Clavel's Shogun)
+         // if (textStatisticInput_Digrams == "") textStatisticInput_Digrams = ShogunStatistics.ShogunDigrams;//if Optional Statistical input not used -> use variables from pre-analysed Text (James Clavel's Shogun)
 
           double[,] statisticDigramSquare = GetDigramFrequencySquare(StatisticTextFrequencyInput_Digrams);    
                
@@ -501,7 +547,7 @@ namespace Cryptool.MonoalphabeticAnalysis
 
       public void FastAproach() 
       {
-          if (textStatisticInput_Digrams == "") StatisticTextFrequencyInput_Digrams = ShogunStatistics.ShogunDigrams;//if Optional Statistical input not used -> use variables from pre-analysed Text (James Clavel's Shogun)
+          //if (textStatisticInput_Digrams == "") StatisticTextFrequencyInput_Digrams = ShogunStatistics.ShogunDigrams;//if Optional Statistical input not used -> use variables from pre-analysed Text (James Clavel's Shogun)
 
           double[,] statisticDigramSquare = GetDigramFrequencySquare(StatisticTextFrequencyInput_Digrams);
           double[,] digramFrequencyAttemptSquare = new double[GoodAlphabet.Length, GoodAlphabet.Length];
@@ -541,7 +587,7 @@ namespace Cryptool.MonoalphabeticAnalysis
 
               }
 
-              int breakpoint = 0;
+              //int breakpoint = 0;
 
               //Swap two columns
               for (int n = 0; n < swappingSquare.GetLength(0); n++)
@@ -617,7 +663,49 @@ namespace Cryptool.MonoalphabeticAnalysis
       
         }
 
+        //IMPLEMENTSETTINGS//
 
+        /* public void ImplementSettings() 
+        {
+            if (settings.CaseSensitivity == 1) 
+            {
+                PathToMonogramStatistics += "_cs";
+                PathToDigramStatistics += "_cs";
+            }
+
+            
+             
+             switch (settings.Language)
+            {
+                case 0: 
+                         PathToMonogramStatistics += "_en";
+                         PathToDigramStatistics += "_en";
+                         break;
+                case 1: 
+                        PathToMonogramStatistics += "_de";
+                        PathToDigramStatistics += "_de";
+                        break;
+
+                case 2: 
+                        PathToMonogramStatistics += "_fr";
+                        PathToDigramStatistics += "_fr";
+                        break;
+
+                case 3: 
+                        PathToMonogramStatistics += "_es";
+                        PathToDigramStatistics += "_es";
+                        break;
+            }
+
+            PathToMonogramStatistics += ".txt";
+
+            PathToDigramStatistics += ".txt";
+
+            if (textStatisticInput_Monograms == "") { textStatisticInput_Monograms = File.ReadAllText(PathToMonogramStatistics); }
+
+            if (textStatisticInput_Digrams == "") { textStatisticInput_Digrams = File.ReadAllText(PathToDigramStatistics); }
+            int a = 0;
+        } */
 
         #endregion CUSTOM METHODS
 
