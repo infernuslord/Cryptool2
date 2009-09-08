@@ -18,39 +18,47 @@
         <Label Name="labelInputFunction" Grid.Column="0" Grid.Row="0" VerticalAlignment="Top" Margin="4" Padding="0">
             Boolean function:
         </Label>
-        <TextBox Name="textBoxInputFunction" Grid.Column="0" Grid.Row="1" AcceptsTab="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True">
+        <Grid Background="White" Grid.Column="0" Grid.Row="1">
+        <TextBox Name="textBoxInputFunction" AcceptsTab="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True">
             <TextBox.Background>
                 <ImageBrush ImageSource="Images\function.gif" AlignmentX="Right" AlignmentY="Bottom" Stretch="None" />
             </TextBox.Background>
         </TextBox>
+        </Grid>
         <Label Name="labelInputData" Grid.Column="0" Grid.Row="2" VerticalAlignment="Top" Margin="4" Padding="0" >
             Data:
         </Label>
-        <TextBox Name="textBoxInputData" Grid.Column="0" Grid.Row="3" AcceptsTab="True"
+        <Grid Background="White" Grid.Column="0" Grid.Row="3">
+        <TextBox Name="textBoxInputData" AcceptsTab="True"
                TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" 
                AcceptsReturn="True" >
             <TextBox.Background>
                 <ImageBrush ImageSource="Images\data.gif" AlignmentX="Right" AlignmentY="Bottom" Stretch="None" />
             </TextBox.Background>
         </TextBox>
+        </Grid>
         
         <Label Name="labelInputFunction2" Grid.Column="1" Grid.Row="0" VerticalAlignment="Top" Margin="4" Padding="0">
             Boolean function 2 (Cube):
         </Label>
-        <TextBox Name="textBoxInputFunction2" Grid.Column="1" Grid.Row="1" AcceptsTab="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True">
+        <Grid Background="White" Grid.Column="1" Grid.Row="1">
+        <TextBox Name="textBoxInputFunction2" AcceptsTab="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True">
             <TextBox.Background>
-                <ImageBrush ImageSource="Images\function.gif" AlignmentX="Right" AlignmentY="Bottom" Stretch="None" />
+                <ImageBrush ImageSource="Images\cube.gif" AlignmentX="Right" AlignmentY="Bottom" Stretch="None" />
             </TextBox.Background>
         </TextBox>
+        </Grid>
         <Label Name="labelInputData2" Grid.Column="1" Grid.Row="2" VerticalAlignment="Top" Margin="4" Padding="0" >
             Secret Key data:
         </Label>
-        <TextBox Name="textBoxInputData2" Grid.Column="1" Grid.Row="3" AcceptsTab="True"
+        <Grid Background="White" Grid.Column="1" Grid.Row="3">
+        <TextBox Name="textBoxInputData2" AcceptsTab="True"
                TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" 
                AcceptsReturn="True" >
             <TextBox.Background>
-                <ImageBrush ImageSource="Images\data.gif" AlignmentX="Right" AlignmentY="Bottom" Stretch="None" />
+                <ImageBrush ImageSource="Images\cube.gif" AlignmentX="Right" AlignmentY="Bottom" Stretch="None" />
             </TextBox.Background>
         </TextBox>
+        </Grid>
     </Grid>
 </UserControl>

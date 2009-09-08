@@ -248,6 +248,7 @@ namespace Cryptool.BooleanFunctionParser
                 {
                     booleanFunctionParserPresentation.textBoxInputData2.Text = settings.DataCube;
                 }, null);
+            booleanFunctionParserPresentation.SwitchCubeView(settings.UseBFPforCube);
         }
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
