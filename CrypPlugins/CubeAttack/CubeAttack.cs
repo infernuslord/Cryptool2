@@ -257,7 +257,7 @@ namespace Cryptool.CubeAttack
                 System.Buffer.BlockCopy(vBool, 0, vx, 0, vBool.Length);
                 System.Buffer.BlockCopy(xBool, 0, vx, vBool.Length, xBool.Length);
 
-                result = TestProperty.SolveFunction(null, vx);
+                result = TestProperty.SolveFunction(null, vx, 1);
             }
             catch (Exception ex)
             {
@@ -827,7 +827,22 @@ namespace Cryptool.CubeAttack
                 {
                     for (int l = 0; l < cubeIndex[i].Count; l++)
                         pubVarElement[cubeIndex[i][l]] = (k & (1 << l)) > 0 ? 1 : 0;
-                    b[i] ^= Blackbox(pubVarElement, secVarElement);
+                    //b[i] ^= Blackbox(pubVarElement, secVarElement);
+                    try
+                    {
+                        bool[] vBool = new bool[pubVarElement.Length];
+
+                        for (int l = 0; l < pubVarElement.Length; l++)
+                        {
+                            vBool[l] = Convert.ToBoolean(pubVarElement[l]);
+                        }
+
+                        b[i] ^= TestProperty.SolveFunction(null, vBool, 2);
+                    }
+                    catch (Exception ex)
+                    {
+                        CubeAttack_LogMessage("Error: " + ex, NotificationLevel.Error);
+                    }
                 }
             }
             OutputKey(mSuperpoly * b);
