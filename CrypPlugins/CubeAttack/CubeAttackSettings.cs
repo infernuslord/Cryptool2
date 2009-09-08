@@ -124,6 +124,7 @@ namespace Cryptool.CubeAttack
             get { return publicVar; }
             set
             {
+                if (value != this.publicVar) HasChanges = true;
                 publicVar = value;
                 OnPropertyChanged("PublicVar");
             }
@@ -145,6 +146,7 @@ namespace Cryptool.CubeAttack
             get { return secretVar; }
             set
             {
+                if (value != this.secretVar) HasChanges = true;
                 secretVar = value;
                 OnPropertyChanged("SecretVar");
             }
@@ -166,6 +168,7 @@ namespace Cryptool.CubeAttack
             get { return maxcube; }
             set
             {
+                if (value != this.maxcube) HasChanges = true;
                 maxcube = value;
                 OnPropertyChanged("MaxCube");
             }
@@ -187,6 +190,7 @@ namespace Cryptool.CubeAttack
             get { return linTest; }
             set
             {
+                if (value != this.linTest) HasChanges = true;
                 linTest = value;
                 OnPropertyChanged("LinTest");
             }
@@ -212,6 +216,7 @@ namespace Cryptool.CubeAttack
             }
             set
             {
+                if (value != this.setPublicBits) HasChanges = true;
                 setPublicBits = value;
                 OnPropertyChanged("SetPublicBits");
             }
