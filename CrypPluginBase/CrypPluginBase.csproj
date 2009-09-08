@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{25DB2B47-A457-4EC2-960B-395CE07AE093}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -67,6 +67,7 @@
     <Compile Include="DynamicProperty.cs" />
     <Compile Include="Generator\IGenerator.cs" />
     <Compile Include="Control\IControl.cs" />
+    <Compile Include="Miscellaneous\BigInteger.cs" />
     <Compile Include="Miscellaneous\DescriptionHyperlink.cs" />
     <Compile Include="Miscellaneous\EventsHelper.cs" />
     <Compile Include="Attributes\PropertySaveOrderAttribute.cs" />

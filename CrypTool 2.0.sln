@@ -140,6 +140,10 @@ Project("{8BC9CEB9-8B4A-11D0-8D11-00A0C91BC942}") = "CrypWin.exe", "CrypWin\bin\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordPatterns", "CrypPlugins\WordPatterns\WordPatterns.csproj", "{627580E2-0CFC-4C4E-983E-AA7E0D7547F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Variable", "CrypPlugins\Variable\Variable.csproj", "{44097D91-4DA3-451F-9AB3-FC98215740A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collector", "CrypPlugins\Collector\Collector.csproj", "{588D9152-F9F9-4E82-B910-8645DE32AFF6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -786,6 +790,26 @@ Global
 		{627580E2-0CFC-4C4E-983E-AA7E0D7547F4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{627580E2-0CFC-4C4E-983E-AA7E0D7547F4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{627580E2-0CFC-4C4E-983E-AA7E0D7547F4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{44097D91-4DA3-451F-9AB3-FC98215740A6}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{44097D91-4DA3-451F-9AB3-FC98215740A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44097D91-4DA3-451F-9AB3-FC98215740A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44097D91-4DA3-451F-9AB3-FC98215740A6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{44097D91-4DA3-451F-9AB3-FC98215740A6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{44097D91-4DA3-451F-9AB3-FC98215740A6}.Release|.NET.ActiveCfg = Release|Any CPU
+		{44097D91-4DA3-451F-9AB3-FC98215740A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44097D91-4DA3-451F-9AB3-FC98215740A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44097D91-4DA3-451F-9AB3-FC98215740A6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{44097D91-4DA3-451F-9AB3-FC98215740A6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{588D9152-F9F9-4E82-B910-8645DE32AFF6}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{588D9152-F9F9-4E82-B910-8645DE32AFF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{588D9152-F9F9-4E82-B910-8645DE32AFF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{588D9152-F9F9-4E82-B910-8645DE32AFF6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{588D9152-F9F9-4E82-B910-8645DE32AFF6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{588D9152-F9F9-4E82-B910-8645DE32AFF6}.Release|.NET.ActiveCfg = Release|Any CPU
+		{588D9152-F9F9-4E82-B910-8645DE32AFF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{588D9152-F9F9-4E82-B910-8645DE32AFF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{588D9152-F9F9-4E82-B910-8645DE32AFF6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{588D9152-F9F9-4E82-B910-8645DE32AFF6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
