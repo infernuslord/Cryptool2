@@ -3,24 +3,49 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Height="Auto" Width="Auto" Margin="0">
     <Grid Height="Auto" Width="Auto" Margin="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Name="col0" Width="1*"/>
+            <ColumnDefinition Name="col1" Width="1*"/>
+        </Grid.ColumnDefinitions>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="1*" />
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-        <Label Name="labelInputFunction" Grid.Row="0" VerticalAlignment="Top" Margin="4" Padding="0">
+        
+        <Label Name="labelInputFunction" Grid.Column="0" Grid.Row="0" VerticalAlignment="Top" Margin="4" Padding="0">
             Boolean function:
         </Label>
-        <TextBox Name="textBoxInputFunction" Grid.Row="1" AcceptsTab="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True">
+        <TextBox Name="textBoxInputFunction" Grid.Column="0" Grid.Row="1" AcceptsTab="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True">
             <TextBox.Background>
                 <ImageBrush ImageSource="Images\function.gif" AlignmentX="Right" AlignmentY="Bottom" Stretch="None" />
             </TextBox.Background>
         </TextBox>
-        <Label Name="labelInputData" Grid.Row="2" VerticalAlignment="Top" Margin="4" Padding="0" >
+        <Label Name="labelInputData" Grid.Column="0" Grid.Row="2" VerticalAlignment="Top" Margin="4" Padding="0" >
             Data:
         </Label>
-        <TextBox Name="textBoxInputData" Grid.Row="3" AcceptsTab="True"
+        <TextBox Name="textBoxInputData" Grid.Column="0" Grid.Row="3" AcceptsTab="True"
+               TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" 
+               AcceptsReturn="True" >
+            <TextBox.Background>
+                <ImageBrush ImageSource="Images\data.gif" AlignmentX="Right" AlignmentY="Bottom" Stretch="None" />
+            </TextBox.Background>
+        </TextBox>
+        
+        <Label Name="labelInputFunction2" Grid.Column="1" Grid.Row="0" VerticalAlignment="Top" Margin="4" Padding="0">
+            Boolean function 2 (Cube):
+        </Label>
+        <TextBox Name="textBoxInputFunction2" Grid.Column="1" Grid.Row="1" AcceptsTab="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True">
+            <TextBox.Background>
+                <ImageBrush ImageSource="Images\function.gif" AlignmentX="Right" AlignmentY="Bottom" Stretch="None" />
+            </TextBox.Background>
+        </TextBox>
+        <Label Name="labelInputData2" Grid.Column="1" Grid.Row="2" VerticalAlignment="Top" Margin="4" Padding="0" >
+            Secret Key data:
+        </Label>
+        <TextBox Name="textBoxInputData2" Grid.Column="1" Grid.Row="3" AcceptsTab="True"
                TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" 
                AcceptsReturn="True" >
             <TextBox.Background>

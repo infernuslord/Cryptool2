@@ -9,6 +9,6 @@ namespace Cryptool.BooleanFunctionParserController
 {
     public interface IControlSolveFunction : IControl
     {
-        int SolveFunction(string function, bool[] data);
+        int SolveFunction(string function, bool[] data, int switchInputs);
     }
 }

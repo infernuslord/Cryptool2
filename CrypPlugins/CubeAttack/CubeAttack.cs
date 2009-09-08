@@ -277,9 +277,11 @@ namespace Cryptool.CubeAttack
                     switch (settings.Action)
                     {
                         case 0:
-                            int result = TestProperty.SolveFunction("i_0.0 + i_0.1", new bool[] { true, false });
-                            CubeAttack_LogMessage("Rückgabewert innerhalb der Execute: " + result, NotificationLevel.Info);
-                            FindMaxterms();
+                            int result = TestProperty.SolveFunction(null, null, 1);
+                            CubeAttack_LogMessage("Rückgabewert innerhalb der Execute 1: " + result, NotificationLevel.Info);
+                            result = TestProperty.SolveFunction(null, null, 2);
+                            CubeAttack_LogMessage("Rückgabewert innerhalb der Execute 2: " + result, NotificationLevel.Info);
+                            //FindMaxterms();
                             break;
                         case 1:
                             SetPublicBits();
@@ -330,10 +332,10 @@ namespace Cryptool.CubeAttack
                 string function = "i_0.0 + i_0.1 + i_0.3 * i_0.0 + i_0.1 + i_0.5 * i_0.2 + i_0.3 + i_0.4 * i_0.0 + i_0.3 * i_0.0 + i_0.4 * i_0.1 + i_0.5 * i_0.2 + i_0.4 * i_0.3 + i_0.5 * i_0.0 * i_0.1 * i_0.3 * i_0.4 * 1";
 
                 string fnc = "i_0.0 + i_0.1 + i_0.3";
-                CubeAttack_LogMessage("Parser = " + TestProperty.SolveFunction(function, temp1).ToString(), NotificationLevel.Info);
-                CubeAttack_LogMessage("Intern = " + (temp[0] & temp[1] & temp[3] ^ temp[0] & temp[1] & temp[5] ^ temp[2] & temp[3] & temp[4] ^ temp[0] & temp[3] ^ temp[0] & temp[4] ^ temp[1] & temp[5] ^ temp[2] & temp[4] ^ temp[3] & temp[5] ^ temp[0] ^ temp[1] ^ temp[3] ^ temp[4] ^ 1), NotificationLevel.Info);
+                //CubeAttack_LogMessage("Parser = " + TestProperty.SolveFunction(function, temp1).ToString(), NotificationLevel.Info);
+                //CubeAttack_LogMessage("Intern = " + (temp[0] & temp[1] & temp[3] ^ temp[0] & temp[1] & temp[5] ^ temp[2] & temp[3] & temp[4] ^ temp[0] & temp[3] ^ temp[0] & temp[4] ^ temp[1] & temp[5] ^ temp[2] & temp[4] ^ temp[3] & temp[5] ^ temp[0] ^ temp[1] ^ temp[3] ^ temp[4] ^ 1), NotificationLevel.Info);
 
-                result = TestProperty.SolveFunction(function, vx);
+                result = TestProperty.SolveFunction(function, vx, 1);
                 
             }
             catch (Exception ex)
