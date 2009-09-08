@@ -147,7 +147,7 @@ namespace Cryptool.CubeAttack
         public void Dispose()
         {
             stop = false;
-            this.stop = false;
+            //this.stop = false;
             foreach (CryptoolStream stream in listCryptoolStreamsOut)
             {
                 stream.Close();
@@ -713,6 +713,12 @@ namespace Cryptool.CubeAttack
             // Find n maxterms and save their in the matrix
             while (countMaxterms < settings.SecretVar)
             {
+                if (stop)
+                {
+                    ProgressChanged(0.0, 1.0);
+                    return;
+                }
+
                 // Maybe all maxterms have been found ? 
                 if (countRuns > 300)
                     break;
