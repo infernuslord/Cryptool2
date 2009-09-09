@@ -148,6 +148,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BigNumber", "CrypPlugins\Bi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Substring", "CrypPlugins\Substring\Substring.csproj", "{88CB13C3-85B4-4329-B5ED-62D73EF48556}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comparators", "CrypPlugins\Comparators\Comparators.csproj", "{7622B8CE-2F04-4380-9484-D642F6F2478E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -834,6 +836,16 @@ Global
 		{88CB13C3-85B4-4329-B5ED-62D73EF48556}.Release|Any CPU.Build.0 = Release|Any CPU
 		{88CB13C3-85B4-4329-B5ED-62D73EF48556}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{88CB13C3-85B4-4329-B5ED-62D73EF48556}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{7622B8CE-2F04-4380-9484-D642F6F2478E}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{7622B8CE-2F04-4380-9484-D642F6F2478E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7622B8CE-2F04-4380-9484-D642F6F2478E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7622B8CE-2F04-4380-9484-D642F6F2478E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7622B8CE-2F04-4380-9484-D642F6F2478E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7622B8CE-2F04-4380-9484-D642F6F2478E}.Release|.NET.ActiveCfg = Release|Any CPU
+		{7622B8CE-2F04-4380-9484-D642F6F2478E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7622B8CE-2F04-4380-9484-D642F6F2478E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7622B8CE-2F04-4380-9484-D642F6F2478E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7622B8CE-2F04-4380-9484-D642F6F2478E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
