@@ -243,7 +243,7 @@ namespace TextOutput
       get { return this.encoding; }
       set
       {
-        if (this.Encoding != value) hasChanges = true;
+        if (this.encoding != value) hasChanges = true;
         this.encoding = value;
         OnPropertyChanged("EncodingSetting");
       }
@@ -354,7 +354,7 @@ namespace TextOutput
       }
     }
 
-    private DynamicDataTypes currentDataType;
+    private DynamicDataTypes currentDataType = DynamicDataTypes.Object;
     public DynamicDataTypes CurrentDataType
     {
       get { return currentDataType; }

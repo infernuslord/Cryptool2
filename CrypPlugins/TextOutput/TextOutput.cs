@@ -401,21 +401,21 @@ namespace TextOutput
           DicDynamicProperties[propertyKey].Value = value;
         }
 
-        fillValue = null;
+        if (value == null)
+        {
+            fillValue = "null";
+            OnPropertyChanged(propertyKey);
+        }
 
-        if (value is String || value is string)
+        // check type explicitly, if connector type is set to anything else than object
+        if (getCurrentType() != typeof(object) && !getCurrentType().Equals(value.GetType()))
         {
-          fillValue = value as string;
+            GuiLogMessage(String.Format("Input data type does not match setting. Expected: {0}, Found: {1}", getCurrentType(), value.GetType()),
+                NotificationLevel.Error);
+            return;
         }
-        else if (value is int)
-        {
-          fillValue = ((int)value).ToString();
-        }
-        else if (value is double)
-        {
-            fillValue = ((double)value).ToString();
-        }
-        else if (value is bool)
+
+        if (value is bool)
         {
             if (settings.BooleanAsNumeric)
             {
@@ -460,22 +460,21 @@ namespace TextOutput
           }
           fillValue = GetStringForSelectedEncoding(sizedArray);
         }
-        else if (value is object || value is Object)
+        else
         {
-          fillValue = value.ToString();
-          if (fillValue != null && fillValue.Length > settings.MaxLength)
-          {
-            fillValue = fillValue.Substring(0, settings.MaxLength);
-          }
+            fillValue = value.ToString();
         }
 
         if (fillValue != null)
         {
-          setText(fillValue);
-          OnPropertyChanged("StringInput");
-        }
+            if (fillValue.Length > settings.MaxLength)
+            {
+                fillValue = fillValue.Substring(0, settings.MaxLength);
+            }
 
-        OnPropertyChanged(propertyKey);
+            setText(fillValue);
+            OnPropertyChanged(propertyKey);
+        }
       }
       catch (Exception ex)
       {
