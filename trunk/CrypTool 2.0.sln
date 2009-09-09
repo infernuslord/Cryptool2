@@ -146,6 +146,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collector", "CrypPlugins\Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BigNumber", "CrypPlugins\BigNumber\BigNumber.csproj", "{7A233B47-26A4-4386-BC79-AF4363DDB4E1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Substring", "CrypPlugins\Substring\Substring.csproj", "{88CB13C3-85B4-4329-B5ED-62D73EF48556}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -822,6 +824,16 @@ Global
 		{7A233B47-26A4-4386-BC79-AF4363DDB4E1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7A233B47-26A4-4386-BC79-AF4363DDB4E1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{7A233B47-26A4-4386-BC79-AF4363DDB4E1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{88CB13C3-85B4-4329-B5ED-62D73EF48556}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{88CB13C3-85B4-4329-B5ED-62D73EF48556}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88CB13C3-85B4-4329-B5ED-62D73EF48556}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88CB13C3-85B4-4329-B5ED-62D73EF48556}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{88CB13C3-85B4-4329-B5ED-62D73EF48556}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{88CB13C3-85B4-4329-B5ED-62D73EF48556}.Release|.NET.ActiveCfg = Release|Any CPU
+		{88CB13C3-85B4-4329-B5ED-62D73EF48556}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88CB13C3-85B4-4329-B5ED-62D73EF48556}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88CB13C3-85B4-4329-B5ED-62D73EF48556}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{88CB13C3-85B4-4329-B5ED-62D73EF48556}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
