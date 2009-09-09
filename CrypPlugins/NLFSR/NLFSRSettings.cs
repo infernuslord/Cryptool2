@@ -12,6 +12,8 @@ using Cryptool.PluginBase.IO;
 using System.Runtime.CompilerServices;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Runtime.Remoting.Contexts;
+// for Visibility
+using System.Windows;
 
 namespace Cryptool.NLFSR
 {
@@ -49,22 +51,9 @@ namespace Cryptool.NLFSR
             }
         }
 
-        private int clockingBit = 0;
-        [TaskPane("Clocking bit number", "Which bit shall be generated as an additional output? For example as an clocking bit.", "Additional Output Bit", 0, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
-        public int ClockingBit
-        {
-            get { return this.clockingBit; }
-            set
-            {
-                this.clockingBit = value;
-                OnPropertyChanged("ClockingBit");
-                HasChanges = true;
-            }
-        }
-
         private bool useClockingBit = false;
-        [ContextMenu("Use clocking bit", "With this checkbox enabled, the clocking bit will be generated.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Use clocking bit?" })]
-        [TaskPane("Use clocking bit", "With this checkbox enabled, clocking bit will be generated.", "Additional Output Bit", 1, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+        [ContextMenu("Generate add. output bit", "With this checkbox enabled, the additional output bit will be generated.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Generate additional output bit?" })]
+        [TaskPane("Generate add. output bit", "With this checkbox enabled, the additional output bit will be generated.", "Additional Output Bit", 0, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
         public bool UseClockingBit
         {
             get { return this.useClockingBit; }
@@ -72,6 +61,23 @@ namespace Cryptool.NLFSR
             {
                 this.useClockingBit = (bool)value;
                 OnPropertyChanged("UseClockingBit");
+                HasChanges = true;
+                if (this.useClockingBit)
+                    SettingChanged("ClockingBit", Visibility.Visible);
+                else
+                    SettingChanged("ClockingBit", Visibility.Collapsed);
+            }
+        }
+        
+        private int clockingBit = 0;
+        [TaskPane("Additional output bit #", "Which bit shall be generated as an additional output? For example as an clocking bit.", "Additional Output Bit", 1, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        public int ClockingBit
+        {
+            get { return this.clockingBit; }
+            set
+            {
+                this.clockingBit = value;
+                OnPropertyChanged("ClockingBit");
                 HasChanges = true;
             }
         }
@@ -87,6 +93,10 @@ namespace Cryptool.NLFSR
                 this.useBoolClock = (bool)value;
                 OnPropertyChanged("UseBoolClock");
                 HasChanges = true;
+                if (this.useBoolClock)
+                    SettingChanged("Rounds", Visibility.Collapsed);
+                else
+                    SettingChanged("Rounds", Visibility.Visible);
             }
         }
 
@@ -130,11 +140,31 @@ namespace Cryptool.NLFSR
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        // this event is for disabling stuff in the settings pane
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
+
         public void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)
             {
                 EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
+            }
+        }
+
+        // these 2 functions are for disabling stuff in the settings pane
+        private void SettingChanged(string setting, Visibility vis)
+        {
+            if (TaskPaneAttributeChanged != null)
+            {
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer(setting, vis)));
+            }
+        }
+
+        private void SettingChanged(string setting, Visibility vis, TaskPaneAttribute tpa)
+        {
+            if (TaskPaneAttributeChanged != null)
+            {
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer(setting, vis, tpa)));
             }
         }
 

@@ -115,7 +115,7 @@ namespace Cryptool.Plugins.CLK
         else StatusChanged((int)CLKImage.False);
 
         myRounds = settings.Rounds;
-        GuiLogMessage("myRounds: " + myRounds.ToString(), NotificationLevel.Info);
+        //GuiLogMessage("myRounds: " + myRounds.ToString(), NotificationLevel.Info);
 
         startTime = DateTime.Now;
     }
@@ -135,7 +135,7 @@ namespace Cryptool.Plugins.CLK
                 DateTime stopTime = DateTime.Now;
                 // compute overall time
                 TimeSpan duration = stopTime - startTime;
-                GuiLogMessage("Overall time used: " + duration, NotificationLevel.Info);
+                GuiLogMessage("Overall time used: " + duration, NotificationLevel.Debug);
             }
         }
         else
