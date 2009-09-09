@@ -1,0 +1,239 @@
+<FlowDocument PagePadding="5,0,5,0" AllowDrop="True" NumberSubstitution.CultureSource="User" 
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+			  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			  xmlns:misc="clr-namespace:Cryptool.PluginBase.Miscellaneous;assembly=CrypPluginBase"
+			  Background="White" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+    
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+        <Span FontFamily="Georgia" FontWeight="Bold" FontSize="18.6666666666667" Foreground="#FF15428B" xml:lang="en-us">
+            <Span.TextDecorations>
+                <TextDecoration Location="Underline" />
+            </Span.TextDecorations>
+            Simplified Data Encryption Standard
+        </Span>
+    </Paragraph>
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+        <Span FontFamily="Georgia" FontWeight="Bold" FontSize="17" Foreground="#FF15428B" xml:lang="en-us">
+            <Span.TextDecorations>
+                <TextDecoration Location="Underline" />
+            </Span.TextDecorations>
+            Description
+        </Span>
+    </Paragraph>
+    <Paragraph TextAlignment="Justify">
+        <Run FontSize="16" xml:lang="en-us">
+            SDES is a simplified algorithm similar to DES. 
+            It has been developed for educational purposes. 
+            Instead of DES it is more easily possible to implement the algorithm. 
+            SDES needs a key length of 10 bits for encryption and decryption. 
+            Like DES the SDES algorithm is symmetric - this means the same key is 
+            used for en- and for decryption. 
+            SDES can be easily broken by using a brute force attack, because of its 
+            very small key space (2^10 = 1024 possible keys).
+        </Run>
+    </Paragraph>
+    <Paragraph TextAlignment="Justify">
+    <Run>
+            This plugin enables the user to choose between electronic code book 
+            ECB and cipher block chaining CBC for en- and decryption of texts. This 
+            plugin needs a text stream for en-/decryption. It also needs a key of 10 bit 
+            length (here represented as text containing only '1' and '0'); for example 
+            '1110011010'. Finally an Initialization Vector IV of size 8bit is needed 
+            (also represented as text containing only '1' and '0'); for example 
+            '10010010'. The plugin will not work if the key length or IV length is 
+            wrong (visible by an error message).
+        </Run>
+    </Paragraph>
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+        <Span FontFamily="Georgia" FontWeight="Bold" FontSize="17" Foreground="#FF15428B" xml:lang="en-us">
+            <Span.TextDecorations>
+                <TextDecoration Location="Underline" />
+            </Span.TextDecorations>
+            Block diagram
+        </Span>
+    </Paragraph>
+    <Paragraph TextAlignment="Justify">
+        <Run>
+            The following diagram shows a block diagram as overview of the SDES algorithm:
+        </Run>        
+    </Paragraph>
+    <Paragraph TextAlignment="Justify">
+        <Image Source="/SDES;component/Images/sdes_overview.png"/>
+    </Paragraph>
+    
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+        <Span FontFamily="Georgia" FontWeight="Bold" FontSize="17" Foreground="#FF15428B" xml:lang="en-us">
+            <Span.TextDecorations>
+                <TextDecoration Location="Underline" />
+            </Span.TextDecorations>
+            IP
+        </Span>
+    </Paragraph>
+    <Paragraph TextAlignment="Justify">
+        The IP function permutates 8 bits as follows:
+    </Paragraph>
+    <Table BorderBrush="Black" BorderThickness="1">
+        <TableRowGroup>
+            <TableRow>
+                <TableCell BorderBrush="Black" BorderThickness="1">
+                    <Paragraph>source bit</Paragraph>
+                </TableCell>
+                <TableCell BorderBrush="Black" BorderThickness="1">
+                    <Paragraph>destination bit</Paragraph>
+                </TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell>
+                    <Paragraph>1</Paragraph>
+                </TableCell>
+                <TableCell>
+                    <Paragraph>2</Paragraph>
+                </TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell>
+                    <Paragraph>2</Paragraph>
+                </TableCell>
+                <TableCell>
+                    <Paragraph>6</Paragraph>
+                </TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell>
+                    <Paragraph>3</Paragraph>
+                </TableCell>
+                <TableCell>
+                    <Paragraph>3</Paragraph>
+                </TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell>
+                    <Paragraph>4</Paragraph>
+                </TableCell>
+                <TableCell>
+                    <Paragraph>1</Paragraph>
+                </TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell>
+                    <Paragraph>5</Paragraph>
+                </TableCell>
+                <TableCell>
+                    <Paragraph>4</Paragraph>
+                </TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell>
+                    <Paragraph>6</Paragraph>
+                </TableCell>
+                <TableCell>
+                    <Paragraph>8</Paragraph>
+                </TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell>
+                    <Paragraph>7</Paragraph>
+                </TableCell>
+                <TableCell>
+                    <Paragraph>5</Paragraph>
+                </TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell>
+                    <Paragraph>8</Paragraph>
+                </TableCell>
+                <TableCell>
+                    <Paragraph>7</Paragraph>
+                </TableCell>
+            </TableRow>
+        </TableRowGroup>
+    </Table>
+    
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+        <Span FontFamily="Georgia" FontWeight="Bold" FontSize="17" Foreground="#FF15428B" xml:lang="en-us">
+            <Span.TextDecorations>
+                <TextDecoration Location="Underline" />
+            </Span.TextDecorations>
+            IP inverse
+        </Span>
+    </Paragraph>
+    <Paragraph TextAlignment="Justify">
+        The IP function permutates 8 bits as follows:
+    </Paragraph>
+    <Table BorderBrush="Black" BorderThickness="1">
+        <TableRowGroup>
+            <TableRow>
+                <TableCell BorderBrush="Black" BorderThickness="1">
+                    <Paragraph>source bit</Paragraph>
+                </TableCell>
+                <TableCell BorderBrush="Black" BorderThickness="1">
+                    <Paragraph>destination bit</Paragraph>
+                </TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell>
+                    <Paragraph>1</Paragraph>
+                </TableCell>
+                <TableCell>
+                    <Paragraph>4</Paragraph>
+                </TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell>
+                    <Paragraph>2</Paragraph>
+                </TableCell>
+                <TableCell>
+                    <Paragraph>1</Paragraph>
+                </TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell>
+                    <Paragraph>3</Paragraph>
+                </TableCell>
+                <TableCell>
+                    <Paragraph>3</Paragraph>
+                </TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell>
+                    <Paragraph>4</Paragraph>
+                </TableCell>
+                <TableCell>
+                    <Paragraph>5</Paragraph>
+                </TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell>
+                    <Paragraph>5</Paragraph>
+                </TableCell>
+                <TableCell>
+                    <Paragraph>7</Paragraph>
+                </TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell>
+                    <Paragraph>6</Paragraph>
+                </TableCell>
+                <TableCell>
+                    <Paragraph>2</Paragraph>
+                </TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell>
+                    <Paragraph>7</Paragraph>
+                </TableCell>
+                <TableCell>
+                    <Paragraph>8</Paragraph>
+                </TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell>
+                    <Paragraph>8</Paragraph>
+                </TableCell>
+                <TableCell>
+                    <Paragraph>6</Paragraph>
+                </TableCell>
+            </TableRow>
+        </TableRowGroup>
+    </Table>
+</FlowDocument>
