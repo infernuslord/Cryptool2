@@ -15,13 +15,13 @@ namespace Cryptool.Plugins.ToString
   public class ToString : IThroughput
   {
     # region private variables
-    private int input = int.MinValue;
+      private object input;
     private ToStringSettings settings = new ToStringSettings();
     # endregion private variables
 
     # region public interface
     [PropertyInfo(Direction.InputData, "Input", "Input", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-    public int Input
+    public object Input
     {
       get { return input; }
       set
@@ -37,7 +37,7 @@ namespace Cryptool.Plugins.ToString
     {
       get 
       {
-        if (input != int.MinValue)
+        if (input != null)
           return input.ToString();
         else
           return null;
