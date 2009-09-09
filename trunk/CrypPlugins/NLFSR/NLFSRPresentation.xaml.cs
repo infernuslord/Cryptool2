@@ -45,7 +45,6 @@ namespace Cryptool.NLFSR
             {
                 // hide initial textbox
                 infoText.Visibility = Visibility.Hidden;
-                polynomialText.Visibility = Visibility.Visible;
 
                 // add lines and triangles
                 Line HoriLine1 = new Line();
@@ -59,9 +58,9 @@ namespace Cryptool.NLFSR
 
                 Line HoriLine2 = new Line();
                 HoriLine2.X1 = 5;
-                HoriLine2.Y1 = 47;
+                HoriLine2.Y1 = 57;
                 HoriLine2.X2 = 35 + (state.Length - 1) * 29;
-                HoriLine2.Y2 = 47;
+                HoriLine2.Y2 = 57;
                 HoriLine2.Stroke = Brushes.Black;
                 HoriLine1.StrokeThickness = 1;
                 myGrid.Children.Add(HoriLine2);
@@ -70,7 +69,7 @@ namespace Cryptool.NLFSR
                 VertLine1.X1 = 5;
                 VertLine1.Y1 = 17.5;
                 VertLine1.X2 = 5;
-                VertLine1.Y2 = 47.5;
+                VertLine1.Y2 = 57.5;
                 VertLine1.Stroke = Brushes.Black;
                 VertLine1.StrokeThickness = 1;
                 myGrid.Children.Add(VertLine1);
@@ -218,7 +217,7 @@ namespace Cryptool.NLFSR
                         myEllipses[i].Name = "ellipseXOR" + i;
                         myEllipses[i].Stroke = Brushes.DodgerBlue;
                         myEllipses[i].Margin = new Thickness(9, 9, 9, 9);
-
+                        */
                         myLinesVert[i] = new Line();
                         myLinesVert[i].Name = "VertLineXOR" + i;
                         myLinesVert[i].Stroke = Brushes.Black;
@@ -226,9 +225,9 @@ namespace Cryptool.NLFSR
                         myLinesVert[i].X1 = 15;
                         myLinesVert[i].Y1 = 0.5;
                         myLinesVert[i].X2 = 15;
-                        myLinesVert[i].Y2 = 9;
+                        myLinesVert[i].Y2 = 15;
 
-                        myLinesVertRed[i] = new Line();
+                        /*myLinesVertRed[i] = new Line();
                         myLinesVertRed[i].Name = "VertLineXORRed" + i;
                         myLinesVertRed[i].Stroke = Brushes.DodgerBlue;
                         myLinesVertRed[i].StrokeThickness = 1;
@@ -236,7 +235,7 @@ namespace Cryptool.NLFSR
                         myLinesVertRed[i].Y1 = 9;
                         myLinesVertRed[i].X2 = 15;
                         myLinesVertRed[i].Y2 = 20;
-
+                        
                         myLinesHori[i] = new Line();
                         myLinesHori[i].Name = "HoriLineXOR" + i;
                         myLinesHori[i].Stroke = Brushes.DodgerBlue;
@@ -245,11 +244,11 @@ namespace Cryptool.NLFSR
                         myLinesHori[i].Y1 = 15;
                         myLinesHori[i].X2 = 20;
                         myLinesHori[i].Y2 = 15;
-
-                        myGrids[i].Children.Add(myEllipses[i]);
+                        */
+                        //myGrids[i].Children.Add(myEllipses[i]);
                         myGrids[i].Children.Add(myLinesVert[i]);
-                        myGrids[i].Children.Add(myLinesVertRed[i]);
-                        myGrids[i].Children.Add(myLinesHori[i]);*/
+                        //myGrids[i].Children.Add(myLinesVertRed[i]);
+                        //myGrids[i].Children.Add(myLinesHori[i]);
                     }
                 }
                 // disable /*last*/ and first XOR
@@ -268,6 +267,24 @@ namespace Cryptool.NLFSR
                 outPutLabel.VerticalAlignment = VerticalAlignment.Top;
                 outPutLabel.Name = "outputLabel";
                 myGrid.Children.Add(outPutLabel);
+
+                // add function box underneath
+                TextBox functionTextBox = new TextBox();
+                functionTextBox.Margin = new Thickness(20, 43, 0, 0);
+                functionTextBox.Width = 29 * i + 1;
+                functionTextBox.Height = 30;
+                functionTextBox.HorizontalAlignment = HorizontalAlignment.Left;
+                functionTextBox.VerticalAlignment = VerticalAlignment.Top;
+                functionTextBox.Name = "functionTextBox";
+                functionTextBox.Visibility = Visibility.Visible;
+                functionTextBox.BorderThickness = new Thickness(1);
+                functionTextBox.IsReadOnly = true;
+                functionTextBox.TextAlignment = TextAlignment.Center;
+                functionTextBox.VerticalContentAlignment = VerticalAlignment.Center;
+                functionTextBox.BorderBrush = Brushes.LightGray;
+                functionTextBox.Foreground = Brushes.LightGray;
+
+                myGrid.Children.Add(functionTextBox);
 
             }, null);
 
@@ -301,8 +318,8 @@ namespace Cryptool.NLFSR
                 childVisual.SetValue(Label.ContentProperty, output);
 
                 // update polynome
-                //childVisual = (Visual)VisualTreeHelper.GetChild(polynomialGrid, 0);
-                //childVisual.SetValue(Label.ContentProperty, polynomial);
+                childVisual = (Visual)VisualTreeHelper.GetChild(myGrid, 9 + (i - 1) * 2);
+                childVisual.SetValue(TextBox.TextProperty, polynomial);
 
             }, null);
         }
@@ -313,7 +330,6 @@ namespace Cryptool.NLFSR
             {
                 // remove all elements
                 myGrid.Children.RemoveRange(0, end);
-                polynomialText.Visibility = Visibility.Hidden;
 
                 // show initial infoText again
                 infoText.Visibility = Visibility.Visible;

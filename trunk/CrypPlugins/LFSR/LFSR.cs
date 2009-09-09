@@ -410,6 +410,7 @@ namespace Cryptool.LFSR
                 // the only event to start from, do not go on
             else
             {
+                // do nothing if we should use bool clock, but become event from other inputs
                 if (settings.UseBoolClock) return;
                 //GuiLogMessage("Second if.", NotificationLevel.Info);
             }
@@ -634,7 +635,7 @@ namespace Cryptool.LFSR
                         // write last bit to output buffer, output stream buffer, stream and bool
                         outputbuffer = seedCharArray[seedBits - 1];
                         outputStream.Write((Byte)outputbuffer);
-                        if (!settings.UseBoolClock) outputStringBuffer += seedCharArray[seedBits - 1];
+                        outputStringBuffer += seedCharArray[seedBits - 1];
 
                         // update outputs
                         OnPropertyChanged("OutputBool");
@@ -768,12 +769,9 @@ namespace Cryptool.LFSR
 
                 if (!stop)
                 {
-                    // finally write output string if no bool-clock was used
-                    if (!settings.UseBoolClock)
-                    {
-                        outputString = outputStringBuffer;
-                        OnPropertyChanged("OutputString");
-                    }
+                    // finally write output string
+                    outputString = outputStringBuffer;
+                    OnPropertyChanged("OutputString");
 
                     GuiLogMessage("Complete!", NotificationLevel.Debug);
 
@@ -785,6 +783,7 @@ namespace Cryptool.LFSR
                 if (stop)
                 {
                     outputStream.Close();
+                    outputStringBuffer = null;
                     GuiLogMessage("Aborted!", NotificationLevel.Debug);
                 }
             }

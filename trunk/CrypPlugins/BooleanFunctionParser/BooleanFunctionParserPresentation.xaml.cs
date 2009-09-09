@@ -246,29 +246,38 @@ namespace Cryptool.BooleanFunctionParser
                   {
                       col0.Width = col0Length;
                   }, null);
-              //col0.Width = System.Windows.GridLength.Auto;
+
               if (col1 != null)
                   Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                   {
                       col1.Width = col1Length;
                   }, null);
-              //col1.Width = col1Length;
+              if (colm != null)
+                  Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                  {
+                      colm.Width = col1Length;
+                  }, null);
           }
           else
           {
               GridLength colLength = (GridLength)myGridLengthConverter.ConvertFromString("1*");
+              GridLength colmLength = (GridLength)myGridLengthConverter.ConvertFromString("5");
               if (col0 != null)
                   Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                   {
                       col0.Width = colLength;
                   }, null);
-              //col0.Width = colLength;
+
               if (col1 != null)
                   Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                   {
                       col1.Width = colLength;
                   }, null);
-              //col1.Width = colLength;
+              if (colm != null)
+                  Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                  {
+                      colm.Width = colmLength;
+                  }, null);
           }
       }
 

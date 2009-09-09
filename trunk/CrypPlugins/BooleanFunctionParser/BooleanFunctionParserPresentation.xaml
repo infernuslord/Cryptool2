@@ -5,6 +5,7 @@
     <Grid Height="Auto" Width="Auto" Margin="0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Name="col0" Width="1*"/>
+            <ColumnDefinition Name="colm" Width="5"/>
             <ColumnDefinition Name="col1" Width="1*"/>
         </Grid.ColumnDefinitions>
         
@@ -18,6 +19,9 @@
         <Label Name="labelInputFunction" Grid.Column="0" Grid.Row="0" VerticalAlignment="Top" Margin="4" Padding="0">
             Boolean function:
         </Label>
+        <!-- <Button Name="myButton" Grid.Column="0" Grid.Row="0" Width="20" Height="20" HorizontalAlignment="Left" Background="White" Foreground="White" BorderBrush="White" >
+            <Image Source="Images\copy.png" />
+        </Button>-->
         <Grid Background="White" Grid.Column="0" Grid.Row="1">
         <TextBox Name="textBoxInputFunction" AcceptsTab="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True">
             <TextBox.Background>
@@ -38,20 +42,20 @@
         </TextBox>
         </Grid>
         
-        <Label Name="labelInputFunction2" Grid.Column="1" Grid.Row="0" VerticalAlignment="Top" Margin="4" Padding="0">
-            Boolean function 2 (Cube):
+        <Label Name="labelInputFunction2" Grid.Column="2" Grid.Row="0" VerticalAlignment="Top" Margin="4" Padding="0">
+            2nd boolean function for cube attack:
         </Label>
-        <Grid Background="White" Grid.Column="1" Grid.Row="1">
+        <Grid Background="White" Grid.Column="2" Grid.Row="1">
         <TextBox Name="textBoxInputFunction2" AcceptsTab="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True">
             <TextBox.Background>
                 <ImageBrush ImageSource="Images\cube.gif" AlignmentX="Right" AlignmentY="Bottom" Stretch="None" />
             </TextBox.Background>
         </TextBox>
         </Grid>
-        <Label Name="labelInputData2" Grid.Column="1" Grid.Row="2" VerticalAlignment="Top" Margin="4" Padding="0" >
+        <Label Name="labelInputData2" Grid.Column="2" Grid.Row="2" VerticalAlignment="Top" Margin="4" Padding="0" >
             Secret Key data:
         </Label>
-        <Grid Background="White" Grid.Column="1" Grid.Row="3">
+        <Grid Background="White" Grid.Column="2" Grid.Row="3">
         <TextBox Name="textBoxInputData2" AcceptsTab="True"
                TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" 
                AcceptsReturn="True" >

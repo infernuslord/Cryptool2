@@ -206,14 +206,6 @@ namespace Cryptool.NLFSR
                 OnPropertyChanged("OutputClockingBit");
             }
         }
-        
-        private bool controllerOutput;
-        // [ControllerProperty(Direction.OutputData, "Controller Output", "", DisplayLevel.Beginner)]
-        public object ControllerOutput
-        {
-            get { return controllerOutput; }
-            set { controllerOutput = (bool)value; }
-        }
 
         public void Dispose()
         {
@@ -453,108 +445,73 @@ namespace Cryptool.NLFSR
             return strExpression;
         }
 
-        private ATreeNode FillTree(string strExpression)
+        // solves string with variables replaced by values
+        private bool EvaluateString(string function)
         {
-            // fill tree
-            //char[] charPolynomial = { '0', '*', '1', '+', '0', '*', '1', '+', '1' }; // sample for debug
-            // replace spaces with nothing
-            strExpression = strExpression.Replace(" ", "");
-            char[] charPolynomial = strExpression.ToCharArray();
-            int i;
-            ATreeNode[] treeArray = new ATreeNode[charPolynomial.Length];
+            // remove all spaces in function
+            function = function.Replace(" ", "");
 
-            for (i = 0; i < charPolynomial.Length; i++)
+            // test for AND aka '*'
+            int positionAND = function.IndexOf("*");
+
+            while (positionAND != -1)
             {
-                if (Char.IsDigit(charPolynomial[i]))
-                // should be a digit
-                {
-                    if (i == 0)
-                    {
-                        // first digit
-                        treeArray[i] = new ATreeNode("Constant");
-                        if (charPolynomial[i] == '0') treeArray[i].ConstantData = false;
-                        else treeArray[i].ConstantData = true;
-                    }
-                    else
-                    {
-                        // any other digit
-                        treeArray[i] = new ATreeNode("Constant");
-                        if (charPolynomial[i] == '0') treeArray[i].ConstantData = false;
-                        else treeArray[i].ConstantData = true;
-                        treeArray[i - 1].RightChild = treeArray[i];
-                    }
-                }
-                else
-                // should be an operand
-                {
+                //GuiLogMessage("Position of '*': " + positionAND, NotificationLevel.Debug);
 
-                    /*if (charPolynomial[i] == '!')
-                    {
-                        // ! operand
-                        // TO DO
-                    }
-                    else*/
-                    {
-                        // * or + operands
-                        if (i == 1)
-                        {
-                            treeArray[i] = new ATreeNode(charPolynomial[i].ToString());
-                            treeArray[i].LeftChild = treeArray[i - 1];
-                        }
-                        else
-                        {
-                            treeArray[i] = new ATreeNode(charPolynomial[i].ToString());
-                            treeArray[i].LeftChild = treeArray[i - 2];
-                        }
-                    }
-                }
-                // debug output
-                //Console.Out.Write(treeArray[i].NodeType + " ");
+                // remove XOR
+                function = function.Remove(positionAND, 1);
+
+
+                // get both operands
+                string operator1 = function.Substring(positionAND - 1, 1);
+                string operator2 = function.Substring(positionAND, 1);
+                //GuiLogMessage("op1 and op2: " + operator1 + ", " + operator2, NotificationLevel.Debug);
+
+                string product = (Int32.Parse(operator1) & Int32.Parse(operator2)).ToString();
+                //GuiLogMessage("product: " + product, NotificationLevel.Debug);
+                // remove old values
+                function = function.Remove(positionAND, 1);
+                function = function.Remove(positionAND - 1, 1);
+                // insert new value
+                function = function.Insert(positionAND - 1, product);
+                //GuiLogMessage("function: " + function, NotificationLevel.Debug);
+
+                // any other ANDs in there?
+                positionAND = function.IndexOf("*");
             }
 
-            return treeArray[treeArray.Length - 2];
-        }
+            // test for XOR aka '+'
+            int positionXOR = function.IndexOf("+");
 
-        private bool EvaluateTree(bool X, ATreeNode NodePointer)
-        {
-            //float RightTemp, LeftTemp, UnaryTemp;
-
-            switch (NodePointer.NodeType)
+            while (positionXOR != -1)
             {
-                case "+":
-                    X = EvaluateTree(X, NodePointer.LeftChild) && EvaluateTree(X, NodePointer.RightChild);
-                    break;
+                //GuiLogMessage("Position of '+': " + positionXOR, NotificationLevel.Debug);
 
-                case "-":
-                    X = !(EvaluateTree(X, NodePointer.LeftChild) && EvaluateTree(X, NodePointer.RightChild));
-                    break;
+                // remove XOR
+                function = function.Remove(positionXOR, 1);
 
-                case "*":
-                    X = EvaluateTree(X, NodePointer.LeftChild) ^ EvaluateTree(X, NodePointer.RightChild);
-                    break;
 
-                case "°":
-                    X = !(EvaluateTree(X, NodePointer.LeftChild) ^ EvaluateTree(X, NodePointer.RightChild));
-                    break;
+                // get both operands
+                string operator1 = function.Substring(positionXOR - 1, 1);
+                string operator2 = function.Substring(positionXOR, 1);
+                //GuiLogMessage("op1 and op2: " + operator1 + ", " + operator2, NotificationLevel.Debug);
 
-                case "|":
-                    X = EvaluateTree(X, NodePointer.LeftChild) | EvaluateTree(X, NodePointer.RightChild);
-                    break;
+                string sum = (Int32.Parse(operator1) ^ Int32.Parse(operator2)).ToString();
+                //GuiLogMessage("sum: " + sum, NotificationLevel.Debug);
+                // remove old values
+                function = function.Remove(positionXOR, 1);
+                function = function.Remove(positionXOR - 1, 1);
+                // insert new value
+                function = function.Insert(positionXOR - 1, sum);
+                //GuiLogMessage("function: " + function, NotificationLevel.Debug);
 
-                case "_":
-                    X = !(EvaluateTree(X, NodePointer.LeftChild) | EvaluateTree(X, NodePointer.RightChild));
-                    break;
-
-                case "XVariable":
-                    // X = X;
-                    break;
-
-                case "Constant":
-                    X = NodePointer.ConstantData;
-                    break;
+                // any other XORs in there?
+                positionXOR = function.IndexOf("+");
             }
 
-            return X;
+            bool result = Convert.ToBoolean(Int32.Parse(function));
+
+            return result;
         }
 
         #endregion
@@ -687,14 +644,23 @@ namespace Cryptool.NLFSR
                     seedCharArray = seedbuffer.ToCharArray();
 
                     // check if seed is binary
-                    foreach (char character in seedCharArray)
+                    for (int z = 0; z < seedCharArray.Length; z++)
                     {
-                        if (character != '0' && character != '1')
+                        if (seedCharArray[z] != '0' && seedCharArray[z] != '1')
                         {
-                            GuiLogMessage("ERROR 0 - Seed has to be binary. Aborting now. Character is: " + character, NotificationLevel.Error);
+                            GuiLogMessage("ERROR 0 - Seed has to be binary. Aborting now. Character is: " + seedCharArray[z], NotificationLevel.Error);
                             return;
                         }
+                        // create tapSequence for drawing NLFSR
+                        string temp = "x^" + z;
+                        if (tapSequencebuffer.Contains(temp))
+                        {
+                            tapSequenceCharArray[((z - seedCharArray.Length) * -1)-1] = '1';
+                        }
+                        else
+                            tapSequenceCharArray[((z - seedCharArray.Length) * -1)-1] = '0';
                     }
+
                     if (settings.UseClockingBit)
                     {
                         if (settings.ClockingBit < seedCharArray.Length) clocking = (seedCharArray.Length - settings.ClockingBit - 1);
@@ -716,6 +682,8 @@ namespace Cryptool.NLFSR
                         if (settings.Rounds == 0) actualRounds = defaultRounds; else actualRounds = settings.Rounds;
                     }
                     else actualRounds = 1;
+
+                    // create tapSequence for drawing NLFSR
                 }
                 
                 // Here we go!
@@ -739,7 +707,7 @@ namespace Cryptool.NLFSR
                 //TODO
                 if (!settings.NoQuickwatch)
                 {
-                    NLFSRPresentation.DrawNLFSR(seedCharArray, seedCharArray, clocking);
+                    NLFSRPresentation.DrawNLFSR(seedCharArray, tapSequenceCharArray, clocking);
                 }
 
                 // open output stream
@@ -772,7 +740,7 @@ namespace Cryptool.NLFSR
                         // write last bit to output buffer, output stream buffer, stream and bool
                         outputbuffer = seedCharArray[seedBits - 1];
                         outputStream.Write((Byte)outputbuffer);
-                        if (!settings.UseBoolClock) outputStringBuffer += seedCharArray[seedBits - 1];
+                        outputStringBuffer += seedCharArray[seedBits - 1];
 
                         // update outputs
                         OnPropertyChanged("OutputBool");
@@ -792,12 +760,12 @@ namespace Cryptool.NLFSR
                             if (!settings.UseBoolClock) inputClock.Close();
                             return;
                         }
-                        GuiLogMessage("tapPolynomial is: " + tapPolynomial, NotificationLevel.Info);
+                        //GuiLogMessage("tapPolynomial is: " + tapPolynomial, NotificationLevel.Info);
 
                         bool resultBool = true;
-                        resultBool = EvaluateTree(resultBool, FillTree(tapPolynomial));
+                        resultBool = EvaluateString(tapPolynomial);
 
-                        GuiLogMessage("resultBool is: " + resultBool, NotificationLevel.Info);
+                        //GuiLogMessage("resultBool is: " + resultBool, NotificationLevel.Info);
                         if (resultBool) newBit = '1'; else newBit = '0';
 
                         // keep output bit for presentation
@@ -814,7 +782,7 @@ namespace Cryptool.NLFSR
                         //update quickwatch presentation
                         if (!settings.NoQuickwatch)
                         {
-                            NLFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, outputBit, BuildPolynomialFromBinary(tapSequenceCharArray));
+                            NLFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, outputBit, tapSequencebuffer);
                         }
 
                         // write current "seed" back to seedbuffer
@@ -844,7 +812,7 @@ namespace Cryptool.NLFSR
                                 //update quickwatch presentation
                                 if (!settings.NoQuickwatch)
                                 {
-                                    NLFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, '2', BuildPolynomialFromBinary(tapSequenceCharArray));
+                                    NLFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, '2', tapSequencebuffer);
                                 }
                             }
                             else
@@ -894,9 +862,6 @@ namespace Cryptool.NLFSR
                     }
                 }
 
-                controllerOutput = true;
-                OnPropertyChanged("ControllerOutput");
-
                 // stop counter
                 DateTime stopTime = DateTime.Now;
                 // compute overall time
@@ -904,12 +869,9 @@ namespace Cryptool.NLFSR
 
                 if (!stop)
                 {
-                    // finally write output string if no bool-clock was used
-                    if (!settings.UseBoolClock)
-                    {
-                        outputString = outputStringBuffer;
-                        OnPropertyChanged("OutputString");
-                    }
+                    // finally write output string
+                    outputString = outputStringBuffer;
+                    OnPropertyChanged("OutputString");
 
                     GuiLogMessage("Complete!", NotificationLevel.Debug);
 
@@ -922,6 +884,7 @@ namespace Cryptool.NLFSR
                 if (stop)
                 {
                     outputStream.Close();
+                    outputStringBuffer = null;
                     if (!settings.UseBoolClock) inputClock.Close();
                     GuiLogMessage("Aborted!", NotificationLevel.Debug);
                 }
@@ -1020,66 +983,4 @@ namespace Cryptool.NLFSR
 
     #endregion
 
-    public class ATreeNode
-    {
-        #region private variables
-
-        private ATreeNode _leftChild;
-        private ATreeNode _rightChild;
-        private ATreeNode _unaryChild;
-        private string _nodeType;
-        private bool _constantData;
-
-        /*private enum _nodeType
-        {
-            Add,Subtract,Multiply,Divide,Power,AbsValue,Log,Negation,Sine,Square,SquareRoot,XVariable,Constant
-        }*/
-
-        #endregion
-
-        #region public interfaces
-
-        public ATreeNode LeftChild
-        {
-            get { return _leftChild; }
-            set { _leftChild = value; }
-        }
-
-        public ATreeNode RightChild
-        {
-            get { return _rightChild; }
-            set { _rightChild = value; }
-        }
-
-        public ATreeNode UnaryChild
-        {
-            get { return _unaryChild; }
-            set { _unaryChild = value; }
-        }
-
-        public string NodeType
-        {
-            get { return _nodeType; }
-        }
-
-        public bool ConstantData
-        {
-            get { return _constantData; }
-            set { _constantData = value; }
-        }
-
-        public bool HasChildren
-        {
-            get { return (_leftChild != null || _rightChild != null); }
-        }
-
-        #endregion
-
-        // Constructor
-        public ATreeNode(string nodeType)
-        {
-            _nodeType = nodeType;
-            _leftChild = _rightChild = _unaryChild = null;
-        }
-    }
 }

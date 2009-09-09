@@ -85,19 +85,19 @@ namespace Cryptool.BooleanFunctionParser
             }
         }
 
-        [ContextMenu("Use BFP for CubeAttack",
-            "Adjust the BFP for use with Cube Attack.",
-            2,
-            DisplayLevel.Beginner,
+        [ContextMenu("CubeAttack mode",
+            "Extend the BFP for use as a slave for Cube Attack.",
+            1,
+            DisplayLevel.Experienced,
             ContextMenuControlType.CheckBox,
             null,
             "")]
-        [TaskPane("Use BFP for CubeAttack",
-            "Adjust the BFP for use with Cube Attack.",
+        [TaskPane("CubeAttack mode",
+            "Extend the BFP for use as a slave for Cube Attack.",
             null,
             1,
             false,
-            DisplayLevel.Expert,
+            DisplayLevel.Experienced,
             ControlType.CheckBox, "")]
         public bool UseBFPforCube
         {
