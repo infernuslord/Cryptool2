@@ -213,9 +213,10 @@ using System.ComponentModel;
 namespace Cryptool.Plugins.BigNumber
 {
     [Author("Sven Rech", "sven.rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(true, "BigNumberOperation", "Big Number Operation", null, "BigNumber/operationIcon.png")]
+    [PluginInfo(true, "BigNumberOperation", "Big Number Operation", null, "BigNumber/icons/plusIcon.png", "BigNumber/icons/minusIcon.png", "BigNumber/icons/timesIcon.png", "BigNumber/icons/divIcon.png", "BigNumber/icons/powIcon.png")]
     class BigNumberOperation : IThroughput
     {
+
         #region Properties
 
         private BigInteger input1 = null;
@@ -321,13 +322,53 @@ namespace Cryptool.Plugins.BigNumber
 
         public void Execute()
         {
-            if (input1 is object && input2 is object)
+            if (input1 is object && input2 is object && (!(Mod is object)))
             {
+                switch (settings.Operat)
+                {
+                    case 0:
+                        {
+                            Output = Input1 + Input2;
+                            ProgressChanged(1.0, 1.0);
+                            break;
+                        }
+                    case 1:
+                        {
+                            Output = Input1 - Input2;
+                            ProgressChanged(1.0, 1.0);
+                            break;
+                        }
+                    case 2:
+                        {
+                            Output = Input1 * Input2;
+                            ProgressChanged(1.0, 1.0);
+                            break;
+                        }
+                    case 3:
+                        {
+                            Output = Input1 / Input2;
+                            ProgressChanged(1.0, 1.0);
+                            break;
+                        }
+                    case 4:
+                        {
+                            Output = Input1 ^ Input2;
+                            ProgressChanged(1.0, 1.0);
+                            break;
+                        }
+                }
+            }
+            if(input1 is object && input2 is object && Mod is object)
+            {
+                
                 ProgressChanged(0.5, 1.0);
                 try
                 {
                     if (Mod is object)
+                    {
                         Output = (Input1 * Input2) % Mod;
+                        settings.ChangeIcon(5);
+                    }
                     else
                         Output = Input1 * Input2;
                 }
