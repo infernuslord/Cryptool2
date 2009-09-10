@@ -11,7 +11,7 @@ namespace Cryptool.CaesarAnalysisHelper
 {
     [Author("Fabian Enkler", "", "", "")]
     [PluginInfo(false, "CaesarAnalysisHelper", "This plugin is designed in order to make a cryptanalysis of a caesarcipher based on the frequency test.", "", "CaesarAnalysisHelper/icon.png")]
-    public class CaesarAnalysisHelper : IAnalysisMisc
+    public class CaesarAnalysisHelper : ISpecific
     {
         private readonly CaesarAnalysisHelperSettings settings;
 
