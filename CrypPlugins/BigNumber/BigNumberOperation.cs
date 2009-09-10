@@ -322,60 +322,55 @@ namespace Cryptool.Plugins.BigNumber
 
         public void Execute()
         {
-            if (input1 is object && input2 is object && (!(Mod is object)))
-            {
-                switch (settings.Operat)
-                {
-                    case 0:
-                        {
-                            Output = Input1 + Input2;
-                            ProgressChanged(1.0, 1.0);
-                            break;
-                        }
-                    case 1:
-                        {
-                            Output = Input1 - Input2;
-                            ProgressChanged(1.0, 1.0);
-                            break;
-                        }
-                    case 2:
-                        {
-                            Output = Input1 * Input2;
-                            ProgressChanged(1.0, 1.0);
-                            break;
-                        }
-                    case 3:
-                        {
-                            Output = Input1 / Input2;
-                            ProgressChanged(1.0, 1.0);
-                            break;
-                        }
-                    case 4:
-                        {
-                            Output = Input1 ^ Input2;
-                            ProgressChanged(1.0, 1.0);
-                            break;
-                        }
-                }
-            }
             if(input1 is object && input2 is object && Mod is object)
             {
                 
                 ProgressChanged(0.5, 1.0);
                 try
                 {
-                    if (Mod is object)
+                    switch (settings.Operat)
                     {
-                        Output = (Input1 * Input2) % Mod;
-                        settings.ChangeIcon(5);
+                        case 0:
+                            if (Mod is object)
+                                Output = (Input1 + Input2) % Mod;
+                            else
+                                Output = Input1 + Input2;
+                            break;
+                        case 1:
+                            if (Mod is object)
+                                Output = (Input1 - Input2) % Mod;
+                            else
+                                Output = Input1 - Input2;
+                            break;
+                        case 2:
+                            if (Mod is object)
+                                Output = (Input1 * Input2) % Mod;
+                            else
+                                Output = Input1 * Input2;
+                            break;
+                        case 3:
+                            if (Mod is object)
+                                Output = (Input1 / Input2) % Mod;
+                            else
+                                Output = Input1 / Input2;
+                            break;
+                        case 4:
+                            if (Mod is object)
+                                Output = Input1.modPow(Input2, Mod);
+                            else
+                            {
+                                BigInteger tmp = 1;
+                                for (BigInteger i = 0; i < Input2; i++)
+                                    tmp *= Input1;
+                                Output = tmp;
+                            }
+                            break;
                     }
-                    else
-                        Output = Input1 * Input2;
                 }
                 catch (Exception)
                 {
 
-                    GuiLogMessage("Error multiplying big numbers.", NotificationLevel.Error);
+                    GuiLogMessage("Error operating big numbers.", NotificationLevel.Error);
                     return;
                 }
                 ProgressChanged(1.0, 1.0);
