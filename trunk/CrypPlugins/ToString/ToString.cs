@@ -51,7 +51,6 @@ namespace Cryptool.Plugins.ToString
 #pragma warning disable 67
 		public event StatusChangedEventHandler OnPluginStatusChanged;
 		public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-		public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 #pragma warning restore
     
     public ISettings Settings
@@ -75,6 +74,7 @@ namespace Cryptool.Plugins.ToString
 
     public void Execute()
     {
+        OnProgressChanged(1, 1);
     }
 
     public void PostExecution()
@@ -106,6 +106,13 @@ namespace Cryptool.Plugins.ToString
     protected void OnPropertyChanged(string name)
     {
       EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
+    }
+
+    public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+
+    private void OnProgressChanged(double value, double max)
+    {
+        EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
     }
 
     #endregion
