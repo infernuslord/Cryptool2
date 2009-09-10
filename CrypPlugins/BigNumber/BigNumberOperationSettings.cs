@@ -218,7 +218,7 @@ namespace Cryptool.Plugins.BigNumber
 
         #endregion
         #region taskpane
-        [TaskPane("Operat", "Choose the operator.", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "+","-","*","//","x^y"})]
+        [TaskPane("Operat", "Choose the operator.", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "x+y","x-y","x*y","x/y","x^y"})]
         public int Operat
         {
             get { return this.operat; }
@@ -251,6 +251,11 @@ namespace Cryptool.Plugins.BigNumber
                 }
             }
         }
+
+        private void ChangePluginIcon(int p)
+        {
+            OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, p));
+        }
         #endregion
         #region ISettings Members
 
@@ -273,15 +278,6 @@ namespace Cryptool.Plugins.BigNumber
                 PropertyChanged(this, new PropertyChangedEventArgs(p));
         }
         public event StatusChangedEventHandler OnPluginStatusChanged;
-        private void ChangePluginIcon(int Icon)
-        {
-            if (OnPluginStatusChanged != null) OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, Icon));
-        }
-
-        public void ChangeIcon(int icon)
-        {
-            ChangePluginIcon(icon);
-        }
 
         #endregion
     }
