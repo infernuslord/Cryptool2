@@ -212,6 +212,46 @@ namespace Cryptool.Plugins.BigNumber
 {
     class BigNumberOperationSettings : ISettings
     {
+        #region private variables
+
+        private int operat;
+
+        #endregion
+        #region taskpane
+        [TaskPane("Operat", "Choose the operator.", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "+","-","*","//","x^y"})]
+        public int Operat
+        {
+            get { return this.operat; }
+            set
+            {
+                if ((int)value != this.operat)
+                {
+                    this.operat = (int)value;
+                    OnPropertyChanged("Operat");
+                    HasChanges = true;
+
+                    switch (operat)
+                    {
+                        case 0:
+                            ChangePluginIcon(0);
+                            break;
+                        case 1:
+                            ChangePluginIcon(1);
+                            break;
+                        case 2:
+                            ChangePluginIcon(2);
+                            break;
+                        case 3:
+                            ChangePluginIcon(3);
+                            break;
+                        case 4:
+                            ChangePluginIcon(4);
+                            break;
+                    }
+                }
+            }
+        }
+        #endregion
         #region ISettings Members
 
         private bool hasChanges;
@@ -231,6 +271,16 @@ namespace Cryptool.Plugins.BigNumber
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(p));
+        }
+        public event StatusChangedEventHandler OnPluginStatusChanged;
+        private void ChangePluginIcon(int Icon)
+        {
+            if (OnPluginStatusChanged != null) OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, Icon));
+        }
+
+        public void ChangeIcon(int icon)
+        {
+            ChangePluginIcon(icon);
         }
 
         #endregion

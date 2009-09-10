@@ -214,7 +214,7 @@ using System.ComponentModel;
 namespace Cryptool.Plugins.BigNumber
 {
     [Author("Sven Rech", "sven.rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(true, "BigNumberInput", "Big Number Input", null, "BigNumber/inputIcon.png")]
+    [PluginInfo(true, "BigNumberInput", "Big Number Input", null, "BigNumber/icons/inputIcon.png")]
     class BigNumberInput : IInput
     {
 
