@@ -213,14 +213,19 @@ using System.ComponentModel;
 namespace Cryptool.Plugins.BigNumber
 {
     [Author("Sven Rech", "sven.rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(true, "BigNumberOperation", "Big Number Operation", null, "BigNumber/icons/plusIcon.png", "BigNumber/icons/minusIcon.png", "BigNumber/icons/timesIcon.png", "BigNumber/icons/divIcon.png", "BigNumber/icons/powIcon.png")]
+    [PluginInfo(false, "BigNumberOperation", "Big Number Operation", null, "BigNumber/icons/plusIcon.png", "BigNumber/icons/minusIcon.png", "BigNumber/icons/timesIcon.png", "BigNumber/icons/divIcon.png", "BigNumber/icons/powIcon.png")]
     class BigNumberOperation : IThroughput
     {
+
+        public BigNumberOperation()
+        {
+            this.settings.OnPluginStatusChanged += settings_OnPluginStatusChanged;
+        }
 
         #region Properties
 
         private BigInteger input1 = null;
-        [PropertyInfo(Direction.InputData, "Input1", "Number Input 1", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "x Input", "Number Input 1", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
         public BigInteger Input1
         {
             get
@@ -235,7 +240,7 @@ namespace Cryptool.Plugins.BigNumber
         }
 
         private BigInteger input2 = null;
-        [PropertyInfo(Direction.InputData, "Input2", "Number Input 2", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "y Input", "Number Input 2", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
         public BigInteger Input2
         {
             get
@@ -322,7 +327,7 @@ namespace Cryptool.Plugins.BigNumber
 
         public void Execute()
         {
-            if(input1 is object && input2 is object && Mod is object)
+            if(input1 is object && input2 is object)
             {
                 
                 ProgressChanged(0.5, 1.0);
@@ -409,5 +414,10 @@ namespace Cryptool.Plugins.BigNumber
         }
 
         #endregion
+
+        private void settings_OnPluginStatusChanged(IPlugin sender, StatusEventArgs args)
+        {
+            if (OnPluginStatusChanged != null) OnPluginStatusChanged(this, args);
+        }
     }
 }
