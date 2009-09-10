@@ -1,5 +1,5 @@
 ﻿/*                              
-   Copyright 2009 Dennis Nolte, Uni Duisburg-Essen
+   Copyright 2009 Team Cryptool (Sven Rech,Dennis Nolte,Raoul Falk,Nils Kopal), Uni Duisburg-Essen
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
