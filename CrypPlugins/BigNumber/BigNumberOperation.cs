@@ -361,21 +361,33 @@ namespace Cryptool.Plugins.BigNumber
                             break;
                         case 4:
                             if (Mod is object)
-                                Output = Input1.modPow(Input2, Mod);
+                            {
+                                if (Input2 >= 0)
+                                    Output = Input1.modPow(Input2, Mod);
+                                else
+                                {
+                                    Output = Input1.modInverse(Mod).modPow(-Input2, Mod);
+                                }
+                            }
                             else
                             {
-                                BigInteger tmp = 1;
-                                for (BigInteger i = 0; i < Input2; i++)
-                                    tmp *= Input1;
-                                Output = tmp;
+                                if (Input2 >= 0)
+                                {
+                                    BigInteger tmp = 1;
+                                    for (BigInteger i = 0; i < Input2; i++)
+                                        tmp *= Input1;
+                                    Output = tmp;
+                                }
+                                else
+                                    throw new Exception("Pow without mod not possible with negative exponent!");
                             }
                             break;
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
 
-                    GuiLogMessage("Error operating big numbers.", NotificationLevel.Error);
+                    GuiLogMessage("Big Number fail: " + e.Message, NotificationLevel.Error);
                     return;
                 }
                 ProgressChanged(1.0, 1.0);
