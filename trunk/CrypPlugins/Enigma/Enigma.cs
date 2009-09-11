@@ -407,7 +407,7 @@ namespace Cryptool.Enigma
                 if (line.StartsWith("#"))
                     continue;
 
-                string[] tokens = new WordTokenizer(line).ToArray();
+                string[] tokens = WordTokenizer.tokenize(line).ToArray();
                 if (tokens.Length == 0)
                     continue;
                 Debug.Assert(tokens.Length == 2, "Expected 2 tokens, found " + tokens.Length + " on one line");

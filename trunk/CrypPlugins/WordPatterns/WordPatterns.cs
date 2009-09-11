@@ -131,7 +131,7 @@ namespace WordPatterns
             {
                 dictPatterns = new Dictionary<Pattern, IList<string>>();
                 int wordCount = 0;
-                WordTokenEnum enumerator = new WordTokenizer(inputDict).GetSpecialEnumerator();
+                WordEnumerator enumerator = WordTokenizer.tokenize(inputDict).GetCustomEnumerator();
                 while(enumerator.MoveNext() && !stop) // has next
                 {
                     string word = enumerator.Current;

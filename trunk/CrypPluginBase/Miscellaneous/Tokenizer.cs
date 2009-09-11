@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 using System.Collections;
+using System.IO;
 
 namespace Cryptool.PluginBase.Miscellaneous
 {
@@ -24,11 +25,71 @@ namespace Cryptool.PluginBase.Miscellaneous
         }
     }
 
+    public class KeyValueReader : Dictionary<string, string>
+    {
+        public KeyValueReader(FileInfo file)
+        {
+            ReadLines(file.OpenText());
+        }
+
+        private void ReadLines(StreamReader sr)
+        {
+            string line;
+            while ((line = sr.ReadLine()) != null)
+            {
+                // ignore comment lines
+                if (line.StartsWith("#"))
+                    continue;
+
+                string[] tokens = line.Split(new char[] { '=' }, 2);
+                if (tokens.Length < 1 || tokens[0] == null)
+                    continue;
+
+                string key = tokens[0].Trim();
+                string value = tokens.Length < 2 ? null : tokens[1];
+
+                if (value != null)
+                    value = value.Trim();
+
+                if (!ContainsKey(key))
+                    Add(key, value);
+            }
+        }
+    }
+
     public class WordTokenizer : IEnumerable<string>
     {
+        /// <summary>
+        /// Tokenize an input string to words.
+        /// </summary>
+        /// <param name="input">some input string containing human-readable text</param>
+        /// <returns></returns>
+        public static WordTokenizer tokenize(string input)
+        {
+            return new WordTokenizer(input);
+        }
+
+        /// <summary>
+        /// Tokenize an an input file to words.
+        /// </summary>
+        /// <param name="file">some input file containing human-readable text</param>
+        /// <returns></returns>
+        public static IEnumerable<string> tokenize(FileInfo file)
+        {
+            StreamReader sr = file.OpenText();
+            string line;
+            while((line = sr.ReadLine()) != null)
+            {
+                foreach(string token in new WordTokenizer(line))
+                {
+                    yield return token;
+                }
+            }
+        }
+
         private string input;
 
-        public WordTokenizer(string input)
+        private WordTokenizer(string input)
         {
             this.input = input;
         }
@@ -37,38 +98,37 @@ namespace Cryptool.PluginBase.Miscellaneous
         /// Returns enumerator with access to some special methods.
         /// </summary>
         /// <returns></returns>
-        public WordTokenEnum GetSpecialEnumerator()
+        public WordEnumerator GetCustomEnumerator()
         {
-            return new WordTokenEnum(input);
+            return new WordEnumerator(input);
         }
 
         #region IEnumerable<string> Members
 
         public IEnumerator<string> GetEnumerator()
         {
-            return GetSpecialEnumerator();
+            return GetCustomEnumerator();
         }
 
         #endregion
 
         #region IEnumerable Members
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetSpecialEnumerator();
+            return GetCustomEnumerator();
         }
 
         #endregion
     }
 
-    public class WordTokenEnum : IEnumerator<string>
+    public class WordEnumerator : IEnumerator<string>
     {
-
         private string input;
         private int offset = -1;
         private string token = null;
 
-        public WordTokenEnum(string input)
+        public WordEnumerator(string input)
         {
             this.input = input;
         }
@@ -188,19 +248,26 @@ namespace Cryptool.PluginBase.Miscellaneous
 
     public class GramTokenizer : IEnumerable<string>
     {
+        public static IEnumerable<string> tokenize(string word)
+        {
+            return new GramTokenizer(word, 1, false);
+        }
+
+        public static IEnumerable<string> tokenize(string word, int gramLength)
+        {
+            return new GramTokenizer(word, gramLength, false);
+        }
+
+        public static IEnumerable<string> tokenize(string word, int gramLength, bool includeFragments)
+        {
+            return new GramTokenizer(word, 1, includeFragments);
+        }
+
         private string word;
         private int gramLength;
         private bool includeFragments;
 
-        public GramTokenizer(string word) : this(word, 1)
-        {
-        }
-
-        public GramTokenizer(string word, int gramLength): this(word, gramLength, false)
-        {
-        }
-
-        public GramTokenizer(string word, int gramLength, bool includeFragments)
+        private GramTokenizer(string word, int gramLength, bool includeFragments)
         {
             if (word == null || word.Length < 1)
             {
@@ -252,7 +319,7 @@ namespace Cryptool.PluginBase.Miscellaneous
 
         public IEnumerator<string> GetEnumerator()
         {
-            return new GramTokenEnum(word, gramLength);
+            return new GramEnumerator(word, gramLength);
         }
 
         #endregion
@@ -261,20 +328,20 @@ namespace Cryptool.PluginBase.Miscellaneous
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return new GramTokenEnum(word, gramLength);
+            return new GramEnumerator(word, gramLength);
         }
 
         #endregion
     }
 
-    public class GramTokenEnum : IEnumerator<string>
+    public class GramEnumerator : IEnumerator<string>
     {
         private readonly string word;
         private readonly int gramLength;
 
         private int position = -1;
 
-        public GramTokenEnum(string word, int gramLength)
+        public GramEnumerator(string word, int gramLength)
         {
             this.word = word;
             this.gramLength = gramLength;

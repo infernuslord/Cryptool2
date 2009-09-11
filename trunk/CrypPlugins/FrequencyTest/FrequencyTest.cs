@@ -145,7 +145,7 @@ namespace Cryptool.FrequencyTest
 
                 if (settings.BoundaryFragments == 1)
                 {
-                    foreach (string word in new WordTokenizer(workstring))
+                    foreach (string word in WordTokenizer.tokenize(workstring))
                     {
                         ProcessWord(word);
                     }
@@ -220,7 +220,7 @@ namespace Cryptool.FrequencyTest
                 workstring = workstring.ToUpper();
             }
 
-            foreach (string g in new GramTokenizer(workstring, settings.GrammLength, settings.BoundaryFragments==1))
+            foreach (string g in GramTokenizer.tokenize(workstring, settings.GrammLength, settings.BoundaryFragments == 1))
             {
                 if (!grams.ContainsKey(g))
                 {
