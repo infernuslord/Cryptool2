@@ -48,7 +48,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         public string PathToMonogramStatistics = "CrypPlugins/MonoalphabeticAnalysis_mo_en.txt";
         public string PathToDigramStatistics = "CrypPlugins/MonoalphabeticAnalysis_di_en.txt";
         private string alphabetCaseInsensitive = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
+        private bool finished = false;
 
         #region Properties (Inputs/Outputs)
 
@@ -95,6 +95,19 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
 
+
+        private int dictionaryHits;
+        [PropertyInfo(Direction.InputData, "Words Found in Dictionary", "Words Found in Dictionary", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public int DictionaryHits
+        {
+            get
+            {
+                return dictionaryHits;
+            }
+            set { dictionaryHits = value; OnPropertyChanged("DictionaryHits"); }
+        }
+
+
         [PropertyInfo(Direction.OutputData, "String output", "Proposal Alphabets", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public string StringOutput
         {
@@ -138,15 +151,17 @@ namespace Cryptool.MonoalphabeticAnalysis
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
         private MonoalphabeticAnalysisSettings settings;
+
         public ISettings Settings
         {
-            get { return settings; }
-            set { settings = (MonoalphabeticAnalysisSettings)value; }
+            get { return (ISettings)this.settings; }
+            set { this.settings = (MonoalphabeticAnalysisSettings)value; }
         }
         // private FrequencyTestPresentation presentation;
         public MonoalphabeticAnalysis()
         {
-            settings = new MonoalphabeticAnalysisSettings();
+            this.settings = new MonoalphabeticAnalysisSettings();
+            //settings = new MonoalphabeticAnalysisSettings();
             // presentation = new FrequencyTestPresentation(this);
             // Presentation = presentation;
             //  QuickWatchPresentation = presentation;
@@ -166,107 +181,118 @@ namespace Cryptool.MonoalphabeticAnalysis
         //////////////
         //EXECUTE!!!//    //IMPLEMENTATION ATTEMPT OF THE ALGORITHM: Jakobsen, Thomas(1995)'A FAST METHOD FOR CRYPTANALYSIS OF SUBSTITUTION CIPHERS',Cryptologia,19:3,265 — 274
         //////////////
-      
-        public void Execute() 
-        {
-            
 
-            if (cipherTextFrequencyInput_Monograms != "") 
+        public void Execute()
+        {
+            if (settings.SuggestSubstitutionManually == true && settings.WorkKey != "" )
+            {
+                stringOutput = settings.WorkKey;
+                OnPropertyChanged("StringOutput");
+               
+            }
+            else
             {
 
-               //File.WriteAllText("veriinterestingfilewithmonogramstatistic", textStatisticInput_Monograms);
-               // File.WriteAllText("veriinterestingfilewithdigramstatistic", textStatisticInput_Digrams);
-               
-               // ImplementSettings();
-                //if Optional Statistical input not used -> use variables from pre-analysed Text (James Clavel's Shogun in our case)  
-                if (textStatisticInput_Monograms == "") textStatisticInput_Monograms = ShogunStatistics.ShogunMonograms;//File.ReadAllText(PathToMonogramStatistics);
-                if (textStatisticInput_Digrams == "") textStatisticInput_Digrams = ShogunStatistics.ShogunDigrams;//File.ReadAllText(PathToDigramStatistics);
 
-                 if (GoodAlphabet == null) //first pass
-                 {
-                     //GoodAlphabet equals null means initial alphabet should be generated
-                    string alphabet = "";
-                    ArrayList mapping1 = InitialMapping(cipherTextFrequencyInput_Monograms, textStatisticInput_Monograms);
+                if (cipherTextFrequencyInput_Monograms != "")
+                {
 
-                    alphabet = AlphabetFromMapping(mapping1);
+                    //File.WriteAllText("veriinterestingfilewithmonogramstatistic", textStatisticInput_Monograms);
+                    // File.WriteAllText("veriinterestingfilewithdigramstatistic", textStatisticInput_Digrams);
 
-                    GoodAlphabet = alphabet;
-                    stringOutput = MapDecryptKeyAlphabet(alphabet);
-                    OnPropertyChanged("StringOutput");
+                    // ImplementSettings();
+                    //if Optional Statistical input not used -> use variables from pre-analysed Text (James Clavel's Shogun in our case)  
+                    if (textStatisticInput_Monograms == "") textStatisticInput_Monograms = ShogunStatistics.ShogunMonograms;//File.ReadAllText(PathToMonogramStatistics);//
+                    if (textStatisticInput_Digrams == "") textStatisticInput_Digrams = ShogunStatistics.ShogunDigrams;//File.ReadAllText(PathToDigramStatistics);//
 
-                 }
+                    if (GoodAlphabet == null) //first pass
+                    {
+                        //GoodAlphabet equals null means initial alphabet should be generated
+                        string alphabet = "";
+                        ArrayList mapping1 = InitialMapping(cipherTextFrequencyInput_Monograms, textStatisticInput_Monograms);
 
+                        alphabet = AlphabetFromMapping(mapping1);
+
+                        GoodAlphabet = alphabet;
+                        stringOutput = MapDecryptKeyAlphabet(alphabet);
+                        
+
+                    }
+
+
+
+                    if (GoodAlphabet != null && decipherAttempt_Digrams != "" && AlphabetcounterB < GoodAlphabet.Length)
+                    {
+
+                        double goodness = ReturnAlphabetGoodness();
+                        if (alphabetGoodnes == 0) //secondpass
+                        {
+
+                            if (settings.FastAproach == 1)
+                            {
+                                alphabetGoodnes = goodness;
+                                FastAproach();
+
+
+                            }
+
+
+                            else
+                            {
+                                alphabetGoodnes = goodness;
+                                string alphabet1 = GenerateNextAlphabet();
+                                NextAlphabet = alphabet1;
+                                stringOutput = MapDecryptKeyAlphabet(NextAlphabet);
+                                
+                            }
+
+
+
+
+                        }
+
+                        if (alphabetGoodnes > goodness && settings.FastAproach == 0) //third pass and on 
+                        {
+                            GoodAlphabet = NextAlphabet;
+                            alphabetGoodnes = goodness;
+
+                            string alphabet1 = GenerateNextAlphabet();
+                            NextAlphabet = alphabet1;
+                            stringOutput = MapDecryptKeyAlphabet(NextAlphabet);
+                            
+                        }
+
+                        if (alphabetGoodnes < goodness && settings.FastAproach == 0)
+                        {
+                            string alphabet1 = GenerateNextAlphabet();
+                            NextAlphabet = alphabet1;
+                            stringOutput = MapDecryptKeyAlphabet(NextAlphabet);
+                            
+                        }
+
+                        if (AlphabetcounterB == GoodAlphabet.Length)
+                        {
+                            stringOutput = MapDecryptKeyAlphabet(GoodAlphabet);
+                            
+                        }
+
+                    }
+
+
+
+
+                }
+
+
+
+                ((MonoalphabeticAnalysisSettings)this.settings).PlugBoard = stringOutput;
+                ((MonoalphabeticAnalysisSettings)this.settings).WorkKey = stringOutput;
+                ((MonoalphabeticAnalysisSettings)this.settings).ProposalKey = stringOutput;
                 
-                
-                 if (GoodAlphabet != null && decipherAttempt_Digrams!="" && AlphabetcounterB < GoodAlphabet.Length)
-                 {
-
-                     double goodness = ReturnAlphabetGoodness();
-                     if (alphabetGoodnes == 0) //secondpass
-                     {
-
-                         if (settings.FastAproach==1)
-                         {
-                             alphabetGoodnes = goodness;
-                             FastAproach();
-
-
-                         }
-
-
-                         else
-                         {
-                             alphabetGoodnes = goodness;
-                             string alphabet1 = GenerateNextAlphabet();
-                             NextAlphabet = alphabet1;
-                             stringOutput = MapDecryptKeyAlphabet(NextAlphabet);
-                             OnPropertyChanged("StringOutput");
-                         }
-                         
-
-
-
-                     } 
-                     
-                     if (alphabetGoodnes > goodness && settings.FastAproach==0) //third pass and on 
-                     {
-                         GoodAlphabet = NextAlphabet;
-                         alphabetGoodnes = goodness;
-                         
-                         string alphabet1 = GenerateNextAlphabet();
-                         NextAlphabet = alphabet1;
-                         stringOutput = MapDecryptKeyAlphabet(NextAlphabet);
-                         OnPropertyChanged("StringOutput");
-                     }
-
-                     if (alphabetGoodnes < goodness && settings.FastAproach == 0)
-                     {
-                         string alphabet1 = GenerateNextAlphabet();
-                         NextAlphabet = alphabet1;
-                         stringOutput = MapDecryptKeyAlphabet(NextAlphabet);
-                         OnPropertyChanged("StringOutput");
-                     }
-
-                     if (AlphabetcounterB == GoodAlphabet.Length)
-                     {
-                         stringOutput = MapDecryptKeyAlphabet(GoodAlphabet);
-                         OnPropertyChanged("StringOutput");
-                     }
-
-                 }
-
-               
-               
-
+                OnPropertyChanged("StringOutput");
             }
 
-            
-            
-                
-
         }
-
-
 
         public void PostExecution()
         {
@@ -634,8 +660,9 @@ namespace Cryptool.MonoalphabeticAnalysis
           }
 
           stringOutput = MapDecryptKeyAlphabet(GoodAlphabet);
+        
+          
           OnPropertyChanged("StringOutput");
-
 
       }
 
