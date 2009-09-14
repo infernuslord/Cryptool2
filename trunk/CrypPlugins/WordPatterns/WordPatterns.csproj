@@ -68,12 +68,18 @@
     <Resource Include="default_icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="WordPatterns_deutsch.txt">
+    <None Include="Data\wordlists\WordPatterns_deutsch.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\wordlists\WordPatterns_english.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="WordPatterns_english.txt">
+    <None Include="Data\wordlists\WordPatterns_deutsch.txt.metainfo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\wordlists\WordPatterns_english.txt.metainfo">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -90,7 +96,11 @@
 cd ..\..\CrypWin\$(OutDir)
 if not exist "./CrypPlugins" mkdir "./CrypPlugins"
 
-del /F /S /Q /s /q "WordPatterns*.*"
-copy "$(TargetDir)WordPatterns*.*" "./CrypPlugins"</PostBuildEvent>
+del /F /S /Q /s /q "$(TargetName)*.*"
+copy "$(TargetDir)$(TargetName)*.*" "./CrypPlugins"
+
+if not exist "./Data" mkdir "./Data"
+xcopy /Y /S "$(TargetDir)Data" "./Data"
+</PostBuildEvent>
   </PropertyGroup>
 </Project>

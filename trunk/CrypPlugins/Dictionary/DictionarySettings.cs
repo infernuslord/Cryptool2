@@ -210,6 +210,7 @@ using Cryptool.PluginBase;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.IO;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace Dictionary
 {
@@ -219,21 +220,6 @@ namespace Dictionary
     private int currentDictionary;
     private ObservableCollection<string> collection = new ObservableCollection<string>();
     # endregion private_variables
-
-    public string CurrentDicName
-    {
-      get
-      {
-        try
-        {
-          return Collection[currentDictionary];
-        }
-        catch (Exception)
-        {
-          return null;
-        }
-      }
-    }
 
     [TaskPane("Dictionary", "Select dictionary with keywords.", "", 0, false, DisplayLevel.Beginner, ControlType.DynamicComboBox, new string[] { "Collection" })]
     public int Dictionary
@@ -250,6 +236,7 @@ namespace Dictionary
       }
     }
 
+    // CrypWin requires this to be a collection of strings
     public ObservableCollection<string> Collection
     {
       get { return collection; }
@@ -260,21 +247,6 @@ namespace Dictionary
           collection = value;
         }
         OnPropertyChanged("Collection");
-      }
-    }
-
-    private string delimiter = " ";
-    [TaskPaneAttribute("Delimiter", "The delimiter for the dictionary words (default is blank).", null, 1, false, DisplayLevel.Experienced, ControlType.TextBox, ValidationType.RegEx, "^(.){1,1}$")]
-    public string Delimiter
-    {
-      get { return this.delimiter; }
-      set
-      {
-        if (value != delimiter)
-        {
-          delimiter = value;
-          HasChanges = true;
-        }
       }
     }
 

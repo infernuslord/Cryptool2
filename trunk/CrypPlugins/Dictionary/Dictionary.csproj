@@ -85,7 +85,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Dictionary_wordsGER.txt">
+    <None Include="Data\wordlists\Dictionary_wordsGER.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="key.snk" />
@@ -94,7 +94,13 @@
     <Resource Include="icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Dictionary_2of12.txt">
+    <None Include="Data\wordlists\Dictionary_2of12.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\wordlists\Dictionary_2of12.txt.metainfo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\wordlists\Dictionary_wordsGER.txt.metainfo">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -111,7 +117,11 @@
 cd ..\..\CrypWin\$(OutDir)
 if not exist "./CrypPlugins" mkdir "./CrypPlugins"
 
-del /F /S /Q /s /q "Dictionary*.*"
-copy "$(TargetDir)Dictionary*.*" "./CrypPlugins"</PostBuildEvent>
+del /F /S /Q /s /q "$(TargetName)*.*"
+copy "$(TargetDir)$(TargetName)*.*" "./CrypPlugins"
+
+if not exist "./Data" mkdir "./Data"
+xcopy /Y /S "$(TargetDir)Data" "./Data"
+</PostBuildEvent>
   </PropertyGroup>
 </Project>
