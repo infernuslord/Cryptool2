@@ -582,7 +582,7 @@ namespace Cryptool.Enigma
 
             HashSet<string> inputGrams = new HashSet<string>();
 
-            foreach (string g in new GramTokenizer(input, length, false))
+            foreach (string g in GramTokenizer.tokenize(input, length, false))
             {
                 // ensure each n-gram is counted only once
                 if (inputGrams.Add(g))
@@ -601,7 +601,7 @@ namespace Cryptool.Enigma
         {
             IDictionary<string, double[]> inputGrams = new Dictionary<string, double[]>();
 
-            foreach (string g in new GramTokenizer(input, length, false))
+            foreach (string g in GramTokenizer.tokenize(input, length, false))
             {
                 if (inputGrams.ContainsKey(g))
                 {
