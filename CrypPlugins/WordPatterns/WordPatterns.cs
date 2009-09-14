@@ -30,7 +30,7 @@ namespace WordPatterns
             private WordPatternsSettings settings = new WordPatternsSettings();
 
             private string inputText;
-            private string inputDict;
+            private string[] inputDict;
             private string outputText;
 
             private IDictionary<Pattern, IList<string>> dictPatterns;
@@ -56,7 +56,7 @@ namespace WordPatterns
         }
 
         [PropertyInfo(Direction.InputData, "Input dictionary", "Word dictionary", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public string InputDict
+        public string[] InputDict
         {
             get
             {
@@ -65,6 +65,7 @@ namespace WordPatterns
             set
             {
                 inputDict = value;
+                dictPatterns = null; // force rebuild of dictionary patterns
                 OnPropertyChanged("InputDict");
             }
         }
@@ -131,10 +132,10 @@ namespace WordPatterns
             {
                 dictPatterns = new Dictionary<Pattern, IList<string>>();
                 int wordCount = 0;
-                WordEnumerator enumerator = WordTokenizer.tokenize(inputDict).GetCustomEnumerator();
-                while(enumerator.MoveNext() && !stop) // has next
+
+                while (wordCount < inputDict.Length && !stop)
                 {
-                    string word = enumerator.Current;
+                    string word = inputDict[wordCount];
                     Pattern p = new Pattern(word);
 
                     // two calls to Pattern.GetHashCode()
@@ -146,11 +147,11 @@ namespace WordPatterns
 
                     if (++wordCount % 10000 == 0)
                     {
-                        ProgressChanged(enumerator.Position, enumerator.Length);
+                        ProgressChanged(wordCount, inputDict.Length);
                     }
                 }
 
-                ProgressChanged(enumerator.Position, enumerator.Length);
+                ProgressChanged(wordCount, inputDict.Length);
                 GuiLogMessage(string.Format("Processed {0} words from dictionary.", wordCount), NotificationLevel.Info);
             }
 

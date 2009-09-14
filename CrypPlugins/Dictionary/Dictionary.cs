@@ -218,246 +218,205 @@ using System.Collections.ObjectModel;
 
 namespace Dictionary
 {
-  [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo(true, "Dictionary", "Reads values from a Dictionary and returns all entries concatenated with given delimiter in one string.", null, "Dictionary/icon.png")]
-  public class CryptoolDictionary : IInput
-  {
-    # region private_variables
-    private const string myCacheGUID = "96202C52-1EFD-40d3-ABF9-75964BA1E95D";
-    private const string PluginDirecory = "CrypPlugins";
-    private CryptoolDictionarySettings settings = new CryptoolDictionarySettings();
-    private Dictionary<string, string> dicValues;
-    private readonly string path;
-    private const string DIC_MARKER = "081C0520-0062-49f2-9832-5F043682F45E";
-    private List<FileInfo> dicFiles = new List<FileInfo>();
-    # endregion private_variables
-
-    public List<FileInfo> DicFiles
+    [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
+    [PluginInfo(true, "Dictionary", "Reads values from a Dictionary and returns all entries concatenated with given delimiter in one string.", null, "Dictionary/icon.png")]
+    public class CryptoolDictionary : IInput
     {
-      get { return dicFiles; }
-      set { dicFiles = value; }
-    }
+        # region private_variables
 
-    public string CurrentDicFilename
-    {
-      get
-      {
-        try
+        private const string DATATYPE = "wordlists";
+
+        private CryptoolDictionarySettings settings = new CryptoolDictionarySettings();
+
+        // dictionary name -> collection of words
+        private static Dictionary<DataFileMetaInfo, string[]> dicValues = new Dictionary<DataFileMetaInfo, string[]>();
+        private static Dictionary<DataFileMetaInfo, string> dicValuesOld = new Dictionary<DataFileMetaInfo, string>();
+        private static DataFileMetaInfo[] dicList;
+
+        private DataManager dataMgr = new DataManager();
+
+        # endregion private_variables
+
+        public DataFileMetaInfo CurrentDicSelection
         {
-          return DicFiles[settings.Dictionary].Name;
+            get
+            {
+                if (dicList.Length > settings.Dictionary)
+                    return dicList[settings.Dictionary];
+                else
+                    return null;
+            }
         }
-        catch (Exception)
+
+        public CryptoolDictionary()
         {
-          return null;
         }
-      }
-    }
 
-    public CryptoolDictionary()
-    {
-      settings.PropertyChanged += settings_PropertyChanged;
-      path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, PluginDirecory);
-    }
-
-    /// <summary>
-    /// Handles the PropertyChanged event of the settings control. If dictionary is changed file will be
-    /// loaded immediately.
-    /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The <see cref="System.ComponentModel.PropertyChangedEventArgs"/> instance containing the event data.</param>
-    void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
-    {
-      if (e.PropertyName == "Dictionary")
-      {
-        GetCurrentDictionary();
-      }
-    }
-    
-    [PropertyInfo(Direction.OutputData, "Dictionary Output", "Values from dictionary as string.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-    public string OutputString
-    {
-      get 
-      {
-        if (dicValues != null && dicValues.ContainsKey(CurrentDicFilename))
-          return dicValues[CurrentDicFilename];
-        else if (dicValues != null)
+        [Obsolete("Use string[] output instead")]
+        [PropertyInfo(Direction.OutputData, "Dictionary output (deprecated)", "Values from dictionary as single string (deprecated)", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public string OutputString
         {
-          GetCurrentDictionary();
-          if (dicValues.ContainsKey(CurrentDicFilename))
-            return dicValues[CurrentDicFilename];
-        }
-        return null;
-      }
-      set { } // readonly
-    }
+            get
+            {
+                if (OutputList != null)
+                {
+                    Debug.Assert(CurrentDicSelection != null);
+                    if (!dicValuesOld.ContainsKey(CurrentDicSelection))
+                        dicValuesOld.Add(CurrentDicSelection, string.Join(" ", OutputList));
 
-    #region IPlugin Members
+                    return dicValuesOld[CurrentDicSelection];
+                }
+
+                return null;
+            }
+            set { } // readonly
+        }
+
+        [PropertyInfo(Direction.OutputData, "Dictionary Output", "Values from dictionary as array of strings", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public string[] OutputList
+        {
+            get
+            {
+                if (CurrentDicSelection != null)
+                {
+                    if (dicValues.ContainsKey(CurrentDicSelection) || LoadDictionary(CurrentDicSelection))
+                        return dicValues[CurrentDicSelection];
+                }
+
+                return null;
+            }
+            set { } // readonly
+        }
+
+        #region IPlugin Members
 
 #pragma warning disable 67
-		public event StatusChangedEventHandler OnPluginStatusChanged;
-		public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-		public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+        public event StatusChangedEventHandler OnPluginStatusChanged;
 #pragma warning restore
 
-    private void GuiLogMessage(string message, NotificationLevel logLevel)
-    {
-      EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
-    }
+        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 
-    public ISettings Settings
-    {
-      get { return settings; }
-    }
+        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
-    public UserControl Presentation
-    {
-      get { return null; }
-    }
-
-    public UserControl QuickWatchPresentation
-    {
-      get { return null; }
-    }
-
-    public void PreExecution()
-    {
-    }
-
-    public void Execute()
-    {
-      EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(50, 100));
-      EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs("OutputString"));
-      EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(100, 100));
-    }
-
-    public void PostExecution()
-    {
-    }
-
-    public void Pause()
-    {
-    }
-
-    public void Stop()
-    {
-    }
-
-    /// <summary>
-    /// Gets the dictionary from using AppDomain Data as cache => dics are only loaded once for all plugins
-    /// of type Dictionary.
-    /// </summary>
-    /// <returns></returns>
-    [MethodImpl(MethodImplOptions.Synchronized)]
-    private static Dictionary<string, string> GetDictionary()
-    {
-      Dictionary<string, string> dic = AppDomain.CurrentDomain.GetData(myCacheGUID) as Dictionary<string, string>;
-      if (dic == null)
-      {
-        dic = new Dictionary<string, string>();
-        AppDomain.CurrentDomain.SetData(myCacheGUID, dic);
-      }
-      return dic;
-    }
-
-    [MethodImpl(MethodImplOptions.Synchronized)]
-    private static void LoadContent(string dicKey, string fileName, Dictionary<string, string> dic, char delimiter)
-    {      
-      if (!dic.ContainsKey(dicKey))
-      {        
-        // string[] theWords = System.IO.File.ReadAllLines(fileName);
-        StreamReader sr = new StreamReader(File.OpenRead(fileName));
-        List<string> list = new List<string>();
-        sr.ReadLine(); 
-        sr.ReadLine();
-        while (!sr.EndOfStream)
+        private void GuiLogMessage(string message, NotificationLevel logLevel)
         {
-          list.Add(sr.ReadLine());
-        }        
-        dic.Add(dicKey, string.Join(delimiter.ToString(), list.ToArray()));
-      }
-    }
-
-    /// <summary>
-    /// Loads dictionary file based on current setting.
-    /// </summary>
-    private void GetCurrentDictionary()
-    {
-      try
-      {
-        dicValues = GetDictionary();
-        if (dicValues != null && CurrentDicFilename != null && !dicValues.ContainsKey(CurrentDicFilename))
-        {
-          string file = Path.Combine(path, CurrentDicFilename);
-          if (File.Exists(file))
-          {
-            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(string.Format(Properties.Resources.loading_dic_now, new object[] { settings.CurrentDicName }), this, NotificationLevel.Info));
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-            LoadContent(CurrentDicFilename, file, dicValues, settings.Delimiter[0]);
-            stopWatch.Stop();
-            // This log msg is shown on init after first using this plugin, even if event subscription
-            // should not have been done yet. Results from using static LoadContent method.
-            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(string.Format(Properties.Resources.finished_loading_dic, new object[] { stopWatch.Elapsed.Milliseconds }), this, NotificationLevel.Info));            
-          }
-          else
-            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(string.Format(Properties.Resources.dic_file_not_found, new object[] { file.ToString() }), this, NotificationLevel.Error));
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
         }
-      }
-      catch (Exception exception)
-      {
-        EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(exception.Message, this, NotificationLevel.Error));
-      }
-    }
 
-    public void Initialize()
-    {
-      try
-      {
-        settings.Collection = new ObservableCollection<string>();
-        // load dics
-        DirectoryInfo directory = new DirectoryInfo(path);
-        foreach (FileInfo fileInfo in directory.GetFiles("*.txt"))
+        public ISettings Settings
         {
-          try
-          {
-            StreamReader sr = new StreamReader(File.OpenRead(fileInfo.FullName));
-            if (sr.ReadLine().Contains(DIC_MARKER))
+            get { return settings; }
+        }
+
+        public UserControl Presentation
+        {
+            get { return null; }
+        }
+
+        public UserControl QuickWatchPresentation
+        {
+            get { return null; }
+        }
+
+        public void PreExecution()
+        {
+        }
+
+        public void Execute()
+        {
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(50, 100));
+            EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs("OutputList"));
+            EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs("OutputString"));
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(100, 100));
+        }
+
+        public void PostExecution()
+        {
+        }
+
+        public void Pause()
+        {
+        }
+
+        public void Stop()
+        {
+        }
+
+        /// <summary>
+        /// Loads dictionary file based on current setting.
+        /// </summary>
+        /// <returns>true if file has been loaded correctly</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        private bool LoadDictionary(DataFileMetaInfo file)
+        {
+            // sanity check for multi-threading
+            if (dicValues.ContainsKey(file))
+                return true;
+
+            try
             {
-              // seems to be a dic that we want do use... 
-              // if dic description is provided we will use it...
-              string[] dicName = sr.ReadLine().Split(new string[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
-              if (dicName.Length == 2)
-              {
-                settings.Collection.Add(dicName[1]);
-                DicFiles.Add(fileInfo);
-              }
+                if (file.DataFile.Exists)
+                {
+                    EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(string.Format(Properties.Resources.loading_dic_now, new object[] { file.Name }), this, NotificationLevel.Info));
+                    Stopwatch stopWatch = new Stopwatch();
+                    stopWatch.Start();
+
+                    FileStream fs = file.DataFile.OpenRead();
+                    StreamReader sr = new StreamReader(fs);
+                    List<string> list = new List<string>();
+                    while (!sr.EndOfStream)
+                    {
+                        list.Add(sr.ReadLine());
+                    }
+                    dicValues.Add(file, list.ToArray());
+
+                    stopWatch.Stop();
+                    // This log msg is shown on init after first using this plugin, even if event subscription
+                    // should not have been done yet. Results from using static LoadContent method.
+                    EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(string.Format(Properties.Resources.finished_loading_dic, new object[] { stopWatch.Elapsed.Milliseconds }), this, NotificationLevel.Info));
+
+                    return true;
+                }
+                else
+                {
+                    EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(string.Format(Properties.Resources.dic_file_not_found, new object[] { file.ToString() }), this, NotificationLevel.Error));
+                }
             }
-            sr.Close();
-          }
-          catch (Exception ex)
-          {
-            GuiLogMessage(ex.Message, NotificationLevel.Warning);
-          }
+            catch (Exception exception)
+            {
+                EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(exception.Message, this, NotificationLevel.Error));
+            }
+
+            return false;
         }
 
-        GetCurrentDictionary();
-      }
-      catch (Exception exception)
-      {
-        GuiLogMessage(exception.Message, NotificationLevel.Error);
-      }
+        public void Initialize()
+        {
+            LoadFileList();
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        private void LoadFileList()
+        {
+            dicList = dataMgr.LoadDirectory(DATATYPE).Values.ToArray();
+
+            settings.Collection.Clear();
+            foreach (DataFileMetaInfo meta in dicList)
+            {
+                settings.Collection.Add(meta.Name);
+            }
+        }
+
+        public void Dispose()
+        {
+        }
+
+        #endregion
+
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
     }
-
-    public void Dispose()
-    {
-    }
-
-    #endregion
-
-    #region INotifyPropertyChanged Members
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    #endregion
-  }
 }
