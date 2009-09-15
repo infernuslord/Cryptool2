@@ -27,7 +27,7 @@ using System.Security.Cryptography;
 namespace Cryptool.Plugins.RSASystem
 {
     [Author("Dennis Nolte", "nolte@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "RSASystem", "RSA En/Decryption", "", "RSASystem/icon.png")]
+    [PluginInfo(false, "RSASystem", "RSA En/Decryption", "", "RSASystem/icon.png", "RSASystem/icon.png", "RSASystem/icon.png")]
 
     [EncryptionType(EncryptionType.Asymmetric)]
 
@@ -71,19 +71,49 @@ namespace Cryptool.Plugins.RSASystem
 
         public void Execute()
         {
-            // encrypt
-            if (this.settings.Action == 0)
+            try
             {
-                BigInteger N = this.InputP * this.InputQ;                
-                this.OutputC = this.InputM.modPow(this.InputE, N);
+
+                // encrypt
+                if (this.settings.Action == 0)
+                {
+                    GuiLogMessage("Calculating N = P * Q", NotificationLevel.Info);
+                    BigInteger N = this.InputP * this.InputQ;
+                    ProgressChanged(0.5, 1);
+                    GuiLogMessage("N = " + N.ToString(10), NotificationLevel.Info);
+
+                    GuiLogMessage("Calculating C = (M^E) mod N", NotificationLevel.Info);
+                    this.OutputC = this.InputM.modPow(this.InputE, N);
+                    ProgressChanged(1, 1);
+                    GuiLogMessage("C = " + this.OutputC.ToString(10), NotificationLevel.Info);
+                }
+                //decrypt
+                else
+                {
+                    GuiLogMessage("Calculating N = P * Q", NotificationLevel.Info);
+                    BigInteger N = this.InputP * this.InputQ;
+                    ProgressChanged(0.25, 1);
+                    GuiLogMessage("N = " + N.ToString(10), NotificationLevel.Info);
+
+                    GuiLogMessage("Calculating phi(N) = (P-1)*(Q-1)", NotificationLevel.Info);
+                    BigInteger PhiN = (this.InputP - 1) * (this.InputQ - 1);
+                    ProgressChanged(0.5, 1);
+                    GuiLogMessage("phi(N) = " + PhiN.ToString(10), NotificationLevel.Info);
+
+                    GuiLogMessage("Calculating d = (E^-1) mod phi(N)", NotificationLevel.Info);
+                    BigInteger d = this.InputE.modInverse(PhiN);
+                    ProgressChanged(0.75, 1);
+                    GuiLogMessage("d = " + d.ToString(10), NotificationLevel.Info);
+
+                    GuiLogMessage("Calculating M = (C^d) mod N", NotificationLevel.Info);
+                    this.OutputC = this.InputM.modPow(d, N);
+                    ProgressChanged(1, 1);
+                    GuiLogMessage("M = " + OutputC.ToString(10), NotificationLevel.Info);
+                }
             }
-            //decrypt
-            else
+            catch (Exception ex)
             {
-                BigInteger N = this.InputP * this.InputQ;
-                BigInteger PhiN = (this.InputP - 1) * (this.InputQ - 1);
-                BigInteger d = this.InputE.modInverse(PhiN);
-                this.OutputC = this.InputM.modPow(d, N);
+                GuiLogMessage("RSA could not work because of: " + ex.Message, NotificationLevel.Error);                
             }
         }
 
