@@ -46,8 +46,9 @@ namespace Cryptool.CubeAttack
         private int publicVar;
         private int secretVar;
         private int maxcube;
-        private int linTest = 100;
-        private string setPublicBits = "0*00*000*00***0000*00000000*0000000*0*0*000000*0*0***0*0*00000**0*000000*00000*0";
+        private int constTest = 50;
+        private int linTest = 50;
+        private string setPublicBits = "0*00*";
         
         #endregion
 
@@ -61,16 +62,16 @@ namespace Cryptool.CubeAttack
             DisplayLevel.Beginner, 
             ContextMenuControlType.ComboBox, 
             null, 
-            "Find maxterms", 
-            "Set public bits" )]
+            "Preprocessing/Online Phase",
+            "Input public bits")]
         [TaskPane("Action", 
             "Select the phase", 
             "", 
             1, 
             false, 
             DisplayLevel.Beginner, 
-            ControlType.ComboBox, 
-            new string[] { "Find maxterms", "Set public bits" })]
+            ControlType.ComboBox,
+            new string[] { "Preprocessing/Online Phase", "Input public bits" })]
         public int Action
         {
             get { return this.selectedAction; }
@@ -83,15 +84,15 @@ namespace Cryptool.CubeAttack
         }
 
         [PropertySaveOrder(2)]
-        [ContextMenu("Try to recover key", 
-            "Online phase of the cube attack which tries to solve the system of linear maxterm equations to recover the secret key.", 
+        [ContextMenu("Try to discover key", 
+            "Online phase of the cube attack which tries to solve the system of linear maxterm equations to discover the secret key.", 
             2, 
             DisplayLevel.Beginner, 
             ContextMenuControlType.CheckBox, 
             null, 
             "")]
-        [TaskPane("Try to recover key", 
-            "Online phase of the cube attack which tries to solve the system of linear maxterm equations to recover the secret key.", 
+        [TaskPane("Try to discover key", 
+            "Online phase of the cube attack which tries to solve the system of linear maxterm equations to discover the secret key.", 
             null, 
             2, 
             false, 
@@ -109,8 +110,8 @@ namespace Cryptool.CubeAttack
         }
 
         [PropertySaveOrder(3)]
-        [TaskPane("Public variables", 
-            "Number of public variables.", 
+        [TaskPane("Public bit size",
+            "Public input bits (IV or plaintext) of the attacked cryptosystem.", 
             null, 
             3, 
             false, 
@@ -131,8 +132,8 @@ namespace Cryptool.CubeAttack
         }
 
         [PropertySaveOrder(4)]
-        [TaskPane("Secret variables", 
-            "Number of secret variables.", 
+        [TaskPane("Secret bit size",
+            "Key size or key length  of the attacked cryptosystem.", 
             null, 
             4, 
             false, 
@@ -154,7 +155,7 @@ namespace Cryptool.CubeAttack
 
         [PropertySaveOrder(5)]
         [TaskPane("Max cube size",
-            "Maxmium size of cube.",
+            "Maxmium size of the summation cube.",
             null,
             5,
             false,
@@ -175,10 +176,32 @@ namespace Cryptool.CubeAttack
         }
 
         [PropertySaveOrder(6)]
-        [TaskPane("Linearity tests", 
-            "Number of linearity tests.", 
+        [TaskPane("Constant Test",
+            "Number of tests to check if the superpoly is a constant value or not.",
+            null,
+            6,
+            false,
+            DisplayLevel.Beginner,
+            ControlType.NumericUpDown,
+            ValidationType.RangeInteger,
+            0,
+            100000)]
+        public int ConstTest
+        {
+            get { return constTest; }
+            set
+            {
+                if (value != this.constTest) HasChanges = true;
+                constTest = value;
+                OnPropertyChanged("ConstTest");
+            }
+        }
+
+        [PropertySaveOrder(7)]
+        [TaskPane("Linearity tests",
+            "Number of linearity tests to check if the superpoly is linear or not.", 
             null, 
-            6, 
+            7, 
             false, 
             DisplayLevel.Beginner, 
             ControlType.NumericUpDown, 
@@ -196,14 +219,14 @@ namespace Cryptool.CubeAttack
             }
         }
 
-        [PropertySaveOrder(7)]
-        [TaskPane("Set public bits", 
+        [PropertySaveOrder(8)]
+        [TaskPane("Input public bits", 
             "Manual input of public bits.", 
             null, 
-            6, 
+            8, 
             false, 
             DisplayLevel.Beginner, 
-            ControlType.TextBox, 
+            ControlType.TextBox,
             null)]
         public string SetPublicBits
         {

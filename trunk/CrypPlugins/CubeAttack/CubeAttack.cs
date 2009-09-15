@@ -31,7 +31,7 @@ namespace Cryptool.CubeAttack
         private CubeAttackSettings settings;
         private string outputMaxterm;
         private string outputKeyBits;
-        private enum CubeAttackMode { findMaxterms, setPublicBits };
+        private enum CubeAttackMode { preprocessing, setPublicBits };
         private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
         private bool stop = false;
 
@@ -57,7 +57,7 @@ namespace Cryptool.CubeAttack
                 {
                     CryptoolStream cs = new CryptoolStream();
                     listCryptoolStreamsOut.Add(cs);
-                    cs.OpenRead(this.GetPluginInfoAttribute().Caption, Encoding.Default.GetBytes(outputMaxterm.ToCharArray()));
+                    cs.OpenRead(Encoding.Default.GetBytes(outputMaxterm.ToCharArray()));
                     return cs;
                 }
                 else
@@ -85,7 +85,7 @@ namespace Cryptool.CubeAttack
                 {
                     CryptoolStream cs = new CryptoolStream();
                     listCryptoolStreamsOut.Add(cs);
-                    cs.OpenRead(this.GetPluginInfoAttribute().Caption, Encoding.Default.GetBytes(outputKeyBits.ToCharArray()));
+                    cs.OpenRead(Encoding.Default.GetBytes(outputKeyBits.ToCharArray()));
                     return cs;
                 }
                 else
@@ -122,9 +122,9 @@ namespace Cryptool.CubeAttack
         /// <summary>
         /// Complete CubeAttack 
         /// </summary>
-        public void FindMaxterms()
+        public void Preprocessing()
         {
-            ProcessCubeAttack(CubeAttackMode.findMaxterms);
+            ProcessCubeAttack(CubeAttackMode.preprocessing);
         }
 
         /// <summary>
@@ -211,25 +211,30 @@ namespace Cryptool.CubeAttack
 
         public void Execute()
         {
-            try
+            if (settings.MaxCube > settings.PublicVar)
+                CubeAttack_LogMessage("Error: Max cube size cannot be greater than Public bit size.", NotificationLevel.Error);
+            else
             {
-                switch (settings.Action)
+                try
                 {
-                    case 0:
-                        FindMaxterms();
-                        break;
-                    case 1:
-                        SetPublicBits();
-                        break;
+                    switch (settings.Action)
+                    {
+                        case 0:
+                            Preprocessing();
+                            break;
+                        case 1:
+                            SetPublicBits();
+                            break;
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                CubeAttack_LogMessage("Error: " +  ex, NotificationLevel.Error);
-            }
-            finally
-            {
-                ProgressChanged(1.0, 1.0);
+                catch (Exception ex)
+                {
+                    CubeAttack_LogMessage("Error: " + ex, NotificationLevel.Error);
+                }
+                finally
+                {
+                    ProgressChanged(1.0, 1.0);
+                }
             }
         }
 
@@ -271,27 +276,6 @@ namespace Cryptool.CubeAttack
             else
                 return result;
             
-            // ****** Beispiel Master Polynome ******
-
-            //       i_0.0 * i_0.2 + i_0.0 * i_0.3 + i_0.1 * i_0.3 + i_0.0 + i_0.3 + i_0.0 * i_0.1 + i_0.1 * i_0.2 * i_0.3 + 1
-            //return v[0]  & x[0]  ^ v[0]  & x[1]  ^ v[1]  & x[1]  ^ v[0]  ^ x[1]  ^ v[0]  & v[1]  ^ v[1]  & x[0]  & x[1]  ^ 1;
-            
-            //i_0.0 * i_0.1 * i_0.3 + i_0.0 * i_0.1 * i_0.4 + i_0.2 * i_0.3 * i_0.5 + i_0.1 * i_0.5 + i_0.0 * i_0.3 + i_0.0 * i_0.1 + i_0.3 * i_0.5 + i_0.1 + i_0.5 + 1
-            //return v[0] & v[1] & x[0] ^ v[0] & v[1] & x[1] ^ v[2] & x[0] & x[2] ^ v[1] & x[2] ^ v[0] & x[0] ^ v[0] & v[1] ^
-              //   x[0] & x[2] ^ v[1] ^ x[2] ^ 1;
-
-            // i_0.0 * i_0.1 * i_0.3 + i_0.0 * i_0.1 * i_0.5 + i_0.2 * i_0.3 * i_0.4 + i_0.0 * i_0.3 + i_0.0 * i_0.4 + i_0.1 * i_0.5 + i_0.2 * i_0.4 + i_0.3 * i_0.5 + i_0.0 + i_0.1 + i_0.3 + i_0.4 + 1
-            //return v[0] & v[1] & x[0] ^ v[0] & v[1] & x[2] ^ v[2] & x[0] & x[1] ^ v[0] & x[0] ^ v[0] & x[1] ^ v[1] & x[2] ^
-              //         v[2] & x[1] ^ x[0] & x[2] ^ v[0] ^ v[1] ^ x[0] ^ x[1] ^ 1;
-
-            //i_0.0 * i_0.1 * i_0.7 + i_0.2 * i_0.4 * i_0.6 + i_0.0 * i_0.3 * i_0.8 + i_0.0 * i_0.3 * i_0.7 + i_0.1 * i_0.2 * i_0.6 + i_0.3 * i_0.4 * i_0.9 + i_0.2 * i_0.4 * i_0.8 + i_0.2 * i_0.4 * i_0.9 + i_0.2 * i_0.4 * i_0.5 + i_0.2 * i_0.4 * i_0.7 + i_0.0 * i_0.1 * i_0.2 + i_0.0 * i_0.1 + i_0.3 * i_0.6 + i_0.3 * i_0.4 + i_0.6 * i_0.7 + i_0.6 * i_0.8 + i_0.4 + i_0.7 + i_0.6 + i_0.5 + i_0.1 * i_0.9
-            /*return v[0] & v[1] & x[2] ^ v[2] & v[4] & x[1] ^ v[0] & v[3] & x[3] ^ v[0] & v[3] & x[2] ^
-                v[1] & v[2] & x[1] ^ v[3] & v[4] & x[4] ^ v[2] & v[4] & x[3] ^ v[2] & v[4] & x[4] ^
-                v[2] & v[4] & x[0] ^ v[2] & v[4] & x[2] ^ v[0] & v[1] & v[2] ^ v[0] & v[1] ^ v[3] & x[1] ^
-                v[3] & v[4] ^ x[1] & x[2] ^ x[1] & x[3] ^ v[4] ^ x[2] ^ x[1] ^ x[0] ^ v[1] & x[4]; 
-            // ****** Ende Beispiel Master Polynome ****** */
-
-
             /*// Begin Trivium
             // Initialisierung
 	        int[] a = new int[93]; 
@@ -383,7 +367,7 @@ namespace Cryptool.CubeAttack
             int[] pubVarElement = new int[settings.PublicVar];
             int[] secVarElement = new int[settings.SecretVar];
 
-            CubeAttack_LogMessage("Computing superpoly...", NotificationLevel.Info);
+            CubeAttack_LogMessage("Compute superpoly", NotificationLevel.Info);
 
             // Compute the free term
             for (int i = 0; i < Math.Pow(2, cube.Count); i++)
@@ -404,6 +388,12 @@ namespace Cryptool.CubeAttack
                     for (int j = 0; j < cube.Count; j++)
                         pubVarElement[cube[j]] = (i & (1 << j)) > 0 ? 1 : 0;
                     coeff ^= Blackbox((int[])pubVarElement.Clone(), (int[])secVarElement.Clone());
+
+                    if (stop)
+                    {
+                        ProgressChanged(0.0, 1.0);
+                        break;
+                    }
                 }
                 superpoly.Add(constant ^ coeff);
                 CubeAttack_LogMessage("a" + k + " = " + (constant ^ coeff).ToString(), NotificationLevel.Info);
@@ -527,9 +517,10 @@ namespace Cryptool.CubeAttack
             int[] vectorY = new int[settings.SecretVar];
             int[] vecXY = new int[settings.SecretVar];
 
+            CubeAttack_LogMessage("Linearity test", NotificationLevel.Info);
+
             for (int k = 0; k < settings.LinTest; k++)
             {
-                //CubeAttack_LogMessage("Linearly Test " + k.ToString() + ": ", NotificationLevel.Info);
                 psLeft = 0;
                 psRight = 0;
 
@@ -555,12 +546,18 @@ namespace Cryptool.CubeAttack
                 }
                 if (psLeft != psRight)
                     return false;
+
+                if (stop)
+                {
+                    ProgressChanged(0.0, 1.0);
+                    break;
+                }
             }
             return true;
         }
 
         /// <summary>
-        /// Test if superpoly is constant.
+        /// Test if superpoly is a constant value.
         /// </summary>
         /// <param name="cube">The summation Cube I.</param>
         /// <returns>A boolean value indicating if the superpoly is constant or not.</returns>
@@ -573,7 +570,9 @@ namespace Cryptool.CubeAttack
             int[] secVarElement = new int[settings.SecretVar];
             int[] pubVarElement = new int[settings.PublicVar];
 
-            for (int i = 0; i < settings.SecretVar; i++)
+            CubeAttack_LogMessage("Test if superpoly is constant", NotificationLevel.Info);
+
+            for (int i = 0; i < settings.ConstTest; i++)
             {
                 for (int j = 0; j < settings.SecretVar; j++)
                     vectorX[j] = rnd.Next(0, 2);
@@ -582,24 +581,12 @@ namespace Cryptool.CubeAttack
                     for (int k = 0; k < cube.Count; k++)
                         pubVarElement[cube[k]] = (j & (1 << k)) > 0 ? 1 : 0;
                     output ^= Blackbox(pubVarElement, vectorX);
-                }
-                if (i == 0)
-                    flag = output;
-                if (flag != output)
-                    return false;
-                output = 0;
-            }
-            return true;
 
-            /*for (int i = 0; i < Math.Pow(2, settings.SecretVar); i++)
-            {
-                for (int j = 0; j < settings.SecretVar; j++)
-                    secVarElement[j] = (i & (1 << j)) > 0 ? 1 : 0;
-                for (int j = 0; j < Math.Pow(2, cube.Count); j++)
-                {
-                    for (int k = 0; k < cube.Count; k++)
-                        pubVarElement[cube[k]] = (j & (1 << k)) > 0 ? 1 : 0;
-                    output ^= Blackbox(pubVarElement, secVarElement);
+                    if (stop)
+                    {
+                        ProgressChanged(0.0, 1.0);
+                        break;
+                    }
                 }
                 if (i == 0)
                     flag = output;
@@ -607,7 +594,7 @@ namespace Cryptool.CubeAttack
                     return false;
                 output = 0;
             }
-            return true; */
+            return true; 
         }
 
         /// <summary>
@@ -690,8 +677,10 @@ namespace Cryptool.CubeAttack
         /// <summary>
         /// Preprocessing Phase of the cube attack. Implementation of the algorithm RandomWalk to find maxterms.
         /// </summary>
-        public void FindMaxtermsPhase()
+        public void PreprocessingPhase()
         {
+            CubeAttack_LogMessage("Begin preprocessing", NotificationLevel.Info);
+
             outputMaxterm = string.Empty;
             int countMaxterms = 0;
             Random rnd = new Random();
@@ -704,7 +693,6 @@ namespace Cryptool.CubeAttack
             Vector freeTerms = new Vector(settings.SecretVar);
             List<List<int>> cubeIndex = new List<List<int>>();
             List<List<int>> mCube = new List<List<int>>();
-            int countRuns = 0;
 
             // Save all public variables indexes in a list 
             for (int i = 0; i < settings.PublicVar; i++)
@@ -713,60 +701,75 @@ namespace Cryptool.CubeAttack
             // Find n maxterms and save their in the matrix
             while (countMaxterms < settings.SecretVar)
             {
-                if (stop)
-                {
-                    ProgressChanged(0.0, 1.0);
-                    return;
-                }
-
-                // Maybe all maxterms have been found ? 
-                if (countRuns > 300)
-                    break;
-                countRuns++;
-
                 cube = new List<int>();
                 superpoly.Clear();
 
                 // Generate random size k between 1 and the number of public variables
                 numberOfVariables = rnd.Next(1, settings.MaxCube + 1);
+
+                // Permutation of the public variables
                 Shuffle<int>(chooseIndexI);
 
+                // Construct cube of size k. Add k public variables to the cube
                 for (int i = 0; i < numberOfVariables; i++)
                     cube.Add(chooseIndexI[i]);
-
-                int count = 0;
+                
+                string outputCube = string.Empty;
+                foreach (int element in cube)
+                    outputCube += "v" + element + " ";
+                CubeAttack_LogMessage("Begin search for maxterm with subterm: " + outputCube, NotificationLevel.Info);
                 while (superpoly.Count == 0)
                 {
-                    if (count > 200)
+                    if (cube.Count == 0)
+                    {
+                        // Subterm is empty, restart with new subset
                         break;
-                    count++;
-                    if (IsSuperpolyConstant(cube) && (cube.Count != 0))
+                    }
+
+                    if (IsSuperpolyConstant(cube))
+                    {
+                        CubeAttack_LogMessage("Superpoly is constant, drop variable v" + cube[0], NotificationLevel.Info); 
                         cube.RemoveAt(0);
+                    }
                     else if (!IsLinear(cube))
                     {
+                        CubeAttack_LogMessage("Superpoly is not linear", NotificationLevel.Info);
                         if (numberOfVariables < chooseIndexI.Count)
                         {
-                            cube.Add(chooseIndexI[numberOfVariables]);
-                            numberOfVariables++;
+                            if (cube.Count <= settings.MaxCube)
+                            {
+                                CubeAttack_LogMessage("Add variable v" + chooseIndexI[numberOfVariables], NotificationLevel.Info);
+                                cube.Add(chooseIndexI[numberOfVariables]);
+                                numberOfVariables++;
+                            }
                         }
                         else
                             break;
                     }
                     else
                     {
-                        if (cube.Count > 0)
+                        if (!CubeKnown(mCube, cube))
                         {
-                            string bla = string.Empty;
-                            for (int i = 0; i < cube.Count; i++)
-                                bla += cube[i].ToString();
-                            //CubeAttack_LogMessage("cube values: " + bla, NotificationLevel.Error);
-                            if (!CubeKnown(mCube, cube))
-                            {
-                                mCube.Add(cube);
-                                superpoly = ComputePSI(cube);
-                            }
+                            mCube.Add(cube);
+                            outputCube = string.Empty;
+                            foreach (int element in cube)
+                                outputCube += "v" + element + " ";
+                            CubeAttack_LogMessage(outputCube + " is new maxterm", NotificationLevel.Info);
+                            superpoly = ComputePSI(cube);
+                            break;
+                        }
+                        else
+                        {
+                            // Maxterm is already known, break and restart with new subset
+                            CubeAttack_LogMessage("Maxterm is already known, restart with new subset", NotificationLevel.Info);
+                            break;
                         }
                     }
+
+                    outputCube = string.Empty;
+                    foreach (int element in cube)
+                        outputCube += "v" + element + " ";
+                    CubeAttack_LogMessage("Subterm: " + outputCube, NotificationLevel.Info);
                 }
 
                 if (!InMatrix(superpoly, mSuperpoly))
@@ -789,6 +792,11 @@ namespace Cryptool.CubeAttack
                     else
                         mCheckLinearity = mCheckLinearity.DeleteLastRow();
                 }
+                if (stop)
+                {
+                    ProgressChanged(0.0, 1.0);
+                    return;
+                }
             }
 
             if (countMaxterms == settings.SecretVar)
@@ -809,8 +817,6 @@ namespace Cryptool.CubeAttack
                     GuiLogMessage(exception.Message, NotificationLevel.Error);
                 }
             }
-            else
-                CubeAttack_LogMessage("Only " + countMaxterms.ToString() + " maxterms have been found !", NotificationLevel.Info);
         }
 
         /// <summary>
@@ -821,8 +827,8 @@ namespace Cryptool.CubeAttack
         /// <param name="cubeIndex">A list of lists of cube indices.</param>
         public void OnlinePhase(Matrix mSuperpoly, Vector b, List<List<int>> cubeIndex)
         {
-            int[] secVarElement = new int[settings.SecretVar];
-            secVarElement[0] = 1; secVarElement[1] = 1; //secVarElement[2] = 0; secVarElement[3] = 0; secVarElement[4] = 0;
+            CubeAttack_LogMessage("Begin online phase", NotificationLevel.Info);
+
             int[] pubVarElement = new int[settings.PublicVar];
             
             for (int i = 0; i < settings.SecretVar; i++)
@@ -833,15 +839,13 @@ namespace Cryptool.CubeAttack
                 {
                     for (int l = 0; l < cubeIndex[i].Count; l++)
                         pubVarElement[cubeIndex[i][l]] = (k & (1 << l)) > 0 ? 1 : 0;
-                    //b[i] ^= Blackbox(pubVarElement, secVarElement);
+
                     try
                     {
                         bool[] vBool = new bool[pubVarElement.Length];
 
                         for (int l = 0; l < pubVarElement.Length; l++)
-                        {
                             vBool[l] = Convert.ToBoolean(pubVarElement[l]);
-                        }
 
                         b[i] ^= TestProperty.SolveFunction(null, vBool, 2);
                     }
@@ -850,6 +854,7 @@ namespace Cryptool.CubeAttack
                         CubeAttack_LogMessage("Error: " + ex, NotificationLevel.Error);
                     }
                 }
+                CubeAttack_LogMessage("Secret bit x" + i + " = " + b[i], NotificationLevel.Info);
             }
             OutputKey(mSuperpoly * b);
             OnPropertyChanged("OutputKeyBits");
@@ -905,7 +910,11 @@ namespace Cryptool.CubeAttack
                     }
                     else
                     {
-                        CubeAttack_LogMessage("Summation cube must contain at least one variable !", NotificationLevel.Error);
+                        StringBuilder output = new StringBuilder(string.Empty);
+                        output.Append("Output bit: " + Blackbox(pubVari, secVari));
+                        outputMaxterm += output.ToString();
+                        OnPropertyChanged("OutputMaxterm");
+                        CubeAttack_LogMessage("Output bit: " + Blackbox(pubVari, secVari), NotificationLevel.Info);
                     }
                 }
             }
@@ -926,8 +935,8 @@ namespace Cryptool.CubeAttack
         {
             switch (mode)
             {
-                case CubeAttackMode.findMaxterms:
-                    FindMaxtermsPhase();
+                case CubeAttackMode.preprocessing:
+                    PreprocessingPhase();
                     break;
                 case CubeAttackMode.setPublicBits:
                     SetPublicBitsPhase();
@@ -956,27 +965,7 @@ namespace Cryptool.CubeAttack
             set
             {
                 if (value != null)
-                {
                     testProperty = value;
-                    /* try
-                    {
-                        // here comes the function to be solved, now just a dummy
-                        string function = "i_0.0 + i_0.1";
-                        // the result of the function
-                        int result = -1;
-                        // the data to fill the functin variables
-                        bool[] data = new bool[] { false, true };
-                        // the result is computed by calling the SolveFunction function with parameters
-                        // the SolveFunction is also implemented by the slave, the BooleanFunctionParser
-                        result = testProperty.SolveFunction(function, data);
-                        GuiLogMessage("Rückgabewert: " + result, NotificationLevel.Info);
-                    }
-                    catch (Exception ex)
-                    {
-                        GuiLogMessage("Problem: " + ex, NotificationLevel.Error);
-                    }
-                    */
-                }
             }
         }
 
