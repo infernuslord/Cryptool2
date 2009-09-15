@@ -22,6 +22,7 @@ using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
+using System.Security.Cryptography;
 
 namespace Cryptool.Plugins.RSASystem
 {
@@ -35,13 +36,12 @@ namespace Cryptool.Plugins.RSASystem
         #region IPlugin Members
 
         private RSASystemSettings settings = new RSASystemSettings();
-        private BigInteger inputM = 0;
-        private BigInteger inputP = 0;
-        private BigInteger inputQ = 0;
-        private BigInteger inputE = 0;
-        private BigInteger outputC = 0;
-
-
+        private BigInteger inputM = new BigInteger(1);
+        private BigInteger inputP = new BigInteger(1);
+        private BigInteger inputQ = new BigInteger(1);
+        private BigInteger inputE = new BigInteger(1);
+        private BigInteger outputC = new BigInteger(1);
+        
         public event StatusChangedEventHandler OnPluginStatusChanged;
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
@@ -71,7 +71,20 @@ namespace Cryptool.Plugins.RSASystem
 
         public void Execute()
         {
-            //Code to be implemented
+            // encrypt
+            if (this.settings.Action == 0)
+            {
+                BigInteger N = this.InputP * this.InputQ;                
+                this.OutputC = this.InputM.modPow(this.InputE, N);
+            }
+            //decrypt
+            else
+            {
+                BigInteger N = this.InputP * this.InputQ;
+                BigInteger PhiN = (this.InputP - 1) * (this.InputQ - 1);
+                BigInteger d = this.InputE.modInverse(PhiN);
+                this.OutputC = this.InputM.modPow(d, N);
+            }
         }
 
         public void PostExecution()
@@ -158,8 +171,7 @@ namespace Cryptool.Plugins.RSASystem
                 OnPropertyChanged("InputE");
             }
         }
-
-
+        
         [PropertyInfo(Direction.OutputData, "Cipher C Output", "Your Cipher will be send here", "", DisplayLevel.Beginner)]
         public BigInteger OutputC
         {
