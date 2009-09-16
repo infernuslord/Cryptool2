@@ -62,9 +62,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="CollectionElement.cs" />
     <Compile Include="MonoalphabeticAnalysis.cs" />
-    <Compile Include="..\..\..\..\MonoalphabeticAnalysisSettings.cs">
-      <Link>MonoalphabeticAnalysisSettings.cs</Link>
-    </Compile>
+    <Compile Include="MonoalphabeticAnalysisSettings.cs" />
     <Compile Include="ShogunStatistics.cs" />
     <Compile Include="SortElements.cs" />
   </ItemGroup>

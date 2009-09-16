@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.IO;
 using System.Reflection;
-using System.Runtime.Serialization;
-using System.Xml.Serialization;
 
 namespace Cryptool.PluginBase.Miscellaneous
 {
@@ -77,8 +74,20 @@ namespace Cryptool.PluginBase.Miscellaneous
                 metaInfo.MetaFile = metaFile;
                 metaInfo.KeyValues = keyValues;
 
-                if (keyValues.ContainsKey("encoding"))
-                    metaInfo.Encoding = (EncodingTypes) Enum.Parse(typeof(EncodingTypes), keyValues["encoding"]);
+                // TODO: should ignore case
+                if (keyValues.ContainsKey("textencoding"))
+                {
+                    try
+                    {
+                        metaInfo.TextEncoding = Encoding.GetEncoding(keyValues["textencoding"]);
+                    }
+                    catch (ArgumentException e)
+                    {
+                        // Encoding error, defaulting to null
+                        metaInfo.TextEncoding = null;
+                        // TODO: throw warning about unknown encoding
+                    }
+                }
             }
 
             return metaInfo;
@@ -99,7 +108,7 @@ namespace Cryptool.PluginBase.Miscellaneous
             internal set;
         }
 
-        public EncodingTypes Encoding
+        public Encoding TextEncoding
         {
             get;
             internal set;

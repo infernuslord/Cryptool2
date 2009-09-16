@@ -18,8 +18,8 @@ namespace WordPatterns
      * - enter pattern in number format (like 1-2-2-1)
      * - add filter function (see Borland C++ tool)
      * - save last input words and propose them to user
-     * - improve dictionary input
      * - improve performance
+     * - support wildcard (*)
      */
     [Author("Matthäus Wander", "wander@cryptool.org", "Fachgebiet Verteilte Systeme, Universität Duisburg-Essen", "http://www.vs.uni-due.de")]
     [PluginInfo(false, "WordPatterns", "Searches for words with the same pattern", null, "WordPatterns/default_icon.png")]
@@ -74,7 +74,11 @@ namespace WordPatterns
         public string OutputText
         {
             get { return outputText; }
-            set { }
+            private set
+            {
+                outputText = value;
+                OnPropertyChanged("OutputText");
+            }
         }
 
         #endregion
@@ -119,7 +123,10 @@ namespace WordPatterns
         public void Execute()
         {
             if (inputText == null)
+            {
+                OutputText = "";
                 return;
+            }
 
             // calculate input word pattern
             Pattern inputPattern = new Pattern(inputText);
@@ -165,14 +172,12 @@ namespace WordPatterns
                     sb.Append(word);
                     sb.AppendLine();
                 }
-                outputText = sb.ToString();
+                OutputText = sb.ToString();
             }
             else
             {
-                outputText = null;
+                OutputText = "";
             }
-
-            OnPropertyChanged("OutputText");
         }
 
         internal class Pattern

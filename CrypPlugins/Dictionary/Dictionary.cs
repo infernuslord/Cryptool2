@@ -218,7 +218,7 @@ using System.Collections.ObjectModel;
 
 namespace Dictionary
 {
-    [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
+    [Author("Thomas Schmid, Matthäus Wander", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
     [PluginInfo(true, "Dictionary", "Reads values from a Dictionary and returns all entries concatenated with given delimiter in one string.", null, "Dictionary/icon.png")]
     public class CryptoolDictionary : IInput
     {
@@ -231,9 +231,15 @@ namespace Dictionary
         // dictionary name -> collection of words
         private static Dictionary<DataFileMetaInfo, string[]> dicValues = new Dictionary<DataFileMetaInfo, string[]>();
         private static Dictionary<DataFileMetaInfo, string> dicValuesOld = new Dictionary<DataFileMetaInfo, string>();
+        
+        // list of dictionaries
         private static DataFileMetaInfo[] dicList;
 
+        // Manages wordlist files
         private DataManager dataMgr = new DataManager();
+
+        // Flag to enable re-execution during play mode
+        private bool allowReexecution = false;
 
         # endregion private_variables
 
@@ -241,7 +247,7 @@ namespace Dictionary
         {
             get
             {
-                if (dicList.Length > settings.Dictionary)
+                if (dicList != null && dicList.Length > settings.Dictionary)
                     return dicList[settings.Dictionary];
                 else
                     return null;
@@ -328,10 +334,15 @@ namespace Dictionary
             EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs("OutputList"));
             EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs("OutputString"));
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(100, 100));
+
+            // enable re-execution after the first run
+            allowReexecution = true;
         }
 
         public void PostExecution()
         {
+            // disable re-execution when leaving play mode
+            allowReexecution = false;
         }
 
         public void Pause()
@@ -362,7 +373,12 @@ namespace Dictionary
                     stopWatch.Start();
 
                     FileStream fs = file.DataFile.OpenRead();
-                    StreamReader sr = new StreamReader(fs);
+                    StreamReader sr;
+                    if (file.TextEncoding == null)
+                        sr = new StreamReader(fs);
+                    else
+                        sr = new StreamReader(fs, file.TextEncoding);
+
                     List<string> list = new List<string>();
                     while (!sr.EndOfStream)
                     {
@@ -393,6 +409,17 @@ namespace Dictionary
         public void Initialize()
         {
             LoadFileList();
+
+            settings.PropertyChanged += SettingsPropertyChanged; // catch settings changes
+        }
+
+        private void SettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            // if user chooses another dictionary, force re-execution
+            if (allowReexecution && e.PropertyName == "Dictionary")
+            {
+                Execute();
+            }
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
