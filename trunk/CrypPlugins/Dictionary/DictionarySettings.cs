@@ -221,7 +221,13 @@ namespace Dictionary
     private ObservableCollection<string> collection = new ObservableCollection<string>();
     # endregion private_variables
 
-    [TaskPane("Dictionary", "Select dictionary with keywords.", "", 0, false, DisplayLevel.Beginner, ControlType.DynamicComboBox, new string[] { "Collection" })]
+    public delegate void ExecuteCallback();
+
+    public CryptoolDictionarySettings()
+    {
+    }
+
+    [TaskPane("Dictionary", "Select dictionary with keywords.", "", 0, true, DisplayLevel.Beginner, ControlType.DynamicComboBox, new string[] { "Collection" })]
     public int Dictionary
     {
       get { return currentDictionary; }
@@ -274,10 +280,10 @@ namespace Dictionary
 
     protected void OnPropertyChanged(string name)
     {
-      if (PropertyChanged != null)
-      {
-        PropertyChanged(this, new PropertyChangedEventArgs(name));
-      }
+        if (PropertyChanged != null)
+        {
+            PropertyChanged(this, new PropertyChangedEventArgs(name));
+        }
     }
 
     #endregion
