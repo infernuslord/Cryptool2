@@ -27,7 +27,7 @@ using System.Security.Cryptography;
 namespace Cryptool.Plugins.RSA
 {
     [Author("Dennis Nolte", "nolte@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "RSA", "RSA En/Decryption", "", "RSA/icon.png", "RSA/icon.png", "RSA/icon.png")]
+    [PluginInfo(false, "RSA", "RSA En/Decryption", "", "RSA/iconrsa.png", "RSA/iconrsa.png", "RSA/iconrsa.png")]
 
     [EncryptionType(EncryptionType.Asymmetric)]
 
