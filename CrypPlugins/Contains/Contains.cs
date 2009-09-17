@@ -363,6 +363,27 @@ namespace Contains
       }
     }
 
+
+
+//Angelov:
+    private int hitCount = 0;
+
+    
+    [PropertyInfo(Direction.OutputData, "Number of Hits", "The search result is based on the current input and the given parameters.", "", false, false, DisplayLevel.Expert, QuickWatchFormat.Text, null)]
+    public int HitCount
+    {
+        get { return hitCount; }
+        set
+        {
+            hitCount = value;
+            OnPropertyChanged("HitCount");
+            
+        }
+    } 
+//End Angelov
+
+
+
     #region IPlugin Members
 
     public event StatusChangedEventHandler OnPluginStatusChanged;
@@ -443,6 +464,9 @@ namespace Contains
               if (hashTable.ContainsKey(InputString)) listReturn.Add(new StringSearchResult(0, InputString));
             }
           }
+            
+           
+
 
           // set target-hits bases on current setting
           int currentTargetHits = int.MinValue;
@@ -469,6 +493,13 @@ namespace Contains
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(100, 100));
           }
           presentation.SetData(listReturn.ToArray());
+
+         //Angelov: 
+
+          HitCount = listReturn.Count;
+
+         //End Angelov
+
         }
         else
         {
@@ -487,6 +518,9 @@ namespace Contains
       {
         EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(exception.Message, this, NotificationLevel.Error));
       }
+
+
+
     }
 
     public void PostExecution()
