@@ -33,6 +33,9 @@ namespace Cryptool.Plugins.QuadraticSieve
         #region IPlugin Members
 
         private QuadraticSieveSettings settings = new QuadraticSieveSettings();
+        private BigInteger inputNumber;
+        private BigInteger[] outputFactors;
+
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
 
@@ -63,7 +66,7 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         public void Execute()
         {
-            
+            //Process to be added
         }
 
         public void PostExecution()
@@ -89,6 +92,39 @@ namespace Cryptool.Plugins.QuadraticSieve
         public void Dispose()
         {
            
+        }
+
+        #endregion
+
+        #region QuadraticSieveInOut
+
+        [PropertyInfo(Direction.InputData, "Number Input", "Input your Number here", "", DisplayLevel.Beginner)]
+        public BigInteger InputNumber
+        {
+            get
+            {
+                return inputNumber;
+            }
+            set
+            {
+                this.inputNumber = value;
+                OnPropertyChanged("InputNumber");
+            }
+        }
+
+
+        [PropertyInfo(Direction.OutputData, "Factors Output", "Your Factors will be send here", "", DisplayLevel.Beginner)]
+        public BigInteger[] OutputFactors
+        {
+            get
+            {
+                return outputFactors;
+            }
+            set
+            {
+                this.outputFactors = value;
+                OnPropertyChanged("OutputFactors");
+            }
         }
 
         #endregion
