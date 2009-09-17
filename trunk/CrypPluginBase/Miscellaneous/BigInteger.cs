@@ -2667,14 +2667,27 @@ namespace Cryptool.PluginBase.Miscellaneous
             int pos = 0;
             uint tempVal, val = data[dataLength - 1];
 
+            bool jumped = false;
             if ((tempVal = (val >> 24 & 0xFF)) != 0)
+            {
                 result[pos++] = (byte)tempVal;
-            if ((tempVal = (val >> 16 & 0xFF)) != 0)
+                jumped = true;
+            }
+            if ((tempVal = (val >> 16 & 0xFF)) != 0 || jumped)
+            {
                 result[pos++] = (byte)tempVal;
-            if ((tempVal = (val >> 8 & 0xFF)) != 0)
+                jumped = true;
+            }
+            if ((tempVal = (val >> 8 & 0xFF)) != 0 || jumped)
+            {
                 result[pos++] = (byte)tempVal;
-            if ((tempVal = (val & 0xFF)) != 0)
+                jumped = true;
+            }
+            if ((tempVal = (val & 0xFF)) != 0 || jumped)
+            {
                 result[pos++] = (byte)tempVal;
+                jumped = true;
+            }
 
             for (int i = dataLength - 2; i >= 0; i--, pos += 4)
             {
