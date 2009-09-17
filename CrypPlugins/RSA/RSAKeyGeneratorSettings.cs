@@ -20,11 +20,19 @@ using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
 using System.ComponentModel;
+using System.Windows;
 
 namespace Cryptool.Plugins.RSA
 {
     class RSAKeyGeneratorSettings : ISettings
     {
+        public RSAKeyGeneratorSettings()
+        {
+            Source = 0; //doesn't work
+        }
+
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
+
         private int source;
         [ContextMenu("Source", "Select the source of the Key Data?", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 1, 2, 3 }, "Manual", "Random", "Certificate")]
         [TaskPane("Source", "Select the source of the Key Data?", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Manual", "Random", "Certificate" })]
@@ -35,6 +43,30 @@ namespace Cryptool.Plugins.RSA
             {
                 if (((int)value) != source) hasChanges = true;
                 this.source = (int)value;
+
+                if (TaskPaneAttributeChanged != null)
+                    switch (source)
+                    {
+                        case 0:
+                            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CertificateFile", Visibility.Collapsed)));
+                            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("P", Visibility.Visible)));
+                            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Q", Visibility.Visible)));
+                            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("E", Visibility.Visible)));
+                            break;
+                        case 1:
+                            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CertificateFile", Visibility.Collapsed)));
+                            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("P", Visibility.Collapsed)));
+                            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Q", Visibility.Collapsed)));
+                            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("E", Visibility.Collapsed)));
+                            break;
+                        case 2:
+                            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CertificateFile", Visibility.Visible)));
+                            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("P", Visibility.Collapsed)));
+                            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Q", Visibility.Collapsed)));
+                            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("E", Visibility.Collapsed)));
+                            break;
+                    }
+
                 OnPropertyChanged("Source");
             }
         }
@@ -84,6 +116,24 @@ namespace Cryptool.Plugins.RSA
             }
         }
 
+
+        private string certificateFile;
+        [TaskPane("Open X509 Certificate", "Select the X.509 certificate you want to open.", null, 5, false, DisplayLevel.Beginner, ControlType.OpenFileDialog, "X.509 certificates (*.cer)|*.cer")]
+        public string CertificateFile
+        {
+            get { return certificateFile; }
+            set
+            {
+                if (value != certificateFile)
+                {
+                    certificateFile = value;
+                    HasChanges = true;
+                    OnPropertyChanged("CertificateFile");
+                }
+            }
+        }
+
+ 
         #region ISettings Members
 
         private bool hasChanges = false;

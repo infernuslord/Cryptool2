@@ -23,6 +23,7 @@ using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.PluginBase;
 using System.ComponentModel;
 using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Cryptool.Plugins.RSA
 {
@@ -31,8 +32,7 @@ namespace Cryptool.Plugins.RSA
 
     [EncryptionType(EncryptionType.Asymmetric)]
     class RSAKeyGenerator : IEncryption
-    {
-
+    {        
         #region Properties
 
         private BigInteger n;
@@ -81,7 +81,6 @@ namespace Cryptool.Plugins.RSA
         }
 
         #endregion
-
 
         #region IPlugin Members
 
@@ -174,6 +173,12 @@ namespace Cryptool.Plugins.RSA
                     break;
 
                 case 2:
+                    RSACryptoServiceProvider rsa2 = new RSACryptoServiceProvider();
+                    X509Certificate2 cert = new X509Certificate2(settings.CertificateFile);
+                    RSACryptoServiceProvider provider = (RSACryptoServiceProvider)cert.PublicKey.Key;
+                    RSAParameters par = provider.ExportParameters(false);
+                    N = new BigInteger(par.Modulus);
+                    E = new BigInteger(par.Exponent);
                     break;
             }
             ProgressChanged(1.0, 1.0);
@@ -195,8 +200,7 @@ namespace Cryptool.Plugins.RSA
         }
 
         public void Initialize()
-        {
-
+        {            
         }
 
         public void Dispose()
