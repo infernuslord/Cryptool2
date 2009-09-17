@@ -40,33 +40,65 @@ namespace Cryptool.MonoalphabeticAnalysis
                 //hasChanges = true; 
             }
         }
+        private StringBuilder plugBoard = new StringBuilder("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        public void PlugboardRestart()
+        {
+           
+            this.plugBoard = new StringBuilder("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+            for (int i = 0; i < alphabet.Length; i++)
+            {
+
+                
+               OnPropertyChanged("PlugBoard" + alphabet[i]);
+            }
+            OnPropertyChanged("PlugBoard");
+            
+        }
+
+
 
         private string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         //private bool involutoricPlugBoard = true;
         private bool suggestSubstitutionManually = false;
-        private string plugBoard = "";
+        
         
         private char[] workKeyCharArray = new char[26];
 
 
         private void setPlugBoard(int letterPos, int newIndex)
         {
+            if (workKey.Length != 0 && proposalKey.Length!=0)
+            {
                 if (workKey[letterPos] != proposalKey[letterPos]) //Change has been made. Must be undone
-                {   hasChanges=true;
-                    this.workKeyCharArray = this.workKey.ToCharArray();  
+                {
+                    hasChanges = true;
+                    this.workKeyCharArray = this.workKey.ToCharArray();
                     char currentworkchar = this.workKey[letterPos];
                     this.workKeyCharArray[letterPos] = this.proposalKey[letterPos];
                     int indexofcurrentworkchar = this.proposalKey.IndexOf(currentworkchar);
                     this.workKeyCharArray[indexofcurrentworkchar] = currentworkchar;
-                    this.workKey= new string(this.workKeyCharArray); 
+                    this.workKey = new string(this.workKeyCharArray);
+                    //same change also to plugboard
+                    char currentPlugChar = plugBoard[letterPos];
+                    char oldPlugChar = plugBoard[indexofcurrentworkchar];
+                    plugBoard[indexofcurrentworkchar] = oldPlugChar;
+                    plugBoard[letterPos] = oldPlugChar;
+                    OnPropertyChanged("PlugBoard");
+                    OnPropertyChanged("PlugBoard" + alphabet[letterPos]);
+                    OnPropertyChanged("PlugBoard" + alphabet[indexofcurrentworkchar]);
                 }
+
+
+               
+
+
 
                 hasChanges = true;
 
-                this.workKeyCharArray = this.workKey.ToCharArray();  
-                
-                char newKeyChar=this.workKey[newIndex];
-                
+                this.workKeyCharArray = this.workKey.ToCharArray();
+
+                char newKeyChar = this.workKey[newIndex];
+
                 char currentKeyChar = this.workKey[letterPos];
 
                 this.workKeyCharArray[letterPos] = newKeyChar;
@@ -75,12 +107,20 @@ namespace Cryptool.MonoalphabeticAnalysis
 
                 this.workKey = new string(workKeyCharArray);
 
-                this.PlugBoard= this.workKey;
+                this.PlugBoard = this.workKey;
+
+                //same chage also to plugboard
+
+                char plugChar = plugBoard[letterPos];
+                char newPlugChar = plugBoard[newIndex];
+                plugBoard[newIndex] = plugChar;
+                plugBoard[letterPos] = newPlugChar;
 
                 OnPropertyChanged("PlugBoard");
-
+                OnPropertyChanged("PlugBoard" + alphabet[newIndex]);
+                OnPropertyChanged("PlugBoard" + alphabet[letterPos]);
                 OnPropertyChanged("PlugBoardDisplay");
-            
+            }
         }
 
         
@@ -105,46 +145,8 @@ namespace Cryptool.MonoalphabeticAnalysis
                 OnPropertyChanged("Fast Aproach");
             }
         }
-        /*
-        private int caseSensitivity = 0;
 
-        [PropertySaveOrder(2)]
-        [ContextMenu("Case Sensitivity", "If Frequency Test is feeding case sensitive analysis as input the setting should be set.", 7, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "Case Insensitive", "Case Sensitive" })]
-        [TaskPane("Case Sensitivity", "If Frequency Test is feeding case sensitive analysis as input the setting should be set.", "", 7, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Case Insensitive", "Case Sensitive" })]
-        public int CaseSensitivity
-        {
-            get { return this.caseSensitivity; }
-            set
-            {
-                if (value != caseSensitivity)
-                {
-                    HasChanges = true;
-                    caseSensitivity = value;
-                }
-
-                OnPropertyChanged("Case Sensitivity");
-            }
-        }
-
-        private int language = 0;
-
-        [PropertySaveOrder(3)]
-        [ContextMenu("Language", "Choose expected language of cipher text to use the correlated built-in statistic. The option is applicable only when the inputs for frequency statistic data are not used. ", 7, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "English", "German", "French", "Spanish" })]
-        [TaskPane("Language", "Choose expected language of cipher text to use the correlated built-in statistic. The option is applicable only when the inputs for frequency statistic data are not used. ", "", 7, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "English", "German", "French", "Spanish" })]
-        public int Language
-        {
-            get { return this.language; }
-            set
-            {
-                if (value != language)
-                {
-                    HasChanges = true;
-                    language = value;
-                }
-
-                OnPropertyChanged("Language");
-            }
-        }   */
+        
 
 
         #region Plugboard settings
@@ -169,26 +171,27 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
 
-        [TaskPane("Plaintext Alphabet", "Displays the Plaintext alphabet", "", 29, false, DisplayLevel.Beginner, ControlType.TextBoxReadOnly)]
+     /*   [TaskPane("Plaintext Alphabet", "Displays the Plaintext alphabet", "", 29, false, DisplayLevel.Beginner, ControlType.TextBoxReadOnly)]
         public string PlaintextAlphabet
         {
             get { return alphabet; }
             
             set { }  
-        }
+        }*/
        
 
         [TaskPane("Key Proposal", "Displays the current key proposal", "", 30, false, DisplayLevel.Beginner, ControlType.TextBoxReadOnly)]
         public string PlugBoard
         {
             get {
-                 return this.plugBoard; 
+                return this.workKey; ; 
                 }
 
             set
             {
                 hasChanges = true;
-                plugBoard = value;
+                workKey = value;
+             
                OnPropertyChanged("Plugboard");
             }
         }
@@ -213,7 +216,7 @@ namespace Cryptool.MonoalphabeticAnalysis
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardA
         {
-            get { return alphabet.IndexOf(this.alphabet[0]); }
+            get { return alphabet.IndexOf(this.plugBoard[1]); }
             set { setPlugBoard(0, value); }
         }
 

@@ -187,6 +187,13 @@ namespace Cryptool.MonoalphabeticAnalysis
             if (settings.SuggestSubstitutionManually == true && settings.WorkKey != "" )
             {
                 stringOutput = settings.WorkKey;
+
+                ((MonoalphabeticAnalysisSettings)this.settings).PlugBoard = stringOutput;
+                ((MonoalphabeticAnalysisSettings)this.settings).WorkKey = stringOutput;
+                ((MonoalphabeticAnalysisSettings)this.settings).ProposalKey = stringOutput;
+                ((MonoalphabeticAnalysisSettings)this.settings).PlugboardRestart();
+
+
                 OnPropertyChanged("StringOutput");
                
             }
@@ -284,11 +291,11 @@ namespace Cryptool.MonoalphabeticAnalysis
                 }
 
 
-
+                
                 ((MonoalphabeticAnalysisSettings)this.settings).PlugBoard = stringOutput;
                 ((MonoalphabeticAnalysisSettings)this.settings).WorkKey = stringOutput;
                 ((MonoalphabeticAnalysisSettings)this.settings).ProposalKey = stringOutput;
-                
+                ((MonoalphabeticAnalysisSettings)this.settings).PlugboardRestart();
                 OnPropertyChanged("StringOutput");
             }
 
