@@ -24,18 +24,18 @@ using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
 using System.Security.Cryptography;
 
-namespace Cryptool.Plugins.RSASystem
+namespace Cryptool.Plugins.RSA
 {
     [Author("Dennis Nolte", "nolte@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "RSASystem", "RSA En/Decryption", "", "RSASystem/icon.png", "RSASystem/icon.png", "RSASystem/icon.png")]
+    [PluginInfo(false, "RSA", "RSA En/Decryption", "", "RSA/icon.png", "RSA/icon.png", "RSA/icon.png")]
 
     [EncryptionType(EncryptionType.Asymmetric)]
 
-    class RSASystem : IEncryption
+    class RSA : IEncryption
     {
         #region IPlugin Members
 
-        private RSASystemSettings settings = new RSASystemSettings();
+        private RSASettings settings = new RSASettings();
         private BigInteger inputM = new BigInteger(1);
         private BigInteger inputP = new BigInteger(1);
         private BigInteger inputQ = new BigInteger(1);
@@ -51,7 +51,7 @@ namespace Cryptool.Plugins.RSASystem
         public ISettings Settings
         {
             get { return this.settings; }
-            set { this.settings = (RSASystemSettings)value; }
+            set { this.settings = (RSASettings)value; }
         }
 
         public System.Windows.Controls.UserControl Presentation
@@ -144,7 +144,7 @@ namespace Cryptool.Plugins.RSASystem
 
         #endregion
 
-        #region RSASystemInOut
+        #region RSAInOut
 
         [PropertyInfo(Direction.InputData, "Message M Input", "Input your Message M here", "", DisplayLevel.Beginner)]
         public BigInteger InputM

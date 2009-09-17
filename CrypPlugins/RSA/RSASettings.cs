@@ -21,9 +21,9 @@ using System.Text;
 using System.ComponentModel;
 using Cryptool.PluginBase;
 
-namespace Cryptool.Plugins.RSASystem
+namespace Cryptool.Plugins.RSA
 {
-    class RSASystemSettings : ISettings
+    class RSASettings : ISettings
     {
         private bool hasChanges = false;
         private int action = 0; //0=encrypt, 1=decrypt
