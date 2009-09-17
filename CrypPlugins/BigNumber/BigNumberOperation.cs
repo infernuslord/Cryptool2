@@ -199,7 +199,6 @@ namespace Cryptool.Plugins.BigNumber
                 }
                 catch (Exception e)
                 {
-
                     GuiLogMessage("Big Number fail: " + e.Message, NotificationLevel.Error);
                     return;
                 }
