@@ -27,7 +27,7 @@ using System.Security.Cryptography;
 namespace Cryptool.Plugins.RSA
 {
     [Author("Sven Rech", "rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(true, "RSAKeyGenerator", "RSA Key Generator", "", "RSA/icon.png", "RSA/icon.png", "RSA/icon.png")]
+    [PluginInfo(true, "RSAKeyGenerator", "RSA Key Generator", "", "RSA/iconkey.png", "RSA/iconkey.png", "RSA/iconkey.png")]
 
     [EncryptionType(EncryptionType.Asymmetric)]
     class RSAKeyGenerator : IEncryption
