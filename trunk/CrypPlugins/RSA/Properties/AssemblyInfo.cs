@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("RSASystem")]
+[assembly: AssemblyTitle("RSA")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Distributed Systems")]
-[assembly: AssemblyProduct("RSASystem")]
+[assembly: AssemblyProduct("RSA")]
 [assembly: AssemblyCopyright("Copyright © Distributed Systems 2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
