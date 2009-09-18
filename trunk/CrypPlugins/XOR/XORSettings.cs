@@ -248,25 +248,6 @@ namespace Cryptool.XOR
 
         #endregion
 
-
-        #region Algorithm settings properties (visible in the settings pane)
-
-        [PropertySaveOrder(1)]
-        [ContextMenu("Action","Select the Algorithm action",1,DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] {1, 2}, new string[] {"Encrypt","Decrypt"})]
-        [TaskPane("Action", "Select the Algorithm action", "", 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
-        public int Action
-        {
-            get { return this.selectedAction; }
-            set
-            {
-                if(value != selectedAction) HasChanges = true;
-                this.selectedAction = value;
-                OnPropertyChanged("Action");
-            }
-        }
-
-        #endregion
-
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;

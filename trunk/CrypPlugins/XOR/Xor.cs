@@ -228,7 +228,6 @@ namespace Cryptool.XOR
         private string inputString;
         private string outputString;
         private string key;
-        private enum XorMode { encrypt, decrypt };
         private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
 
         #endregion
@@ -262,7 +261,7 @@ namespace Cryptool.XOR
                 {
                     CryptoolStream cs = new CryptoolStream();
                     listCryptoolStreamsOut.Add(cs);
-                    cs.OpenRead(this.GetPluginInfoAttribute().Caption, Encoding.Default.GetBytes(outputString.ToCharArray()));
+                    cs.OpenRead(Encoding.Default.GetBytes(outputString.ToCharArray()));
                     return cs;
                 }
                 else
@@ -309,22 +308,6 @@ namespace Cryptool.XOR
                 outputString = value;
                 OnPropertyChanged("OutputString");
             }
-        }
-
-        /// <summary>
-        /// Xor encryption
-        /// </summary>
-        public void Encrypt()
-        {
-            ProcessXor(XorMode.encrypt);
-        }
-
-        /// <summary>
-        /// Xor decryption
-        /// </summary>
-        public void Decrypt()
-        {
-            ProcessXor(XorMode.decrypt);
         }
 
         #endregion
@@ -403,10 +386,9 @@ namespace Cryptool.XOR
         #region Private methods
 
         /// <summary>
-        /// Does the actual Xor processing, i.e. encryption or decryption
+        /// Does the actual Xor processing
         /// </summary>
-        /// <param name="mode"></param>
-        private void ProcessXor(XorMode mode)
+        private void ProcessXor()
         {
             if (inputString != null)
             {
@@ -429,15 +411,7 @@ namespace Cryptool.XOR
                 char cpos = '\0';
                 for (int i = 0; i < inputString.Length; i++)
                 {
-                    switch (mode)
-                    {
-                        case XorMode.encrypt:                            
-                            cpos = (char) (inputString[i] ^ longKey[i]);
-                            break;
-                        case XorMode.decrypt:
-                            cpos = (char)(inputString[i] ^ longKey[i]);
-                            break;
-                    }
+                    cpos = (char)(inputString[i] ^ longKey[i]);
                     output.Append(Convert.ToString(cpos));
 
                     //show the progress
@@ -471,17 +445,7 @@ namespace Cryptool.XOR
 
         public void Execute()
         {
-            switch (settings.Action)
-            {
-                case 0:
-                    Encrypt();
-                    break;
-                case 1:
-                    Decrypt();
-                    break;
-                default:
-                    break;
-            }
+            ProcessXor();
         }
 
         public void Pause()
