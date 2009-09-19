@@ -82,6 +82,15 @@ namespace Cryptool.Plugins.RSA
             {
                 GuiLogMessage("RSA could not work because of: " + ex.Message, NotificationLevel.Error);                
             }
+
+            if (this.InputText != null)
+            {
+                BigInteger m = new BigInteger(this.InputText);
+                BigInteger c = m.modPow(this.InputED, this.InputN);
+                this.OutputText = c.getBytes();
+            }
+
+            /*
             //calculate the Texts
             if (this.InputText != null)
             {
@@ -137,7 +146,7 @@ namespace Cryptool.Plugins.RSA
                 
                 this.OutputText = output;
 
-            }
+            }*/
 
         }
 
