@@ -150,6 +150,12 @@ namespace Cryptool.Plugins.Comparators
                     //if operator is <
                     case 2:
                         {
+                            if (InputOne is BigInteger&& InputTwo is BigInteger)
+                            {
+                                Output = (BigInteger)InputOne < (BigInteger)InputTwo;
+                                ProgressChanged(100, 100);
+                                break;
+                            }
                             if (InputOne is int && InputTwo is int)
                             {
                                 Output = (int)InputOne < (int)InputTwo;
@@ -197,6 +203,12 @@ namespace Cryptool.Plugins.Comparators
                     //if operator is >
                     case 3:
                         {
+                            if (InputOne is BigInteger && InputTwo is BigInteger)
+                            {
+                                Output = (BigInteger)InputOne > (BigInteger)InputTwo;
+                                ProgressChanged(100, 100);
+                                break;
+                            }
                             if (InputOne is int && InputTwo is int)
                             {
                                 Output = (int)InputOne > (int)InputTwo;
@@ -243,6 +255,12 @@ namespace Cryptool.Plugins.Comparators
                         }
                     case 4:
                         {
+                            if (InputOne is BigInteger && InputTwo is BigInteger)
+                            {
+                                Output = (BigInteger)InputOne <= (BigInteger)InputTwo;
+                                ProgressChanged(100, 100);
+                                break;
+                            }
                             if (InputOne is int && InputTwo is int)
                             {
                                 Output = (int)InputOne <= (int)InputTwo;
@@ -291,6 +309,12 @@ namespace Cryptool.Plugins.Comparators
 
                     case 5:
                         {
+                            if (InputOne is BigInteger && InputTwo is BigInteger)
+                            {
+                                Output = (BigInteger)InputOne >= (BigInteger)InputTwo;
+                                ProgressChanged(100, 100);
+                                break;
+                            }
                             if (InputOne is int && InputTwo is int)
                             {
                                 Output = (int)InputOne >= (int)InputTwo;
