@@ -23,6 +23,7 @@ using Cryptool.PluginBase.IO;
 using QuadraticSieve;
 using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
+using System.Threading;
 
 namespace Cryptool.Plugins.QuadraticSieve
 {
@@ -35,6 +36,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         private QuadraticSieveSettings settings = new QuadraticSieveSettings();
         private BigInteger inputNumber;
         private BigInteger[] outputFactors;
+        private bool running;
 
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
@@ -66,14 +68,38 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         public void Execute()
         {
-            if (settings.CoresUsed < Environment.ProcessorCount)
+            if (InputNumber is Object)
             {
-                //Process to be added
+                if (settings.CoresUsed < Environment.ProcessorCount)
+                {
+                    running = true;
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(MSieveJob));
+                    
+                    //Hauptdingsi Aufruf
+     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    for (int i = 0; i < 10 && running; i++)
+                    {
+                        GuiLogMessage("thread: {0}" + i, NotificationLevel.Info);
+                        Thread.Sleep(1000);                      
+                    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                }
+                else
+                {
+                    GuiLogMessage("You may only use up to " + Environment.ProcessorCount + " cores on your machine", NotificationLevel.Error);
+                }
             }
-            else
+        }
+
+        public void MSieveJob(object state)
+        { 
+            //Nebendingsi Aufruf?
+            for (int i = 0; i < 10 && running; i++)
             {
-                GuiLogMessage("You may only use up to " + Environment.ProcessorCount + " cores on your machine", NotificationLevel.Error);
+                GuiLogMessage("thread: {1}" + i, NotificationLevel.Info);
+                Thread.Sleep(2000);
             }
+            
         }
 
         public void PostExecution()
@@ -88,7 +114,7 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         public void Stop()
         {
-            
+            running = false;
         }
 
         public void Initialize()
