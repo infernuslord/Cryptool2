@@ -20,12 +20,33 @@ using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
 using System.ComponentModel;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace QuadraticSieve
 {
     class QuadraticSieveSettings : ISettings
     {
-        bool hasChanges = false;
+        #region private variables
+        private int coresUsed;
+        private bool hasChanges = false;
+        #endregion
+
+        #region taskpane
+        [TaskPane("CoresUsed", "Choose how many cores are used", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "1", "2", "3", "4" })]
+        public int CoresUsed
+        {
+            get { return this.coresUsed; }
+            set
+            {
+                if (value != this.coresUsed)
+                {
+                    this.coresUsed = value;
+                    OnPropertyChanged("CoresUsed");
+                    HasChanges = true;
+                }
+            }
+        }
+        #endregion
 
         #region ISettings Members
 
@@ -41,6 +62,8 @@ namespace QuadraticSieve
             }
         }
 
+        
+
         #endregion
 
         #region INotifyPropertyChanged Members
@@ -54,6 +77,7 @@ namespace QuadraticSieve
                 PropertyChanged(this, new PropertyChangedEventArgs(p));
             }
         }
+
 
         #endregion
 
