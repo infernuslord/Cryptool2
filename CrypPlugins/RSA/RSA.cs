@@ -36,12 +36,13 @@ namespace Cryptool.Plugins.RSA
         #region IPlugin Members
 
         private RSASettings settings = new RSASettings();
-        private BigInteger inputM = new BigInteger(1);
-        private BigInteger inputP = new BigInteger(1);
-        private BigInteger inputQ = new BigInteger(1);
-        private BigInteger inputE = new BigInteger(1);
-        private BigInteger outputC = new BigInteger(1);
-        
+        private BigInteger inputN = new BigInteger(1);
+        private BigInteger inputmc = new BigInteger(1);
+        private BigInteger inputed = new BigInteger(1);
+        private BigInteger outputmc = new BigInteger(1);
+        private byte[] inputText = null;
+        private byte[] outputText = null;
+
         public event StatusChangedEventHandler OnPluginStatusChanged;
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
@@ -71,50 +72,73 @@ namespace Cryptool.Plugins.RSA
 
         public void Execute()
         {
-            try
-            {
-
-                // encrypt
-                if (this.settings.Action == 0)
-                {
-                    GuiLogMessage("Calculating N = P * Q", NotificationLevel.Info);
-                    BigInteger N = this.InputP * this.InputQ;
-                    ProgressChanged(0.5, 1);
-                    GuiLogMessage("N = " + N.ToString(10), NotificationLevel.Info);
-
-                    GuiLogMessage("Calculating C = (M^E) mod N", NotificationLevel.Info);
-                    this.OutputC = this.InputM.modPow(this.InputE, N);
-                    ProgressChanged(1, 1);
-                    GuiLogMessage("C = " + this.OutputC.ToString(10), NotificationLevel.Info);
-                }
-                //decrypt
-                else
-                {
-                    GuiLogMessage("Calculating N = P * Q", NotificationLevel.Info);
-                    BigInteger N = this.InputP * this.InputQ;
-                    ProgressChanged(0.25, 1);
-                    GuiLogMessage("N = " + N.ToString(10), NotificationLevel.Info);
-
-                    GuiLogMessage("Calculating phi(N) = (P-1)*(Q-1)", NotificationLevel.Info);
-                    BigInteger PhiN = (this.InputP - 1) * (this.InputQ - 1);
-                    ProgressChanged(0.5, 1);
-                    GuiLogMessage("phi(N) = " + PhiN.ToString(10), NotificationLevel.Info);
-
-                    GuiLogMessage("Calculating d = (E^-1) mod phi(N)", NotificationLevel.Info);
-                    BigInteger d = this.InputE.modInverse(PhiN);
-                    ProgressChanged(0.75, 1);
-                    GuiLogMessage("d = " + d.ToString(10), NotificationLevel.Info);
-
-                    GuiLogMessage("Calculating M = (C^d) mod N", NotificationLevel.Info);
-                    this.OutputC = this.InputM.modPow(d, N);
-                    ProgressChanged(1, 1);
-                    GuiLogMessage("M = " + OutputC.ToString(10), NotificationLevel.Info);
-                }
+            //calculate the BigIntegers
+            try{
+                ProgressChanged(0.5, 1.0);
+                this.OutputMC = InputMC.modPow(this.InputED, this.InputN);
+                ProgressChanged(1.0, 1.0);
             }
             catch (Exception ex)
             {
                 GuiLogMessage("RSA could not work because of: " + ex.Message, NotificationLevel.Error);                
             }
+            //calculate the Texts
+            if (this.InputText != null)
+            {
+                GuiLogMessage("starting RSA on texts", NotificationLevel.Info);
+
+                //calculate block size from N
+                int blocksize = (int)Math.Floor(this.InputN.log(2) / 8.0);                
+                GuiLogMessage("blocksize = " + blocksize,NotificationLevel.Info);
+
+                int blockcount = this.InputText.Length / blocksize;
+                if (this.InputText.Length % blocksize != 0)
+                    blockcount++;
+
+                byte[] output = new byte[blockcount * blocksize];
+
+                GuiLogMessage("Blocksize  = " + blocksize, NotificationLevel.Info);
+                GuiLogMessage("blockcount = " + blockcount, NotificationLevel.Info);
+
+                //generate Big Integers to do RSA
+                for (int i = 0; i < blockcount; i++)
+                {
+                    GuiLogMessage("Step " + i, NotificationLevel.Info);
+
+                    byte[] help = new byte[blocksize];
+
+                    for (int j = 0; j < blocksize; j++)
+                    {
+                        if ((i * blocksize + j) >= InputText.Length)
+                        {
+                            help[j] = 0;
+                        }
+                        else
+                        {
+                            help[j] = this.InputText[i * blocksize + j];
+                        }
+                    }//end for j
+
+                    BigInteger m = new BigInteger(help);
+                    GuiLogMessage("m = " + m, NotificationLevel.Info);
+                    BigInteger c = m.modPow(this.InputED, this.InputN);
+                    GuiLogMessage("c = " + c, NotificationLevel.Info);
+
+                    help = c.getBytes();
+
+                    for (int j = 0; j < blocksize; j++)
+                    {
+                        output[i * blocksize + j] = help[j];
+                    }//end for j
+                    
+                    GuiLogMessage("End Step " + i, NotificationLevel.Info);
+
+                }//end for i
+                
+                this.OutputText = output;
+
+            }
+
         }
 
         public void PostExecution()
@@ -146,80 +170,95 @@ namespace Cryptool.Plugins.RSA
 
         #region RSAInOut
 
-        [PropertyInfo(Direction.InputData, "Message M Input", "Input your Message M here", "", DisplayLevel.Beginner)]
-        public BigInteger InputM
+        [PropertyInfo(Direction.InputData, "Public Key / Private Key N Input", "Input your Public Key / Private key N here", "", DisplayLevel.Beginner)]
+        public BigInteger InputN
         {
             get
             {
-                return inputM;
+                return inputN;
             }
             set
             {
-                this.inputM = value;
-                OnPropertyChanged("InputM");
+                this.inputN = value;
+                OnPropertyChanged("InputN");
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Prime P Input", "Input your Prime P here", "", DisplayLevel.Beginner)]
-        public BigInteger InputP
+        [PropertyInfo(Direction.InputData, "Message M / Ciphertext C Input", "Input your Message M / Ciphertext C here", "", DisplayLevel.Beginner)]
+        public BigInteger InputMC
         {
             get
             {
-                return inputP;
+                return inputmc;
             }
             set
             {
-                this.inputP = value;
-                OnPropertyChanged("InputP");
+                this.inputmc = value;
+                OnPropertyChanged("InputMC");
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Prime Q Input", "Input your Prime Q here", "", DisplayLevel.Beginner)]
-        public BigInteger InputQ
+        [PropertyInfo(Direction.InputData, "Public Key E / Private Key D input", "Input your public Key E / Private Key D here", "", DisplayLevel.Beginner)]
+        public BigInteger InputED
         {
             get
             {
-                return inputQ;
+                return inputed;
             }
             set
             {
-                this.inputQ = value;
-                OnPropertyChanged("InputQ");
-            }
-        }
-
-        [PropertyInfo(Direction.InputData, "Public Key E Input", "Input your public key E here", "", DisplayLevel.Beginner)]
-        public BigInteger InputE
-        {
-            get
-            {
-                return inputE;
-            }
-            set
-            {
-                this.inputE = value;
-                OnPropertyChanged("InputE");
+                this.inputed = value;
+                OnPropertyChanged("InputED");
             }
         }
         
-        [PropertyInfo(Direction.OutputData, "Cipher C Output", "Your Cipher will be send here", "", DisplayLevel.Beginner)]
-        public BigInteger OutputC
+        [PropertyInfo(Direction.OutputData, "Cipher C Output / Message M Output", "Your Cipher C / Message M will be send here", "", DisplayLevel.Beginner)]
+        public BigInteger OutputMC
         {
             get
             {
-                return outputC;
+                return outputmc;
             }
             set
             {
-                this.outputC = value;
-                OnPropertyChanged("OutputC");
+                this.outputmc = value;
+                OnPropertyChanged("OutputMC");
+            }
+        }
+
+        [PropertyInfo(Direction.InputData, "Text Input", "Input your Text here", "", DisplayLevel.Beginner)]
+        public byte[] InputText
+        {
+            get
+            {
+                return inputText;
+            }
+            set
+            {
+                this.inputText = value;
+                //GuiLogMessage("InputText: " + (int)inputText[0] + " " + (int)inputText[1] + " " + (int)inputText[2] + " " + (int)inputText[3] + " ", NotificationLevel.Info);
+                OnPropertyChanged("InputText");
+            }
+        }
+
+        [PropertyInfo(Direction.OutputData, "Text Output", "Your Text will be send here", "", DisplayLevel.Beginner)]
+        public byte[] OutputText
+        {
+            get
+            {
+                return outputText;
+            }
+            set
+            {
+                this.outputText = value;
+                //GuiLogMessage("OutputText: " + (int)outputText[0] + " " +(int)outputText[1] + " "+(int)outputText[2] + " "+(int)outputText[3] + " ", NotificationLevel.Info);
+                OnPropertyChanged("OutputText");
             }
         }
 
         #endregion
 
         #region INotifyPropertyChanged Members
-
 
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
