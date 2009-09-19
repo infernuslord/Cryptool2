@@ -66,7 +66,14 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         public void Execute()
         {
-            //Process to be added
+            if (settings.CoresUsed < Environment.ProcessorCount)
+            {
+                //Process to be added
+            }
+            else
+            {
+                GuiLogMessage("You may only use up to " + Environment.ProcessorCount + " cores on your machine", NotificationLevel.Error);
+            }
         }
 
         public void PostExecution()
