@@ -28,7 +28,7 @@ using System.Security.Cryptography.X509Certificates;
 namespace Cryptool.Plugins.RSA
 {
     [Author("Sven Rech", "rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(true, "RSAKeyGenerator", "RSA Key Generator", "", "RSA/iconkey.png", "RSA/iconkey.png", "RSA/iconkey.png")]
+    [PluginInfo(true, "RSAKeyGenerator", "RSA Key Generator", "", "RSA/iconkey.png", "RSA/iconkey.png", "RSA/iconkey.png", "RSA/iconkey.png")]
 
     [EncryptionType(EncryptionType.Asymmetric)]
     class RSAKeyGenerator : IEncryption
@@ -124,6 +124,7 @@ namespace Cryptool.Plugins.RSA
             ProgressChanged(0.5, 1.0);
             switch (settings.Source)
             {
+                // manual
                 case 0:
                     try
                     {
@@ -150,6 +151,7 @@ namespace Cryptool.Plugins.RSA
                     }
                     break;
 
+                //random generated
                 case 1:
                     try
                     {
@@ -171,14 +173,22 @@ namespace Cryptool.Plugins.RSA
                     E = e;
                     D = d;
                     break;
-
+                
+                //using x509 certificate
                 case 2:
-                    RSACryptoServiceProvider rsa2 = new RSACryptoServiceProvider();
-                    X509Certificate2 cert = new X509Certificate2(settings.CertificateFile);
-                    RSACryptoServiceProvider provider = (RSACryptoServiceProvider)cert.PublicKey.Key;
-                    RSAParameters par = provider.ExportParameters(false);
-                    N = new BigInteger(par.Modulus);
-                    E = new BigInteger(par.Exponent);
+                    try
+                    {
+                        RSACryptoServiceProvider rsa2 = new RSACryptoServiceProvider();
+                        X509Certificate2 cert = new X509Certificate2(settings.CertificateFile);
+                        RSACryptoServiceProvider provider = (RSACryptoServiceProvider)cert.PublicKey.Key;
+                        RSAParameters par = provider.ExportParameters(false);
+                        N = new BigInteger(par.Modulus);
+                        E = new BigInteger(par.Exponent);
+                    }
+                    catch (Exception ex)
+                    {
+                        GuiLogMessage("Could not load the selected certificate: " + ex.Message, NotificationLevel.Error);
+                    }
                     break;
             }
             ProgressChanged(1.0, 1.0);

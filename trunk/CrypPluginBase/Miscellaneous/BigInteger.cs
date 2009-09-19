@@ -3344,6 +3344,19 @@ namespace Cryptool.PluginBase.Miscellaneous
             //Console.WriteLine(System.Environment.TickCount - dwStart);
 
         }
+        
+        public double log(double bas) {
+            int b = this.bitCount() - 1;
+            double c = 0;
+            double d = 1;
+            for (int i = b; i >= 0; --i) {
+                if ((this.data[i/32] & (1 << (i % 32))) != 0)
+                    c += d;
+                d *= 0.5;
+            }
+            return (Math.Log(c) + Math.Log(2) * b) / Math.Log(bas);
+        }
+
 
     }
 }
