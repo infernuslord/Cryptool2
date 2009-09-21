@@ -413,7 +413,10 @@ namespace Multiplexer
       {        
         inputSwitch = value;        
         OnPropertyChanged("InputSwitch");
-        dicSwitchBuffer[value]++;
+
+        // only when buffer has been initialized correctly
+        if (dicSwitchBuffer.Count == 2)
+            dicSwitchBuffer[value]++;
       }
     }
 
