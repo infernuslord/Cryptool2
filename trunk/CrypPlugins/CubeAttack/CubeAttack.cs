@@ -253,10 +253,9 @@ namespace Cryptool.CubeAttack
                 bool[] xBool = new bool[x.Length];
 
                 for (int i = 0; i < v.Length; i++)
-                {
                     vBool[i] = Convert.ToBoolean(v[i]);
+                for (int i = 0; i < x.Length; i++)
                     xBool[i] = Convert.ToBoolean(x[i]);
-                }
 
                 bool[] vx = new bool[v.Length + x.Length];
                 System.Buffer.BlockCopy(vBool, 0, vx, 0, vBool.Length);
@@ -370,23 +369,23 @@ namespace Cryptool.CubeAttack
             CubeAttack_LogMessage("Compute superpoly", NotificationLevel.Info);
 
             // Compute the free term
-            for (int i = 0; i < Math.Pow(2, cube.Count); i++)
+            for (ulong i = 0; i < Math.Pow(2, cube.Count); i++)
             {
                 for (int j = 0; j < cube.Count; j++)
-                    pubVarElement[cube[j]] = (i & (1 << j)) > 0 ? 1 : 0;
+                    pubVarElement[cube[j]] = (i & ((ulong)1 << j)) > 0 ? 1 : 0;
                 constant ^= Blackbox((int[])pubVarElement.Clone(), (int[])secVarElement.Clone());
             }
             superpoly.Add(constant);
             CubeAttack_LogMessage("c = " + (constant).ToString(), NotificationLevel.Info);
 
-            // Compute aj of I
+            // Compute coefficients
             for (int k = 0; k < settings.SecretVar; k++)
             {
-                for (int i = 0; i < Math.Pow(2, cube.Count); i++)
+                for (ulong i = 0; i < Math.Pow(2, cube.Count); i++)
                 {
                     secVarElement[k] = 1;
                     for (int j = 0; j < cube.Count; j++)
-                        pubVarElement[cube[j]] = (i & (1 << j)) > 0 ? 1 : 0;
+                        pubVarElement[cube[j]] = (i & ((ulong)1 << j)) > 0 ? 1 : 0;
                     coeff ^= Blackbox((int[])pubVarElement.Clone(), (int[])secVarElement.Clone());
 
                     if (stop)
@@ -535,10 +534,10 @@ namespace Cryptool.CubeAttack
                 for (int i = 0; i < settings.SecretVar; i++)
                     vecXY[i] = (vectorX[i] ^ vectorY[i]);
 
-                for (int i = 0; i < Math.Pow(2, cube.Count); i++)
+                for (ulong i = 0; i < Math.Pow(2, cube.Count); i++)
                 {
                     for (int j = 0; j < cube.Count; j++)
-                        pubVarElement[cube[j]] = (i & (1 << j)) > 0 ? 1 : 0;
+                        pubVarElement[cube[j]] = (i & ((ulong)1 << j)) > 0 ? 1 : 0;
                     psLeft ^= Blackbox((int[])pubVarElement.Clone(), new int[settings.SecretVar]) 
                             ^ Blackbox((int[])pubVarElement.Clone(), (int[])vectorX.Clone()) 
                             ^ Blackbox((int[])pubVarElement.Clone(), (int[])vectorY.Clone());
@@ -576,10 +575,10 @@ namespace Cryptool.CubeAttack
             {
                 for (int j = 0; j < settings.SecretVar; j++)
                     vectorX[j] = rnd.Next(0, 2);
-                for (int j = 0; j < Math.Pow(2, cube.Count); j++)
+                for (ulong j = 0; j < Math.Pow(2, cube.Count); j++)
                 {
                     for (int k = 0; k < cube.Count; k++)
-                        pubVarElement[cube[k]] = (j & (1 << k)) > 0 ? 1 : 0;
+                        pubVarElement[cube[k]] = (j & ((ulong)1 << k)) > 0 ? 1 : 0;
                     output ^= Blackbox(pubVarElement, vectorX);
 
                     if (stop)
@@ -835,10 +834,10 @@ namespace Cryptool.CubeAttack
             {
                 for (int j = 0; j < settings.PublicVar; j++)
                     pubVarElement[j] = 0;
-                for (int k = 0; k < Math.Pow(2, cubeIndex[i].Count); k++)
+                for (ulong k = 0; k < Math.Pow(2, cubeIndex[i].Count); k++)
                 {
                     for (int l = 0; l < cubeIndex[i].Count; l++)
-                        pubVarElement[cubeIndex[i][l]] = (k & (1 << l)) > 0 ? 1 : 0;
+                        pubVarElement[cubeIndex[i][l]] = (k & ((ulong)1 << l)) > 0 ? 1 : 0;
 
                     try
                     {
