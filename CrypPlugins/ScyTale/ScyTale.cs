@@ -14,10 +14,10 @@ namespace Cryptool.Scytale
         private int CharsPerRow;
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 #pragma warning disable 67
         public event StatusChangedEventHandler OnPluginStatusChanged;
-        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;        
 #pragma warning restore
 
         public Scytale()
@@ -105,6 +105,13 @@ namespace Cryptool.Scytale
                 Position += settings.StickSize;
                 if (Position >= inputString.Length)
                     Position -= inputString.Length - 1;
+
+                //show the progress
+                if (OnPluginProgressChanged != null)
+                {
+                    OnPluginProgressChanged(this, new PluginProgressEventArgs(i, inputString.Length - 2));
+                }
+
             }
             outputString = outputString.Replace('_', ' ').Trim();
         }
@@ -113,7 +120,8 @@ namespace Cryptool.Scytale
         {
             inputString = inputString.Replace(' ', '_');
             int Position = 0;
-            for (int i = 0; i < settings.StickSize * CharsPerRow; i++)
+            int totalChars = settings.StickSize * CharsPerRow;
+            for (int i = 0; i < totalChars; i++)
             {
                 if (Position > inputString.Length - 1)
                     outputString += "_";
@@ -124,6 +132,12 @@ namespace Cryptool.Scytale
                 Position += CharsPerRow;
                 if (Position >= settings.StickSize * CharsPerRow)
                     Position -= settings.StickSize * CharsPerRow - 1;
+
+                //show the progress
+                if (OnPluginProgressChanged != null)
+                {
+                    OnPluginProgressChanged(this, new PluginProgressEventArgs(i, totalChars - 1));
+                }
             }
         }
 
