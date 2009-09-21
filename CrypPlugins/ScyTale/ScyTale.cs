@@ -52,6 +52,24 @@ namespace Cryptool.Scytale
             }
         }
 
+
+
+        [PropertyInfo(Direction.InputData, "Stick size", "Same setting as Stick size value in the algorithms settings but as dynamic input.", "", false, false, DisplayLevel.Expert, QuickWatchFormat.Text, null)]
+        public int StickSize
+        {
+            get { return settings.StickSize; }
+            set
+            {
+                if (value != settings.StickSize)
+                {
+                    settings.StickSize = value;
+                    OnPropertyChanged("StickSize");
+                }
+            }
+        }
+
+
+
         public void PreExecution()
         {
         }
