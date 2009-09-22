@@ -117,7 +117,7 @@
 cd ..\..\CrypWin\$(OutDir)
 if not exist "./CrypPlugins" mkdir "./CrypPlugins"
 
-del /F /S /Q /s /q "$(TargetName)*.*"
+del /S /Q /A:-S-R-H "$(TargetName)*.*"
 copy "$(TargetDir)$(TargetName)*.*" "./CrypPlugins"
 
 if not exist "./Data" mkdir "./Data"
