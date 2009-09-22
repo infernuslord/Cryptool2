@@ -24,7 +24,7 @@ using System.Text.RegularExpressions;
 namespace Cryptool.NLFSR
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo(false, "NLFSR", "Linear Feedback Shift Register", "NLFSR/DetailedDescription/Description.xaml", "NLFSR/Images/NLFSR.png", "NLFSR/Images/encrypt.png", "NLFSR/Images/decrypt.png")]
+    [PluginInfo(false, "NLFSR", "Non-Linear Feedback Shift Register", "NLFSR/DetailedDescription/Description.xaml", "NLFSR/Images/NLFSR.png", "NLFSR/Images/encrypt.png", "NLFSR/Images/decrypt.png")]
     [EncryptionType(EncryptionType.SymmetricBlock)]
     public class NLFSR : IThroughput
     {
