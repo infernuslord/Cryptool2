@@ -376,7 +376,7 @@ namespace Cryptool.BooleanFunctionParser
             if (inputOneFlag == 1 && inputVariableOne != null)
             {
                 char[] strInputVariableOne = new char[inputVariableOne.Length];
-                for (int i = 0; i < inputVariableOne.Length; i++)
+                for (int i = inputVariableOne.Length - 1; i >= 0; i--)
                 {
                     // get numeric values from bool inputs
                     strInputVariableOne[i] = inputVariableOne[i] ? '1' : '0';
@@ -388,7 +388,7 @@ namespace Cryptool.BooleanFunctionParser
             if (inputTwoFlag == 1 && inputVariableTwo != null)
             {
                 char[] strInputVariableTwo = new char[inputVariableTwo.Length];
-                for (int i = 0; i < inputVariableTwo.Length; i++)
+                for (int i = inputVariableTwo.Length - 1; i >= 0; i--)
                 {
                     // get numeric values from bool inputs
                     strInputVariableTwo[i] = inputVariableTwo[i] ? '1' : '0';
@@ -399,7 +399,7 @@ namespace Cryptool.BooleanFunctionParser
             if (inputThreeFlag == 1 && inputVariableThree != null)
             {
                 char[] strInputVariableThree = new char[inputVariableThree.Length];
-                for (int i = 0; i < inputVariableThree.Length; i++)
+                for (int i = inputVariableThree.Length - 1; i >= 0; i--)
                 {
                     // get numeric values from bool inputs
                     strInputVariableThree[i] = inputVariableThree[i] ? '1' : '0';
@@ -411,7 +411,7 @@ namespace Cryptool.BooleanFunctionParser
             if (externData != null && externData.Length != 0)
             {
                 char[] strInputVariableExtern = new char[externData.Length];
-                for (int i = 0; i < strInputVariableExtern.Length; i++)
+                for (int i = strInputVariableExtern.Length - 1; i >= 0; i--)
                 {
                     // get numeric values from bool inputs
                     strInputVariableExtern[i] = externData[i] ? '1' : '0';
@@ -430,7 +430,7 @@ namespace Cryptool.BooleanFunctionParser
                 {
                     char[] strInputVariableQuickwatch = new char[quickwatchData.Length];
                     strInputVariableQuickwatch = quickwatchData.ToCharArray();
-                    for (int i = 0; i < strInputVariableQuickwatch.Length; i++)
+                    for (int i = strInputVariableQuickwatch.Length - 1; i >= 0 ; i--)
                     {
                         string replacement = "i_q." + i;
                         strExpression = strExpression.Replace(replacement, strInputVariableQuickwatch[i].ToString());
@@ -446,7 +446,7 @@ namespace Cryptool.BooleanFunctionParser
                 {
                     char[] strInputVariableQuickwatch = new char[quickwatchDataCube.Length];
                     strInputVariableQuickwatch = quickwatchDataCube.ToCharArray();
-                    for (int i = 0; i < strInputVariableQuickwatch.Length; i++)
+                    for (int i = strInputVariableQuickwatch.Length - 1; i >= 0; i--)
                     {
                         string replacement = "i_q." + i;
                         strExpression = strExpression.Replace(replacement, strInputVariableQuickwatch[i].ToString());

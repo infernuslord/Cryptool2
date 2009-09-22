@@ -1,9 +1,53 @@
 ﻿<UserControl x:Class="Cryptool.NLFSR.NLFSRPresentation"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             Height="Auto" Width="Auto" Margin="0" Background="White" BorderBrush="Black" BorderThickness="1">
+             Height="Auto" Width="Auto" Margin="0">
     <Grid>
-        <Grid Height="Auto" Width="Auto" Margin="0,5,0,0" Name="myGrid" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <Label Content="No Quickwatch data right now." Name="infoText" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <!-- <StackPanel Orientation="Horizontal">
+                <Button Margin="2" >
+                    <Image Source="icon.png" />
+                </Button>
+                <Button Margin="2">
+                    <Image Source="icon.png" />
+                </Button>
+            </StackPanel> -->
+        </Grid>
+        <Grid Grid.Row="1">
+            <TabControl Height="Auto" Width="Auto" Background="PowderBlue" BorderBrush="PowderBlue">
+                <TabItem Header="Presentation" Background="PowderBlue">
+                    <Grid Background="White">
+                        <Grid Height="Auto" Width="Auto" Margin="0,5,0,0" Name="myGrid" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Label Content="No Quickwatch data right now." Name="infoText" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Tap Sequence" Background="PowderBlue">
+                    <Grid Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+
+                        <Label Name="tapSequenceLabel" Content="Enter tap sequence here (binary or polynome):" Grid.Row="0" />
+                        <TextBox Name="tapSequenceTextBox" Grid.Row="1" />
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Seed" Background="PowderBlue">
+                    <Grid Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+
+                        <Label Name="seedLabel" Content="Enter seed here:" Grid.Row="0" />
+                        <TextBox Name="seedTextBox" Grid.Row="1" />
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
     </Grid>
 </UserControl>
