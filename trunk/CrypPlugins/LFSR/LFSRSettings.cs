@@ -38,7 +38,7 @@ namespace Cryptool.LFSR
             }
         }
 
-        /*string polynomial;
+        string polynomial;
         [TaskPane("Polynomial", "Define the feedback polynomial either in a textual or a numeric way. For example x^5 +x^2 + 1 which is equal to 10010", null, 0, false, DisplayLevel.Beginner, ControlType.TextBox)]
         public string Polynomial
         {
@@ -64,7 +64,7 @@ namespace Cryptool.LFSR
                 OnPropertyChanged("Seed");
                 HasChanges = true;
             }
-        }*/
+        }
 
         private bool noQuickwatch = false;
         [ContextMenu("Do not display Quickwatch", "With this checkbox enabled, no quickwatch will be generated for a better performance.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Display Quickwatch?" })]

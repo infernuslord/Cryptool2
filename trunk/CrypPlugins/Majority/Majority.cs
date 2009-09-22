@@ -324,10 +324,16 @@ namespace Cryptool.Majority
 
         public void Initialize()
         {
+            inputOneFlag = -1;
+            inputTwoFlag = -1;
+            inputThreeFlag = -1;
         }
 
         public void Dispose()
         {
+            inputOneFlag = -1;
+            inputTwoFlag = -1;
+            inputThreeFlag = -1;
         }
 
         public UserControl Presentation
@@ -346,14 +352,12 @@ namespace Cryptool.Majority
 
         public void PostExecution()
         {
+            Dispose();
         }
 
         public void PreExecution()
         {
-            // set all inputs dirty
-            inputOneFlag = -1;
-            inputTwoFlag = -1;
-            inputThreeFlag = -1;
+            Dispose();
         }
 
         #endregion

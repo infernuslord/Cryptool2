@@ -321,6 +321,15 @@ namespace Cryptool.ANDBinary
 
         public void Dispose()
         {
+            // set input flags according to settings
+            if (settings.FlagInputOne) inputOneFlag = 1;
+            else inputOneFlag = -1;
+            if (settings.FlagInputTwo) inputTwoFlag = 1;
+            else inputTwoFlag = -1;
+
+            // set icon according to settings
+            if (settings.InvertInputOne) StatusChanged((int)ANDImage.Input1Inverted);
+            else StatusChanged((int)ANDImage.Default);
         }
 
         public UserControl Presentation
@@ -339,19 +348,12 @@ namespace Cryptool.ANDBinary
 
         public void PostExecution()
         {
+            Dispose();
         }
 
         public void PreExecution()
         {
-            // set input flags according to settings
-            if (settings.FlagInputOne) inputOneFlag = 1;
-            else inputOneFlag = -1;
-            if (settings.FlagInputTwo) inputTwoFlag = 1;
-            else inputTwoFlag = -1;
-
-            // set icon according to settings
-            if (settings.InvertInputOne) StatusChanged((int)ANDImage.Input1Inverted);
-            else StatusChanged((int)ANDImage.Default);
+            Dispose();
         }
 
         #endregion

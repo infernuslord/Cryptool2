@@ -61,6 +61,7 @@ namespace Cryptool.LFSR
         public char[] seedCharArray = null;
         public int clocking;
         public string outputStringBuffer = null;
+        public char outputBit;
 
         #endregion
 
@@ -96,7 +97,7 @@ namespace Cryptool.LFSR
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Seed", "Seed of the LFSR in binary presentation.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Seed", "Seed of the LFSR in binary presentation.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public String InputSeed
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -200,6 +201,18 @@ namespace Cryptool.LFSR
                 outputStringBuffer = null;
                 inputTapSequence = null;
                 inputSeed = null;
+                newSeed = true;
+                seedbuffer = "0";
+                tapSequencebuffer = "1";
+                outputbuffer = '0';
+                lastInputPropertyWasBoolClock = false;
+
+                // for process()
+                tapSequenceCharArray = null;
+                seedBits = 1; // dummy value for compiler
+                actualRounds = 1; // dummy value for compiler
+                myClock = true;
+                seedCharArray = null;
 
                 if (outputStream != null)
                 {
@@ -237,7 +250,7 @@ namespace Cryptool.LFSR
                 return 1;
             }*/
 
-            if ((inputTapSequence == null || (inputTapSequence != null && inputTapSequence.Length == 0)))
+            if ((inputTapSequence == null || (inputTapSequence != null && inputTapSequence.Length == 0)) && (settings.Polynomial == null || (settings.Polynomial != null && settings.Polynomial.Length == 0)))
             {
                 // create some input
                 String dummystring = "1011";
@@ -266,7 +279,7 @@ namespace Cryptool.LFSR
                 return 1;
             }*/
 
-            if ((inputSeed == null || (inputSeed != null && inputSeed.Length == 0)))
+            if ((inputSeed == null || (inputSeed != null && inputSeed.Length == 0)) && (settings.Seed == null || (settings.Seed != null && settings.Seed.Length == 0)))
             {
                 // create some input
                 String dummystring = "1010";
@@ -451,7 +464,16 @@ namespace Cryptool.LFSR
                     }*/
 
                     // read tapSequence
-                    tapSequencebuffer = inputTapSequence;
+                    if (settings.Polynomial == null || (settings.Polynomial != null && settings.Polynomial.Length == 0))
+                        tapSequencebuffer = inputTapSequence;
+                    else
+                        tapSequencebuffer = settings.Polynomial;
+
+                    //read seed only one time until stop of chain
+                    if (settings.Seed == null || (settings.Seed != null && settings.Seed.Length == 0))
+                        seedbuffer = inputSeed;
+                    else
+                        seedbuffer = settings.Seed;
 
                     // check if tapSequence is binary
                     bool tapSeqisBool = true;
@@ -475,7 +497,7 @@ namespace Cryptool.LFSR
                             GuiLogMessage("Polynomial in binary form: " + tapSequencebuffer, NotificationLevel.Info);
 
                             // check if polynomial has false length
-                            if (tapSequencebuffer.Length != inputSeed.Length)
+                            if (tapSequencebuffer.Length != seedbuffer.Length)
                             {
                                 /*// check if its too long
                                 if (inputSeed.Length - tapSequencebuffer.Length < 0)
@@ -492,7 +514,7 @@ namespace Cryptool.LFSR
                                         tapSequencebuffer = "0" + tapSequencebuffer;
                                     }
                                 }*/
-                                GuiLogMessage("ERROR - Your polynomial " + tapSequencebuffer + " has to be the same length (" + tapSequencebuffer.Length + " Bits) as your seed (" + inputSeed.Length + " Bits). Aborting now.", NotificationLevel.Error);
+                                GuiLogMessage("ERROR - Your polynomial " + tapSequencebuffer + " has to be the same length (" + tapSequencebuffer.Length + " Bits) as your seed (" + seedbuffer.Length + " Bits). Aborting now.", NotificationLevel.Error);
                                 Dispose();
                                 return;
                             }
@@ -512,7 +534,7 @@ namespace Cryptool.LFSR
                     //tapSequenceCharArray = ReverseOrder(tapSequencebuffer.ToCharArray());
                     tapSequenceCharArray = tapSequencebuffer.ToCharArray();
 
-                    if (tapSequencebuffer.Length != inputSeed.Length)
+                    if (tapSequencebuffer.Length != seedbuffer.Length)
                     {
                         // stop, because seed and tapSequence must have same length
                         GuiLogMessage("ERROR - Seed and tapSequence must have same length. Aborting now.", NotificationLevel.Error);
@@ -520,15 +542,11 @@ namespace Cryptool.LFSR
                         return;
                     }
 
-                    int tapSequenceBits = inputTapSequence.Length;
-                    seedBits = inputSeed.Length;
+                    int tapSequenceBits = tapSequencebuffer.Length;
+                    seedBits = seedbuffer.Length;
 
                     GuiLogMessage("inputTapSequence length [bits]: " + tapSequenceBits.ToString(), NotificationLevel.Debug);
                     GuiLogMessage("inputSeed length [bits]: " + seedBits.ToString(), NotificationLevel.Debug);
-
-                    //read seed only one time until stop of chain
-                    seedbuffer = inputSeed;
-                    newSeed = false;
 
                     //check if last tap is 1, otherwise stop
                     if (tapSequenceCharArray[tapSequenceCharArray.Length - 1] == '0')
@@ -665,7 +683,7 @@ namespace Cryptool.LFSR
                             }
                         }
                         // keep output bit for presentation
-                        char outputBit = seedCharArray[seedBits - 1];
+                        outputBit = seedCharArray[seedBits - 1];
 
                         // shift seed array
                         for (int j = seedBits - 1; j > 0; j--)
@@ -693,46 +711,35 @@ namespace Cryptool.LFSR
 
                         if (settings.AlwaysCreateOutput)
                         {
-                            /////////
-                            // but nevertheless fire an output event with dirty value / old value
-                            /////////
-                            //TODO: revert comment, if there will be a dirty output again
-                            /*if (settings.CreateDirtyOutputOnFalseClock)
+                            
+                            // make bool output = 0 if it is the first round
+                            if (newSeed)
                             {
                                 outputBool = false;
-                                outputbuffer = '2';
-                                outputStream.Write((Byte)outputbuffer);
-
-                                OnPropertyChanged("OutputBool");
-                                OnPropertyChanged("OutputStream");
-
-                                //update quickwatch presentation
-                                if (!settings.NoQuickwatch)
-                                {
-                                    lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, '2', BuildPolynomialFromBinary(tapSequenceCharArray));
-                                }
+                                outputbuffer = '0';
                             }
                             else
-                            {*/
-                                // make bool output
-                                if (seedCharArray[seedBits - 1] == '0') outputBool = false;
-                                else outputBool = true;
-                                //GuiLogMessage("OutputBool is: " + outputBool.ToString(), NotificationLevel.Info);
+                            {
+                                if (outputBit == '0')
+                                    outputBool = false;
+                                else
+                                    outputBool = true;
+                                outputbuffer = outputBit;
+                            }
+                            //GuiLogMessage("OutputBool is: " + outputBool.ToString(), NotificationLevel.Info);
 
-                                // write last bit to output buffer, stream and bool
-                                outputbuffer = seedCharArray[seedBits - 1];
-                                outputStream.Write((Byte)outputbuffer);
+                            // write bit to output buffer, stream and bool
+                            
+                            outputStream.Write((Byte)outputbuffer);
+                            OnPropertyChanged("OutputBool");
+                            OnPropertyChanged("OutputStream");
 
-                                OnPropertyChanged("OutputBool");
-                                OnPropertyChanged("OutputStream");
+                            // update quickwatch presentation
+                            if (!settings.NoQuickwatch)
+                            {
+                                lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, outputbuffer, BuildPolynomialFromBinary(tapSequenceCharArray));
+                            }
 
-                                //update quickwatch presentation
-                                if (!settings.NoQuickwatch)
-                                {
-                                    lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, seedCharArray[seedBits - 1], BuildPolynomialFromBinary(tapSequenceCharArray));
-                                }
-                            //}
-                            /////////
                         }
                         else
                         {
@@ -757,6 +764,9 @@ namespace Cryptool.LFSR
                             OnPropertyChanged("OutputClockingBit");
                         }
                     }
+
+                    // reset newSeed
+                    newSeed = false;
                 }
 
                 //controllerOutput = true;

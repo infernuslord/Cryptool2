@@ -63,6 +63,7 @@ namespace Cryptool.NLFSR
         public char[] seedCharArray = null;
         public int clocking;
         public string outputStringBuffer = null;
+        public char outputBit;
 
         #endregion
 
@@ -631,7 +632,6 @@ namespace Cryptool.NLFSR
 
                     //read seed only one time until stop of chain
                     seedbuffer = inputSeed;
-                    newSeed = false;
 
                     //check if last tap is 1, otherwise stop
                     /*if (tapSequenceCharArray[tapSequenceCharArray.Length - 1] == '0')
@@ -704,7 +704,6 @@ namespace Cryptool.NLFSR
                 }
 
                 // draw NLFSR Quickwatch
-                //TODO
                 if (!settings.NoQuickwatch)
                 {
                     NLFSRPresentation.DrawNLFSR(seedCharArray, tapSequenceCharArray, clocking);
@@ -769,7 +768,7 @@ namespace Cryptool.NLFSR
                         if (resultBool) newBit = '1'; else newBit = '0';
 
                         // keep output bit for presentation
-                        char outputBit = seedCharArray[seedBits - 1];
+                        outputBit = seedCharArray[seedBits - 1];
 
                         // shift seed array
                         for (int j = seedBits - 1; j > 0; j--)
@@ -798,42 +797,34 @@ namespace Cryptool.NLFSR
                         if (settings.AlwaysCreateOutput)
                         {
                             /////////
-                            // but nevertheless fire an output event with dirty value / old value
+                            // but nevertheless fire an output event with old value
                             /////////
-                            if (settings.CreateDirtyOutputOnFalseClock)
+
+                            if (newSeed)
                             {
                                 outputBool = false;
-                                outputbuffer = '2';
-                                outputStream.Write((Byte)outputbuffer);
-
-                                OnPropertyChanged("OutputBool");
-                                OnPropertyChanged("OutputStream");
-
-                                //update quickwatch presentation
-                                if (!settings.NoQuickwatch)
-                                {
-                                    NLFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, '2', tapSequencebuffer);
-                                }
+                                outputbuffer = '0';
                             }
                             else
                             {
-                                // make bool output
-                                if (seedCharArray[seedBits - 1] == '0') outputBool = false;
-                                else outputBool = true;
-                                //GuiLogMessage("OutputBool is: " + outputBool.ToString(), NotificationLevel.Info);
+                                if (outputBit == '0')
+                                    outputBool = false;
+                                else
+                                    outputBool = true;
+                                outputbuffer = outputBit;
+                            }
+                            //GuiLogMessage("OutputBool is: " + outputBool.ToString(), NotificationLevel.Info);
 
-                                // write last bit to output buffer, stream and bool
-                                outputbuffer = seedCharArray[seedBits - 1];
-                                outputStream.Write((Byte)outputbuffer);
+                            // write bit to output buffer, stream and bool
 
-                                OnPropertyChanged("OutputBool");
-                                OnPropertyChanged("OutputStream");
+                            outputStream.Write((Byte)outputbuffer);
+                            OnPropertyChanged("OutputBool");
+                            OnPropertyChanged("OutputStream");
 
-                                //update quickwatch presentation
-                                if (!settings.NoQuickwatch)
-                                {
-                                    NLFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, seedCharArray[seedBits - 1], BuildPolynomialFromBinary(tapSequenceCharArray));
-                                }
+                            // update quickwatch presentation
+                            if (!settings.NoQuickwatch)
+                            {
+                                NLFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, outputbuffer, BuildPolynomialFromBinary(tapSequenceCharArray));
                             }
                             /////////
                         }
@@ -860,6 +851,9 @@ namespace Cryptool.NLFSR
                             OnPropertyChanged("OutputClockingBit");
                         }
                     }
+
+                    // reset newSeed after first round
+                    newSeed = false;
                 }
 
                 // stop counter
