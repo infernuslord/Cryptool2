@@ -125,6 +125,8 @@ namespace Gate
                     return false;
                 case Trigger.TrueValue:
                     return !locked && control;
+                case Trigger.FalseValue:
+                    return !locked && !control;
                 case Trigger.AnyEdge:
                     return !locked && control != oldControl;
                 case Trigger.PositiveEdge:

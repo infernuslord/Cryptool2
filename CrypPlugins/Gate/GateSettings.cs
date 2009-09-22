@@ -8,7 +8,7 @@ namespace Gate
 {
     enum Trigger
     {
-        AlwaysOpen, AlwaysClosed, TrueValue, AnyEdge, PositiveEdge, NegativeEdge
+        AlwaysOpen, AlwaysClosed, TrueValue, FalseValue, AnyEdge, PositiveEdge, NegativeEdge
     };
 
     class GateSettings : ISettings
@@ -17,7 +17,7 @@ namespace Gate
         private Trigger trigger = 0;
 
         [TaskPane("Trigger", "Trigger to open gate", null, 1, true, DisplayLevel.Experienced, ControlType.RadioButton,
-            new string[] { "no trigger (always open)", "no trigger (always closed)", "true value", "edge (value swap)", "positive edge (false->true)", "negative edge (true->false)" })]
+            new string[] { "no trigger (always open)", "no trigger (always closed)", "true value", "false value", "edge (value swap)", "positive edge (false->true)", "negative edge (true->false)" })]
         public Trigger Trigger
         {
             get
