@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Cryptography;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Scytale
 {
@@ -15,9 +16,9 @@ namespace Cryptool.Scytale
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured; 
 #pragma warning disable 67
         public event StatusChangedEventHandler OnPluginStatusChanged;
-        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;        
 #pragma warning restore
 
         public Scytale()
@@ -78,6 +79,12 @@ namespace Cryptool.Scytale
         {
             if (!string.IsNullOrEmpty(inputString))
             {
+                if (settings.StickSize < 1)
+                {
+                    EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Got an invalid stick size of " + settings.StickSize + "! Reverting to 1.", this, NotificationLevel.Warning));
+                    settings.StickSize = 1;
+                }
+
                 CharsPerRow = inputString.Length / settings.StickSize + 1;
                 outputString = string.Empty;
                 switch (settings.Action)
@@ -107,11 +114,7 @@ namespace Cryptool.Scytale
                     Position -= inputString.Length - 1;
 
                 //show the progress
-                if (OnPluginProgressChanged != null)
-                {
-                    OnPluginProgressChanged(this, new PluginProgressEventArgs(i, inputString.Length - 2));
-                }
-
+                EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(i, inputString.Length - 2));
             }
             outputString = outputString.Replace('_', ' ').Trim();
         }
@@ -134,10 +137,7 @@ namespace Cryptool.Scytale
                     Position -= settings.StickSize * CharsPerRow - 1;
 
                 //show the progress
-                if (OnPluginProgressChanged != null)
-                {
-                    OnPluginProgressChanged(this, new PluginProgressEventArgs(i, totalChars - 1));
-                }
+                EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(i, totalChars - 1));
             }
         }
 
