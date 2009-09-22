@@ -325,6 +325,13 @@ namespace Cryptool.XORBinary
 
         public void Dispose()
         {
+            // set input flags according to settings
+            if (settings.FlagInputOne) inputOneFlag = 1;
+            else inputOneFlag = -1;
+            if (settings.FlagInputTwo) inputTwoFlag = 1;
+            else inputTwoFlag = -1;
+
+            globalControllerCount = 0;
         }
 
         public UserControl Presentation
@@ -343,17 +350,12 @@ namespace Cryptool.XORBinary
 
         public void PostExecution()
         {
+            Dispose();
         }
 
         public void PreExecution()
         {
-            // set input flags according to settings
-            if (settings.FlagInputOne) inputOneFlag = 1;
-            else inputOneFlag = -1;
-            if (settings.FlagInputTwo) inputTwoFlag = 1;
-            else inputTwoFlag = -1;
-
-            globalControllerCount = 0;
+            Dispose();
         }
 
         #endregion

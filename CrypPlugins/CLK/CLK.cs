@@ -92,6 +92,10 @@ namespace Cryptool.Plugins.CLK
     #region IPlugin Members
     public event StatusChangedEventHandler OnPluginStatusChanged;
     public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+    private void ProgressChanged(double value, double max)
+    {
+        EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+    }
 
     private CLKSettings settings;
     public ISettings Settings
@@ -128,6 +132,7 @@ namespace Cryptool.Plugins.CLK
             {
                 OnPropertyChanged("Output");
                 myRounds--;
+                ProgressChanged(settings.Rounds - myRounds, settings.Rounds);
             }
             else
             {
@@ -177,6 +182,7 @@ namespace Cryptool.Plugins.CLK
         {
             OnPropertyChanged("Output");
             myRounds--;
+            ProgressChanged(settings.Rounds - myRounds, settings.Rounds);
         }
         else
         {
