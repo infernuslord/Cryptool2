@@ -52,7 +52,7 @@ namespace Cryptool.Plugins.BooleanOperators
 
         }
 
-        [PropertyInfo(Direction.InputData, "InputA", "inputA", "detailed description", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "InputA", "inputA", "", DisplayLevel.Beginner)]
         public Boolean InputA
         {
             get
@@ -66,7 +66,7 @@ namespace Cryptool.Plugins.BooleanOperators
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputB", "inputB", "detailed description", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "InputB", "inputB", "", DisplayLevel.Beginner)]
         public Boolean InputB
         {
             get
@@ -81,7 +81,7 @@ namespace Cryptool.Plugins.BooleanOperators
         }
 
 
-        [PropertyInfo(Direction.OutputData, "Output", "output false", "detailed description", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Output", "output", "", DisplayLevel.Beginner)]
         public Boolean Output
         {
             get
@@ -106,7 +106,6 @@ namespace Cryptool.Plugins.BooleanOperators
 
         public void Dispose()
         {
-
         }
 
         public void Execute()
@@ -145,22 +144,18 @@ namespace Cryptool.Plugins.BooleanOperators
 
         public void Initialize()
         {
-            //throw new NotImplementedException();
         }
 
         public void Pause()
         {
-            //throw new NotImplementedException();
         }
 
         public void PostExecution()
         {
-            Dispose();
         }
 
         public void PreExecution()
         {
-            Dispose();
         }
 
         public System.Windows.Controls.UserControl Presentation
@@ -168,7 +163,6 @@ namespace Cryptool.Plugins.BooleanOperators
             get
             {
                 return null;
-                //throw new NotImplementedException(); 
             }
         }
 
@@ -177,13 +171,11 @@ namespace Cryptool.Plugins.BooleanOperators
             get
             {
                 return null;
-                //throw new NotImplementedException(); 
             }
         }
 
         public void Stop()
         {
-            //throw new NotImplementedException();
         }
 
         #endregion
