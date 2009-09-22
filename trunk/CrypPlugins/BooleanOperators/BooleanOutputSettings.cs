@@ -24,12 +24,9 @@ using System.ComponentModel;
 using Cryptool.PluginBase.Cryptography;
 
 namespace Cryptool.Plugins.BooleanOperators
-
 {
     class BooleanOutputSettings : ISettings
     {
-
-        private bool hasChanges = false;
 
         #region ISettings Members 
     
@@ -37,11 +34,10 @@ namespace Cryptool.Plugins.BooleanOperators
         {
             get
             {
-                return hasChanges;
+                return false;
             }
             set
             {
-                hasChanges = value;
             }
         }
 

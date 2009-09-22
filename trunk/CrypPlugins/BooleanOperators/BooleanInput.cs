@@ -39,21 +39,17 @@ namespace Cryptool.Plugins.BooleanOperators
         {
             this.settings = new BooleanInputSettings();            
             this.settings.OnPluginStatusChanged += settings_OnPluginStatusChanged;
-            settings.PropertyChanged += settings_PropertyChanged;
+            this.settings.PropertyChanged += settings_PropertyChanged;
         }
 
         void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Output")
+            if (e.PropertyName == "Value")
             {
-                if (settings.Value == 0)
-                {
-                    Output = false;                    
-                }
-                else
-                {
-                    Output = true;                    
-                }
+                // as the setting is not changeable in play mode, there is no need to update Output property
+                //Output = (settings.Value == 1);
+
+                settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, settings.Value));
             }
         }
 
@@ -80,37 +76,28 @@ namespace Cryptool.Plugins.BooleanOperators
 
         public void Execute()
         {
-            if (settings.Value == 0)
-            {
-                Output = false;
-                settings_OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, 0));
-            }
-            else
-            {
-                Output = true;
-                settings_OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, 1));
-            }
+            Output = (settings.Value == 1);
+            settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, settings.Value));
+
             ProgressChanged(1, 1);
         }
 
         public void Initialize()
         {
-            //throw new NotImplementedException();
+            // not working, see ticket #80
+            settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, settings.Value));
         }
 
         public void Pause()
         {
-            //throw new NotImplementedException();
         }
 
         public void PostExecution()
         {
-            //throw new NotImplementedException();
         }
 
         public void PreExecution()
         {
-            //throw new NotImplementedException();
         }
 
         public System.Windows.Controls.UserControl Presentation
@@ -131,7 +118,6 @@ namespace Cryptool.Plugins.BooleanOperators
 
         public void Stop()
         {
-            //throw new NotImplementedException();
         }
 
         #endregion

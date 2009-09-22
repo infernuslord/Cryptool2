@@ -41,7 +41,7 @@ namespace Cryptool.Plugins.BooleanOperators
             this.settings.OnPluginStatusChanged += settings_OnPluginStatusChanged;
         }
 
-        [PropertyInfo(Direction.InputData, "Input", "input", "detailed description", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Input", "input", "", DisplayLevel.Beginner)]
         public Boolean Input
         {
             get
@@ -59,12 +59,12 @@ namespace Cryptool.Plugins.BooleanOperators
 
         public void Dispose()
         {
-            //throw new NotImplementedException();
         }
 
         public void Execute()
         {
-            if(this.Input == true){
+            if(this.Input)
+            {
                 settings_OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, 1));
             }
             else
@@ -76,22 +76,18 @@ namespace Cryptool.Plugins.BooleanOperators
 
         public void Initialize()
         {
-            //throw new NotImplementedException();
         }
       
         public void Pause()
         {
-            //throw new NotImplementedException();
         }
 
         public void PostExecution()
         {
-            //throw new NotImplementedException();
         }
 
         public void PreExecution()
         {
-            //throw new NotImplementedException();
         }
 
         public System.Windows.Controls.UserControl Presentation
@@ -112,7 +108,6 @@ namespace Cryptool.Plugins.BooleanOperators
 
         public void Stop()
         {
-            //throw new NotImplementedException();
         }
 
         #endregion

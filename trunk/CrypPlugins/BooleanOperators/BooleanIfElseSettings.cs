@@ -26,17 +26,15 @@ namespace Cryptool.Plugins.BooleanOperators
     class BooleanIfElseSettings : ISettings
     {
 
-        #region ISettings Members        
+        #region ISettings Members
         public bool HasChanges
         {
             get
             {
                 return false;
-                //throw new NotImplementedException();
             }
             set
             {
-                //throw new NotImplementedException();
             }
         }
 

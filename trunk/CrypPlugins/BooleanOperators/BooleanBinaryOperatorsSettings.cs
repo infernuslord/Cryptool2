@@ -35,17 +35,18 @@ namespace Cryptool.Plugins.BooleanOperators
          * 4 = XOR
          */
 
-        #region ISettings Members        
+        private bool hasChanges = false;
+
+        #region ISettings Members
         public bool HasChanges
         {
             get
             {
-                return false;
-                //throw new NotImplementedException();
+                return hasChanges;
             }
             set
             {
-                //throw new NotImplementedException();
+                hasChanges = value;
             }
         }
 
@@ -56,6 +57,9 @@ namespace Cryptool.Plugins.BooleanOperators
             get { return this.operatorType; }
             set
             {
+                if (operatorType != value)
+                    hasChanges = true;
+
                 this.operatorType = value;
                 OnPropertyChanged("OperatorType");
                 ChangePluginIcon(value);                

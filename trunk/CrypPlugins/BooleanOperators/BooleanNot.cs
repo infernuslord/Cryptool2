@@ -43,7 +43,7 @@ namespace Cryptool.Plugins.BooleanOperators
             this.settings = new BooleanNotSettings();
         }
 
-        [PropertyInfo(Direction.InputData, "Input", "input", "detailed description", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Input", "input", "", DisplayLevel.Beginner)]
         public Boolean Input
         {
             get
@@ -56,8 +56,8 @@ namespace Cryptool.Plugins.BooleanOperators
                 OnPropertyChange("Input");
             }            
         }
-       
-        [PropertyInfo(Direction.OutputData, "Output", "output false", "detailed description", DisplayLevel.Beginner)]
+
+        [PropertyInfo(Direction.OutputData, "Output", "output negated", "", DisplayLevel.Beginner)]
         public Boolean Output
         {
             get
@@ -82,7 +82,6 @@ namespace Cryptool.Plugins.BooleanOperators
 
         public void Dispose()
         {
-           
         }
 
         public void Execute()
@@ -93,43 +92,32 @@ namespace Cryptool.Plugins.BooleanOperators
 
         public void Initialize()
         {
-            //throw new NotImplementedException();
         }
        
         public void Pause()
         {
-            //throw new NotImplementedException();
         }
 
         public void PostExecution()
         {
-            Dispose();
         }
 
         public void PreExecution()
         {
-            Dispose();
         }
 
         public System.Windows.Controls.UserControl Presentation
         {
-            get { 
-                return null; 
-                //throw new NotImplementedException(); 
-            }
+            get { return null; }
         }
 
         public System.Windows.Controls.UserControl QuickWatchPresentation
         {
-            get { 
-                return null; 
-                //throw new NotImplementedException(); 
-            }
+            get { return null; }
         }
 
         public void Stop()
         {
-            //throw new NotImplementedException();
         }
 
         #endregion

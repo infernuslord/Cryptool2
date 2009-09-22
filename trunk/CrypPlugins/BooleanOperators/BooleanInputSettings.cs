@@ -41,18 +41,11 @@ namespace Cryptool.Plugins.BooleanOperators
             get { return this.bool_value; }
             set
             {
-                if (((int)value) != bool_value) hasChanges = true;
-                this.bool_value = (int)value;
+                if ((value) != bool_value) hasChanges = true;
+                this.bool_value = value;
                 OnPropertyChanged("Value");
 
-                if (value == 0)
-                {
-                    OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, 0));
-                }
-                else
-                {
-                    OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, 1));
-                }
+                // icon update is handled by BooleanInput
             }
         }
 

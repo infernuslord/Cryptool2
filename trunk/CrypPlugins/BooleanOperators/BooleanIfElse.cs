@@ -44,7 +44,7 @@ namespace Cryptool.Plugins.BooleanOperators
             this.settings = new BooleanIfElseSettings();
         }
 
-        [PropertyInfo(Direction.InputData, "Input", "input", "detailed description", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Input", "input", "", DisplayLevel.Beginner)]
         public Boolean Input
         {
             get
@@ -58,7 +58,7 @@ namespace Cryptool.Plugins.BooleanOperators
             }            
         }
 
-        [PropertyInfo(Direction.OutputData, "Output_true", "output true", "detailed description", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Output_true", "output true", "", DisplayLevel.Beginner)]
         public Boolean Output_true
         {
             get 
@@ -72,7 +72,7 @@ namespace Cryptool.Plugins.BooleanOperators
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Output_false", "output false", "detailed description", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Output_false", "output false", "", DisplayLevel.Beginner)]
         public Boolean Output_false
         {
             get
@@ -97,7 +97,6 @@ namespace Cryptool.Plugins.BooleanOperators
 
         public void Dispose()
         {
-           
         }
 
         public void Execute()
@@ -110,29 +109,24 @@ namespace Cryptool.Plugins.BooleanOperators
 
         public void Initialize()
         {
-            //throw new NotImplementedException();
         }
       
         public void Pause()
         {
-            //throw new NotImplementedException();
         }
 
         public void PostExecution()
         {
-            Dispose();
         }
 
         public void PreExecution()
         {
-            Dispose();
         }
 
         public System.Windows.Controls.UserControl Presentation
         {
             get { 
                 return null; 
-                //throw new NotImplementedException(); 
             }
         }
 
@@ -140,13 +134,11 @@ namespace Cryptool.Plugins.BooleanOperators
         {
             get { 
                 return null; 
-                //throw new NotImplementedException(); 
             }
         }
 
         public void Stop()
         {
-            //throw new NotImplementedException();
         }
 
         #endregion
