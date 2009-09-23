@@ -12,6 +12,8 @@ using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.PluginBase.IO;
 // reference to the BFPController interface
 using Cryptool.BooleanFunctionParserController;
+// reference to the TriviumController interface (own dll)
+using Cryptool.TriviumController;
 
 namespace Cryptool.CubeAttack
 {
@@ -249,7 +251,7 @@ namespace Cryptool.CubeAttack
             int result = -1;
             try
             {
-                bool[] vBool = new bool[v.Length];
+                /*bool[] vBool = new bool[v.Length];
                 bool[] xBool = new bool[x.Length];
 
                 for (int i = 0; i < v.Length; i++)
@@ -259,9 +261,10 @@ namespace Cryptool.CubeAttack
 
                 bool[] vx = new bool[v.Length + x.Length];
                 System.Buffer.BlockCopy(vBool, 0, vx, 0, vBool.Length);
-                System.Buffer.BlockCopy(xBool, 0, vx, vBool.Length, xBool.Length);
+                System.Buffer.BlockCopy(xBool, 0, vx, vBool.Length, xBool.Length); 
 
-                result = TestProperty.SolveFunction(null, vx, 1);
+                result = TestProperty.SolveFunction(null, vx, 1); */
+                result = TriviumOutput.GenerateTriviumKeystream(v, x, settings.TriviumOutputBit, settings.TriviumRounds, false);
             }
             catch (Exception ex)
             {
@@ -897,6 +900,8 @@ namespace Cryptool.CubeAttack
                     CubeAttack_LogMessage("The input public bits does not consists only of characters : \'0\',\'1\',\'*\' !", NotificationLevel.Error);
                 else
                 {
+                    //int result = TriviumOutput.GenerateTriviumKeystream(pubVari, secVari, settings.TriviumOutputBit, settings.TriviumRounds, false);
+                    //CubeAttack_LogMessage("Result = " + result, NotificationLevel.Info);
                     if (cube.Count > 0)
                     {
                         if (IsLinear(cube))
@@ -905,7 +910,7 @@ namespace Cryptool.CubeAttack
                             OutputMaxterms(cube, superpoly);
                         }
                         else
-                          CubeAttack_LogMessage("The corresponding superpoly is not a linear polynomial !", NotificationLevel.Info);
+                          CubeAttack_LogMessage("The corresponding superpoly is not a linear polynomial !", NotificationLevel.Info); 
                     }
                     else
                     {
@@ -957,7 +962,7 @@ namespace Cryptool.CubeAttack
         #region IControlEncryption Members
 
         private IControlSolveFunction testProperty;
-        [PropertyInfo(Direction.ControlMaster, "Test IControlSolveFunction Master", "Tooltip1", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.ControlMaster, "Master for BFP", "Master for BFP (SolveFunction)", "", DisplayLevel.Beginner)]
         public IControlSolveFunction TestProperty
         {
             get { return testProperty; }
@@ -965,6 +970,18 @@ namespace Cryptool.CubeAttack
             {
                 if (value != null)
                     testProperty = value;
+            }
+        }
+
+        private IControlTrivium triviumOutput;
+        [PropertyInfo(Direction.ControlMaster, "Master for Trivium", "Master for Trivium", "", DisplayLevel.Beginner)]
+        public IControlTrivium TriviumOutput
+        {
+            get { return triviumOutput; }
+            set
+            {
+                if (value != null)
+                    triviumOutput = value;
             }
         }
 
