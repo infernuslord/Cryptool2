@@ -165,33 +165,33 @@ namespace Cryptool.FrequencyTest
                     g[LOG2] = Math.Log(g[ABSOLUTE], 2);
                     g[SINKOV] = Math.Log(g[PERCENTAGED], Math.E);
                 }
+
+                double max = grams.Values.Max(item => item[PERCENTAGED]);
+                GuiLogMessage("Max n-gram percentage is: " + max, NotificationLevel.Debug);
+
+                // calculate presentation bars height
+                foreach (KeyValuePair<string, double[]> item in grams)
+                {
+                    int height = (int)(item.Value[PERCENTAGED] * (160 / max));
+                    CollectionElement row = new CollectionElement(height, Math.Round(item.Value[PERCENTAGED] * 100, 3), item.Key);
+                    data.ValueCollection.Add(row);
+                }
+
+                // OUTPUT
+                StringBuilder sb = new StringBuilder();
+                arrayOutput = new int[grams.Count];
+                for (int i = 0; i < grams.Count; i++)
+                {
+                    KeyValuePair<string, double[]> item = grams.ElementAt(i);
+
+                    sb.Append(item.Key + ":");
+                    sb.Append(item.Value[ABSOLUTE] + ":");
+                    sb.Append(Math.Round(item.Value[PERCENTAGED] * 100, 3) + Environment.NewLine);
+
+                    arrayOutput[i] = (int)item.Value[ABSOLUTE];
+                }
+                stringOutput = sb.ToString();
             }
-
-            double max = grams.Values.Max(item => item[PERCENTAGED]);
-            GuiLogMessage("Max n-gram percentage is: " + max, NotificationLevel.Debug);
-
-            // calculate presentation bars height
-            foreach (KeyValuePair<string, double[]> item in grams)
-            {
-                int height = (int) (item.Value[PERCENTAGED] * (160 / max));
-                CollectionElement row = new CollectionElement(height, Math.Round(item.Value[PERCENTAGED] * 100, 3), item.Key);
-                data.ValueCollection.Add(row);
-            }
-
-            // OUTPUT
-            StringBuilder sb = new StringBuilder();
-            arrayOutput = new int[grams.Count];
-            for (int i = 0; i < grams.Count; i++)
-            {
-                KeyValuePair<string, double[]> item = grams.ElementAt(i);
-
-                sb.Append(item.Key + ":");
-                sb.Append(item.Value[ABSOLUTE] + ":");
-                sb.Append(Math.Round(item.Value[PERCENTAGED] * 100, 3) + Environment.NewLine);
-
-                arrayOutput[i] = (int) item.Value[ABSOLUTE];
-            }
-            stringOutput = sb.ToString();
 
             OnPropertyChanged("StringOutput");
             OnPropertyChanged("ArrayOutput");

@@ -57,7 +57,6 @@ namespace Cryptool.Enigma
 
         private List<analysisConfigSettings> analysisCandidates = new List<analysisConfigSettings>();
         private const int maxAnalysisEntries = 10; // should go in settings under "Analysis Options"
-        private const int maxPrintedCandidates = 10; // should go in settings under "Analysis Options"
 
         #endregion
 
@@ -685,9 +684,8 @@ namespace Cryptool.Enigma
             StringBuilder message = new StringBuilder("  -- Analysis results --" + Environment.NewLine);
             message.AppendLine("=====================================");
 
-            for (int i = 0; i < maxPrintedCandidates; i++)
+            foreach (analysisConfigSettings cfg in analysisCandidates)
             {
-                analysisConfigSettings cfg = analysisCandidates[maxAnalysisEntries - i - 1];
                 message.AppendFormat("{0} | {1},{2},{3} | {4},{5},{6} | {7} | {8}" + Environment.NewLine,
                     cfg.Score.ToString(),
                     (rotorEnum)cfg.Rotor3, (rotorEnum)cfg.Rotor2, (rotorEnum)cfg.Rotor1,
