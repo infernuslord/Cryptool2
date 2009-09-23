@@ -260,7 +260,7 @@ namespace Cryptool.PluginBase.Miscellaneous
 
         public static IEnumerable<string> tokenize(string word, int gramLength, bool includeFragments)
         {
-            return new GramTokenizer(word, 1, includeFragments);
+            return new GramTokenizer(word, gramLength, includeFragments);
         }
 
         private string word;
