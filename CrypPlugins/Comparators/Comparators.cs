@@ -69,7 +69,7 @@ namespace Cryptool.Plugins.Comparators
             get { return null; }
         }
 
-        [PropertyInfo(Direction.InputData, "Input one", "Input one.", "", true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Input one", "Input one.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public object InputOne
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -85,7 +85,7 @@ namespace Cryptool.Plugins.Comparators
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Input two", "Input two.", "", true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Input two", "Input two.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public object InputTwo
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -253,6 +253,7 @@ namespace Cryptool.Plugins.Comparators
                             break;
 
                         }
+                    //if operator is <=
                     case 4:
                         {
                             if (InputOne is BigInteger && InputTwo is BigInteger)
@@ -306,7 +307,7 @@ namespace Cryptool.Plugins.Comparators
                             break;
 
                         }
-
+                    //if operator is >=
                     case 5:
                         {
                             if (InputOne is BigInteger && InputTwo is BigInteger)
