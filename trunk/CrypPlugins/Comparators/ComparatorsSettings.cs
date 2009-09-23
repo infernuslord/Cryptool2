@@ -26,7 +26,7 @@ using Cryptool.PluginBase;
 
 namespace Cryptool.Plugins.Comparators
 {
-    class ComparatorsSettings : ISettings
+    public class ComparatorsSettings : ISettings
     {
         #region private variables
         private int comparator = 0; // 0 =, 1 !=, 2 <, 3 >, 4 <=, 5 >=
@@ -40,33 +40,13 @@ namespace Cryptool.Plugins.Comparators
             get { return this.comparator; }
             set
             {
-                if ((int)value != this.comparator)
+                if (value != this.comparator)
                 {
-                    this.comparator = (int)value;
+                    this.comparator = value;
                     OnPropertyChanged("Comparator");
                     HasChanges = true;
 
-                    switch (comparator)
-                    {
-                        case 0:
-                            ChangePluginIcon(0);
-                            break;
-                        case 1:
-                            ChangePluginIcon(1);
-                            break;
-                        case 2:
-                            ChangePluginIcon(2);
-                            break;
-                        case 3:
-                            ChangePluginIcon(3);
-                            break;
-                        case 4:
-                            ChangePluginIcon(4);
-                            break;
-                        case 5:
-                            ChangePluginIcon(5);
-                            break;
-                    }
+                    ChangePluginIcon(comparator);
                 }
             }
         }
@@ -92,9 +72,9 @@ namespace Cryptool.Plugins.Comparators
 
         }
         public event StatusChangedEventHandler OnPluginStatusChanged;
-        private void ChangePluginIcon(int Icon)
+        private void ChangePluginIcon(int iconIndex)
         {
-            if (OnPluginStatusChanged != null) OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, Icon));
+            if (OnPluginStatusChanged != null) OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, iconIndex));
         }
         #endregion
     }
