@@ -11,6 +11,10 @@ using Cryptool.PluginBase.IO;
 using System.Windows.Controls;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Security.Cryptography;
+// for IControl
+using Cryptool.PluginBase.Control;
+// reference to the TriviumController interface (own dll)
+using Cryptool.TriviumController;
 
 namespace Cryptool.Trivium
 {
@@ -36,6 +40,7 @@ namespace Cryptool.Trivium
         public uint[] b = new uint[84];
         public uint[] c = new uint[111];
         public uint t1, t2, t3;
+        public int masterSlaveRounds = 0;
         #endregion
 
         public Trivium()
@@ -454,7 +459,7 @@ namespace Cryptool.Trivium
             }
         }
 
-        private void initTrivium(int[] IV, int[] key)
+        public void initTrivium(int[] IV, int[] key)
         {
 	        int i,j;
 
@@ -507,8 +512,15 @@ namespace Cryptool.Trivium
 	        }
 
             // belegung fertig, jetzt takten ohne output
+            // anzahl der takte laut settings oder lut master/slave
+            int myRounds;
 
-            for (i = 0; i < settings.InitRounds; i++) // default 1152 = 4 * 288
+            if (masterSlaveRounds != 0)
+                myRounds = masterSlaveRounds;
+            else
+                myRounds = settings.InitRounds;
+
+            for (i = 0; i < myRounds; i++) // default 1152 = 4 * 288
             {
                 t1 = a[65] ^ (a[90] & a[91]) ^ a[92] ^ b[77];
                 t2 = b[68] ^ (b[81] & b[82]) ^ b[83] ^ c[86];
@@ -525,7 +537,7 @@ namespace Cryptool.Trivium
             }
         }
 
-        private string keystreamTrivium(int nBits)
+        public string keystreamTrivium(int nBits)
         {
             int i, j;
             uint z;
@@ -664,7 +676,63 @@ namespace Cryptool.Trivium
         }
 
         #endregion
+
+        #region IControl
+
+        private IControlTrivium triviumSlave;
+        [PropertyInfo(Direction.ControlSlave, "Trivium Slave", "Direct access to Trivium.", "", DisplayLevel.Beginner)]
+        public IControlTrivium TriviumSlave
+        {
+            get
+            {
+                if (triviumSlave == null)
+                    triviumSlave = new TriviumControl(this);
+                return triviumSlave;
+            }
+        }
+
+        #endregion
     }
+
+    #region TriviumControl : IControlTrivium
+
+    public class TriviumControl : IControlTrivium
+    {
+        private Trivium plugin;
+        private TriviumSettings pluginSettings;
+
+        public TriviumControl(Trivium Plugin)
+        {
+            this.plugin = Plugin;
+        }
+
+        public TriviumControl(TriviumSettings PluginSettings)
+        {
+            this.pluginSettings = PluginSettings;
+        }
+
+        #region IControlEncryption Members
+
+        // here comes the slave side implementation
+        public int GenerateTriviumKeystream(int[] IV, int[] key, int length, int rounds, bool byteSwapping)
+        {
+            string resultString;
+            int resultInt;
+
+            //pluginSettings.InitRounds = rounds;
+
+            plugin.masterSlaveRounds = rounds;
+            plugin.initTrivium(IV, key);
+
+            resultString = plugin.keystreamTrivium(length);
+
+            return resultInt = Int32.Parse(resultString.Substring(resultString.Length - 1, 1));
+        }
+
+        #endregion
+    }
+
+    #endregion
 
     enum TriviumImage
     {

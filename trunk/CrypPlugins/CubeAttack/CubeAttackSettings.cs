@@ -49,6 +49,8 @@ namespace Cryptool.CubeAttack
         private int constTest = 50;
         private int linTest = 50;
         private string setPublicBits = "0*00*";
+        private int triviumOutputBit;
+        private int triviumRounds;
         
         #endregion
 
@@ -242,6 +244,50 @@ namespace Cryptool.CubeAttack
                 if (value != this.setPublicBits) HasChanges = true;
                 setPublicBits = value;
                 OnPropertyChanged("SetPublicBits");
+            }
+        }
+
+        [PropertySaveOrder(9)]
+        [TaskPane("Trivium output bit index",
+            "Chooses the output bit index in the stream cipher Trivium.",
+            null,
+            9,
+            false,
+            DisplayLevel.Beginner,
+            ControlType.NumericUpDown,
+            ValidationType.RangeInteger,
+            1,
+            10000)]
+        public int TriviumOutputBit
+        {
+            get { return triviumOutputBit; }
+            set
+            {
+                if (value != this.triviumOutputBit) HasChanges = true;
+                triviumOutputBit = value;
+                OnPropertyChanged("TriviumOutputBit");
+            }
+        }
+
+        [PropertySaveOrder(10)]
+        [TaskPane("Trivium rounds",
+            "Number of Trivium initialisation rounds.",
+            null,
+            10,
+            false,
+            DisplayLevel.Beginner,
+            ControlType.NumericUpDown,
+            ValidationType.RangeInteger,
+            1,
+            1152)]
+        public int TriviumRounds
+        {
+            get { return triviumRounds; }
+            set
+            {
+                if (value != this.triviumRounds) HasChanges = true;
+                triviumRounds = value;
+                OnPropertyChanged("TriviumRounds");
             }
         }
 
