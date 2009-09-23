@@ -508,7 +508,7 @@ namespace Cryptool.Trivium
 
             // belegung fertig, jetzt takten ohne output
 
-            for (i = 0; i < 1152; i++) // 1152 = 4 * 288
+            for (i = 0; i < settings.InitRounds; i++) // default 1152 = 4 * 288
             {
                 t1 = a[65] ^ (a[90] & a[91]) ^ a[92] ^ b[77];
                 t2 = b[68] ^ (b[81] & b[82]) ^ b[83] ^ c[86];
