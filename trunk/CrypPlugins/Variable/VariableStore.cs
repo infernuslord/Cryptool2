@@ -91,8 +91,17 @@ namespace Cryptool.Plugins.Variable
 
         public void Execute()
         {
-            if (settings.VariableName == "" || storeObject == null)
+            if (settings.VariableName == "")
+            {
+                GuiLogMessage("The variable name may not be empty.", NotificationLevel.Error);
                 return;
+            }
+
+            if (storeObject == null)
+            {
+                GuiLogMessage("Object is null, not passing forward.", NotificationLevel.Info);
+                return;
+            }
 
             ProgressChanged(0.5, 1.0);
             if (storeObject is CryptoolStream)

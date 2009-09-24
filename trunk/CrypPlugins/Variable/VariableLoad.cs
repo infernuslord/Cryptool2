@@ -97,7 +97,9 @@ namespace Cryptool.Plugins.Variable
         }
 
         public void Execute()
-        {            
+        {
+            if (settings.VariableName == "")
+                GuiLogMessage("The variable name may not be empty.", NotificationLevel.Error);
         }
 
         public void PostExecution()

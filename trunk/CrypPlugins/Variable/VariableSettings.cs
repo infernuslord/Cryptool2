@@ -33,8 +33,12 @@ namespace Cryptool.Plugins.Variable
             get { return variableName; }
             set
             {
-                variableName = (String)value;
-                OnPropertyChanged("VariableName");
+                if (variableName != value)
+                {
+                    hasChanges = true;
+                    variableName = value;
+                    OnPropertyChanged("VariableName");
+                }
             }
         }
         #endregion
