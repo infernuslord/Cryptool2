@@ -210,4 +210,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("CrypTool Plugin Base")]
 [assembly: AssemblyCopyright("Copyright © Martin Saternus 2008")]
 [assembly: ComVisible(false)]
-[assembly: AssemblyVersion("2.0.3554.00002")]
+[assembly: AssemblyVersion("2.0.3554.00003")]
