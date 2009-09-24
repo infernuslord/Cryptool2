@@ -1,4 +1,20 @@
-﻿using System;
+﻿/*
+   Copyright 2009 Matthäus Wander, Universität Duisburg-Essen
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,10 +27,15 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Diagnostics;
 
+/*
+ * TODO:
+ * - create icons to show Gate state (open, closed)
+ * - find solution for ticket #81
+ */
 namespace Gate
 {
     [Author("Matthäus Wander", "wander@cryptool.org", "Universität Duisburg-Essen, Fachgebiet Verteilte Systeme", "http://www.vs.uni-due.de")]
-    [PluginInfo(false, "Gate", "Control operator", null, "Gate/default_icon.png")]
+    [PluginInfo(false, "Gate", "Control operator", "", "CrypWin/images/default.png")]
     public class Gate : IThroughput
     {
         private GateSettings settings = new GateSettings();
@@ -39,7 +60,7 @@ namespace Gate
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Control", "Controls whether to open gate", null, false, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "Control", "Controls whether to open gate", null, false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool Control
         {
             get
