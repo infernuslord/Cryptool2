@@ -22,7 +22,7 @@ namespace WordPatterns
      * - support wildcard (*)
      */
     [Author("Matthäus Wander", "wander@cryptool.org", "Fachgebiet Verteilte Systeme, Universität Duisburg-Essen", "http://www.vs.uni-due.de")]
-    [PluginInfo(false, "WordPatterns", "Searches for words with the same pattern", null, "WordPatterns/default_icon.png")]
+    [PluginInfo(false, "WordPatterns", "Searches for words with the same pattern", null, "CrypWin/images/default.png")]
     public class WordPatterns : IAnalysisMisc
     {
         #region Private stuff

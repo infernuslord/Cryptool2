@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{9A8A0EC9-80AB-4015-923A-0CCFB198741A}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -31,10 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CrypPluginBase, Version=2.0.3517.1, Culture=neutral, PublicKeyToken=db26bd0a20dcbd5c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\CrypPluginBase\bin\Debug\CrypPluginBase.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -95,6 +91,12 @@
       <SubType>Designer</SubType>
     </Resource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
+      <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
+      <Name>CrypPluginBase</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -109,6 +111,6 @@ cd ..\..\CrypWin\$(OutDir)
 if not exist "./CrypPlugins" mkdir "./CrypPlugins"
 
 del /F /S /Q /s /q "BooleanOperators*.*"
-copy "$(TargetDir)*.*" "./CrypPlugins"</PostBuildEvent>
+copy "$(TargetDir)BooleanOperators*.*" "./CrypPlugins"</PostBuildEvent>
   </PropertyGroup>
 </Project>
