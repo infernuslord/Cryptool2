@@ -12,8 +12,8 @@ using Cryptool.PluginBase.Tool;
 namespace Cryptool.PrimesGenerator
 {
 
-  [PluginInfo(true, "PrimesGenerator", "PrimesGenerator", null, "PrimesGenerator/icon.png")]
-  public class PrimesGenerator : IInput
+  [PluginInfo(true, "Primes Generator", "Generator for primes numbers", null, "PrimesGenerator/icon.png")]
+  public class PrimesGenerator : IRandomNumberGenerator
   {
     private GmpBigInteger m_max = new GmpBigInteger("10000000000");
     public PrimesGenerator()
