@@ -1,4 +1,20 @@
-﻿using System.ComponentModel;
+﻿/*                              
+   Copyright 2009 Fabian Enkler, Arno Wacker (maintenance, updates), Uni Duisburg-Essen
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+
+using System.ComponentModel;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Cryptography;
@@ -6,7 +22,7 @@ using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Scytale
 {
-    [Author("Fabian Enkler", "", "", "")]
+    [Author("Fabian Enkler, A. Wacker", "wacker@cryptool.org", "Uni Duisburg-Essen", "http://www.vs.uni-duisburg-essen.de")]
     [PluginInfo(false, "Scytale", "Scytale -- classic transposition cipher", "Scytale/DetailedDescription/Description.xaml", "Scytale/icon.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class Scytale : IEncryption
