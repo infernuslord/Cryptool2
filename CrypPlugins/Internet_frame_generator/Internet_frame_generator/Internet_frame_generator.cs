@@ -8,8 +8,10 @@ using System.Windows.Controls;
 using System.ComponentModel;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
+using Cryptool.PluginBase.Generator;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Globalization;
+
 
 namespace Cryptool.Internet_frame_generator
 {
@@ -22,11 +24,11 @@ namespace Cryptool.Internet_frame_generator
         "Uni Siegen",
         "http://www.uni-siegen.de")]
     [PluginInfo(false,
-        "Internet frame generator",
+        "IP Frame Generator",
         "Internet frame generator (IPv4 or ARP request packets are supported)",
         "Internet_frame_generator/DetailedDescription/Description.xaml",
         "Internet_frame_generator/icon.jpg")]
-    public class Internet_frame_generator : IInput
+    public class Internet_frame_generator : IRandomNumberGenerator
     {
         #region private variables
 

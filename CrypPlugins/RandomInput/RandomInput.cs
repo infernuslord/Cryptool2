@@ -224,7 +224,7 @@ using Cryptool.PluginBase.Generator;
 namespace RandomInput
 {
   [Author("Timm Korte", "cryptool@easycrypt.de", "Uni Bochum", "http://www.ruhr-uni-bochum.de")]
-  [PluginInfo(true, "RandomInputGenerator", "Simple random input generator.", "", "RandomInput/icon.png")]
+  [PluginInfo(true, "Random Input", "Simple random input generator.", "", "RandomInput/icon.png")]
   public class RandomInput : ContextBoundObject, IRandomNumberGenerator
   {
     private int maxByteArraySize = 10496000;
