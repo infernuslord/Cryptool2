@@ -25,6 +25,12 @@ using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
 
+/*
+ * Note:
+ * Enhancement #64 is counterproductive for this plugin, as the settings are set to 0 on connection removal.
+ * Enhancement #81 (open issue currently) would be probably more useful instead.
+ */
+
 namespace Cryptool.Plugins.Substring
 {
     [Author("Dennis Nolte", "nolte@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
@@ -71,20 +77,18 @@ namespace Cryptool.Plugins.Substring
         {
             if (inputString != null)
             {
-                    ProgressChanged(0.5, 1.0);
-                    if ((settings.IntegerStartValue <= inputString.Length) & ((settings.IntegerStartValue + settings.IntegerLengthValue) <= inputString.Length))
-                    {
-                        OutputString = inputString.Substring(settings.IntegerStartValue, settings.IntegerLengthValue);
-                        ProgressChanged(1.0, 1.0);
-                        return;
-                    }
-                    else
-                    {
-                        GuiLogMessage("Your Startposition and/or Length for Substring are invalid", NotificationLevel.Error); 
-                    }
-                
+                ProgressChanged(0.5, 1.0);
+                if ((settings.IntegerStartValue <= inputString.Length) & ((settings.IntegerStartValue + settings.IntegerLengthValue) <= inputString.Length))
+                {
+                    OutputString = inputString.Substring(settings.IntegerStartValue, settings.IntegerLengthValue);
+                    ProgressChanged(1.0, 1.0);
+                    return;
+                }
+                else
+                {
+                    GuiLogMessage("Your Startposition and/or Length for Substring are invalid", NotificationLevel.Error);
+                }
             }
-            
         }
 
 
@@ -117,7 +121,7 @@ namespace Cryptool.Plugins.Substring
 
         #region SubstringInOut
 
-        [PropertyInfo(Direction.InputData, "String Input", "Input your String here", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "String Input", "Input your String here", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public String InputString
         {
             get
