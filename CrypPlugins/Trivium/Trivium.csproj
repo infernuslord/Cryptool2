@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{118668D4-613C-4D27-973B-092D5B25A692}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -51,10 +51,6 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="TriviumController, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d4526fd6dc4c2912, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\TriviumController\bin\Debug\TriviumController.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -74,6 +70,10 @@
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TriviumController\TriviumController.csproj">
+      <Project>{3858B6BC-2680-491F-9022-498A8AC80D7B}</Project>
+      <Name>TriviumController</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
