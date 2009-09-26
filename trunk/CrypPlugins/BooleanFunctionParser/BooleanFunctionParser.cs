@@ -301,9 +301,11 @@ namespace Cryptool.BooleanFunctionParser
                 DicDynamicProperties.Clear();
                 for (int i = 0; i < settings.CountOfInputs; i++)
                 {
-                    AddInput("Input " + i, "Test Input " + i);
-                    if (announcePropertyChange) DynamicPropertiesChanged();
+                    AddInput("Input " + i, "Test Input " + i);                    
                 }
+                // Event should be fired even if no additional inputs are set, because when 
+                // setting back to zero editor needs the event to remove the input.
+                if (announcePropertyChange) DynamicPropertiesChanged();
             }
             catch (Exception exception)
             {
