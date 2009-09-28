@@ -39,7 +39,7 @@ namespace Cryptool.BooleanFunctionParser
         private bool[] inputVariableThree;
         private bool output;
         private bool lastInputWasFunction = false;
-        private int inputs = 0;
+        private int inputs = 1;
         private string fillValue;
         private bool canSendPropertiesChangedEvent = true;
 
@@ -99,7 +99,7 @@ namespace Cryptool.BooleanFunctionParser
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Function Variable One (i_1.j)", "Input a boolean value to be processed by the function", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        /*[PropertyInfo(Direction.InputData, "Function Variable One (i_1.j)", "Input a boolean value to be processed by the function", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool[] InputOne
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -157,7 +157,7 @@ namespace Cryptool.BooleanFunctionParser
                 // clean inputOne
                 inputThreeFlag = 1;
             }
-        }
+        }*/
 
         [PropertyInfo(Direction.OutputData, "Function output", "Output after procesing the given function.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool Output
@@ -299,9 +299,10 @@ namespace Cryptool.BooleanFunctionParser
             try
             {
                 DicDynamicProperties.Clear();
+                inputs = 0;
                 for (int i = 0; i < settings.CountOfInputs; i++)
                 {
-                    AddInput("Input " + i, "Test Input " + i);                    
+                    AddInput("Input " + i, "Boolean[] Input " + i);                    
                 }
                 // Event should be fired even if no additional inputs are set, because when 
                 // setting back to zero editor needs the event to remove the input.
@@ -375,7 +376,7 @@ namespace Cryptool.BooleanFunctionParser
             string strExpression = strExpressionWithVariables;
 
             // replace variables with value and get numeric values from boolean inputs (if there are any)
-            if (inputOneFlag == 1 && inputVariableOne != null)
+            /*if (inputOneFlag == 1 && inputVariableOne != null)
             {
                 char[] strInputVariableOne = new char[inputVariableOne.Length];
                 for (int i = inputVariableOne.Length - 1; i >= 0; i--)
@@ -407,6 +408,22 @@ namespace Cryptool.BooleanFunctionParser
                     strInputVariableThree[i] = inputVariableThree[i] ? '1' : '0';
                     string replacement = "i_3." + i;
                     strExpression = strExpression.Replace(replacement, strInputVariableThree[i].ToString());
+                }
+            }*/
+            // replace additional inputs data (if there are any)
+            for (int i = 0; i < inputs; i++)
+            {
+                if (getCurrentValue("Input " + i) != null)
+                {
+                    bool[] additionalTempValueBool = (bool[])getCurrentValue("Input " + i);
+                    char[] strInputVariableAditionalTemp = new char[additionalTempValueBool.Length];
+                    for (int j = additionalTempValueBool.Length - 1; j >= 0; j--)
+                    {
+                        // get numeric values from bool inputs
+                        strInputVariableAditionalTemp[j] = additionalTempValueBool[j] ? '1' : '0';
+                        string replacement = "i_" + (i+4) + "." + j;
+                        strExpression = strExpression.Replace(replacement, strInputVariableAditionalTemp[j].ToString());
+                    }
                 }
             }
             // replace extern data (i_0.*) (if there is any)
@@ -641,6 +658,7 @@ namespace Cryptool.BooleanFunctionParser
               new DynamicProperty(name, typeof(bool[]),
                 new PropertyInfoAttribute(Direction.InputData, name, toolTip, "", false, true, DisplayLevel.Beginner, QuickWatchFormat.None, null))
             );
+            //DicDynamicProperties[name].Value = null;
         }
 
         #endregion

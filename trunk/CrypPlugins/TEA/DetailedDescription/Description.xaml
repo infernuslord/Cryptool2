@@ -15,6 +15,9 @@
   <Paragraph>
       <Run FontSize="14.6666666666667" xml:lang="de-de">TEA operates on 64-bit blocks and uses a 128-bit key. It has a Feistel structure with a suggested 64 rounds, typically implemented in pairs termed cycles. It has an extremely simple key schedule, mixing all of the key material in exactly the same way for each cycle. Different multiples of a magic constant are used to prevent simple attacks based on the symmetry of the rounds. The magic constant, 2654435769 (Decimal) or 9E3779B9 (Hex) is chosen to be (2^32 / phi) where phi is the golden ratio.</Run>
   </Paragraph>
+  <Paragraph>
+    <Image Source="/TEA;component/DetailedDescription/Images/TEA.png" Stretch="None"/>
+  </Paragraph>
   
   <Paragraph>
       <Run FontWeight="Bold" FontSize="18.6666666666667" xml:lang="de-de">
