@@ -43,6 +43,8 @@ namespace Cryptool.Plugins.RSA
         private byte[] inputText = null;
         private byte[] outputText = null;
 
+        private bool stopped = false;
+
         public event StatusChangedEventHandler OnPluginStatusChanged;
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
@@ -67,14 +69,12 @@ namespace Cryptool.Plugins.RSA
 
         public void PreExecution()
         {
-           
+            this.stopped = false;
         }
 
         public void Execute()
         {
             
-            ProgressChanged(0.5, 1.0);
-
             //calculate the BigIntegers
             try{
                 
@@ -90,27 +90,21 @@ namespace Cryptool.Plugins.RSA
             {
                 GuiLogMessage("starting RSA on texts", NotificationLevel.Info);
 
-                //calculate block size from N
-                //int blocksize = (int)Math.Floor(this.InputN.log(2) / 8.0);
+                //calculate block size from N                
                 int blocksize = (int)Math.Ceiling(this.InputN.log(256));
 
                 if (blocksize == 0)
                 {
-                    GuiLogMessage("Possible blocksize 0 - RSA can not work", NotificationLevel.Error);
+                    GuiLogMessage("Blocksize 0 - RSA can not work", NotificationLevel.Error);
                     return;
                 }
 
-                int blockcount = this.InputText.Length / blocksize;
+                //calculate amount of blocks and the difference between the input text
+                //and the blocked input text
+                int blockcount = (int)Math.Ceiling((double)this.InputText.Length / blocksize);
                 int difference = (blocksize - (this.InputText.Length % blocksize)) % blocksize;
-
-                if (difference != 0)
-                    blockcount++;
-
-                //GuiLogMessage("blocksize = " + blocksize, NotificationLevel.Info);
-                //GuiLogMessage("blockcount = " + blockcount, NotificationLevel.Info);
-                //GuiLogMessage("difference = " + difference, NotificationLevel.Info);
-
-                //Generate input and output array of correct byte size
+               
+                //Generate input and output array of correct block size
                 byte[] output = new byte[blocksize * blockcount];           
                 byte[] input = new byte[blocksize * blockcount];
                 
@@ -118,41 +112,57 @@ namespace Cryptool.Plugins.RSA
                 for (int i = 0; i < InputText.Length; i++)
                 {
                     input[difference + i] = InputText[i];
+                    if (stopped)
+                        return;
                 }
-
-                //Split Text into several big integers and calculate RSA on each
-                BigInteger[] bigs = new BigInteger[blockcount];
-
-                for (int i = 0; i < blockcount; i++)
-                {                    
+                
+                //encrypt/decrypt each block
+                for (int i = 0; i < blockcount; i++) //walk over the blocks
+                {
+                    //create a big integer from a block
                     byte[] help = new byte[blocksize];                    
                     for (int j = 0; j < blocksize; j++)
                     {
                         if(i * blocksize + j < input.Length)
                             help[j] = input[i * blocksize + j];
-                    }
-                    bigs[i] = new BigInteger(help).modPow(this.InputED, this.InputN);
-                }
+                        if (stopped)
+                            return;
 
-                //Make text out of the BigIntegers
-                int k = 0;
-                foreach (BigInteger bint in bigs)
-                {
+                    }
+                    //Check if the text could be encrypted/decrypted
+                    //this is only possible if the m < N
+                    BigInteger bint = new BigInteger(help);
+                    if (bint > this.InputN)
+                    {
+                        //Go out with an error because encryption/decryption is not possible
+                        GuiLogMessage("The N is not suitable for encrypting this text: M = " + new BigInteger(help) + " > N = " + this.InputN + ". Choose another pair of primes!", NotificationLevel.Warning);
+                    }
+                    
+                    //here we encrypt/decrypt with rsa algorithm
+                    bint = bint.modPow(this.InputED, this.InputN);
+                  
+                    //create a block from the byte array of the BigInteger
                     byte[] bytes = bint.getBytes();
                     int diff = (blocksize - (bytes.Length % blocksize)) % blocksize;
-                    
-                    //GuiLogMessage("bytes.Length = " + bytes.Length, NotificationLevel.Info);
-                    //GuiLogMessage("diff = " + diff, NotificationLevel.Info);
-
+                     
                     for (int j = 0; j < bytes.Length; j++)
                     {
-                        output[k * blocksize + j + diff] = bytes[j];                   
-                    }                
-                    k++;
-                }
+                        output[i * blocksize + j + diff] = bytes[j];
+                        if (stopped)
+                            return;
+                    }
+
+                    if (stopped)
+                        return;
+
+                    ProgressChanged((double)i / blockcount, 1.0);
+                
+                }//end for i
+                
+                ProgressChanged(1.0, 1.0);
                 this.OutputText = output;
             }
-            ProgressChanged(1.0, 1.0);
+            
         }
 
         public void PostExecution()
@@ -167,7 +177,7 @@ namespace Cryptool.Plugins.RSA
 
         public void Stop()
         {
-            
+            this.stopped = true;
         }
 
         public void Initialize()
