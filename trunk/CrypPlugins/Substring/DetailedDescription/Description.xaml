@@ -9,30 +9,20 @@
             <Span.TextDecorations>
                 <TextDecoration Location="Underline" />
             </Span.TextDecorations>
-            SUBSTRING
-        </Span>
-    </Paragraph>
-    <Paragraph TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
-        <Span FontFamily="Georgia" FontWeight="Bold" FontSize="23" Foreground="#FF15428B" xml:lang="en-us">
-            Description
+            Substring Description
         </Span>
     </Paragraph>
     <Paragraph TextAlignment="Justify">
-        <Run FontSize="16" xml:lang="en-us">
+        <Run FontSize="15" xml:lang="en-us">
             With this Plug-In the user can cut out parts from a text.
             It uses the same Substring-Method as it is known from any 
             programming language.
-        </Run>
-    </Paragraph>
-    <Paragraph TextAlignment="Justify">
-    <Run>
             Substring consists of 3 inputs and only one output as 
             you can see in the picture below:
-            
         </Run>
     </Paragraph>
     
-    <Paragraph TextAlignment="Justify">
+    <Paragraph TextAlignment="Justify">       
         <Image Source="/Substring;component/description_substring.png"/>
     </Paragraph>
     <Paragraph TextAlignment="Justify">
