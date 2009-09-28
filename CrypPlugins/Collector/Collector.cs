@@ -26,7 +26,7 @@ using System.ComponentModel;
 namespace Cryptool.Plugins.Collector
 {
     [Author("Sven Rech", "sven.rech@cryptool.com", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "Collector", "Collector", null, "Collector/icon.png")]
+    [PluginInfo(false, "Collector", "Collector", "Collector/DetailedDescription/Description.xaml", "Collector/icon.png")]
     class Collector : IThroughput
     {
         #region Private Variables
