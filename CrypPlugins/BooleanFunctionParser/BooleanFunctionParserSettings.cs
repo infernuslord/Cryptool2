@@ -72,8 +72,8 @@ namespace Cryptool.BooleanFunctionParser
 
         #region ISettings Members
 
-        private int countOfInputs = 0;
-        [TaskPane("Additional inputs", "How many additional inputs do you need?", null, 0, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        private int countOfInputs = 1;
+        [TaskPane("Number of inputs", "How many inputs do you need?", null, 0, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int CountOfInputs
         {
             get { return this.countOfInputs; }
