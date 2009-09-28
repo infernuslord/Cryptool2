@@ -79,9 +79,6 @@
   <Paragraph Margin="0,6.67,0,6.67" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
     <Span xml:lang="en-gb">In the literature, the Vigen&#232;re encryption algorithm is often described in terms of the Vigen&#232;re tableau rather than as a multiple appliance of the Caesar encryption algorithm, since this tableau was used as a manual tool for encryption and decryption in earlier times.</Span>
   </Paragraph>
-  <Paragraph Margin="0,6.67,0,6.67" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
-    <Span xml:lang="en-gb">In the classical Caesar procedure, the letter "A" means a shift of 1 character position, the letter "B" a shift of 2. In the Vigen&#232;re system on the other hand, the shift is always one character less, i.e. no character for "A", one character for "B", two characters for "C", ... , 25 characters for "Z". Therefore, using the Vigen&#232;re method the plaintext and the encrypted text are identical when the key is "A" (and not "Z", as with the Caesar encryption algorithm).</Span>
-  </Paragraph>
   <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
     <Run xml:lang="en-gb">The Vigen&#232;re encryption algorithm can be broken relatively easy with a ciphertext-only attack.</Run>
   </Paragraph>
