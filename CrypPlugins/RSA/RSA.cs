@@ -72,82 +72,87 @@ namespace Cryptool.Plugins.RSA
 
         public void Execute()
         {
+            
+            ProgressChanged(0.5, 1.0);
+
             //calculate the BigIntegers
             try{
-                ProgressChanged(0.5, 1.0);
-                this.OutputMC = InputMC.modPow(this.InputED, this.InputN);
-                ProgressChanged(1.0, 1.0);
+                
+                this.OutputMC = InputMC.modPow(this.InputED, this.InputN);                
             }
             catch (Exception ex)
             {
                 GuiLogMessage("RSA could not work because of: " + ex.Message, NotificationLevel.Error);                
             }
 
-            if (this.InputText != null)
-            {
-                BigInteger m = new BigInteger(this.InputText);
-                BigInteger c = m.modPow(this.InputED, this.InputN);
-                this.OutputText = c.getBytes();
-            }
-
-            /*
-            //calculate the Texts
+            //Calculate the OutputText
             if (this.InputText != null)
             {
                 GuiLogMessage("starting RSA on texts", NotificationLevel.Info);
 
                 //calculate block size from N
-                int blocksize = (int)Math.Floor(this.InputN.log(2) / 8.0);                
-                GuiLogMessage("blocksize = " + blocksize,NotificationLevel.Info);
+                //int blocksize = (int)Math.Floor(this.InputN.log(2) / 8.0);
+                int blocksize = (int)Math.Ceiling(this.InputN.log(256));
+
+                if (blocksize == 0)
+                {
+                    GuiLogMessage("Possible blocksize 0 - RSA can not work", NotificationLevel.Error);
+                    return;
+                }
 
                 int blockcount = this.InputText.Length / blocksize;
-                if (this.InputText.Length % blocksize != 0)
+                int difference = (blocksize - (this.InputText.Length % blocksize)) % blocksize;
+
+                if (difference != 0)
                     blockcount++;
 
-                byte[] output = new byte[blockcount * blocksize];
+                //GuiLogMessage("blocksize = " + blocksize, NotificationLevel.Info);
+                //GuiLogMessage("blockcount = " + blockcount, NotificationLevel.Info);
+                //GuiLogMessage("difference = " + difference, NotificationLevel.Info);
 
-                GuiLogMessage("Blocksize  = " + blocksize, NotificationLevel.Info);
-                GuiLogMessage("blockcount = " + blockcount, NotificationLevel.Info);
-
-                //generate Big Integers to do RSA
-                for (int i = 0; i < blockcount; i++)
-                {
-                    GuiLogMessage("Step " + i, NotificationLevel.Info);
-
-                    byte[] help = new byte[blocksize];
-
-                    for (int j = 0; j < blocksize; j++)
-                    {
-                        if ((i * blocksize + j) >= InputText.Length)
-                        {
-                            help[j] = 0;
-                        }
-                        else
-                        {
-                            help[j] = this.InputText[i * blocksize + j];
-                        }
-                    }//end for j
-
-                    BigInteger m = new BigInteger(help);
-                    GuiLogMessage("m = " + m, NotificationLevel.Info);
-                    BigInteger c = m.modPow(this.InputED, this.InputN);
-                    GuiLogMessage("c = " + c, NotificationLevel.Info);
-
-                    help = c.getBytes();
-
-                    for (int j = 0; j < blocksize; j++)
-                    {
-                        output[i * blocksize + j] = help[j];
-                    }//end for j
-                    
-                    GuiLogMessage("End Step " + i, NotificationLevel.Info);
-
-                }//end for i
+                //Generate input and output array of correct byte size
+                byte[] output = new byte[blocksize * blockcount];           
+                byte[] input = new byte[blocksize * blockcount];
                 
+                //Copy Input to input array and leave an amount of 'different' zeros at beginning of the array
+                for (int i = 0; i < InputText.Length; i++)
+                {
+                    input[difference + i] = InputText[i];
+                }
+
+                //Split Text into several big integers and calculate RSA on each
+                BigInteger[] bigs = new BigInteger[blockcount];
+
+                for (int i = 0; i < blockcount; i++)
+                {                    
+                    byte[] help = new byte[blocksize];                    
+                    for (int j = 0; j < blocksize; j++)
+                    {
+                        if(i * blocksize + j < input.Length)
+                            help[j] = input[i * blocksize + j];
+                    }
+                    bigs[i] = new BigInteger(help).modPow(this.InputED, this.InputN);
+                }
+
+                //Make text out of the BigIntegers
+                int k = 0;
+                foreach (BigInteger bint in bigs)
+                {
+                    byte[] bytes = bint.getBytes();
+                    int diff = (blocksize - (bytes.Length % blocksize)) % blocksize;
+                    
+                    //GuiLogMessage("bytes.Length = " + bytes.Length, NotificationLevel.Info);
+                    //GuiLogMessage("diff = " + diff, NotificationLevel.Info);
+
+                    for (int j = 0; j < bytes.Length; j++)
+                    {
+                        output[k * blocksize + j + diff] = bytes[j];                   
+                    }                
+                    k++;
+                }
                 this.OutputText = output;
-
-            }*/
-
+            }
+            ProgressChanged(1.0, 1.0);
         }
 
         public void PostExecution()
