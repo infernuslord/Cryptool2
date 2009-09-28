@@ -1,0 +1,77 @@
+<FlowDocument PagePadding="5,0,5,0" AllowDrop="True" NumberSubstitution.CultureSource="User" 
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+			  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			  xmlns:misc="clr-namespace:Cryptool.PluginBase.Miscellaneous;assembly=CrypPluginBase"
+			  Background="White" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+    
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+        <Span FontFamily="Georgia" FontWeight="Bold" FontSize="18.6666666666667" Foreground="#FF15428B" xml:lang="en-us">
+            <Span.TextDecorations>
+                <TextDecoration Location="Underline" />
+            </Span.TextDecorations>
+            Comparator Plugin (Throughput)
+        </Span>
+    </Paragraph>
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+        <Span FontFamily="Georgia" FontWeight="Bold" FontSize="17" Foreground="#FF15428B" xml:lang="en-us">
+            <Span.TextDecorations>
+                <TextDecoration Location="Underline" />
+            </Span.TextDecorations>
+            Description
+        </Span>
+    </Paragraph>
+    <Paragraph TextAlignment="Justify">
+        <Run FontSize="16" xml:lang="en-us">
+           This plugin provides different comparators for certain given inputs. Make sure that the current
+           comparator is defined for the given inputs. 
+           
+           </Run>
+    </Paragraph>
+    <Paragraph TextAlignment="Justify">
+    <Run>
+            Note that for all oparators except "=" and "!=" the given inputs must be of the same type. This is not checked
+            before the chain starts, because the input types are "object".
+            "String" and "CryptoolStream" inputs are compared via length and not via their binary representaion.
+        </Run>
+    </Paragraph>
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+        <Span FontFamily="Georgia" FontWeight="Bold" FontSize="17" Foreground="#FF15428B" xml:lang="en-us">
+            <Span.TextDecorations>
+                <TextDecoration Location="Underline" />
+            </Span.TextDecorations>
+            Comparator table
+        </Span>
+    </Paragraph>
+    <Table BorderBrush="Black" BorderThickness="1">
+        <TableRowGroup>
+            <TableRow>
+                <TableCell BorderBrush="Black" BorderThickness="1">
+                    <Paragraph>comparator</Paragraph>
+                </TableCell>
+                <TableCell BorderBrush="Black" BorderThickness="1">
+                    <Paragraph>defined types</Paragraph>
+                </TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell>
+                    <Paragraph>=, !=</Paragraph>
+                </TableCell>
+                <TableCell>
+                    <Paragraph>any</Paragraph>
+                </TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell>
+                    <Paragraph>&lt;, &lt;=, &gt; ,&gt;=</Paragraph>
+                </TableCell>
+                <TableCell>
+                    <Paragraph>int, BigInteger, Byte, Double, String (via length), CryptoolStream (via length)</Paragraph>
+                </TableCell>
+            </TableRow>
+  
+            
+        </TableRowGroup>
+    </Table>
+    
+
+</FlowDocument>
