@@ -24,18 +24,13 @@
         <Span xml:lang="en-gb">This encryption algorithm already used by the Roman general and dictator Caesar substitutes single letters: The substitution rule is that the letters of the cleartext alphabet are shifted by a special value (key).</Span>
     </Paragraph>
     <Paragraph Margin="0,6.67,0,6.67" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
-        <Span xml:lang="en-gb">Characters which are not part of the alphabet are normally left out of the encrypted text (see setting"</Span>
-        <Span FontWeight="Bold" xml:lang="en-gb">Remove</Span>
-        <Span xml:lang="en-gb">" under "</Span>
-        <Span FontWeight="Bold" xml:lang="en-gb">Unknown symbol handling</Span>
-        <Span xml:lang="en-gb" xml:space="preserve">" in </Span>
-        <Span FontWeight="Bold" xml:lang="en-gb">Algorithm Settings</Span>
-        <Span xml:lang="en-gb">). This applies to both punctuation characters and special characters (especially spaces between two words). Which characters build up the alphabet in which order can be selected in the field "</Span>
-        <Span FontWeight="Bold" xml:lang="en-gb">Alphabet</Span>
-        <Span xml:lang="en-gb">".</Span>
+        <Span xml:lang="en-gb">Characters which are not part of the alphabet are normally left out of the encrypted text (see setting "<Span FontWeight="Bold" xml:lang="en-gb">Remove</Span>" under
+        "<Span FontWeight="Bold" xml:lang="en-gb">Unknown symbol handling</Span>" in <Span FontWeight="Bold" xml:lang="en-gb">Algorithm Settings</Span>.
+        This applies to both punctuation characters and special characters (especially spaces between two words). Which characters build up the alphabet in which order can be selected in the field
+        "<Span FontWeight="Bold" xml:lang="en-gb">Alphabet</Span>".</Span>
     </Paragraph>
     <Paragraph Margin="0,6.67,0,6.67" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
-        <Span xml:lang="en-gb">The Caesar encryption algorithm uses one character from the alphabet as key. Depending on the position of this key letter, the letters of the plaintext are shifted in repeated cycles. If the alphabet consists only of upper case letters (this is the default case), a cyclical shift of one character takes place when "A" is entered, two characters for "B", ... and 26 characters for "Z". To decrypt the text, each encrypted letter is simply shifted in the other direction.</Span>
+        <Span xml:lang="en-gb">The Caesar encryption algorithm uses one character from the alphabet as key. Depending on the position of this key letter, the letters of the plaintext are shifted in repeated cycles. If the alphabet consists only of upper case letters (this is the default case), a cyclical shift of one character takes place when "B" is entered, two characters for "C", ... and 25 characters for "Z". To decrypt the text, each encrypted letter is simply shifted in the other direction.</Span>
     </Paragraph>
     <Paragraph Margin="0,6.67,0,6.67" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16" />
     <Paragraph Margin="0,6.67,0,6.67" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
@@ -43,13 +38,13 @@
         <Span FontFamily="Times New Roman" FontSize="16" xml:lang="en-gb">
             <LineBreak />
         </Span>
-        <Span xml:lang="en-gb">The letter "Z" should (in the default case of the alphabet) not be used as key, because then the "encrypted" text is identical to the plaintext.</Span>
+        <Span xml:lang="en-gb">The letter "A" should (in the default case of the alphabet) not be used as key, because then the "encrypted" text is identical to the plaintext.</Span>
     </Paragraph>
     <Paragraph Margin="0,6.67,0,6.67" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
-        <Span xml:lang="en-gb">A special case of Caesar is the so called Rot-13 encryption, which is used in chat rooms and news groups. Rot-13 uses the 26-upper-case-letter alphabet, shifts each character by 13 places (corresponding to a Caesar encryption with key "M") and all non-alphabet letters are kept. A repeated Rot-13 operation yields the plain text again.</Span>
+        <Span xml:lang="en-gb">A special case of Caesar is the so called Rot-13 encryption, which is used in chat rooms and news groups. Rot-13 uses the 26-upper-case-letter alphabet, shifts each character by 13 places (corresponding to a Caesar encryption with key "N") and all non-alphabet letters are kept. A repeated Rot-13 operation yields the plain text again.</Span>
     </Paragraph>
     <Paragraph Margin="0,6.67,0,6.67" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
-        <Span xml:lang="en-gb">An advancement of the Caesar cipher is the Vigenere cipher.</Span>
+        <Span xml:lang="en-gb">An advancement of the Caesar cipher is the Vigenère cipher.</Span>
     </Paragraph>
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
         <Span xml:lang="en-gb">The Caesar encryption algorithm can be broken relatively easily with a ciphertext-only attack (see the deployed sample workspace "Caesar_CipherTextOnly-Attack_en.cte").</Span>
