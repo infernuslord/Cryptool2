@@ -27,7 +27,7 @@ using System.Runtime.CompilerServices;
 namespace Cryptool.Plugins.Comparators
 {
     [Author("Raoul Falk", "falk@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "Comparators", "Simple comparators (=,!=, <, >, <=, >=). Strings and streams are compared via length while using one of the last four comparators.", "", "Comparators/icons/icon_is.png", "Comparators/icons/icon_isnot.png", "Comparators/icons/icon_smaller.png", "Comparators/icons/icon_bigger.png", "Comparators/icons/icon_smallerIs.png", "Comparators/icons/icon_biggerIs.png")]
+    [PluginInfo(false, "Comparators", "Simple comparators (=,!=, <, >, <=, >=). Strings and streams are compared via length while using one of the last four comparators.", "Comparators/DetailedDescription/Description.xaml", "Comparators/icons/icon_is.png", "Comparators/icons/icon_isnot.png", "Comparators/icons/icon_smaller.png", "Comparators/icons/icon_bigger.png", "Comparators/icons/icon_smallerIs.png", "Comparators/icons/icon_biggerIs.png")]
 
     class Comparators : IThroughput
     {
