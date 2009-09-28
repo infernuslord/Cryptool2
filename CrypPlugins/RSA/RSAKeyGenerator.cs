@@ -131,6 +131,17 @@ namespace Cryptool.Plugins.RSA
                         p = new BigInteger(settings.P, 10);
                         q = new BigInteger(settings.Q, 10);
                         e = new BigInteger(settings.E, 10);
+
+                        if (!p.isProbablePrime())
+                        {
+                            GuiLogMessage(p.ToString() + " is not prime!", NotificationLevel.Error);
+                            return;
+                        }
+                        if (!q.isProbablePrime())
+                        {
+                            GuiLogMessage(q.ToString() + " is not prime!", NotificationLevel.Error);
+                            return;
+                        }
                     }
                     catch (Exception)
                     {
