@@ -76,22 +76,24 @@ namespace Cryptool.Plugins.RSA
         {
             
             //calculate the BigIntegers
-            try{
-                
+            try{                
                 this.OutputMC = InputMC.modPow(this.InputED, this.InputN);                
             }
             catch (Exception ex)
             {
-                GuiLogMessage("RSA could not work because of: " + ex.Message, NotificationLevel.Error);                
+                GuiLogMessage("RSA could not work because of: " + ex.Message, NotificationLevel.Error);             
             }
 
-            //Calculate the OutputText
+            //
+            // RSA on Texts
+            //
             if (this.InputText != null)
             {
                 GuiLogMessage("starting RSA on texts", NotificationLevel.Info);
 
                 //calculate block size from N                
                 int blocksize = (int)Math.Ceiling(this.InputN.log(256));
+                GuiLogMessage("Blocksize = " + blocksize, NotificationLevel.Debug);
 
                 if (blocksize == 0)
                 {
@@ -101,9 +103,10 @@ namespace Cryptool.Plugins.RSA
 
                 //calculate amount of blocks and the difference between the input text
                 //and the blocked input text
-                int blockcount = (int)Math.Ceiling((double)this.InputText.Length / blocksize);
+                int blockcount = (int)Math.Ceiling((double)this.InputText.Length / blocksize);                
                 int difference = (blocksize - (this.InputText.Length % blocksize)) % blocksize;
-               
+                GuiLogMessage("Blockcount = " + blockcount, NotificationLevel.Debug);
+
                 //Generate input and output array of correct block size
                 byte[] output = new byte[blocksize * blockcount];           
                 byte[] input = new byte[blocksize * blockcount];
@@ -160,9 +163,47 @@ namespace Cryptool.Plugins.RSA
                 }//end for i
                 
                 ProgressChanged(1.0, 1.0);
+
+                output = removeZeros(output);
+
                 this.OutputText = output;
-            }
+
+                GuiLogMessage("finished RSA on texts", NotificationLevel.Info);
+
+            }//end if
             
+        }//end Execute
+
+        /*
+         * Remove all '0' from a byte array
+         */
+        private byte[] removeZeros(byte[] input)
+        {
+            //1. Count zeros
+            int zeros = 0;
+            foreach (byte b in input){
+
+                if (b == 0)
+                {
+                    zeros++;
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+
+            //2. Create new smaller byte array with
+            byte[] output = new byte[input.Length - zeros];
+
+            //3. Copy from input array beginning at the first byte <> 0 to the output array
+            for (int i = zeros; i < input.Length; i++)
+            {
+                output[i - zeros] = input[i];
+            }
+
+            return output;
         }
 
         public void PostExecution()
