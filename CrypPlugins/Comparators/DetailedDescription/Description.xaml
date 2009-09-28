@@ -12,6 +12,14 @@
             Comparator Plugin (Throughput)
         </Span>
     </Paragraph>
+       <Paragraph TextAlignment="Justify">
+        <Image Source="/Comparators;component/icons/icon_is.png" Stretch="None"/>
+       <Image Source="/Comparators;component/icons/icon_isnot.png" Stretch="None"/>  
+        <Image Source="/Comparators;component/icons/icon_smaller.png" Stretch="None"/>  
+        <Image Source="/Comparators;component/icons/icon_smallerIs.png" Stretch="None"/>  
+        <Image Source="/Comparators;component/icons/icon_bigger.png" Stretch="None"/>  
+       <Image Source="/Comparators;component/icons/icon_biggerIs.png" Stretch="None"/>  
+        </Paragraph>
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
         <Span FontFamily="Georgia" FontWeight="Bold" FontSize="17" Foreground="#FF15428B" xml:lang="en-us">
             <Span.TextDecorations>
@@ -41,6 +49,7 @@
             </Span.TextDecorations>
             Comparator table
         </Span>
+     
     </Paragraph>
     <Table BorderBrush="Black" BorderThickness="1">
         <TableRowGroup>
