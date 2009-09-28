@@ -34,7 +34,7 @@ using System.ComponentModel;
 namespace Cryptool.Plugins.Substring
 {
     [Author("Dennis Nolte", "nolte@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "Substring", "Generating Substring", "", "Substring/icon.png")]
+    [PluginInfo(false, "Substring", "Generating Substring", "Substring/DetailedDescription/Description.xaml", "Substring/icon.png")]
     
     class Substring : IThroughput
     {
