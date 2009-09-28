@@ -28,7 +28,7 @@ using System.ComponentModel;
 namespace Cryptool.Plugins.Variable
 {
     [Author("Sven Rech", "sven.rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(true, "VariableLoad", "Variable Load", null, "Variable/loadIcon.png")]
+    [PluginInfo(true, "VariableLoad", "Variable Load", "Variable/DetailedDescription/Description.xaml", "Variable/loadIcon.png")]
     class VariableLoad : IInput
     {
         #region Private variables

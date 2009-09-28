@@ -30,7 +30,7 @@ namespace Cryptool.Plugins.Variable
     delegate void StoreVariable(string variable, object input);
     
     [Author("Sven Rech", "sven.rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "VariableStore", "Variable Store", null, "Variable/storeIcon.png")]
+    [PluginInfo(false, "VariableStore", "Variable Store", "Variable/DetailedDescription/Description.xaml", "Variable/storeIcon.png")]
     class VariableStore : IOutput
     {
         static public event StoreVariable OnVariableStore;
