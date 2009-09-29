@@ -135,7 +135,7 @@ using System;
 
 namespace Cryptool.PluginBase.Miscellaneous
 {
-    public class BigInteger : IComparable<BigInteger>
+    public class BigInteger : IComparable
     {
         // maximum length of the BigInteger in uint (4 bytes)
         // change this to suit the required level of precision.
@@ -3357,10 +3357,21 @@ namespace Cryptool.PluginBase.Miscellaneous
             return (Math.Log(c) + Math.Log(2) * b) / Math.Log(bas);
         }
 
-        #region IComparable<BigInteger> Members
 
-        int IComparable<BigInteger>.CompareTo(BigInteger other)
+        #region IComparable Members
+
+        int IComparable.CompareTo(object obj)
         {
+            BigInteger other = null;
+            if (obj is BigInteger)
+                other = (BigInteger)obj;
+            else if (obj is String)
+                other = new BigInteger(obj as String, 10);
+            else if (obj is Int32)
+                other = new BigInteger((int)obj);
+            else
+                throw new Exception("Invalid comparison with BigInteger");
+
             if (this == other)
                 return 0;
             else if (this < other)

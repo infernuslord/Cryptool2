@@ -138,14 +138,14 @@ namespace Cryptool.Plugins.Comparators
                         // if operator is =
                         case 0:
                             {
-                                Output = InputOne.Equals(InputTwo);
+                                Output = InputOne.CompareTo(InputTwo) == 0;
                                 ProgressChanged(100, 100);
                                 break;
                             }
                         // if operator is !=
                         case 1:
                             {
-                                Output = !InputOne.Equals(InputTwo);
+                                Output = InputOne.CompareTo(InputTwo) != 0;
                                 ProgressChanged(100, 100);
                                 break;
                             }
@@ -179,16 +179,13 @@ namespace Cryptool.Plugins.Comparators
                             {
                                 Output = InputOne.CompareTo(InputTwo) >= 0;
                                 ProgressChanged(100, 100);
-
                                 break;
-
                             }
-
                     }
                 }
-                catch (ArgumentException e)
+                catch (Exception e)
                 {
-                    GuiLogMessage("The given Inputs are not comparable : " + e.Message, NotificationLevel.Error);
+                    GuiLogMessage("The given Inputs are not comparable: " + e.Message, NotificationLevel.Error);
                 }
 
             }
