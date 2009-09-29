@@ -26,7 +26,7 @@ using System.Security.Cryptography;
 
 namespace Cryptool.Plugins.RSA
 {
-    [Author("Dennis Nolte", "nolte@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
+    [Author("Dennis Nolte,Raoul Falk, Sven Rech, Nils Kopal", null, "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo(false, "RSA", "RSA En/Decryption", "", "RSA/iconrsa.png", "RSA/iconrsa.png", "RSA/iconrsa.png")]
 
     [EncryptionType(EncryptionType.Asymmetric)]
@@ -90,44 +90,57 @@ namespace Cryptool.Plugins.RSA
             if (this.InputText != null)
             {
                 GuiLogMessage("starting RSA on texts", NotificationLevel.Info);
+                
+                int blocksize_input = 0;
+                int blocksize_output = 0;
 
-                //calculate block size from N                
-                int blocksize = (int)Math.Ceiling(this.InputN.log(256));
-                GuiLogMessage("Blocksize = " + blocksize, NotificationLevel.Debug);
-
-                if (blocksize == 0)
+                //calculate block sizes from N          
+                //Encryption
+                if (settings.Mode == 0)
                 {
-                    GuiLogMessage("Blocksize 0 - RSA can not work", NotificationLevel.Error);
+                    blocksize_input = (int)Math.Floor(this.InputN.log(256));
+                    blocksize_output = (int)Math.Ceiling(this.InputN.log(256));
+                }
+                //Decryption
+                else
+                {
+                    blocksize_input = (int)Math.Ceiling(this.InputN.log(256));
+                    blocksize_output = (int)Math.Floor(this.InputN.log(256));
+                }
+
+                GuiLogMessage("Input blocksize = " + blocksize_input, NotificationLevel.Debug);
+                GuiLogMessage("Output blocksize = " + blocksize_output, NotificationLevel.Debug);
+                
+                if (blocksize_input == 0)
+                {
+                    GuiLogMessage("Input blocksize 0 - RSA can not work", NotificationLevel.Error);
+                    return;
+                }
+
+                if (blocksize_output == 0)
+                {
+                    GuiLogMessage("Input blocksize 0 - RSA can not work", NotificationLevel.Error);
                     return;
                 }
 
                 //calculate amount of blocks and the difference between the input text
                 //and the blocked input text
-                int blockcount = (int)Math.Ceiling((double)this.InputText.Length / blocksize);                
-                int difference = (blocksize - (this.InputText.Length % blocksize)) % blocksize;
-                GuiLogMessage("Blockcount = " + blockcount, NotificationLevel.Debug);
-
-                //Generate input and output array of correct block size
-                byte[] output = new byte[blocksize * blockcount];           
-                byte[] input = new byte[blocksize * blockcount];
+                int blockcount = (int)Math.Ceiling((double)this.InputText.Length / blocksize_input);                
                 
-                //Copy Input to input array and leave an amount of 'different' zeros at beginning of the array
-                for (int i = 0; i < InputText.Length; i++)
-                {
-                    input[difference + i] = InputText[i];
-                    if (stopped)
-                        return;
-                }
+                GuiLogMessage("Blockcount = " + blockcount, NotificationLevel.Debug);
+                
+                //Generate input and output array of correct block size
+                byte[] output = new byte[blocksize_output * blockcount];
                 
                 //encrypt/decrypt each block
                 for (int i = 0; i < blockcount; i++) //walk over the blocks
                 {
                     //create a big integer from a block
-                    byte[] help = new byte[blocksize];                    
-                    for (int j = 0; j < blocksize; j++)
+                    byte[] help = new byte[blocksize_input];                    
+                    for (int j = 0; j < blocksize_input; j++)
                     {
-                        if(i * blocksize + j < input.Length)
-                            help[j] = input[i * blocksize + j];
+                        if(i * blocksize_input + j < InputText.Length)
+                            help[j] = InputText[i * blocksize_input + j];
                         if (stopped)
                             return;
 
@@ -138,7 +151,8 @@ namespace Cryptool.Plugins.RSA
                     if (bint > this.InputN)
                     {
                         //Go out with an error because encryption/decryption is not possible
-                        GuiLogMessage("The N is not suitable for encrypting this text: M = " + new BigInteger(help) + " > N = " + this.InputN + ". Choose another pair of primes!", NotificationLevel.Warning);
+                        GuiLogMessage("The N is not suitable for encrypting this text: M = " + new BigInteger(help) + " > N = " + this.InputN + ". Choose another pair of primes!", NotificationLevel.Error);
+                        return;
                     }
                     
                     //here we encrypt/decrypt with rsa algorithm
@@ -146,11 +160,11 @@ namespace Cryptool.Plugins.RSA
                   
                     //create a block from the byte array of the BigInteger
                     byte[] bytes = bint.getBytes();
-                    int diff = (blocksize - (bytes.Length % blocksize)) % blocksize;
+                    int diff = (blocksize_output - (bytes.Length % blocksize_output)) % blocksize_output;
                      
                     for (int j = 0; j < bytes.Length; j++)
                     {
-                        output[i * blocksize + j + diff] = bytes[j];
+                        output[i * blocksize_output + j + diff] = bytes[j];
                         if (stopped)
                             return;
                     }
@@ -181,9 +195,9 @@ namespace Cryptool.Plugins.RSA
         {
             //1. Count zeros
             int zeros = 0;
-            foreach (byte b in input){
+            for (int i=input.Length-1;i>0;i--){
 
-                if (b == 0)
+                if (input[i] == 0)
                 {
                     zeros++;
                 }
@@ -198,13 +212,13 @@ namespace Cryptool.Plugins.RSA
             byte[] output = new byte[input.Length - zeros];
 
             //3. Copy from input array beginning at the first byte <> 0 to the output array
-            for (int i = zeros; i < input.Length; i++)
+            for (int i = 0; i < input.Length - zeros; i++)
             {
-                output[i - zeros] = input[i];
+                output[i] = input[i];
             }
 
             return output;
-        }
+        }        
 
         public void PostExecution()
         {
