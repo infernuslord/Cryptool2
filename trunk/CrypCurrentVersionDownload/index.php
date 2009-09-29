@@ -1,9 +1,3 @@
-<html>
-<head>
- <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
- <meta http-equiv="refresh" content="1; URL=http://cryptool2.vs.uni-due.de/downloads/program/curversion/CrypTool-Setup-v2.0.3554b(beta).msi">
-</head>
-<body>
 <?php
 $config_file = 'CurrentVersion.txt';
 $comment = "#";
@@ -21,9 +15,18 @@ if (file_exists($config_file)) {
       }
     }
     fclose($fp);
-} else echo "No such file: " . $config_file;
+} else {
+	echo "<html><body>No such file: " . $config_file . "</body></html>";
+	exit(1);
+}
 
 ?>
+<html>
+<head>
+ <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+ <meta http-equiv="refresh" content="1; URL=http://cryptool2.vs.uni-due.de/downloads/program/curversion/CrypTool-Setup-v<?php echo $config_values['version'];?>.msi">
+</head>
+<body>
 If your download doesn't start now, click <a href="<?php echo 'http://cryptool2.vs.uni-due.de/downloads/program/curversion/CrypTool-Setup-v' . $config_values['version'] . '.msi';?>">here</a>.
 
 <script language="javascript" type="text/javascript">
