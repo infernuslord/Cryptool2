@@ -142,6 +142,11 @@ namespace Cryptool.Plugins.RSA
                             GuiLogMessage(q.ToString() + " is not prime!", NotificationLevel.Error);
                             return;
                         }
+                        if (p == q)
+                        {
+                            GuiLogMessage("The primes P and Q can not be equal!", NotificationLevel.Error);
+                            return;
+                        }
                     }
                     catch (Exception)
                     {
@@ -151,9 +156,17 @@ namespace Cryptool.Plugins.RSA
 
                     try
                     {
-                        N = p * q;
-                        E = e;
                         D = e.modInverse((p - 1) * (q - 1));
+                    }
+                    catch (Exception ex)
+                    {
+                        GuiLogMessage("RSAKeyGenerator Error: E (" + e + ") can not be inverted.", NotificationLevel.Error);
+                        return;
+                    }
+                    try
+                    {                       
+                        N = p * q;
+                        E = e;                        
                     }
                     catch (Exception ex)
                     {
