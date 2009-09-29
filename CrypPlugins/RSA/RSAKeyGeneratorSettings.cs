@@ -34,8 +34,8 @@ namespace Cryptool.Plugins.RSA
         public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
 
         private int source;
-        [ContextMenu("Source", "Select the source of the Key Data?", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 1, 2, 3 }, "Manual", "Random", "Certificate")]
-        [TaskPane("Source", "Select the source of the Key Data?", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Manual", "Random", "Certificate" })]
+        [ContextMenu("Source", "Select the source of the Key Data", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 1, 2, 3 }, "Manual", "Random", "Certificate")]
+        [TaskPane("Source", "Select the source of the Key Data", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Manual", "Random", "Certificate" })]
         public int Source
         {
             get { return this.source; }

@@ -27,6 +27,19 @@ namespace Cryptool.Plugins.RSA
     {
         private bool hasChanges = false;
        
+        private int mode;
+        [ContextMenu("Mode", "Select the RSA mode", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Encryption", "Decryption")]
+        [TaskPane("Source", "Select the RSA mode", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Encryption", "Decryption" })]
+        public int Mode
+        {
+            get { return this.mode; }
+            set
+            {
+                mode = value;
+                OnPropertyChanged("Mode");
+            }
+        }
+
         #region ISettings Members
 
         public bool HasChanges
