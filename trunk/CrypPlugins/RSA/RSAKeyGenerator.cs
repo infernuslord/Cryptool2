@@ -27,7 +27,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Cryptool.Plugins.RSA
 {
-    [Author("Sven Rech", "rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
+    [Author("Dennis Nolte,Raoul Falk, Sven Rech, Nils Kopal", "", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo(true, "RSAKeyGenerator", "RSA Key Generator", "", "RSA/iconkey.png", "RSA/iconkey.png", "RSA/iconkey.png", "RSA/iconkey.png")]
 
     [EncryptionType(EncryptionType.Asymmetric)]
