@@ -30,16 +30,14 @@
     </Paragraph>
     <Paragraph TextAlignment="Justify">
         <Run FontSize="16" xml:lang="en-us">
-           This plugin provides different comparators for certain given inputs. Make sure that the current
-           comparator is defined for the given inputs. 
+           This plugin provides different comparators for two inputs. The success of this operation depends on the comparability of the given inputs. If possible, the types will be internally casted and compared. Otherwise an error will show up.
            
            </Run>
     </Paragraph>
     <Paragraph TextAlignment="Justify">
     <Run>
-            Note that for all oparators except "=" and "!=" the given inputs must be of the same type. This is not checked
-            before the chain starts, because the input types are "object".
-            "String" and "CryptoolStream" inputs are compared via length and not via their binary representaion.
+            Note that 
+            "String" and "CryptoolStream" inputs are compared via their binary representaion.
         </Run>
     </Paragraph>
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
@@ -74,7 +72,7 @@
                     <Paragraph>&lt;, &lt;=, &gt; ,&gt;=</Paragraph>
                 </TableCell>
                 <TableCell>
-                    <Paragraph>int, BigInteger, Byte, Double, String (via length), CryptoolStream (via length)</Paragraph>
+                    <Paragraph>only comparable inputs, which can be internally casted to another type (int,String etc.)</Paragraph>
                 </TableCell>
             </TableRow>
   
