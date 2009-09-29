@@ -27,15 +27,15 @@ using System.Runtime.CompilerServices;
 namespace Cryptool.Plugins.Comparators
 {
     [Author("Raoul Falk", "falk@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "Comparators", "Simple comparators (=,!=, <, >, <=, >=). Strings and streams are compared via length while using one of the last four comparators.", "Comparators/DetailedDescription/Description.xaml", "Comparators/icons/icon_is.png", "Comparators/icons/icon_isnot.png", "Comparators/icons/icon_smaller.png", "Comparators/icons/icon_bigger.png", "Comparators/icons/icon_smallerIs.png", "Comparators/icons/icon_biggerIs.png")]
+    [PluginInfo(false, "Comparators", "Simple comparators (=,!=, <, >, <=, >=). See detailed description.", "Comparators/DetailedDescription/Description.xaml", "Comparators/icons/icon_is.png", "Comparators/icons/icon_isnot.png", "Comparators/icons/icon_smaller.png", "Comparators/icons/icon_bigger.png", "Comparators/icons/icon_smallerIs.png", "Comparators/icons/icon_biggerIs.png")]
 
     class Comparators : IThroughput
     {
         #region private variables
 
         private ComparatorsSettings settings = new ComparatorsSettings();
-        private object inputOne;
-        private object inputTwo;
+        private IComparable inputOne;
+        private IComparable inputTwo;
         private bool output;
 
         #endregion
@@ -70,7 +70,7 @@ namespace Cryptool.Plugins.Comparators
         }
 
         [PropertyInfo(Direction.InputData, "Input one", "Input one.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public object InputOne
+        public IComparable InputOne
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
             get { return inputOne; }
@@ -86,7 +86,7 @@ namespace Cryptool.Plugins.Comparators
         }
 
         [PropertyInfo(Direction.InputData, "Input two", "Input two.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public object InputTwo
+        public IComparable InputTwo
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
             get { return inputTwo; }
@@ -131,237 +131,64 @@ namespace Cryptool.Plugins.Comparators
         {
             if (InputOne != null && InputTwo != null)
             {
-                switch (this.settings.Comparator)
+                try
                 {
-                    // if operator is =
-                    case 0:
-                        {
-                            Output = InputOne.Equals(InputTwo);
-                            ProgressChanged(100, 100);
-                            break;
-                        }
-                    // if operator is !=
-                    case 1:
-                        {
-                            Output = !InputOne.Equals(InputTwo);
-                            ProgressChanged(100, 100);
-                            break;
-                        }
-                    //if operator is <
-                    case 2:
-                        {
-                            if (InputOne is BigInteger&& InputTwo is BigInteger)
+                    switch (this.settings.Comparator)
+                    {
+                        // if operator is =
+                        case 0:
                             {
-                                Output = (BigInteger)InputOne < (BigInteger)InputTwo;
+                                Output = InputOne.Equals(InputTwo);
                                 ProgressChanged(100, 100);
                                 break;
                             }
-                            if (InputOne is int && InputTwo is int)
+                        // if operator is !=
+                        case 1:
                             {
-                                Output = (int)InputOne < (int)InputTwo;
+                                Output = !InputOne.Equals(InputTwo);
                                 ProgressChanged(100, 100);
                                 break;
                             }
-                            if (InputOne is CryptoolStream && InputTwo is CryptoolStream)
+                        //if operator is <
+                        case 2:
                             {
-                                CryptoolStream temp1 = (CryptoolStream)InputOne;
-                                CryptoolStream temp2 = (CryptoolStream)InputTwo;
-                                Output = temp1.Length < temp2.Length;
+                                Output = InputOne.CompareTo(InputTwo) < 0;
+                                ProgressChanged(100, 100);
+                                break;
+
+                            }
+                        //if operator is >
+                        case 3:
+                            {
+
+                                Output = InputOne.CompareTo(InputTwo) > 0;
                                 ProgressChanged(100, 100);
                                 break;
                             }
-
-                            if (InputOne is byte && InputTwo is byte)
+                        //if operator is <=
+                        case 4:
                             {
-                                Output = (byte)InputOne < (byte)InputTwo;
+
+                                Output = InputOne.CompareTo(InputTwo) <= 0;
                                 ProgressChanged(100, 100);
                                 break;
-                            }
 
-                            if (InputOne is double && InputTwo is double)
+                            }
+                        //if operator is >=
+                        case 5:
                             {
-                                Output = (double)InputOne < (double)InputTwo;
+                                Output = InputOne.CompareTo(InputTwo) >= 0;
                                 ProgressChanged(100, 100);
+
                                 break;
+
                             }
 
-                            if (InputOne is string && InputTwo is string)
-                            {
-                                string in1 = (string)InputOne;
-                                string in2 = (string)InputTwo;
-                                Output = (in1.Length < in2.Length);
-                                ProgressChanged(100, 100);
-                                break;
-                            }
-
-                            Comparators_LogMessage("The comparator \"<\" is not defined for the current inputs. Output is set to false automatically.", NotificationLevel.Error);
-                            Output = false;
-
-                            break;
-
-                        }
-                    //if operator is >
-                    case 3:
-                        {
-                            if (InputOne is BigInteger && InputTwo is BigInteger)
-                            {
-                                Output = (BigInteger)InputOne > (BigInteger)InputTwo;
-                                ProgressChanged(100, 100);
-                                break;
-                            }
-                            if (InputOne is int && InputTwo is int)
-                            {
-                                Output = (int)InputOne > (int)InputTwo;
-                                ProgressChanged(100, 100);
-                                break;
-                            }
-                            if (InputOne is CryptoolStream && InputTwo is CryptoolStream)
-                            {
-                                CryptoolStream temp1 = (CryptoolStream)InputOne;
-                                CryptoolStream temp2 = (CryptoolStream)InputTwo;
-                                Output = temp1.Length > temp2.Length;
-                                ProgressChanged(100, 100);
-                                break;
-                            }
-
-                            if (InputOne is byte && InputTwo is byte)
-                            {
-                                Output = (byte)InputOne > (byte)InputTwo;
-                                ProgressChanged(100, 100);
-                                break;
-                            }
-
-                            if (InputOne is double && InputTwo is double)
-                            {
-                                Output = (double)InputOne > (double)InputTwo;
-                                ProgressChanged(100, 100);
-                                break;
-                            }
-
-                            if (InputOne is string && InputTwo is string)
-                            {
-                                string in1 = (string)InputOne;
-                                string in2 = (string)InputTwo;
-                                Output = (in1.Length > in2.Length);
-                                ProgressChanged(100, 100);
-                                break;
-                            }
-
-                            Comparators_LogMessage("The comparator \">\" is not defined for the current inputs. Output is set to false automatically.", NotificationLevel.Error);
-                            Output = false;
-
-                            break;
-
-                        }
-                    //if operator is <=
-                    case 4:
-                        {
-                            if (InputOne is BigInteger && InputTwo is BigInteger)
-                            {
-                                Output = (BigInteger)InputOne <= (BigInteger)InputTwo;
-                                ProgressChanged(100, 100);
-                                break;
-                            }
-                            if (InputOne is int && InputTwo is int)
-                            {
-                                Output = (int)InputOne <= (int)InputTwo;
-                                ProgressChanged(100, 100);
-                                break;
-                            }
-
-                            if (InputOne is CryptoolStream && InputTwo is CryptoolStream)
-                            {
-                                CryptoolStream temp1 = (CryptoolStream)InputOne;
-                                CryptoolStream temp2 = (CryptoolStream)InputTwo;
-                                Output = temp1.Length <= temp2.Length;
-                                ProgressChanged(100, 100);
-                                break;
-                            }
-
-                            if (InputOne is byte && InputTwo is byte)
-                            {
-                                Output = (byte)InputOne <= (byte)InputTwo;
-                                ProgressChanged(100, 100);
-                                break;
-                            }
-
-                            if (InputOne is double && InputTwo is double)
-                            {
-                                Output = (double)InputOne <= (double)InputTwo;
-                                ProgressChanged(100, 100);
-                                break;
-                            }
-
-                            if (InputOne is string && InputTwo is string)
-                            {
-                                string in1 = (string)InputOne;
-                                string in2 = (string)InputTwo;
-                                Output = (in1.Length <= in2.Length);
-                                ProgressChanged(100, 100);
-                                break;
-                            }
-
-                            Comparators_LogMessage("The comparator \"<=\" is not defined for the current inputs. Output is set to false automatically.", NotificationLevel.Error);
-                            Output = false;
-
-                            break;
-
-                        }
-                    //if operator is >=
-                    case 5:
-                        {
-                            if (InputOne is BigInteger && InputTwo is BigInteger)
-                            {
-                                Output = (BigInteger)InputOne >= (BigInteger)InputTwo;
-                                ProgressChanged(100, 100);
-                                break;
-                            }
-                            if (InputOne is int && InputTwo is int)
-                            {
-                                Output = (int)InputOne >= (int)InputTwo;
-                                ProgressChanged(100, 100);
-                                break;
-                            }
-
-                            if (InputOne is CryptoolStream && InputTwo is CryptoolStream)
-                            {
-                                CryptoolStream temp1 = (CryptoolStream)InputOne;
-                                CryptoolStream temp2 = (CryptoolStream)InputTwo;
-                                Output = temp1.Length >= temp2.Length;
-                                ProgressChanged(100, 100);
-                                break;
-                            }
-
-                            if (InputOne is byte && InputTwo is byte)
-                            {
-                                Output = (byte)InputOne >= (byte)InputTwo;
-                                ProgressChanged(100, 100);
-                                break;
-                            }
-
-                            if (InputOne is double && InputTwo is double)
-                            {
-                                Output = (double)InputOne >= (double)InputTwo;
-                                ProgressChanged(100, 100);
-                                break;
-                            }
-
-                            if (InputOne is string && InputTwo is string)
-                            {
-                                string in1 = (string)InputOne;
-                                string in2 = (string)InputTwo;
-                                Output = (in1.Length >= in2.Length);
-                                ProgressChanged(100, 100);
-                                break;
-                            }
-
-                            Comparators_LogMessage("The comparator \">=\" is not defined for the current inputs. Output is set to false automatically.", NotificationLevel.Error);
-                            Output = false;
-
-                            break;
-
-                        }
-
+                    }
+                }
+                catch (ArgumentException e)
+                {
+                    GuiLogMessage("The given Inputs are not comparable : " + e.Message, NotificationLevel.Error);
                 }
 
             }
