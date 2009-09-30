@@ -128,9 +128,9 @@ namespace Cryptool.Plugins.RSA
                 case 0:
                     try
                     {
-                        p = new BigInteger(settings.P, 10);
-                        q = new BigInteger(settings.Q, 10);
-                        e = new BigInteger(settings.E, 10);
+                        p = BigInteger.parseExpression(settings.P);
+                        q = BigInteger.parseExpression(settings.Q);
+                        e = BigInteger.parseExpression(settings.E);
 
                         if (!p.isProbablePrime())
                         {
@@ -148,9 +148,9 @@ namespace Cryptool.Plugins.RSA
                             return;
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        GuiLogMessage("Invalid input", NotificationLevel.Error);
+                        GuiLogMessage("Invalid Big Number input: " + ex.Message, NotificationLevel.Error);
                         return;
                     }
 
