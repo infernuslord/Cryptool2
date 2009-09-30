@@ -184,15 +184,7 @@ namespace Cryptool.Plugins.BigNumber
                             }
                             else
                             {
-                                if (Input2 >= 0)
-                                {
-                                    BigInteger tmp = 1;
-                                    for (BigInteger i = 0; i < Input2; i++)
-                                        tmp *= Input1;
-                                    Output = tmp;
-                                }
-                                else
-                                    throw new Exception("Pow without mod not possible with negative exponent!");
+                                Output = Input1.pow(Input2);
                             }
                             break;
                     }

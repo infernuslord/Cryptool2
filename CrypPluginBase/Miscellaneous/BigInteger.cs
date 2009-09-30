@@ -3359,6 +3359,18 @@ namespace Cryptool.PluginBase.Miscellaneous
             return (Math.Log(c) + Math.Log(2) * b) / Math.Log(bas);
         }
 
+        public BigInteger pow(BigInteger exp)
+        {
+            if (exp >= 0)
+            {
+                BigInteger tmp = 1;
+                for (BigInteger i = 0; i < exp; i++)
+                    tmp *= this;
+                return tmp;
+            }
+            else
+                throw new Exception("Pow without mod not possible with negative exponent!");
+        }
 
         #region IComparable Members
 
@@ -3455,93 +3467,88 @@ namespace Cryptool.PluginBase.Miscellaneous
             return st;            
         }
 
-        private enum Priority { ALL /*whole string*/, ENDBRACKET, POW, MULTDIV, ADDSUB };
+        private enum Priority { ALL, POW, MULTDIV, ADDSUB };
 
-        private static BigInteger parse(Stack<TOKEN> stack, Priority priority)
+        private static BigInteger parse(Stack<TOKEN> stack, Priority priority, bool endbracket)
         {
             if (stack.Count == 0)
-                throw new Exception("Expression Parsing Error");
+                throw new Exception("Expression Parsing Error.");
             int minus = 1;
             BigInteger v = 0;
-            TOKEN t = stack.Pop();  //get -, + or Integer
+            TOKEN t = stack.Pop();  //get -, +, integer or bracket
 
             if (t.ttype == TOKEN.Ttype.MINUS)
             {
                 minus = -1;
-                t = stack.Pop();    //get integer
+                t = stack.Pop();    //get integer or bracket
             }
             else if (t.ttype == TOKEN.Ttype.PLUS)
             {
                 minus = 1;
-                t = stack.Pop();    //get integer
+                t = stack.Pop();    //get integer or bracket
             }
 
             if (t.ttype == TOKEN.Ttype.INTEGER)
             {
-
                 v = minus * t.integer;
-                if (stack.Count == 0)
-                    if (priority == Priority.ENDBRACKET)
-                        throw new Exception("Expression Parsing Error (bracket close missing)");
-                    else
-                        return v;
-                t = stack.Pop();    //get operator
-                switch (t.ttype)
-                {
-                    case TOKEN.Ttype.PLUS:
-                        if (priority == Priority.ADDSUB)
-                        {
-                            stack.Push(t);
-                            return v;
-                        }
-                        v = v + parse(stack, Priority.ADDSUB);
-                        break;
-                    case TOKEN.Ttype.MINUS:
-                        if (priority == Priority.ADDSUB)
-                        {
-                            stack.Push(t);
-                            return v;
-                        }
-                        v = v - parse(stack, Priority.ADDSUB);
-                        break;
-                    case TOKEN.Ttype.MULTIPLY:
-                        if (priority == Priority.MULTDIV)
-                        {
-                            stack.Push(t);
-                            return v;
-                        }
-                        v = v * parse(stack, Priority.MULTDIV);
-                        break;
-                    case TOKEN.Ttype.DIVIDE:
-                        if (priority == Priority.MULTDIV)
-                        {
-                            stack.Push(t);
-                            return v;
-                        }
-                        v = v / parse(stack, Priority.MULTDIV);
-                        break;
-                    case TOKEN.Ttype.POW:
-                        if (priority == Priority.POW)
-                        {
-                            stack.Push(t);
-                            return v;
-                        }
-                        v = v / parse(stack, Priority.POW);
-                        break;
-                }
             }
             else if (t.ttype == TOKEN.Ttype.BRACKETOPEN)
             {
-                v = minus * parse(stack, Priority.ENDBRACKET);
+                v = minus * parse(stack, Priority.ALL, true);
+                stack.Pop();    //pop the closing bracket
             }
+
+            while (stack.Count != 0)
+            {       
+                switch (stack.Peek().ttype) //next operator
+                {
+                    case TOKEN.Ttype.PLUS:
+                        if (priority == Priority.MULTDIV || priority == Priority.POW)
+                            return v;
+                        stack.Pop();
+                        v = v + parse(stack, Priority.ADDSUB, endbracket);
+                        break;
+                    case TOKEN.Ttype.MINUS:
+                        if (priority == Priority.MULTDIV || priority == Priority.POW)
+                            return v;
+                        stack.Pop();
+                        v = v - parse(stack, Priority.ADDSUB, endbracket);
+                        break;
+                    case TOKEN.Ttype.MULTIPLY:
+                        if (priority == Priority.POW)
+                            return v;
+                        stack.Pop();
+                        v = v * parse(stack, Priority.MULTDIV, endbracket);
+                        break;
+                    case TOKEN.Ttype.DIVIDE:
+                        if (priority == Priority.POW)
+                            return v;
+                        stack.Pop();
+                        v = v / parse(stack, Priority.MULTDIV, endbracket);
+                        break;
+                    case TOKEN.Ttype.POW:
+                        stack.Pop();
+                        v = v.pow(parse(stack, Priority.POW, endbracket));
+                        break;
+                    case TOKEN.Ttype.BRACKETCLOSE:
+                        if (endbracket)
+                            return v;
+                        else
+                            throw new Exception("Expression Parsing Error (closing bracket misplaced).");
+                    default:
+                        throw new Exception("Expression Parsing Error.");
+                }
+            }
+            if (endbracket)
+                throw new Exception("Expression Parsing Error (closing bracket missing).");
 
             return v;
         }
 
         public static BigInteger parseExpression(string expr) {
             Stack<TOKEN> stack = scan(expr);
-            return parse(stack, Priority.ALL);
-            return null;
+            BigInteger i = parse(stack, Priority.ALL, false);
+            return i;
         }
     }
 }
