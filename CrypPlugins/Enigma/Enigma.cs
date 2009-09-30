@@ -575,7 +575,7 @@ namespace Cryptool.Enigma
                     LogMessage("Enigma encryption/decryption started...", NotificationLevel.Info);
 
                     // re-set the key, in case we get executed again during single run
-                    settings.Key = savedKey;
+                    settings.Key = savedKey.ToUpper();
 
                     // do the encryption
                     outputString = FormattedEncrypt(settings.Alphabet.IndexOf(settings.Key[2]), 
