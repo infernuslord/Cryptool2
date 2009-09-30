@@ -132,6 +132,8 @@
 //************************************************************************************
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Cryptool.PluginBase.Miscellaneous
 {
@@ -3381,5 +3383,165 @@ namespace Cryptool.PluginBase.Miscellaneous
         }
 
         #endregion
+
+        private struct TOKEN
+        {
+            public enum Ttype { MULTIPLY, DIVIDE, PLUS, MINUS, POW, BRACKETOPEN, BRACKETCLOSE, INTEGER };
+            public Ttype ttype;
+            public BigInteger integer;
+        }
+
+        private static Stack<TOKEN> scan(string expr)
+        {
+            TOKEN t = new TOKEN();
+            int startIndex = 0;
+            if (expr == "")
+                return new Stack<TOKEN>();
+            switch (expr[0])
+            {
+                case ' ':
+                    return scan(expr.Substring(1));
+                case '(':                    
+                    t.ttype = TOKEN.Ttype.BRACKETOPEN;
+                    startIndex = 1;
+                    break;
+                case ')':                    
+                    t.ttype = TOKEN.Ttype.BRACKETCLOSE;
+                    startIndex = 1;
+                    break;
+                case '+':
+                    t.ttype = TOKEN.Ttype.PLUS;
+                    startIndex = 1;
+                    break;
+                case '-':
+                    t.ttype = TOKEN.Ttype.MINUS;
+                    startIndex = 1;
+                    break;
+                case '*':
+                    t.ttype = TOKEN.Ttype.MULTIPLY;
+                    startIndex = 1;
+                    break;
+                case '/':
+                    t.ttype = TOKEN.Ttype.DIVIDE;
+                    startIndex = 1;
+                    break;
+                case '^':
+                    t.ttype = TOKEN.Ttype.POW;
+                    startIndex = 1;
+                    break;
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                    int length = 1;
+                    for (; length < expr.Length; length++)
+                        if (!(expr[length] >= '0' && expr[length] <= '9'))
+                            break;
+                    t.integer = new BigInteger(expr.Substring(0, length), 10);
+                    t.ttype = TOKEN.Ttype.INTEGER;
+                    startIndex = length;
+                    break;
+                default:
+                    throw new Exception("Expression parsing failed at character " + expr[0]);                    
+            }
+            Stack<TOKEN> st = scan(expr.Substring(startIndex));
+            st.Push(t);
+            return st;            
+        }
+
+        private enum Priority { ALL /*whole string*/, ENDBRACKET, POW, MULTDIV, ADDSUB };
+
+        private static BigInteger parse(Stack<TOKEN> stack, Priority priority)
+        {
+            if (stack.Count == 0)
+                throw new Exception("Expression Parsing Error");
+            int minus = 1;
+            BigInteger v = 0;
+            TOKEN t = stack.Pop();  //get -, + or Integer
+
+            if (t.ttype == TOKEN.Ttype.MINUS)
+            {
+                minus = -1;
+                t = stack.Pop();    //get integer
+            }
+            else if (t.ttype == TOKEN.Ttype.PLUS)
+            {
+                minus = 1;
+                t = stack.Pop();    //get integer
+            }
+
+            if (t.ttype == TOKEN.Ttype.INTEGER)
+            {
+
+                v = minus * t.integer;
+                if (stack.Count == 0)
+                    if (priority == Priority.ENDBRACKET)
+                        throw new Exception("Expression Parsing Error (bracket close missing)");
+                    else
+                        return v;
+                t = stack.Pop();    //get operator
+                switch (t.ttype)
+                {
+                    case TOKEN.Ttype.PLUS:
+                        if (priority == Priority.ADDSUB)
+                        {
+                            stack.Push(t);
+                            return v;
+                        }
+                        v = v + parse(stack, Priority.ADDSUB);
+                        break;
+                    case TOKEN.Ttype.MINUS:
+                        if (priority == Priority.ADDSUB)
+                        {
+                            stack.Push(t);
+                            return v;
+                        }
+                        v = v - parse(stack, Priority.ADDSUB);
+                        break;
+                    case TOKEN.Ttype.MULTIPLY:
+                        if (priority == Priority.MULTDIV)
+                        {
+                            stack.Push(t);
+                            return v;
+                        }
+                        v = v * parse(stack, Priority.MULTDIV);
+                        break;
+                    case TOKEN.Ttype.DIVIDE:
+                        if (priority == Priority.MULTDIV)
+                        {
+                            stack.Push(t);
+                            return v;
+                        }
+                        v = v / parse(stack, Priority.MULTDIV);
+                        break;
+                    case TOKEN.Ttype.POW:
+                        if (priority == Priority.POW)
+                        {
+                            stack.Push(t);
+                            return v;
+                        }
+                        v = v / parse(stack, Priority.POW);
+                        break;
+                }
+            }
+            else if (t.ttype == TOKEN.Ttype.BRACKETOPEN)
+            {
+                v = minus * parse(stack, Priority.ENDBRACKET);
+            }
+
+            return v;
+        }
+
+        public static BigInteger parseExpression(string expr) {
+            Stack<TOKEN> stack = scan(expr);
+            return parse(stack, Priority.ALL);
+            return null;
+        }
     }
 }
