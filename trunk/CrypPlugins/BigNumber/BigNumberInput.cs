@@ -100,11 +100,11 @@ namespace Cryptool.Plugins.BigNumber
             BigInteger bi;
             try
             {
-                bi = new BigInteger(settings.Number, 10);
+                bi = BigInteger.parseExpression(settings.Number);                
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                GuiLogMessage("Invalid input", NotificationLevel.Error);
+                GuiLogMessage("Invalid Big Number input: " + ex.Message, NotificationLevel.Error);
                 return;
             }
             NumberOutput = bi;
