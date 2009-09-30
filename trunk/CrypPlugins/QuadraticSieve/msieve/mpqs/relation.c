@@ -166,13 +166,11 @@ void save_relation(sieve_conf_t *conf, uint32 sieve_offset,
 	/* for partial relations, also update the bookeeping for
 	   tracking the number of fundamental cycles */
 
-	if (large_prime1 != large_prime2) {
-		printf("new partial\n");
+	if (large_prime1 != large_prime2) {		
 		add_to_cycles(conf, large_prime1, large_prime2);
 		conf->num_cycles++;
 	}
-	else {
-		printf("new full\n");
+	else {		
 		conf->num_relations++;
 	}
 }

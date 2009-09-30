@@ -24,6 +24,7 @@ using QuadraticSieve;
 using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
 using System.Threading;
+using Msieve;
 
 namespace Cryptool.Plugins.QuadraticSieve
 {
@@ -68,6 +69,20 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         public void Execute()
         {
+            //Just testing msieve:
+            callback_struct callbacks = new callback_struct();
+            callbacks.showProgress = delegate(int num_relations, int max_relations)
+            { };
+            callbacks.prepareSieving = delegate(IntPtr conf, int update, IntPtr core_sieve_fcn)
+            { };
+            msieve.initMsieve(callbacks);
+
+            System.Collections.ArrayList factors = msieve.factorize("15", null);
+            foreach (String res in factors)
+                GuiLogMessage(res, NotificationLevel.Debug);
+
+
+
             if (InputNumber is Object)
             {
                 if (settings.CoresUsed < Environment.ProcessorCount)
