@@ -7,12 +7,6 @@ using Cryptool.PluginBase.Control;
 
 namespace Cryptool.TriviumController
 {
-    /* **********************************
-     * Arguments:
-     *      
-     *                          
-     *      Examples:
-     * **********************************/
     public interface IControlTrivium : IControl
     {
         int GenerateTriviumKeystream(int[] IV, int[] key, int length, int rounds, bool byteSwapping);
