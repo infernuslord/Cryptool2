@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="mpir_config"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories=";..\..\..\mpir-1.2.1"
+		PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;HAVE_GMP"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="..\..\..\mpir-1.2.1\build.vc9\lib\$(IntDir)\mpir.lib"
+	/>
+</VisualStudioPropertySheet>
