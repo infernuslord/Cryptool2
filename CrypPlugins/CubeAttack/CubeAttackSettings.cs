@@ -41,6 +41,7 @@ namespace Cryptool.CubeAttack
         #region Private variables
 
         private bool hasChanges;
+        private int selectedBlackBox = 0;
         private int selectedAction = 0;
         bool onlinePhase = false;
         private int publicVar;
@@ -58,9 +59,37 @@ namespace Cryptool.CubeAttack
         #region Algorithm settings properties (visible in the settings pane)
 
         [PropertySaveOrder(1)]
+        [ContextMenu("Black box",
+            "Select the black box",
+            1,
+            DisplayLevel.Beginner,
+            ContextMenuControlType.ComboBox,
+            null,
+            "Boolean function parser",
+            "Trivium")]
+        [TaskPane("Black box",
+            "Select the black box",
+            "",
+            1,
+            false,
+            DisplayLevel.Beginner,
+            ControlType.ComboBox,
+            new string[] { "Boolean function parser", "Trivium" })]
+        public int BlackBox
+        {
+            get { return this.selectedBlackBox; }
+            set
+            {
+                if (value != selectedBlackBox) HasChanges = true;
+                this.selectedBlackBox = value;
+                OnPropertyChanged("BlackBox");
+            }
+        }
+
+        [PropertySaveOrder(2)]
         [ContextMenu("Action", 
             "Select the Algorithm action", 
-            1, 
+            2, 
             DisplayLevel.Beginner, 
             ContextMenuControlType.ComboBox, 
             null, 
@@ -69,7 +98,7 @@ namespace Cryptool.CubeAttack
         [TaskPane("Action", 
             "Select the phase", 
             "", 
-            1, 
+            2, 
             false, 
             DisplayLevel.Beginner, 
             ControlType.ComboBox,
@@ -85,10 +114,10 @@ namespace Cryptool.CubeAttack
             }
         }
 
-        [PropertySaveOrder(2)]
+        [PropertySaveOrder(3)]
         [ContextMenu("Try to discover key", 
             "Online phase of the cube attack which tries to solve the system of linear maxterm equations to discover the secret key.", 
-            2, 
+            3, 
             DisplayLevel.Beginner, 
             ContextMenuControlType.CheckBox, 
             null, 
@@ -96,7 +125,7 @@ namespace Cryptool.CubeAttack
         [TaskPane("Try to discover key", 
             "Online phase of the cube attack which tries to solve the system of linear maxterm equations to discover the secret key.", 
             null, 
-            2, 
+            3, 
             false, 
             DisplayLevel.Expert, 
             ControlType.CheckBox, "")]
@@ -111,11 +140,11 @@ namespace Cryptool.CubeAttack
             }
         }
 
-        [PropertySaveOrder(3)]
+        [PropertySaveOrder(4)]
         [TaskPane("Public bit size",
             "Public input bits (IV or plaintext) of the attacked cryptosystem.", 
             null, 
-            3, 
+            4, 
             false, 
             DisplayLevel.Beginner, 
             ControlType.NumericUpDown, 
@@ -133,11 +162,11 @@ namespace Cryptool.CubeAttack
             }
         }
 
-        [PropertySaveOrder(4)]
+        [PropertySaveOrder(5)]
         [TaskPane("Secret bit size",
             "Key size or key length  of the attacked cryptosystem.", 
             null, 
-            4, 
+            5, 
             false, 
             DisplayLevel.Beginner, 
             ControlType.NumericUpDown, 
@@ -155,11 +184,11 @@ namespace Cryptool.CubeAttack
             }
         }
 
-        [PropertySaveOrder(5)]
+        [PropertySaveOrder(6)]
         [TaskPane("Max cube size",
             "Maxmium size of the summation cube.",
             null,
-            5,
+            6,
             false,
             DisplayLevel.Beginner,
             ControlType.NumericUpDown,
@@ -177,11 +206,11 @@ namespace Cryptool.CubeAttack
             }
         }
 
-        [PropertySaveOrder(6)]
+        [PropertySaveOrder(7)]
         [TaskPane("Constant Test",
             "Number of tests to check if the superpoly is a constant value or not.",
             null,
-            6,
+            7,
             false,
             DisplayLevel.Beginner,
             ControlType.NumericUpDown,
@@ -199,11 +228,11 @@ namespace Cryptool.CubeAttack
             }
         }
 
-        [PropertySaveOrder(7)]
+        [PropertySaveOrder(8)]
         [TaskPane("Linearity tests",
             "Number of linearity tests to check if the superpoly is linear or not.", 
             null, 
-            7, 
+            8, 
             false, 
             DisplayLevel.Beginner, 
             ControlType.NumericUpDown, 
@@ -221,11 +250,11 @@ namespace Cryptool.CubeAttack
             }
         }
 
-        [PropertySaveOrder(8)]
+        [PropertySaveOrder(9)]
         [TaskPane("Input public bits", 
             "Manual input of public bits.", 
             null, 
-            8, 
+            9, 
             false, 
             DisplayLevel.Beginner, 
             ControlType.TextBox,
@@ -247,11 +276,11 @@ namespace Cryptool.CubeAttack
             }
         }
 
-        [PropertySaveOrder(9)]
+        [PropertySaveOrder(10)]
         [TaskPane("Trivium output bit index",
             "Chooses the output bit index in the stream cipher Trivium.",
             null,
-            9,
+            10,
             false,
             DisplayLevel.Beginner,
             ControlType.NumericUpDown,
@@ -269,11 +298,11 @@ namespace Cryptool.CubeAttack
             }
         }
 
-        [PropertySaveOrder(10)]
+        [PropertySaveOrder(11)]
         [TaskPane("Trivium rounds",
             "Number of Trivium initialisation rounds.",
             null,
-            10,
+            11,
             false,
             DisplayLevel.Beginner,
             ControlType.NumericUpDown,
