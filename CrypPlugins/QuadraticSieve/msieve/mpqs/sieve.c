@@ -712,10 +712,10 @@ void collect_relations(sieve_conf_t *conf,
 	if (conf->slave)
 	{
 		conf->yield = malloc(sizeof(relationYield));
-		conf->yield->relation_count = 0;
-		conf->yield->relation_capacity = target_relations*2;
-		conf->yield->relations = malloc(sizeof(struct relation) * conf->yield->relation_capacity);
-	}
+		conf->yield->yield_count = 0;
+		conf->yield->yield_capacity = target_relations*2;	//there is no special reason why I assign this here ^_^
+		conf->yield->yield_array = malloc(sizeof(struct yield_element) * conf->yield->yield_capacity);
+	}	
 
 	/* top-level sieving loop: keep building polynomials
 	   and sieving with them until at least target_relations
