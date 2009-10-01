@@ -121,14 +121,15 @@ void save_relation(sieve_conf_t *conf, uint32 sieve_offset,
 	uint32* fb_offsets_copy;
 
 	if (conf->slave)
-	{		
-		if (++(conf->yield->relation_count) > conf->yield->relation_capacity)
+	{
+		if (++(conf->yield->yield_count) > conf->yield->yield_capacity)
 		{
-			conf->yield->relation_capacity *= 2;
-			conf->yield->relations = xrealloc(conf->yield->relations, sizeof(struct relation) * conf->yield->relation_capacity);			
+			conf->yield->yield_capacity *= 2;
+			conf->yield->yield_array = xrealloc(conf->yield->yield_array, sizeof(struct yield_element) * conf->yield->yield_capacity);			
 		}
 
-		rel = &conf->yield->relations[conf->yield->relation_count - 1];
+		conf->yield->yield_array[conf->yield->yield_count - 1].type = 0;
+		rel = &conf->yield->yield_array[conf->yield->yield_count - 1].rel;
 		
 		fb_offsets_copy = (uint32*)malloc(len*sizeof(uint32));
 		for (i = 0; i < len; i++)

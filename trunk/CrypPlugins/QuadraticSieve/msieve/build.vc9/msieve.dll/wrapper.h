@@ -11,10 +11,16 @@ struct relation
 	uint32 large_prime2;
 };
 
+struct yield_element
+{
+	int type;	// 0 = relation; 1 = poly
+	struct relation rel;
+	char polybuf[256];
+};
+
 typedef struct
 {
-	int relation_count;
-	int relation_capacity;
-	struct relation *relations;
-	char polybuf[256];
+	int yield_count;
+	int yield_capacity;
+	struct yield_element *yield_array;	
 } relationYield;

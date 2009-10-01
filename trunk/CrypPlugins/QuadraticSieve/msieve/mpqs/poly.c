@@ -530,9 +530,18 @@ void build_base_poly(sieve_conf_t *conf) {
 	for (j = 0; j < conf->num_poly_factors; j++)
 		i += sprintf(buf + i, " %x", conf->poly_factors[j]);
 	i += sprintf(buf + i, "\n");
-	if (conf->slave)
-		for (counter = 0; counter < 256; counter++)
-			conf->yield->polybuf[counter] = buf[counter];
+
+	if (conf->slave) {
+		if (++(conf->yield->yield_count) > conf->yield->yield_capacity)
+		{
+			conf->yield->yield_capacity *= 2;
+			conf->yield->yield_array = xrealloc(conf->yield->yield_array, sizeof(struct yield_element) * conf->yield->yield_capacity);			
+		}
+
+		conf->yield->yield_array[conf->yield->yield_count - 1].type = 1;
+		for (i = 0; i < 256; i++)
+			conf->yield->yield_array[conf->yield->yield_count - 1].polybuf[i] = buf[i];
+	}
 	else
 		savefile_write_line(&obj->savefile, buf);
 }

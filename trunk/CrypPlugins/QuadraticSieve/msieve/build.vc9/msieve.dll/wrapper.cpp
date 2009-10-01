@@ -21,7 +21,7 @@ extern "C" void save_relation(sieve_conf_t *conf, uint32 sieve_offset,
 
 
 //Copy a sieve configuration that can be used in a different thread:
-sieve_conf_t *copy_sieve_conf(sieve_conf_t *conf) {	
+sieve_conf_t *copy_sieve_conf(sieve_conf_t *conf) {
 	sieve_conf_t *copy = (sieve_conf_t*)malloc(sizeof(sieve_conf_t));
 	msieve_obj *objcopy = (msieve_obj*)malloc(sizeof(msieve_obj));
 
@@ -29,6 +29,8 @@ sieve_conf_t *copy_sieve_conf(sieve_conf_t *conf) {
 	*objcopy = *(conf->obj);
 	copy->obj = objcopy;
 	copy->slave = 1;	//we are a slave
+
+	//what follows now is horrible and clueless:
 
 	//threads shouldn't be allowed to access files or the factor list:
 	objcopy->logfile_name = 0;
@@ -84,19 +86,19 @@ sieve_conf_t *copy_sieve_conf(sieve_conf_t *conf) {
 
 	copy->curr_b = (signed_mp_t *)xmalloc(copy->num_derived_poly * sizeof(signed_mp_t));
 	for (int i = 0; i < copy->num_derived_poly; i++)
-		copy->curr_b[i] = copy->curr_b[i];
+		copy->curr_b[i] = conf->curr_b[i];
 
 	copy->next_poly_action = (uint8 *)xmalloc(copy->num_derived_poly * sizeof(uint8));
 	for (int i = 0; i < copy->num_derived_poly; i++)
-		copy->next_poly_action[i] = copy->next_poly_action[i];
+		copy->next_poly_action[i] = conf->next_poly_action[i];
 
-	copy->poly_b_small[0] = (uint32 *)xmalloc(conf->sieve_large_fb_start * 
+	copy->poly_b_small[0] = (uint32 *)xmalloc(copy->sieve_large_fb_start * 
 			copy->num_poly_factors * sizeof(uint32));
 	for (int i = 1; i < copy->num_poly_factors; i++) {
 		copy->poly_b_small[i] = copy->poly_b_small[i-1] + 
 						copy->sieve_large_fb_start;
 	}
-	for (int i = 0; i < conf->sieve_large_fb_start * copy->num_poly_factors; i++)
+	for (int i = 0; i < copy->sieve_large_fb_start * copy->num_poly_factors; i++)
 		copy->poly_b_small[0][i] = conf->poly_b_small[0][i];
 
 	//we need new seeds:
@@ -104,6 +106,9 @@ sieve_conf_t *copy_sieve_conf(sieve_conf_t *conf) {
 	get_random_seeds(&seed1, &seed2);
 	copy->obj->seed1 = seed1;
 	copy->obj->seed2 = seed2;
+
+	//fuck it, let's initialize a new polynom:
+	poly_init(copy, copy->num_sieve_blocks * copy->sieve_block_size / 2);
 
 	return copy;
 }
@@ -208,14 +213,20 @@ namespace Msieve
 			if (c->slave)
 				return;			
 			relationYield* y = (relationYield*)yield.ToPointer();
-			savefile_write_line(&c->obj->savefile, y->polybuf);
-			for (int i = 0; i < y->relation_count; i++)
+
+			for (int j = 0; j < y->yield_count; j++)
 			{
-				relation* rel = &y->relations[i];
-				save_relation(c, rel->sieve_offset, rel->fb_offsets, rel->num_factors, rel->poly_index, rel->large_prime1, rel->large_prime2);
-				free(rel->fb_offsets);
+				if (y->yield_array[j].type == 1)
+					savefile_write_line(&c->obj->savefile, y->yield_array[j].polybuf);
+				else
+				{
+					relation* rel = &y->yield_array[j].rel;
+					save_relation(c, rel->sieve_offset, rel->fb_offsets, rel->num_factors, rel->poly_index, rel->large_prime1, rel->large_prime2);
+					free(rel->fb_offsets);
+				}
 			}
-			free(y->relations);
+
+			free(y->yield_array);
 			free(y);
 		}
 	};
