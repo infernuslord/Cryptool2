@@ -36,6 +36,8 @@ sieve_conf_t *copy_sieve_conf(sieve_conf_t *conf) {
 	objcopy->factors = 0;
 	
 	//threads shouldn't be allowed to access these fields:
+	copy->poly_a_list = 0;
+	copy->poly_list = 0;	
 	copy->relation_list = 0;
 	copy->num_relations = 0;
 	copy->cycle_list = 0;
@@ -46,6 +48,56 @@ sieve_conf_t *copy_sieve_conf(sieve_conf_t *conf) {
 	copy->cycle_table_alloc = 0;
 	copy->components = 0;
 	copy->vertices = 0;
+
+	//deep copies:
+	copy->poly_b_array = NULL;
+	if (copy->fb_size > copy->sieve_large_fb_start)
+		copy->poly_b_array = (uint32 *)xmalloc(copy->num_poly_factors * sizeof(uint32) * (copy->fb_size - copy->sieve_large_fb_start));
+	for (int i = 0; i < copy->num_poly_factors * (copy->fb_size - copy->sieve_large_fb_start); i++)
+		copy->poly_b_array[i] = conf->poly_b_array[i];
+
+	copy->sieve_array = (uint8 *)aligned_malloc(
+				(size_t)copy->sieve_block_size, 64);
+	for (int i = 0; i < copy->sieve_block_size; i++)
+		copy->sieve_array[i] = conf->sieve_array[i];
+
+	copy->factor_base = (fb_t *)xmalloc(objcopy->fb_size * sizeof(fb_t));
+	for (int i = 0; i < objcopy->fb_size; i++)
+		copy->factor_base[i] = conf->factor_base[i];
+
+	copy->packed_fb = (packed_fb_t *)xmalloc(conf->tf_large_cutoff * sizeof(packed_fb_t));
+	for (int i = 0; i < conf->tf_large_cutoff; i++)
+		copy->packed_fb[i] = conf->packed_fb[i];
+
+	copy->buckets = (bucket_t *)xcalloc((size_t)(copy->poly_block *
+						copy->num_sieve_blocks), 
+						sizeof(bucket_t));
+	for (int i = 0; i < copy->poly_block * copy->num_sieve_blocks; i++) {
+		copy->buckets[i].num_alloc = 1000;
+		copy->buckets[i].list = (bucket_entry_t *)
+				xmalloc(1000 * sizeof(bucket_entry_t));
+	}
+
+	copy->modsqrt_array = (uint32 *)xmalloc(objcopy->fb_size * sizeof(uint32));
+	for (int i = 0; i < objcopy->fb_size; i++)
+		copy->modsqrt_array[i] = conf->modsqrt_array[i];
+
+	copy->curr_b = (signed_mp_t *)xmalloc(copy->num_derived_poly * sizeof(signed_mp_t));
+	for (int i = 0; i < copy->num_derived_poly; i++)
+		copy->curr_b[i] = copy->curr_b[i];
+
+	copy->next_poly_action = (uint8 *)xmalloc(copy->num_derived_poly * sizeof(uint8));
+	for (int i = 0; i < copy->num_derived_poly; i++)
+		copy->next_poly_action[i] = copy->next_poly_action[i];
+
+	copy->poly_b_small[0] = (uint32 *)xmalloc(conf->sieve_large_fb_start * 
+			copy->num_poly_factors * sizeof(uint32));
+	for (int i = 1; i < copy->num_poly_factors; i++) {
+		copy->poly_b_small[i] = copy->poly_b_small[i-1] + 
+						copy->sieve_large_fb_start;
+	}
+	for (int i = 0; i < conf->sieve_large_fb_start * copy->num_poly_factors; i++)
+		copy->poly_b_small[0][i] = conf->poly_b_small[0][i];
 
 	//we need new seeds:
 	uint32 seed1, seed2;

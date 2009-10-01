@@ -230,6 +230,7 @@ typedef struct {
 	//added field:
 	int slave;
 	relationYield *yield;
+	uint32 num_derived_poly;
 } sieve_conf_t;
 
 /* attempt to trial factor one sieve value */

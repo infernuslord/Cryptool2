@@ -90,6 +90,7 @@ uint32 factor_mpqs(msieve_obj *obj, mp_t *n,
 				&modsqrt_array, &params.fb_size, 
 				&multiplier);
 	fb_size = params.fb_size;
+	obj->fb_size = fb_size;
 	logprintf(obj, "using multiplier of %u\n", multiplier);
 	free(prime_list.list);
 	

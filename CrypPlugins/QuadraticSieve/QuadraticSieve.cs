@@ -15,7 +15,7 @@
 */
 
 using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
@@ -25,6 +25,7 @@ using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
 using System.Threading;
 using Msieve;
+using System.IO;
 
 namespace Cryptool.Plugins.QuadraticSieve
 {
@@ -34,11 +35,21 @@ namespace Cryptool.Plugins.QuadraticSieve
     {
         #region IPlugin Members
 
+        private const string TempDirectoryName = "CrypTool Temp Files";
+        private static readonly string directoryName;
         private QuadraticSieveSettings settings = new QuadraticSieveSettings();
         private BigInteger inputNumber;
         private BigInteger[] outputFactors;
         private bool running;
+        private Queue yieldqueue;
+        private IntPtr conf;
+        private volatile int threadcount = 0;
 
+        static QuadraticSieve()
+        {
+            directoryName = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), TempDirectoryName), "msieve");
+            if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
+        }
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
 
@@ -69,77 +80,128 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         public void Execute()
         {
-            //Just testing msieve:
-            callback_struct callbacks = new callback_struct();
-            callbacks.showProgress = delegate(int num_relations, int max_relations)
-            { };
-            callbacks.prepareSieving = delegate(IntPtr conf, int update, IntPtr core_sieve_fcn)
-            { };
-            msieve.initMsieve(callbacks);
-
-            System.Collections.ArrayList factors = msieve.factorize("15", null);
-            foreach (String res in factors)
-                GuiLogMessage(res, NotificationLevel.Debug);
-
-
-
             if (InputNumber is Object)
             {
-                if (settings.CoresUsed < Environment.ProcessorCount)
+                callback_struct callbacks = new callback_struct();
+                callbacks.showProgress = showProgress;
+                callbacks.prepareSieving = prepareSieving;
+                msieve.initMsieve(callbacks);
+
+                ArrayList factors;
+                try
                 {
-                    running = true;
-                    ThreadPool.QueueUserWorkItem(new WaitCallback(MSieveJob));
-                    
-                    //Hauptdingsi Aufruf
-     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    for (int i = 0; i < 10 && running; i++)
+                     factors = msieve.factorize(InputNumber.ToString(), Path.Combine(directoryName, "msieve.dat"));
+                }
+                catch (Exception)
+                {
+                    GuiLogMessage("Error using msieve.", NotificationLevel.Error);
+                    running = false;
+                    return;
+                }
+
+                if (factors != null)
+                {
+                    BigInteger[] outs = new BigInteger[factors.Count];
+                    for (int i = 0; i < factors.Count; i++)
                     {
-                        GuiLogMessage("thread: {0}" + i, NotificationLevel.Info);
-                        Thread.Sleep(1000);                      
+                        outs[i] = new BigInteger((string)factors[i], 10);
                     }
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    OutputFactors = outs;
                 }
-                else
-                {
-                    GuiLogMessage("You may only use up to " + Environment.ProcessorCount + " cores on your machine", NotificationLevel.Error);
-                }
+                    
+                ProgressChanged(1, 1);
             }
         }
 
-        public void MSieveJob(object state)
-        { 
-            //Nebendingsi Aufruf?
-            for (int i = 0; i < 10 && running; i++)
+        private void showProgress(int num_relations, int max_relations)
+        {
+            if (num_relations == -1)
             {
-                GuiLogMessage("thread: {1}" + i, NotificationLevel.Info);
-                Thread.Sleep(2000);
+                ProgressChanged(0.9, 1.0);
+                GuiLogMessage("Sieving finished", NotificationLevel.Info);
+                running = false;
+                while (threadcount > 0)
+                {
+                    GuiLogMessage("Waiting for threads to stop", NotificationLevel.Info);
+                    Thread.Sleep(0);
+                }
             }
-            
+            else
+            {
+                ProgressChanged(num_relations / max_relations * 0.8 + 0.1, 1.0);
+                GuiLogMessage("" + num_relations + "  " + max_relations, NotificationLevel.Debug);
+                /*
+                while (yieldqueue.Count != 0)
+                {
+                    msieve.saveYield(conf, (IntPtr)yieldqueue.Dequeue());
+                }*/
+            }
+        }
+
+        private void prepareSieving (IntPtr conf, int update, IntPtr core_sieve_fcn)
+        {
+            this.conf = conf;
+            yieldqueue = Queue.Synchronized(new Queue());
+            GuiLogMessage("Start sieving", NotificationLevel.Info);
+            ProgressChanged(0.1, 1.0);
+
+            IntPtr clone = msieve.cloneSieveConf(conf);
+            //WaitCallback worker = new WaitCallback(MSieveJob);
+            running = true;
+            /*ThreadPool.QueueUserWorkItem(worker, new object[] {clone, update, core_sieve_fcn, yieldqueue});
+            while (true)
+                Thread.Sleep(0);*/
+        }
+
+        public void MSieveJob(object param)
+        {
+            threadcount++;
+            object[] parameters = (object[])param;
+            IntPtr clone = (IntPtr)parameters[0];
+            int update = (int)parameters[1];
+            IntPtr core_sieve_fcn = (IntPtr)parameters[2];
+            Queue yieldqueue = (Queue)parameters[3];
+
+            while (running)
+            {
+                try
+                {
+                    msieve.collectRelations(clone, update, core_sieve_fcn);
+                    IntPtr yield = msieve.getYield(clone);
+                    yieldqueue.Enqueue(yield);
+                }
+                catch (Exception)
+                {
+                    GuiLogMessage("Error using msieve.", NotificationLevel.Error);
+                    threadcount = 0;
+                    return;
+                }                
+            }
+
+            msieve.freeSieveConf(clone);
+            threadcount--;
         }
 
         public void PostExecution()
-        {
-           
+        {           
         }
 
         public void Pause()
-        {
-            
+        {            
         }
 
         public void Stop()
         {
+            msieve.stop();
             running = false;
         }
 
         public void Initialize()
-        {
-            
+        {            
         }
 
         public void Dispose()
         {
-           
         }
 
         #endregion

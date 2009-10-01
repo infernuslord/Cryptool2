@@ -129,6 +129,9 @@ typedef struct {
 
 	char mp_sprintf_buf[32 * MAX_MP_WORDS+1]; /* scratch space for 
 						printing big integers */
+
+	//added:
+	uint32 fb_size;
 } msieve_obj;
 
 msieve_obj * msieve_obj_new(char *input_integer,
