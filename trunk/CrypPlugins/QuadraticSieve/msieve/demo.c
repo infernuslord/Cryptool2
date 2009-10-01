@@ -26,8 +26,6 @@ void handle_signal(int sig) {
 	
 	if (obj && (obj->flags & MSIEVE_FLAG_SIEVING_IN_PROGRESS))
 		obj->flags |= MSIEVE_FLAG_STOP_SIEVING;
-	else
-		_exit(0);
 }
 
 /*--------------------------------------------------------------------*/

@@ -213,6 +213,7 @@ void poly_init(sieve_conf_t *conf, uint32 sieve_size) {
 	num_derived_poly = 1 << (num_factors - 1);
 	conf->next_poly_action = (uint8 *)xmalloc(num_derived_poly * 
 						sizeof(uint8));
+	conf->num_derived_poly = num_derived_poly;
 	conf->curr_b = (signed_mp_t *)xmalloc(num_derived_poly * 
 						sizeof(signed_mp_t));
 	conf->poly_b_small[0] = (uint32 *)xmalloc(conf->sieve_large_fb_start * 
