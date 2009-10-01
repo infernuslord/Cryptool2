@@ -24,29 +24,30 @@ using System.Windows.Media;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
 
-namespace Cryptool.Plugins.Comparators
+namespace Cryptool.Plugins.Converter
 {
     public class ConverterSettings : ISettings
     {
         #region private variables
-        private int comparator = 0; // 0 =, 1 !=, 2 <, 3 >, 4 <=, 5 >=
+        private int converter = 0; // 0 = int, 1 = biginteger, 2 = short, 3 = byte, 4 = double, 5 = string
         private bool hasChanges;
         #endregion
 
         #region taskpane
-        [TaskPane("Converter", "Choose the output type", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "int", "biginteger", "short", "byte", "double", "string" })]
-        public int Comparator
+        [TaskPane("Converter", "Choose the output type", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "string", "int", "short", "byte", "double", "BigInteger", "int[]", "byte[]","Cryptoolstream" })]
+      
+        public int Converter
         {
-            get { return this.comparator; }
+            get { return this.converter; }
             set
             {
-                if (value != this.comparator)
+                if (value != this.converter)
                 {
-                    this.comparator = value;
-                    OnPropertyChanged("Comparator");
+                    this.converter = value;
+                    OnPropertyChanged("Converter");
                     HasChanges = true;
 
-                    ChangePluginIcon(comparator);
+                   // ChangePluginIcon(converter);
                 }
             }
         }

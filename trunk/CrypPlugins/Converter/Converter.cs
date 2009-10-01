@@ -23,8 +23,9 @@ using Cryptool.PluginBase.IO;
 using System.ComponentModel;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Runtime.CompilerServices;
+using Cryptool.Plugins.Converter;
 
-namespace Cryptool.Plugins.Comparators
+namespace Cryptool.Plugins.Converter
 {
     [Author("Raoul Falk, Dennis Nolte", "falk@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo(false, "Converter", "Converts input to another type", "", "Converter/icons/icon.png")]
@@ -33,7 +34,7 @@ namespace Cryptool.Plugins.Comparators
     {
         #region private variables
 
-        private ComparatorsSettings settings = new ConverterSettings();
+        private ConverterSettings settings = new ConverterSettings();
         private object inputOne;
         private object output;
 
@@ -43,7 +44,7 @@ namespace Cryptool.Plugins.Comparators
 
         public Converter()
         {
-            this.settings = new ConverterSettings();
+           // this.settings = new ConverterSettings();
             this.settings.OnPluginStatusChanged += settings_OnPluginStatusChanged;
         }
 
@@ -53,7 +54,7 @@ namespace Cryptool.Plugins.Comparators
             set { this.settings = (ConverterSettings)value; }
         }
 
-        private void Comparators_LogMessage(string msg, NotificationLevel loglevel)
+        private void Converter_LogMessage(string msg, NotificationLevel loglevel)
         {
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(msg, this, loglevel));
         }
@@ -114,8 +115,179 @@ namespace Cryptool.Plugins.Comparators
 
         public void Execute()
         {
+            
+                if (!(InputOne is int[] || InputOne is byte[] || InputOne is CryptoolStream))
+                {
+                    //Wenn der Input ein Bool ist
+                    if (InputOne is bool)
+                    {
+                        switch (this.settings.Converter)
+                        {
+                            case 0: // bool -> String
+                                {
+                                    string inpString = Convert.ToString(InputOne);
+                                    Output = inpString;
+                                    ProgressChanged(100, 100);
+                                    break;
+                                }
+                            case 1: //int
+                                {
+                                    try // bool -> int Läuft
+                                    {
+                                        int inpInt;
+
+                                        if ((bool)InputOne)
+                                        {
+                                            inpInt = 1;
+                                        }
+                                        else
+                                        {
+                                            inpInt = 0;
+                                        }
+                                        GuiLogMessage("cast klappt", NotificationLevel.Info);
+                                        Output = inpInt;
+                                        ProgressChanged(100, 100);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        GuiLogMessage("The given Inputs are not convertable: " + e.Message, NotificationLevel.Error);
+                                    }
+                                    break;
+                                }
+                            default: GuiLogMessage("The given Inputs are not convertable: ", NotificationLevel.Error); break;
+                        }
+                    }
+                    else
+                    {
+                        string inpString = Convert.ToString(InputOne);
+
+                        
+
+                        switch (this.settings.Converter)
+                        {
+                            case 0: //String
+                                {
+                                    Output = inpString;
+                                    ProgressChanged(100, 100);
+                                    break;
+                                }
+                            case 1: //int
+                                {
+                                    try // string -> int Läuft
+                                    {
+                                        double temp = Convert.ToDouble(inpString);
+                                        int temp2 = (int)temp;
+                                        GuiLogMessage("cast klappt", NotificationLevel.Info);
+                                        Output = temp2;
+                                        ProgressChanged(100, 100);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        GuiLogMessage("The given Inputs are not convertable: " + e.Message, NotificationLevel.Error);
+                                    }
+                                    break;
+                                }
+                            case 2: //short
+                                {
+
+                                    try // string -> short Läuft
+                                    {
+                                        int temp = Convert.ToInt32(inpString);
+                                        short temp2 = (short)temp;
+                                        GuiLogMessage("cast klappt", NotificationLevel.Info);
+                                        Output = temp2;
+                                        ProgressChanged(100, 100);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        GuiLogMessage("The given Inputs are not convertable: " + e.Message, NotificationLevel.Error);
+                                    }
+                                    break;
+                                }
+                            case 3: //byte
+                                {
+                                    try // string -> byte Läuft
+                                    {
+                                        byte temp = Convert.ToByte(inpString);
+                                        GuiLogMessage("cast klappt", NotificationLevel.Info);
+                                        Output = temp;
+                                        ProgressChanged(100, 100);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        GuiLogMessage("The given Inputs are not convertable: " + e.Message, NotificationLevel.Error);
+                                    }
+                                    break;
+                                }
+                            case 4: //double
+                                {
+                                    try // string -> double Läuft
+                                    {
+                                        if (inpString.Contains("."))
+                                        {
+                                            while (inpString.Contains(".") && (inpString.IndexOf(".") != inpString.LastIndexOf(".")))
+                                            {
+                                                int position = inpString.IndexOf(".");
+                                                inpString.Insert(position, ",");
+                                                inpString.Remove(position - 1, 1);
+                                            }
+                                        }
+                                        GuiLogMessage("cast klappt", NotificationLevel.Info);
+                                        double temp = Convert.ToDouble(inpString);
+                                        Output = temp;
+                                        
+                                        ProgressChanged(100, 100);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        GuiLogMessage("The given Inputs are not convertable: " + e.Message, NotificationLevel.Error);
+                                    }
+                                    break;
+
+                                }
+                            case 5: //bigint
+                                {
+                                    try // string -> bigint Läuft
+                                    {
+                                        string temp1 = (string)inpString;
+                                        BigInteger temp = BigInteger.parseExpression(temp1);
+                                        GuiLogMessage("cast klappt", NotificationLevel.Info);
+                                        Output = temp;
+                                        ProgressChanged(100, 100);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        GuiLogMessage("The given Inputs are not convertable: " + e.Message, NotificationLevel.Error);
+                                    }
+                                    break;
+                                }
+                            case 6: // int[]
+                                {
+                                    GuiLogMessage("Conversion from String to int[] not defined: ", NotificationLevel.Error);
+                                    break;
+                                }
+                            case 7: // byte[]
+                                {
+                                    GuiLogMessage("Conversion from String to byte[] not defined: ", NotificationLevel.Error);
+                                    break;
+                                }
+                            case 8: //cryptoolstream
+                                {
+                                    GuiLogMessage("redundant", NotificationLevel.Error);
+                                    break;
+                                }
+
+                        }
+                    }
+                }
+                else
+                {
+                    GuiLogMessage("array and cryptoolstream input not yet implemented", NotificationLevel.Error);
+                }
+
            
         }
+
 
         public void Initialize()
         {

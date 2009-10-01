@@ -65,7 +65,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="icons\" />
+    <Resource Include="icons\icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -75,4 +75,12 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>cd "$(ProjectDir)"
+cd ..\..\CrypWin\$(OutDir)
+if not exist "./CrypPlugins" mkdir "./CrypPlugins"
+
+del /F /S /Q /s /q "Converter*.*"
+copy "$(TargetDir)Converter*.*" "./CrypPlugins"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
