@@ -3347,6 +3347,9 @@ namespace Cryptool.PluginBase.Miscellaneous
 
         }
         
+        /**
+         * Calculates the log bas of this BigInteger         
+         */
         public double log(double bas) {
             int b = this.bitCount() - 1;
             double c = 0;
@@ -3359,6 +3362,9 @@ namespace Cryptool.PluginBase.Miscellaneous
             return (Math.Log(c) + Math.Log(2) * b) / Math.Log(bas);
         }
 
+        /**         
+         * Calculates the power with exponent exp of this BigInteger
+         */
         public BigInteger pow(BigInteger exp)
         {
             if (exp >= 0)
@@ -3374,6 +3380,9 @@ namespace Cryptool.PluginBase.Miscellaneous
 
         #region IComparable Members
 
+        /*
+         * Implements the CompareTo method of IComparable
+         */
         int IComparable.CompareTo(object obj)
         {
             BigInteger other = null;
@@ -3395,6 +3404,8 @@ namespace Cryptool.PluginBase.Miscellaneous
         }
 
         #endregion
+
+        #region internal stuff of expression parser
 
         private struct TOKEN
         {
@@ -3545,6 +3556,14 @@ namespace Cryptool.PluginBase.Miscellaneous
             return v;
         }
 
+        #endregion
+
+        /*         
+         * Parses a math expression (example: (2+2)^(17-5) ) 
+         * and returns a BigInteger based on this expression
+         * 
+         * throws an exception when expression is not valid or the Number gets too big
+         */
         public static BigInteger parseExpression(string expr) {
             Stack<TOKEN> stack = scan(expr);
             BigInteger i = parse(stack, Priority.ALL, false);
