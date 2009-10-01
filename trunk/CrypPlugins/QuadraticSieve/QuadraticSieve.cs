@@ -74,8 +74,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         }
 
         public void PreExecution()
-        {
-            
+        {            
         }
 
         public void Execute()
@@ -115,26 +114,27 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         private void showProgress(int num_relations, int max_relations)
         {
-            if (num_relations == -1)
+            if (num_relations == -1)    //sieving finished
             {
                 ProgressChanged(0.9, 1.0);
                 GuiLogMessage("Sieving finished", NotificationLevel.Info);
                 running = false;
                 while (threadcount > 0)
                 {
-                    GuiLogMessage("Waiting for threads to stop", NotificationLevel.Info);
+                    GuiLogMessage("Waiting for threads to stop!", NotificationLevel.Info);
                     Thread.Sleep(0);
                 }
+                yieldqueue.Clear();
             }
             else
             {
                 ProgressChanged(num_relations / max_relations * 0.8 + 0.1, 1.0);
-                GuiLogMessage("" + num_relations + "  " + max_relations, NotificationLevel.Debug);
-                /*
+                GuiLogMessage("" + num_relations + " from " + max_relations + " Relations!", NotificationLevel.Debug);
+                
                 while (yieldqueue.Count != 0)
                 {
                     msieve.saveYield(conf, (IntPtr)yieldqueue.Dequeue());
-                }*/
+                }
             }
         }
 
@@ -145,12 +145,11 @@ namespace Cryptool.Plugins.QuadraticSieve
             GuiLogMessage("Start sieving", NotificationLevel.Info);
             ProgressChanged(0.1, 1.0);
 
+            //start another helper thread:
             IntPtr clone = msieve.cloneSieveConf(conf);
-            //WaitCallback worker = new WaitCallback(MSieveJob);
+            WaitCallback worker = new WaitCallback(MSieveJob);
             running = true;
-            /*ThreadPool.QueueUserWorkItem(worker, new object[] {clone, update, core_sieve_fcn, yieldqueue});
-            while (true)
-                Thread.Sleep(0);*/
+            ThreadPool.QueueUserWorkItem(worker, new object[] {clone, update, core_sieve_fcn, yieldqueue});            
         }
 
         public void MSieveJob(object param)

@@ -1,3 +1,7 @@
+/**
+* This .Net msieve wrapper was written by Sven Rech (rech@cryptool.org)
+**/
+
 #include <msieve.h>
 extern "C" {
 #include "wrapper.h"
