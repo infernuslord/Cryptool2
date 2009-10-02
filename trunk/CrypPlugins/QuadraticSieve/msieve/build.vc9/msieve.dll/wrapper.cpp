@@ -14,7 +14,7 @@ using namespace System::Collections;
 //From demo.c:
 extern "C" msieve_factor* factor(char *number, char *savefile_name);
 extern "C" char* getNextFactor(msieve_factor** factor);
-extern "C" void handle_signal(int sig);
+extern "C" void stop_msieve(msieve_obj *obj);
 extern "C" void get_random_seeds(uint32 *seed1, uint32 *seed2);
 //From sieve.c:
 extern "C" void collect_relations(sieve_conf_t *conf, uint32 target_relations, qs_core_sieve_fcn core_sieve_fcn);
@@ -33,8 +33,6 @@ sieve_conf_t *copy_sieve_conf(sieve_conf_t *conf) {
 	*objcopy = *(conf->obj);
 	copy->obj = objcopy;
 	copy->slave = 1;	//we are a slave
-
-	//what follows now is horrible and clueless:
 
 	//threads shouldn't be allowed to access files or the factor list:
 	objcopy->logfile_name = 0;
@@ -56,12 +54,6 @@ sieve_conf_t *copy_sieve_conf(sieve_conf_t *conf) {
 	copy->vertices = 0;
 
 	//deep copies:
-	copy->poly_b_array = NULL;
-	if (copy->fb_size > copy->sieve_large_fb_start)
-		copy->poly_b_array = (uint32 *)xmalloc(copy->num_poly_factors * sizeof(uint32) * (copy->fb_size - copy->sieve_large_fb_start));
-	for (int i = 0; i < copy->num_poly_factors * (copy->fb_size - copy->sieve_large_fb_start); i++)
-		copy->poly_b_array[i] = conf->poly_b_array[i];
-
 	copy->sieve_array = (uint8 *)aligned_malloc(
 				(size_t)copy->sieve_block_size, 64);
 	for (int i = 0; i < copy->sieve_block_size; i++)
@@ -88,30 +80,12 @@ sieve_conf_t *copy_sieve_conf(sieve_conf_t *conf) {
 	for (int i = 0; i < objcopy->fb_size; i++)
 		copy->modsqrt_array[i] = conf->modsqrt_array[i];
 
-	copy->curr_b = (signed_mp_t *)xmalloc(copy->num_derived_poly * sizeof(signed_mp_t));
-	for (int i = 0; i < copy->num_derived_poly; i++)
-		copy->curr_b[i] = conf->curr_b[i];
-
-	copy->next_poly_action = (uint8 *)xmalloc(copy->num_derived_poly * sizeof(uint8));
-	for (int i = 0; i < copy->num_derived_poly; i++)
-		copy->next_poly_action[i] = conf->next_poly_action[i];
-
-	copy->poly_b_small[0] = (uint32 *)xmalloc(copy->sieve_large_fb_start * 
-			copy->num_poly_factors * sizeof(uint32));
-	for (int i = 1; i < copy->num_poly_factors; i++) {
-		copy->poly_b_small[i] = copy->poly_b_small[i-1] + 
-						copy->sieve_large_fb_start;
-	}
-	for (int i = 0; i < copy->sieve_large_fb_start * copy->num_poly_factors; i++)
-		copy->poly_b_small[0][i] = conf->poly_b_small[0][i];
-
 	//we need new seeds:
 	uint32 seed1, seed2;
 	get_random_seeds(&seed1, &seed2);
 	copy->obj->seed1 = seed1;
 	copy->obj->seed2 = seed2;
 
-	//fuck it, let's initialize a new polynom:
 	poly_init(copy, copy->num_sieve_blocks * copy->sieve_block_size / 2);
 
 	return copy;
@@ -119,7 +93,7 @@ sieve_conf_t *copy_sieve_conf(sieve_conf_t *conf) {
 
 namespace Msieve
 {
-	public delegate void showProgressDelegate(int num_relations, int max_relations);
+	public delegate void showProgressDelegate(IntPtr conf, int num_relations, int max_relations);
 	public delegate void prepareSievingDelegate(IntPtr conf, int update, IntPtr core_sieve_fcn);
 
 	public ref struct callback_struct
@@ -173,9 +147,9 @@ namespace Msieve
 		}
 
 		//stop msieve:
-		static void stop()
+		static void stop(IntPtr obj)
 		{
-			handle_signal(0);
+			stop_msieve((msieve_obj*)obj.ToPointer());
 		}
 
 		//clone this conf (the clone can be used to run the sieving in a different thread):
@@ -191,6 +165,25 @@ namespace Msieve
 			if (!c->slave)
 				return;
 			free(c->obj);
+			free(c->next_poly_action);
+			free(c->curr_b);
+			free(c->poly_b_small[0]);
+			free(c->poly_b_array);
+			free(c->sieve_array);
+			free(c->factor_base);
+			free(c->packed_fb);
+			for (int i = 0; i < c->poly_block * c->num_sieve_blocks; i++)
+				free(c->buckets[i].list);
+			free(c->buckets);
+			free(c->modsqrt_array);
+			if (c->yield != 0)
+			{
+				for (int j = 0; j < c->yield->yield_count; j++)			
+					if (c->yield->yield_array[j].type == 0)
+						free(c->yield->yield_array->rel.fb_offsets);
+				free(c->yield->yield_array);
+				free(c->yield);
+			}
 			free(c);
 		}
 
@@ -233,13 +226,19 @@ namespace Msieve
 			free(y->yield_array);
 			free(y);
 		}
+
+		static IntPtr getObjFromConf(IntPtr conf)
+		{
+			sieve_conf_t* c = (sieve_conf_t*)conf.ToPointer();
+			return IntPtr(c->obj);
+		}
 	};
 
 }
 
-extern "C" void showProgress(int num_relations, int max_relations)
+extern "C" void showProgress(void* conf, int num_relations, int max_relations)
 {	
-	Msieve::msieve::callbacks->showProgress(num_relations, max_relations);
+	Msieve::msieve::callbacks->showProgress(IntPtr(conf), num_relations, max_relations);
 }
 
 extern "C" void prepare_sieving(void* conf, int update, void* core_sieve_fcn)

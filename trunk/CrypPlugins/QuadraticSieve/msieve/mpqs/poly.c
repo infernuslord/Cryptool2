@@ -534,7 +534,7 @@ void build_base_poly(sieve_conf_t *conf) {
 	if (conf->slave) {
 		if (++(conf->yield->yield_count) > conf->yield->yield_capacity)
 		{
-			conf->yield->yield_capacity *= 2;
+			conf->yield->yield_capacity *= 2;			
 			conf->yield->yield_array = xrealloc(conf->yield->yield_array, sizeof(struct yield_element) * conf->yield->yield_capacity);			
 		}
 

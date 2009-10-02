@@ -124,7 +124,7 @@ void save_relation(sieve_conf_t *conf, uint32 sieve_offset,
 	{
 		if (++(conf->yield->yield_count) > conf->yield->yield_capacity)
 		{
-			conf->yield->yield_capacity *= 2;
+			conf->yield->yield_capacity *= 2;			
 			conf->yield->yield_array = xrealloc(conf->yield->yield_array, sizeof(struct yield_element) * conf->yield->yield_capacity);			
 		}
 
