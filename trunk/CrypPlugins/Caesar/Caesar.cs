@@ -14,20 +14,15 @@
    limitations under the License.
 */
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Cryptography;
 
-using System.IO;
 using System.ComponentModel;
 using Cryptool.PluginBase.IO;
 using System.Windows.Controls;
-using System.Runtime.CompilerServices;
 using Cryptool.PluginBase.Miscellaneous;
-using Cryptool.PluginBase.Control;
 
 namespace Cryptool.Caesar
 {
@@ -45,6 +40,7 @@ namespace Cryptool.Caesar
         private string outputString;
         private enum CaesarMode { encrypt, decrypt };
         private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
+        private bool isPlayMode = false;
         #endregion
         
         #region Public interface
@@ -55,7 +51,8 @@ namespace Cryptool.Caesar
         public Caesar()
         {
             this.settings = new CaesarSettings();
-            ((CaesarSettings)(this.settings)).LogMessage += Caesar_LogMessage;
+            this.settings.LogMessage += Caesar_LogMessage;
+            this.settings.ReExecute += Caesar_ReExecute;
         }
   
         /// <summary>
@@ -77,7 +74,7 @@ namespace Cryptool.Caesar
                 {                    
                     CryptoolStream cs = new CryptoolStream();
                     listCryptoolStreamsOut.Add(cs);
-                    cs.OpenRead(this.GetPluginInfoAttribute().Caption, Encoding.Default.GetBytes(outputString.ToCharArray()));
+                    cs.OpenRead(Encoding.Default.GetBytes(outputString.ToCharArray()));
                     return cs;
                 }
                 else
@@ -213,6 +210,7 @@ namespace Cryptool.Caesar
 
         public void PostExecution()
         {
+            isPlayMode = false;
             Dispose();
         }
 
@@ -346,6 +344,15 @@ namespace Cryptool.Caesar
             //}
         }
 
+        /// <summary>
+        /// Handles re-execution events from settings class
+        /// </summary>
+        private void Caesar_ReExecute()
+        {
+            if (isPlayMode)
+                Execute();
+        }
+
         #endregion
 
         #region IPlugin Members
@@ -354,11 +361,14 @@ namespace Cryptool.Caesar
 			public event StatusChangedEventHandler OnPluginStatusChanged;
 #pragma warning restore
 
-			public void Execute()
+		public void Execute()
         {
+            isPlayMode = true;
+
             switch (settings.Action)
             {
                 case 0:
+                    Caesar_LogMessage("encrypting", NotificationLevel.Debug);
                     Encrypt();
                     break;
                 case 1:
