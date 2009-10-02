@@ -119,19 +119,23 @@ namespace Cryptool.Plugins.QuadraticSieve
                 ProgressChanged(0.9, 1.0);
                 GuiLogMessage("Sieving finished", NotificationLevel.Info);
                 running = false;
-                while (threadcount > 0)
-                {
-                    GuiLogMessage("Waiting for threads to stop!", NotificationLevel.Info);
-                    Thread.Sleep(0);
+                if (threadcount > 0)
+                {                    
+                    GuiLogMessage("Waiting for threads to stop!", NotificationLevel.Debug);
+                    while (threadcount > 0)
+                    {
+                        Thread.Sleep(0);
+                    }
+                    GuiLogMessage("Threads stopped!", NotificationLevel.Debug);
                 }
                 yieldqueue.Clear();
             }
             else
             {
-                ProgressChanged(num_relations / max_relations * 0.8 + 0.1, 1.0);
-                GuiLogMessage("" + num_relations + " from " + max_relations + " Relations!", NotificationLevel.Debug);
+                ProgressChanged((double)num_relations / max_relations * 0.8 + 0.1, 1.0);
+                GuiLogMessage("" + num_relations + " of " + max_relations + " relations!", NotificationLevel.Debug);
                 
-                while (yieldqueue.Count != 0)
+                while (yieldqueue.Count != 0)       //get all the results from the helper threads, and store them
                 {
                     msieve.saveYield(conf, (IntPtr)yieldqueue.Dequeue());
                 }
@@ -145,14 +149,18 @@ namespace Cryptool.Plugins.QuadraticSieve
             GuiLogMessage("Start sieving", NotificationLevel.Info);
             ProgressChanged(0.1, 1.0);
 
-            //start another helper thread:
-            IntPtr clone = msieve.cloneSieveConf(conf);
-            WaitCallback worker = new WaitCallback(MSieveJob);
             running = true;
-            ThreadPool.QueueUserWorkItem(worker, new object[] {clone, update, core_sieve_fcn, yieldqueue});            
+            //start helper threads:
+            for (int i = 1; i < Math.Min(settings.CoresUsed, Environment.ProcessorCount); i++)
+            {
+                IntPtr clone = msieve.cloneSieveConf(conf);
+                WaitCallback worker = new WaitCallback(MSieveJob);
+                ThreadPool.QueueUserWorkItem(worker, new object[] { clone, update, core_sieve_fcn, yieldqueue });
+            }
         }
 
-        public void MSieveJob(object param)
+        //Helper Thread for msieve, which sieves for relations:
+        private void MSieveJob(object param)
         {
             threadcount++;
             object[] parameters = (object[])param;
@@ -191,7 +199,13 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         public void Stop()
         {
-            msieve.stop();
+            try
+            {
+                msieve.stop();
+            }
+            catch (Exception)
+            {
+            }
             running = false;
         }
 
@@ -207,7 +221,7 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         #region QuadraticSieveInOut
 
-        [PropertyInfo(Direction.InputData, "Number Input", "Input your Number here", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Number Input", "Put the number you want to factorize here", "", DisplayLevel.Beginner)]
         public BigInteger InputNumber
         {
             get
@@ -222,7 +236,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         }
 
 
-        [PropertyInfo(Direction.OutputData, "Factors Output", "Your Factors will be send here", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Factors Output", "Your factors will be sent here", "", DisplayLevel.Beginner)]
         public BigInteger[] OutputFactors
         {
             get
