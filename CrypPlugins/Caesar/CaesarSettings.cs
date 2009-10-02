@@ -18,7 +18,6 @@ using System;
 using System.ComponentModel;
 using System.Windows;
 using Cryptool.PluginBase;
-using System.Windows.Media;
 using System.Windows.Controls;
 
 namespace Cryptool.Caesar
@@ -28,7 +27,7 @@ namespace Cryptool.Caesar
         #region Public Caesar specific interface
         
         /// <summary>
-        /// We use this delegat to send log messages from the settings class to the Caesar plugin
+        /// We use this delegate to send log messages from the settings class to the Caesar plugin
         /// </summary>
         public delegate void CaesarLogMessage(string msg, NotificationLevel loglevel);
 
@@ -43,6 +42,10 @@ namespace Cryptool.Caesar
         /// </summary>
         public event CaesarLogMessage LogMessage;
 
+        public delegate void CaesarReExecute();
+
+        public event CaesarReExecute ReExecute;
+
         /// <summary>
         /// Retrieves the current sihft value of Caesar (i.e. the key), or sets it
         /// </summary>
@@ -50,7 +53,10 @@ namespace Cryptool.Caesar
         public int ShiftKey
         {
             get { return shiftValue; }
-            set { setKeyByValue(value); }
+            set
+            {
+                setKeyByValue(value);
+            }
         }
 
         /// <summary>
@@ -184,7 +190,7 @@ namespace Cryptool.Caesar
 
         [PropertySaveOrder(4)]
         [ContextMenu("Action", "Select the Algorithm action", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Encrypt", "Decrypt")]
-        [TaskPane("Action", "setAlgorithmActionDescription", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
+        [TaskPane("Action", "setAlgorithmActionDescription", null, 1, true, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
         public int Action
         {
             get
@@ -196,29 +202,39 @@ namespace Cryptool.Caesar
                 if (value != selectedAction) HasChanges = true;
                 this.selectedAction = value;
                 OnPropertyChanged("Action");
+
+                if (ReExecute != null) ReExecute();
             }
         }
         
         [PropertySaveOrder(5)]
-        [TaskPane("Key as integer", "Enter the number of letters to shift. For instance a value of 1 means that the plaintext character a gets mapped to the ciphertext character B, b to C and so on.", null, 2, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]        
+        [TaskPane("Key as integer", "Enter the number of letters to shift. For instance a value of 1 means that the plaintext character a gets mapped to the ciphertext character B, b to C and so on.", null, 2, true, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]        
         public int ShiftValue
         {
             get { return shiftValue; }
-            set { setKeyByValue(value); }
+            set
+            {
+                setKeyByValue(value);
+                if (ReExecute != null) ReExecute();
+            }
         }
 
 
         [PropertySaveOrder(6)]
-        [TaskPaneAttribute("Key as single letter", "Enter a single letter as the key. This letter is mapped to an integer stating the position in the alphabet. The values for \"Key as integer\" and \"Key as single letter” are always synchronized.", null, 3, false, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RegEx, "^([A-Z]|[a-z]){1,1}$")]
+        [TaskPaneAttribute("Key as single letter", "Enter a single letter as the key. This letter is mapped to an integer stating the position in the alphabet. The values for \"Key as integer\" and \"Key as single letter” are always synchronized.", null, 3, true, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RegEx, "^([A-Z]|[a-z]){1,1}$")]
         public string ShiftChar
         {
             get { return this.shiftChar.ToString(); }
-            set { setKeyByCharacter(value); }
+            set
+            {
+                setKeyByCharacter(value);
+                if (ReExecute != null) ReExecute();
+            }
         }
 
         [PropertySaveOrder(7)]
         [ContextMenu("Unknown symbol handling", "What should be done with encountered characters at the input which are not in the alphabet?", 4, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "Ignore (leave unmodified)", "Remove", "Replace with \'?\'" })]
-        [TaskPane("Unknown symbol handling", "What should be done with encountered characters at the input which are not in the alphabet?", null, 4, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Ignore (leave unmodified)", "Remove", "Replace with \'?\'" })]
+        [TaskPane("Unknown symbol handling", "What should be done with encountered characters at the input which are not in the alphabet?", null, 4, true, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Ignore (leave unmodified)", "Remove", "Replace with \'?\'" })]
         public int UnknownSymbolHandling
         {
             get { return (int)this.unknownSymbolHandling; }
@@ -227,12 +243,14 @@ namespace Cryptool.Caesar
                 if ((UnknownSymbolHandlingMode)value != unknownSymbolHandling) HasChanges = true;
                 this.unknownSymbolHandling = (UnknownSymbolHandlingMode)value;
                 OnPropertyChanged("UnknownSymbolHandling");
+
+                if (ReExecute != null) ReExecute();
             }
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", Orientation.Vertical)]
         [PropertySaveOrder(9)]
-        [TaskPane("Alphabet", "This is the used alphabet.", null, 6, false, DisplayLevel.Expert, ControlType.TextBox, "")]
+        [TaskPane("Alphabet", "This is the used alphabet.", null, 6, true, DisplayLevel.Expert, ControlType.TextBox, "")]
         public string AlphabetSymbols
         {
           get { return this.alphabet; }
@@ -250,6 +268,8 @@ namespace Cryptool.Caesar
               setKeyByValue(shiftValue); //re-evaluate if the shiftvalue is still within the range
               LogMessage("Accepted new alphabet from user: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
               OnPropertyChanged("AlphabetSymbols");
+
+              if (ReExecute != null) ReExecute();
             }
           }
         }
@@ -260,7 +280,7 @@ namespace Cryptool.Caesar
         //[SettingsFormat(1, "Normal")]
         [PropertySaveOrder(8)]
         [ContextMenu("Alphabet case sensitivity", "Should upper and lower case be treated differently? (Should a == A)", 7, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "Case insensitive", "Case sensitive" })]
-        [TaskPane("Alphabet case sensitivity", "Should upper and lower case be treated differently? (Should a == A)", null, 7, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Case insensitive", "Case sensitive" })]
+        [TaskPane("Alphabet case sensitivity", "Should upper and lower case be treated differently? (Should a == A)", null, 7, true, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Case insensitive", "Case sensitive" })]
         public int AlphabetCase
         {
             get { return this.caseSensitiveAlphabet; }
@@ -300,6 +320,7 @@ namespace Cryptool.Caesar
                 }
 
                 OnPropertyChanged("AlphabetCase");
+                if (ReExecute != null) ReExecute();
             }
         }
 
