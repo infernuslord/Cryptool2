@@ -42,7 +42,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         private BigInteger[] outputFactors;
         private bool running;
         private Queue yieldqueue;
-        private IntPtr conf;
+        private IntPtr obj = IntPtr.Zero;
         private volatile int threadcount = 0;
 
         static QuadraticSieve()
@@ -89,7 +89,8 @@ namespace Cryptool.Plugins.QuadraticSieve
                 ArrayList factors;
                 try
                 {
-                     factors = msieve.factorize(InputNumber.ToString(), Path.Combine(directoryName, "msieve.dat"));
+                    factors = msieve.factorize(InputNumber.ToString(), Path.Combine(directoryName, "msieve.dat"));
+                    obj = IntPtr.Zero;
                 }
                 catch (Exception)
                 {
@@ -112,7 +113,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             }
         }
 
-        private void showProgress(int num_relations, int max_relations)
+        private void showProgress(IntPtr conf, int num_relations, int max_relations)
         {
             if (num_relations == -1)    //sieving finished
             {
@@ -144,7 +145,7 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         private void prepareSieving (IntPtr conf, int update, IntPtr core_sieve_fcn)
         {
-            this.conf = conf;
+            this.obj = msieve.getObjFromConf(conf) ;
             yieldqueue = Queue.Synchronized(new Queue());
             GuiLogMessage("Start sieving", NotificationLevel.Info);
             ProgressChanged(0.1, 1.0);
@@ -199,14 +200,17 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         public void Stop()
         {
-            try
+            if (obj != IntPtr.Zero)
             {
-                msieve.stop();
+                running = false;
+                GuiLogMessage("Waiting for threads to stop!", NotificationLevel.Debug);
+                while (threadcount > 0)
+                {
+                    Thread.Sleep(0);
+                }
+                GuiLogMessage("Threads stopped!", NotificationLevel.Debug);
+                msieve.stop(obj);                
             }
-            catch (Exception)
-            {
-            }
-            running = false;
         }
 
         public void Initialize()

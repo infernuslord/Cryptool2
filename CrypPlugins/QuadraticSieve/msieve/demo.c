@@ -18,12 +18,7 @@ $Id: demo.c 23 2009-07-20 02:59:07Z jasonp_sf $
 msieve_obj *g_curr_factorization = NULL;
 
 /*--------------------------------------------------------------------*/
-void handle_signal(int sig) {
-
-	msieve_obj *obj = g_curr_factorization;
-
-	printf("\nreceived signal %d; shutting down\n", sig);
-	
+void stop_msieve(msieve_obj *obj) {
 	if (obj && (obj->flags & MSIEVE_FLAG_SIEVING_IN_PROGRESS))
 		obj->flags |= MSIEVE_FLAG_STOP_SIEVING;
 }
@@ -147,6 +142,7 @@ msieve_factor* factor_integer(char *buf, uint32 flags,
 	
 	char *int_start, *last;
 	msieve_obj *obj;
+	msieve_obj *g_curr_factorization;
 	msieve_factor *factor;
 
 	/* point to the start of the integer or expression;
@@ -180,7 +176,8 @@ msieve_factor* factor_integer(char *buf, uint32 flags,
 
 	if (!(g_curr_factorization->flags & MSIEVE_FLAG_FACTORIZATION_DONE)) {
 		printf("\ncurrent factorization was interrupted\n");
-		exit(0);
+		//exit(0);
+		return 0;
 	}
 
 	/* If no logging is specified, at least print out the
@@ -256,272 +253,6 @@ void *countdown_thread(void *pminutes) {
 #endif
 
 /*--------------------------------------------------------------------*/
-int main(int argc, char **argv) {
-
-	char buf[400];
-	uint32 seed1, seed2;
-	char *savefile_name = NULL;
-	char *logfile_name = NULL;
-	char *infile_name = "worktodo.ini";
-	char *nfs_fbfile_name = NULL;
-	uint32 flags;
-	char manual_mode = 0;
-	int i;
-	int32 deadline = 0;
-	uint32 max_relations = 0;
-	uint64 nfs_lower = 0;
-	uint64 nfs_upper = 0;
-	enum cpu_type cpu;
-	uint32 cache_size1; 
-	uint32 cache_size2; 
-	uint32 num_threads = 0;
-	uint32 mem_mb = 0;
-		
-	get_cache_sizes(&cache_size1, &cache_size2);
-	cpu = get_cpu_type();
-
-	if (signal(SIGINT, handle_signal) == SIG_ERR) {
-	        printf("could not install handler on SIGINT\n");
-	        return -1;
-	}
-	if (signal(SIGTERM, handle_signal) == SIG_ERR) {
-	        printf("could not install handler on SIGTERM\n");
-	        return -1;
-	}     
-
-	flags = MSIEVE_FLAG_USE_LOGFILE;
-
-	i = 1;
-	buf[0] = 0;
-	while (i < argc) {
-		if (argv[i][0] == (char)('-')) {
-			switch(tolower(argv[i][1])) {
-			case 'h':
-			case '?':
-				print_usage(argv[0]);
-				return 0;
-
-			case 'i':
-			case 's':
-			case 'l':
-				if (i + 1 < argc && 
-				    argv[i+1][0] != '-') {
-					if (tolower(argv[i][1]) == 'i')
-						infile_name = argv[i+1];
-					else if (tolower(argv[i][1]) == 's')
-						savefile_name = argv[i+1];
-					else
-						logfile_name = argv[i+1];
-					i += 2;
-				}
-				else {
-					print_usage(argv[0]);
-					return -1;
-				}
-				break;
-					
-			case 'm':
-				if (argv[i][2] == 'b' &&
-				    i + 1 < argc && isdigit(argv[i+1][0])) {
-					mem_mb = atol(argv[i+1]);
-					i += 2;
-				}
-				else {
-					manual_mode = 1;
-					i++;
-				}
-				break;
-
-			case 'e':
-				flags |= MSIEVE_FLAG_DEEP_ECM;
-				i++;
-				break;
-
-			case 'n':
-				if (argv[i][2] == 'p') {
-					flags |= MSIEVE_FLAG_NFS_POLY;
-				}
-				else if (argv[i][2] == 's') {
-					flags |= MSIEVE_FLAG_NFS_SIEVE;
-				}
-				else if (argv[i][2] == 'c') {
-					if (argv[i][3] == '1')
-						flags |= MSIEVE_FLAG_NFS_FILTER;
-					else if (argv[i][3] == '2')
-						flags |= MSIEVE_FLAG_NFS_LA;
-					else if (argv[i][3] == 'r')
-						flags |= 
-						     MSIEVE_FLAG_NFS_LA |
-						     MSIEVE_FLAG_NFS_LA_RESTART;
-					else if (argv[i][3] == '3')
-						flags |= MSIEVE_FLAG_NFS_SQRT;
-					else if (argv[i][3] == 0)
-						flags |= 
-						     MSIEVE_FLAG_NFS_FILTER |
-						     MSIEVE_FLAG_NFS_LA |
-						     MSIEVE_FLAG_NFS_SQRT;
-				}
-				else if (argv[i][2] == 0) {
-					flags |= MSIEVE_FLAG_NFS_POLY |
-						 MSIEVE_FLAG_NFS_SIEVE |
-						 MSIEVE_FLAG_NFS_FILTER |
-						 MSIEVE_FLAG_NFS_LA |
-						 MSIEVE_FLAG_NFS_SQRT;
-				}
-
-				if (i + 1 < argc && argv[i+1][0] != '-') {
-					if (argv[i][2] == 'f') {
-						nfs_fbfile_name = argv[i+1];
-						i++;
-					}
-					else if ((argv[i][2] == 's' ||
-						  argv[i][2] == 'c' ||
-						  argv[i][2] == 'p') &&
-						  strchr(argv[i+1], ',') != 
-						  		NULL ) {
-						char *tmp;
-						nfs_lower = (uint64)strtod(
-							argv[i+1], &tmp);
-						tmp++;
-						nfs_upper = (uint64)strtod(
-							tmp, NULL);
-						i++;
-					}
-				}
-				i++;
-				break;
-					
-			case 'q':
-				flags &= ~(MSIEVE_FLAG_USE_LOGFILE |
-					   MSIEVE_FLAG_LOG_TO_STDOUT);
-				i++;
-				break;
-					
-			case 'd':
-				if (i + 1 < argc && isdigit(argv[i+1][0])) {
-					deadline = atol(argv[i+1]);
-					i += 2;
-				}
-				else {
-					print_usage(argv[0]);
-					return -1;
-				}
-				break;
-					
-			case 'r':
-				if (i + 1 < argc && isdigit(argv[i+1][0])) {
-					max_relations = atol(argv[i+1]);
-					i += 2;
-				}
-				else {
-					print_usage(argv[0]);
-					return -1;
-				}
-				break;
-					
-			case 't':
-				if (i + 1 < argc && isdigit(argv[i+1][0])) {
-					num_threads = atol(argv[i+1]);
-					i += 2;
-				}
-				else {
-					print_usage(argv[0]);
-					return -1;
-				}
-				break;
-					
-			case 'c':
-				flags |= MSIEVE_FLAG_SKIP_QS_CYCLES;
-				i++;
-				break;
-
-			case 'v':
-				flags |= MSIEVE_FLAG_LOG_TO_STDOUT;
-				i++;
-				break;
-
-			case 'p':
-				set_idle_priority();
-				i++;
-				break;
-
-			default:
-				print_usage(argv[0]);
-				return -1;
-			}
-		}
-		else {
-			if (isdigit(argv[i][0]) || argv[i][0] == '(' )
-				strncpy(buf, argv[i], sizeof(buf));
-			i++;
-		}
-	}
-
-	get_random_seeds(&seed1, &seed2);
-
-	if (deadline) {
-#if defined(WIN32) || defined(_WIN64)
-		DWORD thread_id;
-		CreateThread(NULL, 0, countdown_thread, 
-				&deadline, 0, &thread_id);
-#else
-		pthread_t thread_id;
-		pthread_create(&thread_id, NULL, 
-				countdown_thread, &deadline);
-#endif
-	}
-
-	if (isdigit(buf[0]) || buf[0] == '(' ) {
-		factor_integer(buf, flags, savefile_name, 
-				logfile_name, nfs_fbfile_name,
-				&seed1, &seed2,
-				max_relations, 
-				nfs_lower, nfs_upper, cpu,
-				cache_size1, cache_size2,
-				num_threads, mem_mb);
-	}
-	else if (manual_mode) {
-		while (1) {
-			printf("\n\nnext number: ");
-			fflush(stdout);
-			buf[0] = 0;
-			fgets(buf, (int)sizeof(buf), stdin);
-			factor_integer(buf, flags, savefile_name, 
-					logfile_name, nfs_fbfile_name,
-					&seed1, &seed2,
-					max_relations, 
-					nfs_lower, nfs_upper, cpu,
-					cache_size1, cache_size2,
-					num_threads, mem_mb);
-			if (feof(stdin))
-				break;
-		}
-	}
-	else {
-		FILE *infile = fopen(infile_name, "r");
-		if (infile == NULL) {
-			printf("cannot open input file '%s'\n", infile_name);
-			return 0;
-		}
-
-		while (1) {
-			buf[0] = 0;
-			fgets(buf, (int)sizeof(buf), infile);
-			factor_integer(buf, flags, savefile_name, 
-					logfile_name, nfs_fbfile_name,
-					&seed1, &seed2,
-					max_relations, 
-					nfs_lower, nfs_upper, cpu,
-					cache_size1, cache_size2,
-					num_threads, mem_mb);
-			if (feof(infile))
-				break;
-		}
-		fclose(infile);
-	}
-
-	return 0;
-}
 
 char* getNextFactor(msieve_factor** factor) {
 	char* n = (*factor)->number;	

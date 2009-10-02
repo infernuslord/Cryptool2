@@ -651,7 +651,8 @@ static uint32 do_sieving_internal(sieve_conf_t *conf,
 				"(press Ctrl-C to pause)\n");
 	}
 
-	prepare_sieving(conf, update, core_sieve_fcn);
+	if (!(obj->flags & MSIEVE_FLAG_STOP_SIEVING) && num_relations < max_relations)
+		prepare_sieving(conf, update, core_sieve_fcn);
 
 	/* sieve until at least that many relations have
 	   been found, then update the number of fulls and
@@ -667,7 +668,7 @@ static uint32 do_sieving_internal(sieve_conf_t *conf,
 				conf->num_cycles +
 				conf->components - conf->vertices;
 
-		showProgress(num_relations, max_relations);
+		showProgress(conf, num_relations, max_relations);
 
 	    if (obj->flags & (MSIEVE_FLAG_USE_LOGFILE |
 					   	  MSIEVE_FLAG_LOG_TO_STDOUT)) {
@@ -683,7 +684,7 @@ static uint32 do_sieving_internal(sieve_conf_t *conf,
 		}
 	}
 
-	showProgress(-1, -1);	//We finnished sieving :D 
+	showProgress(conf, -1, -1);	//We finnished sieving :D 
 
 	if (obj->flags & (MSIEVE_FLAG_USE_LOGFILE |
 	    		   MSIEVE_FLAG_LOG_TO_STDOUT))
@@ -713,7 +714,7 @@ void collect_relations(sieve_conf_t *conf,
 	{
 		conf->yield = malloc(sizeof(relationYield));
 		conf->yield->yield_count = 0;
-		conf->yield->yield_capacity = target_relations*2;	//there is no special reason why I assign this here ^_^
+		conf->yield->yield_capacity = target_relations*10;
 		conf->yield->yield_array = malloc(sizeof(struct yield_element) * conf->yield->yield_capacity);
 	}	
 

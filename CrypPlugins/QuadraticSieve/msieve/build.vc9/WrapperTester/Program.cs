@@ -11,12 +11,10 @@ namespace WrapperTester
     class Program
     {
         private static Queue yieldqueue;
-        private static IntPtr conf;
         private static bool running;
 
         static void prepareSieving(IntPtr conf, int update, IntPtr core_sieve_fcn)
         {
-            Program.conf = conf;
             Console.WriteLine("Update: " + update);
 
             yieldqueue = Queue.Synchronized(new Queue());
@@ -46,13 +44,13 @@ namespace WrapperTester
         }
 
         static void Main(string[] args)
-        {
+        {            
             Msieve.callback_struct callbacks = new Msieve.callback_struct();
-            callbacks.showProgress = delegate(int num_relations, int max_relations)
-            {
-                System.Console.WriteLine("" + num_relations + " from " + max_relations + " Relations!");
+            callbacks.showProgress = delegate(IntPtr conf, int num_relations, int max_relations)
+            {                
+                System.Console.WriteLine("" + num_relations + " of " + max_relations + " relations!");
                 if (num_relations != -1)
-                    while (yieldqueue.Count != 0)
+                    while (yieldqueue != null && yieldqueue.Count != 0)
                     {
                         Msieve.msieve.saveYield(conf, (IntPtr)yieldqueue.Dequeue());
                         Console.WriteLine("Get yield from queue.");
