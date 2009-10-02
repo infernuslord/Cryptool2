@@ -31,8 +31,13 @@ namespace QuadraticSieve
         private bool hasChanges = false;
         #endregion
 
+        public QuadraticSieveSettings()
+        {
+            CoresUsed = Environment.ProcessorCount-1;
+        }
+
         #region taskpane
-        [TaskPane("CoresUsed", "Choose how many cores are used", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "1", "2", "3", "4" })]
+        [TaskPane("CoresUsed", "Choose how many cores are used", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "1", "2", "3", "4", "5", "6", "7", "8" })]
         public int CoresUsed
         {
             get { return this.coresUsed; }
