@@ -191,7 +191,7 @@ namespace WordPatterns
             {
                 patternArray = new int[word.Length];
                 
-                Dictionary<char, int> seenLetters = new Dictionary<char, int>();
+                Dictionary<char, int> seenLetters = new Dictionary<char, int>(15);
                 int letterNumber = 0;
                 
                 for (int i = 0; i < word.Length; i++)
