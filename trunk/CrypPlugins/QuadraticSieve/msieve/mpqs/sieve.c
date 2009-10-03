@@ -684,7 +684,8 @@ static uint32 do_sieving_internal(sieve_conf_t *conf,
 		}
 	}
 
-	showProgress(conf, -1, -1);	//We finnished sieving :D 
+	if (!(obj->flags & MSIEVE_FLAG_STOP_SIEVING))
+		showProgress(conf, -1, -1);	//We finnished sieving :D 
 
 	if (obj->flags & (MSIEVE_FLAG_USE_LOGFILE |
 	    		   MSIEVE_FLAG_LOG_TO_STDOUT))

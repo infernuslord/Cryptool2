@@ -44,6 +44,8 @@ namespace Cryptool.Plugins.QuadraticSieve
         private Queue yieldqueue;
         private IntPtr obj = IntPtr.Zero;
         private volatile int threadcount = 0;
+        private DateTime last_time;
+        private int last_relations;
 
         static QuadraticSieve()
         {
@@ -133,8 +135,16 @@ namespace Cryptool.Plugins.QuadraticSieve
             }
             else
             {
-                ProgressChanged((double)num_relations / max_relations * 0.8 + 0.1, 1.0);
-                GuiLogMessage("" + num_relations + " of " + max_relations + " relations!", NotificationLevel.Debug);
+                ProgressChanged((double)num_relations / max_relations * 0.8 + 0.1, 1.0);                
+                TimeSpan diff = DateTime.Now - last_time;
+                double msleft = (diff.TotalMilliseconds / (num_relations-last_relations)) * (max_relations - num_relations);                                
+                if (msleft > 0)
+                {
+                    GuiLogMessage("" + num_relations + " of " + max_relations + " relations! About " + (int)msleft + " ms left.", NotificationLevel.Debug);
+                }
+
+                last_relations = num_relations;
+                last_time = DateTime.Now;
                 
                 while (yieldqueue.Count != 0)       //get all the results from the helper threads, and store them
                 {
@@ -149,10 +159,12 @@ namespace Cryptool.Plugins.QuadraticSieve
             yieldqueue = Queue.Synchronized(new Queue());
             GuiLogMessage("Start sieving", NotificationLevel.Info);
             ProgressChanged(0.1, 1.0);
+            last_time = DateTime.Now;
+            last_relations = 0;
 
             running = true;
             //start helper threads:
-            for (int i = 1; i < Math.Min(settings.CoresUsed, Environment.ProcessorCount); i++)
+            for (int i = 0; i < Math.Min(settings.CoresUsed, Environment.ProcessorCount-1); i++)
             {
                 IntPtr clone = msieve.cloneSieveConf(conf);
                 WaitCallback worker = new WaitCallback(MSieveJob);
