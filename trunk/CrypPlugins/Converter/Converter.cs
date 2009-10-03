@@ -223,20 +223,21 @@ namespace Cryptool.Plugins.Converter
                                 {
                                     try // string -> double Läuft
                                     {
-                                        if (inpString.Contains("."))
+                                        if (inpString.Contains(".") && (inpString.IndexOf(".") == inpString.LastIndexOf("."))) //wenn genau ein punkt drin ist, mach den punkt zum komma
                                         {
-                                            while (inpString.Contains(".") && (inpString.IndexOf(".") != inpString.LastIndexOf(".")))
-                                            {
-                                                int position = inpString.IndexOf(".");
-                                                inpString.Insert(position, ",");
-                                                inpString.Remove(position - 1, 1);
-                                            }
+                                            string stringtemp=inpString.Replace(".", ",");  
+                                            double temp = Convert.ToDouble(stringtemp);
+                                            
+                                            Output = temp;
+                                            ProgressChanged(100, 100);
                                         }
-                                        GuiLogMessage("cast klappt", NotificationLevel.Info);
-                                        double temp = Convert.ToDouble(inpString);
-                                        Output = temp;
-                                        
-                                        ProgressChanged(100, 100);
+                                        else
+                                        {
+                                            double temp = Convert.ToDouble(inpString);
+                                           
+                                            Output = temp;
+                                            ProgressChanged(100, 100);
+                                        }
                                     }
                                     catch (Exception e)
                                     {
