@@ -34,13 +34,13 @@ namespace Cryptool.BooleanFunctionParser
         private BooleanFunctionParserPresentation booleanFunctionParserPresentation;
         private BooleanFunctionParserSettings settings;
         private string inputFunction;
-        private bool[] inputVariableOne;
-        private bool[] inputVariableTwo;
-        private bool[] inputVariableThree;
+        //private bool[] inputVariableOne;
+        //private bool[] inputVariableTwo;
+        //private bool[] inputVariableThree;
         private bool output;
         private bool lastInputWasFunction = false;
         private int inputs = 1;
-        private string fillValue;
+        //private string fillValue;
         private bool canSendPropertiesChangedEvent = true;
 
         #endregion
@@ -54,6 +54,7 @@ namespace Cryptool.BooleanFunctionParser
         public int inputOneFlag = 0;
         public int inputTwoFlag = 0;
         public int inputThreeFlag = 0;
+        public int[] additionalInputsFlag = null;
 
         #endregion
 
@@ -204,9 +205,26 @@ namespace Cryptool.BooleanFunctionParser
         {
             try
             {
-                // do calculation only, if last event was from the function input
-                //if (lastInputWasFunction == true)
-                //{
+                // do calculation only, if all input flags are clean (= 1) or last event was from the function and all inputs are dirty (= 0)
+                int sumOfFlags = 0;
+                //string allFlags = null;
+                foreach (int flag in additionalInputsFlag) {
+                    sumOfFlags += flag;
+                    //allFlags += flag.ToString();
+                }
+                //GuiLogMessage("sumOfFlags: " + sumOfFlags + ", addIFl: " + allFlags, NotificationLevel.Info);
+
+                //if (sumOfFlags == additionalInputsFlag.Length || (lastInputWasFunction == true && sumOfFlags == 0))
+                if (sumOfFlags == additionalInputsFlag.Length)
+                {
+                    // set all flags to zero
+                    for (int flagIteration = 0; flagIteration < additionalInputsFlag.Length; flagIteration++)
+                    {
+                        additionalInputsFlag[flagIteration] = 0;
+                    }
+                    // revert also state of inputFunction flag
+                    lastInputWasFunction = false;
+
                     int intOutput = ParseBooleanFunction(inputFunction, null, 0);
                     if (intOutput == -1) return;
                     else
@@ -214,7 +232,7 @@ namespace Cryptool.BooleanFunctionParser
                         output = Convert.ToBoolean(intOutput);
                         OnPropertyChanged("Output");
                     }
-                //}
+                }
             }
             catch (Exception exception)
             {
@@ -300,9 +318,11 @@ namespace Cryptool.BooleanFunctionParser
             {
                 DicDynamicProperties.Clear();
                 inputs = 0;
+                additionalInputsFlag = new int[settings.CountOfInputs];
                 for (int i = 0; i < settings.CountOfInputs; i++)
                 {
-                    AddInput("Input " + i, "Boolean[] Input " + i);                    
+                    AddInput("Input " + i, "Boolean[] Input " + i);
+                    additionalInputsFlag[i] = 0;
                 }
                 // Event should be fired even if no additional inputs are set, because when 
                 // setting back to zero editor needs the event to remove the input.
@@ -345,6 +365,8 @@ namespace Cryptool.BooleanFunctionParser
                     function = quickwatchFunction;
                 else if (quickwatchFunctionCube != null && quickwatchFunctionCube != string.Empty && switchInputs == 2)
                     function = quickwatchFunctionCube;
+                else if (quickwatchFunction != null && quickwatchFunction != string.Empty)
+                    function = quickwatchFunction;
                 else
                     return -1;
             }
@@ -371,9 +393,24 @@ namespace Cryptool.BooleanFunctionParser
 
         #region private functions
 
+        private string makeStarsInText(Match m)
+        {
+            // Get the matched string.
+            string x = m.ToString();
+            // insert an * before the i
+            x = x.Insert(x.Length - 1, "*");
+            // a new star is born
+            return x;
+        }
+
         private string ReplaceVariables(string strExpressionWithVariables, bool[] externData, int switchData)
         {
-            string strExpression = strExpressionWithVariables;
+            // remove spaces
+            string strExpression = strExpressionWithVariables.Replace(" ", "");
+            // add * if there aren't any (and should be)
+            // example: x^2+x^2x^3 ==> x^2+x^2*x^3
+            Regex makeStars = new Regex("([0-9])i");
+            strExpression = makeStars.Replace(strExpression, new MatchEvaluator(makeStarsInText));
 
             // replace variables with value and get numeric values from boolean inputs (if there are any)
             /*if (inputOneFlag == 1 && inputVariableOne != null)
@@ -415,13 +452,13 @@ namespace Cryptool.BooleanFunctionParser
             {
                 if (getCurrentValue("Input " + i) != null)
                 {
-                    bool[] additionalTempValueBool = (bool[])getCurrentValue("Input " + i);
+                    bool[] additionalTempValueBool = (bool[])methodGetValue("Input " + i);
                     char[] strInputVariableAditionalTemp = new char[additionalTempValueBool.Length];
                     for (int j = additionalTempValueBool.Length - 1; j >= 0; j--)
                     {
                         // get numeric values from bool inputs
                         strInputVariableAditionalTemp[j] = additionalTempValueBool[j] ? '1' : '0';
-                        string replacement = "i_" + (i+4) + "." + j;
+                        string replacement = "i_" + (i) + "." + j;
                         strExpression = strExpression.Replace(replacement, strInputVariableAditionalTemp[j].ToString());
                     }
                 }
@@ -506,6 +543,8 @@ namespace Cryptool.BooleanFunctionParser
         {
             // remove spaces from given expression
             string strExpressionNormalized = strExpression.Replace(" ", "");
+            char tab = '\u0009';
+            strExpressionNormalized = strExpressionNormalized.Replace(tab.ToString(), "");
 
             // test if count of '(' equals count of ')'
             Regex countLeftPRegEx = new Regex(@"\(");
@@ -585,22 +624,29 @@ namespace Cryptool.BooleanFunctionParser
             {
                 //GuiLogMessage("Position of '*': " + positionAND, NotificationLevel.Debug);
 
-                // remove XOR
-                function = function.Remove(positionAND, 1);
-
-
                 // get both operands
                 string operator1 = function.Substring(positionAND - 1, 1);
-                string operator2 = function.Substring(positionAND, 1);
-                //GuiLogMessage("op1 and op2: " + operator1 + ", " + operator2, NotificationLevel.Debug);
+                string operator2 = function.Substring(positionAND + 1, 1);
+                //GuiLogMessage("op1 and op2: " + operator1 + ", " + operator2, NotificationLevel.Info);
 
-                string product = (Int32.Parse(operator1) & Int32.Parse(operator2)).ToString();
-                //GuiLogMessage("product: " + product, NotificationLevel.Debug);
+                string sum = null;
+                try
+                {
+                    sum = (Int32.Parse(operator1) & Int32.Parse(operator2)).ToString();
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage("sum fehlgeschlagen:", NotificationLevel.Info);
+                    GuiLogMessage("op1 and op2: " + operator1 + ", " + operator2, NotificationLevel.Info);
+                }
+                
+                //GuiLogMessage("sum: " + sum, NotificationLevel.Debug);
+
                 // remove old values
-                function = function.Remove(positionAND, 1);
-                function = function.Remove(positionAND - 1, 1);
+                function = function.Remove(positionAND - 1, 3);
+
                 // insert new value
-                function = function.Insert(positionAND - 1, product);
+                function = function.Insert(positionAND - 1, sum);
                 //GuiLogMessage("function: " + function, NotificationLevel.Debug);
 
                 // any other ANDs in there?
@@ -614,22 +660,20 @@ namespace Cryptool.BooleanFunctionParser
             {
                 //GuiLogMessage("Position of '+': " + positionXOR, NotificationLevel.Debug);
 
-                // remove XOR
-                function = function.Remove(positionXOR, 1);
-
-
                 // get both operands
                 string operator1 = function.Substring(positionXOR - 1, 1);
-                string operator2 = function.Substring(positionXOR, 1);
+                string operator2 = function.Substring(positionXOR + 1, 1);
                 //GuiLogMessage("op1 and op2: " + operator1 + ", " + operator2, NotificationLevel.Debug);
 
-                string sum = (Int32.Parse(operator1) ^ Int32.Parse(operator2)).ToString();
-                //GuiLogMessage("sum: " + sum, NotificationLevel.Debug);
+                string product = (Int32.Parse(operator1) ^ Int32.Parse(operator2)).ToString();
+                
+                //GuiLogMessage("product: " + product, NotificationLevel.Debug);
+
                 // remove old values
-                function = function.Remove(positionXOR, 1);
-                function = function.Remove(positionXOR - 1, 1);
+                function = function.Remove(positionXOR - 1, 3);
+
                 // insert new value
-                function = function.Insert(positionXOR - 1, sum);
+                function = function.Insert(positionXOR - 1, product);
                 //GuiLogMessage("function: " + function, NotificationLevel.Debug);
 
                 // any other XORs in there?
@@ -658,7 +702,6 @@ namespace Cryptool.BooleanFunctionParser
               new DynamicProperty(name, typeof(bool[]),
                 new PropertyInfoAttribute(Direction.InputData, name, toolTip, "", false, true, DisplayLevel.Beginner, QuickWatchFormat.None, null))
             );
-            //DicDynamicProperties[name].Value = null;
         }
 
         #endregion
@@ -666,6 +709,10 @@ namespace Cryptool.BooleanFunctionParser
         [MethodImpl(MethodImplOptions.Synchronized)]
         public object methodGetValue(string propertyKey)
         {
+            // set flag of input <-- is now set in Execute()
+            //int numberInPropertyKey = Int32.Parse(propertyKey.Substring(propertyKey.Length - 1));
+            //additionalInputsFlag[numberInPropertyKey] = 0;
+
             return getCurrentValue(propertyKey); // QuickWatchDataCall to Input values
         }
 
@@ -677,6 +724,9 @@ namespace Cryptool.BooleanFunctionParser
                 if (DicDynamicProperties.ContainsKey(propertyKey))
                 {
                     DicDynamicProperties[propertyKey].Value = value;
+                    // set flag of input
+                    int numberInPropertyKey = Int32.Parse(propertyKey.Substring(6));
+                    additionalInputsFlag[numberInPropertyKey] = 1;
                 }
 
                 OnPropertyChanged(propertyKey);
