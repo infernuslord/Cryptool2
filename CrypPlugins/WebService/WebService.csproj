@@ -76,7 +76,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource1.resx</DependentUpon>
     </Compile>
-    <Compile Include="SecurityPolicy.cs" />
     <Compile Include="SignatureValidator.cs" />
     <Compile Include="WebService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

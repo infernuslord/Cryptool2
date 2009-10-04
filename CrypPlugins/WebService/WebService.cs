@@ -433,7 +433,7 @@ namespace WebService
           
             object test2 = new object();
             object[] array = null;
-            string t2;
+            string response;
             if (serviceDescription == null)
             {
                 EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Es liegt keine Service Beschreibung vor. Wurde der Web Service nicht kompiliert?", this, NotificationLevel.Error));
@@ -457,11 +457,11 @@ namespace WebService
                 Message messageInput = messages[input.Message.Name];
                 MessagePart messageOutputPart = messageOutput.Parts[0];
                 MessagePart messageInputPart = messageInput.Parts[0];
-                XmlSchema fsdf = types.Schemas[0];
+                XmlSchema xmlSchema = types.Schemas[0];
 
 
-                XmlSchemaElement outputSchema = (XmlSchemaElement)fsdf.Elements[messageOutputPart.Element];
-                XmlSchemaElement inputSchema = (XmlSchemaElement)fsdf.Elements[messageInputPart.Element];
+                XmlSchemaElement outputSchema = (XmlSchemaElement)xmlSchema.Elements[messageOutputPart.Element];
+                XmlSchemaElement inputSchema = (XmlSchemaElement)xmlSchema.Elements[messageInputPart.Element];
 
                 XmlSchemaComplexType complexTypeOutput = (XmlSchemaComplexType)outputSchema.SchemaType;
                 XmlSchemaSequence sequenzTypeOutput = (XmlSchemaSequence)complexTypeOutput.Particle;
@@ -472,7 +472,7 @@ namespace WebService
                 Hashtable paramTypesTable = new Hashtable();
                 StringWriter twriter = new StringWriter();
                 //  TextWriter writer= new TextWriter(twriter);
-                fsdf.Write(twriter);
+                xmlSchema.Write(twriter);
 
                
                 set = new DataSet();
@@ -575,7 +575,7 @@ namespace WebService
                         {
                             if (array[i] == null)
                             {goto Abbruch;
-                                break;
+                             
                             }
                         }
                         try
@@ -612,10 +612,10 @@ namespace WebService
                         }
                         else { service.GetType().GetMethod(operation.Name).Invoke(service, array); }
                     }
-                    t2 = test2.ToString();
-                    this.createResponse(t2);
+                    response = test2.ToString();
+                    this.createResponse(response);
 
-                SignaturAbbruch: ;
+            
                    
                         
                     
@@ -704,14 +704,14 @@ namespace WebService
             string test = Data.ToString();
 
             XmlDocument doc = (XmlDocument)this.outputString;
-            StringWriter tim = new StringWriter();
+            StringWriter stringWriter = new StringWriter();
             Object obj = new Object();
             try
             {
-                XmlTextWriter jan = new XmlTextWriter(tim);
-                jan.Formatting = Formatting.Indented;
-                doc.WriteContentTo(jan);
-                obj = (Object)tim.ToString();
+                XmlTextWriter xmlWriter = new XmlTextWriter(stringWriter);
+                xmlWriter.Formatting = Formatting.Indented;
+                doc.WriteContentTo(xmlWriter);
+                obj = (Object)stringWriter.ToString();
             }
             catch (Exception e)
             {
@@ -724,17 +724,17 @@ namespace WebService
         }
         public Object XmlConverter(Object Data)
         {
-            string test = Data.ToString();
+          
            
             XmlDocument doc = (XmlDocument)this.inputString;
-            StringWriter tim = new StringWriter();
+            StringWriter stringWriter = new StringWriter();
             Object obj = new Object();
             try
             {
-                XmlTextWriter jan = new XmlTextWriter(tim);
-                jan.Formatting = Formatting.Indented;
-                doc.WriteContentTo(jan);
-                obj = (Object)tim.ToString();
+                XmlTextWriter xmlWriter = new XmlTextWriter(stringWriter);
+                xmlWriter.Formatting = Formatting.Indented;
+                doc.WriteContentTo(xmlWriter);
+                obj = (Object)stringWriter.ToString();
             }
             catch (Exception e)
             {Console.WriteLine(e.ToString());
@@ -794,17 +794,17 @@ namespace WebService
 
 
 
-                object test = service.GetType().InvokeMember("getWsdl", System.Reflection.BindingFlags.InvokeMethod, null, service, null);
-                ServiceDescription moin = (ServiceDescription)test;
+                object obj = service.GetType().InvokeMember("getWsdl", System.Reflection.BindingFlags.InvokeMethod, null, service, null);
+                ServiceDescription description = (ServiceDescription)obj;
                 System.IO.StringWriter stringWriter = new System.IO.StringWriter();
 
                 XmlTextWriter xmlWriter = new XmlTextWriter(stringWriter);
                 xmlWriter.Formatting = Formatting.Indented;
-                moin.Write(xmlWriter);
+                description.Write(xmlWriter);
 
                 string theWsdl = stringWriter.ToString();
                 presentation.showWsdl(theWsdl);
-                this.description = moin;
+                this.description = description;
                 StringReader stringReader = new StringReader(theWsdl);
                 XmlTextReader xmlReader = new XmlTextReader(stringReader);
                 wsdlDocument.LoadXml(theWsdl);
