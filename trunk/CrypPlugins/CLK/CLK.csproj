@@ -53,6 +53,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CLK.cs" />
+    <Compile Include="CLKPresentation.xaml.cs">
+      <DependentUpon>CLKPresentation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CLKSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -91,6 +94,12 @@
   <ItemGroup>
     <Resource Include="Images\false.png" />
     <Resource Include="Images\true.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="CLKPresentation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

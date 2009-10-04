@@ -11,14 +11,25 @@ using System.Runtime.Remoting.Contexts;
 using Cryptool.PluginBase.Miscellaneous;
 //timer
 using System.Timers;
+// for mouse click
+using System.Windows.Input;
+// for QuickwatchPresentaton
+using System.Windows.Threading;
 
-namespace Cryptool.Plugins.CLK
+
+using System.Windows;
+//using System.Windows.Data;
+//using System.IO;
+//using System.Runtime.CompilerServices;
+
+namespace Cryptool.CLK
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
   [PluginInfo(true, "CLK", "Simple clock for clock-based plugins.", null, "CLK/icon.png", "CLK/Images/true.png", "CLK/Images/false.png")]
-  public class CLK : IInput
+  public class CLK : DependencyObject, IInput
   {
     # region private variables
+    private CLKPresentation cLKPresentation;
     private bool output;
     private bool eventInput;
     private int timeout = 2000;
@@ -34,10 +45,39 @@ namespace Cryptool.Plugins.CLK
         settings = new CLKSettings();
         settings.PropertyChanged += settings_PropertyChanged;
 
+        cLKPresentation = new CLKPresentation();
+        Presentation = cLKPresentation;
+
+        cLKPresentation.CLKButtonImage.MouseLeftButtonUp += cLKButton_MouseLeftButtonUp;
+        cLKPresentation.myTextBox.TextChanged += textchanged;
+        //cLKPresentation.CLKButtonImage.MouseEnter += mousenter;
+
         // set picture according to settings value
         /* BRINGT NIX - WARUM?
         if (settings.SetClockToTrue) StatusChanged((int)CLKImage.True);
         else StatusChanged((int)CLKImage.False);*/
+    }
+
+    void mousenter(object sender, MouseEventArgs e)
+    {
+        GuiLogMessage("mouse event is coming", NotificationLevel.Info);
+        OnPropertyChanged("Output");
+    }
+
+    void textchanged(object sender, TextChangedEventArgs e)
+    {
+        GuiLogMessage("text event is coming", NotificationLevel.Info);
+        OnPropertyChanged("Output");
+    }
+
+    void cLKButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        GuiLogMessage("mouse event is coming", NotificationLevel.Info);
+        if (e.LeftButton == MouseButtonState.Released)
+        {
+            GuiLogMessage("Left Mouse Button released", NotificationLevel.Info);
+            OnPropertyChanged("Output");
+        }
     }
 
     void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -103,14 +143,11 @@ namespace Cryptool.Plugins.CLK
         get { return settings; }
     }
 
-    public UserControl Presentation
-    {
-        get { return null; }
-    }
+    public UserControl Presentation { get; private set; }
 
-    public UserControl QuickWatchPresentation
+    public System.Windows.Controls.UserControl QuickWatchPresentation
     {
-        get { return null; }
+        get { return Presentation; }
     }
 
     public void PreExecution()

@@ -469,7 +469,7 @@ namespace Cryptool.LFSR
                     else
                         tapSequencebuffer = settings.Polynomial;
 
-                    //read seed only one time until stop of chain
+                    //read seed
                     if (settings.Seed == null || (settings.Seed != null && settings.Seed.Length == 0))
                         seedbuffer = inputSeed;
                     else
@@ -596,7 +596,7 @@ namespace Cryptool.LFSR
                     }*/
 
                     // check if Rounds are given
-                    int defaultRounds = 1;
+                    int defaultRounds = 10;
 
                     // check if Rounds in settings are given and use them only if no bool clock is selected
                     if (!settings.UseBoolClock)
@@ -749,9 +749,6 @@ namespace Cryptool.LFSR
                                 lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, ' ', BuildPolynomialFromBinary(tapSequenceCharArray));
                             }
                         }
-
-                        //GuiLogMessage("LFSR Clock is 0, no computation.", NotificationLevel.Info);
-                        //return;
                     }
                     // in both cases update additional output bit if set in settings
                     if (settings.UseAdditionalOutputBit)
@@ -811,7 +808,6 @@ namespace Cryptool.LFSR
 
         public void Initialize()
         {
-            //throw new NotImplementedException();
         }
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
@@ -830,7 +826,6 @@ namespace Cryptool.LFSR
 
         public void Pause()
         {
-            //throw new NotImplementedException();
         }
 
         public void PostExecution()
