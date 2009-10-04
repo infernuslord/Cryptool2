@@ -661,7 +661,7 @@ namespace WebService
 
         }
         
-        [ControllerProperty(Direction.OutputData,"Public-Key output", "Encryption Key",DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.ControlMaster,"Public-Key output", "Encryption Key",null,DisplayLevel.Beginner)]
       public string publicKey
     {
         get
@@ -677,7 +677,7 @@ namespace WebService
            
     }
 
-        [ControllerProperty(Direction.OutputData, "WSDL output", "Web Service Description", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.ControlMaster, "WSDL output", "Web Service Description", null, DisplayLevel.Beginner)]
         public XmlDocument Wsdl
         {
             get { return this.wsdlDocument; }
