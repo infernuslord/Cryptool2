@@ -12,12 +12,14 @@
     <AssemblyName>ManInTheMiddle</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\Test\trunk\CrypWin\bin\Debug\CrypPlugins\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -91,6 +93,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="key.snk" />
     <None Include="Resources\EditIcon.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -101,4 +104,12 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>cd "$(ProjectDir)"
+cd ..\..\CrypWin\$(OutDir)
+
+if not exist "./CrypPlugins" mkdir "./CrypPlugins"
+del /F /S /Q /s /q "ManInTheMiddle.*"
+copy "$(TargetDir)ManInTheMiddle.*" "./CrypPlugins"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
