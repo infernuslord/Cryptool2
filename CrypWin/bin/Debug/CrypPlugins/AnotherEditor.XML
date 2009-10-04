@@ -4472,6 +4472,11 @@
               Looks up a localized string similar to Dynamic Properties of Plugin: {0} changed. Flushing Undo/Redo history....
             </summary>
         </member>
+        <member name="P:AnotherEditor.Properties.Dialogs.dynamic_property_cant_change">
+            <summary>
+              Looks up a localized string similar to Can&apos;t dynamic property while a dynmaic property is connected. This event should not be fired. Please check implementation of you plugin &quot;CanSendPropertiesChangedEvent&quot;..
+            </summary>
+        </member>
         <member name="P:AnotherEditor.Properties.Dialogs.editor_name">
             <summary>
               Looks up a localized string similar to Another Editor.
