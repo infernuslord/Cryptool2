@@ -74,14 +74,14 @@ namespace Cryptool.NLFSR
                 VertLine1.StrokeThickness = 1;
                 myGrid.Children.Add(VertLine1);
 
-                Line VertLine2 = new Line();
+                /*Line VertLine2 = new Line();
                 VertLine2.X1 = 35 + (state.Length - 1) * 29;
                 VertLine2.Y1 = 32;
                 VertLine2.X2 = 35 + (state.Length - 1) * 29;
                 VertLine2.Y2 = 47;
                 VertLine2.Stroke = Brushes.Black;
                 VertLine2.StrokeThickness = 1;
-                myGrid.Children.Add(VertLine2);
+                myGrid.Children.Add(VertLine2);*/
 
                 // add connection circle
                 /*Ellipse ConnectionCircle = new Ellipse();
@@ -253,7 +253,7 @@ namespace Cryptool.NLFSR
                 }
                 // disable /*last*/ and first XOR
                 //myGrids[0].Visibility = Visibility.Hidden;
-                myGrids[state.Length - 1].Visibility = Visibility.Hidden;
+                //myGrids[state.Length - 1].Visibility = Visibility.Hidden;
 
                 // add output bit label
                 Label outPutLabel = new Label();
@@ -301,7 +301,7 @@ namespace Cryptool.NLFSR
                 
                 for (i = 0; i < state.Length; i++)
                 {
-                    childVisual = (Visual)VisualTreeHelper.GetChild(myGrid, 6 + i * 2);
+                    childVisual = (Visual)VisualTreeHelper.GetChild(myGrid, 5 + i * 2);
                     childVisual.SetValue(TextBox.TextProperty, state[i].ToString());
 
                     /*
@@ -314,11 +314,11 @@ namespace Cryptool.NLFSR
                 }
 
                 // update output label
-                childVisual = (Visual)VisualTreeHelper.GetChild(myGrid, 8 + (i-1) * 2);
+                childVisual = (Visual)VisualTreeHelper.GetChild(myGrid, 7 + (i-1) * 2);
                 childVisual.SetValue(Label.ContentProperty, output);
 
                 // update polynome
-                childVisual = (Visual)VisualTreeHelper.GetChild(myGrid, 9 + (i - 1) * 2);
+                childVisual = (Visual)VisualTreeHelper.GetChild(myGrid, 8 + (i - 1) * 2);
                 childVisual.SetValue(TextBox.TextProperty, polynomial);
 
             }, null);

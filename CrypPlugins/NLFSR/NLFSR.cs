@@ -33,13 +33,12 @@ namespace Cryptool.NLFSR
         private NLFSRSettings settings;
         private String inputTapSequence;
         private String inputSeed;
-        private CryptoolStream inputClock;
         private CryptoolStream outputStream;
         private String outputString;
         private bool outputBool;
         private bool inputClockBool;
         private bool outputClockingBit;
-        private string tapSequenceString = null;
+        //private string tapSequenceString = null;
         
         private NLFSRPresentation NLFSRPresentation;
         private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
@@ -99,7 +98,7 @@ namespace Cryptool.NLFSR
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Seed", "Seed of the NLFSR in binary presentation.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Seed", "Seed of the NLFSR in binary presentation.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public String InputSeed
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -197,6 +196,18 @@ namespace Cryptool.NLFSR
             }
         }
 
+        bool[] outputBoolArray = new bool[1];
+        [PropertyInfo(Direction.OutputData, "Boolean[] Output", "NLFSR Boolean Output. Use this output together with a clock input.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public bool[] OutputBoolArray
+        {
+            get { return outputBoolArray; }
+            set
+            {
+                outputBoolArray = (bool[])value;
+                //OnPropertyChanged("OutputBool");
+            }
+        }
+
         [PropertyInfo(Direction.OutputData, "Clocking Bit Output", "Clocking Bit Output.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool OutputClockingBit
         {
@@ -216,16 +227,8 @@ namespace Cryptool.NLFSR
                 outputStream = null;
                 outputString = null;
                 outputStringBuffer = null;
-                inputClock = null;
                 inputTapSequence = null;
                 inputSeed = null;
-
-                if (inputClock != null)
-                {
-                    inputClock.Flush();
-                    inputClock.Close();
-                    inputClock = null;
-                }
 
                 if (outputStream != null)
                 {
@@ -250,22 +253,27 @@ namespace Cryptool.NLFSR
 
         #region private functions
 
-        private void checkForInputTapSequence()
+        private int checkForInputTapSequence()
         {
-            if ((inputTapSequence == null || (inputTapSequence != null && inputTapSequence.Length == 0)))
+            if ((inputTapSequence == null || (inputTapSequence != null && inputTapSequence.Length == 0)) && (settings.Polynomial == null || (settings.Polynomial != null && settings.Polynomial.Length == 0)))
             {
                 // create some input
-                String dummystring = "1011";
+                String dummystring = "x^2 * 1";
                 // this.inputTapSequence = new String();
                 inputTapSequence = dummystring;
                 // write a warning to the outside world
                 GuiLogMessage("WARNING - No TapSequence provided. Using dummy data (" + dummystring + ").", NotificationLevel.Warning);
+                return 1;
+            }
+            else
+            {
+                return 0;
             }
         }
 
-        private void checkForInputSeed()
+        private int checkForInputSeed()
         {
-            if ((inputSeed == null || (inputSeed != null && inputSeed.Length == 0)))
+            if ((inputSeed == null || (inputSeed != null && inputSeed.Length == 0)) && (settings.Seed == null || (settings.Seed != null && settings.Seed.Length == 0)))
             {
                 // create some input
                 String dummystring = "1010";
@@ -273,24 +281,16 @@ namespace Cryptool.NLFSR
                 inputSeed = dummystring;
                 // write a warning to the outside world
                 GuiLogMessage("WARNING - No Seed provided. Using dummy data (" + dummystring + ").", NotificationLevel.Warning);
+                return 1;
             }
-        }
-
-        private void checkForInputClock()
-        {
-            if ((inputClock == null || (inputClock != null && inputClock.Length == 0)))
+            else
             {
-                //create some input
-                String dummystring = "1";
-                this.inputClock = new CryptoolStream();
-                this.inputClock.OpenRead(this.GetPluginInfoAttribute().Caption, Encoding.Default.GetBytes(dummystring.ToCharArray()));
-                // write a warning to the outside world
-                GuiLogMessage("FYI - No clock input provided. Assuming number of rounds specified in NLFSR settings.", NotificationLevel.Info);
+                return 0;
             }
         }
 
         // Function to make binary representation of polynomial
-        private String MakeBinary(String strPoly)
+        /*private String MakeBinary(String strPoly)
         {
             bool gotX = false;
             // remove spaces
@@ -339,7 +339,7 @@ namespace Cryptool.NLFSR
             //GuiLogMessage("strPolyBinary is: " + strPolyBinary, NotificationLevel.Info);
 
             return strPolyBinary;
-        }
+        }*/
 
         // Function to test for NLFSR Polnyomial
         private bool IsPolynomial(String strPoly)
@@ -348,8 +348,8 @@ namespace Cryptool.NLFSR
             strPoly = strPoly.Replace(" ", "");
             //(x\^([2-9]|[0-9][0-9])\+)*[x]?([\+]?1){1}
             // TODO
-            //Regex objPolynomial = new Regex("(x\\^([2-9]|[0-9][0-9])([\\*]|[\\+]|[\\|]|[\\-]|[_]|[°]|[v]|[\\^]))+[x]?");
-            Regex objBoolExpression = new Regex("([0-1]([\\*]|[\\+]|[\\|]|[\\-]|[_]|[°]|[v]|[\\^])+[0-1]{1})");
+            //Regex objPolynomial = new Regex("(x\\^([0-9]|[1-9][0-9])([\\*]|[\\+]|[\\|]|[\\-]|[_]|[°]|[v]|[\\^]))*");
+            Regex objBoolExpression = new Regex("([0-1]([\\*]|[\\+]|[\\|]|[\\-]|[_]|[°]|[v]|[\\^]))*");
             //Regex keinHoch0 = new Regex("(x\\^[0]\\+)+");
             //return !keinHoch0.IsMatch(strPoly) && objBoolExpression.IsMatch(strPoly);
             return objBoolExpression.IsMatch(strPoly);
@@ -375,7 +375,7 @@ namespace Cryptool.NLFSR
             return tempCharArray;
         }
 
-        private string BuildPolynomialFromBinary(char [] tapSequence)
+        /*private string BuildPolynomialFromBinary(char [] tapSequence)
         {
             string polynomial = "Feedback polynomial: \n";
             char[] tempTapSequence = ReverseOrder(tapSequence);
@@ -396,11 +396,27 @@ namespace Cryptool.NLFSR
             polynomial += "1";
 
             return  polynomial;
+        }*/
+
+        private string makeStarsInText(Match m)
+        {
+            // Get the matched string.
+            string x = m.ToString();
+            // insert an * before the x
+            x = x.Insert(x.Length - 1, "*");
+            return x;
         }
+
 
         private string ReplaceVariables(string strExpressionWithVariables, char[] currentState)
         {
-            string strExpression = strExpressionWithVariables;
+            // remove all spaces in function
+            string strExpression = strExpressionWithVariables.Replace(" ", "");
+            // first, lets put in *, if there aren't any (and should be there)
+            // example: x^2+x^2x^3 ==> x^2+x^2*x^3
+            Regex makeStars = new Regex("([0-9])x");
+            strExpression = makeStars.Replace(strExpression, new MatchEvaluator(makeStarsInText));
+
             //GuiLogMessage("strExpression /w vars: " + strExpression, NotificationLevel.Info);
             char[] strFSRValues = new char[currentState.Length]; // fix the length
 
@@ -409,10 +425,10 @@ namespace Cryptool.NLFSR
             temp = ReverseOrder(currentState);
             string replacement = null;
 
-            for (int i = 1; i <= strFSRValues.Length; i++)
+            for (int i = strFSRValues.Length - 1; i >= 0; i--)
             {
                 replacement = "x^" + i;
-                strExpression = strExpression.Replace(replacement, temp[i-1].ToString());
+                strExpression = strExpression.Replace(replacement, temp[i].ToString());
                 //GuiLogMessage("temp[i-1]: " + temp[i - 1].ToString(), NotificationLevel.Info);
             }
             //strExpression = strExpression.Replace("x", currentState[currentState.Length-1].ToString());
@@ -449,9 +465,6 @@ namespace Cryptool.NLFSR
         // solves string with variables replaced by values
         private bool EvaluateString(string function)
         {
-            // remove all spaces in function
-            function = function.Replace(" ", "");
-
             // test for AND aka '*'
             int positionAND = function.IndexOf("*");
 
@@ -459,20 +472,15 @@ namespace Cryptool.NLFSR
             {
                 //GuiLogMessage("Position of '*': " + positionAND, NotificationLevel.Debug);
 
-                // remove XOR
-                function = function.Remove(positionAND, 1);
-
-
                 // get both operands
                 string operator1 = function.Substring(positionAND - 1, 1);
-                string operator2 = function.Substring(positionAND, 1);
+                string operator2 = function.Substring(positionAND + 1, 1);
                 //GuiLogMessage("op1 and op2: " + operator1 + ", " + operator2, NotificationLevel.Debug);
 
                 string product = (Int32.Parse(operator1) & Int32.Parse(operator2)).ToString();
                 //GuiLogMessage("product: " + product, NotificationLevel.Debug);
                 // remove old values
-                function = function.Remove(positionAND, 1);
-                function = function.Remove(positionAND - 1, 1);
+                function = function.Remove(positionAND - 1, 3);
                 // insert new value
                 function = function.Insert(positionAND - 1, product);
                 //GuiLogMessage("function: " + function, NotificationLevel.Debug);
@@ -488,20 +496,15 @@ namespace Cryptool.NLFSR
             {
                 //GuiLogMessage("Position of '+': " + positionXOR, NotificationLevel.Debug);
 
-                // remove XOR
-                function = function.Remove(positionXOR, 1);
-
-
                 // get both operands
                 string operator1 = function.Substring(positionXOR - 1, 1);
-                string operator2 = function.Substring(positionXOR, 1);
+                string operator2 = function.Substring(positionXOR + 1, 1);
                 //GuiLogMessage("op1 and op2: " + operator1 + ", " + operator2, NotificationLevel.Debug);
 
                 string sum = (Int32.Parse(operator1) ^ Int32.Parse(operator2)).ToString();
                 //GuiLogMessage("sum: " + sum, NotificationLevel.Debug);
                 // remove old values
-                function = function.Remove(positionXOR, 1);
-                function = function.Remove(positionXOR - 1, 1);
+                function = function.Remove(positionXOR - 1, 3);
                 // insert new value
                 function = function.Insert(positionXOR - 1, sum);
                 //GuiLogMessage("function: " + function, NotificationLevel.Debug);
@@ -559,10 +562,10 @@ namespace Cryptool.NLFSR
                 // make all this stuff only one time at the beginning of our chainrun
                 if (newSeed)
                 {
-                    checkForInputTapSequence();
-                    checkForInputSeed();
+                    if (checkForInputTapSequence() == 1) return;
+                    if (checkForInputSeed() == 1) return;
 
-                    if (inputSeed == null || (inputSeed != null && inputSeed.Length == 0))
+                    /*if (inputSeed == null || (inputSeed != null && inputSeed.Length == 0))
                     {
                         GuiLogMessage("No Seed given. Aborting now.", NotificationLevel.Error);
                         if (!settings.UseBoolClock) inputClock.Close();
@@ -574,64 +577,29 @@ namespace Cryptool.NLFSR
                         GuiLogMessage("No TapSequence given. Aborting now.", NotificationLevel.Error);
                         if (!settings.UseBoolClock) inputClock.Close();
                         return;
-                    }
+                    }*/
 
                     // read tapSequence
-                    tapSequencebuffer = inputTapSequence;
+                    if (settings.Polynomial == null || (settings.Polynomial != null && settings.Polynomial.Length == 0))
+                        tapSequencebuffer = inputTapSequence;
+                    else
+                        tapSequencebuffer = settings.Polynomial;
 
-                    // check if tapSequence is binary
-                    /*bool tapSeqisBool = true;
-                    foreach (char character in tapSequencebuffer)
-                    {
-                        if (character != '0' && character != '1')
-                        {
-                            tapSeqisBool = false;
-                            //return;
-                        }
-                    }*/
-
-                    // if tapSequence is not binary, await polynomial
-                    /*if (!tapSeqisBool)
-                    {
-                        GuiLogMessage("TapSequence should not binary. Awaiting polynomial.", NotificationLevel.Info);
-                        if (IsPolynomial(tapSequencebuffer))
-                        {
-                            GuiLogMessage(tapSequencebuffer + " is a valid polynomial.", NotificationLevel.Info);
-                            tapSequenceString = tapSequencebuffer;
-                            tapSequencebuffer = MakeBinary(tapSequencebuffer);
-                            GuiLogMessage("Polynomial in binary form: " + tapSequencebuffer, NotificationLevel.Info);
-
-                            // check if polynomial has false length
-                            if (tapSequencebuffer.Length != inputSeed.Length)
-                            {
-                                GuiLogMessage("ERROR - Your polynomial " + tapSequencebuffer + " has to be the same length (" + tapSequencebuffer.Length + " Bits) as your seed (" + inputSeed.Length + " Bits). Aborting now.", NotificationLevel.Error);
-                                if (!settings.UseBoolClock) inputClock.Close();
-                                return;
-                            }
-
-                            //GuiLogMessage("Polynomial after length fitting: " + tapSequencebuffer, NotificationLevel.Info);
-                        }
-                        else
-                        {
-                            GuiLogMessage("ERROR - " + tapSequencebuffer + " is NOT a valid polynomial. Aborting now.", NotificationLevel.Error);
-                            //Console.WriteLine("\n{0} is NOT a valid polynomial.", tapSequencebuffer);
-                            if (!settings.UseBoolClock) inputClock.Close();
-                            return;
-                        }
-                    }*/
+                    //read seed
+                    if (settings.Seed == null || (settings.Seed != null && settings.Seed.Length == 0))
+                        seedbuffer = inputSeed;
+                    else
+                        seedbuffer = settings.Seed;
 
                     // convert tapSequence into char array
                     //tapSequenceCharArray = ReverseOrder(tapSequencebuffer.ToCharArray());
                     tapSequenceCharArray = tapSequencebuffer.ToCharArray();
 
-                    int tapSequenceBits = inputTapSequence.Length;
-                    seedBits = inputSeed.Length;
+                    int tapSequenceBits = tapSequencebuffer.Length;
+                    seedBits = seedbuffer.Length;
 
                     GuiLogMessage("inputTapSequence length [bits]: " + tapSequenceBits.ToString(), NotificationLevel.Debug);
                     GuiLogMessage("inputSeed length [bits]: " + seedBits.ToString(), NotificationLevel.Debug);
-
-                    //read seed only one time until stop of chain
-                    seedbuffer = inputSeed;
 
                     //check if last tap is 1, otherwise stop
                     /*if (tapSequenceCharArray[tapSequenceCharArray.Length - 1] == '0')
@@ -674,7 +642,7 @@ namespace Cryptool.NLFSR
                     else clocking = -1;
 
                     // check if Rounds are given
-                    int defaultRounds = 1;
+                    int defaultRounds = 10;
 
                     // check if Rounds in settings are given and use them only if no bool clock is selected
                     if (!settings.UseBoolClock)
@@ -687,22 +655,6 @@ namespace Cryptool.NLFSR
                 }
                 
                 // Here we go!
-                // check which clock to use
-                if (settings.UseBoolClock)
-                {
-                    myClock = inputClockBool;
-                }
-                else if (!settings.UseBoolClock)
-                {
-                    // read stream clock
-                    checkForInputClock();
-                    inputClock.OpenWrite("NLFSR Restart");
-                    String stringClock = inputClock.ReadByte().ToString();
-                    inputClock.Position = 0;
-                    if (String.Equals(stringClock, "49")) myClock = true; else myClock = false;
-                    //inputClock.Close();
-                }
-
                 // draw NLFSR Quickwatch
                 if (!settings.NoQuickwatch)
                 {
@@ -712,7 +664,7 @@ namespace Cryptool.NLFSR
                 // open output stream
                 outputStream = new CryptoolStream();
                 listCryptoolStreamsOut.Add(outputStream);
-                outputStream.OpenWrite(this.GetPluginInfoAttribute().Caption);
+                outputStream.OpenWrite();
 
                 //GuiLogMessage("Action is: Now!", NotificationLevel.Debug);
                 DateTime startTime = DateTime.Now;
@@ -740,9 +692,11 @@ namespace Cryptool.NLFSR
                         outputbuffer = seedCharArray[seedBits - 1];
                         outputStream.Write((Byte)outputbuffer);
                         outputStringBuffer += seedCharArray[seedBits - 1];
+                        outputBoolArray[0] = outputBool;
 
                         // update outputs
                         OnPropertyChanged("OutputBool");
+                        OnPropertyChanged("OutputBoolArray");
                         OnPropertyChanged("OutputStream");
 
                         // shift seed array
@@ -753,10 +707,10 @@ namespace Cryptool.NLFSR
                         // replace variables with bits from FSR
                         string tapPolynomial = null;
                         tapPolynomial = ReplaceVariables(tapSequencebuffer, seedCharArray);
+                        //GuiLogMessage("tapPoly: " + tapPolynomial, NotificationLevel.Info);
                         if (!IsPolynomial(tapPolynomial))
                         {
                             GuiLogMessage("ERROR - " + tapSequencebuffer + " is NOT a valid polynomial. Aborting now.", NotificationLevel.Error);
-                            if (!settings.UseBoolClock) inputClock.Close();
                             return;
                         }
                         //GuiLogMessage("tapPolynomial is: " + tapPolynomial, NotificationLevel.Info);
@@ -818,13 +772,15 @@ namespace Cryptool.NLFSR
                             // write bit to output buffer, stream and bool
 
                             outputStream.Write((Byte)outputbuffer);
+                            outputBoolArray[0] = outputBool;
                             OnPropertyChanged("OutputBool");
+                            OnPropertyChanged("OutputBoolArray");
                             OnPropertyChanged("OutputStream");
 
                             // update quickwatch presentation
                             if (!settings.NoQuickwatch)
                             {
-                                NLFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, outputbuffer, BuildPolynomialFromBinary(tapSequenceCharArray));
+                                NLFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, outputbuffer, tapSequencebuffer);
                             }
                             /////////
                         }
@@ -833,7 +789,7 @@ namespace Cryptool.NLFSR
                             // update quickwatch with current state but without any output bit
                             if (!settings.NoQuickwatch)
                             {
-                                NLFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, ' ', BuildPolynomialFromBinary(tapSequenceCharArray));
+                                NLFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, ' ', tapSequencebuffer);
                             }
                         }
 
@@ -871,7 +827,6 @@ namespace Cryptool.NLFSR
 
                     GuiLogMessage("Time used: " + duration, NotificationLevel.Debug);
                     outputStream.Close();
-                    if (!settings.UseBoolClock) inputClock.Close();
                     OnPropertyChanged("OutputStream");
                 }
 
@@ -879,7 +834,6 @@ namespace Cryptool.NLFSR
                 {
                     outputStream.Close();
                     outputStringBuffer = null;
-                    if (!settings.UseBoolClock) inputClock.Close();
                     GuiLogMessage("Aborted!", NotificationLevel.Debug);
                 }
             }

@@ -8,7 +8,7 @@ using System.ComponentModel;
 // for Visibility
 using System.Windows;
 
-namespace Cryptool.Plugins.CLK
+namespace Cryptool.CLK
 {
   public class CLKSettings : ISettings
   {

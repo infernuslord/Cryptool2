@@ -39,7 +39,7 @@ namespace Cryptool.LFSR
         }
 
         string polynomial;
-        [TaskPane("Polynomial", "Define the feedback polynomial either in a textual or a numeric way. For example x^5 +x^2 + 1 which is equal to 10010", null, 0, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("Polynomial", "Define the feedback polynomial either in a textual or a numeric way. For example x^5 + x^2 + 1 which is equal to 10010.", null, 0, false, DisplayLevel.Beginner, ControlType.TextBox)]
         public string Polynomial
         {
             get { return this.polynomial; }
@@ -50,9 +50,7 @@ namespace Cryptool.LFSR
                 HasChanges = true;
             }
         }
-
-
-
+        
         string seed;
         [TaskPane("Seed", "Define the seed of the LFSR. For example 11100", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
         public string Seed
