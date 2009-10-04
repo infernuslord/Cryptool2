@@ -33,7 +33,7 @@ namespace WebService
     public partial class WebServicePresentation : System.Windows.Controls.UserControl
     {
         public TreeViewItem item, inboundPolicy,soapInput, item1;
-        private SecurityPolicy policy;
+    
         private bool referenceValid = true;
         private ArrayList signatureCollection, tempReferenceCollection, tempTransformCollection;
         private string theWsdl;
@@ -381,7 +381,6 @@ namespace WebService
              Image img = (Image)sender;
              string name = img.Name;
       
-             this.policy.addEncryptedElementsAssertion(name);
         
          
              
@@ -1158,26 +1157,7 @@ namespace WebService
 
         
 
-        private void createInBoundPolicy_Click(object sender, RoutedEventArgs e)
-        {
-   policy = new SecurityPolicy(this.webService);
-         //   policy.addSignedElementsAssertion("Envelope/Body");
-            XmlDocument policyDocument=policy.getPolicy();
-          //  this.inboundPolicy = new TreeViewItem();
-            try
-            {
-                policy.loadWSDL("");
-            }
-            catch
-            {
-                this.webService.showError("Es liegt keine Service Beschreibung vor");
-            }
-            inboundPolicy.IsExpanded = true;
-         
-       
-            
-      
-        }
+  
 
         private void button1_Click_1(object sender, RoutedEventArgs e)
         {
