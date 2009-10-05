@@ -23,6 +23,12 @@ namespace Cryptool.LFSR
         #region ISettings Members
 
         private bool hasChanges = false;
+
+        [TaskPane("Draw LFSR", "Initializes LFSR and draws the presentation. This is used to view the LFSR before pressing play.", null, 0, false, DisplayLevel.Beginner, ControlType.Button)]
+        public void initLFSR()
+        {
+            OnPropertyChanged("InitLFSR");
+        }
         
         private int rounds = 1; //how many bits will be generated
         //[ContextMenu("Rounds", "How many bits shall be generated?", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 10, 50, 100 }, "10 bits", "50 bits", "100 bits")]

@@ -224,17 +224,35 @@ namespace Cryptool.CLK
   /// </summary>
   public partial class CLKPresentation : UserControl
   {
-    public CLKPresentation()
-    {
-      InitializeComponent();
-      Height = double.NaN;
-      Width = double.NaN;
-      myTextBox.Text = "1";
-    }
+      public CLKPresentation()
+      {
+          InitializeComponent();
+          Height = double.NaN;
+          Width = double.NaN;
+      }
 
-    private void CLKButtonImage_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-    {
-        myTextBox.Text = "blah";
-    }
+      public void setImageTrue()
+      {
+          Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+          {
+              BitmapImage png = new BitmapImage();
+              png.BeginInit();
+              png.UriSource = new Uri("Images/true.png", UriKind.Relative);
+              png.EndInit();
+              CLKButtonImage.Source = png;
+          }, null);
+      }
+
+      public void setImageFalse()
+      {
+          Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+          {
+              BitmapImage png = new BitmapImage();
+              png.BeginInit();
+              png.UriSource = new Uri("Images/false.png", UriKind.Relative);
+              png.EndInit();
+              CLKButtonImage.Source = png;
+          }, null);
+      }
   }
 }

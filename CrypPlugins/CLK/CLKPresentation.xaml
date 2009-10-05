@@ -5,11 +5,13 @@
     <Grid Margin="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Button Width="32" Height="32" PreviewMouseLeftButtonUp="CLKButtonImage_MouseLeftButtonUp">
-        <Image Source="icon.png" Stretch="None" Name="CLKButtonImage" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" Grid.Row="0" PreviewMouseLeftButtonUp="CLKButtonImage_MouseLeftButtonUp" />
-            </Button>
-        <TextBox Name="myTextBox" Grid.Row="1" />
+        
+        <!--<Button Width="35" Height="35" Name="CLKButton">
+            <Image Source="icon.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" Grid.Row="0" />
+        </Button>-->
+        
+        <Image Source="icon.png" Stretch="Fill" Name="CLKButtonImage" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" Grid.Row="0" Width="32" Height="32" />
+
     </Grid>
 </UserControl>
