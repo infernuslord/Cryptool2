@@ -23,6 +23,8 @@ using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
 using System.Security.Cryptography;
+using System.Threading;
+using System.Collections;
 
 namespace Cryptool.Plugins.RSA
 {
@@ -43,12 +45,12 @@ namespace Cryptool.Plugins.RSA
         private byte[] inputText = null;
         private byte[] outputText = null;
 
+        private int blocks_done = 0;
+        private ArrayList threads;
+
         private bool stopped = false;
 
-        public event StatusChangedEventHandler OnPluginStatusChanged;
-
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
         public ISettings Settings
@@ -89,8 +91,10 @@ namespace Cryptool.Plugins.RSA
             //
             if (this.InputText != null)
             {
+                DateTime startTime = DateTime.Now;
                 GuiLogMessage("starting RSA on texts", NotificationLevel.Info);
-                
+
+                threads = ArrayList.Synchronized(new ArrayList());
                 int blocksize_input = 0;
                 int blocksize_output = 0;
 
@@ -131,15 +135,79 @@ namespace Cryptool.Plugins.RSA
                 
                 //Generate input and output array of correct block size
                 byte[] output = new byte[blocksize_output * blockcount];
-                
-                //encrypt/decrypt each block
-                for (int i = 0; i < blockcount; i++) //walk over the blocks
+                blocks_done = 0;
+
+                if (this.settings.CoresUsed + 1 > Environment.ProcessorCount)
                 {
+                    GuiLogMessage("You selected more Cores (" + (this.settings.CoresUsed + 1) + ") than your System supports (" + Environment.ProcessorCount+").", NotificationLevel.Info);
+                }
+
+                for (int i = 1; i < this.settings.CoresUsed + 1;i++ ) // CoresUsed starts with 0 (so 0 => use 1 Core)
+                {
+                    ParameterizedThreadStart pts = new ParameterizedThreadStart(this.crypt);
+                    Thread thread = new Thread(pts);
+                    thread.Name = "RSA worker thread " + i;
+                    threads.Add(thread);
+                    thread.Start(new Object[6] { output, blockcount, blocksize_input, blocksize_output, i, thread});
+                    GuiLogMessage("started: " + thread.Name, NotificationLevel.Debug);
+
+                    if (stopped)
+                        return;
+
+                }//end for
+
+                //main thread should work also
+                crypt(new Object[6] { output, blockcount, blocksize_input, blocksize_output, 0, null });
+
+                //Wait for all worker threads to stop
+                //Worker threads will be removed by themselves from the list
+                //in finally block
+                while (threads.Count != 0)
+                {
+                    if (stopped)
+                        return;
+
+                    Thread.Sleep(0);
+                }
+
+                ProgressChanged(1.0, 1.0);
+                output = removeZeros(output);
+                this.OutputText = output;
+
+                DateTime stopTime = DateTime.Now;
+                TimeSpan duration = stopTime - startTime;
+
+                GuiLogMessage("finished RSA on texts in " + duration, NotificationLevel.Info);
+
+            }//end if
+            
+        }//end Execute
+
+        /**
+         * Encrypts/Decrypts all blocks belonging to the thread nr
+         */
+        private void crypt(Object parameters)
+        {
+            byte[] output = (byte[])((Object[])parameters)[0];
+            int blockcount = (int)((Object[])parameters)[1];
+            int blocksize_input = (int)((Object[])parameters)[2];
+            int blocksize_output = (int)((Object[])parameters)[3];
+            int threadnr = (int)((Object[])parameters)[4];
+            Thread thread = (Thread)((Object[])parameters)[5];
+
+            try
+            {
+
+                //encrypt/decrypt each block
+                for (int i = threadnr; i < blockcount; i += (this.settings.CoresUsed + 1)) //walk over the blocks
+                // CoresUsed starts with 0 (so 0 => use 1 Core)
+                {
+
                     //create a big integer from a block
-                    byte[] help = new byte[blocksize_input];                    
+                    byte[] help = new byte[blocksize_input];
                     for (int j = 0; j < blocksize_input; j++)
                     {
-                        if(i * blocksize_input + j < InputText.Length)
+                        if (i * blocksize_input + j < InputText.Length)
                             help[j] = InputText[i * blocksize_input + j];
                         if (stopped)
                             return;
@@ -154,14 +222,14 @@ namespace Cryptool.Plugins.RSA
                         GuiLogMessage("The N is not suitable for encrypting this text: M = " + new BigInteger(help) + " > N = " + this.InputN + ". Choose another pair of primes!", NotificationLevel.Error);
                         return;
                     }
-                    
+
                     //here we encrypt/decrypt with rsa algorithm
                     bint = bint.modPow(this.InputED, this.InputN);
-                  
+
                     //create a block from the byte array of the BigInteger
                     byte[] bytes = bint.getBytes();
                     int diff = (blocksize_output - (bytes.Length % blocksize_output)) % blocksize_output;
-                     
+
                     for (int j = 0; j < bytes.Length; j++)
                     {
                         output[i * blocksize_output + j + diff] = bytes[j];
@@ -172,22 +240,23 @@ namespace Cryptool.Plugins.RSA
                     if (stopped)
                         return;
 
-                    ProgressChanged((double)i / blockcount, 1.0);
-                
+                    blocks_done++;
+                    ProgressChanged((double)blocks_done / blockcount, 1.0);
+
                 }//end for i
-                
-                ProgressChanged(1.0, 1.0);
+            }
+            finally
+            {
+                //remove thread from list so that main thread will stop
+                //if all threads are removed
+                if (this.threads != null && thread != null){
+                    threads.Remove(thread);
+                    GuiLogMessage("stopped: " + thread.Name, NotificationLevel.Debug);
+                }
+            }
 
-                output = removeZeros(output);
-
-                this.OutputText = output;
-
-                GuiLogMessage("finished RSA on texts", NotificationLevel.Info);
-
-            }//end if
-            
-        }//end Execute
-
+        }//end crypt
+        
         /*
          * Remove all '0' from a byte array
          */
@@ -347,8 +416,6 @@ namespace Cryptool.Plugins.RSA
             EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
         }
 
-        public event PluginProgressChangedEventHandler OnPluginProcessChanged;
-
         private void ProgressChanged(double value, double max)
         {
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
@@ -358,6 +425,12 @@ namespace Cryptool.Plugins.RSA
         {
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(p, this, notificationLevel));
         }
+
+        #endregion
+
+        #region IPlugin Members
+
+        public event StatusChangedEventHandler OnPluginStatusChanged;
 
         #endregion
     }
