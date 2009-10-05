@@ -33,7 +33,7 @@ static void filter_read_lp_file_1pass(msieve_obj *obj,
 	fp = fopen(buf, "rb");
 	if (fp == NULL) {
 		logprintf(obj, "error: can't open LP file\n");
-		exit(-1);
+		throwException("error: can't open LP file\n");
 	}
 
 	filter->relation_array = (relation_ideal_t *)xmalloc(
@@ -141,7 +141,7 @@ void filter_read_lp_file(msieve_obj *obj, filter_t *filter,
 	fp = fopen(buf, "rb");
 	if (fp == NULL) {
 		logprintf(obj, "error: singleton2 can't open LP file\n");
-		exit(-1);
+		throwException("error: singleton2 can't open LP file\n");
 	}
 
 	header_words = (sizeof(relation_ideal_t) - 
@@ -272,13 +272,13 @@ void filter_purge_lp_singletons(msieve_obj *obj,
 	in_fp = fopen(buf, "rb");
 	if (in_fp == NULL) {
 		logprintf(obj, "error: can't open LP file\n");
-		exit(-1);
+		throwException("error: can't open LP file\n");
 	}
 	sprintf(buf2, "%s.lp0", obj->savefile.name);
 	out_fp = fopen(buf2, "wb");
 	if (out_fp == NULL) {
 		logprintf(obj, "error: can't open LP output file\n");
-		exit(-1);
+		throwException("error: can't open LP output file\n");
 	}
 
 	header_words = (sizeof(relation_ideal_t) - 
@@ -395,11 +395,11 @@ void filter_purge_lp_singletons(msieve_obj *obj,
 	fclose(out_fp);
 	if (remove(buf) != 0) {
 		logprintf(obj, "error: can't delete LP file\n");
-		exit(-1);
+		throwException("error: can't delete LP file\n");
 	}
 	if (rename(buf2, buf) != 0) {
 		logprintf(obj, "error: can't rename LP output file\n");
-		exit(-1);
+		throwException("error: can't rename LP output file\n");
 	}
 	filter->lp_file_size = get_file_size(buf);
 }

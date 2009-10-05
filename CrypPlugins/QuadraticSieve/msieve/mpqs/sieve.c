@@ -212,7 +212,7 @@ void do_sieving(msieve_obj *obj, mp_t *n,
 	if (recip_cutoff < 256) {
 		logprintf(obj, "error1: factor base and/or sieve interval "
 				"is too large\n");
-		exit(-1);
+		throwException("error1: factor base and/or sieve interval is too large\n");
 	}
 	for (i = MIN_FB_OFFSET + 1; i < bound; i++) {
 		fb_t *fbptr = conf.factor_base + i;
@@ -286,7 +286,7 @@ void do_sieving(msieve_obj *obj, mp_t *n,
 	if (recip_cutoff < sieve_block_size) {
 		logprintf(obj, "error: factor base and/or sieve interval "
 				"is too large\n");
-		exit(-1);
+		throwException("error: factor base and/or sieve interval is too large\n");
 	}
 	for (; i < fb_size; i++) {
 		fb_t *fbptr = conf.factor_base + i;

@@ -1,6 +1,7 @@
 #pragma once
 void showProgress(void* conf, int num_relations, int max_relations);
 void prepare_sieving(void* conf, int update, void* core_sieve_fcn);
+void throwException(char* message);
 
 struct relation
 {

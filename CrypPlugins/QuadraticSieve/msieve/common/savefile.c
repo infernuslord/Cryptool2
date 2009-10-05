@@ -80,7 +80,7 @@ void savefile_open(savefile_t *s, uint32 flags) {
 
 	if (s->file_handle == INVALID_HANDLE_VALUE) {
 		printf("error: cannot open '%s'", s->name);
-		exit(-1);
+		throwException("error: cannot open file");
 	}
 	if (flags & SAVEFILE_APPEND) {
 		LARGE_INTEGER fileptr;

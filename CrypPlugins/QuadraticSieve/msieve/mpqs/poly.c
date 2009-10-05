@@ -145,7 +145,7 @@ void poly_init(sieve_conf_t *conf, uint32 sieve_size) {
 	}
 	if (i < 7 || num_factors < 2 || num_factors > MAX_POLY_FACTORS) {
 		logprintf(obj, "fatal error: poly selection failed\n");
-		exit(-1);
+		throwException("fatal error: poly selection failed\n");
 	}
 
 	/* explicitly list out the number of bits each prime
@@ -173,7 +173,7 @@ void poly_init(sieve_conf_t *conf, uint32 sieve_size) {
 	}
 	if (i != conf->a_bits) {
 		logprintf(obj, "failure assigning bits of poly factors\n");
-		exit(-1);
+		throwException("failure assigning bits of poly factors\n");
 	}
 
 	/* for big factorizations, where there are a lot of primes,

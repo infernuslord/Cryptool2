@@ -1352,7 +1352,7 @@ uint32 mp_modsqrt_1(uint32 a, uint32 p) {
 	}
 
 	printf("modsqrt_1 failed\n");
-	exit(-1);
+	throwException("modsqrt_1 failed\n");
 }
 
 /*---------------------------------------------------------------*/

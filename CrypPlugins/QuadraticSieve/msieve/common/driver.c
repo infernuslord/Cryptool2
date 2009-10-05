@@ -13,6 +13,7 @@ $Id: driver.c 23 2009-07-20 02:59:07Z jasonp_sf $
 --------------------------------------------------------------------*/
 
 #include <common.h>
+#include <wrapper.h>
 
 /*--------------------------------------------------------------------*/
 msieve_obj * msieve_obj_new(char *input_integer, uint32 flags,
@@ -297,7 +298,7 @@ void logprintf(msieve_obj *obj, char *fmt, ...) {
 
 		if (logfile == NULL) {
 			fprintf(stderr, "cannot open logfile\n");
-			exit(-1);
+			throwException("cannot open logfile\n");
 		}
 
 		va_start(ap, fmt);
