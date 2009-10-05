@@ -758,7 +758,7 @@ static void dump_lanczos_state(msieve_obj *obj,
 	dump_fp = fopen(buf, "wb");
 	if (dump_fp == NULL) {
 		printf("error: cannot open matrix checkpoint file\n");
-		exit(-1);
+		throwException("error: cannot open matrix checkpoint file\n");
 	}
 
 	fwrite(&n, sizeof(uint32), (size_t)1, dump_fp);
@@ -799,14 +799,14 @@ static void read_lanczos_state(msieve_obj *obj,
 	dump_fp = fopen(buf, "rb");
 	if (dump_fp == NULL) {
 		printf("error: cannot open matrix checkpoint file\n");
-		exit(-1);
+		throwException("error: cannot open matrix checkpoint file\n");
 	}
 
 	status = 1;
 	fread(&read_n, sizeof(uint32), (size_t)1, dump_fp);
 	if (read_n != n) {
 		printf("error: unexpected vector size\n");
-		exit(-1);
+		throwException("error: unexpected vector size\n");
 	}
 	status &= (fread(dim_solved, sizeof(uint32), (size_t)1, dump_fp) == 1);
 	status &= (fread(iter, sizeof(uint32), (size_t)1, dump_fp) == 1);
@@ -830,7 +830,7 @@ static void read_lanczos_state(msieve_obj *obj,
 	fclose(dump_fp);
 	if (status == 0) {
 		printf("error: checkpoint recovery failed\n");
-		exit(-1);
+		throwException("error: checkpoint recovery failed\n");
 	}
 }
 
@@ -1098,7 +1098,7 @@ static uint64 * block_lanczos_core(msieve_obj *obj,
 				if (d[i] != (uint64)0) {
 					printf("\nerror: corrupt state, please "
 						"restart from checkpoint\n");
-					exit(-1);
+					throwException("\nerror: corrupt state, please restart from checkpoint\n");
 				}
 			}
 			/* check passed */
@@ -1306,7 +1306,7 @@ static uint64 * block_lanczos_core(msieve_obj *obj,
 	}
 	if (i < n) {
 		logprintf(obj, "lanczos error: dependencies don't work\n");
-		exit(-1);
+		throwException("lanczos error: dependencies don't work\n");
 	}
 	
 	free(v[0]);
@@ -1336,7 +1336,7 @@ uint64 * block_lanczos(msieve_obj *obj, uint32 nrows,
 
 	if (ncols <= nrows) {
 		logprintf(obj, "matrix must have more columns than rows\n");
-		exit(-1);
+		throwException("matrix must have more columns than rows\n");
 	}
 
 	/* optionally remove the densest rows of the matrix, and

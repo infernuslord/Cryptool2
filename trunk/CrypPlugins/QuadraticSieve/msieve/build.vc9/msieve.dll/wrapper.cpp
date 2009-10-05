@@ -245,3 +245,8 @@ extern "C" void prepare_sieving(void* conf, int update, void* core_sieve_fcn)
 {
 	Msieve::msieve::callbacks->prepareSieving(IntPtr(conf), update, IntPtr(core_sieve_fcn));
 }
+
+extern "C" void throwException(char* message)
+{
+	throw gcnew Exception(gcnew String(message));
+}

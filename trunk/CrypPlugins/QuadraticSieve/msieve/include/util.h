@@ -118,11 +118,13 @@ extern "C" {
 
 #define WORDS_IN(type) (sizeof(type) / sizeof(uint32))
 
+#include <wrapper.h>
+
 static INLINE void * xmalloc(size_t len) {
 	void *ptr = malloc(len);
 	if (ptr == NULL) {
 		printf("failed to allocate %u bytes\n", (uint32)len);
-		exit(-1);
+		throwException("failed to allocate bytes\n");
 	}
 	return ptr;
 }
@@ -131,7 +133,7 @@ static INLINE void * xcalloc(size_t num, size_t len) {
 	void *ptr = calloc(num, len);
 	if (ptr == NULL) {
 		printf("failed to calloc %u bytes\n", (uint32)(num * len));
-		exit(-1);
+		throwException("failed to calloc bytes\n");
 	}
 	return ptr;
 }
@@ -140,7 +142,7 @@ static INLINE void * xrealloc(void *iptr, size_t len) {
 	void *ptr = realloc(iptr, len);
 	if (ptr == NULL) {
 		printf("failed to reallocate %u bytes\n", (uint32)len);
-		exit(-1);
+		throwException("failed to reallocate bytes\n");
 	}
 	return ptr;
 }

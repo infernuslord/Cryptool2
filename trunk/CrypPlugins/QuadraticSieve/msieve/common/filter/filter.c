@@ -42,7 +42,7 @@ void filter_dump_relsets(msieve_obj *obj, merge_t *merge) {
 	cycle_fp = fopen(buf, "wb");
 	if (cycle_fp == NULL) {
 		logprintf(obj, "error: can't open cycle file\n");
-		exit(-1);
+		throwException("error: can't open cycle file\n");
 	}
 
 	fwrite(&num_relsets, sizeof(uint32), (size_t)1, cycle_fp);

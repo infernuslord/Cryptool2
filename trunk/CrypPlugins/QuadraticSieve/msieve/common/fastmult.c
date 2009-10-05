@@ -124,7 +124,7 @@ static void create_twiddle(fastmult_info_t *info, int32 power) {
 
 	if (power > MAX_FHT_POWER) {
 		printf("error: transform size 1 << %d too large\n", power);
-		exit(-1);
+		throwException("error: transform size 1 << %d too large\n");
 	}
 	for (i = 4; i <= power; i++) {
 		if (i < HUGE_TWIDDLE_CUTOFF) {
@@ -671,7 +671,7 @@ static void double_to_packed(uint32 *p, int32 pwords,
 	dword = dword - base * carry;
 	if (carry != 0 || dword != 0) {
 		printf("error: overflow %lf carry %lf\n", dword, carry);
-		exit(-1);
+		throwException("error: overflow %lf carry %lf\n");
 	}
 }
 

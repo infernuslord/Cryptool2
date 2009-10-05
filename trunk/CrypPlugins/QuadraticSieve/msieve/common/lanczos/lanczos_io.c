@@ -25,7 +25,7 @@ void dump_cycles(msieve_obj *obj, la_col_t *cols, uint32 ncols) {
 	cycle_fp = fopen(buf, "wb");
 	if (cycle_fp == NULL) {
 		logprintf(obj, "error: can't open cycle file\n");
-		exit(-1);
+		throwException("error: can't open cycle file\n");
 	}
 
 	fwrite(&ncols, sizeof(uint32), (size_t)1, cycle_fp);
@@ -56,7 +56,7 @@ void dump_matrix(msieve_obj *obj,
 	matrix_fp = fopen(buf, "wb");
 	if (matrix_fp == NULL) {
 		logprintf(obj, "error: can't open matrix file\n");
-		exit(-1);
+		throwException("error: can't open matrix file\n");
 	}
 
 	fwrite(&nrows, sizeof(uint32), (size_t)1, matrix_fp);
@@ -96,7 +96,7 @@ void read_cycles(msieve_obj *obj,
 	cycle_fp = fopen(buf, "rb");
 	if (cycle_fp == NULL) {
 		logprintf(obj, "error: read_cycles can't open cycle file\n");
-		exit(-1);
+		throwException("error: read_cycles can't open cycle file\n");
 	}
 
 	if (dependency) {
@@ -105,7 +105,7 @@ void read_cycles(msieve_obj *obj,
 		if (dep_fp == NULL) {
 			logprintf(obj, "error: read_cycles can't "
 					"open dependency file\n");
-			exit(-1);
+			throwException("error: read_cycles can't open dependency file\n");
 		}
 		mask = (uint64)1 << (dependency - 1);
 	}
@@ -128,7 +128,7 @@ void read_cycles(msieve_obj *obj,
 
 		if (num_relations > MAX_CYCLE_SIZE) {
 			printf("error: cycle too large; corrupt file?\n");
-			exit(-1);
+			throwException("error: cycle too large; corrupt file?\n");
 		}
 
 		if (fread(rel_index, sizeof(uint32), (size_t)num_relations, 
@@ -148,7 +148,7 @@ void read_cycles(msieve_obj *obj,
 			if (fread(&curr_dep, sizeof(uint64), 
 						(size_t)1, dep_fp) == 0) {
 				printf("dependency file corrupt\n");
-				exit(-1);
+				throwException("dependency file corrupt\n");
 			}
 			if (!(curr_dep & mask))
 				continue;
@@ -196,7 +196,7 @@ void read_matrix(msieve_obj *obj,
 	matrix_fp = fopen(buf, "rb");
 	if (matrix_fp == NULL) {
 		logprintf(obj, "error: can't open matrix file\n");
-		exit(-1);
+		throwException("error: can't open matrix file\n");
 	}
 
 	fread(nrows_out, sizeof(uint32), (size_t)1, matrix_fp);
@@ -205,7 +205,7 @@ void read_matrix(msieve_obj *obj,
 	dense_row_words = (*num_dense_rows_out + 31) / 32;
 	if (*ncols_out != ncols) {
 		printf("error: cycle file not in sync with matrix file\n");
-		exit(-1);
+		throwException("error: cycle file not in sync with matrix file\n");
 	}
 
 	for (i = 0; i < ncols; i++) {
@@ -237,7 +237,7 @@ void dump_dependencies(msieve_obj *obj,
 	deps_fp = fopen(buf, "wb");
 	if (deps_fp == NULL) {
 		logprintf(obj, "error: can't open deps file\n");
-		exit(-1);
+		throwException("error: can't open deps file\n");
 	}
 
 	fwrite(deps, sizeof(uint64), (size_t)ncols, deps_fp);

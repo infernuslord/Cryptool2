@@ -126,7 +126,7 @@ void heap_add_ideal(heap_t *heap,
 
 	if (key == (uint32)(-1)) {
 		printf("error: attempted to heapify an empty ideal\n");
-		exit(-1);
+		throwException("error: attempted to heapify an empty ideal\n");
 	}
 
 	/* possibly increase the number of hash buckets in the
@@ -412,7 +412,7 @@ void load_next_relset_group(merge_aux_t *aux,
 	aux->num_relsets = ideal_set->num_relsets;
 	if (aux->num_relsets >= MERGE_MAX_OBJECTS) {
 		printf("error: number of relsets too large\n");
-		exit(-1);
+		throwException("error: number of relsets too large\n");
 	}
 
 	/* copy each relation set containing 'ideal', and
@@ -497,7 +497,7 @@ void merge_two_relsets(relation_set_t *r1, relation_set_t *r2,
 
 	if (max_relations >= MERGE_MAX_OBJECTS) {
 		printf("error: relation list too large\n");
-		exit(-1);
+		throwException("error: relation list too large\n");
 	}
 
 	i = merge_relations(aux->tmp_relations,
@@ -513,7 +513,7 @@ void merge_two_relsets(relation_set_t *r1, relation_set_t *r2,
 
 	if (max_ideals >= MERGE_MAX_OBJECTS) {
 		printf("error: list of merged ideals too large\n");
-		exit(-1);
+		throwException("error: list of merged ideals too large\n");
 	}
 
 	i = merge_relations(aux->tmp_ideals,

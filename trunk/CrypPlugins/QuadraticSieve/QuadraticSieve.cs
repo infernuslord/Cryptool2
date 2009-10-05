@@ -46,6 +46,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         private volatile int threadcount = 0;
         private DateTime last_time;
         private int last_relations;
+        private ArrayList conf_list;
 
         static QuadraticSieve()
         {
@@ -83,6 +84,12 @@ namespace Cryptool.Plugins.QuadraticSieve
         {
             if (InputNumber is Object)
             {
+                if (InputNumber.ToString().Length >= 275)
+                {
+                    GuiLogMessage("Input too big.", NotificationLevel.Error);
+                    return;
+                }
+
                 callback_struct callbacks = new callback_struct();
                 callbacks.showProgress = showProgress;
                 callbacks.prepareSieving = prepareSieving;
@@ -94,10 +101,10 @@ namespace Cryptool.Plugins.QuadraticSieve
                     factors = msieve.factorize(InputNumber.ToString(), Path.Combine(directoryName, "msieve.dat"));
                     obj = IntPtr.Zero;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    GuiLogMessage("Error using msieve.", NotificationLevel.Error);
-                    running = false;
+                    GuiLogMessage("Error using msieve. " + ex.Message, NotificationLevel.Error);
+                    stopThreads();
                     return;
                 }
 
@@ -121,16 +128,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             {
                 ProgressChanged(0.9, 1.0);
                 GuiLogMessage("Sieving finished", NotificationLevel.Info);
-                running = false;
-                if (threadcount > 0)
-                {                    
-                    GuiLogMessage("Waiting for threads to stop!", NotificationLevel.Debug);
-                    while (threadcount > 0)
-                    {
-                        Thread.Sleep(0);
-                    }
-                    GuiLogMessage("Threads stopped!", NotificationLevel.Debug);
-                }
+                stopThreads();
                 yieldqueue.Clear();
             }
             else
@@ -157,6 +155,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         {
             this.obj = msieve.getObjFromConf(conf) ;
             yieldqueue = Queue.Synchronized(new Queue());
+            conf_list = new ArrayList();
             GuiLogMessage("Start sieving", NotificationLevel.Info);
             ProgressChanged(0.1, 1.0);
             last_time = DateTime.Now;
@@ -167,6 +166,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             for (int i = 0; i < Math.Min(settings.CoresUsed, Environment.ProcessorCount-1); i++)
             {
                 IntPtr clone = msieve.cloneSieveConf(conf);
+                conf_list.Add(clone);
                 WaitCallback worker = new WaitCallback(MSieveJob);
                 ThreadPool.QueueUserWorkItem(worker, new object[] { clone, update, core_sieve_fcn, yieldqueue });
             }
@@ -190,9 +190,9 @@ namespace Cryptool.Plugins.QuadraticSieve
                     IntPtr yield = msieve.getYield(clone);
                     yieldqueue.Enqueue(yield);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    GuiLogMessage("Error using msieve.", NotificationLevel.Error);
+                    GuiLogMessage("Error using msieve." + ex.Message, NotificationLevel.Error);
                     threadcount = 0;
                     return;
                 }                
@@ -214,14 +214,25 @@ namespace Cryptool.Plugins.QuadraticSieve
         {
             if (obj != IntPtr.Zero)
             {
+                stopThreads();
+                msieve.stop(obj);
+            }
+        }
+
+        private void stopThreads()
+        {
+            if (conf_list != null)
+            {
                 running = false;
+                foreach (IntPtr conf in conf_list)
+                    msieve.stop(msieve.getObjFromConf(conf));
                 GuiLogMessage("Waiting for threads to stop!", NotificationLevel.Debug);
                 while (threadcount > 0)
                 {
                     Thread.Sleep(0);
                 }
                 GuiLogMessage("Threads stopped!", NotificationLevel.Debug);
-                msieve.stop(obj);                
+                conf_list.Clear();
             }
         }
 

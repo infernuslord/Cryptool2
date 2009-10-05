@@ -254,13 +254,13 @@ void filter_merge_2way(msieve_obj *obj, filter_t *filter,
 							MAX_2WAY_IDEALS) {
 					printf("error: clique merge requires "
 						"too many ideals\n");
-					exit(-1);
+					throwException("error: clique merge requires too many ideals\n");
 				}
 
 				if (num_tmp_relation == MAX_2WAY_RELATIONS) {
 					printf("error: clique merge requires "
 						"too many relations\n");
-					exit(-1);
+					throwException("error: clique merge requires too many relations\n");
 				}
 
 				/* perform the merge */
