@@ -6,11 +6,11 @@
 	>
 	<Tool
 		Name="VCCLCompilerTool"
-		AdditionalIncludeDirectories=";..\..\..\mpir-1.2.1"
-		PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;HAVE_GMP"
+		AdditionalIncludeDirectories=";..\..\..\mpir-1.2.1;..\..\..\ecm-6.2.3"
+		PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;HAVE_GMP;HAVE_GMP_ECM"
 	/>
 	<Tool
 		Name="VCLinkerTool"
-		AdditionalDependencies="..\..\..\mpir-1.2.1\build.vc9\lib\$(IntDir)\mpir.lib"
+		AdditionalDependencies="..\..\..\mpir-1.2.1\build.vc9\lib\$(IntDir)\mpir.lib ..\..\..\ecm-6.2.3\build.vc9\$(IntDir)\ecm.lib"
 	/>
 </VisualStudioPropertySheet>

@@ -174,7 +174,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="3"
+				Optimization="2"
 				InlineFunctionExpansion="2"
 				AdditionalIncludeDirectories="..\;..\..\include;..\..\mpqs;..\msieve.dll"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
@@ -239,7 +239,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="3"
+				Optimization="2"
 				InlineFunctionExpansion="2"
 				AdditionalIncludeDirectories="..\;..\..\include;..\..\mpqs;..\msieve.dll"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
