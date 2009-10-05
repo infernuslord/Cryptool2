@@ -71,11 +71,17 @@ namespace Cryptool.NLFSR
         public NLFSR()
         {
             this.settings = new NLFSRSettings();
-            //((NLFSRSettings)(this.settings)).LogMessage += NLFSR_LogMessage;
+            settings.PropertyChanged += settings_PropertyChanged;
 
             NLFSRPresentation = new NLFSRPresentation();
             Presentation = NLFSRPresentation;
             //NLFSRPresentation.textBox0.TextChanged += textBox0_TextChanged;
+        }
+
+        void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "InitNLFSR")
+                preprocessNLFSR();
         }
 
         public ISettings Settings
@@ -84,7 +90,7 @@ namespace Cryptool.NLFSR
             set { this.settings = (NLFSRSettings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "TapSequence", "TapSequence function in binary presentation.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "TapSequence", "TapSequence function in binary presentation.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public String InputTapSequence
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -522,8 +528,109 @@ namespace Cryptool.NLFSR
 
         public void Execute()
         {
-            NLFSRPresentation.DeleteAll(100);
+            //NLFSRPresentation.DeleteAll(100);
             processNLFSR();
+        }
+
+        private void preprocessNLFSR()
+        {
+            if (checkForInputTapSequence() == 1) return;
+            if (checkForInputSeed() == 1) return;
+
+            /*if (inputSeed == null || (inputSeed != null && inputSeed.Length == 0))
+            {
+                GuiLogMessage("No Seed given. Aborting now.", NotificationLevel.Error);
+                if (!settings.UseBoolClock) inputClock.Close();
+                return;
+            }
+
+            if (inputTapSequence == null || (inputTapSequence != null && inputTapSequence.Length == 0))
+            {
+                GuiLogMessage("No TapSequence given. Aborting now.", NotificationLevel.Error);
+                if (!settings.UseBoolClock) inputClock.Close();
+                return;
+            }*/
+
+            // read tapSequence
+            if (settings.Polynomial == null || (settings.Polynomial != null && settings.Polynomial.Length == 0))
+                tapSequencebuffer = inputTapSequence;
+            else
+                tapSequencebuffer = settings.Polynomial;
+
+            //read seed
+            if (settings.Seed == null || (settings.Seed != null && settings.Seed.Length == 0))
+                seedbuffer = inputSeed;
+            else
+                seedbuffer = settings.Seed;
+
+            // convert tapSequence into char array
+            //tapSequenceCharArray = ReverseOrder(tapSequencebuffer.ToCharArray());
+            tapSequenceCharArray = tapSequencebuffer.ToCharArray();
+
+            int tapSequenceBits = tapSequencebuffer.Length;
+            seedBits = seedbuffer.Length;
+
+            GuiLogMessage("inputTapSequence length [bits]: " + tapSequenceBits.ToString(), NotificationLevel.Debug);
+            GuiLogMessage("inputSeed length [bits]: " + seedBits.ToString(), NotificationLevel.Debug);
+
+            //check if last tap is 1, otherwise stop
+            /*if (tapSequenceCharArray[tapSequenceCharArray.Length - 1] == '0')
+            {
+                GuiLogMessage("ERROR - Last tap of tapSequence must be 1. Aborting now.", NotificationLevel.Error);
+                return;
+            }*/
+
+            // convert seed into char array
+            seedCharArray = seedbuffer.ToCharArray();
+
+            // check if seed is binary
+            for (int z = 0; z < seedCharArray.Length; z++)
+            {
+                if (seedCharArray[z] != '0' && seedCharArray[z] != '1')
+                {
+                    GuiLogMessage("ERROR 0 - Seed has to be binary. Aborting now. Character is: " + seedCharArray[z], NotificationLevel.Error);
+                    return;
+                }
+                // create tapSequence for drawing NLFSR
+                string temp = "x^" + z;
+                if (tapSequencebuffer.Contains(temp))
+                {
+                    tapSequenceCharArray[((z - seedCharArray.Length) * -1) - 1] = '1';
+                }
+                else
+                    tapSequenceCharArray[((z - seedCharArray.Length) * -1) - 1] = '0';
+            }
+
+            if (settings.UseClockingBit)
+            {
+                if (settings.ClockingBit < seedCharArray.Length) clocking = (seedCharArray.Length - settings.ClockingBit - 1);
+                else
+                {
+                    clocking = -1;
+                    GuiLogMessage("WARNING: Clocking Bit is too high. Ignored.", NotificationLevel.Warning);
+                }
+
+            }
+            else clocking = -1;
+
+            // check if Rounds are given
+            int defaultRounds = 10;
+
+            // check if Rounds in settings are given and use them only if no bool clock is selected
+            if (!settings.UseBoolClock)
+            {
+                if (settings.Rounds == 0) actualRounds = defaultRounds; else actualRounds = settings.Rounds;
+            }
+            else actualRounds = 1;
+
+            // draw presentation
+            // (re-)draw NLFSR Quickwatch
+            if (!settings.NoQuickwatch)
+            {
+                NLFSRPresentation.DeleteAll(100);
+                NLFSRPresentation.DrawNLFSR(seedCharArray, tapSequenceCharArray, clocking);
+                NLFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, ' ', tapSequencebuffer);
+            }
         }
 
         private void processNLFSR()
@@ -562,102 +669,14 @@ namespace Cryptool.NLFSR
                 // make all this stuff only one time at the beginning of our chainrun
                 if (newSeed)
                 {
-                    if (checkForInputTapSequence() == 1) return;
-                    if (checkForInputSeed() == 1) return;
-
-                    /*if (inputSeed == null || (inputSeed != null && inputSeed.Length == 0))
-                    {
-                        GuiLogMessage("No Seed given. Aborting now.", NotificationLevel.Error);
-                        if (!settings.UseBoolClock) inputClock.Close();
-                        return;
-                    }
-
-                    if (inputTapSequence == null || (inputTapSequence != null && inputTapSequence.Length == 0))
-                    {
-                        GuiLogMessage("No TapSequence given. Aborting now.", NotificationLevel.Error);
-                        if (!settings.UseBoolClock) inputClock.Close();
-                        return;
-                    }*/
-
-                    // read tapSequence
-                    if (settings.Polynomial == null || (settings.Polynomial != null && settings.Polynomial.Length == 0))
-                        tapSequencebuffer = inputTapSequence;
-                    else
-                        tapSequencebuffer = settings.Polynomial;
-
-                    //read seed
-                    if (settings.Seed == null || (settings.Seed != null && settings.Seed.Length == 0))
-                        seedbuffer = inputSeed;
-                    else
-                        seedbuffer = settings.Seed;
-
-                    // convert tapSequence into char array
-                    //tapSequenceCharArray = ReverseOrder(tapSequencebuffer.ToCharArray());
-                    tapSequenceCharArray = tapSequencebuffer.ToCharArray();
-
-                    int tapSequenceBits = tapSequencebuffer.Length;
-                    seedBits = seedbuffer.Length;
-
-                    GuiLogMessage("inputTapSequence length [bits]: " + tapSequenceBits.ToString(), NotificationLevel.Debug);
-                    GuiLogMessage("inputSeed length [bits]: " + seedBits.ToString(), NotificationLevel.Debug);
-
-                    //check if last tap is 1, otherwise stop
-                    /*if (tapSequenceCharArray[tapSequenceCharArray.Length - 1] == '0')
-                    {
-                        GuiLogMessage("ERROR - Last tap of tapSequence must be 1. Aborting now.", NotificationLevel.Error);
-                        return;
-                    }*/
-
-                    // convert seed into char array
-                    seedCharArray = seedbuffer.ToCharArray();
-
-                    // check if seed is binary
-                    for (int z = 0; z < seedCharArray.Length; z++)
-                    {
-                        if (seedCharArray[z] != '0' && seedCharArray[z] != '1')
-                        {
-                            GuiLogMessage("ERROR 0 - Seed has to be binary. Aborting now. Character is: " + seedCharArray[z], NotificationLevel.Error);
-                            return;
-                        }
-                        // create tapSequence for drawing NLFSR
-                        string temp = "x^" + z;
-                        if (tapSequencebuffer.Contains(temp))
-                        {
-                            tapSequenceCharArray[((z - seedCharArray.Length) * -1)-1] = '1';
-                        }
-                        else
-                            tapSequenceCharArray[((z - seedCharArray.Length) * -1)-1] = '0';
-                    }
-
-                    if (settings.UseClockingBit)
-                    {
-                        if (settings.ClockingBit < seedCharArray.Length) clocking = (seedCharArray.Length - settings.ClockingBit - 1);
-                        else
-                        {
-                            clocking = -1;
-                            GuiLogMessage("WARNING: Clocking Bit is too high. Ignored.", NotificationLevel.Warning);
-                        }
-
-                    }
-                    else clocking = -1;
-
-                    // check if Rounds are given
-                    int defaultRounds = 10;
-
-                    // check if Rounds in settings are given and use them only if no bool clock is selected
-                    if (!settings.UseBoolClock)
-                    {
-                        if (settings.Rounds == 0) actualRounds = defaultRounds; else actualRounds = settings.Rounds;
-                    }
-                    else actualRounds = 1;
-
-                    // create tapSequence for drawing NLFSR
+                    preprocessNLFSR();
                 }
                 
                 // Here we go!
-                // draw NLFSR Quickwatch
+                // (re-)draw NLFSR Quickwatch
                 if (!settings.NoQuickwatch)
                 {
+                    NLFSRPresentation.DeleteAll(100);
                     NLFSRPresentation.DrawNLFSR(seedCharArray, tapSequenceCharArray, clocking);
                 }
 

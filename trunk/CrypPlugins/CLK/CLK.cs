@@ -18,6 +18,8 @@ using System.Windows.Threading;
 
 
 using System.Windows;
+// for setting image uri programmatically
+using System.Windows.Media.Imaging;
 //using System.Windows.Data;
 //using System.IO;
 //using System.Runtime.CompilerServices;
@@ -49,8 +51,7 @@ namespace Cryptool.CLK
         Presentation = cLKPresentation;
 
         cLKPresentation.CLKButtonImage.MouseLeftButtonUp += cLKButton_MouseLeftButtonUp;
-        cLKPresentation.myTextBox.TextChanged += textchanged;
-        //cLKPresentation.CLKButtonImage.MouseEnter += mousenter;
+        cLKPresentation.CLKButtonImage.MouseLeftButtonDown += cLKButton_MouseLeftButtonUp;
 
         // set picture according to settings value
         /* BRINGT NIX - WARUM?
@@ -58,26 +59,9 @@ namespace Cryptool.CLK
         else StatusChanged((int)CLKImage.False);*/
     }
 
-    void mousenter(object sender, MouseEventArgs e)
-    {
-        GuiLogMessage("mouse event is coming", NotificationLevel.Info);
-        OnPropertyChanged("Output");
-    }
-
-    void textchanged(object sender, TextChangedEventArgs e)
-    {
-        GuiLogMessage("text event is coming", NotificationLevel.Info);
-        OnPropertyChanged("Output");
-    }
-
     void cLKButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-        GuiLogMessage("mouse event is coming", NotificationLevel.Info);
-        if (e.LeftButton == MouseButtonState.Released)
-        {
-            GuiLogMessage("Left Mouse Button released", NotificationLevel.Info);
-            OnPropertyChanged("Output");
-        }
+        OnPropertyChanged("Output");
     }
 
     void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -85,8 +69,16 @@ namespace Cryptool.CLK
       if (e.PropertyName == "SetClockToTrue")
       {
         output = settings.SetClockToTrue;
-        if (output) StatusChanged((int)CLKImage.True);
-        else StatusChanged((int)CLKImage.False);
+        if (output)
+        {
+            StatusChanged((int)CLKImage.True);
+            cLKPresentation.setImageTrue();
+        }
+        else
+        {
+            StatusChanged((int)CLKImage.False);
+            cLKPresentation.setImageFalse();
+        }
       }
       if (e.PropertyName == "CLKTimeout")
       {
@@ -152,8 +144,16 @@ namespace Cryptool.CLK
 
     public void PreExecution()
     {
-        if (settings.SetClockToTrue) StatusChanged((int)CLKImage.True);
-        else StatusChanged((int)CLKImage.False);
+        if (settings.SetClockToTrue)
+        {
+            StatusChanged((int)CLKImage.True);
+            cLKPresentation.setImageTrue();
+        }
+        else
+        {
+            StatusChanged((int)CLKImage.False);
+            cLKPresentation.setImageFalse();
+        }
 
         myRounds = settings.Rounds;
         //GuiLogMessage("myRounds: " + myRounds.ToString(), NotificationLevel.Info);
@@ -198,19 +198,23 @@ namespace Cryptool.CLK
 
     private void process(int timeout)
     {
-        // first fire up an event, then get the timer to handle that for us
-        OnPropertyChanged("Output");
-        myRounds--;
+        // check if rounds are more than zero
+        if (myRounds != 0)
+        {
+            // first fire up an event, then get the timer to handle that for us
+            OnPropertyChanged("Output");
+            myRounds--;
 
-        // Hook up the Elapsed event for the timer.
-        aTimer.Elapsed += new ElapsedEventHandler(sendCLKSignal);
+            // Hook up the Elapsed event for the timer.
+            aTimer.Elapsed += new ElapsedEventHandler(sendCLKSignal);
 
-        // Set the Interval to 'timeout' seconds (in milliseconds).
-        aTimer.Interval = timeout;
-        aTimer.Enabled = true;
+            // Set the Interval to 'timeout' seconds (in milliseconds).
+            aTimer.Interval = timeout;
+            aTimer.Enabled = true;
 
-        // Keep the timer alive until the end of Main.
-        //GC.KeepAlive(aTimer);
+            // Keep the timer alive until the end of Main.
+            //GC.KeepAlive(aTimer);
+        }
     }
 
     private void sendCLKSignal(object sender, EventArgs e)

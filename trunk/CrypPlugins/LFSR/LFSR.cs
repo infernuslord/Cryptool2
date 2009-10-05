@@ -70,11 +70,17 @@ namespace Cryptool.LFSR
         public LFSR()
         {
             this.settings = new LFSRSettings();
-            //((LFSRSettings)(this.settings)).LogMessage += LFSR_LogMessage;
+            settings.PropertyChanged += settings_PropertyChanged;
 
             lFSRPresentation = new LFSRPresentation();
             Presentation = lFSRPresentation;
             //lFSRPresentation.textBox0.TextChanged += textBox0_TextChanged;
+        }
+
+        void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "InitLFSR")
+                preprocessingLFSR();            
         }
 
         public ISettings Settings
@@ -83,7 +89,7 @@ namespace Cryptool.LFSR
             set { this.settings = (LFSRSettings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "TapSequence", "TapSequence function in binary presentation.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "TapSequence", "TapSequence function in binary presentation.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public String InputTapSequence
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -405,8 +411,178 @@ namespace Cryptool.LFSR
 
         public void Execute()
         {
-            lFSRPresentation.DeleteAll(100);
+            //lFSRPresentation.DeleteAll(100);
             processLFSR();
+        }
+
+        private void preprocessingLFSR()
+        {
+            if (checkForInputTapSequence() == 1) return;
+            if (checkForInputSeed() == 1) return;
+
+            /*if (inputSeed == null || (inputSeed != null && inputSeed.Length == 0))
+            {
+                GuiLogMessage("No Seed given. Aborting now.", NotificationLevel.Error);
+                if (!settings.UseBoolClock) inputClock.Close();
+                return;
+            }
+
+            if (inputTapSequence == null || (inputTapSequence != null && inputTapSequence.Length == 0))
+            {
+                GuiLogMessage("No TapSequence given. Aborting now.", NotificationLevel.Error);
+                if (!settings.UseBoolClock) inputClock.Close();
+                return;
+            }*/
+
+            // read tapSequence
+            if (settings.Polynomial == null || (settings.Polynomial != null && settings.Polynomial.Length == 0))
+                tapSequencebuffer = inputTapSequence;
+            else
+                tapSequencebuffer = settings.Polynomial;
+
+            //read seed
+            if (settings.Seed == null || (settings.Seed != null && settings.Seed.Length == 0))
+                seedbuffer = inputSeed;
+            else
+                seedbuffer = settings.Seed;
+
+            // check if tapSequence is binary
+            bool tapSeqisBool = true;
+            foreach (char character in tapSequencebuffer)
+            {
+                if (character != '0' && character != '1')
+                {
+                    tapSeqisBool = false;
+                    //return;
+                }
+            }
+
+            // if tapSequence is not binary, await polynomial
+            if (!tapSeqisBool)
+            {
+                GuiLogMessage("TapSequence is not binary. Awaiting polynomial.", NotificationLevel.Info);
+                if (IsPolynomial(tapSequencebuffer))
+                {
+                    GuiLogMessage(tapSequencebuffer + " is a valid polynomial.", NotificationLevel.Info);
+                    tapSequencebuffer = MakeBinary(tapSequencebuffer);
+                    GuiLogMessage("Polynomial in binary form: " + tapSequencebuffer, NotificationLevel.Info);
+
+                    // check if polynomial has false length
+                    if (tapSequencebuffer.Length != seedbuffer.Length)
+                    {
+                        /*// check if its too long
+                        if (inputSeed.Length - tapSequencebuffer.Length < 0)
+                        {
+                            GuiLogMessage("ERROR - Your polynomial " + tapSequencebuffer + " is TOO LONG (" + tapSequencebuffer.Length + " Bits) for your seed. Aborting now.", NotificationLevel.Error);
+                            if (!settings.UseBoolClock) inputClock.Close();
+                            return;
+                        }
+                        // seems to be too short, so fill it with zeros at the beginning
+                        else
+                        {
+                            for (int j = inputSeed.Length - tapSequencebuffer.Length; j > 0; j--)
+                            {
+                                tapSequencebuffer = "0" + tapSequencebuffer;
+                            }
+                        }*/
+                        GuiLogMessage("ERROR - Your polynomial " + tapSequencebuffer + " has to be the same length (" + tapSequencebuffer.Length + " Bits) as your seed (" + seedbuffer.Length + " Bits). Aborting now.", NotificationLevel.Error);
+                        Dispose();
+                        return;
+                    }
+
+                    //GuiLogMessage("Polynomial after length fitting: " + tapSequencebuffer, NotificationLevel.Info);
+                }
+                else
+                {
+                    GuiLogMessage("ERROR - " + tapSequencebuffer + " is NOT a valid polynomial. Aborting now.", NotificationLevel.Error);
+                    //Console.WriteLine("\n{0} is NOT a valid polynomial.", tapSequencebuffer);
+                    Dispose();
+                    return;
+                }
+            }
+
+            // convert tapSequence into char array
+            //tapSequenceCharArray = ReverseOrder(tapSequencebuffer.ToCharArray());
+            tapSequenceCharArray = tapSequencebuffer.ToCharArray();
+
+            if (tapSequencebuffer.Length != seedbuffer.Length)
+            {
+                // stop, because seed and tapSequence must have same length
+                GuiLogMessage("ERROR - Seed and tapSequence must have same length. Aborting now.", NotificationLevel.Error);
+                Dispose();
+                return;
+            }
+
+            int tapSequenceBits = tapSequencebuffer.Length;
+            seedBits = seedbuffer.Length;
+
+            GuiLogMessage("inputTapSequence length [bits]: " + tapSequenceBits.ToString(), NotificationLevel.Debug);
+            GuiLogMessage("inputSeed length [bits]: " + seedBits.ToString(), NotificationLevel.Debug);
+
+            //check if last tap is 1, otherwise stop
+            if (tapSequenceCharArray[tapSequenceCharArray.Length - 1] == '0')
+            {
+                GuiLogMessage("ERROR - Last tap of tapSequence must be 1. Aborting now.", NotificationLevel.Error);
+                return;
+            }
+
+            // convert seed into char array
+            seedCharArray = seedbuffer.ToCharArray();
+
+            // check if seed is binary
+            foreach (char character in seedCharArray)
+            {
+                if (character != '0' && character != '1')
+                {
+                    GuiLogMessage("ERROR 0 - Seed has to be binary. Aborting now. Character is: " + character, NotificationLevel.Error);
+                    return;
+                }
+            }
+            if (settings.UseAdditionalOutputBit)
+            {
+                if (settings.ClockingBit < seedCharArray.Length) clocking = (seedCharArray.Length - settings.ClockingBit - 1);
+                else
+                {
+                    clocking = -1;
+                    GuiLogMessage("WARNING: Clocking Bit is too high. Ignored.", NotificationLevel.Warning);
+                }
+
+            }
+            else clocking = -1;
+
+            /*// check which clock to use
+            if (settings.UseBoolClock)
+            {
+                myClock = inputClockBool;
+            }
+            else if (!settings.UseBoolClock)
+            {
+                // read stream clock
+                checkForInputClock();
+                inputClock.OpenWrite("LFSR Restart");
+                String stringClock = inputClock.ReadByte().ToString();
+                inputClock.Position = 0;
+                if (String.Equals(stringClock, "49")) myClock = true; else myClock = false;
+                //inputClock.Close();
+            }*/
+
+            // check if Rounds are given
+            int defaultRounds = 10;
+
+            // check if Rounds in settings are given and use them only if no bool clock is selected
+            if (!settings.UseBoolClock)
+            {
+                if (settings.Rounds == 0) actualRounds = defaultRounds; else actualRounds = settings.Rounds;
+            }
+            else actualRounds = 1;
+
+            // draw LFSR Quickwatch
+            if (!settings.NoQuickwatch)
+            {
+                lFSRPresentation.DeleteAll(100);
+                lFSRPresentation.DrawLFSR(seedCharArray, tapSequenceCharArray, clocking);
+                lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, ' ', BuildPolynomialFromBinary(tapSequenceCharArray));
+            }
         }
 
         private void processLFSR()
@@ -446,164 +622,7 @@ namespace Cryptool.LFSR
                 // make all this stuff only one time at the beginning of our chainrun
                 if (newSeed)
                 {
-                    if (checkForInputTapSequence() == 1) return;
-                    if (checkForInputSeed() == 1) return;
-
-                    /*if (inputSeed == null || (inputSeed != null && inputSeed.Length == 0))
-                    {
-                        GuiLogMessage("No Seed given. Aborting now.", NotificationLevel.Error);
-                        if (!settings.UseBoolClock) inputClock.Close();
-                        return;
-                    }
-
-                    if (inputTapSequence == null || (inputTapSequence != null && inputTapSequence.Length == 0))
-                    {
-                        GuiLogMessage("No TapSequence given. Aborting now.", NotificationLevel.Error);
-                        if (!settings.UseBoolClock) inputClock.Close();
-                        return;
-                    }*/
-
-                    // read tapSequence
-                    if (settings.Polynomial == null || (settings.Polynomial != null && settings.Polynomial.Length == 0))
-                        tapSequencebuffer = inputTapSequence;
-                    else
-                        tapSequencebuffer = settings.Polynomial;
-
-                    //read seed
-                    if (settings.Seed == null || (settings.Seed != null && settings.Seed.Length == 0))
-                        seedbuffer = inputSeed;
-                    else
-                        seedbuffer = settings.Seed;
-
-                    // check if tapSequence is binary
-                    bool tapSeqisBool = true;
-                    foreach (char character in tapSequencebuffer)
-                    {
-                        if (character != '0' && character != '1')
-                        {
-                            tapSeqisBool = false;
-                            //return;
-                        }
-                    }
-
-                    // if tapSequence is not binary, await polynomial
-                    if (!tapSeqisBool)
-                    {
-                        GuiLogMessage("TapSequence is not binary. Awaiting polynomial.", NotificationLevel.Info);
-                        if (IsPolynomial(tapSequencebuffer))
-                        {
-                            GuiLogMessage(tapSequencebuffer + " is a valid polynomial.", NotificationLevel.Info);
-                            tapSequencebuffer = MakeBinary(tapSequencebuffer);
-                            GuiLogMessage("Polynomial in binary form: " + tapSequencebuffer, NotificationLevel.Info);
-
-                            // check if polynomial has false length
-                            if (tapSequencebuffer.Length != seedbuffer.Length)
-                            {
-                                /*// check if its too long
-                                if (inputSeed.Length - tapSequencebuffer.Length < 0)
-                                {
-                                    GuiLogMessage("ERROR - Your polynomial " + tapSequencebuffer + " is TOO LONG (" + tapSequencebuffer.Length + " Bits) for your seed. Aborting now.", NotificationLevel.Error);
-                                    if (!settings.UseBoolClock) inputClock.Close();
-                                    return;
-                                }
-                                // seems to be too short, so fill it with zeros at the beginning
-                                else
-                                {
-                                    for (int j = inputSeed.Length - tapSequencebuffer.Length; j > 0; j--)
-                                    {
-                                        tapSequencebuffer = "0" + tapSequencebuffer;
-                                    }
-                                }*/
-                                GuiLogMessage("ERROR - Your polynomial " + tapSequencebuffer + " has to be the same length (" + tapSequencebuffer.Length + " Bits) as your seed (" + seedbuffer.Length + " Bits). Aborting now.", NotificationLevel.Error);
-                                Dispose();
-                                return;
-                            }
-
-                            //GuiLogMessage("Polynomial after length fitting: " + tapSequencebuffer, NotificationLevel.Info);
-                        }
-                        else
-                        {
-                            GuiLogMessage("ERROR - " + tapSequencebuffer + " is NOT a valid polynomial. Aborting now.", NotificationLevel.Error);
-                            //Console.WriteLine("\n{0} is NOT a valid polynomial.", tapSequencebuffer);
-                            Dispose();
-                            return;
-                        }
-                    }
-
-                    // convert tapSequence into char array
-                    //tapSequenceCharArray = ReverseOrder(tapSequencebuffer.ToCharArray());
-                    tapSequenceCharArray = tapSequencebuffer.ToCharArray();
-
-                    if (tapSequencebuffer.Length != seedbuffer.Length)
-                    {
-                        // stop, because seed and tapSequence must have same length
-                        GuiLogMessage("ERROR - Seed and tapSequence must have same length. Aborting now.", NotificationLevel.Error);
-                        Dispose();
-                        return;
-                    }
-
-                    int tapSequenceBits = tapSequencebuffer.Length;
-                    seedBits = seedbuffer.Length;
-
-                    GuiLogMessage("inputTapSequence length [bits]: " + tapSequenceBits.ToString(), NotificationLevel.Debug);
-                    GuiLogMessage("inputSeed length [bits]: " + seedBits.ToString(), NotificationLevel.Debug);
-
-                    //check if last tap is 1, otherwise stop
-                    if (tapSequenceCharArray[tapSequenceCharArray.Length - 1] == '0')
-                    {
-                        GuiLogMessage("ERROR - Last tap of tapSequence must be 1. Aborting now.", NotificationLevel.Error);
-                        return;
-                    }
-
-                    // convert seed into char array
-                    seedCharArray = seedbuffer.ToCharArray();
-
-                    // check if seed is binary
-                    foreach (char character in seedCharArray)
-                    {
-                        if (character != '0' && character != '1')
-                        {
-                            GuiLogMessage("ERROR 0 - Seed has to be binary. Aborting now. Character is: " + character, NotificationLevel.Error);
-                            return;
-                        }
-                    }
-                    if (settings.UseAdditionalOutputBit)
-                    {
-                        if (settings.ClockingBit < seedCharArray.Length) clocking = (seedCharArray.Length - settings.ClockingBit - 1);
-                        else
-                        {
-                            clocking = -1;
-                            GuiLogMessage("WARNING: Clocking Bit is too high. Ignored.", NotificationLevel.Warning);
-                        }
-
-                    }
-                    else clocking = -1;
-
-                    /*// check which clock to use
-                    if (settings.UseBoolClock)
-                    {
-                        myClock = inputClockBool;
-                    }
-                    else if (!settings.UseBoolClock)
-                    {
-                        // read stream clock
-                        checkForInputClock();
-                        inputClock.OpenWrite("LFSR Restart");
-                        String stringClock = inputClock.ReadByte().ToString();
-                        inputClock.Position = 0;
-                        if (String.Equals(stringClock, "49")) myClock = true; else myClock = false;
-                        //inputClock.Close();
-                    }*/
-
-                    // check if Rounds are given
-                    int defaultRounds = 10;
-
-                    // check if Rounds in settings are given and use them only if no bool clock is selected
-                    if (!settings.UseBoolClock)
-                    {
-                        if (settings.Rounds == 0) actualRounds = defaultRounds; else actualRounds = settings.Rounds;
-                    }
-                    else actualRounds = 1;
+                    preprocessingLFSR();
                 }
                 
                 // Here we go!
@@ -617,16 +636,17 @@ namespace Cryptool.LFSR
                     myClock = true;
                 }
 
-                // draw LFSR Quickwatch
+                // (re-)draw LFSR Quickwatch
                 if (!settings.NoQuickwatch)
                 {
+                    lFSRPresentation.DeleteAll(100);
                     lFSRPresentation.DrawLFSR(seedCharArray, tapSequenceCharArray, clocking);
                 }
 
                 // open output stream
                 outputStream = new CryptoolStream();
                 listCryptoolStreamsOut.Add(outputStream);
-                outputStream.OpenWrite(this.GetPluginInfoAttribute().Caption);
+                outputStream.OpenWrite();
 
                 //GuiLogMessage("Action is: Now!", NotificationLevel.Debug);
                 DateTime startTime = DateTime.Now;

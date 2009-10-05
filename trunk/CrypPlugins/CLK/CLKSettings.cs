@@ -98,8 +98,10 @@ namespace Cryptool.CLK
         get { return this.rounds; }
         set
         {
-            if (value <= 0) this.rounds = 1;
-            else this.rounds = value;
+            /*if (value <= 0)
+                this.rounds = 1;
+            else*/
+                this.rounds = value;
             OnPropertyChanged("Rounds");
             HasChanges = true;
         }
