@@ -44,8 +44,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         private Queue yieldqueue;
         private IntPtr obj = IntPtr.Zero;
         private volatile int threadcount = 0;
-        private DateTime last_time;
-        private int last_relations;
+        private DateTime start_time;
         private ArrayList conf_list;
 
         static QuadraticSieve()
@@ -122,6 +121,20 @@ namespace Cryptool.Plugins.QuadraticSieve
             }
         }
 
+        private String showTimeSpan(TimeSpan ts)
+        {
+            String res = "";
+            if (ts.Days != 0)
+                res = ts.Days + " days ";
+            if (ts.Hours != 0 || res.Length != 0)
+                res += ts.Hours + " hours ";
+            if (ts.Minutes != 0)
+                res += ts.Minutes + " minutes";
+            if (res.Length == 0)
+                res += ts.Seconds + " seconds";
+            return res;
+        }
+
         private void showProgress(IntPtr conf, int num_relations, int max_relations)
         {
             if (num_relations == -1)    //sieving finished
@@ -134,16 +147,14 @@ namespace Cryptool.Plugins.QuadraticSieve
             else
             {
                 ProgressChanged((double)num_relations / max_relations * 0.8 + 0.1, 1.0);                
-                TimeSpan diff = DateTime.Now - last_time;
-                double msleft = (diff.TotalMilliseconds / (num_relations-last_relations)) * (max_relations - num_relations);                                
+                TimeSpan diff = DateTime.Now - start_time;
+                double msleft = (diff.TotalMilliseconds / num_relations) * (max_relations - num_relations);                                
                 if (msleft > 0)
                 {
-                    GuiLogMessage("" + num_relations + " of " + max_relations + " relations! About " + (int)msleft + " ms left.", NotificationLevel.Debug);
+                    TimeSpan ts = new TimeSpan(0, 0, 0, 0, (int)msleft);
+                    GuiLogMessage("" + num_relations + " of " + max_relations + " relations! About " + showTimeSpan(ts) + " left.", NotificationLevel.Debug);
                 }
 
-                last_relations = num_relations;
-                last_time = DateTime.Now;
-                
                 while (yieldqueue.Count != 0)       //get all the results from the helper threads, and store them
                 {
                     msieve.saveYield(conf, (IntPtr)yieldqueue.Dequeue());
@@ -158,8 +169,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             conf_list = new ArrayList();
             GuiLogMessage("Start sieving", NotificationLevel.Info);
             ProgressChanged(0.1, 1.0);
-            last_time = DateTime.Now;
-            last_relations = 0;
+            start_time = DateTime.Now;            
 
             running = true;
             //start helper threads:
