@@ -362,6 +362,15 @@ namespace Cryptool.PluginBase.Miscellaneous
 
         public BigInteger(byte[] inData)
         {
+            setBytes(inData);
+        }
+
+        /**         
+         * Set the internal byte Array of this BigInteger to the given One
+         * acts like the Constructor
+         */
+        public void setBytes(byte[] inData)
+        {
             dataLength = inData.Length >> 2;
 
             int leftOver = inData.Length & 0x3;
@@ -370,7 +379,7 @@ namespace Cryptool.PluginBase.Miscellaneous
 
 
             if (dataLength > maxLength)
-                throw (new ArithmeticException("Byte overflow in constructor."));
+                throw (new ArithmeticException("Byte overflow in setBytes method."));
 
             data = new uint[maxLength];
 
@@ -390,10 +399,7 @@ namespace Cryptool.PluginBase.Miscellaneous
 
             while (dataLength > 1 && data[dataLength - 1] == 0)
                 dataLength--;
-
-            //Console.WriteLine("Len = " + dataLength);
         }
-
 
         //***********************************************************************
         // Constructor (Default value provided by an array of bytes of the

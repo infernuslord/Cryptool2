@@ -48,7 +48,7 @@ namespace Cryptool.Plugins.RSA
         private int blocks_done = 0;
         private ArrayList threads;
 
-        private bool stopped = false;
+        private bool stopped = true;
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
@@ -71,7 +71,7 @@ namespace Cryptool.Plugins.RSA
 
         public void PreExecution()
         {
-            this.stopped = false;
+            stopped = false;
         }
 
         public void Execute()
@@ -79,7 +79,8 @@ namespace Cryptool.Plugins.RSA
             
             //calculate the BigIntegers
             try{                
-                this.OutputMC = InputMC.modPow(this.InputED, this.InputN);                
+                if(stopped==false)    
+                    this.OutputMC = InputMC.modPow(this.InputED, this.InputN);                
             }
             catch (Exception ex)
             {
@@ -89,7 +90,7 @@ namespace Cryptool.Plugins.RSA
             //
             // RSA on Texts
             //
-            if (this.InputText != null)
+            if (this.InputText != null && stopped == false)
             {
                 DateTime startTime = DateTime.Now;
                 GuiLogMessage("starting RSA on texts", NotificationLevel.Info);
@@ -179,8 +180,8 @@ namespace Cryptool.Plugins.RSA
 
                 GuiLogMessage("finished RSA on texts in " + duration, NotificationLevel.Info);
 
-            }//end if
-            
+            }//end if           
+
         }//end Execute
 
         /**
@@ -198,6 +199,8 @@ namespace Cryptool.Plugins.RSA
             try
             {
 
+                BigInteger bint = new BigInteger();
+                
                 //encrypt/decrypt each block
                 for (int i = threadnr; i < blockcount; i += (this.settings.CoresUsed + 1)) //walk over the blocks
                 // CoresUsed starts with 0 (so 0 => use 1 Core)
@@ -213,9 +216,10 @@ namespace Cryptool.Plugins.RSA
                             return;
 
                     }
+                    bint = new BigInteger(help);
+
                     //Check if the text could be encrypted/decrypted
                     //this is only possible if the m < N
-                    BigInteger bint = new BigInteger(help);
                     if (bint > this.InputN)
                     {
                         //Go out with an error because encryption/decryption is not possible
@@ -291,7 +295,7 @@ namespace Cryptool.Plugins.RSA
 
         public void PostExecution()
         {
-            
+            this.stopped = true;
         }
 
         public void Pause()
@@ -306,7 +310,7 @@ namespace Cryptool.Plugins.RSA
 
         public void Initialize()
         {
-            
+            this.stopped = true;
         }
 
         public void Dispose()
