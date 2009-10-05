@@ -49,18 +49,21 @@ namespace Cryptool.Plugins.RSA
                     {
                         case 0:
                             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CertificateFile", Visibility.Collapsed)));
+                            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Password", Visibility.Collapsed)));
                             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("P", Visibility.Visible)));
                             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Q", Visibility.Visible)));
                             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("E", Visibility.Visible)));
                             break;
                         case 1:
                             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CertificateFile", Visibility.Collapsed)));
+                            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Password", Visibility.Collapsed)));
                             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("P", Visibility.Collapsed)));
                             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Q", Visibility.Collapsed)));
                             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("E", Visibility.Collapsed)));
                             break;
                         case 2:
                             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CertificateFile", Visibility.Visible)));
+                            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Password", Visibility.Visible)));
                             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("P", Visibility.Collapsed)));
                             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Q", Visibility.Collapsed)));
                             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("E", Visibility.Collapsed)));
@@ -133,6 +136,20 @@ namespace Cryptool.Plugins.RSA
             }
         }
 
+        private String password = "";
+        [TaskPane("Password", "Password", null, 4, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        public String Password
+        {
+            get
+            {
+                return password;
+            }
+            set
+            {
+                password = value;
+                OnPropertyChanged("Password");
+            }
+        }
  
         #region ISettings Members
 

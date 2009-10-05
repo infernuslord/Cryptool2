@@ -85,9 +85,7 @@ namespace Cryptool.Plugins.RSA
         #region IPlugin Members
 
         public event Cryptool.PluginBase.StatusChangedEventHandler OnPluginStatusChanged;
-
         public event Cryptool.PluginBase.GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-
         public event Cryptool.PluginBase.PluginProgressChangedEventHandler OnPluginProgressChanged;
 
 
@@ -158,7 +156,7 @@ namespace Cryptool.Plugins.RSA
                     {
                         D = e.modInverse((p - 1) * (q - 1));
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         GuiLogMessage("RSAKeyGenerator Error: E (" + e + ") can not be inverted.", NotificationLevel.Error);
                         return;
@@ -202,12 +200,53 @@ namespace Cryptool.Plugins.RSA
                 case 2:
                     try
                     {
-                        RSACryptoServiceProvider rsa2 = new RSACryptoServiceProvider();
-                        X509Certificate2 cert = new X509Certificate2(settings.CertificateFile);
-                        RSACryptoServiceProvider provider = (RSACryptoServiceProvider)cert.PublicKey.Key;
-                        RSAParameters par = provider.ExportParameters(false);
-                        N = new BigInteger(par.Modulus);
-                        E = new BigInteger(par.Exponent);
+
+                        X509Certificate2 cert;
+                        RSAParameters par;
+
+                        if (this.settings.Password != "")
+                        {
+                            GuiLogMessage("Password entered. Loading public and private key", NotificationLevel.Info);
+                            cert = new X509Certificate2(settings.CertificateFile, settings.Password, X509KeyStorageFlags.Exportable);
+                            RSACryptoServiceProvider provider = (RSACryptoServiceProvider)cert.PrivateKey;
+                            par = provider.ExportParameters(true);
+                        }
+                        else 
+                        {
+                            GuiLogMessage("No Password entered. Loading public key only", NotificationLevel.Info);
+                            cert = new X509Certificate2(settings.CertificateFile);
+                            RSACryptoServiceProvider provider = (RSACryptoServiceProvider)cert.PublicKey.Key;
+                            par = provider.ExportParameters(false);
+                        }
+
+                        try
+                        {
+                            N = new BigInteger(par.Modulus);
+                        }
+                        catch (Exception ex)
+                        {
+                            GuiLogMessage("Could not get N from certificate: " + ex.Message, NotificationLevel.Info);
+                        }
+
+                        try
+                        {
+                            E = new BigInteger(par.Exponent);
+                        }
+                        catch (Exception ex)
+                        {
+                            GuiLogMessage("Could not get E from certificate: " + ex.Message, NotificationLevel.Info);
+                        }
+
+                        try
+                        {
+                            if (this.settings.Password != "")
+                                D = new BigInteger(par.D);
+                        }
+                        catch (Exception ex)
+                        {
+                            GuiLogMessage("Could not get D from certificate: " + ex.Message, NotificationLevel.Info);
+                        }
+
                     }
                     catch (Exception ex)
                     {

@@ -25,9 +25,33 @@ namespace Cryptool.Plugins.RSA
 {
     class RSASettings : ISettings
     {
-        private bool hasChanges = false;
-       
+        #region private variables
         private int mode;
+        private int coresUsed;
+        private bool hasChanges = false;
+        #endregion
+
+        public RSASettings()
+        {
+            CoresUsed = 0; //start with only 1 CPU
+        }
+
+        #region taskpane
+        [TaskPane("CoresUsed", "Choose how many cores are used", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "1", "2", "3", "4", "5", "6", "7", "8" })]
+        public int CoresUsed
+        {
+            get { return this.coresUsed; }
+            set
+            {
+                if (value != this.coresUsed)
+                {
+                    this.coresUsed = value;
+                    OnPropertyChanged("CoresUsed");
+                    HasChanges = true;
+                }
+            }
+        }
+                
         [ContextMenu("Mode", "Select the RSA mode", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Encryption", "Decryption")]
         [TaskPane("Source", "Select the RSA mode", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Encryption", "Decryption" })]
         public int Mode
@@ -39,6 +63,8 @@ namespace Cryptool.Plugins.RSA
                 OnPropertyChanged("Mode");
             }
         }
+
+        #endregion
 
         #region ISettings Members
 
