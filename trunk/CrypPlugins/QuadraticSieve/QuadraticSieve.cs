@@ -171,16 +171,17 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         private void prepareSieving (IntPtr conf, int update, IntPtr core_sieve_fcn)
         {
+            int threads = Math.Min(settings.CoresUsed, Environment.ProcessorCount-1);
             this.obj = msieve.getObjFromConf(conf) ;
             yieldqueue = Queue.Synchronized(new Queue());
             conf_list = new ArrayList();
-            GuiLogMessage("Start sieving", NotificationLevel.Info);
+            GuiLogMessage("Starting sieving using " + threads + " cores!", NotificationLevel.Info);
             ProgressChanged(0.1, 1.0);
             start_sieving_time = DateTime.Now;            
 
             running = true;
             //start helper threads:
-            for (int i = 0; i < Math.Min(settings.CoresUsed, Environment.ProcessorCount-1); i++)
+            for (int i = 0; i < threads; i++)
             {
                 IntPtr clone = msieve.cloneSieveConf(conf);
                 conf_list.Add(clone);
