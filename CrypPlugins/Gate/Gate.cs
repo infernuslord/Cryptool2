@@ -27,15 +27,10 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Diagnostics;
 
-/*
- * TODO:
- * - create icons to show Gate state (open, closed)
- * - find solution for ticket #81
- */
 namespace Gate
 {
     [Author("Matthäus Wander", "wander@cryptool.org", "Universität Duisburg-Essen, Fachgebiet Verteilte Systeme", "http://www.vs.uni-due.de")]
-    [PluginInfo(false, "Gate", "Control operator", "", "CrypWin/images/default.png")]
+    [PluginInfo(false, "Gate", "Control operator", "", "Gate/gate_closed_32.png", "Gate/gate_open_32.png")]
     public class Gate : IThroughput
     {
         private GateSettings settings = new GateSettings();
@@ -128,11 +123,15 @@ namespace Gate
                 locked = true;
                 ProgressChanged(1, 1);
                 OnPropertyChanged("OutputObject");
+
+                iconOpen();
             }
             else
             {
                 output = null;
                 ProgressChanged(0.5, 1);
+
+                iconClosed();
             }
         }
 
@@ -157,6 +156,22 @@ namespace Gate
                 default:
                     return false;
             }
+        }
+
+        private void iconOpen()
+        {
+            iconSet(1);
+        }
+
+        private void iconClosed()
+        {
+            iconSet(0);
+        }
+
+        private void iconSet(int index)
+        {
+            if (OnPluginStatusChanged != null)
+                OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, index));
         }
 
         public void PostExecution()
