@@ -117,7 +117,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             if (this.inputKey == null)
             {
                 //create a trivial key 
-                inputKey = new byte[16];
+                inputKey = new byte[8];
                 // write a warning to the ouside word
                 GuiLogMessage("WARNING - No key provided. Using 0x000..00!", NotificationLevel.Warning);
             }

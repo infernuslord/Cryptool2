@@ -642,7 +642,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         #endregion
 
         private IControlEncryption testSlave;
-        [PropertyInfo(Direction.ControlSlave, "AES Slave", "aösdflkj", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.ControlSlave, "AES Slave", "AES Slave", "", DisplayLevel.Experienced)]
         public IControlEncryption TestSlave
         {
           get 
@@ -657,12 +657,10 @@ namespace Cryptool.Plugins.Cryptography.Encryption
     public class AESControl : IControlEncryption
     {
       private AES plugin;
-      private AES dec;
 
       public AESControl(AES Plugin)
       {
         this.plugin = Plugin;
-        dec = (AES)plugin.GetType().CreateObject();
       }
 
       #region IControlEncryption Members
