@@ -97,7 +97,10 @@ namespace Cryptool.Plugins.QuadraticSieve
                 ArrayList factors;
                 try
                 {
-                    factors = msieve.factorize(InputNumber.ToString(), Path.Combine(directoryName, "msieve.dat"));
+                    string file = Path.Combine(directoryName, "" + InputNumber + ".dat");
+                    if (settings.DeleteCache)
+                        File.Delete(file);
+                    factors = msieve.factorize(InputNumber.ToString(), file);
                     obj = IntPtr.Zero;
                 }
                 catch (Exception ex)
