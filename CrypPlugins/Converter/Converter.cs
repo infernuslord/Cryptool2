@@ -223,7 +223,7 @@ namespace Cryptool.Plugins.Converter
                                 {
                                     try // string -> double Läuft
                                     {
-                                        if (inpString.Contains(".") && (inpString.IndexOf(".") == inpString.LastIndexOf("."))) //wenn genau ein punkt drin ist, mach den punkt zum komma
+                                        if (inpString.Contains(".") && (inpString.IndexOf(".") == inpString.LastIndexOf(".")) && !inpString.Contains(","))
                                         {
                                             string stringtemp=inpString.Replace(".", ",");  
                                             double temp = Convert.ToDouble(stringtemp);
