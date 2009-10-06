@@ -92,7 +92,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="cd &quot;$(ProjectDir)&quot;&#x0D;&#x0A;cd ..\..\..\..\..\CrypWin\bin\$(ConfigurationName)&#x0D;&#x0A;if not exist &quot;./CrypPlugins&quot; mkdir &quot;./CrypPlugins&quot;&#x0D;&#x0A;&#x0D;&#x0A;del /F /S /Q /s /q msieve*.*&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.dll&quot; &quot;./CrypPlugins&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.pdb&quot; &quot;./CrypPlugins&quot;&#x0D;&#x0A;"
+				CommandLine="cd &quot;$(ProjectDir)&quot;&#x0D;&#x0A;cd ..\..\..\..\..\CrypWin\bin\$(ConfigurationName)&#x0D;&#x0A;if not exist &quot;./CrypPlugins&quot; mkdir &quot;./CrypPlugins&quot;&#x0D;&#x0A;&#x0D;&#x0A;del /F /Q /q msieve*.*&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.dll&quot; &quot;./CrypPlugins&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.pdb&quot; &quot;./CrypPlugins&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -169,7 +169,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="cd &quot;$(ProjectDir)&quot;&#x0D;&#x0A;cd ..\..\..\..\..\CrypWin\bin\$(ConfigurationName)&#x0D;&#x0A;if not exist &quot;./CrypPlugins&quot; mkdir &quot;./CrypPlugins&quot;&#x0D;&#x0A;&#x0D;&#x0A;del /F /S /Q /s /q msieve*.*&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.dll&quot; &quot;./CrypPlugins&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.pdb&quot; &quot;./CrypPlugins&quot;&#x0D;&#x0A;"
+				CommandLine="cd &quot;$(ProjectDir)&quot;&#x0D;&#x0A;cd ..\..\..\..\..\CrypWin\bin\$(ConfigurationName)&#x0D;&#x0A;if not exist &quot;./CrypPlugins&quot; mkdir &quot;./CrypPlugins&quot;&#x0D;&#x0A;&#x0D;&#x0A;del /F /Q /q msieve*.*&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.dll&quot; &quot;./CrypPlugins&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.pdb&quot; &quot;./CrypPlugins&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -245,7 +245,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="cd &quot;$(ProjectDir)&quot;&#x0D;&#x0A;cd ..\..\..\..\..\CrypWin\bin\$(ConfigurationName)&#x0D;&#x0A;if not exist &quot;./CrypPlugins&quot; mkdir &quot;./CrypPlugins&quot;&#x0D;&#x0A;&#x0D;&#x0A;del /F /S /Q /s /q msieve*.*&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.dll&quot; &quot;./CrypPlugins&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.pdb&quot; &quot;./CrypPlugins&quot;&#x0D;&#x0A;"
+				CommandLine="cd &quot;$(ProjectDir)&quot;&#x0D;&#x0A;cd ..\..\..\..\..\CrypWin\bin\$(ConfigurationName)&#x0D;&#x0A;if not exist &quot;./CrypPlugins&quot; mkdir &quot;./CrypPlugins&quot;&#x0D;&#x0A;&#x0D;&#x0A;del /F /Q /q msieve*.*&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.dll&quot; &quot;./CrypPlugins&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.pdb&quot; &quot;./CrypPlugins&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -322,7 +322,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="cd &quot;$(ProjectDir)&quot;&#x0D;&#x0A;cd ..\..\..\..\..\CrypWin\bin\$(ConfigurationName)&#x0D;&#x0A;if not exist &quot;./CrypPlugins&quot; mkdir &quot;./CrypPlugins&quot;&#x0D;&#x0A;&#x0D;&#x0A;del /F /S /Q /s /q msieve*.*&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.dll&quot; &quot;./CrypPlugins&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.pdb&quot; &quot;./CrypPlugins&quot;&#x0D;&#x0A;"
+				CommandLine="cd &quot;$(ProjectDir)&quot;&#x0D;&#x0A;cd ..\..\..\..\..\CrypWin\bin\$(ConfigurationName)&#x0D;&#x0A;if not exist &quot;./CrypPlugins&quot; mkdir &quot;./CrypPlugins&quot;&#x0D;&#x0A;&#x0D;&#x0A;del /F /Q /q msieve*.*&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.dll&quot; &quot;./CrypPlugins&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.pdb&quot; &quot;./CrypPlugins&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>

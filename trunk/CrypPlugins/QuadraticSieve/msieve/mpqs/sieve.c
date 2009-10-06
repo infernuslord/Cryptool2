@@ -754,9 +754,9 @@ void collect_relations(sieve_conf_t *conf,
 			   money's worth without having to wait a really
 			   long time to finish up */
 
-			if ((conf->obj->flags & MSIEVE_FLAG_STOP_SIEVING) &&
+			if ((conf->obj->flags & MSIEVE_FLAG_STOP_SIEVING)/* &&
 			    ((num_poly <= 1024 && i == num_poly) ||
-			     (num_poly > 1024 && i > 2000))) {
+			     (num_poly > 1024 && i > 2000))*/) {
 				return;
 			}
 		}

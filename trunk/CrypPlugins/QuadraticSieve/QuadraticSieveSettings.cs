@@ -21,6 +21,7 @@ using System.Text;
 using Cryptool.PluginBase;
 using System.ComponentModel;
 using Cryptool.PluginBase.Miscellaneous;
+using System.Collections.ObjectModel;
 
 namespace QuadraticSieve
 {
@@ -33,11 +34,14 @@ namespace QuadraticSieve
 
         public QuadraticSieveSettings()
         {
+            CoresAvailable.Clear();
+            for (int i = 0; i < Environment.ProcessorCount; i++)
+                CoresAvailable.Add((i+1).ToString());
             CoresUsed = Environment.ProcessorCount-1;
         }
 
         #region taskpane
-        [TaskPane("CoresUsed", "Choose how many cores are used", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "1", "2", "3", "4", "5", "6", "7", "8" })]
+        [TaskPane("CoresUsed", "Choose how many cores should be used", null, 1, false, DisplayLevel.Beginner, ControlType.DynamicComboBox, new string[] { "CoresAvailable" })]
         public int CoresUsed
         {
             get { return this.coresUsed; }
@@ -51,6 +55,37 @@ namespace QuadraticSieve
                 }
             }
         }
+
+        private ObservableCollection<string> coresAvailable = new ObservableCollection<string>();
+        public ObservableCollection<string> CoresAvailable
+        {
+            get { return coresAvailable; }
+            set
+            {
+                if (value != coresAvailable)
+                {
+                    coresAvailable = value;
+                }
+                OnPropertyChanged("CoresAvailable");
+            }
+        }
+
+        private bool deleteCache;
+        [TaskPane("Delete cache", "If checked, this plugin will delete the old cache file before it starts sieving.", null, 2, false, DisplayLevel.Expert, ControlType.CheckBox, "", null)]
+        public bool DeleteCache
+        {
+            get { return deleteCache; }
+            set
+            {
+                if (value != deleteCache)
+                {
+                    deleteCache = value;
+                    hasChanges = true;
+                    OnPropertyChanged("DeleteCache");
+                }
+            }
+        }
+
         #endregion
 
         #region ISettings Members
