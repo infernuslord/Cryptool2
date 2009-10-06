@@ -44,7 +44,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         private Queue yieldqueue;
         private IntPtr obj = IntPtr.Zero;
         private volatile int threadcount = 0;
-        private DateTime start_time;
+        private DateTime start_sieving_time;        
         private ArrayList conf_list;
 
         static QuadraticSieve()
@@ -89,6 +89,8 @@ namespace Cryptool.Plugins.QuadraticSieve
                     return;
                 }
 
+                DateTime start_time = DateTime.Now;
+
                 callback_struct callbacks = new callback_struct();
                 callbacks.showProgress = showProgress;
                 callbacks.prepareSieving = prepareSieving;
@@ -98,7 +100,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 try
                 {
                     string file = Path.Combine(directoryName, "" + InputNumber + ".dat");
-                    if (settings.DeleteCache)
+                    if (settings.DeleteCache && File.Exists(file))
                         File.Delete(file);
                     factors = msieve.factorize(InputNumber.ToString(), file);
                     obj = IntPtr.Zero;
@@ -109,6 +111,8 @@ namespace Cryptool.Plugins.QuadraticSieve
                     stopThreads();
                     return;
                 }
+
+                GuiLogMessage("Factorization finished in " + (DateTime.Now - start_time) + "!", NotificationLevel.Info);
 
                 if (factors != null)
                 {
@@ -150,7 +154,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             else
             {
                 ProgressChanged((double)num_relations / max_relations * 0.8 + 0.1, 1.0);                
-                TimeSpan diff = DateTime.Now - start_time;
+                TimeSpan diff = DateTime.Now - start_sieving_time;
                 double msleft = (diff.TotalMilliseconds / num_relations) * (max_relations - num_relations);                                
                 if (msleft > 0)
                 {
@@ -172,7 +176,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             conf_list = new ArrayList();
             GuiLogMessage("Start sieving", NotificationLevel.Info);
             ProgressChanged(0.1, 1.0);
-            start_time = DateTime.Now;            
+            start_sieving_time = DateTime.Now;            
 
             running = true;
             //start helper threads:
