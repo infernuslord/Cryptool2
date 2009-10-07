@@ -62,7 +62,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
     
         public bool getStop()
         {
-            return false;
+            return stop;
         }
 
         [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
