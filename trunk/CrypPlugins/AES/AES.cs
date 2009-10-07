@@ -217,8 +217,6 @@ using Cryptool.PluginBase.Miscellaneous;
 using System.Runtime.Remoting.Contexts;
 using Cryptool.PluginBase.Control;
 
-
-
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
@@ -415,7 +413,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
         public void Execute()
-        {
+        {            
             process(settings.Action);
         }
 
@@ -656,11 +654,13 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
     public class AESControl : IControlEncryption
     {
+        public event KeyPatternChanged keyPatternChanged;
         private AES plugin;
 
         public AESControl(AES Plugin)
         {
             this.plugin = Plugin;
+            ((AESSettings)plugin.Settings).PropertyChanged += settingsChangedHandler;
         }
 
         #region IControlEncryption Members
@@ -679,12 +679,47 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         public string getKeyPattern()
         {
-            return "not implemented yet";
+            int bytes = 0;
+            switch (((AESSettings)plugin.Settings).Keysize)
+            {
+                case 0:
+                    bytes = 16;
+                    break;
+                case 1:
+                    bytes = 24;
+                    break;
+                case 2:
+                    bytes = 32;
+                    break;
+            }
+            string pattern = "";
+            for (int i = 1; i < bytes; i++)
+                pattern += "[0-9A-F][0-9A-F]-";
+            pattern += "[0-9A-F][0-9A-F]";
+            return pattern;
         }
 
         public byte[] getKeyFromString(string key)
         {
-            return null;
+            int bytes = 0;
+            switch (((AESSettings)plugin.Settings).Keysize)
+            {
+                case 0:
+                    bytes = 16;
+                    break;
+                case 1:
+                    bytes = 24;
+                    break;
+                case 2:
+                    bytes = 32;
+                    break;
+            }
+            byte[] bkey = new byte[bytes];
+            for (int i = 0; i < bytes; i++)
+            {
+                bkey[i] = Convert.ToByte(key.Substring(i * 3, 2), 16);
+            }
+            return bkey;
         }
 
         private byte[] execute(byte[] key)
@@ -700,6 +735,12 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             plugin.Dispose();
             output.Close();
             return byteValues;
+        }
+
+        private void settingsChangedHandler(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Keysize")
+                keyPatternChanged();
         }
 
         #endregion
