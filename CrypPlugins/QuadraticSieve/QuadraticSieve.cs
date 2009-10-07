@@ -207,7 +207,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             sieving_started = false;
             conf_list = new ArrayList();
 
-            String message = "Starting sieving using " + (threads + 1) + " cores!";
+            String message = "Start sieving using " + (threads + 1) + " cores!";
             GuiLogMessage(message, NotificationLevel.Info);
             quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
