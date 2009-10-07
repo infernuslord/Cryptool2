@@ -47,7 +47,7 @@ namespace Cryptool.Plugins.Converter
                     OnPropertyChanged("Converter");
                     HasChanges = true;
 
-                   ChangePluginIcon(converter);
+                   ChangePluginIcon(converter+1);
                 }
             }
         }
