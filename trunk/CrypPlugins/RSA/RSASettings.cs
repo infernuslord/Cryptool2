@@ -20,24 +20,42 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using Cryptool.PluginBase;
+using System.Collections.ObjectModel;
 
 namespace Cryptool.Plugins.RSA
 {
     class RSASettings : ISettings
     {
         #region private variables
-        private int mode;
+        private int action;
         private int coresUsed;
         private bool hasChanges = false;
         #endregion
 
         public RSASettings()
         {
-            CoresUsed = 0; //start with only 1 CPU
+            CoresAvailable.Clear();
+            for (int i = 0; i < Environment.ProcessorCount; i++)
+                CoresAvailable.Add((i + 1).ToString());
+            CoresUsed = Environment.ProcessorCount - 1;
+        }
+
+        private ObservableCollection<string> coresAvailable = new ObservableCollection<string>();
+        public ObservableCollection<string> CoresAvailable
+        {
+            get { return coresAvailable; }
+            set
+            {
+                if (value != coresAvailable)
+                {
+                    coresAvailable = value;
+                }
+                OnPropertyChanged("CoresAvailable");
+            }
         }
 
         #region taskpane
-        [TaskPane("CoresUsed", "Choose how many cores are used", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "1", "2", "3", "4", "5", "6", "7", "8" })]
+        [TaskPane("CoresUsed", "Choose how many cores should be used", null, 1, false, DisplayLevel.Beginner, ControlType.DynamicComboBox, new string[] { "CoresAvailable" })]
         public int CoresUsed
         {
             get { return this.coresUsed; }
@@ -51,16 +69,16 @@ namespace Cryptool.Plugins.RSA
                 }
             }
         }
-                
-        [ContextMenu("Mode", "Select the RSA mode", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Encryption", "Decryption")]
-        [TaskPane("Source", "Select the RSA mode", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Encryption", "Decryption" })]
-        public int Mode
+
+        [ContextMenu("Action", "Do you want the input data to be encrypted or decrypted?", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Encryption", "Decryption")]
+        [TaskPane("Action", "Do you want the input data to be encrypted or decrypted?", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Encryption", "Decryption" })]
+        public int Action
         {
-            get { return this.mode; }
+            get { return this.action; }
             set
             {
-                mode = value;
-                OnPropertyChanged("Mode");
+                action = value;
+                OnPropertyChanged("Action");
             }
         }
 
