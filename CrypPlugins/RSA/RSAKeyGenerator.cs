@@ -32,7 +32,7 @@ namespace Cryptool.Plugins.RSA
 
     [EncryptionType(EncryptionType.Asymmetric)]
     class RSAKeyGenerator : IEncryption
-    {        
+    {
         #region Properties
 
         private BigInteger n;
@@ -206,15 +206,20 @@ namespace Cryptool.Plugins.RSA
 
                         if (this.settings.Password != "")
                         {
-                            GuiLogMessage("Password entered. Loading public and private key", NotificationLevel.Info);
+                            GuiLogMessage("Password entered. Try getting public and private key", NotificationLevel.Info);
                             cert = new X509Certificate2(settings.CertificateFile, settings.Password, X509KeyStorageFlags.Exportable);
-                            RSACryptoServiceProvider provider = (RSACryptoServiceProvider)cert.PrivateKey;
-                            par = provider.ExportParameters(true);
+                            if (cert == null || cert.PrivateKey == null)
+                                throw new Exception("Private Key of X509Certificate could not be fetched");
+                            RSACryptoServiceProvider provider = (RSACryptoServiceProvider)cert.PrivateKey;                            
+                            par = provider.ExportParameters(true);                            
+                            
                         }
                         else 
                         {
-                            GuiLogMessage("No Password entered. Loading public key only", NotificationLevel.Info);
+                            GuiLogMessage("No Password entered. Try loading public key only", NotificationLevel.Info);
                             cert = new X509Certificate2(settings.CertificateFile);
+                            if (cert == null || cert.PublicKey == null || cert.PublicKey.Key == null)
+                                throw new Exception("Private Key of X509Certificate could not be fetched");
                             RSACryptoServiceProvider provider = (RSACryptoServiceProvider)cert.PublicKey.Key;
                             par = provider.ExportParameters(false);
                         }
@@ -225,7 +230,7 @@ namespace Cryptool.Plugins.RSA
                         }
                         catch (Exception ex)
                         {
-                            GuiLogMessage("Could not get N from certificate: " + ex.Message, NotificationLevel.Info);
+                            GuiLogMessage("Could not get N from certificate: " + ex.Message, NotificationLevel.Warning);
                         }
 
                         try
@@ -234,17 +239,19 @@ namespace Cryptool.Plugins.RSA
                         }
                         catch (Exception ex)
                         {
-                            GuiLogMessage("Could not get E from certificate: " + ex.Message, NotificationLevel.Info);
+                            GuiLogMessage("Could not get E from certificate: " + ex.Message, NotificationLevel.Warning);
                         }
 
                         try
                         {
                             if (this.settings.Password != "")
                                 D = new BigInteger(par.D);
+                            else
+                                D = null;
                         }
                         catch (Exception ex)
                         {
-                            GuiLogMessage("Could not get D from certificate: " + ex.Message, NotificationLevel.Info);
+                            GuiLogMessage("Could not get D from certificate: " + ex.Message, NotificationLevel.Warning);
                         }
 
                     }
@@ -259,7 +266,6 @@ namespace Cryptool.Plugins.RSA
 
         public void PostExecution()
         {
-
         }
 
         public void Pause()
@@ -273,7 +279,7 @@ namespace Cryptool.Plugins.RSA
         }
 
         public void Initialize()
-        {            
+        {
         }
 
         public void Dispose()

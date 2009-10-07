@@ -26,11 +26,6 @@ namespace Cryptool.Plugins.RSA
 {
     class RSAKeyGeneratorSettings : ISettings
     {
-        public RSAKeyGeneratorSettings()
-        {
-            Source = 0; //doesn't work
-        }
-
         public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
 
         private int source;
@@ -49,6 +44,7 @@ namespace Cryptool.Plugins.RSA
                     {
                         case 0:
                             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CertificateFile", Visibility.Collapsed)));
+                            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CloseFile", Visibility.Collapsed)));
                             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Password", Visibility.Collapsed)));
                             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("P", Visibility.Visible)));
                             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Q", Visibility.Visible)));
@@ -56,6 +52,7 @@ namespace Cryptool.Plugins.RSA
                             break;
                         case 1:
                             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CertificateFile", Visibility.Collapsed)));
+                            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CloseFile", Visibility.Collapsed)));
                             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Password", Visibility.Collapsed)));
                             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("P", Visibility.Collapsed)));
                             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Q", Visibility.Collapsed)));
@@ -63,6 +60,7 @@ namespace Cryptool.Plugins.RSA
                             break;
                         case 2:
                             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CertificateFile", Visibility.Visible)));
+                            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CloseFile", Visibility.Visible)));
                             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Password", Visibility.Visible)));
                             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("P", Visibility.Collapsed)));
                             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Q", Visibility.Collapsed)));
@@ -150,7 +148,13 @@ namespace Cryptool.Plugins.RSA
                 OnPropertyChanged("Password");
             }
         }
- 
+
+        [TaskPane("Close file", "Close file", null, 6, false, DisplayLevel.Beginner, ControlType.Button)]
+        public void CloseFile()
+        {
+            CertificateFile = null;
+        }
+
         #region ISettings Members
 
         private bool hasChanges = false;

@@ -29,7 +29,7 @@ using System.Collections;
 namespace Cryptool.Plugins.RSA
 {
     [Author("Dennis Nolte,Raoul Falk, Sven Rech, Nils Kopal", null, "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "RSA", "RSA En/Decryption", "", "RSA/iconrsa.png", "RSA/iconrsa.png", "RSA/iconrsa.png")]
+    [PluginInfo(false, "RSA", "RSA En/Decryption", "", "RSA/iconrsa.png", "RSA/Images/encrypt.png", "RSA/Images/decrypt.png")]
 
     [EncryptionType(EncryptionType.Asymmetric)]
 
@@ -44,10 +44,8 @@ namespace Cryptool.Plugins.RSA
         private BigInteger outputmc = new BigInteger(1);
         private byte[] inputText = null;
         private byte[] outputText = null;
-
         private int blocks_done = 0;
         private ArrayList threads;
-
         private bool stopped = true;
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
@@ -78,9 +76,9 @@ namespace Cryptool.Plugins.RSA
         {
             
             //calculate the BigIntegers
-            try{                
-                if(stopped==false)    
-                    this.OutputMC = InputMC.modPow(this.InputED, this.InputN);                
+            try{
+                if (this.InputN is object && this.InputED is object && this.InputMC is object && !stopped)    
+                    this.OutputMC = InputMC.modPow(this.InputED, this.InputN);
             }
             catch (Exception ex)
             {
@@ -90,7 +88,7 @@ namespace Cryptool.Plugins.RSA
             //
             // RSA on Texts
             //
-            if (this.InputText != null && stopped == false)
+            if (this.InputText is object && this.InputN is object && this.InputED is object && !stopped)
             {
                 DateTime startTime = DateTime.Now;
                 GuiLogMessage("starting RSA on texts", NotificationLevel.Info);
@@ -101,7 +99,7 @@ namespace Cryptool.Plugins.RSA
 
                 //calculate block sizes from N          
                 //Encryption
-                if (settings.Mode == 0)
+                if (settings.Action == 0)
                 {
                     blocksize_input = (int)Math.Floor(this.InputN.log(256));
                     blocksize_output = (int)Math.Ceiling(this.InputN.log(256));
@@ -137,11 +135,6 @@ namespace Cryptool.Plugins.RSA
                 //Generate input and output array of correct block size
                 byte[] output = new byte[blocksize_output * blockcount];
                 blocks_done = 0;
-
-                if (this.settings.CoresUsed + 1 > Environment.ProcessorCount)
-                {
-                    GuiLogMessage("You selected more Cores (" + (this.settings.CoresUsed + 1) + ") than your System supports (" + Environment.ProcessorCount+").", NotificationLevel.Info);
-                }
 
                 for (int i = 1; i < this.settings.CoresUsed + 1;i++ ) // CoresUsed starts with 0 (so 0 => use 1 Core)
                 {
