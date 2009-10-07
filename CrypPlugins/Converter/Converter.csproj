@@ -67,6 +67,33 @@
   <ItemGroup>
     <Resource Include="icons\icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\tostring.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\toint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\toshort.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\tobyte.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\todouble.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\tobig.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\tointarray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\tobytearray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\tocryptoolstream.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
