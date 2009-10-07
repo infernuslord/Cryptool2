@@ -31,10 +31,14 @@ namespace Cryptool.Plugins.Converter
         #region private variables
         private int converter = 9; // 0 = String, 1 = int, 2 = short, 3 = byte, 4 = double, 5 = bigInteger, 6= Int[] , 7=Byte[], 8=CryptoolStream, 9 = default
         private bool hasChanges;
+        private bool numeric = false;
+        private bool formatAmer = false;
         #endregion
 
         #region taskpane
+     //   [ContextMenu("Numeric Interpretation", "Choose whether inputs are treated as numeric values if possible", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "numeric", "non numeric")]
         [TaskPane("Converter", "Choose the output type", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "string", "int", "short", "byte", "double", "BigInteger", "int[]", "byte[]","Cryptoolstream" })]
+        
       
         public int Converter
         {
@@ -48,6 +52,35 @@ namespace Cryptool.Plugins.Converter
                     HasChanges = true;
 
                    ChangePluginIcon(converter+1);
+                }
+            }
+        }
+        [TaskPane("Numeric", "Choose whether inputs are interpreted as numeric values if possible", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "no", "yes" })]
+        public bool Numeric
+        {
+            get { return this.numeric; }
+            set
+            {
+                if (value != this.numeric)
+                {
+                    this.numeric = value;
+                    OnPropertyChanged("Numeric");
+                    HasChanges = true;
+                }
+            }
+        }
+
+        [TaskPane("Format", "Choose whether double values are recognized via german or american syntax. German: \"123.345.34,34\" American: \"123,345,34.34 ", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "german", "american" })]
+        public bool FormatAmer
+        {
+            get { return this.formatAmer; }
+            set
+            {
+                if (value != this.formatAmer)
+                {
+                    this.formatAmer = value;
+                    OnPropertyChanged("Format");
+                    HasChanges = true;
                 }
             }
         }
