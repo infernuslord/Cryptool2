@@ -641,62 +641,67 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         #endregion
 
-        private IControlEncryption testSlave;
+        private IControlEncryption controlSlave;
         [PropertyInfo(Direction.ControlSlave, "AES Slave", "AES Slave", "", DisplayLevel.Experienced)]
-        public IControlEncryption TestSlave
+        public IControlEncryption ControlSlave
         {
           get 
           {
-            if (testSlave == null)
-              testSlave = new AESControl(this);
-            return testSlave; 
+              if (controlSlave == null)
+                  controlSlave = new AESControl(this);
+              return controlSlave; 
           }
         }     
     }
 
     public class AESControl : IControlEncryption
     {
-      private AES plugin;
+        private AES plugin;
 
-      public AESControl(AES Plugin)
-      {
-        this.plugin = Plugin;
-      }
+        public AESControl(AES Plugin)
+        {
+            this.plugin = Plugin;
+        }
 
-      #region IControlEncryption Members
+        #region IControlEncryption Members
 
-      public byte[] Encrypt(byte[] key, byte[] data, byte[] iv)
-      {
-        ((AESSettings)plugin.Settings).Action = 0;
-        return execute(key, data, iv);
-      }
+        public byte[] Encrypt(byte[] key)
+        {
+            ((AESSettings)plugin.Settings).Action = 0;
+            return execute(key);
+        }
 
-      public byte[] Decrypt(byte[] key, byte[] data, byte[] iv)
-      {
-        ((AESSettings)plugin.Settings).Action = 1;
-        return execute(key, data, iv);
-      }
+        public byte[] Decrypt(byte[] key)
+        {
+            ((AESSettings)plugin.Settings).Action = 1;
+            return execute(key);
+        }
 
-      private byte[] execute(byte[] key, byte[] data, byte[] iv)
-      {
-        plugin.InputKey = key;
-        plugin.InputIV = iv;
-        CryptoolStream cs = new CryptoolStream();
-        cs.OpenRead(this.GetType().Name, data);
-        plugin.InputStream = cs;
-        plugin.Execute();
-        CryptoolStream output = plugin.OutputStream;
+        public string getKeyPattern()
+        {
+            return "not implemented yet";
+        }
 
-        byte[] byteValues = new byte[output.Length];
-        int bytesRead;
-        output.Seek(0, SeekOrigin.Begin);
-        bytesRead = output.Read(byteValues, 0, byteValues.Length);
-        plugin.Dispose();
-        cs.Close();
-        output.Close();
-        return byteValues;
-      }
+        public byte[] getKeyFromString(string key)
+        {
+            return null;
+        }
 
-      #endregion
+        private byte[] execute(byte[] key)
+        {
+            plugin.InputKey = key;
+            plugin.Execute();
+            CryptoolStream output = plugin.OutputStream;
+
+            byte[] byteValues = new byte[output.Length];
+            int bytesRead;
+            output.Seek(0, SeekOrigin.Begin);
+            bytesRead = output.Read(byteValues, 0, byteValues.Length);
+            plugin.Dispose();
+            output.Close();
+            return byteValues;
+        }
+
+        #endregion
     }
 }

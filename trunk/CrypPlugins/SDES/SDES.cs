@@ -371,6 +371,18 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         #endregion
 
+        private IControlEncryption controlSlave;
+        [PropertyInfo(Direction.ControlSlave, "SDES Slave", "Direct access to SDES.", "", DisplayLevel.Beginner)]
+        public IControlEncryption ControlSlave
+        {
+            get
+            {
+                if (controlSlave == null)
+                    controlSlave = new SDESControl(this);
+                return controlSlave;
+            }
+        }  
+
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -418,48 +430,72 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
     public class SDESControl : IControlEncryption
     {
-      private SDES plugin;
+        private SDES plugin;
 
-      public SDESControl(SDES Plugin)
-      {
-        this.plugin = Plugin;
-      }
+        public SDESControl(SDES Plugin)
+        {
+            this.plugin = Plugin;
+        }
 
-      #region IControlEncryption Members
+        #region IControlEncryption Members
 
-      public byte[] Encrypt(byte[] key, byte[] data, byte[] iv)
-      {
-        ((SDESSettings)plugin.Settings).Action = 0;
-        return execute(key, data, iv);
-      }
+        public byte[] Encrypt(byte[] key)
+        {
+            ((SDESSettings)plugin.Settings).Action = 0;
+            return execute(key);
+        }
 
-      public byte[] Decrypt(byte[] key, byte[] data, byte[] iv)
-      {
-        ((SDESSettings)plugin.Settings).Action = 1;
-        return execute(key, data, iv);
-      }
+        public byte[] Decrypt(byte[] key)
+        {
+            ((SDESSettings)plugin.Settings).Action = 1;
+            return execute(key);
+        }
 
-      private byte[] execute(byte[] key, byte[] data, byte[] iv)
-      {
-        plugin.InputKey = key;
-        plugin.InputIV = iv;
-        CryptoolStream cs = new CryptoolStream();
-        cs.OpenRead(this.GetType().Name, data);
-        plugin.InputStream = cs;
-        plugin.Execute();
-        CryptoolStream output = plugin.OutputStream;
+        public string getKeyPattern()
+        {
+            return "[01][01][01][01][01][01][01][01][01][01]";
+        }
 
-        byte[] byteValues = new byte[output.Length];
-        int bytesRead;
-        output.Seek(0, SeekOrigin.Begin);
-        bytesRead = output.Read(byteValues, 0, byteValues.Length);
-        plugin.Dispose();
-        cs.Close();
-        output.Close();
-        return byteValues;
-      }
+        public byte[] getKeyFromString(string key)
+        {
+            byte[] bkey = new byte[10];
+            int count = 0;
+            foreach (char c in key)
+                if (c == '0')
+                    bkey[count++] = (byte)'0';
+                else
+                    bkey[count++] = (byte)'1';
+            return bkey;
+        }
 
-      #endregion
+        private byte[] execute(byte[] key)
+        {
+            plugin.InputKey = key;
+            CryptoolStream output = new CryptoolStream();
+            output.OpenWrite();
+
+            System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+            if (((SDESSettings)plugin.Settings).Mode == 0)
+            {                
+                ElectronicCodeBook ecb = new ElectronicCodeBook(plugin);
+                ecb.decrypt(plugin.InputStream, output, key);
+            }
+            else
+            {
+                CipherBlockChaining cbc = new CipherBlockChaining(plugin);
+                cbc.decrypt(plugin.InputStream, output, key, Tools.stringToBinaryByteArray(enc.GetString(plugin.InputIV)));
+            }            
+
+            byte[] byteValues = new byte[output.Length];
+            int bytesRead;
+            output.Seek(0, SeekOrigin.Begin);
+            bytesRead = output.Read(byteValues, 0, byteValues.Length);
+            plugin.Dispose();
+            output.Close();
+            return byteValues;
+        }
+
+        #endregion
     }
 
     /**
