@@ -26,12 +26,15 @@ using System.ComponentModel;
 using System.Threading;
 using Msieve;
 using System.IO;
+using System.Windows.Controls;
+using System.Windows.Threading;
+using System.Windows;
 
 namespace Cryptool.Plugins.QuadraticSieve
 {
     [Author("Sven Rech", "rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo(false, "Quadratic Sieve", "Sieving Primes", "", "QuadraticSieve/iconqs.png")]
-    class QuadraticSieve : IThroughput
+    class QuadraticSieve : DependencyObject, IThroughput
     {
         #region IPlugin Members
 
@@ -52,7 +55,18 @@ namespace Cryptool.Plugins.QuadraticSieve
         static QuadraticSieve()
         {
             directoryName = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), TempDirectoryName), "msieve");
-            if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
+            if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);            
+        }
+
+        public QuadraticSieve()
+        {
+            QuickWatchPresentation = new QuadraticSievePresentation();
+
+            quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                quadraticSieveQuickWatchPresentation.textBox.Text = "Currently not sieving.";
+            }
+            , null);
         }
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
@@ -65,20 +79,10 @@ namespace Cryptool.Plugins.QuadraticSieve
         {
             get { return this.settings; }
             set { this.settings = (QuadraticSieveSettings)value; } 
-        }
-
-        public System.Windows.Controls.UserControl Presentation
-        {
-            get { return null; }
-        }
-
-        public System.Windows.Controls.UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
+        }           
 
         public void PreExecution()
-        {            
+        {  
         }
 
         public void Execute()
@@ -116,7 +120,13 @@ namespace Cryptool.Plugins.QuadraticSieve
 
                 if (factors != null)
                 {
-                    GuiLogMessage("Factorization finished in " + (DateTime.Now - start_time) + "!", NotificationLevel.Info);
+                    String message = "Factorization finished in " + (DateTime.Now - start_time) + "!";
+                    GuiLogMessage(message, NotificationLevel.Info);
+                    quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        quadraticSieveQuickWatchPresentation.textBox.Text = message;
+                    }
+                    , null);   
                     BigInteger[] outs = new BigInteger[factors.Count];
                     for (int i = 0; i < factors.Count; i++)
                     {
@@ -126,6 +136,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 }
                     
                 ProgressChanged(1, 1);
+                
             }
         }
 
@@ -161,7 +172,14 @@ namespace Cryptool.Plugins.QuadraticSieve
                     if (msleft > 0)
                     {
                         TimeSpan ts = new TimeSpan(0, 0, 0, 0, (int)msleft);
-                        GuiLogMessage("" + num_relations + " of " + max_relations + " relations! About " + showTimeSpan(ts) + " left.", NotificationLevel.Debug);
+                        String message = "" + num_relations + " of " + max_relations + " relations! About " + showTimeSpan(ts) + " left.";
+                        GuiLogMessage(message, NotificationLevel.Debug);
+                        quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            quadraticSieveQuickWatchPresentation.textBox.Text = message;
+                        }
+               , null);
+
                     }
                 }
 
@@ -188,7 +206,15 @@ namespace Cryptool.Plugins.QuadraticSieve
             yieldqueue = Queue.Synchronized(new Queue());
             sieving_started = false;
             conf_list = new ArrayList();
-            GuiLogMessage("Starting sieving using " + (threads+1) + " cores!", NotificationLevel.Info);
+
+            String message = "Starting sieving using " + (threads + 1) + " cores!";
+            GuiLogMessage(message, NotificationLevel.Info);
+            quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                quadraticSieveQuickWatchPresentation.textBox.Text = message;
+            }
+            , null);          
+
             ProgressChanged(0.1, 1.0);
 
             running = true;
@@ -311,8 +337,6 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         #region INotifyPropertyChanged Members
 
-
-
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
         public void OnPropertyChanged(string name)
@@ -330,6 +354,23 @@ namespace Cryptool.Plugins.QuadraticSieve
         private void GuiLogMessage(string p, NotificationLevel notificationLevel)
         {
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(p, this, notificationLevel));
+        }
+
+        #endregion
+
+        #region IPlugin Members
+
+        private QuadraticSievePresentation quadraticSieveQuickWatchPresentation
+        {
+            get { return QuickWatchPresentation as QuadraticSievePresentation; }
+        }
+
+        public UserControl Presentation { get; private set; }
+
+        public UserControl QuickWatchPresentation
+        {
+            get;
+            private set;
         }
 
         #endregion
