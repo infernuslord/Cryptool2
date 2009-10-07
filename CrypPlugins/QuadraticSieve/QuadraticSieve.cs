@@ -24,11 +24,11 @@ using QuadraticSieve;
 using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
 using System.Threading;
-using Msieve;
 using System.IO;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using System.Windows;
+using System.Reflection;
 
 namespace Cryptool.Plugins.QuadraticSieve
 {
@@ -51,11 +51,13 @@ namespace Cryptool.Plugins.QuadraticSieve
         private bool sieving_started;
         private int start_relations;
         private ArrayList conf_list;
+        private Assembly msieveDLL;
+        private Type msieve;
 
         static QuadraticSieve()
         {
             directoryName = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), TempDirectoryName), "msieve");
-            if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);            
+            if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
         }
 
         public QuadraticSieve()
@@ -67,7 +69,17 @@ namespace Cryptool.Plugins.QuadraticSieve
                 quadraticSieveQuickWatchPresentation.textBox.Text = "Currently not sieving.";
             }
             , null);
-        }
+
+            //Load msieve.dll:
+            string s = Directory.GetCurrentDirectory();
+            string dllname;
+            if (IntPtr.Size == 4)
+                dllname = "msieve.dll";
+            else
+                dllname = "msieve64.dll";
+            msieveDLL = Assembly.LoadFile(Directory.GetCurrentDirectory()+"\\CrypPlugins\\"+dllname);
+            msieve = msieveDLL.GetType("Msieve.msieve");
+        }                
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
 
@@ -97,18 +109,26 @@ namespace Cryptool.Plugins.QuadraticSieve
 
                 DateTime start_time = DateTime.Now;
 
-                callback_struct callbacks = new callback_struct();
-                callbacks.showProgress = showProgress;
-                callbacks.prepareSieving = prepareSieving;
-                msieve.initMsieve(callbacks);
+                //init msieve with callbacks:
+                MethodInfo initMsieve = msieve.GetMethod("initMsieve");
+                Object callback_struct = Activator.CreateInstance(msieveDLL.GetType("Msieve.callback_struct"));
+                FieldInfo showProgressField = msieveDLL.GetType("Msieve.callback_struct").GetField("showProgress");
+                FieldInfo prepareSievingField = msieveDLL.GetType("Msieve.callback_struct").GetField("prepareSieving");
+                Delegate showProgressDel = MulticastDelegate.CreateDelegate(msieveDLL.GetType("Msieve.showProgressDelegate"), this, "showProgress");
+                Delegate prepareSievingDel = MulticastDelegate.CreateDelegate(msieveDLL.GetType("Msieve.prepareSievingDelegate"), this, "prepareSieving");
+                showProgressField.SetValue(callback_struct, showProgressDel);
+                prepareSievingField.SetValue(callback_struct, prepareSievingDel);
+                initMsieve.Invoke(null, new object[1] { callback_struct });
 
+                //Now factorize:
                 ArrayList factors;
                 try
                 {
                     string file = Path.Combine(directoryName, "" + InputNumber + ".dat");
                     if (settings.DeleteCache && File.Exists(file))
                         File.Delete(file);
-                    factors = msieve.factorize(InputNumber.ToString(), file);
+                    MethodInfo factorize = msieve.GetMethod("factorize");
+                    factors = (ArrayList)factorize.Invoke(null, new object[] { InputNumber.ToString(), file });                    
                     obj = IntPtr.Zero;
                 }
                 catch (Exception ex)
@@ -194,7 +214,8 @@ namespace Cryptool.Plugins.QuadraticSieve
 
                 while (yieldqueue.Count != 0)       //get all the results from the helper threads, and store them
                 {
-                    msieve.saveYield(conf, (IntPtr)yieldqueue.Dequeue());
+                    MethodInfo saveYield = msieve.GetMethod("saveYield");
+                    saveYield.Invoke(null, new object[] { conf, (IntPtr)yieldqueue.Dequeue() });                    
                 }                
             }
         }
@@ -202,7 +223,8 @@ namespace Cryptool.Plugins.QuadraticSieve
         private void prepareSieving (IntPtr conf, int update, IntPtr core_sieve_fcn)
         {
             int threads = Math.Min(settings.CoresUsed, Environment.ProcessorCount-1);
-            this.obj = msieve.getObjFromConf(conf);
+            MethodInfo getObjFromConf = msieve.GetMethod("getObjFromConf");
+            this.obj = (IntPtr)getObjFromConf.Invoke(null, new object[] { conf });            
             yieldqueue = Queue.Synchronized(new Queue());
             sieving_started = false;
             conf_list = new ArrayList();
@@ -221,7 +243,8 @@ namespace Cryptool.Plugins.QuadraticSieve
             //start helper threads:
             for (int i = 0; i < threads; i++)
             {
-                IntPtr clone = msieve.cloneSieveConf(conf);
+                MethodInfo cloneSieveConf = msieve.GetMethod("cloneSieveConf");
+                IntPtr clone = (IntPtr)cloneSieveConf.Invoke(null, new object[] { conf });                
                 conf_list.Add(clone);
                 WaitCallback worker = new WaitCallback(MSieveJob);
                 ThreadPool.QueueUserWorkItem(worker, new object[] { clone, update, core_sieve_fcn, yieldqueue });
@@ -242,8 +265,10 @@ namespace Cryptool.Plugins.QuadraticSieve
             {
                 try
                 {
-                    msieve.collectRelations(clone, update, core_sieve_fcn);
-                    IntPtr yield = msieve.getYield(clone);
+                    MethodInfo collectRelations = msieve.GetMethod("collectRelations");
+                    collectRelations.Invoke(null, new object[] { clone, update, core_sieve_fcn });
+                    MethodInfo getYield = msieve.GetMethod("getYield");
+                    IntPtr yield = (IntPtr)getYield.Invoke(null, new object[] { clone });                    
                     yieldqueue.Enqueue(yield);
                 }
                 catch (Exception ex)
@@ -253,8 +278,8 @@ namespace Cryptool.Plugins.QuadraticSieve
                     return;
                 }                
             }
-
-            msieve.freeSieveConf(clone);
+            MethodInfo freeSieveConf = msieve.GetMethod("freeSieveConf");
+            freeSieveConf.Invoke(null, new object[] { clone });            
             threadcount--;
         }
 
@@ -271,7 +296,8 @@ namespace Cryptool.Plugins.QuadraticSieve
             if (obj != IntPtr.Zero)
             {
                 stopThreads();
-                msieve.stop(obj);
+                MethodInfo stop = msieve.GetMethod("stop");
+                stop.Invoke(null, new object[] { obj });
             }
         }
 
@@ -280,8 +306,10 @@ namespace Cryptool.Plugins.QuadraticSieve
             if (conf_list != null)
             {
                 running = false;
+                MethodInfo stop = msieve.GetMethod("stop");
+                MethodInfo getObjFromConf = msieve.GetMethod("getObjFromConf");
                 foreach (IntPtr conf in conf_list)
-                    msieve.stop(msieve.getObjFromConf(conf));
+                    stop.Invoke(null, new object[] { getObjFromConf.Invoke(null, new object[] {conf}) });
                 GuiLogMessage("Waiting for threads to stop!", NotificationLevel.Debug);
                 while (threadcount > 0)
                 {
