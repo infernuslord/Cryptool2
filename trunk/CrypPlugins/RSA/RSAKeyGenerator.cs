@@ -173,8 +173,34 @@ namespace Cryptool.Plugins.RSA
                     }
                     break;
 
-                //random generated
                 case 1:
+                    try
+                    {
+                        n = BigInteger.parseExpression(settings.N);
+                        d = BigInteger.parseExpression(settings.D);
+                        e = BigInteger.parseExpression(settings.E);
+                    }
+                    catch (Exception ex)
+                    {
+                        GuiLogMessage("Invalid Big Number input: " + ex.Message, NotificationLevel.Error);
+                        return;
+                    }
+                    
+                    try
+                    {
+                        N = n;
+                        E = e;
+                        D = d;
+                    }
+                    catch (Exception ex)
+                    {
+                        GuiLogMessage("Big Number fail: " + ex.Message, NotificationLevel.Error);
+                        return;
+                    }
+                    break;
+
+                //random generated
+                case 2:
                     try
                     {
                         RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
@@ -197,7 +223,7 @@ namespace Cryptool.Plugins.RSA
                     break;
                 
                 //using x509 certificate
-                case 2:
+                case 3:
                     try
                     {
 
