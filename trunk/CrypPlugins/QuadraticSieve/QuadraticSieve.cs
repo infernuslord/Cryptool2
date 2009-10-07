@@ -44,7 +44,9 @@ namespace Cryptool.Plugins.QuadraticSieve
         private Queue yieldqueue;
         private IntPtr obj = IntPtr.Zero;
         private volatile int threadcount = 0;
-        private DateTime start_sieving_time;        
+        private DateTime start_sieving_time;
+        private bool sieving_started;
+        private int start_relations;
         private ArrayList conf_list;
 
         static QuadraticSieve()
@@ -110,12 +112,11 @@ namespace Cryptool.Plugins.QuadraticSieve
                     GuiLogMessage("Error using msieve. " + ex.Message, NotificationLevel.Error);
                     stopThreads();
                     return;
-                }
-
-                GuiLogMessage("Factorization finished in " + (DateTime.Now - start_time) + "!", NotificationLevel.Info);
+                }               
 
                 if (factors != null)
                 {
+                    GuiLogMessage("Factorization finished in " + (DateTime.Now - start_time) + "!", NotificationLevel.Info);
                     BigInteger[] outs = new BigInteger[factors.Count];
                     for (int i = 0; i < factors.Count; i++)
                     {
@@ -149,35 +150,46 @@ namespace Cryptool.Plugins.QuadraticSieve
                 ProgressChanged(0.9, 1.0);
                 GuiLogMessage("Sieving finished", NotificationLevel.Info);
                 stopThreads();
-                yieldqueue.Clear();
+                yieldqueue.Clear();                
             }
             else
             {
-                ProgressChanged((double)num_relations / max_relations * 0.8 + 0.1, 1.0);                
-                TimeSpan diff = DateTime.Now - start_sieving_time;
-                double msleft = (diff.TotalMilliseconds / num_relations) * (max_relations - num_relations);                                
-                if (msleft > 0)
+                if (sieving_started)
                 {
-                    TimeSpan ts = new TimeSpan(0, 0, 0, 0, (int)msleft);
-                    GuiLogMessage("" + num_relations + " of " + max_relations + " relations! About " + showTimeSpan(ts) + " left.", NotificationLevel.Debug);
+                    TimeSpan diff = DateTime.Now - start_sieving_time;
+                    double msleft = (diff.TotalMilliseconds / (num_relations - start_relations)) * (max_relations - num_relations);
+                    if (msleft > 0)
+                    {
+                        TimeSpan ts = new TimeSpan(0, 0, 0, 0, (int)msleft);
+                        GuiLogMessage("" + num_relations + " of " + max_relations + " relations! About " + showTimeSpan(ts) + " left.", NotificationLevel.Debug);
+                    }
                 }
+
+                if (!sieving_started)
+                {
+                    start_relations = num_relations;
+                    start_sieving_time = DateTime.Now;
+                    sieving_started = true;
+                }
+
+                ProgressChanged((double)num_relations / max_relations * 0.8 + 0.1, 1.0);                
 
                 while (yieldqueue.Count != 0)       //get all the results from the helper threads, and store them
                 {
                     msieve.saveYield(conf, (IntPtr)yieldqueue.Dequeue());
-                }
+                }                
             }
         }
 
         private void prepareSieving (IntPtr conf, int update, IntPtr core_sieve_fcn)
         {
             int threads = Math.Min(settings.CoresUsed, Environment.ProcessorCount-1);
-            this.obj = msieve.getObjFromConf(conf) ;
+            this.obj = msieve.getObjFromConf(conf);
             yieldqueue = Queue.Synchronized(new Queue());
+            sieving_started = false;
             conf_list = new ArrayList();
-            GuiLogMessage("Starting sieving using " + threads + " cores!", NotificationLevel.Info);
+            GuiLogMessage("Starting sieving using " + (threads+1) + " cores!", NotificationLevel.Info);
             ProgressChanged(0.1, 1.0);
-            start_sieving_time = DateTime.Now;            
 
             running = true;
             //start helper threads:
