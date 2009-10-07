@@ -172,10 +172,26 @@ namespace KeySearcher
         }
     }
     
-    [Author("Thomas Schmid and Sven Rech", "thomas.schmid@cryptool.org and rech@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
+    [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
+    //[Author("Sven Rech", "rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo(true, "KeySearcher", "Bruteforces a decryption algorithm.", null, "KeySearcher/Images/icon.png")]
     public class KeySearcher : IAnalysisMisc
     {
+        private KeyPattern pattern = null;
+        public KeyPattern Pattern
+        {
+            get
+            {
+                return pattern;
+            }
+            set
+            {
+                pattern = value;
+                if (!pattern.testKey(settings.Key))
+                    settings.Key = pattern.giveWildcardKey();
+            }
+        }
+
         private bool stop;
 
         #region IPlugin Members
@@ -217,20 +233,20 @@ namespace KeySearcher
             if (ControlMaster != null)
             {
                 stop = false;
-                if (!settings.Pattern.testKey(settings.Key))
+                if (!Pattern.testKey(settings.Key))
                 {
                     GuiLogMessage("Wrong key pattern!", NotificationLevel.Error);
                     return;
                 }
-                settings.Pattern.initKeyIteration(settings.Key);
+                Pattern.initKeyIteration(settings.Key);
                 string key;
                 do
                 {
-                    key = settings.Pattern.getKey();
+                    key = Pattern.getKey();
                     GuiLogMessage("Try key " + key, NotificationLevel.Debug);
                     byte[] decryption = ControlMaster.Decrypt(ControlMaster.getKeyFromString(key));
                     //TODO: Check cost function here
-                } while (settings.Pattern.nextKey() && !stop);
+                } while (Pattern.nextKey() && !stop);
             }
         }
 
@@ -273,7 +289,7 @@ namespace KeySearcher
 
         private void keyPatternChanged()
         {
-            settings.Pattern = new KeyPattern(controlMaster.getKeyPattern());
+            Pattern = new KeyPattern(controlMaster.getKeyPattern());
         }
 
         #region IControlEncryption Members
@@ -289,7 +305,7 @@ namespace KeySearcher
                     controlMaster.keyPatternChanged -= keyPatternChanged;
                 if (value != null)
                 {
-                    settings.Pattern = new KeyPattern(value.getKeyPattern());
+                    Pattern = new KeyPattern(value.getKeyPattern());
                     value.keyPatternChanged += keyPatternChanged;
                     controlMaster = value;
                     OnPropertyChanged("ControlMaster");
