@@ -166,6 +166,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TEA", "CrypPlugins\TEA\TEA.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gate", "CrypPlugins\Gate\Gate.csproj", "{0255CD48-A39D-406F-B89F-78D8AE56B9CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Converter", "CrypPlugins\Converter\Converter.csproj", "{44570501-A850-4518-A1F1-A8795D91D826}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -942,6 +944,16 @@ Global
 		{0255CD48-A39D-406F-B89F-78D8AE56B9CE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0255CD48-A39D-406F-B89F-78D8AE56B9CE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0255CD48-A39D-406F-B89F-78D8AE56B9CE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{44570501-A850-4518-A1F1-A8795D91D826}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{44570501-A850-4518-A1F1-A8795D91D826}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44570501-A850-4518-A1F1-A8795D91D826}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44570501-A850-4518-A1F1-A8795D91D826}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{44570501-A850-4518-A1F1-A8795D91D826}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{44570501-A850-4518-A1F1-A8795D91D826}.Release|.NET.ActiveCfg = Release|Any CPU
+		{44570501-A850-4518-A1F1-A8795D91D826}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44570501-A850-4518-A1F1-A8795D91D826}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44570501-A850-4518-A1F1-A8795D91D826}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{44570501-A850-4518-A1F1-A8795D91D826}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
