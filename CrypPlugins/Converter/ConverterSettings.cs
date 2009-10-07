@@ -29,7 +29,7 @@ namespace Cryptool.Plugins.Converter
     public class ConverterSettings : ISettings
     {
         #region private variables
-        private int converter = 0; // 0 = int, 1 = biginteger, 2 = short, 3 = byte, 4 = double, 5 = string
+        private int converter = 9; // 0 = String, 1 = int, 2 = short, 3 = byte, 4 = double, 5 = bigInteger, 6= Int[] , 7=Byte[], 8=CryptoolStream, 9 = default
         private bool hasChanges;
         #endregion
 
@@ -47,7 +47,7 @@ namespace Cryptool.Plugins.Converter
                     OnPropertyChanged("Converter");
                     HasChanges = true;
 
-                   // ChangePluginIcon(converter);
+                   ChangePluginIcon(converter);
                 }
             }
         }
