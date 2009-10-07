@@ -430,6 +430,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
     public class SDESControl : IControlEncryption
     {
+        public event KeyPatternChanged keyPatternChanged;
         private SDES plugin;
 
         public SDESControl(SDES Plugin)

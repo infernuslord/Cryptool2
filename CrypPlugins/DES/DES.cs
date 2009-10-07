@@ -375,6 +375,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
     public class DESControl : IControlEncryption
     {
+        public event KeyPatternChanged keyPatternChanged;
         private DES plugin;
 
         public DESControl(DES Plugin)
@@ -398,12 +399,18 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         public string getKeyPattern()
         {
-            return "not implemented yet";
+            return "[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-"
+                +"[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]";
         }
 
         public byte[] getKeyFromString(string key)
         {
-            return null;
+            byte[] bkey = new byte[8];
+            for (int i = 0; i < 7; i++)
+            {
+                bkey[i] = Convert.ToByte(key.Substring(i * 3, 2), 16);                
+            }
+            return bkey;
         }
 
         private byte[] execute(byte[] key)

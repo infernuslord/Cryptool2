@@ -146,11 +146,11 @@ namespace KeySearcher
 
         public bool nextKey()
         {
-            int wildcardCount = 0;
-            bool overflow = ((Wildcard)wildcardList[0]).succ();
-            wildcardCount = 1;
-            while (overflow && (wildcardCount < wildcardList.Count))
-                overflow = ((Wildcard)wildcardList[wildcardCount++]).succ();
+            int wildcardCount = wildcardList.Count-1;
+            bool overflow = ((Wildcard)wildcardList[wildcardCount]).succ();
+            wildcardCount--;
+            while (overflow && (wildcardCount >= 0))
+                overflow = ((Wildcard)wildcardList[wildcardCount--]).succ();
             return !overflow;
         }
 
@@ -271,6 +271,11 @@ namespace KeySearcher
 
         #endregion
 
+        private void keyPatternChanged()
+        {
+            settings.Pattern = new KeyPattern(controlMaster.getKeyPattern());
+        }
+
         #region IControlEncryption Members
 
         private IControlEncryption controlMaster;
@@ -280,12 +285,17 @@ namespace KeySearcher
             get { return controlMaster; }
             set
             {
+                if (controlMaster != null)
+                    controlMaster.keyPatternChanged -= keyPatternChanged;
                 if (value != null)
                 {
                     settings.Pattern = new KeyPattern(value.getKeyPattern());
+                    value.keyPatternChanged += keyPatternChanged;
                     controlMaster = value;
                     OnPropertyChanged("ControlMaster");
                 }
+                else
+                    controlMaster = null;
             }
         }
 
