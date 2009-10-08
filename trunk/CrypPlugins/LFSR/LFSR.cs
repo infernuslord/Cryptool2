@@ -131,7 +131,7 @@ namespace Cryptool.LFSR
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Output stream", "LFSR Stream Output. Use this for bulk output.", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        /*[PropertyInfo(Direction.OutputData, "Output stream", "LFSR Stream Output. Use this for bulk output.", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public CryptoolStream OutputStream
         {
             //[MethodImpl(MethodImplOptions.Synchronized)]
@@ -153,7 +153,7 @@ namespace Cryptool.LFSR
                 if (value != null) listCryptoolStreamsOut.Add(value);
                 OnPropertyChanged("OutputStream");
             }
-        }
+        }*/
 
         [PropertyInfo(Direction.OutputData, "String Output", "Produces the output bits as a string with length==rounds. Use this output without a clock input.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public String OutputString

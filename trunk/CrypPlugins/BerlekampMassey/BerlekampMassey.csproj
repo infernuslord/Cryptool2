@@ -56,6 +56,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BerlekampMasseyPresentation.xaml.cs">
+      <DependentUpon>BerlekampMasseyPresentation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BerlekampMassey.cs" />
     <Compile Include="BerlekampMasseySettings.cs" />
@@ -75,6 +78,12 @@
       <SubType>Designer</SubType>
     </Resource>
     <Resource Include="Images\icon2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="BerlekampMasseyPresentation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

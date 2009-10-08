@@ -218,7 +218,7 @@ using System.Runtime.CompilerServices;
 
 namespace Cryptool.BerlekampMassey
 {
-    [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
+    [Author("Soeren Rinne", "soeren.rinne@cryptool.org", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
     [PluginInfo(false, "BerlekampMassey", "Berlekamp-Massey-Algorithm", "BerlekampMassey/DetailedDescription/Description.xaml", "BerlekampMassey/Images/icon2.png", "BerlekampMassey/Images/icon2.png", "BerlekampMassey/Images/icon2.png")]
     public class BerlekampMassey : IThroughput
     {
@@ -230,6 +230,8 @@ namespace Cryptool.BerlekampMassey
         private String polynomialOutput;
         private int output;
 
+        private BerlekampMasseyPresentation berlekampMasseyPresentation;
+
         #endregion
 
         #region Public interface
@@ -240,7 +242,10 @@ namespace Cryptool.BerlekampMassey
         public BerlekampMassey()
         {
             this.settings = new BerlekampMasseySettings();
-            ((BerlekampMasseySettings)(this.settings)).LogMessage += Xor_LogMessage;
+            ((BerlekampMasseySettings)(this.settings)).LogMessage += BerlekampMasseyLogMessage;
+
+            berlekampMasseyPresentation = new BerlekampMasseyPresentation();
+            Presentation = berlekampMasseyPresentation;
         }
 
         /// <summary>
@@ -306,16 +311,6 @@ namespace Cryptool.BerlekampMassey
         {
         }
 
-        public UserControl Presentation
-        {
-            get { return null; }
-        }
-
-        public UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
         public void Stop()
         {
         }
@@ -326,6 +321,13 @@ namespace Cryptool.BerlekampMassey
 
         public void PreExecution()
         {
+        }
+
+        public UserControl Presentation { get; private set; }
+
+        public UserControl QuickWatchPresentation
+        {
+            get { return Presentation; }
         }
 
         #endregion
@@ -346,7 +348,7 @@ namespace Cryptool.BerlekampMassey
 
         #region Private methods
 
-        private void Xor_LogMessage(string msg, NotificationLevel logLevel)
+        private void BerlekampMasseyLogMessage(string msg, NotificationLevel logLevel)
         {
             /*if (OnGuiLogNotificationOccured != null)
             {
@@ -458,10 +460,11 @@ namespace Cryptool.BerlekampMassey
 
             string polynomial = BuildPolynomialFromBinary(myC.ToCharArray());
             polynomialOutput = polynomial;
+            berlekampMasseyPresentation.setPolynomial(polynomial);
             OnPropertyChanged("PolynomialOutput");
             
-            GuiLogMessage("C(D): " + myC, NotificationLevel.Info);
-            GuiLogMessage("polynomial: " + polynomial, NotificationLevel.Info);
+            //GuiLogMessage("C(D): " + myC, NotificationLevel.Info);
+            //GuiLogMessage("polynomial: " + polynomial, NotificationLevel.Info);
 
             return L;
         }
@@ -534,7 +537,7 @@ namespace Cryptool.BerlekampMassey
             try
             {
                 string myInputString = input;
-                GuiLogMessage("myInputString: " + myInputString, NotificationLevel.Info);
+                //GuiLogMessage("myInputString: " + myInputString, NotificationLevel.Info);
 
                 byte[] inputByte = StrToByteArray(myInputString);
 
@@ -545,10 +548,11 @@ namespace Cryptool.BerlekampMassey
                 DateTime stopTime = DateTime.Now;
                 // compute overall time
                 TimeSpan duration = stopTime - startTime;
+                berlekampMasseyPresentation.setLength(output.ToString());
                 OnPropertyChanged("Output");
                 
-                GuiLogMessage("Complete!", NotificationLevel.Debug);
-                GuiLogMessage("Time used: " + duration, NotificationLevel.Info);
+                //GuiLogMessage("Complete!", NotificationLevel.Debug);
+                GuiLogMessage("Time used: " + duration, NotificationLevel.Debug);
                 
             }
             catch (Exception exception)
