@@ -7419,6 +7419,37 @@
             <value></value>
             <returns>The number of visual child elements for this element.</returns>
         </member>
+        <member name="T:AnotherEditor.Properties.Exceptions">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:AnotherEditor.Properties.Exceptions.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:AnotherEditor.Properties.Exceptions.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:AnotherEditor.Properties.Exceptions.connectors_same_direction">
+            <summary>
+              Looks up a localized string similar to Can&apos;t connect two connectors with same direction..
+            </summary>
+        </member>
+        <member name="P:AnotherEditor.Properties.Exceptions.incompatible_connector_types">
+            <summary>
+              Looks up a localized string similar to Types:{0} and {1} can&apos;t be connected..
+            </summary>
+        </member>
+        <member name="P:AnotherEditor.Properties.Exceptions.input_already_connected">
+            <summary>
+              Looks up a localized string similar to Input is already connected..
+            </summary>
+        </member>
         <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
             <summary>
             GeneratedInternalTypeHelper
