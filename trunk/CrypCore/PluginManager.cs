@@ -370,10 +370,13 @@ namespace Cryptool.Core
                         }                          
                     }
                 }
+                catch (BadImageFormatException)
+                {
+                  SendExceptionMessage(string.Format(Resources.Exceptions.non_plugin_file, fileInfo.Name));
+                }
                 catch (Exception ex)
                 {
-                    if (OnExceptionOccured != null)
-                        OnExceptionOccured(this, new PluginManagerEventArgs(ex));
+                    SendExceptionMessage(ex);
                 }
             }
         }
@@ -541,6 +544,18 @@ namespace Cryptool.Core
         {
           if (OnDebugMessageOccured != null)
             OnDebugMessageOccured(this, new PluginManagerEventArgs(message));
+        }
+
+        private void SendExceptionMessage(Exception ex)
+        {
+          if (OnExceptionOccured != null)
+            OnExceptionOccured(this, new PluginManagerEventArgs(ex));
+        }
+
+        private void SendExceptionMessage(string message)
+        {
+          if (OnExceptionOccured != null)
+            OnExceptionOccured(this, new PluginManagerEventArgs(message));
         }
     }
 }
