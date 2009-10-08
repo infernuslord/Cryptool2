@@ -12,9 +12,8 @@ using Cryptool.PluginBase.Miscellaneous;
 /*
  * CRC hash algorithm (currently just CRC-32).
  * 
- * FIXME: currently shown in CT2 GUI as "Cryptographic hash function", though CRC-32 does not satisfy for
- * any cryptographic purposes (error detection only). Shall re-arrange plugin or groups.
- * TODO: extend plugin to support other generator polynoms and hash lengths.
+ * TODO/Wishlist:
+ * - add support for other generator polynoms and hash lengths.
  * 
  * The CRC-32 algorithm implementation is based on a code snippet by NullFX with the following license:
  * 
@@ -41,8 +40,8 @@ using Cryptool.PluginBase.Miscellaneous;
  */
 namespace Cryptool.CRC
 {
-    [Author("Matthäus Wander", "matthaeus.wander@uni-due.de", "Fachgebiet Verteilte Systeme, Universität Duisburg-Essen", "http://www.vs.uni-due.de")]
-    [PluginInfo(false, "CRC32", "Non-cryptographic hash function", null, "CRC/icon.png")]
+    [Author("Matthäus Wander", "wander@cryptool.org", "Fachgebiet Verteilte Systeme, Universität Duisburg-Essen", "http://www.vs.uni-due.de")]
+    [PluginInfo(false, "CRC32", "Cyclic Redundancy Check 32-Bit", null, "CRC/icon.png")]
     public class CRC : ICheckSumHash
     {
         #region Constants and private variables
@@ -144,13 +143,13 @@ namespace Cryptool.CRC
 
         public void Execute()
         {
+            ProgressChanged(0.0, 1.0);
+
             if (inputData == null)
             {
-                GuiLogMessage("Received null value for input CryptoolStream.", NotificationLevel.Warning);
+                GuiLogMessage("Received null value for input CryptoolStream, not processing.", NotificationLevel.Warning);
                 return;
             }
-
-            ProgressChanged(0.0, 1.0);
 
             byte[] input = new byte[BUFSIZE];
             uint crc = 0xffffffff;
@@ -192,8 +191,6 @@ namespace Cryptool.CRC
         /// </summary>
         public void Initialize()
         {
-            GuiLogMessage("Initializing CRC-32 tables", NotificationLevel.Debug);
-
             uint poly = 0xEDB88320; // reversed presentation of polynom 0x04C11DB7
 
             // build lookup table
@@ -224,14 +221,10 @@ namespace Cryptool.CRC
         public void PostExecution()
         {
             Dispose();
-            GuiLogMessage("PostExecution has been called", NotificationLevel.Debug);
         }
 
         public void PreExecution()
         {
-            // As we clean up nicely after execution, there should be no need to dispose before execution.
-            //Dispose();
-            GuiLogMessage("PreExecution has been called", NotificationLevel.Debug);
         }
 
         public System.Windows.Controls.UserControl Presentation
