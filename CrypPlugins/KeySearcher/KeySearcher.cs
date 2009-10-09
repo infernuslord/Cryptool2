@@ -188,7 +188,7 @@ namespace KeySearcher
             set
             {
                 pattern = value;
-                if (!pattern.testKey(settings.Key))
+                if ((settings.Key == null) ||((settings.Key != null) && !pattern.testKey(settings.Key)))
                     settings.Key = pattern.giveWildcardKey();
             }
         }
