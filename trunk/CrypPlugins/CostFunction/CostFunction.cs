@@ -23,12 +23,13 @@ using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.PluginBase.Analysis;
 using System.ComponentModel;
+using Cryptool.PluginBase.Control;
 
 namespace Cryptool.Plugins.CostFunction
 {
     [Author("Nils Kopal", "Nils.Kopal@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo(false, "CostFunction", "CostFunction", null, "CostFunction/icon.png")]
-    class CostFunction : IAnalysisMisc
+    public class CostFunction : IAnalysisMisc
     {
         #region private variables
         private CostFunctionSettings settings = new CostFunctionSettings();
@@ -36,6 +37,7 @@ namespace Cryptool.Plugins.CostFunction
         private byte[] outputText = null;
         private double value = 0;
         private Boolean stopped = true;
+        private IControlCost controlSlave;
         #endregion
 
         #region CostFunctionInOut        
@@ -81,6 +83,17 @@ namespace Cryptool.Plugins.CostFunction
                 OnPropertyChanged("Value");
             }
         }
+                
+        [PropertyInfo(Direction.ControlSlave, "SDES Slave", "Direct access to SDES.", "", DisplayLevel.Beginner)]
+        public IControlCost ControlSlave
+        {
+            get
+            {
+                if (controlSlave == null)
+                    controlSlave = new CostFunctionControl(this);
+                return controlSlave;
+            }
+        }  
 
         #endregion
 
@@ -207,7 +220,7 @@ namespace Cryptool.Plugins.CostFunction
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }
 
-        private void GuiLogMessage(string p, NotificationLevel notificationLevel)
+        public void GuiLogMessage(string p, NotificationLevel notificationLevel)
         {
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(p, this, notificationLevel));
         }
@@ -222,21 +235,22 @@ namespace Cryptool.Plugins.CostFunction
 
         #region private methods
 
-        /*
-        * Calculates the Index of Coincidence multiplied with 100 of
-        * a given byte array
-        * 
-        * for example a German text has about 7.62
-        *             an English text has about 6.61
-        */
-        private static double calculateIndexOfCoincidence(byte[] text)
+        /// <summary>
+        /// Calculates the Index of Coincidence multiplied with 100 of
+        /// a given byte array
+        /// 
+        /// for example a German text has about 7.62
+        ///           an English text has about 6.61
+        /// </summary>
+        /// <param name="text">text to use</param>
+        /// <returns>Index of Coincidence</returns>
+        public double calculateIndexOfCoincidence(byte[] text)
         {
 
             double[] n = new double[256];
             //count all ASCII symbols 
             foreach (byte b in text)
             {
-                if (b >= 0 && b <= 255)
                     n[b]++;
             }
 
@@ -244,28 +258,29 @@ namespace Cryptool.Plugins.CostFunction
             //sum them
             for (int i = 0; i < n.Length; i++)
             {
-                coindex = coindex + n[i] * (n[i] - 1);
+                coindex = coindex + n[i] * (n[i] - 1);                
             }
 
-            coindex = coindex / (text.Length * (text.Length - 1));
+            coindex = coindex / (text.Length);
+            coindex = coindex / (text.Length - 1);
+
             return coindex * 100;
 
         }//end calculateIndexOfCoincidence
 
-        /*
-         * Calculates the Entropy of
-         * a given byte array
-         * 
-         * for example a German text has about 4.0629
-         */
-        private static double calculateEntropy(byte[] text)
+        /// <summary>
+        /// Calculates the Entropy of a given byte array 
+        /// for example a German text has about 4.0629
+        /// </summary>
+        /// <param name="text">text to use</param>
+        /// <returns>Entropy</returns>
+        public double calculateEntropy(byte[] text)
         {
 
             double[] n = new double[256];
             //count all ASCII symbols 
             foreach (byte b in text)
             {
-                if (b >= 0 && b <= 255)
                     n[b]++;
             }
 
@@ -283,5 +298,96 @@ namespace Cryptool.Plugins.CostFunction
         }//end calculateEntropy
 
         #endregion
+
+      
     }
+
+    #region slave
+
+    public class CostFunctionControl : IControlCost
+    {
+
+        #region IControlCost Members
+
+        private CostFunction plugin;
+
+        #endregion
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="plugin"></param>
+        public CostFunctionControl(CostFunction plugin)
+        {
+            this.plugin = plugin;
+        }
+
+        /// <summary>
+        /// Returns the relation operator of the cost function which is set by by CostFunctionSettings
+        /// </summary>
+        /// <returns>RelationOperator</returns>
+        public RelationOperator getRelationOperator()
+        {
+            switch (((CostFunctionSettings)this.plugin.Settings).FunctionType)
+            {
+                case 0: //Index of coincidence 
+                    return RelationOperator.LargerThen;
+                case 1: //Entropy
+                    return RelationOperator.LessThen;
+                default:
+                    throw new NotImplementedException("The value " + ((CostFunctionSettings)this.plugin.Settings).FunctionType + " is not implemented.");
+            }//end switch
+        }//end getRelationOperator
+
+        /// <summary>
+        /// Calculates the cost function of the given text
+        /// 
+        /// Cost function can be set by CostFunctionSettings
+        /// This algorithm uses a blocksize which can be set by CostFunctionSettings
+        /// If blocksize is set to 0 it uses the whole text
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns>cost</returns>
+        public double calculateCost(byte[] text)
+        {
+            int blocksize = 0;
+            try
+            {
+                blocksize = int.Parse(((CostFunctionSettings)this.plugin.Settings).Blocksize);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Entered blocksize is not an integer: " + ex.Message);
+            }
+            byte[] array;
+
+            if (blocksize > 0)
+            {
+                //Create a new Array of size of Blocksize if needed
+                array = new byte[blocksize];
+                for (int i = 0; i < blocksize && i < text.Length; i++)
+                {
+                    array[i] = text[i];
+                }
+            }
+            else
+            {
+                array = text;
+            }
+
+            switch (((CostFunctionSettings)this.plugin.Settings).FunctionType)
+            {
+                case 0: //Index of coincidence 
+                    return plugin.calculateIndexOfCoincidence(array);
+                case 1: //Entropy
+                    return plugin.calculateEntropy(array);
+                default:
+                    throw new NotImplementedException("The value " + ((CostFunctionSettings)this.plugin.Settings).FunctionType + " is not implemented.");
+            }//end switch
+        }
+
+        #endregion
+    }
+    
 }
