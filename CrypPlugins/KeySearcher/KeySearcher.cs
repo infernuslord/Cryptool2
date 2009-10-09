@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.ComponentModel;
 using Cryptool.PluginBase.Control;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace KeySearcher
 {
@@ -229,9 +230,13 @@ namespace KeySearcher
         }
 
         public void Execute()
-        {
-            if (ControlMaster != null)
+        {            
+            if (ControlMaster != null && costMaster != null)
             {
+                int maxInList = 10;
+                
+                LinkedList<ValueKey> costList = new LinkedList<ValueKey>();
+                
                 stop = false;
                 if (!Pattern.testKey(settings.Key))
                 {
@@ -245,9 +250,54 @@ namespace KeySearcher
                     key = Pattern.getKey();
                     GuiLogMessage("Try key " + key, NotificationLevel.Debug);
                     byte[] decryption = ControlMaster.Decrypt(ControlMaster.getKeyFromString(key));
-                    //TODO: Check cost function here
+                   
+                    ValueKey valueKey = new ValueKey();
+                    valueKey.value = CostMaster.calculateCost(decryption);;
+                    valueKey.key = key;
+
+                    if(this.costMaster.getRelationOperator() == RelationOperator.LargerThen){
+
+                        LinkedListNode<ValueKey> node = costList.First;
+
+                        while (node != null)
+                        {
+
+                            if (valueKey.value > node.Value.value)
+                            {
+                                costList.AddBefore(node, valueKey);
+                                break;
+                            }
+                            node = node.Next;
+                        }      
+                    }else{
+                        LinkedListNode<ValueKey> node = costList.First;
+
+                        while (node != null)
+                        {
+
+                            if (valueKey.value < node.Value.value)
+                            {
+                                costList.AddBefore(node, valueKey);
+                                break;
+                            }
+                            node = node.Next;
+                        }                       
+                    }
+                    if (costList.Count > maxInList)
+                    {
+                        costList.RemoveLast();
+                    }
                 } while (Pattern.nextKey() && !stop);
-            }
+
+                GuiLogMessage("Calculated value/key - list:", NotificationLevel.Info);
+                LinkedListNode<ValueKey> n = costList.First;
+                while (n != null)
+                {
+                    GuiLogMessage(n.Value.value + " = " + n.Value.key, NotificationLevel.Info);
+                    n = n.Next;
+                }
+               
+            }//end if
         }
 
         public void PostExecution()
@@ -315,12 +365,33 @@ namespace KeySearcher
             }
         }
 
+        #endregion
+
+        #region IControlCost Members
+
+        private IControlCost costMaster;
+        [PropertyInfo(Direction.ControlMaster, "Cost Master", "Used for cost calculation", "", DisplayLevel.Beginner)]
+        public IControlCost CostMaster
+        {
+            get { return costMaster; }
+            set
+            {
+                costMaster = value;
+            }
+        }
+
+        #endregion
+
         public void GuiLogMessage(string message, NotificationLevel loglevel)
         {
             if (OnGuiLogNotificationOccured != null)
                 OnGuiLogNotificationOccured(this, new GuiLogEventArgs(message, this, loglevel));
         }
 
-        #endregion
+        private struct ValueKey
+        {
+            public double value;
+            public String key;
+        };
     }
 }
