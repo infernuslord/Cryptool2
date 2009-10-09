@@ -7,13 +7,9 @@ namespace Cryptool.FrequencyTest
 {
     public class CollectionElement
     {
-
-
         private string m_caption;
         private double m_percent;
         private int m_amount;
-
-
 
         public CollectionElement(int amount, double percent, string caption)
         {
@@ -21,10 +17,6 @@ namespace Cryptool.FrequencyTest
             m_caption = caption;
             m_percent = percent;
         }
-
-
-
-
 
 
         public string Caption
@@ -45,6 +37,8 @@ namespace Cryptool.FrequencyTest
                 m_percent = value;
             }
         }
+
+
         public int Amount
         {
             get { return m_amount; }
@@ -53,6 +47,5 @@ namespace Cryptool.FrequencyTest
                 m_amount = value;
             }
         }
-
     }
 }
