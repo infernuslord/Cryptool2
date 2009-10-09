@@ -23,45 +23,23 @@ namespace Cryptool.FrequencyTest
     /// </summary>
     public partial class FrequencyTestPresentation : UserControl
     {
-       // public static DependencyProperty  DataSource = FrequencyTest.Data ;
 
-
-        //private FrequencyTest freqT;
-        public  FrequencyTestPresentation(FrequencyTest FrequencyTest)
+        public  FrequencyTestPresentation()
         {
            InitializeComponent();
-           //this.freqT = FrequencyTest;
-           
-           //this.freqT.Settings.PropertyChanged+=Settings_PropertyChanged;
-           //freqT.OnPluginProgressChanged
         }
-       // void Settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-    //{
-     // try
-     // {
-      //  if (e.PropertyName == "StringOutput")
-      //  {
-          
-       //   OpenPresentationFile();
-       // }
-     // }
-     // catch {}
-    //}
-        public void OpenPresentationFile()
+
+
+        public void ShowData(DataSource data)
         {
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-               // if (freqT.StringOutput != null)
-               // {
-                    DataSource source = (DataSource)this.Resources["source"];
-                    source.ValueCollection.Clear();
-                    for (int i = 0; i < FrequencyTest.data.ValueCollection.Count; i++)
-                    {
-                        source.ValueCollection.Add(FrequencyTest.data.ValueCollection[i]);
-                    }
-                //}
-                    
-                
+                DataSource source = (DataSource)this.Resources["source"];
+                source.ValueCollection.Clear();
+                for (int i = 0; i < data.ValueCollection.Count; i++)
+                {
+                    source.ValueCollection.Add(data.ValueCollection[i]);
+                }                
             }, null);
         }
     }

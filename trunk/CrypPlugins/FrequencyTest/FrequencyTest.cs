@@ -30,11 +30,14 @@ namespace Cryptool.FrequencyTest
         private string stringOutput = "";
         private int[] arrayOutput = new int[0];
         private IDictionary<string, double[]> grams = new SortedDictionary<string, double[]>();
+        private DataSource data = new DataSource();
+        private double presentationScaler = 1.0;
+        private double presentationOffset = 55.0;
 
         // TODO: this shall be an algorithm setting or an optional word
         private const string validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-        internal static DataSource data = new DataSource();
+        
 
         #endregion
 
@@ -115,10 +118,13 @@ namespace Cryptool.FrequencyTest
         public FrequencyTest()
         {
             settings = new FrequencyTestSettings();
-            presentation = new FrequencyTestPresentation(this);
+            presentation = new FrequencyTestPresentation();
             Presentation = presentation;
             QuickWatchPresentation = presentation;
+
+            presentation.SizeChanged += new System.Windows.SizeChangedEventHandler(presentation_SizeChanged);
         }
+
         public UserControl Presentation { get; private set; }
 
         public UserControl QuickWatchPresentation { get; private set; }
@@ -140,7 +146,6 @@ namespace Cryptool.FrequencyTest
             // Any change in the word discards and recalculates the output. This is not that effective.
             lock (grams)
             {
-                data.ValueCollection.Clear();
                 grams.Clear();
 
                 if (settings.BoundaryFragments == 1)
@@ -166,17 +171,6 @@ namespace Cryptool.FrequencyTest
                     g[SINKOV] = Math.Log(g[PERCENTAGED], Math.E);
                 }
 
-                double max = grams.Values.Max(item => item[PERCENTAGED]);
-                GuiLogMessage("Max n-gram percentage is: " + max, NotificationLevel.Debug);
-
-                // calculate presentation bars height
-                foreach (KeyValuePair<string, double[]> item in grams)
-                {
-                    int height = (int)(item.Value[PERCENTAGED] * (160 / max));
-                    CollectionElement row = new CollectionElement(height, Math.Round(item.Value[PERCENTAGED] * 100, 3), item.Key);
-                    data.ValueCollection.Add(row);
-                }
-
                 // OUTPUT
                 StringBuilder sb = new StringBuilder();
                 arrayOutput = new int[grams.Count];
@@ -191,16 +185,16 @@ namespace Cryptool.FrequencyTest
                     arrayOutput[i] = (int)item.Value[ABSOLUTE];
                 }
                 stringOutput = sb.ToString();
+
+                // update the presentation data
+                updatePresentation();
             }
 
             OnPropertyChanged("StringOutput");
             OnPropertyChanged("ArrayOutput");
             OnPropertyChanged("DictionaryOutput");
-            //if (OnPluginProgressChanged != null)
-            //{
-            //    OnPluginProgressChanged(this, new PluginProgressEventArgs(1, 1));
-            //}
-            presentation.OpenPresentationFile();
+            
+            
         }
 
         private void ProcessWord(string workstring)
@@ -232,6 +226,53 @@ namespace Cryptool.FrequencyTest
                 }
             }
         }
+
+
+        private void updatePresentation()
+        {
+            if (grams.Count > 0)
+            {
+                double max = grams.Values.Max(item => item[PERCENTAGED]);
+                GuiLogMessage("Max n-gram percentage is: " + max, NotificationLevel.Debug);
+
+                data.ValueCollection.Clear();
+
+                // calculate presentation bars height
+                foreach (KeyValuePair<string, double[]> item in grams)
+                {
+
+                    int height = (int)(item.Value[PERCENTAGED] * ((presentation.ActualHeight - presentation.sli.ActualHeight - (presentationOffset * presentationScaler)) / (max * presentationScaler)));
+                    CollectionElement row = new CollectionElement(height, Math.Round(item.Value[PERCENTAGED] * 100, 2), item.Key);
+                    data.ValueCollection.Add(row);
+                }
+
+                presentation.ShowData(data);
+            }
+        }
+
+        private void presentation_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
+        {
+            // Just for debugging - maybe still need to hunt the width-bug (SizeChanged is not fired when presentation becomes wider)
+            //if (e.HeightChanged)
+            //{
+            //    GuiLogMessage("Height changed from "+e.PreviousSize.Height +" to " + e.NewSize.Height, NotificationLevel.Info);               
+            //}
+
+            //if (e.WidthChanged)
+            //{
+            //    GuiLogMessage("Width changed from " + e.PreviousSize.Width + " to " + e.NewSize.Width, NotificationLevel.Info);
+            //}
+            //GuiLogMessage("Chart size: H=" + presentation.chart.ActualHeight + ", W=" + presentation.chart.ActualWidth, NotificationLevel.Info);
+
+            if (settings.Autozoom)
+            {
+                presentationScaler = e.NewSize.Width / presentation.chart.ActualWidth;
+                presentation.sli.Value = presentationScaler; 
+            }
+
+            updatePresentation();
+        }
+
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         private void GuiLogMessage(string p, NotificationLevel notificationLevel)

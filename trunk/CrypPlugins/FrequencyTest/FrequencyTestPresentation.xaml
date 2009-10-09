@@ -16,18 +16,16 @@
 
         <DataTemplate x:Key="template" >
 
-
             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" >
-
-                <Rectangle Width="5"/>
+                <Rectangle Width="3"/>
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-
+                    
                     <TextBlock HorizontalAlignment="Center" Text="{Binding Path=Percent}">
                     </TextBlock>
 
                     <Rectangle Height="3"/>
 
-                    <Rectangle Height="{Binding Path=Amount}" Width="30" StrokeThickness="1" Stroke="Beige" RadiusX="5" RadiusY="5" ToolTip="{Binding Path=Caption}" >
+                    <Rectangle Height="{Binding Path=Amount}" Width="20" StrokeThickness="1" Stroke="Beige" RadiusX="5" RadiusY="5" ToolTip="{Binding Path=Caption}" >
                         <Rectangle.BitmapEffect>
                             <DropShadowBitmapEffect />
                         </Rectangle.BitmapEffect>
@@ -38,19 +36,14 @@
                                 <GradientStop Color="DarkBlue" Offset="1" />
                             </RadialGradientBrush>
                         </Rectangle.Fill>
-                      <!--
-                         <Rectangle.LayoutTransform>
-                            
-                        </Rectangle.LayoutTransform>
--->
+
                     </Rectangle>
 
-                    <Rectangle Height="10" />
+                    <Rectangle Height="5" />
 
                     <TextBlock HorizontalAlignment="Center" Text="{Binding Path=Caption}"/>
        
-                </StackPanel>
-                
+                </StackPanel>                
             </StackPanel>
             
 
@@ -59,41 +52,35 @@
 
         <ItemsPanelTemplate x:Key="panelTemplate">
             <StackPanel Orientation="Horizontal"/>
-
         </ItemsPanelTemplate>
 
     </UserControl.Resources>
     
-      <StackPanel VerticalAlignment="Bottom" Orientation="Vertical" >
-       <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto"  ScrollViewer.HorizontalScrollBarVisibility="Auto">
+    
+    
+    
+    
+    <StackPanel VerticalAlignment="Bottom" Orientation="Vertical"  Width="Auto">
+            <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto"  ScrollViewer.HorizontalScrollBarVisibility="Auto" x:Name="sw">
         
-           <Grid VerticalAlignment="Bottom" >
-           <Grid.LayoutTransform>
-            
-              <ScaleTransform   ScaleX="{Binding ElementName=sli,Path=Value}" ScaleY="{Binding
+            <Grid VerticalAlignment="Bottom" >
+            <Grid.LayoutTransform>
+                <ScaleTransform   ScaleX="{Binding ElementName=sli,Path=Value}" ScaleY="{Binding
                          ElementName=sli, Path=Value}"/>
-           </Grid.LayoutTransform>
+            </Grid.LayoutTransform>
 
-       
-
-            <StackPanel VerticalAlignment="Bottom">
-
+            <StackPanel VerticalAlignment="Bottom" x:Name="chart">
                 
                <TextBlock TextAlignment="Center" FontSize="20" Foreground="DarkBlue"  FontFamily="Academy" OpacityMask="Turquoise" Text="Character Frequencies (in %)" ></TextBlock>
 
-               <ItemsControl HorizontalAlignment="Center" VerticalAlignment="Bottom"
-             
+               <ItemsControl HorizontalAlignment="Center" VerticalAlignment="Bottom"            
                  ItemsSource="{Binding Source={StaticResource source},Path=ValueCollection}"
                  ItemTemplate="{StaticResource template}" ItemsPanel="{StaticResource panelTemplate}">
-
                </ItemsControl>
               
-
             </StackPanel>
-    
-        
+           
           </Grid>
-
 
         </ScrollViewer>
         <Slider x:Name="sli" Width="100" HorizontalAlignment="Center" Minimum="0.2" VerticalAlignment="Bottom" 

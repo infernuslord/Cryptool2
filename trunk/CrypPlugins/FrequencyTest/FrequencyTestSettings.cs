@@ -25,6 +25,7 @@ namespace Cryptool.FrequencyTest
         private int caseSensitivity = 0;
         private int grammLength = 1;
         private int boundaryFragments = 0;
+        private bool autozoom = true;
         
         /// <summary>
         /// Visible setting how to deal with alphabet case. 0 = case insentive, 1 = case sensitive
@@ -110,7 +111,25 @@ namespace Cryptool.FrequencyTest
                 OnPropertyChanged("BoundaryFragments");
             }
         }
-        
+
+        [PropertySaveOrder(5)]
+        [TaskPane("Autozoom", "Should the chart perfrom autozoom?", "Presentation", 20, true, DisplayLevel.Beginner, ControlType.CheckBox)]
+        public bool Autozoom
+        {
+            get { return this.autozoom; }
+            set
+            {
+                if (value != autozoom)
+                {
+                    HasChanges = true;
+                    autozoom = value;
+                }
+
+                OnPropertyChanged("Autozoom");
+            }
+        }
+
+
         #region INotifyPropertyChanged Members
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
