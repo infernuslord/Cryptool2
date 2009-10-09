@@ -31,8 +31,7 @@ namespace Cryptool.Plugins.CostFunction
         private int functionType=0;
         private String blocksize = "256";
         #endregion
-
-        [ContextMenu("FunctionType", "Select the type of function", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 1, 2}, "Index of coincidence", "Entropy")]
+        
         [TaskPane("FunctionType", "Select the type of function", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Index of coincidence", "Entropy" })]
         public int FunctionType
         {
