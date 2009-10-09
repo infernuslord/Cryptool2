@@ -165,7 +165,7 @@ namespace Cryptool.Plugins.RSA
 
 
         private string certificateFile;
-        [TaskPane("Open X.509 Certificate", "Select the X.509 certificate you want to open.", null, 5, false, DisplayLevel.Beginner, ControlType.OpenFileDialog, "X.509 certificates (*.cer)|*.cer")]
+        [TaskPane("Open X.509 Certificate", "Select the X.509 certificate you want to open.", null, 5, false, DisplayLevel.Beginner, ControlType.OpenFileDialog, FileExtension = "X.509 certificates (*.cer)|*.cer")]
         public string CertificateFile
         {
             get { return certificateFile; }

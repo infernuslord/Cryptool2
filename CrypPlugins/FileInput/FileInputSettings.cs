@@ -239,7 +239,7 @@ namespace FileInput
     }
 
     private string openFilename;
-    [TaskPane("Filename", "Select the file you want to open.", null, 1, false, DisplayLevel.Beginner, ControlType.OpenFileDialog, "All Files (*.*)|*.*")]
+    [TaskPane("Filename", "Select the file you want to open.", null, 1, false, DisplayLevel.Beginner, ControlType.OpenFileDialog, FileExtension="All Files (*.*)|*.*")]
     public string OpenFilename
     {
       get { return openFilename; }
