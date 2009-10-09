@@ -296,7 +296,7 @@ namespace Cryptool.Alphabets
         }
 
         private string openFilename;
-        [TaskPane("Filename", "Select a file with an alphabet.", null, 1, false, DisplayLevel.Beginner, ControlType.OpenFileDialog, "Cryptool Alphabet (*.cta)|*.cta")]
+        [TaskPane("Filename", "Select a file with an alphabet.", null, 1, false, DisplayLevel.Beginner, ControlType.OpenFileDialog, FileExtension = "Cryptool Alphabet (*.cta)|*.cta")]
         public string OpenFilename
         {
           get { return openFilename; }
@@ -313,7 +313,7 @@ namespace Cryptool.Alphabets
 
         public string TargetFilenameSuggestion { get; set; }
         private string targetFilename;
-        [TaskPane("Target FileName", "File to write alphabet into.", null, 1, false, DisplayLevel.Beginner, ControlType.SaveFileDialog, "Cryptool Alphabet (*.cta)|*.cta")]
+        [TaskPane("Target FileName", "File to write alphabet into.", null, 1, false, DisplayLevel.Beginner, ControlType.SaveFileDialog, FileExtension = "Cryptool Alphabet (*.cta)|*.cta")]
         public string TargetFilename
         {
           get { return targetFilename; }

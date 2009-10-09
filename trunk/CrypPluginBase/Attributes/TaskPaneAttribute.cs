@@ -257,7 +257,7 @@ namespace Cryptool.PluginBase
         public readonly DisplayLevel DisplayLevel;
         public readonly ControlType ControlType;        
         public readonly string[] ControlValues;
-        public readonly string FileExtension;
+        public string FileExtension;
               
         public readonly ValidationType ValidationType;
         public readonly string RegularExpression;
