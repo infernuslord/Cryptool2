@@ -51,13 +51,23 @@ namespace Cryptool.Plugins.QuadraticSieve
         private bool sieving_started;
         private int start_relations;
         private ArrayList conf_list;
-        private Assembly msieveDLL;
-        private Type msieve;
+        private static Assembly msieveDLL;
+        private static Type msieve;
 
         static QuadraticSieve()
         {
             directoryName = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), TempDirectoryName), "msieve");
             if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
+
+            //Load msieve.dll:
+            string s = Directory.GetCurrentDirectory();
+            string dllname;
+            if (IntPtr.Size == 4)
+                dllname = "msieve.dll";
+            else
+                dllname = "msieve64.dll";
+            msieveDLL = Assembly.LoadFile(Directory.GetCurrentDirectory() + "\\CrypPlugins\\" + dllname);
+            msieve = msieveDLL.GetType("Msieve.msieve");
         }
 
         public QuadraticSieve()
@@ -69,16 +79,6 @@ namespace Cryptool.Plugins.QuadraticSieve
                 quadraticSieveQuickWatchPresentation.textBox.Text = "Currently not sieving.";
             }
             , null);
-
-            //Load msieve.dll:
-            string s = Directory.GetCurrentDirectory();
-            string dllname;
-            if (IntPtr.Size == 4)
-                dllname = "msieve.dll";
-            else
-                dllname = "msieve64.dll";
-            msieveDLL = Assembly.LoadFile(Directory.GetCurrentDirectory()+"\\CrypPlugins\\"+dllname);
-            msieve = msieveDLL.GetType("Msieve.msieve");
         }                
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
