@@ -7,5 +7,6 @@ namespace Cryptool.PluginBase.Control
 {
   public interface IControl
   {
+    event IControlStatusChangedEventHandler OnStatusChanged; 
   }
 }

@@ -655,6 +655,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
     public class AESControl : IControlEncryption
     {
         public event KeyPatternChanged keyPatternChanged;
+        public event IControlStatusChangedEventHandler OnStatusChanged;
         private AES plugin;
 
         public AESControl(AES Plugin)

@@ -824,6 +824,7 @@ namespace Cryptool.BooleanFunctionParser
 
     public class BFPControl : IControlSolveFunction
     {
+        public event IControlStatusChangedEventHandler OnStatusChanged;
         private BooleanFunctionParser plugin;
 
         public BFPControl(BooleanFunctionParser Plugin)

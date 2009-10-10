@@ -376,6 +376,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
     public class DESControl : IControlEncryption
     {
         public event KeyPatternChanged keyPatternChanged;
+        public event IControlStatusChangedEventHandler OnStatusChanged;
         private DES plugin;
 
         public DESControl(DES Plugin)

@@ -698,6 +698,7 @@ namespace Cryptool.Trivium
 
     public class TriviumControl : IControlTrivium
     {
+        public event IControlStatusChangedEventHandler OnStatusChanged;
         private Trivium plugin;
         private TriviumSettings pluginSettings;
 

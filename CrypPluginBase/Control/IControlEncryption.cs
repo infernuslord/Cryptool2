@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace Cryptool.PluginBase.Control
-{
-    public delegate void KeyPatternChanged();
+{    
     public interface IControlEncryption : IControl
     {
         byte[] Encrypt(byte[] key);
