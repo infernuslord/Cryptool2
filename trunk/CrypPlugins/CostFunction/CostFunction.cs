@@ -306,7 +306,7 @@ namespace Cryptool.Plugins.CostFunction
 
     public class CostFunctionControl : IControlCost
     {
-
+        public event IControlStatusChangedEventHandler OnStatusChanged;
         #region IControlCost Members
 
         private CostFunction plugin;

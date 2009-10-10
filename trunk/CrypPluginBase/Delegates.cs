@@ -203,6 +203,7 @@
 
 using System;
 using Cryptool.PluginBase.Editor;
+using Cryptool.PluginBase.Control;
 
 namespace Cryptool.PluginBase
 {
@@ -265,4 +266,9 @@ namespace Cryptool.PluginBase
   /// </summary>
   public delegate void TaskPaneAttributeChangedHandler(ISettings settings, TaskPaneAttributeChangedEventArgs args);
   #endregion optional delegates
+
+  #region master-slave delegates
+  public delegate void KeyPatternChanged();
+  public delegate void IControlStatusChangedEventHandler(IControl sender, bool readyForExecution);
+  #endregion
 }
