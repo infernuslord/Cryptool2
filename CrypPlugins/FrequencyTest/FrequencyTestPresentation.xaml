@@ -60,32 +60,36 @@
     
     
     
-    <StackPanel VerticalAlignment="Bottom" Orientation="Vertical"  Width="Auto">
-            <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto"  ScrollViewer.HorizontalScrollBarVisibility="Auto" x:Name="sw">
+    <Grid VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
         
-            <Grid VerticalAlignment="Bottom" >
-            <Grid.LayoutTransform>
-                <ScaleTransform   ScaleX="{Binding ElementName=sli,Path=Value}" ScaleY="{Binding
-                         ElementName=sli, Path=Value}"/>
-            </Grid.LayoutTransform>
-
-            <StackPanel VerticalAlignment="Bottom" x:Name="chart">
+        <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto"  ScrollViewer.HorizontalScrollBarVisibility="Auto">
+            <Grid x:Name="chart" Grid.Row="0" VerticalAlignment="Stretch" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
                 
-               <TextBlock TextAlignment="Center" FontSize="20" Foreground="DarkBlue"  FontFamily="Academy" OpacityMask="Turquoise" Text="Character Frequencies (in %)" ></TextBlock>
+                <Grid.LayoutTransform>
+                    <ScaleTransform   ScaleX="{Binding ElementName=sli,Path=Value}" ScaleY="{Binding ElementName=sli, Path=Value}"/>
+                </Grid.LayoutTransform>
+             
+               <TextBlock x:Name="chartHeadline" TextAlignment="Center" Grid.Row="0" FontSize="20" Foreground="DarkBlue"  FontFamily="Academy" OpacityMask="Turquoise" Text="No data available yet!" ></TextBlock>
 
-               <ItemsControl HorizontalAlignment="Center" VerticalAlignment="Bottom"            
+               <ItemsControl Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"            
                  ItemsSource="{Binding Source={StaticResource source},Path=ValueCollection}"
-                 ItemTemplate="{StaticResource template}" ItemsPanel="{StaticResource panelTemplate}">
+                 ItemTemplate="{StaticResource template}" ItemsPanel="{StaticResource panelTemplate}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
                </ItemsControl>
-              
-            </StackPanel>
-           
-          </Grid>
 
+            </Grid>
         </ScrollViewer>
-        <Slider x:Name="sli" Width="100" HorizontalAlignment="Center" Minimum="0.2" VerticalAlignment="Bottom" 
-                Maximum="2" Value="1"/>
-    </StackPanel>
+        
+        <Slider x:Name="sli" Grid.Row="1" Width="100" HorizontalAlignment="Center" Minimum="0.05" VerticalAlignment="Bottom" Maximum="2" Value="1"/>
+        
+    </Grid>
     
    
 </UserControl>

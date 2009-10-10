@@ -31,8 +31,8 @@ namespace Cryptool.FrequencyTest
         private int[] arrayOutput = new int[0];
         private IDictionary<string, double[]> grams = new SortedDictionary<string, double[]>();
         private DataSource data = new DataSource();
-        private double presentationScaler = 1.0;
-        private double presentationOffset = 55.0;
+        private double presentationScaler = 1.0; // the slider-value
+        private double presentationOffset = 60.0; // top-offest in presentation, must skip height of headline-text
 
         // TODO: this shall be an algorithm setting or an optional word
         private const string validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -123,8 +123,13 @@ namespace Cryptool.FrequencyTest
             QuickWatchPresentation = presentation;
 
             presentation.SizeChanged += new System.Windows.SizeChangedEventHandler(presentation_SizeChanged);
+
+            settings.PropertyChanged += new PropertyChangedEventHandler(settings_PropertyChanged);
         }
 
+        
+
+        
         public UserControl Presentation { get; private set; }
 
         public UserControl QuickWatchPresentation { get; private set; }
@@ -236,15 +241,40 @@ namespace Cryptool.FrequencyTest
                 GuiLogMessage("Max n-gram percentage is: " + max, NotificationLevel.Debug);
 
                 data.ValueCollection.Clear();
+                double chartheight = (double) settings.ChartHeight;
+                if (settings.Autozoom)
+                {
+                    chartheight = presentation.ActualHeight - presentation.sli.ActualHeight - (presentation.chartHeadline.ActualHeight + presentationOffset) * presentationScaler;
+                    presentationScaler = presentation.ActualWidth / (presentation.chart.ActualWidth);
+                    presentation.SetScaler(presentationScaler);
+                }
 
                 // calculate presentation bars height
                 foreach (KeyValuePair<string, double[]> item in grams)
                 {
+                    int height = (int)(item.Value[PERCENTAGED] * (chartheight / (max * presentationScaler)));
+                    //int height = (int)(item.Value[PERCENTAGED] * ((presentation.ActualHeight - presentation.sli.ActualHeight - (presentationOffset * presentationScaler)) / (max * presentationScaler)));
 
-                    int height = (int)(item.Value[PERCENTAGED] * ((presentation.ActualHeight - presentation.sli.ActualHeight - (presentationOffset * presentationScaler)) / (max * presentationScaler)));
                     CollectionElement row = new CollectionElement(height, Math.Round(item.Value[PERCENTAGED] * 100, 2), item.Key);
                     data.ValueCollection.Add(row);
                 }
+
+                switch (settings.GrammLength)
+                {
+                    case 1:
+                        presentation.SetHeadline("Character (unigram) frequency (in %)");
+                        break;
+                    case 2:
+                        presentation.SetHeadline("Bigram frequency (in %)");
+                        break;
+                    case 3:
+                        presentation.SetHeadline("Trigram frequency (in %)");
+                        break;
+                    default:
+                        presentation.SetHeadline(settings.GrammLength + "-gram frequency (in %)");
+                        break;
+                }
+                
 
                 presentation.ShowData(data);
             }
@@ -255,22 +285,31 @@ namespace Cryptool.FrequencyTest
             // Just for debugging - maybe still need to hunt the width-bug (SizeChanged is not fired when presentation becomes wider)
             //if (e.HeightChanged)
             //{
-            //    GuiLogMessage("Height changed from "+e.PreviousSize.Height +" to " + e.NewSize.Height, NotificationLevel.Info);               
+            //    GuiLogMessage("Height changed from " + e.PreviousSize.Height + " to " + e.NewSize.Height, NotificationLevel.Info);
             //}
 
             //if (e.WidthChanged)
             //{
             //    GuiLogMessage("Width changed from " + e.PreviousSize.Width + " to " + e.NewSize.Width, NotificationLevel.Info);
             //}
-            //GuiLogMessage("Chart size: H=" + presentation.chart.ActualHeight + ", W=" + presentation.chart.ActualWidth, NotificationLevel.Info);
-
-            if (settings.Autozoom)
-            {
-                presentationScaler = e.NewSize.Width / presentation.chart.ActualWidth;
-                presentation.sli.Value = presentationScaler; 
-            }
+            //GuiLogMessage("Chart size: AH=" + presentation.chart.ActualHeight + ", AW=" + presentation.chart.ActualWidth + "; H-slider=" + (presentation.ActualHeight - presentation.sli.ActualHeight), NotificationLevel.Info);
 
             updatePresentation();
+        }
+
+        private void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "Autozoom":
+                case "ChartHeight":
+                    updatePresentation();
+                    break;
+
+                case "Scale":
+                    presentation.SetScaler( (double)settings.Scale / 1000.0);
+                    break;
+            }
         }
 
 
