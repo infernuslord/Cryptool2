@@ -42,5 +42,23 @@ namespace Cryptool.FrequencyTest
                 }                
             }, null);
         }
+
+
+        public void SetHeadline(string text)
+        {
+            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                chartHeadline.Text = text;
+            }, null);
+        }
+
+        public void SetScaler(double value)
+        {
+            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                sli.Value = value;
+            }, null);
+        }
+
     }
 }
