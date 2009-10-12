@@ -257,7 +257,19 @@ namespace Cryptool.PluginBase
         public readonly DisplayLevel DisplayLevel;
         public readonly ControlType ControlType;        
         public readonly string[] ControlValues;
-        public string FileExtension;
+        
+        private string fileExtension;
+        public string FileExtension
+        {
+            get { return fileExtension; }
+            set
+            {
+                if (fileExtension == null)
+                    fileExtension = value;
+                else
+                    throw new ArgumentException("This setter should only be accessed once.");
+            }
+        }
               
         public readonly ValidationType ValidationType;
         public readonly string RegularExpression;
