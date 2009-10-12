@@ -97,7 +97,7 @@ del /S /Q /A:-S-R-H "$(TargetName)*.*"
 copy "$(TargetDir)$(TargetName)*.*" "./CrypPlugins"
 
 if not exist "./Data" mkdir "./Data"
-xcopy /Y /S "$(TargetDir)Data" "./Data"
+if exist "$(TargetDir)Data" xcopy /Y /S "$(TargetDir)Data" "./Data"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

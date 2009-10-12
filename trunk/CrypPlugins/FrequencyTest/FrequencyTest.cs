@@ -235,7 +235,7 @@ namespace Cryptool.FrequencyTest
 
         private void updatePresentation()
         {
-            if (grams.Count > 0)
+            if (grams.Count > 0 && presentation.chart.ActualWidth > 0)
             {
                 double max = grams.Values.Max(item => item[PERCENTAGED]);
                 GuiLogMessage("Max n-gram percentage is: " + max, NotificationLevel.Debug);
