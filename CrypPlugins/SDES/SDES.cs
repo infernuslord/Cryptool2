@@ -218,10 +218,9 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         //Encrypt/Decrypt Stream
         private void process(int action)
         {
-
-            if (this.ControlSlave is object && this.InputStream is object && this.InputIV is object)
+            if (controlSlave is object && InputStream is object && InputIV is object)
             {
-                this.controlSlave.onStatusChanged();
+                controlSlave.onStatusChanged();
             }
 
             try
