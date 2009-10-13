@@ -666,16 +666,16 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         #region IControlEncryption Members
 
-        public byte[] Encrypt(byte[] key)
+        public byte[] Encrypt(byte[] key, int blocksize)
         {
             ((AESSettings)plugin.Settings).Action = 0;
-            return execute(key);
+            return execute(key, blocksize);
         }
 
-        public byte[] Decrypt(byte[] key)
+        public byte[] Decrypt(byte[] key, int blocksize)
         {
             ((AESSettings)plugin.Settings).Action = 1;
-            return execute(key);
+            return execute(key, blocksize);
         }
 
         public string getKeyPattern()
@@ -723,7 +723,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             return bkey;
         }
 
-        private byte[] execute(byte[] key)
+        private byte[] execute(byte[] key, int blocksize)
         {
             plugin.InputKey = key;
             plugin.Execute();

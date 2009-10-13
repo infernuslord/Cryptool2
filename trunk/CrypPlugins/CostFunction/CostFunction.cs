@@ -322,6 +322,18 @@ namespace Cryptool.Plugins.CostFunction
             this.plugin = plugin;
         }
 
+        public int getBlocksize()
+        {
+            try
+            {
+                return int.Parse(((CostFunctionSettings)this.plugin.Settings).Blocksize);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Entered blocksize is not an integer: " + ex.Message);
+            }
+        }
+
         /// <summary>
         /// Returns the relation operator of the cost function which is set by by CostFunctionSettings
         /// </summary>

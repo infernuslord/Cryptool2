@@ -7,8 +7,8 @@ namespace Cryptool.PluginBase.Control
 {    
     public interface IControlEncryption : IControl
     {
-        byte[] Encrypt(byte[] key);
-        byte[] Decrypt(byte[] key);
+        byte[] Encrypt(byte[] key, int blocksize);
+        byte[] Decrypt(byte[] key, int blocksize);
         string getKeyPattern();
         byte[] getKeyFromString(string key);
         event KeyPatternChanged keyPatternChanged;

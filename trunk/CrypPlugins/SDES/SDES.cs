@@ -43,8 +43,12 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         private bool stop = false;
         #endregion
 
+        public bool InputChanged
+        { get; set; }
+
         public SDES()
         {
+            InputChanged = false;
             this.settings = new SDESSettings();
             this.settings.OnPluginStatusChanged += settings_OnPluginStatusChanged;
         }
@@ -139,6 +143,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             get { return this.inputKey; }
             set
             {
+                InputChanged = true;
                 this.inputKey = value;
                 OnPropertyChanged("InputKey");
             }
@@ -350,6 +355,9 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                     stream.Close();
                 }
                 listCryptoolStreamsOut.Clear();
+
+                if (controlSlave != null)
+                    controlSlave.Dispose();
                 
             }
             catch (Exception ex)
@@ -439,6 +447,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         public event KeyPatternChanged keyPatternChanged; //not used, because we only have one key length
         public event IControlStatusChangedEventHandler OnStatusChanged;
         private SDES plugin;
+        private CryptoolStream input;
+        private List<CryptoolStream> listCryptoolStreams = new List<CryptoolStream>();
 
         public SDESControl(SDES Plugin)
         {
@@ -455,16 +465,16 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         #region IControlEncryption Members
 
-        public byte[] Encrypt(byte[] key)
+        public byte[] Encrypt(byte[] key, int blocksize)
         {
             ((SDESSettings)plugin.Settings).Action = 0;
-            return execute(key);
+            return execute(key, blocksize);
         }
 
-        public byte[] Decrypt(byte[] key)
+        public byte[] Decrypt(byte[] key, int blocksize)
         {
             ((SDESSettings)plugin.Settings).Action = 1;
-            return execute(key);
+            return execute(key, blocksize);
         }
 
         public string getKeyPattern()
@@ -484,8 +494,18 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             return bkey;
         }
 
-        private byte[] execute(byte[] key)
+        private byte[] execute(byte[] key, int blocksize)
         {
+            if (input == null || plugin.InputChanged)
+            {
+                plugin.InputChanged = false;
+                input = new CryptoolStream();
+                input.OpenRead(plugin.InputStream.FileName);
+                if(blocksize <= input.Length)
+                    input.SetLength(blocksize);
+                listCryptoolStreams.Add(input);
+            }
+
             plugin.InputKey = key;
             CryptoolStream output = new CryptoolStream();
             output.OpenWrite();
@@ -494,12 +514,12 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             if (((SDESSettings)plugin.Settings).Mode == 0)
             {                
                 ElectronicCodeBook ecb = new ElectronicCodeBook(plugin);
-                ecb.decrypt(plugin.InputStream, output, key);
+                ecb.decrypt(input, output, key);
             }
             else
             {
                 CipherBlockChaining cbc = new CipherBlockChaining(plugin);
-                cbc.decrypt(plugin.InputStream, output, key, Tools.stringToBinaryByteArray(enc.GetString(plugin.InputIV)));
+                cbc.decrypt(input, output, key, Tools.stringToBinaryByteArray(enc.GetString(plugin.InputIV)));
             }            
 
             byte[] byteValues = new byte[output.Length];
@@ -509,6 +529,12 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             plugin.Dispose();
             output.Close();
             return byteValues;
+        }
+
+        public void Dispose()
+        {
+            foreach (CryptoolStream cs in listCryptoolStreams)
+                cs.Close();
         }
 
         #endregion

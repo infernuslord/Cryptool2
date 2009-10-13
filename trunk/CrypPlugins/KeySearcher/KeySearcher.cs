@@ -260,12 +260,13 @@ namespace KeySearcher
                     return;
                 }
                 int size = Pattern.initKeyIteration(settings.Key);
+                int blocksize = CostMaster.getBlocksize();
                 string key;
                 do
                 {
                     key = Pattern.getKey();
                     GuiLogMessage("Try key " + key, NotificationLevel.Debug);
-                    byte[] decryption = sender.Decrypt(ControlMaster.getKeyFromString(key));
+                    byte[] decryption = sender.Decrypt(ControlMaster.getKeyFromString(key), blocksize);
 
                     ValueKey valueKey = new ValueKey();
                     valueKey.value = CostMaster.calculateCost(decryption);
