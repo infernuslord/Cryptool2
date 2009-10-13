@@ -386,13 +386,13 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         #region IControlEncryption Members
 
-        public byte[] Encrypt(byte[] key)
+        public byte[] Encrypt(byte[] key, int blocksize)
         {
             ((DESSettings)plugin.Settings).Action = 0;
             return execute(key);
         }
 
-        public byte[] Decrypt(byte[] key)
+        public byte[] Decrypt(byte[] key, int blocksize)
         {
             ((DESSettings)plugin.Settings).Action = 1;
             return execute(key);
