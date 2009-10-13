@@ -181,7 +181,7 @@ namespace Cryptool.Plugins.RSA
         }
 
         private String password = "";
-        [TaskPane("Password", "Password", null, 4, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("Password", "Password", null, 4, false, DisplayLevel.Beginner, ControlType.TextBoxHidden)]
         public String Password
         {
             get
