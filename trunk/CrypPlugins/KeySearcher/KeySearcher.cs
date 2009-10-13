@@ -54,6 +54,11 @@ namespace KeySearcher
                 return false;
             }
 
+            public int Size()
+            {
+                return length;
+            }
+
         }
 
         private string pattern;
@@ -128,21 +133,27 @@ namespace KeySearcher
             return true;
         }
 
-        public void initKeyIteration(string key)
+        public int initKeyIteration(string key)
         {
+            int counter = 0;
             this.key = key;
             int pcount = 0;
             wildcardList = new ArrayList();
             for (int i = 0; i < key.Length; i++)
             {
                 if (key[i] == '*')
-                    wildcardList.Add(new Wildcard(pattern.Substring(pcount, pattern.IndexOf(']', pcount)+1-pcount)));
+                {
+                    Wildcard wc = new Wildcard(pattern.Substring(pcount, pattern.IndexOf(']', pcount) + 1 - pcount));
+                    wildcardList.Add(wc);
+                    counter += wc.Size();
+                }
 
                 if (pattern[pcount] == '[')
                     while (pattern[pcount] != ']')
                         pcount++;
                 pcount++;
             }
+            return counter;
         }
 
         public bool nextKey()
@@ -230,12 +241,12 @@ namespace KeySearcher
         }
 
         public void Execute()
-        {            
-            
+        {
         }
 
         public void process(IControlEncryption sender)
         {
+            int counter = 0;
             if (sender != null && costMaster != null)
             {
                 int maxInList = 10;
@@ -248,7 +259,7 @@ namespace KeySearcher
                     GuiLogMessage("Wrong key pattern!", NotificationLevel.Error);
                     return;
                 }
-                Pattern.initKeyIteration(settings.Key);
+                int size = Pattern.initKeyIteration(settings.Key);
                 string key;
                 do
                 {
@@ -295,6 +306,9 @@ namespace KeySearcher
                     {
                         costList.RemoveLast();
                     }
+
+                    counter++;
+                    ProgressChanged(counter, size);
                 } while (Pattern.nextKey() && !stop);
 
                 GuiLogMessage("Calculated value/key - list:", NotificationLevel.Info);
@@ -407,6 +421,14 @@ namespace KeySearcher
         {
             if (OnGuiLogNotificationOccured != null)
                 OnGuiLogNotificationOccured(this, new GuiLogEventArgs(message, this, loglevel));
+        }
+
+        public void ProgressChanged(double value, double max)
+        {
+            if (OnPluginProgressChanged != null)
+            {
+                OnPluginProgressChanged(this, new PluginProgressEventArgs(value, max));
+            }
         }
 
         private struct ValueKey
