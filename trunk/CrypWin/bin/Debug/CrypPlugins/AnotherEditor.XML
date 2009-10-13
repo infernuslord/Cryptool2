@@ -6686,6 +6686,7 @@
             <summary>
             Used to determine if the (containing)plugin CanExecute. This case needs all Properties to
             have a value. The optional part is calculated here, too. 
+            
             </summary>    
         </member>
         <member name="P:AnotherEditor.DragDrop.Connectors.Connector.BufferValue">
