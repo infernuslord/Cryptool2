@@ -231,12 +231,17 @@ namespace KeySearcher
 
         public void Execute()
         {            
-            if (ControlMaster != null && costMaster != null)
+            
+        }
+
+        public void process(IControlEncryption sender)
+        {
+            if (sender != null && costMaster != null)
             {
                 int maxInList = 10;
-                
+
                 LinkedList<ValueKey> costList = new LinkedList<ValueKey>();
-                
+
                 stop = false;
                 if (!Pattern.testKey(settings.Key))
                 {
@@ -249,13 +254,14 @@ namespace KeySearcher
                 {
                     key = Pattern.getKey();
                     GuiLogMessage("Try key " + key, NotificationLevel.Debug);
-                    byte[] decryption = ControlMaster.Decrypt(ControlMaster.getKeyFromString(key));
-                   
+                    byte[] decryption = sender.Decrypt(ControlMaster.getKeyFromString(key));
+
                     ValueKey valueKey = new ValueKey();
-                    valueKey.value = CostMaster.calculateCost(decryption);;
+                    valueKey.value = CostMaster.calculateCost(decryption);
                     valueKey.key = key;
 
-                    if(this.costMaster.getRelationOperator() == RelationOperator.LargerThen){
+                    if (this.costMaster.getRelationOperator() == RelationOperator.LargerThen)
+                    {
 
                         LinkedListNode<ValueKey> node = costList.First;
 
@@ -268,8 +274,10 @@ namespace KeySearcher
                                 break;
                             }
                             node = node.Next;
-                        }      
-                    }else{
+                        }
+                    }
+                    else
+                    {
                         LinkedListNode<ValueKey> node = costList.First;
 
                         while (node != null)
@@ -281,7 +289,7 @@ namespace KeySearcher
                                 break;
                             }
                             node = node.Next;
-                        }                       
+                        }
                     }
                     if (costList.Count > maxInList)
                     {
@@ -296,7 +304,7 @@ namespace KeySearcher
                     GuiLogMessage(n.Value.value + " = " + n.Value.key, NotificationLevel.Info);
                     n = n.Next;
                 }
-               
+
             }//end if
         }
 
@@ -342,6 +350,14 @@ namespace KeySearcher
             Pattern = new KeyPattern(controlMaster.getKeyPattern());
         }
 
+        private void onStatusChanged(IControl sender, bool readyForExecution)
+        {
+            if (readyForExecution)
+            {
+                this.process((IControlEncryption)sender);
+            }
+        }
+
         #region IControlEncryption Members
 
         private IControlEncryption controlMaster;
@@ -352,13 +368,18 @@ namespace KeySearcher
             set
             {
                 if (controlMaster != null)
+                {
                     controlMaster.keyPatternChanged -= keyPatternChanged;
+                    controlMaster.OnStatusChanged -= onStatusChanged;
+                }
                 if (value != null)
                 {
                     Pattern = new KeyPattern(value.getKeyPattern());
                     value.keyPatternChanged += keyPatternChanged;
+                    value.OnStatusChanged += onStatusChanged;
                     controlMaster = value;
                     OnPropertyChanged("ControlMaster");
+                    
                 }
                 else
                     controlMaster = null;
