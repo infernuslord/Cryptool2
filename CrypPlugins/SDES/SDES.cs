@@ -218,7 +218,12 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         //Encrypt/Decrypt Stream
         private void process(int action)
         {
-            
+
+            if (this.ControlSlave is object && this.InputStream is object && this.InputIV is object)
+            {
+                this.controlSlave.onStatusChanged();
+            }
+
             try
             {
                 checkForInputStream();
@@ -371,7 +376,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         #endregion
 
-        private IControlEncryption controlSlave;
+        private SDESControl controlSlave;
         [PropertyInfo(Direction.ControlSlave, "SDES Slave", "Direct access to SDES.", "", DisplayLevel.Beginner)]
         public IControlEncryption ControlSlave
         {
@@ -430,13 +435,23 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
     public class SDESControl : IControlEncryption
     {
-        public event KeyPatternChanged keyPatternChanged;
+        public static int counter=0;
+
+        public event KeyPatternChanged keyPatternChanged; //not used, because we only have one key length
         public event IControlStatusChangedEventHandler OnStatusChanged;
         private SDES plugin;
 
         public SDESControl(SDES Plugin)
         {
-            this.plugin = Plugin;
+            this.plugin = Plugin;      
+            counter++;
+            plugin.GuiLogMessage("Counter:" + counter,NotificationLevel.Info);
+        }
+
+        public void onStatusChanged()
+        {
+            if(OnStatusChanged != null)
+                OnStatusChanged(this, true);
         }
 
         #region IControlEncryption Members
