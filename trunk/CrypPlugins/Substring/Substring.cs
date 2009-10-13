@@ -80,7 +80,14 @@ namespace Cryptool.Plugins.Substring
                 ProgressChanged(0.5, 1.0);
                 if ((settings.IntegerStartValue <= inputString.Length) & ((settings.IntegerStartValue + settings.IntegerLengthValue) <= inputString.Length))
                 {
-                    OutputString = inputString.Substring(settings.IntegerStartValue, settings.IntegerLengthValue);
+                    if (settings.IntegerLengthValue != 0)
+                    {
+                        OutputString = inputString.Substring(settings.IntegerStartValue, settings.IntegerLengthValue);
+                    }
+                    else
+                    {
+                        OutputString = inputString.Substring(settings.IntegerStartValue);
+                    }
                     ProgressChanged(1.0, 1.0);
                     return;
                 }
