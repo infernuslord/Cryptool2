@@ -41,7 +41,7 @@ namespace Cryptool.VigenereAnalyser
         private string[] vigToCaes;
         private int v=0;
         private int probableKeylength = 0;
-        private char FrequentChar = 'e';
+        private char FrequentChar = 'E';
         public List <int> keys;
         public List<string> fStats=new List<string>();
         public class Stats
