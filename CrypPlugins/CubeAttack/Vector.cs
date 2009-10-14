@@ -7,30 +7,42 @@ namespace Cryptool.CubeAttack
 {
     public class Vector
     {
-        // Class attributes
+        /// <summary>
+        /// Class attributes/members
+        /// </summary>
         private int length;
         private int[] element;
 
-        // Constructor
+        /// <summary>
+        /// Contructor
+        /// </summary>
         public Vector(int length)
         {
             this.length = length; 
             element = new int[length];
         }
 
-        // Properties
+        /// <summary>
+        /// Properites
+        /// </summary>
         public int Length
         {
             get { return length; }
             set { length = value; }
         }
 
+        /// <summary>
+        /// Indexer
+        /// </summary>
         public int this[int i]
         {
             get { return GetElement(i); }
             set { SetElement(i, value); }
         }
 
+        /// <summary>
+        /// Internal functions for getting/setting values
+        /// </summary>
         public int GetElement(int i)
         {
             if (i < 0 || i > Length - 1)
@@ -45,7 +57,9 @@ namespace Cryptool.CubeAttack
             element[i] = value;
         }
 
-        // Returns the product of a matrix and a vector
+        /// <summary>
+        /// The function multiplies the given matrix on a vector
+        /// </summary>
         public static Vector Multiply(Matrix matrix1, Vector vec)
         {
             if (matrix1.Cols != vec.Length)
@@ -57,6 +71,10 @@ namespace Cryptool.CubeAttack
             return result;
         }
 
+        /// <summary>
+        /// Operator for the Vector object
+        /// includes binary operator *
+        /// </summary>
         public static Vector operator *(Matrix matrix1, Vector vec)
         { return (Multiply(matrix1, vec)); }
     }
