@@ -185,7 +185,7 @@ namespace Cryptool.FrequencyTest
 
                     sb.Append(item.Key + ":");
                     sb.Append(item.Value[ABSOLUTE] + ":");
-                    sb.Append(Math.Round(item.Value[PERCENTAGED] * 100, 3) + Environment.NewLine);
+                    sb.Append((item.Value[PERCENTAGED]) + Environment.NewLine);
 
                     arrayOutput[i] = (int)item.Value[ABSOLUTE];
                 }
