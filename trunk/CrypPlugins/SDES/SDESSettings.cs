@@ -13,7 +13,6 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,12 +24,33 @@ using Cryptool.PluginBase.Cryptography;
 
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
+    /// <summary>
+    /// Settings for the SDES plugin
+    /// </summary>
     public class SDESSettings : ISettings
     {
+        #region private
+
         private bool hasChanges = false;
         private int action = 0; //0=encrypt, 1=decrypt
         private int mode = 0; //0="ECB", 1="CBC"
+      
+        #endregion
+        
+        #region events
 
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        public event StatusChangedEventHandler OnPluginStatusChanged;
+
+        #endregion
+
+        #region public
+
+        /// <summary>
+        /// Gets/Sets the action of this plugin. Do you want the input data to be encrypted or decrypted?
+        /// 1 = Encrypt
+        /// 2 = Decrypt
+        /// </summary>
         [ContextMenu("Action","Do you want the input data to be encrypted or decrypted?",1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 1, 2}, "Encrypt","Decrypt")]
         [TaskPane("Action", "Do you want the input data to be encrypted or decrypted?", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
         public int Action
@@ -44,6 +64,11 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
+        /// <summary>
+        /// Sets the block cipher mode of this plugin
+        /// 1 = ECB
+        /// 2 = CBC
+        /// </summary>
         [ContextMenu("Chaining mode","Select the block cipher mode of operation.",2,DisplayLevel.Beginner,ContextMenuControlType.ComboBox,null, new String[] {"Electronic Code Book (ECB)","Cipher Block Chaining (CBC)" })]
         [TaskPane("Chaining Mode", "Select the block cipher mode of operation.", null, 2, false, DisplayLevel.Experienced, ControlType.ComboBox, new String[] { "Electronic Bode Book (ECB)","Cipher Block Chaining (CBC)", })]
         public int Mode
@@ -57,16 +82,23 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
+        /// <summary>
+        /// Did the plugins properties change?
+        /// </summary>
         public bool HasChanges
         {
             get { return hasChanges; }
             set { hasChanges = value; }
         }
 
-        #region INotifyPropertyChanged Members
+        #endregion
 
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        #region private/protecte
 
+        /// <summary>
+        /// A property changed
+        /// </summary>
+        /// <param name="name"></param>
         protected void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)
@@ -75,14 +107,16 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        #endregion
-
-        public event StatusChangedEventHandler OnPluginStatusChanged;
-
+        /// <summary>
+        /// Change the plugins icon (used for encryption/decryption icon)
+        /// </summary>
+        /// <param name="Icon">icon number</param>
         private void ChangePluginIcon(int Icon)
         {
             if (OnPluginStatusChanged != null) OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, Icon));
         }
 
+        #endregion
     }
-}
+
+}//end namespace Cryptool.Plugins.Cryptography.Encryption
