@@ -28,12 +28,18 @@ using Cryptool.PluginBase.Control;
 
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
+    /// <summary>
+    /// This plugin encrypts / decrypts texts with the simplified DES alogrithm (SDES)
+    /// It can be used as plugin in a normal encryption/decryption chanin or be 
+    /// used by the KeySearcher to do bruteforcing
+    /// </summary>
     [Author("Nils Kopal", "nils.kopal@cryptool.de", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
     [PluginInfo(false, "SDES", "Simplified Data Encryption Standard", "SDES/DetailedDescription/Description.xaml", "SDES/icon.png", "SDES/Images/encrypt.png", "SDES/Images/decrypt.png")]
     [EncryptionType(EncryptionType.SymmetricBlock)]
     public class SDES : IEncryption
     {
         #region Private variables
+
         private SDESSettings settings;
         private CryptoolStream inputStream;
         private CryptoolStream outputStream;
@@ -41,11 +47,30 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         private byte[] inputKey;
         private byte[] inputIV;        
         private bool stop = false;
+        private SDESControl controlSlave;
+
         #endregion
 
+        #region events
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public event StatusChangedEventHandler OnPluginStatusChanged;
+        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+
+        #endregion
+
+        #region public
+
+        /// <summary>
+        /// Tells you wether input changed or not
+        /// </summary>
         public bool InputChanged
         { get; set; }
 
+        /// <summary>
+        /// Constructs a new SDES
+        /// </summary>
         public SDES()
         {
             InputChanged = false;
@@ -53,22 +78,37 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             this.settings.OnPluginStatusChanged += settings_OnPluginStatusChanged;
         }
 
+        /// <summary>        
+        /// The status of the plugin changes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         void settings_OnPluginStatusChanged(IPlugin sender, StatusEventArgs args)
         {
             if(OnPluginStatusChanged != null)OnPluginStatusChanged(this, args);
         }
 
+        /// <summary>
+        /// Sets/Gets the settings of this plugin
+        /// </summary>
         public ISettings Settings
         {
             get { return this.settings; }
             set { this.settings = (SDESSettings)value; }
         }
     
+        /// <summary>
+        /// Is this Plugin in Status stop?
+        /// </summary>
+        /// <returns></returns>
         public bool getStop()
         {
             return stop;
         }
 
+        /// <summary>
+        /// Gets/Sets the input of the SDES plugin (the text which should be encrypted/decrypted)
+        /// </summary>
         [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public CryptoolStream InputStream
         {
@@ -103,6 +143,9 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
+        /// <summary>
+        /// Gets/Sets the output of the SDES plugin (the text which is encrypted/decrypted)
+        /// </summary>
         [PropertyInfo(Direction.OutputData, "Output stream", "Encrypted or decrypted output data", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public CryptoolStream OutputStream
         {
@@ -137,7 +180,10 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Key", "Must be 10 bytes (only 1 or 0 allowed).", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        /// <summary>
+        /// Gets/Sets the key which should be used.Must be 10 bytes  (only 1 or 0 allowed).
+        /// </summary>
+        [PropertyInfo(Direction.InputData, "Key", "Must be 8 bytes (only 1 or 0 allowed).", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public byte[] InputKey
         {
             get { return this.inputKey; }
@@ -149,6 +195,9 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
+        /// <summary>
+        /// Gets/Sets the Initialization Vector which should be used.Must be 10 bytes  (only 1 or 0 allowed).
+        /// </summary>
         [PropertyInfo(Direction.InputData, "IV", "IV to be used in chaining modes, must be 10 bytes (only 1 or 0 allowed).", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public byte[] InputIV
         {
@@ -159,7 +208,177 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 OnPropertyChanged("InputIV");
             }
         }
-        
+
+        /// <summary>
+        /// Start encrypting
+        /// </summary>
+        public void Encrypt()
+        {
+            //Encrypt Stream
+            process(0);
+        }
+
+        /// <summary>
+        /// Start decrypting
+        /// </summary>
+        public void Decrypt()
+        {
+            //Decrypt Stream
+            process(1);
+        }
+
+        /// <summary>
+        /// Called by the environment to start this plugin
+        /// </summary>
+        public void Execute()
+        {
+            process(settings.Action);
+        }
+
+
+        /// <summary>
+        /// Get the Presentation of this plugin
+        /// </summary>
+        public UserControl Presentation
+        {
+            get { return null; }
+        }
+
+        /// <summary>
+        /// Get the QuickWatchPresentation of this plugin
+        /// </summary>
+        public UserControl QuickWatchPresentation
+        {
+            get { return null; }
+        }
+
+        /// <summary>
+        /// Called by the environment to do initialization
+        /// </summary>
+        public void Initialize()
+        {
+        }
+
+        /// <summary>
+        /// Called by the envorinment if this plugin is unloaded
+        /// closes all streams
+        /// </summary>
+        public void Dispose()
+        {
+            try
+            {
+                this.stop = false;
+                inputKey = null;
+                inputIV = null;
+
+                foreach (CryptoolStream stream in listCryptoolStreamsOut)
+                {
+                    stream.Close();
+                }
+                listCryptoolStreamsOut.Clear();
+
+                if (controlSlave != null)
+                    controlSlave.Dispose();
+
+            }
+            catch (Exception ex)
+            {
+                GuiLogMessage(ex.Message, NotificationLevel.Error);
+            }
+        }
+
+        /// <summary>
+        /// Called by the environment of this plugin to stop it
+        /// </summary>
+        public void Stop()
+        {
+            this.stop = true;
+        }
+
+        /// <summary>
+        /// Called by the environment of this plugin after execution
+        /// </summary>
+        public void PostExecution()
+        {
+            Dispose();
+        }
+
+        /// <summary>
+        /// Called by the environment of this plugin before execution
+        /// </summary>
+        public void PreExecution()
+        {
+            Dispose();
+        }
+
+        /// <summary>
+        /// A property of this plugin changed
+        /// </summary>
+        /// <param name="name">propertyname</param>
+        public void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
+        /// <summary>
+        /// Logs a message into the messages of crypttool
+        /// </summary>
+        /// <param name="message">message</param>
+        /// <param name="logLevel">logLevel</param>
+        public void GuiLogMessage(string message, NotificationLevel logLevel)
+        {
+            if (OnGuiLogNotificationOccured != null)
+            {
+                OnGuiLogNotificationOccured(this, new GuiLogEventArgs(message, this, logLevel));
+            }
+        }
+
+        /// <summary>
+        /// Sets the current progess of this plugin
+        /// </summary>
+        /// <param name="value">value</param>
+        /// <param name="max">max</param>
+        public void ProgressChanged(double value, double max)
+        {
+            if (OnPluginProgressChanged != null)
+            {
+                OnPluginProgressChanged(this, new PluginProgressEventArgs(value, max));
+            }
+        }
+
+        /// <summary>
+        /// Called by the environment of this plugin if it is set to pause
+        /// </summary>
+        public void Pause()
+        {
+
+        }
+
+        /// <summary>
+        /// Sets/Gets the ControlSlave of this plugin
+        /// </summary>
+        [PropertyInfo(Direction.ControlSlave, "SDES Slave", "Direct access to SDES.", "", DisplayLevel.Beginner)]
+        public IControlEncryption ControlSlave
+        {
+            get
+            {
+                if (controlSlave == null)
+                    controlSlave = new SDESControl(this);
+                return controlSlave;
+            }
+        } 
+
+        #endregion public
+
+        #region private
+
+        /// <summary>
+        /// This method checks if the input stream is valid. If it is not valid it sets it to a dummy stream
+        /// (this funcionality is stolen from DES plugin ;) )
+        /// </summary>
         private void checkForInputStream()
         {
             if (settings.Action == 0 && (inputStream == null || (inputStream != null && inputStream.Length == 0)))
@@ -173,13 +392,11 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        /**
-         * Checks if the Input key is not null and has length 10 and only contains 1s and 0s
-         * and if Input IV is not null and has length 8 and only contains 1s and 0s
-         * 
-         * returns true if ok
-         * 
-         **/
+        /// <summary>
+        /// Checks if the Input key is not null and has length 10 and only contains 1s and 0s
+        /// and if Input IV is not null and has length 8 and only contains 1s and 0s
+        /// </summary>
+        /// <returns>true if ok</returns>
         private bool areKeyAndIVValid()
         {
 
@@ -215,12 +432,10 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             return true;
         }
 
-        public void Execute()
-        {
-            process(settings.Action);
-        }
-
-        //Encrypt/Decrypt Stream
+        /// <summary>
+        /// Starts the encryption/decryption process with SDES
+        /// </summary>
+        /// <param name="action">0 = encrypt, 1 = decrypt</param>
         private void process(int action)
         {
             if (controlSlave is object && InputStream is object && InputIV is object)
@@ -314,174 +529,89 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        public void Encrypt()
-        {
-            //Encrypt Stream
-            process(0);
-        }
-
-        public void Decrypt()
-        {
-            //Decrypt Stream
-            process(1);
-        }
-
-        #region IPlugin Member
-
-        public UserControl Presentation
-        {
-            get { return null; }
-        }
-
-        public UserControl QuickWatchPresentation
-        {
-          get { return null; }
-        }
-
-        public void Initialize()
-        {
-        }
-
-        public void Dispose()
-        {
-            try
-            {
-                this.stop = false;
-                inputKey = null;
-                inputIV = null;
-
-                foreach (CryptoolStream stream in listCryptoolStreamsOut)
-                {
-                    stream.Close();
-                }
-                listCryptoolStreamsOut.Clear();
-
-                if (controlSlave != null)
-                    controlSlave.Dispose();
-                
-            }
-            catch (Exception ex)
-            {
-                GuiLogMessage(ex.Message, NotificationLevel.Error);
-            }
-        }
-
-        public void Stop()
-        {
-            this.stop = true;
-        }
-
-        public void PostExecution()
-        {
-            Dispose();
-        }
-
-        public void PreExecution()
-        {
-            Dispose();
-        }
-
         #endregion
 
-        private SDESControl controlSlave;
-        [PropertyInfo(Direction.ControlSlave, "SDES Slave", "Direct access to SDES.", "", DisplayLevel.Beginner)]
-        public IControlEncryption ControlSlave
-        {
-            get
-            {
-                if (controlSlave == null)
-                    controlSlave = new SDESControl(this);
-                return controlSlave;
-            }
-        }  
+    }//end SDES
 
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged(string name)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
-            }
-        }
-
-        #endregion
-
-        #region IPlugin Members
-
-        public event StatusChangedEventHandler OnPluginStatusChanged;
-
-        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-        public void GuiLogMessage(string message, NotificationLevel logLevel)
-        {
-          if (OnGuiLogNotificationOccured != null)
-          {
-            OnGuiLogNotificationOccured(this, new GuiLogEventArgs(message, this, logLevel));
-          }
-        }
-
-        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
-        public void ProgressChanged(double value, double max)
-        {
-          if (OnPluginProgressChanged != null)
-          {
-            OnPluginProgressChanged(this, new PluginProgressEventArgs(value, max));
-          }
-        }
-
-        public void Pause()
-        {
-          
-        }
-
-        #endregion
-
-    }
-
+    /// <summary>
+    /// This Class is for controlling the SDES with a "brute forcer" like KeySearcher
+    /// </summary>
     public class SDESControl : IControlEncryption
     {
-        public static int counter=0;
-
-        public event KeyPatternChanged keyPatternChanged; //not used, because we only have one key length
-        public event IControlStatusChangedEventHandler OnStatusChanged;
+        #region private
         private SDES plugin;
         private CryptoolStream input;
         private List<CryptoolStream> listCryptoolStreams = new List<CryptoolStream>();
+        #endregion
 
+        #region events
+        public event KeyPatternChanged keyPatternChanged; //not used, because we only have one key length
+        public event IControlStatusChangedEventHandler OnStatusChanged;
+        #endregion
+
+        #region public
+
+        /// <summary>
+        /// Constructs a new SDESControl
+        /// </summary>
+        /// <param name="Plugin"></param>
         public SDESControl(SDES Plugin)
         {
-            this.plugin = Plugin;      
-            counter++;
-            plugin.GuiLogMessage("Counter:" + counter,NotificationLevel.Info);
+            this.plugin = Plugin;                 
         }
 
+        /// <summary>
+        /// Called by SDES if its status changes
+        /// </summary>
         public void onStatusChanged()
         {
             if(OnStatusChanged != null)
                 OnStatusChanged(this, true);
         }
-
-        #region IControlEncryption Members
-
+      
+        /// <summary>
+        /// Called by a Master to start encryption
+        /// </summary>
+        /// <param name="key">key</param>
+        /// <param name="blocksize">blocksize</param>
+        /// <returns>encrypted text</returns>
         public byte[] Encrypt(byte[] key, int blocksize)
         {
             ((SDESSettings)plugin.Settings).Action = 0;
             return execute(key, blocksize);
         }
 
+        /// <summary>
+        /// Called by a Master to start decryption
+        /// </summary>
+        /// <param name="key">key</param>
+        /// <param name="blocksize">blocksize</param>
+        /// <returns>decrypted text</returns>
         public byte[] Decrypt(byte[] key, int blocksize)
         {
             ((SDESSettings)plugin.Settings).Action = 1;
             return execute(key, blocksize);
         }
 
+        /// <summary>
+        /// Get the key pattern of the SDES algorithm
+        /// </summary>
+        /// <returns>[01][01][01][01][01][01][01][01][01][01]</returns>
         public string getKeyPattern()
         {
             return "[01][01][01][01][01][01][01][01][01][01]";
         }
 
+        /// <summary>
+        /// Makes a byte Array out of a String
+        /// example
+        /// "10101" -> '1','0','1','0','1'
+        /// 
+        /// A 0 is interpreted as '0'
+        /// any other character as '1'
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public byte[] getKeyFromString(string key)
         {
             byte[] bkey = new byte[10];
@@ -494,6 +624,26 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             return bkey;
         }
 
+        /// <summary>
+        /// Called by the SDES plugin if it is disposing
+        /// closes all privaet streams
+        /// </summary>
+        public void Dispose()
+        {
+            foreach (CryptoolStream cs in listCryptoolStreams)
+                cs.Close();
+        }
+
+        #endregion
+
+        #region private
+
+        /// <summary>
+        /// Called by itself to start encryption/decryption
+        /// </summary>
+        /// <param name="key">key</param>
+        /// <param name="blocksize">blocksize</param>
+        /// <returns>encrypted/decrypted text</returns>
         private byte[] execute(byte[] key, int blocksize)
         {
             if (input == null || plugin.InputChanged)
@@ -531,20 +681,12 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             return byteValues;
         }
 
-        public void Dispose()
-        {
-            foreach (CryptoolStream cs in listCryptoolStreams)
-                cs.Close();
-        }
-
         #endregion
     }
-
-    /**
-     * 
-     * Encapsulates the SDES algorithm
-     * 
-     **/
+       
+    /// <summary>
+    /// Encapsulates the SDES algorithm
+    /// </summary>
     public class SDES_algorithm
     {
         private SDES mSdes;
@@ -554,15 +696,13 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             this.mSdes = sdes;
         }
 
-        /**
-         * Encrypt-function
-         * 
-         * Encrypts the input plaintext with the given key 
-         * 
-         * @param plaintext as byte array of size 8
-         * @param key as byte array of size 10
-         * @return ciphertext as byte array of size 8
-         */
+        /// <summary>
+        /// Encrypt-function        
+        /// Encrypts the input plaintext with the given key 
+        /// </summary>
+        /// <param name="plaintext">plaintext as byte array of size 8</param>
+        /// <param name="key">key as byte array of size 10</param>
+        /// <returns>ciphertext as byte array of size 8</returns>
         public byte[] encrypt(byte[] plaintext, byte[] key)
         {
 
@@ -581,15 +721,13 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }//end encrypt
 
-        /**
-         * Decrypt-function
-         * 
-         * Decrypts the input ciphertext with the given key
-         * 
-         * @param plaintext as byte array of size 8
-         * @param key as byte array of size 10
-         * @return plaintext as byte array of size 8
-         */
+        /// <summary>
+        /// Decrypt-function
+        /// Decrypts the input ciphertext with the given key
+        /// </summary>
+        /// <param name="ciphertext">ciphertext as byte array of size 8</param>
+        /// <param name="key"> key as byte array of size 10</param>
+        /// <returns>plaintext as byte array of size 8</returns>
         public byte[] decrypt(byte[] ciphertext, byte[] key)
         {
 
@@ -608,26 +746,26 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }//end decrypt
 
-        /**
-         * p10-function
-         * Permutates the input bytes array of "10 bits" to another by 
-         * the following rule:
-         * 
-         * src    dest
-         * 1   -> 3
-         * 2   -> 5
-         * 3   -> 2
-         * 4   -> 7
-         * 5   -> 4
-         * 6   -> 10
-         * 7   -> 1
-         * 8   -> 9
-         * 9   -> 8
-         * 10  -> 6
-         * 
-         * @param byte array of size 10
-         * @return byte array of size 10
-         */
+        ///<summary>
+        ///p10-function
+        ///Permutates the input bytes array of "10 bits" to another by 
+        ///the following rule:
+        ///
+        ///src    dest
+        ///1   -> 3
+        ///2   -> 5
+        ///3   -> 2
+        ///4   -> 7
+        ///5   -> 4
+        ///6   -> 10
+        ///7   -> 1
+        ///8   -> 9
+        ///9   -> 8
+        ///10  -> 6
+        ///</summary>
+        ///<param name="bits">byte array of size 10</param>
+        ///<returns>byte array of size 10</returns>
+        ///
         private byte[] p10(byte[] bits)
         {
 
@@ -649,24 +787,23 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }//end p10
 
-        /**
-         * p8-function
-         * Permutates the input bytes array of "8 bits" to another by 
-         * the following rule:
-         * 
-         * src    dest
-         * 1   -> 6
-         * 2   -> 3
-         * 3   -> 7
-         * 4   -> 4
-         * 5   -> 8
-         * 6   -> 5
-         * 7   -> 10
-         * 8   -> 9
-         * 
-         * @param byte array of size 10
-         * @return byte array of size 8
-         */
+        ///<summary>
+        ///p8-function
+        ///Permutates the input bytes array of "8 bits" to another by 
+        ///the following rule:
+        ///
+        ///src    dest
+        ///1   -> 6
+        ///2   -> 3
+        ///3   -> 7
+        ///4   -> 4
+        ///5   -> 8
+        ///6   -> 5
+        ///7   -> 10
+        ///8   -> 9
+        ///</summary>
+        ///<param name="bits">byte array of size 10</param>
+        ///<returns>byte array of size 8</returns>
         private byte[] p8(byte[] bits)
         {
 
@@ -686,24 +823,23 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }//end p8
 
-        /**
-         * ip-function (initial permutation)
-         * Permutates the input array of "8 bits" to another by 
-         * the following rule:
-         * 
-         * src    dest
-         * 1   -> 2
-         * 2   -> 6
-         * 3   -> 3
-         * 4   -> 1
-         * 5   -> 4
-         * 6   -> 8
-         * 7   -> 5
-         * 8   -> 7
-         * 
-         * @param byte array of size 8
-         * @return byte array of size 8
-         */
+        ///<summary>
+        ///ip-function (initial permutation)
+        ///Permutates the input array of "8 bits" to another by 
+        ///the following rule:
+        ///
+        ///src    dest
+        ///1   -> 2
+        ///2   -> 6
+        ///3   -> 3
+        ///4   -> 1
+        ///5   -> 4
+        ///6   -> 8
+        ///7   -> 5
+        ///8   -> 7
+        ///</summary>
+        ///<param name="bits">byte array of size 8</param>
+        ///<returns>byte array of size 8</returns>
         private byte[] ip(byte[] bits)
         {
 
@@ -723,24 +859,23 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }//end ip
 
-        /**
-         * ip^-1-function (initial permutation inverse)
-         * Permutates the input array of "8 bits" to another by 
-         * the following rule:
-         * 
-         * src    dest
-         * 1   -> 4
-         * 2   -> 1
-         * 3   -> 3
-         * 4   -> 5
-         * 5   -> 7
-         * 6   -> 2
-         * 7   -> 8
-         * 8   -> 6
-         * 
-         * @param byte array of size 8
-         * @return byte array of size 8
-         */
+        ///<summary>
+        ///ip^-1-function (initial permutation inverse)
+        ///Permutates the input array of "8 bits" to another by 
+        ///the following rule:
+        ///
+        ///src    dest
+        ///1   -> 4
+        ///2   -> 1
+        ///3   -> 3
+        ///4   -> 5
+        ///5   -> 7
+        ///6   -> 2
+        ///7   -> 8
+        ///8   -> 6
+        ///</summary>
+        ///<param name="bits">byte array of size 8</param>
+        ///<returns>byte array of size 8</returns>
         private byte[] ip_inverse(byte[] bits)
         {
 
@@ -760,20 +895,20 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }//end ip_inverse
 
-        /**
-         * fk-function
-         * 
-         * combines the following functions:
-         * 
-         * right is the right part of the input array
-         * left is the left part of the input array
-         * 
-         * (right | left) := (inputarray))
-         * ret := exclusive_or(left,F(right,key)) + right)
-         * 
-         * @param byte array of size 8
-         * @return byte array of size 8
-         */
+        ///<summary>
+        ///fk-function
+        ///
+        ///combines the following functions:
+        ///
+        ///right is the right part of the input array
+        ///left is the left part of the input array
+        ///
+        ///(right | left) := (inputarray))
+        ///ret := exclusive_or(left,F(right,key)) + right)
+        ///</summary>
+        ///<param name="bits">byte array of size 8</param>
+        ///<param name="key">byte array of size 8</param>
+        ///<returns>byte array of size 8</returns>
         private byte[] fk(byte[] bits, byte[] key)
         {
 
@@ -790,12 +925,11 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }//end fk
 
-        /**
-         * ls-1 function
-         * 
-         * @param byte array of size 10
-         * @return byte array of size 10
-         */
+        ///<summary>
+        ///ls-1 function
+        ///</summary>
+        ///<param name="bits">byte array of size 10</param>
+        ///<returns>byte array of size 10</returns>
         private byte[] ls_1(byte[] bits)
         {
 
@@ -817,15 +951,14 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }//end ls_1
 
-        /**
-         * switch-function
-         * 
-         * switches the left side and the right side of the 8 bit array
-         * (left|right) -> (right|left)
-         * 
-         * @param byte array of size 8
-         * @return byte array of size 8
-         */
+        ///<summary>
+        ///switch-function
+        ///
+        ///switches the left side and the right side of the 8 bit array
+        ///(left|right) -> (right|left)
+        ///</summary>
+        ///<param name="bits">byte array of size 8</param>
+        ///<returns>byte array of size 8</returns>
         private byte[] sw(byte[] bits)
         {
 
@@ -837,16 +970,15 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }//end sw
 
-        /**
-         * F-function
-         * 
-         * combines both s-boxes and permutates the return value with p4
-         * p4( s0(exclusive_or(ep(number),key) | s1(exclusive_or(ep(number),key) )
-         * 
-         * @param byte array of size 8
-         * @param key of size 8
-         * @return byte array of size 8
-         */
+        ///<summary>
+        ///F-function
+        ///
+        ///combines both s-boxes and permutates the return value with p4
+        ///p4( s0(exclusive_or(ep(number),key) | s1(exclusive_or(ep(number),key) )
+        ///</summary>
+        ///<param name="bits">byte array of size 8</param>
+        ///<param name="bits">key of size 8</param>
+        ///<returns>byte array of size 8</returns>
         private byte[] F(byte[] bits, byte[] key)
         {
 
@@ -868,20 +1000,19 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }//end F
 
-        /**
-         * p4-function
-         * Permutates the input array of "4 bits" to another by 
-         * the following rule:
-         * 
-         * src    dest
-         * 1   -> 2
-         * 2   -> 4
-         * 3   -> 3
-         * 4   -> 1
-         *  
-         * @param byte array of size 4
-         * @return byte array of size 4
-         */
+        ///<summary>
+        ///p4-function
+        ///Permutates the input array of "4 bits" to another by 
+        ///the following rule:
+        ///
+        ///src    dest
+        ///1   -> 2
+        ///2   -> 4
+        ///3   -> 3
+        ///4   -> 1
+        ///</summary>
+        ///<param name="bits">byte array of size 4</param>
+        ///<returns>byte array of size 4</returns>
         private byte[] p4(byte[] bits)
         {
 
@@ -895,24 +1026,23 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }//end p4
 
-        /**
-         * ep-function
-         * Permutates the input array of "4 bits" to another array of "8 bits" by 
-         * the following rule:
-         * 
-         * src    dest
-         * 1   -> 4
-         * 2   -> 1
-         * 3   -> 2
-         * 4   -> 3
-         * 5   -> 2
-         * 6   -> 3
-         * 7   -> 4
-         * 8   -> 1
-         * 
-         * @param byte array of size 4
-         * @return byte array of size 8
-         */
+        ///<summary>
+        ///ep-function
+        ///Permutates the input array of "4 bits" to another array of "8 bits" by 
+        ///the following rule:
+        ///
+        ///src    dest
+        ///1   -> 4
+        ///2   -> 1
+        ///3   -> 2
+        ///4   -> 3
+        ///5   -> 2
+        ///6   -> 3
+        ///7   -> 4
+        ///8   -> 1
+        ///</summary>
+         ///<param name="bits">byte array of size 4</param>
+        ///<returns>byte array of size 8</returns>
         private byte[] ep(byte[] bits)
         {
 
@@ -929,17 +1059,16 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             return ep;
         }
 
-        /**
-         * SBox-0
-         * 
-         * S0 =  1 0 3 2
-         *       3 2 1 0
-         *       0 2 1 3    
-         *       3 1 3 2           
-         *
-         * @param byte array of size 4
-         * @return byte array of size 2
-         */
+        ///<summary>
+        ///SBox-0
+        ///
+        ///S0 =  1 0 3 2
+        ///      3 2 1 0
+        ///      0 2 1 3    
+        ///      3 1 3 2           
+        ///</summary>
+        ///<param name="bits">byte array of size 4</param>
+        ///<returns>byte array of size 2</returns>
         private byte[] sbox_0(byte[] bits)
         {
 
@@ -962,17 +1091,16 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }//end sbox-0
 
 
-        /**
-         * SBox-1
-         * 
-         * S1 =  0 1 2 3
-         *       2 0 1 3
-         *       3 0 1 0
-         *       2 1 0 3
-         * 
-         * @param byte array of size 4
-         * @return byte array of size 8
-         */
+        ///<summary>
+        ///SBox-1
+        ///
+        ///S1 =  0 1 2 3
+        ///      2 0 1 3
+        ///      3 0 1 0
+        ///      2 1 0 3
+        ///</summary>
+        ///<param name="bits">byte array of size 4</param>
+        ///<returns>byte array of size 2</returns>
         private byte[] sbox_1(byte[] bits)
         {
 
@@ -996,20 +1124,17 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
     }
 
-    /**
-    * 
-    * Encapsulates some necessary functions
-    * 
-    **/
+    ///<summary>
+    ///Encapsulates some necessary functions
+    ///</summary>
     public class Tools
     {
 
-        /**
-         * Converts an byte array to a String
-         * 
-         * @param byte array of size n
-         * @return String
-         */
+        ///<summary>
+        ///Converts an byte array to a String
+        ///</summary>
+        ///<param name="bits">byte array of size n</param>
+        ///<returns>String</returns>
         public static String byteArray2String(byte[] bits)
         {
 
@@ -1022,14 +1147,13 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }//end byteArray2String
 
-        /**
-         * Converts the given byte array to a printable String
-         * 
-         * example {72, 101, 108, 108, 111} -> "Hello"
-         * 
-         * @param bits
-         * @return String
-         */
+        ///<summary>
+        ///Converts the given byte array to a printable String
+        ///
+        ///example {72, 101, 108, 108, 111} -> "Hello"
+        ///</summary>
+        ///<param name="bits">byte array of size n</param>
+        ///<returns>String</returns>
         public static String byteArray2PrintableString(byte[] bits)
         {
 
@@ -1042,15 +1166,14 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }// byteArray2PrintableString
 
-        /**
-         * equals-function
-         * 
-         * returns true if both integer arrays are equal
-         * 
-         * @param byte array of size n
-         * @param byte array of size n
-         * @return boolean
-         */
+        ///<summary>
+        ///equals-function
+        ///
+        ///returns true if both integer arrays are equal
+        ///</summary>
+        ///<param name="a">byte array of size n</param>
+        ///<param name="b">byte array of size n</param>
+        ///<returns>bool</returns>
         public static bool byteArrays_Equals(byte[] a, byte[] b)
         {
 
@@ -1066,14 +1189,13 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }//end byteArrays_Equals	
 
-        /**
-         * converts an Byte to an byte array of (0,1)
-         * 
-         * 100 -> {1,1,0,0,1,0,0}
-         * 
-         * @param b
-         * @return
-         */
+        ///<summary>
+        ///converts an Byte to an byte array of (0,1)
+        ///
+        ///100 -> {1,1,0,0,1,0,0}
+        ///</summary>
+        ///<param name="byt">byte array of size n</param>
+        ///<returns>byte array</returns>
         public static byte[] byteToByteArray(byte byt)
         {
 
@@ -1091,13 +1213,13 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }//end byteTointArray
 
-        /**
-         * converts an byte array of (0,1) to an byte
-         * 
-         * {1,1,0,0,1,0,0} -> 100 
-         * @param intarray
-         * @return
-         */
+        ///<summary>
+        ///converts an byte array of (0,1) to an byte
+        ///
+        ///{1,1,0,0,1,0,0} -> 100 
+        ///</summary>
+        ///<param name="bytearray">byte array of size n</param>
+        ///<returns>byte</returns>
         public static byte byteArrayToByte(byte[] bytearray)
         {
 
@@ -1116,17 +1238,16 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }//end byteArrayToInteger
 
-        /**
-         * Exclusiv-OR function
-         * 
-         * Does a exlusiv-or on two byte arrays 
-         * 
-         * example {1,0,1} XOR {1,0,0} -> {0,0,1}
-         * 
-         * @param byte array of size n
-         * @param byte array of size n
-         * @return byte array of size n
-         */
+        ///<summary>
+        ///Exclusiv-OR function
+        ///
+        ///Does a exlusiv-or on two byte arrays 
+        ///
+        ///example {1,0,1} XOR {1,0,0} -> {0,0,1}
+        ///</summary>
+        ///<param name="bitsA">byte array of size n</param>
+        ///<param name="bitsB">byte array of size n</param>
+        ///<returns>byte array of size n</returns>
         public static byte[] exclusive_or(byte[] bitsA, byte[] bitsB)
         {
 
@@ -1152,14 +1273,13 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }//end exclusive_or
 
-        /**
-         * converts string to an byte array
-         * 
-         * example "Hello" -> {72, 101, 108, 108, 111}
-         * 
-         * @param s
-         * @return
-         */
+        ///<summary>
+        ///converts string to an byte array
+        ///
+        ///example "Hello" -> {72, 101, 108, 108, 111}
+        ///</summary>
+        ///<param name="s">String</param>
+        ///<returns>byte array</returns>
         public static byte[] stringToByteArray(String s)
         {
             byte[] bytearray = new byte[s.Length];
@@ -1173,14 +1293,13 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }// end stringToByteArray
 
-        /**
-         * converts a binary string to an byte array
-         * 
-         * example "10010" -> {1, 0, 0, 1, 0}
-         * 
-         * @param s
-         * @return
-         */
+        ///<summary>
+        ///converts a binary string to an byte array
+        ///
+        ///example "10010" -> {1, 0, 0, 1, 0}
+        ///</summary>
+        ///<param name="s">String</param>
+        ///<returns>byte array</returns>
         public static byte[] stringToBinaryByteArray(String s)
         {
             byte[] bytearray = new byte[s.Length];
@@ -1206,27 +1325,29 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }// end stringToByteArray
     }
 
-    /**
-    * 
-    * Encapsulates the CipherBlockChaining algorithm
-    * 
-    **/
+    ///<summary>
+    ///Encapsulates the CipherBlockChaining algorithm
+    ///</summary>
     public class CipherBlockChaining
     {
 
         private SDES mSdes;
         private SDES_algorithm mAlgorithm;
 
+        /// <summary>
+        /// Constructs a CipherBlockChaining for SDES
+        /// </summary>
+        /// <param name="sdes">plugin</param>
         public CipherBlockChaining(SDES sdes)
         {
             this.mSdes = sdes;
             this.mAlgorithm = new SDES_algorithm(sdes);
         }
 
-        /**
-         * Encrypts the given plaintext with the given key
-         * using CipherBlockChaining 
-         */
+        ///<summary>
+        ///Encrypts the given plaintext with the given key
+        ///using CipherBlockChaining 
+        ///</summary>
         public void encrypt(CryptoolStream inputstream, CryptoolStream outputstream, byte[] key, byte[] vector)
         {
 
@@ -1254,10 +1375,10 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }//end encrypt
 
-        /**
-         * Decrypts the given plaintext with the given Key
-         * using CipherBlockChaining 
-         */
+        ///<summary>
+        ///Decrypts the given plaintext with the given Key
+        ///using CipherBlockChaining 
+        ///</summary>
         public void decrypt(CryptoolStream inputstream, CryptoolStream outputstream, byte[] key, byte[] vector)
         {
 
@@ -1283,30 +1404,31 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }//end decrypt
 
-    }
+    }//end class CipherBlockChaining
 
-    /**
-    * 
-    * Encapsulates the ElectronicCodeBook algorithm
-    * 
-    **/
+    ///<summary>
+    ///Encapsulates the ElectronicCodeBook algorithm
+    ///</summary>
     public class ElectronicCodeBook
     {
 
         private SDES mSdes;
         private SDES_algorithm mAlgorithm;
 
+        /// <summary>
+        /// Constructs a ElectronicCodeBook for SDES
+        /// </summary>
+        /// <param name="sdes">plugin</param>
         public ElectronicCodeBook(SDES sdes)
         {
             this.mSdes = sdes;
             this.mAlgorithm = new SDES_algorithm(sdes);
         }
 
-
-        /**
-         * Encrypts the given plaintext with the given key
-         * using ElectronicCodeBookMode 
-         */
+        ///
+        ///Encrypts the given plaintext with the given key
+        ///using ElectronicCodeBookMode 
+        ///
         public void encrypt(CryptoolStream inputstream, CryptoolStream outputstream, byte[] key)
         {
 
@@ -1331,10 +1453,10 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }//end encrypt
 
-        /**
-         * Decrypts the given plaintext with the given Key
-         * using ElectronicCodeBook mode 
-         */
+        ///<summary>
+        ///Decrypts the given plaintext with the given Key
+        ///using ElectronicCodeBook mode 
+        ///</summary>
         public void decrypt(CryptoolStream inputstream, CryptoolStream outputstream, byte[] key)
         {
 
@@ -1359,6 +1481,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }//end decrypt
 
-    }
+    }//end class ElectronicCodeBook
 
-}
+}//end namespace Cryptool.Plugins.Cryptography.Encryption
