@@ -7,11 +7,15 @@ namespace Cryptool.CubeAttack
 {
     public class Matrix
     {
-        // Class attributes
+        /// <summary>
+        /// Class attributes/members
+        /// </summary>
         private int rows, cols;
         private int[,] element;
 
-        // Constructor
+        /// <summary>
+        /// Contructor
+        /// </summary>
         public Matrix(int rows, int cols)
         {
             this.rows = rows;
@@ -23,7 +27,9 @@ namespace Cryptool.CubeAttack
                     element[i, j] = 0;
         }
 
-        // Properties
+        /// <summary>
+        /// Properites
+        /// </summary>
         public int Rows
         {
             get { return rows; }
@@ -34,12 +40,18 @@ namespace Cryptool.CubeAttack
             get { return cols; }
         }
 
+        /// <summary>
+        /// Indexer
+        /// </summary>
         public int this[int row, int col]
         {
             get { return GetElement(row, col); }
             set { SetElement(row, col, value); }
         }
 
+        /// <summary>
+        /// Internal functions for getting/setting values
+        /// </summary>
         public int GetElement(int row, int col)
         {
             if (row < 0 || row > rows - 1 || col < 0 || col > Cols - 1)
@@ -54,7 +66,9 @@ namespace Cryptool.CubeAttack
             element[row, col] = value;
         }
 
-        // Transpose the matrix
+        /// <summary>
+        /// Returns the transpose of the current matrix
+        /// </summary>
         public Matrix Transpose()
         {
             Matrix transposeMatrix = new Matrix(this.Cols, this.Rows);
@@ -64,7 +78,9 @@ namespace Cryptool.CubeAttack
             return transposeMatrix;
         }
 
-        // Returns the minor of a Matrix element[Row,Col] 
+        /// <summary>
+        /// Return the minor of a matrix element[Row,Col] 
+        /// </summary> 
         public static Matrix Minor(Matrix matrix, int row, int col)
         {
             Matrix minor = new Matrix(matrix.Rows - 1, matrix.Cols - 1);
@@ -86,12 +102,19 @@ namespace Cryptool.CubeAttack
             return minor;
         }
 
-        // Returns the determinent of the matrix
+        /// <summary>
+        /// Returns the determinent of the current Matrix
+        /// It computes the determinent in the traditional way (i.e. using minors)
+        /// </summary>
         public int Determinent()
         {
             return Determinent(this);
         }
 
+        /// <summary>
+        /// Helper function for the above Determinent() method
+        /// it calls itself recursively and computes determinent using minors
+        /// </summary>
         private int Determinent(Matrix matrix)
         {
             int det = 0;
@@ -102,7 +125,9 @@ namespace Cryptool.CubeAttack
             return det;
         }
 
-        // Returns the adjoint of the matrix
+        /// <summary>
+        /// Returns the adjoint of the current matrix
+        /// </summary>
         public Matrix Adjoint()
         {
             Matrix adjointMatrix = new Matrix(this.Rows, this.Cols);
@@ -113,7 +138,9 @@ namespace Cryptool.CubeAttack
             return adjointMatrix;
         }
 
-        // Returns the inverse of a square matrix by adjoint method
+        /// <summary>
+        /// Returns the inverse of a square matrix over GF(2) (by adjoint method)
+        /// </summary>
         public Matrix Inverse()
         {
             if (this.Determinent() == 0)
@@ -126,6 +153,16 @@ namespace Cryptool.CubeAttack
             return m;
         }
 
+        /// <summary>
+        /// Operator for the matrix object
+        /// includes binary operator /
+        /// </summary>
+        public static Matrix operator /(Matrix matrix, int iNo)
+        { return Matrix.Multiply(matrix, iNo); }
+
+        /// <summary>
+        /// Internal function for the above operator
+        /// </summary>
         private static Matrix Multiply(Matrix matrix, int iNo)
         {
             Matrix result = new Matrix(matrix.Rows, matrix.Cols);
@@ -135,6 +172,9 @@ namespace Cryptool.CubeAttack
             return result;
         }
 
+        /// <summary>
+        /// The function adds one superpoly for the current matrix
+        /// </summary>
         public Matrix AddRow(List<int> superpoly)
         {
             Matrix m = new Matrix(this.Rows + 1, this.Cols);
@@ -146,6 +186,9 @@ namespace Cryptool.CubeAttack
             return m;
         }
 
+        /// <summary>
+        /// The function deletes the last row of the current matrix
+        /// </summary>
         public Matrix DeleteLastRow()
         {
             Matrix m = new Matrix(this.Rows - 1, this.Cols);
@@ -155,6 +198,9 @@ namespace Cryptool.CubeAttack
             return m;
         }
 
+        /// <summary>
+        /// The function deletes the first columnm of the current matrix
+        /// </summary>
         public Matrix DeleteFirstColumn()
         {
             Matrix m = new Matrix(this.Rows, this.Cols - 1);
@@ -163,11 +209,11 @@ namespace Cryptool.CubeAttack
                     m[i, j - 1] = this[i, j];
             return m;
         }
-
-        public static Matrix operator /(Matrix matrix, int iNo)
-        { return Matrix.Multiply(matrix, iNo); }
     }
 
+    /// <summary>
+    /// Exception class for Matrix and Vector, derived from System.Exception
+    /// </summary>
     public class MatrixVectorException : Exception
     {
         public MatrixVectorException()
