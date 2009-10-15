@@ -75,6 +75,19 @@ namespace Cryptool.Trivium
             }
         }
 
+        private string inputKey = string.Empty;
+        [TaskPane("Key (Input for Cube Attack)", "Must be 10 bytes (80 bit) in Hex", null, 4, false, DisplayLevel.Beginner, ControlType.TextBox, null)]
+        public string InputKey
+        {
+            get { return inputKey; }
+            set
+            {
+                this.inputKey = value;
+                //OnPropertyChanged("InputKey");
+                HasChanges = true;
+            }
+        }
+
         public bool HasChanges
         {
             get { return hasChanges; }

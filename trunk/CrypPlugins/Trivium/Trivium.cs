@@ -123,7 +123,7 @@ namespace Cryptool.Trivium
             this.stop = false;
         }
 
-        private int[] hextobin(char[] hex)
+        public int[] hextobin(char[] hex)
         {
             int i;
             int[] bin = new int[hex.Length * 4];
@@ -270,7 +270,7 @@ namespace Cryptool.Trivium
             return bin;
         }
 
-        private string bintohex(string bin)
+        public string bintohex(string bin)
         {
             int i;
             string hex = null;
@@ -719,9 +719,15 @@ namespace Cryptool.Trivium
         {
             string resultString;
             int resultInt;
-
             //pluginSettings.InitRounds = rounds;
 
+            if (key == null)
+            {
+                //key = new int[pluginSettings.InputKey.Length * 4];
+                //key = plugin.hextobin(pluginSettings.InputKey.ToCharArray());
+                key = new int[] { 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1 };
+            }
+            
             plugin.masterSlaveRounds = rounds;
             plugin.initTrivium(IV, key);
 
