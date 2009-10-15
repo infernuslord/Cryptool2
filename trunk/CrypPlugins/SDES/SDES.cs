@@ -25,6 +25,8 @@ using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.IO;
 using System.Windows.Controls;
 using Cryptool.PluginBase.Control;
+using System.Threading;
+using System.Windows.Threading;
 
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
@@ -47,6 +49,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         private byte[] inputKey;
         private byte[] inputIV;        
         private bool stop = false;
+        private UserControl presentation = new SDESPresentation();
         private SDESControl controlSlave;
 
         #endregion
@@ -241,7 +244,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// </summary>
         public UserControl Presentation
         {
-            get { return null; }
+            get { return this.presentation; }
         }
 
         /// <summary>
@@ -705,11 +708,69 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <returns>ciphertext as byte array of size 8</returns>
         public byte[] encrypt(byte[] plaintext, byte[] key)
         {
+            
+            ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                ((SDESPresentation)mSdes.Presentation).key_txt.Text = 
+                Tools.byteArrayToStringWithSpaces(key);               
+            }
+            , null);
 
             //calculate sub key 1
-            byte[] key1 = p8(ls_1(p10(key)));
+            byte[] vp10 = p10(key);           
+            ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                ((SDESPresentation)mSdes.Presentation).key_txt_p10_input.Text =
+                Tools.byteArrayToStringWithSpaces(key);
+                ((SDESPresentation)mSdes.Presentation).key_txt_ls1_input_1.Text =
+                Tools.byteArrayToStringWithSpaces(vp10);
+            }
+            , null);
+
+            byte[] vls1 = ls_1(vp10);
+            ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                ((SDESPresentation)mSdes.Presentation).key_txt_p8_1_input.Text =
+                Tools.byteArrayToStringWithSpaces(vls1);
+            }
+            , null);
+
+            byte[] key1 = p8(vls1);
+            ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                ((SDESPresentation)mSdes.Presentation).key_txt_k1.Text =
+                Tools.byteArrayToStringWithSpaces(key1);
+            }
+            , null);
+
             //calculate sub key 2
-            byte[] key2 = p8(ls_1(ls_1(ls_1(p10(key)))));
+            vls1 = ls_1(vls1);
+            ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                ((SDESPresentation)mSdes.Presentation).key_txt_p10_copy.Text =
+                Tools.byteArrayToStringWithSpaces(vp10);
+                ((SDESPresentation)mSdes.Presentation).key_txt_ls1_2.Text =
+                Tools.byteArrayToStringWithSpaces(vp10);
+                ((SDESPresentation)mSdes.Presentation).key_txt_ls1_3.Text =
+               Tools.byteArrayToStringWithSpaces(vls1);
+            }
+            , null);
+
+            vls1 = ls_1(vls1);
+            ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                ((SDESPresentation)mSdes.Presentation).key_txt_p8_2_input.Text =
+                Tools.byteArrayToStringWithSpaces(vls1);
+            }
+           , null);
+
+            byte[] key2 = p8(vls1);
+            ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                ((SDESPresentation)mSdes.Presentation).key_txt_k2.Text =
+                Tools.byteArrayToStringWithSpaces(key2);
+            }
+           , null);
 
             // ip_inverse(fk_2(sw(fk_1(ip(plaintext))))) :
             byte[] ip = this.ip(plaintext);
@@ -1130,6 +1191,23 @@ namespace Cryptool.Plugins.Cryptography.Encryption
     public class Tools
     {
 
+        /// <summary>
+        /// transforms a byte array into a String with spaces after each byte
+        /// example:
+        ///     1,0 => "1 0"
+        /// </summary>
+        /// <param name="byt">byt</param>
+        /// <returns>s</returns>
+        public static String byteArrayToStringWithSpaces(byte[] byt)
+        {
+            String s = "";
+
+            foreach (byte b in byt)
+            {
+                s = s + b + " ";
+            }
+            return s;
+        }
         ///<summary>
         ///Converts an byte array to a String
         ///</summary>

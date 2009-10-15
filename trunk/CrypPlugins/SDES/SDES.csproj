@@ -80,6 +80,9 @@
     <Compile Include="SDES.cs" />
     <Compile Include="SDESSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SDESPresentation.xaml.cs">
+      <DependentUpon>SDESPresentation.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="DetailedDescription\Description.xaml">
@@ -127,6 +130,13 @@
   <ItemGroup>
     <Resource Include="Images\sdes_overview.png">
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="SDESPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CustomToolNamespace>Cryptool.Plugins.Cryptography.Encryption</CustomToolNamespace>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
