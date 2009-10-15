@@ -24,12 +24,38 @@ using System.Windows;
 
 namespace Cryptool.Plugins.RSA
 {
+    /// <summary>
+    /// Settings class for the RSAKeyGenerator plugin
+    /// </summary>
     class RSAKeyGeneratorSettings : ISettings
     {
-        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
+
+        #region private members
 
         private int source;
-        [ContextMenu("Source", "Select the source of the Key Data", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 1, 2, 3, 4 }, "Manual Primes", "Manual Keys", "Random", "Certificate")]
+        private String p = "23";
+        private String q = "13";
+        private String n = "299";
+        private String e = "23";
+        private String d = "23";
+        private string certificateFile;
+        private String password = "";
+        private bool hasChanges = false;
+        
+        #endregion
+
+        #region events
+        
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
+
+        #region public
+
+        /// <summary>
+        /// Getter/Setter for the source of the Key Data
+        /// </summary>
         [TaskPane("Source", "Select the source of the Key Data", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Manual Primes", "Manual Keys", "Random", "Certificate" })]
         public int Source
         {
@@ -88,7 +114,9 @@ namespace Cryptool.Plugins.RSA
             }
         }
 
-        private String p = "23";
+        /// <summary>
+        /// Getter/Setter for prime P
+        /// </summary>
         [TaskPane("P", "P", null, 2, false, DisplayLevel.Beginner, ControlType.TextBox)]
         public String P
         {
@@ -102,8 +130,10 @@ namespace Cryptool.Plugins.RSA
                 OnPropertyChanged("P");
             }
         }
-
-        private String q = "13";
+        
+        /// <summary>
+        /// Getter/Setter for the prime Q
+        /// </summary>
         [TaskPane("Q", "Q", null, 3, false, DisplayLevel.Beginner, ControlType.TextBox)]
         public String Q
         {
@@ -118,7 +148,9 @@ namespace Cryptool.Plugins.RSA
             }
         }
 
-        private String n = "299";
+        /// <summary>
+        /// Getter/Setter for the N
+        /// </summary>
         [TaskPane("N", "N", null, 4, false, DisplayLevel.Beginner, ControlType.TextBox)]
         public String N
         {
@@ -133,7 +165,9 @@ namespace Cryptool.Plugins.RSA
             }
         }
 
-        private String e = "23";
+        /// <summary>
+        /// Getter/Setter for the E
+        /// </summary>
         [TaskPane("E", "E", null, 5, false, DisplayLevel.Beginner, ControlType.TextBox)]
         public String E
         {
@@ -148,7 +182,9 @@ namespace Cryptool.Plugins.RSA
             }
         }
 
-        private String d = "23";
+        /// <summary>
+        /// Getter/Setter for the D
+        /// </summary>
         [TaskPane("D", "D", null, 6, false, DisplayLevel.Beginner, ControlType.TextBox)]
         public String D
         {
@@ -163,8 +199,9 @@ namespace Cryptool.Plugins.RSA
             }
         }
 
-
-        private string certificateFile;
+        /// <summary>
+        /// Getter/Setter for the certificate file
+        /// </summary>
         [TaskPane("Open X.509 Certificate", "Select the X.509 certificate you want to open.", null, 5, false, DisplayLevel.Beginner, ControlType.OpenFileDialog, FileExtension = "X.509 certificates (*.cer)|*.cer")]
         public string CertificateFile
         {
@@ -180,7 +217,9 @@ namespace Cryptool.Plugins.RSA
             }
         }
 
-        private String password = "";
+        /// <summary>
+        /// Getter/Setter for the password of the certificate
+        /// </summary>
         [TaskPane("Password", "Password", null, 4, false, DisplayLevel.Beginner, ControlType.TextBoxHidden)]
         public String Password
         {
@@ -195,15 +234,15 @@ namespace Cryptool.Plugins.RSA
             }
         }
 
+        /// <summary>
+        /// Button to "close" the certificate file. That means it will not appear any more in the text field
+        /// </summary>
         [TaskPane("Close file", "Close file", null, 6, false, DisplayLevel.Beginner, ControlType.Button)]
         public void CloseFile()
         {
             CertificateFile = null;
         }
 
-        #region ISettings Members
-
-        private bool hasChanges = false;
         public bool HasChanges
         {
             get
@@ -218,10 +257,12 @@ namespace Cryptool.Plugins.RSA
 
         #endregion
 
-        #region INotifyPropertyChanged Members
+        #region private
 
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
+        /// <summary>
+        /// The property p changed
+        /// </summary>
+        /// <param name="p">p</param>
         private void OnPropertyChanged(string p)
         {
             if (PropertyChanged != null)
@@ -231,5 +272,7 @@ namespace Cryptool.Plugins.RSA
         }
 
         #endregion
-    }
-}
+
+    }//end RSAKeyGeneratorSettings
+
+}//end Cryptool.Plugins.RSA
