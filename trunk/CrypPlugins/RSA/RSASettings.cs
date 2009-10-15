@@ -24,14 +24,33 @@ using System.Collections.ObjectModel;
 
 namespace Cryptool.Plugins.RSA
 {
+    /// <summary>
+    /// Settings class for the RSA plugin
+    /// </summary>
     class RSASettings : ISettings
     {
-        #region private variables
+        #region private members
+
         private int action;
         private int coresUsed;
         private bool hasChanges = false;
+        private ObservableCollection<string> coresAvailable = new ObservableCollection<string>();
+
         #endregion
 
+        #region events
+
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
+
+        #region public
+
+        /// <summary>
+        /// Constructs a new RSASettings
+        /// detects the number of cores of the system and sets those to maximum number of cores
+        /// which can be used
+        /// </summary>
         public RSASettings()
         {
             CoresAvailable.Clear();
@@ -39,8 +58,10 @@ namespace Cryptool.Plugins.RSA
                 CoresAvailable.Add((i + 1).ToString());
             CoresUsed = Environment.ProcessorCount - 1;
         }
-
-        private ObservableCollection<string> coresAvailable = new ObservableCollection<string>();
+        
+        /// <summary>
+        /// Get the number of cores in a collection, used for the selection of cores
+        /// </summary>
         public ObservableCollection<string> CoresAvailable
         {
             get { return coresAvailable; }
@@ -54,7 +75,9 @@ namespace Cryptool.Plugins.RSA
             }
         }
 
-        #region taskpane
+        /// <summary>
+        /// Getter/Setter for the number of cores which should be used by RSA
+        /// </summary>
         [TaskPane("CoresUsed", "Choose how many cores should be used", null, 1, false, DisplayLevel.Beginner, ControlType.DynamicComboBox, new string[] { "CoresAvailable" })]
         public int CoresUsed
         {
@@ -70,6 +93,9 @@ namespace Cryptool.Plugins.RSA
             }
         }
 
+        /// <summary>
+        /// Getter/Setter for the action (encryption or decryption)
+        /// </summary>
         [ContextMenu("Action", "Do you want the input data to be encrypted or decrypted?", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Encryption", "Decryption")]
         [TaskPane("Action", "Do you want the input data to be encrypted or decrypted?", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Encryption", "Decryption" })]
         public int Action
@@ -82,10 +108,9 @@ namespace Cryptool.Plugins.RSA
             }
         }
 
-        #endregion
-
-        #region ISettings Members
-
+        /// <summary>
+        /// Did anything change on the settigns?
+        /// </summary>
         public bool HasChanges
         {
             get
@@ -100,10 +125,12 @@ namespace Cryptool.Plugins.RSA
 
         #endregion
 
-        #region INotifyPropertyChanged Members
+        #region private
 
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
+        /// <summary>
+        /// The property p has changes
+        /// </summary>
+        /// <param name="p">p</param>
         private void OnPropertyChanged(string p)
         {
             if (PropertyChanged != null)
@@ -113,7 +140,7 @@ namespace Cryptool.Plugins.RSA
         }
 
         #endregion
-    }
-    
-    
-}
+
+    }//end RSASettings
+
+}//end Cryptool.Plugins.RSA

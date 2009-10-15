@@ -30,12 +30,14 @@ namespace Cryptool.Plugins.RSA
 {
     [Author("Dennis Nolte,Raoul Falk, Sven Rech, Nils Kopal", null, "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo(false, "RSA", "RSA En/Decryption", "", "RSA/iconrsa.png", "RSA/Images/encrypt.png", "RSA/Images/decrypt.png")]
-
     [EncryptionType(EncryptionType.Asymmetric)]
-
+    /// <summary>
+    /// This plugin does a RSA encryption/decryption on a Message M / Ciphertext C
+    /// It also encrypts/decrypts text with RSA
+    /// </summary>
     class RSA : IEncryption
     {
-        #region IPlugin Members
+        #region private members
 
         private RSASettings settings = new RSASettings();
         private BigInteger inputN = new BigInteger(1);
@@ -48,30 +50,67 @@ namespace Cryptool.Plugins.RSA
         private ArrayList threads;
         private bool stopped = true;
 
+        #endregion
+
+        #region events
+
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        public event StatusChangedEventHandler OnPluginStatusChanged;
 
+        #endregion
+
+        #region public
+        
+        /// <summary>
+        /// Notify that a property changed
+        /// </summary>
+        /// <param name="name">property name</param>
+        public void OnPropertyChanged(string name)
+        {
+            EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
+        }
+
+        /// <summary>
+        /// Gets/Sets the Settings of this plugin
+        /// </summary>
         public ISettings Settings
         {
             get { return this.settings; }
             set { this.settings = (RSASettings)value; }
         }
 
+        /// <summary>
+        /// Get the Presentation of this plugin
+        /// </summary>
         public System.Windows.Controls.UserControl Presentation
         {
             get { return null; }
         }
 
+        /// <summary>
+        /// Get the QuickWatchRepresentation of this plugin
+        /// </summary>
         public System.Windows.Controls.UserControl QuickWatchPresentation
         {
             get { return null; }
         }
 
+        /// <summary>
+        /// Called by the environment before execution
+        /// </summary>
         public void PreExecution()
         {
             stopped = false;
         }
 
+        /// <summary>
+        /// Called by the environment to execute this plugin
+        /// Does RSA on M/C and encrypt/decrypt the input Text
+        /// This method starts threads to speed RSA up if the user switched on more than one
+        /// thread
+        /// </summary>
         public void Execute()
         {
             
@@ -177,9 +216,157 @@ namespace Cryptool.Plugins.RSA
 
         }//end Execute
 
-        /**
-         * Encrypts/Decrypts all blocks belonging to the thread nr
-         */
+        /// <summary>
+        /// Called by the environment after execution of this plugin
+        /// </summary>
+        public void PostExecution()
+        {
+            this.stopped = true;
+        }
+
+        /// <summary>
+        /// Called by the environment to pause this plugin
+        /// </summary>
+        public void Pause()
+        {
+        }
+
+        /// <summary>
+        /// Called by the environment to stop this plugin
+        /// </summary>
+        public void Stop()
+        {
+            this.stopped = true;
+        }
+
+        /// <summary>
+        /// Called by the environment to initialize this plugin
+        /// </summary>
+        public void Initialize()
+        {
+            this.stopped = true;
+        }
+
+        /// <summary>
+        /// Called by the environment to Dispose this plugin
+        /// </summary>
+        public void Dispose()
+        {
+
+        }
+
+        /// <summary>
+        /// Gets/Sets the one part of the public/private key called N
+        /// </summary>
+        [PropertyInfo(Direction.InputData, "Public Key / Private Key N Input", "Input your Public Key / Private key N here", "", DisplayLevel.Beginner)]
+        public BigInteger InputN
+        {
+            get
+            {
+                return inputN;
+            }
+            set
+            {
+                this.inputN = value;
+                OnPropertyChanged("InputN");
+            }
+        }
+
+        /// <summary>
+        /// Gets/Sets a input message/ciphertext as BigInteger called M / C
+        /// </summary>
+        [PropertyInfo(Direction.InputData, "Message M / Ciphertext C Input", "Input your Message M / Ciphertext C here", "", DisplayLevel.Beginner)]
+        public BigInteger InputMC
+        {
+            get
+            {
+                return inputmc;
+            }
+            set
+            {
+                this.inputmc = value;
+                OnPropertyChanged("InputMC");
+            }
+        }
+
+        /// <summary>
+        /// Gets/Sets the one part of the public/private key called E / D
+        /// </summary>
+        [PropertyInfo(Direction.InputData, "Public Key E / Private Key D input", "Input your public Key E / Private Key D here", "", DisplayLevel.Beginner)]
+        public BigInteger InputED
+        {
+            get
+            {
+                return inputed;
+            }
+            set
+            {
+                this.inputed = value;
+                OnPropertyChanged("InputED");
+            }
+        }
+
+        /// <summary>
+        /// Gets/Sets a output message/ciphertext as BigInteger called C / M
+        /// </summary>
+        [PropertyInfo(Direction.OutputData, "Cipher C Output / Message M Output", "Your Cipher C / Message M will be send here", "", DisplayLevel.Beginner)]
+        public BigInteger OutputMC
+        {
+            get
+            {
+                return outputmc;
+            }
+            set
+            {
+                this.outputmc = value;
+                OnPropertyChanged("OutputMC");
+            }
+        }
+
+        /// <summary>
+        /// Gets/Sets a text input for encryption/decryption
+        /// </summary>
+        [PropertyInfo(Direction.InputData, "Text Input", "Input your Text here", "", DisplayLevel.Beginner)]
+        public byte[] InputText
+        {
+            get
+            {
+                return inputText;
+            }
+            set
+            {
+                this.inputText = value;
+                //GuiLogMessage("InputText: " + (int)inputText[0] + " " + (int)inputText[1] + " " + (int)inputText[2] + " " + (int)inputText[3] + " ", NotificationLevel.Info);
+                OnPropertyChanged("InputText");
+            }
+        }
+
+        /// <summary>
+        /// Gets/Sets a text output for encrypted/decrypted data
+        /// </summary>       
+        [PropertyInfo(Direction.OutputData, "Text Output", "Your Text will be send here", "", DisplayLevel.Beginner)]
+        public byte[] OutputText
+        {
+            get
+            {
+                return outputText;
+            }
+            set
+            {
+                this.outputText = value;
+                //GuiLogMessage("OutputText: " + (int)outputText[0] + " " +(int)outputText[1] + " "+(int)outputText[2] + " "+(int)outputText[3] + " ", NotificationLevel.Info);
+                OnPropertyChanged("OutputText");
+            }
+        }
+
+        #endregion
+
+        #region private
+
+        /// <summary>
+        /// Encrypts/Decrypts all blocks belonging to the thread nr
+        /// </summary>
+        /// <param name="parameters">parameters</param>
         private void crypt(Object parameters)
         {
             byte[] output = (byte[])((Object[])parameters)[0];
@@ -254,9 +441,14 @@ namespace Cryptool.Plugins.RSA
 
         }//end crypt
         
-        /*
-         * Remove all '0' from a byte array
-         */
+        /// <summary>
+        /// Remove all '0' from a byte arrays end
+        /// example
+        /// 
+        /// { 'a','b','c',0,0 } => { 'a','b','c' }
+        /// </summary>
+        /// <param name="input">byte array</param>
+        /// <returns>byte array</returns>
         private byte[] removeZeros(byte[] input)
         {
             //1. Count zeros
@@ -284,140 +476,23 @@ namespace Cryptool.Plugins.RSA
             }
 
             return output;
-        }        
-
-        public void PostExecution()
-        {
-            this.stopped = true;
         }
 
-        public void Pause()
-        {
-           
-        }
-
-        public void Stop()
-        {
-            this.stopped = true;
-        }
-
-        public void Initialize()
-        {
-            this.stopped = true;
-        }
-
-        public void Dispose()
-        {
-            
-        }
-
-        #endregion
-
-        #region RSAInOut
-
-        [PropertyInfo(Direction.InputData, "Public Key / Private Key N Input", "Input your Public Key / Private key N here", "", DisplayLevel.Beginner)]
-        public BigInteger InputN
-        {
-            get
-            {
-                return inputN;
-            }
-            set
-            {
-                this.inputN = value;
-                OnPropertyChanged("InputN");
-            }
-        }
-
-        [PropertyInfo(Direction.InputData, "Message M / Ciphertext C Input", "Input your Message M / Ciphertext C here", "", DisplayLevel.Beginner)]
-        public BigInteger InputMC
-        {
-            get
-            {
-                return inputmc;
-            }
-            set
-            {
-                this.inputmc = value;
-                OnPropertyChanged("InputMC");
-            }
-        }
-
-        [PropertyInfo(Direction.InputData, "Public Key E / Private Key D input", "Input your public Key E / Private Key D here", "", DisplayLevel.Beginner)]
-        public BigInteger InputED
-        {
-            get
-            {
-                return inputed;
-            }
-            set
-            {
-                this.inputed = value;
-                OnPropertyChanged("InputED");
-            }
-        }
-        
-        [PropertyInfo(Direction.OutputData, "Cipher C Output / Message M Output", "Your Cipher C / Message M will be send here", "", DisplayLevel.Beginner)]
-        public BigInteger OutputMC
-        {
-            get
-            {
-                return outputmc;
-            }
-            set
-            {
-                this.outputmc = value;
-                OnPropertyChanged("OutputMC");
-            }
-        }
-
-        [PropertyInfo(Direction.InputData, "Text Input", "Input your Text here", "", DisplayLevel.Beginner)]
-        public byte[] InputText
-        {
-            get
-            {
-                return inputText;
-            }
-            set
-            {
-                this.inputText = value;
-                //GuiLogMessage("InputText: " + (int)inputText[0] + " " + (int)inputText[1] + " " + (int)inputText[2] + " " + (int)inputText[3] + " ", NotificationLevel.Info);
-                OnPropertyChanged("InputText");
-            }
-        }
-
-        [PropertyInfo(Direction.OutputData, "Text Output", "Your Text will be send here", "", DisplayLevel.Beginner)]
-        public byte[] OutputText
-        {
-            get
-            {
-                return outputText;
-            }
-            set
-            {
-                this.outputText = value;
-                //GuiLogMessage("OutputText: " + (int)outputText[0] + " " +(int)outputText[1] + " "+(int)outputText[2] + " "+(int)outputText[3] + " ", NotificationLevel.Info);
-                OnPropertyChanged("OutputText");
-            }
-        }
-
-        #endregion
-
-        #region INotifyPropertyChanged Members
-
-
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged(string name)
-        {
-            EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
-        }
-
+        /// <summary>
+        /// Change the progress of this plugin
+        /// </summary>
+        /// <param name="value">value</param>
+        /// <param name="max">max</param>
         private void ProgressChanged(double value, double max)
         {
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }
 
+        /// <summary>
+        /// Logg a message to cryptool
+        /// </summary>
+        /// <param name="p">p</param>
+        /// <param name="notificationLevel">notificationLevel</param>
         private void GuiLogMessage(string p, NotificationLevel notificationLevel)
         {
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(p, this, notificationLevel));
@@ -425,10 +500,6 @@ namespace Cryptool.Plugins.RSA
 
         #endregion
 
-        #region IPlugin Members
+    }//end rsa
 
-        public event StatusChangedEventHandler OnPluginStatusChanged;
-
-        #endregion
-    }
-}
+}//end namespace
