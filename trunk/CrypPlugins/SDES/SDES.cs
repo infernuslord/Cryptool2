@@ -546,6 +546,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         private SDES plugin;
         private byte[] input;
         private List<CryptoolStream> listCryptoolStreams = new List<CryptoolStream>();
+        ElectronicCodeBook ecb;
+        CipherBlockChaining cbc;
         #endregion
 
         #region events
@@ -561,7 +563,9 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <param name="Plugin"></param>
         public SDESControl(SDES Plugin)
         {
-            this.plugin = Plugin;                 
+            this.plugin = Plugin;
+            this.ecb = new ElectronicCodeBook(plugin);
+            this.cbc = new CipherBlockChaining(plugin);
         }
 
         /// <summary>
@@ -609,10 +613,10 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <summary>
         /// Makes a byte Array out of a String
         /// example
-        /// "10101" -> '1','0','1','0','1'
+        /// "10101" -> 1,0,1,0,1
         /// 
-        /// A 0 is interpreted as '0'
-        /// any other character as '1'
+        /// A 0 is interpreted as 0
+        /// any other character as 1
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
@@ -622,9 +626,9 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             int count = 0;
             foreach (char c in key)
                 if (c == '0')
-                    bkey[count++] = (byte)'0';
+                    bkey[count++] = 0;
                 else
-                    bkey[count++] = (byte)'1';
+                    bkey[count++] = 1;
             return bkey;
         }
 
@@ -660,25 +664,26 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             {
                 plugin.InputChanged = false;
                 input = new byte[blocksize];
-                for (int i = 0; i < blocksize; i++)
+
+                byte[] buffer = new byte[1];
+                
+                int i = 0;
+                CryptoolStream inputstream = plugin.InputStream;
+                while ((inputstream.Read(buffer, 0, 1)) > 0 && i < blocksize)
                 {
-                    if(i<plugin.InputStream.Length)
-                        input[i] = plugin.InputStream.Read();
+                    input[i] = buffer[0];
+                    i++;
                 }
             }
-
-            plugin.InputKey = key;
           
             System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
             if (((SDESSettings)plugin.Settings).Mode == 0)
-            {                
-                ElectronicCodeBook ecb = new ElectronicCodeBook(plugin);
-                ecb.encrypt(input, output, key,blocksize);
+            {                                
+                output = ecb.decrypt(input, key, blocksize);
             }
             else
-            {
-                CipherBlockChaining cbc = new CipherBlockChaining(plugin);
-                cbc.decrypt(input, output, key, Tools.stringToBinaryByteArray(enc.GetString(plugin.InputIV)),blocksize);
+            {                
+                output = cbc.decrypt(input, key, Tools.stringToBinaryByteArray(enc.GetString(plugin.InputIV)),blocksize);
             }            
             
             return output;
@@ -1459,16 +1464,14 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         ///
         /// blocksize tells the algorithm how many bytes it has to encrypt
         /// blocksize = 0 => encrypt all
-        public void encrypt(byte[] input, byte[] output, byte[] key, byte[] vector, [Optional, DefaultParameterValue(0)] int blocksize)
+        public byte[] encrypt(byte[] input, byte[] key, byte[] vector, [Optional, DefaultParameterValue(0)] int blocksize)
         {
-
-            int until = output.Length;
-
-            if (input.Length < output.Length)
-                until = input.Length;
+            int until = input.Length;            
 
             if (blocksize < until && blocksize > 0)
                 until = blocksize;
+
+            byte[] output = new byte[until];
 
             for (int i = 0; i < until; i++)
             {
@@ -1477,6 +1480,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 output[i] = Tools.byteArrayToByte(vector);
 
             }//end while
+            
+            return output;
 
         }//end encrypt
 
@@ -1515,16 +1520,15 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         ///
         /// blocksize tells the algorithm how many bytes it has to encrypt
         /// blocksize = 0 => encrypt all
-        public void decrypt(byte[] input, byte[] output, byte[] key, byte[] vector, [Optional, DefaultParameterValue(0)] int blocksize)
+        public byte[] decrypt(byte[] input, byte[] key, byte[] vector, [Optional, DefaultParameterValue(0)] int blocksize)
         {
 
-            int until = output.Length;
-
-            if (input.Length < output.Length)
-                until = input.Length;
-
+            int until = input.Length;
+           
             if (blocksize < until && blocksize > 0)
                 until = blocksize;
+
+            byte[] output = new byte[until];
 
             for (int i = 0; i < until; i++)
             {
@@ -1532,6 +1536,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 vector = Tools.byteToByteArray(input[i]);
                            
             }//end while
+
+            return output;
 
         }//end encrypt
 
@@ -1590,25 +1596,24 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         ///
         /// blocksize tells the algorithm how many bytes it has to encrypt
         /// blocksize = 0 => encrypt all
-        public void encrypt(byte[] input, byte[] output, byte[] key, [Optional, DefaultParameterValue(0)] int blocksize)
+        public byte[] encrypt(byte[] input, byte[] key, [Optional, DefaultParameterValue(0)] int blocksize)
         {
 
-            int until = output.Length;
-
-            if(input.Length < output.Length)
-                until=input.Length;
+            int until = input.Length;
 
             if(blocksize < until && blocksize > 0)
                 until = blocksize;
+
+            byte[] output = new byte[until];
 
             for(int i=0;i<until;i++)
             {                
                 //Step 2 encrypt symbol
                 output[i] = Tools.byteArrayToByte(this.mAlgorithm.encrypt(Tools.byteToByteArray(input[i]), key));
-                
-                mSdes.ProgressChanged(i, until);
 
             }//end while
+
+            return output;
 
         }//end encrypt
 
@@ -1646,25 +1651,23 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         ///
         /// blocksize tells the algorithm how many bytes it has to decrypt
         /// blocksize = 0 => encrypt all
-        public void decrypt(byte[] input, byte[] output, byte[] key, [Optional, DefaultParameterValue(0)] int blocksize)
+        public byte[] decrypt(byte[] input, byte[] key, [Optional, DefaultParameterValue(0)] int blocksize)
         {
-
-            int until = output.Length;
-
-            if (input.Length < output.Length)
-                until = input.Length;
+            int until = input.Length;
 
             if (blocksize < until && blocksize > 0)
                 until = blocksize;
+            
+            byte[] output = new byte[until];
 
             for (int i = 0; i < until; i++)
             {
                 //Step 2 encrypt symbol
                 output[i] = Tools.byteArrayToByte(this.mAlgorithm.decrypt(Tools.byteToByteArray(input[i]), key));
 
-                mSdes.ProgressChanged(i, until);
-
             }//end while
+
+            return output;
 
         }//end encrypt
 
