@@ -77,8 +77,6 @@ namespace Cryptool.Trivium
             }
         }
 
-
-
         [PropertyInfo(Direction.InputData, "IV", "Must be 10 bytes (80 bit) in Hex.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public string InputIV
         {
@@ -723,9 +721,9 @@ namespace Cryptool.Trivium
 
             if (key == null)
             {
-                //key = new int[pluginSettings.InputKey.Length * 4];
-                //key = plugin.hextobin(pluginSettings.InputKey.ToCharArray());
-                key = new int[] { 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1 };
+                key = new int[((TriviumSettings)plugin.Settings).InputKey.Length * 4];
+                key = plugin.hextobin(((TriviumSettings)plugin.Settings).InputKey.ToCharArray());
+                // key = new int[] { 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1 };
             }
             
             plugin.masterSlaveRounds = rounds;
