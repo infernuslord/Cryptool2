@@ -27,6 +27,7 @@ using System.Windows.Controls;
 using Cryptool.PluginBase.Control;
 using System.Threading;
 using System.Windows.Threading;
+using System.Runtime.InteropServices;
 
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
@@ -543,7 +544,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
     {
         #region private
         private SDES plugin;
-        private CryptoolStream input;
+        private byte[] input;
         private List<CryptoolStream> listCryptoolStreams = new List<CryptoolStream>();
         #endregion
 
@@ -649,39 +650,38 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <returns>encrypted/decrypted text</returns>
         private byte[] execute(byte[] key, int blocksize)
         {
+            byte[] output;
+            if (blocksize > 0)
+                output = new byte[blocksize];
+            else
+                output = new byte[plugin.InputStream.Length];
+
             if (input == null || plugin.InputChanged)
             {
                 plugin.InputChanged = false;
-                input = new CryptoolStream();
-                input.OpenRead(plugin.InputStream.FileName);
-                if(blocksize <= input.Length)
-                    input.SetLength(blocksize);
-                listCryptoolStreams.Add(input);
+                input = new byte[blocksize];
+                for (int i = 0; i < blocksize; i++)
+                {
+                    if(i<plugin.InputStream.Length)
+                        input[i] = plugin.InputStream.Read();
+                }
             }
 
             plugin.InputKey = key;
-            CryptoolStream output = new CryptoolStream();
-            output.OpenWrite();
-
+          
             System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
             if (((SDESSettings)plugin.Settings).Mode == 0)
             {                
                 ElectronicCodeBook ecb = new ElectronicCodeBook(plugin);
-                ecb.decrypt(input, output, key);
+                ecb.encrypt(input, output, key,blocksize);
             }
             else
             {
                 CipherBlockChaining cbc = new CipherBlockChaining(plugin);
-                cbc.decrypt(input, output, key, Tools.stringToBinaryByteArray(enc.GetString(plugin.InputIV)));
+                cbc.decrypt(input, output, key, Tools.stringToBinaryByteArray(enc.GetString(plugin.InputIV)),blocksize);
             }            
-
-            byte[] byteValues = new byte[output.Length];
-            int bytesRead;
-            output.Seek(0, SeekOrigin.Begin);
-            bytesRead = output.Read(byteValues, 0, byteValues.Length);
-            plugin.Dispose();
-            output.Close();
-            return byteValues;
+            
+            return output;
         }
 
         #endregion
@@ -1453,6 +1453,33 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }//end encrypt
 
+        ///
+        ///Encrypts the given plaintext with the given key
+        ///using CipherBlockChaining 
+        ///
+        /// blocksize tells the algorithm how many bytes it has to encrypt
+        /// blocksize = 0 => encrypt all
+        public void encrypt(byte[] input, byte[] output, byte[] key, byte[] vector, [Optional, DefaultParameterValue(0)] int blocksize)
+        {
+
+            int until = output.Length;
+
+            if (input.Length < output.Length)
+                until = input.Length;
+
+            if (blocksize < until && blocksize > 0)
+                until = blocksize;
+
+            for (int i = 0; i < until; i++)
+            {
+                vector = Tools.exclusive_or(vector, Tools.byteToByteArray(input[i]));
+                vector = mAlgorithm.encrypt(vector, key);
+                output[i] = Tools.byteArrayToByte(vector);
+
+            }//end while
+
+        }//end encrypt
+
         ///<summary>
         ///Decrypts the given plaintext with the given Key
         ///using CipherBlockChaining 
@@ -1481,6 +1508,32 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
 
         }//end decrypt
+
+        ///
+        ///Decrypt the given plaintext with the given key
+        ///using CipherBlockChaining 
+        ///
+        /// blocksize tells the algorithm how many bytes it has to encrypt
+        /// blocksize = 0 => encrypt all
+        public void decrypt(byte[] input, byte[] output, byte[] key, byte[] vector, [Optional, DefaultParameterValue(0)] int blocksize)
+        {
+
+            int until = output.Length;
+
+            if (input.Length < output.Length)
+                until = input.Length;
+
+            if (blocksize < until && blocksize > 0)
+                until = blocksize;
+
+            for (int i = 0; i < until; i++)
+            {
+                output[i] = (Tools.byteArrayToByte(Tools.exclusive_or(mAlgorithm.decrypt(Tools.byteToByteArray(input[i]), key), vector)));
+                vector = Tools.byteToByteArray(input[i]);
+                           
+            }//end while
+
+        }//end encrypt
 
     }//end class CipherBlockChaining
 
@@ -1531,6 +1584,34 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }//end encrypt
 
+        ///
+        ///Encrypts the given plaintext with the given key
+        ///using ElectronicCodeBookMode 
+        ///
+        /// blocksize tells the algorithm how many bytes it has to encrypt
+        /// blocksize = 0 => encrypt all
+        public void encrypt(byte[] input, byte[] output, byte[] key, [Optional, DefaultParameterValue(0)] int blocksize)
+        {
+
+            int until = output.Length;
+
+            if(input.Length < output.Length)
+                until=input.Length;
+
+            if(blocksize < until && blocksize > 0)
+                until = blocksize;
+
+            for(int i=0;i<until;i++)
+            {                
+                //Step 2 encrypt symbol
+                output[i] = Tools.byteArrayToByte(this.mAlgorithm.encrypt(Tools.byteToByteArray(input[i]), key));
+                
+                mSdes.ProgressChanged(i, until);
+
+            }//end while
+
+        }//end encrypt
+
         ///<summary>
         ///Decrypts the given plaintext with the given Key
         ///using ElectronicCodeBook mode 
@@ -1558,6 +1639,34 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }//end while
 
         }//end decrypt
+
+        ///
+        ///Decrypt the given plaintext with the given key
+        ///using ElectronicCodeBookMode 
+        ///
+        /// blocksize tells the algorithm how many bytes it has to decrypt
+        /// blocksize = 0 => encrypt all
+        public void decrypt(byte[] input, byte[] output, byte[] key, [Optional, DefaultParameterValue(0)] int blocksize)
+        {
+
+            int until = output.Length;
+
+            if (input.Length < output.Length)
+                until = input.Length;
+
+            if (blocksize < until && blocksize > 0)
+                until = blocksize;
+
+            for (int i = 0; i < until; i++)
+            {
+                //Step 2 encrypt symbol
+                output[i] = Tools.byteArrayToByte(this.mAlgorithm.decrypt(Tools.byteToByteArray(input[i]), key));
+
+                mSdes.ProgressChanged(i, until);
+
+            }//end while
+
+        }//end encrypt
 
     }//end class ElectronicCodeBook
 
