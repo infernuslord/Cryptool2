@@ -18,7 +18,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         
-        <Label Grid.Row="0" Grid.Column="0" FontSize="10" Background="White">Propably time left :</Label>
+        <Label Grid.Row="0" Grid.Column="0" FontSize="10" Background="White">Probable time left :</Label>
         <Label Grid.Row="0" Grid.Column="1" FontSize="10" Background="White">Estimated end time :</Label>
         
         <TextBox Name="timeLeft" Grid.Row="1" Grid.Column="0" 
