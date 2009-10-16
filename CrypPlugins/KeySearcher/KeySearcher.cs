@@ -250,8 +250,18 @@ namespace KeySearcher
             if (sender != null && costMaster != null)
             {
                 int maxInList = 10;
-
                 LinkedList<ValueKey> costList = new LinkedList<ValueKey>();
+                ValueKey valueKey = new ValueKey();                
+                if (this.costMaster.getRelationOperator() == RelationOperator.LessThen)
+                    valueKey.value = double.MaxValue;
+                else
+                    valueKey.value = double.MinValue;
+                valueKey.key = "dummykey";
+                LinkedListNode<ValueKey> node = costList.AddFirst(valueKey);
+                for (int i = 1; i < maxInList; i++)
+                {
+                    node = costList.AddAfter(node, valueKey);
+                }
 
                 stop = false;
                 if (!Pattern.testKey(settings.Key))
@@ -264,18 +274,19 @@ namespace KeySearcher
                 string key;
                 do
                 {
-                    key = Pattern.getKey();
-                    GuiLogMessage("Try key " + key, NotificationLevel.Debug);
+                    key = Pattern.getKey();                    
                     byte[] decryption = sender.Decrypt(ControlMaster.getKeyFromString(key), blocksize);
 
-                    ValueKey valueKey = new ValueKey();
+                    valueKey = new ValueKey();
                     valueKey.value = CostMaster.calculateCost(decryption);
                     valueKey.key = key;
+
+                    GuiLogMessage("Tried key " + valueKey.key + " = " + valueKey.value, NotificationLevel.Debug);
 
                     if (this.costMaster.getRelationOperator() == RelationOperator.LargerThen)
                     {
 
-                        LinkedListNode<ValueKey> node = costList.First;
+                       node = costList.First;
 
                         while (node != null)
                         {
@@ -290,7 +301,7 @@ namespace KeySearcher
                     }
                     else
                     {
-                        LinkedListNode<ValueKey> node = costList.First;
+                        node = costList.First;
 
                         while (node != null)
                         {
