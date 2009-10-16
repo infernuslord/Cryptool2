@@ -135,7 +135,7 @@ namespace KeySearcher
 
         public int initKeyIteration(string key)
         {
-            int counter = 0;
+            int counter = 1;
             this.key = key;
             int pcount = 0;
             wildcardList = new ArrayList();
@@ -145,7 +145,7 @@ namespace KeySearcher
                 {
                     Wildcard wc = new Wildcard(pattern.Substring(pcount, pattern.IndexOf(']', pcount) + 1 - pcount));
                     wildcardList.Add(wc);
-                    counter += wc.Size();
+                    counter *= wc.Size();
                 }
 
                 if (pattern[pcount] == '[')
@@ -319,7 +319,7 @@ namespace KeySearcher
                         costList.RemoveLast();
                     }
 
-                    counter++;
+                    counter++;                    
                     ProgressChanged(counter, size);
                 } while (Pattern.nextKey() && !stop);
 
