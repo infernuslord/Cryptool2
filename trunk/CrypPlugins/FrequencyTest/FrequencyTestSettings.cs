@@ -46,7 +46,7 @@ namespace Cryptool.FrequencyTest
         private int boundaryFragments = 0;
         private bool autozoom = true;
         private int chartHeight = 160;
-        private int scale = 1000; // = 1 , factor of 1000
+        private int scale = 10000; // = 1 , factor of 10000
 
         #endregion
 
@@ -209,7 +209,7 @@ namespace Cryptool.FrequencyTest
 
 
         [PropertySaveOrder(7)]
-        [TaskPane("Zoom", "Zoom the chart", "Presentation", 22, true, DisplayLevel.Beginner, ControlType.Slider, 5, 2000)]
+        [TaskPane("Zoom", "Zoom the chart", "Presentation", 22, true, DisplayLevel.Beginner, ControlType.Slider, 5, 20000)]
         public int Scale
         {
             get { return scale; }

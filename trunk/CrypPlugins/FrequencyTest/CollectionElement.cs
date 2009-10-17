@@ -7,44 +7,50 @@ namespace Cryptool.FrequencyTest
 {
     public class CollectionElement
     {
-        private string m_caption;
-        private double m_percent;
-        private int m_amount;
+        private string caption;
+        private double normalizedValue;
+        private double absoluteValue;
 
-        public CollectionElement(int amount, double percent, string caption)
+        public CollectionElement(double absoluteVal, double normalizedVal, string caption)
         {
-            m_amount = amount;
-            m_caption = caption;
-            m_percent = percent;
+            this.absoluteValue = absoluteVal;
+            this.caption = caption;
+            this.normalizedValue = normalizedVal;
         }
 
-
+        /// <summary>
+        /// The caption to appear under the bar
+        /// </summary>
         public string Caption
         {
-            get { return m_caption; }
+            get { return caption; }
             set
             {
-                m_caption = value;
+                caption = value;
             }
         }
 
-
+        /// <summary>
+        /// The value to be written on top of the bar, usually the percentage value
+        /// </summary>
         public double Percent
         {
-            get { return m_percent; }
+            get { return normalizedValue; }
             set
             {
-                m_percent = value;
+                normalizedValue = value;
             }
         }
 
-
-        public int Amount
+        /// <summary>
+        /// The absolute value, used for the absolute heigth of the bar
+        /// </summary>
+        public double Amount
         {
-            get { return m_amount; }
+            get { return absoluteValue; }
             set
             {
-                m_amount = value;
+                absoluteValue = value;
             }
         }
     }
