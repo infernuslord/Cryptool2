@@ -56,7 +56,15 @@ namespace Cryptool.FrequencyTest
         {
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                sli.Value = value;
+                chart.LayoutTransform = new ScaleTransform(value, value);
+            }, null);
+        }
+
+        public void SetBackground(Brush brush)
+        {
+            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                chart.Background = brush;
             }, null);
         }
 

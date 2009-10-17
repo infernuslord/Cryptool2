@@ -4,10 +4,11 @@
     xmlns:local="clr-namespace:Cryptool.FrequencyTest"        
     Background="Transparent"
     SnapsToDevicePixels="True" 
-    HorizontalAlignment="Center"
-             Height="Auto"
-             Width="Auto" 
-            x:Name="usercontrol" >
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch"
+    Height="Auto"
+    Width="Auto" 
+    x:Name="ChartControl" >
     
         <UserControl.Resources>
 
@@ -57,40 +58,31 @@
     </UserControl.Resources>
     
     
-    
-    
-    
-    <Grid VerticalAlignment="Stretch">
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        
-        <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto"  ScrollViewer.HorizontalScrollBarVisibility="Auto">
-            <Grid x:Name="chart" Grid.Row="0" VerticalAlignment="Stretch" >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="1*" />
-                </Grid.RowDefinitions>
-                
-                <Grid.LayoutTransform>
-                    <ScaleTransform   ScaleX="{Binding ElementName=sli,Path=Value}" ScaleY="{Binding ElementName=sli, Path=Value}"/>
-                </Grid.LayoutTransform>
-             
-               <TextBlock x:Name="chartHeadline" TextAlignment="Center" Grid.Row="0" FontSize="20" Foreground="DarkBlue"  FontFamily="Academy" OpacityMask="Turquoise" Text="No data available yet!" ></TextBlock>
+          
+    <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto"  ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+        <Grid x:Name="chart" Background="LightYellow" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            
+            <Grid.LayoutTransform>
+                <ScaleTransform ScaleX="1" ScaleY="1"/>
+            </Grid.LayoutTransform>
+         
+           <TextBlock x:Name="chartHeadline" TextAlignment="Center" Grid.Row="0" Grid.Column="0" FontSize="20" Foreground="DarkBlue"  FontFamily="Academy" OpacityMask="Turquoise" Text="No data available yet!" ></TextBlock>
 
-               <ItemsControl Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"            
-                 ItemsSource="{Binding Source={StaticResource source},Path=ValueCollection}"
-                 ItemTemplate="{StaticResource template}" ItemsPanel="{StaticResource panelTemplate}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
-               </ItemsControl>
+           <ItemsControl x:Name="chartBars" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"            
+             ItemsSource="{Binding Source={StaticResource source},Path=ValueCollection}"
+             ItemTemplate="{StaticResource template}" ItemsPanel="{StaticResource panelTemplate}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+           </ItemsControl>
 
-            </Grid>
-        </ScrollViewer>
+        </Grid>
+    </ScrollViewer>
         
-        <Slider x:Name="sli" Grid.Row="1" Width="100" HorizontalAlignment="Center" Minimum="0.05" VerticalAlignment="Bottom" Maximum="2" Value="1"/>
-        
-    </Grid>
-    
-   
 </UserControl>
     

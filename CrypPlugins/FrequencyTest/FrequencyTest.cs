@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Analysis;
 using Cryptool.PluginBase.Miscellaneous;
+using System.Windows.Media;
 
 namespace Cryptool.FrequencyTest
 {
@@ -31,8 +32,9 @@ namespace Cryptool.FrequencyTest
         private int[] arrayOutput = new int[0];
         private IDictionary<string, double[]> grams = new SortedDictionary<string, double[]>();
         private DataSource data = new DataSource();
-        private double presentationScaler = 1.0; // the slider-value
-        private double presentationOffset = 60.0; // top-offest in presentation, must skip height of headline-text
+        private double presentationScaler = 1.0; // the initial zoom value
+        private double presentationBarWidth = 24.7; // the width in pixel of a single chart bar
+        private double presentationBarHeightAdd = 8.0 + 2.0 * 26.0; // the additional heigth to a chart bar, comprised of two rectangles (3px, 5px) and two textblocks
 
         // TODO: this shall be an algorithm setting or an optional word
         private const string validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -146,6 +148,8 @@ namespace Cryptool.FrequencyTest
                 return;
             }
 
+            presentation.SetBackground(Brushes.LightYellow);
+
             string workstring = stringInput;
 
             // Any change in the word discards and recalculates the output. This is not that effective.
@@ -195,6 +199,9 @@ namespace Cryptool.FrequencyTest
                 updatePresentation();
             }
 
+            // Show progress finished.
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(1.0, 1.0));
+
             OnPropertyChanged("StringOutput");
             OnPropertyChanged("ArrayOutput");
             OnPropertyChanged("DictionaryOutput");
@@ -235,27 +242,37 @@ namespace Cryptool.FrequencyTest
 
         private void updatePresentation()
         {
-            if (grams.Count > 0 && presentation.chart.ActualWidth > 0)
+            if (grams.Count > 0 && presentation.ActualWidth > 0)
             {
+                // retrieve the maximum value from all grams
                 double max = grams.Values.Max(item => item[PERCENTAGED]);
                 GuiLogMessage("Max n-gram percentage is: " + max, NotificationLevel.Debug);
 
-                data.ValueCollection.Clear();
-                double chartheight = (double) settings.ChartHeight;
+                // calculate the needed width for the chart (unscaled) in pixel
+                double unscaledChartWidth = (double)grams.Count * presentationBarWidth;
+
+                // retrieve the maximum bar height from settings in pixel
+                double maxBarHeight = (double) settings.ChartHeight;
+
+
                 if (settings.Autozoom)
                 {
-                    chartheight = presentation.ActualHeight - presentation.sli.ActualHeight - (presentation.chartHeadline.ActualHeight + presentationOffset) * presentationScaler;
-                    presentationScaler = presentation.ActualWidth / (presentation.chart.ActualWidth);
-                    presentation.SetScaler(presentationScaler);
-                    settings.Scale = (int)(presentationScaler * 1000.0);
+                    // calculate the scaling-value depeding on the needed width ad the current presetnation width
+                    presentationScaler = presentation.ActualWidth / unscaledChartWidth;
+                    settings.Scale = (int)(presentationScaler * 10000.0);
+
+                    //set the maximum bar height to the current heigth of chart-area in presentation (best fill)
+                    //maxBarHeight = presentation.chartBars.ActualHeight - presentationBarHeightAdd;
+                    maxBarHeight = (presentation.ActualHeight / presentationScaler) - (presentation.chartHeadline.ActualHeight + presentationBarHeightAdd);
                 }
 
-                // calculate presentation bars height
+                // remove all entries
+                data.ValueCollection.Clear();
+
+                // calculate presentation bars height and add the to our local DataSource
                 foreach (KeyValuePair<string, double[]> item in grams)
                 {
-                    int height = (int)(item.Value[PERCENTAGED] * (chartheight / (max * presentationScaler)));
-                    //int height = (int)(item.Value[PERCENTAGED] * ((presentation.ActualHeight - presentation.sli.ActualHeight - (presentationOffset * presentationScaler)) / (max * presentationScaler)));
-
+                    double height = item.Value[PERCENTAGED] * (maxBarHeight / max);
                     CollectionElement row = new CollectionElement(height, Math.Round(item.Value[PERCENTAGED] * 100, 2), item.Key);
                     data.ValueCollection.Add(row);
                 }
@@ -283,7 +300,7 @@ namespace Cryptool.FrequencyTest
 
         private void presentation_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
         {
-            // Just for debugging - maybe still need to hunt the width-bug (SizeChanged is not fired when presentation becomes wider)
+            // Just for debugging
             //if (e.HeightChanged)
             //{
             //    GuiLogMessage("Height changed from " + e.PreviousSize.Height + " to " + e.NewSize.Height, NotificationLevel.Info);
@@ -293,7 +310,6 @@ namespace Cryptool.FrequencyTest
             //{
             //    GuiLogMessage("Width changed from " + e.PreviousSize.Width + " to " + e.NewSize.Width, NotificationLevel.Info);
             //}
-            //GuiLogMessage("Chart size: AH=" + presentation.chart.ActualHeight + ", AW=" + presentation.chart.ActualWidth + "; H-slider=" + (presentation.ActualHeight - presentation.sli.ActualHeight), NotificationLevel.Info);
 
             updatePresentation();
         }
@@ -308,7 +324,7 @@ namespace Cryptool.FrequencyTest
                     break;
 
                 case "Scale":
-                    presentation.SetScaler( (double)settings.Scale / 1000.0);
+                    presentation.SetScaler( (double)settings.Scale / 10000.0);
                     break;
             }
         }
@@ -332,7 +348,7 @@ namespace Cryptool.FrequencyTest
 
         public void Stop()
         {
-            //throw new NotImplementedException();
+            presentation.SetBackground(Brushes.LightGray);
         }
 
         public void Initialize()
