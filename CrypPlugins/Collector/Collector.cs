@@ -22,22 +22,25 @@ using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
+using System.Runtime.Remoting.Contexts;
 
 namespace Cryptool.Plugins.Collector
 {
     [Author("Sven Rech", "sven.rech@cryptool.com", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo(false, "Collector", "Collector", "Collector/DetailedDescription/Description.xaml", "Collector/icon.png")]
+    [Synchronization]
     class Collector : IThroughput
     {
         #region Private Variables
         private CollectorSettings settings = new CollectorSettings();
-        private List<CryptoolStream> listCryptoolStreamOut = new List<CryptoolStream>();        
+        private List<CryptoolStream> listCryptoolStreamOut = new List<CryptoolStream>();
+        private bool freshOutput = false;
         #endregion
 
         #region Properties
 
         private Object input1 = null;
-        [PropertyInfo(Direction.InputData, "First Input", "First input to be collected", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "First Input", "First input to be collected", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public Object Input1
         {
             get
@@ -46,14 +49,15 @@ namespace Cryptool.Plugins.Collector
             }
             set
             {
-                input1 = value;                
+                input1 = value;
+                freshOutput = true;
                 OnPropertyChanged("Input1");
                 Output = value;
             }
         }
 
         private Object input2 = null;
-        [PropertyInfo(Direction.InputData, "Second Input", "Second input to be collected", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Second Input", "Second input to be collected", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public Object Input2
         {
             get
@@ -62,7 +66,8 @@ namespace Cryptool.Plugins.Collector
             }
             set
             {
-                input2 = value;                
+                input2 = value;
+                freshOutput = true;
                 OnPropertyChanged("Input2");
                 Output = value;
             }
@@ -87,8 +92,6 @@ namespace Cryptool.Plugins.Collector
                 }
                 else
                     output = value;
-
-                OnPropertyChanged("Output");
             }
         }
 
@@ -131,11 +134,22 @@ namespace Cryptool.Plugins.Collector
         public void PreExecution()
         {
             Dispose();
+
+            freshOutput = false;
+            input1 = null;
+            input2 = null;
+            output = null;
         }
 
         public void Execute()
         {
-            ProgressChanged(1, 1);
+            if (freshOutput)
+            {
+                ProgressChanged(1, 1);
+
+                OnPropertyChanged("Output");
+                freshOutput = false;
+            }
         }
 
         public void PostExecution()
