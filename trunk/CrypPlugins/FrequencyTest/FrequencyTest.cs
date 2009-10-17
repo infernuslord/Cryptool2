@@ -247,6 +247,7 @@ namespace Cryptool.FrequencyTest
                     chartheight = presentation.ActualHeight - presentation.sli.ActualHeight - (presentation.chartHeadline.ActualHeight + presentationOffset) * presentationScaler;
                     presentationScaler = presentation.ActualWidth / (presentation.chart.ActualWidth);
                     presentation.SetScaler(presentationScaler);
+                    settings.Scale = (int)(presentationScaler * 1000.0);
                 }
 
                 // calculate presentation bars height
