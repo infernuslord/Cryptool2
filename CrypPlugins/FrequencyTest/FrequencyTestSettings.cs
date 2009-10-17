@@ -209,7 +209,7 @@ namespace Cryptool.FrequencyTest
 
 
         [PropertySaveOrder(7)]
-        [TaskPane("Scale", "Scale the chart", "Presentation", 22, true, DisplayLevel.Beginner, ControlType.Slider, 5, 2000)]
+        [TaskPane("Zoom", "Zoom the chart", "Presentation", 22, true, DisplayLevel.Beginner, ControlType.Slider, 5, 2000)]
         public int Scale
         {
             get { return scale; }
