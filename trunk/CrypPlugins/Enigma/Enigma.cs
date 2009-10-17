@@ -424,7 +424,7 @@ namespace Cryptool.Enigma
         public void PostExecution()
         {
             LogMessage("Enigma shutting down. Reverting key to inial value!", NotificationLevel.Info);
-            if (savedKey.Length > 0)
+            if (savedKey != null && savedKey.Length > 0)
             {
                 settings.Key = savedKey; // re-set the key
             }

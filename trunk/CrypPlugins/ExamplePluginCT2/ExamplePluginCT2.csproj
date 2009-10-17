@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{627580E2-0CFC-4C4E-983E-AA7E0D7547F4}</ProjectGuid>
+    <ProjectGuid>{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WordPatterns</RootNamespace>
-    <AssemblyName>WordPatterns</AssemblyName>
+    <RootNamespace>ExamplePluginCT2</RootNamespace>
+    <AssemblyName>ExamplePluginCT2</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -54,8 +54,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="WordPatterns.cs" />
-    <Compile Include="WordPatternsSettings.cs" />
+    <Compile Include="ExamplePluginCT2.cs" />
+    <Compile Include="ExamplePluginCT2Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -63,22 +63,6 @@
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Data\wordlists\WordPatterns_deutsch.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\wordlists\WordPatterns_english.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Data\wordlists\WordPatterns_deutsch.txt.metainfo">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\wordlists\WordPatterns_english.txt.metainfo">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

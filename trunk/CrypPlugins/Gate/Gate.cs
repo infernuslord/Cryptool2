@@ -26,11 +26,13 @@ using Cryptool.PluginBase.IO;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Diagnostics;
+using System.Runtime.Remoting.Contexts;
 
 namespace Gate
 {
     [Author("Matthäus Wander", "wander@cryptool.org", "Universität Duisburg-Essen, Fachgebiet Verteilte Systeme", "http://www.vs.uni-due.de")]
     [PluginInfo(false, "Gate", "Control operator", "", "Gate/gate_closed_32.png", "Gate/gate_open_32.png")]
+    [Synchronization]
     public class Gate : IThroughput
     {
         private GateSettings settings = new GateSettings();
@@ -39,7 +41,11 @@ namespace Gate
         private bool oldControl = false;
         private bool control = false;
 
-        private bool locked = false;
+        private bool freshInput = false;
+        private bool freshControl = false;
+
+        private Object inputMonitor = new Object();
+        private Object controlMonitor = new Object();
 
         [PropertyInfo(Direction.InputData, "Input", "Input object of any type", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public object InputObject
@@ -51,6 +57,7 @@ namespace Gate
             set
             {
                 input = value;
+                freshInput = true;
                 OnPropertyChanged("InputObject");
             }
         }
@@ -65,9 +72,8 @@ namespace Gate
             set
             {
                 oldControl = control;
-                locked = false;
-
                 control = value;
+                freshControl = true;
                 OnPropertyChanged("Control");
             }
         }
@@ -113,6 +119,10 @@ namespace Gate
 
         public void PreExecution()
         {
+            input = null;
+            output = null;
+            oldControl = false;
+            control = false;
         }
 
         public void Execute()
@@ -120,7 +130,8 @@ namespace Gate
             if (shallFire())
             {
                 output = input;
-                locked = true;
+                freshControl = false;
+                freshInput = false;
                 ProgressChanged(1, 1);
                 OnPropertyChanged("OutputObject");
 
@@ -144,15 +155,15 @@ namespace Gate
                 case Trigger.AlwaysClosed:
                     return false;
                 case Trigger.TrueValue:
-                    return !locked && control;
+                    return freshInput && freshControl && control;
                 case Trigger.FalseValue:
-                    return !locked && !control;
+                    return freshInput && freshControl && !control;
                 case Trigger.AnyEdge:
-                    return !locked && control != oldControl;
+                    return freshInput && freshControl && control != oldControl;
                 case Trigger.PositiveEdge:
-                    return !locked && !oldControl && control;
+                    return freshInput && freshControl && !oldControl && control;
                 case Trigger.NegativeEdge:
-                    return !locked && oldControl && !control;
+                    return freshInput && freshControl && oldControl && !control;
                 default:
                     return false;
             }

@@ -197,6 +197,7 @@ namespace Cryptool.PluginBase.Miscellaneous
                     case '\r':
                     case '\n':
                     case ' ':
+                    case '\t':
                         if (foundWord) // found delimiter at the end of a word
                             feeding = false;
                         break;

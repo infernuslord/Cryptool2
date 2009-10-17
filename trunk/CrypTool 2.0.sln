@@ -170,6 +170,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Converter", "CrypPlugins\Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CostFunction", "CrypPlugins\CostFunction\CostFunction.csproj", "{3C72FF93-48C2-4929-B3B2-83F165AAE636}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamplePluginCT2", "CrypPlugins\ExamplePluginCT2\ExamplePluginCT2.csproj", "{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -966,6 +968,16 @@ Global
 		{3C72FF93-48C2-4929-B3B2-83F165AAE636}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3C72FF93-48C2-4929-B3B2-83F165AAE636}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{3C72FF93-48C2-4929-B3B2-83F165AAE636}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Release|.NET.ActiveCfg = Release|Any CPU
+		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
