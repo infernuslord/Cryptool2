@@ -33,7 +33,7 @@ namespace Cryptool.FrequencyTest
         private IDictionary<string, double[]> grams = new SortedDictionary<string, double[]>();
         private DataSource data = new DataSource();
         private double presentationScaler = 1.0; // the initial zoom value
-        private double presentationBarWidth = 24.7; // the width in pixel of a single chart bar
+        private double presentationBarWidth = 25.0; // the width in pixel of a single chart bar
         private double presentationBarHeightAdd = 8.0 + 2.0 * 26.0; // the additional heigth to a chart bar, comprised of two rectangles (3px, 5px) and two textblocks
 
         // TODO: this shall be an algorithm setting or an optional word
