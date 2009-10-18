@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Height="AUTO" Width="AUTO">
     <ScrollViewer HorizontalScrollBarVisibility="Visible">
-        <Canvas Height="1360" Width="550" Background="WHITE">
+        <Canvas Height="1440" Width="840" Background="WHITE">
             <Rectangle Canvas.Left="368.02" Canvas.Top="627.405" Height="20.01" Stroke="Black" StrokeThickness="1" Width="125.347" />
             <Line x:Name="key_b1_Copy" Canvas.Left="311.152" Canvas.Top="494.245" Height="44.689" Stroke="Black" StrokeThickness="1" Width="63.058" X1="62" X2="62" Y1="20" Y2="45" />
             <Line x:Name="key_b2_Copy" Canvas.Left="311.152" Canvas.Top="494.245" Height="44.689" Stroke="Black" StrokeThickness="1" Width="75.362" X1="74" X2="74" Y1="20" Y2="45" />
@@ -61,7 +61,7 @@
     	<Line x:Name="key_b9" Canvas.Left="309.919" Canvas.Top="10.167" Height="44.689" Stroke="Black" StrokeThickness="1" Width="159.183" X1="158" X2="158" Y1="20" Y2="45" />
     	<Line x:Name="key_b10" Canvas.Left="309.919" Canvas.Top="10.167" Height="44.689" Stroke="Black" StrokeThickness="1" Width="170.718" X1="170" X2="170" Y1="20" Y2="45" />
     	<Label Canvas.Left="307.338" Canvas.Top="10.167" FontSize="12" Height="44.689" x:Name="label4" Width="56.906" HorizontalContentAlignment="Right" Content="Key"/>
-    	<TextBlock Name="key_txt_ls1_input_1" Canvas.Left="365.287" Canvas.Top="99.545" FontSize="15" Height="20.01" Text="0 0 0 0 0 0 0 0 0 0" Width="119.195" />
+    	<TextBlock x:Name="key_txt_ls1_input_1" Canvas.Left="365.287" Canvas.Top="99.545" FontSize="15" Height="20.01" Text="0 0 0 0 0 0 0 0 0 0" Width="119.195" />
     	<Rectangle Canvas.Left="365.287" Canvas.Top="99.545" Height="20.01" Stroke="Black" StrokeThickness="1" Width="125.347" />
     	<Label Canvas.Left="325.025" Canvas.Top="99.5" FontSize="12" Height="44.8" x:Name="label5" Width="38.45" HorizontalContentAlignment="Right" Content="LS-1"/>
     	<Line x:Name="ls_1_1_in_b1" Canvas.Left="309.919" Canvas.Top="99.545" Height="44.689" Stroke="Black" StrokeThickness="1" Width="110.736" X1="62" X2="110" Y1="20" Y2="45" />
@@ -326,7 +326,6 @@
     	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" Canvas.Left="186.334" Canvas.Top="168.62"/>
     	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" Canvas.Left="198.851" Canvas.Top="180.627"/>
     	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" Canvas.Left="210.489" Canvas.Top="192.966"/>
-    	<Label Canvas.Left="66.991" Canvas.Top="90.282" FontSize="12" Height="46.023" x:Name="label2_Copy" Width="54.599" HorizontalContentAlignment="Right" Content="fK"/>
     	<Line x:Name="fk_out_5_Copy10" X1="60" Y1="80" X2="60" Y2="550" Stroke="Black" StrokeThickness="1" Height="595.665" Width="155.338" Canvas.Left="69.991" Canvas.Top="39.2" />
     	<Line x:Name="fk_out_6_Copy2" X1="72" Y1="80" X2="72" Y2="566" Stroke="Black" StrokeThickness="1" Height="595.665" Width="155.338" Canvas.Left="69.991" Canvas.Top="39.2" />
     	<Line x:Name="fk_out_7_Copy2" X1="84" Y1="80" X2="84" Y2="580" Stroke="Black" StrokeThickness="1" Height="595.665" Width="155.338" Canvas.Left="69.991" Canvas.Top="39.2" />
@@ -1058,6 +1057,2680 @@
     	<Line x:Name="ip_in_6_Copy1" X1="72" Y1="20" X2="122" Y2="45" Stroke="Black" StrokeThickness="1" Canvas.Left="69.018" Width="155.338" Canvas.Top="1239.237" />
     	<Line x:Name="ip_in_7_Copy1" X1="146" Y1="20" X2="134" Y2="45" Stroke="Black" StrokeThickness="1" Canvas.Left="69.018" Width="155.338" Canvas.Top="1239.237" />
     	<Line x:Name="ip_in_8_Copy1" X1="121" Y1="20" X2="146" Y2="45" Stroke="Black" StrokeThickness="1" Canvas.Left="69.018" Width="156.107" Canvas.Top="1239.237" />
+        	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" Canvas.Left="369.674" Canvas.Top="370.143"/>
+        	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" Canvas.Left="381.628" Canvas.Top="385.309"/>
+        	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" Canvas.Left="393.554" Canvas.Top="400.309"/>
+        	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" Canvas.Left="405.716" Canvas.Top="415.309"/>
+        	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" Canvas.Left="417.626" Canvas.Top="430.184"/>
+        	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" Canvas.Left="429.555" Canvas.Top="445.059"/>
+        	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" Canvas.Left="441.626" Canvas.Top="460.184"/>
+        	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" Canvas.Left="453.661" Canvas.Top="475.184"/>
+        	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" Canvas.Left="371.048" Canvas.Top="958.322"/>
+        	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" Canvas.Left="383.002" Canvas.Top="973.488"/>
+        	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" Canvas.Left="394.928" Canvas.Top="988.488"/>
+        	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" Canvas.Left="407.09" Canvas.Top="1003.488"/>
+        	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" Canvas.Left="419" Canvas.Top="1018.363"/>
+        	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" Canvas.Left="430.929" Canvas.Top="1033.238"/>
+        	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" Canvas.Left="443" Canvas.Top="1048.363"/>
+        	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" Canvas.Left="455.035" Canvas.Top="1063.363"/>
+        	<Rectangle Width="94.587" Height="20.01" Stroke="Black" StrokeThickness="1" RenderTransformOrigin="0.5,0.5" Canvas.Left="537.09" Canvas.Top="151.045">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="76.077238899216709" Y="1167.2643154716684"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock x:Name="encrypt_txt_ip_output_Copy" FontSize="15" Width="94.587" Height="20.01" RenderTransformOrigin="0.5,0.5" Canvas.Left="537.09" Canvas.Top="151.045"><TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="360.767"/>
+        				<TranslateTransform X="76.077238899216709" Y="1167.2643154716684"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform><Run Text="0 0 0 0 0 0 0 0"/></TextBlock>
+        	<Rectangle Width="94.587" Height="20.01" Stroke="Black" StrokeThickness="1" RenderTransformOrigin="0.5,0.5" Canvas.Left="537.09" Canvas.Top="61">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="76.25639909765178" Y="1347.3541372362947"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock x:Name="encrypt_txt_plaintext_Copy" FontSize="15" Width="94.587" Height="20.01" RenderTransformOrigin="0.5,0.5" Canvas.Left="537.09" Canvas.Top="61"><TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="360.057"/>
+        				<TranslateTransform X="76.25639909765178" Y="1347.3541372362947"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform><Run Text="0 0 0 0 0 0 0 0"/></TextBlock>
+        	<Rectangle Height="20.01" Stroke="Black" StrokeThickness="1" Width="94.587" RenderTransformOrigin="0.5,0.5" Canvas.Left="537.09" Canvas.Top="105.689">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="76.167482554724756" Y="1257.9762256938504"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock FontSize="15" Height="20.01" x:Name="encrypt_txt_ip_input_Copy" Width="94.587" RenderTransformOrigin="0.5,0.5" Canvas.Left="537.09" Canvas.Top="105.689"><TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="360.101"/>
+        				<TranslateTransform X="76.167482554724756" Y="1257.9762256938504"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform><Run Text="0 0 0 0 0 0 0 0"/></TextBlock>
+        	<Label Height="25.986" x:Name="label1_Copy" Width="68.102" FontSize="12" FlowDirection="LeftToRight" HorizontalContentAlignment="Right" Content="Ciphertext" RenderTransformOrigin="0.5,0.5" Canvas.Left="472.583" Canvas.Top="88.276">
+        		<Label.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="360.399"/>
+        				<TranslateTransform X="230.02496721603876" Y="1315.7591624212428"/>
+        			</TransformGroup>
+        		</Label.RenderTransform>
+        	</Label>
+        	<Label FontSize="12" Height="27.988" x:Name="label2_Copy4" Width="24.641" HorizontalContentAlignment="Right" Content="IP" RenderTransformOrigin="0.5,0.5" Canvas.Left="475.307" Canvas.Top="118.301">
+        		<Label.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="361.067"/>
+        				<TranslateTransform X="229.95074043650834" Y="1241.1472362648638"/>
+        			</TransformGroup>
+        		</Label.RenderTransform>
+        	</Label>
+        	<Line x:Name="ip_in_1_Copy2" X1="62" Y1="20" X2="62" Y2="45" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="480.184" Canvas.Top="61" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="129.29348560504087" Y="1322.3113739271305"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="ip_in_2_Copy2" X1="74" Y1="20" X2="74" Y2="45" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="480.184" Canvas.Top="61" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="129.29348560504087" Y="1322.3113739271305"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="ip_in_3_Copy2" X1="86" Y1="20" X2="86" Y2="45" Stroke="Black" StrokeThickness="1" Width="156.107" RenderTransformOrigin="0.5,0.5" Canvas.Left="480.184" Canvas.Top="61" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="128.52348636711116" Y="1322.3121399516338"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="ip_in_4_Copy2" X1="98" Y1="20" X2="98" Y2="45" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="480.184" Canvas.Top="61" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="129.29348560504087" Y="1322.3113739271305"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="ip_in_5_Copy2" X1="110" Y1="20" X2="110" Y2="45" Stroke="Black" StrokeThickness="1" Width="156.107" RenderTransformOrigin="0.5,0.5" Canvas.Left="480.184" Canvas.Top="61" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="128.52348636711116" Y="1322.3121399516338"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="ip_in_6_Copy2" X1="122" Y1="20" X2="122" Y2="45" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="480.184" Canvas.Top="61" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="129.29348560504087" Y="1322.3113739271305"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="ip_in_7_Copy2" X1="134" Y1="20" X2="134" Y2="45" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="480.184" Canvas.Top="61" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="129.29348560504087" Y="1322.3113739271305"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="ip_in_8_Copy2" X1="146" Y1="20" X2="146" Y2="45" Stroke="Black" StrokeThickness="1" Width="156.107" RenderTransformOrigin="0.5,0.5" Canvas.Left="480.184" Canvas.Top="61" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="128.52348636711116" Y="1322.3121399516338"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_in_b1_Copy" X1="74" Y1="65" X2="62" Y2="90" Stroke="Black" StrokeThickness="1" Width="73.824" RenderTransformOrigin="0.5,0.5" Canvas.Left="480.184" Canvas.Top="61" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="210.76242237992733" Y="1277.0143255328576"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_in_b2_Copy" X1="122" Y1="65" X2="74" Y2="90" Stroke="Black" StrokeThickness="1" Width="121.502" RenderTransformOrigin="0.5,0.5" Canvas.Left="480.184" Canvas.Top="61" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="163.08424274408361" Y="1276.833757597818"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_in_b3_Copy" X1="86" Y1="65" X2="86" Y2="90" Stroke="Black" StrokeThickness="1" Width="86.128" RenderTransformOrigin="0.5,0.5" Canvas.Left="480.184" Canvas.Top="61" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="198.45864944201239" Y="1277.2425657937424"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_in_b4_Copy" X1="65" Y1="65" X2="98" Y2="90" Stroke="Black" StrokeThickness="1" Width="98.432" RenderTransformOrigin="0.5,0.5" Canvas.Left="480.184" Canvas.Top="61" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="186.15426567416887" Y="1276.8568066623038"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_in_b5_Copy" X1="98" Y1="65" X2="110" Y2="90" Stroke="Black" StrokeThickness="1" Width="109.967" RenderTransformOrigin="0.5,0.5" Canvas.Left="480.184" Canvas.Top="61" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="174.61845815170449" Y="1277.0502829220088"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_in_b6_Copy" X1="146" Y1="65" X2="122" Y2="90" Stroke="Black" StrokeThickness="1" Width="146.11" RenderTransformOrigin="0.5,0.5" Canvas.Left="480.184" Canvas.Top="61" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="138.47636459269" Y="1276.9562384501473"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_in_b7_Copy" X1="110" Y1="65" X2="134" Y2="90" Stroke="Black" StrokeThickness="1" Width="133.806" RenderTransformOrigin="0.5,0.5" Canvas.Left="480.184" Canvas.Top="61" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="150.78035241540067" Y="1276.943997975487"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_in_b8_Copy" X1="134" Y1="65" X2="146" Y2="90" Stroke="Black" StrokeThickness="1" Width="146.11" RenderTransformOrigin="0.5,0.5" Canvas.Left="480.184" Canvas.Top="61" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="138.47649392150225" Y="1277.086238321486"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy30" X1="60" Y1="110" X2="60" Y2="646" Stroke="Black" StrokeThickness="1" Height="645.831" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="529.4" Canvas.Top="61" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="30.263853108612274" Y="721.5778923688456"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_6_Copy4" X1="72" Y1="110" X2="72" Y2="646" Stroke="Black" StrokeThickness="1" Height="645.831" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="529.4" Canvas.Top="61" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="30.263853108612274" Y="721.5778923688456"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_7_Copy4" X1="84" Y1="110" X2="84" Y2="646" Stroke="Black" StrokeThickness="1" Height="645.831" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="529.4" Canvas.Top="61" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="30.263853108612274" Y="721.5778923688456"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_8_Copy4" X1="96" Y1="110" X2="96" Y2="646" Stroke="Black" StrokeThickness="1" Height="645.831" Width="156.107" RenderTransformOrigin="0.5,0.5" Canvas.Left="529.4" Canvas.Top="61" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="29.49385387068256" Y="721.57865839334886"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Rectangle Height="20.01" Stroke="Black" StrokeThickness="1" Width="94.587" RenderTransformOrigin="0.5,0.5" Canvas.Left="429.275" Canvas.Top="390.165" >
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="291.23125463471979" Y="688.81027208056742"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock FontSize="15" Height="20.01" x:Name="encrypt_txt_ep_output_Copy" Width="94.587" RenderTransformOrigin="0.5,0.5" Canvas.Left="429.275" Canvas.Top="389.665"><TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="360.103"/>
+        				<TranslateTransform X="291.232249471737" Y="689.81027109086574"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform><Run Text="0 0 0 0 0 0 0 0"/></TextBlock>
+        	<Label FontSize="12" Height="44.022" HorizontalContentAlignment="Right" x:Name="label9_Copy1" Width="31.529" Content="E/P" RenderTransformOrigin="0.5,0.5" Canvas.Left="411.305" Canvas.Top="369.82">
+        		<Label.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="358.869"/>
+        				<TranslateTransform X="396.24574260979739" Y="705.38379967718652"/>
+        			</TransformGroup>
+        		</Label.RenderTransform>
+        	</Label>
+        	<Line Height="44.689" x:Name="line27_Copy1" Stroke="Black" StrokeThickness="1" Width="152.262" X1="99" X2="62" Y1="20" Y2="45" RenderTransformOrigin="0.5,0.5" Canvas.Left="373.47" Canvas.Top="345.809" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="345.23090265805854" Y="752.788551178628"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="44.689" x:Name="line28_Copy1" Stroke="Black" StrokeThickness="1" Width="152.262" X1="62" X2="74" Y1="20" Y2="45" RenderTransformOrigin="0.5,0.5" Canvas.Left="373.304" Canvas.Top="345.809" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="345.56290232947759" Y="752.78822089273831"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="44.689" x:Name="line29_Copy1" Stroke="Black" StrokeThickness="1" Width="152.262" X1="74" X2="86" Y1="20" Y2="45" RenderTransformOrigin="0.5,0.5" Canvas.Left="373.221" Canvas.Top="345.809" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="345.72890216518715" Y="752.78805574979344"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="44.689" x:Name="line30_Copy1" Stroke="Black" StrokeThickness="1" Width="152.262" X1="86" X2="98" Y1="20" Y2="45" RenderTransformOrigin="0.5,0.5" Canvas.Left="373.638" Canvas.Top="345.809" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="344.89490299059833" Y="752.78888544386587"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="44.689" x:Name="line31_Copy1" Stroke="Black" StrokeThickness="1" Width="152.262" X1="74" X2="110" Y1="20" Y2="45" RenderTransformOrigin="0.5,0.5" Canvas.Left="373.138" Canvas.Top="345.809" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="345.89490200089665" Y="752.78789060684858"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="44.689" x:Name="line32_Copy1" Stroke="Black" StrokeThickness="1" Width="152.262" X1="86" X2="122" Y1="20" Y2="45" RenderTransformOrigin="0.5,0.5" Canvas.Left="373.138" Canvas.Top="345.809" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="345.89490200089665" Y="752.78789060684858"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="44.689" x:Name="line33_Copy1" Stroke="Black" StrokeThickness="1" Width="152.262" X1="98" X2="134" Y1="20" Y2="45" RenderTransformOrigin="0.5,0.5" Canvas.Left="373.138" Canvas.Top="345.809" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="345.89490200089665" Y="752.78789060684858"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="44.689" x:Name="line34_Copy1" Stroke="Black" StrokeThickness="1" Width="152.262" X1="62" X2="146" Y1="20" Y2="45" RenderTransformOrigin="0.5,0.5" Canvas.Left="373.138" Canvas.Top="345.809" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="345.89490200089665" Y="752.78789060684858"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy35" X1="60" Y1="110" X2="60" Y2="328" Stroke="Black" StrokeThickness="1" Height="265.826" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="519.338" Canvas.Top="64.487" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="112.01459349631902" Y="1032.7690180834029"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_6_Copy6" X1="72" Y1="110" X2="72" Y2="328" Stroke="Black" StrokeThickness="1" Height="265.826" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="531.338" Canvas.Top="64.987" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="88.013130452125466" Y="1031.7926243838883"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_7_Copy6" X1="84" Y1="110" X2="84" Y2="328" Stroke="Black" StrokeThickness="1" Height="265.826" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="543.338" Canvas.Top="64.987" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="64.0131509365178" Y="1031.8162290890932"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_8_Copy6" X1="96" Y1="110" X2="96" Y2="328" Stroke="Black" StrokeThickness="1" Height="265.318" Width="156.107" RenderTransformOrigin="0.5,0.5" Canvas.Left="555.595" Canvas.Top="65.241" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="38.605467726605049" Y="1030.9493519502378"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy36" X1="60" Y1="110" X2="60" Y2="328" Stroke="Black" StrokeThickness="1" Height="228.467" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="357.225" Canvas.Top="267.067" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="-0.6839999999999975"/>
+        				<TranslateTransform X="355.47627278607376" Y="745.91555500651248"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_6_Copy9" X1="72" Y1="110" X2="72" Y2="328" Stroke="Black" StrokeThickness="1" Height="240.467" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="368.725" Canvas.Top="241.413" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="-0.6839999999999975"/>
+        				<TranslateTransform X="344.49491603430613" Y="771.91581025690448"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_7_Copy9" X1="84" Y1="110" X2="84" Y2="316" Stroke="Black" StrokeThickness="1" Height="252.81" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="380.733" Canvas.Top="217.593" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="-0.6839999999999975"/>
+        				<TranslateTransform X="332.62192279814707" Y="795.94370556480919"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_8_Copy9" X1="96" Y1="110" X2="96" Y2="328" Stroke="Black" StrokeThickness="1" Height="265.318" Width="156.107" RenderTransformOrigin="0.5,0.5" Canvas.Left="393.49" Canvas.Top="193.344" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="-0.6839999999999975"/>
+        				<TranslateTransform X="319.77288747170888" Y="820.686148448834"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line9_Copy17" Stroke="Black" StrokeThickness="1" Width="63.058" X1="62" X2="62" Y1="20" Y2="35" RenderTransformOrigin="0.5,0.5" Canvas.Left="373.138" Canvas.Top="389.665" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="434.70011885317092" Y="351.93554380236282"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line10_Copy9" Stroke="Black" StrokeThickness="1" Width="75.362" X1="74" X2="74" Y1="20" Y2="50" RenderTransformOrigin="0.5,0.5" Canvas.Left="373.138" Canvas.Top="389.665" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="422.39613103046031" Y="351.94778427702295"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line21_Copy5" Stroke="Black" StrokeThickness="1" Width="86.897" X1="86" X2="86" Y1="20" Y2="65" RenderTransformOrigin="0.5,0.5" Canvas.Left="373.138" Canvas.Top="389.665" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="410.86014244765875" Y="351.95926071685386"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line22_Copy5" Stroke="Black" StrokeThickness="1" Width="99.201" X1="98" X2="98" Y1="20" Y2="80" RenderTransformOrigin="0.5,0.5" Canvas.Left="373.138" Canvas.Top="389.665" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="398.55615462494814" Y="351.971501191514"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line23_Copy7" Stroke="Black" StrokeThickness="1" Width="110.736" X1="110" X2="110" Y1="20" Y2="95" RenderTransformOrigin="0.5,0.5" Canvas.Left="373.138" Canvas.Top="389.665" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="387.02216604016724" Y="351.98297564167092"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line24_Copy7" Stroke="Black" StrokeThickness="1" Width="123.04" X1="122" X2="122" Y1="20" Y2="110" RenderTransformOrigin="0.5,0.5" Canvas.Left="373.138" Canvas.Top="389.665" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="374.71817821745651" Y="351.995216116331"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line25_Copy7" Stroke="Black" StrokeThickness="1" Width="135.344" X1="134" X2="134" Y1="20" Y2="125" RenderTransformOrigin="0.5,0.5" Canvas.Left="373.138" Canvas.Top="389.665" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="362.4141903947459" Y="352.00745659099118"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line26_Copy7" Stroke="Black" StrokeThickness="1" Width="146.879" X1="146" X2="146" Y1="20" Y2="140" RenderTransformOrigin="0.5,0.5" Canvas.Left="373.138" Canvas.Top="389.665" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="350.87820181194434" Y="352.01893303082204"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy37" Y2="350" Stroke="Black" StrokeThickness="1" Height="351.328" Width="152.42" RenderTransformOrigin="0.5,0.5" X1="1" X2="1" Y1="1" Canvas.Left="532.75" Canvas.Top="324.27" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="25.867224058589933" Y="489.9304915631285"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy38" Y2="350" Stroke="Black" StrokeThickness="1" Height="351.328" Width="152.42" RenderTransformOrigin="0.5,0.5" X1="1" X2="1" Y1="1" Canvas.Left="544.5" Canvas.Top="339.27" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="2.3367378654311479" Y="459.95338159305942"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy39" Y2="350" Stroke="Black" StrokeThickness="1" Height="351.328" Width="152.42" RenderTransformOrigin="0.5,0.5" X1="1" X2="1" Y1="1" Canvas.Left="556.5" Canvas.Top="354.27" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="-21.69174753327788" Y="429.97701042022612"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy40" Y2="350" Stroke="Black" StrokeThickness="1" Height="351.328" Width="152.42" RenderTransformOrigin="0.5,0.5" X1="1" X2="1" Y1="1" Canvas.Left="568.5" Canvas.Top="369.27" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="-45.722229961739174" Y="400.00264221125946"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy41" Y2="350" Stroke="Black" StrokeThickness="1" Height="351.328" Width="152.42" RenderTransformOrigin="0.5,0.5" X1="1" X2="1" Y1="1" Canvas.Left="580.5" Canvas.Top="384.27" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="-69.752715357257657" Y="370.02627400548334"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy42" Y2="350" Stroke="Black" StrokeThickness="1" Height="351.328" Width="152.42" RenderTransformOrigin="0.5,0.5" X1="1" X2="1" Y1="1" Canvas.Left="592.75" Canvas.Top="399.27" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="-94.281199958326354" Y="340.05064459694296"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy43" Y2="350" Stroke="Black" StrokeThickness="1" Height="351.328" Width="152.42" RenderTransformOrigin="0.5,0.5" X1="1" X2="1" Y1="1" Canvas.Left="604.75" Canvas.Top="414.27" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="-118.31168535384482" Y="310.07427639116679"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy44" Y2="350" Stroke="Black" StrokeThickness="1" Height="351.328" Width="152.42" RenderTransformOrigin="0.5,0.5" X1="1" X2="1" Y1="1" Canvas.Left="616.75" Canvas.Top="429.27" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="-142.34217074936331" Y="280.09790818539068"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Rectangle OpacityMask="Black" Fill="White" Stroke="Black" StrokeThickness="1" Width="8.637" Height="9.333" RenderTransformOrigin="0.5,0.5" Canvas.Left="431.53" Canvas.Top="418.423">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="372.62557070454534" Y="642.88929792180784"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="8.25" Height="14.333" Text="+" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="431.584" Canvas.Top="413.842">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="372.90971093909468" Y="647.05101524830457"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<Rectangle OpacityMask="Black" Fill="White" Stroke="Black" StrokeThickness="1" Width="8.637" Height="9.333" RenderTransformOrigin="0.5,0.5" Canvas.Left="443.197" Canvas.Top="433.423">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="349.26174868772694" Y="612.91254113981825"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="8.25" Height="14.333" Text="+" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="443.251" Canvas.Top="428.842">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="349.54588892227622" Y="617.07425846631509"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<Rectangle OpacityMask="Black" Fill="White" Stroke="Black" StrokeThickness="1" Width="8.637" Height="9.333" RenderTransformOrigin="0.5,0.5" Canvas.Left="455.53" Canvas.Top="449.09">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="324.56460087661003" Y="581.60311080099768"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="8.25" Height="14.333" Text="+" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="455.584" Canvas.Top="444.509">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="324.84874111115937" Y="585.76482812749441"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<Rectangle OpacityMask="Black" Fill="White" Stroke="Black" StrokeThickness="1" Width="8.637" Height="9.333" RenderTransformOrigin="0.5,0.5" Canvas.Left="467.53" Canvas.Top="464.423">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="300.53411695747945" Y="550.96101723960282"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="8.25" Height="14.333" Text="+" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="467.584" Canvas.Top="459.842">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="300.81825719202874" Y="555.12273456609978"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<Rectangle OpacityMask="Black" Fill="White" Stroke="Black" StrokeThickness="1" Width="8.637" Height="9.333" RenderTransformOrigin="0.5,0.5" Canvas.Left="478.949" Canvas.Top="479.09">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="277.66695701122239" Y="521.64976635931157"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="8.25" Height="14.333" Text="+" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="479.003" Canvas.Top="474.509">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="277.95109724577173" Y="525.8114836858083"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<Rectangle OpacityMask="Black" Fill="White" Stroke="Black" StrokeThickness="1" Width="8.637" Height="9.333" RenderTransformOrigin="0.5,0.5" Canvas.Left="491.197" Canvas.Top="494.09">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="253.14113614443727" Y="491.67416557793592"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="8.25" Height="14.333" Text="+" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="491.251" Canvas.Top="489.509">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="253.42527637898655" Y="495.83588290443276"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<Rectangle OpacityMask="Black" Fill="White" Stroke="Black" StrokeThickness="1" Width="8.637" Height="9.333" RenderTransformOrigin="0.5,0.5" Canvas.Left="503.197" Canvas.Top="509.09">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="229.11131478676009" Y="461.69807135739984"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="8.25" Height="14.333" Text="+" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="503.251" Canvas.Top="504.509">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="229.39545502130937" Y="465.85978868389668"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<Rectangle OpacityMask="Black" Fill="White" Stroke="Black" StrokeThickness="1" Width="8.637" Height="9.333" RenderTransformOrigin="0.5,0.5" Canvas.Left="515.558" Canvas.Top="523.756">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="204.36015869477507" Y="432.39069474806945"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="8.25" Height="14.333" Text="+" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="515.612" Canvas.Top="519.175">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="204.64429892932435" Y="436.55241207456629"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" RenderTransformOrigin="0.5,0.5" Canvas.Left="586.846" Canvas.Top="207.799">
+        		<Ellipse.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="66.417059938816351" Y="1068.5759257848029"/>
+        			</TransformGroup>
+        		</Ellipse.RenderTransform>
+        	</Ellipse>
+        	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" RenderTransformOrigin="0.5,0.5" Canvas.Left="598.834" Canvas.Top="220.12">
+        		<Ellipse.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="42.41656889412473" Y="1043.9578023853567"/>
+        			</TransformGroup>
+        		</Ellipse.RenderTransform>
+        	</Ellipse>
+        	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" RenderTransformOrigin="0.5,0.5" Canvas.Left="611.351" Canvas.Top="232.127">
+        		<Ellipse.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="17.358703654184303" Y="1019.9687309019422"/>
+        			</TransformGroup>
+        		</Ellipse.RenderTransform>
+        	</Ellipse>
+        	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" RenderTransformOrigin="0.5,0.5" Canvas.Left="622.989" Canvas.Top="244.466">
+        		<Ellipse.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="-5.9418238974311111" Y="995.31391115221345"/>
+        			</TransformGroup>
+        		</Ellipse.RenderTransform>
+        	</Ellipse>
+        	<Line x:Name="fk_out_5_Copy45" X1="60" Y1="80" X2="60" Y2="550" Stroke="Black" StrokeThickness="1" Height="595.665" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="482.491" Canvas.Top="90.7" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="124.07257393176374" Y="712.25056788846723"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_6_Copy10" X1="72" Y1="80" X2="72" Y2="566" Stroke="Black" StrokeThickness="1" Height="595.665" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="482.491" Canvas.Top="90.7" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="124.07257393176374" Y="712.25056788846723"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_7_Copy10" X1="84" Y1="80" X2="84" Y2="580" Stroke="Black" StrokeThickness="1" Height="595.665" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="482.491" Canvas.Top="90.7" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="124.07257393176374" Y="712.25056788846723"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_8_Copy10" X1="96" Y1="80" X2="96" Y2="595" Stroke="Black" StrokeThickness="1" Height="595.665" Width="156.107" RenderTransformOrigin="0.5,0.5" Canvas.Left="482.491" Canvas.Top="90.7" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="123.30257469383403" Y="712.25133391297049"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.073" x:Name="line9_Copy18" Stroke="Black" StrokeThickness="1" Width="63.058" X1="62" X2="62" Y1="19" Y2="35" RenderTransformOrigin="0.5,0.5" Canvas.Left="435.141" Canvas.Top="210.333" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="720.372"/>
+        				<TranslateTransform X="227.23204544811927" Y="711.20285698422674"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line10_Copy10" Stroke="Black" StrokeThickness="1" Width="75.362" X1="74" X2="74" Y1="20" Y2="50" RenderTransformOrigin="0.5,0.5" Canvas.Left="435.138" Canvas.Top="210.999" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="720.372"/>
+        				<TranslateTransform X="227.23490587706419" Y="709.24076659137165"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line21_Copy6" Stroke="Black" StrokeThickness="1" Width="86.897" X1="86" X2="86" Y1="20" Y2="65" RenderTransformOrigin="0.5,0.5" Canvas.Left="435.138" Canvas.Top="210.999" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="720.372"/>
+        				<TranslateTransform X="227.23478432592174" Y="709.27820929563131"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line22_Copy6" Stroke="Black" StrokeThickness="1" Width="99.201" X1="98" X2="98" Y1="20" Y2="80" RenderTransformOrigin="0.5,0.5" Canvas.Left="435.138" Canvas.Top="210.999" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="720.372"/>
+        				<TranslateTransform X="227.23465466012874" Y="709.318151642884"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line23_Copy8" Stroke="Black" StrokeThickness="1" Width="110.736" X1="110" X2="110" Y1="20" Y2="95" RenderTransformOrigin="0.5,0.5" Canvas.Left="435.138" Canvas.Top="210.999" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="720.372"/>
+        				<TranslateTransform X="227.23453308790926" Y="709.3556008397228"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line24_Copy8" Stroke="Black" StrokeThickness="1" Width="123.04" X1="122" X2="122" Y1="20" Y2="110" RenderTransformOrigin="0.5,0.5" Canvas.Left="435.138" Canvas.Top="210.999" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="720.372"/>
+        				<TranslateTransform X="227.23440342211629" Y="709.39554318697537"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line25_Copy8" Stroke="Black" StrokeThickness="1" Width="135.344" X1="134" X2="134" Y1="20" Y2="125" RenderTransformOrigin="0.5,0.5" Canvas.Left="435.138" Canvas.Top="210.666" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="720.372"/>
+        				<TranslateTransform X="227.23528698421086" Y="710.10151146040926"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line26_Copy8" Stroke="Black" StrokeThickness="1" Width="146.879" X1="146" X2="146" Y1="20" Y2="140" RenderTransformOrigin="0.5,0.5" Canvas.Left="435.138" Canvas.Top="210.999" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="720.372"/>
+        				<TranslateTransform X="227.23415220518081" Y="709.47292823848761"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Rectangle Stroke="Black" StrokeThickness="1" Width="46.892" Height="42.5" RenderTransformOrigin="0.5,0.5" Canvas.Left="429.275" Canvas.Top="548">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="338.59079334415844" Y="350.60315701170987"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<Rectangle Stroke="Black" StrokeThickness="1" Width="46.892" Height="42.5" RenderTransformOrigin="0.5,0.5" Canvas.Left="479.008" Canvas.Top="548">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="239.12489178582479" Y="350.70210947046689"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="44.304" Height="42.5" FontSize="8" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="432.53" Canvas.Top="548"><TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="360.112"/>
+        				<TranslateTransform X="336.66879524636505" Y="350.605069088457"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform><Run Text="01 00 11 10"/><LineBreak/><Run Text="11 10 01 00"/><LineBreak/><Run Text="00 10 01 11"/><LineBreak/><Run Text="11 01 11 10"/></TextBlock>
+        	<TextBlock Width="44.304" Height="42.5" FontSize="8" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="482.518" Canvas.Top="548"><TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="361.755"/>
+        				<TranslateTransform X="236.69289419277925" Y="350.70452891409275"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform><Run Text="0"/><Run Text="0"/><Run Text=" 0"/><Run Text="1"/><Run Text=" 1"/><Run Text="0"/><Run Text=" 1"/><Run Text="1"/><LineBreak/><Run Text="1"/><Run Text="0"/><Run Text=" "/><Run Text="0"/><Run Text="0 01 "/><Run Text="11"/><LineBreak/><Run Text="11"/><Run Text=" "/><Run Text="0"/><Run Text="0 01 "/><Run Text="00"/><LineBreak/><Run Text="1"/><Run Text="0"/><Run Text=" 01 "/><Run Text="00"/><Run Text=" 1"/><Run Text="1"/></TextBlock>
+        	<TextBlock Width="16.334" Height="14.667" Text="S0" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="423.528" Canvas.Top="533.333">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="359.902"/>
+        				<TranslateTransform X="386.69961663994138" Y="407.72129652607168"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<TextBlock Width="16.334" Height="14.667" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="520.017" Canvas.Top="534.174"><TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="357.538"/>
+        				<TranslateTransform X="187.7201402529374" Y="406.23724887076662"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform><Run Text="S"/><Run Text="1"/></TextBlock>
+        	<Line Height="49.498" x:Name="line9_Copy19" Stroke="Black" StrokeThickness="1" Width="20.461" X2="10" Y2="20" X1="10" Y1="4" RenderTransformOrigin="0.5,0.5" Canvas.Left="454.178" Canvas.Top="625.184" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="315.05428360930046" Y="189.2605720260247"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="36.498" x:Name="line10_Copy11" Stroke="Black" StrokeThickness="1" Width="24.453" X2="10" Y2="35" X1="10" Y1="4" RenderTransformOrigin="0.5,0.5" Canvas.Left="465.179" Canvas.Top="625.184" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="289.07324221682984" Y="202.28641895332916"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="52.165" x:Name="line9_Copy20" Stroke="Black" StrokeThickness="1" Width="20.461" X2="10" Y2="51" X1="10" Y1="4" RenderTransformOrigin="0.5,0.5" Canvas.Left="474.854" Canvas.Top="625.184" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="273.69967031028193" Y="186.63371316688571"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="66.165" x:Name="line10_Copy12" Stroke="Black" StrokeThickness="1" Width="24.453" X2="10" Y2="66" X1="10" Y1="4" RenderTransformOrigin="0.5,0.5" Canvas.Left="484.856" Canvas.Top="625.184" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="249.68976634092184" Y="172.65759913177482"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy46" Y2="331" Stroke="Black" StrokeThickness="1" Width="152.42" RenderTransformOrigin="0.5,0.5" Y1="257" Height="351.328" Canvas.Left="543.167" Canvas.Top="545.621" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="4.5924810427670808" Y="47.249785205395305"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy47" Y2="333" Stroke="Black" StrokeThickness="1" Width="152.42" RenderTransformOrigin="0.5,0.5" X1="1" X2="1" Y1="258" Height="351.328" Canvas.Left="555.417" Canvas.Top="560.288" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="-19.937015525072859" Y="17.940157701455224"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy48" Y2="359" Stroke="Black" StrokeThickness="1" Width="152.425" RenderTransformOrigin="0.5,0.5" X1="1" X2="1" Y1="277" Height="360.994" Canvas.Left="586.593" Canvas.Top="570.788" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="-82.324454465559839" Y="-12.663307190708325"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy49" Y2="361" Stroke="Black" StrokeThickness="1" Width="152.426" RenderTransformOrigin="0.5,0.5" X1="1" X2="1" Y1="281" Height="363.662" Canvas.Left="597.259" Canvas.Top="584.454" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="-103.68694115022989" Y="-42.641633453942191"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Rectangle OpacityMask="Black" Fill="White" Stroke="Black" StrokeThickness="1" Width="8.637" Height="9.333" RenderTransformOrigin="0.5,0.5" Canvas.Left="515.558" Canvas.Top="523.756">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="204.36015869477507" Y="432.39069474806945"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="8.25" Height="14.333" Text="+" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="515.612" Canvas.Top="519.175">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="204.64429892932435" Y="436.55241207456629"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<Rectangle OpacityMask="Black" Fill="White" Stroke="Black" StrokeThickness="1" Width="8.637" Height="9.333" RenderTransformOrigin="0.5,0.5" Canvas.Left="537.036" Canvas.Top="640.774">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="161.17137353223279" Y="198.39766059280225"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="8.25" Height="14.333" Text="+" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="537.09" Canvas.Top="636.193">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="161.45551376678208" Y="202.55937791929907"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<Rectangle OpacityMask="Black" Fill="White" Stroke="Black" StrokeThickness="1" Width="8.637" Height="9.333" RenderTransformOrigin="0.5,0.5" Canvas.Left="549.53" Canvas.Top="655.107">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="136.15488026496189" Y="169.75654795097717"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="8.25" Height="14.333" Text="+" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="549.584" Canvas.Top="650.526">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="136.43902049951117" Y="173.918265277474"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<Rectangle OpacityMask="Black" Fill="White" Stroke="Black" StrokeThickness="1" Width="8.637" Height="9.333" RenderTransformOrigin="0.5,0.5" Canvas.Left="561.863" Canvas.Top="671.107">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="111.45706989239156" Y="137.78111827129789"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="8.25" Height="14.333" Text="+" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="561.917" Canvas.Top="666.526">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="111.74121012694084" Y="141.94283559779473"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<Rectangle OpacityMask="Black" Fill="White" Stroke="Black" StrokeThickness="1" Width="8.637" Height="9.333" RenderTransformOrigin="0.5,0.5" Canvas.Left="574.113" Canvas.Top="684.774">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="86.929901265053189" Y="110.4715188307258"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="8.25" Height="14.333" Text="+" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="574.167" Canvas.Top="680.193">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="87.214041499602473" Y="114.63323615722261"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<Rectangle Stroke="Black" StrokeThickness="1" Width="27.823" Height="15.833" RenderTransformOrigin="0.5,0.5" Canvas.Left="438.315" Canvas.Top="589.665">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="339.52242092158826" Y="293.93823019319234"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock x:Name="encrypt_txt_s0_1_output_Copy" Width="16.902" Height="14.333" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="443.133" Canvas.Top="586.998"><TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="360.484"/>
+        				<TranslateTransform X="340.81123901693877" Y="296.77094802797365"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform><Run Text="0"/><Run Text=" "/><Run Text="0"/></TextBlock>
+        	<Rectangle Stroke="Black" StrokeThickness="1" Width="27.823" Height="15.833" RenderTransformOrigin="0.5,0.5" Canvas.Left="486.379" Canvas.Top="589.665">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="243.39451605963038" Y="294.03386188598574"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock x:Name="encrypt_txt_s2_1_output_Copy" Width="16.902" Height="14.333" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="491.197" Canvas.Top="585.998"><TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="360.74"/>
+        				<TranslateTransform X="244.68333415498091" Y="296.86657972076705"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform><Run Text="0"/><Run Text=" "/><Run Text="0"/></TextBlock>
+        	<Rectangle Stroke="Black" StrokeThickness="1" Width="43.064" Height="15.833" Fill="White" RenderTransformOrigin="0.5,0.5" Canvas.Left="459.217" Canvas.Top="620.413">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="282.417298880918" Y="232.49904053869778"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock x:Name="encrypt_txt_sbox1_output_Copy" Width="43.064" Height="14.333" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="461.575" Canvas.Top="620.08"><TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="277.70345836533045" Y="234.66973004637725"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform><Run Text="0"/><Run Text=" "/><Run Text="0"/><Run Text=" 0"/><Run Text=" "/><Run Text="0"/></TextBlock>
+        	<Line Height="49.498" x:Name="line9_Copy21" Stroke="Black" StrokeThickness="1" Width="75.887" X2="26" Y2="20" X1="18" Y1="4" RenderTransformOrigin="0.5,0.5" Canvas.Left="438.815" Canvas.Top="601.028" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="290.4023706209087" Y="237.59709668588346"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="49.498" x:Name="line9_Copy22" Stroke="Black" StrokeThickness="1" Width="75.887" X2="26" Y2="20" X1="56" Y1="4" RenderTransformOrigin="0.5,0.5" Canvas.Left="448.308" Canvas.Top="601.028" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="271.41638941138461" Y="237.6159846614928"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="49.498" x:Name="line9_Copy23" Stroke="Black" StrokeThickness="1" Width="75.887" X2="25" Y2="20" X1="36" Y1="4" RenderTransformOrigin="0.5,0.5" Canvas.Left="458.896" Canvas.Top="600.609" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="250.24124404272763" Y="238.47505050079991"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="49.498" x:Name="line9_Copy24" Stroke="Black" StrokeThickness="1" Width="75.887" X2="26" Y2="20" Y1="4" X1="-22" RenderTransformOrigin="0.5,0.5" Canvas.Left="467.584" Canvas.Top="600.859" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="232.86476382127523" Y="237.99233728366232"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line23_Copy9" Stroke="Black" StrokeThickness="1" Width="110.736" X1="110" X2="110" Y1="82" Y2="95" RenderTransformOrigin="0.5,0.5" Canvas.Left="541.138" Canvas.Top="431.999" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="720.372"/>
+        				<TranslateTransform X="14.796530971551029" Y="267.56682821176958"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line24_Copy9" Stroke="Black" StrokeThickness="1" Width="123.04" X1="122" X2="122" Y1="82" Y2="110" RenderTransformOrigin="0.5,0.5" Canvas.Left="541.138" Canvas.Top="431.999" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="720.372"/>
+        				<TranslateTransform X="14.796401305758" Y="267.6067705590221"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line25_Copy9" Stroke="Black" StrokeThickness="1" Width="135.344" X1="134" X2="134" Y1="82" Y2="125" RenderTransformOrigin="0.5,0.5" Canvas.Left="541.138" Canvas.Top="431.666" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="720.372"/>
+        				<TranslateTransform X="14.795284924904097" Y="268.31272385767829"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line26_Copy9" Stroke="Black" StrokeThickness="1" Width="146.879" X1="146" X2="146" Y1="82" Y2="140" RenderTransformOrigin="0.5,0.5" Canvas.Left="541.138" Canvas.Top="431.999" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="720.372"/>
+        				<TranslateTransform X="14.794150145874045" Y="267.68414063575676"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Rectangle Width="94.587" Height="20.01" Stroke="Black" StrokeThickness="1" Fill="White" RenderTransformOrigin="0.5,0.5" Canvas.Left="536.09" Canvas.Top="703.594">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="76.977844521733488" Y="62.165419514970459"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock x:Name="encrypt_txt_sw_input_Copy" FontSize="15" Width="94.587" Height="20.01" RenderTransformOrigin="0.5,0.5" Canvas.Left="536.09" Canvas.Top="703.594"><TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="359.955"/>
+        				<TranslateTransform X="76.977844521733488" Y="62.165419514970459"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform><Run Text="0 0 0 0 0 0 0 0"/></TextBlock>
+        	<Label FontSize="12" Height="46.023" x:Name="label2_Copy6" Width="54.599" HorizontalContentAlignment="Right" Content="SW" RenderTransformOrigin="0.5,0.5" Canvas.Left="448.584" Canvas.Top="680.594">
+        		<Label.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="359.743"/>
+        				<TranslateTransform X="229.95977210334931" Y="43.999227279818356"/>
+        			</TransformGroup>
+        		</Label.RenderTransform>
+        	</Label>
+        	<Line x:Name="ip_in_1_Copy3" X1="62" Y1="20" X2="134" Y2="45" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="478.584" Canvas.Top="702.854" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="131.21593263719396" Y="38.129461403766342"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="ip_in_2_Copy3" X1="74" Y1="20" X2="125" Y2="38" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="478.584" Canvas.Top="702.854" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="131.22289649631466" Y="45.129454475854651"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="ip_in_3_Copy3" X1="86" Y1="20" X2="138" Y2="38" Stroke="Black" StrokeThickness="1" Width="156.107" RenderTransformOrigin="0.5,0.5" Canvas.Left="478.584" Canvas.Top="702.854" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="130.45289725838492" Y="45.130220500357929"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="ip_in_4_Copy3" X1="98" Y1="20" X2="148" Y2="38" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="478.584" Canvas.Top="702.854" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="131.22289848598868" Y="45.131454473875252"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="ip_in_5_Copy3" X1="110" Y1="20" X2="64" Y2="37" Stroke="Black" StrokeThickness="1" Width="156.107" RenderTransformOrigin="0.5,0.5" Canvas.Left="478.584" Canvas.Top="702.854" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="130.4538940850762" Y="46.132219508676855"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="ip_in_6_Copy3" X1="122" Y1="20" X2="75" Y2="37" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="478.584" Canvas.Top="702.854" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="131.22389332300594" Y="46.131453484173576"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="ip_in_7_Copy3" X1="134" Y1="20" X2="68" Y2="45" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="478.584" Canvas.Top="702.854" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="131.21593661654202" Y="38.133461399807544"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="ip_in_8_Copy3" X1="146" Y1="20" X2="80" Y2="45" Stroke="Black" StrokeThickness="1" Width="156.107" RenderTransformOrigin="0.5,0.5" Canvas.Left="478.584" Canvas.Top="702.854" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="130.44593737861231" Y="38.134227424310822"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Rectangle Width="94.587" Height="20.01" Stroke="Black" StrokeThickness="1" Fill="White" RenderTransformOrigin="0.5,0.5" Canvas.Left="536.09" Canvas.Top="739.594">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="76.906216256492073" Y="-9.8345092265092688"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock x:Name="encrypt_txt_sw_input1_Copy" FontSize="15" Width="94.587" Height="20.01" RenderTransformOrigin="0.5,0.5" Canvas.Left="536.09" Canvas.Top="739.594"><TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="360.382"/>
+        				<TranslateTransform X="76.906216256492073" Y="-9.8345092265092688"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform><Run Text="0 0 0 0 0 0 0 0"/></TextBlock>
+        	<Line x:Name="fk_out_5_Copy50" X1="60" Y1="110" X2="60" Y2="646" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Height="645.831" Canvas.Left="530.9" Canvas.Top="649" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="26.093927745440915" Y="-454.41795923093832"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_6_Copy11" X1="72" Y1="110" X2="72" Y2="646" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Height="645.831" Canvas.Left="530.9" Canvas.Top="649" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="26.093927745440915" Y="-454.41795923093832"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_7_Copy11" X1="84" Y1="110" X2="84" Y2="646" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Height="645.831" Canvas.Left="530.9" Canvas.Top="649" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="26.093927745440915" Y="-454.41795923093832"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_8_Copy11" X1="96" Y1="110" X2="96" Y2="646" Stroke="Black" StrokeThickness="1" Width="156.107" RenderTransformOrigin="0.5,0.5" Height="645.831" Canvas.Left="530.9" Canvas.Top="649" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="25.323928507511205" Y="-454.41719320643506"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Rectangle Height="20.01" Stroke="Black" StrokeThickness="1" Width="94.587" RenderTransformOrigin="0.5,0.5" Canvas.Left="430.775" Canvas.Top="978.165" >
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="287.0613292715484" Y="-487.1855795192165"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock FontSize="15" Height="20.01" x:Name="encrypt_txt_ep_output1_Copy" Width="94.587" RenderTransformOrigin="0.5,0.5" Canvas.Left="430.775" Canvas.Top="977.665"><TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="360.77"/>
+        				<TranslateTransform X="287.06232410856569" Y="-486.18558050891818"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform><Run Text="0 0 0 0 0 0 0 0"/></TextBlock>
+        	<Label FontSize="12" Height="44.022" HorizontalContentAlignment="Right" x:Name="label9_Copy2" Width="31.529" Content="E/P" RenderTransformOrigin="0.5,0.5" Canvas.Left="411.805" Canvas.Top="957.82">
+        		<Label.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="358.94"/>
+        				<TranslateTransform X="392.075817246626" Y="-470.61205192259729"/>
+        			</TransformGroup>
+        		</Label.RenderTransform>
+        	</Label>
+        	<Line Height="44.689" x:Name="line27_Copy2" Stroke="Black" StrokeThickness="1" Width="152.262" X1="99" X2="62" Y1="20" Y2="45" RenderTransformOrigin="0.5,0.5" Canvas.Left="374.97" Canvas.Top="933.809" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="341.06097729488721" Y="-423.20730042115582"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="44.689" x:Name="line28_Copy2" Stroke="Black" StrokeThickness="1" Width="152.262" X1="62" X2="74" Y1="20" Y2="45" RenderTransformOrigin="0.5,0.5" Canvas.Left="374.804" Canvas.Top="933.809" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="341.39297696630626" Y="-423.2076307070455"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="44.689" x:Name="line29_Copy2" Stroke="Black" StrokeThickness="1" Width="152.262" X1="74" X2="86" Y1="20" Y2="45" RenderTransformOrigin="0.5,0.5" Canvas.Left="374.721" Canvas.Top="933.809" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="341.55897680201576" Y="-423.20779584999036"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="44.689" x:Name="line30_Copy2" Stroke="Black" StrokeThickness="1" Width="152.262" X1="86" X2="98" Y1="20" Y2="45" RenderTransformOrigin="0.5,0.5" Canvas.Left="375.138" Canvas.Top="933.809" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="340.72497762742694" Y="-423.20696615591805"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="44.689" x:Name="line31_Copy2" Stroke="Black" StrokeThickness="1" Width="152.262" X1="74" X2="110" Y1="20" Y2="45" RenderTransformOrigin="0.5,0.5" Canvas.Left="374.638" Canvas.Top="933.809" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="341.72497663772526" Y="-423.20796099293523"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="44.689" x:Name="line32_Copy2" Stroke="Black" StrokeThickness="1" Width="152.262" X1="86" X2="122" Y1="20" Y2="45" RenderTransformOrigin="0.5,0.5" Canvas.Left="374.638" Canvas.Top="933.809" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="341.72497663772526" Y="-423.20796099293523"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="44.689" x:Name="line33_Copy2" Stroke="Black" StrokeThickness="1" Width="152.262" X1="98" X2="134" Y1="20" Y2="45" RenderTransformOrigin="0.5,0.5" Canvas.Left="374.638" Canvas.Top="933.809" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="341.72497663772526" Y="-423.20796099293523"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="44.689" x:Name="line34_Copy2" Stroke="Black" StrokeThickness="1" Width="152.262" X1="62" X2="146" Y1="20" Y2="45" RenderTransformOrigin="0.5,0.5" Canvas.Left="374.638" Canvas.Top="933.809" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="341.72497663772526" Y="-423.20796099293523"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line9_Copy25" Stroke="Black" StrokeThickness="1" Width="63.058" X1="62" X2="62" Y1="20" Y2="35" RenderTransformOrigin="0.5,0.5" Canvas.Left="374.638" Canvas.Top="977.665" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="430.53019348999959" Y="-824.060307797421"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line10_Copy13" Stroke="Black" StrokeThickness="1" Width="75.362" X1="74" X2="74" Y1="20" Y2="50" RenderTransformOrigin="0.5,0.5" Canvas.Left="374.638" Canvas.Top="977.665" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="418.22620566728892" Y="-824.048067322761"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line21_Copy7" Stroke="Black" StrokeThickness="1" Width="86.897" X1="86" X2="86" Y1="20" Y2="65" RenderTransformOrigin="0.5,0.5" Canvas.Left="374.638" Canvas.Top="977.665" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="406.69021708448736" Y="-824.03659088293"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line22_Copy7" Stroke="Black" StrokeThickness="1" Width="99.201" X1="98" X2="98" Y1="20" Y2="80" RenderTransformOrigin="0.5,0.5" Canvas.Left="374.638" Canvas.Top="977.665" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="394.38622926177675" Y="-824.02435040826981"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line23_Copy10" Stroke="Black" StrokeThickness="1" Width="110.736" X1="110" X2="110" Y1="20" Y2="95" RenderTransformOrigin="0.5,0.5" Canvas.Left="374.638" Canvas.Top="977.665" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="382.85224067699585" Y="-824.012875958113"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line24_Copy10" Stroke="Black" StrokeThickness="1" Width="123.04" X1="122" X2="122" Y1="20" Y2="110" RenderTransformOrigin="0.5,0.5" Canvas.Left="374.638" Canvas.Top="977.665" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="370.54825285428512" Y="-824.00063548345281"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line25_Copy10" Stroke="Black" StrokeThickness="1" Width="135.344" X1="134" X2="134" Y1="20" Y2="125" RenderTransformOrigin="0.5,0.5" Canvas.Left="374.638" Canvas.Top="977.665" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="358.24426503157451" Y="-823.98839500879262"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line26_Copy10" Stroke="Black" StrokeThickness="1" Width="146.879" X1="146" X2="146" Y1="20" Y2="140" RenderTransformOrigin="0.5,0.5" Canvas.Left="374.638" Canvas.Top="977.665" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="346.708276448773" Y="-823.97691856896176"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy51" Y2="350" Stroke="Black" StrokeThickness="1" Width="152.42" RenderTransformOrigin="0.5,0.5" X1="1" X2="1" Y1="1" Height="351.328" Canvas.Left="534.25" Canvas.Top="912.27" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="21.696595344670154" Y="-686.06603334329873"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy52" Y2="350" Stroke="Black" StrokeThickness="1" Width="152.42" RenderTransformOrigin="0.5,0.5" X1="1" X2="1" Y1="1" Height="351.328" Canvas.Left="546" Canvas.Top="927.27" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="-1.8318878846220239" Y="-716.04114628361538"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy53" Y2="350" Stroke="Black" StrokeThickness="1" Height="351.328" Width="152.42" RenderTransformOrigin="0.5,0.5" X1="1" X2="1" Y1="1" Canvas.Left="558" Canvas.Top="942.27" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="-25.862373280140496" Y="-746.0175144893916"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy54" Y2="350" Stroke="Black" StrokeThickness="1" Height="351.328" Width="152.42" RenderTransformOrigin="0.5,0.5" X1="1" X2="1" Y1="1" Canvas.Left="570" Canvas.Top="957.27" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="-49.892858675658957" Y="-775.9938826951676"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy55" Y2="350" Stroke="Black" StrokeThickness="1" Height="351.328" Width="152.42" RenderTransformOrigin="0.5,0.5" X1="1" X2="1" Y1="1" Canvas.Left="582" Canvas.Top="972.27" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="-73.921344074368" Y="-805.97025386800112"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy56" Y2="350" Stroke="Black" StrokeThickness="1" Height="351.328" Width="152.42" RenderTransformOrigin="0.5,0.5" X1="1" X2="1" Y1="1" Canvas.Left="594.25" Canvas.Top="987.27" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="-98.451828672246137" Y="-835.9458803094841"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy57" Y2="350" Stroke="Black" StrokeThickness="1" Height="351.328" Width="152.42" RenderTransformOrigin="0.5,0.5" X1="1" X2="1" Y1="1" Canvas.Left="606.25" Canvas.Top="1002.27" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="-122.48231406776459" Y="-865.92224851526032"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy58" Y2="350" Stroke="Black" StrokeThickness="1" Height="351.328" Width="152.42" RenderTransformOrigin="0.5,0.5" X1="1" X2="1" Y1="1" Canvas.Left="618.25" Canvas.Top="1017.27" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="-146.51079946647363" Y="-895.89861968809362"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Rectangle OpacityMask="Black" Fill="White" Stroke="Black" StrokeThickness="1" Width="8.637" Height="9.333" RenderTransformOrigin="0.5,0.5" Canvas.Left="433.03" Canvas.Top="1006.423">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="368.45564534137407" Y="-533.10655367797608"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="8.25" Height="14.333" Text="+" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="433.084" Canvas.Top="1001.842">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="368.73978557592335" Y="-528.94483635147924"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<Rectangle OpacityMask="Black" Fill="White" Stroke="Black" StrokeThickness="1" Width="8.637" Height="9.333" RenderTransformOrigin="0.5,0.5" Canvas.Left="444.697" Canvas.Top="1021.423">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="345.09182332455555" Y="-563.08331045996579"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="8.25" Height="14.333" Text="+" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="444.751" Canvas.Top="1016.842">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="345.37596355910489" Y="-558.92159313346883"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<Rectangle OpacityMask="Black" Fill="White" Stroke="Black" StrokeThickness="1" Width="8.637" Height="9.333" RenderTransformOrigin="0.5,0.5" Canvas.Left="457.03" Canvas.Top="1037.09">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="320.39467551343876" Y="-594.39274079878624"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="8.25" Height="14.333" Text="+" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="457.084" Canvas.Top="1032.509">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="320.67881574798804" Y="-590.23102347228951"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<Rectangle OpacityMask="Black" Fill="White" Stroke="Black" StrokeThickness="1" Width="8.637" Height="9.333" RenderTransformOrigin="0.5,0.5" Canvas.Left="469.03" Canvas.Top="1052.423">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="296.36419159430807" Y="-625.03483436018109"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="8.25" Height="14.333" Text="+" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="469.084" Canvas.Top="1047.842">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="296.64833182885741" Y="-620.87311703368414"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<Rectangle OpacityMask="Black" Fill="White" Stroke="Black" StrokeThickness="1" Width="8.637" Height="9.333" RenderTransformOrigin="0.5,0.5" Canvas.Left="480.449" Canvas.Top="1067.09">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="273.49703164805106" Y="-654.34608524047235"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="8.25" Height="14.333" Text="+" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="480.503" Canvas.Top="1062.509">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="273.78117188260035" Y="-650.18436791397562"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<Rectangle OpacityMask="Black" Fill="White" Stroke="Black" StrokeThickness="1" Width="8.637" Height="9.333" RenderTransformOrigin="0.5,0.5" Canvas.Left="492.697" Canvas.Top="1082.09">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="248.97121078126588" Y="-684.32168602184788"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="8.25" Height="14.333" Text="+" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="492.751" Canvas.Top="1077.509">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="249.25535101581517" Y="-680.15996869535115"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<Rectangle OpacityMask="Black" Fill="White" Stroke="Black" StrokeThickness="1" Width="8.637" Height="9.333" RenderTransformOrigin="0.5,0.5" Canvas.Left="504.697" Canvas.Top="1097.09">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="224.94138942358873" Y="-714.29778024238408"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="8.25" Height="14.333" Text="+" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="504.751" Canvas.Top="1092.509">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="225.22552965813804" Y="-710.13606291588724"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<Rectangle OpacityMask="Black" Fill="White" Stroke="Black" StrokeThickness="1" Width="8.637" Height="9.333" RenderTransformOrigin="0.5,0.5" Canvas.Left="517.058" Canvas.Top="1111.756">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="200.19023333160374" Y="-743.60515685171436"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="8.25" Height="14.333" Text="+" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="517.112" Canvas.Top="1107.175">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="200.47437356615302" Y="-739.44343952521763"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<Line x:Name="fk_out_5_Copy59" X1="60" Y1="80" X2="60" Y2="550" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Height="595.665" Canvas.Left="483.991" Canvas.Top="678.7" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="119.9026485685924" Y="-463.74528371131663"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_6_Copy12" X1="72" Y1="80" X2="72" Y2="566" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Height="595.665" Canvas.Left="483.991" Canvas.Top="678.7" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="119.9026485685924" Y="-463.74528371131663"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_7_Copy12" X1="84" Y1="80" X2="84" Y2="580" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Height="595.665" Canvas.Left="483.991" Canvas.Top="678.7" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="119.9026485685924" Y="-463.74528371131663"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_8_Copy12" X1="96" Y1="80" X2="96" Y2="595" Stroke="Black" StrokeThickness="1" Width="156.107" RenderTransformOrigin="0.5,0.5" Height="595.665" Canvas.Left="483.991" Canvas.Top="678.7" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="119.13264933066267" Y="-463.74451768681337"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="line9_Copy26" Stroke="Black" StrokeThickness="1" Width="63.058" X1="62" X2="62" Y1="19" Y2="35" RenderTransformOrigin="0.5,0.5" Height="357.073" Canvas.Left="436.641" Canvas.Top="798.333" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="720.372"/>
+        				<TranslateTransform X="223.06107571480362" Y="-464.79275502691866"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="line10_Copy14" Stroke="Black" StrokeThickness="1" Width="75.362" X1="74" X2="74" Y1="20" Y2="50" RenderTransformOrigin="0.5,0.5" Height="357.742" Canvas.Left="436.638" Canvas.Top="798.999" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="720.372"/>
+        				<TranslateTransform X="223.06593608669709" Y="-466.754830444996"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="line21_Copy8" Stroke="Black" StrokeThickness="1" Width="86.897" X1="86" X2="86" Y1="20" Y2="65" RenderTransformOrigin="0.5,0.5" Height="357.742" Canvas.Left="436.638" Canvas.Top="798.999" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="720.372"/>
+        				<TranslateTransform X="223.06381459260615" Y="-466.71740271551391"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="line22_Copy8" Stroke="Black" StrokeThickness="1" Width="99.201" X1="98" X2="98" Y1="20" Y2="80" RenderTransformOrigin="0.5,0.5" Height="357.742" Canvas.Left="436.638" Canvas.Top="798.999" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="720.372"/>
+        				<TranslateTransform X="223.06368492681315" Y="-466.67746036826134"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="line23_Copy11" Stroke="Black" StrokeThickness="1" Width="110.736" X1="110" X2="110" Y1="20" Y2="95" RenderTransformOrigin="0.5,0.5" Height="357.742" Canvas.Left="436.638" Canvas.Top="798.999" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="720.372"/>
+        				<TranslateTransform X="223.06556329754221" Y="-466.6399961966448"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="line24_Copy11" Stroke="Black" StrokeThickness="1" Width="123.04" X1="122" X2="122" Y1="20" Y2="110" RenderTransformOrigin="0.5,0.5" Height="357.742" Canvas.Left="436.638" Canvas.Top="798.999" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="720.372"/>
+        				<TranslateTransform X="223.06543363174916" Y="-466.60005384939222"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="line25_Copy11" Stroke="Black" StrokeThickness="1" Width="135.344" X1="134" X2="134" Y1="20" Y2="125" RenderTransformOrigin="0.5,0.5" Height="357.742" Canvas.Left="436.638" Canvas.Top="798.666" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="720.372"/>
+        				<TranslateTransform X="223.06631719384376" Y="-465.89408557595846"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="line26_Copy11" Stroke="Black" StrokeThickness="1" Width="146.879" X1="146" X2="146" Y1="20" Y2="140" RenderTransformOrigin="0.5,0.5" Height="357.742" Canvas.Left="436.638" Canvas.Top="798.999" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="720.372"/>
+        				<TranslateTransform X="223.06318247186522" Y="-466.52268377265762"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Rectangle Stroke="Black" StrokeThickness="1" Width="46.892" Height="42.5" RenderTransformOrigin="0.5,0.5" Canvas.Left="430.775" Canvas.Top="1136">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="334.42086798098711" Y="-825.39269458807394"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<Rectangle Stroke="Black" StrokeThickness="1" Width="46.892" Height="42.5" RenderTransformOrigin="0.5,0.5" Canvas.Left="480.508" Canvas.Top="1136">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="234.95496642265346" Y="-825.293742129317"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="44.304" Height="42.5" FontSize="8" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="434.03" Canvas.Top="1136"><TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="361.157"/>
+        				<TranslateTransform X="332.49886988319372" Y="-825.39078251132673"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform><Run Text="01 00 11 10"/><LineBreak/><Run Text="11 10 01 00"/><LineBreak/><Run Text="00 10 01 11"/><LineBreak/><Run Text="11 01 11 10"/></TextBlock>
+        	<TextBlock Width="44.304" Height="42.5" FontSize="8" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="484.018" Canvas.Top="1136"><TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="359.632"/>
+        				<TranslateTransform X="232.52296882960789" Y="-825.29132268569106"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform><Run Text="0"/><Run Text="0"/><Run Text=" 0"/><Run Text="1"/><Run Text=" 1"/><Run Text="0"/><Run Text=" 1"/><Run Text="1"/><LineBreak/><Run Text="1"/><Run Text="0"/><Run Text=" "/><Run Text="0"/><Run Text="0 01 "/><Run Text="11"/><LineBreak/><Run Text="11"/><Run Text=" "/><Run Text="0"/><Run Text="0 01 "/><Run Text="00"/><LineBreak/><Run Text="1"/><Run Text="0"/><Run Text=" 01 "/><Run Text="00"/><Run Text=" 1"/><Run Text="1"/></TextBlock>
+        	<TextBlock Width="16.334" Height="14.667" Text="S0" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="425.028" Canvas.Top="1121.333">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="358.006"/>
+        				<TranslateTransform X="382.52969127677" Y="-768.27455507371224"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<TextBlock Width="16.334" Height="14.667" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="521.517" Canvas.Top="1122.174"><TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="358.656"/>
+        				<TranslateTransform X="183.55021488976604" Y="-769.7586027290173"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform><Run Text="S"/><Run Text="1"/></TextBlock>
+        	<Line Height="49.498" x:Name="line9_Copy27" Stroke="Black" StrokeThickness="1" Width="20.461" X2="10" Y2="20" X1="10" Y1="4" RenderTransformOrigin="0.5,0.5" Canvas.Left="455.678" Canvas.Top="1213.184" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="310.88435824612907" Y="-986.73527957375927"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="36.498" x:Name="line10_Copy15" Stroke="Black" StrokeThickness="1" Width="24.453" X2="10" Y2="35" X1="10" Y1="4" RenderTransformOrigin="0.5,0.5" Canvas.Left="466.679" Canvas.Top="1213.184" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="284.90331685365845" Y="-973.70943264645484"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="52.165" x:Name="line9_Copy28" Stroke="Black" StrokeThickness="1" Width="20.461" X2="10" Y2="51" X1="10" Y1="4" RenderTransformOrigin="0.5,0.5" Canvas.Left="476.354" Canvas.Top="1213.184" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="269.52974494711054" Y="-989.36213843289818"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="66.165" x:Name="line10_Copy16" Stroke="Black" StrokeThickness="1" Width="24.453" X2="10" Y2="66" X1="10" Y1="4" RenderTransformOrigin="0.5,0.5" Canvas.Left="486.356" Canvas.Top="1213.184" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="245.51984097775045" Y="-1003.3382524680092"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy60" Y2="331" Stroke="Black" StrokeThickness="1" Height="351.328" Width="152.42" RenderTransformOrigin="0.5,0.5" Y1="257" Canvas.Left="544.667" Canvas.Top="1133.621" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="0.421852328847298" Y="-1128.7467397010319"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy61" Y2="333" Stroke="Black" StrokeThickness="1" Height="351.328" Width="152.42" RenderTransformOrigin="0.5,0.5" X1="1" X2="1" Y1="258" Canvas.Left="556.917" Canvas.Top="1148.288" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="-24.1056442421832" Y="-1158.0563701720294"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy62" Y2="359" Stroke="Black" StrokeThickness="1" Height="360.994" Width="152.425" RenderTransformOrigin="0.5,0.5" X1="1" X2="1" Y1="277" Canvas.Left="588.093" Canvas.Top="1158.788" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="-86.49308318267019" Y="-1188.6598350641925"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy63" Y2="361" Stroke="Black" StrokeThickness="1" Height="363.662" Width="152.426" RenderTransformOrigin="0.5,0.5" X1="1" X2="1" Y1="281" Canvas.Left="598.759" Canvas.Top="1172.454" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="-107.85756986414965" Y="-1218.6381583603693"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Rectangle OpacityMask="Black" Fill="White" Stroke="Black" StrokeThickness="1" Width="8.637" Height="9.333" RenderTransformOrigin="0.5,0.5" Canvas.Left="517.058" Canvas.Top="1111.756">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="200.19023333160374" Y="-743.60515685171436"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="8.25" Height="14.333" Text="+" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="517.112" Canvas.Top="1107.175">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="200.47437356615302" Y="-739.44343952521763"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<Rectangle OpacityMask="Black" Fill="White" Stroke="Black" StrokeThickness="1" Width="8.637" Height="9.333" RenderTransformOrigin="0.5,0.5" Canvas.Left="538.536" Canvas.Top="1228.774">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="157.00144816906146" Y="-977.59819100698166"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="8.25" Height="14.333" Text="+" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="538.59" Canvas.Top="1224.193">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="157.28558840361075" Y="-973.43647368048482"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<Rectangle OpacityMask="Black" Fill="White" Stroke="Black" StrokeThickness="1" Width="8.637" Height="9.333" RenderTransformOrigin="0.5,0.5" Canvas.Left="551.03" Canvas.Top="1243.107">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="131.98495490179053" Y="-1006.2393036488068"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="8.25" Height="14.333" Text="+" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="551.084" Canvas.Top="1238.526">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="132.26909513633984" Y="-1002.0775863223099"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<Rectangle OpacityMask="Black" Fill="White" Stroke="Black" StrokeThickness="1" Width="8.637" Height="9.333" RenderTransformOrigin="0.5,0.5" Canvas.Left="563.363" Canvas.Top="1259.107">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="107.2871445292202" Y="-1038.2147333284861"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="8.25" Height="14.333" Text="+" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="563.417" Canvas.Top="1254.526">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="107.57128476376948" Y="-1034.0530160019891"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<Rectangle OpacityMask="Black" Fill="White" Stroke="Black" StrokeThickness="1" Width="8.637" Height="9.333" RenderTransformOrigin="0.5,0.5" Canvas.Left="575.613" Canvas.Top="1272.774">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="82.75997590188183" Y="-1065.5243327690582"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock Width="8.25" Height="14.333" Text="+" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="575.667" Canvas.Top="1268.193">
+        		<TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="83.044116136431128" Y="-1061.3626154425613"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform>
+        	</TextBlock>
+        	<Rectangle Stroke="Black" StrokeThickness="1" Width="27.823" Height="15.833" RenderTransformOrigin="0.5,0.5" Canvas.Left="439.815" Canvas.Top="1177.665">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="335.35249555841688" Y="-882.05762140659158"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock x:Name="encrypt_txt_s0_2_output_Copy" Width="16.902" Height="14.333" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="443.633" Canvas.Top="1173.998"><TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="359.249"/>
+        				<TranslateTransform X="336.64131365376738" Y="-879.22490357181027"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform><Run Text="0"/><Run Text=" "/><Run Text="0"/></TextBlock>
+        	<Rectangle Stroke="Black" StrokeThickness="1" Width="27.823" Height="15.833" RenderTransformOrigin="0.5,0.5" Canvas.Left="487.879" Canvas.Top="1177.665">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="239.22459069645902" Y="-881.96198971379818"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock x:Name="encrypt_txt_s1_2_output_Copy" Width="16.902" Height="14.333" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="491.697" Canvas.Top="1174.998"><TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="361.816"/>
+        				<TranslateTransform X="240.51340879180953" Y="-879.12927187901687"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform><Run Text="0"/><Run Text=" "/><Run Text="0"/></TextBlock>
+        	<Rectangle Stroke="Black" StrokeThickness="1" Width="43.064" Height="15.833" Fill="White" RenderTransformOrigin="0.5,0.5" Canvas.Left="460.717" Canvas.Top="1208.413">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="278.24737351774661" Y="-943.49681106108619"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock x:Name="encrypt_txt_sbox2_output_Copy" Width="43.064" Height="14.333" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Canvas.Left="468.075" Canvas.Top="1206.08"><TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="361.331"/>
+        				<TranslateTransform X="273.53353300215906" Y="-941.32612155340667"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform><Run Text="0"/><Run Text=" "/><Run Text="0"/><Run Text=" 0"/><Run Text=" "/><Run Text="0"/></TextBlock>
+        	<Line Height="49.498" x:Name="line9_Copy29" Stroke="Black" StrokeThickness="1" Width="75.887" X2="26" Y2="20" X1="18" Y1="4" RenderTransformOrigin="0.5,0.5" Canvas.Left="440.315" Canvas.Top="1189.028" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="286.23244525773737" Y="-938.39875491390046"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="49.498" x:Name="line9_Copy30" Stroke="Black" StrokeThickness="1" Width="75.887" X2="26" Y2="20" X1="56" Y1="4" RenderTransformOrigin="0.5,0.5" Canvas.Left="449.808" Canvas.Top="1189.028" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="267.24646404821328" Y="-938.37986693829112"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="49.498" x:Name="line9_Copy31" Stroke="Black" StrokeThickness="1" Width="75.887" X2="25" Y2="20" X1="36" Y1="4" RenderTransformOrigin="0.5,0.5" Canvas.Left="460.396" Canvas.Top="1188.609" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="246.07131867955627" Y="-937.52080109898384"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="49.498" x:Name="line9_Copy32" Stroke="Black" StrokeThickness="1" Width="75.887" X2="26" Y2="20" Y1="4" X1="-22" RenderTransformOrigin="0.5,0.5" Canvas.Left="469.084" Canvas.Top="1188.859" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="228.69483845810385" Y="-938.00351431612148"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line23_Copy12" Stroke="Black" StrokeThickness="1" Width="110.736" X1="110" X2="110" Y1="82" Y2="95" RenderTransformOrigin="0.5,0.5" Canvas.Left="542.638" Canvas.Top="1019.999" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="720.372"/>
+        				<TranslateTransform X="10.625561238235434" Y="-908.42878379937576"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line24_Copy12" Stroke="Black" StrokeThickness="1" Width="123.04" X1="122" X2="122" Y1="82" Y2="110" RenderTransformOrigin="0.5,0.5" Canvas.Left="542.638" Canvas.Top="1019.999" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="720.372"/>
+        				<TranslateTransform X="10.625431572442409" Y="-908.38884145212307"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line25_Copy12" Stroke="Black" StrokeThickness="1" Width="135.344" X1="134" X2="134" Y1="82" Y2="125" RenderTransformOrigin="0.5,0.5" Canvas.Left="542.638" Canvas.Top="1019.666" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="720.372"/>
+        				<TranslateTransform X="10.626315134536997" Y="-907.68287317868942"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line Height="357.742" x:Name="line26_Copy12" Stroke="Black" StrokeThickness="1" Width="146.879" X1="146" X2="146" Y1="82" Y2="140" RenderTransformOrigin="0.5,0.5" Canvas.Left="542.638" Canvas.Top="1019.999" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="720.372"/>
+        				<TranslateTransform X="10.625180355506945" Y="-908.311456400611"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Rectangle Width="94.587" Height="20.01" Stroke="Black" StrokeThickness="1" RenderTransformOrigin="0.5,0.5" Canvas.Left="537.59" Canvas.Top="1291.594">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="72.807919158562129" Y="-1113.8304320848135"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock x:Name="encrypt_txt_ip_invers_input_Copy" FontSize="15" Width="94.587" Height="20.01" Background="White" RenderTransformOrigin="0.5,0.5" Canvas.Left="537.59" Canvas.Top="1291.594"><TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="72.807919158562129" Y="-1113.8304320848135"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform><Run Text="0 0 0 0 0 0 0 0"/></TextBlock>
+        	<Line x:Name="fk_out_5_Copy64" X1="60" Y1="110" X2="60" Y2="328" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Height="265.826" Canvas.Left="520.815" Canvas.Top="653.547" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="106.74082145660584" Y="-145.34587155958482"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_6_Copy13" X1="72" Y1="110" X2="72" Y2="328" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Height="265.826" Canvas.Left="532.815" Canvas.Top="654.047" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="82.739358412412287" Y="-146.32226525909931"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_7_Copy13" X1="84" Y1="110" X2="84" Y2="328" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Height="265.826" Canvas.Left="544.815" Canvas.Top="654.047" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="58.739378896804631" Y="-146.29866055389445"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_8_Copy13" X1="96" Y1="110" X2="96" Y2="328" Stroke="Black" StrokeThickness="1" Width="156.107" RenderTransformOrigin="0.5,0.5" Height="265.318" Canvas.Left="557.738" Canvas.Top="654.301" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="269.858"/>
+        				<TranslateTransform X="33.331695686891869" Y="-147.16553769275015"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_5_Copy65" X1="60" Y1="110" X2="60" Y2="328" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Height="228.13" Canvas.Left="359.94" Canvas.Top="856.61" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="-0.6839999999999975"/>
+        				<TranslateTransform X="350.20185378926817" Y="-432.19868527063045"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_6_Copy14" X1="72" Y1="110" X2="72" Y2="328" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Height="238.8" Canvas.Left="370.766" Canvas.Top="831.938" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="-0.6839999999999975"/>
+        				<TranslateTransform X="339.22047515151951" Y="-406.2004298994961"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_7_Copy14" X1="84" Y1="110" X2="84" Y2="316" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Height="252.81" Canvas.Left="382.451" Canvas.Top="807.084" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="-0.6839999999999975"/>
+        				<TranslateTransform X="327.3495036805993" Y="-382.17055659831487"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="fk_out_8_Copy14" X1="96" Y1="110" X2="96" Y2="328" Stroke="Black" StrokeThickness="1" Width="156.107" RenderTransformOrigin="0.5,0.5" Height="265.318" Canvas.Left="395.208" Canvas.Top="782.168" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="-0.6839999999999975"/>
+        				<TranslateTransform X="314.49846847490335" Y="-357.42809182830888"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" RenderTransformOrigin="0.5,0.5" Canvas.Left="588.897" Canvas.Top="796.859">
+        		<Ellipse.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="61.143026611819693" Y="-109.53882740642061"/>
+        			</TransformGroup>
+        		</Ellipse.RenderTransform>
+        	</Ellipse>
+        	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" RenderTransformOrigin="0.5,0.5" Canvas.Left="600.885" Canvas.Top="809.18">
+        		<Ellipse.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="37.142535567128064" Y="-134.15695080586667"/>
+        			</TransformGroup>
+        		</Ellipse.RenderTransform>
+        	</Ellipse>
+        	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" RenderTransformOrigin="0.5,0.5" Canvas.Left="613.402" Canvas.Top="821.187">
+        		<Ellipse.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="12.084670327187636" Y="-158.14602228928112"/>
+        			</TransformGroup>
+        		</Ellipse.RenderTransform>
+        	</Ellipse>
+        	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" RenderTransformOrigin="0.5,0.5" Canvas.Left="625.04" Canvas.Top="833.526">
+        		<Ellipse.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="-11.215857224427779" Y="-182.80084203900998"/>
+        			</TransformGroup>
+        		</Ellipse.RenderTransform>
+        	</Ellipse>
+        	<Rectangle Height="20.01" Stroke="Black" StrokeThickness="1" Width="94.587" RenderTransformOrigin="0.5,0.5" Canvas.Left="537.59" Canvas.Top="1291.594">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="360.338"/>
+        				<TranslateTransform X="72.807919158562129" Y="-1113.8304320848135"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<Rectangle Width="94.587" Height="20.01" Stroke="Black" StrokeThickness="1" RenderTransformOrigin="0.5,0.5" Canvas.Left="538.422" Canvas.Top="1335.737">
+        		<Rectangle.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="71.056090624521488" Y="-1202.1146892992151"/>
+        			</TransformGroup>
+        		</Rectangle.RenderTransform>
+        	</Rectangle>
+        	<TextBlock x:Name="encrypt_txt_ip_invers_output_Copy" FontSize="15" Width="94.587" Height="20.01" RenderTransformOrigin="0.5,0.5" Canvas.Left="538.422" Canvas.Top="1335.737"><TextBlock.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="359.964"/>
+        				<TranslateTransform X="71.056090624521488" Y="-1202.1146892992151"/>
+        			</TransformGroup>
+        		</TextBlock.RenderTransform><Run Text="0 0 0 0 0 0 0 0"/></TextBlock>
+        	<Label FontSize="12" Height="46.023" x:Name="label2_Copy7" Width="54.599" HorizontalContentAlignment="Right" Content="IP &#xa;inverse" RenderTransformOrigin="0.5,0.5" Canvas.Left="474.752" Canvas.Top="1300.384">
+        		<Label.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="360.354"/>
+        				<TranslateTransform X="224.45028654589768" Y="-1135.5752916745787"/>
+        			</TransformGroup>
+        		</Label.RenderTransform>
+        	</Label>
+        	<Label FontSize="12" Height="46.023" x:Name="label2_Copy8" Width="38.618" HorizontalContentAlignment="Right" Content="Plain&#xa;Text" RenderTransformOrigin="0.5,0.5" Canvas.Left="476.733" Canvas.Top="1339.143">
+        		<Label.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="360.51"/>
+        				<TranslateTransform X="224.365" Y="-1220.951"/>
+        			</TransformGroup>
+        		</Label.RenderTransform>
+        	</Label>
+        	<Line x:Name="ip_in_1_Copy4" X1="99" Y1="20" X2="62" Y2="45" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="481.518" Canvas.Top="1290.737" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="124.17829861522199" Y="-1137.5735372904655"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="ip_in_2_Copy4" X1="62" Y1="20" X2="74" Y2="45" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="481.518" Canvas.Top="1290.737" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="124.17849559295141" Y="-1137.3755374864263"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="ip_in_3_Copy4" X1="86" Y1="20" X2="86" Y2="45" Stroke="Black" StrokeThickness="1" Width="156.107" RenderTransformOrigin="0.5,0.5" Canvas.Left="481.518" Canvas.Top="1290.737" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="123.40871322949145" Y="-1137.1567716776783"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="ip_in_4_Copy4" X1="110" Y1="20" X2="98" Y2="45" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="481.518" Canvas.Top="1290.737" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="124.17849559295141" Y="-1137.3755374864263"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="ip_in_5_Copy4" X1="135" Y1="20" X2="110" Y2="45" Stroke="Black" StrokeThickness="1" Width="156.107" RenderTransformOrigin="0.5,0.5" Canvas.Left="481.518" Canvas.Top="1290.737" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="123.40836105718735" Y="-1137.5107713273237"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="ip_in_6_Copy4" X1="72" Y1="20" X2="122" Y2="45" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="481.518" Canvas.Top="1290.737" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="124.17826678043744" Y="-1137.605537258795"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="ip_in_7_Copy4" X1="146" Y1="20" X2="134" Y2="45" Stroke="Black" StrokeThickness="1" Width="155.338" RenderTransformOrigin="0.5,0.5" Canvas.Left="481.518" Canvas.Top="1290.737" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="124.17849559295141" Y="-1137.3755374864263"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
+        	<Line x:Name="ip_in_8_Copy4" X1="121" Y1="20" X2="146" Y2="45" Stroke="Black" StrokeThickness="1" Width="156.107" RenderTransformOrigin="0.5,0.5" Canvas.Left="481.518" Canvas.Top="1290.737" >
+        		<Line.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform Angle="179.886"/>
+        				<TranslateTransform X="123.40836105718735" Y="-1137.5107713273237"/>
+        			</TransformGroup>
+        		</Line.RenderTransform>
+        	</Line>
     </Canvas>
     </ScrollViewer>
 </UserControl>
