@@ -697,7 +697,9 @@ namespace Cryptool.Plugins.Cryptography.Encryption
     /// </summary>
     public class SDES_algorithm
     {
-        private SDES mSdes;
+        private SDES mSdes;         //to call some methods on the plugin
+        private int fkstep = 0;     //for presentation to check the number of fk we are in
+        private int mode = 0;       //for presentation to check the mode we use (0 = en/1 = decrypt)
 
         public SDES_algorithm(SDES sdes)
         {
@@ -713,75 +715,151 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <returns>ciphertext as byte array of size 8</returns>
         public byte[] encrypt(byte[] plaintext, byte[] key)
         {
-            
-            ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            {
-                ((SDESPresentation)mSdes.Presentation).key_txt.Text = 
-                Tools.byteArrayToStringWithSpaces(key);               
-            }
-            , null);
+            this.mode = 0; // to tell presentation what we are doing
 
-            //calculate sub key 1
-            byte[] vp10 = p10(key);           
-            ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            if (this.mSdes.Presentation.IsVisible)
             {
-                ((SDESPresentation)mSdes.Presentation).key_txt_p10_input.Text =
-                Tools.byteArrayToStringWithSpaces(key);
-                ((SDESPresentation)mSdes.Presentation).key_txt_ls1_input_1.Text =
-                Tools.byteArrayToStringWithSpaces(vp10);
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((SDESPresentation)mSdes.Presentation).key_txt.Text =
+                    Tools.byteArrayToStringWithSpaces(key);
+                }
+                , null);
             }
-            , null);
+            //calculate sub key 1
+            byte[] vp10 = p10(key);
+            if (this.mSdes.Presentation.IsVisible)
+            {
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((SDESPresentation)mSdes.Presentation).key_txt_p10_input.Text =
+                    Tools.byteArrayToStringWithSpaces(key);
+                    ((SDESPresentation)mSdes.Presentation).key_txt_ls1_input_1.Text =
+                    Tools.byteArrayToStringWithSpaces(vp10);
+                }
+                , null);
+            }
 
             byte[] vls1 = ls_1(vp10);
-            ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            if (this.mSdes.Presentation.IsVisible)
             {
-                ((SDESPresentation)mSdes.Presentation).key_txt_p8_1_input.Text =
-                Tools.byteArrayToStringWithSpaces(vls1);
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((SDESPresentation)mSdes.Presentation).key_txt_p8_1_input.Text =
+                    Tools.byteArrayToStringWithSpaces(vls1);
+                }
+                , null);
             }
-            , null);
 
             byte[] key1 = p8(vls1);
-            ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            if (this.mSdes.Presentation.IsVisible)
             {
-                ((SDESPresentation)mSdes.Presentation).key_txt_k1.Text =
-                Tools.byteArrayToStringWithSpaces(key1);
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((SDESPresentation)mSdes.Presentation).key_txt_k1.Text =
+                    Tools.byteArrayToStringWithSpaces(key1);
+                }
+                , null);
             }
-            , null);
 
             //calculate sub key 2
             vls1 = ls_1(vls1);
-            ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            if (this.mSdes.Presentation.IsVisible)
             {
-                ((SDESPresentation)mSdes.Presentation).key_txt_p10_copy.Text =
-                Tools.byteArrayToStringWithSpaces(vp10);
-                ((SDESPresentation)mSdes.Presentation).key_txt_ls1_2.Text =
-                Tools.byteArrayToStringWithSpaces(vp10);
-                ((SDESPresentation)mSdes.Presentation).key_txt_ls1_3.Text =
-               Tools.byteArrayToStringWithSpaces(vls1);
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((SDESPresentation)mSdes.Presentation).key_txt_p10_copy.Text =
+                    Tools.byteArrayToStringWithSpaces(vp10);
+                    ((SDESPresentation)mSdes.Presentation).key_txt_ls1_2.Text =
+                    Tools.byteArrayToStringWithSpaces(vp10);
+                    ((SDESPresentation)mSdes.Presentation).key_txt_ls1_3.Text =
+                   Tools.byteArrayToStringWithSpaces(vls1);
+                }
+                , null);
             }
-            , null);
 
             vls1 = ls_1(vls1);
-            ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            if (this.mSdes.Presentation.IsVisible)
             {
-                ((SDESPresentation)mSdes.Presentation).key_txt_p8_2_input.Text =
-                Tools.byteArrayToStringWithSpaces(vls1);
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((SDESPresentation)mSdes.Presentation).key_txt_p8_2_input.Text =
+                    Tools.byteArrayToStringWithSpaces(vls1);
+                }
+               , null);
             }
-           , null);
 
             byte[] key2 = p8(vls1);
-            ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            if (this.mSdes.Presentation.IsVisible)
             {
-                ((SDESPresentation)mSdes.Presentation).key_txt_k2.Text =
-                Tools.byteArrayToStringWithSpaces(key2);
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((SDESPresentation)mSdes.Presentation).key_txt_k2.Text =
+                    Tools.byteArrayToStringWithSpaces(key2);
+                }
+               , null);
             }
-           , null);
 
             // ip_inverse(fk_2(sw(fk_1(ip(plaintext))))) :
+
             byte[] ip = this.ip(plaintext);
+            if (this.mSdes.Presentation.IsVisible)
+            {
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((SDESPresentation)mSdes.Presentation).encrypt_txt_plaintext.Text =
+                    Tools.byteArrayToStringWithSpaces(plaintext);
+                    ((SDESPresentation)mSdes.Presentation).encrypt_txt_ip_input.Text =
+                    Tools.byteArrayToStringWithSpaces(plaintext);
+                    ((SDESPresentation)mSdes.Presentation).encrypt_txt_ip_output.Text =
+                    Tools.byteArrayToStringWithSpaces(ip);
+                }
+               , null);
+            }
+
             byte[] fk1 = fk(ip, key1);
-            byte[] fk2 = fk(sw(fk1), key2);
+            if (this.mSdes.Presentation.IsVisible)
+            {
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((SDESPresentation)mSdes.Presentation).encrypt_txt_sw_input.Text =
+                    Tools.byteArrayToStringWithSpaces(fk1);                    
+                }
+               , null);
+            }
+
+            byte[] swtch = sw(fk1);
+            if (this.mSdes.Presentation.IsVisible)
+            {
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((SDESPresentation)mSdes.Presentation).encrypt_txt_sw_output.Text =
+                    Tools.byteArrayToStringWithSpaces(swtch);
+                }
+               , null);
+            }
+
+            byte[] fk2 = fk(swtch, key2);
+            if (this.mSdes.Presentation.IsVisible)
+            {
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((SDESPresentation)mSdes.Presentation).encrypt_txt_ip_invers_input.Text =
+                    Tools.byteArrayToStringWithSpaces(fk2);
+                }
+               , null);
+            }                   
+
             byte[] ciphertext = ip_inverse(fk2);
+            if (this.mSdes.Presentation.IsVisible)
+            {
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((SDESPresentation)mSdes.Presentation).encrypt_txt_ip_invers_output.Text =
+                    Tools.byteArrayToStringWithSpaces(ciphertext);
+                }
+               , null);
+            }    
 
             return ciphertext;
 
@@ -796,17 +874,151 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <returns>plaintext as byte array of size 8</returns>
         public byte[] decrypt(byte[] ciphertext, byte[] key)
         {
+            this.mode = 1; // to tell presentation what we are doing
 
+            if (this.mSdes.Presentation.IsVisible)
+            {
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((SDESPresentation)mSdes.Presentation).key_txt.Text =
+                    Tools.byteArrayToStringWithSpaces(key);
+                }
+                , null);
+            }
             //calculate sub key 1
-            byte[] key1 = p8(ls_1(p10(key)));
+            byte[] vp10 = p10(key);
+            if (this.mSdes.Presentation.IsVisible)
+            {
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((SDESPresentation)mSdes.Presentation).key_txt_p10_input.Text =
+                    Tools.byteArrayToStringWithSpaces(key);
+                    ((SDESPresentation)mSdes.Presentation).key_txt_ls1_input_1.Text =
+                    Tools.byteArrayToStringWithSpaces(vp10);
+                }
+                , null);
+            }
+
+            byte[] vls1 = ls_1(vp10);
+            if (this.mSdes.Presentation.IsVisible)
+            {
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((SDESPresentation)mSdes.Presentation).key_txt_p8_1_input.Text =
+                    Tools.byteArrayToStringWithSpaces(vls1);
+                }
+                , null);
+            }
+
+            byte[] key1 = p8(vls1);
+            if (this.mSdes.Presentation.IsVisible)
+            {
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((SDESPresentation)mSdes.Presentation).key_txt_k1.Text =
+                    Tools.byteArrayToStringWithSpaces(key1);
+                }
+                , null);
+            }
+
             //calculate sub key 2
-            byte[] key2 = p8(ls_1(ls_1(ls_1(p10(key)))));
+            vls1 = ls_1(vls1);
+            if (this.mSdes.Presentation.IsVisible)
+            {
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((SDESPresentation)mSdes.Presentation).key_txt_p10_copy.Text =
+                    Tools.byteArrayToStringWithSpaces(vp10);
+                    ((SDESPresentation)mSdes.Presentation).key_txt_ls1_2.Text =
+                    Tools.byteArrayToStringWithSpaces(vp10);
+                    ((SDESPresentation)mSdes.Presentation).key_txt_ls1_3.Text =
+                   Tools.byteArrayToStringWithSpaces(vls1);
+                }
+                , null);
+            }
+
+            vls1 = ls_1(vls1);
+            if (this.mSdes.Presentation.IsVisible)
+            {
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((SDESPresentation)mSdes.Presentation).key_txt_p8_2_input.Text =
+                    Tools.byteArrayToStringWithSpaces(vls1);
+                }
+               , null);
+            }
+
+            byte[] key2 = p8(vls1);
+            if (this.mSdes.Presentation.IsVisible)
+            {
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((SDESPresentation)mSdes.Presentation).key_txt_k2.Text =
+                    Tools.byteArrayToStringWithSpaces(key2);
+                }
+               , null);
+            }
 
             // ip_inverse(fk_1(sw(fk_2(ip(ciphertext))))) :
+
             byte[] ip = this.ip(ciphertext);
+            if (this.mSdes.Presentation.IsVisible)
+            {
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((SDESPresentation)mSdes.Presentation).decrypt_txt_plaintext.Text =
+                    Tools.byteArrayToStringWithSpaces(ciphertext);
+                    ((SDESPresentation)mSdes.Presentation).decrypt_txt_ip_input.Text =
+                    Tools.byteArrayToStringWithSpaces(ciphertext);
+                    ((SDESPresentation)mSdes.Presentation).decrypt_txt_ip_output.Text =
+                    Tools.byteArrayToStringWithSpaces(ip);
+                }
+               , null);
+            }
+
             byte[] fk2 = fk(ip, key2);
-            byte[] fk1 = fk(sw(fk2), key1);
+            if (this.mSdes.Presentation.IsVisible)
+            {
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((SDESPresentation)mSdes.Presentation).decrypt_txt_sw_input.Text =
+                    Tools.byteArrayToStringWithSpaces(fk2);                  
+                }
+               , null);
+            }
+
+            byte[] swtch = sw(fk2); 
+            if (this.mSdes.Presentation.IsVisible)
+            {
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((SDESPresentation)mSdes.Presentation).decrypt_txt_sw_output.Text =
+                    Tools.byteArrayToStringWithSpaces(swtch);
+                }
+               , null);
+            }
+
+            byte[] fk1 = fk(swtch, key1);
+            if (this.mSdes.Presentation.IsVisible)
+            {
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((SDESPresentation)mSdes.Presentation).decrypt_txt_ip_invers_input.Text =
+                    Tools.byteArrayToStringWithSpaces(fk1);
+                }
+               , null);
+            }
+
             byte[] plaintext = ip_inverse(fk1);
+            if (this.mSdes.Presentation.IsVisible)
+            {
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((SDESPresentation)mSdes.Presentation).decrypt_txt_ip_invers_output.Text =
+                    Tools.byteArrayToStringWithSpaces(plaintext);
+                }
+               , null);
+            }            
 
             return plaintext;
 
@@ -977,7 +1189,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         ///<returns>byte array of size 8</returns>
         private byte[] fk(byte[] bits, byte[] key)
         {
-
             byte[] left = { bits[1 - 1], bits[2 - 1], bits[3 - 1], bits[4 - 1] };
             byte[] right = { bits[5 - 1], bits[6 - 1], bits[7 - 1], bits[8 - 1] };
 
@@ -985,6 +1196,10 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
             byte[] ret = {exclusive_oder[1-1],exclusive_oder[2-1],exclusive_oder[3-1],exclusive_oder[4-1],
 				     right[1-1],right[2-1],right[3-1],right[4-1]};
+
+            fkstep++;
+            if (fkstep == 2)
+                fkstep = 0;
 
             //mSdes.GuiLogMessage("fk with " + Tools.intArray2String(bits) + " is " + Tools.intArray2String(ret), NotificationLevel.Debug);
             return ret;
@@ -1061,6 +1276,34 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             byte[] s0_s1 = { s0[1 - 1], s0[2 - 1], s1[1 - 1], s1[2 - 1] };
             byte[] ret = p4(s0_s1);
 
+            if (this.mSdes.Presentation.IsVisible)
+            {
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    if (mode == 0 && fkstep == 0)
+                    {
+                        ((SDESPresentation)mSdes.Presentation).encrypt_txt_sbox1_output.Text =
+                        Tools.byteArrayToStringWithSpaces(ret);
+                    }
+                    if (mode == 0 && fkstep == 1)
+                    {
+                        ((SDESPresentation)mSdes.Presentation).encrypt_txt_sbox2_output.Text =
+                        Tools.byteArrayToStringWithSpaces(ret);
+                    }
+                    if (mode == 1 && fkstep == 0)
+                    {
+                        ((SDESPresentation)mSdes.Presentation).decrypt_txt_sbox1_output.Text =
+                        Tools.byteArrayToStringWithSpaces(ret);
+                    }
+                    if (mode == 1 && fkstep == 1)
+                    {
+                        ((SDESPresentation)mSdes.Presentation).decrypt_txt_sbox2_output.Text =
+                        Tools.byteArrayToStringWithSpaces(ret);
+                    }
+                }
+               , null);
+            }
+
             //mSdes.GuiLogMessage("F with " + Tools.intArray2String(bits) + " is " + Tools.intArray2String(key) + " ist " + Tools.intArray2String(ret), NotificationLevel.Debug);
             return ret;
 
@@ -1122,6 +1365,34 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             ep[7 - 1] = bits[4 - 1];
             ep[8 - 1] = bits[1 - 1];
 
+            if (this.mSdes.Presentation.IsVisible)
+            {
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    if (mode == 0 && fkstep == 0)
+                    {
+                        ((SDESPresentation)mSdes.Presentation).encrypt_txt_ep_output.Text =
+                        Tools.byteArrayToStringWithSpaces(ep);
+                    }
+                    if (mode == 0 && fkstep == 1)
+                    {
+                        ((SDESPresentation)mSdes.Presentation).encrypt_txt_ep_output1.Text =
+                        Tools.byteArrayToStringWithSpaces(ep);
+                    }
+                    if (mode == 1 && fkstep == 0)
+                    {
+                        ((SDESPresentation)mSdes.Presentation).decrypt_txt_ep_output.Text =
+                        Tools.byteArrayToStringWithSpaces(ep);
+                    }
+                    if (mode == 1 && fkstep == 1)
+                    {
+                        ((SDESPresentation)mSdes.Presentation).decrypt_txt_ep_output1.Text =
+                        Tools.byteArrayToStringWithSpaces(ep);
+                    }
+                }
+               , null);
+            }
+
             return ep;
         }
 
@@ -1150,6 +1421,34 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                             };
 
             byte[] ret = sbox_0[row, column];
+
+            if (this.mSdes.Presentation.IsVisible)
+            {
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    if (mode == 0 && fkstep == 0)
+                    {
+                        ((SDESPresentation)mSdes.Presentation).encrypt_txt_s0_1_output.Text =
+                        Tools.byteArrayToStringWithSpaces(ret);
+                    }
+                    if (mode == 0 && fkstep == 1)
+                    {
+                        ((SDESPresentation)mSdes.Presentation).encrypt_txt_s0_2_output.Text =
+                        Tools.byteArrayToStringWithSpaces(ret);
+                    }
+                    if (mode == 1 && fkstep == 0)
+                    {
+                        ((SDESPresentation)mSdes.Presentation).decrypt_txt_s0_1_output.Text =
+                        Tools.byteArrayToStringWithSpaces(ret);
+                    }
+                    if (mode == 1 && fkstep == 1)
+                    {
+                        ((SDESPresentation)mSdes.Presentation).decrypt_txt_s0_2_output.Text =
+                        Tools.byteArrayToStringWithSpaces(ret);
+                    }
+                }
+               , null);
+            }
 
             //mSdes.GuiLogMessage("S0 with " + Tools.intArray2String(bits) + " is " + Tools.intArray2String(ret), NotificationLevel.Debug);
             return ret;
@@ -1182,6 +1481,34 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                             };
 
             byte[] ret = sbox_1[row, column];
+
+            if (this.mSdes.Presentation.IsVisible)
+            {
+                ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    if (mode == 0 && fkstep == 0)
+                    {
+                        ((SDESPresentation)mSdes.Presentation).encrypt_txt_s1_1_output.Text =
+                        Tools.byteArrayToStringWithSpaces(ret);
+                    }
+                    if (mode == 0 && fkstep == 1)
+                    {
+                        ((SDESPresentation)mSdes.Presentation).encrypt_txt_s1_2_output.Text =
+                        Tools.byteArrayToStringWithSpaces(ret);
+                    }
+                    if (mode == 1 && fkstep == 0)
+                    {
+                        ((SDESPresentation)mSdes.Presentation).decrypt_txt_s1_1_output.Text =
+                        Tools.byteArrayToStringWithSpaces(ret);
+                    }
+                    if (mode == 1 && fkstep == 1)
+                    {
+                        ((SDESPresentation)mSdes.Presentation).decrypt_txt_s1_2_output.Text =
+                        Tools.byteArrayToStringWithSpaces(ret);
+                    }
+                }
+               , null);
+            }
 
             //mSdes.GuiLogMessage("S1 with " + Tools.intArray2String(bits) + " is " + Tools.intArray2String(ret), NotificationLevel.Debug);		
             return ret;
