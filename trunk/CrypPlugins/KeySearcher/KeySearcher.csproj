@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{0579E099-66B2-43C3-B8A0-43CAE4895E68}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -49,12 +49,18 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="KeySearcher.cs" />
+    <Compile Include="KeySearcherQuickWatchPresentation.xaml.cs">
+      <DependentUpon>KeySearcherQuickWatchPresentation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="KeySearcherSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -66,6 +72,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="KeySearcherQuickWatchPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
