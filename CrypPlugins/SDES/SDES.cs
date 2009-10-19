@@ -281,9 +281,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 }
                 listCryptoolStreamsOut.Clear();
 
-                if (controlSlave != null)
-                    controlSlave.Dispose();
-
             }
             catch (Exception ex)
             {
@@ -526,6 +523,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             catch (Exception exception)
             {
                 GuiLogMessage(exception.Message, NotificationLevel.Error);
+                GuiLogMessage(exception.StackTrace, NotificationLevel.Error);
             }
             finally
             {              
@@ -545,7 +543,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         #region private
         private SDES plugin;
         private byte[] input;
-        private List<CryptoolStream> listCryptoolStreams = new List<CryptoolStream>();
         ElectronicCodeBook ecb;
         CipherBlockChaining cbc;
         #endregion
@@ -585,8 +582,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <returns>encrypted text</returns>
         public byte[] Encrypt(byte[] key, int blocksize)
         {
-            ((SDESSettings)plugin.Settings).Action = 0;
-            return execute(key, blocksize);
+            return execute(key, blocksize, 0);
         }
 
         /// <summary>
@@ -597,8 +593,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <returns>decrypted text</returns>
         public byte[] Decrypt(byte[] key, int blocksize)
         {
-            ((SDESSettings)plugin.Settings).Action = 1;
-            return execute(key, blocksize);
+            return execute(key, blocksize, 1);
         }
 
         /// <summary>
@@ -630,17 +625,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 else
                     bkey[count++] = 1;
             return bkey;
-        }
-
-        /// <summary>
-        /// Called by the SDES plugin if it is disposing
-        /// closes all privaet streams
-        /// </summary>
-        public void Dispose()
-        {
-            foreach (CryptoolStream cs in listCryptoolStreams)
-                cs.Close();
-        }
+        }       
 
         #endregion
 
@@ -652,7 +637,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <param name="key">key</param>
         /// <param name="blocksize">blocksize</param>
         /// <returns>encrypted/decrypted text</returns>
-        private byte[] execute(byte[] key, int blocksize)
+        private byte[] execute(byte[] key, int blocksize, int action)
         {
             byte[] output;
             if (blocksize > 0)
@@ -677,15 +662,22 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
           
             System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
-            if (((SDESSettings)plugin.Settings).Mode == 0)
+            if (((SDESSettings)plugin.Settings).Mode == 0 && action == 0)
             {                                
-                output = ecb.decrypt(input, key, blocksize);
+                output = ecb.encrypt(input, key, blocksize);
             }
-            else
+            else if(((SDESSettings)plugin.Settings).Mode == 1 && action == 0)
             {                
-                output = cbc.decrypt(input, key, Tools.stringToBinaryByteArray(enc.GetString(plugin.InputIV)),blocksize);
+                output = cbc.encrypt(input, key, Tools.stringToBinaryByteArray(enc.GetString(plugin.InputIV)),blocksize);
             }            
-            
+            else if(((SDESSettings)plugin.Settings).Mode == 0 && action == 1)
+            {
+                output = ecb.decrypt(input, key,blocksize);
+            }
+            else if (((SDESSettings)plugin.Settings).Mode == 1 && action == 1)
+            {
+                output = cbc.decrypt(input, key, Tools.stringToBinaryByteArray(enc.GetString(plugin.InputIV)), blocksize);
+            }   
             return output;
         }
 
@@ -1764,7 +1756,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             byte[] buffer = new byte[1];
             int position = 0;
 
-            while ((inputstream.Read(buffer, 0, 1)) > 0 && !this.mSdes.getStop())
+            while (!this.mSdes.getStop() && (inputstream.Read(buffer, 0, 1)) > 0)
             {
                 //Step 1 get plaintext symbol
                 byte symbol = buffer[0];
@@ -1822,7 +1814,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             byte[] buffer = new byte[1];
             int position = 0;
 
-            while ((inputstream.Read(buffer, 0, 1)) > 0 && !this.mSdes.getStop())
+            while (!this.mSdes.getStop() && (inputstream.Read(buffer, 0, 1)) > 0)
             {
                 //Step 1 get Symbol of Ciphertext
                 byte symbol = buffer[0];
@@ -1899,7 +1891,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             byte[] buffer = new byte[1];
             int position = 0;
 
-            while ((inputstream.Read(buffer, 0, 1)) > 0 && !this.mSdes.getStop())
+            while (!this.mSdes.getStop() && (inputstream.Read(buffer, 0, 1)) > 0)
             {
                 //Step 1 get plaintext symbol
                 byte symbol = buffer[0]; ;
@@ -1954,7 +1946,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             byte[] buffer = new byte[1];
             int position = 0;
 
-            while ((inputstream.Read(buffer, 0, 1)) > 0 && !this.mSdes.getStop())
+            while (!this.mSdes.getStop() && (inputstream.Read(buffer, 0, 1)) > 0)
             {
                 //Step 1 get plaintext symbol
                 byte symbol = buffer[0];

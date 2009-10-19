@@ -8,6 +8,8 @@ using System.ComponentModel;
 using Cryptool.PluginBase.Control;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Windows.Threading;
 
 namespace KeySearcher
 {
@@ -17,8 +19,8 @@ namespace KeySearcher
         {
             private char[] values = new char[256];
             private int length;
-            private int counter;            
-
+            private int counter;
+            
             public Wildcard(string valuePattern)
             {                
                 counter = 0;
@@ -219,6 +221,7 @@ namespace KeySearcher
         public KeySearcher()
         {
             settings = new KeySearcherSettings(this);
+            QuickWatchPresentation = new KeySearcherQuickWatchPresentation();
         }
 
         public ISettings Settings
@@ -233,7 +236,8 @@ namespace KeySearcher
 
         public UserControl QuickWatchPresentation
         {
-            get { return null; }
+            get;
+            private set;
         }
 
         public void PreExecution()
@@ -245,8 +249,8 @@ namespace KeySearcher
         }
 
         public void process(IControlEncryption sender)
-        {
-            int counter = 0;
+        {            
+
             if (sender != null && costMaster != null)
             {
                 int maxInList = 10;
@@ -269,20 +273,25 @@ namespace KeySearcher
                     GuiLogMessage("Wrong key pattern!", NotificationLevel.Error);
                     return;
                 }
+
                 int size = Pattern.initKeyIteration(settings.Key);
                 int blocksize = CostMaster.getBlocksize();
                 string key;
+                int counter = 0;
+                int doneKeys = 0;
+                string text = "";
+                LinkedListNode<ValueKey> linkedListNode;
+
+                DateTime lastTime = DateTime.Now;                
                 do
-                {
+                {                    
                     key = Pattern.getKey();                    
                     byte[] decryption = sender.Decrypt(ControlMaster.getKeyFromString(key), blocksize);
 
                     valueKey = new ValueKey();
                     valueKey.value = CostMaster.calculateCost(decryption);
                     valueKey.key = key;
-
-                    GuiLogMessage("Tried key " + valueKey.key + " = " + valueKey.value, NotificationLevel.Debug);
-
+                   
                     if (this.costMaster.getRelationOperator() == RelationOperator.LargerThen)
                     {
 
@@ -321,16 +330,61 @@ namespace KeySearcher
 
                     counter++;                    
                     ProgressChanged(counter, size);
+
+                    //Key per second calculation
+                    doneKeys++;
+                    TimeSpan duration = DateTime.Now - lastTime;
+                    if (duration.Seconds >= 1)
+                    {
+                        lastTime = DateTime.Now;
+                        GuiLogMessage("Working with " + doneKeys + " Keys/sec", NotificationLevel.Info);                        
+                        
+                        int seconds = (size - counter) / doneKeys;
+                        TimeSpan secondsleft = new TimeSpan(0, 0, 0, seconds, 0);
+
+                        ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).keysPerSecond.Text = "" + doneKeys;
+                            ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).timeLeft.Text = "" + secondsleft;
+                            ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "" + DateTime.Now.AddSeconds(seconds);
+
+                        }
+                        , null);
+                        doneKeys = 0;
+
+                        if (QuickWatchPresentation.IsVisible)
+                        {
+                            text = "Calculated value/key - list:\r\n";
+                            linkedListNode = costList.First;
+                            while (linkedListNode != null)
+                            {
+                                text += linkedListNode.Value.value + " = " + linkedListNode.Value.key + "\r\n";
+                                linkedListNode = linkedListNode.Next;
+                            }
+                            
+                            ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                            {
+                                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).logging.Text = text;
+                            }
+                            , null);
+                        }
+                    }
+
                 } while (Pattern.nextKey() && !stop);
 
-                GuiLogMessage("Calculated value/key - list:", NotificationLevel.Info);
-                LinkedListNode<ValueKey> n = costList.First;
-                while (n != null)
+                text = "Calculated value/key - list:\r\n";
+                linkedListNode = costList.First;
+                while (linkedListNode != null)
                 {
-                    GuiLogMessage(n.Value.value + " = " + n.Value.key, NotificationLevel.Info);
-                    n = n.Next;
+                    text += linkedListNode.Value.value + " = " + linkedListNode.Value.key + "\r\n";
+                    linkedListNode = linkedListNode.Next;
                 }
-
+                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).logging.Text = text;
+                }
+                , null);
+                
             }//end if
         }
 
@@ -440,6 +494,7 @@ namespace KeySearcher
             if (OnPluginProgressChanged != null)
             {
                 OnPluginProgressChanged(this, new PluginProgressEventArgs(value, max));
+
             }
         }
 
@@ -450,3 +505,4 @@ namespace KeySearcher
         };
     }
 }
+
