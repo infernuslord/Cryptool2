@@ -28,7 +28,7 @@ using System.Collections;
 
 namespace Cryptool.Plugins.RSA
 {
-    [Author("Dennis Nolte,Raoul Falk, Sven Rech, Nils Kopal", null, "Uni Duisburg-Essen", "http://www.uni-due.de")]
+    [Author("Dennis Nolte, Raoul Falk, Sven Rech, Nils Kopal", null, "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo(false, "RSA", "RSA En/Decryption", "", "RSA/iconrsa.png", "RSA/Images/encrypt.png", "RSA/Images/decrypt.png")]
     [EncryptionType(EncryptionType.Asymmetric)]
     /// <summary>
@@ -258,7 +258,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Gets/Sets the one part of the public/private key called N
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Public Key / Private Key N Input", "Input your Public Key / Private key N here", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Public key / private Key N input", "Enter your public key / private key N here", "", DisplayLevel.Beginner)]
         public BigInteger InputN
         {
             get
@@ -275,7 +275,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Gets/Sets a input message/ciphertext as BigInteger called M / C
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Message M / Ciphertext C Input", "Input your Message M / Ciphertext C here", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Message M / ciphertext C input", "Enter your message M / ciphertext C here", "", DisplayLevel.Beginner)]
         public BigInteger InputMC
         {
             get
@@ -292,7 +292,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Gets/Sets the one part of the public/private key called E / D
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Public Key E / Private Key D input", "Input your public Key E / Private Key D here", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Public key E / private key D input", "Enter your public key E / private key D here", "", DisplayLevel.Beginner)]
         public BigInteger InputED
         {
             get
@@ -309,7 +309,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Gets/Sets a output message/ciphertext as BigInteger called C / M
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "Cipher C Output / Message M Output", "Your Cipher C / Message M will be send here", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Cipher C output / message M output", "Your cipher C / message M will be send here", "", DisplayLevel.Beginner)]
         public BigInteger OutputMC
         {
             get
@@ -326,7 +326,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Gets/Sets a text input for encryption/decryption
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Text Input", "Input your Text here", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Text input", "Enter your text here", "", DisplayLevel.Beginner)]
         public byte[] InputText
         {
             get
@@ -344,7 +344,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Gets/Sets a text output for encrypted/decrypted data
         /// </summary>       
-        [PropertyInfo(Direction.OutputData, "Text Output", "Your Text will be send here", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Text output", "Your text will be send here", "", DisplayLevel.Beginner)]
         public byte[] OutputText
         {
             get
@@ -403,7 +403,7 @@ namespace Cryptool.Plugins.RSA
                     if (bint > this.InputN)
                     {
                         //Go out with an error because encryption/decryption is not possible
-                        GuiLogMessage("The N is not suitable for encrypting this text: M = " + new BigInteger(help) + " > N = " + this.InputN + ". Choose another pair of primes!", NotificationLevel.Error);
+                        GuiLogMessage("N = " + this.InputN + " is not suitable for encrypting this text: M = " + new BigInteger(help) + " > N. Please choose another pair of primes!", NotificationLevel.Error);
                         return;
                     }
 
