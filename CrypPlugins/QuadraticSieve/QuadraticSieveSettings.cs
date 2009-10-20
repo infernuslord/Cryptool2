@@ -30,8 +30,21 @@ namespace QuadraticSieve
         #region private variables
         private int coresUsed;
         private bool hasChanges = false;
+        private ObservableCollection<string> coresAvailable = new ObservableCollection<string>();
+        private bool deleteCache;
         #endregion
 
+        #region events
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        #endregion
+
+        #region public
+
+        /// <summary>
+        /// Constructs a new QuadraticSieveSettings
+        /// 
+        /// Also calculates the amount of cores which can be used for the quadratic sieve
+        /// </summary>
         public QuadraticSieveSettings()
         {
             CoresAvailable.Clear();
@@ -40,8 +53,10 @@ namespace QuadraticSieve
             CoresUsed = Environment.ProcessorCount-1;
         }
 
-        #region taskpane
-        [TaskPane("CoresUsed", "Choose how many cores should be used", null, 1, false, DisplayLevel.Beginner, ControlType.DynamicComboBox, new string[] { "CoresAvailable" })]
+        /// <summary>
+        /// Getter/Setter for the amount of cores which the user wants to have used by the quadratic sieve
+        /// </summary>
+        [TaskPane("CoresUsed", "Choose how many cores should be used for sieving", null, 1, false, DisplayLevel.Beginner, ControlType.DynamicComboBox, new string[] { "CoresAvailable" })]
         public int CoresUsed
         {
             get { return this.coresUsed; }
@@ -55,8 +70,10 @@ namespace QuadraticSieve
                 }
             }
         }
-
-        private ObservableCollection<string> coresAvailable = new ObservableCollection<string>();
+        
+        /// <summary>
+        /// Get the available amount of cores of this pc
+        /// </summary>
         public ObservableCollection<string> CoresAvailable
         {
             get { return coresAvailable; }
@@ -70,8 +87,10 @@ namespace QuadraticSieve
             }
         }
 
-        private bool deleteCache;
-        [TaskPane("Delete cache", "If checked, this plugin will delete the old cache file before it starts sieving.", null, 2, false, DisplayLevel.Expert, ControlType.CheckBox, "", null)]
+        /// <summary>
+        /// Getter / Setter to enable/disable the deletion of the cache
+        /// </summary>
+        [TaskPane("Delete cache", "If checked, this plugin will delete the old cache file before it starts sieving", null, 2, false, DisplayLevel.Expert, ControlType.CheckBox, "", null)]
         public bool DeleteCache
         {
             get { return deleteCache; }
@@ -86,10 +105,9 @@ namespace QuadraticSieve
             }
         }
 
-        #endregion
-
-        #region ISettings Members
-
+        /// <summary>
+        /// Called if the settings have changes
+        /// </summary>
         public bool HasChanges
         {
             get
@@ -102,22 +120,21 @@ namespace QuadraticSieve
             }
         }
 
-        
-
         #endregion
 
-        #region INotifyPropertyChanged Members
+        #region private
 
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged(string p)
+        /// <summary>
+        /// A property changed
+        /// </summary>
+        /// <param name="name">name</param>
+        private void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)
             {
-                PropertyChanged(this, new PropertyChangedEventArgs(p));
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
         }
-
 
         #endregion
 
