@@ -27,15 +27,40 @@ namespace Cryptool.Plugins.BigNumber
     class BigNumberOperation : IThroughput
     {
 
+        #region private variable
+
+        private BigInteger input1 = null; 
+        private BigInteger input2 = null;
+        private BigInteger mod = null;
+        private BigInteger output = null;
+        private BigNumberOperationSettings settings = new BigNumberOperationSettings();
+
+        #endregion
+
+        #region event
+
+        public event Cryptool.PluginBase.StatusChangedEventHandler OnPluginStatusChanged;
+
+        public event Cryptool.PluginBase.GuiLogNotificationEventHandler OnGuiLogNotificationOccured;      
+
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        public event Cryptool.PluginBase.PluginProgressChangedEventHandler OnPluginProgressChanged;
+
+        #endregion
+
+        #region public
+
         public BigNumberOperation()
         {
             this.settings.OnPluginStatusChanged += settings_OnPluginStatusChanged;
         }
 
-        #region Properties
-
-        private BigInteger input1 = null;
-        [PropertyInfo(Direction.InputData, "x Input", "Number Input 1", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
+        /// <summary>
+        /// The inputs are defined.
+        /// Only BigInteger are accepted.
+        /// </summary>
+        [PropertyInfo(Direction.InputData, "x Input", "Number input 1", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
         public BigInteger Input1
         {
             get
@@ -49,8 +74,8 @@ namespace Cryptool.Plugins.BigNumber
             }
         }
 
-        private BigInteger input2 = null;
-        [PropertyInfo(Direction.InputData, "y Input", "Number Input 2", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
+        
+        [PropertyInfo(Direction.InputData, "y Input", "Number input 2", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
         public BigInteger Input2
         {
             get
@@ -64,8 +89,8 @@ namespace Cryptool.Plugins.BigNumber
             }
         }
 
-        private BigInteger mod = null;
-        [PropertyInfo(Direction.InputData, "Modulo", "Modulo Input", "", DisplayLevel.Beginner)]
+        
+        [PropertyInfo(Direction.InputData, "Modulo", "Modulo input", "", DisplayLevel.Beginner)]
         public BigInteger Mod
         {
             get
@@ -79,8 +104,10 @@ namespace Cryptool.Plugins.BigNumber
             }
         }
 
-        private BigInteger output = null;
-        [PropertyInfo(Direction.OutputData, "Output", "Number Output", "", DisplayLevel.Beginner)]
+        /// <summary>
+        /// The output is defined.
+        /// </summary>
+        [PropertyInfo(Direction.OutputData, "Output", "Number output", "", DisplayLevel.Beginner)]
         public BigInteger Output
         {
             get
@@ -94,32 +121,24 @@ namespace Cryptool.Plugins.BigNumber
              }
         }
 
-        #endregion
-
-        #region IPlugin Members
-
-        public event Cryptool.PluginBase.StatusChangedEventHandler OnPluginStatusChanged;
-
-        public event Cryptool.PluginBase.GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-
-        private void GuiLogMessage(string p, NotificationLevel notificationLevel)
-        {
-            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(p, this, notificationLevel));
-        }
-
-        public event Cryptool.PluginBase.PluginProgressChangedEventHandler OnPluginProgressChanged;
-
+        
+        /// <summary>
+        /// Showing the progress change while plug-in is working
+        /// </summary>
+        /// <param name="value">Value of current process progress</param>
+        /// <param name="max">Max value for the current progress</param>
         private void ProgressChanged(double value, double max)
         {
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }
 
-        private BigNumberOperationSettings settings = new BigNumberOperationSettings();
+        
         public ISettings Settings
         {
             get { return settings; }
             set { settings = (BigNumberOperationSettings)value; }
         }
+
 
         public System.Windows.Controls.UserControl Presentation
         {
@@ -138,39 +157,49 @@ namespace Cryptool.Plugins.BigNumber
             mod = null;
         }
 
+        /// <summary>
+        /// Main method
+        /// </summary>
         public void Execute()
         {
+            //First checks if both inputs are set
             if (input1 != null && input2 != null)
             {
                 ProgressChanged(0.5, 1.0);
                 try
                 {
+                    //As the user changes the operation different outputs are calculated.
                     switch (settings.Operat)
                     {
+                        // x + y
                         case 0:
                             if (Mod is object)
                                 Output = (Input1 + Input2) % Mod;
                             else
                                 Output = Input1 + Input2;
                             break;
+                        // x - y
                         case 1:
                             if (Mod is object)
                                 Output = (Input1 - Input2) % Mod;
                             else
                                 Output = Input1 - Input2;
                             break;
+                        //x * y
                         case 2:
                             if (Mod is object)
                                 Output = (Input1 * Input2) % Mod;
                             else
                                 Output = Input1 * Input2;
                             break;
+                        // x / y
                         case 3:
                             if (Mod is object)
                                 Output = (Input1 / Input2) % Mod;
                             else
                                 Output = Input1 / Input2;
                             break;
+                        // x ^ y
                         case 4:
                             if (Mod is object)
                             {
@@ -186,6 +215,7 @@ namespace Cryptool.Plugins.BigNumber
                                 Output = Input1.pow(Input2);
                             }
                             break;
+                        // gcd(x,y)
                         case 5:
                                 Output = Input1.gcd(Input2);
                             break;
@@ -222,20 +252,23 @@ namespace Cryptool.Plugins.BigNumber
 
         #endregion
 
-        #region INotifyPropertyChanged Members
-
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        #region private        
 
         private void OnPropertyChanged(string p)
         {
             EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(p));
         }
 
-        #endregion
+        private void GuiLogMessage(string p, NotificationLevel notificationLevel)
+        {
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(p, this, notificationLevel));
+        }
 
         private void settings_OnPluginStatusChanged(IPlugin sender, StatusEventArgs args)
         {
             if (OnPluginStatusChanged != null) OnPluginStatusChanged(this, args);
         }
+
+        #endregion
     }
 }
