@@ -32,11 +32,18 @@ using System.Reflection;
 
 namespace Cryptool.Plugins.QuadraticSieve
 {
+    /// <summary>
+    /// This class wraps the msieve algorithm in version 1.42 which you can find at http://www.boo.net/~jasonp/qs.html
+    /// It also extends the msieve functionality to multi threading 
+    /// Many thanks to the author of msieve "jasonp_sf"
+    /// 
+    /// For further information on quadratic sieve or msieve please have a look at the above mentioned URL
+    /// </summary>
     [Author("Sven Rech", "rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo(false, "Quadratic Sieve", "Sieving Primes", "", "QuadraticSieve/iconqs.png")]
     class QuadraticSieve : DependencyObject, IThroughput
     {
-        #region IPlugin Members
+        #region private variables
 
         private const string TempDirectoryName = "CrypTool Temp Files";
         private static readonly string directoryName;
@@ -55,6 +62,23 @@ namespace Cryptool.Plugins.QuadraticSieve
         private static Type msieve;
         private bool userStopped = false;
 
+        #endregion
+
+        #region events
+
+        public event StatusChangedEventHandler OnPluginStatusChanged;
+        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        public event PluginProgressChangedEventHandler OnPluginProcessChanged;
+
+        #endregion
+
+        /// <summary>
+        /// Static constructor
+        /// 
+        /// loads the msieve / msieve64 dll
+        /// </summary>
         static QuadraticSieve()
         {
             directoryName = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), TempDirectoryName), "msieve");
@@ -70,7 +94,14 @@ namespace Cryptool.Plugins.QuadraticSieve
             msieveDLL = Assembly.LoadFile(Directory.GetCurrentDirectory() + "\\" + dllname);
             msieve = msieveDLL.GetType("Msieve.msieve");
         }
+        
+        #region public
 
+        /// <summary>
+        /// Constructor
+        /// 
+        /// constructs a new QuadraticSieve plugin
+        /// </summary>
         public QuadraticSieve()
         {
             QuickWatchPresentation = new QuadraticSievePresentation();
@@ -84,22 +115,25 @@ namespace Cryptool.Plugins.QuadraticSieve
             , null);
         }                
 
-        public event StatusChangedEventHandler OnPluginStatusChanged;
-
-        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-
-        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
-
+        /// <summary>
+        /// Getter / Setter for the settings of this plugin
+        /// </summary>
         public Cryptool.PluginBase.ISettings Settings
         {
             get { return this.settings; }
             set { this.settings = (QuadraticSieveSettings)value; } 
         }           
 
+        /// <summary>
+        /// Called by the environment before executing this plugin
+        /// </summary>
         public void PreExecution()
         {  
         }
-
+        
+        /// <summary>
+        /// Called by the environment to execute this plugin
+        /// </summary>
         public void Execute()
         {
             userStopped = false;
@@ -197,7 +231,122 @@ namespace Cryptool.Plugins.QuadraticSieve
                 
             }
         }
+        
+        /// <summary>
+        /// Called by the environment after execution
+        /// </summary>
+        public void PostExecution()
+        {
+        }
 
+        /// <summary>
+        /// Called by the environment to pause execution
+        /// </summary>
+        public void Pause()
+        {
+        }
+
+        /// <summary>
+        /// Called by the environment to stop execution
+        /// </summary>
+        public void Stop()
+        {
+            this.userStopped = true;
+            if (obj != IntPtr.Zero)
+            {
+                stopThreads();
+                MethodInfo stop = msieve.GetMethod("stop");
+                stop.Invoke(null, new object[] { obj });
+            }
+
+        }
+
+        /// <summary>
+        /// Called by the environment to initialize this plugin
+        /// </summary>
+        public void Initialize()
+        {
+        }
+
+        /// <summary>
+        /// Called by the environment to dispose this plugin
+        /// </summary>
+        public void Dispose()
+        {
+        }
+
+        /// <summary>
+        /// Getter / Setter for the input number which should be factorized
+        /// </summary>
+        [PropertyInfo(Direction.InputData, "Number input", "Enter the number you want to factorize", "", DisplayLevel.Beginner)]
+        public BigInteger InputNumber
+        {
+            get
+            {
+                return inputNumber;
+            }
+            set
+            {
+                this.inputNumber = value;
+                OnPropertyChanged("InputNumber");
+            }
+        }
+
+        /// <summary>
+        /// Getter / Setter for the factors calculated by msieve
+        /// </summary>
+        [PropertyInfo(Direction.OutputData, "Factors output", "Your factors will be sent here", "", DisplayLevel.Beginner)]
+        public BigInteger[] OutputFactors
+        {
+            get
+            {
+                return outputFactors;
+            }
+            set
+            {
+                this.outputFactors = value;
+                OnPropertyChanged("OutputFactors");
+            }
+        }
+        
+        /// <summary>
+        /// Called when a property of this plugin changes
+        /// </summary>
+        /// <param name="name">name</param>
+        public void OnPropertyChanged(string name)
+        {
+            EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
+        }
+
+        /// <summary>
+        /// Getter / Setter for the presentation of this plugin
+        /// </summary>
+        public UserControl Presentation { get; private set; }
+
+        /// <summary>
+        /// Getter / Setter for the QuickWatchPresentation of this plugin
+        /// </summary>
+        public UserControl QuickWatchPresentation
+        {
+            get;
+            private set;
+        }
+
+        #endregion
+
+        #region private
+
+        /// <summary>
+        /// calculate a String which shows the timespan
+        /// 
+        /// example
+        /// 
+        ///     4 days
+        /// or
+        ///     2 minutes
+        /// </summary>
+        /// <param name="ts"></param>
+        /// <returns></returns>
         private String showTimeSpan(TimeSpan ts)
         {
             String res = "";
@@ -210,8 +359,14 @@ namespace Cryptool.Plugins.QuadraticSieve
             if (res.Length == 0)
                 res += ts.Seconds + " seconds";
             return res;
-        }
+        }    
 
+        /// <summary>
+        /// Actualize the progress 
+        /// </summary>
+        /// <param name="conf"></param>
+        /// <param name="num_relations"></param>
+        /// <param name="max_relations"></param>
         private void showProgress(IntPtr conf, int num_relations, int max_relations)
         {
             if (num_relations == -1)    //sieving finished
@@ -263,6 +418,14 @@ namespace Cryptool.Plugins.QuadraticSieve
             }
         }
 
+        /// <summary>
+        /// Callback method to prepare sieving
+        /// Called by msieve
+        /// 
+        /// </summary>
+        /// <param name="conf">pointer to configuration</param>
+        /// <param name="update">number of relations found</param>
+        /// <param name="core_sieve_fcn">pointer to internal sieve function of msieve</param>
         private void prepareSieving (IntPtr conf, int update, IntPtr core_sieve_fcn)
         {
             int threads = Math.Min(settings.CoresUsed, Environment.ProcessorCount-1);
@@ -294,7 +457,10 @@ namespace Cryptool.Plugins.QuadraticSieve
             }
         }
 
-        //Helper Thread for msieve, which sieves for relations:
+        /// <summary>
+        /// Helper Thread for msieve, which sieves for relations:
+        /// </summary>
+        /// <param name="param">params</param>
         private void MSieveJob(object param)
         {
             threadcount++;
@@ -324,28 +490,11 @@ namespace Cryptool.Plugins.QuadraticSieve
             MethodInfo freeSieveConf = msieve.GetMethod("freeSieveConf");
             freeSieveConf.Invoke(null, new object[] { clone });            
             threadcount--;
-        }
+        }       
 
-        public void PostExecution()
-        {           
-        }
-
-        public void Pause()
-        {            
-        }
-
-        public void Stop()
-        {
-            this.userStopped = true;
-            if (obj != IntPtr.Zero)
-            {
-                stopThreads();
-                MethodInfo stop = msieve.GetMethod("stop");
-                stop.Invoke(null, new object[] { obj });
-            }
-            
-        }
-
+        /// <summary>
+        /// Stop all running threads
+        /// </summary>
         private void stopThreads()
         {
             if (conf_list != null)
@@ -354,7 +503,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 MethodInfo stop = msieve.GetMethod("stop");
                 MethodInfo getObjFromConf = msieve.GetMethod("getObjFromConf");
                 foreach (IntPtr conf in conf_list)
-                    stop.Invoke(null, new object[] { getObjFromConf.Invoke(null, new object[] {conf}) });
+                    stop.Invoke(null, new object[] { getObjFromConf.Invoke(null, new object[] { conf }) });
                 GuiLogMessage("Waiting for threads to stop!", NotificationLevel.Debug);
                 while (threadcount > 0)
                 {
@@ -363,89 +512,37 @@ namespace Cryptool.Plugins.QuadraticSieve
                 GuiLogMessage("Threads stopped!", NotificationLevel.Debug);
                 conf_list.Clear();
             }
-        }
+        }    
 
-        public void Initialize()
-        {            
-        }
-
-        public void Dispose()
-        {
-        }
-
-        #endregion
-
-        #region QuadraticSieveInOut
-
-        [PropertyInfo(Direction.InputData, "Number Input", "Put the number you want to factorize here", "", DisplayLevel.Beginner)]
-        public BigInteger InputNumber
-        {
-            get
-            {
-                return inputNumber;
-            }
-            set
-            {
-                this.inputNumber = value;
-                OnPropertyChanged("InputNumber");
-            }
-        }
-
-
-        [PropertyInfo(Direction.OutputData, "Factors Output", "Your factors will be sent here", "", DisplayLevel.Beginner)]
-        public BigInteger[] OutputFactors
-        {
-            get
-            {
-                return outputFactors;
-            }
-            set
-            {
-                this.outputFactors = value;
-                OnPropertyChanged("OutputFactors");
-            }
-        }
-
-        #endregion
-
-        #region INotifyPropertyChanged Members
-
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged(string name)
-        {
-            EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
-        }
-
-        public event PluginProgressChangedEventHandler OnPluginProcessChanged;
-
+        /// <summary>
+        /// Change the progress of this plugin
+        /// </summary>
+        /// <param name="value">value</param>
+        /// <param name="max">max</param>
         private void ProgressChanged(double value, double max)
         {
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }
 
+        /// <summary>
+        /// Logs a message to the CrypTool gui
+        /// </summary>
+        /// <param name="p">p</param>
+        /// <param name="notificationLevel">notificationLevel</param>
         private void GuiLogMessage(string p, NotificationLevel notificationLevel)
         {
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(p, this, notificationLevel));
         }
 
-        #endregion
-
-        #region IPlugin Members
-
+        /// <summary>
+        /// Getter / Setter for the QuickWatchPresentation
+        /// </summary>
         private QuadraticSievePresentation quadraticSieveQuickWatchPresentation
         {
             get { return QuickWatchPresentation as QuadraticSievePresentation; }
         }
 
-        public UserControl Presentation { get; private set; }
-
-        public UserControl QuickWatchPresentation
-        {
-            get;
-            private set;
-        }
-
         #endregion
+
     }
 }
