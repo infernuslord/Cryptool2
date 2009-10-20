@@ -31,6 +31,12 @@ namespace Cryptool.Plugins.BigNumber
 
         #endregion
         #region taskpane
+
+        /// <summary>
+        /// The checkbox with its options.
+        /// 
+        /// Based on the option chosen, the icon for this plug-in will also change.
+        /// </summary>
         [TaskPane("Operat", "Choose the operator.", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "x+y","x-y","x*y","x/y","x^y","GCD"})]
         public int Operat
         {
@@ -45,21 +51,27 @@ namespace Cryptool.Plugins.BigNumber
 
                     switch (operat)
                     {
+                        //x+y
                         case 0:
                             ChangePluginIcon(0);
                             break;
+                        //x-y
                         case 1:
                             ChangePluginIcon(1);
                             break;
+                        //x*y
                         case 2:
                             ChangePluginIcon(2);
                             break;
+                        //x/y
                         case 3:
                             ChangePluginIcon(3);
                             break;
+                        //x^y
                         case 4:
                             ChangePluginIcon(4);
                             break;
+                        //gcd(x,y)
                         case 5:
                             ChangePluginIcon(5);
                             break;
