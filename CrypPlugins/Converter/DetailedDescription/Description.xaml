@@ -1,0 +1,78 @@
+<FlowDocument PagePadding="5,0,5,0" AllowDrop="True" NumberSubstitution.CultureSource="User" 
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+			  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			  xmlns:misc="clr-namespace:Cryptool.PluginBase.Miscellaneous;assembly=CrypPluginBase"
+			  Background="White" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+    
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+        <Span FontFamily="Georgia" FontWeight="Bold" FontSize="18.6666666666667" Foreground="#FF15428B" xml:lang="en-us">
+            <Span.TextDecorations>
+                <TextDecoration Location="Underline" />
+            </Span.TextDecorations>
+            Converter (Throughput)
+        </Span>
+    </Paragraph>
+       <Paragraph TextAlignment="Justify">
+        <Image Source="/Converter;component/icons/icon.png"   Height="100" Width="100"/>
+       <Image Source="/Converter;component/icons/tobig.png"  Height="100" Width="100"/>  
+        <Image Source="/Converter;component/icons/tobyte.png"  Height="100" Width="100"/>  
+        <Image Source="/Converter;component/icons/tobytearray.png"  Height="100" Width="100"/>  
+        <Image Source="/Converter;component/icons/tocryptoolstream.png"  Height="100" Width="100"/>  
+       <Image Source="/Converter;component/icons/toint.png"  Height="100" Width="100"/>  
+       <Image Source="/Converter;component/icons/tointarray.png"  Height="100" Width="100"/>
+       <Image Source="/Converter;component/icons/toshort.png"  Height="100" Width="100"/>
+       <Image Source="/Converter;component/icons/tostring.png"  Height="100" Width="100"/>
+        </Paragraph>
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+        <Span FontFamily="Georgia" FontWeight="Bold" FontSize="17" Foreground="#FF15428B" xml:lang="en-us">
+            <Span.TextDecorations>
+                <TextDecoration Location="Underline" />
+            </Span.TextDecorations>
+            Introduction
+        </Span>
+    </Paragraph>
+    <Paragraph TextAlignment="Justify">
+        <Run FontSize="16" xml:lang="en-us">
+           This plugin provides conversion between datatypes.  If the input is about to be converted to a numeric type, it is first converted to a String and then to the desired type.
+           </Run>
+    </Paragraph>
+        <Paragraph TextAlignment="Justify">
+    <Run>
+           If the input is of type boolean, only conversion to type Int or String is possible.
+        </Run>
+    </Paragraph>
+
+ 
+  
+      <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+        <Span FontFamily="Georgia" FontWeight="Bold" FontSize="18.6666666666667" Foreground="#FF15428B" xml:lang="en-us">
+            <Span.TextDecorations>
+                <TextDecoration Location="Underline" />
+            </Span.TextDecorations>
+            Converting to a Double
+        </Span>
+    </Paragraph>
+       <Paragraph TextAlignment="Justify">
+       
+    <Run>
+           When converting to a double, it can be chosen to use either European format or American format. E.g. when European format is selected, "123.324,34" will be converted to "123324,34" and on American format "123,324.34" will 
+           be converted to the same double. Please be aware taht conversion to Double is not safe. Digits may be cut off.
+        </Run>
+    </Paragraph>
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+        <Span FontFamily="Georgia" FontWeight="Bold" FontSize="17" Foreground="#FF15428B" xml:lang="en-us">
+            <Span.TextDecorations>
+                <TextDecoration Location="Underline" />
+            </Span.TextDecorations>
+            Converting to Byte[]
+        </Span>
+     
+    </Paragraph>
+<Paragraph TextAlignment="Justify">
+       
+    <Run>
+           If Byte[] is selected as output type, it can be chosen whether the input is read as a numeric value and store the value in the numeric encoding in the Byte[]. Note that this will force a warning if the given input can not be recognized as a numeric value.
+        </Run>
+    </Paragraph>
+
+</FlowDocument>
