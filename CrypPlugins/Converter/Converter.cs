@@ -221,7 +221,7 @@ namespace Cryptool.Plugins.Converter
                                 String cleanInputString = DoubleCleanup(inpString);
 
                                 double temp = Convert.ToDouble(cleanInputString);
-                                GuiLogMessage("double erkannt ", NotificationLevel.Info);
+                                GuiLogMessage("Converting String to double is not safe. Digits may have been cut off  ", NotificationLevel.Warning);
                                 Output = temp;
                                 ProgressChanged(100, 100);
                             }
@@ -302,22 +302,20 @@ namespace Cryptool.Plugins.Converter
                                 }
                                 try // lässt sich als double verstehen?
                                 {   
-                                    double number=0.0;
                                     
-                                    if (Double.TryParse(DoubleCleanup(inpString), out number))
-                                    {
-                                        
+                                    
+                                    
                                         double tempDouble = Convert.ToDouble(DoubleCleanup(inpString));
                                         byte[] temp = BitConverter.GetBytes(tempDouble);
 
                                         double test = BitConverter.ToDouble(temp, 0);
-                                        GuiLogMessage("double erkannt " + test.ToString(), NotificationLevel.Info);
+                                        GuiLogMessage("Converting String to double is not safe. Digits may have been cut off " + test.ToString(), NotificationLevel.Warning);
 
                                         Output = temp;
 
                                         ProgressChanged(100, 100);
                                         break;
-                                    }
+                                    
                                   
                                   
                                 }
@@ -346,7 +344,7 @@ namespace Cryptool.Plugins.Converter
                                 ProgressChanged(100, 100);
                                 break;
                             }
-                            break;
+                            
                         }
                     case 8: //cryptoolstream
                         {

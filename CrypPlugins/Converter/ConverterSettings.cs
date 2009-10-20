@@ -48,6 +48,66 @@ namespace Cryptool.Plugins.Converter
                 if (value != this.converter)
                 {
                     this.converter = value;
+                    if (TaskPaneAttributeChanged != null)
+                    {
+                        switch (Converter)
+                        {
+                            case 0:
+                                {
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Collapsed)));
+                                    //TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
+                                    break;
+                                }
+                            case 1:
+                                {
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Collapsed)));
+                                    //  TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Collapsed)));
+                                    //TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
+                                    break;
+                                }
+                            case 3:
+                                {
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Collapsed)));
+                                    //TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
+                                    break;
+                                }
+                            case 4:
+                                {
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Collapsed)));
+                                    // TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
+                                    break;
+                                }
+                            case 5:
+                                {
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Collapsed)));
+                                    //TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
+                                    break;
+                                }
+                            case 6:
+                                {
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Collapsed)));
+                                    //TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
+                                    break;
+                                }
+                            case 7:
+                                {
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Visible)));
+                                    //TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
+                                    break;
+                                }
+                            case 8:
+                                {
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Collapsed)));
+                                    //TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
+                                    break;
+                                }
+                        }
+                    }
                     OnPropertyChanged("Converter");
                     HasChanges = true;
 
@@ -98,6 +158,8 @@ namespace Cryptool.Plugins.Converter
         #endregion
 
         #region INotifyPropertyChanged Member
+
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
