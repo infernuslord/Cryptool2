@@ -49,8 +49,7 @@ namespace Cryptool.CubeAttack
         private int constTest = 50;
         private int linTest = 50;
         private string setPublicBits = "0*00*";
-        private int triviumOutputBit;
-        private int triviumRounds;
+        private int outputBit;
         
         #endregion
 
@@ -163,7 +162,7 @@ namespace Cryptool.CubeAttack
             "Maxmium size of the summation cube.",
             null,
             5,
-            true,
+            false,
             DisplayLevel.Beginner,
             ControlType.NumericUpDown,
             ValidationType.RangeInteger,
@@ -251,8 +250,8 @@ namespace Cryptool.CubeAttack
         }
 
         [PropertySaveOrder(9)]
-        [TaskPane("Trivium Output Bit",
-            "Chooses the output bit in the stream cipher Trivium.",
+        [TaskPane("Output Bit",
+            "Chooses the output bit of the black box, which should be evaluated.",
             null,
             9,
             true,
@@ -263,38 +262,17 @@ namespace Cryptool.CubeAttack
             10000)]
         public int TriviumOutputBit
         {
-            get { return triviumOutputBit; }
+            get { return outputBit; }
             set
             {
-                if (value != this.triviumOutputBit) HasChanges = true;
-                triviumOutputBit = value;
+                if (value != this.outputBit) HasChanges = true;
+                outputBit = value;
                 OnPropertyChanged("TriviumOutputBit");
             }
         }
 
-        [PropertySaveOrder(10)]
-        [TaskPane("Trivium Initialisation Rounds",
-            "Number of Trivium initialisation rounds.",
-            null,
-            10,
-            false,
-            DisplayLevel.Beginner,
-            ControlType.NumericUpDown,
-            ValidationType.RangeInteger,
-            1,
-            1152)]
-        public int TriviumRounds
-        {
-            get { return triviumRounds; }
-            set
-            {
-                if (value != this.triviumRounds) HasChanges = true;
-                triviumRounds = value;
-                OnPropertyChanged("TriviumRounds");
-            }
-        }
-
         #endregion
+
 
         #region INotifyPropertyChanged Members
 

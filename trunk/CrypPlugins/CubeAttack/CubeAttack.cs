@@ -356,10 +356,10 @@ namespace Cryptool.CubeAttack
                             vBool[i] = Convert.ToBoolean(v[i]);
                         for (int i = 0; i < x.Length; i++)
                             xBool[i] = Convert.ToBoolean(x[i]);
-                        bool[] vx = new bool[v.Length + x.Length];
+                        /*bool[] vx = new bool[v.Length + x.Length];
                         System.Buffer.BlockCopy(vBool, 0, vx, 0, vBool.Length);
-                        System.Buffer.BlockCopy(xBool, 0, vx, vBool.Length, xBool.Length);
-                        result = ParserOutput.SolveFunction(null, vx, 1);
+                        System.Buffer.BlockCopy(xBool, 0, vx, vBool.Length, xBool.Length); */
+                        result = ParserOutput.SolveFunction(vBool, xBool);
                         break;
                     // Trivium as black box
                     case 1:
@@ -371,7 +371,7 @@ namespace Cryptool.CubeAttack
                         }
                         else
                         {
-                            result = TriviumOutput.GenerateTriviumKeystream(v, x, indexOutputBit, settings.TriviumRounds, false);
+                            result = TriviumOutput.GenerateTriviumKeystream(v, x, indexOutputBit, false);
                             break;
                         }
                 }
@@ -475,7 +475,7 @@ namespace Cryptool.CubeAttack
 
             // Output Bit Index if Trivium is Black Box
             if (settings.BlackBox == 1)
-                output.Append("   Trivium Output Bit Index: " + (indexOutputBit + settings.TriviumRounds - 1) + "\n");
+                output.Append("   Trivium Output Bit Index: " + indexOutputBit + "\n");
             else
                 output.Append("\n");
 
@@ -879,7 +879,7 @@ namespace Cryptool.CubeAttack
 
                                 // Output Bit Index if Trivium is Black Box
                                 if (settings.BlackBox == 1)
-                                    outputCube += "   Trivium Output Bit Index: " + (indexOutputBit + settings.TriviumRounds - 1);
+                                    outputCube += "   Trivium Output Bit Index: " + indexOutputBit;
 
                                 CubeAttack_LogMessage(outputCube, NotificationLevel.Info);
                                 break;
@@ -947,7 +947,7 @@ namespace Cryptool.CubeAttack
                 {
                     flag = false;
                     logOutput = string.Empty;
-                    output.Append("Maxterm Equation: ");
+                    output.Append("Superpoly: ");
                     if (superpolyMatrix[i, 0] == 1)
                     {
                         output.Append("1");
@@ -988,11 +988,11 @@ namespace Cryptool.CubeAttack
                                     bool[] vBool = new bool[pubVarElement.Length];
                                     for (int l = 0; l < pubVarElement.Length; l++)
                                         vBool[l] = Convert.ToBoolean(pubVarElement[l]);
-                                    b[i] ^= ParserOutput.SolveFunction(null, vBool, 2);
+                                    b[i] ^= ParserOutput.SolveFunction(vBool, null);
                                     break;
                                 case 1:
                                     // Online phase Trivium
-                                    b[i] ^= TriviumOutput.GenerateTriviumKeystream(pubVarElement, null, outputBitIndex[i], settings.TriviumRounds, false);
+                                    b[i] ^= TriviumOutput.GenerateTriviumKeystream(pubVarElement, null, outputBitIndex[i], false);
                                     break;
                             }
                         }
@@ -1021,7 +1021,7 @@ namespace Cryptool.CubeAttack
                     CubeAttack_LogMessage("Key bits successfully discovered, online phase completed", NotificationLevel.Info);
                 }
                 else
-                    CubeAttack_LogMessage("Not enough linearly independent superpolys have been found to discover all secret bits !", NotificationLevel.Info);
+                    CubeAttack_LogMessage("Not enough linearly independent superpolys have been found in the preprocessing to discover all secret bits !", NotificationLevel.Info);
             }
         }
 
