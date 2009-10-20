@@ -19,11 +19,45 @@ namespace BooleanOperators
     /// </summary>
     public partial class ButtonInputPresentation : UserControl
     {
+
+        public event EventHandler StatusChanged;
+
         public ButtonInputPresentation()
         {
             InitializeComponent();
         }
+        /// <summary>
+        /// Current value of the button
+        /// </summary>
+        public Boolean Value { get; set; }
 
-       
+
+        public void ExecuteThisMethodWhenButtonIsClicked(object sender, EventArgs e)
+        {
+
+            if (Value)
+            {
+
+                this.myButton.Background = Brushes.Green;
+                this.myButton.Content = "true";
+                Value = false;
+
+                
+
+            }
+
+            else
+            {
+                this.myButton.Background = Brushes.Red;
+                this.myButton.Content = "false";
+                Value = true;
+            }
+
+            if (StatusChanged != null)
+            {
+                StatusChanged(this, EventArgs.Empty);
+            }
+
+        }
     }
 }

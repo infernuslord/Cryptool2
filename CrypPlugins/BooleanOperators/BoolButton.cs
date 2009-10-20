@@ -34,32 +34,18 @@ namespace Cryptool.Plugins.BoolButton
         public BoolButton()
         {
             this.settings = new BoolButtonSettings();            
-           // this.settings.OnPluginStatusChanged += settings_OnPluginStatusChanged;
-            this.settings.PropertyChanged += settings_PropertyChanged;
             myButton = new ButtonInputPresentation();
             Presentation = myButton;
-            this.settings.PropertyChanged += myButton.ExecuteThisMethodWhenButtonIsClicked;
+            myButton.StatusChanged += new EventHandler(myButton_StatusChanged);
        }
 
-       void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void myButton_StatusChanged(object sender, EventArgs e)
         {
-            if (myButton.c == true)
-            {
-                Output = false;
-                // as the setting is not changeable in play mode, there is no need to update Output property
-                //Output = (settings.Value == 1);
-
-                settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 1));
-            }
-            else 
-            {
-                Output = true;
-                settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 0));
-            }
+            Execute();
         }
 
-        [PropertyInfo(Direction.OutputData, "Output", "Output", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
-        
+      
+        [PropertyInfo(Direction.OutputData, "Output", "Output", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]  
         public Boolean Output
         {
             get
@@ -85,37 +71,32 @@ namespace Cryptool.Plugins.BoolButton
         public void Execute()
         {
             
-            Output = true;
-            if (myButton.c == true)
+            if (myButton.Value)
             {
-                Output = false;
                 settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 0));
             }
-            if (myButton.c == false)
-            {
-                Output = true;
+            if (!myButton.Value)
+            {               
                 settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 1));
             }
-            //Output = (settings.Value == 1);
-            
-            //settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, settings.Value));
 
+            Output = myButton.Value;
             ProgressChanged(1, 1);
         }
 
         public void Initialize()
         {
-            Output = true;
-            if (myButton.c == true)
-            {
-                Output = false;
-            }
-            if (myButton.c == false)
-            {
-                Output = true;
-            }
-            // not working, see ticket #80
-           // settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, settings.Value));
+           // Output = true;
+           // if (myButton.buttonval == true)
+           // {
+           //     Output = false;
+           // }
+           // if (myButton.buttonval == false)
+           // {
+           //     Output = true;
+           // }
+           // // not working, see ticket #80
+           //// settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, settings.Value));
 
         }
 
