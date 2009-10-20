@@ -71,7 +71,7 @@ namespace Cryptool.NLFSR
 
         private bool noQuickwatch = false;
         [ContextMenu("Do not display Quickwatch", "With this checkbox enabled, no quickwatch will be generated for better performance.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Display Quickwatch?" })]
-        [TaskPane("Do not display Quickwatch", "With this checkbox enabled, no quickwatch will be generated for better performance.", null, 1, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+        [TaskPane("Do not display Quickwatch", "With this checkbox enabled, no quickwatch will be generated for better performance.", null, 1, true, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
         public bool NoQuickwatch
         {
             get { return this.noQuickwatch; }

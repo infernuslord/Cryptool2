@@ -261,11 +261,12 @@ namespace Cryptool.BooleanFunctionParser
           else
           {
               GridLength colLength = (GridLength)myGridLengthConverter.ConvertFromString("1*");
-              GridLength colmLength = (GridLength)myGridLengthConverter.ConvertFromString("5");
+              //GridLength colmLength = (GridLength)myGridLengthConverter.ConvertFromString("5");
+              GridLength col0Length = (GridLength)myGridLengthConverter.ConvertFromString("0");
               if (col0 != null)
                   Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                   {
-                      col0.Width = colLength;
+                      col0.Width = col0Length;
                   }, null);
 
               if (col1 != null)
@@ -273,11 +274,12 @@ namespace Cryptool.BooleanFunctionParser
                   {
                       col1.Width = colLength;
                   }, null);
-              if (colm != null)
+              /*if (colm != null)
                   Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                   {
                       colm.Width = colmLength;
                   }, null);
+               */
           }
       }
 

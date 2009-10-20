@@ -43,7 +43,7 @@
         </Grid>
         
         <Label Name="labelInputFunction2" Grid.Column="2" Grid.Row="0" VerticalAlignment="Top" Margin="4" Padding="0">
-            2nd boolean function for cube attack:
+            Boolean function for cube attack:
         </Label>
         <Grid Background="White" Grid.Column="2" Grid.Row="1">
         <TextBox Name="textBoxInputFunction2" AcceptsTab="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True">
@@ -53,7 +53,7 @@
         </TextBox>
         </Grid>
         <Label Name="labelInputData2" Grid.Column="2" Grid.Row="2" VerticalAlignment="Top" Margin="4" Padding="0" >
-            Secret Key data:
+            Secret key:
         </Label>
         <Grid Background="White" Grid.Column="2" Grid.Row="3">
         <TextBox Name="textBoxInputData2" AcceptsTab="True"

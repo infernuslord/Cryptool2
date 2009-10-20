@@ -225,7 +225,7 @@ namespace Cryptool.BooleanFunctionParser
                     // revert also state of inputFunction flag
                     lastInputWasFunction = false;
 
-                    int intOutput = ParseBooleanFunction(inputFunction, null, 0);
+                    int intOutput = ParseBooleanFunction(null, null);
                     if (intOutput == -1) return;
                     else
                     {
@@ -344,8 +344,9 @@ namespace Cryptool.BooleanFunctionParser
          * int - the one bit long result of the given function; returns -1 on any failure
          * *******************************************************************************
         */
-        public int ParseBooleanFunction(string function, bool[] inputVariables, int switchInputs)
+        public int ParseBooleanFunction(bool[] inputVariables, bool[] dataTwo)
         {
+            string function = null;
             // if function is empty, use input funtion (could happen in case of a master/slave call) or quickwatch function
             // get quickwatch function
             string quickwatchFunction = (string)this.booleanFunctionParserPresentation.textBoxInputFunction.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
@@ -357,21 +358,17 @@ namespace Cryptool.BooleanFunctionParser
                 return booleanFunctionParserPresentation.textBoxInputFunction2.Text;
             }, booleanFunctionParserPresentation);
 
-            if (function == null || function == string.Empty)
-            {
-                if (inputFunction != null && inputFunction != string.Empty)
-                    function = inputFunction;
-                else if (quickwatchFunction != null && quickwatchFunction != string.Empty && switchInputs == 1)
-                    function = quickwatchFunction;
-                else if (quickwatchFunctionCube != null && quickwatchFunctionCube != string.Empty && switchInputs == 2)
-                    function = quickwatchFunctionCube;
-                else if (quickwatchFunction != null && quickwatchFunction != string.Empty)
-                    function = quickwatchFunction;
-                else
-                    return -1;
-            }
+            if (inputFunction != null && inputFunction != string.Empty)
+                function = inputFunction;
+            else if (quickwatchFunction != null && quickwatchFunction != string.Empty)
+                function = quickwatchFunction;
+            else if (quickwatchFunctionCube != null && quickwatchFunctionCube != string.Empty && settings.UseBFPforCube == true)
+                function = quickwatchFunctionCube;
+            else
+                return -1;
+
             // replace variables with data
-            string strExpression = ReplaceVariables(function, inputVariables, switchInputs);
+            string strExpression = ReplaceVariables(function, inputVariables, dataTwo);
             // test if function is valid
             string strExpressionTested = TestFunction(strExpression);
             if (strExpressionTested == "foo")
@@ -403,7 +400,7 @@ namespace Cryptool.BooleanFunctionParser
             return x;
         }
 
-        private string ReplaceVariables(string strExpressionWithVariables, bool[] externData, int switchData)
+        private string ReplaceVariables(string strExpressionWithVariables, bool[] externDataOne, bool []externDataTwo)
         {
             // remove spaces
             string strExpression = strExpressionWithVariables.Replace(" ", "");
@@ -464,25 +461,25 @@ namespace Cryptool.BooleanFunctionParser
                 }
             }
             // replace extern data (i_0.*) (if there is any)
-            if (externData != null && externData.Length != 0)
+            if (externDataOne != null && externDataOne.Length != 0)
             {
-                char[] strInputVariableExtern = new char[externData.Length];
+                char[] strInputVariableExtern = new char[externDataOne.Length];
                 for (int i = strInputVariableExtern.Length - 1; i >= 0; i--)
                 {
                     // get numeric values from bool inputs
-                    strInputVariableExtern[i] = externData[i] ? '1' : '0';
+                    strInputVariableExtern[i] = externDataOne[i] ? '1' : '0';
                     string replacement = "i_0." + i;
                     strExpression = strExpression.Replace(replacement, strInputVariableExtern[i].ToString());
                 }
             }
             // replace quickwatch data (i_q.*) (if there is any)
-            if (switchData == 1 || switchData == 0)
+            if (settings.UseBFPforCube == false)
             {
                 string quickwatchData = (string)this.booleanFunctionParserPresentation.textBoxInputData.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
                 {
                     return booleanFunctionParserPresentation.textBoxInputData.Text;
                 }, booleanFunctionParserPresentation);
-                if (quickwatchData == null || quickwatchData != string.Empty)
+                if (quickwatchData != null && quickwatchData != string.Empty)
                 {
                     char[] strInputVariableQuickwatch = new char[quickwatchData.Length];
                     strInputVariableQuickwatch = quickwatchData.ToCharArray();
@@ -492,13 +489,26 @@ namespace Cryptool.BooleanFunctionParser
                         strExpression = strExpression.Replace(replacement, strInputVariableQuickwatch[i].ToString());
                     }
                 }
-            } if (switchData == 2)
+            } else if (settings.UseBFPforCube == true)
             {
                 string quickwatchDataCube = (string)this.booleanFunctionParserPresentation.textBoxInputData2.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
                 {
                     return booleanFunctionParserPresentation.textBoxInputData2.Text;
                 }, booleanFunctionParserPresentation);
-                if (quickwatchDataCube == null || quickwatchDataCube != string.Empty)
+                // Cube Attack Online Phase
+                if (externDataTwo != null && externDataTwo.Length != 0)
+                {
+                    char[] strInputVariableExtern = new char[externDataOne.Length];
+                    for (int i = strInputVariableExtern.Length - 1; i >= 0; i--)
+                    {
+                        // get numeric values from bool inputs
+                        strInputVariableExtern[i] = externDataTwo[i] ? '1' : '0';
+                        string replacement = "i_q." + i;
+                        strExpression = strExpression.Replace(replacement, strInputVariableExtern[i].ToString());
+                    }
+                }
+                // Cube Attack Preprocessing Phase
+                else if (quickwatchDataCube != null && quickwatchDataCube != string.Empty)
                 {
                     char[] strInputVariableQuickwatch = new char[quickwatchDataCube.Length];
                     strInputVariableQuickwatch = quickwatchDataCube.ToCharArray();
@@ -508,6 +518,7 @@ namespace Cryptool.BooleanFunctionParser
                         strExpression = strExpression.Replace(replacement, strInputVariableQuickwatch[i].ToString());
                     }
                 }
+                
             }
             
 
@@ -835,13 +846,13 @@ namespace Cryptool.BooleanFunctionParser
         #region IControlEncryption Members
 
         // here comes the slave side implementation of SolveFunction
-        public int SolveFunction(string function, bool[] data, int switchInputs)
+        public int SolveFunction(bool[] dataOne, bool[] dataTwo)
         {
             int resultInt;
 
             // the result is computed by calling the ParseBooleanFunction (step into it with F11)
             // returns -1 on error (e.g. not a valid function)
-            resultInt = plugin.ParseBooleanFunction(function, data, switchInputs);
+            resultInt = plugin.ParseBooleanFunction(dataOne, dataTwo);
 
             return resultInt;
         }

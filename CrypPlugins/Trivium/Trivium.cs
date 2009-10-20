@@ -713,7 +713,7 @@ namespace Cryptool.Trivium
         #region IControlEncryption Members
 
         // here comes the slave side implementation
-        public int GenerateTriviumKeystream(int[] IV, int[] key, int length, int rounds, bool byteSwapping)
+        public int GenerateTriviumKeystream(int[] IV, int[] key, int length, bool byteSwapping)
         {
             string resultString;
             int resultInt;
@@ -726,7 +726,8 @@ namespace Cryptool.Trivium
                 // key = new int[] { 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1 };
             }
             
-            plugin.masterSlaveRounds = rounds;
+            //plugin.masterSlaveRounds = rounds;
+            plugin.masterSlaveRounds = ((TriviumSettings)plugin.Settings).InitRounds;
             plugin.initTrivium(IV, key);
 
             resultString = plugin.keystreamTrivium(length);
