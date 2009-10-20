@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{D71E93D0-27FE-41AA-8F15-0EE959DB4342}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -99,6 +99,12 @@ cd ..\..\CrypWin\$(OutDir)
 if not exist "./CrypPlugins" mkdir "./CrypPlugins"
 
 del /F /S /Q /s /q "QuadraticSieve*.*"
-copy "$(TargetDir)QuadraticSieve*.*" "./CrypPlugins"</PostBuildEvent>
+copy "$(TargetDir)QuadraticSieve*.*" "./CrypPlugins"
+
+
+copy "$(ProjectDir)dlls\$(ConfigurationName)\msieve.dll" "."
+copy "$(ProjectDir)dlls\$(ConfigurationName)\msieve.pdb" "."
+copy "$(ProjectDir)dlls\$(ConfigurationName)\msieve64.dll" "."
+copy "$(ProjectDir)dlls\$(ConfigurationName)\msieve64.pdb" "."</PostBuildEvent>
   </PropertyGroup>
 </Project>
