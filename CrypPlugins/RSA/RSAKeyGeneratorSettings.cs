@@ -56,7 +56,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Getter/Setter for the source of the Key Data
         /// </summary>
-        [TaskPane("Source", "Select the source of the Key Data", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Manual Primes", "Manual Keys", "Random", "Certificate" })]
+        [TaskPane("Source", "Select the source of the key data", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Manual enter primes", "Manual enter keys", "Random generated", "X.509 Certificate" })]
         public int Source
         {
             get { return this.source; }
@@ -166,9 +166,9 @@ namespace Cryptool.Plugins.RSA
         }
 
         /// <summary>
-        /// Getter/Setter for the E
+        /// Getter/Setter for the e
         /// </summary>
-        [TaskPane("E", "E", null, 5, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("e", "e", null, 5, false, DisplayLevel.Beginner, ControlType.TextBox)]
         public String E
         {
             get
@@ -185,7 +185,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Getter/Setter for the D
         /// </summary>
-        [TaskPane("D", "D", null, 6, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("d", "d", null, 6, false, DisplayLevel.Beginner, ControlType.TextBox)]
         public String D
         {
             get
