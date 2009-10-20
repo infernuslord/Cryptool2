@@ -31,7 +31,7 @@ namespace Cryptool.Plugins.BigNumber
 
         #endregion
         #region taskpane
-        [TaskPane("Operat", "Choose the operator.", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "x+y","x-y","x*y","x/y","x^y"})]
+        [TaskPane("Operat", "Choose the operator.", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "x+y","x-y","x*y","x/y","x^y","GCD"})]
         public int Operat
         {
             get { return this.operat; }
@@ -59,6 +59,9 @@ namespace Cryptool.Plugins.BigNumber
                             break;
                         case 4:
                             ChangePluginIcon(4);
+                            break;
+                        case 5:
+                            ChangePluginIcon(5);
                             break;
                     }
                 }

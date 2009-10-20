@@ -23,7 +23,7 @@ using System.ComponentModel;
 namespace Cryptool.Plugins.BigNumber
 {
     [Author("Sven Rech", "sven.rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "BigNumberOperation", "Big Number Operation", null, "BigNumber/icons/plusIcon.png", "BigNumber/icons/minusIcon.png", "BigNumber/icons/timesIcon.png", "BigNumber/icons/divIcon.png", "BigNumber/icons/powIcon.png")]
+    [PluginInfo(false, "BigNumberOperation", "Big Number Operation", null, "BigNumber/icons/plusIcon.png", "BigNumber/icons/minusIcon.png", "BigNumber/icons/timesIcon.png", "BigNumber/icons/divIcon.png", "BigNumber/icons/powIcon.png", "BigNumber/icons/gcdicon.png")]
     class BigNumberOperation : IThroughput
     {
 
@@ -185,6 +185,9 @@ namespace Cryptool.Plugins.BigNumber
                             {
                                 Output = Input1.pow(Input2);
                             }
+                            break;
+                        case 5:
+                                Output = Input1.gcd(Input2);
                             break;
                     }
                 }
