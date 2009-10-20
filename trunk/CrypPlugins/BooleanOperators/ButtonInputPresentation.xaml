@@ -5,35 +5,5 @@
     <Button Name="myButton" Height="50" Width="50" Click="ExecuteThisMethodWhenButtonIsClicked">
         <Image Name="myButtonPic" Source="icons\true.png"/>
     </Button>
-    <x:Code>
 
-        <![CDATA[
-
-            public Boolean c = true;
-            
-            public void ExecuteThisMethodWhenButtonIsClicked(object sender, EventArgs e)
-            
-            {
-                
-                if (c == true)
-                {
-
-                    this.myButton.Background = Brushes.Green;
-                    this.myButton.Content = "true";
-                    c=false;
-                    
-                }
-                
-                else
-                {
-                    this.myButton.Background = Brushes.Red;
-                    this.myButton.Content = "false";
-                    c=true;
-                }
-                
-            }
-
-        ]]>
-
-    </x:Code>
 </UserControl>
