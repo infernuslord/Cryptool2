@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D3F8B522-7836-4968-B939-EE6BF524A50C}</ProjectGuid>
+    <ProjectGuid>{37D80203-C651-4396-8F5B-D67B7EC62763}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RegularExpressions</RootNamespace>
-    <AssemblyName>RegularExpressions</AssemblyName>
+    <RootNamespace>Transposition</RootNamespace>
+    <AssemblyName>Transposition</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -58,15 +58,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RegExMatch.cs" />
+    <Compile Include="Transposition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegExMatchSettings.cs" />
+    <Compile Include="TranspositionSettings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="icons\match-icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DetailedDestription\" />
+    <Resource Include="icon.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -81,7 +78,7 @@
 cd ..\..\CrypWin\$(OutDir)
 if not exist "./CrypPlugins" mkdir "./CrypPlugins"
 
-del /F /S /Q /s /q "RegularExpressions.*"
-copy "$(TargetDir)RegularExpressions.*" "./CrypPlugins"</PostBuildEvent>
+del /F /S /Q /s /q "Transposition.*"
+copy "$(TargetDir)Transposition.*" "./CrypPlugins"</PostBuildEvent>
   </PropertyGroup>
 </Project>
