@@ -18,11 +18,28 @@ namespace Cryptool.Plugins.BoolButton
    public class BoolButtonSettings : ISettings
     {
        #region ISettings Members
+
+        private bool hasChanges = false;
+        private int bool_value = 0; //0 false; 1 true
+
         
-       public bool hasChanges = false;
-        
-      
-       public bool HasChanges
+
+        [ContextMenu("Value", "Set the boolean value", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 0, 1 }, "False", "True")]
+        [TaskPane("Value", "Set the boolean value", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "False", "True" })]
+        public int Value
+        {
+            get { return this.bool_value; }
+            set
+            {
+                if ((value) != bool_value) hasChanges = true;
+                this.bool_value = value;
+                OnPropertyChanged("Value");
+
+                // icon update is handled by BooleanInput
+            }
+        }
+
+        public bool HasChanges
         {
             get
             {
@@ -32,7 +49,7 @@ namespace Cryptool.Plugins.BoolButton
             {
                 hasChanges = value;
             }
-        }  
+        }
 
         #endregion
 
@@ -42,6 +59,15 @@ namespace Cryptool.Plugins.BoolButton
 
         #endregion
 
-        
+        protected void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
+        public event StatusChangedEventHandler OnPluginStatusChanged;
     }
 }
+

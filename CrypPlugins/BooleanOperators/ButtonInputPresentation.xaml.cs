@@ -22,6 +22,8 @@ namespace BooleanOperators
 
         public event EventHandler StatusChanged;
 
+
+
         public ButtonInputPresentation()
         {
             InitializeComponent();
@@ -30,26 +32,28 @@ namespace BooleanOperators
         /// Current value of the button
         /// </summary>
         public Boolean Value { get; set; }
-
-
+        public void update() 
+        {
+            try
+            { this.myButton.Content = Value; }
+            catch { }
+        }
         public void ExecuteThisMethodWhenButtonIsClicked(object sender, EventArgs e)
         {
 
             if (Value)
             {
 
-                this.myButton.Background = Brushes.Green;
-                this.myButton.Content = "true";
+                this.myButton.Background = Brushes.Tomato;
+                this.myButton.Content = Value;
                 Value = false;
-
-                
 
             }
 
             else
             {
-                this.myButton.Background = Brushes.Red;
-                this.myButton.Content = "false";
+                this.myButton.Background = Brushes.LawnGreen;
+                this.myButton.Content = Value;
                 Value = true;
             }
 
