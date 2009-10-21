@@ -32,10 +32,17 @@ namespace BooleanOperators
         /// Current value of the button
         /// </summary>
         public Boolean Value { get; set; }
+        
         public void update() 
         {
             try
-            { this.myButton.Content = Value; }
+            { 
+                this.myButton.Content = Value;
+                if (Value)
+                { this.myButton.Background = Brushes.LawnGreen; }
+                else
+                { this.myButton.Background = Brushes.Tomato; }
+            }
             catch { }
         }
         public void ExecuteThisMethodWhenButtonIsClicked(object sender, EventArgs e)
