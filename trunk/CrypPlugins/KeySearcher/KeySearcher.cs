@@ -275,7 +275,7 @@ namespace KeySearcher
                 }
 
                 int size = Pattern.initKeyIteration(settings.Key);
-                int blocksize = CostMaster.getBlocksize();
+                int bytesToUse = CostMaster.getBytesToUse();
                 string key;
                 int counter = 0;
                 int doneKeys = 0;
@@ -286,7 +286,7 @@ namespace KeySearcher
                 do
                 {                    
                     key = Pattern.getKey();                    
-                    byte[] decryption = sender.Decrypt(ControlMaster.getKeyFromString(key), blocksize);
+                    byte[] decryption = sender.Decrypt(ControlMaster.getKeyFromString(key), bytesToUse);
 
                     valueKey = new ValueKey();
                     valueKey.value = CostMaster.calculateCost(decryption);

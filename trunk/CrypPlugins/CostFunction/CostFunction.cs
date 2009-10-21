@@ -128,23 +128,23 @@ namespace Cryptool.Plugins.CostFunction
         {
             if (this.InputText is Object && this.stopped == false)
             {
-                int blocksize = 0;
+                int bytesToUse = 0;
                 try
                 {
-                    blocksize = int.Parse(settings.Blocksize);
+                    bytesToUse = int.Parse(settings.BytesToUse);
                 }
                 catch (Exception ex)
                 {
-                    GuiLogMessage("Entered blocksize is not an integer: " + ex.Message, NotificationLevel.Error);
+                    GuiLogMessage("Entered bytesToUse is not an integer: " + ex.Message, NotificationLevel.Error);
                     return;
                 }
                 byte[] array;
 
-                if (blocksize > 0)
+                if (bytesToUse > 0)
                 {
-                    //Create a new Array of size of Blocksize if needed
-                    array = new byte[blocksize];
-                    for (int i = 0; i < blocksize && i < this.InputText.Length; i++)
+                    //Create a new Array of size of bytesToUse if needed
+                    array = new byte[bytesToUse];
+                    for (int i = 0; i < bytesToUse && i < this.InputText.Length; i++)
                     {
                         array[i] = InputText[i];
                     }
@@ -322,15 +322,15 @@ namespace Cryptool.Plugins.CostFunction
             this.plugin = plugin;
         }
 
-        public int getBlocksize()
+        public int getBytesToUse()
         {
             try
             {
-                return int.Parse(((CostFunctionSettings)this.plugin.Settings).Blocksize);
+                return int.Parse(((CostFunctionSettings)this.plugin.Settings).BytesToUse);
             }
             catch (Exception ex)
             {
-                throw new Exception("Entered blocksize is not an integer: " + ex.Message);
+                throw new Exception("Entered bytesToUse is not an integer: " + ex.Message);
             }
         }
 
@@ -355,30 +355,30 @@ namespace Cryptool.Plugins.CostFunction
         /// Calculates the cost function of the given text
         /// 
         /// Cost function can be set by CostFunctionSettings
-        /// This algorithm uses a blocksize which can be set by CostFunctionSettings
-        /// If blocksize is set to 0 it uses the whole text
+        /// This algorithm uses a bytesToUse which can be set by CostFunctionSettings
+        /// If bytesToUse is set to 0 it uses the whole text
         /// 
         /// </summary>
         /// <param name="text"></param>
         /// <returns>cost</returns>
         public double calculateCost(byte[] text)
         {
-            int blocksize = 0;
+            int bytesToUse = 0;
             try
             {
-                blocksize = int.Parse(((CostFunctionSettings)this.plugin.Settings).Blocksize);
+                bytesToUse = int.Parse(((CostFunctionSettings)this.plugin.Settings).BytesToUse);
             }
             catch (Exception ex)
             {
-                throw new Exception("Entered blocksize is not an integer: " + ex.Message);
+                throw new Exception("Entered bytesToUse is not an integer: " + ex.Message);
             }
             byte[] array;
 
-            if (blocksize > 0)
+            if (bytesToUse > 0)
             {
-                //Create a new Array of size of Blocksize if needed
-                array = new byte[blocksize];
-                for (int i = 0; i < blocksize && i < text.Length; i++)
+                //Create a new Array of size of bytesToUse if needed
+                array = new byte[bytesToUse];
+                for (int i = 0; i < bytesToUse && i < text.Length; i++)
                 {
                     array[i] = text[i];
                 }

@@ -29,6 +29,6 @@ namespace Cryptool.PluginBase.Control
       /// <returns>cost</returns>
       double calculateCost(byte[] text);
 
-      int getBlocksize();
+      int getBytesToUse();
   }
 }

@@ -578,22 +578,22 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// Called by a Master to start encryption
         /// </summary>
         /// <param name="key">key</param>
-        /// <param name="blocksize">blocksize</param>
+        /// <param name="bytesToUse">bytesToUse</param>
         /// <returns>encrypted text</returns>
-        public byte[] Encrypt(byte[] key, int blocksize)
+        public byte[] Encrypt(byte[] key, int bytesToUse)
         {
-            return execute(key, blocksize, 0);
+            return execute(key, bytesToUse, 0);
         }
 
         /// <summary>
         /// Called by a Master to start decryption
         /// </summary>
         /// <param name="key">key</param>
-        /// <param name="blocksize">blocksize</param>
+        /// <param name="bytesToUse">bytesToUse</param>
         /// <returns>decrypted text</returns>
-        public byte[] Decrypt(byte[] key, int blocksize)
+        public byte[] Decrypt(byte[] key, int bytesToUse)
         {
-            return execute(key, blocksize, 1);
+            return execute(key, bytesToUse, 1);
         }
 
         /// <summary>
@@ -635,26 +635,26 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// Called by itself to start encryption/decryption
         /// </summary>
         /// <param name="key">key</param>
-        /// <param name="blocksize">blocksize</param>
+        /// <param name="bytesToUse">bytesToUse</param>
         /// <returns>encrypted/decrypted text</returns>
-        private byte[] execute(byte[] key, int blocksize, int action)
+        private byte[] execute(byte[] key, int bytesToUse, int action)
         {
             byte[] output;
-            if (blocksize > 0)
-                output = new byte[blocksize];
+            if (bytesToUse > 0)
+                output = new byte[bytesToUse];
             else
                 output = new byte[plugin.InputStream.Length];
 
             if (input == null || plugin.InputChanged)
             {
                 plugin.InputChanged = false;
-                input = new byte[blocksize];
+                input = new byte[bytesToUse];
 
                 byte[] buffer = new byte[1];
                 
                 int i = 0;
                 CryptoolStream inputstream = plugin.InputStream;
-                while ((inputstream.Read(buffer, 0, 1)) > 0 && i < blocksize)
+                while ((inputstream.Read(buffer, 0, 1)) > 0 && i < bytesToUse)
                 {
                     input[i] = buffer[0];
                     i++;
@@ -664,19 +664,19 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
             if (((SDESSettings)plugin.Settings).Mode == 0 && action == 0)
             {                                
-                output = ecb.encrypt(input, key, blocksize);
+                output = ecb.encrypt(input, key, bytesToUse);
             }
             else if(((SDESSettings)plugin.Settings).Mode == 1 && action == 0)
             {                
-                output = cbc.encrypt(input, key, Tools.stringToBinaryByteArray(enc.GetString(plugin.InputIV)),blocksize);
+                output = cbc.encrypt(input, key, Tools.stringToBinaryByteArray(enc.GetString(plugin.InputIV)),bytesToUse);
             }            
             else if(((SDESSettings)plugin.Settings).Mode == 0 && action == 1)
             {
-                output = ecb.decrypt(input, key,blocksize);
+                output = ecb.decrypt(input, key,bytesToUse);
             }
             else if (((SDESSettings)plugin.Settings).Mode == 1 && action == 1)
             {
-                output = cbc.decrypt(input, key, Tools.stringToBinaryByteArray(enc.GetString(plugin.InputIV)), blocksize);
+                output = cbc.decrypt(input, key, Tools.stringToBinaryByteArray(enc.GetString(plugin.InputIV)), bytesToUse);
             }   
             return output;
         }
@@ -1781,14 +1781,14 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         ///Encrypts the given plaintext with the given key
         ///using CipherBlockChaining 
         ///
-        /// blocksize tells the algorithm how many bytes it has to encrypt
-        /// blocksize = 0 => encrypt all
-        public byte[] encrypt(byte[] input, byte[] key, byte[] vector, [Optional, DefaultParameterValue(0)] int blocksize)
+        /// bytesToUse tells the algorithm how many bytes it has to encrypt
+        /// bytesToUse = 0 => encrypt all
+        public byte[] encrypt(byte[] input, byte[] key, byte[] vector, [Optional, DefaultParameterValue(0)] int bytesToUse)
         {
             int until = input.Length;            
 
-            if (blocksize < until && blocksize > 0)
-                until = blocksize;
+            if (bytesToUse < until && bytesToUse > 0)
+                until = bytesToUse;
 
             byte[] output = new byte[until];
 
@@ -1837,15 +1837,15 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         ///Decrypt the given plaintext with the given key
         ///using CipherBlockChaining 
         ///
-        /// blocksize tells the algorithm how many bytes it has to encrypt
-        /// blocksize = 0 => encrypt all
-        public byte[] decrypt(byte[] input, byte[] key, byte[] vector, [Optional, DefaultParameterValue(0)] int blocksize)
+        /// bytesToUse tells the algorithm how many bytes it has to encrypt
+        /// bytesToUse = 0 => encrypt all
+        public byte[] decrypt(byte[] input, byte[] key, byte[] vector, [Optional, DefaultParameterValue(0)] int bytesToUse)
         {
 
             int until = input.Length;
            
-            if (blocksize < until && blocksize > 0)
-                until = blocksize;
+            if (bytesToUse < until && bytesToUse > 0)
+                until = bytesToUse;
 
             byte[] output = new byte[until];
 
@@ -1913,15 +1913,15 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         ///Encrypts the given plaintext with the given key
         ///using ElectronicCodeBookMode 
         ///
-        /// blocksize tells the algorithm how many bytes it has to encrypt
-        /// blocksize = 0 => encrypt all
-        public byte[] encrypt(byte[] input, byte[] key, [Optional, DefaultParameterValue(0)] int blocksize)
+        /// bytesToUse tells the algorithm how many bytes it has to encrypt
+        /// bytesToUse = 0 => encrypt all
+        public byte[] encrypt(byte[] input, byte[] key, [Optional, DefaultParameterValue(0)] int bytesToUse)
         {
 
             int until = input.Length;
 
-            if(blocksize < until && blocksize > 0)
-                until = blocksize;
+            if(bytesToUse < until && bytesToUse > 0)
+                until = bytesToUse;
 
             byte[] output = new byte[until];
 
@@ -1968,14 +1968,14 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         ///Decrypt the given plaintext with the given key
         ///using ElectronicCodeBookMode 
         ///
-        /// blocksize tells the algorithm how many bytes it has to decrypt
-        /// blocksize = 0 => encrypt all
-        public byte[] decrypt(byte[] input, byte[] key, [Optional, DefaultParameterValue(0)] int blocksize)
+        /// bytesToUse tells the algorithm how many bytes it has to decrypt
+        /// bytesToUse = 0 => encrypt all
+        public byte[] decrypt(byte[] input, byte[] key, [Optional, DefaultParameterValue(0)] int bytesToUse)
         {
             int until = input.Length;
 
-            if (blocksize < until && blocksize > 0)
-                until = blocksize;
+            if (bytesToUse < until && bytesToUse > 0)
+                until = bytesToUse;
             
             byte[] output = new byte[until];
 
