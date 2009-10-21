@@ -29,7 +29,7 @@ namespace Cryptool.Plugins.CostFunction
         #region private variables
         private bool hasChanges = false;
         private int functionType=0;
-        private String blocksize = "256";
+        private String bytesToUse = "256";
         #endregion
         
         [TaskPane("FunctionType", "Select the type of function", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Index of coincidence", "Entropy" })]
@@ -43,17 +43,17 @@ namespace Cryptool.Plugins.CostFunction
             }
         }
 
-        [TaskPane("Blocksize", "Which blocksize should be used for calculating?", null, 4, false, DisplayLevel.Beginner, ControlType.TextBox)]
-        public String Blocksize
+        [TaskPane("Bytes to use", "Which amount of bytes should be used for calculating?", null, 4, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        public String BytesToUse
         {
             get
             {
-                return blocksize;
+                return bytesToUse;
             }
             set
             {
-                blocksize = value;
-                OnPropertyChanged("Blocksize");
+                bytesToUse = value;
+                OnPropertyChanged("bytesToUse");
             }
         }
 
