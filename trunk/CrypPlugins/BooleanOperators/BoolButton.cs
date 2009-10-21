@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.ComponentModel;
 using System.Windows.Input;
+using System.Windows.Media;
 
 using Cryptool;
 using Cryptool.PluginBase;
@@ -27,20 +28,29 @@ namespace Cryptool.Plugins.BoolButton
 
     public class BoolButton : IInput
     {
-        private BoolButtonSettings settings;
-        private Boolean output = true;
-        private ButtonInputPresentation myButton;
         
+        private Boolean output = true;
+        private BoolButtonSettings settings;
+        private ButtonInputPresentation myButton;
+        private Boolean setorbut = false;
+
+
         public BoolButton()
         {
             this.settings = new BoolButtonSettings();            
             myButton = new ButtonInputPresentation();
             Presentation = myButton;
             myButton.StatusChanged += new EventHandler(myButton_StatusChanged);
+            this.settings.PropertyChanged += settings_OnPropertyChange;
        }
-
+        private void settings_OnPropertyChange(object sender, PropertyChangedEventArgs e) 
+        {
+            setorbut = true;
+            Execute();
+        }
         private void myButton_StatusChanged(object sender, EventArgs e)
         {
+            setorbut = false;
             Execute();
         }
 
@@ -70,17 +80,39 @@ namespace Cryptool.Plugins.BoolButton
 
         public void Execute()
         {
-            
-            if (myButton.Value)
-            {
-                settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 0));
+            if (!setorbut)
+            { 
+                Output = myButton.Value;
+                if (myButton.Value)
+                {
+                    settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 1));
+                    settings.Value = 1;
+                }
+                if (!myButton.Value)
+                {
+                    settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 0));
+                    settings.Value = 0;
+                }
             }
-            if (!myButton.Value)
-            {               
-                settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 1));
+            if (setorbut)
+            { 
+                Output = (settings.Value == 1);
+                
+                if (settings.Value == 1)
+                {
+                    
+                    settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 1));
+                    myButton.Value = true;
+                    myButton.update();
+                }
+                if (settings.Value == 0)
+                {
+                    settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 0));
+                    myButton.Value = false;
+                    myButton.update();
+                }
             }
-
-            Output = myButton.Value;
+	
             ProgressChanged(1, 1);
         }
 
