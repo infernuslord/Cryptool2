@@ -91,20 +91,20 @@ namespace Cryptool.FrequencyTest
 
         public object QuickWatchDictionary(string propertyNameToConvert)
         {
-            lock (grams)
+            StringBuilder sb = new StringBuilder(4096);
+            foreach (KeyValuePair<string, double[]> item in grams)
             {
-                StringBuilder sb = new StringBuilder();
-                foreach (KeyValuePair<string, double[]> item in grams)
+                sb.Append(item.Key);
+                for (int i = 0; i < item.Value.Length; i++)
                 {
-                    sb.Append(item.Key);
-                    for (int i = 0; i < item.Value.Length; i++)
-                    {
-                        sb.Append(";" + item.Value[i]);
-                    }
-                    sb.AppendLine();
+                    sb.Append(";" + item.Value[i]);
                 }
-                return sb.ToString();
+                sb.AppendLine();
+                
+                if (sb.Length >= 4096)
+                    break;
             }
+            return sb.ToString();
         }
         #endregion
 
