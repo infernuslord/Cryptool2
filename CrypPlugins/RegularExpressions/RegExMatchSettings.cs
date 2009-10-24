@@ -6,7 +6,7 @@ using System.Text;
 using Cryptool.PluginBase;
 using System.ComponentModel;
 
-namespace RegularExpressions
+namespace Cryptool.Plugins.RegularExpressions
 {
     class RegExMatchSettings : ISettings
     {

@@ -13,7 +13,7 @@ using Cryptool.PluginBase.Miscellaneous;
 
 using System.Text.RegularExpressions;
 
-namespace RegularExpressions
+namespace Cryptool.Plugins.RegularExpressions
 {
     [Author("Daniel Kohnen", "kohnen@cryptool.org", "Universität Duisburg Essen", "http://www.uni-due.de")]
     [PluginInfo(false, "Regular Expression Match", "Matching Regular Expression", "", "RegularExpressions/icons/match-icon.png")]
