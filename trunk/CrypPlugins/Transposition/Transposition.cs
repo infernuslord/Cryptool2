@@ -11,11 +11,11 @@ using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.Miscellaneous;
 
 
-namespace ClassLibrary1
+namespace Transposition
 {
 
     [Author("Daniel Kohnen", "kohnen@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "Transposition", "", "", "Transposition/icon.PNG")]
+    [PluginInfo(false, "Transposition", "", "", "Transposition/icon.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class Transposition : IEncryption
     {
@@ -170,7 +170,8 @@ namespace ClassLibrary1
 
             ProgressChanged(1, 1);
         }
-
+        
+        // old function
         private String encrypt_text(String input, String keyword)
         {
             int[] keys = new int[keyword.Length];
@@ -204,6 +205,7 @@ namespace ClassLibrary1
             return enc;
         }
 
+        // old function
         private String decrypt_text(String input, String keyword)
         {
             int input_pos = 0;
@@ -354,8 +356,7 @@ namespace ClassLibrary1
                             bool ok = false;
 
                             for (int k = 0; k < offs; k++)
-                            {
-                                Console.WriteLine(k);
+                            {                                
                                 if((keyword[k]-1).Equals(i))
                                 {
                                     ok = true;
@@ -407,7 +408,6 @@ namespace ClassLibrary1
 
                             for (int k = 0; k < offs; k++)
                             {
-                                Console.WriteLine(k);
                                 if ((keyword[k] - 1).Equals(j))
                                 {
                                     ok = true;
@@ -449,7 +449,6 @@ namespace ClassLibrary1
                 {
                     if(i.Equals(keyword[j]))
                     {
-                        Console.WriteLine("true");
                         pos = j;
                     }
                 }
@@ -463,7 +462,25 @@ namespace ClassLibrary1
             return matrix;
         }
 
-        private String enc_read_out_by_row(char[,] matrix, int keyword_length)
+        private char[,] dec_permut_by_column(char[,] readin_matrix, int[] keyword)
+        {
+            int x = keyword.Length;
+            int y = readin_matrix.Length / keyword.Length;
+
+            char[,] matrix = new char[x,y];
+
+            for (int i = 0; i < x; i++)
+            {
+                for (int j = 0; j < y; j++)
+                {
+                    matrix[i, j] = readin_matrix[keyword[i]-1, j];
+                }
+            }
+
+            return matrix;
+        }
+
+        private String read_out_by_row(char[,] matrix, int keyword_length)
         {
             int x = keyword_length;
             int y = matrix.Length / keyword_length;
@@ -486,7 +503,7 @@ namespace ClassLibrary1
             return enc;
         }
 
-        private String enc_read_out_by_column(char[,] matrix, int keyword_length)
+        private String read_out_by_column(char[,] matrix, int keyword_length)
         {
             int x = keyword_length;
             int y = matrix.Length / keyword_length;
@@ -544,7 +561,7 @@ namespace ClassLibrary1
 
             return true;
         }
-    }
+    
         # endregion
     }
 }

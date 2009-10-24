@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
 
-namespace ClassLibrary1
+namespace Transposition
 {
     class TranspositionSettings : ISettings
 
