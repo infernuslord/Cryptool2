@@ -29,7 +29,7 @@ using Cryptool.Plugins.SubbyteArrayCryptoolStream;
 namespace Cryptool.Plugins.SubByteArrayCryptoolStream
 {
     [Author("Simon Malischewski", "malischewski@cryptool.org", "Uni Duisburg-Essen", "http://wwww.uni-due.de")]
-    [PluginInfo(false, "SubByteArray", "SubByteArray", "SubByteArray/DetailedDescription/Description.xaml", "SubByteArrayCryptoolStream/icon.png")]
+    [PluginInfo(false, "SubByteArray", "SubByteArray", "SubByteArray/DetailedDescription/Description.xaml", "SubByteArray/icon.png")]
     public class SubByteArrayCryptoolStream : IThroughput
     {
         #region Private variables
@@ -65,6 +65,12 @@ namespace Cryptool.Plugins.SubByteArrayCryptoolStream
             EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
         }
 
+        public event PluginProgressChangedEventHandler OnPluginProcessChanged;
+
+        private void ProgressChanged(double value, double max)
+        {
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+        }
 
         [PropertyInfo(Direction.InputData, "Input ByteArray", "Input ByteArray", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public byte[] InputDataBytes
@@ -168,7 +174,7 @@ namespace Cryptool.Plugins.SubByteArrayCryptoolStream
                             CurrentOutputIndex++;
                             
                         }
-
+                        ProgressChanged(1.0, 1.0);
                         OnPropertyChanged("OutputData");
                         settings.GetTaskPaneAttributeChanged();
 

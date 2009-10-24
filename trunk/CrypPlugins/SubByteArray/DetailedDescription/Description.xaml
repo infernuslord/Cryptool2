@@ -13,10 +13,14 @@
     </Paragraph>
     <Paragraph TextAlignment="Justify">
         <Run FontSize="15" xml:lang="en-us">
-            With this plugin the User selects contents of a ByteArray (Similar to the SubString Plugin with Strings).
-            Using the provided Settings or the optional inputs, he or she can enter the desired Start and End Indexes.
+            With this plugin the user selects contents of a ByteArray (Similar to the SubString Plugin with Strings).
+            Using the provided Settings or the optional inputs, one can enter the desired Start and End Indexes.
         </Run>
     </Paragraph>
-
+    <Paragraph TextAlignment="Justify">
+        <Run FontSize="15" xml:lang="en-us">
+           Indexes start at 0 (as in C#/Java).
+        </Run>
+    </Paragraph>
 
 </FlowDocument>
