@@ -619,6 +619,23 @@ namespace Transposition
 
             return true;
         }
+		
+		 public int[] sortKey(String input)
+        {
+            String key = input;
+            Char[] keyChars = key.ToCharArray();
+            Char[] orgChars = key.ToCharArray();
+            int[] rank = new int[keyChars.Length];
+            Array.Sort(keyChars);
+
+            for (int i = 0; i < orgChars.Length; i++)
+            {
+                rank[i] = (Array.IndexOf(keyChars, orgChars[i])) + 1;
+                keyChars[Array.IndexOf(keyChars, orgChars[i])] = (char)0;
+            }
+
+            return rank;
+        }
 
         private void Transposition_LogMessage(string msg, NotificationLevel loglevel)
         {
