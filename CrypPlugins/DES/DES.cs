@@ -188,6 +188,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             {
                 if (controlSlave is object && ((DESControl)controlSlave).InputStream is object)
                     ((DESControl)controlSlave).InputStream.Close();
+                InputStream = null;
+                OutputStream = null;
             }
         }
 

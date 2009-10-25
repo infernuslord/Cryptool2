@@ -135,9 +135,9 @@ namespace KeySearcher
             return true;
         }
 
-        public int initKeyIteration(string key)
+        public double initKeyIteration(string key)
         {
-            int counter = 1;
+            double counter = 1;
             this.key = key;
             int pcount = 0;
             wildcardList = new ArrayList();
@@ -274,11 +274,11 @@ namespace KeySearcher
                     return;
                 }
 
-                int size = Pattern.initKeyIteration(settings.Key);
+                double size = Pattern.initKeyIteration(settings.Key);
                 int bytesToUse = CostMaster.getBytesToUse();
                 string key;
-                int counter = 0;
-                int doneKeys = 0;
+                double keycounter = 0;
+                double doneKeys = 0;
                 string text = "";
                 LinkedListNode<ValueKey> linkedListNode;
 
@@ -328,8 +328,8 @@ namespace KeySearcher
                         costList.RemoveLast();
                     }
 
-                    counter++;                    
-                    ProgressChanged(counter, size);
+                    keycounter++;                    
+                    ProgressChanged(keycounter, size);
 
                     //Key per second calculation
                     doneKeys++;
@@ -337,16 +337,47 @@ namespace KeySearcher
                     if (duration.Seconds >= 1)
                     {
                         lastTime = DateTime.Now;
-                        GuiLogMessage("Working with " + doneKeys + " Keys/sec", NotificationLevel.Info);                        
-                        
-                        int seconds = (size - counter) / doneKeys;
-                        TimeSpan secondsleft = new TimeSpan(0, 0, 0, seconds, 0);
+                        double time = ((size - keycounter) / doneKeys);                        
+                        TimeSpan timeleft = new TimeSpan(-1) ;
 
+                        try
+                        {
+                            if (time / (24 * 60 * 60) <= int.MaxValue)
+                            {
+                                int days = (int)(time / (24 * 60 * 60));
+                                time = time - (days * 24 * 60 * 60);
+                                int hours = (int)(time / (60 * 60));
+                                time = time - (hours * 60 * 60);
+                                int minutes = (int)(time / 60);
+                                time = time - (minutes * 60);
+                                int seconds = (int)time;
+
+                                timeleft = new TimeSpan(days, hours, minutes, (int)seconds, 0);
+                            }                            
+                        }
+                        catch
+                        {
+                            //can not calculate time span
+                        }
                         ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
                             ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).keysPerSecond.Text = "" + doneKeys;
-                            ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).timeLeft.Text = "" + secondsleft;
-                            ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "" + DateTime.Now.AddSeconds(seconds);
+                            if (timeleft != new TimeSpan(-1))
+                            {
+                                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).timeLeft.Text = "" + timeleft;
+                                try
+                                {
+                                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "" + DateTime.Now.Add(timeleft);
+                                }catch{
+                                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "in a time far, far away...";
+                                }
+                            }
+                            else
+                            {
+                                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).timeLeft.Text = "incalculable :-)";
+                                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "in a time far, far away...";
+                            }
+                            
 
                         }
                         , null);
@@ -370,20 +401,7 @@ namespace KeySearcher
                         }
                     }
 
-                } while (Pattern.nextKey() && !stop);
-
-                text = "Calculated value/key - list:\r\n";
-                linkedListNode = costList.First;
-                while (linkedListNode != null)
-                {
-                    text += linkedListNode.Value.value + " = " + linkedListNode.Value.key + "\r\n";
-                    linkedListNode = linkedListNode.Next;
-                }
-                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                {
-                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).logging.Text = text;
-                }
-                , null);
+                } while (Pattern.nextKey() && !stop);                
                 
             }//end if
         }
