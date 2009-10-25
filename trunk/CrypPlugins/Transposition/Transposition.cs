@@ -10,12 +10,10 @@ using Cryptool.PluginBase;
 using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.Miscellaneous;
 
-
 namespace Transposition
 {
-
-    [Author("Daniel Kohnen", "kohnen@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "Transposition", "", "", "Transposition/icon.png")]
+    [Author("Daniel Kohnen, Julian Weyers, Simon Malischewski, Armin Wiefels", "kohnen@cryptool.org, weyers@cryptool.org, malischewski@cryptool.org, wiefels@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
+    [PluginInfo(false, "Transposition", "", "", "Transposition/Images/icon.png", "Transposition/Images/encrypt.png", "Transposition/Images/decrypt.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class Transposition : IEncryption
     {
@@ -44,7 +42,7 @@ namespace Transposition
 
         # region Properties
 
-        [PropertyInfo(Direction.InputData, "Input", "input", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Input", "input", "Text to be encrypted.", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public string Input
         {
             get
@@ -59,7 +57,7 @@ namespace Transposition
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Keyword", "keyword", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Keyword", "keyword", "Keyword used for encryption", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public string Keyword
         {
             get
@@ -165,113 +163,136 @@ namespace Transposition
 
         private void ProcessTransposition()
         {
+            switch (settings.Action)
+            {
+                case 0:
+                    Output = encrypt();
+                    break;
+                case 1:
+                    Output = decrypt();
+                    break;
+                default:
+                    break;
+            }
 
-            Output = encrypt_text(input, keyword);
 
             ProgressChanged(1, 1);
         }
-        
-        // old function
-        private String encrypt_text(String input, String keyword)
+
+        private String encrypt()
         {
-            int[] keys = new int[keyword.Length];
-
-            for (int i = 1; i <= keyword.Length; i++)
+            int[] key = get_Keyword_Array(keyword);
+            if (key != null && input != null)
             {
-                for (int j = 0; j < keyword.Length; j++)
+                if (is_Valid_Keyword(key))
                 {
-                    if ((int)Char.GetNumericValue(keyword[j]) == i)
+                    char[,] matrix = null;
+
+                    switch ((TranspositionSettings.ReadInMode)settings.ReadIn)
                     {
-                        keys[i - 1] = j;
+                        case TranspositionSettings.ReadInMode.byRow:
+                            matrix = enc_read_in_by_row(input, key.Length); break;
+                        case TranspositionSettings.ReadInMode.byColumn:
+                            matrix = enc_read_in_by_column(input, key.Length); break;
+                        default:
+                            break;
                     }
+
+                    switch ((TranspositionSettings.PermutationMode)settings.Permutation)
+                    {
+                        case TranspositionSettings.PermutationMode.byColumn:
+                            matrix = enc_permut_by_column(matrix, key); break;
+
+                        // Permute by row still to do
+                        case TranspositionSettings.PermutationMode.byRow:
+                            matrix = enc_permut_by_column(matrix, key); break;
+                        default:
+                            break;
+                    }
+
+                    String encrypted = "";
+
+                    switch ((TranspositionSettings.ReadOutMode)settings.ReadOut)
+                    {
+                        case TranspositionSettings.ReadOutMode.byRow:
+                            encrypted = read_out_by_row(matrix, key.Length); break;
+                        case TranspositionSettings.ReadOutMode.byColumn:
+                            encrypted = read_out_by_column(matrix, key.Length); break;
+                        default:
+                            break;
+                    }
+
+                    return encrypted;
                 }
-            }
-
-            String enc = "";
-
-            for (int j = 0; j < keyword.Length; j++)
-            {
-                for (int i = 0; i <= input.Length / keyword.Length; i++)
-                {
-                    int tmp = keys[j] + i * keyword.Length;
-
-                    if (tmp < input.Length)
-                    {
-                        enc += input[tmp];
-                    }
-                }
-            }
-
-            return enc;
-        }
-
-        // old function
-        private String decrypt_text(String input, String keyword)
-        {
-            int input_pos = 0;
-
-            int breite = keyword.Length;
-            int hoehe = input.Length / keyword.Length;
-            int offs = input.Length % keyword.Length;
-            if (offs != 0) { hoehe++; }
-
-            char[,] matrix = new char[breite, hoehe];
-
-            for (int i = 1; i <= keyword.Length; i++)
-            {
-                int pos = -1;
-
-                for (int j = 0; j < keyword.Length; j++)
-                {
-                    if (i == (int)Char.GetNumericValue(keyword[j]))
-                    {
-                        pos = j;
-                    }
-                }
-
-
-                if (offs != 0)
-                {
-                    if (pos < offs)
-                    {
-                        for (int j = 0; j < hoehe; j++)
-                        {
-                            matrix[pos, j] = input[input_pos];
-                            input_pos++;
-                        }
-                    }
-                    else
-                    {
-                        for (int j = 0; j < hoehe - 1; j++)
-                        {
-                            matrix[pos, j] = input[input_pos];
-                            input_pos++;
-                        }
-                    }
-                }
-
                 else
                 {
-                    for (int j = 0; j < hoehe; j++)
-                    {
-                        matrix[pos, j] = input[input_pos];
-                        input_pos++;
-                    }
+                    Transposition_LogMessage("Keyword is not valid", NotificationLevel.Error);
+                    return "";
                 }
             }
-            String dec = "";
-
-            // Spaltenweise auslesen
-            // Read by line
-            for (int j = 0; j < hoehe; j++)
+            else
             {
-                for (int i = 0; i < breite; i++)
+                // 2do: Anzeige "Kein gültiges Keyword
+                return "";
+            }
+        }
+
+        private String decrypt()
+        {
+            int[] key = get_Keyword_Array(keyword);
+            if (key != null && input != null)
+            {
+                if (is_Valid_Keyword(key))
                 {
-                    dec += matrix[i, j];
+                    char[,] matrix = null;
+
+                    switch ((TranspositionSettings.ReadOutMode)settings.ReadOut)
+                    {
+                        case TranspositionSettings.ReadOutMode.byRow:
+                            matrix = dec_read_in_by_column(input, key); break;
+                        case TranspositionSettings.ReadOutMode.byColumn:
+                            matrix = dec_read_in_by_row(input, key); break;
+                        default:
+                            break;
+                    }
+
+                    switch ((TranspositionSettings.PermutationMode)settings.Permutation)
+                    {
+                        case TranspositionSettings.PermutationMode.byRow:
+                            matrix = dec_permut_by_column(matrix, key); break;
+
+                        // Permute by row still to do
+                        case TranspositionSettings.PermutationMode.byColumn:
+                            matrix = dec_permut_by_column(matrix, key); break;
+                        default:
+                            break;
+                    }
+
+                    String decrypted = "";
+
+                    switch ((TranspositionSettings.ReadInMode)settings.ReadIn)
+                    {
+                        case TranspositionSettings.ReadInMode.byRow:
+                            decrypted = read_out_by_row(matrix, key.Length); break;
+                        case TranspositionSettings.ReadInMode.byColumn:
+                            decrypted = read_out_by_column(matrix, key.Length); break;
+                        default:
+                            break;
+                    }
+
+                    return decrypted;
+                }
+                else
+                {
+                    Transposition_LogMessage("Keyword is not valid", NotificationLevel.Error);
+                    return "";
                 }
             }
-            // Ende Spaltenweise auslesen
-            return dec;
+            else
+            {
+                // 2do: Anzeige "Kein gültiges Keyword
+                return "";
+            }
         }
 
         private char[,] enc_read_in_by_row(String input, int keyword_length)
@@ -294,7 +315,7 @@ namespace Transposition
                     {
                         matrix[j, i] = input[pos];
                         pos++;
-                    }                    
+                    }
                 }
             }
 
@@ -356,8 +377,8 @@ namespace Transposition
                             bool ok = false;
 
                             for (int k = 0; k < offs; k++)
-                            {                                
-                                if((keyword[k]-1).Equals(i))
+                            {
+                                if ((keyword[k] - 1).Equals(i))
                                 {
                                     ok = true;
                                 }
@@ -439,7 +460,7 @@ namespace Transposition
             int x = keyword.Length;
             int y = readin_matrix.Length / keyword.Length;
 
-            char[,] matrix = new char[x,y];
+            char[,] matrix = new char[x, y];
 
             int pos = 0;
 
@@ -447,7 +468,7 @@ namespace Transposition
             {
                 for (int j = 0; j < keyword.Length; j++)
                 {
-                    if(i.Equals(keyword[j]))
+                    if (i.Equals(keyword[j]))
                     {
                         pos = j;
                     }
@@ -467,13 +488,13 @@ namespace Transposition
             int x = keyword.Length;
             int y = readin_matrix.Length / keyword.Length;
 
-            char[,] matrix = new char[x,y];
+            char[,] matrix = new char[x, y];
 
             for (int i = 0; i < x; i++)
             {
                 for (int j = 0; j < y; j++)
                 {
-                    matrix[i, j] = readin_matrix[keyword[i]-1, j];
+                    matrix[i, j] = readin_matrix[keyword[i] - 1, j];
                 }
             }
 
@@ -493,7 +514,7 @@ namespace Transposition
                 for (int j = 0; j < x; j++)
                 {
                     char tmp = matrix[j, i];
-                    if (! tmp.Equals(empty_char))
+                    if (!tmp.Equals(empty_char))
                     {
                         enc += tmp;
                     }
@@ -528,15 +549,52 @@ namespace Transposition
 
         private int[] get_Keyword_Array(String keyword)
         {
-            int length = keyword.Length/2 + 1;
-            int[] keys = new int[length];
-
-            for (int i = 0; i < keyword.Length; i = i + 2)
+            try
             {
-                keys[i / 2] = (int)Char.GetNumericValue(keyword[i]);
-            }
+                int length = 1;
+                char komma = ',';
 
-            return keys;
+                for (int i = 0; i < keyword.Length; i++)
+                {
+                    if (keyword[i].Equals(komma))
+                    {
+                        length++;
+                    }
+                }
+
+                int[] keys = new int[length];
+
+                String tmp = "";
+                int pos = 0;
+                for (int i = 0; i < keyword.Length; i++)
+                {
+                    if (i.Equals(keyword.Length - 1))
+                    {
+                        tmp += keyword[i];
+                        keys[pos] = Convert.ToInt32(tmp);
+                    }
+
+                    else
+                    {
+                        if (keyword[i].Equals(komma))
+                        {
+                            keys[pos] = Convert.ToInt32(tmp);
+                            tmp = "";
+                            pos++;
+                        }
+                        else
+                        {
+                            tmp += keyword[i];
+                        }
+                    }
+                }
+
+                return keys;
+            }
+            catch (FormatException)
+            {
+                return null;
+            }
         }
 
         private bool is_Valid_Keyword(int[] keyword)
@@ -561,7 +619,13 @@ namespace Transposition
 
             return true;
         }
-    
+
+        private void Transposition_LogMessage(string msg, NotificationLevel loglevel)
+        {
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(msg, this, loglevel));
+
+        }
+      
         # endregion
     }
 }
