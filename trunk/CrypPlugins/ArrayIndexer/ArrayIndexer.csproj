@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{A066F077-B078-4234-BDD4-3632C0B3C18F}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -75,4 +75,16 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>cd "$(ProjectDir)"
+cd ..\..\CrypWin\$(OutDir)
+if not exist "./CrypPlugins" mkdir "./CrypPlugins"
+
+del /S /Q /A:-S-R-H "$(TargetName)*.*"
+copy "$(TargetDir)$(TargetName)*.*" "./CrypPlugins"
+
+if not exist "./Data" mkdir "./Data"
+if exist "$(TargetDir)Data" xcopy /Y /S "$(TargetDir)Data" "./Data"
+</PostBuildEvent>
+  </PropertyGroup>
 </Project>

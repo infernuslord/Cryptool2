@@ -1,4 +1,19 @@
-﻿using System;
+﻿/*
+   Copyright 2009 Christian Arnold, Uni Duisburg-Essen
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +26,7 @@ using System.ComponentModel;
 namespace Cryptool.Plugins.ArrayIndexer
 {
     [Author("Christian Arnold", "christian.arnold@stud.uni-due.de", "Uni Duisburg-Essen", "")]
-    [PluginInfo(true, "ArrayIndexer", "Content of the chosen index of the array", "", "ArrayIndexer/arrayindexer.png")]
+    [PluginInfo(false, "ArrayIndexer", "Content of the chosen index of the array", "", "ArrayIndexer/arrayindexer.png")]
 
     public class ArrayIndexer : IThroughput
     {
@@ -107,24 +122,9 @@ namespace Cryptool.Plugins.ArrayIndexer
                     return;
                 }
 
-                if (ObjInput is string[])
-                {
-                    ObjOutput = ((string[])ObjInput)[settings.ArrayIndex];
-                }
-                else if (ObjInput is byte[])
-                {
-                    ObjOutput = ((byte[])ObjInput)[settings.ArrayIndex];
-                }
-                else if (ObjInput is int[])
-                {
-                    ObjOutput = ((int[])ObjInput)[settings.ArrayIndex];
-                }
-                else
-                {
-                    GuiLogMessage("Type of array not supported", NotificationLevel.Error);
-                    return;
-                }
-                GuiLogMessage("Array type is " + ObjInput.GetType().ToString() + " with value: " + ObjOutput.ToString(), NotificationLevel.Info);
+                ObjOutput = ObjInput.GetValue(settings.ArrayIndex);
+
+                GuiLogMessage("Array type is " + ObjInput.GetType().ToString() + " with value: " + ObjOutput.ToString(), NotificationLevel.Debug);
             }
         }
 

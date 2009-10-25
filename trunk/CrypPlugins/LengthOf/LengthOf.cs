@@ -1,4 +1,19 @@
-﻿using System;
+﻿/*
+   Copyright 2009 Christian Arnold, Uni Duisburg-Essen
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +23,8 @@ using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
 
-// Currently this PlugIn accepts every Array-Type, string and byte. In other cases a GuiMessage.Error is thrown.
+// This PlugIn accepts every type. For arrays the number of elements is written.
+// For everything else the number of characters of the object's string representation is shown.
 namespace Cryptool.Plugins.LengthOf
 {
     [Author("Christian Arnold", "christian.arnold@stud.uni-due.de", "Uni Duisburg-Essen", "http://www.uni-due.de")]
@@ -20,51 +36,21 @@ namespace Cryptool.Plugins.LengthOf
         private object objInput = null;
         private int outputLen = 0;
 
-
         #region IPlugin Members
 
         public void Execute()
         {
             if (ObjInput != null)
             {
-                Type typeInput = ObjInput.GetType();
-                if (typeInput.IsArray)
+                if (ObjInput is Array)
                 {
                     OutputLen = (ObjInput as Array).Length;
-                    GuiLogMessage("Object is an array. Length: " + OutputLen, NotificationLevel.Info);
+                    GuiLogMessage("Object is an array. Length: " + OutputLen, NotificationLevel.Debug);
                 }
                 else //no array
                 {
-                    if (ObjInput is string)
-                    {
-                        string sInput = objInput as String;
-                        OutputLen = sInput.Length;
-                    }
-                    else if (ObjInput is byte)
-                    {
-                        string sInput2 = ((byte)objInput).ToString();
-                        OutputLen = sInput2.Length;
-                    }
-                    else
-                    {
-                        GuiLogMessage("Inputtype not handled!", NotificationLevel.Error);
-                    }
-                    //switch (typeInput.ToString())
-                    //{
-                    //    case "System.String":
-                    //        string sInput = objInput as String;
-                    //        OutputLen = sInput.Length;
-                    //        break;
-                    //    case "System.Byte":
-                    //        string sInput2 = ((byte)objInput).ToString();
-                    //        OutputLen = sInput2.Length;
-                    //        break;
-                    //    default:
-                    //        GuiLogMessage("Inputtype not handled!", NotificationLevel.Error);
-                    //        //throw new Exception("Inputtype not handled!");
-                    //        break;
-                    //}
-                    GuiLogMessage("Object isn't an array. Length: " + OutputLen, NotificationLevel.Info);
+                    OutputLen = ObjInput.ToString().Length;
+                    GuiLogMessage("Object isn't an array. Length: " + OutputLen, NotificationLevel.Debug);
                 }
             }
         }
