@@ -12,6 +12,7 @@ namespace Transposition
         # region private variables
 
         private Boolean hasChanges = false;
+        private Boolean doubleTransposition = false;
         private int selectedAction = 0;
 
         private ReadInMode selectedReadIn = ReadInMode.byRow;
@@ -96,7 +97,22 @@ namespace Transposition
                 OnPropertyChanged("ReadOut");
             }
         }
-       
+
+        [PropertySaveOrder(5)]
+        [ContextMenu("Double Transposition", "Select this, if u want to compute the double transposition.", 5, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, "Double Transposition")]
+        [TaskPane("Double Transposition", "Select this, if u want to compute the double transposition.", null, 5, false, DisplayLevel.Expert, ControlType.CheckBox, "")]
+        public bool DoubleTransposition
+        {
+            get { return this.doubleTransposition; }
+            set
+            {
+                if (value != this.doubleTransposition) HasChanges = true;
+                this.doubleTransposition = value;
+                OnPropertyChanged("DoubleTransposition");
+            }
+        }
+
+
         protected void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)

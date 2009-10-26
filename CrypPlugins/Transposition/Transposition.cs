@@ -19,9 +19,10 @@ namespace Transposition
     {
         # region Private variables
 
-        private String keyword;
-        private String input;
-        private String output;
+        private String keyword = "";
+        private String dpkeyword = "";
+        private String input = "";
+        private String output = "";
         private TranspositionSettings settings;
 
         # endregion
@@ -29,9 +30,6 @@ namespace Transposition
         public Transposition()
         {
             this.settings = new TranspositionSettings();
-            keyword = "";
-            input = "";
-            output = "";
         }
 
         public ISettings Settings
@@ -71,6 +69,21 @@ namespace Transposition
                 OnPropertyChange("Keyword");
             }
         }
+
+        [PropertyInfo(Direction.InputData, "Double transposition keyword", "double transposition keyword", "Keyword ued for double transposition. If empty, the first keyword is used for the second transposition, too.", DisplayLevel.Beginner)]
+        public string DoubleTransposition
+        {
+            get
+            {
+                return this.dpkeyword;
+            }
+            set
+            {
+                this.dpkeyword = value;
+                OnPropertyChange("DoubleTransposition");
+            }
+        }
+
 
         [PropertyInfo(Direction.OutputData, "Output", "output", "", DisplayLevel.Beginner)]
         public string Output
@@ -163,26 +176,88 @@ namespace Transposition
 
         private void ProcessTransposition()
         {
-            switch (settings.Action)
+            try
             {
-                case 0:
-                    Output = encrypt();
-                    break;
-                case 1:
-                    Output = decrypt();
-                    break;
-                default:
-                    break;
+                int[] key = null;
+                int[] dpkey = null;
+
+                if (keyword.Contains('1'))
+                {
+                    key = get_Keyword_Array(keyword);
+                }
+
+                else
+                {
+                    key = sortKey(keyword);
+                }
+
+
+                if (DoubleTransposition == null || DoubleTransposition.Equals(""))
+                {
+                    dpkey = key;
+                }
+
+                else
+                {
+                    if (dpkeyword.Contains('1'))
+                    {
+                        dpkey = get_Keyword_Array(dpkeyword);
+                    }
+
+                    else
+                    {
+                        dpkey = sortKey(dpkeyword);
+                    }
+                }
+
+                if (settings.DoubleTransposition)
+                {
+                    switch (settings.Action)
+                    {
+                        case 0:
+                            String enc_tmp = encrypt(input, key);
+                            Output = encrypt(enc_tmp, dpkey);
+                            break;
+
+                        case 1:
+                            String dec_tmp = decrypt(input, dpkey);
+                            Output = decrypt(dec_tmp, key);
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+
+                else
+                {
+                    switch (settings.Action)
+                    {
+
+                        case 0:
+                            Output = encrypt(input, key);
+                            break;
+                        case 1:
+                            Output = decrypt(input, key);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                ProgressChanged(1, 1);
             }
 
-
-            ProgressChanged(1, 1);
+            catch (Exception)
+            {
+                Transposition_LogMessage("Keyword is not valid", NotificationLevel.Error);
+                Output = "";
+            }
         }
 
-        private String encrypt()
+        private String encrypt(String input, int[] key)
         {
-            int[] key = get_Keyword_Array(keyword);
-            if (key != null && input != null)
+            if (key != null && input != null && key.Length>0)
             {
                 if (is_Valid_Keyword(key))
                 {
@@ -237,10 +312,9 @@ namespace Transposition
             }
         }
 
-        private String decrypt()
+        private String decrypt(String input, int[] key)
         {
-            int[] key = get_Keyword_Array(keyword);
-            if (key != null && input != null)
+            if (key != null && input != null && key.Length>0)
             {
                 if (is_Valid_Keyword(key))
                 {
@@ -622,19 +696,23 @@ namespace Transposition
 		
 		 public int[] sortKey(String input)
         {
-            String key = input;
-            Char[] keyChars = key.ToCharArray();
-            Char[] orgChars = key.ToCharArray();
-            int[] rank = new int[keyChars.Length];
-            Array.Sort(keyChars);
-
-            for (int i = 0; i < orgChars.Length; i++)
+            if (input != null && !input.Equals(""))
             {
-                rank[i] = (Array.IndexOf(keyChars, orgChars[i])) + 1;
-                keyChars[Array.IndexOf(keyChars, orgChars[i])] = (char)0;
-            }
+                String key = input;
+                Char[] keyChars = key.ToCharArray();
+                Char[] orgChars = key.ToCharArray();
+                int[] rank = new int[keyChars.Length];
+                Array.Sort(keyChars);
 
-            return rank;
+                for (int i = 0; i < orgChars.Length; i++)
+                {
+                    rank[i] = (Array.IndexOf(keyChars, orgChars[i])) + 1;
+                    keyChars[Array.IndexOf(keyChars, orgChars[i])] = (char)0;
+                }
+
+                return rank;
+            }
+            return null;
         }
 
         private void Transposition_LogMessage(string msg, NotificationLevel loglevel)
