@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A7CD30E7-5381-40CF-BB78-268EC998CCB3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Cryptool.Plugins.PeerToPeer</RootNamespace>
+    <AssemblyName>PeerToPeerBase</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Bootstrapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\p@p\Sources\trunkNG\FullMeshDHT\bin\Debug\Bootstrapper.dll</HintPath>
+    </Reference>
+    <Reference Include="CertServices, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\p@p\Sources\trunkNG\FullMeshDHT\bin\Debug\CertServices.dll</HintPath>
+    </Reference>
+    <Reference Include="FullMeshDHT, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\p@p\Sources\trunkNG\FullMeshDHT\bin\Debug\FullMeshDHT.dll</HintPath>
+    </Reference>
+    <Reference Include="FullMeshOverlay, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\p@p\Sources\trunkNG\FullMeshDHT\bin\Debug\FullMeshOverlay.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\p@p\Sources\trunkNG\FullMeshDHT\bin\Debug\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="NetGears, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\p@p\Sources\trunkNG\FullMeshDHT\bin\Debug\NetGears.dll</HintPath>
+    </Reference>
+    <Reference Include="NetGearsTCP, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\p@p\Sources\trunkNG\FullMeshDHT\bin\Debug\NetGearsTCP.dll</HintPath>
+    </Reference>
+    <Reference Include="PeersAtPlayBase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\p@p\Sources\trunkNG\FullMeshDHT\bin\Debug\PeersAtPlayBase.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="SimpleSnalNG, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\p@p\Sources\trunkNG\FullMeshDHT\bin\Debug\SimpleSnalNG.dll</HintPath>
+    </Reference>
+    <Reference Include="Stun, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\p@p\Sources\trunkNG\FullMeshDHT\bin\Debug\Stun.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Util, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\p@p\Sources\trunkNG\FullMeshDHT\bin\Debug\Util.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IP2PControl.cs" />
+    <Compile Include="P2PPeerSettings.cs" />
+    <Compile Include="P2PPeer.cs" />
+    <Compile Include="ResponseWait.cs" />
+    <Compile Include="PeerToPeerBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
+      <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
+      <Name>CrypPluginBase</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ct2_p2p_load_medium.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\Munin\Desktop\P2PMaster.cd">
+      <Link>P2PMaster.cd</Link>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>SET outdir="$(ProjectDir)..\..\CrypWin\$(OutDir)"
+if exist %25outdir%25 (
+	cd %25outdir%25
+	if not exist "./CrypPlugins" mkdir "./CrypPlugins"
+
+	del /S /Q /A:-S-R-H "$(TargetName)*.*"
+	copy "$(TargetDir)$(TargetName)*.*" "./CrypPlugins"
+
+	if not exist "./Data" mkdir "./Data"
+	if exist "$(TargetDir)Data" xcopy /Y /S "$(TargetDir)Data" "./Data"
+
+copy "$(ProjectDir)dlls\$(ConfigurationName)\*.pdb" "."
+copy "$(ProjectDir)dlls\$(ConfigurationName)\*.dll" "."
+)</PostBuildEvent>
+  </PropertyGroup>
+</Project>
