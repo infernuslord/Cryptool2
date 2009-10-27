@@ -1,0 +1,16 @@
+<FlowDocument 
+    PagePadding="5,0,5,0" 
+    AllowDrop="True" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Paragraph>
+        <Run xml:lang="de-de">Regular Expression Replace
+        </Run>
+    </Paragraph>
+    <Paragraph />
+    <Paragraph>http://en.wikipedia.org/wiki/Regular_epressions</Paragraph>
+    <Paragraph />
+    <Paragraph>
+        <Run xml:lang="de-de">This tool ..
+        </Run>
+    </Paragraph>
+</FlowDocument>
