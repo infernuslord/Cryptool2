@@ -216,6 +216,7 @@ using System.Runtime.CompilerServices;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Runtime.Remoting.Contexts;
 using Cryptool.PluginBase.Control;
+using System.Reflection;
 
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
@@ -413,8 +414,40 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
         public void Execute()
-        {            
-            process(settings.Action);
+        {
+            try
+            {
+                //copy inputStream for Slave
+                if (controlSlave is object && InputStream is object && InputIV is object)
+                {
+                    CryptoolStream cs = new CryptoolStream();
+                    cs.OpenRead(inputStream.FileName);
+                    ((AESControl)controlSlave).InputStream = cs;
+                }
+
+                process(settings.Action);
+
+                //Work with slave
+                if (controlSlave is object && InputStream is object && InputIV is object)
+                {
+                    ((AESControl)controlSlave).reset();
+                    ((AESControl)controlSlave).onStatusChanged();
+
+                }
+            }
+            finally
+            {
+                if (controlSlave is object && ((AESControl)controlSlave).InputStream is object)
+                    ((AESControl)controlSlave).closeStreams();
+                //InputStream = null;
+                //OutputStream = null;
+            }
+        }
+
+        public bool isStopped()
+        {
+
+            return this.stop;
         }
 
         private void process(int action)
@@ -423,7 +456,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
           try
           {
             checkForInputStream();
-            if (inputStream == null || (inputStream != null && inputStream.Length == 0))
+            if (inputStream == null || inputStream.Length == 0)
             {
               GuiLogMessage("No input given. Not using dummy data in decrypt mode. Aborting now.", NotificationLevel.Error);
               return;
@@ -657,25 +690,168 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         public event KeyPatternChanged keyPatternChanged;
         public event IControlStatusChangedEventHandler OnStatusChanged;
         private AES plugin;
+        private SymmetricAlgorithm aes_algorithm = null;
+        private byte[] input;
+        private Stream inputStream;
+
+        public void reset()
+        {
+            input = null;
+            aes_algorithm = null;
+        }
+
+        public CryptoolStream InputStream{
+            get;set;
+        }
 
         public AESControl(AES Plugin)
         {
             this.plugin = Plugin;
-            ((AESSettings)plugin.Settings).PropertyChanged += settingsChangedHandler;
         }
 
         #region IControlEncryption Members
 
         public byte[] Encrypt(byte[] key, int blocksize)
         {
-            ((AESSettings)plugin.Settings).Action = 0;
-            return execute(key, blocksize);
+            /// not implemented, currently not needed
+            return null;
+        }
+
+        public void closeStreams()
+        {
+            if (inputStream != null)
+                inputStream.Close();
+            if (InputStream != null)
+                InputStream.Close();
         }
 
         public byte[] Decrypt(byte[] key, int blocksize)
         {
-            ((AESSettings)plugin.Settings).Action = 1;
-            return execute(key, blocksize);
+            int size = (int)this.InputStream.Length;
+            
+            if (blocksize < size)
+                size = blocksize;
+            
+            if (!(this.input is object))
+            {
+                input = new byte[size];
+                this.InputStream.Seek(0, 0);
+                for (int i = 0; i < size && i < this.InputStream.Length; i++)
+                    input[i] = (byte)this.InputStream.ReadByte();
+                inputStream = new MemoryStream(input); 
+            }
+            inputStream.Seek(0, 0);
+
+            CryptoStream crypto_stream = null;
+            byte[] output = new byte[blocksize];
+
+            //Decrypt Stream
+            try
+            {
+                if (!(aes_algorithm is object))
+                {
+                    if (((AESSettings)plugin.Settings).CryptoAlgorithm == 1)
+                    { aes_algorithm = new RijndaelManaged(); }
+                    else
+                    { aes_algorithm = new AesCryptoServiceProvider(); }                   
+                }
+                
+                this.ConfigureAlg(aes_algorithm, key);
+                
+                ICryptoTransform p_decryptor;
+                try
+                {
+                    p_decryptor = aes_algorithm.CreateDecryptor();
+                }               
+                catch
+                {
+                    //dirty hack to allow weak keys:
+                    MethodInfo mi = aes_algorithm.GetType().GetMethod("_NewEncryptor", BindingFlags.NonPublic | BindingFlags.Instance);
+                    object[] Par = { aes_algorithm.Key, aes_algorithm.Mode, aes_algorithm.IV, aes_algorithm.FeedbackSize, 0 };
+                    p_decryptor = mi.Invoke(aes_algorithm, Par) as ICryptoTransform;
+                }
+
+                crypto_stream = new CryptoStream((Stream)inputStream, p_decryptor, CryptoStreamMode.Read);
+
+                byte[] buffer = new byte[aes_algorithm.BlockSize / 8];
+                int bytesRead;
+                int position = 0;
+
+                while ((bytesRead = crypto_stream.Read(buffer, 0, buffer.Length)) > 0 && !plugin.isStopped())
+                {
+                    for (int i = 0; i < bytesRead; i++)
+                    {
+                        if (position + i < output.Length)
+                        {
+                            output[position + i] = buffer[i];
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }                    
+                    position += bytesRead;
+                }
+
+            }
+            catch (Exception exception)
+            {
+                aes_algorithm = null;   // we got an exception so we do not use this object any more
+                throw exception;
+            }           
+
+            return output;
+        }
+
+        private void ConfigureAlg(SymmetricAlgorithm alg, byte[] key)
+        {
+            try
+            {
+                alg.Key = key;
+            }
+            catch
+            {
+                //dirty hack to allow weak keys:
+                FieldInfo field = aes_algorithm.GetType().GetField("KeyValue", BindingFlags.NonPublic | BindingFlags.Instance);
+                field.SetValue(alg, key);
+            }
+
+            try
+            {
+                alg.IV = this.plugin.InputIV;
+            }
+            catch
+            {
+                //dirty hack to allow weak keys:
+                FieldInfo field = aes_algorithm.GetType().GetField("IVValue", BindingFlags.NonPublic | BindingFlags.Instance);
+                field.SetValue(alg, this.plugin.InputIV);
+            }
+
+            switch (((AESSettings)plugin.Settings).Mode)
+            { //0="ECB"=default, 1="CBC", 2="CFB", 3="OFB"
+                case 1: alg.Mode = CipherMode.CBC; break;
+                case 2: alg.Mode = CipherMode.CFB; break;
+                case 3: alg.Mode = CipherMode.OFB; break;
+                default: alg.Mode = CipherMode.ECB; break;
+            }
+            switch (((AESSettings)plugin.Settings).Padding)
+            { //0="Zeros"=default, 1="None", 2="PKCS7"
+                case 1: alg.Padding = PaddingMode.None; break;
+                case 2: alg.Padding = PaddingMode.PKCS7; break;
+                case 3: alg.Padding = PaddingMode.ANSIX923; break;
+                case 4: alg.Padding = PaddingMode.ISO10126; break;
+                default: alg.Padding = PaddingMode.Zeros; break;
+            }
+            
+        }
+
+        /// <summary>
+        /// Called by AES if its status changes
+        /// </summary>
+        public void onStatusChanged()
+        {
+            if (OnStatusChanged != null)
+                OnStatusChanged(this, true);
         }
 
         public string getKeyPattern()
@@ -722,28 +898,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
             return bkey;
         }
-
-        private byte[] execute(byte[] key, int blocksize)
-        {
-            plugin.InputKey = key;
-            plugin.Execute();
-            CryptoolStream output = plugin.OutputStream;
-
-            byte[] byteValues = new byte[output.Length];
-            int bytesRead;
-            output.Seek(0, SeekOrigin.Begin);
-            bytesRead = output.Read(byteValues, 0, byteValues.Length);
-            plugin.Dispose();
-            output.Close();
-            return byteValues;
-        }
-
-        private void settingsChangedHandler(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "Keysize")
-                keyPatternChanged();
-        }
-
         #endregion
     }
 }
