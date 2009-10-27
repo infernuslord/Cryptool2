@@ -208,7 +208,7 @@ namespace Cryptool.Plugins.PeerToPeer
             return this.p2pBase.SynchRemove(sKey);
         }
 
-        public event PeerJoinedP2P OnPeerJoinedCompletely;
+        //public event PeerJoinedP2P OnPeerJoinedCompletely;
 
         #endregion
 
