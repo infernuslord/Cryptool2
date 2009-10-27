@@ -336,11 +336,37 @@ namespace Cryptool.Plugins.Converter
                             }
                             else
                             {
-                                System.Text.UTF8Encoding enc = new System.Text.UTF8Encoding();
-                                Output = enc.GetBytes(inpString);
+                                switch (settings.Encoding)
+                                {
+                                    case ConverterSettings.EncodingTypes.Default:
+                                        Output = Encoding.Default.GetBytes(inpString.ToCharArray());
+                                        break;
+                                    case ConverterSettings.EncodingTypes.Unicode:
+                                        Output = Encoding.Unicode.GetBytes(inpString.ToCharArray());
+                                        break;
+                                    case ConverterSettings.EncodingTypes.UTF7:
+                                        Output = Encoding.UTF7.GetBytes(inpString.ToCharArray());
+                                        break;
+                                    case ConverterSettings.EncodingTypes.UTF8:
+                                        Output = Encoding.UTF8.GetBytes(inpString.ToCharArray());
+                                        break;
+                                    case ConverterSettings.EncodingTypes.UTF32:
+                                        Output = Encoding.UTF32.GetBytes(inpString.ToCharArray());
+                                        break;
+                                    case ConverterSettings.EncodingTypes.ASCII:
+                                        Output = Encoding.ASCII.GetBytes(inpString.ToCharArray());
+                                        break;
+                                    case ConverterSettings.EncodingTypes.BigEndianUnicode:
+                                        Output = Encoding.BigEndianUnicode.GetBytes(inpString.ToCharArray());
+                                        break;
+                                    default:
+                                        Output = Encoding.Default.GetBytes(inpString.ToCharArray());
+                                        break;
+                                }
+                               
 
 
-                                GuiLogMessage("byte[] wiederherstellung " + Output.ToString(), NotificationLevel.Info);
+                                //GuiLogMessage("byte[] wiederherstellung " + Output.ToString(), NotificationLevel.Info);
                                 ProgressChanged(100, 100);
                                 break;
                             }

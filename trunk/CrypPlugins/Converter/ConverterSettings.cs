@@ -33,10 +33,31 @@ namespace Cryptool.Plugins.Converter
         private bool hasChanges;
         private bool numeric = false;
         private bool formatAmer = false;
+        public enum EncodingTypes { Default = 0, Unicode = 1, UTF7 = 2, UTF8 = 3, UTF32 = 4, ASCII = 5, BigEndianUnicode = 6 };
+        private EncodingTypes encoding = EncodingTypes.Default;
         #endregion
 
         #region taskpane
      //   [ContextMenu("Numeric Interpretation", "Choose whether inputs are treated as numeric values if possible", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "numeric", "non numeric")]
+        [ContextMenu("Stream encoding", "Choose the expected encoding of the byte array and stream.", 1, DisplayLevel.Experienced, ContextMenuControlType.ComboBox, null, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
+        [TaskPane("Stream encoding", "Choose the expected encoding of the byte array and stream.", "", 1, false, DisplayLevel.Experienced, ControlType.RadioButton, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
+        public int EncodingSetting
+        {
+            get
+            {
+                return (int)this.encoding;
+            }
+            set
+            {
+                if (this.Encoding != (EncodingTypes)value)
+                {
+                    hasChanges = true;
+                    this.Encoding = (EncodingTypes)value;
+                    OnPropertyChanged("EncodingSetting");
+                    HasChanges = true;
+                }
+            }
+        }
         [TaskPane("Converter", "Choose the output type", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "string", "int", "short", "byte", "double", "BigInteger", "int[]", "byte[]","Cryptoolstream" })]
         
       
@@ -55,53 +76,63 @@ namespace Cryptool.Plugins.Converter
                             case 0:
                                 {
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Collapsed)));
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("EncodingSetting", Visibility.Collapsed)));
                                     //TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
                                     break;
                                 }
                             case 1:
                                 {
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Collapsed)));
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("EncodingSetting", Visibility.Collapsed)));
                                     //  TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
                                     break;
                                 }
                             case 2:
                                 {
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("EncodingSetting", Visibility.Collapsed)));
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Collapsed)));
                                     //TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
                                     break;
                                 }
                             case 3:
                                 {
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("EncodingSetting", Visibility.Collapsed)));
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Collapsed)));
                                     //TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
                                     break;
                                 }
                             case 4:
                                 {
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("EncodingSetting", Visibility.Collapsed)));
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Collapsed)));
                                     // TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
                                     break;
                                 }
                             case 5:
                                 {
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("EncodingSetting", Visibility.Collapsed)));
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Collapsed)));
                                     //TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
                                     break;
                                 }
                             case 6:
                                 {
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("EncodingSetting", Visibility.Collapsed)));
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Collapsed)));
                                     //TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
                                     break;
                                 }
                             case 7:
                                 {
+                                    
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Visible)));
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("EncodingSetting", Visibility.Visible)));
                                     //TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
                                     break;
                                 }
                             case 8:
                                 {
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("EncodingSetting", Visibility.Collapsed)));
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Collapsed)));
                                     //TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
                                     break;
@@ -154,6 +185,20 @@ namespace Cryptool.Plugins.Converter
             set { hasChanges = value; }
 
         }
+        public EncodingTypes Encoding
+        {
+            get { return this.encoding; }
+            set
+            {
+                if (this.encoding != value)
+                {
+                    hasChanges = true;
+                    this.encoding = value;
+                    OnPropertyChanged("EncodingSetting");
+                }
+            }
+        }
+
 
         #endregion
 
