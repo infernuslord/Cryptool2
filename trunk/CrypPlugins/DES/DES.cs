@@ -494,9 +494,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
             catch (Exception exception)
             {
-                plugin.GuiLogMessage(exception.Message, NotificationLevel.Error);
-                plugin.GuiLogMessage(exception.StackTrace, NotificationLevel.Error);
                 des_algorithm = null;   // we got an exception so we do not use this object any more
+                throw exception;
             }
             finally
             {

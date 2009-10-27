@@ -19,9 +19,10 @@ namespace KeySearcher
     /// </summary>
     public partial class KeySearcherQuickWatchPresentation : UserControl
     {
+
         public KeySearcherQuickWatchPresentation()
         {
-            InitializeComponent();
+            InitializeComponent(); 
         }
     }
 }
