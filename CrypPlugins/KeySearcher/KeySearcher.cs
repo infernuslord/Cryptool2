@@ -260,7 +260,7 @@ namespace KeySearcher
                     valueKey.value = double.MaxValue;
                 else
                     valueKey.value = double.MinValue;
-                valueKey.key = "dummykey";
+                valueKey.key = "dummykey";                
                 LinkedListNode<ValueKey> node = costList.AddFirst(valueKey);
                 for (int i = 1; i < maxInList; i++)
                 {
@@ -273,30 +273,62 @@ namespace KeySearcher
                     GuiLogMessage("Wrong key pattern!", NotificationLevel.Error);
                     return;
                 }
-
+                
+                int bytesToUse = 0;
                 double size = Pattern.initKeyIteration(settings.Key);
-                int bytesToUse = CostMaster.getBytesToUse();
+                
+                try
+                {
+                    bytesToUse = CostMaster.getBytesToUse();
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage("Bytes to use not valid: " + ex.Message, NotificationLevel.Error);
+                    return;
+                }
                 string key;
                 double keycounter = 0;
                 double doneKeys = 0;
-                string text = "";
                 LinkedListNode<ValueKey> linkedListNode;
 
                 DateTime lastTime = DateTime.Now;                
                 do
-                {                    
-                    key = Pattern.getKey();                    
-                    byte[] decryption = sender.Decrypt(ControlMaster.getKeyFromString(key), bytesToUse);
-
+                {
                     valueKey = new ValueKey();
-                    valueKey.value = CostMaster.calculateCost(decryption);
-                    valueKey.key = key;
-                   
+                    try
+                    {
+                        valueKey.key = Pattern.getKey();
+                    }
+                    catch (Exception ex)
+                    {
+                        GuiLogMessage("Could not get next Key: " + ex.Message, NotificationLevel.Error);
+                        return;
+                    }
+
+                    try
+                    {
+                        valueKey.decryption = sender.Decrypt(ControlMaster.getKeyFromString(valueKey.key), bytesToUse);
+                    }
+                    catch (Exception ex)
+                    {
+                        GuiLogMessage("Decryption is not possible: " + ex.Message, NotificationLevel.Error);
+                        return;
+                    }
+                
+                    try
+                    {
+                        valueKey.value = CostMaster.calculateCost(valueKey.decryption);
+                    }
+                    catch (Exception ex)
+                    {
+                        GuiLogMessage("Cost calculation is not possible: " + ex.Message, NotificationLevel.Error);
+                        return;
+                    }
+
                     if (this.costMaster.getRelationOperator() == RelationOperator.LargerThen)
                     {
 
-                       node = costList.First;
-
+                        node = costList.First;
                         while (node != null)
                         {
 
@@ -369,13 +401,13 @@ namespace KeySearcher
                                 {
                                     ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "" + DateTime.Now.Add(timeleft);
                                 }catch{
-                                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "in a time far, far away...";
+                                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "in a galaxy far, far away...";
                                 }
                             }
                             else
                             {
                                 ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).timeLeft.Text = "incalculable :-)";
-                                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "in a time far, far away...";
+                                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "in a galaxy far, far away...";
                             }
                             
 
@@ -384,25 +416,48 @@ namespace KeySearcher
                         doneKeys = 0;
 
                         if (QuickWatchPresentation.IsVisible)
-                        {
-                            text = "Calculated value/key - list:\r\n";
-                            linkedListNode = costList.First;
-                            while (linkedListNode != null)
-                            {
-                                text += linkedListNode.Value.value + " = " + linkedListNode.Value.key + "\r\n";
-                                linkedListNode = linkedListNode.Next;
-                            }
+                        {                                                        
                             
                             ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                             {
-                                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).logging.Text = text;
+                                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Clear();
+                                linkedListNode = costList.First;
+                                System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+                                int i=0;
+                                while (linkedListNode != null)
+                                {
+                                    i++;
+                                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Add(i + ") " + Math.Round(linkedListNode.Value.value,4) + " = " + linkedListNode.Value.key + " : \"" + 
+                                        enc.GetString(linkedListNode.Value.decryption).Replace("\n","").Replace("\r", "").Replace("\t", "") + "\"");
+                                    linkedListNode = linkedListNode.Next;
+                                }                                
                             }
                             , null);
                         }
                     }
 
-                } while (Pattern.nextKey() && !stop);                
-                
+                } while (Pattern.nextKey() && !stop);
+
+                if (QuickWatchPresentation.IsVisible)
+                {
+
+                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Clear();
+                        linkedListNode = costList.First;
+                        System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+                        int i = 0;
+                        while (linkedListNode != null)
+                        {
+                            i++;
+                            ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Add(i + ") " + Math.Round(linkedListNode.Value.value, 4) + " = " + linkedListNode.Value.key + " : \"" +
+                                enc.GetString(linkedListNode.Value.decryption).Replace("\n", "").Replace("\r", "").Replace("\t", "") + "\"");
+                            linkedListNode = linkedListNode.Next;
+                        }
+                    }
+                    , null);
+                }
+
             }//end if
         }
 
@@ -520,6 +575,7 @@ namespace KeySearcher
         {
             public double value;
             public String key;
+            public byte[] decryption;
         };
     }
 }
