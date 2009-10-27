@@ -180,6 +180,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 //Work with slave
                 if (controlSlave is object && InputStream is object && InputIV is object)
                 {
+                    ((DESControl)controlSlave).reset();
                     ((DESControl)controlSlave).onStatusChanged();
 
                 }
@@ -187,7 +188,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             finally
             {
                 if (controlSlave is object && ((DESControl)controlSlave).InputStream is object)
-                    ((DESControl)controlSlave).InputStream.Close();
+                    ((DESControl)controlSlave).closeStreams();
                 InputStream = null;
                 OutputStream = null;
             }
@@ -410,9 +411,25 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         public event IControlStatusChangedEventHandler OnStatusChanged;
         private DES plugin;
         private SymmetricAlgorithm des_algorithm = null;
-        
+        private byte[] input;
+        private Stream inputStream;
+ 
         public CryptoolStream InputStream{
             get;set;
+        }
+
+        public void reset()
+        {
+            input = null;
+            des_algorithm = null;
+        }
+
+        public void closeStreams()
+        {
+            if (inputStream != null)
+                inputStream.Close();
+            if (InputStream != null)
+                InputStream.Close();
         }
 
         public DESControl(DES Plugin)
@@ -431,17 +448,21 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         public byte[] Decrypt(byte[] key, int blocksize)
         {
             int size = (int)this.InputStream.Length;
+            
             if (blocksize < size)
                 size = blocksize;
-
-            byte[] input = new byte[size];
-            this.InputStream.Seek(0, 0);
-            for (int i = 0; i < size && i < this.InputStream.Length; i++)
-                input[i] = (byte)this.InputStream.ReadByte();
-
-            Stream inputStream = new MemoryStream(input);            
-                        
-            CryptoStream p_crypto_stream = null;
+            
+            if (!(this.input is object))
+            {
+                input = new byte[size];
+                this.InputStream.Seek(0, 0);
+                for (int i = 0; i < size && i < this.InputStream.Length; i++)
+                    input[i] = (byte)this.InputStream.ReadByte();
+                inputStream = new MemoryStream(input);
+            }
+            inputStream.Seek(0, 0);
+                       
+            CryptoStream crypto_stream = null;
             byte[] output = new byte[blocksize];
 
             //Decrypt Stream
@@ -467,13 +488,13 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                     p_decryptor = mi.Invoke(des_algorithm, Par) as ICryptoTransform;
                 }
 
-                p_crypto_stream = new CryptoStream((Stream)inputStream, p_decryptor, CryptoStreamMode.Read);
+                crypto_stream = new CryptoStream((Stream)inputStream, p_decryptor, CryptoStreamMode.Read);
 
                 byte[] buffer = new byte[des_algorithm.BlockSize / 8];
                 int bytesRead;
                 int position = 0;
 
-                while ((bytesRead = p_crypto_stream.Read(buffer, 0, buffer.Length)) > 0 && !plugin.isStopped())
+                while ((bytesRead = crypto_stream.Read(buffer, 0, buffer.Length)) > 0 && !plugin.isStopped())
                 {
                     for (int i = 0; i < bytesRead; i++)
                     {
@@ -489,19 +510,13 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                     position += bytesRead;
                 }
 
-                p_crypto_stream.Flush();
 
             }
             catch (Exception exception)
             {
                 des_algorithm = null;   // we got an exception so we do not use this object any more
                 throw exception;
-            }
-            finally
-            {
-                if(inputStream != null)
-                    inputStream.Close();
-            }
+            }           
 
             return output;
         }

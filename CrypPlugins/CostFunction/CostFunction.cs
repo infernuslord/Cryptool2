@@ -372,6 +372,10 @@ namespace Cryptool.Plugins.CostFunction
             {
                 throw new Exception("Entered bytesToUse is not an integer: " + ex.Message);
             }
+            
+            if (bytesToUse > text.Length)
+                bytesToUse = text.Length;
+
             byte[] array;
 
             if (bytesToUse > 0)
