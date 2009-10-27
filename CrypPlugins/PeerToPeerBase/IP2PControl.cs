@@ -14,6 +14,6 @@ namespace Cryptool.PluginBase.Control
         /// <summary>
         /// delegate is defined in Cryptool.PluginBase.Delegates.cs
         /// </summary>
-        event PeerJoinedP2P OnPeerJoinedCompletely;
+        //event PeerJoinedP2P OnPeerJoinedCompletely;
     }
 }
