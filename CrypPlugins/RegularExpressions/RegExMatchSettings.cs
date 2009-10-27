@@ -29,7 +29,7 @@ namespace Cryptool.Plugins.RegularExpressions
         #endregion
 
         #region INotifyPropertyChanged Member
-
+        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
         #endregion
