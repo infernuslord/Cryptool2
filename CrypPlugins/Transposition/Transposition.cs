@@ -20,7 +20,6 @@ namespace Transposition
         # region Private variables
 
         private String keyword = "";
-        private String dpkeyword = "";
         private String input = "";
         private String output = "";
         private TranspositionSettings settings;
@@ -69,21 +68,6 @@ namespace Transposition
                 OnPropertyChange("Keyword");
             }
         }
-
-        [PropertyInfo(Direction.InputData, "Double transposition keyword", "double transposition keyword", "Keyword ued for double transposition. If empty, the first keyword is used for the second transposition, too.", DisplayLevel.Beginner)]
-        public string DoubleTransposition
-        {
-            get
-            {
-                return this.dpkeyword;
-            }
-            set
-            {
-                this.dpkeyword = value;
-                OnPropertyChange("DoubleTransposition");
-            }
-        }
-
 
         [PropertyInfo(Direction.OutputData, "Output", "output", "", DisplayLevel.Beginner)]
         public string Output
@@ -179,9 +163,8 @@ namespace Transposition
             try
             {
                 int[] key = null;
-                int[] dpkey = null;
 
-                if (keyword.Contains('1'))
+                if (keyword.Contains(','))
                 {
                     key = get_Keyword_Array(keyword);
                 }
@@ -191,110 +174,85 @@ namespace Transposition
                     key = sortKey(keyword);
                 }
 
-
-                if (DoubleTransposition == null || DoubleTransposition.Equals(""))
+                switch (settings.Action)
                 {
-                    dpkey = key;
+                    case 0:
+                        Output = encrypt(input, key);
+                        break;
+                    case 1:
+                        Output = decrypt(input, key);
+                        break;
+                    default:
+                        break;
                 }
-
-                else
-                {
-                    if (dpkeyword.Contains('1'))
-                    {
-                        dpkey = get_Keyword_Array(dpkeyword);
-                    }
-
-                    else
-                    {
-                        dpkey = sortKey(dpkeyword);
-                    }
-                }
-
-                if (settings.DoubleTransposition)
-                {
-                    switch (settings.Action)
-                    {
-                        case 0:
-                            String enc_tmp = encrypt(input, key);
-                            Output = encrypt(enc_tmp, dpkey);
-                            break;
-
-                        case 1:
-                            String dec_tmp = decrypt(input, dpkey);
-                            Output = decrypt(dec_tmp, key);
-                            break;
-
-                        default:
-                            break;
-                    }
-                }
-
-                else
-                {
-                    switch (settings.Action)
-                    {
-
-                        case 0:
-                            Output = encrypt(input, key);
-                            break;
-                        case 1:
-                            Output = decrypt(input, key);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-
                 ProgressChanged(1, 1);
             }
 
             catch (Exception)
             {
-                Transposition_LogMessage("Keyword is not valid", NotificationLevel.Error);
+                Transposition_LogMessage("Keyword is not valid" , NotificationLevel.Error);
                 Output = "";
             }
         }
 
         private String encrypt(String input, int[] key)
         {
-            if (key != null && input != null && key.Length>0)
+            if (key != null && input != null && key.Length > 0)
             {
                 if (is_Valid_Keyword(key))
                 {
+                    String encrypted = "";
                     char[,] matrix = null;
 
-                    switch ((TranspositionSettings.ReadInMode)settings.ReadIn)
+                    if (((TranspositionSettings.PermutationMode)settings.Permutation).Equals(TranspositionSettings.PermutationMode.byRow))
                     {
-                        case TranspositionSettings.ReadInMode.byRow:
-                            matrix = enc_read_in_by_row(input, key.Length); break;
-                        case TranspositionSettings.ReadInMode.byColumn:
-                            matrix = enc_read_in_by_column(input, key.Length); break;
-                        default:
-                            break;
+                        switch ((TranspositionSettings.ReadInMode)settings.ReadIn)
+                        {
+                            case TranspositionSettings.ReadInMode.byRow:
+                                matrix = enc_read_in_by_row_if_row_perm(input, key.Length); break;
+                            case TranspositionSettings.ReadInMode.byColumn:
+                                matrix = enc_read_in_by_column_if_row_perm(input, key.Length); break;
+                            default:
+                                break;
+                        }
+
+                        matrix = enc_permute_by_row(matrix, key);
+
+                        switch ((TranspositionSettings.ReadOutMode)settings.ReadOut)
+                        {
+                            case TranspositionSettings.ReadOutMode.byRow:
+                                encrypted = read_out_by_row_if_row_perm(matrix, key.Length); break;
+                            case TranspositionSettings.ReadOutMode.byColumn:
+                                encrypted = read_out_by_column_if_row_perm(matrix, key.Length); break;
+                            default:
+                                break;
+                        }
                     }
 
-                    switch ((TranspositionSettings.PermutationMode)settings.Permutation)
+                    // permute by column:
+                    else
                     {
-                        case TranspositionSettings.PermutationMode.byColumn:
-                            matrix = enc_permut_by_column(matrix, key); break;
+                        switch ((TranspositionSettings.ReadInMode)settings.ReadIn)
+                        {
+                            case TranspositionSettings.ReadInMode.byRow:
+                                matrix = enc_read_in_by_row(input, key.Length); break;
+                            case TranspositionSettings.ReadInMode.byColumn:
+                                matrix = enc_read_in_by_column(input, key.Length); break;
+                            default:
+                                break;
+                        }
 
-                        // Permute by row still to do
-                        case TranspositionSettings.PermutationMode.byRow:
-                            matrix = enc_permut_by_column(matrix, key); break;
-                        default:
-                            break;
-                    }
+                        matrix = enc_permut_by_column(matrix, key);
 
-                    String encrypted = "";
-
-                    switch ((TranspositionSettings.ReadOutMode)settings.ReadOut)
-                    {
-                        case TranspositionSettings.ReadOutMode.byRow:
-                            encrypted = read_out_by_row(matrix, key.Length); break;
-                        case TranspositionSettings.ReadOutMode.byColumn:
-                            encrypted = read_out_by_column(matrix, key.Length); break;
-                        default:
-                            break;
+                        switch ((TranspositionSettings.ReadOutMode)settings.ReadOut)
+                        {
+                            case TranspositionSettings.ReadOutMode.byRow:
+                                encrypted = read_out_by_row(matrix, key.Length); break;
+                            case TranspositionSettings.ReadOutMode.byColumn:
+                                encrypted = read_out_by_column(matrix, key.Length); break;
+                            default:
+                                break;
+                        }
                     }
 
                     return encrypted;
@@ -314,44 +272,61 @@ namespace Transposition
 
         private String decrypt(String input, int[] key)
         {
-            if (key != null && input != null && key.Length>0)
+            if (key != null && input != null && key.Length > 0)
             {
                 if (is_Valid_Keyword(key))
                 {
                     char[,] matrix = null;
-
-                    switch ((TranspositionSettings.ReadOutMode)settings.ReadOut)
-                    {
-                        case TranspositionSettings.ReadOutMode.byRow:
-                            matrix = dec_read_in_by_column(input, key); break;
-                        case TranspositionSettings.ReadOutMode.byColumn:
-                            matrix = dec_read_in_by_row(input, key); break;
-                        default:
-                            break;
-                    }
-
-                    switch ((TranspositionSettings.PermutationMode)settings.Permutation)
-                    {
-                        case TranspositionSettings.PermutationMode.byRow:
-                            matrix = dec_permut_by_column(matrix, key); break;
-
-                        // Permute by row still to do
-                        case TranspositionSettings.PermutationMode.byColumn:
-                            matrix = dec_permut_by_column(matrix, key); break;
-                        default:
-                            break;
-                    }
-
                     String decrypted = "";
-
-                    switch ((TranspositionSettings.ReadInMode)settings.ReadIn)
+                    if (((TranspositionSettings.PermutationMode)settings.Permutation).Equals(TranspositionSettings.PermutationMode.byRow))
                     {
-                        case TranspositionSettings.ReadInMode.byRow:
-                            decrypted = read_out_by_row(matrix, key.Length); break;
-                        case TranspositionSettings.ReadInMode.byColumn:
-                            decrypted = read_out_by_column(matrix, key.Length); break;
-                        default:
-                            break;
+                        switch ((TranspositionSettings.ReadOutMode)settings.ReadOut)
+                        {
+                            case TranspositionSettings.ReadOutMode.byRow:
+                                matrix = dec_read_in_by_row_if_row_perm(input, key); break;
+                            case TranspositionSettings.ReadOutMode.byColumn:
+                                matrix = dec_read_in_by_column_if_row_perm(input, key); break;
+                            default:
+                                break;
+                        }
+
+                        matrix = dec_permut_by_row(matrix, key);
+
+                        switch ((TranspositionSettings.ReadInMode)settings.ReadIn)
+                        {
+                            case TranspositionSettings.ReadInMode.byRow:
+                                decrypted = read_out_by_row_if_row_perm(matrix, key.Length); break;
+                            case TranspositionSettings.ReadInMode.byColumn:
+                                decrypted = read_out_by_column_if_row_perm(matrix, key.Length); break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    // permute by column:
+                    else
+                    {
+                        switch ((TranspositionSettings.ReadOutMode)settings.ReadOut)
+                        {
+                            case TranspositionSettings.ReadOutMode.byRow:
+                                matrix = dec_read_in_by_row(input, key); break;
+                            case TranspositionSettings.ReadOutMode.byColumn:
+                                matrix = dec_read_in_by_column(input, key); break;
+                            default:
+                                break;
+                        }
+                        
+                        matrix = dec_permut_by_column(matrix, key);
+
+                        switch ((TranspositionSettings.ReadInMode)settings.ReadIn)
+                        {
+                            case TranspositionSettings.ReadInMode.byRow:
+                                decrypted = read_out_by_row(matrix, key.Length); break;
+                            case TranspositionSettings.ReadInMode.byColumn:
+                                decrypted = read_out_by_column(matrix, key.Length); break;
+                            default:
+                                break;
+                        }
                     }
 
                     return decrypted;
@@ -427,7 +402,75 @@ namespace Transposition
             return matrix;
         }
 
-        private char[,] dec_read_in_by_row(String input, int[] keyword)
+        private char[,] enc_read_in_by_row_if_row_perm(String input, int keyword_length)
+        {
+            int height = keyword_length;
+            int length = input.Length / keyword_length;
+            int offs = input.Length % keyword_length;
+            if (offs != 0)
+            {
+                length++;
+            }
+
+            char[,] matrix = new char[length, height];
+            int pos = 0;
+
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < length; j++)
+                {
+                    if (pos < input.Length)
+                    {
+                        if (j.Equals(length - 1) && offs != 0)
+                        {
+                            if (i < offs)
+                            {
+                                matrix[j, i] = input[pos];
+                                pos++;
+                            }
+                        }
+
+                        else
+                        {
+                            matrix[j, i] = input[pos];
+                            pos++;
+                        }
+                    }
+                }
+            }
+
+            return matrix;
+        }
+
+        private char[,] enc_read_in_by_column_if_row_perm(String input, int keyword_length)
+        {
+            int height = keyword_length;
+            int length = input.Length / keyword_length;
+            int offs = input.Length % keyword_length;
+            if (offs != 0)
+            {
+                length++;
+            }
+
+            char[,] matrix = new char[length, height];
+            int pos = 0;
+
+            for (int i = 0; i < length; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    if (pos < input.Length)
+                    {
+                        matrix[i, j] = input[pos];
+                        pos++;
+                    }
+                }
+            }
+
+            return matrix;
+        }
+
+        private char[,] dec_read_in_by_column(String input, int[] keyword)
         {
             int size = input.Length / keyword.Length;
 
@@ -478,7 +521,58 @@ namespace Transposition
             return matrix;
         }
 
-        private char[,] dec_read_in_by_column(String input, int[] keyword)
+        private char[,] dec_read_in_by_column_if_row_perm(String input, int[] keyword)
+        {
+            int size = input.Length / keyword.Length;
+
+            int offs = input.Length % keyword.Length;
+            if (offs != 0)
+            {
+                size++;
+            }
+
+            char[,] matrix = new char[size, keyword.Length];
+            int pos = 0;
+
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < keyword.Length; j++)
+                {
+                    if (pos < input.Length)
+                    {
+                        if ((!offs.Equals(0)) && i.Equals(size - 1))
+                        {
+                            bool ok = false;
+
+                            for (int k = 0; k < offs; k++)
+                            {
+                                if ((keyword[k] - 1).Equals(j))
+                                {
+                                    ok = true;
+                                }
+                            }
+
+                            if (ok)
+                            {
+                                matrix[i, j] = input[pos];
+                                pos++;
+                            }
+
+                        }
+                        else
+                        {
+                            matrix[i, j] = input[pos];
+                            pos++;
+                        }
+                    }
+                }
+            }
+
+
+            return matrix;
+        }
+
+        private char[,] dec_read_in_by_row(String input, int[] keyword)
         {
             int size = input.Length / keyword.Length;
 
@@ -504,6 +598,57 @@ namespace Transposition
                             for (int k = 0; k < offs; k++)
                             {
                                 if ((keyword[k] - 1).Equals(j))
+                                {
+                                    ok = true;
+                                }
+                            }
+
+                            if (ok)
+                            {
+                                matrix[j, i] = input[pos];
+                                pos++;
+                            }
+
+                        }
+                        else
+                        {
+                            matrix[j, i] = input[pos];
+                            pos++;
+                        }
+                    }
+                }
+            }
+
+
+            return matrix;
+        }
+
+        private char[,] dec_read_in_by_row_if_row_perm(String input, int[] keyword)
+        {
+            int size = input.Length / keyword.Length;
+
+            int offs = input.Length % keyword.Length;
+            if (offs != 0)
+            {
+                size++;
+            }
+
+            char[,] matrix = new char[size, keyword.Length];
+            int pos = 0;
+
+            for (int i = 0; i < keyword.Length; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    if (pos < input.Length)
+                    {
+                        if ((!offs.Equals(0)) && j.Equals(size - 1))
+                        {
+                            bool ok = false;
+
+                            for (int k = 0; k < offs; k++)
+                            {
+                                if ((keyword[k] - 1).Equals(i))
                                 {
                                     ok = true;
                                 }
@@ -557,6 +702,34 @@ namespace Transposition
             return matrix;
         }
 
+        private char[,] enc_permute_by_row(char[,] readin_matrix, int[] keyword)
+        {
+            int y = keyword.Length;
+            int x = readin_matrix.Length / keyword.Length;
+
+            char[,] matrix = new char[x, y];
+
+            int pos = 0;
+
+            for (int i = 1; i <= y; i++)
+            {
+                for (int j = 0; j < keyword.Length; j++)
+                {
+                    if (keyword[j].Equals(i))
+                    {
+                        pos = j;
+                    }
+                }
+
+                for (int j = 0; j < x; j++)
+                {
+                    matrix[j, i - 1] = readin_matrix[j, pos];
+                }
+            }
+
+            return matrix;
+        }
+
         private char[,] dec_permut_by_column(char[,] readin_matrix, int[] keyword)
         {
             int x = keyword.Length;
@@ -569,6 +742,25 @@ namespace Transposition
                 for (int j = 0; j < y; j++)
                 {
                     matrix[i, j] = readin_matrix[keyword[i] - 1, j];
+                }
+            }
+
+            return matrix;
+        }
+
+        private static char[,] dec_permut_by_row(char[,] readin_matrix, int[] keyword)
+        {
+            int x = keyword.Length;
+            int y = readin_matrix.Length / keyword.Length;
+
+            char[,] matrix = new char[y, x];
+
+
+            for (int i = 0; i < x; i++)
+            {
+                for (int j = 0; j < y; j++)
+                {
+                    matrix[j, i] = readin_matrix[j, keyword[i] - 1];
                 }
             }
 
@@ -598,10 +790,56 @@ namespace Transposition
             return enc;
         }
 
+        private String read_out_by_row_if_row_perm(char[,] matrix, int keyword_length)
+        {
+            int y = keyword_length;
+            int x = matrix.Length / keyword_length;
+
+            String enc = "";
+            char empty_char = new char();
+
+            for (int i = 0; i < y; i++)
+            {
+                for (int j = 0; j < x; j++)
+                {
+                    char tmp = matrix[j, i];
+                    if (!tmp.Equals(empty_char))
+                    {
+                        enc += tmp;
+                    }
+                }
+            }
+
+            return enc;
+        }
+
         private String read_out_by_column(char[,] matrix, int keyword_length)
         {
             int x = keyword_length;
             int y = matrix.Length / keyword_length;
+
+            String enc = "";
+            char empty_char = new char();
+
+            for (int i = 0; i < x; i++)
+            {
+                for (int j = 0; j < y; j++)
+                {
+                    char tmp = matrix[i, j];
+                    if (!tmp.Equals(empty_char))
+                    {
+                        enc += tmp;
+                    }
+                }
+            }
+
+            return enc;
+        }
+
+        private String read_out_by_column_if_row_perm(char[,] matrix, int keyword_length)
+        {
+            int y = keyword_length;
+            int x = matrix.Length / keyword_length;
 
             String enc = "";
             char empty_char = new char();
@@ -693,8 +931,8 @@ namespace Transposition
 
             return true;
         }
-		
-		 public int[] sortKey(String input)
+
+        public int[] sortKey(String input)
         {
             if (input != null && !input.Equals(""))
             {
@@ -720,7 +958,7 @@ namespace Transposition
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(msg, this, loglevel));
 
         }
-      
+
         # endregion
     }
 }
