@@ -39,7 +39,10 @@ using Cryptool.PluginBase.IO;
  * IrcBootstrapper also works, but it's to lame for testing issues!
  * 
  * TODO:
- * Testing asynchronous methods incl. EventHandlers
+ * - dht.Remove-Method makes problems... "ArgumentNotNullException"
+ *   event though the Parameter is correctly set to a valid value!
+ *   --> forwarded to the p@p-Team
+ * - Testing asynchronous methods incl. EventHandlers
  * 
  * TO DO in Related Projects:
  * - Change stand-alone P2P-Apps to IControl-Slaves from one P2P-Master (store, load, (remove))
@@ -81,7 +84,6 @@ namespace Cryptool.Plugins.PeerToPeer
         public event DHTRemoveCompleted OnDhtRemove_Completed;
 
         #endregion
-
 
         #region Variables
 
@@ -343,6 +345,9 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             AutoResetEvent are = new AutoResetEvent(false);
             // this method returns always a GUID to distinguish between asynchronous actions
+
+            // ROAD WORKS: This function throws an error (ArgumentNotNullException).
+            //             I think that's an error in the p@p-environment --> forwarded to the p@p-Team
             Guid g = this.dht.Remove(OnSynchRemoveCompleted, sKey);
 
             ResponseWait rw = new ResponseWait() { WaitHandle = are };

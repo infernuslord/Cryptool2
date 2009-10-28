@@ -27,7 +27,7 @@ using Cryptool.PluginBase.IO;
 namespace Cryptool.Plugins.PeerToPeer
 {
     [Author("Christian Arnold", "arnold@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "P2P_Peer", "Creates a new Peer", "", "PeerToPeerBase/ct2_p2p_load_medium.png")]
+    [PluginInfo(false, "P2P_Peer", "Creates a new Peer", "", "PeerToPeerBase/ct2_p2p_system_icon_medium.png")]
     public class P2PPeer : IIOMisc
     {
         #region Variables
@@ -143,37 +143,37 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region In and Output
 
-        private IP2PControl p2pMaster;
-        [PropertyInfo(Direction.ControlMaster, "Master Peer", "One peer to rule them all", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public IP2PControl P2PControlMaster
+        private IP2PControl p2pSlave;
+        [PropertyInfo(Direction.ControlSlave, "Master Peer", "One peer to rule them all", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public IP2PControl P2PControlSlave
         {
             get
             {
-                if (this.p2pMaster == null)
+                if (this.p2pSlave == null)
                     // to commit the settings of the plugin to the IControl
-                    this.p2pMaster = new P2PPeerMaster(p2pBase);
-                return this.p2pMaster;
+                    this.p2pSlave = new P2PPeerMaster(p2pBase);
+                return this.p2pSlave;
             }
             set
             {
-                if (this.p2pMaster != null)
-                    this.p2pMaster.OnStatusChanged -= p2pMaster_OnStatusChanged;
+                if (this.p2pSlave != null)
+                    this.p2pSlave.OnStatusChanged -= p2pSlave_OnStatusChanged;
                 //{
                 //    //Only when using asynchronous p2p-Start-method, remove event handler for OnPeerJoinedCompletely
-                //    this.p2pMaster.onPeerJoinedCompletely -= OnPeerJoinedCompletely;
+                //    this.p2pSlave.OnPeerJoinedCompletely -= OnPeerJoinedCompletely;
                 //}
-                if (this.p2pMaster != value)
+                if (this.p2pSlave != value)
                 {
-                    this.p2pMaster.OnStatusChanged +=new IControlStatusChangedEventHandler(p2pMaster_OnStatusChanged);
+                    this.p2pSlave.OnStatusChanged +=new IControlStatusChangedEventHandler(p2pSlave_OnStatusChanged);
                     //Only when using asynchronous p2p-Start-method, add event handler for OnPeerJoinedCompletely
-                    //this.p2pMaster.OnPeerJoinedCompletely += new PeerJoinedP2P(OnPeerJoinedCompletely);
-                    this.p2pMaster = value;
-                    OnPropertyChanged("P2PControlMaster");
+                    //this.p2pSlave.OnPeerJoinedCompletely += new PeerJoinedP2P(OnPeerJoinedCompletely);
+                    this.p2pSlave = value;
+                    OnPropertyChanged("P2PControlSlave");
                 }
             }
         }
 
-        void p2pMaster_OnStatusChanged(IControl sender, bool readyForExecution)
+        void p2pSlave_OnStatusChanged(IControl sender, bool readyForExecution)
         {
             if (readyForExecution)
                 this.process((IP2PControl)sender);
@@ -205,7 +205,11 @@ namespace Cryptool.Plugins.PeerToPeer
 
         public bool DHTremove(string sKey)
         {
-            return this.p2pBase.SynchRemove(sKey);
+            // derzeit liegt wohl in peerq@play ein Fehler in der Methode...
+            // erkennt den Übergabeparameter nicht an und wirft dann "ArgumentNotNullException"...
+            // Problem an M.Helling und S.Holzapfel von p@p weitergegeben...
+            // return this.p2pBase.SynchRemove(sKey);
+            return false;
         }
 
         //public event PeerJoinedP2P OnPeerJoinedCompletely;

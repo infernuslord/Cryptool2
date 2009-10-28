@@ -69,7 +69,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="ct2_p2p_store_medium.png" />
+    <Resource Include="ct2_dht_store_icon_medium.png" />
+    <Resource Include="ct2_dht_store_icon_small.png" />
+    <Resource Include="ct2_dht_store_icon_tall.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
