@@ -188,6 +188,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeerToPeer_DHTstore", "Cryp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLK", "CrypPlugins\CLK\CLK.csproj", "{1B04DDAA-3DA9-4AC9-85C0-E819C790CA34}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeerToPeer_DHTload", "CrypPlugins\PeerToPeer_DHTload\PeerToPeer_DHTload.csproj", "{2E31391D-225F-4DCF-BB65-806D714BC314}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeerToPeer_DHTremove", "CrypPlugins\PeerToPeer_DHTremove\PeerToPeer_DHTremove.csproj", "{D7940152-CBCF-4A65-96BB-6BEDB20DED7E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -1074,6 +1078,26 @@ Global
 		{1B04DDAA-3DA9-4AC9-85C0-E819C790CA34}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1B04DDAA-3DA9-4AC9-85C0-E819C790CA34}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{1B04DDAA-3DA9-4AC9-85C0-E819C790CA34}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{2E31391D-225F-4DCF-BB65-806D714BC314}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{2E31391D-225F-4DCF-BB65-806D714BC314}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E31391D-225F-4DCF-BB65-806D714BC314}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E31391D-225F-4DCF-BB65-806D714BC314}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{2E31391D-225F-4DCF-BB65-806D714BC314}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{2E31391D-225F-4DCF-BB65-806D714BC314}.Release|.NET.ActiveCfg = Release|Any CPU
+		{2E31391D-225F-4DCF-BB65-806D714BC314}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E31391D-225F-4DCF-BB65-806D714BC314}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E31391D-225F-4DCF-BB65-806D714BC314}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{2E31391D-225F-4DCF-BB65-806D714BC314}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D7940152-CBCF-4A65-96BB-6BEDB20DED7E}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{D7940152-CBCF-4A65-96BB-6BEDB20DED7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7940152-CBCF-4A65-96BB-6BEDB20DED7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7940152-CBCF-4A65-96BB-6BEDB20DED7E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D7940152-CBCF-4A65-96BB-6BEDB20DED7E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D7940152-CBCF-4A65-96BB-6BEDB20DED7E}.Release|.NET.ActiveCfg = Release|Any CPU
+		{D7940152-CBCF-4A65-96BB-6BEDB20DED7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7940152-CBCF-4A65-96BB-6BEDB20DED7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7940152-CBCF-4A65-96BB-6BEDB20DED7E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D7940152-CBCF-4A65-96BB-6BEDB20DED7E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

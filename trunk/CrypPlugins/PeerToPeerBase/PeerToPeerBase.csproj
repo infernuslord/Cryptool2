@@ -112,12 +112,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="ct2_p2p_load_medium.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="C:\Users\Munin\Desktop\P2PMaster.cd">
-      <Link>P2PMaster.cd</Link>
-    </None>
+    <Resource Include="ct2_p2p_system_icon_medium.png" />
+    <Resource Include="ct2_p2p_system_icon_small.png" />
+    <Resource Include="ct2_p2p_system_icon_tall.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

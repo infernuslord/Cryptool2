@@ -28,27 +28,50 @@ using Cryptool.PluginBase.Control;
 
 namespace Cryptool.Plugins.PeerToPeer
 {
+    /// <summary>
+    /// This PlugIn only works, when its connected with a P2P_Peer object.
+    /// </summary>
     [Author("Christian Arnold", "arnold@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "P2P_DHTstore", "Storing data in DHT", "", "PeerToPeer_DHTstore/ct2_p2p_store_medium.png")]
+    [PluginInfo(false, "P2P_DHTstore", "Storing data in DHT", "", "PeerToPeer_DHTstore/ct2_dht_store_icon_medium.png")]
     public class P2P_DHTstore : IInput
     {
         private P2PDHTstoreSettings settings;
 
         #region In and Output
 
-        private IP2PControl p2pSlave;
-        [PropertyInfo(Direction.ControlSlave,"P2P Slave","Input the P2P-Peer-PlugIn","",true,false,DisplayLevel.Beginner,QuickWatchFormat.Text,null)]
-        public IP2PControl P2PSlave 
+        private IP2PControl p2pMaster;
+        /// <summary>
+        /// Catches the completely configurated, initialized and joined P2P object from the P2PPeer-Slave-PlugIn.
+        /// </summary>
+        [PropertyInfo(Direction.ControlMaster,"P2P Slave","Input the P2P-Peer-PlugIn","",true,false,DisplayLevel.Beginner,QuickWatchFormat.Text,null)]
+        public IP2PControl P2PMaster 
         {
             get
             {
-                if (this.p2pSlave == null)
-                {
-                    //TO DO: überlegen wie Parameter übergeben werden...
-                    p2pSlave = new Cryptool.Plugins.PeerToPeer.P2PPeerMaster(null);
-                }
-                return this.p2pSlave;
+                return this.p2pMaster;
             }
+            set
+            {
+                if (p2pMaster != null)
+                {
+                    p2pMaster.OnStatusChanged -= P2PMaster_OnStatusChanged;
+                }
+                if (value != null)
+                {
+                    value.OnStatusChanged += new IControlStatusChangedEventHandler(P2PMaster_OnStatusChanged);
+                    p2pMaster = (P2PPeerMaster)value;
+                    OnPropertyChanged("P2PMaster");
+                }
+                else
+                {
+                    p2pMaster = null;
+                }
+            }
+        }
+
+        private void P2PMaster_OnStatusChanged(IControl sender, bool readyForExecution)
+        {
+            //throw new NotImplementedException();
         }
 
         private string sDhtKey;
@@ -120,14 +143,20 @@ namespace Cryptool.Plugins.PeerToPeer
 
         public void Execute()
         {
-            if (P2PSlave != null && DhtKey != null && DhtValue != null)
+            // if no P2P Slave PlugIn is connected with this PlugIn --> No execution!
+            if (P2PMaster == null)
             {
-                P2PSlave.DHTstore(DhtKey, DhtKey);
+                GuiLogMessage("No P2P_Peer connected with this PlugIn!", NotificationLevel.Error);
+                return;
+            }
+            if (DhtKey != null && DhtValue != null)
+            {
+                P2PMaster.DHTstore(DhtKey, DhtKey);
                 GuiLogMessage("KeyValue-Pair will be stored in the DHT Entry '" + DhtKey + "'. Value: " + DhtValue, NotificationLevel.Info);
             }
             else
             {
-                GuiLogMessage("No key and/or value in inputs", NotificationLevel.Error);
+                GuiLogMessage("No key and/or value in inputs. Storing isn't possible.", NotificationLevel.Error);
             }
         }
 
@@ -176,10 +205,5 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         #endregion
-
-        internal void LogInternalState()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
