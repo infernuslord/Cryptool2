@@ -24,6 +24,8 @@ namespace Transposition
         private String output = "";
         private TranspositionSettings settings;
 
+        private char[,] read_in_matrix;
+        private char[,] permuted_matrix;
         # endregion
 
         public Transposition()
@@ -36,6 +38,25 @@ namespace Transposition
             get { return this.settings; }
             set { this.settings = (TranspositionSettings)value; }
         }
+
+        # region getter methods
+
+        public char[,] Read_in_matrix
+        {
+            get
+            {
+                return read_in_matrix;
+            }
+        }
+
+        public char[,] Permuted_matrix
+        {
+            get
+            {
+                return permuted_matrix;
+            }
+        }
+        # endregion 
 
         # region Properties
 
@@ -202,28 +223,27 @@ namespace Transposition
                 if (is_Valid_Keyword(key))
                 {
                     String encrypted = "";
-                    char[,] matrix = null;
 
                     if (((TranspositionSettings.PermutationMode)settings.Permutation).Equals(TranspositionSettings.PermutationMode.byRow))
                     {
                         switch ((TranspositionSettings.ReadInMode)settings.ReadIn)
                         {
                             case TranspositionSettings.ReadInMode.byRow:
-                                matrix = enc_read_in_by_row_if_row_perm(input, key.Length); break;
+                            read_in_matrix = enc_read_in_by_row_if_row_perm(input, key.Length); break;
                             case TranspositionSettings.ReadInMode.byColumn:
-                                matrix = enc_read_in_by_column_if_row_perm(input, key.Length); break;
+                                read_in_matrix = enc_read_in_by_column_if_row_perm(input, key.Length); break;
                             default:
                                 break;
                         }
 
-                        matrix = enc_permute_by_row(matrix, key);
+                        permuted_matrix = enc_permute_by_row(read_in_matrix, key);
 
                         switch ((TranspositionSettings.ReadOutMode)settings.ReadOut)
                         {
                             case TranspositionSettings.ReadOutMode.byRow:
-                                encrypted = read_out_by_row_if_row_perm(matrix, key.Length); break;
+                                encrypted = read_out_by_row_if_row_perm(permuted_matrix, key.Length); break;
                             case TranspositionSettings.ReadOutMode.byColumn:
-                                encrypted = read_out_by_column_if_row_perm(matrix, key.Length); break;
+                                encrypted = read_out_by_column_if_row_perm(permuted_matrix, key.Length); break;
                             default:
                                 break;
                         }
@@ -235,21 +255,21 @@ namespace Transposition
                         switch ((TranspositionSettings.ReadInMode)settings.ReadIn)
                         {
                             case TranspositionSettings.ReadInMode.byRow:
-                                matrix = enc_read_in_by_row(input, key.Length); break;
+                                read_in_matrix = enc_read_in_by_row(input, key.Length); break;
                             case TranspositionSettings.ReadInMode.byColumn:
-                                matrix = enc_read_in_by_column(input, key.Length); break;
+                                read_in_matrix = enc_read_in_by_column(input, key.Length); break;
                             default:
                                 break;
                         }
 
-                        matrix = enc_permut_by_column(matrix, key);
+                        permuted_matrix = enc_permut_by_column(read_in_matrix, key);
 
                         switch ((TranspositionSettings.ReadOutMode)settings.ReadOut)
                         {
                             case TranspositionSettings.ReadOutMode.byRow:
-                                encrypted = read_out_by_row(matrix, key.Length); break;
+                                encrypted = read_out_by_row(permuted_matrix, key.Length); break;
                             case TranspositionSettings.ReadOutMode.byColumn:
-                                encrypted = read_out_by_column(matrix, key.Length); break;
+                                encrypted = read_out_by_column(permuted_matrix, key.Length); break;
                             default:
                                 break;
                         }
@@ -276,28 +296,27 @@ namespace Transposition
             {
                 if (is_Valid_Keyword(key))
                 {
-                    char[,] matrix = null;
                     String decrypted = "";
                     if (((TranspositionSettings.PermutationMode)settings.Permutation).Equals(TranspositionSettings.PermutationMode.byRow))
                     {
                         switch ((TranspositionSettings.ReadOutMode)settings.ReadOut)
                         {
                             case TranspositionSettings.ReadOutMode.byRow:
-                                matrix = dec_read_in_by_row_if_row_perm(input, key); break;
+                                read_in_matrix = dec_read_in_by_row_if_row_perm(input, key); break;
                             case TranspositionSettings.ReadOutMode.byColumn:
-                                matrix = dec_read_in_by_column_if_row_perm(input, key); break;
+                                read_in_matrix = dec_read_in_by_column_if_row_perm(input, key); break;
                             default:
                                 break;
                         }
 
-                        matrix = dec_permut_by_row(matrix, key);
+                        permuted_matrix = dec_permut_by_row(read_in_matrix, key);
 
                         switch ((TranspositionSettings.ReadInMode)settings.ReadIn)
                         {
                             case TranspositionSettings.ReadInMode.byRow:
-                                decrypted = read_out_by_row_if_row_perm(matrix, key.Length); break;
+                                decrypted = read_out_by_row_if_row_perm(permuted_matrix, key.Length); break;
                             case TranspositionSettings.ReadInMode.byColumn:
-                                decrypted = read_out_by_column_if_row_perm(matrix, key.Length); break;
+                                decrypted = read_out_by_column_if_row_perm(permuted_matrix, key.Length); break;
                             default:
                                 break;
                         }
@@ -309,21 +328,21 @@ namespace Transposition
                         switch ((TranspositionSettings.ReadOutMode)settings.ReadOut)
                         {
                             case TranspositionSettings.ReadOutMode.byRow:
-                                matrix = dec_read_in_by_row(input, key); break;
+                                read_in_matrix = dec_read_in_by_row(input, key); break;
                             case TranspositionSettings.ReadOutMode.byColumn:
-                                matrix = dec_read_in_by_column(input, key); break;
+                                read_in_matrix = dec_read_in_by_column(input, key); break;
                             default:
                                 break;
                         }
-                        
-                        matrix = dec_permut_by_column(matrix, key);
+
+                        permuted_matrix = dec_permut_by_column(read_in_matrix, key);
 
                         switch ((TranspositionSettings.ReadInMode)settings.ReadIn)
                         {
                             case TranspositionSettings.ReadInMode.byRow:
-                                decrypted = read_out_by_row(matrix, key.Length); break;
+                                decrypted = read_out_by_row(permuted_matrix, key.Length); break;
                             case TranspositionSettings.ReadInMode.byColumn:
-                                decrypted = read_out_by_column(matrix, key.Length); break;
+                                decrypted = read_out_by_column(permuted_matrix, key.Length); break;
                             default:
                                 break;
                         }
