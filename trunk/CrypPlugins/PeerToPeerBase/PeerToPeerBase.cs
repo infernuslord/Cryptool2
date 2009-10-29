@@ -123,8 +123,8 @@ namespace Cryptool.Plugins.PeerToPeer
             //LocalMachineBootstrapper = only local connection (runs only on one machine)
             //for more machines use this line:
             
-            //this.bootstrapper = new IrcBootstrapper();
-            this.bootstrapper = new LocalMachineBootstrapper();
+            this.bootstrapper = new IrcBootstrapper();
+            //this.bootstrapper = new LocalMachineBootstrapper();
 
             // changing overlay example: this.overlay = new ChordOverlay();
             this.overlay = new FullMeshOverlay();
