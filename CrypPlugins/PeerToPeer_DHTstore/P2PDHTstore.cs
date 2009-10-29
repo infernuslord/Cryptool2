@@ -151,7 +151,7 @@ namespace Cryptool.Plugins.PeerToPeer
             }
             if (DhtKey != null && DhtValue != null)
             {
-                P2PMaster.DHTstore(DhtKey, DhtKey);
+                P2PMaster.DHTstore(DhtKey, DhtValue);
                 GuiLogMessage("KeyValue-Pair will be stored in the DHT Entry '" + DhtKey + "'. Value: " + DhtValue, NotificationLevel.Info);
             }
             else
