@@ -28,7 +28,7 @@ namespace Cryptool.Plugins.BigNumber
     {
 
         #region private variable
-
+        //The variables are defined
         private BigInteger input1 = null; 
         private BigInteger input2 = null;
         private BigInteger mod = null;

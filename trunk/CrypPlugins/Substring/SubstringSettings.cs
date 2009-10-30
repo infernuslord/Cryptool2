@@ -30,6 +30,9 @@ namespace Cryptool.Plugins.Substring
         #region taskPane
 
         private int integerLengthValue;
+        /// <summary>
+        /// Taskpane-input for the length value
+        /// </summary>
         [TaskPane("Length value", "Integer value for the length.", null, 0, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int IntegerLengthValue
         {
@@ -46,6 +49,9 @@ namespace Cryptool.Plugins.Substring
         }
 
         private int integerStartValue;
+        /// <summary>
+        /// Taskpane-input for the startposition
+        /// </summary>
         [TaskPane("Start value", "Integer value to start from.", null, 0, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int IntegerStartValue
         {
