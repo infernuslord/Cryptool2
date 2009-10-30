@@ -34,11 +34,24 @@ namespace Cryptool.Plugins.Converter
         private bool numeric = false;
         private bool formatAmer = false;
         public enum EncodingTypes { Default = 0, Unicode = 1, UTF7 = 2, UTF8 = 3, UTF32 = 4, ASCII = 5, BigEndianUnicode = 6 };
+        public enum PresentationFormat { Text, Hex, Base64 }
         private EncodingTypes encoding = EncodingTypes.Default;
+        private PresentationFormat presentation = PresentationFormat.Text;
+
+        public PresentationFormat Presentation
+        {
+            get { return this.presentation; }
+            set
+            {
+                if (this.presentation != value) hasChanges = true;
+                this.presentation = value;
+                OnPropertyChanged("Presentation");
+            }
+        }
         #endregion
 
         #region taskpane
-     //   [ContextMenu("Numeric Interpretation", "Choose whether inputs are treated as numeric values if possible", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "numeric", "non numeric")]
+     
         [ContextMenu("Stream encoding", "Choose the expected encoding of the byte array and stream.", 1, DisplayLevel.Experienced, ContextMenuControlType.ComboBox, null, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
         [TaskPane("Stream encoding", "Choose the expected encoding of the byte array and stream.", "", 1, false, DisplayLevel.Experienced, ControlType.RadioButton, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
         public int EncodingSetting
@@ -75,8 +88,10 @@ namespace Cryptool.Plugins.Converter
                         {
                             case 0:
                                 {
+                                   
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Collapsed)));
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("EncodingSetting", Visibility.Collapsed)));
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("PresentationFormatSetting", Visibility.Collapsed)));
                                     //TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
                                     break;
                                 }
@@ -84,39 +99,45 @@ namespace Cryptool.Plugins.Converter
                                 {
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Collapsed)));
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("EncodingSetting", Visibility.Collapsed)));
-                                    //  TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("PresentationFormatSetting", Visibility.Collapsed)));
                                     break;
                                 }
                             case 2:
                                 {
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("PresentationFormatSetting", Visibility.Collapsed)));
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("EncodingSetting", Visibility.Collapsed)));
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Collapsed)));
-                                    //TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
                                     break;
                                 }
                             case 3:
                                 {
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("PresentationFormatSetting", Visibility.Collapsed)));
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("EncodingSetting", Visibility.Collapsed)));
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Collapsed)));
-                                    //TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
                                     break;
                                 }
                             case 4:
                                 {
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("PresentationFormatSetting", Visibility.Collapsed)));
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("EncodingSetting", Visibility.Collapsed)));
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Collapsed)));
-                                    // TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
                                     break;
                                 }
                             case 5:
                                 {
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("PresentationFormatSetting", Visibility.Collapsed)));
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("EncodingSetting", Visibility.Collapsed)));
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Collapsed)));
-                                    //TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
                                     break;
                                 }
                             case 6:
                                 {
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("PresentationFormatSetting", Visibility.Collapsed)));
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("EncodingSetting", Visibility.Collapsed)));
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Collapsed)));
                                     //TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
@@ -124,7 +145,7 @@ namespace Cryptool.Plugins.Converter
                                 }
                             case 7:
                                 {
-                                    
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("PresentationFormatSetting", Visibility.Visible)));
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Visible)));
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("EncodingSetting", Visibility.Visible)));
                                     //TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
@@ -132,6 +153,7 @@ namespace Cryptool.Plugins.Converter
                                 }
                             case 8:
                                 {
+                                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("PresentationFormatSetting", Visibility.Collapsed)));
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("EncodingSetting", Visibility.Collapsed)));
                                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Numeric", Visibility.Collapsed)));
                                     //TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Format", Visibility.Collapsed)));
@@ -175,6 +197,22 @@ namespace Cryptool.Plugins.Converter
                 }
             }
         }
+
+        [TaskPane("PresentationFormatSetting", "Choose the format that will be used te present the output data.", null, 1, false, DisplayLevel.Beginner, ControlType.RadioButton, new string[] { "Text", "Hex", "Base64" })]
+        public int PresentationFormatSetting
+        {
+            get
+            {
+                return (int)this.presentation;
+            }
+            set
+            {
+                if (this.presentation != (PresentationFormat)value) HasChanges = true;
+                this.presentation = (PresentationFormat)value;
+                OnPropertyChanged("PresentationFormatSetting");
+            }
+        }
+     
         #endregion
 
         #region ISettings Member
