@@ -71,7 +71,8 @@
 <Paragraph TextAlignment="Justify">
        
     <Run>
-           If Byte[] is selected as output type, it can be chosen whether the input is read as a numeric value and store the value in the numeric encoding in the Byte[]. Note that this will force a warning if the given input can not be recognized as a numeric value.
+           If Byte[] is selected as output type, it can be chosen whether the input is read as a numeric value and store the value in the numeric encoding in the Byte[]. Furthermore the representation of the given input can be changed to Hex or Base64. After this step, the selection of encoding has its effect.
+           So if e.g. "Unicode"  is selected as encoding, and Hex as representation (and "Numeric" is set to "no"), the plugin will try to convert the input to hex format and then to UTF-16. 
         </Run>
     </Paragraph>
 
