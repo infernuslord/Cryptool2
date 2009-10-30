@@ -80,7 +80,14 @@
     <Resource Include="icons\gcdicon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DetailedDescription\" />
+    <Resource Include="DetailedDescription\DescriptionInput.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="DetailedDescription\DescriptionOperation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

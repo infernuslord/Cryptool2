@@ -1,0 +1,32 @@
+<FlowDocument PagePadding="5,0,5,0" AllowDrop="True" NumberSubstitution.CultureSource="User" 
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+			  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			  xmlns:misc="clr-namespace:Cryptool.PluginBase.Miscellaneous;assembly=CrypPluginBase"
+			  Background="White" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+    
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+        <Span FontFamily="Georgia" FontWeight="Bold" FontSize="18.6666666666667" Foreground="#FF15428B" xml:lang="en-us">
+            <Span.TextDecorations>
+                <TextDecoration Location="Underline" />
+            </Span.TextDecorations>
+            BigNumberInput Description
+        </Span>
+    </Paragraph>
+    <Paragraph TextAlignment="Justify">
+        <Run FontSize="15" xml:lang="en-us">
+            With this Plug-In the user can create BigNumber values.
+            In the taskpane on the right the user can enter the 
+            value he wants to work with.
+        </Run>
+    </Paragraph>
+    
+    <Paragraph TextAlignment="Justify">
+        <Run>
+            Even expressions like 2^16-1 can be entered there.
+            The BigNumberInput will calculate the value and convert 
+            it, so the user can further use the numbers that are too big 
+            to be convertet into normal integer.
+        </Run>        
+    </Paragraph>
+
+</FlowDocument>
