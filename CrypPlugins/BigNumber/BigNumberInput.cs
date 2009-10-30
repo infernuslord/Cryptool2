@@ -39,6 +39,9 @@ namespace Cryptool.Plugins.BigNumber
         #region Properties
 
         private BigInteger numberOutput = null;
+        /// <summary>
+        /// The output is defined
+        /// </summary>
         [PropertyInfo(Direction.OutputData, "Number Output", "Number Output", "", DisplayLevel.Beginner)]
         public BigInteger NumberOutput
         {
@@ -98,6 +101,7 @@ namespace Cryptool.Plugins.BigNumber
         public void Execute()
         {
             BigInteger bi;
+            //The input from the taskpane is convertet to a BigNumber and is send to the output.
             try
             {
                 bi = BigInteger.parseExpression(settings.Number);                

@@ -25,11 +25,6 @@ using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
 
-/*
- * Note:
- * Enhancement #64 is counterproductive for this plugin, as the settings are set to 0 on connection removal.
- * Enhancement #81 (open issue currently) would be probably more useful instead.
- */
 
 namespace Cryptool.Plugins.Substring
 {
@@ -40,6 +35,7 @@ namespace Cryptool.Plugins.Substring
     {
         #region IPlugin Members
 
+        //Variables initialized
         private SubstringSettings settings = new SubstringSettings();
         private String inputString = "";
         private int inputPos = 0;
@@ -75,11 +71,14 @@ namespace Cryptool.Plugins.Substring
 
         public void Execute()
         {
+            //checking if input is set
             if (inputString != null)
             {
                 ProgressChanged(0.5, 1.0);
+                //checking if the chosen parameters for startposition and length are still in the bound of the given string
                 if ((settings.IntegerStartValue <= inputString.Length) & ((settings.IntegerStartValue + settings.IntegerLengthValue) <= inputString.Length))
                 {
+                    //checking if the user set the length value to 0...if the length = 0 the complete string starting from the startposition will be send
                     if (settings.IntegerLengthValue != 0)
                     {
                         OutputString = inputString.Substring(settings.IntegerStartValue, settings.IntegerLengthValue);
@@ -127,7 +126,9 @@ namespace Cryptool.Plugins.Substring
         #endregion
 
         #region SubstringInOut
-
+        /// <summary>
+        /// The inputs are defined
+        /// </summary>
         [PropertyInfo(Direction.InputData, "String Input", "Input your String here", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public String InputString
         {
@@ -172,6 +173,9 @@ namespace Cryptool.Plugins.Substring
             }
         }
 
+        /// <summary>
+        /// The output is defined
+        /// </summary>
         [PropertyInfo(Direction.OutputData, "String Output", "Your Substring will be send here", "", DisplayLevel.Beginner)]
         public String OutputString
         {
