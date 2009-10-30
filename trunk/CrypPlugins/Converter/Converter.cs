@@ -172,7 +172,7 @@ namespace Cryptool.Plugins.Converter
                             {
                                 int temp = Convert.ToInt32(inpString);
                                 //int temp2 = (int)temp;
-                                GuiLogMessage("int erkannt", NotificationLevel.Info);
+                               // GuiLogMessage("int erkannt", NotificationLevel.Info);
                                 Output = temp;
                                 ProgressChanged(100, 100);
                             }
@@ -189,7 +189,7 @@ namespace Cryptool.Plugins.Converter
                             {
                                 short temp = Convert.ToInt16(inpString);
                                 // short temp2 = (short)temp;
-                                GuiLogMessage("short erkannt ", NotificationLevel.Info);
+                               // GuiLogMessage("short erkannt ", NotificationLevel.Info);
                                 Output = temp;
                                 ProgressChanged(100, 100);
                             }
@@ -204,7 +204,7 @@ namespace Cryptool.Plugins.Converter
                             try // string -> byte Läuft
                             {
                                 byte temp = Convert.ToByte(inpString);
-                                GuiLogMessage("byte erkannt ", NotificationLevel.Info);
+                               // GuiLogMessage("byte erkannt ", NotificationLevel.Info);
                                 Output = temp;
                                 ProgressChanged(100, 100);
                             }
@@ -239,7 +239,7 @@ namespace Cryptool.Plugins.Converter
                             {
 
                                 BigInteger temp = BigInteger.parseExpression(inpString);
-                                GuiLogMessage("big int erkannt ", NotificationLevel.Info);
+                               // GuiLogMessage("big int erkannt ", NotificationLevel.Info);
                                 Output = temp;
                                 ProgressChanged(100, 100);
                             }
@@ -256,6 +256,7 @@ namespace Cryptool.Plugins.Converter
                         }
                     case 7: // byte[]
                         {
+                            inpString = setText(inpString);
                             if (settings.Numeric)
                             {
                                 try // lässt sich als int verstehen?
@@ -265,7 +266,7 @@ namespace Cryptool.Plugins.Converter
                                     temp = BitConverter.GetBytes(tempint);
 
                                     int test = BitConverter.ToInt32(temp, 0);
-                                    GuiLogMessage("int erkannt " + test.ToString(), NotificationLevel.Info);
+                                  //  GuiLogMessage("int erkannt " + test.ToString(), NotificationLevel.Info);
 
                                     Output = temp;
 
@@ -290,7 +291,7 @@ namespace Cryptool.Plugins.Converter
                                     temp = tempbigint.getBytes();
 
                                     BigInteger test = new BigInteger(temp);
-                                    GuiLogMessage("bigint erkannt " + test.ToString(), NotificationLevel.Info);
+                                   // GuiLogMessage("bigint erkannt " + test.ToString(), NotificationLevel.Info);
                                     Output = temp;
 
                                     ProgressChanged(100, 100);
@@ -327,7 +328,7 @@ namespace Cryptool.Plugins.Converter
                                 Output = enc.GetBytes(inpString);
 
 
-                                GuiLogMessage("byte[] wiederherstellung " + Output.ToString(), NotificationLevel.Info);
+                                //GuiLogMessage("byte[] wiederherstellung " + Output.ToString(), NotificationLevel.Info);
                                 ProgressChanged(100, 100);
                                 break;
                                
@@ -356,7 +357,7 @@ namespace Cryptool.Plugins.Converter
                                     case ConverterSettings.EncodingTypes.ASCII:
                                         Output = Encoding.ASCII.GetBytes(inpString.ToCharArray());
                                         break;
-                                    case ConverterSettings.EncodingTypes.BigEndianUnicode:
+                                    case ConverterSettings.EncodingTypes.BigEndianUnicode:                              
                                         Output = Encoding.BigEndianUnicode.GetBytes(inpString.ToCharArray());
                                         break;
                                     default:
@@ -379,7 +380,7 @@ namespace Cryptool.Plugins.Converter
                         }
                     default:
                         {
-                            GuiLogMessage("kein fall getriggert ", NotificationLevel.Error);
+                         //   GuiLogMessage("kein fall getriggert ", NotificationLevel.Error);
                             break;
                         }
                 }
@@ -392,7 +393,30 @@ namespace Cryptool.Plugins.Converter
 
 
         }
-
+        private String setText(string temp)
+        {
+            if (temp != null)
+            {
+                // Presentation format conversion
+                switch (settings.Presentation)
+                {
+                    case ConverterSettings.PresentationFormat.Text:
+                        // nothin to do here
+                        break;
+                    case ConverterSettings.PresentationFormat.Hex:
+                        byte[] byteValues = Encoding.Default.GetBytes(temp.ToCharArray());
+                        temp = BitConverter.ToString(byteValues, 0, byteValues.Length).Replace("-", "");
+                        break;
+                    case ConverterSettings.PresentationFormat.Base64:
+                        temp = Convert.ToBase64String(Encoding.Default.GetBytes(temp.ToCharArray()));
+                        break;
+                    default:
+                        break;
+                }
+                return temp;
+            }
+            return temp;
+        }
         public String DoubleCleanup(String inpString)
         {
             if (this.settings.FormatAmer)
