@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -209,7 +209,7 @@ using System.Windows.Controls;
 using Primes.Library;
 using System.Windows;
 using System.Threading;
-using LibGmpWrapper;
+using Primes.Bignum;
 
 namespace Primes.WpfControls.Factorization.QS
 {
@@ -237,7 +237,7 @@ namespace Primes.WpfControls.Factorization.QS
 
         StringBuilder msg = new StringBuilder();
         msg.Append(pair.B);
-        if (data.IsIgnored(GmpBigInteger.ValueOf(pair.B)))
+        if (data.IsIgnored(PrimesBigInteger.ValueOf(pair.B)))
           pair.QuadraticStatus = QuadraticStatus.Ignore;
         if (pair.QuadraticStatus == QuadraticStatus.Ignore)
         {
@@ -297,7 +297,7 @@ namespace Primes.WpfControls.Factorization.QS
             }
             if (erg != 0)
             {
-              if (data.IsIgnored(GmpBigInteger.ValueOf((long)erg)))
+              if (data.IsIgnored(PrimesBigInteger.ValueOf((long)erg)))
               {
                 ControlHandler.SetPropertyValue(tb, "Text", string.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step3_testcombiignore, new object[] { msg.ToString(), erg.ToString("N") }));
               }

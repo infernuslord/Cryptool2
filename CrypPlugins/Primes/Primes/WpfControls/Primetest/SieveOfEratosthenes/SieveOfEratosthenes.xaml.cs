@@ -216,7 +216,7 @@ using System.Windows.Shapes;
 
 using System.Threading;
 using Primes.WpfControls.Threads;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.Library;
 using Primes.WpfControls.Components;
 using Primes.WpfControls.Validation;
@@ -232,7 +232,7 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
     private enum Method { Manual, Automatic }
 
     #region Constructors
-    private GmpBigInteger m_Value;
+    private PrimesBigInteger m_Value;
     private Step s;
     private Method m_Method;
     public SieveOfEratosthenes()
@@ -241,7 +241,7 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
       sievegrid.NumberButtonClick += new Primes.WpfControls.Primetest.Numbergrid.NumberButtonClickDelegate(sievegrid_NumberButtonClick);
       m_PrimesThreadFinished = new ManualResetEvent(false);
     }
-    public void Init(GmpBigInteger value)
+    public void Init(PrimesBigInteger value)
     {
 
     }
@@ -298,7 +298,7 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
     void StepAutomatic()
     {
       StepResult result = StepResult.SUCCESS;
-      GmpBigInteger value = s.Expected;
+      PrimesBigInteger value = s.Expected;
       while (result != StepResult.END)
       {
         log.Info(string.Format(Primes.Resources.lang.WpfControls.Primetest.Primetest.soe_removemultipleof, value.ToString()));
@@ -315,7 +315,7 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
     #endregion
 
     #region Begin/Cancel
-    public void Execute(GmpBigInteger integer)
+    public void Execute(PrimesBigInteger integer)
     {
       try
       {
@@ -350,7 +350,7 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
       ControlHandler.SetPropertyValue(btnForceAutomatic, "Visibility", Visibility.Hidden);
 
       //m_PrimesThreadFinished.WaitOne();
-      //IList<GmpBigInteger> remainders = m_FPThread.Primes;
+      //IList<PrimesBigInteger> remainders = m_FPThread.Primes;
       StringBuilder sbResult = new StringBuilder(Primes.Resources.lang.WpfControls.Primetest.Primetest.soe_doneautomatic);
       //  new StringBuilder(string.Format("Fertig. Es wurden {0} Primzahlen gefunden.", remainders.Count));
       if (m_Value.IsPrime(10))
@@ -396,7 +396,7 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
     {
       sievegrid.Reset();
       sievegrid.Limit = m_Value;
-      sievegrid.RemoveNumber(GmpBigInteger.ValueOf(1));
+      sievegrid.RemoveNumber(PrimesBigInteger.ValueOf(1));
     }
 
     public void CancelExecute()
@@ -421,13 +421,13 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
     }
     #endregion
 
-    private IValidator<GmpBigInteger> m_Validator;
-    public IValidator<GmpBigInteger> Validator
+    private IValidator<PrimesBigInteger> m_Validator;
+    public IValidator<PrimesBigInteger> Validator
     {
       get {
         if (m_Validator == null)
         {
-          m_Validator = new BigIntegerMinValueMaxValueValidator(null, GmpBigInteger.Two, GmpBigInteger.ValueOf(100000));
+          m_Validator = new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.Two, PrimesBigInteger.ValueOf(100000));
           m_Validator.Message = Primes.Resources.lang.WpfControls.Primetest.Primetest.soe_validatormessage;
         }
 
@@ -468,7 +468,7 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
     }
 
 
-    public void Execute(GmpBigInteger from, GmpBigInteger to)
+    public void Execute(PrimesBigInteger from, PrimesBigInteger to)
     {
       throw new NotImplementedException();
     }

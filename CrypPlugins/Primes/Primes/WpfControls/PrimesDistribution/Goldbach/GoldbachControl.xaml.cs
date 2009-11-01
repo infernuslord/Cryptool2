@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -214,7 +214,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using LibGmpWrapper;
+using Primes.Bignum;
 using System.Threading;
 using Primes.Library;
 using Primes.WpfControls.Components.Arrows;
@@ -230,8 +230,8 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
   public partial class GoldbachControl : UserControl, IPrimeDistribution
   {
     private bool m_Initialized;
-    private GmpBigInteger m_From;
-    private GmpBigInteger m_To;
+    private PrimesBigInteger m_From;
+    private PrimesBigInteger m_To;
     private Thread m_Thread;
     private const double PADDING_AXISTOP = 10;
     private const double PADDING_AXISLEFT = 30;
@@ -244,8 +244,8 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
     private const double PADDING_RIGHT = PADDING_AXISRIGHT+30;
 
 
-    private GmpBigInteger m_Max;
-    private GmpBigInteger m_Min;
+    private PrimesBigInteger m_Max;
+    private PrimesBigInteger m_Min;
 
     public GoldbachControl()
     {
@@ -282,7 +282,7 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
 
     }
 
-    void ircGoldbach_Execute(GmpBigInteger from, GmpBigInteger to)
+    void ircGoldbach_Execute(PrimesBigInteger from, PrimesBigInteger to)
     {
       m_From = from;
       m_To = to;
@@ -326,20 +326,20 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
     #endregion
     
     #region Properties
-    private GmpBigInteger Range
+    private PrimesBigInteger Range
     {
       get { return m_Max.Subtract(m_Min); }
     }
     #endregion
 
-    private GmpBigInteger From
+    private PrimesBigInteger From
     {
       get 
       {
-        GmpBigInteger value = m_From;
-        if (!value.Mod(GmpBigInteger.Two).Equals(GmpBigInteger.Zero))
+        PrimesBigInteger value = m_From;
+        if (!value.Mod(PrimesBigInteger.Two).Equals(PrimesBigInteger.Zero))
         {
-          value = value.Add(GmpBigInteger.One);
+          value = value.Add(PrimesBigInteger.One);
         }
         return value;
       }
@@ -349,23 +349,23 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
       FireStartEvent();
       m_Max = null;
       m_Min = null;
-      IDictionary<GmpBigInteger, GmpBigInteger> points = new Dictionary<GmpBigInteger, GmpBigInteger>();
-      GmpBigInteger goldbachResult = null;
+      IDictionary<PrimesBigInteger, PrimesBigInteger> points = new Dictionary<PrimesBigInteger, PrimesBigInteger>();
+      PrimesBigInteger goldbachResult = null;
       ControlHandler.ExecuteMethod(this, "PaintCoordianteAxis");
-      GmpBigInteger value = From;
+      PrimesBigInteger value = From;
       bool repaint = false;
       while (value.CompareTo(m_To) <= 0)
       {
         goldbachResult = Calculate(value);
-        if (m_Max == null) m_Max = goldbachResult.Add(GmpBigInteger.Ten);
+        if (m_Max == null) m_Max = goldbachResult.Add(PrimesBigInteger.Ten);
         if (m_Min == null) m_Min = goldbachResult;
         if (goldbachResult.CompareTo(m_Min) <= 0)
         {
           m_Min = goldbachResult;
         }
-        if (m_Max.CompareTo(goldbachResult.Add(GmpBigInteger.Ten)) < 0)
+        if (m_Max.CompareTo(goldbachResult.Add(PrimesBigInteger.Ten)) < 0)
         {
-          m_Max = goldbachResult.Add(GmpBigInteger.Ten);
+          m_Max = goldbachResult.Add(PrimesBigInteger.Ten);
           repaint = true;
         }
 
@@ -377,7 +377,7 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
           if(repaint)
             ControlHandler.ExecuteMethod(this, "RepaintGoldbach");
         }
-        value = value.Add(GmpBigInteger.Two);
+        value = value.Add(PrimesBigInteger.Two);
       }
       if (points.Count > 0)
       {
@@ -407,12 +407,12 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
       }
     }
 
-    public void PaintGoldbachResult(IDictionary<GmpBigInteger, GmpBigInteger> points)
+    public void PaintGoldbachResult(IDictionary<PrimesBigInteger, PrimesBigInteger> points)
     {
-      foreach (KeyValuePair<GmpBigInteger, GmpBigInteger> pair in points)
+      foreach (KeyValuePair<PrimesBigInteger, PrimesBigInteger> pair in points)
       {
-        GmpBigInteger x = pair.Key;
-        GmpBigInteger y = pair.Value;
+        PrimesBigInteger x = pair.Key;
+        PrimesBigInteger y = pair.Value;
         double size = 4;
         double val = y.DoubleValue;
         double unitwidth = UnitWidth;
@@ -426,7 +426,7 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
         el.Fill = Brushes.Red;
         el.Width = 4;
         el.Height = 4;
-        el.Tag = new KeyValuePair<GmpBigInteger, GmpBigInteger>(x, y);
+        el.Tag = new KeyValuePair<PrimesBigInteger, PrimesBigInteger>(x, y);
         el.MouseMove += new MouseEventHandler(el_MouseMove);
         Canvas.SetTop(el, top);
         Canvas.SetLeft(el, left);
@@ -437,9 +437,9 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
     void el_MouseMove(object sender, MouseEventArgs e)
     {
 
-      tbinfo.Text = ((KeyValuePair<GmpBigInteger, GmpBigInteger>)((Ellipse)sender).Tag).Key.ToString();
+      tbinfo.Text = ((KeyValuePair<PrimesBigInteger, PrimesBigInteger>)((Ellipse)sender).Tag).Key.ToString();
       tbinfo.Text += ":";
-      tbinfo.Text += ((KeyValuePair<GmpBigInteger, GmpBigInteger>)((Ellipse)sender).Tag).Value.ToString();
+      tbinfo.Text += ((KeyValuePair<PrimesBigInteger, PrimesBigInteger>)((Ellipse)sender).Tag).Value.ToString();
     }
 
     public void RepaintGoldbach()
@@ -455,7 +455,7 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
       {
         if (element.GetType() == typeof(Ellipse))
         {
-          KeyValuePair<GmpBigInteger, GmpBigInteger> pair = (KeyValuePair<GmpBigInteger,GmpBigInteger>)((Ellipse)(element)).Tag;
+          KeyValuePair<PrimesBigInteger, PrimesBigInteger> pair = (KeyValuePair<PrimesBigInteger,PrimesBigInteger>)((Ellipse)(element)).Tag;
 
           double top = (PaintArea.ActualHeight - PADDING_TOP - PADDING_BOTTOM - (pair.Value.DoubleValue * unitheight)) - size / 2;
           double left = (((pair.Key.DoubleValue - From.DoubleValue) * unitwidth) + PADDING_LEFT) - size / 2;
@@ -484,9 +484,9 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
         PaintArea.Children.Remove(e);
       }
       // Koordinaten neu zeichnen
-      GmpBigInteger inc = GmpBigInteger.Max(m_Max.Subtract(m_Min).Divide(GmpBigInteger.Ten), GmpBigInteger.Two);
-      GmpBigInteger startx = m_Min;
-      while (startx.CompareTo(m_Max.Subtract(GmpBigInteger.Ten)) <= 0)
+      PrimesBigInteger inc = PrimesBigInteger.Max(m_Max.Subtract(m_Min).Divide(PrimesBigInteger.Ten), PrimesBigInteger.Two);
+      PrimesBigInteger startx = m_Min;
+      while (startx.CompareTo(m_Max.Subtract(PrimesBigInteger.Ten)) <= 0)
       {
         Line l = new Line();
         l.Name = "YAXSIS" + startx.ToString();
@@ -563,8 +563,8 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
 
       double unitwidth = UnitWidth;
 
-      GmpBigInteger inc = GmpBigInteger.Max(m_To.Subtract(From).Divide(GmpBigInteger.Ten),GmpBigInteger.Two);
-      GmpBigInteger startx = From;
+      PrimesBigInteger inc = PrimesBigInteger.Max(m_To.Subtract(From).Divide(PrimesBigInteger.Ten),PrimesBigInteger.Two);
+      PrimesBigInteger startx = From;
       while(startx.CompareTo(m_To)<=0)
       {
         Line l = new Line();
@@ -589,18 +589,18 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
     #endregion
 
     #region Calculating
-    private GmpBigInteger Calculate(GmpBigInteger value)
+    private PrimesBigInteger Calculate(PrimesBigInteger value)
     {
-      GmpBigInteger result = GmpBigInteger.Zero;
-      if (value != null && value.Mod(GmpBigInteger.Two).Equals(GmpBigInteger.Zero))
+      PrimesBigInteger result = PrimesBigInteger.Zero;
+      if (value != null && value.Mod(PrimesBigInteger.Two).Equals(PrimesBigInteger.Zero))
       {
-        GmpBigInteger sum1 = GmpBigInteger.Two;
-        while (sum1.CompareTo(value.Divide(GmpBigInteger.Two)) <= 0)
+        PrimesBigInteger sum1 = PrimesBigInteger.Two;
+        while (sum1.CompareTo(value.Divide(PrimesBigInteger.Two)) <= 0)
         {
-          GmpBigInteger sum2 = value.Subtract(sum1);
+          PrimesBigInteger sum2 = value.Subtract(sum1);
           if (sum2.IsProbablePrime(10))
           {
-            result = result.Add(GmpBigInteger.One);
+            result = result.Add(PrimesBigInteger.One);
 
 
           }
@@ -629,11 +629,11 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
       ircGoldbach.SetText(InputRangeControl.FreeFrom, "4");
       ircGoldbach.SetText(InputRangeControl.FreeTo, "1000");
 
-      InputValidator<GmpBigInteger> ivFrom = new InputValidator<GmpBigInteger>();
-      ivFrom.Validator = new BigIntegerMinValueMaxValueValidator(null, GmpBigInteger.Four,GmpBigInteger.ValueOf(100000-1));
+      InputValidator<PrimesBigInteger> ivFrom = new InputValidator<PrimesBigInteger>();
+      ivFrom.Validator = new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.Four,PrimesBigInteger.ValueOf(100000-1));
       ircGoldbach.AddInputValidator(InputRangeControl.FreeFrom, ivFrom);
-      InputValidator<GmpBigInteger> ivTo = new InputValidator<GmpBigInteger>();
-      ivTo.Validator = new BigIntegerMinValueMaxValueValidator(null, GmpBigInteger.Five, GmpBigInteger.ValueOf(100000));
+      InputValidator<PrimesBigInteger> ivTo = new InputValidator<PrimesBigInteger>();
+      ivTo.Validator = new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.Five, PrimesBigInteger.ValueOf(100000));
       ircGoldbach.AddInputValidator(InputRangeControl.FreeTo, ivTo);
     }
 

@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -205,7 +205,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Controls;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.Library;
 
 namespace Primes.WpfControls.Components
@@ -221,18 +221,18 @@ namespace Primes.WpfControls.Components
   }
   public interface IPolynomRange:IFormular<RangePolynomFactor>
     {
-    GmpBigInteger Execute(GmpBigInteger input);
+    PrimesBigInteger Execute(PrimesBigInteger input);
 
   }
 
   public class PolynomFactor
   {
-    public PolynomFactor(string name, GmpBigInteger value)
+    public PolynomFactor(string name, PrimesBigInteger value)
     {
       this.Name = name;
       this.Value = value;
     }
-    public PolynomFactor(string name, GmpBigInteger value, bool isReadOnly)
+    public PolynomFactor(string name, PrimesBigInteger value, bool isReadOnly)
     {
       this.Name = name;
       this.Value = value;
@@ -246,9 +246,9 @@ namespace Primes.WpfControls.Components
       get { return m_Name; }
       set { m_Name = value; }
     }
-    private GmpBigInteger m_Value;
+    private PrimesBigInteger m_Value;
 
-    public GmpBigInteger Value
+    public PrimesBigInteger Value
     {
       get { return m_Value; }
       set { m_Value = value; }
@@ -265,7 +265,7 @@ namespace Primes.WpfControls.Components
   }
   public class RangePolynomFactor
   {
-    public RangePolynomFactor(string name, GmpBigInteger from, GmpBigInteger to):this(name,new RangeX(from, to))
+    public RangePolynomFactor(string name, PrimesBigInteger from, PrimesBigInteger to):this(name,new RangeX(from, to))
     {
     }
     public RangePolynomFactor(string name, Range range)
@@ -289,11 +289,11 @@ namespace Primes.WpfControls.Components
 
     private Range m_Range;
 
-    public GmpBigInteger From
+    public PrimesBigInteger From
     {
       get { return m_Range.From; }
     }
-    public GmpBigInteger To
+    public PrimesBigInteger To
     {
       get { return m_Range.To; }
     }

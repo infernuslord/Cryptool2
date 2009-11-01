@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using LibGmpWrapper;
+using Primes.Bignum;
 
 namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
 {
@@ -10,30 +10,30 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
   public class Step
   {
 
-    private GmpBigInteger m_Current;
+    private PrimesBigInteger m_Current;
 
-    public GmpBigInteger Current
+    public PrimesBigInteger Current
     {
       get { return m_Current; }
     }
-    private GmpBigInteger m_Expected;
+    private PrimesBigInteger m_Expected;
 
-    public GmpBigInteger Expected
+    public PrimesBigInteger Expected
     {
       get { return m_Expected; }
     }
 
-    private GmpBigInteger m_MaxValue;
+    private PrimesBigInteger m_MaxValue;
 
     private Numbergrid.Numbergrid m_Numbergrid;
 
-    public Step(Numbergrid.Numbergrid numbergrid, GmpBigInteger maxValue)
+    public Step(Numbergrid.Numbergrid numbergrid, PrimesBigInteger maxValue)
     {
-      m_Expected = m_Current = GmpBigInteger.Two;
+      m_Expected = m_Current = PrimesBigInteger.Two;
       m_Numbergrid = numbergrid;
       m_MaxValue = maxValue;
     }
-    public StepResult DoStep(GmpBigInteger value)
+    public StepResult DoStep(PrimesBigInteger value)
     {
 
       if (m_Expected.CompareTo(value) == 0)
@@ -52,7 +52,7 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
     }
     public void Reset()
     {
-      m_Expected = m_Current = GmpBigInteger.Two;
+      m_Expected = m_Current = PrimesBigInteger.Two;
     }
   }
 }

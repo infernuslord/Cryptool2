@@ -207,7 +207,8 @@ using System.Text;
 
 using Primes.Library.FactorTree.Exceptions;
 using System.Threading;
-using LibGmpWrapper;
+using Primes.Bignum;
+using Primes.Bignum;
 
 namespace Primes.Library.FactorTree
 {
@@ -218,10 +219,10 @@ namespace Primes.Library.FactorTree
     private Thread m_FactorThread;
     private GmpFactorTreeNode m_Root;
     private object m_LockObject = null;
-		private IDictionary<string, GmpBigInteger> m_Factors;
+		private IDictionary<string, PrimesBigInteger> m_Factors;
 
     
-    private GmpBigInteger m_Remainder;
+    private PrimesBigInteger m_Remainder;
 
     public GmpFactorTreeNode Root
     {
@@ -233,7 +234,7 @@ namespace Primes.Library.FactorTree
       m_LockObject = new object();
     }
 
-		public GmpBigInteger GetFactorCount(string factor)
+		public PrimesBigInteger GetFactorCount(string factor)
 		{
 			if (m_Factors.ContainsKey(factor))
 				return m_Factors[factor];
@@ -246,7 +247,7 @@ namespace Primes.Library.FactorTree
 			get { if (m_Factors != null)return m_Factors.Keys; else return null; }
 		}
 
-    public GmpBigInteger Remainder
+    public PrimesBigInteger Remainder
     {
       get { return m_Remainder; }
     }
@@ -259,7 +260,7 @@ namespace Primes.Library.FactorTree
 
     public event GmpBigIntegerParameterDelegate OnActualDivisorChanged;
 
-    public void FireOnActualDivisorChanged(GmpBigInteger i)
+    public void FireOnActualDivisorChanged(PrimesBigInteger i)
     {
       if (OnActualDivisorChanged != null)
       {
@@ -267,9 +268,9 @@ namespace Primes.Library.FactorTree
       }
     }
     #endregion
-    public void Factorize(GmpBigInteger value)
+    public void Factorize(PrimesBigInteger value)
     {
-			m_Factors = new Dictionary<string, GmpBigInteger>();
+			m_Factors = new Dictionary<string, PrimesBigInteger>();
 			m_FactorThread = new Thread(new ParameterizedThreadStart(DoFactorize));
       this.m_Root = new GmpFactorTreeNode(value);
       if (OnStart != null) OnStart();
@@ -316,14 +317,14 @@ namespace Primes.Library.FactorTree
 		private void TrialDivision()
 		{
       m_Height = 0;
-      GmpBigInteger divisor = new GmpBigInteger(GmpBigInteger.Two);
+      PrimesBigInteger divisor = PrimesBigInteger.Two;
       FireOnActualDivisorChanged(divisor);
-      GmpBigInteger value = new GmpBigInteger(this.m_Root.Value);
+      PrimesBigInteger value = new PrimesBigInteger(this.m_Root.Value);
       GmpFactorTreeNode node = this.m_Root;
       while (!value.IsProbablePrime(10))
       {
           //int counter = 0;
-          while (value.Mod(divisor).CompareTo(GmpBigInteger.Zero) != 0)
+          while (value.Mod(divisor).CompareTo(PrimesBigInteger.Zero) != 0)
           {
             divisor = divisor.NextProbablePrime();
             FireOnActualDivisorChanged(divisor);
@@ -358,71 +359,71 @@ namespace Primes.Library.FactorTree
       
     }
 
-		private void FastTrialDivision()
-		{
-			m_Height = 0;
-		GmpBigInteger m_factor = GmpBigInteger.Two;
-			int mod30 = m_factor.Mod(GmpBigInteger.ValueOf(30)).IntValue;
-			GmpBigInteger value = new GmpBigInteger(this.m_Root.Value);
-			GmpBigInteger max = value.SquareRoot();
-			GmpFactorTreeNode node = this.m_Root;
-      bool run = true;
-      if (value.IsProbablePrime(10))
-        run = false;
+      //  private void FastTrialDivision()
+      //  {
+      //      m_Height = 0;
+      //  PrimesBigInteger m_factor = PrimesBigInteger.Two;
+      //      int mod30 = m_factor.Mod(PrimesBigInteger.ValueOf(30)).IntValue;
+      //      PrimesBigInteger value = new PrimesBigInteger(this.m_Root.Value);
+      //      PrimesBigInteger max = value.SquareRoot();
+      //      GmpFactorTreeNode node = this.m_Root;
+      //bool run = true;
+      //if (value.IsProbablePrime(10))
+      //  run = false;
       
-			while (run)
-			{
-				while (m_factor.CompareTo(max) <= 0)
-				{
-					if (!(mod30 == 1 ||
-					 mod30 == 7 ||
-					 mod30 == 11 ||
-					 mod30 == 13 ||
-					 mod30 == 17 ||
-					 mod30 == 19 ||
-					 mod30 == 23 ||
-					 mod30 == 29 ||
-					 m_factor.CompareTo(GmpBigInteger.Two) == 0 ||
-					 m_factor.CompareTo(GmpBigInteger.ValueOf(3)) == 0 ||
-					 m_factor.CompareTo(GmpBigInteger.ValueOf(5)) == 0))
-					{
-						m_factor = m_factor.Add(GmpBigInteger.One);
-						mod30++;
-						(mod30) %= 30;
-						continue;
-					}
-					if (value.Mod(m_factor).CompareTo(GmpBigInteger.Zero)==0)
-					{
-						value = value.Divide(m_factor);
-            m_Remainder = value;
+      //      while (run)
+      //      {
+      //          while (m_factor.CompareTo(max) <= 0)
+      //          {
+      //              if (!(mod30 == 1 ||
+      //               mod30 == 7 ||
+      //               mod30 == 11 ||
+      //               mod30 == 13 ||
+      //               mod30 == 17 ||
+      //               mod30 == 19 ||
+      //               mod30 == 23 ||
+      //               mod30 == 29 ||
+      //               m_factor.CompareTo(PrimesBigInteger.Two) == 0 ||
+      //               m_factor.CompareTo(PrimesBigInteger.ValueOf(3)) == 0 ||
+      //               m_factor.CompareTo(PrimesBigInteger.ValueOf(5)) == 0))
+      //              {
+      //                  m_factor = m_factor.Add(PrimesBigInteger.One);
+      //                  mod30++;
+      //                  (mod30) %= 30;
+      //                  continue;
+      //              }
+      //              if (value.Mod(m_factor).CompareTo(PrimesBigInteger.Zero)==0)
+      //              {
+      //                  value = value.Divide(m_factor);
+      //      m_Remainder = value;
 
-						max = value.SquareRoot();
-						GmpFactorTreeNode primeNodeTmp = new GmpFactorTreeNode(m_factor);
-            primeNodeTmp.IsPrime = m_factor.IsPrime(10);
-            m_Height++;
-            AddFactor(m_factor);
-            node.AddChild(primeNodeTmp);
-						node = node.AddChild(new GmpFactorTreeNode(value));
-						continue;
-					}
-					m_factor = m_factor.Add(GmpBigInteger.One);
-					mod30++;
-					(mod30) %= 30;
-					run = false;
-				}
-				run = false;
-			}
-      m_Remainder = null;
-			node.IsPrime = true;
-			AddFactor(value);
-		}
+      //                  max = value.SquareRoot();
+      //                  GmpFactorTreeNode primeNodeTmp = new GmpFactorTreeNode(m_factor);
+      //      primeNodeTmp.IsPrime = m_factor.IsPrime(10);
+      //      m_Height++;
+      //      AddFactor(m_factor);
+      //      node.AddChild(primeNodeTmp);
+      //                  node = node.AddChild(new GmpFactorTreeNode(value));
+      //                  continue;
+      //              }
+      //              m_factor = m_factor.Add(PrimesBigInteger.One);
+      //              mod30++;
+      //              (mod30) %= 30;
+      //              run = false;
+      //          }
+      //          run = false;
+      //      }
+      //m_Remainder = null;
+      //      node.IsPrime = true;
+      //      AddFactor(value);
+      //  }
 
-		private void AddFactor(GmpBigInteger value)
+		private void AddFactor(PrimesBigInteger value)
 		{
 			if (m_Factors.ContainsKey(value.ToString()))
-				m_Factors[value.ToString()] = m_Factors[value.ToString()].Add(GmpBigInteger.One);
+				m_Factors[value.ToString()] = m_Factors[value.ToString()].Add(PrimesBigInteger.One);
 			else
-				m_Factors.Add(value.ToString(), GmpBigInteger.One);
+				m_Factors.Add(value.ToString(), PrimesBigInteger.One);
 			if (OnFactorFound != null)
 				OnFactorFound();
 		}
@@ -458,9 +459,9 @@ namespace Primes.Library.FactorTree
   public class GmpFactorTreeNode
   {
 
-    public GmpFactorTreeNode(GmpBigInteger value)
+    public GmpFactorTreeNode(PrimesBigInteger value)
     {
-      this.m_Value = new GmpBigInteger(value);
+      this.m_Value = new PrimesBigInteger(value);
     }
 
     private bool m_IsPrime;
@@ -470,9 +471,9 @@ namespace Primes.Library.FactorTree
       get { return m_IsPrime; }
       set { m_IsPrime = value; }
     }
-    private GmpBigInteger m_Value = null;
+    private PrimesBigInteger m_Value = null;
 
-    public GmpBigInteger Value
+    public PrimesBigInteger Value
     {
       get { return m_Value; }
       set { m_Value = value; }

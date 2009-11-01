@@ -204,7 +204,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LibGmpWrapper;
+using Primes.Bignum;
+
 
 namespace SevenZ.Calculator
 {
@@ -213,13 +214,13 @@ namespace SevenZ.Calculator
       public delegate void CalcVariableDelegate(object sender, EventArgs e);
       public event CalcVariableDelegate OnVariableStore;
 
-       Dictionary<string, GmpBigInteger> variables;
+      Dictionary<string, PrimesBigInteger> variables;
 
       public const string AnswerVar = "r";
 
       private void LoadConstants()
       {
-          variables = new Dictionary<string, GmpBigInteger>();
+          variables = new Dictionary<string, PrimesBigInteger>();
          //variables.Add("pi", Math.PI);
          //variables.Add("e", Math.E);
          //variables.Add(AnswerVar, 0);
@@ -228,12 +229,12 @@ namespace SevenZ.Calculator
             OnVariableStore(this, new EventArgs());
       }
 
-       public Dictionary<string, GmpBigInteger> Variables
+      public Dictionary<string, PrimesBigInteger> Variables
       {
          get { return variables; }
       }
 
-       public void SetVariable(string name, GmpBigInteger val)
+       public void SetVariable(string name, PrimesBigInteger val)
       {
          if (variables.ContainsKey(name))
             variables[name] = val;
@@ -244,9 +245,9 @@ namespace SevenZ.Calculator
             OnVariableStore(this, new EventArgs());
       }
 
-       public GmpBigInteger GetVariable(string name)
+       public PrimesBigInteger GetVariable(string name)
       {  // return variable's value // if variable ha push default value, 0
-         return variables.ContainsKey(name) ? variables[name] : GmpBigInteger.Zero;                    
+          return variables.ContainsKey(name) ? variables[name] : PrimesBigInteger.Zero;                    
       }
    }
 }

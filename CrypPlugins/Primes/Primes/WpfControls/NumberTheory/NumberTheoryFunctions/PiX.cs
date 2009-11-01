@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -207,7 +207,7 @@ using System.Text;
 using Primes.WpfControls.Components;
 using System.Windows.Controls;
 using System.Threading;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.Library;
 using System.Windows;
 using System.Diagnostics;
@@ -224,19 +224,19 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
     {
       FireOnStart();
       FunctionPiX pix = new FunctionPiX();
-      GmpBigInteger from = m_From;
-      GmpBigInteger _counterTmp = GmpBigInteger.Two;
+      PrimesBigInteger from = m_From;
+      PrimesBigInteger _counterTmp = PrimesBigInteger.Two;
       while (_counterTmp.CompareTo(from) <= 0)
       {
         double result = pix.Execute(_counterTmp.DoubleValue);
         FireOnMessage(this, from, StringFormat.FormatDoubleToIntString(result));
-        _counterTmp = _counterTmp.Add(GmpBigInteger.One);
+        _counterTmp = _counterTmp.Add(PrimesBigInteger.One);
       }
       while (from.CompareTo(m_To) <= 0)
       {
         double result = pix.Execute(from.DoubleValue);
         FireOnMessage(this, from, StringFormat.FormatDoubleToIntString(result));
-        from = from.Add(GmpBigInteger.One);
+        from = from.Add(PrimesBigInteger.One);
 
       }
       FireOnStop();

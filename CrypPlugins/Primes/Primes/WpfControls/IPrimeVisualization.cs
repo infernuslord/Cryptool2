@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -206,7 +206,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Primes.WpfControls.Components;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.Library;
 
 namespace Primes.WpfControls
@@ -223,10 +223,10 @@ namespace Primes.WpfControls
 
     event CallbackDelegateGetInteger ForceGetIntegerInterval;
 
-    void Execute(GmpBigInteger value);
+    void Execute(PrimesBigInteger value);
 
     void CancelExecute();
 
-    void Execute(GmpBigInteger from, GmpBigInteger to);
+    void Execute(PrimesBigInteger from, PrimesBigInteger to);
   }
 }

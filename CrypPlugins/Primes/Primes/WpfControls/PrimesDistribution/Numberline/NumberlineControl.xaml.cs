@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -214,7 +214,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Primes.WpfControls.Components;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.Library;
 using System.Threading;
 using System.Diagnostics;
@@ -231,10 +231,10 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
   {
     private const int PADDINGLEFT = 10;
     private const int PADDINGRIGHT = 10;
-    private static readonly GmpBigInteger MAX = GmpBigInteger.ValueOf(1000000000);
+    private static readonly PrimesBigInteger MAX = PrimesBigInteger.ValueOf(1000000000);
     private Thread m_ScrollThread;
     private IList<NumberButton> m_Buttons;
-    private IDictionary<GmpBigInteger, NumberButton> m_ButtonsDict;
+    private IDictionary<PrimesBigInteger, NumberButton> m_ButtonsDict;
     private IList<NumberButton> markedNumbers;
     private Thread m_FactorizeThread;
     private Thread m_GoldbachThread;
@@ -246,8 +246,8 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
     private INTFunction m_DivSum;
     private double m_UnitSize;
     private double m_ButtonScale;
-    private GmpBigInteger m_Start;
-    private GmpBigInteger m_ActualNumber;
+    private PrimesBigInteger m_Start;
+    private PrimesBigInteger m_ActualNumber;
     private bool m_Initialized;
 
 
@@ -256,9 +256,9 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       InitializeComponent();
       m_Buttons = new List<NumberButton>();
       markedNumbers = new List<NumberButton>();
-      m_ButtonsDict = new Dictionary<GmpBigInteger, NumberButton>();
+      m_ButtonsDict = new Dictionary<PrimesBigInteger, NumberButton>();
       m_ButtonScale = 45.0;
-      m_Start = GmpBigInteger.Two;
+      m_Start = PrimesBigInteger.Two;
       iscTo.Execute += new ExecuteSingleDelegate(iscTo_Execute);
       iscTo.KeyDown += new ExecuteSingleDelegate(iscTo_Execute);
       iscFrom.Execute += new ExecuteSingleDelegate(iscFrom_Execute);
@@ -273,8 +273,8 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       iscTo.OnInfoError += new MessageDelegate(iscFrom_OnInfoError);
       iscTo.KeyDownNoValidation += new MessageDelegate(iscTo_KeyDownNoValidation);
       iscFrom.KeyDownNoValidation += new MessageDelegate(iscTo_KeyDownNoValidation);
-      IValidator<GmpBigInteger> validatefrom = new BigIntegerMinValueValidator(null, GmpBigInteger.Two);
-      InputValidator<GmpBigInteger> inputvalidatefrom = new InputValidator<GmpBigInteger>();
+      IValidator<PrimesBigInteger> validatefrom = new BigIntegerMinValueValidator(null, PrimesBigInteger.Two);
+      InputValidator<PrimesBigInteger> inputvalidatefrom = new InputValidator<PrimesBigInteger>();
       inputvalidatefrom.DefaultValue = "2";
       inputvalidatefrom.Validator = validatefrom;
       iscFrom.AddInputValidator(InputSingleControl.Free, inputvalidatefrom);
@@ -306,8 +306,8 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 
     private void SetInputValidator()
     {
-      IValidator<GmpBigInteger> validateto = new BigIntegerMinValueMaxValueValidator(null, GmpBigInteger.ValueOf((int)m_ButtonScale + 1), MAX);
-      InputValidator<GmpBigInteger> inputvalidateto = new InputValidator<GmpBigInteger>();
+      IValidator<PrimesBigInteger> validateto = new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.ValueOf((int)m_ButtonScale + 1), MAX);
+      InputValidator<PrimesBigInteger> inputvalidateto = new InputValidator<PrimesBigInteger>();
       inputvalidateto.DefaultValue = ((int)m_ButtonScale + 1).ToString();
       inputvalidateto.Validator = validateto;
       iscTo.AddInputValidator(InputSingleControl.Free, inputvalidateto);
@@ -343,18 +343,18 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
     }
 
     #region Properties
-    private GmpBigInteger ButtonScale
+    private PrimesBigInteger ButtonScale
     {
       get
       {
-        return GmpBigInteger.ValueOf((int)m_ButtonScale);
+        return PrimesBigInteger.ValueOf((int)m_ButtonScale);
       }
     }
-    private GmpBigInteger ButtonScaleMinusOne
+    private PrimesBigInteger ButtonScaleMinusOne
     {
       get
       {
-        return GmpBigInteger.ValueOf((int)m_ButtonScale - 1);
+        return PrimesBigInteger.ValueOf((int)m_ButtonScale - 1);
       }
     }
     #endregion
@@ -381,7 +381,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       for (int i = 0; i < m_ButtonScale; i++)
       {
         double x = (i * len / m_ButtonScale) + PADDINGLEFT;
-        DrawNumberButton(m_Start.Add(GmpBigInteger.ValueOf(i)), x, y, 7, 7);
+        DrawNumberButton(m_Start.Add(PrimesBigInteger.ValueOf(i)), x, y, 7, 7);
       }
       if (m_Buttons != null && m_Buttons.Count > 0)
       {
@@ -410,7 +410,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
     //    return x1 < x2 - 12;
     //  }
     //}
-    private void DrawNumberButton(GmpBigInteger value, double x, double y, double width, double height)
+    private void DrawNumberButton(PrimesBigInteger value, double x, double y, double width, double height)
     {
       NumberButton nb = ControlHandler.CreateObject(typeof(NumberButton)) as NumberButton;
       nb.MouseEnter += new MouseEventHandler(nb_MouseMove);
@@ -433,7 +433,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 
     private void SetButtonColor(NumberButton btn)
     {
-      GmpBigInteger number = ControlHandler.GetPropertyValue(btn, "BINumber") as GmpBigInteger;
+      PrimesBigInteger number = ControlHandler.GetPropertyValue(btn, "BINumber") as PrimesBigInteger;
 
       if (number.IsProbablePrime(10))
         ControlHandler.SetPropertyValue(btn, "Background", Brushes.LightBlue);
@@ -460,9 +460,9 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
     {
       foreach (NumberButton btn in PaintArea.Children)
       {
-        if (btn.BINumber.CompareTo(GmpBigInteger.Two) > 0)
+        if (btn.BINumber.CompareTo(PrimesBigInteger.Two) > 0)
         {
-          btn.BINumber = btn.BINumber.Subtract(GmpBigInteger.One);
+          btn.BINumber = btn.BINumber.Subtract(PrimesBigInteger.One);
           SetButtonColor(btn);
         }
         else break;
@@ -472,40 +472,40 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 
     private void ScrollRight(object obj)
     {
-      if (obj.GetType() == typeof(GmpBigInteger))
+      if (obj.GetType() == typeof(PrimesBigInteger))
       {
         while (true)
         {
-          DoAtomicScroll(obj as GmpBigInteger);
+          DoAtomicScroll(obj as PrimesBigInteger);
         }
       }
       SetEdgeButtonColor();
     }
 
-    private void DoAtomicScroll(GmpBigInteger amount)
+    private void DoAtomicScroll(PrimesBigInteger amount)
     {
       UIElementCollection children = ControlHandler.GetPropertyValue(PaintArea, "Children") as UIElementCollection;
-      GmpBigInteger max = null;
+      PrimesBigInteger max = null;
       int counter = 0;
       m_ButtonsDict.Clear();
-      GmpBigInteger _max = m_Start.Add(amount).Add(GmpBigInteger.ValueOf(m_Buttons.Count - 1));
-      if (amount.CompareTo(GmpBigInteger.Zero) >= 0)
+      PrimesBigInteger _max = m_Start.Add(amount).Add(PrimesBigInteger.ValueOf(m_Buttons.Count - 1));
+      if (amount.CompareTo(PrimesBigInteger.Zero) >= 0)
       {
         if (_max.CompareTo(MAX) > 0)
         {
           amount = amount.Subtract(_max.Subtract(MAX));
           _max = MAX;
         }
-        //GmpBigInteger _amount = MAX.Subtract(_max);
-        //if(_amount.CompareTo(GmpBigInteger.Zero)>0)
+        //PrimesBigInteger _amount = MAX.Subtract(_max);
+        //if(_amount.CompareTo(PrimesBigInteger.Zero)>0)
         //{
-        //  amount = GmpBigInteger.Min(_amount, amount);
+        //  amount = PrimesBigInteger.Min(_amount, amount);
         //}
       }
       foreach (NumberButton btn in m_Buttons)
       {
-        GmpBigInteger number = ControlHandler.GetPropertyValue(btn, "BINumber") as GmpBigInteger;
-        if (number.Add(amount).Subtract(GmpBigInteger.ValueOf(counter)).CompareTo(GmpBigInteger.Two) >= 0 && _max.CompareTo(MAX) <= 0)
+        PrimesBigInteger number = ControlHandler.GetPropertyValue(btn, "BINumber") as PrimesBigInteger;
+        if (number.Add(amount).Subtract(PrimesBigInteger.ValueOf(counter)).CompareTo(PrimesBigInteger.Two) >= 0 && _max.CompareTo(MAX) <= 0)
         {
           number = number.Add(amount);
           ControlHandler.SetPropertyValue(btn, "BINumber", number);
@@ -520,7 +520,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       }
       if (max != null)
       {
-        m_Start = max.Subtract(GmpBigInteger.ValueOf((int)m_ButtonScale - 1));
+        m_Start = max.Subtract(PrimesBigInteger.ValueOf((int)m_ButtonScale - 1));
         SetFromTo();
         SetCountPrimes();
 
@@ -540,7 +540,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       if (m_ScrollThread != null)
       {
         bool error = false;
-        GmpBigInteger last = null;
+        PrimesBigInteger last = null;
         foreach (NumberButton btn in m_Buttons)
         {
           if (last == null)
@@ -558,18 +558,18 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
             }
           }
         }
-        GmpBigInteger cmp = m_Buttons[0].BINumber.Subtract(m_Buttons[m_Buttons.Count - 1].BINumber);
-        if (cmp.CompareTo(GmpBigInteger.Zero) < 0) cmp = cmp.Multiply(GmpBigInteger.NegativeOne);
-        cmp = cmp.Add(GmpBigInteger.One);
-        error = cmp.CompareTo(GmpBigInteger.ValueOf((int)m_ButtonScale)) != 0;
+        PrimesBigInteger cmp = m_Buttons[0].BINumber.Subtract(m_Buttons[m_Buttons.Count - 1].BINumber);
+        if (cmp.CompareTo(PrimesBigInteger.Zero) < 0) cmp = cmp.Multiply(PrimesBigInteger.NegativeOne);
+        cmp = cmp.Add(PrimesBigInteger.One);
+        error = cmp.CompareTo(PrimesBigInteger.ValueOf((int)m_ButtonScale)) != 0;
         if (error)
         {
-          GmpBigInteger value = m_Buttons[0].BINumber;
+          PrimesBigInteger value = m_Buttons[0].BINumber;
           for (int i = 0; i < m_Buttons.Count; i++)
           {
-            m_Buttons[i].BINumber = value.Add(GmpBigInteger.ValueOf(i));
+            m_Buttons[i].BINumber = value.Add(PrimesBigInteger.ValueOf(i));
           }
-          DoAtomicScroll(GmpBigInteger.One);
+          DoAtomicScroll(PrimesBigInteger.One);
 
         }
         m_Start = m_Buttons[0].BINumber;
@@ -586,21 +586,21 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       int amount = 1;
       if (sender == btnScrollRight_Fast || sender == btnScrollLeft_Fast) amount = 10;
       if (sender == btnScrollLeft || sender == btnScrollLeft_Fast) amount *= -1;
-      GmpBigInteger _amount = GmpBigInteger.ValueOf(amount);
+      PrimesBigInteger _amount = PrimesBigInteger.ValueOf(amount);
       if (amount < 0)
       {
-        while (m_Start.Add(_amount).CompareTo(GmpBigInteger.Two) < 0)
+        while (m_Start.Add(_amount).CompareTo(PrimesBigInteger.Two) < 0)
         {
-          _amount = _amount.Add(GmpBigInteger.One);
+          _amount = _amount.Add(PrimesBigInteger.One);
         }
         amount = _amount.IntValue;
       }
-      StartScrollThread(GmpBigInteger.ValueOf(amount));
+      StartScrollThread(PrimesBigInteger.ValueOf(amount));
     }
 
-    private void StartScrollThread(GmpBigInteger value)
+    private void StartScrollThread(PrimesBigInteger value)
     {
-      //DoAtomicScroll(GmpBigInteger.ValueOf(1));
+      //DoAtomicScroll(PrimesBigInteger.ValueOf(1));
       m_ScrollThread = new Thread(new ParameterizedThreadStart(new ObjectParameterDelegate(ScrollRight)));
       m_ScrollThread.Start(value);
     }
@@ -609,21 +609,21 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       CancelScrollThread();
     }
 
-    void iscFrom_Execute(GmpBigInteger value)
+    void iscFrom_Execute(PrimesBigInteger value)
     {
       EnableInput();
       iscTo_Execute(value.Add(ButtonScaleMinusOne));
       MarkNumberWithOutThreads(m_Start);
     }
 
-    void iscTo_Execute(GmpBigInteger value)
+    void iscTo_Execute(PrimesBigInteger value)
     {
-      if (value.CompareTo(GmpBigInteger.Two.Add(ButtonScaleMinusOne)) >= 0)
+      if (value.CompareTo(PrimesBigInteger.Two.Add(ButtonScaleMinusOne)) >= 0)
       {
         iscFrom.ResetMessages();
         iscTo.ResetMessages();
         EnableInput();
-        GmpBigInteger diff = value.Subtract(m_Start.Add(ButtonScaleMinusOne));
+        PrimesBigInteger diff = value.Subtract(m_Start.Add(ButtonScaleMinusOne));
         DoAtomicScroll(diff);
         MarkNumberWithOutThreads(value);
       }
@@ -714,7 +714,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
     {
       if (sender.GetType() == typeof(NumberButton))
       {
-        GmpBigInteger value = (sender as NumberButton).BINumber;
+        PrimesBigInteger value = (sender as NumberButton).BINumber;
         MarkNumber(value);
       }
     }
@@ -729,7 +729,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 
     #region Show Number Information
 
-    private void MarkNumber(GmpBigInteger value)
+    private void MarkNumber(PrimesBigInteger value)
     {
       UnmarkAllNumbers();
       MarkNumberWithOutThreads(value);
@@ -742,7 +742,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       m_DivSum.Start(value);
       ControlHandler.SetButtonEnabled(btnCancelAll, true);
     }
-    private void MarkNumberWithOutThreads(GmpBigInteger value)
+    private void MarkNumberWithOutThreads(PrimesBigInteger value)
     {
       NumberButton sender = null;
       try { sender = m_ButtonsDict[value]; }
@@ -762,7 +762,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 
     }
 
-    private void SetPointerActualNumber(GmpBigInteger value)
+    private void SetPointerActualNumber(PrimesBigInteger value)
     {
       if (m_ButtonsDict.ContainsKey(value))
       {
@@ -785,7 +785,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       
       
     }
-    private void SetInfoActualNumber(GmpBigInteger value)
+    private void SetInfoActualNumber(PrimesBigInteger value)
     {
       setActualNumberText(value.ToString("D"));
       string info = string.Empty;
@@ -806,7 +806,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       lblActualNumber.Text = value;
       textActualNumber.Text = value;
     }
-    private void SetNeighborPrimes(GmpBigInteger value)
+    private void SetNeighborPrimes(PrimesBigInteger value)
     {
       lblNextPrime.Text = value.NextProbablePrime().ToString("D");
       lblPriorPrime.Text = value.PriorProbablePrime(true).ToString("D");
@@ -822,7 +822,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       get
       {
         int result = 0;
-        foreach (GmpBigInteger key in m_ButtonsDict.Keys)
+        foreach (PrimesBigInteger key in m_ButtonsDict.Keys)
         {
           result += (key.IsPrime(10)) ? 1 : 0;
         }
@@ -839,40 +839,40 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
         return result;
       }
     }
-    private void SetTwinPrimes(GmpBigInteger value)
+    private void SetTwinPrimes(PrimesBigInteger value)
     {
 
-      GmpBigInteger twin = null;
+      PrimesBigInteger twin = null;
       if (value.IsTwinPrime(ref twin))
       {
         if (!m_ButtonsDict.ContainsKey(twin))
         {
           if (value.CompareTo(twin) < 0)
-            DoAtomicScroll(GmpBigInteger.Two);
+            DoAtomicScroll(PrimesBigInteger.Two);
           else
-            DoAtomicScroll(GmpBigInteger.ValueOf(-2));
+            DoAtomicScroll(PrimesBigInteger.ValueOf(-2));
         }
         if (m_ButtonsDict.ContainsKey(value) && m_ButtonsDict.ContainsKey(twin))
         {
           MarkNumber(m_ButtonsDict[value]);
           MarkNumber(m_ButtonsDict[twin]);
-          lblTwinPrimes.Text = string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_istwinprime, new object[] { GmpBigInteger.Min(value, twin).ToString("D"), GmpBigInteger.Max(value, twin).ToString("D") });
+          lblTwinPrimes.Text = string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_istwinprime, new object[] { PrimesBigInteger.Min(value, twin).ToString("D"), PrimesBigInteger.Max(value, twin).ToString("D") });
           lblTwinPrimes.Visibility = Visibility.Visible;
         }
       }
     }
-    private void SetNeighborTwinPrimes(GmpBigInteger value)
+    private void SetNeighborTwinPrimes(PrimesBigInteger value)
     {
-      GmpBigInteger a = null;
-      GmpBigInteger b = null;
+      PrimesBigInteger a = null;
+      PrimesBigInteger b = null;
       if (value.NextTwinPrime(ref a, ref b))
       {
 
-        lblNextTwinPrime.Text = string.Format("({0},{1})", new object[] { GmpBigInteger.Min(a, b).ToString("D"), GmpBigInteger.Max(a, b).ToString("D") });
+        lblNextTwinPrime.Text = string.Format("({0},{1})", new object[] { PrimesBigInteger.Min(a, b).ToString("D"), PrimesBigInteger.Max(a, b).ToString("D") });
       }
       if (value.PriorTwinPrime(ref a, ref b))
       {
-        lblPriorTwinPrime.Text = string.Format("({0},{1})", new object[] { GmpBigInteger.Min(a, b).ToString("D"), GmpBigInteger.Max(a, b).ToString("D") });
+        lblPriorTwinPrime.Text = string.Format("({0},{1})", new object[] { PrimesBigInteger.Min(a, b).ToString("D"), PrimesBigInteger.Max(a, b).ToString("D") });
       }
       else
       {
@@ -881,19 +881,19 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
     }
 
 
-    private void SetQuadrupletPrimes(GmpBigInteger value)
+    private void SetQuadrupletPrimes(PrimesBigInteger value)
     {
-      GmpBigInteger first = null;
-      GmpBigInteger second = null;
-      GmpBigInteger third = null;
-      GmpBigInteger fourth = null;
+      PrimesBigInteger first = null;
+      PrimesBigInteger second = null;
+      PrimesBigInteger third = null;
+      PrimesBigInteger fourth = null;
       bool scrollup = false;
       bool scrolldown = false;
 
       if (GetQuadrupletPrimes(value, ref first, ref second, ref third, ref fourth, ref scrollup, ref scrolldown))
       {
-        if (scrollup) DoAtomicScroll(GmpBigInteger.Six);
-        if (scrolldown) DoAtomicScroll(GmpBigInteger.Six.Multiply(GmpBigInteger.NegativeOne));
+        if (scrollup) DoAtomicScroll(PrimesBigInteger.Six);
+        if (scrolldown) DoAtomicScroll(PrimesBigInteger.Six.Multiply(PrimesBigInteger.NegativeOne));
         MarkNumber(m_ButtonsDict[first]);
         MarkNumber(m_ButtonsDict[second]);
         MarkNumber(m_ButtonsDict[third]);
@@ -907,33 +907,33 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
     }
 
     private bool GetQuadrupletPrimes(
-      GmpBigInteger value,
-      ref GmpBigInteger first,
-      ref GmpBigInteger second,
-      ref GmpBigInteger third,
-      ref GmpBigInteger fourth,
+      PrimesBigInteger value,
+      ref PrimesBigInteger first,
+      ref PrimesBigInteger second,
+      ref PrimesBigInteger third,
+      ref PrimesBigInteger fourth,
       ref bool scrollup,
       ref bool scrolldown)
     {
       bool result = false;
-      GmpBigInteger twin = null;
+      PrimesBigInteger twin = null;
       if (value.IsTwinPrime(ref twin))
       {
-        GmpBigInteger candidate = GmpBigInteger.Max(value, twin).Add(GmpBigInteger.ValueOf(4));
-        GmpBigInteger quadruplet2 = null;
+        PrimesBigInteger candidate = PrimesBigInteger.Max(value, twin).Add(PrimesBigInteger.ValueOf(4));
+        PrimesBigInteger quadruplet2 = null;
         if (candidate.IsTwinPrime(ref quadruplet2))
         {
-          GmpBigInteger tmp = GmpBigInteger.Max(candidate, quadruplet2);
+          PrimesBigInteger tmp = PrimesBigInteger.Max(candidate, quadruplet2);
 
           if (!m_ButtonsDict.ContainsKey(tmp))
             scrollup = true;
         }
         else
         {
-          candidate = GmpBigInteger.Min(value, twin).Subtract(GmpBigInteger.ValueOf(4));
+          candidate = PrimesBigInteger.Min(value, twin).Subtract(PrimesBigInteger.ValueOf(4));
           if (candidate.IsTwinPrime(ref quadruplet2))
           {
-            GmpBigInteger tmp = GmpBigInteger.Min(candidate, quadruplet2);
+            PrimesBigInteger tmp = PrimesBigInteger.Min(candidate, quadruplet2);
 
             if (!m_ButtonsDict.ContainsKey(tmp))
               scrolldown = true;
@@ -943,12 +943,12 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
         if (quadruplet2 != null)
         {
           result = true;
-          List<GmpBigInteger> l = new List<GmpBigInteger>();
+          List<PrimesBigInteger> l = new List<PrimesBigInteger>();
           l.Add(value);
           l.Add(twin);
           l.Add(candidate);
           l.Add(quadruplet2);
-          l.Sort(new Comparison<GmpBigInteger>(SortCompareGmpBigIntegers));
+          l.Sort(new Comparison<PrimesBigInteger>(SortCompareGmpBigIntegers));
           first = l[0];
           second = l[1];
           third = l[2];
@@ -958,14 +958,14 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       return result;
     }
 
-    private void SetSextupletPrimes(GmpBigInteger value)
+    private void SetSextupletPrimes(PrimesBigInteger value)
     {
-      GmpBigInteger first = null;
-      GmpBigInteger second = null;
-      GmpBigInteger third = null;
-      GmpBigInteger fourth = null;
-      GmpBigInteger fifth = null;
-      GmpBigInteger sixth = null;
+      PrimesBigInteger first = null;
+      PrimesBigInteger second = null;
+      PrimesBigInteger third = null;
+      PrimesBigInteger fourth = null;
+      PrimesBigInteger fifth = null;
+      PrimesBigInteger sixth = null;
 
       bool scrollup = false;
       bool scrolldown = false;
@@ -973,24 +973,24 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       {
         if (!GetQuadrupletPrimes(value, ref second, ref third, ref fourth, ref fifth, ref scrollup, ref scrolldown))
         {
-          value = value.Subtract(GmpBigInteger.Four);
+          value = value.Subtract(PrimesBigInteger.Four);
           if (!GetQuadrupletPrimes(value, ref second, ref third, ref fourth, ref fifth, ref scrollup, ref scrolldown))
           {
-            value = value.Add(GmpBigInteger.Eight);
+            value = value.Add(PrimesBigInteger.Eight);
           }
         }
       }
       if (GetQuadrupletPrimes(value, ref second, ref third, ref fourth, ref fifth, ref scrollup, ref scrolldown))
       {
         first = second.Subtract(m_Start);
-        sixth = fifth.Add(GmpBigInteger.Four);
+        sixth = fifth.Add(PrimesBigInteger.Four);
         if (first.IsPrime(10) && sixth.IsPrime(10))
         {
           if (scrollup) DoAtomicScroll(sixth.Subtract(first));
           if (scrolldown)
           {
-            GmpBigInteger diff = value.Subtract(first);
-            DoAtomicScroll(diff.Multiply(GmpBigInteger.NegativeOne));
+            PrimesBigInteger diff = value.Subtract(first);
+            DoAtomicScroll(diff.Multiply(PrimesBigInteger.NegativeOne));
           }
           try
           {
@@ -1023,7 +1023,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       CancelFactorization();
     }
 
-    private void Factorize(GmpBigInteger value)
+    private void Factorize(PrimesBigInteger value)
     {
       //DoFactorize(value);
       CancelFactorization();
@@ -1033,26 +1033,26 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
     }
     private void DoFactorize(object o)
     {
-      if (o != null && o.GetType() == typeof(GmpBigInteger))
+      if (o != null && o.GetType() == typeof(PrimesBigInteger))
       {
         ControlHandler.SetPropertyValue(lblCalcFactorizationInfo, "Text", Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_factorizationcalculating);
         ControlHandler.SetPropertyValue(lblFactors, "Visibility", Visibility.Visible);
-        GmpBigInteger value = o as GmpBigInteger;
+        PrimesBigInteger value = o as PrimesBigInteger;
         ControlHandler.SetPropertyValue(lblFactors, "Text", " "+value.ToString() + " = ");
-        GmpBigInteger factor = GmpBigInteger.Two;
+        PrimesBigInteger factor = PrimesBigInteger.Two;
         if (!value.IsProbablePrime(10))
         {
-          while (!value.IsProbablePrime(10) && !value.Equals(GmpBigInteger.One))
+          while (!value.IsProbablePrime(10) && !value.Equals(PrimesBigInteger.One))
           {
             string text = ControlHandler.GetPropertyValue(lblFactors, "Text") as string;
-            while (!value.Mod(factor).Equals(GmpBigInteger.Zero))
+            while (!value.Mod(factor).Equals(PrimesBigInteger.Zero))
             {
               factor = factor.NextProbablePrime();
             }
 
             int count = 0;
 
-            while (value.Mod(factor).Equals(GmpBigInteger.Zero) && !value.Equals(GmpBigInteger.One))
+            while (value.Mod(factor).Equals(PrimesBigInteger.Zero) && !value.Equals(PrimesBigInteger.One))
             {
               value = value.Divide(factor);
               count++;
@@ -1065,7 +1065,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
             }
           }
           string txt = (ControlHandler.GetPropertyValue(lblFactors, "Text") as string);
-          if (!value.Equals(GmpBigInteger.One))
+          if (!value.Equals(PrimesBigInteger.One))
           {
             txt += value.ToString();
           }
@@ -1119,7 +1119,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       CancelGoldbach();
     }
 
-    private void CalculateGoldbach(GmpBigInteger value)
+    private void CalculateGoldbach(PrimesBigInteger value)
     {
       CancelGoldbach();
       logGoldbach.Clear();
@@ -1132,31 +1132,31 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
     }
     private void DoCalculateGoldbach(object o)
     {
-      if (o != null && o.GetType() == typeof(GmpBigInteger))
+      if (o != null && o.GetType() == typeof(PrimesBigInteger))
       {
-        GmpBigInteger value = o as GmpBigInteger;
+        PrimesBigInteger value = o as PrimesBigInteger;
         if (value.IsPrime(20))
         {
           logGoldbach.Info(value.ToString() + Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_isprime);
 
         }
-        else if (value.Mod(GmpBigInteger.Two).Equals(GmpBigInteger.Zero))
+        else if (value.Mod(PrimesBigInteger.Two).Equals(PrimesBigInteger.Zero))
         {
           ControlHandler.SetPropertyValue(lblCalcGoldbachInfo, "Visibility", Visibility.Visible);
 
           logGoldbach.Info(value.ToString() + " = ");
           //ControlHandler.SetPropertyValue(lblGoldbach, "Text", "");
           //ControlHandler.SetPropertyValue(lblGoldbach, "Text", value.ToString() + "= ");
-          GmpBigInteger counter = GmpBigInteger.Zero;
+          PrimesBigInteger counter = PrimesBigInteger.Zero;
           if (!value.IsProbablePrime(10))
           {
-            GmpBigInteger sum1 = GmpBigInteger.Two;
-            while (sum1.CompareTo(value.Divide(GmpBigInteger.Two)) <= 0)
+            PrimesBigInteger sum1 = PrimesBigInteger.Two;
+            while (sum1.CompareTo(value.Divide(PrimesBigInteger.Two)) <= 0)
             {
-              GmpBigInteger sum2 = value.Subtract(sum1);
+              PrimesBigInteger sum2 = value.Subtract(sum1);
               if (sum2.IsProbablePrime(10))
               {
-                counter = counter.Add(GmpBigInteger.One);
+                counter = counter.Add(PrimesBigInteger.One);
                 //string text = ControlHandler.GetPropertyValue(lblGoldbach, "Text") as string;
                 //string text += string.Format("{0}+{1} = ", new object[] { sum2.ToString(), sum1.ToString() });
                 //ControlHandler.SetPropertyValue(lblGoldbach, "Text", text);
@@ -1196,7 +1196,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
     }
     #endregion
     #region Counting Primes
-    public void CountPrimes(GmpBigInteger value)
+    public void CountPrimes(PrimesBigInteger value)
     {
       CancelCountPrimes();
       m_CountPrimesThread = new Thread(new ParameterizedThreadStart(new ObjectParameterDelegate(DoCountPrimes)));
@@ -1206,12 +1206,12 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 
     public void DoCountPrimes(object o)
     {
-      if(o!=null && o.GetType()==typeof(GmpBigInteger))
+      if(o!=null && o.GetType()==typeof(PrimesBigInteger))
       {
         FunctionPiX func = new FunctionPiX();
         func.ShowIntermediateResult = true;
         func.Executed += new ObjectParameterDelegate(func_Executed);
-        double erg = func.Execute((o as GmpBigInteger).DoubleValue);
+        double erg = func.Execute((o as PrimesBigInteger).DoubleValue);
         ControlHandler.SetPropertyValue(lblInfoCountPrimes, "Text", StringFormat.FormatDoubleToIntString(erg));
 
       }
@@ -1236,7 +1236,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 
     #region Euler-Phi
 
-    //public void EulerPhi(GmpBigInteger value)
+    //public void EulerPhi(PrimesBigInteger value)
     //{
     //  CancelEulerPhi();
     //  m_EulerPhiThread = new Thread(new ParameterizedThreadStart(DoEulerPhi));
@@ -1245,7 +1245,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 
     //public void DoEulerPhi(object o)
     //{
-    //  GmpBigInteger value = o as GmpBigInteger;
+    //  PrimesBigInteger value = o as PrimesBigInteger;
     //  ControlHandler.SetPropertyValue(lblCalcEulerPhiInfo, "Visibility", Visibility.Visible);
     //  if (value.IsPrime(20))
     //  {
@@ -1256,25 +1256,25 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
     //    sbInfo.Append(" teilerfremden Zahlen ");
     //    sbInfo.Append(value.ToString("D"));
     //    sbInfo.Append(" - 1 = ");
-    //    sbInfo.Append(value.Subtract(GmpBigInteger.One));
+    //    sbInfo.Append(value.Subtract(PrimesBigInteger.One));
     //    logEulerPhi.Info(sbInfo.ToString());
     //    ControlHandler.SetPropertyValue(lblCalcEulerPhiInfo, "Text", sbInfo.ToString());
     //  }
     //  else
     //  {
-    //    GmpBigInteger d = GmpBigInteger.One;
-    //    GmpBigInteger counter = GmpBigInteger.One;
+    //    PrimesBigInteger d = PrimesBigInteger.One;
+    //    PrimesBigInteger counter = PrimesBigInteger.One;
     //    while (d.CompareTo(value) < 0)
     //    {
-    //      if (GmpBigInteger.GCD(d, value).Equals(GmpBigInteger.One))
+    //      if (PrimesBigInteger.GCD(d, value).Equals(PrimesBigInteger.One))
     //      {
     //        logEulerPhi.Info(d.ToString());
-    //        counter = counter.Add(GmpBigInteger.One);
+    //        counter = counter.Add(PrimesBigInteger.One);
     //        ControlHandler.SetPropertyValue(lblCalcEulerPhiInfo, "Text", "(" + counter.ToString("D") + " teilerfremde Zahlen zur aktuellen Zahl " + value.ToString("D") + " gefunden.)");
             
 
     //      }
-    //      d = d.Add(GmpBigInteger.One);
+    //      d = d.Add(PrimesBigInteger.One);
 
     //    }
 
@@ -1330,7 +1330,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 
     #endregion
     #region Misc
-    private int SortCompareGmpBigIntegers(GmpBigInteger a, GmpBigInteger b)
+    private int SortCompareGmpBigIntegers(PrimesBigInteger a, PrimesBigInteger b)
     {
       return a.CompareTo(b);
     }
@@ -1349,10 +1349,10 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       markedNumbers.Clear();
     }
 
-    private bool DictContainsKey(GmpBigInteger key)
+    private bool DictContainsKey(PrimesBigInteger key)
     {
       bool result = false;
-      foreach (GmpBigInteger _key in m_ButtonsDict.Keys)
+      foreach (PrimesBigInteger _key in m_ButtonsDict.Keys)
       {
         if (_key.Equals(key)) result = true;
       }
@@ -1426,7 +1426,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
         DrawButtons();
         SetCountPrimes();
         m_Initialized = true;
-        SetPointerActualNumber(GmpBigInteger.Two);
+        SetPointerActualNumber(PrimesBigInteger.Two);
       }
     }
 
@@ -1436,7 +1436,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       DrawButtons();
 
       Canvas.SetLeft(pFromNumber, 5);
-      GmpBigInteger key = m_Start.Add(GmpBigInteger.ValueOf(m_ButtonsDict.Count - 1));
+      PrimesBigInteger key = m_Start.Add(PrimesBigInteger.ValueOf(m_ButtonsDict.Count - 1));
       if (m_ButtonsDict.ContainsKey(key))
       {
         NumberButton nb = m_ButtonsDict[key];
@@ -1490,7 +1490,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       double x = e.GetPosition(ActuallNumberButtonArea).X;
       int div = (int)(x / m_UnitSize);
       Canvas.SetLeft(pActualNumber, (div*m_UnitSize)+PADDINGLEFT-5);
-      GmpBigInteger val = null;
+      PrimesBigInteger val = null;
       try { val = m_Buttons[div].BINumber; }
       catch { val = m_Start;}
       if (val != null && !val.Equals(m_ActualNumber))

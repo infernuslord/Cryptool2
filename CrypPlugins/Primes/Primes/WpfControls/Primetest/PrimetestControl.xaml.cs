@@ -1,4 +1,4 @@
-﻿
+
 /*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
@@ -214,7 +214,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.WpfControls.Validation;
 using Primes.WpfControls.Validation.Validator;
 using Primes.WpfControls.Components;
@@ -239,7 +239,7 @@ namespace Primes.WpfControls.Primetest
       sieveoferatosthenes.ForceGetInteger += new CallbackDelegateGetInteger(sieveoferatosthenes_ForceGetInteger);
       millerrabin.ForceGetInteger += new CallbackDelegateGetInteger(sieveoferatosthenes_ForceGetInteger);
       fermat.ForceGetInteger += new CallbackDelegateGetInteger(sieveoferatosthenes_ForceGetInteger); 
-      iscNumber.SetText(InputSingleControl.Free, GmpBigInteger.Random(4).ToString());
+      iscNumber.SetText(InputSingleControl.Free, PrimesBigInteger.Random(4).ToString());
       iscNumber.SetText(InputSingleControl.CalcFactor, "1");
       iscNumber.SetText(InputSingleControl.CalcBase, ((new Random().Next() % 5)+1).ToString());
       iscNumber.SetText(InputSingleControl.CalcExp, ((new Random().Next() % 5)+1).ToString());
@@ -250,14 +250,14 @@ namespace Primes.WpfControls.Primetest
 
     void sieveoferatosthenes_ForceGetInteger(ExecuteIntegerDelegate ExecuteDelegate)
     {
-      GmpBigInteger value = iscNumber.GetValue();
+      PrimesBigInteger value = iscNumber.GetValue();
       if (value != null && ExecuteDelegate != null)
       {
         ExecuteDelegate(value);
       }
     }
 
-    void generateNumberControl_OnRandomNumberGenerated(GmpBigInteger value)
+    void generateNumberControl_OnRandomNumberGenerated(PrimesBigInteger value)
     {
       iscNumber.FreeText = value.ToString();
       iscNumber_Execute(value);
@@ -315,7 +315,7 @@ namespace Primes.WpfControls.Primetest
     #endregion
     
 
-    private void iscNumber_Execute(LibGmpWrapper.GmpBigInteger value)
+    private void iscNumber_Execute(PrimesBigInteger value)
     {
       CurrentControl.Execute(value);
     }

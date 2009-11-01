@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -204,19 +204,19 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LibGmpWrapper;
+using Primes.Bignum;
 using System.Windows;
 
 namespace Primes.Library
 {
-  public delegate void GmpBigIntegerParameterDelegate(GmpBigInteger value);
+  public delegate void GmpBigIntegerParameterDelegate(PrimesBigInteger value);
   public delegate void MessageDelegate(string message);
   public delegate void ObjectParameterDelegate(object obj);
   public delegate void DoubleParameterDelegate(Size size);
   public delegate void CallBackDelegate(GmpBigIntegerParameterDelegate del);
   public delegate void Navigate(NavigationCommandType type);
-  public delegate void ExecuteIntegerDelegate(GmpBigInteger value);
-  public delegate void ExecuteIntegerIntervalDelegate(GmpBigInteger from, GmpBigInteger to);
+  public delegate void ExecuteIntegerDelegate(PrimesBigInteger value);
+  public delegate void ExecuteIntegerIntervalDelegate(PrimesBigInteger from, PrimesBigInteger to);
   public delegate void CallbackDelegateGetInteger(ExecuteIntegerDelegate ExecuteDelegate);
   public delegate void CallbackDelegateGetIntegerInterval(ExecuteIntegerIntervalDelegate ExecuteIntervalDelegate);
   public delegate void VoidDelegate();

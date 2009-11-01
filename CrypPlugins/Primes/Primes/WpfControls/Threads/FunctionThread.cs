@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -208,7 +208,7 @@ using Primes.Library.Function;
 using System.Windows.Threading;
 using System.Windows.Media;
 using Primes.WpfControls.PrimesDistribution.Graph;
-using LibGmpWrapper;
+using Primes.Bignum;
 
 namespace Primes.WpfControls.Threads
 {
@@ -220,7 +220,7 @@ namespace Primes.WpfControls.Threads
     public event FunctionEvent OnFunctionStart;
     public event FunctionEvent OnFunctionStop;
     private Dispatcher m_Dispatcher;
-    public GmpBigInteger m_From;
+    public PrimesBigInteger m_From;
 
     public FunctionThread(FunctionExecute functionExecute, DrawLine dl, double xStart, Dispatcher dispatcher)
     {
@@ -251,17 +251,17 @@ namespace Primes.WpfControls.Threads
         {
 
           double x1 = m_XStart;
-          GmpBigInteger incX = GmpBigInteger.One;
-          GmpBigInteger inci = GmpBigInteger.One;
-          GmpBigInteger div = (fe.Range.RangeAmount.CompareTo(GmpBigInteger.ValueOf(10000)) > 0) ? GmpBigInteger.Ten : GmpBigInteger.OneHundret;
-          if (fe.Range.RangeAmount.CompareTo(GmpBigInteger.ValueOf(1000)) > 0 && fe.Function.CanEstimate)
+          PrimesBigInteger incX = PrimesBigInteger.One;
+          PrimesBigInteger inci = PrimesBigInteger.One;
+          PrimesBigInteger div = (fe.Range.RangeAmount.CompareTo(PrimesBigInteger.ValueOf(10000)) > 0) ? PrimesBigInteger.Ten : PrimesBigInteger.OneHundret;
+          if (fe.Range.RangeAmount.CompareTo(PrimesBigInteger.ValueOf(1000)) > 0 && fe.Function.CanEstimate)
           {
             inci = fe.Range.RangeAmount.Divide(div);
             incX = inci;
           }
 
 
-          GmpBigInteger i = m_From;
+          PrimesBigInteger i = m_From;
           while (i.CompareTo(fe.Range.To) <= 0 && !HasTerminateRequest())
           //for (long i = m_From; i <= fe.Range.To * factor || !HasTerminateRequest(); i += inci)
           {
@@ -326,17 +326,17 @@ namespace Primes.WpfControls.Threads
     {
         FunctionExecute fe = m_FunctionExecute;
         double x1 = m_XStart;
-        GmpBigInteger incX = GmpBigInteger.One;
-        GmpBigInteger inci = GmpBigInteger.One;
-        GmpBigInteger div = (fe.Range.RangeAmount.CompareTo(GmpBigInteger.ValueOf(10000)) > 0) ? GmpBigInteger.Ten : GmpBigInteger.OneHundret;
-        if (fe.Range.RangeAmount.CompareTo(GmpBigInteger.ValueOf(1000)) > 0 && fe.Function.CanEstimate)
+        PrimesBigInteger incX = PrimesBigInteger.One;
+        PrimesBigInteger inci = PrimesBigInteger.One;
+        PrimesBigInteger div = (fe.Range.RangeAmount.CompareTo(PrimesBigInteger.ValueOf(10000)) > 0) ? PrimesBigInteger.Ten : PrimesBigInteger.OneHundret;
+        if (fe.Range.RangeAmount.CompareTo(PrimesBigInteger.ValueOf(1000)) > 0 && fe.Function.CanEstimate)
         {
           inci = fe.Range.RangeAmount.Divide(div);
           incX = inci;
         }
 
 
-        GmpBigInteger i = m_From;
+        PrimesBigInteger i = m_From;
         while (i.CompareTo(fe.Range.To) <= 0 && !HasTerminateRequest())
         {
           Boolean awokenByTerminate = SuspendIfNeeded();

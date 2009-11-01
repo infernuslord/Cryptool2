@@ -33,10 +33,11 @@
         <Hyperlink Name="lnkFacBruteForce" Click="lnk_Click" >
           <x:Static Member="lang:Navigation.bruteforce"></x:Static>
           </Hyperlink>
-        <Hyperlink Name="lnkFacQS" Click="lnk_Click">
+          <!--
+        <Hyperlink Name="lnkFacQS" Click="lnk_Click" s>
           <x:Static Member="lang:Navigation.qs"></x:Static>
           </Hyperlink>
-
+          -->
       </TreeViewItem>
       <TreeViewItem Header="{x:Static lang:Navigation.primetest}" IsExpanded="True" Expanded="TreeViewItem_Expanded" Collapsed="TreeViewItem_Expanded">
         <Hyperlink Name="lnkTestEratothenes" Click="lnk_Click">

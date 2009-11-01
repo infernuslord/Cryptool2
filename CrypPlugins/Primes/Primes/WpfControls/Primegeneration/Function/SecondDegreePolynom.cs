@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -209,7 +209,7 @@ using System.Windows.Media.Imaging;
 using System.Reflection;
 using System.Resources;
 using Primes.WpfControls.Components;
-using LibGmpWrapper;
+using Primes.Bignum;
 
 namespace Primes.WpfControls.Primegeneration.Function
 {
@@ -224,18 +224,18 @@ namespace Primes.WpfControls.Primegeneration.Function
     #endregion
     #region Properties
     private System.Windows.Controls.Image m_Image;
-    protected GmpBigInteger a;
-    protected GmpBigInteger b;
-    protected GmpBigInteger c;
+    protected PrimesBigInteger a;
+    protected PrimesBigInteger b;
+    protected PrimesBigInteger c;
     protected IDictionary<string, PolynomFactor> m_list;
     protected string m_StrImageUri;
     #endregion
 
     public SecondDegreePolynom()
     {
-      a = GmpBigInteger.One;
-      b = GmpBigInteger.One;
-      c = GmpBigInteger.Zero;
+      a = PrimesBigInteger.One;
+      b = PrimesBigInteger.One;
+      c = PrimesBigInteger.Zero;
       m_list = new Dictionary<string, PolynomFactor>();
       m_list.Add(A,new PolynomFactor(A, a));
       m_list.Add(B,new PolynomFactor(B, b));
@@ -277,15 +277,15 @@ namespace Primes.WpfControls.Primegeneration.Function
 
     #region IExpression Members
 
-    public virtual LibGmpWrapper.GmpBigInteger Execute(LibGmpWrapper.GmpBigInteger input)
+    public virtual PrimesBigInteger Execute(PrimesBigInteger input)
     {
-      GmpBigInteger a = (m_list[A] as PolynomFactor). Value;
-      GmpBigInteger b = (m_list[B] as PolynomFactor).Value;
-      GmpBigInteger c = (m_list[C] as PolynomFactor).Value;
+      PrimesBigInteger a = (m_list[A] as PolynomFactor). Value;
+      PrimesBigInteger b = (m_list[B] as PolynomFactor).Value;
+      PrimesBigInteger c = (m_list[C] as PolynomFactor).Value;
       return (input.Pow(2).Multiply(a).Add(b.Multiply(input))).Add(c);
     }
 
-    public void SetParameter(string name, GmpBigInteger value)
+    public void SetParameter(string name, PrimesBigInteger value)
     {
       if (A.Equals(name)) (m_list[A] as PolynomFactor).Value = value;
       else if (B.Equals(name)) (m_list[B] as PolynomFactor).Value = value;
@@ -308,9 +308,9 @@ namespace Primes.WpfControls.Primegeneration.Function
 
     public void Reset()
     {
-      a = GmpBigInteger.One;
-      b = GmpBigInteger.One;
-      c = GmpBigInteger.Zero;
+      a = PrimesBigInteger.One;
+      b = PrimesBigInteger.One;
+      c = PrimesBigInteger.Zero;
     }
 
     #endregion

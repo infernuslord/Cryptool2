@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -214,7 +214,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.Library;
 using Primes.WpfControls.Components;
 using Primes.WpfControls.Validation.Validator;
@@ -239,7 +239,7 @@ namespace Primes.WpfControls.Factorization.QS
     private QSData m_Data;
 
     private ManualResetEvent resetEvent;
-    private IDictionary<GmpBigInteger, GmpBigInteger> m_Factors;
+    private IDictionary<PrimesBigInteger, PrimesBigInteger> m_Factors;
 
     private bool stepwise;
     public QuadraticSieveControl()
@@ -261,7 +261,7 @@ namespace Primes.WpfControls.Factorization.QS
       m_Step4.PreStep();
 
       m_Data = new QSData();
-      m_Factors = new Dictionary<GmpBigInteger, GmpBigInteger>();
+      m_Factors = new Dictionary<PrimesBigInteger, PrimesBigInteger>();
       //m_Data.From = -41;
       //m_Data.To = 41;
     }
@@ -269,9 +269,9 @@ namespace Primes.WpfControls.Factorization.QS
 
     #region IFactorizer Members
 
-    public void Execute(GmpBigInteger from, GmpBigInteger to) { }
+    public void Execute(PrimesBigInteger from, PrimesBigInteger to) { }
 
-    public void Execute(LibGmpWrapper.GmpBigInteger value)
+    public void Execute(PrimesBigInteger value)
     {
       m_Value = value.LongValue;
       m_Data.N = m_Value;
@@ -481,13 +481,13 @@ namespace Primes.WpfControls.Factorization.QS
 
     void m_Step4_FoundFactor(object o)
     {
-      if (o != null && o.GetType() == typeof(GmpBigInteger))
+      if (o != null && o.GetType() == typeof(PrimesBigInteger))
       {
-        GmpBigInteger value = o as GmpBigInteger;
+        PrimesBigInteger value = o as PrimesBigInteger;
         if (!m_Factors.ContainsKey(value))
-          m_Factors.Add(value, GmpBigInteger.Zero);
-        GmpBigInteger tmp = m_Factors[value];
-        m_Factors[value] = tmp.Add(GmpBigInteger.One);
+          m_Factors.Add(value, PrimesBigInteger.Zero);
+        PrimesBigInteger tmp = m_Factors[value];
+        m_Factors[value] = tmp.Add(PrimesBigInteger.One);
       }
       FireFoundFactorEvent(m_Factors.GetEnumerator());
     }
@@ -557,9 +557,9 @@ namespace Primes.WpfControls.Factorization.QS
     #region IFactorizer Members
 
 
-    public Primes.WpfControls.Validation.IValidator<GmpBigInteger> Validator
+    public Primes.WpfControls.Validation.IValidator<PrimesBigInteger> Validator
     {
-      get { return new BigIntegerMinValueMaxValueValidator(null, GmpBigInteger.Two, GmpBigInteger.ValueOf(10000)); }
+      get { return new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.Two, PrimesBigInteger.ValueOf(10000)); }
     }
 
     #endregion

@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -216,7 +216,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Primes.WpfControls.Validation;
 using Primes.WpfControls.Validation.Validator;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.WpfControls.Components;
 using Primes.WpfControls.Primetest;
 
@@ -239,8 +239,8 @@ namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
     private void InitInputSingleControl()
     {
 
-      //InputValidator<GmpBigInteger> iv = new InputValidator<GmpBigInteger>();
-      //iv.Validator = new BigIntegerMinValueMaxValueValidator(null,GmpBigInteger.Seven,GmpBigInteger.ValueOf(10000));
+      //InputValidator<PrimesBigInteger> iv = new InputValidator<PrimesBigInteger>();
+      //iv.Validator = new BigIntegerMinValueMaxValueValidator(null,PrimesBigInteger.Seven,PrimesBigInteger.ValueOf(10000));
 
       //isc.AddInputValidator(InputSingleControl.Free, iv);
     }
@@ -265,9 +265,9 @@ namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
 
     #region IPrimeTest Members
 
-    public IValidator<GmpBigInteger> Validator
+    public IValidator<PrimesBigInteger> Validator
     {
-      get { return new BigIntegerMinValueMaxValueValidator(null, GmpBigInteger.Seven, GmpBigInteger.ValueOf(10000)); }
+      get { return new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.Seven, PrimesBigInteger.ValueOf(10000)); }
     }
 
     #endregion
@@ -304,7 +304,7 @@ namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
       if (ForceGetIntegerInterval != null) ForceGetIntegerInterval(new Primes.Library.ExecuteIntegerDelegate(Execute));
     }
 
-    public void Execute(GmpBigInteger value)
+    public void Execute(PrimesBigInteger value)
     {
       soa.Execute(value);
     }
@@ -315,7 +315,7 @@ namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
       
     }
 
-    public void Execute(GmpBigInteger from, GmpBigInteger to)
+    public void Execute(PrimesBigInteger from, PrimesBigInteger to)
     {
       
     }

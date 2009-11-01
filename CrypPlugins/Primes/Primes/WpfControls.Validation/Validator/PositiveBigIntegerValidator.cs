@@ -205,13 +205,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using LibGmpWrapper;
+using Primes.Bignum;
 
 namespace Primes.WpfControls.Validation.Validator
 {
   public class PositiveBigIntegerValidator : BigIntegerMinValueValidator
   {
-    public PositiveBigIntegerValidator(object value) : base(value, GmpBigInteger.ValueOf(0)) { }
-    public PositiveBigIntegerValidator() : base(null, GmpBigInteger.ValueOf(0)) { }
+    public PositiveBigIntegerValidator(object value) : base(value, PrimesBigInteger.ValueOf(0)) { }
+    public PositiveBigIntegerValidator() : base(null, PrimesBigInteger.ValueOf(0)) { }
   }
 }

@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -206,7 +206,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using LibGmpWrapper;
+using Primes.Bignum;
 
 namespace Primes.WpfControls.Factorization.QS
 {
@@ -215,15 +215,15 @@ namespace Primes.WpfControls.Factorization.QS
 
     public QSData()
     {
-      m_IgnoreQuadrats = new List<GmpBigInteger>();
+      m_IgnoreQuadrats = new List<PrimesBigInteger>();
     }
     #region Properties
 
     public IList<int> CalculateFactorBase()
     {
       List<int> result = new List<int>();
-      GmpBigInteger b = GmpBigInteger.ValueOf(m_B);
-      GmpBigInteger c = GmpBigInteger.One;
+      PrimesBigInteger b = PrimesBigInteger.ValueOf(m_B);
+      PrimesBigInteger c = PrimesBigInteger.One;
       while (c.CompareTo(b) <= 0)
       {
         c = c.NextProbablePrime();
@@ -283,14 +283,14 @@ namespace Primes.WpfControls.Factorization.QS
     }
 
     #endregion
-    private IList<GmpBigInteger> m_IgnoreQuadrats;
+    private IList<PrimesBigInteger> m_IgnoreQuadrats;
 
-    public void AddIgnoreQuadrat(GmpBigInteger value)
+    public void AddIgnoreQuadrat(PrimesBigInteger value)
     {
       m_IgnoreQuadrats.Add(value);
     }
 
-    public bool IsIgnored(GmpBigInteger value)
+    public bool IsIgnored(PrimesBigInteger value)
     {
       return m_IgnoreQuadrats.Contains(value);
     }

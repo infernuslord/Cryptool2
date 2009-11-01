@@ -207,18 +207,18 @@ using System.Text;
 using Primes.WpfControls.Components;
 
 using System.Threading;
-using LibGmpWrapper;
+using Primes.Bignum;
 
 namespace Primes.WpfControls.Threads
 {
   public class FindPrimesThread : SuspendableThread
   {
     #region Constructors
-    public FindPrimesThread(GmpBigInteger max, EventWaitHandle finished):
+    public FindPrimesThread(PrimesBigInteger max, EventWaitHandle finished):
       base()
     {
       m_Max = max;
-      m_Primes = new List<GmpBigInteger>();
+      m_Primes = new List<PrimesBigInteger>();
       base.m_Priority = System.Threading.ThreadPriority.Highest;
       m_Finished = finished;
     }
@@ -226,16 +226,16 @@ namespace Primes.WpfControls.Threads
 
     #region Properties
 
-    private IList<GmpBigInteger> m_Primes;
+    private IList<PrimesBigInteger> m_Primes;
 
-    public IList<GmpBigInteger> Primes
+    public IList<PrimesBigInteger> Primes
     {
       get { return m_Primes; }
       set { m_Primes = value; }
     }
-    private GmpBigInteger m_Max;
+    private PrimesBigInteger m_Max;
 
-    public GmpBigInteger Max
+    public PrimesBigInteger Max
     {
       get { return m_Max; }
       set { m_Max = value; }
@@ -252,7 +252,7 @@ namespace Primes.WpfControls.Threads
     protected override void OnDoWork()
     {
       m_Finished.Reset();
-      GmpBigInteger value = GmpBigInteger.Two;
+      PrimesBigInteger value = PrimesBigInteger.Two;
       while (value.CompareTo(m_Max) <= 0)
       {
         m_Primes.Add(value);

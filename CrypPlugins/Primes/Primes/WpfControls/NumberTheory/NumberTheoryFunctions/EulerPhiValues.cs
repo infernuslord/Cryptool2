@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -207,7 +207,7 @@ using System.Text;
 using Primes.WpfControls.Components;
 using System.Windows.Controls;
 using System.Threading;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.Library;
 using System.Windows;
 using System.Diagnostics;
@@ -222,27 +222,27 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
     protected override void DoExecute()
     {
       FireOnStart();
-      GmpBigInteger from = m_From;
+      PrimesBigInteger from = m_From;
       while (from.CompareTo(m_To) <= 0)
       {
         StringBuilder sbMessage = new StringBuilder("[");
-        GmpBigInteger d = GmpBigInteger.One;
+        PrimesBigInteger d = PrimesBigInteger.One;
         while (d.CompareTo(from) < 0)
         {
-          if (GmpBigInteger.GCD(d, from).Equals(GmpBigInteger.One))
+          if (PrimesBigInteger.GCD(d, from).Equals(PrimesBigInteger.One))
           {
             if(sbMessage.Length>1)  
               sbMessage.Append(", ");
             sbMessage.Append(d.ToString());
             FireOnMessage(this, from, sbMessage.ToString());
           }
-          d = d.Add(GmpBigInteger.One);
+          d = d.Add(PrimesBigInteger.One);
 
         }
         sbMessage.Append("]");
         FireOnMessage(this, from, sbMessage.ToString());
 
-        from = from.Add(GmpBigInteger.One);
+        from = from.Add(PrimesBigInteger.One);
       }
 
 

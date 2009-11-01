@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -204,15 +204,15 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LibGmpWrapper;
+using Primes.Bignum;
 using System.Threading;
 using Primes.WpfControls.Components;
 using Primes.Library;
 
 namespace Primes.WpfControls.Primegeneration.Function
 {
-  public delegate void ExpressionResultDelegate(GmpBigInteger result, GmpBigInteger input);
-  public delegate void PolynomeRangeResultDelegate(IPolynom p, GmpBigInteger primesCount, GmpBigInteger primesCountReal, GmpBigInteger count);
+  public delegate void ExpressionResultDelegate(PrimesBigInteger result, PrimesBigInteger input);
+  public delegate void PolynomeRangeResultDelegate(IPolynom p, PrimesBigInteger primesCount, PrimesBigInteger primesCountReal, PrimesBigInteger count);
   public class ExpressionExecuter
   {
     protected Thread m_Thread;
@@ -220,16 +220,16 @@ namespace Primes.WpfControls.Primegeneration.Function
     public event VoidDelegate Start;
     public event VoidDelegate Stop;
 
-    private GmpBigInteger m_From;
+    private PrimesBigInteger m_From;
 
-    public GmpBigInteger From
+    public PrimesBigInteger From
     {
       get { return m_From; }
       set { m_From = value; }
     }
-    private GmpBigInteger m_To;
+    private PrimesBigInteger m_To;
 
-    public GmpBigInteger To
+    public PrimesBigInteger To
     {
       get { return m_To; }
       set { m_To = value; }
@@ -243,7 +243,7 @@ namespace Primes.WpfControls.Primegeneration.Function
       set { m_Function = value; }
     }
 
-    public virtual void Execute(GmpBigInteger from, GmpBigInteger to)
+    public virtual void Execute(PrimesBigInteger from, PrimesBigInteger to)
     {
       m_To = to;
       m_From = from;
@@ -279,9 +279,9 @@ namespace Primes.WpfControls.Primegeneration.Function
       if (Start != null) Start();
       while (m_From.CompareTo(m_To) <= 0)
       {
-        GmpBigInteger result = m_Function.Execute(m_From);
+        PrimesBigInteger result = m_Function.Execute(m_From);
         if (FunctionResult != null) FunctionResult(result, m_From);
-        m_From = m_From.Add(GmpBigInteger.One);
+        m_From = m_From.Add(PrimesBigInteger.One);
       }
       if (Stop != null) Stop();
       Cancel();
@@ -307,16 +307,16 @@ namespace Primes.WpfControls.Primegeneration.Function
       set { m_PolynomRangeExecuterMode = value; }
     }
 
-    private GmpBigInteger m_NumberOfCalculations;
+    private PrimesBigInteger m_NumberOfCalculations;
 
-    public GmpBigInteger NumberOfCalculations
+    public PrimesBigInteger NumberOfCalculations
     {
       get { return m_NumberOfCalculations; }
       set { m_NumberOfCalculations = value; }
     }
-    private GmpBigInteger m_NumberOfFormulars;
+    private PrimesBigInteger m_NumberOfFormulars;
 
-    public GmpBigInteger NumberOfFormulars
+    public PrimesBigInteger NumberOfFormulars
     {
       get { return m_NumberOfFormulars; }
       set { m_NumberOfFormulars = value; }
@@ -332,7 +332,7 @@ namespace Primes.WpfControls.Primegeneration.Function
     #endregion
 
     #region override ExpressionExecuter 
-    public override void Execute(GmpBigInteger from, GmpBigInteger to)
+    public override void Execute(PrimesBigInteger from, PrimesBigInteger to)
     {
       Execute();
     }
@@ -369,39 +369,39 @@ namespace Primes.WpfControls.Primegeneration.Function
 
     //private void ComputeRandom()
     //{
-    //  GmpBigInteger i = GmpBigInteger.One;
+    //  PrimesBigInteger i = PrimesBigInteger.One;
     //  while (i.CompareTo(this.NumberOfFormulars) < 0)
     //  {
-    //    GmpBigInteger j = GmpBigInteger.One;
-    //    GmpBigInteger to = this.NumberOfCalculations;
-    //    if (NumberOfCalculations.Equals(GmpBigInteger.NaN))
+    //    PrimesBigInteger j = PrimesBigInteger.One;
+    //    PrimesBigInteger to = this.NumberOfCalculations;
+    //    if (NumberOfCalculations.Equals(PrimesBigInteger.NaN))
     //    {
     //      j = From;
     //      to = To;
 
     //    }
-    //    GmpBigInteger counter = GmpBigInteger.Zero;
-    //    GmpBigInteger primesCounter = GmpBigInteger.Zero;
+    //    PrimesBigInteger counter = PrimesBigInteger.Zero;
+    //    PrimesBigInteger primesCounter = PrimesBigInteger.Zero;
     //    while(j.CompareTo(to)<=0){
     //      foreach (KeyValuePair<string, Range> kvp in this.Parameters)
     //      {
-    //        GmpBigInteger value = GmpBigInteger.RandomM(kvp.Value.From.Add(kvp.Value.RangeAmount)).Add(GmpBigInteger.One);
+    //        PrimesBigInteger value = PrimesBigInteger.RandomM(kvp.Value.From.Add(kvp.Value.RangeAmount)).Add(PrimesBigInteger.One);
     //        Function.SetParameter(kvp.Key, value);
     //      }
-    //      GmpBigInteger input = j;
-    //      if (!NumberOfCalculations.Equals(GmpBigInteger.NaN))
+    //      PrimesBigInteger input = j;
+    //      if (!NumberOfCalculations.Equals(PrimesBigInteger.NaN))
     //      {
-    //        input = GmpBigInteger.RandomM(NumberOfCalculations);
+    //        input = PrimesBigInteger.RandomM(NumberOfCalculations);
     //      }
-    //      GmpBigInteger res = Function.Execute(input);
+    //      PrimesBigInteger res = Function.Execute(input);
     //      if(res.IsPrime(10)){
-    //        primesCounter = primesCounter.Add(GmpBigInteger.One);
+    //        primesCounter = primesCounter.Add(PrimesBigInteger.One);
     //      }
-    //      j = j.Add(GmpBigInteger.One);
-    //      counter = counter.Add(GmpBigInteger.One);
+    //      j = j.Add(PrimesBigInteger.One);
+    //      counter = counter.Add(PrimesBigInteger.One);
     //    }
     //    if (this.FunctionResult != null) this.FunctionResult(this.Function as IPolynom, primesCounter, counter);
-    //    i = i.Add(GmpBigInteger.One);
+    //    i = i.Add(PrimesBigInteger.One);
 
     //  }
     //}
@@ -410,51 +410,51 @@ namespace Primes.WpfControls.Primegeneration.Function
     {
       Random r = new Random();
 
-      GmpBigInteger i = GmpBigInteger.One;
-      GmpBigInteger j = null;
-      GmpBigInteger to = null;
-      GmpBigInteger counter = null;
-      GmpBigInteger primesCounter = null;
-      IList<GmpBigInteger> m_PrimeList = new List<GmpBigInteger>();
+      PrimesBigInteger i = PrimesBigInteger.One;
+      PrimesBigInteger j = null;
+      PrimesBigInteger to = null;
+      PrimesBigInteger counter = null;
+      PrimesBigInteger primesCounter = null;
+      IList<PrimesBigInteger> m_PrimeList = new List<PrimesBigInteger>();
       while (i.CompareTo(this.NumberOfFormulars) <= 0)
       {
-        j = GmpBigInteger.One;
+        j = PrimesBigInteger.One;
         to = this.NumberOfCalculations;
-        if (NumberOfCalculations.Equals(GmpBigInteger.NaN))
+        if (NumberOfCalculations.Equals(PrimesBigInteger.NaN))
         {
           j = From;
           to = To;
 
         }
-        counter = GmpBigInteger.Zero;
-        primesCounter = GmpBigInteger.Zero;
+        counter = PrimesBigInteger.Zero;
+        primesCounter = PrimesBigInteger.Zero;
         foreach (KeyValuePair<string, Range> kvp in this.Parameters)
         {
-          GmpBigInteger mod = kvp.Value.To.Subtract(kvp.Value.From).Add(GmpBigInteger.One);
-          GmpBigInteger value = GmpBigInteger.ValueOf(r.Next(int.MaxValue)).Mod(mod).Add(kvp.Value.From);//GmpBigInteger.RandomM(kvp.Value.From.Add(kvp.Value.RangeAmount)).Add(GmpBigInteger.One);
+          PrimesBigInteger mod = kvp.Value.To.Subtract(kvp.Value.From).Add(PrimesBigInteger.One);
+          PrimesBigInteger value = PrimesBigInteger.ValueOf(r.Next(int.MaxValue)).Mod(mod).Add(kvp.Value.From);//PrimesBigInteger.RandomM(kvp.Value.From.Add(kvp.Value.RangeAmount)).Add(PrimesBigInteger.One);
           Function.SetParameter(kvp.Key, value);
         }
         while (j.CompareTo(to) <= 0)
         {
-          GmpBigInteger input = j;
-          if (!NumberOfCalculations.Equals(GmpBigInteger.NaN))
+          PrimesBigInteger input = j;
+          if (!NumberOfCalculations.Equals(PrimesBigInteger.NaN))
           {
-            input = GmpBigInteger.ValueOf(r.Next(int.MaxValue)).Mod(NumberOfCalculations);//GmpBigInteger.RandomM(NumberOfCalculations);
+            input = PrimesBigInteger.ValueOf(r.Next(int.MaxValue)).Mod(NumberOfCalculations);//PrimesBigInteger.RandomM(NumberOfCalculations);
           }
-          GmpBigInteger res = Function.Execute(input);
-          if (res.CompareTo(GmpBigInteger.Zero)>=0 && res.IsPrime(10))
+          PrimesBigInteger res = Function.Execute(input);
+          if (res.CompareTo(PrimesBigInteger.Zero)>=0 && res.IsPrime(10))
           {
             if (!m_PrimeList.Contains(res))
             {
               m_PrimeList.Add(res);
             }
-            primesCounter = primesCounter.Add(GmpBigInteger.One);
+            primesCounter = primesCounter.Add(PrimesBigInteger.One);
           }
-          j = j.Add(GmpBigInteger.One);
-          counter = counter.Add(GmpBigInteger.One);
+          j = j.Add(PrimesBigInteger.One);
+          counter = counter.Add(PrimesBigInteger.One);
         }
-        if (this.FunctionResult != null) this.FunctionResult(this.Function as IPolynom, primesCounter, GmpBigInteger.ValueOf(m_PrimeList.Count), counter);
-        i = i.Add(GmpBigInteger.One);
+        if (this.FunctionResult != null) this.FunctionResult(this.Function as IPolynom, primesCounter, PrimesBigInteger.ValueOf(m_PrimeList.Count), counter);
+        i = i.Add(PrimesBigInteger.One);
 
       }
     }
@@ -463,44 +463,44 @@ namespace Primes.WpfControls.Primegeneration.Function
       Range rangea = this.Parameters[0].Value;
       Range rangeb = this.Parameters[1].Value;
       Range rangec = this.Parameters[2].Value;
-      GmpBigInteger ca = rangea.From;
-      GmpBigInteger counter = GmpBigInteger.Zero;
+      PrimesBigInteger ca = rangea.From;
+      PrimesBigInteger counter = PrimesBigInteger.Zero;
       while (ca.CompareTo(rangea.To) <= 0)
       {
         m_Function.SetParameter("a", ca);
-        GmpBigInteger cb = rangeb.From;
+        PrimesBigInteger cb = rangeb.From;
         while (cb.CompareTo(rangeb.To) <= 0)
         {
           m_Function.SetParameter("b", cb);
-          GmpBigInteger cc = rangec.From;
+          PrimesBigInteger cc = rangec.From;
           while (cc.CompareTo(rangec.To) <= 0)
           {
             m_Function.SetParameter("c", cc);
 
-            GmpBigInteger from = From;
-            GmpBigInteger primesCounter = GmpBigInteger.Zero;
-            IList<GmpBigInteger> m_PrimeList = new List<GmpBigInteger>();
+            PrimesBigInteger from = From;
+            PrimesBigInteger primesCounter = PrimesBigInteger.Zero;
+            IList<PrimesBigInteger> m_PrimeList = new List<PrimesBigInteger>();
             while (from.CompareTo(To) <= 0)
             {
-              GmpBigInteger res = Function.Execute(from);
+              PrimesBigInteger res = Function.Execute(from);
               if (res.IsPrime(10))
               {
                 if (!m_PrimeList.Contains(res))
                 {
                   m_PrimeList.Add(res);
                 }
-                primesCounter = primesCounter.Add(GmpBigInteger.One);
+                primesCounter = primesCounter.Add(PrimesBigInteger.One);
               }
-              counter = counter.Add(GmpBigInteger.One);
-              from = from.Add(GmpBigInteger.One);
+              counter = counter.Add(PrimesBigInteger.One);
+              from = from.Add(PrimesBigInteger.One);
             }
-            if (this.FunctionResult != null) this.FunctionResult(this.Function as IPolynom, primesCounter,GmpBigInteger.ValueOf(m_PrimeList.Count), counter);
+            if (this.FunctionResult != null) this.FunctionResult(this.Function as IPolynom, primesCounter,PrimesBigInteger.ValueOf(m_PrimeList.Count), counter);
 
-            cc = cc.Add(GmpBigInteger.One);
+            cc = cc.Add(PrimesBigInteger.One);
           }
-          cb = cb.Add(GmpBigInteger.One);
+          cb = cb.Add(PrimesBigInteger.One);
         }
-        ca = ca.Add(GmpBigInteger.One);
+        ca = ca.Add(PrimesBigInteger.One);
       }
 
     }

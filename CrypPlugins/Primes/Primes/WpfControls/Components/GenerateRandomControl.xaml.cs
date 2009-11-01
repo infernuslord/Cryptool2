@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -213,7 +213,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.Library;
 
 namespace Primes.WpfControls.Components
@@ -231,7 +231,7 @@ namespace Primes.WpfControls.Components
     }
 
 
-    private void FireOnRandomNumberGenerated(GmpBigInteger value)
+    private void FireOnRandomNumberGenerated(PrimesBigInteger value)
     {
       if (OnRandomNumberGenerated != null)
         OnRandomNumberGenerated(value);
@@ -272,26 +272,26 @@ namespace Primes.WpfControls.Components
     }
     private void miIntegerManyFactors_Click(object sender, RoutedEventArgs e)
     {
-      GmpBigInteger value = null;
+      PrimesBigInteger value = null;
       if (sender == miBigInteger)
       {
-        value = GmpBigInteger.Random(100);
+        value = PrimesBigInteger.Random(100);
         while (value.IsProbablePrime(20))
-          value = GmpBigInteger.Random(100);
-        if (value.Mod(GmpBigInteger.Two).Equals(GmpBigInteger.Zero)) value = value.Add(GmpBigInteger.One);
+          value = PrimesBigInteger.Random(100);
+        if (value.Mod(PrimesBigInteger.Two).Equals(PrimesBigInteger.Zero)) value = value.Add(PrimesBigInteger.One);
       }
       else if (sender == miIntegerManyFactors)
       {
         Random r = new Random();
-        value = GmpBigInteger.ValueOf(r.Next(999)).NextProbablePrime();
+        value = PrimesBigInteger.ValueOf(r.Next(999)).NextProbablePrime();
         for (int i = 0; i < 19; i++)
         {
-          value = value.Multiply(GmpBigInteger.ValueOf(r.Next(999)).NextProbablePrime());
+          value = value.Multiply(PrimesBigInteger.ValueOf(r.Next(999)).NextProbablePrime());
         }
       }
       else if (sender == miTowBigFactors)
       {
-        value = GmpBigInteger.Random(15).NextProbablePrime().Multiply(GmpBigInteger.Random(15).NextProbablePrime());
+        value = PrimesBigInteger.Random(15).NextProbablePrime().Multiply(PrimesBigInteger.Random(15).NextProbablePrime());
       }
       if (value != null)
         FireOnRandomNumberGenerated(value);

@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -216,7 +216,7 @@ using System.Windows.Shapes;
 using System.Threading;
 using Primes.WpfControls.Components;
 using Primes.WpfControls.Primegeneration.Function;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.WpfControls.Validation;
 using Primes.WpfControls.Validation.Validator;
 using Primes.WpfControls.Validation.Advisers;
@@ -279,7 +279,7 @@ namespace Primes.WpfControls.Primegeneration
     {
       int row = log.NewLine();
 
-      bool rndExecution = m_PolynomRangeExecuter.From.Equals(GmpBigInteger.NaN) && m_PolynomRangeExecuter.To.Equals(GmpBigInteger.NaN);
+      bool rndExecution = m_PolynomRangeExecuter.From.Equals(PrimesBigInteger.NaN) && m_PolynomRangeExecuter.To.Equals(PrimesBigInteger.NaN);
       if (!rndExecution)
       {
         log.Info(
@@ -314,7 +314,7 @@ namespace Primes.WpfControls.Primegeneration
         log.Info(
           string.Format(
             Primes.Resources.lang.WpfControls.Generation.PrimesGeneration.statAvgCountPrimes,
-            new object[] { m_PrimesCounter.Divide(m_ResultCounter).ToString(), m_PrimesCounter.Multiply(GmpBigInteger.ValueOf(100)).Divide(m_ResultCounter).ToString() }), 0, row);
+            new object[] { m_PrimesCounter.Divide(m_ResultCounter).ToString(), m_PrimesCounter.Multiply(PrimesBigInteger.ValueOf(100)).Divide(m_ResultCounter).ToString() }), 0, row);
       }
       row = log.NewLine();
       if (!rndExecution)
@@ -377,9 +377,9 @@ namespace Primes.WpfControls.Primegeneration
 
       m_ListMostPrimes.Clear();
       m_ListLeastPrimes.Clear();
-      m_ResultCounter = GmpBigInteger.Zero;
-      m_PrimesCounter = GmpBigInteger.Zero;
-      m_PolynomCounter = GmpBigInteger.Zero;
+      m_ResultCounter = PrimesBigInteger.Zero;
+      m_PrimesCounter = PrimesBigInteger.Zero;
+      m_PolynomCounter = PrimesBigInteger.Zero;
 
       m_MostPrimes = null;
       m_LeastPrimes = null;
@@ -394,10 +394,10 @@ namespace Primes.WpfControls.Primegeneration
 
     void m_InputControlPolynomRange_Execute(
       IPolynom p,
-      GmpBigInteger from,
-      GmpBigInteger to,
-      GmpBigInteger numberOfCalculations, 
-      GmpBigInteger numberOfFormulars, 
+      PrimesBigInteger from,
+      PrimesBigInteger to,
+      PrimesBigInteger numberOfCalculations, 
+      PrimesBigInteger numberOfFormulars, 
       IList<KeyValuePair<string, Primes.Library.Range>> parameters)
     {
       log.Clear();
@@ -421,21 +421,21 @@ namespace Primes.WpfControls.Primegeneration
     private IList<IPolynom> m_ListMostPrimes = new List<IPolynom>();
     private IList<IPolynom> m_ListMostPrimesAbsolut = new List<IPolynom>();
     private IList<IPolynom> m_ListLeastPrimes = new List<IPolynom>();
-    private GmpBigInteger m_ResultCounter = GmpBigInteger.Zero;
-    private GmpBigInteger m_PrimesCounter = GmpBigInteger.Zero;
-    private GmpBigInteger m_PolynomCounter = GmpBigInteger.Zero;
+    private PrimesBigInteger m_ResultCounter = PrimesBigInteger.Zero;
+    private PrimesBigInteger m_PrimesCounter = PrimesBigInteger.Zero;
+    private PrimesBigInteger m_PolynomCounter = PrimesBigInteger.Zero;
 
-    private GmpBigInteger m_MostPrimes = null;
-    private GmpBigInteger m_MostPrimesAbsolut = null;
+    private PrimesBigInteger m_MostPrimes = null;
+    private PrimesBigInteger m_MostPrimesAbsolut = null;
 
-    private GmpBigInteger m_LeastPrimes = null;
+    private PrimesBigInteger m_LeastPrimes = null;
 
-    void m_PolynomRangeExecuter_FunctionResult(IPolynom p, GmpBigInteger primesCount, GmpBigInteger primesCountReal, GmpBigInteger counter)
+    void m_PolynomRangeExecuter_FunctionResult(IPolynom p, PrimesBigInteger primesCount, PrimesBigInteger primesCountReal, PrimesBigInteger counter)
     {
       int row = log.NewLine();
       log.Info(p.ToString(), 0, row);
-      GmpBigInteger percent = primesCount.Multiply(GmpBigInteger.ValueOf(100)).Divide(counter);
-      GmpBigInteger percentAbsolut = primesCountReal.Multiply(GmpBigInteger.ValueOf(100)).Divide(counter);
+      PrimesBigInteger percent = primesCount.Multiply(PrimesBigInteger.ValueOf(100)).Divide(counter);
+      PrimesBigInteger percentAbsolut = primesCountReal.Multiply(PrimesBigInteger.ValueOf(100)).Divide(counter);
 
       /*Most Primes*/
       if (m_MostPrimes == null)
@@ -507,7 +507,7 @@ namespace Primes.WpfControls.Primegeneration
 
       m_ResultCounter = m_ResultCounter.Add(counter);
       m_PrimesCounter = m_PrimesCounter.Add(primesCount);
-      m_PolynomCounter = m_PolynomCounter.Add(GmpBigInteger.One);
+      m_PolynomCounter = m_PolynomCounter.Add(PrimesBigInteger.One);
       log.Info(string.Format(Primes.Resources.lang.WpfControls.Generation.PrimesGeneration.statGenerated, new object[] { primesCount, percent, primesCountReal }), 1, row);
       
     }
@@ -539,7 +539,7 @@ namespace Primes.WpfControls.Primegeneration
       PrintPolynomStats();
     }
 
-    void m_InputControlPolynom_Execute(GmpBigInteger from, GmpBigInteger to, IPolynom p)
+    void m_InputControlPolynom_Execute(PrimesBigInteger from, PrimesBigInteger to, IPolynom p)
     {
       log.Clear();
       log.Columns = 2;
@@ -595,10 +595,10 @@ namespace Primes.WpfControls.Primegeneration
       log.Columns = 1;
       if (sender != null && sender.GetType() == typeof(Button))
       {
-        GmpBigInteger digits = null;
-        if (sender == btnGeneratePrimes10Times20) digits = GmpBigInteger.ValueOf(20);
-        else if (sender == btnGeneratePrimes10Times50) digits = GmpBigInteger.ValueOf(50);
-        else if (sender == btnGeneratePrimes10Times100) digits = GmpBigInteger.ValueOf(100);
+        PrimesBigInteger digits = null;
+        if (sender == btnGeneratePrimes10Times20) digits = PrimesBigInteger.ValueOf(20);
+        else if (sender == btnGeneratePrimes10Times50) digits = PrimesBigInteger.ValueOf(50);
+        else if (sender == btnGeneratePrimes10Times100) digits = PrimesBigInteger.ValueOf(100);
         else if (sender == btnGeneratePrimesNTimesM)
         {
           SetInputControl(m_InputControlNTimesM);
@@ -608,12 +608,12 @@ namespace Primes.WpfControls.Primegeneration
       }
     }
 
-    private void ExecuteGenerate10Primes(LibGmpWrapper.GmpBigInteger digits)
+    private void ExecuteGenerate10Primes(PrimesBigInteger digits)
     {
-      ExecuteGenerateNPrimes(GmpBigInteger.ValueOf(10), digits);
+      ExecuteGenerateNPrimes(PrimesBigInteger.ValueOf(10), digits);
     }
 
-    private void ExecuteGenerateNPrimes(LibGmpWrapper.GmpBigInteger count, LibGmpWrapper.GmpBigInteger digits)
+    private void ExecuteGenerateNPrimes(PrimesBigInteger count, PrimesBigInteger digits)
     {
 
       log.Clear();
@@ -623,7 +623,7 @@ namespace Primes.WpfControls.Primegeneration
       exp.SetParameter(GenerateMDigitPrimes.LEN, digits);
 
       m_ExpressionExecuter.Function = exp;
-      m_ExpressionExecuter.Execute(LibGmpWrapper.GmpBigInteger.ValueOf(1), count);
+      m_ExpressionExecuter.Execute(PrimesBigInteger.ValueOf(1), count);
     }
 
     void exp_NonFurtherPrimeFound()
@@ -638,7 +638,7 @@ namespace Primes.WpfControls.Primegeneration
     }
 
     object counterlockobject = new object();
-    void exec_FunctionResult(LibGmpWrapper.GmpBigInteger result, LibGmpWrapper.GmpBigInteger input)
+    void exec_FunctionResult(PrimesBigInteger result, PrimesBigInteger input)
     {
       int row = log.NewLine();
       if (m_ExpressionExecuter.Function != null && m_ExpressionExecuter.Function.GetType().GetInterface("IPolynom") != null)
@@ -664,9 +664,9 @@ namespace Primes.WpfControls.Primegeneration
       if (sender == btnGenerateSecondDegree)
       {
         p = new SecondDegreePolynom();
-        p.SetParameter("a", GmpBigInteger.ValueOf(3));
-        p.SetParameter("b", GmpBigInteger.ValueOf(7));
-        p.SetParameter("c", GmpBigInteger.ValueOf(13));
+        p.SetParameter("a", PrimesBigInteger.ValueOf(3));
+        p.SetParameter("b", PrimesBigInteger.ValueOf(7));
+        p.SetParameter("c", PrimesBigInteger.ValueOf(13));
         m_InputControlPolynom.SetText(InputRangeControl.FreeFrom, "0");
         m_InputControlPolynom.SetText(InputRangeControl.FreeTo, "49");
 

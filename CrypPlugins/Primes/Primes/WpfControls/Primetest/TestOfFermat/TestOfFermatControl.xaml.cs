@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -216,7 +216,7 @@ using System.Windows.Shapes;
 using Primes.Library;
 using Primes.WpfControls.Validation.Validator;
 using Primes.WpfControls.Validation;
-using LibGmpWrapper;
+using Primes.Bignum;
 using System.Threading;
 using Primes.WpfControls.Components;
 using Primes.WpfControls.Components.Arrows;
@@ -234,8 +234,8 @@ namespace Primes.WpfControls.Primetest.TestOfFermat
     public TestOfFermatControl()
     {
       InitializeComponent();
-      InputValidator<LibGmpWrapper.GmpBigInteger> iv = new InputValidator<LibGmpWrapper.GmpBigInteger>();
-      iv.Validator = new BigIntegerMinValueMaxValueValidator(null, LibGmpWrapper.GmpBigInteger.Two, LibGmpWrapper.GmpBigInteger.ValueOf(100));
+      InputValidator<PrimesBigInteger> iv = new InputValidator<PrimesBigInteger>();
+      iv.Validator = new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.Two, PrimesBigInteger.ValueOf(100));
       iscA.AddInputValidator(
         Primes.WpfControls.Components.InputSingleControl.Free,
         iv);
@@ -246,17 +246,17 @@ namespace Primes.WpfControls.Primetest.TestOfFermat
       ircSystematic.SetText(InputRangeControl.FreeFrom, "2");
       ircSystematic.SetText(InputRangeControl.FreeTo, "100");
       m_Points = new Dictionary<int, Point>();
-      m_Arrows = new Dictionary<GmpBigInteger, ArrowLine>();
+      m_Arrows = new Dictionary<PrimesBigInteger, ArrowLine>();
       m_RunningLockObject = new object();
 
     }
 
-    void ircSystematic_Execute(GmpBigInteger from, GmpBigInteger to)
+    void ircSystematic_Execute(PrimesBigInteger from, PrimesBigInteger to)
     {
       if (ForceGetValue != null) ForceGetValue(new GmpBigIntegerParameterDelegate(Execute));
     }
 
-    void iscA_Execute(LibGmpWrapper.GmpBigInteger value)
+    void iscA_Execute(PrimesBigInteger value)
     {
       A = value;
       if (ForceGetValue != null) ForceGetValue(new GmpBigIntegerParameterDelegate(Execute));
@@ -272,10 +272,10 @@ namespace Primes.WpfControls.Primetest.TestOfFermat
     #region Properties
     private object m_RunningLockObject;
     private bool m_Running;
-    private GmpBigInteger m_SystematicFrom;
-    private GmpBigInteger m_SystematicTo;
-    private GmpBigInteger m_A;
-    private GmpBigInteger A
+    private PrimesBigInteger m_SystematicFrom;
+    private PrimesBigInteger m_SystematicTo;
+    private PrimesBigInteger m_A;
+    private PrimesBigInteger A
     {
       set
       {
@@ -341,7 +341,7 @@ namespace Primes.WpfControls.Primetest.TestOfFermat
 
     }
 
-    private GmpBigInteger m_Value;
+    private PrimesBigInteger m_Value;
     #endregion
 
     #region Painting the Ellipse
@@ -470,7 +470,7 @@ namespace Primes.WpfControls.Primetest.TestOfFermat
         m_Thread = null;
       }
     }
-    public void Execute(GmpBigInteger value)
+    public void Execute(PrimesBigInteger value)
     {
       tabItemGraphic.IsEnabled = true;
       tcStats.SelectedIndex = 0;
@@ -480,7 +480,7 @@ namespace Primes.WpfControls.Primetest.TestOfFermat
       ArrowArea.Children.Clear();
       log.Columns = 1;
       log.Clear();
-      if (value.CompareTo(GmpBigInteger.ValueOf(150))>0)
+      if (value.CompareTo(PrimesBigInteger.ValueOf(150))>0)
       {
         tcStats.SelectedIndex = 1;
         tabItemGraphic.IsEnabled = false;
@@ -540,23 +540,23 @@ namespace Primes.WpfControls.Primetest.TestOfFermat
         {
           m_SystematicFrom = m_SystematicTo;
         }
-        m_SystematicFrom = m_SystematicFrom.Add(GmpBigInteger.One);
+        m_SystematicFrom = m_SystematicFrom.Add(PrimesBigInteger.One);
       }
       FireEventStopText();
 
     }
-    private bool ExecuteLog(GmpBigInteger a)
+    private bool ExecuteLog(PrimesBigInteger a)
     {
-      GmpBigInteger result = a.ModPow(m_Value.Subtract(GmpBigInteger.One), m_Value);
+      PrimesBigInteger result = a.ModPow(m_Value.Subtract(PrimesBigInteger.One), m_Value);
       log.Info(
         string.Format(
           "Berechne {0}^{1} mod {2} = {3}",
-          new object[] { a.ToString(), m_Value.Subtract(GmpBigInteger.One), m_Value.ToString(), result.ToString() }));
+          new object[] { a.ToString(), m_Value.Subtract(PrimesBigInteger.One), m_Value.ToString(), result.ToString() }));
       ControlHandler.SetPropertyValue(lblA, "Content", a.ToString());
       ControlHandler.SetPropertyValue(lblExp, "Text", m_Value.ToString() + "-1");
       ControlHandler.SetPropertyValue(lblP, "Content", m_Value.ToString());
       ControlHandler.SetPropertyValue(lblCalc, "Text", result.ToString());
-      if (result.Equals(GmpBigInteger.One))
+      if (result.Equals(PrimesBigInteger.One))
       {
         log.Info(string.Format("{0} hat den Fermattest bestanden und ist mir einer Wahrscheinlichkeit von 50% eine Primzahl", m_Value.ToString()));
       }
@@ -564,7 +564,7 @@ namespace Primes.WpfControls.Primetest.TestOfFermat
       {
         log.Info(string.Format("{0} hat den Fermattest nicht bestanden und ist damit definitiv keine Primzahl. {1} ist Belastungszeuge gegen {2}", new object[] { m_Value.ToString(), a.ToString(), m_Value.ToString() }));
       }
-      return result.Equals(GmpBigInteger.One);
+      return result.Equals(PrimesBigInteger.One);
     }
     private void ExecuteSingle_Graphic()
     {
@@ -599,7 +599,7 @@ namespace Primes.WpfControls.Primetest.TestOfFermat
       {
         FireEventStartTest();
         DoExecuteGraphic(m_SystematicFrom);
-        m_SystematicFrom = m_SystematicFrom.Add(GmpBigInteger.One);
+        m_SystematicFrom = m_SystematicFrom.Add(PrimesBigInteger.One);
       }
       FireEventStopText();
 
@@ -625,26 +625,26 @@ namespace Primes.WpfControls.Primetest.TestOfFermat
 
     }
 
-    private void DoExecuteGraphic(GmpBigInteger a)
+    private void DoExecuteGraphic(PrimesBigInteger a)
     {
       lock (m_RunningLockObject)
       {
         m_Running = true;
       }
       Point lastPoint = new Point(-1, -1);
-      GmpBigInteger factor = null;
+      PrimesBigInteger factor = null;
 
       ControlHandler.SetPropertyValue(lblA, "Content", a.ToString());
       ControlHandler.SetPropertyValue(lblExp, "Text", m_Value.ToString() + "-1");
       ControlHandler.SetPropertyValue(lblP, "Content", m_Value.ToString());
 
       ControlHandler.SetPropertyValue(lblCalc, "Text", string.Empty);
-      ControlHandler.SetPropertyValue(lblCalc, "Text", a.ModPow(m_Value.Subtract(GmpBigInteger.One), m_Value).ToString());
-      GmpBigInteger i = GmpBigInteger.Two;
+      ControlHandler.SetPropertyValue(lblCalc, "Text", a.ModPow(m_Value.Subtract(PrimesBigInteger.One), m_Value).ToString());
+      PrimesBigInteger i = PrimesBigInteger.Two;
 
-      GmpBigInteger result = null;
-      GmpBigInteger counter = GmpBigInteger.Zero;
-      while (i.CompareTo(m_Value.Subtract(GmpBigInteger.One)) <= 0)
+      PrimesBigInteger result = null;
+      PrimesBigInteger counter = PrimesBigInteger.Zero;
+      while (i.CompareTo(m_Value.Subtract(PrimesBigInteger.One)) <= 0)
       {
         Thread.Sleep(100);
         result = a.ModPow(i, m_Value);
@@ -659,7 +659,7 @@ namespace Primes.WpfControls.Primetest.TestOfFermat
           factor = factor.Multiply(result);
         //StringBuilder sbText = new StringBuilder();// new StringBuilder(ControlHandler.GetPropertyValue(lblCalc, "Text") as string);
         //sbText.Append(result.ToString());
-        //if (i.CompareTo(m_Value.Subtract(GmpBigInteger.One)) < 0)
+        //if (i.CompareTo(m_Value.Subtract(PrimesBigInteger.One)) < 0)
         //  sbText.Append(" * ");
         //ControlHandler.SetPropertyValue(lblCalc, "Text", sbText.ToString());
 
@@ -673,24 +673,24 @@ namespace Primes.WpfControls.Primetest.TestOfFermat
           CreateArrow(counter, lastPoint, newPoint);
           lastPoint = newPoint;
         }
-        i = i.Add(GmpBigInteger.One);
-        counter = counter.Add(GmpBigInteger.One);
+        i = i.Add(PrimesBigInteger.One);
+        counter = counter.Add(PrimesBigInteger.One);
       }
       if (result != null)
       {
-        if (result.Equals(GmpBigInteger.One))
+        if (result.Equals(PrimesBigInteger.One))
         {
           log.Info(
             string.Format(
               "Berechne {0}^{1} mod {2} = 1. {3} könnte eine Primzahl sein.",
-              new object[] { a.ToString(), m_Value.Subtract(GmpBigInteger.One).ToString(), m_Value.ToString(), m_Value.ToString() }));
+              new object[] { a.ToString(), m_Value.Subtract(PrimesBigInteger.One).ToString(), m_Value.ToString(), m_Value.ToString() }));
         }
         else
         {
           log.Info(
             string.Format(
               "Berechne {0}^{1} mod {2} = {3}. {4} ist damit definitiv keine Primzahl.",
-              new object[] { a.ToString(), m_Value.Subtract(GmpBigInteger.One).ToString(), m_Value.ToString(), result.ToString(), m_Value.ToString() }));
+              new object[] { a.ToString(), m_Value.Subtract(PrimesBigInteger.One).ToString(), m_Value.ToString(), result.ToString(), m_Value.ToString() }));
         }
       }
       if (CancelTest != null) CancelTest();
@@ -702,8 +702,8 @@ namespace Primes.WpfControls.Primetest.TestOfFermat
 
     }
 
-    private IDictionary<GmpBigInteger, ArrowLine> m_Arrows;
-    private void CreateArrow(GmpBigInteger i, Point from, Point to)
+    private IDictionary<PrimesBigInteger, ArrowLine> m_Arrows;
+    private void CreateArrow(PrimesBigInteger i, Point from, Point to)
     {
       ArrowLine l = ControlHandler.CreateObject(typeof(ArrowLine)) as ArrowLine;
       ControlHandler.SetPropertyValue(l, "Stroke", Brushes.Black);
@@ -773,9 +773,9 @@ namespace Primes.WpfControls.Primetest.TestOfFermat
     #region IPrimeTest Members
 
 
-    public IValidator<GmpBigInteger> Validator
+    public IValidator<PrimesBigInteger> Validator
     {
-      get { return new BigIntegerMinValueValidator(null, GmpBigInteger.Two); }
+      get { return new BigIntegerMinValueValidator(null, PrimesBigInteger.Two); }
     }
 
     #endregion
@@ -839,7 +839,7 @@ namespace Primes.WpfControls.Primetest.TestOfFermat
       
     }
 
-    public void Execute(GmpBigInteger from, GmpBigInteger to)
+    public void Execute(PrimesBigInteger from, PrimesBigInteger to)
     {
       
     }

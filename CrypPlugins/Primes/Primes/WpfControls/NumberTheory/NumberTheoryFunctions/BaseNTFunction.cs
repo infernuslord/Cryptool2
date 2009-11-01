@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -205,7 +205,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-using LibGmpWrapper;
+using Primes.Bignum;
 using System.Windows.Controls;
 using Primes.WpfControls.Components;
 using Primes.Library;
@@ -241,13 +241,13 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
     }
     #region Properties
     protected Thread m_Thread;
-    protected GmpBigInteger m_From;
-    protected GmpBigInteger m_To;
+    protected PrimesBigInteger m_From;
+    protected PrimesBigInteger m_To;
     #endregion
     #region INTFunction Members
 
 
-    public virtual void Start(LibGmpWrapper.GmpBigInteger from, LibGmpWrapper.GmpBigInteger to)
+    public virtual void Start(PrimesBigInteger from, PrimesBigInteger to)
     {
       Stop();
       m_From = from;
@@ -289,7 +289,7 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
       }
     }
     public event NumberTheoryMessageDelegate Message;
-    protected void FireOnMessage(INTFunction function, GmpBigInteger value, string message)
+    protected void FireOnMessage(INTFunction function, PrimesBigInteger value, string message)
     {
       if (Message != null) Message(function, value, message);
     }

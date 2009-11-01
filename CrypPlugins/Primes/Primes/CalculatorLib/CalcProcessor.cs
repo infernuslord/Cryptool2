@@ -204,7 +204,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LibGmpWrapper;
+using Primes.Bignum;
+
 
 namespace SevenZ.Calculator
 {
@@ -216,9 +217,9 @@ namespace SevenZ.Calculator
       /// <param name="op">Binary operator</param>
       /// <param name="operand1">First operand</param>
       /// <param name="operand2">Second operand</param>
-       private void Calculate(string op, GmpBigInteger operand1, GmpBigInteger operand2)
+       private void Calculate(string op, PrimesBigInteger operand1, PrimesBigInteger operand2)
       {
-          GmpBigInteger res = GmpBigInteger.Zero;
+          PrimesBigInteger res = PrimesBigInteger.Zero;
          try
          {
             switch (op)
@@ -229,8 +230,8 @@ namespace SevenZ.Calculator
                case Token.Divide:     res = operand1.Divide(operand2); break;
                case Token.Mod:        res = operand1.Mod(operand2); break;
                case Token.Power:      res = operand1.Pow(operand2.IntValue); break;
-               case Token.Log: res = GmpBigInteger.Zero; break;
-               case Token.Root: res = GmpBigInteger.Zero; break;
+               case Token.Log: res = PrimesBigInteger.Zero; break;
+               case Token.Root: res = PrimesBigInteger.Zero; break;
             }
 
             operands.Push(PostProcess(res));
@@ -247,15 +248,15 @@ namespace SevenZ.Calculator
       /// </summary>
       /// <param name="op">Unary operator</param>
       /// <param name="operand">Operand</param>
-       private void Calculate(string op, GmpBigInteger operand)
+       private void Calculate(string op, PrimesBigInteger operand)
       {
-          GmpBigInteger res = GmpBigInteger.One;
+          PrimesBigInteger res = PrimesBigInteger.One;
 
          try
          {
             switch (op)
             {
-               case Token.UnaryMinus: res = operand.Multiply(GmpBigInteger.NegativeOne); break;
+                case Token.UnaryMinus: res = operand.Multiply(PrimesBigInteger.NegativeOne); break;
                //case Token.Abs:        res = Math.Abs(operand); break;
                //case Token.ACosine:    res = Math.Acos(operand); break;
                //case Token.ASine:      res = Math.Asin(operand); break;
@@ -283,7 +284,7 @@ namespace SevenZ.Calculator
       /// <summary>
       /// Result post-processing
       /// </summary>
-       private GmpBigInteger PostProcess(GmpBigInteger result)
+       private PrimesBigInteger PostProcess(PrimesBigInteger result)
       {
           return result;
       }

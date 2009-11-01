@@ -217,7 +217,7 @@ using System.Windows.Shapes;
 using Primes.WpfControls.Components;
 using System.Threading;
 using System.Reflection;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.Library;
 using System.Diagnostics;
 
@@ -231,8 +231,8 @@ namespace Primes.WpfControls.PrimesDistribution.Spirals
     private Thread m_DrawThread;
     private double m_UnitWidth;
 
-    private GmpBigInteger m_From;
-    private GmpBigInteger m_To;
+    private PrimesBigInteger m_From;
+    private PrimesBigInteger m_To;
 
     private enum Direction { Right, Up, Left, Down }
     public UlamSpiral()
@@ -240,7 +240,7 @@ namespace Primes.WpfControls.PrimesDistribution.Spirals
       InitializeComponent(); 
     }
 
-    public void Draw(GmpBigInteger from, GmpBigInteger to)
+    public void Draw(PrimesBigInteger from, PrimesBigInteger to)
     {
       m_From = from;
       m_To = to;
@@ -271,12 +271,12 @@ namespace Primes.WpfControls.PrimesDistribution.Spirals
       double x1 = size / 2.0;
       double y1 = size / 2.0;
       int lenghtFactor = 0;
-      GmpBigInteger i = GmpBigInteger.Zero;
-      GmpBigInteger value = m_From;
+      PrimesBigInteger i = PrimesBigInteger.Zero;
+      PrimesBigInteger value = m_From;
 
       while (value.CompareTo(m_To) <= 0)
       {
-        if (i.Mod(GmpBigInteger.Two).CompareTo(GmpBigInteger.Zero) == 0)
+        if (i.Mod(PrimesBigInteger.Two).CompareTo(PrimesBigInteger.Zero) == 0)
         {
           lenghtFactor++;
         }
@@ -293,12 +293,12 @@ namespace Primes.WpfControls.PrimesDistribution.Spirals
           //  return;
           if (value.IsPrime(10))
             DrawNumberButton(value, x1, y1);
-          value = value.Add(GmpBigInteger.One);
+          value = value.Add(PrimesBigInteger.One);
           x1 = x2;
           y1 = y2;
         }
         direction = (direction + 1) % 4;
-        i = i.Add(GmpBigInteger.One);
+        i = i.Add(PrimesBigInteger.One);
       }
       //TimeSpan diff = DateTime.Now - start;
       //Debug.WriteLine(string.Format("{0} {1} {2}", new object[] { diff.Minutes, diff.Seconds, diff.Milliseconds }));
@@ -306,17 +306,17 @@ namespace Primes.WpfControls.PrimesDistribution.Spirals
     }
     private double CalculateSize()
     {
-      GmpBigInteger result = GmpBigInteger.One;
-      GmpBigInteger value = m_From;
-      GmpBigInteger i = GmpBigInteger.Zero;
+      PrimesBigInteger result = PrimesBigInteger.One;
+      PrimesBigInteger value = m_From;
+      PrimesBigInteger i = PrimesBigInteger.Zero;
       while (value.CompareTo(m_To) < 0)
       {
-        if (i.Mod(GmpBigInteger.Two).Equals(GmpBigInteger.Zero))
+        if (i.Mod(PrimesBigInteger.Two).Equals(PrimesBigInteger.Zero))
         {
-          result = result.Add(GmpBigInteger.One);
+          result = result.Add(PrimesBigInteger.One);
         }
         value = value.Add(result);
-        i = i.Add(GmpBigInteger.One);
+        i = i.Add(PrimesBigInteger.One);
       }
       return double.Parse(result.ToString())+5;
     }
@@ -361,7 +361,7 @@ namespace Primes.WpfControls.PrimesDistribution.Spirals
     {
       mi.Invoke(PaintArea, new object[] { element,value });
     }
-    private void DrawNumberButton(GmpBigInteger value, double x, double y)
+    private void DrawNumberButton(PrimesBigInteger value, double x, double y)
     {
       Ellipse nb = ControlHandler.CreateObject(typeof(Ellipse)) as Ellipse;
       //NumberButton nb = ControlHandler.CreateObject(typeof(NumberButton)) as NumberButton;

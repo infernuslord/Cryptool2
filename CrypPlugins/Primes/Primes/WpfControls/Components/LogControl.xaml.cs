@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -216,7 +216,7 @@ using System.Windows.Shapes;
 using Primes.Library;
 using System.Diagnostics;
 using System.Collections;
-using LibGmpWrapper;
+using Primes.Bignum;
 
 namespace Primes.WpfControls.Components
 {
@@ -364,7 +364,7 @@ namespace Primes.WpfControls.Components
     public event ExecuteIntegerDelegate RowMouseOver;
     private void FireRowMouseOverEvent(int value)
     {
-      if (RowMouseOver != null) RowMouseOver(GmpBigInteger.ValueOf(value).Divide(GmpBigInteger.Two));
+      if (RowMouseOver != null) RowMouseOver(PrimesBigInteger.ValueOf(value).Divide(PrimesBigInteger.Two));
     }
     #endregion
     #region Messaging

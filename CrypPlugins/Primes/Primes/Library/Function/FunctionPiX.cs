@@ -205,7 +205,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Primes.Library;
-using LibGmpWrapper;
+using Primes.Bignum;
 
 
 namespace Primes.Library.Function
@@ -268,17 +268,17 @@ namespace Primes.Library.Function
         }
       }
 
-      if (GmpBigInteger.ValueOf(m_LastNumber).IsPrime(10)) m_LastNumber++;
+      if (PrimesBigInteger.ValueOf(m_LastNumber).IsPrime(10)) m_LastNumber++;
       while (m_LastNumber < value)
       {
-        if (GmpBigInteger.ValueOf(m_LastNumber).IsPrime(10))
+        if (PrimesBigInteger.ValueOf(m_LastNumber).IsPrime(10))
         {
           m_Counter++;
           if (m_ShowIntermediateResult && Executed != null) Executed(m_Counter);
         }
         m_LastNumber++;
       }
-      if (GmpBigInteger.ValueOf(value).IsPrime(10)&&!usePrimesCountList)
+      if (PrimesBigInteger.ValueOf(value).IsPrime(10)&&!usePrimesCountList)
       {
         m_FormerValue = m_Counter;
         m_Counter++;

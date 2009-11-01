@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -207,7 +207,7 @@ using System.Linq;
 using System.Text;
 using Primes.WpfControls.PrimesDistribution.Graph;
 using System.Windows.Threading;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.Library.Function;
 using Primes.Library;
 
@@ -222,10 +222,10 @@ namespace Primes.WpfControls.Threads
     private Dispatcher m_Dispatcher;
     private long counter = 0;
     private long n = 2;
-    private GmpBigInteger m_To;
+    private PrimesBigInteger m_To;
 
 
-    public CountPiXThread(FunctionPiX functionPiX, Dispatcher dispatcher, ObjectParameterDelegate objdelegate, GmpBigInteger to)
+    public CountPiXThread(FunctionPiX functionPiX, Dispatcher dispatcher, ObjectParameterDelegate objdelegate, PrimesBigInteger to)
     {
       this.m_FunctionPiX = functionPiX;
       this.m_Dispatcher = dispatcher;

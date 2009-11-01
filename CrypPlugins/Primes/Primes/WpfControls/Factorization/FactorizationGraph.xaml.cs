@@ -216,7 +216,7 @@ using System.Windows.Shapes;
 
 using Primes.Library.FactorTree;
 using Primes.WpfControls.ShapeManagement.Ellipse;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.Library;
 using Primes.WpfControls.Validation.Validator;
 
@@ -260,7 +260,7 @@ namespace Primes.WpfControls.Factorization
       items = new List<object>();
     }
 
-    void m_FactorTree_OnActualDivisorChanged(GmpBigInteger value)
+    void m_FactorTree_OnActualDivisorChanged(PrimesBigInteger value)
     {
       ControlHandler.SetPropertyValue(lblActualDivisor, "Text", Primes.Resources.lang.WpfControls.Factorization.Factorization.bf_actualdiv+ value.ToString("D"));
     }
@@ -268,8 +268,8 @@ namespace Primes.WpfControls.Factorization
 
     object test = new object();
 
-    public void Execute(GmpBigInteger from, GmpBigInteger to) { }
-    public void Execute(GmpBigInteger value)
+    public void Execute(PrimesBigInteger from, PrimesBigInteger to) { }
+    public void Execute(PrimesBigInteger value)
     {
       m_Start = DateTime.Now;
       this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Send, new OnReset(Reset));
@@ -514,9 +514,9 @@ namespace Primes.WpfControls.Factorization
     #region IFactorizer Members
 
 
-    public Primes.WpfControls.Validation.IValidator<GmpBigInteger> Validator
+    public Primes.WpfControls.Validation.IValidator<PrimesBigInteger> Validator
     {
-      get { return new BigIntegerMinValueValidator(null, GmpBigInteger.Three); }
+      get { return new BigIntegerMinValueValidator(null, PrimesBigInteger.Three); }
     }
 
     #endregion

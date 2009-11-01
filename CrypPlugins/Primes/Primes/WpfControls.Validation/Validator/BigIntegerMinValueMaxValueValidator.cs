@@ -205,7 +205,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using LibGmpWrapper;
+using Primes.Bignum;
 
 namespace Primes.WpfControls.Validation.Validator
 {
@@ -213,7 +213,7 @@ namespace Primes.WpfControls.Validation.Validator
   {
 
     #region Properties
-    private GmpBigInteger m_MaxValue;
+    private PrimesBigInteger m_MaxValue;
     private string m_Message;
     public override string Message
     {
@@ -244,7 +244,7 @@ namespace Primes.WpfControls.Validation.Validator
     #endregion
 
     #region Constructors
-    public BigIntegerMinValueMaxValueValidator(object value, GmpBigInteger minValue, GmpBigInteger maxValue)
+    public BigIntegerMinValueMaxValueValidator(object value, PrimesBigInteger minValue, PrimesBigInteger maxValue)
       : base(value, minValue)
     {
       m_MaxValue = maxValue;
@@ -252,7 +252,7 @@ namespace Primes.WpfControls.Validation.Validator
 
     #endregion
 
-    public override ValidationResult Validate(ref GmpBigInteger bi)
+    public override ValidationResult Validate(ref PrimesBigInteger bi)
     {
       ValidationResult result = base.Validate(ref bi);
       if (result == ValidationResult.OK)

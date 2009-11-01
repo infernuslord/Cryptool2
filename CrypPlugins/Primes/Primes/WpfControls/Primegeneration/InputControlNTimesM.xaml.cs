@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -214,7 +214,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Primes.WpfControls.Primegeneration.Function;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.WpfControls.Validation.Validator;
 using Primes.WpfControls.Validation;
 using Primes.WpfControls.Validation.ControlValidator;
@@ -228,7 +228,7 @@ namespace Primes.WpfControls.Primegeneration
   /// <summary>
   /// Interaction logic for InputControlNTimesM.xaml
   /// </summary>
-  internal delegate void Execute_N_Digits_Delegate(GmpBigInteger n, GmpBigInteger digits);
+  internal delegate void Execute_N_Digits_Delegate(PrimesBigInteger n, PrimesBigInteger digits);
 
   public partial class InputControlNTimesM : UserControl
   {
@@ -238,8 +238,8 @@ namespace Primes.WpfControls.Primegeneration
     #endregion
 
     #region Properties
-    private GmpBigInteger m_MaxDigits;
-    public GmpBigInteger MaxDigits
+    private PrimesBigInteger m_MaxDigits;
+    public PrimesBigInteger MaxDigits
     {
       get { return m_MaxDigits; }
       set { m_MaxDigits = value; }
@@ -249,14 +249,14 @@ namespace Primes.WpfControls.Primegeneration
     public InputControlNTimesM()
     {
       InitializeComponent();
-      m_MaxDigits = GmpBigInteger.ValueOf(500);
+      m_MaxDigits = PrimesBigInteger.ValueOf(500);
     }
 
     
     private void btnExec_Click(object sender, RoutedEventArgs e)
     {
-      GmpBigInteger n = GetPrimesCount();
-      GmpBigInteger digits = GetDigits();
+      PrimesBigInteger n = GetPrimesCount();
+      PrimesBigInteger digits = GetDigits();
       if (digits != null && n != null)
       {
         if (digits.CompareTo(m_MaxDigits) > 0)
@@ -265,18 +265,18 @@ namespace Primes.WpfControls.Primegeneration
         }
         else
         {
-          if (Execute != null) Execute(n, digits.Subtract(GmpBigInteger.One));
+          if (Execute != null) Execute(n, digits.Subtract(PrimesBigInteger.One));
         }
       }
     }
 
-    private GmpBigInteger GetPrimesCount()
+    private PrimesBigInteger GetPrimesCount()
     {
-      GmpBigInteger result = GmpBigInteger.One;
+      PrimesBigInteger result = PrimesBigInteger.One;
       try
       {
-        IValidator<GmpBigInteger> validator = new BigIntegerMinValueValidator(tbN.Text, GmpBigInteger.ValueOf(2));
-        TextBoxValidator<GmpBigInteger> tbValidator = new TextBoxValidator<GmpBigInteger>(validator, tbN, "2");
+        IValidator<PrimesBigInteger> validator = new BigIntegerMinValueValidator(tbN.Text, PrimesBigInteger.ValueOf(2));
+        TextBoxValidator<PrimesBigInteger> tbValidator = new TextBoxValidator<PrimesBigInteger>(validator, tbN, "2");
         tbValidator.Validate(ref result);
       }
       catch (ControlValidationException cvex)
@@ -294,13 +294,13 @@ namespace Primes.WpfControls.Primegeneration
       return result;
     }
 
-    private GmpBigInteger GetDigits()
+    private PrimesBigInteger GetDigits()
     {
-      GmpBigInteger result = GmpBigInteger.One;
+      PrimesBigInteger result = PrimesBigInteger.One;
       try
       {
-        IValidator<GmpBigInteger> validator = new BigIntegerMinValueValidator(tbM.Text,GmpBigInteger.Two);
-        TextBoxValidator<GmpBigInteger> tbValidator = new TextBoxValidator<GmpBigInteger>(validator, tbM, "2");
+        IValidator<PrimesBigInteger> validator = new BigIntegerMinValueValidator(tbM.Text,PrimesBigInteger.Two);
+        TextBoxValidator<PrimesBigInteger> tbValidator = new TextBoxValidator<PrimesBigInteger>(validator, tbM, "2");
         tbValidator.Validate(ref result);
       }
       catch (ControlValidationException cvex)

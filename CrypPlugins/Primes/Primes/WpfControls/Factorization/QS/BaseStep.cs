@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -209,7 +209,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Primes.Library;
 using System.Windows.Media;
-using LibGmpWrapper;
+using Primes.Bignum;
 
 namespace Primes.WpfControls.Factorization.QS
 {
@@ -286,18 +286,18 @@ namespace Primes.WpfControls.Factorization.QS
       set { m_Container = value; }
     }
 
-    protected bool ModuloTest(GmpBigInteger a, GmpBigInteger b, GmpBigInteger mod)
+    protected bool ModuloTest(PrimesBigInteger a, PrimesBigInteger b, PrimesBigInteger mod)
     {
       bool result = true;
-      GmpBigInteger _a = a.Abs();
-      GmpBigInteger _b = b.Abs();
-      result = !a.Subtract(b).Mod(mod).Equals(GmpBigInteger.Zero);
+      PrimesBigInteger _a = a.Abs();
+      PrimesBigInteger _b = b.Abs();
+      result = !a.Subtract(b).Mod(mod).Equals(PrimesBigInteger.Zero);
       if (result)
       {
-        _a = _a.Multiply(GmpBigInteger.NegativeOne);
-        _b = _b.Multiply(GmpBigInteger.NegativeOne);
-        GmpBigInteger res = _a.Add(_b);
-        result = !res.Abs().Mod(mod).Equals(GmpBigInteger.Zero);
+        _a = _a.Multiply(PrimesBigInteger.NegativeOne);
+        _b = _b.Multiply(PrimesBigInteger.NegativeOne);
+        PrimesBigInteger res = _a.Add(_b);
+        result = !res.Abs().Mod(mod).Equals(PrimesBigInteger.Zero);
       }
       return result;
     }

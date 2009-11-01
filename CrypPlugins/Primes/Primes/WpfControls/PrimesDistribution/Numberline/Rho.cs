@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -204,7 +204,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.WpfControls.Components;
 using System.Windows.Controls;
 using System.Diagnostics;
@@ -232,11 +232,11 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 
       m_SbSum = new StringBuilder();
       m_Row = m_Log.NewLine();
-      GmpBigInteger sum = GmpBigInteger.Zero;
-      GmpBigInteger d = GmpBigInteger.One;
-      while (d.Multiply(GmpBigInteger.Two).CompareTo(m_Value) <= 0)
+      PrimesBigInteger sum = PrimesBigInteger.Zero;
+      PrimesBigInteger d = PrimesBigInteger.One;
+      while (d.Multiply(PrimesBigInteger.Two).CompareTo(m_Value) <= 0)
       {        
-        if (m_Value.Mod(d).Equals(GmpBigInteger.Zero))
+        if (m_Value.Mod(d).Equals(PrimesBigInteger.Zero))
         {
           if (m_SbSum.Length > 0)
           {
@@ -247,7 +247,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
           sum = sum.Add(d);
           m_Log.Info(m_SbSum.ToString(), 0, m_Row);
         }
-        d = d.Add(GmpBigInteger.One);
+        d = d.Add(PrimesBigInteger.One);
       }
       m_SbSum.Append(" + ");
       m_SbSum.Append(m_Value.ToString("D"));

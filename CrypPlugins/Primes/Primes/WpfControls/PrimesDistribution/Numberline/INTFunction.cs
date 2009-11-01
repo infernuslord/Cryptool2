@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -206,14 +206,14 @@ using System.Collections.Generic;
 using System.Text;
 using Primes.WpfControls.Components;
 using System.Windows.Controls;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.Library;
 
 namespace Primes.WpfControls.PrimesDistribution.Numberline
 {
   public interface INTFunction
   {
-    void Start(GmpBigInteger value);
+    void Start(PrimesBigInteger value);
     void Stop();
     event VoidDelegate OnStart;
     event VoidDelegate OnStop;

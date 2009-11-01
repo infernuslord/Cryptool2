@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -205,7 +205,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-using LibGmpWrapper;
+using Primes.Bignum;
 using System.Windows.Controls;
 using Primes.WpfControls.Components;
 using Primes.Library;
@@ -222,7 +222,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
     }
     #region Properties
     protected Thread m_Thread;
-    protected GmpBigInteger m_Value;
+    protected PrimesBigInteger m_Value;
     #endregion
     #region INTFunction Members
 
@@ -238,7 +238,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       set { m_tbCalcInfo = value; }
     }
 
-    public virtual void Start(LibGmpWrapper.GmpBigInteger value)
+    public virtual void Start(PrimesBigInteger value)
     {
       Stop();
       m_Value = value;

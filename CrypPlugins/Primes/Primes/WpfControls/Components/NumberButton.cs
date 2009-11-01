@@ -214,7 +214,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.Library;
 
 namespace Primes.WpfControls.Components
@@ -252,8 +252,8 @@ namespace Primes.WpfControls.Components
   public enum NumberButtonStyle { Button, Ellipse}
   public class NumberButton : Button
   {
-    private static readonly GmpBigInteger MAX = GmpBigInteger.ValueOf(999);
-    private GmpBigInteger m_Number;
+    private static readonly PrimesBigInteger MAX = PrimesBigInteger.ValueOf(999);
+    private PrimesBigInteger m_Number;
     private string m_StrNumber;
     private bool m_ShowContent;
     public bool ShowContent {
@@ -289,9 +289,9 @@ namespace Primes.WpfControls.Components
       }
     }
 
-    public GmpBigInteger BINumber
+    public PrimesBigInteger BINumber
     {
-      get { return new GmpBigInteger(m_StrNumber); }
+      get { return new PrimesBigInteger(m_StrNumber); }
       set { 
         m_Number = value;
         Number = m_Number.ToString();

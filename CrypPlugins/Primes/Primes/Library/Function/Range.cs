@@ -204,47 +204,47 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LibGmpWrapper;
+using Primes.Bignum;
 
 namespace Primes.Library
 {
   public class Range
   {
-    private GmpBigInteger m_From;
+    private PrimesBigInteger m_From;
 
-    public GmpBigInteger From
+    public PrimesBigInteger From
     {
       get { return m_From; }
       set { m_From = value; }
     }
 
-    private GmpBigInteger m_To;
+    private PrimesBigInteger m_To;
 
-    public GmpBigInteger To
+    public PrimesBigInteger To
     {
       get { return m_To; }
       set { m_To = value; }
     }
 
-    public Range(GmpBigInteger from, GmpBigInteger to)
+    public Range(PrimesBigInteger from, PrimesBigInteger to)
     {
       this.From = from;
       this.To = to;
     }
-    public Range(int from, int to):this(GmpBigInteger.ValueOf(from),GmpBigInteger.ValueOf(to))
+    public Range(int from, int to):this(PrimesBigInteger.ValueOf(from),PrimesBigInteger.ValueOf(to))
     {
     }
 
-    public GmpBigInteger RangeAmount
+    public PrimesBigInteger RangeAmount
     {
       get
       {
 
-        return this.To.Add((this.From.Multiply(GmpBigInteger.ValueOf(-1))));
+        return this.To.Add((this.From.Multiply(PrimesBigInteger.ValueOf(-1))));
       }
     }
 
-    public virtual GmpBigInteger GetZeroPosition()
+    public virtual PrimesBigInteger GetZeroPosition()
     {
       throw new NotImplementedException("GetZeroPosition is only implmented in Primes.Library.RangeX and Primes.Library.RangeY");
     }

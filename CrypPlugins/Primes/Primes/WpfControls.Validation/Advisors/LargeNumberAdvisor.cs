@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -204,23 +204,23 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LibGmpWrapper;
+using Primes.Bignum;
 
 namespace Primes.WpfControls.Validation.Advisers
 {
-  public class LargeNumberAdvisor:IValidator<GmpBigInteger>
+  public class LargeNumberAdvisor:IValidator<PrimesBigInteger>
   {
     #region Properties
-    private GmpBigInteger m_Limit;
+    private PrimesBigInteger m_Limit;
     private OnlineHelp.OnlineHelpActions m_HelpLink;
-    private GmpBigInteger m_Value;
+    private PrimesBigInteger m_Value;
     #endregion
-    public LargeNumberAdvisor(GmpBigInteger limit, OnlineHelp.OnlineHelpActions helplink)
+    public LargeNumberAdvisor(PrimesBigInteger limit, OnlineHelp.OnlineHelpActions helplink)
     {
       m_Limit = limit;
       m_HelpLink = helplink;
     }
-    #region IValidator<GmpBigInteger> Members
+    #region IValidator<PrimesBigInteger> Members
 
     public object Value
     {
@@ -230,11 +230,11 @@ namespace Primes.WpfControls.Validation.Advisers
       }
       set
       {
-        m_Value = value as GmpBigInteger ;
+        m_Value = value as PrimesBigInteger ;
       }
     }
 
-    public ValidationResult Validate(ref GmpBigInteger t)
+    public ValidationResult Validate(ref PrimesBigInteger t)
     {
       m_Value = t;
       if (m_Limit.CompareTo(t) < 0)
