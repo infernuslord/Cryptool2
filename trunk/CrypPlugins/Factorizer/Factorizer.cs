@@ -208,7 +208,7 @@ using System.Text;
 using Cryptool.PluginBase.Tool;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
-using LibGmpWrapper;
+using Primes.Bignum;
 
 namespace Factorizer
 {
@@ -280,14 +280,14 @@ namespace Factorizer
           if (m_Input.IsProbablePrime(10))
           {
             Factor = m_Input.ToString();
-            Remainder = GmpBigInteger.One.ToString();
+            Remainder = PrimesBigInteger.One.ToString();
           }
           else
           {
-            GmpBigInteger i = GmpBigInteger.Two;
+            PrimesBigInteger i = PrimesBigInteger.Two;
             while (i.Multiply(i).CompareTo(m_Input) <= 0)
             {
-              if (m_Input.Mod(i).CompareTo(GmpBigInteger.Zero) == 0)
+              if (m_Input.Mod(i).CompareTo(PrimesBigInteger.Zero) == 0)
               {
                 Factor = i.ToString();
                 Remainder = m_Input.Divide(i).ToString();
@@ -337,7 +337,7 @@ namespace Factorizer
     #endregion
 
     #region Properties
-    private GmpBigInteger m_Input = null;
+    private PrimesBigInteger m_Input = null;
     private string m_InputString;
     [PropertyInfo(Direction.InputData, "String input", "A string that represents a natural number", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
     public string InputString
@@ -349,8 +349,8 @@ namespace Factorizer
           m_InputString = value;
           try
           {
-            m_Input = new GmpBigInteger(m_InputString);
-            if (m_Input.CompareTo(GmpBigInteger.Zero) <= 0)
+            m_Input = new PrimesBigInteger(m_InputString);
+            if (m_Input.CompareTo(PrimesBigInteger.Zero) <= 0)
             {
               m_Input = null;
               throw new Exception();
