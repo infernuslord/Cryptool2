@@ -129,7 +129,7 @@ namespace Cryptool.Plugins.Substring
         /// <summary>
         /// The inputs are defined
         /// </summary>
-        [PropertyInfo(Direction.InputData, "String Input", "Input your String here", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "String Input", "Enter your string here", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public String InputString
         {
             get
@@ -143,7 +143,7 @@ namespace Cryptool.Plugins.Substring
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Position Input", "Input your Position here", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Position Input", "Enter your position here", "", DisplayLevel.Beginner)]
         public int InputPos
         {
             get
@@ -158,7 +158,7 @@ namespace Cryptool.Plugins.Substring
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Length Input", "Input your Length here", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Length Input", "Enter your length here", "", DisplayLevel.Beginner)]
         public int InputLength
         {
             get
@@ -176,7 +176,7 @@ namespace Cryptool.Plugins.Substring
         /// <summary>
         /// The output is defined
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "String Output", "Your Substring will be send here", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "String Output", "Your substring will be send here", "", DisplayLevel.Beginner)]
         public String OutputString
         {
             get
