@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -204,7 +204,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.WpfControls.Components;
 using System.Windows.Controls;
 using Primes.Library;
@@ -225,35 +225,35 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       FireOnStart();
       ControlHandler.SetPropertyValue(m_tbCalcInfo, "Visibility", Visibility.Visible);
 
-      GmpBigInteger result = GmpBigInteger.Zero;
-      GmpBigInteger k = GmpBigInteger.One;
+      PrimesBigInteger result = PrimesBigInteger.Zero;
+      PrimesBigInteger k = PrimesBigInteger.One;
       while (k.CompareTo(m_Value) <= 0)
       {
-        if (m_Value.Mod(k).Equals(GmpBigInteger.Zero))
+        if (m_Value.Mod(k).Equals(PrimesBigInteger.Zero))
         {
-          GmpBigInteger phik = EulerPhi(k);
+          PrimesBigInteger phik = EulerPhi(k);
           result = result.Add(phik);
           SetCalcInfo(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_eulerphisuminfo, m_Value.ToString("D"), result.ToString("D")));
           m_Log.Info(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_eulerphisumlog, new object[] { k.ToString("D"), phik.ToString("D") }));
         }
-        k = k.Add(GmpBigInteger.One);
+        k = k.Add(PrimesBigInteger.One);
       }
       FireOnStop();
 
     }
 
-    private GmpBigInteger EulerPhi(GmpBigInteger n)
+    private PrimesBigInteger EulerPhi(PrimesBigInteger n)
     {
-      if (n.Equals(GmpBigInteger.One)) return GmpBigInteger.One;
-      GmpBigInteger result = GmpBigInteger.Zero;
-      GmpBigInteger k = GmpBigInteger.One;
+      if (n.Equals(PrimesBigInteger.One)) return PrimesBigInteger.One;
+      PrimesBigInteger result = PrimesBigInteger.Zero;
+      PrimesBigInteger k = PrimesBigInteger.One;
       while (k.CompareTo(n) <= 0)
       {
-        if (GmpBigInteger.GCD(k, n).Equals(GmpBigInteger.One))
+        if (PrimesBigInteger.GCD(k, n).Equals(PrimesBigInteger.One))
         {
-          result = result.Add(GmpBigInteger.One);
+          result = result.Add(PrimesBigInteger.One);
         }
-        k = k.Add(GmpBigInteger.One);
+        k = k.Add(PrimesBigInteger.One);
       }
       return result;
     }

@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -204,23 +204,23 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LibGmpWrapper;
+using Primes.Bignum;
 
 namespace Primes.Library
 {
   public class RangeX:Range 
   {
-    public RangeX(GmpBigInteger from, GmpBigInteger to)
+    public RangeX(PrimesBigInteger from, PrimesBigInteger to)
       : base(from,to)
     {
     }
 
-    public override GmpBigInteger GetZeroPosition()
+    public override PrimesBigInteger GetZeroPosition()
     {
-      GmpBigInteger result = GmpBigInteger.Zero;
-      if (this.From.CompareTo(GmpBigInteger.Zero) < 0)
+      PrimesBigInteger result = PrimesBigInteger.Zero;
+      if (this.From.CompareTo(PrimesBigInteger.Zero) < 0)
       {
-        result = this.From.Multiply(GmpBigInteger.ValueOf(-1));
+        result = this.From.Multiply(PrimesBigInteger.ValueOf(-1));
       }
       return result;
     }

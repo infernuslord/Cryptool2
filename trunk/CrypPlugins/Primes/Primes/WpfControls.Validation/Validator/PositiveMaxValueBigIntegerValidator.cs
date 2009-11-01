@@ -205,23 +205,23 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using LibGmpWrapper;
+using Primes.Bignum;
 
 namespace Primes.WpfControls.Validation.Validator
 {
   public class PositiveMaxValueBigIntegerValidator:PositiveBigIntegerValidator
   {
-    protected GmpBigInteger m_MaxValue;
+    protected PrimesBigInteger m_MaxValue;
     public PositiveMaxValueBigIntegerValidator() : base() { }
-    public PositiveMaxValueBigIntegerValidator(GmpBigInteger maxvalue) : this("", maxvalue) { }
+    public PositiveMaxValueBigIntegerValidator(PrimesBigInteger maxvalue) : this("", maxvalue) { }
 
-    public PositiveMaxValueBigIntegerValidator(object value, GmpBigInteger maxValue)
+    public PositiveMaxValueBigIntegerValidator(object value, PrimesBigInteger maxValue)
       : base(value)
     {
       this.m_MaxValue = maxValue;
     }
 
-    public override ValidationResult Validate(ref GmpBigInteger bi)
+    public override ValidationResult Validate(ref PrimesBigInteger bi)
     {
       ValidationResult result = base.Validate(ref bi);
       if (result == ValidationResult.OK)

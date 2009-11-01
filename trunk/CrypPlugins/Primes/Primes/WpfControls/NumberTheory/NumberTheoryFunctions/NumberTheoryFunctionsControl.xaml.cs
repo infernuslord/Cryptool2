@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -222,6 +222,7 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using Primes.WpfControls.Components;
 using System.IO;
+using Primes.Bignum;
 
 namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
 {
@@ -445,7 +446,7 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
     }
     private object locksetdata = new object();
 
-    void f1_Message(INTFunction function, LibGmpWrapper.GmpBigInteger value, string message)
+    void f1_Message(INTFunction function, PrimesBigInteger value, string message)
     {
       lock (locksetdata)
       {
@@ -499,18 +500,18 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
       }
     }
 
-    void irc_Execute(LibGmpWrapper.GmpBigInteger from, LibGmpWrapper.GmpBigInteger to)
+    void irc_Execute(PrimesBigInteger from, PrimesBigInteger to)
     {
       m_DataTable.Clear();
 
-      LibGmpWrapper.GmpBigInteger _from = from;
+      PrimesBigInteger _from = from;
       int c = 0;
       int column = m_DataTable.Columns.IndexOf(m_DcN);
       while (_from.CompareTo(to) <= 0)
       {
         int i = _from.IntValue;
         SetData(column, c, i.ToString());
-        _from = _from.Add(LibGmpWrapper.GmpBigInteger.One);
+        _from = _from.Add(PrimesBigInteger.One);
         c++;
       }
       if (m_DestinationFunctions.Count > 0)

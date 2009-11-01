@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -213,7 +213,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.WpfControls.Validation;
 using Primes.WpfControls.Validation.ControlValidator.Exceptions;
 using Primes.WpfControls.Validation.ControlValidator;
@@ -224,7 +224,7 @@ namespace Primes.WpfControls.Components
   /// <summary>
   /// Interaction logic for InputRangeControl.xaml
   /// </summary>
-  public delegate void ExecuteDelegate(GmpBigInteger from, GmpBigInteger to);
+  public delegate void ExecuteDelegate(PrimesBigInteger from, PrimesBigInteger to);
   public partial class InputRangeControl : UserControl
   {
     
@@ -251,11 +251,11 @@ namespace Primes.WpfControls.Components
 
     {
       InitializeComponent();
-      m_Validators = new Dictionary<string, InputValidator<GmpBigInteger>>();
-      m_ValueValidators = new Dictionary<string, IValidator<GmpBigInteger>>();
-      m_SingleAdvisors = new Dictionary<string, IList<IValidator<GmpBigInteger>>>();
-      m_SingleAdvisors.Add(From,new List<IValidator<GmpBigInteger>>());
-      m_SingleAdvisors.Add(To, new List<IValidator<GmpBigInteger>>());
+      m_Validators = new Dictionary<string, InputValidator<PrimesBigInteger>>();
+      m_ValueValidators = new Dictionary<string, IValidator<PrimesBigInteger>>();
+      m_SingleAdvisors = new Dictionary<string, IList<IValidator<PrimesBigInteger>>>();
+      m_SingleAdvisors.Add(From,new List<IValidator<PrimesBigInteger>>());
+      m_SingleAdvisors.Add(To, new List<IValidator<PrimesBigInteger>>());
 
     }
     #region Components
@@ -454,8 +454,8 @@ namespace Primes.WpfControls.Components
       }
     }
 
-    private IDictionary<string, InputValidator<GmpBigInteger>> m_Validators;
-    public void AddInputValidator(string key, InputValidator<GmpBigInteger> validator)
+    private IDictionary<string, InputValidator<PrimesBigInteger>> m_Validators;
+    public void AddInputValidator(string key, InputValidator<PrimesBigInteger> validator)
     {
       if (this.m_Validators.ContainsKey(key))
       {
@@ -469,8 +469,8 @@ namespace Primes.WpfControls.Components
     }
 
 
-    private IDictionary<string, IValidator<GmpBigInteger>> m_ValueValidators;
-    public void AddValueValidator(string key, IValidator<GmpBigInteger> validator)
+    private IDictionary<string, IValidator<PrimesBigInteger>> m_ValueValidators;
+    public void AddValueValidator(string key, IValidator<PrimesBigInteger> validator)
     {
       if (this.m_ValueValidators.ContainsKey(key))
       {
@@ -482,9 +482,9 @@ namespace Primes.WpfControls.Components
       }
     }
 
-    private IValidator<GmpBigInteger> m_RangeValueValidator;
+    private IValidator<PrimesBigInteger> m_RangeValueValidator;
 
-    public IValidator<GmpBigInteger> RangeValueValidator
+    public IValidator<PrimesBigInteger> RangeValueValidator
     {
       get { return m_RangeValueValidator; }
       set { m_RangeValueValidator = value; }
@@ -537,8 +537,8 @@ namespace Primes.WpfControls.Components
         target.Text = value;
       }
     }
-    private IDictionary<string, IList<IValidator<GmpBigInteger>>> m_SingleAdvisors;
-    public void AddSingleAdisors(string key, IValidator<GmpBigInteger> advisor) 
+    private IDictionary<string, IList<IValidator<PrimesBigInteger>>> m_SingleAdvisors;
+    public void AddSingleAdisors(string key, IValidator<PrimesBigInteger> advisor) 
     {
       if (m_SingleAdvisors.ContainsKey(key))
       {
@@ -672,7 +672,7 @@ namespace Primes.WpfControls.Components
 
     #region Buttons
 
-    public bool GetValue(ref GmpBigInteger from, ref GmpBigInteger to)
+    public bool GetValue(ref PrimesBigInteger from, ref PrimesBigInteger to)
     {
       from = null;
       to = null;
@@ -690,7 +690,7 @@ namespace Primes.WpfControls.Components
 
         if (this.m_ValueValidators.ContainsKey(From))
         {
-          IValidator<GmpBigInteger> validator = this.m_ValueValidators[From];
+          IValidator<PrimesBigInteger> validator = this.m_ValueValidators[From];
           validator.Value = from;
           if (validator.Validate(ref from) != Primes.WpfControls.Validation.ValidationResult.OK)
           {
@@ -709,7 +709,7 @@ namespace Primes.WpfControls.Components
 
         if (this.m_ValueValidators.ContainsKey(To))
         {
-          IValidator<GmpBigInteger> validator = this.m_ValueValidators[To];
+          IValidator<PrimesBigInteger> validator = this.m_ValueValidators[To];
           validator.Value = to;
           if (validator.Validate(ref to) != Primes.WpfControls.Validation.ValidationResult.OK)
           {
@@ -728,7 +728,7 @@ namespace Primes.WpfControls.Components
         if (m_RangeValueValidator != null && from != null && to != null)
         {
           m_RangeValueValidator.Value = to.Subtract(from);
-          GmpBigInteger range = null;
+          PrimesBigInteger range = null;
           if (m_RangeValueValidator.Validate(ref range) != Primes.WpfControls.Validation.ValidationResult.OK)
           {
             if (m_RbSelection == Selection.Free)
@@ -744,7 +744,7 @@ namespace Primes.WpfControls.Components
           }
 
         }
-        foreach (IValidator<GmpBigInteger> validator in this.m_SingleAdvisors[From])
+        foreach (IValidator<PrimesBigInteger> validator in this.m_SingleAdvisors[From])
         {
           if (validator.Validate(ref from) != Primes.WpfControls.Validation.ValidationResult.OK)
           {
@@ -759,7 +759,7 @@ namespace Primes.WpfControls.Components
             break;
           }
         }
-        foreach (IValidator<GmpBigInteger> validator in this.m_SingleAdvisors[To])
+        foreach (IValidator<PrimesBigInteger> validator in this.m_SingleAdvisors[To])
         {
           if (validator.Validate(ref to) != Primes.WpfControls.Validation.ValidationResult.OK)
           {
@@ -788,8 +788,8 @@ namespace Primes.WpfControls.Components
 
     private void DoExecute(bool doExecute)
     {
-      GmpBigInteger from = null;
-      GmpBigInteger to = null;
+      PrimesBigInteger from = null;
+      PrimesBigInteger to = null;
       GetValue(ref from, ref to);
       if (Execute != null && doExecute && from != null && to != null) {
         LockControls();
@@ -813,7 +813,7 @@ namespace Primes.WpfControls.Components
     #endregion
 
     #region Validation of Free Input
-    public void ValidateFreeInput(ref GmpBigInteger from, ref GmpBigInteger to)
+    public void ValidateFreeInput(ref PrimesBigInteger from, ref PrimesBigInteger to)
     {
       try
       {
@@ -854,22 +854,22 @@ namespace Primes.WpfControls.Components
 
     }
 
-    public GmpBigInteger ValidateInput(TextBox tbSource)
+    public PrimesBigInteger ValidateInput(TextBox tbSource)
     {
-      GmpBigInteger result = GmpBigInteger.Zero;
-      InputValidator<GmpBigInteger> m_Validator;
+      PrimesBigInteger result = PrimesBigInteger.Zero;
+      InputValidator<PrimesBigInteger> m_Validator;
       if (m_Validators.ContainsKey(tbSource.Tag.ToString()))
       {
         m_Validator = m_Validators[tbSource.Tag.ToString()];
       }
       else
       {
-        m_Validator = new InputValidator<GmpBigInteger>();
+        m_Validator = new InputValidator<PrimesBigInteger>();
         m_Validator.Validator = new BigIntegerValidator(tbSource.Text);
       }
       try
       {
-        TextBoxValidator<GmpBigInteger> tbvalidator = new TextBoxValidator<GmpBigInteger>(m_Validator.Validator, tbSource,m_Validator.DefaultValue);
+        TextBoxValidator<PrimesBigInteger> tbvalidator = new TextBoxValidator<PrimesBigInteger>(m_Validator.Validator, tbSource,m_Validator.DefaultValue);
         tbvalidator.Validate(ref result);
       }
       catch (ControlValidationException cvex)
@@ -883,18 +883,18 @@ namespace Primes.WpfControls.Components
     #endregion
 
     #region Validation of Calculate Input
-    public void ValidateCalcInput(ref GmpBigInteger from, ref GmpBigInteger to)
+    public void ValidateCalcInput(ref PrimesBigInteger from, ref PrimesBigInteger to)
     {
       try
       {
-        GmpBigInteger fromFactor = ValidateInput(m_tbFromCalcFactor);
-        GmpBigInteger fromBase = ValidateInput(m_tbFromCalcBase);
-        GmpBigInteger fromExp = ValidateInput(m_tbFromCalcExp);
-        GmpBigInteger fromSum = ValidateInput(m_tbFromCalcSum);
-        GmpBigInteger toFactor = ValidateInput(m_tbToCalcFactor);
-        GmpBigInteger toBase = ValidateInput(m_tbToCalcBase);
-        GmpBigInteger toExp = ValidateInput(m_tbToCalcExp);
-        GmpBigInteger toSum = ValidateInput(m_tbToCalcSum);
+        PrimesBigInteger fromFactor = ValidateInput(m_tbFromCalcFactor);
+        PrimesBigInteger fromBase = ValidateInput(m_tbFromCalcBase);
+        PrimesBigInteger fromExp = ValidateInput(m_tbFromCalcExp);
+        PrimesBigInteger fromSum = ValidateInput(m_tbFromCalcSum);
+        PrimesBigInteger toFactor = ValidateInput(m_tbToCalcFactor);
+        PrimesBigInteger toBase = ValidateInput(m_tbToCalcBase);
+        PrimesBigInteger toExp = ValidateInput(m_tbToCalcExp);
+        PrimesBigInteger toSum = ValidateInput(m_tbToCalcSum);
         from = fromBase.Pow(fromExp.IntValue).Multiply(fromFactor).Add(fromSum);
         to = toBase.Pow(toExp.IntValue).Multiply(toFactor).Add(toSum);
         if (m_IntervalDoesntSizeNeedToBeGreateThanZero)
@@ -1031,8 +1031,8 @@ namespace Primes.WpfControls.Components
 
     private void tb_KeyDown(object sender, KeyEventArgs e)
     {
-      GmpBigInteger from = null;
-      GmpBigInteger to = null;
+      PrimesBigInteger from = null;
+      PrimesBigInteger to = null;
       GetValue(ref from, ref to);
       if (from != null && to != null)
       {

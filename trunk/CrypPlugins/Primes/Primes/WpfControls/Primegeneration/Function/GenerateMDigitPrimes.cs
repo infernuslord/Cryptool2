@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -204,7 +204,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.WpfControls.Components;
 using Primes.Library;
 
@@ -213,17 +213,17 @@ namespace Primes.WpfControls.Primegeneration.Function
   public class GenerateMDigitPrimes : Primes.WpfControls.Components.IExpression
   {
     public static readonly string LEN = "Lenght";
-    private IList<GmpBigInteger> m_GeneratedPrimes;
-    private GmpBigInteger m_LastPrime;
-    private GmpBigInteger m_Length;
+    private IList<PrimesBigInteger> m_GeneratedPrimes;
+    private PrimesBigInteger m_LastPrime;
+    private PrimesBigInteger m_Length;
     public event VoidDelegate NonFurtherPrimeFound;
     public GenerateMDigitPrimes()
     {
-      m_GeneratedPrimes = new List<GmpBigInteger>();
+      m_GeneratedPrimes = new List<PrimesBigInteger>();
     }
     #region IFunction Members
 
-    public LibGmpWrapper.GmpBigInteger Execute(GmpBigInteger input)
+    public PrimesBigInteger Execute(PrimesBigInteger input)
     {
       m_LastPrime = GetStartBigInteger();
       int counter = 0;
@@ -243,7 +243,7 @@ namespace Primes.WpfControls.Primegeneration.Function
             {
               sn[i] = '0';
             }
-            GmpBigInteger x = new GmpBigInteger(new string(sn)).NextProbablePrime();
+            PrimesBigInteger x = new PrimesBigInteger(new string(sn)).NextProbablePrime();
             for (int i = 0; i < 100000; i++)
             {
               if (!m_GeneratedPrimes.Contains(x))
@@ -264,15 +264,15 @@ namespace Primes.WpfControls.Primegeneration.Function
       m_GeneratedPrimes.Add(m_LastPrime);
       return m_LastPrime;
     }
-    private GmpBigInteger GetStartBigInteger()
+    private PrimesBigInteger GetStartBigInteger()
     {
-      GmpBigInteger _len = m_Length.Add(GmpBigInteger.One);
-      GmpBigInteger result = GmpBigInteger.Random(_len).NextProbablePrime();
+      PrimesBigInteger _len = m_Length.Add(PrimesBigInteger.One);
+      PrimesBigInteger result = PrimesBigInteger.Random(_len).NextProbablePrime();
       while (result.ToString().Length != this.m_Length.IntValue+1)
-        result = GmpBigInteger.Random(_len).NextProbablePrime();
+        result = PrimesBigInteger.Random(_len).NextProbablePrime();
       return result;
     }
-    public void SetParameter(string name, GmpBigInteger value)
+    public void SetParameter(string name, PrimesBigInteger value)
     {
       if (name.Equals(LEN))
       {

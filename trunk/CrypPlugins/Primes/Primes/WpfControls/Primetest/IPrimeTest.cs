@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -204,7 +204,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.WpfControls.Components;
 using Primes.WpfControls.Validation;
 using Primes.Library;
@@ -213,6 +213,6 @@ namespace Primes.WpfControls.Primetest
 {
   public interface IPrimeTest:IPrimeVisualization
   {
-    IValidator<GmpBigInteger> Validator { get; } 
+    IValidator<PrimesBigInteger> Validator { get; } 
   }
 }

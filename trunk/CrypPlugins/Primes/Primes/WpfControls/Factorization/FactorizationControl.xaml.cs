@@ -217,7 +217,7 @@ using System.Windows.Shapes;
 using Primes.WpfControls.Validation;
 using Primes.Library.FactorTree;
 using Primes.WpfControls.Validation.Validator;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.WpfControls.Components;
 using Primes.Library;
 using System.Threading;
@@ -229,7 +229,7 @@ namespace Primes.WpfControls.Factorization
   /// </summary>
   public partial class FactorizationControl : UserControl, IPrimeMethodDivision
   {
-    private GmpBigInteger m_Integer;
+    private PrimesBigInteger m_Integer;
 
     private IFactorizer _rho;
     private IFactorizer _bruteforce;
@@ -280,22 +280,22 @@ namespace Primes.WpfControls.Factorization
 
     private void SetInputValidators()
     {
-      InputValidator<GmpBigInteger> ivExp = new InputValidator<GmpBigInteger>();
-      ivExp.Validator = new BigIntegerMinValueMaxValueValidator(null, GmpBigInteger.One, GmpBigInteger.OneHundret);
+      InputValidator<PrimesBigInteger> ivExp = new InputValidator<PrimesBigInteger>();
+      ivExp.Validator = new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.One, PrimesBigInteger.OneHundret);
       inputnumbermanager.AddInputValidator(InputSingleControl.CalcExp, ivExp);
 
-      //inputnumbermanager.SetValueValidator(InputSingleControl.Value, new BigIntegerMinValueValidator(null, GmpBigInteger.Two));
+      //inputnumbermanager.SetValueValidator(InputSingleControl.Value, new BigIntegerMinValueValidator(null, PrimesBigInteger.Two));
     }
 
 
     void _rho_ForceGetValue(ExecuteIntegerDelegate del)
     {
-      GmpBigInteger value = inputnumbermanager.GetValue();
+      PrimesBigInteger value = inputnumbermanager.GetValue();
       if (value != null && del != null) del(value);
     }
 
     
-    private void Factorize(GmpBigInteger value)
+    private void Factorize(PrimesBigInteger value)
     {
       ClearInfoPanel();
       string inputvalue = m_Integer.ToString();
@@ -360,7 +360,7 @@ namespace Primes.WpfControls.Factorization
           break;
         case KOF.Rho:
         case KOF.QS:
-          OnFoundFactor_Enumerator(o as IEnumerator<KeyValuePair<GmpBigInteger, GmpBigInteger>>);
+          OnFoundFactor_Enumerator(o as IEnumerator<KeyValuePair<PrimesBigInteger, PrimesBigInteger>>);
           break;
       }
     }
@@ -375,8 +375,8 @@ namespace Primes.WpfControls.Factorization
         foreach (string factor in ft.Factors)
         {
           sbFactors.Append(factor.ToString());
-          GmpBigInteger factorcount = ft.GetFactorCount(factor);
-          if (factorcount.CompareTo(GmpBigInteger.One) > 0)
+          PrimesBigInteger factorcount = ft.GetFactorCount(factor);
+          if (factorcount.CompareTo(PrimesBigInteger.One) > 0)
           {
             sbFactors.Append("^");
 
@@ -393,16 +393,16 @@ namespace Primes.WpfControls.Factorization
     }
 
 
-    public void OnFoundFactor_Enumerator(IEnumerator<KeyValuePair<GmpBigInteger,GmpBigInteger>> _enum)
+    public void OnFoundFactor_Enumerator(IEnumerator<KeyValuePair<PrimesBigInteger,PrimesBigInteger>> _enum)
     {
       StringBuilder sbFactors = new StringBuilder();
       sbFactors.Append(" = ");
       while (_enum.MoveNext())
       {
-        KeyValuePair<GmpBigInteger, GmpBigInteger> current = _enum.Current;
+        KeyValuePair<PrimesBigInteger, PrimesBigInteger> current = _enum.Current;
         sbFactors.Append(current.Key.ToString());
-        GmpBigInteger factorcount = current.Value;
-        if (factorcount.CompareTo(GmpBigInteger.One) > 0)
+        PrimesBigInteger factorcount = current.Value;
+        if (factorcount.CompareTo(PrimesBigInteger.One) > 0)
         {
           sbFactors.Append("^");
 
@@ -414,7 +414,7 @@ namespace Primes.WpfControls.Factorization
       ControlHandler.SetElementContent(lblFactors, sbFactors.ToString());
     }
 
-    private void InputSingleNumberControl_Execute(GmpBigInteger integer)
+    private void InputSingleNumberControl_Execute(PrimesBigInteger integer)
     {
       m_Integer = integer;
 
@@ -531,11 +531,11 @@ namespace Primes.WpfControls.Factorization
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
-      inputnumbermanager.FreeText = GmpBigInteger.Random(5).ToString();
+      inputnumbermanager.FreeText = PrimesBigInteger.Random(5).ToString();
       inputnumbermanager.CalcFactorText = "1";
-      inputnumbermanager.CalcBaseText = GmpBigInteger.RandomM(GmpBigInteger.ValueOf(3)).Add(GmpBigInteger.Two).ToString();
-      inputnumbermanager.CalcExpText = GmpBigInteger.RandomM(GmpBigInteger.ValueOf(7)).Add(GmpBigInteger.Two).ToString();
-      inputnumbermanager.CalcSumText = GmpBigInteger.RandomM(GmpBigInteger.ValueOf(7)).Add(GmpBigInteger.Two).ToString();
+      inputnumbermanager.CalcBaseText = PrimesBigInteger.RandomM(PrimesBigInteger.ValueOf(3)).Add(PrimesBigInteger.Two).ToString();
+      inputnumbermanager.CalcExpText = PrimesBigInteger.RandomM(PrimesBigInteger.ValueOf(7)).Add(PrimesBigInteger.Two).ToString();
+      inputnumbermanager.CalcSumText = PrimesBigInteger.RandomM(PrimesBigInteger.ValueOf(7)).Add(PrimesBigInteger.Two).ToString();
     }
 
     private void MenuItem_Click(object sender, RoutedEventArgs e)

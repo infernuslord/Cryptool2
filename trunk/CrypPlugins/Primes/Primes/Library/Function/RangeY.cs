@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -204,20 +204,20 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LibGmpWrapper;
+using Primes.Bignum;
 
 namespace Primes.Library
 {
   public class RangeY : Range
   {
-    public RangeY(GmpBigInteger from, GmpBigInteger to)
+    public RangeY(PrimesBigInteger from, PrimesBigInteger to)
       : base(from,to)
     {
     }
-    public override GmpBigInteger GetZeroPosition()
+    public override PrimesBigInteger GetZeroPosition()
     {
-      GmpBigInteger result = RangeAmount;
-      if (this.From.CompareTo(GmpBigInteger.Zero) < 0)
+      PrimesBigInteger result = RangeAmount;
+      if (this.From.CompareTo(PrimesBigInteger.Zero) < 0)
       {
           result = RangeAmount.Add(this.From);
       }

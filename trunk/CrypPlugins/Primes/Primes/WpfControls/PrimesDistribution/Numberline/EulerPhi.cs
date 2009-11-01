@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -207,7 +207,7 @@ using System.Text;
 using Primes.WpfControls.Components;
 using System.Windows.Controls;
 using System.Threading;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.Library;
 using System.Windows;
 using System.Diagnostics;
@@ -228,24 +228,24 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
         string info = 
           string.Format(
             Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_eulerphiisprime, 
-            new object[] { m_Value.ToString("D"), m_Value.ToString("D"), m_Value.ToString("D"), m_Value.Subtract(GmpBigInteger.One).ToString("D") });
+            new object[] { m_Value.ToString("D"), m_Value.ToString("D"), m_Value.ToString("D"), m_Value.Subtract(PrimesBigInteger.One).ToString("D") });
         m_Log.Info(info);
         SetCalcInfo(info);
       }
       else
       {
-        GmpBigInteger d = GmpBigInteger.One;
-        GmpBigInteger counter = GmpBigInteger.One;
+        PrimesBigInteger d = PrimesBigInteger.One;
+        PrimesBigInteger counter = PrimesBigInteger.One;
         while (d.CompareTo(m_Value) < 0)
         {
-          if (GmpBigInteger.GCD(d, m_Value).Equals(GmpBigInteger.One))
+          if (PrimesBigInteger.GCD(d, m_Value).Equals(PrimesBigInteger.One))
           {
             m_Log.Info(d.ToString());
-            counter = counter.Add(GmpBigInteger.One);
+            counter = counter.Add(PrimesBigInteger.One);
             SetCalcInfo(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_eulerphifoundresult, new object[] { counter.ToString("D"), m_Value.ToString("D") }));
 
           }
-          d = d.Add(GmpBigInteger.One);
+          d = d.Add(PrimesBigInteger.One);
 
         }
 

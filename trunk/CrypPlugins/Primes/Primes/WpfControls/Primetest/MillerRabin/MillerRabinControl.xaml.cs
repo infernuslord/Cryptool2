@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -213,7 +213,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.WpfControls.Validation.Validator;
 using System.Threading;
 using Primes.WpfControls.Components;
@@ -241,17 +241,17 @@ namespace Primes.WpfControls.Primetest.MillerRabin
       ircSystematic.IntervalDoesntSizeNeedToBeGreateThanZero = true;
     }
 
-    void ircSystematic_Execute(GmpBigInteger from, GmpBigInteger to)
+    void ircSystematic_Execute(PrimesBigInteger from, PrimesBigInteger to)
     {
       if (ForceGetInteger != null) ForceGetInteger(new ExecuteIntegerDelegate(Execute));
     }
 
-    void iscRounds_Execute(GmpBigInteger value)
+    void iscRounds_Execute(PrimesBigInteger value)
     {
       if (ForceGetInteger != null) ForceGetInteger(new ExecuteIntegerDelegate(Execute));
     }
 
-    void iscBaseRandom_Execute(GmpBigInteger value)
+    void iscBaseRandom_Execute(PrimesBigInteger value)
     {
       if (ForceGetInteger != null) ForceGetInteger(new ExecuteIntegerDelegate(Execute));
 
@@ -259,22 +259,22 @@ namespace Primes.WpfControls.Primetest.MillerRabin
 
     private void SetInputValidators()
     {
-      InputValidator<GmpBigInteger> ivRndRounds = new InputValidator<GmpBigInteger>();
+      InputValidator<PrimesBigInteger> ivRndRounds = new InputValidator<PrimesBigInteger>();
       ivRndRounds.DefaultValue = "2";
-      ivRndRounds.Validator = new BigIntegerMinValueValidator(null, GmpBigInteger.One);
+      ivRndRounds.Validator = new BigIntegerMinValueValidator(null, PrimesBigInteger.One);
       iscRounds.AddInputValidator(InputSingleControl.Free, ivRndRounds);
 
-      InputValidator<GmpBigInteger> ivRndBase = new InputValidator<GmpBigInteger>();
+      InputValidator<PrimesBigInteger> ivRndBase = new InputValidator<PrimesBigInteger>();
       ivRndBase.DefaultValue = "3";
-      ivRndBase.Validator = new BigIntegerMinValueValidator(null, GmpBigInteger.Three);
+      ivRndBase.Validator = new BigIntegerMinValueValidator(null, PrimesBigInteger.Three);
       iscBaseRandom.AddInputValidator(InputSingleControl.Free, ivRndBase);
 
-      InputValidator<GmpBigInteger> ivSysBaseFrom = new InputValidator<GmpBigInteger>();
+      InputValidator<PrimesBigInteger> ivSysBaseFrom = new InputValidator<PrimesBigInteger>();
       ivSysBaseFrom.DefaultValue = "2";
-      ivSysBaseFrom.Validator = new BigIntegerMinValueValidator(null, GmpBigInteger.Two);
-      InputValidator<GmpBigInteger> ivSysBaseTo = new InputValidator<GmpBigInteger>();
+      ivSysBaseFrom.Validator = new BigIntegerMinValueValidator(null, PrimesBigInteger.Two);
+      InputValidator<PrimesBigInteger> ivSysBaseTo = new InputValidator<PrimesBigInteger>();
       ivSysBaseTo.DefaultValue = "3";
-      ivSysBaseTo.Validator = new BigIntegerMinValueValidator(null, GmpBigInteger.Three);
+      ivSysBaseTo.Validator = new BigIntegerMinValueValidator(null, PrimesBigInteger.Three);
       ircSystematic.AddInputValidator(InputRangeControl.FreeFrom, ivSysBaseFrom);
       ircSystematic.AddInputValidator(InputRangeControl.FreeTo, ivSysBaseTo);
 
@@ -291,50 +291,50 @@ namespace Primes.WpfControls.Primetest.MillerRabin
     #endregion
 
     #region Properties
-    private GmpBigInteger m_Value;
-    private GmpBigInteger m_Rounds;
-    private GmpBigInteger m_RandomBaseTo;
-    private GmpBigInteger m_SystematicBaseFrom;
-    private GmpBigInteger m_SystematicBaseTo;
+    private PrimesBigInteger m_Value;
+    private PrimesBigInteger m_Rounds;
+    private PrimesBigInteger m_RandomBaseTo;
+    private PrimesBigInteger m_SystematicBaseFrom;
+    private PrimesBigInteger m_SystematicBaseTo;
 
     private Thread m_TestThread;
     #endregion
 
-    //private bool MillerRabin(GmpBigInteger rounds, GmpBigInteger n)
+    //private bool MillerRabin(PrimesBigInteger rounds, PrimesBigInteger n)
     //{
-    //  GmpBigInteger i = GmpBigInteger.One;
+    //  PrimesBigInteger i = PrimesBigInteger.One;
 
     //  while (i.CompareTo(rounds) <= 0)
     //  {
-    //    if (Witness(GmpBigInteger.RandomM(n.Subtract(GmpBigInteger.Two)).Add(GmpBigInteger.Two), n))
+    //    if (Witness(PrimesBigInteger.RandomM(n.Subtract(PrimesBigInteger.Two)).Add(PrimesBigInteger.Two), n))
     //      return false;
-    //    i = i.Add(GmpBigInteger.One);
+    //    i = i.Add(PrimesBigInteger.One);
     //  }
     //  return true;
     //}
-    private bool Witness(GmpBigInteger a)
+    private bool Witness(PrimesBigInteger a)
     {
-      GmpBigInteger n_1 = m_Value.Subtract(GmpBigInteger.One);
+      PrimesBigInteger n_1 = m_Value.Subtract(PrimesBigInteger.One);
       log.Info("n-1 = " + n_1.ToString());
 
-      GmpBigInteger u = m_Value.Subtract(GmpBigInteger.One);
+      PrimesBigInteger u = m_Value.Subtract(PrimesBigInteger.One);
 
       int shl = 0;
-      while (u.Mod(GmpBigInteger.Two).CompareTo(GmpBigInteger.Zero) == 0)
+      while (u.Mod(PrimesBigInteger.Two).CompareTo(PrimesBigInteger.Zero) == 0)
       {
         shl++;
-        log.Info(string.Format(Primes.Resources.lang.WpfControls.Primetest.Primetest.mr_shiftright, new object[] { u.ToString(), u.ShiftRight((uint)1).ToString() }));
-        u = u.ShiftRight((uint)1);
+        log.Info(string.Format(Primes.Resources.lang.WpfControls.Primetest.Primetest.mr_shiftright, new object[] { u.ToString(), u.ShiftRight(1).ToString() }));
+        u = u.ShiftRight(1);
       }
       log.Info(string.Format(Primes.Resources.lang.WpfControls.Primetest.Primetest.mr_shiftedright, shl.ToString()));
-      GmpBigInteger former = a.ModPow(u, m_Value);
+      PrimesBigInteger former = a.ModPow(u, m_Value);
       log.Info(string.Format(Primes.Resources.lang.WpfControls.Primetest.Primetest.mr_calculating1, new object[] { a.ToString(), u.ToString(), m_Value.ToString(),former.ToString() }));
-      GmpBigInteger tmpsqrt = null;
+      PrimesBigInteger tmpsqrt = null;
       for (int i = 0; i < shl; i++)
       {
-        GmpBigInteger tmp = former.ModPow(GmpBigInteger.Two, m_Value);
+        PrimesBigInteger tmp = former.ModPow(PrimesBigInteger.Two, m_Value);
         log.Info(string.Format(Primes.Resources.lang.WpfControls.Primetest.Primetest.mr_calculating2, new object[] { former.ToString(), m_Value.ToString(), tmp.ToString() }));
-        if (tmp.CompareTo(GmpBigInteger.One) == 0 && !former.Equals(GmpBigInteger.One)&& !former.Equals(n_1))
+        if (tmp.CompareTo(PrimesBigInteger.One) == 0 && !former.Equals(PrimesBigInteger.One)&& !former.Equals(n_1))
         {
           log.Info(string.Format(Primes.Resources.lang.WpfControls.Primetest.Primetest.mr_isnotprime1, new object[] { tmp.ToString(), former.ToString(), m_Value.ToString(), m_Value.ToString() }));
           return true;
@@ -342,7 +342,7 @@ namespace Primes.WpfControls.Primetest.MillerRabin
         tmpsqrt = former;
         former = tmp;
       }
-      bool result = !former.Equals(GmpBigInteger.One) ;
+      bool result = !former.Equals(PrimesBigInteger.One) ;
       if (result)
       {
         log.Info(string.Format(Primes.Resources.lang.WpfControls.Primetest.Primetest.mr_isnotprime2, new object[] { m_Value.ToString(), a.ToString(), n_1.ToString(), m_Value.ToString() }));
@@ -352,13 +352,13 @@ namespace Primes.WpfControls.Primetest.MillerRabin
 
     #region IPrimeTest Members
 
-    public void Execute(GmpBigInteger value)
+    public void Execute(PrimesBigInteger value)
     {
 
       CancelTestThread();
       log.Clear();
       m_Value = value;
-      if (value.Mod(GmpBigInteger.Two).Equals(GmpBigInteger.Zero))
+      if (value.Mod(PrimesBigInteger.Two).Equals(PrimesBigInteger.Zero))
       {
         log.Info(string.Format(Primes.Resources.lang.WpfControls.Primetest.Primetest.mr_iseven, value.ToString("D")));
         FireEventCancelTest();
@@ -396,20 +396,20 @@ namespace Primes.WpfControls.Primetest.MillerRabin
     {
       FireEventExecuteTest();
       Random rnd = new Random(DateTime.Today.Millisecond);
-      GmpBigInteger i = GmpBigInteger.One;
+      PrimesBigInteger i = PrimesBigInteger.One;
       while (i.CompareTo(m_Rounds) <= 0)
       {
-        GmpBigInteger k = GmpBigInteger.RandomM(m_RandomBaseTo);
-        k = GmpBigInteger.Max(k, GmpBigInteger.Two);
+        PrimesBigInteger k = PrimesBigInteger.RandomM(m_RandomBaseTo);
+        k = PrimesBigInteger.Max(k, PrimesBigInteger.Two);
         if(ExecuteWitness(i,k))
           i = m_Rounds;
-        i = i.Add(GmpBigInteger.One);
+        i = i.Add(PrimesBigInteger.One);
       }
       FireEventCancelTest();
 
     }
 
-    private bool ExecuteWitness(GmpBigInteger round, GmpBigInteger a)
+    private bool ExecuteWitness(PrimesBigInteger round, PrimesBigInteger a)
     {
       bool result = false;
       log.Info(string.Format(Primes.Resources.lang.WpfControls.Primetest.Primetest.mr_round, new object[] { round.ToString(), a.ToString() }));
@@ -437,13 +437,13 @@ namespace Primes.WpfControls.Primetest.MillerRabin
     private void ExecuteSystematicThread()
     {
       FireEventExecuteTest();
-      GmpBigInteger i = GmpBigInteger.One;
+      PrimesBigInteger i = PrimesBigInteger.One;
       while (m_SystematicBaseFrom.CompareTo(m_SystematicBaseTo) <= 0)
       {
         if (ExecuteWitness(i, m_SystematicBaseFrom))
           m_SystematicBaseFrom = m_SystematicBaseTo;
-        m_SystematicBaseFrom = m_SystematicBaseFrom.Add(GmpBigInteger.One);
-        i = i.Add(GmpBigInteger.One);
+        m_SystematicBaseFrom = m_SystematicBaseFrom.Add(PrimesBigInteger.One);
+        i = i.Add(PrimesBigInteger.One);
       }
       FireEventCancelTest();
     }
@@ -479,9 +479,9 @@ namespace Primes.WpfControls.Primetest.MillerRabin
     #region IPrimeTest Members
 
 
-    public Primes.WpfControls.Validation.IValidator<GmpBigInteger> Validator
+    public Primes.WpfControls.Validation.IValidator<PrimesBigInteger> Validator
     {
-      get { return new BigIntegerMinValueValidator(null, GmpBigInteger.Three); }
+      get { return new BigIntegerMinValueValidator(null, PrimesBigInteger.Three); }
     }
 
     #endregion
@@ -525,7 +525,7 @@ namespace Primes.WpfControls.Primetest.MillerRabin
       ForceGetIntegerInterval(null);
     }
 
-    public void Execute(GmpBigInteger from, GmpBigInteger to)
+    public void Execute(PrimesBigInteger from, PrimesBigInteger to)
     {
     }
 

@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -213,7 +213,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.WpfControls.Components;
 using Primes.WpfControls.Validation;
 using Primes.WpfControls.Validation.Validator;
@@ -237,22 +237,22 @@ namespace Primes.WpfControls.PrimesDistribution.NumberRectangle
       Rows = 10;
       Columns = 10;
       m_Buttons = new ArrayList();
-      InputValidator<GmpBigInteger> ivHeight= new InputValidator<GmpBigInteger>();
-      ivHeight.Validator = new BigIntegerMinValueMaxValueValidator(null, GmpBigInteger.ValueOf(10), GmpBigInteger.ValueOf(500));
+      InputValidator<PrimesBigInteger> ivHeight= new InputValidator<PrimesBigInteger>();
+      ivHeight.Validator = new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.ValueOf(10), PrimesBigInteger.ValueOf(500));
       iscHeight.AddInputValidator(InputSingleControl.Free, ivHeight);
       iscHeight.Execute += new ExecuteSingleDelegate(isc_Execute);
       iscHeight.OnInfoError += new MessageDelegate(iscHeight_OnInfoError);
       iscHeight.KeyDown += new ExecuteSingleDelegate(iscWidth_KeyDown);
 
-      InputValidator<GmpBigInteger> ivWidth = new InputValidator<GmpBigInteger>();
-      ivWidth.Validator = new BigIntegerMinValueMaxValueValidator(null, GmpBigInteger.ValueOf(10), GmpBigInteger.ValueOf(500));
+      InputValidator<PrimesBigInteger> ivWidth = new InputValidator<PrimesBigInteger>();
+      ivWidth.Validator = new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.ValueOf(10), PrimesBigInteger.ValueOf(500));
       iscWidth.AddInputValidator(InputSingleControl.Free, ivWidth);
       iscWidth.Execute += new ExecuteSingleDelegate(isc_Execute);
       iscWidth.OnInfoError += new MessageDelegate(iscHeight_OnInfoError);
       iscWidth.KeyDown += new ExecuteSingleDelegate(iscWidth_KeyDown);
 
-      InputValidator<GmpBigInteger> ivStart = new InputValidator<GmpBigInteger>();
-      ivStart.Validator = new BigIntegerMinValueValidator(null, GmpBigInteger.ValueOf(1));
+      InputValidator<PrimesBigInteger> ivStart = new InputValidator<PrimesBigInteger>();
+      ivStart.Validator = new BigIntegerMinValueValidator(null, PrimesBigInteger.ValueOf(1));
       iscStart.AddInputValidator(InputSingleControl.Free, ivStart);
       iscStart.Execute += new ExecuteSingleDelegate(isc_Execute);
       iscStart.OnInfoError += new MessageDelegate(iscHeight_OnInfoError);
@@ -261,10 +261,10 @@ namespace Primes.WpfControls.PrimesDistribution.NumberRectangle
       this.OnDrawStart += new VoidDelegate(NumberRectangleControl_OnDrawStart);
       this.OnDrawStop += new VoidDelegate(NumberRectangleControl_OnDrawStop);
 
-      m_start = GmpBigInteger.One;
+      m_start = PrimesBigInteger.One;
     }
 
-    void iscWidth_KeyDown(GmpBigInteger value)
+    void iscWidth_KeyDown(PrimesBigInteger value)
     {
       lblInfoError.Text = "";
     }
@@ -296,7 +296,7 @@ namespace Primes.WpfControls.PrimesDistribution.NumberRectangle
       get { return m_Columns; }
       set { m_Columns = Math.Min(Math.Max(value, MIN), MAX); }
     }
-    private GmpBigInteger m_start;
+    private PrimesBigInteger m_start;
     #endregion
 
     #region events
@@ -371,7 +371,7 @@ namespace Primes.WpfControls.PrimesDistribution.NumberRectangle
     //{
     //  DateTime start = DateTime.Now;
     //  m_Buttons.Clear();
-    //  LibGmpWrapper.GmpBigInteger counter = m_start;
+    //  PrimesBigInteger counter = m_start;
     //  NumberRectangle.Width = this.Columns * SIZE;
     //  NumberRectangle.Height = this.Rows * SIZE;
     //  NumberRectangle.Background = Brushes.Transparent;
@@ -404,7 +404,7 @@ namespace Primes.WpfControls.PrimesDistribution.NumberRectangle
 
     //        ControlHandler.ExecuteMethod(childs, "Add", new object[] { btn });
     //        m_Buttons.Add(btn);
-    //        counter = counter.Add(GmpBigInteger.ValueOf(1));
+    //        counter = counter.Add(PrimesBigInteger.ValueOf(1));
     //    }
     //  }
     //  TimeSpan diff = DateTime.Now - start;
@@ -415,7 +415,7 @@ namespace Primes.WpfControls.PrimesDistribution.NumberRectangle
       Cursor = Cursors.Wait;
       //DateTime start = DateTime.Now;
 
-      //LibGmpWrapper.GmpBigInteger counter = m_start;
+      //PrimesBigInteger counter = m_start;
       long counter = m_start.LongValue;
       //DesignerItem.Width = this.Columns * SIZE;
       //DesignerItem.Height = this.Rows * SIZE;
@@ -441,7 +441,7 @@ namespace Primes.WpfControls.PrimesDistribution.NumberRectangle
 
         for (int j = 0; j < this.Columns; j++)
         {
-          bool isPrime = GmpBigInteger.ValueOf(counter).IsPrime(10);
+          bool isPrime = PrimesBigInteger.ValueOf(counter).IsPrime(10);
           if (c%2==0||isPrime)
           {
             btn = new Rectangle();
@@ -477,7 +477,7 @@ namespace Primes.WpfControls.PrimesDistribution.NumberRectangle
             //ControlHandler.ExecuteMethod(childs, "Add", new object[] { btn });
 
           }
-          //counter = counter.Add(GmpBigInteger.ValueOf(1));
+          //counter = counter.Add(PrimesBigInteger.ValueOf(1));
           counter++;
           c++;
         }
@@ -500,8 +500,8 @@ namespace Primes.WpfControls.PrimesDistribution.NumberRectangle
 
     //  foreach (Rectangle nb in m_Buttons)
     //  {
-    //    GmpBigInteger c = nb.Tag as GmpBigInteger;
-    //    c = c.Add(GmpBigInteger.ValueOf(this.Columns * factor));
+    //    PrimesBigInteger c = nb.Tag as PrimesBigInteger;
+    //    c = c.Add(PrimesBigInteger.ValueOf(this.Columns * factor));
     //    if (c.IsPrime(10))
     //    {
     //      nb.Fill = Brushes.Red;
@@ -522,20 +522,20 @@ namespace Primes.WpfControls.PrimesDistribution.NumberRectangle
     private void Scroll(int factor)
     {
       //DateTime start = DateTime.Now;
-      GmpBigInteger sa = GmpBigInteger.ValueOf(this.Columns * factor);
-      m_start = GmpBigInteger.Max(m_start.Add(sa), GmpBigInteger.One);
+      PrimesBigInteger sa = PrimesBigInteger.ValueOf(this.Columns * factor);
+      m_start = PrimesBigInteger.Max(m_start.Add(sa), PrimesBigInteger.One);
       DrawButtons();
       //TimeSpan diff = DateTime.Now - start;
       //Debug.WriteLine(string.Format("Scroll: Std={0}, Min={1}, sek={2}, MS={3}", new object[] { diff.Hours, diff.Minutes, diff.Seconds, diff.Milliseconds }));
     }
     //private void Scroll(int factor)
     //{
-    //  GmpBigInteger sa = GmpBigInteger.ValueOf(this.Columns * factor);
+    //  PrimesBigInteger sa = PrimesBigInteger.ValueOf(this.Columns * factor);
     //  foreach (Rectangle nb in m_Buttons)
     //  {
-    //    GmpBigInteger c = nb.Tag as GmpBigInteger;
+    //    PrimesBigInteger c = nb.Tag as PrimesBigInteger;
     //    c = c.Add(sa);
-    //    if (c.IsPrime(10) && c.CompareTo(GmpBigInteger.Zero) >= 0)
+    //    if (c.IsPrime(10) && c.CompareTo(PrimesBigInteger.Zero) >= 0)
     //    {
     //      nb.Fill = Brushes.Red;
     //    }
@@ -550,12 +550,12 @@ namespace Primes.WpfControls.PrimesDistribution.NumberRectangle
     //}
     //private void Scroll(int factor)
     //{
-    //  GmpBigInteger sa = GmpBigInteger.ValueOf(this.Columns * factor);
+    //  PrimesBigInteger sa = PrimesBigInteger.ValueOf(this.Columns * factor);
 
     //  foreach (Rectangle nb in m_Buttons)
     //  {
     //    nb.BINumber = nb.BINumber.Add(sa);
-    //    if (nb.BINumber.IsPrime(10) && nb.BINumber.CompareTo(GmpBigInteger.Zero) >= 0)
+    //    if (nb.BINumber.IsPrime(10) && nb.BINumber.CompareTo(PrimesBigInteger.Zero) >= 0)
     //    {
     //      nb.Background = Brushes.Red;
     //    }
@@ -584,7 +584,7 @@ namespace Primes.WpfControls.PrimesDistribution.NumberRectangle
     }
     private bool isPrime(long n)
     {
-      return GmpBigInteger.ValueOf(n).IsPrime(10);
+      return PrimesBigInteger.ValueOf(n).IsPrime(10);
       //if (n == 2 || n == 3 || n == 5 || n == 7) return true;
       //if (n < 2) return false;
       //else if (n > 2 && n % 2 == 0) return false;
@@ -669,8 +669,8 @@ namespace Primes.WpfControls.PrimesDistribution.NumberRectangle
     #region Recognizing User Input
     private void btnOk_Click(object sender, RoutedEventArgs e)
     {
-      GmpBigInteger rows = iscHeight.GetValue();
-      GmpBigInteger cols = iscWidth.GetValue();
+      PrimesBigInteger rows = iscHeight.GetValue();
+      PrimesBigInteger cols = iscWidth.GetValue();
       if(rows!=null&&cols!=null){
         Rows = rows.IntValue;
         Columns = cols.IntValue;
@@ -678,34 +678,34 @@ namespace Primes.WpfControls.PrimesDistribution.NumberRectangle
       }
     }
 
-    //void iscWidth_Execute(GmpBigInteger value)
+    //void iscWidth_Execute(PrimesBigInteger value)
     //{
 
     //  Columns = value.IntValue;
-    //  GmpBigInteger rows = iscHeight.GetValue();
+    //  PrimesBigInteger rows = iscHeight.GetValue();
     //  if (rows != null) this.Rows = rows.IntValue;
     //  Draw();
     //}
 
-    //void iscHeight_Execute(GmpBigInteger value)
+    //void iscHeight_Execute(PrimesBigInteger value)
     //{
 
     //  Rows = value.IntValue;
-    //  GmpBigInteger cols = iscWidth.GetValue();
+    //  PrimesBigInteger cols = iscWidth.GetValue();
     //  if (cols != null) this.Columns = cols.IntValue;
     //  Draw();
     //}
 
-    void isc_Execute(GmpBigInteger value)
+    void isc_Execute(PrimesBigInteger value)
     {
       Execute();
     }
 
     void Execute()
     {
-      GmpBigInteger cols = iscWidth.GetValue();
-      GmpBigInteger rows = iscHeight.GetValue();
-      GmpBigInteger start = iscStart.GetValue();
+      PrimesBigInteger cols = iscWidth.GetValue();
+      PrimesBigInteger rows = iscHeight.GetValue();
+      PrimesBigInteger start = iscStart.GetValue();
       if (rows != null && cols != null && start != null)
       {
         this.Rows = rows.IntValue;
@@ -773,7 +773,7 @@ namespace Primes.WpfControls.PrimesDistribution.NumberRectangle
       Point p = e.GetPosition(NumberRectangle);
       int row = (int)Math.Floor(p.Y / SIZE);
       int col = (int)Math.Floor(p.X / SIZE);
-      lblActualNumber.Text = m_start.Add(GmpBigInteger.ValueOf(this.Columns * row)).Add(GmpBigInteger.ValueOf(col)).ToString("D");
+      lblActualNumber.Text = m_start.Add(PrimesBigInteger.ValueOf(this.Columns * row)).Add(PrimesBigInteger.ValueOf(col)).ToString("D");
       lblActualNumberInfo.Visibility = Visibility.Visible;
       lblActualNumber.Visibility = Visibility.Visible;
 

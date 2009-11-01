@@ -215,7 +215,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Primes.WpfControls.Components;
 
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.Library;
 using System.Threading;
 using System.Diagnostics;
@@ -241,8 +241,8 @@ namespace Primes.WpfControls.Primetest.Numbergrid
       this.Columns = 20;
       this.numbergrid.Children.Clear();
       this.border.BorderThickness = new Thickness(0);
-      m_RemovedNumbers = new List<GmpBigInteger>();
-      m_RemovedMods = new List<GmpBigInteger>();
+      m_RemovedNumbers = new List<PrimesBigInteger>();
+      m_RemovedMods = new List<PrimesBigInteger>();
       //m_Sieved = new Dictionary<long, bool>();
       if (m_Limit != null)
       {
@@ -267,28 +267,28 @@ namespace Primes.WpfControls.Primetest.Numbergrid
       set { m_Columns = Math.Min(Math.Max(value, MIN), MAX); }
     }
 
-    private GmpBigInteger m_Limit;
+    private PrimesBigInteger m_Limit;
 
-    //public GmpBigInteger Limit
+    //public PrimesBigInteger Limit
     //{
     //  get { return m_Limit; }
     //  set {
     //    m_Limit = value;
     //    m_Sieved = new long[m_Limit.LongValue];
-    //    GmpBigInteger i = GmpBigInteger.Zero;
+    //    PrimesBigInteger i = PrimesBigInteger.Zero;
     //    m_Sieved.Clear();
     //    while (i.CompareTo(m_Limit) <= 0)
     //    {
     //      m_Sieved.Add(i.LongValue, false);
-    //      i = i.Add(GmpBigInteger.One);
+    //      i = i.Add(PrimesBigInteger.One);
     //    }
     //    m_ButtonColor = Brushes.White; 
     //    m_RemovedMods.Clear(); 
     //    InitButtons(); 
-    //    RemoveNumber(GmpBigInteger.One);
+    //    RemoveNumber(PrimesBigInteger.One);
     //  }
     //}
-    public GmpBigInteger Limit
+    public PrimesBigInteger Limit
     {
       get { return m_Limit; }
       set
@@ -302,39 +302,39 @@ namespace Primes.WpfControls.Primetest.Numbergrid
         m_ButtonColor = Brushes.White;
         m_RemovedMods.Clear();
         InitButtons();
-        RemoveNumber(GmpBigInteger.One);
+        RemoveNumber(PrimesBigInteger.One);
       }
     }
 
     #endregion
 
     #region DeleteNumbers
-    private IList<GmpBigInteger> m_RemovedNumbers;
-    private IList<GmpBigInteger> m_RemovedMods;
+    private IList<PrimesBigInteger> m_RemovedNumbers;
+    private IList<PrimesBigInteger> m_RemovedMods;
 
 
-    public void RemoveNumber(GmpBigInteger value)
+    public void RemoveNumber(PrimesBigInteger value)
     {
       m_RemovedNumbers.Add(value);
       if(m_Limit!=null)
         RedrawButtons();
     }
 
-    public void RemoveMulipleOf(GmpBigInteger value)
+    public void RemoveMulipleOf(PrimesBigInteger value)
     {
       DateTime start = DateTime.Now;
 
-      GmpBigInteger i = value.Multiply(GmpBigInteger.Two);
+      PrimesBigInteger i = value.Multiply(PrimesBigInteger.Two);
       while (i.CompareTo(m_Limit) <= 0)
       {
         m_Sieved[i.LongValue] = -1;
         i = i.Add(value);
       }
-      //GmpBigInteger counter = GmpBigInteger.Two;
+      //PrimesBigInteger counter = PrimesBigInteger.Two;
       //while (counter.Multiply(value).CompareTo(m_Limit)<=0)
       //{
       //  m_RemovedNumbers.Add(counter.Multiply(value));
-      //  counter = counter.Add(GmpBigInteger.One);
+      //  counter = counter.Add(PrimesBigInteger.One);
       //}
       m_RemovedMods.Add(value);
       if(value.Pow(2).CompareTo(GetMaxVisibleValue())<=0)
@@ -344,7 +344,7 @@ namespace Primes.WpfControls.Primetest.Numbergrid
     }
     private void RedrawButtons()
     {
-      ScrollGrid(GmpBigInteger.Zero,false);
+      ScrollGrid(PrimesBigInteger.Zero,false);
     }
 
     public void ClearRemovedNumbers(bool redraw)
@@ -355,11 +355,11 @@ namespace Primes.WpfControls.Primetest.Numbergrid
       if (redraw) RedrawButtons();
     }
 
-    public IList<GmpBigInteger> Remainders
+    public IList<PrimesBigInteger> Remainders
     {
       get
       {
-        List<GmpBigInteger> result = new List<GmpBigInteger>();
+        List<PrimesBigInteger> result = new List<PrimesBigInteger>();
         //BigInteger bi = BigInteger.Two;
         //while (bi.CompareTo(m_Limit) <= 0)
         //{
@@ -440,7 +440,7 @@ namespace Primes.WpfControls.Primetest.Numbergrid
     public void MarkNumbers(Brush color)
     {
       m_ButtonColor = color;
-      ScrollGrid(GmpBigInteger.Zero);
+      ScrollGrid(PrimesBigInteger.Zero);
     }
     #endregion 
 
@@ -456,7 +456,7 @@ namespace Primes.WpfControls.Primetest.Numbergrid
         DrawGrid();
       }
 
-      GmpBigInteger counter = GmpBigInteger.ValueOf(1);
+      PrimesBigInteger counter = PrimesBigInteger.ValueOf(1);
 
       for (int i = 0; i < this.Rows; i++)
       {
@@ -479,7 +479,7 @@ namespace Primes.WpfControls.Primetest.Numbergrid
           if(m_RemovedNumbers.Contains(btn.BINumber))
             btn.Visibility = Visibility.Hidden;
 
-          counter = counter.Add(GmpBigInteger.ValueOf(1));
+          counter = counter.Add(PrimesBigInteger.ValueOf(1));
         }
       }
       SetButtonStatus();
@@ -500,10 +500,10 @@ namespace Primes.WpfControls.Primetest.Numbergrid
     #region Forward/Back Button
     private void btnBack_Click(object sender, RoutedEventArgs e)
     {
-      GmpBigInteger amount = GmpBigInteger.ValueOf(this.Rows * -1);
+      PrimesBigInteger amount = PrimesBigInteger.ValueOf(this.Rows * -1);
       if (sender == btnCompleteBack)
       {
-        amount = GmpBigInteger.One.Subtract((numbergrid.Children[this.Rows + this.Columns - 2] as NumberButton).BINumber);
+        amount = PrimesBigInteger.One.Subtract((numbergrid.Children[this.Rows + this.Columns - 2] as NumberButton).BINumber);
       }
 
       ScrollGrid(amount, false);
@@ -511,8 +511,8 @@ namespace Primes.WpfControls.Primetest.Numbergrid
 
     private void btnForward_Click(object sender, RoutedEventArgs e)
     {
-      GmpBigInteger rows = GmpBigInteger.ValueOf(this.Rows);
-      GmpBigInteger amount = rows;
+      PrimesBigInteger rows = PrimesBigInteger.ValueOf(this.Rows);
+      PrimesBigInteger amount = rows;
       if (sender == btnCompleteForward)
       {
         amount = 
@@ -523,7 +523,7 @@ namespace Primes.WpfControls.Primetest.Numbergrid
     }
 
     delegate void ParameterDelegate(object o);
-    private void ScrollGrid(GmpBigInteger amount, bool AsThread)
+    private void ScrollGrid(PrimesBigInteger amount, bool AsThread)
     {
       if (AsThread)
       {
@@ -536,7 +536,7 @@ namespace Primes.WpfControls.Primetest.Numbergrid
       }
     }
 
-    private void DoScrollGrid(GmpBigInteger amount)
+    private void DoScrollGrid(PrimesBigInteger amount)
     {
       bool keepColor = true;
       int counter = 0;
@@ -547,11 +547,11 @@ namespace Primes.WpfControls.Primetest.Numbergrid
           NumberButton btn = GetNumberButton(this.Rows + this.Columns - 2 + counter);
           if (btn != null)
           {
-            GmpBigInteger newVal = btn.BINumber.Add(amount);
+            PrimesBigInteger newVal = btn.BINumber.Add(amount);
             btn.BINumber = newVal;
-            if (newVal.CompareTo(m_Limit) > 0 || newVal.CompareTo(GmpBigInteger.One) < 0)
+            if (newVal.CompareTo(m_Limit) > 0 || newVal.CompareTo(PrimesBigInteger.One) < 0)
             {
-              if (m_Limit.CompareTo(GmpBigInteger.ValueOf(Rows * Columns)) < 0) return;
+              if (m_Limit.CompareTo(PrimesBigInteger.ValueOf(Rows * Columns)) < 0) return;
               ControlHandler.SetButtonVisibility(btn, Visibility.Hidden);
             }
             else
@@ -588,9 +588,9 @@ namespace Primes.WpfControls.Primetest.Numbergrid
 
     private void ScrollGrid(object o)
     {
-      if (o != null && o.GetType() == typeof(GmpBigInteger))
+      if (o != null && o.GetType() == typeof(PrimesBigInteger))
       {
-        DoScrollGrid(o as GmpBigInteger);
+        DoScrollGrid(o as PrimesBigInteger);
       }
     }
     private NumberButton GetNumberButton(int index)
@@ -600,21 +600,21 @@ namespace Primes.WpfControls.Primetest.Numbergrid
       return buttons[index] as NumberButton;
     }
 
-    private GmpBigInteger GetMaxVisibleValue()
+    private PrimesBigInteger GetMaxVisibleValue()
     {
       NumberButton nb = GetNumberButton(this.Rows + this.Columns - 2 + (this.Columns * this.Rows) - 1);
       if (nb != null)
         return nb.BINumber;
       else
-        return GmpBigInteger.Zero;
+        return PrimesBigInteger.Zero;
     }
-    private GmpBigInteger GetMinVisibleValue()
+    private PrimesBigInteger GetMinVisibleValue()
     {
       NumberButton nb = GetNumberButton(this.Rows + this.Columns - 2);
       if (nb != null)
         return nb.BINumber;
       else
-        return GmpBigInteger.Zero;
+        return PrimesBigInteger.Zero;
     }
 
     protected override void OnKeyDown(KeyEventArgs e)
@@ -623,7 +623,7 @@ namespace Primes.WpfControls.Primetest.Numbergrid
       if ((e.Key == Key.Down || e.Key==Key.PageDown) && ButtonForwardEnabled)
         ScrollGrid(BiRows, true);
       else if ((e.Key == Key.Up || e.Key == Key.PageUp) && ButtonBackEnabled)
-        ScrollGrid(BiRows.Multiply(GmpBigInteger.ValueOf(-1)), true);
+        ScrollGrid(BiRows.Multiply(PrimesBigInteger.ValueOf(-1)), true);
 
     }
     private void SetButtonStatus()
@@ -643,7 +643,7 @@ namespace Primes.WpfControls.Primetest.Numbergrid
       get {
         NumberButton nb = GetNumberButton(this.Rows + this.Columns - 2);;
         if (nb != null)
-          return nb.BINumber.CompareTo(GmpBigInteger.One) >= 1; 
+          return nb.BINumber.CompareTo(PrimesBigInteger.One) >= 1; 
         else
           return false;
       }
@@ -661,17 +661,17 @@ namespace Primes.WpfControls.Primetest.Numbergrid
       }
     }
 
-    private GmpBigInteger BiRows
+    private PrimesBigInteger BiRows
     {
-      get { return GmpBigInteger.ValueOf(this.Rows); }
+      get { return PrimesBigInteger.ValueOf(this.Rows); }
     }
     private void numbergrid_MouseWheel(object sender, MouseWheelEventArgs e)
     {
       int scrollfactor = (e.Delta > 0) ? -2 : 2;
       if (scrollfactor>0 && ButtonForwardEnabled)
-        ScrollGrid(GmpBigInteger.ValueOf(this.Rows * scrollfactor), false);
+        ScrollGrid(PrimesBigInteger.ValueOf(this.Rows * scrollfactor), false);
       else if (scrollfactor <0 && ButtonBackEnabled)
-        ScrollGrid(GmpBigInteger.ValueOf(this.Rows * scrollfactor), false);
+        ScrollGrid(PrimesBigInteger.ValueOf(this.Rows * scrollfactor), false);
     }
 
     #endregion

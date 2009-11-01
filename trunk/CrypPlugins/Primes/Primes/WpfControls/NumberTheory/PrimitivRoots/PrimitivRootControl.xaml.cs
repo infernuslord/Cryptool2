@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -216,7 +216,7 @@ using System.Windows.Shapes;
 using System.Threading;
 using Primes.WpfControls.Components;
 using Primes.Library;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.WpfControls.Validation;
 using Primes.WpfControls.Validation.Validator;
 using System.Diagnostics;
@@ -235,15 +235,15 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
       InitializeComponent();
       this.OnStart += new VoidDelegate(PrimitivRootControl_OnStart);
       this.OnStop += new VoidDelegate(PrimitivRootControl_OnStop);
-      validator = new BigIntegerMinValueMaxValueValidator(null, GmpBigInteger.Five,MAX);
-      primes = new List<GmpBigInteger>();
+      validator = new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.Five,MAX);
+      primes = new List<PrimesBigInteger>();
       log.OverrideText = true;
       int mersenneexp = mersenneseed[new Random().Next(mersenneseed.Length - 1)];
-      tbInput.Text = GmpBigInteger.Random(2).Add(GmpBigInteger.Three).NextProbablePrime().ToString();
+      tbInput.Text = PrimesBigInteger.Random(2).Add(PrimesBigInteger.Three).NextProbablePrime().ToString();
       tbInput.Text += ", 2^" + mersenneexp + "-1";
-      GmpBigInteger rangeval =GmpBigInteger.Random(2).Add(GmpBigInteger.Three);
+      PrimesBigInteger rangeval =PrimesBigInteger.Random(2).Add(PrimesBigInteger.Three);
 
-      tbInput.Text += ", " + rangeval.ToString() + ";" + rangeval.Add(GmpBigInteger.Ten).ToString();
+      tbInput.Text += ", " + rangeval.ToString() + ";" + rangeval.Add(PrimesBigInteger.Ten).ToString();
 
       rndGenerate = new Random((int)(DateTime.Now.Ticks% int.MaxValue));
       m_JumpLockObject = new object();
@@ -288,7 +288,7 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
               string[] _inputrange = s.Split(';');
               if (_inputrange.Length == 1)
               {
-                GmpBigInteger ipt = null;
+                PrimesBigInteger ipt = null;
                 validator.Value = s;
                 Primes.WpfControls.Validation.ValidationResult res = validator.Validate(ref ipt);
                 if (res == Primes.WpfControls.Validation.ValidationResult.OK)
@@ -323,8 +323,8 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
                 }
                 else
                 {
-                  GmpBigInteger i1 = IsGmpBigInteger(_inputrange[0]);
-                  GmpBigInteger i2 = IsGmpBigInteger(_inputrange[1]);
+                  PrimesBigInteger i1 = IsGmpBigInteger(_inputrange[0]);
+                  PrimesBigInteger i2 = IsGmpBigInteger(_inputrange[1]);
                   if (i1 != null && i2 != null)
                   {
                     if (i1.CompareTo(i2) >= 0)
@@ -361,9 +361,9 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
       }
     }
 
-    private GmpBigInteger IsGmpBigInteger(string s)
+    private PrimesBigInteger IsGmpBigInteger(string s)
     {
-      GmpBigInteger ipt = null;
+      PrimesBigInteger ipt = null;
       validator.Value = s;
       Primes.WpfControls.Validation.ValidationResult res = validator.Validate(ref ipt);
       if (res != Primes.WpfControls.Validation.ValidationResult.OK)
@@ -383,11 +383,11 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
       return null;
     }
     #region Constants
-    private static readonly GmpBigInteger MAX = GmpBigInteger.ValueOf(1000000);
+    private static readonly PrimesBigInteger MAX = PrimesBigInteger.ValueOf(1000000);
     #endregion
     #region Properites
-    private IList<GmpBigInteger> primes;
-    private IValidator<GmpBigInteger> validator;
+    private IList<PrimesBigInteger> primes;
+    private IValidator<PrimesBigInteger> validator;
     private Random rndGenerate; 
 
     #endregion
@@ -448,13 +448,13 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
     {
       DateTime start = DateTime.Now;
       FireOnStart();
-      foreach (GmpBigInteger prime in primes)
+      foreach (PrimesBigInteger prime in primes)
       {
         int row1 = log.NewLine();
         int row2 = log.NewLine();
 
         StringBuilder sbResult = new StringBuilder();
-        GmpBigInteger primeroot = GmpBigInteger.One;
+        PrimesBigInteger primeroot = PrimesBigInteger.One;
         while(primeroot.CompareTo(prime)<0)
         {
             if (IsPrimitiveRoot(primeroot, prime))
@@ -462,11 +462,11 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
               break;
               
             }
-          primeroot = primeroot.Add(GmpBigInteger.One);
+          primeroot = primeroot.Add(PrimesBigInteger.One);
         }
-        GmpBigInteger i = GmpBigInteger.One;
-        GmpBigInteger primeMinus1 = prime.Subtract(GmpBigInteger.One);
-        GmpBigInteger counter = GmpBigInteger.Zero;
+        PrimesBigInteger i = PrimesBigInteger.One;
+        PrimesBigInteger primeMinus1 = prime.Subtract(PrimesBigInteger.One);
+        PrimesBigInteger counter = PrimesBigInteger.Zero;
         while (i.CompareTo(primeMinus1) <= 0)
         {
           //lock (m_JumpLockObject)
@@ -477,7 +477,7 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
           //    break;
           //  }
           //}
-          if (GmpBigInteger.GCD(i, primeMinus1).Equals(GmpBigInteger.One))
+          if (PrimesBigInteger.GCD(i, primeMinus1).Equals(PrimesBigInteger.One))
           {
             lock (m_JumpLockObject)
             {
@@ -488,14 +488,14 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
                 break;
               }
             }
-            GmpBigInteger proot = primeroot.ModPow(i, prime);
-            counter = counter.Add(GmpBigInteger.One);
+            PrimesBigInteger proot = primeroot.ModPow(i, prime);
+            counter = counter.Add(PrimesBigInteger.One);
             log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.proot_skipcalc,new object[]{counter.ToString(), prime.ToString()}), 0, row1);
             sbResult.Append(proot.ToString());
             sbResult.Append(" ");
             log.Info(sbResult.ToString(), 0, row2);
           }
-          i = i.Add(GmpBigInteger.One);
+          i = i.Add(PrimesBigInteger.One);
         }
         int r3 = log.NewLine();
         log.Info(" ");
@@ -505,18 +505,18 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
       StopThread();
     }
 
-    private bool IsPrimitiveRoot(GmpBigInteger root, GmpBigInteger prime)
+    private bool IsPrimitiveRoot(PrimesBigInteger root, PrimesBigInteger prime)
     {
       bool result = true;      
-      if(GmpBigInteger.GCD(root,prime).Equals(GmpBigInteger.One)){
-          GmpBigInteger k = GmpBigInteger.One;
-          while (k.CompareTo(prime.Subtract(GmpBigInteger.One)) < 0)
+      if(PrimesBigInteger.GCD(root,prime).Equals(PrimesBigInteger.One)){
+          PrimesBigInteger k = PrimesBigInteger.One;
+          while (k.CompareTo(prime.Subtract(PrimesBigInteger.One)) < 0)
           {            
-            if(root.ModPow(k,prime).Subtract(GmpBigInteger.One).Equals(GmpBigInteger.Zero)){
+            if(root.ModPow(k,prime).Subtract(PrimesBigInteger.One).Equals(PrimesBigInteger.Zero)){
               result = false;
               break;
             }
-            k = k.Add(GmpBigInteger.One);
+            k = k.Add(PrimesBigInteger.One);
           }
       }
       else
@@ -578,7 +578,7 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
     private void miHeader_Click(object sender, RoutedEventArgs e)
     {
       int rndNumber = rndGenerate.Next(950);
-      GmpBigInteger prime = GmpBigInteger.ValueOf(rndNumber).NextProbablePrime();
+      PrimesBigInteger prime = PrimesBigInteger.ValueOf(rndNumber).NextProbablePrime();
       if (!string.IsNullOrEmpty(tbInput.Text))
         tbInput.Text += ", ";
       else

@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -204,7 +204,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.WpfControls.Components;
 using Primes.Library;
 
@@ -212,7 +212,7 @@ namespace Primes.WpfControls.PrimesDistribution.Spirals
 {
   public interface IPrimeSpiral
   {
-    void Draw(GmpBigInteger from, GmpBigInteger to);
+    void Draw(PrimesBigInteger from, PrimesBigInteger to);
     void Close();
     void Clear();
     void Cancel();

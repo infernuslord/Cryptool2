@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -213,7 +213,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.Library;
 using Primes.WpfControls.Components;
 using Primes.WpfControls.Validation.Validator;
@@ -232,7 +232,7 @@ namespace Primes.WpfControls.PrimesDistribution.Spirals
       spiral.StartDrawing += new VoidDelegate(spiral_StartDrawing);
       spiral.StopDrawing += new VoidDelegate(spiral_StopDrawing);
       irc.Execute += new Primes.WpfControls.Components.ExecuteDelegate(irc_Execute);
-      irc.RangeValueValidator = new BigIntegerMinValueMaxValueValidator(null,GmpBigInteger.Ten,GmpBigInteger.ValueOf(100000));
+      irc.RangeValueValidator = new BigIntegerMinValueMaxValueValidator(null,PrimesBigInteger.Ten,PrimesBigInteger.ValueOf(100000));
       irc.RangeValueValidator.Message = "Der Abstand zwischen \"von\" und \"bis\" muss mindestens {0} und darf höchstens {1} betragen.";
       irc.SetText(InputRangeControl.FreeFrom, "1");
       irc.SetText(InputRangeControl.FreeTo, "2000");
@@ -258,8 +258,8 @@ namespace Primes.WpfControls.PrimesDistribution.Spirals
     private void btnExecute_Click(object sender, RoutedEventArgs e)
     {
 
-      GmpBigInteger from = null;
-      GmpBigInteger to = null;
+      PrimesBigInteger from = null;
+      PrimesBigInteger to = null;
 
       if (irc.GetValue(ref from, ref to))
       {
@@ -267,7 +267,7 @@ namespace Primes.WpfControls.PrimesDistribution.Spirals
       }
     }
     
-    void irc_Execute(GmpBigInteger from, GmpBigInteger to)
+    void irc_Execute(PrimesBigInteger from, PrimesBigInteger to)
     {
       CurrentSpiral.Clear();
       CurrentSpiral.Draw(from, to);

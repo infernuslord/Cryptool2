@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -218,7 +218,7 @@ using Primes.Library.Function;
 using System.Threading;
 using Primes.WpfControls.Threads;
 using Primes.WpfControls.Components;
-using LibGmpWrapper;
+using Primes.Bignum;
 
 namespace Primes.WpfControls.PrimesDistribution.Graph
 {
@@ -280,7 +280,7 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
 
     private void ScaleFunction()
     {
-      if (!double.IsNaN(this.Width) && !double.IsNaN(this.Height) && RangeX != null && RangeY != null && RangeX.RangeAmount.CompareTo(GmpBigInteger.Zero) > 0 && RangeY.RangeAmount.CompareTo(GmpBigInteger.Zero) > 0)
+      if (!double.IsNaN(this.Width) && !double.IsNaN(this.Height) && RangeX != null && RangeY != null && RangeX.RangeAmount.CompareTo(PrimesBigInteger.Zero) > 0 && RangeY.RangeAmount.CompareTo(PrimesBigInteger.Zero) > 0)
       {
 
         double xSize = (this.Width - paddingleft) / RangeX.RangeAmount.DoubleValue;
@@ -313,7 +313,7 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
     }
     //private void ScaleFunction()
     //{
-    //  if (!double.IsNaN(this.Width) && !double.IsNaN(this.Height) && RangeX != null && RangeY != null && RangeX.RangeAmount.CompareTo(GmpBigInteger.Zero) > 0 && RangeY.RangeAmount.CompareTo(GmpBigInteger.Zero) > 0)
+    //  if (!double.IsNaN(this.Width) && !double.IsNaN(this.Height) && RangeX != null && RangeY != null && RangeX.RangeAmount.CompareTo(PrimesBigInteger.Zero) > 0 && RangeY.RangeAmount.CompareTo(PrimesBigInteger.Zero) > 0)
     //  {
     //    double xSize = ((this.Width) / double.Parse(RangeX.RangeAmount.ToString()));
     //    double ySize = this.Height / double.Parse(RangeY.RangeAmount.ToString());
@@ -388,7 +388,7 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
     {
       this.m_FunctionExecutes.Clear();
     }
-    public void AddFunctionExecute(IFunction func, GmpBigInteger from, GmpBigInteger to, FunctionType type, Brush color)
+    public void AddFunctionExecute(IFunction func, PrimesBigInteger from, PrimesBigInteger to, FunctionType type, Brush color)
     {
       if (!ContainsFunction(func))
       {
@@ -635,7 +635,7 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
     }
     //public void RefreshCoordinateAxis()
     //{
-    //  if (!double.IsNaN(this.Width) && !double.IsNaN(this.Height) && RangeX != null && RangeY != null && RangeX.RangeAmount.CompareTo(GmpBigInteger.Zero) > 0 && RangeY.RangeAmount.CompareTo(GmpBigInteger.Zero) > 0)
+    //  if (!double.IsNaN(this.Width) && !double.IsNaN(this.Height) && RangeX != null && RangeY != null && RangeX.RangeAmount.CompareTo(PrimesBigInteger.Zero) > 0 && RangeY.RangeAmount.CompareTo(PrimesBigInteger.Zero) > 0)
     //  {
     //    foreach (UIElement element in m_CooardinateAxisElements)
     //    {
@@ -821,7 +821,7 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
     }
     public FunctionExecute()
     {
-      m_Range = new RangeX(GmpBigInteger.Zero, GmpBigInteger.Zero);
+      m_Range = new RangeX(PrimesBigInteger.Zero, PrimesBigInteger.Zero);
     }
     private IFunction m_Function;
     public IFunction Function

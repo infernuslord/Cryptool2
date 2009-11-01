@@ -31,9 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LibGmpWrapper, Version=1.0.2987.28787, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="BouncyCastle.Crypto, Version=1.5.0.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Primes.References\LibGmpWrapper.dll</HintPath>
+      <HintPath>..\Primes.References\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Windows.Design, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.Windows.Design.Extensibility, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
@@ -70,6 +70,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bignum\PrimesBigInteger.cs" />
     <Compile Include="CalculatorLib\CalcParser.cs" />
     <Compile Include="CalculatorLib\CalcProcessor.cs" />
     <Compile Include="CalculatorLib\CalcToken.cs" />

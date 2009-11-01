@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -214,7 +214,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Primes.WpfControls.Components;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.WpfControls.Validation;
 using Primes.WpfControls.Validation.Validator;
 using Primes.Library;
@@ -228,10 +228,10 @@ namespace Primes.WpfControls.Primegeneration
   /// </summary>
   public delegate void ExecutePolynomRangeDelegate(
     IPolynom p, 
-    GmpBigInteger from,
-    GmpBigInteger to,
-    GmpBigInteger numberOfCalculations,
-    GmpBigInteger numberOfFormulars,
+    PrimesBigInteger from,
+    PrimesBigInteger to,
+    PrimesBigInteger numberOfCalculations,
+    PrimesBigInteger numberOfFormulars,
     IList<KeyValuePair<string, Range>> parameters);
   
   public partial class InputControlPolynomRange : UserControl
@@ -292,12 +292,12 @@ namespace Primes.WpfControls.Primegeneration
       result.Title = "";
       result.Execute += new ExecuteDelegate(InputRangeControl_Execute);
 
-      InputValidator<GmpBigInteger> validatorFreeFrom = new InputValidator<GmpBigInteger>();
+      InputValidator<PrimesBigInteger> validatorFreeFrom = new InputValidator<PrimesBigInteger>();
       validatorFreeFrom.DefaultValue = "0";
       validatorFreeFrom.Validator = new BigIntegerValidator();
       result.AddInputValidator(InputRangeControl.FreeFrom, validatorFreeFrom);
 
-      InputValidator<GmpBigInteger> validatorFreeTo = new InputValidator<GmpBigInteger>();
+      InputValidator<PrimesBigInteger> validatorFreeTo = new InputValidator<PrimesBigInteger>();
       validatorFreeTo.DefaultValue = "1";
       validatorFreeTo.Validator = new BigIntegerValidator();
       result.AddInputValidator(InputRangeControl.FreeTo, validatorFreeTo);
@@ -378,9 +378,9 @@ namespace Primes.WpfControls.Primegeneration
 
     private void SetNumberOfCalculationsValidators()
     {
-      InputValidator<GmpBigInteger> validatorNumberOfCalculations = new InputValidator<GmpBigInteger>();
+      InputValidator<PrimesBigInteger> validatorNumberOfCalculations = new InputValidator<PrimesBigInteger>();
       validatorNumberOfCalculations.DefaultValue = "1";
-      validatorNumberOfCalculations.Validator = new BigIntegerMinValueValidator(null, GmpBigInteger.One);
+      validatorNumberOfCalculations.Validator = new BigIntegerMinValueValidator(null, PrimesBigInteger.One);
       icNumberOfCalculations.AddInputValidator(InputSingleControl.Free, validatorNumberOfCalculations);
     }
     #endregion
@@ -407,8 +407,8 @@ namespace Primes.WpfControls.Primegeneration
         if (element.GetType() == typeof(InputRangeControl))
         {
           InputRangeControl isc = element as InputRangeControl;
-          GmpBigInteger _from = null;
-          GmpBigInteger _to = null;
+          PrimesBigInteger _from = null;
+          PrimesBigInteger _to = null;
 
           isc.GetValue(ref _from, ref _to);
           if (_from != null && _to != null)
@@ -443,10 +443,10 @@ namespace Primes.WpfControls.Primegeneration
 
     private void ExecuteRandom(IList<KeyValuePair<string, Range>> parameters)
     {
-      GmpBigInteger numberOfCalculations = icNumberOfCalculations.GetValue();
-      GmpBigInteger numberOfFormulars = icNumberOfFormulars.GetValue();
-      GmpBigInteger xfrom = null;
-      GmpBigInteger xto = null;
+      PrimesBigInteger numberOfCalculations = icNumberOfCalculations.GetValue();
+      PrimesBigInteger numberOfFormulars = icNumberOfFormulars.GetValue();
+      PrimesBigInteger xfrom = null;
+      PrimesBigInteger xto = null;
       ircRandomChooseXRange.GetValue(ref xfrom, ref xto);
       if (numberOfFormulars != null)
       {
@@ -454,7 +454,7 @@ namespace Primes.WpfControls.Primegeneration
         {
           if (xfrom != null && xto != null)
           {
-            numberOfCalculations = GmpBigInteger.NaN;
+            numberOfCalculations = PrimesBigInteger.NaN;
             Execute(m_Polynom, xfrom, xto, numberOfCalculations, numberOfFormulars, parameters);
           }
 
@@ -463,8 +463,8 @@ namespace Primes.WpfControls.Primegeneration
         {
           if (numberOfCalculations != null)
           {
-            xfrom = GmpBigInteger.NaN;
-            xto = GmpBigInteger.NaN;
+            xfrom = PrimesBigInteger.NaN;
+            xto = PrimesBigInteger.NaN;
 
             Execute(m_Polynom, xfrom, xto, numberOfCalculations, numberOfFormulars, parameters);
           }
@@ -475,12 +475,12 @@ namespace Primes.WpfControls.Primegeneration
 
     private void ExecuteSystematic(IList<KeyValuePair<string, Range>> parameters)
     {
-      GmpBigInteger xfrom = null;
-      GmpBigInteger xto = null;
+      PrimesBigInteger xfrom = null;
+      PrimesBigInteger xto = null;
       ircSystematicChooseXRange.GetValue(ref xfrom, ref xto);
       if (xfrom != null && xto != null)
       {
-        Execute(m_Polynom, xfrom, xto, GmpBigInteger.NaN, GmpBigInteger.NaN, parameters);
+        Execute(m_Polynom, xfrom, xto, PrimesBigInteger.NaN, PrimesBigInteger.NaN, parameters);
       }
     }
     private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -506,13 +506,13 @@ namespace Primes.WpfControls.Primegeneration
 
     }
 
-    private void InputSingleControl_Execute(GmpBigInteger value)
+    private void InputSingleControl_Execute(PrimesBigInteger value)
     {
       DoExecute();
 
     }
 
-    private void InputRangeControl_Execute(GmpBigInteger from, GmpBigInteger to)
+    private void InputRangeControl_Execute(PrimesBigInteger from, PrimesBigInteger to)
     {
       DoExecute();
     }

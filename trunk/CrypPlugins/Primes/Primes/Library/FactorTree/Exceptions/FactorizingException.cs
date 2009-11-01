@@ -204,7 +204,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LibGmpWrapper;
+using Primes.Bignum;
+
 
 
 namespace Primes.Library.FactorTree.Exceptions
@@ -217,7 +218,7 @@ namespace Primes.Library.FactorTree.Exceptions
     {
     }
 
-    public FactorizingException(GmpBigInteger value, GmpBigInteger maxValue)
+    public FactorizingException(PrimesBigInteger value, PrimesBigInteger maxValue)
       : base()
     {
       this.m_Message = string.Format("{0} is bigger than MaxValue {1}", new object[] { value.ToString(),maxValue.ToString()});

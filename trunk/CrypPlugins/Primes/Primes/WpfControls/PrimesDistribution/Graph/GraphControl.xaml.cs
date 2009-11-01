@@ -222,7 +222,7 @@ using System.Threading;
 using Primes.WpfControls.Validation.ControlValidator;
 using Primes.WpfControls.Validation.Exceptions;
 using Primes.WpfControls.Validation.ControlValidator.Exceptions;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.WpfControls.Components;
 using Primes.WpfControls.Threads;
 using System.Diagnostics;
@@ -238,8 +238,8 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
 
   public partial class GraphControl : UserControl, IPrimeMethodDivision
   {
-    GmpBigInteger m_From;
-    GmpBigInteger m_To;
+    PrimesBigInteger m_From;
+    PrimesBigInteger m_To;
     CountPiXThread m_CountPixThread;
     double m_RangeYFrom;
     double m_RangeYTo;
@@ -261,9 +261,9 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
         m_FunctionLiN.Executed += new ObjectParameterDelegate(m_FunctionLiN_Executed);
         m_FunctionPiGauss = new FunctionPiGauss();
         m_FunctionPiGauss.Executed += new ObjectParameterDelegate(m_FunctionPiGauss_Executed);
-        //m_BiMaxValueValidator = new PositiveMaxValueBigIntegerValidator(new GmpBigInteger("5000000000"));
-        m_From = GmpBigInteger.Zero;
-        m_To = GmpBigInteger.Zero;
+        //m_BiMaxValueValidator = new PositiveMaxValueBigIntegerValidator(new PrimesBigInteger("5000000000"));
+        m_From = PrimesBigInteger.Zero;
+        m_To = PrimesBigInteger.Zero;
         ircCountPrimes.Execute += new Primes.WpfControls.Components.ExecuteDelegate(ircCountPrimes_Execute);
         ircCountPrimes.Cancel += new VoidDelegate(ircCountPrimes_Cancel);
         this.OnStopPiX += new VoidDelegate(GraphControl_OnStopPiX);
@@ -281,11 +281,11 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
         ircCountPrimes.SetText(InputRangeControl.CalcToExp, "2");
         ircCountPrimes.SetText(InputRangeControl.CalcToSum, "0");
 
-        ircCountPrimes.AddValueValidator(InputRangeControl.From, new BigIntegerMinValueValidator(null, GmpBigInteger.Two));
-        //ircCountPrimes.AddValueValidator(InputRangeControl.To, new BigIntegerMinValueValidator(null, GmpBigInteger.OneHundret));
-        ircCountPrimes.AddValueValidator(InputRangeControl.To, new BigIntegerMinValueMaxValueValidator(null, GmpBigInteger.Ten, GmpBigInteger.ValueOf(500000000)));
+        ircCountPrimes.AddValueValidator(InputRangeControl.From, new BigIntegerMinValueValidator(null, PrimesBigInteger.Two));
+        //ircCountPrimes.AddValueValidator(InputRangeControl.To, new BigIntegerMinValueValidator(null, PrimesBigInteger.OneHundret));
+        ircCountPrimes.AddValueValidator(InputRangeControl.To, new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.Ten, PrimesBigInteger.ValueOf(500000000)));
 
-        IValidator<GmpBigInteger> rangevalidator = new BigIntegerMinValueValidator(null, GmpBigInteger.ValueOf(10));
+        IValidator<PrimesBigInteger> rangevalidator = new BigIntegerMinValueValidator(null, PrimesBigInteger.ValueOf(10));
         rangevalidator.Message = Primes.Resources.lang.WpfControls.Distribution.Distribution.graph_validatorrangemessage;
         ircCountPrimes.RangeValueValidator = rangevalidator;
 
@@ -306,9 +306,9 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
 
     }
 
-    void ircCountPrimes_KeyDown(GmpBigInteger from, GmpBigInteger to)
+    void ircCountPrimes_KeyDown(PrimesBigInteger from, PrimesBigInteger to)
     {
-      if (to.CompareTo(GmpBigInteger.ValueOf(10000)) > 0)
+      if (to.CompareTo(PrimesBigInteger.ValueOf(10000)) > 0)
       {
         lblInfoPixDontCalc.Visibility = Visibility.Visible;
         cbPiX.IsEnabled = false;
@@ -328,7 +328,7 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
       Cancel();
     }
 
-    void ircCountPrimes_Execute(GmpBigInteger from, GmpBigInteger to)
+    void ircCountPrimes_Execute(PrimesBigInteger from, PrimesBigInteger to)
     {
       ExecuteGraph(from, to);
     }
@@ -362,7 +362,7 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
       {
         string info = string.Empty;
         if (value.GetType() == typeof(double)) info = ((double)value).ToString("N");
-        else if (value.GetType() == typeof(GmpBigInteger)) info = ((GmpBigInteger)value).ToString();
+        else if (value.GetType() == typeof(PrimesBigInteger)) info = ((PrimesBigInteger)value).ToString();
         else if (value.GetType() == typeof(int)) info = ((int)value).ToString();
         else if (value.GetType() == typeof(long)) info = ((long)value).ToString();
 
@@ -372,8 +372,8 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
     }
     private void btnExec_Click(object sender, RoutedEventArgs e)
     {
-      GmpBigInteger from = null;
-      GmpBigInteger to = null;
+      PrimesBigInteger from = null;
+      PrimesBigInteger to = null;
       if (ircCountPrimes.GetValue(ref from, ref to))
       {
         ExecuteGraph(from, to);
@@ -432,7 +432,7 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
       //btnHelpLargeParamsFree.Visibility = Visibility.Hidden;
       //btnHelpLargeParamsFunction.Visibility = Visibility.Hidden;
     }
-    private void ExecuteGraph(GmpBigInteger from, GmpBigInteger to)
+    private void ExecuteGraph(PrimesBigInteger from, PrimesBigInteger to)
     {
       CancelPiX();
 
@@ -481,7 +481,7 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
         strTo = strTo.Substring(0,strTo.IndexOf(','));
         strTo = strTo.Replace(".","");
 
-        cgraph.RangeY = new RangeY(new GmpBigInteger(strFrom), new GmpBigInteger(strTo));
+        cgraph.RangeY = new RangeY(new PrimesBigInteger(strFrom), new PrimesBigInteger(strTo));
         if (cbPiGauss.IsChecked.Value)
           cgraph.AddFunctionExecute(m_FunctionPiGauss, from, to, FunctionType.CONSTANT,Brushes.Blue);
         if (cbPiX.IsChecked.Value )
@@ -489,7 +489,7 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
         if (cbLin.IsChecked.Value)
           cgraph.AddFunctionExecute(m_FunctionLiN, from, to, FunctionType.CONSTANT,Brushes.Green);
         cgraph.ExecuteFunctions();
-        if (to.CompareTo(GmpBigInteger.ValueOf(10000)) > 0)
+        if (to.CompareTo(PrimesBigInteger.ValueOf(10000)) > 0)
         {
           lblInfoPixDontCalc.Visibility = Visibility.Visible;
 
@@ -565,10 +565,10 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
     //  btnHelpLargeParamsFree.Visibility = Visibility.Visible;
     //}
 
-    //private bool GetFreeParameters(ref GmpBigInteger ifrom, ref GmpBigInteger ito)
+    //private bool GetFreeParameters(ref PrimesBigInteger ifrom, ref PrimesBigInteger ito)
     //{
-    //  GmpBigInteger from = ValidateFreeParameter(tbFreeFrom);
-    //  GmpBigInteger to = ValidateFreeParameter(tbFreeTo);
+    //  PrimesBigInteger from = ValidateFreeParameter(tbFreeFrom);
+    //  PrimesBigInteger to = ValidateFreeParameter(tbFreeTo);
 
     //  if (from != null && to != null)
     //  {
@@ -579,7 +579,7 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
     //    }
     //    else
     //    {
-    //      if (to.CompareTo(new GmpBigInteger("5000000000")) > 0)
+    //      if (to.CompareTo(new PrimesBigInteger("5000000000")) > 0)
     //      {                                   
     //        Info("Achtung: Werte größer als 500.000.000 können nicht analysiert werden.", lblInfoFree, tbFreeTo);
     //        return false;
@@ -595,12 +595,12 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
     //  }
     //}
 
-    //private GmpBigInteger ValidateFreeParameter(TextBox tbSource)
+    //private PrimesBigInteger ValidateFreeParameter(TextBox tbSource)
     //{
-    //  GmpBigInteger result = GmpBigInteger.Zero;
+    //  PrimesBigInteger result = PrimesBigInteger.Zero;
     //  try
     //  {
-    //    TextBoxValidator<GmpBigInteger> tbvalidator = new TextBoxValidator<GmpBigInteger>(m_BiMaxValueValidator, tbSource);
+    //    TextBoxValidator<PrimesBigInteger> tbvalidator = new TextBoxValidator<PrimesBigInteger>(m_BiMaxValueValidator, tbSource);
     //    tbvalidator.Validate(ref result);
     //  }
     //  catch (ControlValidationException cvex)
@@ -661,10 +661,10 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
     //  btnHelpLargeParamsFunction.Visibility = Visibility.Visible;
     //}
 
-    //private bool GetFunctionParameters(ref GmpBigInteger ifrom, ref GmpBigInteger ito)
+    //private bool GetFunctionParameters(ref PrimesBigInteger ifrom, ref PrimesBigInteger ito)
     //{
-    //  GmpBigInteger from = ValidateFunctionParameter(tbCalculateFromFactor, tbCalculateFromBase, tbCalculateFromExp);
-    //  GmpBigInteger to = ValidateFunctionParameter(tbCalculateToFactor, tbCalculateToBase, tbCalculateToExp);
+    //  PrimesBigInteger from = ValidateFunctionParameter(tbCalculateFromFactor, tbCalculateFromBase, tbCalculateFromExp);
+    //  PrimesBigInteger to = ValidateFunctionParameter(tbCalculateToFactor, tbCalculateToBase, tbCalculateToExp);
     //  if (from != null && to != null)
     //  {
     //    if (from.CompareTo(to) >= 0)
@@ -686,18 +686,18 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
     //}
 
 
-    //private GmpBigInteger ValidateFunctionParameter(TextBox tbSourceFactor, TextBox tbSourceBase, TextBox tbSourceExp)
+    //private PrimesBigInteger ValidateFunctionParameter(TextBox tbSourceFactor, TextBox tbSourceBase, TextBox tbSourceExp)
     //{
-    //  GmpBigInteger result = null;
+    //  PrimesBigInteger result = null;
     //  try
     //  {
-    //    GmpBigInteger factor = ValidateFunctionParameter(tbSourceFactor);
-    //    GmpBigInteger base_ = ValidateFunctionParameter(tbSourceBase);
-    //    GmpBigInteger exp = ValidateFunctionParameter(tbSourceExp);
+    //    PrimesBigInteger factor = ValidateFunctionParameter(tbSourceFactor);
+    //    PrimesBigInteger base_ = ValidateFunctionParameter(tbSourceBase);
+    //    PrimesBigInteger exp = ValidateFunctionParameter(tbSourceExp);
     //    if (factor != null && base_ != null && exp != null)
     //    {
     //      result = factor.Multiply(base_.Pow(exp.IntValue));
-    //      if (result.CompareTo(new GmpBigInteger("50000000000000000")) > 0)
+    //      if (result.CompareTo(new PrimesBigInteger("50000000000000000")) > 0)
     //      {
     //        result = null;
     //        Info("Achtung: Werte größer als 50.000.000.000 können nicht analysiert werden.", lblInfoFunction, tbSourceFactor);
@@ -722,12 +722,12 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
     //  return result;
     //}
 
-    //private GmpBigInteger ValidateFunctionParameter(TextBox tbSource)
+    //private PrimesBigInteger ValidateFunctionParameter(TextBox tbSource)
     //{
-    //  GmpBigInteger result = GmpBigInteger.Zero;
+    //  PrimesBigInteger result = PrimesBigInteger.Zero;
 
-    //  IValidator<GmpBigInteger> biValidator = new PositiveMaxValueBigIntegerValidator(tbSource.Text, GmpBigInteger.ValueOf(10));
-    //  TextBoxValidator<GmpBigInteger> tbvalidator = new TextBoxValidator<GmpBigInteger>(biValidator, tbSource);
+    //  IValidator<PrimesBigInteger> biValidator = new PositiveMaxValueBigIntegerValidator(tbSource.Text, PrimesBigInteger.ValueOf(10));
+    //  TextBoxValidator<PrimesBigInteger> tbvalidator = new TextBoxValidator<PrimesBigInteger>(biValidator, tbSource);
     //  tbvalidator.Validate(ref result);
     //  return result;
     //}
@@ -738,7 +738,7 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
     //  tb_KeyUp(sender, e, GetFunctionParameters, ErrorLargeFunctionParams, (sender as TextBox).Name.ToLower().Contains("from"));
     //}
 
-    //internal delegate bool GetParameters(ref GmpBigInteger from, ref GmpBigInteger to);
+    //internal delegate bool GetParameters(ref PrimesBigInteger from, ref PrimesBigInteger to);
     //internal delegate void ErrorLargeParams(TextBox tbsource);
     //private void tb_KeyUp(object sender, KeyEventArgs e, GetParameters getparams, ErrorLargeParams errorlargeparams, bool isfrom)
     //{
@@ -750,13 +750,13 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
     //      TextBox tbSource = sender as TextBox;
     //      if (!string.IsNullOrEmpty(tbSource.Text))
     //      {
-    //        GmpBigInteger from = GmpBigInteger.Zero;
-    //        GmpBigInteger to = GmpBigInteger.Zero;
+    //        PrimesBigInteger from = PrimesBigInteger.Zero;
+    //        PrimesBigInteger to = PrimesBigInteger.Zero;
 
     //        getparams(ref from, ref to);
     //        if (isfrom)
     //        {
-    //          if (from.CompareTo(GmpBigInteger.ValueOf(200))>0)
+    //          if (from.CompareTo(PrimesBigInteger.ValueOf(200))>0)
     //          {
     //            errorlargeparams(tbSource);
     //          }
@@ -764,7 +764,7 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
     //        }
     //        else
     //        {
-    //          if (to.CompareTo(GmpBigInteger.ValueOf(200)) > 0)
+    //          if (to.CompareTo(PrimesBigInteger.ValueOf(200)) > 0)
     //          {
     //            errorlargeparams(tbSource);
     //          }

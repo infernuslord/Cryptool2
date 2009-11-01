@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -208,7 +208,7 @@ using System.Text;
 using Primes.Library;
 using System.Windows.Controls;
 using System.Windows;
-using LibGmpWrapper;
+using Primes.Bignum;
 using System.Threading;
 
 namespace Primes.WpfControls.Factorization.QS
@@ -228,20 +228,20 @@ namespace Primes.WpfControls.Factorization.QS
     public override QSResult Execute(ref QSData data)
     {
       QSResult result = QSResult.Ok;
-      GmpBigInteger _n = GmpBigInteger.ValueOf(data.N);
+      PrimesBigInteger _n = PrimesBigInteger.ValueOf(data.N);
       int counter = 0;
       IList<QuadraticPair> pairs = data.BSmooth;
-      GmpBigInteger productAQuad = null;
-      GmpBigInteger productA = null;
-      GmpBigInteger productB = null;
+      PrimesBigInteger productAQuad = null;
+      PrimesBigInteger productA = null;
+      PrimesBigInteger productB = null;
 
       foreach (QuadraticPair pair in pairs)
       {
         if (pair.QuadraticStatus == QuadraticStatus.Quadratic)
         {
-          productAQuad = GmpBigInteger.ValueOf(pair.A).Pow(2);
-          productA = GmpBigInteger.ValueOf(pair.A);
-          productB = GmpBigInteger.ValueOf(pair.B);
+          productAQuad = PrimesBigInteger.ValueOf(pair.A).Pow(2);
+          productA = PrimesBigInteger.ValueOf(pair.A);
+          productB = PrimesBigInteger.ValueOf(pair.B);
           break;
         }
       }
@@ -251,14 +251,14 @@ namespace Primes.WpfControls.Factorization.QS
         {
           if (pair.QuadraticStatus == QuadraticStatus.Part)
           {
-            if (productAQuad == null) productAQuad = GmpBigInteger.ValueOf(pair.A).Pow(2).Mod(_n);
-            else productAQuad = productAQuad.Multiply(GmpBigInteger.ValueOf(pair.A).Pow(2)).Mod(_n);
+            if (productAQuad == null) productAQuad = PrimesBigInteger.ValueOf(pair.A).Pow(2).Mod(_n);
+            else productAQuad = productAQuad.Multiply(PrimesBigInteger.ValueOf(pair.A).Pow(2)).Mod(_n);
 
-            if (productA == null) productA = GmpBigInteger.ValueOf(pair.A).Mod(_n);
-            else productA = productA.Multiply(GmpBigInteger.ValueOf(pair.A)).Mod(_n);
+            if (productA == null) productA = PrimesBigInteger.ValueOf(pair.A).Mod(_n);
+            else productA = productA.Multiply(PrimesBigInteger.ValueOf(pair.A)).Mod(_n);
 
-            if (productB == null) productB = GmpBigInteger.ValueOf(pair.B).Mod(_n);
-            else productB = productB.Multiply(GmpBigInteger.ValueOf(pair.B)).Mod(_n);
+            if (productB == null) productB = PrimesBigInteger.ValueOf(pair.B).Mod(_n);
+            else productB = productB.Multiply(PrimesBigInteger.ValueOf(pair.B)).Mod(_n);
           }
         }
       }
@@ -273,7 +273,7 @@ namespace Primes.WpfControls.Factorization.QS
       ControlHandler.SetPropertyValue(m_lblInfo, "Text", sbInfo.ToString());
       if (result == QSResult.Ok)
       {
-        result = (ModuloTest(productA.Mod(_n), productB.SquareRoot().Mod(_n), GmpBigInteger.ValueOf(data.N)))?QSResult.Ok:QSResult.Failed;
+        result = (ModuloTest(productA.Mod(_n), productB.SquareRoot().Mod(_n), PrimesBigInteger.ValueOf(data.N)))?QSResult.Ok:QSResult.Failed;
         if (result == QSResult.Ok)
         {
           if (productAQuad != null && productA != null && productB != null)
@@ -289,10 +289,10 @@ namespace Primes.WpfControls.Factorization.QS
               this,
               "AddToGrid",
               new object[] { Grid, BuildMod(productA,productB.SquareRoot(),_n), counter, 0, 0, 0 });
-            GmpBigInteger factor1 = GmpBigInteger.GCD(productA.Add(productB.SquareRoot().Mod(_n)).Abs().Mod(_n), _n);
-            GmpBigInteger factor2 = GmpBigInteger.GCD(productA.Subtract(productB.SquareRoot().Mod(_n)).Abs().Mod(_n), _n);
+            PrimesBigInteger factor1 = PrimesBigInteger.GCD(productA.Add(productB.SquareRoot().Mod(_n)).Abs().Mod(_n), _n);
+            PrimesBigInteger factor2 = PrimesBigInteger.GCD(productA.Subtract(productB.SquareRoot().Mod(_n)).Abs().Mod(_n), _n);
 
-            if (factor1.Equals(GmpBigInteger.One) || factor2.Equals(GmpBigInteger.One))
+            if (factor1.Equals(PrimesBigInteger.One) || factor2.Equals(PrimesBigInteger.One))
             {
               data.AddIgnoreQuadrat(productB);
               result = QSResult.Failed;
@@ -344,7 +344,7 @@ namespace Primes.WpfControls.Factorization.QS
                 this,
                 "AddToGrid",
                 new object[] { Grid, sbfactor2.ToString(), counter, 0, 0, 0 });
-              GmpBigInteger notPrime = null;
+              PrimesBigInteger notPrime = null;
               if (!factor1.IsPrime(10)) notPrime = factor1;
               else if (!factor2.IsPrime(10)) notPrime = factor2;
 
@@ -382,7 +382,7 @@ namespace Primes.WpfControls.Factorization.QS
 
       return result;
     }
-    private string BuildQuadMod(GmpBigInteger producta, GmpBigInteger productb, GmpBigInteger mod)
+    private string BuildQuadMod(PrimesBigInteger producta, PrimesBigInteger productb, PrimesBigInteger mod)
     {
       StringBuilder sbQuadMod = new StringBuilder();
       sbQuadMod.Append(producta.ToString("D"));
@@ -394,7 +394,7 @@ namespace Primes.WpfControls.Factorization.QS
       return sbQuadMod.ToString();
     }
 
-    private string BuildMod(GmpBigInteger producta, GmpBigInteger productb, GmpBigInteger mod)
+    private string BuildMod(PrimesBigInteger producta, PrimesBigInteger productb, PrimesBigInteger mod)
     {
       StringBuilder sbQuadMod = new StringBuilder();
       sbQuadMod.Append(producta.ToString("D"));

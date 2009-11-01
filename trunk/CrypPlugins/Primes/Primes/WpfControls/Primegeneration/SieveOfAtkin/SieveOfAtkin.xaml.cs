@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -214,7 +214,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using LibGmpWrapper;
+using Primes.Bignum;
 using System.Threading;
 using Primes.Library;
 
@@ -226,7 +226,7 @@ namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
   public partial class SieveOfAtkin : UserControl
   {
     private Thread m_SieveThread;
-    private GmpBigInteger m_Value;
+    private PrimesBigInteger m_Value;
     public SieveOfAtkin()
     {
       InitializeComponent();
@@ -273,7 +273,7 @@ namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
       if (Cancel != null) Cancel();
     }
     #endregion
-    public void Execute(GmpBigInteger value)
+    public void Execute(PrimesBigInteger value)
     {
       m_Value = value;
       numbergrid.Limit = m_Value;
@@ -285,13 +285,13 @@ namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
       FireStartEvent();
       bool[] list = new bool[m_Value.LongValue+1];
       log.Info(string.Format(Primes.Resources.lang.WpfControls.Generation.PrimesGeneration.soa_initvsieve, m_Value.ToString("D")));
-      IList<GmpBigInteger> result = new List<GmpBigInteger>();
-      result.Add(GmpBigInteger.Two);
-      result.Add(GmpBigInteger.Three);
-      result.Add(GmpBigInteger.Five);
-      numbergrid.MarkNumber(GmpBigInteger.Two, Brushes.LightBlue);
-      numbergrid.MarkNumber(GmpBigInteger.Three, Brushes.LightBlue);
-      numbergrid.MarkNumber(GmpBigInteger.Five, Brushes.LightBlue);
+      IList<PrimesBigInteger> result = new List<PrimesBigInteger>();
+      result.Add(PrimesBigInteger.Two);
+      result.Add(PrimesBigInteger.Three);
+      result.Add(PrimesBigInteger.Five);
+      numbergrid.MarkNumber(PrimesBigInteger.Two, Brushes.LightBlue);
+      numbergrid.MarkNumber(PrimesBigInteger.Three, Brushes.LightBlue);
+      numbergrid.MarkNumber(PrimesBigInteger.Five, Brushes.LightBlue);
 
 
       log.Info(Primes.Resources.lang.WpfControls.Generation.PrimesGeneration.soa_startsieve);
@@ -314,9 +314,9 @@ namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
                 log.Info(String.Format(Primes.Resources.lang.WpfControls.Generation.PrimesGeneration.soa_firstsolutionfound, new object[] { j.ToString(), k.ToString(), i.ToString(), i.ToString(), (list[i]) ? "ist Primzahl" : "ist keine Primzahl" }));
 
                 if (list[i])
-                  numbergrid.MarkNumber(GmpBigInteger.ValueOf(i), Brushes.LightBlue);
+                  numbergrid.MarkNumber(PrimesBigInteger.ValueOf(i), Brushes.LightBlue);
                 else
-                  numbergrid.MarkNumber(GmpBigInteger.ValueOf(i), Brushes.Transparent);
+                  numbergrid.MarkNumber(PrimesBigInteger.ValueOf(i), Brushes.Transparent);
               }
             }
           }
@@ -333,9 +333,9 @@ namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
                 list[i] = !list[i];
                 log.Info(String.Format(Primes.Resources.lang.WpfControls.Generation.PrimesGeneration.soa_secondsolutionfound, new object[] { j.ToString(), k.ToString(), i.ToString(), i.ToString(), (list[i]) ? "ist Primzahl" : "ist keine Primzahl" }));
                 if (list[i])
-                  numbergrid.MarkNumber(GmpBigInteger.ValueOf(i), Brushes.LightBlue);
+                  numbergrid.MarkNumber(PrimesBigInteger.ValueOf(i), Brushes.LightBlue);
                 else
-                  numbergrid.MarkNumber(GmpBigInteger.ValueOf(i), Brushes.Transparent);
+                  numbergrid.MarkNumber(PrimesBigInteger.ValueOf(i), Brushes.Transparent);
 
               }
             }
@@ -354,9 +354,9 @@ namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
                 log.Info(String.Format(Primes.Resources.lang.WpfControls.Generation.PrimesGeneration.soa_thirdsolutionfound, new object[] { j.ToString(), k.ToString(), i.ToString(), i.ToString(), (list[i]) ? Primes.Resources.lang.WpfControls.Generation.PrimesGeneration.soa_isprime : Primes.Resources.lang.WpfControls.Generation.PrimesGeneration.soa_isnotprime }));
 
                 if (list[i])
-                  numbergrid.MarkNumber(GmpBigInteger.ValueOf(i), Brushes.LightBlue);
+                  numbergrid.MarkNumber(PrimesBigInteger.ValueOf(i), Brushes.LightBlue);
                 else
-                  numbergrid.MarkNumber(GmpBigInteger.ValueOf(i), Brushes.Transparent);
+                  numbergrid.MarkNumber(PrimesBigInteger.ValueOf(i), Brushes.Transparent);
 
               }
             }
@@ -372,7 +372,7 @@ namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
       {
         if (list[i])
         {
-          numbergrid.MarkNumber(GmpBigInteger.ValueOf(i), Brushes.LightBlue);
+          numbergrid.MarkNumber(PrimesBigInteger.ValueOf(i), Brushes.LightBlue);
           log.Info(
             String.Format(
               Primes.Resources.lang.WpfControls.Generation.PrimesGeneration.soa_fourthsolutionfound,
@@ -380,7 +380,7 @@ namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
           for (int j = i * i; j < list.Length; j += i)
           {
             list[j] = false;
-            numbergrid.MarkNumber(GmpBigInteger.ValueOf(j), Brushes.Transparent);
+            numbergrid.MarkNumber(PrimesBigInteger.ValueOf(j), Brushes.Transparent);
             log.Info(
               String.Format(
               Primes.Resources.lang.WpfControls.Generation.PrimesGeneration.soa_fithsolutionfound,
@@ -394,7 +394,7 @@ namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
       //{
       //  if (list[i])
       //  {
-      //    numbergrid.RemoveMulipleOf(GmpBigInteger.ValueOf(i));
+      //    numbergrid.RemoveMulipleOf(PrimesBigInteger.ValueOf(i));
       //  }
       //}
       FireStopEvent();

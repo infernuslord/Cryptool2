@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -205,7 +205,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Primes.WpfControls.Components;
-using LibGmpWrapper;
+using Primes.Bignum;
 
 namespace Primes.WpfControls.Primegeneration.Function
 {
@@ -215,14 +215,14 @@ namespace Primes.WpfControls.Primegeneration.Function
       : base()
     {
       m_StrImageUri = "pack://application:,,,/Primes;Component/Resources/icons/eulerpolynom.jpg";
-      base.SetParameter(A, new PolynomFactor(A, GmpBigInteger.One, true));
-      base.SetParameter(B, new PolynomFactor(B, GmpBigInteger.NegativeOne, true));
-      base.SetParameter(C, new PolynomFactor(C, GmpBigInteger.ValueOf(41), true));
+      base.SetParameter(A, new PolynomFactor(A, PrimesBigInteger.One, true));
+      base.SetParameter(B, new PolynomFactor(B, PrimesBigInteger.NegativeOne, true));
+      base.SetParameter(C, new PolynomFactor(C, PrimesBigInteger.ValueOf(41), true));
     }
 
-    public override GmpBigInteger Execute(GmpBigInteger input)
+    public override PrimesBigInteger Execute(PrimesBigInteger input)
     {
-      return (input.Pow(2).Subtract(input)).Add(GmpBigInteger.ValueOf(41));
+      return (input.Pow(2).Subtract(input)).Add(PrimesBigInteger.ValueOf(41));
     }
     public override ICollection<PolynomFactor> Factors
     {

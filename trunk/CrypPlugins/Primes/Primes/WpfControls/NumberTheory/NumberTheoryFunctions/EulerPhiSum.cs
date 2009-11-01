@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -204,7 +204,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.WpfControls.Components;
 using System.Windows.Controls;
 using Primes.Library;
@@ -222,39 +222,39 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
     protected override void DoExecute()
     {
       FireOnStart();
-      GmpBigInteger from = m_From;
+      PrimesBigInteger from = m_From;
       while (from.CompareTo(m_To) <= 0)
       {
-        GmpBigInteger result = GmpBigInteger.Zero;
-        GmpBigInteger k = GmpBigInteger.One;
+        PrimesBigInteger result = PrimesBigInteger.Zero;
+        PrimesBigInteger k = PrimesBigInteger.One;
         while (k.CompareTo(from) <= 0)
         {
-          if (from.Mod(k).Equals(GmpBigInteger.Zero))
+          if (from.Mod(k).Equals(PrimesBigInteger.Zero))
           {
-            GmpBigInteger phik = EulerPhi(k);
+            PrimesBigInteger phik = EulerPhi(k);
             result = result.Add(phik);
             FireOnMessage(this, from, result.ToString());
           }
-          k = k.Add(GmpBigInteger.One);
+          k = k.Add(PrimesBigInteger.One);
         }
-        from = from.Add(GmpBigInteger.One);
+        from = from.Add(PrimesBigInteger.One);
       }
       FireOnStop();
 
     }
 
-    private GmpBigInteger EulerPhi(GmpBigInteger n)
+    private PrimesBigInteger EulerPhi(PrimesBigInteger n)
     {
-      if (n.Equals(GmpBigInteger.One)) return GmpBigInteger.One;
-      GmpBigInteger result = GmpBigInteger.Zero;
-      GmpBigInteger k = GmpBigInteger.One;
+      if (n.Equals(PrimesBigInteger.One)) return PrimesBigInteger.One;
+      PrimesBigInteger result = PrimesBigInteger.Zero;
+      PrimesBigInteger k = PrimesBigInteger.One;
       while (k.CompareTo(n) <= 0)
       {
-        if (GmpBigInteger.GCD(k, n).Equals(GmpBigInteger.One))
+        if (PrimesBigInteger.GCD(k, n).Equals(PrimesBigInteger.One))
         {
-          result = result.Add(GmpBigInteger.One);
+          result = result.Add(PrimesBigInteger.One);
         }
-        k = k.Add(GmpBigInteger.One);
+        k = k.Add(PrimesBigInteger.One);
       }
       return result;
     }

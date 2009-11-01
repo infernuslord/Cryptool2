@@ -643,6 +643,7 @@ namespace Primes.WpfVisualization
     {
       //if (OnGuiLogNotificationOccured != null) OnGuiLogNotificationOccured(this,new GuiLogEventArgs("",this,NotificationLevel.Info));
     }
+
     public UserControl Presentation
     {
       get {

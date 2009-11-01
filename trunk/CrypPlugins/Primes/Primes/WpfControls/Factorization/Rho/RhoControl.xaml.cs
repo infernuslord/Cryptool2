@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -215,7 +215,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Primes.WpfControls.Components;
 using Primes.WpfControls.Validation;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.WpfControls.Validation.Validator;
 using System.Threading;
 using Primes.Library;
@@ -227,26 +227,26 @@ namespace Primes.WpfControls.Factorization.Rho
   /// </summary>
   public partial class RhoControl : UserControl, IFactorizer
   {
-    private GmpBigInteger m_A;
-    private GmpBigInteger m_StartFX;
-    private GmpBigInteger m_Value;
+    private PrimesBigInteger m_A;
+    private PrimesBigInteger m_StartFX;
+    private PrimesBigInteger m_Value;
     private Thread m_Thread;
-    private IDictionary<GmpBigInteger, GmpBigInteger> m_Factors;
-    private IDictionary<GmpBigInteger, int> m_FactorsTmp;
+    private IDictionary<PrimesBigInteger, PrimesBigInteger> m_Factors;
+    private IDictionary<PrimesBigInteger, int> m_FactorsTmp;
     
 
     public RhoControl()
     {
       InitializeComponent();
-      InputValidator<GmpBigInteger> validatorStartX = new InputValidator<LibGmpWrapper.GmpBigInteger>();
-      validatorStartX.Validator = new BigIntegerMinValueMaxValueValidator(null, GmpBigInteger.ValueOf(1), GmpBigInteger.ValueOf(1000));
+      InputValidator<PrimesBigInteger> validatorStartX = new InputValidator<PrimesBigInteger>();
+      validatorStartX.Validator = new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.ValueOf(1), PrimesBigInteger.ValueOf(1000));
       validatorStartX.LinkOnlinehelp = Primes.OnlineHelp.OnlineHelpActions.Factorization_BruteForce;
 
       startfx.AddInputValidator(InputSingleControl.Free, validatorStartX);
 
 
-      InputValidator<GmpBigInteger> validatorA = new InputValidator<LibGmpWrapper.GmpBigInteger>();
-      validatorA.Validator = new BigIntegerMinValueMaxValueValidator(null, GmpBigInteger.ValueOf(1), GmpBigInteger.ValueOf(1000));
+      InputValidator<PrimesBigInteger> validatorA = new InputValidator<PrimesBigInteger>();
+      validatorA.Validator = new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.ValueOf(1), PrimesBigInteger.ValueOf(1000));
       validatorA.LinkOnlinehelp = Primes.OnlineHelp.OnlineHelpActions.Factorization_Rho;
       a.AddInputValidator(InputSingleControl.Free, validatorA);
       a.SetText(InputSingleControl.Free, "2");
@@ -255,11 +255,11 @@ namespace Primes.WpfControls.Factorization.Rho
       //log.Columns = 1;
       a.Execute += new ExecuteSingleDelegate(ForceGetValue_Execute);
       startfx.Execute += new ExecuteSingleDelegate(ForceGetValue_Execute);
-      m_Factors = new Dictionary<GmpBigInteger, GmpBigInteger>();
-      m_FactorsTmp = new Dictionary<GmpBigInteger, int>();
+      m_Factors = new Dictionary<PrimesBigInteger, PrimesBigInteger>();
+      m_FactorsTmp = new Dictionary<PrimesBigInteger, int>();
     }
 
-    void ForceGetValue_Execute(GmpBigInteger value)
+    void ForceGetValue_Execute(PrimesBigInteger value)
     {
       FireEventForceGetValue();
     }
@@ -272,9 +272,9 @@ namespace Primes.WpfControls.Factorization.Rho
 
     #region IFactorizer Members
 
-    public void Execute(GmpBigInteger from, GmpBigInteger to) { }
+    public void Execute(PrimesBigInteger from, PrimesBigInteger to) { }
 
-    public void Execute(LibGmpWrapper.GmpBigInteger value)
+    public void Execute(PrimesBigInteger value)
     {
       m_Value = value;
       m_A = a.GetValue();
@@ -297,7 +297,7 @@ namespace Primes.WpfControls.Factorization.Rho
       DoFactorize(m_Value);
       FireStopEvent();
     }
-    private void DoFactorize(GmpBigInteger value)
+    private void DoFactorize(PrimesBigInteger value)
     {
       /*
        *        if (N.compareTo(ONE) == 0) return;
@@ -306,16 +306,16 @@ namespace Primes.WpfControls.Factorization.Rho
         factor(divisor);
         factor(N.divide(divisor)); 
        */
-      if (value.Equals(GmpBigInteger.One))
+      if (value.Equals(PrimesBigInteger.One))
       {
         return;
       }
       if (value.IsProbablePrime(10))
       {
         if (!m_Factors.ContainsKey(value))
-          m_Factors.Add(value, GmpBigInteger.Zero);
-        GmpBigInteger tmp = m_Factors[value];
-        m_Factors[value] = tmp.Add(GmpBigInteger.One);
+          m_Factors.Add(value, PrimesBigInteger.Zero);
+        PrimesBigInteger tmp = m_Factors[value];
+        m_Factors[value] = tmp.Add(PrimesBigInteger.One);
         
         if (FoundFactor != null) FoundFactor(m_Factors.GetEnumerator());
         log.Info(value.ToString());
@@ -329,39 +329,39 @@ namespace Primes.WpfControls.Factorization.Rho
         if (m_FactorsTmp[value] > 3)
         {
           log.Info(value.ToString()+" Zu oft");
-          m_A = GmpBigInteger.RandomM(value).Add(GmpBigInteger.Two);
+          m_A = PrimesBigInteger.RandomM(value).Add(PrimesBigInteger.Two);
           m_FactorsTmp.Remove(value);
         }
       }
-      GmpBigInteger  div = CalculateFactor(value);
+      PrimesBigInteger  div = CalculateFactor(value);
       DoFactorize(div);
       DoFactorize(value.Divide(div));
     }
 
-    private GmpBigInteger CalculateFactor(GmpBigInteger value)
+    private PrimesBigInteger CalculateFactor(PrimesBigInteger value)
     {
-      GmpBigInteger x = m_StartFX;
-      GmpBigInteger y = m_StartFX;
-      GmpBigInteger d = GmpBigInteger.One;
-      GmpBigInteger a = m_A;
+      PrimesBigInteger x = m_StartFX;
+      PrimesBigInteger y = m_StartFX;
+      PrimesBigInteger d = PrimesBigInteger.One;
+      PrimesBigInteger a = m_A;
       int i=0;
-      if (value.Mod(GmpBigInteger.Two).Equals(GmpBigInteger.Zero)) return GmpBigInteger.Two;
+      if (value.Mod(PrimesBigInteger.Two).Equals(PrimesBigInteger.Zero)) return PrimesBigInteger.Two;
       do
       {
-        x = x.ModPow(GmpBigInteger.Two, value).Add(a).Mod(value);
-        y = y.ModPow(GmpBigInteger.Two, value).Add(a).Mod(value);
-        y = y.ModPow(GmpBigInteger.Two, value).Add(a).Mod(value);
-        d = GmpBigInteger.GCD(x.Subtract(y), value);
+        x = x.ModPow(PrimesBigInteger.Two, value).Add(a).Mod(value);
+        y = y.ModPow(PrimesBigInteger.Two, value).Add(a).Mod(value);
+        y = y.ModPow(PrimesBigInteger.Two, value).Add(a).Mod(value);
+        d = PrimesBigInteger.GCD(x.Subtract(y), value);
         i++;
         if (y.Equals(x))
         {
           log.Info("Change Values");
-          a = GmpBigInteger.ValueOf(new Random().Next());
-          x = y = GmpBigInteger.ValueOf(new Random().Next());
+          a = PrimesBigInteger.ValueOf(new Random().Next());
+          x = y = PrimesBigInteger.ValueOf(new Random().Next());
           i = 0;
         }
       }
-      while (d.Equals(GmpBigInteger.One));
+      while (d.Equals(PrimesBigInteger.One));
       return d;
 
     }
@@ -438,7 +438,7 @@ namespace Primes.WpfControls.Factorization.Rho
     }
 
 
-    public IValidator<GmpBigInteger> Validator
+    public IValidator<PrimesBigInteger> Validator
     {
       get { throw new NotImplementedException(); }
     }

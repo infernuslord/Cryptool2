@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -204,7 +204,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.WpfControls.Components;
 using Primes.Library;
 using Primes.WpfControls.Validation;
@@ -214,7 +214,7 @@ namespace Primes.WpfControls.Factorization
   public delegate void FoundFactor(object o);
   public interface IFactorizer:IPrimeVisualization
   {
-    //void Factorize(GmpBigInteger value);
+    //void Factorize(PrimesBigInteger value);
     //void CancelFactorization();
     //event FoundFactor FoundFactor;
     //event VoidDelegate Start;
@@ -225,7 +225,7 @@ namespace Primes.WpfControls.Factorization
     void CancelFactorization();
     event FoundFactor FoundFactor;
     TimeSpan Needs { get; }
-    IValidator<GmpBigInteger> Validator { get; } 
+    IValidator<PrimesBigInteger> Validator { get; } 
 
   }
 }

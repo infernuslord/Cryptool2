@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -204,14 +204,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LibGmpWrapper;
+using Primes.Bignum;
 
 namespace Primes.WpfControls.Primegeneration.Function
 {
   public interface IExpression
   {
-    GmpBigInteger Execute(GmpBigInteger input);
-    void SetParameter(string name, GmpBigInteger value);
+    PrimesBigInteger Execute(PrimesBigInteger input);
+    void SetParameter(string name, PrimesBigInteger value);
     void Reset();
   }
 }

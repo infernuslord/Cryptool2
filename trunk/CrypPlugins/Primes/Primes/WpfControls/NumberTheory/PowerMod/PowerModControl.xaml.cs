@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -216,7 +216,7 @@ using System.Windows.Shapes;
 using Primes.Library;
 using Primes.WpfControls.Validation.Validator;
 using Primes.WpfControls.Validation;
-using LibGmpWrapper;
+using Primes.Bignum;
 using System.Threading;
 using Primes.WpfControls.Components;
 using Primes.WpfControls.Components.Arrows;
@@ -247,9 +247,9 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             m_CirclesSource = new Dictionary<Ellipse, Polyline>();
             m_ArrowsWithSourceAndDestination = new Dictionary<Pair<Ellipse, Ellipse>, ArrowLine>();
             //m_Arrows = new List<ArrowLine>();
-            m_ArrowsMark = new Dictionary<GmpBigInteger, ArrowLine>();
+            m_ArrowsMark = new Dictionary<PrimesBigInteger, ArrowLine>();
             //m_Circles = new List<Polyline>();
-            m_CirclesMark = new Dictionary<GmpBigInteger, Polyline>();
+            m_CirclesMark = new Dictionary<PrimesBigInteger, Polyline>();
             m_RunningLockObject = new object();
             m_Initialized = true;
             m_StepWiseEvent = new ManualResetEvent(false);
@@ -257,7 +257,7 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
 
         }
 
-        void log_RowMouseOver(GmpBigInteger value)
+        void log_RowMouseOver(PrimesBigInteger value)
         {
             ArrowLine al = null;
             Polyline pl = null;
@@ -284,8 +284,8 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
         {
             iscBase.Execute += new ExecuteSingleDelegate(iscBase_Execute);
             iscBase.SetText(InputSingleControl.Free, "2");
-            InputValidator<LibGmpWrapper.GmpBigInteger> ivBase = new InputValidator<LibGmpWrapper.GmpBigInteger>();
-            ivBase.Validator = new BigIntegerMinValueValidator(null, LibGmpWrapper.GmpBigInteger.Two);
+            InputValidator<PrimesBigInteger> ivBase = new InputValidator<PrimesBigInteger>();
+            ivBase.Validator = new BigIntegerMinValueValidator(null, PrimesBigInteger.Two);
             iscBase.AddInputValidator(
               Primes.WpfControls.Components.InputSingleControl.Free,
               ivBase);
@@ -293,8 +293,8 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
 
             iscExp.Execute += new ExecuteSingleDelegate(iscExp_Execute);
             iscExp.SetText(InputSingleControl.Free, "28");
-            InputValidator<LibGmpWrapper.GmpBigInteger> ivExp = new InputValidator<LibGmpWrapper.GmpBigInteger>();
-            ivExp.Validator = new BigIntegerMinValueValidator(null, LibGmpWrapper.GmpBigInteger.One);
+            InputValidator<PrimesBigInteger> ivExp = new InputValidator<PrimesBigInteger>();
+            ivExp.Validator = new BigIntegerMinValueValidator(null, PrimesBigInteger.One);
             iscExp.AddInputValidator(
               Primes.WpfControls.Components.InputSingleControl.Free,
               ivExp);
@@ -302,8 +302,8 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             iscMod.Execute += new ExecuteSingleDelegate(iscMod_Execute);
             iscMod.KeyDown += new ExecuteSingleDelegate(iscMod_KeyDown);
             iscMod.SetText(InputSingleControl.Free, "13");
-            InputValidator<LibGmpWrapper.GmpBigInteger> ivMod = new InputValidator<LibGmpWrapper.GmpBigInteger>();
-            ivMod.Validator = new BigIntegerMinValueMaxValueValidator(null, LibGmpWrapper.GmpBigInteger.Two, LibGmpWrapper.GmpBigInteger.ValueOf(150));
+            InputValidator<PrimesBigInteger> ivMod = new InputValidator<PrimesBigInteger>();
+            ivMod.Validator = new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.Two, PrimesBigInteger.ValueOf(150));
             iscMod.AddInputValidator(
               Primes.WpfControls.Components.InputSingleControl.Free,
               ivMod);
@@ -311,13 +311,13 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             this.Start += new VoidDelegate(PowerModControl_Start);
             this.Stop += new VoidDelegate(PowerModControl_Stop);
             this.Cancel += new VoidDelegate(PowerModControl_Cancel);
-            this.Exp = GmpBigInteger.ValueOf(28);
-            this.Base = GmpBigInteger.ValueOf(2);
-            this.Mod = GmpBigInteger.ValueOf(13);
+            this.Exp = PrimesBigInteger.ValueOf(28);
+            this.Base = PrimesBigInteger.ValueOf(2);
+            this.Mod = PrimesBigInteger.ValueOf(13);
 
         }
 
-        void iscMod_KeyDown(GmpBigInteger value)
+        void iscMod_KeyDown(PrimesBigInteger value)
         {
             if (value != null)
                 this.Mod = value;
@@ -325,7 +325,7 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
 
 
 
-        void iscMod_Execute(GmpBigInteger value)
+        void iscMod_Execute(PrimesBigInteger value)
         {
             this.Mod = value;
             StartThread();
@@ -333,16 +333,16 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
 
         private void slidermodulus_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            this.Mod = GmpBigInteger.ValueOf((long)e.NewValue);
+            this.Mod = PrimesBigInteger.ValueOf((long)e.NewValue);
         }
 
-        void iscExp_Execute(GmpBigInteger value)
+        void iscExp_Execute(PrimesBigInteger value)
         {
             this.Exp = value;
             StartThread();
         }
 
-        void iscBase_Execute(GmpBigInteger value)
+        void iscBase_Execute(PrimesBigInteger value)
         {
             this.Base = value;
             StartThread();
@@ -357,30 +357,30 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
         private IList<Pair<Ellipse, Ellipse>> m_SourceDestination;
         //private IList<Polyline> m_Circles;
         private IDictionary<Ellipse, Polyline> m_CirclesSource;
-        private IDictionary<GmpBigInteger, Polyline> m_CirclesMark;
+        private IDictionary<PrimesBigInteger, Polyline> m_CirclesMark;
         //private IList<ArrowLine> m_Arrows;
         private IDictionary<Pair<Ellipse, Ellipse>, ArrowLine> m_ArrowsWithSourceAndDestination;
-        private IDictionary<GmpBigInteger, ArrowLine> m_ArrowsMark;
+        private IDictionary<PrimesBigInteger, ArrowLine> m_ArrowsMark;
 
         double offset = 0;
 
-        private GmpBigInteger m_Base;
+        private PrimesBigInteger m_Base;
 
-        public GmpBigInteger Base
+        public PrimesBigInteger Base
         {
             get { return m_Base; }
             set { m_Base = value; }
         }
-        private GmpBigInteger m_Exp;
+        private PrimesBigInteger m_Exp;
 
-        public GmpBigInteger Exp
+        public PrimesBigInteger Exp
         {
             get { return m_Exp; }
             set { m_Exp = value; }
         }
-        private GmpBigInteger m_Mod;
+        private PrimesBigInteger m_Mod;
 
-        public GmpBigInteger Mod
+        public PrimesBigInteger Mod
         {
             get { return m_Mod; }
             set
@@ -728,7 +728,7 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
                 //rteDoExecuteGraphic();
             }
         }
-        //public void Execute(GmpBigInteger value)
+        //public void Execute(PrimesBigInteger value)
         //{
         //  tabItemGraphic.IsEnabled = true;
         //  tcStats.SelectedIndex = 0;
@@ -738,7 +738,7 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
         //  ArrowArea.Children.Clear();
         //  log.Columns = 1;
         //  log.Clear();
-        //  if (value.CompareTo(GmpBigInteger.ValueOf(150))>0)
+        //  if (value.CompareTo(PrimesBigInteger.ValueOf(150))>0)
         //  {
         //    tcStats.SelectedIndex = 1;
         //    tabItemGraphic.IsEnabled = false;
@@ -791,9 +791,9 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             }
             Point lastPoint = new Point(-1, -1);
             Ellipse lastEllipse = null;
-            GmpBigInteger i = GmpBigInteger.One;
-            GmpBigInteger result = null;
-            GmpBigInteger tmp = m_Base.Mod(m_Mod);
+            PrimesBigInteger i = PrimesBigInteger.One;
+            PrimesBigInteger result = null;
+            PrimesBigInteger tmp = m_Base.Mod(m_Mod);
             Ellipse e = this.GetEllipseAt(m_Points[tmp.IntValue]);
             if (e != null)
             {
@@ -807,11 +807,11 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
                 if (result == null)
                 {
                     result = m_Base.Mod(m_Mod);
-                    log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.powermod_executionfirst, new object[] { GmpBigInteger.One.ToString(), m_Base.ToString("D"), m_Mod.ToString("D"), result.ToString("D") }));
+                    log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.powermod_executionfirst, new object[] { PrimesBigInteger.One.ToString(), m_Base.ToString("D"), m_Mod.ToString("D"), result.ToString("D") }));
                 }
                 else
                 {
-                    GmpBigInteger tmpResult = result;
+                    PrimesBigInteger tmpResult = result;
                     result = result.Multiply(m_Base).Mod(m_Mod);
                     log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.powermod_execution, new object[] { i.ToString("D"), tmpResult.ToString("D"), m_Base.ToString("D"), m_Mod.ToString("D"), result.ToString("D") }));
                 }
@@ -824,13 +824,13 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
                 {
                     Ellipse _e = this.GetEllipseAt(m_Points[result.IntValue]);
                     Point newPoint = m_Points[result.IntValue];
-                    //CreateArrow(i.Subtract(GmpBigInteger.One), lastPoint, newPoint);
-                    CreateArrow(i.Subtract(GmpBigInteger.One), lastEllipse, _e);
+                    //CreateArrow(i.Subtract(PrimesBigInteger.One), lastPoint, newPoint);
+                    CreateArrow(i.Subtract(PrimesBigInteger.One), lastEllipse, _e);
                     lastPoint = newPoint;
                     lastEllipse = _e;
                 }
-                i = i.Add(GmpBigInteger.One);
-                if (i.CompareTo(GmpBigInteger.Three) >= 0)
+                i = i.Add(PrimesBigInteger.One);
+                if (i.CompareTo(PrimesBigInteger.Three) >= 0)
                     WaitStepWise();
             }
 
@@ -860,7 +860,7 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
 
 
 
-        //private void CreateArrow(GmpBigInteger counter, Point from, Point to)
+        //private void CreateArrow(PrimesBigInteger counter, Point from, Point to)
         //{
         //    ArrowLine l = null;
         //    if (from.X == to.X && from.Y == to.Y)
@@ -900,7 +900,7 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
 
         //}
 
-        private void CreateArrow(GmpBigInteger counter, Ellipse from, Ellipse to)
+        private void CreateArrow(PrimesBigInteger counter, Ellipse from, Ellipse to)
         {
             
             if (from==to)
@@ -953,7 +953,7 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
         //    #endregion
         //}
 
-        private void ResetLine(GmpBigInteger counter, ArrowLine l)
+        private void ResetLine(PrimesBigInteger counter, ArrowLine l)
         {
             if (l != null)
             {
@@ -988,7 +988,7 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
         //    return GetLine(l) != null;
         //}
 
-        //public void AddCircle(GmpBigInteger counter, double x, double y)
+        //public void AddCircle(PrimesBigInteger counter, double x, double y)
         //{
         //    Polyline p = ControlHandler.CreateObject(typeof(Polyline)) as Polyline;
         //    ControlHandler.SetPropertyValue(p, "Stroke", Brushes.Black);
@@ -1017,7 +1017,7 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
         //    }
         //}
 
-        public void AddCircle(GmpBigInteger counter, Ellipse source)
+        public void AddCircle(PrimesBigInteger counter, Ellipse source)
         {
             Polyline p = ControlHandler.CreateObject(typeof(Polyline)) as Polyline;
             ControlHandler.SetPropertyValue(p, "Stroke", Brushes.Black);
@@ -1060,7 +1060,7 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
 
         }
 
-        private void ResetCircle(GmpBigInteger counter, Polyline p)
+        private void ResetCircle(PrimesBigInteger counter, Polyline p)
         {
 
             if (p != null)
@@ -1074,7 +1074,7 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             }
         }
 
-        //private void ResetCircle(GmpBigInteger counter, double x, double y)
+        //private void ResetCircle(PrimesBigInteger counter, double x, double y)
         //{
 
         //    Polyline ltmp = GetCircle(x, y);

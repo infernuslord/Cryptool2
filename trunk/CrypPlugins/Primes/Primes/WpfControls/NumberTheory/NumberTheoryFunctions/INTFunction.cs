@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -206,16 +206,16 @@ using System.Collections.Generic;
 using System.Text;
 using Primes.WpfControls.Components;
 using System.Windows.Controls;
-using LibGmpWrapper;
+using Primes.Bignum;
 using System.Collections.ObjectModel;
 using Primes.Library;
 
 namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
 {
-  public delegate void NumberTheoryMessageDelegate(INTFunction function, GmpBigInteger value, string message);
+  public delegate void NumberTheoryMessageDelegate(INTFunction function, PrimesBigInteger value, string message);
   public interface INTFunction
   {
-    void Start(GmpBigInteger from, GmpBigInteger to);
+    void Start(PrimesBigInteger from, PrimesBigInteger to);
     void Stop();
     event VoidDelegate OnStart;
     event VoidDelegate OnStop;

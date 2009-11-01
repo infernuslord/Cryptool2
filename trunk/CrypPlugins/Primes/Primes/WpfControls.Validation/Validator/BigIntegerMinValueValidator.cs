@@ -205,27 +205,27 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using LibGmpWrapper;
+using Primes.Bignum;
 
 namespace Primes.WpfControls.Validation.Validator
 {
   public class BigIntegerMinValueValidator : BigIntegerValidator
   {
-    public BigIntegerMinValueValidator(object value, GmpBigInteger minValue)
+    public BigIntegerMinValueValidator(object value, PrimesBigInteger minValue)
       : base(value)
     {
       this.m_MinValue = minValue;
     }
 
     public BigIntegerMinValueValidator() : base() { }
-    private GmpBigInteger m_MinValue;
+    private PrimesBigInteger m_MinValue;
 
-    public GmpBigInteger MinValue
+    public PrimesBigInteger MinValue
     {
       get { return m_MinValue; }
       set { m_MinValue = value; }
     }
-    public override ValidationResult Validate(ref GmpBigInteger bi)
+    public override ValidationResult Validate(ref PrimesBigInteger bi)
     {
       ValidationResult result = base.Validate(ref bi);
       if (result == ValidationResult.OK)

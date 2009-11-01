@@ -205,12 +205,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using LibGmpWrapper;
+using Primes.Bignum;
 
 namespace Primes.WpfControls.Validation
 {
 
-  public class BigIntegerValidator : IValidator<GmpBigInteger>
+  public class BigIntegerValidator : IValidator<PrimesBigInteger>
   {
 
     private object m_Value;
@@ -228,7 +228,7 @@ namespace Primes.WpfControls.Validation
 
     #region IValidator Members
 
-    public virtual ValidationResult Validate(ref GmpBigInteger bi)
+    public virtual ValidationResult Validate(ref PrimesBigInteger bi)
     {
       if (m_Value != null)
       {
@@ -248,9 +248,9 @@ namespace Primes.WpfControls.Validation
         }
         else
         {
-          if (m_Value.GetType() == typeof(GmpBigInteger))
+          if (m_Value.GetType() == typeof(PrimesBigInteger))
           {
-            bi = m_Value as GmpBigInteger;
+            bi = m_Value as PrimesBigInteger;
             return ValidationResult.OK;
           }
           else
@@ -294,7 +294,7 @@ namespace Primes.WpfControls.Validation
 
     #endregion
 
-    #region IValidator<GmpBigInteger> Members
+    #region IValidator<PrimesBigInteger> Members
 
 
     public OnlineHelp.OnlineHelpActions HelpLink

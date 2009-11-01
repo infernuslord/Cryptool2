@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -206,7 +206,7 @@ using System.Collections.Generic;
 using System.Text;
 using Primes.WpfControls.Components;
 using System.Windows.Controls;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.Library;
 using System.Windows;
 
@@ -221,24 +221,24 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
     protected override void DoExecute()
     {
       FireOnStart();
-      GmpBigInteger from = m_From;
+      PrimesBigInteger from = m_From;
       while (from.CompareTo(m_To) <= 0)
       {
-        GmpBigInteger d = GmpBigInteger.One;
-        GmpBigInteger counter = GmpBigInteger.Zero;
+        PrimesBigInteger d = PrimesBigInteger.One;
+        PrimesBigInteger counter = PrimesBigInteger.Zero;
 
-        while (d.Multiply(GmpBigInteger.Two).CompareTo(from) <= 0)
+        while (d.Multiply(PrimesBigInteger.Two).CompareTo(from) <= 0)
         {
-          if (from.Mod(d).Equals(GmpBigInteger.Zero))
+          if (from.Mod(d).Equals(PrimesBigInteger.Zero))
           {
-            counter = counter.Add(GmpBigInteger.One);
+            counter = counter.Add(PrimesBigInteger.One);
             FireOnMessage(this, from, counter.ToString());
           }
-          d = d.Add(GmpBigInteger.One);
+          d = d.Add(PrimesBigInteger.One);
         }
-        counter = counter.Add(GmpBigInteger.One);
+        counter = counter.Add(PrimesBigInteger.One);
         FireOnMessage(this, from, counter.ToString());
-        from = from.Add(GmpBigInteger.One);
+        from = from.Add(PrimesBigInteger.One);
       }
       FireOnStop();
 

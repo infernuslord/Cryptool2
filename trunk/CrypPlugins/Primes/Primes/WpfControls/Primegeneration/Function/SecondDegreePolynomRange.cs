@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -205,7 +205,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Primes.WpfControls.Components;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.Library;
 using System.Windows.Media.Imaging;
 
@@ -271,7 +271,7 @@ namespace Primes.WpfControls.Primegeneration.Function
       get { throw new NotImplementedException(); }
     }
 
-    public GmpBigInteger Execute(GmpBigInteger input)
+    public PrimesBigInteger Execute(PrimesBigInteger input)
     {
       throw new NotImplementedException();
     }

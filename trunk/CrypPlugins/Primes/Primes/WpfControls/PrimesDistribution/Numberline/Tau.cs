@@ -1,4 +1,4 @@
-﻿/*                              Apache License
+/*                              Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -206,7 +206,7 @@ using System.Collections.Generic;
 using System.Text;
 using Primes.WpfControls.Components;
 using System.Windows.Controls;
-using LibGmpWrapper;
+using Primes.Bignum;
 using Primes.Library;
 using System.Windows;
 
@@ -223,23 +223,23 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       FireOnStart();
       ControlHandler.SetPropertyValue(m_tbCalcInfo, "Visibility", Visibility.Visible);
 
-      GmpBigInteger d = GmpBigInteger.One;
-      GmpBigInteger counter = GmpBigInteger.Zero;
+      PrimesBigInteger d = PrimesBigInteger.One;
+      PrimesBigInteger counter = PrimesBigInteger.Zero;
       SetCalcInfo(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_tauinfo, new object[] { counter.ToString("D"), m_Value.ToString("D") }));
 
-      while (d.Multiply(GmpBigInteger.Two).CompareTo(m_Value) <= 0)
+      while (d.Multiply(PrimesBigInteger.Two).CompareTo(m_Value) <= 0)
       {
-        if (m_Value.Mod(d).Equals(GmpBigInteger.Zero))
+        if (m_Value.Mod(d).Equals(PrimesBigInteger.Zero))
         {
           m_Log.Info(d.ToString("D"));
-          counter = counter.Add(GmpBigInteger.One);
+          counter = counter.Add(PrimesBigInteger.One);
           SetCalcInfo(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_tauinfo, new object[] { counter.ToString("D"), m_Value.ToString("D") }));
 
         }
-        d = d.Add(GmpBigInteger.One);
+        d = d.Add(PrimesBigInteger.One);
       }
       m_Log.Info(m_Value.ToString("D"));
-      counter = counter.Add(GmpBigInteger.One);
+      counter = counter.Add(PrimesBigInteger.One);
       SetCalcInfo(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_tauinfo, new object[] { counter.ToString("D"), m_Value.ToString("D") }));
 
       FireOnStop();

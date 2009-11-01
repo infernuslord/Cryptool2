@@ -289,7 +289,7 @@ namespace Primes.WpfVisualization.Navigation
       {
         NavigationCommandType commandtype = NavigationCommandType.None;
         if (sender == lnkFacBruteForce) commandtype = NavigationCommandType.Factor_Bf;
-        else if (sender == lnkFacQS) commandtype = NavigationCommandType.Factor_QS;
+        //else if (sender == lnkFacQS) commandtype = NavigationCommandType.Factor_QS;
         else if (sender == lnkTestEratothenes) commandtype = NavigationCommandType.Primetest_Sieve;
         else if (sender == lnkTestMillerRabin) commandtype = NavigationCommandType.Primetest_Miller;
         else if (sender == lnkDistribNumberline) commandtype = NavigationCommandType.PrimeDistrib_Numberline;
