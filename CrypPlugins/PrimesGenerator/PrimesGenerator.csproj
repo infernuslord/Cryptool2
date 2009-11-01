@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C9BDBD03-DA86-408F-81A0-548D279A1BD8}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -34,10 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LibGmpWrapper, Version=1.0.2987.28787, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Primes\Primes.References\LibGmpWrapper.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -69,6 +65,10 @@
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Primes\Primes\Primes.csproj">
+      <Project>{2830F337-A7A3-4A68-87AC-64F3AA79C70B}</Project>
+      <Name>Primes</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

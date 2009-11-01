@@ -6,8 +6,8 @@ using Cryptool.PluginBase.Generator;
 using System.Reflection;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
-using LibGmpWrapper;
 using Cryptool.PluginBase.Tool;
+using Primes.Bignum;
 
 namespace Cryptool.PrimesGenerator
 {
@@ -15,13 +15,13 @@ namespace Cryptool.PrimesGenerator
   [PluginInfo(true, "Primes Generator", "Generator for primes numbers", null, "PrimesGenerator/icon.png")]
   public class PrimesGenerator : IRandomNumberGenerator
   {
-    private GmpBigInteger m_max = new GmpBigInteger("10000000000");
+      private PrimesBigInteger m_max = new PrimesBigInteger("10000000000");
     public PrimesGenerator()
     {
       m_Settings = new PrimesGeneratorSettings();
       m_Settings.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(m_Settings_PropertyChanged);
       m_Mode = 0;
-      m_Input = GmpBigInteger.ValueOf(100);
+      m_Input = PrimesBigInteger.ValueOf(100);
     }
 
 
@@ -68,7 +68,7 @@ namespace Cryptool.PrimesGenerator
       get { return m_Settings; }
     }
 
-    private GmpBigInteger m_Input;
+    private PrimesBigInteger m_Input;
     private int m_Mode;
     private bool hasErrors;
     void m_Settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -76,7 +76,7 @@ namespace Cryptool.PrimesGenerator
       hasErrors = false;
       try
       {
-        m_Input = new GmpBigInteger(m_Settings.Input);
+        m_Input = new PrimesBigInteger(m_Settings.Input);
         switch (e.PropertyName)
         {
           case PrimesGeneratorSettings.MODE:
@@ -85,14 +85,14 @@ namespace Cryptool.PrimesGenerator
             switch (m_Mode)
             {
               case 0:
-                if (m_Input.CompareTo(GmpBigInteger.One) < 0 || m_Input.CompareTo(GmpBigInteger.ValueOf(400)) > 0)
+                if (m_Input.CompareTo(PrimesBigInteger.One) < 0 || m_Input.CompareTo(PrimesBigInteger.ValueOf(400)) > 0)
                 {
                   FireOnGuiLogNotificationOccuredEventError("Value for n has to be greater or equal than one an less or equal than 400.");
                   hasErrors = true;
                 }
                 break;
               case 1:
-                if (m_Input.CompareTo(GmpBigInteger.Ten) < 0 || m_Input.CompareTo(m_max) > 0)
+                if (m_Input.CompareTo(PrimesBigInteger.Ten) < 0 || m_Input.CompareTo(m_max) > 0)
                 {
                   FireOnGuiLogNotificationOccuredEventError("Please enter an Integer value for n.");
                   hasErrors = true;
@@ -134,13 +134,13 @@ namespace Cryptool.PrimesGenerator
         switch (m_Mode)
         {
           case 0:
-            OutputString = LibGmpWrapper.GmpBigInteger.Random(m_Input).NextProbablePrime().ToString();
+            OutputString = PrimesBigInteger.Random(m_Input).NextProbablePrime().ToString();
             break;
           case 1:
-            GmpBigInteger result = LibGmpWrapper.GmpBigInteger.RandomM(m_Input).NextProbablePrime();
+            PrimesBigInteger result = PrimesBigInteger.RandomM(m_Input).NextProbablePrime();
             while (result.CompareTo(m_Input) > 0)
             {
-              result = LibGmpWrapper.GmpBigInteger.RandomM(m_Input).NextProbablePrime();
+              result = PrimesBigInteger.RandomM(m_Input).NextProbablePrime();
             }
             OutputString = result.ToString();
             break;

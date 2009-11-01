@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using Cryptool.PluginBase.Tool;
 using Cryptool.PluginBase;
-using LibGmpWrapper;
 using Cryptool.PluginBase.IO;
+using Primes.Bignum;
 
 namespace PrimeTest
 {
@@ -98,7 +98,7 @@ namespace PrimeTest
 
     #region Properties
     private string m_InputString;
-    GmpBigInteger m_Value = null;
+    PrimesBigInteger m_Value = null;
     [PropertyInfo(Direction.InputData, "Text input", "Input a string that represent a natural number", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text,null)]
     public string InputString
     {
@@ -112,7 +112,7 @@ namespace PrimeTest
             if (!string.IsNullOrEmpty(value))
             {
               this.m_InputString = value;
-              m_Value = new GmpBigInteger(m_InputString.Trim());
+              m_Value = new PrimesBigInteger(m_InputString.Trim());
               FirePropertyChangeEvent("InputString");
             }
             else 
