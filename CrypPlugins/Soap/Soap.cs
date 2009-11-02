@@ -24,7 +24,7 @@ using System.Threading;
 namespace Soap
 {
     [Author("Tim Podeszwa", "tim.podeszwa@student.uni-siegen.de", "Uni Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo(true, "SoapMessage", "Represents a SoapMessage", "", "Soap/soap.png", "Soap/soap.png", "Soap/soap.png", "Soap/soap.png")]
+    [PluginInfo(true, "SoapMessage", "Represents a SoapMessage", "", "Soap/soap.png")]
     public class Soap:IThroughput
     {
         private ISettings settings = new SoapSettings();
