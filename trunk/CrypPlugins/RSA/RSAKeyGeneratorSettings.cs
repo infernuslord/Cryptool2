@@ -220,6 +220,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Getter/Setter for the password of the certificate
         /// </summary>
+        [DontSave]
         [TaskPane("Password", "Password", null, 4, false, DisplayLevel.Beginner, ControlType.TextBoxHidden)]
         public String Password
         {

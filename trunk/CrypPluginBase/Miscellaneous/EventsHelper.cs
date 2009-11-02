@@ -213,6 +213,18 @@ namespace Cryptool.PluginBase.Miscellaneous
   public class EventsHelper
   {
     [MethodImpl(MethodImplOptions.NoInlining)]
+    public static void GuiLogMessage(GuiLogNotificationEventHandler del, IPlugin plugin, string message)
+    {
+        GuiLogMessage(del, plugin, new GuiLogEventArgs(message, plugin, NotificationLevel.Debug));
+    }
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    public static void GuiLogMessage(GuiLogNotificationEventHandler del, IPlugin plugin, string message, NotificationLevel level)
+    {
+        GuiLogMessage(del, plugin, new GuiLogEventArgs(message, plugin, level));
+    }
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
     public static void GuiLogMessage(GuiLogNotificationEventHandler del, IPlugin plugin, GuiLogEventArgs args)
     {
       if (del == null)

@@ -3327,7 +3327,7 @@
         </member>
         <member name="P:AnotherEditor.Properties.Dialogs.dynamic_property_cant_change">
             <summary>
-              Looks up a localized string similar to Can&apos;t dynamic property while a dynmaic property is connected. This event should not be fired. Please check implementation of you plugin &quot;CanSendPropertiesChangedEvent&quot;..
+              Looks up a localized string similar to Can&apos;t change dynamic property while it is connected. This event should not be fired. Please check the implementation of your plugin &quot;CanSendPropertiesChangedEvent&quot;..
             </summary>
         </member>
         <member name="P:AnotherEditor.Properties.Dialogs.editor_name">
