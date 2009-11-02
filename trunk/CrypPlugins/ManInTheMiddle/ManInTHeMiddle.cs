@@ -23,7 +23,7 @@ using System.Threading;
 namespace ManInTheMiddle
 {
     [Author("Jan Bernhardt", "jan_bernhardt@gmx.de", "Uni Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo(false, "ManInTheMiddle", "Represents a Man in the middle", "", "ManInTheMiddle/ManInTheMiddleIcon.png", "ManInTheMiddle/ManInTheMiddleIcon.png", "ManInTheMiddle/ManInTheMiddleIcon.png", "ManInTheMiddle/ManInTheMiddleIcon.png")]
+    [PluginInfo(false, "ManInTheMiddle", "Represents a Man in the middle", "", "ManInTheMiddle/ManInTheMiddleIcon.png")]
   
     public class ManInTHeMiddle:IThroughput
     {
@@ -109,7 +109,7 @@ namespace ManInTheMiddle
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(text, this, NotificationLevel.Info));
         }
 
-        [PropertyInfo(Direction.OutputData, "SOAP Output", "Output a  modified SOAP message to be processed by the Web Service", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, "XmlConverter")]
+        [PropertyInfo(Direction.OutputData, "SOAP Output", "Output a modified SOAP message to be processed by the Web Service", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, "XmlConverter")]
          public XmlDocument OutputString
         {
             get {

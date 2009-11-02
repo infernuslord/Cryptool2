@@ -39,7 +39,7 @@ using System.Windows.Controls;
 namespace WebService
 {
     [Author("Tim Podeszwa", "tim.podeszwa@student.uni-siegen.de", "Uni Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo(false, "WebService", "Represents a Web Service", "", "WebService/webservice.png", "WebService/webservice.png", "WebService/webservice.png", "WebService/webservice.png")]
+    [PluginInfo(false, "WebService", "Represents a Web Service", "", "WebService/webservice.png")]
     public class WebService:IThroughput
     {
         private ISettings settings = new WebServiceSettings();

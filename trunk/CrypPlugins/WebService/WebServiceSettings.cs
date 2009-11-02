@@ -126,7 +126,7 @@ namespace WebService
        }
        
        private string targetFileName;
-      [TaskPane("Target File Name","Target to write WSDL",null,0,false,DisplayLevel.Beginner,ControlType.SaveFileDialog,"Cryptool Alphabet (*.cta)|*.cta")]
+      [TaskPane("Target File Name","Target to write WSDL",null,0,false,DisplayLevel.Beginner,ControlType.SaveFileDialog, FileExtension="Cryptool Alphabet (*.cta)|*.cta")]
        public string TargetFilename
        {
            get { return targetFileName; }

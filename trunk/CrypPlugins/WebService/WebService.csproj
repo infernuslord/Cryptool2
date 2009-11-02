@@ -121,11 +121,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Ressources\OpenLock.PNG" />
+    <Resource Include="Ressources\OpenLock.PNG" />
   </ItemGroup>
   <ItemGroup>
     <None Include="key.snk" />
-    <None Include="Ressources\ClosedLock.PNG" />
+    <Resource Include="Ressources\ClosedLock.PNG" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controls\" />
