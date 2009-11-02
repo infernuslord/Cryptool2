@@ -24,6 +24,13 @@ using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
 using Cryptool.PluginBase.IO;
 
+/*
+ * TODO:
+ * - Events des Start- und Stop-Button aus Settings auffangen und entsprechend
+ *   Peer starten/stoppen. Natürlich auch Behandlung, daß nach START spätestens
+ *   der Peer gestartet wird...
+ */ 
+
 namespace Cryptool.Plugins.PeerToPeer
 {
     [Author("Christian Arnold", "arnold@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
@@ -45,6 +52,12 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             this.p2pBase = new P2PBase();
             this.settings = new P2PPeerSettings(p2pBase);
+            this.settings.TaskPaneAttributeChanged += new TaskPaneAttributeChangedHandler(settings_TaskPaneAttributeChanged);
+        }
+
+        void settings_TaskPaneAttributeChanged(ISettings settings, TaskPaneAttributeChangedEventArgs args)
+        {
+            //throw new NotImplementedException();
         }
 
         #region IPlugin Members
@@ -80,8 +93,17 @@ namespace Cryptool.Plugins.PeerToPeer
             }
             else
             {
-                this.p2pBase.Initialize(settings.P2PPeerName, settings.P2PWorldName);
-                this.p2pBase.SynchStart();
+                // TODO: When started on PreExecution hide Start-Button of Settings and set Stop-Button to visible!
+                if (!settings.PeerStarted)
+                {
+                    // starts peer in the settings class
+                    this.settings.PeerStarted = true;
+                    //this.p2pBase.InitializeAll(settings.P2PPeerName, settings.P2PWorldName, settings.P2PLinkMngrType, settings.P2PBSType, settings.P2POverlType, settings.P2PDhtType);
+                }
+
+                //this.p2pBase.Initialize(settings.P2PPeerName, settings.P2PWorldName);
+                // use the settings-Buttons "Start" and "Stop" to start and stop the P2P-System...
+                //this.p2pBase.SynchStart();
             }
         }
 
@@ -113,7 +135,14 @@ namespace Cryptool.Plugins.PeerToPeer
 
         public void Dispose()
         {
-            p2pBase.SynchStop();
+            //settings are already set to null in this Step...
+            //unsolved design problem in CT2...
+            //this.settings.PeerStopped = true;
+            if (p2pBase != null)
+            {
+                p2pBase.SynchStop();
+                p2pBase = null;
+            }
         }
 
         #endregion
@@ -208,9 +237,15 @@ namespace Cryptool.Plugins.PeerToPeer
             // derzeit liegt wohl in peerq@play ein Fehler in der Methode...
             // erkennt den Übergabeparameter nicht an und wirft dann "ArgumentNotNullException"...
             // Problem an M.Helling und S.Holzapfel von p@p weitergegeben...
-            // return this.p2pBase.SynchRemove(sKey);
-            return false;
+            return this.p2pBase.SynchRemove(sKey);
+            //return false;
         }
+
+        public string GetPeerName()
+        {
+            return this.p2pBase.GetPeerName();
+        }
+
 
         //public event PeerJoinedP2P OnPeerJoinedCompletely;
 

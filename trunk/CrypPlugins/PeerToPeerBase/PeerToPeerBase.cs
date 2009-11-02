@@ -35,17 +35,16 @@ using Cryptool.PluginBase.IO;
 
 /*
  * Synchronous functions successfully tested (store, retrieve)
+ * !!! remove-Function is faulty !!!
  * Standard connection for test issues is LocalMachineBootstrapper. 
  * IrcBootstrapper also works, but it's to lame for testing issues!
  * 
  * TODO:
+ * - Add enums (BS,LinkManager,Overlay) to class - make it public to use in cross-cutting classes
  * - dht.Remove-Method makes problems... "ArgumentNotNullException"
  *   event though the Parameter is correctly set to a valid value!
  *   --> forwarded to the p@p-Team
  * - Testing asynchronous methods incl. EventHandlers
- * 
- * TO DO in Related Projects:
- * - Change stand-alone P2P-Apps to IControl-Slaves from one P2P-Master (store, load, (remove))
  */
 namespace Cryptool.Plugins.PeerToPeer
 {
@@ -110,6 +109,69 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         #region Basic P2P Methods (Init, Start, Stop) - synch and asynch
+
+        /// <summary>
+        /// Initializing is the first step to build a new or access an existing p2p network
+        /// </summary>
+        /// <param name="sUserName">Choose an individual name for the user</param>
+        /// <param name="sWorldName">fundamental: two peers are only in the SAME P2P system, when they initialized the SAME WORLD!</param>
+        /// <param name="linkManagerType"></param>
+        /// <param name="bsType"></param>
+        /// <param name="overlayType"></param>
+        /// <param name="dhtType"></param>
+        public void InitializeAll(string sUserName, string sWorldName, P2PLinkManagerType linkManagerType, P2PBootstrapperType bsType, P2POverlayType overlayType, P2PDHTType dhtType)
+        {
+            #region Setting LinkManager, Bootstrapper, Overlay and DHT to the specified types
+            switch (linkManagerType)
+            {
+                case P2PLinkManagerType.Snal:
+                    //snal = secure network abstraction layer
+                    this.linkmanager = new Snal();
+                    break;
+                default:
+                    throw (new NotImplementedException());
+                    break;
+            }
+            switch (bsType)
+            {
+                case P2PBootstrapperType.LocalMachineBootstrapper:
+                    //LocalMachineBootstrapper = only local connection (runs only on one machine)
+                    this.bootstrapper = new LocalMachineBootstrapper();
+                    break;
+                case P2PBootstrapperType.IrcBootstrapper:
+                    this.bootstrapper = new IrcBootstrapper();
+                    break;
+                default:
+                    throw (new NotImplementedException());
+                    break;
+            }
+            switch (overlayType)
+            {
+                case P2POverlayType.FullMeshOverlay:
+                    // changing overlay example: this.overlay = new ChordOverlay();
+                    this.overlay = new FullMeshOverlay();
+                    break;
+                default:
+                    throw (new NotImplementedException());
+                    break;
+            }
+            switch (dhtType)
+            {
+                case P2PDHTType.FullMeshDHT:
+                    this.dht = new FullMeshDHT();
+                    break;
+                default:
+                    throw (new NotImplementedException());
+                    break;
+            }
+            #endregion
+
+            this.dht.Initialize(sUserName, sWorldName, this.overlay, this.bootstrapper, this.linkmanager, null);
+
+            this.dht.MessageReceived += new EventHandler<MessageReceived>(OnDHT_MessageReceived);
+            this.dht.SystemJoined += new EventHandler(OnDHT_SystemJoined);
+            this.dht.SystemLeft += new EventHandler(OnDHT_SystemLeft);
+        }
 
         /// <summary>
         /// Initializing is the first step to build a new or access an existing p2p network
@@ -202,6 +264,16 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #endregion
 
+        // not tested and not sure that this function return the right PeerName...
+        /// <summary>
+        /// Get PeerName of the actual peer
+        /// </summary>
+        /// <returns>Peer name of the actual peer</returns>
+        public string GetPeerName()
+        {
+            return this.overlay.LocalAddress.ToString();
+        }
+
         #region Event Handling (System Joined, Left and Message Received)
 
         private void OnDHT_SystemJoined(object sender, EventArgs e)
@@ -215,6 +287,8 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             if (OnSystemLeft != null)
                 OnSystemLeft();
+            // as an experiment
+            this.dht = null;
             this.systemLeft.Set();
         }
 
