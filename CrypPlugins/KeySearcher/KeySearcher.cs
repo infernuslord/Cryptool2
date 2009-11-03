@@ -70,9 +70,6 @@ namespace KeySearcher
 
             public char getChar()
             {
-                char v = values[counter];
-                if (v == 0)
-                    Console.WriteLine("error");
                 return values[counter];
             }
 
@@ -372,7 +369,7 @@ namespace KeySearcher
 
                     doneKeysArray[threadid]++;
                     keycounterArray[threadid]++;
-                } while (Pattern.nextKey() && !stop);
+                } while (pattern.nextKey() && !stop);
             }
             finally
             {
