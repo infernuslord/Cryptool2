@@ -13,7 +13,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Transposition
 {
     [Author("Daniel Kohnen, Julian Weyers, Simon Malischewski, Armin Wiefels", "kohnen@cryptool.org, weyers@cryptool.org, malischewski@cryptool.org, wiefels@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "Transposition", "", "", "Transposition/Images/icon.png", "Transposition/Images/encrypt.png", "Transposition/Images/decrypt.png")]
+    [PluginInfo(false, "Transposition", "Transposition cipher", "", "Transposition/Images/icon.png", "Transposition/Images/encrypt.png", "Transposition/Images/decrypt.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class Transposition : IEncryption
     {
@@ -26,13 +26,20 @@ namespace Transposition
 
         private char[,] read_in_matrix;
         private char[,] permuted_matrix;
+        private int[] key;
         # endregion
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public Transposition()
         {
             this.settings = new TranspositionSettings();
         }
 
+        /// <summary>
+        /// Get or set all settings for this algorithm.
+        /// </summary>
         public ISettings Settings
         {
             get { return this.settings; }
@@ -41,6 +48,9 @@ namespace Transposition
 
         # region getter methods
 
+        /// <summary>
+        /// Get read in matrix.
+        /// </summary>
         public char[,] Read_in_matrix
         {
             get
@@ -49,6 +59,9 @@ namespace Transposition
             }
         }
 
+        /// <summary>
+        /// Get permuted matrix.
+        /// </summary>
         public char[,] Permuted_matrix
         {
             get
@@ -56,7 +69,18 @@ namespace Transposition
                 return permuted_matrix;
             }
         }
-        # endregion 
+
+        /// <summary>
+        /// Get numerical key order.
+        /// </summary>
+        public int[] Key
+        {
+            get
+            {
+                return key;
+            }
+        }
+        # endregion
 
         # region Properties
 
@@ -183,8 +207,6 @@ namespace Transposition
         {
             try
             {
-                int[] key = null;
-
                 if (keyword.Contains(','))
                 {
                     key = get_Keyword_Array(keyword);
@@ -211,7 +233,7 @@ namespace Transposition
 
             catch (Exception)
             {
-                Transposition_LogMessage("Keyword is not valid" , NotificationLevel.Error);
+                Transposition_LogMessage("Keyword is not valid", NotificationLevel.Error);
                 Output = "";
             }
         }
@@ -229,7 +251,7 @@ namespace Transposition
                         switch ((TranspositionSettings.ReadInMode)settings.ReadIn)
                         {
                             case TranspositionSettings.ReadInMode.byRow:
-                            read_in_matrix = enc_read_in_by_row_if_row_perm(input, key.Length); break;
+                                read_in_matrix = enc_read_in_by_row_if_row_perm(input, key.Length); break;
                             case TranspositionSettings.ReadInMode.byColumn:
                                 read_in_matrix = enc_read_in_by_column_if_row_perm(input, key.Length); break;
                             default:
@@ -274,7 +296,6 @@ namespace Transposition
                                 break;
                         }
                     }
-
                     return encrypted;
                 }
                 else
@@ -373,8 +394,8 @@ namespace Transposition
             }
 
             int pos = 0;
-
             char[,] matrix = new char[keyword_length, size];
+
             for (int i = 0; i < size; i++)
             {
                 for (int j = 0; j < keyword_length; j++)
@@ -386,7 +407,6 @@ namespace Transposition
                     }
                 }
             }
-
             return matrix;
         }
 
@@ -417,7 +437,6 @@ namespace Transposition
                     }
                 }
             }
-
             return matrix;
         }
 
@@ -457,7 +476,6 @@ namespace Transposition
                     }
                 }
             }
-
             return matrix;
         }
 
@@ -485,14 +503,12 @@ namespace Transposition
                     }
                 }
             }
-
             return matrix;
         }
 
         private char[,] dec_read_in_by_column(String input, int[] keyword)
         {
             int size = input.Length / keyword.Length;
-
             int offs = input.Length % keyword.Length;
             if (offs != 0)
             {
@@ -535,15 +551,12 @@ namespace Transposition
                     }
                 }
             }
-
-
             return matrix;
         }
 
         private char[,] dec_read_in_by_column_if_row_perm(String input, int[] keyword)
         {
             int size = input.Length / keyword.Length;
-
             int offs = input.Length % keyword.Length;
             if (offs != 0)
             {
@@ -586,15 +599,12 @@ namespace Transposition
                     }
                 }
             }
-
-
             return matrix;
         }
 
         private char[,] dec_read_in_by_row(String input, int[] keyword)
         {
             int size = input.Length / keyword.Length;
-
             int offs = input.Length % keyword.Length;
             if (offs != 0)
             {
@@ -637,15 +647,12 @@ namespace Transposition
                     }
                 }
             }
-
-
             return matrix;
         }
 
         private char[,] dec_read_in_by_row_if_row_perm(String input, int[] keyword)
         {
             int size = input.Length / keyword.Length;
-
             int offs = input.Length % keyword.Length;
             if (offs != 0)
             {
@@ -688,8 +695,6 @@ namespace Transposition
                     }
                 }
             }
-
-
             return matrix;
         }
 
@@ -697,9 +702,7 @@ namespace Transposition
         {
             int x = keyword.Length;
             int y = readin_matrix.Length / keyword.Length;
-
             char[,] matrix = new char[x, y];
-
             int pos = 0;
 
             for (int i = 1; i <= keyword.Length; i++)
@@ -717,7 +720,6 @@ namespace Transposition
                     matrix[i - 1, j] = readin_matrix[pos, j];
                 }
             }
-
             return matrix;
         }
 
@@ -725,9 +727,7 @@ namespace Transposition
         {
             int y = keyword.Length;
             int x = readin_matrix.Length / keyword.Length;
-
             char[,] matrix = new char[x, y];
-
             int pos = 0;
 
             for (int i = 1; i <= y; i++)
@@ -745,7 +745,6 @@ namespace Transposition
                     matrix[j, i - 1] = readin_matrix[j, pos];
                 }
             }
-
             return matrix;
         }
 
@@ -753,7 +752,6 @@ namespace Transposition
         {
             int x = keyword.Length;
             int y = readin_matrix.Length / keyword.Length;
-
             char[,] matrix = new char[x, y];
 
             for (int i = 0; i < x; i++)
@@ -763,7 +761,6 @@ namespace Transposition
                     matrix[i, j] = readin_matrix[keyword[i] - 1, j];
                 }
             }
-
             return matrix;
         }
 
@@ -771,9 +768,7 @@ namespace Transposition
         {
             int x = keyword.Length;
             int y = readin_matrix.Length / keyword.Length;
-
             char[,] matrix = new char[y, x];
-
 
             for (int i = 0; i < x; i++)
             {
@@ -782,7 +777,6 @@ namespace Transposition
                     matrix[j, i] = readin_matrix[j, keyword[i] - 1];
                 }
             }
-
             return matrix;
         }
 
@@ -790,7 +784,6 @@ namespace Transposition
         {
             int x = keyword_length;
             int y = matrix.Length / keyword_length;
-
             String enc = "";
             char empty_char = new char();
 
@@ -805,7 +798,6 @@ namespace Transposition
                     }
                 }
             }
-
             return enc;
         }
 
@@ -813,7 +805,6 @@ namespace Transposition
         {
             int y = keyword_length;
             int x = matrix.Length / keyword_length;
-
             String enc = "";
             char empty_char = new char();
 
@@ -828,7 +819,6 @@ namespace Transposition
                     }
                 }
             }
-
             return enc;
         }
 
@@ -836,7 +826,6 @@ namespace Transposition
         {
             int x = keyword_length;
             int y = matrix.Length / keyword_length;
-
             String enc = "";
             char empty_char = new char();
 
@@ -851,7 +840,6 @@ namespace Transposition
                     }
                 }
             }
-
             return enc;
         }
 
@@ -859,7 +847,6 @@ namespace Transposition
         {
             int y = keyword_length;
             int x = matrix.Length / keyword_length;
-
             String enc = "";
             char empty_char = new char();
 
@@ -874,7 +861,6 @@ namespace Transposition
                     }
                 }
             }
-
             return enc;
         }
 
@@ -894,7 +880,6 @@ namespace Transposition
                 }
 
                 int[] keys = new int[length];
-
                 String tmp = "";
                 int pos = 0;
                 for (int i = 0; i < keyword.Length; i++)
@@ -919,7 +904,6 @@ namespace Transposition
                         }
                     }
                 }
-
                 return keys;
             }
             catch (FormatException)
@@ -947,7 +931,6 @@ namespace Transposition
                     return false;
                 }
             }
-
             return true;
         }
 
@@ -966,7 +949,6 @@ namespace Transposition
                     rank[i] = (Array.IndexOf(keyChars, orgChars[i])) + 1;
                     keyChars[Array.IndexOf(keyChars, orgChars[i])] = (char)0;
                 }
-
                 return rank;
             }
             return null;
@@ -975,7 +957,6 @@ namespace Transposition
         private void Transposition_LogMessage(string msg, NotificationLevel loglevel)
         {
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(msg, this, loglevel));
-
         }
 
         # endregion
