@@ -439,8 +439,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             {
                 if (controlSlave is object && ((AESControl)controlSlave).InputStream is object)
                     ((AESControl)controlSlave).closeStreams();
-                //InputStream = null;
-                //OutputStream = null;
             }
         }
 
