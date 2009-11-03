@@ -26,5 +26,5 @@ using System.Windows;
   // app, or any theme specific resource dictionaries)
 )]
 
-[assembly: AssemblyVersion("2.0.3554.00003")]
+[assembly: AssemblyVersion("2.0.3594.00001")]
 [assembly: GuidAttribute("B110730C-0F8A-4653-BC6D-76DB24F95841")]
