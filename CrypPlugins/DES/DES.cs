@@ -588,6 +588,21 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             return bkey;
         }
 
+        public IControlEncryption clone()
+        {
+            DESControl des = new DESControl(plugin);
+            CryptoolStream cs = new CryptoolStream();
+            cs.OpenRead(InputStream.FileName);
+            des.InputStream = cs;
+            des.reset();
+            return des;
+        }
+
+        public void Dispose()
+        {
+            closeStreams();
+        }
+
         #endregion
     }
 }

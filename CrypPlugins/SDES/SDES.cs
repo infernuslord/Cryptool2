@@ -625,7 +625,17 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 else
                     bkey[count++] = 1;
             return bkey;
-        }       
+        }
+
+        public IControlEncryption clone()
+        {
+            return new SDESControl(plugin);
+        }
+
+        public void Dispose()
+        {
+            //closeStreams();
+        }
 
         #endregion
 
