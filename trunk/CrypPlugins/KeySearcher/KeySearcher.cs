@@ -22,7 +22,7 @@ namespace KeySearcher
             private int counter;
             
             public Wildcard(string valuePattern)
-            {                
+            {
                 counter = 0;
                 length = 0;
                 int i = 1;
@@ -40,9 +40,40 @@ namespace KeySearcher
                 }
             }
 
+            public Wildcard(Wildcard wc)
+            {
+                length = wc.length;
+                counter = 0;
+                for (int i = 0; i < 256; i++)
+                    values[i] = wc.values[i];
+            }
+
+            private Wildcard()
+            {
+            }
+
+            public Wildcard[] split()
+            {
+                Wildcard[] wcs = new Wildcard[2];
+                wcs[0] = new Wildcard();
+                wcs[0].counter = 0;
+                wcs[0].length = length / 2;
+                wcs[1] = new Wildcard();
+                wcs[1].counter = 0;
+                wcs[1].length = length - wcs[0].length;
+                for (int i = 0; i < wcs[0].length; i++)
+                    wcs[0].values[i] = values[i];
+                for (int i = 0; i < wcs[1].length; i++)
+                    wcs[1].values[i] = values[i + wcs[0].length];
+                return wcs;
+            }
+
             public char getChar()
-            {                
-                return (char)values[counter];
+            {
+                char v = values[counter];
+                if (v == 0)
+                    Console.WriteLine("error");
+                return values[counter];
             }
 
             public bool succ()
@@ -56,7 +87,7 @@ namespace KeySearcher
                 return false;
             }
 
-            public int Size()
+            public int size()
             {
                 return length;
             }
@@ -70,6 +101,34 @@ namespace KeySearcher
         public KeyPattern(string pattern)
         {
             this.pattern = pattern;
+        }
+
+        public KeyPattern[] split()
+        {
+            KeyPattern[] patterns = new KeyPattern[2];
+            for (int i = 0; i < 2; i++)
+            {
+                patterns[i] = new KeyPattern(pattern);
+                patterns[i].key = key;
+                patterns[i].wildcardList = new ArrayList();
+            }
+            bool s = false;
+            for (int i = 0; i < wildcardList.Count; i++)
+            {
+                if (!s && ((Wildcard)wildcardList[i]).size() > 1)
+                {
+                    Wildcard[] wc = ((Wildcard)wildcardList[i]).split();
+                    patterns[0].wildcardList.Add(wc[0]);
+                    patterns[1].wildcardList.Add(wc[1]);
+                    s = true;
+                }
+                else
+                {
+                    patterns[0].wildcardList.Add(new Wildcard((Wildcard)wildcardList[i]));
+                    patterns[1].wildcardList.Add(new Wildcard((Wildcard)wildcardList[i]));
+                }
+            }
+            return patterns;
         }
 
         public string giveWildcardKey()
@@ -135,9 +194,9 @@ namespace KeySearcher
             return true;
         }
 
-        public double initKeyIteration(string key)
+        public long initKeyIteration(string key)
         {
-            double counter = 1;
+            long counter = 1;
             this.key = key;
             int pcount = 0;
             wildcardList = new ArrayList();
@@ -147,7 +206,7 @@ namespace KeySearcher
                 {
                     Wildcard wc = new Wildcard(pattern.Substring(pcount, pattern.IndexOf(']', pcount) + 1 - pcount));
                     wildcardList.Add(wc);
-                    counter *= wc.Size();
+                    counter *= wc.size();
                 }
 
                 if (pattern[pcount] == '[')
@@ -191,6 +250,9 @@ namespace KeySearcher
     [PluginInfo(true, "KeySearcher", "Bruteforces a decryption algorithm.", null, "KeySearcher/Images/icon.png")]
     public class KeySearcher : IAnalysisMisc
     {
+        private Queue valuequeue;
+        private double value_threshold;
+
         private KeyPattern pattern = null;
         public KeyPattern Pattern
         {
@@ -216,7 +278,7 @@ namespace KeySearcher
 
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
-        private KeySearcherSettings settings;        
+        private KeySearcherSettings settings;
 
         public KeySearcher()
         {
@@ -248,53 +310,24 @@ namespace KeySearcher
         {
         }
 
-        public void process(IControlEncryption sender)
-        {            
+        private void KeySearcherJob(object param)
+        {
+            object[] parameters = (object[])param;
+            KeyPattern pattern = (KeyPattern)parameters[0];
+            int threadid = (int)parameters[1];
+            Int64[] doneKeysArray = (Int64[])parameters[2];
+            Int64[] keycounterArray = (Int64[])parameters[3];            
+            IControlEncryption sender = (IControlEncryption)parameters[4];
+            int bytesToUse = (int)parameters[5];
 
-            if (sender != null && costMaster != null)
+            try
             {
-                int maxInList = 10;
-                LinkedList<ValueKey> costList = new LinkedList<ValueKey>();
-                ValueKey valueKey = new ValueKey();                
-                if (this.costMaster.getRelationOperator() == RelationOperator.LessThen)
-                    valueKey.value = double.MaxValue;
-                else
-                    valueKey.value = double.MinValue;
-                valueKey.key = "dummykey";                
-                LinkedListNode<ValueKey> node = costList.AddFirst(valueKey);
-                for (int i = 1; i < maxInList; i++)
-                {
-                    node = costList.AddAfter(node, valueKey);
-                }
 
-                stop = false;
-                if (!Pattern.testKey(settings.Key))
-                {
-                    GuiLogMessage("Wrong key pattern!", NotificationLevel.Error);
-                    return;
-                }
-                
-                int bytesToUse = 0;
-                double size = Pattern.initKeyIteration(settings.Key);
-                
-                try
-                {
-                    bytesToUse = CostMaster.getBytesToUse();
-                }
-                catch (Exception ex)
-                {
-                    GuiLogMessage("Bytes to use not valid: " + ex.Message, NotificationLevel.Error);
-                    return;
-                }
-  
-                double keycounter = 0;
-                double doneKeys = 0;
-                LinkedListNode<ValueKey> linkedListNode;
+                long size = pattern.initKeyIteration(settings.Key);
 
-                DateTime lastTime = DateTime.Now;                
                 do
                 {
-                    
+                    ValueKey valueKey = new ValueKey();
                     try
                     {
                         valueKey.key = Pattern.getKey();
@@ -312,9 +345,10 @@ namespace KeySearcher
                     catch (Exception ex)
                     {
                         GuiLogMessage("Decryption is not possible: " + ex.Message, NotificationLevel.Error);
+                        GuiLogMessage("Stack Trace: " + ex.StackTrace, NotificationLevel.Error);
                         return;
                     }
-                
+
                     try
                     {
                         valueKey.value = CostMaster.calculateCost(valueKey.decryption);
@@ -327,135 +361,239 @@ namespace KeySearcher
 
                     if (this.costMaster.getRelationOperator() == RelationOperator.LargerThen)
                     {
-                        if(valueKey.value > costList.Last().value){                            
-                            node = costList.First;
-                            while (node != null)
-                            {
-
-                                if (valueKey.value > node.Value.value)
-                                {
-                                    costList.AddBefore(node, valueKey);
-                                    costList.RemoveLast();
-                                    break;
-                                }
-                                node = node.Next;
-                            }//end while
-                        }//end if
+                        if (valueKey.value > value_threshold)
+                            valuequeue.Enqueue(valueKey);
                     }
                     else
                     {
-                        node = costList.First;
-                        if (valueKey.value < costList.Last().value)
-                        {
-                            while (node != null)
-                            {
-
-                                if (valueKey.value < node.Value.value)
-                                {
-                                    costList.AddBefore(node, valueKey);
-                                    costList.RemoveLast();
-                                    break;
-                                }
-                                node = node.Next;
-                            }//end while
-                        }//end if
+                        if (valueKey.value < value_threshold)
+                            valuequeue.Enqueue(valueKey);
                     }
-                    
-                    keycounter++;
-                    doneKeys++; 
-                    TimeSpan duration = DateTime.Now - lastTime;
-                    if (duration.Seconds >= 1)
-                    {
-                        ProgressChanged(keycounter, size);
-                        
-                        if (QuickWatchPresentation.IsVisible)
-                        {
-                            lastTime = DateTime.Now;
-                            double time = ((size - keycounter) / doneKeys);
-                            TimeSpan timeleft = new TimeSpan(-1);
 
-                            try
-                            {
-                                if (time / (24 * 60 * 60) <= int.MaxValue)
-                                {
-                                    int days = (int)(time / (24 * 60 * 60));
-                                    time = time - (days * 24 * 60 * 60);
-                                    int hours = (int)(time / (60 * 60));
-                                    time = time - (hours * 60 * 60);
-                                    int minutes = (int)(time / 60);
-                                    time = time - (minutes * 60);
-                                    int seconds = (int)time;
-
-                                    timeleft = new TimeSpan(days, hours, minutes, (int)seconds, 0);
-                                }
-                            }
-                            catch
-                            {
-                                //can not calculate time span
-                            }
-
-                            ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                            {
-                                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).keysPerSecond.Text = "" + doneKeys;
-                                if (timeleft != new TimeSpan(-1))
-                                {
-                                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).timeLeft.Text = "" + timeleft;
-                                    try
-                                    {
-                                        ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "" + DateTime.Now.Add(timeleft);
-                                    }catch{
-                                        ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "in a galaxy far, far away...";
-                                    }
-                                }
-                                else
-                                {
-                                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).timeLeft.Text = "incalculable :-)";
-                                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "in a galaxy far, far away...";
-                                }
-                             
-                                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Clear();
-                                linkedListNode = costList.First;
-                                System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
-                                int i=0;
-                                while (linkedListNode != null)
-                                {
-                                    i++;
-                                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Add(i + ") " + Math.Round(linkedListNode.Value.value,4) + " = " + linkedListNode.Value.key + " : \"" + 
-                                        enc.GetString(linkedListNode.Value.decryption).Replace("\n","").Replace("\r", "").Replace("\t", "") + "\"");
-                                    linkedListNode = linkedListNode.Next;
-                                }                                
-                            }
-                            , null);
-                        }//end if
-                        doneKeys = 0;
-                    }//end if
-
+                    doneKeysArray[threadid]++;
+                    keycounterArray[threadid]++;
                 } while (Pattern.nextKey() && !stop);
+            }
+            finally
+            {
+                sender.Dispose();
+            }
+        }
 
-                if (QuickWatchPresentation.IsVisible)
+        public void process(IControlEncryption sender)
+        {
+            if (sender != null && costMaster != null)
+            {
+                int maxInList = 10;
+                LinkedList<ValueKey> costList = new LinkedList<ValueKey>();
+                ValueKey valueKey = new ValueKey();
+                if (this.costMaster.getRelationOperator() == RelationOperator.LessThen)
+                    valueKey.value = double.MaxValue;
+                else
+                    valueKey.value = double.MinValue;
+                valueKey.key = "dummykey";
+                valueKey.decryption = new byte[0];
+                value_threshold = valueKey.value;
+                LinkedListNode<ValueKey> node = costList.AddFirst(valueKey);
+                for (int i = 1; i < maxInList; i++)
                 {
-
-                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
-                        ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Clear();
-                        linkedListNode = costList.First;
-                        System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
-                        int i = 0;
-                        while (linkedListNode != null)
-                        {
-                            i++;
-                            ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Add(i + ") " + Math.Round(linkedListNode.Value.value, 4) + " = " + linkedListNode.Value.key + " : \"" +
-                                enc.GetString(linkedListNode.Value.decryption).Replace("\n", "").Replace("\r", "").Replace("\t", "") + "\"");
-                            linkedListNode = linkedListNode.Next;
-                        }
-                    }
-                    , null);
+                    node = costList.AddAfter(node, valueKey);
                 }
 
-                if(!stop)
-                    ProgressChanged(1, 1);
+                stop = false;
+                if (!Pattern.testKey(settings.Key))
+                {
+                    GuiLogMessage("Wrong key pattern!", NotificationLevel.Error);
+                    return;
+                }
 
+                int bytesToUse = 0;
+
+                try
+                {
+                    bytesToUse = CostMaster.getBytesToUse();
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage("Bytes to use not valid: " + ex.Message, NotificationLevel.Error);
+                    return;
+                }
+
+                LinkedListNode<ValueKey> linkedListNode;
+
+                KeyPattern[] patterns;
+                long size = Pattern.initKeyIteration(settings.Key);
+
+                if (settings.CoresUsed > 0)
+                    patterns = Pattern.split();
+                else
+                {
+                    patterns = new KeyPattern[1];
+                    patterns[0] = Pattern;
+                }
+
+                valuequeue = Queue.Synchronized(new Queue());
+
+                Int64[] doneKeysA = new Int64[patterns.Length];
+                Int64[] keycounters = new Int64[patterns.Length];
+                for (int i = 0; i < patterns.Length; i++)
+                {
+                    WaitCallback worker = new WaitCallback(KeySearcherJob);
+                    doneKeysA[i] = new Int64();
+                    keycounters[i] = new Int64();
+                    ThreadPool.QueueUserWorkItem(worker, new object[] { patterns[i], i, doneKeysA, keycounters, sender.clone(), bytesToUse });
+                }
+                
+                //update message:
+                while (!stop)
+                {
+                    Thread.Sleep(10000);
+
+                    //update toplist:
+                    while (valuequeue.Count != 0)
+                    {
+                        ValueKey vk = (ValueKey)valuequeue.Dequeue();
+                        if (this.costMaster.getRelationOperator() == RelationOperator.LargerThen)
+                        {
+                            if (vk.value > costList.Last().value)
+                            {
+                                node = costList.First;
+                                while (node != null)
+                                {
+
+                                    if (vk.value > node.Value.value)
+                                    {
+                                        costList.AddBefore(node, vk);
+                                        costList.RemoveLast();
+                                        value_threshold = costList.Last.Value.value;
+                                        break;
+                                    }
+                                    node = node.Next;
+                                }//end while
+                            }//end if
+                        }
+                        else
+                        {
+                            node = costList.First;
+                            if (vk.value < costList.Last().value)
+                            {
+                                while (node != null)
+                                {
+
+                                    if (vk.value < node.Value.value)
+                                    {
+                                        costList.AddBefore(node, vk);
+                                        costList.RemoveLast();
+                                        value_threshold = costList.Last.Value.value;
+                                        break;
+                                    }
+                                    node = node.Next;
+                                }//end while
+                            }//end if
+                        }
+                    }
+
+                    long keycounter = 0;
+                    long doneKeys = 0;
+                    foreach (Int64 dk in doneKeysA)
+                        doneKeys += dk;
+                    foreach (Int64 kc in keycounters)
+                        keycounter += kc;
+
+                    ProgressChanged(keycounter, size);
+
+                    if (QuickWatchPresentation.IsVisible && doneKeys != 0)
+                    {
+                        double time = ((size - keycounter) / doneKeys);
+                        TimeSpan timeleft = new TimeSpan(-1);
+
+                        try
+                        {
+                            if (time / (24 * 60 * 60) <= int.MaxValue)
+                            {
+                                int days = (int)(time / (24 * 60 * 60));
+                                time = time - (days * 24 * 60 * 60);
+                                int hours = (int)(time / (60 * 60));
+                                time = time - (hours * 60 * 60);
+                                int minutes = (int)(time / 60);
+                                time = time - (minutes * 60);
+                                int seconds = (int)time;
+
+                                timeleft = new TimeSpan(days, hours, minutes, (int)seconds, 0);
+                            }
+                        }
+                        catch
+                        {
+                            //can not calculate time span
+                        }
+
+                        ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).keysPerSecond.Text = "" + doneKeys/10;
+                            if (timeleft != new TimeSpan(-1))
+                            {
+                                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).timeLeft.Text = "" + timeleft;
+                                try
+                                {
+                                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "" + DateTime.Now.Add(timeleft);
+                                }
+                                catch
+                                {
+                                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "in a galaxy far, far away...";
+                                }
+                            }
+                            else
+                            {
+                                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).timeLeft.Text = "incalculable :-)";
+                                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "in a galaxy far, far away...";
+                            }
+
+                            ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Clear();
+                            linkedListNode = costList.First;
+                            System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+                            int i = 0;
+                            while (linkedListNode != null)
+                            {
+                                i++;
+                                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Add(i + ") " + Math.Round(linkedListNode.Value.value, 4) + " = " + linkedListNode.Value.key + " : \"" +
+                                    enc.GetString(linkedListNode.Value.decryption).Replace("\n", "").Replace("\r", "").Replace("\t", "") + "\"");
+                                linkedListNode = linkedListNode.Next;
+                            }
+                        }
+                        , null);
+                    }//end if
+                    doneKeys = 0;
+                    for (int i = 0; i < doneKeysA.Length; i++)
+                        doneKeysA[i] = 0;
+
+                    if (QuickWatchPresentation.IsVisible)
+                    {
+
+                        ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Clear();
+                            linkedListNode = costList.First;
+                            System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+                            int i = 0;
+                            while (linkedListNode != null)
+                            {
+                                i++;
+                                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Add(i + ") " + Math.Round(linkedListNode.Value.value, 4) + " = " + linkedListNode.Value.key + " : \"" +
+                                    enc.GetString(linkedListNode.Value.decryption).Replace("\n", "").Replace("\r", "").Replace("\t", "") + "\"");
+                                linkedListNode = linkedListNode.Next;
+                            }
+                        }
+                        , null);
+                    }
+
+                    if (keycounter >= size)
+                        break;
+                }//end while  
             }//end if
+
+            if (!stop)
+                ProgressChanged(1, 1);
+  
         }
 
         public void PostExecution()

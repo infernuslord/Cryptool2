@@ -894,10 +894,33 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             byte[] bkey = new byte[bytes];
             for (int i = 0; i < bytes; i++)
             {
-                bkey[i] = Convert.ToByte(key.Substring(i * 3, 2), 16);
+                try
+                {
+                    bkey[i] = Convert.ToByte(key.Substring(i * 3, 2), 16);
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
             }
             return bkey;
         }
+
+        public IControlEncryption clone()
+        {
+            AESControl aes = new AESControl(plugin);
+            CryptoolStream cs = new CryptoolStream();
+            cs.OpenRead(InputStream.FileName);
+            aes.InputStream = cs;
+            aes.reset();
+            return aes;
+        }
+
+        public void Dispose()
+        {
+            closeStreams();
+        }
+
         #endregion
     }
 }
