@@ -415,7 +415,7 @@ namespace KeySearcher
                 }
                 catch (Exception ex)
                 {
-                    GuiLogMessage("Bytes to use not valid: " + ex.Message, NotificationLevel.Error);
+                    GuiLogMessage("Bytes used not valid: " + ex.Message, NotificationLevel.Error);
                     return;
                 }
 
@@ -447,7 +447,7 @@ namespace KeySearcher
                 //update message:
                 while (!stop)
                 {
-                    Thread.Sleep(10000);
+                    Thread.Sleep(1000);
 
                     //update toplist:
                     while (valuequeue.Count != 0)
@@ -529,7 +529,7 @@ namespace KeySearcher
 
                         ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
-                            ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).keysPerSecond.Text = "" + doneKeys/10;
+                            ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).keysPerSecond.Text = "" + doneKeys;
                             if (timeleft != new TimeSpan(-1))
                             {
                                 ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).timeLeft.Text = "" + timeleft;
@@ -566,7 +566,7 @@ namespace KeySearcher
                     for (int i = 0; i < doneKeysA.Length; i++)
                         doneKeysA[i] = 0;
 
-                    if (QuickWatchPresentation.IsVisible)
+                    if (!stop && QuickWatchPresentation.IsVisible)
                     {
 
                         ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
