@@ -116,7 +116,7 @@ namespace Cryptool.Plugins.Converter
         public void Execute()
         {
 
-            if (!(InputOne is int[] || InputOne is byte[] || InputOne is CryptoolStream))
+            if (!(InputOne is int[] || InputOne is byte[] || InputOne is CryptoolStream)) 
             {
                 if (inputOne is bool)
                 {
@@ -152,12 +152,12 @@ namespace Cryptool.Plugins.Converter
                     }
                     return;
                 }
-
+                // the string representation is used for all upcoming operations
                 string inpString = Convert.ToString(InputOne);
 
 
 
-                switch (this.settings.Converter)
+                switch (this.settings.Converter) // convert to what?
                 {
                     case 0: //String
                         {
@@ -168,11 +168,10 @@ namespace Cryptool.Plugins.Converter
                     case 1: //int
                         {
 
-                            try // string -> int Läuft
+                            try // can be read as int?
                             {
                                 int temp = Convert.ToInt32(inpString);
-                                //int temp2 = (int)temp;
-                               // GuiLogMessage("int erkannt", NotificationLevel.Info);
+                                
                                 Output = temp;
                                 ProgressChanged(100, 100);
                             }
@@ -185,11 +184,10 @@ namespace Cryptool.Plugins.Converter
                     case 2: //short
                         {
 
-                            try // string -> short Läuft
+                            try // can be read as short?
                             {
                                 short temp = Convert.ToInt16(inpString);
-                                // short temp2 = (short)temp;
-                               // GuiLogMessage("short erkannt ", NotificationLevel.Info);
+                              
                                 Output = temp;
                                 ProgressChanged(100, 100);
                             }
@@ -201,10 +199,10 @@ namespace Cryptool.Plugins.Converter
                         }
                     case 3: //byte
                         {
-                            try // string -> byte Läuft
+                            try // can be read as byte?
                             {
                                 byte temp = Convert.ToByte(inpString);
-                               // GuiLogMessage("byte erkannt ", NotificationLevel.Info);
+                               
                                 Output = temp;
                                 ProgressChanged(100, 100);
                             }
@@ -216,9 +214,9 @@ namespace Cryptool.Plugins.Converter
                         }
                     case 4: //double
                         {
-                            try // string -> double Läuft
+                            try // can be read as double?
                             {
-                                String cleanInputString = DoubleCleanup(inpString);
+                                String cleanInputString = DoubleCleanup(inpString); // apply user settings concerning input format
 
                                 double temp = Convert.ToDouble(cleanInputString);
                                 GuiLogMessage("Converting String to double is not safe. Digits may have been cut off  ", NotificationLevel.Warning);
@@ -235,11 +233,11 @@ namespace Cryptool.Plugins.Converter
                         }
                     case 5: //bigint
                         {
-                            try // string -> bigint Läuft
+                            try // can be read as biginteger?
                             {
 
                                 BigInteger temp = BigInteger.parseExpression(inpString);
-                               // GuiLogMessage("big int erkannt ", NotificationLevel.Info);
+                               
                                 Output = temp;
                                 ProgressChanged(100, 100);
                             }
@@ -251,22 +249,22 @@ namespace Cryptool.Plugins.Converter
                         }
                     case 6: // int[]
                         {
-                            GuiLogMessage("Conversion from String to int[] not defined: ", NotificationLevel.Error);
+                            GuiLogMessage("Conversion to int[] not yet defined: ", NotificationLevel.Error);
                             break;
                         }
                     case 7: // byte[]
                         {
                             inpString = setText(inpString);
-                            if (settings.Numeric)
+                            if (settings.Numeric) // apply user setting concerning numeric interpretation of input (else input is read as string)
                             {
-                                try // lässt sich als int verstehen?
+                                try // can be read as int? 
                                 {
                                     int tempint = Convert.ToInt32(inpString);
                                     byte[] temp = new byte[4];
                                     temp = BitConverter.GetBytes(tempint);
 
                                     int test = BitConverter.ToInt32(temp, 0);
-                                  //  GuiLogMessage("int erkannt " + test.ToString(), NotificationLevel.Info);
+                                  
 
                                     Output = temp;
 
@@ -278,7 +276,7 @@ namespace Cryptool.Plugins.Converter
 
                                 }
 
-                                try // lässt sich als bigint verstehen?
+                                try // can be read as biginteger?
                                 {
                                     BigInteger tempbigint = new BigInteger(inpString, 10);
 
@@ -291,7 +289,7 @@ namespace Cryptool.Plugins.Converter
                                     temp = tempbigint.getBytes();
 
                                     BigInteger test = new BigInteger(temp);
-                                   // GuiLogMessage("bigint erkannt " + test.ToString(), NotificationLevel.Info);
+                                  
                                     Output = temp;
 
                                     ProgressChanged(100, 100);
@@ -301,7 +299,7 @@ namespace Cryptool.Plugins.Converter
                                 {
 
                                 }
-                                try // lässt sich als double verstehen?
+                                try // can be read as double
                                 {   
                                     
                                     
@@ -328,16 +326,16 @@ namespace Cryptool.Plugins.Converter
                                 Output = enc.GetBytes(inpString);
 
 
-                                //GuiLogMessage("byte[] wiederherstellung " + Output.ToString(), NotificationLevel.Info);
+                            
                                 ProgressChanged(100, 100);
                                 break;
                                
-                                
+                               
                                 
                             }
-                            else
+                            else // numeric interpretation NOT selected:
                             {
-                                switch (settings.Encoding)
+                                switch (settings.Encoding) //apply user settings concerning encoding
                                 {
                                     case ConverterSettings.EncodingTypes.Default:
                                         Output = Encoding.Default.GetBytes(inpString.ToCharArray());
@@ -367,7 +365,7 @@ namespace Cryptool.Plugins.Converter
                                
 
 
-                                //GuiLogMessage("byte[] wiederherstellung " + Output.ToString(), NotificationLevel.Info);
+                              
                                 ProgressChanged(100, 100);
                                 break;
                             }
@@ -375,12 +373,12 @@ namespace Cryptool.Plugins.Converter
                         }
                     case 8: //cryptoolstream
                         {
-                            GuiLogMessage("redundant", NotificationLevel.Error);
+                            GuiLogMessage("Conversion to Cryptoolstream not yet implemented", NotificationLevel.Error);
                             break;
                         }
                     default:
                         {
-                         //   GuiLogMessage("kein fall getriggert ", NotificationLevel.Error);
+                         
                             break;
                         }
                 }
@@ -393,11 +391,11 @@ namespace Cryptool.Plugins.Converter
 
 
         }
-        private String setText(string temp)
+        private String setText(string temp) //apply user selected presentation format
         {
             if (temp != null)
             {
-                // Presentation format conversion
+                
                 switch (settings.Presentation)
                 {
                     case ConverterSettings.PresentationFormat.Text:
@@ -417,7 +415,7 @@ namespace Cryptool.Plugins.Converter
             }
             return temp;
         }
-        public String DoubleCleanup(String inpString)
+        public String DoubleCleanup(String inpString) //apply user selected input format
         {
             if (this.settings.FormatAmer)
             {
