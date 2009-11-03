@@ -188,6 +188,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeerToPeer_DHTremove", "Cry
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeerToPeer_DHTretrieve", "CrypPlugins\PeerToPeer_DHTretrieve\PeerToPeer_DHTretrieve.csproj", "{AA14E2EC-E9D7-4AC4-AE69-25007D555E9B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transposition", "CrypPlugins\Transposition\Transposition.csproj", "{37D80203-C651-4396-8F5B-D67B7EC62763}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -1074,6 +1076,16 @@ Global
 		{AA14E2EC-E9D7-4AC4-AE69-25007D555E9B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AA14E2EC-E9D7-4AC4-AE69-25007D555E9B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{AA14E2EC-E9D7-4AC4-AE69-25007D555E9B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{37D80203-C651-4396-8F5B-D67B7EC62763}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{37D80203-C651-4396-8F5B-D67B7EC62763}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37D80203-C651-4396-8F5B-D67B7EC62763}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37D80203-C651-4396-8F5B-D67B7EC62763}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{37D80203-C651-4396-8F5B-D67B7EC62763}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{37D80203-C651-4396-8F5B-D67B7EC62763}.Release|.NET.ActiveCfg = Release|Any CPU
+		{37D80203-C651-4396-8F5B-D67B7EC62763}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37D80203-C651-4396-8F5B-D67B7EC62763}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37D80203-C651-4396-8F5B-D67B7EC62763}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{37D80203-C651-4396-8F5B-D67B7EC62763}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
