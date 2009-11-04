@@ -13,7 +13,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Transposition
 {
     [Author("Daniel Kohnen, Julian Weyers, Simon Malischewski, Armin Wiefels", "kohnen@cryptool.org, weyers@cryptool.org, malischewski@cryptool.org, wiefels@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "Transposition", "Transposition cipher", "Transposition/TranspositionDescript.xaml", "Transposition/Images/icon.png", "Transposition/Images/encrypt.png", "Transposition/Images/decrypt.png")]
+    [PluginInfo(false, "Transposition", "Transposition cipher", "Transposition/Description/TranspositionDescript.xaml", "Transposition/Images/icon.png", "Transposition/Images/encrypt.png", "Transposition/Images/decrypt.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class Transposition : IEncryption
     {
