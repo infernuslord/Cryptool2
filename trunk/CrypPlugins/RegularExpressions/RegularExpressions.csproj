@@ -74,7 +74,7 @@
     <Resource Include="icons\regmatchicon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="DetailedDestription\Description.xaml">
+    <Resource Include="Description\RegexMatchDescript.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
