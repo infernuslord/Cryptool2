@@ -23,11 +23,12 @@ namespace Transposition
         private String input = "";
         private String output = "";
         private TranspositionSettings settings;
+        private TranspositionPresentation myPresentation;
 
         private char[,] read_in_matrix;
         private char[,] permuted_matrix;
         private int[] key;
-        # endregion
+        # endregion       
 
         /// <summary>
         /// Constructor
@@ -35,6 +36,8 @@ namespace Transposition
         public Transposition()
         {
             this.settings = new TranspositionSettings();
+            myPresentation = new TranspositionPresentation();
+            Presentation = myPresentation;
         }
 
         /// <summary>
@@ -150,6 +153,8 @@ namespace Transposition
         public void Execute()
         {
             ProcessTransposition();
+            myPresentation.main(Read_in_matrix,Permuted_matrix,key,Keyword,Input,Output,this.settings.Permutation,this.settings.ReadIn,this.settings.ReadOut);
+            
         }
 
         public void Initialize()
@@ -180,12 +185,13 @@ namespace Transposition
 
         public System.Windows.Controls.UserControl Presentation
         {
-            get { return null; }
+            get;
+            private set; 
         }
 
         public System.Windows.Controls.UserControl QuickWatchPresentation
         {
-            get { return null; }
+            get { return Presentation; }
         }
 
         public void Stop()

@@ -1,0 +1,12 @@
+﻿<UserControl x:Class="Transposition.TranspositionPresentation"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Height="300" Width="800">
+    <Grid>
+        <Grid Name="myGrid" Height="300" Width="450">
+        
+        </Grid>
+        <TextBox  HorizontalAlignment="Left" Name="textBox1" Width="160"  IsEnabled="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True" />
+        <TextBox  HorizontalAlignment="Right" Name="textBox2" Width="160"  IsEnabled="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True"/>
+    </Grid>
+</UserControl>
