@@ -100,9 +100,9 @@
     <Resource Include="Images\paste.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BooleanFunctionParserController\BooleanFunctionParserController.csproj">
-      <Project>{273EA298-0198-4CA5-B10A-D85FE6FE5499}</Project>
-      <Name>BooleanFunctionParserController</Name>
+    <ProjectReference Include="..\CubeAttackController\CubeAttackController.csproj">
+      <Project>{2100AC2F-3F2B-48A2-AF42-87EC52C8A703}</Project>
+      <Name>CubeAttackController</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

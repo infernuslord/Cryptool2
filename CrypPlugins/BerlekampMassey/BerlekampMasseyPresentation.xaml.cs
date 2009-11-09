@@ -235,7 +235,7 @@ namespace Cryptool.BerlekampMassey
       {
           Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
           {
-              lText.Text = "\t" + length;
+              lText.Text = length;
           }, null);
       }
 
@@ -243,7 +243,7 @@ namespace Cryptool.BerlekampMassey
       {
           Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
           {
-              cdText.Text = "\t" + polynommial;
+              cdText.Text = polynommial;
           }, null);
       }
   }
