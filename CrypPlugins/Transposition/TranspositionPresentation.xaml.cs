@@ -27,16 +27,13 @@ namespace Transposition
             InitializeComponent();
         }
 
-        public event EventHandler Completed;
+        
         private TextBlock[,] teba;
-        public int timeCounter = 0;
         private int von;
         private int nach;
-        private bool PaarSortiert;
         private int schleife = 0;
         private int outcount;
         private int outcount1;
-        private bool onlyOnce;
         private bool Stop = false;
         private int rein;
         private int reout;
@@ -61,7 +58,7 @@ namespace Transposition
                         outcount1 = 0;
                     if(rein == 0)
                         outcount1 = 2;
-                    onlyOnce = true;
+                    
                     Stop = false;
                     if (keyword == null)
                         Stop = true;
@@ -69,15 +66,14 @@ namespace Transposition
 
                     schleife = 0;
                     textBox1.Text = input;
-                    readIn(rein);
-                    //sort(schleife);
+                    readIn();
                 }
             }, null);
         }
 
 
 
-        public void readout(object sender, EventArgs e)
+        public void readout()
         {
             DoubleAnimation myDoubleAnimation = new DoubleAnimation();
             myDoubleAnimation.From = 1.0;
@@ -129,25 +125,29 @@ namespace Transposition
             {
                 if (i < teba.GetLength(0) - 1)
                 {
-                    if (Convert.ToInt32(teba[i, 0].Text) > Convert.ToInt32(teba[i + 1, 0].Text))
+                    if (Convert.ToInt32(teba[i, 0].Text) != i+1 )
                     {
-                        ani(this, EventArgs.Empty, i, i + 1);
-                        PaarSortiert = false;
+                        int s =0;
+                        for (int ix = i + 1; ix < teba.GetLength(0); ix++)
+                        {
+                            if (Convert.ToInt32(teba[ix, 0].Text) == i + 1)
+                            {
+                                s = ix;
+                            }
+                        }
+                        ani( i, s);
+                        
                     }
                     else
                     {
                         schleife++;
                         sort(schleife);
                     }
+                    
                 }
-                else if (!PaarSortiert)
-                {
-                    schleife = 0;
-                    PaarSortiert = true;
-                    sort(0);
-                }
+               
 
-                if (PaarSortiert && onlyOnce && !Stop) { readout(this, EventArgs.Empty); onlyOnce = false; }
+                else if ( !Stop){  readout(); }
             }
 
         }
@@ -158,7 +158,7 @@ namespace Transposition
             myGrid.ColumnDefinitions.Clear();
             myGrid.RowDefinitions.Clear();
             outcount = 0;
-            onlyOnce = true;
+            
             schleife = 0;
             textBox1.Clear();
             textBox2.Clear();
@@ -169,7 +169,7 @@ namespace Transposition
         {
             outcount++;
             if (!Stop)
-                readout(this, EventArgs.Empty);
+                readout();
 
         }
 
@@ -177,7 +177,7 @@ namespace Transposition
         {
             outcount1++;
             if (!Stop)
-                readIn(rein);
+                readIn();
 
         }
 
@@ -206,10 +206,10 @@ namespace Transposition
                         teba[nach, i].Background = teba[von, i].Background;
                         teba[von, i].Background = help1.Background;
 
-                        // textBox1.Text += i;
+                        
                     }
                 }
-                // textBox1.Text += "feuer";
+                
                 DoubleAnimation myFadein = new DoubleAnimation();
                 myFadein.From = 0.0;
                 myFadein.To = 1.0;
@@ -231,7 +231,7 @@ namespace Transposition
             }, null);
         }
 
-        public void ani(object sender, EventArgs e, int von, int nach)
+        public void ani( int von, int nach)
         {
             DoubleAnimation myDoubleAnimation = new DoubleAnimation();
             myDoubleAnimation.From = 1.0;
@@ -254,7 +254,7 @@ namespace Transposition
                 }
         }
 
-        public void readIn(int rein)
+        public void readIn()
         {
 
 
