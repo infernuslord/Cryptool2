@@ -51,10 +51,6 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="TriviumController, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d4526fd6dc4c2912, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\TriviumController\bin\Debug\TriviumController.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -74,9 +70,9 @@
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BooleanFunctionParserController\BooleanFunctionParserController.csproj">
-      <Project>{273EA298-0198-4CA5-B10A-D85FE6FE5499}</Project>
-      <Name>BooleanFunctionParserController</Name>
+    <ProjectReference Include="..\CubeAttackController\CubeAttackController.csproj">
+      <Project>{2100AC2F-3F2B-48A2-AF42-87EC52C8A703}</Project>
+      <Name>CubeAttackController</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

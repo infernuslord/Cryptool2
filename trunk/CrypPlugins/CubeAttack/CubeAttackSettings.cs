@@ -50,13 +50,23 @@ namespace Cryptool.CubeAttack
         private int linTest = 50;
         private string setPublicBits = "0*00*";
         private int outputBit;
-        
+        private bool readSuperpolysFromFile;
+        private string openFilename;
+        private bool enableLogMessages = false;
+
+        private string saveOutputSuperpoly;
+        private Matrix saveSuperpolyMatrix;
+        private List<List<int>> saveListCubeIndexes;
+        private int[] saveOutputBitIndex;
+        private int saveCountSuperpoly;
+        private Matrix saveMatrixCheckLinearitySuperpolys;
+
         #endregion
 
 
         #region Algorithm settings properties (visible in the settings pane)
 
-        [PropertySaveOrder(1)]
+        /*[PropertySaveOrder(1)]
         [ContextMenu("Black Box",
             "Select the black box",
             1,
@@ -82,7 +92,7 @@ namespace Cryptool.CubeAttack
                 this.selectedBlackBox = value;
                 OnPropertyChanged("BlackBox");
             }
-        }
+        }*/
 
         [PropertySaveOrder(2)]
         [ContextMenu("Action", 
@@ -162,7 +172,7 @@ namespace Cryptool.CubeAttack
             "Maxmium size of the summation cube.",
             null,
             5,
-            false,
+            true,
             DisplayLevel.Beginner,
             ControlType.NumericUpDown,
             ValidationType.RangeInteger,
@@ -224,36 +234,10 @@ namespace Cryptool.CubeAttack
         }
 
         [PropertySaveOrder(8)]
-        [TaskPane("Manual Public Bit Input",
-            "Possible inputs '0' (set bit to value 0), '1' (set bit to value 1) and '*' (sum the 0/1 value of the bit).", 
-            null, 
-            8, 
-            false, 
-            DisplayLevel.Beginner, 
-            ControlType.TextBox,
-            null)]
-        public string SetPublicBits
-        {
-            get 
-            {
-                if (setPublicBits != null)
-                    return setPublicBits;
-                else
-                    return "";
-            }
-            set
-            {
-                if (value != this.setPublicBits) HasChanges = true;
-                setPublicBits = value;
-                OnPropertyChanged("SetPublicBits");
-            }
-        }
-
-        [PropertySaveOrder(9)]
         [TaskPane("Output Bit",
             "Chooses the output bit of the black box, which should be evaluated.",
             null,
-            9,
+            8,
             true,
             DisplayLevel.Beginner,
             ControlType.NumericUpDown,
@@ -268,6 +252,170 @@ namespace Cryptool.CubeAttack
                 if (value != this.outputBit) HasChanges = true;
                 outputBit = value;
                 OnPropertyChanged("TriviumOutputBit");
+            }
+        }
+
+        [PropertySaveOrder(9)]
+        [TaskPane("Manual Public Bit Input",
+            "Possible inputs '0' (set bit to value 0), '1' (set bit to value 1) and '*' (sum the 0/1 value of the bit).",
+            null,
+            9,
+            false,
+            DisplayLevel.Beginner,
+            ControlType.TextBox,
+            null)]
+        public string SetPublicBits
+        {
+            get
+            {
+                if (setPublicBits != null)
+                    return setPublicBits;
+                else
+                    return "";
+            }
+            set
+            {
+                if (value != this.setPublicBits) HasChanges = true;
+                setPublicBits = value;
+                OnPropertyChanged("SetPublicBits");
+            }
+        }
+
+        [PropertySaveOrder(10)]
+        [ContextMenu("Read superpolys from File",
+            "With this checkbox enabled, superpolys will be loaded from the selected File and can be evaluated in the online phase.",
+            10,
+            DisplayLevel.Experienced,
+            ContextMenuControlType.CheckBox,
+            null,
+            new string[] { "Read superpolys from File" })]
+        [TaskPane("Read superpolys from File", 
+            "With this checkbox enabled, superpolys will be loaded from the selected File and can be evaluated in the online phase.",
+            null,
+            10,
+            false,
+            DisplayLevel.Beginner,
+            ControlType.CheckBox,
+            "",
+            null)]
+        public bool ReadSuperpolysFromFile
+        {
+            get { return this.readSuperpolysFromFile; }
+            set
+            {
+                this.readSuperpolysFromFile = (bool)value;
+                OnPropertyChanged("ReadSuperpolysFromFile");
+                HasChanges = true;
+            }
+        }
+
+        [PropertySaveOrder(11)]
+        [TaskPane("Filename", "Select the file you want to open.", 
+            null, 
+            11, 
+            false, 
+            DisplayLevel.Beginner, 
+            ControlType.OpenFileDialog, 
+            FileExtension = "All Files (*.*)|*.*")]
+        public string OpenFilename
+        {
+            get { return openFilename; }
+            set
+            {
+                if (value != openFilename)
+                {
+                    openFilename = value;
+                    HasChanges = true;
+                    OnPropertyChanged("OpenFilename");
+                }
+            }
+        }
+
+        [PropertySaveOrder(12)]
+        [ContextMenu("Enable log messages",
+            "With this checkbox enabled, log messages will be showed.", 
+            12, 
+            DisplayLevel.Experienced, 
+            ContextMenuControlType.CheckBox, 
+            null,
+            new string[] { "Enable log messages?" })]
+        [TaskPane("Enable log messages",
+            "With this checkbox enabled, a lot of log messages will be showed during preprocessing.", 
+            null, 
+            12, 
+            false, 
+            DisplayLevel.Beginner, 
+            ControlType.CheckBox, 
+            "", 
+            null)]
+        public bool EnableLogMessages
+        {
+            get { return this.enableLogMessages; }
+            set
+            {
+                this.enableLogMessages = (bool)value;
+                OnPropertyChanged("EnableLogMessages");
+                HasChanges = true;
+            }
+        }
+
+        public string SaveOutputSuperpoly
+        {
+            get { return saveOutputSuperpoly; }
+            set
+            {
+                if (value != saveOutputSuperpoly) hasChanges = true;
+                saveOutputSuperpoly = value;
+            }
+        }
+
+        public Matrix SaveSuperpolyMatrix
+        {
+            get { return saveSuperpolyMatrix; }
+            set
+            {
+                if (value != saveSuperpolyMatrix) hasChanges = true;
+                saveSuperpolyMatrix = value;
+            }
+        }
+
+        public List<List<int>> SaveListCubeIndexes
+        {
+            get { return saveListCubeIndexes; }
+            set
+            {
+                if (value != saveListCubeIndexes) hasChanges = true;
+                saveListCubeIndexes = value;
+            }
+        }
+
+        public int[] SaveOutputBitIndex
+        {
+            get { return saveOutputBitIndex; }
+            set
+            {
+                if (value != saveOutputBitIndex) hasChanges = true;
+                saveOutputBitIndex = value;
+            }
+        }
+
+        public int SaveCountSuperpoly
+        {
+            get { return saveCountSuperpoly; }
+            set
+            {
+                if (value != saveCountSuperpoly) hasChanges = true;
+                saveCountSuperpoly = value;
+            }
+        }
+
+        public Matrix SaveMatrixCheckLinearitySuperpolys
+        {
+            get { return saveMatrixCheckLinearitySuperpolys; }
+            set
+            {
+                if (value != saveMatrixCheckLinearitySuperpolys) hasChanges = true;
+                saveMatrixCheckLinearitySuperpolys = value;
             }
         }
 

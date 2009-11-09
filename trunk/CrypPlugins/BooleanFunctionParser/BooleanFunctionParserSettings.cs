@@ -17,8 +17,9 @@ namespace Cryptool.BooleanFunctionParser
     {
         #region Private variables
 
-        private bool hasChanges;
+        private bool hasChanges = false;
         private bool useBFPforCube = false;
+        private int saveInputsCount = 1;
 
         #endregion
 
@@ -79,9 +80,19 @@ namespace Cryptool.BooleanFunctionParser
             get { return this.countOfInputs; }
             set
             {
-                this.countOfInputs = value;
-                OnPropertyChanged("CountOfInputs");
-                HasChanges = true;
+                // this handling has to be implemented; doesn't work as expected right now
+                /*if (CanChangeProperty)
+                {*/
+                    this.countOfInputs = value;
+                    OnPropertyChanged("CountOfInputs");
+                    //saveInputsCount = value;
+                    HasChanges = true;
+                /*}
+                else
+                {
+                    EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, null, new GuiLogEventArgs("Can't change number of boolean inputs while plugin is connected.", null, NotificationLevel.Warning));
+                    this.countOfInputs = saveInputsCount;
+                }*/
             }
         }
 
@@ -113,7 +124,14 @@ namespace Cryptool.BooleanFunctionParser
         public bool HasChanges
         {
             get { return hasChanges; }
-            set { hasChanges = value; }
+            set
+            {
+                if (value != hasChanges)
+                {
+                    hasChanges = value;
+                    OnPropertyChanged("HasChanges");
+                }
+            }
         }
 
         public bool CanChangeProperty { get; set; }
@@ -123,6 +141,8 @@ namespace Cryptool.BooleanFunctionParser
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 
         public void OnPropertyChanged(string name)
         {

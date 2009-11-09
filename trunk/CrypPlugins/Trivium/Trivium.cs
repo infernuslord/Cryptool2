@@ -13,12 +13,12 @@ using Cryptool.PluginBase.Miscellaneous;
 using System.Security.Cryptography;
 // for IControl
 using Cryptool.PluginBase.Control;
-// reference to the TriviumController interface (own dll)
-using Cryptool.TriviumController;
+// reference to the CubeAttackController interface (own dll)
+using Cryptool.CubeAttackController;
 
 namespace Cryptool.Trivium
 {
-    [Author("Soeren Rinne, David Oruba & Daehyun Strobel", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for Embedded Security (EmSec)", "http://www.trust.ruhr-uni-bochum.de/")]
+    [Author("Soeren Rinne, David Oruba & Daehyun Strobel", "soeren.rinne@cryptool.org", "Ruhr-Universitaet Bochum, Chair for Embedded Security (EmSec)", "http://www.trust.ruhr-uni-bochum.de/")]
     [PluginInfo(false, "Trivium", "Trivium", "Trivium/DetailedDescription/Description.xaml", "Trivium/icon.png", "Trivium/Images/encrypt.png", "Trivium/Images/decrypt.png")]
     [EncryptionType(EncryptionType.SymmetricBlock)]
     public class Trivium : IEncryption
@@ -677,14 +677,14 @@ namespace Cryptool.Trivium
 
         #region IControl
 
-        private IControlTrivium triviumSlave;
+        private IControlCubeAttack triviumSlave;
         [PropertyInfo(Direction.ControlSlave, "Trivium Slave", "Direct access to Trivium.", "", DisplayLevel.Beginner)]
-        public IControlTrivium TriviumSlave
+        public IControlCubeAttack TriviumSlave
         {
             get
             {
                 if (triviumSlave == null)
-                    triviumSlave = new TriviumControl(this);
+                    triviumSlave = new CubeAttackControl(this);
                 return triviumSlave;
             }
         }
@@ -692,20 +692,20 @@ namespace Cryptool.Trivium
         #endregion
     }
 
-    #region TriviumControl : IControlTrivium
+    #region TriviumControl : IControlCubeAttack
 
-    public class TriviumControl : IControlTrivium
+    public class CubeAttackControl : IControlCubeAttack
     {
         public event IControlStatusChangedEventHandler OnStatusChanged;
         private Trivium plugin;
         private TriviumSettings pluginSettings;
 
-        public TriviumControl(Trivium Plugin)
+        public CubeAttackControl(Trivium Plugin)
         {
             this.plugin = Plugin;
         }
 
-        public TriviumControl(TriviumSettings PluginSettings)
+        public CubeAttackControl(TriviumSettings PluginSettings)
         {
             this.pluginSettings = PluginSettings;
         }
@@ -713,7 +713,7 @@ namespace Cryptool.Trivium
         #region IControlEncryption Members
 
         // here comes the slave side implementation
-        public int GenerateTriviumKeystream(int[] IV, int[] key, int length, bool byteSwapping)
+        /*public int GenerateTriviumKeystream(int[] IV, int[] key, int length, bool byteSwapping)
         {
             string resultString;
             int resultInt;
@@ -731,6 +731,34 @@ namespace Cryptool.Trivium
             plugin.initTrivium(IV, key);
 
             resultString = plugin.keystreamTrivium(length);
+
+            return resultInt = Int32.Parse(resultString.Substring(resultString.Length - 1, 1));
+        }
+        */
+
+        // here comes the slave side implementation
+        public int GenerateBlackboxOutputBit(object IV, object key, object length)
+        {
+            string resultString;
+            int resultInt;
+
+            // convert from object
+            int[] triviumIV = IV as int[];
+            int[] triviumKey = key as int[];
+            int triviumLength = (int)length;
+
+            if (triviumKey == null)
+            {
+                triviumKey = new int[((TriviumSettings)plugin.Settings).InputKey.Length * 4];
+                triviumKey = plugin.hextobin(((TriviumSettings)plugin.Settings).InputKey.ToCharArray());
+                // key = new int[] { 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1 };
+            }
+
+            //plugin.masterSlaveRounds = rounds;
+            plugin.masterSlaveRounds = ((TriviumSettings)plugin.Settings).InitRounds;
+            plugin.initTrivium(triviumIV, triviumKey);
+
+            resultString = plugin.keystreamTrivium(triviumLength);
 
             return resultInt = Int32.Parse(resultString.Substring(resultString.Length - 1, 1));
         }

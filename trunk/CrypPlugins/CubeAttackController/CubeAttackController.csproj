@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{273EA298-0198-4CA5-B10A-D85FE6FE5499}</ProjectGuid>
+    <ProjectGuid>{2100AC2F-3F2B-48A2-AF42-87EC52C8A703}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BooleanFunctionParserController</RootNamespace>
-    <AssemblyName>BooleanFunctionParserController</AssemblyName>
+    <RootNamespace>CubeAttackController</RootNamespace>
+    <AssemblyName>CubeAttackController</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
@@ -33,6 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CubeAttackController, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6ffa0264846191ab, processorArchitecture=MSIL" />
     <Reference Include="CrypPluginBase, Version=2.0.3517.1, Culture=neutral, PublicKeyToken=db26bd0a20dcbd5c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\CrypPluginBase\bin\Debug\CrypPluginBase.dll</HintPath>
@@ -51,7 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IControlSolveFunction.cs" />
+    <Compile Include="IControlCubeAttack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -70,7 +71,7 @@
 cd ..\..\CrypWin\$(OutDir)
 if not exist "./CrypPlugins" mkdir "./CrypPlugins"
 
-del /F /S /Q /s /q "BooleanFunctionParserController*.*"
-copy "$(TargetDir)BooleanFunctionParserController*.*" "./CrypPlugins"</PostBuildEvent>
+del /F /S /Q /s /q "CubeAttackController*.*"
+copy "$(TargetDir)CubeAttackController*.*" "./CrypPlugins"</PostBuildEvent>
   </PropertyGroup>
 </Project>

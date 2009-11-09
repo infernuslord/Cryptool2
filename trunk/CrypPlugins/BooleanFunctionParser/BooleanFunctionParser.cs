@@ -17,8 +17,8 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 // for IControl
 using Cryptool.PluginBase.Control;
-// reference to the BFPController interface (own dll)
-using Cryptool.BooleanFunctionParserController;
+// reference to the CubeAttackController interface (own dll)
+using Cryptool.CubeAttackController;
 // for QuickwatchPresentaton
 using System.Windows.Threading;
 using System.Threading;
@@ -40,7 +40,6 @@ namespace Cryptool.BooleanFunctionParser
         private bool output;
         private bool lastInputWasFunction = false;
         private int inputs = 1;
-        //private string fillValue;
         private bool canSendPropertiesChangedEvent = true;
 
         #endregion
@@ -51,9 +50,9 @@ namespace Cryptool.BooleanFunctionParser
 
         #region Public variables
 
-        public int inputOneFlag = 0;
-        public int inputTwoFlag = 0;
-        public int inputThreeFlag = 0;
+        //public int inputOneFlag = 0;
+        //public int inputTwoFlag = 0;
+        //public int inputThreeFlag = 0;
         public int[] additionalInputsFlag = null;
 
         #endregion
@@ -66,6 +65,7 @@ namespace Cryptool.BooleanFunctionParser
         public BooleanFunctionParser()
         {
             this.settings = new BooleanFunctionParserSettings();
+            settings.OnGuiLogNotificationOccured += settings_OnGuiLogNotificationOccured;
             settings.PropertyChanged += settings_PropertyChanged;
 
             booleanFunctionParserPresentation = new BooleanFunctionParserPresentation();
@@ -286,7 +286,7 @@ namespace Cryptool.BooleanFunctionParser
         // catches PropertyChanged event from settings
         void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            // if the count of inputs has been change, renew all inputs
+            // if the count of inputs has been changed, renew all inputs
             if (e.PropertyName == "CountOfInputs")
             {
                 CreateInputOutput(true);
@@ -295,6 +295,12 @@ namespace Cryptool.BooleanFunctionParser
             {
                 booleanFunctionParserPresentation.SwitchCubeView(settings.UseBFPforCube);
             }
+        }
+
+        // catches LogNotification from settings
+        private void settings_OnGuiLogNotificationOccured(IPlugin sender, GuiLogEventArgs args)
+        {
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(args.Message, this, args.NotificationLevel));
         }
 
         public void Pause()
@@ -524,27 +530,27 @@ namespace Cryptool.BooleanFunctionParser
 
             // replace AND, NAND, OR, NOR, XOR, NXOR with symbols
             // NAND => -
-            strExpression = strExpression.Replace("NAND", "-");
+            //strExpression = strExpression.Replace("NAND", "-");
             // AND => *
             strExpression = strExpression.Replace("AND", "*");
 
             // NOR => _
-            strExpression = strExpression.Replace("NOR", "_");
+            //strExpression = strExpression.Replace("NOR", "_");
 
             // NXOR => °
-            strExpression = strExpression.Replace("NXOR", "°");
+            //strExpression = strExpression.Replace("NXOR", "°");
             // XOR => *
             strExpression = strExpression.Replace("XOR", "+");
 
             // OR => |
-            strExpression = strExpression.Replace("OR", "|");
+            //strExpression = strExpression.Replace("OR", "|");
 
             // replace ^ and & with symbols
             // ^ => XOR => +
-            strExpression = strExpression.Replace("^", "+");
+            //strExpression = strExpression.Replace("^", "+");
 
             // & => AND => *
-            strExpression = strExpression.Replace("&", "*");
+            //strExpression = strExpression.Replace("&", "*");
 
             return strExpression;
         }
@@ -649,6 +655,7 @@ namespace Cryptool.BooleanFunctionParser
                 {
                     GuiLogMessage("sum fehlgeschlagen:", NotificationLevel.Info);
                     GuiLogMessage("op1 and op2: " + operator1 + ", " + operator2, NotificationLevel.Info);
+                    GuiLogMessage("exception: " + ex, NotificationLevel.Info);
                 }
                 
                 //GuiLogMessage("sum: " + sum, NotificationLevel.Debug);
@@ -816,14 +823,14 @@ namespace Cryptool.BooleanFunctionParser
 
         #region IControl
 
-        private IControlSolveFunction bfpSlave;
+        private IControlCubeAttack bfpSlave;
         [PropertyInfo(Direction.ControlSlave, "BFP Slave", "Direct access to BFP.", "", DisplayLevel.Beginner)]
-        public IControlSolveFunction BFPSlave
+        public IControlCubeAttack BFPSlave
         {
             get
             {
                 if (bfpSlave == null)
-                    bfpSlave = new BFPControl(this);
+                    bfpSlave = new CubeAttackControl(this);
                 return bfpSlave;
             }
         }
@@ -831,14 +838,14 @@ namespace Cryptool.BooleanFunctionParser
         #endregion
     }
 
-    #region BFPControl : IControlSolveFunction
+    #region CubeAttackControl : IControlCubeAttack
 
-    public class BFPControl : IControlSolveFunction
+    public class CubeAttackControl : IControlCubeAttack
     {
         public event IControlStatusChangedEventHandler OnStatusChanged;
         private BooleanFunctionParser plugin;
 
-        public BFPControl(BooleanFunctionParser Plugin)
+        public CubeAttackControl(BooleanFunctionParser Plugin)
         {
             this.plugin = Plugin;
         }
@@ -846,13 +853,37 @@ namespace Cryptool.BooleanFunctionParser
         #region IControlEncryption Members
 
         // here comes the slave side implementation of SolveFunction
-        public int SolveFunction(bool[] dataOne, bool[] dataTwo)
+        public int GenerateBlackboxOutputBit(object dataOne, object dataTwo, object ignoreMe)
         {
             int resultInt;
 
+            bool[] myDataOneBool = null;
+            bool[] myDataTwoBool = null;
+
+            // parse objects and convert to boolean arrays
+            if (dataOne != null)
+            {
+                int[] myDataOneInt = dataOne as int[];
+                myDataOneBool = new bool[myDataOneInt.Length];
+                for (int i = 0; i < myDataOneInt.Length; i++)
+                {
+                    myDataOneBool[i] = Convert.ToBoolean(myDataOneInt[i]);
+                }
+            }
+
+            if (dataTwo != null)
+            {
+                int[] myDataTwoInt = dataTwo as int[];
+                myDataTwoBool = new bool[myDataTwoInt.Length];
+                for (int i = 0; i < myDataTwoInt.Length; i++)
+                {
+                    myDataTwoBool[i] = Convert.ToBoolean(myDataTwoInt[i]);
+                }
+            }
+
             // the result is computed by calling the ParseBooleanFunction (step into it with F11)
             // returns -1 on error (e.g. not a valid function)
-            resultInt = plugin.ParseBooleanFunction(dataOne, dataTwo);
+            resultInt = plugin.ParseBooleanFunction(myDataOneBool, myDataTwoBool);
 
             return resultInt;
         }

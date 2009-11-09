@@ -22,6 +22,17 @@ namespace Cryptool.LFSR
     {
         #region ISettings Members
 
+        private string currentState = null;
+        public string CurrentState
+        {
+            get { return currentState; }
+            set
+            {
+                if (value != currentState) hasChanges = true;
+                currentState = value;
+            }
+        }
+
         private bool hasChanges = false;
 
         [TaskPane("Draw LFSR", "Initializes LFSR and draws the presentation. This is used to view the LFSR before pressing play.", null, 0, false, DisplayLevel.Beginner, ControlType.Button)]
@@ -79,7 +90,21 @@ namespace Cryptool.LFSR
             set
             {
                 this.noQuickwatch = (bool)value;
-                OnPropertyChanged("NoQuickwatch");
+                //OnPropertyChanged("NoQuickwatch");
+                HasChanges = true;
+            }
+        }
+
+        private bool saveCurrentState = false;
+        [ContextMenu("Save the state of the LFSR", "With this checkbox enabled, the current state will be restored after opening a .cte.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Save current state?" })]
+        [TaskPane("Save the state of the LFSR", "With this checkbox enabled, the current state will be restored after opening a .cte.", null, 3, true, DisplayLevel.Experienced, ControlType.CheckBox, "", null)]
+        public bool SaveCurrentState
+        {
+            get { return this.saveCurrentState; }
+            set
+            {
+                this.saveCurrentState = (bool)value;
+                OnPropertyChanged("SaveCurrentState");
                 HasChanges = true;
             }
         }

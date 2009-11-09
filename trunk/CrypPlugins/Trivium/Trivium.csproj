@@ -71,9 +71,9 @@
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TriviumController\TriviumController.csproj">
-      <Project>{3858B6BC-2680-491F-9022-498A8AC80D7B}</Project>
-      <Name>TriviumController</Name>
+    <ProjectReference Include="..\CubeAttackController\CubeAttackController.csproj">
+      <Project>{2100AC2F-3F2B-48A2-AF42-87EC52C8A703}</Project>
+      <Name>CubeAttackController</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -48,7 +48,7 @@ namespace Cryptool.LFSR
 
         public bool stop = false;
         public bool newSeed = true;
-        public String seedbuffer = "0";
+        public String seedbuffer = null;
         public String tapSequencebuffer = "1";
         public Char outputbuffer = '0';
         public bool lastInputPropertyWasBoolClock = false;
@@ -80,7 +80,14 @@ namespace Cryptool.LFSR
         void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "InitLFSR")
-                preprocessingLFSR();            
+                preprocessingLFSR();
+            if (e.PropertyName == "SaveCurrentState")
+            {
+                if (settings.SaveCurrentState)
+                    settings.CurrentState = seedbuffer;
+                else
+                    settings.CurrentState = null;
+            }
         }
 
         public ISettings Settings
@@ -441,7 +448,9 @@ namespace Cryptool.LFSR
                 tapSequencebuffer = settings.Polynomial;
 
             //read seed
-            if (settings.Seed == null || (settings.Seed != null && settings.Seed.Length == 0))
+            if (settings.CurrentState != null && settings.CurrentState.Length != 0)
+                seedbuffer = settings.CurrentState;
+            else if (settings.Seed == null || (settings.Seed != null && settings.Seed.Length == 0))
                 seedbuffer = inputSeed;
             else
                 seedbuffer = settings.Seed;
@@ -850,6 +859,10 @@ namespace Cryptool.LFSR
 
         public void PostExecution()
         {
+            if (settings.SaveCurrentState)
+                settings.CurrentState = seedbuffer;
+            else
+                settings.CurrentState = null;
             Dispose();
         }
 
