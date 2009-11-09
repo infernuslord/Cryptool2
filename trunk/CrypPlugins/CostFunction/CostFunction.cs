@@ -138,6 +138,12 @@ namespace Cryptool.Plugins.CostFunction
                     GuiLogMessage("Entered bytesToUse is not an integer: " + ex.Message, NotificationLevel.Error);
                     return;
                 }
+
+                if (bytesToUse > this.InputText.Length)
+                {
+                    bytesToUse = 0;
+                }
+
                 byte[] array;
 
                 if (bytesToUse > 0)
@@ -374,7 +380,7 @@ namespace Cryptool.Plugins.CostFunction
             }
             
             if (bytesToUse > text.Length)
-                bytesToUse = text.Length;
+                bytesToUse = 0;
 
             byte[] array;
 
