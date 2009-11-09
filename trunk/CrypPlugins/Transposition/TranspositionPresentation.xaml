@@ -3,10 +3,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Height="300" Width="800">
     <Grid>
-        <Grid Name="myGrid" Height="300" Width="450">
+    <Grid Name="mainGrid" Height="100" Width="420" VerticalAlignment="Top">
+        <Grid HorizontalAlignment="Center" Name="myGrid" VerticalAlignment="Center" Height="100" Width="50" >
         
         </Grid>
         <TextBox  HorizontalAlignment="Left" Name="textBox1" Width="160"  IsEnabled="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True" />
         <TextBox  HorizontalAlignment="Right" Name="textBox2" Width="160"  IsEnabled="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True"/>
+       
+    </Grid>
+        <Slider Height="21" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,118,-10,0" Name="slider1"  Width="160"  Maximum="1000" Minimum="1" Value="1" />
     </Grid>
 </UserControl>

@@ -170,7 +170,7 @@ namespace Transposition
 
         public void Pause()
         {
-
+            
         }
 
         public void PostExecution()
@@ -196,7 +196,7 @@ namespace Transposition
 
         public void Stop()
         {
-
+            myPresentation.my_Stop(this, EventArgs.Empty);
         }
 
         #endregion
