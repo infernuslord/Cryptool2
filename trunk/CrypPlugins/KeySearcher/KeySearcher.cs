@@ -43,7 +43,7 @@ namespace KeySearcher
             public Wildcard(Wildcard wc)
             {
                 length = wc.length;
-                counter = 0;
+                counter = wc.counter;
                 for (int i = 0; i < 256; i++)
                     values[i] = wc.values[i];
             }
@@ -54,6 +54,7 @@ namespace KeySearcher
 
             public Wildcard[] split()
             {
+                int length = this.length - this.counter;
                 Wildcard[] wcs = new Wildcard[2];
                 wcs[0] = new Wildcard();
                 wcs[0].counter = 0;
@@ -62,9 +63,9 @@ namespace KeySearcher
                 wcs[1].counter = 0;
                 wcs[1].length = length - wcs[0].length;
                 for (int i = 0; i < wcs[0].length; i++)
-                    wcs[0].values[i] = values[i];
+                    wcs[0].values[i] = values[this.counter + i];
                 for (int i = 0; i < wcs[1].length; i++)
-                    wcs[1].values[i] = values[i + wcs[0].length];
+                    wcs[1].values[i] = values[i + this.counter + wcs[0].length];
                 return wcs;
             }
 
@@ -89,6 +90,16 @@ namespace KeySearcher
                 return length;
             }
 
+
+            public int count()
+            {
+                return counter;
+            }
+
+            public void resetCounter()
+            {
+                counter = 0;
+            }
         }
 
         private string pattern;
@@ -112,17 +123,20 @@ namespace KeySearcher
             bool s = false;
             for (int i = 0; i < wildcardList.Count; i++)
             {
-                if (!s && ((Wildcard)wildcardList[i]).size() > 1)
+                Wildcard wc = ((Wildcard)wildcardList[i]);
+                if (!s && (wc.size() - wc.count()) > 1)
                 {
-                    Wildcard[] wc = ((Wildcard)wildcardList[i]).split();
-                    patterns[0].wildcardList.Add(wc[0]);
-                    patterns[1].wildcardList.Add(wc[1]);
+                    Wildcard[] wcs = wc.split();
+                    patterns[0].wildcardList.Add(wcs[0]);
+                    patterns[1].wildcardList.Add(wcs[1]);
                     s = true;
                 }
                 else
                 {
-                    patterns[0].wildcardList.Add(new Wildcard((Wildcard)wildcardList[i]));
-                    patterns[1].wildcardList.Add(new Wildcard((Wildcard)wildcardList[i]));
+                    patterns[0].wildcardList.Add(new Wildcard(wc));
+                    Wildcard copy = new Wildcard(wc);
+                    copy.resetCounter();
+                    patterns[1].wildcardList.Add(copy);
                 }
             }
             return patterns;
@@ -257,6 +271,7 @@ namespace KeySearcher
     {
         private Queue valuequeue;
         private double value_threshold;
+        private int maxThread;  //the thread with the most keys left
 
         private KeyPattern pattern = null;
         public KeyPattern Pattern
@@ -321,14 +336,15 @@ namespace KeySearcher
             KeyPattern pattern = (KeyPattern)parameters[0];
             int threadid = (int)parameters[1];
             Int64[] doneKeysArray = (Int64[])parameters[2];
-            Int64[] keycounterArray = (Int64[])parameters[3];            
-            IControlEncryption sender = (IControlEncryption)parameters[4];
-            int bytesToUse = (int)parameters[5];
+            Int64[] keycounterArray = (Int64[])parameters[3];
+            Int64[] keysLeft = (Int64[])parameters[4];
+            IControlEncryption sender = (IControlEncryption)parameters[5];
+            int bytesToUse = (int)parameters[6];
 
             try
             {
-
                 long size = pattern.size();
+                keysLeft[threadid] = size;
 
                 do
                 {
@@ -377,7 +393,12 @@ namespace KeySearcher
 
                     doneKeysArray[threadid]++;
                     keycounterArray[threadid]++;
+                    keysLeft[threadid]--;
+
+                    //if (maxThread == threadid)
+                    
                 } while (pattern.nextKey() && !stop);
+
             }
             finally
             {
@@ -441,18 +462,29 @@ namespace KeySearcher
 
                 Int64[] doneKeysA = new Int64[patterns.Length];
                 Int64[] keycounters = new Int64[patterns.Length];
+                Int64[] keysleft = new Int64[patterns.Length];
                 for (int i = 0; i < patterns.Length; i++)
                 {
                     WaitCallback worker = new WaitCallback(KeySearcherJob);
                     doneKeysA[i] = new Int64();
                     keycounters[i] = new Int64();
-                    ThreadPool.QueueUserWorkItem(worker, new object[] { patterns[i], i, doneKeysA, keycounters, sender.clone(), bytesToUse });
+                    ThreadPool.QueueUserWorkItem(worker, new object[] { patterns[i], i, doneKeysA, keycounters, keysleft, sender.clone(), bytesToUse });
                 }
                 
                 //update message:
                 while (!stop)
                 {
                     Thread.Sleep(1000);
+
+                    long max = 0;
+                    int id = -1;
+                    for (int i = 0; i < patterns.Length; i++)
+                        if (keysleft[i] > max)
+                        {
+                            max = keysleft[i];
+                            id = i;
+                        }
+                    maxThread = id;
 
                     //update toplist:
                     while (valuequeue.Count != 0)
