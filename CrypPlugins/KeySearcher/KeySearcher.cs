@@ -214,6 +214,14 @@ namespace KeySearcher
             return counter;
         }
 
+        public long size()
+        {
+            long counter = 1;
+            foreach (Wildcard wc in wildcardList)
+                    counter *= wc.size();
+            return counter;
+        }
+
         public bool nextKey()
         {
             int wildcardCount = wildcardList.Count-1;
@@ -320,14 +328,14 @@ namespace KeySearcher
             try
             {
 
-                long size = pattern.initKeyIteration(settings.Key);
+                long size = pattern.size();
 
                 do
                 {
                     ValueKey valueKey = new ValueKey();
                     try
                     {
-                        valueKey.key = Pattern.getKey();
+                        valueKey.key = pattern.getKey();
                     }
                     catch (Exception ex)
                     {
