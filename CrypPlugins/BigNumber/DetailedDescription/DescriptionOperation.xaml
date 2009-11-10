@@ -47,7 +47,7 @@
        
     <Run>
            The following operations are available:
-           Plus,Minus,Multiply,Division,Exponentialfunction,Greatest-Common-Divisor.
+           Plus,Minus,Multiply,Division,Power,Greatest-Common-Divisor.
            All of these operations (except the GCD) support the modulo input.
         </Run>
     </Paragraph>
@@ -65,8 +65,8 @@
     <Run>
            There are a total of three inputs that can be set. 
            The first and second input are for the BigNumber values 
-           that will be used. The third input is optional.It can also 
-           be set with a BigNumber value and will be used as the modulo.
+           that will be used. The third input is optional. It can also 
+           be set with a BigNumber value and will be used as the modulus.
         </Run>
     </Paragraph>
 
@@ -76,6 +76,16 @@
            In the taskpane the user can set the operation he wants to use.
            The default is the plus-operation.
         </Run>
+    </Paragraph>
+    
+    
+       <Paragraph TextAlignment="Justify">
+       <Run> For more information on BigNumbers have a look at
+       </Run>
+       <Span Foreground="#FF0000FF" xml:lang="en-us">
+            <misc:DescriptionHyperlink NavigateUri="http://en.wikipedia.org/wiki/Large_numbers">http://en.wikipedia.org/wiki/Large_numbers
+            </misc:DescriptionHyperlink>
+        </Span>
     </Paragraph>
     
 </FlowDocument>

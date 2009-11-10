@@ -14,7 +14,7 @@
     </Paragraph>
     <Paragraph TextAlignment="Justify">
         <Run FontSize="15" xml:lang="en-us">
-            With this Plug-In the user can create BigNumber values.
+            With this plugin the user can create BigNumber values.
             In the taskpane on the right the user can enter the 
             value he wants to work with.
         </Run>
@@ -24,9 +24,19 @@
         <Run>
             Even expressions like 2^16-1 can be entered there.
             The BigNumberInput will calculate the value and convert 
-            it, so the user can further use the numbers that are too big 
-            to be convertet into normal integer.
+            it into a BigNumber, so the user can further use the numbers that are too big 
+            to be converted into a normal integer.
         </Run>        
     </Paragraph>
 
+
+    <Paragraph TextAlignment="Justify">
+       <Run> For more information on BigNumbers have a look at
+       </Run>
+        <Span Foreground="#FF0000FF" xml:lang="en-us">
+            <misc:DescriptionHyperlink NavigateUri="http://en.wikipedia.org/wiki/Large_numbers">http://en.wikipedia.org/wiki/Large_numbers
+            </misc:DescriptionHyperlink>
+        </Span>
+    </Paragraph>
+    
 </FlowDocument>
