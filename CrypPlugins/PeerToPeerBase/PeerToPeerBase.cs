@@ -32,15 +32,13 @@ using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
 using Cryptool.PluginBase.IO;
+using PeersAtPlay;
 
 /*
  * Synchronous functions successfully tested (store, retrieve)
- * !!! remove-Function is faulty !!!
- * Standard connection for test issues is LocalMachineBootstrapper. 
- * IrcBootstrapper also works, but it's to lame for testing issues!
+ * !!! remove-Function is faulty - open field !!!
  * 
  * TODO:
- * - Add enums (BS,LinkManager,Overlay) to class - make it public to use in cross-cutting classes
  * - dht.Remove-Method makes problems... "ArgumentNotNullException"
  *   event though the Parameter is correctly set to a valid value!
  *   --> forwarded to the p@p-Team
@@ -48,6 +46,14 @@ using Cryptool.PluginBase.IO;
  */
 namespace Cryptool.Plugins.PeerToPeer
 {
+    /* Advantages of this wrapper class:
+     * - The PeerAtPlay-Libraries are only referenced in this project
+     *   --> so they're easy to update
+     * - PeerAtPlay only works with asynchronous methods, so this class
+     *   "synchronizes" this methods.
+     * - The PeerToPeer-Layers are unimportant for CT2-Developers, so this
+     *   issue is obfuscated by this wrapper class
+     */
     /// <summary>
     /// Wrapper class to integrate peer@play environment into CrypTool. 
     /// This class synchronizes asynchronous methods for easier usage in CT2. For future
@@ -62,11 +68,11 @@ namespace Cryptool.Plugins.PeerToPeer
         public delegate void SystemLeft();
         public event SystemLeft OnSystemLeft;
 
-        public delegate void P2PMessageReceived(string sMsg);
+        public delegate void P2PMessageReceived(byte[] byteSourceAddr, string sData);
         public event P2PMessageReceived OnP2PMessageReceived;
 
         /// <summary>
-        /// returns true if key-value-pair was successfully stored in the DHT
+        /// returns true if key-value-pair is successfully stored in the DHT
         /// </summary>
         /// <param name="result"></param>
         public delegate void DHTStoreCompleted(bool result);
@@ -119,7 +125,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="bsType"></param>
         /// <param name="overlayType"></param>
         /// <param name="dhtType"></param>
-        public void InitializeAll(string sUserName, string sWorldName, P2PLinkManagerType linkManagerType, P2PBootstrapperType bsType, P2POverlayType overlayType, P2PDHTType dhtType)
+        public void Initialize(string sUserName, string sWorldName, P2PLinkManagerType linkManagerType, P2PBootstrapperType bsType, P2POverlayType overlayType, P2PDHTType dhtType)
         {
             #region Setting LinkManager, Bootstrapper, Overlay and DHT to the specified types
             switch (linkManagerType)
@@ -130,7 +136,6 @@ namespace Cryptool.Plugins.PeerToPeer
                     break;
                 default:
                     throw (new NotImplementedException());
-                    break;
             }
             switch (bsType)
             {
@@ -143,7 +148,6 @@ namespace Cryptool.Plugins.PeerToPeer
                     break;
                 default:
                     throw (new NotImplementedException());
-                    break;
             }
             switch (overlayType)
             {
@@ -153,7 +157,6 @@ namespace Cryptool.Plugins.PeerToPeer
                     break;
                 default:
                     throw (new NotImplementedException());
-                    break;
             }
             switch (dhtType)
             {
@@ -162,40 +165,13 @@ namespace Cryptool.Plugins.PeerToPeer
                     break;
                 default:
                     throw (new NotImplementedException());
-                    break;
             }
             #endregion
 
             this.dht.Initialize(sUserName, sWorldName, this.overlay, this.bootstrapper, this.linkmanager, null);
 
             this.dht.MessageReceived += new EventHandler<MessageReceived>(OnDHT_MessageReceived);
-            this.dht.SystemJoined += new EventHandler(OnDHT_SystemJoined);
-            this.dht.SystemLeft += new EventHandler(OnDHT_SystemLeft);
-        }
-
-        /// <summary>
-        /// Initializing is the first step to build a new or access an existing p2p network
-        /// </summary>
-        /// <param name="sUserName">Choose an individual name for the user</param>
-        /// <param name="sWorldName">fundamental: two peers are only in the SAME P2P system, when they initialized the SAME WORLD!</param>
-        public void Initialize(string sUserName, string sWorldName)
-        {
-            //snal = secure network abstraction layer
-            this.linkmanager = new Snal();
-            //LocalMachineBootstrapper = only local connection (runs only on one machine)
-            //for more machines use this line:
-            
-            this.bootstrapper = new IrcBootstrapper();
-            //this.bootstrapper = new LocalMachineBootstrapper();
-
-            // changing overlay example: this.overlay = new ChordOverlay();
-            this.overlay = new FullMeshOverlay();
-            //changing overlay example: this.overlay = new ExampleDHT();
-            this.dht = new FullMeshDHT();
-
-            this.dht.Initialize(sUserName, sWorldName, this.overlay, this.bootstrapper, this.linkmanager, null);
-
-            this.dht.MessageReceived += new EventHandler<MessageReceived>(OnDHT_MessageReceived);
+            this.overlay.MessageReceived += new EventHandler<OverlayMessageEventArgs>(overlay_MessageReceived);
             this.dht.SystemJoined += new EventHandler(OnDHT_SystemJoined);
             this.dht.SystemLeft += new EventHandler(OnDHT_SystemLeft);
         }
@@ -219,6 +195,7 @@ namespace Cryptool.Plugins.PeerToPeer
             return true;
         }
 
+        /*TESTING AREA - COMPLETELY STOP THE WHOLE P2P SYSTEM*/
         /// <summary>
         /// Disjoins the peer from the system. The P2P system survive while one peer is still in the network.
         /// </summary>
@@ -229,6 +206,9 @@ namespace Cryptool.Plugins.PeerToPeer
             {
                 this.dht.BeginStop(null);
                 //wait till systemLeft Event is invoked
+                this.overlay.BeginStop(null);
+                this.linkmanager.BeginStop(null);
+                this.bootstrapper.Dispose();
                 this.systemLeft.WaitOne();
             }
             return true;
@@ -264,14 +244,30 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #endregion
 
-        // not tested and not sure that this function return the right PeerName...
         /// <summary>
         /// Get PeerName of the actual peer
         /// </summary>
-        /// <returns>Peer name of the actual peer</returns>
-        public string GetPeerName()
+        /// <param name="sPeerName">out: additional peer information UserName on LinkManager</param>
+        /// <returns>PeerID as an byte array (suitable for correct addressing on the overlay)</returns>
+        public byte[] GetPeerID(out string sPeerName)
         {
-            return this.overlay.LocalAddress.ToString();
+            sPeerName = this.linkmanager.UserName;
+            return this.overlay.LocalAddress.ToByteArray();
+        }
+
+        // overlay.LocalAddress = Overlay-Peer-Address/Names
+        public void SendToPeer(string sData, byte[] byteDestinationPeerName)
+        {
+            ByteStack byteData = new ByteStack();
+            byteData.PushUTF8String(sData);
+
+            OverlayAddress destinationAddr = this.overlay.GetAddress(byteDestinationPeerName);
+
+            // create own message receiver type... => P2PBase, so only this Application
+            // receives Messages and not all active application on the SAME overlay!
+            OverlayMessage overlayMsg = new OverlayMessage(MessageReceiverType.P2PBase,
+                this.overlay.LocalAddress,destinationAddr, byteData);
+            this.overlay.Send(overlayMsg);
         }
 
         #region Event Handling (System Joined, Left and Message Received)
@@ -292,10 +288,16 @@ namespace Cryptool.Plugins.PeerToPeer
             this.systemLeft.Set();
         }
 
+        private void overlay_MessageReceived(object sender, OverlayMessageEventArgs e)
+        {
+            if (OnP2PMessageReceived != null)
+                OnP2PMessageReceived(e.Message.Source.ToByteArray(), e.Message.Data.PopUTF8String());
+        }
+
         private void OnDHT_MessageReceived(object sender, MessageReceived e)
         {
             if (OnP2PMessageReceived != null)
-                OnP2PMessageReceived("Source: " + e.Source + ", Data:" + e.Data);
+                OnP2PMessageReceived(e.Source.ToByteArray(), e.Data.PopUTF8String());
         }
 
         #endregion
@@ -373,13 +375,13 @@ namespace Cryptool.Plugins.PeerToPeer
         /// Stores a value in the DHT at the given key
         /// </summary>
         /// <param name="sKey">Key of DHT Entry</param>
-        /// <param name="sValue">Value of DHT Entry</param>
+        /// <param name="byteData">Value of DHT Entry</param>
         /// <returns>True, when storing is completed!</returns>
-        public bool SynchStore(string sKey, string sValue)
+        public bool SynchStore(string sKey, byte[] byteData)
         {
             AutoResetEvent are = new AutoResetEvent(false);
             // this method returns always a GUID to distinguish between asynchronous actions
-            Guid g = this.dht.Store(OnSynchStoreCompleted, sKey, UTF8Encoding.UTF8.GetBytes(sValue));
+            Guid g = this.dht.Store(OnSynchStoreCompleted, sKey, byteData);
 
             ResponseWait rw = new ResponseWait() { WaitHandle = are };
 
@@ -387,6 +389,17 @@ namespace Cryptool.Plugins.PeerToPeer
             //blocking till response
             are.WaitOne();
             return true;
+        }
+
+        /// <summary>
+        /// Stores a value in the DHT at the given key
+        /// </summary>
+        /// <param name="sKey">Key of DHT Entry</param>
+        /// <param name="sValue">Value of DHT Entry</param>
+        /// <returns>True, when storing is completed!</returns>
+        public bool SynchStore(string sKey, string sData)
+        {
+            return SynchStore(sKey, UTF8Encoding.UTF8.GetBytes(sData));
         }
 
         /// <summary>
@@ -441,6 +454,10 @@ namespace Cryptool.Plugins.PeerToPeer
             ResponseWait rw;
             if (this.waitDict.TryGetValue(sr.Guid, out rw))
             {
+                // if Status == Error, than the version of the value is out of date.
+                // There is a versioning system in the DHT. So you must retrieve the
+                // key and than store the new value --> that's it, but much traffic.
+                // to be fixed in a few weeks from M.Helling
                 rw.Message = UTF8Encoding.UTF8.GetBytes(sr.Status.ToString());
 
                 //unblock WaitHandle in the synchronous method
