@@ -112,9 +112,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="ct2_p2p_system_icon_medium.png" />
-    <Resource Include="ct2_p2p_system_icon_small.png" />
-    <Resource Include="ct2_p2p_system_icon_tall.png" />
+    <Resource Include="icons\peer_connecting.png" />
+    <Resource Include="icons\peer_error.png" />
+    <Resource Include="icons\peer_online.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\peer_inaktiv.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
