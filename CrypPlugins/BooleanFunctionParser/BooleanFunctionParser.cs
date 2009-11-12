@@ -22,6 +22,10 @@ using Cryptool.CubeAttackController;
 // for QuickwatchPresentaton
 using System.Windows.Threading;
 using System.Threading;
+// MathParser
+using Cryptool.MathParser;
+// RPNExpression
+using Cryptool.RPNExpression;
 
 namespace Cryptool.BooleanFunctionParser
 {
@@ -54,6 +58,11 @@ namespace Cryptool.BooleanFunctionParser
         //public int inputTwoFlag = 0;
         //public int inputThreeFlag = 0;
         public int[] additionalInputsFlag = null;
+        public TimeSpan maxDuration = TimeSpan.Parse("00.00:00:00");
+        public TimeSpan overallDuration = TimeSpan.Parse("00.00:00:00");
+        public int requests = 0;
+        public MathParser.Parser p = new MathParser.Parser();
+        public RPNExpr expr = new RPNExpr();
 
         #endregion
 
@@ -72,6 +81,8 @@ namespace Cryptool.BooleanFunctionParser
             Presentation = booleanFunctionParserPresentation;
             booleanFunctionParserPresentation.textBoxInputFunction.TextChanged += textBoxInput_TextChanged;
             booleanFunctionParserPresentation.textBoxInputData.TextChanged += textBoxInput_TextChanged;
+            booleanFunctionParserPresentation.textBoxInputFunction2.TextChanged += textBoxInput_TextChanged;
+            booleanFunctionParserPresentation.textBoxInputData2.TextChanged += textBoxInput_TextChanged;
 
             CanChangeDynamicProperty = true;
             // Thomas says:
@@ -310,12 +321,18 @@ namespace Cryptool.BooleanFunctionParser
 
         public void PostExecution()
         {
+            //string temp = string.Format("{0:000}", overallDuration.Milliseconds);
+            double ms_per_req = (double)(Convert.ToInt32(overallDuration.Seconds.ToString() + string.Format( "{0:000}", overallDuration.Milliseconds ))) / (double)requests;
+            GuiLogMessage("Overall time used: " + overallDuration + ", which is " + overallDuration.Seconds + "s:" + string.Format( "{0:000}",overallDuration.Milliseconds) + "ms (for all requests)\nMaximum time used: " + maxDuration + ", which is " + maxDuration.Seconds + "s:" + string.Format( "{0:000}",maxDuration.Milliseconds) + "ms (for one request)\nOverall requests: " + requests + "\nTime used per request: " + string.Format("{0:F3}", ms_per_req) + "ms", NotificationLevel.Info);
             
+            requests = 0;
+            maxDuration = TimeSpan.Parse("00.00:00:00");
+            overallDuration = TimeSpan.Parse("00.00:00:00");
         }
 
         public void PreExecution()
         {
-            
+            overallDuration = TimeSpan.Parse("00.00:00:00");
         }
 
         public void CreateInputOutput(bool announcePropertyChange)
@@ -374,10 +391,13 @@ namespace Cryptool.BooleanFunctionParser
                 return -1;
 
             // replace variables with data
+            // start counter
+            DateTime startTime = DateTime.Now;
             string strExpression = ReplaceVariables(function, inputVariables, dataTwo);
             // test if function is valid
             string strExpressionTested = TestFunction(strExpression);
-            if (strExpressionTested == "foo")
+            int outputInt = 0;
+            if (strExpressionTested == null)
             {
                 GuiLogMessage(strExpression + " is not a binary expression (e.g. 1 + 0 * 1). Aborting now.", NotificationLevel.Error);
                 return -1;
@@ -385,13 +405,102 @@ namespace Cryptool.BooleanFunctionParser
             else
             {
                 //GuiLogMessage("Your expression with variables replaced: " + strExpression, NotificationLevel.Info);
-                output = EvaluateString(strExpressionTested);
-            }
-            // Just testing
-            //bool[] test = (bool[])getCurrentValue("Input 2");
-            //GuiLogMessage("InputTest: " + test[0].ToString(), NotificationLevel.Info);
+                //output = EvaluateString(strExpressionTested);
+                
+                // testing myself
+                // start counter
+                //DateTime startTime = DateTime.Now;
 
-            return Convert.ToInt32(output);
+                //for (int i = 65536; i > 0; i--)
+                {
+                    outputInt = Convert.ToInt32(EvaluateString(strExpressionTested));
+                }
+
+                // stop counter
+                DateTime stopTime = DateTime.Now;
+                // compute timespan
+                TimeSpan duration = stopTime - startTime;
+                // compute overall time
+                overallDuration += duration;
+                if (maxDuration.CompareTo(duration) < 0)
+                {
+                    maxDuration = duration;
+                    //GuiLogMessage("Time max used: " + maxDuration + ", which is " + maxDuration.Seconds + "s:" + maxDuration.Milliseconds + "ms", NotificationLevel.Info);
+                }
+                /*
+                // testing MathParser
+                if (p.Evaluate(strExpressionTested))
+                {
+                    // start counter
+                    //startTime = DateTime.Now;
+
+                    //for (int i = 65536; i > 0; i--)
+                    {
+                        outputInt = Convert.ToInt32(p.Result);
+                    }
+
+                    // stop counter
+                    DateTime stopTime = DateTime.Now;
+                    // compute timespan
+                    TimeSpan duration = stopTime - startTime;
+                    // compute overall time
+                    overallDuration += duration;
+                    if (maxDuration.CompareTo(duration) < 0)
+                    {
+                        maxDuration = duration;
+                        //GuiLogMessage("Time max used: " + maxDuration + ", which is " + maxDuration.Seconds + "s:" + maxDuration.Milliseconds + "ms", NotificationLevel.Info);
+                    }
+                }
+                else
+                    GuiLogMessage("Parsing of function failed.", NotificationLevel.Error);
+                *//*
+                // testing RPNExpression
+                ExprEnvironment environment = new ExprEnvironment();
+                RPNFunctionUtils.RegisterFunctions(environment);
+                expr.Environment = environment;
+                expr.expression = strExpressionTested;
+                try
+                {
+                    expr.Prepare();
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage("Preparation for parsing failed: " + ex, NotificationLevel.Error);
+                }
+                //GuiLogMessage("Zeichenfolge: " + expr.GetValue().ToString(), NotificationLevel.Info);
+                try
+                {
+                    // start counter
+                    //DateTime startTime = DateTime.Now;
+
+                    for (int i = 65536; i > 0; i--)
+                    {
+                        outputInt = Convert.ToInt32(expr.GetValue());
+                    }
+
+                    // stop counter
+                    DateTime stopTime = DateTime.Now;
+                    // compute timespan
+                    TimeSpan duration = stopTime - startTime;
+                    // compute overall time
+                    overallDuration += duration;
+                    if (maxDuration.CompareTo(duration) < 0)
+                    {
+                        maxDuration = duration;
+                        //GuiLogMessage("Time max used: " + maxDuration + ", which is " + maxDuration.Seconds + "s:" + maxDuration.Milliseconds + "ms", NotificationLevel.Info);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage("Converting to Int32 failed: " + ex, NotificationLevel.Error);
+                }
+                */
+                // count the requests
+                requests++;
+            }
+
+            //return Convert.ToInt32(output);
+            return outputInt;
         }
 
         #region private functions
@@ -408,77 +517,48 @@ namespace Cryptool.BooleanFunctionParser
 
         private string ReplaceVariables(string strExpressionWithVariables, bool[] externDataOne, bool []externDataTwo)
         {
+            // convert string into StringBuilder
+            //StringBuilder strExpression = new StringBuilder(strExpressionWithVariables);
             // remove spaces
             string strExpression = strExpressionWithVariables.Replace(" ", "");
+            //strExpression.Replace(" ", "");
             // add * if there aren't any (and should be)
             // example: x^2+x^2x^3 ==> x^2+x^2*x^3
-            Regex makeStars = new Regex("([0-9])i");
-            strExpression = makeStars.Replace(strExpression, new MatchEvaluator(makeStarsInText));
-
-            // replace variables with value and get numeric values from boolean inputs (if there are any)
-            /*if (inputOneFlag == 1 && inputVariableOne != null)
-            {
-                char[] strInputVariableOne = new char[inputVariableOne.Length];
-                for (int i = inputVariableOne.Length - 1; i >= 0; i--)
-                {
-                    // get numeric values from bool inputs
-                    strInputVariableOne[i] = inputVariableOne[i] ? '1' : '0';
-                    // replace variables with value
-                    string replacement = "i_1." + i;
-                    strExpression = strExpression.Replace(replacement, strInputVariableOne[i].ToString());
-                }
-            }
-            if (inputTwoFlag == 1 && inputVariableTwo != null)
-            {
-                char[] strInputVariableTwo = new char[inputVariableTwo.Length];
-                for (int i = inputVariableTwo.Length - 1; i >= 0; i--)
-                {
-                    // get numeric values from bool inputs
-                    strInputVariableTwo[i] = inputVariableTwo[i] ? '1' : '0';
-                    string replacement = "i_2." + i;
-                    strExpression = strExpression.Replace(replacement, strInputVariableTwo[i].ToString());
-                }
-            }
-            if (inputThreeFlag == 1 && inputVariableThree != null)
-            {
-                char[] strInputVariableThree = new char[inputVariableThree.Length];
-                for (int i = inputVariableThree.Length - 1; i >= 0; i--)
-                {
-                    // get numeric values from bool inputs
-                    strInputVariableThree[i] = inputVariableThree[i] ? '1' : '0';
-                    string replacement = "i_3." + i;
-                    strExpression = strExpression.Replace(replacement, strInputVariableThree[i].ToString());
-                }
-            }*/
+            //Regex makeStars = new Regex("([0-9])x");
+            //strExpression = makeStars.Replace(strExpression, new MatchEvaluator(makeStarsInText));
+            
             // replace additional inputs data (if there are any)
+            TokenList tokens = new TokenList();
             for (int i = 0; i < inputs; i++)
             {
                 if (getCurrentValue("Input " + i) != null)
                 {
                     bool[] additionalTempValueBool = (bool[])methodGetValue("Input " + i);
-                    char[] strInputVariableAditionalTemp = new char[additionalTempValueBool.Length];
+                    //char[] strInputVariableAditionalTemp = new char[additionalTempValueBool.Length];
                     for (int j = additionalTempValueBool.Length - 1; j >= 0; j--)
                     {
                         // get numeric values from bool inputs
-                        strInputVariableAditionalTemp[j] = additionalTempValueBool[j] ? '1' : '0';
-                        string replacement = "i_" + (i) + "." + j;
-                        strExpression = strExpression.Replace(replacement, strInputVariableAditionalTemp[j].ToString());
+                        //strInputVariableAditionalTemp[j] = additionalTempValueBool[j] ? '1' : '0';
+                        //string replacement = "x" + (i) + "." + j;
+                        //strExpression = strExpression.Replace(replacement, strInputVariableAditionalTemp[j].ToString());
+                        tokens.Add("x" + (i) + "." + j, additionalTempValueBool[j] ? "1" : "0");
                     }
                 }
             }
-            // replace extern data (i_0.*) (if there is any)
+            // replace extern data (x0.*) (if there is any)
             if (externDataOne != null && externDataOne.Length != 0)
             {
-                char[] strInputVariableExtern = new char[externDataOne.Length];
-                for (int i = strInputVariableExtern.Length - 1; i >= 0; i--)
+                //char[] strInputVariableExtern = new char[externDataOne.Length];
+                for (int i = externDataOne.Length - 1; i >= 0; i--)
                 {
                     // get numeric values from bool inputs
-                    strInputVariableExtern[i] = externDataOne[i] ? '1' : '0';
-                    string replacement = "i_0." + i;
-                    strExpression = strExpression.Replace(replacement, strInputVariableExtern[i].ToString());
+                    //strInputVariableExtern[i] = externDataOne[i] ? '1' : '0';
+                    //string replacement = "x0." + i;
+                    //strExpression = strExpression.Replace(replacement, strInputVariableExtern[i].ToString());
+                    tokens.Add("x0." + i, externDataOne[i] ? "1" : "0");
                 }
             }
-            // replace quickwatch data (i_q.*) (if there is any)
+            // replace quickwatch data (xq.*) (if there is any)
             if (settings.UseBFPforCube == false)
             {
                 string quickwatchData = (string)this.booleanFunctionParserPresentation.textBoxInputData.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
@@ -487,12 +567,13 @@ namespace Cryptool.BooleanFunctionParser
                 }, booleanFunctionParserPresentation);
                 if (quickwatchData != null && quickwatchData != string.Empty)
                 {
-                    char[] strInputVariableQuickwatch = new char[quickwatchData.Length];
-                    strInputVariableQuickwatch = quickwatchData.ToCharArray();
-                    for (int i = strInputVariableQuickwatch.Length - 1; i >= 0 ; i--)
+                    //char[] strInputVariableQuickwatch = new char[quickwatchData.Length];
+                    char [] strInputVariableQuickwatch = quickwatchData.ToCharArray();
+                    for (int i = quickwatchData.Length - 1; i >= 0; i--)
                     {
-                        string replacement = "i_q." + i;
-                        strExpression = strExpression.Replace(replacement, strInputVariableQuickwatch[i].ToString());
+                        //string replacement = "xq." + i;
+                        //strExpression = strExpression.Replace(replacement, strInputVariableQuickwatch[i].ToString());
+                        tokens.Add("xq." + i, strInputVariableQuickwatch[i].ToString());
                     }
                 }
             } else if (settings.UseBFPforCube == true)
@@ -504,24 +585,25 @@ namespace Cryptool.BooleanFunctionParser
                 // Cube Attack Online Phase
                 if (externDataTwo != null && externDataTwo.Length != 0)
                 {
-                    char[] strInputVariableExtern = new char[externDataOne.Length];
-                    for (int i = strInputVariableExtern.Length - 1; i >= 0; i--)
+                    //char[] strInputVariableExtern = new char[externDataOne.Length];
+                    for (int i = externDataOne.Length - 1; i >= 0; i--)
                     {
                         // get numeric values from bool inputs
-                        strInputVariableExtern[i] = externDataTwo[i] ? '1' : '0';
-                        string replacement = "i_q." + i;
-                        strExpression = strExpression.Replace(replacement, strInputVariableExtern[i].ToString());
+                        //strInputVariableExtern[i] = externDataTwo[i] ? '1' : '0';
+                        //string replacement = "xq." + i;
+                        //strExpression = strExpression.Replace(replacement, strInputVariableExtern[i].ToString());
+                        tokens.Add("xq." + i, externDataTwo[i] ? "1" : "0");
                     }
                 }
                 // Cube Attack Preprocessing Phase
                 else if (quickwatchDataCube != null && quickwatchDataCube != string.Empty)
                 {
-                    char[] strInputVariableQuickwatch = new char[quickwatchDataCube.Length];
-                    strInputVariableQuickwatch = quickwatchDataCube.ToCharArray();
-                    for (int i = strInputVariableQuickwatch.Length - 1; i >= 0; i--)
+                    char[] strInputVariableQuickwatch = quickwatchDataCube.ToCharArray();
+                    for (int i = quickwatchDataCube.Length - 1; i >= 0; i--)
                     {
-                        string replacement = "i_q." + i;
-                        strExpression = strExpression.Replace(replacement, strInputVariableQuickwatch[i].ToString());
+                        //string replacement = "xq." + i;
+                        //strExpression = strExpression.Replace(replacement, strInputVariableQuickwatch[i].ToString());
+                        tokens.Add("xq." + i, strInputVariableQuickwatch[i].ToString());
                     }
                 }
                 
@@ -529,28 +611,16 @@ namespace Cryptool.BooleanFunctionParser
             
 
             // replace AND, NAND, OR, NOR, XOR, NXOR with symbols
-            // NAND => -
-            //strExpression = strExpression.Replace("NAND", "-");
             // AND => *
-            strExpression = strExpression.Replace("AND", "*");
+            //strExpression.Replace("AND", "*");
+            tokens.Add("AND", "*");
+            // XOR => +
+            //strExpression.Replace("XOR", "+");
+            tokens.Add("XOR", "+");
 
-            // NOR => _
-            //strExpression = strExpression.Replace("NOR", "_");
-
-            // NXOR => °
-            //strExpression = strExpression.Replace("NXOR", "°");
-            // XOR => *
-            strExpression = strExpression.Replace("XOR", "+");
-
-            // OR => |
-            //strExpression = strExpression.Replace("OR", "|");
-
-            // replace ^ and & with symbols
-            // ^ => XOR => +
-            //strExpression = strExpression.Replace("^", "+");
-
-            // & => AND => *
-            //strExpression = strExpression.Replace("&", "*");
+            strExpression = tokens.Replace(strExpression);
+            //GuiLogMessage("#tokens: " + tokens.Count, NotificationLevel.Info);
+            tokens.RemoveRange(0, tokens.Count);
 
             return strExpression;
         }
@@ -569,15 +639,16 @@ namespace Cryptool.BooleanFunctionParser
             if (countLeftPRegEx.Matches(strExpressionNormalized).Count != countRightPRegEx.Matches(strExpressionNormalized).Count)
             {
                 GuiLogMessage("The count of ( is not equal to the count of )", NotificationLevel.Error);
-                return "foo";
+                return null;
             }
 
             // test expression
-            Regex objBoolExpression = new Regex(@"([\(]?[\!]?)([0-1]([\\*]|[\\+]|[\\|]|[\\-]|[_]|[°]|[v]|[\\^]|[\\!])+[0-1]{1})");
+            // deleted after '[\\+]': |[\\|]|[\\-]|[_]|[°]|[v]|[\\^]|[\\!]
+            Regex objBoolExpression = new Regex(@"([\(]?[\!]?)([0-1]([\\*]|[\\+])+[0-1]{1})");
             if (!objBoolExpression.IsMatch(strExpressionNormalized))
             {
                 GuiLogMessage("That's not a legal function", NotificationLevel.Error);
-                return "foo";
+                return null;
             }
             else
             {
@@ -589,6 +660,7 @@ namespace Cryptool.BooleanFunctionParser
         private bool EvaluateString(string function)
         {
             string temp;
+            StringBuilder functionBuilder = new StringBuilder(function);
 
             // test for parenthesis
             int positionLeftParenthesis = function.IndexOf("(");
@@ -601,9 +673,11 @@ namespace Cryptool.BooleanFunctionParser
                 temp = function.Substring(positionLeftParenthesis + 1, positionRightParenthesis - positionLeftParenthesis - 1);
                 //GuiLogMessage("New function: " + temp, NotificationLevel.Debug);
                 bool parenthesisResult = EvaluateString(temp);
-                function = function.Remove(positionLeftParenthesis, positionRightParenthesis - positionLeftParenthesis + 1);
-                function = function.Insert(positionLeftParenthesis, Convert.ToInt32(parenthesisResult).ToString());
+                functionBuilder.Remove(positionLeftParenthesis, positionRightParenthesis - positionLeftParenthesis + 1);
+                functionBuilder.Insert(positionLeftParenthesis, Convert.ToInt32(parenthesisResult).ToString());
             }
+
+            function = functionBuilder.ToString();
 
             //GuiLogMessage("Function after '(':  " + function, NotificationLevel.Debug);
 
@@ -615,7 +689,7 @@ namespace Cryptool.BooleanFunctionParser
                 //GuiLogMessage("Position of '!': " + positionExclamationMark, NotificationLevel.Debug);
 
                 // remove exclamation mark
-                function = function.Remove(positionExclamationMark, 1);
+                functionBuilder.Remove(positionExclamationMark, 1);
 
                 // invert the binary digit following the excl. mark
                 string toInvert = function.Substring(positionExclamationMark, 1);
@@ -624,9 +698,11 @@ namespace Cryptool.BooleanFunctionParser
                 if (toInvert == "1") toInvert = "0";
                 else toInvert = "1";
                 // remove old value
-                function = function.Remove(positionExclamationMark, 1);
+                functionBuilder.Remove(positionExclamationMark, 1);
                 // insert new value
-                function = function.Insert(positionExclamationMark, toInvert);
+                functionBuilder.Insert(positionExclamationMark, toInvert);
+
+                function = functionBuilder.ToString();
 
                 // any other NOTs in there?
                 positionExclamationMark = function.IndexOf("!");
@@ -661,11 +737,13 @@ namespace Cryptool.BooleanFunctionParser
                 //GuiLogMessage("sum: " + sum, NotificationLevel.Debug);
 
                 // remove old values
-                function = function.Remove(positionAND - 1, 3);
+                functionBuilder.Remove(positionAND - 1, 3);
 
                 // insert new value
-                function = function.Insert(positionAND - 1, sum);
+                functionBuilder.Insert(positionAND - 1, sum);
                 //GuiLogMessage("function: " + function, NotificationLevel.Debug);
+
+                function = functionBuilder.ToString();
 
                 // any other ANDs in there?
                 positionAND = function.IndexOf("*");
@@ -688,11 +766,13 @@ namespace Cryptool.BooleanFunctionParser
                 //GuiLogMessage("product: " + product, NotificationLevel.Debug);
 
                 // remove old values
-                function = function.Remove(positionXOR - 1, 3);
+                functionBuilder.Remove(positionXOR - 1, 3);
 
                 // insert new value
-                function = function.Insert(positionXOR - 1, product);
+                functionBuilder.Insert(positionXOR - 1, product);
                 //GuiLogMessage("function: " + function, NotificationLevel.Debug);
+
+                function = functionBuilder.ToString();
 
                 // any other XORs in there?
                 positionXOR = function.IndexOf("+");
@@ -889,6 +969,77 @@ namespace Cryptool.BooleanFunctionParser
         }
 
         #endregion
+    }
+
+    #endregion
+
+    #region Token
+
+    public class Token
+    {
+
+        public string Text { get; private set; }
+        public string Replacement { get; private set; }
+        public int Index { get; set; }
+
+        public Token(string text, string replacement)
+        {
+            Text = text;
+            Replacement = replacement;
+        }
+
+    }
+
+    public class TokenList : List<Token>
+    {
+
+        public void Add(string text, string replacement)
+        {
+            Add(new Token(text, replacement));
+        }
+
+        private Token GetFirstToken()
+        {
+            Token result = null;
+            int index = int.MaxValue;
+            foreach (Token token in this)
+            {
+                if (token.Index != -1 && token.Index < index)
+                {
+                    index = token.Index;
+                    result = token;
+                }
+            }
+            return result;
+        }
+
+        public string Replace(string text)
+        {
+            StringBuilder result = new StringBuilder();
+            foreach (Token token in this)
+            {
+                token.Index = text.IndexOf(token.Text);
+            }
+            int index = 0;
+            Token next;
+            while ((next = GetFirstToken()) != null)
+            {
+                if (index < next.Index)
+                {
+                    result.Append(text, index, next.Index - index);
+                    index = next.Index;
+                }
+                result.Append(next.Replacement);
+                index += next.Text.Length;
+                next.Index = text.IndexOf(next.Text, index);
+            }
+            if (index < text.Length)
+            {
+                result.Append(text, index, text.Length - index);
+            }
+            return result.ToString();
+        }
+
     }
 
     #endregion

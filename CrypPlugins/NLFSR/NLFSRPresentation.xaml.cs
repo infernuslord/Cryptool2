@@ -281,8 +281,8 @@ namespace Cryptool.NLFSR
                 functionTextBox.IsReadOnly = true;
                 functionTextBox.TextAlignment = TextAlignment.Center;
                 functionTextBox.VerticalContentAlignment = VerticalAlignment.Center;
-                functionTextBox.BorderBrush = Brushes.LightGray;
-                functionTextBox.Foreground = Brushes.LightGray;
+                functionTextBox.BorderBrush = Brushes.DodgerBlue;
+                functionTextBox.Foreground = Brushes.Black;
 
                 myGrid.Children.Add(functionTextBox);
 

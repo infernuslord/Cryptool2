@@ -68,7 +68,7 @@ namespace Cryptool.CLK
     {
       if (e.PropertyName == "SetClockToTrue")
       {
-        output = settings.SetClockToTrue;
+        output = Convert.ToBoolean(settings.SetClockToTrue);
         if (output)
         {
             StatusChanged((int)CLKImage.True);
@@ -144,7 +144,7 @@ namespace Cryptool.CLK
 
     public void PreExecution()
     {
-        if (settings.SetClockToTrue)
+        if (Convert.ToBoolean(settings.SetClockToTrue))
         {
             StatusChanged((int)CLKImage.True);
             cLKPresentation.setImageTrue();
@@ -190,7 +190,7 @@ namespace Cryptool.CLK
             {
                 process(settings.CLKTimeout);
                 //change picture
-                if (settings.SetClockToTrue) StatusChanged((int)CLKImage.True);
+                if (Convert.ToBoolean(settings.SetClockToTrue)) StatusChanged((int)CLKImage.True);
                 else StatusChanged((int)CLKImage.False);
             }
         }
@@ -253,7 +253,7 @@ namespace Cryptool.CLK
 
     public void Initialize()
     {
-        output = settings.SetClockToTrue;
+        output = Convert.ToBoolean(settings.SetClockToTrue);
         if (output) StatusChanged((int)CLKImage.True);
         else StatusChanged((int)CLKImage.False);
         settings.CLKTimeout = timeout;

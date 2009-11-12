@@ -23,6 +23,17 @@ namespace Cryptool.NLFSR
 
         private bool hasChanges = false;
 
+        private string currentState = null;
+        public string CurrentState
+        {
+            get { return currentState; }
+            set
+            {
+                if (value != currentState) hasChanges = true;
+                currentState = value;
+            }
+        }
+
         [TaskPane("Draw NLFSR", "Initializes NLFSR and draws the presentation. This is used to view the NLFSR before pressing play.", null, 0, false, DisplayLevel.Beginner, ControlType.Button)]
         public void initNLFSR()
         {
@@ -39,7 +50,7 @@ namespace Cryptool.NLFSR
             set { 
                 this.rounds = value;
                 OnPropertyChanged("Rounds");
-                HasChanges = true;
+                if (value != rounds) HasChanges = true;
             }
         }
 
@@ -52,7 +63,7 @@ namespace Cryptool.NLFSR
             {
                 this.polynomial = value;
                 OnPropertyChanged("Polynomial");
-                HasChanges = true;
+                if (value != polynomial) HasChanges = true;
             }
         }
 
@@ -65,13 +76,13 @@ namespace Cryptool.NLFSR
             {
                 this.seed = value;
                 OnPropertyChanged("Seed");
-                HasChanges = true;
+                if (value != seed) HasChanges = true;
             }
         }
 
         private bool noQuickwatch = false;
         [ContextMenu("Do not display Quickwatch", "With this checkbox enabled, no quickwatch will be generated for better performance.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Display Quickwatch?" })]
-        [TaskPane("Do not display Quickwatch", "With this checkbox enabled, no quickwatch will be generated for better performance.", null, 1, true, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+        [TaskPane("Do not display Quickwatch", "With this checkbox enabled, no quickwatch will be generated for better performance.", null, 3, true, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
         public bool NoQuickwatch
         {
             get { return this.noQuickwatch; }
@@ -79,7 +90,21 @@ namespace Cryptool.NLFSR
             {
                 this.noQuickwatch = (bool)value;
                 OnPropertyChanged("NoQuickwatch");
-                HasChanges = true;
+                if ((bool)value != noQuickwatch) HasChanges = true;
+            }
+        }
+
+        private bool saveCurrentState = false;
+        [ContextMenu("Save the state of the NLFSR", "With this checkbox enabled, the current state will be restored after opening a .cte.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Save current state?" })]
+        [TaskPane("Save the state of the NLFSR", "With this checkbox enabled, the current state will be restored after opening a .cte.", null, 3, true, DisplayLevel.Experienced, ControlType.CheckBox, "", null)]
+        public bool SaveCurrentState
+        {
+            get { return this.saveCurrentState; }
+            set
+            {
+                this.saveCurrentState = (bool)value;
+                OnPropertyChanged("SaveCurrentState");
+                if ((bool)value != saveCurrentState) HasChanges = true;
             }
         }
 
@@ -93,7 +118,7 @@ namespace Cryptool.NLFSR
             {
                 this.useClockingBit = (bool)value;
                 OnPropertyChanged("UseClockingBit");
-                HasChanges = true;
+                if ((bool)value != useClockingBit) HasChanges = true;
                 if (this.useClockingBit)
                     SettingChanged("ClockingBit", Visibility.Visible);
                 else
@@ -110,7 +135,7 @@ namespace Cryptool.NLFSR
             {
                 this.clockingBit = value;
                 OnPropertyChanged("ClockingBit");
-                HasChanges = true;
+                if (value != clockingBit) HasChanges = true;
             }
         }
 
@@ -124,7 +149,7 @@ namespace Cryptool.NLFSR
             {
                 this.useBoolClock = (bool)value;
                 OnPropertyChanged("UseBoolClock");
-                HasChanges = true;
+                if ((bool)value != useBoolClock) HasChanges = true;
                 if (this.useBoolClock)
                     SettingChanged("Rounds", Visibility.Collapsed);
                 else
@@ -142,21 +167,7 @@ namespace Cryptool.NLFSR
             {
                 this.alwaysCreateOutput = (bool)value;
                 OnPropertyChanged("AlwaysCreateOutput");
-                HasChanges = true;
-            }
-        }
-
-        private bool createDirtyOutputOnFalseClock = false;
-        [ContextMenu("Create dirty output on false clock", "With this checkbox enabled, an the output is the dirty (-1) if the clock is set to false.", 2, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Create dirty output?" })]
-        [TaskPane("Create dirty output on false clock", "With this checkbox enabled, an the output is the dirty (-1) if the clock is set to false.", "Clock Properties", 2, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
-        public bool CreateDirtyOutputOnFalseClock
-        {
-            get { return this.createDirtyOutputOnFalseClock; }
-            set
-            {
-                this.createDirtyOutputOnFalseClock = (bool)value;
-                OnPropertyChanged("CreateDirtyOutputOnFalseClock");
-                HasChanges = true;
+                if ((bool)value != alwaysCreateOutput) HasChanges = true;
             }
         }
 

@@ -14,7 +14,7 @@ namespace Cryptool.CLK
   {
     # region private variables
     private bool hasChanges = false;
-    private bool setClockToTrue = true;
+    private int setClockToTrue = 1;
     private bool useEvent = false;
     private int clkTimeout = 2000;
     # endregion private variables
@@ -27,11 +27,14 @@ namespace Cryptool.CLK
       set { hasChanges = value; }
     }
 
-    [ContextMenu("Set clock to true", " yes / no ", 0, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, "Set clock to true")]
-    [TaskPaneAttribute("Set clock to true", " yes / no ", "", 0, true, DisplayLevel.Beginner, ControlType.CheckBox, null)]
-    public bool SetClockToTrue
+    [ContextMenu("Set clock output to", " true / false ", 0, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new string[] { "false", "true"})]
+    [TaskPaneAttribute("Set clock output to", " true / false ", "", 0, true, DisplayLevel.Beginner, ControlType.RadioButton, new string[] { "False", "True" })]
+    public int SetClockToTrue
     {
-        get { return this.setClockToTrue; }
+        get
+        {
+            return this.setClockToTrue;
+        }
         set
         {
             this.setClockToTrue = value;

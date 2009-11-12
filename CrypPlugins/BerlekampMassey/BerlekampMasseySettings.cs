@@ -213,6 +213,12 @@ namespace Cryptool.BerlekampMassey
 {
     public class BerlekampMasseySettings : ISettings
     {
+        #region Private variables
+
+        private bool hasChanges = false;
+
+        #endregion
+
         #region Public Xor specific interface
 
         /// <summary>
@@ -240,13 +246,6 @@ namespace Cryptool.BerlekampMassey
         }
 
         #endregion
-
-        #region Private variables
-
-        private bool hasChanges;
-
-        #endregion
-
 
         #region INotifyPropertyChanged Members
 
