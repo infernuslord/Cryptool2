@@ -2,11 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Cryptool.CubeAttack
 {
-    public class Matrix
+    [Serializable()]
+    public class Matrix : ISerializable
     {
+        public Matrix(SerializationInfo info, StreamingContext ctxt)
+        {
+            rows = (int)info.GetValue("rows", typeof(int));
+            cols = (int)info.GetValue("cols", typeof(int));
+            element = (int[,])info.GetValue("element", typeof(int[,]));
+        }
+        
+        public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
+        {
+            info.AddValue("rows", rows);
+            info.AddValue("cols", cols);
+            info.AddValue("element", element);
+        }
+
+
         /// <summary>
         /// Class attributes/members
         /// </summary>
