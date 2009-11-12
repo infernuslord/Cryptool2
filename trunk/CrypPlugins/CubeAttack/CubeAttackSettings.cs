@@ -41,7 +41,6 @@ namespace Cryptool.CubeAttack
         #region Private variables
 
         private bool hasChanges;
-        private int selectedBlackBox = 0;
         private int selectedAction = 0;
         private int publicVar;
         private int secretVar;
@@ -49,7 +48,7 @@ namespace Cryptool.CubeAttack
         private int constTest = 50;
         private int linTest = 50;
         private string setPublicBits = "0*00*";
-        private int outputBit;
+        private int outputBit = 1;
         private bool readSuperpolysFromFile;
         private string openFilename;
         private bool enableLogMessages = false;
@@ -60,44 +59,18 @@ namespace Cryptool.CubeAttack
         private int[] saveOutputBitIndex;
         private int saveCountSuperpoly;
         private Matrix saveMatrixCheckLinearitySuperpolys;
+        private int savePublicBitSize;
+        private int saveSecretBitSize;
 
         #endregion
 
 
         #region Algorithm settings properties (visible in the settings pane)
 
-        /*[PropertySaveOrder(1)]
-        [ContextMenu("Black Box",
-            "Select the black box",
-            1,
-            DisplayLevel.Beginner,
-            ContextMenuControlType.ComboBox,
-            null,
-            "Boolean function parser",
-            "Trivium")]
-        [TaskPane("Black Box",
-            "Select the black box",
-            "",
-            1,
-            false,
-            DisplayLevel.Beginner,
-            ControlType.ComboBox,
-            new string[] { "Boolean function parser", "Trivium" })]
-        public int BlackBox
-        {
-            get { return this.selectedBlackBox; }
-            set
-            {
-                if (value != selectedBlackBox) HasChanges = true;
-                this.selectedBlackBox = value;
-                OnPropertyChanged("BlackBox");
-            }
-        }*/
-
-        [PropertySaveOrder(2)]
+        [PropertySaveOrder(1)]
         [ContextMenu("Action", 
             "Select the cube attack modi", 
-            2, 
+            1, 
             DisplayLevel.Beginner, 
             ContextMenuControlType.ComboBox, 
             null, 
@@ -107,7 +80,7 @@ namespace Cryptool.CubeAttack
         [TaskPane("Action",
             "Select the cube attack modi", 
             "", 
-            2, 
+            1, 
             false, 
             DisplayLevel.Beginner, 
             ControlType.ComboBox,
@@ -123,11 +96,11 @@ namespace Cryptool.CubeAttack
             }
         }
         
-        [PropertySaveOrder(3)]
+        [PropertySaveOrder(2)]
         [TaskPane("Public Bit Size",
             "Public input bits (IV or plaintext) of the attacked cryptosystem.", 
             null, 
-            3, 
+            2, 
             false, 
             DisplayLevel.Beginner, 
             ControlType.NumericUpDown, 
@@ -145,11 +118,11 @@ namespace Cryptool.CubeAttack
             }
         }
 
-        [PropertySaveOrder(4)]
+        [PropertySaveOrder(3)]
         [TaskPane("Secret Bit Size",
             "Key size or key length  of the attacked cryptosystem.", 
             null, 
-            4, 
+            3, 
             false, 
             DisplayLevel.Beginner, 
             ControlType.NumericUpDown, 
@@ -167,11 +140,11 @@ namespace Cryptool.CubeAttack
             }
         }
 
-        [PropertySaveOrder(5)]
+        [PropertySaveOrder(4)]
         [TaskPane("Max Cube Size",
             "Maxmium size of the summation cube.",
             null,
-            5,
+            4,
             true,
             DisplayLevel.Beginner,
             ControlType.NumericUpDown,
@@ -189,11 +162,11 @@ namespace Cryptool.CubeAttack
             }
         }
 
-        [PropertySaveOrder(6)]
+        [PropertySaveOrder(5)]
         [TaskPane("Constant Test",
             "Number of tests to check if the superpoly is a constant value or not.",
             null,
-            6,
+            5,
             true,
             DisplayLevel.Beginner,
             ControlType.NumericUpDown,
@@ -211,11 +184,11 @@ namespace Cryptool.CubeAttack
             }
         }
 
-        [PropertySaveOrder(7)]
+        [PropertySaveOrder(6)]
         [TaskPane("Linearity Test",
             "Number of linearity tests to check if the superpoly is linear or not.", 
             null, 
-            7, 
+            6, 
             true, 
             DisplayLevel.Beginner, 
             ControlType.NumericUpDown, 
@@ -233,33 +206,33 @@ namespace Cryptool.CubeAttack
             }
         }
 
-        [PropertySaveOrder(8)]
+        [PropertySaveOrder(7)]
         [TaskPane("Output Bit",
             "Chooses the output bit of the black box, which should be evaluated.",
             null,
-            8,
+            7,
             true,
             DisplayLevel.Beginner,
             ControlType.NumericUpDown,
             ValidationType.RangeInteger,
             1,
             10000)]
-        public int TriviumOutputBit
+        public int OutputBit
         {
             get { return outputBit; }
             set
             {
                 if (value != this.outputBit) HasChanges = true;
                 outputBit = value;
-                OnPropertyChanged("TriviumOutputBit");
+                OnPropertyChanged("OutputBit");
             }
         }
 
-        [PropertySaveOrder(9)]
+        [PropertySaveOrder(8)]
         [TaskPane("Manual Public Bit Input",
             "Possible inputs '0' (set bit to value 0), '1' (set bit to value 1) and '*' (sum the 0/1 value of the bit).",
             null,
-            9,
+            8,
             false,
             DisplayLevel.Beginner,
             ControlType.TextBox,
@@ -281,18 +254,18 @@ namespace Cryptool.CubeAttack
             }
         }
 
-        [PropertySaveOrder(10)]
-        [ContextMenu("Read superpolys from File",
+        [PropertySaveOrder(9)]
+        [ContextMenu("Read Superpolys From File",
             "With this checkbox enabled, superpolys will be loaded from the selected File and can be evaluated in the online phase.",
-            10,
+            9,
             DisplayLevel.Experienced,
             ContextMenuControlType.CheckBox,
             null,
-            new string[] { "Read superpolys from File" })]
+            new string[] { "Read Superpolys From File" })]
         [TaskPane("Read superpolys from File", 
             "With this checkbox enabled, superpolys will be loaded from the selected File and can be evaluated in the online phase.",
             null,
-            10,
+            9,
             false,
             DisplayLevel.Beginner,
             ControlType.CheckBox,
@@ -309,10 +282,11 @@ namespace Cryptool.CubeAttack
             }
         }
 
-        [PropertySaveOrder(11)]
-        [TaskPane("Filename", "Select the file you want to open.", 
+        [PropertySaveOrder(10)]
+        [TaskPane("Filename", 
+            "Select the file you want to open.\nFile structure: superpoly cube-indexes output-bit\nExample: 1+x0+x5 2,6 1", 
             null, 
-            11, 
+            10, 
             false, 
             DisplayLevel.Beginner, 
             ControlType.OpenFileDialog, 
@@ -331,18 +305,18 @@ namespace Cryptool.CubeAttack
             }
         }
 
-        [PropertySaveOrder(12)]
-        [ContextMenu("Enable log messages",
+        [PropertySaveOrder(11)]
+        [ContextMenu("Enable Log Messages",
             "With this checkbox enabled, log messages will be showed.", 
-            12, 
+            11, 
             DisplayLevel.Experienced, 
             ContextMenuControlType.CheckBox, 
             null,
             new string[] { "Enable log messages?" })]
-        [TaskPane("Enable log messages",
+        [TaskPane("Enable Log Messages",
             "With this checkbox enabled, a lot of log messages will be showed during preprocessing.", 
             null, 
-            12, 
+            11, 
             false, 
             DisplayLevel.Beginner, 
             ControlType.CheckBox, 
@@ -416,6 +390,26 @@ namespace Cryptool.CubeAttack
             {
                 if (value != saveMatrixCheckLinearitySuperpolys) hasChanges = true;
                 saveMatrixCheckLinearitySuperpolys = value;
+            }
+        }
+
+        public int SavePublicBitSize
+        {
+            get { return savePublicBitSize; }
+            set
+            {
+                if (value != savePublicBitSize) hasChanges = true;
+                savePublicBitSize = value;
+            }
+        }
+
+        public int SaveSecretBitSize
+        {
+            get { return saveSecretBitSize; }
+            set
+            {
+                if (value != saveSecretBitSize) hasChanges = true;
+                saveSecretBitSize = value;
             }
         }
 
