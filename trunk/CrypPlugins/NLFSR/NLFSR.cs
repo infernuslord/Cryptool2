@@ -20,6 +20,8 @@ using System.Threading;
 using System.Windows.Automation.Peers;
 // for RegEx
 using System.Text.RegularExpressions;
+// MathParser
+using Cryptool.MathParser;
 
 namespace Cryptool.NLFSR
 {
@@ -82,6 +84,13 @@ namespace Cryptool.NLFSR
         {
             if (e.PropertyName == "InitNLFSR")
                 preprocessNLFSR();
+            if (e.PropertyName == "SaveCurrentState")
+            {
+                if (settings.SaveCurrentState)
+                    settings.CurrentState = seedbuffer;
+                else
+                    settings.CurrentState = null;
+            }
         }
 
         public ISettings Settings
@@ -214,7 +223,7 @@ namespace Cryptool.NLFSR
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Clocking Bit Output", "Clocking Bit Output.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Additional Output Bit", "Additional Output Bit.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool OutputClockingBit
         {
             get { return outputClockingBit; }
@@ -433,7 +442,7 @@ namespace Cryptool.NLFSR
 
             for (int i = strFSRValues.Length - 1; i >= 0; i--)
             {
-                replacement = "x^" + i;
+                replacement = "x" + i;
                 strExpression = strExpression.Replace(replacement, temp[i].ToString());
                 //GuiLogMessage("temp[i-1]: " + temp[i - 1].ToString(), NotificationLevel.Info);
             }
@@ -441,27 +450,27 @@ namespace Cryptool.NLFSR
 
             // replace AND, NAND, OR, NOR, XOR, NXOR with symbols
             // NAND => -
-            strExpression = strExpression.Replace("NAND", "-");
+            //strExpression = strExpression.Replace("NAND", "-");
             // AND => +
             strExpression = strExpression.Replace("AND", "+");
 
             // NOR => _
-            strExpression = strExpression.Replace("NOR", "_");
+            //strExpression = strExpression.Replace("NOR", "_");
 
             // NXOR => °
-            strExpression = strExpression.Replace("NXOR", "°");
+            //strExpression = strExpression.Replace("NXOR", "°");
             // XOR => *
             strExpression = strExpression.Replace("XOR", "*");
 
             // OR => |
-            strExpression = strExpression.Replace("OR", "|");
+            //strExpression = strExpression.Replace("OR", "|");
 
             // replace ^ and v with symbols
             // ^ => AND => +
-            strExpression = strExpression.Replace("^", "+");
+            //strExpression = strExpression.Replace("^", "+");
 
             // v => OR => |
-            strExpression = strExpression.Replace("v", "|");
+            //strExpression = strExpression.Replace("v", "|");
 
             //GuiLogMessage("strExpression w/o vars: " + strExpression, NotificationLevel.Info);
 
@@ -558,7 +567,9 @@ namespace Cryptool.NLFSR
                 tapSequencebuffer = settings.Polynomial;
 
             //read seed
-            if (settings.Seed == null || (settings.Seed != null && settings.Seed.Length == 0))
+            if (settings.CurrentState != null && settings.CurrentState.Length != 0)
+                seedbuffer = settings.CurrentState;
+            else if (settings.Seed == null || (settings.Seed != null && settings.Seed.Length == 0))
                 seedbuffer = inputSeed;
             else
                 seedbuffer = settings.Seed;
@@ -592,7 +603,7 @@ namespace Cryptool.NLFSR
                     return;
                 }
                 // create tapSequence for drawing NLFSR
-                string temp = "x^" + z;
+                string temp = "x" + z;
                 if (tapSequencebuffer.Contains(temp))
                 {
                     tapSequenceCharArray[((z - seedCharArray.Length) * -1) - 1] = '1';
@@ -735,7 +746,14 @@ namespace Cryptool.NLFSR
                         //GuiLogMessage("tapPolynomial is: " + tapPolynomial, NotificationLevel.Info);
 
                         bool resultBool = true;
-                        resultBool = EvaluateString(tapPolynomial);
+                        //resultBool = EvaluateString(tapPolynomial);
+                        MathParser.Parser p = new MathParser.Parser();
+                        if (p.Evaluate(tapPolynomial))
+                        {
+                            resultBool = Convert.ToBoolean(p.Result);
+                        }
+                        else
+                            GuiLogMessage("Parsing of function failed.", NotificationLevel.Error);
 
                         //GuiLogMessage("resultBool is: " + resultBool, NotificationLevel.Info);
                         if (resultBool) newBit = '1'; else newBit = '0';
@@ -894,6 +912,10 @@ namespace Cryptool.NLFSR
 
         public void PostExecution()
         {
+            if (settings.SaveCurrentState)
+                settings.CurrentState = seedbuffer;
+            else
+                settings.CurrentState = null;
             Dispose();
         }
 
