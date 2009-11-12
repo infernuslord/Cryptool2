@@ -135,7 +135,8 @@ namespace KeySearcher
                 {
                     patterns[0].wildcardList.Add(new Wildcard(wc));
                     Wildcard copy = new Wildcard(wc);
-                    copy.resetCounter();
+                    if (s)
+                        copy.resetCounter();
                     patterns[1].wildcardList.Add(copy);
                 }
             }
@@ -230,6 +231,8 @@ namespace KeySearcher
 
         public long size()
         {
+            if (wildcardList == null)
+                return 0;
             long counter = 1;
             foreach (Wildcard wc in wildcardList)
                     counter *= wc.size();
@@ -272,6 +275,7 @@ namespace KeySearcher
         private Queue valuequeue;
         private double value_threshold;
         private int maxThread;  //the thread with the most keys left
+        private Mutex maxThreadMutex = new Mutex();
 
         private KeyPattern pattern = null;
         public KeyPattern Pattern
@@ -330,75 +334,115 @@ namespace KeySearcher
         {
         }
 
+        private class ThreadStackElement
+        {
+            public AutoResetEvent ev;
+            public int threadid;
+        }
+
         private void KeySearcherJob(object param)
         {
             object[] parameters = (object[])param;
-            KeyPattern pattern = (KeyPattern)parameters[0];
+            KeyPattern[] patterns = (KeyPattern[])parameters[0];
             int threadid = (int)parameters[1];
             Int64[] doneKeysArray = (Int64[])parameters[2];
             Int64[] keycounterArray = (Int64[])parameters[3];
             Int64[] keysLeft = (Int64[])parameters[4];
-            IControlEncryption sender = (IControlEncryption)parameters[5];
+            IControlEncryption sender = (IControlEncryption)parameters[5];            
             int bytesToUse = (int)parameters[6];
+            Stack threadStack = (Stack)parameters[7];
+
+            KeyPattern pattern = patterns[threadid];
 
             try
             {
-                long size = pattern.size();
-                keysLeft[threadid] = size;
-
-                do
+                while (pattern != null)
                 {
-                    ValueKey valueKey = new ValueKey();
-                    try
-                    {
-                        valueKey.key = pattern.getKey();
-                    }
-                    catch (Exception ex)
-                    {
-                        GuiLogMessage("Could not get next Key: " + ex.Message, NotificationLevel.Error);
-                        return;
-                    }
+                    long size = pattern.size();
+                    keysLeft[threadid] = size;
 
-                    try
+                    do
                     {
-                        valueKey.decryption = sender.Decrypt(ControlMaster.getKeyFromString(valueKey.key), bytesToUse);
-                    }
-                    catch (Exception ex)
-                    {
-                        GuiLogMessage("Decryption is not possible: " + ex.Message, NotificationLevel.Error);
-                        GuiLogMessage("Stack Trace: " + ex.StackTrace, NotificationLevel.Error);
-                        return;
-                    }
+                        ValueKey valueKey = new ValueKey();
+                        try
+                        {
+                            valueKey.key = pattern.getKey();
+                        }
+                        catch (Exception ex)
+                        {
+                            GuiLogMessage("Could not get next Key: " + ex.Message, NotificationLevel.Error);
+                            return;
+                        }
 
-                    try
-                    {
-                        valueKey.value = CostMaster.calculateCost(valueKey.decryption);
-                    }
-                    catch (Exception ex)
-                    {
-                        GuiLogMessage("Cost calculation is not possible: " + ex.Message, NotificationLevel.Error);
-                        return;
-                    }
+                        try
+                        {
+                            valueKey.decryption = sender.Decrypt(ControlMaster.getKeyFromString(valueKey.key), bytesToUse);
+                        }
+                        catch (Exception ex)
+                        {
+                            GuiLogMessage("Decryption is not possible: " + ex.Message, NotificationLevel.Error);
+                            GuiLogMessage("Stack Trace: " + ex.StackTrace, NotificationLevel.Error);
+                            return;
+                        }
 
-                    if (this.costMaster.getRelationOperator() == RelationOperator.LargerThen)
-                    {
-                        if (valueKey.value > value_threshold)
-                            valuequeue.Enqueue(valueKey);
-                    }
-                    else
-                    {
-                        if (valueKey.value < value_threshold)
-                            valuequeue.Enqueue(valueKey);
-                    }
+                        try
+                        {
+                            valueKey.value = CostMaster.calculateCost(valueKey.decryption);
+                        }
+                        catch (Exception ex)
+                        {
+                            GuiLogMessage("Cost calculation is not possible: " + ex.Message, NotificationLevel.Error);
+                            return;
+                        }
 
-                    doneKeysArray[threadid]++;
-                    keycounterArray[threadid]++;
-                    keysLeft[threadid]--;
+                        if (this.costMaster.getRelationOperator() == RelationOperator.LargerThen)
+                        {
+                            if (valueKey.value > value_threshold)
+                                valuequeue.Enqueue(valueKey);
+                        }
+                        else
+                        {
+                            if (valueKey.value < value_threshold)
+                                valuequeue.Enqueue(valueKey);
+                        }
 
-                    //if (maxThread == threadid)
-                    
-                } while (pattern.nextKey() && !stop);
+                        doneKeysArray[threadid]++;
+                        keycounterArray[threadid]++;
+                        keysLeft[threadid]--;
 
+                        //if we are the thread with most keys left, we have to share them:
+                        if (maxThread == threadid && threadStack.Count != 0)
+                        {
+                            maxThreadMutex.WaitOne();
+                            if (maxThread == threadid && threadStack.Count != 0)
+                            {
+                                KeyPattern[] split = pattern.split();
+                                patterns[threadid] = split[0];
+                                pattern = split[0];
+                                ThreadStackElement elem = (ThreadStackElement)threadStack.Pop();
+                                patterns[elem.threadid] = split[1];
+                                elem.ev.Set();    //wake the other thread up
+                                maxThread = -1;
+                                size = pattern.size();
+                                keysLeft[threadid] = size;
+                            }
+                            maxThreadMutex.ReleaseMutex();
+                        }
+
+                    } while (pattern.nextKey() && !stop);
+
+                    //Let's wait until another thread is willing to share with us:
+                    pattern = null;
+                    ThreadStackElement el = new ThreadStackElement();
+                    el.ev = new AutoResetEvent(false);
+                    el.threadid = threadid;
+                    patterns[threadid] = null;
+                    threadStack.Push(el);
+                    GuiLogMessage("Thread waiting for new keys.", NotificationLevel.Debug);
+                    el.ev.WaitOne();
+                    GuiLogMessage("Thread waking up with new keys.", NotificationLevel.Debug);
+                    pattern = patterns[threadid];
+                }
             }
             finally
             {
@@ -447,44 +491,53 @@ namespace KeySearcher
 
                 LinkedListNode<ValueKey> linkedListNode;
 
-                KeyPattern[] patterns;
+                KeyPattern[] patterns = new KeyPattern[settings.CoresUsed+1];
                 long size = Pattern.initKeyIteration(settings.Key);
-
+                
                 if (settings.CoresUsed > 0)
-                    patterns = Pattern.split();
-                else
                 {
-                    patterns = new KeyPattern[1];
-                    patterns[0] = Pattern;
+                    KeyPattern[] patterns2 = Pattern.split();                    
+                    patterns[0] = patterns2[0];
+                    patterns[1] = patterns2[1];
+                    int p = 1;
+                    int threads = settings.CoresUsed - 1;
+                    while (threads > 0)
+                    {
+                        int maxPattern = -1;
+                        long max = 0;
+                        for (int i = 0; i <= p; i++)
+                            if (patterns[i].size() > max)
+                            {
+                                max = patterns[i].size();
+                                maxPattern = i;
+                            }
+                        KeyPattern[] patterns3 = patterns[maxPattern].split();
+                        patterns[maxPattern] = patterns3[0];
+                        patterns[++p] = patterns3[1];
+                        threads--;
+                    }
                 }
+                else
+                    patterns[0] = Pattern;
 
                 valuequeue = Queue.Synchronized(new Queue());
 
                 Int64[] doneKeysA = new Int64[patterns.Length];
                 Int64[] keycounters = new Int64[patterns.Length];
                 Int64[] keysleft = new Int64[patterns.Length];
+                Stack threadStack = Stack.Synchronized(new Stack());
                 for (int i = 0; i < patterns.Length; i++)
                 {
                     WaitCallback worker = new WaitCallback(KeySearcherJob);
                     doneKeysA[i] = new Int64();
                     keycounters[i] = new Int64();
-                    ThreadPool.QueueUserWorkItem(worker, new object[] { patterns[i], i, doneKeysA, keycounters, keysleft, sender.clone(), bytesToUse });
+                    ThreadPool.QueueUserWorkItem(worker, new object[] { patterns, i, doneKeysA, keycounters, keysleft, sender.clone(), bytesToUse, threadStack });
                 }
                 
                 //update message:
                 while (!stop)
                 {
                     Thread.Sleep(1000);
-
-                    long max = 0;
-                    int id = -1;
-                    for (int i = 0; i < patterns.Length; i++)
-                        if (keysleft[i] > max)
-                        {
-                            max = keysleft[i];
-                            id = i;
-                        }
-                    maxThread = id;
 
                     //update toplist:
                     while (valuequeue.Count != 0)
@@ -536,6 +589,25 @@ namespace KeySearcher
                         doneKeys += dk;
                     foreach (Int64 kc in keycounters)
                         keycounter += kc;
+
+                    if (keycounter > size)
+                        GuiLogMessage("There must be an error, because we bruteforced too much keys...", NotificationLevel.Error);
+
+                    //Let's determine which thread has the most keys to share:
+                    if (size - keycounter > 1000)
+                    {
+                        maxThreadMutex.WaitOne();
+                        long max = 0;
+                        int id = -1;
+                        for (int i = 0; i < patterns.Length; i++)
+                            if (keysleft[i] > max)
+                            {
+                                max = keysleft[i];
+                                id = i;
+                            }
+                        maxThread = id;
+                        maxThreadMutex.ReleaseMutex();
+                    }
 
                     ProgressChanged(keycounter, size);
 
@@ -625,12 +697,15 @@ namespace KeySearcher
 
                     if (keycounter >= size)
                         break;
-                }//end while  
+                }//end while
+
+                //wake up all sleeping threads:
+                while (threadStack.Count != 0)
+                    ((ThreadStackElement)threadStack.Pop()).ev.Set();
             }//end if
 
             if (!stop)
                 ProgressChanged(1, 1);
-  
         }
 
         public void PostExecution()
@@ -751,4 +826,3 @@ namespace KeySearcher
         };
     }
 }
-
