@@ -699,6 +699,9 @@ namespace Cryptool.CubeAttack
             List<List<int>> cubeList = new List<List<int>>();
             string outputCube = string.Empty;
 
+            if (countSuperpoly > 0)
+                OnPropertyChanged("OutputSuperpoly");
+
             // Save all public variables indexes in a list 
             for (int i = 0; i < settings.PublicVar; i++)
                 chooseIndexI.Add(i);
