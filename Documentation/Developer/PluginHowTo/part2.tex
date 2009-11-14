@@ -1,33 +1,42 @@
-\part{Create an Encryption/Hash-Plugin using Visual Studio 2008}
+\chapter{Plugin Implementation}
+In this chapter we provide step-by-step instructions for implementing your own CrypTool 2.0 plugin. The given instructions refer to the usage of MS Visual Studio 2008 Professional, hence before starting you should have installed your copy of MS Visual Studio 2008.
 
-\section{Create a new project in VS2008 for your plugin}\label{sec:CreateANewProjectInVS2008ForYourPlugin}
+
+
+\section{New project}
+\label{sec:CreateANewProjectInVS2008ForYourPlugin}
 Open Visual Studio 2008 and create a new project:
 
-
-
-Select "`.NET-Framework 3.5"` as the target framework (the Visual Studio Express edition don't provide this selection because it automatically chooses the actual target framework), and "`Class Library"` as default template to create a DLL file. Give the project a unique and significant name (here: "`Caesar"`), and choose a location where to save (the Express edition will ask later for a save location when you close your project or your environment).  Finally confirm by pressing the "`OK"` button.
-
-
-
+Select ''.NET-Framework 3.5'' as the target framework (the Visual Studio Express edition don't provide this selection because it automatically chooses the actual target framework), and ''Class Library'' as default template to create a DLL file. Give the project a unique and significant name (here: ''Caesar''), and choose a location where to save (the Express edition will ask later for a save location when you close your project or your environment).  Finally confirm by pressing the ''OK'' button.
 
 Now your Visual Studio solution should look like this:
 
 
-[IMAGE]
+\begin{figure}
+    %includegraphics...
+    \caption{Figure 1}\label{fig:figure1}
+\end{figure}
 
 
-\section{Select the interface, your plugin wants to serve}\label{sec:SelectTheInterfaceYourPluginWantsToServe}
-First we have to add a reference to the Cryptool library called "CrypPluginBase.dll" where all necessary Cryptool plugin interfaces are declared.
+\section{Interface selection}
+\label{sec:SelectTheInterfaceYourPluginWantsToServe}
+First we have to add a reference to the CrypTool library called "CrypPluginBase.dll" where all necessary CrypTool plugin interfaces are declared.
 
-[IMAGE]
+\begin{figure}
+    %includegraphics...
+    \caption{Figure 2}\label{fig:figure2}
+\end{figure}
 
-Make a right click in the Solution Explorer on the "Reference" item and choose "Add Reference".
+Make a right click in the Solution Explorer on the ''Reference'' item and choose ''Add Reference''.
 
-Now browse to the path where the library file is located (e.g. "C:$\backslash$Documents and Settings$\backslash$$\textless$Username$\textgreater$$\backslash$My Documents$\backslash$Visual Studio 2008$\backslash$Projects$\backslash$CrypPluginBase$\backslash$bin$\backslash$Debug") 
+Now browse to the path where the library file is located (e.g. ''C:\\Documents and Settings\\<Username>\\My Documents\\Visual Studio 2008\\Projects\\CrypPluginBase\\bin\\Debug'')
 
 and select the library by double clicking the file or pressing the "OK" button.
 
-[IMAGE]
+\begin{figure}
+    %includegraphics...
+    \caption{Figure 3}\label{fig:figure3}
+\end{figure}
 
 Besides the CrypPluginBase you need to add three assembly references to provide the necessary "Windows" namespace for your user control functions called "Presentation" and "QuickWatchPresentation". Select the following .NET components:
 
@@ -101,7 +110,7 @@ In this case we want to implement a Caesar algorithm which means we need to incl
 \hspace{20pt}-"Cryptool.PluginBase.Miscellaneous" to use the entire CrypTool event handler
 
 It is important to define a new default namespace of our public class ("Caesar"). In CrypTool the default namespace is presented by "Cryptool.[name of class]". Therefore our namespace has to be defined as follows: "Cryptool.Caesar".
- 
+
 Up to now the source code should look as you can see below:
 
 [IMAGE]
@@ -116,8 +125,8 @@ There is an underscore at the I in IEncryption statement. Move your mouse over i
 [IMAGE]
 
 Choose the item "Implement interface 'IEncryption'". Visual Studio will now place all available and needed interface members to interact with the CrypTool core (this saves you also a lot of typing code).
- 
-Your code will now look like this: 
+
+Your code will now look like this:
 
 [IMAGE]
 
@@ -130,7 +139,7 @@ Let's now take a look at the second class "CaesarSettings" by double clicking at
 
 \subsection{Add controls for the class CaesarSettings (if needed)}\label{sec:AddControlsForTheClassMD5SettingsIfNeeded}
 Now we have to implement some kind of controls (like button, text box) if we need them in the CrypTool \textbf{TaskPane} to modify settings of the algorithm.
- 
+
 \section{Select and add an image as icon for the class MD5}\label{sec:SelectAndAddAnImageAsIconForTheClassMD5}
 Before we go back to the code of the Caesar class, we have to add an icon image to our project, which will be shown in the CrypTool ribbon bar or/and navigation pane. As there is no default, using an icon image is mandatory.
 Note: This will be changed in future. A default icon will be used if no icon image has been provided.
@@ -184,10 +193,10 @@ The second attribute called "PluginInfo" provides the necessary information abou
 
 This attribute expects the following elements:
 
-\hspace{20pt}o\hspace{10pt}startable = 
+\hspace{20pt}o\hspace{10pt}startable =
 Set this flag to true only if your plugin is some kind of input or generator plugin (probably if your plugin just has outputs and no inputs). In all other cases use false here. This flag is important. Setting this flag to true for a non input/generator plugin will result in unpredictable chain runs. This element is mandatory.
 
-\hspace{20pt}o\hspace{10pt}caption = 
+\hspace{20pt}o\hspace{10pt}caption =
 from type string, the name of the plugin (e.g. to provide the button content). This element is mandatory.
 
 \hspace{20pt}o\hspace{10pt}toolTip = from type string, description of the plugin (e.g. to provide the button tool tip). This element is optional.
@@ -325,7 +334,7 @@ The output data property could look like this:
 
 [IMAGE]
 
-CrypTool does not require implementing output setters, as they will never be called from outside of the plugin. Nevertheless in this example our plugin accesses the property itself, therefore we chose to implement the setter. 
+CrypTool does not require implementing output setters, as they will never be called from outside of the plugin. Nevertheless in this example our plugin accesses the property itself, therefore we chose to implement the setter.
 
 You can also provide additional output data types if you like. For example we provide also an output data of type CryptoolStream:
 
@@ -409,11 +418,11 @@ Notice, that this plugin importing function only accepts signed plugins.
 
 This option is a temporary solution for importing new plugins. In the future this will be done online by a web service.
 
-\hspace{20pt}4. Use post-build in your project properties to copy the DLL automatically after building it in Visual Studio. Right-click on your plugin project and select "Properties": 
+\hspace{20pt}4. Use post-build in your project properties to copy the DLL automatically after building it in Visual Studio. Right-click on your plugin project and select "Properties":
 
 [IMAGE]
 
-Select "Build Events": 
+Select "Build Events":
 
 [IMAGE]
 
