@@ -1,21 +1,21 @@
-\part{Developer Guidelines}
+\chapter{Developer Guidelines}
 
-CrypTool 2.0 uses state-of-the-art technologies like .NET 3.5 and WPF. In order to make your first steps towards developing something in the context of this project a few things need to be considered. In order to not get stuck, please follow the instructions on this page. If you encouter a problem/error, which is not described here, please let us know, so we can add this information to this guide. 
+CrypTool 2.0 uses state-of-the-art technologies like .NET 3.5 and WPF. In order to make your first steps towards developing something in the context of this project a few things need to be considered. In order to not get stuck, please follow the instructions on this page. If you encouter a problem/error, which is not described here, please let us know, so we can add this information to this guide.
 
 In the following we describe all steps necessary in order to compile CrypTool 2.0 on your own. This is always the first thing you need to do before you go on developing own plugins and extensions. The basic steps are
 \begin{itemize}
-	\item Getting all pre-requisites and installing them 
-	\item Accessing and downloading the source code with SVN 
+	\item Getting all pre-requisites and installing them
+	\item Accessing and downloading the source code with SVN
 	\item Compiling the source-code for the first time
 \end{itemize}
 
 \section{Pre-requisites}
 
-Since CrypTool 2.0 is based on Microsoft .NET 3.5, you first need a Microsoft Windows environment. (Right now no plans exist for porting this project to mono and therefore other platforms.) We successfully tested with \textbf{Windows XP} and \textbf{Windows Vista}. 
+Since CrypTool 2.0 is based on Microsoft .NET 3.5, you first need a Microsoft Windows environment. (Right now no plans exist for porting this project to mono and therefore other platforms.) We successfully tested with \textbf{Windows XP} and \textbf{Windows Vista}.
 
-Since you're reading the developer guidlines, you probably want to develop something. Hence you need a developer environment. In order to compile our sources you need \textbf{Microsoft Visual Studio 2008 Professional}. Please make sure you always install the latest service packs for Visual Studio too. Unfortunately it does not work (smoothly) with the freely available Visual Studio Express (C\#) versions. This is due to the fact, that CrypWin uses a commercial component, and is therefore distributed only as binary. The C\# Express version unfortunately cannot handle a binary as a start project, hence debugging becomes cumbersome. 
+Since you're reading the developer guidlines, you probably want to develop something. Hence you need a developer environment. In order to compile our sources you need \textbf{Microsoft Visual Studio 2008 Professional}. Please make sure you always install the latest service packs for Visual Studio too. Unfortunately it does not work (smoothly) with the freely available Visual Studio Express (C\#) versions. This is due to the fact, that CrypWin uses a commercial component, and is therefore distributed only as binary. The C\# Express version unfortunately cannot handle a binary as a start project, hence debugging becomes cumbersome.
 
-Usually the installation of Visual Studio also installs the .NET framework. In order to run/compile our source code you need (at the time of this writing) at least \textbf{Microsoft .NET 3.5 with Service Pack 1 (SP1)}. You can get this freely from Microsofts \href{http://download.microsoft.com/download/2/0/e/20e90413-712f-438c-988e-fdaa79a8ac3d/dotnetfx35.exe}{webpage}. 
+Usually the installation of Visual Studio also installs the .NET framework. In order to run/compile our source code you need (at the time of this writing) at least \textbf{Microsoft .NET 3.5 with Service Pack 1 (SP1)}. You can get this freely from Microsofts \href{http://download.microsoft.com/download/2/0/e/20e90413-712f-438c-988e-fdaa79a8ac3d/dotnetfx35.exe}{webpage}.
 
 After the last step, your development environment should be ready for our source-code. Hence, now you need a way of accessing and downloading the entire sources. In the CrypTool 2.0 project we use SVN (subversion control) for version control, hence you need an \textbf{SVN client} of you're choice, e.g. \textbf{TortoiseSVN} or the \textbf{svn commandline from cygwin}. If you never worked with SVN before, we suggest to download and install \href{http://www.tortoisesvn.net/}{TortoiseSVN}, since it offers a nice windows explorer integration of SVN and any windows user should feel right away at home.
 
@@ -25,7 +25,7 @@ This section describes how to access our SVN and the basic settings you need.
 
 \subsection*{SVN URL}
 
-Our code repository is accessable under the following url: 
+Our code repository is accessable under the following url:
 
 \url{https://www.cryptool.org/svn/CrypTool2/}
 
@@ -33,9 +33,9 @@ If you are a guest and just want to download our source code you can use "anonym
 
 \subsection*{Accessing the SVN with TortoiseSVN}
 
-As already mentioned, in order to use the SVN repository one of the best options is \href{http://www.tortoisesvn.net/}{TortoiseSVN}. Please install TortoiseSVN (unfortunately it will ask you to reboot, which you need to do) and then create somewhere on your computer a directory (for instance "Cryptool2") for storing the local working files. Right click on this directory and select "SVN Checkout" from the context menu. In the new appearing window you must enter the URL of the repository as given above. The "Checkout directory" should be filled in correctly. After that, just hit ok, accept the certificate (if necessary) and enter your user credentials or "anonymous" for guests. Also mark the checkbox for saving your crendentials otherwise you will be asked about them for every single file. Then hit ok, and now the whole CrypTool2 repository should be checked out into the given directory. 
+As already mentioned, in order to use the SVN repository one of the best options is \href{http://www.tortoisesvn.net/}{TortoiseSVN}. Please install TortoiseSVN (unfortunately it will ask you to reboot, which you need to do) and then create somewhere on your computer a directory (for instance "Cryptool2") for storing the local working files. Right click on this directory and select "SVN Checkout" from the context menu. In the new appearing window you must enter the URL of the repository as given above. The "Checkout directory" should be filled in correctly. After that, just hit ok, accept the certificate (if necessary) and enter your user credentials or "anonymous" for guests. Also mark the checkbox for saving your crendentials otherwise you will be asked about them for every single file. Then hit ok, and now the whole CrypTool2 repository should be checked out into the given directory.
 
-Later on, if you just want to update (if there where changes in the repository) you can do this with right click on any directory within the working files and choose "SVN Update" from the context menu. If you changed a file you should choose "SVN Commit" from the context menu in order to upload your changes. Please always provide \textit{meaningfull descriptions} of your updates. 
+Later on, if you just want to update (if there where changes in the repository) you can do this with right click on any directory within the working files and choose "SVN Update" from the context menu. If you changed a file you should choose "SVN Commit" from the context menu in order to upload your changes. Please always provide \textit{meaningfull descriptions} of your updates.
 
 A TortoiseSVN Tutorial can be found \href{http://www.mind.ilstu.edu/research/robots/iris4/developers/svntutorial}{here}.
 
@@ -47,6 +47,6 @@ This basically means that you should never check-in compiled and user-generated 
 
 \section{Compiling the sources}
 
-At this point you should have checked out the entire CrypTool repository. Then compiling is pretty easy, you just go to the directory \textit{trunk/} and open the \textbf{CrypTool 2.0.sln} Visual Studio solution. Now Visual Studio should open with all working plugins and all components nicely arranged. In case you started Visual Studio now for the very first time, you must choose a certain settings -- just select either "most common" or "C\#" -- you can change this at any time later. In the right hand you get the project explorer, where you see all the subprojects included in the solution. You have to look for the project \textbf{CrypWin.exe} there. When you found it, you need to right-click it and select \textbf{"Set as startup-project"} from the context menu. After you have done this, just go to the menu \textit{Build} and select \textit{Build solution} (clearly you can also use the hotkeys if you memorized them). Then go to \textit{Debug} and click \textit{Start debugging} -- now CrypTool 2.0 should start for the first time with your own compiled code -- clearly you did not change yet anything, however, you have now an own build of all components (with the exception of CrypWin and AnotherEditor, since they are available only as binary). In case it does not compile or start, please consult our \href{https://www.cryptool.org/trac/CrypTool2/wiki/FAQ}{F.A.Q.} and let us know if you found a bug. 
+At this point you should have checked out the entire CrypTool repository. Then compiling is pretty easy, you just go to the directory \textit{trunk/} and open the \textbf{CrypTool 2.0.sln} Visual Studio solution. Now Visual Studio should open with all working plugins and all components nicely arranged. In case you started Visual Studio now for the very first time, you must choose a certain settings -- just select either "most common" or "C\#" -- you can change this at any time later. In the right hand you get the project explorer, where you see all the subprojects included in the solution. You have to look for the project \textbf{CrypWin.exe} there. When you found it, you need to right-click it and select \textbf{"Set as startup-project"} from the context menu. After you have done this, just go to the menu \textit{Build} and select \textit{Build solution} (clearly you can also use the hotkeys if you memorized them). Then go to \textit{Debug} and click \textit{Start debugging} -- now CrypTool 2.0 should start for the first time with your own compiled code -- clearly you did not change yet anything, however, you have now an own build of all components (with the exception of CrypWin and AnotherEditor, since they are available only as binary). In case it does not compile or start, please consult our \href{https://www.cryptool.org/trac/CrypTool2/wiki/FAQ}{F.A.Q.} and let us know if you found a bug.
 
 As a core-developer, hence somebody who can also compile CryWin and AnotherEditor, you should use the \textbf{CrypTool 2.0.sln} solution from the trunk/CoreDeveloper/ directory (this directory is \textbf{not} visible to you if you are not a core developer). As a core developer you should know, that when compiling you \textbf{change} the CryWin.exe which is visible to everybody else. Hence, when doing a checkin, please make sure you \textit{really} want to checkin a new binary.

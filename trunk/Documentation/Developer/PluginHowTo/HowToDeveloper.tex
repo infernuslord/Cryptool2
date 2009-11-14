@@ -1,27 +1,69 @@
-\documentclass[11pt, a4paper, parskip=half, version=last, final, notitlepage]{scrartcl}
+\documentclass[11pt, a4paper, titlepage]{scrbook}
 
 \usepackage[latin1]{inputenc}
 \usepackage[english]{babel}
 \usepackage{graphicx}
 \usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{setspace}
 \usepackage{fancyhdr}
-\pagestyle{headings}
-%
-%\pagestyle{fancy} %eigener Seitenstil
-%\fancyhf{} %alle Kopf- und Fuﬂzeilenfelder bereinigen
-%\fancyhead[L]{\middlemark} %Kopfzeile links
-%\fancyhead[C]{} %zentrierte Kopfzeile
-%\fancyhead[R]{Name} %Kopfzeile rechts
-%\renewcommand{\headrulewidth}{0.4pt} %obere Trennlinie
-%\fancyfoot[C]{\thepage} %Seitennummer
-%\renewcommand{\footrulewidth}{0.4pt} %untere Trennlinie
-
 \usepackage{url}
 \usepackage{wrapfig}
 \usepackage{color}
 \usepackage{colortbl}
+\usepackage{eso-pic}
 
-\usepackage[absolute]{textpos}
+%\usepackage[automark]{scrpage2}
+%\usepackage[absolute]{textpos}
+
+
+\geometry{a4paper, portrait, left=2cm, right=2cm, top=2cm, bottom=2cm, includefoot}
+
+%\pagestyle{headings}
+%\pagestyle{scrheadings}
+\pagestyle{fancy} %eigener Seitenstil
+\fancyhf{} %alle Kopf- und Fuﬂzeilenfelder bereinigen
+\fancyhead[L]{\leftmark} %Kopfzeile links
+\fancyhead[C]{\AddToShipoutPicture*{\BackgroundHeaderPic}} %zentrierte Kopfzeile
+\fancyhead[R]{\rightmark} %Kopfzeile rechts
+
+\fancyfoot[C]{\AddToShipoutPicture*{\BackgroundFooterPic}} %zentrierte Fuﬂzeile
+\fancyfoot[EL,OR]{\thepage} %Seitennummer
+\fancyfoot[ER,OL]{\includegraphics[height=0.5cm]{figures/ct2Logo.png}}
+
+\renewcommand{\headrulewidth}{2pt} %obere Trennlinie
+\renewcommand{\footrulewidth}{2pt} %untere Trennlinie
+
+\renewcommand{\headrule}{{\color{orange}\hrule width\headwidth height\headrulewidth \vskip-\headrulewidth}}
+\renewcommand{\footrule}{{\color{orange}\vskip-\footruleskip\vskip-\footrulewidth\hrule width\headwidth height\footrulewidth\vskip\footruleskip}}
+
+
+\makeatletter
+\newcommand\BackgroundHeaderPic{
+%\AddToShipoutPicture{%
+    \setlength{\@tempdimb}{1.9cm}%
+    \setlength{\@tempdimc}{28.4cm}%
+    \setlength{\unitlength}{1pt}%
+    \put(\strip@pt\@tempdimb,\strip@pt\@tempdimc){
+        \parbox[b][\headheight]{\headwidth}{%
+            \includegraphics[width=\headwidth, height=\headheight]{figures/ct2Header.png}%
+        }
+    }
+}
+
+\newcommand\BackgroundFooterPic{
+%\AddToShipoutPicture{%
+    \setlength{\@tempdimb}{1.9cm}%
+    \setlength{\@tempdimc}{1.8cm}%
+    \setlength{\unitlength}{1pt}%
+    \put(\strip@pt\@tempdimb,\strip@pt\@tempdimc){
+        \parbox[b][0.8cm]{\headwidth}{%
+            \includegraphics[width=\headwidth, height=0.8cm]{figures/ct2Footer.png}%
+        }
+    }
+}
+
+\makeatother
 
 % finetune the gaps between figure and text in the subfigure environment (basically close the gap as much as possible)
 %\renewcommand{\subfigtopskip}{0pt}
@@ -40,46 +82,51 @@
 % Do not forget to enter the correct title, author, subject und keywords
 
 % For screen viewing it is nice to have references marked in a slightly different
-% color than the rest of the text. Since they will be hyperlinks to the 
+% color than the rest of the text. Since they will be hyperlinks to the
 % referenced objects.
 \usepackage[pdftex,
-             pdftitle={},
+             pdftitle={\@title},
              colorlinks,
              linkcolor={mydarkgrey},
              citecolor={mygrey},
              urlcolor={blue},
              plainpages={false},
              bookmarksnumbered={true},
-             pdfauthor={},
-             pdfsubject={},
+             pdfauthor={\@author},
+             pdfsubject={\@subtitle},
              pdfkeywords={},
              pdfstartview={FitBH}]{hyperref}
-             
+
+\usepackage{pdfsync}
+
 % To avoid nasty mistakes like having comments directly in the textflow
 % the following \todo macro was defined. With that you can enter
-% \todo{What I still have to do here} 
-% inside of your text and a marker will appear at the page's margin with the 
+% \todo{What I still have to do here}
+% inside of your text and a marker will appear at the page's margin with the
 % text "What I still have to do here".
 % The first line activates this feature. If you comment it out and uncomment
 % the second line below there will be no error messages and no todos will be shown
 % anymore. So - even if you have forgotten to delete one of them - they will not appear
-% in the final printout. 
+% in the final printout.
 \newcommand{\todo}[1]{\marginpar{\textcolor{red}{ToDo:} #1}}
 
-%\usepackage[automark]{scrpage2}
-\usepackage{pdfsync}
-%\pagestyle{scrheadings}
-%\usepackage{fancyhdr}
+
+\input{frontpage}
+
 
 \title{CrypTool 2.0}
 \subtitle{Developer Manual}
-\author{Sebastian Przybylski \and Arno Wacker \and Matth‰us Wander \and Fabian Enkler}
+\author{S.\ Przybylski, A.\ Wacker, M\ Wander and F\ Enkler}
+\email{\{przybylski$|$wacker$|$wander$|$enkler\}@cryptool.org}
+\version{0.1}
+\date{\today}
 
+%\AtBeginDocument{\markboth{\@author}{\@title}} 
 \begin{document}
-	%\maketitle
-	\include{frontpage}
-	
+	\maketitle
+
 	\tableofcontents
+
 	\include{part1}
 	\include{part2}
 

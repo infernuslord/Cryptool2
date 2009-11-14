@@ -1,27 +1,49 @@
-% requires the following:
-% \usepackage[absolute]{textpos}
-\begin{titlepage}
-\vspace*{-1cm}
-\newlength{\links}
-\setlength{\links}{0.9cm}
-\setlength{\TPHorizModule}{1cm}
-\setlength{\TPVertModule}{1cm}
-\textblockorigin{0pt}{0pt}
+\makeatletter
+\def\maketitle{%
+    \null
+    \thispagestyle{empty}%
+    \vfill
+    
+    \begin{figure} [ht]
+	   \centering
+       \includegraphics[height=4cm]{figures/ct2Logo.png}
+    \end{figure}
+    
+    \vskip 2cm
+    
+    \begin{center}\leavevmode
+        \normalfont
+        {\Huge \@title\par}%
+        {\huge \@subtitle\par}%
+        \vskip 1cm
+        {\Large \@author\par}%
+        {\large\it \@email\par}%
+        \vskip 2cm
+        {\Large Version: \@version\par}%
+        {\Large \@date\par}%
+    \end{center}%
+    \vfill
+    \null
+    \cleardoublepage
+  }
 
-\sf
-\LARGE
+\def\date#1{\def\@date{#1}}
+\def\author#1{\def\@author{#1}}
+\def\title#1{\def\@title{#1}}
+\def\subtitle#1{\def\@subtitle{#1}}
+\def\version#1{\def\@version{#1}}
+\def\email#1{\def\@email{#1}}
 
-\begin{textblock}{14.5}(3.2,6.5)
-\Large [fancy logo] \\[3cm]  
-{ \bf CrypTool 2.0} \\[1cm]
-{\LARGE \bf DEVELOPER INFORMATION}\\[1.3cm]
 
-\normalsize Authors:\\
-\Large Sebastian Przybylski\\
-etc.\\
-
-\large \today\\
-Version 0.1
-\end{textblock}
-
-\end{titlepage}
+  
+% Default values
+\date{\today}
+\author{}
+\title{}
+\subtitle{Paris}
+\version{}
+\email{no email address}
+  
+  
+  
+\makeatother
