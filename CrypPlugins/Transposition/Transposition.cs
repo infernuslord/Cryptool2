@@ -20,13 +20,13 @@ namespace Transposition
         # region Private variables
 
         private String keyword = "";
-        private String input = "";
-        private String output = "";
+        private byte[] input;
+        private byte[] output;
         private TranspositionSettings settings;
         private TranspositionPresentation myPresentation;
 
-        private char[,] read_in_matrix;
-        private char[,] permuted_matrix;
+        private byte[,] read_in_matrix;
+        private byte[,] permuted_matrix;
         private int[] key;
         # endregion       
 
@@ -54,7 +54,7 @@ namespace Transposition
         /// <summary>
         /// Get read in matrix.
         /// </summary>
-        public char[,] Read_in_matrix
+        public byte[,] Read_in_matrix
         {
             get
             {
@@ -65,7 +65,7 @@ namespace Transposition
         /// <summary>
         /// Get permuted matrix.
         /// </summary>
-        public char[,] Permuted_matrix
+        public byte[,] Permuted_matrix
         {
             get
             {
@@ -88,7 +88,7 @@ namespace Transposition
         # region Properties
 
         [PropertyInfo(Direction.InputData, "Input", "input", "Text to be encrypted.", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public string Input
+        public Byte[] Input
         {
             get
             {
@@ -118,7 +118,7 @@ namespace Transposition
         }
 
         [PropertyInfo(Direction.OutputData, "Output", "output", "", DisplayLevel.Beginner)]
-        public string Output
+        public byte[] Output
         {
             get
             {
@@ -153,7 +153,7 @@ namespace Transposition
         public void Execute()
         {
             ProcessTransposition();
-            myPresentation.main(Read_in_matrix,Permuted_matrix,key,Keyword,Input,Output,this.settings.Permutation,this.settings.ReadIn,this.settings.ReadOut);
+            //myPresentation.main(Read_in_matrix,Permuted_matrix,key,Keyword,Input,Output,this.settings.Permutation,this.settings.ReadIn,this.settings.ReadOut);
             
         }
 
@@ -240,17 +240,17 @@ namespace Transposition
             catch (Exception)
             {
                 Transposition_LogMessage("Keyword is not valid", NotificationLevel.Error);
-                Output = "";
+                Output = null;
             }
         }
 
-        private String encrypt(String input, int[] key)
+        private byte[] encrypt(byte[] input, int[] key)
         {
             if (key != null && input != null && key.Length > 0)
             {
                 if (is_Valid_Keyword(key))
                 {
-                    String encrypted = "";
+                    byte[] encrypted = null;
 
                     if (((TranspositionSettings.PermutationMode)settings.Permutation).Equals(TranspositionSettings.PermutationMode.byRow))
                     {
@@ -307,23 +307,23 @@ namespace Transposition
                 else
                 {
                     Transposition_LogMessage("Keyword is not valid", NotificationLevel.Error);
-                    return "";
+                    return null;
                 }
             }
             else
             {
                 // 2do: Anzeige "Kein gültiges Keyword
-                return "";
+                return null;
             }
         }
 
-        private String decrypt(String input, int[] key)
+        private byte[] decrypt(byte[] input, int[] key)
         {
             if (key != null && input != null && key.Length > 0)
             {
                 if (is_Valid_Keyword(key))
                 {
-                    String decrypted = "";
+                    byte[] decrypted= null ;
                     if (((TranspositionSettings.PermutationMode)settings.Permutation).Equals(TranspositionSettings.PermutationMode.byRow))
                     {
                         switch ((TranspositionSettings.ReadOutMode)settings.ReadOut)
@@ -374,23 +374,22 @@ namespace Transposition
                                 break;
                         }
                     }
-
                     return decrypted;
                 }
                 else
                 {
                     Transposition_LogMessage("Keyword is not valid", NotificationLevel.Error);
-                    return "";
+                    return null;
                 }
             }
             else
             {
                 // 2do: Anzeige "Kein gültiges Keyword
-                return "";
+                return null;
             }
         }
 
-        private char[,] enc_read_in_by_row(String input, int keyword_length)
+        private byte[,] enc_read_in_by_row(byte[] input, int keyword_length)
         {
             int size = input.Length / keyword_length;
 
@@ -400,7 +399,7 @@ namespace Transposition
             }
 
             int pos = 0;
-            char[,] matrix = new char[keyword_length, size];
+            byte[,] matrix = new byte[keyword_length, size];
 
             for (int i = 0; i < size; i++)
             {
@@ -416,7 +415,7 @@ namespace Transposition
             return matrix;
         }
 
-        private char[,] enc_read_in_by_column(String input, int keyword_length)
+        private byte[,] enc_read_in_by_column(byte[] input, int keyword_length)
         {
             int size = input.Length / keyword_length;
             int offs = input.Length % keyword_length;
@@ -427,7 +426,7 @@ namespace Transposition
 
             int pos = 0;
 
-            char[,] matrix = new char[keyword_length, size];
+            byte[,] matrix = new byte[keyword_length, size];
             for (int i = 0; i < keyword_length; i++)
             {
                 for (int j = 0; j < size; j++)
@@ -446,7 +445,7 @@ namespace Transposition
             return matrix;
         }
 
-        private char[,] enc_read_in_by_row_if_row_perm(String input, int keyword_length)
+        private byte[,] enc_read_in_by_row_if_row_perm(byte[] input, int keyword_length)
         {
             int height = keyword_length;
             int length = input.Length / keyword_length;
@@ -456,7 +455,7 @@ namespace Transposition
                 length++;
             }
 
-            char[,] matrix = new char[length, height];
+            byte[,] matrix = new byte[length, height];
             int pos = 0;
 
             for (int i = 0; i < height; i++)
@@ -485,7 +484,7 @@ namespace Transposition
             return matrix;
         }
 
-        private char[,] enc_read_in_by_column_if_row_perm(String input, int keyword_length)
+        private byte[,] enc_read_in_by_column_if_row_perm(byte[] input, int keyword_length)
         {
             int height = keyword_length;
             int length = input.Length / keyword_length;
@@ -495,7 +494,7 @@ namespace Transposition
                 length++;
             }
 
-            char[,] matrix = new char[length, height];
+            byte[,] matrix = new byte[length, height];
             int pos = 0;
 
             for (int i = 0; i < length; i++)
@@ -512,7 +511,7 @@ namespace Transposition
             return matrix;
         }
 
-        private char[,] dec_read_in_by_column(String input, int[] keyword)
+        private byte[,] dec_read_in_by_column(byte[] input, int[] keyword)
         {
             int size = input.Length / keyword.Length;
             int offs = input.Length % keyword.Length;
@@ -521,7 +520,7 @@ namespace Transposition
                 size++;
             }
 
-            char[,] matrix = new char[keyword.Length, size];
+            byte[,] matrix = new byte[keyword.Length, size];
             int pos = 0;
 
             for (int i = 0; i < keyword.Length; i++)
@@ -560,7 +559,7 @@ namespace Transposition
             return matrix;
         }
 
-        private char[,] dec_read_in_by_column_if_row_perm(String input, int[] keyword)
+        private byte[,] dec_read_in_by_column_if_row_perm(byte[] input, int[] keyword)
         {
             int size = input.Length / keyword.Length;
             int offs = input.Length % keyword.Length;
@@ -569,7 +568,7 @@ namespace Transposition
                 size++;
             }
 
-            char[,] matrix = new char[size, keyword.Length];
+            byte[,] matrix = new byte[size, keyword.Length];
             int pos = 0;
 
             for (int i = 0; i < size; i++)
@@ -608,7 +607,7 @@ namespace Transposition
             return matrix;
         }
 
-        private char[,] dec_read_in_by_row(String input, int[] keyword)
+        private byte[,] dec_read_in_by_row(byte[] input, int[] keyword)
         {
             int size = input.Length / keyword.Length;
             int offs = input.Length % keyword.Length;
@@ -617,7 +616,7 @@ namespace Transposition
                 size++;
             }
 
-            char[,] matrix = new char[keyword.Length, size];
+            byte[,] matrix = new byte[keyword.Length, size];
             int pos = 0;
 
             for (int i = 0; i < size; i++)
@@ -656,7 +655,7 @@ namespace Transposition
             return matrix;
         }
 
-        private char[,] dec_read_in_by_row_if_row_perm(String input, int[] keyword)
+        private byte[,] dec_read_in_by_row_if_row_perm(byte[] input, int[] keyword)
         {
             int size = input.Length / keyword.Length;
             int offs = input.Length % keyword.Length;
@@ -665,7 +664,7 @@ namespace Transposition
                 size++;
             }
 
-            char[,] matrix = new char[size, keyword.Length];
+            byte[,] matrix = new byte[size, keyword.Length];
             int pos = 0;
 
             for (int i = 0; i < keyword.Length; i++)
@@ -704,11 +703,11 @@ namespace Transposition
             return matrix;
         }
 
-        private char[,] enc_permut_by_column(char[,] readin_matrix, int[] keyword)
+        private byte[,] enc_permut_by_column(byte[,] readin_matrix, int[] keyword)
         {
             int x = keyword.Length;
             int y = readin_matrix.Length / keyword.Length;
-            char[,] matrix = new char[x, y];
+            byte[,] matrix = new byte[x, y];
             int pos = 0;
 
             for (int i = 1; i <= keyword.Length; i++)
@@ -729,11 +728,11 @@ namespace Transposition
             return matrix;
         }
 
-        private char[,] enc_permute_by_row(char[,] readin_matrix, int[] keyword)
+        private byte[,] enc_permute_by_row(byte[,] readin_matrix, int[] keyword)
         {
             int y = keyword.Length;
             int x = readin_matrix.Length / keyword.Length;
-            char[,] matrix = new char[x, y];
+            byte[,] matrix = new byte[x, y];
             int pos = 0;
 
             for (int i = 1; i <= y; i++)
@@ -754,11 +753,11 @@ namespace Transposition
             return matrix;
         }
 
-        private char[,] dec_permut_by_column(char[,] readin_matrix, int[] keyword)
+        private byte[,] dec_permut_by_column(byte[,] readin_matrix, int[] keyword)
         {
             int x = keyword.Length;
             int y = readin_matrix.Length / keyword.Length;
-            char[,] matrix = new char[x, y];
+            byte[,] matrix = new byte[x, y];
 
             for (int i = 0; i < x; i++)
             {
@@ -770,11 +769,11 @@ namespace Transposition
             return matrix;
         }
 
-        private static char[,] dec_permut_by_row(char[,] readin_matrix, int[] keyword)
+        private byte[,] dec_permut_by_row(byte[,] readin_matrix, int[] keyword)
         {
             int x = keyword.Length;
             int y = readin_matrix.Length / keyword.Length;
-            char[,] matrix = new char[y, x];
+            byte[,] matrix = new byte[y, x];
 
             for (int i = 0; i < x; i++)
             {
@@ -786,84 +785,146 @@ namespace Transposition
             return matrix;
         }
 
-        private String read_out_by_row(char[,] matrix, int keyword_length)
+        private byte[] read_out_by_row(byte[,] matrix, int keyword_length)
         {
             int x = keyword_length;
             int y = matrix.Length / keyword_length;
-            String enc = "";
-            char empty_char = new char();
+            byte empty_byte = new byte();
+            int count_empty = 0;
+                        
+            for(int i=0; i<y; i++)
+            {
+                for(int j=0; j<x; j++)
+                {
+                    byte tmp = matrix[j, i];
+                    if (tmp.Equals(empty_byte))
+                    {
+                        count_empty++;
+                    }
+                }
+            }
+            byte[] enc = new byte[matrix.Length-count_empty];
+
+            int pos = 0;
+            for (int i = 0; i < y; i++)
+            {
+                for (int j = 0; j < x; j++)
+                {
+                    byte tmp = matrix[j, i];
+                    if (!tmp.Equals(empty_byte))
+                    {
+                        enc[pos] = tmp;
+                        pos++;
+                    }
+                }
+            }
+            return enc;
+        }
+
+        private byte[] read_out_by_row_if_row_perm(byte[,] matrix, int keyword_length)
+        {
+            int y = keyword_length;
+            int x = matrix.Length / keyword_length;
+            
+            byte empty_byte = new byte();
+            int empty_count = 0;
+            for (int i = 0; i < y; i++)
+            {
+                for (int j = 0; j < x; j++)
+                {
+                    byte tmp = matrix[j, i];
+                    if (tmp.Equals(empty_byte))
+                    {
+                        empty_count++;
+                    }
+                }
+            }
+
+            byte[] enc = new byte[matrix.Length - empty_count];
+            int pos = 0;
 
             for (int i = 0; i < y; i++)
             {
                 for (int j = 0; j < x; j++)
                 {
-                    char tmp = matrix[j, i];
-                    if (!tmp.Equals(empty_char))
+                    byte tmp = matrix[j, i];
+                    if (!tmp.Equals(empty_byte))
                     {
-                        enc += tmp;
+                        enc[pos] = tmp;
+                        pos++;
                     }
                 }
             }
             return enc;
         }
 
-        private String read_out_by_row_if_row_perm(char[,] matrix, int keyword_length)
-        {
-            int y = keyword_length;
-            int x = matrix.Length / keyword_length;
-            String enc = "";
-            char empty_char = new char();
-
-            for (int i = 0; i < y; i++)
-            {
-                for (int j = 0; j < x; j++)
-                {
-                    char tmp = matrix[j, i];
-                    if (!tmp.Equals(empty_char))
-                    {
-                        enc += tmp;
-                    }
-                }
-            }
-            return enc;
-        }
-
-        private String read_out_by_column(char[,] matrix, int keyword_length)
+        private byte[] read_out_by_column(byte[,] matrix, int keyword_length)
         {
             int x = keyword_length;
             int y = matrix.Length / keyword_length;
-            String enc = "";
-            char empty_char = new char();
+            
+            byte empty_byte = new byte();
+            int empty_count = 0;
 
             for (int i = 0; i < x; i++)
             {
                 for (int j = 0; j < y; j++)
                 {
-                    char tmp = matrix[i, j];
-                    if (!tmp.Equals(empty_char))
+                    byte tmp = matrix[i, j];
+                    if (tmp.Equals(empty_byte))
                     {
-                        enc += tmp;
+                        empty_count++;
+                    }
+                }
+            }
+
+            byte[] enc = new byte[matrix.Length - empty_count];
+            int pos =0;
+            for (int i = 0; i < x; i++)
+            {
+                for (int j = 0; j < y; j++)
+                {
+                    byte tmp = matrix[i, j];
+                    if (!tmp.Equals(empty_byte) || tmp.Equals(null))
+                    {
+                        enc[pos] = tmp;
+                        pos++;  
                     }
                 }
             }
             return enc;
         }
 
-        private String read_out_by_column_if_row_perm(char[,] matrix, int keyword_length)
+        private byte[] read_out_by_column_if_row_perm(byte[,] matrix, int keyword_length)
         {
             int y = keyword_length;
             int x = matrix.Length / keyword_length;
-            String enc = "";
-            char empty_char = new char();
-
+            
+            byte empty_byte = new byte();
+            int empty_count = 0;
             for (int i = 0; i < x; i++)
             {
                 for (int j = 0; j < y; j++)
                 {
-                    char tmp = matrix[i, j];
-                    if (!tmp.Equals(empty_char))
+                    byte tmp = matrix[i, j];
+                    if (tmp.Equals(empty_byte))
                     {
-                        enc += tmp;
+                        empty_count++;
+                    }
+                }
+            }
+
+            byte[] enc = new byte[matrix.Length - empty_count];
+            int pos = 0;
+            for (int i = 0; i < x; i++)
+            {
+                for (int j = 0; j < y; j++)
+                {
+                    byte tmp = matrix[i, j];
+                    if (!tmp.Equals(empty_byte))
+                    {
+                        enc[pos] = tmp;
+                        pos++;
                     }
                 }
             }
