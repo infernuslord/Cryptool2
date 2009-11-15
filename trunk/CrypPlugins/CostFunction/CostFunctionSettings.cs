@@ -32,7 +32,7 @@ namespace Cryptool.Plugins.CostFunction
         private String bytesToUse = "256";
         #endregion
         
-        [TaskPane("FunctionType", "Select the type of function", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Index of coincidence", "Entropy" })]
+        [TaskPane("FunctionType", "Select the type of function", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Index of coincidence", "Entropy", "Bigrams: log 2", "Bigrams: Sinkov", "Bigrams: Percentaged" })]
         public int FunctionType
         {
             get { return this.functionType; }
