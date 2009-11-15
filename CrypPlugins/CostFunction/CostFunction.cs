@@ -24,7 +24,7 @@ using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.PluginBase.Analysis;
 using System.ComponentModel;
 using Cryptool.PluginBase.Control;
-
+using System.IO;
 namespace Cryptool.Plugins.CostFunction
 {
     [Author("Nils Kopal", "Nils.Kopal@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
@@ -38,9 +38,20 @@ namespace Cryptool.Plugins.CostFunction
         private double value = 0;
         private Boolean stopped = true;
         private IControlCost controlSlave;
-        #endregion
+        private String bigramInput;
+               
 
-        #region CostFunctionInOut        
+
+        private IDictionary<int, IDictionary<string, double[]>> statistics;
+     
+        #endregion
+        #region internal constants
+        internal const int ABSOLUTE = 0;
+        internal const int PERCENTAGED = 1;
+        internal const int LOG2 = 2;
+        internal const int SINKOV = 3;
+        #endregion
+        #region CostFunctionInOut
 
         [PropertyInfo(Direction.InputData, "Text Input", "Input your Text here", "", DisplayLevel.Beginner)]
         public byte[] InputText
@@ -70,7 +81,7 @@ namespace Cryptool.Plugins.CostFunction
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Value", "The value of the function wull be send here", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Value", "The value of the function will be send here", "", DisplayLevel.Beginner)]
         public double Value
         {
             get
@@ -161,7 +172,7 @@ namespace Cryptool.Plugins.CostFunction
                 }
 
                 ProgressChanged(0.5, 1); 
-
+                bigramInput = ByteArrayToString(array);
                 switch (settings.FunctionType)
                 {
 
@@ -173,6 +184,16 @@ namespace Cryptool.Plugins.CostFunction
                         this.Value = calculateEntropy(array);
                         break;
 
+                    case 2: // Log 2 Bigrams
+                        this.Value = calculateNGrams(bigramInput,2,2);
+                        break;
+
+                    case 3: // sinkov Bigrams
+                        this.Value = calculateNGrams(bigramInput,2,3);
+                        break;
+                    case 4: //percentaged Bigrams
+                        this.Value = calculateNGrams(bigramInput,2,1);
+                        break;
                     default:
                         this.Value = -1;
                         break;
@@ -303,6 +324,110 @@ namespace Cryptool.Plugins.CostFunction
 
         }//end calculateEntropy
 
+
+        /// <summary>
+        /// This method calculates a trigram log2 score of a given text on the basis of a given grams dictionary.
+        /// Case is insensitive.
+        /// </summary>
+        /// <param name="input">The text to be scored</param>
+        /// <param name="length">n-gram length</param>
+        /// <returns>The trigram score result</returns>
+        public double calculateNGrams(string input, int length, int valueSelection)
+        {
+            this.statistics = new Dictionary<int, IDictionary<string, double[]>>();
+            double score = 0;
+            IDictionary<string, double[]> corpusGrams = GetStatistics(length);
+
+            // FIXME: case handling?
+
+            HashSet<string> inputGrams = new HashSet<string>();
+
+            foreach (string g in GramTokenizer.tokenize(input, length, false))
+            {
+                // ensure each n-gram is counted only once
+                if (inputGrams.Add(g))
+                {
+                    if (corpusGrams.ContainsKey(g))
+                    {
+                        score += corpusGrams[g][valueSelection];
+                        GuiLogMessage(input, NotificationLevel.Info);
+            
+                    }
+                }
+            }
+            return score;
+        }
+        public IDictionary<string, double[]> GetStatistics(int gramLength)
+        {
+            // FIXME: inputTriGrams is not being used!
+
+            // FIXME: implement exception handling
+            if (!statistics.ContainsKey(gramLength))
+            {
+                GuiLogMessage("Trying to load default statistics for " + gramLength + "-grams", NotificationLevel.Info);
+                statistics[gramLength] = LoadDefaultStatistics(gramLength);                
+            }
+
+            return statistics[gramLength];
+        }
+
+
+        private IDictionary<string, double[]> LoadDefaultStatistics(int length)
+        {
+            Dictionary<string, double[]> grams = new Dictionary<string, double[]>();
+
+            StreamReader reader = new StreamReader(Path.Combine(PluginResource.directoryPath, GetStatisticsFilename(length)));
+
+            string line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                if (line.StartsWith("#"))
+                    continue;
+
+                string[] tokens = WordTokenizer.tokenize(line).ToArray();
+                if (tokens.Length == 0)
+                    continue;
+                //Debug.Assert(tokens.Length == 2, "Expected 2 tokens, found " + tokens.Length + " on one line");
+
+                grams.Add(tokens[0], new double[] { Double.Parse(tokens[1]), 0, 0, 0 });
+            }
+
+            double sum = grams.Values.Sum(item => item[ABSOLUTE]);
+            GuiLogMessage("Sum of all n-gram counts is: " + sum, NotificationLevel.Debug);
+
+            // calculate scaled values
+            foreach (double[] g in grams.Values)
+            {
+                g[PERCENTAGED] = g[ABSOLUTE] / sum;
+                g[LOG2] = Math.Log(g[ABSOLUTE], 2);
+                g[SINKOV] = Math.Log(g[PERCENTAGED], Math.E);
+            }
+
+            return grams;
+        }
+
+        /// <summary>
+        /// Get file name for default n-gram frequencies.
+        /// </summary>
+        /// <param name="length"></param>
+        /// <exception cref="NotSupportedException">No default n-gram frequencies available</exception>
+        /// <returns></returns>
+        private string GetStatisticsFilename(int length)
+        {
+            if (length < 1)
+            {
+                throw new ArgumentOutOfRangeException("There is no known default statistic for an n-gram length of " + length);
+            }
+
+            return "Enigma_" + length + "gram_Frequency.txt";
+        }
+        public string ByteArrayToString(byte[] arr)
+        {
+            System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+            return enc.GetString(arr);
+        }
+
+
         #endregion
 
       
@@ -352,6 +477,8 @@ namespace Cryptool.Plugins.CostFunction
                     return RelationOperator.LargerThen;
                 case 1: //Entropy
                     return RelationOperator.LessThen;
+                case 2: // Bigrams: log 2
+                    return RelationOperator.LargerThen;
                 default:
                     throw new NotImplementedException("The value " + ((CostFunctionSettings)this.plugin.Settings).FunctionType + " is not implemented.");
             }//end switch
@@ -404,6 +531,12 @@ namespace Cryptool.Plugins.CostFunction
                     return plugin.calculateIndexOfCoincidence(array);
                 case 1: //Entropy
                     return plugin.calculateEntropy(array);
+                case 2: // Bigrams: log 2
+                    return plugin.calculateNGrams(plugin.ByteArrayToString(array), 2, 2);
+                case 3: // Bigrams: Sinkov
+                    return plugin.calculateNGrams(plugin.ByteArrayToString(array), 2, 3);
+                case 4: // Bigrams: Percentaged
+                    return plugin.calculateNGrams(plugin.ByteArrayToString(array), 2, 1);
                 default:
                     throw new NotImplementedException("The value " + ((CostFunctionSettings)this.plugin.Settings).FunctionType + " is not implemented.");
             }//end switch
@@ -413,3 +546,4 @@ namespace Cryptool.Plugins.CostFunction
     }
     
 }
+
