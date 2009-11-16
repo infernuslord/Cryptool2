@@ -273,12 +273,33 @@ namespace Cryptool.Plugins.CostFunction
         /// <returns>Index of Coincidence</returns>
         public double calculateIndexOfCoincidence(byte[] text)
         {
+            return calculateIndexOfCoincidence(text, text.Length);
+        }
+
+        /// <summary>
+        /// Calculates the Index of Coincidence multiplied with 100 of
+        /// a given byte array
+        /// 
+        /// for example a German text has about 7.62
+        ///           an English text has about 6.61
+        /// </summary>
+        /// <param name="text">text to use</param>
+        /// <param name="text">bytesToUse</param>
+        /// <returns>Index of Coincidence</returns>
+        public double calculateIndexOfCoincidence(byte[] text, int bytesToUse)
+        {
+            if (bytesToUse > text.Length)
+                bytesToUse = text.Length;
 
             double[] n = new double[256];
             //count all ASCII symbols 
+            int counter = 0;
             foreach (byte b in text)
             {
                     n[b]++;
+                    counter++;
+                    if (counter == bytesToUse)
+                        break;
             }
 
             double coindex = 0;
@@ -288,8 +309,8 @@ namespace Cryptool.Plugins.CostFunction
                 coindex = coindex + n[i] * (n[i] - 1);                
             }
 
-            coindex = coindex / (text.Length);
-            coindex = coindex / (text.Length - 1);
+            coindex = coindex / (bytesToUse);
+            coindex = coindex / (bytesToUse - 1);
 
             return coindex * 100;
 
@@ -303,19 +324,36 @@ namespace Cryptool.Plugins.CostFunction
         /// <returns>Entropy</returns>
         public double calculateEntropy(byte[] text)
         {
+            return calculateEntropy(text, text.Length);
+        }
+
+        /// <summary>
+        /// Calculates the Entropy of a given byte array 
+        /// for example a German text has about 4.0629
+        /// </summary>
+        /// <param name="text">text to use</param>
+        /// <returns>Entropy</returns>
+        public double calculateEntropy(byte[] text, int bytesToUse)
+        {
+            if (bytesToUse > text.Length)
+                bytesToUse = text.Length;
 
             double[] n = new double[256];
             //count all ASCII symbols 
+            int counter = 0;
             foreach (byte b in text)
             {
                     n[b]++;
+                    counter++;
+                    if (counter == bytesToUse)
+                        break;
             }
 
             double entropy = 0;
             //calculate probabilities and sum entropy
             for (int i = 0; i < n.Length; i++)
             {
-                double pz = n[i] / text.Length; //probability of character n[i]
+                double pz = n[i] / bytesToUse; //probability of character n[i]
                 if (pz > 0)
                     entropy = entropy + pz * Math.Log(pz, 2);
             }
@@ -505,38 +543,19 @@ namespace Cryptool.Plugins.CostFunction
             {
                 throw new Exception("Entered bytesToUse is not an integer: " + ex.Message);
             }
-            
-            if (bytesToUse > text.Length)
-                bytesToUse = 0;
-
-            byte[] array;
-
-            if (bytesToUse > 0)
-            {
-                //Create a new Array of size of bytesToUse if needed
-                array = new byte[bytesToUse];
-                for (int i = 0; i < bytesToUse && i < text.Length; i++)
-                {
-                    array[i] = text[i];
-                }
-            }
-            else
-            {
-                array = text;
-            }
 
             switch (((CostFunctionSettings)this.plugin.Settings).FunctionType)
             {
                 case 0: //Index of coincidence 
-                    return plugin.calculateIndexOfCoincidence(array);
+                    return plugin.calculateIndexOfCoincidence(text, bytesToUse);
                 case 1: //Entropy
-                    return plugin.calculateEntropy(array);
+                    return plugin.calculateEntropy(text, bytesToUse);
                 case 2: // Bigrams: log 2
-                    return plugin.calculateNGrams(plugin.ByteArrayToString(array), 2, 2);
+                    return plugin.calculateNGrams(plugin.ByteArrayToString(text), 2, 2);
                 case 3: // Bigrams: Sinkov
-                    return plugin.calculateNGrams(plugin.ByteArrayToString(array), 2, 3);
+                    return plugin.calculateNGrams(plugin.ByteArrayToString(text), 2, 3);
                 case 4: // Bigrams: Percentaged
-                    return plugin.calculateNGrams(plugin.ByteArrayToString(array), 2, 1);
+                    return plugin.calculateNGrams(plugin.ByteArrayToString(text), 2, 1);
                 default:
                     throw new NotImplementedException("The value " + ((CostFunctionSettings)this.plugin.Settings).FunctionType + " is not implemented.");
             }//end switch
