@@ -611,7 +611,7 @@ namespace KeySearcher
 
                     ProgressChanged(keycounter, size);
 
-                    if (QuickWatchPresentation.IsVisible && doneKeys != 0)
+                    if (QuickWatchPresentation.IsVisible && doneKeys != 0 && !stop)
                     {
                         double time = ((size - keycounter) / doneKeys);
                         TimeSpan timeleft = new TimeSpan(-1);
