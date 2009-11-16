@@ -8,7 +8,7 @@
     <ProjectGuid>{1016AB2A-57D7-4624-890E-94DA13FB79EF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cryptool.MD5.Test</RootNamespace>
+    <RootNamespace>Test.Cryptool.MD5</RootNamespace>
     <AssemblyName>MD5Test</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
