@@ -1,4 +1,4 @@
-\documentclass[11pt, a4paper, titlepage]{scrbook}
+\documentclass[11pt, a4paper, titlepage]{scrreprt}
 
 \usepackage[latin1]{inputenc}
 \usepackage[english]{babel}
@@ -17,7 +17,9 @@
 %\usepackage[absolute]{textpos}
 
 
+
 \geometry{a4paper, portrait, left=2cm, right=2cm, top=2cm, bottom=2cm, includefoot}
+
 
 %\pagestyle{headings}
 %\pagestyle{scrheadings}
@@ -27,12 +29,18 @@
 \fancyhead[C]{\AddToShipoutPicture*{\BackgroundHeaderPic}} %zentrierte Kopfzeile
 \fancyhead[R]{\rightmark} %Kopfzeile rechts
 
-\fancyfoot[C]{\AddToShipoutPicture*{\BackgroundFooterPic}} %zentrierte Fuﬂzeile
-\fancyfoot[EL,OR]{\thepage} %Seitennummer
-\fancyfoot[ER,OL]{\includegraphics[height=0.5cm]{figures/ct2Logo.png}}
+\fancyfoot[C]{\thepage\AddToShipoutPicture*{\BackgroundFooterPic}} %zentrierte Fuﬂzeile
+%\fancyfoot[EL,OR]{\thepage} %Seitennummer
+%\fancyfoot[ER,OL]{\includegraphics[height=0.3cm]{figures/ct_logo}}
 
 \renewcommand{\headrulewidth}{2pt} %obere Trennlinie
 \renewcommand{\footrulewidth}{2pt} %untere Trennlinie
+
+\newlength{\headbgwidth}
+\setlength{\headbgwidth}{\headwidth}
+\addtolength{\headbgwidth}{0.5mm}
+%\addtolength{\headwidth}{\marginparwidth}
+
 
 \renewcommand{\headrule}{{\color{orange}\hrule width\headwidth height\headrulewidth \vskip-\headrulewidth}}
 \renewcommand{\footrule}{{\color{orange}\vskip-\footruleskip\vskip-\footrulewidth\hrule width\headwidth height\footrulewidth\vskip\footruleskip}}
@@ -41,28 +49,32 @@
 \makeatletter
 \newcommand\BackgroundHeaderPic{
 %\AddToShipoutPicture{%
-    \setlength{\@tempdimb}{1.9cm}%
+    \setlength{\@tempdimb}{1.85cm}%
     \setlength{\@tempdimc}{28.4cm}%
     \setlength{\unitlength}{1pt}%
     \put(\strip@pt\@tempdimb,\strip@pt\@tempdimc){
-        \parbox[b][\headheight]{\headwidth}{%
-            \includegraphics[width=\headwidth, height=\headheight]{figures/ct2Header.png}%
-        }
+        \includegraphics[width=\headbgwidth, height=\headheight]{figures/ct2Header.png}%
     }
 }
 
 \newcommand\BackgroundFooterPic{
 %\AddToShipoutPicture{%
-    \setlength{\@tempdimb}{1.9cm}%
+    \setlength{\@tempdimb}{1.85cm}%
     \setlength{\@tempdimc}{1.8cm}%
     \setlength{\unitlength}{1pt}%
     \put(\strip@pt\@tempdimb,\strip@pt\@tempdimc){
-        \parbox[b][0.8cm]{\headwidth}{%
-            \includegraphics[width=\headwidth, height=0.8cm]{figures/ct2Footer.png}%
-        }
+        \includegraphics[width=\headbgwidth, height=0.7cm]{figures/ct2Footer.png}%
     }
 }
 
+\newcommand\WaterMarkPic{%
+    \setlength{\@tempdimb}{1.85cm}%
+    \setlength{\@tempdimc}{2.7cm}%
+    \setlength{\unitlength}{1pt}%
+    \put(\strip@pt\@tempdimb,\strip@pt\@tempdimc){
+            \includegraphics[width=0.7\textwidth]{figures/ct_logo}%
+    }
+}
 \makeatother
 
 % finetune the gaps between figure and text in the subfigure environment (basically close the gap as much as possible)
@@ -126,6 +138,14 @@
 	\maketitle
 
 	\tableofcontents
+
+    
+    \AddToShipoutPicture{\WaterMarkPic}
+
+
+    \begin{abstract}
+    \textbf{Abstract.} This document is intended for plugin developers.
+    \end{abstract}
 
 	\include{part1}
 	\include{part2}
