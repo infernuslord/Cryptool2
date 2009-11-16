@@ -375,7 +375,7 @@ namespace Cryptool.Plugins.CostFunction
             this.statistics = new Dictionary<int, IDictionary<string, double[]>>();
             double score = 0;
             IDictionary<string, double[]> corpusGrams = GetStatistics(length);
-
+            input = input.ToUpper();
             // FIXME: case handling?
 
             HashSet<string> inputGrams = new HashSet<string>();
@@ -388,7 +388,6 @@ namespace Cryptool.Plugins.CostFunction
                     if (corpusGrams.ContainsKey(g))
                     {
                         score += corpusGrams[g][valueSelection];
-                        GuiLogMessage(input, NotificationLevel.Info);
             
                     }
                 }
