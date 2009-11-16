@@ -38,7 +38,7 @@
 
 \newlength{\headbgwidth}
 \setlength{\headbgwidth}{\headwidth}
-\addtolength{\headbgwidth}{0.5mm}
+%\addtolength{\headbgwidth}{0.3mm}
 %\addtolength{\headwidth}{\marginparwidth}
 
 
@@ -49,21 +49,21 @@
 \makeatletter
 \newcommand\BackgroundHeaderPic{
 %\AddToShipoutPicture{%
-    \setlength{\@tempdimb}{1.85cm}%
+    \setlength{\@tempdimb}{1.87cm}%
     \setlength{\@tempdimc}{28.4cm}%
     \setlength{\unitlength}{1pt}%
     \put(\strip@pt\@tempdimb,\strip@pt\@tempdimc){
-        \includegraphics[width=\headbgwidth, height=\headheight]{figures/ct2Header.png}%
+        \includegraphics[width=\headbgwidth, height=\headheight]{figures/ct_page_header}%
     }
 }
 
 \newcommand\BackgroundFooterPic{
 %\AddToShipoutPicture{%
-    \setlength{\@tempdimb}{1.85cm}%
+    \setlength{\@tempdimb}{1.87cm}%
     \setlength{\@tempdimc}{1.8cm}%
     \setlength{\unitlength}{1pt}%
     \put(\strip@pt\@tempdimb,\strip@pt\@tempdimc){
-        \includegraphics[width=\headbgwidth, height=0.7cm]{figures/ct2Footer.png}%
+        \includegraphics[width=\headbgwidth, height=0.7cm]{figures/ct_page_footer_pure}%
     }
 }
 
@@ -72,7 +72,7 @@
     \setlength{\@tempdimc}{2.7cm}%
     \setlength{\unitlength}{1pt}%
     \put(\strip@pt\@tempdimb,\strip@pt\@tempdimc){
-            \includegraphics[width=0.7\textwidth]{figures/ct_logo}%
+            \includegraphics[width=0.6\textwidth]{figures/ct_logo_watermark}%
     }
 }
 \makeatother
@@ -90,6 +90,17 @@
 \definecolor{lightgreen}{rgb}{0.3,0.95,0.46}
 \definecolor{titleblue}{rgb}{0.03,0.10,0.46}
 
+
+\input{frontpage}
+
+
+\title{CrypTool 2.0}
+\subtitle{Developer Manual}
+\author{S.\ Przybylski, A.\ Wacker, M\ Wander and F\ Enkler}
+\email{\{przybylski$|$wacker$|$wander$|$enkler\}@cryptool.org}
+\version{0.1}
+\date{\today}
+
 % Metadata and configuration of the pdf output:
 % Do not forget to enter the correct title, author, subject und keywords
 
@@ -104,12 +115,13 @@
              urlcolor={blue},
              plainpages={false},
              bookmarksnumbered={true},
+             bookmarksopenlevel={3},
              pdfauthor={\@author},
              pdfsubject={\@subtitle},
-             pdfkeywords={},
-             pdfstartview={FitBH}]{hyperref}
+             pdfkeywords={CrypTool,Cryptography,eLearning,Cryptanalysis},
+             pdfstartview={Fit}]{hyperref}
 
-\usepackage{pdfsync}
+%\usepackage{pdfsync}
 
 % To avoid nasty mistakes like having comments directly in the textflow
 % the following \todo macro was defined. With that you can enter
@@ -123,15 +135,6 @@
 \newcommand{\todo}[1]{\marginpar{\textcolor{red}{ToDo:} #1}}
 
 
-\input{frontpage}
-
-
-\title{CrypTool 2.0}
-\subtitle{Developer Manual}
-\author{S.\ Przybylski, A.\ Wacker, M\ Wander and F\ Enkler}
-\email{\{przybylski$|$wacker$|$wander$|$enkler\}@cryptool.org}
-\version{0.1}
-\date{\today}
 
 %\AtBeginDocument{\markboth{\@author}{\@title}} 
 \begin{document}
