@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{1137719A-7468-4DEF-84B1-77AB82049656}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -58,6 +58,8 @@
   <ItemGroup>
     <Compile Include="MD5.cs" />
     <Compile Include="MD5Settings.cs" />
+    <Compile Include="PresentableMd5.cs" />
+    <Compile Include="PresentableMd5State.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -83,6 +85,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="MD5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Presentation\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
