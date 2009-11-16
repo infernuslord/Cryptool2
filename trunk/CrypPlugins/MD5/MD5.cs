@@ -280,7 +280,7 @@ namespace Cryptool.MD5
             {
               CryptoolStream stream = new CryptoolStream();              
               listCryptoolStreamsOut.Add(stream);
-              stream.OpenRead(this.GetPluginInfoAttribute().Caption, outputData);
+              stream.OpenRead(outputData);
               GuiLogMessage("Got request for hash (Stream)...", NotificationLevel.Debug);
               return stream;
             }
