@@ -33,10 +33,45 @@ namespace Cryptool.PluginBase.Control
     /// </summary>
     public enum PubSubMessageType
     {
+        /// <summary>
+        /// To register the subscriber with the publisher
+        /// </summary>
         Register = 0,
-        Alive = 1,
-        Ping = 2, 
-        Pong = 3
+        /// <summary>
+        /// adequate response to a subscriber-sided 
+        /// registering message
+        /// </summary>
+        RegisteringAccepted = 1,
+        /// <summary>
+        /// when peer wants to leave the publish/subscriber union
+        /// </summary>
+        Unregister = 2,
+        /// <summary>
+        /// To signalize the publisher that subscriber is still online/alive
+        /// </summary>
+        Alive = 3,
+        /// <summary>
+        /// active liveliness-request, the other side 
+        /// must respond with a pong message
+        /// </summary>
+        Ping = 4, 
+        /// <summary>
+        /// adequate response to a 
+        /// received ping message
+        /// </summary>
+        Pong = 5,
+        /// <summary>
+        /// subscriber sends this msg when solution was found
+        /// </summary>
+        Solution = 6,
+        /// <summary>
+        /// to immediately stop the subscribers work
+        /// </summary>
+        Stop = 7,
+        /// <summary>
+        /// because Enum is non-nullable, I used this workaround
+        /// </summary>
+        NULL = 666
     }
     #endregion
 
@@ -47,11 +82,14 @@ namespace Cryptool.PluginBase.Control
         byte[] DHTload(string sKey);
         bool DHTremove(string sKey);
 
-        byte[] GetPeerID(out string sPeerName);
-
-        string ConvertPeerId(byte[] bytePeerId);
+        string GetPeerID(out string sPeerName);
+        //byte[] GetPeerID(out string sPeerName);
 
         void SendToPeer(string sData, byte[] sDestinationPeerAddress);
+        void SendToPeer(string sData, string sDestinationPeerAddress);
+        void SendToPeer(PubSubMessageType msgType, string sDestinationAddress);
+
+        PubSubMessageType GetMsgType(string byteData);
 
         event P2PBase.P2PMessageReceived OnPeerReceivedMsg;
     }

@@ -10,6 +10,10 @@ namespace Cryptool.Plugins.PeerToPeer
     {
         public AutoResetEvent WaitHandle = null;
         public byte[] Message = null;
+        public string key = null;
+        public byte[] value = null;
+
+        public bool success = false;
     }
 
 }

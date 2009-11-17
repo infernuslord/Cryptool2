@@ -26,7 +26,6 @@ using System.ComponentModel;
 
 /*
  * TODO: 
- * - independent reverse counter per subscriber / timestamp dict (Key = SubID, Value = TimeStamp | SecondChanceStep)
  * - FUTURE: dual data management of subscriber list (on local peer and in DHT)
  */
 
@@ -39,20 +38,57 @@ namespace Cryptool.Plugins.PeerToPeer
     [PluginInfo(false, "P2P_Publisher", "Creates a new Publishing-Peer", "", "PeerToPeerPublisher/ct2_p2p_pub_medium.png")]
     public class P2PPublisher : IInput
     {
-        #region PrivVariables (Lists, Timer, etc)
-
-        private string sDHTSettingsPostfix = "Settings";
-
         private P2PPublisherSettings settings;
         private IP2PControl p2pMaster;
-        /*
-        private List<byte[]> lstSubscribers = new List<byte[]>();
-        private List<byte[]> lstWaitingForPong = new List<byte[]>();
-        private List<byte[]> lstAliveArrived = new List<byte[]>();
-        */
-        private SubscriberInfo subManagement;
-        private Timer timerWaitingForAliveMsg;
-        private long aliveMessageInterval;
+        private P2PPublisherBase p2pPublisher;
+
+        public P2PPublisher()
+        {
+            this.settings = new P2PPublisherSettings(this);
+            this.settings.PropertyChanged += new PropertyChangedEventHandler(settings_PropertyChanged);
+            this.settings.TaskPaneAttributeChanged += new TaskPaneAttributeChangedHandler(settings_TaskPaneAttributeChanged);
+        }
+
+        #region SettingEvents
+
+        private void settings_TaskPaneAttributeChanged(ISettings settings, TaskPaneAttributeChangedEventArgs args)
+        {
+            //throw new NotImplementedException();
+        }
+
+        private void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            // storing settings for subscribers in the DHT, so they can load them there
+            if (e.PropertyName == "SendAliveMessageInterval")
+            {
+                this.p2pMaster.DHTstore(settings.TopicName + "Settings",
+                    System.BitConverter.GetBytes(this.settings.SendAliveMessageInterval));
+            }
+            // if TaskName has changed, clear the Lists, because the Subscribers must reconfirm registering
+            if (e.PropertyName == "TopicName")
+            {
+                GuiLogMessage("Topic Name has changed, so all subscribers must reconfirm registering!", NotificationLevel.Warning);
+                // stop active publisher and tell all subscribers that topic name isn't valid anymore
+                this.p2pPublisher.Stop(PubSubMessageType.Unregister);
+                // start publisher for the changed topic
+                this.p2pPublisher.Start(this.settings.TopicName, (long)this.settings.SendAliveMessageInterval);
+            }
+            if (e.PropertyName == "BtnUnregister")
+            {
+                this.p2pPublisher.Stop(PubSubMessageType.Unregister);
+                GuiLogMessage("Unregister button pressed, Publisher has stopped!", NotificationLevel.Info);
+            }
+            if (e.PropertyName == "BtnRegister")
+            {
+                this.p2pPublisher.Start(this.settings.TopicName, (long)this.settings.SendAliveMessageInterval);
+                GuiLogMessage("Register button pressed, Publisher has been started!", NotificationLevel.Info);
+            }
+            if (e.PropertyName == "BtnSolutionFound")
+            {
+                this.p2pPublisher.Stop(PubSubMessageType.Solution);
+                GuiLogMessage("TEST: Emulate Solution-Found-message", NotificationLevel.Info);
+            }
+        }
 
         #endregion
 
@@ -123,32 +159,6 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region Standard PlugIn-Functionality
 
-        public P2PPublisher()
-        {
-            this.settings = new P2PPublisherSettings(this);
-            this.settings.PropertyChanged += new PropertyChangedEventHandler(settings_PropertyChanged);
-        }
-
-        void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            // storing settings for subscribers in the DHT, so they can load them there
-            if (e.PropertyName == "SendAliveMessageInterval")
-            {
-                this.p2pMaster.DHTstore(settings.TaskName + this.sDHTSettingsPostfix, 
-                    System.BitConverter.GetBytes(this.settings.SendAliveMessageInterval));
-            }
-            // if TaskName has changed, clear the Lists, because the Subscribers must reconfirm registering
-            if (e.PropertyName == "TaskName")
-            {
-                /*
-                this.lstSubscribers.Clear();
-                this.lstAliveArrived.Clear();
-                this.lstWaitingForPong.Clear();
-                */
-                GuiLogMessage("Taskname has changed, so all subscribers must reconfirm registering!",NotificationLevel.Warning);
-            }
-        }
-
         public ISettings Settings
         {
             set { this.settings = (P2PPublisherSettings)value; }
@@ -167,12 +177,34 @@ namespace Cryptool.Plugins.PeerToPeer
 
         public void PreExecution()
         {
-            aliveMessageInterval = (long)this.settings.SendAliveMessageInterval * 1000;
-            this.subManagement = new SubscriberInfo(aliveMessageInterval);
-            this.subManagement.OnSubscriberRemoved += new SubscriberInfo.SubscriberRemoved(subManagement_OnSubscriberRemoved);
+            // if no P2P Slave PlugIn is connected with this PlugIn --> No execution!
+            if (P2PMaster == null)
+            {
+                GuiLogMessage("No P2P_Peer connected with this PlugIn!", NotificationLevel.Error);
+                return;
+            }
+
+            if (this.p2pPublisher == null)
+            {
+                this.p2pPublisher = new P2PPublisherBase(this.P2PMaster);
+                this.p2pPublisher.OnGuiMessage += new P2PPublisherBase.GuiMessage(p2pPublisher_OnGuiMessage);
+                this.p2pPublisher.Start(this.settings.TopicName, (long)this.settings.SendAliveMessageInterval);
+            }
         }
 
-        // Execute-Method is below this region
+        public void Execute()
+        {
+            if (this.settings == null && this.settings.TopicName == null)
+            {
+                GuiLogMessage("There is no input and/or empty Settings. Storing isn't possible.", NotificationLevel.Error);
+                return;
+            }
+
+            if (this.Inputvalue != null)
+            {
+                this.p2pPublisher.Publish(this.Inputvalue);
+            }
+        }
 
         public void PostExecution()
         {
@@ -186,11 +218,8 @@ namespace Cryptool.Plugins.PeerToPeer
 
         public void Stop()
         {
-            if (this.timerWaitingForAliveMsg != null)
-            {
-                this.timerWaitingForAliveMsg.Dispose();
-                this.timerWaitingForAliveMsg = null;
-            }
+            if(this.p2pPublisher != null)
+                this.p2pPublisher.Stop(PubSubMessageType.Unregister);
         }
 
         public void Initialize()
@@ -203,157 +232,15 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #endregion
 
-        public void Execute()
+        private void p2pMaster_OnPeerReceivedMsg(string sSourceAddr, string sData)
         {
-            // if no P2P Slave PlugIn is connected with this PlugIn --> No execution!
-            if (P2PMaster == null)
-            {
-                GuiLogMessage("No P2P_Peer connected with this PlugIn!", NotificationLevel.Error);
-                return;
-            }
-            if (this.settings.TaskName != null)
-            {
-                string sActualPeerName;
-
-                // publish own PeerID to the DHT Entry with the key "TaskName", so every subscriber
-                // can retrieve the name and send a register-message to the publisher
-                byte[] bytePeerId = P2PMaster.GetPeerID(out sActualPeerName);
-
-                sActualPeerName = P2PMaster.ConvertPeerId(bytePeerId);
-
-                // Question: Why casting to String isn't possible?
-                P2PMaster.DHTstore(this.settings.TaskName, bytePeerId);
-                P2PMaster.DHTstore(this.settings.TaskName + this.sDHTSettingsPostfix,
-                    System.BitConverter.GetBytes(aliveMessageInterval));
-
-                GuiLogMessage("Peer ID '" + P2PMaster.ConvertPeerId(bytePeerId) + "' is published to DHT -Entry-Key '" + this.settings.TaskName + "'", NotificationLevel.Info);
-            }
-            else
-            {
-                GuiLogMessage("There is no input and/or empty Settings. Storing isn't possible.", NotificationLevel.Error);
-                return;
-            }
-            if (this.Inputvalue != null)
-            {
-                PublishText(this.Inputvalue);
-            }
+            //this.p2pPublisher.MessageReceived(sSourceAddr, sData);
         }
 
-        private void PublishText(string sText)
+        private void p2pPublisher_OnGuiMessage(string sData, NotificationLevel notificationLevel)
         {
-            Dictionary<byte[], DateTime> lstSubscribers = this.subManagement.GetAllSubscribers();
-            foreach (byte[] byteSubscriber in lstSubscribers.Keys)
-            {
-                this.P2PMaster.SendToPeer(sText, byteSubscriber);
-            }
+            GuiLogMessage(sData, notificationLevel);
         }
-
-        private void p2pMaster_OnPeerReceivedMsg(byte[] byteSourceAddr, string sData)
-        {
-            if (sData.Trim() == "regi")
-            {
-                if (this.subManagement.Add(byteSourceAddr))
-                    GuiLogMessage("REGISTERED: Peer with ID " + P2PMaster.ConvertPeerId(byteSourceAddr), NotificationLevel.Info);
-                else
-                    GuiLogMessage("ALREADY REGISTERED peer with ID " + P2PMaster.ConvertPeerId(byteSourceAddr), NotificationLevel.Info);
-            }
-            else
-            {
-                if (this.subManagement.Update(byteSourceAddr))
-                    GuiLogMessage("RECEIVED: " + sData.Trim() + " Message from " + P2PMaster.ConvertPeerId(byteSourceAddr), NotificationLevel.Info);
-                else
-                    GuiLogMessage("UPDATE FAILED for " + P2PMaster.ConvertPeerId(byteSourceAddr) + " because it hasn't registered first.", NotificationLevel.Info);
-                if (sData.Trim() == "ping")
-                    this.P2PMaster.SendToPeer("pong", byteSourceAddr);
-            }
-            if(timerWaitingForAliveMsg == null)
-                timerWaitingForAliveMsg = new Timer(OnWaitingForAliveMsg, null, this.settings.SendAliveMessageInterval * 1000,
-                    this.settings.SendAliveMessageInterval * 1000);
-        }
-
-        private void OnWaitingForAliveMsg(object state)
-        {
-            List<byte[]> lstOutdatedSubscribers = this.subManagement.CheckVitality();
-            foreach (byte[] outdatedSubscriber in lstOutdatedSubscribers)
-            {
-                P2PMaster.SendToPeer("ping", outdatedSubscriber);
-                GuiLogMessage("PING outdated peer " + P2PMaster.ConvertPeerId(outdatedSubscriber), NotificationLevel.Info);
-            }
-        }
-
-        private void subManagement_OnSubscriberRemoved(byte[] byPeerId)
-        {
-            GuiLogMessage("REMOVED subscriber " + P2PMaster.ConvertPeerId(byPeerId), NotificationLevel.Info);
-        }
-
-        /*OLD SOLUTION - WORKS, BUT NOT THE BEST WAY...*/
-        /*
-        void p2pMaster_OnPeerReceivedMsg(byte[] byteSourceAddr, string sData)
-        {
-            if (sData.Trim() == "regi")
-            {
-                if (!lstSubscribers.Contains(byteSourceAddr))
-                {
-                    lstSubscribers.Add(byteSourceAddr);
-                    GuiLogMessage("REGISTERED: Peer with ID " + P2PMaster.ConvertPeerId(byteSourceAddr), NotificationLevel.Info);
-                    StartWaitingTimer();
-                }
-            }
-            if (sData.Trim() == "aliv")
-            {
-                if (!lstAliveArrived.Contains(byteSourceAddr))
-                {
-                    lstAliveArrived.Add(byteSourceAddr);
-                    GuiLogMessage("RECEIVED: Alive Message from " + P2PMaster.ConvertPeerId(byteSourceAddr), NotificationLevel.Info);
-                    // if Alive Msg arrived to late, the subscriber was removed from list
-                    // of active subscribers. So we must add him again.
-                    if (!lstSubscribers.Contains(byteSourceAddr))
-                        lstSubscribers.Add(byteSourceAddr);
-                    StartWaitingTimer();
-                }
-            }
-            if (sData.Trim() == "pong")
-            {
-                GuiLogMessage("RECEIVED: Pong Message from " + P2PMaster.ConvertPeerId(byteSourceAddr), NotificationLevel.Info);
-                if (lstWaitingForPong.Contains(byteSourceAddr))
-                    lstWaitingForPong.Remove(byteSourceAddr);
-            }
-        }
-
-        private void StartWaitingTimer()
-        {
-            // check every 30 seconds if the subscribers are still alive
-            // Timer gets started not until retrieving the first register message from a Subscriber
-            if (timerWaitingForAliveMsg == null)
-                timerWaitingForAliveMsg = new Timer(OnWaitingForAliveMsg, null, 30000, 30000);
-        }
-
-        private void OnWaitingForAliveMsg(object state)
-        {
-            GuiLogMessage("Checking vitality of Subscribers", NotificationLevel.Info);
-            for (int i = 0; i < this.lstSubscribers.Count; i++)
-            {
-                if (!this.lstAliveArrived.Contains(this.lstSubscribers[i]))
-                {
-                    // only if Subscriber had not send a Alive message
-                    // remove him from the subscriber list
-                    GuiLogMessage("DEAD: Subscriber " + P2PMaster.ConvertPeerId(this.lstSubscribers[i]) + " is removed from SubList!", NotificationLevel.Info);
-                    this.lstSubscribers.Remove(this.lstSubscribers[i]);
-                }
-                else
-                {
-                    this.lstAliveArrived.Remove(this.lstSubscribers[i]);
-                }
-            }
-            // if there are no more subscribers, stop Timer of
-            // waiting for alive messages
-            if (this.lstSubscribers.Count == 0)
-            {
-                timerWaitingForAliveMsg.Dispose();
-                return;
-            }
-        }
-        */
 
         #region INotifyPropertyChanged Members
 
@@ -377,6 +264,178 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         #endregion
+
+        //#region Publisher methods
+
+        //private string topic = String.Empty;
+        //private string sDHTSettingsPostfix = "Settings";
+        //private SubscriberManagement subManagement;
+        //private Timer timerWaitingForAliveMsg;
+        //private string sPeerName;
+        //private long aliveMessageInterval;
+
+        //private bool StartPublisher(string sTopic, long aliveMessageInterval)
+        //{
+        //    this.topic = sTopic;
+        //    aliveMessageInterval = aliveMessageInterval * 1000;
+        //    this.subManagement = new SubscriberManagement(aliveMessageInterval);
+        //    this.subManagement.OnSubscriberRemoved += new SubscriberManagement.SubscriberRemoved(subManagement_OnSubscriberRemoved);
+
+        //    string sActualPeerName;
+
+        //    // publish own PeerID to the DHT Entry with the key "TaskName", so every subscriber
+        //    // can retrieve the name and send a register-message to the publisher
+        //    string sPeerId = P2PMaster.GetPeerID(out sPeerName);
+        //    //byte[] bytePeerId = P2PMaster.GetPeerID(out sActualPeerName);
+
+        //    sActualPeerName = sPeerId;
+
+        //    // before storing the publishers ID in the DHT, proof whether there already exist an entry
+        //    byte[] byRead = P2PMaster.DHTload(sTopic);
+        //    string sRead;
+        //    // if byRead is not null, the DHT entry was already written
+        //    if (byRead != null)
+        //    {
+        //        sRead = UTF8Encoding.UTF8.GetString(byRead);
+        //        // if sRead equals sPeerId this Publisher with the same topic had written 
+        //        // this entry - no problem! Otherwise abort Starting the publisher!
+        //        if (sRead != sPeerId)
+        //        {
+        //            GuiLogMessage("Can't store Publisher in the DHT because the Entry was already occupied.", NotificationLevel.Error);
+        //            return false;
+        //        }
+        //    }
+        //    bool bolTopicStored = P2PMaster.DHTstore(sTopic, sPeerId);
+        //    bool bolSettingsStored = P2PMaster.DHTstore(sTopic + this.sDHTSettingsPostfix,
+        //        System.BitConverter.GetBytes(aliveMessageInterval));
+
+        //    if (!bolTopicStored || !bolSettingsStored)
+        //    {
+        //        GuiLogMessage("Storing Publishers ID or Publishers Settings wasn't possible.", NotificationLevel.Error);
+        //        return false;
+        //    }
+
+        //    GuiLogMessage("Peer ID '" + sPeerId + "' is published to DHT -Entry-Key '" + this.settings.TopicName + "'", NotificationLevel.Info);
+        //    return true;
+        //}
+
+        //private void MessageReceived(string sSourceAddr, string sData)
+        //{
+        //    PubSubMessageType msgType = this.P2PMaster.GetMsgType(sData);
+
+        //    if (msgType != PubSubMessageType.NULL)
+        //    {
+        //        switch (msgType)
+        //        {
+        //            case PubSubMessageType.Register:
+        //                if (this.subManagement.Add(sSourceAddr))
+        //                {
+        //                    GuiLogMessage("REGISTERED: Peer with ID " + sSourceAddr, NotificationLevel.Info);
+        //                    this.P2PMaster.SendToPeer(PubSubMessageType.RegisteringAccepted, sSourceAddr);
+        //                }
+        //                else
+        //                {
+        //                    GuiLogMessage("ALREADY REGISTERED peer with ID " + sSourceAddr, NotificationLevel.Info);
+        //                }
+        //                break;
+        //            case PubSubMessageType.Unregister:
+        //                if (this.subManagement.Remove(sSourceAddr))
+        //                    GuiLogMessage("REMOVED subscriber " + sSourceAddr + " because it had sent an unregister message", NotificationLevel.Info);
+        //                else
+        //                    GuiLogMessage("ALREADY REMOVED or had not registered anytime. ID " + sSourceAddr, NotificationLevel.Info);
+        //                break;
+        //            case PubSubMessageType.Alive:
+        //            case PubSubMessageType.Pong:
+        //                if (this.subManagement.Update(sSourceAddr))
+        //                {
+        //                    GuiLogMessage("RECEIVED: " + msgType.ToString() + " Message from " + sSourceAddr, NotificationLevel.Info);
+        //                }
+        //                else
+        //                {
+        //                    GuiLogMessage("UPDATE FAILED for " + sSourceAddr + " because it hasn't registered first. " + msgType.ToString(), NotificationLevel.Info);
+        //                }
+        //                break;
+        //            case PubSubMessageType.Ping:
+        //                this.P2PMaster.SendToPeer(PubSubMessageType.Pong, sSourceAddr);
+        //                GuiLogMessage("REPLIED to a ping message from subscriber " + sSourceAddr, NotificationLevel.Info);
+        //                break;
+        //            case PubSubMessageType.Solution:
+        //                // Send solution msg to all subscriber peers and delete subList
+        //                StopPublisher(msgType);
+        //                break;
+        //            default:
+        //                throw (new NotImplementedException());
+        //        } // end switch
+        //        if (timerWaitingForAliveMsg == null)
+        //            timerWaitingForAliveMsg = new Timer(OnWaitingForAliveMsg, null, this.settings.SendAliveMessageInterval * 1000,
+        //                this.settings.SendAliveMessageInterval * 1000);
+        //    }
+        //    // Received Data aren't PubSubMessageTypes or rather no action-relevant messages
+        //    else
+        //    {
+        //        GuiLogMessage("RECEIVED message from non subscribed peer: " + sData.Trim() + ", ID: " + sSourceAddr, NotificationLevel.Warning);
+        //    }
+        //}
+
+        //private void Publish(string sText)
+        //{
+        //    Dictionary<string, DateTime> lstSubscribers = this.subManagement.GetAllSubscribers();
+
+        //    PubSubMessageType msgType = this.P2PMaster.GetMsgType(sText);
+        //    if (msgType == PubSubMessageType.NULL)
+        //    {
+        //        foreach (string sSubscriber in lstSubscribers.Keys)
+        //        {
+        //            this.P2PMaster.SendToPeer(sText, sSubscriber);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        foreach (string sSubscriber in lstSubscribers.Keys)
+        //        {
+        //            this.P2PMaster.SendToPeer(msgType, sSubscriber);
+        //        }
+        //    }
+        //}
+
+        ///// <summary>
+        ///// if peers are outdated (alive message doesn't arrive in the given interval)
+        ///// ping them to give them a second chance
+        ///// </summary>
+        ///// <param name="state"></param>
+        //private void OnWaitingForAliveMsg(object state)
+        //{
+        //    List<string> lstOutdatedSubscribers = this.subManagement.CheckVitality();
+        //    foreach (string outdatedSubscriber in lstOutdatedSubscribers)
+        //    {
+        //        P2PMaster.SendToPeer(PubSubMessageType.Ping, outdatedSubscriber);
+        //        GuiLogMessage("PING outdated peer " + outdatedSubscriber, NotificationLevel.Info);
+        //    }
+        //}
+
+        //private void subManagement_OnSubscriberRemoved(string sPeerId)
+        //{
+        //    GuiLogMessage("REMOVED subscriber " + sPeerId, NotificationLevel.Info);
+        //}
+
+        //private void StopPublisher(PubSubMessageType msgType)
+        //{
+        //    if(this.P2PMaster != null)
+        //        // send unregister message to all subscribers
+        //        Publish(((int)msgType).ToString());
+        //    if (this.P2PMaster != null)
+        //    {
+        //        this.P2PMaster.DHTremove(this.topic);
+        //        this.P2PMaster.DHTremove(this.topic + this.sDHTSettingsPostfix);
+        //    }
+        //    if (this.timerWaitingForAliveMsg != null)
+        //    {
+        //        this.timerWaitingForAliveMsg.Dispose();
+        //        this.timerWaitingForAliveMsg = null;
+        //    }
+        //}
+
+        //#endregion
     }
 
 }

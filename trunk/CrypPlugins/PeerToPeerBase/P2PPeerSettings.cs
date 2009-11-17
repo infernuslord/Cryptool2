@@ -15,7 +15,7 @@ namespace Cryptool.Plugins.PeerToPeer
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
         private bool hasChanges = false;
-        private P2PBase p2pBase;
+        private P2PPeer p2pPeer;
 
         #region ISettings Members
 
@@ -35,11 +35,11 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region taskPane
 
-        public P2PPeerSettings (P2PBase p2pBase)
+        public P2PPeerSettings (P2PPeer p2pPeer)
 	    {
             if(TaskPaneAttributeChanged != null)
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnStop", Visibility.Hidden)));
-            this.p2pBase = p2pBase;
+            this.p2pPeer = p2pPeer;
             ChangePluginIcon(PeerStatus.NotConnected);
 	    }
 
@@ -47,83 +47,45 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region Start- and Stop-Buttons incl. functionality
 
-        [TaskPane("Start", "Initializes and starts Peer", null, 3, false, DisplayLevel.Beginner, ControlType.Button)]
+        public bool StartingPeer
+        {
+            set
+            {
+                if (value)
+                {
+                    BtnStart();
+                }
+            }
+        }
+
+        [TaskPane("Start", "Initializes and starts Peer", null, 2, false, DisplayLevel.Beginner, ControlType.Button)]
         public void BtnStart()
         {
-            PeerStarted = !this.peerStarted;
-        }
-
-        private bool peerStarted = false;
-        /// <summary>
-        /// If peer isn't started by clicking the Button, it will be started by setting to true
-        /// </summary>
-        public bool PeerStarted
-        {
-            get { return this.peerStarted; }
-            set
+            if (P2PPeerName != null && P2PWorldName != null)
             {
-                if (!this.peerStarted)
-                {
-                    if (P2PPeerName != null && P2PWorldName != null)
-                    {
-                        ChangePluginIcon(PeerStatus.Connecting);
-                        this.p2pBase.Initialize(P2PPeerName, P2PWorldName, (P2PLinkManagerType)P2PLinkMngrType,
-                            (P2PBootstrapperType)P2PBSType, (P2POverlayType)P2POverlType, (P2PDHTType)P2PDhtType);
-                        this.p2pBase.SynchStart();
-                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnStart", Visibility.Collapsed)));
-                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnStop", Visibility.Visible)));
-                        ChangePluginIcon(PeerStatus.Online);
-                    }
-                    else
-                    {
-                        ChangePluginIcon(PeerStatus.Error);
-                        // can not initialize Peer, because P2PUserName and/or P2PWorldName are missing
-                        throw (new Exception("You must set P2PPeerName and/or P2PWorldName, otherwise starting the peer isn't possible"));
-                    }
-                }
-                if (value != this.peerStarted)
-                {
-                    this.peerStarted = value;
-                    //use the private Var instead of the PeerStopped-Property, because you will run into a recursive loop!!!
-                    this.peerStopped = !value; 
-                    OnPropertyChanged("PeerStarted");
-                    HasChanges = true;
-                }
+                this.p2pPeer.StartPeer();
+            }
+            else
+            {
+                PeerStatusChanged(PeerStatus.Error);
+                // can not initialize Peer, because P2PUserName and/or P2PWorldName are missing
+                throw (new Exception("You must set P2PPeerName and/or P2PWorldName, otherwise starting the peer isn't possible"));
             }
         }
 
-        [TaskPane("Stop", "Stops the Peer", null, 4, false, DisplayLevel.Beginner, ControlType.Button)]
+        [TaskPane("Stop", "Stops the Peer", null, 3, false, DisplayLevel.Beginner, ControlType.Button)]
         public void BtnStop()
         {
-            PeerStopped = !this.peerStopped;
+            this.p2pPeer.StopPeer();
+         
+            OnPropertyChanged("PeerStopped");
+            HasChanges = true;
         }
 
-        private bool peerStopped = true;
-        /// <summary>
-        /// if peer is already started, it will be stopped by setting to true
-        /// </summary>
-        public bool PeerStopped
+        [TaskPane("Log internal state of peer", "Log internal state of peer", null, 4, false, DisplayLevel.Beginner, ControlType.Button)]
+        public void BtnLogInternalState()
         {
-            get { return this.peerStopped; }
-            set
-            {
-                if (this.peerStarted)
-                {
-                    ChangePluginIcon(PeerStatus.Connecting);
-                    this.p2pBase.SynchStop();
-                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnStart", Visibility.Visible)));
-                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnStop", Visibility.Collapsed)));
-                    ChangePluginIcon(PeerStatus.NotConnected);
-                }
-                if (value != this.peerStopped)
-                {
-                    //don't use the PeerStarted-Property, because you will run into a recursive loop!!!
-                    this.peerStarted = !value;
-                    this.peerStopped = value;
-                    OnPropertyChanged("PeerStopped");
-                    HasChanges = true;
-                }
-            }
+            this.p2pPeer.LogInternalState();
         }
 
         #endregion
@@ -160,12 +122,6 @@ namespace Cryptool.Plugins.PeerToPeer
                     HasChanges = true;
                 }
             }
-        }
-
-        [TaskPane("Log internal state of peer", "Log internal state of peer", null, 2, false, DisplayLevel.Beginner, ControlType.Button)]
-        public void btnTest()
-        {
-            this.p2pBase.LogInternalState();
         }
 
         private P2PLinkManagerType p2pLinkManagerType = P2PLinkManagerType.Snal;
@@ -247,7 +203,7 @@ namespace Cryptool.Plugins.PeerToPeer
         #endregion
 
         // Index depends on icon-position in P2PPeer-Class properties
-        private enum PeerStatus
+        public enum PeerStatus
         {
             Connecting = 1,
             Online = 2,
@@ -255,11 +211,40 @@ namespace Cryptool.Plugins.PeerToPeer
             NotConnected = 0
         }
 
+        /// <summary>
+        /// Changes icon of P2PPeer and visibility of the control buttons in settings
+        /// </summary>
+        /// <param name="peerStat"></param>
+        public void PeerStatusChanged(PeerStatus peerStat)
+        {
+            ChangePluginIcon(peerStat);
+            // Only set visibility in final states!
+            switch (peerStat)
+            {
+                case PeerStatus.Online:
+                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(
+                        new TaskPaneAttribteContainer("BtnStart", Visibility.Collapsed)));
+                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(
+                        new TaskPaneAttribteContainer("BtnStop", Visibility.Visible)));
+                    break;
+                case PeerStatus.NotConnected:
+                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(
+                        new TaskPaneAttribteContainer("BtnStart", Visibility.Visible)));
+                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(
+                        new TaskPaneAttribteContainer("BtnStop", Visibility.Hidden)));
+                    break;
+                case PeerStatus.Error:
+                case PeerStatus.Connecting:
+                default:
+                    break;
+            }
+        }
+
         public event StatusChangedEventHandler OnPluginStatusChanged;
         private void ChangePluginIcon(PeerStatus peerStatus)
         {
-            if (OnPluginStatusChanged != null) OnPluginStatusChanged(null, 
-                new StatusEventArgs(StatusChangedMode.ImageUpdate, (int)peerStatus));
+            if (OnPluginStatusChanged != null) 
+                OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, (int)peerStatus));
         }
     }
 }
