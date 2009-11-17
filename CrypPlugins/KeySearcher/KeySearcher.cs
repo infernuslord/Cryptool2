@@ -10,6 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Threading;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace KeySearcher
 {
@@ -222,9 +223,9 @@ namespace KeySearcher
             return true;
         }
 
-        public long initKeyIteration(string key)
+        public BigInteger initKeyIteration(string key)
         {
-            long counter = 1;
+            BigInteger counter = 1;
             this.key = key;
             int pcount = 0;
             wildcardList = new ArrayList();
@@ -245,11 +246,11 @@ namespace KeySearcher
             return counter;
         }
 
-        public long size()
+        public BigInteger size()
         {
             if (wildcardList == null)
                 return 0;
-            long counter = 1;
+            BigInteger counter = 1;
             foreach (Wildcard wc in wildcardList)
                     counter *= wc.size();
             return counter;
@@ -445,9 +446,9 @@ namespace KeySearcher
             object[] parameters = (object[])param;
             KeyPattern[] patterns = (KeyPattern[])parameters[0];
             int threadid = (int)parameters[1];
-            Int64[] doneKeysArray = (Int64[])parameters[2];
-            Int64[] keycounterArray = (Int64[])parameters[3];
-            Int64[] keysLeft = (Int64[])parameters[4];
+            BigInteger[] doneKeysArray = (BigInteger[])parameters[2];
+            BigInteger[] keycounterArray = (BigInteger[])parameters[3];
+            BigInteger[] keysLeft = (BigInteger[])parameters[4];
             IControlEncryption sender = (IControlEncryption)parameters[5];            
             int bytesToUse = (int)parameters[6];
             Stack threadStack = (Stack)parameters[7];
@@ -460,7 +461,7 @@ namespace KeySearcher
             {
                 while (pattern != null)
                 {
-                    long size = pattern.size();
+                    BigInteger size = pattern.size();
                     keysLeft[threadid] = size;
                     int nextWildcard;
 
@@ -682,7 +683,7 @@ namespace KeySearcher
                 LinkedListNode<ValueKey> linkedListNode;
 
                 KeyPattern[] patterns = new KeyPattern[settings.CoresUsed+1];
-                long size = Pattern.initKeyIteration(settings.Key);
+                BigInteger size = Pattern.initKeyIteration(settings.Key);
                 
                 if (settings.CoresUsed > 0)
                 {
@@ -694,7 +695,7 @@ namespace KeySearcher
                     while (threads > 0)
                     {
                         int maxPattern = -1;
-                        long max = 0;
+                        BigInteger max = 0;
                         for (int i = 0; i <= p; i++)
                             if (patterns[i].size() > max)
                             {
@@ -712,15 +713,15 @@ namespace KeySearcher
 
                 valuequeue = Queue.Synchronized(new Queue());
 
-                Int64[] doneKeysA = new Int64[patterns.Length];
-                Int64[] keycounters = new Int64[patterns.Length];
-                Int64[] keysleft = new Int64[patterns.Length];
+                BigInteger[] doneKeysA = new BigInteger[patterns.Length];
+                BigInteger[] keycounters = new BigInteger[patterns.Length];
+                BigInteger[] keysleft = new BigInteger[patterns.Length];
                 Stack threadStack = Stack.Synchronized(new Stack());
                 for (int i = 0; i < patterns.Length; i++)
                 {
                     WaitCallback worker = new WaitCallback(KeySearcherJob);
-                    doneKeysA[i] = new Int64();
-                    keycounters[i] = new Int64();
+                    doneKeysA[i] = new BigInteger();
+                    keycounters[i] = new BigInteger();
                     ThreadPool.QueueUserWorkItem(worker, new object[] { patterns, i, doneKeysA, keycounters, keysleft, sender.clone(), bytesToUse, threadStack });
                 }
                 
@@ -758,7 +759,6 @@ namespace KeySearcher
                             {
                                 while (node != null)
                                 {
-
                                     if (vk.value < node.Value.value)
                                     {
                                         costList.AddBefore(node, vk);
@@ -772,11 +772,11 @@ namespace KeySearcher
                         }
                     }
 
-                    long keycounter = 0;
-                    long doneKeys = 0;
-                    foreach (Int64 dk in doneKeysA)
+                    BigInteger keycounter = 0;
+                    BigInteger doneKeys = 0;
+                    foreach (BigInteger dk in doneKeysA)
                         doneKeys += dk;
-                    foreach (Int64 kc in keycounters)
+                    foreach (BigInteger kc in keycounters)
                         keycounter += kc;
 
                     if (keycounter > size)
@@ -786,7 +786,7 @@ namespace KeySearcher
                     if (size - keycounter > 1000)
                     {
                         maxThreadMutex.WaitOne();
-                        long max = 0;
+                        BigInteger max = 0;
                         int id = -1;
                         for (int i = 0; i < patterns.Length; i++)
                             if (keysleft[i] > max)
@@ -797,12 +797,12 @@ namespace KeySearcher
                         maxThread = id;
                         maxThreadMutex.ReleaseMutex();
                     }
-
-                    ProgressChanged(keycounter, size);
+                                        
+                    ProgressChanged(Math.Pow(10, keycounter.log(10) - size.log(10)), 1.0);
 
                     if (QuickWatchPresentation.IsVisible && doneKeys != 0 && !stop)
                     {
-                        double time = ((size - keycounter) / doneKeys);
+                        double time = (Math.Pow(10, (size - keycounter).log(10) - doneKeys.log(10)));
                         TimeSpan timeleft = new TimeSpan(-1);
 
                         try
