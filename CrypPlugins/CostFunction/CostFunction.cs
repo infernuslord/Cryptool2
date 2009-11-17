@@ -39,7 +39,8 @@ namespace Cryptool.Plugins.CostFunction
         private Boolean stopped = true;
         private IControlCost controlSlave;
         private String bigramInput;
-               
+        private double[,] bigramMatrix;
+        private IDictionary<string, double[]> corpusGrams;
 
 
         private IDictionary<int, IDictionary<string, double[]>> statistics;
@@ -194,6 +195,9 @@ namespace Cryptool.Plugins.CostFunction
                     case 4: //percentaged Bigrams
                         this.Value = calculateNGrams(bigramInput,2,1);
                         break;
+                    case 5: // alternative Bigram
+                        this.Value = relativeBigramFrequency(bigramInput);
+                        break;
                     default:
                         this.Value = -1;
                         break;
@@ -205,7 +209,8 @@ namespace Cryptool.Plugins.CostFunction
             }//end if
             
         }//end Execute
-
+        
+        
         public void PostExecution()
         {
             this.stopped = true;
@@ -374,7 +379,8 @@ namespace Cryptool.Plugins.CostFunction
         {
             this.statistics = new Dictionary<int, IDictionary<string, double[]>>();
             double score = 0;
-            IDictionary<string, double[]> corpusGrams = GetStatistics(length);
+            if (corpusGrams == null)
+            { corpusGrams = GetStatistics(length); }
             input = input.ToUpper();
             // FIXME: case handling?
 
@@ -401,13 +407,93 @@ namespace Cryptool.Plugins.CostFunction
             // FIXME: implement exception handling
             if (!statistics.ContainsKey(gramLength))
             {
-                GuiLogMessage("Trying to load default statistics for " + gramLength + "-grams", NotificationLevel.Info);
+                //GuiLogMessage("Trying to load default statistics for " + gramLength + "-grams", NotificationLevel.Info);
                 statistics[gramLength] = LoadDefaultStatistics(gramLength);                
             }
 
             return statistics[gramLength];
         }
 
+
+        public double relativeBigramFrequency(string input)
+        {
+            string text = input.ToUpper();
+            if (bigramMatrix == null)
+            {
+                bigramMatrix = getBiGramMatrix();
+            }
+            double sum = 0.0;
+            double count = 0.0;
+
+            for (int i = 0; i < input.Length - 1; i++)
+            {
+                char a = text[i];
+                char b = text[i + 1];
+
+                if (isInAlphabet(a) && isInAlphabet(b))
+                {
+                    int x = (int)a - 65;
+                    int y = (int)b - 65;
+                    sum += bigramMatrix[x, y];
+                    count++;
+                }
+            }
+            return (sum/count);
+        }
+
+        private double[,] getBiGramMatrix()
+        {
+            double[,] matrix = new double[26, 26];
+            StreamReader reader = new StreamReader(Path.Combine(PluginResource.directoryPath, "CostFunctionDeutsch.txt"));
+            
+                    
+            String text;
+
+            while ((text = reader.ReadLine()) != null)
+            {
+                text = text.ToUpper();
+                for (int i = 0; i < text.Length - 1; i++)
+                {
+                    char a = text[i];
+                    char b = text[i + 1];
+
+                    if (isInAlphabet(a) && isInAlphabet(b))
+                    {
+                        int x = (int)a - 65;
+                        int y = (int)b - 65;
+                        matrix[x, y] = matrix[x, y] + 1;
+                    }
+                }
+
+            }
+
+            for (int i = 0; i < 26; i++)
+            {
+                double count = 0;
+                for (int j = 0; j < 26; j++)
+                {
+                    count = count + matrix[i, j];
+
+                }
+
+                for (int j = 0; j < 26; j++)
+                {
+                    matrix[i, j] = matrix[i, j] / (count / 100);
+                }
+            }
+            return matrix;
+        }
+
+        private bool isInAlphabet(char c)
+        {
+            int val = (int)(c);
+            int test = val - 65;
+            if (test >= 0 && test <= 25)
+            {
+                return true;
+            }
+            return false;
+        }
 
         private IDictionary<string, double[]> LoadDefaultStatistics(int length)
         {
@@ -430,7 +516,7 @@ namespace Cryptool.Plugins.CostFunction
             }
 
             double sum = grams.Values.Sum(item => item[ABSOLUTE]);
-            GuiLogMessage("Sum of all n-gram counts is: " + sum, NotificationLevel.Debug);
+            //GuiLogMessage("Sum of all n-gram counts is: " + sum, NotificationLevel.Debug);
 
             // calculate scaled values
             foreach (double[] g in grams.Values)
@@ -515,6 +601,12 @@ namespace Cryptool.Plugins.CostFunction
                 case 1: //Entropy
                     return RelationOperator.LessThen;
                 case 2: // Bigrams: log 2
+                    return RelationOperator.LessThen;
+                case 3: // Sinkov
+                    return RelationOperator.LargerThen;
+                case 4: // percentage
+                    return RelationOperator.LargerThen;
+                case 5: // alternative bigrams
                     return RelationOperator.LargerThen;
                 default:
                     throw new NotImplementedException("The value " + ((CostFunctionSettings)this.plugin.Settings).FunctionType + " is not implemented.");
@@ -555,6 +647,9 @@ namespace Cryptool.Plugins.CostFunction
                     return plugin.calculateNGrams(plugin.ByteArrayToString(text), 2, 3);
                 case 4: // Bigrams: Percentaged
                     return plugin.calculateNGrams(plugin.ByteArrayToString(text), 2, 1);
+                case 5: // alternative Bigram 
+                    return plugin.relativeBigramFrequency(plugin.ByteArrayToString(text));
+
                 default:
                     throw new NotImplementedException("The value " + ((CostFunctionSettings)this.plugin.Settings).FunctionType + " is not implemented.");
             }//end switch

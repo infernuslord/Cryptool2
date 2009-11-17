@@ -9,6 +9,7 @@ using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.Miscellaneous;
+using Cryptool.PluginBase.Control;
 
 namespace Transposition
 {
@@ -101,7 +102,7 @@ namespace Transposition
                 OnPropertyChange("Input");
             }
         }
-
+        
         [PropertyInfo(Direction.InputData, "Keyword", "keyword", "Keyword used for encryption", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public string Keyword
         {
@@ -152,9 +153,13 @@ namespace Transposition
 
         public void Execute()
         {
+            Transposition_LogMessage("execute tr", NotificationLevel.Debug);
             ProcessTransposition();
-            //myPresentation.main(Read_in_matrix,Permuted_matrix,key,Keyword,Input,Output,this.settings.Permutation,this.settings.ReadIn,this.settings.ReadOut);
-            
+            if (controlSlave is object && Input is object)
+            {
+                ((TranspositionControl)controlSlave).onStatusChanged();
+            }
+            //myPresentation.main(Read_in_matrix,Permuted_matrix,key,Keyword,Input,Output,this.settings.Permutation,this.settings.ReadIn,this.settings.ReadOut);   
         }
 
         public void Initialize()
@@ -317,11 +322,13 @@ namespace Transposition
             }
         }
 
-        private byte[] decrypt(byte[] input, int[] key)
+        public byte[] decrypt(byte[] input, int[] new_key)
         {
-            if (key != null && input != null && key.Length > 0)
+            //Transposition_LogMessage("hier normales decrypt: " + new_key[0] + " / " +input[0], NotificationLevel.Debug);
+
+            if (new_key != null && input != null && new_key.Length > 0)
             {
-                if (is_Valid_Keyword(key))
+                if (is_Valid_Keyword(new_key))
                 {
                     byte[] decrypted= null ;
                     if (((TranspositionSettings.PermutationMode)settings.Permutation).Equals(TranspositionSettings.PermutationMode.byRow))
@@ -329,21 +336,21 @@ namespace Transposition
                         switch ((TranspositionSettings.ReadOutMode)settings.ReadOut)
                         {
                             case TranspositionSettings.ReadOutMode.byRow:
-                                read_in_matrix = dec_read_in_by_row_if_row_perm(input, key); break;
+                                read_in_matrix = dec_read_in_by_row_if_row_perm(input, new_key); break;
                             case TranspositionSettings.ReadOutMode.byColumn:
-                                read_in_matrix = dec_read_in_by_column_if_row_perm(input, key); break;
+                                read_in_matrix = dec_read_in_by_column_if_row_perm(input, new_key); break;
                             default:
                                 break;
                         }
 
-                        permuted_matrix = dec_permut_by_row(read_in_matrix, key);
+                        permuted_matrix = dec_permut_by_row(read_in_matrix, new_key);
 
                         switch ((TranspositionSettings.ReadInMode)settings.ReadIn)
                         {
                             case TranspositionSettings.ReadInMode.byRow:
-                                decrypted = read_out_by_row_if_row_perm(permuted_matrix, key.Length); break;
+                                decrypted = read_out_by_row_if_row_perm(permuted_matrix, new_key.Length); break;
                             case TranspositionSettings.ReadInMode.byColumn:
-                                decrypted = read_out_by_column_if_row_perm(permuted_matrix, key.Length); break;
+                                decrypted = read_out_by_column_if_row_perm(permuted_matrix, new_key.Length); break;
                             default:
                                 break;
                         }
@@ -355,21 +362,21 @@ namespace Transposition
                         switch ((TranspositionSettings.ReadOutMode)settings.ReadOut)
                         {
                             case TranspositionSettings.ReadOutMode.byRow:
-                                read_in_matrix = dec_read_in_by_row(input, key); break;
+                                read_in_matrix = dec_read_in_by_row(input, new_key); break;
                             case TranspositionSettings.ReadOutMode.byColumn:
-                                read_in_matrix = dec_read_in_by_column(input, key); break;
+                                read_in_matrix = dec_read_in_by_column(input, new_key); break;
                             default:
                                 break;
                         }
 
-                        permuted_matrix = dec_permut_by_column(read_in_matrix, key);
+                        permuted_matrix = dec_permut_by_column(read_in_matrix, new_key);
 
                         switch ((TranspositionSettings.ReadInMode)settings.ReadIn)
                         {
                             case TranspositionSettings.ReadInMode.byRow:
-                                decrypted = read_out_by_row(permuted_matrix, key.Length); break;
+                                decrypted = read_out_by_row(permuted_matrix, new_key.Length); break;
                             case TranspositionSettings.ReadInMode.byColumn:
-                                decrypted = read_out_by_column(permuted_matrix, key.Length); break;
+                                decrypted = read_out_by_column(permuted_matrix, new_key.Length); break;
                             default:
                                 break;
                         }
@@ -1021,11 +1028,93 @@ namespace Transposition
             return null;
         }
 
-        private void Transposition_LogMessage(string msg, NotificationLevel loglevel)
+        public void Transposition_LogMessage(string msg, NotificationLevel loglevel)
         {
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(msg, this, loglevel));
         }
 
         # endregion
+
+        private IControlEncryption controlSlave;
+        [PropertyInfo(Direction.ControlSlave, "Transposition Slave", "Transposition Slave", "", DisplayLevel.Experienced)]
+        public IControlEncryption ControlSlave
+        {
+            get
+            {
+                if (controlSlave == null)
+                    controlSlave = new TranspositionControl(this);
+                return controlSlave;
+            }
+        }
+    }
+
+    public class TranspositionControl : IControlEncryption
+    {
+        private Transposition plugin;
+
+
+        public TranspositionControl(Transposition plugin)
+        {
+            this.plugin = plugin;
+        }
+
+        #region IControlEncryption Member
+
+        public byte[] Decrypt(byte[] key, int blocksize)
+        {
+            int[] k = new int[key.Length];
+            for(int i=0; i<key.Length; i++)
+            {
+                k[i] = key[i];
+            }
+
+            //plugin.Transposition_LogMessage("hier decrypt von control: " + k[0] + " / " +plugin.Input[0], NotificationLevel.Debug);
+            return plugin.decrypt(plugin.Input, k);
+        }
+
+        public byte[] Encrypt(byte[] key, int blocksize)
+        {
+            return null;
+        }
+
+        public IControlEncryption clone()
+        {
+            return null;
+        }
+
+        public byte[] getKeyFromString(string key)
+        {
+            return null;
+        }
+
+        public string getKeyPattern()
+        {
+            return null;
+        }
+
+        public void onStatusChanged()
+        {
+            if (OnStatusChanged != null)
+                OnStatusChanged(this, true);
+        }
+
+        public event KeyPatternChanged keyPatternChanged;
+
+        #endregion
+
+        #region IControl Member
+
+        public event IControlStatusChangedEventHandler OnStatusChanged;
+
+        #endregion
+
+        #region IDisposable Member
+
+        public void Dispose()
+        {
+            
+        }
+
+        #endregion
     }
 }
