@@ -36,9 +36,12 @@ namespace Cryptool.Trivium
         #endregion
 
         #region Public Variables
-        public uint[] a = new uint[93];
+        /*public uint[] a = new uint[93];
         public uint[] b = new uint[84];
-        public uint[] c = new uint[111];
+        public uint[] c = new uint[111]; */
+        public List<uint> a = new List<uint>(new uint[93]);
+        public List<uint> b = new List<uint>(new uint[84]);
+        public List<uint> c = new List<uint>(new uint[111]);
         public uint t1, t2, t3;
         public int masterSlaveRounds = 0;
         #endregion
@@ -459,12 +462,11 @@ namespace Cryptool.Trivium
 
         public void initTrivium(int[] IV, int[] key)
         {
-	        int i,j;
-
-            int[] buffer = new int[8];
+            int i; //,j;
 
             if (settings.UseByteSwapping)
             {
+                int[] buffer = new int[8];
                 // Byte-Swapping Key
                 for (int l = 0; l < 10; l++)
                 {
@@ -484,11 +486,12 @@ namespace Cryptool.Trivium
                 }
             }
 
-	        for (i = 0; i < 80; i++){
+	        for (i = 0; i < 80; i++)
+            {
 		        a[i] = (uint)key[i]; // hier key rein als binär
-		        b[i] = (uint)IV[i]; // hier IV rein als binär
-		        c[i] = 0;
-	        }
+                b[i] = (uint)IV[i]; // hier IV rein als binär
+                c[i] = 0;
+            }
 	        while (i < 84){
 		        a[i] = 0;
 		        b[i] = 0;
@@ -504,7 +507,7 @@ namespace Cryptool.Trivium
 		        c[i] = 0;
 		        i++;
 	        }
-	        while (i < 111){
+            while (i < 111){
 		        c[i] = 1;
 		        i++;
 	        }
@@ -523,21 +526,27 @@ namespace Cryptool.Trivium
                 t1 = a[65] ^ (a[90] & a[91]) ^ a[92] ^ b[77];
                 t2 = b[68] ^ (b[81] & b[82]) ^ b[83] ^ c[86];
                 t3 = c[65] ^ (c[108] & c[109]) ^ c[110] ^ a[68];
-                for (j = 92; j > 0; j--)
+                /*for (j = 92; j > 0; j--)
                     a[j] = a[j - 1];
                 for (j = 83; j > 0; j--)
                     b[j] = b[j - 1];
                 for (j = 110; j > 0; j--)
-                    c[j] = c[j - 1];
+                    c[j] = c[j - 1]; 
                 a[0] = t3;
                 b[0] = t1;
-                c[0] = t2;
+                c[0] = t2; */ 
+                a.Insert(0, t3);
+                b.Insert(0, t1);
+                c.Insert(0, t2);
+                a.RemoveAt(a.Count - 1);
+                b.RemoveAt(b.Count - 1);
+                c.RemoveAt(c.Count - 1);
             }
         }
 
         public string keystreamTrivium(int nBits)
         {
-            int i, j;
+            int i; //, j;
             uint z;
 
             string keystreamZ = null;
@@ -545,10 +554,11 @@ namespace Cryptool.Trivium
 
             for (i = 0; i < nBits; i++)
             {
-                t1 = a[65] ^ a[92];
+                /*t1 = a[65] ^ a[92];
                 t2 = b[68] ^ b[83];
                 t3 = c[65] ^ c[110];
-                z = t1 ^ t2 ^ t3;
+                z = t1 ^ t2 ^ t3; */
+                z = a[65] ^ a[92] ^ b[68] ^ b[83] ^ c[65] ^ c[110];
 
                 if (!settings.UseByteSwapping)
                     keystreamZ += z;
@@ -558,7 +568,7 @@ namespace Cryptool.Trivium
                 t1 = t1 ^ (a[90] & a[91]) ^ b[77];
                 t2 = t2 ^ (b[81] & b[82]) ^ c[86];
                 t3 = t3 ^ (c[108] & c[109]) ^ a[68];
-                for (j = 92; j > 0; j--)
+                /*for (j = 92; j > 0; j--)
                     a[j] = a[j - 1];
                 for (j = 83; j > 0; j--)
                     b[j] = b[j - 1];
@@ -566,7 +576,13 @@ namespace Cryptool.Trivium
                     c[j] = c[j - 1];
                 a[0] = t3;
                 b[0] = t1;
-                c[0] = t2;
+                c[0] = t2;*/
+                a.Insert(0, t3);
+                b.Insert(0, t1);
+                c.Insert(0, t2);
+                a.RemoveAt(a.Count - 1);
+                b.RemoveAt(b.Count - 1);
+                c.RemoveAt(c.Count - 1);
             }
 
             if (settings.UseByteSwapping)
@@ -592,7 +608,6 @@ namespace Cryptool.Trivium
                     keystreamZ += k.ToString();
                 }
             }
-
             return keystreamZ;
         }
 
