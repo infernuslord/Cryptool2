@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
 using System.IO;
+using System.ComponentModel;
 
 namespace Cryptool.MD5
 {
-    public class PresentableMd5
+    public class PresentableMd5 : INotifyPropertyChanged
     {
         public List<PresentableMd5State> StateHistory { get; set; }
 
@@ -56,24 +57,55 @@ namespace Cryptool.MD5
             }
         }
 
-        public PresentableMd5(Stream dataStream)
+        public delegate void StatusChangedHandler();
+        public event StatusChangedHandler StatusChanged;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        void OnPropChanged(string propertyName)
         {
-            Initialize(dataStream);
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void OnStatusChanged()
+        {
+            OnPropChanged("CurrentState");
+            OnPropChanged("LastState");
+            OnPropChanged("CurrentStateNumber");
+            OnPropChanged("IsInFinishedState");
+
+            if (StatusChanged != null)
+                StatusChanged();
         }
 
         public PresentableMd5()
         {
+            StateHistory = new List<PresentableMd5State>();
+            SetUninitializedState();
         }
 
         public void Initialize(Stream dataStream)
         {
-            StateHistory = new List<PresentableMd5State>();
-
             DataStream = dataStream;
 
-            InitFirstState();
+            SetUninitializedState();
+            PerformInitializationStep();
 
             IsInitialized = true;
+
+            OnStatusChanged();
+        }
+
+        private void SetUninitializedState()
+        {
+            StateHistory.Clear();
+
+            PresentableMd5State uninitializedState = new PresentableMd5State();
+            uninitializedState.State = Md5State.UNINITIALIZED;
+            StateHistory.Add(uninitializedState);
+            CurrentState = uninitializedState;
+
+            CurrentStateNumber = 0;
         }
 
         protected void AddNewState()
@@ -105,22 +137,35 @@ namespace Cryptool.MD5
 
             CurrentStateNumber--;
             CurrentState = StateHistory[CurrentStateNumber];
+            OnStatusChanged();
         }
 
         public bool IsInFinishedState
         {
             get
             {
-                return CurrentState.State == PresentableMd5State.Md5State.FINISHED;
+                return CurrentState.State == Md5State.FINISHED;
+            }
+        }
+
+        public bool IsInFirstState
+        {
+            get
+            {
+                return CurrentStateNumber == 0;
             }
         }
 
         public void NextStep()
         {
+            if (!IsInitialized)
+                return;
+
             if (HistoryHasMoreStates)
             {
                 CurrentStateNumber++;
                 CurrentState = StateHistory[CurrentStateNumber];
+                OnStatusChanged();
             }
             else
             {
@@ -130,24 +175,34 @@ namespace Cryptool.MD5
                 PresentableMd5State previousState = CurrentState;
                 AddNewState();
                 PerformStep(previousState, CurrentState);
+                OnStatusChanged();
             }
         }
 
         public void NextStepUntilFinished()
         {
+            if (!IsInitialized)
+                return;
+
             while (!IsInFinishedState)
                 NextStep();
         }
 
         public void NextStepUntilRoundEnd()
         {
-            while (!IsInFinishedState && CurrentState.State != PresentableMd5State.Md5State.FINISHED_ROUND)
+            if (!IsInitialized)
+                return;
+
+            while (!IsInFinishedState && CurrentState.State != Md5State.FINISHED_ROUND)
                 NextStep();
         }
 
         public void NextStepUntilBlockEnd()
         {
-            while (!IsInFinishedState && CurrentState.State != PresentableMd5State.Md5State.FINISHED_COMPRESSION)
+            if (!IsInitialized)
+                return;
+
+            while (!IsInFinishedState && CurrentState.State != Md5State.FINISHED_COMPRESSION)
                 NextStep();
         }
 
@@ -155,105 +210,105 @@ namespace Cryptool.MD5
         {
             switch (previousState.State)
             {
-                case PresentableMd5State.Md5State.INITIALIZED:
+                case Md5State.INITIALIZED:
                     // If initialization is complete, start by reading data
-                    newState.State = PresentableMd5State.Md5State.READING_DATA;
+                    newState.State = Md5State.READING_DATA;
                     break;
 
-                case PresentableMd5State.Md5State.READING_DATA:
+                case Md5State.READING_DATA:
                     // Read data and enter "data read" state
                     ReadData(newState);
-                    newState.State = PresentableMd5State.Md5State.READ_DATA;
+                    newState.State = Md5State.READ_DATA;
                     break;
 
-                case PresentableMd5State.Md5State.READ_DATA:
+                case Md5State.READ_DATA:
                     // If an underfull buffer was read, we're at the end of the digestible data, so enter "starting padding" state
                     // If a full buffer was read, enter "starting compression" state
                     if (previousState.DataLength < DATA_BLOCK_SIZE)
-                        newState.State = PresentableMd5State.Md5State.STARTING_PADDING;
+                        newState.State = Md5State.STARTING_PADDING;
                     else
-                        newState.State = PresentableMd5State.Md5State.STARTING_COMPRESSION;
+                        newState.State = Md5State.STARTING_COMPRESSION;
                     break;
 
-                case PresentableMd5State.Md5State.STARTING_PADDING:
+                case Md5State.STARTING_PADDING:
                     // First step of padding is adding the padding bytes, so enter that state
-                    newState.State = PresentableMd5State.Md5State.ADDING_PADDING_BYTES;
+                    newState.State = Md5State.ADDING_PADDING_BYTES;
                     break;
 
-                case PresentableMd5State.Md5State.ADDING_PADDING_BYTES:
+                case Md5State.ADDING_PADDING_BYTES:
                     // Add necessary number of bytes and enter "added padding bytes" state
                     AddPaddingBytes(newState);
-                    newState.State = PresentableMd5State.Md5State.ADDED_PADDING_BYTES;
+                    newState.State = Md5State.ADDED_PADDING_BYTES;
                     break;
 
-                case PresentableMd5State.Md5State.ADDED_PADDING_BYTES:
+                case Md5State.ADDED_PADDING_BYTES:
                     // The next step for padding is adding the data length, so enter that state
-                    newState.State = PresentableMd5State.Md5State.ADDING_LENGTH;
+                    newState.State = Md5State.ADDING_LENGTH;
                     break;
 
-                case PresentableMd5State.Md5State.ADDING_LENGTH:
+                case Md5State.ADDING_LENGTH:
                     // Add the length of the data and enter "added length" state
                     AddLength(newState);
-                    newState.State = PresentableMd5State.Md5State.ADDED_LENGTH;
+                    newState.State = Md5State.ADDED_LENGTH;
                     break;
 
-                case PresentableMd5State.Md5State.ADDED_LENGTH:
+                case Md5State.ADDED_LENGTH:
                     // Padding is done after adding data length, so enter "finished padding" state
-                    newState.State = PresentableMd5State.Md5State.FINISHED_PADDING;
+                    newState.State = Md5State.FINISHED_PADDING;
                     break;
 
-                case PresentableMd5State.Md5State.FINISHED_PADDING:
+                case Md5State.FINISHED_PADDING:
                     // If padding is finished, call compression function for the last (two) time(s)
-                    newState.State = PresentableMd5State.Md5State.STARTING_COMPRESSION;
+                    newState.State = Md5State.STARTING_COMPRESSION;
                     break;
 
-                case PresentableMd5State.Md5State.STARTING_COMPRESSION:
+                case Md5State.STARTING_COMPRESSION:
                     StartCompression(newState);
-                    newState.State = PresentableMd5State.Md5State.STARTING_ROUND;
+                    newState.State = Md5State.STARTING_ROUND;
                     break;
 
-                case PresentableMd5State.Md5State.STARTING_ROUND:
+                case Md5State.STARTING_ROUND:
                     StartRound(newState);
-                    newState.State = PresentableMd5State.Md5State.STARTING_ROUND_STEP;
+                    newState.State = Md5State.STARTING_ROUND_STEP;
                     break;
 
-                case PresentableMd5State.Md5State.STARTING_ROUND_STEP:
+                case Md5State.STARTING_ROUND_STEP:
                     PerformRoundStep(newState);
-                    newState.State = PresentableMd5State.Md5State.FINISHED_ROUND_STEP;
+                    newState.State = Md5State.FINISHED_ROUND_STEP;
                     break;
 
-                case PresentableMd5State.Md5State.FINISHED_ROUND_STEP:
+                case Md5State.FINISHED_ROUND_STEP:
                     if (previousState.IsLastStepInRound)
-                        newState.State = PresentableMd5State.Md5State.FINISHED_ROUND;
+                        newState.State = Md5State.FINISHED_ROUND;
                     else
                     {
-                        newState._RoundStepIndex++;
-                        newState.State = PresentableMd5State.Md5State.STARTING_ROUND_STEP;
+                        newState.RoundStepIndex++;
+                        newState.State = Md5State.STARTING_ROUND_STEP;
                     }
                     break;
 
-                case PresentableMd5State.Md5State.FINISHED_ROUND:
+                case Md5State.FINISHED_ROUND:
                     if (previousState.IsLastRound)
-                        newState.State = PresentableMd5State.Md5State.FINISHING_COMPRESSION;
+                        newState.State = Md5State.FINISHING_COMPRESSION;
                     else
                     {
-                        newState._RoundIndex++;
-                        newState.State = PresentableMd5State.Md5State.STARTING_ROUND;
+                        newState.RoundIndex++;
+                        newState.State = Md5State.STARTING_ROUND;
                     }
                     break;
 
-                case PresentableMd5State.Md5State.FINISHING_COMPRESSION:
+                case Md5State.FINISHING_COMPRESSION:
                     FinishCompression(newState);
-                    newState.State = PresentableMd5State.Md5State.FINISHED_COMPRESSION;
+                    newState.State = Md5State.FINISHED_COMPRESSION;
                     break;
 
-                case PresentableMd5State.Md5State.FINISHED_COMPRESSION:
+                case Md5State.FINISHED_COMPRESSION:
                     // If compression is finished, check if there's more data left in buffer. If so, reenter compression function with offset
                     if (previousState.DataLength - previousState.DataOffset > DATA_BLOCK_SIZE)
                     {
                         // Still some data left in buffer, rerun compression with offset
                         newState.DataOffset += DATA_BLOCK_SIZE;
-                        newState.State = PresentableMd5State.Md5State.STARTING_COMPRESSION;
+                        newState.State = Md5State.STARTING_COMPRESSION;
                     }
                     else
                     {
@@ -262,12 +317,12 @@ namespace Cryptool.MD5
                         if (previousState.IsPaddingDone)
                         {
                             // If padding was already added, we're done
-                            newState.State = PresentableMd5State.Md5State.FINISHED;
+                            newState.State = Md5State.FINISHED;
                         }
                         else
                         {
                             // Read more data
-                            newState.State = PresentableMd5State.Md5State.READING_DATA;
+                            newState.State = Md5State.READING_DATA;
                         }
                     }
                     break;
@@ -293,7 +348,7 @@ namespace Cryptool.MD5
 
         private void StartRound(PresentableMd5State newState)
         {
-            newState._RoundStepIndex = 0;
+            newState.RoundStepIndex = 0;
         }
 
         private void StartCompression(PresentableMd5State newState)
@@ -308,7 +363,7 @@ namespace Cryptool.MD5
                         (((uint)newState.Data[newState.DataOffset + (j)]));
             }
 
-            newState._RoundIndex = 0;
+            newState.RoundIndex = 0;
 
             newState.A = newState.H1;
             newState.B = newState.H2;
@@ -342,12 +397,8 @@ namespace Cryptool.MD5
             }
         }
 
-        public void InitFirstState()
+        public void PerformInitializationStep()
         {
-            Console.WriteLine("InitFirstState()");
-
-            StateHistory.Clear();
-            CurrentStateNumber = -1;
             AddNewState();
 
             CurrentState.BytesHashed = 0;
@@ -355,7 +406,7 @@ namespace Cryptool.MD5
             CurrentState.H2 = 0xEFCDAB89;
             CurrentState.H3 = 0x98BADCFE;
             CurrentState.H4 = 0X10325476;
-            CurrentState.State = PresentableMd5State.Md5State.INITIALIZED;
+            CurrentState.State = Md5State.INITIALIZED;
         }
 
         public static uint RotateLeft(uint uiNumber, ushort shift)
@@ -370,12 +421,12 @@ namespace Cryptool.MD5
         {
             Console.WriteLine("Before R {0} S {1,2}: A = {2,10} B = {3,10} C = {4,10} D = {5,10}", newState.Round, newState.RoundStep, newState.A, newState.B, newState.C, newState.D);
 
-            RoundFunction roundFunction = ROUND_FUNCTION[newState._RoundIndex];
+            RoundFunction roundFunction = ROUND_FUNCTION[newState.RoundIndex];
 
-            uint i = newState._RoundIndex * 16 + newState._RoundStepIndex;
+            uint i = newState.RoundIndex * 16 + newState.RoundStepIndex;
 
             uint wordIndex;
-            switch (newState._RoundIndex)
+            switch (newState.RoundIndex)
             {
                 default:
                 case 0:
@@ -393,30 +444,22 @@ namespace Cryptool.MD5
             }
             wordIndex %= 16;
 
-            switch (newState._RoundStepIndex % 4)
-            {
-                case 0:
-                    ExecRoundFunction(ref newState.A, newState.B, newState.C, newState.D, roundFunction, newState.X[wordIndex], i);
-                    break;
-                case 1:
-                    ExecRoundFunction(ref newState.D, newState.A, newState.B, newState.C, roundFunction, newState.X[wordIndex], i);
-                    break;
-                case 2:
-                    ExecRoundFunction(ref newState.C, newState.D, newState.A, newState.B, roundFunction, newState.X[wordIndex], i);
-                    break;
-                case 3:
-                    ExecRoundFunction(ref newState.B, newState.C, newState.D, newState.A, roundFunction, newState.X[wordIndex], i);
-                    break;
-            }
+            ExecRoundFunction(newState, roundFunction, newState.X[wordIndex], i);
 
             if (newState.IsLastRound && newState.IsLastStepInRound)
 
                 Console.WriteLine("After  R {0} S {1,2}: A = {2,10} B = {3,10} C = {4,10} D = {5,10}", newState.Round, newState.RoundStep, newState.A, newState.B, newState.C, newState.D);
         }
 
-        protected static void ExecRoundFunction(ref uint a, uint b, uint c, uint d, RoundFunction function, uint W, uint i)
+        protected static void ExecRoundFunction(PresentableMd5State state, RoundFunction function, uint W, uint i)
         {
-            a = b + RotateLeft((a + function(a, b, c, d) + W + AdditionConstantTable[i]), ShiftConstantTable[i]);
+            state.A = state.B + RotateLeft((state.A + function(state.A, state.B, state.C, state.D) + W + AdditionConstantTable[i]), ShiftConstantTable[i]);
+
+            uint oldD = state.D;
+            state.D = state.C;
+            state.C = state.B;
+            state.B = state.A;
+            state.A = oldD;
         }
 
         protected static uint FuncF(uint a, uint b, uint c, uint d)

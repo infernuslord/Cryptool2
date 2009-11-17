@@ -20,6 +20,30 @@ namespace Test.Cryptool.MD5
         }
 
         [Test]
+        public void Construction()
+        {
+            new PresentableMd5();
+        }
+
+        [Test]
+        public void UninitializedStateAfterConstruction()
+        {
+            PresentableMd5 md5 = new PresentableMd5();
+
+            Assert.AreEqual(md5.CurrentState.State, Md5State.UNINITIALIZED);
+        }
+
+        [Test]
+        public void InitializedStateAfterInitialization()
+        {
+            PresentableMd5 md5 = new PresentableMd5();
+            Stream stream = new MemoryStream(new byte[0]);
+            md5.Initialize(stream);
+
+            Assert.AreEqual(md5.CurrentState.State, Md5State.INITIALIZED);
+        }
+
+        [Test]
         public void VerifyResultsForRandomData()
         {
             const int TEST_RUNS = 20;
@@ -36,12 +60,11 @@ namespace Test.Cryptool.MD5
         [Test]
         public void VerifyResultForEmptyData()
         {
-            byte[] emptyByteArray = new byte[0];
-            VerifyResult(emptyByteArray);
+            VerifyResult(new byte[0]);
         }
 
         [Test]
-        public void VerifyResultForRandomDataWithInterestingLength()
+        public void VerifyResultsForRandomDataWithInterestingLength()
         {
             VerifyResult(GenerateTestData(54));
             VerifyResult(GenerateTestData(55));
@@ -53,7 +76,8 @@ namespace Test.Cryptool.MD5
             System.Security.Cryptography.MD5 builtinMD5 = System.Security.Cryptography.MD5.Create();
             byte[] builtinResult = builtinMD5.ComputeHash(data);
 
-            PresentableMd5 presentableMd5 = new PresentableMd5(new MemoryStream(data));
+            PresentableMd5 presentableMd5 = new PresentableMd5();
+            presentableMd5.Initialize(new MemoryStream(data));
             presentableMd5.NextStepUntilFinished();
             byte[] presentableMd5Result = presentableMd5.HashValueBytes;
 
