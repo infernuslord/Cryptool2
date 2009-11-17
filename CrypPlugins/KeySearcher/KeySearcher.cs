@@ -20,9 +20,15 @@ namespace KeySearcher
             private char[] values = new char[256];
             private int length;
             private int counter;
+            public bool isSplit
+            {
+                get;
+                private set;
+            }
             
             public Wildcard(string valuePattern)
             {
+                isSplit = false;
                 counter = 0;
                 length = 0;
                 int i = 1;
@@ -42,6 +48,7 @@ namespace KeySearcher
 
             public Wildcard(Wildcard wc)
             {
+                isSplit = wc.isSplit;
                 length = wc.length;
                 counter = wc.counter;
                 for (int i = 0; i < 256; i++)
@@ -66,12 +73,19 @@ namespace KeySearcher
                     wcs[0].values[i] = values[this.counter + i];
                 for (int i = 0; i < wcs[1].length; i++)
                     wcs[1].values[i] = values[i + this.counter + wcs[0].length];
+                wcs[0].isSplit = true;
+                wcs[1].isSplit = true;
                 return wcs;
             }
 
             public char getChar()
             {
                 return values[counter];
+            }
+
+            public char getChar(int add)
+            {
+                return values[(counter+add)%length];
             }
 
             public bool succ()
@@ -140,6 +154,8 @@ namespace KeySearcher
                     patterns[1].wildcardList.Add(copy);
                 }
             }
+            if (!s)
+                throw new Exception("Can't be split!");
             return patterns;
         }
 
@@ -239,9 +255,25 @@ namespace KeySearcher
             return counter;
         }
 
-        public bool nextKey()
+        /** used to jump to the next Key.         
+         * if nextWildcard == -1, we return false
+         * if nextWildcard == -2, we return true
+         * if nextWildcard == -3, we increase the rightmost wildcard
+         * if nextWildcard >= 0, we increase the wildcard on the position 'nextWildcard'
+         * returns false if there is no key left.
+         */
+        public bool nextKey(int nextWildcard)
         {
-            int wildcardCount = wildcardList.Count-1;
+            if (nextWildcard == -2)
+                return true;
+            if (nextWildcard == -1)
+                return false;
+
+            int wildcardCount;
+            if (nextWildcard == -3)
+                wildcardCount = wildcardList.Count - 1;
+            else
+                wildcardCount = nextWildcard;
             bool overflow = ((Wildcard)wildcardList[wildcardCount]).succ();
             wildcardCount--;
             while (overflow && (wildcardCount >= 0))
@@ -265,6 +297,74 @@ namespace KeySearcher
             }
             return res;
         }
+
+        public string getKey(int add)
+        {
+            string res = "";
+            int div = 1;
+            int wildcardCount = wildcardList.Count-1;
+            for (int i = key.Length-1; i >= 0; i--)
+            {
+                if (key[i] != '*')
+                    res += key[i];
+                else
+                {
+                    Wildcard wc = (Wildcard)wildcardList[wildcardCount--];
+                    if (add < div)
+                        res += wc.getChar();
+                    else
+                    {
+                        res += wc.getChar((add / div) % wc.size());
+                        div *= wc.size();
+                    }
+                }
+            }
+            char[] r = res.ToCharArray();
+            Array.Reverse(r);
+            return new string(r);
+        }
+
+        public string getKeyBlock(ref int blocksize, ref int nextWildcard)
+        {
+            const int MAXSIZE = 65536;
+            //find out how many wildcards we can group together:
+            blocksize = 1;
+            int pointer;
+            for (pointer = wildcardList.Count - 1; pointer >= 0; pointer--)
+            {
+                Wildcard wc = (Wildcard)wildcardList[pointer];
+                if (wc.isSplit || wc.count() != 0 || blocksize*wc.size() > MAXSIZE)                
+                    break;
+                else
+                    blocksize *= wc.size();
+            }            
+
+            if (pointer >= wildcardList.Count)
+                return null;
+
+            nextWildcard = pointer;            
+
+            //generate key:
+            string res = "";
+            int wildcardCount = 0;
+            for (int i = 0; i < key.Length; i++)
+            {
+                if (key[i] != '*')
+                    res += key[i];
+                else
+                {
+                    if (pointer < wildcardCount)
+                        res += "*";
+                    else
+                    {
+                        Wildcard wc = (Wildcard)wildcardList[wildcardCount++];
+                        res += wc.getChar();
+                    }
+                }
+            }
+            return res;
+        }
+
     }
     
     [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
@@ -354,82 +454,97 @@ namespace KeySearcher
 
             KeyPattern pattern = patterns[threadid];
 
+            bool useKeyblocks = true;
+
             try
             {
                 while (pattern != null)
                 {
                     long size = pattern.size();
                     keysLeft[threadid] = size;
+                    int nextWildcard;
 
                     do
                     {
-                        ValueKey valueKey = new ValueKey();
-                        try
-                        {
-                            valueKey.key = pattern.getKey();
-                        }
-                        catch (Exception ex)
-                        {
-                            GuiLogMessage("Could not get next Key: " + ex.Message, NotificationLevel.Error);
-                            return;
-                        }
-
-                        try
-                        {
-                            valueKey.decryption = sender.Decrypt(ControlMaster.getKeyFromString(valueKey.key), bytesToUse);
-                        }
-                        catch (Exception ex)
-                        {
-                            GuiLogMessage("Decryption is not possible: " + ex.Message, NotificationLevel.Error);
-                            GuiLogMessage("Stack Trace: " + ex.StackTrace, NotificationLevel.Error);
-                            return;
-                        }
-
-                        try
-                        {
-                            valueKey.value = CostMaster.calculateCost(valueKey.decryption);
-                        }
-                        catch (Exception ex)
-                        {
-                            GuiLogMessage("Cost calculation is not possible: " + ex.Message, NotificationLevel.Error);
-                            return;
-                        }
-
-                        if (this.costMaster.getRelationOperator() == RelationOperator.LargerThen)
-                        {
-                            if (valueKey.value > value_threshold)
-                                valuequeue.Enqueue(valueKey);
-                        }
-                        else
-                        {
-                            if (valueKey.value < value_threshold)
-                                valuequeue.Enqueue(valueKey);
-                        }
-
-                        doneKeysArray[threadid]++;
-                        keycounterArray[threadid]++;
-                        keysLeft[threadid]--;
-
                         //if we are the thread with most keys left, we have to share them:
                         if (maxThread == threadid && threadStack.Count != 0)
                         {
                             maxThreadMutex.WaitOne();
                             if (maxThread == threadid && threadStack.Count != 0)
                             {
-                                KeyPattern[] split = pattern.split();
-                                patterns[threadid] = split[0];
-                                pattern = split[0];
-                                ThreadStackElement elem = (ThreadStackElement)threadStack.Pop();
-                                patterns[elem.threadid] = split[1];
-                                elem.ev.Set();    //wake the other thread up
+                                try
+                                {
+                                    KeyPattern[] split = pattern.split();
+                                    patterns[threadid] = split[0];
+                                    pattern = split[0];
+                                    ThreadStackElement elem = (ThreadStackElement)threadStack.Pop();
+                                    patterns[elem.threadid] = split[1];
+                                    elem.ev.Set();    //wake the other thread up                                    
+                                    size = pattern.size();
+                                    keysLeft[threadid] = size;
+                                }
+                                catch (Exception e)
+                                {
+                                    //pattern can't be split? who cares :)
+                                }
                                 maxThread = -1;
-                                size = pattern.size();
-                                keysLeft[threadid] = size;
                             }
                             maxThreadMutex.ReleaseMutex();
                         }
 
-                    } while (pattern.nextKey() && !stop);
+
+                        ValueKey valueKey = new ValueKey();
+                        int blocksize = 0;
+                        nextWildcard = -3;
+                        try
+                        {
+                            string key = "";
+                            if (useKeyblocks)
+                                key = pattern.getKeyBlock(ref blocksize, ref nextWildcard);
+                            if (key == null)
+                                useKeyblocks = false;
+                            if (!useKeyblocks)
+                                key = pattern.getKey();
+                            valueKey.key = key;
+                        }
+                        catch (Exception ex)
+                        {
+                            GuiLogMessage("Could not get next key: " + ex.Message, NotificationLevel.Error);
+                            return;
+                        }
+
+                        int[] arrayPointers = null;
+                        int[] arraySuccessors = null;
+                        int[] arrayUppers = null;
+                        byte[] keya = ControlMaster.getKeyFromString(valueKey.key, ref arrayPointers, ref arraySuccessors, ref arrayUppers);
+                        if (keya == null)
+                        {
+                            useKeyblocks = false;
+                            nextWildcard = -2;
+                            continue;   //try again
+                        }
+
+                        if (arrayPointers == null)  //decrypt only one key
+                        {
+                            if (!decryptAndCalculate(sender, bytesToUse, ref valueKey, keya, 0, null))
+                                return;                            
+                            doneKeysArray[threadid]++;
+                            keycounterArray[threadid]++;
+                            keysLeft[threadid]--;
+                        }
+                        else  //decrypt several keys
+                        {
+                            int counter = 0;
+                            if (!bruteforceBlock(sender, bytesToUse, ref valueKey, keya, arrayPointers, arraySuccessors, arrayUppers, 0, ref counter, pattern))
+                                return;
+                            doneKeysArray[threadid] += blocksize;
+                            keycounterArray[threadid] += blocksize;
+                            keysLeft[threadid] -= blocksize;
+                        }
+                    } while (pattern.nextKey(nextWildcard) && !stop);
+
+                    if (stop)
+                        return;
 
                     //Let's wait until another thread is willing to share with us:
                     pattern = null;
@@ -448,6 +563,81 @@ namespace KeySearcher
             {
                 sender.Dispose();
             }
+        }
+        
+        private bool bruteforceBlock(IControlEncryption sender, int bytesToUse, ref ValueKey valueKey, byte[] keya, int[] arrayPointers, 
+            int[] arraySuccessors, int[] arrayUppers, int arrayPointer, ref int counter, KeyPattern pattern)
+        {
+            byte store = keya[arrayPointers[arrayPointer]];
+            while (!stop)
+            {
+                if (arrayPointer+1 < arrayPointers.Length && arrayPointers[arrayPointer+1] != -1)
+                {
+                    if (!bruteforceBlock(sender, bytesToUse, ref valueKey, keya, arrayPointers, arraySuccessors, arrayUppers, arrayPointer + 1, ref counter, pattern))
+                        return false;
+                }
+                else
+                {
+                    if (!decryptAndCalculate(sender, bytesToUse, ref valueKey, keya, counter, pattern))
+                        return false;
+                }
+
+                if (keya[arrayPointers[arrayPointer]] + arraySuccessors[arrayPointer] <= arrayUppers[arrayPointer])
+                {
+                    keya[arrayPointers[arrayPointer]] += (byte)arraySuccessors[arrayPointer];
+                    counter++;
+                }
+                else
+                    break;
+            }
+            keya[arrayPointers[arrayPointer]] = store;
+            if (stop)
+                return false;
+            return true;
+        }
+
+        private bool decryptAndCalculate(IControlEncryption sender, int bytesToUse, ref ValueKey valueKey, byte[] keya, int counter, KeyPattern pattern)
+        {
+            try
+            {
+                valueKey.decryption = sender.Decrypt(keya, bytesToUse);
+            }
+            catch (Exception ex)
+            {
+                GuiLogMessage("Decryption is not possible: " + ex.Message, NotificationLevel.Error);
+                GuiLogMessage("Stack Trace: " + ex.StackTrace, NotificationLevel.Error);
+                return false;
+            }
+
+            try
+            {
+                valueKey.value = CostMaster.calculateCost(valueKey.decryption);
+            }
+            catch (Exception ex)
+            {
+                GuiLogMessage("Cost calculation is not possible: " + ex.Message, NotificationLevel.Error);
+                return false;
+            }
+
+            if (this.costMaster.getRelationOperator() == RelationOperator.LargerThen)
+            {
+                if (valueKey.value > value_threshold)
+                {
+                    if (pattern != null)
+                        valueKey.key = pattern.getKey(counter);
+                    valuequeue.Enqueue(valueKey);
+                }
+            }
+            else
+            {
+                if (valueKey.value < value_threshold)
+                {
+                    if (pattern != null)
+                        valueKey.key = pattern.getKey(counter);
+                    valuequeue.Enqueue(valueKey);
+                }
+            }
+            return true;
         }
 
         public void process(IControlEncryption sender)
@@ -550,7 +740,6 @@ namespace KeySearcher
                                 node = costList.First;
                                 while (node != null)
                                 {
-
                                     if (vk.value > node.Value.value)
                                     {
                                         costList.AddBefore(node, vk);

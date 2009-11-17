@@ -1082,7 +1082,7 @@ namespace Transposition
             return null;
         }
 
-        public byte[] getKeyFromString(string key)
+        public byte[] getKeyFromString(string key, ref int[] arrayPointers, ref int[] arraySuccessors, ref int[] arrayUppers)
         {
             return null;
         }
