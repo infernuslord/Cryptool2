@@ -55,9 +55,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="P2PPublisher.cs" />
+    <Compile Include="P2PPublisherBase.cs" />
     <Compile Include="P2PPublisherSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SubscribersInfo.cs" />
+    <Compile Include="SubscribersManagement.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">

@@ -34,9 +34,19 @@ using System.ComponentModel;
 using Cryptool.PluginBase.IO;
 using PeersAtPlay;
 
-/*
- * Synchronous functions successfully tested (store, retrieve)
- * !!! remove-Function is faulty - open field !!!
+/* - Synchronous functions successfully tested (store, retrieve)
+ * - !!! remove-Function is faulty - open field !!!
+ * - The DHT has an integrated versioning system. When a peer wants
+ *   to store data in an entry, which already holds data, the version
+ *   number will be compared with the peers' version number. If the
+ *   peer hasn't read/write the entry the last time, the storing instruction
+ *   will be rejected. You must first read the actual data and than you can
+ *   store your data in this entry...
+ * 
+ * INFO:
+ * - Have considered the DHT-own versioning system in the SynchStore method.
+ *   If this versioning system will be abolished, the SynchStore method must
+ *   be change!
  * 
  * TODO:
  * - dht.Remove-Method makes problems... "ArgumentNotNullException"
@@ -68,7 +78,7 @@ namespace Cryptool.Plugins.PeerToPeer
         public delegate void SystemLeft();
         public event SystemLeft OnSystemLeft;
 
-        public delegate void P2PMessageReceived(byte[] byteSourceAddr, string sData);
+        public delegate void P2PMessageReceived(string sSourceAddr, string sData);
         public event P2PMessageReceived OnP2PMessageReceived;
 
         /// <summary>
@@ -91,6 +101,13 @@ namespace Cryptool.Plugins.PeerToPeer
         #endregion
 
         #region Variables
+
+        private bool initialized = false;
+        public bool Initialized 
+        {
+            get { return this.initialized; }
+            set { this.initialized = value; } 
+        }
 
         private IDHT dht;
         private IP2PLinkManager linkmanager;
@@ -195,7 +212,6 @@ namespace Cryptool.Plugins.PeerToPeer
             return true;
         }
 
-        /*TESTING AREA - COMPLETELY STOP THE WHOLE P2P SYSTEM*/
         /// <summary>
         /// Disjoins the peer from the system. The P2P system survive while one peer is still in the network.
         /// </summary>
@@ -205,10 +221,10 @@ namespace Cryptool.Plugins.PeerToPeer
             if (this.dht != null)
             {
                 this.dht.BeginStop(null);
-                //wait till systemLeft Event is invoked
                 this.overlay.BeginStop(null);
                 this.linkmanager.BeginStop(null);
                 this.bootstrapper.Dispose();
+                //wait till systemLeft Event is invoked
                 this.systemLeft.WaitOne();
             }
             return true;
@@ -248,11 +264,12 @@ namespace Cryptool.Plugins.PeerToPeer
         /// Get PeerName of the actual peer
         /// </summary>
         /// <param name="sPeerName">out: additional peer information UserName on LinkManager</param>
-        /// <returns>PeerID as an byte array (suitable for correct addressing on the overlay)</returns>
-        public byte[] GetPeerID(out string sPeerName)
+        /// <returns>PeerID as a String</returns>
+        public string GetPeerID(out string sPeerName)
         {
             sPeerName = this.linkmanager.UserName;
-            return this.overlay.LocalAddress.ToByteArray();
+            return this.overlay.LocalAddress.ToString();
+            // return this.overlay.LocalAddress.ToByteArray();
         }
 
         // overlay.LocalAddress = Overlay-Peer-Address/Names
@@ -270,6 +287,24 @@ namespace Cryptool.Plugins.PeerToPeer
             this.overlay.Send(overlayMsg);
         }
 
+        public void SendToPeer(string sData, string sDestinationPeerId)
+        {
+            // necessary because the overlay.GetAddress(string)-method of PAP is very buggy.
+            // It doesn't cast the string- to a Byte-Address, but returns the own address...
+            string[] sSplitted = sDestinationPeerId.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+            byte[] byteDestinationAddress = new byte[sSplitted.Length];
+            for (int i = 0; i < byteDestinationAddress.Length; i++)
+            {
+                byteDestinationAddress[i] = System.Convert.ToByte(sSplitted[i]);
+            }
+            SendToPeer(sData, byteDestinationAddress);
+        }
+
+        public void SendToPeer(PubSubMessageType msgType, string sDestinationAddress)
+        {
+            SendToPeer(((int)msgType).ToString(), sDestinationAddress);
+        }
+
         #region Event Handling (System Joined, Left and Message Received)
 
         private void OnDHT_SystemJoined(object sender, EventArgs e)
@@ -277,6 +312,7 @@ namespace Cryptool.Plugins.PeerToPeer
             if (OnSystemJoined != null)
                 OnSystemJoined();
             this.systemJoined.Set();
+            Initialized = true;
         }
 
         private void OnDHT_SystemLeft(object sender, EventArgs e)
@@ -286,25 +322,24 @@ namespace Cryptool.Plugins.PeerToPeer
             // as an experiment
             this.dht = null;
             this.systemLeft.Set();
+            Initialized = false;
         }
 
         private void overlay_MessageReceived(object sender, OverlayMessageEventArgs e)
         {
             if (OnP2PMessageReceived != null)
-                OnP2PMessageReceived(e.Message.Source.ToByteArray(), e.Message.Data.PopUTF8String());
+                OnP2PMessageReceived(e.Message.Source.ToString(), e.Message.Data.PopUTF8String());
         }
 
         private void OnDHT_MessageReceived(object sender, MessageReceived e)
         {
             if (OnP2PMessageReceived != null)
-                OnP2PMessageReceived(e.Source.ToByteArray(), e.Data.PopUTF8String());
+                OnP2PMessageReceived(e.Source.ToString(), e.Data.PopUTF8String());
         }
 
         #endregion
 
-        /*
-         * Attention: The asynchronous methods are not tested at the moment
-         */
+        /* Attention: The asynchronous methods are not tested at the moment */
         #region Asynchronous Methods incl. Callbacks
 
         /// <summary>
@@ -371,6 +406,14 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region Synchronous Methods incl. Callbacks
 
+        #region SynchStore incl.Callback and SecondTrialCallback
+
+        /* The DHT has an integrated VERSIONING SYSTEM. When a peer wants
+         * to store data in an entry, which already holds data, the version
+         * number will be compared with the peers' version number. If the
+         * peer hasn't read/write the entry the last time, the storing instruction
+         * will be rejected. You must first read the actual data and than you can
+         * store your data in this entry... */
         /// <summary>
         /// Stores a value in the DHT at the given key
         /// </summary>
@@ -383,12 +426,12 @@ namespace Cryptool.Plugins.PeerToPeer
             // this method returns always a GUID to distinguish between asynchronous actions
             Guid g = this.dht.Store(OnSynchStoreCompleted, sKey, byteData);
 
-            ResponseWait rw = new ResponseWait() { WaitHandle = are };
+            ResponseWait rw = new ResponseWait() { WaitHandle = are, key=sKey , value = byteData };
 
             waitDict.Add(g, rw);
             //blocking till response
             are.WaitOne();
-            return true;
+            return rw.success;
         }
 
         /// <summary>
@@ -401,6 +444,73 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             return SynchStore(sKey, UTF8Encoding.UTF8.GetBytes(sData));
         }
+        /// <summary>
+        /// Callback for a the synchronized store method
+        /// </summary>
+        /// <param name="rr"></param>
+        private void OnSynchStoreCompleted(StoreResult sr)
+        {
+            ResponseWait rw;
+            if (this.waitDict.TryGetValue(sr.Guid, out rw))
+            {
+                // if Status == Error, than the version of the value is out of date.
+                // There is a versioning system in the DHT. So you must retrieve the
+                // key and than store the new value --> that's it, but much traffic.
+                // to be fixed in a few weeks from M.Helling
+                if (sr.Status == OperationStatus.Failure)
+                {
+                    byte[] byteTemp = this.SynchRetrieve(rw.key);
+
+                    // Only try a second time. When it's still not possible, abort storing
+                    AutoResetEvent are = new AutoResetEvent(false);
+                    Guid g = this.dht.Store(OnSecondTrialStoring, rw.key, rw.value);
+                    ResponseWait rw2 = new ResponseWait() { WaitHandle = are, key = rw.key, value = rw.value };
+
+                    waitDict.Add(g, rw2);
+                    // blocking till response
+                    are.WaitOne();
+                    rw.success = rw2.success;
+                    rw.Message = rw2.Message;
+                }
+                else
+                {
+                    rw.Message = UTF8Encoding.UTF8.GetBytes(sr.Status.ToString());
+                    if (sr.Status == OperationStatus.KeyNotFound)
+                        rw.success = false;
+                    else
+                        rw.success = true;
+                }
+            }
+            //unblock WaitHandle in the synchronous method
+            rw.WaitHandle.Set();
+            // don't know if this accelerates the system...
+            this.waitDict.Remove(sr.Guid);
+        }
+
+        private void OnSecondTrialStoring(StoreResult sr)
+        {
+            ResponseWait rw;
+            if (this.waitDict.TryGetValue(sr.Guid, out rw))
+            {
+                if (sr.Status == OperationStatus.Failure)
+                {
+                    //Abort storing, because it's already the second trial
+                    rw.Message = UTF8Encoding.UTF8.GetBytes("Storing also not possible on second trial.");
+                    rw.success = false;
+                }
+                else
+                {
+                    //works the second trial, so it was the versioning system
+                    rw.success = true;
+                }
+            }
+            //unblock WaitHandle in the synchronous method
+            rw.WaitHandle.Set();
+            // don't know if this accelerates the system...
+            this.waitDict.Remove(sr.Guid);
+        }
+
+        #endregion
 
         /// <summary>
         /// Get the value of the given DHT Key or null, if it doesn't exist.
@@ -424,6 +534,34 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         /// <summary>
+        /// Callback for a the synchronized retrieval method
+        /// </summary>
+        /// <param name="rr"></param>
+        private void OnSynchRetrieveCompleted(RetrieveResult rr)
+        {
+            ResponseWait rw;
+
+            if (this.waitDict.TryGetValue(rr.Guid, out rw))
+            {
+                // successful as long as no error occured
+                rw.success = true;
+                if (rr.Status == OperationStatus.Failure)
+                {
+                    rw.Message = null;
+                    rw.success = false;
+                }
+                else if (rr.Status == OperationStatus.KeyNotFound)
+                    rw.Message = null;
+                else
+                    rw.Message = rr.Data;
+
+                //unblock WaitHandle in the synchronous method
+                rw.WaitHandle.Set();
+                // don't know if this accelerates the system...
+                this.waitDict.Remove(rr.Guid);
+            }
+        }
+        /// <summary>
         /// Removes a key/value pair out of the DHT
         /// </summary>
         /// <param name="sKey">Key of the DHT Entry</param>
@@ -442,48 +580,7 @@ namespace Cryptool.Plugins.PeerToPeer
             waitDict.Add(g, rw);
             // blocking till response
             are.WaitOne();
-            return true;
-        }
-
-        /// <summary>
-        /// Callback for a the synchronized store method
-        /// </summary>
-        /// <param name="rr"></param>
-        private void OnSynchStoreCompleted(StoreResult sr)
-        {
-            ResponseWait rw;
-            if (this.waitDict.TryGetValue(sr.Guid, out rw))
-            {
-                // if Status == Error, than the version of the value is out of date.
-                // There is a versioning system in the DHT. So you must retrieve the
-                // key and than store the new value --> that's it, but much traffic.
-                // to be fixed in a few weeks from M.Helling
-                rw.Message = UTF8Encoding.UTF8.GetBytes(sr.Status.ToString());
-
-                //unblock WaitHandle in the synchronous method
-                rw.WaitHandle.Set();
-                // don't know if this accelerates the system...
-                this.waitDict.Remove(sr.Guid);
-            }
-        }
-
-        /// <summary>
-        /// Callback for a the synchronized retrieval method
-        /// </summary>
-        /// <param name="rr"></param>
-        private void OnSynchRetrieveCompleted(RetrieveResult rr)
-        {
-            ResponseWait rw;
-
-            if (this.waitDict.TryGetValue(rr.Guid, out rw))
-            {
-                rw.Message = rr.Data;
-
-                //unblock WaitHandle in the synchronous method
-                rw.WaitHandle.Set(); 
-                // don't know if this accelerates the system...
-                this.waitDict.Remove(rr.Guid);
-            }
+            return rw.success;
         }
 
         /// <summary>
@@ -496,6 +593,11 @@ namespace Cryptool.Plugins.PeerToPeer
             if (this.waitDict.TryGetValue(rr.Guid, out rw))
             {
                 rw.Message = UTF8Encoding.UTF8.GetBytes(rr.Status.ToString());
+
+                if (rr.Status == OperationStatus.Failure || rr.Status == OperationStatus.KeyNotFound)
+                    rw.success = false;
+                else
+                    rw.success = true;
 
                 //unblock WaitHandle in the synchronous method
                 rw.WaitHandle.Set();

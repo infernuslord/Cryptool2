@@ -12,6 +12,7 @@ namespace Cryptool.Plugins.PeerToPeer
 {
     public class P2PSubscriberSettings : ISettings
     {
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
         private bool hasChanges = false;
         private P2PSubscriber p2pSubscriber;
 
@@ -34,23 +35,57 @@ namespace Cryptool.Plugins.PeerToPeer
         public P2PSubscriberSettings (P2PSubscriber p2pSubscriber)
 	    {
             this.p2pSubscriber = p2pSubscriber;
+            if (TaskPaneAttributeChanged != null)
+            {
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnSolutionFound", Visibility.Collapsed)));
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnUnregister", Visibility.Collapsed)));
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnRegister", Visibility.Visible)));
+            }
 	    }
 
-        private string sTaskName = "NewCompTask";
-        [TaskPane("Task Name", "Choose the name of a published computational task", null, 0, false, DisplayLevel.Beginner, ControlType.TextBox)]
-        public string TaskName
+        private string sTopic = "NewTopic";
+        [TaskPane("Topic Name", "Choose a topic name with which this subscriber shall be registered.", null, 0, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        public string TopicName
         {
-            get { return this.sTaskName; }
+            get { return this.sTopic; }
             set
             {
-                if (this.sTaskName != value && value != String.Empty && value != null)
+                if (this.sTopic != value && value != String.Empty && value != null)
                 {
-                    this.sTaskName = value;
+                    this.sTopic = value;
                     HasChanges = true;
-                    OnPropertyChanged(TaskName);
+                    OnPropertyChanged(TopicName);
                 }
             }
         }
+
+        /* FOR TESTING ISSUES */
+        [TaskPane("Unregister", "Click here to Unregister the publisher from all registered subscribers!", "Control region", 0, true, DisplayLevel.Beginner, ControlType.Button)]
+        public void BtnUnregister()
+        {
+            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnSolutionFound", Visibility.Collapsed)));
+            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnUnregister", Visibility.Collapsed)));
+            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnRegister", Visibility.Visible)));
+            OnPropertyChanged("BtnUnregister");
+        }
+        [TaskPane("Register", "Click here to Register the publisher pro-active with all formely registered subscribers!", "Control region", 1, true, DisplayLevel.Beginner, ControlType.Button)]
+        public void BtnRegister()
+        {
+            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnSolutionFound", Visibility.Visible)));
+            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnRegister", Visibility.Collapsed)));
+            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnUnregister", Visibility.Visible)));
+            OnPropertyChanged("BtnRegister");
+        }
+
+        [TaskPane("Solution found", "TESTING: Emulate solution-found-case!", "Control region", 2, true, DisplayLevel.Beginner, ControlType.Button)]
+        public void BtnSolutionFound()
+        {
+            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnSolutionFound", Visibility.Collapsed)));
+            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnUnregister", Visibility.Collapsed)));
+            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnRegister", Visibility.Visible)));
+            OnPropertyChanged("BtnSolutionFound");
+        }
+        /* FOR TESTING ISSUES */
 
         private int checkPublishersAvailability = 60;
         [TaskPane("Check Publisher Interval (in sec)","To check liveness or possibly changed publishing peer in intervals","Intervals",0,false,DisplayLevel.Beginner,ControlType.NumericUpDown, ValidationType.RangeInteger,20,int.MaxValue)]
@@ -71,8 +106,8 @@ namespace Cryptool.Plugins.PeerToPeer
             }
         }
 
-        private int publishersReplyTimespan = 10;
-        [TaskPane("Publisher Reply Timespan (in sec)", "When checking publishers availability, ping message is sent. The publisher must answer with a pong message in the timespan!", "Intervals", 0, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 10, 60)]
+        private int publishersReplyTimespan = 2;
+        [TaskPane("Publisher Reply Timespan (in sec)", "When checking publishers availability, ping message is sent. The publisher must answer with a pong message in the timespan!", "Intervals", 0, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 2, 60)]
         public int PublishersReplyTimespan
         {
             get

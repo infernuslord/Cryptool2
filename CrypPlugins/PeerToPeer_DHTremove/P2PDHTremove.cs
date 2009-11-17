@@ -25,6 +25,10 @@ using System.ComponentModel;
 using Cryptool.PluginBase.Tool;
 using Cryptool.PluginBase.Control;
 
+/*TODO:
+ * - PAP: dht.Remove wirft Fehler - sollen Dezember abgestellt werden...
+ *   Daher ist PlugIn derzeit fehlerhaft!
+ */
 namespace Cryptool.Plugins.PeerToPeer
 {
     /// <summary>
@@ -135,8 +139,10 @@ namespace Cryptool.Plugins.PeerToPeer
             }
             if (DhtKey != null)
             {
-                P2PMaster.DHTremove(DhtKey);
-                GuiLogMessage("Entry with the key '" + DhtKey + "' will be removed from the DHT", NotificationLevel.Info);
+                if(P2PMaster.DHTremove(DhtKey))
+                    GuiLogMessage("Entry with the key '" + DhtKey + "' is removed from the DHT", NotificationLevel.Info);
+                else
+                    GuiLogMessage("Entry with the key '" + DhtKey + "' isn't removed from the DHT", NotificationLevel.Warning);
             }
             else
             {
