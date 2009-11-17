@@ -874,7 +874,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             return pattern;
         }
 
-        public byte[] getKeyFromString(string key)
+        public byte[] getKeyFromString(string key, ref int[] arrayPointers, ref int[] arraySuccessors, ref int[] arrayUppers)
         {
             int bytes = 0;
             switch (((AESSettings)plugin.Settings).Keysize)
@@ -890,11 +890,48 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                     break;
             }
             byte[] bkey = new byte[bytes];
+            int counter = 0;
+            bool allocated = false;
             for (int i = 0; i < bytes; i++)
             {
                 try
                 {
-                    bkey[i] = Convert.ToByte(key.Substring(i * 3, 2), 16);
+                    string substr = key.Substring(i * 3, 2);
+                    if (!allocated && (substr[0] == '*' || substr[1] == '*'))
+                    {
+                        arrayPointers = new int[bytes];
+                        for (int j = 0; j < bytes; j++)
+                            arrayPointers[j] = -1;
+                        arraySuccessors = new int[bytes];
+                        arrayUppers = new int[bytes];
+                        allocated = true;
+                    }
+                    if (substr[0] != '*' && substr[1] != '*')
+                        bkey[i] = Convert.ToByte(substr, 16);
+                    else if (substr[0] == '*' && substr[1] == '*')
+                    {
+                        bkey[i] = 0;
+                        arrayPointers[counter] = i;
+                        arraySuccessors[counter] = 1;
+                        arrayUppers[counter] = 255;
+                        counter++;
+                    }
+                    else if (substr[0] != '*' && substr[1] == '*')
+                    {
+                        bkey[i] = Convert.ToByte(substr[0] + "0", 16);
+                        arrayPointers[counter] = i;
+                        arraySuccessors[counter] = 1;
+                        arrayUppers[counter] = Convert.ToByte(substr[0] + "F", 16);
+                        counter++;
+                    }
+                    else if (substr[0] == '*' && substr[1] != '*')
+                    {
+                        bkey[i] = Convert.ToByte("0" + substr[1], 16);
+                        arrayPointers[counter] = i;
+                        arraySuccessors[counter] = 16;
+                        arrayUppers[counter] = Convert.ToByte("F" + substr[1], 16);
+                        counter++;
+                    }
                 }
                 catch (Exception ex)
                 {

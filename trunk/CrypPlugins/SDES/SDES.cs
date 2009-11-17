@@ -615,12 +615,14 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public byte[] getKeyFromString(string key)
+        public byte[] getKeyFromString(string key, ref int[] arrayPointers, ref int[] arraySuccessors, ref int[] arrayUppers)
         {
             byte[] bkey = new byte[10];
             int count = 0;
             foreach (char c in key)
-                if (c == '0')
+                if (c == '*')
+                    return null;    //blocks not supported yet
+                else if (c == '0')
                     bkey[count++] = 0;
                 else
                     bkey[count++] = 1;
