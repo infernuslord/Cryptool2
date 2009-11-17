@@ -33,10 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CrypPluginBase, Version=2.0.3410.1, Culture=neutral, PublicKeyToken=db26bd0a20dcbd5c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\CrypPluginBase\bin\Debug\CrypPluginBase.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -100,6 +96,10 @@
     <Resource Include="Images\paste.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
+      <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
+      <Name>CrypPluginBase</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CubeAttackController\CubeAttackController.csproj">
       <Project>{2100AC2F-3F2B-48A2-AF42-87EC52C8A703}</Project>
       <Name>CubeAttackController</Name>
