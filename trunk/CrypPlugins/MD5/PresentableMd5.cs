@@ -73,6 +73,7 @@ namespace Cryptool.MD5
             OnPropChanged("LastState");
             OnPropChanged("CurrentStateNumber");
             OnPropChanged("IsInFinishedState");
+            OnPropChanged("HashValueBytes");
 
             if (StatusChanged != null)
                 StatusChanged();
