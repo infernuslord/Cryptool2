@@ -3,50 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using System.Windows;
 
 namespace Cryptool.MD5
 {
     public class PresentableMd5State
     {
-        internal enum Md5State
-        {
-            INITIALIZED,
-            READING_DATA, READ_DATA,
-            STARTING_PADDING, ADDING_PADDING_BYTES, ADDED_PADDING_BYTES, ADDING_LENGTH, ADDED_LENGTH, FINISHED_PADDING,
-            STARTING_COMPRESSION, STARTING_ROUND, STARTING_ROUND_STEP, FINISHED_ROUND_STEP, FINISHED_ROUND, FINISHING_COMPRESSION, FINISHED_COMPRESSION,
-            FINISHED
-        }
+        public Md5State State { get; set; }
 
-        internal const int DATA_BLOCK_SIZE = 64;
+        public const int DATA_BLOCK_SIZE = 64;
 
-        internal uint A;
-        internal uint B;
-        internal uint C;
-        internal uint D;
+        public uint A { get; set; }
+        public uint B { get; set; }
+        public uint C { get; set; }
+        public uint D { get; set; }
 
-        internal uint _RoundIndex;
-        internal uint Round
+        public uint RoundIndex;
+        public uint Round
         {
             get
             {
-                return _RoundIndex + 1;
+                return RoundIndex + 1;
             }
         }
 
-        internal uint _RoundStepIndex;
-        internal uint RoundStep
+        public uint RoundStepIndex;
+        public uint RoundStep
         {
             get
             {
-                return _RoundStepIndex + 1;
+                return RoundStepIndex + 1;
             }
         }
 
-        internal uint BytesHashed;
+        public uint BytesHashed { get; set; }
 
-        internal bool IsPaddingDone;
+        public bool IsPaddingDone { get; set; }
 
-        internal bool IsLastStepInRound
+        public bool IsLastStepInRound
         {
             get
             {
@@ -54,7 +48,7 @@ namespace Cryptool.MD5
             }
         }
 
-        internal bool IsLastRound
+        public bool IsLastRound
         {
             get
             {
@@ -62,28 +56,30 @@ namespace Cryptool.MD5
             }
         }
 
-        internal uint H1;
-        internal uint H2;
-        internal uint H3;
-        internal uint H4;
+        public uint H1 { get; set; }
+        public uint H2 { get; set; }
+        public uint H3 { get; set; }
+        public uint H4 { get; set; }
 
-        internal uint[] X;
-        internal byte[] Data;
-        internal uint DataLength;
-        internal uint DataOffset;
-        internal ulong LengthInBit;
+        public uint[] X { get; set; }
+        public byte[] Data { get; set; }
+        public uint DataLength { get; set; }
+        public uint DataOffset { get; set; }
+        public ulong LengthInBit { get; set; }
 
-        internal Md5State State;
-
-        internal PresentableMd5State()
+        public PresentableMd5State()
         {
         }
 
-        internal PresentableMd5State(PresentableMd5State other)
+        public PresentableMd5State(PresentableMd5State other)
         {
             foreach (FieldInfo fi in GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))
                 fi.SetValue(this, fi.GetValue(other));
-            H1 = other.H1;
+
+
+            foreach (PropertyInfo pi in GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
+                if (pi.CanWrite && pi.CanRead)
+                    pi.SetValue(this, pi.GetValue(other, null), null);
         }
     }
 }
