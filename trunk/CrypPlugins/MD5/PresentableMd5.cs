@@ -10,16 +10,34 @@ namespace Cryptool.MD5
 {
     public class PresentableMd5 : INotifyPropertyChanged
     {
+        /// <summary>
+        /// A list containing all states that have already been calculated
+        /// </summary>
         public List<PresentableMd5State> StateHistory { get; set; }
 
-        public PresentableMd5State CurrentState { get; set; }
+        /// <summary>
+        /// The current state of the algorithm
+        /// </summary>
+        public PresentableMd5State CurrentState { get; protected set; }
 
+        /// <summary>
+        /// Sequential number identifying the current state of the algorithm
+        /// </summary>
         public int CurrentStateNumber { get; protected set; }
 
+        /// <summary>
+        /// The stream where data is read from
+        /// </summary>
         protected Stream DataStream { get; set; }
 
+        /// <summary>
+        /// Returns whether this object has been initialized using the Initialize() method
+        /// </summary>
         public bool IsInitialized { get; protected set; }
 
+        /// <summary>
+        /// Array of integer constants, each one is used in one of the compression function's 64 steps
+        /// </summary>
         protected static readonly uint[] AdditionConstantTable = new uint[64] 
 			{	0xd76aa478,0xe8c7b756,0x242070db,0xc1bdceee,
 				0xf57c0faf,0x4787c62a,0xa8304613,0xfd469501,
@@ -38,14 +56,23 @@ namespace Cryptool.MD5
                 0x6fa87e4f,0xfe2ce6e0,0xa3014314,0x4e0811a1,
 				0xf7537e82,0xbd3af235,0x2ad7d2bb,0xeb86d391     };
 
+        /// <summary>
+        /// Array of 64 constants indicating how far the compression function's rotate operator shifts in each step
+        /// </summary>
         protected static readonly ushort[] ShiftConstantTable = new ushort[64] 
 			{	7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22,
 				5,  9, 14, 20, 5,  9, 14, 20, 5,  9, 14, 20, 5,  9, 14, 20,
                 4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23,
                 6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21      };
 
+        /// <summary>
+        /// Amount of bytes in one block of data
+        /// </summary>
         protected const int DATA_BLOCK_SIZE = 64;
 
+        /// <summary>
+        /// The state before CurrentState, null if CurrentState is first state
+        /// </summary>
         public PresentableMd5State LastState
         {
             get
@@ -57,16 +84,34 @@ namespace Cryptool.MD5
             }
         }
 
+        /// <summary>
+        /// Delegate for status changed handlers
+        /// </summary>
         public delegate void StatusChangedHandler();
+
+        /// <summary>
+        /// Raised whenever the algorithm changes its status
+        /// </summary>
         public event StatusChangedHandler StatusChanged;
 
+        /// <summary>
+        /// Raised whenever a property changes, important for WPF binding
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Wrapper that raises a PropertyChanged event
+        /// </summary>
+        /// <param name="propertyName"></param>
         void OnPropChanged(string propertyName)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        /// <summary>
+        /// Raises a StatusChanged event and PropertyChanged events for important properties
+        /// </summary>
         private void OnStatusChanged()
         {
             OnPropChanged("CurrentState");
@@ -79,12 +124,19 @@ namespace Cryptool.MD5
                 StatusChanged();
         }
 
+        /// <summary>
+        /// Constructs state history list and adds the first "uninitialized" state
+        /// </summary>
         public PresentableMd5()
         {
             StateHistory = new List<PresentableMd5State>();
             SetUninitializedState();
         }
 
+        /// <summary>
+        /// Assigns a data source and initializes the algorithm, putting it into "initialized" state
+        /// </summary>
+        /// <param name="dataStream">Data source</param>
         public void Initialize(Stream dataStream)
         {
             DataStream = dataStream;
@@ -97,6 +149,9 @@ namespace Cryptool.MD5
             OnStatusChanged();
         }
 
+        /// <summary>
+        /// Clears the state history and adds the "uninitialized" state
+        /// </summary>
         private void SetUninitializedState()
         {
             StateHistory.Clear();
@@ -109,6 +164,9 @@ namespace Cryptool.MD5
             CurrentStateNumber = 0;
         }
 
+        /// <summary>
+        /// Adds a new state to the history and sets it as the current state
+        /// </summary>
         protected void AddNewState()
         {
             if (CurrentStateNumber == -1)
@@ -120,6 +178,9 @@ namespace Cryptool.MD5
             CurrentStateNumber = StateHistory.Count - 1;
         }
 
+        /// <summary>
+        /// Determine if there are states beyond the current one available in the history
+        /// </summary>
         public bool HistoryHasMoreStates
         {
             get
@@ -131,6 +192,9 @@ namespace Cryptool.MD5
             }
         }
 
+        /// <summary>
+        /// Navigate one step back using the state history
+        /// </summary>
         public void PreviousStep()
         {
             if (CurrentStateNumber == 0)
@@ -141,6 +205,9 @@ namespace Cryptool.MD5
             OnStatusChanged();
         }
 
+        /// <summary>
+        /// Determines whether the current state is the "finished" state
+        /// </summary>
         public bool IsInFinishedState
         {
             get
@@ -149,6 +216,9 @@ namespace Cryptool.MD5
             }
         }
 
+        /// <summary>
+        /// Determines whether the current state is the first, "uninitialized", state
+        /// </summary>
         public bool IsInFirstState
         {
             get
@@ -157,6 +227,9 @@ namespace Cryptool.MD5
             }
         }
 
+        /// <summary>
+        /// Goes one step forward by either restoring a previously calculated state from the history or calculating the next state
+        /// </summary>
         public void NextStep()
         {
             if (!IsInitialized)
@@ -180,6 +253,9 @@ namespace Cryptool.MD5
             }
         }
 
+        /// <summary>
+        /// Moves through the algorithm's steps until it is finished
+        /// </summary>
         public void NextStepUntilFinished()
         {
             if (!IsInitialized)
@@ -189,41 +265,55 @@ namespace Cryptool.MD5
                 NextStep();
         }
 
+        /// <summary>
+        /// Moves one or more steps through the algorithm until the next "finished round" state
+        /// </summary>
         public void NextStepUntilRoundEnd()
         {
             if (!IsInitialized)
                 return;
 
-            while (!IsInFinishedState && CurrentState.State != Md5State.FINISHED_ROUND)
+            do
                 NextStep();
+            while (!IsInFinishedState && CurrentState.State != Md5State.FINISHED_ROUND);
         }
 
+
+        /// <summary>
+        /// Moves one or more steps through the algorithm until the next "finished compression" state
+        /// </summary>
         public void NextStepUntilBlockEnd()
         {
             if (!IsInitialized)
                 return;
 
-            while (!IsInFinishedState && CurrentState.State != Md5State.FINISHED_COMPRESSION)
+            do
                 NextStep();
+            while (!IsInFinishedState && CurrentState.State != Md5State.FINISHED_COMPRESSION);
         }
 
+        /// <summary>
+        /// Performs the next step in the algorithm
+        /// </summary>
+        /// <param name="previousState">Previous state</param>
+        /// <param name="newState">The new state which is to be determined</param>
         public void PerformStep(PresentableMd5State previousState, PresentableMd5State newState)
         {
             switch (previousState.State)
             {
                 case Md5State.INITIALIZED:
-                    // If initialization is complete, start by reading data
+                    // Start by reading data
                     newState.State = Md5State.READING_DATA;
                     break;
 
                 case Md5State.READING_DATA:
-                    // Read data and enter "data read" state
+                    // Fetch next data block and enter "data read" state
                     ReadData(newState);
                     newState.State = Md5State.READ_DATA;
                     break;
 
                 case Md5State.READ_DATA:
-                    // If an underfull buffer was read, we're at the end of the digestible data, so enter "starting padding" state
+                    // If an underfull buffer was read, enter "starting padding" state
                     // If a full buffer was read, enter "starting compression" state
                     if (previousState.DataLength < DATA_BLOCK_SIZE)
                         newState.State = Md5State.STARTING_PADDING;
@@ -232,7 +322,7 @@ namespace Cryptool.MD5
                     break;
 
                 case Md5State.STARTING_PADDING:
-                    // First step of padding is adding the padding bytes, so enter that state
+                    // First step of padding is adding the padding bytes
                     newState.State = Md5State.ADDING_PADDING_BYTES;
                     break;
 
@@ -243,7 +333,7 @@ namespace Cryptool.MD5
                     break;
 
                 case Md5State.ADDED_PADDING_BYTES:
-                    // The next step for padding is adding the data length, so enter that state
+                    // Next step for padding is adding the data length
                     newState.State = Md5State.ADDING_LENGTH;
                     break;
 
@@ -264,21 +354,25 @@ namespace Cryptool.MD5
                     break;
 
                 case Md5State.STARTING_COMPRESSION:
+                    // Perform pre-compression initialization and continue by starting the first round
                     StartCompression(newState);
                     newState.State = Md5State.STARTING_ROUND;
                     break;
 
                 case Md5State.STARTING_ROUND:
+                    // Start the round and continue with the first round step
                     StartRound(newState);
                     newState.State = Md5State.STARTING_ROUND_STEP;
                     break;
 
                 case Md5State.STARTING_ROUND_STEP:
+                    // Perform the step and go into finished state
                     PerformRoundStep(newState);
                     newState.State = Md5State.FINISHED_ROUND_STEP;
                     break;
 
                 case Md5State.FINISHED_ROUND_STEP:
+                    // If last step, go into 'finished round' state, else continue with next step
                     if (previousState.IsLastStepInRound)
                         newState.State = Md5State.FINISHED_ROUND;
                     else
@@ -289,6 +383,7 @@ namespace Cryptool.MD5
                     break;
 
                 case Md5State.FINISHED_ROUND:
+                    // If last step, go into "finishing compression" state, else continue with next round
                     if (previousState.IsLastRound)
                         newState.State = Md5State.FINISHING_COMPRESSION;
                     else
@@ -299,12 +394,13 @@ namespace Cryptool.MD5
                     break;
 
                 case Md5State.FINISHING_COMPRESSION:
+                    // Perform finishing actions and go into "finished compression" state
                     FinishCompression(newState);
                     newState.State = Md5State.FINISHED_COMPRESSION;
                     break;
 
                 case Md5State.FINISHED_COMPRESSION:
-                    // If compression is finished, check if there's more data left in buffer. If so, reenter compression function with offset
+                    // If there's more data left in buffer, reenter compression function with offset
                     if (previousState.DataLength - previousState.DataOffset > DATA_BLOCK_SIZE)
                     {
                         // Still some data left in buffer, rerun compression with offset
@@ -330,32 +426,52 @@ namespace Cryptool.MD5
             }
         }
 
+        /// <summary>
+        /// Performs the steps necessary after the individual compression function steps have run
+        /// </summary>
+        /// <param name="newState">Algorithm state to modify</param>
         private void FinishCompression(PresentableMd5State newState)
         {
+            // Add compression function results to accumulators
             newState.H1 += newState.A;
             newState.H2 += newState.B;
             newState.H3 += newState.C;
             newState.H4 += newState.D;
 
+            // Increment the number of bytes hashed so far
             newState.BytesHashed += DATA_BLOCK_SIZE;
         }
 
+        /// <summary>
+        /// Reads from the data source
+        /// </summary>
+        /// <param name="newState">Algorithm state to modify</param>
         private void ReadData(PresentableMd5State newState)
         {
+            // Fetch up to 64 bytes of data
             newState.Data = new byte[128];
             newState.DataLength = (uint)DataStream.Read(newState.Data, 0, 64);
             newState.DataOffset = 0;
         }
 
+        /// <summary>
+        /// Performs initialization before a round
+        /// </summary>
+        /// <param name="newState">Algorithm state to modify</param>
         private void StartRound(PresentableMd5State newState)
         {
+            // Reset round step counter
             newState.RoundStepIndex = 0;
         }
 
+        /// <summary>
+        /// Performs initialization required before running compression function steps
+        /// </summary>
+        /// <param name="newState">Algorithm state to modify</param>
         private void StartCompression(PresentableMd5State newState)
         {
+            // Read data into unsigned 32 bit integers
             newState.X = new uint[16];
-
             for (uint j = 0; j < 64; j += 4)
             {
                 newState.X[j / 4] = (((uint)newState.Data[newState.DataOffset + (j + 3)]) << 24) |
@@ -364,24 +480,37 @@ namespace Cryptool.MD5
                         (((uint)newState.Data[newState.DataOffset + (j)]));
             }
 
+            // Reset round counter
             newState.RoundIndex = 0;
 
+            // Initialize A, B, C, D with accumulated values
             newState.A = newState.H1;
             newState.B = newState.H2;
             newState.C = newState.H3;
             newState.D = newState.H4;
         }
 
+        /// <summary>
+        /// Adds the data length part of the padding
+        /// </summary>
+        /// <param name="newState">Algorithm state to modify</param>
         private void AddLength(PresentableMd5State newState)
         {
+            // Determine offset behind last written byte
             uint lengthOffset = newState.DataLength + 8;
 
+            // Write the length in bit as 8 byte little-endian integer
             for (int i = 8; i > 0; i--)
                 newState.Data[lengthOffset - i] = (byte)(newState.LengthInBit >> ((8 - i) * 8) & 0xff);
 
+            // Remember that padding is done now
             newState.IsPaddingDone = true;
         }
 
+        /// <summary>
+        /// Adds padding bytes to the data
+        /// </summary>
+        /// <param name="newState">Algorithm state to modify</param>
         private void AddPaddingBytes(PresentableMd5State newState)
         {
             // Save length of data in bit
@@ -398,64 +527,101 @@ namespace Cryptool.MD5
             }
         }
 
+        /// <summary>
+        /// Sets up and adds the "initialized" state
+        /// </summary>
         public void PerformInitializationStep()
         {
+            // Add a state
             AddNewState();
 
+            // Initialize new state
             CurrentState.BytesHashed = 0;
+            CurrentState.State = Md5State.INITIALIZED;
+
+            // Set initial accumulator values
             CurrentState.H1 = 0x67452301;
             CurrentState.H2 = 0xEFCDAB89;
             CurrentState.H3 = 0x98BADCFE;
             CurrentState.H4 = 0X10325476;
-            CurrentState.State = Md5State.INITIALIZED;
+
         }
 
+        /// <summary>
+        /// Shift-Rotates an unsigned integer to the left
+        /// </summary>
+        /// <param name="uiNumber">Integer to rotate</param>
+        /// <param name="shift">Number of bits to shift</param>
+        /// <returns>Result of the shift</returns>
         public static uint RotateLeft(uint uiNumber, ushort shift)
         {
             return (uiNumber << shift) | (uiNumber >> (32 - shift));
         }
 
+        /// <summary>
+        /// Delegate for the inner round function applied in each step of the compression function
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="c"></param>
+        /// <param name="d"></param>
+        /// <returns></returns>
         protected delegate uint RoundFunction(uint a, uint b, uint c, uint d);
+
+        /// <summary>
+        /// Constant array of the four inner round functions
+        /// </summary>
         protected readonly RoundFunction[] ROUND_FUNCTION = { FuncF, FuncG, FuncH, FuncI };
 
+        /// <summary>
+        /// Performs one step of the compression function
+        /// </summary>
+        /// <param name="newState">Algorithm state to modify</param>
         private void PerformRoundStep(PresentableMd5State newState)
         {
-            Console.WriteLine("Before R {0} S {1,2}: A = {2,10} B = {3,10} C = {4,10} D = {5,10}", newState.Round, newState.RoundStep, newState.A, newState.B, newState.C, newState.D);
-
+            // Determine which round function to use
             RoundFunction roundFunction = ROUND_FUNCTION[newState.RoundIndex];
 
-            uint i = newState.RoundIndex * 16 + newState.RoundStepIndex;
+            // Determine which step in the compression function this is
+            uint stepIndex = newState.RoundIndex * 16 + newState.RoundStepIndex;
 
+            // Determine which part of the data to use in this step
             uint wordIndex;
             switch (newState.RoundIndex)
             {
                 default:
                 case 0:
-                    wordIndex = i;
+                    wordIndex = stepIndex;
                     break;
                 case 1:
-                    wordIndex = 5 * i + 1;
+                    wordIndex = 5 * stepIndex + 1;
                     break;
                 case 2:
-                    wordIndex = 3 * i + 5;
+                    wordIndex = 3 * stepIndex + 5;
                     break;
                 case 3:
-                    wordIndex = 7 * i;
+                    wordIndex = 7 * stepIndex;
                     break;
             }
             wordIndex %= 16;
 
-            ExecRoundFunction(newState, roundFunction, newState.X[wordIndex], i);
-
-            if (newState.IsLastRound && newState.IsLastStepInRound)
-
-                Console.WriteLine("After  R {0} S {1,2}: A = {2,10} B = {3,10} C = {4,10} D = {5,10}", newState.Round, newState.RoundStep, newState.A, newState.B, newState.C, newState.D);
+            // Execute the chosen round function
+            ExecRoundFunction(newState, roundFunction, newState.X[wordIndex], stepIndex);
         }
 
+        /// <summary>
+        /// Executes the round function and modifies algorithm state to reflect results
+        /// </summary>
+        /// <param name="state">Algorithm state to modify</param>
+        /// <param name="function">The inner round function to execute</param>
+        /// <param name="W">The part of the data to use in the round function</param>
+        /// <param name="i">Index of this step (range 0 - 63)</param>
         protected static void ExecRoundFunction(PresentableMd5State state, RoundFunction function, uint W, uint i)
         {
+            // Apply central compression function
             state.A = state.B + RotateLeft((state.A + function(state.A, state.B, state.C, state.D) + W + AdditionConstantTable[i]), ShiftConstantTable[i]);
 
+            // Right-rotate the 4 compression result accumulators
             uint oldD = state.D;
             state.D = state.C;
             state.C = state.B;
@@ -463,26 +629,64 @@ namespace Cryptool.MD5
             state.A = oldD;
         }
 
+        /// <summary>
+        /// Inner round function F, applied in step 1-16 of the compression function
+        /// </summary>
+        /// <param name="a">Temporary step variable A</param>
+        /// <param name="b">Temporary step variable B</param>
+        /// <param name="c">Temporary step variable C</param>
+        /// <param name="d">Temporary step variable D</param>
+        /// <returns>Result of inner round function F</returns>
         protected static uint FuncF(uint a, uint b, uint c, uint d)
         {
             return d ^ (b & (c ^ d));
         }
 
+        /// <summary>
+        /// Inner round function G, applied in step 17-32 of the compression function
+        /// </summary>
+        /// <param name="a">Temporary step variable A</param>
+        /// <param name="b">Temporary step variable B</param>
+        /// <param name="c">Temporary step variable C</param>
+        /// <param name="d">Temporary step variable D</param>
+        /// <returns>Result of inner round function G</returns>
         protected static uint FuncG(uint a, uint b, uint c, uint d)
         {
             return c ^ (d & (b ^ c));
         }
 
+        /// <summary>
+        /// Inner round function H, applied in step 33-48 of the compression function
+        /// </summary>
+        /// <param name="a">Temporary step variable A</param>
+        /// <param name="b">Temporary step variable B</param>
+        /// <param name="c">Temporary step variable C</param>
+        /// <param name="d">Temporary step variable D</param>
+        /// <returns>Result of inner round function H</returns>
         protected static uint FuncH(uint a, uint b, uint c, uint d)
         {
             return b ^ c ^ d;
         }
 
+        /// <summary>
+        /// Inner round function I, applied in step 49-64 of the compression function
+        /// </summary>
+        /// <param name="a">Temporary step variable A</param>
+        /// <param name="b">Temporary step variable B</param>
+        /// <param name="c">Temporary step variable C</param>
+        /// <param name="d">Temporary step variable D</param>
+        /// <returns>Result of inner round function I</returns>
         protected static uint FuncI(uint a, uint b, uint c, uint d)
         {
             return c ^ (b | ~d);
         }
 
+        /// <summary>
+        /// The current state's accumulator variables as byte array
+        /// </summary>
+        /// <remarks>
+        /// When the algorithm is finished, this is the computed MD5 digest value.
+        /// </remarks>
         public byte[] HashValueBytes
         {
             get
@@ -496,6 +700,12 @@ namespace Cryptool.MD5
             }
         }
 
+        /// <summary>
+        /// Writes an integer into an array in little-endian representation
+        /// </summary>
+        /// <param name="array">Array which should be written to</param>
+        /// <param name="offset">Offset in the array</param>
+        /// <param name="value">Integer to write to array</param>
         protected void writeUintToArray(byte[] array, int offset, uint value)
         {
             byte[] byteValue = BitConverter.GetBytes(value);
