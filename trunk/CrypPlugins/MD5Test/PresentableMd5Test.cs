@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using System.IO;
-using Cryptool.MD5;
+using Cryptool.MD5.Algorithm;
 
 namespace Test.Cryptool.MD5
 {
     [TestFixture]
-    class PresentableMd5Test
+    class PresentableMD5Test
     {
         Random RNG;
 
@@ -22,25 +22,25 @@ namespace Test.Cryptool.MD5
         [Test]
         public void Construction()
         {
-            new PresentableMd5();
+            new PresentableMD5();
         }
 
         [Test]
         public void UninitializedStateAfterConstruction()
         {
-            PresentableMd5 md5 = new PresentableMd5();
+            PresentableMD5 md5 = new PresentableMD5();
 
-            Assert.AreEqual(md5.CurrentState.State, Md5State.UNINITIALIZED);
+            Assert.AreEqual(md5.CurrentState.State, MD5StateDescription.UNINITIALIZED);
         }
 
         [Test]
         public void InitializedStateAfterInitialization()
         {
-            PresentableMd5 md5 = new PresentableMd5();
+            PresentableMD5 md5 = new PresentableMD5();
             Stream stream = new MemoryStream(new byte[0]);
             md5.Initialize(stream);
 
-            Assert.AreEqual(md5.CurrentState.State, Md5State.INITIALIZED);
+            Assert.AreEqual(md5.CurrentState.State, MD5StateDescription.INITIALIZED);
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace Test.Cryptool.MD5
             System.Security.Cryptography.MD5 builtinMD5 = System.Security.Cryptography.MD5.Create();
             byte[] builtinResult = builtinMD5.ComputeHash(data);
 
-            PresentableMd5 presentableMd5 = new PresentableMd5();
+            PresentableMD5 presentableMd5 = new PresentableMD5();
             presentableMd5.Initialize(new MemoryStream(data));
             presentableMd5.NextStepUntilFinished();
             byte[] presentableMd5Result = presentableMd5.HashValueBytes;

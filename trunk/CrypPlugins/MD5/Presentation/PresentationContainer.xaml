@@ -1,9 +1,9 @@
 ﻿<UserControl x:Class="Cryptool.MD5.Presentation.PresentationContainer"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:conv="clr-namespace:Cryptool.MD5.Presentation.Converters">
+             xmlns:convert="clr-namespace:Cryptool.MD5.Presentation.Converters">
     <UserControl.Resources>
-        <conv:ByteArrayToHexStringConverter x:Key="hexConverter"/>
+        <convert:BytesToStringConverter x:Key="bytesToStringConverter"/>
     </UserControl.Resources>
     <Grid>
         <Label Height="28" HorizontalAlignment="Left" Margin="12,12,0,0" Name="stateCaptionLabel" VerticalAlignment="Top" Width="94">State:</Label>
@@ -12,7 +12,7 @@
         <Button Height="23" Margin="203,0,0,12" Name="nextStepButton" VerticalAlignment="Bottom" Click="nextStepButton_Click" HorizontalAlignment="Left" Width="75">Next &gt;&gt;</Button>
         <Rectangle Height="60" Margin="12,46,12,0" Name="rectangle1" Stroke="Black" VerticalAlignment="Top" />
         <Label Height="28" Margin="12,46,12,0" Name="label1" VerticalAlignment="Top">Data</Label>
-        <Label Height="28" Margin="12,80,12,0" Name="label2" VerticalAlignment="Top" Content="{Binding CurrentState.Data, Converter={StaticResource hexConverter}}"/>
+        <Label Height="28" Margin="12,80,12,0" Name="label2" VerticalAlignment="Top" Content="{Binding CurrentState.Data, Converter={StaticResource bytesToStringConverter}}"/>
         <Label Height="28" HorizontalAlignment="Left" Margin="12,114,0,0" Name="label3" VerticalAlignment="Top" Width="120">A</Label>
         <Label Height="28" HorizontalAlignment="Left" Margin="138,114,0,0" Name="label4" VerticalAlignment="Top" Width="120">B</Label>
         <Label Height="28" HorizontalAlignment="Right" Margin="0,114,12,0" Name="label5" VerticalAlignment="Top" Width="120">D</Label>
@@ -36,6 +36,6 @@
         <Button Height="23" Margin="284,0,209,12" Name="endOfRoundButton" VerticalAlignment="Bottom" Click="endOfRoundButton_Click">End of Round &gt;&gt;&gt;</Button>
         <Button Height="23" HorizontalAlignment="Right" Margin="0,0,12,12" Name="endOfCompressionButton" VerticalAlignment="Bottom" Width="191" Click="endOfCompressionButton_Click">End of block compression &gt;&gt;&gt;&gt;</Button>
         <Label Height="28" HorizontalAlignment="Left" Margin="15,0,0,70" Name="label23" VerticalAlignment="Bottom" Width="120">H-Bytes:</Label>
-        <Label Height="28" Margin="141,0,12,70" Name="label24" VerticalAlignment="Bottom" Content="{Binding HashValueBytes, Converter={StaticResource hexConverter}}"/>
+        <Label Height="28" Margin="141,0,12,70" Name="label24" VerticalAlignment="Bottom" Content="{Binding HashValueBytes, Converter={StaticResource bytesToStringConverter}}"/>
     </Grid>
 </UserControl>
