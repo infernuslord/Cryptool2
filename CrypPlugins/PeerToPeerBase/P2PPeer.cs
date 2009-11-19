@@ -24,13 +24,6 @@ using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
 using Cryptool.PluginBase.IO;
 
-
-/*
- * TODO:
- * - Build a stable P2PPeer Version (only valid when initialized!)
- * - Integrate struct PeerId into functions and other classes, 
- *   particularly P2PPublisherBase
- */
 namespace Cryptool.Plugins.PeerToPeer
 {
     [Author("Christian Arnold", "arnold@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
@@ -72,10 +65,10 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         // to forward event from overlay/dht MessageReceived-Event from P2PBase
-        private void p2pBase_OnP2PMessageReceived(string sSourceAddr, string sData)
+        private void p2pBase_OnP2PMessageReceived(PeerId sourceAddr, string sData)
         {
             if (OnPeerMessageReceived != null)
-                OnPeerMessageReceived(sSourceAddr, sData);
+                OnPeerMessageReceived(sourceAddr, sData);
         }
 
         void settings_TaskPaneAttributeChanged(ISettings settings, TaskPaneAttributeChangedEventArgs args)
@@ -195,10 +188,18 @@ namespace Cryptool.Plugins.PeerToPeer
         /// Status flag for starting and stopping peer only once.
         /// </summary>
         private bool peerStarted = false;
+        /// <summary>
+        /// Status flag for starting and stopping peer only once.
+        /// </summary>
+        public bool PeerStarted 
+        {
+            get { return this.peerStarted; }
+            private set { this.peerStarted = value; }
+        }
 
         public void StartPeer()
         {
-            if (!this.peerStarted)
+            if (!this.PeerStarted)
             {
                 if (this.p2pBase == null)
                 {
@@ -212,9 +213,9 @@ namespace Cryptool.Plugins.PeerToPeer
                 this.p2pBase.Initialize(this.settings.P2PPeerName, this.settings.P2PWorldName,
                     (P2PLinkManagerType)this.settings.P2PLinkMngrType, (P2PBootstrapperType)this.settings.P2PBSType,
                     (P2POverlayType)this.settings.P2POverlType, (P2PDHTType)this.settings.P2PDhtType);
-                this.peerStarted = this.p2pBase.SynchStart();
+                this.PeerStarted = this.p2pBase.SynchStart();
 
-                if (this.peerStarted)
+                if (this.PeerStarted)
                 {
                     this.settings.PeerStatusChanged(P2PPeerSettings.PeerStatus.Online);
                     GuiLogMessage("Successfully joined the P2P System", NotificationLevel.Info);
@@ -227,32 +228,32 @@ namespace Cryptool.Plugins.PeerToPeer
             }
             else
             {
-                GuiLogMessage("Peer is already started!", NotificationLevel.Warning);
+                GuiLogMessage("Peer is already started!", NotificationLevel.Info);
             }
         }
 
         public void StopPeer()
         {
-            if (this.peerStarted && this.p2pBase != null)
+            if (this.PeerStarted && this.p2pBase != null)
             {
                 this.settings.PeerStatusChanged(P2PPeerSettings.PeerStatus.Connecting);
 
-                this.peerStarted = !this.p2pBase.SynchStop();
+                this.PeerStarted = !this.p2pBase.SynchStop();
 
-                if (this.peerStarted)
+                if (this.PeerStarted)
                 {
                     this.settings.PeerStatusChanged(P2PPeerSettings.PeerStatus.Online);
-                    GuiLogMessage("Peer stopped: " + !this.peerStarted, NotificationLevel.Warning);
+                    GuiLogMessage("Peer stopped: " + !this.PeerStarted, NotificationLevel.Warning);
                 }
                 else
                 {
                     this.settings.PeerStatusChanged(P2PPeerSettings.PeerStatus.NotConnected);
-                    GuiLogMessage("Peer stopped: " + !this.peerStarted, NotificationLevel.Info);
+                    GuiLogMessage("Peer stopped: " + !this.PeerStarted, NotificationLevel.Info);
                 }
             }
             else
             {
-                GuiLogMessage("Peer is already stopped!", NotificationLevel.Warning);
+                GuiLogMessage("Peer is already stopped!", NotificationLevel.Info);
             }
         }
 
@@ -266,38 +267,34 @@ namespace Cryptool.Plugins.PeerToPeer
 
     public class P2PPeerMaster : IP2PControl
     {
+        private AutoResetEvent systemJoined;
         private P2PPeer p2pPeer;
-        private string sPeerID;
+        private PeerId peerID;
         private string sPeerName;
-
-        /* Required because comparing a byte-array is inefficient */
-        // TODO: Previously unused!
-        public struct PeerId
-        {
-            string stringId;
-            byte[] byteId;
-        }
 
         public P2PPeerMaster(P2PPeer p2pPeer)
         {
             this.p2pPeer = p2pPeer;
-            //if (this.p2pPeer.p2pBase == null && this.p2pPeer.p2pBase.Initialized)
-            //{
-            //    throw (new Exception("P2PBase isn't completely initialized!"));
-            //}
-            // to forward event from overlay/dht MessageReceived-Event from P2PBase
+            this.systemJoined = new AutoResetEvent(false);
+
+            this.p2pPeer.p2pBase.OnSystemJoined += new P2PBase.SystemJoined(p2pBase_OnSystemJoined);
             this.p2pPeer.OnPeerMessageReceived += new P2PBase.P2PMessageReceived(p2pPeer_OnPeerMessageReceived);
             this.OnStatusChanged += new IControlStatusChangedEventHandler(P2PPeerMaster_OnStatusChanged);
         }
 
         #region Events and Event-Handling
+        
+        private void p2pBase_OnSystemJoined()
+        {
+            systemJoined.Set();
+        }
 
         // to forward event from overlay/dht MessageReceived-Event from P2PBase
         public event P2PBase.P2PMessageReceived OnPeerReceivedMsg;
-        private void p2pPeer_OnPeerMessageReceived(string sSourceAddr, string sData)
+        private void p2pPeer_OnPeerMessageReceived(PeerId sourceAddr, string sData)
         {
             if (OnPeerReceivedMsg != null)
-                OnPeerReceivedMsg(sSourceAddr, sData);
+                OnPeerReceivedMsg(sourceAddr, sData);
         }
 
         public event IControlStatusChangedEventHandler OnStatusChanged;
@@ -309,26 +306,52 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #endregion
 
+        /// <summary>
+        /// workaround method. If the PAP functions are used, but the PAP system isn't
+        /// started yet. This could happen because of the plugin hierarchy and
+        /// when a p2p-using plugin uses PAP functions in the PreExecution method,
+        /// this could run into a race condition (peer plugin not computed by the CT-system 
+        /// yet, but p2p-using plugin is already executed)
+        /// </summary>
+        /// <returns></returns>
+        private bool SystemJoinedCompletely()
+        {
+            if (!this.p2pPeer.PeerStarted)
+            {
+                this.p2pPeer.StartPeer();
+                this.systemJoined.WaitOne();
+            }
+            return true;
+        }
+
         #region IP2PControl Members
 
         public bool DHTstore(string sKey, byte[] byteValue)
         {
-            return this.p2pPeer.p2pBase.SynchStore(sKey, byteValue);
+            if(SystemJoinedCompletely())
+                return this.p2pPeer.p2pBase.SynchStore(sKey, byteValue);
+            return false;
         }
 
         public bool DHTstore(string sKey, string sValue)
         {
-            return this.p2pPeer.p2pBase.SynchStore(sKey, sValue);
+            if (SystemJoinedCompletely())
+                return this.p2pPeer.p2pBase.SynchStore(sKey, sValue);
+            return false;
         }
 
         public byte[] DHTload(string sKey)
         {
-            return this.p2pPeer.p2pBase.SynchRetrieve(sKey);
+            if (SystemJoinedCompletely())
+                return this.p2pPeer.p2pBase.SynchRetrieve(sKey);
+            return null;
         }
 
         public bool DHTremove(string sKey)
         {
-            return this.p2pPeer.p2pBase.SynchRemove(sKey);
+            if (SystemJoinedCompletely())
+                return this.p2pPeer.p2pBase.SynchRemove(sKey);
+            return false;
         }
 
         /// <summary>
@@ -336,27 +359,35 @@ namespace Cryptool.Plugins.PeerToPeer
         /// </summary>
         /// <param name="sPeerName">returns the Peer Name</param>
         /// <returns>returns the Peer ID</returns>
-        public string GetPeerID(out string sPeerName)
+        public PeerId GetPeerID(out string sPeerName)
         {
-            if (this.sPeerID == null)
+            if (SystemJoinedCompletely())
             {
-                this.sPeerID = this.p2pPeer.p2pBase.GetPeerID(out this.sPeerName);
+                if (this.peerID == null)
+                {
+                    this.peerID = this.p2pPeer.p2pBase.GetPeerID(out this.sPeerName);
+                }
+                sPeerName = this.sPeerName;
+                return this.peerID;
             }
             sPeerName = this.sPeerName;
-            return this.sPeerID;
+            return null;
         }
 
-        public void SendToPeer(string sData, string sDestinationPeerAddress)
+        public void SendToPeer(string sData, PeerId destinationAddress)
         {
-            this.p2pPeer.p2pBase.SendToPeer(sData, sDestinationPeerAddress);
+            if (SystemJoinedCompletely())
+                this.p2pPeer.p2pBase.SendToPeer(sData, destinationAddress);
         }
-        public void SendToPeer(string sData, byte[] byteDestinationPeerAddress)
+        public void SendToPeer(PubSubMessageType msgType, PeerId destinationAddress)
         {
-            this.p2pPeer.p2pBase.SendToPeer(sData, byteDestinationPeerAddress);
+            if (SystemJoinedCompletely())
+                this.p2pPeer.p2pBase.SendToPeer(msgType, destinationAddress);
         }
-        public void SendToPeer(PubSubMessageType msgType, string sDestinationAddress)
+        public void SendToPeer(string sData, byte[] destinationAddress)
         {
-            this.p2pPeer.p2pBase.SendToPeer(msgType, sDestinationAddress);
+            if (SystemJoinedCompletely())
+                this.p2pPeer.p2pBase.SendToPeer(sData, destinationAddress);
         }
 
         /// <summary>
@@ -377,6 +408,17 @@ namespace Cryptool.Plugins.PeerToPeer
                 // because Enum is non-nullable, I used this workaround
                 return PubSubMessageType.NULL;
             }
+        }
+
+        public string ConvertIdToString(byte[] byteId)
+        {
+            string sRet = String.Empty;
+            for (int i = 0; i < byteId.Length; i++)
+            {
+                //sRet += UTF8Encoding.UTF8.GetString(byteId[i]) + ":";
+                sRet += Convert.ToString(byteId[i]) + ":";
+            }
+            return sRet;
         }
 
         #endregion

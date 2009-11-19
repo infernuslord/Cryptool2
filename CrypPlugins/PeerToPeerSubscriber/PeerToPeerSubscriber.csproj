@@ -41,6 +41,8 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -55,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="P2PSubscriber.cs" />
+    <Compile Include="P2PSubscriberBase.cs" />
     <Compile Include="P2PSubscriberSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

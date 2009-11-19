@@ -106,7 +106,7 @@ namespace Cryptool.Plugins.PeerToPeer
             }
         }
 
-        private int publishersReplyTimespan = 2;
+        private int publishersReplyTimespan = 5;
         [TaskPane("Publisher Reply Timespan (in sec)", "When checking publishers availability, ping message is sent. The publisher must answer with a pong message in the timespan!", "Intervals", 0, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 2, 60)]
         public int PublishersReplyTimespan
         {
