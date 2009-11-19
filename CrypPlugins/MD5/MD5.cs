@@ -32,6 +32,7 @@ using System.Runtime.CompilerServices;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Runtime.Remoting.Contexts;
 using Cryptool.MD5.Presentation;
+using Cryptool.MD5.Algorithm;
 
 namespace Cryptool.MD5
 {
@@ -46,7 +47,7 @@ namespace Cryptool.MD5
         private CryptoolStream inputData;
         private byte[] outputData;
         private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
-        private PresentableMd5 md5;
+        private PresentableMD5 md5;
         private PresentationContainer presentationContainer;
 
         #endregion
@@ -55,7 +56,7 @@ namespace Cryptool.MD5
         public MD5()
         {
             settings = new MD5Settings();
-            md5 = new PresentableMd5();
+            md5 = new PresentableMD5();
             presentationContainer = new PresentationContainer(md5);
 
             md5.StatusChanged += Md5StatusChanged;

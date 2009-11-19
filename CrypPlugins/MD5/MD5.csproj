@@ -61,12 +61,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Md5State.cs" />
+    <Compile Include="Algorithm\MD5StateDescription.cs" />
     <Compile Include="MD5.cs" />
     <Compile Include="MD5Settings.cs" />
-    <Compile Include="PresentableMd5.cs" />
-    <Compile Include="PresentableMd5State.cs" />
-    <Compile Include="Presentation\Converters\ByteArrayToHexStringConverter.cs" />
+    <Compile Include="Algorithm\PresentableMD5.cs" />
+    <Compile Include="Algorithm\PresentableMD5State.cs" />
+    <Compile Include="Presentation\Converters\BytesToStringConverter.cs" />
     <Compile Include="Presentation\PresentationContainer.xaml.cs">
       <DependentUpon>PresentationContainer.xaml</DependentUpon>
     </Compile>

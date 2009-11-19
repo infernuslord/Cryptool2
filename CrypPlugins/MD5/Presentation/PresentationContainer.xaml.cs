@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Cryptool.MD5.Algorithm;
 
 namespace Cryptool.MD5.Presentation
 {
@@ -19,9 +20,9 @@ namespace Cryptool.MD5.Presentation
     /// </summary>
     public partial class PresentationContainer : UserControl
     {
-        private PresentableMd5 md5;
+        private PresentableMD5 md5;
 
-        public PresentationContainer(PresentableMd5 presentableMd5)
+        public PresentationContainer(PresentableMD5 presentableMd5)
         {
             md5 = presentableMd5;
             DataContext = presentableMd5;
