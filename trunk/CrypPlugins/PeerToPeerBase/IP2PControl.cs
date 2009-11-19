@@ -82,14 +82,18 @@ namespace Cryptool.PluginBase.Control
         byte[] DHTload(string sKey);
         bool DHTremove(string sKey);
 
-        string GetPeerID(out string sPeerName);
+        PeerId GetPeerID(out string sPeerName);
         //byte[] GetPeerID(out string sPeerName);
 
-        void SendToPeer(string sData, byte[] sDestinationPeerAddress);
-        void SendToPeer(string sData, string sDestinationPeerAddress);
-        void SendToPeer(PubSubMessageType msgType, string sDestinationAddress);
+        void SendToPeer(string sData, PeerId destinationAddress);
+        //void SendToPeer(string sData, byte[] sDestinationPeerAddress);
+        //void SendToPeer(string sData, string sDestinationPeerAddress);
+        void SendToPeer(PubSubMessageType msgType, PeerId sDestinationAddress);
+        void SendToPeer(string sData, byte[] destinationAddress);
+        //void SendToPeer(PubSubMessageType msgType, string sDestinationAddress);
 
         PubSubMessageType GetMsgType(string byteData);
+        string ConvertIdToString(byte[] byteId);
 
         event P2PBase.P2PMessageReceived OnPeerReceivedMsg;
     }

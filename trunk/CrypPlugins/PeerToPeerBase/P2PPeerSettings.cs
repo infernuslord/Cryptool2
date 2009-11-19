@@ -47,17 +47,6 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region Start- and Stop-Buttons incl. functionality
 
-        public bool StartingPeer
-        {
-            set
-            {
-                if (value)
-                {
-                    BtnStart();
-                }
-            }
-        }
-
         [TaskPane("Start", "Initializes and starts Peer", null, 2, false, DisplayLevel.Beginner, ControlType.Button)]
         public void BtnStart()
         {
@@ -205,10 +194,10 @@ namespace Cryptool.Plugins.PeerToPeer
         // Index depends on icon-position in P2PPeer-Class properties
         public enum PeerStatus
         {
+            NotConnected = 0,
             Connecting = 1,
             Online = 2,
-            Error = 3,
-            NotConnected = 0
+            Error = 3
         }
 
         /// <summary>

@@ -78,7 +78,7 @@ namespace Cryptool.Plugins.PeerToPeer
         public delegate void SystemLeft();
         public event SystemLeft OnSystemLeft;
 
-        public delegate void P2PMessageReceived(string sSourceAddr, string sData);
+        public delegate void P2PMessageReceived(PeerId sourceAddr, string sData);
         public event P2PMessageReceived OnP2PMessageReceived;
 
         /// <summary>
@@ -102,11 +102,14 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region Variables
 
-        private bool initialized = false;
-        public bool Initialized 
+        private bool started = false;
+        /// <summary>
+        /// True if system was successfully joined, false if system is COMPLETELY left
+        /// </summary>
+        public bool Started 
         {
-            get { return this.initialized; }
-            set { this.initialized = value; } 
+            get { return this.started; }
+            private set { this.started = value; } 
         }
 
         private IDHT dht;
@@ -185,12 +188,13 @@ namespace Cryptool.Plugins.PeerToPeer
             }
             #endregion
 
-            this.dht.Initialize(sUserName, sWorldName, this.overlay, this.bootstrapper, this.linkmanager, null);
-
             this.dht.MessageReceived += new EventHandler<MessageReceived>(OnDHT_MessageReceived);
             this.overlay.MessageReceived += new EventHandler<OverlayMessageEventArgs>(overlay_MessageReceived);
             this.dht.SystemJoined += new EventHandler(OnDHT_SystemJoined);
             this.dht.SystemLeft += new EventHandler(OnDHT_SystemLeft);
+
+            //this.dht.Initialize(sUserName, sWorldName, this.overlay, this.bootstrapper, this.linkmanager, null);
+            this.dht.Initialize(sUserName, "", sWorldName, this.overlay, this.bootstrapper, this.linkmanager, null);
         }
 
         /// <summary>
@@ -265,11 +269,11 @@ namespace Cryptool.Plugins.PeerToPeer
         /// </summary>
         /// <param name="sPeerName">out: additional peer information UserName on LinkManager</param>
         /// <returns>PeerID as a String</returns>
-        public string GetPeerID(out string sPeerName)
+        public PeerId GetPeerID(out string sPeerName)
         {
             sPeerName = this.linkmanager.UserName;
-            return this.overlay.LocalAddress.ToString();
-            // return this.overlay.LocalAddress.ToByteArray();
+            PeerId pid = new PeerId(this.overlay.LocalAddress.ToString(), this.overlay.LocalAddress.ToByteArray());
+            return pid;
         }
 
         // overlay.LocalAddress = Overlay-Peer-Address/Names
@@ -287,22 +291,19 @@ namespace Cryptool.Plugins.PeerToPeer
             this.overlay.Send(overlayMsg);
         }
 
-        public void SendToPeer(string sData, string sDestinationPeerId)
+        public void SendToPeer(PubSubMessageType msgType, byte[] byteDestinationPeerName)
         {
-            // necessary because the overlay.GetAddress(string)-method of PAP is very buggy.
-            // It doesn't cast the string- to a Byte-Address, but returns the own address...
-            string[] sSplitted = sDestinationPeerId.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
-            byte[] byteDestinationAddress = new byte[sSplitted.Length];
-            for (int i = 0; i < byteDestinationAddress.Length; i++)
-            {
-                byteDestinationAddress[i] = System.Convert.ToByte(sSplitted[i]);
-            }
-            SendToPeer(sData, byteDestinationAddress);
+            SendToPeer(((int)msgType).ToString(), byteDestinationPeerName);
         }
 
-        public void SendToPeer(PubSubMessageType msgType, string sDestinationAddress)
+        public void SendToPeer(string sData, PeerId destinationPeerId)
         {
-            SendToPeer(((int)msgType).ToString(), sDestinationAddress);
+            SendToPeer(sData, destinationPeerId.byteId);
+        }
+
+        public void SendToPeer(PubSubMessageType msgType, PeerId destinationAddress)
+        {
+            SendToPeer(((int)msgType).ToString(), destinationAddress.byteId);
         }
 
         #region Event Handling (System Joined, Left and Message Received)
@@ -312,7 +313,7 @@ namespace Cryptool.Plugins.PeerToPeer
             if (OnSystemJoined != null)
                 OnSystemJoined();
             this.systemJoined.Set();
-            Initialized = true;
+            Started = true;
         }
 
         private void OnDHT_SystemLeft(object sender, EventArgs e)
@@ -322,19 +323,25 @@ namespace Cryptool.Plugins.PeerToPeer
             // as an experiment
             this.dht = null;
             this.systemLeft.Set();
-            Initialized = false;
+            Started = false;
         }
 
         private void overlay_MessageReceived(object sender, OverlayMessageEventArgs e)
         {
             if (OnP2PMessageReceived != null)
-                OnP2PMessageReceived(e.Message.Source.ToString(), e.Message.Data.PopUTF8String());
+            {
+                PeerId pid = new PeerId(e.Message.Source.ToString(), e.Message.Source.ToByteArray());
+                OnP2PMessageReceived(pid, e.Message.Data.PopUTF8String());
+            }
         }
 
         private void OnDHT_MessageReceived(object sender, MessageReceived e)
         {
             if (OnP2PMessageReceived != null)
-                OnP2PMessageReceived(e.Source.ToString(), e.Data.PopUTF8String());
+            {
+                PeerId pid = new PeerId(e.Source.ToString(), e.Source.ToByteArray());
+                OnP2PMessageReceived(pid, e.Data.PopUTF8String());
+            }
         }
 
         #endregion
@@ -617,6 +624,43 @@ namespace Cryptool.Plugins.PeerToPeer
             {
                 this.dht.LogInternalState();
             }
+        }
+    }
+
+    public class PeerId
+    {
+        public string stringId;
+        public byte[] byteId;
+
+        public PeerId(string sPid, byte[] byPid)
+        {
+            this.stringId = sPid;
+            this.byteId = byPid;
+        }
+
+        public void Dispose()
+        {
+            this.byteId = null;
+            this.stringId = String.Empty;
+        }
+
+        // not used at present...
+        public bool Equals(PeerId otherPeerId)
+        {
+            if (this.stringId == otherPeerId.stringId)
+                return true;
+            else
+                return false;
+        }
+
+        public string ToString()
+        {
+            return this.stringId;
+        }
+
+        public byte[] ToByteArray()
+        {
+            return this.byteId;
         }
     }
 }
