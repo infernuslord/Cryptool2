@@ -113,15 +113,16 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>cd "$(ProjectDir)"
-cd ..\..\CrypWin\$(OutDir)
-if not exist "./CrypPlugins" mkdir "./CrypPlugins"
+    <PostBuildEvent>SET outdir="$(ProjectDir)..\..\CrypWin\$(OutDir)"
+if exist %25outdir%25 (
+	cd %25outdir%25
+	if not exist "./CrypPlugins" mkdir "./CrypPlugins"
 
-del /S /Q /A:-S-R-H "$(TargetName)*.*"
-copy "$(TargetDir)$(TargetName)*.*" "./CrypPlugins"
+	del /S /Q /A:-S-R-H "$(TargetName)*.*"
+	copy "$(TargetDir)$(TargetName)*.*" "./CrypPlugins"
 
-if not exist "./Data" mkdir "./Data"
-if exist "$(TargetDir)Data" xcopy /Y /S "$(TargetDir)Data" "./Data"
-</PostBuildEvent>
+	if not exist "./Data" mkdir "./Data"
+	if exist "$(TargetDir)Data" xcopy /Y /S "$(TargetDir)Data" "./Data"
+)</PostBuildEvent>
   </PropertyGroup>
 </Project>
