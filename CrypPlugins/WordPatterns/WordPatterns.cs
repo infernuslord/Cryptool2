@@ -180,16 +180,17 @@ namespace WordPatterns
             }
         }
 
-        internal class Pattern
+        internal struct Pattern
         {
-            private const int prime = 31;
+            private const int PRIME = 16777619;
 
-            private int[] patternArray;
-            private int hashCode = 1;
+            private readonly int[] patternArray;
+            private readonly int hashCode;
 
             internal Pattern(string word)
             {
                 patternArray = new int[word.Length];
+                hashCode = -2128831035; // int32 counterpart of uint32 2166136261
                 
                 Dictionary<char, int> seenLetters = new Dictionary<char, int>(15);
                 int letterNumber = 0;
@@ -205,8 +206,8 @@ namespace WordPatterns
                         seenLetters[word[i]] = patternArray[i] = ++letterNumber; // create new letter number
                     }
 
-                    // Fast hash algorithm similar to FNV.
-                    hashCode = prime * hashCode + patternArray[i];
+                    // FNV-1 hashing
+                    hashCode = (hashCode * PRIME) ^ patternArray[i];
                 }
 
                 seenLetters = null;
@@ -226,30 +227,41 @@ namespace WordPatterns
             /// </summary>
             /// <param name="obj"></param>
             /// <returns></returns>
-            public override bool Equals(object obj)
+            public override bool Equals(object right)
             {
-                // identical object
-                if (this == obj)
+                if (right == null)
+                    return false;
+
+                if (object.ReferenceEquals(this, right))
                     return true;
 
-                // uneven types
-                if (!(obj is Pattern))
+                if (this.GetType() != right.GetType())
                     return false;
 
-                Pattern another = obj as Pattern;
+                return this == (Pattern)right;
+            }
 
-                // uneven pattern lengths
-                if (patternArray.Length != another.patternArray.Length)
+            public static bool operator==(Pattern left, Pattern right)
+            {
+                if (left.hashCode != right.hashCode)
                     return false;
 
-                for (int i = 0; i < patternArray.Length; i++)
+                if (left.patternArray.Length != right.patternArray.Length)
+                    return false;
+
+                for (int i = 0; i < left.patternArray.Length; i++)
                 {
                     // uneven pattern content
-                    if (patternArray[i] != another.patternArray[i])
+                    if (left.patternArray[i] != right.patternArray[i])
                         return false;
                 }
 
                 return true;
+            }
+
+            public static bool operator !=(Pattern left, Pattern right)
+            {
+                return !(left == right);
             }
         }
 
