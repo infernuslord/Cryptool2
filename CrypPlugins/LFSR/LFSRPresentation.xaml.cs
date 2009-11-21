@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.Threading;
 using System.Windows.Automation.Peers;
 using System.Windows.Threading;
+using Cryptool.PluginBase;
 
 namespace Cryptool.LFSR
 {
@@ -326,6 +327,28 @@ namespace Cryptool.LFSR
                 // show initial infoText again
                 infoText.Visibility = Visibility.Visible;
             }, null);
+        }
+
+        public void ChangeBackground(NotificationLevel logLevel)
+        {
+            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                if (logLevel == NotificationLevel.Warning) completeGrid.Background = Brushes.Gold;
+                if (logLevel == NotificationLevel.Error) completeGrid.Background = Brushes.Red;
+                if (logLevel == NotificationLevel.Info) completeGrid.Background = Brushes.White;
+            }, null);
+        }
+
+        public Brush ReturnBackgroundColour()
+        {
+            Brush myBrush = null;
+            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                if (completeGrid != null)
+                    myBrush = completeGrid.Background;
+            }, null);
+
+            return myBrush;
         }
     }
 }

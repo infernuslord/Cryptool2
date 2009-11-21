@@ -537,8 +537,16 @@ namespace TextOutput
             textOutputPresentation.textBox.Text = fillValue;
             textOutputQuickWatchPresentation.textBox.Text = fillValue;
           }
-          textOutputPresentation.labelBytes.Content = string.Format("{0:0,0}", Encoding.Default.GetBytes(textOutputPresentation.textBox.Text.ToCharArray()).Length) + " Bytes";
-          textOutputQuickWatchPresentation.labelBytes.Content = string.Format("{0:0,0}", Encoding.Default.GetBytes(textOutputPresentation.textBox.Text.ToCharArray()).Length) + " Bytes";
+          if (settings.BooleanAsNumeric)
+          {
+              textOutputPresentation.labelBytes.Content = string.Format("{0:0,0}", Encoding.Default.GetBytes(textOutputPresentation.textBox.Text.ToCharArray()).Length) + " Bits";
+              textOutputQuickWatchPresentation.labelBytes.Content = string.Format("{0:0,0}", Encoding.Default.GetBytes(textOutputPresentation.textBox.Text.ToCharArray()).Length) + " Bits";
+          }
+          else
+          {
+              textOutputPresentation.labelBytes.Content = string.Format("{0:0,0}", Encoding.Default.GetBytes(textOutputPresentation.textBox.Text.ToCharArray()).Length) + " Bytes";
+              textOutputQuickWatchPresentation.labelBytes.Content = string.Format("{0:0,0}", Encoding.Default.GetBytes(textOutputPresentation.textBox.Text.ToCharArray()).Length) + " Bytes";
+          }
         }, fillValue);
       }
     }
