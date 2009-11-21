@@ -44,7 +44,7 @@ namespace Cryptool.LFSR
         private int rounds = 1; //how many bits will be generated
         //[ContextMenu("Rounds", "How many bits shall be generated?", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 10, 50, 100 }, "10 bits", "50 bits", "100 bits")]
         //[TaskPane("Rounds", "How many bits shall be generated?", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
-        [TaskPane("Number of rounds", "How many bits shall be generated? Note: This only applies if no external clock is used.", null, 2, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        [TaskPane("Number of rounds", "How many bits shall be generated? Note: This only applies if no external clock is used.", null, 3, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int Rounds
         {
             get { return this.rounds; }
@@ -78,6 +78,18 @@ namespace Cryptool.LFSR
                 this.seed = value;
                 OnPropertyChanged("Seed");
                 HasChanges = true;
+            }
+        }
+
+        string period;
+        [TaskPane("Period", "The computed period of the LFSR", null, 2, false, DisplayLevel.Beginner, ControlType.TextBoxReadOnly)]
+        public string Period
+        {
+            get { return this.period; }
+            set
+            {
+                this.period = value;
+                OnPropertyChanged("Period");
             }
         }
 
@@ -171,20 +183,6 @@ namespace Cryptool.LFSR
                 HasChanges = true;
             }
         }
-
-        /*private bool createDirtyOutputOnFalseClock = false;
-        [ContextMenu("Create dirty output on false clock", "With this checkbox enabled, an the output is the dirty (-1) if the clock is set to false.", 2, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Create dirty output?" })]
-        [TaskPane("Create dirty output on false clock", "With this checkbox enabled, an the output is the dirty (-1) if the clock is set to false.", "Clock Properties", 2, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
-        public bool CreateDirtyOutputOnFalseClock
-        {
-            get { return this.createDirtyOutputOnFalseClock; }
-            set
-            {
-                this.createDirtyOutputOnFalseClock = (bool)value;
-                OnPropertyChanged("CreateDirtyOutputOnFalseClock");
-                HasChanges = true;
-            }
-        }*/
 
         public bool HasChanges
         {

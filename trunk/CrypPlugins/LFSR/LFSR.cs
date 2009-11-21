@@ -20,6 +20,8 @@ using System.Threading;
 using System.Windows.Automation.Peers;
 // for RegEx
 using System.Text.RegularExpressions;
+// for Brushes
+using System.Windows.Media;
 
 namespace Cryptool.LFSR
 {
@@ -54,7 +56,7 @@ namespace Cryptool.LFSR
         public bool lastInputPropertyWasBoolClock = false;
 
         // for process()
-        public char[] tapSequenceCharArray = null;
+        public char[] tapSequenceCharArray = {'0'}; // dummy value for preprocessing()
         public int seedBits = 1; // dummy value for compiler
         public int actualRounds = 1; // dummy value for compiler
         public Boolean myClock = true;
@@ -80,13 +82,25 @@ namespace Cryptool.LFSR
         void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "InitLFSR")
-                preprocessingLFSR();
+                try
+                {
+                    preprocessingLFSR(true);
+                } catch (Exception ex) {}
             if (e.PropertyName == "SaveCurrentState")
             {
                 if (settings.SaveCurrentState)
                     settings.CurrentState = seedbuffer;
                 else
                     settings.CurrentState = null;
+            }
+            if (e.PropertyName == "Polynomial" || e.PropertyName == "Seed")
+            {
+                int myPeriod = computePeriod();
+                if (myPeriod == ((int)Math.Pow(2.0,(double)seedbuffer.Length) - 1))
+                    settings.Period = "Period of LFSR: " + myPeriod.ToString() + " (max.)";
+                else
+                    settings.Period = "Period of LFSR: " + myPeriod.ToString();
+                //GuiLogMessage("Period: " + myPeriod, NotificationLevel.Info, true);
             }
         }
 
@@ -241,7 +255,7 @@ namespace Cryptool.LFSR
             }
             catch (Exception ex)
             {
-                GuiLogMessage(ex.Message, NotificationLevel.Error);
+                GuiLogMessage(ex.Message, NotificationLevel.Error, true);
             }
             this.stop = false;
         }
@@ -255,7 +269,7 @@ namespace Cryptool.LFSR
             /*if ((settings.Polynomial == null || (settings.Polynomial != null && settings.Polynomial.Length == 0)))
             {
                 // awaiting polynomial from input
-                GuiLogMessage("No feedback polynomial given in settings. Awaiting external input.", NotificationLevel.Info);
+                GuiLogMessage("No feedback polynomial given in settings. Awaiting external input.", NotificationLevel.Info, true);
             }
             else
             {
@@ -270,7 +284,7 @@ namespace Cryptool.LFSR
                 // this.inputTapSequence = new String();
                 inputTapSequence = dummystring;
                 // write a warning to the outside world
-                GuiLogMessage("WARNING - No TapSequence provided. Using dummy data (" + dummystring + ").", NotificationLevel.Warning);
+                GuiLogMessage("WARNING - No TapSequence provided. Using dummy data (" + dummystring + ").", NotificationLevel.Warning, true);
                 return 1;
             }
             else
@@ -284,7 +298,7 @@ namespace Cryptool.LFSR
             /*if ((settings.Seed == null || (settings.Seed != null && settings.Seed.Length == 0)))
             {
                 // awaiting seed from input
-                GuiLogMessage("No seed given in settings. Awaiting external input.", NotificationLevel.Info);
+                GuiLogMessage("No seed given in settings. Awaiting external input.", NotificationLevel.Info, true);
             }
             else
             {
@@ -299,7 +313,7 @@ namespace Cryptool.LFSR
                 // this.inputSeed = new CryptoolStream();
                 inputSeed = dummystring;
                 // write a warning to the outside world
-                GuiLogMessage("WARNING - No Seed provided. Using dummy data (" + dummystring + ").", NotificationLevel.Warning);
+                GuiLogMessage("WARNING - No Seed provided. Using dummy data (" + dummystring + ").", NotificationLevel.Warning, true);
                 return 1;
             }
             else
@@ -355,7 +369,7 @@ namespace Cryptool.LFSR
             else strPolyBinary += 0;
 
             strPolyBinary = new String(ReverseOrder(strPolyBinary.ToCharArray()));
-            //GuiLogMessage("strPolyBinary is: " + strPolyBinary, NotificationLevel.Info);
+            //GuiLogMessage("strPolyBinary is: " + strPolyBinary, NotificationLevel.Info, true);
 
             return strPolyBinary;
         }
@@ -375,7 +389,7 @@ namespace Cryptool.LFSR
         private char[] ReverseOrder(char[] tapSequence)
         {
             //String tempString = new String(tapSequence);
-            //GuiLogMessage("tapSequence before = " + tempString, NotificationLevel.Info);
+            //GuiLogMessage("tapSequence before = " + tempString, NotificationLevel.Info, true);
             char[] tempCharArray = new char[tapSequence.Length];
 
             int temp;
@@ -383,11 +397,11 @@ namespace Cryptool.LFSR
             {
                 temp = (j - tapSequence.Length + 1) % (tapSequence.Length);
                 if (temp < 0) temp *= -1;
-                //GuiLogMessage("temp = " + temp, NotificationLevel.Info);
+                //GuiLogMessage("temp = " + temp, NotificationLevel.Info, true);
                 tempCharArray[j] = tapSequence[temp];
             }
             //tempString = new String(tempCharArray);
-            //GuiLogMessage("tapSequence after = " + tempString, NotificationLevel.Info);
+            //GuiLogMessage("tapSequence after = " + tempString, NotificationLevel.Info, true);
             return tempCharArray;
         }
 
@@ -414,6 +428,69 @@ namespace Cryptool.LFSR
             return  polynomial;
         }
 
+        private int computePeriod()
+        {
+            int period = 0;
+
+            try
+            {
+                preprocessingLFSR(false);
+            }
+            catch (Exception ex) { }
+
+            if (lFSRPresentation.ReturnBackgroundColour() == Brushes.White)
+            {
+                try {
+                    // compute period if everything is OK
+                    string compareToSeedbuffer = seedbuffer;
+
+                    for (int i = 1; i <= 1000; i++)
+                    {
+                        char newBit = '0';
+
+                        // compute new bit
+                        bool firstDone = false;
+                        for (int j = 0; j < seedBits; j++)
+                        {
+                            // check if tapSequence is 1
+                            if (tapSequenceCharArray[j] == '1')
+                            {
+                                // if it is the first one, just take it
+                                if (!firstDone)
+                                {
+                                    newBit = seedCharArray[j];
+                                    firstDone = true;
+                                }
+                                // or do an XOR with the last computed bit
+                                else
+                                {
+                                    newBit = (newBit ^ seedCharArray[j]).ToString()[0];
+                                }
+                            }
+                        }
+
+                        // shift seed array
+                        for (int j = seedBits - 1; j > 0; j--)
+                        {
+                            seedCharArray[j] = seedCharArray[j - 1];
+                        }
+                        seedCharArray[0] = newBit;
+
+                        // write current "seed" back to seedbuffer
+                        seedbuffer = null;
+                        foreach (char c in seedCharArray) seedbuffer += c;
+
+                        if (seedbuffer == compareToSeedbuffer)
+                            return i;
+                    }
+                } catch (Exception ex) {
+
+                }
+            }
+
+            return period;
+        }
+
         #endregion
 
         public void Execute()
@@ -422,21 +499,21 @@ namespace Cryptool.LFSR
             processLFSR();
         }
 
-        private void preprocessingLFSR()
+        private void preprocessingLFSR(bool createLog)
         {
             if (checkForInputTapSequence() == 1) return;
             if (checkForInputSeed() == 1) return;
 
             /*if (inputSeed == null || (inputSeed != null && inputSeed.Length == 0))
             {
-                GuiLogMessage("No Seed given. Aborting now.", NotificationLevel.Error);
+                GuiLogMessage("No Seed given. Aborting now.", NotificationLevel.Error, true);
                 if (!settings.UseBoolClock) inputClock.Close();
                 return;
             }
 
             if (inputTapSequence == null || (inputTapSequence != null && inputTapSequence.Length == 0))
             {
-                GuiLogMessage("No TapSequence given. Aborting now.", NotificationLevel.Error);
+                GuiLogMessage("No TapSequence given. Aborting now.", NotificationLevel.Error, true);
                 if (!settings.UseBoolClock) inputClock.Close();
                 return;
             }*/
@@ -469,12 +546,12 @@ namespace Cryptool.LFSR
             // if tapSequence is not binary, await polynomial
             if (!tapSeqisBool)
             {
-                GuiLogMessage("TapSequence is not binary. Awaiting polynomial.", NotificationLevel.Info);
+                GuiLogMessage("TapSequence is not binary. Awaiting polynomial.", NotificationLevel.Info, createLog);
                 if (IsPolynomial(tapSequencebuffer))
                 {
-                    GuiLogMessage(tapSequencebuffer + " is a valid polynomial.", NotificationLevel.Info);
+                    GuiLogMessage(tapSequencebuffer + " is a valid polynomial.", NotificationLevel.Info, createLog);
                     tapSequencebuffer = MakeBinary(tapSequencebuffer);
-                    GuiLogMessage("Polynomial in binary form: " + tapSequencebuffer, NotificationLevel.Info);
+                    GuiLogMessage("Polynomial in binary form: " + tapSequencebuffer, NotificationLevel.Info, createLog);
 
                     // check if polynomial has false length
                     if (tapSequencebuffer.Length != seedbuffer.Length)
@@ -482,7 +559,7 @@ namespace Cryptool.LFSR
                         /*// check if its too long
                         if (inputSeed.Length - tapSequencebuffer.Length < 0)
                         {
-                            GuiLogMessage("ERROR - Your polynomial " + tapSequencebuffer + " is TOO LONG (" + tapSequencebuffer.Length + " Bits) for your seed. Aborting now.", NotificationLevel.Error);
+                            GuiLogMessage("ERROR - Your polynomial " + tapSequencebuffer + " is TOO LONG (" + tapSequencebuffer.Length + " Bits) for your seed. Aborting now.", NotificationLevel.Error, true);
                             if (!settings.UseBoolClock) inputClock.Close();
                             return;
                         }
@@ -494,16 +571,16 @@ namespace Cryptool.LFSR
                                 tapSequencebuffer = "0" + tapSequencebuffer;
                             }
                         }*/
-                        GuiLogMessage("ERROR - Your polynomial " + tapSequencebuffer + " has to be the same length (" + tapSequencebuffer.Length + " Bits) as your seed (" + seedbuffer.Length + " Bits). Aborting now.", NotificationLevel.Error);
+                        GuiLogMessage("ERROR - Your polynomial " + tapSequencebuffer + " has to be the same length (" + tapSequencebuffer.Length + " Bits) as your seed (" + seedbuffer.Length + " Bits). Aborting now.", NotificationLevel.Error, createLog);
                         Dispose();
                         return;
                     }
 
-                    //GuiLogMessage("Polynomial after length fitting: " + tapSequencebuffer, NotificationLevel.Info);
+                    //GuiLogMessage("Polynomial after length fitting: " + tapSequencebuffer, NotificationLevel.Info, true);
                 }
                 else
                 {
-                    GuiLogMessage("ERROR - " + tapSequencebuffer + " is NOT a valid polynomial. Aborting now.", NotificationLevel.Error);
+                    GuiLogMessage("ERROR - " + tapSequencebuffer + " is NOT a valid polynomial. Aborting now.", NotificationLevel.Error, createLog);
                     //Console.WriteLine("\n{0} is NOT a valid polynomial.", tapSequencebuffer);
                     Dispose();
                     return;
@@ -517,7 +594,7 @@ namespace Cryptool.LFSR
             if (tapSequencebuffer.Length != seedbuffer.Length)
             {
                 // stop, because seed and tapSequence must have same length
-                GuiLogMessage("ERROR - Seed and tapSequence must have same length. Aborting now.", NotificationLevel.Error);
+                GuiLogMessage("ERROR - Seed and tapSequence must have same length. Aborting now.", NotificationLevel.Error, createLog);
                 Dispose();
                 return;
             }
@@ -525,13 +602,13 @@ namespace Cryptool.LFSR
             int tapSequenceBits = tapSequencebuffer.Length;
             seedBits = seedbuffer.Length;
 
-            GuiLogMessage("inputTapSequence length [bits]: " + tapSequenceBits.ToString(), NotificationLevel.Debug);
-            GuiLogMessage("inputSeed length [bits]: " + seedBits.ToString(), NotificationLevel.Debug);
+            GuiLogMessage("inputTapSequence length [bits]: " + tapSequenceBits.ToString(), NotificationLevel.Debug, createLog);
+            GuiLogMessage("inputSeed length [bits]: " + seedBits.ToString(), NotificationLevel.Debug, createLog);
 
             //check if last tap is 1, otherwise stop
             if (tapSequenceCharArray[tapSequenceCharArray.Length - 1] == '0')
             {
-                GuiLogMessage("ERROR - Last tap of tapSequence must be 1. Aborting now.", NotificationLevel.Error);
+                GuiLogMessage("ERROR - Last tap of tapSequence must be 1. Aborting now.", NotificationLevel.Error, createLog);
                 return;
             }
 
@@ -543,7 +620,7 @@ namespace Cryptool.LFSR
             {
                 if (character != '0' && character != '1')
                 {
-                    GuiLogMessage("ERROR 0 - Seed has to be binary. Aborting now. Character is: " + character, NotificationLevel.Error);
+                    GuiLogMessage("ERROR 0 - Seed has to be binary. Aborting now. Character is: " + character, NotificationLevel.Error, createLog);
                     return;
                 }
             }
@@ -553,7 +630,7 @@ namespace Cryptool.LFSR
                 else
                 {
                     clocking = -1;
-                    GuiLogMessage("WARNING: Clocking Bit is too high. Ignored.", NotificationLevel.Warning);
+                    GuiLogMessage("WARNING: Clocking Bit is too high. Ignored.", NotificationLevel.Warning, createLog);
                 }
 
             }
@@ -602,7 +679,7 @@ namespace Cryptool.LFSR
             if (lastInputPropertyWasBoolClock)
             {
                 if (!settings.UseBoolClock) return;
-                //GuiLogMessage("First if.", NotificationLevel.Info);
+                //GuiLogMessage("First if.", NotificationLevel.Info, true);
             }
                 // if last event wasn't from the clock but clock shall be
                 // the only event to start from, do not go on
@@ -610,7 +687,7 @@ namespace Cryptool.LFSR
             {
                 // do nothing if we should use bool clock, but become event from other inputs
                 if (settings.UseBoolClock) return;
-                //GuiLogMessage("Second if.", NotificationLevel.Info);
+                //GuiLogMessage("Second if.", NotificationLevel.Info, true);
             }
             // process LFSR
             
@@ -631,7 +708,15 @@ namespace Cryptool.LFSR
                 // make all this stuff only one time at the beginning of our chainrun
                 if (newSeed)
                 {
-                    preprocessingLFSR();
+                    try
+                    {
+                        preprocessingLFSR(true);
+                        int myPeriod = computePeriod();
+                        if (myPeriod == ((int)Math.Pow(2.0, (double)seedbuffer.Length) - 1))
+                            settings.Period = "Period of LFSR: " + myPeriod.ToString() + " (max.)";
+                        else
+                            settings.Period = "Period of LFSR: " + myPeriod.ToString();
+                    } catch (Exception ex) { }
                 }
                 
                 // Here we go!
@@ -657,13 +742,13 @@ namespace Cryptool.LFSR
                 listCryptoolStreamsOut.Add(outputStream);
                 outputStream.OpenWrite();
 
-                //GuiLogMessage("Action is: Now!", NotificationLevel.Debug);
+                //GuiLogMessage("Action is: Now!", NotificationLevel.Debug, true);
                 DateTime startTime = DateTime.Now;
 
                 //////////////////////////////////////////////////////
                 // compute LFSR //////////////////////////////////////
                 //////////////////////////////////////////////////////
-                GuiLogMessage("Starting computation", NotificationLevel.Debug);
+                GuiLogMessage("Starting computation", NotificationLevel.Debug, true);
                 
                 int i = 0;
                 
@@ -677,7 +762,7 @@ namespace Cryptool.LFSR
                         // make bool output
                         if (seedCharArray[seedBits - 1] == '0') outputBool = false;
                         else outputBool = true;
-                        //GuiLogMessage("OutputBool is: " + outputBool.ToString(), NotificationLevel.Info);
+                        //GuiLogMessage("OutputBool is: " + outputBool.ToString(), NotificationLevel.Info, true);
 
                         // write last bit to output buffer, output stream buffer, stream and bool
                         outputbuffer = seedCharArray[seedBits - 1];
@@ -718,7 +803,7 @@ namespace Cryptool.LFSR
                         for (int j = seedBits - 1; j > 0; j--)
                         {
                             seedCharArray[j] = seedCharArray[j - 1];
-                            //GuiLogMessage("seedCharArray[" + j + "] is: " + seedCharArray[j], NotificationLevel.Info);
+                            //GuiLogMessage("seedCharArray[" + j + "] is: " + seedCharArray[j], NotificationLevel.Info, true);
                         }
                         seedCharArray[0] = newBit;
 
@@ -732,7 +817,7 @@ namespace Cryptool.LFSR
                         seedbuffer = null;
                         foreach (char c in seedCharArray) seedbuffer += c;
 
-                        //GuiLogMessage("New Bit: " + newBit.ToString(), NotificationLevel.Info);
+                        //GuiLogMessage("New Bit: " + newBit.ToString(), NotificationLevel.Info, true);
                     }
                     else
                     {
@@ -755,7 +840,7 @@ namespace Cryptool.LFSR
                                     outputBool = true;
                                 outputbuffer = outputBit;
                             }
-                            //GuiLogMessage("OutputBool is: " + outputBool.ToString(), NotificationLevel.Info);
+                            //GuiLogMessage("OutputBool is: " + outputBool.ToString(), NotificationLevel.Info, true);
 
                             // write bit to output buffer, stream and bool
                             
@@ -809,9 +894,9 @@ namespace Cryptool.LFSR
                     outputString = outputStringBuffer;
                     OnPropertyChanged("OutputString");
 
-                    GuiLogMessage("Complete!", NotificationLevel.Debug);
+                    GuiLogMessage("Complete!", NotificationLevel.Debug, true);
 
-                    GuiLogMessage("Time used: " + duration, NotificationLevel.Debug);
+                    GuiLogMessage("Time used: " + duration, NotificationLevel.Debug, true);
                     outputStream.Close();
                     OnPropertyChanged("OutputStream");
                 }
@@ -820,12 +905,12 @@ namespace Cryptool.LFSR
                 {
                     outputStream.Close();
                     outputStringBuffer = null;
-                    GuiLogMessage("Aborted!", NotificationLevel.Debug);
+                    GuiLogMessage("Aborted!", NotificationLevel.Debug, true);
                 }
             }
             catch (Exception exception)
             {
-                GuiLogMessage(exception.Message, NotificationLevel.Error);
+                GuiLogMessage(exception.Message, NotificationLevel.Error, true);
             }
             finally
             {
@@ -837,14 +922,16 @@ namespace Cryptool.LFSR
 
         public void Initialize()
         {
+            lFSRPresentation.ChangeBackground(NotificationLevel.Info);
         }
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-        private void GuiLogMessage(string message, NotificationLevel logLevel)
+        private void GuiLogMessage(string message, NotificationLevel logLevel, bool createLogOrChangeBackground)
         {
-            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
+            if (createLogOrChangeBackground) EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
+            else lFSRPresentation.ChangeBackground(logLevel);
         }
 
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
