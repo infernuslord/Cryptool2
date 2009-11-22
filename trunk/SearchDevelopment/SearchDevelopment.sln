@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypCore", "..\CrypCore\CrypCore.csproj", "{FF5D473C-0716-4D3E-9078-2EBD979F94C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypCoreSearchTest", "..\CrypCoreSearchTest\CrypCoreSearchTest.csproj", "{90C71656-814E-48BF-A625-7B7E2B8F126C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FF5D473C-0716-4D3E-9078-2EBD979F94C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF5D473C-0716-4D3E-9078-2EBD979F94C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF5D473C-0716-4D3E-9078-2EBD979F94C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF5D473C-0716-4D3E-9078-2EBD979F94C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90C71656-814E-48BF-A625-7B7E2B8F126C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90C71656-814E-48BF-A625-7B7E2B8F126C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90C71656-814E-48BF-A625-7B7E2B8F126C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90C71656-814E-48BF-A625-7B7E2B8F126C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
