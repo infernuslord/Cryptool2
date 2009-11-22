@@ -15,8 +15,13 @@ namespace Cryptool.Core
 {
     public class SearchResult
     {
+        public SearchResult()
+        {
+            Contexts = new List<string>();
+        }
+
         public string Plugin { get; set; }
-        public string Context { get; set; }
+        public List<string> Contexts { get; set; }
         public float Score { get; set; }
     }
 
@@ -24,8 +29,6 @@ namespace Cryptool.Core
     {
         private const string ContentField = "content";
         private const string PluginField = "plugin";
-        //private const string HelpFilePath = "";
-        //private const string IndexPath = "";
         public string HelpFilePath { get; set; }
         public string IndexPath { get; set; }
 
@@ -34,27 +37,21 @@ namespace Cryptool.Core
             var LocalSearch = new LocalSearchTool { IndexPath = IndexPath };
             LocalSearch.Search(SearchString);
 
-
-
-
-
+            //Hier eventuell dann noch die Online-Suche miteinbauen.
+            //Einfach neben der Klasse "LocalSearchTool" noch eine Klasse
+            //"OnlineSearchTool" erstellen
             return LocalSearch.SearchResults;
         }
 
         public void CreateIndexes()
         {
             Lucene.Net.Store.Directory dir = FSDirectory.GetDirectory(IndexPath, true);
-
             Analyzer analyzer = new StandardAnalyzer();
-
-            var indexWriter = new
-            IndexWriter(dir, analyzer, true);
-
-            indexWriter.SetMaxFieldLength(int.MaxValue);
+            var indexWriter = new IndexWriter(dir, analyzer, true, new IndexWriter.MaxFieldLength(25000));
 
             foreach (var File in Directory.GetFiles(HelpFilePath))
             {
-                var text = GetTextFromXaml(File);
+                var text = GetTextFromXaml(File).Replace("\r\n"," ").Replace("\n"," ");
                 var doc = new Document();
 
                 var fldContent = new Field(ContentField, text, Field.Store.YES, Field.Index.TOKENIZED,
@@ -63,9 +60,8 @@ namespace Cryptool.Core
                               Field.TermVector.NO);
                 doc.Add(fldContent);
                 doc.Add(fldName);
-                indexWriter.AddDocument(doc, analyzer);
+                indexWriter.AddDocument(doc);
             }
-
             indexWriter.Optimize();
             indexWriter.Close();
         }
@@ -112,51 +108,67 @@ namespace Cryptool.Core
 
         private const int ContextLeftOffset = 15;
         private const int ContextRightOffset = 35;
-        private const int ContextLength = ContextLeftOffset + ContextRightOffset;
 
         public override void Search(string SearchString)
         {
             base.Search(SearchString);
             SearchString = SearchString.ToLower();
             var dir = FSDirectory.GetDirectory(IndexPath, false);
-
             var searcher = new IndexSearcher(dir);
-
-            IndexReader Reader = searcher.Reader;
-
             var parser = new QueryParser(ContentField, new StandardAnalyzer());
             Query query = parser.Parse(SearchString);
 
-            Lucene.Net.Search.Hits hits = searcher.Search(query);
+            Hits hits = searcher.Search(query);
 
             for (int i = 0; i < hits.Length(); i++)
             {
                 Document doc = hits.Doc(i);
+                var result = new SearchResult { Score = hits.Score(i), Plugin = doc.Get(PluginField) };
+
+                //Text des aktuellen Dokuments auslesen
                 string text = doc.Get(ContentField);
-                var tpv = (TermPositionVector)Reader.GetTermFreqVector(hits.Id(i), ContentField);
+                //Alle indizierten Wörter dieses Dokumentes auslesen
+                var tpv = (TermPositionVector)IndexReader.Open(dir).GetTermFreqVector(hits.Id(i), ContentField);
                 String[] DocTerms = tpv.GetTerms();
+                //Die Anzahl der Erscheinungen aller Wörter auslesen
                 int[] freq = tpv.GetTermFrequencies();
+                //Hier wollen wir nun die Positionen der Erscheinungen des Suchwortes herausfinden
                 for (int t = 0; t < freq.Length; t++)
                 {
+                    //Falls das Suchwort mit dem aktuellen Wort übereinstimmt...
                     if (DocTerms[t].Equals(SearchString))
                     {
+                        //...können wir die Positionen auslesen
                         TermVectorOffsetInfo[] offsets = tpv.GetOffsets(t);
-                        int[] pos = tpv.GetTermPositions(t);
-
-                        for (int tp = 0; tp < pos.Length; tp++)
+                        //Das Array beinhaltet nun für das Suchwort alle Auftreten mit jeweils Anfang und Ende
+                        for (int j = 0; j < offsets.Length; j++)
                         {
-                            int start = offsets[tp].GetStartOffset();
-                            int indexStart = start - ContextLeftOffset < 0 ? 0 : start - ContextLeftOffset;
-                            int contextstart = 0;
-                            if (indexStart > 0)
-                                contextstart = text.IndexOf(' ', indexStart) + 1;
-                            int contextlength = text.IndexOf(' ', contextstart + ContextLength) - contextstart;
-                            string context = contextstart + contextlength > text.Length ? text.Substring(contextstart) : text.Substring(contextstart, contextlength);
-                            SearchResults.Add(new SearchResult { Plugin = doc.Get(PluginField), Context = context, Score = hits.Score(i) });
+                            //Jetz muss nur noch ein kleiner Kontextausschnitt ausgelesen werden, damit der User etwas damit anfangen kann
+                            int start = offsets[j].GetStartOffset();
+                            int end = offsets[j].GetEndOffset();
+                            int contextStart = start - ContextLeftOffset;
+                            contextStart = contextStart < 0 ? 0 : contextStart;
+                            int contextEnd = end + ContextRightOffset;
+                            contextEnd = contextEnd > text.Length ? text.Length : contextEnd;
+                            //Nun wollen wir noch bis zum Ende des nächsten Wortes lesen, um das Ergebnis besser lesbar zu machen
+                            int nextEndSpace = text.IndexOf(" ", contextEnd);
+                            contextEnd = nextEndSpace > 0 ? nextEndSpace : contextEnd;
+                            //Maximal so viele Zeichen darf der Text nach einem Leerzeichen links von dem Suchergebnis durchsucht werden
+                            int leftSpaceOffset = contextStart;
+                            //Finden des nächstenLeerzeichens links vom Suchergebnis
+                            int nextStartSpace = text.LastIndexOf(" ", contextStart, leftSpaceOffset);
+                            //Falls es kein Space in der Nöhe gibt brauchen wir natürlich auch nichts verändern
+                            contextStart = nextStartSpace > 0 ? nextStartSpace : contextStart;
+                            int contextLength = contextEnd - contextStart;
+                            contextLength = contextLength > text.Length ? text.Length : contextLength;
+                            //Kontext auslesen
+                            string context = text.Substring(contextStart, contextLength);
+                            //und den Searchresults zusammen mit dem zugehörigen PlugInNamen und dem HitScore hinzufügen
+                            result.Contexts.Add(context);
                         }
                     }
                 }
-
+                SearchResults.Add(result);
             }
         }
     }
