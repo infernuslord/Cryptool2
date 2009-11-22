@@ -17,7 +17,8 @@ namespace Transposition
         private ReadInMode selectedReadIn = ReadInMode.byRow;
         private PermutationMode selectedPermutation = PermutationMode.byColumn;
         private ReadOutMode selectedReadOut = ReadOutMode.byColumn;
-        
+        private int Presentation_Speed = 1;
+
         # endregion
 
         #region public enums
@@ -94,6 +95,19 @@ namespace Transposition
                 if ((ReadOutMode)value != selectedReadOut) HasChanges = true;
                 this.selectedReadOut= (ReadOutMode)value;
                 OnPropertyChanged("ReadOut");
+            }
+        }
+
+        [PropertySaveOrder(5)]
+        [TaskPane("Presentation Speed", "Change the pace of the Presentation", null, 5, true, DisplayLevel.Expert, ControlType.Slider, 1, 1000)]
+        public int PresentationSpeed
+        {
+            get { return (int)Presentation_Speed; }
+            set
+            {
+                if ((value) != Presentation_Speed) hasChanges = true;
+                this.Presentation_Speed = value;
+                OnPropertyChanged("Value");
             }
         }
 

@@ -39,8 +39,12 @@ namespace Transposition
             this.settings = new TranspositionSettings();
             myPresentation = new TranspositionPresentation();
             Presentation = myPresentation;
+            this.settings.PropertyChanged += settings_OnPropertyChange;
         }
-
+        private void settings_OnPropertyChange(object sender, PropertyChangedEventArgs e)
+        {
+            myPresentation.UpdateSpeed(this.settings.PresentationSpeed);
+        }
         /// <summary>
         /// Get or set all settings for this algorithm.
         /// </summary>

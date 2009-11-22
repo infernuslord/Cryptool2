@@ -1,16 +1,43 @@
 ﻿<UserControl x:Class="Transposition.TranspositionPresentation"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Height="300" Width="800">
-    <Grid>
-    <Grid Name="mainGrid" Height="100" Width="420" VerticalAlignment="Top">
-        <Grid HorizontalAlignment="Center" Name="myGrid" VerticalAlignment="Center" Height="100" Width="50" >
-        
+    Background="Transparent"
+    SnapsToDevicePixels="True" 
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch"
+    Height="Auto" Width="Auto">
+
+    <Grid Name="mainGrid" Height="Auto" Width="Auto"   >
+
+        <Grid.RenderTransform>
+            <ScaleTransform x:Name="PinScaleTransform2" ScaleX="1" ScaleY="1" />
+        </Grid.RenderTransform>
+
+        <ScrollViewer VerticalAlignment="Top" HorizontalAlignment="Left">
+
+            <WrapPanel Name="mywrap1" Orientation="Horizontal" Width="Auto" MaxWidth="160" Height="Auto" >
+
+            </WrapPanel>
+        </ScrollViewer>
+
+        <ScrollViewer VerticalAlignment="Top" HorizontalAlignment="Right">
+
+            <WrapPanel Name="mywrap2" Orientation="Horizontal" Width="Auto" MaxWidth="160" Height="Auto" >
+
+            </WrapPanel>
+        </ScrollViewer>
+
+
+        <Grid Name="myGrid" MaxWidth="500" Height="Auto" Width="Auto"  HorizontalAlignment="Center" VerticalAlignment="Top">
+
         </Grid>
-        <TextBox  HorizontalAlignment="Left" Name="textBox1" Width="160"  IsEnabled="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True" />
-        <TextBox  HorizontalAlignment="Right" Name="textBox2" Width="160"  IsEnabled="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True"/>
-       
+
+
+        <TextBox Visibility="Hidden" Name="textBox1"></TextBox>
+        <TextBox  Name="textBox2" VerticalAlignment="Bottom"></TextBox>
+
     </Grid>
-        <Slider Height="21" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,118,-10,0" Name="slider1"  Width="160"  Maximum="1000" Minimum="1" Value="1" />
-    </Grid>
+    
+        
+
 </UserControl>
