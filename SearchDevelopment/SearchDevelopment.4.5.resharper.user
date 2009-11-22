@@ -3,6 +3,7 @@
     <string />
     <integer />
     <boolean>
+      <setting name="livetemplates.csharp.usevar">True</setting>
       <setting name="SolutionAnalysisEnabled">False</setting>
     </boolean>
   </SettingsComponent>
@@ -10,10 +11,86 @@
     <NAntPath value="" />
   </NAntValidationSettings>
   <RecentFiles>
-    <RecentFiles />
-    <RecentEdits />
+    <RecentFiles>
+      <File id="FF5D473C-0716-4D3E-9078-2EBD979F94C6/f:Enums.cs" caret="11629" fromTop="32" />
+      <File id="FF5D473C-0716-4D3E-9078-2EBD979F94C6/f:PluginManager.cs" caret="0" fromTop="0" />
+      <File id="90C71656-814E-48BF-A625-7B7E2B8F126C/f:Program.cs" caret="1265" fromTop="34" />
+      <File id="FF5D473C-0716-4D3E-9078-2EBD979F94C6/f:SearchProvider.cs" caret="0" fromTop="0" />
+    </RecentFiles>
+    <RecentEdits>
+      <File id="90C71656-814E-48BF-A625-7B7E2B8F126C/f:Program.cs" caret="1024" fromTop="24" />
+      <File id="90C71656-814E-48BF-A625-7B7E2B8F126C/f:Program.cs" caret="1167" fromTop="27" />
+      <File id="90C71656-814E-48BF-A625-7B7E2B8F126C/f:Program.cs" caret="79" fromTop="3" />
+      <File id="90C71656-814E-48BF-A625-7B7E2B8F126C/f:Program.cs" caret="774" fromTop="19" />
+    </RecentEdits>
   </RecentFiles>
   <UnitTestRunner>
     <Providers />
   </UnitTestRunner>
+  <CompletionStatisticsManager>
+    <ItemStatistics item="Default">
+      <Item value="string" priority="1" />
+      <Item value="text" priority="6" />
+      <Item value="offsets" priority="4" />
+      <Item value="t" priority="1" />
+      <Item value="for" priority="0" />
+      <Item value="Length" priority="0" />
+      <Item value="int" priority="9" />
+      <Item value="start" priority="2" />
+      <Item value="end" priority="2" />
+      <Item value="ContextLeftOffset" priority="0" />
+      <Item value="contextStart" priority="8" />
+      <Item value="ContextLength" priority="0" />
+      <Item value="contextLength" priority="3" />
+      <Item value="ContextRightOffset" priority="0" />
+      <Item value="contextEnd" priority="6" />
+      <Item value="counter" priority="0" />
+      <Item value="Path" priority="0" />
+      <Item value="public" priority="1" />
+      <Item value="List" priority="0" />
+      <Item value="SearchResult" priority="1" />
+      <Item value="Contexts" priority="0" />
+      <Item value="new" priority="1" />
+      <Item value="List&lt;string&gt;" priority="0" />
+      <Item value="var" priority="0" />
+      <Item value="SearchResults" priority="0" />
+      <Item value="result" priority="3" />
+      <Item value="context" priority="0" />
+      <Item value="foreach" priority="0" />
+      <Item value="Result" priority="0" />
+      <Item value="nextSpace" priority="1" />
+      <Item value="nextStartSpace" priority="1" />
+      <Item value="startSearchPosition" priority="0" />
+      <Item value="if" priority="0" />
+      <Item value="Console" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.String">
+      <Item value="Substring" priority="0" />
+      <Item value="Length" priority="4" />
+      <Item value="Replace" priority="2" />
+      <Item value="IndexOf" priority="0" />
+      <Item value="LastIndexOf" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Lucene.Net.Index.TermVectorOffsetInfo">
+      <Item value="GetHashCode" priority="0" />
+      <Item value="GetEndOffset" priority="1" />
+      <Item value="GetStartOffset" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.String">
+      <Item value="Format" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.IO.Path">
+      <Item value="GetFullPath" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Collections.Generic.List`1">
+      <Item value="Add" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:Cryptool.Core.SearchResult">
+      <Item value="Score" priority="0" />
+      <Item value="Contexts" priority="1" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@System.Console">
+      <Item value="WriteLine" priority="0" />
+    </ItemStatistics>
+  </CompletionStatisticsManager>
 </Configuration>

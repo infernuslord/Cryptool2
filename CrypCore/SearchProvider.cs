@@ -49,13 +49,13 @@ namespace Cryptool.Core
             Analyzer analyzer = new StandardAnalyzer();
             var indexWriter = new IndexWriter(dir, analyzer, true, new IndexWriter.MaxFieldLength(25000));
 
-            foreach (var File in Directory.GetFiles(HelpFilePath))
+            foreach (var File in Directory.GetFiles(HelpFilePath,"*.xaml"))
             {
                 var text = GetTextFromXaml(File).Replace("\r\n"," ").Replace("\n"," ");
                 var doc = new Document();
 
                 var fldContent = new Field(ContentField, text, Field.Store.YES, Field.Index.TOKENIZED,
-                              Field.TermVector.WITH_POSITIONS_OFFSETS);
+                              Field.TermVector.WITH_OFFSETS);
                 var fldName = new Field(PluginField, Path.GetFileNameWithoutExtension(Path.GetFileName(File)), Field.Store.YES, Field.Index.NO,
                               Field.TermVector.NO);
                 doc.Add(fldContent);
