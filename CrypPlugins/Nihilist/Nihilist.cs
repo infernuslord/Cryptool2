@@ -36,7 +36,7 @@ namespace Nihilist
         }
 
         private byte[] input = new byte[] { };
-        [PropertyInfo(Direction.Input, "Input byte array", "This is the byte array to be processed by Nihilist cipher.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Input byte array", "This is the byte array to be processed by Nihilist cipher.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public byte[] Input
         {
             get { return input; }
@@ -48,7 +48,7 @@ namespace Nihilist
         }
 
         private byte[] output = new byte[] { };
-        [PropertyInfo(Direction.Output, "Output byte array", "This is the byte array processed by Nihilist cipher, now as byte array.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Output byte array", "This is the byte array processed by Nihilist cipher", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public byte[] Output
         {
             get { return output; }
