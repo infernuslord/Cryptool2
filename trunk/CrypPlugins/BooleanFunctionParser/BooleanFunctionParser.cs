@@ -31,7 +31,7 @@ namespace Cryptool.BooleanFunctionParser
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
     [PluginInfo(false, "Boolean Function Parser", "Boolean Function Parser (BFP). Computes the result of a boolean function f(i).", "BooleanFunctionParser/DetailedDescription/Description.xaml", "BooleanFunctionParser/Images/icon2.png")]
-    public class BooleanFunctionParser : IThroughput
+    public class BooleanFunctionParser : IThroughput, Cryptool.PluginBase.IPlugin
     {
         #region Private variables
 
@@ -555,7 +555,10 @@ namespace Cryptool.BooleanFunctionParser
                     //strInputVariableExtern[i] = externDataOne[i] ? '1' : '0';
                     //string replacement = "x0." + i;
                     //strExpression = strExpression.Replace(replacement, strInputVariableExtern[i].ToString());
-                    tokens.Add("x0." + i, externDataOne[i] ? "1" : "0");
+                    if (settings.UseBFPforCube == false)
+                        tokens.Add("x0." + i, externDataOne[i] ? "1" : "0");
+                    else
+                        tokens.Add("v." + i, externDataOne[i] ? "1" : "0");
                 }
             }
             // replace quickwatch data (xq.*) (if there is any)
@@ -592,7 +595,7 @@ namespace Cryptool.BooleanFunctionParser
                         //strInputVariableExtern[i] = externDataTwo[i] ? '1' : '0';
                         //string replacement = "xq." + i;
                         //strExpression = strExpression.Replace(replacement, strInputVariableExtern[i].ToString());
-                        tokens.Add("xq." + i, externDataTwo[i] ? "1" : "0");
+                        tokens.Add("x." + i, externDataTwo[i] ? "1" : "0");
                     }
                 }
                 // Cube Attack Preprocessing Phase
@@ -603,7 +606,7 @@ namespace Cryptool.BooleanFunctionParser
                     {
                         //string replacement = "xq." + i;
                         //strExpression = strExpression.Replace(replacement, strInputVariableQuickwatch[i].ToString());
-                        tokens.Add("xq." + i, strInputVariableQuickwatch[i].ToString());
+                        tokens.Add("x." + i, strInputVariableQuickwatch[i].ToString());
                     }
                 }
                 
@@ -916,6 +919,17 @@ namespace Cryptool.BooleanFunctionParser
         }
 
         #endregion
+
+        internal BooleanFunctionParserSettings BooleanFunctionParserSettings
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+            set
+            {
+            }
+        }
     }
 
     #region CubeAttackControl : IControlCubeAttack
