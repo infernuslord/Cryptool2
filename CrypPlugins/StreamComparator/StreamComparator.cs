@@ -310,7 +310,7 @@ namespace Cryptool.StreamComparator
             WriteLine(n, DiffMode.NoChange, bLines[n]);
             n++;
           } // while
-          result.AppendLine("</TableRowGroup></Table></FlowDocument>"); // </FlowDocumentReader>
+          result.AppendLine("</TableRowGroup></Table></FlowDocument>");
           StatusBarProgressbarValueChanged(1, 2);
           CryptoolStream cs = new CryptoolStream();
           cs.OpenRead(this.GetPluginInfoAttribute().Caption, Encoding.Default.GetBytes(result.ToString()));
