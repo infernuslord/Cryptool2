@@ -700,7 +700,10 @@ namespace Cryptool.CubeAttack
             string outputCube = string.Empty;
 
             if (countSuperpoly > 0)
+            {
                 OnPropertyChanged("OutputSuperpoly");
+                ProgressChanged((double)countSuperpoly / (double)settings.SecretVar, 1.0);
+            }
 
             // Save all public variables indexes in a list 
             for (int i = 0; i < settings.PublicVar; i++)
@@ -728,6 +731,7 @@ namespace Cryptool.CubeAttack
 
                     if (settings.EnableLogMessages)
                     {
+                        outputCube = string.Empty;
                         foreach (int element in maxterm)
                             outputCube += "v" + element + " ";
                         CubeAttack_LogMessage("Start search for maxterm with subterm: " + outputCube, NotificationLevel.Info);
@@ -981,7 +985,7 @@ namespace Cryptool.CubeAttack
                             flag = true;
                         }
                     }
-                    CubeAttack_LogMessage("Compute value of maxterm equation " + logOutput, NotificationLevel.Info);
+                    CubeAttack_LogMessage("Compute value of superpoly " + logOutput, NotificationLevel.Info);
 
                     for (ulong k = 0; k < Math.Pow(2, listCubeIndexes[i].Count); k++)
                     {
