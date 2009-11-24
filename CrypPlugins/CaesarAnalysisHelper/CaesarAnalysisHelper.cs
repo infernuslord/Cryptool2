@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.IO;
 using System.Collections.Generic;
 using Cryptool.PluginBase.Analysis;
 
@@ -16,12 +15,9 @@ namespace Cryptool.CaesarAnalysisHelper
         private readonly CaesarAnalysisHelperSettings settings;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        // disable the warning, if we don't intend to use these events..
-#pragma warning disable 67
         public event StatusChangedEventHandler OnPluginStatusChanged;
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
-#pragma warning restore
 
         public CaesarAnalysisHelper()
         {
@@ -58,30 +54,6 @@ namespace Cryptool.CaesarAnalysisHelper
             }
         }
 
-        /*private string dictionary;
-        [PropertyInfo(Direction.Input, "Dictionary", "Dictionary for Bruteforce attack", null, false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public string Dictionary
-        {
-            get { return dictionary; }
-            set
-            {
-                dictionary = value;
-                OnPropertyChanged("Dictionary");
-            }
-        }
-
-        private string bruteForceDecryptedText;
-        [PropertyInfo(Direction.Input, "Bruteforce decrypted text", "This the text, which was decrypted by the caesar plugin.", null, false, false, DisplayLevel.Professional, QuickWatchFormat.Text, null)]
-        public string BruteForceDecryptedText
-        {
-            get { return bruteForceDecryptedText; }
-            set
-            {
-                bruteForceDecryptedText = value;
-                OnPropertyChanged("BruteForceDecryptedText");
-            }
-        }*/
-
         private int key;
         [PropertyInfo(Direction.OutputData, "Key", "This is the estimated key.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public int Key
@@ -92,35 +64,11 @@ namespace Cryptool.CaesarAnalysisHelper
             }
         }
 
-        /*private string bruteForceEncryptedText;
-        [PropertyInfo(Direction.Output, "Bruteforce encrypted text", "This the text, which should be encrypted by the caesar plugin with bruteforce.", null, false, false, DisplayLevel.Professional, QuickWatchFormat.Text, null)]
-        public string BruteForceEnCryptedText
-        {
-            get { return bruteForceEncryptedText; }
-            set
-            {
-                bruteForceEncryptedText = value;
-                OnPropertyChanged("BruteForceEncryptedText");
-            }
-        }
-
-        private int bruteForceKeyOutput;
-        [PropertyInfo(Direction.Output, "Bruteforce key", "This key should be connected to the caesar bruteforce plugin.", null, false, false, DisplayLevel.Professional, QuickWatchFormat.Text, null)]
-        public int BruteForceKeyOutput
-        {
-            get { return bruteForceKeyOutput; }
-            set
-            {
-                bruteForceKeyOutput = value;
-                OnPropertyChanged("BruteForceKeyOutput");
-            }
-        }*/
-
-        public void CryptoAnalysis()
+        private void CryptoAnalysis()
         {
             var KeyList = new Dictionary<int, int>();
             int Counter = 0;
-            foreach (var i in CountChars(frequencyList))
+            foreach (var i in CountChars(frequencyList.ToLower()))
             {
                 if (Counter < 5)
                 {
@@ -135,7 +83,7 @@ namespace Cryptool.CaesarAnalysisHelper
             }
 
             Counter = 0;
-            foreach (var i in CountBigrams(encryptedText))
+            foreach (var i in CountBigrams(encryptedText.ToLower()))
             {
                 if (Counter < 5)
                 {
