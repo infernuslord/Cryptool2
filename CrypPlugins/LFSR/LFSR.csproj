@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="key.snk" />
+    <None Include="LFSRClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\decrypt.png" />

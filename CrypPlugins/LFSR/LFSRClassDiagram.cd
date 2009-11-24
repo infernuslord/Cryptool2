@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Cryptool.LFSR.LFSR">
+    <Position X="5.5" Y="4" Width="2.5" />
+    <Members>
+      <Method Name="Dispose" Hidden="true" />
+      <Method Name="Execute" Hidden="true" />
+      <Method Name="GuiLogMessage" Hidden="true" />
+      <Method Name="Initialize" Hidden="true" />
+      <Method Name="OnPropertyChanged" Hidden="true" />
+      <Method Name="Pause" Hidden="true" />
+      <Method Name="PostExecution" Hidden="true" />
+      <Method Name="PreExecution" Hidden="true" />
+      <Method Name="ProgressChanged" Hidden="true" />
+      <Field Name="settings" Hidden="true" />
+      <Method Name="settings_PropertyChanged" Hidden="true" />
+      <Method Name="StatusChanged" Hidden="true" />
+      <Method Name="Stop" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Events" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>ACCgKUJAJCFQQR4zIEAAAsACgECgEABqsAAoQQBSABA=</HashCode>
+      <FileName>LFSR.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

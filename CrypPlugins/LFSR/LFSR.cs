@@ -95,12 +95,16 @@ namespace Cryptool.LFSR
             }
             if (e.PropertyName == "Polynomial" || e.PropertyName == "Seed")
             {
-                int myPeriod = computePeriod();
-                if (myPeriod == ((int)Math.Pow(2.0,(double)seedbuffer.Length) - 1))
-                    settings.Period = "Period of LFSR: " + myPeriod.ToString() + " (max.)";
-                else
-                    settings.Period = "Period of LFSR: " + myPeriod.ToString();
-                //GuiLogMessage("Period: " + myPeriod, NotificationLevel.Info, true);
+                try
+                {
+                    int myPeriod = computePeriod();
+                    if (myPeriod == ((int)Math.Pow(2.0, (double)seedbuffer.Length) - 1))
+                        settings.Period = "Period of LFSR: " + myPeriod.ToString() + " (max.)";
+                    else
+                        settings.Period = "Period of LFSR: " + myPeriod.ToString();
+                    //GuiLogMessage("Period: " + myPeriod, NotificationLevel.Info, true);
+                }
+                catch (Exception ex) { }
             }
         }
 
