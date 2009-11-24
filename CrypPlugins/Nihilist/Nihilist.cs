@@ -1,4 +1,21 @@
-﻿using System.Collections.Generic;
+﻿/*                              
+   Copyright 2009 Fabian Enkler
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+
+
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Controls;
@@ -8,7 +25,7 @@ using System.Windows;
 
 namespace Nihilist
 {
-    [Author("Fabian Enkler", "", "", "")]
+    [Author("Fabian Enkler", "enkler@cryptool.org", "", "")]
     [PluginInfo(false, "Nihilist", "Nihilist -- classic digraph polyalphabetic substitution cipher substituting each letter by a 2-digit-number", "", "Nihilist/icon.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class Nihilist : IEncryption
@@ -16,8 +33,10 @@ namespace Nihilist
         private readonly NihilistSettings settings = new NihilistSettings();
 
         public event PropertyChangedEventHandler PropertyChanged;
+#pragma warning disable 67
         public event StatusChangedEventHandler OnPluginStatusChanged;
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+#pragma warning restore
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
         public ISettings Settings
@@ -207,13 +226,13 @@ namespace Nihilist
 
         }
 
-        public void OnPropertyChanged(string name)
+        private void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
 
-        public void OnProgressChanged(int value, int max)
+        private void OnProgressChanged(int value, int max)
         {
             if (OnPluginProgressChanged != null)
                 OnPluginProgressChanged(this, new PluginProgressEventArgs(value, max));
