@@ -6,16 +6,12 @@ using System.Windows.Data;
 
 namespace Cryptool.MD5.Presentation.Converters
 {
-    class BytesToStringConverter : IValueConverter
+    class UintToLittleEndianHexStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            byte[] byteArray = (byte[])value;
-
-            if (byteArray == null)
-                return string.Empty;
-
-            return BitConverter.ToString(byteArray).Replace('-', ' ');
+            uint intValue = (uint)value;
+            return BitConverter.ToString(BitConverter.GetBytes(intValue)).Replace('-', ' ');
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

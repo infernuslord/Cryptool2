@@ -1,0 +1,10 @@
+﻿<UserControl x:Class="Cryptool.MD5.Presentation.States.AddedLengthPresentation"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:displays="clr-namespace:Cryptool.MD5.Presentation.Displays"
+    Height="300" Width="480">
+    <Grid>
+        <TextBlock Margin="12,104,12,0" Name="textBlock1" Text="We have added the length at the end of our data buffer, which now looks like this:" TextWrapping="Wrap" Height="53" VerticalAlignment="Top" />
+        <displays:DataBlockDisplay Data="{Binding CurrentState.CurrentDataBlock}" Height="52" VerticalAlignment="Top" Margin="12,163,12,0" />
+    </Grid>
+</UserControl>

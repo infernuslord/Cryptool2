@@ -1,0 +1,10 @@
+﻿<UserControl x:Class="Cryptool.MD5.Presentation.States.InitializedPresentation"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:displays="clr-namespace:Cryptool.MD5.Presentation.Displays" Height="306" Width="994">
+    <Grid>
+        <displays:HashAccumulatorDisplay Margin="8,106,8,110" DataContext="{Binding CurrentState}" />
+        <TextBlock Margin="8,250,8,0" Name="label1" Height="44" VerticalAlignment="Top" Text="The first thing we do is initialize our accumulators to their starting values, which are the fixed constants that you can see above." TextWrapping="Wrap" />
+        <TextBlock Height="64" Margin="12,12,12,0" Name="label2" VerticalAlignment="Top" TextWrapping="Wrap" Text="The variables H1 - H4 are our accumulator variables. While we perform the hash, we will change them after each execution of the compression function. When we are done, they contain the final MD5 hash value." />
+    </Grid>
+</UserControl>

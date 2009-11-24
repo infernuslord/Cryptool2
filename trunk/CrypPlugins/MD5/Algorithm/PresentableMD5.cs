@@ -526,6 +526,9 @@ namespace Cryptool.MD5.Algorithm
 
             // Remember that padding is done now
             newState.IsPaddingDone = true;
+
+            // Update data length
+            newState.DataLength += 8;
         }
 
         /// <summary>

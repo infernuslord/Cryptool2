@@ -1,41 +1,21 @@
 ﻿<UserControl x:Class="Cryptool.MD5.Presentation.PresentationContainer"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:convert="clr-namespace:Cryptool.MD5.Presentation.Converters">
+    xmlns:converters="clr-namespace:Cryptool.MD5.Presentation.Converters"
+             xmlns:displays="clr-namespace:Cryptool.MD5.Presentation.Displays"
+	Background="White" Height="435" Width="761">
     <UserControl.Resources>
-        <convert:BytesToStringConverter x:Key="bytesToStringConverter"/>
+        <converters:BytesToStringConverter x:Key="bytesToStringConverter"/>
+        <converters:MD5StateToUserControlConverter x:Key="md5StateToUserControlConverter"/>
     </UserControl.Resources>
     <Grid>
-        <Label Height="28" HorizontalAlignment="Left" Margin="12,12,0,0" Name="stateCaptionLabel" VerticalAlignment="Top" Width="94">State:</Label>
-        <Label Height="28" Margin="64,12,0,0" Name="stateValueLabel" VerticalAlignment="Top" Content="{Binding CurrentState.State}" HorizontalAlignment="Left" Width="136" />
-        <Button Height="23" Margin="122,0,0,12" Name="previousStepButton" VerticalAlignment="Bottom" Click="previousStepButton_Click" HorizontalAlignment="Left" Width="75">&lt;&lt; Previous</Button>
-        <Button Height="23" Margin="203,0,0,12" Name="nextStepButton" VerticalAlignment="Bottom" Click="nextStepButton_Click" HorizontalAlignment="Left" Width="75">Next &gt;&gt;</Button>
-        <Rectangle Height="60" Margin="12,46,12,0" Name="rectangle1" Stroke="Black" VerticalAlignment="Top" />
-        <Label Height="28" Margin="12,46,12,0" Name="label1" VerticalAlignment="Top">Data</Label>
-        <Label Height="28" Margin="12,80,12,0" Name="label2" VerticalAlignment="Top" Content="{Binding CurrentState.Data, Converter={StaticResource bytesToStringConverter}}"/>
-        <Label Height="28" HorizontalAlignment="Left" Margin="12,114,0,0" Name="label3" VerticalAlignment="Top" Width="120">A</Label>
-        <Label Height="28" HorizontalAlignment="Left" Margin="138,114,0,0" Name="label4" VerticalAlignment="Top" Width="120">B</Label>
-        <Label Height="28" HorizontalAlignment="Right" Margin="0,114,12,0" Name="label5" VerticalAlignment="Top" Width="120">D</Label>
-        <Label Height="28" HorizontalAlignment="Right" Margin="0,114,138,0" Name="label6" VerticalAlignment="Top" Width="120">C</Label>
-        <Label HorizontalAlignment="Left" Margin="12,140,0,0" Name="label7" Width="120" Height="28" VerticalAlignment="Top" Content="{Binding CurrentState.A}"/>
-        <Label Margin="138,140,0,0" Name="label8" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Content="{Binding CurrentState.B}"/>
-        <Label HorizontalAlignment="Right" Margin="0,140,138,0" Name="label9" Width="120" Height="28" VerticalAlignment="Top" Content="{Binding CurrentState.C}"/>
-        <Label Height="28" HorizontalAlignment="Right" Margin="0,140,12,0" Name="label10" VerticalAlignment="Top" Width="120" Content="{Binding CurrentState.D}"/>
-        <Label Height="28" HorizontalAlignment="Left" Margin="12,0,0,138" Name="label11" VerticalAlignment="Bottom" Width="120">H1</Label>
-        <Label Height="28" Margin="138,0,0,138" Name="label12" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="120">H2</Label>
-        <Label Height="28" HorizontalAlignment="Right" Margin="0,0,138,138" Name="label13" VerticalAlignment="Bottom" Width="120">H3</Label>
-        <Label Height="28" HorizontalAlignment="Right" Margin="0,0,12,138" Name="label14" VerticalAlignment="Bottom" Width="120">H4</Label>
-        <Label Height="28" HorizontalAlignment="Left" Margin="12,0,0,104" Name="label15" VerticalAlignment="Bottom" Width="120" Content="{Binding CurrentState.H1}"/>
-        <Label Height="28" HorizontalAlignment="Left" Margin="138,0,0,104" Name="label16" VerticalAlignment="Bottom" Width="120" Content="{Binding CurrentState.H2}"/>
-        <Label Height="28" HorizontalAlignment="Right" Margin="0,0,138,104" Name="label17" VerticalAlignment="Bottom" Width="120" Content="{Binding CurrentState.H3}"/>
-        <Label Height="28" HorizontalAlignment="Right" Margin="0,0,12,104" Name="label18" VerticalAlignment="Bottom" Width="120" Content="{Binding CurrentState.H4}"/>
-        <Label Height="28" Margin="206,12,0,0" Name="label19" VerticalAlignment="Top" HorizontalAlignment="Left" Width="72">Round</Label>
-        <Label Height="28" Margin="284,12,202,0" Name="label20" VerticalAlignment="Top" Content="{Binding CurrentState.Round}"/>
-        <Label Height="28" HorizontalAlignment="Right" Margin="0,12,110,0" Name="label21" VerticalAlignment="Top" Width="86">Step</Label>
-        <Label Height="28" HorizontalAlignment="Right" Margin="0,12,12,0" Name="label22" VerticalAlignment="Top" Width="92" Content="{Binding CurrentState.Step}"/>
-        <Button Height="23" Margin="284,0,209,12" Name="endOfRoundButton" VerticalAlignment="Bottom" Click="endOfRoundButton_Click">End of Round &gt;&gt;&gt;</Button>
-        <Button Height="23" HorizontalAlignment="Right" Margin="0,0,12,12" Name="endOfCompressionButton" VerticalAlignment="Bottom" Width="191" Click="endOfCompressionButton_Click">End of block compression &gt;&gt;&gt;&gt;</Button>
-        <Label Height="28" HorizontalAlignment="Left" Margin="15,0,0,70" Name="label23" VerticalAlignment="Bottom" Width="120">H-Bytes:</Label>
-        <Label Height="28" Margin="141,0,12,70" Name="label24" VerticalAlignment="Bottom" Content="{Binding HashValueBytes, Converter={StaticResource bytesToStringConverter}}"/>
+        <displays:StateDescriptionDisplay Height="41" Margin="8,12,8,0" VerticalAlignment="Top" />
+        <Button Height="23" Margin="0,0,480,66" Name="previousStepButton" VerticalAlignment="Bottom" Click="previousStepButton_Click" HorizontalAlignment="Right" Width="150">&lt;&lt; Previous</Button>
+        <Button Height="23" Margin="0,0,324,66" Name="nextStepButton" VerticalAlignment="Bottom" Click="nextStepButton_Click" HorizontalAlignment="Right" Width="150">Next &gt;&gt;</Button>
+        <Button Height="23" Margin="0,0,168,66" Name="endOfRoundButton" VerticalAlignment="Bottom" Click="endOfRoundButton_Click" Width="150" HorizontalAlignment="Right">End of Round &gt;&gt;&gt;</Button>
+        <Button Height="23" HorizontalAlignment="Right" Margin="0,0,12,66" x:Name="endOfCompressionButton" VerticalAlignment="Bottom" Width="150" Click="endOfCompressionButton_Click" Content="End of Block &gt;&gt;&gt;&gt;"/>
+        <UserControl Margin="8,59,8,95" Name="statePresentationContainer"  Content="{Binding CurrentState,Converter={StaticResource md5StateToUserControlConverter}}"/>
+        <displays:HashAccumulatorDisplay Height="36" Margin="0,0,12,24" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="306" DataContext="{Binding CurrentState}" />
     </Grid>
+    
 </UserControl>

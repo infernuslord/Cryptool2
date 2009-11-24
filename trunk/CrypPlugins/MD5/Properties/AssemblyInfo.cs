@@ -23,3 +23,4 @@ using System.Runtime.InteropServices;
 [assembly: Guid("f177c144-1f5a-40ec-add5-5713f32ffbe5")]
 // [assembly: AssemblyVersion("2.0.*")]
 [assembly: AssemblyVersion("2.0.3594.00001")]
+[assembly: System.Windows.ThemeInfo(System.Windows.ResourceDictionaryLocation.None, System.Windows.ResourceDictionaryLocation.SourceAssembly)]

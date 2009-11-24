@@ -46,7 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PresentableMD5Test.cs" />
+    <Compile Include="Algorithm\PresentableMD5Test.cs" />
+    <Compile Include="Presentation\Helpers\PresentationControlFactoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
