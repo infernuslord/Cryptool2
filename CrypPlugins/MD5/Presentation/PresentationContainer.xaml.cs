@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Cryptool.MD5.Algorithm;
+using Cryptool.MD5.Presentation.States;
 
 namespace Cryptool.MD5.Presentation
 {
@@ -24,15 +25,18 @@ namespace Cryptool.MD5.Presentation
 
         public PresentationContainer(PresentableMD5 presentableMd5)
         {
-            md5 = presentableMd5;
-            DataContext = presentableMd5;
+            DataContext = md5 = presentableMd5;
 
             InitializeComponent();
+
+            Height = double.NaN;
+            Width = double.NaN;
         }
 
         private void nextStepButton_Click(object sender, RoutedEventArgs e)
         {
             md5.NextStep();
+            new ReadDataPresentation();
         }
 
         private void previousStepButton_Click(object sender, RoutedEventArgs e)

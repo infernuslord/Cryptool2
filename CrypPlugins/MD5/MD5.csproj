@@ -14,6 +14,8 @@
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
+    <ExpressionBlendVersion>3.0.1927.0</ExpressionBlendVersion>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -67,8 +69,78 @@
     <Compile Include="Algorithm\PresentableMD5.cs" />
     <Compile Include="Algorithm\PresentableMD5State.cs" />
     <Compile Include="Presentation\Converters\BytesToStringConverter.cs" />
+    <Compile Include="Presentation\Converters\MD5StateDescriptionToStringConverter.cs" />
+    <Compile Include="Presentation\Converters\MD5StateToUserControlConverter.cs" />
+    <Compile Include="Presentation\Converters\UintToLittleEndianHexStringConverter.cs" />
+    <Compile Include="Presentation\Displays\DataBlockDisplay.xaml.cs">
+      <DependentUpon>DataBlockDisplay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Displays\HashAccumulatorDisplay.xaml.cs">
+      <DependentUpon>HashAccumulatorDisplay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Displays\LabelledIntegerDisplay.xaml.cs">
+      <DependentUpon>LabelledIntegerDisplay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Displays\StateDescriptionDisplay.xaml.cs">
+      <DependentUpon>StateDescriptionDisplay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Helpers\PresentationControlFactory.cs" />
     <Compile Include="Presentation\PresentationContainer.xaml.cs">
       <DependentUpon>PresentationContainer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\States\AddedLengthPresentation.xaml.cs">
+      <DependentUpon>AddedLengthPresentation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\States\AddedPaddingBytesPresentation.xaml.cs">
+      <DependentUpon>AddedPaddingBytesPresentation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\States\AddingLengthPresentation.xaml.cs">
+      <DependentUpon>AddingLengthPresentation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\States\AddingPaddingBytesPresentation.xaml.cs">
+      <DependentUpon>AddingPaddingBytesPresentation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\States\FinishedCompressionPresentation.xaml.cs">
+      <DependentUpon>FinishedCompressionPresentation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\States\FinishedPaddingPresentation.xaml.cs">
+      <DependentUpon>FinishedPaddingPresentation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\States\FinishedPresentation.xaml.cs">
+      <DependentUpon>FinishedPresentation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\States\FinishedRoundPresentation.xaml.cs">
+      <DependentUpon>FinishedRoundPresentation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\States\FinishedRoundStepPresentation.xaml.cs">
+      <DependentUpon>FinishedRoundStepPresentation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\States\FinishingCompressionPresentation.xaml.cs">
+      <DependentUpon>FinishingCompressionPresentation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\States\InitializedPresentation.xaml.cs">
+      <DependentUpon>InitializedPresentation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\States\ReadDataPresentation.xaml.cs">
+      <DependentUpon>ReadDataPresentation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\States\ReadingDataPresentation.xaml.cs">
+      <DependentUpon>ReadingDataPresentation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\States\StartingCompressionPresentation.xaml.cs">
+      <DependentUpon>StartingCompressionPresentation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\States\StartingPaddingPresentation.xaml.cs">
+      <DependentUpon>StartingPaddingPresentation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\States\StartingRoundPresentation.xaml.cs">
+      <DependentUpon>StartingRoundPresentation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\States\StartingRoundStepPresentation.xaml.cs">
+      <DependentUpon>StartingRoundStepPresentation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\States\UninitializedPresentation.xaml.cs">
+      <DependentUpon>UninitializedPresentation.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -97,7 +169,95 @@
     <Resource Include="MD5.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Presentation\Displays\DataBlockDisplay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\Displays\HashAccumulatorDisplay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\Displays\LabelledIntegerDisplay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Presentation\Displays\StateDescriptionDisplay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Presentation\PresentationContainer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\States\AddedLengthPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\States\AddedPaddingBytesPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\States\AddingLengthPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\States\AddingPaddingBytesPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\States\FinishedCompressionPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\States\FinishedPaddingPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\States\FinishedPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\States\FinishedRoundPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\States\FinishedRoundStepPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\States\FinishingCompressionPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\States\InitializedPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\States\ReadDataPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\States\ReadingDataPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\States\StartingCompressionPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\States\StartingPaddingPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\States\StartingRoundPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\States\StartingRoundStepPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\States\UninitializedPresentation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

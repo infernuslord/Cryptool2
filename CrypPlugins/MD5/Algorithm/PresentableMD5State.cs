@@ -164,6 +164,20 @@ namespace Cryptool.MD5.Algorithm
         public byte[] Data { get; set; }
 
         /// <summary>
+        /// Returns the 64 byte block for the current iteration (downsizes the 128 byte Data array to 64 bytes)
+        /// </summary>
+        public byte[] CurrentDataBlock
+        {
+            get
+            {
+                uint currentBlockLength = Math.Min(DataLength, 64);
+                byte[] result = new byte[currentBlockLength];
+                Array.Copy(Data, DataOffset, result, 0, currentBlockLength);
+                return result;
+            }
+        }
+
+        /// <summary>
         /// Determines the length of data in the buffer
         /// </summary>
         public uint DataLength { get; set; }

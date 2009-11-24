@@ -1,0 +1,7 @@
+﻿<UserControl x:Class="Cryptool.MD5.Presentation.States.UninitializedPresentation"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Height="196" Width="758">
+    <Grid>
+        <TextBlock Name="label1" TextWrapping="Wrap" Margin="0,68,0,0" Height="74" VerticalAlignment="Top">The algorithm is not yet initialized. Please connect an input stream and start the workspace's process flow. Make sure that the "Presentation Mode" option is selected.</TextBlock>
+    </Grid>
+</UserControl>
