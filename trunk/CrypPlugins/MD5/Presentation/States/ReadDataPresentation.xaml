@@ -4,9 +4,9 @@
     xmlns:displays="clr-namespace:Cryptool.MD5.Presentation.Displays">
     <Grid>
         <TextBlock Height="28" Margin="12,12,12,0" Name="label1" VerticalAlignment="Top">We have read a total of</TextBlock>
-        <Label Height="28" Margin="12,46,12,0" Name="label2" VerticalAlignment="Top" Content="{Binding CurrentState.DataLength}" FontSize="18" />
-        <TextBlock Height="28" Margin="12,80,12,0" Name="label3" VerticalAlignment="Top">bytes of data.</TextBlock>
-        <TextBlock Margin="12,114,12,0" Name="label4" Height="28" VerticalAlignment="Top">The data block we have read looks like this:</TextBlock>
-        <displays:DataBlockDisplay Data="{Binding CurrentState.CurrentDataBlock}" Margin="12,0,12,12" Height="84" VerticalAlignment="Bottom" />
+        <Label Height="40" Margin="12,46,12,0" Name="label2" VerticalAlignment="Top" Content="{Binding CurrentState.DataLength}" FontSize="18" />
+        <TextBlock Margin="12,92,12,0" Name="label3" Height="28" VerticalAlignment="Top">bytes of data.</TextBlock>
+        <TextBlock Margin="12,126,12,0" Name="label4" Height="28" VerticalAlignment="Top">The data block we have read looks like this:</TextBlock>
+        <displays:DataBlockDisplay Data="{Binding CurrentState.CurrentDataBlock}" Margin="12,160,12,0" Height="60" VerticalAlignment="Top" />
     </Grid>
 </UserControl>

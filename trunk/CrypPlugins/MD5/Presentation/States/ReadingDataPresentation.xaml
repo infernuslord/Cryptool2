@@ -4,8 +4,8 @@
     <Grid>
         <TextBlock Margin="12,12,12,0" Name="textBox1" TextWrapping="Wrap" Text="We continue by reading the next block of data." Height="43" VerticalAlignment="Top" />
         <TextBlock Height="23" Margin="12,61,12,0" Name="textBlock1" Text="So far, we have processed" TextWrapping="Wrap" VerticalAlignment="Top" />
-        <Label Height="28" Margin="12,90,12,0" Name="label1" VerticalAlignment="Top" Content="{Binding CurrentState.BytesHashed}" FontSize="18" />
-        <TextBlock Margin="12,124,12,116" Name="textBlock2" Text="bytes of data." TextWrapping="Wrap" />
-        <TextBlock Height="89" Margin="12,0,12,21" Name="textBlock3" Text="The compression function of MD5 processes data in blocks of 64 bytes. Our goal is to read enough data that we can call the compression function afterwards. Thus, we continue reading as many bytes as possible until we have 64." TextWrapping="Wrap" VerticalAlignment="Bottom" />
+        <Label Height="40" Margin="12,90,12,0" Name="label1" VerticalAlignment="Top" Content="{Binding CurrentState.BytesHashed}" FontSize="18" />
+        <TextBlock Margin="12,136,12,0" Name="textBlock2" Text="bytes of data." TextWrapping="Wrap" Height="23" VerticalAlignment="Top" />
+        <TextBlock Height="89" Margin="12,165,12,0" Name="textBlock3" Text="The compression function of MD5 processes data in blocks of 64 bytes. Our goal is to so much data that we can immediately call the compression function afterwards. Thus, we continue reading as many bytes as possible until we have 64." TextWrapping="Wrap" VerticalAlignment="Top" />
     </Grid>
 </UserControl>

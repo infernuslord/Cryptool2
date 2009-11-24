@@ -78,8 +78,14 @@
     <Compile Include="Presentation\Displays\HashAccumulatorDisplay.xaml.cs">
       <DependentUpon>HashAccumulatorDisplay.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Presentation\Displays\CompressionVariableDisplay.xaml.cs">
+      <DependentUpon>CompressionVariableDisplay.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\Displays\LabelledIntegerDisplay.xaml.cs">
       <DependentUpon>LabelledIntegerDisplay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Displays\RoundAndStepDisplay.xaml.cs">
+      <DependentUpon>RoundAndStepDisplay.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Displays\StateDescriptionDisplay.xaml.cs">
       <DependentUpon>StateDescriptionDisplay.xaml</DependentUpon>
@@ -177,9 +183,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Presentation\Displays\CompressionVariableDisplay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Presentation\Displays\LabelledIntegerDisplay.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Presentation\Displays\RoundAndStepDisplay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Presentation\Displays\StateDescriptionDisplay.xaml">
       <SubType>Designer</SubType>

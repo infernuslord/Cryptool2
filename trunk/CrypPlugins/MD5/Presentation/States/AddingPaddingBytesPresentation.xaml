@@ -5,8 +5,8 @@
     Height="344" Width="550">
     <Grid>
         <displays:DataBlockDisplay Data="{Binding CurrentState.CurrentDataBlock}" Height="40" Margin="12,43,12,0" VerticalAlignment="Top" />
-        <TextBlock Margin="12,89,12,0" Name="textBlock1" Text="We start the padding process by appending one single '1' bit to the end of our data. Since we are working with octets, this is the same as adding a '10000000' octet, thus, a byte with value 0x08, to the end of our data." TextWrapping="Wrap" Height="71" VerticalAlignment="Top" />
+        <TextBlock Margin="12,89,12,0" Name="textBlock1" Text="and start the padding process by appending one single '1' bit to the end of our data. Since we are working with octets, this is the same as adding a '10000000' octet, thus, a byte with value 0x08, to the end of our data." TextWrapping="Wrap" Height="71" VerticalAlignment="Top" />
         <TextBlock Margin="12,166,12,0" Name="textBlock2" Text="We continue by appending zero bytes to the data. We choose the number of zero bytes so that our resulting data length is 8 bytes short of the next multiple of 64. That way, we can append 8 bytes more and get an exact multiple of 64 as our data length." TextWrapping="Wrap" Height="91" VerticalAlignment="Top" />
-        <TextBlock Height="25" Margin="12,12,12,0" Name="textBlock3" Text="This is the data we have read:" TextWrapping="Wrap" VerticalAlignment="Top" />
+        <TextBlock Height="25" Margin="12,12,12,0" Name="textBlock3" Text="We take the incomplete block of data that we've read," TextWrapping="Wrap" VerticalAlignment="Top" />
     </Grid>
 </UserControl>

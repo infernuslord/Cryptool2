@@ -6,6 +6,6 @@
         <TextBlock Margin="12,44,12,0" Name="textBlock1" Text="We now calculate the length of our data (without the padding bytes from the previous step) in bits:
                    " TextWrapping="Wrap" Height="47" VerticalAlignment="Top" />
         <TextBlock Height="61" Margin="12,0,12,55" Name="textBlock2" Text="In the next step, we write the little-endian representation of this value into the next 8 bytes of our data buffer." TextWrapping="Wrap" VerticalAlignment="Bottom" />
-        <Label Margin="12,116,12,0" Name="label1" Height="28" VerticalAlignment="Top" Content="{Binding CurrentState.DataLength}" FontSize="18" />
+        <Label Margin="12,116,12,0" Name="label1" Height="40" VerticalAlignment="Top" Content="{Binding CurrentState.LengthInBit}" FontSize="18" />
     </Grid>
 </UserControl>

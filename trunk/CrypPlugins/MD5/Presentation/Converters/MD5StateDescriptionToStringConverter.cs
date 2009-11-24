@@ -32,6 +32,8 @@ namespace Cryptool.MD5.Presentation.Converters
                     return "Adding the data length";
                 case MD5StateDescription.ADDED_LENGTH:
                     return "Added the data length";
+                case MD5StateDescription.FINISHED_PADDING:
+                    return "Finished padding";
                 case MD5StateDescription.STARTING_COMPRESSION:
                     return "Starting the compression";
                 case MD5StateDescription.STARTING_ROUND:
