@@ -232,10 +232,15 @@ namespace WordPatterns
                 if (right == null)
                     return false;
 
-                if (object.ReferenceEquals(this, right))
-                    return true;
+                // Never true for value types
+                //if (object.ReferenceEquals(this, right))
+                //    return true;
 
-                if (this.GetType() != right.GetType())
+                // Using the as/is operators can break symmetry requirement for reference types.
+                // However this does not apply for value types.
+                //if (this.GetType() != right.GetType())
+                //    return false;
+                if (!(right is Pattern))
                     return false;
 
                 return this == (Pattern)right;

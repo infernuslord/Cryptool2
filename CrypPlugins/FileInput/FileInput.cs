@@ -370,7 +370,6 @@ namespace FileInput
     public void NotifyPropertyChange()
     {
       OnPropertyChanged("StreamOutput");
-      OnPropertyChanged("StreamOutput");
     }
 
     private void Progress(double value, double max)
