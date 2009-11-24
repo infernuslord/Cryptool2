@@ -35,7 +35,7 @@ namespace Cryptool.NLFSR
         private NLFSRSettings settings;
         private String inputTapSequence;
         private String inputSeed;
-        private CryptoolStream outputStream;
+        //private CryptoolStream outputStream;
         private String outputString;
         private bool outputBool;
         private bool inputClockBool;
@@ -126,31 +126,7 @@ namespace Cryptool.NLFSR
                 lastInputPropertyWasBoolClock = false;
             }
         }
-        /*
-        [PropertyInfo(Direction.Input, "Clock", "Optional clock input. NLFSR only advances if clock is 1.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
-        public CryptoolStream InputClock
-        {
-            [MethodImpl(MethodImplOptions.Synchronized)]
-            get
-            {
-                if (inputClock != null)
-                {
-                    CryptoolStream cs = new CryptoolStream();
-                    cs.OpenRead(inputClock.FileName);
-                    listCryptoolStreamsOut.Add(cs);
-                    return cs;
-                }
-                else return null;
-            }
-            [MethodImpl(MethodImplOptions.Synchronized)]
-            set
-            {
-                this.inputClock = value;
-                if (value != null) listCryptoolStreamsOut.Add(value);
-                OnPropertyChanged("InputClock");
-            }
-        }*/
-
+        
         [PropertyInfo(Direction.InputData, "Clock", "Optional clock input. NLFSR only advances if clock is true.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public Boolean InputClockBool
         {
@@ -239,13 +215,13 @@ namespace Cryptool.NLFSR
             try
             {
                 stop = false;
-                outputStream = null;
+                //outputStream = null;
                 outputString = null;
                 outputStringBuffer = null;
                 inputTapSequence = null;
                 inputSeed = null;
 
-                if (outputStream != null)
+                /*if (outputStream != null)
                 {
                     outputStream.Flush();
                     outputStream.Close();
@@ -256,6 +232,7 @@ namespace Cryptool.NLFSR
                     stream.Close();
                 }
                 listCryptoolStreamsOut.Clear();
+                 */
             }
             catch (Exception ex)
             {
@@ -682,8 +659,18 @@ namespace Cryptool.NLFSR
                 {
                     preprocessNLFSR();
                 }
-                
+
                 // Here we go!
+                // check which clock to use
+                if (settings.UseBoolClock)
+                {
+                    myClock = inputClockBool;
+                }
+                else if (!settings.UseBoolClock)
+                {
+                    myClock = true;
+                }
+
                 // (re-)draw NLFSR Quickwatch
                 if (!settings.NoQuickwatch)
                 {
@@ -692,9 +679,9 @@ namespace Cryptool.NLFSR
                 }
 
                 // open output stream
-                outputStream = new CryptoolStream();
+                /*outputStream = new CryptoolStream();
                 listCryptoolStreamsOut.Add(outputStream);
-                outputStream.OpenWrite();
+                outputStream.OpenWrite();*/
 
                 //GuiLogMessage("Action is: Now!", NotificationLevel.Debug);
                 DateTime startTime = DateTime.Now;
@@ -720,7 +707,7 @@ namespace Cryptool.NLFSR
 
                         // write last bit to output buffer, output stream buffer, stream and bool
                         outputbuffer = seedCharArray[seedBits - 1];
-                        outputStream.Write((Byte)outputbuffer);
+                        //outputStream.Write((Byte)outputbuffer);
                         outputStringBuffer += seedCharArray[seedBits - 1];
                         outputBoolArray[0] = outputBool;
 
@@ -808,11 +795,11 @@ namespace Cryptool.NLFSR
 
                             // write bit to output buffer, stream and bool
 
-                            outputStream.Write((Byte)outputbuffer);
+                            //outputStream.Write((Byte)outputbuffer);
                             outputBoolArray[0] = outputBool;
                             OnPropertyChanged("OutputBool");
                             OnPropertyChanged("OutputBoolArray");
-                            OnPropertyChanged("OutputStream");
+                            //OnPropertyChanged("OutputStream");
 
                             // update quickwatch presentation
                             if (!settings.NoQuickwatch)
@@ -863,13 +850,13 @@ namespace Cryptool.NLFSR
                     GuiLogMessage("Complete!", NotificationLevel.Debug);
 
                     GuiLogMessage("Time used: " + duration, NotificationLevel.Debug);
-                    outputStream.Close();
-                    OnPropertyChanged("OutputStream");
+                    //outputStream.Close();
+                    //OnPropertyChanged("OutputStream");
                 }
 
                 if (stop)
                 {
-                    outputStream.Close();
+                    //outputStream.Close();
                     outputStringBuffer = null;
                     GuiLogMessage("Aborted!", NotificationLevel.Debug);
                 }
