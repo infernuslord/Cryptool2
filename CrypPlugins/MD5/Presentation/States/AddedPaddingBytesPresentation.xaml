@@ -4,7 +4,7 @@
     Height="300" Width="566"
     xmlns:displays="clr-namespace:Cryptool.MD5.Presentation.Displays">
     <Grid>
-        <TextBlock Margin="12,128,12,0" Name="label1" Height="28" VerticalAlignment="Top" Text="We have added the padding bytes and our data now looks like this:"></TextBlock>
-        <displays:DataBlockDisplay Data="{Binding CurrentState.CurrentDataBlock}" Margin="12,162,12,0" Height="88" VerticalAlignment="Top" />
+        <TextBlock Margin="12,100,12,0" Name="label1" Height="28" VerticalAlignment="Top" Text="We have added the padding bytes and our data now looks like this:"></TextBlock>
+        <displays:DataBlockDisplay Data="{Binding CurrentState.CurrentDataBlock}" Margin="12,134,12,0" Height="88" VerticalAlignment="Top" />
     </Grid>
 </UserControl>

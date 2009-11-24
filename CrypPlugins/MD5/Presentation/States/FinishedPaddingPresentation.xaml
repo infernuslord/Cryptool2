@@ -4,7 +4,7 @@
     Height="300" Width="300">
     <Grid>
         <TextBlock Height="21" Margin="12,12,12,0" Name="textBlock1" VerticalAlignment="Top" Text="We have finished padding and have" TextWrapping="Wrap" />
-        <TextBlock Margin="12,73,12,136" Name="textBlock2" Text="bytes of data left in our buffer. We continue by calling the compression function for this input." TextWrapping="Wrap" />
-        <Label Margin="12,39,12,0" Name="label1" Height="28" VerticalAlignment="Top" Content="{Binding CurrentState.DataLength}" FontSize="18" />
+        <TextBlock Margin="12,85,12,124" Name="textBlock2" Text="bytes of data left in our buffer. We continue by calling the compression function for this input." TextWrapping="Wrap" />
+        <Label Margin="12,39,12,0" Name="label1" Height="40" VerticalAlignment="Top" Content="{Binding CurrentState.DataLength}" FontSize="18" />
     </Grid>
 </UserControl>
