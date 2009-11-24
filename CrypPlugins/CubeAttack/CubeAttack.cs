@@ -341,7 +341,7 @@ namespace Cryptool.CubeAttack
             for (ulong i = 0; i < Math.Pow(2, maxterm.Count); i++)
             {
                 if (stop)
-                    return superpoly;
+                    return null;
                 for (int j = 0; j < maxterm.Count; j++)
                     pubVarElement[maxterm[j]] = (i & ((ulong)1 << j)) > 0 ? 1 : 0;
                 constant ^= Blackbox((int[])pubVarElement.Clone(), (int[])secVarElement.Clone());
@@ -357,7 +357,7 @@ namespace Cryptool.CubeAttack
                 for (ulong i = 0; i < Math.Pow(2, maxterm.Count); i++)
                 {
                     if (stop)
-                        return superpoly;
+                        return null;
                     secVarElement[k] = 1;
                     for (int j = 0; j < maxterm.Count; j++)
                         pubVarElement[maxterm[j]] = (i & ((ulong)1 << j)) > 0 ? 1 : 0;
@@ -821,6 +821,8 @@ namespace Cryptool.CubeAttack
                                     outputCube = string.Empty;
                                 }
                                 superpoly = ComputeSuperpoly(new int[settings.PublicVar], maxterm);
+                                if (stop)
+                                    return;
                                 bool flag = false;
                                 outputCube += "Superpoly: ";
                                 if (superpoly[0] == 1)
@@ -866,9 +868,11 @@ namespace Cryptool.CubeAttack
                             for (int j = 0; j < superpoly.Count; j++)
                                 superpolyMatrix[countSuperpoly, j] = superpoly[j];
                             listCubeIndexes.Add(maxterm);
-                            OutputSuperpolys(maxterm, superpoly);
                             outputBitIndex[countSuperpoly] = indexOutputBit;
+                            if (stop)
+                                return;
                             countSuperpoly++;
+                            OutputSuperpolys(maxterm, superpoly);
                             CubeAttack_LogMessage("Found " + countSuperpoly + " of " + settings.SecretVar + " linearly independent superpolys", NotificationLevel.Info);
                             ProgressChanged((double)countSuperpoly / (double)settings.SecretVar, 1.0);
                         }
