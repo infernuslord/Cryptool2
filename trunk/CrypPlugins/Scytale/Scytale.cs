@@ -22,7 +22,7 @@ using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Scytale
 {
-    [Author("Fabian Enkler, A. Wacker", "wacker@cryptool.org", "Uni Duisburg-Essen", "http://www.vs.uni-duisburg-essen.de")]
+    [Author("Fabian Enkler, A. Wacker", "enkler@cryptool.org, wacker@cryptool.org", "Uni Duisburg-Essen", "http://www.vs.uni-duisburg-essen.de")]
     [PluginInfo(false, "Scytale", "Scytale -- classic transposition cipher", "Scytale/DetailedDescription/Description.xaml", "Scytale/icon.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class Scytale : IEncryption
@@ -192,7 +192,7 @@ namespace Cryptool.Scytale
             get { return null; }
         }
 
-        public void OnPropertyChanged(string name)
+        private void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
