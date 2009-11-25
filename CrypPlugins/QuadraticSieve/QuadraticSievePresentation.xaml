@@ -1,12 +1,12 @@
 ﻿<UserControl x:Class="QuadraticSieve.QuadraticSievePresentation"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    HorizontalAlignment="Center"
-    Height="Auto"
-    Width="Auto"
-    MinWidth="300"
-    MinHeight="75">
-    <Grid Background="White">
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch"
+    Background="White"
+    Name="Presentation">
+    <Canvas Name="Canvas">
+    <Grid Name="Grid" Width="250" Height="100">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -14,21 +14,18 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         
-        <Label Grid.Row="0" Grid.Column="0" FontSize="10" Background="White">Probable time left :</Label>
-        <Label Grid.Row="0" Grid.Column="1" FontSize="10" Background="White">Estimated end time :</Label>
+        <Label FontSize="12" Name="Label1">Probable time left :</Label>
+        <Label Grid.Column="1" FontSize="12" Name="Label2">Estimated end time :</Label>
         
-        <TextBox Name="timeLeft" Grid.Row="1" Grid.Column="0" 
-                 TextAlignment="Center" IsReadOnly="True" TextWrapping="WrapWithOverflow"/>
-        <TextBox Name="endTime" Grid.Row="1" Grid.Column="1" 
-                 TextAlignment="Center" IsReadOnly="True" TextWrapping="WrapWithOverflow"/>
-        <Label Grid.Row="2" Grid.Column="0" FontSize="10" Grid.ColumnSpan="2" Background="White">logging :</Label>
+        <TextBox Name="timeLeft" Grid.Row="1" TextAlignment="Center" IsReadOnly="True" TextWrapping="WrapWithOverflow"/>
+        <TextBox Name="endTime" Grid.Row="1" Grid.Column="1" TextAlignment="Center" IsReadOnly="True" TextWrapping="WrapWithOverflow"/>
+        <Label Grid.Row="2" FontSize="12" Grid.ColumnSpan="2" Name="Label3">console:</Label>
         
-        <TextBox Name="logging" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" 
-                 TextAlignment="Left"  IsReadOnly="True" TextWrapping="WrapWithOverflow"/>
+        <TextBox Name="logging" Grid.Row="3" Grid.ColumnSpan="2" TextAlignment="Left" IsReadOnly="True" TextWrapping="WrapWithOverflow"/>
     </Grid>
-    
+    </Canvas>
 </UserControl>

@@ -14,16 +14,24 @@ using System.Windows.Shapes;
 
 namespace QuadraticSieve
 {
+
+
     /// <summary>
     /// Interaction logic for QuadraticSievePresentation.xaml
     /// </summary>
     public partial class QuadraticSievePresentation : UserControl
     {
+
         public QuadraticSievePresentation()
         {
-            InitializeComponent();
-            this.Width = Double.NaN;
-            this.Height = Double.NaN;
+            InitializeComponent();            
+            SizeChanged += sizeChanged;
+        }
+
+        public void sizeChanged(Object sender, EventArgs eventArgs)
+        {
+            this.Grid.RenderTransform = new ScaleTransform( this.ActualWidth / this.Grid.ActualWidth,
+                                                       this.ActualHeight / this.Grid.ActualHeight);                        
         }
     }
 }
