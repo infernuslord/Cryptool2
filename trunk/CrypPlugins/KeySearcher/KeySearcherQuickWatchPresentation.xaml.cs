@@ -22,7 +22,14 @@ namespace KeySearcher
 
         public KeySearcherQuickWatchPresentation()
         {
-            InitializeComponent(); 
+            InitializeComponent();
+            SizeChanged += sizeChanged;
+        }
+
+        public void sizeChanged(Object sender, EventArgs eventArgs)
+        {
+            this.Grid.RenderTransform = new ScaleTransform(this.ActualWidth / this.Grid.ActualWidth,
+                                                       this.ActualHeight / this.Grid.ActualHeight);
         }
     }
 }
