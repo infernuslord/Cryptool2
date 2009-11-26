@@ -108,6 +108,9 @@ namespace SimpleEditor
             }
 
             usrCtrlSimpleEditor.DisplayControls(plugin, inputProps, outputProps);
+
+            if (OnSelectedPluginChanged != null)
+                OnSelectedPluginChanged(this, new PluginChangedEventArgs(plugin, plugin.GetPluginInfoAttribute().Caption, DisplayPluginMode.Normal));
         }
 
         public void AddEditorSpecific(EditorSpecificPluginInfo espi)
