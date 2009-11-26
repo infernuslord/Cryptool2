@@ -6,234 +6,240 @@ using Cryptool.PluginBase;
 using System.Windows.Controls;
 using System.IO;
 using System.Windows.Media;
-using CrypUiPluginBase;
+using Cryptool.PluginBase.Editor;
+using Cryptool.PluginBase.IO;
 using Cryptool.Core;
+using System.Windows.Threading;
+using System.Threading;
 
+/*
+ * TODO:
+ * - Respect mandatory/optional flag
+ * - Execute only when mandatory properties are set
+ * - Catch Exceptions
+ * - Add support for more types
+ * - Re-enable support for files
+ * - Support settings
+ */
 namespace SimpleEditor
 {
-
-    [PluginInfo("F7A18919-BEF7-4489-8A40-FCA6792F17BE", "Simple Editor", "A simple Cryptool editor", "detailed description", "SimpleEditor.icon.png")]
+    [PluginInfo(false, "Simple Editor", "A simple Cryptool editor", "", "SimpleEditor/icon.png")]
     public class SimpleEditor : IEditor
     {
-        public IPluginManager PluginManager { get; set; }
+        public PluginManager PluginManager { get; set; }
         private SimpleEditorSettings settings;
         private UserControlSimpleEditor usrCtrlSimpleEditor;
-        // this is the plugin that was last selected
-        private IPlugin selectedPlugin = null;
+        // this is the currently active plugin
+        private IPlugin plugin = null;
 
-        private List<UserControl> inputControl = null;
-        private List<UserControl> outputControl = null;
-
-        private FileStream inputFileStream;
-        private FileStream outputFileStream;
-        private StreamReader inputStreamReader;
-        private StreamWriter ouputStreamWriter;
-        
+        private List<PropertyInfoAttribute> inputProps;
+        private List<PropertyInfoAttribute> outputProps;
         
         public SimpleEditor()
         {
             this.settings = new SimpleEditorSettings();
-            this.usrCtrlSimpleEditor = new UserControlSimpleEditor(this.selectedPlugin, this.inputControl, this.outputControl);
+            this.usrCtrlSimpleEditor = new UserControlSimpleEditor();
+
+            this.inputProps = new List<PropertyInfoAttribute>();
+            this.outputProps = new List<PropertyInfoAttribute>();
         }
 
-        public IEditorSettings Settings
+        public ISettings Settings
         {
             get { return this.settings; }
             set { this.settings = (SimpleEditorSettings)value; }
         }
 
+        #region INotifyPropertyChanged Members
+
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
+
         #region IEditor Members
 
-        public void AddPlugin(IPlugin plugin)
+        public event ChangeDisplayLevelHandler OnChangeDisplayLevel;
+
+        public event SelectedPluginChangedHandler OnSelectedPluginChanged;
+
+        public event ProjectTitleChangedHandler OnProjectTitleChanged;
+
+        public event OpenProjectFileHandler OnOpenProjectFile;
+
+        public event EditorSpecificPluginsChanged OnEditorSpecificPluginsChanged;
+
+        public void New()
         {
-            this.SelectedPlugin = plugin;
-
-            this.inputControl = new List<UserControl>();
-            this.outputControl = new List<UserControl>();
-
-            this.usrCtrlSimpleEditor = new UserControlSimpleEditor(this.selectedPlugin, this.inputControl, this.outputControl);
         }
 
-        public string LoadProject(string path)
-        { return null; }
-        public bool CanRun
+        public void Open(string fileName)
         {
-          get { return true; }
         }
 
-        public void Run()
+        public void Save(string fileName)
         {
-            if (this.selectedPlugin == null)
+        }
+
+        public void Add(Type type)
+        {
+            if (type == null)
+                return;
+
+            plugin = type.CreateObject();
+
+            if (plugin == null)
+                return;
+
+            // TODO: projectManager.Add required?
+
+            inputProps.Clear();
+            outputProps.Clear();
+
+            foreach (PropertyInfoAttribute pInfo in this.plugin.GetProperties())
             {
-                System.Windows.MessageBox.Show("Please select a plugin first!");
+                if (pInfo.Direction == Direction.InputData)
+                {
+                    inputProps.Add(pInfo);
+                }
+                else if (pInfo.Direction == Direction.OutputData)
+                {
+                    outputProps.Add(pInfo);
+                }
             }
-            else
-            {
-                int inputControlIndex = 0;
-                foreach (PropertyInformation pInfo in this.selectedPlugin.GetInputProperties())
-                {
-                        RadioButton radioButtonString = ((InputUsrCtrl)this.inputControl[inputControlIndex]).radioButtonString;
-                        RadioButton radioButtonFile = ((InputUsrCtrl)this.inputControl[inputControlIndex]).radioButtonFile;
-                        TextBox textBoxString = ((InputUsrCtrl)this.inputControl[inputControlIndex]).textBoxString;
-                        TextBox textBoxFile = ((InputUsrCtrl)this.inputControl[inputControlIndex]).textBoxFile;
 
-                        if ((bool)radioButtonFile.IsChecked)
-                        {
-                            try
-                            {
-                                this.inputFileStream = new FileStream(textBoxFile.Text, FileMode.Open);
-                                this.inputStreamReader = new StreamReader(this.inputFileStream);
-                                if (pInfo.Property.GetType() == typeof(Stream))
-                                    this.selectedPlugin.SetProperty(pInfo.Property, this.inputStreamReader.BaseStream);
-                                else if (pInfo.Property.GetType() == typeof(String))
-                                    this.selectedPlugin.SetProperty(pInfo.Property, this.inputStreamReader.ReadToEnd());
-                                else if(pInfo.Property.GetType() == typeof(byte[]))
-                                {
-                                    byte[] buffer  = new byte[(int)this.inputStreamReader.BaseStream.Length];
-                                    BinaryReader reader = new BinaryReader(this.inputStreamReader.BaseStream);
-                                    buffer = reader.ReadBytes((int)this.inputStreamReader.BaseStream.Length);
-                                    reader.Close();
-                                    this.selectedPlugin.SetProperty(pInfo.Property, buffer);
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                System.Windows.MessageBox.Show(ex.ToString());
-                                ((InputUsrCtrl)this.inputControl[inputControlIndex]).textBoxFile.Background = Brushes.Red;
-                            }
-                        }
-                        else if ((bool)radioButtonString.IsChecked)
-                        {
-                            if (pInfo.Property.GetType() == typeof(Stream))
-                                this.selectedPlugin.SetProperty(pInfo.Property, new System.IO.MemoryStream(Encoding.Default.GetBytes(textBoxString.Text)));
-                            else if (pInfo.Property.GetType() == typeof(String))
-                                this.selectedPlugin.SetProperty(pInfo.Property, textBoxString.Text);
-                            else if (pInfo.Property.GetType() == typeof(byte[]))
-                                this.selectedPlugin.SetProperty(pInfo.Property, Encoding.Default.GetBytes(textBoxString.Text));
-                        }
-                        inputControlIndex++;
-                }
-                
-                if (this.selectedPlugin is IHashAlgorithm)
-                {
-                    IHashAlgorithm hashAlgo = this.selectedPlugin as IHashAlgorithm;
-                    hashAlgo.Hash();
-                }
-                if (this.selectedPlugin is IEncryptionAlgorithm)
-                {
-                    IEncryptionAlgorithm encAlgo = this.selectedPlugin as IEncryptionAlgorithm;
-
-                    switch ((EncryptionAlgorithmAction)encAlgo.Settings.Action)
-                    {
-                        case EncryptionAlgorithmAction.Decrypt:
-                            encAlgo.Decrypt();
-                            break;
-                        case EncryptionAlgorithmAction.Encrypt:
-                            encAlgo.Encrypt();
-                            break;
-                    }
-                }
-
-
-                if (this.selectedPlugin is IHashAlgorithm)
-                {
-                    int outputControlIndex = 0;
-                    foreach (PropertyInformation pInfo in this.selectedPlugin.GetOutputProperties())
-                    {
-
-                            RadioButton radioButtonString = ((OutputUsrCtrl)this.outputControl[outputControlIndex]).radioButtonString;
-                            RadioButton radioButtonFile = ((OutputUsrCtrl)this.outputControl[outputControlIndex]).radioButtonFile;
-                            TextBox textBoxString = ((OutputUsrCtrl)this.outputControl[outputControlIndex]).textBoxString;
-                            TextBox textBoxFile = ((OutputUsrCtrl)this.outputControl[outputControlIndex]).textBoxFile;
-
-                            byte[] data = (byte[])this.selectedPlugin.GetProperty(pInfo.Property);
-
-                            StringBuilder strHash = new StringBuilder();
-                            for (int i = 0; i < data.Length; i++)
-                            {
-                                strHash.Append(data[i].ToString("X2") + " ");
-                            }
-                            if ((bool)radioButtonFile.IsChecked)
-                            {
-
-                                try
-                                {
-                                    this.outputFileStream = new FileStream(textBoxFile.Text, FileMode.Create);
-                                    this.ouputStreamWriter = new StreamWriter(this.outputFileStream);
-                                    this.ouputStreamWriter.Write(strHash.ToString());
-                                }
-                                catch
-                                {
-                                    textBoxFile.Background = Brushes.Red;
-                                }
-                            }
-                            else if ((bool)radioButtonString.IsChecked)
-                            {
-                                textBoxString.Text = strHash.ToString();
-                            } 
-                            outputControlIndex++;
-                        }
-                        
-                }
-                if (this.selectedPlugin is IEncryptionAlgorithm)
-                {
-                    int outputControlIndex = 0;
-                    foreach (PropertyInformation pInfo in this.selectedPlugin.GetOutputProperties())
-                    {
-                        System.IO.MemoryStream ms = (System.IO.MemoryStream)this.selectedPlugin.GetProperty(pInfo.Property);
-                        ((OutputUsrCtrl)this.outputControl[outputControlIndex]).textBoxString.Text = Encoding.Default.GetString(ms.GetBuffer());
-                        outputControlIndex++;
-                    }
-                }
-                if (this.inputStreamReader != null)
-                    this.inputStreamReader.Close();
-                if (this.ouputStreamWriter != null)
-                    this.ouputStreamWriter.Close();
-                if (this.inputFileStream != null)
-                    this.inputFileStream.Close();
-                if (this.outputFileStream != null)
-                    this.outputFileStream.Close();
-            }
+            usrCtrlSimpleEditor.DisplayControls(plugin, inputProps, outputProps);
         }
 
-        public void RunSelected()
+        public void AddEditorSpecific(EditorSpecificPluginInfo espi)
         {
         }
 
-        public string SaveProject() { return null; }
-
-        public string SaveProject(string path) { return null; }
-
-        public void NewProject() { }
-
-        public IPlugin SelectedPlugin
+        public void DeleteEditorSpecific(EditorSpecificPluginInfo espi)
         {
-            get
-            {
-                return this.selectedPlugin;
-            }
-            set
-            {
-                this.selectedPlugin = (IPlugin)(value);
-            }
         }
 
-        public event SelectedPluginChangedHandler SelectedPluginChanged;
+        public void Undo()
+        {
+        }
+
+        public void Redo()
+        {
+        }
+
+        public void ShowHelp()
+        {
+        }
+
+        public void ShowSelectedPluginDescription()
+        {
+        }
+
+        public bool CanUndo
+        {
+            get { return false; }
+        }
+
+        public bool CanRedo
+        {
+            get { return false; }
+        }
+
+        public bool CanExecute
+        {
+            get { return true; }
+        }
+
+        public DisplayLevel DisplayLevel
+        {
+            get;
+            set;
+        }
+
+        public List<EditorSpecificPluginInfo> EditorSpecificPlugins
+        {
+            get { return new List<EditorSpecificPluginInfo>(); }
+        }
 
         public bool CanStop
         {
-          get { return true; }
+            get { return false; }
         }
 
-        public void Stop()
+        public bool HasChanges
         {
+            get { return false; }
         }
 
         #endregion
 
         #region IPlugin Members
 
-        public void Dispose()
+        public event StatusChangedEventHandler OnPluginStatusChanged;
+
+        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+
+        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+
+        public UserControl Presentation
+        {
+            get { return usrCtrlSimpleEditor; }
+        }
+
+        public UserControl QuickWatchPresentation
+        {
+            get { return null; }
+        }
+
+        public void Execute()
+        {
+            if (this.plugin == null)
+            {
+                System.Windows.MessageBox.Show("Please select a plugin first!");
+                return;
+            }
+
+            foreach (PropertyInfoAttribute pInfo in inputProps)
+            {
+                if (usrCtrlSimpleEditor.IsUsingTextBox(pInfo))
+                {
+                    Type propType = pInfo.PropertyInfo.PropertyType;
+                    String text = usrCtrlSimpleEditor.GetBoxText(pInfo);
+
+                    object value = null;
+
+                    // TODO: should use some more generic string to propType parsing/casting
+
+                    if (propType == typeof(Int32))
+                        value = int.Parse(text);
+                    else if (propType == typeof(String))
+                        value = text;
+                    else if (propType == typeof(byte[]))
+                        value = Encoding.Default.GetBytes(text);
+
+                    plugin.SetPropertyValue(pInfo.PropertyInfo, value);
+                }
+            }
+
+            plugin.Execute();
+
+            foreach (PropertyInfoAttribute pInfo in outputProps)
+            {
+                if (usrCtrlSimpleEditor.IsUsingTextBox(pInfo))
+                {
+                    object obj = pInfo.PropertyInfo.GetValue(plugin, null);
+
+                    usrCtrlSimpleEditor.SetBoxText(pInfo, obj.ToString());
+                }
+            }
+
+        }
+
+        public void Pause()
+        {
+        }
+
+
+        public void Stop()
         {
         }
 
@@ -241,43 +247,17 @@ namespace SimpleEditor
         {
         }
 
-        #endregion
-
-        #region IPlugin Members
-
-        public string Title { get; set; }
-
-        public bool HasChanges { get; set; }
-
-        public event StatusBarProgressbarValueChangedHandler OnStatusBarProgressbarValueChanged;
-
-        public event StatusBarTextChangedHandler OnStatusBarTextChanged;
-
-        public event RegisterPluginHandler OnRegisterPlugin;
-
-        public System.Windows.Controls.UserControl PresentationControl
+        public void Dispose()
         {
-            get
-            {
-                return this.usrCtrlSimpleEditor;
-            }
-        }
-
-        public void PostExecution()
-        {
-          
         }
 
         public void PreExecution()
         {
-          
         }
 
-        #endregion
-
-        #region INotifyPropertyChanged Members
-
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        public void PostExecution()
+        {
+        }
 
         #endregion
     }

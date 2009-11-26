@@ -192,6 +192,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranspositionAnalyser", "Cr
 EndProject
 Project("{8BC9CEB9-8B4A-11D0-8D11-00A0C91BC942}") = "CrypWin.exe", "CrypWin\bin\Debug\CrypWin.exe", "{0AFD1E1B-6503-46E0-8F53-A22058C7CEA1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleEditor", "CrypPlugins\SimpleEditor\SimpleEditor.csproj", "{C7507435-D076-406C-8F8F-0DBBDFB17D9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -1098,6 +1100,16 @@ Global
 		{0AFD1E1B-6503-46E0-8F53-A22058C7CEA1}.Release|.NET.ActiveCfg = Debug
 		{0AFD1E1B-6503-46E0-8F53-A22058C7CEA1}.Release|Any CPU.ActiveCfg = Debug
 		{0AFD1E1B-6503-46E0-8F53-A22058C7CEA1}.Release|Mixed Platforms.ActiveCfg = Debug
+		{C7507435-D076-406C-8F8F-0DBBDFB17D9A}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{C7507435-D076-406C-8F8F-0DBBDFB17D9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7507435-D076-406C-8F8F-0DBBDFB17D9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7507435-D076-406C-8F8F-0DBBDFB17D9A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C7507435-D076-406C-8F8F-0DBBDFB17D9A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C7507435-D076-406C-8F8F-0DBBDFB17D9A}.Release|.NET.ActiveCfg = Release|Any CPU
+		{C7507435-D076-406C-8F8F-0DBBDFB17D9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7507435-D076-406C-8F8F-0DBBDFB17D9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7507435-D076-406C-8F8F-0DBBDFB17D9A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C7507435-D076-406C-8F8F-0DBBDFB17D9A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
