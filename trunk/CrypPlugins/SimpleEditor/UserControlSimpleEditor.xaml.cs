@@ -13,6 +13,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using Cryptool.PluginBase;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace SimpleEditor
 {
@@ -21,43 +23,95 @@ namespace SimpleEditor
     /// </summary>
     public partial class UserControlSimpleEditor : UserControl
     {
-        IPlugin plugin;
-        List<UserControl> inputControl;
-        List<UserControl> outputControl;
-        
-        public UserControlSimpleEditor(IPlugin plugin, List<UserControl> inputControl, List<UserControl> outputControl)
+        private IPlugin plugin;
+        private Dictionary<PropertyInfoAttribute, UserCtrlInput> controls;
+
+        public UserControlSimpleEditor()
         {
             InitializeComponent();
-            this.plugin = plugin;
-            this.inputControl = inputControl;
-            this.outputControl = outputControl;
-            DisplayControls();
+            controls = new Dictionary<PropertyInfoAttribute, UserCtrlInput>();
         }
 
-        public void DisplayControls()
+        public void DisplayControls(IPlugin plugin, List<PropertyInfoAttribute> inputProps, List<PropertyInfoAttribute> outputProps)
         {
-            if (this.plugin != null)
-            {
-                this.pluginTabItem.Header = this.plugin.GetPluginInfo().Name;
-                mainStackPanel.Children.Clear();
-                foreach (PropertyInformation pInfo in this.plugin.GetInputProperties())
-                {
-                    InputUsrCtrl inputUsrCtrl = new InputUsrCtrl(pInfo.Caption, pInfo.Description);
-                    this.inputControl.Add(inputUsrCtrl);
-                    mainStackPanel.Children.Add(inputUsrCtrl);
-                }
-                foreach (PropertyInformation pInfo in this.plugin.GetOutputProperties())
-                {
-                    OutputUsrCtrl outputUsrCtrl = new OutputUsrCtrl(pInfo.Caption, pInfo.Description);
-                    this.outputControl.Add(outputUsrCtrl);
-                    mainStackPanel.Children.Add(outputUsrCtrl);
-                }
-                pluginTabItem.Visibility = Visibility.Visible;
-                mainTabControl.SelectedItem = pluginTabItem;
-            }
+            this.plugin = plugin;
 
+            if (plugin == null)
+                return;
+
+            this.pluginTabItem.Header = this.plugin.GetPluginInfoAttribute().Caption;
+            mainStackPanel.Children.Clear();
+            controls.Clear();
+
+            addProps(inputProps);
+            addProps(outputProps);
+
+            pluginTabItem.Visibility = Visibility.Visible;
+            mainTabControl.SelectedItem = pluginTabItem;
         }
 
+        private void addProps(List<PropertyInfoAttribute> props)
+        {
+            foreach (PropertyInfoAttribute pInfo in props)
+            {
+                UserCtrlInput usrCtrl = new UserCtrlInput(pInfo.Caption, pInfo.ToolTip);
+                controls[pInfo] = usrCtrl;
+                mainStackPanel.Children.Add(usrCtrl);
+            }
+        }
 
+        private bool? dispatchIsChecked(RadioButton radio)
+        {
+            bool? isChecked = null;
+
+            radio.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                isChecked = radio.IsChecked;
+            }, null);
+
+            return isChecked;
+        }
+
+        private String dispatchGetBoxText(TextBox box)
+        {
+            String text = null;
+
+            box.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                text = box.Text;
+            }, null);
+
+            return text;
+        }
+
+        private void dispatchSetBoxText(TextBox box, String text)
+        {
+            box.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                box.Text = text;
+            }, null);
+        }
+
+        public bool IsUsingTextBox(PropertyInfoAttribute pInfo)
+        {
+            UserCtrlInput ctrl = controls[pInfo];
+
+            if (dispatchIsChecked(ctrl.radioButtonString) == true)
+                return true;
+            else if (dispatchIsChecked(ctrl.radioButtonFile) == true)
+                return false;
+            else
+                throw new InvalidOperationException("Neither string nor file radio button is checked");
+        }
+
+        public String GetBoxText(PropertyInfoAttribute pInfo)
+        {
+            return dispatchGetBoxText(controls[pInfo].textBoxString);
+        }
+
+        public void SetBoxText(PropertyInfoAttribute pInfo, String text)
+        {
+            dispatchSetBoxText(controls[pInfo].textBoxString, text);
+        }
     }
 }
