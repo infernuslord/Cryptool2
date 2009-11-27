@@ -29,7 +29,7 @@ using System.Collections;
 namespace Cryptool.Plugins.RSA
 {
     [Author("Dennis Nolte, Raoul Falk, Sven Rech, Nils Kopal", null, "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "RSA", "RSA En/Decryption", "", "RSA/iconrsa.png", "RSA/Images/encrypt.png", "RSA/Images/decrypt.png")]
+    [PluginInfo(false, "RSA", "RSA En/Decryption", "RSA/DetailedDescription/Description.xaml", "RSA/iconrsa.png", "RSA/Images/encrypt.png", "RSA/Images/decrypt.png")]
     [EncryptionType(EncryptionType.Asymmetric)]
     /// <summary>
     /// This plugin does a RSA encryption/decryption on a Message M / Ciphertext C
