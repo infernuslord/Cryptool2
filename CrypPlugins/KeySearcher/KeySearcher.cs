@@ -87,6 +87,7 @@ namespace KeySearcher
             public int threadid;
         }
 
+        #region code for the worker threads
         private void KeySearcherJob(object param)
         {
             object[] parameters = (object[])param;
@@ -287,260 +288,297 @@ namespace KeySearcher
             return true;
         }
 
+        #endregion
+
         public void process(IControlEncryption sender)
         {
-            if (sender != null && costMaster != null)
+            if (sender == null || costMaster == null)
+                return;
+            bruteforcePattern(Pattern, sender);
+        }
+
+        private void bruteforcePattern(KeyPattern pattern, IControlEncryption sender)
+        {
+            int maxInList = 10;
+            LinkedList<ValueKey> costList = new LinkedList<ValueKey>();
+            fillListWithDummies(maxInList, costList);
+
+            stop = false;
+            if (!pattern.testKey(settings.Key))
             {
-                int maxInList = 10;
-                LinkedList<ValueKey> costList = new LinkedList<ValueKey>();
-                ValueKey valueKey = new ValueKey();
-                if (this.costMaster.getRelationOperator() == RelationOperator.LessThen)
-                    valueKey.value = double.MaxValue;
-                else
-                    valueKey.value = double.MinValue;
-                valueKey.key = "dummykey";
-                valueKey.decryption = new byte[0];
-                value_threshold = valueKey.value;
-                LinkedListNode<ValueKey> node = costList.AddFirst(valueKey);
-                for (int i = 1; i < maxInList; i++)
+                GuiLogMessage("Wrong key pattern!", NotificationLevel.Error);
+                return;
+            }
+
+            int bytesToUse = 0;
+
+            try
+            {
+                bytesToUse = CostMaster.getBytesToUse();
+            }
+            catch (Exception ex)
+            {
+                GuiLogMessage("Bytes used not valid: " + ex.Message, NotificationLevel.Error);
+                return;
+            }
+
+            BigInteger size = pattern.initKeyIteration(settings.Key);
+            KeyPattern[] patterns = splitPatternForThreads(pattern);
+
+            valuequeue = Queue.Synchronized(new Queue());
+
+            BigInteger[] doneKeysA = new BigInteger[patterns.Length];
+            BigInteger[] keycounters = new BigInteger[patterns.Length];
+            BigInteger[] keysleft = new BigInteger[patterns.Length];
+            Stack threadStack = Stack.Synchronized(new Stack());
+            startThreads(sender, bytesToUse, patterns, doneKeysA, keycounters, keysleft, threadStack);
+
+            //update message:
+            while (!stop)
+            {
+                Thread.Sleep(1000);
+
+                updateToplist(costList);
+
+                #region calculate global counters from local counters
+                BigInteger keycounter = 0;
+                BigInteger doneKeys = 0;
+                foreach (BigInteger dk in doneKeysA)
+                    doneKeys += dk;
+                foreach (BigInteger kc in keycounters)
+                    keycounter += kc;
+                #endregion
+
+                if (keycounter > size)
+                    GuiLogMessage("There must be an error, because we bruteforced too much keys...", NotificationLevel.Error);
+
+                #region determination of the thread with most keys
+                if (size - keycounter > 1000)
                 {
-                    node = costList.AddAfter(node, valueKey);
-                }
-
-                stop = false;
-                if (!Pattern.testKey(settings.Key))
-                {
-                    GuiLogMessage("Wrong key pattern!", NotificationLevel.Error);
-                    return;
-                }
-
-                int bytesToUse = 0;
-
-                try
-                {
-                    bytesToUse = CostMaster.getBytesToUse();
-                }
-                catch (Exception ex)
-                {
-                    GuiLogMessage("Bytes used not valid: " + ex.Message, NotificationLevel.Error);
-                    return;
-                }
-
-                LinkedListNode<ValueKey> linkedListNode;
-
-                KeyPattern[] patterns = new KeyPattern[settings.CoresUsed+1];
-                BigInteger size = Pattern.initKeyIteration(settings.Key);
-                
-                if (settings.CoresUsed > 0)
-                {
-                    KeyPattern[] patterns2 = Pattern.split();                    
-                    patterns[0] = patterns2[0];
-                    patterns[1] = patterns2[1];
-                    int p = 1;
-                    int threads = settings.CoresUsed - 1;
-                    while (threads > 0)
-                    {
-                        int maxPattern = -1;
-                        BigInteger max = 0;
-                        for (int i = 0; i <= p; i++)
-                            if (patterns[i].size() > max)
-                            {
-                                max = patterns[i].size();
-                                maxPattern = i;
-                            }
-                        KeyPattern[] patterns3 = patterns[maxPattern].split();
-                        patterns[maxPattern] = patterns3[0];
-                        patterns[++p] = patterns3[1];
-                        threads--;
-                    }
-                }
-                else
-                    patterns[0] = Pattern;
-
-                valuequeue = Queue.Synchronized(new Queue());
-
-                BigInteger[] doneKeysA = new BigInteger[patterns.Length];
-                BigInteger[] keycounters = new BigInteger[patterns.Length];
-                BigInteger[] keysleft = new BigInteger[patterns.Length];
-                Stack threadStack = Stack.Synchronized(new Stack());
-                for (int i = 0; i < patterns.Length; i++)
-                {
-                    WaitCallback worker = new WaitCallback(KeySearcherJob);
-                    doneKeysA[i] = new BigInteger();
-                    keycounters[i] = new BigInteger();
-                    ThreadPool.QueueUserWorkItem(worker, new object[] { patterns, i, doneKeysA, keycounters, keysleft, sender.clone(), bytesToUse, threadStack });
-                }
-                
-                //update message:
-                while (!stop)
-                {
-                    Thread.Sleep(1000);
-
-                    //update toplist:
-                    while (valuequeue.Count != 0)
-                    {
-                        ValueKey vk = (ValueKey)valuequeue.Dequeue();
-                        if (this.costMaster.getRelationOperator() == RelationOperator.LargerThen)
+                    maxThreadMutex.WaitOne();
+                    BigInteger max = 0;
+                    int id = -1;
+                    for (int i = 0; i < patterns.Length; i++)
+                        if (keysleft[i] > max)
                         {
-                            if (vk.value > costList.Last().value)
-                            {
-                                node = costList.First;
-                                while (node != null)
-                                {
-                                    if (vk.value > node.Value.value)
-                                    {
-                                        costList.AddBefore(node, vk);
-                                        costList.RemoveLast();
-                                        value_threshold = costList.Last.Value.value;
-                                        break;
-                                    }
-                                    node = node.Next;
-                                }//end while
-                            }//end if
+                            max = keysleft[i];
+                            id = i;
                         }
-                        else
-                        {
-                            node = costList.First;
-                            if (vk.value < costList.Last().value)
-                            {
-                                while (node != null)
-                                {
-                                    if (vk.value < node.Value.value)
-                                    {
-                                        costList.AddBefore(node, vk);
-                                        costList.RemoveLast();
-                                        value_threshold = costList.Last.Value.value;
-                                        break;
-                                    }
-                                    node = node.Next;
-                                }//end while
-                            }//end if
-                        }
-                    }
+                    maxThread = id;
+                    maxThreadMutex.ReleaseMutex();
+                }
+                #endregion
 
-                    BigInteger keycounter = 0;
-                    BigInteger doneKeys = 0;
-                    foreach (BigInteger dk in doneKeysA)
-                        doneKeys += dk;
-                    foreach (BigInteger kc in keycounters)
-                        keycounter += kc;
+                showProgress(costList, size, keycounter, doneKeys);
 
-                    if (keycounter > size)
-                        GuiLogMessage("There must be an error, because we bruteforced too much keys...", NotificationLevel.Error);
+                #region set doneKeys to 0
+                doneKeys = 0;
+                for (int i = 0; i < doneKeysA.Length; i++)
+                    doneKeysA[i] = 0;
+                #endregion
 
-                    //Let's determine which thread has the most keys to share:
-                    if (size - keycounter > 1000)
-                    {
-                        maxThreadMutex.WaitOne();
-                        BigInteger max = 0;
-                        int id = -1;
-                        for (int i = 0; i < patterns.Length; i++)
-                            if (keysleft[i] > max)
-                            {
-                                max = keysleft[i];
-                                id = i;
-                            }
-                        maxThread = id;
-                        maxThreadMutex.ReleaseMutex();
-                    }
-                                        
-                    ProgressChanged(Math.Pow(10, keycounter.log(10) - size.log(10)), 1.0);
+                if (keycounter >= size)
+                    break;
+            }//end while
 
-                    if (QuickWatchPresentation.IsVisible && doneKeys != 0 && !stop)
-                    {
-                        double time = (Math.Pow(10, (size - keycounter).log(10) - doneKeys.log(10)));
-                        TimeSpan timeleft = new TimeSpan(-1);
-
-                        try
-                        {
-                            if (time / (24 * 60 * 60) <= int.MaxValue)
-                            {
-                                int days = (int)(time / (24 * 60 * 60));
-                                time = time - (days * 24 * 60 * 60);
-                                int hours = (int)(time / (60 * 60));
-                                time = time - (hours * 60 * 60);
-                                int minutes = (int)(time / 60);
-                                time = time - (minutes * 60);
-                                int seconds = (int)time;
-
-                                timeleft = new TimeSpan(days, hours, minutes, (int)seconds, 0);
-                            }
-                        }
-                        catch
-                        {
-                            //can not calculate time span
-                        }
-
-                        ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                        {
-                            ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).keysPerSecond.Text = "" + doneKeys;
-                            if (timeleft != new TimeSpan(-1))
-                            {
-                                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).timeLeft.Text = "" + timeleft;
-                                try
-                                {
-                                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "" + DateTime.Now.Add(timeleft);
-                                }
-                                catch
-                                {
-                                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "in a galaxy far, far away...";
-                                }
-                            }
-                            else
-                            {
-                                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).timeLeft.Text = "incalculable :-)";
-                                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "in a galaxy far, far away...";
-                            }
-
-                            ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Clear();
-                            linkedListNode = costList.First;
-                            System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
-                            int i = 0;
-                            while (linkedListNode != null)
-                            {
-                                i++;
-                                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Add(i + ") " + Math.Round(linkedListNode.Value.value, 4) + " = " + linkedListNode.Value.key + " : \"" +
-                                    enc.GetString(linkedListNode.Value.decryption).Replace("\n", "").Replace("\r", "").Replace("\t", "") + "\"");
-                                linkedListNode = linkedListNode.Next;
-                            }
-                        }
-                        , null);
-                    }//end if
-                    doneKeys = 0;
-                    for (int i = 0; i < doneKeysA.Length; i++)
-                        doneKeysA[i] = 0;
-
-                    if (!stop && QuickWatchPresentation.IsVisible)
-                    {
-
-                        ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                        {
-                            ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Clear();
-                            linkedListNode = costList.First;
-                            System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
-                            int i = 0;
-                            while (linkedListNode != null)
-                            {
-                                i++;
-                                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Add(i + ") " + Math.Round(linkedListNode.Value.value, 4) + " = " + linkedListNode.Value.key + " : \"" +
-                                    enc.GetString(linkedListNode.Value.decryption).Replace("\n", "").Replace("\r", "").Replace("\t", "") + "\"");
-                                linkedListNode = linkedListNode.Next;
-                            }
-                        }
-                        , null);
-                    }
-
-                    if (keycounter >= size)
-                        break;
-                }//end while
-
-                //wake up all sleeping threads:
-                while (threadStack.Count != 0)
-                    ((ThreadStackElement)threadStack.Pop()).ev.Set();
-            }//end if
+            //wake up all sleeping threads, so they can stop:
+            while (threadStack.Count != 0)
+                ((ThreadStackElement)threadStack.Pop()).ev.Set();
 
             if (!stop)
                 ProgressChanged(1, 1);
+        }
+
+        private void fillListWithDummies(int maxInList, LinkedList<ValueKey> costList)
+        {
+            ValueKey valueKey = new ValueKey();
+            if (this.costMaster.getRelationOperator() == RelationOperator.LessThen)
+                valueKey.value = double.MaxValue;
+            else
+                valueKey.value = double.MinValue;
+            valueKey.key = "dummykey";
+            valueKey.decryption = new byte[0];
+            value_threshold = valueKey.value;
+            LinkedListNode<ValueKey> node = costList.AddFirst(valueKey);
+            for (int i = 1; i < maxInList; i++)
+            {
+                node = costList.AddAfter(node, valueKey);
+            }
+        }
+
+        private void showProgress(LinkedList<ValueKey> costList, BigInteger size, BigInteger keycounter, BigInteger doneKeys)
+        {
+            LinkedListNode<ValueKey> linkedListNode;
+            ProgressChanged(Math.Pow(10, keycounter.log(10) - size.log(10)), 1.0);
+
+            if (QuickWatchPresentation.IsVisible && doneKeys != 0 && !stop)
+            {
+                double time = (Math.Pow(10, (size - keycounter).log(10) - doneKeys.log(10)));
+                TimeSpan timeleft = new TimeSpan(-1);
+
+                try
+                {
+                    if (time / (24 * 60 * 60) <= int.MaxValue)
+                    {
+                        int days = (int)(time / (24 * 60 * 60));
+                        time = time - (days * 24 * 60 * 60);
+                        int hours = (int)(time / (60 * 60));
+                        time = time - (hours * 60 * 60);
+                        int minutes = (int)(time / 60);
+                        time = time - (minutes * 60);
+                        int seconds = (int)time;
+
+                        timeleft = new TimeSpan(days, hours, minutes, (int)seconds, 0);
+                    }
+                }
+                catch
+                {
+                    //can not calculate time span
+                }
+
+                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).keysPerSecond.Text = "" + doneKeys;
+                    if (timeleft != new TimeSpan(-1))
+                    {
+                        ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).timeLeft.Text = "" + timeleft;
+                        try
+                        {
+                            ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "" + DateTime.Now.Add(timeleft);
+                        }
+                        catch
+                        {
+                            ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "in a galaxy far, far away...";
+                        }
+                    }
+                    else
+                    {
+                        ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).timeLeft.Text = "incalculable :-)";
+                        ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "in a galaxy far, far away...";
+                    }
+
+                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Clear();
+                    linkedListNode = costList.First;
+                    System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+                    int i = 0;
+                    while (linkedListNode != null)
+                    {
+                        i++;
+                        ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Add(i + ") " + Math.Round(linkedListNode.Value.value, 4) + " = " + linkedListNode.Value.key + " : \"" +
+                            enc.GetString(linkedListNode.Value.decryption).Replace("\n", "").Replace("\r", "").Replace("\t", "") + "\"");
+                        linkedListNode = linkedListNode.Next;
+                    }
+                }
+                , null);
+            }//end if
+
+
+            if (!stop && QuickWatchPresentation.IsVisible)
+            {
+
+                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Clear();
+                    linkedListNode = costList.First;
+                    System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+                    int i = 0;
+                    while (linkedListNode != null)
+                    {
+                        i++;
+                        ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Add(i + ") " + Math.Round(linkedListNode.Value.value, 4) + " = " + linkedListNode.Value.key + " : \"" +
+                            enc.GetString(linkedListNode.Value.decryption).Replace("\n", "").Replace("\r", "").Replace("\t", "") + "\"");
+                        linkedListNode = linkedListNode.Next;
+                    }
+                }
+                , null);
+            }
+        }
+
+        private void updateToplist(LinkedList<ValueKey> costList)
+        {
+            LinkedListNode<ValueKey> node;
+            while (valuequeue.Count != 0)
+            {
+                ValueKey vk = (ValueKey)valuequeue.Dequeue();
+                if (this.costMaster.getRelationOperator() == RelationOperator.LargerThen)
+                {
+                    if (vk.value > costList.Last().value)
+                    {
+                        node = costList.First;
+                        while (node != null)
+                        {
+                            if (vk.value > node.Value.value)
+                            {
+                                costList.AddBefore(node, vk);
+                                costList.RemoveLast();
+                                value_threshold = costList.Last.Value.value;
+                                break;
+                            }
+                            node = node.Next;
+                        }//end while
+                    }//end if
+                }
+                else
+                {                    
+                    if (vk.value < costList.Last().value)
+                    {
+                        node = costList.First;
+                        while (node != null)
+                        {
+                            if (vk.value < node.Value.value)
+                            {
+                                costList.AddBefore(node, vk);
+                                costList.RemoveLast();
+                                value_threshold = costList.Last.Value.value;
+                                break;
+                            }
+                            node = node.Next;
+                        }//end while
+                    }//end if
+                }
+            }
+        }
+
+        private void startThreads(IControlEncryption sender, int bytesToUse, KeyPattern[] patterns, BigInteger[] doneKeysA, BigInteger[] keycounters, BigInteger[] keysleft, Stack threadStack)
+        {
+            for (int i = 0; i < patterns.Length; i++)
+            {
+                WaitCallback worker = new WaitCallback(KeySearcherJob);
+                doneKeysA[i] = new BigInteger();
+                keycounters[i] = new BigInteger();
+                ThreadPool.QueueUserWorkItem(worker, new object[] { patterns, i, doneKeysA, keycounters, keysleft, sender.clone(), bytesToUse, threadStack });
+            }
+        }
+
+        private KeyPattern[] splitPatternForThreads(KeyPattern pattern)
+        {
+            KeyPattern[] patterns = new KeyPattern[settings.CoresUsed + 1];
+            if (settings.CoresUsed > 0)
+            {
+                KeyPattern[] patterns2 = pattern.split();
+                patterns[0] = patterns2[0];
+                patterns[1] = patterns2[1];
+                int p = 1;
+                int threads = settings.CoresUsed - 1;
+                while (threads > 0)
+                {
+                    int maxPattern = -1;
+                    BigInteger max = 0;
+                    for (int i = 0; i <= p; i++)
+                        if (patterns[i].size() > max)
+                        {
+                            max = patterns[i].size();
+                            maxPattern = i;
+                        }
+                    KeyPattern[] patterns3 = patterns[maxPattern].split();
+                    patterns[maxPattern] = patterns3[0];
+                    patterns[++p] = patterns3[1];
+                    threads--;
+                }
+            }
+            else
+                patterns[0] = Pattern;
+            return patterns;
         }
 
         public void PostExecution()
@@ -653,6 +691,7 @@ namespace KeySearcher
             }
         }
 
+        //used for delivering the results from the worker threads to the main thread:
         private struct ValueKey
         {
             public double value;
