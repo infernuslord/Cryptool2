@@ -6,38 +6,42 @@
     HorizontalAlignment="Stretch"
     VerticalAlignment="Stretch"
     Height="Auto" Width="Auto">
+    <Canvas>
+        <StackPanel  Width="Auto" Height="Auto" Name="Stack" Orientation="Vertical">
+            <StackPanel Orientation="Horizontal" Name="mainGrid" Height="Auto" Width="Auto"  VerticalAlignment="Center">
 
-    <Grid Name="mainGrid" Height="Auto" Width="Auto"   >
+               
+                
+                    
+                    <WrapPanel Name="mywrap1" Orientation="Horizontal" Width="160"   >
 
-        <Grid.RenderTransform>
-            <ScaleTransform x:Name="PinScaleTransform2" ScaleX="1" ScaleY="1" />
-        </Grid.RenderTransform>
+                    </WrapPanel>
+                
+                
 
-        <ScrollViewer VerticalAlignment="Top" HorizontalAlignment="Left">
+                <Label Width="20"></Label>
+                <Grid Name="myGrid"  Height="Auto" Width="Auto"  HorizontalAlignment="Center" VerticalAlignment="Top">
 
-            <WrapPanel Name="mywrap1" Orientation="Horizontal" Width="Auto" MaxWidth="160" Height="Auto" >
+                </Grid>
+                <Label Width="20"></Label>
+               
 
-            </WrapPanel>
-        </ScrollViewer>
+                    <WrapPanel Name="mywrap2" Orientation="Horizontal" Width="160"  >
 
-        <ScrollViewer VerticalAlignment="Top" HorizontalAlignment="Right">
-
-            <WrapPanel Name="mywrap2" Orientation="Horizontal" Width="Auto" MaxWidth="160" Height="Auto" >
-
-            </WrapPanel>
-        </ScrollViewer>
-
-
-        <Grid Name="myGrid" MaxWidth="500" Height="Auto" Width="Auto"  HorizontalAlignment="Center" VerticalAlignment="Top">
-
-        </Grid>
+                    </WrapPanel>
+               
 
 
-        <TextBox Visibility="Hidden" Name="textBox1"></TextBox>
-        <TextBox  Name="textBox2" VerticalAlignment="Bottom"></TextBox>
 
-    </Grid>
-    
+
+                <TextBox Visibility="Hidden" Name="textBox1"></TextBox>
+                
+
+            </StackPanel>
+            <Label Height="10"></Label>
+            <TextBox  Name="textBox2" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="160"></TextBox>
+        </StackPanel>
+    </Canvas>
         
 
 </UserControl>
