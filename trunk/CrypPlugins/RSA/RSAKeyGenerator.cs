@@ -361,6 +361,7 @@ namespace Cryptool.Plugins.RSA
         /// </summary>
         public void Initialize()
         {
+          settings.Source = settings.Source;
         }
 
         /// <summary>

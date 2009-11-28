@@ -53,7 +53,8 @@ namespace Cryptool.Plugins.NOR
           inputOne = value;
           OnPropertyChanged("InputOne");
         }
-        OnPropertyChanged("Output");
+        if (InputOne || InputTwo)
+          OnPropertyChanged("Output");
       }
     }
     
@@ -70,7 +71,8 @@ namespace Cryptool.Plugins.NOR
           inputTwo = value;
           OnPropertyChanged("InputTwo");
         }
-        OnPropertyChanged("Output");
+        if (InputOne || InputTwo)
+          OnPropertyChanged("Output");
       }
     }
 
