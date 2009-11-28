@@ -163,7 +163,7 @@ namespace Transposition
             {
                 ((TranspositionControl)controlSlave).onStatusChanged();
             }
-            //myPresentation.main(Read_in_matrix,Permuted_matrix,key,Keyword,Input,Output,this.settings.Permutation,this.settings.ReadIn,this.settings.ReadOut);   
+           // myPresentation.main(Read_in_matrix,Permuted_matrix,key,Keyword,Input,Output,this.settings.Permutation,this.settings.ReadIn,this.settings.ReadOut,this.settings.Action);   
         }
 
         public void Initialize()
