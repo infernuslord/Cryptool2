@@ -27,8 +27,17 @@ namespace Transposition
         /// </summary>
         public TranspositionPresentation()
         {
-            InitializeComponent();
+            InitializeComponent(); 
+           SizeChanged += sizeChanged;
+           
         }
+
+        public void sizeChanged(Object sender, EventArgs eventArgs)
+        {
+            this.Stack.RenderTransform = new ScaleTransform(this.ActualWidth / this.Stack.ActualWidth,
+                                                       this.ActualHeight / this.Stack.ActualHeight);
+        }
+        
 
         
         private TextBlock[,] teba;
@@ -46,6 +55,7 @@ namespace Transposition
         private int precountup;
         private bool Stop = false;
         private int per;
+        private int act;
         private int rein;
         private int reout;
         private TextBlock[] reina;
@@ -58,6 +68,7 @@ namespace Transposition
         private Brush[,] mat_back;
         private DoubleAnimation fadeIn;
         private DoubleAnimation fadeOut;
+        private int[] key;
 
         /// <summary>
         /// Getter of the Speed the Visualisation is running
@@ -77,25 +88,38 @@ namespace Transposition
         /// <param name="per"></param>
         /// <param name="rein"></param>
         /// <param name="reout"></param>
-        private void init(byte[,] read_in_matrix, byte[,] permuted_matrix, String keyword, int per, int rein, int reout) 
+        private void init(byte[,] read_in_matrix, byte[,] permuted_matrix, String keyword, int per, int rein, int reout, int act, int[] key) 
         {
+            
             DoubleAnimation fadeIn = new DoubleAnimation();
             fadeIn.From = 0.0;
             fadeIn.To = 1.0;
             fadeIn.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+            
 
             DoubleAnimation fadeOut = new DoubleAnimation();
             fadeOut.From = 0.0;
             fadeOut.To = 1.0;
             fadeOut.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
 
+            if (act == 0)
+                    {
+                        this.rein = rein;
+                        this.reout = reout;
+                    }
+                    else 
+                    {
+                        this.rein = reout;
+                        this.reout = rein;
+                    }
             this.fadeIn = fadeIn;
             this.fadeOut = fadeOut;
             this.read_in_matrix=read_in_matrix;
             this.permuted_matrix = permuted_matrix;
             this.per = per;
-            this.rein = rein;
-            this.reout = reout;
+            this.act = act;
+            this.key = key;
 
             countup = 0;
             countup1 = 0;
@@ -113,22 +137,22 @@ namespace Transposition
                    
                     rowper = 0;
                     colper = 2;
-                    if (reout == 1)
+                    if (this.reout == 1)
                         outcount = 0;
                     else
                         outcount = 2;
 
-                    if (reout == 1)
+                    if (this.reout == 1)
                         outcount4 = 0;
                     else 
                         outcount4 = 2;
                     
-                    if(rein == 1)
+                    if(this.rein == 1)
                         outcount1 = 0;
                     else
                         outcount1 = 2;
 
-                    if (rein == 1)
+                    if (this.rein == 1)
                         outcount3 = 0;
 
                     else
@@ -139,37 +163,37 @@ namespace Transposition
                     rowper = 2;
                     colper = 0;
 
-                    if (reout == 1)
+                    if (this.reout == 1)
                         outcount = 2;
                     else
                         outcount = 0;
 
-                    if (reout == 1)
+                    if (this.reout == 1)
                         outcount4 = 2;
                     else
                         outcount4 = 0;
 
-                    if (rein == 1)
+                    if (this.rein == 1)
                         outcount1 = 2;
                     else
                         outcount1 = 0;
 
-                    if (rein == 1)
+                    if (this.rein == 1)
                         outcount3 = 2;
                     else
                         outcount3 = 0;
                     }
         }
 
-        public void main(byte[,] read_in_matrix, byte[,] permuted_matrix, int[] key, String keyword, byte[] input, byte[] output, int per, int rein, int reout)
+        public void main(byte[,] read_in_matrix, byte[,] permuted_matrix, int[] key, String keyword, byte[] input, byte[] output, int per, int rein, int reout,int act)
         {
 
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                     this.my_Stop(this, EventArgs.Empty);
-                    init(read_in_matrix,permuted_matrix,keyword, per, rein, reout);
+                    init(read_in_matrix,permuted_matrix,keyword, per, rein, reout,act,key);
                     create(read_in_matrix, permuted_matrix, key, keyword, input, output);
-
+                    
                     schleife = 0;
                     //textBox1.Text = input;
                     //readIn();
@@ -343,30 +367,65 @@ namespace Transposition
         {
             if (per == 1)
             {
-                if (teba != null)
+                if (teba != null && key != null)
                 {
-                    if (i < teba.GetLength(0) - 1)
+                    if (act == 0)
                     {
-                        if (Convert.ToInt32(teba[i, 0].Text) != i + 1)
+                        if (i < teba.GetLength(0) - 1)
                         {
-                            int s = 0;
-                            for (int ix = i + 1; ix < teba.GetLength(0); ix++)
+                            if (Convert.ToInt32(teba[i, 0].Text) != i + 1)
                             {
-                                if (Convert.ToInt32(teba[ix, 0].Text) == i + 1)
+                                int s = 0;
+                                for (int ix = i + 1; ix < teba.GetLength(0); ix++)
                                 {
-                                    s = ix;
+                                    if (Convert.ToInt32(teba[ix, 0].Text) == i + 1)
+                                    {
+                                        s = ix;
+                                    }
                                 }
+                                preani(i, s);
+
                             }
-                            ani(i, s);
+                            else
+                            {
+                                schleife++;
+                                sort(schleife);
+                            }
+
                         }
-                        else
-                        {
-                            schleife++;
-                            sort(schleife);
-                        }
+
+                        else if (!Stop) { preReadOut(); }
                     }
-                    else if (!Stop) { preReadOut(); }
+                    else
+                    {
+                        if (i < teba.GetLength(0) - 1)
+                        {
+                            if (Convert.ToInt32(teba[i, 0].Text) != key[i])
+                            {
+                                int s = 0;
+                                for (int ix = i + 1; ix < teba.GetLength(0); ix++)
+                                {
+                                    if (Convert.ToInt32(teba[ix, 0].Text) == key[i])
+                                    {
+                                        s = ix;
+                                    }
+                                }
+                                preani(i, s);
+
+                            }
+                            else
+                            {
+                                textBox2.Text += key[i];
+                                schleife++;
+                                sort(schleife);
+                            }
+
+                        }
+
+                        else if (!Stop) { preReadOut(); }
+                    }
                 }
+
             }
             else
             {
@@ -383,6 +442,11 @@ namespace Transposition
             myGrid.Children.Clear();
             myGrid.ColumnDefinitions.Clear();
             myGrid.RowDefinitions.Clear();
+            mywrap1.Children.Clear();
+            mywrap2.Children.Clear();
+
+          
+
             outcount = 0;           
 
             schleife = 0;
@@ -407,14 +471,15 @@ namespace Transposition
 
         private void my_Help3(object sender, EventArgs e)
         {
-            textBox2.Text = "feuer";
+            sizeChanged(this, EventArgs.Empty);
+            
             if (!Stop)
             preReadIn();
         }
         
         private void my_Help4(object sender, EventArgs e)
         {
-            textBox2.Text = "feuer";
+            
             outcount2++;
             if (!Stop)
             readIn();
@@ -423,7 +488,7 @@ namespace Transposition
         private void my_Help7(object sender, EventArgs e)
         {
             precountup = countup1; 
-            textBox2.Text = "feuer";
+            
             outcount5++;
             if (!Stop)
                 preReadOut();
@@ -431,7 +496,7 @@ namespace Transposition
          
         private void my_Help5(object sender, EventArgs e)
         {
-            textBox2.Text = "fäuer";
+            
             outcount3++;
             if (!Stop)
             preReadIn();
@@ -439,15 +504,26 @@ namespace Transposition
 
         private void my_Help6(object sender, EventArgs e)
         {
-            textBox2.Text = "feuer";
+           
             outcount4++;
             if (!Stop)
                 readout();
         }
 
+        private void my_Help8(object sender, EventArgs e)
+        {
+            ani();
+        }
+
         private void my_Help(object sender, EventArgs e)
         {
             schleife++;
+            if (!Stop)
+               postani();
+        }
+
+        private void my_Help9(object sender, EventArgs e)
+        {
             if (!Stop)
                 sort(schleife);
         }
@@ -467,7 +543,16 @@ namespace Transposition
                         TextBlock help1 = new TextBlock();
                         help1.Background = teba[nach, i].Background;
                         teba[nach, i].Background = teba[von, i].Background;
-                        teba[von, i].Background = help1.Background;                        
+                        teba[von, i].Background = help1.Background;
+
+                        if(i>1)
+                        {
+                            Brush help2;
+                            help2= mat_back[nach, i-2];
+                            mat_back[nach, i-2] = mat_back[von, i-2];
+                            mat_back[von, i-2] = help2;
+                        }
+
                     }
                 }
                 
@@ -489,21 +574,178 @@ namespace Transposition
             }, null);
         }
 
+        public void preani(int von, int nach) 
+        {
+            this.von = von;
+            this.nach = nach;
+            
+            ColorAnimation myColorAnimation_gy = new ColorAnimation();
+            myColorAnimation_gy.From = Colors.LawnGreen;
+            myColorAnimation_gy.To = Colors.Yellow;
+            myColorAnimation_gy.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+            ColorAnimation myColorAnimation_by = new ColorAnimation();
+            myColorAnimation_by.From = Colors.AliceBlue;
+            myColorAnimation_by.To = Colors.Yellow;
+            myColorAnimation_by.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+            ColorAnimation myColorAnimation_ty = new ColorAnimation();
+            myColorAnimation_ty.From = Colors.Transparent;
+            myColorAnimation_ty.To = Colors.Yellow;
+            myColorAnimation_ty.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+
+            SolidColorBrush brush_gy = new SolidColorBrush();
+            SolidColorBrush brush_by = new SolidColorBrush();
+            SolidColorBrush brush_ty = new SolidColorBrush();
+
+            ColorAnimation myColorAnimation_go = new ColorAnimation();
+            myColorAnimation_go.From = Colors.LawnGreen;
+            myColorAnimation_go.To = Colors.Orange;
+            myColorAnimation_go.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+            ColorAnimation myColorAnimation_bo = new ColorAnimation();
+            myColorAnimation_bo.From = Colors.AliceBlue;
+            myColorAnimation_bo.To = Colors.Orange;
+            myColorAnimation_bo.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+            ColorAnimation myColorAnimation_to = new ColorAnimation();
+            myColorAnimation_to.From = Colors.Transparent;
+            myColorAnimation_to.To = Colors.Orange;
+            myColorAnimation_to.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+
+            SolidColorBrush brush_go = new SolidColorBrush();
+            SolidColorBrush brush_bo = new SolidColorBrush();
+            SolidColorBrush brush_to = new SolidColorBrush();
+
+            if (teba != null)
+                if (per == 1)
+                    for (int i = 0; i < teba.GetLength(1); i++)
+                    {
+                        if (i > 1)
+                        {
+                            if (mat_back[von, i - 2].Equals(Brushes.LawnGreen))
+                                teba[von, i].Background = brush_gy;
+
+                            if (mat_back[von, i - 2].Equals(Brushes.AliceBlue))
+                                teba[von, i].Background = brush_by;
+
+                            if (mat_back[nach, i - 2].Equals(Brushes.LawnGreen))
+                                teba[nach, i].Background = brush_go;
+
+                            if (mat_back[nach, i - 2].Equals(Brushes.AliceBlue))
+                                teba[nach, i].Background = brush_bo;
+                        
+                        }
+                        else
+                        {
+                            teba[von, i].Background = brush_ty;
+                            teba[nach, i].Background = brush_to;
+                        }
+                    }
+            
+            brush_ty.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_ty); 
+            brush_gy.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_gy);
+            brush_to.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_to);
+            brush_go.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_go);
+            brush_bo.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_bo); 
+            myColorAnimation_by.Completed += new EventHandler(my_Help8);
+            brush_by.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_by); 
+
+        }
+
+        public void postani() 
+        
+        {
+            ColorAnimation myColorAnimation_gy = new ColorAnimation();
+            myColorAnimation_gy.From = Colors.Yellow;
+            myColorAnimation_gy.To = Colors.LawnGreen;
+            myColorAnimation_gy.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+            ColorAnimation myColorAnimation_by = new ColorAnimation();
+            myColorAnimation_by.From = Colors.Yellow;
+            myColorAnimation_by.To = Colors.AliceBlue;
+            myColorAnimation_by.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+            ColorAnimation myColorAnimation_ty = new ColorAnimation();
+            myColorAnimation_ty.From = Colors.Yellow;
+            myColorAnimation_ty.To = Colors.Transparent;
+            myColorAnimation_ty.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+
+            SolidColorBrush brush_gy = new SolidColorBrush();
+            SolidColorBrush brush_by = new SolidColorBrush();
+            SolidColorBrush brush_ty = new SolidColorBrush();
+
+            ColorAnimation myColorAnimation_go = new ColorAnimation();
+            myColorAnimation_go.From = Colors.Orange;
+            myColorAnimation_go.To = Colors.LawnGreen;
+            myColorAnimation_go.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+            ColorAnimation myColorAnimation_bo = new ColorAnimation();
+            myColorAnimation_bo.From = Colors.Orange;
+            myColorAnimation_bo.To = Colors.AliceBlue;
+            myColorAnimation_bo.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+            ColorAnimation myColorAnimation_to = new ColorAnimation();
+            myColorAnimation_to.From = Colors.Orange;
+            myColorAnimation_to.To = Colors.Transparent;
+            myColorAnimation_to.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+
+            SolidColorBrush brush_go = new SolidColorBrush();
+            SolidColorBrush brush_bo = new SolidColorBrush();
+            SolidColorBrush brush_to = new SolidColorBrush();
+
+            if (teba != null)
+                if (per == 1)
+                    for (int i = 0; i < teba.GetLength(1); i++)
+                    {
+                        if (i > 1)
+                        {
+                            if (mat_back[nach, i - 2].Equals(Brushes.LawnGreen))
+                                teba[nach, i].Background = brush_gy;
+
+                            if (mat_back[nach, i - 2].Equals(Brushes.AliceBlue))
+                                teba[nach, i].Background = brush_by;
+
+                            if (mat_back[von, i - 2].Equals(Brushes.LawnGreen))
+                                teba[von, i].Background = brush_go;
+
+                            if (mat_back[von, i - 2].Equals(Brushes.AliceBlue))
+                                teba[von, i].Background = brush_bo;
+
+                        }
+                        else
+                        {
+                            teba[nach, i].Background = brush_ty;
+                            teba[von, i].Background = brush_to;
+                        }
+                    }
+
+            brush_ty.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_ty);
+            brush_gy.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_gy);
+            brush_to.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_to);
+            brush_go.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_go);
+            brush_bo.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_bo);
+            myColorAnimation_by.Completed += new EventHandler(my_Help9);
+            brush_by.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_by); 
+
+        }
         /// <summary>
         /// animation being used in the permutationphase while sorting
         /// </summary>
         /// <param name="von"></param>
         /// <param name="nach"></param>
-        public void ani( int von, int nach)
+        public void ani()
         {
             DoubleAnimation myDoubleAnimation = new DoubleAnimation();
             myDoubleAnimation.From = 1.0;
             myDoubleAnimation.To = 0.0;
             myDoubleAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(1001-speed));
 
-            this.von = von;
-            this.nach = nach;
-
+           
             if (teba != null)
                 if (per == 1)
                     for (int i = 0; i < teba.GetLength(1); i++)
@@ -534,6 +776,7 @@ namespace Transposition
         /// </summary>
         public void preReadIn()
         {
+            
             ColorAnimation myColorAnimation = new ColorAnimation();
             myColorAnimation.From = Colors.Transparent;
             myColorAnimation.To = Colors.Orange;
@@ -732,23 +975,22 @@ namespace Transposition
 
                     for (int i = 0; i < key.Length; i++)
                     {
-                        if (mainGrid.Width < 800)
-                        {
-                            myGrid.Width += 12;
-                            mainGrid.Width += 12;
-                        }                       
+                                         
                         
                         TextBlock txt = new TextBlock();
                         String s = key[i].ToString();
                         
                         txt.VerticalAlignment = VerticalAlignment.Center;
-                        txt.Text = s;
+                        if (act == 0)
+                            txt.Text = s;
+                        else
+                            txt.Text = "" + (i + 1);
                         txt.FontSize = 12;
                         txt.FontWeight = FontWeights.ExtraBold;
                         txt.TextAlignment = TextAlignment.Center;
                         txt.Width = 17;
                         txt.Opacity = 0.0;
-
+                        
                         if (per == 1)
                         {
                             Grid.SetRow(txt, 0);
@@ -770,6 +1012,9 @@ namespace Transposition
                     if (keyword != null)
                     {                        
                         char[] ch = keyword.ToCharArray();
+                        if (act == 1)
+                            Array.Sort(ch);
+
                         for (int i = 0; i < key.Length; i++)
                         {
                             TextBlock txt = new TextBlock();
@@ -861,6 +1106,7 @@ namespace Transposition
                         mywrap2.Children.Add(txt);   
                     }
                 }
+                
             }
          , null);
         }
