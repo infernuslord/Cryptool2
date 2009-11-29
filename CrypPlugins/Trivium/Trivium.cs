@@ -36,14 +36,9 @@ namespace Cryptool.Trivium
         #endregion
 
         #region Public Variables
-        /*public uint[] a = new uint[93];
-        public uint[] b = new uint[84];
-        public uint[] c = new uint[111]; */
         public List<uint> a = new List<uint>(new uint[93]);
         public List<uint> b = new List<uint>(new uint[84]);
         public List<uint> c = new List<uint>(new uint[111]);
-        //public uint t1, t2, t3;
-        public int masterSlaveRounds = 0;
         #endregion
 
         public Trivium()
@@ -512,12 +507,8 @@ namespace Cryptool.Trivium
                 c[i] = 1;
                 i++;
             }
-            int myRounds;
-            if (masterSlaveRounds != 0)
-                myRounds = masterSlaveRounds;
-            else
-                myRounds = settings.InitRounds;
-            for (i = 0; i < myRounds; i++) // default 1152 = 4 * 288
+            int initRounds = settings.InitRounds;
+            for (i = 0; i < initRounds; i++) // default 1152 = 4 * 288
             {
                 a.Insert(0, c[65] ^ (c[108] & c[109]) ^ c[110] ^ a[68]);
                 b.Insert(0, a[66] ^ (a[91] & a[92]) ^ a[93] ^ b[77]);
@@ -664,69 +655,21 @@ namespace Cryptool.Trivium
     {
         public event IControlStatusChangedEventHandler OnStatusChanged;
         private Trivium plugin;
-        private TriviumSettings pluginSettings;
-
+        
         public CubeAttackControl(Trivium Plugin)
         {
             this.plugin = Plugin;
         }
 
-        public CubeAttackControl(TriviumSettings PluginSettings)
-        {
-            this.pluginSettings = PluginSettings;
-        }
-
         #region IControlEncryption Members
 
-        // here comes the slave side implementation
-        /*public int GenerateTriviumKeystream(int[] IV, int[] key, int length, bool byteSwapping)
-        {
-            string resultString;
-            int resultInt;
-            //pluginSettings.InitRounds = rounds;
-
-            if (key == null)
-            {
-                key = new int[((TriviumSettings)plugin.Settings).InputKey.Length * 4];
-                key = plugin.hextobin(((TriviumSettings)plugin.Settings).InputKey.ToCharArray());
-                // key = new int[] { 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1 };
-            }
-            
-            //plugin.masterSlaveRounds = rounds;
-            plugin.masterSlaveRounds = ((TriviumSettings)plugin.Settings).InitRounds;
-            plugin.initTrivium(IV, key);
-
-            resultString = plugin.keystreamTrivium(length);
-
-            return resultInt = Int32.Parse(resultString.Substring(resultString.Length - 1, 1));
-        }
-        */
-
-        // here comes the slave side implementation
         public int GenerateBlackboxOutputBit(object IV, object key, object length)
         {
-            string resultString;
-            int resultInt;
-
-            // convert from object
-            int[] triviumIV = IV as int[];
-            int[] triviumKey = key as int[];
-            int triviumLength = (int)length;
-
-            if (triviumKey == null)
-            {
-                triviumKey = new int[((TriviumSettings)plugin.Settings).InputKey.Length * 4];
-                triviumKey = plugin.hextobin(((TriviumSettings)plugin.Settings).InputKey.ToCharArray());
-                // key = new int[] { 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1 };
-            }
-
-            //plugin.masterSlaveRounds = rounds;
-            plugin.masterSlaveRounds = ((TriviumSettings)plugin.Settings).InitRounds;
-            plugin.initTrivium(triviumIV, triviumKey);
-
-            resultString = plugin.keystreamTrivium(triviumLength);
-
-            return resultInt = Int32.Parse(resultString.Substring(resultString.Length - 1, 1));
+            if (key == null) // Online phase
+                plugin.initTrivium(IV as int[], plugin.hextobin(((TriviumSettings)plugin.Settings).InputKey.ToCharArray()));
+            else // Preprocessing phase
+                plugin.initTrivium(IV as int[], key as int[]);
+            return Int32.Parse(plugin.keystreamTrivium((int)length).Substring(plugin.keystreamTrivium((int)length).Length - 1, 1));
         }
 
         #endregion
