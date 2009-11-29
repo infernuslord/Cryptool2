@@ -42,7 +42,7 @@ namespace Cryptool.Trivium
         public List<uint> a = new List<uint>(new uint[93]);
         public List<uint> b = new List<uint>(new uint[84]);
         public List<uint> c = new List<uint>(new uint[111]);
-        public uint t1, t2, t3;
+        //public uint t1, t2, t3;
         public int masterSlaveRounds = 0;
         #endregion
 
@@ -376,7 +376,7 @@ namespace Cryptool.Trivium
 
                 int[] IV = new int[IV_string.Length * 4];
                 int[] key = new int[key_string.Length * 4];
-                
+
                 IV = hextobin(IV_string.ToCharArray());
                 key = hextobin(key_string.ToCharArray());
 
@@ -424,7 +424,7 @@ namespace Cryptool.Trivium
                 {
                     keystream = keystreamTrivium(settings.KeystreamLength);
                 }
-                
+
                 DateTime stopTime = DateTime.Now;
                 TimeSpan duration = stopTime - startTime;
 
@@ -462,8 +462,7 @@ namespace Cryptool.Trivium
 
         public void initTrivium(int[] IV, int[] key)
         {
-            int i; //,j;
-
+            int i;
             if (settings.UseByteSwapping)
             {
                 int[] buffer = new int[8];
@@ -475,7 +474,6 @@ namespace Cryptool.Trivium
                     for (int k = 0; k < 8; k++)
                         key[(l * 8) + k] = buffer[k];
                 }
-
                 // Byte-Swapping IV
                 for (int l = 0; l < 10; l++)
                 {
@@ -485,130 +483,83 @@ namespace Cryptool.Trivium
                         IV[(l * 8) + k] = buffer[k];
                 }
             }
-
-	        for (i = 0; i < 80; i++)
+            for (i = 0; i < 80; i++)
             {
-		        a[i] = (uint)key[i]; // hier key rein als binär
+                a[i] = (uint)key[i]; // hier key rein als binär
                 b[i] = (uint)IV[i]; // hier IV rein als binär
                 c[i] = 0;
             }
-	        while (i < 84){
-		        a[i] = 0;
-		        b[i] = 0;
-		        c[i] = 0;
-		        i++;
-	        }
-	        while (i < 93){
-		        a[i] = 0;
-		        c[i] = 0;
-		        i++;
-	        }
-	        while (i < 108){
-		        c[i] = 0;
-		        i++;
-	        }
-            while (i < 111){
-		        c[i] = 1;
-		        i++;
-	        }
-
-            // belegung fertig, jetzt takten ohne output
-            // anzahl der takte laut settings oder lut master/slave
+            while (i < 84)
+            {
+                a[i] = 0;
+                b[i] = 0;
+                c[i] = 0;
+                i++;
+            }
+            while (i < 93)
+            {
+                a[i] = 0;
+                c[i] = 0;
+                i++;
+            }
+            while (i < 108)
+            {
+                c[i] = 0;
+                i++;
+            }
+            while (i < 111)
+            {
+                c[i] = 1;
+                i++;
+            }
             int myRounds;
-
             if (masterSlaveRounds != 0)
                 myRounds = masterSlaveRounds;
             else
                 myRounds = settings.InitRounds;
-
             for (i = 0; i < myRounds; i++) // default 1152 = 4 * 288
             {
-                t1 = a[65] ^ (a[90] & a[91]) ^ a[92] ^ b[77];
-                t2 = b[68] ^ (b[81] & b[82]) ^ b[83] ^ c[86];
-                t3 = c[65] ^ (c[108] & c[109]) ^ c[110] ^ a[68];
-                /*for (j = 92; j > 0; j--)
-                    a[j] = a[j - 1];
-                for (j = 83; j > 0; j--)
-                    b[j] = b[j - 1];
-                for (j = 110; j > 0; j--)
-                    c[j] = c[j - 1]; 
-                a[0] = t3;
-                b[0] = t1;
-                c[0] = t2; */ 
-                a.Insert(0, t3);
-                b.Insert(0, t1);
-                c.Insert(0, t2);
-                a.RemoveAt(a.Count - 1);
-                b.RemoveAt(b.Count - 1);
-                c.RemoveAt(c.Count - 1);
+                a.Insert(0, c[65] ^ (c[108] & c[109]) ^ c[110] ^ a[68]);
+                b.Insert(0, a[66] ^ (a[91] & a[92]) ^ a[93] ^ b[77]);
+                c.Insert(0, b[69] ^ (b[82] & b[83]) ^ b[84] ^ c[86]);
+                a.RemoveAt(93);
+                b.RemoveAt(84);
+                c.RemoveAt(111);
             }
         }
 
         public string keystreamTrivium(int nBits)
         {
-            int i; //, j;
-            uint z;
-
-            string keystreamZ = null;
-            List<int> keyOutput = new List<int>();
-
-            for (i = 0; i < nBits; i++)
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < nBits; i++)
             {
-                /*t1 = a[65] ^ a[92];
-                t2 = b[68] ^ b[83];
-                t3 = c[65] ^ c[110];
-                z = t1 ^ t2 ^ t3; */
-                z = a[65] ^ a[92] ^ b[68] ^ b[83] ^ c[65] ^ c[110];
-
-                if (!settings.UseByteSwapping)
-                    keystreamZ += z;
-                else
-                    keyOutput.Add((int)z);
-
-                t1 = t1 ^ (a[90] & a[91]) ^ b[77];
-                t2 = t2 ^ (b[81] & b[82]) ^ c[86];
-                t3 = t3 ^ (c[108] & c[109]) ^ a[68];
-                /*for (j = 92; j > 0; j--)
-                    a[j] = a[j - 1];
-                for (j = 83; j > 0; j--)
-                    b[j] = b[j - 1];
-                for (j = 110; j > 0; j--)
-                    c[j] = c[j - 1];
-                a[0] = t3;
-                b[0] = t1;
-                c[0] = t2;*/
-                a.Insert(0, t3);
-                b.Insert(0, t1);
-                c.Insert(0, t2);
-                a.RemoveAt(a.Count - 1);
-                b.RemoveAt(b.Count - 1);
-                c.RemoveAt(c.Count - 1);
+                builder.Append((int)(a[65] ^ a[92] ^ b[68] ^ b[83] ^ c[65] ^ c[110]));
+                a.Insert(0, c[65] ^ (c[108] & c[109]) ^ c[110] ^ a[68] ^ (c[108] & c[109]) ^ a[68]);
+                b.Insert(0, a[66] ^ (a[91] & a[92]) ^ a[93] ^ b[77] ^ (a[91] & a[92]) ^ b[77]);
+                c.Insert(0, b[69] ^ (b[82] & b[83]) ^ b[84] ^ c[86] ^ (b[82] & b[83]) ^ c[86]);
+                a.RemoveAt(93);
+                b.RemoveAt(84);
+                c.RemoveAt(111);
             }
-
             if (settings.UseByteSwapping)
             {
                 int[] temp = new int[nBits];
 
                 // Little-Endian für den Keystream
                 for (int k = 0; k < nBits; k++)
-                    temp[k] = keyOutput[k];
+                    temp[k] = builder[k];
                 for (int l = 0; l < nBits / 32; l++)
                 {
                     for (int k = 0; k < 8; k++)
                     {
-                        keyOutput[(l * 32) + k] = (char)temp[(l * 32) + 24 + k];
-                        keyOutput[(l * 32) + 8 + k] = (char)temp[(l * 32) + 16 + k];
-                        keyOutput[(l * 32) + 16 + k] = (char)temp[(l * 32) + 8 + k];
-                        keyOutput[(l * 32) + 24 + k] = (char)temp[(l * 32) + k];
+                        builder[(l * 32) + k] = (char)temp[(l * 32) + 24 + k];
+                        builder[(l * 32) + 8 + k] = (char)temp[(l * 32) + 16 + k];
+                        builder[(l * 32) + 16 + k] = (char)temp[(l * 32) + 8 + k];
+                        builder[(l * 32) + 24 + k] = (char)temp[(l * 32) + k];
                     }
                 }
-                GuiLogMessage(keyOutput.Count.ToString(), NotificationLevel.Info);
-                foreach (int k in keyOutput)
-                {
-                    keystreamZ += k.ToString();
-                }
             }
-            return keystreamZ;
+            return builder.ToString();
         }
 
         public void Encrypt()
