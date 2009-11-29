@@ -108,6 +108,7 @@ namespace Cryptool.Core
 
         private const int ContextLeftOffset = 15;
         private const int ContextRightOffset = 35;
+        private const float MinSimilarity = 0.7f;
 
         public override void Search(string SearchString)
         {
@@ -116,60 +117,78 @@ namespace Cryptool.Core
             var dir = FSDirectory.GetDirectory(IndexPath, false);
             var searcher = new IndexSearcher(dir);
             var parser = new QueryParser(ContentField, new StandardAnalyzer());
-            Query query = parser.Parse(SearchString);
 
-            Hits hits = searcher.Search(query);
-
-            for (int i = 0; i < hits.Length(); i++)
+            foreach (var s in SearchString.Split(new []{' '}))
             {
-                Document doc = hits.Doc(i);
-                var result = new SearchResult { Score = hits.Score(i), Plugin = doc.Get(PluginField) };
+                var query = parser.GetFuzzyQuery(ContentField, s, MinSimilarity);
 
-                //Text des aktuellen Dokuments auslesen
-                string text = doc.Get(ContentField);
-                //Alle indizierten Wörter dieses Dokumentes auslesen
-                var tpv = (TermPositionVector)IndexReader.Open(dir).GetTermFreqVector(hits.Id(i), ContentField);
-                String[] DocTerms = tpv.GetTerms();
-                //Die Anzahl der Erscheinungen aller Wörter auslesen
-                int[] freq = tpv.GetTermFrequencies();
-                //Hier wollen wir nun die Positionen der Erscheinungen des Suchwortes herausfinden
-                for (int t = 0; t < freq.Length; t++)
+                Hits hits = searcher.Search(query);
+
+                for (int i = 0; i < hits.Length(); i++)
                 {
-                    //Falls das Suchwort mit dem aktuellen Wort übereinstimmt...
-                    if (DocTerms[t].Equals(SearchString))
+                    Document doc = hits.Doc(i);
+                    var result = new SearchResult { Score = hits.Score(i), Plugin = doc.Get(PluginField) };
+
+                    //Text des aktuellen Dokuments auslesen
+                    string text = doc.Get(ContentField);
+                    //Alle indizierten Wörter dieses Dokumentes auslesen
+                    var tpv = (TermPositionVector)IndexReader.Open(dir).GetTermFreqVector(hits.Id(i), ContentField);
+                    String[] DocTerms = tpv.GetTerms();
+                    //Die Anzahl der Erscheinungen aller Wörter auslesen
+                    int[] freq = tpv.GetTermFrequencies();
+                    var words = new List<string>(DocTerms);
+                    //Hier wollen wir nun die Positionen der Erscheinungen des Suchwortes herausfinden
+                    for (int t = 0; t < freq.Length; t++)
                     {
-                        //...können wir die Positionen auslesen
-                        TermVectorOffsetInfo[] offsets = tpv.GetOffsets(t);
-                        //Das Array beinhaltet nun für das Suchwort alle Auftreten mit jeweils Anfang und Ende
-                        for (int j = 0; j < offsets.Length; j++)
+                        //Falls das Suchwort mit dem aktuellen Wort übereinstimmt...
+                        if (ContainsSearchString(SearchString, DocTerms[t], words))
                         {
-                            //Jetz muss nur noch ein kleiner Kontextausschnitt ausgelesen werden, damit der User etwas damit anfangen kann
-                            int start = offsets[j].GetStartOffset();
-                            int end = offsets[j].GetEndOffset();
-                            int contextStart = start - ContextLeftOffset;
-                            contextStart = contextStart < 0 ? 0 : contextStart;
-                            int contextEnd = end + ContextRightOffset;
-                            contextEnd = contextEnd > text.Length ? text.Length : contextEnd;
-                            //Nun wollen wir noch bis zum Ende des nächsten Wortes lesen, um das Ergebnis besser lesbar zu machen
-                            int nextEndSpace = text.IndexOf(" ", contextEnd);
-                            contextEnd = nextEndSpace > 0 ? nextEndSpace : contextEnd;
-                            //Maximal so viele Zeichen darf der Text nach einem Leerzeichen links von dem Suchergebnis durchsucht werden
-                            int leftSpaceOffset = contextStart;
-                            //Finden des nächstenLeerzeichens links vom Suchergebnis
-                            int nextStartSpace = text.LastIndexOf(" ", contextStart, leftSpaceOffset);
-                            //Falls es kein Space in der Nöhe gibt brauchen wir natürlich auch nichts verändern
-                            contextStart = nextStartSpace > 0 ? nextStartSpace : contextStart;
-                            int contextLength = contextEnd - contextStart;
-                            contextLength = contextLength > text.Length ? text.Length : contextLength;
-                            //Kontext auslesen
-                            string context = text.Substring(contextStart, contextLength);
-                            //und den Searchresults zusammen mit dem zugehörigen PlugInNamen und dem HitScore hinzufügen
-                            result.Contexts.Add(context);
+                            //...können wir die Positionen auslesen
+                            TermVectorOffsetInfo[] offsets = tpv.GetOffsets(t);
+                            //Das Array beinhaltet nun für das Suchwort alle Auftreten mit jeweils Anfang und Ende
+                            for (int j = 0; j < offsets.Length; j++)
+                            {
+                                //Jetz muss nur noch ein kleiner Kontextausschnitt ausgelesen werden, damit der User etwas damit anfangen kann
+                                int start = offsets[j].GetStartOffset();
+                                int end = offsets[j].GetEndOffset();
+                                int contextStart = start - ContextLeftOffset;
+                                contextStart = contextStart < 0 ? 0 : contextStart;
+                                int contextEnd = end + ContextRightOffset;
+                                contextEnd = contextEnd > text.Length ? text.Length : contextEnd;
+                                //Nun wollen wir noch bis zum Ende des nächsten Wortes lesen, um das Ergebnis besser lesbar zu machen
+                                int nextEndSpace = text.IndexOf(" ", contextEnd);
+                                contextEnd = nextEndSpace > 0 ? nextEndSpace : contextEnd;
+                                //Maximal so viele Zeichen darf der Text nach einem Leerzeichen links von dem Suchergebnis durchsucht werden
+                                int leftSpaceOffset = contextStart;
+                                //Finden des nächstenLeerzeichens links vom Suchergebnis
+                                int nextStartSpace = text.LastIndexOf(" ", contextStart, leftSpaceOffset);
+                                //Falls es kein Space in der Nöhe gibt brauchen wir natürlich auch nichts verändern
+                                contextStart = nextStartSpace > 0 ? nextStartSpace : contextStart;
+                                int contextLength = contextEnd - contextStart;
+                                contextLength = contextLength > text.Length ? text.Length : contextLength;
+                                //Kontext auslesen
+                                string context = text.Substring(contextStart, contextLength);
+                                //und den Searchresults zusammen mit dem zugehörigen PlugInNamen und dem HitScore hinzufügen
+                                result.Contexts.Add(context);
+                            }
                         }
                     }
+                    SearchResults.Add(result);
                 }
-                SearchResults.Add(result);
             }
+        }
+
+        private static bool ContainsSearchString(string searchString, string docTerm, List<string> words)
+        {
+            var searchStrings = searchString.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var s in searchStrings)
+            {
+                var fuzzyWords = new HashSet<string>(FuzzySearch.Search(s, words, MinSimilarity));
+                if (fuzzyWords.Contains(docTerm))
+                    return true;
+            }
+
+            return false;
         }
     }
 }
