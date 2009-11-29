@@ -107,7 +107,7 @@ namespace Transposition
             }
         }
         
-        [PropertyInfo(Direction.InputData, "Keyword", "keyword", "Keyword used for encryption", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Keyword", "keyword", "Keyword used for encryption", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public string Keyword
         {
             get
@@ -1037,6 +1037,13 @@ namespace Transposition
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(msg, this, loglevel));
         }
 
+        public void changeSettings(string setting, object value)
+        {
+            if (setting.Equals("ReadIn")) settings.ReadIn = (int)value;
+            else if (setting.Equals("Permute")) settings.Permutation = (int)value;
+            else if (setting.Equals("ReadOut")) settings.ReadOut = (int)value;
+            
+        }
         # endregion
 
         private IControlEncryption controlSlave;
@@ -1117,6 +1124,16 @@ namespace Transposition
         public void Dispose()
         {
             
+        }
+
+        #endregion
+
+        #region IControlEncryption Member
+
+
+        public void changeSettings(string setting, object value)
+        {
+            plugin.changeSettings(setting, value);
         }
 
         #endregion

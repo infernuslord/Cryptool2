@@ -6,16 +6,21 @@ using Cryptool.PluginBase;
 using System.Windows.Controls;
 using System.ComponentModel;
 using Cryptool.PluginBase.Control;
+using Cryptool.PluginBase.Miscellaneous;
 
 
 namespace TranspositionAnalyser
 {
 
-
     [Author("Daniel Kohnen, Julian Weyers, Simon Malischewski, Armin Wiefels", "kohnen@cryptool.org, weyers@cryptool.org, malischewski@cryptool.org, wiefels@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo(true, "Transposition Analyser", "Bruteforces the columnar transposition.", null, "TranspositionAnalyser/Images/icon.png")]
     public class TranspositionAnalyser : IAnalysisMisc
     {
+        private enum ReadInMode { byRow = 0, byColumn = 1 };
+        private enum PermutationMode { byRow = 0, byColumn = 1 };
+        private enum ReadOutMode { byRow = 0, byColumn = 1 };
+
+
         TranspositionAnalyserSettings settings;
 
         /// <summary>
@@ -114,9 +119,10 @@ namespace TranspositionAnalyser
 
         }
 
+        private Boolean stop;
         public void Stop()
         {
-
+            stop = true;
         }
 
         public void Initialize()
@@ -147,90 +153,57 @@ namespace TranspositionAnalyser
 
         public void process(IControlEncryption sender)
         {
-            switch (settings.Action)
-            {
-                case ((int)TranspositionAnalyserSettings.ActionMode.costfunction):
-                    Output = costfunction_bruteforce(sender);
-                    break;
-                case ((int)TranspositionAnalyserSettings.ActionMode.crib):
-                    Output = crib_bruteforce(sender);
-                    break;
-            }
-
-
+            Output = costfunction_bruteforce(sender);
         }
 
-        private byte[] crib_bruteforce(IControlEncryption sender)
+        private int[] getBruteforceSettings()
         {
-            if (sender != null)
+            int[] set;
+            int sum = 0;
+            if (settings.ColumnColumnColumn) sum++;
+            if (settings.ColumnColumnRow) sum++;
+            if (settings.RowColumnColumn) sum++;
+            if (settings.RowColumnRow) sum++;
+
+            if (sum > 0)
             {
-                String empty_string = "";
-                if ((!settings.Crib.Equals(empty_string)) && !(settings.Crib == null))
+                set = new int[sum];
+                int count = 0;
+                if (settings.ColumnColumnColumn)
                 {
-                    PermutationGenerator per = new PermutationGenerator(2);
-                    String crib = settings.Crib;
-                    byte[] found = null;
-                    int max = 0;
-                    max = settings.MaxLength;
-                    
-                    if (max > 1)
-                    {
-                        long size = 0;
-                        for (int i = 2; i <= max; i++)
-                        {
-                            size = size + per.getFactorial(i);
-                        }
-                        long sum = 0;
-                        for (int i = 0; i <= max; i++)
-                        {
-                            per = new PermutationGenerator(i);
-                            
-                            while (per.hasMore())
-                            {
-                                int[] key = per.getNext();
-                                byte[] b = new byte[key.Length];
-                                for (int j = 0; j < b.Length; j++)
-                                {
-                                    b[j] = Convert.ToByte(key[j]);
-                                }
-                                byte[] dec = sender.Decrypt(b, b.Length);
-                                if (dec != null)
-                                {
-                                    String tmp = System.Text.Encoding.ASCII.GetString(dec);
-                                    if (tmp.Contains(crib))
-                                    {
-                                        found = dec;
-                                    }
-                                }
-                                
-                                sum++;
-                                ProgressChanged(sum, size);
-                            }
-                        }
-                        return found;
-                    }
-                    else
-                    {
-                        GuiLogMessage("Error: Check transposition bruteforce length.", NotificationLevel.Error);
-                        return null;
-                    }
+                    set[count] = 0;
+                    count++;
                 }
-                else
+                if (settings.ColumnColumnRow)
                 {
-                    GuiLogMessage("Invalide Crib", NotificationLevel.Error);
-                    return null;
+                    set[count] = 1;
+                    count++;
                 }
+                if (settings.RowColumnColumn)
+                {
+                    set[count] = 2;
+                    count++;
+                }
+
+                if (settings.RowColumnRow)
+                {
+                    set[count] = 3;
+                    count++;
+                }
+                return set;
             }
             else
             {
-                GuiLogMessage("Sender Error", NotificationLevel.Error);
                 return null;
             }
+
         }
 
         private byte[] costfunction_bruteforce(IControlEncryption sender)
         {
-            if (sender != null && costMaster != null)
+            int[] set = getBruteforceSettings();
+            stop = false;
+            if (sender != null && costMaster != null && set != null)
             {
                 GuiLogMessage("start", NotificationLevel.Info);
                 double best = Double.MinValue;
@@ -241,59 +214,94 @@ namespace TranspositionAnalyser
                 String best_text = "";
                 byte[] best_bytes = null;
 
+
                 //Just for fractional-calculation:
                 PermutationGenerator per = new PermutationGenerator(2);
+
+
                 int max = 0;
                 max = settings.MaxLength;
-                GuiLogMessage("Max: " + max, NotificationLevel.Info);
-                if (max > 1)
+                //GuiLogMessage("Max: " + max, NotificationLevel.Info);
+                if (max > 1 && max < 21)
                 {
                     long size = 0;
                     for (int i = 2; i <= max; i++)
                     {
                         size = size + per.getFactorial(i);
                     }
+                    size = size * set.Length;
                     long sum = 0;
                     for (int i = 0; i <= max; i++)
                     {
-                        per = new PermutationGenerator(i);
-
-                        while (per.hasMore())
+                        // for every selected bruteforce mode:
+                        for (int s = 0; s < set.Length; s++)
                         {
-                            int[] key = per.getNext();
-                            byte[] b = new byte[key.Length];
-                            for (int j = 0; j < b.Length; j++)
+                            switch (set[s])
                             {
-                                b[j] = Convert.ToByte(key[j]);
+                                case (0):
+                                    controlMaster.changeSettings("ReadIn", ReadInMode.byColumn);
+                                    controlMaster.changeSettings("Permute", PermutationMode.byColumn);
+                                    controlMaster.changeSettings("ReadOut", ReadOutMode.byColumn);
+                                    break;
+                                case (1):
+                                    controlMaster.changeSettings("ReadIn", ReadInMode.byColumn);
+                                    controlMaster.changeSettings("Permute", PermutationMode.byColumn);
+                                    controlMaster.changeSettings("ReadOut", ReadOutMode.byRow);
+                                    break;
+                                case (2):
+                                    controlMaster.changeSettings("ReadIn", ReadInMode.byRow);
+                                    controlMaster.changeSettings("Permute", PermutationMode.byColumn);
+                                    controlMaster.changeSettings("ReadOut", ReadOutMode.byColumn);
+                                    break;
+                                case (3):
+                                    controlMaster.changeSettings("ReadIn", ReadInMode.byRow);
+                                    controlMaster.changeSettings("Permute", PermutationMode.byColumn);
+                                    controlMaster.changeSettings("ReadOut", ReadOutMode.byRow);
+                                    break;
                             }
-                            byte[] dec = sender.Decrypt(b, b.Length);
-                            if (dec != null)
+
+                            per = new PermutationGenerator(i);
+
+                            while (per.hasMore() && !stop)
                             {
-                                double val = costMaster.calculateCost(dec);
-                                if (costMaster.getRelationOperator() == RelationOperator.LessThen)
+                                int[] key = per.getNext();
+                                byte[] b = new byte[key.Length];
+                                for (int j = 0; j < b.Length; j++)
                                 {
-                                    if (val < best)
+                                    b[j] = Convert.ToByte(key[j]);
+                                }
+                                byte[] dec = sender.Decrypt(b, b.Length);
+                                if (dec != null)
+                                {
+                                    double val = costMaster.calculateCost(dec);
+                                    if (costMaster.getRelationOperator() == RelationOperator.LessThen)
                                     {
-                                        best = val;
-                                        best_text = System.Text.Encoding.ASCII.GetString(dec);
-                                        best_bytes = dec;
+                                        if (val < best)
+                                        {
+                                            best = val;
+                                            best_text = System.Text.Encoding.ASCII.GetString(dec);
+                                            best_bytes = dec;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (val > best)
+                                        {
+                                            best = val;
+                                            best_text = System.Text.Encoding.ASCII.GetString(dec);
+                                            best_bytes = dec;
+                                        }
                                     }
                                 }
-                                else
+
+
+                                sum++;
+                                if (sum % 1000 == 0)
                                 {
-                                    if (val > best)
-                                    {
-                                        best = val;
-                                        best_text = System.Text.Encoding.ASCII.GetString(dec);
-                                        best_bytes = dec;
-                                    }
+                                    ProgressChanged(sum, size);
                                 }
+
                             }
-                            else
-                            {
-                            }
-                            sum++;
-                            ProgressChanged(sum, size);
                         }
                     }
                     GuiLogMessage("ENDE " + best + ": " + best_text, NotificationLevel.Info);
@@ -301,7 +309,7 @@ namespace TranspositionAnalyser
                 }
                 else
                 {
-                    GuiLogMessage("Error: Check transposition bruteforce length.", NotificationLevel.Error);
+                    GuiLogMessage("Error: Check transposition bruteforce length. Max length is 20!", NotificationLevel.Error);
                     return null;
                 }
             }
@@ -311,8 +319,6 @@ namespace TranspositionAnalyser
                 return null;
             }
         }
-
-
 
         #endregion
 

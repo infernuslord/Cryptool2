@@ -644,5 +644,15 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
         #endregion
+
+        #region IControlEncryption Member
+
+
+        void IControlEncryption.changeSettings(string setting, object value)
+        {
+
+        }
+
+        #endregion
     }
 }

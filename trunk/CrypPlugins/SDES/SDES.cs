@@ -694,6 +694,16 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
         #endregion
+
+        #region IControlEncryption Member
+
+
+        public void changeSettings(string setting, object value)
+        {
+
+        }
+
+        #endregion
     }
        
     /// <summary>
