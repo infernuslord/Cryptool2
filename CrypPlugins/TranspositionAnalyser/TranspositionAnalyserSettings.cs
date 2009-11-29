@@ -13,26 +13,11 @@ namespace TranspositionAnalyser
 
         #region ISettings Member
 
-        private int selectedAction = 0;
-        public enum ActionMode { costfunction = 0, crib = 1 };
-        [PropertySaveOrder(1)]
-        [ContextMenu("Action", "Select the analyse algorithm", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new string[] { "Bruteforce with Cost function", "Bruteforce for crib"})]
-        [TaskPane("Action", "Select the analyse algorithm", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Bruteforce with Cost function", "Bruteforce for crib" })]
-        public int Action
-        {
-            get { return this.selectedAction; }
-            set
-            {
-                if (value != selectedAction) HasChanges = true;
-                this.selectedAction = value;
-                OnPropertyChanged("Action");
-            }
-        }
 
         // FIX: REGEX 
         private int bruteforce_length = 8;
         [PropertySaveOrder(2)]
-        [TaskPaneAttribute("Transposition Bruteforce length", "Enter the max length to be bruteforced", null, 2, true, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
+        [TaskPaneAttribute("Transposition Bruteforce length", "Enter the max length to be bruteforced (max: 20)", null, 2, true, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
         public int MaxLength
         {
             get { return bruteforce_length; }
@@ -42,18 +27,67 @@ namespace TranspositionAnalyser
             }
         }
 
-
-        private String crib = "";
+        private Boolean row_colum_column = true;
         [PropertySaveOrder(3)]
-        [TaskPaneAttribute("Crib:", "Enter the crib to be searched for", null, 3, true, DisplayLevel.Beginner, ControlType.TextBox)]
-        public String Crib
+        [ContextMenu("Bruteforce Row-Column-Column", "Bruteforce this transposition settings: Read in by row. Permute by column. Read out by Column", 4, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, "Row-Column-Column")]
+        [TaskPane("Bruteforce Row-Column-Column", "Bruteforce this transposition settings: Read in by row. Permute by column. Read out by Column", null, 4, false, DisplayLevel.Expert, ControlType.CheckBox, "")]
+        public bool RowColumnColumn
         {
-            get { return crib; }
+            get { return this.row_colum_column; }
             set
             {
-                crib = value;
+                if (value != this.row_colum_column) HasChanges = true;
+                this.row_colum_column= value;
+                OnPropertyChanged("RowColumnColumn");
             }
         }
+
+        private Boolean row_colum_row = true;
+        [PropertySaveOrder(4)]
+        [ContextMenu("Bruteforce Row-Column-Row", "Bruteforce this transposition settings: Read in by row. Permute by column. Read out by Row", 4, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, "Row-Column-Column")]
+        [TaskPane("Bruteforce Row-Column-Row", "Bruteforce this transposition settings: Read in by row. Permute by column. Read out by Row", null, 4, false, DisplayLevel.Expert, ControlType.CheckBox, "")]
+        public bool RowColumnRow
+        {
+            get { return this.row_colum_row; }
+            set
+            {
+                if (value != this.row_colum_row) HasChanges = true;
+                this.row_colum_row = value;
+                OnPropertyChanged("RowColumnRow");
+            }
+        }
+
+
+        private Boolean column_colum_row = true;
+        [PropertySaveOrder(5)]
+        [ContextMenu("Bruteforce Column-Column-Row", "Bruteforce this transposition settings: Read in by column. Permute by column. Read out by Row", 4, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, "Row-Column-Column")]
+        [TaskPane("Bruteforce Column-Column-Row", "Bruteforce this transposition settings: Read in by column. Permute by column. Read out by Row", null, 4, false, DisplayLevel.Expert, ControlType.CheckBox, "")]
+        public bool ColumnColumnRow
+        {
+            get { return this.column_colum_row; }
+            set
+            {
+                if (value != this.column_colum_row) HasChanges = true;
+                this.column_colum_row = value;
+                OnPropertyChanged("ColumnColumnRow");
+            }
+        }
+
+        private Boolean column_colum_column = true;
+        [PropertySaveOrder(6)]
+        [ContextMenu("Bruteforce Column-Column-Column", "Bruteforce this transposition settings: Read in by column. Permute by column. Read out by column", 4, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, "Row-Column-Column")]
+        [TaskPane("Bruteforce Column-Column-Column", "Bruteforce this transposition settings: Read in by column. Permute by column. Read out by column", null, 4, false, DisplayLevel.Expert, ControlType.CheckBox, "")]
+        public bool ColumnColumnColumn
+        {
+            get { return this.column_colum_column; }
+            set
+            {
+                if (value != this.column_colum_column) HasChanges = true;
+                this.column_colum_column = value;
+                OnPropertyChanged("ColumnColumnColumn");
+            }
+        }
+
 
         public bool HasChanges
         {
