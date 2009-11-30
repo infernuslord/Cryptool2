@@ -380,11 +380,11 @@ namespace KeySearcher
          * The parts shouldn't be larger than 'partsize'.
          * Do not call this before initializing the key.
          **/
-        public ArrayList makeKeySearcherPool(BigInteger partsize)
+        public List<KeyPattern> makeKeySearcherPool(BigInteger partsize)
         {
             if (size() > partsize)
             {
-                ArrayList p1, p2;
+                List<KeyPattern> p1, p2;
                 KeyPattern[] patterns = split();
                 p1 = patterns[0].makeKeySearcherPool(partsize);
                 p2 = patterns[1].makeKeySearcherPool(partsize);
@@ -393,10 +393,15 @@ namespace KeySearcher
             }
             else
             {
-                ArrayList p = new ArrayList();
+                List<KeyPattern> p = new List<KeyPattern>();
                 p.Add(this);
                 return p;
             }
+        }
+
+        public List<KeyPattern> makeKeySearcherPool(long partsize)
+        {
+            return makeKeySearcherPool(new BigInteger(partsize));
         }
 
     }
