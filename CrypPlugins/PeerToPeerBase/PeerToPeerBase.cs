@@ -225,9 +225,8 @@ namespace Cryptool.Plugins.PeerToPeer
             if (this.dht != null)
             {
                 this.dht.BeginStop(null);
-                this.overlay.BeginStop(null);
-                this.linkmanager.BeginStop(null);
-                this.bootstrapper.Dispose();
+                //don't stop anything else, because BOOM
+
                 //wait till systemLeft Event is invoked
                 this.systemLeft.WaitOne();
             }
