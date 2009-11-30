@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{612FEE87-F51F-4BE6-81D1-F91EA4A5DD43}</ProjectGuid>
+    <ProjectGuid>{81A16361-0F1F-4A82-9B52-E14759C3FEFD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Cryptool.Plugins.PeerToPeer</RootNamespace>
-    <AssemblyName>PeerToPeerSubscriber</AssemblyName>
+    <AssemblyName>PeerToPeerManager</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -41,8 +41,6 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -56,28 +54,32 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="P2PSubscriber.cs" />
-    <Compile Include="P2PSubscriberBase.cs" />
-    <Compile Include="P2PSubscriberSettings.cs" />
+    <Compile Include="P2PManager.cs" />
+    <Compile Include="P2PManagerBase.cs" />
+    <Compile Include="P2PManagerSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WorkersManagement.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\KeySearcher\KeySearcher.csproj">
+      <Project>{0579E099-66B2-43C3-B8A0-43CAE4895E68}</Project>
+      <Name>KeySearcher</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PeerToPeerBase\PeerToPeerBase.csproj">
       <Project>{A7CD30E7-5381-40CF-BB78-268EC998CCB3}</Project>
       <Name>PeerToPeerBase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PeerToPeerPublisher\PeerToPeerPublisher.csproj">
+      <Project>{A1E7F287-DFC1-44C2-A681-C62DF46B43C5}</Project>
+      <Name>PeerToPeerPublisher</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="ct2_p2p_sub_medium.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\..\DA workspace\Bilder\SubscriberBase.cd">
-      <Link>SubscriberBase.cd</Link>
-    </None>
+    <Resource Include="ct2_p2p_pub_medium.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

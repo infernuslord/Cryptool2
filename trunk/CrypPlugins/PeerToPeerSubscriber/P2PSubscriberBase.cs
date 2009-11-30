@@ -7,6 +7,8 @@ using Cryptool.PluginBase;
 using System.Threading;
 
 /*
+ * All Subscriber functions work problem-free!
+ * 
  * IDEAS:
  * - Publisher takes subscriber list out of the DHT and registered 
  *   itself with all subscribers pro-active (handle Register-Msg in Subscriber!)
@@ -174,12 +176,8 @@ namespace Cryptool.Plugins.PeerToPeer
                     OnGuiMessage("RECEIVED: Message from '" + sourceAddr.stringId
                     + "' with data: '" + sData + "'", NotificationLevel.Info);
 
-
                     if (OnTextArrivedFromPublisher != null)
                         OnTextArrivedFromPublisher(sData, sourceAddr);
-                    //Outputvalue = sData;
-
-
 
                     break;
                 case PubSubMessageType.Alive:
