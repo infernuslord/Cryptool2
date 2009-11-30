@@ -94,14 +94,14 @@ namespace Transposition
             DoubleAnimation fadeIn = new DoubleAnimation();
             fadeIn.From = 0.0;
             fadeIn.To = 1.0;
-            fadeIn.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+            fadeIn.Duration = new Duration(TimeSpan.FromMilliseconds((1001 - speed)*4));
 
             
 
             DoubleAnimation fadeOut = new DoubleAnimation();
-            fadeOut.From = 0.0;
-            fadeOut.To = 1.0;
-            fadeOut.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+            fadeOut.From = 1.0;
+            fadeOut.To = 0.0;
+            fadeOut.Duration = new Duration(TimeSpan.FromMilliseconds((1001 - speed)*4));
 
             if (act == 0)
                     {
@@ -224,6 +224,7 @@ namespace Transposition
                     {
                         if (i == permuted_matrix.GetLength(0) - 1 && outcount5 == permuted_matrix.GetLength(1) - 1 && !Stop)
                         {
+                            myColorAnimation.Completed += new EventHandler(the_End);
                             no = false;
                         }
                     }
@@ -234,6 +235,7 @@ namespace Transposition
                         {
                             if (i == permuted_matrix.GetLength(1) - 1 && outcount5 == permuted_matrix.GetLength(0) - 1 && !Stop)
                             {
+                                myColorAnimation.Completed += new EventHandler(the_End);
                                 no = false;
                             }
                         }
@@ -445,8 +447,6 @@ namespace Transposition
             mywrap1.Children.Clear();
             mywrap2.Children.Clear();
 
-          
-
             outcount = 0;           
 
             schleife = 0;
@@ -526,6 +526,11 @@ namespace Transposition
         {
             if (!Stop)
                 sort(schleife);
+        }
+
+        private void the_End(object sender, EventArgs e)
+        {
+            Stack.BeginAnimation(OpacityProperty, fadeOut);
         }
 
         private void my_Completed(object sender, EventArgs e)
@@ -989,7 +994,7 @@ namespace Transposition
                         txt.FontWeight = FontWeights.ExtraBold;
                         txt.TextAlignment = TextAlignment.Center;
                         txt.Width = 17;
-                        txt.Opacity = 0.0;
+                       // txt.Opacity = 0.0;
                         
                         if (per == 1)
                         {
@@ -997,7 +1002,7 @@ namespace Transposition
                             Grid.SetColumn(txt, i);
                             myGrid.Children.Add(txt);
                             teba[i, 0] = txt;
-                            teba[i, 0].BeginAnimation(TextBlock.OpacityProperty,fadeIn);                            
+                            //teba[i, 0].BeginAnimation(TextBlock.OpacityProperty,fadeIn);                            
                         }
                         else                         
                         {
@@ -1005,7 +1010,7 @@ namespace Transposition
                             Grid.SetColumn(txt, 0);
                             myGrid.Children.Add(txt);
                             teba[0, i] = txt;
-                            teba[0, i].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
+                            //teba[0, i].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
                         }
                     }
                     
@@ -1085,12 +1090,12 @@ namespace Transposition
                         txt.Text = Convert.ToChar(input[i]).ToString();
                         reina[i] = txt;
                         reina[i].Background = Brushes.Transparent;
-                        reina[i].Opacity = 0.0;
+                        //reina[i].Opacity = 0.0;
                         mywrap1.Children.Add(txt);
-                        if (i == input.Length-1)
-                            { fadeIn.Completed += new EventHandler(my_Help3); }
-                        if (!Stop)
-                        reina[i].BeginAnimation(TextBlock.OpacityProperty,fadeIn);
+                       // if (i == input.Length-1)
+                         //   { fadeIn.Completed += new EventHandler(my_Help3); }
+                        //if (!Stop)
+                       // reina[i].BeginAnimation(TextBlock.OpacityProperty,fadeIn);
                     }
 
                     reouta = new TextBlock[output.Length];
@@ -1106,7 +1111,10 @@ namespace Transposition
                         mywrap2.Children.Add(txt);   
                     }
                 }
-                
+
+                fadeIn.Completed += new EventHandler(my_Help3);
+                if(!Stop)
+                Stack.BeginAnimation(OpacityProperty, fadeIn);
             }
          , null);
         }

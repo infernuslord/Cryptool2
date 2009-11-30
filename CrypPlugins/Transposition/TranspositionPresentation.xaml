@@ -7,7 +7,7 @@
     VerticalAlignment="Stretch"
     Height="Auto" Width="Auto">
     <Canvas>
-        <StackPanel  Width="Auto" Height="Auto" Name="Stack" Orientation="Vertical">
+        <StackPanel Width="Auto" Height="Auto" Name="Stack" Orientation="Vertical" Opacity="0.0">
             <StackPanel Orientation="Horizontal" Name="mainGrid" Height="Auto" Width="Auto"  VerticalAlignment="Center">
 
                
