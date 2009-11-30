@@ -32,7 +32,7 @@ namespace Cryptool.Plugins.CostFunction
         private String bytesToUse = "256";
         #endregion
         
-        [TaskPane("FunctionType", "Select the type of function", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Index of coincidence", "Entropy", "Bigrams: log 2", "Bigrams: Sinkov", "Bigrams: Percentaged", "Relative Bigram Frequency" })]
+        [TaskPane("FunctionType", "Select the type of function", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Index of coincidence", "Entropy", "Bigrams: log 2", "Bigrams: Sinkov", "Bigrams: Percentaged", "Contains"})]
         public int FunctionType
         {
             get { return this.functionType; }
@@ -54,6 +54,22 @@ namespace Cryptool.Plugins.CostFunction
             {
                 bytesToUse = value;
                 OnPropertyChanged("bytesToUse");
+            }
+        }
+
+
+        private string contains;
+        [TaskPane("Contains text", "Text checked for.", null, 5, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        public String Contains
+        {
+            get
+            {
+                return contains;
+            }
+            set
+            {
+                contains = value;
+                OnPropertyChanged("contains");
             }
         }
 

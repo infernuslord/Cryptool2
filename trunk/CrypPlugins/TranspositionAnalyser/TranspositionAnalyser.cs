@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.ComponentModel;
 using Cryptool.PluginBase.Control;
 using Cryptool.PluginBase.Miscellaneous;
+using System.Collections;
 
 
 namespace TranspositionAnalyser
@@ -96,7 +97,8 @@ namespace TranspositionAnalyser
 
         public UserControl QuickWatchPresentation
         {
-            get { return null; }
+            get;
+            private set;
         }
 
         public void PreExecution()
@@ -213,6 +215,7 @@ namespace TranspositionAnalyser
                 }
                 String best_text = "";
                 byte[] best_bytes = null;
+                ArrayList list = null;
 
 
                 //Just for fractional-calculation:
@@ -274,10 +277,25 @@ namespace TranspositionAnalyser
                                 if (dec != null)
                                 {
                                     double val = costMaster.calculateCost(dec);
+                                    if(val.Equals(new Double()))
+                                    {
+                                     return new byte[0];   
+                                    }
                                     if (costMaster.getRelationOperator() == RelationOperator.LessThen)
                                     {
-                                        if (val < best)
+                                        if (val == best)
                                         {
+                                            if (list == null)
+                                            {
+                                                list = new ArrayList();
+                                                list.Add(best_text);
+                                            }
+                                            list.Add(System.Text.Encoding.ASCII.GetString(dec));
+                                        }
+
+                                        else if (val < best)
+                                        {
+                                            list = null;
                                             best = val;
                                             best_text = System.Text.Encoding.ASCII.GetString(dec);
                                             best_bytes = dec;
@@ -285,8 +303,19 @@ namespace TranspositionAnalyser
                                     }
                                     else
                                     {
-                                        if (val > best)
+                                        if (val == best)
                                         {
+                                            if (list == null)
+                                            {
+                                                list = new ArrayList();
+                                                list.Add(best_text);
+                                            }
+                                            list.Add(System.Text.Encoding.ASCII.GetString(dec));
+                                        }
+
+                                        else if (val > best)
+                                        {
+                                            list = null;
                                             best = val;
                                             best_text = System.Text.Encoding.ASCII.GetString(dec);
                                             best_bytes = dec;
@@ -304,7 +333,18 @@ namespace TranspositionAnalyser
                             }
                         }
                     }
-                    GuiLogMessage("ENDE " + best + ": " + best_text, NotificationLevel.Info);
+                    if (list != null)
+                    {
+                        int i = 1;
+                        foreach (string tmp in list)
+                        {
+                            GuiLogMessage("ENDE (" + i++ + ")" + best + ": " + tmp,NotificationLevel.Info);
+                        }
+                    }
+                    else
+                    {
+                        GuiLogMessage("ENDE " + best + ": " + best_text, NotificationLevel.Info);
+                    }
                     return best_bytes;
                 }
                 else
