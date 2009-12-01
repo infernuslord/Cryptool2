@@ -14,7 +14,7 @@ namespace TranspositionAnalyser
 {
 
     [Author("Daniel Kohnen, Julian Weyers, Simon Malischewski, Armin Wiefels", "kohnen@cryptool.org, weyers@cryptool.org, malischewski@cryptool.org, wiefels@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(true, "Transposition Analyser", "Bruteforces the columnar transposition.", null, "TranspositionAnalyser/Images/icon.png")]
+    [PluginInfo(true, "Transposition Analyser", "Bruteforces the columnar transposition.", "TranspositionAnalyser/Description/TADescr.xaml" , "TranspositionAnalyser/Images/icon.png")]
     public class TranspositionAnalyser : IAnalysisMisc
     {
         private enum ReadInMode { byRow = 0, byColumn = 1 };
