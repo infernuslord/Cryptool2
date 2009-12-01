@@ -90,6 +90,29 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\CostFunctionDeutsch.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\Enigma_1gram_Frequency.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\2gram.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\Enigma_3gram_Frequency.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\2gram.txt.metainfo" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -102,8 +125,9 @@
     <PostBuildEvent>cd "$(ProjectDir)"
 cd ..\..\CrypWin\$(OutDir)
 if not exist "./CrypPlugins" mkdir "./CrypPlugins"
-
+if not exist "./Data/transposition" mkdir "./Data/transposition"
 del /F /S /Q /s /q "CostFunction*.*"
-copy "$(TargetDir)CostFunction*.*" "./CrypPlugins"</PostBuildEvent>
+copy "$(TargetDir)CostFunction*.*" "./CrypPlugins"
+copy "$(ProjectDir)Data\*.*" "./Data/transposition"</PostBuildEvent>
   </PropertyGroup>
 </Project>
