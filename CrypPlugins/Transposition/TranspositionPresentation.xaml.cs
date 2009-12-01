@@ -37,9 +37,9 @@ namespace Transposition
             this.Stack.RenderTransform = new ScaleTransform(this.ActualWidth / this.Stack.ActualWidth,
                                                        this.ActualHeight / this.Stack.ActualHeight);
         }
-        
 
-        
+        #region variables declaration
+
         private TextBlock[,] teba;
         private int von;
         private int nach;
@@ -69,6 +69,8 @@ namespace Transposition
         private DoubleAnimation fadeIn;
         private DoubleAnimation fadeOut;
         private int[] key;
+
+        #endregion
 
         /// <summary>
         /// Getter of the Speed the Visualisation is running
@@ -132,6 +134,9 @@ namespace Transposition
                 Stop = true;
 
             textBox2.Clear();
+
+       
+            
             if (per == 1  )
                 {
                    
@@ -200,64 +205,346 @@ namespace Transposition
             }, null);
         }
 
-        private void postReadOut() 
-        { 
-            ColorAnimation myColorAnimation = new ColorAnimation();
-            myColorAnimation.From = Colors.Orange;
-            myColorAnimation.To = Colors.Transparent;
-            myColorAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
-            Boolean no = true;
+        #region create
 
-            if (reouta != null)
-            {  
+        /// <summary>
+        /// method for creating the grid
+        /// </summary>
+        /// <param name="read_in_matrix"></param>
+        /// <param name="permuted_matrix"></param>
+        /// <param name="key"></param>
+        /// <param name="keyword"></param>
+        /// <param name="input"></param>
+        /// <param name="output"></param>
+        public void create(byte[,] read_in_matrix, byte[,] permuted_matrix, int[] key, String keyword, byte[] input, byte[] output)
+        {
+            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                if (read_in_matrix != null && key != null)
+                {
+                    myGrid.Children.Clear();
+                    myGrid.RowDefinitions.Clear();
+                    myGrid.ColumnDefinitions.Clear();
+                    textBox1.Clear();
+                    textBox2.Clear();
+                    mywrap1.Children.Clear();
+                    mywrap2.Children.Clear();
+
+                    //OLO
+                    if (rein == 0) { textBox2.Text = "status: reading in by row"; }
+                    else { textBox2.Text = "status: reading in by column"; }
+                    
+                    
+                    teba = new TextBlock[read_in_matrix.GetLength(0) + rowper, read_in_matrix.GetLength(1) + colper];
+
+                    for (int i = 0; i < read_in_matrix.GetLength(0) + rowper;i++ )
+                    {
+                       myGrid.ColumnDefinitions.Add(new ColumnDefinition());
+                    }
+                    for (int i = 0; i < read_in_matrix.GetLength(1) + colper; i++)
+                    {                        
+                        myGrid.RowDefinitions.Add(new RowDefinition());
+                    }                  
+
+                    for (int i = 0; i < key.Length; i++)
+                    {
+                                         
+                        
+                        TextBlock txt = new TextBlock();
+                        String s = key[i].ToString();
+                        
+                        txt.VerticalAlignment = VerticalAlignment.Center;
+                        if (act == 0)
+                            txt.Text = s;
+                        else
+                            txt.Text = "" + (i + 1);
+                        txt.FontSize = 12;
+                        txt.FontWeight = FontWeights.ExtraBold;
+                        txt.TextAlignment = TextAlignment.Center;
+                        txt.Width = 17;
+                       // txt.Opacity = 0.0;
+                        
+                        if (per == 1)
+                        {
+                            Grid.SetRow(txt, 0);
+                            Grid.SetColumn(txt, i);
+                            myGrid.Children.Add(txt);
+                            teba[i, 0] = txt;
+                            //teba[i, 0].BeginAnimation(TextBlock.OpacityProperty,fadeIn);                            
+                        }
+                        else                         
+                        {
+                            Grid.SetRow(txt, i);
+                            Grid.SetColumn(txt, 0);
+                            myGrid.Children.Add(txt);
+                            teba[0, i] = txt;
+                            //teba[0, i].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
+                        }
+                    }
+                    
+                    if (keyword != null)
+                    {                        
+                        char[] ch = keyword.ToCharArray();
+                        if (act == 1)
+                            Array.Sort(ch);
+                        if (!keyword.Contains(','))
+                            for (int i = 0; i < key.Length; i++)
+                            {
+                                TextBlock txt = new TextBlock();
+                                txt.VerticalAlignment = VerticalAlignment.Center;
+                                txt.Text = ch[i].ToString();
+                                txt.FontSize = 12;
+                                txt.FontWeight = FontWeights.ExtraBold;
+                                txt.TextAlignment = TextAlignment.Center;
+                                txt.Width = 17;
+
+                                if (per == 1)
+                                {
+                                    Grid.SetRow(txt, 1);
+                                    Grid.SetColumn(txt, i);
+                                    myGrid.Children.Add(txt);
+                                    teba[i, 1] = txt;
+                                    //teba[i, 1].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
+                                }
+                                else
+                                {
+                                    Grid.SetRow(txt, i);
+                                    Grid.SetColumn(txt, 1);
+                                    myGrid.Children.Add(txt);
+                                    teba[1, i] = txt;
+                                    //teba[1, i].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
+                                }
+                            }
+                        else
+                        {
+                            for (int i = 0; i < key.Length; i++)
+                            {
+                                TextBlock txt = new TextBlock();
+                                txt.Height = 0;
+                                txt.Width = 0;
+                                if (per == 1)
+                                {
+                                    Grid.SetRow(txt, 1);
+                                    Grid.SetColumn(txt, i);
+                                    myGrid.Children.Add(txt);
+                                    teba[i, 1] = txt;
+                                    //teba[i, 1].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
+                                }
+                                else
+                                {
+                                    Grid.SetRow(txt, i);
+                                    Grid.SetColumn(txt, 1);
+                                    myGrid.Children.Add(txt);
+                                    teba[1, i] = txt;
+                                    //teba[1, i].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
+                                }
+                            }
+                        }
+                       
+                    }
+                    mat_back = new Brush[read_in_matrix.GetLength(0), read_in_matrix.GetLength(1)];
+                    for (int i = 0; i < read_in_matrix.GetLength(1); i++)
+                    {                       
+                        int x = 0;
+                        if (i % 2 == 0)
+                            x = 1;
+                        for (int ix = 0; ix < read_in_matrix.GetLength(0); ix++)
+                        {
+                            TextBlock txt = new TextBlock();
+                            txt.VerticalAlignment = VerticalAlignment.Center;
+                            if (Convert.ToInt64(read_in_matrix[ix, i]) != 0)
+                                txt.Text = Convert.ToChar(read_in_matrix[ix, i]).ToString();
+                            else
+                                txt.Text = "";
+                            if (ix % 2 == x)
+                                    mat_back[ix,i]= Brushes.AliceBlue;
+                            else
+                                mat_back[ix,i] = Brushes.LawnGreen;
+                            txt.Background = Brushes.Yellow;
+                            txt.FontSize = 12;
+                            txt.Opacity = 1.0;
+                            txt.FontWeight = FontWeights.ExtraBold;
+                            txt.TextAlignment = TextAlignment.Center;
+                            txt.Width = 17;
+
+                            Grid.SetRow(txt, (i + colper));
+                            Grid.SetColumn(txt, (ix + rowper));
+                            myGrid.Children.Add(txt);
+                            teba[(ix + rowper), (i + colper)] = txt;
+                            teba[(ix + rowper), (i + colper)].Opacity = 0.0;
+                        }
+                    }
+                    if (input.Length >= key.Length)
+                   reina = new TextBlock[input.Length];
+                    else
+                        reina = new TextBlock[key.Length];
+
+                    for (int i = 0; i < input.Length; i++)
+                    {
+                        TextBlock txt = new TextBlock();
+                        txt.FontSize = 12;
+                        txt.FontWeight = FontWeights.ExtraBold;
+                        txt.Text = Convert.ToChar(input[i]).ToString();
+                        reina[i] = txt;
+                        reina[i].Background = Brushes.Transparent;
+                        //reina[i].Opacity = 0.0;
+                        mywrap1.Children.Add(txt);
+                       // if (i == input.Length-1)
+                         //   { fadeIn.Completed += new EventHandler(my_Help3); }
+                        //if (!Stop)
+                       // reina[i].BeginAnimation(TextBlock.OpacityProperty,fadeIn);
+                    }
+                    if (input.Length < key.Length)
+                    {
+                        for (int i = input.Length; i < key.Length; i++)
+                        {
+                            TextBlock txt = new TextBlock();
+                            txt.FontSize = 12;
+                            txt.FontWeight = FontWeights.ExtraBold;
+                            txt.Text = "";
+                            reina[i] = txt;
+                            reina[i].Background = Brushes.Transparent;
+                            //reina[i].Opacity = 0.0;
+                            mywrap1.Children.Add(txt);
+                        }
+                    }
+
+                    reouta = new TextBlock[output.Length];
+                    for (int i = 0; i < output.Length; i++)
+                    {
+                        TextBlock txt = new TextBlock();
+                        txt.FontSize = 12;
+                        txt.FontWeight = FontWeights.ExtraBold;
+                        txt.Text = Convert.ToChar(output[i]).ToString();
+                        reouta[i] = txt;
+                        reouta[i].Background = Brushes.Orange;
+                        reouta[i].Opacity = 0.0;
+                        mywrap2.Children.Add(txt);   
+                    }
+                }
+                
+                fadeIn.Completed += new EventHandler(my_Help3);
+                if(!Stop)
+                Stack.BeginAnimation(OpacityProperty, fadeIn);
+                
+            }
+         , null);
+        }
+        #endregion
+
+        #region readIn
+
+        /// <summary>
+        /// coloranimation for the text in the left wrapper to be "eaten out" and getting marked
+        /// </summary>
+        public void preReadIn()
+        {
+
+            ColorAnimation myColorAnimation = new ColorAnimation();
+            myColorAnimation.From = Colors.Transparent;
+            myColorAnimation.To = Colors.Orange;
+            myColorAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+            if (reina != null)
+            {
                 SolidColorBrush brush = new SolidColorBrush();
                 brush.Color = Colors.Transparent;
 
-                for (int i = precountup; i < countup1; i++)
+                if (rein == 0)
                 {
-                   reouta[i].Background = brush;
-                }
-                              
-                if (reout == 0)
-                {                   
-                    for (int i = 0; i < permuted_matrix.GetLength(0); i++)
+                    for (int i = 0; i < read_in_matrix.GetLength(0); i++)
                     {
-                        if (i == permuted_matrix.GetLength(0) - 1 && outcount5 == permuted_matrix.GetLength(1) - 1 && !Stop)
+                        if (Convert.ToInt64(read_in_matrix[i, outcount2]) != 0)
                         {
-                            myColorAnimation.Completed += new EventHandler(the_End);
-                            no = false;
+                            reina[countup].Background = brush;
+                            countup++;
                         }
                     }
                 }
                 else
                 {
-                        for (int i = 0; i < permuted_matrix.GetLength(1); i++)
+                    for (int i = 0; i < read_in_matrix.GetLength(1); i++)
+                    {
+                        if (Convert.ToInt64(read_in_matrix[outcount2, i]) != 0)
                         {
-                            if (i == permuted_matrix.GetLength(1) - 1 && outcount5 == permuted_matrix.GetLength(0) - 1 && !Stop)
-                            {
-                                myColorAnimation.Completed += new EventHandler(the_End);
-                                no = false;
-                            }
+                            reina[countup].Background = brush;
+                            countup++;
                         }
+                    }
                 }
-
-                if (no)
-                myColorAnimation.Completed += new EventHandler(my_Help7);
+                myColorAnimation.Completed += new EventHandler(my_Help4);
                 if (!Stop)
                     brush.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation);
             }
         }
+        /// <summary>
+        /// method for fading text out from the left wrapper and fading into the grid (where it's already in but transparent)
+        /// </summary>
+        public void readIn()
+        {
+            DoubleAnimation fadeIn = new DoubleAnimation();
+            fadeIn.From = 0.0;
+            fadeIn.To = 1.0;
+            fadeIn.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
 
-        private void preReadOut()
+            DoubleAnimation myFadeOut = new DoubleAnimation();
+            myFadeOut.From = 1.0;
+            myFadeOut.To = 0.0;
+            myFadeOut.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+            for (int i = 0; i < countup; i++)
+            {
+                if (reina[i].Opacity != 0.0)
+                    reina[i].BeginAnimation(TextBlock.OpacityProperty, myFadeOut);
+            }
+            if (teba != null)
+            {
+                if (rein == 0)
+                {
+                    for (int i = rowper; i < teba.GetLength(0); i++)
+                    {
+                        if (i == teba.GetLength(0) - 1 && outcount1 < teba.GetLength(1) - 1 && !Stop)
+                        {
+                            fadeIn.Completed += new EventHandler(my_Help2);
+                        }
+                        teba[i, outcount1].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
+                        if (i == teba.GetLength(0) - 1 && outcount1 == teba.GetLength(1) - 1 && !Stop)
+                        {
+                            postReadIn();
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = colper; i < teba.GetLength(1); i++)
+                    {
+                        if (i == teba.GetLength(1) - 1 && outcount1 < teba.GetLength(0) - 1 && !Stop)
+                        {
+                            fadeIn.Completed += new EventHandler(my_Help2);
+                        }
+                        teba[outcount1, i].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
+                        try
+                        {
+                            textBox1.Text = textBox1.Text.Remove(0, 1);
+                        }
+                        catch (ArgumentOutOfRangeException) { }
+                        if (i == teba.GetLength(1) - 1 && outcount1 == teba.GetLength(0) - 1 && !Stop)
+                        { postReadIn(); }
+                    }
+                }
+            }
+        }
+
+        public void postReadIn()
         {
             ColorAnimation myColorAnimation_green = new ColorAnimation();
-            myColorAnimation_green.From = Colors.LawnGreen;
-            myColorAnimation_green.To = Colors.Yellow;
+            myColorAnimation_green.From = Colors.Yellow;
+            myColorAnimation_green.To = Colors.LawnGreen;
             myColorAnimation_green.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
 
             ColorAnimation myColorAnimation_blue = new ColorAnimation();
-            myColorAnimation_blue.From = Colors.AliceBlue;
-            myColorAnimation_blue.To = Colors.Yellow;
+            myColorAnimation_blue.From = Colors.Yellow;
+            myColorAnimation_blue.To = Colors.AliceBlue;
             myColorAnimation_blue.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
 
             SolidColorBrush brush_green = new SolidColorBrush();
@@ -265,17 +552,25 @@ namespace Transposition
 
             if (teba != null)
             {
-                if (reout == 0)
-                {                    
+                if (rein == 0)
+                {
+                    Boolean no = true;
                     for (int i = rowper; i < teba.GetLength(0); i++)
                     {
-                        if (mat_back[i - rowper, outcount4 - colper] == Brushes.LawnGreen)
-                            teba[i, outcount4].Background = brush_green;
+                        if (mat_back[i - rowper, outcount3 - colper] == Brushes.LawnGreen)
+                            teba[i, outcount3].Background = brush_green;
                         else
-                            teba[i, outcount4].Background = brush_blue;                       
-                    }                    
-                        myColorAnimation_green.Completed += new EventHandler(my_Help6);
-                                        
+                            teba[i, outcount3].Background = brush_blue;
+                        if (i == teba.GetLength(0) - 1 && outcount3 == teba.GetLength(1) - 1 && !Stop)
+                        {
+                            sort(schleife);
+                            no = false;
+                        }
+                    }
+                    if (no)
+                    {
+                        myColorAnimation_green.Completed += new EventHandler(my_Help5);
+                    }
                     if (!Stop)
                     {
                         brush_green.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_green);
@@ -283,90 +578,45 @@ namespace Transposition
                     }
                 }
                 else
-                {                    
+                {
+                    Boolean no = true;
                     for (int i = colper; i < teba.GetLength(1); i++)
                     {
-                        if (mat_back[outcount4 - rowper, i - colper] == Brushes.LawnGreen)
-                            teba[outcount4, i].Background = brush_green;
+                        if (mat_back[outcount3 - rowper, i - colper] == Brushes.LawnGreen)
+                            teba[outcount3, i].Background = brush_green;
                         else
-                            teba[outcount4, i].Background = brush_blue;
+                            teba[outcount3, i].Background = brush_blue;
+                        if (i == teba.GetLength(1) - 1 && outcount3 == teba.GetLength(0) - 1 && !Stop)
+                        {
+                            sort(schleife);
+                            no = false;
+                        }
                     }
-                   
-                        myColorAnimation_blue.Completed += new EventHandler(my_Help6);
+                    if (no)
+                        myColorAnimation_blue.Completed += new EventHandler(my_Help5);
                     if (!Stop)
                     {
                         brush_blue.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_blue);
                         brush_green.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_green);
-
-                    }
-                }
-            }
-
-        }
-        
-        public void readout()
-        {
-            DoubleAnimation myDoubleAnimation = new DoubleAnimation();
-            myDoubleAnimation.From = 1.0;
-            myDoubleAnimation.To = 0.0;
-            myDoubleAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(1001-speed));
-
-            DoubleAnimation fadeIn = new DoubleAnimation();
-            fadeIn.From = 0.0;
-            fadeIn.To = 1.0;
-            fadeIn.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));                  
-
-            if (teba != null)
-            {
-                if (reout == 1)
-                {
-                    for (int i = 0; i < permuted_matrix.GetLength(1); i++)
-                    {
-                        if (Convert.ToInt64(permuted_matrix[outcount5, i]) != 0)
-                            {
-                                reouta[countup1].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
-                                countup1++;
-                            }    
-                    }
-
-                    for (int i = colper; i < teba.GetLength(1); i++)
-                    {
-                        if (i == teba.GetLength(1) - 1 && !Stop)
-                        {
-                            myDoubleAnimation.Completed += new EventHandler(my_Help1);
-                        }
-                        teba[outcount, i].BeginAnimation(TextBlock.OpacityProperty, myDoubleAnimation);
-
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < permuted_matrix.GetLength(0); i++)
-                    {
-                        if (Convert.ToInt64(permuted_matrix[ i,outcount5]) != 0)
-                            {
-                                reouta[countup1].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
-                                countup1++;
-                            }                               
-                    }
-
-                    for (int i = rowper; i < teba.GetLength(0); i++)
-                    {
-                        if (i == teba.GetLength(0) - 1 && !Stop)
-                        {
-                            myDoubleAnimation.Completed += new EventHandler(my_Help1);
-                        }
-                        teba[i, outcount].BeginAnimation(TextBlock.OpacityProperty, myDoubleAnimation);
                     }
                 }
             }
         }
+
+        #endregion
+
+        #region sorting
+
         /// <summary>
         /// (Insertion Sort) algorithm for sorting the rows OR columns by index during the permutationphase
         /// </summary>
         /// <param name="i"></param>
         public void sort(int i)
         {
+            //OLOo
+            if (per == 0) { textBox2.Text = "status: permuting by row"; }
+            else { textBox2.Text = "status: permuting by column"; }
+
             if (per == 1)
             {
                 if (teba != null && key != null)
@@ -442,7 +692,7 @@ namespace Transposition
                                 int s = 0;
                                 for (int ix = i + 1; ix < teba.GetLength(1); ix++)
                                 {
-                                    if (Convert.ToInt32(teba[ 0,ix].Text) == i + 1)
+                                    if (Convert.ToInt32(teba[0, ix].Text) == i + 1)
                                     {
                                         s = ix;
                                     }
@@ -469,7 +719,7 @@ namespace Transposition
                                 int s = 0;
                                 for (int ix = i + 1; ix < teba.GetLength(1); ix++)
                                 {
-                                    if (Convert.ToInt32(teba[ 0,ix].Text) == key[i])
+                                    if (Convert.ToInt32(teba[0, ix].Text) == key[i])
                                     {
                                         s = ix;
                                     }
@@ -492,6 +742,184 @@ namespace Transposition
 
             }
         }
+
+        #endregion
+
+        #region readouts
+
+        private void postReadOut() 
+        { 
+            ColorAnimation myColorAnimation = new ColorAnimation();
+            myColorAnimation.From = Colors.Orange;
+            myColorAnimation.To = Colors.Transparent;
+            myColorAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+            Boolean no = true;
+
+            if (reouta != null)
+            {  
+                SolidColorBrush brush = new SolidColorBrush();
+                brush.Color = Colors.Transparent;
+
+                for (int i = precountup; i < countup1; i++)
+                {
+                   reouta[i].Background = brush;
+                }
+                              
+                if (reout == 0)
+                {                   
+                    for (int i = 0; i < permuted_matrix.GetLength(0); i++)
+                    {
+                        if (i == permuted_matrix.GetLength(0) - 1 && outcount5 == permuted_matrix.GetLength(1) - 1 && !Stop)
+                        {
+                            myColorAnimation.Completed += new EventHandler(the_End);
+                            no = false;
+                        }
+                    }
+                }
+                else
+                {
+                        for (int i = 0; i < permuted_matrix.GetLength(1); i++)
+                        {
+                            if (i == permuted_matrix.GetLength(1) - 1 && outcount5 == permuted_matrix.GetLength(0) - 1 && !Stop)
+                            {
+                                myColorAnimation.Completed += new EventHandler(the_End);
+                                no = false;
+                            }
+                        }
+                }
+
+                if (no)
+                myColorAnimation.Completed += new EventHandler(my_Help7);
+                if (!Stop)
+                    brush.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation);
+            }
+
+            //OLO hier falsch
+            //textBox2.Text = "status: accomplished";
+        }
+
+        private void preReadOut()
+        {
+            ColorAnimation myColorAnimation_green = new ColorAnimation();
+            myColorAnimation_green.From = Colors.LawnGreen;
+            myColorAnimation_green.To = Colors.Yellow;
+            myColorAnimation_green.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+            ColorAnimation myColorAnimation_blue = new ColorAnimation();
+            myColorAnimation_blue.From = Colors.AliceBlue;
+            myColorAnimation_blue.To = Colors.Yellow;
+            myColorAnimation_blue.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+            SolidColorBrush brush_green = new SolidColorBrush();
+            SolidColorBrush brush_blue = new SolidColorBrush();
+
+            if (teba != null)
+            {
+                if (reout == 0)
+                {                    
+                    for (int i = rowper; i < teba.GetLength(0); i++)
+                    {
+                        if (mat_back[i - rowper, outcount4 - colper] == Brushes.LawnGreen)
+                            teba[i, outcount4].Background = brush_green;
+                        else
+                            teba[i, outcount4].Background = brush_blue;                       
+                    }                    
+                        myColorAnimation_green.Completed += new EventHandler(my_Help6);
+                                        
+                    if (!Stop)
+                    {
+                        brush_green.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_green);
+                        brush_blue.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_blue);
+                    }
+                }
+                else
+                {                    
+                    for (int i = colper; i < teba.GetLength(1); i++)
+                    {
+                        if (mat_back[outcount4 - rowper, i - colper] == Brushes.LawnGreen)
+                            teba[outcount4, i].Background = brush_green;
+                        else
+                            teba[outcount4, i].Background = brush_blue;
+                    }
+                   
+                        myColorAnimation_blue.Completed += new EventHandler(my_Help6);
+                    if (!Stop)
+                    {
+                        brush_blue.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_blue);
+                        brush_green.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_green);
+
+                    }
+                }
+            }
+
+        }
+        
+        public void readout()
+        {
+            //OLO?
+            if (reout == 0) { textBox2.Text = "status: reading out by row"; }
+            else { textBox2.Text = "status: reading out by column"; }
+
+            DoubleAnimation myDoubleAnimation = new DoubleAnimation();
+            myDoubleAnimation.From = 1.0;
+            myDoubleAnimation.To = 0.0;
+            myDoubleAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(1001-speed));
+
+            DoubleAnimation fadeIn = new DoubleAnimation();
+            fadeIn.From = 0.0;
+            fadeIn.To = 1.0;
+            fadeIn.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));                  
+
+            if (teba != null)
+            {
+                if (reout == 1)
+                {
+                    for (int i = 0; i < permuted_matrix.GetLength(1); i++)
+                    {
+                        if (Convert.ToInt64(permuted_matrix[outcount5, i]) != 0)
+                            {
+                                reouta[countup1].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
+                                countup1++;
+                            }    
+                    }
+
+                    for (int i = colper; i < teba.GetLength(1); i++)
+                    {
+                        if (i == teba.GetLength(1) - 1 && !Stop)
+                        {
+                            myDoubleAnimation.Completed += new EventHandler(my_Help1);
+                        }
+                        teba[outcount, i].BeginAnimation(TextBlock.OpacityProperty, myDoubleAnimation);
+
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < permuted_matrix.GetLength(0); i++)
+                    {
+                        if (Convert.ToInt64(permuted_matrix[ i,outcount5]) != 0)
+                            {
+                                reouta[countup1].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
+                                countup1++;
+                            }                               
+                    }
+
+                    for (int i = rowper; i < teba.GetLength(0); i++)
+                    {
+                        if (i == teba.GetLength(0) - 1 && !Stop)
+                        {
+                            myDoubleAnimation.Completed += new EventHandler(my_Help1);
+                        }
+                        teba[i, outcount].BeginAnimation(TextBlock.OpacityProperty, myDoubleAnimation);
+                    }
+                }
+            }        
+        }
+
+        #endregion
+
+        #region events
+
         /// <summary>
         /// "emergengy break" 
         /// </summary>
@@ -702,6 +1130,10 @@ namespace Transposition
             }, null);
         }
 
+        #endregion 
+
+        #region animations   
+        
         public void preani(int von, int nach) 
         {
             this.von = von;
@@ -967,391 +1399,10 @@ namespace Transposition
                     }
                 }
         }
-        /// <summary>
-        /// coloranimation for the text in the left wrapper to be "eaten out" and getting marked
-        /// </summary>
-        public void preReadIn()
-        {
-            
-            ColorAnimation myColorAnimation = new ColorAnimation();
-            myColorAnimation.From = Colors.Transparent;
-            myColorAnimation.To = Colors.Orange;
-            myColorAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
 
-            if (reina != null)
-            {
-                SolidColorBrush brush = new SolidColorBrush();
-                brush.Color = Colors.Transparent;
+        #endregion 
 
-                if (rein == 0)
-                {
-                    for (int i = 0; i < read_in_matrix.GetLength(0); i++)
-                    {
-                        if (Convert.ToInt64(read_in_matrix[ i,outcount2]) != 0)
-                        {
-                            reina[countup].Background = brush;
-                            countup++;
-                        }
-                    }
-                }                
-                else
-                    {
-                        for (int i = 0; i < read_in_matrix.GetLength(1); i++)
-                        {
-                            if (Convert.ToInt64(read_in_matrix[outcount2, i]) != 0)
-                            {
-                                reina[countup].Background = brush;
-                                countup++;
-                            }
-                        }
-                    }
-                myColorAnimation.Completed += new EventHandler(my_Help4);
-                if (!Stop)
-                brush.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation);                
-            }
-        }
-        /// <summary>
-        /// method for fading text out from the left wrapper and fading into the grid (where it's already in but transparent)
-        /// </summary>
-        public void readIn()
-        {
-            DoubleAnimation fadeIn = new DoubleAnimation();
-            fadeIn.From = 0.0;
-            fadeIn.To = 1.0;
-            fadeIn.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
-
-            DoubleAnimation myFadeOut = new DoubleAnimation();
-            myFadeOut.From = 1.0;
-            myFadeOut.To = 0.0;
-            myFadeOut.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
-
-            for (int i = 0; i < countup; i++)
-            {
-                    if(reina[i].Opacity!=0.0)  
-                    reina[i].BeginAnimation(TextBlock.OpacityProperty, myFadeOut);                 
-            }
-                if (teba != null)
-                {
-                    if (rein == 0)
-                    {
-                        for (int i = rowper; i < teba.GetLength(0); i++)
-                        {
-                            if (i == teba.GetLength(0) - 1 && outcount1 < teba.GetLength(1) - 1 && !Stop)
-                            {
-                                fadeIn.Completed += new EventHandler(my_Help2);
-                            }
-                            teba[i, outcount1].BeginAnimation(TextBlock.OpacityProperty, fadeIn);                            
-                            if (i == teba.GetLength(0) - 1 && outcount1 == teba.GetLength(1) - 1 && !Stop)
-                            {
-                                postReadIn();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        for (int i = colper; i < teba.GetLength(1); i++)
-                        {
-                            if (i == teba.GetLength(1) - 1 && outcount1 < teba.GetLength(0) - 1 && !Stop)
-                            {
-                                fadeIn.Completed += new EventHandler(my_Help2);
-                            }
-                            teba[outcount1, i].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
-                            try
-                            {
-                                textBox1.Text = textBox1.Text.Remove(0, 1);
-                            }
-                            catch (ArgumentOutOfRangeException) { }
-                            if (i == teba.GetLength(1) - 1 && outcount1 == teba.GetLength(0) - 1 && !Stop)
-                            { postReadIn(); }
-                        }
-                    }
-                }
-        }
-
-        public void postReadIn()
-        {
-            ColorAnimation myColorAnimation_green = new ColorAnimation();
-            myColorAnimation_green.From = Colors.Yellow;
-            myColorAnimation_green.To = Colors.LawnGreen;
-            myColorAnimation_green.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
-
-            ColorAnimation myColorAnimation_blue = new ColorAnimation();
-            myColorAnimation_blue.From = Colors.Yellow;
-            myColorAnimation_blue.To = Colors.AliceBlue;
-            myColorAnimation_blue.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
-
-            SolidColorBrush brush_green = new SolidColorBrush();
-            SolidColorBrush brush_blue = new SolidColorBrush();
-
-            if (teba != null)
-            {
-                if (rein == 0)
-                {
-                    Boolean no = true;
-                    for (int i = rowper; i < teba.GetLength(0); i++)
-                    {
-                        if (mat_back[i-rowper, outcount3-colper] == Brushes.LawnGreen)
-                            teba[i, outcount3].Background = brush_green;
-                        else
-                            teba[i, outcount3].Background = brush_blue;
-                        if (i == teba.GetLength(0) - 1 && outcount3 == teba.GetLength(1) - 1 && !Stop)
-                        {
-                            sort(schleife);
-                            no = false;
-                        }
-                    }
-                    if (no)
-                    {
-                        myColorAnimation_green.Completed += new EventHandler(my_Help5);                       
-                    }
-                    if (!Stop)
-                    {
-                        brush_green.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_green);
-                        brush_blue.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_blue);
-                    }
-                }
-                else
-                {
-                    Boolean no = true;
-                    for (int i = colper; i < teba.GetLength(1); i++)
-                    {
-                        if (mat_back[outcount3 - rowper, i - colper] == Brushes.LawnGreen)
-                            teba[ outcount3, i].Background = brush_green;
-                        else
-                            teba[outcount3, i].Background = brush_blue;
-                        if (i == teba.GetLength(1) - 1 && outcount3 == teba.GetLength(0) - 1 && !Stop)
-                        {
-                            sort(schleife);
-                            no = false;
-                        }
-                    }
-                    if (no)
-                        myColorAnimation_blue.Completed += new EventHandler(my_Help5);
-                    if (!Stop)
-                    {
-                        brush_blue.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_blue);
-                        brush_green.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_green);
-                    }
-                }
-            }
-        }
-        /// <summary>
-        /// method for creating the grid
-        /// </summary>
-        /// <param name="read_in_matrix"></param>
-        /// <param name="permuted_matrix"></param>
-        /// <param name="key"></param>
-        /// <param name="keyword"></param>
-        /// <param name="input"></param>
-        /// <param name="output"></param>
-        public void create(byte[,] read_in_matrix, byte[,] permuted_matrix, int[] key, String keyword, byte[] input, byte[] output)
-        {
-            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            {
-                if (read_in_matrix != null && key != null)
-                {
-                    myGrid.Children.Clear();
-                    myGrid.RowDefinitions.Clear();
-                    myGrid.ColumnDefinitions.Clear();
-                    textBox1.Clear();
-                    textBox2.Clear();
-                    mywrap1.Children.Clear();
-                    mywrap2.Children.Clear();
-                    
-                    teba = new TextBlock[read_in_matrix.GetLength(0) + rowper, read_in_matrix.GetLength(1) + colper];
-
-                    for (int i = 0; i < read_in_matrix.GetLength(0) + rowper;i++ )
-                    {
-                       myGrid.ColumnDefinitions.Add(new ColumnDefinition());
-                    }
-                    for (int i = 0; i < read_in_matrix.GetLength(1) + colper; i++)
-                    {                        
-                        myGrid.RowDefinitions.Add(new RowDefinition());
-                    }                  
-
-                    for (int i = 0; i < key.Length; i++)
-                    {
-                                         
-                        
-                        TextBlock txt = new TextBlock();
-                        String s = key[i].ToString();
-                        
-                        txt.VerticalAlignment = VerticalAlignment.Center;
-                        if (act == 0)
-                            txt.Text = s;
-                        else
-                            txt.Text = "" + (i + 1);
-                        txt.FontSize = 12;
-                        txt.FontWeight = FontWeights.ExtraBold;
-                        txt.TextAlignment = TextAlignment.Center;
-                        txt.Width = 17;
-                       // txt.Opacity = 0.0;
-                        
-                        if (per == 1)
-                        {
-                            Grid.SetRow(txt, 0);
-                            Grid.SetColumn(txt, i);
-                            myGrid.Children.Add(txt);
-                            teba[i, 0] = txt;
-                            //teba[i, 0].BeginAnimation(TextBlock.OpacityProperty,fadeIn);                            
-                        }
-                        else                         
-                        {
-                            Grid.SetRow(txt, i);
-                            Grid.SetColumn(txt, 0);
-                            myGrid.Children.Add(txt);
-                            teba[0, i] = txt;
-                            //teba[0, i].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
-                        }
-                    }
-                    
-                    if (keyword != null)
-                    {                        
-                        char[] ch = keyword.ToCharArray();
-                        if (act == 1)
-                            Array.Sort(ch);
-                        if (!keyword.Contains(','))
-                            for (int i = 0; i < key.Length; i++)
-                            {
-                                TextBlock txt = new TextBlock();
-                                txt.VerticalAlignment = VerticalAlignment.Center;
-                                txt.Text = ch[i].ToString();
-                                txt.FontSize = 12;
-                                txt.FontWeight = FontWeights.ExtraBold;
-                                txt.TextAlignment = TextAlignment.Center;
-                                txt.Width = 17;
-
-                                if (per == 1)
-                                {
-                                    Grid.SetRow(txt, 1);
-                                    Grid.SetColumn(txt, i);
-                                    myGrid.Children.Add(txt);
-                                    teba[i, 1] = txt;
-                                    //teba[i, 1].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
-                                }
-                                else
-                                {
-                                    Grid.SetRow(txt, i);
-                                    Grid.SetColumn(txt, 1);
-                                    myGrid.Children.Add(txt);
-                                    teba[1, i] = txt;
-                                    //teba[1, i].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
-                                }
-                            }
-                        else
-                        {
-                            for (int i = 0; i < key.Length; i++)
-                            {
-                                TextBlock txt = new TextBlock();
-                                txt.Height = 0;
-                                txt.Width = 0;
-                                if (per == 1)
-                                {
-                                    Grid.SetRow(txt, 1);
-                                    Grid.SetColumn(txt, i);
-                                    myGrid.Children.Add(txt);
-                                    teba[i, 1] = txt;
-                                    //teba[i, 1].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
-                                }
-                                else
-                                {
-                                    Grid.SetRow(txt, i);
-                                    Grid.SetColumn(txt, 1);
-                                    myGrid.Children.Add(txt);
-                                    teba[1, i] = txt;
-                                    //teba[1, i].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
-                                }
-                            }
-                        }
-                       
-                    }
-                    mat_back = new Brush[read_in_matrix.GetLength(0), read_in_matrix.GetLength(1)];
-                    for (int i = 0; i < read_in_matrix.GetLength(1); i++)
-                    {                       
-                        int x = 0;
-                        if (i % 2 == 0)
-                            x = 1;
-                        for (int ix = 0; ix < read_in_matrix.GetLength(0); ix++)
-                        {
-                            TextBlock txt = new TextBlock();
-                            txt.VerticalAlignment = VerticalAlignment.Center;
-                            if (Convert.ToInt64(read_in_matrix[ix, i]) != 0)
-                                txt.Text = Convert.ToChar(read_in_matrix[ix, i]).ToString();
-                            else
-                                txt.Text = "";
-                            if (ix % 2 == x)
-                                    mat_back[ix,i]= Brushes.AliceBlue;
-                            else
-                                mat_back[ix,i] = Brushes.LawnGreen;
-                            txt.Background = Brushes.Yellow;
-                            txt.FontSize = 12;
-                            txt.Opacity = 1.0;
-                            txt.FontWeight = FontWeights.ExtraBold;
-                            txt.TextAlignment = TextAlignment.Center;
-                            txt.Width = 17;
-
-                            Grid.SetRow(txt, (i + colper));
-                            Grid.SetColumn(txt, (ix + rowper));
-                            myGrid.Children.Add(txt);
-                            teba[(ix + rowper), (i + colper)] = txt;
-                            teba[(ix + rowper), (i + colper)].Opacity = 0.0;
-                        }
-                    }
-                    if (input.Length >= key.Length)
-                   reina = new TextBlock[input.Length];
-                    else
-                        reina = new TextBlock[key.Length];
-
-                    for (int i = 0; i < input.Length; i++)
-                    {
-                        TextBlock txt = new TextBlock();
-                        txt.FontSize = 12;
-                        txt.FontWeight = FontWeights.ExtraBold;
-                        txt.Text = Convert.ToChar(input[i]).ToString();
-                        reina[i] = txt;
-                        reina[i].Background = Brushes.Transparent;
-                        //reina[i].Opacity = 0.0;
-                        mywrap1.Children.Add(txt);
-                       // if (i == input.Length-1)
-                         //   { fadeIn.Completed += new EventHandler(my_Help3); }
-                        //if (!Stop)
-                       // reina[i].BeginAnimation(TextBlock.OpacityProperty,fadeIn);
-                    }
-                    if (input.Length < key.Length)
-                    {
-                        for (int i = input.Length; i < key.Length; i++)
-                        {
-                            TextBlock txt = new TextBlock();
-                            txt.FontSize = 12;
-                            txt.FontWeight = FontWeights.ExtraBold;
-                            txt.Text = "";
-                            reina[i] = txt;
-                            reina[i].Background = Brushes.Transparent;
-                            //reina[i].Opacity = 0.0;
-                            mywrap1.Children.Add(txt);
-                        }
-                    }
-
-                    reouta = new TextBlock[output.Length];
-                    for (int i = 0; i < output.Length; i++)
-                    {
-                        TextBlock txt = new TextBlock();
-                        txt.FontSize = 12;
-                        txt.FontWeight = FontWeights.ExtraBold;
-                        txt.Text = Convert.ToChar(output[i]).ToString();
-                        reouta[i] = txt;
-                        reouta[i].Background = Brushes.Orange;
-                        reouta[i].Opacity = 0.0;
-                        mywrap2.Children.Add(txt);   
-                    }
-                }
-                
-                fadeIn.Completed += new EventHandler(my_Help3);
-                if(!Stop)
-                Stack.BeginAnimation(OpacityProperty, fadeIn);
-                
-            }
-         , null);
-        }
+    
+        
     }
 }
