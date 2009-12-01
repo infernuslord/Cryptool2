@@ -104,6 +104,31 @@ namespace Cryptool.MD5.Algorithm
                     return StateHistory[CurrentStateNumber - 1];
             }
         }
+		
+        /// <summary>
+        /// Returns the next state by retrieving it from history or performing the next algorithm step without changing the current state
+        /// </summary>
+        /// <seealso cref="PresentableMD5State"/>
+        public PresentableMD5State NextState
+        {
+            get
+            {
+				if (IsInFinishedState)
+					return CurrentState;
+                
+				if (!HistoryHasMoreStates)
+                {
+                	PresentableMD5State previousState = CurrentState;
+                	AddNewState();
+                	PerformStep(previousState, CurrentState);
+					
+            		CurrentStateNumber--;
+            		CurrentState = StateHistory[CurrentStateNumber];
+				}
+				
+				return StateHistory[CurrentStateNumber + 1];
+            }
+        }
 
         /// <summary>
         /// Delegate for status changed handlers
@@ -137,6 +162,7 @@ namespace Cryptool.MD5.Algorithm
         {
             OnPropChanged("CurrentState");
             OnPropChanged("LastState");
+			OnPropChanged("NextState");
             OnPropChanged("CurrentStateNumber");
             OnPropChanged("IsInFinishedState");
             OnPropChanged("HashValueBytes");

@@ -1,14 +1,24 @@
-﻿<UserControl x:Class="Cryptool.MD5.Presentation.States.StartingCompressionPresentation"
+﻿<UserControl
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:displays="clr-namespace:Cryptool.MD5.Presentation.Displays"
-    Height="360" Width="628">
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Class="Cryptool.MD5.Presentation.States.StartingCompressionPresentation"
+    Height="400" Width="800" mc:Ignorable="d">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="StyleDictionary.xaml"/>
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
     <Grid>
-        <TextBlock Height="21" Margin="12,12,12,0" Name="textBlock1" VerticalAlignment="Top" Text="We now start the compression function for our next data block," />
-        <displays:DataBlockDisplay Data="{Binding CurrentState.CurrentDataBlock}" Height="38" Margin="12,39,12,0" VerticalAlignment="Top" />
-        <TextBlock Height="43" Margin="12,83,12,0" Name="textBlock2" Text="The compression function operates on 32 bit integers. There are 4 temporary variables A, B, C and D, which are permutated during the compression. They are initialized with the values from H1 - H4." VerticalAlignment="Top" TextWrapping="Wrap" />
-        <displays:HashAccumulatorDisplay DataContext="{Binding CurrentState}" Margin="12,132,0,0" Height="34" HorizontalAlignment="Left" VerticalAlignment="Top" Width="272" />
-        <displays:CompressionVariableDisplay DataContext="{Binding CurrentState}" Margin="0,132,12,0" Height="34" HorizontalAlignment="Right" VerticalAlignment="Top" Width="272" />
-        <Label Margin="290,132,290,0" Name="label1" Height="34" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">>>></Label>
+        <TextBlock Height="33" Margin="8,8,8,0" x:Name="textBlock1" VerticalAlignment="Top" Text="We now start the compression function for our next data block," Style="{DynamicResource textBlockStyle}" />
+        <displays:DataBlockDisplay Data="{Binding CurrentState.CurrentDataBlock}" Height="30" Margin="8,45,8,0" VerticalAlignment="Top" />
+        <TextBlock Margin="8,79,8,0" x:Name="textBlock2" TextWrapping="Wrap" Style="{DynamicResource textBlockStyle}" VerticalAlignment="Top" Height="85" ><Run Text="The compression function operates on 32 bit integers. There are 4 temporary variables A, B, C and D, which are "/><Run Text="used "/><Run Text="during the compression. "/><Run Text="We initialize them "/><Run Text="with the values from H1 - H4"/><Run Text=":"/></TextBlock>
+        <displays:HashAccumulatorDisplay DataContext="{Binding CurrentState}" Margin="8,180,0,175" HorizontalAlignment="Left" Width="350" />
+        <displays:CompressionVariableDisplay DataContext="{Binding NextState}" Margin="0,180,8,175" HorizontalAlignment="Right" Width="350" />
+        <Label Margin="364,180,356,175" x:Name="label1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Style="{DynamicResource labelStyle}" Content="&gt;&gt;&gt;"/>
+    	<TextBlock Margin="8,0,8,98.7" x:Name="textBlock2_Copy" TextWrapping="Wrap" Style="{DynamicResource textBlockStyle}" VerticalAlignment="Bottom" Height="35" ><Run Text="We also split our "/><Run Text="512 bit "/><Run Text="data block into 16 "/><Run Text="little-endian "/><Run Text="integers"/><Run Text=", each "/><Run Text="32 bit:"/></TextBlock>
+    	<displays:DataIntegerDisplay Margin="8,0,8,8" VerticalAlignment="Bottom" Height="86.7" DataContext="{Binding NextState.DataAsIntegers}"/>
     </Grid>
 </UserControl>
