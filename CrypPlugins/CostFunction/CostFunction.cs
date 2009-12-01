@@ -25,6 +25,7 @@ using Cryptool.PluginBase.Analysis;
 using System.ComponentModel;
 using Cryptool.PluginBase.Control;
 using System.IO;
+using System.Text.RegularExpressions;
 namespace Cryptool.Plugins.CostFunction
 {
     [Author("Nils Kopal", "Nils.Kopal@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
@@ -44,7 +45,7 @@ namespace Cryptool.Plugins.CostFunction
 
 
         private IDictionary<int, IDictionary<string, double[]>> statistics;
-     
+
         #endregion
         #region internal constants
         internal const int ABSOLUTE = 0;
@@ -63,7 +64,7 @@ namespace Cryptool.Plugins.CostFunction
             }
             set
             {
-                this.inputText = value;                
+                this.inputText = value;
                 OnPropertyChanged("InputText");
             }
         }
@@ -77,7 +78,7 @@ namespace Cryptool.Plugins.CostFunction
             }
             set
             {
-                this.outputText = value;                
+                this.outputText = value;
                 OnPropertyChanged("OutputText");
             }
         }
@@ -95,7 +96,7 @@ namespace Cryptool.Plugins.CostFunction
                 OnPropertyChanged("Value");
             }
         }
-                
+
         [PropertyInfo(Direction.ControlSlave, "SDES Slave", "Direct access to SDES.", "", DisplayLevel.Beginner)]
         public IControlCost ControlSlave
         {
@@ -105,7 +106,7 @@ namespace Cryptool.Plugins.CostFunction
                     controlSlave = new CostFunctionControl(this);
                 return controlSlave;
             }
-        }  
+        }
 
         #endregion
 
@@ -113,7 +114,7 @@ namespace Cryptool.Plugins.CostFunction
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
-        
+
 
         public ISettings Settings
         {
@@ -172,7 +173,7 @@ namespace Cryptool.Plugins.CostFunction
                     array = this.InputText;
                 }
 
-                ProgressChanged(0.5, 1); 
+                ProgressChanged(0.5, 1);
                 bigramInput = ByteArrayToString(array);
                 switch (settings.FunctionType)
                 {
@@ -186,31 +187,34 @@ namespace Cryptool.Plugins.CostFunction
                         break;
 
                     case 2: // Log 2 Bigrams
-                        this.Value = calculateNGrams(bigramInput,2,2);
+                        this.Value = calculateNGrams(bigramInput, 2, 2);
                         break;
 
                     case 3: // sinkov Bigrams
-                        this.Value = calculateNGrams(bigramInput,2,3);
+                        this.Value = calculateNGrams(bigramInput, 2, 3);
                         break;
                     case 4: //percentaged Bigrams
-                        this.Value = calculateNGrams(bigramInput,2,1);
+                        this.Value = calculateNGrams(bigramInput, 2, 1);
                         break;
                     case 5: //contains
                         this.Value = contains(bigramInput);
+                        break;
+                    case 6: //regular expressions
+                        this.Value = regex(bigramInput);
                         break;
                     default:
                         this.Value = -1;
                         break;
                 }//end switch               
- 
+
                 this.OutputText = this.InputText;
-                ProgressChanged(1, 1);    
+                ProgressChanged(1, 1);
 
             }//end if
-            
+
         }//end Execute
-        
-        
+
+
         public void PostExecution()
         {
             this.stopped = true;
@@ -218,7 +222,7 @@ namespace Cryptool.Plugins.CostFunction
 
         public void Pause()
         {
-           
+
         }
 
         public void Stop()
@@ -233,10 +237,10 @@ namespace Cryptool.Plugins.CostFunction
 
         public void Dispose()
         {
-            
+
         }
 
-        #endregion      
+        #endregion
 
         #region INotifyPropertyChanged Members
 
@@ -267,19 +271,47 @@ namespace Cryptool.Plugins.CostFunction
 
         #region private methods
 
+
         public double contains(string input)
         {
             if (settings.Contains == null)
             {
-                GuiLogMessage("There is no text to be searched for. Please insert text in the 'Contains text' - Textarea", NotificationLevel.Error);
+                GuiLogMessage("There is no text to be searched for. Please insert text in the 'Contains text / Regular Expression' - Textarea", NotificationLevel.Error);
                 return new Double();
             }
 
-            if(input.Contains(settings.Contains))
+            if (input.Contains(settings.Contains))
             {
                 return 1.0;
             }
             return -1.0;
+        }
+
+        public double regex(string input)
+        {
+            if (settings.Contains == null)
+            {
+                GuiLogMessage("There is no Regular Expression to be searched for. Please insert regex in the 'Contains text / Regular Expression' - Textarea", NotificationLevel.Error);
+                return new Double();
+            }
+            try
+            {
+                Match match = Regex.Match(input, settings.Contains);
+                if (match.Success)
+                {
+                    return 1.0;
+                }
+                else
+                {
+                    return -1.0;
+                }
+            }
+            catch (Exception e)
+            {
+                GuiLogMessage(e.Message, NotificationLevel.Error);
+                return -1.0;
+            }
+
         }
 
 
@@ -317,17 +349,17 @@ namespace Cryptool.Plugins.CostFunction
             int counter = 0;
             foreach (byte b in text)
             {
-                    n[b]++;
-                    counter++;
-                    if (counter == bytesToUse)
-                        break;
+                n[b]++;
+                counter++;
+                if (counter == bytesToUse)
+                    break;
             }
 
             double coindex = 0;
             //sum them
             for (int i = 0; i < n.Length; i++)
             {
-                coindex = coindex + n[i] * (n[i] - 1);                
+                coindex = coindex + n[i] * (n[i] - 1);
             }
 
             coindex = coindex / (bytesToUse);
@@ -364,10 +396,10 @@ namespace Cryptool.Plugins.CostFunction
             int counter = 0;
             foreach (byte b in text)
             {
-                    n[b]++;
-                    counter++;
-                    if (counter == bytesToUse)
-                        break;
+                n[b]++;
+                counter++;
+                if (counter == bytesToUse)
+                    break;
             }
 
             double entropy = 0;
@@ -410,7 +442,7 @@ namespace Cryptool.Plugins.CostFunction
                     if (corpusGrams.ContainsKey(g))
                     {
                         score += corpusGrams[g][valueSelection];
-            
+
                     }
                 }
             }
@@ -424,7 +456,7 @@ namespace Cryptool.Plugins.CostFunction
             if (!statistics.ContainsKey(gramLength))
             {
                 //GuiLogMessage("Trying to load default statistics for " + gramLength + "-grams", NotificationLevel.Info);
-                statistics[gramLength] = LoadDefaultStatistics(gramLength);                
+                statistics[gramLength] = LoadDefaultStatistics(gramLength);
             }
 
             return statistics[gramLength];
@@ -488,7 +520,7 @@ namespace Cryptool.Plugins.CostFunction
 
         #endregion
 
-      
+
     }
 
     #region slave
@@ -543,6 +575,8 @@ namespace Cryptool.Plugins.CostFunction
                     return RelationOperator.LargerThen;
                 case 5: // Contains
                     return RelationOperator.LargerThen;
+                case 6: // Regular Expression
+                    return RelationOperator.LargerThen;
                 default:
                     throw new NotImplementedException("The value " + ((CostFunctionSettings)this.plugin.Settings).FunctionType + " is not implemented.");
             }//end switch
@@ -584,14 +618,16 @@ namespace Cryptool.Plugins.CostFunction
                     return plugin.calculateNGrams(plugin.ByteArrayToString(text), 2, 1);
                 case 5: //Contains
                     return plugin.contains(plugin.ByteArrayToString(text));
+                case 6: // regular expression
+                    return plugin.regex(plugin.ByteArrayToString(text));
                 default:
                     throw new NotImplementedException("The value " + ((CostFunctionSettings)this.plugin.Settings).FunctionType + " is not implemented.");
             }//end switch
         }
 
 
-        #endregion
+    #endregion
     }
-    
+
 }
 
