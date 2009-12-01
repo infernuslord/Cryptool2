@@ -1,12 +1,21 @@
-﻿<UserControl x:Class="Cryptool.MD5.Presentation.States.ReadDataPresentation"
+﻿<UserControl
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Height="244" Width="494"
-    xmlns:displays="clr-namespace:Cryptool.MD5.Presentation.Displays">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:displays="clr-namespace:Cryptool.MD5.Presentation.Displays" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Class="Cryptool.MD5.Presentation.States.ReadDataPresentation"
+    Height="400" Width="800"
+    mc:Ignorable="d">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="StyleDictionary.xaml"/>
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
     <Grid>
-        <TextBlock Height="28" Margin="12,12,12,0" Name="label1" VerticalAlignment="Top">We have read a total of</TextBlock>
-        <Label Height="40" Margin="12,46,12,0" Name="label2" VerticalAlignment="Top" Content="{Binding CurrentState.DataLength}" FontSize="18" />
-        <TextBlock Margin="12,92,12,0" Name="label3" Height="28" VerticalAlignment="Top">bytes of data.</TextBlock>
-        <TextBlock Margin="12,126,12,0" Name="label4" Height="28" VerticalAlignment="Top">The data block we have read looks like this:</TextBlock>
-        <displays:DataBlockDisplay Data="{Binding CurrentState.CurrentDataBlock}" Margin="12,160,12,0" Height="60" VerticalAlignment="Top" />
+        <TextBlock Height="29.037" Margin="8,56.444,8,0" x:Name="label1" VerticalAlignment="Top" Style="{DynamicResource textBlockStyle}" HorizontalAlignment="Center"><Run Text="We have read a total of"/></TextBlock>
+        <Label Height="41.482" Margin="8,89.481,8,0" x:Name="label2" VerticalAlignment="Top" Content="{Binding CurrentState.DataLength}" FontSize="18" HorizontalContentAlignment="Center" />
+        <TextBlock Margin="8,134.963,8,0" x:Name="label3" Style="{DynamicResource textBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Top" Height="29.037"><Run Text="bytes of data."/></TextBlock>
+        <TextBlock Margin="8,0,8,166" x:Name="label4" Height="28" VerticalAlignment="Bottom" HorizontalAlignment="Center" Style="{DynamicResource textBlockStyle}"><Run Text="The data block we have read looks like this:"/></TextBlock>
+        <displays:DataBlockDisplay Data="{Binding CurrentState.CurrentDataBlock}" Margin="8,238,8,0" Height="108" VerticalAlignment="Top" />
     </Grid>
 </UserControl>

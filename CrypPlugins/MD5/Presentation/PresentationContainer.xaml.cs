@@ -29,14 +29,13 @@ namespace Cryptool.MD5.Presentation
 
             InitializeComponent();
 
-            Height = double.NaN;
             Width = double.NaN;
+            Height = double.NaN;
         }
 
         private void nextStepButton_Click(object sender, RoutedEventArgs e)
         {
             md5.NextStep();
-            new ReadDataPresentation();
         }
 
         private void previousStepButton_Click(object sender, RoutedEventArgs e)

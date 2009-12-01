@@ -78,6 +78,29 @@ namespace Cryptool.MD5.Algorithm
                 return RoundIndex + 1;
             }
         }
+		
+        /// <summary>
+        /// Returns the function name of the inner round function currently used
+        /// </summary>
+        public string RoundFunctionName
+        {
+            get
+            {
+				switch (Round)
+				{
+					case 1:
+						return "F";
+					case 2:
+						return "G";
+					case 3:
+						return "H";
+					case 4:
+						return "I";
+					default:
+						return "";
+				}
+            }
+        }
 
         /// <summary>
         /// Determines in which step of the current round of the compression function the algorithm currently is, value range 0-15

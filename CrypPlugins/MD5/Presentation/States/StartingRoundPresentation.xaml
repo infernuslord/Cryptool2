@@ -1,8 +1,24 @@
-﻿<UserControl x:Class="Cryptool.MD5.Presentation.States.StartingRoundPresentation"
+﻿<UserControl
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Height="300" Width="300">
+    xmlns:Cryptool_MD5_Presentation_Displays="clr-namespace:Cryptool.MD5.Presentation.Displays" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Class="Cryptool.MD5.Presentation.States.StartingRoundPresentation"
+    Height="400" Width="800" mc:Ignorable="d">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="StyleDictionary.xaml"/>
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
     <Grid>
+            
+    	<Cryptool_MD5_Presentation_Displays:RoundAndStepDisplay VerticalAlignment="Top" HorizontalAlignment="Right" Height="46.373" DataContext="{Binding CurrentState}"/>
+    	<TextBlock Margin="8,62,0,0" Style="{StaticResource textBlockStyle}" VerticalAlignment="Top" Text="We are now starting round" HorizontalAlignment="Left" Width="262" Height="38.373"/>
+    	<TextBlock Margin="274,62,0,0" Style="{StaticResource textBlockStyle}" VerticalAlignment="Top" Text="{Binding CurrentState.Round}" Height="38.373" HorizontalAlignment="Left" Width="36"/>
+    	<TextBlock Margin="314,62,302,0" Style="{StaticResource textBlockStyle}" VerticalAlignment="Top" Text="of 4."/>
+    	<TextBlock Margin="8,104.373,8,0" Style="{StaticResource textBlockStyle}" VerticalAlignment="Top" Height="30.373"><Run Text="Each round has 16 steps which change "/><Run Text="our "/><Run Text="temporary variables "/><Run Text="A - D"/><Run Text="."/></TextBlock>
+    	<TextBlock Margin="8,168.746,8,144.881" Style="{StaticResource textBlockStyle}"><Run Text="There are 4 non-linear inner round functions"/><Run Text=" called"/><Run Text=" F, G, H and I."/><Run Text=" They "/><Run Text="are a central part of the calculations performed in each round step. In this round, we use the function"/></TextBlock>
+    	<Cryptool_MD5_Presentation_Displays:FunctionNameDisplay Margin="314,0,320,104.881" VerticalAlignment="Bottom" Height="36" FunctionName="{Binding CurrentState.RoundFunctionName}"/>
             
     </Grid>
 </UserControl>

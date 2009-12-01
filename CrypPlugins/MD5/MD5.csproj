@@ -75,11 +75,17 @@
     <Compile Include="Presentation\Displays\DataBlockDisplay.xaml.cs">
       <DependentUpon>DataBlockDisplay.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Presentation\Displays\FunctionNameDisplay.xaml.cs">
+      <DependentUpon>FunctionNameDisplay.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\Displays\HashAccumulatorDisplay.xaml.cs">
       <DependentUpon>HashAccumulatorDisplay.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Displays\CompressionVariableDisplay.xaml.cs">
       <DependentUpon>CompressionVariableDisplay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Displays\DataIntegerDisplay.xaml.cs">
+      <DependentUpon>DataIntegerDisplay.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Displays\LabelledIntegerDisplay.xaml.cs">
       <DependentUpon>LabelledIntegerDisplay.xaml</DependentUpon>
@@ -179,11 +185,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Presentation\Displays\FunctionNameDisplay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Presentation\Displays\HashAccumulatorDisplay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Presentation\Displays\CompressionVariableDisplay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Presentation\Displays\DataIntegerDisplay.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -270,6 +284,10 @@
     <Page Include="Presentation\States\StartingRoundStepPresentation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\States\StyleDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Presentation\States\UninitializedPresentation.xaml">
       <SubType>Designer</SubType>
