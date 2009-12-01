@@ -43,7 +43,10 @@ namespace Cryptool.Plugins.CostFunction
         private double[,] bigramMatrix;
         private IDictionary<string, double[]> corpusGrams;
 
+        private DataManager dataMgr = new DataManager();
+        private const string DATATYPE = "transposition";
 
+        private IDictionary<String, DataFileMetaInfo> txtList;
         private IDictionary<int, IDictionary<string, double[]>> statistics;
 
         #endregion
@@ -446,6 +449,7 @@ namespace Cryptool.Plugins.CostFunction
                     }
                 }
             }
+
             return score;
         }
         public IDictionary<string, double[]> GetStatistics(int gramLength)
@@ -464,26 +468,43 @@ namespace Cryptool.Plugins.CostFunction
 
         private IDictionary<string, double[]> LoadDefaultStatistics(int length)
         {
+            txtList = dataMgr.LoadDirectory(DATATYPE);
+
+            return calculateAbsolutes(txtList["2gram.txt"].DataFile.FullName);
+        }
+
+        private IDictionary<string, double[]> calculateAbsolutes(String path)
+        {
+
+
             Dictionary<string, double[]> grams = new Dictionary<string, double[]>();
 
-            StreamReader reader = new StreamReader(Path.Combine(PluginResource.directoryPath, GetStatisticsFilename(length)));
+            StreamReader reader = new StreamReader(path);
+            String text = reader.ReadToEnd();
 
-            string line;
-            while ((line = reader.ReadLine()) != null)
+            text.ToUpper();
+            text = Regex.Replace(text, "[^A-Z]*", "");
+
+
+            for (int i = 0; i < text.Length - 1; i++)
             {
-                if (line.StartsWith("#"))
-                    continue;
+                char a = text[i];
+                char b = text[i + 1];
+                String key = a.ToString();
+                key = key + b.ToString();
 
-                string[] tokens = WordTokenizer.tokenize(line).ToArray();
-                if (tokens.Length == 0)
-                    continue;
-                //Debug.Assert(tokens.Length == 2, "Expected 2 tokens, found " + tokens.Length + " on one line");
-
-                grams.Add(tokens[0], new double[] { Double.Parse(tokens[1]), 0, 0, 0 });
+                if (!grams.ContainsKey(key))
+                {
+                    grams.Add(key, new double[] { 1, 0, 0, 0 });
+                }
+                else
+                {
+                    grams[key][0] = grams[key][0] + 1.0;
+                }
             }
 
             double sum = grams.Values.Sum(item => item[ABSOLUTE]);
-            //GuiLogMessage("Sum of all n-gram counts is: " + sum, NotificationLevel.Debug);
+            GuiLogMessage("Sum of all n-gram counts is: " + sum, NotificationLevel.Debug);
 
             // calculate scaled values
             foreach (double[] g in grams.Values)
@@ -493,24 +514,11 @@ namespace Cryptool.Plugins.CostFunction
                 g[SINKOV] = Math.Log(g[PERCENTAGED], Math.E);
             }
 
+
+
             return grams;
         }
 
-        /// <summary>
-        /// Get file name for default n-gram frequencies.
-        /// </summary>
-        /// <param name="length"></param>
-        /// <exception cref="NotSupportedException">No default n-gram frequencies available</exception>
-        /// <returns></returns>
-        private string GetStatisticsFilename(int length)
-        {
-            if (length < 1)
-            {
-                throw new ArgumentOutOfRangeException("There is no known default statistic for an n-gram length of " + length);
-            }
-
-            return "Enigma_" + length + "gram_Frequency.txt";
-        }
         public string ByteArrayToString(byte[] arr)
         {
             System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
