@@ -94,7 +94,7 @@ namespace Transposition
             DoubleAnimation fadeIn = new DoubleAnimation();
             fadeIn.From = 0.0;
             fadeIn.To = 1.0;
-            fadeIn.Duration = new Duration(TimeSpan.FromMilliseconds((1001 - speed)*4));
+            fadeIn.Duration = new Duration(TimeSpan.FromMilliseconds((1001 - speed)/4));
 
             
 
@@ -504,7 +504,7 @@ namespace Transposition
             myGrid.RowDefinitions.Clear();
             mywrap1.Children.Clear();
             mywrap2.Children.Clear();
-
+            
             outcount = 0;           
 
             schleife = 0;
@@ -1210,34 +1210,60 @@ namespace Transposition
                         char[] ch = keyword.ToCharArray();
                         if (act == 1)
                             Array.Sort(ch);
+                        if (!keyword.Contains(','))
+                            for (int i = 0; i < key.Length; i++)
+                            {
+                                TextBlock txt = new TextBlock();
+                                txt.VerticalAlignment = VerticalAlignment.Center;
+                                txt.Text = ch[i].ToString();
+                                txt.FontSize = 12;
+                                txt.FontWeight = FontWeights.ExtraBold;
+                                txt.TextAlignment = TextAlignment.Center;
+                                txt.Width = 17;
 
-                        for (int i = 0; i < key.Length; i++)
+                                if (per == 1)
+                                {
+                                    Grid.SetRow(txt, 1);
+                                    Grid.SetColumn(txt, i);
+                                    myGrid.Children.Add(txt);
+                                    teba[i, 1] = txt;
+                                    //teba[i, 1].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
+                                }
+                                else
+                                {
+                                    Grid.SetRow(txt, i);
+                                    Grid.SetColumn(txt, 1);
+                                    myGrid.Children.Add(txt);
+                                    teba[1, i] = txt;
+                                    //teba[1, i].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
+                                }
+                            }
+                        else
                         {
-                            TextBlock txt = new TextBlock();
-                            txt.VerticalAlignment = VerticalAlignment.Center;
-                            txt.Text = ch[i].ToString();
-                            txt.FontSize = 12;
-                            txt.FontWeight = FontWeights.ExtraBold;
-                            txt.TextAlignment = TextAlignment.Center;
-                            txt.Width = 17;
-
-                            if (per == 1)
+                            for (int i = 0; i < key.Length; i++)
                             {
-                                Grid.SetRow(txt, 1);
-                                Grid.SetColumn(txt, i);
-                                myGrid.Children.Add(txt);
-                                teba[i, 1] = txt;
-                                teba[i, 1].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
-                            }                            
-                            else 
-                            {
-                                Grid.SetRow(txt, i);
-                                Grid.SetColumn(txt, 1);
-                                myGrid.Children.Add(txt);
-                                teba[1, i] = txt;
-                                teba[1, i].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
+                                TextBlock txt = new TextBlock();
+                                txt.Height = 0;
+                                txt.Width = 0;
+                                if (per == 1)
+                                {
+                                    Grid.SetRow(txt, 1);
+                                    Grid.SetColumn(txt, i);
+                                    myGrid.Children.Add(txt);
+                                    teba[i, 1] = txt;
+                                    //teba[i, 1].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
+                                }
+                                else
+                                {
+                                    Grid.SetRow(txt, i);
+                                    Grid.SetColumn(txt, 1);
+                                    myGrid.Children.Add(txt);
+                                    teba[1, i] = txt;
+                                    //teba[1, i].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
+                                }
                             }
                         }
+                       
                     }
                     mat_back = new Brush[read_in_matrix.GetLength(0), read_in_matrix.GetLength(1)];
                     for (int i = 0; i < read_in_matrix.GetLength(1); i++)
@@ -1270,9 +1296,12 @@ namespace Transposition
                             teba[(ix + rowper), (i + colper)] = txt;
                             teba[(ix + rowper), (i + colper)].Opacity = 0.0;
                         }
-                    }              
-                   
+                    }
+                    if (input.Length >= key.Length)
                    reina = new TextBlock[input.Length];
+                    else
+                        reina = new TextBlock[key.Length];
+
                     for (int i = 0; i < input.Length; i++)
                     {
                         TextBlock txt = new TextBlock();
@@ -1288,6 +1317,20 @@ namespace Transposition
                         //if (!Stop)
                        // reina[i].BeginAnimation(TextBlock.OpacityProperty,fadeIn);
                     }
+                    if (input.Length < key.Length)
+                    {
+                        for (int i = input.Length; i < key.Length; i++)
+                        {
+                            TextBlock txt = new TextBlock();
+                            txt.FontSize = 12;
+                            txt.FontWeight = FontWeights.ExtraBold;
+                            txt.Text = "";
+                            reina[i] = txt;
+                            reina[i].Background = Brushes.Transparent;
+                            //reina[i].Opacity = 0.0;
+                            mywrap1.Children.Add(txt);
+                        }
+                    }
 
                     reouta = new TextBlock[output.Length];
                     for (int i = 0; i < output.Length; i++)
@@ -1302,10 +1345,11 @@ namespace Transposition
                         mywrap2.Children.Add(txt);   
                     }
                 }
-
+                
                 fadeIn.Completed += new EventHandler(my_Help3);
                 if(!Stop)
                 Stack.BeginAnimation(OpacityProperty, fadeIn);
+                
             }
          , null);
         }
