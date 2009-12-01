@@ -234,7 +234,7 @@ namespace TranspositionAnalyser
                     }
                     size = size * set.Length;
                     long sum = 0;
-                    for (int i = 0; i <= max; i++)
+                    for (int i = 1; i <= max; i++)
                     {
                         // for every selected bruteforce mode:
                         for (int s = 0; s < set.Length; s++)
