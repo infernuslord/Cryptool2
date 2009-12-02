@@ -19,9 +19,15 @@ namespace KeySearcher
     [PluginInfo(true, "KeySearcher", "Bruteforces a decryption algorithm.", null, "KeySearcher/Images/icon.png")]
     public class KeySearcher : IAnalysisMisc
     {
+        /// <summary>
+        /// used for creating the TopList
+        /// </summary>
         private Queue valuequeue;
         private double value_threshold;
-        private int maxThread;  //the thread with the most keys left
+        /// <summary>
+        /// the thread with the most keys left
+        /// </summary>
+        private int maxThread;
         private Mutex maxThreadMutex = new Mutex();
 
         private KeyPattern pattern = null;
@@ -40,6 +46,51 @@ namespace KeySearcher
         }
 
         private bool stop;
+
+        #region IControlEncryption Members
+
+        private IControlEncryption controlMaster;
+        [PropertyInfo(Direction.ControlMaster, "Control Master", "Used for bruteforcing", "", DisplayLevel.Beginner)]
+        public IControlEncryption ControlMaster
+        {
+            get { return controlMaster; }
+            set
+            {
+                if (controlMaster != null)
+                {
+                    controlMaster.keyPatternChanged -= keyPatternChanged;
+                    controlMaster.OnStatusChanged -= onStatusChanged;
+                }
+                if (value != null)
+                {
+                    Pattern = new KeyPattern(value.getKeyPattern());
+                    value.keyPatternChanged += keyPatternChanged;
+                    value.OnStatusChanged += onStatusChanged;
+                    controlMaster = value;
+                    OnPropertyChanged("ControlMaster");
+
+                }
+                else
+                    controlMaster = null;
+            }
+        }
+
+        #endregion
+
+        #region IControlCost Members
+
+        private IControlCost costMaster;
+        [PropertyInfo(Direction.ControlMaster, "Cost Master", "Used for cost calculation", "", DisplayLevel.Beginner)]
+        public IControlCost CostMaster
+        {
+            get { return costMaster; }
+            set
+            {
+                costMaster = value;
+            }
+        }
+
+        #endregion
 
         #region IPlugin Members
 
@@ -81,6 +132,47 @@ namespace KeySearcher
         {
         }
 
+        public void PostExecution()
+        {
+        }
+
+        public void Pause()
+        {
+        }
+
+        public void Stop()
+        {
+            stop = true;
+        }
+
+        public void Initialize()
+        {
+        }
+
+        public void Dispose()
+        {
+        }
+
+        #endregion
+
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
+        #endregion
+
+/* BEGIN functionality */
+
+        #region whole KeySearcher functionality
+
         private class ThreadStackElement
         {
             public AutoResetEvent ev;
@@ -88,6 +180,7 @@ namespace KeySearcher
         }
 
         #region code for the worker threads
+
         private void KeySearcherJob(object param)
         {
             object[] parameters = (object[])param;
@@ -212,7 +305,9 @@ namespace KeySearcher
                 sender.Dispose();
             }
         }
-        
+
+        #region bruteforce methods
+
         private bool bruteforceBlock(IControlEncryption sender, int bytesToUse, ref ValueKey valueKey, byte[] keya, int[] arrayPointers, 
             int[] arraySuccessors, int[] arrayUppers, int arrayPointer, ref int counter, KeyPattern pattern)
         {
@@ -290,6 +385,8 @@ namespace KeySearcher
 
         #endregion
 
+        #endregion
+
         public void process(IControlEncryption sender)
         {
             if (sender == null || costMaster == null)
@@ -297,6 +394,7 @@ namespace KeySearcher
             bruteforcePattern(Pattern, sender);
         }
 
+        // main entry point to the KeySearcher
         private void bruteforcePattern(KeyPattern pattern, IControlEncryption sender)
         {
             int maxInList = 10;
@@ -389,23 +487,6 @@ namespace KeySearcher
                 ProgressChanged(1, 1);
         }
 
-        private void fillListWithDummies(int maxInList, LinkedList<ValueKey> costList)
-        {
-            ValueKey valueKey = new ValueKey();
-            if (this.costMaster.getRelationOperator() == RelationOperator.LessThen)
-                valueKey.value = double.MaxValue;
-            else
-                valueKey.value = double.MinValue;
-            valueKey.key = "dummykey";
-            valueKey.decryption = new byte[0];
-            value_threshold = valueKey.value;
-            LinkedListNode<ValueKey> node = costList.AddFirst(valueKey);
-            for (int i = 1; i < maxInList; i++)
-            {
-                node = costList.AddAfter(node, valueKey);
-            }
-        }
-
         private void showProgress(LinkedList<ValueKey> costList, BigInteger size, BigInteger keycounter, BigInteger doneKeys)
         {
             LinkedListNode<ValueKey> linkedListNode;
@@ -494,6 +575,25 @@ namespace KeySearcher
             }
         }
 
+        #region For TopList
+
+        private void fillListWithDummies(int maxInList, LinkedList<ValueKey> costList)
+        {
+            ValueKey valueKey = new ValueKey();
+            if (this.costMaster.getRelationOperator() == RelationOperator.LessThen)
+                valueKey.value = double.MaxValue;
+            else
+                valueKey.value = double.MinValue;
+            valueKey.key = "dummykey";
+            valueKey.decryption = new byte[0];
+            value_threshold = valueKey.value;
+            LinkedListNode<ValueKey> node = costList.AddFirst(valueKey);
+            for (int i = 1; i < maxInList; i++)
+            {
+                node = costList.AddAfter(node, valueKey);
+            }
+        }
+
         private void updateToplist(LinkedList<ValueKey> costList)
         {
             LinkedListNode<ValueKey> node;
@@ -539,6 +639,8 @@ namespace KeySearcher
             }
         }
 
+        #endregion
+
         private void startThreads(IControlEncryption sender, int bytesToUse, KeyPattern[] patterns, BigInteger[] doneKeysA, BigInteger[] keycounters, BigInteger[] keysleft, Stack threadStack)
         {
             for (int i = 0; i < patterns.Length; i++)
@@ -581,43 +683,6 @@ namespace KeySearcher
             return patterns;
         }
 
-        public void PostExecution()
-        {
-        }
-
-        public void Pause()
-        {
-        }
-
-        public void Stop()
-        {
-            stop = true;
-        }
-
-        public void Initialize()
-        {
-        }
-
-        public void Dispose()
-        {
-        }
-
-        #endregion
-
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged(string name)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
-            }
-        }
-
-        #endregion
-
         private void keyPatternChanged()
         {
             Pattern = new KeyPattern(controlMaster.getKeyPattern());
@@ -628,49 +693,6 @@ namespace KeySearcher
             if (readyForExecution)
             {
                 this.process((IControlEncryption)sender);
-            }
-        }
-
-        #region IControlEncryption Members
-
-        private IControlEncryption controlMaster;
-        [PropertyInfo(Direction.ControlMaster, "Control Master", "Used for bruteforcing", "", DisplayLevel.Beginner)]
-        public IControlEncryption ControlMaster
-        {
-            get { return controlMaster; }
-            set
-            {
-                if (controlMaster != null)
-                {
-                    controlMaster.keyPatternChanged -= keyPatternChanged;
-                    controlMaster.OnStatusChanged -= onStatusChanged;
-                }
-                if (value != null)
-                {
-                    Pattern = new KeyPattern(value.getKeyPattern());
-                    value.keyPatternChanged += keyPatternChanged;
-                    value.OnStatusChanged += onStatusChanged;
-                    controlMaster = value;
-                    OnPropertyChanged("ControlMaster");
-                    
-                }
-                else
-                    controlMaster = null;
-            }
-        }
-
-        #endregion
-
-        #region IControlCost Members
-
-        private IControlCost costMaster;
-        [PropertyInfo(Direction.ControlMaster, "Cost Master", "Used for cost calculation", "", DisplayLevel.Beginner)]
-        public IControlCost CostMaster
-        {
-            get { return costMaster; }
-            set
-            {
-                costMaster = value;
             }
         }
 
@@ -691,7 +713,9 @@ namespace KeySearcher
             }
         }
 
-        //used for delivering the results from the worker threads to the main thread:
+        /// <summary>
+        /// used for delivering the results from the worker threads to the main thread:
+        /// </summary>
         private struct ValueKey
         {
             public double value;

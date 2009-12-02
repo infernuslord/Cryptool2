@@ -404,5 +404,11 @@ namespace KeySearcher
             return makeKeySearcherPool(new BigInteger(partsize));
         }
 
+        //added by Christian Arnold - 2009.12.02
+        public override string ToString()
+        {
+            return "Type: KeySearcher.KeyPattern. Key: '" + this.key + "', Pattern: '" + this.pattern + "'";
+        }
+
     }
 }
