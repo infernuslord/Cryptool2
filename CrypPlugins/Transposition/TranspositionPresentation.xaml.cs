@@ -27,7 +27,7 @@ namespace Transposition
         /// </summary>
         public TranspositionPresentation()
         {
-            InitializeComponent(); 
+           InitializeComponent(); 
            SizeChanged += sizeChanged;
            
         }
@@ -69,20 +69,14 @@ namespace Transposition
         private DoubleAnimation fadeIn;
         private DoubleAnimation fadeOut;
         private int[] key;
+        //private int numod;
 
         #endregion
 
-        /// <summary>
-        /// Getter of the Speed the Visualisation is running
-        /// </summary>
-        /// <param name="speed"></param>
-        public void UpdateSpeed(int speed)
-        {
-            this.speed = speed;
-        }
+        #region init + main
 
         /// <summary>
-        /// Initialisation of all Params the Visualisation needs from the Caller
+        /// initialisation of all params the visualisation needs from the caller
         /// </summary>
         /// <param name="read_in_matrix"></param>
         /// <param name="permuted_matrix"></param>
@@ -90,16 +84,14 @@ namespace Transposition
         /// <param name="per"></param>
         /// <param name="rein"></param>
         /// <param name="reout"></param>
+        //private void init(int numod,byte[,] read_in_matrix, byte[,] permuted_matrix, String keyword, int per, int rein, int reout, int act, int[] key) 
         private void init(byte[,] read_in_matrix, byte[,] permuted_matrix, String keyword, int per, int rein, int reout, int act, int[] key) 
         {
-            
             DoubleAnimation fadeIn = new DoubleAnimation();
             fadeIn.From = 0.0;
             fadeIn.To = 1.0;
             fadeIn.Duration = new Duration(TimeSpan.FromMilliseconds((1001 - speed)/4));
-
             
-
             DoubleAnimation fadeOut = new DoubleAnimation();
             fadeOut.From = 1.0;
             fadeOut.To = 0.0;
@@ -122,6 +114,7 @@ namespace Transposition
             this.per = per;
             this.act = act;
             this.key = key;
+            //this.numod = numod;
 
             countup = 0;
             countup1 = 0;
@@ -134,8 +127,7 @@ namespace Transposition
                 Stop = true;
 
             textBox2.Clear();
-
-       
+   
             
             if (per == 1  )
                 {
@@ -192,7 +184,6 @@ namespace Transposition
 
         public void main(byte[,] read_in_matrix, byte[,] permuted_matrix, int[] key, String keyword, byte[] input, byte[] output, int per, int rein, int reout,int act)
         {
-
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                     this.my_Stop(this, EventArgs.Empty);
@@ -205,8 +196,9 @@ namespace Transposition
             }, null);
         }
 
-        #region create
+        #endregion
 
+        #region create
         /// <summary>
         /// method for creating the grid
         /// </summary>
@@ -222,6 +214,8 @@ namespace Transposition
             {
                 if (read_in_matrix != null && key != null)
                 {
+                   
+
                     myGrid.Children.Clear();
                     myGrid.RowDefinitions.Clear();
                     myGrid.ColumnDefinitions.Clear();
@@ -230,10 +224,8 @@ namespace Transposition
                     mywrap1.Children.Clear();
                     mywrap2.Children.Clear();
 
-                    //OLO
-                    if (rein == 0) { textBox2.Text = "status: reading in by row"; }
-                    else { textBox2.Text = "status: reading in by column"; }
-                    
+                    if (rein == 0) { textBox2.Text = "reading in by row"; }
+                    else { textBox2.Text = "reading in by column"; }
                     
                     teba = new TextBlock[read_in_matrix.GetLength(0) + rowper, read_in_matrix.GetLength(1) + colper];
 
@@ -244,12 +236,9 @@ namespace Transposition
                     for (int i = 0; i < read_in_matrix.GetLength(1) + colper; i++)
                     {                        
                         myGrid.RowDefinitions.Add(new RowDefinition());
-                    }                  
-
+                    }   
                     for (int i = 0; i < key.Length; i++)
                     {
-                                         
-                        
                         TextBlock txt = new TextBlock();
                         String s = key[i].ToString();
                         
@@ -281,7 +270,6 @@ namespace Transposition
                             //teba[0, i].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
                         }
                     }
-                    
                     if (keyword != null)
                     {                        
                         char[] ch = keyword.ToCharArray();
@@ -340,7 +328,6 @@ namespace Transposition
                                 }
                             }
                         }
-                       
                     }
                     mat_back = new Brush[read_in_matrix.GetLength(0), read_in_matrix.GetLength(1)];
                     for (int i = 0; i < read_in_matrix.GetLength(1); i++)
@@ -384,6 +371,7 @@ namespace Transposition
                         TextBlock txt = new TextBlock();
                         txt.FontSize = 12;
                         txt.FontWeight = FontWeights.ExtraBold;
+                        //HIER OLO HEX
                         txt.Text = Convert.ToChar(input[i]).ToString();
                         reina[i] = txt;
                         reina[i].Background = Brushes.Transparent;
@@ -415,6 +403,8 @@ namespace Transposition
                         TextBlock txt = new TextBlock();
                         txt.FontSize = 12;
                         txt.FontWeight = FontWeights.ExtraBold;
+                        // HIER OLO AUCH DER CONVERT
+                        
                         txt.Text = Convert.ToChar(output[i]).ToString();
                         reouta[i] = txt;
                         reouta[i].Background = Brushes.Orange;
@@ -613,9 +603,8 @@ namespace Transposition
         /// <param name="i"></param>
         public void sort(int i)
         {
-            //OLOo
-            if (per == 0) { textBox2.Text = "status: permuting by row"; }
-            else { textBox2.Text = "status: permuting by column"; }
+            if (per == 0) { textBox2.Text = "permuting by row"; }
+            else { textBox2.Text = "permuting by column"; }
 
             if (per == 1)
             {
@@ -635,17 +624,14 @@ namespace Transposition
                                         s = ix;
                                     }
                                 }
-                                preani(i, s);
-
+                                preani(i, s);   
                             }
                             else
                             {
                                 schleife++;
                                 sort(schleife);
                             }
-
                         }
-
                         else if (!Stop) { preReadOut(); }
                     }
                     else
@@ -671,13 +657,10 @@ namespace Transposition
                                 schleife++;
                                 sort(schleife);
                             }
-
                         }
-
                         else if (!Stop) { preReadOut(); }
                     }
                 }
-
             }
             else
             {
@@ -698,16 +681,13 @@ namespace Transposition
                                     }
                                 }
                                 preani(i, s);
-
                             }
                             else
                             {
                                 schleife++;
                                 sort(schleife);
                             }
-
                         }
-
                         else if (!Stop) { preReadOut(); }
                     }
                     else
@@ -725,7 +705,6 @@ namespace Transposition
                                     }
                                 }
                                 preani(i, s);
-
                             }
                             else
                             {
@@ -733,16 +712,12 @@ namespace Transposition
                                 schleife++;
                                 sort(schleife);
                             }
-
                         }
-
                         else if (!Stop) { preReadOut(); }
                     }
                 }
-
             }
         }
-
         #endregion
 
         #region readouts
@@ -763,8 +738,7 @@ namespace Transposition
                 for (int i = precountup; i < countup1; i++)
                 {
                    reouta[i].Background = brush;
-                }
-                              
+                }             
                 if (reout == 0)
                 {                   
                     for (int i = 0; i < permuted_matrix.GetLength(0); i++)
@@ -787,17 +761,12 @@ namespace Transposition
                             }
                         }
                 }
-
                 if (no)
                 myColorAnimation.Completed += new EventHandler(my_Help7);
                 if (!Stop)
                     brush.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation);
             }
-
-            //OLO hier falsch
-            //textBox2.Text = "status: accomplished";
         }
-
         private void preReadOut()
         {
             ColorAnimation myColorAnimation_green = new ColorAnimation();
@@ -856,9 +825,8 @@ namespace Transposition
         
         public void readout()
         {
-            //OLO?
-            if (reout == 0) { textBox2.Text = "status: reading out by row"; }
-            else { textBox2.Text = "status: reading out by column"; }
+            if (reout == 0) { textBox2.Text = "reading out by row"; }
+            else { textBox2.Text = "reading out by column"; }
 
             DoubleAnimation myDoubleAnimation = new DoubleAnimation();
             myDoubleAnimation.From = 1.0;
@@ -882,7 +850,6 @@ namespace Transposition
                                 countup1++;
                             }    
                     }
-
                     for (int i = colper; i < teba.GetLength(1); i++)
                     {
                         if (i == teba.GetLength(1) - 1 && !Stop)
@@ -903,7 +870,6 @@ namespace Transposition
                                 countup1++;
                             }                               
                     }
-
                     for (int i = rowper; i < teba.GetLength(0); i++)
                     {
                         if (i == teba.GetLength(0) - 1 && !Stop)
@@ -915,10 +881,18 @@ namespace Transposition
                 }
             }        
         }
-
         #endregion
 
         #region events
+
+        /// <summary>
+        /// getter of the speed the visualisation is running
+        /// </summary>
+        /// <param name="speed"></param>
+        public void UpdateSpeed(int speed)
+        {
+            this.speed = speed;
+        }
 
         /// <summary>
         /// "emergengy break" 
@@ -1401,8 +1375,6 @@ namespace Transposition
         }
 
         #endregion 
-
-    
-        
+               
     }
 }

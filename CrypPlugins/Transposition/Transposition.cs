@@ -165,7 +165,8 @@ namespace Transposition
             }
 
             if(Presentation.IsVisible)
-            myPresentation.main(Read_in_matrix,Permuted_matrix,key,Keyword,Input,Output,this.settings.Permutation,this.settings.ReadIn,this.settings.ReadOut,this.settings.Action);   
+            //myPresentation.main(settings.NumberMode,Read_in_matrix,Permuted_matrix,key,Keyword,Input,Output,this.settings.Permutation,this.settings.ReadIn,this.settings.ReadOut,this.settings.Action);
+            myPresentation.main(Read_in_matrix, Permuted_matrix, key, Keyword, Input, Output, this.settings.Permutation, this.settings.ReadIn, this.settings.ReadOut, this.settings.Action);   
         }
 
         public void Initialize()
@@ -1110,6 +1111,7 @@ namespace Transposition
             if (OnStatusChanged != null)
                 OnStatusChanged(this, true);
         }
+
 
         public event KeyPatternChanged keyPatternChanged;
 
