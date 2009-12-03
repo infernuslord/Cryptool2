@@ -200,7 +200,11 @@ namespace Cryptool.Enigma
             rotorAStrings.Add("IV (since 1938, M3 \"Heer\")"); rotorAStrings.Add("V (since 1938, M3 \"Heer\")"); rotorAStrings.Add("VI (since 1939, M3/M4)");
             rotorAStrings.Add("VII (since 1939, M3/M4)"); rotorAStrings.Add("VIII (since 1939, M3/M4)");
             rotorBStrings.Add("Not available for this model.");
-            hideSettingsElement("Rotor4"); hideSettingsElement("Ring4"); //FIXME: They still show initially... ? Probably, the event is not registered yet..
+        }
+
+        public void Initialize()
+        {
+            hideSettingsElement("Rotor4"); hideSettingsElement("Ring4");
         }
 
         #endregion
