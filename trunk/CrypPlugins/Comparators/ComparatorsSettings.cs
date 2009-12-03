@@ -29,12 +29,12 @@ namespace Cryptool.Plugins.Comparators
     public class ComparatorsSettings : ISettings
     {
         #region private variables
-        private int comparator = 0; // 0 =, 1 !=, 2 <, 3 >, 4 <=, 5 >=
+        private int comparator = 0; // 0 ==, 1 !=, 2 <, 3 >, 4 <=, 5 >=
         private bool hasChanges;
         #endregion
 
         #region taskpane
-        [TaskPane("Comparator", "Choose the Comperator", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "=", "!=", "<", ">", "<=", ">=" })]
+        [TaskPane("Comparator", "Choose the Comperator", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "==", "!=", "<", ">", "<=", ">=" })]
         public int Comparator
         {
             get { return this.comparator; }
@@ -72,7 +72,7 @@ namespace Cryptool.Plugins.Comparators
 
         }
         public event StatusChangedEventHandler OnPluginStatusChanged;
-        private void ChangePluginIcon(int iconIndex)
+        internal void ChangePluginIcon(int iconIndex)
         {
             if (OnPluginStatusChanged != null) OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, iconIndex));
         }

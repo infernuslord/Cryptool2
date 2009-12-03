@@ -193,7 +193,7 @@ namespace Cryptool.Plugins.Comparators
 
         public void Initialize()
         {
-
+            settings.ChangePluginIcon(settings.Comparator);
         }
 
         public void Pause()
