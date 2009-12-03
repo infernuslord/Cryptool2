@@ -361,7 +361,7 @@ namespace Cryptool.Plugins.RSA
         /// </summary>
         public void Initialize()
         {
-          settings.Source = settings.Source;
+            settings.UpdateTaskPaneVisibility();
         }
 
         /// <summary>
