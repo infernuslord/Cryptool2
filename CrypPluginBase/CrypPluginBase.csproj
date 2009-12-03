@@ -63,6 +63,8 @@
     <Compile Include="Attributes\AuthorAttribute.cs" />
     <Compile Include="Control\IControlCost.cs" />
     <Compile Include="Control\IControlEncryption.cs" />
+    <Compile Include="IO\CStreamReader.cs" />
+    <Compile Include="IO\CStreamWriter.cs" />
     <Compile Include="Miscellaneous\DataManager.cs" />
     <Compile Include="IApplication.cs" />
     <Compile Include="Attributes\RibbonBarAttribute.cs" />
