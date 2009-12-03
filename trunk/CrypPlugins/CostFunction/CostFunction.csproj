@@ -91,16 +91,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data\CostFunctionDeutsch.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Data\Enigma_1gram_Frequency.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Data\2gram.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
