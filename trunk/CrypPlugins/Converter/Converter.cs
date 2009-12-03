@@ -445,7 +445,8 @@ namespace Cryptool.Plugins.Converter
 
         public void Initialize()
         {
-
+            settings.UpdateTaskPaneVisibility();
+            settings.UpdateIcon();
         }
 
         public void Pause()
