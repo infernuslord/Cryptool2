@@ -198,6 +198,8 @@ namespace KeySearcher
 
         public KeyPattern(string pattern)
         {
+            if (!testPattern(pattern))
+                throw new Exception("Invalid pattern!");
             this.pattern = pattern;
         }
 
@@ -253,7 +255,46 @@ namespace KeySearcher
             return res;
         }
 
-        public bool testWildcardKey(string wildcardKey)
+        /**
+         * tests, if 'pattern' is a valid pattern.
+         **/
+        public static bool testPattern(string pattern)
+        {
+            int i = 0;
+            while (i < pattern.Length)
+            {
+                if (pattern[i] == '[')
+                {
+                    i++;
+                    while (pattern[i] != ']')
+                    {
+                        if (specialChar(pattern[i]))
+                            return false;
+                        if (pattern[i + 1] == '-')
+                        {
+                            if (specialChar(pattern[i]) || specialChar(pattern[i + 2]))
+                                return false;
+                            i += 2;
+                        }
+                        i++;
+                    }
+                }
+                i++;
+            }
+            return true;
+        }
+
+        private static bool specialChar(char p)
+        {
+            if (p == '-' || p == '[' || p == ']' || p == '*')
+                return true;
+            return false;
+        }
+
+        /**
+         * tests, if 'wildcardKey' matches 'pattern'.
+         **/
+        public static bool testWildcardKey(string wildcardKey, string pattern)
         {
             try
             {
@@ -294,6 +335,11 @@ namespace KeySearcher
             {
                 return false;
             }
+        }
+
+        public bool testWildcardKey(string wildcardKey)
+        {
+            return testWildcardKey(wildcardKey, pattern);
         }
 
         public BigInteger setWildcardKey(string wildcardKey)
