@@ -255,38 +255,45 @@ namespace KeySearcher
 
         public bool testWildcardKey(string wildcardKey)
         {
-            int kcount = 0;
-            int pcount = 0;
-            while (kcount < wildcardKey.Length && pcount < pattern.Length)
+            try
             {
-                if (pattern[pcount] != '[')
+                int kcount = 0;
+                int pcount = 0;
+                while (kcount < wildcardKey.Length && pcount < pattern.Length)
                 {
-                    if (pattern[pcount] != wildcardKey[kcount])
-                        return false;
-                    kcount++;
-                    pcount++;
-                }
-                else
-                {                    
-                    Wildcard wc1 = new Wildcard(pattern.Substring(pcount, pattern.IndexOf(']', pcount) + 1 - pcount));
-                    while (pattern[pcount++] != ']') ;
-                    Wildcard wc2 = null;
-                    if (wildcardKey[kcount] == '[')
+                    if (pattern[pcount] != '[')
                     {
-                        wc2 = new Wildcard(wildcardKey.Substring(kcount, wildcardKey.IndexOf(']', kcount) + 1 - kcount));
-                        while (wildcardKey[++kcount] != ']') ;
+                        if (pattern[pcount] != wildcardKey[kcount])
+                            return false;
+                        kcount++;
+                        pcount++;
                     }
-                    else if (wildcardKey[kcount] != '*')
-                        wc2 = new Wildcard("" + wildcardKey[kcount]);
+                    else
+                    {
+                        Wildcard wc1 = new Wildcard(pattern.Substring(pcount, pattern.IndexOf(']', pcount) + 1 - pcount));
+                        while (pattern[pcount++] != ']') ;
+                        Wildcard wc2 = null;
+                        if (wildcardKey[kcount] == '[')
+                        {
+                            wc2 = new Wildcard(wildcardKey.Substring(kcount, wildcardKey.IndexOf(']', kcount) + 1 - kcount));
+                            while (wildcardKey[++kcount] != ']') ;
+                        }
+                        else if (wildcardKey[kcount] != '*')
+                            wc2 = new Wildcard("" + wildcardKey[kcount]);
 
-                    if (!wc1.contains(wc2) && !(wildcardKey[kcount] == '*'))
-                        return false;
-                    kcount++;
+                        if (!wc1.contains(wc2) && !(wildcardKey[kcount] == '*'))
+                            return false;
+                        kcount++;
+                    }
                 }
+                if (pcount != pattern.Length || kcount != wildcardKey.Length)
+                    return false;
+                return true;
             }
-            if (pcount != pattern.Length || kcount != wildcardKey.Length)
+            catch (Exception)
+            {
                 return false;
-            return true;
+            }
         }
 
         public BigInteger setWildcardKey(string wildcardKey)
@@ -294,7 +301,8 @@ namespace KeySearcher
             BigInteger counter = 1;            
             int pcount = 0;
             wildcardList = new ArrayList();
-            for (int i = 0; i < wildcardKey.Length; i++)
+            int i = 0;
+            while (i < wildcardKey.Length)            
             {
                 if (pattern[pcount] == '[')
                 {
@@ -304,6 +312,13 @@ namespace KeySearcher
                         wildcardList.Add(wc);
                         counter *= wc.size();
                     }
+                    else if (wildcardKey[i] == '[')
+                    {
+                        Wildcard wc = new Wildcard(wildcardKey.Substring(i, wildcardKey.IndexOf(']', i) + 1 - i));
+                        wildcardList.Add(wc);
+                        counter *= wc.size();
+                        while (wildcardKey[++i] != ']') ;
+                    }
                     else
                     {
                         Wildcard wc = new Wildcard("" + wildcardKey[i]);
@@ -312,6 +327,7 @@ namespace KeySearcher
                     while (pattern[++pcount] != ']') ;
                 }
                 pcount++;
+                i++;
             }
             return counter;
         }
