@@ -40,19 +40,27 @@ namespace KeySearcher
             {
                 isSplit = false;
                 counter = 0;
-                length = 0;
-                int i = 1;
-                while (valuePattern[i] != ']')
-                {
-                    if (valuePattern[i + 1] == '-')
+                if (valuePattern.Length == 1)
+                {                    
+                    length = 1;
+                    values[0] = valuePattern[0];
+                }
+                else
+                {                    
+                    length = 0;
+                    int i = 1;
+                    while (valuePattern[i] != ']')
                     {
-                        for (char c = valuePattern[i]; c <= valuePattern[i + 2]; c++)
-                            values[length++] = c;
-                        i += 2;
+                        if (valuePattern[i + 1] == '-')
+                        {
+                            for (char c = valuePattern[i]; c <= valuePattern[i + 2]; c++)
+                                values[length++] = c;
+                            i += 2;
+                        }
+                        else
+                            values[length++] = valuePattern[i];
+                        i++;
                     }
-                    else
-                        values[length++] = valuePattern[i];
-                    i++;
                 }
             }
 
@@ -71,14 +79,16 @@ namespace KeySearcher
 
             public Wildcard[] split()
             {
-                int length = this.length - this.counter;
+                if (length <= 1)
+                    return null;
+                int length1 = this.length - this.counter;
                 Wildcard[] wcs = new Wildcard[2];
                 wcs[0] = new Wildcard();
                 wcs[0].counter = 0;
-                wcs[0].length = length / 2;
+                wcs[0].length = length1 / 2;
                 wcs[1] = new Wildcard();
                 wcs[1].counter = 0;
-                wcs[1].length = length - wcs[0].length;
+                wcs[1].length = length1 - wcs[0].length;
                 for (int i = 0; i < wcs[0].length; i++)
                     wcs[0].values[i] = values[this.counter + i];
                 for (int i = 0; i < wcs[1].length; i++)
@@ -124,10 +134,66 @@ namespace KeySearcher
             {
                 counter = 0;
             }
+
+            public string getRepresentationString()
+            {
+                if (length == 1)
+                    return "" + values[0];
+                string res = "[";
+                int begin = 0;
+                for (int i = 1; i < length; i++)
+                {
+                    if (values[i - 1] != values[i] - 1)
+                    {
+                        if (begin == i - 1)
+                            res += values[begin];
+                        else
+                        {
+                            if (i - 1 - begin == 1)
+                                res += values[begin] + values[i - 1];
+                            else
+                                res += values[begin] + "-" + values[i - 1];
+                        }
+                        begin = i;
+                    }
+                }
+                if (begin == length - 1)
+                    res += values[begin];
+                else
+                {
+                    if (length - 1 - begin == 1)
+                        res += values[begin] + "" + values[length - 1];
+                    else
+                        res += values[begin] + "-" + values[length - 1];
+                }
+
+                res += "]";
+                return res;
+            }
+
+            public bool contains(Wildcard wc)
+            {
+                if (wc == null)
+                    return false;
+                for (int i = 0; i < wc.length; i++)
+                {
+                    bool contains = false;
+                    for (int j = 0; j < this.length; j++)
+                    {
+                        if (this.values[j] == wc.values[i])
+                        {
+                            contains = true;
+                            break;
+                        }
+                    }
+                    if (!contains)
+                        return false;
+                }
+                return true;
+            }
         }
 
         private string pattern;
-        private string key;
         private ArrayList wildcardList;
 
         public KeyPattern(string pattern)
@@ -140,8 +206,7 @@ namespace KeySearcher
             KeyPattern[] patterns = new KeyPattern[2];
             for (int i = 0; i < 2; i++)
             {
-                patterns[i] = new KeyPattern(pattern);
-                patterns[i].key = key;
+                patterns[i] = new KeyPattern(pattern);                
                 patterns[i].wildcardList = new ArrayList();
             }
             bool s = false;
@@ -152,7 +217,7 @@ namespace KeySearcher
                 {
                     Wildcard[] wcs = wc.split();
                     patterns[0].wildcardList.Add(wcs[0]);
-                    patterns[1].wildcardList.Add(wcs[1]);
+                    patterns[1].wildcardList.Add(wcs[1]);                    
                     s = true;
                 }
                 else
@@ -169,7 +234,7 @@ namespace KeySearcher
             return patterns;
         }
 
-        public string giveWildcardKey()
+        public string giveInputPattern()
         {
             string res = "";
             int i = 0;
@@ -188,71 +253,86 @@ namespace KeySearcher
             return res;
         }
 
-        public bool testKey(string key)
+        public bool testWildcardKey(string wildcardKey)
         {
             int kcount = 0;
             int pcount = 0;
-            while (kcount < key.Length && pcount < pattern.Length)
+            while (kcount < wildcardKey.Length && pcount < pattern.Length)
             {
                 if (pattern[pcount] != '[')
                 {
-                    if (key[kcount] != '*' && pattern[pcount] != key[kcount])
+                    if (pattern[pcount] != wildcardKey[kcount])
                         return false;
                     kcount++;
                     pcount++;
                 }
                 else
-                {
-                    bool contains = false;
-                    pcount++;
-                    while (pattern[pcount] != ']')
+                {                    
+                    Wildcard wc1 = new Wildcard(pattern.Substring(pcount, pattern.IndexOf(']', pcount) + 1 - pcount));
+                    while (pattern[pcount++] != ']') ;
+                    Wildcard wc2 = null;
+                    if (wildcardKey[kcount] == '[')
                     {
-                        if (key[kcount] != '*')
-                        {
-                            if (pattern[pcount + 1] == '-')
-                            {
-                                if (key[kcount] >= pattern[pcount] && key[kcount] <= pattern[pcount + 2])
-                                    contains = true;
-                                pcount += 2;
-                            }
-                            else
-                                if (pattern[pcount] == key[kcount])
-                                    contains = true;
-                        }
-                        pcount++;
+                        wc2 = new Wildcard(wildcardKey.Substring(kcount, wildcardKey.IndexOf(']', kcount) + 1 - kcount));
+                        while (wildcardKey[++kcount] != ']') ;
                     }
-                    if (!contains && !(key[kcount] == '*'))
+                    else if (wildcardKey[kcount] != '*')
+                        wc2 = new Wildcard("" + wildcardKey[kcount]);
+
+                    if (!wc1.contains(wc2) && !(wildcardKey[kcount] == '*'))
                         return false;
                     kcount++;
-                    pcount++;
                 }
             }
-            if (pcount != pattern.Length || kcount != key.Length)
+            if (pcount != pattern.Length || kcount != wildcardKey.Length)
                 return false;
             return true;
         }
 
-        public BigInteger initKeyIteration(string key)
+        public BigInteger setWildcardKey(string wildcardKey)
         {
-            BigInteger counter = 1;
-            this.key = key;
+            BigInteger counter = 1;            
             int pcount = 0;
             wildcardList = new ArrayList();
-            for (int i = 0; i < key.Length; i++)
+            for (int i = 0; i < wildcardKey.Length; i++)
             {
-                if (key[i] == '*')
-                {
-                    Wildcard wc = new Wildcard(pattern.Substring(pcount, pattern.IndexOf(']', pcount) + 1 - pcount));
-                    wildcardList.Add(wc);
-                    counter *= wc.size();
-                }
-
                 if (pattern[pcount] == '[')
-                    while (pattern[pcount] != ']')
-                        pcount++;
+                {
+                    if (wildcardKey[i] == '*')
+                    {
+                        Wildcard wc = new Wildcard(pattern.Substring(pcount, pattern.IndexOf(']', pcount) + 1 - pcount));
+                        wildcardList.Add(wc);
+                        counter *= wc.size();
+                    }
+                    else
+                    {
+                        Wildcard wc = new Wildcard("" + wildcardKey[i]);
+                        wildcardList.Add(wc);
+                    }
+                    while (pattern[++pcount] != ']') ;
+                }
                 pcount++;
             }
             return counter;
+        }
+
+        public string getWildcardKey()
+        {
+            string res = "";
+            int pcount = 0;
+            int wccount = 0;
+            while (pcount < pattern.Length)
+            {
+                if (pattern[pcount] != '[')
+                    res += pattern[pcount];
+                else
+                {
+                    res += ((Wildcard)wildcardList[wccount++]).getRepresentationString();
+                    while (pattern[++pcount] != ']') ;
+                }
+                pcount++;
+            }
+            return res;
         }
 
         public BigInteger size()
@@ -284,8 +364,7 @@ namespace KeySearcher
                 wildcardCount = wildcardList.Count - 1;
             else
                 wildcardCount = nextWildcard;
-            bool overflow = ((Wildcard)wildcardList[wildcardCount]).succ();
-            wildcardCount--;
+            bool overflow = ((Wildcard)wildcardList[wildcardCount--]).succ();            
             while (overflow && (wildcardCount >= 0))
                 overflow = ((Wildcard)wildcardList[wildcardCount--]).succ();
             return !overflow;
@@ -295,15 +374,17 @@ namespace KeySearcher
         {
             string res = "";
             int wildcardCount = 0;
-            for (int i = 0; i < key.Length; i++)
+            int i = 0;
+            while (i < pattern.Length)            
             {
-                if (key[i] != '*')
-                    res += key[i];
+                if (pattern[i] != '[')
+                    res += pattern[i++];
                 else
                 {
                     Wildcard wc = (Wildcard)wildcardList[wildcardCount++];
                     res += wc.getChar();
-                }
+                    while (pattern[i++] != ']') ;
+                }                
             }
             return res;
         }
@@ -313,10 +394,11 @@ namespace KeySearcher
             string res = "";
             int div = 1;
             int wildcardCount = wildcardList.Count - 1;
-            for (int i = key.Length - 1; i >= 0; i--)
+            int i = pattern.Length - 1;
+            while (i >= 0)            
             {
-                if (key[i] != '*')
-                    res += key[i];
+                if (pattern[i] != ']')
+                    res += pattern[i--];
                 else
                 {
                     Wildcard wc = (Wildcard)wildcardList[wildcardCount--];
@@ -327,6 +409,7 @@ namespace KeySearcher
                         res += wc.getChar((add / div) % wc.size());
                         div *= wc.size();
                     }
+                    while (pattern[i--] != '[') ;
                 }
             }
             char[] r = res.ToCharArray();
@@ -357,10 +440,11 @@ namespace KeySearcher
             //generate key:
             string res = "";
             int wildcardCount = 0;
-            for (int i = 0; i < key.Length; i++)
+            int i = 0;
+            while (i < pattern.Length)
             {
-                if (key[i] != '*')
-                    res += key[i];
+                if (pattern[i] != '[')
+                    res += pattern[i++];
                 else
                 {
                     if (pointer < wildcardCount)
@@ -370,6 +454,7 @@ namespace KeySearcher
                         Wildcard wc = (Wildcard)wildcardList[wildcardCount++];
                         res += wc.getChar();
                     }
+                    while (pattern[i++] != ']') ;
                 }
             }
             return res;
@@ -382,12 +467,15 @@ namespace KeySearcher
          **/
         public List<KeyPattern> makeKeySearcherPool(BigInteger partsize)
         {
+            BigInteger sizeS = size();
             if (size() > partsize)
             {
                 List<KeyPattern> p1, p2;
                 KeyPattern[] patterns = split();
                 p1 = patterns[0].makeKeySearcherPool(partsize);
+                BigInteger size1 = patterns[0].size();
                 p2 = patterns[1].makeKeySearcherPool(partsize);
+                BigInteger size2 = patterns[1].size();
                 p1.AddRange(p2);
                 return p1;
             }
@@ -417,7 +505,7 @@ namespace KeySearcher
         /// <returns></returns>
         public override string ToString()
         {
-            return "Type: KeySearcher.KeyPattern. Key: '" + this.key + "', Pattern: '" + this.pattern + "'";
+            return "Type: KeySearcher.KeyPattern. WildcardKey: '" + this.getWildcardKey() + "', Pattern: '" + this.pattern + "'";
         }
 
         //added by Christian Arnold - 2009.12.03
@@ -464,26 +552,27 @@ namespace KeySearcher
         private object Serialize(bool returnByte)
         {
             object objReturn = null;
-            if (this.key != null && this.pattern != null)
+            string wildcardKey = this.getWildcardKey();
+            if (wildcardKey != null && this.pattern != null)
             {
                 // TODO: implement testPattern-method
                 //if (testPattern(pattern) && testKey(key))
-                if (testKey(key))
+                if (testWildcardKey(wildcardKey))
                 {
                     if (returnByte)
-                        objReturn = encoder.GetBytes(key + kpSeperator + pattern);
+                        objReturn = encoder.GetBytes(wildcardKey + kpSeperator + pattern);
                     else
-                        objReturn = key + kpSeperator + pattern;
+                        objReturn = wildcardKey + kpSeperator + pattern;
                 }
                 else
                 {
-                    throw (new Exception("Serializing KeyPattern canceled, because Key and/or Pattern aren't valid. "
-                        + "Key: '" + key + "', Pattern: '" + pattern + "'.\n"));
+                    throw (new Exception("Serializing KeyPattern canceled, because WildcardKey and/or Pattern aren't valid. "
+                        + "WildcardKey: '" + wildcardKey + "', Pattern: '" + pattern + "'.\n"));
                 }
             }
             else
             {
-                throw (new Exception("Serializing KeyPattern canceled, because Key and/or Pattern are NULL. Key: '" + key + "'. Pattern: '" + pattern + "'."));
+                throw (new Exception("Serializing KeyPattern canceled, because Key and/or Pattern are NULL. WildcardKey: '" + wildcardKey + "'. Pattern: '" + pattern + "'."));
             }
             return objReturn;
         }
@@ -501,26 +590,26 @@ namespace KeySearcher
             else
                 throw (new Exception("Deserializing KeyPattern canceled, because parameter neither a byte array nor a string!"));
 
-            // disaggregate string representatiojn
-            string key_temp = sTemp.Substring(0, sTemp.IndexOf(kpSeperator));
+            // disaggregate string representation
+            string wildcardKey_temp = sTemp.Substring(0, sTemp.IndexOf(kpSeperator));
             int beginOfPattern = sTemp.IndexOf(kpSeperator) + kpSeperator.Length;
             string pattern_temp = sTemp.Substring(beginOfPattern, sTemp.Length - beginOfPattern);
 
-            // test extracted pattern and key!
+            // test extracted pattern and wildcardKey!
             // TODO: implement testPattern-method
-            //if (testPattern(pattern_temp) && testKey(key_temp))
-            if (testKey(key_temp))
+            //if (testPattern(pattern_temp) && testKey(wildcardKey_temp))
+            if (testWildcardKey(wildcardKey_temp))
             {
                 // TODO: use Pattern-property in future
                 keyPatternToReturn = new KeyPattern(pattern_temp);
-                // TODO: use Key-property in future
-                keyPatternToReturn.initKeyIteration(key_temp);
+                // TODO: use WildcardKey-property in future
+                keyPatternToReturn.setWildcardKey(wildcardKey_temp);
                 return keyPatternToReturn;
             }
             else
             {
-                throw (new Exception("Deserializing KeyPattern canceled, because Key or Pattern aren't valid. "
-                    + "Key: '" + key_temp + "', Pattern: '" + pattern_temp + "'.\n"));
+                throw (new Exception("Deserializing KeyPattern canceled, because WildcardKey or Pattern aren't valid. "
+                    + "WildcardKey: '" + wildcardKey_temp + "', Pattern: '" + pattern_temp + "'.\n"));
             }
         }
 
