@@ -40,7 +40,7 @@ namespace KeySearcher
             set
             {
                 pattern = value;
-                if ((settings.Key == null) ||((settings.Key != null) && !pattern.testKey(settings.Key)))
+                if ((settings.Key == null) || ((settings.Key != null) && !pattern.testKey(settings.Key)))
                     settings.Key = pattern.giveWildcardKey();
             }
         }
@@ -169,7 +169,7 @@ namespace KeySearcher
 
         #endregion
 
-/* BEGIN functionality */
+        /* BEGIN functionality */
 
         #region whole KeySearcher functionality
 
@@ -189,7 +189,7 @@ namespace KeySearcher
             BigInteger[] doneKeysArray = (BigInteger[])parameters[2];
             BigInteger[] keycounterArray = (BigInteger[])parameters[3];
             BigInteger[] keysLeft = (BigInteger[])parameters[4];
-            IControlEncryption sender = (IControlEncryption)parameters[5];            
+            IControlEncryption sender = (IControlEncryption)parameters[5];
             int bytesToUse = (int)parameters[6];
             Stack threadStack = (Stack)parameters[7];
 
@@ -268,7 +268,7 @@ namespace KeySearcher
                         if (arrayPointers == null)  //decrypt only one key
                         {
                             if (!decryptAndCalculate(sender, bytesToUse, ref valueKey, keya, 0, null))
-                                return;                            
+                                return;
                             doneKeysArray[threadid]++;
                             keycounterArray[threadid]++;
                             keysLeft[threadid]--;
@@ -308,13 +308,13 @@ namespace KeySearcher
 
         #region bruteforce methods
 
-        private bool bruteforceBlock(IControlEncryption sender, int bytesToUse, ref ValueKey valueKey, byte[] keya, int[] arrayPointers, 
+        private bool bruteforceBlock(IControlEncryption sender, int bytesToUse, ref ValueKey valueKey, byte[] keya, int[] arrayPointers,
             int[] arraySuccessors, int[] arrayUppers, int arrayPointer, ref int counter, KeyPattern pattern)
         {
             byte store = keya[arrayPointers[arrayPointer]];
             while (!stop)
             {
-                if (arrayPointer+1 < arrayPointers.Length && arrayPointers[arrayPointer+1] != -1)
+                if (arrayPointer + 1 < arrayPointers.Length && arrayPointers[arrayPointer + 1] != -1)
                 {
                     if (!bruteforceBlock(sender, bytesToUse, ref valueKey, keya, arrayPointers, arraySuccessors, arrayUppers, arrayPointer + 1, ref counter, pattern))
                         return false;
@@ -619,7 +619,7 @@ namespace KeySearcher
                     }//end if
                 }
                 else
-                {                    
+                {
                     if (vk.value < costList.Last().value)
                     {
                         node = costList.First;
@@ -688,12 +688,22 @@ namespace KeySearcher
             Pattern = new KeyPattern(controlMaster.getKeyPattern());
         }
 
-        private void onStatusChanged(IControl sender, bool readyForExecution)
+        // modified by Arnie - 2009.12.02
+        protected virtual void onStatusChanged(IControl sender, bool readyForExecution)
         {
             if (readyForExecution)
             {
                 this.process((IControlEncryption)sender);
             }
+        }
+
+        // added by Arnie -2009.12.02
+        // for inheritance reasons
+        public void BruteforcePattern(KeyPattern pattern, IControlEncryption encryptControl, IControlCost costControl)
+        {
+            ControlMaster = encryptControl;
+            CostMaster = costControl;
+            bruteforcePattern(pattern, encryptControl);
         }
 
         #endregion
