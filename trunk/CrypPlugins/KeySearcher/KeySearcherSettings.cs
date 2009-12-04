@@ -34,7 +34,7 @@ namespace KeySearcher
             {
                 key = value;
                 OnPropertyChanged("Key");
-                if (!(keysearcher.Pattern != null && keysearcher.Pattern.testKey(value)))
+                if (!(keysearcher.Pattern != null && keysearcher.Pattern.testWildcardKey(value)))
                     keysearcher.GuiLogMessage("Wrong key pattern!", NotificationLevel.Error);
             }
         }
@@ -42,7 +42,7 @@ namespace KeySearcher
         [TaskPane("Reset", "Reset Key", null, 2, false, DisplayLevel.Beginner, ControlType.Button)]
         public void Reset()
         {
-            Key = keysearcher.Pattern.giveWildcardKey();
+            Key = keysearcher.Pattern.giveInputPattern();
         }
         
         [TaskPane("CoresUsed", "Choose how many cores should be used", null, 3, false, DisplayLevel.Beginner, ControlType.DynamicComboBox, new string[] { "CoresAvailable" })]

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Threading;
 using Cryptool.PluginBase.Miscellaneous;
+using System.IO;
 
 namespace KeySearcher
 {
@@ -40,8 +41,8 @@ namespace KeySearcher
             set
             {
                 pattern = value;
-                if ((settings.Key == null) || ((settings.Key != null) && !pattern.testKey(settings.Key)))
-                    settings.Key = pattern.giveWildcardKey();
+                if ((settings.Key == null) || ((settings.Key != null) && !pattern.testWildcardKey(settings.Key)))
+                    settings.Key = pattern.giveInputPattern();
             }
         }
 
@@ -402,7 +403,7 @@ namespace KeySearcher
             fillListWithDummies(maxInList, costList);
 
             stop = false;
-            if (!pattern.testKey(settings.Key))
+            if (!pattern.testWildcardKey(settings.Key))
             {
                 GuiLogMessage("Wrong key pattern!", NotificationLevel.Error);
                 return;
@@ -420,7 +421,7 @@ namespace KeySearcher
                 return;
             }
 
-            BigInteger size = pattern.initKeyIteration(settings.Key);
+            BigInteger size = pattern.setWildcardKey(settings.Key);            
             KeyPattern[] patterns = splitPatternForThreads(pattern);
 
             valuequeue = Queue.Synchronized(new Queue());
