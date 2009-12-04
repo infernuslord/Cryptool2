@@ -404,11 +404,142 @@ namespace KeySearcher
             return makeKeySearcherPool(new BigInteger(partsize));
         }
 
+        /*
+         * ARNIES SANDKASTEN - ALLE FOLGENDEN METHODEN SIND FÜR DIE VERTEILTE VERWENDUNG
+         * DES KEYPATTERNS NOTWENDIG ODER ABER EINFACH UM DAS KEYPATTERN SCHÖN ALS
+         * GUILOGMESSAGE AUSGEBEN ZU KÖNNEN ;-)
+         */
+
         //added by Christian Arnold - 2009.12.02
+        /// <summary>
+        /// returns type, key and pattern. If you want to get only the pattern for processing use GetPattern-method!
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return "Type: KeySearcher.KeyPattern. Key: '" + this.key + "', Pattern: '" + this.pattern + "'";
         }
+
+        //added by Christian Arnold - 2009.12.03
+        /// <summary>
+        /// returns ONLY the pattern as a string!
+        /// </summary>
+        /// <returns></returns>
+        public string GetPattern()
+        {
+            return this.pattern;
+        }
+
+        #region Serialization methods and auxiliary variables
+
+        /// <summary>
+        /// Used for serializing/deserializing the KeyPattern object. This string separates Key from Pattern. Example: [key]kpSeparator[pattern]
+        /// </summary>
+        private string kpSeperator = "#;#";
+        private Encoding encoder = UTF8Encoding.UTF8;
+
+        /// <summary>
+        /// Serialize all needful information to rebuild the existing pattern elsewhere
+        /// </summary>
+        /// <returns>string representation of all the needful information of the actual KeyPattern</returns>
+        public string SerializeToString()
+        {
+            return (string)Serialize(false);
+        }
+
+        /// <summary>
+        /// Serialize all needful information to rebuild the existing pattern elsewhere
+        /// </summary>
+        /// <returns>byte representation of all the needful information of the actual KeyPattern</returns>
+        public byte[] SerializeToByte()
+        {
+            return (byte[])Serialize(true);
+        }
+
+        /// <summary>
+        /// The whole serializing process.
+        /// </summary>
+        /// <param name="returnByte">Choose true, to get a KeyPattern serialized as an byte array, otherwise you will get a string.</param>
+        /// <returns></returns>
+        private object Serialize(bool returnByte)
+        {
+            object objReturn = null;
+            if (this.key != null && this.pattern != null)
+            {
+                // TODO: implement testPattern-method
+                //if (testPattern(pattern) && testKey(key))
+                if (testKey(key))
+                {
+                    if (returnByte)
+                        objReturn = encoder.GetBytes(key + kpSeperator + pattern);
+                    else
+                        objReturn = key + kpSeperator + pattern;
+                }
+                else
+                {
+                    throw (new Exception("Serializing KeyPattern canceled, because Key and/or Pattern aren't valid. "
+                        + "Key: '" + key + "', Pattern: '" + pattern + "'.\n"));
+                }
+            }
+            else
+            {
+                throw (new Exception("Serializing KeyPattern canceled, because Key and/or Pattern are NULL. Key: '" + key + "'. Pattern: '" + pattern + "'."));
+            }
+            return objReturn;
+        }
+
+        private KeyPattern Deserialize(object represenatation)
+        {
+            KeyPattern keyPatternToReturn;
+
+            // casting stuff
+            string sTemp = null;
+            if (represenatation is byte[])
+                sTemp = encoder.GetString(represenatation as byte[]);
+            else if (represenatation is string)
+                sTemp = represenatation as string;
+            else
+                throw (new Exception("Deserializing KeyPattern canceled, because parameter neither a byte array nor a string!"));
+
+            // disaggregate string representatiojn
+            string key_temp = sTemp.Substring(0, sTemp.IndexOf(kpSeperator));
+            int beginOfPattern = sTemp.IndexOf(kpSeperator) + kpSeperator.Length;
+            string pattern_temp = sTemp.Substring(beginOfPattern, sTemp.Length - beginOfPattern);
+
+            // test extracted pattern and key!
+            // TODO: implement testPattern-method
+            //if (testPattern(pattern_temp) && testKey(key_temp))
+            if (testKey(key_temp))
+            {
+                // TODO: use Pattern-property in future
+                keyPatternToReturn = new KeyPattern(pattern_temp);
+                // TODO: use Key-property in future
+                keyPatternToReturn.initKeyIteration(key_temp);
+                return keyPatternToReturn;
+            }
+            else
+            {
+                throw (new Exception("Deserializing KeyPattern canceled, because Key or Pattern aren't valid. "
+                    + "Key: '" + key_temp + "', Pattern: '" + pattern_temp + "'.\n"));
+            }
+        }
+
+        public KeyPattern DeserializeFromString(string sKeyPattern)
+        {
+            return Deserialize(sKeyPattern);
+        }
+
+        /// <summary>
+        /// Deserialize a byte-representation of an KeyPattern object. Returns a full-initialized KeyPattern object.
+        /// </summary>
+        /// <param name="bKeyPattern">byte-representation of an keypattern object</param>
+        /// <returns>a full-initialized KeyPattern object</returns>
+        public KeyPattern DeserializeFromByte(byte[] bKeyPattern)
+        {
+            return Deserialize(bKeyPattern);
+        }
+
+        #endregion
 
     }
 }
