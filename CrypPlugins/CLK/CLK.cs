@@ -52,11 +52,6 @@ namespace Cryptool.CLK
 
         cLKPresentation.CLKButtonImage.MouseLeftButtonUp += cLKButton_MouseLeftButtonUp;
         cLKPresentation.CLKButtonImage.MouseLeftButtonDown += cLKButton_MouseLeftButtonUp;
-
-        // set picture according to settings value
-        /* BRINGT NIX - WARUM?
-        if (settings.SetClockToTrue) StatusChanged((int)CLKImage.True);
-        else StatusChanged((int)CLKImage.False);*/
     }
 
     void cLKButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -257,6 +252,7 @@ namespace Cryptool.CLK
         if (output) StatusChanged((int)CLKImage.True);
         else StatusChanged((int)CLKImage.False);
         settings.CLKTimeout = timeout;
+        settings.UpdateTaskPaneVisibility();
     }
 
     public void Dispose()
