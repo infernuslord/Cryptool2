@@ -22,14 +22,17 @@ namespace Cryptool.LFSR
     {
         #region ISettings Members
 
-        private string currentState = null;
+        private string currentState;
         public string CurrentState
         {
             get { return currentState; }
             set
             {
-                if (value != currentState) hasChanges = true;
-                currentState = value;
+                if (value != currentState)
+                {
+                    currentState = value;
+                    hasChanges = true;
+                }
             }
         }
 
@@ -56,7 +59,7 @@ namespace Cryptool.LFSR
         }
 
         string polynomial;
-        [TaskPane("Polynomial", "Define the feedback polynomial either in a textual or a numeric way. For example x^5 + x^2 + 1 which is equal to 10010.", null, 0, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("Feedback polynomial", "Define the feedback polynomial either in a textual or a numeric way. For example x^5 + x^2 + 1 which is equal to 10010.", null, 0, false, DisplayLevel.Beginner, ControlType.TextBox)]
         public string Polynomial
         {
             get { return this.polynomial; }
@@ -69,7 +72,7 @@ namespace Cryptool.LFSR
         }
         
         string seed;
-        [TaskPane("Seed", "Define the seed of the LFSR. For example 11100", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("Seed", "Define the seed (initial state) of the LFSR. For example 11100", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
         public string Seed
         {
             get { return this.seed; }
@@ -188,6 +191,22 @@ namespace Cryptool.LFSR
         {
             get { return hasChanges; }
             set { hasChanges = value; }
+        }
+
+        internal void UpdateTaskPaneVisibility()
+        {
+            if (TaskPaneAttributeChanged == null)
+                return;
+
+            if (this.useBoolClock)
+                SettingChanged("Rounds", Visibility.Collapsed);
+            else
+                SettingChanged("Rounds", Visibility.Visible);
+
+            if (this.useAdditionalOutputBit)
+                SettingChanged("ClockingBit", Visibility.Visible);
+            else
+                SettingChanged("ClockingBit", Visibility.Collapsed);
         }
 
         #endregion

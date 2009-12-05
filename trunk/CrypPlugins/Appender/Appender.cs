@@ -205,30 +205,120 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.IO;
-using Cryptool.PluginBase;
-using System.ComponentModel;
 
-namespace Cryptool.BerlekampMassey
+using Cryptool.PluginBase;
+using System.IO;
+using System.ComponentModel;
+using Cryptool.PluginBase.Cryptography;
+using Cryptool.PluginBase.IO;
+using System.Windows.Controls;
+using Cryptool.PluginBase.Miscellaneous;
+using System.Security.Cryptography;
+// for [MethodImpl(MethodImplOptions.Synchronized)]
+using System.Runtime.CompilerServices;
+
+namespace Cryptool.Appender
 {
-    public class BerlekampMasseySettings : ISettings
+    [Author("Soeren Rinne", "soeren.rinne@cryptool.org", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
+    [PluginInfo(false, "Appender", "Appends values", "Appender/DetailedDescription/Description.xaml", "Appender/Images/icon.png")]
+    public class Appender : IThroughput
     {
+
         #region Private variables
 
-        private bool hasChanges = false;
+        private AppenderSettings settings;
+        private object input = null;
+        private String output;
 
         #endregion
 
-        #region Public BMA specific interface
+        #region Public variables
+        #endregion
+
+        #region Public interface
 
         /// <summary>
-        /// Returns true if some settigns have been changed. This value should be set
-        /// externally to false e.g. when a project was saved.
+        /// Contructor
         /// </summary>
-        public bool HasChanges
+        public Appender()
         {
-            get { return hasChanges; }
-            set { hasChanges = value; }
+            this.settings = new AppenderSettings();
+        }
+
+        /// <summary>
+        /// Get or set all settings for this algorithm
+        /// </summary>
+        public ISettings Settings
+        {
+            get { return (ISettings)this.settings;
+            }
+            set { this.settings = (AppenderSettings)value;
+            }
+        }
+
+        [PropertyInfo(Direction.InputData, "Input", "Input objects to be appended", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public object Input
+        {
+            get
+            {
+                return this.input;
+            }
+
+            set
+            {
+                this.input = value;
+                OnPropertyChanged("Input");
+            }
+        }
+
+        [PropertyInfo(Direction.OutputData, "Appended Output", "Output after appending the inputs", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public String Output
+        {
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            get
+            {
+                return output;
+            }
+            set
+            {   // is readonly
+            }
+        }
+
+        #endregion
+
+        #region IPlugin members
+
+        public void Initialize()
+        {            
+        }
+
+        public void Dispose()
+        {
+            output = "";
+        }
+
+        public UserControl Presentation
+        {
+            get { return null; }
+        }
+
+        public UserControl QuickWatchPresentation
+        {
+            get { return null; }
+        }
+
+        public void Stop()
+        {
+        }
+
+        public void PostExecution()
+        {
+            Dispose();
+        }
+
+        public void PreExecution()
+        {
+            Dispose();
         }
 
         #endregion
@@ -237,7 +327,9 @@ namespace Cryptool.BerlekampMassey
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged(string name)
+        public event StatusChangedEventHandler OnPluginStatusChanged;
+
+        public void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)
             {
@@ -246,5 +338,59 @@ namespace Cryptool.BerlekampMassey
         }
 
         #endregion
+
+        #region Private methods
+
+        #endregion
+
+        #region IPlugin Members
+
+//#pragma warning disable 67
+        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+//#pragma warning restore
+
+        public void Execute()
+        {
+            if (input is Boolean)
+            {
+                if ((bool)input)
+                    output += "1";
+                else
+                    output += "0";
+
+                OnPropertyChanged("Output");
+            }
+            else if (input is String)
+            {
+                output += input;
+                OnPropertyChanged("Output");
+            }
+            else
+            {
+                output = "Type not supported";
+                OnPropertyChanged("Output");
+            }
+        }
+
+        public void Pause()
+        {
+        }
+
+        private void StatusChanged(int imageIndex)
+        {
+            EventsHelper.StatusChanged(OnPluginStatusChanged, this, new StatusEventArgs(StatusChangedMode.ImageUpdate, imageIndex));
+        }
+
+        #endregion
     }
+
+    #region Image
+
+    enum ANDImage
+    {
+        Default
+    }
+
+    #endregion
 }

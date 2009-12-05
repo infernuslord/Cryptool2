@@ -209,22 +209,12 @@ using System.IO;
 using Cryptool.PluginBase;
 using System.ComponentModel;
 
-namespace Cryptool.BerlekampMassey
+namespace Cryptool.Appender
 {
-    public class BerlekampMasseySettings : ISettings
+    public class AppenderSettings : ISettings
     {
-        #region Private variables
+        #region Public interface
 
-        private bool hasChanges = false;
-
-        #endregion
-
-        #region Public BMA specific interface
-
-        /// <summary>
-        /// Returns true if some settigns have been changed. This value should be set
-        /// externally to false e.g. when a project was saved.
-        /// </summary>
         public bool HasChanges
         {
             get { return hasChanges; }
@@ -232,6 +222,13 @@ namespace Cryptool.BerlekampMassey
         }
 
         #endregion
+
+        #region Private variables
+
+        private bool hasChanges;
+
+        #endregion
+
 
         #region INotifyPropertyChanged Members
 

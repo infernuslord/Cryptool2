@@ -97,7 +97,7 @@ namespace Cryptool.BooleanFunctionParser
             settings.HasChanges = true;
         }
 
-        [PropertyInfo(Direction.InputData, "Boolean Function f(i)", "Boolean function f(i) to compute.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Boolean Function f(i)", "Boolean function f(i) to compute.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public String InputFunction
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -130,46 +130,8 @@ namespace Cryptool.BooleanFunctionParser
                 inputOneFlag = 1;
             }
         }
+         */
 
-        [PropertyInfo(Direction.InputData, "Function Variable Two (i_2.j)", "Input a boolean value to be processed by the function", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public bool[] InputTwo
-        {
-            [MethodImpl(MethodImplOptions.Synchronized)]
-            get
-            {
-                return this.inputVariableTwo;
-            }
-
-            [MethodImpl(MethodImplOptions.Synchronized)]
-            set
-            {
-                this.inputVariableTwo = value;
-                lastInputWasFunction = false;
-                OnPropertyChanged("InputTwo");
-                // clean inputOne
-                inputTwoFlag = 1;
-            }
-        }
-
-        [PropertyInfo(Direction.InputData, "Function Variable Three (i_3.j)", "Input a boolean value to be processed by the function", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public bool[] InputThree
-        {
-            [MethodImpl(MethodImplOptions.Synchronized)]
-            get
-            {
-                return this.inputVariableThree;
-            }
-
-            [MethodImpl(MethodImplOptions.Synchronized)]
-            set
-            {
-                this.inputVariableThree = value;
-                lastInputWasFunction = false;
-                OnPropertyChanged("InputThree");
-                // clean inputOne
-                inputThreeFlag = 1;
-            }
-        }*/
 
         [PropertyInfo(Direction.OutputData, "Function output", "Output after procesing the given function.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public bool Output
@@ -225,8 +187,8 @@ namespace Cryptool.BooleanFunctionParser
                 }
                 //GuiLogMessage("sumOfFlags: " + sumOfFlags + ", addIFl: " + allFlags, NotificationLevel.Info);
 
-                //if (sumOfFlags == additionalInputsFlag.Length || (lastInputWasFunction == true && sumOfFlags == 0))
-                if (sumOfFlags == additionalInputsFlag.Length)
+                if (sumOfFlags == additionalInputsFlag.Length || (lastInputWasFunction == true && sumOfFlags == 0))
+                //if (sumOfFlags == additionalInputsFlag.Length)
                 {
                     // set all flags to zero
                     for (int flagIteration = 0; flagIteration < additionalInputsFlag.Length; flagIteration++)
@@ -302,9 +264,13 @@ namespace Cryptool.BooleanFunctionParser
             {
                 CreateInputOutput(true);
             }
-            else if (e.PropertyName == "UseBFPforCube")
+            if (e.PropertyName == "UseBFPforCube")
             {
                 booleanFunctionParserPresentation.SwitchCubeView(settings.UseBFPforCube);
+            }
+            if (e.PropertyName == "evalFunction")
+            {
+                Execute();
             }
         }
 
@@ -561,7 +527,7 @@ namespace Cryptool.BooleanFunctionParser
                         tokens.Add("v" + i, externDataOne[i] ? "1" : "0");
                 }
             }
-            // replace quickwatch data (xq.*) (if there is any)
+            // replace quickwatch data (xq*) (if there is any)
             if (settings.UseBFPforCube == false)
             {
                 string quickwatchData = (string)this.booleanFunctionParserPresentation.textBoxInputData.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
@@ -574,9 +540,9 @@ namespace Cryptool.BooleanFunctionParser
                     char [] strInputVariableQuickwatch = quickwatchData.ToCharArray();
                     for (int i = quickwatchData.Length - 1; i >= 0; i--)
                     {
-                        //string replacement = "xq." + i;
+                        //string replacement = "xq" + i;
                         //strExpression = strExpression.Replace(replacement, strInputVariableQuickwatch[i].ToString());
-                        tokens.Add("xq." + i, strInputVariableQuickwatch[i].ToString());
+                        tokens.Add("xq" + i, strInputVariableQuickwatch[i].ToString());
                     }
                 }
             } else if (settings.UseBFPforCube == true)

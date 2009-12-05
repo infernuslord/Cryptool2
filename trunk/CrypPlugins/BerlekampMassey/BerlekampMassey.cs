@@ -219,7 +219,7 @@ using System.Runtime.CompilerServices;
 namespace Cryptool.BerlekampMassey
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.org", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo(false, "BerlekampMassey", "Berlekamp-Massey-Algorithm", "BerlekampMassey/DetailedDescription/Description.xaml", "BerlekampMassey/Images/icon2.png", "BerlekampMassey/Images/icon2.png", "BerlekampMassey/Images/icon2.png")]
+    [PluginInfo(false, "Berlekamp-Massey Algorithm", "Berlekamp-Massey Algorithm", "BerlekampMassey/DetailedDescription/Description.xaml", "BerlekampMassey/Images/icon2.png", "BerlekampMassey/Images/icon2.png", "BerlekampMassey/Images/icon2.png")]
     public class BerlekampMassey : IThroughput
     {
 
@@ -242,7 +242,6 @@ namespace Cryptool.BerlekampMassey
         public BerlekampMassey()
         {
             this.settings = new BerlekampMasseySettings();
-            ((BerlekampMasseySettings)(this.settings)).LogMessage += BerlekampMasseyLogMessage;
 
             berlekampMasseyPresentation = new BerlekampMasseyPresentation();
             Presentation = berlekampMasseyPresentation;
@@ -262,21 +261,17 @@ namespace Cryptool.BerlekampMassey
         [PropertyInfo(Direction.InputData, "Input Sequence", "", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public String Input
         {
-            [MethodImpl(MethodImplOptions.Synchronized)]
             get { return this.input; }
-            [MethodImpl(MethodImplOptions.Synchronized)]
             set
             {
-                this.input = value.ToString();
+                this.input = value;
                 OnPropertyChanged("Input");
-                // clean inputOne
             }
         }
 
         [PropertyInfo(Direction.OutputData, "Minimal Length L", "", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public int Output
         {
-            [MethodImpl(MethodImplOptions.Synchronized)]
             get
             {
                 return output;
@@ -350,10 +345,6 @@ namespace Cryptool.BerlekampMassey
 
         private void BerlekampMasseyLogMessage(string msg, NotificationLevel logLevel)
         {
-            /*if (OnGuiLogNotificationOccured != null)
-            {
-                OnGuiLogNotificationOccured(this, new GuiLogEventArgs(msg, this, logLevel));
-            }*/
         }
 
         /* This function is used under The Code Project Open License (CPOL)
@@ -561,7 +552,7 @@ namespace Cryptool.BerlekampMassey
             }
             finally
             {
-                //ProgressChanged(1, 1);
+                ProgressChanged(1.0, 1.0);
             }
         }
 
@@ -570,6 +561,10 @@ namespace Cryptool.BerlekampMassey
         }
 
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+        private void ProgressChanged(double value, double max)
+        {
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+        }
 
         private void GuiLogMessage(string message, NotificationLevel logLevel)
         {

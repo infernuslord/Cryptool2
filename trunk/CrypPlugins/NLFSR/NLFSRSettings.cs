@@ -23,14 +23,17 @@ namespace Cryptool.NLFSR
 
         private bool hasChanges = false;
 
-        private string currentState = null;
+        private string currentState;
         public string CurrentState
         {
             get { return currentState; }
             set
             {
-                if (value != currentState) hasChanges = true;
-                currentState = value;
+                if (value != currentState)
+                {
+                    currentState = value;
+                    hasChanges = true;
+                }
             }
         }
 
@@ -55,7 +58,7 @@ namespace Cryptool.NLFSR
         }
 
         string polynomial;
-        [TaskPane("Polynomial", "Define the feedback polynomial. For example x^5 * x^2 + 1.", null, 0, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("Feedback function", "Define the feedback function. For example x5 * x2 + 1.", null, 0, false, DisplayLevel.Beginner, ControlType.TextBox)]
         public string Polynomial
         {
             get { return this.polynomial; }

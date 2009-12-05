@@ -110,6 +110,17 @@ namespace Cryptool.CLK
         }
     }
 
+    internal void UpdateTaskPaneVisibility()
+    {
+        if (TaskPaneAttributeChanged == null)
+            return;
+
+        if (this.useEvent)
+            SettingChanged("CLKTimeout", Visibility.Collapsed);
+        else
+            SettingChanged("CLKTimeout", Visibility.Visible);
+    }
+
     #endregion
 
     #region INotifyPropertyChanged Members

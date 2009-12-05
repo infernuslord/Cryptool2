@@ -35,7 +35,6 @@ namespace Cryptool.NLFSR
         private NLFSRSettings settings;
         private String inputTapSequence;
         private String inputSeed;
-        //private CryptoolStream outputStream;
         private String outputString;
         private bool outputBool;
         private bool inputClockBool;
@@ -43,7 +42,6 @@ namespace Cryptool.NLFSR
         //private string tapSequenceString = null;
         
         private NLFSRPresentation NLFSRPresentation;
-        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
 
         #endregion
 
@@ -141,30 +139,6 @@ namespace Cryptool.NLFSR
             }
         }
 
-        /*[PropertyInfo(Direction.OutputData, "Output stream", "NLFSR Stream Output. Use this for bulk output.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
-        public CryptoolStream OutputStream
-        {
-            //[MethodImpl(MethodImplOptions.Synchronized)]
-            get
-            {
-                if (this.outputStream != null)
-                {
-                    CryptoolStream cs = new CryptoolStream();
-                    listCryptoolStreamsOut.Add(cs);
-                    cs.OpenRead(this.outputStream.FileName);
-                    return cs;
-                }
-                return null;
-            }
-            //[MethodImpl(MethodImplOptions.Synchronized)]
-            set
-            {
-                outputStream = value;
-                if (value != null) listCryptoolStreamsOut.Add(value);
-                OnPropertyChanged("OutputStream");
-            }
-        }*/
-
         [PropertyInfo(Direction.OutputData, "String Output", "Produces the output bits as a string with length==rounds. Use this output without a clock input.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public String OutputString
         {
@@ -215,24 +189,10 @@ namespace Cryptool.NLFSR
             try
             {
                 stop = false;
-                //outputStream = null;
                 outputString = null;
                 outputStringBuffer = null;
                 inputTapSequence = null;
                 inputSeed = null;
-
-                /*if (outputStream != null)
-                {
-                    outputStream.Flush();
-                    outputStream.Close();
-                    outputStream = null;
-                }
-                foreach (CryptoolStream stream in listCryptoolStreamsOut)
-                {
-                    stream.Close();
-                }
-                listCryptoolStreamsOut.Clear();
-                 */
             }
             catch (Exception ex)
             {
@@ -523,20 +483,6 @@ namespace Cryptool.NLFSR
             if (checkForInputTapSequence() == 1) return;
             if (checkForInputSeed() == 1) return;
 
-            /*if (inputSeed == null || (inputSeed != null && inputSeed.Length == 0))
-            {
-                GuiLogMessage("No Seed given. Aborting now.", NotificationLevel.Error);
-                if (!settings.UseBoolClock) inputClock.Close();
-                return;
-            }
-
-            if (inputTapSequence == null || (inputTapSequence != null && inputTapSequence.Length == 0))
-            {
-                GuiLogMessage("No TapSequence given. Aborting now.", NotificationLevel.Error);
-                if (!settings.UseBoolClock) inputClock.Close();
-                return;
-            }*/
-
             // read tapSequence
             if (settings.Polynomial == null || (settings.Polynomial != null && settings.Polynomial.Length == 0))
                 tapSequencebuffer = inputTapSequence;
@@ -544,7 +490,7 @@ namespace Cryptool.NLFSR
                 tapSequencebuffer = settings.Polynomial;
 
             //read seed
-            if (settings.CurrentState != null && settings.CurrentState.Length != 0)
+            if (settings.SaveCurrentState && settings.CurrentState != null && settings.CurrentState.Length != 0 && settings.CurrentState != "0")
                 seedbuffer = settings.CurrentState;
             else if (settings.Seed == null || (settings.Seed != null && settings.Seed.Length == 0))
                 seedbuffer = inputSeed;
@@ -642,18 +588,6 @@ namespace Cryptool.NLFSR
             
             try
             {
-                /*char[] tapSequenceCharArray = null;
-                int seedBits = 1; // dummy value for compiler
-                int actualRounds = 1; // dummy value for compiler
-                Boolean myClock = true;
-                char[] seedCharArray = null;
-
-                // open output stream
-                outputStream = new CryptoolStream();
-                listCryptoolStreamsOut.Add(outputStream);
-                outputStream.OpenWrite(this.GetPluginInfoAttribute().Caption);
-                */
-
                 // make all this stuff only one time at the beginning of our chainrun
                 if (newSeed)
                 {
@@ -678,11 +612,6 @@ namespace Cryptool.NLFSR
                     NLFSRPresentation.DrawNLFSR(seedCharArray, tapSequenceCharArray, clocking);
                 }
 
-                // open output stream
-                /*outputStream = new CryptoolStream();
-                listCryptoolStreamsOut.Add(outputStream);
-                outputStream.OpenWrite();*/
-
                 //GuiLogMessage("Action is: Now!", NotificationLevel.Debug);
                 DateTime startTime = DateTime.Now;
 
@@ -695,6 +624,7 @@ namespace Cryptool.NLFSR
                 
                 for (i = 0; i < actualRounds; i++)
                 {
+                    if (stop) return;
                     // compute only if clock = 1 or true
                     if (myClock)
                     {
@@ -794,12 +724,9 @@ namespace Cryptool.NLFSR
                             //GuiLogMessage("OutputBool is: " + outputBool.ToString(), NotificationLevel.Info);
 
                             // write bit to output buffer, stream and bool
-
-                            //outputStream.Write((Byte)outputbuffer);
                             outputBoolArray[0] = outputBool;
                             OnPropertyChanged("OutputBool");
                             OnPropertyChanged("OutputBoolArray");
-                            //OnPropertyChanged("OutputStream");
 
                             // update quickwatch presentation
                             if (!settings.NoQuickwatch)
@@ -834,12 +761,19 @@ namespace Cryptool.NLFSR
 
                     // reset newSeed after first round
                     newSeed = false;
+                    if (!settings.UseBoolClock)
+                    {
+                        ProgressChanged((double)i, (double)actualRounds);
+                    }
                 }
 
                 // stop counter
                 DateTime stopTime = DateTime.Now;
                 // compute overall time
                 TimeSpan duration = stopTime - startTime;
+
+                // change progress to 100%
+                ProgressChanged(1.0, 1.0);
 
                 if (!stop)
                 {
@@ -848,15 +782,11 @@ namespace Cryptool.NLFSR
                     OnPropertyChanged("OutputString");
 
                     GuiLogMessage("Complete!", NotificationLevel.Debug);
-
                     GuiLogMessage("Time used: " + duration, NotificationLevel.Debug);
-                    //outputStream.Close();
-                    //OnPropertyChanged("OutputStream");
                 }
 
                 if (stop)
                 {
-                    //outputStream.Close();
                     outputStringBuffer = null;
                     GuiLogMessage("Aborted!", NotificationLevel.Debug);
                 }
