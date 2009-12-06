@@ -421,7 +421,8 @@ namespace KeySearcher
                 return;
             }
 
-            BigInteger size = pattern.setWildcardKey(settings.Key);            
+            pattern.WildcardKey = settings.Key;
+            BigInteger size = pattern.size();
             KeyPattern[] patterns = splitPatternForThreads(pattern);
 
             valuequeue = Queue.Synchronized(new Queue());

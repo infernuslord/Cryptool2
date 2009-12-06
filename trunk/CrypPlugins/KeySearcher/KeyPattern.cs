@@ -25,6 +25,7 @@ namespace KeySearcher
 {
     public class KeyPattern
     {
+        #region private Wildcard class
         private class Wildcard
         {
             private char[] values = new char[256];
@@ -192,9 +193,23 @@ namespace KeySearcher
                 return true;
             }
         }
+        #endregion
 
         private string pattern;
         private ArrayList wildcardList;
+        public string WildcardKey
+        {
+            get
+            {
+                return getWildcardKey();
+            }
+            set
+            {
+                if (!testWildcardKey(value))
+                    throw new Exception("Invalid wildcard key!");
+                setWildcardKey(value);
+            }
+        }
 
         public KeyPattern(string pattern)
         {
@@ -342,9 +357,8 @@ namespace KeySearcher
             return testWildcardKey(wildcardKey, pattern);
         }
 
-        public BigInteger setWildcardKey(string wildcardKey)
-        {
-            BigInteger counter = 1;            
+        private void setWildcardKey(string wildcardKey)
+        {          
             int pcount = 0;
             wildcardList = new ArrayList();
             int i = 0;
@@ -356,13 +370,11 @@ namespace KeySearcher
                     {
                         Wildcard wc = new Wildcard(pattern.Substring(pcount, pattern.IndexOf(']', pcount) + 1 - pcount));
                         wildcardList.Add(wc);
-                        counter *= wc.size();
-                    }
+                      }
                     else if (wildcardKey[i] == '[')
                     {
                         Wildcard wc = new Wildcard(wildcardKey.Substring(i, wildcardKey.IndexOf(']', i) + 1 - i));
                         wildcardList.Add(wc);
-                        counter *= wc.size();
                         while (wildcardKey[++i] != ']') ;
                     }
                     else
@@ -375,10 +387,9 @@ namespace KeySearcher
                 pcount++;
                 i++;
             }
-            return counter;
         }
 
-        public string getWildcardKey()
+        private string getWildcardKey()
         {
             string res = "";
             int pcount = 0;
@@ -567,7 +578,7 @@ namespace KeySearcher
         /// <returns></returns>
         public override string ToString()
         {
-            return "Type: KeySearcher.KeyPattern. WildcardKey: '" + this.getWildcardKey() + "', Pattern: '" + this.pattern + "'";
+            return "Type: KeySearcher.KeyPattern. WildcardKey: '" + this.WildcardKey + "', Pattern: '" + this.pattern + "'";
         }
 
         //added by Christian Arnold - 2009.12.03
@@ -614,7 +625,7 @@ namespace KeySearcher
         private object Serialize(bool returnByte)
         {
             object objReturn = null;
-            string wildcardKey = this.getWildcardKey();
+            string wildcardKey = this.WildcardKey;
             if (wildcardKey != null && this.pattern != null)
             {
                 // TODO: implement testPattern-method
@@ -665,7 +676,7 @@ namespace KeySearcher
                 // TODO: use Pattern-property in future
                 keyPatternToReturn = new KeyPattern(pattern_temp);
                 // TODO: use WildcardKey-property in future
-                keyPatternToReturn.setWildcardKey(wildcardKey_temp);
+                keyPatternToReturn.WildcardKey = wildcardKey_temp;
                 return keyPatternToReturn;
             }
             else
