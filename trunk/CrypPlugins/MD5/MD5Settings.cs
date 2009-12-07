@@ -37,23 +37,6 @@ namespace Cryptool.MD5
 
         #endregion
 
-
-        private bool presentationMode = false;
-        [TaskPane("Presentation mode", "With presentation mode enabled, results will not be generated ASAP. Instead, the generation steps can be individually traced from the Presentation screen.", null, 0, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
-        public bool PresentationMode
-        {
-            get { return presentationMode; }
-            set
-            {
-                if (value != presentationMode)
-                {
-                    presentationMode = value;
-                    hasChanges = true;
-                    OnPropertyChanged("PresentationMode");
-                }
-            }
-        }
-
         private void OnPropertyChanged(string p)
         {
             if (PropertyChanged != null)
