@@ -759,6 +759,10 @@ namespace Cryptool.MD5.Algorithm
         protected void writeUintToArray(byte[] array, int offset, uint value)
         {
             byte[] byteValue = BitConverter.GetBytes(value);
+
+            if (!BitConverter.IsLittleEndian)
+                Array.Reverse(byteValue);
+
             Array.Copy(byteValue, 0, array, offset, 4);
         }
     }
