@@ -2,30 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NUnit.Framework;
 using System.IO;
 using Cryptool.MD5.Algorithm;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Test.Cryptool.MD5
+namespace Test.Cryptool.MD5.Algorithm
 {
-    [TestFixture]
-    class PresentableMD5Test
+    [TestClass]
+    public class PresentableMD5Test
     {
         Random RNG;
 
-        [SetUp]
-        public void SetUp()
+        [TestInitialize]
+        public void Initialize()
         {
             RNG = new Random();
         }
 
-        [Test]
+        [TestMethod]
         public void Construction()
         {
             new PresentableMD5();
         }
 
-        [Test]
+        [TestMethod]
         public void UninitializedStateAfterConstruction()
         {
             PresentableMD5 md5 = new PresentableMD5();
@@ -33,7 +33,7 @@ namespace Test.Cryptool.MD5
             Assert.AreEqual(md5.CurrentState.State, MD5StateDescription.UNINITIALIZED);
         }
 
-        [Test]
+        [TestMethod]
         public void InitializedStateAfterInitialization()
         {
             PresentableMD5 md5 = new PresentableMD5();
@@ -43,10 +43,10 @@ namespace Test.Cryptool.MD5
             Assert.AreEqual(md5.CurrentState.State, MD5StateDescription.INITIALIZED);
         }
 
-        [Test]
+        [TestMethod]
         public void VerifyResultsForRandomData()
         {
-            const int TEST_RUNS = 20;
+            const int TEST_RUNS = 10;
             const int MIN_TEST_DATA_LENGTH = 1;
             const int MAX_TEST_DATA_LENGTH = 1000;
 
@@ -57,13 +57,13 @@ namespace Test.Cryptool.MD5
             }
         }
 
-        [Test]
+        [TestMethod]
         public void VerifyResultForEmptyData()
         {
             VerifyResult(new byte[0]);
         }
 
-        [Test]
+        [TestMethod]
         public void VerifyResultsForRandomDataWithInterestingLength()
         {
             VerifyResult(GenerateTestData(54));
@@ -76,12 +76,12 @@ namespace Test.Cryptool.MD5
             System.Security.Cryptography.MD5 builtinMD5 = System.Security.Cryptography.MD5.Create();
             byte[] builtinResult = builtinMD5.ComputeHash(data);
 
-            PresentableMD5 presentableMd5 = new PresentableMD5();
-            presentableMd5.Initialize(new MemoryStream(data));
-            presentableMd5.NextStepUntilFinished();
-            byte[] presentableMd5Result = presentableMd5.HashValueBytes;
+            PresentableMD5 presentableMD5 = new PresentableMD5();
+            presentableMD5.Initialize(new MemoryStream(data));
+            presentableMD5.NextStepUntilFinished();
+            byte[] presentableMD5Result = presentableMD5.HashValueBytes;
 
-            Assert.AreEqual(builtinResult, presentableMd5Result);
+            CollectionAssert.AreEqual(builtinResult, presentableMD5Result);
         }
 
         private byte[] GenerateTestData(int minLength, int maxLength)
