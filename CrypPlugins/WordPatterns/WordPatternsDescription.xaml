@@ -1,0 +1,29 @@
+<FlowDocument PagePadding="5,0,5,0" AllowDrop="True" NumberSubstitution.CultureSource="User" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Paragraph>
+        <Run FontSize="28" xml:lang="de-de">WordPatterns</Run>
+    </Paragraph>
+    <Paragraph>
+        <Run xml:lang="de-de" xml:space="preserve">The WordPatterns plugin searches for words which share the same character pattern. A </Run><Run FontWeight="Bold" xml:lang="de-de" xml:space="preserve">pattern </Run><Run xml:lang="de-de">is a sequence of numbers; each character of the word maps to a consecutive number, while same characters map to the same number. The resulting number sequence represents the character repetitions and equalities of a word, preserving the positions of the repetitions. The pattern does not represent the word content. The character values are lost and thus the word can not be retrieved solely by its pattern.</Run>
+    </Paragraph>
+    <Paragraph>
+        <Run FontSize="20" xml:lang="de-de">Example</Run>
+    </Paragraph>
+    <Paragraph>
+        <Run xml:lang="de-de">For example the word ANNA has a length of four characters and consists of two different characters (A and N). Therefore the corresponding sequence has a length of four numbers, while two consecutive numbers are being used, namely 1 and 2. A is found first in the word and maps to 1. N is the next different character and maps to 2. Therefore the resulting pattern is 1-2-2-1.</Run>
+    </Paragraph>
+    <Paragraph>
+        <Run xml:lang="de-de">Different words may have the same word pattern. As another example the word NOON also results in the pattern 1-2-2-1.</Run>
+    </Paragraph>
+    <Paragraph>
+        <Run FontSize="20" xml:lang="de-de">Area of Application</Run>
+    </Paragraph>
+    <Paragraph>
+        <Run xml:lang="de-de">The word pattern search aids in the cryptanalysis of monoalphabetical substitution ciphers. For this purpose a dictionary is required, from which the pattern of each word is precomputed once. Then, the pattern of a given ciphertext word can be used to search for possible plaintext candidates from the chosen dictionary.</Run>
+    </Paragraph>
+    <Paragraph>
+        <Run FontSize="20" xml:lang="de-de">Usage</Run>
+    </Paragraph>
+    <Paragraph>
+        <Run xml:lang="de-de">Enter the input word, whose pattern is used to retrieve matching words from the dictionary, as string (for example TextInput plugin). Enter the list of words to be searched for as string array (for example Dictionary plugin). Depending on the size of the dictionary the precomputation may take some seconds. The output is a list of matching words as single string, separated by newline.</Run>
+    </Paragraph>
+</FlowDocument>
