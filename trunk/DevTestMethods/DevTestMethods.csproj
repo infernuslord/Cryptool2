@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MD5\Algorithm\PresentableMD5Test.cs" />
+    <Compile Include="MD5\Presentation\Helpers\PresentationControlFactoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="pkcsTest.cs" />
     <Compile Include="TigerTest.cs" />
@@ -50,6 +52,10 @@
     <ProjectReference Include="..\CrypPluginBase\CrypPluginBase.csproj">
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\MD5\MD5.csproj">
+      <Project>{1137719A-7468-4DEF-84B1-77AB82049656}</Project>
+      <Name>MD5</Name>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\PKCS5\PKCS5.csproj">
       <Project>{80200C92-77FC-4508-B520-D51530BE2608}</Project>
