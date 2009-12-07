@@ -22,20 +22,20 @@ namespace WordPatterns
      * - support wildcard (*)
      */
     [Author("Matthäus Wander", "wander@cryptool.org", "Fachgebiet Verteilte Systeme, Universität Duisburg-Essen", "http://www.vs.uni-due.de")]
-    [PluginInfo(false, "WordPatterns", "Searches for words with the same pattern", null, "CrypWin/images/default.png")]
+    [PluginInfo(false, "WordPatterns", "Searches for words with the same pattern", "WordPatterns/WordPatternsDescription.xaml", "CrypWin/images/default.png")]
     public class WordPatterns : IAnalysisMisc
     {
         #region Private stuff
 
-            private WordPatternsSettings settings = new WordPatternsSettings();
+        private WordPatternsSettings settings = new WordPatternsSettings();
 
-            private string inputText;
-            private string[] inputDict;
-            private string outputText;
+        private string inputText;
+        private string[] inputDict;
+        private string outputText;
 
-            private IDictionary<Pattern, IList<string>> dictPatterns;
-
-            private bool stop = false;
+        private IDictionary<Pattern, IList<string>> dictPatterns;
+        
+        private bool stop = false;
 
         #endregion
 
@@ -78,6 +78,14 @@ namespace WordPatterns
             {
                 outputText = value;
                 OnPropertyChanged("OutputText");
+            }
+        }
+
+        public bool CaseSensitive
+        {
+            get
+            {
+                return settings.CaseSelection == Case.Sensitive;
             }
         }
 
@@ -129,7 +137,7 @@ namespace WordPatterns
             }
 
             // calculate input word pattern
-            Pattern inputPattern = new Pattern(inputText);
+            Pattern inputPattern = new Pattern(inputText, CaseSensitive);
 
             if (inputDict == null)
                 return;
@@ -143,7 +151,7 @@ namespace WordPatterns
                 while (wordCount < inputDict.Length && !stop)
                 {
                     string word = inputDict[wordCount];
-                    Pattern p = new Pattern(word);
+                    Pattern p = new Pattern(word, CaseSensitive);
 
                     // two calls to Pattern.GetHashCode()
                     if (!dictPatterns.ContainsKey(p))
@@ -187,8 +195,11 @@ namespace WordPatterns
             private readonly int[] patternArray;
             private readonly int hashCode;
 
-            internal Pattern(string word)
+            internal Pattern(string word, bool caseSensitive)
             {
+                if (!caseSensitive)
+                    word = word.ToLower();
+
                 patternArray = new int[word.Length];
                 hashCode = -2128831035; // int32 counterpart of uint32 2166136261
                 

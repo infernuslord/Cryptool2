@@ -243,6 +243,7 @@ namespace Dictionary
     }
 
     // CrypWin requires this to be a collection of strings
+    [DontSave]
     public ObservableCollection<string> Collection
     {
       get { return collection; }

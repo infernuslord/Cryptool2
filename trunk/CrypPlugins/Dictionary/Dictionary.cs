@@ -247,7 +247,7 @@ namespace Dictionary
         {
             get
             {
-                if (dicList != null && dicList.Length > settings.Dictionary)
+                if (dicList != null && settings.Dictionary >= 0 && settings.Dictionary < dicList.Length)
                     return dicList[settings.Dictionary];
                 else
                     return null;
@@ -330,6 +330,12 @@ namespace Dictionary
 
         public void Execute()
         {
+            if (CurrentDicSelection == null)
+            {
+                GuiLogMessage("No dictionary chosen.", NotificationLevel.Error);
+                return;
+            }
+
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(50, 100));
             EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs("OutputList"));
             EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs("OutputString"));
@@ -427,7 +433,9 @@ namespace Dictionary
         {
             dicList = dataMgr.LoadDirectory(DATATYPE).Values.ToArray();
 
-            settings.Collection.Clear();
+            if (settings.Collection.Count > 0)
+                settings.Collection.Clear();
+
             foreach (DataFileMetaInfo meta in dicList)
             {
                 settings.Collection.Add(meta.Name);
