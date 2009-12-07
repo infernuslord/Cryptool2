@@ -12,7 +12,7 @@ using Cryptool.MD5Collider.Algorithm;
 namespace Cryptool.MD5Collider
 {
     [Author("Holger Pretzsch", "mail@holger-pretzsch.de", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(true, "MD5Collider", "MD5 hash collider", "MD5Collider/DetailedDescription/Description.xaml", "MD5Collider/MD5Collider.png")]
+    [PluginInfo(false, "MD5Collider", "MD5 hash collider", "MD5Collider/DetailedDescription/Description.xaml", "MD5Collider/MD5Collider.png")]
     [EncryptionType(EncryptionType.Classic)]
     class MD5Collider : ICryptographicHash
     {
@@ -94,13 +94,33 @@ namespace Cryptool.MD5Collider
             }
         }
 
+        private byte[] randomSeed;
+        [PropertyInfo(Direction.InputData, "Random seed", "Data used for initialization of RNG", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        public byte[] RandomSeed
+        {
+            get { return randomSeed; }
+            set
+            {
+                this.randomSeed = value;
+                OnPropertyChanged("RandomSeed");
+            }
+        }
+
         public void Execute()
         {
+            if (RandomSeed == null)
+                return;
+
             ProgressChanged(0.5, 1.0);
+
             MD5TunnelCollider collider = new MD5TunnelCollider();
+
+            collider.RandomSeed = RandomSeed;
             collider.FindCollision();
+
             OutputData1 = collider.FirstCollidingData;
             OutputData2 = collider.SecondCollidingData;
+
             ProgressChanged(1.0, 1.0);
         }
 

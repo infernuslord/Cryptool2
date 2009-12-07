@@ -10,10 +10,15 @@ namespace Cryptool.MD5Collider.Algorithm
     {
         public byte[] FirstCollidingData { get; private set; }
         public byte[] SecondCollidingData { get; private set; }
+        public byte[] RandomSeed { get; set; }
 
         public void FindCollision()
         {
-            X = (new Random(121).Next(int.MaxValue) << 16) | new Random(2).Next(int.MaxValue);
+            byte[] seedBytedMd5 = MD5.Create().ComputeHash(RandomSeed);
+            int seed = BitConverter.ToInt32(seedBytedMd5, 0) ^ BitConverter.ToInt32(seedBytedMd5, 4) ^ BitConverter.ToInt32(seedBytedMd5, 8) ^ BitConverter.ToInt32(seedBytedMd5, 12);
+            Random rngInitializer = new Random(seed);
+
+            X = (rngInitializer.Next(int.MaxValue) << 16) | rngInitializer.Next(int.MaxValue);
             Y = 0x00000001;
 
             B1();
@@ -22,7 +27,7 @@ namespace Cryptool.MD5Collider.Algorithm
         UInt32 a, b, c, d;
         UInt32[] Hx = new UInt32[16];
         UInt32[] P_IHV1 = new UInt32[4], P_HIHV1 = new UInt32[4];
-        UInt32 pocet_kolizi;
+        //UInt32 pocet_kolizi;
         byte[] buffer = new byte[2048];
         double cas1 = 0, cas2 = 0, cas3 = 0, cas4 = 0, cas5 = 0;
 
@@ -866,7 +871,8 @@ namespace Cryptool.MD5Collider.Algorithm
 
 
 
-            pocet_kolizi = 0; cas1 = cas2 = cas3 = cas4 = cas5 = 0;
+            //pocet_kolizi = 0;
+            cas1 = cas2 = cas3 = cas4 = cas5 = 0;
             for (; ; )
             {
                 /* a1 */
