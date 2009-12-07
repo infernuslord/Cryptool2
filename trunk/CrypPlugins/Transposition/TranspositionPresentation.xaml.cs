@@ -21,15 +21,15 @@ namespace Transposition
     /// Interaktionslogik für TranspositionPresentation.xaml
     /// </summary>
     public partial class TranspositionPresentation : UserControl
-    {   
+    {
         /// <summary>
         /// Visualisationmodul for Transposition.c
         /// </summary>
         public TranspositionPresentation()
         {
-           InitializeComponent(); 
-           SizeChanged += sizeChanged;
-           
+            InitializeComponent();
+            SizeChanged += sizeChanged;
+
         }
 
         public void sizeChanged(Object sender, EventArgs eventArgs)
@@ -66,17 +66,24 @@ namespace Transposition
         private byte[,] read_in_matrix;
         private byte[,] permuted_matrix;
         private Brush[,] mat_back;
+        private DoubleAnimation nop;
         private DoubleAnimation fadeIn;
         private DoubleAnimation fadeOut;
         private int[] key;
-        //private int numod;
 
         #endregion
 
-        #region init + main
+        /// <summary>
+        /// Getter of the Speed the Visualisation is running
+        /// </summary>
+        /// <param name="speed"></param>
+        public void UpdateSpeed(int speed)
+        {
+            this.speed = speed;
+        }
 
         /// <summary>
-        /// initialisation of all params the visualisation needs from the caller
+        /// Initialisation of all Params the Visualisation needs from the Caller
         /// </summary>
         /// <param name="read_in_matrix"></param>
         /// <param name="permuted_matrix"></param>
@@ -84,37 +91,48 @@ namespace Transposition
         /// <param name="per"></param>
         /// <param name="rein"></param>
         /// <param name="reout"></param>
-        //private void init(int numod,byte[,] read_in_matrix, byte[,] permuted_matrix, String keyword, int per, int rein, int reout, int act, int[] key) 
-        private void init(byte[,] read_in_matrix, byte[,] permuted_matrix, String keyword, int per, int rein, int reout, int act, int[] key) 
+        private void init(byte[,] read_in_matrix, byte[,] permuted_matrix, String keyword, int per, int rein, int reout, int act, int[] key)
         {
+            LinearGradientBrush myBrush = new LinearGradientBrush();
+            myBrush.GradientStops.Add(new GradientStop(Colors.CornflowerBlue, 0.0));
+            myBrush.GradientStops.Add(new GradientStop(Colors.SkyBlue, 0.5));
+            myBrush.GradientStops.Add(new GradientStop(Colors.PowderBlue, 1.0));
+
+            mycanvas.Background = myBrush;
             DoubleAnimation fadeIn = new DoubleAnimation();
             fadeIn.From = 0.0;
             fadeIn.To = 1.0;
-            fadeIn.Duration = new Duration(TimeSpan.FromMilliseconds((1001 - speed)/4));
-            
+            fadeIn.Duration = new Duration(TimeSpan.FromMilliseconds((1001 - speed)));
+
             DoubleAnimation fadeOut = new DoubleAnimation();
             fadeOut.From = 1.0;
             fadeOut.To = 0.0;
-            fadeOut.Duration = new Duration(TimeSpan.FromMilliseconds((1001 - speed)*4));
+            fadeOut.Duration = new Duration(TimeSpan.FromMilliseconds((1001 - speed)));
+
+            DoubleAnimation nop = new DoubleAnimation();
+            nop.From = 0.0;
+            nop.To = 0.0;
+            nop.Duration = new Duration(TimeSpan.FromMilliseconds(10));
+
 
             if (act == 0)
-                    {
-                        this.rein = rein;
-                        this.reout = reout;
-                    }
-                    else 
-                    {
-                        this.rein = reout;
-                        this.reout = rein;
-                    }
+            {
+                this.rein = rein;
+                this.reout = reout;
+            }
+            else
+            {
+                this.rein = reout;
+                this.reout = rein;
+            }
             this.fadeIn = fadeIn;
             this.fadeOut = fadeOut;
-            this.read_in_matrix=read_in_matrix;
+            this.nop = nop;
+            this.read_in_matrix = read_in_matrix;
             this.permuted_matrix = permuted_matrix;
             this.per = per;
             this.act = act;
             this.key = key;
-            //this.numod = numod;
 
             countup = 0;
             countup1 = 0;
@@ -127,78 +145,82 @@ namespace Transposition
                 Stop = true;
 
             textBox2.Clear();
-   
-            
-            if (per == 1  )
-                {
-                   
-                    rowper = 0;
-                    colper = 2;
-                    if (this.reout == 1)
-                        outcount = 0;
-                    else
-                        outcount = 2;
 
-                    if (this.reout == 1)
-                        outcount4 = 0;
-                    else 
-                        outcount4 = 2;
-                    
-                    if(this.rein == 1)
-                        outcount1 = 0;
-                    else
-                        outcount1 = 2;
 
-                    if (this.rein == 1)
-                        outcount3 = 0;
 
-                    else
-                        outcount3 = 2;
-                }
+            if (per == 1)
+            {
+
+                rowper = 0;
+                colper = 2;
+                if (this.reout == 1)
+                    outcount = 0;
+                else
+                    outcount = 2;
+
+                if (this.reout == 1)
+                    outcount4 = 0;
+                else
+                    outcount4 = 2;
+
+                if (this.rein == 1)
+                    outcount1 = 0;
+                else
+                    outcount1 = 2;
+
+                if (this.rein == 1)
+                    outcount3 = 0;
+
+                else
+                    outcount3 = 2;
+            }
             else
-                {
-                    rowper = 2;
-                    colper = 0;
+            {
+                rowper = 2;
+                colper = 0;
 
-                    if (this.reout == 1)
-                        outcount = 2;
-                    else
-                        outcount = 0;
+                if (this.reout == 1)
+                    outcount = 2;
+                else
+                    outcount = 0;
 
-                    if (this.reout == 1)
-                        outcount4 = 2;
-                    else
-                        outcount4 = 0;
+                if (this.reout == 1)
+                    outcount4 = 2;
+                else
+                    outcount4 = 0;
 
-                    if (this.rein == 1)
-                        outcount1 = 2;
-                    else
-                        outcount1 = 0;
+                if (this.rein == 1)
+                    outcount1 = 2;
+                else
+                    outcount1 = 0;
 
-                    if (this.rein == 1)
-                        outcount3 = 2;
-                    else
-                        outcount3 = 0;
-                    }
+                if (this.rein == 1)
+                    outcount3 = 2;
+                else
+                    outcount3 = 0;
+            }
         }
 
-        public void main(byte[,] read_in_matrix, byte[,] permuted_matrix, int[] key, String keyword, byte[] input, byte[] output, int per, int rein, int reout,int act)
+        public void main(byte[,] read_in_matrix, byte[,] permuted_matrix, int[] key, String keyword, byte[] input, byte[] output, int per, int rein, int reout, int act)
         {
+
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                    this.my_Stop(this, EventArgs.Empty);
-                    init(read_in_matrix,permuted_matrix,keyword, per, rein, reout,act,key);
+                this.my_Stop(this, EventArgs.Empty);
+                if (keyword != null && input != null)
+                {
+                    init(read_in_matrix, permuted_matrix, keyword, per, rein, reout, act, key);
                     create(read_in_matrix, permuted_matrix, key, keyword, input, output);
-                    
+                    sizeChanged(this, EventArgs.Empty);
                     schleife = 0;
                     //textBox1.Text = input;
                     //readIn();
+                }
             }, null);
         }
 
-        #endregion
-
         #region create
+
         /// <summary>
         /// method for creating the grid
         /// </summary>
@@ -214,8 +236,6 @@ namespace Transposition
             {
                 if (read_in_matrix != null && key != null)
                 {
-                   
-
                     myGrid.Children.Clear();
                     myGrid.RowDefinitions.Clear();
                     myGrid.ColumnDefinitions.Clear();
@@ -224,24 +244,29 @@ namespace Transposition
                     mywrap1.Children.Clear();
                     mywrap2.Children.Clear();
 
-                    if (rein == 0) { textBox2.Text = "reading in by row"; }
-                    else { textBox2.Text = "reading in by column"; }
-                    
+                    //OLO
+                    if (rein == 0) { textBox2.Text = "status: reading in by row"; }
+                    else { textBox2.Text = "status: reading in by column"; }
+
+
                     teba = new TextBlock[read_in_matrix.GetLength(0) + rowper, read_in_matrix.GetLength(1) + colper];
 
-                    for (int i = 0; i < read_in_matrix.GetLength(0) + rowper;i++ )
+                    for (int i = 0; i < read_in_matrix.GetLength(0) + rowper; i++)
                     {
-                       myGrid.ColumnDefinitions.Add(new ColumnDefinition());
+                        myGrid.ColumnDefinitions.Add(new ColumnDefinition());
                     }
                     for (int i = 0; i < read_in_matrix.GetLength(1) + colper; i++)
-                    {                        
+                    {
                         myGrid.RowDefinitions.Add(new RowDefinition());
-                    }   
+                    }
+
                     for (int i = 0; i < key.Length; i++)
                     {
+
+
                         TextBlock txt = new TextBlock();
                         String s = key[i].ToString();
-                        
+
                         txt.VerticalAlignment = VerticalAlignment.Center;
                         if (act == 0)
                             txt.Text = s;
@@ -251,8 +276,8 @@ namespace Transposition
                         txt.FontWeight = FontWeights.ExtraBold;
                         txt.TextAlignment = TextAlignment.Center;
                         txt.Width = 17;
-                       // txt.Opacity = 0.0;
-                        
+                        // txt.Opacity = 0.0;
+
                         if (per == 1)
                         {
                             Grid.SetRow(txt, 0);
@@ -261,7 +286,7 @@ namespace Transposition
                             teba[i, 0] = txt;
                             //teba[i, 0].BeginAnimation(TextBlock.OpacityProperty,fadeIn);                            
                         }
-                        else                         
+                        else
                         {
                             Grid.SetRow(txt, i);
                             Grid.SetColumn(txt, 0);
@@ -270,8 +295,9 @@ namespace Transposition
                             //teba[0, i].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
                         }
                     }
+
                     if (keyword != null)
-                    {                        
+                    {
                         char[] ch = keyword.ToCharArray();
                         if (act == 1)
                             Array.Sort(ch);
@@ -328,10 +354,11 @@ namespace Transposition
                                 }
                             }
                         }
+
                     }
                     mat_back = new Brush[read_in_matrix.GetLength(0), read_in_matrix.GetLength(1)];
                     for (int i = 0; i < read_in_matrix.GetLength(1); i++)
-                    {                       
+                    {
                         int x = 0;
                         if (i % 2 == 0)
                             x = 1;
@@ -344,9 +371,9 @@ namespace Transposition
                             else
                                 txt.Text = "";
                             if (ix % 2 == x)
-                                    mat_back[ix,i]= Brushes.AliceBlue;
+                                mat_back[ix, i] = Brushes.AliceBlue;
                             else
-                                mat_back[ix,i] = Brushes.LawnGreen;
+                                mat_back[ix, i] = Brushes.LawnGreen;
                             txt.Background = Brushes.Yellow;
                             txt.FontSize = 12;
                             txt.Opacity = 1.0;
@@ -362,7 +389,7 @@ namespace Transposition
                         }
                     }
                     if (input.Length >= key.Length)
-                   reina = new TextBlock[input.Length];
+                        reina = new TextBlock[input.Length];
                     else
                         reina = new TextBlock[key.Length];
 
@@ -371,16 +398,15 @@ namespace Transposition
                         TextBlock txt = new TextBlock();
                         txt.FontSize = 12;
                         txt.FontWeight = FontWeights.ExtraBold;
-                        //HIER OLO HEX
                         txt.Text = Convert.ToChar(input[i]).ToString();
                         reina[i] = txt;
                         reina[i].Background = Brushes.Transparent;
                         //reina[i].Opacity = 0.0;
                         mywrap1.Children.Add(txt);
-                       // if (i == input.Length-1)
-                         //   { fadeIn.Completed += new EventHandler(my_Help3); }
+                        // if (i == input.Length-1)
+                        //   { fadeIn.Completed += new EventHandler(my_Help3); }
                         //if (!Stop)
-                       // reina[i].BeginAnimation(TextBlock.OpacityProperty,fadeIn);
+                        // reina[i].BeginAnimation(TextBlock.OpacityProperty,fadeIn);
                     }
                     if (input.Length < key.Length)
                     {
@@ -403,20 +429,18 @@ namespace Transposition
                         TextBlock txt = new TextBlock();
                         txt.FontSize = 12;
                         txt.FontWeight = FontWeights.ExtraBold;
-                        // HIER OLO AUCH DER CONVERT
-                        
                         txt.Text = Convert.ToChar(output[i]).ToString();
                         reouta[i] = txt;
                         reouta[i].Background = Brushes.Orange;
                         reouta[i].Opacity = 0.0;
-                        mywrap2.Children.Add(txt);   
+                        mywrap2.Children.Add(txt);
                     }
                 }
-                
-                fadeIn.Completed += new EventHandler(my_Help3);
-                if(!Stop)
-                Stack.BeginAnimation(OpacityProperty, fadeIn);
-                
+
+                nop.Completed += new EventHandler(my_Helpnop);
+                if (!Stop)
+                    Stack.BeginAnimation(OpacityProperty, nop);
+
             }
          , null);
         }
@@ -559,7 +583,10 @@ namespace Transposition
                     }
                     if (no)
                     {
-                        myColorAnimation_green.Completed += new EventHandler(my_Help5);
+                        if (mat_back[2 - rowper, outcount3 - colper] == Brushes.LawnGreen)
+                            myColorAnimation_green.Completed += new EventHandler(my_Help5);
+                        else
+                            myColorAnimation_blue.Completed += new EventHandler(my_Help5);
                     }
                     if (!Stop)
                     {
@@ -583,7 +610,12 @@ namespace Transposition
                         }
                     }
                     if (no)
-                        myColorAnimation_blue.Completed += new EventHandler(my_Help5);
+                    {
+                        if (mat_back[outcount3 - rowper, 2 - colper] == Brushes.LawnGreen)
+                            myColorAnimation_green.Completed += new EventHandler(my_Help5);
+                        else
+                            myColorAnimation_blue.Completed += new EventHandler(my_Help5);
+                    }
                     if (!Stop)
                     {
                         brush_blue.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_blue);
@@ -603,8 +635,9 @@ namespace Transposition
         /// <param name="i"></param>
         public void sort(int i)
         {
-            if (per == 0) { textBox2.Text = "permuting by row"; }
-            else { textBox2.Text = "permuting by column"; }
+            //OLOo
+            if (per == 0) { textBox2.Text = "status: permuting by row"; }
+            else { textBox2.Text = "status: permuting by column"; }
 
             if (per == 1)
             {
@@ -612,7 +645,7 @@ namespace Transposition
                 {
                     if (act == 0)
                     {
-                        if (i < teba.GetLength(0) - 1)
+                        if (i < teba.GetLength(0))
                         {
                             if (Convert.ToInt32(teba[i, 0].Text) != i + 1)
                             {
@@ -624,19 +657,22 @@ namespace Transposition
                                         s = ix;
                                     }
                                 }
-                                preani(i, s);   
+                                preani(i, s);
+
                             }
                             else
                             {
                                 schleife++;
                                 sort(schleife);
                             }
+
                         }
+
                         else if (!Stop) { preReadOut(); }
                     }
                     else
                     {
-                        if (i < teba.GetLength(0) - 1)
+                        if (i < teba.GetLength(0))
                         {
                             if (Convert.ToInt32(teba[i, 0].Text) != key[i])
                             {
@@ -657,10 +693,13 @@ namespace Transposition
                                 schleife++;
                                 sort(schleife);
                             }
+
                         }
+
                         else if (!Stop) { preReadOut(); }
                     }
                 }
+
             }
             else
             {
@@ -668,7 +707,7 @@ namespace Transposition
                 {
                     if (act == 0)
                     {
-                        if (i < teba.GetLength(1) - 1)
+                        if (i < teba.GetLength(1))
                         {
                             if (Convert.ToInt32(teba[0, i].Text) != i + 1)
                             {
@@ -681,18 +720,21 @@ namespace Transposition
                                     }
                                 }
                                 preani(i, s);
+
                             }
                             else
                             {
                                 schleife++;
                                 sort(schleife);
                             }
+
                         }
+
                         else if (!Stop) { preReadOut(); }
                     }
                     else
                     {
-                        if (i < teba.GetLength(1) - 1)
+                        if (i < teba.GetLength(1))
                         {
                             if (Convert.ToInt32(teba[0, i].Text) != key[i])
                             {
@@ -705,6 +747,7 @@ namespace Transposition
                                     }
                                 }
                                 preani(i, s);
+
                             }
                             else
                             {
@@ -712,18 +755,22 @@ namespace Transposition
                                 schleife++;
                                 sort(schleife);
                             }
+
                         }
+
                         else if (!Stop) { preReadOut(); }
                     }
                 }
+
             }
         }
+
         #endregion
 
         #region readouts
 
-        private void postReadOut() 
-        { 
+        private void postReadOut()
+        {
             ColorAnimation myColorAnimation = new ColorAnimation();
             myColorAnimation.From = Colors.Orange;
             myColorAnimation.To = Colors.Transparent;
@@ -731,16 +778,17 @@ namespace Transposition
             Boolean no = true;
 
             if (reouta != null)
-            {  
+            {
                 SolidColorBrush brush = new SolidColorBrush();
                 brush.Color = Colors.Transparent;
 
                 for (int i = precountup; i < countup1; i++)
                 {
-                   reouta[i].Background = brush;
-                }             
+                    reouta[i].Background = brush;
+                }
+
                 if (reout == 0)
-                {                   
+                {
                     for (int i = 0; i < permuted_matrix.GetLength(0); i++)
                     {
                         if (i == permuted_matrix.GetLength(0) - 1 && outcount5 == permuted_matrix.GetLength(1) - 1 && !Stop)
@@ -752,21 +800,26 @@ namespace Transposition
                 }
                 else
                 {
-                        for (int i = 0; i < permuted_matrix.GetLength(1); i++)
+                    for (int i = 0; i < permuted_matrix.GetLength(1); i++)
+                    {
+                        if (i == permuted_matrix.GetLength(1) - 1 && outcount5 == permuted_matrix.GetLength(0) - 1 && !Stop)
                         {
-                            if (i == permuted_matrix.GetLength(1) - 1 && outcount5 == permuted_matrix.GetLength(0) - 1 && !Stop)
-                            {
-                                myColorAnimation.Completed += new EventHandler(the_End);
-                                no = false;
-                            }
+                            myColorAnimation.Completed += new EventHandler(the_End);
+                            no = false;
                         }
+                    }
                 }
+
                 if (no)
-                myColorAnimation.Completed += new EventHandler(my_Help7);
+                    myColorAnimation.Completed += new EventHandler(my_Help7);
                 if (!Stop)
                     brush.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation);
             }
+
+            //OLO hier falsch
+            //textBox2.Text = "status: accomplished";
         }
+
         private void preReadOut()
         {
             ColorAnimation myColorAnimation_green = new ColorAnimation();
@@ -785,16 +838,19 @@ namespace Transposition
             if (teba != null)
             {
                 if (reout == 0)
-                {                    
+                {
                     for (int i = rowper; i < teba.GetLength(0); i++)
                     {
                         if (mat_back[i - rowper, outcount4 - colper] == Brushes.LawnGreen)
                             teba[i, outcount4].Background = brush_green;
                         else
-                            teba[i, outcount4].Background = brush_blue;                       
-                    }                    
+                            teba[i, outcount4].Background = brush_blue;
+                    }
+                    if (mat_back[2 - rowper, outcount4 - colper] == Brushes.LawnGreen)
                         myColorAnimation_green.Completed += new EventHandler(my_Help6);
-                                        
+                    else
+                        myColorAnimation_blue.Completed += new EventHandler(my_Help6);
+
                     if (!Stop)
                     {
                         brush_green.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_green);
@@ -802,7 +858,7 @@ namespace Transposition
                     }
                 }
                 else
-                {                    
+                {
                     for (int i = colper; i < teba.GetLength(1); i++)
                     {
                         if (mat_back[outcount4 - rowper, i - colper] == Brushes.LawnGreen)
@@ -810,8 +866,11 @@ namespace Transposition
                         else
                             teba[outcount4, i].Background = brush_blue;
                     }
-                   
+                    if (mat_back[outcount4 - rowper, 2 - colper] == Brushes.LawnGreen)
+                        myColorAnimation_green.Completed += new EventHandler(my_Help6);
+                    else
                         myColorAnimation_blue.Completed += new EventHandler(my_Help6);
+
                     if (!Stop)
                     {
                         brush_blue.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_blue);
@@ -822,21 +881,22 @@ namespace Transposition
             }
 
         }
-        
+
         public void readout()
         {
-            if (reout == 0) { textBox2.Text = "reading out by row"; }
-            else { textBox2.Text = "reading out by column"; }
+            //OLO?
+            if (reout == 0) { textBox2.Text = "status: reading out by row"; }
+            else { textBox2.Text = "status: reading out by column"; }
 
             DoubleAnimation myDoubleAnimation = new DoubleAnimation();
             myDoubleAnimation.From = 1.0;
             myDoubleAnimation.To = 0.0;
-            myDoubleAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(1001-speed));
+            myDoubleAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
 
             DoubleAnimation fadeIn = new DoubleAnimation();
             fadeIn.From = 0.0;
             fadeIn.To = 1.0;
-            fadeIn.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));                  
+            fadeIn.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
 
             if (teba != null)
             {
@@ -845,11 +905,13 @@ namespace Transposition
                     for (int i = 0; i < permuted_matrix.GetLength(1); i++)
                     {
                         if (Convert.ToInt64(permuted_matrix[outcount5, i]) != 0)
-                            {
-                                reouta[countup1].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
-                                countup1++;
-                            }    
+                        {
+                            reouta[countup1].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
+                            countup1++;
+                        }
                     }
+
+
                     for (int i = colper; i < teba.GetLength(1); i++)
                     {
                         if (i == teba.GetLength(1) - 1 && !Stop)
@@ -864,12 +926,15 @@ namespace Transposition
                 {
                     for (int i = 0; i < permuted_matrix.GetLength(0); i++)
                     {
-                        if (Convert.ToInt64(permuted_matrix[ i,outcount5]) != 0)
-                            {
-                                reouta[countup1].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
-                                countup1++;
-                            }                               
+                        if (Convert.ToInt64(permuted_matrix[i, outcount5]) != 0)
+                        {
+                            reouta[countup1].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
+                            countup1++;
+                        }
                     }
+
+
+
                     for (int i = rowper; i < teba.GetLength(0); i++)
                     {
                         if (i == teba.GetLength(0) - 1 && !Stop)
@@ -879,20 +944,12 @@ namespace Transposition
                         teba[i, outcount].BeginAnimation(TextBlock.OpacityProperty, myDoubleAnimation);
                     }
                 }
-            }        
+            }
         }
+
         #endregion
 
         #region events
-
-        /// <summary>
-        /// getter of the speed the visualisation is running
-        /// </summary>
-        /// <param name="speed"></param>
-        public void UpdateSpeed(int speed)
-        {
-            this.speed = speed;
-        }
 
         /// <summary>
         /// "emergengy break" 
@@ -906,8 +963,8 @@ namespace Transposition
             myGrid.RowDefinitions.Clear();
             mywrap1.Children.Clear();
             mywrap2.Children.Clear();
-            
-            outcount = 0;           
+
+            outcount = 0;
 
             schleife = 0;
             textBox1.Clear();
@@ -929,42 +986,55 @@ namespace Transposition
                 postReadIn();
         }
 
+        private void my_Helpnop(object sender, EventArgs e)
+        {
+            sizeChanged(this, EventArgs.Empty);
+            mywrap1.BeginAnimation(OpacityProperty, fadeIn);
+            myGrid.BeginAnimation(OpacityProperty, fadeIn);
+            textBox2.BeginAnimation(OpacityProperty, fadeIn);
+            fadeIn.Completed += new EventHandler(my_Help3);
+            if (!Stop)
+                Stack.BeginAnimation(OpacityProperty, fadeIn);
+
+
+        }
+
         private void my_Help3(object sender, EventArgs e)
         {
             sizeChanged(this, EventArgs.Empty);
-            
+
             if (!Stop)
-            preReadIn();
+                preReadIn();
         }
-        
+
         private void my_Help4(object sender, EventArgs e)
         {
-            
+
             outcount2++;
             if (!Stop)
-            readIn();
+                readIn();
         }
 
         private void my_Help7(object sender, EventArgs e)
         {
-            precountup = countup1; 
-            
+            precountup = countup1;
+
             outcount5++;
             if (!Stop)
                 preReadOut();
         }
-         
+
         private void my_Help5(object sender, EventArgs e)
         {
-            
+
             outcount3++;
             if (!Stop)
-            preReadIn();
+                preReadIn();
         }
 
         private void my_Help6(object sender, EventArgs e)
         {
-           
+
             outcount4++;
             if (!Stop)
                 readout();
@@ -979,7 +1049,7 @@ namespace Transposition
         {
             schleife++;
             if (!Stop)
-               postani();
+                postani();
         }
 
         private void my_Help9(object sender, EventArgs e)
@@ -996,7 +1066,7 @@ namespace Transposition
         private void my_Help11(object sender, EventArgs e)
         {
             if (!Stop)
-                postani() ;
+                postani();
         }
 
         private void my_Help12(object sender, EventArgs e)
@@ -1008,7 +1078,10 @@ namespace Transposition
 
         private void the_End(object sender, EventArgs e)
         {
-            Stack.BeginAnimation(OpacityProperty, fadeOut);
+            mywrap1.BeginAnimation(OpacityProperty, fadeOut);
+            myGrid.BeginAnimation(OpacityProperty, fadeOut);
+            textBox2.BeginAnimation(OpacityProperty, fadeOut);
+
         }
 
         private void my_Completed(object sender, EventArgs e)
@@ -1057,29 +1130,29 @@ namespace Transposition
                             teba[nach, i].BeginAnimation(TextBlock.OpacityProperty, myFadein);
                         }
                 }
-                else 
+                else
                 {
-                    
+
                     if (teba != null)
                     {
                         for (int i = 0; i < teba.GetLength(0); i++)
                         {
-                            
-                            String help = teba[ i, nach].Text.ToString();
-                            teba[i,nach].Text = teba[ i,von].Text.ToString();
-                            teba[i,von].Text = help;
+
+                            String help = teba[i, nach].Text.ToString();
+                            teba[i, nach].Text = teba[i, von].Text.ToString();
+                            teba[i, von].Text = help;
 
                             TextBlock help1 = new TextBlock();
-                            help1.Background = teba[ i,nach].Background;
-                            teba[i,nach].Background = teba[i,von].Background;
-                            teba[i,von].Background = help1.Background;
+                            help1.Background = teba[i, nach].Background;
+                            teba[i, nach].Background = teba[i, von].Background;
+                            teba[i, von].Background = help1.Background;
 
                             if (i > 1)
                             {
                                 Brush help2;
-                                help2 = mat_back[i - 2,nach];
-                                mat_back[i - 2,nach] = mat_back[i - 2,von];
-                                mat_back[i - 2,von] = help2;
+                                help2 = mat_back[i - 2, nach];
+                                mat_back[i - 2, nach] = mat_back[i - 2, von];
+                                mat_back[i - 2, von] = help2;
                             }
 
                         }
@@ -1093,26 +1166,26 @@ namespace Transposition
                     if (teba != null)
                         for (int i = 0; i < teba.GetLength(0); i++)
                         {
-                            teba[i,von].BeginAnimation(TextBlock.OpacityProperty, myFadein);
+                            teba[i, von].BeginAnimation(TextBlock.OpacityProperty, myFadein);
                             if (i == teba.GetLength(0) - 1 && !Stop)
                             {
                                 myFadein.Completed += new EventHandler(my_Help11);
                             }
-                            teba[ i,nach].BeginAnimation(TextBlock.OpacityProperty, myFadein);
+                            teba[i, nach].BeginAnimation(TextBlock.OpacityProperty, myFadein);
                         }
                 }
             }, null);
         }
 
-        #endregion 
+        #endregion
 
-        #region animations   
-        
-        public void preani(int von, int nach) 
+        #region animations
+
+        public void preani(int von, int nach)
         {
             this.von = von;
             this.nach = nach;
-            
+
             ColorAnimation myColorAnimation_gy = new ColorAnimation();
             myColorAnimation_gy.From = Colors.LawnGreen;
             myColorAnimation_gy.To = Colors.Yellow;
@@ -1179,48 +1252,47 @@ namespace Transposition
                             teba[nach, i].Background = brush_to;
                         }
                     }
-                    myColorAnimation_by.Completed += new EventHandler(my_Help8);
-            }
-                else 
+                    myColorAnimation_ty.Completed += new EventHandler(my_Help8);
+                }
+                else
                 {
                     for (int i = 0; i < teba.GetLength(0); i++)
                     {
                         if (i > 1)
                         {
-                            if (mat_back[ i - 2,von].Equals(Brushes.LawnGreen))
-                                teba[i,von].Background = brush_gy;
+                            if (mat_back[i - 2, von].Equals(Brushes.LawnGreen))
+                                teba[i, von].Background = brush_gy;
 
-                            if (mat_back[ i - 2,von].Equals(Brushes.AliceBlue))
-                                teba[i,von].Background = brush_by;
+                            if (mat_back[i - 2, von].Equals(Brushes.AliceBlue))
+                                teba[i, von].Background = brush_by;
 
-                            if (mat_back[ i - 2,nach].Equals(Brushes.LawnGreen))
-                                teba[i,nach].Background = brush_go;
+                            if (mat_back[i - 2, nach].Equals(Brushes.LawnGreen))
+                                teba[i, nach].Background = brush_go;
 
-                            if (mat_back[ i - 2,nach].Equals(Brushes.AliceBlue))
-                                teba[i,nach].Background = brush_bo;
+                            if (mat_back[i - 2, nach].Equals(Brushes.AliceBlue))
+                                teba[i, nach].Background = brush_bo;
 
                         }
                         else
                         {
-                            teba[i,von].Background = brush_ty;
-                            teba[i,nach].Background = brush_to;
+                            teba[i, von].Background = brush_ty;
+                            teba[i, nach].Background = brush_to;
                         }
 
                     }
-                    myColorAnimation_by.Completed += new EventHandler(my_Help10);
+                    myColorAnimation_ty.Completed += new EventHandler(my_Help10);
                 }
-            
-            brush_ty.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_ty); 
+
+            brush_ty.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_ty);
             brush_gy.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_gy);
             brush_to.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_to);
             brush_go.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_go);
-            brush_bo.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_bo); 
-            brush_by.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_by); 
+            brush_bo.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_bo);
+            brush_by.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_by);
 
         }
 
-        public void postani() 
-        
+        public void postani()
         {
             ColorAnimation myColorAnimation_gy = new ColorAnimation();
             myColorAnimation_gy.From = Colors.Yellow;
@@ -1288,34 +1360,34 @@ namespace Transposition
                             teba[von, i].Background = brush_to;
                         }
                     }
-                    myColorAnimation_by.Completed += new EventHandler(my_Help9);
-            }
+                    myColorAnimation_ty.Completed += new EventHandler(my_Help9);
+                }
                 else
+                {
+                    for (int i = 0; i < teba.GetLength(0); i++)
                     {
-                        for (int i = 0; i < teba.GetLength(0); i++)
+                        if (i > 1)
                         {
-                            if (i > 1)
-                            {
-                                if (mat_back[i - 2,nach].Equals(Brushes.LawnGreen))
-                                    teba[i,nach].Background = brush_gy;
+                            if (mat_back[i - 2, nach].Equals(Brushes.LawnGreen))
+                                teba[i, nach].Background = brush_gy;
 
-                                if (mat_back[ i - 2,nach].Equals(Brushes.AliceBlue))
-                                    teba[i,nach].Background = brush_by;
+                            if (mat_back[i - 2, nach].Equals(Brushes.AliceBlue))
+                                teba[i, nach].Background = brush_by;
 
-                                if (mat_back[ i - 2,von].Equals(Brushes.LawnGreen))
-                                    teba[i,von].Background = brush_go;
+                            if (mat_back[i - 2, von].Equals(Brushes.LawnGreen))
+                                teba[i, von].Background = brush_go;
 
-                                if (mat_back[ i - 2,von].Equals(Brushes.AliceBlue))
-                                    teba[i,von].Background = brush_bo;
+                            if (mat_back[i - 2, von].Equals(Brushes.AliceBlue))
+                                teba[i, von].Background = brush_bo;
 
-                            }
-                            else
-                            {
-                                teba[i,nach].Background = brush_ty;
-                                teba[i,von].Background = brush_to;
-                            }
                         }
-                        myColorAnimation_by.Completed += new EventHandler(my_Help12);
+                        else
+                        {
+                            teba[i, nach].Background = brush_ty;
+                            teba[i, von].Background = brush_to;
+                        }
+                    }
+                    myColorAnimation_ty.Completed += new EventHandler(my_Help12);
                 }
 
             brush_ty.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_ty);
@@ -1323,8 +1395,8 @@ namespace Transposition
             brush_to.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_to);
             brush_go.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_go);
             brush_bo.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_bo);
-            
-            brush_by.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_by); 
+
+            brush_by.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_by);
 
         }
 
@@ -1345,9 +1417,9 @@ namespace Transposition
             DoubleAnimation myDoubleAnimation = new DoubleAnimation();
             myDoubleAnimation.From = 1.0;
             myDoubleAnimation.To = 0.0;
-            myDoubleAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(1001-speed));
+            myDoubleAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
 
-           
+
             if (teba != null)
                 if (per == 1)
                     for (int i = 0; i < teba.GetLength(1); i++)
@@ -1359,13 +1431,13 @@ namespace Transposition
                         }
                         teba[nach, i].BeginAnimation(TextBlock.OpacityProperty, myDoubleAnimation);
                     }
-// die folgende ELSE ist abgeändert. ich: ungewiss ihrer absoluten richtigkeit.klappte einmal "zur hälfte" .. lösch' wie du bock hast.
-                else 
+                // die folgende ELSE ist abgeändert. ich: ungewiss ihrer absoluten richtigkeit.klappte einmal "zur hälfte" .. lösch' wie du bock hast.
+                else
                 {
-                    for (int i = 0; i < teba.GetLength(0); i++) 
+                    for (int i = 0; i < teba.GetLength(0); i++)
                     {
-                        teba[i, von].BeginAnimation(TextBlock.OpacityProperty, myDoubleAnimation); 
-                        if (i == teba.GetLength(0) - 1 && !Stop) 
+                        teba[i, von].BeginAnimation(TextBlock.OpacityProperty, myDoubleAnimation);
+                        if (i == teba.GetLength(0) - 1 && !Stop)
                         {
                             myDoubleAnimation.Completed += new EventHandler(my_Completed);
                         }
@@ -1374,7 +1446,9 @@ namespace Transposition
                 }
         }
 
-        #endregion 
-               
+        #endregion
+
+
+
     }
 }
