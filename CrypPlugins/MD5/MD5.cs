@@ -142,7 +142,7 @@ namespace Cryptool.MD5
           ProgressChanged(0.5, 1.0);
           if (inputData != null)
           {
-              if (settings.PresentationMode)
+              if (Presentation.IsVisible)
               {
                   md5.Initialize(inputData);
               }
