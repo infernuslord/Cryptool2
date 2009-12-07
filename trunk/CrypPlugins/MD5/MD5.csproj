@@ -309,7 +309,7 @@
 cd ..\..\CrypWin\$(OutDir)
 if not exist "./CrypPlugins" mkdir "./CrypPlugins"
 
-del /F /S /Q /s /q "MD5*.*"
+del /F /S /Q /s /q "MD5.*"
 copy "$(TargetDir)MD5*.*" "./CrypPlugins"</PostBuildEvent>
   </PropertyGroup>
 </Project>
