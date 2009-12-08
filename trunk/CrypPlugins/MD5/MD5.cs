@@ -56,7 +56,11 @@ namespace Cryptool.MD5
         public MD5()
         {
             settings = new MD5Settings();
+
             md5 = new PresentableMD5();
+            md5.AddSkippedState(MD5StateDescription.STARTING_ROUND_STEP);
+            md5.AddSkippedState(MD5StateDescription.FINISHING_COMPRESSION);
+
             presentationContainer = new PresentationContainer(md5);
 
             md5.StatusChanged += Md5StatusChanged;

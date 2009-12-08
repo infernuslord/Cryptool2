@@ -118,6 +118,30 @@ namespace Cryptool.MD5.Algorithm
             }
         }
 
+        public uint AbsoluteStepIndex
+        {
+            get
+            {
+                return RoundIndex * 16 + RoundStepIndex;
+            }
+        }
+
+        public uint ShiftConstant
+        {
+            get
+            {
+                return PresentableMD5.ShiftConstantTable[AbsoluteStepIndex];
+            }
+        }
+
+        public uint AdditionConstant
+        {
+            get
+            {
+                return PresentableMD5.AdditionConstantTable[AbsoluteStepIndex];
+            }
+        }
+
         /// <summary>
         /// The total number of bytes hashed so far
         /// </summary>

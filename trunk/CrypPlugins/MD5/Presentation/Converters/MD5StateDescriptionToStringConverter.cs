@@ -41,7 +41,7 @@ namespace Cryptool.MD5.Presentation.Converters
                 case MD5StateDescription.STARTING_ROUND_STEP:
                     return "Before compression step";
                 case MD5StateDescription.FINISHED_ROUND_STEP:
-                    return "After compression step";
+                    return "Performing compression step";
                 case MD5StateDescription.FINISHED_ROUND:
                     return "Finished compression round";
                 case MD5StateDescription.FINISHING_COMPRESSION:

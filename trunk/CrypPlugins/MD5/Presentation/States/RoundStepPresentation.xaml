@@ -1,0 +1,69 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Cryptool_MD5_Presentation_Displays="clr-namespace:Cryptool.MD5.Presentation.Displays" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Class="Cryptool.MD5.Presentation.States.RoundStepPresentation"
+    Height="400" Width="800" mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="StyleDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+
+        <Cryptool_MD5_Presentation_Displays:RoundAndStepDisplay VerticalAlignment="Top" HorizontalAlignment="Left" DataContext="{Binding CurrentState}" Margin="8,8,0,0"/>
+        <Path Fill="White" Stretch="Fill" Stroke="Black" HorizontalAlignment="Left" Margin="74,62,0,0" VerticalAlignment="Top" Width="1" Height="1" Data="M74,62"/>
+        
+        <Path Fill="White" Stretch="Fill" Stroke="Black" HorizontalAlignment="Right" Margin="0,62,65,47.5" Width="1" Data="M740,62 L740,351.5"/>
+        <Path Fill="White" Stretch="Fill" Stroke="Black" HorizontalAlignment="Right" Margin="0,60,181,47.5" Width="1" Data="M618,60 L618,351.5"/>
+        <Path Fill="White" Stretch="Fill" Stroke="Black" HorizontalAlignment="Right" Margin="0,62,293,47.5" Width="1" Data="M506,62 L506,351.5"/>
+        <Path Fill="White" Stretch="Fill" Stroke="Black" HorizontalAlignment="Right" Margin="0,61.5,291.5,0" VerticalAlignment="Top" Width="62.5" Height="51.5" Data="M446,112 L507.5,61.5"/>
+        <Path Fill="White" Stretch="Fill" Stroke="Black" HorizontalAlignment="Right" Margin="0,60,181,0" VerticalAlignment="Top" Width="169.5" Height="52.5" Data="M618,60 L449.5,111.5"/>
+        <Path Fill="White" Stretch="Fill" Stroke="Black" HorizontalAlignment="Right" Margin="0,60,65,0" VerticalAlignment="Top" Width="283.5" Height="52.5" Data="M734,60 L451.5,111.5"/>
+        <Path Fill="White" Stretch="Fill" Stroke="Black" Margin="375,58,0,0" VerticalAlignment="Top" Height="43" Data="M375,58 L375,149.5" HorizontalAlignment="Left" Width="1"/>
+        <Path Fill="White" Stretch="Fill" Stroke="Black" Margin="390.5,118,379,0" VerticalAlignment="Top" Height="1" Data="M420,134 L397.5,134"/>
+        <Path Fill="White" Stretch="Fill" Stroke="Black" HorizontalAlignment="Left" Margin="375,137,0,0" VerticalAlignment="Top" Width="1" Height="12.5" Data="M375,150 L375,161.5"/>
+        <Path Fill="White" Stretch="Fill" Stroke="Black" HorizontalAlignment="Left" Margin="376,184,0,0" Width="1" Data="M376,200 L376,209.5" VerticalAlignment="Top" Height="13.5"/>
+        <Path Fill="White" Stretch="Fill" Stroke="Black" HorizontalAlignment="Left" Margin="376,0,0,152.5" VerticalAlignment="Bottom" Width="1" Height="14.5" Data="M376,246 L376,259.5"/>
+        <Path Fill="White" Stretch="Fill" Stroke="Black" HorizontalAlignment="Left" Margin="376,0,0,105" VerticalAlignment="Bottom" Width="1" Height="14" Data="M376,246 L376,259.5"/>
+        <Path Fill="White" Stretch="Fill" Stroke="Black" HorizontalAlignment="Left" Margin="376,0,0,56.5" VerticalAlignment="Bottom" Width="1" Height="9.5" Data="M376,246 L376,259.5"/>
+        <Path Fill="White" Stretch="Fill" Stroke="Black" HorizontalAlignment="Left" Margin="306,126,0,0" VerticalAlignment="Top" Width="54.5" Height="50.5" Data="M306,126 L359.5,129.5"/>
+        <Path Fill="White" Stretch="Fill" Stroke="Black" HorizontalAlignment="Left" Margin="148,188,0,177.04" Width="212.5" Data="M148,214 L343.5,229.5"/>
+        <Path Fill="White" Stretch="Fill" Stroke="Black" HorizontalAlignment="Left" Margin="164,0,0,128.04" VerticalAlignment="Bottom" Width="180.5" Height="9.96" Data="M128,262 L343.5,275.5"/>
+        <Path Fill="White" Stretch="Fill" Stroke="Black" Margin="392,0,293.5,87" VerticalAlignment="Bottom" Height="55.5" Data="M392,324 L505.5,269.5"/>
+        <Cryptool_MD5_Presentation_Displays:FunctionNameDisplay HorizontalAlignment="Right" Margin="0,97,323,0" Width="56" VerticalAlignment="Top" Height="44" FunctionName="{Binding CurrentState.RoundFunctionName}"/>
+        <Cryptool_MD5_Presentation_Displays:ShiftedCompressionVariableDisplay Margin="332,0,8,8" VerticalAlignment="Bottom" Height="50" Width="460" DataContext="{Binding CurrentState}"/>
+        <Cryptool_MD5_Presentation_Displays:CompressionVariableDisplay Margin="332,8,8,0" VerticalAlignment="Top" Height="50" Width="460" DataContext="{Binding LastState}"/>
+        <Label Margin="360.5,101,0,0" VerticalAlignment="Top" Height="35" Content="+" Style="{DynamicResource labelStyle}" BorderThickness="1" BorderBrush="Black" HorizontalContentAlignment="Center" Template="{DynamicResource functionLabelStyle}" HorizontalAlignment="Left" Width="30" FontSize="16" Background="White">
+        	<Label.Effect>
+        		<DropShadowEffect/>
+        	</Label.Effect>
+        </Label>
+        <Label Background="White" HorizontalAlignment="Left" Margin="360.5,149,0,0" Style="{DynamicResource labelStyle}" Width="30" Content="+" BorderBrush="Black" BorderThickness="1" FontSize="16" HorizontalContentAlignment="Center" Template="{DynamicResource functionLabelStyle}" VerticalAlignment="Top" Height="35">
+        	<Label.Effect>
+        		<DropShadowEffect/>
+        	</Label.Effect>
+        </Label>
+        <Label Background="White" Margin="344.5,0,393.5,119" Style="{DynamicResource labelStyle}" VerticalAlignment="Bottom" Height="35" Content="&lt;&lt;&lt;" BorderBrush="Black" BorderThickness="1" FontSize="16" HorizontalContentAlignment="Center" Template="{DynamicResource functionLabelStyle}">
+        	<Label.Effect>
+        		<DropShadowEffect/>
+        	</Label.Effect>
+        </Label>
+        <Label Background="White" HorizontalAlignment="Left" Margin="360.5,197,0,168" Style="{DynamicResource labelStyle}" Width="30" Content="+" BorderBrush="Black" BorderThickness="1" FontSize="16" HorizontalContentAlignment="Center" Template="{DynamicResource functionLabelStyle}">
+        	<Label.Effect>
+        		<DropShadowEffect/>
+        	</Label.Effect>
+        </Label>
+        <Label Background="White" HorizontalAlignment="Left" Margin="360.5,0,0,70" Style="{DynamicResource labelStyle}" VerticalAlignment="Bottom" Width="30" Height="35" Content="+" BorderBrush="Black" BorderThickness="1" FontSize="16" HorizontalContentAlignment="Center" Template="{DynamicResource functionLabelStyle}">
+        	<Label.Effect>
+        		<DropShadowEffect/>
+        	</Label.Effect>
+        </Label>
+        <Cryptool_MD5_Presentation_Displays:LabelledIntegerDisplay Caption="AC" Margin="112.245,165.298,0,186" HorizontalAlignment="Left" Width="117.755" Value="{Binding CurrentState.AdditionConstant}"/>
+		<Cryptool_MD5_Presentation_Displays:LabelledIntegerDisplay Caption="SC" Margin="112.245,0,0,118.298" HorizontalAlignment="Left" Width="117.755" Value="{Binding CurrentState.ShiftConstant}" VerticalAlignment="Bottom" Height="48.702"/>
+		<Cryptool_MD5_Presentation_Displays:DataIntegerDisplay Margin="18,101,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="298" Height="46"/>
+
+
+    </Grid>
+</UserControl>

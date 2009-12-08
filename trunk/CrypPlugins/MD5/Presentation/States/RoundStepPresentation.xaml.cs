@@ -17,9 +17,9 @@ namespace Cryptool.MD5.Presentation.States
     /// <summary>
     /// Interaktionslogik für StartingRoundStepPresentation.xaml
     /// </summary>
-    public partial class StartingRoundStepPresentation : UserControl
+    public partial class RoundStepPresentation : UserControl
     {
-        public StartingRoundStepPresentation()
+        public RoundStepPresentation()
         {
             InitializeComponent();
         }

@@ -58,7 +58,7 @@ namespace Cryptool.MD5.Algorithm
         /// <summary>
         /// Array of integer constants, each one is used in one of the compression function's 64 steps
         /// </summary>
-        protected static readonly uint[] AdditionConstantTable = new uint[64] 
+        internal static readonly uint[] AdditionConstantTable = new uint[64] 
 			{	0xd76aa478,0xe8c7b756,0x242070db,0xc1bdceee,
 				0xf57c0faf,0x4787c62a,0xa8304613,0xfd469501,
                 0x698098d8,0x8b44f7af,0xffff5bb1,0x895cd7be,
@@ -76,10 +76,12 @@ namespace Cryptool.MD5.Algorithm
                 0x6fa87e4f,0xfe2ce6e0,0xa3014314,0x4e0811a1,
 				0xf7537e82,0xbd3af235,0x2ad7d2bb,0xeb86d391     };
 
+        protected HashSet<MD5StateDescription> skippedStates = new HashSet<MD5StateDescription>();
+
         /// <summary>
         /// Array of 64 constants indicating how far the compression function's rotate operator shifts in each step
         /// </summary>
-        protected static readonly ushort[] ShiftConstantTable = new ushort[64] 
+        internal static readonly ushort[] ShiftConstantTable = new ushort[64] 
 			{	7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22,
 				5,  9, 14, 20, 5,  9, 14, 20, 5,  9, 14, 20, 5,  9, 14, 20,
                 4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23,
@@ -104,7 +106,17 @@ namespace Cryptool.MD5.Algorithm
                     return StateHistory[CurrentStateNumber - 1];
             }
         }
-		
+
+        public void ResetSkippedStates()
+        {
+            skippedStates.Clear();
+        }
+
+        public void AddSkippedState(MD5StateDescription state)
+        {
+            skippedStates.Add(state);
+        }
+
         /// <summary>
         /// Returns the next state by retrieving it from history or performing the next algorithm step without changing the current state
         /// </summary>
@@ -113,20 +125,20 @@ namespace Cryptool.MD5.Algorithm
         {
             get
             {
-				if (IsInFinishedState)
-					return CurrentState;
-                
-				if (!HistoryHasMoreStates)
+                if (IsInFinishedState)
+                    return CurrentState;
+
+                if (!HistoryHasMoreStates)
                 {
-                	PresentableMD5State previousState = CurrentState;
-                	AddNewState();
-                	PerformStep(previousState, CurrentState);
-					
-            		CurrentStateNumber--;
-            		CurrentState = StateHistory[CurrentStateNumber];
-				}
-				
-				return StateHistory[CurrentStateNumber + 1];
+                    PresentableMD5State previousState = CurrentState;
+                    AddNewState();
+                    PerformStep(previousState, CurrentState);
+
+                    CurrentStateNumber--;
+                    CurrentState = StateHistory[CurrentStateNumber];
+                }
+
+                return StateHistory[CurrentStateNumber + 1];
             }
         }
 
@@ -162,7 +174,7 @@ namespace Cryptool.MD5.Algorithm
         {
             OnPropChanged("CurrentState");
             OnPropChanged("LastState");
-			OnPropChanged("NextState");
+            OnPropChanged("NextState");
             OnPropChanged("CurrentStateNumber");
             OnPropChanged("IsInFinishedState");
             OnPropChanged("HashValueBytes");
@@ -250,6 +262,9 @@ namespace Cryptool.MD5.Algorithm
             CurrentStateNumber--;
             CurrentState = StateHistory[CurrentStateNumber];
             OnStatusChanged();
+
+            if (!IsInFinishedState && skippedStates.Contains(CurrentState.State))
+                PreviousStep();
         }
 
         /// <summary>
@@ -282,6 +297,9 @@ namespace Cryptool.MD5.Algorithm
             if (!IsInitialized)
                 return;
 
+            if (IsInFinishedState)
+                return;
+
             if (HistoryHasMoreStates)
             {
                 CurrentStateNumber++;
@@ -290,14 +308,14 @@ namespace Cryptool.MD5.Algorithm
             }
             else
             {
-                if (IsInFinishedState)
-                    return;
-
                 PresentableMD5State previousState = CurrentState;
                 AddNewState();
                 PerformStep(previousState, CurrentState);
                 OnStatusChanged();
             }
+
+            if (!IsInFinishedState && skippedStates.Contains(CurrentState.State))
+                NextStep();
         }
 
         /// <summary>

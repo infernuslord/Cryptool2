@@ -32,8 +32,8 @@ namespace Cryptool.MD5.Presentation.Helpers
 
             RegisterPresentationClass(MD5StateDescription.STARTING_COMPRESSION, typeof(StartingCompressionPresentation));
             RegisterPresentationClass(MD5StateDescription.STARTING_ROUND, typeof(StartingRoundPresentation));
-            RegisterPresentationClass(MD5StateDescription.STARTING_ROUND_STEP, typeof(StartingRoundStepPresentation));
-            RegisterPresentationClass(MD5StateDescription.FINISHED_ROUND_STEP, typeof(FinishedRoundStepPresentation));
+            RegisterPresentationClass(MD5StateDescription.STARTING_ROUND_STEP, typeof(RoundStepPresentation));
+            RegisterPresentationClass(MD5StateDescription.FINISHED_ROUND_STEP, typeof(RoundStepPresentation));
             RegisterPresentationClass(MD5StateDescription.FINISHED_ROUND, typeof(FinishedRoundPresentation));
             RegisterPresentationClass(MD5StateDescription.FINISHING_COMPRESSION, typeof(FinishingCompressionPresentation));
             RegisterPresentationClass(MD5StateDescription.FINISHED_COMPRESSION, typeof(FinishedCompressionPresentation));
