@@ -134,8 +134,17 @@ namespace Cryptool.Plugins.PeerToPeer
             int i = SendInternalMsg(msgType);
             GuiLogging("Unregister messages were sent to " + i.ToString() + " subscribers!", NotificationLevel.Info);
 
-            //Still an error in dhtRemove... so at present ignored...
-            if (this.p2pControl != null)
+            //Still an error in dhtRemove... so at present ignored... - partially freezing the workspace forever...
+            /* 
+             * if someone wants to call the Stop-method, but the peer is already down, 
+             * this will run into a problem (CrypWin.exe lives on), because of the
+             * necessary workaround in P2PPeerMaster (Initializes Peer, if it isn't
+             * initialized yet). This workaround was necessary, because of the gradual
+             * execution of the PlugIns, so that the case could occur, that the Peer isn't
+             * initialized by the PlugIn-method, but its Master-PlugIns want to use its 
+             * functions right now
+             */
+            if (this.p2pControl != null && this.p2pControl.PeerStarted())
             {
 
                 GuiLogging("Begin removing the information from the DHT", NotificationLevel.Info);

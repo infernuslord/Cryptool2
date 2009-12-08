@@ -643,16 +643,9 @@ namespace Cryptool.Plugins.PeerToPeer
             this.stringId = String.Empty;
         }
 
-        // not used at present...
-        public bool Equals(PeerId otherPeerId)
-        {
-            if (this.stringId == otherPeerId.stringId)
-                return true;
-            else
-                return false;
-        }
+        
 
-        public string ToString()
+        public override string ToString()
         {
             return this.stringId;
         }
@@ -660,6 +653,15 @@ namespace Cryptool.Plugins.PeerToPeer
         public byte[] ToByteArray()
         {
             return this.byteId;
+        }
+
+        // not used at present...
+        public bool Equals(PeerId otherPeerId)
+        {
+            if (this.stringId == otherPeerId.stringId)
+                return true;
+            else
+                return false;
         }
     }
 }

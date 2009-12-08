@@ -306,6 +306,11 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #endregion
 
+        public bool PeerStarted()
+        {
+            return this.p2pPeer.PeerStarted;
+        }
+
         /// <summary>
         /// workaround method. If the PAP functions are used, but the PAP system isn't
         /// started yet. This could happen because of the plugin hierarchy and

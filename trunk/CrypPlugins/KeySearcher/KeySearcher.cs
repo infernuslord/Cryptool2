@@ -392,11 +392,18 @@ namespace KeySearcher
         {
             if (sender == null || costMaster == null)
                 return;
+            if (!Pattern.testWildcardKey(settings.Key))
+            {
+                GuiLogMessage("Wrong key pattern!", NotificationLevel.Error);
+                return;
+            }
+            Pattern.WildcardKey = settings.Key;
             bruteforcePattern(Pattern, sender);
         }
 
+        // modified by Christian Arnold 2009.12.07 - return type LinkedList (top10List)
         // main entry point to the KeySearcher
-        private void bruteforcePattern(KeyPattern pattern, IControlEncryption sender)
+        private LinkedList<ValueKey> bruteforcePattern(KeyPattern pattern, IControlEncryption sender)
         {
             int maxInList = 10;
             LinkedList<ValueKey> costList = new LinkedList<ValueKey>();
@@ -406,7 +413,7 @@ namespace KeySearcher
             if (!pattern.testWildcardKey(settings.Key))
             {
                 GuiLogMessage("Wrong key pattern!", NotificationLevel.Error);
-                return;
+                return null;
             }
 
             int bytesToUse = 0;
@@ -418,10 +425,9 @@ namespace KeySearcher
             catch (Exception ex)
             {
                 GuiLogMessage("Bytes used not valid: " + ex.Message, NotificationLevel.Error);
-                return;
+                return null;
             }
 
-            pattern.WildcardKey = settings.Key;
             BigInteger size = pattern.size();
             KeyPattern[] patterns = splitPatternForThreads(pattern);
 
@@ -459,7 +465,7 @@ namespace KeySearcher
                     BigInteger max = 0;
                     int id = -1;
                     for (int i = 0; i < patterns.Length; i++)
-                        if (keysleft[i] > max)
+                        if (keysleft[i] != null && keysleft[i] > max)
                         {
                             max = keysleft[i];
                             id = i;
@@ -487,6 +493,8 @@ namespace KeySearcher
 
             if (!stop)
                 ProgressChanged(1, 1);
+
+            return costList;
         }
 
         private void showProgress(LinkedList<ValueKey> costList, BigInteger size, BigInteger keycounter, BigInteger doneKeys)
@@ -690,7 +698,7 @@ namespace KeySearcher
             Pattern = new KeyPattern(controlMaster.getKeyPattern());
         }
 
-        // modified by Arnie - 2009.12.02
+        // set to protected by Christian Arnold - 2009.12.06
         protected virtual void onStatusChanged(IControl sender, bool readyForExecution)
         {
             if (readyForExecution)
@@ -699,13 +707,24 @@ namespace KeySearcher
             }
         }
 
+
+        // added by Arnie - 2009.12.07
+        public delegate void BruteforcingEnded(LinkedList<ValueKey> top10List);
+        /// <summary>
+        /// This event gets thrown after Bruteforcing had ended. This is no evidence, that bruteforcing was successful.
+        /// But when the returned List is filled, we have (at least a part) of the possible best keys
+        /// </summary>
+        public event BruteforcingEnded OnBruteforcingEnded;
+
         // added by Arnie -2009.12.02
         // for inheritance reasons
         public void BruteforcePattern(KeyPattern pattern, IControlEncryption encryptControl, IControlCost costControl)
         {
             ControlMaster = encryptControl;
             CostMaster = costControl;
-            bruteforcePattern(pattern, encryptControl);
+            LinkedList<ValueKey> lstRet = bruteforcePattern(pattern, encryptControl);
+            if(OnBruteforcingEnded != null)
+                OnBruteforcingEnded(lstRet);
         }
 
         #endregion
@@ -725,10 +744,11 @@ namespace KeySearcher
             }
         }
 
+        // modified by Christian Arnold - 2009.12.07 (to public)
         /// <summary>
         /// used for delivering the results from the worker threads to the main thread:
         /// </summary>
-        private struct ValueKey
+        public struct ValueKey
         {
             public double value;
             public String key;
