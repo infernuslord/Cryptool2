@@ -22,6 +22,11 @@ namespace Cryptool.Plugins.PeerToPeer
         public event GuiMessage OnGuiMessage;
         public delegate void TextArrivedFromPublisher(string sData, PeerId pid);
         public event TextArrivedFromPublisher OnTextArrivedFromPublisher;
+        public delegate void ReceivedStopFromPublisher(PubSubMessageType stopType, string sData);
+        /// <summary>
+        /// fired when Manager sent "stop" message to the worker.
+        /// </summary>
+        public event ReceivedStopFromPublisher OnReceivedStopMessageFromPublisher;
 
         #region Variables
 
@@ -84,9 +89,10 @@ namespace Cryptool.Plugins.PeerToPeer
 
         /* BEGIN: Only for experimental cases */
 
-        public void SolutionFound()
+        public void SolutionFound(string sSolutionData)
         {
             SendMessage(actualPublisher, PubSubMessageType.Solution);
+            this.p2pControl.SendToPeer(sSolutionData, actualPublisher.byteId);
         }
         /* END: Only for experimental cases */
 
@@ -128,7 +134,7 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             if (sourceAddr.stringId != actualPublisher.stringId)
             {
-                OnGuiMessage("RECEIVED message from third party peer (not the publisher!): " + sData.Trim() + ", ID: " + sourceAddr.stringId, NotificationLevel.Info);
+                GuiLogging("RECEIVED message from third party peer (not the publisher!): " + sData.Trim() + ", ID: " + sourceAddr.stringId, NotificationLevel.Info);
                 return;
             }
 
@@ -137,7 +143,7 @@ namespace Cryptool.Plugins.PeerToPeer
             switch (msgType)
             {
                 case PubSubMessageType.RegisteringAccepted:
-                    OnGuiMessage("REGISTERING ACCEPTED received from publisher!", NotificationLevel.Info);
+                    GuiLogging("REGISTERING ACCEPTED received from publisher!", NotificationLevel.Info);
                     if (this.timeoutForPublishersRegAccept != null)
                     {
                         this.timeoutForPublishersRegAccept.Dispose();
@@ -146,22 +152,22 @@ namespace Cryptool.Plugins.PeerToPeer
                     break;
                 case PubSubMessageType.Ping:
                     SendMessage(sourceAddr, PubSubMessageType.Pong);
-                    OnGuiMessage("REPLIED to a ping message from " + sourceAddr, NotificationLevel.Info);
+                    GuiLogging("REPLIED to a ping message from " + sourceAddr, NotificationLevel.Info);
                     break;
                 case PubSubMessageType.Register:
                 case PubSubMessageType.Unregister:
-                    OnGuiMessage(msgType.ToString().ToUpper() + " received from PUBLISHER.", NotificationLevel.Warning);
+                    GuiLogging(msgType.ToString().ToUpper() + " received from PUBLISHER.", NotificationLevel.Warning);
                     // continuously try to get a unregister and than re-register with publisher
-                    Stop();
+                    Stop(msgType);
                     Register(this.sTopic,this.checkPublishersAvailability, this.publisherReplyTimespan);
                     break;
                 case PubSubMessageType.Solution:
-                    Stop();
-                    OnGuiMessage("Another Subscriber had found the solution!", NotificationLevel.Info);
+                    Stop(msgType);
+                    GuiLogging("Another Subscriber had found the solution!", NotificationLevel.Info);
                     break;
                 case PubSubMessageType.Stop:
-                    Stop();
-                    OnGuiMessage("STOP received from publisher. Subscriber is stopped!", NotificationLevel.Warning);
+                    Stop(msgType);
+                    GuiLogging("STOP received from publisher. Subscriber is stopped!", NotificationLevel.Warning);
                     break;
                 case PubSubMessageType.Pong:
                     if (this.timeoutForPublishersPong != null)
@@ -171,13 +177,10 @@ namespace Cryptool.Plugins.PeerToPeer
                     }
                     break;
                 // if the received Data couldn't be casted to enum, 
-                // it must be text-data
+                // it must be some data
                 case PubSubMessageType.NULL:
-                    OnGuiMessage("RECEIVED: Message from '" + sourceAddr.stringId
-                    + "' with data: '" + sData + "'", NotificationLevel.Info);
-
-                    if (OnTextArrivedFromPublisher != null)
-                        OnTextArrivedFromPublisher(sData, sourceAddr);
+                    // functionality swapped for better inheritance
+                    HandleIncomingData(sourceAddr, sData);
 
                     break;
                 case PubSubMessageType.Alive:
@@ -185,6 +188,20 @@ namespace Cryptool.Plugins.PeerToPeer
                     // not possible at the moment
                     break;
             }
+        }
+
+        /// <summary>
+        /// Incoming data will be printed in the information field and the OnTextArrivedEvent will be thrown
+        /// </summary>
+        /// <param name="senderId"></param>
+        /// <param name="sData"></param>
+        protected virtual void HandleIncomingData(PeerId senderId, string sData)
+        {
+            GuiLogging("RECEIVED: Message from '" + senderId.stringId
+                    + "' with data: '" + sData + "'", NotificationLevel.Info);
+
+            if (OnTextArrivedFromPublisher != null)
+                OnTextArrivedFromPublisher(sData, senderId);
         }
 
         private void SendMessage(PeerId pubPeerId, PubSubMessageType msgType)
@@ -208,17 +225,18 @@ namespace Cryptool.Plugins.PeerToPeer
                 case PubSubMessageType.Unregister:
                     break;
                 case PubSubMessageType.Solution:
-                    Stop();
+                    // when i send Solution to the Stop method, we will run into a recursive loop between SendMessage and Stop!
+                    Stop(PubSubMessageType.NULL);
                     break;
                 default:
-                    OnGuiMessage("No Message sent, because MessageType wasn't supported: " + msgType.ToString(), NotificationLevel.Warning);
+                    GuiLogging("No Message sent, because MessageType wasn't supported: " + msgType.ToString(), NotificationLevel.Warning);
                     return;
             }
             this.p2pControl.SendToPeer(msgType, pubPeerId);
 
             // don't show every single alive message
             if (msgType != PubSubMessageType.Alive)
-                OnGuiMessage(msgType.ToString() + " message sent to Publisher", NotificationLevel.Info);
+                GuiLogging(msgType.ToString() + " message sent to Publisher", NotificationLevel.Info);
         }
 
         // registering isn't possible if no publisher has stored
@@ -231,7 +249,7 @@ namespace Cryptool.Plugins.PeerToPeer
             if (pubId != null)
                 SendMessage(pubId, PubSubMessageType.Register);
             else
-                OnGuiMessage("No publisher for registering found.", NotificationLevel.Info);
+                GuiLogging("No publisher for registering found.", NotificationLevel.Info);
         }
 
         private void OnSendAliveMessage(object state)
@@ -257,13 +275,13 @@ namespace Cryptool.Plugins.PeerToPeer
             byte[] byteISettings = this.p2pControl.DHTload(this.sTopic + this.sDHTSettingsPostfix);
             if (byteISettings == null)
             {
-                OnGuiMessage("Can't find settings from Publisher for the Subscriber.", NotificationLevel.Error);
+                GuiLogging("Can't find settings from Publisher for the Subscriber.", NotificationLevel.Error);
                 return null;
             }
             sendAliveMessageInterval = System.BitConverter.ToInt32(byteISettings, 0);
 
             string sPubId = this.p2pControl.ConvertIdToString(bytePubId);
-            OnGuiMessage("RECEIVED: Publishers' peer name '" + sPubId + "', Alive-Msg-Interval: " + sendAliveMessageInterval / 1000 + " sec!", NotificationLevel.Info);
+            GuiLogging("RECEIVED: Publishers' peer name '" + sPubId + "', Alive-Msg-Interval: " + sendAliveMessageInterval / 1000 + " sec!", NotificationLevel.Info);
 
             pid = new PeerId(sPubId, bytePubId);
             if (actualPublisher == null) //first time initialization
@@ -288,13 +306,13 @@ namespace Cryptool.Plugins.PeerToPeer
 
             if (newPubId == null)
             {
-                OnGuiMessage("Publisher wasn't found in DHT or settings didn't stored on the right way.", NotificationLevel.Warning);
+                GuiLogging("Publisher wasn't found in DHT or settings didn't stored on the right way.", NotificationLevel.Warning);
                 return;
             }
             if (newPubId.stringId != actualPublisher.stringId)
             {
                 //Handle case, when publisher changed or isn't active at present (don't reply on response)
-                OnGuiMessage("CHANGED: Publisher from '" + actualPublisher.stringId
+                GuiLogging("CHANGED: Publisher from '" + actualPublisher.stringId
                     + "' to '" + newPubId.stringId + "'!", NotificationLevel.Info);
                 actualPublisher = newPubId;
                 // because the publisher has changed, send a new register msg
@@ -318,7 +336,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="state"></param>
         private void OnTimeoutRegisteringAccepted(object state)
         {
-            OnGuiMessage("TIMEOUT: Waiting for registering accepted message from publisher!", NotificationLevel.Warning);
+            GuiLogging("TIMEOUT: Waiting for registering accepted message from publisher!", NotificationLevel.Warning);
             // TODO: anything
         }
 
@@ -328,7 +346,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="state"></param>
         private void OnTimeoutPublishersPong(object state)
         {
-            OnGuiMessage("Publisher didn't answer on Ping in the given time span!", NotificationLevel.Warning);
+            GuiLogging("Publisher didn't answer on Ping in the given time span!", NotificationLevel.Warning);
             timeoutForPublishersPong.Dispose();
             timeoutForPublishersPong = null;
             // try to get an active publisher and re-register
@@ -340,11 +358,11 @@ namespace Cryptool.Plugins.PeerToPeer
         /// Register-, Alive- and Pong-messages. Furthermore an
         /// unregister message will be send to the publisher
         /// </summary>
-        public void Stop()
+        public void Stop(PubSubMessageType msgType)
         {
             this.bolStopped = true;
-            if (actualPublisher != null)
-                SendMessage(actualPublisher, PubSubMessageType.Unregister);
+            if (actualPublisher != null && msgType != PubSubMessageType.NULL)
+                SendMessage(actualPublisher, msgType);
 
             #region stopping all timers, if they are still active
             if (this.timerSendingAliveMsg != null)
@@ -375,6 +393,12 @@ namespace Cryptool.Plugins.PeerToPeer
             #endregion
 
             this.Started = false;
+        }
+
+        protected void GuiLogging(string sText, NotificationLevel notLev)
+        {
+            if (OnGuiMessage != null)
+                OnGuiMessage(sText, notLev);
         }
     }
 }

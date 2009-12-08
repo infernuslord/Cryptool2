@@ -82,6 +82,8 @@ namespace Cryptool.PluginBase.Control
         byte[] DHTload(string sKey);
         bool DHTremove(string sKey);
 
+        bool PeerStarted();
+
         PeerId GetPeerID(out string sPeerName);
         //byte[] GetPeerID(out string sPeerName);
 

@@ -151,7 +151,7 @@ namespace KeySearcher
                         else
                         {
                             if (i - 1 - begin == 1)
-                                res += values[begin] + values[i - 1];
+                                res += values[begin] + "" + values[i - 1];
                             else
                                 res += values[begin] + "-" + values[i - 1];
                         }
@@ -197,6 +197,9 @@ namespace KeySearcher
 
         private string pattern;
         private ArrayList wildcardList;
+        /// <summary>
+        /// Property for the WildCardKey. Could return null, if the KeyPattern isn't initialized correctly.
+        /// </summary>
         public string WildcardKey
         {
             get
@@ -394,18 +397,25 @@ namespace KeySearcher
             string res = "";
             int pcount = 0;
             int wccount = 0;
-            while (pcount < pattern.Length)
+
+            // error handling
+            if (wildcardList != null)
             {
-                if (pattern[pcount] != '[')
-                    res += pattern[pcount];
-                else
+                while (pcount < pattern.Length)
                 {
-                    res += ((Wildcard)wildcardList[wccount++]).getRepresentationString();
-                    while (pattern[++pcount] != ']') ;
+                    if (pattern[pcount] != '[')
+                        res += pattern[pcount];
+                    else
+                    {
+                        res += ((Wildcard)wildcardList[wccount++]).getRepresentationString();
+                        while (pattern[++pcount] != ']') ;
+                    }
+                    pcount++;
                 }
-                pcount++;
+                return res;
             }
-            return res;
+            else
+                return null;
         }
 
         public BigInteger size()
@@ -578,7 +588,10 @@ namespace KeySearcher
         /// <returns></returns>
         public override string ToString()
         {
-            return "Type: KeySearcher.KeyPattern. WildcardKey: '" + this.WildcardKey + "', Pattern: '" + this.pattern + "'";
+            if(this.WildcardKey != null)
+                return "Type: KeySearcher.KeyPattern. WildcardKey: '" + this.WildcardKey + "', Pattern: '" + this.pattern + "'";
+            else
+                return "Type: KeySearcher.KeyPattern. KeyPattern isn't initialized correctly, Pattern: '" + this.pattern + "'";
         }
 
         //added by Christian Arnold - 2009.12.03
@@ -628,8 +641,6 @@ namespace KeySearcher
             string wildcardKey = this.WildcardKey;
             if (wildcardKey != null && this.pattern != null)
             {
-                // TODO: implement testPattern-method
-                //if (testPattern(pattern) && testKey(key))
                 if (testWildcardKey(wildcardKey))
                 {
                     if (returnByte)
@@ -669,8 +680,6 @@ namespace KeySearcher
             string pattern_temp = sTemp.Substring(beginOfPattern, sTemp.Length - beginOfPattern);
 
             // test extracted pattern and wildcardKey!
-            // TODO: implement testPattern-method
-            //if (testPattern(pattern_temp) && testKey(wildcardKey_temp))
             if (testWildcardKey(wildcardKey_temp))
             {
                 // TODO: use Pattern-property in future

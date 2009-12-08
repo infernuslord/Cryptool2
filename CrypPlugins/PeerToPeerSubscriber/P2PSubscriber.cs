@@ -123,7 +123,7 @@ namespace Cryptool.Plugins.PeerToPeer
             {
                 if (this.p2pSubscriber != null)
                 {
-                    this.p2pSubscriber.Stop();
+                    this.p2pSubscriber.Stop(PubSubMessageType.Unregister);
                     GuiLogMessage("Subscriber unregistered from Publisher!", NotificationLevel.Info);
                 }
                 else
@@ -140,7 +140,7 @@ namespace Cryptool.Plugins.PeerToPeer
             {
                 if (this.p2pSubscriber != null)
                 {
-                    this.p2pSubscriber.SolutionFound();
+                    this.p2pSubscriber.SolutionFound("");
                     GuiLogMessage("Solution found message sent to Publisher.", NotificationLevel.Info);
                 }
                 else
@@ -184,7 +184,7 @@ namespace Cryptool.Plugins.PeerToPeer
         public void Stop()
         {
             if(this.p2pSubscriber != null)
-                this.p2pSubscriber.Stop();
+                this.p2pSubscriber.Stop(PubSubMessageType.Stop);
         }
 
         public void Initialize()

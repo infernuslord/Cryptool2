@@ -10,15 +10,14 @@ using Cryptool.Plugins.PeerToPeer;
 
 namespace Cryptool.Plugins.PeerToPeer
 {
-    public class P2PManagerSettings : ISettings
+    public class P2PWorkerSettings : ISettings
     {
         public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
         private bool hasChanges = false;
-        private P2PManager p2pManager;
-        //private KeySearcher keysearcher;
+        private P2PWorker p2pSubscriber;
 
         #region ISettings Members
-        
+
         public bool HasChanges
         {
             get
@@ -33,21 +32,20 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #endregion
 
-        public P2PManagerSettings(P2PManager p2pManager)
-        {
-            this.p2pManager = p2pManager;
+        public P2PWorkerSettings (P2PWorker p2pSubscriber)
+	    {
+            this.p2pSubscriber = p2pSubscriber;
             if (TaskPaneAttributeChanged != null)
             {
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnSolutionFound", Visibility.Collapsed)));
-                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnUnregister", Visibility.Hidden)));
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnUnregister", Visibility.Collapsed)));
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnRegister", Visibility.Visible)));
             }
-            ChangePluginIcon(MngStatus.Neutral);
-        }
+	    }
 
         private string sTopic = "NewTopic";
-        [TaskPane("Topic Name","Choose a topic name with which all subscribers can register.",null,0,false,DisplayLevel.Beginner,ControlType.TextBox)]
-        public string TopicName 
+        [TaskPane("Topic Name", "Choose a topic name with which this subscriber shall be registered.", null, 0, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        public string TopicName
         {
             get { return this.sTopic; }
             set
@@ -56,7 +54,7 @@ namespace Cryptool.Plugins.PeerToPeer
                 {
                     this.sTopic = value;
                     HasChanges = true;
-                    OnPropertyChanged("TopicName");
+                    OnPropertyChanged(TopicName);
                 }
             }
         }
@@ -78,6 +76,7 @@ namespace Cryptool.Plugins.PeerToPeer
             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnUnregister", Visibility.Visible)));
             OnPropertyChanged("BtnRegister");
         }
+
         [TaskPane("Solution found", "TESTING: Emulate solution-found-case!", "Control region", 2, true, DisplayLevel.Beginner, ControlType.Button)]
         public void BtnSolutionFound()
         {
@@ -88,40 +87,41 @@ namespace Cryptool.Plugins.PeerToPeer
         }
         /* FOR TESTING ISSUES */
 
-        private int sendAliveMessageInterval = 20;
-        [TaskPane("Alive Message Interval (in seconds)","In which interval do you wish to receive Alive-Messages from your Subscribers?"
-            ,"Subscriber Properties",1,false,DisplayLevel.Beginner,ControlType.NumericUpDown, ValidationType.RangeInteger, 10, 3600)]
-        public int SendAliveMessageInterval 
+        private int checkPublishersAvailability = 60;
+        [TaskPane("Check Publisher Interval (in sec)","To check liveness or possibly changed publishing peer in intervals","Intervals",0,false,DisplayLevel.Beginner,ControlType.NumericUpDown, ValidationType.RangeInteger,20,int.MaxValue)]
+        public int CheckPublishersAvailability 
         {
-            get 
-            { 
-                return this.sendAliveMessageInterval; 
+            get
+            {
+                // multiplied with thousand because the interval is denoted in milliseconds!
+                return this.checkPublishersAvailability;
             }
             set
             {
-                if (value != this.sendAliveMessageInterval)
+                if (value != this.checkPublishersAvailability)
                 {
-                    this.sendAliveMessageInterval = value;
-                    OnPropertyChanged("SendAliveMessageInterval");
+                    this.checkPublishersAvailability = value;
+                    OnPropertyChanged("CheckPublishersAvailability");
                 }
             }
         }
 
-        private string key;
-        [TaskPane("Key", "Key pattern used to bruteforce", null, 2, false, DisplayLevel.Beginner, ControlType.TextBox)]
-        public String Key
+        private int publishersReplyTimespan = 5;
+        [TaskPane("Publisher Reply Timespan (in sec)", "When checking publishers availability, ping message is sent. The publisher must answer with a pong message in the timespan!", "Intervals", 0, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 2, 60)]
+        public int PublishersReplyTimespan
         {
             get
             {
-                return key;
+                // multiplied with thousand because the interval is denoted in milliseconds!
+                return this.publishersReplyTimespan;
             }
             set
             {
-                key = value;
-                OnPropertyChanged("Key");
-
-                //if (!(keysearcher.Pattern != null && keysearcher.Pattern.testKey(value)))
-                //    keysearcher.GuiLogMessage("Wrong key pattern!", NotificationLevel.Error);
+                if (value != this.publishersReplyTimespan)
+                {
+                    this.publishersReplyTimespan = value;
+                    OnPropertyChanged("PublishersReplyTimespan");
+                }
             }
         }
         #region INotifyPropertyChanged Members
@@ -140,8 +140,8 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region PlugIn-Icon status Stuff
 
-        // Index depends on icon-position in P2PManager-Class properties
-        public enum MngStatus
+        // Index depends on icon-position in P2PWorker-Class properties
+        public enum WorkerStatus
         {
             Neutral = 0,
             Working = 1,
@@ -150,19 +150,19 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         /// <summary>
-        /// Changes icon of P2PManager and visibility of the control buttons in settings
+        /// Changes icon of P2PWorker and visibility of the control buttons in settings
         /// </summary>
         /// <param name="peerStat"></param>
-        public void MngStatusChanged(MngStatus mngStat)
+        public void WorkerStatusChanged(WorkerStatus wkrStat)
         {
-            ChangePluginIcon(mngStat);
+            ChangePluginIcon(wkrStat);
         }
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
-        private void ChangePluginIcon(MngStatus mngStatus)
+        private void ChangePluginIcon(WorkerStatus wkrStatus)
         {
             if (OnPluginStatusChanged != null)
-                OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, (int)mngStatus));
+                OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, (int)wkrStatus));
         }
 
         #endregion

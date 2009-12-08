@@ -79,7 +79,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="ct2_p2p_pub_medium.png" />
+    <Resource Include="manager_medium_finished.png" />
+    <Resource Include="manager_medium_neutral.png" />
+    <Resource Include="manager_medium_working.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
