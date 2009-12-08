@@ -12,16 +12,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Cryptool.MD5.Presentation.States
+namespace Cryptool.MD5.Presentation.Displays
 {
     /// <summary>
-    /// Interaktionslogik für FinishedRoundStepPresentation.xaml
+    /// Interaktionslogik für HashAccumulatorDisplay.xaml
     /// </summary>
-    public partial class FinishedRoundStepPresentation : UserControl
+    public partial class ShiftedCompressionVariableDisplay : UserControl
     {
-        public FinishedRoundStepPresentation()
+        public ShiftedCompressionVariableDisplay()
         {
             InitializeComponent();
+
+            Width = double.NaN;
+            Height = double.NaN;
         }
     }
 }

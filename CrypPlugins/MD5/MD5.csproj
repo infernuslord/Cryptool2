@@ -87,6 +87,9 @@
     <Compile Include="Presentation\Displays\DataIntegerDisplay.xaml.cs">
       <DependentUpon>DataIntegerDisplay.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Presentation\Displays\ShiftedCompressionVariableDisplay.xaml.cs">
+      <DependentUpon>ShiftedCompressionVariableDisplay.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\Displays\LabelledIntegerDisplay.xaml.cs">
       <DependentUpon>LabelledIntegerDisplay.xaml</DependentUpon>
     </Compile>
@@ -124,9 +127,6 @@
     <Compile Include="Presentation\States\FinishedRoundPresentation.xaml.cs">
       <DependentUpon>FinishedRoundPresentation.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Presentation\States\FinishedRoundStepPresentation.xaml.cs">
-      <DependentUpon>FinishedRoundStepPresentation.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Presentation\States\FinishingCompressionPresentation.xaml.cs">
       <DependentUpon>FinishingCompressionPresentation.xaml</DependentUpon>
     </Compile>
@@ -148,8 +148,8 @@
     <Compile Include="Presentation\States\StartingRoundPresentation.xaml.cs">
       <DependentUpon>StartingRoundPresentation.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Presentation\States\StartingRoundStepPresentation.xaml.cs">
-      <DependentUpon>StartingRoundStepPresentation.xaml</DependentUpon>
+    <Compile Include="Presentation\States\RoundStepPresentation.xaml.cs">
+      <DependentUpon>RoundStepPresentation.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\States\UninitializedPresentation.xaml.cs">
       <DependentUpon>UninitializedPresentation.xaml</DependentUpon>
@@ -201,6 +201,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Presentation\Displays\ShiftedCompressionVariableDisplay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Presentation\Displays\LabelledIntegerDisplay.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -249,10 +253,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Presentation\States\FinishedRoundStepPresentation.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Presentation\States\FinishingCompressionPresentation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -281,7 +281,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Presentation\States\StartingRoundStepPresentation.xaml">
+    <Page Include="Presentation\States\RoundStepPresentation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
