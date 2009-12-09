@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{9A8A0EC9-80AB-4015-923A-0CCFB198741A}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -63,8 +63,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BoolButton.cs" />
-    <Compile Include="BoolButtonSettings.cs" />
     <Compile Include="BooleanBinaryOperators.cs" />
     <Compile Include="BooleanBinaryOperatorsSettings.cs" />
     <Compile Include="BooleanIfElse.cs" />

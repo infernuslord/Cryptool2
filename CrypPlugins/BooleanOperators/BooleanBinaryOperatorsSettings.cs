@@ -36,6 +36,7 @@ namespace Cryptool.Plugins.BooleanOperators
          */
 
         private bool hasChanges = false;
+        private bool updateOnlyAtBothInputsChanged = true;
 
         #region ISettings Members
         public bool HasChanges
@@ -63,6 +64,22 @@ namespace Cryptool.Plugins.BooleanOperators
                 this.operatorType = value;
                 OnPropertyChanged("OperatorType");
                 ChangePluginIcon(value);                
+            }
+        }
+
+
+        [TaskPane("Update needs both inputs", "If checked, this plugin will only update its status if both inputs have changed", null, 2, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+        public bool UpdateOnlyAtBothInputsChanged
+        {
+            get { return updateOnlyAtBothInputsChanged; }
+            set
+            {
+                if (value != updateOnlyAtBothInputsChanged)
+                {
+                    updateOnlyAtBothInputsChanged = value;
+                    hasChanges = true;
+                    OnPropertyChanged("UpdateOnlyAtBothInputsChanged");
+                }
             }
         }
 

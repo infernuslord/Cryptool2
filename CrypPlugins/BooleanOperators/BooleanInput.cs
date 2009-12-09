@@ -18,42 +18,55 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.IO;
-using System.ComponentModel;
-using Cryptool.PluginBase;
-using Cryptool.PluginBase.IO;
-using Cryptool;
-using Cryptool.PluginBase.Miscellaneous;
 using System.Windows;
+using System.Windows.Controls;
+using System.ComponentModel;
+using System.Windows.Input;
+using System.Windows.Media;
+
+using Cryptool;
+using Cryptool.PluginBase;
+using Cryptool.PluginBase.Cryptography;
+using Cryptool.PluginBase.Miscellaneous;
+using Cryptool.Plugins.BooleanOperators;
+using Cryptool.PluginBase.IO;
+
+using BooleanOperators;
 
 namespace Cryptool.Plugins.BooleanOperators
 {
-    [Author("Nils Kopal", "nils.kopal@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-duisburg-essen.de")]
+    [Author("Julian Weyers", "julian.weyers@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-duisburg-essen.de")]
     [PluginInfo(true, "Boolean Input", "Boolean Input", "BooleanOperators/DetailedDescription/Description.xaml", "BooleanOperators/icons/false.png", "BooleanOperators/icons/true.png")]
+
     public class BooleanInput : IInput
     {
+
+        private Boolean output = true;
         private BooleanInputSettings settings;
-        private Boolean output = false;
+        private ButtonInputPresentation myButton;
+        private Boolean setorbut = false;
 
         public BooleanInput()
         {
-            this.settings = new BooleanInputSettings();            
-            this.settings.OnPluginStatusChanged += settings_OnPluginStatusChanged;
-            this.settings.PropertyChanged += settings_PropertyChanged;
+            this.settings = new BooleanInputSettings();
+            myButton = new ButtonInputPresentation();
+            Presentation = myButton;
+            myButton.StatusChanged += new EventHandler(myButton_StatusChanged);
+            this.settings.PropertyChanged += settings_OnPropertyChange;
         }
-
-        void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void settings_OnPropertyChange(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Value")
-            {
-                // as the setting is not changeable in play mode, there is no need to update Output property
-                //Output = (settings.Value == 1);
-
-                settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, settings.Value));
-            }
+            setorbut = true;
+            Execute();
+        }
+        private void myButton_StatusChanged(object sender, EventArgs e)
+        {
+            setorbut = false;
+            Execute();
         }
 
-        [PropertyInfo(Direction.OutputData, "Output", "Output", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+
+        [PropertyInfo(Direction.OutputData, "Output", "Output", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
         public Boolean Output
         {
             get
@@ -69,23 +82,53 @@ namespace Cryptool.Plugins.BooleanOperators
 
         #region IPlugin Member
 
+
+
         public void Dispose()
         {
-            //throw new NotImplementedException();
         }
 
         public void Execute()
         {
-            Output = (settings.Value == 1);
-            settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, settings.Value));
+            if (!setorbut)
+            {
+                Output = myButton.Value;
+
+                if (myButton.Value)
+                {
+                    settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 1));
+                    settings.Value = 1;
+                }else{
+                    settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 0));
+                    settings.Value = 0;
+                }
+
+            }else{
+
+                Output = (settings.Value == 1);
+
+                if (settings.Value == 1)
+                {
+                    settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 1));
+                    myButton.Value = true;
+                    myButton.update();
+                }else{
+                    settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 0));
+                    myButton.Value = false;
+                    myButton.update();
+                }
+            }
 
             ProgressChanged(1, 1);
         }
 
         public void Initialize()
         {
-            // not working, see ticket #80
-            settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, settings.Value));
+            if (settings.Value == 1){
+                settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 1));
+            }else{
+                settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 0));
+            }
         }
 
         public void Pause()
@@ -100,14 +143,16 @@ namespace Cryptool.Plugins.BooleanOperators
         {
         }
 
-        public System.Windows.Controls.UserControl Presentation
+        public UserControl Presentation
         {
-            get { return null; }
+            get;
+            private set;
         }
 
         public System.Windows.Controls.UserControl QuickWatchPresentation
         {
-            get { return null; }
+
+            get { return Presentation; }
         }
 
         public ISettings Settings

@@ -49,34 +49,43 @@ namespace Cryptool.Plugins.BigNumber
                     OnPropertyChanged("Operat");
                     HasChanges = true;
 
-                    switch (operat)
-                    {
-                        //x+y
-                        case 0:
-                            ChangePluginIcon(0);
-                            break;
-                        //x-y
-                        case 1:
-                            ChangePluginIcon(1);
-                            break;
-                        //x*y
-                        case 2:
-                            ChangePluginIcon(2);
-                            break;
-                        //x/y
-                        case 3:
-                            ChangePluginIcon(3);
-                            break;
-                        //x^y
-                        case 4:
-                            ChangePluginIcon(4);
-                            break;
-                        //gcd(x,y)
-                        case 5:
-                            ChangePluginIcon(5);
-                            break;
-                    }
+                    changeToCorrectIcon(operat);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Changes the plugins icon to the icon fitting to actual selected arithmetic function
+        /// </summary>
+        /// <param name="operat"></param>
+        public void changeToCorrectIcon(int operat)
+        {
+            switch (operat)
+            {
+                //x+y
+                case 0:
+                    ChangePluginIcon(0);
+                    break;
+                //x-y
+                case 1:
+                    ChangePluginIcon(1);
+                    break;
+                //x*y
+                case 2:
+                    ChangePluginIcon(2);
+                    break;
+                //x/y
+                case 3:
+                    ChangePluginIcon(3);
+                    break;
+                //x^y
+                case 4:
+                    ChangePluginIcon(4);
+                    break;
+                //gcd(x,y)
+                case 5:
+                    ChangePluginIcon(5);
+                    break;
             }
         }
 
