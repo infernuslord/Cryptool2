@@ -243,7 +243,9 @@ namespace Cryptool.Plugins.BigNumber
         }
 
         public void Initialize()
-        {
+        {            
+            //change to the correct icon which belongs to actual selected arithmetic function 
+            ((BigNumberOperationSettings)this.settings).changeToCorrectIcon(((BigNumberOperationSettings)this.settings).Operat);
         }
 
         public void Dispose()

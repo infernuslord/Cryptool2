@@ -38,6 +38,8 @@ namespace Cryptool.Plugins.BooleanOperators
         )]
     public class BooleanBinaryOperators : IThroughput
     {
+        private Boolean FlagA = false;
+        private Boolean FlagB = false;
 
         private Boolean inputA = false;
         private Boolean inputB = false;
@@ -62,6 +64,7 @@ namespace Cryptool.Plugins.BooleanOperators
             set
             {
                 this.inputA = value;
+                this.FlagA = true;
                 OnPropertyChange("InputA");
             }
         }
@@ -76,6 +79,7 @@ namespace Cryptool.Plugins.BooleanOperators
             set
             {
                 this.inputB = value;
+                this.FlagB = true;
                 OnPropertyChange("InputB");
             }
         }
@@ -95,6 +99,7 @@ namespace Cryptool.Plugins.BooleanOperators
             }
         }
 
+
         public ISettings Settings
         {
             get { return this.settings; }
@@ -110,6 +115,14 @@ namespace Cryptool.Plugins.BooleanOperators
 
         public void Execute()
         {
+
+            if (((BooleanBinaryOperatorsSettings)settings).UpdateOnlyAtBothInputsChanged &&
+                !(this.FlagA && this.FlagB))
+            {
+                //We only update our output if both inputs have changed
+                return;
+            }
+
             switch (this.settings.OperatorType)
             {
                 case 0: //AND
@@ -137,6 +150,9 @@ namespace Cryptool.Plugins.BooleanOperators
                     break;
 
             }//end switch
+
+            this.FlagA = false;
+            this.FlagB = false;
 
             ProgressChanged(1, 1);
 
@@ -176,6 +192,8 @@ namespace Cryptool.Plugins.BooleanOperators
 
         public void Stop()
         {
+            this.FlagA = false;
+            this.FlagB = false;
         }
 
         #endregion
