@@ -241,7 +241,7 @@ namespace Cryptool.PluginBase.IO
         public static void Dispose()
         {
           CleanTempFiles();
-          Directory.Delete(DirectoryHelper.DirectoryLocalTemp);
+          //Directory.Delete(DirectoryHelper.DirectoryLocalTemp);
         }
 
     }
