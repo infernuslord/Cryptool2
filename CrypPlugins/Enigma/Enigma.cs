@@ -211,7 +211,7 @@ namespace Cryptool.Enigma
         {
             Dictionary<string, double[]> grams = new Dictionary<string, double[]>();
 
-            StreamReader reader = new StreamReader(Path.Combine(PluginResource.directoryPath, GetStatisticsFilename(length)));
+            StreamReader reader = new StreamReader(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, GetStatisticsFilename(length)));
 
             string line;
             while ((line = reader.ReadLine()) != null)

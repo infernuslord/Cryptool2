@@ -63,6 +63,7 @@
     <Compile Include="Attributes\AuthorAttribute.cs" />
     <Compile Include="Control\IControlCost.cs" />
     <Compile Include="Control\IControlEncryption.cs" />
+    <Compile Include="IO\DirectoryHelper.cs" />
     <Compile Include="Miscellaneous\DataManager.cs" />
     <Compile Include="IApplication.cs" />
     <Compile Include="Attributes\RibbonBarAttribute.cs" />
@@ -86,7 +87,6 @@
     <Compile Include="Attributes\PropertyInfoAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Miscellaneous\PluginResource.cs" />
     <Compile Include="Miscellaneous\Tokenizer.cs" />
     <Compile Include="PluginExtension.cs" />
     <Compile Include="Attributes\PluginInfoAttribute.cs">

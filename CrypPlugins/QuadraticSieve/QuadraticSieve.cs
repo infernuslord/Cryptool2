@@ -45,8 +45,7 @@ namespace Cryptool.Plugins.QuadraticSieve
     {
         #region private variables
 
-        private const string TempDirectoryName = "CrypTool Temp Files";
-        private static readonly string directoryName;
+        private readonly string directoryName;
         private QuadraticSieveSettings settings = new QuadraticSieveSettings();
         private BigInteger inputNumber;
         private BigInteger[] outputFactors;
@@ -81,9 +80,6 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// </summary>
         static QuadraticSieve()
         {
-            directoryName = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), TempDirectoryName), "msieve");
-            if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
-
             //Load msieve.dll:
             string s = Directory.GetCurrentDirectory();
             string dllname;
@@ -104,6 +100,9 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// </summary>
         public QuadraticSieve()
         {
+            directoryName = Path.Combine(DirectoryHelper.DirectoryLocalTemp, "msieve");
+            if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
+
             QuickWatchPresentation = new QuadraticSievePresentation();
             
             quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
