@@ -11,6 +11,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace BooleanOperators
 {
@@ -35,15 +37,14 @@ namespace BooleanOperators
         
         public void update() 
         {
-            try
-            { 
+            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
                 this.myButton.Content = Value;
                 if (Value)
                 { this.myButton.Background = Brushes.LawnGreen; }
                 else
                 { this.myButton.Background = Brushes.Tomato; }
-            }
-            catch { }
+            }, null);
         }
         public void ExecuteThisMethodWhenButtonIsClicked(object sender, EventArgs e)
         {

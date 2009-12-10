@@ -21,24 +21,11 @@ namespace Cryptool.PluginBase.IO
 {
     public class CryptoolStream : Stream
     {
-        private const string TempDirectoryName = "CrypTool Temp Files";
         private const string TempFileExtension = "csf";
 
-        private static readonly string directoryName;
         private string fileName;
         private FileStream fileStream;
         private bool isReadOnly;
-
-        static CryptoolStream()
-        {
-          directoryName = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), TempDirectoryName), Guid.NewGuid().ToString());
-          if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
-        }
-
-        public static string TemporaryDirectoryName
-        {
-            get { return directoryName; }
-        }
 
         public string FileName 
         {
@@ -111,7 +98,9 @@ namespace Cryptool.PluginBase.IO
 
           try
           {
-            this.fileName = Path.Combine(directoryName, Guid.NewGuid() + "." + TempFileExtension);
+            if (!Directory.Exists(DirectoryHelper.DirectoryLocalTemp)) Directory.CreateDirectory(DirectoryHelper.DirectoryLocalTemp);
+
+            this.fileName = DirectoryHelper.GetNewTempFilePath(TempFileExtension);
             this.fileStream = new FileStream(this.fileName, FileMode.CreateNew);
 
             fileStream.Write(Bytes, 0, Bytes.Length);
@@ -178,7 +167,9 @@ namespace Cryptool.PluginBase.IO
                 this.fileStream.Position = 0;
             else
             {
-                this.fileName = Path.Combine(directoryName, Guid.NewGuid() + "." + TempFileExtension);
+                if (!Directory.Exists(DirectoryHelper.DirectoryLocalTemp)) Directory.CreateDirectory(DirectoryHelper.DirectoryLocalTemp);
+
+                this.fileName = DirectoryHelper.GetNewTempFilePath(TempFileExtension);
                 this.fileStream = new FileStream(this.fileName, FileMode.CreateNew);
             }
             isReadOnly = false;
@@ -241,7 +232,7 @@ namespace Cryptool.PluginBase.IO
 
         public static void CleanTempFiles()
         {
-            foreach (FileInfo fInfo in new DirectoryInfo(directoryName).GetFiles("*." + TempFileExtension))
+            foreach (FileInfo fInfo in new DirectoryInfo(DirectoryHelper.DirectoryLocalTemp).GetFiles("*." + TempFileExtension))
             {
               fInfo.Delete();
             }
@@ -250,7 +241,7 @@ namespace Cryptool.PluginBase.IO
         public static void Dispose()
         {
           CleanTempFiles();
-          Directory.Delete(directoryName);
+          Directory.Delete(DirectoryHelper.DirectoryLocalTemp);
         }
 
     }
