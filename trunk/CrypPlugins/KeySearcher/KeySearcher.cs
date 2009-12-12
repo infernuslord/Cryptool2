@@ -720,8 +720,8 @@ namespace KeySearcher
         // for inheritance reasons
         public void BruteforcePattern(KeyPattern pattern, IControlEncryption encryptControl, IControlCost costControl)
         {
-            ControlMaster = encryptControl;
-            CostMaster = costControl;
+            //ControlMaster = encryptControl;
+            //CostMaster = costControl;
             LinkedList<ValueKey> lstRet = bruteforcePattern(pattern, encryptControl);
             if(OnBruteforcingEnded != null)
                 OnBruteforcingEnded(lstRet);

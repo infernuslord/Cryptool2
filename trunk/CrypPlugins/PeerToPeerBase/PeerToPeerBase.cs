@@ -286,7 +286,8 @@ namespace Cryptool.Plugins.PeerToPeer
             // create own message receiver type... => P2PBase, so only this Application
             // receives Messages and not all active application on the SAME overlay!
             OverlayMessage overlayMsg = new OverlayMessage(MessageReceiverType.P2PBase,
-                this.overlay.LocalAddress,destinationAddr, byteData);
+                this.overlay.LocalAddress, destinationAddr, byteData);
+
             this.overlay.Send(overlayMsg);
         }
 
@@ -303,6 +304,15 @@ namespace Cryptool.Plugins.PeerToPeer
         public void SendToPeer(PubSubMessageType msgType, PeerId destinationAddress)
         {
             SendToPeer(((int)msgType).ToString(), destinationAddress.byteId);
+        }
+
+        private void overlay_MessageReceived(object sender, OverlayMessageEventArgs e)
+        {
+            if (OnP2PMessageReceived != null)
+            {
+                PeerId pid = new PeerId(e.Message.Source.ToString(), e.Message.Source.ToByteArray());
+                OnP2PMessageReceived(pid, e.Message.Data.PopUTF8String());
+            }
         }
 
         #region Event Handling (System Joined, Left and Message Received)
@@ -323,15 +333,6 @@ namespace Cryptool.Plugins.PeerToPeer
             this.dht = null;
             this.systemLeft.Set();
             Started = false;
-        }
-
-        private void overlay_MessageReceived(object sender, OverlayMessageEventArgs e)
-        {
-            if (OnP2PMessageReceived != null)
-            {
-                PeerId pid = new PeerId(e.Message.Source.ToString(), e.Message.Source.ToByteArray());
-                OnP2PMessageReceived(pid, e.Message.Data.PopUTF8String());
-            }
         }
 
         private void OnDHT_MessageReceived(object sender, MessageReceived e)
