@@ -54,6 +54,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IDistributionManager.cs" />
     <Compile Include="P2PManager.cs" />
     <Compile Include="P2PManagerBase.cs" />
     <Compile Include="P2PManagerSettings.cs" />

@@ -37,7 +37,7 @@ namespace Cryptool.Plugins.PeerToPeer
     /// </summary>
     [Author("Christian Arnold", "arnold@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo(false, "P2P_Manager", "Creates a new Manager-Peer", "", "PeerToPeerManager/manager_medium_neutral.png", "PeerToPeerManager/manager_medium_working.png", "PeerToPeerManager/manager_medium_finished.png")]
-    public class P2PManager : IInput
+    public class P2PManager : IOutput
     {
         private P2PManagerBase p2pManager;
         private P2PManagerSettings settings;
@@ -132,18 +132,18 @@ namespace Cryptool.Plugins.PeerToPeer
             //throw new NotImplementedException();
         }
 
-        private string sInputvalue;
-        [PropertyInfo(Direction.InputData, "Publish-String", "Publish this string to all DHT Subscribers", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public string Inputvalue
+        private string sOutputvalue;
+        [PropertyInfo(Direction.OutputData, "Managing Information", "Displays all distribution information", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public string Outputvalue
         {
             get
             {
-                return this.sInputvalue;
+                return this.sOutputvalue;
             }
             set
             {
-                this.sInputvalue = value;
-                OnPropertyChanged("Inputvalue");
+                this.sOutputvalue = value;
+                OnPropertyChanged("Outputvalue");
             }
         }
 
@@ -276,15 +276,26 @@ namespace Cryptool.Plugins.PeerToPeer
             {
                 this.p2pManager = new P2PManagerBase(this.P2PControl);
                 this.p2pManager.OnGuiMessage += new P2PPublisherBase.GuiMessage(p2pManager_OnGuiMessage);
+                this.p2pManager.OnFinishedOnePattern += new P2PManagerBase.FinishedOnePattern(p2pManager_OnFinishedOnePattern);
                 this.p2pManager.OnFinishedDistributingPatterns += new P2PManagerBase.FinishedDistributingPatterns(p2pManager_OnFinishedDistributingPatterns);
                 //this.p2pManager.Start(this.settings.TopicName, (long)this.settings.SendAliveMessageInterval);
             }
         }
 
-        void p2pManager_OnFinishedDistributingPatterns(List<object> lstTopList)
+        void p2pManager_OnFinishedOnePattern(string wildCardKey, double firstCoeffResult, string firstKeyResult, string workerId)
         {
-            // TODO: display received TopList
+            if (this.Outputvalue != null)
+                this.Outputvalue += "\n";
+            this.Outputvalue += "Value: " + firstCoeffResult.ToString() + "\nKey: " + firstKeyResult + "\nFrom: " + workerId;
+        }
+
+        void p2pManager_OnFinishedDistributingPatterns(LinkedList<KeySearcher.KeySearcher.ValueKey> lstTopList)
+        {
             this.settings.MngStatusChanged(P2PManagerSettings.MngStatus.Finished);
+
+            this.Outputvalue = this.p2pManager.GetGlobalTopList(lstTopList);
+
+            //this.Outputvalue = "All Patterns were bruteforced:";
         }
 
         void p2pManager_OnGuiMessage(string sData, NotificationLevel notificationLevel)
@@ -294,37 +305,50 @@ namespace Cryptool.Plugins.PeerToPeer
 
         public void Execute()
         {
+        }
+
+        private void process(IControlEncryption iControlEncryption)
+        {
             // if no P2P Slave PlugIn is connected with this PlugIn --> No execution!
             if (P2PControl == null)
             {
                 GuiLogMessage("No P2P_Peer connected with this PlugIn!", NotificationLevel.Error);
                 return;
             }
-            
-            if (this.Inputvalue != null)
-            {
-                //this.p2pManager.Publish(this.Inputvalue);
-            }
-        }
 
-        private void process(IControlEncryption iControlEncryption)
-        {
-            /*Begin Testspace*/
             string pattern = iControlEncryption.getKeyPattern();
             GuiLogMessage("string pattern = Encrypt.GetKeyPattern() = '" + pattern + "'", NotificationLevel.Debug);
             KeyPattern kp = new KeyPattern(pattern);
-            int len = pattern.ToString().Length;
 
-            if(len == 271) //AES
-                kp.WildcardKey = "30-30-30-30-30-30-30-30-30-30-30-30-30-**-**-**";
-            else if(len == 135) //DES
-                kp.WildcardKey = "30-30-30-30-30-**-**-**";
-            else
-                throw(new Exception("Encryption Type not supported"));
+            if (this.settings.Key != null)
+            {
+                if (!kp.testWildcardKey(this.settings.Key))
+                {
+                    GuiLogMessage("The input key pattern isn't valid! Key: '" + this.settings.Key + "'", NotificationLevel.Error);
+                    return;
+                }
+                else
+                {
+                    kp.WildcardKey = this.settings.Key;
+                    GuiLogMessage("Key Pattern was set out of the settings! Key: '" + kp.getKey() + "'", NotificationLevel.Debug);
+                }
+            }
+            else //no key was set in settings, so choose a standard key
+            {
+                /*Begin Testspace*/
+                int len = pattern.ToString().Length;
 
-            GuiLogMessage("KeyPattern kp = new KeyPattern(pattern) = GetKey '" + kp.getKey() + "'", NotificationLevel.Debug);
+                if (len == 271) //AES
+                    kp.WildcardKey = "30-30-30-30-30-30-30-30-30-30-30-30-30-**-**-**";
+                else if (len == 135) //DES
+                    kp.WildcardKey = "30-30-30-**-**-**-**-**";
+                else
+                    throw (new Exception("Encryption Type not supported"));
+                GuiLogMessage("STANDARD Key Pattern was set! Key: '" + kp.getKey() + "'", NotificationLevel.Debug);
+            }
 
-            this.p2pManager.StartManager(this.settings.TopicName, (long)this.settings.SendAliveMessageInterval, kp);
+            //this.p2pManager.StartManager(this.settings.TopicName, (long)this.settings.SendAliveMessageInterval, kp);
+            this.p2pManager.StartManager(this.settings.TopicName, (long)this.settings.SendAliveMessageInterval, kp, this.settings.KeyPatternSize);
 
             this.settings.MngStatusChanged(P2PManagerSettings.MngStatus.Working);
             /*End Testspace*/

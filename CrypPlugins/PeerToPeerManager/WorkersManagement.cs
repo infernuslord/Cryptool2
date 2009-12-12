@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-/*CLASS INFORMATION
+/* 
+ * CLASS INFORMATION
  * This class is derived from SubscriberManagement. The whole availability- and update-functionality
  * is assumed unchanged. Only Adding- and Removing-functionalities for subscriber/worker are extended,
  * because of an easier management it must handle the two lists freeWorkers and busyWorkers.
- * 
- * TODO:
- * - Disperse jobs to the workers
- * - When removing a BUSY worker, delegate its job to a free peer or an open job list
  */
 
 namespace Cryptool.Plugins.PeerToPeer

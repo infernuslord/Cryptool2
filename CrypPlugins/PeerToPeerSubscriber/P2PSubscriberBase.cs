@@ -100,11 +100,12 @@ namespace Cryptool.Plugins.PeerToPeer
         public P2PSubscriberBase(IP2PControl p2pControl)
         {
             this.p2pControl = p2pControl;
-            this.p2pControl.OnPeerReceivedMsg +=new P2PBase.P2PMessageReceived(MessageReceived);
         }
 
         public void Register(string sTopic, long checkPublishersAvailability, long publishersReplyTimespan)
         {
+            this.p2pControl.OnPeerReceivedMsg += new P2PBase.P2PMessageReceived(MessageReceived);
+
             this.sTopic = sTopic;
             this.checkPublishersAvailability = checkPublishersAvailability;
             this.publisherReplyTimespan = publishersReplyTimespan;
@@ -134,7 +135,7 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             if (sourceAddr.stringId != actualPublisher.stringId)
             {
-                GuiLogging("RECEIVED message from third party peer (not the publisher!): " + sData.Trim() + ", ID: " + sourceAddr.stringId, NotificationLevel.Info);
+                GuiLogging("RECEIVED message from third party peer (not the publisher!): " + sData.Trim() + ", ID: " + sourceAddr.stringId, NotificationLevel.Debug);
                 return;
             }
 
@@ -152,7 +153,7 @@ namespace Cryptool.Plugins.PeerToPeer
                     break;
                 case PubSubMessageType.Ping:
                     SendMessage(sourceAddr, PubSubMessageType.Pong);
-                    GuiLogging("REPLIED to a ping message from " + sourceAddr, NotificationLevel.Info);
+                    GuiLogging("REPLIED to a ping message from " + sourceAddr, NotificationLevel.Debug);
                     break;
                 case PubSubMessageType.Register:
                 case PubSubMessageType.Unregister:
@@ -180,13 +181,39 @@ namespace Cryptool.Plugins.PeerToPeer
                 // it must be some data
                 case PubSubMessageType.NULL:
                     // functionality swapped for better inheritance
-                    HandleIncomingData(sourceAddr, sData);
-
+                    Thread handlingOtherIncomingData = new Thread(new ParameterizedThreadStart(HandleIncomingData));
+                    handlingOtherIncomingData.Start(new IncomingData(sourceAddr, sData));
                     break;
                 case PubSubMessageType.Alive:
                 default:
                     // not possible at the moment
                     break;
+            }
+        }
+
+        // helper class to realize the necessary two parameters for the threading method HandleIncomingMethod
+        private class IncomingData
+        {
+            public PeerId sourceAddr = null;
+            public string sData = null;
+
+            public IncomingData(PeerId sourceAddr, string sData)
+            {
+                this.sourceAddr = sourceAddr;
+                this.sData = sData;
+            }
+        }
+
+        private void HandleIncomingData(object incomData)
+        {
+            if (incomData is IncomingData)
+            {
+                IncomingData incomingData = incomData as IncomingData;
+                HandleIncomingData(incomingData.sourceAddr, incomingData.sData);
+            }
+            else
+            {
+                throw (new Exception("Wrong object type in HandleIncomingData"));
             }
         }
 
@@ -198,7 +225,7 @@ namespace Cryptool.Plugins.PeerToPeer
         protected virtual void HandleIncomingData(PeerId senderId, string sData)
         {
             GuiLogging("RECEIVED: Message from '" + senderId.stringId
-                    + "' with data: '" + sData + "'", NotificationLevel.Info);
+                    + "' with data: '" + sData + "'", NotificationLevel.Debug);
 
             if (OnTextArrivedFromPublisher != null)
                 OnTextArrivedFromPublisher(sData, senderId);
@@ -223,11 +250,14 @@ namespace Cryptool.Plugins.PeerToPeer
                 case PubSubMessageType.Ping:
                 case PubSubMessageType.Pong:
                 case PubSubMessageType.Unregister:
-                    break;
+                case PubSubMessageType.Stop: 
+
                 case PubSubMessageType.Solution:
-                    // when i send Solution to the Stop method, we will run into a recursive loop between SendMessage and Stop!
-                    Stop(PubSubMessageType.NULL);
                     break;
+                //case PubSubMessageType.Solution:
+                //    // when i send Solution to the Stop method, we will run into a recursive loop between SendMessage and Stop!
+                //    Stop(PubSubMessageType.NULL);
+                //    break;
                 default:
                     GuiLogging("No Message sent, because MessageType wasn't supported: " + msgType.ToString(), NotificationLevel.Warning);
                     return;
@@ -236,7 +266,7 @@ namespace Cryptool.Plugins.PeerToPeer
 
             // don't show every single alive message
             if (msgType != PubSubMessageType.Alive)
-                GuiLogging(msgType.ToString() + " message sent to Publisher", NotificationLevel.Info);
+                GuiLogging(msgType.ToString() + " message sent to Publisher", NotificationLevel.Debug);
         }
 
         // registering isn't possible if no publisher has stored
@@ -347,8 +377,11 @@ namespace Cryptool.Plugins.PeerToPeer
         private void OnTimeoutPublishersPong(object state)
         {
             GuiLogging("Publisher didn't answer on Ping in the given time span!", NotificationLevel.Warning);
-            timeoutForPublishersPong.Dispose();
-            timeoutForPublishersPong = null;
+            if (timeoutForPublishersPong != null)
+            {
+                timeoutForPublishersPong.Dispose();
+                timeoutForPublishersPong = null;
+            }
             // try to get an active publisher and re-register
             CheckPublisherAvailability();
         }
@@ -391,6 +424,8 @@ namespace Cryptool.Plugins.PeerToPeer
                 this.timeoutForPublishersPong = null;
             }
             #endregion
+
+            this.p2pControl.OnPeerReceivedMsg -= MessageReceived;
 
             this.Started = false;
         }

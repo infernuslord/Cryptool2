@@ -124,6 +124,25 @@ namespace Cryptool.Plugins.PeerToPeer
                 //    keysearcher.GuiLogMessage("Wrong key pattern!", NotificationLevel.Error);
             }
         }
+
+        private int keyPatternSize = 10; // in hundred-thousand
+        [TaskPane("KeyPatternSize", "Choose the Size of the specific sub-KeyPattern (in hundred-thousand steps)"
+            , null, 3, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 90)]
+        public int KeyPatternSize
+        {
+            get
+            {
+                return this.keyPatternSize;
+            }
+            set
+            {
+                if (value != this.keyPatternSize)
+                {
+                    this.keyPatternSize = value;
+                    OnPropertyChanged("KeyPatternSize");
+                }
+            }
+        }
         #region INotifyPropertyChanged Members
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;

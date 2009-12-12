@@ -8,6 +8,7 @@ using Cryptool.PluginBase;
 using KeySearcher;
 using Cryptool.PluginBase.Miscellaneous;
 using System.IO;
+using System.Threading;
 
 /*bearbeitung
  * TODO:
@@ -19,10 +20,18 @@ namespace Cryptool.Plugins.PeerToPeer
 {
     public class P2PManagerBase : P2PPublisherBase
     {
-        public delegate void FinishedDistributingPatterns(List<object> lstTopList);
+        public delegate void FinishedDistributingPatterns(LinkedList<KeySearcher.KeySearcher.ValueKey> lstTopList);
         public event FinishedDistributingPatterns OnFinishedDistributingPatterns;
 
+        public delegate void FinishedOnePattern(string wildCardKey, double firstCoeffResult, string firstKeyResult, string workerId);
+        /// <summary>
+        /// Will be thrown when ONE pattern is bruteforced successfully
+        /// </summary>
+        public event FinishedOnePattern OnFinishedOnePattern;
+
         #region Variables
+
+        private const int MAX_IN_TOP_LIST = 10;
 
         private bool managerStarted = false;
         public bool ManagerStarted 
@@ -31,7 +40,7 @@ namespace Cryptool.Plugins.PeerToPeer
             private set { this.managerStarted = value; } 
         }
 
-        // 10.000 = 2048 Keys bei AES; 100.000 = 256 Keys bei AES; 400.000 = 64 Keys bei AES; 1.000.000 = xx Keys bei AES
+        // 10.000 = 2048 Keys; 100.000 = 256 Keys; 400.000 = 64 Keys; 1.000.000 = 32 Keys - Angaben je für AES und 6 Wildcards...
         private BigInteger keyPatternPartSize = 1000000;
         /// <summary>
         /// Declare in how many parts the key space will be split
@@ -66,21 +75,19 @@ namespace Cryptool.Plugins.PeerToPeer
         /// </summary>
         Dictionary<KeyPattern, string> patternResults;
         /// <summary>
-        /// When a working peer sends the information message "Solution Found" the 
-        /// actual worked Pattern gets stored with the PeerId, so we can detect the
-        /// following received serialized result list. Delete entry after receiving
-        /// the result list!!!
+        /// Global TopList, which will be actualized every time, when a new sub-result arrives. Consists only the top10 results.
         /// </summary>
-        Dictionary<string, KeyPattern> solutionFound;
+        LinkedList<KeySearcher.KeySearcher.ValueKey> globalTopList;
 
         #endregion
 
-        public P2PManagerBase(IP2PControl p2pControl) : base(p2pControl)
+        public P2PManagerBase(IP2PControl p2pControl)
+            : base(p2pControl)
         {
             this.leftKeyPatterns = new Queue<KeyPattern>();
             this.allocatedPatterns = new Dictionary<string, KeyPattern>();
             this.patternResults = new Dictionary<KeyPattern, string>();
-            this.solutionFound = new Dictionary<string, KeyPattern>();
+            this.globalTopList = getDummyTopList(MAX_IN_TOP_LIST);
         }
 
         protected override void MessageReceived(PeerId sourceAddr, string sData)
@@ -88,68 +95,92 @@ namespace Cryptool.Plugins.PeerToPeer
             PubSubMessageType msgType = this.p2pControl.GetMsgType(sData);
 
             if (msgType != PubSubMessageType.NULL)
-                // before the worker send the result list, it sends a SolutionFound Message
-                if (msgType == PubSubMessageType.Solution)
-                {
-                    // if solutionFound sending peer isn't already in the solutionFound list, but had been allocated to a pattern
-                    if (!this.solutionFound.ContainsKey(sourceAddr.stringId) && this.allocatedPatterns.ContainsKey(sourceAddr.stringId))
-                    {
-                        GuiLogging("Solution found message received from '" + sourceAddr.stringId + "'", NotificationLevel.Info);
-                        this.solutionFound.Add(sourceAddr.stringId, this.allocatedPatterns[sourceAddr.stringId]);
-                    }
-                }
-                else
+            {
+                // ignore Solution case, because other worker could work on...
+                if (msgType != PubSubMessageType.Solution)
                     // base class handles all administration cases (register, alive, unregister, ping, pong, ...)
                     base.MessageReceived(sourceAddr, sData);
+            }
             else
             {
-                // if sending peer is in the allocatedPatterns Dict, its an (intermediate) result
-                if (this.allocatedPatterns.ContainsKey(sourceAddr.stringId) && this.solutionFound.ContainsKey(sourceAddr.stringId))
+                ProcessPatternResult(sData, sourceAddr);
+            }
+        }
+
+        /// <summary>
+        /// This method decides whether the Data is an actual pattern result. Than deserializes data, display it,
+        /// actualize the Top-10-List of ALL results and sets the worker free again.
+        /// </summary>
+        /// <param name="sPatternResult">serialized pattern result</param>
+        /// <param name="workerId">ID of the actual worker</param>
+        /// <returns></returns>
+        private bool ProcessPatternResult(string sPatternResult, PeerId workerId)
+        {
+            // if sending peer is in the allocatedPatterns Dict, its an (intermediate) result
+            if (this.allocatedPatterns.ContainsKey(workerId.stringId))
+            {
+                GuiLogging("Result from worker '" + workerId.stringId + "' received. Data: " + sPatternResult, NotificationLevel.Debug);
+
+                KeyPattern actualPattern = this.allocatedPatterns[workerId.stringId];
+
+                LinkedList<KeySearcher.KeySearcher.ValueKey> lstResults = DeserializeKeySearcherResult(sPatternResult);
+
+                if (lstResults != null)
                 {
-                    GuiLogging("Result from worker '" + sourceAddr.stringId + "' received. Data: " + sData, NotificationLevel.Debug);
+                    KeySearcher.KeySearcher.ValueKey firstResult = lstResults.First<KeySearcher.KeySearcher.ValueKey>();
 
-                    KeyPattern actualPattern = this.allocatedPatterns[sourceAddr.stringId];
-
-                    LinkedList<KeySearcher.KeySearcher.ValueKey> lstResults = DeserializeKeySearcherResult(sData);
-                    
-                    GuiLogging("Result for Pattern '" + actualPattern.WildcardKey + "' was deserialized. Value: '" + lstResults.First.Value,NotificationLevel.Debug);
+                    GuiLogging("Result was deserialized. Coeff.Value: " + firstResult.value.ToString() + ", Key: '" + firstResult.key + "'", NotificationLevel.Debug);
 
                     // if patternResult already contains a result for this pattern, compare the results
                     // and take the better one
                     if (this.patternResults.ContainsKey(actualPattern))
                     {
                         // TODO: compare results and take the better one
-                        this.patternResults[actualPattern] = sData;
-                        GuiLogging("New result for the same pattern (" + actualPattern.WildcardKey + ") received. So it was updated.", NotificationLevel.Debug);
+                        this.patternResults[actualPattern] = sPatternResult;
+                        GuiLogging("New result for the same pattern (Value: " + firstResult.value.ToString() + ", Key: '" + firstResult.key + "') received. So it was updated.", NotificationLevel.Debug);
                     }
                     else
                     {
-                        this.patternResults.Add(actualPattern, sData);
-                        GuiLogging("Received FIRST result for the pattern '" + actualPattern.WildcardKey + "'",NotificationLevel.Debug);
+                        this.patternResults.Add(actualPattern, sPatternResult);
+                        GuiLogging("Received FIRST result for the pattern (Value: " + firstResult.value.ToString() + ", Key: '" + firstResult.key + "')", NotificationLevel.Debug);
                     }
                     // TODO: Compare, actualize and display top 10 list of all results received from the different workers
-                    // ActualizeTopList(DeserializeKeySearcherResult(sData));
+                    ActualizeGlobalTopList(lstResults);
 
-                    KeySearcher.KeySearcher.ValueKey firstResult = lstResults.First();
+                    GuiLogging("(Intermediate) result found (Value: " + firstResult.value.ToString() + ", Key: '" + firstResult.key + "')", NotificationLevel.Info);
 
-                    // result was processed, so peer must be removed from solution list
-                    this.solutionFound.Remove(sourceAddr.stringId);
+                    // send information to the Plugin to display the first result
+                    if (OnFinishedOnePattern != null)
+                        OnFinishedOnePattern(actualPattern.WildcardKey, firstResult.value, firstResult.key, workerId.stringId);
 
-                    GuiLogging("(Intermediate) result found for pattern: '" + actualPattern.ToString() + "'. Result: '" + firstResult.key + "' with Coefficient: " + firstResult.value.ToString(), NotificationLevel.Info);
+                    //remove, because task is solved and stored in Dictionary patternResults
+                    this.allocatedPatterns.Remove(workerId.stringId);
+                    // because result-sending worker is again free, set it to free sin the management, so it will get a new KeyPattern if available
+                    ((WorkersManagement)this.peerManagement).SetBusyWorkerToFree(workerId);
                 }
                 else
                 {
-                    GuiLogging("Received Message from non-working peer. Data: " + sData + ", ID: " + sourceAddr.stringId,NotificationLevel.Info);
+                    GuiLogging("Deserializing result canceled: '" + sPatternResult + "'.", NotificationLevel.Error);
                 }
+                if (this.leftKeyPatterns.Count == 0)
+                {
+                    if (OnFinishedDistributingPatterns != null)
+                        OnFinishedDistributingPatterns(this.globalTopList);
+                }
+
+                return true;
             }
+            else
+            {
+                GuiLogging("Received Message from non-working peer. Data: " + sPatternResult + ", ID: " + workerId.stringId, NotificationLevel.Info);
+            }
+            return false;
         }
 
-        /*
-         * serialization information: 3 fields per data set in the following order: 
+        /* serialization information: 3 fields per data set in the following order: 
          * 1) value (double) 
          * 2) key (string) 
-         * 3) decryption (byte[])
-         */
+         * 3) decryption (byte[]) */
         private string seperator = "#;#";
         private string dataSetSeperator = "|**|";
         private LinkedList<KeySearcher.KeySearcher.ValueKey> DeserializeKeySearcherResult(string sSerializedResult)
@@ -175,14 +206,16 @@ namespace Cryptool.Plugins.PeerToPeer
         // every time when new workers are available, continue dispersion of patterns
         private void peerManagement_OnFreeWorkersAvailable()
         {
-            if (DispersePatterns() == 0)
+            if (!this.managerStarted)
             {
-                int result = 0;
-                while (!this.ManagerStarted && result == 0)
-                {
-                    result = DispersePatterns();
-                }
-            }
+                GuiLogging("Manager isn't started at present, so I can't disperse the patterns.", NotificationLevel.Error);
+                throw (new Exception("Critical error in P2PManager. Manager isn't started yet, but there can register workers..."));
+            }   
+            // check if patterns are left
+            if (this.leftKeyPatterns.Count != 0)
+                DispersePatterns();
+            else
+                GuiLogging("No more patterns left. So wait for the last results, than close this task.", NotificationLevel.Debug);
         }
 
         private void peerManagement_OnSubscriberRemoved(PeerId peerId)
@@ -198,16 +231,8 @@ namespace Cryptool.Plugins.PeerToPeer
 
         public int DispersePatterns()
         {
-            if (!this.ManagerStarted)
-            {
-                GuiLogging("Manager isn't started at present, so I can't disperse the patterns.", NotificationLevel.Info);
-                return 0;
-            }
-
             int iCycle = 0;
             int iFreePatternAmount = leftKeyPatterns.Count;
-            if (iFreePatternAmount == 0) 
-                return 0;
 
             // gets only the free workers, which had register at this manager
             List<PeerId> lstSubscribers = ((WorkersManagement)this.peerManagement).GetFreeWorkers();
@@ -217,10 +242,16 @@ namespace Cryptool.Plugins.PeerToPeer
                 {
                     KeyPattern actualKeyPattern = this.leftKeyPatterns.Dequeue();
                     this.allocatedPatterns.Add(subscriber.stringId, actualKeyPattern);
+
                     // send job (Keyspace) to the actual worker peer
                     this.p2pControl.SendToPeer(actualKeyPattern.SerializeToString(), subscriber.byteId);
+
+                    GuiLogging("Pattern sent to peer (" + subscriber.stringId + "), Pattern: " + actualKeyPattern.WildcardKey, NotificationLevel.Debug);
+
                     // set free worker to busy in the peerManagement class
                     ((WorkersManagement)this.peerManagement).SetFreeWorkerToBusy(subscriber);
+
+                    GuiLogging("Worker was set to busy. (Id: " + subscriber.stringId + ")", NotificationLevel.Debug);
 
                     iCycle++;
                 }
@@ -229,11 +260,12 @@ namespace Cryptool.Plugins.PeerToPeer
                     // no more patterns to disperse, so leave foreach
                     // TODO: inform all workers that no more patterns must be bruteforced, they only have to finish the last assigned Patterns
                     ((WorkersManagement)this.peerManagement).OnFreeWorkersAvailable -= peerManagement_OnFreeWorkersAvailable;
+                    GuiLogging("All patterns were dispersed. So waiting for the last results.",NotificationLevel.Debug);
                     break;
                 }
             } // end foreach
 
-            GuiLogging(iCycle.ToString() + " patterns dispersed. " + lstSubscribers.Count + " free workers were available. Patterns left: " + this.leftKeyPatterns.Count.ToString(), NotificationLevel.Debug);
+            GuiLogging(iCycle.ToString() + " pattern(s) dispersed. Patterns left: " + this.leftKeyPatterns.Count.ToString(), NotificationLevel.Info);
             return iCycle;
         }
 
@@ -253,6 +285,20 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="sTopic"></param>
         /// <param name="aliveMessageInterval"></param>
         /// <param name="keyPattern">Already initialized (!!!) key pattern</param>
+        /// <param name="keyPatternSize">KeyPatternSize in hundred thousand!</param>
+        /// <returns></returns>
+        public bool StartManager(string sTopic, long aliveMessageInterval, KeyPattern keyPattern, int keyPatternSize)
+        {
+            this.KeyPatternPartSize = (BigInteger)(keyPatternSize * 100000);
+            return StartManager(sTopic, aliveMessageInterval, keyPattern);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sTopic"></param>
+        /// <param name="aliveMessageInterval"></param>
+        /// <param name="keyPattern">Already initialized (!!!) key pattern</param>
         /// <returns></returns>
         public bool StartManager(string sTopic, long aliveMessageInterval, KeyPattern keyPattern)
         {
@@ -260,8 +306,7 @@ namespace Cryptool.Plugins.PeerToPeer
 
             List<KeyPattern> arrKeyPatternPool = keyPattern.makeKeySearcherPool(this.KeyPatternPartSize);
             foreach (KeyPattern keyPatternPart in arrKeyPatternPool)
-            {
-                
+            {   
                 this.leftKeyPatterns.Enqueue(keyPatternPart);
             }
             
@@ -292,6 +337,74 @@ namespace Cryptool.Plugins.PeerToPeer
 
             this.ManagerStarted = false;
             ((WorkersManagement)this.peerManagement).OnFreeWorkersAvailable -= peerManagement_OnFreeWorkersAvailable;
+        }
+
+        #endregion
+
+        #region Global Top-10-List
+
+        double lastGlobalValue = 0.0;
+        // leaned on KeySearcher.updateTopList
+        private void ActualizeGlobalTopList(LinkedList<KeySearcher.KeySearcher.ValueKey> newTopList)
+        {
+            double firstNewValue = newTopList.First.Value.value;
+            if (lastGlobalValue > firstNewValue)
+                return;
+
+            LinkedListNode<KeySearcher.KeySearcher.ValueKey> globalNode;
+            LinkedListNode<KeySearcher.KeySearcher.ValueKey> newNode;
+
+            newNode = newTopList.First;
+            while(newNode != null)
+            {
+                globalNode = this.globalTopList.First;
+                while (globalNode != null)
+                {
+                    if (newNode.Value.value > globalNode.Value.value)
+                    {
+                        this.globalTopList.AddBefore(globalNode, newNode.Value);
+                        this.globalTopList.RemoveLast();
+                        lastGlobalValue = this.globalTopList.Last.Value.value;
+                        break;
+                    }
+                    globalNode = globalNode.Next;
+                }
+                newNode = newNode.Next;
+            }
+        }
+
+        // leaned on KeySearcher.fillListWithDummies
+        private LinkedList<KeySearcher.KeySearcher.ValueKey> getDummyTopList(int maxInList)
+        {
+            LinkedList<KeySearcher.KeySearcher.ValueKey> returnList = new LinkedList<KeySearcher.KeySearcher.ValueKey>();
+
+            KeySearcher.KeySearcher.ValueKey valueKey = new KeySearcher.KeySearcher.ValueKey();
+
+            valueKey.value = double.MinValue;
+            valueKey.key = "dummykey";
+            valueKey.decryption = new byte[0];
+
+            lastGlobalValue = valueKey.value;
+            LinkedListNode<KeySearcher.KeySearcher.ValueKey> node = returnList.AddFirst(valueKey);
+            for (int i = 1; i < maxInList; i++)
+            {
+                node = returnList.AddAfter(node, valueKey);
+            }
+            return returnList;
+        }
+
+        public string GetGlobalTopList(LinkedList<KeySearcher.KeySearcher.ValueKey> topList)
+        {
+            StringBuilder sbRet = new StringBuilder();
+            LinkedListNode<KeySearcher.KeySearcher.ValueKey> node = topList.First;
+            while (node != null)
+            {
+                sbRet.AppendLine(node.Value.value.ToString());
+                sbRet.AppendLine(node.Value.key);
+                sbRet.AppendLine("-------------------");
+                node = node.Next;
+            }
+            return sbRet.ToString();
         }
 
         #endregion
