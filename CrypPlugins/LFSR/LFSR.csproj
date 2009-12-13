@@ -64,6 +64,9 @@
     <Compile Include="LFSRSettings.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\lfsr.emf" />
+    <Resource Include="Images\lfsr.eps" />
+    <Resource Include="Images\lfsr.svg" />
     <None Include="key.snk" />
     <None Include="LFSRClassDiagram.cd" />
   </ItemGroup>
@@ -93,10 +96,17 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\lfsr.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
     <Page Include="LFSRPresentation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\LFSR1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -124,6 +124,20 @@ namespace Cryptool.LFSR
             }
         }
 
+        private bool outputStages = false;
+        [ContextMenu("Output stages", "With this checkbox enabled, the current state will be output.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Save current state?" })]
+        [TaskPane("Output stages", "With this checkbox enabled, the current state will be output.", null, 4, true, DisplayLevel.Experienced, ControlType.CheckBox, "", null)]
+        public bool OutputStages
+        {
+            get { return this.outputStages; }
+            set
+            {
+                this.outputStages = (bool)value;
+                OnPropertyChanged("OutputStages");
+                HasChanges = true;
+            }
+        }
+
         private bool useAdditionalOutputBit = false;
         [ContextMenu("Generate add. output bit", "With this checkbox enabled, the additional output bit will be generated.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Generate additional output bit?" })]
         [TaskPane("Generate add. output bit", "With this checkbox enabled, the additional output bit will be generated.", "Additional Output Bit", 0, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]

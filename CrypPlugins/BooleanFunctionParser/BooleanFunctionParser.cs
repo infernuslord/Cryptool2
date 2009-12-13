@@ -90,6 +90,7 @@ namespace Cryptool.BooleanFunctionParser
             // event can cause problems when using save files and is processed after 
             // connections have been restored. 
             CreateInputOutput(false);
+            settings.countOfInputsOld = settings.CountOfInputs;
         }
 
         void textBoxInput_TextChanged(object sender, TextChangedEventArgs e)
@@ -320,14 +321,15 @@ namespace Cryptool.BooleanFunctionParser
             catch (Exception exception)
             {
                 GuiLogMessage(exception.Message, NotificationLevel.Error);
+                GuiLogMessage("Foo", NotificationLevel.Error);
             }
         }
 
         /* *******************************************************************************
          * Main function to be used in the M/S mode and in general
          * inputs:
-         * string function - the boolean function to be computed with variables
          * bool[] inputVariables - a boolean array to replace the variables
+         * bool[] dataTwo - a second array with variables
          * 
          * ouput:
          * int - the one bit long result of the given function; returns -1 on any failure
@@ -490,8 +492,8 @@ namespace Cryptool.BooleanFunctionParser
             //strExpression.Replace(" ", "");
             // add * if there aren't any (and should be)
             // example: x^2+x^2x^3 ==> x^2+x^2*x^3
-            //Regex makeStars = new Regex("([0-9])x");
-            //strExpression = makeStars.Replace(strExpression, new MatchEvaluator(makeStarsInText));
+            Regex makeStars = new Regex("([0-9])x");
+            strExpression = makeStars.Replace(strExpression, new MatchEvaluator(makeStarsInText));
             
             // replace additional inputs data (if there are any)
             TokenList tokens = new TokenList();

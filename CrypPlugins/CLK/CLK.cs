@@ -33,7 +33,8 @@ namespace Cryptool.CLK
     # region private variables
     private CLKPresentation cLKPresentation;
     private bool output;
-    private bool eventInput;
+    private int roundOutput;
+    private object eventInput;
     private int timeout = 2000;
     private int rounds = 10;
     private Timer aTimer = new Timer();
@@ -102,8 +103,22 @@ namespace Cryptool.CLK
         }
     }
 
+    [PropertyInfo(Direction.OutputData, "Output of rounds", "Output.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    public int RoundOutput
+    {
+        get { return roundOutput; }
+        set
+        {
+            if (value != roundOutput)
+            {
+                roundOutput = value;
+                OnPropertyChanged("RoundOutput");
+            }
+        }
+    }
+
     [PropertyInfo(Direction.InputData, "EventInput", "EventInput", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-    public bool EventInput
+    public object EventInput
     {
         get { return eventInput; }
         set
@@ -163,6 +178,8 @@ namespace Cryptool.CLK
             if (myRounds != 0)
             {
                 OnPropertyChanged("Output");
+                roundOutput = myRounds;
+                OnPropertyChanged("RoundOutput");
                 myRounds--;
                 ProgressChanged(settings.Rounds - myRounds, settings.Rounds);
             }
@@ -198,6 +215,8 @@ namespace Cryptool.CLK
         {
             // first fire up an event, then get the timer to handle that for us
             OnPropertyChanged("Output");
+            roundOutput = myRounds;
+            OnPropertyChanged("RoundOutput");
             myRounds--;
 
             // Hook up the Elapsed event for the timer.
@@ -217,6 +236,8 @@ namespace Cryptool.CLK
         if (myRounds != 0)
         {
             OnPropertyChanged("Output");
+            roundOutput = myRounds;
+            OnPropertyChanged("RoundOutput");
             myRounds--;
             ProgressChanged(settings.Rounds - myRounds, settings.Rounds);
         }
