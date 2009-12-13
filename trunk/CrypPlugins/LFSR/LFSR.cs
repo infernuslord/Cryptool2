@@ -26,7 +26,7 @@ using System.Windows.Media;
 namespace Cryptool.LFSR
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo(false, "LFSR", "Linear Feedback Shift Register", "LFSR/DetailedDescription/Description.xaml", "LFSR/Images/LFSR.png", "LFSR/Images/encrypt.png", "LFSR/Images/decrypt.png")]
+    [PluginInfo(false, "LFSR", "Linear Feedback Shift Register", "LFSR/DetailedDescription/Description.xaml", "LFSR/Images/LFSR1.png", "LFSR/Images/encrypt.png", "LFSR/Images/decrypt.png")]
     [EncryptionType(EncryptionType.SymmetricBlock)]
     public class LFSR : IThroughput
     {
@@ -39,6 +39,7 @@ namespace Cryptool.LFSR
         private bool outputBool;
         private bool inputClockBool = true;
         private bool outputClockingBit;
+        private bool[] outputBoolArray;
         
         private LFSRPresentation lFSRPresentation;
         private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
@@ -187,15 +188,17 @@ namespace Cryptool.LFSR
                 OnPropertyChanged("OutputClockingBit");
             }
         }
-        
-        /*
-        private bool controllerOutput;
-        [ControllerProperty(Direction.Output, "Controller Output", "", DisplayLevel.Beginner)]
-        public object ControllerOutput
+
+        [PropertyInfo(Direction.OutputData, "Boolean Array Output of Stages", "LFSR Boolean Array Output of all Stages.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public bool[] OutputBoolArray
         {
-            get { return controllerOutput; }
-            set { controllerOutput = (bool)value; }
-        }*/
+            get { return outputBoolArray; }
+            set
+            {
+                outputBoolArray = value;
+                OnPropertyChanged("OutputBoolArray");
+            }
+        }
 
         public void Dispose()
         {
@@ -533,7 +536,6 @@ namespace Cryptool.LFSR
                 else
                 {
                     GuiLogMessage("ERROR - " + tapSequencebuffer + " is NOT a valid polynomial. Aborting now.", NotificationLevel.Error, createLog);
-                    //Console.WriteLine("\n{0} is NOT a valid polynomial.", tapSequencebuffer);
                     Dispose();
                     return;
                 }
@@ -788,6 +790,12 @@ namespace Cryptool.LFSR
                             OnPropertyChanged("OutputClockingBit");
                         }
                     }
+                    // in both cases also output all stages if set in settings
+                    if (settings.OutputStages)
+                    {
+                        outputBoolArray = MakeBooleanArrayFromCharArray(seedCharArray);
+                        OnPropertyChanged("OutputBoolArray");
+                    }
 
                     // reset newSeed
                     newSeed = false;
@@ -823,6 +831,21 @@ namespace Cryptool.LFSR
             {
                 ProgressChanged(1, 1);
             }
+        }
+
+        private bool[] MakeBooleanArrayFromCharArray(char[] charArray)
+        {
+            bool[] boolArray = new bool[charArray.Length];
+
+            for (int i = 0; i < charArray.Length; i++)
+            {
+                if (charArray[i] == '0')
+                    boolArray[i] = false;
+                else
+                    boolArray[i] = true;
+            }
+
+            return boolArray;
         }
 
         #region events and stuff

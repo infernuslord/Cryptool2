@@ -78,11 +78,6 @@
       <SubType>Designer</SubType>
     </Resource>
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\iconInput1Inverted.png" />
-    <Resource Include="Images\iconInput2Inverted.png" />
-    <Resource Include="Images\iconOutputInverted.png" />
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
