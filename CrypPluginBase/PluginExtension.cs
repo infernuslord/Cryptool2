@@ -324,11 +324,7 @@ namespace Cryptool.PluginBase
         {
           try
           {
-            string icon = type.GetPluginInfoAttribute().Icons[index];            
-            int sIndex = icon.IndexOf('/');
-            Image img = new Image();
-            img.Source = BitmapFrame.Create(new Uri(string.Format("pack://application:,,,/{0};component/{1}", icon.Substring(0, sIndex), icon.Substring(sIndex + 1))));
-            return img;
+            return GetImageWithoutLogMessage(type, index);
           }
           catch (Exception exception)
           {
@@ -338,6 +334,15 @@ namespace Cryptool.PluginBase
               GuiLogMessage(exception.Message, NotificationLevel.Error);
             return null;
           }
+        }
+
+        public static Image GetImageWithoutLogMessage(this Type type, int index)
+        {
+          string icon = type.GetPluginInfoAttribute().Icons[index];
+          int sIndex = icon.IndexOf('/');
+          Image img = new Image();
+          img.Source = BitmapFrame.Create(new Uri(string.Format("pack://application:,,,/{0};component/{1}", icon.Substring(0, sIndex), icon.Substring(sIndex + 1))));
+          return img;
         }
 
         public static string GetPluginStringResource(this IPlugin plugin, string keyword)

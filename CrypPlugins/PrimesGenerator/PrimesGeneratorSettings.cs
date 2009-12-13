@@ -35,7 +35,7 @@ namespace Cryptool.PrimesGenerator
 
     private int m_SelectedMode;
     [PropertySaveOrder(1)]
-    [ContextMenu("Mode", "Select ", 1, DisplayLevel.Expert, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, new string[] { "A Primenumber with n digits", "A Primenumber less or equal than n" })]
+    [ContextMenu("Mode", "Select ", 1, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "A Primenumber with n digits", "A Primenumber less or equal than n" })]
     [TaskPane("Mode", "Select ", null, 1, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "A Primenumber with n digits", "A Primenumber less or equal than n" })]
     public int Mode
     {
