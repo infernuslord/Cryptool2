@@ -67,7 +67,7 @@ namespace TranspositionAnalyser
         public TranspositionAnalyser()
         {
             settings = new TranspositionAnalyserSettings();
-            QuickWatchPresentation = new TranspositionAnalyserQuickWatchPresentation();
+            //QuickWatchPresentation = new TranspositionAnalyserQuickWatchPresentation();
         }
 
         private IControlEncryption controlMaster;
@@ -169,7 +169,7 @@ namespace TranspositionAnalyser
 
         public void Initialize()
         {
-            this.settings.analysis_method = 0;            
+            this.settings.Analysis_method = 0;            
         }
 
         public void Dispose()
@@ -200,7 +200,7 @@ namespace TranspositionAnalyser
 
         public void process(IControlEncryption sender)
         {
-            switch (this.settings.analysis_method)
+            switch (this.settings.Analysis_method)
             {
                 case 0: Output = costfunction_bruteforce(sender); break;
                 case 1: cribAnalysis(this.crib,this.cribinput); break;
