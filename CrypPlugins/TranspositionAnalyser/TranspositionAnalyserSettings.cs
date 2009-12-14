@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
 using System.ComponentModel;
-
+using System.Windows;
 namespace TranspositionAnalyser
 {
     class TranspositionAnalyserSettings : ISettings
@@ -13,6 +13,48 @@ namespace TranspositionAnalyser
 
         #region ISettings Member
 
+      
+
+        private int selected_method;
+
+        internal void UpdateTaskPaneVisibility()
+        {
+           
+
+            switch (selected_method)
+            {
+                case 0: TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("MaxLength", Visibility.Visible)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RowColumnColumn", Visibility.Visible)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RowColumnRow", Visibility.Visible)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ColumnColumnRow", Visibility.Visible)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ColumnColumnColumn", Visibility.Visible)));
+                        break;
+                case 1: TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("MaxLength", Visibility.Hidden)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RowColumnColumn", Visibility.Hidden)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RowColumnRow", Visibility.Hidden)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ColumnColumnRow", Visibility.Hidden)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ColumnColumnColumn", Visibility.Hidden)));
+                        break;
+            }
+        }
+        [PropertySaveOrder(1)]
+        [TaskPane("Analysis Method", "Select the Analysis Method", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Bruteforce Analysis", "Analysis with Crib" })]
+        public int analysis_method
+        {
+            get
+            {
+                return this.selected_method;
+            }
+            set
+            {
+                if (value != selected_method) HasChanges = true;
+                this.selected_method = value;
+                UpdateTaskPaneVisibility();
+                OnPropertyChanged("analysis_method");
+                
+            }
+
+        }
 
         // FIX: REGEX 
         private int bruteforce_length = 8;
@@ -24,6 +66,7 @@ namespace TranspositionAnalyser
             set
             {
                 bruteforce_length = value;
+                
             }
         }
 
@@ -88,6 +131,7 @@ namespace TranspositionAnalyser
             }
         }
 
+     
 
         public bool HasChanges
         {
@@ -110,6 +154,11 @@ namespace TranspositionAnalyser
         }
 
         #endregion
+
+        #region Events
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
+        #endregion
+
 
         #region INotifyPropertyChanged Member
 
