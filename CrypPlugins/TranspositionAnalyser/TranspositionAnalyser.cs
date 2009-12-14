@@ -8,6 +8,9 @@ using System.ComponentModel;
 using Cryptool.PluginBase.Control;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Collections;
+using System.Windows.Threading;
+using System.Threading;
+
 
 
 namespace TranspositionAnalyser
@@ -64,6 +67,7 @@ namespace TranspositionAnalyser
         public TranspositionAnalyser()
         {
             settings = new TranspositionAnalyserSettings();
+            QuickWatchPresentation = new TranspositionAnalyserQuickWatchPresentation();
         }
 
         private IControlEncryption controlMaster;
@@ -123,6 +127,8 @@ namespace TranspositionAnalyser
         {
             get { return settings; }
         }
+
+
 
         public UserControl Presentation
         {
@@ -592,5 +598,96 @@ namespace TranspositionAnalyser
         }
 
         #endregion
+        
+        //hier entsteht eine QUICKWATCH
+        private void showProgress(String theBestTry)
+        {
+                  
+            //if (QuickWatchPresentation.IsVisible && theBestTry.Length != 0 && !stop)
+            //{
+            //    double time = 100;
+            //  TimeSpan timeleft = new TimeSpan(-1);
+
+            //  try
+            //  {
+            //      if (time / (24 * 60 * 60) <= int.MaxValue)
+            //      {
+            //          int days = (int)(time / (24 * 60 * 60));
+            //          time = time - (days * 24 * 60 * 60);
+            //          int hours = (int)(time / (60 * 60));
+            //          time = time - (hours * 60 * 60);
+            //          int minutes = (int)(time / 60);
+            //          time = time - (minutes * 60);
+            //          int seconds = (int)time;
+
+
+            //          timeleft = new TimeSpan(days, hours, minutes, (int)seconds, 0);
+            //      }
+            //  }
+            //  catch
+            //  {
+            //      //can not calculate time span
+            //  }
+
+            //    ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            //    {
+            //        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).keysPerSecond.Text = "" + theBestTry;
+            //        if (timeleft != new TimeSpan(-1))
+            //        {
+            //            ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).timeLeft.Text = "" + timeleft;
+            //            try
+            //            {
+            //                ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "" + DateTime.Now.Add(timeleft);
+            //            }
+            //            catch
+            //            {
+            //                ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "in a galaxy far, far away...";
+            //            }
+            //        }
+            //        else
+            //        {
+            //            ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).timeLeft.Text = "incalculable :-)";
+            //            ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "in a galaxy far, far away...";
+            //        }
+
+            //        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Clear();
+            //        linkedListNode = costList.First;
+            //        System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+            //        int i = 0;
+            //        while (linkedListNode != null)
+            //        {
+            //            i++;
+            //            ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Add(i + ") " + Math.Round(linkedListNode.Value.value, 4) + " = " + linkedListNode.Value.key + " : \"" +
+            //                enc.GetString(linkedListNode.Value.decryption).Replace("\n", "").Replace("\r", "").Replace("\t", "") + "\"");
+            //            linkedListNode = linkedListNode.Next;
+            //        }
+                //}
+                //, null);
+            }//end if
+
+
+            //if (!stop && QuickWatchPresentation.IsVisible)
+            //{
+
+            //    ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            //    {
+            //        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Clear();
+            //        linkedListNode = costList.First;
+            //        System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+            //        int i = 0;
+            //        while (linkedListNode != null)
+            //        {
+            //            i++;
+            //            ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Add(i + ") " + Math.Round(linkedListNode.Value.value, 4) + " = " + linkedListNode.Value.key + " : \"" +
+            //                enc.GetString(linkedListNode.Value.decryption).Replace("\n", "").Replace("\r", "").Replace("\t", "") + "\"");
+            //            linkedListNode = linkedListNode.Next;
+            //        }
+                //}
+                //, null);
+            //}
+        //}//bis hier geht die QW
+        
+     
+
     }
 }
