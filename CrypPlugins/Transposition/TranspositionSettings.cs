@@ -19,7 +19,7 @@ namespace Transposition
         private ReadOutMode selectedReadOut = ReadOutMode.byColumn;
         private int Presentation_Speed = 1;
         //private int hexmode = 0;
-        //private NumberMode selectedNumberMode = NumberMode.asChar;
+        private NumberMode selectedNumberMode = NumberMode.asChar;
         
         # endregion
 
@@ -28,7 +28,7 @@ namespace Transposition
         public enum ReadInMode { byRow = 0, byColumn = 1};
         public enum PermutationMode { byRow = 0, byColumn = 1 };
         public enum ReadOutMode { byRow = 0, byColumn = 1 };
-        //public enum NumberMode {asChar = 0, asHex = 1};
+        public enum NumberMode {asChar = 0, asHex = 1};
 
         # endregion
 
@@ -114,19 +114,19 @@ namespace Transposition
             }
         }
 
-        //[PropertySaveOrder(6)]
-        //[ContextMenu("Number Representation Mode", "Select a mode of Representation", 6, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "char", "hex" })]
-        //[TaskPane("Number Representation Mode", "Select a mode of Representation", null, 6, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "char", "hex" })]
-        //public int NumberMode
-        //{
-        //    get { return (int)this.selectedNumberMode;}
-        //    set
-        //    {
-        //        if ((NumberMode)value != selectedNumberMode) HasChanges = true;
-        //        this.selectedNumberMode = (NumberMode)value;
-        //        OnPropertyChanged("NumberMode");
-        //    }
-        //}
+        [PropertySaveOrder(6)]
+        [ContextMenu("Number Representation Mode", "Select a mode of Representation", 6, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "char", "hex" })]
+        [TaskPane("Number Representation Mode", "Select a mode of Representation", null, 6, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "char", "hex" })]
+        public int Number
+        {
+            get { return (int)this.selectedNumberMode;}
+            set
+            {
+                if ((NumberMode)value != selectedNumberMode) HasChanges = true;
+                this.selectedNumberMode = (NumberMode)value;
+                OnPropertyChanged("NumberMode");
+            }
+        }
 
 
 
