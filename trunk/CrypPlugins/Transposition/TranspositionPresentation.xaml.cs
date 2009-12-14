@@ -382,7 +382,8 @@ namespace Transposition
                             txt.VerticalAlignment = VerticalAlignment.Center;
                             if(number==0)
                             if (Convert.ToInt64(read_in_matrix[ix, i]) != 0)
-                                        if (32 < Convert.ToInt64(read_in_matrix[ix, i]) && Convert.ToInt64(read_in_matrix[ix, i]) != 127)
+                                        //filtering the whitespaces out
+                                        if (31 < Convert.ToInt64(read_in_matrix[ix, i]) && Convert.ToInt64(read_in_matrix[ix, i]) != 127)
                                         { txt.Text = Convert.ToChar(read_in_matrix[ix, i]).ToString(); }
                                         else
                                         { txt.Text = "/" +Convert.ToInt64(read_in_matrix[ix, i]).ToString("X"); }
@@ -421,9 +422,18 @@ namespace Transposition
                         txt.FontSize = 12;
                         txt.FontWeight = FontWeights.ExtraBold;
                         if(number==0)
-                        txt.Text = Convert.ToChar(input[i]).ToString();
-                        else
-                            txt.Text = input[i].ToString();
+                            if (31 < Convert.ToInt64(input[i]) && Convert.ToInt64(input[i]) != 127)
+                                { 
+                                    txt.Text = Convert.ToChar(input[i]).ToString(); 
+                                }
+                                else
+                                {
+                                    txt.Text = "/" + Convert.ToInt64(input[i]).ToString("X");  
+                                }
+
+
+                            else
+                                txt.Text = input[i].ToString();
                         reina[i] = txt;
                         reina[i].Background = Brushes.Transparent;
                         //reina[i].Opacity = 0.0;
@@ -455,7 +465,15 @@ namespace Transposition
                         txt.FontSize = 12;
                         txt.FontWeight = FontWeights.ExtraBold;
                         if(number==0)
-                        txt.Text = Convert.ToChar(output[i]).ToString();
+                             if (31 < Convert.ToInt64(input[i]) && Convert.ToInt64(input[i]) != 127)
+                                { 
+                                    txt.Text = Convert.ToChar(input[i]).ToString(); 
+                                }
+                                else
+                                {
+                                    txt.Text = "/" + Convert.ToInt64(input[i]).ToString("X");  
+                                }
+                        //txt.Text = Convert.ToChar(output[i]).ToString();
                         else
                             txt.Text = output[i].ToString("X");
                         reouta[i] = txt;
