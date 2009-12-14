@@ -22,6 +22,9 @@ namespace Transposition
     /// </summary>
     public partial class TranspositionPresentation : UserControl
     {
+
+        public event EventHandler feuerEnde;
+        public event EventHandler updateProgress;
         /// <summary>
         /// Visualisationmodul for Transposition.c
         /// </summary>
@@ -70,6 +73,7 @@ namespace Transposition
         private DoubleAnimation fadeIn;
         private DoubleAnimation fadeOut;
         private int[] key;
+        public int progress;
 
         #endregion
 
@@ -99,6 +103,15 @@ namespace Transposition
             myBrush.GradientStops.Add(new GradientStop(Colors.PowderBlue, 1.0));
 
             mycanvas.Background = myBrush;
+            try
+            {
+                mainGrid.Children.Remove(mywrap2);
+                mainGrid.Children.Add(mywrap1);
+                mainGrid.Children.Add(myGrid);
+
+            }
+            catch { }
+            mainGrid.Children.Add(mywrap2);
             DoubleAnimation fadeIn = new DoubleAnimation();
             fadeIn.From = 0.0;
             fadeIn.To = 1.0;
@@ -112,7 +125,7 @@ namespace Transposition
             DoubleAnimation nop = new DoubleAnimation();
             nop.From = 0.0;
             nop.To = 0.0;
-            nop.Duration = new Duration(TimeSpan.FromMilliseconds(10));
+            nop.Duration = new Duration(TimeSpan.FromMilliseconds((1001 - speed)));
 
 
             if (act == 0)
@@ -140,7 +153,7 @@ namespace Transposition
             outcount5 = 0;
             precountup = 0;
 
-            Stop = false;
+            //Stop = false;
             if (keyword == null)
                 Stop = true;
 
@@ -438,8 +451,7 @@ namespace Transposition
                 }
 
                 nop.Completed += new EventHandler(my_Helpnop);
-                if (!Stop)
-                    Stack.BeginAnimation(OpacityProperty, nop);
+                Stack.BeginAnimation(OpacityProperty, nop);
 
             }
          , null);
@@ -459,6 +471,7 @@ namespace Transposition
             myColorAnimation.To = Colors.Orange;
             myColorAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
 
+
             if (reina != null)
             {
                 SolidColorBrush brush = new SolidColorBrush();
@@ -466,6 +479,8 @@ namespace Transposition
 
                 if (rein == 0)
                 {
+                    myupdateprogress(outcount2 * 1000 / read_in_matrix.GetLength(0));
+
                     for (int i = 0; i < read_in_matrix.GetLength(0); i++)
                     {
                         if (Convert.ToInt64(read_in_matrix[i, outcount2]) != 0)
@@ -477,6 +492,8 @@ namespace Transposition
                 }
                 else
                 {
+
+                    myupdateprogress(outcount2 * 1000 / read_in_matrix.GetLength(1));
                     for (int i = 0; i < read_in_matrix.GetLength(1); i++)
                     {
                         if (Convert.ToInt64(read_in_matrix[outcount2, i]) != 0)
@@ -517,33 +534,24 @@ namespace Transposition
                 {
                     for (int i = rowper; i < teba.GetLength(0); i++)
                     {
-                        if (i == teba.GetLength(0) - 1 && outcount1 < teba.GetLength(1) - 1 && !Stop)
+                        if (i == teba.GetLength(0) - 1 && outcount1 < teba.GetLength(1) && !Stop)
                         {
                             fadeIn.Completed += new EventHandler(my_Help2);
                         }
                         teba[i, outcount1].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
-                        if (i == teba.GetLength(0) - 1 && outcount1 == teba.GetLength(1) - 1 && !Stop)
-                        {
-                            postReadIn();
-                        }
+
                     }
                 }
                 else
                 {
                     for (int i = colper; i < teba.GetLength(1); i++)
                     {
-                        if (i == teba.GetLength(1) - 1 && outcount1 < teba.GetLength(0) - 1 && !Stop)
+                        if (i == teba.GetLength(1) - 1 && outcount1 < teba.GetLength(0) && !Stop)
                         {
                             fadeIn.Completed += new EventHandler(my_Help2);
                         }
                         teba[outcount1, i].BeginAnimation(TextBlock.OpacityProperty, fadeIn);
-                        try
-                        {
-                            textBox1.Text = textBox1.Text.Remove(0, 1);
-                        }
-                        catch (ArgumentOutOfRangeException) { }
-                        if (i == teba.GetLength(1) - 1 && outcount1 == teba.GetLength(0) - 1 && !Stop)
-                        { postReadIn(); }
+
                     }
                 }
             }
@@ -577,7 +585,12 @@ namespace Transposition
                             teba[i, outcount3].Background = brush_blue;
                         if (i == teba.GetLength(0) - 1 && outcount3 == teba.GetLength(1) - 1 && !Stop)
                         {
-                            sort(schleife);
+
+                            if (mat_back[2 - rowper, outcount3 - colper] == Brushes.LawnGreen)
+                                myColorAnimation_green.Completed += new EventHandler(my_Help14);
+                            else
+                                myColorAnimation_blue.Completed += new EventHandler(my_Help14);
+
                             no = false;
                         }
                     }
@@ -605,7 +618,10 @@ namespace Transposition
                             teba[outcount3, i].Background = brush_blue;
                         if (i == teba.GetLength(1) - 1 && outcount3 == teba.GetLength(0) - 1 && !Stop)
                         {
-                            sort(schleife);
+                            if (mat_back[outcount3 - rowper, 2 - colper] == Brushes.LawnGreen)
+                                myColorAnimation_green.Completed += new EventHandler(my_Help14);
+                            else
+                                myColorAnimation_blue.Completed += new EventHandler(my_Help14);
                             no = false;
                         }
                     }
@@ -635,6 +651,7 @@ namespace Transposition
         /// <param name="i"></param>
         public void sort(int i)
         {
+            myupdateprogress(i * 1000 / teba.GetLength(0) + 1000);
             //OLOo
             if (per == 0) { textBox2.Text = "status: permuting by row"; }
             else { textBox2.Text = "status: permuting by column"; }
@@ -839,6 +856,7 @@ namespace Transposition
             {
                 if (reout == 0)
                 {
+                    myupdateprogress(outcount4 * 1000 / mat_back.GetLength(0) + 2000);
                     for (int i = rowper; i < teba.GetLength(0); i++)
                     {
                         if (mat_back[i - rowper, outcount4 - colper] == Brushes.LawnGreen)
@@ -859,6 +877,7 @@ namespace Transposition
                 }
                 else
                 {
+                    myupdateprogress(outcount4 * 1000 / mat_back.GetLength(1) + 2000);
                     for (int i = colper; i < teba.GetLength(1); i++)
                     {
                         if (mat_back[outcount4 - rowper, i - colper] == Brushes.LawnGreen)
@@ -964,10 +983,13 @@ namespace Transposition
             mywrap1.Children.Clear();
             mywrap2.Children.Clear();
 
+
+            textBox2.BeginAnimation(OpacityProperty, fadeOut);
+
             outcount = 0;
 
             schleife = 0;
-            textBox1.Clear();
+
             textBox2.Clear();
             Stop = true;
         }
@@ -988,6 +1010,7 @@ namespace Transposition
 
         private void my_Helpnop(object sender, EventArgs e)
         {
+            Stop = false;
             sizeChanged(this, EventArgs.Empty);
             mywrap1.BeginAnimation(OpacityProperty, fadeIn);
             myGrid.BeginAnimation(OpacityProperty, fadeIn);
@@ -1078,10 +1101,32 @@ namespace Transposition
 
         private void the_End(object sender, EventArgs e)
         {
-            mywrap1.BeginAnimation(OpacityProperty, fadeOut);
+
+            DoubleAnimation fadeOut2 = new DoubleAnimation();
+            fadeOut2.From = 1.0;
+            fadeOut2.To = 0.0;
+            fadeOut2.Duration = new Duration(TimeSpan.FromMilliseconds((1001 - speed)));
+
+            fadeOut2.Completed += new EventHandler(my_Help13);
+            mywrap1.BeginAnimation(OpacityProperty, fadeOut2);
             myGrid.BeginAnimation(OpacityProperty, fadeOut);
             textBox2.BeginAnimation(OpacityProperty, fadeOut);
 
+        }
+
+
+        private void my_Help13(object sender, EventArgs e)
+        {
+            mainGrid.Children.Remove(mywrap1);
+            mainGrid.Children.Remove(myGrid);
+            sizeChanged(this, EventArgs.Empty);
+            feuerEnde(this, EventArgs.Empty);
+
+        }
+
+        private void my_Help14(object sender, EventArgs e)
+        {
+            sort(schleife);
         }
 
         private void my_Completed(object sender, EventArgs e)
@@ -1445,7 +1490,11 @@ namespace Transposition
                     }
                 }
         }
-
+        private void myupdateprogress(int value)
+        {
+            progress = value;
+            updateProgress(this, EventArgs.Empty);
+        }
         #endregion
 
 
