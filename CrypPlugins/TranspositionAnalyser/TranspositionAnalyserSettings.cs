@@ -39,7 +39,7 @@ namespace TranspositionAnalyser
         }
         [PropertySaveOrder(1)]
         [TaskPane("Analysis Method", "Select the Analysis Method", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Bruteforce Analysis", "Analysis with Crib" })]
-        public int analysis_method
+        public int Analysis_method
         {
             get
             {
@@ -50,7 +50,7 @@ namespace TranspositionAnalyser
                 if (value != selected_method) HasChanges = true;
                 this.selected_method = value;
                 UpdateTaskPaneVisibility();
-                OnPropertyChanged("analysis_method");
+                OnPropertyChanged("Analysis_method");
                 
             }
 
