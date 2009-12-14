@@ -187,7 +187,7 @@ namespace Transposition
             output1 = null;
             if (Presentation.IsVisible)
                 //myPresentation.main(settings.NumberMode,Read_in_matrix,Permuted_matrix,key,Keyword,Input,Output,this.settings.Permutation,this.settings.ReadIn,this.settings.ReadOut,this.settings.Action);
-                myPresentation.main(Read_in_matrix, Permuted_matrix, key, Keyword, Input, output, this.settings.Permutation, this.settings.ReadIn, this.settings.ReadOut, this.settings.Action);
+                myPresentation.main(Read_in_matrix, Permuted_matrix, key, Keyword, Input, output, this.settings.Permutation, this.settings.ReadIn, this.settings.ReadOut, this.settings.Action, this.settings.Number);
             else
             {
                 output1 = output;

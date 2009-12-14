@@ -61,6 +61,7 @@ namespace Transposition
         private int act;
         private int rein;
         private int reout;
+        private int number;
         private TextBlock[] reina;
         private TextBlock[] reouta;
         private int speed = 1;
@@ -95,7 +96,7 @@ namespace Transposition
         /// <param name="per"></param>
         /// <param name="rein"></param>
         /// <param name="reout"></param>
-        private void init(byte[,] read_in_matrix, byte[,] permuted_matrix, String keyword, int per, int rein, int reout, int act, int[] key)
+        private void init(byte[,] read_in_matrix, byte[,] permuted_matrix, String keyword, int per, int rein, int reout, int act, int[] key,int number)
         {
             LinearGradientBrush myBrush = new LinearGradientBrush();
             myBrush.GradientStops.Add(new GradientStop(Colors.CornflowerBlue, 0.0));
@@ -146,6 +147,7 @@ namespace Transposition
             this.per = per;
             this.act = act;
             this.key = key;
+            this.number = number;
 
             countup = 0;
             countup1 = 0;
@@ -214,7 +216,7 @@ namespace Transposition
             }
         }
 
-        public void main(byte[,] read_in_matrix, byte[,] permuted_matrix, int[] key, String keyword, byte[] input, byte[] output, int per, int rein, int reout, int act)
+        public void main(byte[,] read_in_matrix, byte[,] permuted_matrix, int[] key, String keyword, byte[] input, byte[] output, int per, int rein, int reout, int act,int number)
         {
 
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -222,7 +224,7 @@ namespace Transposition
                 this.my_Stop(this, EventArgs.Empty);
                 if (keyword != null && input != null)
                 {
-                    init(read_in_matrix, permuted_matrix, keyword, per, rein, reout, act, key);
+                    init(read_in_matrix, permuted_matrix, keyword, per, rein, reout, act, key, number);
                     create(read_in_matrix, permuted_matrix, key, keyword, input, output);
                     sizeChanged(this, EventArgs.Empty);
                     schleife = 0;
@@ -258,8 +260,8 @@ namespace Transposition
                     mywrap2.Children.Clear();
 
                     //OLO
-                    if (rein == 0) { textBox2.Text = "status: reading in by row"; }
-                    else { textBox2.Text = "status: reading in by column"; }
+                    if (rein == 0) { textBox2.Text = "reading in by row"; }
+                    else { textBox2.Text = "reading in by column"; }
 
 
                     teba = new TextBlock[read_in_matrix.GetLength(0) + rowper, read_in_matrix.GetLength(1) + colper];
@@ -279,7 +281,6 @@ namespace Transposition
 
                         TextBlock txt = new TextBlock();
                         String s = key[i].ToString();
-
                         txt.VerticalAlignment = VerticalAlignment.Center;
                         if (act == 0)
                             txt.Text = s;
@@ -379,10 +380,15 @@ namespace Transposition
                         {
                             TextBlock txt = new TextBlock();
                             txt.VerticalAlignment = VerticalAlignment.Center;
+                            if(number==0)
                             if (Convert.ToInt64(read_in_matrix[ix, i]) != 0)
                                 txt.Text = Convert.ToChar(read_in_matrix[ix, i]).ToString();
                             else
                                 txt.Text = "";
+                            else
+                                if (Convert.ToInt64(read_in_matrix[ix, i]) != 0)
+                                    txt.Text = read_in_matrix[ix, i].ToString("X");
+
                             if (ix % 2 == x)
                                 mat_back[ix, i] = Brushes.AliceBlue;
                             else
@@ -411,7 +417,10 @@ namespace Transposition
                         TextBlock txt = new TextBlock();
                         txt.FontSize = 12;
                         txt.FontWeight = FontWeights.ExtraBold;
+                        if(number==0)
                         txt.Text = Convert.ToChar(input[i]).ToString();
+                        else
+                            txt.Text = input[i].ToString();
                         reina[i] = txt;
                         reina[i].Background = Brushes.Transparent;
                         //reina[i].Opacity = 0.0;
@@ -442,7 +451,10 @@ namespace Transposition
                         TextBlock txt = new TextBlock();
                         txt.FontSize = 12;
                         txt.FontWeight = FontWeights.ExtraBold;
+                        if(number==0)
                         txt.Text = Convert.ToChar(output[i]).ToString();
+                        else
+                            txt.Text = output[i].ToString("X");
                         reouta[i] = txt;
                         reouta[i].Background = Brushes.Orange;
                         reouta[i].Opacity = 0.0;
@@ -653,8 +665,8 @@ namespace Transposition
         {
             myupdateprogress(i * 1000 / teba.GetLength(0) + 1000);
             //OLOo
-            if (per == 0) { textBox2.Text = "status: permuting by row"; }
-            else { textBox2.Text = "status: permuting by column"; }
+            if (per == 0) { textBox2.Text = "permuting by row"; }
+            else { textBox2.Text = "permuting by column"; }
 
             if (per == 1)
             {
@@ -856,7 +868,7 @@ namespace Transposition
             {
                 if (reout == 0)
                 {
-                    myupdateprogress(outcount4 * 1000 / mat_back.GetLength(0) + 2000);
+                    myupdateprogress(outcount4 * 1000 / mat_back.GetLength(1) + 2000);
                     for (int i = rowper; i < teba.GetLength(0); i++)
                     {
                         if (mat_back[i - rowper, outcount4 - colper] == Brushes.LawnGreen)
@@ -877,7 +889,7 @@ namespace Transposition
                 }
                 else
                 {
-                    myupdateprogress(outcount4 * 1000 / mat_back.GetLength(1) + 2000);
+                    myupdateprogress(outcount4 * 1000 / mat_back.GetLength(0) + 2000);
                     for (int i = colper; i < teba.GetLength(1); i++)
                     {
                         if (mat_back[outcount4 - rowper, i - colper] == Brushes.LawnGreen)
@@ -904,8 +916,8 @@ namespace Transposition
         public void readout()
         {
             //OLO?
-            if (reout == 0) { textBox2.Text = "status: reading out by row"; }
-            else { textBox2.Text = "status: reading out by column"; }
+            if (reout == 0) { textBox2.Text = "reading out by row"; }
+            else { textBox2.Text = "reading out by column"; }
 
             DoubleAnimation myDoubleAnimation = new DoubleAnimation();
             myDoubleAnimation.From = 1.0;
@@ -1117,8 +1129,6 @@ namespace Transposition
 
         private void my_Help13(object sender, EventArgs e)
         {
-            mainGrid.Children.Remove(mywrap1);
-            mainGrid.Children.Remove(myGrid);
             sizeChanged(this, EventArgs.Empty);
             feuerEnde(this, EventArgs.Empty);
 
