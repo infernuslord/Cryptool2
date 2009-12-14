@@ -465,13 +465,13 @@ namespace Transposition
                         txt.FontSize = 12;
                         txt.FontWeight = FontWeights.ExtraBold;
                         if(number==0)
-                             if (31 < Convert.ToInt64(input[i]) && Convert.ToInt64(input[i]) != 127)
+                             if (31 < Convert.ToInt64(output[i]) && Convert.ToInt64(output[i]) != 127)
                                 { 
-                                    txt.Text = Convert.ToChar(input[i]).ToString(); 
+                                    txt.Text = Convert.ToChar(output[i]).ToString(); 
                                 }
                                 else
                                 {
-                                    txt.Text = "/" + Convert.ToInt64(input[i]).ToString("X");  
+                                    txt.Text = "/" + Convert.ToInt64(output[i]).ToString("X");  
                                 }
                         //txt.Text = Convert.ToChar(output[i]).ToString();
                         else
