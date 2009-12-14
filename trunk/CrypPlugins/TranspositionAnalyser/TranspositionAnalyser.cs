@@ -376,5 +376,162 @@ namespace TranspositionAnalyser
 
             }
         }
+
+        #region KeyLengthGuesser
+
+        public int getKeyLength(String crib, String cipher)
+        {
+            crib = crib.ToUpper();
+
+            for (int i = 1; i < crib.Length; i++)
+            {
+                char[,] cipherM = cipherToMatrix(i, cipher);
+                char[,] cribM = cribToMatrix(i, crib);
+                int[] analysed = analyse(i, cipherM, cribM);
+
+                for (int j = 0; j < analysed.Length; j++)
+                {
+                    Console.WriteLine(analysed[j]);
+                    if (analysed[j] != 0)
+                    {
+                        if (j == analysed.Length - 1)
+                        {
+                            GuiLogMessage("Probably Keyword-Length: " + i, NotificationLevel.Info);
+                            return i;
+                        }
+                    }
+                    else break;
+                }
+                
+            }
+            return 0;
+           
+        }
+
+        char[,] cribToMatrix(int i, String tmp)
+        {
+            int x = tmp.Length / i;
+            if (tmp.Length % i != 0)
+            {
+                x++;
+            }
+            char[,] arr = new char[i, x];
+            int count = 0;
+
+            for (int a = 0; a < x; a++)
+            {
+                for (int b = 0; b < i; b++)
+                {
+                    if (count < tmp.Length)
+                        arr[b, a] = tmp[count++];
+                }
+            }
+            return arr;
+        }
+
+        char[,] cipherToMatrix(int i, String tmp)
+        {
+            int length = tmp.Length / i;
+            int off = 0;
+            if (tmp.Length % i != 0)
+            {
+                length++;
+                off = (i * length) - tmp.Length;
+            }
+            char[,] cipherMatrix = new char[length, i];
+            int pos = 0;
+
+            for (int a = 0; a < i; a++)
+            {
+                for (int b = 0; b < length; b++)
+                {
+                    if (b == length - 1)
+                    {
+                        if (a < off)
+                        {
+                            break;
+                        }
+                    }
+                    cipherMatrix[b, a] = tmp[pos];
+                    pos++;
+                }
+            }
+            return cipherMatrix;
+        }
+
+        int[] analyse(int i, char[,] cipherMatrix, char[,] cribMatrix)
+        {
+            int cipherMatrixLength = cipherMatrix.Length / i;
+            int cribMatrixHeight = cribMatrix.Length / i;
+            int[] abc = new int[i];
+            ArrayList[] def = new ArrayList[i];
+            for (int a = 0; a < i; a++)
+            {
+                def[a] = new ArrayList();
+            }
+
+            char newchar = new char();
+            char emptychar = new char();
+            int count = 0;
+            for (int a = 0; a < i; a++)
+            {
+                if (!cribMatrix[a, cribMatrixHeight - 1].Equals(emptychar))
+                {
+                    count++;
+                }
+                else
+                {
+                    abc[a] = -1;
+                }
+            }
+
+            for (int x = 0; x < count; x++)
+            {
+                for (int a = 0; a < i; a++)
+                {
+                    for (int b = 0; b < cipherMatrixLength; b++)
+                    {
+                        if (cribMatrix[x, 0].Equals(cipherMatrix[b, a]))
+                        {
+                            int tmpA = a;
+                            int tmpB = b;
+
+                            for (int y = 1; y < cribMatrixHeight; y++)
+                            {
+                                tmpB++;
+                                if (tmpB == cipherMatrixLength - 1)
+                                {
+                                    if (cipherMatrix[tmpB, tmpA].Equals(newchar))
+                                    {
+                                        tmpB = 0;
+                                        tmpA++;
+                                    }
+                                }
+
+                                if ((tmpB) < cipherMatrixLength)
+                                {
+                                    if (cribMatrix[x, y].Equals(cipherMatrix[tmpB, tmpA]))
+                                    {
+                                        if (y.Equals(cribMatrixHeight - 1))
+                                        {
+                                            abc[x]++;
+                                            def[x].Add(b);
+                                            Console.WriteLine(def[x].ToArray()[0]);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return abc;
+        }
+
+        #endregion
     }
 }
