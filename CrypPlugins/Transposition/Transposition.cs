@@ -23,13 +23,14 @@ namespace Transposition
         private String keyword = "";
         private byte[] input;
         private byte[] output;
+        private byte[] output1;
         private TranspositionSettings settings;
         private TranspositionPresentation myPresentation;
 
         private byte[,] read_in_matrix;
         private byte[,] permuted_matrix;
         private int[] key;
-        # endregion       
+        # endregion
 
         /// <summary>
         /// Constructor
@@ -39,8 +40,26 @@ namespace Transposition
             this.settings = new TranspositionSettings();
             myPresentation = new TranspositionPresentation();
             Presentation = myPresentation;
+            myPresentation.feuerEnde += new EventHandler(presentation_finished);
+            myPresentation.updateProgress += new EventHandler(update_progress);
             this.settings.PropertyChanged += settings_OnPropertyChange;
         }
+
+        private void update_progress(object sender, EventArgs e) 
+        {
+            TranspositionPresentation myhelp = new TranspositionPresentation();
+            myhelp = (TranspositionPresentation)sender;
+            ProgressChanged(myhelp.progress, 3000);
+        }
+
+        private void presentation_finished(object sender, EventArgs e)
+        {
+            
+            output1 = output;
+            Output = output;
+            ProgressChanged(1, 1);
+        }
+
         private void settings_OnPropertyChange(object sender, PropertyChangedEventArgs e)
         {
             myPresentation.UpdateSpeed(this.settings.PresentationSpeed);
@@ -106,7 +125,7 @@ namespace Transposition
                 OnPropertyChange("Input");
             }
         }
-        
+
         [PropertyInfo(Direction.InputData, "Keyword", "keyword", "Keyword used for encryption", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public string Keyword
         {
@@ -127,7 +146,7 @@ namespace Transposition
         {
             get
             {
-                return this.output;
+                return this.output1;
             }
             set
             {
@@ -157,6 +176,7 @@ namespace Transposition
 
         public void Execute()
         {
+            
             Transposition_LogMessage("execute tr", NotificationLevel.Debug);
             ProcessTransposition();
             if (controlSlave is object && Input is object)
@@ -164,9 +184,15 @@ namespace Transposition
                 ((TranspositionControl)controlSlave).onStatusChanged();
             }
 
-            if(Presentation.IsVisible)
-            //myPresentation.main(settings.NumberMode,Read_in_matrix,Permuted_matrix,key,Keyword,Input,Output,this.settings.Permutation,this.settings.ReadIn,this.settings.ReadOut,this.settings.Action);
-            myPresentation.main(Read_in_matrix, Permuted_matrix, key, Keyword, Input, Output, this.settings.Permutation, this.settings.ReadIn, this.settings.ReadOut, this.settings.Action);   
+            output1 = null;
+            if (Presentation.IsVisible)
+                //myPresentation.main(settings.NumberMode,Read_in_matrix,Permuted_matrix,key,Keyword,Input,Output,this.settings.Permutation,this.settings.ReadIn,this.settings.ReadOut,this.settings.Action);
+                myPresentation.main(Read_in_matrix, Permuted_matrix, key, Keyword, Input, output, this.settings.Permutation, this.settings.ReadIn, this.settings.ReadOut, this.settings.Action);
+            else
+            {
+                output1 = output;
+                ProgressChanged(1, 1);
+            }
         }
 
         public void Initialize()
@@ -182,7 +208,7 @@ namespace Transposition
 
         public void Pause()
         {
-            
+
         }
 
         public void PostExecution()
@@ -198,7 +224,7 @@ namespace Transposition
         public System.Windows.Controls.UserControl Presentation
         {
             get;
-            private set; 
+            private set;
         }
 
         public System.Windows.Controls.UserControl QuickWatchPresentation
@@ -246,7 +272,7 @@ namespace Transposition
                     default:
                         break;
                 }
-                ProgressChanged(1, 1);
+                
             }
 
             catch (Exception)
@@ -337,7 +363,7 @@ namespace Transposition
             {
                 if (is_Valid_Keyword(new_key))
                 {
-                    byte[] decrypted= null ;
+                    byte[] decrypted = null;
                     if (((TranspositionSettings.PermutationMode)settings.Permutation).Equals(TranspositionSettings.PermutationMode.byRow))
                     {
                         switch ((TranspositionSettings.ReadOutMode)settings.ReadOut)
@@ -805,10 +831,10 @@ namespace Transposition
             int y = matrix.Length / keyword_length;
             byte empty_byte = new byte();
             int count_empty = 0;
-                        
-            for(int i=0; i<y; i++)
+
+            for (int i = 0; i < y; i++)
             {
-                for(int j=0; j<x; j++)
+                for (int j = 0; j < x; j++)
                 {
                     byte tmp = matrix[j, i];
                     if (tmp.Equals(empty_byte))
@@ -817,7 +843,7 @@ namespace Transposition
                     }
                 }
             }
-            byte[] enc = new byte[matrix.Length-count_empty];
+            byte[] enc = new byte[matrix.Length - count_empty];
 
             int pos = 0;
             for (int i = 0; i < y; i++)
@@ -839,7 +865,7 @@ namespace Transposition
         {
             int y = keyword_length;
             int x = matrix.Length / keyword_length;
-            
+
             byte empty_byte = new byte();
             int empty_count = 0;
             for (int i = 0; i < y; i++)
@@ -876,7 +902,7 @@ namespace Transposition
         {
             int x = keyword_length;
             int y = matrix.Length / keyword_length;
-            
+
             byte empty_byte = new byte();
             int empty_count = 0;
 
@@ -893,7 +919,7 @@ namespace Transposition
             }
 
             byte[] enc = new byte[matrix.Length - empty_count];
-            int pos =0;
+            int pos = 0;
             for (int i = 0; i < x; i++)
             {
                 for (int j = 0; j < y; j++)
@@ -1045,7 +1071,7 @@ namespace Transposition
             if (setting.Equals("ReadIn")) settings.ReadIn = (int)value;
             else if (setting.Equals("Permute")) settings.Permutation = (int)value;
             else if (setting.Equals("ReadOut")) settings.ReadOut = (int)value;
-            
+
         }
         # endregion
 
@@ -1127,7 +1153,7 @@ namespace Transposition
 
         public void Dispose()
         {
-            
+
         }
 
         #endregion
