@@ -20,10 +20,44 @@ namespace TranspositionAnalyser
         private enum ReadInMode { byRow = 0, byColumn = 1 };
         private enum PermutationMode { byRow = 0, byColumn = 1 };
         private enum ReadOutMode { byRow = 0, byColumn = 1 };
-
+        private byte[] crib;
+        private byte[] cribinput;
 
         TranspositionAnalyserSettings settings;
+        #region Properties
+        [PropertyInfo(Direction.InputData, "CribInput", "Input data for crib Analysis", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public Byte[] CribInput
+        {
+            get
+            {
+                return this.cribinput;
+            }
 
+            set
+            {
+                this.cribinput = value;
+                OnPropertyChange("CribInput");
+            }
+        }
+
+        [PropertyInfo(Direction.InputData, "Crib", "Crib input", "Crib for Analysis", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public Byte[] Crib
+        {
+            get
+            {
+                return this.crib;
+            }
+
+            set
+            {
+                this.crib = value;
+                OnPropertyChange("Crib");
+            }
+        }
+
+
+
+        #endregion
         /// <summary>
         /// Constructor
         /// </summary>
@@ -129,7 +163,7 @@ namespace TranspositionAnalyser
 
         public void Initialize()
         {
-
+            this.settings.analysis_method = 0;            
         }
 
         public void Dispose()
@@ -153,9 +187,21 @@ namespace TranspositionAnalyser
             }
         }
 
+        private void OnPropertyChange(String propertyname)
+        {
+            EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(propertyname));
+        }
+
         public void process(IControlEncryption sender)
         {
-            Output = costfunction_bruteforce(sender);
+            switch (this.settings.analysis_method)
+            {
+                case 0: Output = costfunction_bruteforce(sender); break;
+                case 1: cribAnalysis(this.crib,this.cribinput); break;
+                    
+            }
+            
+            
         }
 
         private int[] getBruteforceSettings()
@@ -376,46 +422,59 @@ namespace TranspositionAnalyser
 
             }
         }
-
-        #region KeyLengthGuesser
-
-        public int getKeyLength(String crib, String cipher)
+        #region cribAnalysis
+        public void cribAnalysis(byte[] crib, byte[] cipher) 
         {
-            crib = crib.ToUpper();
+            if (crib != null && crib != null)
+            {
+                foreach (int c in getKeyLength(crib, cipher))
+                {
+                    GuiLogMessage("Possible Key-Length: " + c, NotificationLevel.Info);
+                }
+            }
+            else { GuiLogMessage("Missing crib or input!",NotificationLevel.Info); }
+        }
+
+        #endregion
+        #region KeyLengthAnalysis
+
+        public ArrayList getKeyLength(byte[] crib, byte[] cipher)
+        {
+            
+            ArrayList keylengths = new ArrayList();
 
             for (int i = 1; i < crib.Length; i++)
             {
-                char[,] cipherM = cipherToMatrix(i, cipher);
-                char[,] cribM = cribToMatrix(i, crib);
+                byte[,] cipherM = cipherToMatrix(i, cipher);
+                byte[,] cribM = cribToMatrix(i, crib);
                 int[] analysed = analyse(i, cipherM, cribM);
 
                 for (int j = 0; j < analysed.Length; j++)
                 {
-                    Console.WriteLine(analysed[j]);
+                    
                     if (analysed[j] != 0)
                     {
                         if (j == analysed.Length - 1)
                         {
-                            GuiLogMessage("Probably Keyword-Length: " + i, NotificationLevel.Info);
-                            return i;
+                            keylengths.Add(i);
                         }
                     }
                     else break;
                 }
                 
             }
-            return 0;
+            return keylengths;
            
         }
 
-        char[,] cribToMatrix(int i, String tmp)
+        byte[,] cribToMatrix(int i, byte[] tmp)
         {
             int x = tmp.Length / i;
             if (tmp.Length % i != 0)
             {
                 x++;
             }
-            char[,] arr = new char[i, x];
+            byte[,] arr = new byte[i, x];
             int count = 0;
 
             for (int a = 0; a < x; a++)
@@ -429,7 +488,7 @@ namespace TranspositionAnalyser
             return arr;
         }
 
-        char[,] cipherToMatrix(int i, String tmp)
+        byte[,] cipherToMatrix(int i, byte[] tmp)
         {
             int length = tmp.Length / i;
             int off = 0;
@@ -438,7 +497,7 @@ namespace TranspositionAnalyser
                 length++;
                 off = (i * length) - tmp.Length;
             }
-            char[,] cipherMatrix = new char[length, i];
+            byte[,] cipherMatrix = new byte[length, i];
             int pos = 0;
 
             for (int a = 0; a < i; a++)
@@ -459,19 +518,19 @@ namespace TranspositionAnalyser
             return cipherMatrix;
         }
 
-        int[] analyse(int i, char[,] cipherMatrix, char[,] cribMatrix)
+        int[] analyse(int i, byte[,] cipherMatrix, byte[,] cribMatrix)
         {
             int cipherMatrixLength = cipherMatrix.Length / i;
             int cribMatrixHeight = cribMatrix.Length / i;
-            int[] abc = new int[i];
+            int[] poscount = new int[i];
             ArrayList[] def = new ArrayList[i];
             for (int a = 0; a < i; a++)
             {
                 def[a] = new ArrayList();
             }
 
-            char newchar = new char();
-            char emptychar = new char();
+            byte newchar = new byte();
+            byte emptychar = new byte();
             int count = 0;
             for (int a = 0; a < i; a++)
             {
@@ -481,7 +540,7 @@ namespace TranspositionAnalyser
                 }
                 else
                 {
-                    abc[a] = -1;
+                    poscount[a] = -1;
                 }
             }
 
@@ -514,9 +573,9 @@ namespace TranspositionAnalyser
                                     {
                                         if (y.Equals(cribMatrixHeight - 1))
                                         {
-                                            abc[x]++;
+                                            poscount[x]++;
                                             def[x].Add(b);
-                                            Console.WriteLine(def[x].ToArray()[0]);
+                                            
                                         }
                                     }
                                     else
@@ -529,7 +588,7 @@ namespace TranspositionAnalyser
                     }
                 }
             }
-            return abc;
+            return poscount;
         }
 
         #endregion
