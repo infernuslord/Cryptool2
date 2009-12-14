@@ -382,9 +382,12 @@ namespace Transposition
                             txt.VerticalAlignment = VerticalAlignment.Center;
                             if(number==0)
                             if (Convert.ToInt64(read_in_matrix[ix, i]) != 0)
-                                txt.Text = Convert.ToChar(read_in_matrix[ix, i]).ToString();
-                            else
-                                txt.Text = "";
+                                        if (32 < Convert.ToInt64(read_in_matrix[ix, i]) && Convert.ToInt64(read_in_matrix[ix, i]) != 127)
+                                        { txt.Text = Convert.ToChar(read_in_matrix[ix, i]).ToString(); }
+                                        else
+                                        { txt.Text = "/" +Convert.ToInt64(read_in_matrix[ix, i]).ToString("X"); }
+                                else
+                                    txt.Text = "";
                             else
                                 if (Convert.ToInt64(read_in_matrix[ix, i]) != 0)
                                     txt.Text = read_in_matrix[ix, i].ToString("X");
@@ -1486,7 +1489,6 @@ namespace Transposition
                         }
                         teba[nach, i].BeginAnimation(TextBlock.OpacityProperty, myDoubleAnimation);
                     }
-                // die folgende ELSE ist abgeändert. ich: ungewiss ihrer absoluten richtigkeit.klappte einmal "zur hälfte" .. lösch' wie du bock hast.
                 else
                 {
                     for (int i = 0; i < teba.GetLength(0); i++)
