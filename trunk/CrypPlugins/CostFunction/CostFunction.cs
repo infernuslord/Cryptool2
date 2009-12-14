@@ -199,10 +199,7 @@ namespace Cryptool.Plugins.CostFunction
                     case 4: //percentaged Bigrams
                         this.Value = calculateNGrams(bigramInput, 2, 1);
                         break;
-                    case 5: //contains
-                        this.Value = contains(bigramInput);
-                        break;
-                    case 6: //regular expressions
+                    case 5: //regular expressions
                         this.Value = regex(bigramInput);
                         break;
                     default:
@@ -275,31 +272,31 @@ namespace Cryptool.Plugins.CostFunction
         #region private methods
 
 
-        public double contains(string input)
-        {
-            if (settings.Contains == null)
-            {
-                GuiLogMessage("There is no text to be searched for. Please insert text in the 'Contains text / Regular Expression' - Textarea", NotificationLevel.Error);
-                return new Double();
-            }
+        //public double contains(string input)
+        //{
+        //    if (settings.Contains == null)
+        //    {
+        //        GuiLogMessage("There is no text to be searched for. Please insert text in the 'Contains text / Regular Expression' - Textarea", NotificationLevel.Error);
+        //        return new Double();
+        //    }
 
-            if (input.Contains(settings.Contains))
-            {
-                return 1.0;
-            }
-            return -1.0;
-        }
+        //    if (input.Contains(settings.Contains))
+        //    {
+        //        return 1.0;
+        //    }
+        //    return -1.0;
+        //}
 
         public double regex(string input)
         {
-            if (settings.Contains == null)
+            if (settings.RegEx == null)
             {
-                GuiLogMessage("There is no Regular Expression to be searched for. Please insert regex in the 'Contains text / Regular Expression' - Textarea", NotificationLevel.Error);
+                GuiLogMessage("There is no Regular Expression to be searched for. Please insert regex in the 'Regular Expression' - Textarea", NotificationLevel.Error);
                 return new Double();
             }
             try
             {
-                Match match = Regex.Match(input, settings.Contains);
+                Match match = Regex.Match(input, settings.RegEx);
                 if (match.Success)
                 {
                     return 1.0;
@@ -581,9 +578,7 @@ namespace Cryptool.Plugins.CostFunction
                     return RelationOperator.LargerThen;
                 case 4: // percentage
                     return RelationOperator.LargerThen;
-                case 5: // Contains
-                    return RelationOperator.LargerThen;
-                case 6: // Regular Expression
+                case 5: // Regular Expression
                     return RelationOperator.LargerThen;
                 default:
                     throw new NotImplementedException("The value " + ((CostFunctionSettings)this.plugin.Settings).FunctionType + " is not implemented.");
@@ -624,9 +619,7 @@ namespace Cryptool.Plugins.CostFunction
                     return plugin.calculateNGrams(plugin.ByteArrayToString(text), 2, 3);
                 case 4: // Bigrams: Percentaged
                     return plugin.calculateNGrams(plugin.ByteArrayToString(text), 2, 1);
-                case 5: //Contains
-                    return plugin.contains(plugin.ByteArrayToString(text));
-                case 6: // regular expression
+                case 5: // regular expression
                     return plugin.regex(plugin.ByteArrayToString(text));
                 default:
                     throw new NotImplementedException("The value " + ((CostFunctionSettings)this.plugin.Settings).FunctionType + " is not implemented.");

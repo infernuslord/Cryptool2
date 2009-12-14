@@ -21,6 +21,7 @@ using System.Text;
 using System.ComponentModel;
 using Cryptool.PluginBase;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace Cryptool.Plugins.CostFunction
 {
@@ -28,17 +29,18 @@ namespace Cryptool.Plugins.CostFunction
     {
         #region private variables
         private bool hasChanges = false;
-        private int functionType=0;
+        private int functionType;
         private String bytesToUse = "256";
         #endregion
         
-        [TaskPane("FunctionType", "Select the type of function", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Index of coincidence", "Entropy", "Bigrams: log 2", "Bigrams: Sinkov", "Bigrams: Percentaged", "Contains", "Regular Expression"})]
+        [TaskPane("FunctionType", "Select the type of function", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Index of coincidence", "Entropy", "Bigrams: log 2", "Bigrams: Sinkov", "Bigrams: Percentaged", "Regular Expression"})]
         public int FunctionType
         {
             get { return this.functionType; }
             set
             {
-                functionType = value;
+                this.functionType = (int)value;
+                UpdateTaskPaneVisibility();
                 OnPropertyChanged("FunctionType");
             }
         }
@@ -53,23 +55,45 @@ namespace Cryptool.Plugins.CostFunction
             set
             {
                 bytesToUse = value;
-                OnPropertyChanged("bytesToUse");
+                OnPropertyChanged("BytesToUse"); 
             }
         }
 
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
 
-        private string contains;
-        [TaskPane("Contains text / Regular Expression:", "Text checked for / Regular Expression match", null, 5, false, DisplayLevel.Beginner, ControlType.TextBox)]
-        public String Contains
+        internal void UpdateTaskPaneVisibility()
+        {
+            if (TaskPaneAttributeChanged == null)
+            {
+                return;
+            }
+
+            if (functionType.Equals(5))
+            {
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BytesToUse", Visibility.Visible)));
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RegEx", Visibility.Visible)));
+            }
+            else
+            {
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BytesToUse", Visibility.Visible)));
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RegEx", Visibility.Collapsed)));
+            }
+
+        }
+
+
+        private string regEx;
+        [TaskPane("Regular Expression:", "Regular Expression match", null, 5, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        public String RegEx
         {
             get
             {
-                return contains;
+                return regEx;
             }
             set
             {
-                contains = value;
-                OnPropertyChanged("contains");
+                regEx = value;
+                OnPropertyChanged("RegEx");
             }
         }
 
