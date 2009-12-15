@@ -122,11 +122,11 @@ namespace Cryptool.BooleanFunctionParser
             }
         }
 
-        [TaskPane("Evaluate function", "", null, 2, false, DisplayLevel.Beginner, ControlType.Button)]
+        /*[TaskPane("Evaluate function", "", null, 2, false, DisplayLevel.Beginner, ControlType.Button)]
         public void evalFunction()
         {
             OnPropertyChanged("evalFunction");
-        }
+        }*/
 
         public bool HasChanges
         {

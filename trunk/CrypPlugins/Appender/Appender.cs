@@ -345,10 +345,17 @@ namespace Cryptool.Appender
 
         #region IPlugin Members
 
-//#pragma warning disable 67
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+        private void GuiLogMessage(string message, NotificationLevel logLevel)
+        {
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
+        }
+
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
-//#pragma warning restore
+        private void ProgressChanged(double value, double max)
+        {
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+        }
 
         public void Execute()
         {
@@ -360,16 +367,19 @@ namespace Cryptool.Appender
                     output += "0";
 
                 OnPropertyChanged("Output");
+                ProgressChanged(1, 1);
             }
             else if (input is String)
             {
                 output += input;
                 OnPropertyChanged("Output");
+                ProgressChanged(1, 1);
             }
             else
             {
                 output = "Type not supported";
                 OnPropertyChanged("Output");
+                GuiLogMessage("Input can not be appended: Input type not supported. Supported types are Boolean and String", NotificationLevel.Error);
             }
         }
 
