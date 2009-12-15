@@ -26,7 +26,7 @@ using System.Windows.Media;
 namespace Cryptool.LFSR
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo(false, "LFSR", "Linear Feedback Shift Register", "LFSR/DetailedDescription/Description.xaml", "LFSR/Images/LFSR1.png", "LFSR/Images/encrypt.png", "LFSR/Images/decrypt.png")]
+    [PluginInfo(false, "LFSR", "Linear Feedback Shift Register", "LFSR/DetailedDescription/Description.xaml", "LFSR/Images/LFSR.png", "LFSR/Images/encrypt.png", "LFSR/Images/decrypt.png")]
     [EncryptionType(EncryptionType.SymmetricBlock)]
     public class LFSR : IThroughput
     {

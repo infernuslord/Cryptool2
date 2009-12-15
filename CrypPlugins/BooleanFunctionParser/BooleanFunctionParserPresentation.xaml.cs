@@ -235,6 +235,14 @@ namespace Cryptool.BooleanFunctionParser
           return textBoxInputFunction.Text;
       }
 
+      public void setMemoryBit(string value)
+      {
+          Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+          {
+              labelMemoryBit.Content = "Memory Bit: " + value;
+          }, null);
+      }
+
       public void SwitchCubeView(bool switchView) {
           GridLengthConverter myGridLengthConverter = new GridLengthConverter();
           if (!switchView)

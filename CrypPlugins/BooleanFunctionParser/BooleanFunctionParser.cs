@@ -38,9 +38,6 @@ namespace Cryptool.BooleanFunctionParser
         private BooleanFunctionParserPresentation booleanFunctionParserPresentation;
         private BooleanFunctionParserSettings settings;
         private string inputFunction;
-        //private bool[] inputVariableOne;
-        //private bool[] inputVariableTwo;
-        //private bool[] inputVariableThree;
         private bool output;
         private bool lastInputWasFunction = false;
         private int inputs = 1;
@@ -54,9 +51,6 @@ namespace Cryptool.BooleanFunctionParser
 
         #region Public variables
 
-        //public int inputOneFlag = 0;
-        //public int inputTwoFlag = 0;
-        //public int inputThreeFlag = 0;
         public int[] additionalInputsFlag = null;
         public TimeSpan maxDuration = TimeSpan.Parse("00.00:00:00");
         public TimeSpan overallDuration = TimeSpan.Parse("00.00:00:00");
@@ -175,7 +169,7 @@ namespace Cryptool.BooleanFunctionParser
                }, null);
         }
 
-        public void Execute()
+        public void     Execute()
         {
             try
             {
@@ -205,6 +199,9 @@ namespace Cryptool.BooleanFunctionParser
                     {
                         output = Convert.ToBoolean(intOutput);
                         OnPropertyChanged("Output");
+
+                        // update Quickwatch Memory Bit
+                        booleanFunctionParserPresentation.setMemoryBit(output ? "1" : "0");
                     }
                 }
             }
@@ -492,7 +489,7 @@ namespace Cryptool.BooleanFunctionParser
             //strExpression.Replace(" ", "");
             // add * if there aren't any (and should be)
             // example: x^2+x^2x^3 ==> x^2+x^2*x^3
-            Regex makeStars = new Regex("([0-9])x");
+            Regex makeStars = new Regex("([0-9])\\(*x");
             strExpression = makeStars.Replace(strExpression, new MatchEvaluator(makeStarsInText));
             
             // replace additional inputs data (if there are any)
@@ -579,7 +576,9 @@ namespace Cryptool.BooleanFunctionParser
                 }
                 
             }
-            
+
+            // replace memory placeholder
+            tokens.Add("m", Output ? "1" : "0");            
 
             // replace AND, NAND, OR, NOR, XOR, NXOR with symbols
             // AND => *
