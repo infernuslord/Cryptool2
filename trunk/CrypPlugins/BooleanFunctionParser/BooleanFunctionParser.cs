@@ -489,7 +489,7 @@ namespace Cryptool.BooleanFunctionParser
             //strExpression.Replace(" ", "");
             // add * if there aren't any (and should be)
             // example: x^2+x^2x^3 ==> x^2+x^2*x^3
-            Regex makeStars = new Regex("([0-9])\\(*x");
+            Regex makeStars = new Regex("([0-9])\\(*(x|v)");
             strExpression = makeStars.Replace(strExpression, new MatchEvaluator(makeStarsInText));
             
             // replace additional inputs data (if there are any)
