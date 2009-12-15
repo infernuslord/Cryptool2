@@ -70,6 +70,7 @@ namespace Transposition
         private byte[,] read_in_matrix;
         private byte[,] permuted_matrix;
         private Brush[,] mat_back;
+        //private ColorAnimation backFlip;
         private DoubleAnimation nop;
         private DoubleAnimation fadeIn;
         private DoubleAnimation fadeOut;
@@ -98,12 +99,15 @@ namespace Transposition
         /// <param name="reout"></param>
         private void init(byte[,] read_in_matrix, byte[,] permuted_matrix, String keyword, int per, int rein, int reout, int act, int[] key,int number)
         {
+            //hier werden die farben angerührt
             LinearGradientBrush myBrush = new LinearGradientBrush();
             myBrush.GradientStops.Add(new GradientStop(Colors.CornflowerBlue, 0.0));
             myBrush.GradientStops.Add(new GradientStop(Colors.SkyBlue, 0.5));
             myBrush.GradientStops.Add(new GradientStop(Colors.PowderBlue, 1.0));
+                      
 
             mycanvas.Background = myBrush;
+
             try
             {
                 mainGrid.Children.Remove(mywrap2);
@@ -128,6 +132,10 @@ namespace Transposition
             nop.To = 0.0;
             nop.Duration = new Duration(TimeSpan.FromMilliseconds((1001 - speed)));
 
+            //ColorAnimation myColorAnimation = new ColorAnimation(); 
+            //myColorAnimation.From = Colors.Blue
+            //myColorAnimation.To = Colors.Red; 
+            //myColorAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
 
             if (act == 0)
             {
@@ -686,6 +694,14 @@ namespace Transposition
         {
             myupdateprogress(i * 1000 / teba.GetLength(0) + 1000);
             //OLOo
+
+            LinearGradientBrush myBrush1 = new LinearGradientBrush();
+            myBrush1.GradientStops.Add(new GradientStop(Colors.CornflowerBlue, 1.0));
+            //myBrush1.GradientStops.Add(new GradientStop(Colors.SkyBlue, 0.5));
+            //myBrush1.GradientStops.Add(new GradientStop(Colors.CornflowerBlue, 1.0));
+
+            mycanvas.Background = myBrush1;
+
             if (per == 0) { textBox2.Text = "permuting by row"; }
             else { textBox2.Text = "permuting by column"; }
 
@@ -864,10 +880,18 @@ namespace Transposition
                     myColorAnimation.Completed += new EventHandler(my_Help7);
                 if (!Stop)
                     brush.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation);
+
+              
             }
 
-            //OLO hier falsch
-            //textBox2.Text = "status: accomplished";
+            //LinearGradientBrush myBrush1 = new LinearGradientBrush();
+            ////myBrush1.GradientStops.Add(new GradientStop(Colors.CornflowerBlue, 0.0));
+            ////myBrush1.GradientStops.Add(new GradientStop(Colors.SkyBlue, 0.5));
+            //myBrush1.GradientStops.Add(new GradientStop(Colors.PowderBlue, 1.0));
+
+            //mycanvas.Background = myBrush1;
+            //textBox2.Text = "accomplished"; //finish
+
         }
 
         private void preReadOut()
@@ -936,11 +960,17 @@ namespace Transposition
 
         public void readout()
         {
-            //OLO?
+            LinearGradientBrush myBrush = new LinearGradientBrush();
+            myBrush.GradientStops.Add(new GradientStop(Colors.CornflowerBlue, 1.0));
+            myBrush.GradientStops.Add(new GradientStop(Colors.SkyBlue, 0.5));
+            myBrush.GradientStops.Add(new GradientStop(Colors.PowderBlue, 0.0));
+
+           mycanvas.Background = myBrush;
+
             if (reout == 0) { textBox2.Text = "reading out by row"; }
             else { textBox2.Text = "reading out by column"; }
 
-            DoubleAnimation myDoubleAnimation = new DoubleAnimation();
+           DoubleAnimation myDoubleAnimation = new DoubleAnimation();
             myDoubleAnimation.From = 1.0;
             myDoubleAnimation.To = 0.0;
             myDoubleAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
@@ -997,6 +1027,7 @@ namespace Transposition
                     }
                 }
             }
+         
         }
 
         #endregion
@@ -1152,6 +1183,13 @@ namespace Transposition
         {
             sizeChanged(this, EventArgs.Empty);
             feuerEnde(this, EventArgs.Empty);
+            LinearGradientBrush myBrush1 = new LinearGradientBrush();
+            //myBrush1.GradientStops.Add(new GradientStop(Colors.CornflowerBlue, 0.0));
+            //myBrush1.GradientStops.Add(new GradientStop(Colors.SkyBlue, 0.5));
+            myBrush1.GradientStops.Add(new GradientStop(Colors.PowderBlue, 1.0));
+
+            mycanvas.Background = myBrush1;
+            textBox2.Text = "accomplished"; //finish
 
         }
 
