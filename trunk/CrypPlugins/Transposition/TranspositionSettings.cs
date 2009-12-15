@@ -18,7 +18,6 @@ namespace Transposition
         private PermutationMode selectedPermutation = PermutationMode.byColumn;
         private ReadOutMode selectedReadOut = ReadOutMode.byColumn;
         private int Presentation_Speed = 1;
-        //private int hexmode = 0;
         private NumberMode selectedNumberMode = NumberMode.asChar;
         
         # endregion
@@ -115,8 +114,8 @@ namespace Transposition
         }
 
         [PropertySaveOrder(6)]
-        [ContextMenu("Number Representation Mode", "Select a mode of Representation", 6, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "char", "hex" })]
-        [TaskPane("Number Representation Mode", "Select a mode of Representation", null, 6, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "char", "hex" })]
+        [ContextMenu("Number Representation Mode", "Select a mode of Representation", 6, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "US-ASCII", "hex" })]
+        [TaskPane("Number Representation Mode", "Select a mode of Representation", null, 6, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "US-ASCII", "hex" })]
         public int Number
         {
             get { return (int)this.selectedNumberMode;}

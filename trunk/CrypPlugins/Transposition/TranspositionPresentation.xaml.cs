@@ -99,13 +99,12 @@ namespace Transposition
         /// <param name="reout"></param>
         private void init(byte[,] read_in_matrix, byte[,] permuted_matrix, String keyword, int per, int rein, int reout, int act, int[] key,int number)
         {
-            //hier werden die farben angerührt
+            //background being created
             LinearGradientBrush myBrush = new LinearGradientBrush();
             myBrush.GradientStops.Add(new GradientStop(Colors.CornflowerBlue, 0.0));
             myBrush.GradientStops.Add(new GradientStop(Colors.SkyBlue, 0.5));
             myBrush.GradientStops.Add(new GradientStop(Colors.PowderBlue, 1.0));
                       
-
             mycanvas.Background = myBrush;
 
             try
@@ -131,12 +130,7 @@ namespace Transposition
             nop.From = 0.0;
             nop.To = 0.0;
             nop.Duration = new Duration(TimeSpan.FromMilliseconds((1001 - speed)));
-
-            //ColorAnimation myColorAnimation = new ColorAnimation(); 
-            //myColorAnimation.From = Colors.Blue
-            //myColorAnimation.To = Colors.Red; 
-            //myColorAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
-
+                       
             if (act == 0)
             {
                 this.rein = rein;
@@ -163,13 +157,10 @@ namespace Transposition
             outcount5 = 0;
             precountup = 0;
 
-            //Stop = false;
             if (keyword == null)
                 Stop = true;
 
             textBox2.Clear();
-
-
 
             if (per == 1)
             {
@@ -267,7 +258,7 @@ namespace Transposition
                     mywrap1.Children.Clear();
                     mywrap2.Children.Clear();
 
-                    //OLO
+                   
                     if (rein == 0) { textBox2.Text = "reading in by row"; }
                     else { textBox2.Text = "reading in by column"; }
 
@@ -473,15 +464,19 @@ namespace Transposition
                         txt.FontSize = 12;
                         txt.FontWeight = FontWeights.ExtraBold;
                         if(number==0)
-                             if (31 < Convert.ToInt64(output[i]) && Convert.ToInt64(output[i]) != 127)
-                                { 
-                                    txt.Text = Convert.ToChar(output[i]).ToString(); 
-                                }
-                                else
-                                {
-                                    txt.Text = "/" + Convert.ToInt64(output[i]).ToString("X");  
-                                }
-                        //txt.Text = Convert.ToChar(output[i]).ToString();
+                        //---marker
+                               // if (31 < Convert.ToInt64(output[i]) && Convert.ToInt64(output[i]) != 127)
+                               // { 
+                               //   txt.Text = Convert.ToChar(output[i]).ToString(); 
+                               // }
+                               //  else
+                               // {
+                               //      txt.Text = "/" + Convert.ToInt64(output[i]).ToString("X");  
+                               //  }
+                        txt.Text = Convert.ToChar(output[i]).ToString();
+                        //if you comment the line above and re-comment the lines to the "---marker" 
+                        //you will get shown the whitespaces in hexcode in the READOUT of the Presentation
+                        
                         else
                             txt.Text = output[i].ToString("X");
                         reouta[i] = txt;
@@ -693,8 +688,6 @@ namespace Transposition
         public void sort(int i)
         {
             myupdateprogress(i * 1000 / teba.GetLength(0) + 1000);
-            //OLOo
-
             LinearGradientBrush myBrush1 = new LinearGradientBrush();
             myBrush1.GradientStops.Add(new GradientStop(Colors.CornflowerBlue, 1.0));
             //myBrush1.GradientStops.Add(new GradientStop(Colors.SkyBlue, 0.5));
