@@ -311,7 +311,7 @@ namespace Cryptool.Plugins.PeerToPeer
             sendAliveMessageInterval = System.BitConverter.ToInt32(byteISettings, 0);
 
             string sPubId = this.p2pControl.ConvertIdToString(bytePubId);
-            GuiLogging("RECEIVED: Publishers' peer name '" + sPubId + "', Alive-Msg-Interval: " + sendAliveMessageInterval / 1000 + " sec!", NotificationLevel.Info);
+            GuiLogging("RECEIVED: Publishers' peer name '" + sPubId + "', Alive-Msg-Interval: " + sendAliveMessageInterval / 1000 + " sec!", NotificationLevel.Debug);
 
             pid = new PeerId(sPubId, bytePubId);
             if (actualPublisher == null) //first time initialization
