@@ -25,7 +25,7 @@
         <TextBox Name="endTime" Grid.Row="1" Grid.Column="1" 
                  TextAlignment="Center" IsReadOnly="True" TextWrapping="WrapWithOverflow" VerticalAlignment="Top" Height="28" FontSize="10" BorderThickness="1" />
 
-        <Label Grid.Row="2" Grid.Column="0" FontSize="12" Grid.ColumnSpan="1" Background="White" Width="AUTO">Keys per second :</Label>
+        <Label Grid.Row="2" FontSize="12" Background="White">Most probable results :</Label>
 
         <TextBox x:Name="keysPerSecond" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" 
                  TextAlignment="Left"  IsReadOnly="True" TextWrapping="WrapWithOverflow" FontSize="10" BorderThickness="1" HorizontalContentAlignment="Center" />
