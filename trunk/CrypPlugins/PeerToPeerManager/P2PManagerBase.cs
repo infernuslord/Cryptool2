@@ -20,7 +20,12 @@ namespace Cryptool.Plugins.PeerToPeer
 {
     public class P2PManagerBase : P2PPublisherBase
     {
+        #region Events and Delegates
+
         public delegate void FinishedDistributingPatterns(LinkedList<KeySearcher.KeySearcher.ValueKey> lstTopList);
+        /// <summary>
+        /// This event will be thrown, when all patterns were done and all results were received
+        /// </summary>
         public event FinishedDistributingPatterns OnFinishedDistributingPatterns;
 
         public delegate void FinishedOnePattern(string wildCardKey, double firstCoeffResult, string firstKeyResult, string workerId);
@@ -28,6 +33,11 @@ namespace Cryptool.Plugins.PeerToPeer
         /// Will be thrown when ONE pattern is bruteforced successfully
         /// </summary>
         public event FinishedOnePattern OnFinishedOnePattern;
+
+        public delegate void ProcessProgress(double progressInPercent);
+        public event ProcessProgress OnProcessProgress;
+
+        #endregion
 
         #region Variables
 
@@ -265,8 +275,37 @@ namespace Cryptool.Plugins.PeerToPeer
                 }
             } // end foreach
 
+
+
+
+            GuiLogging("Bruteforcing progress: " + GetProgressInformation() + "%.", NotificationLevel.Debug);
+
+
+
             GuiLogging(iCycle.ToString() + " pattern(s) dispersed. Patterns left: " + this.leftKeyPatterns.Count.ToString(), NotificationLevel.Info);
             return iCycle;
+        }
+
+        private double GetProgressInformation()
+        {
+            int leftPatterns = this.leftKeyPatterns.Count;
+            int finishedPatterns = this.patternResults.Count;
+            int patternsInProcess = this.allocatedPatterns.Count;
+            int patternAmount = leftPatterns + finishedPatterns + patternsInProcess;
+            double patternProgressInPercent;
+            if (finishedPatterns > 0 && patternsInProcess > 0)
+                patternProgressInPercent = 40 * (patternsInProcess / patternAmount) + 100 * (finishedPatterns / patternAmount);
+            else if (patternsInProcess > 0)
+                patternProgressInPercent = 40 * (patternsInProcess / patternAmount);
+            else
+                patternProgressInPercent = 0.0;
+
+            // throw progress result to the GUI
+            if (OnProcessProgress != null)
+            {
+                OnProcessProgress(patternProgressInPercent);
+            }
+            return patternProgressInPercent;
         }
 
         #region overrided methods with low functionality
@@ -304,7 +343,9 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             bool bolStartResult = base.Start(sTopic, aliveMessageInterval);
 
+            GuiLogging("Begin building a KeyPatternPool with KeyPatternPartSize " + this.KeyPatternPartSize.ToString(), NotificationLevel.Debug);
             List<KeyPattern> arrKeyPatternPool = keyPattern.makeKeySearcherPool(this.KeyPatternPartSize);
+            GuiLogging("Enqueue " + arrKeyPatternPool.Count + " KeyPattern-Parts to the JobList.", NotificationLevel.Debug);
             foreach (KeyPattern keyPatternPart in arrKeyPatternPool)
             {   
                 this.leftKeyPatterns.Enqueue(keyPatternPart);

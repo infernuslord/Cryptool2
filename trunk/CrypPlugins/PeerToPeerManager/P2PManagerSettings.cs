@@ -125,9 +125,9 @@ namespace Cryptool.Plugins.PeerToPeer
             }
         }
 
-        private int keyPatternSize = 10; // in hundred-thousand
+        private int keyPatternSize = 18; // in hundred-thousand
         [TaskPane("KeyPatternSize", "Choose the Size of the specific sub-KeyPattern (in hundred-thousand steps)"
-            , null, 3, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 90)]
+            , null, 3, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 15, 200)]
         public int KeyPatternSize
         {
             get

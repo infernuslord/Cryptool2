@@ -278,8 +278,14 @@ namespace Cryptool.Plugins.PeerToPeer
                 this.p2pManager.OnGuiMessage += new P2PPublisherBase.GuiMessage(p2pManager_OnGuiMessage);
                 this.p2pManager.OnFinishedOnePattern += new P2PManagerBase.FinishedOnePattern(p2pManager_OnFinishedOnePattern);
                 this.p2pManager.OnFinishedDistributingPatterns += new P2PManagerBase.FinishedDistributingPatterns(p2pManager_OnFinishedDistributingPatterns);
+                this.p2pManager.OnProcessProgress += new P2PManagerBase.ProcessProgress(p2pManager_OnProcessProgress);
                 //this.p2pManager.Start(this.settings.TopicName, (long)this.settings.SendAliveMessageInterval);
             }
+        }
+
+        void p2pManager_OnProcessProgress(double progressInPercent)
+        {
+            ProgressChanged(progressInPercent, 100.0);
         }
 
         void p2pManager_OnFinishedOnePattern(string wildCardKey, double firstCoeffResult, string firstKeyResult, string workerId)
