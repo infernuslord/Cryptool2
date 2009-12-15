@@ -67,7 +67,7 @@ namespace TranspositionAnalyser
         public TranspositionAnalyser()
         {
             settings = new TranspositionAnalyserSettings();
-            //QuickWatchPresentation = new TranspositionAnalyserQuickWatchPresentation();
+            QuickWatchPresentation = new TranspositionAnalyserQuickWatchPresentation();
         }
 
         private IControlEncryption controlMaster;
