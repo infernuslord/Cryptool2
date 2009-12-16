@@ -85,7 +85,7 @@ namespace Cryptool.PluginBase.Control
         bool PeerStarted();
 
         PeerId GetPeerID(out string sPeerName);
-        //byte[] GetPeerID(out string sPeerName);
+        PeerId GetPeerID(byte[] byteId);
 
         void SendToPeer(string sData, PeerId destinationAddress);
         //void SendToPeer(string sData, byte[] sDestinationPeerAddress);
@@ -95,7 +95,6 @@ namespace Cryptool.PluginBase.Control
         //void SendToPeer(PubSubMessageType msgType, string sDestinationAddress);
 
         PubSubMessageType GetMsgType(string byteData);
-        string ConvertIdToString(byte[] byteId);
 
         event P2PBase.P2PMessageReceived OnPeerReceivedMsg;
     }
