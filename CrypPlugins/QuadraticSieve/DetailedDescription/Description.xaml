@@ -19,8 +19,8 @@ The running time of the quadratic sieve algorithm to factor an integer of size n
 <Paragraph FontSize="18pt">General</Paragraph>
 
 <Paragraph>
-This plugin is a wrapper for the quadratic sieve C-implementation Msieve written by Jason Stratos Papadopoulos. The C-code is integrated into a 32bit dll and a 64bit windows dll. Depending on the users system, the correct dll is loaded during the startup of the CrypTool 2. The dlls also extend the functionality of the Msieve algorithm with multi threading. The original Msieve itself is a console application. If you want to get further information about the Msieve please have a look at the authors website on sourceforge at 
-<Hyperlink NavigateUri="http://sourceforge.net/projects/msieve/">http://sourceforge.net/projects/msieve/</Hyperlink>
+This plugin is a wrapper for the quadratic sieve C-implementation Msieve written by Jason Stratos Papadopoulos. The C-code is integrated into a 32bit dll and a 64bit dll. Depending on the users system, the correct dll is loaded during the startup of the CrypTool 2. The dlls also extend the functionality of the Msieve algorithm with multi threading. The original Msieve itself is a console application. If you want to get further information about the Msieve please have a look at the authors website on sourceforge at 
+<misc:DescriptionHyperlink NavigateUri="http://sourceforge.net/projects/msieve/">http://sourceforge.net/projects/msieve/</misc:DescriptionHyperlink>
 </Paragraph>
 <Paragraph FontSize="18pt">How to use this plugin</Paragraph>
 
@@ -36,10 +36,10 @@ The quadratic sieve plugin offers a QuickWatchRepresentation. This represenation
 
 <Paragraph>
  
-<Hyperlink NavigateUri="http://en.wikipedia.org/wiki/Quadratic_sieve">Quadratic sieve in wikipedia</Hyperlink>
+<misc:DescriptionHyperlink NavigateUri="http://en.wikipedia.org/wiki/Quadratic_sieve">Quadratic sieve in wikipedia</misc:DescriptionHyperlink>
 <LineBreak/>
 
-<Hyperlink NavigateUri="http://en.wikipedia.org/wiki/Integer_factorization">Integer factorization in wikipedia</Hyperlink>
+<misc:DescriptionHyperlink NavigateUri="http://en.wikipedia.org/wiki/Integer_factorization">Integer factorization in wikipedia</misc:DescriptionHyperlink>
 </Paragraph>
 <Paragraph FontSize="20pt">Some time statistics</Paragraph>
 
@@ -47,177 +47,348 @@ The quadratic sieve plugin offers a QuickWatchRepresentation. This represenation
  Here we have some example time statistics for some big numbers (notice! the algorithm uses random numbers to find relations, so sieving can be even much faster if it guests well): 
 </Paragraph>
 
-<Table>
-<TableRowGroup>
-<TableRow>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>Number</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>Digits</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>System</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>Used CPUs</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>Needed time</Paragraph>
-</TableCell>
-</TableRow>
-<TableRow>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>(2^300 -1)/2</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>91</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>
-AMD Thurion 64 X2 Mobile @ 2.00 GHz, 3.00 GB Ram, Windows 7 64-bit
-</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>1</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>~ 08sec</Paragraph>
-</TableCell>
-</TableRow>
-<TableRow>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>(2^300 -1)/2</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>91</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>
-AMD Thurion 64 X2 Mobile @ 2.00 GHz, 3.00 GB Ram, Windows 7 64-bit
-</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>2</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>~ 05sec</Paragraph>
-</TableCell>
-</TableRow>
-<TableRow>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>(2^340 -1)/2</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>93</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>
-AMD Thurion 64 X2 Mobile @ 2.00 GHz, 3.00 GB Ram, Windows 7 64-bit
-</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>1</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>~ 04min 01sec</Paragraph>
-</TableCell>
-</TableRow>
-<TableRow>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>(2^340 -1)/2</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>93</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>
-AMD Thurion 64 X2 Mobile @ 2.00 GHz, 3.00 GB Ram, Windows 7 64-bit
-</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>2</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>~ 02min 07sec</Paragraph>
-</TableCell>
-</TableRow>
-<TableRow>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>(2^346 -1)/2</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>94</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>
-AMD Thurion 64 X2 Mobile @ 2.00 GHz, 3.00 GB Ram, Windows 7 64-bit
-</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>1</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>~ 21min 07sec</Paragraph>
-</TableCell>
-</TableRow>
-<TableRow>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>(2^346 -1)/2</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>94</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>
-AMD Thurion 64 X2 Mobile @ 2.00 GHz, 3.00 GB Ram, Windows 7 64-bit
-</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>2</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>~ 06min 09sec</Paragraph>
-</TableCell>
-</TableRow>
-<TableRow>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>(2^400 -1)/2</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>131</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>
-AMD Thurion 64 X2 Mobile @ 2.00 GHz, 3.00 GB Ram, Windows 7 64-bit
-</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>1</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>~ 03h 15min</Paragraph>
-</TableCell>
-</TableRow>
-<TableRow>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>(2^400 -1)/2</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>131</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>
-AMD Thurion 64 X2 Mobile @ 2.00 GHz, 3.00 GB Ram, Windows 7 64-bit
-</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>2</Paragraph>
-</TableCell>
-<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
-<Paragraph>~ 02h 46min</Paragraph>
-</TableCell>
-</TableRow>
-</TableRowGroup>
-</Table>
+    <Table>
+
+        <TableRowGroup>
+
+            <TableRow>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>Number</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>Digits</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>System</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>Used CPUs</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>Needed time</Paragraph>
+                </TableCell>
+            </TableRow>
+
+            <TableRow>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>(2^300 -1)/2</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>91</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>
+                        AMD Thurion 64 X2 Mobile @ 2.00 GHz, 3.00 GB Ram, Windows 7 64-bit
+                    </Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>1</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>~ 08sec</Paragraph>
+                </TableCell>
+            </TableRow>
+
+            <TableRow>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>(2^300 -1)/2</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>91</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>
+                        Intel Core 2 Duo 6420 @ 2.13GHz, 3,3GB Ram, Windows Vista 32bit
+                    </Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>1</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>~ 01sec</Paragraph>
+                </TableCell>
+            </TableRow>
+
+            <TableRow>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>(2^300 -1)/2</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>91</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>
+                        AMD Thurion 64 X2 Mobile @ 2.00 GHz, 3.00 GB Ram, Windows 7 64-bit
+                    </Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>2</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>~ 05sec</Paragraph>
+                </TableCell>
+            </TableRow>
+
+            <TableRow>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>(2^300 -1)/2</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>91</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>
+                        Intel Core 2 Duo 6420 @ 2.13GHz, 3,3GB Ram, Windows Vista 32bit
+                    </Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>2</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>~ 01sec</Paragraph>
+                </TableCell>
+            </TableRow>
+
+            <TableRow>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>(2^340 -1)/2</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>93</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>
+                        AMD Thurion 64 X2 Mobile @ 2.00 GHz, 3.00 GB Ram, Windows 7 64-bit
+                    </Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>1</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>~ 04min 01sec</Paragraph>
+                </TableCell>
+            </TableRow>
+
+            <TableRow>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>(2^340 -1)/2</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>93</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>
+                        Intel Core 2 Duo 6420 @ 2.13GHz, 3,3GB Ram, Windows Vista 32bit
+                    </Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>1</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>~ 03min 05sec</Paragraph>
+                </TableCell>
+            </TableRow>
+
+            <TableRow>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>(2^340 -1)/2</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>93</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>
+                        AMD Thurion 64 X2 Mobile @ 2.00 GHz, 3.00 GB Ram, Windows 7 64-bit
+                    </Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>2</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>~ 02min 07sec</Paragraph>
+                </TableCell>
+            </TableRow>
+
+            <TableRow>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>(2^340 -1)/2</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>93</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>
+                        Intel Core 2 Duo 6420 @ 2.13GHz, 3,3GB Ram, Windows Vista 32bit
+                    </Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>2</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>~ 01min 41sec</Paragraph>
+                </TableCell>
+            </TableRow>
+
+            <TableRow>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>(2^346 -1)/2</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>94</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>
+                        AMD Thurion 64 X2 Mobile @ 2.00 GHz, 3.00 GB Ram, Windows 7 64-bit
+                    </Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>1</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>~ 21min 07sec</Paragraph>
+                </TableCell>
+            </TableRow>
+
+            <TableRow>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>(2^346 -1)/2</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>94</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>
+                        Intel Core 2 Duo 6420 @ 2.13GHz, 3,3GB Ram, Windows Vista 32bit
+                    </Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>1</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>~ 09min 50sec</Paragraph>
+                </TableCell>
+            </TableRow>
+
+            <TableRow>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>(2^346 -1)/2</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>94</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>
+                        AMD Thurion 64 X2 Mobile @ 2.00 GHz, 3.00 GB Ram, Windows 7 64-bit
+                    </Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>2</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>~ 06min 09sec</Paragraph>
+                </TableCell>
+            </TableRow>
+
+            <TableRow>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>(2^346 -1)/2</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>94</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>
+                        Intel Core 2 Duo 6420 @ 2.13GHz, 3,3GB Ram, Windows Vista 32bit
+                    </Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>2</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>~ 05min 00sec</Paragraph>
+                </TableCell>
+            </TableRow>
+
+            <TableRow>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>(2^400 -1)/2</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>131</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>
+                        AMD Thurion 64 X2 Mobile @ 2.00 GHz, 3.00 GB Ram, Windows 7 64-bit
+                    </Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>1</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>~ 03h 15min</Paragraph>
+                </TableCell>
+            </TableRow>
+
+            <TableRow>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>(2^400 -1)/2</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>131</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>
+                        Intel Core 2 Duo 6420 @ 2.13GHz, 3,3GB Ram, Windows Vista 32bit
+                    </Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>1</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>~ 02h 02min</Paragraph>
+                </TableCell>
+            </TableRow>
+
+            <TableRow>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>(2^400 -1)/2</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>131</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>
+                        AMD Thurion 64 X2 Mobile @ 2.00 GHz, 3.00 GB Ram, Windows 7 64-bit
+                    </Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>2</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>~ 02h 46min</Paragraph>
+                </TableCell>
+            </TableRow>
+
+            <TableRow>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>(2^400 -1)/2</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>131</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>
+                        Intel Core 2 Duo 6420 @ 2.13GHz, 3,3GB Ram, Windows Vista 32bit
+                    </Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>2</Paragraph>
+                </TableCell>
+                <TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+                    <Paragraph>~ 01h 10min</Paragraph>
+                </TableCell>
+            </TableRow>
+
+        </TableRowGroup>
+    </Table>
 </FlowDocument>

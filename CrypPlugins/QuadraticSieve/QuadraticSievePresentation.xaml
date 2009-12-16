@@ -6,7 +6,7 @@
     Background="White"
     Name="Presentation">
     <Canvas Name="Canvas">
-    <Grid Name="Grid" Width="250" Height="100">
+    <Grid Name="Grid" Width="250" Height="100" ShowGridLines="False">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -18,14 +18,14 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         
-        <Label FontSize="12" Name="Label1">Probable time left :</Label>
-        <Label Grid.Column="1" FontSize="12" Name="Label2">Estimated end time :</Label>
+        <Label FontSize="12" Name="Label1" Margin="1">Probable time left :</Label>
+        <Label Grid.Column="1" FontSize="12" Name="Label2" Margin="1">Estimated end time :</Label>
         
-        <TextBox Name="timeLeft" Grid.Row="1" TextAlignment="Center" IsReadOnly="True" TextWrapping="WrapWithOverflow"/>
-        <TextBox Name="endTime" Grid.Row="1" Grid.Column="1" TextAlignment="Center" IsReadOnly="True" TextWrapping="WrapWithOverflow"/>
-        <Label Grid.Row="2" FontSize="12" Grid.ColumnSpan="2" Name="Label3">console:</Label>
+        <TextBox Name="timeLeft" Grid.Row="1" TextAlignment="Center" IsReadOnly="True" TextWrapping="WrapWithOverflow" Focusable="True" BorderThickness="1" Margin="1" BorderBrush="AliceBlue" />
+        <TextBox Name="endTime" Grid.Row="1" Grid.Column="1" TextAlignment="Center" IsReadOnly="True" TextWrapping="WrapWithOverflow" BorderThickness="1" Margin="1" BorderBrush="AliceBlue" />
+        <Label Grid.Row="2" FontSize="12" Grid.ColumnSpan="2" Name="Label3" Margin="1"></Label>
         
-        <TextBox Name="logging" Grid.Row="3" Grid.ColumnSpan="2" TextAlignment="Left" IsReadOnly="True" TextWrapping="WrapWithOverflow"/>
+        <TextBox Name="logging" Grid.Row="3" Grid.ColumnSpan="2" TextAlignment="Left" IsReadOnly="True" TextWrapping="WrapWithOverflow" BorderThickness="1" Margin="1" BorderBrush="AliceBlue" />
     </Grid>
     </Canvas>
 </UserControl>
