@@ -40,7 +40,7 @@ namespace Cryptool.Plugins.QuadraticSieve
     /// For further information on quadratic sieve or msieve please have a look at the above mentioned URL
     /// </summary>
     [Author("Sven Rech", "rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "Quadratic Sieve", "Sieving Primes", "", "QuadraticSieve/iconqs.png")]
+    [PluginInfo(false, "Quadratic Sieve", "Sieving Primes", "QuadraticSieve/DetailedDescription/Description.xaml", "QuadraticSieve/iconqs.png")]
     class QuadraticSieve : DependencyObject, IThroughput
     {
         #region private variables
