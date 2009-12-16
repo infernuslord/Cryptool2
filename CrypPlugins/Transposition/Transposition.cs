@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using System.Threading;
+using System.Windows.Threading;
+using System.Runtime.InteropServices;
 
 using Cryptool;
 using Cryptool.PluginBase.IO;
@@ -23,13 +26,13 @@ namespace Transposition
         private String keyword = "";
         private byte[] input;
         private byte[] output;
-        private byte[] output1;
         private TranspositionSettings settings;
         private TranspositionPresentation myPresentation;
-
         private byte[,] read_in_matrix;
         private byte[,] permuted_matrix;
         private int[] key;
+        private AutoResetEvent ars;
+
         # endregion
 
         /// <summary>
@@ -40,6 +43,7 @@ namespace Transposition
             this.settings = new TranspositionSettings();
             myPresentation = new TranspositionPresentation();
             Presentation = myPresentation;
+            ars =new AutoResetEvent(false);
             myPresentation.feuerEnde += new EventHandler(presentation_finished);
             myPresentation.updateProgress += new EventHandler(update_progress);
             this.settings.PropertyChanged += settings_OnPropertyChange;
@@ -54,10 +58,10 @@ namespace Transposition
 
         private void presentation_finished(object sender, EventArgs e)
         {
-            
-            output1 = output;
+            ars.Set();
             Output = output;
             ProgressChanged(1, 1);
+            
         }
 
         private void settings_OnPropertyChange(object sender, PropertyChangedEventArgs e)
@@ -146,7 +150,7 @@ namespace Transposition
         {
             get
             {
-                return this.output1;
+                return this.output;
             }
             set
             {
@@ -184,15 +188,25 @@ namespace Transposition
                 ((TranspositionControl)controlSlave).onStatusChanged();
             }
 
-            output1 = null;
             if (Presentation.IsVisible)
-                //myPresentation.main(settings.NumberMode,Read_in_matrix,Permuted_matrix,key,Keyword,Input,Output,this.settings.Permutation,this.settings.ReadIn,this.settings.ReadOut,this.settings.Action);
-                myPresentation.main(Read_in_matrix, Permuted_matrix, key, Keyword, Input, output, this.settings.Permutation, this.settings.ReadIn, this.settings.ReadOut, this.settings.Action, this.settings.Number);
+            {
+                Thread.SpinWait(1000);
+                 Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    myPresentation.main(Read_in_matrix, Permuted_matrix, key, Keyword, Input, output, this.settings.Permutation, this.settings.ReadIn, this.settings.ReadOut, this.settings.Action, this.settings.Number);  
+                }
+                , null);
+                 ars.WaitOne();  
+            }
             else
             {
-                output1 = output;
+                Output = output;
                 ProgressChanged(1, 1);
             }
+
+            
+            Transposition_LogMessage("Hallo", NotificationLevel.Debug);
+
         }
 
         public void Initialize()
@@ -218,7 +232,7 @@ namespace Transposition
 
         public void PreExecution()
         {
-
+            
         }
 
         public System.Windows.Controls.UserControl Presentation
@@ -234,6 +248,7 @@ namespace Transposition
 
         public void Stop()
         {
+            ars.Set();
             myPresentation.my_Stop(this, EventArgs.Empty);
         }
 
@@ -260,14 +275,14 @@ namespace Transposition
                 {
                     key = sortKey(keyword);
                 }
-
+                
                 switch (settings.Action)
                 {
                     case 0:
-                        Output = encrypt(input, key);
+                        output = encrypt(input, key);
                         break;
                     case 1:
-                        Output = decrypt(input, key);
+                        output = decrypt(input, key);
                         break;
                     default:
                         break;
