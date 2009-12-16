@@ -1,0 +1,223 @@
+<FlowDocument PagePadding="5,0,5,0" AllowDrop="True" NumberSubstitution.CultureSource="User" 
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+			  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			  xmlns:misc="clr-namespace:Cryptool.PluginBase.Miscellaneous;assembly=CrypPluginBase"
+			  Background="White" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+
+<Paragraph FontSize="22pt">Quadratic Sieve - Description</Paragraph>
+<Paragraph FontSize="20pt">Introduction</Paragraph>
+
+<Paragraph>
+The quadratic sieve is a modern integer factorization algorithm. Factorization is the breaking down of a number into its divisors. The quadratic sieve algorithm is currently the 2nd fastest algorithm after the general number field sieve. Today it is still the fastest algorithm for big integers under 100 decimal digits. 
+</Paragraph>
+<Paragraph FontSize="20pt">Complexity</Paragraph>
+
+<Paragraph>
+The running time of the quadratic sieve algorithm to factor an integer of size n is (using O-notation) : O( exp( log(n) log(n) log(n) ) 
+</Paragraph>
+<Paragraph FontSize="20pt">About this plugin</Paragraph>
+<Paragraph FontSize="18pt">General</Paragraph>
+
+<Paragraph>
+This plugin is a wrapper for the quadratic sieve C-implementation Msieve written by Jason Stratos Papadopoulos. The C-code is integrated into a 32bit dll and a 64bit windows dll. Depending on the users system, the correct dll is loaded during the startup of the CrypTool 2. The dlls also extend the functionality of the Msieve algorithm with multi threading. The original Msieve itself is a console application. If you want to get further information about the Msieve please have a look at the authors website on sourceforge at 
+<Hyperlink NavigateUri="http://sourceforge.net/projects/msieve/">http://sourceforge.net/projects/msieve/</Hyperlink>
+</Paragraph>
+<Paragraph FontSize="18pt">How to use this plugin</Paragraph>
+
+<Paragraph>
+ The plugin has a BigNumber input. Here the user has to enter a BigNumber. He can use a BigNumberInput plugin and enter a number or an arithmetic expression like 2^12+17+2^32. The plugin has only one output. The plugin puts an array of BigIntegers (the prime factors) to this output. In the configuration bar the user can set the amount of used CPUs which the quadratic sieve should use for working (It is only possible to select as much CPUs as the users system offers). The quadratic sieve caches found relations of a prime. The user can choose if this cache should be deleted at a new startup or not by using the check box in the configuration. 
+</Paragraph>
+<Paragraph FontSize="18pt">Visualization</Paragraph>
+
+<Paragraph>
+The quadratic sieve plugin offers a QuickWatchRepresentation. This represenation can be found by clicking the plugins icon. Here the user can see the estimated end time and the current state of the sieving process. Also a key figure (relations) is visible. Relations are collected by the Msieve algorithm for factorization. The user sees the needed number of relations and the actual found number: example "121 of 1021 relations found". As soon as the quadratic sieve has found enough relations the sieving is finished. 
+</Paragraph>
+<Paragraph FontSize="20pt">Some useful weblinks</Paragraph>
+
+<Paragraph>
+ 
+<Hyperlink NavigateUri="http://en.wikipedia.org/wiki/Quadratic_sieve">Quadratic sieve in wikipedia</Hyperlink>
+<LineBreak/>
+
+<Hyperlink NavigateUri="http://en.wikipedia.org/wiki/Integer_factorization">Integer factorization in wikipedia</Hyperlink>
+</Paragraph>
+<Paragraph FontSize="20pt">Some time statistics</Paragraph>
+
+<Paragraph>
+ Here we have some example time statistics for some big numbers (notice! the algorithm uses random numbers to find relations, so sieving can be even much faster if it guests well): 
+</Paragraph>
+
+<Table>
+<TableRowGroup>
+<TableRow>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>Number</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>Digits</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>System</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>Used CPUs</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>Needed time</Paragraph>
+</TableCell>
+</TableRow>
+<TableRow>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>(2^300 -1)/2</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>91</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>
+AMD Thurion 64 X2 Mobile @ 2.00 GHz, 3.00 GB Ram, Windows 7 64-bit
+</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>1</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>~ 08sec</Paragraph>
+</TableCell>
+</TableRow>
+<TableRow>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>(2^300 -1)/2</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>91</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>
+AMD Thurion 64 X2 Mobile @ 2.00 GHz, 3.00 GB Ram, Windows 7 64-bit
+</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>2</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>~ 05sec</Paragraph>
+</TableCell>
+</TableRow>
+<TableRow>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>(2^340 -1)/2</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>93</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>
+AMD Thurion 64 X2 Mobile @ 2.00 GHz, 3.00 GB Ram, Windows 7 64-bit
+</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>1</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>~ 04min 01sec</Paragraph>
+</TableCell>
+</TableRow>
+<TableRow>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>(2^340 -1)/2</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>93</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>
+AMD Thurion 64 X2 Mobile @ 2.00 GHz, 3.00 GB Ram, Windows 7 64-bit
+</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>2</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>~ 02min 07sec</Paragraph>
+</TableCell>
+</TableRow>
+<TableRow>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>(2^346 -1)/2</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>94</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>
+AMD Thurion 64 X2 Mobile @ 2.00 GHz, 3.00 GB Ram, Windows 7 64-bit
+</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>1</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>~ 21min 07sec</Paragraph>
+</TableCell>
+</TableRow>
+<TableRow>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>(2^346 -1)/2</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>94</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>
+AMD Thurion 64 X2 Mobile @ 2.00 GHz, 3.00 GB Ram, Windows 7 64-bit
+</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>2</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>~ 06min 09sec</Paragraph>
+</TableCell>
+</TableRow>
+<TableRow>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>(2^400 -1)/2</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>131</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>
+AMD Thurion 64 X2 Mobile @ 2.00 GHz, 3.00 GB Ram, Windows 7 64-bit
+</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>1</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>~ 03h 15min</Paragraph>
+</TableCell>
+</TableRow>
+<TableRow>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>(2^400 -1)/2</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>131</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>
+AMD Thurion 64 X2 Mobile @ 2.00 GHz, 3.00 GB Ram, Windows 7 64-bit
+</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>2</Paragraph>
+</TableCell>
+<TableCell BorderThickness="1,1,1,1" BorderBrush="Black">
+<Paragraph>~ 02h 46min</Paragraph>
+</TableCell>
+</TableRow>
+</TableRowGroup>
+</Table>
+</FlowDocument>
