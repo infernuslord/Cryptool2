@@ -350,12 +350,12 @@ namespace Concatenate
 
           switch (settings.CurrentDataType)
           {
+            #region CryptoolStream
             case ConcatenateSettings.DataTypes.CryptoolStream:
               CryptoolStream stream1 = val1 as CryptoolStream;
               CryptoolStream stream2 = val2 as CryptoolStream;
               CryptoolStream returnStream = new CryptoolStream();
-              returnStream.OpenWrite(this.GetPluginInfoAttribute().Caption);
-
+              returnStream.OpenWrite();
               byte[] byteValues = new byte[1024];
               int byteRead;
               int position = 0;
@@ -383,25 +383,36 @@ namespace Concatenate
                 }
               }
               returnStream.Close();
+              stream1.Position = 0;
+              stream2.Position = 0;
               setOutputInternal(outputOne, returnStream);
               break;
+            #endregion
+            #region String
             case ConcatenateSettings.DataTypes.String:
               setOutputInternal(outputOne, (val1 as string) + (val2 as string));
               break;
+            #endregion
+            #region ByteArray
             case ConcatenateSettings.DataTypes.ByteArray:
               byte[] arrReturn = new byte[(val1 as byte[]).Length + (val2 as byte[]).Length];
               System.Buffer.BlockCopy((val1 as byte[]), 0, arrReturn, 0, (val1 as byte[]).Length);
               System.Buffer.BlockCopy((val2 as byte[]), 0, arrReturn, (val1 as byte[]).Length, (val2 as byte[]).Length);
               setOutputInternal(outputOne, arrReturn);
               break;
+            #endregion
+            #region Boolean
             case ConcatenateSettings.DataTypes.Boolean:
               Nullable<bool> boolValue = ((bool)val1) && ((bool)val2);
               setOutputInternal(outputOne, boolValue);
               break;
+            #endregion
+            #region Integer
             case ConcatenateSettings.DataTypes.Integer:
               int? intValue = ((int)val1) + ((int)val2);
               setOutputInternal(outputOne, intValue);
               break;
+            #endregion
             default:
               break;
           }
@@ -426,7 +437,8 @@ namespace Concatenate
         if (DicDynamicProperties.ContainsKey(propertyKey))
         {
           DicDynamicProperties[propertyKey].Value = value;
-          if (value is CryptoolStream) listCryptoolStreamsOut.Add((CryptoolStream)value);
+          if (value is CryptoolStream) 
+            listCryptoolStreamsOut.Add((CryptoolStream)value);
           OnPropertyChanged(propertyKey);
         }
       }
