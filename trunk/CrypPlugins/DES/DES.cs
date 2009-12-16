@@ -189,8 +189,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             {
                 if (controlSlave is object && ((DESControl)controlSlave).InputStream is object)
                     ((DESControl)controlSlave).closeStreams();
-                InputStream = null;
-                OutputStream = null;
             }
         }
 
@@ -307,6 +305,9 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 stop = false;
                 inputKey = null;
                 inputIV = null;
+
+                inputStream = null;
+                outputStream = null;
 
                 foreach (CryptoolStream stream in listCryptoolStreamsOut)
                 {
