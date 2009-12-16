@@ -39,7 +39,7 @@
 
             </StackPanel>
             <Label Height="10"></Label>
-            <TextBox  Name="textBox2" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="160"></TextBox>
+            <TextBox  Name="textBox2" IsEnabled="False" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="160"></TextBox>
         </StackPanel>
     </Canvas>
         

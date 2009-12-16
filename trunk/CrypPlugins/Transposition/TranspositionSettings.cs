@@ -101,7 +101,7 @@ namespace Transposition
         }
 
         [PropertySaveOrder(5)]
-        [TaskPane("Presentation Speed", "Change the pace of the Presentation", null, 5, true, DisplayLevel.Expert, ControlType.Slider, 1, 1000)]
+        [TaskPane("Presentation Speed", "Change the pace of the Presentation", null, 5, true, DisplayLevel.Expert, ControlType.Slider, 1, 900)]
         public int PresentationSpeed
         {
             get { return (int)Presentation_Speed; }
