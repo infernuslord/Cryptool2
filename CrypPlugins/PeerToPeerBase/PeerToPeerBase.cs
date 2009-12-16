@@ -271,8 +271,17 @@ namespace Cryptool.Plugins.PeerToPeer
         public PeerId GetPeerID(out string sPeerName)
         {
             sPeerName = this.linkmanager.UserName;
-            PeerId pid = new PeerId(this.overlay.LocalAddress.ToString(), this.overlay.LocalAddress.ToByteArray());
-            return pid;
+            return new PeerId(this.overlay.LocalAddress);
+        }
+
+        /// <summary>
+        /// Construct PeerId object for a specific byte[] id
+        /// </summary>
+        /// <param name="byteId">overlay address as byte array</param>
+        /// <returns>corresponding PeerId for given byte[] id</returns>
+        public PeerId GetPeerID(byte[] byteId)
+        {
+            return new PeerId(overlay.GetAddress(byteId));
         }
 
         // overlay.LocalAddress = Overlay-Peer-Address/Names
@@ -298,19 +307,19 @@ namespace Cryptool.Plugins.PeerToPeer
 
         public void SendToPeer(string sData, PeerId destinationPeerId)
         {
-            SendToPeer(sData, destinationPeerId.byteId);
+            SendToPeer(sData, destinationPeerId.ToByteArray());
         }
 
         public void SendToPeer(PubSubMessageType msgType, PeerId destinationAddress)
         {
-            SendToPeer(((int)msgType).ToString(), destinationAddress.byteId);
+            SendToPeer(((int)msgType).ToString(), destinationAddress.ToByteArray());
         }
 
         private void overlay_MessageReceived(object sender, OverlayMessageEventArgs e)
         {
             if (OnP2PMessageReceived != null)
             {
-                PeerId pid = new PeerId(e.Message.Source.ToString(), e.Message.Source.ToByteArray());
+                PeerId pid = new PeerId(e.Message.Source);
                 OnP2PMessageReceived(pid, e.Message.Data.PopUTF8String());
             }
         }
@@ -339,7 +348,7 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             if (OnP2PMessageReceived != null)
             {
-                PeerId pid = new PeerId(e.Source.ToString(), e.Source.ToByteArray());
+                PeerId pid = new PeerId(e.Source);
                 OnP2PMessageReceived(pid, e.Data.PopUTF8String());
             }
         }
@@ -629,22 +638,76 @@ namespace Cryptool.Plugins.PeerToPeer
 
     public class PeerId
     {
-        public string stringId;
-        public byte[] byteId;
+        private readonly string stringId;
+        private readonly byte[] byteId;
 
-        public PeerId(string sPid, byte[] byPid)
+        private const uint OFFSET_BASIS = 2166136261;
+        private const uint PRIME = 16777619; // 2^24 + 2^8 + 0x93
+        private readonly int hashCode;
+
+        public PeerId(OverlayAddress oAddress)
         {
-            this.stringId = sPid;
-            this.byteId = byPid;
+            this.stringId = oAddress.ToString();
+            this.byteId = oAddress.ToByteArray();
+
+            // FNV-1 hashing
+            uint fnvHash = OFFSET_BASIS;
+            foreach (byte b in byteId)
+            {
+                fnvHash = (fnvHash * PRIME) ^ b;
+            }
+            hashCode = (int)fnvHash;
         }
 
-        public void Dispose()
+        /// <summary>
+        /// Returns true when the byteId content is identical
+        /// </summary>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public override bool Equals(object right)
         {
-            this.byteId = null;
-            this.stringId = String.Empty;
+            /* standard checks for reference types */
+
+            if (right == null)
+                return false;
+
+            if (object.ReferenceEquals(this, right))
+                return true;
+
+            if (this.GetType() != right.GetType())
+                return false;
+
+            // actual content comparison
+            return this == (PeerId)right;
         }
 
-        
+        public static bool operator ==(PeerId left, PeerId right)
+        {
+            if (left.hashCode != right.hashCode)
+                return false;
+
+            if (left.byteId.Length != right.byteId.Length)
+                return false;
+
+            for (int i = 0; i < left.byteId.Length; i++)
+            {
+                // uneven pattern content
+                if (left.byteId[i] != right.byteId[i])
+                    return false;
+            }
+
+            return true;
+        }
+
+        public static bool operator !=(PeerId left, PeerId right)
+        {
+            return !(left == right);
+        }
+
+        public override int GetHashCode()
+        {
+            return hashCode;
+        }
 
         public override string ToString()
         {
@@ -654,15 +717,6 @@ namespace Cryptool.Plugins.PeerToPeer
         public byte[] ToByteArray()
         {
             return this.byteId;
-        }
-
-        // not used at present...
-        public bool Equals(PeerId otherPeerId)
-        {
-            if (this.stringId == otherPeerId.stringId)
-                return true;
-            else
-                return false;
         }
     }
 }

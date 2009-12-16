@@ -92,7 +92,7 @@ namespace Cryptool.Plugins.PeerToPeer
         public void SolutionFound(string sSolutionData)
         {
             SendMessage(actualPublisher, PubSubMessageType.Solution);
-            this.p2pControl.SendToPeer(sSolutionData, actualPublisher.byteId);
+            this.p2pControl.SendToPeer(sSolutionData, actualPublisher.ToByteArray());
         }
         /* END: Only for experimental cases */
 
@@ -133,9 +133,9 @@ namespace Cryptool.Plugins.PeerToPeer
 
         private void MessageReceived(PeerId sourceAddr, string sData)
         {
-            if (sourceAddr.stringId != actualPublisher.stringId)
+            if (sourceAddr != actualPublisher)
             {
-                GuiLogging("RECEIVED message from third party peer (not the publisher!): " + sData.Trim() + ", ID: " + sourceAddr.stringId, NotificationLevel.Debug);
+                GuiLogging("RECEIVED message from third party peer (not the publisher!): " + sData.Trim() + ", ID: " + sourceAddr, NotificationLevel.Debug);
                 return;
             }
 
@@ -224,7 +224,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="sData"></param>
         protected virtual void HandleIncomingData(PeerId senderId, string sData)
         {
-            GuiLogging("RECEIVED: Message from '" + senderId.stringId
+            GuiLogging("RECEIVED: Message from '" + senderId
                     + "' with data: '" + sData + "'", NotificationLevel.Debug);
 
             if (OnTextArrivedFromPublisher != null)
@@ -310,12 +310,11 @@ namespace Cryptool.Plugins.PeerToPeer
             }
             sendAliveMessageInterval = System.BitConverter.ToInt32(byteISettings, 0);
 
-            string sPubId = this.p2pControl.ConvertIdToString(bytePubId);
-            GuiLogging("RECEIVED: Publishers' peer name '" + sPubId + "', Alive-Msg-Interval: " + sendAliveMessageInterval / 1000 + " sec!", NotificationLevel.Debug);
-
-            pid = new PeerId(sPubId, bytePubId);
+            pid = this.p2pControl.GetPeerID(bytePubId);
             if (actualPublisher == null) //first time initialization
                 actualPublisher = pid;
+
+            GuiLogging("RECEIVED: Publishers' peer name '" + pid + "', Alive-Msg-Interval: " + sendAliveMessageInterval / 1000 + " sec!", NotificationLevel.Debug);
 
             // setting timer to check periodical the availability of the publishing peer
             if (timerCheckPubAvailability == null && !this.bolStopped)
@@ -339,11 +338,11 @@ namespace Cryptool.Plugins.PeerToPeer
                 GuiLogging("Publisher wasn't found in DHT or settings didn't stored on the right way.", NotificationLevel.Warning);
                 return;
             }
-            if (newPubId.stringId != actualPublisher.stringId)
+            if (newPubId != actualPublisher)
             {
                 //Handle case, when publisher changed or isn't active at present (don't reply on response)
-                GuiLogging("CHANGED: Publisher from '" + actualPublisher.stringId
-                    + "' to '" + newPubId.stringId + "'!", NotificationLevel.Info);
+                GuiLogging("CHANGED: Publisher from '" + actualPublisher
+                    + "' to '" + newPubId + "'!", NotificationLevel.Info);
                 actualPublisher = newPubId;
                 // because the publisher has changed, send a new register msg
                 SendMessage(actualPublisher, PubSubMessageType.Register);

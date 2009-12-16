@@ -379,6 +379,11 @@ namespace Cryptool.Plugins.PeerToPeer
             return null;
         }
 
+        public PeerId GetPeerID(byte[] byteId)
+        {
+            return p2pPeer.p2pBase.GetPeerID(byteId);
+        }
+
         public void SendToPeer(string sData, PeerId destinationAddress)
         {
             if (SystemJoinedCompletely())
@@ -413,17 +418,6 @@ namespace Cryptool.Plugins.PeerToPeer
                 // because Enum is non-nullable, I used this workaround
                 return PubSubMessageType.NULL;
             }
-        }
-
-        public string ConvertIdToString(byte[] byteId)
-        {
-            string sRet = String.Empty;
-            for (int i = 0; i < byteId.Length; i++)
-            {
-                //sRet += UTF8Encoding.UTF8.GetString(byteId[i]) + ":";
-                sRet += Convert.ToString(byteId[i]) + ":";
-            }
-            return sRet;
         }
 
         #endregion

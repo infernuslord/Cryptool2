@@ -74,14 +74,16 @@ namespace Cryptool.Plugins.PeerToPeer
             PeerId myPeerId = this.p2pControl.GetPeerID(out sPeerName);
             this.ownPeerId = myPeerId;
 
-            // before storing the publishers ID in the DHT, proof whether there already exist an entry
+            // before storing the publishers ID in the DHT, proof whether there already exists an entry
             byte[] byRead = this.p2pControl.DHTload(sTopic);
             // if byRead is not null, the DHT entry was already written
             if (byRead != null)
             {
+                PeerId peerRead = this.p2pControl.GetPeerID(byRead);
+
                 // if sRead equals sPeerId this Publisher with the same topic had written 
                 // this entry - no problem! Otherwise abort Starting the publisher!
-                if (byRead != myPeerId.byteId)
+                if (peerRead != myPeerId)
                 {
                     GuiLogging("Can't store Publisher in the DHT because the Entry was already occupied.", NotificationLevel.Error);
                     return false;
@@ -89,7 +91,7 @@ namespace Cryptool.Plugins.PeerToPeer
             }
             /* END: CHECKING WHETHER THERE HAS ALREADY EXIST ANOTHER PUBLISHER */
 
-            bool bolTopicStored = this.p2pControl.DHTstore(sTopic, myPeerId.byteId);
+            bool bolTopicStored = this.p2pControl.DHTstore(sTopic, myPeerId.ToByteArray());
             bool bolSettingsStored = this.p2pControl.DHTstore(sTopic + this.sDHTSettingsPostfix,
                 System.BitConverter.GetBytes(this.aliveMessageInterval));
 
@@ -99,7 +101,7 @@ namespace Cryptool.Plugins.PeerToPeer
                 return false;
             }
 
-            GuiLogging("Peer ID '" + myPeerId.stringId + "' is published to DHT -Entry-Key '" + this.topic + "'", NotificationLevel.Info);
+            GuiLogging("Peer ID '" + myPeerId + "' is published to DHT -Entry-Key '" + this.topic + "'", NotificationLevel.Info);
             this.Started = true;
 
             return true;
@@ -192,34 +194,34 @@ namespace Cryptool.Plugins.PeerToPeer
                     case PubSubMessageType.Register:
                         if (this.peerManagement.Add(sourceAddr))
                         {
-                            GuiLogging("REGISTERED: Peer with ID " + sourceAddr.stringId, NotificationLevel.Info);
+                            GuiLogging("REGISTERED: Peer with ID " + sourceAddr, NotificationLevel.Info);
                             this.p2pControl.SendToPeer(PubSubMessageType.RegisteringAccepted, sourceAddr);
                         }
                         else
                         {
-                            GuiLogging("ALREADY REGISTERED peer with ID " + sourceAddr.stringId, NotificationLevel.Info);
+                            GuiLogging("ALREADY REGISTERED peer with ID " + sourceAddr, NotificationLevel.Info);
                         }
                         break;
                     case PubSubMessageType.Unregister:
                         if (this.peerManagement.Remove(sourceAddr))
-                            GuiLogging("REMOVED peer " + sourceAddr.stringId + " because it had sent an unregister message", NotificationLevel.Info);
+                            GuiLogging("REMOVED peer " + sourceAddr + " because it had sent an unregister message", NotificationLevel.Info);
                         else
-                            GuiLogging("ALREADY REMOVED or had not registered anytime. ID " + sourceAddr.stringId, NotificationLevel.Info);
+                            GuiLogging("ALREADY REMOVED or had not registered anytime. ID " + sourceAddr, NotificationLevel.Info);
                         break;
                     case PubSubMessageType.Alive:
                     case PubSubMessageType.Pong:
                         if (this.peerManagement.Update(sourceAddr))
                         {
-                            GuiLogging("RECEIVED: " + msgType.ToString() + " Message from " + sourceAddr.stringId, NotificationLevel.Debug);
+                            GuiLogging("RECEIVED: " + msgType.ToString() + " Message from " + sourceAddr, NotificationLevel.Debug);
                         }
                         else
                         {
-                            GuiLogging("UPDATE FAILED for " + sourceAddr.stringId + " because it hasn't registered first. " + msgType.ToString(), NotificationLevel.Info);
+                            GuiLogging("UPDATE FAILED for " + sourceAddr + " because it hasn't registered first. " + msgType.ToString(), NotificationLevel.Info);
                         }
                         break;
                     case PubSubMessageType.Ping:
                         this.p2pControl.SendToPeer(PubSubMessageType.Pong, sourceAddr);
-                        GuiLogging("REPLIED to a ping message from peer " + sourceAddr.stringId, NotificationLevel.Debug);
+                        GuiLogging("REPLIED to a ping message from peer " + sourceAddr, NotificationLevel.Debug);
                         break;
                     case PubSubMessageType.Solution:
                         // Send solution msg to all subscriber peers and delete subList
@@ -237,7 +239,7 @@ namespace Cryptool.Plugins.PeerToPeer
             // Received Data aren't PubSubMessageTypes or rather no action-relevant messages
             else
             {
-                GuiLogging("RECEIVED message from non subscribed peer: " + sData.Trim() + ", ID: " + sourceAddr.stringId, NotificationLevel.Debug);
+                GuiLogging("RECEIVED message from non subscribed peer: " + sData.Trim() + ", ID: " + sourceAddr, NotificationLevel.Debug);
             }
         }
 
@@ -276,7 +278,7 @@ namespace Cryptool.Plugins.PeerToPeer
 
         private void peerManagement_OnSubscriberRemoved(PeerId peerId)
         {
-            GuiLogging("REMOVED peer " + peerId.stringId, NotificationLevel.Info);
+            GuiLogging("REMOVED peer " + peerId, NotificationLevel.Info);
         }
 
         protected void GuiLogging(string sText, NotificationLevel notLev)

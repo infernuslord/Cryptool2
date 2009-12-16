@@ -35,17 +35,17 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <summary>
         /// contains all active subscribers
         /// </summary>
-        private Dictionary<string, PeerValue> checkList;
+        private Dictionary<PeerId, PeerValue> checkList;
 
 
         /*TESTING*/
-        protected Dictionary<string, PeerId> activeSubsList;
+        protected HashSet<PeerId> activeSubsList;
 
 
         /// <summary>
         /// when a peer is in this list, it will be deleted on the next vitality check
         /// </summary>
-        private Dictionary<string,PeerId> secondChanceList;
+        private HashSet<PeerId> secondChanceList;
 
         private long expirationTime;
         /// <summary>
@@ -64,11 +64,11 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="expirationTime">expiration Time of a subscriber in milliseconds</param>
         public SubscriberManagement(long expirationTime)
         {
-            this.activeSubsList = new Dictionary<string, PeerId>();
+            this.activeSubsList = new HashSet<PeerId>();
 
             this.dateTimeNow = new DateTime();
-            this.checkList = new Dictionary<string, PeerValue>();
-            this.secondChanceList = new Dictionary<string,PeerId>();
+            this.checkList = new Dictionary<PeerId, PeerValue>();
+            this.secondChanceList = new HashSet<PeerId>();
             this.ExpirationTime = expirationTime;
         }
 
@@ -79,14 +79,14 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <returns>true if subscriber wasn't in List and is added, otherwise false</returns>
         public virtual bool Add(PeerId subscriberId)
         {
-            if (!this.checkList.ContainsKey(subscriberId.stringId))
+            if (!this.checkList.ContainsKey(subscriberId))
             {
                 this.dateTimeNow = DateTime.Now;
                 // locking checkList instead of activeSubsList, because all other functions work on checkList, not on activeSubsList
                 lock (this.checkList)
                 {
-                    this.checkList.Add(subscriberId.stringId, new PeerValue(subscriberId, this.dateTimeNow));
-                    this.activeSubsList.Add(subscriberId.stringId, subscriberId);
+                    this.checkList.Add(subscriberId, new PeerValue(subscriberId, this.dateTimeNow));
+                    this.activeSubsList.Add(subscriberId);
                 }
                 return true;
             }
@@ -103,12 +103,12 @@ namespace Cryptool.Plugins.PeerToPeer
         public bool Update(PeerId subscriberId)
         {
             this.dateTimeNow = DateTime.Now;
-            if (this.checkList.ContainsKey(subscriberId.stringId))
+            if (this.checkList.ContainsKey(subscriberId))
             {
-                this.checkList[subscriberId.stringId].dateTime = this.dateTimeNow;
+                this.checkList[subscriberId].dateTime = this.dateTimeNow;
                 // remove subscriber from this list, because it's updated now and hence alive!
-                if (this.secondChanceList.ContainsKey(subscriberId.stringId))
-                    this.secondChanceList.Remove(subscriberId.stringId);
+                if (this.secondChanceList.Contains(subscriberId))
+                    this.secondChanceList.Remove(subscriberId);
                 return true;
             }
             return false;
@@ -129,16 +129,16 @@ namespace Cryptool.Plugins.PeerToPeer
             bool result = false;
             lock(this.checkList)
             {
-                if(this.secondChanceList.ContainsKey(subId.stringId))
-                    this.secondChanceList.Remove(subId.stringId);
-                if (this.checkList.ContainsKey(subId.stringId))
+                if(this.secondChanceList.Contains(subId))
+                    this.secondChanceList.Remove(subId);
+                if (this.checkList.ContainsKey(subId))
                 {
-                    this.checkList.Remove(subId.stringId);
+                    this.checkList.Remove(subId);
                     result = true;
                 }
-                if (this.activeSubsList.ContainsKey(subId.stringId))
+                if (this.activeSubsList.Contains(subId))
                 {
-                    this.activeSubsList.Remove(subId.stringId);
+                    this.activeSubsList.Remove(subId);
                     result = true;
                 }
 
@@ -163,18 +163,18 @@ namespace Cryptool.Plugins.PeerToPeer
 
             lock (this.checkList)
             {
-                foreach (KeyValuePair<string, PeerValue> entry in this.checkList)
+                foreach (KeyValuePair<PeerId, PeerValue> entry in this.checkList)
                 {
                     DateTime valueWithExpirationTime = entry.Value.dateTime.AddMilliseconds(ExpirationTime);
 
                     // if time is expired AND the ID is already in the secondChanceList --> Add to remove list
-                    if (this.dateTimeNow > valueWithExpirationTime && secondChanceList.ContainsKey(entry.Key))
+                    if (this.dateTimeNow > valueWithExpirationTime && secondChanceList.Contains(entry.Key))
                     {
                         removeSubscribersFromDict.Add(entry.Value.peerId);
                     }
                     else if (this.dateTimeNow > valueWithExpirationTime) //otherwise give a second chance
                     {
-                        this.secondChanceList.Add(entry.Key, entry.Value.peerId);
+                        this.secondChanceList.Add(entry.Key);
                     }
                 }
             } //end lock(this.checkList)
@@ -185,7 +185,7 @@ namespace Cryptool.Plugins.PeerToPeer
                 RemoveSubscriberEverywhere(removeSub);
             }
 
-            return this.secondChanceList.Values.ToList<PeerId>();
+            return this.secondChanceList.ToList<PeerId>();
         }
 
         /* alternative method, works with a copy of checkList, saves a foreach-loop, but produces load for copying */
@@ -231,7 +231,7 @@ namespace Cryptool.Plugins.PeerToPeer
 
         public List<PeerId> GetAllSubscribers()
         {
-            return this.activeSubsList.Values.ToList<PeerId>();
+            return this.activeSubsList.ToList<PeerId>();
         }
 
         public virtual void Dispose()
