@@ -498,6 +498,8 @@ namespace KeySearcher
 
         private void showProgress(LinkedList<ValueKey> costList, BigInteger size, BigInteger keycounter, BigInteger doneKeys)
         {
+            System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+
             LinkedListNode<ValueKey> linkedListNode;
             ProgressChanged(Math.Pow(10, keycounter.log(10) - size.log(10)), 1.0);
 
@@ -547,15 +549,21 @@ namespace KeySearcher
                         ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "in a galaxy far, far away...";
                     }
 
-                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Clear();
+                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).entries.Clear();
                     linkedListNode = costList.First;
-                    System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+                    
                     int i = 0;
                     while (linkedListNode != null)
                     {
                         i++;
-                        ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Add(i + ") " + Math.Round(linkedListNode.Value.value, 4) + " = " + linkedListNode.Value.key + " : \"" +
-                            enc.GetString(linkedListNode.Value.decryption).Replace("\n", "").Replace("\r", "").Replace("\t", "") + "\"");
+
+                        ResultEntry entry = new ResultEntry();
+                        entry.Ranking = "" + i;
+                        entry.Value = "" + Math.Round(linkedListNode.Value.value,3);
+                        entry.Key = linkedListNode.Value.key;
+                        entry.Text = enc.GetString(linkedListNode.Value.decryption);
+
+                        ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).entries.Add(entry);
                         linkedListNode = linkedListNode.Next;
                     }
                 }
@@ -568,15 +576,21 @@ namespace KeySearcher
 
                 ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Clear();
-                    linkedListNode = costList.First;
-                    System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).entries.Clear();
+                    linkedListNode = costList.First;                    
                     int i = 0;
+
                     while (linkedListNode != null)
                     {
                         i++;
-                        ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Add(i + ") " + Math.Round(linkedListNode.Value.value, 4) + " = " + linkedListNode.Value.key + " : \"" +
-                            enc.GetString(linkedListNode.Value.decryption).Replace("\n", "").Replace("\r", "").Replace("\t", "") + "\"");
+
+                        ResultEntry entry = new ResultEntry();
+                        entry.Ranking = "" + i;
+                        entry.Value = "" + Math.Round(linkedListNode.Value.value, 3);
+                        entry.Key = linkedListNode.Value.key;
+                        entry.Text = enc.GetString(linkedListNode.Value.decryption);
+
+                        ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).entries.Add(entry);
                         linkedListNode = linkedListNode.Next;
                     }
                 }
@@ -753,5 +767,17 @@ namespace KeySearcher
             public String key;
             public byte[] decryption;
         };
+    }
+
+    /// <summary>
+    /// Represents one entry in our result list
+    /// </summary>
+    public class ResultEntry
+    {
+        public string Ranking { get; set; }
+        public string Value { get; set; }
+        public string Key { get; set; }
+        public string Text { get; set; }
+
     }
 }
