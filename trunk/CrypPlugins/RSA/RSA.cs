@@ -202,8 +202,7 @@ namespace Cryptool.Plugins.RSA
 
                     Thread.Sleep(0);
                 }
-
-                ProgressChanged(1.0, 1.0);
+                
                 output = removeZeros(output);
                 this.OutputText = output;
 
@@ -213,7 +212,7 @@ namespace Cryptool.Plugins.RSA
                 GuiLogMessage("finished RSA on texts in " + duration, NotificationLevel.Info);
 
             }//end if           
-
+            ProgressChanged(1.0, 1.0);
         }//end Execute
 
         /// <summary>
