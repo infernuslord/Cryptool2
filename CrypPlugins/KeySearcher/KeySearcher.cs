@@ -115,7 +115,7 @@ namespace KeySearcher
 
         public UserControl Presentation
         {
-            get { return null; }
+            get { return QuickWatchPresentation; }
         }
 
         public UserControl QuickWatchPresentation
