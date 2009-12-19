@@ -172,6 +172,8 @@ namespace Cryptool.Plugins.BooleanOperators
 
         public void PreExecution()
         {
+            this.FlagA = ((BooleanBinaryOperatorsSettings)Settings).DefaultFlagA;
+            this.FlagB = ((BooleanBinaryOperatorsSettings)Settings).DefaultFlagB;
         }
 
         public System.Windows.Controls.UserControl Presentation

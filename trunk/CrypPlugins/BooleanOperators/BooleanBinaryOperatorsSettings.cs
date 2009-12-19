@@ -37,6 +37,8 @@ namespace Cryptool.Plugins.BooleanOperators
 
         private bool hasChanges = false;
         private bool updateOnlyAtBothInputsChanged = true;
+        private bool defaultFlagA = false;
+        private bool defaultFlagB = false;
 
         #region ISettings Members
         public bool HasChanges
@@ -79,6 +81,36 @@ namespace Cryptool.Plugins.BooleanOperators
                     updateOnlyAtBothInputsChanged = value;
                     hasChanges = true;
                     OnPropertyChanged("UpdateOnlyAtBothInputsChanged");
+                }
+            }
+        }
+
+        [TaskPane("Default Flag A", "If checked, Flag A will be set to fired", null, 2, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+        public bool DefaultFlagA
+        {
+            get { return defaultFlagA; }
+            set
+            {
+                if (value != defaultFlagA)
+                {
+                    defaultFlagA = value;
+                    hasChanges = true;
+                    OnPropertyChanged("DefaultFlagA");
+                }
+            }
+        }
+
+        [TaskPane("Default Flag B", "If checked, Flag B will be set to fired", null, 2, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+        public bool DefaultFlagB
+        {
+            get { return defaultFlagB; }
+            set
+            {
+                if (value != defaultFlagB)
+                {
+                    defaultFlagB = value;
+                    hasChanges = true;
+                    OnPropertyChanged("DefaultFlagB");
                 }
             }
         }
