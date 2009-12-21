@@ -276,8 +276,6 @@ namespace Transposition
 
                     for (int i = 0; i < key.Length; i++)
                     {
-
-
                         TextBlock txt = new TextBlock();
                         String s = key[i].ToString();
                         txt.VerticalAlignment = VerticalAlignment.Center;
@@ -847,6 +845,7 @@ namespace Transposition
 
                 if (reout == 0)
                 {
+                    myupdateprogress(outcount5 * 1000 / mat_back.GetLength(1) + 2000);
                     for (int i = 0; i < permuted_matrix.GetLength(0); i++)
                     {
                         if (i == permuted_matrix.GetLength(0) - 1 && outcount5 == permuted_matrix.GetLength(1) - 1 && !Stop)
@@ -858,6 +857,7 @@ namespace Transposition
                 }
                 else
                 {
+                    myupdateprogress(outcount5 * 1000 / mat_back.GetLength(0) + 2000);
                     for (int i = 0; i < permuted_matrix.GetLength(1); i++)
                     {
                         if (i == permuted_matrix.GetLength(1) - 1 && outcount5 == permuted_matrix.GetLength(0) - 1 && !Stop)
@@ -876,13 +876,6 @@ namespace Transposition
               
             }
 
-            //LinearGradientBrush myBrush1 = new LinearGradientBrush();
-            ////myBrush1.GradientStops.Add(new GradientStop(Colors.CornflowerBlue, 0.0));
-            ////myBrush1.GradientStops.Add(new GradientStop(Colors.SkyBlue, 0.5));
-            //myBrush1.GradientStops.Add(new GradientStop(Colors.PowderBlue, 1.0));
-
-            //mycanvas.Background = myBrush1;
-            //textBox2.Text = "accomplished"; //finish
 
         }
 
@@ -905,7 +898,7 @@ namespace Transposition
             {
                 if (reout == 0)
                 {
-                    myupdateprogress(outcount4 * 1000 / mat_back.GetLength(1) + 2000);
+                   
                     for (int i = rowper; i < teba.GetLength(0); i++)
                     {
                         if (mat_back[i - rowper, outcount4 - colper] == Brushes.LawnGreen)
@@ -926,7 +919,6 @@ namespace Transposition
                 }
                 else
                 {
-                    myupdateprogress(outcount4 * 1000 / mat_back.GetLength(0) + 2000);
                     for (int i = colper; i < teba.GetLength(1); i++)
                     {
                         if (mat_back[outcount4 - rowper, i - colper] == Brushes.LawnGreen)
