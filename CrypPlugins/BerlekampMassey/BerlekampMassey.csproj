@@ -64,6 +64,7 @@
     <Compile Include="BerlekampMasseySettings.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="BMAClassDiagram.cd" />
     <None Include="key.snk" />
   </ItemGroup>
   <ItemGroup>

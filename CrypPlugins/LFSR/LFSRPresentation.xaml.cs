@@ -1,4 +1,20 @@
-﻿using System;
+﻿/*
+   Copyright 2009 Sören Rinne, Ruhr-Universität Bochum, Germany
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -291,35 +307,38 @@ namespace Cryptool.LFSR
 
         public void FillBoxes(char[] state, char[] tapSequence, char output, string polynomial)
         {
+            
             // fill the boxes with current state
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                // get the textboxes as children of myGrid. textboxes are 6 + 2 + 2 + ... [don't forget to change line 314, Col 73]
-                Visual childVisual;
-                int i;
-                
-                for (i = 0; i < state.Length; i++)
+                try
                 {
-                    childVisual = (Visual)VisualTreeHelper.GetChild(myGrid, 6 + i * 2);
-                    childVisual.SetValue(TextBox.TextProperty, state[i].ToString());
+                    // get the textboxes as children of myGrid. textboxes are 6 + 2 + 2 + ... [don't forget to change line 314, Col 73]
+                    Visual childVisual;
+                    int i;
 
-                    /*
-                    // this only seems to work for children not added at runtime
-                    Label myInfoText = myGrid.FindName("infoText") as Label;
-                    if (myInfoText != null)
+                    for (i = 0; i < state.Length; i++)
                     {
-                        myInfoText.Background = Brushes.DodgerBlue;
-                    }*/
-                }
+                        childVisual = (Visual)VisualTreeHelper.GetChild(myGrid, 6 + i * 2);
+                        childVisual.SetValue(TextBox.TextProperty, state[i].ToString());
 
-                // update output label
-                childVisual = (Visual)VisualTreeHelper.GetChild(myGrid, 8 + (i-1) * 2);
-                childVisual.SetValue(Label.ContentProperty, output);
+                        /*
+                        // this only seems to work for children not added at runtime
+                        Label myInfoText = myGrid.FindName("infoText") as Label;
+                        if (myInfoText != null)
+                        {
+                            myInfoText.Background = Brushes.DodgerBlue;
+                        }*/
+                    }
 
-                // update polynome
-                childVisual = (Visual)VisualTreeHelper.GetChild(polynomialGrid, 0);
-                childVisual.SetValue(Label.ContentProperty, polynomial);
+                    // update output label
+                    childVisual = (Visual)VisualTreeHelper.GetChild(myGrid, 8 + (i - 1) * 2);
+                    childVisual.SetValue(Label.ContentProperty, output);
 
+                    // update polynome
+                    childVisual = (Visual)VisualTreeHelper.GetChild(polynomialGrid, 0);
+                    childVisual.SetValue(Label.ContentProperty, polynomial);                        
+                } catch (Exception ex) { }
             }, null);
         }
 

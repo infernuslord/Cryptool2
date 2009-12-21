@@ -1,4 +1,20 @@
-﻿using System;
+﻿/*
+   Copyright 2009 Sören Rinne, Ruhr-Universität Bochum, Germany
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -375,7 +391,7 @@ namespace Cryptool.BooleanFunctionParser
                 // testing myself
                 // start counter
                 //DateTime startTime = DateTime.Now;
-
+/*
                 //for (int i = 65536; i > 0; i--)
                 {
                     outputInt = Convert.ToInt32(EvaluateString(strExpressionTested));
@@ -392,7 +408,7 @@ namespace Cryptool.BooleanFunctionParser
                     maxDuration = duration;
                     //GuiLogMessage("Time max used: " + maxDuration + ", which is " + maxDuration.Seconds + "s:" + maxDuration.Milliseconds + "ms", NotificationLevel.Info);
                 }
-                /*
+                *//*
                 // testing MathParser
                 if (p.Evaluate(strExpressionTested))
                 {
@@ -418,7 +434,7 @@ namespace Cryptool.BooleanFunctionParser
                 }
                 else
                     GuiLogMessage("Parsing of function failed.", NotificationLevel.Error);
-                *//*
+                */
                 // testing RPNExpression
                 ExprEnvironment environment = new ExprEnvironment();
                 RPNFunctionUtils.RegisterFunctions(environment);
@@ -438,7 +454,7 @@ namespace Cryptool.BooleanFunctionParser
                     // start counter
                     //DateTime startTime = DateTime.Now;
 
-                    for (int i = 65536; i > 0; i--)
+                    //for (int i = 65536; i > 0; i--)
                     {
                         outputInt = Convert.ToInt32(expr.GetValue());
                     }
@@ -459,7 +475,7 @@ namespace Cryptool.BooleanFunctionParser
                 {
                     GuiLogMessage("Converting to Int32 failed: " + ex, NotificationLevel.Error);
                 }
-                */
+                
                 // count the requests
                 requests++;
             }
