@@ -190,12 +190,11 @@ namespace Transposition
 
             if (Presentation.IsVisible)
             {
-                Thread.SpinWait(1000);
-                 Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                {
-                    myPresentation.main(Read_in_matrix, Permuted_matrix, key, Keyword, Input, output, this.settings.Permutation, this.settings.ReadIn, this.settings.ReadOut, this.settings.Action, this.settings.Number);  
-                }
-                , null);
+                    Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                   {
+                       myPresentation.main(Read_in_matrix, Permuted_matrix, key, Keyword, Input, output, this.settings.Permutation, this.settings.ReadIn, this.settings.ReadOut, this.settings.Action, this.settings.Number);
+                   }
+                   , null);
                  ars.WaitOne();  
             }
             else
@@ -203,15 +202,11 @@ namespace Transposition
                 Output = output;
                 ProgressChanged(1, 1);
             }
-
-            
             Transposition_LogMessage("Hallo", NotificationLevel.Debug);
-
         }
 
         public void Initialize()
         {
-
         }
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
