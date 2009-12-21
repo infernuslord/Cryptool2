@@ -11,6 +11,8 @@ using Cryptool.PluginBase.IO;
 using System.Windows.Controls;
 using Cryptool.PluginBase.Control;
 using System.Reflection;
+// Reference to the CubeAttackController interface (own dll)
+using Cryptool.CubeAttackController;
 
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
@@ -171,7 +173,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 if (controlSlave is object && InputStream is object && InputIV is object)
                 {
                     CryptoolStream cs = new CryptoolStream();
-                    cs.OpenRead(inputStream.FileName);
+                    cs.OpenRead(inputStream.FileName); 
                     ((DESControl)controlSlave).InputStream = cs;
                 }
 
@@ -239,6 +241,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                         ProgressChanged(inputStream.Position, inputStream.Length);
                     }
                 }
+
                 p_crypto_stream.Flush();
                 outputStream.Close();
                 DateTime stopTime = DateTime.Now;
@@ -403,8 +406,126 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                   controlSlave = new DESControl(this);
               return controlSlave;
           }
-        }    
+        }
+
+        private IControlCubeAttack desSlave;
+        [PropertyInfo(Direction.ControlSlave, "DES for cube attack", "Direct access to DES.", "", DisplayLevel.Beginner)]
+        public IControlCubeAttack DESSlave
+        {
+            get
+            {
+                if (desSlave == null)
+                    desSlave = new CubeAttackControl(this);
+                return desSlave;
+            }
+        }
     }
+
+    #region DESControl : IControlCubeAttack
+
+    public class CubeAttackControl : IControlCubeAttack
+    {
+        public event IControlStatusChangedEventHandler OnStatusChanged;
+        private DES plugin;
+
+        public CubeAttackControl(DES Plugin)
+        {
+            this.plugin = Plugin;
+        }
+
+        #region IControlEncryption Members
+
+        public int GenerateBlackboxOutputBit(object IV, object key, object length)
+        {
+            // public bits := plaintext
+            // secret bits := key 
+            SymmetricAlgorithm p_alg = new DESCryptoServiceProvider();
+            string secretBits = string.Empty;
+            string publicBits = string.Empty;
+
+            // save public and secret bits as string
+            int[] temp = key as int[];
+            for (int i = 0; i < temp.Length; i++)
+                secretBits += temp[i];
+            temp = IV as int[];
+            for (int i = 0; i < temp.Length; i++)
+                publicBits += temp[i];
+
+            // convert secret bits to byte array
+            int[] arrInt = new int[8];
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (secretBits[(8 * i) + j] == '1')
+                        arrInt[i] += (int)Math.Pow(2, 7 - j);
+                }
+            }
+            byte[] keyByte = new byte[8];
+            for (int i = 0; i < arrInt.Length; i++)
+                keyByte[i] = (byte)arrInt[i];
+
+            // convert public bits to byte array
+            arrInt = new int[8];
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (publicBits[(8 * i) + j] == '1')
+                        arrInt[i] += (int)Math.Pow(2, 7 - j);
+                }
+            }
+            byte[] publicByte = new byte[8];
+            for (int i = 0; i < arrInt.Length; i++)
+                publicByte[i] = (byte)arrInt[i];
+
+            ICryptoTransform p_encryptor;
+            p_alg.IV = new byte[8];
+            p_alg.Padding = PaddingMode.Zeros;
+            try
+            {
+                p_alg.Key = keyByte;
+            }
+            catch
+            {
+                //dirty hack to allow weak keys:
+                FieldInfo field = p_alg.GetType().GetField("KeyValue", BindingFlags.NonPublic | BindingFlags.Instance);
+                field.SetValue(p_alg, keyByte);
+            }
+            try
+            {
+                p_encryptor = p_alg.CreateEncryptor();
+            }
+            catch
+            {
+                //dirty hack to allow weak keys:
+                MethodInfo mi = p_alg.GetType().GetMethod("_NewEncryptor", BindingFlags.NonPublic | BindingFlags.Instance);
+                object[] Par = { p_alg.Key, p_alg.Mode, p_alg.IV, p_alg.FeedbackSize, 0 };
+                p_encryptor = mi.Invoke(p_alg, Par) as ICryptoTransform;
+            }
+            
+            Stream inputPublic = new MemoryStream(publicByte);
+            // starting encryption
+            CryptoStream p_crypto_stream = new CryptoStream(inputPublic, p_encryptor, CryptoStreamMode.Read);
+            byte[] buffer = new byte[p_alg.BlockSize / 8];
+            p_crypto_stream.Read(buffer, 0, buffer.Length);
+                
+            // convert encrypted block to binary string
+            string strBytes = string.Empty;
+            for (int i = 0; i < buffer.Length; i++)
+            {
+                for (int j = 7; j >= 0; j--)
+                    strBytes += (buffer[i] & 1 << j) > 0 ? 1 : 0;
+            }
+            p_crypto_stream.Flush();
+
+            // return single output bit
+            return Int32.Parse(strBytes.Substring((int)length-1, 1));
+        }
+        #endregion
+    }
+
+    #endregion
 
     public class DESControl : IControlEncryption
     {
