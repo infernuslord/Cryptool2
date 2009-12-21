@@ -1,4 +1,20 @@
-﻿using System;
+﻿/*
+   Copyright 2009 Sören Rinne, Ruhr-Universität Bochum, Germany
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -539,11 +555,16 @@ namespace Cryptool.LFSR
                     Dispose();
                     return;
                 }
-            }
 
-            // convert tapSequence into char array
-            //tapSequenceCharArray = ReverseOrder(tapSequencebuffer.ToCharArray());
-            tapSequenceCharArray = tapSequencebuffer.ToCharArray();
+                // convert tapSequence into char array
+                tapSequenceCharArray = tapSequencebuffer.ToCharArray();
+            }
+            else
+            {
+                GuiLogMessage("Polynomial in binary form: " + tapSequencebuffer, NotificationLevel.Info, createLog);
+                // convert tapSequence into char array
+                tapSequenceCharArray = ReverseOrder(tapSequencebuffer.ToCharArray());
+            }
 
             if (tapSequencebuffer.Length != seedbuffer.Length)
             {
@@ -562,7 +583,7 @@ namespace Cryptool.LFSR
             //check if last tap is 1, otherwise stop
             if (tapSequenceCharArray[tapSequenceCharArray.Length - 1] == '0')
             {
-                GuiLogMessage("ERROR - Last tap of tapSequence must be 1. Aborting now.", NotificationLevel.Error, createLog);
+                GuiLogMessage("ERROR - First tap of tapSequence must be 1. Aborting now.", NotificationLevel.Error, createLog);
                 return;
             }
 
@@ -574,7 +595,7 @@ namespace Cryptool.LFSR
             {
                 if (character != '0' && character != '1')
                 {
-                    GuiLogMessage("ERROR 0 - Seed has to be binary. Aborting now. Character is: " + character, NotificationLevel.Error, createLog);
+                    GuiLogMessage("ERROR - Seed has to be binary. Aborting now. Character is: " + character, NotificationLevel.Error, createLog);
                     return;
                 }
             }
@@ -750,6 +771,11 @@ namespace Cryptool.LFSR
                             {
                                 outputBool = false;
                                 outputbuffer = '0';
+                                outputBit = '0';
+                                // write last bit to output buffer, output stream buffer, stream and bool
+                                outputbuffer = outputBit;
+                                outputStringBuffer += outputBit;
+                                OnPropertyChanged("OutputBool");
                             }
                             else
                             {
@@ -757,11 +783,12 @@ namespace Cryptool.LFSR
                                     outputBool = false;
                                 else
                                     outputBool = true;
+                                // write last bit to output buffer, output stream buffer, stream and bool
                                 outputbuffer = outputBit;
+                                outputStringBuffer += outputBit;
+                                OnPropertyChanged("OutputBool");
                             }
                             //GuiLogMessage("OutputBool is: " + outputBool.ToString(), NotificationLevel.Info, true);
-
-                            OnPropertyChanged("OutputBool");
 
                             // update quickwatch presentation
                             if (!settings.NoQuickwatch)

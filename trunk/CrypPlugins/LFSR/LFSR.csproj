@@ -64,8 +64,8 @@
     <Compile Include="LFSRSettings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="key.snk" />
     <None Include="LFSRClassDiagram.cd" />
+    <None Include="key.snk" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\decrypt.png" />

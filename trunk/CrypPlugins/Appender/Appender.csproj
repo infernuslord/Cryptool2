@@ -61,6 +61,7 @@
     <Compile Include="AppenderSettings.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="AppenderClassDiagram.cd" />
     <None Include="key.snk" />
   </ItemGroup>
   <ItemGroup>

@@ -1,28 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Cryptool.LFSR.LFSR">
-    <Position X="5.5" Y="4" Width="2.5" />
-    <Members>
-      <Method Name="Dispose" Hidden="true" />
-      <Method Name="Execute" Hidden="true" />
-      <Method Name="GuiLogMessage" Hidden="true" />
-      <Method Name="Initialize" Hidden="true" />
-      <Method Name="OnPropertyChanged" Hidden="true" />
-      <Method Name="Pause" Hidden="true" />
-      <Method Name="PostExecution" Hidden="true" />
-      <Method Name="PreExecution" Hidden="true" />
-      <Method Name="ProgressChanged" Hidden="true" />
-      <Field Name="settings" Hidden="true" />
-      <Method Name="settings_PropertyChanged" Hidden="true" />
-      <Method Name="StatusChanged" Hidden="true" />
-      <Method Name="Stop" Hidden="true" />
-    </Members>
-    <Compartments>
-      <Compartment Name="Events" Collapsed="true" />
-    </Compartments>
+  <Class Name="Cryptool.LFSR.LFSR" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="0.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>ACCgKUJAJCFQQR4zIEAAAsACgECgEABqsAAoQQBSABA=</HashCode>
+      <HashCode>ACCgeUJAJCFQQR4jIEAAAsACgEGgEABrsAAoQQBSABA=</HashCode>
       <FileName>LFSR.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Cryptool.LFSR.LFSRPresentation">
+    <Position X="3.25" Y="8.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AEAEAAAAAAAAAAAgAAAAAAAAAAAAAAAAAgAAAIAAAAA=</HashCode>
+      <FileName>LFSRPresentation.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cryptool.LFSR.LFSRSettings" BaseTypeListCollapsed="true">
+    <Position X="3.25" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>QEEAAAAAAAAEUMAAJFCAACAAhQQAAJQAAgAAAgJBQAI=</HashCode>
+      <FileName>LFSRSettings.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>

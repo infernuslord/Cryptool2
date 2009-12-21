@@ -64,6 +64,7 @@
     <Compile Include="NLFSRSettings.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="NLFSRClassDiagram.cd" />
     <None Include="key.snk" />
   </ItemGroup>
   <ItemGroup>
