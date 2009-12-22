@@ -543,33 +543,6 @@ namespace KeySearcher
             return res;
         }
 
-        /**
-         * Returns an ArrayList with the splitted parts of this pattern.
-         * The parts shouldn't be larger than 'partsize'.
-         * Do not call this before initializing the key.
-         **/
-        /*public List<KeyPattern> makeKeySearcherPool(BigInteger partsize)
-        {
-            BigInteger sizeS = size();
-            if (size() > partsize)
-            {
-                List<KeyPattern> p1, p2;
-                KeyPattern[] patterns = split();
-                p1 = patterns[0].makeKeySearcherPool(partsize);
-                BigInteger size1 = patterns[0].size();
-                p2 = patterns[1].makeKeySearcherPool(partsize);
-                BigInteger size2 = patterns[1].size();
-                p1.AddRange(p2);
-                return p1;
-            }
-            else
-            {
-                List<KeyPattern> p = new List<KeyPattern>();
-                p.Add(this);
-                return p;
-            }
-        }*/
-
         private Stack<KeyPattern> makeKeySearcherPool(BigInteger partsize, Stack<KeyPattern> stack)
         {
             if (stack == null)
