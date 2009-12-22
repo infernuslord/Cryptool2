@@ -548,7 +548,7 @@ namespace KeySearcher
          * The parts shouldn't be larger than 'partsize'.
          * Do not call this before initializing the key.
          **/
-        public List<KeyPattern> makeKeySearcherPool(BigInteger partsize)
+        /*public List<KeyPattern> makeKeySearcherPool(BigInteger partsize)
         {
             BigInteger sizeS = size();
             if (size() > partsize)
@@ -568,14 +568,64 @@ namespace KeySearcher
                 p.Add(this);
                 return p;
             }
-        }
+        }*/
 
-        public List<KeyPattern> makeKeySearcherPool(long partsize)
+        private Stack<KeyPattern> makeKeySearcherPool(BigInteger partsize, Stack<KeyPattern> stack)
         {
-            return makeKeySearcherPool(new BigInteger(partsize));
+            if (stack == null)
+                stack = new Stack<KeyPattern>();
+
+            if (size() > partsize)
+            {
+                KeyPattern[] patterns = split();
+                stack.Push(patterns[1]);
+                return patterns[0].makeKeySearcherPool(partsize, stack);
+            }
+            else
+            {
+                stack.Push(this);
+                return stack;
+            }
         }
 
-        /*
+        /**
+         * Creates a pool of splitted parts of this pattern.
+         * The parts shouldn't be larger than 'partsize'.
+         * Do not call this before initializing the key.
+         * You have to get the single parts of this pool by calling the 'getNextPatternPart' method 
+         * with the returning stack as parameter.
+         **/
+        public Stack<KeyPattern> makeKeySearcherPool(BigInteger partsize)
+        {
+            return makeKeySearcherPool(partsize, null);
+        }
+
+        public Stack<KeyPattern> makeKeySearcherPool(long partsize)
+        {
+            return makeKeySearcherPool(new BigInteger(partsize), null);
+        }
+        
+        /**
+         * Gets the next KeyPattern from the created pool.
+         * Returns 'null' if there are no parts left.
+         **/
+        public static KeyPattern getNextPatternPartFromPool(BigInteger partsize, Stack<KeyPattern> stack)
+        {
+            if (stack.Count == 0)
+                return null;
+            KeyPattern top = stack.Pop();
+            if (top.size() > partsize)
+            {
+                KeyPattern[] patterns = top.split();
+                stack.Push(patterns[1]);
+                stack.Push(patterns[0]);
+                return getNextPatternPartFromPool(partsize, stack);
+            }
+            else            
+                return top;            
+        }
+
+         /*
          * ARNIES SANDKASTEN - ALLE FOLGENDEN METHODEN SIND FÜR DIE VERTEILTE VERWENDUNG
          * DES KEYPATTERNS NOTWENDIG ODER ABER EINFACH UM DAS KEYPATTERN SCHÖN ALS
          * GUILOGMESSAGE AUSGEBEN ZU KÖNNEN ;-)
