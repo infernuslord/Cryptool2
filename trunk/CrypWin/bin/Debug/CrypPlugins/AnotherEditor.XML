@@ -1246,7 +1246,7 @@
             <param name="DockPoint">The dock point.</param>
             <returns></returns>
         </member>
-        <member name="M:DragDrop.Interfaces.IConnector.ShowCanConnect(System.Boolean)">
+        <member name="M:DragDrop.Interfaces.IConnector.ShowCanConnect(DragDrop.ConnectionAcceptance)">
             <summary>
             Shows the can connect.
             </summary>
@@ -1439,7 +1439,7 @@
             Sets the value from buffer. 
             </summary>
         </member>
-        <member name="M:AnotherEditor.DragDrop.Connectors.Connector.ShowCanConnect(System.Boolean)">
+        <member name="M:AnotherEditor.DragDrop.Connectors.Connector.ShowCanConnect(DragDrop.ConnectionAcceptance)">
             <summary>
             Dispay red/green highlight
             </summary>
@@ -4581,6 +4581,21 @@
         <member name="P:AnotherEditor.Properties.Dialogs.contextMenu_error">
             <summary>
               Looks up a localized string similar to Error creating context menu entry for plugin &quot;{0}&quot; on property &quot;{1}&quot;. Type is set to &quot;{2}&quot;, but no ControlValues given..
+            </summary>
+        </member>
+        <member name="P:AnotherEditor.Properties.Dialogs.control_connections">
+            <summary>
+              Looks up a localized string similar to Control connections.
+            </summary>
+        </member>
+        <member name="P:AnotherEditor.Properties.Dialogs.control_connections_help">
+            <summary>
+              Looks up a localized string similar to You have to remove all I/Os of the slave before creating a control connection..
+            </summary>
+        </member>
+        <member name="P:AnotherEditor.Properties.Dialogs.control_connections_tooltip">
+            <summary>
+              Looks up a localized string similar to You can&apos;t create control connections while I/Os are connected..
             </summary>
         </member>
         <member name="P:AnotherEditor.Properties.Dialogs.could_not_create_plugin">
