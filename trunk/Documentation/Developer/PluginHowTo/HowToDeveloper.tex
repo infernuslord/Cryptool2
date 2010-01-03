@@ -12,24 +12,43 @@
 \usepackage{color}
 \usepackage{colortbl}
 \usepackage{eso-pic}
+\usepackage{listings}
 
 %\usepackage[automark]{scrpage2}
 %\usepackage[absolute]{textpos}
 
-
+\lstset{language=[Sharp]C, % Grundsprache ist C und Dialekt ist Sharp (C#)
+captionpos=b, % Beschriftung ist unterhalb
+frame=lines, % Oberhalb und unterhalb des Listings ist eine Linie
+basicstyle=\ttfamily, % Schriftart
+keywordstyle=\color{blue}, % Farbe für die Keywords wie public, void, object u.s.w.
+commentstyle=\color{green}, % Farbe der Kommentare
+stringstyle=\color{red}, % Farbe der Zeichenketten
+numbers=left, % Zeilennummern links vom Code
+numberstyle=\tiny, % kleine Zeilennummern
+numbersep=5pt,
+tabsize=2,
+breaklines=true, % Wordwrap a.k.a. Zeilenumbruch aktiviert
+showstringspaces=false,
+% emph legt Farben für bestimmte Wörter manuell fest
+emph={double,bool,int,unsigned,char,true,false,void},
+emphstyle=\color{blue},
+emph={Assert,Test},
+emphstyle=\color{red},
+emph={[2]\using,\#define,\#ifdef,\#endif}, emphstyle={[2]\color{blue}}
+}
 
 \geometry{a4paper, portrait, left=2cm, right=2cm, top=2cm, bottom=2cm, includefoot}
-
 
 %\pagestyle{headings}
 %\pagestyle{scrheadings}
 \pagestyle{fancy} %eigener Seitenstil
-\fancyhf{} %alle Kopf- und Fußzeilenfelder bereinigen
+\fancyhf{} %alle Kopf- und FuÃŸzeilenfelder bereinigen
 \fancyhead[L]{\leftmark} %Kopfzeile links
 \fancyhead[C]{\AddToShipoutPicture*{\BackgroundHeaderPic}} %zentrierte Kopfzeile
 \fancyhead[R]{\rightmark} %Kopfzeile rechts
 
-\fancyfoot[C]{\thepage\AddToShipoutPicture*{\BackgroundFooterPic}} %zentrierte Fußzeile
+\fancyfoot[C]{\thepage\AddToShipoutPicture*{\BackgroundFooterPic}} %zentrierte FuÃŸzeile
 %\fancyfoot[EL,OR]{\thepage} %Seitennummer
 %\fancyfoot[ER,OL]{\includegraphics[height=0.3cm]{figures/ct_logo}}
 
