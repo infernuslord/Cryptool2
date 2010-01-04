@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 
 namespace Cryptool.MD5Collider.Algorithm
 {
-    class MD5TunnelCollider
+    class KlimaTunnelsCollider : IMD5ColliderAlgorithm
     {
         public byte[] FirstCollidingData { get; private set; }
         public byte[] SecondCollidingData { get; private set; }
