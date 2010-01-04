@@ -113,7 +113,7 @@ namespace Cryptool.MD5Collider
 
             ProgressChanged(0.5, 1.0);
 
-            MD5TunnelCollider collider = new MD5TunnelCollider();
+            IMD5ColliderAlgorithm collider = new StevensCollider();
 
             collider.RandomSeed = RandomSeed;
             collider.FindCollision();
