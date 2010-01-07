@@ -401,58 +401,70 @@ namespace TextOutput
           DicDynamicProperties[propertyKey].Value = value;
         }
 
-        // check type explicitly, if connector type is set to anything else than object
-        if (getCurrentType() != typeof(object) && value != null && !getCurrentType().Equals(value.GetType()))
+        if (value == null)
         {
-            GuiLogMessage(String.Format("Input data type does not match setting. Expected: {0}, Found: {1}", getCurrentType(), value.GetType()),
-                NotificationLevel.Error);
-            return;
+            fillValue = string.Empty;
+            OnPropertyChanged(propertyKey);
         }
-
-        if (value is bool)
+        else
         {
-            if (settings.BooleanAsNumeric)
+            // check type explicitly, if connector type is set to anything else than object
+            if (getCurrentType() != typeof(object) && !getCurrentType().Equals(value.GetType()))
             {
-                fillValue = Convert.ToInt32(value).ToString();
+                GuiLogMessage(String.Format("Input data type does not match setting. Expected: {0}, Found: {1}", getCurrentType(), value.GetType()),
+                    NotificationLevel.Error);
+                return;
+            }
+
+            if (value is bool)
+            {
+                if (settings.BooleanAsNumeric)
+                {
+                    fillValue = Convert.ToInt32(value).ToString();
+                }
+                else
+                {
+                    fillValue = ((bool)value).ToString();
+                }
+            }
+            else if (value is CryptoolStream)
+            {
+                listCryptoolStreamsOut.Add((CryptoolStream)value);
+                CryptoolStream stream = value as CryptoolStream;
+                // GuiLogMessage("Stream: Filling TextBoxes now...", NotificationLevel.Debug);
+                if (stream.Length > settings.MaxLength)
+                    AddMessage("WARNING - Stream is too large (" + (stream.Length / 1024).ToString("0.00") + " kB), output will be truncated to " + (settings.MaxLength / 1024).ToString("0.00") + "kB", NotificationLevel.Warning);
+                byte[] byteValues = new byte[Math.Min(settings.MaxLength, stream.Length)];
+                int bytesRead;
+                stream.Seek(0, SeekOrigin.Begin);
+                bytesRead = stream.Read(byteValues, 0, byteValues.Length);
+                fillValue = GetStringForSelectedEncoding(byteValues);
+            }
+            else if (value is byte[])
+            {
+                byte[] byteArray = value as byte[];
+                // GuiLogMessage("Byte array: Filling textbox now...", NotificationLevel.Debug);
+                if (byteArray.Length > settings.MaxLength)
+                {
+                    AddMessage("WARNING - byte array is too large (" + (byteArray.Length / 1024).ToString("0.00") + " kB), output will be truncated to " + (settings.MaxLength / 1024).ToString("0.00") + "kB", NotificationLevel.Warning);
+                }
+
+                long size = byteArray.Length;
+                if (size > settings.MaxLength)
+                {
+                    size = settings.MaxLength;
+                }
+                byte[] sizedArray = new byte[size];
+                for (int i = 0; i < size; i++)
+                {
+                    sizedArray[i] = byteArray[i];
+                }
+                fillValue = GetStringForSelectedEncoding(sizedArray);
             }
             else
             {
-                fillValue = ((bool)value).ToString();
+                fillValue = value.ToString();
             }
-        }
-        else if (value is CryptoolStream)
-        {
-            listCryptoolStreamsOut.Add((CryptoolStream)value);
-            CryptoolStream stream = value as CryptoolStream;
-            // GuiLogMessage("Stream: Filling TextBoxes now...", NotificationLevel.Debug);
-            if (stream.Length > settings.MaxLength)
-                AddMessage("WARNING - Stream is too large (" + (stream.Length / 1024).ToString("0.00") + " kB), output will be truncated to " + (settings.MaxLength / 1024).ToString("0.00") + "kB", NotificationLevel.Warning);
-            byte[] byteValues = new byte[Math.Min(settings.MaxLength, stream.Length)];
-            int bytesRead;
-            stream.Seek(0, SeekOrigin.Begin);
-            bytesRead = stream.Read(byteValues, 0, byteValues.Length);
-            fillValue = GetStringForSelectedEncoding(byteValues);
-        }
-        else if (value is byte[])
-        {
-            byte[] byteArray = value as byte[];
-            // GuiLogMessage("Byte array: Filling textbox now...", NotificationLevel.Debug);
-            if (byteArray.Length > settings.MaxLength)
-            {
-                AddMessage("WARNING - byte array is too large (" + (byteArray.Length / 1024).ToString("0.00") + " kB), output will be truncated to " + (settings.MaxLength / 1024).ToString("0.00") + "kB", NotificationLevel.Warning);
-            }
-
-            long size = byteArray.Length;
-            if (size > settings.MaxLength)
-            {
-                size = settings.MaxLength;
-            }
-            byte[] sizedArray = new byte[size];
-            for (int i = 0; i < size; i++)
-            {
-                sizedArray[i] = byteArray[i];
-            }
-            fillValue = GetStringForSelectedEncoding(sizedArray);
         }
 
         if (fillValue != null)
