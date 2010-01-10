@@ -3,21 +3,21 @@ In this chapter we provide step-by-step instructions for implementing your own C
 \section{New project}
 \label{sec:CreateANewProjectInVS2008ForYourPlugin}
 Open Visual Studio 2008 or C\# 2008 Express Edition and create a new project:\\
-\begin{figure}[h]
+\begin{figure}[h!]
 	\centering
 		\includegraphics[width=1.00\textwidth]{figures/vs_create_new_project.jpg}
 	\caption{Create New Visual Studio/C\# Express Project}
 	\label{fig:vs_create_new_project}
 \end{figure}\\
 Select ''.NET-Framework 3.5'' as the target framework (the Visual Studio Express edition don't provide this selection because it automatically chooses the actual target framework), and ''Class Library'' as default template to create a DLL file. Give the project a unique and significant name (here: ''Caesar''), and choose a location where to save (the Express edition will ask later for a save location when you close your project or your environment). Select the subdirectory ''CrypPlugins'' from your SVN trunk as location. Finally confirm by pressing the ''OK'' button.
-\begin{figure}[h]
+\begin{figure}[h!]
 	\centering
 		\includegraphics[width=0.80\textwidth]{figures/save_solution_csharp_express.JPG}
 	\caption{Microsoft C\# Express Edition save solution dialog}
 	\label{fig:save_solution_csharp_express}
 \end{figure}\\
 Now your Visual Studio/C\# Express solution should look like this:\\
-\begin{figure}[h]
+\begin{figure}[h!]
 	\centering
 		\includegraphics[width=1.00\textwidth]{figures/solution_start_up.jpg}
 	\caption{Start-Up solution}
@@ -32,14 +32,18 @@ First we have to add a reference to the CrypTool library called ''CrypPluginBase
 	\label{fig:add_reference}
 \end{figure}\\
 Make a right click in the Solution Explorer on the ''Reference'' item and choose ''Add Reference''.\\
-\begin{figure}[h]
+\begin{figure}[h!]
 	\centering
 		\includegraphics{figures/add_pluginbase_source.jpg}
 	\caption{Add reference PluginBase source code}
 	\label{fig:add_pluginbase_source}
 \end{figure}\\
 Select the project ''CrypPluginBase''. If you don't have the CrypPluginBase source code, it's also possible to add a reference the the binary DLL. In this case browse to the path where the library file ''CrypPluginBase.dll'' is located e.g. ''C:\textbackslash Documents and Settings \textbackslash $<$Username$>$ \textbackslash My Documents\textbackslash Visual Studio  2008\textbackslash Projects\textbackslash CrypPluginBase\textbackslash bin\textbackslash Debug'') and select the library by double clicking the file or pressing the "OK" button.\\
-\begin{figure}[h]
+
+\textit{\small Note: You can also take the binary DLL which is located in the folder where the ''CrypWin.exe'' is placed when you download CrypTool2.}
+
+\clearpage
+\begin{figure}[h!]
 	\centering
 		\includegraphics{figures/browse_reference.jpg}
 	\caption{Browse reference}
@@ -50,7 +54,7 @@ Besides the CrypPluginBase you need to add three assembly references (same way l
     \item PresentationCore
     \item PresentationFramework
     \item WindowsBase
-\end{itemize}
+\end{itemize}\clearpage
 Afterwards your reference tree view should look like this:
 \begin{figure}[h!]
 		\includegraphics{figures/reference_tree.jpg}
@@ -67,30 +71,31 @@ Visual Studio automatically creates a class which has the name "Class1.cs".  The
 \begin{itemize}
 	\item Rename the existent class
 	\item Delete the existent class and create a new one.
-\end{itemize}
+\end{itemize}\clearpage
 Which one you choose is up to you. We choose the second way as you can see in the next screenshot:
 \begin{figure}[h!]
 	\centering
 		\includegraphics{figures/new_class.jpg}
 	\caption{Create new class}
 	\label{fig:new_class}
-\end{figure}\\
+\end{figure}\clearpage
 Now make a right click on the project item "Caesar" and select "Add-$>$Class...":
 \begin{figure}[h]
 	\centering
 		\includegraphics{figures/add_new_class.jpg}
 	\caption{Add a new class}
 	\label{fig:add_new_class}
-\end{figure}\\
-Now give your class a unique name. We call the class as mentioned above "Caesar.cs" and make it public to be available to other classes.\\
+\end{figure}\clearpage
+Now give your class a unique name. We call the class as mentioned above "Caesar.cs" and make it public to be available to other classes.
 \begin{figure}[h!]
 	\centering
 		\includegraphics[width=1.00\textwidth]{figures/name_new_class.jpg}
 	\caption{Name the new class}
 	\label{fig:name_new_class}
-\end{figure}\\
+\end{figure}
 \subsection{Create the class for the settings (CaesarSettings)}\label{sec:CreateTheClassForTheSettingsCaesarSettings}
-Add a second public class for ISettings in the same way. We call the class "CaesarSettings". The settings class provides the necessary information about controls, captions and descriptions and default parameters for e.g. key settings, alphabets, key length and action to build the \textbf{TaskPane} in CrypTool. How a \textbf{TaskPane} could look like you can see below for the example of a Caesar encryption.\\
+Add a second public class for ISettings in the same way. We call the class "CaesarSettings". The settings class provides the necessary information about controls, captions and descriptions and default parameters for e.g. key settings, alphabets, key length and action to build the \textbf{TaskPane} in CrypTool.\clearpage
+How a \textbf{TaskPane} could look like you can see below for the example of a Caesar encryption.\\
 \begin{figure}[h!]
 	\centering
 		\includegraphics{figures/task_pane.jpg}
@@ -103,13 +108,13 @@ Now open the ''Caesar.cs'' file by double clicking on it at the Solution Explore
 \begin{itemize}
 	\item Cryptool.PluginBase = interfaces like IPlugin, IHash, ISettings, attributes, enumerations, delegates and extensions.
 	\item Cryptool.PluginBase.Analysis = interface for the crypto analysis plugins like ''Stream Comparator''
-	\item Cryptool.PluginBase.Control = ?
+	\item Cryptool.PluginBase.Control = contains global interfaces for the IControl feature to define own controls
 	\item Cryptool.PluginBase.Cryptography = interface for all encryption and hash algorithms like AES, DES or MD5 hash
 	\item Cryptool.PluginBase.Editor = interface for editors you want to implement for CrypTool 2.0 like the default editor
 	\item Cryptool.PluginBase.Generator = interface for generators like the random input generator
 	\item Cryptool.PluginBase.IO = interface for CryptoolStream, input and output plugins like text input, file input, text output and file output
 	\item Cryptool.PluginBase.Miscellaneous = provides all event helper like GuiLogMessage or PropertyChanged
-	\item Cryptool.PluginBase.Resources = ?
+	\item Cryptool.PluginBase.Resources = used by CrypWin and the editor. Not required for plugin developers
 	\item Cryptool.PluginBase.Tool = interface for all foreign tools which CrypTool 2.0 has to provide and which does not exactly support the CrypTool 2.0 API
 	\item Cryptool.PluginBase.Validation = interface which provides method for validation like regular expression
 \end{itemize}
@@ -120,7 +125,7 @@ In this case we want to implement a Caesar algorithm which means we need to incl
 	\item ''Cryptool.PluginBase.IO'' to provide CryptoolStream for the input and output Data
 	\item ''Cryptool.PluginBase.Miscellaneous'' to use the entire CrypTool event handler
 \end{itemize}
-It is important to define a new default namespace of our public class (''Caesar''). In CrypTool the default namespace is presented by ''Cryptool.[name of class]''. Therefore our namespace has to be defined as follows: ''Cryptool.Caesar''.\\
+It is important to define a new default namespace of our public class (''Caesar''). In CrypTool the default namespace is presented by ''Cryptool.[name of class]''. Therefore our namespace has to be defined as follows: ''Cryptool.Caesar''.\clearpage
 Up to now the source code should look as you can see below:
 \begin{lstlisting}
 using System.Collections.Generic;
@@ -632,28 +637,29 @@ namespace Cryptool.Caesar
 \section{Select and add an image as icon for the class Caesar}\label{sec:SelectAndAddAnImageAsIconForTheClassCaesar}
 Before we go back to the code of the Caesar class, we have to add an icon image to our project, which will be shown in the CrypTool \textbf{ribbon bar} or/and \textbf{navigation pane}. As there is no default, using an icon image is mandatory.\\\\
 \textit{\small Note: This will be changed in future. A default icon will be used if no icon image has been provided.}\\\\
-For testing purposes you may create a simple black and white PNG image with MS Paint or Paint.NET. As image size you can use 40x40 pixels for example, but as the image will be scaled when required, any size should do it. Place the image file in your project directory or in a subdirectory. Then make a right click on the project item "Caesar" or any subdirectory within the Solution Explorer, and select ''Add-$>$Existing Item...'':
+For testing purposes you may create a simple black and white PNG image with MS Paint or Paint.NET. As image size you can use 40x40 pixels for example, but as the image will be scaled when required, any size should do it. Place the image file in your project directory or in a subdirectory.\clearpage
+Then make a right click on the project item "Caesar" or any subdirectory within the Solution Explorer, and select ''Add-$>$Existing Item...'':
 \begin{figure}[h!]
 	\centering
 		\includegraphics{figures/add_existing_item.jpg}
 	\caption{Add existing item}
 	\label{fig:add_existing_item}
-\end{figure}\\
-As you can see, in our solution we create an new folder named ''Images'' (make a right click on the project item ''Caesar'' and select ''Add-$>$New Folder'') and placed there the new icon by clicking right on the folder as mentioned aboved.
+\end{figure}
+As you can see, in our solution we create an new folder named ''Images'' (make a right click on the project item ''Caesar'' and select ''Add-$>$New Folder'') and placed there the new icon by clicking right on the folder as mentioned aboved.\clearpage
 Then select ''Image Files'' as file type, and choose the icon for your plugin:
 \begin{figure}[h!]
 	\centering
 		\includegraphics{figures/choose_icon.jpg}
 	\caption{Choose the right icon}
 	\label{fig:choose_icon}
-\end{figure}\\
-Finally we have to set the icon as a ''Resource'' to avoid providing the icon as a separate file. Make a right click on the icon and select the item ''Properties'':
+\end{figure}
+Finally we have to set the icon as a ''Resource'' to avoid providing the icon as a separate file. Make a right click on the icon and select the item ''Properties'':\clearpage
 \begin{figure}[h!]
 	\centering
 		\includegraphics{figures/icon_properties.jpg}
 	\caption{Icon properties}
 	\label{fig:icon_properties}
-\end{figure}\\
+\end{figure}
 In the ''Properties'' panel you have to set the ''Build Action'' to ''Resource'' (not embedded resource):
 \begin{figure}[h!]
 	\centering
@@ -662,8 +668,8 @@ In the ''Properties'' panel you have to set the ''Build Action'' to ''Resource''
 	\label{fig:icon_build_action}
 \end{figure}
 \section{Set the attributes for the class Caesar}\label{sec:SetTheAttributesForTheClassCaesar}
-Now let's go back to the code of the Caesar class ("Caesar.cs" file). First we have to set the necessary attributes for our class. This attributes are used to provide additional information for the CrypTool 2.0 environment. If not set, your plugin won't show up in the GUI, even if everything else is implemented correctly.\\\\
-Attributes are used for \textbf{declarative} programming and provide meta data, that can be attached to the existing .NET meta data , like classes and properties. Cryptool provides a set of custom attributes, that are used to mark the different parts of your plugin.\\\\
+Now let's go back to the code of the Caesar class (''Caesar.cs'' file). First we have to set the necessary attributes for our class. This attributes are used to provide additional information for the CrypTool 2.0 environment. If not set, your plugin won't show up in the GUI, even if everything else is implemented correctly.\\\\
+Attributes are used for \textbf{declarative} programming and provide meta data, that can be attached to the existing .NET meta data , like classes and properties. CrypTool provides a set of custom attributes, that are used to mark the different parts of your plugin.\\\\
 \textit{[Author]}\\
 The first attribute called ''Author'' is optional, which means we are not forced to define this attribute. It provides the additional information about the plugin developer. This informations you can see for example in the TaskPane as shown on a screenshot above. We set this attribute to demonstrate how it has to look in case you want to provide this attribute.
 \begin{figure}[h!]
@@ -743,8 +749,8 @@ Accordingly the attribute parameter has to be set to:
 	\caption{Attribute PluginInfo icon}
 	\label{fig:attribute_plugininfo_icon}
 \end{figure}\\
-The detailed description could now look like this in CrypTool (right click plugin icon on workspace and select ''Show description''):
-\begin{figure}[h]
+The detailed description could now look like this in CrypTool (right click plugin icon on workspace and select ''Show description''):\clearpage
+\begin{figure}[h!]
 	\centering
 		\includegraphics[width=1.00\textwidth]{figures/xaml_description.jpg}
 	\caption{XAML detailed description}
@@ -788,7 +794,7 @@ public class Caesar : IEncryption
 	private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
 	#endregion
 \end{lstlisting}
-Please notice if there is a sinuous line at the code you type for example at the ''CryptoolStream'' type of the variable listCryptoolStreamsOut. ''CryptoolStream'' is a data type for input and output between plugins and is able to handle large data amounts. To use the CrypTool own stream type, include the namespace ''Cryptool.PluginBase.IO'' with a ''using'' statement as explained in chapter 3.3. Check the other code entries while typing and update the missing namespaces.\\
+Please notice if there is a sinuous line at the code you type for example at the ''CryptoolStream'' type of the variable listCryptoolStreamsOut. ''CryptoolStream'' is a data type for input and output between plugins and is able to handle large data amounts. To use the CrypTool own stream type, include the namespace ''Cryptool.PluginBase.IO'' with a ''using'' statement as explained in chapter \ref{sec:AddNamespaceForTheClassCaesarAndThePlaceFromWhereToInherit}. Check the other code entries while typing and update the missing namespaces.\\
 The following private variables are being used in this example:
 \begin{itemize}
 	\item CaesarSettings settings: required to implement the IPlugin interface properly
@@ -825,7 +831,7 @@ public ISettings Settings
 	set { this.settings = (CaesarSettings)value; }
 }
 \end{lstlisting}
-Thirdly we have to define five properties with their according attributes. This step is necessary to tell Cryptool that these properties are input/output properties used for data exchange with other plugins or to provide our plugin with external data.\\
+Thirdly we have to define five properties with their according attributes. This step is necessary to tell CrypTool that these properties are input/output properties used for data exchange with other plugins or to provide our plugin with external data.\\
 The attribute is named ''PropertyInfo'' and consists of the following elements:
 \begin{itemize}
 	\item direction = defines whether this property is an input or output property, i.e. whether it reads input data or writes output data
@@ -1122,7 +1128,7 @@ public void Execute()
 	}
 }
 \end{lstlisting}
-It is important to make sure that all changes of output properties will be announced to the CrypTool environment. In this example this happens by calling the setter of OutputData which in turn calls ''OnPropertyChanged'' for both output properties ''OutputData'' and ''OutputDataStream''. Instead of calling the property's setter you can as well call ''OnPropertyChanged'' directly within the ''Execute()'' method.\\\\
+It is important to make sure that all changes of output properties will be announced to the CrypTool environment. In this example this happens by calling the setter of OutputData which in turn calls ''OnPropertyChanged'' for both output properties ''OutputData'' and ''OutputDataStream''. Instead of calling the property's setter you can as well call ''OnPropertyChanged'' directly within the ''Execute()'' method.\clearpage
 Certainly you have seen the unknown method ''ProgressChanged'' which you can use to show the current algorithm process as a progress on the plugin icon.
 To use this method you also have to declare this method to afford a successful compilation:
 \begin{lstlisting}
@@ -1153,7 +1159,7 @@ public void PreExecution()
 {
 	Dispose();
 }
-\end{lstlisting}
+\end{lstlisting}\clearpage
 \section{Finish implementation}\label{sec:FinishImplementation}
 When adding plugin instances to the CrypTool workspace, CrypTool checks whether the plugin runs without any exception. If any IPlugin method throws an exception, CrypTool will show an error and prohibit using the plugin. Therefore we have to remove the ''NotImplementedException'' from the methods ''Initialize()'', ''Pause()'' and ''Stop()''. In our example it's sufficient to provide empty implementations.
 \begin{lstlisting}
@@ -1181,9 +1187,8 @@ public UserControl QuickWatchPresentation
 	get { return null; }
 }
 \end{lstlisting}
-Your plugin should compile without errors at this point.
-\section{Sign the created plugin}\label{sec:SignTheCreatedPlugin}
-\section{Import the plugin to Cryptool and test it}\label{sec:ImportThePluginToCryptoolAndTestIt}
+Your plugin should compile without errors at this point.\clearpage
+\section{Import the plugin to CrypTool and test it}\label{sec:ImportThePluginToCryptoolAndTestIt}
 After you have built the plugin, you need to move the newly created plugin DLL to a location, where CrypTool can find it. To do this, there are the following ways:
 \begin{itemize}
 	\item Copy your plugin DLL file in the folder ''CrypPlugins'' which has to be in the same folder as the CrypTool executable, called ''CrypWin.exe''. If necessary, create the folder ''CrypPlugins''.
@@ -1193,7 +1198,7 @@ After you have built the plugin, you need to move the newly created plugin DLL t
 	\caption{Copy plugin to global storage}
 	\label{fig:copy_dll_global_storage}
 \end{figure}\\
-This folder is called ''Global storage'' in the CrypTool architecture. Changes in this folder will take effect for all users on a multi user Windows. Finally restart CrypTool.
+This folder is called ''Global storage'' in the CrypTool architecture. Changes in this folder will take effect for all users on a multi user Windows. Finally restart CrypTool.\clearpage
 \begin{figure}[h]
 	\centering
 		\includegraphics{figures/global_storage.jpg}
@@ -1201,7 +1206,7 @@ This folder is called ''Global storage'' in the CrypTool architecture. Changes i
 	\label{fig:global_storage}
 \end{figure}\\
 	\item Copy your plugin DLL file in the folder ''CrypPlugins'' which is located in your home path in the folder ''ApplicationData'' and restart CrypTool.  This home folder path is called ''Custom storage'' in the CrypTool architecture. Changes in this folder will only take effect for current user.  On a German Windows XP the home folder path could look like:
-''C:\textbackslash Dokumente und Einstellungen\textbackslash $<$User$>$\textbackslash Anwendungsdaten\textbackslash CrypPlugins'' and in Vista/Windows7 the path will look like ''C:\textbackslash Users\textbackslash $<$user$>$\textbackslash Application Data\textbackslash CrypPlugins''.
+''C:\textbackslash Dokumente und Einstellungen\textbackslash $<$User$>$\textbackslash Anwendungsdaten\textbackslash CrypPlugins'' and in Vista/Windows7 the path will look like ''C:\textbackslash Users\textbackslash $<$user$>$\textbackslash Application Data\textbackslash CrypPlugins''.\clearpage
 \begin{figure}[h]
 	\centering
 		\includegraphics[width=1.00\textwidth]{figures/custom_storage.jpg}
@@ -1211,7 +1216,7 @@ This folder is called ''Global storage'' in the CrypTool architecture. Changes i
 	\item You can also import new plugins directly from the CrypTool interface. Just execute CrypWin.exe and select the ''Download Plugins'' button. An ''Open File Dialog'' will open and ask where the new plugin is located. After selecting the new plugin, CrypTool will automatically import the new plugin in the custom storage folder. With this option you will not have to restart CrypTool. All according menu entries will be updated automatically.
 Notice, that this plugin importing function only accepts \textbf{signed} plugins.
 
-\textit{\small Note: This option is a temporary solution for importing new plugins. In the future this will be done online by a web service.}
+\textit{\small Note: This option is a temporary solution for importing new plugins. In the future this will be done online by a web service.}\clearpage
 
 	\item Use post-build in your project properties to copy the DLL automatically after building it in Visual Studio with other plugins. Right-click on your plugin project and select ''Properties'':
 \begin{figure}[h]
@@ -1219,7 +1224,7 @@ Notice, that this plugin importing function only accepts \textbf{signed} plugins
 		\includegraphics{figures/solution_properties.JPG}
 	\caption{Solution Properties}
 	\label{fig:solution_properties}
-\end{figure}\\
+\end{figure}\clearpage
 Select ''Build Events'':
 \begin{figure}[h]
 	\centering
@@ -1240,8 +1245,8 @@ Here you can download the whole source code which was presented in this ''Howto'
 \textit{username: anonymous\\
 password: not required\\}
 \htmladdnormallink{https://www.cryptool.org/svn/CrypTool2/trunk/CrypPlugins/Caesar/}{https://www.cryptool.org/svn/CrypTool2/trunk/CrypPlugins/Caesar/}\\\\
-Here you can download the Visual Studio plugin \textbf{template} to begin with the development of a new Cryptool plugin:\\\\
-\htmladdnormallink{http://cryptool2.vs.uni-due.de/downloads/template/encryptionplugin.zip}{http://cryptool2.vs.uni-due.de/downloads/template/encryptionplugin.zip}
+Here you can download the Visual Studio plugin \textbf{template} to begin with the development of a new CrypTool plugin:\\\\
+\htmladdnormallink{http://cryptool2.vs.uni-due.de/downloads/template/encryptionplugin.zip}{http://cryptool2.vs.uni-due.de/downloads/template/encryptionplugin.zip}\clearpage
 \section{Provide a workflow file of your plugin}\label{ProvideAWorkflowFileOfYourPlugin}
 Every plugin developer should provide a workflow file which shows his algorithm working in CrypTool2. You will automatically create a workflow file by saving your project which was created on CrypTool2 work space. Here is an example how a workflow could look like:
 \begin{figure}[h]
