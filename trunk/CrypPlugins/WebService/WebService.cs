@@ -30,6 +30,7 @@ using System.Windows.Media;
 using System.Security.Cryptography.X509Certificates;
 
 using System.Windows.Controls;
+using Cryptool.PluginBase.Control;
 
 
 
@@ -208,8 +209,8 @@ namespace WebService
                 this.publicKey = this.exportPublicKey();
             }
             if (e.PropertyName.Equals("exportWSDL"))
-            {
-                this.Wsdl=wsdlDocument;
+            {   if(Control!=null)
+                Control.setWsdl(this.Wsdl);
             }
             if (e.PropertyName.Equals("MethodenStub"))
             {
@@ -676,8 +677,26 @@ namespace WebService
         }
            
     }
+      
+private IControlWsdl control;
+[PropertyInfo(Direction.ControlMaster, "WSDL output", "Web Service Description", null, DisplayLevel.Beginner)]
+public IControlWsdl Control
+{
+ get { return control; }
+ set
+ {
+  /* Die Verbindung wurde hergestellt, Sie können ab jetzt Methoden
+aufrufen */
+  control = value;
+  control.setWsdl(this.wsdlDocument);
+ }
+}
 
-        [PropertyInfo(Direction.ControlMaster, "WSDL output", "Web Service Description", null, DisplayLevel.Beginner)]
+ 
+ 
+
+
+      //  [PropertyInfo(Direction.ControlMaster, "WSDL output", "Web Service Description", null, DisplayLevel.Beginner)]
         public XmlDocument Wsdl
         {
             get { return this.wsdlDocument; }
@@ -960,4 +979,7 @@ namespace WebService
         }
         #endregion
     }
+
+
+
 }
