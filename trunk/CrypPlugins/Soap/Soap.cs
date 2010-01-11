@@ -19,6 +19,7 @@ using System.Windows.Controls;
 using System.Collections;
 using System.Windows.Threading;
 using System.Threading;
+using Cryptool.PluginBase.Control;
 
 
 namespace Soap
@@ -129,6 +130,18 @@ namespace Soap
                 return null;
             }
         }
+        private ControlProxy control;
+[PropertyInfo(Direction.ControlSlave, "WSDL Input", "WSDL to create the soap message",null, DisplayLevel.Beginner)]
+        public IControlWsdl Control
+{
+ get
+ { 
+ if (control == null)
+    control = new ControlProxy (this);
+  return control;
+ }
+}
+
 
         [PropertyInfo(Direction.ControlSlave, "Public-Key input", "Encryption Key",null, DisplayLevel.Beginner)]
         public string publicKey
@@ -1512,7 +1525,7 @@ namespace Soap
            
        }
 
-        protected void OnPropertyChanged(string name)
+        public void OnPropertyChanged(string name)
         {
             EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
         }
@@ -1595,6 +1608,51 @@ namespace Soap
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
       
+        #endregion
+    }
+    public class ControlProxy : IControlWsdl
+    {
+        private Soap plugin;
+
+        // Konstruktor
+        public ControlProxy(Soap plugin)
+        {
+            this.plugin = plugin;
+        }
+        #region IControlWsdl Member
+
+        public XmlDocument Wsdl
+        {
+            get
+            {
+                return null;
+            }
+            set
+            {
+
+            }
+        }
+
+        public void setWsdl(XmlDocument wsdlDocument)
+        {
+           plugin.Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                string s = plugin.xmlToString(wsdlDocument);
+                plugin.loadWSDL(s);
+                plugin.wsdlLoaded = true;
+
+                plugin.OnPropertyChanged("wsdl");
+               plugin.createInfoMessage("Received WSDL File");
+                plugin.createInfoMessage("Created SOAP Message");
+            }, null);
+        }
+
+        #endregion
+
+        #region IControl Member
+
+        public event IControlStatusChangedEventHandler OnStatusChanged;
+
         #endregion
     }
 }
