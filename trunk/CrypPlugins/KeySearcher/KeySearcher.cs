@@ -106,6 +106,7 @@ namespace KeySearcher
         {
             settings = new KeySearcherSettings(this);
             QuickWatchPresentation = new KeySearcherQuickWatchPresentation();
+            
         }
 
         public ISettings Settings
@@ -757,7 +758,6 @@ namespace KeySearcher
             }
         }
 
-        // modified by Christian Arnold - 2009.12.07 (to public)
         /// <summary>
         /// used for delivering the results from the worker threads to the main thread:
         /// </summary>

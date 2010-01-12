@@ -629,47 +629,35 @@ namespace KeySearcher
 
         #region Serialization methods and auxiliary variables
 
-        /// <summary>
-        /// Used for serializing/deserializing the KeyPattern object. This string separates Key from Pattern. Example: [key]kpSeparator[pattern]
-        /// </summary>
-        private string kpSeperator = "#;#";
+        /* Serialization information:
+         * 1st byte: Byte-Length of the WildCardKey
+         * 2nd - wildcardLen: WildCardKey Byte representation
+         * wildcardLen + 1: Byte-Length of the Pattern
+         * wildcardLen + 2 - wildcardLen+2+patternLen: Pattern Byte representation
+         *  -------------------------------------------------------------
+         * | wildcardkey length | wildcardkey | pattern length | pattern |
+         *  -------------------------------------------------------------  */
         private Encoding encoder = UTF8Encoding.UTF8;
 
         /// <summary>
         /// Serialize all needful information to rebuild the existing pattern elsewhere
         /// </summary>
-        /// <returns>string representation of all the needful information of the actual KeyPattern</returns>
-        public string SerializeToString()
-        {
-            return (string)Serialize(false);
-        }
-
-        /// <summary>
-        /// Serialize all needful information to rebuild the existing pattern elsewhere
-        /// </summary>
         /// <returns>byte representation of all the needful information of the actual KeyPattern</returns>
-        public byte[] SerializeToByte()
+        public byte[] Serialize()
         {
-            return (byte[])Serialize(true);
-        }
-
-        /// <summary>
-        /// The whole serializing process.
-        /// </summary>
-        /// <param name="returnByte">Choose true, to get a KeyPattern serialized as an byte array, otherwise you will get a string.</param>
-        /// <returns></returns>
-        private object Serialize(bool returnByte)
-        {
-            object objReturn = null;
+            byte[] retByte;
             string wildcardKey = this.WildcardKey;
             if (wildcardKey != null && this.pattern != null)
             {
                 if (testWildcardKey(wildcardKey))
                 {
-                    if (returnByte)
-                        objReturn = encoder.GetBytes(wildcardKey + kpSeperator + pattern);
-                    else
-                        objReturn = wildcardKey + kpSeperator + pattern;
+                    byte[] byteWildCard = encoder.GetBytes(wildcardKey);
+                    byte[] bytePattern = encoder.GetBytes(pattern);
+                    retByte = new byte[byteWildCard.Length + bytePattern.Length + 2];
+                    retByte[0] = (byte)byteWildCard.Length;
+                    Buffer.BlockCopy(byteWildCard, 0, retByte, 1, byteWildCard.Length);
+                    retByte[byteWildCard.Length + 1] = (byte)bytePattern.Length;
+                    Buffer.BlockCopy(bytePattern, 0, retByte, byteWildCard.Length + 2, bytePattern.Length);
                 }
                 else
                 {
@@ -681,33 +669,29 @@ namespace KeySearcher
             {
                 throw (new Exception("Serializing KeyPattern canceled, because Key and/or Pattern are NULL. WildcardKey: '" + wildcardKey + "'. Pattern: '" + pattern + "'."));
             }
-            return objReturn;
+            return retByte;
         }
 
-        private KeyPattern Deserialize(object represenatation)
+        /// <summary>
+        /// Deserialize a byte-representation of an KeyPattern object. Returns a full-initialized KeyPattern object.
+        /// </summary>
+        /// <param name="serializedPattern">byte-representation of an keypattern object</param>
+        /// <returns>a full-initialized KeyPattern object</returns>
+        public KeyPattern Deserialize(byte[] serializedPattern)
         {
             KeyPattern keyPatternToReturn;
+            string wildcardKey_temp;
+            string pattern_temp;
 
-            // casting stuff
-            string sTemp = null;
-            if (represenatation is byte[])
-                sTemp = encoder.GetString(represenatation as byte[]);
-            else if (represenatation is string)
-                sTemp = represenatation as string;
-            else
-                throw (new Exception("Deserializing KeyPattern canceled, because parameter neither a byte array nor a string!"));
-
-            // disaggregate string representation
-            string wildcardKey_temp = sTemp.Substring(0, sTemp.IndexOf(kpSeperator));
-            int beginOfPattern = sTemp.IndexOf(kpSeperator) + kpSeperator.Length;
-            string pattern_temp = sTemp.Substring(beginOfPattern, sTemp.Length - beginOfPattern);
+            int iWildCardLen = serializedPattern[0];
+            wildcardKey_temp = encoder.GetString(serializedPattern, 1, iWildCardLen);
+            int iPatternLen = serializedPattern[iWildCardLen + 1];
+            pattern_temp = encoder.GetString(serializedPattern, iWildCardLen + 2, iPatternLen);
 
             // test extracted pattern and wildcardKey!
             if (testWildcardKey(wildcardKey_temp))
             {
-                // TODO: use Pattern-property in future
                 keyPatternToReturn = new KeyPattern(pattern_temp);
-                // TODO: use WildcardKey-property in future
                 keyPatternToReturn.WildcardKey = wildcardKey_temp;
                 return keyPatternToReturn;
             }
@@ -716,21 +700,6 @@ namespace KeySearcher
                 throw (new Exception("Deserializing KeyPattern canceled, because WildcardKey or Pattern aren't valid. "
                     + "WildcardKey: '" + wildcardKey_temp + "', Pattern: '" + pattern_temp + "'.\n"));
             }
-        }
-
-        public KeyPattern DeserializeFromString(string sKeyPattern)
-        {
-            return Deserialize(sKeyPattern);
-        }
-
-        /// <summary>
-        /// Deserialize a byte-representation of an KeyPattern object. Returns a full-initialized KeyPattern object.
-        /// </summary>
-        /// <param name="bKeyPattern">byte-representation of an keypattern object</param>
-        /// <returns>a full-initialized KeyPattern object</returns>
-        public KeyPattern DeserializeFromByte(byte[] bKeyPattern)
-        {
-            return Deserialize(bKeyPattern);
         }
 
         #endregion
