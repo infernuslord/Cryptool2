@@ -9,39 +9,18 @@
     <Canvas Name="mycanvas">
         <StackPanel Width="Auto" Height="Auto" Name="Stack" Orientation="Vertical" Opacity="0.0">
             <StackPanel Orientation="Horizontal" Name="mainGrid" Height="Auto" Width="Auto"  VerticalAlignment="Center">
-
-               
-                
-                    
-                    <WrapPanel Name="mywrap1" Orientation="Horizontal" Width="160"   >
-
-                    </WrapPanel>
-                
-                
-
-                <Label Width="20"></Label>
+                <WrapPanel Name="mywrap1" Orientation="Horizontal" Width="160"   >
+                </WrapPanel>                
+                <Label Name ="label1" Width="20"></Label>
                 <Grid Name="myGrid"  Height="Auto" Width="Auto"  HorizontalAlignment="Center" VerticalAlignment="Top">
-
                 </Grid>
-                <Label Width="20"></Label>
-               
-
-                    <WrapPanel Name="mywrap2" Orientation="Horizontal" Width="160"  >
-
-                    </WrapPanel>
-               
-
-
-
-
+                <Label Name ="label2" Width="20"></Label>
+                <WrapPanel Name="mywrap2" Orientation="Horizontal" Width="160"  >
+                </WrapPanel>
                 <TextBox Visibility="Hidden" Name="textBox1"></TextBox>
-                
-
             </StackPanel>
             <Label Height="10"></Label>
             <TextBox  Name="textBox2" IsEnabled="False" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="160"></TextBox>
         </StackPanel>
     </Canvas>
-        
-
 </UserControl>
