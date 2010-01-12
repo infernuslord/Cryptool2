@@ -7,15 +7,6 @@ using Cryptool.PluginBase;
 using System.Threading;
 using KeySearcher;
 
-/*
- * TODO:
- * - Serializing ResultList is buggy when converting decryption byte[] 
- *   to String and following deserializing in P2PManager
- * - Error gets thrown after ending bruteforcing once. "set-Property not found" (oder so)
- *   I think it's an error in KeySearcher_IControl --> method keySearcher_OnAllMasterControlsInitialized
- *   where I set the KeyPattern and additional the WildcardKey manual...
- */
-
 namespace Cryptool.Plugins.PeerToPeer
 {
     public enum EncryptionPatternLength
@@ -54,6 +45,10 @@ namespace Cryptool.Plugins.PeerToPeer
         /// only goal: validate incoming KeyPatterns
         /// </summary>
         private KeyPattern patternForValidateIncomingPatterns;
+        /// <summary>
+        /// this value is always the actual pattern, which is in progress
+        /// </summary>
+        private KeyPattern actualProcessingPattern;
         private IControlKeySearcher keySearcherControl;
         private IControlCost costControl;
         private IControlEncryption encryptControl;
@@ -134,10 +129,10 @@ namespace Cryptool.Plugins.PeerToPeer
         /// </summary>
         /// <param name="senderId"></param>
         /// <param name="sData"></param>
-        protected override void HandleIncomingData(PeerId senderId, string sData)
+        protected override void HandleIncomingData(PeerId senderId, byte[] data)
         {
             // returns null if the data aren't a valid KeyPattern.
-            KeyPattern receivedKeyPattern = patternForValidateIncomingPatterns.DeserializeFromString(sData);
+            KeyPattern receivedKeyPattern = patternForValidateIncomingPatterns.Deserialize(data);
             if (receivedKeyPattern != null)
             {
                 // only one Pattern can be bruteforced concurrently, 
@@ -157,7 +152,7 @@ namespace Cryptool.Plugins.PeerToPeer
             }
             else
             {
-                base.HandleIncomingData(senderId, sData);
+                base.HandleIncomingData(senderId, data);
             }
         }
 
@@ -174,11 +169,13 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="receivedKeyPattern">a valid and full initialized KeyPattern</param>
         private void StartProcessing(KeyPattern receivedKeyPattern)
         {
-            GuiLogging("Starting Bruteforcing the incoming pattern: '" + receivedKeyPattern.ToString() + "'", NotificationLevel.Info);
+            GuiLogging("Starting Bruteforcing the incoming WildCardKey: '" + receivedKeyPattern.WildcardKey + "'", NotificationLevel.Info);
 
             if (OnKeyPatternReceived != null)
                 OnKeyPatternReceived(receivedKeyPattern);
             this.currentlyWorking = true;
+            // to access this pattern in every method, where it's meaningful for information or processing reasons
+            this.actualProcessingPattern = receivedKeyPattern;
             // Commit pattern to the KeySearcherControl and wait for result(s)
             this.keySearcherControl.StartBruteforcing(receivedKeyPattern);
         }
@@ -191,7 +188,15 @@ namespace Cryptool.Plugins.PeerToPeer
                 GuiLogging("Bruteforcing Ended. Best key result: '" + bestResult.key + "'. Coefficient value: "
                     + bestResult.value.ToString() + ". Decrypted result: '" + UTF8Encoding.UTF8.GetString(bestResult.decryption)
                     + "'", NotificationLevel.Info);
-                SolutionFound(SerializeKeySearcherResult(top10List));
+
+                KeySearcherResult keySearcherResult = new KeySearcherResult();
+                SolutionFound(keySearcherResult.SerializeResult(top10List));
+
+                if (OnFinishedBruteforcingThePattern != null)
+                    OnFinishedBruteforcingThePattern(this.actualProcessingPattern);
+
+                // because bruteforcing the actual pattern was successful, delete information
+                this.actualProcessingPattern = null;
                 GuiLogging("Serialized result list sended to Managing-Peer.", NotificationLevel.Debug);
             }
             // if there are any Jobs in the waiting list, process them now successively
@@ -202,29 +207,6 @@ namespace Cryptool.Plugins.PeerToPeer
             else
                 // set flag to false, because bruteforcing has been finished
                 this.currentlyWorking = false;
-        }
-
-        // only the first byte of the decryption byte[] are serialized - maybe avoiding the splitting error in P2PManager.Deserialize...
-        /*
-         * serialization information: 3 fields per data set in the following order: 
-         * 1) value (double) 
-         * 2) key (string) 
-         * 3) decryption (byte[])
-         */
-        private string seperator = "#;#";
-        private string dataSetSeperator = "|**|";
-        private string SerializeKeySearcherResult(LinkedList<KeySearcher.KeySearcher.ValueKey> top10List)
-        {
-            StringBuilder sbRet = new StringBuilder();
-            foreach (KeySearcher.KeySearcher.ValueKey valKey in top10List)
-            {
-                //sbRet.Append(valKey.value.ToString() + seperator + valKey.key + seperator + UTF8Encoding.UTF8.GetString(valKey.decryption) + dataSetSeperator);
-                sbRet.Append(valKey.value.ToString() + seperator + valKey.key + seperator + "replaced" + dataSetSeperator);
-            }
-            string sRet = sbRet.ToString();
-            // cut off last dataSetSeperator
-            sRet = sRet.Substring(0, sRet.Length - dataSetSeperator.Length);
-            return sRet;
         }
     }
 }

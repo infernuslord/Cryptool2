@@ -133,14 +133,14 @@ namespace Cryptool.Plugins.PeerToPeer
             }
             if (e.PropertyName == "BtnRegister")
             {
-                RegisterSubscriber();
+                StartSubscriber();
                 GuiLogMessage("Subscriber registers with Publisher!", NotificationLevel.Info);
             }
             if (e.PropertyName == "BtnSolutionFound")
             {
                 if (this.p2pSubscriber != null)
                 {
-                    this.p2pSubscriber.SolutionFound("");
+                    this.p2pSubscriber.SolutionFound(new byte[]{0});
                     GuiLogMessage("Solution found message sent to Publisher.", NotificationLevel.Info);
                 }
                 else
@@ -184,7 +184,7 @@ namespace Cryptool.Plugins.PeerToPeer
         public void Stop()
         {
             if(this.p2pSubscriber != null)
-                this.p2pSubscriber.Stop(PubSubMessageType.Stop);
+                this.p2pSubscriber.Stop(PubSubMessageType.Unregister);
         }
 
         public void Initialize()
@@ -206,7 +206,7 @@ namespace Cryptool.Plugins.PeerToPeer
             }
             if (this.settings.TopicName != null)
             {
-                RegisterSubscriber();
+                StartSubscriber();
             }
             else
             {
@@ -214,26 +214,21 @@ namespace Cryptool.Plugins.PeerToPeer
             }
         }
 
-        private void RegisterSubscriber()
+        private void StartSubscriber()
         {
             if (this.p2pSubscriber == null)
             {
                 this.p2pSubscriber = new P2PSubscriberBase(this.P2PControl);
                 this.p2pSubscriber.OnGuiMessage += new P2PSubscriberBase.GuiMessage(p2pSubscriber_OnGuiMessage);
                 this.p2pSubscriber.OnTextArrivedFromPublisher += new P2PSubscriberBase.TextArrivedFromPublisher(p2pSubscriber_OnTextArrivedFromPublisher);
-                this.p2pSubscriber.Register(this.settings.TopicName, (long)(this.settings.CheckPublishersAvailability * 1000),
-                    (long)(this.settings.PublishersReplyTimespan * 1000));
             }
-            else
-            {
-                this.p2pSubscriber.Register(this.settings.TopicName, (long)(this.settings.CheckPublishersAvailability * 1000),
+            this.p2pSubscriber.Start(this.settings.TopicName, (long)(this.settings.CheckPublishersAvailability * 1000),
                     (long)(this.settings.PublishersReplyTimespan * 1000));
-            }
         }
 
-        void p2pSubscriber_OnTextArrivedFromPublisher(string sData, PeerId pid)
+        void p2pSubscriber_OnTextArrivedFromPublisher(byte[] data, PeerId pid)
         {
-            this.Outputvalue = sData;
+            this.Outputvalue = UTF8Encoding.UTF8.GetString(data);
         }
 
         void p2pSubscriber_OnGuiMessage(string sData, NotificationLevel notificationLevel)

@@ -4,25 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 
-/* 
- * Everything works fine.
- * @CheckVitality: Don't know what is better. Run through two loops and save copying dict or copying dict and save a second loop...
- */
-
 namespace Cryptool.Plugins.PeerToPeer
 {
-    public class PeerValue
-    {
-        public PeerId peerId;
-        public DateTime dateTime;
-
-        public PeerValue(PeerId pid, DateTime dt)
-        {
-            this.peerId = pid;
-            this.dateTime = dt;
-        }
-    }
-
     public class SubscriberManagement
     {
         public delegate void SubscriberRemoved(PeerId peerId);
@@ -35,13 +18,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <summary>
         /// contains all active subscribers
         /// </summary>
-        private Dictionary<PeerId, PeerValue> checkList;
-
-
-        /*TESTING*/
-        protected HashSet<PeerId> activeSubsList;
-
-
+        private Dictionary<PeerId, DateTime> checkList;
         /// <summary>
         /// when a peer is in this list, it will be deleted on the next vitality check
         /// </summary>
@@ -64,10 +41,8 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="expirationTime">expiration Time of a subscriber in milliseconds</param>
         public SubscriberManagement(long expirationTime)
         {
-            this.activeSubsList = new HashSet<PeerId>();
-
             this.dateTimeNow = new DateTime();
-            this.checkList = new Dictionary<PeerId, PeerValue>();
+            this.checkList = new Dictionary<PeerId, DateTime>();
             this.secondChanceList = new HashSet<PeerId>();
             this.ExpirationTime = expirationTime;
         }
@@ -85,8 +60,7 @@ namespace Cryptool.Plugins.PeerToPeer
                 // locking checkList instead of activeSubsList, because all other functions work on checkList, not on activeSubsList
                 lock (this.checkList)
                 {
-                    this.checkList.Add(subscriberId, new PeerValue(subscriberId, this.dateTimeNow));
-                    this.activeSubsList.Add(subscriberId);
+                    this.checkList.Add(subscriberId, this.dateTimeNow);
                 }
                 return true;
             }
@@ -105,7 +79,7 @@ namespace Cryptool.Plugins.PeerToPeer
             this.dateTimeNow = DateTime.Now;
             if (this.checkList.ContainsKey(subscriberId))
             {
-                this.checkList[subscriberId].dateTime = this.dateTimeNow;
+                this.checkList[subscriberId] = this.dateTimeNow;
                 // remove subscriber from this list, because it's updated now and hence alive!
                 if (this.secondChanceList.Contains(subscriberId))
                     this.secondChanceList.Remove(subscriberId);
@@ -136,19 +110,12 @@ namespace Cryptool.Plugins.PeerToPeer
                     this.checkList.Remove(subId);
                     result = true;
                 }
-                if (this.activeSubsList.Contains(subId))
-                {
-                    this.activeSubsList.Remove(subId);
-                    result = true;
-                }
 
                 if (result && OnSubscriberRemoved != null)
                     OnSubscriberRemoved(subId);
             }
             return result;
         }
-
-        /* see alternative method */
 
         /// <summary>
         /// Removes all Subscribers which are long-rated outdated (expiration time is considered). 
@@ -163,14 +130,14 @@ namespace Cryptool.Plugins.PeerToPeer
 
             lock (this.checkList)
             {
-                foreach (KeyValuePair<PeerId, PeerValue> entry in this.checkList)
+                foreach (KeyValuePair<PeerId, DateTime> entry in this.checkList)
                 {
-                    DateTime valueWithExpirationTime = entry.Value.dateTime.AddMilliseconds(ExpirationTime);
+                    DateTime valueWithExpirationTime = entry.Value.AddMilliseconds(ExpirationTime);
 
                     // if time is expired AND the ID is already in the secondChanceList --> Add to remove list
                     if (this.dateTimeNow > valueWithExpirationTime && secondChanceList.Contains(entry.Key))
                     {
-                        removeSubscribersFromDict.Add(entry.Value.peerId);
+                        removeSubscribersFromDict.Add(entry.Key);
                     }
                     else if (this.dateTimeNow > valueWithExpirationTime) //otherwise give a second chance
                     {
@@ -188,50 +155,9 @@ namespace Cryptool.Plugins.PeerToPeer
             return this.secondChanceList.ToList<PeerId>();
         }
 
-        /* alternative method, works with a copy of checkList, saves a foreach-loop, but produces load for copying */
-        /*
-        /// <summary>
-        /// Removes all Subscribers which are long-rated outdated (expiration time is considered). 
-        /// The recently outdated subscribers will be added to the returned second chance list.
-        /// </summary>
-        /// <returns>all recently outdated subscribers</returns>
-        public List<PeerId> CheckVitality()
-        {
-            this.dateTimeNow = DateTime.Now;
-
-            lock (this.checkList)
-            {
-                //don't know what is better. Run through two loops and save copying dict or copying dict and save a second loop...
-                Dictionary<string, PeerValue> checkListCopy = this.checkList;
-                foreach (KeyValuePair<string, PeerValue> entry in this.checkListCopy)
-                {
-                    DateTime valueWithExpirationTime = entry.Value.dateTime.AddMilliseconds(ExpirationTime);
-
-                    // if time is expired AND the ID is already in the secondChanceList --> Add to remove list
-                    if (this.dateTimeNow > valueWithExpirationTime && secondChanceList.ContainsKey(entry.Key))
-                    {
-                        this.secondChanceList.Remove(removeSub.stringId);
-                        // remove entry from ORIGINAL dictionary!
-                        this.checkList.Remove(removeSub.stringId);
-                        this.activeSubsList.Remove(removeSub.stringId);
-
-                        if (OnSubscriberRemoved != null)
-                            OnSubscriberRemoved(removeSub);
-                    }
-                    else if (this.dateTimeNow > valueWithExpirationTime) //otherwise give a second chance
-                    {
-                        this.secondChanceList.Add(entry.Key, entry.Value.peerId);
-                    }
-                }
-            } //end lock(this.checkList)
-
-            return this.secondChanceList.Values.ToList<PeerId>();
-        }
-        */ 
-
         public List<PeerId> GetAllSubscribers()
         {
-            return this.activeSubsList.ToList<PeerId>();
+            return this.checkList.Keys.ToList<PeerId>();
         }
 
         public virtual void Dispose()
@@ -240,8 +166,6 @@ namespace Cryptool.Plugins.PeerToPeer
             this.checkList = null;
             this.secondChanceList.Clear();
             this.secondChanceList = null;
-            this.activeSubsList.Clear();
-            this.activeSubsList = null;
         }
     }
 }

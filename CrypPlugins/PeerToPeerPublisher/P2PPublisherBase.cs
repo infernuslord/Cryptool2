@@ -8,7 +8,6 @@ using System.Threading;
 
 /*
  * TODO:
- * - Removing excluded in Stop-Method, because it throws an exception... --> to be fixed by M.Helling (PAP)
  * - FUTURE: dual data management of subscriber list (on local peer and in DHT)
  */
 
@@ -21,10 +20,11 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region Variables
 
+        private const string DHT_ALIVE_POSTFIX = "AliveMsg";
+
         protected IP2PControl p2pControl;
         protected SubscriberManagement peerManagement;
         private string topic = String.Empty;
-        private string sDHTSettingsPostfix = "Settings";        
         private Timer timerWaitingForAliveMsg;
         private PeerId ownPeerId;
         private long aliveMessageInterval;
@@ -44,7 +44,6 @@ namespace Cryptool.Plugins.PeerToPeer
         public P2PPublisherBase(IP2PControl p2pControl)
         {
             this.p2pControl = p2pControl;
-            this.p2pControl.OnPeerReceivedMsg +=new P2PBase.P2PMessageReceived(MessageReceived);
         }
 
         #region public methods (Start, Publish, Stop)
@@ -63,6 +62,9 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <returns>true, if writing all necessary information was written in DHT, otherwise false</returns>
         public bool Start(string sTopic, long aliveMessageInterval)
         {
+            this.p2pControl.OnPayloadMessageReceived += new P2PPayloadMessageReceived(p2pControl_OnPayloadMessageReceived);
+            this.p2pControl.OnSystemMessageReceived += new P2PSystemMessageReceived(p2pControl_OnSystemMessageReceived);
+
             /* BEGIN: CHECKING WHETHER THERE HAS ALREADY EXIST ANOTHER PUBLISHER */
             this.topic = sTopic;
             this.aliveMessageInterval = aliveMessageInterval * 1000;
@@ -92,12 +94,12 @@ namespace Cryptool.Plugins.PeerToPeer
             /* END: CHECKING WHETHER THERE HAS ALREADY EXIST ANOTHER PUBLISHER */
 
             bool bolTopicStored = this.p2pControl.DHTstore(sTopic, myPeerId.ToByteArray());
-            bool bolSettingsStored = this.p2pControl.DHTstore(sTopic + this.sDHTSettingsPostfix,
+            bool bolSettingsStored = this.p2pControl.DHTstore(sTopic + DHT_ALIVE_POSTFIX,
                 System.BitConverter.GetBytes(this.aliveMessageInterval));
 
             if (!bolTopicStored || !bolSettingsStored)
             {
-                GuiLogging("Storing Publishers ID or Publishers Settings wasn't possible.", NotificationLevel.Error);
+                GuiLogging("Storing Publishers ID and/or Publishers Settings wasn't possible.", NotificationLevel.Error);
                 return false;
             }
 
@@ -132,27 +134,13 @@ namespace Cryptool.Plugins.PeerToPeer
         /// the LAST message from the publisher correctly!</param>
         public virtual void Stop(PubSubMessageType msgType)
         {
-            // send unregister message to all subscribers
-            int i = SendInternalMsg(msgType);
-            GuiLogging("Unregister messages were sent to " + i.ToString() + " subscribers!", NotificationLevel.Info);
-
-            //Still an error in dhtRemove... so at present ignored... - partially freezing the workspace forever...
-            /* 
-             * if someone wants to call the Stop-method, but the peer is already down, 
-             * this will run into a problem (CrypWin.exe lives on), because of the
-             * necessary workaround in P2PPeerMaster (Initializes Peer, if it isn't
-             * initialized yet). This workaround was necessary, because of the gradual
-             * execution of the PlugIns, so that the case could occur, that the Peer isn't
-             * initialized by the PlugIn-method, but its Master-PlugIns want to use its 
-             * functions right now
-             */
             if (this.p2pControl != null && this.p2pControl.PeerStarted())
             {
 
                 GuiLogging("Begin removing the information from the DHT", NotificationLevel.Debug);
 
                 bool removeTopic = this.p2pControl.DHTremove(this.topic);
-                bool removeSettings = this.p2pControl.DHTremove(this.topic + this.sDHTSettingsPostfix);
+                bool removeSettings = this.p2pControl.DHTremove(this.topic + DHT_ALIVE_POSTFIX);
                 string removeInfo = String.Empty;
                 if (removeTopic && removeSettings)
                     removeInfo = "Topic and settings";
@@ -164,6 +152,10 @@ namespace Cryptool.Plugins.PeerToPeer
                     GuiLogging(removeInfo + " successfully removed from DHT.", NotificationLevel.Debug);
                 else
                     GuiLogging("Neither Topic nor settings were removed from DHT.", NotificationLevel.Debug);
+
+                // send unregister message to all subscribers
+                int i = SendInternalMsg(msgType);
+                GuiLogging("Unregister messages were sent to " + i.ToString() + " subscribers!", NotificationLevel.Info);
             }
 
             GuiLogging("Stopping all timers.", NotificationLevel.Debug);
@@ -174,6 +166,10 @@ namespace Cryptool.Plugins.PeerToPeer
                 this.timerWaitingForAliveMsg = null;
             }
 
+            GuiLogging("Deregister message-received-events", NotificationLevel.Debug);
+            this.p2pControl.OnPayloadMessageReceived -= p2pControl_OnPayloadMessageReceived;
+            this.p2pControl.OnSystemMessageReceived -= p2pControl_OnSystemMessageReceived;
+
             GuiLogging("Publisher completely stopped!", NotificationLevel.Info);
 
             this.Started = false;
@@ -183,63 +179,61 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region private Methods (MessageReceived, SendInternalMsg, OnWaitingForAliveMsg, peerManagement_OnSubscriberRemoved)
 
-        protected virtual void MessageReceived(PeerId sourceAddr, string sData)
+        protected virtual void p2pControl_OnSystemMessageReceived(PeerId sender, PubSubMessageType msgType)
         {
-            PubSubMessageType msgType = this.p2pControl.GetMsgType(sData);
+            switch (msgType)
+            {
+                case PubSubMessageType.Register:
+                    if (this.peerManagement.Add(sender))
+                    {
+                        GuiLogging("REGISTERED: Peer with ID " + sender, NotificationLevel.Info);
+                        this.p2pControl.SendToPeer(PubSubMessageType.RegisteringAccepted, sender);
+                    }
+                    else
+                    {
+                        GuiLogging("ALREADY REGISTERED peer with ID " + sender, NotificationLevel.Info);
+                    }
+                    break;
+                case PubSubMessageType.Unregister:
+                    if (!this.peerManagement.Remove(sender))
+                        GuiLogging("ALREADY REMOVED or had not registered anytime. ID " + sender, NotificationLevel.Info);
+                    break;
+                case PubSubMessageType.Alive:
+                case PubSubMessageType.Pong:
+                    break;
+                case PubSubMessageType.Ping:
+                    this.p2pControl.SendToPeer(PubSubMessageType.Pong, sender);
+                    GuiLogging("REPLIED to a ping message from peer " + sender, NotificationLevel.Debug);
+                    break;
+                case PubSubMessageType.Solution:
+                    // Send solution msg to all subscriber peers and delete subList
+                    Stop(msgType);
+                    break;
+                case PubSubMessageType.Stop: //ignore this case. No subscriber can't command the Publisher to stop!
+                    break;
+                default:
+                    throw (new NotImplementedException());
+            } // end switch
+            if (timerWaitingForAliveMsg == null)
+                timerWaitingForAliveMsg = new Timer(OnWaitingForAliveMsg, null, this.aliveMessageInterval * 1000,
+                    this.aliveMessageInterval * 1000);
 
-            if (msgType != PubSubMessageType.NULL)
+            if (msgType != PubSubMessageType.Unregister)
             {
-                switch (msgType)
-                {
-                    case PubSubMessageType.Register:
-                        if (this.peerManagement.Add(sourceAddr))
-                        {
-                            GuiLogging("REGISTERED: Peer with ID " + sourceAddr, NotificationLevel.Info);
-                            this.p2pControl.SendToPeer(PubSubMessageType.RegisteringAccepted, sourceAddr);
-                        }
-                        else
-                        {
-                            GuiLogging("ALREADY REGISTERED peer with ID " + sourceAddr, NotificationLevel.Info);
-                        }
-                        break;
-                    case PubSubMessageType.Unregister:
-                        if (this.peerManagement.Remove(sourceAddr))
-                            GuiLogging("REMOVED peer " + sourceAddr + " because it had sent an unregister message", NotificationLevel.Info);
-                        else
-                            GuiLogging("ALREADY REMOVED or had not registered anytime. ID " + sourceAddr, NotificationLevel.Info);
-                        break;
-                    case PubSubMessageType.Alive:
-                    case PubSubMessageType.Pong:
-                        if (this.peerManagement.Update(sourceAddr))
-                        {
-                            GuiLogging("RECEIVED: " + msgType.ToString() + " Message from " + sourceAddr, NotificationLevel.Debug);
-                        }
-                        else
-                        {
-                            GuiLogging("UPDATE FAILED for " + sourceAddr + " because it hasn't registered first. " + msgType.ToString(), NotificationLevel.Info);
-                        }
-                        break;
-                    case PubSubMessageType.Ping:
-                        this.p2pControl.SendToPeer(PubSubMessageType.Pong, sourceAddr);
-                        GuiLogging("REPLIED to a ping message from peer " + sourceAddr, NotificationLevel.Debug);
-                        break;
-                    case PubSubMessageType.Solution:
-                        // Send solution msg to all subscriber peers and delete subList
-                        Stop(msgType);
-                        break;
-                    case PubSubMessageType.Stop: //ignore this case. No subscriber can't command the Publisher to stop!
-                        break;
-                    default:
-                        throw (new NotImplementedException());
-                } // end switch
-                if (timerWaitingForAliveMsg == null)
-                    timerWaitingForAliveMsg = new Timer(OnWaitingForAliveMsg, null, this.aliveMessageInterval * 1000,
-                        this.aliveMessageInterval * 1000);
+                if(this.peerManagement.Update(sender))
+                    GuiLogging("UPDATED Peer " + sender + " successfully.", NotificationLevel.Debug);
+                else
+                    GuiLogging("UPDATING Peer " + sender + " failed.", NotificationLevel.Debug);
             }
-            // Received Data aren't PubSubMessageTypes or rather no action-relevant messages
-            else
+        }
+
+        protected virtual void p2pControl_OnPayloadMessageReceived(PeerId sender, byte[] data)
+        {
+            GuiLogging("RECEIVED message from non subscribed peer: " + UTF8Encoding.UTF8.GetString(data) + ", ID: " + sender, NotificationLevel.Debug);
+            // if sender is already registered, update its entry in either case
+            if (this.peerManagement.Update(sender))
             {
-                GuiLogging("RECEIVED message from non subscribed peer: " + sData.Trim() + ", ID: " + sourceAddr, NotificationLevel.Debug);
+                GuiLogging("UPDATED Peer " + sender + " successfully.", NotificationLevel.Debug);
             }
         }
 

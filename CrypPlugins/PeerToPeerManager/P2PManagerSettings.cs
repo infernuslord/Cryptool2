@@ -88,7 +88,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
         /* FOR TESTING ISSUES */
 
-        private int sendAliveMessageInterval = 20;
+        private int sendAliveMessageInterval = 60;
         [TaskPane("Alive Message Interval (in seconds)","In which interval do you wish to receive Alive-Messages from your Subscribers?"
             ,"Subscriber Properties",1,false,DisplayLevel.Beginner,ControlType.NumericUpDown, ValidationType.RangeInteger, 10, 3600)]
         public int SendAliveMessageInterval 
@@ -125,9 +125,9 @@ namespace Cryptool.Plugins.PeerToPeer
             }
         }
 
-        private int keyPatternSize = 18; // in hundred-thousand
+        private int keyPatternSize = 10; // in hundred-thousand
         [TaskPane("KeyPatternSize", "Choose the Size of the specific sub-KeyPattern (in hundred-thousand steps)"
-            , null, 3, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 15, 200)]
+            , null, 3, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 200)]
         public int KeyPatternSize
         {
             get
