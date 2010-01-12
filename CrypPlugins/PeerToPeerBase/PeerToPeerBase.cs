@@ -35,7 +35,6 @@ using Cryptool.PluginBase.IO;
 using PeersAtPlay;
 
 /* - Synchronous functions successfully tested (store, retrieve)
- * - !!! remove-Function is faulty - open field !!!
  * - The DHT has an integrated versioning system. When a peer wants
  *   to store data in an entry, which already holds data, the version
  *   number will be compared with the peers' version number. If the
@@ -49,9 +48,6 @@ using PeersAtPlay;
  *   be change!
  * 
  * TODO:
- * - dht.Remove-Method makes problems... "ArgumentNotNullException"
- *   event though the Parameter is correctly set to a valid value!
- *   --> forwarded to the p@p-Team
  * - Testing asynchronous methods incl. EventHandlers
  */
 namespace Cryptool.Plugins.PeerToPeer
@@ -78,7 +74,7 @@ namespace Cryptool.Plugins.PeerToPeer
         public delegate void SystemLeft();
         public event SystemLeft OnSystemLeft;
 
-        public delegate void P2PMessageReceived(PeerId sourceAddr, string sData);
+        public delegate void P2PMessageReceived(PeerId sourceAddr, byte[] data);
         public event P2PMessageReceived OnP2PMessageReceived;
 
         /// <summary>
@@ -101,6 +97,18 @@ namespace Cryptool.Plugins.PeerToPeer
         #endregion
 
         #region Variables
+
+        /// <summary>
+        /// If you want to ignore the integrated Versioning System of PeersAtPlay,
+        /// set this flag to true.
+        /// The DHT has an integrated VERSIONING SYSTEM. When a peer wants 
+        /// to store data in an entry, which already holds data, the version
+        /// number will be compared with the peers' version number. If the
+        /// peer hasn't read/write the entry the last time, the storing instruction
+        /// will be rejected. You must first read the actual data and than you can
+        /// store your data in this entry...
+        /// </summary>
+        private const bool IGNORE_DHT_VERSIONING_SYSTEM = true;
 
         private bool started = false;
         /// <summary>
@@ -188,12 +196,10 @@ namespace Cryptool.Plugins.PeerToPeer
             }
             #endregion
 
-            this.dht.MessageReceived += new EventHandler<MessageReceived>(OnDHT_MessageReceived);
             this.overlay.MessageReceived += new EventHandler<OverlayMessageEventArgs>(overlay_MessageReceived);
             this.dht.SystemJoined += new EventHandler(OnDHT_SystemJoined);
             this.dht.SystemLeft += new EventHandler(OnDHT_SystemLeft);
 
-            //this.dht.Initialize(sUserName, sWorldName, this.overlay, this.bootstrapper, this.linkmanager, null);
             this.dht.Initialize(sUserName, "", sWorldName, this.overlay, this.bootstrapper, this.linkmanager, null);
         }
 
@@ -232,7 +238,6 @@ namespace Cryptool.Plugins.PeerToPeer
             }
             return true;
         }
-
 
         /// <summary>
         /// Asynchronously starting the peer. When the given P2P world doesn't 
@@ -281,38 +286,22 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <returns>corresponding PeerId for given byte[] id</returns>
         public PeerId GetPeerID(byte[] byteId)
         {
-            return new PeerId(overlay.GetAddress(byteId));
+            return new PeerId(this.overlay.GetAddress(byteId));
         }
 
         // overlay.LocalAddress = Overlay-Peer-Address/Names
-        public void SendToPeer(string sData, byte[] byteDestinationPeerName)
+        public void SendToPeer(byte[] data, byte[] destinationPeer)
         {
-            ByteStack byteData = new ByteStack();
-            byteData.PushUTF8String(sData);
+            // get stack size of the pap use-data and add own use data (for optimizing Stack size)
+            int realStackSize = this.overlay.GetHeaderSize() + data.Length;
+            ByteStack stackData = new ByteStack(realStackSize);
 
-            OverlayAddress destinationAddr = this.overlay.GetAddress(byteDestinationPeerName);
+            stackData.Push(data);
 
-            // create own message receiver type... => P2PBase, so only this Application
-            // receives Messages and not all active application on the SAME overlay!
+            OverlayAddress destinationAddr = this.overlay.GetAddress(destinationPeer);
             OverlayMessage overlayMsg = new OverlayMessage(MessageReceiverType.P2PBase,
-                this.overlay.LocalAddress, destinationAddr, byteData);
-
+                this.overlay.LocalAddress, destinationAddr, stackData);
             this.overlay.Send(overlayMsg);
-        }
-
-        public void SendToPeer(PubSubMessageType msgType, byte[] byteDestinationPeerName)
-        {
-            SendToPeer(((int)msgType).ToString(), byteDestinationPeerName);
-        }
-
-        public void SendToPeer(string sData, PeerId destinationPeerId)
-        {
-            SendToPeer(sData, destinationPeerId.ToByteArray());
-        }
-
-        public void SendToPeer(PubSubMessageType msgType, PeerId destinationAddress)
-        {
-            SendToPeer(((int)msgType).ToString(), destinationAddress.ToByteArray());
         }
 
         private void overlay_MessageReceived(object sender, OverlayMessageEventArgs e)
@@ -320,7 +309,8 @@ namespace Cryptool.Plugins.PeerToPeer
             if (OnP2PMessageReceived != null)
             {
                 PeerId pid = new PeerId(e.Message.Source);
-                OnP2PMessageReceived(pid, e.Message.Data.PopUTF8String());
+                OnP2PMessageReceived(pid, e.Message.Data.PopBytes(e.Message.Data.CurrentStackSize));
+                //OnP2PMessageReceived(pid, e.Message.Data.PopUTF8String());
             }
         }
 
@@ -342,15 +332,6 @@ namespace Cryptool.Plugins.PeerToPeer
             this.dht = null;
             this.systemLeft.Set();
             Started = false;
-        }
-
-        private void OnDHT_MessageReceived(object sender, MessageReceived e)
-        {
-            if (OnP2PMessageReceived != null)
-            {
-                PeerId pid = new PeerId(e.Source);
-                OnP2PMessageReceived(pid, e.Data.PopUTF8String());
-            }
         }
 
         #endregion
@@ -383,7 +364,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="sValue"></param>
         public void AsynchStore(string sKey, string sValue)
         {
-            this.dht.Store(OnAsynchStore_Completed, sKey, UTF8Encoding.UTF8.GetBytes(sValue));
+            this.dht.Store(OnAsynchStore_Completed, sKey, UTF8Encoding.UTF8.GetBytes(sValue), IGNORE_DHT_VERSIONING_SYSTEM);
         }
 
         private void OnAsynchStore_Completed(StoreResult sr)
@@ -405,7 +386,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="sKey"></param>
         public void AsynchRemove(string sKey)
         {
-            this.dht.Remove(OnAsynchRemove_Completed, sKey);
+            this.dht.Remove(OnAsynchRemove_Completed, sKey, IGNORE_DHT_VERSIONING_SYSTEM);
         }
         private void OnAsynchRemove_Completed(RemoveResult rr)
         {
@@ -424,12 +405,6 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region SynchStore incl.Callback and SecondTrialCallback
 
-        /* The DHT has an integrated VERSIONING SYSTEM. When a peer wants
-         * to store data in an entry, which already holds data, the version
-         * number will be compared with the peers' version number. If the
-         * peer hasn't read/write the entry the last time, the storing instruction
-         * will be rejected. You must first read the actual data and than you can
-         * store your data in this entry... */
         /// <summary>
         /// Stores a value in the DHT at the given key
         /// </summary>
@@ -440,7 +415,7 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             AutoResetEvent are = new AutoResetEvent(false);
             // this method returns always a GUID to distinguish between asynchronous actions
-            Guid g = this.dht.Store(OnSynchStoreCompleted, sKey, byteData);
+            Guid g = this.dht.Store(OnSynchStoreCompleted, sKey, byteData, IGNORE_DHT_VERSIONING_SYSTEM);
 
             ResponseWait rw = new ResponseWait() { WaitHandle = are, key=sKey , value = byteData };
 
@@ -471,8 +446,7 @@ namespace Cryptool.Plugins.PeerToPeer
             {
                 // if Status == Error, than the version of the value is out of date.
                 // There is a versioning system in the DHT. So you must retrieve the
-                // key and than store the new value --> that's it, but much traffic.
-                // to be fixed in a few weeks from M.Helling
+                // key and than store the new value
                 if (sr.Status == OperationStatus.Failure)
                 {
                     byte[] byteTemp = this.SynchRetrieve(rw.key);
@@ -586,10 +560,7 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             AutoResetEvent are = new AutoResetEvent(false);
             // this method returns always a GUID to distinguish between asynchronous actions
-
-            // ROAD WORKS: This function throws an error (ArgumentNotNullException).
-            //             I think that's an error in the p@p-environment --> forwarded to the p@p-Team
-            Guid g = this.dht.Remove(OnSynchRemoveCompleted, sKey);
+            Guid g = this.dht.Remove(OnSynchRemoveCompleted, sKey, IGNORE_DHT_VERSIONING_SYSTEM);
 
             ResponseWait rw = new ResponseWait() { WaitHandle = are };
 
@@ -683,6 +654,15 @@ namespace Cryptool.Plugins.PeerToPeer
 
         public static bool operator ==(PeerId left, PeerId right)
         {
+            // because it's possible that one parameter is null, catch this exception
+            /* Begin add - Christian Arnold, 2009.12.16, must cast the parameters, otherwise --> recursion */
+            if ((object)left == (object)right)
+                return true;
+
+            if ((object)left == null || (object)right == null)
+                return false;
+            /* End add */
+
             if (left.hashCode != right.hashCode)
                 return false;
 
