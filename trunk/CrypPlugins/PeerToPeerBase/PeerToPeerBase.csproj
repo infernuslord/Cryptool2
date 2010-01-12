@@ -47,13 +47,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dlls\Debug\FullMeshOverlay.dll</HintPath>
     </Reference>
+    <Reference Include="Gears4Net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dlls\Debug\Gears4Net.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dlls\Debug\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="NetGears, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>dlls\Debug\NetGears.dll</HintPath>
     </Reference>
     <Reference Include="NetGearsTCP, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -100,6 +100,7 @@
   <ItemGroup>
     <Compile Include="DebugToFile.cs" />
     <Compile Include="IP2PControl.cs" />
+    <Compile Include="KeySearcherResult.cs" />
     <Compile Include="P2PPeerSettings.cs" />
     <Compile Include="P2PPeer.cs" />
     <Compile Include="ResponseWait.cs" />
@@ -110,6 +111,10 @@
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KeySearcher\KeySearcher.csproj">
+      <Project>{0579E099-66B2-43C3-B8A0-43CAE4895E68}</Project>
+      <Name>KeySearcher</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

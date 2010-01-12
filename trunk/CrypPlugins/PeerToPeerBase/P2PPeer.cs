@@ -65,10 +65,10 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         // to forward event from overlay/dht MessageReceived-Event from P2PBase
-        private void p2pBase_OnP2PMessageReceived(PeerId sourceAddr, string sData)
+        private void p2pBase_OnP2PMessageReceived(PeerId sourceAddr, byte[] data)
         {
             if (OnPeerMessageReceived != null)
-                OnPeerMessageReceived(sourceAddr, sData);
+                OnPeerMessageReceived(sourceAddr, data);
         }
 
         void settings_TaskPaneAttributeChanged(ISettings settings, TaskPaneAttributeChangedEventArgs args)
@@ -271,6 +271,8 @@ namespace Cryptool.Plugins.PeerToPeer
         private P2PPeer p2pPeer;
         private PeerId peerID;
         private string sPeerName;
+        // used for every encoding stuff
+        private Encoding enc = UTF8Encoding.UTF8;
 
         public P2PPeerMaster(P2PPeer p2pPeer)
         {
@@ -289,12 +291,33 @@ namespace Cryptool.Plugins.PeerToPeer
             systemJoined.Set();
         }
 
-        // to forward event from overlay/dht MessageReceived-Event from P2PBase
-        public event P2PBase.P2PMessageReceived OnPeerReceivedMsg;
-        private void p2pPeer_OnPeerMessageReceived(PeerId sourceAddr, string sData)
+        // to forward event from overlay MessageReceived-Event from P2PBase
+        // analyzes the type of message and throws depend upon this anaysis an event
+        public event P2PPayloadMessageReceived OnPayloadMessageReceived;
+        public event P2PSystemMessageReceived OnSystemMessageReceived;
+        private void p2pPeer_OnPeerMessageReceived(PeerId sourceAddr, byte[] data)
         {
-            if (OnPeerReceivedMsg != null)
-                OnPeerReceivedMsg(sourceAddr, sData);
+            switch (GetMessageType(data[0])) //analyses the first byte of data (index, which represents the MessageType)
+            {
+                case P2PMessageIndex.PubSub:
+                    if (data.Length == 2)
+                    {
+                        if(OnSystemMessageReceived != null)
+                            OnSystemMessageReceived(sourceAddr, GetPubSubType(data[1]));
+                    }
+                    else
+                    {
+                        throw (new Exception("Data seems to be from type 'PubSub', but is to long for it... Data: '" + enc.GetString(data) + "'"));
+                    }
+                    break;
+                case P2PMessageIndex.Payload:
+                    if(OnPayloadMessageReceived != null)
+                        OnPayloadMessageReceived(sourceAddr, GetMessagePayload(data));
+                    break;
+                default:
+                    // not implemented. System ignores these messages completely at present
+                    break;
+            }
         }
 
         public event IControlStatusChangedEventHandler OnStatusChanged;
@@ -384,39 +407,147 @@ namespace Cryptool.Plugins.PeerToPeer
             return p2pPeer.p2pBase.GetPeerID(byteId);
         }
 
-        public void SendToPeer(string sData, PeerId destinationAddress)
+        private void SendReadilyMessage(byte[] data, PeerId destinationAddress)
         {
             if (SystemJoinedCompletely())
-                this.p2pPeer.p2pBase.SendToPeer(sData, destinationAddress);
+                this.p2pPeer.p2pBase.SendToPeer(data, destinationAddress.ToByteArray());
+        }
+
+        // adds the P2PMessageIndex to the given byte-array
+        public void SendToPeer(byte[] data, PeerId destinationAddress)
+        {
+            byte[] newData = GenerateMessage(data, P2PMessageIndex.Payload);
+            SendReadilyMessage(newData, destinationAddress);
+        }
+
+        public void SendToPeer(string sData, PeerId destinationAddress)
+        {
+            byte[] data = GenerateMessage(sData, P2PMessageIndex.Payload);
+            SendReadilyMessage(data, destinationAddress);
         }
         public void SendToPeer(PubSubMessageType msgType, PeerId destinationAddress)
         {
-            if (SystemJoinedCompletely())
-                this.p2pPeer.p2pBase.SendToPeer(msgType, destinationAddress);
+            byte[] data = GenerateMessage(msgType);
+            SendReadilyMessage(data, destinationAddress);
         }
-        public void SendToPeer(string sData, byte[] destinationAddress)
+
+        #region Communication protocol
+
+        /* TODO:
+         * - Test this methods
+         * - Integrate data types of payload
+         * - Implement deserialize method */
+
+        /// <summary>
+        /// generates a ct2- and p2p-compatible and processable message
+        /// </summary>
+        /// <param name="payload">payload data in bytes</param>
+        /// <param name="msgIndex">type of message (system message, simple payload for a special use case, etc.)</param>
+        /// <returns>the message, which is processable by the ct2/p2p system</returns>
+        private byte[] GenerateMessage(byte[] payload, P2PMessageIndex msgIndex)
         {
-            if (SystemJoinedCompletely())
-                this.p2pPeer.p2pBase.SendToPeer(sData, destinationAddress);
+            // first byte is the index, if it is payload or Publish/Subscriber stuff
+            byte[] retByte = new byte[1 + payload.Length];
+            retByte[0] = (byte)msgIndex;
+            payload.CopyTo(retByte, 1);
+            return retByte;
         }
+
+        /// <summary>
+        /// generates a ct2- and p2p-compatible and processable message
+        /// </summary>
+        /// <param name="sPayload">payload data as a string</param>
+        /// <param name="msgIndex">type of message (system message, simple payload for a special use case, etc.)</param>
+        /// <returns>the message, which is processable by the ct2/p2p system</returns>
+        private byte[] GenerateMessage(string sPayload, P2PMessageIndex msgIndex)
+        {
+            return GenerateMessage(enc.GetBytes(sPayload), msgIndex);
+        }
+
+        /// <summary>
+        /// generates a ct2- and p2p-compatible and processable message
+        /// </summary>
+        /// <param name="pubSubData">PubSubMessageType</param>
+        /// <returns>the message, which is processable by the ct2/p2p system<</returns>
+        private byte[] GenerateMessage(PubSubMessageType pubSubData)
+        {
+            byte[] bytePubSubData = new byte[] { (byte)pubSubData };
+            return GenerateMessage(bytePubSubData, P2PMessageIndex.PubSub);
+        }
+
+        /// <summary>
+        /// returns the message type, e.g. PubSub or Payload message
+        /// </summary>
+        /// <param name="msgType">the FIRST byte of a raw message, received by the system</param>
+        /// <returns>the message type</returns>
+        private P2PMessageIndex GetMessageType(byte msgType)
+        {
+            try
+            {
+                return (P2PMessageIndex)msgType;
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+        }
+
+        /// <summary>
+        /// returns the message type, e.g. PubSub or Payload message (to accelarate this process, only assign first byte of the whole array message)
+        /// </summary>
+        /// <param name="message">the whole message as an byte array</param>
+        /// <returns>the message type</returns>
+        private P2PMessageIndex GetMessageType(byte[] message)
+        {
+            try
+            {
+                return (P2PMessageIndex)message[0];
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+        }
+
+        /// <summary>
+        /// returns only the payload part of the message
+        /// </summary>
+        /// <param name="message">the raw message, received by the system, as an byte array (with the first index byte!!!)</param>
+        /// <returns>only the payload part of the message</returns>
+        private byte[] GetMessagePayload(byte[] message)
+        {
+            if (message.Length > 1)
+            {
+                byte[] retMsg = new byte[message.Length - 1];
+                // workaround because CopyTo doesn't work...
+                //for (int i = 0; i < message.Length-1; i++)
+                //{
+                //    retMsg[i] = message[i + 1];
+                //}
+                Buffer.BlockCopy(message, 1, retMsg, 0, message.Length - 1);
+                return retMsg;
+            }
+            return null;
+        }
+
+        #endregion
+
 
         /// <summary>
         /// Converts a string to the PubSubMessageType if possible. Otherwise return null.
         /// </summary>
         /// <param name="sData">Data</param>
         /// <returns>PubSubMessageType if possible. Otherwise null.</returns>
-        public PubSubMessageType GetMsgType(string sData)
+        private PubSubMessageType GetPubSubType(byte data)
         {
             // Convert one byte data to PublishSubscribeMessageType-Enum
-            int iMsg;
-            if (sData.Trim().Length == 1 && Int32.TryParse(sData.Trim(), out iMsg))
+            try
             {
-                return (PubSubMessageType)iMsg;
+                return (PubSubMessageType)data;
             }
-            else
+            catch (Exception ex)
             {
-                // because Enum is non-nullable, I used this workaround
-                return PubSubMessageType.NULL;
+                throw(ex);
             }
         }
 
