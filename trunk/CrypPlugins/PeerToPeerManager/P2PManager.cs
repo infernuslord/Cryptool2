@@ -24,11 +24,8 @@ using Cryptool.PluginBase.Control;
 using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
 using KeySearcher;
-
-/*
- * TODO: 
- * - derzeit dasselbe wie PUBLISHER - umformen zum Manager!!! (arbeitsteilung)
- */
+using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace Cryptool.Plugins.PeerToPeer
 {
@@ -132,21 +129,6 @@ namespace Cryptool.Plugins.PeerToPeer
             //throw new NotImplementedException();
         }
 
-        private string sOutputvalue;
-        [PropertyInfo(Direction.OutputData, "Managing Information", "Displays all distribution information", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public string Outputvalue
-        {
-            get
-            {
-                return this.sOutputvalue;
-            }
-            set
-            {
-                this.sOutputvalue = value;
-                OnPropertyChanged("Outputvalue");
-            }
-        }
-
         #endregion
 
         #region Events
@@ -167,7 +149,72 @@ namespace Cryptool.Plugins.PeerToPeer
             this.settings.PropertyChanged += new PropertyChangedEventHandler(settings_PropertyChanged);
             this.settings.TaskPaneAttributeChanged += new TaskPaneAttributeChangedHandler(settings_TaskPaneAttributeChanged);
             this.settings.OnPluginStatusChanged += new StatusChangedEventHandler(settings_OnPluginStatusChanged);
+
+            QuickWatchPresentation = new P2PManagerQuickWatch();
         }
+
+        #region QuickWatchPresentation Stuff
+
+        public UserControl QuickWatchPresentation
+        {
+            get;
+            private set;
+        }
+
+        public UserControl Presentation
+        {
+            get { return QuickWatchPresentation; }
+        }
+
+        private void UpdateQuickWatch(double progressInPercent)
+        {
+            UpdateQuickWatch(this.p2pManager.GetGlobalTop10List(), this.p2pManager.PatternAmount, 
+                this.p2pManager.PatternsInProcess, this.p2pManager.LeftPatterns,
+                this.p2pManager.FinishedPatterns, progressInPercent, this.p2pManager.FreeWorkers, this.p2pManager.BusyWorkers);
+        }
+
+        private void UpdateQuickWatch(LinkedList<KeySearcher.KeySearcher.ValueKey> globalTop10List, 
+            int jobsTotalAmount, int jobsInProgress, int jobsLeft, int jobsFinished, double progressInPercent, 
+            int freeWorkers, int busyWorkers)
+        {
+            System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+            LinkedListNode<KeySearcher.KeySearcher.ValueKey> listNode;
+
+            if (QuickWatchPresentation.IsVisible)
+            {
+                ((P2PManagerQuickWatch)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((P2PManagerQuickWatch)QuickWatchPresentation).txtProgressInPercent.Text = Math.Round(progressInPercent, 2) + "%";
+                    ((P2PManagerQuickWatch)QuickWatchPresentation).txtTotal.Text = "" + jobsTotalAmount;
+                    ((P2PManagerQuickWatch)QuickWatchPresentation).txtInProgress.Text = "" + jobsInProgress;
+                    ((P2PManagerQuickWatch)QuickWatchPresentation).txtLeft.Text = "" + jobsLeft;
+                    ((P2PManagerQuickWatch)QuickWatchPresentation).txtFinished.Text = "" + jobsFinished;
+
+                    ((P2PManagerQuickWatch)QuickWatchPresentation).txtFreeWorker.Text = "" + freeWorkers;
+                    ((P2PManagerQuickWatch)QuickWatchPresentation).txtBusyWorker.Text = "" + busyWorkers;
+
+                    ((P2PManagerQuickWatch)QuickWatchPresentation).entries.Clear();
+                    listNode = globalTop10List.First;
+
+                    int i = 0;
+                    while (listNode != null)
+                    {
+                        i++;
+
+                        ResultEntry entry = new ResultEntry();
+                        entry.Ranking = "" + i;
+                        entry.Value = "" + Math.Round(listNode.Value.value, 3);
+                        entry.Key = listNode.Value.key;
+                        entry.Text = enc.GetString(listNode.Value.decryption);
+
+                        ((P2PManagerQuickWatch)QuickWatchPresentation).entries.Add(entry);
+                        listNode = listNode.Next;
+                    }
+                }, null);
+            }
+        }
+
+        #endregion
 
         void settings_OnPluginStatusChanged(IPlugin sender, StatusEventArgs args)
         {
@@ -220,15 +267,6 @@ namespace Cryptool.Plugins.PeerToPeer
             get { return this.settings; }
         }
 
-        public System.Windows.Controls.UserControl Presentation
-        {
-            get { return null; }
-        }
-
-        public System.Windows.Controls.UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
         // Pre-Execute Method is below this region
 
         // Execute-Method is below this region
@@ -279,29 +317,22 @@ namespace Cryptool.Plugins.PeerToPeer
                 this.p2pManager.OnFinishedOnePattern += new P2PManagerBase.FinishedOnePattern(p2pManager_OnFinishedOnePattern);
                 this.p2pManager.OnFinishedDistributingPatterns += new P2PManagerBase.FinishedDistributingPatterns(p2pManager_OnFinishedDistributingPatterns);
                 this.p2pManager.OnProcessProgress += new P2PManagerBase.ProcessProgress(p2pManager_OnProcessProgress);
-                //this.p2pManager.Start(this.settings.TopicName, (long)this.settings.SendAliveMessageInterval);
             }
         }
 
         void p2pManager_OnProcessProgress(double progressInPercent)
         {
             ProgressChanged(progressInPercent, 100.0);
+            UpdateQuickWatch(progressInPercent);
         }
 
-        void p2pManager_OnFinishedOnePattern(string wildCardKey, double firstCoeffResult, string firstKeyResult, string workerId)
+        void p2pManager_OnFinishedOnePattern(string wildCardKey, double firstCoeffResult, string firstKeyResult, PeerId workerId)
         {
-            if (this.Outputvalue != null)
-                this.Outputvalue += "\n";
-            this.Outputvalue += "Value: " + firstCoeffResult.ToString() + "\nKey: " + firstKeyResult + "\nFrom: " + workerId;
         }
 
         void p2pManager_OnFinishedDistributingPatterns(LinkedList<KeySearcher.KeySearcher.ValueKey> lstTopList)
         {
             this.settings.MngStatusChanged(P2PManagerSettings.MngStatus.Finished);
-
-            this.Outputvalue = this.p2pManager.GetGlobalTopList(lstTopList);
-
-            //this.Outputvalue = "All Patterns were bruteforced:";
         }
 
         void p2pManager_OnGuiMessage(string sData, NotificationLevel notificationLevel)
@@ -347,13 +378,12 @@ namespace Cryptool.Plugins.PeerToPeer
                 if (len == 271) //AES
                     kp.WildcardKey = "30-30-30-30-30-30-30-30-30-30-30-30-30-**-**-**";
                 else if (len == 135) //DES
-                    kp.WildcardKey = "30-30-30-**-**-**-**-**";
+                    kp.WildcardKey = "30-30-30-30-**-**-**-**";
                 else
                     throw (new Exception("Encryption Type not supported"));
                 GuiLogMessage("STANDARD Key Pattern was set! Key: '" + kp.getKey() + "'", NotificationLevel.Debug);
             }
 
-            //this.p2pManager.StartManager(this.settings.TopicName, (long)this.settings.SendAliveMessageInterval, kp);
             this.p2pManager.StartManager(this.settings.TopicName, (long)this.settings.SendAliveMessageInterval, kp, this.settings.KeyPatternSize);
 
             this.settings.MngStatusChanged(P2PManagerSettings.MngStatus.Working);

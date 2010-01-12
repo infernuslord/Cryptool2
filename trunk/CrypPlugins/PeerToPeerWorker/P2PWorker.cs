@@ -83,7 +83,7 @@ namespace Cryptool.Plugins.PeerToPeer
             {
                 if (this.p2pWorker != null)
                 {
-                    this.p2pWorker.SolutionFound("");
+                    this.p2pWorker.SolutionFound(new byte[]{0});
                     GuiLogMessage("Solution found message sent to Manager.", NotificationLevel.Info);
                 }
                 else
@@ -126,7 +126,6 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             if (readyForExecution)
                 GuiLogMessage("KeySearcherControl_OnStatusChanged thrown, readyForExecution = true",NotificationLevel.Info);
-                //this.KeySearcherControl.bruteforcePattern();
         }
 
         /// <summary>
@@ -229,7 +228,7 @@ namespace Cryptool.Plugins.PeerToPeer
         public void Stop()
         {
             if(this.p2pWorker != null)
-                this.p2pWorker.Stop(PubSubMessageType.Stop);
+                this.p2pWorker.Stop(PubSubMessageType.Unregister);
         }
 
         public void Initialize()
@@ -270,12 +269,12 @@ namespace Cryptool.Plugins.PeerToPeer
                 this.p2pWorker.OnFinishedBruteforcingThePattern += new P2PWorkerBase.FinishedBruteforcingThePattern(p2pWorker_OnFinishedBruteforcingThePattern);
                 this.p2pWorker.OnReceivedStopMessageFromPublisher += new P2PSubscriberBase.ReceivedStopFromPublisher(p2pWorker_OnReceivedStopMessageFromPublisher);
 
-                this.p2pWorker.Register(this.settings.TopicName, (long)(this.settings.CheckPublishersAvailability * 1000),
+                this.p2pWorker.Start(this.settings.TopicName, (long)(this.settings.CheckPublishersAvailability * 1000),
                     (long)(this.settings.PublishersReplyTimespan * 1000));
             }
             else
             {
-                this.p2pWorker.Register(this.settings.TopicName, (long)(this.settings.CheckPublishersAvailability * 1000),
+                this.p2pWorker.Start(this.settings.TopicName, (long)(this.settings.CheckPublishersAvailability * 1000),
                     (long)(this.settings.PublishersReplyTimespan * 1000));
             }
         }
@@ -309,9 +308,9 @@ namespace Cryptool.Plugins.PeerToPeer
             this.settings.WorkerStatusChanged(P2PWorkerSettings.WorkerStatus.Working);
         }
 
-        void p2pWorker_OnTextArrivedFromPublisher(string sData, PeerId pid)
+        void p2pWorker_OnTextArrivedFromPublisher(byte[] data, PeerId pid)
         {
-            this.Outputvalue = sData;
+            this.Outputvalue = UTF8Encoding.UTF8.GetString(data);
         }
 
         void p2pWorker_OnGuiMessage(string sData, NotificationLevel notificationLevel)

@@ -20,25 +20,25 @@ namespace Cryptool.Plugins.PeerToPeer
         /// </summary>
         public event FreeWorkersAvailable OnFreeWorkersAvailable;
 
-        private Dictionary<string,PeerId> freeWorkers;
-        private Dictionary<string,PeerId> busyWorkers;
+        private HashSet<PeerId> freeWorkers;
+        private HashSet<PeerId> busyWorkers;
 
         #region own methods
 
         public WorkersManagement(long expirationTime) : base(expirationTime)
         {
-            freeWorkers = new Dictionary<string,PeerId>();
-            busyWorkers = new Dictionary<string,PeerId>();
+            freeWorkers = new HashSet<PeerId>();
+            busyWorkers = new HashSet<PeerId>();
         }
 
         public List<PeerId> GetFreeWorkers()
         {
-            return this.freeWorkers.Values.ToList<PeerId>();
+            return this.freeWorkers.ToList<PeerId>();
         }
 
         public List<PeerId> GetBusyWorkers()
         {
-            return this.busyWorkers.Values.ToList<PeerId>();
+            return this.busyWorkers.ToList<PeerId>();
         }
 
         /// <summary>
@@ -48,22 +48,17 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <returns>true, if the given worker is free. Otherwise false, because a already busy worker can't be allocated another time!</returns>
         public bool SetFreeWorkerToBusy(PeerId worker)
         {
-            if(this.busyWorkers.ContainsKey(worker.stringId))
-                return false;
-
-            if (this.freeWorkers.ContainsKey(worker.stringId))
+            bool ret = false;
+            lock (this.freeWorkers)
             {
-                lock(this.freeWorkers)
+                if (!this.busyWorkers.Contains(worker) && this.freeWorkers.Contains(worker))
                 {
-                    this.busyWorkers.Add(worker.stringId, worker);
-                    this.freeWorkers.Remove(worker.stringId);
+                    this.busyWorkers.Add(worker);
+                    this.freeWorkers.Remove(worker);
+                    ret = true;
                 }
             }
-            else
-            {
-                return false;
-            }
-            return true;
+            return ret;
         }
 
         /// <summary>
@@ -73,34 +68,30 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <returns>true, if the given worker is busy. Otherwise false, because a already free worker couldn't set free another time!</returns>
         public bool SetBusyWorkerToFree(PeerId worker)
         {
-            if (this.freeWorkers.ContainsKey(worker.stringId))
-                return false;
-
-            if (this.busyWorkers.ContainsKey(worker.stringId))
+            bool ret = false;
+            lock (this.freeWorkers)
             {
-                lock (this.freeWorkers)
+                if (!this.freeWorkers.Contains(worker) && this.busyWorkers.Contains(worker))
                 {
-                    this.freeWorkers.Add(worker.stringId, worker);
-                    this.busyWorkers.Remove(worker.stringId);
+                    this.freeWorkers.Add(worker);
+                    this.busyWorkers.Remove(worker);
+                    CheckAvailabilityOfFreeWorkers();
+                    ret = true;
                 }
-                CheckAvailabilityOfFreeWorkers();
             }
-            else
-            {
-                return false;
-            }
-            return true;
+            return ret;
         }
 
         // additional functionality for inherited method Remove and RemoveSubscriberEverywhere
         private void RemoveWorker(PeerId workerId)
         {
-            if (this.freeWorkers.ContainsKey(workerId.stringId))
-                this.freeWorkers.Remove(workerId.stringId);
-
-            if (this.busyWorkers.ContainsKey(workerId.stringId))
+            lock(this.freeWorkers)
             {
-                this.busyWorkers.Remove(workerId.stringId);
+                if (this.freeWorkers.Contains(workerId))
+                    this.freeWorkers.Remove(workerId);
+
+                if (this.busyWorkers.Contains(workerId))
+                    this.busyWorkers.Remove(workerId);
             }
         }
 
@@ -124,9 +115,9 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             bool bolBaseAdd = base.Add(subscriberId);
 
-            // additional: fill freeWorker-List with new Worker
-            if(!this.freeWorkers.ContainsKey(subscriberId.stringId))
-                this.freeWorkers.Add(subscriberId.stringId,subscriberId);
+            // fill freeWorker-List with new Worker too
+            if(!this.freeWorkers.Contains(subscriberId))
+                this.freeWorkers.Add(subscriberId);
 
             CheckAvailabilityOfFreeWorkers();
 
@@ -171,6 +162,16 @@ namespace Cryptool.Plugins.PeerToPeer
             }
             else
                 return base.ToString();
+        }
+
+        public int GetFreeWorkersAmount()
+        {
+            return this.freeWorkers.Count();
+        }
+
+        public int GetBusyWorkersAmount()
+        {
+            return this.busyWorkers.Count();
         }
     }
 }

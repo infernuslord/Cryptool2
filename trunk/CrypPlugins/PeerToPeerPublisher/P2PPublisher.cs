@@ -53,10 +53,14 @@ namespace Cryptool.Plugins.PeerToPeer
 
         private void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (this.p2pPublisher == null || !this.p2pPublisher.Started)
+                return;
+
+
             // storing settings for subscribers in the DHT, so they can load them there
             if (e.PropertyName == "SendAliveMessageInterval")
             {
-                this.p2pControl.DHTstore(settings.TopicName + "Settings",
+                this.p2pControl.DHTstore(settings.TopicName + "AliveMsg",
                     System.BitConverter.GetBytes(this.settings.SendAliveMessageInterval * 1000));
             }
             // if TaskName has changed, clear the Lists, because the Subscribers must reconfirm registering
@@ -181,6 +185,10 @@ namespace Cryptool.Plugins.PeerToPeer
             {
                 this.p2pPublisher = new P2PPublisherBase(this.P2PControl);
                 this.p2pPublisher.OnGuiMessage += new P2PPublisherBase.GuiMessage(p2pPublisher_OnGuiMessage);
+                this.p2pPublisher.Start(this.settings.TopicName, (long)this.settings.SendAliveMessageInterval);
+            }
+            if (this.p2pPublisher != null && !this.p2pPublisher.Started) // when Workspace has stopped and has been started again
+            {
                 this.p2pPublisher.Start(this.settings.TopicName, (long)this.settings.SendAliveMessageInterval);
             }
         }

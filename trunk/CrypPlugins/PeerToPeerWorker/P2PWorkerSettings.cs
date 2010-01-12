@@ -87,7 +87,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
         /* FOR TESTING ISSUES */
 
-        private int checkPublishersAvailability = 60;
+        private int checkPublishersAvailability = 240;
         [TaskPane("Check Publisher Interval (in sec)","To check liveness or possibly changed publishing peer in intervals","Intervals",0,false,DisplayLevel.Beginner,ControlType.NumericUpDown, ValidationType.RangeInteger,20,int.MaxValue)]
         public int CheckPublishersAvailability 
         {
@@ -106,7 +106,7 @@ namespace Cryptool.Plugins.PeerToPeer
             }
         }
 
-        private int publishersReplyTimespan = 5;
+        private int publishersReplyTimespan = 10;
         [TaskPane("Publisher Reply Timespan (in sec)", "When checking publishers availability, ping message is sent. The publisher must answer with a pong message in the timespan!", "Intervals", 0, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 2, 60)]
         public int PublishersReplyTimespan
         {

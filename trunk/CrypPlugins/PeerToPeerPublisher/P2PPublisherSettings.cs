@@ -86,7 +86,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
         /* FOR TESTING ISSUES */
 
-        private int sendAliveMessageInterval = 20;
+        private int sendAliveMessageInterval = 60;
         [TaskPane("Alive Message Interval (in seconds)","In which interval do you wish to receive Alive-Messages from your Subscribers?"
             ,"Subscriber Properties",0,false,DisplayLevel.Beginner,ControlType.NumericUpDown, ValidationType.RangeInteger, 10, 3600)]
         public int SendAliveMessageInterval 
