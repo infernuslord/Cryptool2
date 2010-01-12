@@ -101,7 +101,11 @@ namespace Transposition
         }
 
         [PropertySaveOrder(5)]
-        [TaskPane("Presentation Speed", "Change the pace of the Presentation", null, 5, true, DisplayLevel.Expert, ControlType.Slider, 1, 900)]
+        [TaskPane("PresentationControls", "Presentation Controls", null, 5, true, DisplayLevel.Expert, ControlType.TextBoxReadOnly)]
+        public String text { get { return "Presentation Controls"; } set { } }
+
+        [PropertySaveOrder(6)]
+        [TaskPane("Presentation Speed", "Change the pace of the Presentation", null, 6, true, DisplayLevel.Expert, ControlType.Slider, 1, 1000)]
         public int PresentationSpeed
         {
             get { return (int)Presentation_Speed; }
@@ -113,9 +117,9 @@ namespace Transposition
             }
         }
 
-        [PropertySaveOrder(6)]
-        [ContextMenu("Number Representation Mode", "Select a mode of Representation", 6, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "US-ASCII", "hex" })]
-        [TaskPane("Number Representation Mode", "Select a mode of Representation", null, 6, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "US-ASCII", "hex" })]
+        [PropertySaveOrder(7)]
+        [ContextMenu("Number Representation Mode", "Select a mode of Representation", 7, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "US-ASCII", "hex" })]
+        [TaskPane("Number Representation Mode", "Select a mode of Representation", null, 7, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "US-ASCII", "hex" })]
         public int Number
         {
             get { return (int)this.selectedNumberMode;}

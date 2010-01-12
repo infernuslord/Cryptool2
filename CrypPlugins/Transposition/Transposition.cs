@@ -32,6 +32,7 @@ namespace Transposition
         private byte[,] permuted_matrix;
         private int[] key;
         private AutoResetEvent ars;
+        private Boolean b;
 
         # endregion
 
@@ -47,6 +48,7 @@ namespace Transposition
             myPresentation.feuerEnde += new EventHandler(presentation_finished);
             myPresentation.updateProgress += new EventHandler(update_progress);
             this.settings.PropertyChanged += settings_OnPropertyChange;
+            b = true;
         }
 
         private void update_progress(object sender, EventArgs e) 
@@ -58,10 +60,10 @@ namespace Transposition
 
         private void presentation_finished(object sender, EventArgs e)
         {
-            ars.Set();
+           
             Output = output;
             ProgressChanged(1, 1);
-            
+            ars.Set(); 
         }
 
         private void settings_OnPropertyChange(object sender, PropertyChangedEventArgs e)
@@ -188,21 +190,26 @@ namespace Transposition
                 ((TranspositionControl)controlSlave).onStatusChanged();
             }
 
+            if(b)
             if (Presentation.IsVisible)
             {
+                b = false;
                     Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                    {
                        myPresentation.main(Read_in_matrix, Permuted_matrix, key, Keyword, Input, output, this.settings.Permutation, this.settings.ReadIn, this.settings.ReadOut, this.settings.Action, this.settings.Number);
                    }
                    , null);
-                 ars.WaitOne();  
+
+                ars.WaitOne();
+                Thread.Sleep(1000);
+                b = true;
             }
             else
             {
                 Output = output;
                 ProgressChanged(1, 1);
             }
-            Transposition_LogMessage("Hallo", NotificationLevel.Debug);
+            
         }
 
         public void Initialize()
@@ -222,7 +229,7 @@ namespace Transposition
 
         public void PostExecution()
         {
-
+            
         }
 
         public void PreExecution()

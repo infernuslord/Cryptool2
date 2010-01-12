@@ -104,9 +104,9 @@ namespace Transposition
             //background being created
             GradientStop gs = new GradientStop();
             LinearGradientBrush myBrush = new LinearGradientBrush();
-            myBrush.GradientStops.Add(new GradientStop(Colors.CornflowerBlue, 0.0));
-            myBrush.GradientStops.Add(new GradientStop(Colors.SkyBlue, 0.5));
-            myBrush.GradientStops.Add(new GradientStop(Colors.PowderBlue, 1.0));
+            myBrush.GradientStops.Add(new GradientStop(Colors.Red, 1.0));
+            myBrush.GradientStops.Add(new GradientStop(Colors.Pink, 0.5));
+            myBrush.GradientStops.Add(new GradientStop(Colors.PaleVioletRed, 0.0));
                       
             mycanvas.Background = myBrush;
 
@@ -253,6 +253,14 @@ namespace Transposition
                     myGrid.Children.Clear();
                     myGrid.RowDefinitions.Clear();
                     myGrid.ColumnDefinitions.Clear();
+                    myGrid.ClearValue(WidthProperty);
+                    myGrid.ClearValue(HeightProperty);
+                    mywrap1.Width = 160;
+                    mywrap1.ClearValue(HeightProperty);
+                    textBox2.ClearValue(HeightProperty);
+                    label1.Width = 20;
+                    label2.Width = 20;
+
                     textBox1.Clear();
                     textBox2.Clear();
                     mywrap1.Children.Clear();
@@ -685,12 +693,7 @@ namespace Transposition
         public void sort(int i)
         {
             myupdateprogress(i * 1000 / teba.GetLength(0) + 1000);
-            LinearGradientBrush myBrush1 = new LinearGradientBrush();
-            myBrush1.GradientStops.Add(new GradientStop(Colors.CornflowerBlue, 1.0));
-            //myBrush1.GradientStops.Add(new GradientStop(Colors.SkyBlue, 0.5));
-            //myBrush1.GradientStops.Add(new GradientStop(Colors.CornflowerBlue, 1.0));
-
-            mycanvas.Background = myBrush1;
+           
 
             if (per == 0) { textBox2.Text = "permuting by row"; }
             else { textBox2.Text = "permuting by column"; }
@@ -724,7 +727,7 @@ namespace Transposition
 
                         }
 
-                        else if (!Stop) { preReadOut(); }
+                        else if (!Stop) { preReadOut_help(); }
                     }
                     else
                     {
@@ -752,7 +755,7 @@ namespace Transposition
 
                         }
 
-                        else if (!Stop) { preReadOut(); }
+                        else if (!Stop) { preReadOut_help(); }
                     }
                 }
 
@@ -786,7 +789,7 @@ namespace Transposition
 
                         }
 
-                        else if (!Stop) { preReadOut(); }
+                        else if (!Stop) { preReadOut_help(); }
                     }
                     else
                     {
@@ -814,7 +817,7 @@ namespace Transposition
 
                         }
 
-                        else if (!Stop) { preReadOut(); }
+                        else if (!Stop) { preReadOut_help(); }
                     }
                 }
 
@@ -944,12 +947,7 @@ namespace Transposition
 
         public void readout()
         {
-            LinearGradientBrush myBrush = new LinearGradientBrush();
-            myBrush.GradientStops.Add(new GradientStop(Colors.CornflowerBlue, 1.0));
-            myBrush.GradientStops.Add(new GradientStop(Colors.SkyBlue, 0.5));
-            myBrush.GradientStops.Add(new GradientStop(Colors.PowderBlue, 0.0));
-
-           mycanvas.Background = myBrush;
+            
 
             if (reout == 0) { textBox2.Text = "reading out by row"; }
             else { textBox2.Text = "reading out by column"; }
@@ -1089,10 +1087,44 @@ namespace Transposition
         private void my_Help7(object sender, EventArgs e)
         {
             precountup = countup1;
-
             outcount5++;
             if (!Stop)
                 preReadOut();
+        }
+
+        private void preReadOut_help() 
+        {
+            GradientStop gs1 = new GradientStop(Colors.Red,1.0);
+            GradientStop gs2 = new GradientStop(Colors.Pink, 0.5);
+            GradientStop gs3 = new GradientStop(Colors.PaleVioletRed, 0.0);
+
+            ColorAnimation myColorAnimation_rg = new ColorAnimation();
+            myColorAnimation_rg.From = Colors.CornflowerBlue;
+            myColorAnimation_rg.To = Colors.GreenYellow;
+            myColorAnimation_rg.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+            ColorAnimation myColorAnimation_pl = new ColorAnimation();
+            myColorAnimation_pl.From = Colors.SkyBlue;
+            myColorAnimation_pl.To = Colors.LightGreen;
+            myColorAnimation_pl.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+            ColorAnimation myColorAnimation_pd = new ColorAnimation();
+            myColorAnimation_pd.From = Colors.PowderBlue;
+            myColorAnimation_pd.To = Colors.DarkSeaGreen;
+            myColorAnimation_pd.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+            LinearGradientBrush myBrush = new LinearGradientBrush();
+            myBrush.GradientStops.Add(gs1);
+            myBrush.GradientStops.Add(gs2);
+            myBrush.GradientStops.Add(gs3);
+
+            gs1.BeginAnimation(GradientStop.ColorProperty,myColorAnimation_rg);
+            gs2.BeginAnimation(GradientStop.ColorProperty, myColorAnimation_pl);
+            gs3.BeginAnimation(GradientStop.ColorProperty, myColorAnimation_pd);
+
+            mycanvas.Background = myBrush;
+
+            preReadOut();
         }
 
         private void my_Help5(object sender, EventArgs e)
@@ -1155,30 +1187,80 @@ namespace Transposition
             fadeOut2.To = 0.0;
             fadeOut2.Duration = new Duration(TimeSpan.FromMilliseconds((1001 - speed)));
 
-            fadeOut2.Completed += new EventHandler(my_Help13);
+            fadeOut2.Completed += new EventHandler(endhelper);
             mywrap1.BeginAnimation(OpacityProperty, fadeOut2);
             myGrid.BeginAnimation(OpacityProperty, fadeOut);
             textBox2.BeginAnimation(OpacityProperty, fadeOut);
 
+            
         }
 
 
         private void my_Help13(object sender, EventArgs e)
         {
+            
             sizeChanged(this, EventArgs.Empty);
-            feuerEnde(this, EventArgs.Empty);
-            LinearGradientBrush myBrush1 = new LinearGradientBrush();
+            //LinearGradientBrush myBrush1 = new LinearGradientBrush();
             //myBrush1.GradientStops.Add(new GradientStop(Colors.CornflowerBlue, 0.0));
             //myBrush1.GradientStops.Add(new GradientStop(Colors.SkyBlue, 0.5));
-            myBrush1.GradientStops.Add(new GradientStop(Colors.PowderBlue, 1.0));
-
-            mycanvas.Background = myBrush1;
+            //myBrush1.GradientStops.Add(new GradientStop(Colors.PowderBlue, 1.0));
+           // mycanvas.Background = myBrush1;
             textBox2.Text = "accomplished"; //finish
+            feuerEnde(this, EventArgs.Empty);
+        }
 
+        private void endhelper(Object sender, EventArgs e) 
+        {
+            myGrid.Width = 0;
+            mywrap1.Width = 0;
+            myGrid.Height = 0;
+            mywrap1.Height = 0;
+            textBox2.Height = 0;
+            label1.Width = 0;
+            label2.Width = 0;
+            sizeChanged(this, EventArgs.Empty);
+            DoubleAnimation fadeOut2 = new DoubleAnimation();
+            fadeOut2.From = 0.0;
+            fadeOut2.To = 0.1;
+            fadeOut2.Duration = new Duration(TimeSpan.FromMilliseconds((1001 - speed)));
+
+            fadeOut2.Completed += new EventHandler(my_Help13);
+            textBox2.BeginAnimation(OpacityProperty, fadeOut2);
         }
 
         private void my_Help14(object sender, EventArgs e)
         {
+            
+            GradientStop gs1 = new GradientStop(Colors.Red, 1.0);
+            GradientStop gs2 = new GradientStop(Colors.Pink, 0.5);
+            GradientStop gs3 = new GradientStop(Colors.PaleVioletRed, 0.0);
+
+            ColorAnimation myColorAnimation_rg = new ColorAnimation();
+            myColorAnimation_rg.From = Colors.Red;
+            myColorAnimation_rg.To = Colors.CornflowerBlue;
+            myColorAnimation_rg.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+            ColorAnimation myColorAnimation_pl = new ColorAnimation();
+            myColorAnimation_pl.From = Colors.Pink;
+            myColorAnimation_pl.To = Colors.SkyBlue;
+            myColorAnimation_pl.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+            ColorAnimation myColorAnimation_pd = new ColorAnimation();
+            myColorAnimation_pd.From = Colors.PaleVioletRed;
+            myColorAnimation_pd.To = Colors.PowderBlue;
+            myColorAnimation_pd.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+            LinearGradientBrush myBrush = new LinearGradientBrush();
+            myBrush.GradientStops.Add(gs1);
+            myBrush.GradientStops.Add(gs2);
+            myBrush.GradientStops.Add(gs3);
+
+            gs1.BeginAnimation(GradientStop.ColorProperty, myColorAnimation_rg);
+            gs2.BeginAnimation(GradientStop.ColorProperty, myColorAnimation_pl);
+            gs3.BeginAnimation(GradientStop.ColorProperty, myColorAnimation_pd);
+            
+            mycanvas.Background = myBrush;
+
             sort(schleife);
         }
 
