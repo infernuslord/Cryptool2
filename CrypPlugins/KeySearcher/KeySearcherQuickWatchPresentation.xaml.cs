@@ -20,7 +20,7 @@ namespace KeySearcher
     /// Interaktionslogik für KeySearcherQuickWatchPresentation.xaml
     /// </summary>
     public partial class KeySearcherQuickWatchPresentation : UserControl
-    {
+    {        
         public ObservableCollection<ResultEntry> entries = new ObservableCollection<ResultEntry>();
 
         public KeySearcherQuickWatchPresentation()
