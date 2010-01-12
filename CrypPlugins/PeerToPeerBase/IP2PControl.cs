@@ -29,7 +29,7 @@ namespace Cryptool.PluginBase.Control
     }
 
     /// <summary>
-    /// Message types for Publish/Subscriber systems
+    /// Message types for maintaining the Publish/Subscriber systems
     /// </summary>
     public enum PubSubMessageType
     {
@@ -73,10 +73,32 @@ namespace Cryptool.PluginBase.Control
         /// </summary>
         NULL = 666
     }
+
+    /// <summary>
+    /// necessary index for all p2p messages, which have to be processed by ct2
+    /// </summary>
+    public enum P2PMessageIndex
+    {
+        /// <summary>
+        /// indicates, that a PubSubMessageType will follow
+        /// </summary>
+        PubSub = 0,
+        /// <summary>
+        /// indicates, that any kind of payload data will follow
+        /// </summary>
+        Payload = 1
+    }
     #endregion
+
+    public delegate void P2PPayloadMessageReceived(PeerId sender, byte[] data);
+    public delegate void P2PSystemMessageReceived(PeerId sender, PubSubMessageType msgType);
 
     public interface IP2PControl : IControl
     {
+        //event P2PBase.P2PMessageReceived OnPeerReceivedMsg;
+        event P2PPayloadMessageReceived OnPayloadMessageReceived;
+        event P2PSystemMessageReceived OnSystemMessageReceived;
+
         bool DHTstore(string sKey, byte[] byteValue);
         bool DHTstore(string sKey, string sValue);
         byte[] DHTload(string sKey);
@@ -87,15 +109,24 @@ namespace Cryptool.PluginBase.Control
         PeerId GetPeerID(out string sPeerName);
         PeerId GetPeerID(byte[] byteId);
 
+        /// <summary>
+        /// Sends data to the specified peer
+        /// </summary>
+        /// <param name="data">only send PAYLOAD data as an byte-array (attention: 
+        /// don't add an index by yourselve, index will be added internally)</param>
+        /// <param name="destinationAddress">the address of the destination peer</param>
+        void SendToPeer(byte[] data, PeerId destinationAddress);
+        /// <summary>
+        /// Sends data to the specified peer
+        /// </summary>
+        /// <param name="sData">only send PAYLOAD data as a string</param>
+        /// <param name="destinationAddress">the address of the destination peer</param>
         void SendToPeer(string sData, PeerId destinationAddress);
-        //void SendToPeer(string sData, byte[] sDestinationPeerAddress);
-        //void SendToPeer(string sData, string sDestinationPeerAddress);
+        /// <summary>
+        /// Sends data to the specified peer
+        /// </summary>
+        /// <param name="msgType">a PubSub-System message</param>
+        /// <param name="sDestinationAddress">the address of the destination peer</param>
         void SendToPeer(PubSubMessageType msgType, PeerId sDestinationAddress);
-        void SendToPeer(string sData, byte[] destinationAddress);
-        //void SendToPeer(PubSubMessageType msgType, string sDestinationAddress);
-
-        PubSubMessageType GetMsgType(string byteData);
-
-        event P2PBase.P2PMessageReceived OnPeerReceivedMsg;
     }
 }
