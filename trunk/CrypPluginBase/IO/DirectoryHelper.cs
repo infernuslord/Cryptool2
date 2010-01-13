@@ -26,7 +26,7 @@ namespace Cryptool.PluginBase.IO
     {
         private const string crypTool2 = "CrypTool2";
         private const string crypPlugins = "CrypPlugins";
-        private const string tempFiles = "Temp Files";
+        private const string tempFiles = "Temp";
 
         public static string DirectoryCrypPlugins
         {
@@ -55,23 +55,28 @@ namespace Cryptool.PluginBase.IO
 
         public static string GetNewTempFilePath()
         {
-            string filePath;
-
-            do
-            {
-                filePath = Path.Combine(DirectoryHelper.DirectoryLocalTemp, Guid.NewGuid().ToString());
-            } while (File.Exists(filePath)); // sanity check for GUID collision
-
-            return filePath;
+            return GetNewTempFilePath(string.Empty);
         }
 
+        /// <summary>
+        /// Returns path to a unique file name which can be used for temporary files.
+        /// The generated file name contains a Guid and does not use Path.GetTempFileName().
+        /// </summary>
+        /// <param name="extension"></param>
+        /// <returns></returns>
         public static string GetNewTempFilePath(string extension)
         {
-            // CHECK: use Path.GetTempFileName() instead?
             string filePath;
             do
             {
-                filePath = Path.Combine(DirectoryHelper.DirectoryLocalTemp, Guid.NewGuid().ToString() + "." + extension);
+                if (extension.Length > 0)
+                {
+                    filePath = Path.Combine(DirectoryHelper.DirectoryLocalTemp, Guid.NewGuid().ToString() + "." + extension);
+                }
+                else
+                {
+                    filePath = Path.Combine(DirectoryHelper.DirectoryLocalTemp, Guid.NewGuid().ToString());
+                }
             } while (File.Exists(filePath)); // sanity check for GUID collision
 
             return filePath;
