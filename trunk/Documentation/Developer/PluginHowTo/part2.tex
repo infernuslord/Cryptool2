@@ -25,19 +25,23 @@ Now your Visual Studio/C\# Express solution should look like this:\\
 \end{figure}
 \section{Interface selection}
 \label{sec:SelectTheInterfaceYourPluginWantsToServe}
-First we have to add a reference to the CrypTool library called ''CrypPluginBase.dll'' where all necessary CrypTool plugin interfaces are declared.\\
+First we have to add a reference to the CrypTool library called ''CrypPluginBase.dll'' where all necessary CrypTool plugin interfaces are declared.
+
 \begin{figure}[h!]
 	\includegraphics{figures/add_reference.jpg}
 	\caption{Add new reference}
 	\label{fig:add_reference}
-\end{figure}\\
+\end{figure}
+
 Make a right click in the Solution Explorer on the ''Reference'' item and choose ''Add Reference''.\\
+
 \begin{figure}[h!]
 	\centering
 		\includegraphics{figures/add_pluginbase_source.jpg}
 	\caption{Add reference PluginBase source code}
 	\label{fig:add_pluginbase_source}
-\end{figure}\\
+\end{figure}
+
 Select the project ''CrypPluginBase''. If you don't have the CrypPluginBase source code, it's also possible to add a reference the the binary DLL. In this case browse to the path where the library file ''CrypPluginBase.dll'' is located e.g. ''C:\textbackslash Documents and Settings \textbackslash $<$Username$>$ \textbackslash My Documents\textbackslash Visual Studio  2008\textbackslash Projects\textbackslash CrypPluginBase\textbackslash bin\textbackslash Debug'') and select the library by double clicking the file or pressing the "OK" button.\\
 
 \textit{\small Note: You can also take the binary DLL which is located in the folder where the ''CrypWin.exe'' is placed when you download CrypTool2.}
@@ -48,25 +52,31 @@ Select the project ''CrypPluginBase''. If you don't have the CrypPluginBase sour
 		\includegraphics{figures/browse_reference.jpg}
 	\caption{Browse reference}
 	\label{fig:browse_reference}
-\end{figure}\\
-Besides the CrypPluginBase you need to add three assembly references (same way like the ''CrypPluginBase'' before by selectig the ''.NET'' tab) to provide the necessary "Windows" namespace for your \textbf{user control} functions called "Presentation" and "QuickWatchPresentation". Select the following .NET components:\\
+\end{figure}
+
+Besides the CrypPluginBase you need to add three assembly references (same way like the ''CrypPluginBase'' before by selecting the ''.NET'' tab) to provide the necessary ''Windows'' namespace for your \textbf{user control} functions called ''Presentation'' and "QuickWatchPresentation". Select the following .NET components:
+
 \begin{itemize}
     \item PresentationCore
     \item PresentationFramework
     \item WindowsBase
-\end{itemize}\clearpage
+\end{itemize}
+\clearpage
+
 Afterwards your reference tree view should look like this:
+
 \begin{figure}[h!]
 		\includegraphics{figures/reference_tree.jpg}
 	\caption{Reference tree}
 	\label{fig:reference_tree}
 \end{figure}
+
 If your plugin will be based on further libraries, you have to add them in the same way.
 \section{Create the classes for the algorithm and for its settings}\label{sec:CreateTheClassesForTheAlgorithmAndForItsSettings}
-In the next step we have to create two classes. The first class named "Caesar" has to inherit from IEncryption to provide an ecryption plugin. If you want to develop a Hash plugin your class has to inherit from IHash.
-The second class named "CaesarSettings" has to inherit from ISettings.
+In the next step we have to create two classes. The first class named ''Caesar'' has to inherit from IEncryption to provide an ecryption plugin. If you want to develop a Hash plugin your class has to inherit from IHash.
+The second class named ''CaesarSettings'' has to inherit from ISettings.
 \subsection{Create the class for the algorithm (Caesar)}\label{sec:CreateTheClassForTheAlgorithmCaesar}
-Visual Studio automatically creates a class which has the name "Class1.cs".  There are two ways to change the name to "Caesar.cs":
+Visual Studio automatically creates a class which has the name ''Class1.cs''.  There are two ways to change the name to ''Caesar.cs'':
 \renewcommand{\labelitemi}{-}
 \begin{itemize}
 	\item Rename the existent class
@@ -294,7 +304,7 @@ namespace Cryptool.Caesar
     public class CaesarSettings : ISettings
     {
         #region Public Caesar specific interface
-        
+
         /// <summary>
         /// We use this delegate to send log messages from the settings class to the Caesar plugin
         /// </summary>
@@ -364,7 +374,7 @@ namespace Cryptool.Caesar
         private string lowerAlphabet = ''abcdefghijklmnopqrstuvwxyz'';
         private string alphabet = ''ABCDEFGHIJKLMNOPQRSTUVWXYZ'';
         private char shiftChar = 'C';
-        private int shiftValue = 2; 
+        private int shiftValue = 2;
         // private int shiftValue = 2;
         private UnknownSymbolHandlingMode unknownSymbolHandling = UnknownSymbolHandlingMode.Ignore;
         private int caseSensitiveAlphabet = 0; // 0 = case insensitve, 1 = case sensitive
@@ -401,7 +411,7 @@ namespace Cryptool.Caesar
         {
             HasChanges = true;
 
-            // making sure the shift value lies within the alphabet range      
+            // making sure the shift value lies within the alphabet range
             offset = offset % alphabet.Length;
 
             // set the new shiftChar
@@ -431,7 +441,7 @@ namespace Cryptool.Caesar
                 {
                     offset = alphabet.ToUpper().IndexOf(char.ToUpper(value[0]));
                 }
-                
+
                 if (offset >= 0)
                 {
                     HasChanges = true;
@@ -450,7 +460,7 @@ namespace Cryptool.Caesar
             {
                 LogMessage(''Bad input \'''' + value + ''\''! ('' + e.Message + '') Reverting to '' + shiftChar.ToString() + ''!'', NotificationLevel.Error);
             }
-        } 
+        }
 
         #endregion
 
@@ -474,9 +484,9 @@ namespace Cryptool.Caesar
                 if (ReExecute != null) ReExecute();
             }
         }
-        
+
         [PropertySaveOrder(5)]
-        [TaskPane(''Key as integer'', ''Enter the number of letters to shift. For instance a value of 1 means that the plaintext character a gets mapped to the ciphertext character B, b to C and so on.'', null, 2, true, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]        
+        [TaskPane(''Key as integer'', ''Enter the number of letters to shift. For instance a value of 1 means that the plaintext character a gets mapped to the ciphertext character B, b to C and so on.'', null, 2, true, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]
         public int ShiftValue
         {
             get { return shiftValue; }
@@ -489,7 +499,7 @@ namespace Cryptool.Caesar
 
 
         [PropertySaveOrder(6)]
-        [TaskPaneAttribute(''Key as single letter'', ''Enter a single letter as the key. This letter is mapped to an integer stating the position in the alphabet. The values for \''Key as integer\'' and \''Key as single letter” are always synchronized.'', null, 3, true, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RegEx, ''^([A-Z]|[a-z]){1,1}'')]
+        [TaskPaneAttribute(''Key as single letter'', ''Enter a single letter as the key. This letter is mapped to an integer stating the position in the alphabet. The values for 'Key as integer' and 'Key as single letter' are always synchronized.'', null, 3, true, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RegEx, ''^([A-Z]|[a-z]){1,1}'')]
         public string ShiftChar
         {
             get { return this.shiftChar.ToString(); }
@@ -544,7 +554,7 @@ namespace Cryptool.Caesar
 
         /// <summary>
         /// Visible setting how to deal with alphabet case. 0 = case insentive, 1 = case sensitive
-        /// </summary>   
+        /// </summary>
         //[SettingsFormat(1, ''Normal'')]
         [PropertySaveOrder(8)]
         [ContextMenu(''Alphabet case sensitivity'', ''Should upper and lower case be treated differently? (Should a == A)'', 7, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { ''Case insensitive'', ''Case sensitive'' })]
@@ -562,7 +572,7 @@ namespace Cryptool.Caesar
                     {
                         alphabet = upperAlphabet;
                         LogMessage(''Changing alphabet to: \'''' + alphabet + ''\'' ('' + alphabet.Length.ToString() + '' Symbols)'', NotificationLevel.Info);
-                        OnPropertyChanged(''AlphabetSymbols'');                        
+                        OnPropertyChanged(''AlphabetSymbols'');
                         // re-set also the key (shiftvalue/shiftChar to be in the range of the new alphabet
                         setKeyByValue(shiftValue);
                     }
@@ -573,7 +583,7 @@ namespace Cryptool.Caesar
                     {
                         alphabet = upperAlphabet + lowerAlphabet;
                         LogMessage(''Changing alphabet to: \'''' + alphabet + ''\'' ('' + alphabet.Length.ToString() + '' Symbols)'', NotificationLevel.Info);
-                        OnPropertyChanged(''AlphabetSymbols'');                        
+                        OnPropertyChanged(''AlphabetSymbols'');
                     }
                 }
 
@@ -599,7 +609,7 @@ namespace Cryptool.Caesar
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string name)
-        {          
+        {
           if (PropertyChanged != null)
           {
             PropertyChanged(this, new PropertyChangedEventArgs(name));
@@ -621,7 +631,7 @@ namespace Cryptool.Caesar
           {
             sensitivityEnabled = !sensitivityEnabled;
             if (sensitivityEnabled)
-            {              
+            {
               TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer(''AlphabetCase'', Visibility.Visible)));
             }
             else
@@ -639,12 +649,14 @@ Before we go back to the code of the Caesar class, we have to add an icon image 
 \textit{\small Note: This will be changed in future. A default icon will be used if no icon image has been provided.}\\\\
 For testing purposes you may create a simple black and white PNG image with MS Paint or Paint.NET. As image size you can use 40x40 pixels for example, but as the image will be scaled when required, any size should do it. Place the image file in your project directory or in a subdirectory.\clearpage
 Then make a right click on the project item "Caesar" or any subdirectory within the Solution Explorer, and select ''Add-$>$Existing Item...'':
+
 \begin{figure}[h!]
 	\centering
 		\includegraphics{figures/add_existing_item.jpg}
 	\caption{Add existing item}
 	\label{fig:add_existing_item}
 \end{figure}
+
 As you can see, in our solution we create an new folder named ''Images'' (make a right click on the project item ''Caesar'' and select ''Add-$>$New Folder'') and placed there the new icon by clicking right on the folder as mentioned aboved.\clearpage
 Then select ''Image Files'' as file type, and choose the icon for your plugin:
 \begin{figure}[h!]
@@ -668,8 +680,11 @@ In the ''Properties'' panel you have to set the ''Build Action'' to ''Resource''
 	\label{fig:icon_build_action}
 \end{figure}
 \section{Set the attributes for the class Caesar}\label{sec:SetTheAttributesForTheClassCaesar}
-Now let's go back to the code of the Caesar class (''Caesar.cs'' file). First we have to set the necessary attributes for our class. This attributes are used to provide additional information for the CrypTool 2.0 environment. If not set, your plugin won't show up in the GUI, even if everything else is implemented correctly.\\\\
-Attributes are used for \textbf{declarative} programming and provide meta data, that can be attached to the existing .NET meta data , like classes and properties. CrypTool provides a set of custom attributes, that are used to mark the different parts of your plugin.\\\\
+Now let's go back to the code of the Caesar class (''Caesar.cs'' file). First we have to set the necessary attributes for our class. This attributes are used to provide additional information for the CrypTool 2.0 environment. If not set, your plugin won't show up in the GUI, even if everything else is implemented correctly.
+
+Attributes are used for \textbf{declarative} programming and provide meta data, that can be attached to the existing .NET meta data , like classes and properties. CrypTool provides a set of custom attributes, that are used to mark the different parts of your plugin.
+
+
 \textit{[Author]}\\
 The first attribute called ''Author'' is optional, which means we are not forced to define this attribute. It provides the additional information about the plugin developer. This informations you can see for example in the TaskPane as shown on a screenshot above. We set this attribute to demonstrate how it has to look in case you want to provide this attribute.
 \begin{figure}[h!]
@@ -677,7 +692,8 @@ The first attribute called ''Author'' is optional, which means we are not forced
 		\includegraphics[width=1.00\textwidth]{figures/attribute_author.jpg}
 	\caption{Attribute author}
 	\label{fig:attribute_author}
-\end{figure}\\
+\end{figure}
+
 As we can see above the author attribute takes four elements of type string. These elements are:
 \begin{itemize}
 	\item Author = name of the plugin developer
@@ -685,14 +701,17 @@ As we can see above the author attribute takes four elements of type string. The
 	\item Institute = current employment of the developer like University or Company
 	\item Url = the website or homepage of the developer
 \end{itemize}
-All this elements are also optional. The developer decides what he wants to publish. Unused elements shall be set to null or a zero-length string ('''').\\
+All this elements are also optional. The developer decides what he wants to publish. Unused elements shall be set to null or a zero-length string ('''').
+
 Our author attribute should look now as you can see below:
 \begin{figure}[h!]
 	\centering
 		\includegraphics[width=1.00\textwidth]{figures/attribute_author_filled.jpg}
 	\caption{Filled author auttribute}
 	\label{fig:attribute_author_filled}
-\end{figure}\\\\
+\end{figure}
+
+
 \textit{[PluginInfo]}\\
 The second attribute called ''PluginInfo'' provides the necessary information about the plugin like caption and tool tip. This attribute is mandatory. The attribute has the definition as you can see below:
 \begin{figure}[h]
@@ -700,7 +719,8 @@ The second attribute called ''PluginInfo'' provides the necessary information ab
 		\includegraphics[width=1.00\textwidth]{figures/attribute_plugininfo.jpg}
 	\caption{Attribute PluginInfo}
 	\label{fig:attribute_plugininfo}
-\end{figure}\\
+\end{figure}
+
 This attribute expects the following elements:
 \begin{itemize}
 	\item resourceFile = Defines if resource files will be provided and where to find them. E.g. to provide the plugin multilingual you can store the labels in such a resource file. This element is optional.
@@ -710,7 +730,9 @@ This attribute expects the following elements:
 	\item descriptionUrl = from type string, define where to find the whole description files (e.g. XAML files). This element is optional.
 	\item icons = from type string array, which provides all necessary icon paths you want to use in the plugin (e.g. the plugin icon as seen above). This element is mandatory.
 \end{itemize}
-Unused optional elements shall be set to null or a zero-length string ('''').\\\\
+Unused optional elements shall be set to null or a zero-length string ('''').
+
+
 \textit{\small Note 1: It is possible to use the plugin without setting a caption though it is not recommended. This will be changed in future and the plugin will fail to load without a caption.\\\\
 \small Note 2: Currently a zero-length toolTip string appears as empty box. This will be changed in future.\\\\
 \small Note 3: Tooltip and description currently do not support internationalization and localization. This will be changed in future.\\\\}
@@ -720,42 +742,48 @@ In our example the first parameter called ''resourceFile'' has to be set to ''Cr
 		\includegraphics[width=1.00\textwidth]{figures/attribute_plugininfo_resourceFile.JPG}
 	\caption{Attribute PluginInfo element resourceFile}
 	\label{fig:attribute_plugininfo_resourceFile}
-\end{figure}\\
+\end{figure}
+
 The second parameter called ''startable'' has to be set to ''false'', because our encryption algorithm is neither an input nor generator plugin.
 \begin{figure}[h!]
 	\centering
 		\includegraphics[width=1.00\textwidth]{figures/attribute_plugininfo_startable.jpg}
 	\caption{Attribute PluginInfo startable}
 	\label{fig:attribute_plugininfo_startable}
-\end{figure}\\
+\end{figure}
+
 The next two parameters are needed to define the plugin's name and its description. Now that we decided to provide a resource file we have to place here the both resource field names which contains the description and captions. Otherwise just write here a simple string text:
 \begin{figure}[h!]
 	\centering
 		\includegraphics[width=1.00\textwidth]{figures/attribute_plugininfo_description.jpg}
 	\caption{Attribute PluginInfo name and description}
 	\label{fig:attribute_plugininfo_description}
-\end{figure}\\
+\end{figure}
+
 The next element defines the location path of the description file. The parameter is made up by $<$Assembly name$>$/$<$filename$>$ or $<$Assembly name$>$/$<$Path$>$/$<$file name$>$ if you want to store your description files in a separate folder (as seen on the icon). The description file has to be of type XAML. In our case we create a folder called ''DetailedDescription'' and store our XAML file there with the necessary images if needed. How you manage the files and folders is up to you. This folder could now look as you can see below:
 \begin{figure}[h!]
 	\centering
 		\includegraphics{figures/attribute_plugininfo_detailed_descr_path.jpg}
 	\caption{Attribute PluginInfo icon and description file path}
 	\label{fig:attribute_plugininfo_icon_path}
-\end{figure}\\
+\end{figure}
+
 Accordingly the attribute parameter has to be set to:
 \begin{figure}[h!]
 	\centering
 		\includegraphics[width=1.00\textwidth]{figures/attribute_plugininfo_detailed_descr.jpg}
 	\caption{Attribute PluginInfo description file}
 	\label{fig:attribute_plugininfo_icon}
-\end{figure}\\
+\end{figure}
+
 The detailed description could now look like this in CrypTool (right click plugin icon on workspace and select ''Show description''):\clearpage
 \begin{figure}[h!]
 	\centering
 		\includegraphics[width=1.00\textwidth]{figures/xaml_description.jpg}
 	\caption{XAML detailed description}
 	\label{fig:xaml_description}
-\end{figure}\\
+\end{figure}
+
 The last parameter tells CrypTool the names of the provided icons. This parameter is made up by $<$Assembly name$>$/$<$file name$>$ or $<$Assembly name$>$/$<$Path$>$/$<$file name$>$.\\\\
 The most important icon is the plugin icon, which will be shown in CrypTool in the ribbon bar or navigation pane (This is the first icon in list, so you have to provide at least one icon for a plugin). As named above how to add an icon to the solution accordingly we have to tell CrypTool where to find the icon by setting this parameter as you can see below:
 \begin{figure}[h!]
@@ -763,7 +791,8 @@ The most important icon is the plugin icon, which will be shown in CrypTool in t
 		\includegraphics[width=1.00\textwidth]{figures/attribute_plugininfo_icons.jpg}
 	\caption{Attribute PluginInfo icons}
 	\label{fig:attribute_plugininfo_icons}
-\end{figure}\\
+\end{figure}
+
 You can define further icon paths if needed, by adding the path string separated by a comma. We just add here two further icons (don't forget to add the icons to your solution) to provide them for the context menu in the CrypTool workspace.\\\\
 \textit{[EncryptionType]}\\
 The third and last attribute called ''EncryptionType'' is needed to tell CrypTool which type of plugin we want to provide. CrypTool is now able to place the plugin in the right group at the navigation pane or/and ribbon bar. Therefore Caesar is a classical algorithm so we have to set the following attribute:
@@ -772,7 +801,8 @@ The third and last attribute called ''EncryptionType'' is needed to tell CrypToo
 		\includegraphics[width=1.00\textwidth]{figures/attribute_encryption_type.JPG}
 	\caption{Attribute encryption type}
 	\label{fig:attribute_encryption_type}
-\end{figure}\\
+\end{figure}
+
 The ''EncryptionType'' attribute can also be set as the following types:
 \begin{itemize}
 	\item Asymmetric = for asymmetric encryption algorithms like RSA
@@ -781,6 +811,8 @@ The ''EncryptionType'' attribute can also be set as the following types:
 	\item SymmetricBlock = for all block cipher algorithms like DES, AES or Twofish
 	\item SymmetricStream = for all stream cipher algorithms like RC4, Rabbit or SEAL
 \end{itemize}
+
+
 \section{Set the private variables for the settings in the class Caesar}\label{sec:SetThePrivateVariablesForTheSettingsInTheClassCaesar}
 The next step is to define some private variables needed for the settings, input and output data which could look like this:
 \begin{lstlisting}
@@ -882,7 +914,7 @@ First we define the ''InputString'' property getter and setter which is needed t
 public string InputString
 {
 	get { return this.inputString; }
-	set 
+	set
   {
 		if (value != inputString)
 		{
@@ -918,7 +950,7 @@ public CryptoolStream OutputData
 	get
 	{
 		if (outputString != null)
-		{                    
+		{
 			CryptoolStream cs = new CryptoolStream();
 			listCryptoolStreamsOut.Add(cs);
 			cs.OpenRead(Encoding.Default.GetBytes(outputString.ToCharArray()));
@@ -936,13 +968,13 @@ public CryptoolStream OutputData
 public string InputAlphabet
 {
 	get { return ((CaesarSettings)this.settings).AlphabetSymbols; }
-	set 
+	set
 	{
-		if (value != null && value != settings.AlphabetSymbols) 
-		{ 
+		if (value != null && value != settings.AlphabetSymbols)
+		{
 			((CaesarSettings)this.settings).AlphabetSymbols = value;
 			OnPropertyChanged(''InputAlphabet'');
-		} 
+		}
 	}
 }
 
@@ -950,8 +982,8 @@ public string InputAlphabet
 public int ShiftKey
 {
 	get { return settings.ShiftKey; }
-	set 
-	{ 
+	set
+	{
 		if (value != settings.ShiftKey)
 		{
 			settings.ShiftKey = value;
@@ -1007,8 +1039,10 @@ using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 \end{lstlisting}
 \section{Complete the actual code for the class Caesar}\label{sec:CompleteTheActualCodeForTheClassCaesar}
-Up to now, the plugin is ready for the CrypTool base application to be accepted and been shown correctly in the CrypTool menu. What we need now, is the implementation of the actual algorithm in the function ''Execute()'' which is up to you as the plugin developer. CrypTool will always call first the Execute() function.If you place the whole algorithm in this function or split in other as needed is also up to you.\\
-We decided to split our algorithm encryption and decryption in two seperate functions, which finally call the function ProcessCaesar.\\
+Up to now, the plugin is ready for the CrypTool base application to be accepted and been shown correctly in the CrypTool menu. What we need now, is the implementation of the actual algorithm in the function ''Execute()'' which is up to you as the plugin developer. CrypTool will always call first the Execute() function.If you place the whole algorithm in this function or split in other as needed is also up to you.
+
+We decided to split our algorithm encryption and decryption in two separate functions, which finally call the function ProcessCaesar.
+
 Let us demonstrate the Execute() function, too:
 \begin{lstlisting}
 private void ProcessCaesar(CaesarMode mode)
@@ -1017,13 +1051,13 @@ private void ProcessCaesar(CaesarMode mode)
 	StringBuilder output = new StringBuilder('''');
 	string alphabet = cfg.AlphabetSymbols;
 
-  // in case we want don't consider case in the alphabet, we use only capital letters, hence transform 
+  // in case we want don't consider case in the alphabet, we use only capital letters, hence transform
 	// the whole alphabet to uppercase
 	if (!cfg.CaseSensitiveAlphabet)
 	{
 		alphabet = cfg.AlphabetSymbols.ToUpper(); ;
 	}
-            
+
 	if (inputString != null)
 	{
 		for (int i = 0; i < inputString.Length; i++)
@@ -1188,6 +1222,7 @@ public UserControl QuickWatchPresentation
 }
 \end{lstlisting}
 Your plugin should compile without errors at this point.\clearpage
+
 \section{Import the plugin to CrypTool and test it}\label{sec:ImportThePluginToCryptoolAndTestIt}
 After you have built the plugin, you need to move the newly created plugin DLL to a location, where CrypTool can find it. To do this, there are the following ways:
 \begin{itemize}
@@ -1197,14 +1232,16 @@ After you have built the plugin, you need to move the newly created plugin DLL t
 		\includegraphics{figures/copy_dll_global_storage.jpg}
 	\caption{Copy plugin to global storage}
 	\label{fig:copy_dll_global_storage}
-\end{figure}\\
+\end{figure}
+
 This folder is called ''Global storage'' in the CrypTool architecture. Changes in this folder will take effect for all users on a multi user Windows. Finally restart CrypTool.\clearpage
 \begin{figure}[h]
 	\centering
 		\includegraphics{figures/global_storage.jpg}
 	\caption{Plugins global storage}
 	\label{fig:global_storage}
-\end{figure}\\
+\end{figure}
+
 	\item Copy your plugin DLL file in the folder ''CrypPlugins'' which is located in your home path in the folder ''ApplicationData'' and restart CrypTool.  This home folder path is called ''Custom storage'' in the CrypTool architecture. Changes in this folder will only take effect for current user.  On a German Windows XP the home folder path could look like:
 ''C:\textbackslash Dokumente und Einstellungen\textbackslash $<$User$>$\textbackslash Anwendungsdaten\textbackslash CrypPlugins'' and in Vista/Windows7 the path will look like ''C:\textbackslash Users\textbackslash $<$user$>$\textbackslash Application Data\textbackslash CrypPlugins''.\clearpage
 \begin{figure}[h]
@@ -1231,7 +1268,8 @@ Select ''Build Events'':
 		\includegraphics{figures/post_build.JPG}
 	\caption{Build Events}
 	\label{fig:post_build}
-\end{figure}\\
+\end{figure}
+
 Enter the following text snippet into ''Post-build event command line'':\\\\
 cd ''\$(ProjectDir)''\\
 cd ..\textbackslash ..\textbackslash CrypWin\$(OutDir)\\
@@ -1240,6 +1278,8 @@ del /F /S /Q /s /q ''\fcolorbox{yellow}{yellow}{Caesar}*.*''\\
 copy ''\$(TargetDir)\fcolorbox{yellow}{yellow}{Caesar}*.*'' ''./CrypPlugins''\\\\
 You need to adapt the yellow marked field to your actual project name.
 \end{itemize}
+
+
 \section{Source code and source template}\label{sec:SourceCodeAndSourceTemplate}
 Here you can download the whole source code which was presented in this ''Howto'' as a Visual Studio \textbf{solution}:\\\\
 \textit{username: anonymous\\
@@ -1255,4 +1295,4 @@ Every plugin developer should provide a workflow file which shows his algorithm 
 		\includegraphics{figures/sample.jpg}
 	\caption{Plugin sample}
 	\label{fig:sample}
-\end{figure}
+\end{figure} 
