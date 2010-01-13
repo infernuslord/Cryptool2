@@ -26,6 +26,7 @@ namespace Cryptool.PluginBase.IO
         private string fileName;
         private FileStream fileStream;
         private bool isReadOnly;
+        private bool isDisposed;
 
         public string FileName 
         {
@@ -79,6 +80,37 @@ namespace Cryptool.PluginBase.IO
           }
         }
 
+        ~CryptoolStream()
+        {
+            Dispose(false);
+        }
+
+        public new void Dispose()
+        {
+            if (!isDisposed)
+            {
+                Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+        }
+
+        protected override void Dispose(bool publicDispose)
+        {
+            if (!isDisposed)
+            {
+                // public dispose code only
+                if (publicDispose)
+                {
+                    base.Dispose(publicDispose);
+                }
+
+                // finalization and public dispose code
+                isDisposed = true;
+
+                File.Delete(fileName);
+            }
+        }
+
         public override void SetLength(long value)
         {
           length = value;
@@ -96,27 +128,21 @@ namespace Cryptool.PluginBase.IO
         {
           if (Bytes == null) throw new ArgumentException("Bytes");
 
-          try
-          {
-            if (!Directory.Exists(DirectoryHelper.DirectoryLocalTemp)) Directory.CreateDirectory(DirectoryHelper.DirectoryLocalTemp);
+          if (!Directory.Exists(DirectoryHelper.DirectoryLocalTemp)) Directory.CreateDirectory(DirectoryHelper.DirectoryLocalTemp);
 
-            this.fileName = DirectoryHelper.GetNewTempFilePath(TempFileExtension);
-            this.fileStream = new FileStream(this.fileName, FileMode.CreateNew);
+          this.fileName = DirectoryHelper.GetNewTempFilePath(TempFileExtension);
+          this.fileStream = new FileStream(this.fileName, FileMode.CreateNew);
 
-            fileStream.Write(Bytes, 0, Bytes.Length);
+          fileStream.Write(Bytes, 0, Bytes.Length);
 
-            fileStream.Flush();
-            fileStream.Close();
+          fileStream.Flush();
+          fileStream.Close();
 
-            fileStream = File.Open(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            length = fileStream.Length;
-            position = fileStream.Position;
-            isReadOnly = true;
-          }
-          catch
-          { } // FIXME: either handle or don't catch
+          fileStream = File.Open(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+          length = fileStream.Length;
+          position = fileStream.Position;
+          isReadOnly = true;
         }
-
 
         [Obsolete("pluginCaption is not used anymore, use OpenRead(byte[]) instead")]
         public void OpenRead(string pluginCaption, byte[] Bytes)
@@ -171,6 +197,7 @@ namespace Cryptool.PluginBase.IO
 
                 this.fileName = DirectoryHelper.GetNewTempFilePath(TempFileExtension);
                 this.fileStream = new FileStream(this.fileName, FileMode.CreateNew);
+                File.SetAttributes(fileName, File.GetAttributes(fileName) | FileAttributes.Temporary);
             }
             isReadOnly = false;
         }
@@ -217,31 +244,13 @@ namespace Cryptool.PluginBase.IO
 
         public override void Flush()
         {
-          try
-          {
-            if (fileStream != null) fileStream.Flush();
-          }
-          catch { }
+          if (fileStream != null) fileStream.Flush();
         }
 
         public override long Seek(long offset, SeekOrigin origin)
         {
           this.position = offset;
           return this.fileStream.Seek(offset, origin);
-        }
-
-        public static void CleanTempFiles()
-        {
-            foreach (FileInfo fInfo in new DirectoryInfo(DirectoryHelper.DirectoryLocalTemp).GetFiles("*." + TempFileExtension))
-            {
-              fInfo.Delete();
-            }
-        }
-
-        public static void Dispose()
-        {
-          CleanTempFiles();
-          //Directory.Delete(DirectoryHelper.DirectoryLocalTemp);
         }
 
     }
