@@ -63,6 +63,7 @@
     <Compile Include="Attributes\AuthorAttribute.cs" />
     <Compile Include="Control\IControlCost.cs" />
     <Compile Include="Control\IControlEncryption.cs" />
+    <Compile Include="Control\IControlWsdl.cs" />
     <Compile Include="IO\DirectoryHelper.cs" />
     <Compile Include="Miscellaneous\DataManager.cs" />
     <Compile Include="IApplication.cs" />
