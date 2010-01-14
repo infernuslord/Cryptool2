@@ -564,16 +564,100 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         public byte[] Encrypt(byte[] key, int blocksize)
         {
             /// not implemented, currently not needed
-            return null;
+            throw new NotImplementedException();
         }
 
+        // TODO: add override with iv, mode, blocksize
+        public byte[] Decrypt(byte[] ciphertext, byte[] key)
+        {
+            CryptoStream crypto_stream = null;
+            byte[] output = new byte[8];
+
+            try
+            {
+                if (des_algorithm == null)
+                {
+                    des_algorithm = new DESCryptoServiceProvider();
+                }
+
+                try
+                {
+                    des_algorithm.Key = key;
+                }
+                catch
+                {
+                    //dirty hack to allow weak keys:
+                    FieldInfo field = des_algorithm.GetType().GetField("KeyValue", BindingFlags.NonPublic | BindingFlags.Instance);
+                    Console.WriteLine(des_algorithm.GetType());
+                    field.SetValue(des_algorithm, key);
+                }
+
+                ICryptoTransform p_decryptor;
+                try
+                {
+                    p_decryptor = des_algorithm.CreateDecryptor();
+                }
+                catch
+                {
+                    //dirty hack to allow weak keys:
+                    MethodInfo mi = des_algorithm.GetType().GetMethod("_NewEncryptor", BindingFlags.NonPublic | BindingFlags.Instance);
+                    object[] Par = { des_algorithm.Key, des_algorithm.Mode, des_algorithm.IV, des_algorithm.FeedbackSize, 0 };
+                    p_decryptor = mi.Invoke(des_algorithm, Par) as ICryptoTransform;
+                }
+
+                crypto_stream = new CryptoStream(new MemoryStream(ciphertext, false), p_decryptor, CryptoStreamMode.Read);
+
+                int read, readOverall = 0;
+                do
+                {
+                    read = crypto_stream.Read(output, readOverall, output.Length - readOverall);
+                    readOverall += read;
+                } while (read > 0 && readOverall < output.Length);
+            }
+            catch (Exception exception)
+            {
+                des_algorithm = null;   // we got an exception so we do not use this object any more
+                throw exception;
+            }
+
+            return output;
+
+            //try
+            //{
+            //    des_algorithm.IV = this.plugin.InputIV;
+            //}
+            //catch
+            //{
+            //    //dirty hack to allow weak keys:
+            //    FieldInfo field = des_algorithm.GetType().GetField("IVValue", BindingFlags.NonPublic | BindingFlags.Instance);
+            //    field.SetValue(des_algorithm, this.plugin.InputIV);
+            //}
+
+            //switch (((DESSettings)plugin.Settings).Mode)
+            //{ //0="ECB"=default, 1="CBC", 2="CFB", 3="OFB"
+            //    case 1: alg.Mode = CipherMode.CBC; break;
+            //    case 2: alg.Mode = CipherMode.CFB; break;
+            //    case 3: alg.Mode = CipherMode.OFB; break;
+            //    default: alg.Mode = CipherMode.ECB; break;
+            //}
+            //switch (((DESSettings)plugin.Settings).Padding)
+            //{ //0="Zeros"=default, 1="None", 2="PKCS7"
+            //    case 1: alg.Padding = PaddingMode.None; break;
+            //    case 2: alg.Padding = PaddingMode.PKCS7; break;
+            //    case 3: alg.Padding = PaddingMode.ANSIX923; break;
+            //    case 4: alg.Padding = PaddingMode.ISO10126; break;
+            //    default: alg.Padding = PaddingMode.Zeros; break;
+            //}
+        }
+
+        [Obsolete("this signature doesn't pass the ciphertext, use Decrypt(byte[], byte[]) instead")]
         public byte[] Decrypt(byte[] key, int blocksize)
         {
             int size = (int)this.InputStream.Length;
-            
+
             if (blocksize < size)
                 size = blocksize;
-            
+
             if (!(this.input is object))
             {
                 input = new byte[size];
@@ -583,7 +667,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 inputStream = new MemoryStream(input);
             }
             inputStream.Seek(0, 0);
-                       
+
             CryptoStream crypto_stream = null;
             byte[] output = new byte[blocksize];
 
@@ -592,16 +676,16 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             {
                 if (!(des_algorithm is object))
                 {
-                    des_algorithm = new DESCryptoServiceProvider();                   
+                    des_algorithm = new DESCryptoServiceProvider();
                 }
-                
+
                 this.ConfigureAlg(des_algorithm, key);
-                
+
                 ICryptoTransform p_decryptor;
                 try
                 {
                     p_decryptor = des_algorithm.CreateDecryptor();
-                }               
+                }
                 catch
                 {
                     //dirty hack to allow weak keys:
@@ -628,7 +712,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                         {
                             break;
                         }
-                    }                    
+                    }
                     position += bytesRead;
                 }
 
@@ -638,11 +722,12 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             {
                 des_algorithm = null;   // we got an exception so we do not use this object any more
                 throw exception;
-            }           
+            }
 
             return output;
         }
 
+        [Obsolete("being used by obsolete Decrypt(byte[], int)")]
         private void ConfigureAlg(SymmetricAlgorithm alg, byte[] key)
         {
             try
@@ -682,7 +767,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 case 4: alg.Padding = PaddingMode.ISO10126; break;
                 default: alg.Padding = PaddingMode.Zeros; break;
             }
-            
+
         }
 
         /// <summary>
