@@ -27,6 +27,7 @@ namespace Cryptool.PluginBase.IO
         private FileStream fileStream;
         private bool isReadOnly;
         private bool isDisposed;
+        private bool deleteOnDispose;
 
         public string FileName 
         {
@@ -107,7 +108,10 @@ namespace Cryptool.PluginBase.IO
                 // finalization and public dispose code
                 isDisposed = true;
 
-                File.Delete(fileName);
+                if (deleteOnDispose)
+                {
+                    File.Delete(fileName);
+                }
             }
         }
 
@@ -142,6 +146,7 @@ namespace Cryptool.PluginBase.IO
           length = fileStream.Length;
           position = fileStream.Position;
           isReadOnly = true;
+          deleteOnDispose = true;
         }
 
         [Obsolete("pluginCaption is not used anymore, use OpenRead(byte[]) instead")]
@@ -200,6 +205,7 @@ namespace Cryptool.PluginBase.IO
                 File.SetAttributes(fileName, File.GetAttributes(fileName) | FileAttributes.Temporary);
             }
             isReadOnly = false;
+            deleteOnDispose = true;
         }
 
         public override void Write(byte[] buffer, int offset, int count)
