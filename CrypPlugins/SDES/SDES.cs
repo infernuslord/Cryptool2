@@ -585,6 +585,11 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             return execute(key, bytesToUse, 0);
         }
 
+        public byte[] Decrypt(byte[] ciphertext, byte[] key)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Called by a Master to start decryption
         /// </summary>

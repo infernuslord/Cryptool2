@@ -723,6 +723,11 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 InputStream.Close();
         }
 
+        public byte[] Decrypt(byte[] ciphertext, byte[] key)
+        {
+            throw new NotImplementedException();
+        }
+
         public byte[] Decrypt(byte[] key, int blocksize)
         {
             int size = (int)this.InputStream.Length;

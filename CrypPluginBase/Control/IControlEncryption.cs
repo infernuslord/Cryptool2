@@ -24,7 +24,9 @@ namespace Cryptool.PluginBase.Control
     public interface IControlEncryption : IControl, IDisposable
     {
         byte[] Encrypt(byte[] key, int blocksize);
+        [Obsolete("this signature doesn't pass the ciphertext, use Decrypt(byte[], byte[]) instead")]
         byte[] Decrypt(byte[] key, int blocksize);
+        byte[] Decrypt(byte[] ciphertext, byte[] key);
         string getKeyPattern();
         byte[] getKeyFromString(string key, ref int[] arrayPointers, ref int[] arraySuccessors, ref int[] arrayUppers);
         void changeSettings(string setting, object value);

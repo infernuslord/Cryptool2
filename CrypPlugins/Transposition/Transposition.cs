@@ -1117,6 +1117,11 @@ namespace Transposition
 
         #region IControlEncryption Member
 
+        public byte[] Decrypt(byte[] ciphertext, byte[] key)
+        {
+            throw new NotImplementedException();
+        }
+
         public byte[] Decrypt(byte[] key, int blocksize)
         {
             int[] k = new int[key.Length];
@@ -1155,6 +1160,10 @@ namespace Transposition
                 OnStatusChanged(this, true);
         }
 
+        public void changeSettings(string setting, object value)
+        {
+            plugin.changeSettings(setting, value);
+        }
 
         public event KeyPatternChanged keyPatternChanged;
 
@@ -1171,16 +1180,6 @@ namespace Transposition
         public void Dispose()
         {
 
-        }
-
-        #endregion
-
-        #region IControlEncryption Member
-
-
-        public void changeSettings(string setting, object value)
-        {
-            plugin.changeSettings(setting, value);
         }
 
         #endregion
