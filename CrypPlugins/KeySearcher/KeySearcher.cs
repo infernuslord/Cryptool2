@@ -12,6 +12,7 @@ using System.Threading;
 using System.Windows.Threading;
 using Cryptool.PluginBase.Miscellaneous;
 using System.IO;
+using Cryptool.PluginBase.IO;
 
 namespace KeySearcher
 {    
@@ -46,6 +47,8 @@ namespace KeySearcher
         }
 
         private bool stop;
+
+        #region IControlEncryption + IControlCost + InputFields
 
         #region IControlEncryption Members
 
@@ -92,6 +95,62 @@ namespace KeySearcher
 
         #endregion
 
+        /* BEGIN: following lines are from Arnie - 2010.01.12 */
+        CryptoolStream decryptedData;
+        [PropertyInfo(Direction.InputData,"Encrypted Data","Encrypted data out of an Encryption PlugIn","",true,false,DisplayLevel.Beginner,QuickWatchFormat.Hex,"")]
+        public CryptoolStream DecryptedData 
+        {
+            get { return this.decryptedData; }
+            set
+            {
+                if (value != this.decryptedData)
+                {
+                    this.decryptedData = value;
+                    cryptoolStreamChanged = true;
+                    OnPropertyChanged("EncryptedData");
+                }
+            }
+        }
+
+        /// <summary>
+        /// When the Input-Slot changed, set this variable to true, so the new Stream will be transformed to byte[]
+        /// </summary>
+        private bool cryptoolStreamChanged = false;
+        private byte[] decryptedByteData;
+        private byte[] GetByteFromCryptoolStream(CryptoolStream cryptoolStream)
+        {
+            // only transform CryptoolStream to Byte[], if there is a new CryptoolStream
+            // or decryptedByteData is Null
+            if (cryptoolStreamChanged || decryptedByteData == null)
+            {
+                CryptoolStream cs = new CryptoolStream();
+                cs.OpenRead(cryptoolStream.FileName);
+                decryptedByteData = new byte[cs.Length];
+                if(cs.Length > Int32.MaxValue)
+                    throw(new Exception("CryptoolStream length is longer than the Int32.MaxValue"));
+                cs.Read(decryptedByteData, 0, (int)cs.Length);
+            }
+            return decryptedByteData;
+        }
+
+        byte[] initVector;
+        [PropertyInfo(Direction.InputData, "Initialization Vector", "Initialization vector with which the data were encrypted", "", DisplayLevel.Beginner)]
+        public byte[] InitVector
+        {
+            get { return this.initVector; }
+            set
+            {
+                if (value != this.initVector)
+                {
+                    this.initVector = value;
+                    OnPropertyChanged("InitVector");
+                }
+            }
+        }
+        /* END: Lines above are from Arnie - 2010.01.12 */
+
+        #endregion
+
         #region IPlugin Members
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
@@ -129,8 +188,18 @@ namespace KeySearcher
         {
         }
 
+        // because Encryption PlugIns were changed radical, the new StartPoint is here - Arnie 2010.01.12
         public void Execute()
         {
+            if (this.DecryptedData != null) //to prevent execution on initialization
+            {
+                if (this.ControlMaster != null)
+                    this.process(this.ControlMaster);
+                else
+                {
+                    GuiLogMessage("You have to connect the KeySearcher with the Decryption Control!", NotificationLevel.Warning);
+                }
+            }
         }
 
         public void PostExecution()
@@ -344,7 +413,9 @@ namespace KeySearcher
         {
             try
             {
-                valueKey.decryption = sender.Decrypt(keya, bytesToUse);
+                byte[] decryptedData = GetByteFromCryptoolStream(this.DecryptedData);
+                valueKey.decryption = sender.Decrypt(decryptedData, keya);
+                //valueKey.decryption = sender.Decrypt(keya, bytesToUse);
             }
             catch (Exception ex)
             {
@@ -715,6 +786,7 @@ namespace KeySearcher
         // set to protected by Christian Arnold - 2009.12.06
         protected virtual void onStatusChanged(IControl sender, bool readyForExecution)
         {
+            // doesn't work anymore, because Encryption PlugIns were changed radical!!! Arnie 2010.01.12
             if (readyForExecution)
             {
                 this.process((IControlEncryption)sender);
