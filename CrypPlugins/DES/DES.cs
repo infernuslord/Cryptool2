@@ -572,53 +572,43 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         {
             CryptoStream crypto_stream = null;
             byte[] output = new byte[8];
+            
+            // always recreating this instance is thread-safe, but may cost us some performance
+            SymmetricAlgorithm des_algorithm  = new DESCryptoServiceProvider();
 
             try
             {
-                if (des_algorithm == null)
-                {
-                    des_algorithm = new DESCryptoServiceProvider();
-                }
-
-                try
-                {
-                    des_algorithm.Key = key;
-                }
-                catch
-                {
-                    //dirty hack to allow weak keys:
-                    FieldInfo field = des_algorithm.GetType().GetField("KeyValue", BindingFlags.NonPublic | BindingFlags.Instance);
-                    Console.WriteLine(des_algorithm.GetType());
-                    field.SetValue(des_algorithm, key);
-                }
-
-                ICryptoTransform p_decryptor;
-                try
-                {
-                    p_decryptor = des_algorithm.CreateDecryptor();
-                }
-                catch
-                {
-                    //dirty hack to allow weak keys:
-                    MethodInfo mi = des_algorithm.GetType().GetMethod("_NewEncryptor", BindingFlags.NonPublic | BindingFlags.Instance);
-                    object[] Par = { des_algorithm.Key, des_algorithm.Mode, des_algorithm.IV, des_algorithm.FeedbackSize, 0 };
-                    p_decryptor = mi.Invoke(des_algorithm, Par) as ICryptoTransform;
-                }
-
-                crypto_stream = new CryptoStream(new MemoryStream(ciphertext, false), p_decryptor, CryptoStreamMode.Read);
-
-                int read, readOverall = 0;
-                do
-                {
-                    read = crypto_stream.Read(output, readOverall, output.Length - readOverall);
-                    readOverall += read;
-                } while (read > 0 && readOverall < output.Length);
+                des_algorithm.Key = key;
             }
-            catch (Exception exception)
+            catch
             {
-                des_algorithm = null;   // we got an exception so we do not use this object any more
-                throw exception;
+                //dirty hack to allow weak keys:
+                FieldInfo field = des_algorithm.GetType().GetField("KeyValue", BindingFlags.NonPublic | BindingFlags.Instance);
+                Console.WriteLine(des_algorithm.GetType());
+                field.SetValue(des_algorithm, key);
             }
+
+            ICryptoTransform p_decryptor;
+            try
+            {
+                p_decryptor = des_algorithm.CreateDecryptor();
+            }
+            catch
+            {
+                //dirty hack to allow weak keys:
+                MethodInfo mi = des_algorithm.GetType().GetMethod("_NewEncryptor", BindingFlags.NonPublic | BindingFlags.Instance);
+                object[] Par = { des_algorithm.Key, des_algorithm.Mode, des_algorithm.IV, des_algorithm.FeedbackSize, 0 };
+                p_decryptor = mi.Invoke(des_algorithm, Par) as ICryptoTransform;
+            }
+
+            crypto_stream = new CryptoStream(new MemoryStream(ciphertext, false), p_decryptor, CryptoStreamMode.Read);
+
+            int read, readOverall = 0;
+            do
+            {
+                read = crypto_stream.Read(output, readOverall, output.Length - readOverall);
+                readOverall += read;
+            } while (read > 0 && readOverall < output.Length);
 
             return output;
 
