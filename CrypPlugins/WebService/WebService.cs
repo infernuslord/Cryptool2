@@ -677,24 +677,19 @@ namespace WebService
         }
            
     }
-      
-private IControlWsdl control;
-[PropertyInfo(Direction.ControlMaster, "WSDL output", "Web Service Description", null, DisplayLevel.Beginner)]
-public IControlWsdl Control
-{
- get { return control; }
- set
- {
-  /* Die Verbindung wurde hergestellt, Sie können ab jetzt Methoden
-aufrufen */
-  control = value;
-  control.setWsdl(this.wsdlDocument);
- }
-}
 
- 
- 
-
+        private IControlWsdl control;
+        [PropertyInfo(Direction.ControlMaster, "WSDL output", "Web Service Description", null, DisplayLevel.Beginner)]
+        public IControlWsdl Control
+        {
+            get { return control; }
+            set
+            {
+                /* Die Verbindung wurde hergestellt, Sie können ab jetzt Methoden aufrufen */
+                control = value;
+                control.setWsdl(this.wsdlDocument);
+            }
+        }
 
       //  [PropertyInfo(Direction.ControlMaster, "WSDL output", "Web Service Description", null, DisplayLevel.Beginner)]
         public XmlDocument Wsdl
@@ -703,6 +698,7 @@ aufrufen */
             set
             {
                 this.wsdlDocument = value;
+                control.setWsdl(this.wsdlDocument);
                 OnPropertyChanged("Wsdl");
             }
         }
