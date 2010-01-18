@@ -707,6 +707,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             this.plugin = Plugin;
         }
 
+        public void setInput(Object input) { }
         #region IControlEncryption Members
 
         public byte[] Encrypt(byte[] key, int blocksize)

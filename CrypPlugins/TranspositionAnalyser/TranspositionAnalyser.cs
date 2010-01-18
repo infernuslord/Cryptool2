@@ -24,22 +24,23 @@ namespace TranspositionAnalyser
         private enum PermutationMode { byRow = 0, byColumn = 1 };
         private enum ReadOutMode { byRow = 0, byColumn = 1 };
         private byte[] crib;
-        private byte[] cribinput;
+        private byte[] input;
 
         TranspositionAnalyserSettings settings;
         #region Properties
-        [PropertyInfo(Direction.InputData, "CribInput", "Input data for crib Analysis", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public Byte[] CribInput
+        [PropertyInfo(Direction.InputData, "Input", "Input data for Analysis", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public Byte[] Input
         {
             get
             {
-                return this.cribinput;
+                return this.input;
             }
 
             set
             {
-                this.cribinput = value;
-                OnPropertyChange("CribInput");
+                this.input = value;
+                OnPropertyChange("Input");
+                
             }
         }
 
@@ -71,20 +72,22 @@ namespace TranspositionAnalyser
         }
 
         private IControlEncryption controlMaster;
-        [PropertyInfo(Direction.ControlMaster, "Control Master", "Used for bruteforcing", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.ControlMaster, "Control Master", "Used for bruteforcing", "", false, false, DisplayLevel.Beginner,QuickWatchFormat.None,null)]
         public IControlEncryption ControlMaster
         {
+            
             get { return controlMaster; }
             set
             {
-                value.OnStatusChanged += onStatusChanged;
+               // value.OnStatusChanged += onStatusChanged;
                 controlMaster = value;
                 OnPropertyChanged("ControlMaster");
+                
             }
         }
 
         private IControlCost costMaster;
-        [PropertyInfo(Direction.ControlMaster, "Cost Master", "Used for cost calculation", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.ControlMaster, "Cost Master", "Used for cost calculation", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
         public IControlCost CostMaster
         {
             get { return costMaster; }
@@ -143,12 +146,22 @@ namespace TranspositionAnalyser
 
         public void PreExecution()
         {
-
+            
         }
 
         public void Execute()
         {
+            
 
+            if (this.input != null)
+            {
+                if (this.ControlMaster != null && this.input != null)
+                    this.process(this.ControlMaster);
+                else
+                {
+                    GuiLogMessage("You have to connect the Transposition Plugin to the Transpostion Analyzer Control!", NotificationLevel.Warning);
+                }
+            }
         }
 
         public void PostExecution()
@@ -179,10 +192,7 @@ namespace TranspositionAnalyser
 
         private void onStatusChanged(IControl sender, bool readyForExecution)
         {
-            if (readyForExecution)
-            {
-                this.process((IControlEncryption)sender);
-            }
+            
         }
 
         public void OnPropertyChanged(string name)
@@ -200,11 +210,19 @@ namespace TranspositionAnalyser
 
         public void process(IControlEncryption sender)
         {
-            switch (this.settings.Analysis_method)
+            if (input != null)
             {
-                case 0: Output = costfunction_bruteforce(sender); break;
-                case 1: cribAnalysis(this.crib,this.cribinput); break;
-                    
+                sender.setInput(input);
+                switch (this.settings.Analysis_method)
+                {
+                    case 0: Output = costfunction_bruteforce(sender); GuiLogMessage("Starting Brute-Force Analysis", NotificationLevel.Info); break;
+                    case 1: GuiLogMessage("Starting Analysis with crib", NotificationLevel.Info); cribAnalysis(this.crib, this.input); break;
+
+                }
+            }
+            else
+            {
+                GuiLogMessage("No Input!", NotificationLevel.Error);
             }
             
             
@@ -431,6 +449,7 @@ namespace TranspositionAnalyser
         #region cribAnalysis
         public void cribAnalysis(byte[] crib, byte[] cipher) 
         {
+
             if (crib != null && crib != null)
             {
                 foreach (int c in getKeyLength(crib, cipher))
@@ -467,7 +486,7 @@ namespace TranspositionAnalyser
                     }
                     else break;
                 }
-                
+               
             }
             return keylengths;
            
