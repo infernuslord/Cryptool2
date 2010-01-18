@@ -32,5 +32,6 @@ namespace Cryptool.PluginBase.Control
         void changeSettings(string setting, object value);
         IControlEncryption clone();
         event KeyPatternChanged keyPatternChanged;
+        void setInput(Object input);
     }
 }
