@@ -15,11 +15,12 @@ namespace TranspositionAnalyser
 
       
 
-        private int selected_method;
+        private int selected_method = 0;
 
         internal void UpdateTaskPaneVisibility()
         {
-           
+            if (TaskPaneAttributeChanged == null)
+                return;
 
             switch (selected_method)
             {
@@ -37,7 +38,7 @@ namespace TranspositionAnalyser
                         break;
             }
         }
-        [PropertySaveOrder(1)]
+        //[PropertySaveOrder(1)]
         [TaskPane("Analysis Method", "Select the Analysis Method", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Bruteforce Analysis", "Analysis with Crib" })]
         public int Analysis_method
         {

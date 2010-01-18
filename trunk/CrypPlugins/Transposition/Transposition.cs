@@ -117,7 +117,7 @@ namespace Transposition
 
         # region Properties
 
-        [PropertyInfo(Direction.InputData, "Input", "input", "Text to be encrypted.", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Input", "input", "Text to be encrypted.", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public Byte[] Input
         {
             get
@@ -1152,6 +1152,11 @@ namespace Transposition
         public string getKeyPattern()
         {
             return null;
+        }
+
+        public void setInput(Object input)
+        {
+            plugin.Input = (byte[])input;
         }
 
         public void onStatusChanged()
