@@ -5,17 +5,16 @@ using System.Linq;
 using Cryptool.PluginBase.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
+using System.Diagnostics;
 
 namespace Tests.CrypPluginBase
 {
     /// <summary>
-    /// Summary description for CStream
+    /// Summary description for CStreamTest
     /// </summary>
     [TestClass]
-    public class CStream
+    public class CStreamTest
     {
-        Random rng = new Random();
-        private CStreamWriter writer;
 
         private byte[] ShortData
         {
@@ -29,13 +28,13 @@ namespace Tests.CrypPluginBase
             set;
         }
 
-        public CStream()
+        public CStreamTest()
         {
             ShortData = new byte[] { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06 };
             LongData = new byte[65535];
-            rng.NextBytes(LongData);
 
-            writer = new CStreamWriter();
+            Random rng = new Random();
+            rng.NextBytes(LongData);
         }
 
         private TestContext testContextInstance;
@@ -89,6 +88,8 @@ namespace Tests.CrypPluginBase
         [TestMethod]
         public void TestWriter()
         {
+            CStreamWriter writer = new CStreamWriter();
+
             // put 6 bytes
             writer.Write(ShortData);
 
@@ -103,9 +104,11 @@ namespace Tests.CrypPluginBase
         [TestMethod]
         public void TestReader()
         {
+            CStreamWriter writer = new CStreamWriter();
+
             // put 6 bytes
             writer.Write(ShortData);
-            CStreamReader reader = writer.CreateReader();
+            CStream reader = writer.CreateReader();
 
             // length==6, position==0
             Assert.AreEqual(0, reader.Position);
@@ -130,6 +133,8 @@ namespace Tests.CrypPluginBase
         [TestMethod]
         public void TestSwap()
         {
+            CStreamWriter writer = new CStreamWriter();
+
             // fill buffer with Length-1 bytes
             writer.Write(LongData);
             Assert.AreEqual(LongData.Length, writer.Position);
@@ -149,7 +154,8 @@ namespace Tests.CrypPluginBase
         [TestMethod]
         public void TestSwapWithReader()
         {
-            CStreamReader reader = writer.CreateReader();
+            CStreamWriter writer = new CStreamWriter();
+            CStream reader = writer.CreateReader();
 
             // write, not swapped
             writer.Write(LongData);
@@ -172,7 +178,7 @@ namespace Tests.CrypPluginBase
             int read = reader.Read(buf);
             Assert.IsTrue(read < buf.Length);
 
-            // close writer, asser eof
+            // close writer, assert EOF
             writer.Close();
             int result = reader.ReadByte();
             Assert.AreEqual(-1, result);
@@ -181,53 +187,76 @@ namespace Tests.CrypPluginBase
         [TestMethod]
         public void TestDestructor()
         {
-            CStreamWriter_Accessor prvWriter = new CStreamWriter_Accessor();
-            
-            Assert.IsFalse(prvWriter.IsSwapped);
-            prvWriter.Write(LongData);
-            Assert.IsFalse(prvWriter.IsSwapped);
-            prvWriter.Write(LongData);
+            CStreamWriter writer = new CStreamWriter();
 
-            Assert.IsTrue(prvWriter.IsSwapped);
+            Assert.IsFalse(writer.IsSwapped);
+            writer.Write(LongData);
+            Assert.IsFalse(writer.IsSwapped);
+            writer.Write(LongData);
 
-            // swapfile exists
-            string filePath = prvWriter.FilePath;
+            Assert.IsTrue(writer.IsSwapped);
+
+            string filePath = writer.FilePath;
             Assert.IsTrue(File.Exists(filePath));
             
             // force GC
-            prvWriter = null;
+            writer = null;
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
-            // swapfile removed
+            // tempfile deleted
             Assert.IsFalse(File.Exists(filePath));
         }
 
         [TestMethod]
         public void TestDestructorWithReader()
         {
-            CStreamWriter_Accessor prvWriter = new CStreamWriter_Accessor();
+            CStreamWriter writer = new CStreamWriter();
 
-            CStreamReader reader = prvWriter.CreateReader();
+            // write, not swapped
+            writer.Write(LongData);
+
+            // read something and assert there's more
+            CStream reader = writer.CreateReader();
             byte[] buf = new byte[ShortData.Length];
             reader.Read(buf, 0, buf.Length);
-
-            // have read something and there more left
             Assert.IsTrue(reader.Position > 0);
             Assert.IsTrue(reader.Length > reader.Position);
+            Assert.IsFalse(reader.IsSwapped);
 
-            // not swapped 
+            // write more, assert swap
+            writer.Write(LongData);
+            writer.Write(LongData);
+            Assert.IsTrue(reader.IsSwapped);
 
-            prvWriter.Write(LongData);
-            prvWriter.Write(LongData);
+            string filePath = writer.FilePath;
 
-            // swapfile exists
-            string filePath = prvWriter.FilePath;
+            // destroy ref to writer
+            writer.Close();
+            writer = null;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            Assert.IsNull(writer);
+
+            // assert reading still works
             Assert.IsTrue(File.Exists(filePath));
+            Assert.IsNotNull(reader);
+            int sum = 0;
+            while (sum < LongData.Length * 2)
+            {
+                int read = reader.Read(buf);
+                Assert.IsTrue(read > 0);
+                sum += read;
+            }
 
+            // destroy reader
+            reader = null;
 
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
 
-
+            // deleted tempfile
+            Assert.IsFalse(File.Exists(filePath));
         }
     }
 }

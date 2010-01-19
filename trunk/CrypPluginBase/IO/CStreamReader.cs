@@ -20,29 +20,44 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Threading;
+using System.Diagnostics;
 
 namespace Cryptool.PluginBase.IO
 {
-    public class CStreamReader : Stream
+    /// <summary>
+    /// Read from a corresponding CStreamWriter.
+    /// </summary>
+    public class CStream : Stream, IDisposable
     {
+        #region Private fields and constructors
+
         private readonly CStreamWriter _writer;
 
         private FileStream _readStream;
-        private int _readPtr = 0;
+        private int _readPtr;
 
-        public CStreamReader(CStreamWriter writer)
+        private bool _disposed;
+
+        public CStream(CStreamWriter writer)
         {
             _writer = writer;
+            _writer.ShutdownEvent += shutdownHandler;
+            _writer.SwapEvent += swapHandler;
 
             if (_writer.IsSwapped)
             {
-                SwapHandler();
-            }
-            else
-            {
-                _writer.SwitchToSwapEvent += SwapHandler;
+                swapHandler();
             }
         }
+
+        ~CStream()
+        {
+            Dispose(false);
+        }
+
+        #endregion
+
+        #region Public properties
 
         public override bool CanRead
         {
@@ -59,9 +74,12 @@ namespace Cryptool.PluginBase.IO
             get { return false; }
         }
 
-        public override void Flush()
+        public bool IsSwapped
         {
-            throw new NotSupportedException();
+            get
+            {
+                return _readStream != null;
+            }
         }
 
         public override long Length
@@ -81,20 +99,39 @@ namespace Cryptool.PluginBase.IO
                 else
                     return _readPtr;
             }
+
+            // Seeking currently not supported.
             set
             {
                 throw new NotSupportedException();
             }
         }
 
-        private int availableRead()
+        #endregion
+
+        #region Public methods
+
+        public override void Close()
         {
-            long avail = _writer.Position - (IsSwapped ? _readStream.Position : _readPtr);
-            return (int)Math.Min(int.MaxValue, avail);
+            Dispose();
+        }
+
+        public new void Dispose()
+        {
+            if (!_disposed)
+            {
+                Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+        }
+
+        public override void Flush()
+        {
+            throw new NotSupportedException();
         }
 
         /// <summary>
-        /// Convenience method for Read(byte[], int, int)
+        /// Convenience method for Read(byte[] buf, 0, buf.Length)
         /// </summary>
         /// <param name="buffer"></param>
         /// <returns></returns>
@@ -104,27 +141,34 @@ namespace Cryptool.PluginBase.IO
         }
 
         /// <summary>
-        /// POSIX-like read: Reads 1 to count amount of bytes into given buffer.
-        /// Blocks until at least 1 byte has been read. Does not guarantee to read the requested amount of data.
+        /// Read POSIX-like 1 to count amount of bytes into given byte array.
+        /// Blocks until at least 1 byte has been read or underlying stream has been closed.
+        /// Does not guarantee to read the requested amount of data, can read less.
         /// </summary>
         /// <param name="buffer"></param>
         /// <param name="offset"></param>
         /// <param name="count"></param>
-        /// <returns>amount of bytes that has been read into buffer</returns>
+        /// <returns>amount of bytes that has been read into buffer or 0 if EOF</returns>
         public override int Read(byte[] buffer, int offset, int count)
         {
             lock (_writer.InternalMonitor)
             {
-                while (availableRead() < 1)
+                int available;
+
+                while ((available = availableRead()) < 1)
                 {
+                    if (_writer.IsClosed)
+                        return 0; // EOF
+
                     Monitor.Wait(_writer.InternalMonitor);
                 }
 
-                int readAttempt = Math.Min(availableRead(), count);
+                int readAttempt = Math.Min(available, count);
 
                 if (IsSwapped)
                 {
                     // MUST NOT block, otherwise we're potentially deadlocked
+                    Debug.Assert(_writer.Length - _readStream.Position > 0);
                     return _readStream.Read(buffer, offset, readAttempt);
                 }
                 else
@@ -137,12 +181,37 @@ namespace Cryptool.PluginBase.IO
             }
         }
 
-        public int ReadFully(byte[] buffer, int offset, int count)
+        /// <summary>
+        /// Convenience method for Read (non-POSIX): block until array is full or EOF occurs.
+        /// </summary>
+        public int ReadFully(byte[] buffer)
         {
-            throw new NotSupportedException();
+            return ReadFully(buffer, 0, buffer.Length);
         }
 
-        // seeking is currently not supported
+        /// <summary>
+        /// Convenience method for Read (non-POSIX): block until required amount of data has
+        /// been retrieved or EOF occurs.
+        /// </summary>
+        public int ReadFully(byte[] buffer, int offset, int count)
+        {
+            int readSum = 0;
+            while (readSum < count)
+            {
+                int read = Read(buffer, offset, (count - readSum));
+                
+                if (read == 0) // EOF
+                    return readSum;
+
+                readSum += read;
+            }
+
+            return readSum;
+        }
+
+        /// <summary>
+        /// Seeking is currently not supported
+        /// </summary>
         public override long Seek(long offset, SeekOrigin origin)
         {
             throw new NotSupportedException();
@@ -153,20 +222,28 @@ namespace Cryptool.PluginBase.IO
             throw new NotSupportedException();
         }
 
+        /// <summary>
+        /// Reader can't write.
+        /// </summary>
         public override void Write(byte[] buffer, int offset, int count)
         {
             throw new NotSupportedException();
         }
 
-        public bool IsSwapped
+        #endregion
+
+        #region Private/protected methods
+
+        private int availableRead()
         {
-            get
-            {
-                return _readStream != null;
-            }
+            long avail = _writer.Position - (IsSwapped ? _readStream.Position : _readPtr);
+            return (int)Math.Min(int.MaxValue, avail);
         }
 
-        private void SwapHandler()
+        /// <summary>
+        /// Switch from membuff to swapfile
+        /// </summary>
+        private void swapHandler()
         {
             _readStream = new FileStream(_writer.FilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             if (_readPtr > 0)
@@ -174,5 +251,37 @@ namespace Cryptool.PluginBase.IO
                 _readStream.Seek(_readPtr, SeekOrigin.Begin);
             }
         }
+
+        /// <summary>
+        /// Writer shutting down, release file.
+        /// </summary>
+        private void shutdownHandler()
+        {
+            if (IsSwapped)
+            {
+                _readStream.Close();
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                base.Dispose(disposing);
+            }
+
+            if (IsSwapped)
+            {
+                _readStream.Close();
+                _readStream = null;
+            }
+
+            _writer.ShutdownEvent -= shutdownHandler;
+            _writer.SwapEvent -= swapHandler;
+
+            _disposed = true;
+        }
+
+        #endregion
     }
 }
