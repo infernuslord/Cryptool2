@@ -62,13 +62,11 @@ namespace KeySearcher
                 if (controlMaster != null)
                 {
                     controlMaster.keyPatternChanged -= keyPatternChanged;
-                    controlMaster.OnStatusChanged -= onStatusChanged;
                 }
                 if (value != null)
                 {
                     Pattern = new KeyPattern(value.getKeyPattern());
                     value.keyPatternChanged += keyPatternChanged;
-                    value.OnStatusChanged += onStatusChanged;
                     controlMaster = value;
                     OnPropertyChanged("ControlMaster");
 
@@ -96,16 +94,32 @@ namespace KeySearcher
         #endregion
 
         /* BEGIN: following lines are from Arnie - 2010.01.12 */
-        CryptoolStream decryptedData;
-        [PropertyInfo(Direction.InputData,"Encrypted Data","Encrypted data out of an Encryption PlugIn","",true,false,DisplayLevel.Beginner,QuickWatchFormat.Hex,"")]
-        public CryptoolStream DecryptedData 
+        CryptoolStream csEncryptedData;
+        [PropertyInfo(Direction.InputData, "CS Encrypted Data", "Encrypted data out of an Encryption PlugIn", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, "")]
+        public virtual CryptoolStream CSEncryptedData
         {
-            get { return this.decryptedData; }
+            get { return this.csEncryptedData; }
             set
             {
-                if (value != this.decryptedData)
+                if (value != this.csEncryptedData)
                 {
-                    this.decryptedData = value;
+                    this.csEncryptedData = value;
+                    cryptoolStreamChanged = true;
+                    OnPropertyChanged("CSEncryptedData");
+                }
+            }
+        }
+
+        byte[] encryptedData;
+        [PropertyInfo(Direction.InputData,"Encrypted Data","Encrypted data out of an Encryption PlugIn","",false,false,DisplayLevel.Beginner,QuickWatchFormat.Hex,"")]
+        public virtual byte[] EncryptedData 
+        {
+            get { return this.encryptedData; }
+            set
+            {
+                if (value != this.encryptedData)
+                {
+                    this.encryptedData = value;
                     cryptoolStreamChanged = true;
                     OnPropertyChanged("EncryptedData");
                 }
@@ -116,26 +130,26 @@ namespace KeySearcher
         /// When the Input-Slot changed, set this variable to true, so the new Stream will be transformed to byte[]
         /// </summary>
         private bool cryptoolStreamChanged = false;
-        private byte[] decryptedByteData;
+        private byte[] encryptedByteData;
         private byte[] GetByteFromCryptoolStream(CryptoolStream cryptoolStream)
         {
             // only transform CryptoolStream to Byte[], if there is a new CryptoolStream
             // or decryptedByteData is Null
-            if (cryptoolStreamChanged || decryptedByteData == null)
+            if (cryptoolStreamChanged || encryptedByteData == null)
             {
                 CryptoolStream cs = new CryptoolStream();
                 cs.OpenRead(cryptoolStream.FileName);
-                decryptedByteData = new byte[cs.Length];
+                encryptedByteData = new byte[cs.Length];
                 if(cs.Length > Int32.MaxValue)
                     throw(new Exception("CryptoolStream length is longer than the Int32.MaxValue"));
-                cs.Read(decryptedByteData, 0, (int)cs.Length);
+                cs.Read(encryptedByteData, 0, (int)cs.Length);
             }
-            return decryptedByteData;
+            return encryptedByteData;
         }
 
         byte[] initVector;
         [PropertyInfo(Direction.InputData, "Initialization Vector", "Initialization vector with which the data were encrypted", "", DisplayLevel.Beginner)]
-        public byte[] InitVector
+        public virtual byte[] InitVector
         {
             get { return this.initVector; }
             set
@@ -189,9 +203,10 @@ namespace KeySearcher
         }
 
         // because Encryption PlugIns were changed radical, the new StartPoint is here - Arnie 2010.01.12
-        public void Execute()
+        public virtual void Execute()
         {
-            if (this.DecryptedData != null) //to prevent execution on initialization
+            //either byte[] CStream input or CryptoolStream Object input
+            if (this.EncryptedData != null || this.CSEncryptedData != null) //to prevent execution on initialization
             {
                 if (this.ControlMaster != null)
                     this.process(this.ControlMaster);
@@ -413,8 +428,21 @@ namespace KeySearcher
         {
             try
             {
-                byte[] decryptedData = GetByteFromCryptoolStream(this.DecryptedData);
-                valueKey.decryption = sender.Decrypt(decryptedData, keya);
+                CryptoolStream cs = new CryptoolStream();
+                if (this.CSEncryptedData == null)
+                {
+                    cs.OpenRead(this.EncryptedData);
+                    valueKey.decryption = sender.Decrypt(this.EncryptedData, keya);
+                }
+                else
+                {
+                    cs.OpenRead(this.CSEncryptedData.FileName);
+                    byte[] byteCS = new byte[cs.Length];
+                    cs.Read(byteCS, 0, byteCS.Length);
+                    //this.CSEncryptedData.Read(byteCS, 0, byteCS.Length);
+                    valueKey.decryption = sender.Decrypt(byteCS, keya);
+                }
+
                 //valueKey.decryption = sender.Decrypt(keya, bytesToUse);
             }
             catch (Exception ex)
@@ -743,7 +771,8 @@ namespace KeySearcher
                 WaitCallback worker = new WaitCallback(KeySearcherJob);
                 doneKeysA[i] = new BigInteger();
                 keycounters[i] = new BigInteger();
-                ThreadPool.QueueUserWorkItem(worker, new object[] { patterns, i, doneKeysA, keycounters, keysleft, sender.clone(), bytesToUse, threadStack });
+                //ThreadPool.QueueUserWorkItem(worker, new object[] { patterns, i, doneKeysA, keycounters, keysleft, sender.clone(), bytesToUse, threadStack });
+                ThreadPool.QueueUserWorkItem(worker, new object[] { patterns, i, doneKeysA, keycounters, keysleft, sender, bytesToUse, threadStack });
             }
         }
 
@@ -783,17 +812,6 @@ namespace KeySearcher
             Pattern = new KeyPattern(controlMaster.getKeyPattern());
         }
 
-        // set to protected by Christian Arnold - 2009.12.06
-        protected virtual void onStatusChanged(IControl sender, bool readyForExecution)
-        {
-            // doesn't work anymore, because Encryption PlugIns were changed radical!!! Arnie 2010.01.12
-            if (readyForExecution)
-            {
-                this.process((IControlEncryption)sender);
-            }
-        }
-
-
         // added by Arnie - 2009.12.07
         public delegate void BruteforcingEnded(LinkedList<ValueKey> top10List);
         /// <summary>
@@ -804,10 +822,13 @@ namespace KeySearcher
 
         // added by Arnie -2009.12.02
         // for inheritance reasons
-        public void BruteforcePattern(KeyPattern pattern, IControlEncryption encryptControl, IControlCost costControl)
+        public void BruteforcePattern(KeyPattern pattern, byte[] encryptedData, byte[] initVector, IControlEncryption encryptControl, IControlCost costControl)
         {
-            //ControlMaster = encryptControl;
-            //CostMaster = costControl;
+            /* Begin: New stuff because of changing the IControl data flow - Arnie 2010.01.18 */
+            this.EncryptedData = encryptedData;
+            this.InitVector = initVector;
+            /* End: New stuff because of changing the IControl data flow - Arnie 2010.01.18 */
+            
             LinkedList<ValueKey> lstRet = bruteforcePattern(pattern, encryptControl);
             if(OnBruteforcingEnded != null)
                 OnBruteforcingEnded(lstRet);
