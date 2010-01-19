@@ -30,9 +30,7 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region Variables
 
-        private const string DHT_ALIVE_POSTFIX = "AliveMsg";
-
-        private IP2PControl p2pControl;
+        protected IP2PControl p2pControl;
         private long sendAliveMessageInterval;
         private long checkPublishersAvailability;
         private long publisherReplyTimespan;
@@ -278,10 +276,9 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <returns>the actual Publishers ID or null, when a publisher wasn't found in the DHT</returns>
         private PeerId CheckPublisherAvailability()
         {
-            PeerId pid;
+            PeerId pid = DHT_CommonManagement.GetTopicsPublisherId(ref this.p2pControl, this.sTopic);
 
-            byte[] bytePubId = this.p2pControl.DHTload(this.sTopic);
-            if (bytePubId == null)
+            if (pid == null)
             {
                 if (timerRegisteringNotPossible == null && !this.bolStopped)
                 {
@@ -293,15 +290,14 @@ namespace Cryptool.Plugins.PeerToPeer
                 return null;
             }
 
-            byte[] byteISettings = this.p2pControl.DHTload(this.sTopic + DHT_ALIVE_POSTFIX);
-            if (byteISettings == null)
+            sendAliveMessageInterval = DHT_CommonManagement.GetAliveMessageInterval(ref this.p2pControl, this.sTopic);
+
+            if (sendAliveMessageInterval == 0)
             {
                 GuiLogging("Can't find AliveMsg-Settings from Publisher for the Subscriber.", NotificationLevel.Error);
                 return null;
             }
-            sendAliveMessageInterval = System.BitConverter.ToInt32(byteISettings, 0);
 
-            pid = this.p2pControl.GetPeerID(bytePubId);
             if (actualPublisher == null) //first time initialization
             {
                 actualPublisher = pid;

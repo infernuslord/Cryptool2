@@ -20,8 +20,6 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region Variables
 
-        private const string DHT_ALIVE_POSTFIX = "AliveMsg";
-
         protected IP2PControl p2pControl;
         protected SubscriberManagement peerManagement;
         private string topic = String.Empty;
@@ -77,15 +75,13 @@ namespace Cryptool.Plugins.PeerToPeer
             this.ownPeerId = myPeerId;
 
             // before storing the publishers ID in the DHT, proof whether there already exists an entry
-            byte[] byRead = this.p2pControl.DHTload(sTopic);
+            PeerId byRead = DHT_CommonManagement.GetTopicsPublisherId(ref this.p2pControl, sTopic);
+
             // if byRead is not null, the DHT entry was already written
             if (byRead != null)
             {
-                PeerId peerRead = this.p2pControl.GetPeerID(byRead);
-
-                // if sRead equals sPeerId this Publisher with the same topic had written 
-                // this entry - no problem! Otherwise abort Starting the publisher!
-                if (peerRead != myPeerId)
+                // this entry? Then no problem! Otherwise abort Starting the publisher!
+                if (byRead != myPeerId)
                 {
                     GuiLogging("Can't store Publisher in the DHT because the Entry was already occupied.", NotificationLevel.Error);
                     return false;
@@ -93,9 +89,8 @@ namespace Cryptool.Plugins.PeerToPeer
             }
             /* END: CHECKING WHETHER THERE HAS ALREADY EXIST ANOTHER PUBLISHER */
 
-            bool bolTopicStored = this.p2pControl.DHTstore(sTopic, myPeerId.ToByteArray());
-            bool bolSettingsStored = this.p2pControl.DHTstore(sTopic + DHT_ALIVE_POSTFIX,
-                System.BitConverter.GetBytes(this.aliveMessageInterval));
+            bool bolTopicStored = DHT_CommonManagement.SetTopicsPublisherId(ref this.p2pControl, sTopic, myPeerId);
+            bool bolSettingsStored = DHT_CommonManagement.SetAliveMessageInterval(ref this.p2pControl, sTopic, this.aliveMessageInterval);
 
             if (!bolTopicStored || !bolSettingsStored)
             {
@@ -139,17 +134,10 @@ namespace Cryptool.Plugins.PeerToPeer
 
                 GuiLogging("Begin removing the information from the DHT", NotificationLevel.Debug);
 
-                bool removeTopic = this.p2pControl.DHTremove(this.topic);
-                bool removeSettings = this.p2pControl.DHTremove(this.topic + DHT_ALIVE_POSTFIX);
-                string removeInfo = String.Empty;
-                if (removeTopic && removeSettings)
-                    removeInfo = "Topic and settings";
-                else if (removeTopic)
-                    removeInfo = "Topic";
-                else if (removeSettings)
-                    removeInfo = "Settings";
-                if (removeInfo != String.Empty)
-                    GuiLogging(removeInfo + " successfully removed from DHT.", NotificationLevel.Debug);
+                bool removeSettings = DHT_CommonManagement.DeleteAllPublishersEntries(ref this.p2pControl, this.topic);
+
+                if (removeSettings)
+                    GuiLogging("Publishers/Managers ID and Alive Message Interval successfully removed from DHT.", NotificationLevel.Debug);
                 else
                     GuiLogging("Neither Topic nor settings were removed from DHT.", NotificationLevel.Debug);
 

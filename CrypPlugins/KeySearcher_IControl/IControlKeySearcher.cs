@@ -31,8 +31,10 @@ namespace Cryptool.PluginBase.Control
         /// <summary>
         /// Initiates bruteforcing, but really starts not until all MasterControls had finished initializing.
         /// </summary>
-        /// <param name="pattern"></param>
-        void StartBruteforcing(KeyPattern pattern);
+        /// <param name="pattern">a valid KeyPattern to bruteforce</param>
+        /// <param name="encryptedData">encryptedData which are necessary for encrypting and calculating a cost factor</param>
+        /// <param name="initVector">initVector necessary in some kinds of cipher-block-mode</param>
+        void StartBruteforcing(KeyPattern pattern, byte[] encryptedData, byte[] initVector);
 
         void StopBruteforcing();
 

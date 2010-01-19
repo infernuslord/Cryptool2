@@ -11,11 +11,6 @@ using System.IO;
 using System.Threading;
 using Cryptool.PluginBase.IO;
 
-/*bearbeitung
- * TODO:
- * - Order the results when they arrived as a message! (MessageReceived method)
- */
-
 namespace Cryptool.Plugins.PeerToPeer
 {
     public class P2PManagerBase : P2PPublisherBase
@@ -42,8 +37,8 @@ namespace Cryptool.Plugins.PeerToPeer
         #region Variables
 
         private const int MAX_IN_TOP_LIST = 10;
-        private const string DHT_ENCRYPTED_TEXT = "EncryptedText";
-        private const string DHT_INIT_VECTOR = "InitializationVector";
+        //private const string DHT_ENCRYPTED_TEXT = "EncryptedText";
+        //private const string DHT_INIT_VECTOR = "InitializationVector";
 
         private bool managerStarted = false;
         public bool ManagerStarted 
@@ -75,9 +70,14 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         /// <summary>
-        /// Queue of all left key spaces of the given Key Pattern
+        /// When the Manager is started, this variable must be set.
         /// </summary>
-        private Queue<KeyPattern> leftKeyPatterns;
+        private string sTopic = String.Empty;
+
+        /// <summary>
+        /// Stack of all left key spaces of the given Key Pattern
+        /// </summary>
+        private Stack<KeyPattern> leftKeyPatterns;
         /// <summary>
         /// Key = PeerId, Value = Pattern (key space of key pattern)
         /// </summary>
@@ -96,7 +96,7 @@ namespace Cryptool.Plugins.PeerToPeer
         public P2PManagerBase(IP2PControl p2pControl)
             : base(p2pControl)
         {
-            this.leftKeyPatterns = new Queue<KeyPattern>();
+            this.leftKeyPatterns = new Stack<KeyPattern>();
             this.allocatedPatterns = new Dictionary<PeerId, KeyPattern>();
             this.patternResults = new Dictionary<KeyPattern, LinkedList<KeySearcher.KeySearcher.ValueKey>>();
             this.globalTopList = getDummyTopList(MAX_IN_TOP_LIST);
@@ -208,7 +208,7 @@ namespace Cryptool.Plugins.PeerToPeer
             if (this.allocatedPatterns.ContainsKey(peerId))
             {
                 // because actual processing worker was removed, its job must be added to LeftKeyPatterns-List
-                this.leftKeyPatterns.Enqueue(this.allocatedPatterns[peerId]);
+                this.leftKeyPatterns.Push(this.allocatedPatterns[peerId]);
                 bool removeResult = this.allocatedPatterns.Remove(peerId);
                 GuiLogging("REMOVED worker with ID '" + peerId + "' and enqueue its pattern to the Pattern queue (" + removeResult + " ).", NotificationLevel.Info);
             }
@@ -230,7 +230,7 @@ namespace Cryptool.Plugins.PeerToPeer
             {
                 if (iCycle <= iFreePatternAmount)
                 {
-                    KeyPattern actualKeyPattern = this.leftKeyPatterns.Dequeue();
+                    KeyPattern actualKeyPattern = this.leftKeyPatterns.Pop();
                     this.allocatedPatterns.Add(subscriber, actualKeyPattern);
 
                     // send job (Keyspace) to the actual worker peer
@@ -307,10 +307,10 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="keyPattern">Already initialized (!!!) key pattern</param>
         /// <param name="keyPatternSize">KeyPatternSize in hundred thousand!</param>
         /// <returns></returns>
-        public bool StartManager(string sTopic, long aliveMessageInterval, KeyPattern keyPattern, int keyPatternSize)
+        public bool StartManager(string sTopic, long aliveMessageInterval, KeyPattern keyPattern, CryptoolStream encryptedData, byte[] initVector, int keyPatternSize)
         {
             this.KeyPatternPartSize = (BigInteger)(keyPatternSize * 100000);
-            return StartManager(sTopic, aliveMessageInterval, keyPattern);
+            return StartManager(sTopic, aliveMessageInterval, keyPattern,encryptedData,initVector);
         }
 
         /// <summary>
@@ -319,9 +319,13 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="sTopic"></param>
         /// <param name="aliveMessageInterval"></param>
         /// <param name="keyPattern">Already initialized (!!!) key pattern</param>
+        /// <param name="encryptedData">The OutputStream from an Encryption PlugIn</param>
+        /// <param name="initVector">The initialization vector, which the Encryption PlugIn had used</param>
         /// <returns></returns>
-        public bool StartManager(string sTopic, long aliveMessageInterval, KeyPattern keyPattern)
+        public bool StartManager(string sTopic, long aliveMessageInterval, KeyPattern keyPattern, CryptoolStream encryptedData, byte[] initVector)
         {
+            this.sTopic = sTopic;
+
             bool bolStartResult = base.Start(sTopic, aliveMessageInterval);
 
             GuiLogging("Begin building a KeyPatternPool with KeyPatternPartSize " + this.KeyPatternPartSize.ToString(), NotificationLevel.Debug);
@@ -337,44 +341,60 @@ namespace Cryptool.Plugins.PeerToPeer
             //    this.leftKeyPatterns.Enqueue(keyPatternPart);
             //}
 
-            Stack<KeyPattern> keyPatternPool = keyPattern.makeKeySearcherPool(this.keyPatternPartSize);
-            GuiLogging("Enqueue " + keyPatternPool.Count + " KeyPattern-Parts to the JobList.", NotificationLevel.Debug);
-            int keyCount = keyPatternPool.Count;
-            for (int j = 0; j < keyCount; j++)
-            {
-                KeyPattern newPattern = keyPatternPool.Pop();
-                if (newPattern != null)
-                    this.leftKeyPatterns.Enqueue(newPattern);
-                else
-                    break;
-            }
+            leftKeyPatterns = keyPattern.makeKeySearcherPool(this.keyPatternPartSize);
+            GuiLogging("Enqueue " + leftKeyPatterns.Count + " KeyPattern-Parts to the JobList.", NotificationLevel.Debug);
+            //int keyCount = keyPatternPool.Count;
+            //for (int j = 0; j < keyCount; j++)
+            //{
+            //    KeyPattern newPattern = keyPatternPool.Pop();
+            //    if (newPattern != null)
+            //        this.leftKeyPatterns.Enqueue(newPattern);
+            //    else
+            //        break;
+            //}
             
             /* ************************************** */
-            /* Only for debugging reasons - to delete */      
-            StreamWriter debugWriter = DebugToFile.GetDebugStreamWriter();
-            int i = 0;
-            foreach (KeyPattern patternPart in this.leftKeyPatterns.ToList<KeyPattern>())
-            {
-                debugWriter.WriteLine(i + "\t" + patternPart.ToString());
-                i++;
-            }
-            debugWriter.Dispose();
+            /* BEGIN: Only for debugging reasons - to delete */      
+            //StreamWriter debugWriter = DebugToFile.GetDebugStreamWriter();
+            //int i = 0;
+            //foreach (KeyPattern patternPart in this.leftKeyPatterns.ToList<KeyPattern>())
+            //{
+            //    debugWriter.WriteLine(i + "\t" + patternPart.ToString());
+            //    i++;
+            //}
+            //debugWriter.Dispose();
 
-            /* Only for debugging reasons - to delete */
+            /* END: Only for debugging reasons - to delete */
             /* ************************************** */
-            
-            /* TODO:
-             * - Catch Encrypted CryptoolStream and InitVector from the ICryptControl
-             * - store them in the DHT 
-            // store decrypted stream and initialization vector to DHT
-            CryptoolStream encryptedStream;
-            if(encryptedStream.CanRead)
-            {
-                byte[] encryptBuffer;
-                int i = encryptedStream.Read(encryptBuffer,0,encryptedStream.Length-1);
-                this.p2pControl.DHTstore(sTopic + DHT_ENCRYPTED_TEXT, );
-            }
-            */
+
+
+            #region Storing EncryptedData and InitializationVector in DHT
+            bool encryptedTextStored = DHT_CommonManagement.SetEncryptedData(ref this.p2pControl, sTopic, encryptedData);
+            bool initVectorStored = DHT_CommonManagement.SetInitializationVector(ref this.p2pControl, sTopic, initVector);
+
+            //CryptoolStream newEncryptedData = new CryptoolStream();
+            //newEncryptedData.OpenRead(encryptedData.FileName);
+            //if (newEncryptedData.CanRead)
+            //{
+            //    // Convert CryptoolStream to an byte Array and store it in the DHT
+            //    if (newEncryptedData.Length > Int32.MaxValue)
+            //        throw (new Exception("Encrypted Data are too long for this PlugIn. The maximum size of Data is " + Int32.MaxValue + "!"));
+            //    byte[] byteEncryptedData = new byte[newEncryptedData.Length];
+            //    int k = newEncryptedData.Read(byteEncryptedData, 0, (int)newEncryptedData.Length - 1);
+            //    encryptedTextStored = this.p2pControl.DHTstore(sTopic + DHT_ENCRYPTED_TEXT, byteEncryptedData);
+            //}
+            //else
+            //{
+            //    GuiLogging("Reading CryptoolStream wasn't possible.", NotificationLevel.Error);
+            //    return false;
+            //}
+            //// Convert  to an byte Array and store Initialization Vector it in the DHT
+            //initVectorStored = this.p2pControl.DHTstore(sTopic + DHT_INIT_VECTOR, initVector);
+
+            GuiLogging("DHT: Encrypted data stored: '" + encryptedTextStored + "', Initialization vector stored: '" + initVectorStored + "'", NotificationLevel.Debug);
+
+            #endregion
+
             this.ManagerStarted = true;
 
             GetProgressInformation();
@@ -385,6 +405,13 @@ namespace Cryptool.Plugins.PeerToPeer
         public override void Stop(PubSubMessageType msgType)
         {
             base.Stop(msgType);
+            // Remove all Manager specific DHT entries
+            bool deletedMngrDHT = DHT_CommonManagement.DeleteAllManagersEntries(ref this.p2pControl, this.sTopic);
+
+            if (deletedMngrDHT)
+                GuiLogging("Removed all Manager specific DHT entries", NotificationLevel.Debug);
+            else
+                GuiLogging("WARNING: The Manager specific DHT entries weren't removed", NotificationLevel.Debug);
 
             this.ManagerStarted = false;
             ((WorkersManagement)this.peerManagement).OnFreeWorkersAvailable -= peerManagement_OnFreeWorkersAvailable;
