@@ -840,14 +840,14 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             closeStreams();
         }
 
-        #endregion
-
-        #region IControlEncryption Member
-
-
         void IControlEncryption.changeSettings(string setting, object value)
         {
+            throw new NotImplementedException();
+        }
 
+        public void setInput(object input)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
