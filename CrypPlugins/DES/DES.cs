@@ -576,6 +576,10 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             // always recreating this instance is thread-safe, but may cost us some performance
             SymmetricAlgorithm des_algorithm  = new DESCryptoServiceProvider();
 
+            // TODO: this should be configurable via method signature
+            des_algorithm.Mode = CipherMode.ECB;
+            des_algorithm.Padding = PaddingMode.PKCS7;
+
             try
             {
                 des_algorithm.Key = key;
