@@ -34,11 +34,14 @@ namespace Cryptool.Plugins.PeerToPeer
     /// </summary>
     [Author("Christian Arnold", "arnold@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo(false, "P2P_Manager", "Creates a new Manager-Peer", "", "PeerToPeerManager/manager_medium_neutral.png", "PeerToPeerManager/manager_medium_working.png", "PeerToPeerManager/manager_medium_finished.png")]
-    public class P2PManager : IOutput
+    public class P2PManager : IInput
     {
         private P2PManagerBase p2pManager;
         private P2PManagerSettings settings;
-        // IControls
+        // IInput
+        private CryptoolStream decryptedData;
+        private byte[] initVector;
+        // IControls        
         private IControlEncryption encryptionControl;
         private IP2PControl p2pControl;
 
@@ -58,6 +61,31 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         #region In and Output
+
+        [PropertyInfo(Direction.InputData, "Encrypted Data","Encrypted data out of an Encryption PlugIn","",true,false,DisplayLevel.Beginner,QuickWatchFormat.Hex,"")]
+        public CryptoolStream DecryptedData
+        {
+            get{ return this.decryptedData; }
+            set
+            { 
+                if(value != this.decryptedData)
+                {
+                    this.decryptedData = value;
+                }
+            }
+        }
+
+        [PropertyInfo(Direction.InputData, "Initialization Vector","Initialization vector with which the data were encrypted","",DisplayLevel.Beginner)]
+        public byte[] InitVector 
+        { 
+            get{ return this.initVector;}
+            set
+            {
+                if(value != this.initVector)
+                    this.initVector = value;
+            }
+        }
+
         [PropertyInfo(Direction.ControlMaster, "Control Master", "Used for bruteforcing", "", DisplayLevel.Beginner)]
         public IControlEncryption EncryptionControl
         {
@@ -89,6 +117,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
         private void encryptionControl_onStatusChanged(IControl sender, bool readyForExecution)
         {
+            // obsolete stuff
             if (readyForExecution)
             {
                 this.process((IControlEncryption)sender);
@@ -190,6 +219,7 @@ namespace Cryptool.Plugins.PeerToPeer
                     ((P2PManagerQuickWatch)QuickWatchPresentation).txtLeft.Text = "" + jobsLeft;
                     ((P2PManagerQuickWatch)QuickWatchPresentation).txtFinished.Text = "" + jobsFinished;
 
+                    ((P2PManagerQuickWatch)QuickWatchPresentation).txtTotalWorker.Text = "" + (freeWorkers + busyWorkers);
                     ((P2PManagerQuickWatch)QuickWatchPresentation).txtFreeWorker.Text = "" + freeWorkers;
                     ((P2PManagerQuickWatch)QuickWatchPresentation).txtBusyWorker.Text = "" + busyWorkers;
 
@@ -229,34 +259,31 @@ namespace Cryptool.Plugins.PeerToPeer
 
         void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            // storing settings for subscribers in the DHT, so they can load them there
-            //if (e.PropertyName == "SendAliveMessageInterval")
-            //{
-            //    this.p2pControl.DHTstore(settings.TopicName + this.sDHTSettingsPostfix, 
-            //        System.BitConverter.GetBytes(this.settings.SendAliveMessageInterval));
-            //}
-            // if TaskName has changed, clear the Lists, because the Subscribers must reconfirm registering
             if (e.PropertyName == "TopicName")
             {
                 GuiLogMessage("Topic Name has changed, so all subscribers must reconfirm registering!",NotificationLevel.Warning);
                 // stop active publisher and tell all subscribers that topic name isn't valid anymore
-                this.p2pManager.Stop(PubSubMessageType.Unregister);
+                Stop();
+                //this.p2pManager.Stop(PubSubMessageType.Unregister);
                 // start publisher for the changed topic
-                this.p2pManager.Start(this.settings.TopicName, (long)this.settings.SendAliveMessageInterval);
+                process(this.EncryptionControl);
+                //this.p2pManager.Start(this.settings.TopicName, (long)this.settings.SendAliveMessageInterval);
             }
             if (e.PropertyName == "BtnUnregister")
             {
-                this.p2pManager.Stop(PubSubMessageType.Unregister);
+                Stop();
+                //this.p2pManager.Stop(PubSubMessageType.Unregister);
                 GuiLogMessage("Unregister button pressed, Publisher has stopped!", NotificationLevel.Info);
             }
             if (e.PropertyName == "BtnRegister")
             {
-                this.p2pManager.Start(this.settings.TopicName, (long)this.settings.SendAliveMessageInterval);
+                this.process(this.EncryptionControl);
                 GuiLogMessage("Register button pressed, Publisher has been started!", NotificationLevel.Info);
             }
             if (e.PropertyName == "BtnSolutionFound")
             {
-                this.p2pManager.Stop(PubSubMessageType.Solution);
+                Stop();
+                //this.p2pManager.Stop(PubSubMessageType.Solution);
                 GuiLogMessage("TEST: Emulate Solution-Found-message",NotificationLevel.Info);
             }
         }
@@ -342,6 +369,8 @@ namespace Cryptool.Plugins.PeerToPeer
 
         public void Execute()
         {
+            if(this.InitVector != null && this.DecryptedData != null)
+                this.process(this.EncryptionControl);
         }
 
         private void process(IControlEncryption iControlEncryption)
@@ -352,8 +381,14 @@ namespace Cryptool.Plugins.PeerToPeer
                 GuiLogMessage("No P2P_Peer connected with this PlugIn!", NotificationLevel.Error);
                 return;
             }
+            if (iControlEncryption == null)
+            {
+                GuiLogMessage("No Encryption Control connected with this PlugIn", NotificationLevel.Error);
+                return;
+            }
 
             string pattern = iControlEncryption.getKeyPattern();
+
             GuiLogMessage("string pattern = Encrypt.GetKeyPattern() = '" + pattern + "'", NotificationLevel.Debug);
             KeyPattern kp = new KeyPattern(pattern);
 
@@ -384,7 +419,7 @@ namespace Cryptool.Plugins.PeerToPeer
                 GuiLogMessage("STANDARD Key Pattern was set! Key: '" + kp.getKey() + "'", NotificationLevel.Debug);
             }
 
-            this.p2pManager.StartManager(this.settings.TopicName, (long)this.settings.SendAliveMessageInterval, kp, this.settings.KeyPatternSize);
+            this.p2pManager.StartManager(this.settings.TopicName, (long)this.settings.SendAliveMessageInterval, kp, this.DecryptedData, this.InitVector, this.settings.KeyPatternSize);
 
             this.settings.MngStatusChanged(P2PManagerSettings.MngStatus.Working);
             /*End Testspace*/

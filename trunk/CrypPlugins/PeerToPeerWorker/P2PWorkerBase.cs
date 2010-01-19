@@ -41,6 +41,7 @@ namespace Cryptool.Plugins.PeerToPeer
         public event FinishedBruteforcingThePattern OnFinishedBruteforcingThePattern;
 
         // Variables
+        private string sTopicName = String.Empty;
         /// <summary>
         /// only goal: validate incoming KeyPatterns
         /// </summary>
@@ -64,9 +65,10 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #endregion
 
-        public P2PWorkerBase(IP2PControl p2pControl, IControlKeySearcher keySearcherControl)
+        public P2PWorkerBase(IP2PControl p2pControl, IControlKeySearcher keySearcherControl, string sTopicName)
             : base(p2pControl)
         {
+            this.sTopicName = sTopicName;
             this.keySearcherControl = keySearcherControl;
             this.keySearcherControl.OnEndedBruteforcing += new KeySearcher.KeySearcher.BruteforcingEnded(keySearcherControl_OnEndedBruteforcing);
             this.encryptControl = this.keySearcherControl.GetEncyptionControl();
@@ -143,11 +145,9 @@ namespace Cryptool.Plugins.PeerToPeer
                 }
                 else
                 {
-                    // TODO: to display the incoming KeyPattern in the OutputText, not the perfect way...
-                    // base.HandleIncomingData(senderId, sData);
-
-                    Thread processingThread = new Thread(new ParameterizedThreadStart(this.StartProcessing));
-                    processingThread.Start(receivedKeyPattern);
+                    //Thread processingThread = new Thread(new ParameterizedThreadStart(this.StartProcessing));
+                    //processingThread.Start(receivedKeyPattern);
+                    StartProcessing(receivedKeyPattern);
                 }
             }
             else
@@ -157,11 +157,11 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         // necessary, because Thread-starting doesn't allow other parameters than object
-        private void StartProcessing(object receivedKeyPattern)
-        {
-            if (receivedKeyPattern is KeyPattern)
-                StartProcessing(receivedKeyPattern as KeyPattern);
-        }
+        //private void StartProcessing(object receivedKeyPattern)
+        //{
+        //    if (receivedKeyPattern is KeyPattern)
+        //        StartProcessing(receivedKeyPattern as KeyPattern);
+        //}
 
         /// <summary>
         /// Main method for processing a new job. Started in own thread!
@@ -169,15 +169,23 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="receivedKeyPattern">a valid and full initialized KeyPattern</param>
         private void StartProcessing(KeyPattern receivedKeyPattern)
         {
-            GuiLogging("Starting Bruteforcing the incoming WildCardKey: '" + receivedKeyPattern.WildcardKey + "'", NotificationLevel.Info);
+            GuiLogging("Start Bruteforcing the incoming WildCardKey: '" + receivedKeyPattern.WildcardKey + "'", NotificationLevel.Info);
 
             if (OnKeyPatternReceived != null)
                 OnKeyPatternReceived(receivedKeyPattern);
             this.currentlyWorking = true;
             // to access this pattern in every method, where it's meaningful for information or processing reasons
             this.actualProcessingPattern = receivedKeyPattern;
+
+            /* Begin: New stuff because of changing the IControl data flow - Arnie 2010.01.18 */
+            byte[] encryptedData = this.p2pControl.DHTload(sTopicName + "EncryptedText");
+            byte[] initVector = this.p2pControl.DHTload(sTopicName + "InitializationVector");
+            //byte[] encryptedData = DHT_CommonManagement.GetEncryptedData(ref this.p2pControl, sTopicName);
+            //byte[] initVector = DHT_CommonManagement.GetInitializationVector(ref this.p2pControl, sTopicName);
+            /* End: New stuff because of changing the IControl data flow */
+
             // Commit pattern to the KeySearcherControl and wait for result(s)
-            this.keySearcherControl.StartBruteforcing(receivedKeyPattern);
+            this.keySearcherControl.StartBruteforcing(receivedKeyPattern, encryptedData, initVector);
         }
 
         private void keySearcherControl_OnEndedBruteforcing(LinkedList<KeySearcher.KeySearcher.ValueKey> top10List)

@@ -99,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DebugToFile.cs" />
+    <Compile Include="DHT_CommonManagement.cs" />
     <Compile Include="IP2PControl.cs" />
     <Compile Include="KeySearcherResult.cs" />
     <Compile Include="P2PPeerSettings.cs" />

@@ -162,24 +162,6 @@ namespace Cryptool.Plugins.PeerToPeer
             //throw new NotImplementedException();
         }
 
-        private string sOutputvalue;
-        [PropertyInfo(Direction.OutputData, "Data from subscribed Publisher", "When you're subscribed to an alive Publisher, receive published data here", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public string Outputvalue
-        {
-            get
-            {
-                return this.sOutputvalue;
-            }
-            set
-            {
-                if (value != this.sOutputvalue)
-                {
-                    this.sOutputvalue = value;
-                    OnPropertyChanged("Outputvalue");
-                }
-            }
-        }
-
         #endregion
 
         #region Events
@@ -262,9 +244,8 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             if (this.p2pWorker == null)
             {
-                this.p2pWorker = new P2PWorkerBase(this.P2PControl, this.KeySearcherControl);
+                this.p2pWorker = new P2PWorkerBase(this.P2PControl, this.KeySearcherControl, this.settings.TopicName);
                 this.p2pWorker.OnGuiMessage += new P2PWorkerBase.GuiMessage(p2pWorker_OnGuiMessage);
-                this.p2pWorker.OnTextArrivedFromPublisher += new P2PWorkerBase.TextArrivedFromPublisher(p2pWorker_OnTextArrivedFromPublisher);
                 this.p2pWorker.OnKeyPatternReceived += new P2PWorkerBase.KeyPatternReceived(p2pWorker_OnKeyPatternReceived);
                 this.p2pWorker.OnFinishedBruteforcingThePattern += new P2PWorkerBase.FinishedBruteforcingThePattern(p2pWorker_OnFinishedBruteforcingThePattern);
                 this.p2pWorker.OnReceivedStopMessageFromPublisher += new P2PSubscriberBase.ReceivedStopFromPublisher(p2pWorker_OnReceivedStopMessageFromPublisher);
@@ -306,11 +287,6 @@ namespace Cryptool.Plugins.PeerToPeer
         void p2pWorker_OnKeyPatternReceived(KeyPattern pattern)
         {
             this.settings.WorkerStatusChanged(P2PWorkerSettings.WorkerStatus.Working);
-        }
-
-        void p2pWorker_OnTextArrivedFromPublisher(byte[] data, PeerId pid)
-        {
-            this.Outputvalue = UTF8Encoding.UTF8.GetString(data);
         }
 
         void p2pWorker_OnGuiMessage(string sData, NotificationLevel notificationLevel)

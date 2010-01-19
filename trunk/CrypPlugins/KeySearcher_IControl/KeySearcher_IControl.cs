@@ -41,6 +41,34 @@ namespace Cryptool.Plugins.KeySearcher_IControl
             private set { this.readyForExec = value; }
         }
 
+        //only change: mandatory = false!!!
+        [PropertyInfo(Direction.InputData, "Encrypted Data", "Encrypted data out of an Encryption PlugIn", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, "")]
+        public override byte[] EncryptedData
+        {
+            get
+            {
+                return base.EncryptedData;
+            }
+            set
+            {
+                base.EncryptedData = value;
+            }
+        }
+
+        //only change: mandatory = false!!!
+        [PropertyInfo(Direction.InputData, "Initialization Vector", "Initialization vector with which the data were encrypted", "",false,false, DisplayLevel.Beginner,QuickWatchFormat.Hex,"")]
+        public override byte[] InitVector
+        {
+            get
+            {
+                return base.InitVector;
+            }
+            set
+            {
+                base.InitVector = value;
+            }
+        }
+
         #region IKeySearcherControl Members
 
         private IControlKeySearcher controlKeySearcher;
@@ -71,19 +99,26 @@ namespace Cryptool.Plugins.KeySearcher_IControl
         public delegate void IsReadyForExecution();
         public event IsReadyForExecution OnAllMasterControlsInitialized;
 
-        protected override void onStatusChanged(IControl sender, bool readyForExecution)
+        public override void  Execute()
         {
-            this.ReadyForExec = readyForExecution;
-            if (readyForExecution)
+            if(this.ControlMaster != null)
+            {
                 if (OnAllMasterControlsInitialized != null) 
                     OnAllMasterControlsInitialized();
+            }
         }
     }
 
     public class KeySearcherMaster : IControlKeySearcher
     {
         private KeySearcher_IControl keySearcher;
+
+        #region for bruteforcing necessary data
         private KeyPattern actualKeyPattern;
+        private byte[] encryptedData;
+        private byte[] initVector;
+        #endregion
+
         /// <summary>
         /// workaround: Flag which will be set, when the OnAllMasterControlsInitialized
         /// Event is thrown. So we can assure the correct flow of the KeySearcher
@@ -119,7 +154,7 @@ namespace Cryptool.Plugins.KeySearcher_IControl
             return this.keySearcher.CostMaster;
         }
 
-        public void StartBruteforcing(KeyPattern pattern)
+        public void StartBruteforcing(KeyPattern pattern, byte[] encryptedData, byte[] initVector)
         {
             // if not all MasterControls are initialized, store the actual
             // pattern and wait for throwing the OnMasterControlsInitialized-Event
@@ -127,9 +162,11 @@ namespace Cryptool.Plugins.KeySearcher_IControl
             {
                 tryBruteforcingBeforeMastersInitialized = true;
                 this.actualKeyPattern = pattern;
+                this.encryptedData = encryptedData;
+                this.initVector = initVector;
                 return;
             }
-            Bruteforcing(pattern);
+            Bruteforcing(pattern, encryptedData, initVector);
         }
 
         /* dirty workaround, because it could happen, that a Worker
@@ -142,20 +179,25 @@ namespace Cryptool.Plugins.KeySearcher_IControl
             this.allMasterControlsInitialized = true;
             if (this.tryBruteforcingBeforeMastersInitialized)
             {
-                Bruteforcing(actualKeyPattern);
-                actualKeyPattern = null;
+                Bruteforcing(this.actualKeyPattern, this.encryptedData, this.initVector);
+                this.actualKeyPattern = null;
+                this.encryptedData = null;
+                this.initVector = null;
+
                 this.tryBruteforcingBeforeMastersInitialized = false;
             }
         }
 
-        private void Bruteforcing(KeyPattern actualKeyPattern)
+        private void Bruteforcing(KeyPattern actualKeyPattern, byte[] encryptedData, byte[] initVector)
         {
             //because the KeySearcher object uses this property instead of the parameters in some internal methods... Dirty implementation...
             this.keySearcher.Pattern = actualKeyPattern;
             //necessary, because the Pattern property seems to work incorrect
             this.keySearcher.Pattern.WildcardKey = actualKeyPattern.WildcardKey;
 
-            this.keySearcher.BruteforcePattern(actualKeyPattern, this.keySearcher.ControlMaster, this.keySearcher.CostMaster);
+            //New stuff because of changing the IControl data flow - Arnie 2010.01.18
+
+            this.keySearcher.BruteforcePattern(actualKeyPattern, encryptedData, initVector, this.keySearcher.ControlMaster, this.keySearcher.CostMaster);
         }
 
         public event KeySearcher.KeySearcher.BruteforcingEnded OnEndedBruteforcing;
