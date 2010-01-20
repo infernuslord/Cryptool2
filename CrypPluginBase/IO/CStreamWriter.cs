@@ -199,7 +199,7 @@ namespace Cryptool.PluginBase.IO
             return new CStream(this);
         }
 
-        public void Dispose()
+        public new void Dispose()
         {
             if (!_disposed)
             {
@@ -276,16 +276,7 @@ namespace Cryptool.PluginBase.IO
                 }
                 else
                 {
-                    if (!IsSwapped)
-                    {
-                        createSwapFile();
-                        _writeStream.Write(_buffer, 0, _bufPtr);
-                        _writeStream.Flush(); // ensure reader can seek before announcing swap event
-                        _buffer = null;
-
-                        if (SwapEvent != null)
-                            SwapEvent();
-                    }
+                    EnsureSwap();
 
                     _writeStream.Write(buf, offset, count);
                 }
@@ -357,6 +348,20 @@ namespace Cryptool.PluginBase.IO
         internal bool IsClosed
         {
             get { return _closed; }
+        }
+
+        internal void EnsureSwap()
+        {
+            if (!IsSwapped)
+            {
+                createSwapFile();
+                _writeStream.Write(_buffer, 0, _bufPtr);
+                _writeStream.Flush(); // ensure reader can seek before announcing swap event
+                _buffer = null;
+
+                if (SwapEvent != null)
+                    SwapEvent();
+            }
         }
 
         #endregion

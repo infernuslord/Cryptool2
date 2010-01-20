@@ -38,6 +38,9 @@ namespace Cryptool.PluginBase.IO
 
         private bool _disposed;
 
+        [Obsolete("for more or less clean disposal of obsolete self-created CryptoolStream instances")]
+        private List<CryptoolStream> disposeStreams = new List<CryptoolStream>();
+
         public CStream(CStreamWriter writer)
         {
             _writer = writer;
@@ -143,7 +146,7 @@ namespace Cryptool.PluginBase.IO
         /// <summary>
         /// Read POSIX-like 1 to count amount of bytes into given byte array.
         /// Blocks until at least 1 byte has been read or underlying stream has been closed.
-        /// Does not guarantee to read the requested amount of data, can read less.
+        /// Does not guarantee to read the requested/available amount of data, can read less.
         /// </summary>
         /// <param name="buffer"></param>
         /// <param name="offset"></param>
@@ -182,7 +185,59 @@ namespace Cryptool.PluginBase.IO
         }
 
         /// <summary>
-        /// Convenience method for Read (non-POSIX): block until array is full or EOF occurs.
+        /// Convenience method for Read: read and block until EOF occurs.
+        /// 
+        /// This method is inefficient for large data amounts. You should avoid it in stable code.
+        /// </summary>
+        public byte[] ReadFully()
+        {
+            List<byte[]> list = new List<byte[]>();
+            int overall = 0;
+
+            { // read list of buffers
+                byte[] buf;
+                int read;
+                do
+                {
+                    buf = new byte[4096];
+                    read = ReadFully(buf);
+
+                    if (read > 0)
+                    {
+                        if (read < buf.Length)
+                        { // special case: read less bytes than buffer can hold
+                            byte[] resizedBuf = new byte[read];
+                            Array.Copy(buf, resizedBuf, read);
+                            list.Add(resizedBuf);
+                        }
+                        else
+                        { // default case
+                            Debug.Assert(buf.Length == read);
+                            list.Add(buf);
+                        }
+
+                        overall += read;
+                    }
+                } while (read == buf.Length); // not EOF
+            }
+
+            { // concat buffers to bigbuffer
+                byte[] bigbuffer = new byte[overall];
+                int offset = 0;
+                foreach (byte[] buf in list)
+                {
+                    Array.Copy(buf, 0, bigbuffer, offset, buf.Length);
+                    offset += buf.Length;
+                }
+
+                Debug.Assert(offset == overall);
+
+                return bigbuffer;
+            }
+        }
+
+        /// <summary>
+        /// Convenience method for Read: read and block until array is full or EOF occurs.
         /// </summary>
         public int ReadFully(byte[] buffer)
         {
@@ -190,7 +245,7 @@ namespace Cryptool.PluginBase.IO
         }
 
         /// <summary>
-        /// Convenience method for Read (non-POSIX): block until required amount of data has
+        /// Convenience method for Read: read and block until required amount of data has
         /// been retrieved or EOF occurs.
         /// </summary>
         public int ReadFully(byte[] buffer, int offset, int count)
@@ -228,6 +283,23 @@ namespace Cryptool.PluginBase.IO
         public override void Write(byte[] buffer, int offset, int count)
         {
             throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Compatibility with obsolete CryptoolStream. This method has not been tested thoroughly.
+        /// If it breaks, upgrade your plugin to use the new CStream natively.
+        /// </summary>
+        /// <returns></returns>
+        [Obsolete("Replace usage of CryptoolStream with CStream")]
+        public CryptoolStream ReadCryptoolStream()
+        {
+            // CryptoolStream requires a file to read
+            _writer.EnsureSwap();
+
+            CryptoolStream cs = new CryptoolStream();
+            cs.OpenRead(_writer.FilePath);
+            disposeStreams.Add(cs);
+            return cs;
         }
 
         #endregion
@@ -278,6 +350,12 @@ namespace Cryptool.PluginBase.IO
 
             _writer.ShutdownEvent -= shutdownHandler;
             _writer.SwapEvent -= swapHandler;
+
+            // disposal of obsolete CryptoolStreams
+            foreach (CryptoolStream cs in disposeStreams)
+            {
+                cs.Dispose();
+            }
 
             _disposed = true;
         }

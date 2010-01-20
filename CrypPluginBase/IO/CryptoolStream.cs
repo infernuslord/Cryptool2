@@ -107,6 +107,7 @@ namespace Cryptool.PluginBase.IO
 
                 // finalization and public dispose code
                 isDisposed = true;
+                Close();
 
                 if (deleteOnDispose)
                 {
