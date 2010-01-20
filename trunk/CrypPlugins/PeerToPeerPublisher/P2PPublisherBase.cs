@@ -174,7 +174,7 @@ namespace Cryptool.Plugins.PeerToPeer
                 case PubSubMessageType.Register:
                     if (this.peerManagement.Add(sender))
                     {
-                        GuiLogging("REGISTERED: Peer with ID " + sender, NotificationLevel.Info);
+                        GuiLogging("REGISTERED: Peer with ID " + sender + "- RegExepted Msg was sent.", NotificationLevel.Info);
                         this.p2pControl.SendToPeer(PubSubMessageType.RegisteringAccepted, sender);
                     }
                     else

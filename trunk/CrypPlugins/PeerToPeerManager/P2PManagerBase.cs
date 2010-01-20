@@ -11,6 +11,10 @@ using System.IO;
 using System.Threading;
 using Cryptool.PluginBase.IO;
 
+/* Nice to have:
+ * - Enable processing incoming intermediate results
+ *      - Compare PatternResults and only take the top 10 */
+
 namespace Cryptool.Plugins.PeerToPeer
 {
     public class P2PManagerBase : P2PPublisherBase
@@ -37,8 +41,6 @@ namespace Cryptool.Plugins.PeerToPeer
         #region Variables
 
         private const int MAX_IN_TOP_LIST = 10;
-        //private const string DHT_ENCRYPTED_TEXT = "EncryptedText";
-        //private const string DHT_INIT_VECTOR = "InitializationVector";
 
         private bool managerStarted = false;
         public bool ManagerStarted 
@@ -47,7 +49,6 @@ namespace Cryptool.Plugins.PeerToPeer
             private set { this.managerStarted = value; } 
         }
 
-        // 10.000 = 2048 Keys; 100.000 = 256 Keys; 400.000 = 64 Keys; 1.000.000 = 32 Keys - Angaben je für AES und 6 Wildcards...
         private BigInteger keyPatternPartSize = 1000000;
         /// <summary>
         /// Declare in how many parts the key space will be split
@@ -228,6 +229,12 @@ namespace Cryptool.Plugins.PeerToPeer
             List<PeerId> lstSubscribers = ((WorkersManagement)this.peerManagement).GetFreeWorkers();
             foreach (PeerId subscriber in lstSubscribers)
             {
+                if (this.allocatedPatterns.ContainsKey(subscriber))
+                {
+                    GuiLogging("WARNING: Dispersing a new pattern to an already working peer was canceled.", NotificationLevel.Debug);
+                    break;
+                }
+
                 if (iCycle <= iFreePatternAmount)
                 {
                     KeyPattern actualKeyPattern = this.leftKeyPatterns.Pop();

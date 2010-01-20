@@ -98,18 +98,6 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region Variables
 
-        /// <summary>
-        /// If you want to ignore the integrated Versioning System of PeersAtPlay,
-        /// set this flag to true.
-        /// The DHT has an integrated VERSIONING SYSTEM. When a peer wants 
-        /// to store data in an entry, which already holds data, the version
-        /// number will be compared with the peers' version number. If the
-        /// peer hasn't read/write the entry the last time, the storing instruction
-        /// will be rejected. You must first read the actual data and than you can
-        /// store your data in this entry...
-        /// </summary>
-        private const bool IGNORE_DHT_VERSIONING_SYSTEM = true;
-
         private bool started = false;
         /// <summary>
         /// True if system was successfully joined, false if system is COMPLETELY left
@@ -364,7 +352,8 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="sValue"></param>
         public void AsynchStore(string sKey, string sValue)
         {
-            this.dht.Store(OnAsynchStore_Completed, sKey, UTF8Encoding.UTF8.GetBytes(sValue), IGNORE_DHT_VERSIONING_SYSTEM);
+            //this.dht.Store(OnAsynchStore_Completed, sKey, UTF8Encoding.UTF8.GetBytes(sValue), IGNORE_DHT_VERSIONING_SYSTEM);
+            this.dht.Store(OnAsynchStore_Completed, sKey, UTF8Encoding.UTF8.GetBytes(sValue));
         }
 
         private void OnAsynchStore_Completed(StoreResult sr)
@@ -386,7 +375,8 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="sKey"></param>
         public void AsynchRemove(string sKey)
         {
-            this.dht.Remove(OnAsynchRemove_Completed, sKey, IGNORE_DHT_VERSIONING_SYSTEM);
+            //this.dht.Remove(OnAsynchRemove_Completed, sKey, IGNORE_DHT_VERSIONING_SYSTEM);
+            this.dht.Remove(OnAsynchRemove_Completed, sKey);
         }
         private void OnAsynchRemove_Completed(RemoveResult rr)
         {
@@ -415,7 +405,8 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             AutoResetEvent are = new AutoResetEvent(false);
             // this method returns always a GUID to distinguish between asynchronous actions
-            Guid g = this.dht.Store(OnSynchStoreCompleted, sKey, byteData, IGNORE_DHT_VERSIONING_SYSTEM);
+            Guid g = this.dht.Store(OnSynchStoreCompleted, sKey, byteData);
+            //Guid g = this.dht.Store(OnSynchStoreCompleted, sKey, byteData, IGNORE_DHT_VERSIONING_SYSTEM);
 
             ResponseWait rw = new ResponseWait() { WaitHandle = are, key=sKey , value = byteData };
 
@@ -560,7 +551,8 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             AutoResetEvent are = new AutoResetEvent(false);
             // this method returns always a GUID to distinguish between asynchronous actions
-            Guid g = this.dht.Remove(OnSynchRemoveCompleted, sKey, IGNORE_DHT_VERSIONING_SYSTEM);
+            Guid g = this.dht.Remove(OnSynchRemoveCompleted, sKey);
+            //Guid g = this.dht.Remove(OnSynchRemoveCompleted, sKey, IGNORE_DHT_VERSIONING_SYSTEM);
 
             ResponseWait rw = new ResponseWait() { WaitHandle = are };
 
