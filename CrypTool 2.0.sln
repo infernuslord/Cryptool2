@@ -81,8 +81,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimesGenerator", "CrypPlug
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Primes", "CrypPlugins\Primes\Primes\Primes.csproj", "{2830F337-A7A3-4A68-87AC-64F3AA79C70B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NOR", "CrypPlugins\NOR\NOR.csproj", "{A5D24F5A-DBA3-4952-BB53-64957FE418C1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WEP", "CrypPlugins\WEP\WEP\WEP.csproj", "{0798D3DB-9F45-4CA8-8592-23F063C45CB4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WEPAttacks", "CrypPlugins\WEPAttacks\WEPAttacks\WEPAttacks.csproj", "{270EDC38-25CA-483E-A2EC-1CD158F81387}"
@@ -201,6 +199,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeerToPeerSubscriber", "CrypPlugins\PeerToPeerSubscriber\PeerToPeerSubscriber.csproj", "{612FEE87-F51F-4BE6-81D1-F91EA4A5DD43}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeySearcher_IControl", "CrypPlugins\KeySearcher_IControl\KeySearcher_IControl.csproj", "{246DF46E-C05E-42A3-AA3D-47807FE4E929}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeAttackController", "CrypPlugins\CubeAttackController\CubeAttackController.csproj", "{2100AC2F-3F2B-48A2-AF42-87EC52C8A703}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -612,16 +612,6 @@ Global
 		{2830F337-A7A3-4A68-87AC-64F3AA79C70B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2830F337-A7A3-4A68-87AC-64F3AA79C70B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{2830F337-A7A3-4A68-87AC-64F3AA79C70B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{A5D24F5A-DBA3-4952-BB53-64957FE418C1}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{A5D24F5A-DBA3-4952-BB53-64957FE418C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A5D24F5A-DBA3-4952-BB53-64957FE418C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A5D24F5A-DBA3-4952-BB53-64957FE418C1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{A5D24F5A-DBA3-4952-BB53-64957FE418C1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{A5D24F5A-DBA3-4952-BB53-64957FE418C1}.Release|.NET.ActiveCfg = Release|Any CPU
-		{A5D24F5A-DBA3-4952-BB53-64957FE418C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A5D24F5A-DBA3-4952-BB53-64957FE418C1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A5D24F5A-DBA3-4952-BB53-64957FE418C1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{A5D24F5A-DBA3-4952-BB53-64957FE418C1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{0798D3DB-9F45-4CA8-8592-23F063C45CB4}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{0798D3DB-9F45-4CA8-8592-23F063C45CB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0798D3DB-9F45-4CA8-8592-23F063C45CB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -1158,6 +1148,16 @@ Global
 		{246DF46E-C05E-42A3-AA3D-47807FE4E929}.Release|Any CPU.Build.0 = Release|Any CPU
 		{246DF46E-C05E-42A3-AA3D-47807FE4E929}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{246DF46E-C05E-42A3-AA3D-47807FE4E929}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{2100AC2F-3F2B-48A2-AF42-87EC52C8A703}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{2100AC2F-3F2B-48A2-AF42-87EC52C8A703}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2100AC2F-3F2B-48A2-AF42-87EC52C8A703}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2100AC2F-3F2B-48A2-AF42-87EC52C8A703}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{2100AC2F-3F2B-48A2-AF42-87EC52C8A703}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{2100AC2F-3F2B-48A2-AF42-87EC52C8A703}.Release|.NET.ActiveCfg = Release|Any CPU
+		{2100AC2F-3F2B-48A2-AF42-87EC52C8A703}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2100AC2F-3F2B-48A2-AF42-87EC52C8A703}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2100AC2F-3F2B-48A2-AF42-87EC52C8A703}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{2100AC2F-3F2B-48A2-AF42-87EC52C8A703}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
