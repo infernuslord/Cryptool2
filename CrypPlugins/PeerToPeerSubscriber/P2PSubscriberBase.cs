@@ -118,22 +118,28 @@ namespace Cryptool.Plugins.PeerToPeer
             // because CheckPublishersAvailability checks this value, set it for the first time here...
             // if bolStopped = true, the Timer for Checking Publishers liveliness doesn't start
             this.bolStopped = false;
-            PeerId pubId = CheckPublisherAvailability();
-            // if DHT Entry for Task is empty, there exist no Publisher at present.
-            // The method PublisherIsAlive starts a Timer for this case to continous proof Publisher-DHT-Entry
-            if (pubId != null)
-            {
-                SendMessage(pubId, PubSubMessageType.Register);
-                if (this.timeoutForPublishersRegAccept == null)
-                    this.timeoutForPublishersRegAccept = new Timer(OnTimeoutRegisteringAccepted, null, this.publisherReplyTimespan, this.publisherReplyTimespan);
-                this.started = true;
-            }
-            else
+            PeerId pubId = CheckPublishersAvailability();
+            // if DHT Entry for the task is empty, no Publisher exists at present.
+            // The method CheckPublishersAvailability starts a Timer for this case to continous proof Publisher-DHT-Entry
+            if (pubId == null)
             {
                 this.Started = false;
                 // if PubId is null, the Publisher isn't started!
                 this.bolStopped = true;
+                GuiLogging("No publisher for registering found.", NotificationLevel.Info);
+                return;
             }
+
+            // when the actual publisher differs from the new detected publisher, change it
+            if (pubId != null && (actualPublisher != null && actualPublisher != pubId))
+            {
+                GuiLogging("Publisher has been changed from ID '" + actualPublisher + "' to '" + pubId + "'", NotificationLevel.Debug);
+                actualPublisher = pubId;
+            }
+            SendMessage(pubId, PubSubMessageType.Register);
+            if (this.timeoutForPublishersRegAccept == null)
+                this.timeoutForPublishersRegAccept = new Timer(OnTimeoutRegisteringAccepted, null, this.publisherReplyTimespan, this.publisherReplyTimespan);
+            this.started = true;
         }
 
         private void p2pControl_OnSystemMessageReceived(PeerId sender, PubSubMessageType msgType)
@@ -253,13 +259,7 @@ namespace Cryptool.Plugins.PeerToPeer
         // his ID in the DHT Entry with the Key TaskName
         private void OnRegisteringNotPossible(object state)
         {
-            PeerId pubId = CheckPublisherAvailability();
-            // if DHT Entry for Task is empty, there exist no Publisher at present.
-            // The method PublisherIsAlive starts a Timer for this case to continous proof Publisher-DHT-Entry
-            if (pubId != null)
-                SendMessage(pubId, PubSubMessageType.Register);
-            else
-                GuiLogging("No publisher for registering found.", NotificationLevel.Info);
+            Register();
         }
 
         private void OnSendAliveMessage(object state)
@@ -274,7 +274,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// The Timer for periodically checking the Publishers availability is also started here.
         /// </summary>
         /// <returns>the actual Publishers ID or null, when a publisher wasn't found in the DHT</returns>
-        private PeerId CheckPublisherAvailability()
+        private PeerId CheckPublishersAvailability()
         {
             PeerId pid = DHT_CommonManagement.GetTopicsPublisherId(ref this.p2pControl, this.sTopic);
 
@@ -286,7 +286,6 @@ namespace Cryptool.Plugins.PeerToPeer
                     timerRegisteringNotPossible = new Timer(OnRegisteringNotPossible, null, 10000, 10000);
                 }
                 GuiLogging("Publisher wasn't found in DHT or settings didn't stored on the right way.", NotificationLevel.Debug);
-                //GuiLogging("Publisher wasn't found in DHT or settings didn't stored on the right way.", NotificationLevel.Warning);
                 return null;
             }
 
@@ -302,13 +301,6 @@ namespace Cryptool.Plugins.PeerToPeer
             {
                 actualPublisher = pid;
                 GuiLogging("First time received publishers ID.", NotificationLevel.Debug);
-            }
-            else if (actualPublisher != pid)
-            {
-                GuiLogging("Publisher has been changed from ID '" +  actualPublisher + "' to '" + pid + "'", NotificationLevel.Debug);
-                actualPublisher = pid;
-                // because the publisher has changed, send a new register msg
-                SendMessage(actualPublisher, PubSubMessageType.Register);
             }
 
             GuiLogging("RECEIVED: Publishers' peer ID '" + pid + "', Alive-Msg-Interval: " + sendAliveMessageInterval / 1000 + " sec!", NotificationLevel.Debug);
@@ -328,7 +320,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="state"></param>
         private void OnCheckPubAvailability(object state)
         {
-            PeerId newPubId = CheckPublisherAvailability();
+            PeerId newPubId = CheckPublishersAvailability();
 
             if (newPubId == actualPublisher)
             {
@@ -366,7 +358,7 @@ namespace Cryptool.Plugins.PeerToPeer
                 timeoutForPublishersPong = null;
             }
             // try to get an active publisher and re-register
-            CheckPublisherAvailability();
+            CheckPublishersAvailability();
         }
 
         /// <summary>

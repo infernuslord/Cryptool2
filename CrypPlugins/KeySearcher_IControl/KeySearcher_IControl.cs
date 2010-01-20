@@ -113,33 +113,10 @@ namespace Cryptool.Plugins.KeySearcher_IControl
     {
         private KeySearcher_IControl keySearcher;
 
-        #region for bruteforcing necessary data
-        private KeyPattern actualKeyPattern;
-        private byte[] encryptedData;
-        private byte[] initVector;
-        #endregion
-
-        /// <summary>
-        /// workaround: Flag which will be set, when the OnAllMasterControlsInitialized
-        /// Event is thrown. So we can assure the correct flow of the KeySearcher
-        /// </summary>
-        private bool allMasterControlsInitialized = false;
-        /// <summary>
-        /// workaround: Flag which will be set, when a worker wants to
-        /// bruteforce a pattern, but the MasterControls of the base
-        /// KeySearcher aren't initialized yet. In this case the pattern
-        /// will be stored in the variable actualKeyPattern and will be
-        /// processed when the OnMasterControlsInitialized-Event is thrown
-        /// </summary>
-        private bool tryBruteforcingBeforeMastersInitialized = false;
-
         public KeySearcherMaster(KeySearcher_IControl keysearcher)
         {
             this.keySearcher = keysearcher;
-            // this.keySearcher.OnBruteforcingEnded +=new KeySearcher.KeySearcher.BruteforcingEnded(keySearcher_OnBruteforcingEnded);
-            // subscribe to event before any bruteforcing has started, so we make sure that this event will thrown in every case
             this.keySearcher.OnBruteforcingEnded += new KeySearcher.KeySearcher.BruteforcingEnded(keySearcher_OnBruteforcingEnded);
-            //this.keySearcher.OnAllMasterControlsInitialized += new KeySearcher_IControl.IsReadyForExecution(keySearcher_OnAllMasterControlsInitialized);
         }
 
         #region IControlKeySearcher Members
@@ -156,48 +133,14 @@ namespace Cryptool.Plugins.KeySearcher_IControl
 
         public void StartBruteforcing(KeyPattern pattern, byte[] encryptedData, byte[] initVector)
         {
-            // if not all MasterControls are initialized, store the actual
-            // pattern and wait for throwing the OnMasterControlsInitialized-Event
-            //if (!allMasterControlsInitialized)
-            //{
-            //    tryBruteforcingBeforeMastersInitialized = true;
-            //    this.actualKeyPattern = pattern;
-            //    this.encryptedData = encryptedData;
-            //    this.initVector = initVector;
-            //    return;
-            //}
-            Bruteforcing(pattern, encryptedData, initVector);
-        }
-
-        /* dirty workaround, because it could happen, that a Worker
-         * wants to start Bruteforcing before all Master Controls of the base
-         * KeySearcber (IEncryptionControl und ICostControl) are finally 
-         * initialized, in this case the pattern will be stored and processed
-         * after this event was thrown. */
-        //private void keySearcher_OnAllMasterControlsInitialized()
-        //{
-        //    this.allMasterControlsInitialized = true;
-        //    if (this.tryBruteforcingBeforeMastersInitialized)
-        //    {
-        //        Bruteforcing(this.actualKeyPattern, this.encryptedData, this.initVector);
-        //        this.actualKeyPattern = null;
-        //        this.encryptedData = null;
-        //        this.initVector = null;
-
-        //        this.tryBruteforcingBeforeMastersInitialized = false;
-        //    }
-        //}
-
-        private void Bruteforcing(KeyPattern actualKeyPattern, byte[] encryptedData, byte[] initVector)
-        {
             //because the KeySearcher object uses this property instead of the parameters in some internal methods... Dirty implementation...
-            this.keySearcher.Pattern = actualKeyPattern;
+            this.keySearcher.Pattern = pattern;
             //necessary, because the Pattern property seems to work incorrect
-            this.keySearcher.Pattern.WildcardKey = actualKeyPattern.WildcardKey;
+            this.keySearcher.Pattern.WildcardKey = pattern.WildcardKey;
 
             //New stuff because of changing the IControl data flow - Arnie 2010.01.18
 
-            this.keySearcher.BruteforcePattern(actualKeyPattern, encryptedData, initVector, this.keySearcher.ControlMaster, this.keySearcher.CostMaster);
+            this.keySearcher.BruteforcePattern(pattern, encryptedData, initVector, this.keySearcher.ControlMaster, this.keySearcher.CostMaster);
         }
 
         public event KeySearcher.KeySearcher.BruteforcingEnded OnEndedBruteforcing;
