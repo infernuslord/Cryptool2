@@ -174,7 +174,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="receivedKeyPattern">a valid and full initialized KeyPattern</param>
         private void StartProcessing(KeyPattern receivedKeyPattern)
         {
-            GuiLogging("Start Bruteforcing the incoming WildCardKey: '" + receivedKeyPattern.WildcardKey + "'", NotificationLevel.Info);
+            GuiLogging("Start Bruteforcing the incoming Key: '" + receivedKeyPattern.getKey() + "', WildCardKey: '" + receivedKeyPattern.WildcardKey + "'", NotificationLevel.Info);
 
             if (OnKeyPatternReceived != null)
                 OnKeyPatternReceived(receivedKeyPattern);
@@ -185,8 +185,6 @@ namespace Cryptool.Plugins.PeerToPeer
             /* Begin: New stuff because of changing the IControl data flow - Arnie 2010.01.18 */
 
             GuiLogging("BEGIN: Retrieving encryption information from the DHT.", NotificationLevel.Debug);
-            //byte[] encryptedData = this.p2pControl.DHTload(sTopicName + "EncryptedText");
-            //byte[] initVector = this.p2pControl.DHTload(sTopicName + "InitializationVector");
             byte[] encryptedData = DHT_CommonManagement.GetEncryptedData(ref this.p2pControl, sTopicName);
             byte[] initVector = DHT_CommonManagement.GetInitializationVector(ref this.p2pControl, sTopicName);
             GuiLogging("END: Retrieving encryption information from the DHT.", NotificationLevel.Debug);
