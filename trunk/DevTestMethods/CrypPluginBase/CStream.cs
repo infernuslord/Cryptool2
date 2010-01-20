@@ -258,5 +258,21 @@ namespace Tests.CrypPluginBase
             // deleted tempfile
             Assert.IsFalse(File.Exists(filePath));
         }
+
+        [TestMethod]
+        public void TestExhaustiveRead()
+        {
+            CStreamWriter writer = new CStreamWriter();
+
+            writer.Write(LongData);
+            writer.Write(LongData);
+            writer.Write(LongData);
+            writer.Close();
+
+            CStream reader = writer.CreateReader();
+            byte[] bigbuf = reader.ReadFully();
+
+            Assert.AreEqual(LongData.Length * 3, bigbuf.Length);
+        }
     }
 }
