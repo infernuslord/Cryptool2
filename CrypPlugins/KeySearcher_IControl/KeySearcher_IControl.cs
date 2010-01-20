@@ -96,16 +96,16 @@ namespace Cryptool.Plugins.KeySearcher_IControl
          * Otherwise the direct call of bruteforcePattern could run into an Exception, because
          * Encryption Control isn't initialized already.
          */
-        public delegate void IsReadyForExecution();
-        public event IsReadyForExecution OnAllMasterControlsInitialized;
+        //public delegate void IsReadyForExecution();
+        //public event IsReadyForExecution OnAllMasterControlsInitialized;
 
-        public override void  Execute()
+        public override void Execute()
         {
-            if(this.ControlMaster != null)
-            {
-                if (OnAllMasterControlsInitialized != null) 
-                    OnAllMasterControlsInitialized();
-            }
+            //if(this.ControlMaster != null)
+            //{
+            //    if (OnAllMasterControlsInitialized != null) 
+            //        OnAllMasterControlsInitialized();
+            //}
         }
     }
 
@@ -136,10 +136,10 @@ namespace Cryptool.Plugins.KeySearcher_IControl
         public KeySearcherMaster(KeySearcher_IControl keysearcher)
         {
             this.keySearcher = keysearcher;
-           // this.keySearcher.OnBruteforcingEnded +=new KeySearcher.KeySearcher.BruteforcingEnded(keySearcher_OnBruteforcingEnded);
+            // this.keySearcher.OnBruteforcingEnded +=new KeySearcher.KeySearcher.BruteforcingEnded(keySearcher_OnBruteforcingEnded);
             // subscribe to event before any bruteforcing has started, so we make sure that this event will thrown in every case
             this.keySearcher.OnBruteforcingEnded += new KeySearcher.KeySearcher.BruteforcingEnded(keySearcher_OnBruteforcingEnded);
-            this.keySearcher.OnAllMasterControlsInitialized += new KeySearcher_IControl.IsReadyForExecution(keySearcher_OnAllMasterControlsInitialized);
+            //this.keySearcher.OnAllMasterControlsInitialized += new KeySearcher_IControl.IsReadyForExecution(keySearcher_OnAllMasterControlsInitialized);
         }
 
         #region IControlKeySearcher Members
@@ -158,14 +158,14 @@ namespace Cryptool.Plugins.KeySearcher_IControl
         {
             // if not all MasterControls are initialized, store the actual
             // pattern and wait for throwing the OnMasterControlsInitialized-Event
-            if (!allMasterControlsInitialized)
-            {
-                tryBruteforcingBeforeMastersInitialized = true;
-                this.actualKeyPattern = pattern;
-                this.encryptedData = encryptedData;
-                this.initVector = initVector;
-                return;
-            }
+            //if (!allMasterControlsInitialized)
+            //{
+            //    tryBruteforcingBeforeMastersInitialized = true;
+            //    this.actualKeyPattern = pattern;
+            //    this.encryptedData = encryptedData;
+            //    this.initVector = initVector;
+            //    return;
+            //}
             Bruteforcing(pattern, encryptedData, initVector);
         }
 
@@ -174,19 +174,19 @@ namespace Cryptool.Plugins.KeySearcher_IControl
          * KeySearcber (IEncryptionControl und ICostControl) are finally 
          * initialized, in this case the pattern will be stored and processed
          * after this event was thrown. */
-        private void keySearcher_OnAllMasterControlsInitialized()
-        {
-            this.allMasterControlsInitialized = true;
-            if (this.tryBruteforcingBeforeMastersInitialized)
-            {
-                Bruteforcing(this.actualKeyPattern, this.encryptedData, this.initVector);
-                this.actualKeyPattern = null;
-                this.encryptedData = null;
-                this.initVector = null;
+        //private void keySearcher_OnAllMasterControlsInitialized()
+        //{
+        //    this.allMasterControlsInitialized = true;
+        //    if (this.tryBruteforcingBeforeMastersInitialized)
+        //    {
+        //        Bruteforcing(this.actualKeyPattern, this.encryptedData, this.initVector);
+        //        this.actualKeyPattern = null;
+        //        this.encryptedData = null;
+        //        this.initVector = null;
 
-                this.tryBruteforcingBeforeMastersInitialized = false;
-            }
-        }
+        //        this.tryBruteforcingBeforeMastersInitialized = false;
+        //    }
+        //}
 
         private void Bruteforcing(KeyPattern actualKeyPattern, byte[] encryptedData, byte[] initVector)
         {
@@ -209,7 +209,7 @@ namespace Cryptool.Plugins.KeySearcher_IControl
 
         public void StopBruteforcing()
         {
-            this.keySearcher.OnAllMasterControlsInitialized -= keySearcher_OnAllMasterControlsInitialized;
+            //this.keySearcher.OnAllMasterControlsInitialized -= keySearcher_OnAllMasterControlsInitialized;
         }
 
         #endregion

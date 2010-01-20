@@ -7,6 +7,9 @@ using Cryptool.PluginBase;
 using System.Threading;
 using KeySearcher;
 
+/* Nice to have:
+ * - Enable sending intermediate results in a user-defined interval */
+
 namespace Cryptool.Plugins.PeerToPeer
 {
     public enum EncryptionPatternLength
@@ -137,17 +140,19 @@ namespace Cryptool.Plugins.PeerToPeer
             KeyPattern receivedKeyPattern = patternForValidateIncomingPatterns.Deserialize(data);
             if (receivedKeyPattern != null)
             {
-                // only one Pattern can be bruteforced concurrently, 
-                // so other incoming Patterns have to wait
+                /* only one Pattern can be bruteforced concurrently, 
+                 * so other incoming Patterns will be admitted to the 
+                 * waitingJobList, will be processed immediately at
+                 * the end of the current bruteforce-Job */
                 if (this.currentlyWorking)
                 {
                     this.waitingJobList.Enqueue(receivedKeyPattern);
                 }
                 else
                 {
-                    //Thread processingThread = new Thread(new ParameterizedThreadStart(this.StartProcessing));
-                    //processingThread.Start(receivedKeyPattern);
-                    StartProcessing(receivedKeyPattern);
+                    Thread processingThread = new Thread(new ParameterizedThreadStart(this.StartProcessing));
+                    processingThread.Start(receivedKeyPattern);
+                    //StartProcessing(receivedKeyPattern);
                 }
             }
             else
@@ -157,11 +162,11 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         // necessary, because Thread-starting doesn't allow other parameters than object
-        //private void StartProcessing(object receivedKeyPattern)
-        //{
-        //    if (receivedKeyPattern is KeyPattern)
-        //        StartProcessing(receivedKeyPattern as KeyPattern);
-        //}
+        private void StartProcessing(object receivedKeyPattern)
+        {
+            if (receivedKeyPattern is KeyPattern)
+                StartProcessing(receivedKeyPattern as KeyPattern);
+        }
 
         /// <summary>
         /// Main method for processing a new job. Started in own thread!
@@ -178,10 +183,14 @@ namespace Cryptool.Plugins.PeerToPeer
             this.actualProcessingPattern = receivedKeyPattern;
 
             /* Begin: New stuff because of changing the IControl data flow - Arnie 2010.01.18 */
-            byte[] encryptedData = this.p2pControl.DHTload(sTopicName + "EncryptedText");
-            byte[] initVector = this.p2pControl.DHTload(sTopicName + "InitializationVector");
-            //byte[] encryptedData = DHT_CommonManagement.GetEncryptedData(ref this.p2pControl, sTopicName);
-            //byte[] initVector = DHT_CommonManagement.GetInitializationVector(ref this.p2pControl, sTopicName);
+
+            GuiLogging("BEGIN: Retrieving encryption information from the DHT.", NotificationLevel.Debug);
+            //byte[] encryptedData = this.p2pControl.DHTload(sTopicName + "EncryptedText");
+            //byte[] initVector = this.p2pControl.DHTload(sTopicName + "InitializationVector");
+            byte[] encryptedData = DHT_CommonManagement.GetEncryptedData(ref this.p2pControl, sTopicName);
+            byte[] initVector = DHT_CommonManagement.GetInitializationVector(ref this.p2pControl, sTopicName);
+            GuiLogging("END: Retrieving encryption information from the DHT.", NotificationLevel.Debug);
+
             /* End: New stuff because of changing the IControl data flow */
 
             // Commit pattern to the KeySearcherControl and wait for result(s)

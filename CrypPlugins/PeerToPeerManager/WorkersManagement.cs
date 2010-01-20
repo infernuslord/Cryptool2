@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-/* 
- * CLASS INFORMATION
+/* CLASS INFORMATION
  * This class is derived from SubscriberManagement. The whole availability- and update-functionality
- * is assumed unchanged. Only Adding- and Removing-functionalities for subscriber/worker are extended,
- * because of an easier management it must handle the two lists freeWorkers and busyWorkers.
- */
+ * is assumed unchanged. Only Adding- and Removing-functionalities for subscriber/worker were extended,
+ * because of an easier management, it must handle the two lists freeWorkers and busyWorkers. */
 
 namespace Cryptool.Plugins.PeerToPeer
 {
@@ -116,30 +114,24 @@ namespace Cryptool.Plugins.PeerToPeer
             bool bolBaseAdd = base.Add(subscriberId);
 
             // fill freeWorker-List with new Worker too
-            if(!this.freeWorkers.Contains(subscriberId))
+            if (!this.freeWorkers.Contains(subscriberId))
+            {
                 this.freeWorkers.Add(subscriberId);
-
-            CheckAvailabilityOfFreeWorkers();
+                CheckAvailabilityOfFreeWorkers();
+            }
 
             return bolBaseAdd;
         }
 
         public override bool Remove(PeerId subscriberId)
         {
+            RemoveWorker(subscriberId);
+            // execute base method here, because the OnPeerRemoved-Event
+            // will be fired in this method - catched and handled by 
+            // the Manager
             bool baseResult = base.Remove(subscriberId);
 
-            RemoveWorker(subscriberId);
-
             return baseResult;
-        }
-
-        protected override bool RemoveSubscriberEverywhere(PeerId subId)
-        {
-            bool result = base.RemoveSubscriberEverywhere(subId);
-
-            RemoveWorker(subId);
-
-            return result;
         }
 
         public override void Dispose()

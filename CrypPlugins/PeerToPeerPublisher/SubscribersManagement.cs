@@ -89,30 +89,25 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         /// <summary>
-        /// Removes Subscriber from list
+        /// Removes Subscriber/Worker from all managment lists
         /// </summary>
-        /// <param name="subscriberId"></param>
+        /// <param name="subscriberId">ID of the removed subscriber/worker</param>
         /// <returns></returns>
         public virtual bool Remove(PeerId subscriberId)
         {
-            return RemoveSubscriberEverywhere(subscriberId);
-        }
-
-        protected virtual bool RemoveSubscriberEverywhere(PeerId subId)
-        {
             bool result = false;
-            lock(this.checkList)
+            lock (this.checkList)
             {
-                if(this.secondChanceList.Contains(subId))
-                    this.secondChanceList.Remove(subId);
-                if (this.checkList.ContainsKey(subId))
+                if (this.secondChanceList.Contains(subscriberId))
+                    this.secondChanceList.Remove(subscriberId);
+                if (this.checkList.ContainsKey(subscriberId))
                 {
-                    this.checkList.Remove(subId);
+                    this.checkList.Remove(subscriberId);
                     result = true;
                 }
 
                 if (result && OnSubscriberRemoved != null)
-                    OnSubscriberRemoved(subId);
+                    OnSubscriberRemoved(subscriberId);
             }
             return result;
         }
@@ -148,8 +143,7 @@ namespace Cryptool.Plugins.PeerToPeer
 
             foreach (PeerId removeSub in removeSubscribersFromDict)
             {
-                // functionality swapped for inheritance matters
-                RemoveSubscriberEverywhere(removeSub);
+                Remove(removeSub);
             }
 
             return this.secondChanceList.ToList<PeerId>();
