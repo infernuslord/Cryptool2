@@ -72,6 +72,18 @@ Afterwards your reference tree view should look like this:
 \end{figure}
 
 If your plugin will be based on further libraries, you have to add them in the same way.
+\section{Modify project properties}\label{sec:ModifyProjectProperties}
+It is important to make two little changes in your plugin assembly to ensure a right import of your plugin in CrypTool 2.\\
+You will find your assembly file called ''AssemblyInfo.cs'' in in your solution tree view at the item ''Properties''. Make these two changes:
+\begin{itemize}
+	\item Fit the attribute ''AssemblyVersion''
+	\item Comment out the attribute ''AssemblyFileVersion''
+\end{itemize}
+Usually your assembly code part could now look like this:
+\begin{lstlisting}
+[assembly: AssemblyVersion(''2.0.*'')]
+//[assembly: AssemblyFileVersion(''1.0.0.0'')]
+\end{lstlisting}
 \section{Create the classes for the algorithm and for its settings}\label{sec:CreateTheClassesForTheAlgorithmAndForItsSettings}
 In the next step we have to create two classes. The first class named ''Caesar'' has to inherit from IEncryption to provide an ecryption plugin. If you want to develop a Hash plugin your class has to inherit from IHash.
 The second class named ''CaesarSettings'' has to inherit from ISettings.
