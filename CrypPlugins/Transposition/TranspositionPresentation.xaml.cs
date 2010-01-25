@@ -24,21 +24,21 @@ namespace Transposition
     {
 
         public event EventHandler feuerEnde; //for granting Transposition to fire output after Presentation has finished
-        public event EventHandler updateProgress;
+        public event EventHandler updateProgress; //updates the status of the plugin
         /// <summary>
         /// Visualisationmodul for Transposition.c
         /// </summary>
         public TranspositionPresentation()
         {
             InitializeComponent();
-            SizeChanged += sizeChanged;
+            SizeChanged += sizeChanged; //fits the quickwatch size
         }
         /// <summary>
         /// making the presentation scalable
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="eventArgs"></param>
-        public void sizeChanged(Object sender, EventArgs eventArgs)
+        private void sizeChanged(Object sender, EventArgs eventArgs)
         {
             this.Stack.RenderTransform = new ScaleTransform(this.ActualWidth / this.Stack.ActualWidth,
                                                             this.ActualHeight / this.Stack.ActualHeight);
@@ -46,44 +46,44 @@ namespace Transposition
 
         #region declarating variables
 
-        private TextBlock[,] teba;
-        private int von;
-        private int nach;
-        private int schleife = 0;
-        private int outcount;
-        private int outcount1;
-        private int outcount2;
-        private int outcount3;
-        private int outcount4;
-        private int outcount5;
-        private int countup;
-        private int countup1;
-        private int precountup;
-        private bool Stop = false;
-        private int per;
-        private int act;
-        private int rein;
-        private int reout;
-        private int number;
-        private TextBlock[] reina;
-        private TextBlock[] reouta;
-        private int speed = 1;
-        private int rowper;
-        private int colper;
-        private byte[,] read_in_matrix;
-        private byte[,] permuted_matrix;
-        private Brush[,] mat_back;
-        private DoubleAnimation nop;
-        private DoubleAnimation fadeIn;
-        private DoubleAnimation fadeOut;
-        private int[] key;
-        public int progress;
+        private TextBlock[,] teba;      // the matrix as array of textblocks
+        private int von;                // column or row from where to transposit 
+        private int nach;               // column or row where to transposit
+        private int schleife = 0;       // loopvariable
+        private int outcount;           // counter
+        private int outcount1;          // counter, i tried to reuse the privious but it fails
+        private int outcount2;          // counter
+        private int outcount3;          // counter
+        private int outcount4;          // counter
+        private int outcount5;          // counter
+        private int countup;            // counter, counts up reverse then the outcounter
+        private int countup1;           // counter, i tried to reuse the privious but it fails
+        private int precountup;         // counter
+        private bool Stop = false;      // boolean to stop animations from being executed
+        private int per;                // permutation mode
+        private int act;                // permutation action
+        private int rein;               // read in mode
+        private int reout;              // read out mode
+        private int number;             //
+        private TextBlock[] reina;      // incoming matrix as texblock array
+        private TextBlock[] reouta;     // outgoing matrix as textblock array, never used
+        private int speed = 1;          // animation speed
+        private int rowper;             // help variable to differnce between permute by row and column
+        private int colper;             // help variable to differnce between permute by row and column
+        private byte[,] read_in_matrix; // read in matrix as byte array
+        private byte[,] permuted_matrix;    // permuted matrix as byte array
+        private Brush[,] mat_back;          // backgrounds of the matrix saved seperatly
+        private DoubleAnimation nop;        // help animation, that does nothing
+        private DoubleAnimation fadeIn;     // fade in animation
+        private DoubleAnimation fadeOut;    // fade out animation, tried to reuse both and feiled
+        private int[] key;                  // key as int array
+        public int progress;                // progress variable to update the plugin status
         
         #endregion
 
         #region main
         /// <summary>
-        /// main method calling init + create, while keeping the scalability and abortability
+        /// main method calling init + create, while keeping the scalability and abortability, only public method
         /// </summary>
         /// <param name="read_in_matrix"></param>
         /// <param name="permuted_matrix"></param>
@@ -124,9 +124,9 @@ namespace Transposition
             //background color being created
             GradientStop gs = new GradientStop();
             LinearGradientBrush myBrush = new LinearGradientBrush();
-            myBrush.GradientStops.Add(new GradientStop(Colors.Red, 1.0));
-            myBrush.GradientStops.Add(new GradientStop(Colors.Pink, 0.5));
-            myBrush.GradientStops.Add(new GradientStop(Colors.PaleVioletRed, 0.0));
+            myBrush.GradientStops.Add(new GradientStop(Colors.SlateGray, 1.0));
+            myBrush.GradientStops.Add(new GradientStop(Colors.Silver, 0.5));
+            myBrush.GradientStops.Add(new GradientStop(Colors.Gainsboro, 0.0));
             mycanvas.Background = myBrush;
             
             //cleaning the display for new presentation
@@ -156,6 +156,8 @@ namespace Transposition
             nop.Duration = new Duration(TimeSpan.FromMilliseconds((1001 - speed)));
             #endregion 
 
+
+            //setting all vaiables to starting position, depending on the input and options
             if (act == 0)
             {
                 this.rein = rein;
@@ -242,7 +244,7 @@ namespace Transposition
         /// <param name="keyword"></param>
         /// <param name="input"></param>
         /// <param name="output"></param>
-        public void create(byte[,] read_in_matrix, byte[,] permuted_matrix, int[] key, String keyword, byte[] input, byte[] output)
+        private void create(byte[,] read_in_matrix, byte[,] permuted_matrix, int[] key, String keyword, byte[] input, byte[] output)
         {   
                 if (read_in_matrix != null && key != null)
                 {//clearing display
@@ -470,6 +472,26 @@ namespace Transposition
                 nop.Completed += new EventHandler(my_Helpnop);
                 Stack.BeginAnimation(OpacityProperty, nop);
         }
+
+        private void my_Helpnop(object sender, EventArgs e)
+        {
+            Stop = false;
+            sizeChanged(this, EventArgs.Empty);
+            mywrap1.BeginAnimation(OpacityProperty, fadeIn);
+            myGrid.BeginAnimation(OpacityProperty, fadeIn);
+            textBox2.BeginAnimation(OpacityProperty, fadeIn);
+            fadeIn.Completed += new EventHandler(my_Help3);
+            if (!Stop)
+                Stack.BeginAnimation(OpacityProperty, fadeIn);
+        }
+
+        private void my_Help3(object sender, EventArgs e)
+        {
+            sizeChanged(this, EventArgs.Empty);
+            if (!Stop)
+                preReadIn();
+        }
+
         #endregion
 
         #region readIn
@@ -477,7 +499,7 @@ namespace Transposition
         /// <summary>
         /// coloranimation for the text in the left wrapper to be "eaten out" and getting marked
         /// </summary>
-        public void preReadIn()
+        private void preReadIn()
         {   //declaring color animations
             ColorAnimation myColorAnimation = new ColorAnimation();
             myColorAnimation.From = Colors.Transparent;
@@ -513,15 +535,23 @@ namespace Transposition
                         }
                     }
                 }
-                myColorAnimation.Completed += new EventHandler(my_Help4);
+                myColorAnimation.Completed += new EventHandler(my_Help4);  
                 if (!Stop)
                     brush.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation);
             }
         }
+
+        private void my_Help4(object sender, EventArgs e)
+        {
+            outcount2++;
+            if (!Stop)
+                readIn();
+        }
+
         /// <summary>
         /// method for fading text out from the left wrapper and fading into the grid (where it's already in but transparent)
         /// </summary>
-        public void readIn()
+        private void readIn()
         {   //declarting fading animations
             DoubleAnimation fadeIn = new DoubleAnimation();
             fadeIn.From = 0.0;
@@ -564,10 +594,18 @@ namespace Transposition
                 }
             }
         }
+
+        private void my_Help2(object sender, EventArgs e)
+        {
+            outcount1++;
+            if (!Stop)
+                postReadIn();
+        }
+
         /// <summary>
         /// post highlithing of the read in values
         /// </summary>
-        public void postReadIn()
+        private void postReadIn()
         {   //declaring coloranimations
             ColorAnimation myColorAnimation_green = new ColorAnimation();
             myColorAnimation_green.From = Colors.Yellow;
@@ -649,6 +687,46 @@ namespace Transposition
             }
         }
 
+        private void my_Help14(object sender, EventArgs e)
+        {
+            GradientStop gs1 = new GradientStop(Colors.Red, 1.0);
+            GradientStop gs2 = new GradientStop(Colors.Pink, 0.5);
+            GradientStop gs3 = new GradientStop(Colors.PaleVioletRed, 0.0);
+            ColorAnimation myColorAnimation_rg = new ColorAnimation();
+            myColorAnimation_rg.From = Colors.SlateGray;
+            myColorAnimation_rg.To = Colors.CornflowerBlue;
+            myColorAnimation_rg.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+            ColorAnimation myColorAnimation_pl = new ColorAnimation();
+            myColorAnimation_pl.From = Colors.Silver;
+            myColorAnimation_pl.To = Colors.SkyBlue;
+            myColorAnimation_pl.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+            ColorAnimation myColorAnimation_pd = new ColorAnimation();
+            myColorAnimation_pd.From = Colors.Gainsboro;
+            myColorAnimation_pd.To = Colors.PowderBlue;
+            myColorAnimation_pd.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+            LinearGradientBrush myBrush = new LinearGradientBrush();
+            myBrush.GradientStops.Add(gs1);
+            myBrush.GradientStops.Add(gs2);
+            myBrush.GradientStops.Add(gs3);
+
+            gs1.BeginAnimation(GradientStop.ColorProperty, myColorAnimation_rg);
+            gs2.BeginAnimation(GradientStop.ColorProperty, myColorAnimation_pl);
+            gs3.BeginAnimation(GradientStop.ColorProperty, myColorAnimation_pd);
+
+            mycanvas.Background = myBrush;
+            sort(schleife);
+        }
+
+        private void my_Help5(object sender, EventArgs e)
+        {
+            outcount3++;
+            if (!Stop)
+                preReadIn();
+        }
+
         #endregion
 
         #region sorting
@@ -664,8 +742,11 @@ namespace Transposition
             if (per == 0) { textBox2.Text = "permuting by row"; }
             else { textBox2.Text = "permuting by column"; }
 
+
+            
             if (per == 1)
             {
+                #region
                 if (teba != null && key != null)
                 {
                     if (act == 0)
@@ -718,9 +799,13 @@ namespace Transposition
                         else if (!Stop) { preReadOut_help(); }
                     }
                 }
+                #endregion
             }
+            
+
             else
             {
+                #region
                 if (teba != null && key != null)
                 {
                     if (act == 0)
@@ -773,12 +858,47 @@ namespace Transposition
                         else if (!Stop) { preReadOut_help(); }
                     }
                 }
+                #endregion
             }
         }
 
         #endregion
 
         #region readouts
+
+        private void preReadOut_help()
+        {
+            GradientStop gs1 = new GradientStop(Colors.Red, 1.0);
+            GradientStop gs2 = new GradientStop(Colors.Pink, 0.5);
+            GradientStop gs3 = new GradientStop(Colors.PaleVioletRed, 0.0);
+            ColorAnimation myColorAnimation_rg = new ColorAnimation();
+            myColorAnimation_rg.From = Colors.CornflowerBlue;
+            myColorAnimation_rg.To = Colors.YellowGreen;
+            myColorAnimation_rg.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+            ColorAnimation myColorAnimation_pl = new ColorAnimation();
+            myColorAnimation_pl.From = Colors.SkyBlue;
+            myColorAnimation_pl.To = Colors.GreenYellow;
+            myColorAnimation_pl.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+            ColorAnimation myColorAnimation_pd = new ColorAnimation();
+            myColorAnimation_pd.From = Colors.PowderBlue;
+            myColorAnimation_pd.To = Colors.LawnGreen;
+            myColorAnimation_pd.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+            LinearGradientBrush myBrush = new LinearGradientBrush();
+            myBrush.GradientStops.Add(gs1);
+            myBrush.GradientStops.Add(gs2);
+            myBrush.GradientStops.Add(gs3);
+
+            gs1.BeginAnimation(GradientStop.ColorProperty, myColorAnimation_rg);
+            gs2.BeginAnimation(GradientStop.ColorProperty, myColorAnimation_pl);
+            gs3.BeginAnimation(GradientStop.ColorProperty, myColorAnimation_pd);
+
+            mycanvas.Background = myBrush;
+
+            preReadOut();
+        }
 
         private void preReadOut()
         {   //declarating coloranimations and brushes
@@ -836,6 +956,13 @@ namespace Transposition
                     }
                 }
             }
+        }
+
+        private void my_Help6(object sender, EventArgs e)
+        {
+            outcount4++;
+            if (!Stop)
+                readout();
         }
         /// <summary>
         /// method for "eating out" the grid feeding the output wrapper (right one)
@@ -899,6 +1026,13 @@ namespace Transposition
             }
         }
 
+        private void my_Help1(object sender, EventArgs e)
+        {
+            outcount++;
+            if (!Stop)
+                postReadOut();
+        }
+
         //post highlighting of the read out values
         private void postReadOut()
         {   //declaration of coloranimations
@@ -947,6 +1081,28 @@ namespace Transposition
                     brush.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation);
             }
         }
+
+        private void my_Help7(object sender, EventArgs e)
+        {
+            precountup = countup1;
+            outcount5++;
+            if (!Stop)
+                preReadOut();
+        }
+
+        private void the_End(object sender, EventArgs e)
+        {
+            DoubleAnimation fadeOut2 = new DoubleAnimation();
+            fadeOut2.From = 1.0;
+            fadeOut2.To = 0.0;
+            fadeOut2.Duration = new Duration(TimeSpan.FromMilliseconds((1001 - speed)));
+
+            fadeOut2.Completed += new EventHandler(endhelper);
+            mywrap1.BeginAnimation(OpacityProperty, fadeOut2);
+            myGrid.BeginAnimation(OpacityProperty, fadeOut);
+            textBox2.BeginAnimation(OpacityProperty, fadeOut);
+        }
+
         #endregion
 
         #region events
@@ -971,156 +1127,6 @@ namespace Transposition
             Stop = true;
         }
         #region eventhandler
-        private void my_Help1(object sender, EventArgs e)
-        {
-            outcount++;
-            if (!Stop)
-                postReadOut();
-        }
-
-        private void my_Help2(object sender, EventArgs e)
-        {
-            outcount1++;
-            if (!Stop)
-                postReadIn();
-        }
-
-        private void my_Helpnop(object sender, EventArgs e)
-        {
-            Stop = false;
-            sizeChanged(this, EventArgs.Empty);
-            mywrap1.BeginAnimation(OpacityProperty, fadeIn);
-            myGrid.BeginAnimation(OpacityProperty, fadeIn);
-            textBox2.BeginAnimation(OpacityProperty, fadeIn);
-            fadeIn.Completed += new EventHandler(my_Help3);
-            if (!Stop)
-                Stack.BeginAnimation(OpacityProperty, fadeIn);
-        }
-
-        private void my_Help3(object sender, EventArgs e)
-        {
-            sizeChanged(this, EventArgs.Empty);
-            if (!Stop)
-                preReadIn();
-        }
-
-        private void my_Help4(object sender, EventArgs e)
-        {
-            outcount2++;
-            if (!Stop)
-                readIn();
-        }
-
-        private void my_Help7(object sender, EventArgs e)
-        {
-            precountup = countup1;
-            outcount5++;
-            if (!Stop)
-                preReadOut();
-        }
-
-        private void preReadOut_help() 
-        {
-            GradientStop gs1 = new GradientStop(Colors.Red,1.0);
-            GradientStop gs2 = new GradientStop(Colors.Pink, 0.5);
-            GradientStop gs3 = new GradientStop(Colors.PaleVioletRed, 0.0);
-            ColorAnimation myColorAnimation_rg = new ColorAnimation();
-            myColorAnimation_rg.From = Colors.CornflowerBlue;
-            myColorAnimation_rg.To = Colors.GreenYellow;
-            myColorAnimation_rg.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
-
-            ColorAnimation myColorAnimation_pl = new ColorAnimation();
-            myColorAnimation_pl.From = Colors.SkyBlue;
-            myColorAnimation_pl.To = Colors.LightGreen;
-            myColorAnimation_pl.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
-
-            ColorAnimation myColorAnimation_pd = new ColorAnimation();
-            myColorAnimation_pd.From = Colors.PowderBlue;
-            myColorAnimation_pd.To = Colors.DarkSeaGreen;
-            myColorAnimation_pd.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
-
-            LinearGradientBrush myBrush = new LinearGradientBrush();
-            myBrush.GradientStops.Add(gs1);
-            myBrush.GradientStops.Add(gs2);
-            myBrush.GradientStops.Add(gs3);
-
-            gs1.BeginAnimation(GradientStop.ColorProperty,myColorAnimation_rg);
-            gs2.BeginAnimation(GradientStop.ColorProperty, myColorAnimation_pl);
-            gs3.BeginAnimation(GradientStop.ColorProperty, myColorAnimation_pd);
-
-            mycanvas.Background = myBrush;
-
-            preReadOut();
-        }
-
-        private void my_Help5(object sender, EventArgs e)
-        {
-            outcount3++;
-            if (!Stop)
-                preReadIn();
-        }
-
-        private void my_Help6(object sender, EventArgs e)
-        {
-            outcount4++;
-            if (!Stop)
-                readout();
-        }
-
-        private void my_Help8(object sender, EventArgs e)
-        {
-            ani();
-        }
-
-        private void my_Help(object sender, EventArgs e)
-        {
-            schleife++;
-            if (!Stop)
-                postani();
-        }
-
-        private void my_Help9(object sender, EventArgs e)
-        {
-            if (!Stop)
-                sort(schleife);
-        }
-
-        private void my_Help10(object sender, EventArgs e)
-        {
-            if (!Stop)
-                ani();
-        }
-        private void my_Help11(object sender, EventArgs e)
-        {
-            if (!Stop)
-                postani();
-        }
-
-        private void my_Help12(object sender, EventArgs e)
-        {
-            if (!Stop)
-                sort(schleife);
-        }
-
-        private void the_End(object sender, EventArgs e)
-        {
-            DoubleAnimation fadeOut2 = new DoubleAnimation();
-            fadeOut2.From = 1.0;
-            fadeOut2.To = 0.0;
-            fadeOut2.Duration = new Duration(TimeSpan.FromMilliseconds((1001 - speed)));
-
-            fadeOut2.Completed += new EventHandler(endhelper);
-            mywrap1.BeginAnimation(OpacityProperty, fadeOut2);
-            myGrid.BeginAnimation(OpacityProperty, fadeOut);
-            textBox2.BeginAnimation(OpacityProperty, fadeOut);
-        }
-
-        private void my_Help13(object sender, EventArgs e)
-        {   
-            sizeChanged(this, EventArgs.Empty);
-            textBox2.Text = "accomplished"; //finish
-            feuerEnde(this, EventArgs.Empty);
-        }
 
         private void endhelper(Object sender, EventArgs e) 
         {
@@ -1141,123 +1147,15 @@ namespace Transposition
             textBox2.BeginAnimation(OpacityProperty, fadeOut2);
         }
 
-        private void my_Help14(object sender, EventArgs e)
-        {   
-            GradientStop gs1 = new GradientStop(Colors.Red, 1.0);
-            GradientStop gs2 = new GradientStop(Colors.Pink, 0.5);
-            GradientStop gs3 = new GradientStop(Colors.PaleVioletRed, 0.0);
-            ColorAnimation myColorAnimation_rg = new ColorAnimation();
-            myColorAnimation_rg.From = Colors.Red;
-            myColorAnimation_rg.To = Colors.CornflowerBlue;
-            myColorAnimation_rg.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
-
-            ColorAnimation myColorAnimation_pl = new ColorAnimation();
-            myColorAnimation_pl.From = Colors.Pink;
-            myColorAnimation_pl.To = Colors.SkyBlue;
-            myColorAnimation_pl.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
-
-            ColorAnimation myColorAnimation_pd = new ColorAnimation();
-            myColorAnimation_pd.From = Colors.PaleVioletRed;
-            myColorAnimation_pd.To = Colors.PowderBlue;
-            myColorAnimation_pd.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
-
-            LinearGradientBrush myBrush = new LinearGradientBrush();
-            myBrush.GradientStops.Add(gs1);
-            myBrush.GradientStops.Add(gs2);
-            myBrush.GradientStops.Add(gs3);
-
-            gs1.BeginAnimation(GradientStop.ColorProperty, myColorAnimation_rg);
-            gs2.BeginAnimation(GradientStop.ColorProperty, myColorAnimation_pl);
-            gs3.BeginAnimation(GradientStop.ColorProperty, myColorAnimation_pd);
-            
-            mycanvas.Background = myBrush;
-            sort(schleife);
+        private void my_Help13(object sender, EventArgs e)
+        {
+            sizeChanged(this, EventArgs.Empty);
+            textBox2.Text = "accomplished"; //finish
+            feuerEnde(this, EventArgs.Empty);
         }
+        
 
-        private void my_Completed(object sender, EventArgs e)
-        { 
-                if (per == 1)
-                {
-                    if (teba != null)
-                    {
-                        for (int i = 0; i < teba.GetLength(1); i++)
-                        {
-                            String help = teba[nach, i].Text.ToString();
-                            teba[nach, i].Text = teba[von, i].Text.ToString();
-                            teba[von, i].Text = help;
-
-                            TextBlock help1 = new TextBlock();
-                            help1.Background = teba[nach, i].Background;
-                            teba[nach, i].Background = teba[von, i].Background;
-                            teba[von, i].Background = help1.Background;
-
-                            if (i > 1)
-                            {
-                                Brush help2;
-                                help2 = mat_back[nach, i - 2];
-                                mat_back[nach, i - 2] = mat_back[von, i - 2];
-                                mat_back[von, i - 2] = help2;
-                            }
-                        }
-                    }
-
-                    DoubleAnimation myFadein = new DoubleAnimation();
-                    myFadein.From = 0.0;
-                    myFadein.To = 1.0;
-                    myFadein.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
-
-                    if (teba != null)
-                        for (int i = 0; i < teba.GetLength(1); i++)
-                        {
-                            teba[von, i].BeginAnimation(TextBlock.OpacityProperty, myFadein);
-                            if (i == teba.GetLength(1) - 1 && !Stop)
-                            {
-                                myFadein.Completed += new EventHandler(my_Help);
-                            }
-                            teba[nach, i].BeginAnimation(TextBlock.OpacityProperty, myFadein);
-                        }
-                }
-                else
-                {
-                    if (teba != null)
-                    {
-                        for (int i = 0; i < teba.GetLength(0); i++)
-                        {
-                            String help = teba[i, nach].Text.ToString();
-                            teba[i, nach].Text = teba[i, von].Text.ToString();
-                            teba[i, von].Text = help;
-
-                            TextBlock help1 = new TextBlock();
-                            help1.Background = teba[i, nach].Background;
-                            teba[i, nach].Background = teba[i, von].Background;
-                            teba[i, von].Background = help1.Background;
-
-                            if (i > 1)
-                            {
-                                Brush help2;
-                                help2 = mat_back[i - 2, nach];
-                                mat_back[i - 2, nach] = mat_back[i - 2, von];
-                                mat_back[i - 2, von] = help2;
-                            }
-                        }
-                    }
-                    DoubleAnimation myFadein = new DoubleAnimation();
-                    myFadein.From = 0.0;
-                    myFadein.To = 1.0;
-                    myFadein.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
-
-                    if (teba != null)
-                        for (int i = 0; i < teba.GetLength(0); i++)
-                        {
-                            teba[i, von].BeginAnimation(TextBlock.OpacityProperty, myFadein);
-                            if (i == teba.GetLength(0) - 1 && !Stop)
-                            {
-                                myFadein.Completed += new EventHandler(my_Help11);
-                            }
-                            teba[i, nach].BeginAnimation(TextBlock.OpacityProperty, myFadein);
-                        }
-                }
-        }
+       
         #endregion 
         #endregion
 
@@ -1267,7 +1165,7 @@ namespace Transposition
         /// </summary>
         /// <param name="von"></param>
         /// <param name="nach"></param>
-        public void preani(int von, int nach)
+        private void preani(int von, int nach)
         {
             this.von = von;
             this.nach = nach;
@@ -1371,8 +1269,19 @@ namespace Transposition
             brush_bo.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_bo);
             brush_by.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_by);
         }
+
+        private void my_Help8(object sender, EventArgs e)
+        {
+            ani();
+        }
+        private void my_Help10(object sender, EventArgs e)
+        {
+            if (!Stop)
+                ani();
+        }
+
         //method for post-animation
-        public void postani()
+        private void postani()
         {
             #region declaring animations and brushes
             ColorAnimation myColorAnimation_gy = new ColorAnimation();
@@ -1475,8 +1384,20 @@ namespace Transposition
             brush_bo.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_bo);
             brush_by.BeginAnimation(SolidColorBrush.ColorProperty, myColorAnimation_by);
         }
+
+        private void my_Help9(object sender, EventArgs e)
+        {
+            if (!Stop)
+                sort(schleife);
+        }
+        private void my_Help12(object sender, EventArgs e)
+        {
+            if (!Stop)
+                sort(schleife);
+        }
+
         //preanimation method especially for ROW-mode
-        public void prerowani(int von, int nach)
+        private void prerowani(int von, int nach)
         {
             this.von = von;
             this.nach = nach;
@@ -1488,7 +1409,7 @@ namespace Transposition
         /// </summary>
         /// <param name="von"></param>
         /// <param name="nach"></param>
-        public void ani()
+        private void ani()
         {
             DoubleAnimation myDoubleAnimation = new DoubleAnimation();
             myDoubleAnimation.From = 1.0;
@@ -1519,7 +1440,106 @@ namespace Transposition
                     }
                 }
         }
-        
+
+        private void my_Completed(object sender, EventArgs e)
+        {
+            if (per == 1)
+            {
+                if (teba != null)
+                {
+                    for (int i = 0; i < teba.GetLength(1); i++)
+                    {
+                        String help = teba[nach, i].Text.ToString();
+                        teba[nach, i].Text = teba[von, i].Text.ToString();
+                        teba[von, i].Text = help;
+
+                        TextBlock help1 = new TextBlock();
+                        help1.Background = teba[nach, i].Background;
+                        teba[nach, i].Background = teba[von, i].Background;
+                        teba[von, i].Background = help1.Background;
+
+                        if (i > 1)
+                        {
+                            Brush help2;
+                            help2 = mat_back[nach, i - 2];
+                            mat_back[nach, i - 2] = mat_back[von, i - 2];
+                            mat_back[von, i - 2] = help2;
+                        }
+                    }
+                }
+
+                DoubleAnimation myFadein = new DoubleAnimation();
+                myFadein.From = 0.0;
+                myFadein.To = 1.0;
+                myFadein.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+                if (teba != null)
+                    for (int i = 0; i < teba.GetLength(1); i++)
+                    {
+                        teba[von, i].BeginAnimation(TextBlock.OpacityProperty, myFadein);
+                        if (i == teba.GetLength(1) - 1 && !Stop)
+                        {
+                            myFadein.Completed += new EventHandler(my_Help);
+                        }
+                        teba[nach, i].BeginAnimation(TextBlock.OpacityProperty, myFadein);
+                    }
+            }
+            else
+            {
+                if (teba != null)
+                {
+                    for (int i = 0; i < teba.GetLength(0); i++)
+                    {
+                        String help = teba[i, nach].Text.ToString();
+                        teba[i, nach].Text = teba[i, von].Text.ToString();
+                        teba[i, von].Text = help;
+
+                        TextBlock help1 = new TextBlock();
+                        help1.Background = teba[i, nach].Background;
+                        teba[i, nach].Background = teba[i, von].Background;
+                        teba[i, von].Background = help1.Background;
+
+                        if (i > 1)
+                        {
+                            Brush help2;
+                            help2 = mat_back[i - 2, nach];
+                            mat_back[i - 2, nach] = mat_back[i - 2, von];
+                            mat_back[i - 2, von] = help2;
+                        }
+                    }
+                }
+                DoubleAnimation myFadein = new DoubleAnimation();
+                myFadein.From = 0.0;
+                myFadein.To = 1.0;
+                myFadein.Duration = new Duration(TimeSpan.FromMilliseconds(1001 - speed));
+
+                if (teba != null)
+                    for (int i = 0; i < teba.GetLength(0); i++)
+                    {
+                        teba[i, von].BeginAnimation(TextBlock.OpacityProperty, myFadein);
+                        if (i == teba.GetLength(0) - 1 && !Stop)
+                        {
+                            myFadein.Completed += new EventHandler(my_Help11);
+                        }
+                        teba[i, nach].BeginAnimation(TextBlock.OpacityProperty, myFadein);
+                    }
+            }
+        }
+
+        private void my_Help(object sender, EventArgs e)
+        {
+            schleife++;
+            if (!Stop)
+                postani();
+        }
+
+        private void my_Help11(object sender, EventArgs e)
+        {
+            if (!Stop)
+                postani();
+        }
+
+
         #endregion
 
         #region misc
