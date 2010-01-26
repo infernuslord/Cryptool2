@@ -5,6 +5,7 @@ using System.Text;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Control;
 using System.Threading;
+using System.IO;
 
 /*
  * TODO:
@@ -25,6 +26,9 @@ namespace Cryptool.Plugins.PeerToPeer
         private string topic = String.Empty;
         private Timer timerWaitingForAliveMsg;
         private PeerId ownPeerId;
+        /// <summary>
+        /// interval in milliseconds!!! Divide with 1000 to preserve seconds
+        /// </summary>
         private long aliveMessageInterval;
 
         private bool started = false;
@@ -203,8 +207,8 @@ namespace Cryptool.Plugins.PeerToPeer
                     throw (new NotImplementedException());
             } // end switch
             if (timerWaitingForAliveMsg == null)
-                timerWaitingForAliveMsg = new Timer(OnWaitingForAliveMsg, null, this.aliveMessageInterval * 1000,
-                    this.aliveMessageInterval * 1000);
+                timerWaitingForAliveMsg = new Timer(OnWaitingForAliveMsg, null, this.aliveMessageInterval,
+                    this.aliveMessageInterval);
 
             if (msgType != PubSubMessageType.Unregister)
             {
@@ -270,5 +274,38 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         #endregion 
+
+        // Only for testing the (De-)Serialization of SubscribersManagement
+        public void TestSerialization()
+        {
+            /* Get all Subs and serialize them manual */
+            List<PeerId> originalSubList = this.peerManagement.GetAllSubscribers();
+
+            /* Serialize and deserialize active subs automatically */
+            byte[] byResult = this.peerManagement.Serialize();
+            List<PeerId> pid = this.peerManagement.Deserialize(byResult, ref this.p2pControl);
+
+            /* Comparing the deserialized list with the original SubList */
+            bool result = true;
+
+            if (pid.Count != originalSubList.Count)
+            {
+                result = false;
+            }
+            else
+            {
+                int f = 0;
+                foreach (PeerId originalPeer in originalSubList)
+                {
+                    if (originalPeer != pid[f])
+                    {
+                        result = false;
+                        break;
+                    }
+                    f++;
+                }
+            }
+            GuiLogging("Result of serialization/deserialization: " + result, NotificationLevel.Debug);
+        }
     }
 }

@@ -47,7 +47,11 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region Start- and Stop-Buttons incl. functionality
 
-        [TaskPane("Start", "Initializes and starts Peer", null, 2, false, DisplayLevel.Beginner, ControlType.Button)]
+        /** ATTENTION: Change property changeableWhileExecuting to false for the Start and Stop Button.
+         * Only set to true for testing issues.*/
+
+        //[TaskPane("Start", "Initializes and starts Peer", null, 2, false, DisplayLevel.Beginner, ControlType.Button)]
+        [TaskPane("Start", "Initializes and starts Peer", null, 2, true, DisplayLevel.Beginner, ControlType.Button)]
         public void BtnStart()
         {
             if (P2PPeerName != null && P2PWorldName != null)
@@ -62,7 +66,8 @@ namespace Cryptool.Plugins.PeerToPeer
             }
         }
 
-        [TaskPane("Stop", "Stops the Peer", null, 3, false, DisplayLevel.Beginner, ControlType.Button)]
+        //[TaskPane("Stop", "Stops the Peer", null, 3, false, DisplayLevel.Beginner, ControlType.Button)]
+        [TaskPane("Stop", "Stops the Peer", null, 3, true, DisplayLevel.Beginner, ControlType.Button)]
         public void BtnStop()
         {
             this.p2pPeer.StopPeer();
@@ -108,6 +113,41 @@ namespace Cryptool.Plugins.PeerToPeer
                 {
                     this.p2pWorldName = value;
                     OnPropertyChanged("P2PWorldName");
+                    HasChanges = true;
+                }
+            }
+        }
+
+        private bool p2pUseNatTraversal = false;
+        [TaskPane("Use NAT Traversal", "Activate/Deactivate NAT-Traversal (tunneling connections through NATs " +
+            "and Firewalls, necessary to work in different networks in the same world)", "P2P Settings", 0, false, 
+            DisplayLevel.Beginner, ControlType.CheckBox)]
+        public bool P2PUseNatTraversal
+        {
+            get { return this.p2pUseNatTraversal; }
+            set 
+            {
+                if (value != this.p2pUseNatTraversal)
+                {
+                    this.p2pUseNatTraversal = value;
+                    OnPropertyChanged("P2PUseNatTraversal");
+                    HasChanges = true;
+                }
+            }
+        }
+
+        private bool log2Monitor = true;
+        [TaskPane("Log2Monitor", "Logs all p2p actions to the PeersAtPlay LogMonitor", "P2P Settings", 1, false,
+            DisplayLevel.Beginner, ControlType.CheckBox)]
+        public bool Log2Monitor
+        {
+            get { return this.log2Monitor; }
+            set
+            {
+                if (value != this.log2Monitor)
+                {
+                    this.log2Monitor = value;
+                    OnPropertyChanged("Log2Monitor");
                     HasChanges = true;
                 }
             }

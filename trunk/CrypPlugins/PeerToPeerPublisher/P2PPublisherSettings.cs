@@ -84,6 +84,12 @@ namespace Cryptool.Plugins.PeerToPeer
             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnRegister", Visibility.Visible)));
             OnPropertyChanged("BtnSolutionFound");
         }
+
+        [TaskPane("Ser/Deser Test", "Click here to test serialization/deserialization of PeerManagementList!", "Serialization Test", 0, true, DisplayLevel.Beginner, ControlType.Button)]
+        public void BtnSerDeser()
+        {
+            OnPropertyChanged("BtnSerDeser");
+        }
         /* FOR TESTING ISSUES */
 
         private int sendAliveMessageInterval = 60;

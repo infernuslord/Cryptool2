@@ -39,7 +39,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <summary>
         /// dirty workaround!!!
         /// </summary>
-        private static bool bolFirstInitalisation = true;
+        private bool bolFirstInitalisation = true;
         private P2PPeerSettings settings;
         private IP2PControl p2pSlave;
 
@@ -210,7 +210,10 @@ namespace Cryptool.Plugins.PeerToPeer
 
                 this.settings.PeerStatusChanged(P2PPeerSettings.PeerStatus.Connecting);
 
+                this.p2pBase.AllowLoggingToMonitor = this.settings.Log2Monitor;
+
                 this.p2pBase.Initialize(this.settings.P2PPeerName, this.settings.P2PWorldName,
+                    this.settings.P2PUseNatTraversal,
                     (P2PLinkManagerType)this.settings.P2PLinkMngrType, (P2PBootstrapperType)this.settings.P2PBSType,
                     (P2POverlayType)this.settings.P2POverlType, (P2PDHTType)this.settings.P2PDhtType);
                 this.PeerStarted = this.p2pBase.SynchStart();
