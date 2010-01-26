@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
+using System.IO;
+using Cryptool.PluginBase.Control;
 
 namespace Cryptool.Plugins.PeerToPeer
 {
@@ -27,11 +29,11 @@ namespace Cryptool.Plugins.PeerToPeer
         private long expirationTime;
         /// <summary>
         /// Timespan in which subscriber gets marked secondChance first and twice is removed from Subscriber list.
-        /// Latency of 2 seconds will be added because of network latency.
+        /// Latency of 3 seconds will be added because of network latency.
         /// </summary>
         public long ExpirationTime 
         {
-            get { return this.expirationTime * 2000;  }
+            get { return this.expirationTime + 3000;  }
             set { this.expirationTime = value; } 
         }
 
@@ -160,6 +162,92 @@ namespace Cryptool.Plugins.PeerToPeer
             this.checkList = null;
             this.secondChanceList.Clear();
             this.secondChanceList = null;
+        }
+
+        private Encoding enc = Encoding.UTF8;
+        /// <summary>
+        /// serializes only the active subscribers list,
+        /// either the second chance list or the timestamps
+        /// are nonrelevant, because after Deserializing
+        /// this stuff, the availablity is obsolete and have
+        /// to be additionally checked 
+        /// </summary>
+        /// <returns></returns>
+        public virtual byte[] Serialize()
+        {
+            byte[] ret = null; 
+            lock (this.checkList)
+            {
+                if (this.checkList == null || this.checkList.Count == 0)
+                {
+                    return null;
+                }
+                List<PeerId> lstActivePeers = this.checkList.Keys.ToList<PeerId>();
+                using (MemoryStream memStream = new MemoryStream())
+                {
+                    // first write dataset count to list
+                    memStream.WriteByte(Convert.ToByte(lstActivePeers.Count));
+                    // than write every peer id as an byte array - first byte is the length of the id
+                    foreach (PeerId pid in lstActivePeers)
+                    {
+                        byte[] byPid = pid.ToByteArray();
+                        byte[] enhancedByte = new byte[byPid.Length + 1];
+                        //additional store PeerId length to ease reconstructing
+                        enhancedByte[0] = Convert.ToByte(byPid.Length);
+                        Buffer.BlockCopy(byPid, 0, enhancedByte, 1, byPid.Length);
+                        memStream.Write(enhancedByte, 0, enhancedByte.Length);
+                    }
+                    ret = memStream.ToArray();
+                }
+            }
+            return ret;
+        }
+
+        /// <summary>
+        /// Deserializes a Subscriber/Worker list and reconstructs the PeerIds. Returns
+        /// the deserialized PeerId, so you can ping the peers to check whether they are 
+        /// available anymore.
+        /// </summary>
+        /// <param name="serializedPeerIds">the already serialized peerId byte-array</param>
+        /// <param name="p2pControl">a reference to the p2pControl to convert deserialized byte arrays to valid PeerIds</param>
+        /// <returns></returns>
+        public virtual List<PeerId> Deserialize(byte[] serializedPeerIds, ref IP2PControl p2pControl)
+        {
+            if (serializedPeerIds == null || serializedPeerIds.Length < 2)
+            {
+                throw (new Exception("Invalid byte[] input - deserialization not possible"));
+            }
+            List<PeerId> deserializedPeers = new List<PeerId>();
+
+            MemoryStream memStream = new MemoryStream(serializedPeerIds);
+            try
+            {
+                int peerIdAmount = Convert.ToInt32(memStream.ReadByte());
+                int peerIdLen, readResult;
+                PeerId pid;
+                for (int i = 0; i < peerIdAmount; i++)
+                {
+                    peerIdLen = Convert.ToInt32(memStream.ReadByte());
+                    byte[] byPeerId = new byte[peerIdLen];
+                    readResult = memStream.Read(byPeerId, 0, byPeerId.Length);
+                    if (readResult == 0)
+                        throw (new Exception("Deserialization process of the byte[] was canceled, because byte[] didn't achieve to the conventions."));
+                    // create a new PeerId Object and add it to the list
+                    pid = p2pControl.GetPeerID(byPeerId);
+                    //deserializedPeers.Add(byPeerId);
+                    deserializedPeers.Add(pid);
+                }
+            }
+            catch (Exception ex)
+            {
+                memStream.Flush();
+                memStream.Close();
+                memStream.Dispose();
+                deserializedPeers.Clear();
+                deserializedPeers = null;
+                throw new Exception("Deserialization process of byte[] was canceled, because byte[] didn't achieve to the conventions.", ex);
+            }
+            return deserializedPeers;
         }
     }
 }

@@ -87,6 +87,10 @@ namespace Cryptool.Plugins.PeerToPeer
                 this.p2pPublisher.Stop(PubSubMessageType.Solution);
                 GuiLogMessage("TEST: Emulate Solution-Found-message", NotificationLevel.Info);
             }
+            if (e.PropertyName == "BtnSerDeser")
+            {
+                this.p2pPublisher.TestSerialization();
+            }
         }
 
         #endregion

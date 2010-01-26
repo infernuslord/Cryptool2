@@ -19,7 +19,6 @@ using System.Linq;
 using System.Text;
 using PeersAtPlay.P2PStorage.DHT;
 using PeersAtPlay.P2PStorage.FullMeshDHT;
-using PeersAtPlay.P2PLink.SimpleSnalNG;
 using PeersAtPlay.P2POverlay.Bootstrapper;
 using PeersAtPlay.P2POverlay;
 using PeersAtPlay.P2POverlay.Bootstrapper.LocalMachineBootstrapper;
@@ -28,11 +27,9 @@ using PeersAtPlay.P2PLink;
 using PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper;
 using System.Threading;
 using Cryptool.PluginBase.Control;
-using Cryptool.PluginBase;
-using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
-using Cryptool.PluginBase.IO;
 using PeersAtPlay;
+using PeersAtPlay.Util.Logging;
 
 /* - Synchronous functions successfully tested (store, retrieve)
  * - The DHT has an integrated versioning system. When a peer wants
@@ -98,6 +95,18 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region Variables
 
+        private bool allowLoggingToMonitor;
+        /// <summary>
+        /// If true, all kinds of actions will be logged in the PeersAtPlay LogMonitor.
+        /// </summary>
+        public bool AllowLoggingToMonitor 
+        {
+            get { return this.allowLoggingToMonitor; }
+            set { this.allowLoggingToMonitor = value; }
+        }
+
+        private const bool ALLOW_LOGGING_TO_MONITOR = true;
+
         private bool started = false;
         /// <summary>
         /// True if system was successfully joined, false if system is COMPLETELY left
@@ -106,6 +115,24 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             get { return this.started; }
             private set { this.started = value; } 
+        }
+
+        private bool useNatTraversal = true;
+        /// <summary>
+        /// Initialization value = true!
+        /// When you want to use NAT-Traversal (tunneling the P2P
+        /// connection through NATs and Firewalls), you have to
+        /// set this flag to true, before initializing this peer
+        /// ATTENTION: At present you have to install two certificates
+        /// manually on each workstation, where you want to use P2P@CT2,
+        /// and set a static PeerName (pap0001) and P2PWorldName (TestBruteforcingWorld)
+        /// TODO: Automatize the certificate stuff and implement a chance
+        /// to choose own PeerNames and P2PWorldNames
+        /// </summary>
+        public bool UseNatTraversal
+        {
+            get { return this.useNatTraversal; }
+            set { this.useNatTraversal = value; }
         }
 
         private IDHT dht;
@@ -136,19 +163,41 @@ namespace Cryptool.Plugins.PeerToPeer
         /// Initializing is the first step to build a new or access an existing p2p network
         /// </summary>
         /// <param name="sUserName">Choose an individual name for the user</param>
-        /// <param name="sWorldName">fundamental: two peers are only in the SAME P2P system, when they initialized the SAME WORLD!</param>
+        /// <param name="sWorldName">fundamental: two peers are only in the SAME 
+        /// P2P system, when they initialized the SAME WORLD!</param>
+        /// <param name="bolUseNatTraversal">When you want to use NAT-Traversal #
+        /// (tunneling the P2P connection through NATs and Firewalls), you have to
+        /// set this flag to true</param>
         /// <param name="linkManagerType"></param>
         /// <param name="bsType"></param>
         /// <param name="overlayType"></param>
         /// <param name="dhtType"></param>
-        public void Initialize(string sUserName, string sWorldName, P2PLinkManagerType linkManagerType, P2PBootstrapperType bsType, P2POverlayType overlayType, P2PDHTType dhtType)
+        public void Initialize(string sUserName, string sWorldName, bool bolUseNatTraversal, P2PLinkManagerType linkManagerType, P2PBootstrapperType bsType, P2POverlayType overlayType, P2PDHTType dhtType)
         {
+            this.UseNatTraversal = bolUseNatTraversal;
+
             #region Setting LinkManager, Bootstrapper, Overlay and DHT to the specified types
             switch (linkManagerType)
             {
                 case P2PLinkManagerType.Snal:
                     //snal = secure network abstraction layer
-                    this.linkmanager = new Snal();
+                    if (UseNatTraversal)
+                    {
+                        if (bsType == P2PBootstrapperType.LocalMachineBootstrapper)
+                            throw (new Exception("It's mindless to activate NAT traversal, but use the LocalMachineBootstrapper."));
+
+                        LogToMonitor("Init LinkMgr: Using NAT Traversal stuff");
+                        // NAT-Traversal stuff needs a different Snal-Version
+                        this.linkmanager = new PeersAtPlay.P2PLink.SnalNG.Snal();
+
+                        ((PeersAtPlay.P2PLink.SnalNG.Snal)this.linkmanager).Settings.ConnectInternal = false;
+                        ((PeersAtPlay.P2PLink.SnalNG.Snal)this.linkmanager).Settings.LocalReceivingPort = 0;
+                        ((PeersAtPlay.P2PLink.SnalNG.Snal)this.linkmanager).Settings.UseLocalAddressDetection = false;
+                    }
+                    else 
+                    {
+                        this.linkmanager = new PeersAtPlay.P2PLink.SimpleSnalNG.Snal();
+                    }
                     break;
                 default:
                     throw (new NotImplementedException());
@@ -160,6 +209,18 @@ namespace Cryptool.Plugins.PeerToPeer
                     this.bootstrapper = new LocalMachineBootstrapper();
                     break;
                 case P2PBootstrapperType.IrcBootstrapper:
+                    if (UseNatTraversal)
+                    {
+                        LogToMonitor("Init Bootstrapper: Using NAT Traversal stuff");
+                        PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.DelaySymmetricResponse = true;
+                        PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.IncludeSymmetricInResponse = false;
+                        PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.SymmetricResponseDelay = 6000;
+                    }
+                    else
+                    {
+                        PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.IncludeSymmetricInResponse = true;
+                        PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.DelaySymmetricResponse = false;
+                    }
                     this.bootstrapper = new IrcBootstrapper();
                     break;
                 default:
@@ -274,6 +335,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <returns>corresponding PeerId for given byte[] id</returns>
         public PeerId GetPeerID(byte[] byteId)
         {
+            LogToMonitor("GetPeerID: Converting byte[] to PeerId-Object");
             return new PeerId(this.overlay.GetAddress(byteId));
         }
 
@@ -297,7 +359,13 @@ namespace Cryptool.Plugins.PeerToPeer
             if (OnP2PMessageReceived != null)
             {
                 PeerId pid = new PeerId(e.Message.Source);
-                OnP2PMessageReceived(pid, e.Message.Data.PopBytes(e.Message.Data.CurrentStackSize));
+                /* You have to fire this event asynchronous, because the main 
+                 * thread will be stopped in this wrapper class for synchronizing
+                 * the asynchronous stuff (AutoResetEvent) --> so this could run 
+                 * into a deadlock, when you fire this event synchronous (normal Invoke)
+                 * ATTENTION: This could change the invocation order!!! In my case 
+                              no problem, but maybe in future cases... */
+                OnP2PMessageReceived.BeginInvoke(pid, e.Message.Data.PopBytes(e.Message.Data.CurrentStackSize),null,null);
                 //OnP2PMessageReceived(pid, e.Message.Data.PopUTF8String());
             }
         }
@@ -320,6 +388,8 @@ namespace Cryptool.Plugins.PeerToPeer
             this.dht = null;
             this.systemLeft.Set();
             Started = false;
+
+            LogToMonitor("OnDHT_SystemLeft has nulled the dht and setted the systemLeft Waithandle");
         }
 
         #endregion
@@ -403,16 +473,19 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <returns>True, when storing is completed!</returns>
         public bool SynchStore(string sKey, byte[] byteData)
         {
+            LogToMonitor("Begin: SynchStore. Key: " + sKey + ", Data: " + Encoding.UTF8.GetString(byteData));
             AutoResetEvent are = new AutoResetEvent(false);
             // this method returns always a GUID to distinguish between asynchronous actions
             Guid g = this.dht.Store(OnSynchStoreCompleted, sKey, byteData);
-            //Guid g = this.dht.Store(OnSynchStoreCompleted, sKey, byteData, IGNORE_DHT_VERSIONING_SYSTEM);
 
             ResponseWait rw = new ResponseWait() { WaitHandle = are, key=sKey , value = byteData };
 
             waitDict.Add(g, rw);
             //blocking till response
             are.WaitOne();
+
+            LogToMonitor("End: SynchStore. Key: " + sKey + ". Success: " + rw.success.ToString());
+
             return rw.success;
         }
 
@@ -501,8 +574,13 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <returns>Value of DHT Entry</returns>
         public byte[] SynchRetrieve(string sKey)
         {
+            LogToMonitor("ThreadId (P2PBase SynchRetrieve): " + Thread.CurrentThread.ManagedThreadId.ToString());
+
             AutoResetEvent are = new AutoResetEvent(false);
             // this method returns always a GUID to distinguish between asynchronous actions
+
+            LogToMonitor("Begin: SynchRetrieve. Key: " + sKey);
+             
             Guid g = this.dht.Retrieve(OnSynchRetrieveCompleted, sKey);
             
             ResponseWait rw = new ResponseWait() {WaitHandle = are };
@@ -510,6 +588,9 @@ namespace Cryptool.Plugins.PeerToPeer
             waitDict.Add(g,rw  );
             // blocking till response
             are.WaitOne();
+
+            LogToMonitor("End: SynchRetrieve. Key: " + sKey + ". Success: " + rw.success.ToString());
+
             //Rückgabe der Daten
             return rw.Message;
         }
@@ -520,7 +601,11 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="rr"></param>
         private void OnSynchRetrieveCompleted(RetrieveResult rr)
         {
+            LogToMonitor(rr.Guid.ToString());
+            
             ResponseWait rw;
+
+            LogToMonitor("ThreadId (P2PBase retrieve callback): " + Thread.CurrentThread.ManagedThreadId.ToString());
 
             if (this.waitDict.TryGetValue(rr.Guid, out rw))
             {
@@ -549,6 +634,8 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <returns>True, when removing is completed!</returns>
         public bool SynchRemove(string sKey)
         {
+            LogToMonitor("Begin SynchRemove. Key: " + sKey);
+
             AutoResetEvent are = new AutoResetEvent(false);
             // this method returns always a GUID to distinguish between asynchronous actions
             Guid g = this.dht.Remove(OnSynchRemoveCompleted, sKey);
@@ -559,6 +646,9 @@ namespace Cryptool.Plugins.PeerToPeer
             waitDict.Add(g, rw);
             // blocking till response
             are.WaitOne();
+
+            LogToMonitor("Ended SynchRemove. Key: " + sKey + ". Success: " + rw.success.ToString());
+
             return rw.success;
         }
 
@@ -597,6 +687,13 @@ namespace Cryptool.Plugins.PeerToPeer
                 this.dht.LogInternalState();
             }
         }
+
+        public void LogToMonitor(string sTextToLog)
+        {
+            if(AllowLoggingToMonitor)
+                Log.Debug(sTextToLog);
+        }
+
     }
 
     public class PeerId

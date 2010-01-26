@@ -6,6 +6,7 @@ using Cryptool.PluginBase.Control;
 using Cryptool.PluginBase;
 using System.Threading;
 using KeySearcher;
+using System.IO;
 
 /* Nice to have:
  * - Enable sending intermediate results in a user-defined interval */
@@ -28,6 +29,12 @@ namespace Cryptool.Plugins.PeerToPeer
 
     public class P2PWorkerBase : P2PSubscriberBase
     {
+        //Arnie 2010.01.26 - delete after running the DES Bruteforcing test
+        StreamWriter debugFile;
+        DateTime startProcessingTime;
+
+
+
         #region events and variables
 
         // Events
@@ -71,6 +78,14 @@ namespace Cryptool.Plugins.PeerToPeer
         public P2PWorkerBase(IP2PControl p2pControl, IControlKeySearcher keySearcherControl, string sTopicName)
             : base(p2pControl)
         {
+            //Arnie 2010.01.26 - delete after running the DES Bruteforcing test
+            string sPath = @"c:\p2p_debug";
+            if (!Directory.Exists(sPath))
+                Directory.CreateDirectory(sPath);
+            debugFile = new FileInfo(sPath + @"\wkr_debug.txt").CreateText();
+            startProcessingTime = new DateTime();
+
+
             this.sTopicName = sTopicName;
             this.keySearcherControl = keySearcherControl;
             this.keySearcherControl.OnEndedBruteforcing += new KeySearcher.KeySearcher.BruteforcingEnded(keySearcherControl_OnEndedBruteforcing);
@@ -150,9 +165,10 @@ namespace Cryptool.Plugins.PeerToPeer
                 }
                 else
                 {
-                    Thread processingThread = new Thread(new ParameterizedThreadStart(this.StartProcessing));
-                    processingThread.Start(receivedKeyPattern);
-                    //StartProcessing(receivedKeyPattern);
+                    //Thread processingThread = new Thread(new ParameterizedThreadStart(this.StartProcessing));
+                    //processingThread.Start(receivedKeyPattern);
+                    GuiLogging("ThreadId (HandleIncomingBums): " + Thread.CurrentThread.ManagedThreadId.ToString(),NotificationLevel.Debug);
+                    StartProcessing(receivedKeyPattern);
                 }
             }
             else
@@ -174,6 +190,8 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="receivedKeyPattern">a valid and full initialized KeyPattern</param>
         private void StartProcessing(KeyPattern receivedKeyPattern)
         {
+            GuiLogging("ThreadId (Start Processing): " + Thread.CurrentThread.ManagedThreadId.ToString(), NotificationLevel.Debug);
+
             GuiLogging("Start Bruteforcing the incoming Key: '" + receivedKeyPattern.getKey() + "', WildCardKey: '" + receivedKeyPattern.WildcardKey + "'", NotificationLevel.Info);
 
             if (OnKeyPatternReceived != null)
@@ -181,6 +199,12 @@ namespace Cryptool.Plugins.PeerToPeer
             this.currentlyWorking = true;
             // to access this pattern in every method, where it's meaningful for information or processing reasons
             this.actualProcessingPattern = receivedKeyPattern;
+
+
+            //Arnie 2010.01.26 - delete after running the DES Bruteforcing test
+            startProcessingTime = DateTime.Now;
+            debugFile.WriteLine("BEGIN Date: " + startProcessingTime.ToString() + "\tKey: " + receivedKeyPattern.getKey());
+
 
             /* Begin: New stuff because of changing the IControl data flow - Arnie 2010.01.18 */
 
@@ -199,6 +223,12 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             if (top10List != null)
             {
+                //Arnie 2010.01.26 - delete after running the DES Bruteforcing test
+                DateTime endProcessingTime = DateTime.Now;
+                TimeSpan commonProcessingTime = endProcessingTime.Subtract(startProcessingTime);
+                debugFile.WriteLine("ENDED HH.MM.ss:mm " + commonProcessingTime.Hours + "." + commonProcessingTime.Minutes + "." + commonProcessingTime.Seconds + ":" + commonProcessingTime.Milliseconds);
+
+
                 KeySearcher.KeySearcher.ValueKey bestResult = top10List.First<KeySearcher.KeySearcher.ValueKey>();
                 GuiLogging("Bruteforcing Ended. Best key result: '" + bestResult.key + "'. Coefficient value: "
                     + bestResult.value.ToString() + ". Decrypted result: '" + UTF8Encoding.UTF8.GetString(bestResult.decryption)
