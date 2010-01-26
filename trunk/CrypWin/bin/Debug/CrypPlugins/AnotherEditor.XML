@@ -3935,7 +3935,7 @@
         </member>
         <member name="M:AnotherEditor.AnotherEditor.Dispose">
             <summary>
-            Send dispose call to all plugins. 
+            Send dispose call to all plugins.
             </summary>
         </member>
         <member name="M:AnotherEditor.AnotherEditor.SendOpenProjectFileEvent(System.String)">
