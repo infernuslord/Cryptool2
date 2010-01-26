@@ -25,9 +25,18 @@ using System.Diagnostics;
 namespace Cryptool.PluginBase.IO
 {
     /// <summary>
-    /// Read from a corresponding CStreamWriter.
+    /// Read from a CStream. Use POSIX Read() or more convenient ReadFully() to retrieve data
+    /// from CStream.
+    /// 
+    /// You MAY seek in the CStream to re-use the reader or skip data (beware of seeking too far:
+    /// will lead to EOF).
+    /// You SHOULD dispose the reader when you're done using it. If you don't, the GC will release
+    /// your resources.
+    /// You SHOULD NOT pass the same reader instance to other components. Concurrent access on
+    /// the same reader will lead to a probably unwanted behaviour. You MAY however use two different
+    /// readers on the same CStream. Each reader maintains its own state.
     /// </summary>
-    public class CStream : Stream, IDisposable
+    public class CStreamReader : Stream, IDisposable
     {
         #region Private fields and constructors
 
@@ -38,29 +47,32 @@ namespace Cryptool.PluginBase.IO
 
         private bool _disposed;
 
-        [Obsolete("for more or less clean disposal of obsolete self-created CryptoolStream instances")]
-        private List<CryptoolStream> disposeStreams = new List<CryptoolStream>();
-
-        public CStream(CStreamWriter writer)
+        /// <summary>
+        /// Create a reader to read from the passed CStream.
+        /// </summary>
+        public CStreamReader(CStreamWriter writer)
         {
             _writer = writer;
-            _writer.ShutdownEvent += shutdownHandler;
+
             _writer.SwapEvent += swapHandler;
 
             if (_writer.IsSwapped)
             {
                 swapHandler();
             }
-        }
 
-        ~CStream()
-        {
-            Dispose(false);
+            CStream = _writer.CStream;
         }
 
         #endregion
 
         #region Public properties
+
+        public CStream CStream
+        {
+            get;
+            private set;
+        }
 
         public override bool CanRead
         {
@@ -69,7 +81,7 @@ namespace Cryptool.PluginBase.IO
 
         public override bool CanSeek
         {
-            get { return false; }
+            get { return true; }
         }
 
         public override bool CanWrite
@@ -89,6 +101,7 @@ namespace Cryptool.PluginBase.IO
         {
             get
             {
+                // TODO: cache FileStream property
                 return _writer.Length;
             }
         }
@@ -98,15 +111,15 @@ namespace Cryptool.PluginBase.IO
             get
             {
                 if (IsSwapped)
+                    // TODO: cache FileStream property
                     return _readStream.Position;
                 else
                     return _readPtr;
             }
 
-            // Seeking currently not supported.
             set
             {
-                throw new NotSupportedException();
+                Seek(value, SeekOrigin.Begin);
             }
         }
 
@@ -121,11 +134,20 @@ namespace Cryptool.PluginBase.IO
 
         public new void Dispose()
         {
-            if (!_disposed)
+            if (_disposed)
+                return;
+
+            _disposed = true;
+
+            base.Dispose();
+
+            if (IsSwapped)
             {
-                Dispose(true);
-                GC.SuppressFinalize(this);
+                _readStream.Close();
+                _readStream = null;
             }
+
+            _writer.SwapEvent -= swapHandler;
         }
 
         public override void Flush()
@@ -154,13 +176,16 @@ namespace Cryptool.PluginBase.IO
         /// <returns>amount of bytes that has been read into buffer or 0 if EOF</returns>
         public override int Read(byte[] buffer, int offset, int count)
         {
+            checkDisposal();
+
             lock (_writer.InternalMonitor)
             {
                 int available;
 
                 while ((available = availableRead()) < 1)
                 {
-                    if (_writer.IsClosed)
+                    // writer has been closed or reader has seeked beyond available length
+                    if (_writer.IsClosed || available < 0)
                         return 0; // EOF
 
                     Monitor.Wait(_writer.InternalMonitor);
@@ -187,14 +212,14 @@ namespace Cryptool.PluginBase.IO
         /// <summary>
         /// Convenience method for Read: read and block until EOF occurs.
         /// 
-        /// This method is inefficient for large data amounts. You should avoid it in stable code.
+        /// This method is inefficient for large data amounts. You should avoid it in production code.
         /// </summary>
         public byte[] ReadFully()
         {
             List<byte[]> list = new List<byte[]>();
             int overall = 0;
 
-            { // read list of buffers
+            { // read bunch of byte arrays
                 byte[] buf;
                 int read;
                 do
@@ -221,7 +246,7 @@ namespace Cryptool.PluginBase.IO
                 } while (read == buf.Length); // not EOF
             }
 
-            { // concat buffers to bigbuffer
+            { // concat small buffers to bigbuffer
                 byte[] bigbuffer = new byte[overall];
                 int offset = 0;
                 foreach (byte[] buf in list)
@@ -265,11 +290,40 @@ namespace Cryptool.PluginBase.IO
         }
 
         /// <summary>
-        /// Seeking is currently not supported
+        /// Seek to another position. Seeking beyond the length of the stream is permitted
+        /// (successive read will block until writer stream is closed).
+        /// 
+        /// Note: there is no boundary check and no comprehensive check for int wraparound
+        /// (internal pointer on memory buffer is int32). Don't drink and seek.
         /// </summary>
         public override long Seek(long offset, SeekOrigin origin)
         {
-            throw new NotSupportedException();
+            checkDisposal();
+
+            if (IsSwapped)
+            {
+                return _readStream.Seek(offset, origin);
+            }
+            else
+            {
+                switch (origin)
+                {
+                    case SeekOrigin.Begin:
+                        _readPtr = (int)offset;
+                        break;
+                    case SeekOrigin.Current:
+                        _readPtr += (int)offset;
+                        break;
+                    case SeekOrigin.End:
+                        _readPtr = _writer.MemBuff.Length + (int)offset;
+                        break;
+                }
+
+                if (_readPtr < 0)
+                    _readPtr = 0;
+
+                return _readPtr;
+            }
         }
 
         public override void SetLength(long value)
@@ -285,31 +339,26 @@ namespace Cryptool.PluginBase.IO
             throw new NotSupportedException();
         }
 
-        /// <summary>
-        /// Compatibility with obsolete CryptoolStream. This method has not been tested thoroughly.
-        /// If it breaks, upgrade your plugin to use the new CStream natively.
-        /// </summary>
-        /// <returns></returns>
-        [Obsolete("Replace usage of CryptoolStream with CStream")]
-        public CryptoolStream ReadCryptoolStream()
-        {
-            // CryptoolStream requires a file to read
-            _writer.EnsureSwap();
-
-            CryptoolStream cs = new CryptoolStream();
-            cs.OpenRead(_writer.FilePath);
-            disposeStreams.Add(cs);
-            return cs;
-        }
-
         #endregion
 
         #region Private/protected methods
 
         private int availableRead()
         {
+            // Caveat! Breaks if writer is disposed and reader is still being used
+            Debug.Assert(!_writer.IsDisposed);
+
             long avail = _writer.Position - (IsSwapped ? _readStream.Position : _readPtr);
             return (int)Math.Min(int.MaxValue, avail);
+        }
+
+        private void checkDisposal()
+        {
+            if (_disposed)
+                throw new ObjectDisposedException("Reader is already disposed");
+
+            if (_writer.IsDisposed)
+                throw new ObjectDisposedException("Corresponding writer is disposed");
         }
 
         /// <summary>
@@ -317,47 +366,12 @@ namespace Cryptool.PluginBase.IO
         /// </summary>
         private void swapHandler()
         {
-            _readStream = new FileStream(_writer.FilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            _readStream = new FileStream(_writer.FilePath, FileMode.Open, FileAccess.Read, (FileShare.ReadWrite | FileShare.Delete));
             if (_readPtr > 0)
             {
+                Debug.Assert(_readPtr <= _writer.Length);
                 _readStream.Seek(_readPtr, SeekOrigin.Begin);
             }
-        }
-
-        /// <summary>
-        /// Writer shutting down, release file.
-        /// </summary>
-        private void shutdownHandler()
-        {
-            if (IsSwapped)
-            {
-                _readStream.Close();
-            }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                base.Dispose(disposing);
-            }
-
-            if (IsSwapped)
-            {
-                _readStream.Close();
-                _readStream = null;
-            }
-
-            _writer.ShutdownEvent -= shutdownHandler;
-            _writer.SwapEvent -= swapHandler;
-
-            // disposal of obsolete CryptoolStreams
-            foreach (CryptoolStream cs in disposeStreams)
-            {
-                cs.Dispose();
-            }
-
-            _disposed = true;
         }
 
         #endregion

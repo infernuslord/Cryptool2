@@ -64,6 +64,7 @@
     <Compile Include="Control\IControlCost.cs" />
     <Compile Include="Control\IControlEncryption.cs" />
     <Compile Include="Control\IControlWsdl.cs" />
+    <Compile Include="IO\CStream.cs" />
     <Compile Include="IO\CStreamReader.cs" />
     <Compile Include="IO\CStreamWriter.cs" />
     <Compile Include="IO\DirectoryHelper.cs" />

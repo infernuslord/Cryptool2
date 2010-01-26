@@ -256,7 +256,7 @@ namespace Cryptool.PluginBase.IO
 
         public override long Seek(long offset, SeekOrigin origin)
         {
-          this.position = offset;
+          this.position = offset; // BROKEN: does not support other origins than Begin
           return this.fileStream.Seek(offset, origin);
         }
 

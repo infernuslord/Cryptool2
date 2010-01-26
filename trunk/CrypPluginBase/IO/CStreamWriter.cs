@@ -31,19 +31,19 @@ namespace Cryptool.PluginBase.IO
     /// temporary file if the membuff exceeds a certain size. Please note that the buffer does not
     /// forget old data, therefore you can derive an arbitary number of stream readers at any time.
     /// 
-    /// You MAY CreateReader() and pass it even if the writing has not been finished yet.
     /// You SHOULD Flush() the stream when you're writing large data amounts and expect the readers
     /// to perform intermediate processing before writing has been finished.
     /// You MUST Close() the stream when you're finished with writing, otherwise the reader will block
     /// and wait for more data infinitely.
     /// 
     /// You SHOULD Dispose() the stream when you're done using it (or use the C# "using" keyword) in
-    /// order to remove the temporary swapfile, however if you forget to, the GC finalizer will clean
-    /// up for you.
+    /// order to remove the temporary swapfile, however if you forget to, the GC will clean up for you.
     /// </public>
     public class CStreamWriter : Stream, IDisposable
     {
         #region Private fields and constructors
+
+        internal const int FileBufferSize = 8192;
 
         private readonly object _monitor;
         private bool _closed;
@@ -56,33 +56,52 @@ namespace Cryptool.PluginBase.IO
         // swapfile
         private FileStream _writeStream;
         private string _filePath;
-        private long _closedFileLength;
 
         /// <summary>
         /// Init CStreamWriter with 64 KB memory buffer
         /// </summary>
-        public CStreamWriter() : this(64*1024)
+        public CStreamWriter() : this(65536)
         {
         }
 
         /// <summary>
         /// Init CStreamWriter with custom size memory buffer (in bytes)
         /// </summary>
-        /// <param name="bufSize"></param>
         public CStreamWriter(int bufSize)
         {
             _buffer = new byte[bufSize];
             _monitor = new object();
+
+            CStream = new CStream(this);
         }
 
-        ~CStreamWriter()
+        /// <summary>
+        /// Init CStreamWriter and copy some data to memory buffer.
+        /// 
+        /// Please note: Data is *copied* from passed buffer to internal memory buffer.
+        /// </summary>
+        /// <param name="buf">Pre-initialized byte array which is copied into internal membuff</param>
+        /// <param name="autoClose">close after initialization</param>
+        public CStreamWriter(byte[] buf, bool autoClose) : this(buf.Length)
         {
-            Dispose(false);
+            Array.Copy(buf, _buffer, buf.Length);
+            _bufPtr = buf.Length;
+
+            if (autoClose)
+            {
+                Close();
+            }
         }
 
         #endregion
 
         #region Public properties
+
+        public CStream CStream
+        {
+            get;
+            private set;
+        }
 
         public override bool CanRead
         {
@@ -108,6 +127,25 @@ namespace Cryptool.PluginBase.IO
         }
 
         /// <summary>
+        /// Has the writer stream been marked as closed?
+        /// 
+        /// Please note: closing the write stream is not equivalent with disposing it.
+        /// Readers can still read from a closed stream, but not from a disposed one.
+        /// </summary>
+        public bool IsClosed
+        {
+            get
+            {
+                return _closed;
+            }
+            set
+            {
+                if (value)
+                    Close();
+            }
+        }
+
+        /// <summary>
         /// Returns whether the underlying buffer is swapped out to filesystem or not.
         /// </summary>
         public bool IsSwapped
@@ -124,7 +162,8 @@ namespace Cryptool.PluginBase.IO
             {
                 if (IsSwapped)
                 {
-                    return _closed ? _closedFileLength : _writeStream.Length;
+                    // TODO: cache FileStream property
+                    return _writeStream.Length;
                 }
                 else
                 {
@@ -139,7 +178,8 @@ namespace Cryptool.PluginBase.IO
             {
                 if (IsSwapped)
                 {
-                    return _closed ? _closedFileLength : _writeStream.Position;
+                    // TODO: cache FileStream property
+                    return _writeStream.Position;
                 }
                 else
                 {
@@ -165,49 +205,49 @@ namespace Cryptool.PluginBase.IO
         public override void Close()
         {
             /*
-             * Note 1: We're NOT following the advice of implementing cleanup code in Dispose() without
-             * touching Close(), because we explicitly want to mark a stream as closed without disposing
-             * the underlying mem/file buffer.
+             * Note 1: We're NOT following the pattern of the Stream class to implement cleanup code in
+             * Dispose() without touching Close(), because we explicitly want to mark a stream as closed
+             * without disposing the underlying mem/file buffer. That's why we also don't call base.Close().
              * 
-             * Note 2: There is no call to base.Close() as it would suppress the finalization.
+             * Note 2: Closing the CStream does not automatically close the underlying file handle, as
+             * the file is marked as DeleteOnClose and may be removed too early. File is closed when the
+             * CStreamWriter is disposed or garbage collected.
              */
 
-            lock (_monitor)
-            {
-                // do nothing if already closed
-                if (_closed)
-                    return;
+            // do nothing if already closed
+            if (_closed)
+                return;
 
-                _closed = true;
+            _closed = true;
 
-                if (IsSwapped)
-                {
-                    _closedFileLength = _writeStream.Length;
-                    _writeStream.Close();
-                }
-
-                Monitor.PulseAll(_monitor);
-            }
+            Flush();
         }
 
         /// <summary>
-        /// Create a new instance to read from this CStream.
+        /// Explicitly destroy object.
         /// </summary>
-        /// <returns></returns>
-        public CStream CreateReader()
-        {
-            return new CStream(this);
-        }
-
         public new void Dispose()
         {
-            if (!_disposed)
+            if (_disposed)
+                return;
+
+            _disposed = true;
+
+            base.Dispose();
+
+            if (IsSwapped)
             {
-                Dispose(true);
-                GC.SuppressFinalize(this);
+                _writeStream.Close(); // release file handle
+                _writeStream = null;
             }
+
+            _buffer = null;
+            SwapEvent = null;
         }
 
+        /// <summary>
+        /// Flush any caches, announce buffer freshness to readers.
+        /// </summary>
         public override void Flush()
         {
             lock (_monitor)
@@ -276,7 +316,16 @@ namespace Cryptool.PluginBase.IO
                 }
                 else
                 {
-                    EnsureSwap();
+                    if (!IsSwapped)
+                    {
+                        createSwapFile();
+                        _writeStream.Write(_buffer, 0, _bufPtr);
+                        _writeStream.Flush(); // ensure reader can seek before announcing swap event
+                        _buffer = null;
+
+                        if (SwapEvent != null)
+                            SwapEvent();
+                    }
 
                     _writeStream.Write(buf, offset, count);
                 }
@@ -289,31 +338,6 @@ namespace Cryptool.PluginBase.IO
 
         #region Private/protected methods
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                base.Dispose(disposing);
-            }
-
-            if (IsSwapped)
-            {
-                // Force readers to close file.
-                if (ShutdownEvent != null)
-                    ShutdownEvent();
-
-                // Remove swapfile
-                _writeStream.Close();
-                _writeStream = null;
-                File.Delete(_filePath);
-            }
-
-            ShutdownEvent = null;
-            SwapEvent = null;
-
-            _disposed = true;
-        }
-
         private bool hasMemorySpace(int count)
         {
             return _bufPtr + count <= _buffer.Length;
@@ -322,12 +346,17 @@ namespace Cryptool.PluginBase.IO
         private void createSwapFile()
         {
             _filePath = DirectoryHelper.GetNewTempFilePath();
-            _writeStream = new FileStream(_filePath, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.Read);
+            _writeStream = new FileStream(_filePath, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.Read, FileBufferSize, FileOptions.DeleteOnClose);
         }
 
         #endregion
 
         #region Internal members for stream readers
+
+        internal bool IsDisposed
+        {
+            get { return _disposed; }
+        }
 
         internal object InternalMonitor
         {
@@ -338,30 +367,9 @@ namespace Cryptool.PluginBase.IO
 
         internal event ReaderCallback SwapEvent;
 
-        internal event ReaderCallback ShutdownEvent;
-
         internal byte[] MemBuff
         {
             get { return _buffer; }
-        }
-
-        internal bool IsClosed
-        {
-            get { return _closed; }
-        }
-
-        internal void EnsureSwap()
-        {
-            if (!IsSwapped)
-            {
-                createSwapFile();
-                _writeStream.Write(_buffer, 0, _bufPtr);
-                _writeStream.Flush(); // ensure reader can seek before announcing swap event
-                _buffer = null;
-
-                if (SwapEvent != null)
-                    SwapEvent();
-            }
         }
 
         #endregion

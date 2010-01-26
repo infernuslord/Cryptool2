@@ -108,7 +108,7 @@ namespace Tests.CrypPluginBase
 
             // put 6 bytes
             writer.Write(ShortData);
-            CStream reader = writer.CreateReader();
+            CStreamReader reader = writer.CStream.CreateReader();
 
             // length==6, position==0
             Assert.AreEqual(0, reader.Position);
@@ -155,7 +155,7 @@ namespace Tests.CrypPluginBase
         public void TestSwapWithReader()
         {
             CStreamWriter writer = new CStreamWriter();
-            CStream reader = writer.CreateReader();
+            CStreamReader reader = writer.CStream.CreateReader();
 
             // write, not swapped
             writer.Write(LongData);
@@ -163,7 +163,7 @@ namespace Tests.CrypPluginBase
 
             // read a few bytes, but there are still a few bytes left
             byte[] buf = new byte[ShortData.Length];
-            reader.Read(buf, 0, buf.Length);
+            reader.Read(buf);
             Assert.IsTrue(reader.Position > 0);
             Assert.IsTrue(reader.Length > reader.Position);
 
@@ -209,6 +209,64 @@ namespace Tests.CrypPluginBase
         }
 
         [TestMethod]
+        public void TestDisposedExceptionWithMem()
+        {
+            CStreamWriter writer = new CStreamWriter();
+
+            // write not, swapped
+            writer.Write(LongData);
+            Assert.IsFalse(writer.IsSwapped);
+
+            // try to read
+            CStreamReader reader = writer.CStream.CreateReader();
+            byte[] buf = new byte[ShortData.Length];
+            {
+                int read = reader.Read(buf);
+                Assert.AreEqual(ShortData.Length, read);
+            }
+
+            // dispose CStream and try to read again, assert error
+            writer.Dispose();
+            {
+                try
+                {
+                    int read = reader.Read(buf);
+                    Assert.Fail("unreachable code, missed exception");
+                }
+                catch (ObjectDisposedException e)
+                {
+                    // everything ok
+                }
+            }
+        }
+
+        [TestMethod]
+        public void TestDisposedExceptionWithSwap()
+        {
+            CStreamWriter writer = new CStreamWriter();
+
+            writer.Write(LongData);
+            writer.Write(LongData);
+            writer.Write(LongData);
+            Assert.IsTrue(writer.IsSwapped);
+
+            CStreamReader reader = writer.CStream.CreateReader();
+
+            // dispose CStream and try to read, assert error
+            writer.Dispose();
+            try
+            {
+                byte[] buf = new byte[1024];
+                int read = reader.Read(buf);
+                Assert.Fail("unreachable code, missed exception");
+            }
+            catch (ObjectDisposedException e)
+            {
+                // everything ok
+            }
+        }
+
+        [TestMethod]
         public void TestDestructorWithReader()
         {
             CStreamWriter writer = new CStreamWriter();
@@ -217,9 +275,9 @@ namespace Tests.CrypPluginBase
             writer.Write(LongData);
 
             // read something and assert there's more
-            CStream reader = writer.CreateReader();
+            CStreamReader reader = writer.CStream.CreateReader();
             byte[] buf = new byte[ShortData.Length];
-            reader.Read(buf, 0, buf.Length);
+            reader.Read(buf);
             Assert.IsTrue(reader.Position > 0);
             Assert.IsTrue(reader.Length > reader.Position);
             Assert.IsFalse(reader.IsSwapped);
@@ -269,10 +327,75 @@ namespace Tests.CrypPluginBase
             writer.Write(LongData);
             writer.Close();
 
-            CStream reader = writer.CreateReader();
+            CStreamReader reader = writer.CStream.CreateReader();
             byte[] bigbuf = reader.ReadFully();
 
             Assert.AreEqual(LongData.Length * 3, bigbuf.Length);
+        }
+
+        [TestMethod]
+        public void TestSeek()
+        {
+            CStreamWriter writer = new CStreamWriter();
+            writer.Write(LongData);
+            writer.Close();
+
+            CStreamReader reader = writer.CStream.CreateReader();
+            byte[] buf = new byte[1024];
+
+            { // seek 5 bytes before EOF, attempt to read much, get 5 bytes
+                reader.Seek(LongData.Length - 5, SeekOrigin.Begin);
+                int read = reader.Read(buf, 0, int.MaxValue);
+                Assert.AreEqual(5, read);
+            }
+
+            { // read EOF
+                int read = reader.Read(buf, 0, int.MaxValue);
+                Assert.AreEqual(0, read);
+            }
+
+            { // seek beyond stream length, read EOF
+                reader.Seek(LongData.Length * 3, SeekOrigin.Begin);
+                int read = reader.Read(buf, 0, int.MaxValue);
+                Assert.AreEqual(0, read);
+            }
+
+            { // seek back, read again
+                reader.Seek(LongData.Length - 5, SeekOrigin.Begin);
+                int read = reader.Read(buf, 0, int.MaxValue);
+                Assert.AreEqual(5, read);
+            }
+        }
+
+        [TestMethod]
+        public void TestSeekSwap()
+        {
+            CStreamWriter writer = new CStreamWriter();
+            writer.Write(LongData);
+
+            CStreamReader reader = writer.CStream.CreateReader();
+            byte[] buf = new byte[1024];
+
+            // seek 5 bytes before EOF
+            reader.Seek(LongData.Length - 5, SeekOrigin.Begin);
+
+            // write more, ensure swap
+            writer.Write(LongData);
+            writer.Write(LongData);
+            Assert.IsTrue(writer.IsSwapped);
+
+            { // seek somewhere to the middle, read
+                reader.Seek(LongData.Length * 2, SeekOrigin.Begin);
+                int read = reader.Read(buf);
+                Assert.AreEqual(buf.Length, read);
+            }
+
+            { // seek beyond length, assert still open, get EOF
+                reader.Seek(LongData.Length * 3, SeekOrigin.Current);
+                Assert.IsFalse(writer.IsClosed);
+                int read = reader.Read(buf);
+                Assert.AreEqual(0, read);
+            }
         }
     }
 }
