@@ -30,6 +30,7 @@ using Cryptool.PluginBase.Control;
 using System.ComponentModel;
 using PeersAtPlay;
 using PeersAtPlay.Util.Logging;
+using Gears4Net;
 
 /* - Synchronous functions successfully tested (store, retrieve)
  * - The DHT has an integrated versioning system. When a peer wants
@@ -43,8 +44,11 @@ using PeersAtPlay.Util.Logging;
  * - Have considered the DHT-own versioning system in the SynchStore method.
  *   If this versioning system will be abolished, the SynchStore method must
  *   be change!
+ * - Everything switched to SnalNG, SimpleSnal isn't used anymore, because
+ *   certification stuff runs now
  * 
  * TODO:
+ * - Delete UseNatTraversal-Flag and insert CertificateCheck and CertificateSetup
  * - Testing asynchronous methods incl. EventHandlers
  */
 namespace Cryptool.Plugins.PeerToPeer
@@ -117,24 +121,6 @@ namespace Cryptool.Plugins.PeerToPeer
             private set { this.started = value; } 
         }
 
-        private bool useNatTraversal = true;
-        /// <summary>
-        /// Initialization value = true!
-        /// When you want to use NAT-Traversal (tunneling the P2P
-        /// connection through NATs and Firewalls), you have to
-        /// set this flag to true, before initializing this peer
-        /// ATTENTION: At present you have to install two certificates
-        /// manually on each workstation, where you want to use P2P@CT2,
-        /// and set a static PeerName (pap0001) and P2PWorldName (TestBruteforcingWorld)
-        /// TODO: Automatize the certificate stuff and implement a chance
-        /// to choose own PeerNames and P2PWorldNames
-        /// </summary>
-        public bool UseNatTraversal
-        {
-            get { return this.useNatTraversal; }
-            set { this.useNatTraversal = value; }
-        }
-
         private IDHT dht;
         private IP2PLinkManager linkmanager;
         private IBootstrapper bootstrapper;
@@ -172,32 +158,22 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="bsType"></param>
         /// <param name="overlayType"></param>
         /// <param name="dhtType"></param>
-        public void Initialize(string sUserName, string sWorldName, bool bolUseNatTraversal, P2PLinkManagerType linkManagerType, P2PBootstrapperType bsType, P2POverlayType overlayType, P2PDHTType dhtType)
+        public void Initialize(string sUserName, string sWorldName, P2PLinkManagerType linkManagerType, P2PBootstrapperType bsType, P2POverlayType overlayType, P2PDHTType dhtType)
         {
-            this.UseNatTraversal = bolUseNatTraversal;
-
             #region Setting LinkManager, Bootstrapper, Overlay and DHT to the specified types
             switch (linkManagerType)
             {
                 case P2PLinkManagerType.Snal:
-                    //snal = secure network abstraction layer
-                    if (UseNatTraversal)
-                    {
-                        if (bsType == P2PBootstrapperType.LocalMachineBootstrapper)
-                            throw (new Exception("It's mindless to activate NAT traversal, but use the LocalMachineBootstrapper."));
+                    if (bsType == P2PBootstrapperType.LocalMachineBootstrapper)
+                        throw (new Exception("It's mindless to activate NAT traversal, but use the LocalMachineBootstrapper."));
 
-                        LogToMonitor("Init LinkMgr: Using NAT Traversal stuff");
-                        // NAT-Traversal stuff needs a different Snal-Version
-                        this.linkmanager = new PeersAtPlay.P2PLink.SnalNG.Snal();
+                    LogToMonitor("Init LinkMgr: Using NAT Traversal stuff");
+                    // NAT-Traversal stuff needs a different Snal-Version
+                    this.linkmanager = new PeersAtPlay.P2PLink.SnalNG.Snal(new STAScheduler("crypt"));
 
-                        ((PeersAtPlay.P2PLink.SnalNG.Snal)this.linkmanager).Settings.ConnectInternal = false;
-                        ((PeersAtPlay.P2PLink.SnalNG.Snal)this.linkmanager).Settings.LocalReceivingPort = 0;
-                        ((PeersAtPlay.P2PLink.SnalNG.Snal)this.linkmanager).Settings.UseLocalAddressDetection = false;
-                    }
-                    else 
-                    {
-                        this.linkmanager = new PeersAtPlay.P2PLink.SimpleSnalNG.Snal();
-                    }
+                    ((PeersAtPlay.P2PLink.SnalNG.Snal)this.linkmanager).Settings.ConnectInternal = true;
+                    ((PeersAtPlay.P2PLink.SnalNG.Snal)this.linkmanager).Settings.LocalReceivingPort = 0;
+                    ((PeersAtPlay.P2PLink.SnalNG.Snal)this.linkmanager).Settings.UseLocalAddressDetection = false;
                     break;
                 default:
                     throw (new NotImplementedException());
@@ -209,18 +185,12 @@ namespace Cryptool.Plugins.PeerToPeer
                     this.bootstrapper = new LocalMachineBootstrapper();
                     break;
                 case P2PBootstrapperType.IrcBootstrapper:
-                    if (UseNatTraversal)
-                    {
-                        LogToMonitor("Init Bootstrapper: Using NAT Traversal stuff");
-                        PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.DelaySymmetricResponse = true;
-                        PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.IncludeSymmetricInResponse = false;
-                        PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.SymmetricResponseDelay = 6000;
-                    }
-                    else
-                    {
-                        PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.IncludeSymmetricInResponse = true;
-                        PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.DelaySymmetricResponse = false;
-                    }
+                    // setup nat traversal stuff
+                    LogToMonitor("Init Bootstrapper: Using NAT Traversal stuff");
+                    PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.DelaySymmetricResponse = true;
+                    PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.IncludeSymmetricInResponse = false;
+                    PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.SymmetricResponseDelay = 6000;
+
                     this.bootstrapper = new IrcBootstrapper();
                     break;
                 default:

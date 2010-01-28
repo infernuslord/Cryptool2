@@ -51,6 +51,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dlls\Debug\Gears4Net.dll</HintPath>
     </Reference>
+    <Reference Include="LinkManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dlls\Debug\LinkManager.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dlls\Debug\log4net.dll</HintPath>
@@ -68,10 +72,6 @@
     </Reference>
     <Reference Include="PresentationFramework">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="SimpleSnalNG, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>dlls\Debug\SimpleSnalNG.dll</HintPath>
     </Reference>
     <Reference Include="Stun, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -116,6 +116,10 @@
     <ProjectReference Include="..\KeySearcher\KeySearcher.csproj">
       <Project>{0579E099-66B2-43C3-B8A0-43CAE4895E68}</Project>
       <Name>KeySearcher</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PeerToPeerCertificates\PeerToPeerCertificates.csproj">
+      <Project>{7BED5C93-30BE-47BE-BC4A-16453F5DE9EA}</Project>
+      <Name>PeerToPeerCertificates</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

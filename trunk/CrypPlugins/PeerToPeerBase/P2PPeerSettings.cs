@@ -54,7 +54,7 @@ namespace Cryptool.Plugins.PeerToPeer
         [TaskPane("Start", "Initializes and starts Peer", null, 2, true, DisplayLevel.Beginner, ControlType.Button)]
         public void BtnStart()
         {
-            if (P2PPeerName != null && P2PWorldName != null)
+            if (P2PWorldName != null)
             {
                 this.p2pPeer.StartPeer();
             }
@@ -86,21 +86,21 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region Setting-Fields
 
-        private string p2pPeerName;
-        [TaskPane("P2P Peer Name", "P2P Name of the Peer.", null, 0, false, DisplayLevel.Beginner, ControlType.TextBox)]
-        public string P2PPeerName
-        {
-            get { return this.p2pPeerName; }
-            set
-            {
-                if (value != this.p2pPeerName)
-                {
-                    this.p2pPeerName = value;
-                    OnPropertyChanged("P2PPeerName");
-                    HasChanges = true;
-                }
-            }
-        }
+        //private string p2pPeerName;
+        //[TaskPane("P2P Peer Name", "P2P Name of the Peer.", null, 0, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        //public string P2PPeerName
+        //{
+        //    get { return this.p2pPeerName; }
+        //    set
+        //    {
+        //        if (value != this.p2pPeerName)
+        //        {
+        //            this.p2pPeerName = value;
+        //            OnPropertyChanged("P2PPeerName");
+        //            HasChanges = true;
+        //        }
+        //    }
+        //}
 
         private string p2pWorldName;
         [TaskPane("P2P World", "P2P Name of the world.", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
@@ -118,26 +118,26 @@ namespace Cryptool.Plugins.PeerToPeer
             }
         }
 
-        private bool p2pUseNatTraversal = false;
-        [TaskPane("Use NAT Traversal", "Activate/Deactivate NAT-Traversal (tunneling connections through NATs " +
-            "and Firewalls, necessary to work in different networks in the same world)", "P2P Settings", 0, false, 
-            DisplayLevel.Beginner, ControlType.CheckBox)]
-        public bool P2PUseNatTraversal
-        {
-            get { return this.p2pUseNatTraversal; }
-            set 
-            {
-                if (value != this.p2pUseNatTraversal)
-                {
-                    this.p2pUseNatTraversal = value;
-                    OnPropertyChanged("P2PUseNatTraversal");
-                    HasChanges = true;
-                }
-            }
-        }
+        //private bool p2pUseNatTraversal = false;
+        //[TaskPane("Use NAT Traversal", "Activate/Deactivate NAT-Traversal (tunneling connections through NATs " +
+        //    "and Firewalls, necessary to work in different networks in the same world)", "P2P Expert Settings", 0, false, 
+        //    DisplayLevel.Beginner, ControlType.CheckBox)]
+        //public bool P2PUseNatTraversal
+        //{
+        //    get { return this.p2pUseNatTraversal; }
+        //    set 
+        //    {
+        //        if (value != this.p2pUseNatTraversal)
+        //        {
+        //            this.p2pUseNatTraversal = value;
+        //            OnPropertyChanged("P2PUseNatTraversal");
+        //            HasChanges = true;
+        //        }
+        //    }
+        //}
 
         private bool log2Monitor = true;
-        [TaskPane("Log2Monitor", "Logs all p2p actions to the PeersAtPlay LogMonitor", "P2P Settings", 1, false,
+        [TaskPane("Log2Monitor", "Logs all p2p actions to the PeersAtPlay LogMonitor", "P2P Expert Settings", 1, false,
             DisplayLevel.Beginner, ControlType.CheckBox)]
         public bool Log2Monitor
         {
@@ -154,7 +154,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         private P2PLinkManagerType p2pLinkManagerType = P2PLinkManagerType.Snal;
-        [TaskPane("LinkManager-Type", "Select the LinkManager-Type", "P2P Settings", 2, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Snal" })]
+        [TaskPane("LinkManager-Type", "Select the LinkManager-Type", "P2P Expert Settings", 2, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Snal" })]
         public int P2PLinkMngrType
         {
             get { return (int)this.p2pLinkManagerType; }
@@ -170,7 +170,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         private P2PBootstrapperType p2pBSType = P2PBootstrapperType.LocalMachineBootstrapper;
-        [TaskPane("Bootstrapper-Type", "Select the Bootstrapper-Type", "P2P Settings", 3, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "LocalMachineBootstrapper", "IrcBootstrapper" })]
+        [TaskPane("Bootstrapper-Type", "Select the Bootstrapper-Type", "P2P Expert Settings", 3, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "LocalMachineBootstrapper", "IrcBootstrapper" })]
         public int P2PBSType
         {
             get { return (int)this.p2pBSType; }
@@ -186,7 +186,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         private P2POverlayType p2pOverlayType = P2POverlayType.FullMeshOverlay;
-        [TaskPane("Overlay-Type", "Select the Overlay-Type", "P2P Settings", 4, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "FullMeshOverlay" })]
+        [TaskPane("Overlay-Type", "Select the Overlay-Type", "P2P Expert Settings", 4, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "FullMeshOverlay" })]
         public int P2POverlType
         {
             get { return (int)this.p2pOverlayType; }
@@ -202,7 +202,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         private P2PDHTType p2pDhtType = P2PDHTType.FullMeshDHT;
-        [TaskPane("DHT-Type", "Select the DHT-Type", "P2P Settings", 5, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "FullMeshDHT" })]
+        [TaskPane("DHT-Type", "Select the DHT-Type", "P2P Expert Settings", 5, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "FullMeshDHT" })]
         public int P2PDhtType
         {
             get { return (int)this.p2pDhtType;  }
