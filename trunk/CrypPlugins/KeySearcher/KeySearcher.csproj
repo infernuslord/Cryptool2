@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="KeyPattern.cs" />
+    <Compile Include="KeyPatternPool.cs" />
     <Compile Include="KeySearcher.cs" />
     <Compile Include="KeySearcherQuickWatchPresentation.xaml.cs">
       <DependentUpon>KeySearcherQuickWatchPresentation.xaml</DependentUpon>
