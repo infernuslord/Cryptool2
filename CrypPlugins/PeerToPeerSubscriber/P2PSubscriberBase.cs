@@ -104,9 +104,6 @@ namespace Cryptool.Plugins.PeerToPeer
 
         public void Start(string sTopic, long checkPublishersAvailability, long publishersReplyTimespan)
         {
-            this.p2pControl.OnPayloadMessageReceived += new P2PPayloadMessageReceived(p2pControl_OnPayloadMessageReceived);
-            this.p2pControl.OnSystemMessageReceived += new P2PSystemMessageReceived(p2pControl_OnSystemMessageReceived);
-
             this.sTopic = sTopic;
             this.checkPublishersAvailability = checkPublishersAvailability;
             this.publisherReplyTimespan = publishersReplyTimespan;
@@ -115,6 +112,12 @@ namespace Cryptool.Plugins.PeerToPeer
 
         private void Register()
         {
+            // Unfortunately you have to register this events every time, because this events will be deregistered, when
+            // Publisher/Manager sends a Unregister/Stop-Message... There isn't any possibility to check,
+            // whether the Events are already registered (if(dings != null) or anything else).
+            this.p2pControl.OnPayloadMessageReceived += new P2PPayloadMessageReceived(p2pControl_OnPayloadMessageReceived);
+            this.p2pControl.OnSystemMessageReceived += new P2PSystemMessageReceived(p2pControl_OnSystemMessageReceived);
+
             // because CheckPublishersAvailability checks this value, set it for the first time here...
             // if bolStopped = true, the Timer for Checking Publishers liveliness doesn't start
             this.bolStopped = false;
@@ -137,8 +140,6 @@ namespace Cryptool.Plugins.PeerToPeer
                 actualPublisher = pubId;
             }
             SendMessage(pubId, PubSubMessageType.Register);
-            if (this.timeoutForPublishersRegAccept == null)
-                this.timeoutForPublishersRegAccept = new Timer(OnTimeoutRegisteringAccepted, null, this.publisherReplyTimespan, this.publisherReplyTimespan);
             this.started = true;
         }
 
@@ -231,13 +232,15 @@ namespace Cryptool.Plugins.PeerToPeer
                         timerRegisteringNotPossible.Dispose();
                         timerRegisteringNotPossible = null;
                     }
+                    // start waiting interval for RegAccept Message
+                    if (this.timeoutForPublishersRegAccept == null)
+                        this.timeoutForPublishersRegAccept = new Timer(OnTimeoutRegisteringAccepted, null, this.publisherReplyTimespan, this.publisherReplyTimespan);
                     break;
                 case PubSubMessageType.Alive:
                 case PubSubMessageType.Ping:
                 case PubSubMessageType.Pong:
                 case PubSubMessageType.Unregister:
                 case PubSubMessageType.Stop: 
-
                 case PubSubMessageType.Solution:
                     break;
                 //case PubSubMessageType.Solution:
@@ -250,9 +253,7 @@ namespace Cryptool.Plugins.PeerToPeer
             }
             this.p2pControl.SendToPeer(msgType, pubPeerId);
 
-            // don't show every single alive message
-            if (msgType != PubSubMessageType.Alive)
-                GuiLogging(msgType.ToString() + " message sent to Publisher", NotificationLevel.Debug);
+            GuiLogging(msgType.ToString() + " message sent to Publisher", NotificationLevel.Debug);
         }
 
         // registering isn't possible if no publisher has stored
@@ -340,7 +341,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="state"></param>
         private void OnTimeoutRegisteringAccepted(object state)
         {
-            GuiLogging("TIMEOUT: Waiting for registering accepted message from publisher!", NotificationLevel.Warning);
+            GuiLogging("TIMEOUT: Waiting for registering accepted message from publisher!", NotificationLevel.Debug);
             // try to register again
             Register();
         }

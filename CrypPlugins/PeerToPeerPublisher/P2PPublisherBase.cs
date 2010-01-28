@@ -184,6 +184,8 @@ namespace Cryptool.Plugins.PeerToPeer
                     else
                     {
                         GuiLogging("ALREADY REGISTERED peer with ID " + sender, NotificationLevel.Info);
+                        // only for testing reasons
+                        this.p2pControl.SendToPeer(PubSubMessageType.RegisteringAccepted, sender);
                     }
                     break;
                 case PubSubMessageType.Unregister:
