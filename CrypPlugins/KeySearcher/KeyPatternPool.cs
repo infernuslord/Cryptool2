@@ -11,7 +11,7 @@ namespace KeySearcher
      * This class is able to split a KeyPattern into several disjunct parts, which are guaranteed to have equal size.
      * It tries to split the pattern in such a way, that the parts have nearly the given partsize.
      **/
-    class KeyPatternPool
+    public class KeyPatternPool
     {
         private BigInteger partsize;
         private KeyPattern pattern;
@@ -50,12 +50,12 @@ namespace KeySearcher
             return bestval;
         }*/
 
-        private void calculateSplitting()
+        private void CalculateSplitting()
         {
             for (int c = pattern.wildcardList.Count - 1; c >= 0; c--)
                 splittingQuotient[c] = 1;
 
-            BigInteger bestSize = getPartSize();
+            BigInteger bestSize = GetPartSize();
 
             for (int c = pattern.wildcardList.Count - 1; c >= 0; c--)
             {
@@ -66,7 +66,7 @@ namespace KeySearcher
                     {
                         int tmp = splittingQuotient[c];
                         splittingQuotient[c] = d;
-                        BigInteger size = getPartSize();
+                        BigInteger size = GetPartSize();
                         if ((size - partsize).abs() < (bestSize - partsize).abs())                        
                             bestSize = size;                        
                         else
@@ -76,7 +76,7 @@ namespace KeySearcher
             }
         }
                 
-        private bool succCounter()
+        private bool SuccCounter()
         {
             for (int k = pattern.wildcardList.Count-1; k >= 0; k--)
             {
@@ -90,7 +90,7 @@ namespace KeySearcher
             return false;
         }
 
-        public bool contains(KeyPattern pattern)
+        public bool Contains(KeyPattern pattern)
         {
             if (pattern.wildcardList.Count != this.pattern.wildcardList.Count)
                 return false;
@@ -104,40 +104,40 @@ namespace KeySearcher
                 if (wc.size() != (thiswc.size() / splittingQuotient[k]))
                     return false;
 
-                bool contains2 = true;
+                bool bolContains2 = true;
                 for (int j = 0; j < splittingQuotient[k]; j++)
                 {
-                    bool contains = true;
+                    bool bolContains = true;
                     for (int i = 0; i < wc.size(); i++)
                     {
                         if (wc.getChar(i - wc.count()) != thiswc.getChar(i + j * wc.size()))
                         {
-                            contains = false;
+                            bolContains = false;
                             break;
                         }
                     }
-                    if (contains)
+                    if (bolContains)
                     {
-                        contains2 = true;
+                        bolContains2 = true;
                         break;
                     }
                 }
-                if (!contains2)
+                if (!bolContains2)
                     return false;
 
             }
             return true;
         }
 
-        public void push(KeyPattern pattern)
+        public void Push(KeyPattern pattern)
         {
-            if (!contains(pattern))
+            if (!Contains(pattern))
                 stack.Push(pattern);
             else
                 throw new Exception("Pattern already given.");
         }
 
-        public KeyPattern pop()
+        public KeyPattern Pop()
         {
             if (stack.Count != 0)
                 return (KeyPattern)stack.Pop();
@@ -158,13 +158,13 @@ namespace KeySearcher
                 part.wildcardList.Add(newwc);
             }
 
-            if (!succCounter())
+            if (!SuccCounter())
                 end = true;
 
             return part;
         }
 
-        public BigInteger getPartSize()
+        public BigInteger GetPartSize()
         {
             BigInteger res = 1;
             for (int k = 0; k < pattern.wildcardList.Count; k++)
@@ -180,7 +180,7 @@ namespace KeySearcher
             this.partsize = partsize;
             this.pattern = pattern;
             splittingQuotient = new int[pattern.wildcardList.Count];
-            calculateSplitting();
+            CalculateSplitting();
             splittingCounter = new int[pattern.wildcardList.Count];
         }
     }
