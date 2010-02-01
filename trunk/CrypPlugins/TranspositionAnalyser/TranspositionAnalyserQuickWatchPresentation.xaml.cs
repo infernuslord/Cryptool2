@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
 
 namespace TranspositionAnalyser
 {
@@ -19,11 +20,13 @@ namespace TranspositionAnalyser
     /// </summary>
     public partial class TranspositionAnalyserQuickWatchPresentation : UserControl
     {
+        public ObservableCollection<ResultEntry> entries = new ObservableCollection<ResultEntry>();
 
         public TranspositionAnalyserQuickWatchPresentation()
         {
             InitializeComponent();
             SizeChanged += sizeChanged;
+            this.DataContext = entries;
         }
 
         public void sizeChanged(Object sender, EventArgs eventArgs)

@@ -744,25 +744,27 @@ namespace TranspositionAnalyser
                         ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "in a galaxy far, far away...";
                     }
                     linkedListNode = list1.First;
-                    ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Clear();
+                    ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).entries.Clear();
                     int i = 0;
                     while (linkedListNode != null)
                     {
                         i++;
-                        String dec = "";
-                        if (System.Text.Encoding.ASCII.GetString(linkedListNode.Value.decryption).Length > 25)
+                        ResultEntry entry = new ResultEntry();
+                        entry.Ranking =  i.ToString();
+
+
+                        String dec = System.Text.Encoding.ASCII.GetString(linkedListNode.Value.decryption);
+                        if (dec.Length > 25) // Short strings need not to be cut off
                         {
-                            dec = System.Text.Encoding.ASCII.GetString(linkedListNode.Value.decryption).Substring(0, 25) + "...";
+                            dec = dec.Substring(0, 25) + "...";
                         }
-                        else
-                        {
-                            dec = System.Text.Encoding.ASCII.GetString(linkedListNode.Value.decryption);
-                        }
+                        entry.Text = dec;
+                        entry.Key = linkedListNode.Value.key;
+                        entry.Value = Math.Round(linkedListNode.Value.value,2)+"";
                         
-                        String key = linkedListNode.Value.key;
-                        double round = Math.Round(linkedListNode.Value.value, 2);
-                        String outp = i + ".:" + key + ":" + dec + "(" + round + ")";
-                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Add(outp);
+
+                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).entries.Add(entry);
+                        
                         linkedListNode = linkedListNode.Next;
                     }
                 
@@ -782,4 +784,13 @@ namespace TranspositionAnalyser
         public String key;
         public byte[] decryption;
     };
+    public class ResultEntry
+    {
+        public string Ranking { get; set; }
+        public string Value { get; set; }
+        public string Key { get; set; }
+        public string Text { get; set; }
+
+    }
+
 }
