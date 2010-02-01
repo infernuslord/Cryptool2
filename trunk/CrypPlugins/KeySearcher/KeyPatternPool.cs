@@ -14,41 +14,12 @@ namespace KeySearcher
     public class KeyPatternPool
     {
         private BigInteger partsize;
+        private BigInteger counter = 0;
         private KeyPattern pattern;
         private Stack<KeyPattern> stack = new Stack<KeyPattern>();
         private int[] splittingQuotient;
         private int[] splittingCounter;
-        private bool end = false;               
-
-        /*private BigInteger calculateSplitting(int i)
-        {
-            //This method is better, but too slow :(
-            if (i >= pattern.wildcardList.Count)            
-                return getPartSize();
-
-            int best = 0;
-            BigInteger bestval = -1;
-            int c = ((Wildcard)pattern.wildcardList[i]).size();
-            if (c == 1)
-            {
-                splittingQuotient[i] = 1;
-                return calculateSplitting(i + 1);
-            }
-            for (int k = 1; k <= c; k++)
-                if (c % k == 0)
-                {
-                    splittingQuotient[i] = k;
-                    BigInteger res = calculateSplitting(i + 1);
-                    if ((bestval == -1) || ((res-partsize).abs() < (bestval-partsize).abs()))
-                    {
-                        bestval = res;
-                        best = k;
-                    }
-                }
-            splittingQuotient[i] = best;
-            calculateSplitting(i + 1);
-            return bestval;
-        }*/
+        private bool end = false;
 
         private void CalculateSplitting()
         {
@@ -97,15 +68,17 @@ namespace KeySearcher
             if (pattern.GetPattern() != this.pattern.GetPattern())
                 return false;
 
+            bool equal = true;
             for (int k = 0; k < pattern.wildcardList.Count; k++)
             {
                 Wildcard wc = ((Wildcard)pattern.wildcardList[k]);
                 Wildcard thiswc = ((Wildcard)this.pattern.wildcardList[k]);
                 if (wc.size() != (thiswc.size() / splittingQuotient[k]))
                     return false;
-
+                
                 bool bolContains2 = true;
-                for (int j = 0; j < splittingQuotient[k]; j++)
+                int begin = equal ? splittingCounter[k] : 0;
+                for (int j = begin; j < splittingQuotient[k]; j++)
                 {
                     bool bolContains = true;
                     for (int i = 0; i < wc.size(); i++)
@@ -117,7 +90,8 @@ namespace KeySearcher
                         }
                     }
                     if (bolContains)
-                    {
+                    {                        
+                        equal = (j == splittingCounter[k]);
                         bolContains2 = true;
                         break;
                     }
@@ -131,6 +105,7 @@ namespace KeySearcher
 
         public void Push(KeyPattern pattern)
         {
+            counter--;
             if (!Contains(pattern))
                 stack.Push(pattern);
             else
@@ -139,6 +114,7 @@ namespace KeySearcher
 
         public KeyPattern Pop()
         {
+            counter++;
             if (stack.Count != 0)
                 return (KeyPattern)stack.Pop();
 
@@ -176,6 +152,11 @@ namespace KeySearcher
         }
 
         public BigInteger Count()
+        {
+            return TotalAmount() - counter;
+        }
+
+        public BigInteger TotalAmount()
         {
             BigInteger res = 1;
             for (int k = 0; k < pattern.wildcardList.Count; k++)
