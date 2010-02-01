@@ -100,7 +100,7 @@ namespace KeySearcher
                     return false;
 
             }
-            return true;
+            return !equal;
         }
 
         public void Push(KeyPattern pattern)
