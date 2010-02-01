@@ -29,7 +29,42 @@
 
         <TextBox x:Name="keysPerSecond" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" 
                  TextAlignment="Left"  IsReadOnly="True" TextWrapping="WrapWithOverflow" FontSize="10" BorderThickness="1" HorizontalContentAlignment="Center" />
-        <ListBox Name="listbox" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" FontSize="10" />
-    </Grid>        
+       <!-- <ListBox Name="listbox" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" FontSize="10" /> -->
+       
+        <ListView Name="ListView" ItemsSource="{Binding}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" FontSize="10" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Ranking" DisplayMemberBinding="{Binding Path=Ranking}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Value" DisplayMemberBinding="{Binding Path=Value}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Key" DisplayMemberBinding="{Binding Path=Key}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Text" DisplayMemberBinding="{Binding Path=Text}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
     </Canvas>
 </UserControl>
