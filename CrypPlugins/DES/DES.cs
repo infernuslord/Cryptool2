@@ -849,10 +849,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             throw new NotImplementedException();
         }
 
-        public void setInput(object input)
-        {
-            throw new NotImplementedException();
-        }
 
         #endregion
     }

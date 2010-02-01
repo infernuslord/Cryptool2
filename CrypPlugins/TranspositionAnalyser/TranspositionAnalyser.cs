@@ -18,7 +18,7 @@ namespace TranspositionAnalyser
 {
 
     [Author("Daniel Kohnen, Julian Weyers, Simon Malischewski, Armin Wiefels", "kohnen@cryptool.org, weyers@cryptool.org, malischewski@cryptool.org, wiefels@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(true, "Transposition Analyser", "Bruteforces the columnar transposition.", "TranspositionAnalyser/Description/TADescr.xaml" , "TranspositionAnalyser/Images/icon.png")]
+    [PluginInfo(false, "Transposition Analyser", "Bruteforces the columnar transposition.", "TranspositionAnalyser/Description/TADescr.xaml" , "TranspositionAnalyser/Images/icon.png")]
     public class TranspositionAnalyser : IAnalysisMisc
     {
         private enum ReadInMode { byRow = 0, byColumn = 1 };
@@ -165,6 +165,7 @@ namespace TranspositionAnalyser
                     GuiLogMessage("You have to connect the Transposition Plugin to the Transpostion Analyzer Control!", NotificationLevel.Warning);
                 }
             }
+            ProgressChanged(1, 1);
         }
 
         public void PostExecution()
@@ -215,7 +216,6 @@ namespace TranspositionAnalyser
         {
             if (input != null)
             {
-                sender.setInput(input);
                 switch (this.settings.Analysis_method)
                 {
                     case 0: Output = costfunction_bruteforce(sender); GuiLogMessage("Starting Brute-Force Analysis", NotificationLevel.Info); break;
@@ -291,7 +291,6 @@ namespace TranspositionAnalyser
 
                 list1 = getDummyLinkedList(best);
                 String best_text = "";
-                byte[] best_bytes = null;
                 ArrayList list = null;
 
 
@@ -352,7 +351,7 @@ namespace TranspositionAnalyser
                                 {
                                     b[j] = Convert.ToByte(key[j]);
                                 }
-                                byte[] dec = sender.Decrypt(b, b.Length);
+                                byte[] dec = sender.Decrypt(input, b);
                                 if (dec != null)
                                 {
                                     double val = costMaster.calculateCost(dec);
@@ -440,7 +439,7 @@ namespace TranspositionAnalyser
             valueKey.decryption = new byte[0];
             LinkedList<ValueKey> list = new LinkedList<ValueKey>();
             LinkedListNode<ValueKey> node = list.AddFirst(valueKey);
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 9; i++)
             {
                 node = list.AddAfter(node, valueKey);
             }
@@ -458,16 +457,22 @@ namespace TranspositionAnalyser
                     if (vk.value > costList.Last().value)
                     {
                         node = costList.First;
+                        int i = 0;
                         while (node != null)
                         {
                             if (vk.value > node.Value.value)
                             {
                                 costList.AddBefore(node, vk);
                                 costList.RemoveLast();
+                                if (i == 0)
+                                {
+                                    Output = vk.decryption;
+                                }
                                // value_threshold = costList.Last.Value.value;
                                 break;
                             }
                             node = node.Next;
+                            i++;
                         }//end while
                     }//end if
                 }
@@ -476,16 +481,23 @@ namespace TranspositionAnalyser
                     if (vk.value < costList.Last().value)
                     {
                         node = costList.First;
+                        int i = 0;
                         while (node != null)
                         {
                             if (vk.value < node.Value.value)
                             {
                                 costList.AddBefore(node, vk);
                                 costList.RemoveLast();
+                                if (i == 0)
+                                {
+                                    Output = vk.decryption;
+                                }
+
                                // value_threshold = costList.Last.Value.value;
                                 break;
                             }
                             node = node.Next;
+                            i++;
                         }//end while
                     }//end if
                 }
@@ -525,7 +537,7 @@ namespace TranspositionAnalyser
 
         #endregion
 
-        #region KeyLengthAnalysis
+        #region 
 
         public ArrayList getKeyLength(byte[] crib, byte[] cipher)
         {
@@ -701,7 +713,17 @@ namespace TranspositionAnalyser
 
                 long keystodo = (size - sum);
                 long secstodo = keystodo / keysPerSec;
-                DateTime endTime = DateTime.Now.AddSeconds(secstodo);
+                
+                //dummy Time 
+                DateTime endTime = new DateTime(1970,1,1);
+                try
+                {
+                    endTime = DateTime.Now.AddSeconds(secstodo);
+                }
+                catch
+                {
+
+                }
 
 
                 ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -709,22 +731,37 @@ namespace TranspositionAnalyser
 
                     ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).keysPerSecond.Text = "" + keysPerSec;
 
+                    if (endTime != (new DateTime(1970,1,1)))
+                    {
+                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).timeLeft.Text = "" + endTime.Subtract(DateTime.Now);
 
-                    ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).timeLeft.Text = "" + endTime.Subtract(DateTime.Now);
+                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "" + endTime;
+                    }
+                    else
+                    {
+                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).timeLeft.Text = "incalculable";
 
-                    ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "" + endTime;
-                    //((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).listbox.Clear();
+                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "in a galaxy far, far away...";
+                    }
                     linkedListNode = list1.First;
                     ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Clear();
                     int i = 0;
                     while (linkedListNode != null)
                     {
                         i++;
-
-                        String dec = System.Text.Encoding.ASCII.GetString(linkedListNode.Value.decryption).Substring(0, 25) + "...";
+                        String dec = "";
+                        if (System.Text.Encoding.ASCII.GetString(linkedListNode.Value.decryption).Length > 25)
+                        {
+                            dec = System.Text.Encoding.ASCII.GetString(linkedListNode.Value.decryption).Substring(0, 25) + "...";
+                        }
+                        else
+                        {
+                            dec = System.Text.Encoding.ASCII.GetString(linkedListNode.Value.decryption);
+                        }
+                        
                         String key = linkedListNode.Value.key;
-                        String value = linkedListNode.Value.value + "";
-                        String outp = i+".:" + key + ":" + dec + "(" + value +")";
+                        double round = Math.Round(linkedListNode.Value.value, 2);
+                        String outp = i + ".:" + key + ":" + dec + "(" + round + ")";
                         ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).listbox.Items.Add(outp);
                         linkedListNode = linkedListNode.Next;
                     }
