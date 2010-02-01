@@ -1117,13 +1117,23 @@ namespace Transposition
 
         #region IControlEncryption Member
 
-        public byte[] Decrypt(byte[] ciphertext, byte[] key)
+        public void setInput(Object input)
+        {
+            throw new NotImplementedException();
+        }
+        
+        public byte[] Decrypt(byte[] key, int blocksize)
         {
             throw new NotImplementedException();
         }
 
-        public byte[] Decrypt(byte[] key, int blocksize)
+        public byte[] Decrypt(byte[] ciphertext, byte[] key)
         {
+            if (plugin.Input == null)
+            {
+                plugin.Input = ciphertext;
+            }
+
             int[] k = new int[key.Length];
             for(int i=0; i<key.Length; i++)
             {
@@ -1152,11 +1162,6 @@ namespace Transposition
         public string getKeyPattern()
         {
             return null;
-        }
-
-        public void setInput(Object input)
-        {
-            plugin.Input = (byte[])input;
         }
 
         public void onStatusChanged()

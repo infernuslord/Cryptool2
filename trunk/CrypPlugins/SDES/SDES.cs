@@ -707,7 +707,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         {
 
         }
-        public void setInput(Object input) { }
         #endregion
     }
        

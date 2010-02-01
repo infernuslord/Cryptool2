@@ -73,8 +73,8 @@ namespace TranspositionAnalyser
 
         private Boolean row_colum_column = true;
         [PropertySaveOrder(3)]
-        [ContextMenu("Bruteforce Row-Column-Column", "Bruteforce this transposition settings: Read in by row. Permute by column. Read out by Column", 4, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, "Row-Column-Column")]
-        [TaskPane("Bruteforce Row-Column-Column", "Bruteforce this transposition settings: Read in by row. Permute by column. Read out by Column", null, 4, false, DisplayLevel.Expert, ControlType.CheckBox, "")]
+        [ContextMenu("R-C-C", "Bruteforce this transposition settings: Read in by row. Permute by column. Read out by Column", 4, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, "Row-Column-Column")]
+        [TaskPane("R-C-C", "Bruteforce this transposition settings: Read in by row. Permute by column. Read out by Column", null, 4, false, DisplayLevel.Expert, ControlType.CheckBox, "")]
         public bool RowColumnColumn
         {
             get { return this.row_colum_column; }
@@ -88,8 +88,8 @@ namespace TranspositionAnalyser
 
         private Boolean row_colum_row = true;
         [PropertySaveOrder(4)]
-        [ContextMenu("Bruteforce Row-Column-Row", "Bruteforce this transposition settings: Read in by row. Permute by column. Read out by Row", 4, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, "Row-Column-Column")]
-        [TaskPane("Bruteforce Row-Column-Row", "Bruteforce this transposition settings: Read in by row. Permute by column. Read out by Row", null, 4, false, DisplayLevel.Expert, ControlType.CheckBox, "")]
+        [ContextMenu("R-C-R", "Bruteforce this transposition settings: Read in by row. Permute by column. Read out by Row", 4, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, "Row-Column-Column")]
+        [TaskPane("R-C-R", "Bruteforce this transposition settings: Read in by row. Permute by column. Read out by Row", null, 4, false, DisplayLevel.Expert, ControlType.CheckBox, "")]
         public bool RowColumnRow
         {
             get { return this.row_colum_row; }
@@ -104,8 +104,8 @@ namespace TranspositionAnalyser
 
         private Boolean column_colum_row = true;
         [PropertySaveOrder(5)]
-        [ContextMenu("Bruteforce Column-Column-Row", "Bruteforce this transposition settings: Read in by column. Permute by column. Read out by Row", 4, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, "Row-Column-Column")]
-        [TaskPane("Bruteforce Column-Column-Row", "Bruteforce this transposition settings: Read in by column. Permute by column. Read out by Row", null, 4, false, DisplayLevel.Expert, ControlType.CheckBox, "")]
+        [ContextMenu("C-C-R", "Bruteforce this transposition settings: Read in by column. Permute by column. Read out by Row", 4, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, "Row-Column-Column")]
+        [TaskPane("C-C-R", "Bruteforce this transposition settings: Read in by column. Permute by column. Read out by Row", null, 4, false, DisplayLevel.Expert, ControlType.CheckBox, "")]
         public bool ColumnColumnRow
         {
             get { return this.column_colum_row; }
@@ -119,8 +119,8 @@ namespace TranspositionAnalyser
 
         private Boolean column_colum_column = true;
         [PropertySaveOrder(6)]
-        [ContextMenu("Bruteforce Column-Column-Column", "Bruteforce this transposition settings: Read in by column. Permute by column. Read out by column", 4, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, "Row-Column-Column")]
-        [TaskPane("Bruteforce Column-Column-Column", "Bruteforce this transposition settings: Read in by column. Permute by column. Read out by column", null, 4, false, DisplayLevel.Expert, ControlType.CheckBox, "")]
+        [ContextMenu("C-C-C", "Bruteforce this transposition settings: Read in by column. Permute by column. Read out by column", 4, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, "Row-Column-Column")]
+        [TaskPane("C-C-C", "Bruteforce this transposition settings: Read in by column. Permute by column. Read out by column", null, 4, false, DisplayLevel.Expert, ControlType.CheckBox, "")]
         public bool ColumnColumnColumn
         {
             get { return this.column_colum_column; }
