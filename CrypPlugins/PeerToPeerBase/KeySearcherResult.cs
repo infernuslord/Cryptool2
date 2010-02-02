@@ -106,9 +106,9 @@ namespace Cryptool.Plugins.PeerToPeer
             public void Push(byte[] data)
             {
                 for (int i = 0; i < data.Length; i++)
-			    {
+                {
                     myQueue.Enqueue(data[i]);
-			    }
+                }
             }
 
             public byte PopOneByte()

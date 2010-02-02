@@ -39,7 +39,7 @@ namespace Cryptool.Plugins.PeerToPeer
         #endregion
 
         #region Variables
-
+      
         private const int MAX_IN_TOP_LIST = 10;
 
         private bool managerStarted = false;
@@ -78,7 +78,9 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <summary>
         /// Stack of all left key spaces of the given Key Pattern
         /// </summary>
-        private Stack<KeyPattern> leftKeyPatterns;
+        private KeyPatternPool leftKeyPatterns;
+        //Stack<KeyPattern> leftKeyPatterns;
+
         /// <summary>
         /// Key = PeerId, Value = Pattern (key space of key pattern)
         /// </summary>
@@ -97,7 +99,7 @@ namespace Cryptool.Plugins.PeerToPeer
         public P2PManagerBase(IP2PControl p2pControl)
             : base(p2pControl)
         {
-            this.leftKeyPatterns = new Stack<KeyPattern>();
+            //this.leftKeyPatterns = new Stack<KeyPattern>();
             this.allocatedPatterns = new Dictionary<PeerId, KeyPattern>();
             this.patternResults = new Dictionary<KeyPattern, LinkedList<KeySearcher.KeySearcher.ValueKey>>();
             this.globalTopList = getDummyTopList(MAX_IN_TOP_LIST);
@@ -172,7 +174,7 @@ namespace Cryptool.Plugins.PeerToPeer
                 {
                     GuiLogging("Deserializing result canceled: '" + UTF8Encoding.UTF8.GetString(patternResult) + "'.", NotificationLevel.Error);
                 }
-                if (this.leftKeyPatterns.Count == 0)
+                if (this.leftKeyPatterns.Count() == 0)
                 {
                     if (OnFinishedDistributingPatterns != null)
                         OnFinishedDistributingPatterns(this.globalTopList);
@@ -197,7 +199,7 @@ namespace Cryptool.Plugins.PeerToPeer
                 throw (new Exception("Critical error in P2PManager. Manager isn't started yet, but there can register workers..."));
             }   
             // check if patterns are left
-            if (this.leftKeyPatterns.Count != 0)
+            if (this.leftKeyPatterns.Count() != 0)
                 DispersePatterns();
             else
                 GuiLogging("No more patterns left. So wait for the last results, than close this task.", NotificationLevel.Debug);
@@ -223,7 +225,7 @@ namespace Cryptool.Plugins.PeerToPeer
         public int DispersePatterns()
         {
             int iCycle = 0;
-            int iFreePatternAmount = leftKeyPatterns.Count;
+            int iFreePatternAmount = (int)this.leftKeyPatterns.Count().LongValue();
 
             // gets only the free workers, which had register at this manager
             List<PeerId> lstSubscribers = ((WorkersManagement)this.peerManagement).GetFreeWorkers();
@@ -264,7 +266,7 @@ namespace Cryptool.Plugins.PeerToPeer
 
             GetProgressInformation();
 
-            GuiLogging(iCycle.ToString() + " pattern(s) dispersed. Patterns left: " + this.leftKeyPatterns.Count.ToString(), NotificationLevel.Info);
+            GuiLogging(iCycle.ToString() + " pattern(s) dispersed. Patterns left: " + this.leftKeyPatterns.Count().LongValue().ToString(), NotificationLevel.Info);
             return iCycle;
         }
 
@@ -274,7 +276,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <returns>the percentual progress information of the whole job</returns>
         private double GetProgressInformation()
         {
-            double leftPatterns = this.leftKeyPatterns.Count;
+            double leftPatterns = (double)this.leftKeyPatterns.Count().LongValue();
             double finishedPatterns = this.patternResults.Count;
             double patternsInProcess = this.allocatedPatterns.Count;
             double patternAmount = leftPatterns + finishedPatterns + patternsInProcess;
@@ -337,66 +339,26 @@ namespace Cryptool.Plugins.PeerToPeer
 
             GuiLogging("Begin building a KeyPatternPool with KeyPatternPartSize " + this.KeyPatternPartSize.ToString(), NotificationLevel.Debug);
 
-            
-            /* TODO: Implement Stack instead of Queue later
-             * At present: workaround this shit */
+            /* BEGIN: Use new KeyPatternPool */
+            this.leftKeyPatterns = new KeyPatternPool(keyPattern, this.KeyPatternPartSize);
+            GuiLogging("Enqueue " + this.leftKeyPatterns.Count().LongValue().ToString() + " KeyPattern-Parts to the JobList.", NotificationLevel.Debug);
+            /* END: Use new KeyPatternPool */
 
-            //List<KeyPattern> arrKeyPatternPool = keyPattern.makeKeySearcherPool(this.KeyPatternPartSize);
-            //GuiLogging("Enqueue " + arrKeyPatternPool.Count + " KeyPattern-Parts to the JobList.", NotificationLevel.Debug);
-            //foreach (KeyPattern keyPatternPart in arrKeyPatternPool)
+            /* BEGIN: Workaround till Count and Contains is fixed by S.Rech */
+            //KeyPatternPool keyPatternPool = new KeyPatternPool(keyPatternPool, this.KeyPatternPartSize);
+            //KeyPattern tempPattern = keyPatternPool.Pop();
+            //while (tempPattern != null)
             //{
-            //    this.leftKeyPatterns.Enqueue(keyPatternPart);
+            //    this.leftKeyPatterns.Push(tempPattern);
+            //    tempPattern = keyPatternPool.Pop();
             //}
-
-            leftKeyPatterns = keyPattern.makeKeySearcherPool(this.keyPatternPartSize);
-            GuiLogging("Enqueue " + leftKeyPatterns.Count + " KeyPattern-Parts to the JobList.", NotificationLevel.Debug);
-            //int keyCount = keyPatternPool.Count;
-            //for (int j = 0; j < keyCount; j++)
-            //{
-            //    KeyPattern newPattern = keyPatternPool.Pop();
-            //    if (newPattern != null)
-            //        this.leftKeyPatterns.Enqueue(newPattern);
-            //    else
-            //        break;
-            //}
-            
-            /* ************************************** */
-            /* BEGIN: Only for debugging reasons - to delete */      
-            //StreamWriter debugWriter = DebugToFile.GetDebugStreamWriter();
-            //int i = 0;
-            //foreach (KeyPattern patternPart in this.leftKeyPatterns.ToList<KeyPattern>())
-            //{
-            //    debugWriter.WriteLine(i + "\t" + patternPart.ToString());
-            //    i++;
-            //}
-            //debugWriter.Dispose();
-
-            /* END: Only for debugging reasons - to delete */
-            /* ************************************** */
-
+            //GuiLogging("Enqueue " + this.leftKeyPatterns.Count + " KeyPattern-Parts to the JobList.", NotificationLevel.Debug);
+            /* END: Workaround till Count and Contains is fixed by S.Rech */
 
             #region Storing EncryptedData and InitializationVector in DHT
+
             bool encryptedTextStored = DHT_CommonManagement.SetEncryptedData(ref this.p2pControl, sTopic, encryptedData);
             bool initVectorStored = DHT_CommonManagement.SetInitializationVector(ref this.p2pControl, sTopic, initVector);
-
-            //CryptoolStream newEncryptedData = new CryptoolStream();
-            //newEncryptedData.OpenRead(encryptedData.FileName);
-            //if (newEncryptedData.CanRead)
-            //{
-            //    // Convert CryptoolStream to an byte Array and store it in the DHT
-            //    if (newEncryptedData.Length > Int32.MaxValue)
-            //        throw (new Exception("Encrypted Data are too long for this PlugIn. The maximum size of Data is " + Int32.MaxValue + "!"));
-            //    byte[] byteEncryptedData = new byte[newEncryptedData.Length];
-            //    int k = newEncryptedData.Read(byteEncryptedData, 0, (int)newEncryptedData.Length - 1);
-            //    encryptedTextStored = this.p2pControl.DHTstore(sTopic + DHT_ENCRYPTED_TEXT, byteEncryptedData);
-            //}
-            //else
-            //{
-            //    GuiLogging("Reading CryptoolStream wasn't possible.", NotificationLevel.Error);
-            //    return false;
-            //}
-            //// Convert  to an byte Array and store Initialization Vector it in the DHT
-            //initVectorStored = this.p2pControl.DHTstore(sTopic + DHT_INIT_VECTOR, initVector);
 
             GuiLogging("DHT: Encrypted data stored: '" + encryptedTextStored + "', Initialization vector stored: '" + initVectorStored + "'", NotificationLevel.Debug);
 
@@ -488,7 +450,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
         public int LeftPatterns 
         {
-            get { return this.leftKeyPatterns.Count; } 
+            get { return (int)this.leftKeyPatterns.Count().LongValue(); } 
         }
         public int FinishedPatterns 
         {
