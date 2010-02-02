@@ -41,6 +41,19 @@ namespace Cryptool.Plugins.PeerToPeer
             private set { this.started = value; }
         }
 
+        // Publisher-exchange extension - Arnie 2010.02.02
+        /// <summary>
+        /// Interval for waiting for other Publishers Pong in milliseconds!
+        /// </summary>
+        const long INTERVAL_WAITING_FOR_OTHER_PUBS_PONG = 10000;
+        Timer waitingForOtherPublishersPong;
+        /// <summary>
+        /// if this value is set, you are between the TimeSpan of checking liveness of the other peer.
+        /// If Timespan runs out without receiving a Pong-Msg from the other Publisher, assume its functionality
+        /// </summary>
+        PeerId otherPublisherPeer = null;
+        bool otherPublisherHadResponded = false;
+
         #endregion
 
         public P2PPublisherBase(IP2PControl p2pControl)
@@ -84,11 +97,31 @@ namespace Cryptool.Plugins.PeerToPeer
             // if byRead is not null, the DHT entry was already written
             if (byRead != null)
             {
-                // this entry? Then no problem! Otherwise abort Starting the publisher!
+                // if a different Publisher was found at the DHT entry, send a ping msg
+                // and wait for Pong-Response. When this won't arrive in the given TimeSpan,
+                // assume the Publishing functionality
                 if (byRead != myPeerId)
-                {
-                    GuiLogging("Can't store Publisher in the DHT because the Entry was already occupied.", NotificationLevel.Error);
-                    return false;
+                {   
+                    if (this.waitingForOtherPublishersPong == null)
+                    {
+                        this.otherPublisherHadResponded = false;
+                        this.otherPublisherPeer = byRead;
+                        this.waitingForOtherPublishersPong = new Timer(OnWaitingForOtherPublishersPong,
+                            null, INTERVAL_WAITING_FOR_OTHER_PUBS_PONG, INTERVAL_WAITING_FOR_OTHER_PUBS_PONG);
+
+                        this.p2pControl.SendToPeer(PubSubMessageType.Ping, byRead);
+
+                        GuiLogging("Another Publisher was found. Waiting for Pong-Response for "
+                            + INTERVAL_WAITING_FOR_OTHER_PUBS_PONG / 1000 + " seconds. When it won't response "
+                            + "assume its functionality.", NotificationLevel.Debug);
+                        return false;
+                    }
+                    else
+                    {
+                        // if this code will be executed, there's an error in this class logic
+                        GuiLogging("Can't store Publisher in the DHT because the Entry was already occupied.", NotificationLevel.Error);
+                        return false;
+                    }
                 }
             }
             /* END: CHECKING WHETHER THERE HAS ALREADY EXIST ANOTHER PUBLISHER */
@@ -157,6 +190,12 @@ namespace Cryptool.Plugins.PeerToPeer
                 this.timerWaitingForAliveMsg.Dispose();
                 this.timerWaitingForAliveMsg = null;
             }
+            // Publisher-exchange extension - Arnie 2010.02.02
+            if (this.waitingForOtherPublishersPong != null)
+            {
+                this.waitingForOtherPublishersPong.Dispose();
+                this.waitingForOtherPublishersPong = null;
+            }
 
             GuiLogging("Deregister message-received-events", NotificationLevel.Debug);
             this.p2pControl.OnPayloadMessageReceived -= p2pControl_OnPayloadMessageReceived;
@@ -173,6 +212,12 @@ namespace Cryptool.Plugins.PeerToPeer
 
         protected virtual void p2pControl_OnSystemMessageReceived(PeerId sender, PubSubMessageType msgType)
         {
+            if (sender == ownPeerId)
+            {
+                GuiLogging("Received Message from OWN Peer... Strange stuff.", NotificationLevel.Debug);
+                return;
+            }
+
             switch (msgType)
             {
                 case PubSubMessageType.Register:
@@ -194,6 +239,11 @@ namespace Cryptool.Plugins.PeerToPeer
                     break;
                 case PubSubMessageType.Alive:
                 case PubSubMessageType.Pong:
+                    if (this.otherPublisherPeer != null && this.otherPublisherPeer == sender)
+                    {
+                        this.otherPublisherHadResponded = true;
+                        this.otherPublisherPeer = null;
+                    }
                     break;
                 case PubSubMessageType.Ping:
                     this.p2pControl.SendToPeer(PubSubMessageType.Pong, sender);
@@ -276,6 +326,33 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         #endregion 
+
+        // Publisher-exchange extension - Arnie 2010.02.02
+        /// <summary>
+        /// Callback function for waitingForOtherPublishersPong-object. Will be only executed, when a
+        /// different Publisher-ID was found in the DHT, to check if the "old" Publisher is still
+        /// alive!
+        /// </summary>
+        /// <param name="state"></param>
+        private void OnWaitingForOtherPublishersPong(object state)
+        {
+            if (this.otherPublisherHadResponded)
+            {
+                GuiLogging("Can't assume functionality of an alive Publishers. So starting this workspace isn't possible!", NotificationLevel.Error);
+            }
+            else
+            {
+                if (this.waitingForOtherPublishersPong != null)
+                {
+                    this.waitingForOtherPublishersPong.Dispose();
+                    this.waitingForOtherPublishersPong = null;
+                }
+                GuiLogging("First trial to assume old Publishers functionality.", NotificationLevel.Debug);
+                // we have to delete all OLD Publishers entries to assume its functionality
+                DHT_CommonManagement.DeleteAllPublishersEntries(ref this.p2pControl, this.topic);
+                Start(this.topic, this.aliveMessageInterval);
+            }
+        }
 
         // Only for testing the (De-)Serialization of SubscribersManagement
         public void TestSerialization()

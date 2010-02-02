@@ -10,6 +10,7 @@ namespace Cryptool.Plugins.PeerToPeer
     public static class DHT_CommonManagement
     {
         private static Encoding enc = Encoding.UTF8;
+        private static string PublishersTimeStamp = "PubTimeStamp";
         private static string AliveMsg = "AliveMsg";
         private static string EncryptedData = "EncryptedText";
         private static string InitializationVector = "InitializationVector";
@@ -156,6 +157,8 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             bool id = p2pControl.DHTremove(sTopicName);
             bool alive = p2pControl.DHTremove(sTopicName + AliveMsg);
+            bool timestamp = p2pControl.DHTremove(sTopicName + PublishersTimeStamp);
+            //if timestamp wasn't removed successfully, that's no problem!
             return (id && alive);
         }
 
@@ -171,5 +174,46 @@ namespace Cryptool.Plugins.PeerToPeer
             bool init = p2pControl.DHTremove(sTopicName + InitializationVector);
             return (encrypt && init);
         }
+
+        // new stuff - Arnie 2010.02.02
+        
+        ///// <summary>
+        ///// Sets or updates the TimeStamp for the actual Publisher
+        ///// </summary>
+        ///// <param name="p2pControl">necessary P2PControl to use DHT operation(s)</param>
+        ///// <param name="sTopicName">the topic name on which all Peers are registered</param>
+        ///// <returns>true, if storing succeeds, otherwise false</returns>
+        //public static bool SetPublishersTimeStamp(ref IP2PControl p2pControl, string sTopicName)
+        //{
+        //    byte[] timeStamp = enc.GetBytes(DateTime.Now.ToString());
+        //    bool store = p2pControl.DHTstore(sTopicName + PublishersTimeStamp, timeStamp);
+        //}
+
+        ///// <summary>
+        /////  Gets the TimeStamp for the actual Publisher, if it's stored in the DHT (when a Publisher
+        /////  is active, this value have to be occupied). Otherwise, when no Publisher is active, returns null.
+        /////  If the DHT value is occupied, but parsing to DateTime wasn't possible, an Exception will be thrown
+        ///// </summary>
+        ///// <param name="p2pControl">necessary P2PControl to use DHT operation(s)</param>
+        ///// <param name="sTopicName">the topic name on which all Peers are registered</param>
+        ///// <returns>DateTime, if DHT entry is occupied, otherwise false.</returns>
+        //public static DateTime GetPublishersTimeStamp(ref IP2PControl p2pControl, string sTopicName)
+        //{
+        //    DateTime retTimeStamp = null;
+        //    byte[] timeStamp = p2pControl.DHTload(sTopicName + PublishersTimeStamp);
+        //    //when timeStamp is null, DHT entry isn't occupied --> No Publisher is active at present
+        //    if (timeStamp != null)
+        //    {
+        //        string sTimeStamp = enc.GetString(timeStamp);
+        //        // if parsing isn't possible though DHT entry is occupied, throw an exception
+        //        if (!DateTime.TryParse(sTimeStamp, out retTimeStamp))
+        //        {
+        //            throw (new Exception("Parsing the DHT entry '" + sTopicName + PublishersTimeStamp 
+        //                + "' to DateTime wasn't possible. Value: '" + sTimeStamp + "'"));
+        //        }
+        //    }
+        //    return retTimeStamp;
+        //}
     }
 }
+
