@@ -13,11 +13,12 @@ namespace Cryptool.MD5Collider
 {
     [Author("Holger Pretzsch", "mail@holger-pretzsch.de", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo(false, "MD5Collider", "MD5 hash collider", "MD5Collider/DetailedDescription/Description.xaml", "MD5Collider/MD5Collider.png")]
-    [EncryptionType(EncryptionType.Classic)]
     class MD5Collider : ICryptographicHash
     {
         private MD5ColliderSettings settings = new MD5ColliderSettings();
         private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
+
+        IMD5ColliderAlgorithm collider = new StevensCollider();
 
         public event Cryptool.PluginBase.StatusChangedEventHandler OnPluginStatusChanged;
         public event Cryptool.PluginBase.GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
@@ -31,7 +32,7 @@ namespace Cryptool.MD5Collider
         public void PreExecution() { Dispose(); }
         public void PostExecution() { Dispose(); }
         public void Pause() { }
-        public void Stop() { }
+        public void Stop() { collider.Stop(); }
         public void Initialize() { }
 
         private byte[] outputData1;
@@ -112,8 +113,6 @@ namespace Cryptool.MD5Collider
                 return;
 
             ProgressChanged(0.5, 1.0);
-
-            IMD5ColliderAlgorithm collider = new StevensCollider();
 
             collider.RandomSeed = RandomSeed;
             collider.FindCollision();
