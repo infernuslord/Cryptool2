@@ -12,5 +12,7 @@ namespace Cryptool.MD5Collider.Algorithm
         byte[] RandomSeed { get; set; }
 
         void FindCollision();
+
+        void Stop();
     }
 }

@@ -1345,7 +1345,6 @@ namespace Cryptool.MD5Collider.Algorithm
                     }//Q20
                 }//Q10
             }//Q16Q17
-            return (-1);//kolize NEnalezena;
         }
         /*=========================================================*/
         int B2()
@@ -1698,5 +1697,15 @@ namespace Cryptool.MD5Collider.Algorithm
         }//B2
         /*=========================================================*/
 
+
+        #region IMD5ColliderAlgorithm Member
+
+
+        public void Stop()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }
