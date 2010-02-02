@@ -1129,7 +1129,7 @@ namespace Transposition
 
         public byte[] Decrypt(byte[] ciphertext, byte[] key)
         {
-            if (plugin.Input == null)
+            if (plugin.Input != ciphertext)
             {
                 plugin.Input = ciphertext;
             }
