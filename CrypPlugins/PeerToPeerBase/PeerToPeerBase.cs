@@ -164,9 +164,6 @@ namespace Cryptool.Plugins.PeerToPeer
             switch (linkManagerType)
             {
                 case P2PLinkManagerType.Snal:
-                    if (bsType == P2PBootstrapperType.LocalMachineBootstrapper)
-                        throw (new Exception("It's mindless to activate NAT traversal, but use the LocalMachineBootstrapper."));
-
                     LogToMonitor("Init LinkMgr: Using NAT Traversal stuff");
                     // NAT-Traversal stuff needs a different Snal-Version
                     this.linkmanager = new PeersAtPlay.P2PLink.SnalNG.Snal(new STAScheduler("crypt"));

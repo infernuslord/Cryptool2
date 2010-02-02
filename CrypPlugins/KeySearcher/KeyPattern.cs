@@ -20,10 +20,11 @@ using System.Linq;
 using System.Text;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Collections;
+using Cryptool.Plugins.PeerToPeer.Jobs;
 
 namespace KeySearcher
 {
-    public class KeyPattern
+    public class KeyPattern : IJobPart<KeyPattern>
     {
         private string pattern;
         internal ArrayList wildcardList;

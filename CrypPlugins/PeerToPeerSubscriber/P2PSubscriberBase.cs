@@ -115,6 +115,8 @@ namespace Cryptool.Plugins.PeerToPeer
             // Unfortunately you have to register this events every time, because this events will be deregistered, when
             // Publisher/Manager sends a Unregister/Stop-Message... There isn't any possibility to check,
             // whether the Events are already registered (if(dings != null) or anything else).
+            this.p2pControl.OnPayloadMessageReceived -= p2pControl_OnPayloadMessageReceived;
+            this.p2pControl.OnSystemMessageReceived -= p2pControl_OnSystemMessageReceived;
             this.p2pControl.OnPayloadMessageReceived += new P2PPayloadMessageReceived(p2pControl_OnPayloadMessageReceived);
             this.p2pControl.OnSystemMessageReceived += new P2PSystemMessageReceived(p2pControl_OnSystemMessageReceived);
 
@@ -257,7 +259,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         // registering isn't possible if no publisher has stored
-        // his ID in the DHT Entry with the Key TaskName
+        // its ID in the DHT Entry with the Key TaskName
         private void OnRegisteringNotPossible(object state)
         {
             Register();
@@ -333,6 +335,8 @@ namespace Cryptool.Plugins.PeerToPeer
                     timeoutForPublishersPong = new Timer(OnTimeoutPublishersPong, null, this.publisherReplyTimespan, this.publisherReplyTimespan);
                 }
             }
+            if (newPubId != actualPublisher)
+                Register();
         }
 
         /// <summary>

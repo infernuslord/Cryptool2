@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Collections;
+using Cryptool.Plugins.PeerToPeer.Jobs;
 
 namespace KeySearcher
 {
@@ -11,7 +12,7 @@ namespace KeySearcher
      * This class is able to split a KeyPattern into several disjunct parts, which are guaranteed to have equal size.
      * It tries to split the pattern in such a way, that the parts have nearly the given partsize.
      **/
-    public class KeyPatternPool
+    public class KeyPatternPool : IJobStack<KeyPattern>
     {
         private BigInteger partsize;
         private BigInteger counter = 0;
@@ -151,9 +152,9 @@ namespace KeySearcher
             return res;
         }
 
-        public BigInteger Count()
+        public long Count()
         {
-            return TotalAmount() - counter;
+            return (TotalAmount() - counter).LongValue();
         }
 
         public BigInteger TotalAmount()
