@@ -7,34 +7,33 @@ using System.Reflection;
 
 namespace Cryptool.Plugins.PeerToPeer.Jobs
 {
-    public class JobResult<JobType, JobResultType> 
-        where JobType : IJobPart<JobType> 
+    public class JobResult<JobResultType> : IJobResult<JobResultType>
     {
         #region Variables
 
-        private JobType job;
-        public JobType Job 
+        private int jobId;
+        public int JobId
         {
-            get { return this.job; }
-            private set{this.job = value;} 
+            get {  return this.jobId; }
+            set { this.jobId = value; }
         }
         private bool isIntermediateJobResult;
         public bool IsIntermediateResult 
         {
             get { return this.isIntermediateJobResult;}
-            private set { this.isIntermediateJobResult = value; }
+            set { this.isIntermediateJobResult = value; }
         }
         private TimeSpan processingTime;
         public TimeSpan ProcessingTime 
         {
             get { return this.processingTime;}
-            private set { this.processingTime = value; } 
+            set { this.processingTime = value; } 
         }
         private JobResultType result;
         public JobResultType Result 
         { 
             get{return this.result;}
-            private set { this.result = value; }
+            set { this.result = value; }
         }
 
         #endregion
@@ -42,23 +41,23 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
         /// <summary>
         /// Creates a new JobResult (this is an endresul!)
         /// </summary>
-        /// <param name="job">job for which you have a result</param>
+        /// <param name="jobId">jobId for which you have a result</param>
         /// <param name="result">result of the job (e.g. simple conclusion, list, complex data structure)</param>
         /// <param name="processingTime">Timespan between begin and end of processing the job</param>
-        public JobResult(JobType job, JobResultType result, TimeSpan processingTime)
-            :this(job,result,processingTime,false)
+        public JobResult(int jobId, JobResultType result, TimeSpan processingTime)
+            :this(jobId,result,processingTime,false)
         { } 
 
         /// <summary>
         /// Creates a new JobResult (you can choose if this is only an intermediate result or the endresult)
         /// </summary>
-        /// <param name="job">job for which you have a result</param>
+        /// <param name="jobId">jobId for which you have a result</param>
         /// <param name="result">result of the job (e.g. simple conclusion, list, complex data structure)</param>
         /// <param name="processingTime">Timespan between begin and end of processing the job</param>
         /// <param name="isIntermediateResult">Is this is only an intermediate result, set this parameter to true, otherwise choose false</param>
-        public JobResult(JobType job, JobResultType result, TimeSpan processingTime, bool isIntermediateResult)
+        public JobResult(int jobId, JobResultType result, TimeSpan processingTime, bool isIntermediateResult)
         {
-            this.Job = job;
+            this.JobId = jobId;
             this.Result = result;
             this.ProcessingTime = processingTime;
             this.IsIntermediateResult = isIntermediateResult;
@@ -66,16 +65,15 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
 
         #region Serialization methods
 
-        /* 1 Byte:  serialized Job length
-         * x Bytes: serialized Job data
-         * 1 Byte:  serialized Job Result length
+        /* 4 Bytes: serialized JobId
+         * 4 Bytes: serialized Job Result length
          * y Bytes: serialized Job Result data
          * 4 Bytes: isIntermedResult
          * 4 Bytes: procTime.Days
          * 4 Bytes: procTime.Hours
          * 4 Bytes: procTime.Minutes
          * 4 Bytes: procTime.Seconds
-         * 4 Byte:s procTime.Milliseconds */
+         * 4 Bytes: procTime.Milliseconds */
         /// <summary>
         /// Serializes the whole class, so you can recreate this instance elsewhere by dint of this byte[]
         /// </summary>
@@ -86,12 +84,9 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
             MemoryStream memStream = new MemoryStream();
             try
             {
-                /* Serialize job via Reflection */
-                //byte[] serializedJob = GetSerializationViaReflection(this.Job);
-                byte[] serializedJob = this.Job.Serialize();
-                byte[] serializedJobLen = BitConverter.GetBytes(serializedJob.Length);
-                memStream.Write(serializedJobLen, 0, serializedJobLen.Length);
-                memStream.Write(serializedJob, 0, serializedJob.Length);
+                /* Serialize jobId */
+                byte[] intJobId = BitConverter.GetBytes(this.JobId);
+                memStream.Write(intJobId, 0, intJobId.Length);
 
                 /* Serialize job result via Reflection */
                 byte[] serializedJobResult = GetSerializationViaReflection(this.Result);
@@ -139,18 +134,14 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
             MemoryStream memStream = new MemoryStream(serializedJobResult,false);
             try
             {
-                /* Deserialize Job data */
+                /* Deserialize JobId */
                 byte[] readInt = new byte[4];
                 memStream.Read(readInt, 0, readInt.Length);
-                int serializedDataLen = BitConverter.ToInt32(readInt,0);
-                byte[] serializedJob = new byte[serializedDataLen];
-                memStream.Read(serializedJob,0,serializedJob.Length);
-                //this.Job = (JobType)GetDeserializationViaReflection(serializedJob, this.Job);
-                this.Job = this.Job.Deserialize(serializedJob);
+                this.JobId = BitConverter.ToInt32(readInt,0);
 
                 /* Deserialize Job result data */
                 memStream.Read(readInt,0,readInt.Length);
-                serializedDataLen = BitConverter.ToInt32(readInt,0);
+                int serializedDataLen = BitConverter.ToInt32(readInt,0);
                 byte[] serializedJobResultByte = new byte[serializedDataLen];
                 memStream.Read(serializedJobResultByte, 0, serializedJobResultByte.Length);
                 this.Result = (JobResultType)GetDeserializationViaReflection(serializedJobResultByte, this.Result);

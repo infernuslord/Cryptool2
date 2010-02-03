@@ -225,7 +225,7 @@ namespace Cryptool.Plugins.PeerToPeer
         public int DispersePatterns()
         {
             int iCycle = 0;
-            int iFreePatternAmount = (int)this.leftKeyPatterns.Count().LongValue();
+            int iFreePatternAmount = (int)this.leftKeyPatterns.Count();
 
             // gets only the free workers, which had register at this manager
             List<PeerId> lstSubscribers = ((WorkersManagement)this.peerManagement).GetFreeWorkers();
@@ -266,7 +266,7 @@ namespace Cryptool.Plugins.PeerToPeer
 
             GetProgressInformation();
 
-            GuiLogging(iCycle.ToString() + " pattern(s) dispersed. Patterns left: " + this.leftKeyPatterns.Count().LongValue().ToString(), NotificationLevel.Info);
+            GuiLogging(iCycle.ToString() + " pattern(s) dispersed. Patterns left: " + this.leftKeyPatterns.Count().ToString(), NotificationLevel.Info);
             return iCycle;
         }
 
@@ -276,7 +276,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <returns>the percentual progress information of the whole job</returns>
         private double GetProgressInformation()
         {
-            double leftPatterns = (double)this.leftKeyPatterns.Count().LongValue();
+            double leftPatterns = (double)this.leftKeyPatterns.Count();
             double finishedPatterns = this.patternResults.Count;
             double patternsInProcess = this.allocatedPatterns.Count;
             double patternAmount = leftPatterns + finishedPatterns + patternsInProcess;
@@ -341,7 +341,7 @@ namespace Cryptool.Plugins.PeerToPeer
 
             /* BEGIN: Use new KeyPatternPool */
             this.leftKeyPatterns = new KeyPatternPool(keyPattern, this.KeyPatternPartSize);
-            GuiLogging("Enqueue " + this.leftKeyPatterns.Count().LongValue().ToString() + " KeyPattern-Parts to the JobList.", NotificationLevel.Debug);
+            GuiLogging("Enqueue " + this.leftKeyPatterns.Count().ToString() + " KeyPattern-Parts to the JobList.", NotificationLevel.Debug);
             /* END: Use new KeyPatternPool */
 
             /* BEGIN: Workaround till Count and Contains is fixed by S.Rech */
@@ -450,7 +450,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
         public int LeftPatterns 
         {
-            get { return (int)this.leftKeyPatterns.Count().LongValue(); } 
+            get { return (int)this.leftKeyPatterns.Count(); } 
         }
         public int FinishedPatterns 
         {
