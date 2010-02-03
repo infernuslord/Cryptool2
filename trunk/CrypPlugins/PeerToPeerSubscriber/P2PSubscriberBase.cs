@@ -305,6 +305,12 @@ namespace Cryptool.Plugins.PeerToPeer
                 actualPublisher = pid;
                 GuiLogging("First time received publishers ID.", NotificationLevel.Debug);
             }
+            //else if (actualPublisher != pid)
+            //{
+            //    GuiLogging("Publisher has been changed from ID '" + actualPublisher + "' to '" + pubId + "'", NotificationLevel.Debug);
+            //    SendMessage(pubId, PubSubMessageType.Register);
+            //    actualPublisher = pid;
+            //}
 
             GuiLogging("RECEIVED: Publishers' peer ID '" + pid + "', Alive-Msg-Interval: " + sendAliveMessageInterval / 1000 + " sec!", NotificationLevel.Debug);
 

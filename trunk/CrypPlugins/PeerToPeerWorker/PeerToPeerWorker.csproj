@@ -76,6 +76,10 @@
       <Project>{A7CD30E7-5381-40CF-BB78-268EC998CCB3}</Project>
       <Name>PeerToPeerBase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PeerToPeerJobs\PeerToPeerJobs.csproj">
+      <Project>{F1258427-AFDF-4DF7-ABF1-758A2325F505}</Project>
+      <Name>PeerToPeerJobs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PeerToPeerSubscriber\PeerToPeerSubscriber.csproj">
       <Project>{612FEE87-F51F-4BE6-81D1-F91EA4A5DD43}</Project>
       <Name>PeerToPeerSubscriber</Name>

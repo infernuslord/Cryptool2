@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IJobResult.cs" />
     <Compile Include="JobResult.cs" />
     <Compile Include="IJobStack.cs" />
     <Compile Include="IJobPart.cs" />
