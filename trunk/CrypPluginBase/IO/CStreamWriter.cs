@@ -31,13 +31,13 @@ namespace Cryptool.PluginBase.IO
     /// temporary file if the membuff exceeds a certain size. Please note that the buffer does not
     /// forget old data, therefore you can derive an arbitary number of stream readers at any time.
     /// 
-    /// You SHOULD Flush() the stream when you're writing large data amounts and expect the readers
+    /// <para>You SHOULD Flush() the stream when you're writing large data amounts and expect the readers
     /// to perform intermediate processing before writing has been finished.
     /// You MUST Close() the stream when you're finished with writing, otherwise the reader will block
-    /// and wait for more data infinitely.
+    /// and wait for more data infinitely.</para>
     /// 
-    /// You SHOULD Dispose() the stream when you're done using it (or use the C# "using" keyword) in
-    /// order to remove the temporary swapfile, however if you forget to, the GC will clean up for you.
+    /// <para>You SHOULD Dispose() the stream when you're done using it (or use the C# "using" keyword) in
+    /// order to remove the temporary swapfile, however if you forget to, the GC will clean up for you.</para>
     /// </public>
     public class CStreamWriter : Stream, IDisposable
     {
