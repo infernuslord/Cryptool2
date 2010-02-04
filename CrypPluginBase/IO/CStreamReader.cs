@@ -28,13 +28,15 @@ namespace Cryptool.PluginBase.IO
     /// Read from a CStream. Use POSIX Read() or more convenient ReadFully() to retrieve data
     /// from CStream.
     /// 
-    /// You MAY seek in the CStream to re-use the reader or skip data (beware of seeking too far:
-    /// will lead to EOF).
-    /// You SHOULD dispose the reader when you're done using it. If you don't, the GC will release
-    /// your resources.
-    /// You SHOULD NOT pass the same reader instance to other components. Concurrent access on
+    /// <para>You MAY seek in the CStream to re-use the reader or skip data (beware of seeking too far:
+    /// will lead to EOF).</para>
+    /// 
+    /// <para>You SHOULD dispose the reader when you're done using it. If you don't, the GC will release
+    /// your resources.</para>
+    /// 
+    /// <para>You SHOULD NOT pass the same reader instance to other components. Concurrent access on
     /// the same reader will lead to a probably unwanted behaviour. You MAY however use two different
-    /// readers on the same CStream. Each reader maintains its own state.
+    /// readers on the same CStream. Each reader maintains its own state.</para>
     /// </summary>
     public class CStreamReader : Stream, IDisposable
     {
