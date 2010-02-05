@@ -634,7 +634,7 @@ namespace Cryptool.NLFSR
                 //////////////////////////////////////////////////////
                 // compute NLFSR //////////////////////////////////////
                 //////////////////////////////////////////////////////
-                GuiLogMessage("Starting computation", NotificationLevel.Debug);
+                //GuiLogMessage("Starting computation", NotificationLevel.Debug);
                 
                 int i = 0;
                 
@@ -679,15 +679,15 @@ namespace Cryptool.NLFSR
                         //GuiLogMessage("tapPolynomial is: " + tapPolynomial, NotificationLevel.Info);
 
                         bool resultBool = true;
-                        //resultBool = EvaluateString(tapPolynomial);
-                        MathParser.Parser p = new MathParser.Parser();
+                        resultBool = EvaluateString(tapPolynomial);
+                        /*MathParser.Parser p = new MathParser.Parser();
                         if (p.Evaluate(tapPolynomial))
                         {
                             resultBool = Convert.ToBoolean(p.Result);
                         }
                         else
                             GuiLogMessage("Parsing of function failed.", NotificationLevel.Error);
-
+                        */
                         //GuiLogMessage("resultBool is: " + resultBool, NotificationLevel.Info);
                         if (resultBool) newBit = '1'; else newBit = '0';
 
@@ -797,8 +797,8 @@ namespace Cryptool.NLFSR
                     outputString = outputStringBuffer;
                     OnPropertyChanged("OutputString");
 
-                    GuiLogMessage("Complete!", NotificationLevel.Debug);
-                    GuiLogMessage("Time used: " + duration, NotificationLevel.Debug);
+                    //GuiLogMessage("Complete!", NotificationLevel.Debug);
+                    //GuiLogMessage("Time used: " + duration, NotificationLevel.Debug);
                 }
 
                 if (stop)
