@@ -570,7 +570,7 @@ namespace Cryptool.BooleanFunctionParser
                 if (externDataTwo != null && externDataTwo.Length != 0)
                 {
                     //char[] strInputVariableExtern = new char[externDataOne.Length];
-                    for (int i = externDataOne.Length - 1; i >= 0; i--)
+                    for (int i = externDataTwo.Length - 1; i >= 0; i--)
                     {
                         // get numeric values from bool inputs
                         //strInputVariableExtern[i] = externDataTwo[i] ? '1' : '0';
