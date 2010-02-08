@@ -280,7 +280,7 @@ namespace KeySearcher
 
             KeyPattern pattern = patterns[threadid];
 
-            bool useKeyblocks = true;
+            bool useKeyblocks = false;
 
             try
             {
@@ -297,10 +297,10 @@ namespace KeySearcher
                         {
                             maxThreadMutex.WaitOne();
                             if (maxThread == threadid && threadStack.Count != 0)
-                            {
-                                try
+                            {                                
+                                KeyPattern[] split = pattern.split();
+                                if (split != null)
                                 {
-                                    KeyPattern[] split = pattern.split();
                                     patterns[threadid] = split[0];
                                     pattern = split[0];
                                     ThreadStackElement elem = (ThreadStackElement)threadStack.Pop();
@@ -308,11 +308,7 @@ namespace KeySearcher
                                     elem.ev.Set();    //wake the other thread up                                    
                                     size = pattern.size();
                                     keysLeft[threadid] = size;
-                                }
-                                catch (Exception e)
-                                {
-                                    //pattern can't be split? who cares :)
-                                }
+                                }                            
                                 maxThread = -1;
                             }
                             maxThreadMutex.ReleaseMutex();
@@ -782,6 +778,12 @@ namespace KeySearcher
             if (settings.CoresUsed > 0)
             {
                 KeyPattern[] patterns2 = pattern.split();
+                if (patterns2 == null)
+                {
+                    patterns2 = new KeyPattern[1];
+                    patterns2[0] = pattern;
+                    return patterns2;
+                }
                 patterns[0] = patterns2[0];
                 patterns[1] = patterns2[1];
                 int p = 1;
@@ -797,6 +799,13 @@ namespace KeySearcher
                             maxPattern = i;
                         }
                     KeyPattern[] patterns3 = patterns[maxPattern].split();
+                    if (patterns3 == null)
+                    {
+                        patterns3 = new KeyPattern[p+1];
+                        for (int i = 0; i <= p; i++)
+                            patterns3[i] = patterns[i];
+                        return patterns3;
+                    }
                     patterns[maxPattern] = patterns3[0];
                     patterns[++p] = patterns3[1];
                     threads--;
