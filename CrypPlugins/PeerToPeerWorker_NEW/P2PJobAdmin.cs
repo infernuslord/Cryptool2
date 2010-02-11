@@ -192,7 +192,7 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             if (this.jobAdminBase != null && this.jobAdminBase.Started)
             {
-                this.jobAdminBase.StopWorkerControl(PubSubMessageType.Unregister);
+                this.jobAdminBase.StopWorkerControl(PubSubMessageType.Stop);
             }
         }
 
@@ -204,7 +204,7 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             if (this.jobAdminBase != null && this.jobAdminBase.Started)
             {
-                this.jobAdminBase.StopWorkerControl(PubSubMessageType.Unregister);
+                this.jobAdminBase.StopWorkerControl(PubSubMessageType.Stop);
             }
         }
         #endregion

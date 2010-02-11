@@ -53,9 +53,8 @@ namespace Cryptool.Plugins.PeerToPeer
 
         private void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (this.p2pPublisher == null || !this.p2pPublisher.Started)
+            if (this.p2pControl == null || this.p2pPublisher == null)
                 return;
-
 
             // storing settings for subscribers in the DHT, so they can load them there
             if (e.PropertyName == "SendAliveMessageInterval")
@@ -74,18 +73,27 @@ namespace Cryptool.Plugins.PeerToPeer
             }
             if (e.PropertyName == "BtnUnregister")
             {
-                this.p2pPublisher.Stop(PubSubMessageType.Unregister);
-                GuiLogMessage("Unregister button pressed, Publisher has stopped!", NotificationLevel.Info);
+                if (this.p2pPublisher.Started)
+                {
+                    this.p2pPublisher.Stop(PubSubMessageType.Unregister);
+                    GuiLogMessage("Unregister button pressed, Publisher has stopped!", NotificationLevel.Info);
+                }
             }
             if (e.PropertyName == "BtnRegister")
             {
-                this.p2pPublisher.Start(this.settings.TopicName, (long)this.settings.SendAliveMessageInterval);
-                GuiLogMessage("Register button pressed, Publisher has been started!", NotificationLevel.Info);
+                if (!this.p2pPublisher.Started)
+                {
+                    this.p2pPublisher.Start(this.settings.TopicName, (long)this.settings.SendAliveMessageInterval);
+                    GuiLogMessage("Register button pressed, Publisher has been started!", NotificationLevel.Info);
+                }
             }
             if (e.PropertyName == "BtnSolutionFound")
             {
-                this.p2pPublisher.Stop(PubSubMessageType.Solution);
-                GuiLogMessage("TEST: Emulate Solution-Found-message", NotificationLevel.Info);
+                if (this.p2pPublisher.Started)
+                {
+                    this.p2pPublisher.Stop(PubSubMessageType.Solution);
+                    GuiLogMessage("TEST: Emulate Solution-Found-message", NotificationLevel.Info);
+                }
             }
             if (e.PropertyName == "BtnSerDeser")
             {

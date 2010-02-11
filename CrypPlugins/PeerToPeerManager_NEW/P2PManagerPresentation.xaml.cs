@@ -26,9 +26,56 @@ namespace Cryptool.Plugins.PeerToPeer
         public P2PManagerPresentation()
         {
             InitializeComponent();
-            SizeChanged += new SizeChangedEventHandler(P2PManagerPresentation_SizeChanged);
+            this.SizeChanged += new SizeChangedEventHandler(P2PManagerPresentation_SizeChanged);
             this.DataContext = entries;
-            this.LayoutUpdated += new EventHandler(P2PManagerPresentation_LayoutUpdated);
+            // when you uncomment this line, you burn 70% of the whole CPU time for Resizing this view...
+            //this.LayoutUpdated += new EventHandler(P2PManagerPresentation_LayoutUpdated);
+            this.Expander_JobStatus.Expanded += new RoutedEventHandler(Expander_JobStatus_Expanded);
+            this.Expander_List.Expanded += new RoutedEventHandler(Expander_List_Expanded);
+            this.Expander_WorkerInfo.Expanded += new RoutedEventHandler(Expander_WorkerInfo_Expanded);
+            //this.ListView.DataContextChanged += new DependencyPropertyChangedEventHandler(ListView_DataContextChanged);
+            //this.ListView.SizeChanged += new SizeChangedEventHandler(ListView_SizeChanged);
+            this.ListView.SourceUpdated += new EventHandler<DataTransferEventArgs>(ListView_SourceUpdated);
+        }
+
+        void Grid_LayoutUpdated(object sender, EventArgs e)
+        {
+            FunnyResize();
+        }
+
+        void Canvas_LayoutUpdated(object sender, EventArgs e)
+        {
+            FunnyResize();
+        }
+
+        void ListView_SourceUpdated(object sender, DataTransferEventArgs e)
+        {
+            FunnyResize();
+        }
+
+        void ListView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            FunnyResize();
+        }
+
+        void ListView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            FunnyResize();
+        }
+
+        void Expander_WorkerInfo_Expanded(object sender, RoutedEventArgs e)
+        {
+            FunnyResize();
+        }
+
+        void Expander_List_Expanded(object sender, RoutedEventArgs e)
+        {
+            FunnyResize();
+        }
+
+        void Expander_JobStatus_Expanded(object sender, RoutedEventArgs e)
+        {
+            FunnyResize();
         }
 
         void P2PManagerPresentation_LayoutUpdated(object sender, EventArgs e)

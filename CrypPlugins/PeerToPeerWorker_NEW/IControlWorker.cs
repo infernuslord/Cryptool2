@@ -36,10 +36,10 @@ namespace Cryptool.PluginBase.Control
 
         /// <summary>
         /// tries to deserialize byte representation of a job. If this is possible,
-        /// JobAccepted event will be thrown, otherwise JobDeclined event will be thrown
+        /// JobAccepted event will be thrown, otherwise JobDeclined event will be thrown.
+        /// Catch OnProcessingStarted-Event to get result of this operation!
         /// </summary>
         /// <param name="job">byte representation of a job</param>
-        /// <returns>true, if deserialization was possible and jobType was accepted, otherwise false</returns>
         bool StartProcessing(byte[] job, out BigInteger jobId);
         void StopProcessing();
     }
