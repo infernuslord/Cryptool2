@@ -24,8 +24,8 @@ using Cryptool.Plugins.PeerToPeer.Jobs;
 
 namespace KeySearcher
 {
-    public class KeyPattern : IJobPart<KeyPattern>
-    {
+    public class KeyPattern
+    {       
         private string pattern;
         internal ArrayList wildcardList;
 
@@ -381,6 +381,18 @@ namespace KeySearcher
          * GUILOGMESSAGE AUSGEBEN ZU KÖNNEN ;-)
          */
 
+        // Added by Arnold - 2010.02.04
+        public KeyPattern(byte[] serializedPattern)
+        {
+            KeyPattern deserializedPattern = Deserialize(serializedPattern);
+            // set deserialized Pattern to actual pattern
+            this.pattern = deserializedPattern.pattern;
+            this.WildcardKey = deserializedPattern.WildcardKey;
+            //this.wildcardList = deserializedPattern.wildcardList;
+            if (deserializedPattern == null)
+                throw new Exception("Invalid byte[] representation of KeyPattern!");
+        }
+
         //added by Christian Arnold - 2009.12.02
         /// <summary>
         /// returns type, key and pattern. If you want to get only the pattern for processing use GetPattern-method!
@@ -465,10 +477,10 @@ namespace KeySearcher
             int iPatternLen = serializedPattern[iWildCardLen + 1];
             pattern_temp = encoder.GetString(serializedPattern, iWildCardLen + 2, iPatternLen);
 
+            keyPatternToReturn = new KeyPattern(pattern_temp);
             // test extracted pattern and wildcardKey!
-            if (testWildcardKey(wildcardKey_temp))
+            if (keyPatternToReturn.testWildcardKey(wildcardKey_temp))
             {
-                keyPatternToReturn = new KeyPattern(pattern_temp);
                 keyPatternToReturn.WildcardKey = wildcardKey_temp;
                 return keyPatternToReturn;
             }

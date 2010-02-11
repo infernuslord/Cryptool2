@@ -47,14 +47,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IDistributableJob.cs" />
     <Compile Include="IJobResult.cs" />
+    <Compile Include="JobMessages.cs" />
+    <Compile Include="JobPart.cs" />
     <Compile Include="JobResult.cs" />
-    <Compile Include="IJobStack.cs" />
     <Compile Include="IJobPart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="All3Classes.cd" />
+    <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
+      <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
+      <Name>CrypPluginBase</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cdJobClasses.cd" />
+    <None Include="cdJobMessage.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

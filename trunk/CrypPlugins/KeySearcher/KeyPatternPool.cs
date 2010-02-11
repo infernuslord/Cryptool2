@@ -12,7 +12,7 @@ namespace KeySearcher
      * This class is able to split a KeyPattern into several disjunct parts, which are guaranteed to have equal size.
      * It tries to split the pattern in such a way, that the parts have nearly the given partsize.
      **/
-    public class KeyPatternPool : IJobStack<KeyPattern>
+    public class KeyPatternPool
     {
         private BigInteger partsize;
         private BigInteger counter = 0;
@@ -60,6 +60,13 @@ namespace KeySearcher
                     return true;
             }
             return false;
+        }
+
+        // added by Arnie - 2010.02.04
+        public bool Contains(byte[] serializedJob)
+        {
+            KeyPattern deserializedPattern = new KeyPattern(serializedJob);
+            return Contains(deserializedPattern);
         }
 
         public bool Contains(KeyPattern pattern)
