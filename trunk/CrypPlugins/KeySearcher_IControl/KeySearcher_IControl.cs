@@ -151,7 +151,7 @@ namespace Cryptool.Plugins.KeySearcher_IControl
 
         public bool StartProcessing(byte[] job, out BigInteger jobId)
         {
-            jobId = 0; //out parameter
+            jobId = null; //out parameter
             if (job != null)
             {
                 KeyPatternJobPart jobPart = new KeyPatternJobPart(job);

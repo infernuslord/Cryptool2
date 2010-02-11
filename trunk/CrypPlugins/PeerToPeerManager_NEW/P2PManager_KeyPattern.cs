@@ -276,32 +276,33 @@ namespace Cryptool.Plugins.PeerToPeer
                 }
             }
 
-            if (e.PropertyName == "TopicName")
-            {
-                GuiLogMessage("Topic Name has changed, so all subscribers must reconfirm registering!", NotificationLevel.Warning);
-                // stop active publisher and tell all subscribers that topic name isn't valid anymore
-                Stop();
-                //this.p2pManager.Stop(PubSubMessageType.Unregister);
-                // start publisher for the changed topic
-                process(this.EncryptionControl);
-                //this.p2pManager.Start(this.settings.TopicName, (long)this.settings.SendAliveMessageInterval);
-            }
+            if (this.p2pControl == null)
+                return;
             if (e.PropertyName == "BtnUnregister")
             {
-                Stop();
-                //this.p2pManager.Stop(PubSubMessageType.Unregister);
-                GuiLogMessage("Unregister button pressed, Publisher has stopped!", NotificationLevel.Info);
+                if (this.p2pManager != null && this.p2pManager.Started)
+                {
+                    Stop();
+                    //this.p2pManager.Stop(PubSubMessageType.Unregister);
+                    GuiLogMessage("Unregister button pressed, Publisher has stopped!", NotificationLevel.Info);
+                }
             }
             if (e.PropertyName == "BtnRegister")
             {
-                this.process(this.EncryptionControl);
-                GuiLogMessage("Register button pressed, Publisher has been started!", NotificationLevel.Info);
+                if (this.p2pManager == null || !this.p2pManager.Started)
+                {
+                    this.process(this.EncryptionControl);
+                    GuiLogMessage("Register button pressed, Publisher has been started!", NotificationLevel.Info);
+                }
             }
             if (e.PropertyName == "BtnSolutionFound")
             {
-                Stop();
-                //this.p2pManager.Stop(PubSubMessageType.Solution);
-                GuiLogMessage("TEST: Emulate Solution-Found-message", NotificationLevel.Info);
+                if (this.p2pManager != null && this.p2pManager.Started)
+                {
+                    Stop();
+                    //this.p2pManager.Stop(PubSubMessageType.Solution);
+                    GuiLogMessage("TEST: Emulate Solution-Found-message", NotificationLevel.Info);
+                }
             }
         }
 
@@ -332,6 +333,15 @@ namespace Cryptool.Plugins.PeerToPeer
             {
                 this.p2pManager.Stop(PubSubMessageType.Unregister);
                 this.settings.MngStatusChanged(P2PManager_KeyPatternSettings.MngStatus.Neutral);
+                this.p2pManager.OnGuiMessage -= p2pManager_OnGuiMessage;
+                this.p2pManager.OnProcessProgress -= p2pManager_OnProcessProgress;
+                this.p2pManager.OnNewJobAllocated -= p2pManager_OnNewJobAllocated;
+                this.p2pManager.OnNoMoreJobsLeft -= p2pManager_OnNoMoreJobsLeft;
+                this.p2pManager.OnResultReceived -= p2pManager_OnResultReceived;
+                // set Manager to null, so after restarting the Workspace,
+                // a new Distributable stop will be initialized with (maybe)
+                // changed settings
+                this.p2pManager = null;
             }
         }
 
@@ -391,9 +401,9 @@ namespace Cryptool.Plugins.PeerToPeer
             {
                 byte[] byteEncryptedData = null;
                 CryptoolStream newEncryptedData = new CryptoolStream();
-                newEncryptedData.OpenRead(this.DecryptedData.FileName);
-                if (newEncryptedData.CanRead)
+                try
                 {
+                    newEncryptedData.OpenRead(this.DecryptedData.FileName);
                     // Convert CryptoolStream to an byte Array and store it in the DHT
                     if (newEncryptedData.Length > Int32.MaxValue)
                         throw (new Exception("Encrypted Data are too long for this PlugIn. The maximum size of Data is " + Int32.MaxValue + "!"));
@@ -402,9 +412,16 @@ namespace Cryptool.Plugins.PeerToPeer
                     if (k < byteEncryptedData.Length)
                         throw (new Exception("Read Data are shorter than byteArrayLen"));
                 }
-                else
-                    throw (new Exception("Fatal error while reading the CryptoolStream."));
-
+                catch (Exception ex)
+                {
+                    throw (new Exception("Fatal error while reading the CryptoolStream. Exception: " + ex.ToString()));
+                }
+                finally
+                {
+                    newEncryptedData.Close();
+                    newEncryptedData.Dispose();
+                }
+                             
                 string pattern = this.encryptionControl.getKeyPattern();
                 KeyPattern kp = new KeyPattern(pattern);
                 if (kp.testWildcardKey(this.settings.Key))
@@ -416,7 +433,6 @@ namespace Cryptool.Plugins.PeerToPeer
                     GuiLogMessage("The Key Pattern in the settings isn't valid for the given Encryption!", NotificationLevel.Error);
                     return;
                 }
-
 
                 // create a new DistributableJob instance
                 distributableKeyPatternJob = new DistributableKeyPatternJob
@@ -433,7 +449,6 @@ namespace Cryptool.Plugins.PeerToPeer
             this.p2pManager.StartManager(this.settings.TopicName, this.settings.SendAliveMessageInterval * 1000);
 
             this.settings.MngStatusChanged(P2PManager_KeyPatternSettings.MngStatus.Working);
-            /*End Testspace*/
         }
 
         void p2pManager_OnResultReceived(BigInteger jobId)

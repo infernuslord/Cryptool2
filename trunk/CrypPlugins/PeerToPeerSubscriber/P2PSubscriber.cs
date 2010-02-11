@@ -184,7 +184,7 @@ namespace Cryptool.Plugins.PeerToPeer
         public void Stop()
         {
             if(this.p2pSubscriber != null)
-                this.p2pSubscriber.Stop(PubSubMessageType.Unregister);
+                this.p2pSubscriber.Stop(PubSubMessageType.Stop);
         }
 
         public void Initialize()
