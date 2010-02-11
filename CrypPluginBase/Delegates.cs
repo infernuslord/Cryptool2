@@ -17,6 +17,7 @@
 using System;
 using Cryptool.PluginBase.Editor;
 using Cryptool.PluginBase.Control;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.PluginBase
 {
@@ -83,5 +84,21 @@ namespace Cryptool.PluginBase
   #region master-slave delegates
   public delegate void KeyPatternChanged();
   public delegate void IControlStatusChangedEventHandler(IControl sender, bool readyForExecution);
+
+  #region Delegates for Manager-/Worker-Infrastructure
+
+  /// <summary>
+    /// P2PWorker-Control delegate: will be thrown, when the actual job is successfully processed
+    /// </summary>
+    /// <param name="result"></param>
+  public delegate void ProcessingSuccessfullyEnded(BigInteger jobId, byte[] result);
+    /// <summary>
+    /// P2PWorker-Control delegate: will be thrown, when processing was canceled by the user or due to an error
+    /// </summary>
+    /// <param name="result"></param>
+  public delegate void ProcessingCanceled(byte[] result);
+  public delegate void InfoText(string sText, NotificationLevel notLevel);
+
+  #endregion
   #endregion
 }

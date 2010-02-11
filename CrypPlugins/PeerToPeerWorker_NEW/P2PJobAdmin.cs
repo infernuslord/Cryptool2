@@ -1,4 +1,4 @@
-﻿/* Copyright 2009 Team CrypTool (Christian Arnold), Uni Duisburg-Essen
+﻿/* Copyright 2010 Team CrypTool (Christian Arnold), Uni Duisburg-Essen
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -23,8 +23,7 @@ using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Control;
 using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
-using Cryptool.Plugins.KeySearcher_IControl;
-using KeySearcher;
+using Cryptool.Plugins.PeerToPeer.Jobs;
 
 namespace Cryptool.Plugins.PeerToPeer
 {
@@ -32,18 +31,18 @@ namespace Cryptool.Plugins.PeerToPeer
     /// This PlugIn only works, when its connected with a P2P_Peer object.
     /// </summary>
     [Author("Christian Arnold", "arnold@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(true, "P2P_Worker", "Creates a new Working-Peer", "", "PeerToPeerWorker/worker_medium_neutral.png", "PeerToPeerWorker/worker_medium_working.png", "PeerToPeerWorker/worker_medium_finished.png")]
-    public class P2PWorker : IInput
+    [PluginInfo(true, "P2P_JobAdmin", "Creates a new Job-Administration-Peer, which receives and forwards jobs ans jobresults", "", "PeerToPeerJobAdmin/worker_medium_neutral.png", "PeerToPeerJobAdmin/worker_medium_working.png", "PeerToPeerJobAdmin/worker_medium_finished.png")]
+    public class P2PJobAdmin : IInput
     {
-        private P2PWorkerSettings settings;
+        private P2PJobAdminBase jobAdminBase;
+        private P2PJobAdminSettings settings;
+        private IControlWorker workerControl;
         private IP2PControl p2pControl;
-        private IControlKeySearcher keySearcherControl;
-        private P2PWorkerBase p2pWorker;
 
         #region Constructor and setting stuff
-        public P2PWorker()
+        public P2PJobAdmin()
         {
-            this.settings = new P2PWorkerSettings(this);
+            this.settings = new P2PJobAdminSettings();
             this.settings.PropertyChanged += new PropertyChangedEventHandler(settings_PropertyChanged);
             this.settings.TaskPaneAttributeChanged += new TaskPaneAttributeChangedHandler(settings_TaskPaneAttributeChanged);
             this.settings.OnPluginStatusChanged += new StatusChangedEventHandler(settings_OnPluginStatusChanged);
@@ -64,31 +63,31 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             if (e.PropertyName == "BtnUnregister")
             {
-                if (this.p2pWorker != null)
+                if (this.jobAdminBase.Started)
                 {
-                    this.p2pWorker.Stop(PubSubMessageType.Unregister);
+                    this.jobAdminBase.StopWorkerControl(PubSubMessageType.Unregister);
                     GuiLogMessage("Worker unregistered from Publisher!", NotificationLevel.Info);
                 }
                 else
                 {
-                    GuiLogMessage("Manager isn't initialized, so this action isn't possible.", NotificationLevel.Info);
+                    GuiLogMessage("Worker isn't started, so this action isn't possible.", NotificationLevel.Info);
                 }
             }
             if (e.PropertyName == "BtnRegister")
             {
-                RegisterSubscriber();
+                this.jobAdminBase.StartWorkerControl(this.settings.TopicName, this.settings.CheckPublishersAvailability * 1000, this.settings.PublishersReplyTimespan * 1000);
                 GuiLogMessage("Worker registers with Publisher!", NotificationLevel.Info);
             }
             if (e.PropertyName == "BtnSolutionFound")
             {
-                if (this.p2pWorker != null)
+                if (this.jobAdminBase.Started)
                 {
-                    this.p2pWorker.SolutionFound(new byte[]{0});
+                    this.jobAdminBase.SolutionFound(new byte[] { 0 });
                     GuiLogMessage("Solution found message sent to Manager.", NotificationLevel.Info);
                 }
                 else
                 {
-                    GuiLogMessage("Manager isn't initialized, so this action isn't possible.", NotificationLevel.Info);
+                    GuiLogMessage("Worker isn't initialized, so this action isn't possible.", NotificationLevel.Info);
                 }
             }
         }
@@ -96,36 +95,18 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region In and Output
 
-        [PropertyInfo(Direction.ControlMaster, "KeySearcher Master", "Connect the KeySearcher-PlugIn", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public IControlKeySearcher KeySearcherControl
+        [PropertyInfo(Direction.ControlMaster, "Working Master", "Connect a WorkingMaster-PlugIn", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public IControlWorker WorkerControl
         {
             get
             {
-                return this.keySearcherControl;
+                return this.workerControl;
             }
             set
             {
-                if (this.keySearcherControl != null)
-                {
-                    this.keySearcherControl.OnStatusChanged -= KeySearcherControl_OnStatusChanged;
-                }
-                if (value != null)
-                {
-                    this.keySearcherControl = (KeySearcherMaster)value;
-                    this.keySearcherControl.OnStatusChanged +=new IControlStatusChangedEventHandler(KeySearcherControl_OnStatusChanged);
-                    OnPropertyChanged("KeySearcherControl");
-                }
-                else
-                {
-                    this.keySearcherControl = null;
-                }
+                this.workerControl = value;
+                OnPropertyChanged("WorkerControl");
             }
-        }
-
-        private void KeySearcherControl_OnStatusChanged(IControl sender, bool readyForExecution)
-        {
-            if (readyForExecution)
-                GuiLogMessage("KeySearcherControl_OnStatusChanged thrown, readyForExecution = true",NotificationLevel.Info);
         }
 
         /// <summary>
@@ -178,7 +159,7 @@ namespace Cryptool.Plugins.PeerToPeer
 
         public ISettings Settings
         {
-            set { this.settings = (P2PWorkerSettings)value; }
+            set { this.settings = (P2PJobAdminSettings)value; }
             get { return this.settings; }
         }
 
@@ -209,8 +190,10 @@ namespace Cryptool.Plugins.PeerToPeer
 
         public void Stop()
         {
-            if(this.p2pWorker != null)
-                this.p2pWorker.Stop(PubSubMessageType.Unregister);
+            if (this.jobAdminBase != null && this.jobAdminBase.Started)
+            {
+                this.jobAdminBase.StopWorkerControl(PubSubMessageType.Unregister);
+            }
         }
 
         public void Initialize()
@@ -219,6 +202,10 @@ namespace Cryptool.Plugins.PeerToPeer
 
         public void Dispose()
         {
+            if (this.jobAdminBase != null && this.jobAdminBase.Started)
+            {
+                this.jobAdminBase.StopWorkerControl(PubSubMessageType.Unregister);
+            }
         }
         #endregion
 
@@ -230,9 +217,9 @@ namespace Cryptool.Plugins.PeerToPeer
                 GuiLogMessage("No P2P_Peer connected with this PlugIn!", NotificationLevel.Error);
                 return;
             }
-            if (this.settings.TopicName != null)
+            if (this.settings.TopicName != null && this.settings.PublishersReplyTimespan > 0 && this.settings.CheckPublishersAvailability > 0)
             {
-                RegisterSubscriber();
+                StartJobAdmin();
             }
             else
             {
@@ -240,61 +227,30 @@ namespace Cryptool.Plugins.PeerToPeer
             }
         }
 
-        private void RegisterSubscriber()
-        {
-            if (this.p2pWorker == null)
-            {
-                this.p2pWorker = new P2PWorkerBase(this.P2PControl, this.KeySearcherControl, this.settings.TopicName);
-                this.p2pWorker.OnGuiMessage += new P2PWorkerBase.GuiMessage(p2pWorker_OnGuiMessage);
-                this.p2pWorker.OnKeyPatternReceived += new P2PWorkerBase.KeyPatternReceived(p2pWorker_OnKeyPatternReceived);
-                this.p2pWorker.OnFinishedBruteforcingThePattern += new P2PWorkerBase.FinishedBruteforcingThePattern(p2pWorker_OnFinishedBruteforcingThePattern);
-                this.p2pWorker.OnReceivedStopMessageFromPublisher += new P2PSubscriberBase.ReceivedStopFromPublisher(p2pWorker_OnReceivedStopMessageFromPublisher);
-
-                this.p2pWorker.Start(this.settings.TopicName, (long)(this.settings.CheckPublishersAvailability * 1000),
-                    (long)(this.settings.PublishersReplyTimespan * 1000));
-            }
-            else
-            {
-                this.p2pWorker.Start(this.settings.TopicName, (long)(this.settings.CheckPublishersAvailability * 1000),
-                    (long)(this.settings.PublishersReplyTimespan * 1000));
-            }
-        }
-
-        #region Handle Worker/Subscriber Events
-
-        // Only three enum-Types valid: Stop, Unregister and Solution!
-        void p2pWorker_OnReceivedStopMessageFromPublisher(PubSubMessageType stopType, string sData)
-        {
-            switch (stopType)
-            {
-                case PubSubMessageType.Stop:
-                case PubSubMessageType.Unregister:
-                    this.settings.WorkerStatusChanged(P2PWorkerSettings.WorkerStatus.Neutral);
-                    break;
-                case PubSubMessageType.Solution:
-                    this.settings.WorkerStatusChanged(P2PWorkerSettings.WorkerStatus.Finished);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        void p2pWorker_OnFinishedBruteforcingThePattern(KeyPattern pattern)
-        {
-            this.settings.WorkerStatusChanged(P2PWorkerSettings.WorkerStatus.Finished);
-        }
-
-        void p2pWorker_OnKeyPatternReceived(KeyPattern pattern)
-        {
-            this.settings.WorkerStatusChanged(P2PWorkerSettings.WorkerStatus.Working);
-        }
-
-        void p2pWorker_OnGuiMessage(string sData, NotificationLevel notificationLevel)
+        void jobAdminBase_OnGuiMessage(string sData, NotificationLevel notificationLevel)
         {
             GuiLogMessage(sData, notificationLevel);
         }
 
-        #endregion
+        void jobAdminBase_OnWorkerStopped()
+        {
+            this.settings.WorkerStatusChanged(P2PJobAdminSettings.WorkerStatus.Neutral);            
+        }
+
+        void jobAdminBase_OnSuccessfullyEnded()
+        {
+            this.settings.WorkerStatusChanged(P2PJobAdminSettings.WorkerStatus.Finished);
+        }
+
+        void jobAdminBase_OnStartWorking()
+        {
+            this.settings.WorkerStatusChanged(P2PJobAdminSettings.WorkerStatus.Working);
+        }
+
+        void jobAdminBase_OnCanceledWorking()
+        {
+            this.settings.WorkerStatusChanged(P2PJobAdminSettings.WorkerStatus.Neutral);
+        }
 
         #region INotifyPropertyChanged Members
 
@@ -318,5 +274,37 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         #endregion
+
+        public void StartJobAdmin()
+        {
+            if(this.settings.TopicName == null || this.settings.CheckPublishersAvailability <= 0 || this.settings.PublishersReplyTimespan <= 0)
+            {
+                GuiLogMessage("Please set all settings before you want to start the P2PJobAdmin",NotificationLevel.Warning);
+                return;
+            }
+            if (this.P2PControl == null || this.WorkerControl == null)
+            {
+                GuiLogMessage("Starting P2PJobAdmin isn't possible while P2PPeer and/or WorkerControl isn't connected with this PlugIn.", NotificationLevel.Error);
+                return;
+            }
+            if (this.jobAdminBase == null)
+            {
+                this.jobAdminBase = new P2PJobAdminBase(this.P2PControl, this.WorkerControl);
+                this.jobAdminBase.OnGuiMessage += new P2PSubscriberBase.GuiMessage(jobAdminBase_OnGuiMessage);
+                this.jobAdminBase.OnStartWorking += new P2PJobAdminBase.StartWorking(jobAdminBase_OnStartWorking);
+                this.jobAdminBase.OnSuccessfullyEnded += new P2PJobAdminBase.SuccessfullyEnded(jobAdminBase_OnSuccessfullyEnded);
+                this.jobAdminBase.OnCanceledWorking += new P2PJobAdminBase.CanceledWorking(jobAdminBase_OnCanceledWorking);
+                this.jobAdminBase.OnWorkerStopped += new P2PJobAdminBase.WorkerStopped(jobAdminBase_OnWorkerStopped);
+            }
+            if (!this.jobAdminBase.Started)
+            {
+                this.jobAdminBase.StartWorkerControl(this.settings.TopicName, this.settings.CheckPublishersAvailability * 1000,
+                    this.settings.PublishersReplyTimespan * 1000);
+            }
+            else
+            {
+                GuiLogMessage("P2PJobAdmin is already started.", NotificationLevel.Info);
+            }
+        }
     }
 }

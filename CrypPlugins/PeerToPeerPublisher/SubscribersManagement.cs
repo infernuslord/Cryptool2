@@ -56,6 +56,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <returns>true if subscriber wasn't in List and is added, otherwise false</returns>
         public virtual bool Add(PeerId subscriberId)
         {
+            bool retValue = false;
             if (!this.checkList.ContainsKey(subscriberId))
             {
                 this.dateTimeNow = DateTime.Now;
@@ -63,11 +64,10 @@ namespace Cryptool.Plugins.PeerToPeer
                 lock (this.checkList)
                 {
                     this.checkList.Add(subscriberId, this.dateTimeNow);
+                    retValue = true;
                 }
-                return true;
             }
-            else
-                return false;
+            return retValue;
 
         }
 

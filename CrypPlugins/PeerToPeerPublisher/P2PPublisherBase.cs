@@ -82,7 +82,7 @@ namespace Cryptool.Plugins.PeerToPeer
 
             /* BEGIN: CHECKING WHETHER THERE HAS ALREADY EXIST ANOTHER PUBLISHER */
             this.topic = sTopic;
-            this.aliveMessageInterval = aliveMessageInterval * 1000;
+            this.aliveMessageInterval = aliveMessageInterval;
             AssignManagement(this.aliveMessageInterval);
 
             // publish own PeerID to the DHT Entry with the key "TaskName", so every subscriber
@@ -229,8 +229,6 @@ namespace Cryptool.Plugins.PeerToPeer
                     else
                     {
                         GuiLogging("ALREADY REGISTERED peer with ID " + sender, NotificationLevel.Info);
-                        // only for testing reasons
-                        this.p2pControl.SendToPeer(PubSubMessageType.RegisteringAccepted, sender);
                     }
                     break;
                 case PubSubMessageType.Unregister:

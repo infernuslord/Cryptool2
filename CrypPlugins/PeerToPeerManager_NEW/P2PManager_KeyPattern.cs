@@ -1,4 +1,4 @@
-﻿/* Copyright 2009 Team CrypTool (Christian Arnold), Uni Duisburg-Essen
+﻿/* Copyright 2010 Team CrypTool (Christian Arnold), Uni Duisburg-Essen
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ using System.ComponentModel;
 using KeySearcher;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using Cryptool.Plugins.PeerToPeer.Jobs;
 
 namespace Cryptool.Plugins.PeerToPeer
 {
@@ -33,11 +34,11 @@ namespace Cryptool.Plugins.PeerToPeer
     /// This PlugIn only works, when its connected with a P2P_Peer object.
     /// </summary>
     [Author("Christian Arnold", "arnold@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "P2P_Manager", "Creates a new Manager-Peer", "", "PeerToPeerManager/manager_medium_neutral.png", "PeerToPeerManager/manager_medium_working.png", "PeerToPeerManager/manager_medium_finished.png")]
-    public class P2PManager : IInput
+    [PluginInfo(false, "P2P_Manager_KeyPattern", "Creates a new Manager-Peer for distributable KeyPattern-Jobs", "", "PeerToPeerManager_NEW/manager_medium_neutral.png", "PeerToPeerManager_NEW/manager_medium_working.png", "PeerToPeerManager_NEW/manager_medium_finished.png")]
+    public class P2PManager_KeyPattern : IInput
     {
-        private P2PManagerBase p2pManager;
-        private P2PManagerSettings settings;
+        private P2PManagerBase_NEW p2pManager;
+        private P2PManager_KeyPatternSettings settings;
         // IInput
         private CryptoolStream decryptedData;
         private byte[] initVector;
@@ -62,26 +63,26 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region In and Output
 
-        [PropertyInfo(Direction.InputData, "Encrypted Data","Encrypted data out of an Encryption PlugIn","",true,false,DisplayLevel.Beginner,QuickWatchFormat.Hex,"")]
+        [PropertyInfo(Direction.InputData, "Encrypted Data", "Encrypted data out of an Encryption PlugIn", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, "")]
         public CryptoolStream DecryptedData
         {
-            get{ return this.decryptedData; }
+            get { return this.decryptedData; }
             set
-            { 
-                if(value != this.decryptedData)
+            {
+                if (value != this.decryptedData)
                 {
                     this.decryptedData = value;
                 }
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Initialization Vector","Initialization vector with which the data were encrypted","",DisplayLevel.Beginner)]
-        public byte[] InitVector 
-        { 
-            get{ return this.initVector;}
+        [PropertyInfo(Direction.InputData, "Initialization Vector", "Initialization vector with which the data were encrypted", "", DisplayLevel.Beginner)]
+        public byte[] InitVector
+        {
+            get { return this.initVector; }
             set
             {
-                if(value != this.initVector)
+                if (value != this.initVector)
                     this.initVector = value;
             }
         }
@@ -127,8 +128,8 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <summary>
         /// Catches the completely configurated, initialized and joined P2P object from the P2PPeer-Slave-PlugIn.
         /// </summary>
-        [PropertyInfo(Direction.ControlMaster,"P2P Slave","Input the P2P-Peer-PlugIn","",true,false,DisplayLevel.Beginner,QuickWatchFormat.Text,null)]
-        public IP2PControl P2PControl 
+        [PropertyInfo(Direction.ControlMaster, "P2P Slave", "Input the P2P-Peer-PlugIn", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public IP2PControl P2PControl
         {
             get
             {
@@ -172,14 +173,14 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region Standard PlugIn-Functionality
 
-        public P2PManager()
+        public P2PManager_KeyPattern()
         {
-            this.settings = new P2PManagerSettings(this);
+            this.settings = new P2PManager_KeyPatternSettings();
             this.settings.PropertyChanged += new PropertyChangedEventHandler(settings_PropertyChanged);
             this.settings.TaskPaneAttributeChanged += new TaskPaneAttributeChangedHandler(settings_TaskPaneAttributeChanged);
             this.settings.OnPluginStatusChanged += new StatusChangedEventHandler(settings_OnPluginStatusChanged);
 
-            QuickWatchPresentation = new P2PManagerQuickWatch();
+            QuickWatchPresentation = new P2PManagerPresentation();
         }
 
         #region QuickWatchPresentation Stuff
@@ -197,13 +198,13 @@ namespace Cryptool.Plugins.PeerToPeer
 
         private void UpdateQuickWatch(double progressInPercent)
         {
-            UpdateQuickWatch(this.p2pManager.GetGlobalTop10List(), this.p2pManager.PatternAmount, 
-                this.p2pManager.PatternsInProcess, this.p2pManager.LeftPatterns,
-                this.p2pManager.FinishedPatterns, progressInPercent, this.p2pManager.FreeWorkers, this.p2pManager.BusyWorkers);
+            UpdateQuickWatch(this.distributableKeyPatternJob.GlobalResultList, this.distributableKeyPatternJob.TotalAmount,
+                this.distributableKeyPatternJob.AllocatedAmount, this.distributableKeyPatternJob.FinishedAmount, 
+                progressInPercent, this.p2pManager.FreeWorkers(), this.p2pManager.BusyWorkers());
         }
 
-        private void UpdateQuickWatch(LinkedList<KeySearcher.KeySearcher.ValueKey> globalTop10List, 
-            int jobsTotalAmount, int jobsInProgress, int jobsLeft, int jobsFinished, double progressInPercent, 
+        private void UpdateQuickWatch(LinkedList<KeySearcher.KeySearcher.ValueKey> globalTop10List,
+            BigInteger jobsTotalAmount, BigInteger jobsInProgress, BigInteger jobsFinished, double progressInPercent,
             int freeWorkers, int busyWorkers)
         {
             System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
@@ -211,19 +212,19 @@ namespace Cryptool.Plugins.PeerToPeer
 
             if (QuickWatchPresentation.IsVisible)
             {
-                ((P2PManagerQuickWatch)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                ((P2PManagerPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    ((P2PManagerQuickWatch)QuickWatchPresentation).txtProgressInPercent.Text = Math.Round(progressInPercent, 2) + "%";
-                    ((P2PManagerQuickWatch)QuickWatchPresentation).txtTotal.Text = "" + jobsTotalAmount;
-                    ((P2PManagerQuickWatch)QuickWatchPresentation).txtInProgress.Text = "" + jobsInProgress;
-                    ((P2PManagerQuickWatch)QuickWatchPresentation).txtLeft.Text = "" + jobsLeft;
-                    ((P2PManagerQuickWatch)QuickWatchPresentation).txtFinished.Text = "" + jobsFinished;
+                    ((P2PManagerPresentation)QuickWatchPresentation).txtProgressInPercent.Text = "" + Math.Round(progressInPercent, 2) + "%";
+                    ((P2PManagerPresentation)QuickWatchPresentation).txtTotal.Text = "" + jobsTotalAmount.ToString();
+                    ((P2PManagerPresentation)QuickWatchPresentation).txtInProgress.Text = "" + jobsInProgress.ToString();
+                    ((P2PManagerPresentation)QuickWatchPresentation).txtLeft.Text = "" + new BigInteger((jobsTotalAmount - jobsInProgress - jobsFinished)).ToString();
+                    ((P2PManagerPresentation)QuickWatchPresentation).txtFinished.Text = "" + jobsFinished.ToString();
 
-                    ((P2PManagerQuickWatch)QuickWatchPresentation).txtTotalWorker.Text = "" + (freeWorkers + busyWorkers);
-                    ((P2PManagerQuickWatch)QuickWatchPresentation).txtFreeWorker.Text = "" + freeWorkers;
-                    ((P2PManagerQuickWatch)QuickWatchPresentation).txtBusyWorker.Text = "" + busyWorkers;
+                    ((P2PManagerPresentation)QuickWatchPresentation).txtTotalWorker.Text = "" + (freeWorkers + busyWorkers);
+                    ((P2PManagerPresentation)QuickWatchPresentation).txtFreeWorker.Text = "" + freeWorkers;
+                    ((P2PManagerPresentation)QuickWatchPresentation).txtBusyWorker.Text = "" + busyWorkers;
 
-                    ((P2PManagerQuickWatch)QuickWatchPresentation).entries.Clear();
+                    ((P2PManagerPresentation)QuickWatchPresentation).entries.Clear();
                     listNode = globalTop10List.First;
 
                     int i = 0;
@@ -237,9 +238,11 @@ namespace Cryptool.Plugins.PeerToPeer
                         entry.Key = listNode.Value.key;
                         entry.Text = enc.GetString(listNode.Value.decryption);
 
-                        ((P2PManagerQuickWatch)QuickWatchPresentation).entries.Add(entry);
+                        ((P2PManagerPresentation)QuickWatchPresentation).entries.Add(entry);
                         listNode = listNode.Next;
                     }
+                    // to resize the WPF Presentation, so it will fit in the PlugIn-Borders
+                    ((P2PManagerPresentation)QuickWatchPresentation).P2PManagerPresentation_SizeChanged(null, null);
                 }, null);
             }
         }
@@ -259,9 +262,23 @@ namespace Cryptool.Plugins.PeerToPeer
 
         void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (e.PropertyName == "Key")
+            {
+                if (this.EncryptionControl != null)
+                {
+                    KeyPattern checkPattern = new KeyPattern(this.EncryptionControl.getKeyPattern());
+                    if (!checkPattern.testWildcardKey(this.settings.Key))
+                    {
+                        GuiLogMessage("The set Pattern doesn't fit to the encryption plugin connected with this manager!", NotificationLevel.Warning);
+                    }
+                    else
+                        GuiLogMessage("Successfully changed the KeyPattern in the settings.", NotificationLevel.Info);
+                }
+            }
+
             if (e.PropertyName == "TopicName")
             {
-                GuiLogMessage("Topic Name has changed, so all subscribers must reconfirm registering!",NotificationLevel.Warning);
+                GuiLogMessage("Topic Name has changed, so all subscribers must reconfirm registering!", NotificationLevel.Warning);
                 // stop active publisher and tell all subscribers that topic name isn't valid anymore
                 Stop();
                 //this.p2pManager.Stop(PubSubMessageType.Unregister);
@@ -284,13 +301,13 @@ namespace Cryptool.Plugins.PeerToPeer
             {
                 Stop();
                 //this.p2pManager.Stop(PubSubMessageType.Solution);
-                GuiLogMessage("TEST: Emulate Solution-Found-message",NotificationLevel.Info);
+                GuiLogMessage("TEST: Emulate Solution-Found-message", NotificationLevel.Info);
             }
         }
 
         public ISettings Settings
         {
-            set { this.settings = (P2PManagerSettings)value; }
+            set { this.settings = (P2PManager_KeyPatternSettings)value; }
             get { return this.settings; }
         }
 
@@ -314,7 +331,7 @@ namespace Cryptool.Plugins.PeerToPeer
             if (this.p2pManager != null && this.p2pManager.Started)
             {
                 this.p2pManager.Stop(PubSubMessageType.Unregister);
-                this.settings.MngStatusChanged(P2PManagerSettings.MngStatus.Neutral);
+                this.settings.MngStatusChanged(P2PManager_KeyPatternSettings.MngStatus.Neutral);
             }
         }
 
@@ -336,15 +353,6 @@ namespace Cryptool.Plugins.PeerToPeer
                 GuiLogMessage("No P2P_Peer connected with this PlugIn!", NotificationLevel.Error);
                 return;
             }
-
-            if (this.p2pManager == null)
-            {
-                this.p2pManager = new P2PManagerBase(this.P2PControl);
-                this.p2pManager.OnGuiMessage += new P2PPublisherBase.GuiMessage(p2pManager_OnGuiMessage);
-                this.p2pManager.OnFinishedOnePattern += new P2PManagerBase.FinishedOnePattern(p2pManager_OnFinishedOnePattern);
-                this.p2pManager.OnFinishedDistributingPatterns += new P2PManagerBase.FinishedDistributingPatterns(p2pManager_OnFinishedDistributingPatterns);
-                this.p2pManager.OnProcessProgress += new P2PManagerBase.ProcessProgress(p2pManager_OnProcessProgress);
-            }
         }
 
         void p2pManager_OnProcessProgress(double progressInPercent)
@@ -353,23 +361,15 @@ namespace Cryptool.Plugins.PeerToPeer
             UpdateQuickWatch(progressInPercent);
         }
 
-        void p2pManager_OnFinishedOnePattern(string wildCardKey, double firstCoeffResult, string firstKeyResult, PeerId workerId)
-        {
-        }
-
-        void p2pManager_OnFinishedDistributingPatterns(LinkedList<KeySearcher.KeySearcher.ValueKey> lstTopList)
-        {
-            this.settings.MngStatusChanged(P2PManagerSettings.MngStatus.Finished);
-        }
-
         void p2pManager_OnGuiMessage(string sData, NotificationLevel notificationLevel)
         {
             GuiLogMessage(sData, notificationLevel);
         }
 
+        DistributableKeyPatternJob distributableKeyPatternJob;
         public void Execute()
         {
-            if(this.InitVector != null && this.DecryptedData != null)
+            if (this.InitVector != null && this.DecryptedData != null)
                 this.process(this.EncryptionControl);
         }
 
@@ -387,42 +387,68 @@ namespace Cryptool.Plugins.PeerToPeer
                 return;
             }
 
-            string pattern = iControlEncryption.getKeyPattern();
-
-            GuiLogMessage("string pattern = Encrypt.GetKeyPattern() = '" + pattern + "'", NotificationLevel.Debug);
-            KeyPattern kp = new KeyPattern(pattern);
-
-            if (this.settings.Key != null)
+            if (this.p2pManager == null)
             {
-                if (!kp.testWildcardKey(this.settings.Key))
+                byte[] byteEncryptedData = null;
+                CryptoolStream newEncryptedData = new CryptoolStream();
+                newEncryptedData.OpenRead(this.DecryptedData.FileName);
+                if (newEncryptedData.CanRead)
                 {
-                    GuiLogMessage("The input key pattern isn't valid! Key: '" + this.settings.Key + "'", NotificationLevel.Error);
-                    return;
+                    // Convert CryptoolStream to an byte Array and store it in the DHT
+                    if (newEncryptedData.Length > Int32.MaxValue)
+                        throw (new Exception("Encrypted Data are too long for this PlugIn. The maximum size of Data is " + Int32.MaxValue + "!"));
+                    byteEncryptedData = new byte[newEncryptedData.Length];
+                    int k = newEncryptedData.Read(byteEncryptedData, 0, byteEncryptedData.Length);
+                    if (k < byteEncryptedData.Length)
+                        throw (new Exception("Read Data are shorter than byteArrayLen"));
                 }
                 else
+                    throw (new Exception("Fatal error while reading the CryptoolStream."));
+
+                string pattern = this.encryptionControl.getKeyPattern();
+                KeyPattern kp = new KeyPattern(pattern);
+                if (kp.testWildcardKey(this.settings.Key))
                 {
                     kp.WildcardKey = this.settings.Key;
-                    GuiLogMessage("Key Pattern was set out of the settings! Key: '" + kp.getKey() + "'", NotificationLevel.Debug);
                 }
-            }
-            else //no key was set in settings, so choose a standard key
-            {
-                /*Begin Testspace*/
-                int len = pattern.ToString().Length;
-
-                if (len == 271) //AES
-                    kp.WildcardKey = "30-30-30-30-30-30-30-30-30-30-30-30-30-**-**-**";
-                else if (len == 135) //DES
-                    kp.WildcardKey = "30-30-30-30-**-**-**-**";
                 else
-                    throw (new Exception("Encryption Type not supported"));
-                GuiLogMessage("STANDARD Key Pattern was set! Key: '" + kp.getKey() + "'", NotificationLevel.Debug);
+                {
+                    GuiLogMessage("The Key Pattern in the settings isn't valid for the given Encryption!", NotificationLevel.Error);
+                    return;
+                }
+
+
+                // create a new DistributableJob instance
+                distributableKeyPatternJob = new DistributableKeyPatternJob
+                    (kp, this.settings.KeyPatternSize * 10000, byteEncryptedData, this.InitVector);
+
+                this.p2pManager = new P2PManagerBase_NEW(this.P2PControl, distributableKeyPatternJob);
+                this.p2pManager.OnGuiMessage += new P2PPublisherBase.GuiMessage(p2pManager_OnGuiMessage);
+                this.p2pManager.OnProcessProgress += new P2PManagerBase_NEW.ProcessProgress(p2pManager_OnProcessProgress);
+                this.p2pManager.OnNewJobAllocated += new P2PManagerBase_NEW.NewJobAllocated(p2pManager_OnNewJobAllocated);
+                this.p2pManager.OnNoMoreJobsLeft += new P2PManagerBase_NEW.NoMoreJobsLeft(p2pManager_OnNoMoreJobsLeft);
+                this.p2pManager.OnResultReceived += new P2PManagerBase_NEW.ResultReceived(p2pManager_OnResultReceived);
             }
 
-            this.p2pManager.StartManager(this.settings.TopicName, (long)this.settings.SendAliveMessageInterval, kp, this.DecryptedData, this.InitVector, this.settings.KeyPatternSize);
+            this.p2pManager.StartManager(this.settings.TopicName, this.settings.SendAliveMessageInterval * 1000);
 
-            this.settings.MngStatusChanged(P2PManagerSettings.MngStatus.Working);
+            this.settings.MngStatusChanged(P2PManager_KeyPatternSettings.MngStatus.Working);
             /*End Testspace*/
+        }
+
+        void p2pManager_OnResultReceived(BigInteger jobId)
+        {
+            this.settings.MngStatusChanged(P2PManager_KeyPatternSettings.MngStatus.Finished);
+        }
+
+        void p2pManager_OnNoMoreJobsLeft()
+        {
+            this.settings.MngStatusChanged(P2PManager_KeyPatternSettings.MngStatus.Finished);
+        }
+
+        void p2pManager_OnNewJobAllocated(BigInteger jobId)
+        {
+            this.settings.MngStatusChanged(P2PManager_KeyPatternSettings.MngStatus.Working);
         }
 
 

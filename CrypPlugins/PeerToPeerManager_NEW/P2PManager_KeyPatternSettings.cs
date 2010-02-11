@@ -1,4 +1,19 @@
-﻿using System;
+﻿/* Copyright 2010 Team CrypTool (Christian Arnold), Uni Duisburg-Essen
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,18 +22,18 @@ using System.ComponentModel;
 using Cryptool.PluginBase.Control;
 using System.Windows;
 using Cryptool.Plugins.PeerToPeer;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Plugins.PeerToPeer
 {
-    public class P2PManagerSettings : ISettings
+    public class P2PManager_KeyPatternSettings : ISettings
     {
         public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
         private bool hasChanges = false;
-        private P2PManager p2pManager;
         //private KeySearcher keysearcher;
 
         #region ISettings Members
-        
+
         public bool HasChanges
         {
             get
@@ -33,9 +48,8 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #endregion
 
-        public P2PManagerSettings(P2PManager p2pManager)
+        public P2PManager_KeyPatternSettings()
         {
-            this.p2pManager = p2pManager;
             if (TaskPaneAttributeChanged != null)
             {
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnSolutionFound", Visibility.Collapsed)));
@@ -46,8 +60,8 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         private string sTopic = "NewTopic";
-        [TaskPane("Topic Name","Choose a topic name with which all subscribers can register.",null,0,false,DisplayLevel.Beginner,ControlType.TextBox)]
-        public string TopicName 
+        [TaskPane("Topic Name", "Choose a topic name with which all subscribers can register.", null, 0, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        public string TopicName
         {
             get { return this.sTopic; }
             set
@@ -88,14 +102,14 @@ namespace Cryptool.Plugins.PeerToPeer
         }
         /* FOR TESTING ISSUES */
 
-        private int sendAliveMessageInterval = 60;
-        [TaskPane("Alive Message Interval (in seconds)","In which interval do you wish to receive Alive-Messages from your Subscribers?"
-            ,"Subscriber Properties",1,false,DisplayLevel.Beginner,ControlType.NumericUpDown, ValidationType.RangeInteger, 10, 3600)]
-        public int SendAliveMessageInterval 
+        private long sendAliveMessageInterval = 60;
+        [TaskPane("Alive Message Interval (in seconds)", "In which interval do you wish to receive Alive-Messages from your Subscribers?"
+            , "Subscriber Properties", 1, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 10, 3600)]
+        public long SendAliveMessageInterval
         {
-            get 
-            { 
-                return this.sendAliveMessageInterval; 
+            get
+            {
+                return this.sendAliveMessageInterval;
             }
             set
             {

@@ -491,11 +491,6 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region Communication protocol
 
-        /* TODO:
-         * - Test this methods
-         * - Integrate data types of payload
-         * - Implement deserialize method */
-
         /// <summary>
         /// generates a ct2- and p2p-compatible and processable message
         /// </summary>
@@ -582,7 +577,7 @@ namespace Cryptool.Plugins.PeerToPeer
                 //{
                 //    retMsg[i] = message[i + 1];
                 //}
-                Buffer.BlockCopy(message, 1, retMsg, 0, message.Length - 1);
+                Buffer.BlockCopy(message, 1, retMsg, 0, retMsg.Length);
                 return retMsg;
             }
             return null;

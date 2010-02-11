@@ -64,13 +64,25 @@
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\KeyPatternJob\KeyPatternJob.csproj">
+      <Project>{D726EBB6-0E54-477A-9C4C-F18848135055}</Project>
+      <Name>KeyPatternJob</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KeySearcher\KeySearcher.csproj">
       <Project>{0579E099-66B2-43C3-B8A0-43CAE4895E68}</Project>
       <Name>KeySearcher</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PeerToPeerBase\PeerToPeerBase.csproj">
+      <Project>{A7CD30E7-5381-40CF-BB78-268EC998CCB3}</Project>
+      <Name>PeerToPeerBase</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PeerToPeerJobs\PeerToPeerJobs.csproj">
       <Project>{F1258427-AFDF-4DF7-ABF1-758A2325F505}</Project>
       <Name>PeerToPeerJobs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PeerToPeerWorker_NEW\PeerToPeerJobAdmin.csproj">
+      <Project>{98ABFA8B-D05C-4C28-A0A0-B40733A9B029}</Project>
+      <Name>PeerToPeerJobAdmin</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

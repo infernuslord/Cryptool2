@@ -1,23 +1,39 @@
-﻿using System;
+﻿/* Copyright 2010 Team CrypTool (Christian Arnold), Uni Duisburg-Essen
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
 using System.Reflection;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Plugins.PeerToPeer.Jobs
 {
-    public class JobResult<JobResultType> : IJobResult<JobResultType>
+    public abstract class JobResult<JobResultType> : IJobResult<JobResultType>
     {
         #region Variables
 
-        private int jobId;
-        public int JobId
+        private BigInteger jobId;
+        public BigInteger JobId
         {
             get {  return this.jobId; }
             set { this.jobId = value; }
         }
-        private bool isIntermediateJobResult;
+        private bool isIntermediateJobResult = false;
         public bool IsIntermediateResult 
         {
             get { return this.isIntermediateJobResult;}
@@ -44,7 +60,7 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
         /// <param name="jobId">jobId for which you have a result</param>
         /// <param name="result">result of the job (e.g. simple conclusion, list, complex data structure)</param>
         /// <param name="processingTime">Timespan between begin and end of processing the job</param>
-        public JobResult(int jobId, JobResultType result, TimeSpan processingTime)
+        public JobResult(BigInteger jobId, JobResultType result, TimeSpan processingTime)
             :this(jobId,result,processingTime,false)
         { } 
 
@@ -55,7 +71,7 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
         /// <param name="result">result of the job (e.g. simple conclusion, list, complex data structure)</param>
         /// <param name="processingTime">Timespan between begin and end of processing the job</param>
         /// <param name="isIntermediateResult">Is this is only an intermediate result, set this parameter to true, otherwise choose false</param>
-        public JobResult(int jobId, JobResultType result, TimeSpan processingTime, bool isIntermediateResult)
+        public JobResult(BigInteger jobId, JobResultType result, TimeSpan processingTime, bool isIntermediateResult)
         {
             this.JobId = jobId;
             this.Result = result;
@@ -63,7 +79,122 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
             this.IsIntermediateResult = isIntermediateResult;
         }
 
+        // TODO: Test this constructor, if it works fine, delete Deserialize Method
+        /// <summary>
+        /// If you have a serialized JobResult class, you can deserialize it by using this constructor!
+        /// </summary>
+        /// <param name="serializedJobResult">serialized JobResult class as a byte[]</param>
+        public JobResult(byte[] serializedJobResult)
+        {
+            BigInteger temp_jobId;
+            JobResultType temp_result;
+            bool temp_isIntermediateResult;
+            TimeSpan temp_processingTime;
+
+            MemoryStream memStream = new MemoryStream(serializedJobResult, false);
+            try
+            {
+                Int32 testValue = 3000;
+                byte[] readInt = BitConverter.GetBytes(testValue);
+
+                /* Deserialize JobId */
+                memStream.Read(readInt, 0, readInt.Length);
+                int jobIdLen = BitConverter.ToInt32(readInt, 0);
+                byte[] jobIdByte = new byte[jobIdLen];
+                memStream.Read(jobIdByte, 0, jobIdByte.Length);
+                temp_jobId = new BigInteger(jobIdByte, jobIdByte.Length);
+
+                /* Deserialize Job result data */
+                //memStream.Read(readInt, 0, readInt.Length);
+                //int serializedDataLen = BitConverter.ToInt32(readInt, 0);
+                //byte[] serializedJobResultByte = new byte[serializedDataLen];
+                //memStream.Read(serializedJobResultByte, 0, serializedJobResultByte.Length);
+                //temp_result = (JobResultType)GetDeserializationViaReflection(serializedJobResultByte, this.Result);
+
+                // right for bool???
+                temp_isIntermediateResult = Convert.ToBoolean(memStream.ReadByte());
+
+                memStream.Read(readInt, 0, readInt.Length);
+                int days = BitConverter.ToInt32(readInt, 0);
+                memStream.Read(readInt, 0, readInt.Length);
+                int hours = BitConverter.ToInt32(readInt, 0);
+                memStream.Read(readInt, 0, readInt.Length);
+                int minutes = BitConverter.ToInt32(readInt, 0);
+                memStream.Read(readInt, 0, readInt.Length);
+                int seconds = BitConverter.ToInt32(readInt, 0);
+                memStream.Read(readInt, 0, readInt.Length);
+                int millisec = BitConverter.ToInt32(readInt, 0);
+                temp_processingTime = new TimeSpan(days, hours, minutes, seconds, millisec);
+
+                // read the rest of the byte[]-stream, this is the specialized JobResulType
+                byte[] serializedJobResultByte = new byte[memStream.Length - memStream.Position];
+                memStream.Read(serializedJobResultByte, 0, serializedJobResultByte.Length);
+                temp_result = DeserializeResultType(serializedJobResultByte);
+
+                this.JobId = temp_jobId;
+                this.IsIntermediateResult = temp_isIntermediateResult;
+                this.ProcessingTime = temp_processingTime;
+                this.Result = temp_result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                memStream.Flush();
+                memStream.Close();
+                memStream.Dispose();
+            }
+        }
+
+        #region comparing methods
+
+        public override bool Equals(object obj)
+        {
+            if(obj == null)
+                return false;
+
+            if (ReferenceEquals(this, obj))
+                return true;
+
+            if (this.GetType() != obj.GetType())
+                return false;
+
+            return this == (JobResult<JobResultType>)obj;
+        }
+
+        public static bool operator ==(JobResult<JobResultType> left, JobResult<JobResultType> right)
+        {
+            if ((object)left == (object)right)
+                return true;
+
+            if ((object)left == null || (object)right == null)
+                return false;
+
+            if (left.jobId == right.JobId)
+                return true;
+
+            return false;
+        }
+
+        public static bool operator !=(JobResult<JobResultType> left, JobResult<JobResultType> right)
+        {
+            return !(left == right);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.JobId.GetHashCode();
+        }
+
+        #endregion
+
         #region Serialization methods
+
+        protected abstract byte[] SerializeResultType();
+
+        protected abstract JobResultType DeserializeResultType(byte[] serializedResultType);
 
         /* 4 Bytes: serialized JobId
          * 4 Bytes: serialized Job Result length
@@ -75,7 +206,9 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
          * 4 Bytes: procTime.Seconds
          * 4 Bytes: procTime.Milliseconds */
         /// <summary>
-        /// Serializes the whole class, so you can recreate this instance elsewhere by dint of this byte[]
+        /// Serializes the whole class, so you can recreate this instance elsewhere by dint of this byte[].
+        /// HINT: You can Deserialize a byte[] representation of this class by using the constructor with
+        /// the byte[] parameter!
         /// </summary>
         /// <returns>serialized class as an byte[]</returns>
         public byte[] Serialize()
@@ -85,14 +218,16 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
             try
             {
                 /* Serialize jobId */
-                byte[] intJobId = BitConverter.GetBytes(this.JobId);
-                memStream.Write(intJobId, 0, intJobId.Length);
+                byte[] jobIdByte = this.JobId.getBytes();
+                byte[] jobIdLen = BitConverter.GetBytes(jobIdByte.Length);
+                memStream.Write(jobIdLen, 0, jobIdLen.Length);
+                memStream.Write(jobIdByte, 0, jobIdByte.Length);
 
                 /* Serialize job result via Reflection */
-                byte[] serializedJobResult = GetSerializationViaReflection(this.Result);
-                byte[] byJobResultLen = BitConverter.GetBytes(serializedJobResult.Length);
-                memStream.Write(byJobResultLen, 0, byJobResultLen.Length);
-                memStream.Write(serializedJobResult, 0, serializedJobResult.Length);
+                //byte[] serializedJobResult = GetSerializationViaReflection(this.Result);
+                //byte[] byJobResultLen = BitConverter.GetBytes(serializedJobResult.Length);
+                //memStream.Write(byJobResultLen, 0, byJobResultLen.Length);
+                //memStream.Write(serializedJobResult, 0, serializedJobResult.Length);
 
                 byte[] intResultBytes = BitConverter.GetBytes(this.isIntermediateJobResult);
                 memStream.Write(intResultBytes,0,intResultBytes.Length);
@@ -107,7 +242,12 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
                 memStream.Write(secondsBytes,0,secondsBytes.Length);
                 byte[] msecondsBytes = BitConverter.GetBytes(this.processingTime.Milliseconds);
                 memStream.Write(msecondsBytes,0,msecondsBytes.Length);
-                                
+
+
+                byte[] serializedJobResult = SerializeResultType();
+                memStream.Write(serializedJobResult, 0, serializedJobResult.Length);
+
+
                 ret = memStream.ToArray();
             }
             catch (Exception ex)
@@ -123,103 +263,49 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
             return ret;
         }
 
-        /// <summary>
-        /// ATTENTION: Not only deserializes the DistributableJobResult, but additionally recreates the whole class
-        /// by dint of the byte[]. So all this class information will be overwritten.
-        /// </summary>
-        /// <param name="serializedJobResult">a valid DistributableJobResult serialization</param>
-        public bool Deserialize(byte[] serializedJobResult)
-        {
-            bool ret = false;
-            MemoryStream memStream = new MemoryStream(serializedJobResult,false);
-            try
-            {
-                /* Deserialize JobId */
-                byte[] readInt = new byte[4];
-                memStream.Read(readInt, 0, readInt.Length);
-                this.JobId = BitConverter.ToInt32(readInt,0);
-
-                /* Deserialize Job result data */
-                memStream.Read(readInt,0,readInt.Length);
-                int serializedDataLen = BitConverter.ToInt32(readInt,0);
-                byte[] serializedJobResultByte = new byte[serializedDataLen];
-                memStream.Read(serializedJobResultByte, 0, serializedJobResultByte.Length);
-                this.Result = (JobResultType)GetDeserializationViaReflection(serializedJobResultByte, this.Result);
-
-                // right for bool???
-                memStream.Read(readInt, 0, readInt.Length);
-                this.isIntermediateJobResult = BitConverter.ToBoolean(readInt,0);
-
-                memStream.Read(readInt, 0, readInt.Length);
-                int days = BitConverter.ToInt32(readInt,0);
-                memStream.Read(readInt, 0, readInt.Length);
-                int hours = BitConverter.ToInt32(readInt, 0);
-                memStream.Read(readInt, 0, readInt.Length);
-                int minutes = BitConverter.ToInt32(readInt, 0);
-                memStream.Read(readInt, 0, readInt.Length);
-                int seconds = BitConverter.ToInt32(readInt, 0);
-                memStream.Read(readInt, 0, readInt.Length);
-                int millisec = BitConverter.ToInt32(readInt, 0);
-                this.processingTime = new TimeSpan(days, hours, minutes, seconds, millisec);
-
-                ret = true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                memStream.Flush();
-                memStream.Close();
-                memStream.Dispose();
-            }
-            return ret;
-        }
-
         #endregion
 
-        #region Reflection methods
+        //#region Reflection methods
 
-        private byte[] GetSerializationViaReflection(object objectToSerialize)
-        {
-            byte[] serializedBytes = null;
-            try
-            {
-                MethodInfo methInfo = objectToSerialize.GetType().GetMethod("Serialize");
-                ParameterInfo[] paramInfo = methInfo.GetParameters();
-                ParameterInfo returnParam = methInfo.ReturnParameter;
-                Type returnType = methInfo.ReturnType;
+        //private byte[] GetSerializationViaReflection(object objectToSerialize)
+        //{
+        //    byte[] serializedBytes = null;
+        //    try
+        //    {
+        //        MethodInfo methInfo = objectToSerialize.GetType().GetMethod("Serialize");
+        //        ParameterInfo[] paramInfo = methInfo.GetParameters();
+        //        ParameterInfo returnParam = methInfo.ReturnParameter;
+        //        Type returnType = methInfo.ReturnType;
 
-                serializedBytes = methInfo.Invoke(objectToSerialize, null) as byte[];
-                if (serializedBytes == null)
-                    throw (new Exception("Serializing " + objectToSerialize.GetType().ToString() + " canceled!"));
-            }
-            catch (Exception ex)
-            {
-                throw (new Exception("Invocing method 'Serialize' of '"
-                    + objectToSerialize.GetType().ToString() + "' wasn't possible. " + ex.ToString()));
-            }
-            return serializedBytes;
-        }
+        //        serializedBytes = methInfo.Invoke(objectToSerialize, null) as byte[];
+        //        if (serializedBytes == null)
+        //            throw (new Exception("Serializing " + objectToSerialize.GetType().ToString() + " canceled!"));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw (new Exception("Invocing method 'Serialize' of '"
+        //            + objectToSerialize.GetType().ToString() + "' wasn't possible. " + ex.ToString()));
+        //    }
+        //    return serializedBytes;
+        //}
 
-        private object GetDeserializationViaReflection(object serializedData, object returnType)
-        {
-            try
-            {
-                MethodInfo methInfo = returnType.GetType().GetMethod("Deserialize", new[] { serializedData.GetType() });
-                object deserializedData = methInfo.Invoke(returnType, new object[] { serializedData });
-                if (deserializedData == null)
-                    throw (new Exception("Deserializing " + returnType.ToString() + " canceled!"));
-                return deserializedData;
-            }
-            catch (Exception ex)
-            {
-                throw (new Exception("Invocing method 'Deserialize' of '"
-                    + returnType.ToString() + "' wasn't possible. " + ex.ToString()));
-            }
-        }
+        //private object GetDeserializationViaReflection(object serializedData, object returnType)
+        //{
+        //    try
+        //    {
+        //        MethodInfo methInfo = returnType.GetType().GetMethod("Deserialize", new[] { serializedData.GetType() });
+        //        object deserializedData = methInfo.Invoke(returnType, new object[] { serializedData });
+        //        if (deserializedData == null)
+        //            throw (new Exception("Deserializing " + returnType.ToString() + " canceled!"));
+        //        return deserializedData;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw (new Exception("Invocing method 'Deserialize' of '"
+        //            + returnType.ToString() + "' wasn't possible. " + ex.ToString()));
+        //    }
+        //}
 
-        #endregion
+        //#endregion
     }
 }

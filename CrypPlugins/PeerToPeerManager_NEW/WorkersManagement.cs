@@ -1,4 +1,19 @@
-﻿using System;
+﻿/* Copyright 2009 Team CrypTool (Christian Arnold), Uni Duisburg-Essen
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +38,8 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region own methods
 
-        public WorkersManagement(long expirationTime) : base(expirationTime)
+        public WorkersManagement(long expirationTime)
+            : base(expirationTime)
         {
             freeWorkers = new HashSet<PeerId>();
             busyWorkers = new HashSet<PeerId>();
@@ -83,7 +99,7 @@ namespace Cryptool.Plugins.PeerToPeer
         // additional functionality for inherited method Remove and RemoveSubscriberEverywhere
         private void RemoveWorker(PeerId workerId)
         {
-            lock(this.freeWorkers)
+            lock (this.freeWorkers)
             {
                 if (this.freeWorkers.Contains(workerId))
                     this.freeWorkers.Remove(workerId);
@@ -114,7 +130,7 @@ namespace Cryptool.Plugins.PeerToPeer
             bool bolBaseAdd = base.Add(subscriberId);
 
             // fill freeWorker-List with new Worker too
-            if (!this.freeWorkers.Contains(subscriberId))
+            if (bolBaseAdd && !this.freeWorkers.Contains(subscriberId))
             {
                 this.freeWorkers.Add(subscriberId);
                 CheckAvailabilityOfFreeWorkers();
@@ -144,7 +160,7 @@ namespace Cryptool.Plugins.PeerToPeer
             busyWorkers = null;
         }
 
-        #endregion 
+        #endregion
 
         public override string ToString()
         {

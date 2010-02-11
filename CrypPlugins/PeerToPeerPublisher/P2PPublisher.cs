@@ -188,14 +188,14 @@ namespace Cryptool.Plugins.PeerToPeer
             // when Workspace has stopped and has been started again
             if (this.p2pPublisher != null && !this.p2pPublisher.Started)
             {
-                this.p2pPublisher.Start(this.settings.TopicName, (long)this.settings.SendAliveMessageInterval);
+                this.p2pPublisher.Start(this.settings.TopicName, (long)this.settings.SendAliveMessageInterval * 1000);
             }
 
             if (this.p2pPublisher == null)
             {
                 this.p2pPublisher = new P2PPublisherBase(this.P2PControl);
                 this.p2pPublisher.OnGuiMessage += new P2PPublisherBase.GuiMessage(p2pPublisher_OnGuiMessage);
-                this.p2pPublisher.Start(this.settings.TopicName, (long)this.settings.SendAliveMessageInterval);
+                this.p2pPublisher.Start(this.settings.TopicName, (long)this.settings.SendAliveMessageInterval * 1000);
             }
         }
 
