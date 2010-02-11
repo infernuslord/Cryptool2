@@ -210,6 +210,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeerToPeerManager_NEW", "Cr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeerToPeerJobAdmin", "CrypPlugins\PeerToPeerWorker_NEW\PeerToPeerJobAdmin.csproj", "{98ABFA8B-D05C-4C28-A0A0-B40733A9B029}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyPatternJob", "CrypPlugins\KeyPatternJob\KeyPatternJob.csproj", "{D726EBB6-0E54-477A-9C4C-F18848135055}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -1196,6 +1198,16 @@ Global
 		{98ABFA8B-D05C-4C28-A0A0-B40733A9B029}.Release|Any CPU.Build.0 = Release|Any CPU
 		{98ABFA8B-D05C-4C28-A0A0-B40733A9B029}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{98ABFA8B-D05C-4C28-A0A0-B40733A9B029}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D726EBB6-0E54-477A-9C4C-F18848135055}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{D726EBB6-0E54-477A-9C4C-F18848135055}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D726EBB6-0E54-477A-9C4C-F18848135055}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D726EBB6-0E54-477A-9C4C-F18848135055}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D726EBB6-0E54-477A-9C4C-F18848135055}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D726EBB6-0E54-477A-9C4C-F18848135055}.Release|.NET.ActiveCfg = Release|Any CPU
+		{D726EBB6-0E54-477A-9C4C-F18848135055}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D726EBB6-0E54-477A-9C4C-F18848135055}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D726EBB6-0E54-477A-9C4C-F18848135055}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D726EBB6-0E54-477A-9C4C-F18848135055}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
