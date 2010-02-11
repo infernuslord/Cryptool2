@@ -122,12 +122,14 @@ namespace KeySearcher
 
         public KeyPattern Pop()
         {
-            counter++;
             if (stack.Count != 0)
+            {
+                counter++;
                 return (KeyPattern)stack.Pop();
+            }
 
             if (end)
-                return null;
+                return null;            
 
             KeyPattern part = new KeyPattern(pattern.GetPattern());
             part.wildcardList = new ArrayList();
@@ -145,6 +147,7 @@ namespace KeySearcher
             if (!SuccCounter())
                 end = true;
 
+            counter++;
             return part;
         }
 
@@ -161,7 +164,7 @@ namespace KeySearcher
 
         public long Count()
         {
-            return (TotalAmount() - counter).LongValue();
+            return (TotalAmount() + stack.Count - counter).LongValue();
         }
 
         public BigInteger TotalAmount()
