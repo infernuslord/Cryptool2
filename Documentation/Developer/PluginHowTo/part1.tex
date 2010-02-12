@@ -1,45 +1,45 @@
 \chapter{Developer Guidelines}
 
-CrypTool 2.0 uses state-of-the-art technologies like .NET 3.5 and WPF. In order to make your first steps towards developing something in the context of this project a few things need to be considered. In order to not get stuck, please follow the instructions on this page. If you encouter a problem/error, which is not described here, please let us know, so we can add this information to this guide.
+CrypTool 2.0 uses state-of-the-art technologies like .NET 3.5 and WPF. In order to make your first steps towards developing something in the context of this project, a few things need to be considered. First of all, please follow the instructions in this document so that you do not get stuck. If you encouter a problem or error that is not described here, please let us know so we can add the appropriate information to this guide.
 
-In the following we describe all steps necessary in order to compile CrypTool 2.0 on your own. This is always the first thing you need to do before you go on developing own plugins and extensions. The basic steps are
+In the following sections we will describe all steps necessary in order to compile CrypTool 2.0 on your own. This is always the first thing you need to do before you can begin developing your own plugins and extensions. The basic steps are:
 \begin{itemize}
-	\item Getting all pre-requisites and installing them
+	\item Getting all prerequisites and installing them
 	\item Accessing and downloading the source code with SVN
-	\item Compiling the source-code for the first time
+	\item Compiling the source code for the first time
 \end{itemize}
 
-\section{Pre-requisites}
+\section{Prerequisites}
 
-Since CrypTool 2.0 is based on Microsoft .NET 3.5, you first need a Microsoft Windows environment. (Right now no plans exist for porting this project to mono and therefore other platforms.) We successfully tested with \textbf{Windows XP} and \textbf{Windows Vista}.
+Since CrypTool 2.0 is based on Microsoft .NET 3.5, you will need a Microsoft Windows environment. (Currently no plans exist for porting this project to mono or to other platforms.) We have successfully tested with \textbf{Windows XP} and \textbf{Windows Vista}.
 
-Since you're reading the developer guidlines, you probably want to develop something. Hence you need a developer environment. In order to compile our sources you need \textbf{Microsoft Visual Studio 2008 Professional}. Please make sure you always install the latest service packs for Visual Studio too. Unfortunately it does not work (smoothly) with the freely available Visual Studio Express (C\#) versions. This is due to the fact, that CrypWin uses a commercial component, and is therefore distributed only as binary. The C\# Express version unfortunately cannot handle a binary as a start project, hence debugging becomes cumbersome.
+Since you are reading the developer guidlines, you probably want to develop something. Hence, you will need a development environment. In order to compile our sources you need \textbf{Microsoft Visual Studio 2008 Professional}. Please always install the latest service packs for Visual Studio. Unfortunately, our sources do not work (smoothly) with the freely available Visual Studio Express (C\#) versions. This is due to the fact that CrypWin uses a commercial component and is therefore distributed only as binary. However, the C\# Express version cannot handle a binary as a start project, and thus debugging becomes cumbersome.
 
-Usually the installation of Visual Studio also installs the .NET framework. In order to run/compile our source code you need (at the time of this writing) at least \textbf{Microsoft .NET 3.5 with Service Pack 1 (SP1)}. You can get this freely from Microsofts \href{http://download.microsoft.com/download/2/0/e/20e90413-712f-438c-988e-fdaa79a8ac3d/dotnetfx35.exe}{webpage}.
+Usually the installation of Visual Studio also installs the .NET framework. In order to run or compile our source code you will need (at the time of writing) at least \textbf{Microsoft .NET 3.5 with Service Pack 1 (SP1)}. You can get this for free from Microsoft's \href{http://download.microsoft.com/download/2/0/e/20e90413-712f-438c-988e-fdaa79a8ac3d/dotnetfx35.exe}{webpage}.
 
-After the last step, your development environment should be ready for our source-code. Hence, now you need a way of accessing and downloading the entire sources. In the CrypTool 2.0 project we use SVN (subversion control) for version control, hence you need an \textbf{SVN client} of you're choice, e.g. \textbf{TortoiseSVN} or the \textbf{svn commandline from cygwin}. If you never worked with SVN before, we suggest to download and install \href{http://www.tortoisesvn.net/}{TortoiseSVN}, since it offers a nice windows explorer integration of SVN and any windows user should feel right away at home.
+After the last step, your development environment should be ready for our source code. Now you will need a way of accessing and downloading the entire sources. In the CrypTool 2.0 project we use Subversion (SVN) for version control, and hence you need an \textbf{SVN client}, e.g. \textbf{TortoiseSVN} or the \textbf{svn commandline from cygwin}. It does not matter which one you use, but if you have never worked with SVN before, we suggest using \href{http://www.tortoisesvn.net/}{TortoiseSVN}, since it offers a nice Windows Explorer integration of SVN.
 
-\section{Accessing Subversion Control (SVN)}
+\section{Accessing Subversion (SVN)}
 
-This section describes how to access our SVN and the basic settings you need.
+This section describes how to access our SVN repository and how to configure the basic settings.
 
-\subsection*{SVN URL}
+\subsection*{The CrypTool2 SVN URL}
 
-Our code repository is accessable under the following url:
+Our code repository is accessable at the following URL:
 
 \url{https://www.cryptool.org/svn/CrypTool2/}
 
-If you are a guest and just want to download our source code you can use "anonymous" as the username and an empty password. If you are a registered developer, just use your provided username and password (which is the same as for this wiki).
+To access the repository, you must provide a username and password. If you are a guest and just want to download our source code you can use "anonymous" as the username and an empty password. If you are a registered developer, just use your provided username and password (which is the same as for this wiki).
 
-\subsection*{Accessing the SVN with TortoiseSVN}
+\subsection*{Accessing the SVN repository with TortoiseSVN}
 
 As already mentioned, in order to use the SVN repository one of the best options is \href{http://www.tortoisesvn.net/}{TortoiseSVN}. Please install TortoiseSVN (unfortunately it will ask you to reboot, which you need to do) and then create somewhere on your computer a directory (for instance "Cryptool2") for storing the local working files. Right click on this directory and select "SVN Checkout" from the context menu. In the new appearing window you must enter the URL of the repository as given above. The "Checkout directory" should be filled in correctly. After that, just hit ok, accept the certificate (if necessary) and enter your user credentials or "anonymous" for guests. Also mark the checkbox for saving your crendentials otherwise you will be asked about them for every single file. Then hit ok, and now the whole CrypTool2 repository should be checked out into the given directory.
 
-Later on, if you just want to update (if there where changes in the repository) you can do this with right click on any directory within the working files and choose "SVN Update" from the context menu. If you changed a file you should choose "SVN Commit" from the context menu in order to upload your changes. Please always provide \textit{meaningfull descriptions} of your updates.
+Later on, if you just want to update (if there where changes in the repository) you can do this with right click on any directory within the working files and choose "SVN Update" from the context menu. If you changed a file you should choose "SVN Commit" from the context menu in order to upload your changes. Please always provide \textit{meaningfull descriptions} of your updates. You should commit your sources to our SVN repository as often as you can. This will ensure your interoperability with the rest of the project for further development.
 
 A TortoiseSVN Tutorial can be found \href{http://www.mind.ilstu.edu/research/robots/iris4/developers/svntutorial}{here}.
 
-\subsection*{Ignore Patterns}
+\subsection*{Ignore patterns}
 
 In order to checkin only clean code, please use the following \textbf{ignore patterns}: \textit{"obj bin debug release *.pdb *.suo *.exe *.dll"}
 
