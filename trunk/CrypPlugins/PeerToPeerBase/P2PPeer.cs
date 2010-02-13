@@ -50,8 +50,6 @@ namespace Cryptool.Plugins.PeerToPeer
         public P2PPeer()
         {
             this.p2pBase = new P2PBase();
-            // to forward event from overlay/dht MessageReceived-Event from P2PBase
-            this.p2pBase.OnP2PMessageReceived += new P2PBase.P2PMessageReceived(p2pBase_OnP2PMessageReceived);
             this.settings = new P2PPeerSettings(this);
             this.settings.TaskPaneAttributeChanged += new TaskPaneAttributeChangedHandler(settings_TaskPaneAttributeChanged);
             this.settings.OnPluginStatusChanged += new StatusChangedEventHandler(settings_OnPluginStatusChanged);
@@ -212,6 +210,9 @@ namespace Cryptool.Plugins.PeerToPeer
 
                 this.p2pBase.AllowLoggingToMonitor = this.settings.Log2Monitor;
 
+                // to forward event from overlay/dht MessageReceived-Event from P2PBase
+                this.p2pBase.OnP2PMessageReceived += new P2PBase.P2PMessageReceived(p2pBase_OnP2PMessageReceived);
+
                 if (CheckAndInstallPAPCertificates())
                 {
                     this.p2pBase.Initialize(PAPCertificate.CERTIFIED_PEER_NAME, this.settings.P2PWorldName,
@@ -252,6 +253,7 @@ namespace Cryptool.Plugins.PeerToPeer
                 }
                 else
                 {
+                    this.p2pBase.OnP2PMessageReceived -= p2pBase_OnP2PMessageReceived;
                     this.settings.PeerStatusChanged(P2PPeerSettings.PeerStatus.NotConnected);
                     GuiLogMessage("Peer stopped: " + !this.PeerStarted, NotificationLevel.Info);
                 }

@@ -70,9 +70,14 @@ namespace Cryptool.PluginBase.Control
         /// </summary>
         Stop = 7,
         /// <summary>
-        /// because Enum is non-nullable, I used this workaround
+        /// When a new Publisher A canceled to takeover the Topic of another Publisher B,
+        /// because B is still active, so A can't takeover functionality of B!
         /// </summary>
-        NULL = 666
+        PublisherRivalryProblem = 8,
+        /// <summary>
+        /// Only send this msg type, when a fatal error occured at Publisher or Subscriber
+        /// </summary>
+        Error = 222
     }
 
     /// <summary>

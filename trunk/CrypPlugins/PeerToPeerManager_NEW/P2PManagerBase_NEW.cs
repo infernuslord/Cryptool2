@@ -115,23 +115,29 @@ namespace Cryptool.Plugins.PeerToPeer
             this.jobsInProgress = new Dictionary<BigInteger, PeerId>();
         }
 
-        public bool StartManager(string sTopic, long aliveMessageInterval)
+        public void StartManager(string sTopic, long aliveMessageInterval)
         {
-            bool result = false;
             // only when the main manager plugin is connected with a Peer-PlugIn
             // and a IWorkerControl-PlugIn, this Manager can start its work
             if (this.distributableJobControl != null && this.p2pControl != null)
             {
                 this.TopicName = sTopic;
                 this.AliveMesageInterval = aliveMessageInterval;
-                result = base.Start(this.TopicName, this.AliveMesageInterval);
-
-                this.ManagerStarted = result;
-
-                GetProgressInformation();
+                base.Start(this.TopicName, this.AliveMesageInterval);
             }
-            GuiLogging("P2PManager starting status: " + result.ToString(), NotificationLevel.Info);
-            return result;
+            else
+            {
+                GuiLogging("Manager can't be started, because P2P-Peer- or Distributable-Job-PlugIn isn't connected with the Manager or the connection is broken...", NotificationLevel.Warning);
+            }
+        }
+
+        protected override void PeerCompletelyStarted()
+        {
+            base.PeerCompletelyStarted();
+
+            this.ManagerStarted = true;
+            GetProgressInformation();
+            GuiLogging("P2PManager is started right now.", NotificationLevel.Info);
         }
 
         public override void Stop(PubSubMessageType msgType)
@@ -140,8 +146,9 @@ namespace Cryptool.Plugins.PeerToPeer
 
             this.ManagerStarted = false;
             ((WorkersManagement)this.peerManagement).OnFreeWorkersAvailable -= peerManagement_OnFreeWorkersAvailable;
+            ((WorkersManagement)this.peerManagement).OnSubscriberRemoved -= peerManagement_OnSubscriberRemoved;
 
-            GuiLogging("P2PManager was stopped successully", NotificationLevel.Info);
+            GuiLogging("P2PManager was stopped successully.", NotificationLevel.Info);
         }
 
         /// <summary>
@@ -312,13 +319,17 @@ namespace Cryptool.Plugins.PeerToPeer
         /// </summary>
         private void peerManagement_OnFreeWorkersAvailable()
         {
-            if (!this.managerStarted)
+            if (!this.ManagerStarted)
             {
                 GuiLogging("Manager isn't started at present, so I can't disperse the patterns.", NotificationLevel.Error);
-                throw (new Exception("Critical error in P2PManager. Manager isn't started yet, but the workers can register..."));
+                bool removeSettings = DHT_CommonManagement.DeleteAllPublishersEntries(ref this.p2pControl, this.TopicName);
+                if (removeSettings)
+                    GuiLogging("Manager is stopped, but DHT entries were still existing, so they were deleted!", NotificationLevel.Info);
+                else
+                    throw (new Exception("Critical error in P2PManager. Manager isn't started yet, but the workers can register... Even removing DHT entries weren't possible..."));
             }
-
-            AllocateJobs();
+            else
+                AllocateJobs();
 
             GetProgressInformation();
         }

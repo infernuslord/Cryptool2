@@ -22,8 +22,18 @@ using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.Plugins.PeerToPeer.Jobs;
 
-/* TODO:
- * - Check why Register-Messages were send so often
+/* TWO DIFFERENT STOPPING CASE:
+ * 1) When P2P-Admin is stopped, deregister WorkerControl-Events, so
+ *    the (unfinished) JobPart-Result won't be sent to the Manager
+ *    - Copy registering the WorkerControl-Events to "StartWorkerControl"
+ *    - Unregister WorkerControl-Events in "StopWorkerControl"
+ *    
+ * 2) When P2P-Admin is stopped, the WorkerControl sends the (unfinished)
+ *    JobPart-Result to the Manager (the Manager can handle this case without
+ *    any problem).
+ *    - Copy registering the WorkerControl-Events to the constructor
+ *    - Comment the unregistering of the WorkerControl-Events in the
+ *      "StopWorkerControl" method
  */
 
 namespace Cryptool.Plugins.PeerToPeer
@@ -69,9 +79,11 @@ namespace Cryptool.Plugins.PeerToPeer
         public P2PJobAdminBase(IP2PControl p2pControl, IControlWorker controlWorker) : base(p2pControl)
         {
             this.workerControl = controlWorker;
-            this.workerControl.OnProcessingCanceled += new ProcessingCanceled(workerControl_OnProcessingCanceled);
-            this.workerControl.OnProcessingSuccessfullyEnded += new ProcessingSuccessfullyEnded(workerControl_OnProcessingSuccessfullyEnded);
-            this.workerControl.OnInfoTextReceived += new InfoText(workerControl_OnInfoTextReceived);
+
+            // see comment above, to know why the following lines are commented
+            //this.workerControl.OnProcessingCanceled += new ProcessingCanceled(workerControl_OnProcessingCanceled);
+            //this.workerControl.OnProcessingSuccessfullyEnded += new ProcessingSuccessfullyEnded(workerControl_OnProcessingSuccessfullyEnded);
+            //this.workerControl.OnInfoTextReceived += new InfoText(workerControl_OnInfoTextReceived);
 
             this.waitingJobStack = new Stack<byte[]>();
         }
@@ -85,6 +97,11 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             if (!base.Started)
             {
+                // see comment above, to know why the following lines are uncommented
+                this.workerControl.OnProcessingCanceled += new ProcessingCanceled(workerControl_OnProcessingCanceled);
+                this.workerControl.OnProcessingSuccessfullyEnded += new ProcessingSuccessfullyEnded(workerControl_OnProcessingSuccessfullyEnded);
+                this.workerControl.OnInfoTextReceived += new InfoText(workerControl_OnInfoTextReceived);
+
                 // starts subscriber
                 base.Start(sTopicName, lCheckPublishersAvailability, lPublishersReplyTimespan);
             }
@@ -94,10 +111,27 @@ namespace Cryptool.Plugins.PeerToPeer
 
         public void StopWorkerControl(PubSubMessageType msgType)
         {
-            if (this.workerControl != null)
-                this.workerControl.StopProcessing();
             if (base.Started)
+            {
+                // see comment above, to know why the following lines are uncommented
+                this.workerControl.OnProcessingCanceled -= workerControl_OnProcessingCanceled;
+                this.workerControl.OnProcessingSuccessfullyEnded -= workerControl_OnProcessingSuccessfullyEnded;
+                this.workerControl.OnInfoTextReceived -= workerControl_OnInfoTextReceived;
                 base.Stop(msgType);
+
+                // delete the waiting Job List, so after re-registering, this worker
+                // will process the new incoming jobs and not old jobs, which were
+                // already pushed to the global Job List of the Manager after receiving
+                // the unregister message from this worker.
+                if(this.waitingJobStack != null && this.waitingJobStack.Count > 0)
+                    this.waitingJobStack.Clear();
+
+                if (this.workerControl != null)
+                    this.workerControl.StopProcessing();
+                GuiLogging("P2P-Job-Admin is successfully stopped (Unregistering with Manager, Processing of the Worker is stopped)",NotificationLevel.Info);
+            }
+            else
+                GuiLogging("P2P-Job-Admin isn't started yet. So stopping-events won't be executed.", NotificationLevel.Info);
         }
 
         void P2PWorker_OnReceivedStopMessageFromPublisher(PubSubMessageType stopType, string sData)
@@ -189,7 +223,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="result">serialized Result data</param>
         private void workerControl_OnProcessingSuccessfullyEnded(BigInteger jobId, byte[] result)
         {
-            base.GuiLogging("Sending job result to Manager. JobId: " + jobId.ToString() + ". Mngr-Id: '" + base.ActualPublisher.ToString() + "'.", NotificationLevel.Info);
+            GuiLogging("Sending job result to Manager. JobId: " + jobId.ToString() + ". Mngr-Id: '" + base.ActualPublisher.ToString() + "'.", NotificationLevel.Info);
             this.p2pControl.SendToPeer(JobMessages.CreateJobResultMessage(jobId, result), base.ActualPublisher);
 
             // set working flag to false, so processing a new job is possible
@@ -198,6 +232,12 @@ namespace Cryptool.Plugins.PeerToPeer
             if (OnSuccessfullyEnded != null)
                 OnSuccessfullyEnded();
 
+            CheckIfAnyJobsLeft();
+            
+        }
+
+        private void CheckIfAnyJobsLeft()
+        {
             if (this.waitingJobStack.Count > 0)
             {
                 GuiLogging("There's a job in the 'waitingJob'-Stack, so process it before processing new incoming jobs from the Manager.", NotificationLevel.Info);
@@ -209,13 +249,13 @@ namespace Cryptool.Plugins.PeerToPeer
                 this.p2pControl.SendToPeer(JobMessages.CreateFreeWorkerStatusMessage(true), base.ActualPublisher);
                 GuiLogging("No jobs in the 'waitingJob'-Stack, so send 'free'-information to the Manager. Mngr-Id: '" + base.ActualPublisher.ToString() + "'.", NotificationLevel.Info);
             }
-            
         }
 
         void workerControl_OnProcessingCanceled(byte[] result)
         {
             if (OnCanceledWorking != null)
                 OnCanceledWorking();
+            CheckIfAnyJobsLeft();
         }
 
         #endregion

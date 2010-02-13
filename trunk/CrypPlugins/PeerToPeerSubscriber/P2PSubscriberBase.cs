@@ -37,30 +37,28 @@ namespace Cryptool.Plugins.PeerToPeer
         private string sTopic;
 
         /// <summary>
-        /// If the DHT Entry of the given Task is empty, continous try to 
-        /// find a meanwhile inscribed Publishers PeerID
-        /// </summary>
-        private Timer timerRegisteringNotPossible;
-        /// <summary>
-        /// For informing the publisher pro-active, that this subscriber
-        /// is still interested in this Task.
-        /// </summary>
-        private Timer timerSendingAliveMsg;
-        /// <summary>
-        /// checking liveness, availability and/or changes (new peer) of the Publisher
+        /// Checking liveness, availability and/or changes (new peer) of the Publisher.
+        /// Retrieves the required DHT entries and initiates the necessary steps
         /// </summary>
         private Timer timerCheckPubAvailability;
         /// <summary>
-        /// this timer gets started when the availability of the publisher, 
-        /// at which the subscriber had registered, is checked. If the timer
-        /// callback is called and no Pong-message was received, the probability
-        /// that the Publisher is down is high! 
+        /// To inform the publisher pro-active, that this subscriber
+        /// is still alive and interested in this Task, send periodical 
+        /// alive messages.
+        /// </summary>
+        private Timer timerSendingAliveMsg;
+        /// <summary>
+        /// This timer gets started when a DHT entry for a Publisher exists and
+        /// we want to check the liveness of the publisher, 
+        /// at which the subscriber had registered. Therefore we send a Ping message
+        /// to the Publisher. If the timer callback is called and no Pong-Response was 
+        /// received from the Publisher, the probability is high, that the Publisher is down! 
         /// </summary>
         private Timer timeoutForPublishersPong;
         /// <summary>
-        /// After register message is sent to publisher, this timer gets started.
-        /// If the publisher doesn't response with a RegisteringAccepted-Message,
-        /// the probability that the publisher is down is high!
+        /// After register message is sent to publisher, this timer is started.
+        /// If the publisher doesn't responds with a RegisteringAccepted-Message,
+        /// the probability is high, that the publisher is down!
         /// </summary>
         private Timer timeoutForPublishersRegAccept;
         /// <summary>
@@ -107,73 +105,96 @@ namespace Cryptool.Plugins.PeerToPeer
             this.p2pControl = p2pControl;
 
             this.timeoutForPublishersPong = new Timer();
+            this.timeoutForPublishersPong.Elapsed += new ElapsedEventHandler(OnTimeoutPublishersPong);
+
             this.timeoutForPublishersRegAccept = new Timer();
+            this.timeoutForPublishersRegAccept.Elapsed += new ElapsedEventHandler(OnTimeoutRegisteringAccepted);
+
             this.timerCheckPubAvailability = new Timer();
-            this.timerRegisteringNotPossible = new Timer();
+            this.timerCheckPubAvailability.Elapsed += new ElapsedEventHandler(OnCheckPubAvailability);
+
             this.timerSendingAliveMsg = new Timer();
+            this.timerSendingAliveMsg.Elapsed += new ElapsedEventHandler(OnSendAliveMessage);
         }
 
         public void Start(string sTopic, long checkPublishersAvailability, long publishersReplyTimespan)
         {
-            /* Initialize all timers */
-            double pubTimeResponseTimeout = Convert.ToDouble(publishersReplyTimespan);
-
-            this.timeoutForPublishersPong.Interval = pubTimeResponseTimeout;
-            this.timeoutForPublishersPong.Elapsed += new ElapsedEventHandler(OnTimeoutPublishersPong);
-
-            this.timeoutForPublishersRegAccept.Interval = pubTimeResponseTimeout;
-            this.timeoutForPublishersRegAccept.Elapsed += new ElapsedEventHandler(OnTimeoutRegisteringAccepted);
-
-            this.timerCheckPubAvailability.Interval = Convert.ToDouble(checkPublishersAvailability);
-            this.timerCheckPubAvailability.Elapsed += new ElapsedEventHandler(OnCheckPubAvailability);
-
-            this.timerRegisteringNotPossible.Interval = Convert.ToDouble(10000);
-            this.timerRegisteringNotPossible.Elapsed += new ElapsedEventHandler(OnRegisteringNotPossible);
+            this.actualPublisher = null;
 
             this.sTopic = sTopic;
             this.checkPublishersAvailability = checkPublishersAvailability;
             this.publisherReplyTimespan = publishersReplyTimespan;
-            Register();
-        }
 
-        private void Register()
-        {
-            // Unfortunately you have to register this events every time, because this events will be deregistered, when
-            // Publisher/Manager sends a Unregister/Stop-Message... There isn't any possibility to check,
-            // whether the Events are already registered (if(dings != null) or anything else).
-            this.p2pControl.OnPayloadMessageReceived -= p2pControl_OnPayloadMessageReceived;
-            this.p2pControl.OnSystemMessageReceived -= p2pControl_OnSystemMessageReceived;
+            #region Initialize network-maintanance-Timers
+
+            double pubTimeResponseTimeout = Convert.ToDouble(this.publisherReplyTimespan);
+
+            this.timerCheckPubAvailability.Interval = Convert.ToDouble(this.checkPublishersAvailability);
+            this.timerCheckPubAvailability.AutoReset = true;
+            this.timeoutForPublishersPong.Interval = pubTimeResponseTimeout;
+            this.timeoutForPublishersRegAccept.Interval = pubTimeResponseTimeout;
+
+            #endregion
+
             this.p2pControl.OnPayloadMessageReceived += new P2PPayloadMessageReceived(p2pControl_OnPayloadMessageReceived);
             this.p2pControl.OnSystemMessageReceived += new P2PSystemMessageReceived(p2pControl_OnSystemMessageReceived);
 
-            // because CheckPublishersAvailability checks this value, set it for the first time here...
-            // if bolStopped = true, the Timer for Checking Publishers liveliness doesn't start
-            this.bolStopped = false;
-            PeerId pubId = CheckPublishersAvailability();
-            // if DHT Entry for the task is empty, no Publisher exists at present.
-            // The method CheckPublishersAvailability starts a Timer for this case to continous proof Publisher-DHT-Entry
-            if (pubId == null)
+            if (this.p2pControl != null)
             {
-                this.Started = false;
-                // if PubId is null, the Publisher isn't started!
-                this.bolStopped = true;
-                GuiLogging("No publisher for registering found.", NotificationLevel.Info);
-                return;
+                string sNonrelevant;
+                PeerId myPeerId = this.p2pControl.GetPeerID(out sNonrelevant);
+                GuiLogging("Started Subscriber with ID: '" + myPeerId.ToString() + "'", NotificationLevel.Info);
             }
 
-            // when the actual publisher differs from the new detected publisher, change it
-            if (pubId != null && (actualPublisher != null && actualPublisher != pubId))
+            this.Started = true;
+
+            CheckPublishersAvailability2();
+        }
+
+        private void CheckPublishersAvailability2()
+        {
+            // retrieve publisher information from the DHT
+            PeerId pid = DHT_CommonManagement.GetTopicsPublisherId(ref this.p2pControl, this.sTopic);
+            this.sendAliveMessageInterval = DHT_CommonManagement.GetAliveMessageInterval(ref this.p2pControl, this.sTopic);
+
+            if (pid == null || this.sendAliveMessageInterval == 0)
             {
-                GuiLogging("Publisher has been changed from ID '" + actualPublisher + "' to '" + pubId + "'", NotificationLevel.Debug);
-                actualPublisher = pubId;
+                GuiLogging("No Publisher/Manager information for registering found in the DHT.", NotificationLevel.Info);
             }
-            SendMessage(pubId, PubSubMessageType.Register);
-            this.started = true;
+            else
+            {
+                this.timerSendingAliveMsg.Interval = Convert.ToDouble(this.sendAliveMessageInterval);
+                this.timerSendingAliveMsg.Start();
+
+                if (actualPublisher == null)
+                {
+                    GuiLogging("Found a Publisher/Manager with ID '" + pid.ToString() + ", so register with it.", NotificationLevel.Info);
+                    SendMessage(pid, PubSubMessageType.Register);
+                    timeoutForPublishersRegAccept.Start();
+                }
+                else if (actualPublisher == pid)
+                {
+                    // Timer will be only stopped, when OnMessageReceived-Event received 
+                    // a Pong-Response from the publisher! 
+                    SendMessage(pid, PubSubMessageType.Ping);
+                    this.timeoutForPublishersPong.Start();
+                    GuiLogging("Successfully checked publishers'/managers' information in the DHT. To check liveness, a Ping message was sended to '" + pid.ToString() + "'.", NotificationLevel.Debug);
+                }
+                else
+                {
+                    GuiLogging("The Publisher/Manager had changed from '" + this.actualPublisher.ToString()
+                        + "' to '" + pid.ToString() + "'. Register with the new Publisher/Manager.", NotificationLevel.Info);
+                    SendMessage(pid, PubSubMessageType.Register);
+                    timeoutForPublishersRegAccept.Start();
+                }
+                this.actualPublisher = pid;
+            }
+            this.timerCheckPubAvailability.Enabled = true;
         }
 
         private void p2pControl_OnSystemMessageReceived(PeerId sender, PubSubMessageType msgType)
         {
-            if (sender != actualPublisher)
+            if (sender != this.actualPublisher)
             {
                 GuiLogging("RECEIVED message from third party peer (not the publisher!): " + msgType.ToString() + ", ID: " + sender, NotificationLevel.Debug);
                 return;
@@ -193,7 +214,7 @@ namespace Cryptool.Plugins.PeerToPeer
                     GuiLogging(msgType.ToString().ToUpper() + " received from PUBLISHER.", NotificationLevel.Debug);
                     // continuously try to get a unregister and than re-register with publisher
                     Stop(msgType);
-                    Register();
+                    CheckPublishersAvailability2();
                     break;
                 case PubSubMessageType.Solution:
                     Stop(msgType);
@@ -204,6 +225,7 @@ namespace Cryptool.Plugins.PeerToPeer
                     GuiLogging("STOP received from publisher. Subscriber is stopped!", NotificationLevel.Warning);
                     break;
                 case PubSubMessageType.Pong:
+                    SendMessage(sender, PubSubMessageType.Register);
                     this.timeoutForPublishersPong.Stop();
                     break;
                 case PubSubMessageType.Alive:
@@ -211,9 +233,10 @@ namespace Cryptool.Plugins.PeerToPeer
                     // not possible at the moment
                     break;
             }
-            // workaround, because Timers.Timer doesn't contains a "Reset" method
+            // workaround, because Timers.Timer doesn't contains a "Reset" method --> when receiving a
+            // message from the Publisher, we can reset the "check pub availability"-interval time!
             this.timerCheckPubAvailability.Enabled = false;
-            this.timerCheckPubAvailability.Enabled = false;
+            this.timerCheckPubAvailability.Enabled = true;
         }
 
         private void p2pControl_OnPayloadMessageReceived(PeerId sender, byte[] data)
@@ -246,10 +269,8 @@ namespace Cryptool.Plugins.PeerToPeer
             switch (msgType)
             {
                 case PubSubMessageType.Register:
-                    // stop "RegisteringNotPossibleTimer
-                    this.timerRegisteringNotPossible.Stop();
                     // start waiting interval for RegAccept Message
-                    this.timeoutForPublishersRegAccept.Stop();
+                    this.timeoutForPublishersRegAccept.Start();
                     break;
                 case PubSubMessageType.Alive:
                 case PubSubMessageType.Ping:
@@ -275,80 +296,34 @@ namespace Cryptool.Plugins.PeerToPeer
 
             this.p2pControl.SendToPeer(msgType, pubPeerId);
 
-            GuiLogging(msgType.ToString() + " message sent to Publisher", NotificationLevel.Debug);
+            GuiLogging(msgType.ToString() + " message sent to Publisher ID '" + pubPeerId.ToString() + "'.", NotificationLevel.Debug);
         }
 
-        // registering isn't possible if no publisher has stored
-        // his ID in the DHT Entry with the Key TaskName
-        private void OnRegisteringNotPossible(object sender, ElapsedEventArgs e)
-        {
-            Register();
-        }
-
-        private void OnSendAliveMessage(object state)
+        private void OnSendAliveMessage(object sender, ElapsedEventArgs e)
         {
             SendMessage(actualPublisher, PubSubMessageType.Alive);
         }
 
         /// <summary>
-        /// Returns the actual Publishers ID or null, when a publisher wasn't found in the DHT. In the second case,
-        /// a Timer will be started, to check periodically the DHT entry.
-        /// When the publishers entry changed the Publishers ID, a Register-message will be send to the new Publisher.
-        /// The Timer for periodically checking the Publishers availability is also started here.
-        /// </summary>
-        /// <returns>the actual Publishers ID or null, when a publisher wasn't found in the DHT</returns>
-        private PeerId CheckPublishersAvailability()
-        {
-            PeerId pid = DHT_CommonManagement.GetTopicsPublisherId(ref this.p2pControl, this.sTopic);
-
-            if (pid == null)
-            {
-                this.timerRegisteringNotPossible.Start();
-                GuiLogging("Publisher wasn't found in DHT or settings didn't stored on the right way.", NotificationLevel.Debug);
-                return null;
-            }
-
-            sendAliveMessageInterval = DHT_CommonManagement.GetAliveMessageInterval(ref this.p2pControl, this.sTopic);
-
-            if (sendAliveMessageInterval == 0)
-            {
-                GuiLogging("Can't find AliveMsg-Settings from Publisher for the Subscriber.", NotificationLevel.Error);
-                return null;
-            }
-            this.timerSendingAliveMsg.Interval = Convert.ToDouble(sendAliveMessageInterval);
-            this.timerSendingAliveMsg.Start();
-
-            if (actualPublisher == null) //first time initialization
-            {
-                actualPublisher = pid;
-                GuiLogging("First time received publishers ID.", NotificationLevel.Debug);
-            }
-
-            GuiLogging("RECEIVED: Publishers' peer ID '" + pid + "', Alive-Msg-Interval: " + sendAliveMessageInterval / 1000 + " sec!", NotificationLevel.Debug);
-
-            this.timerCheckPubAvailability.Start();
-            // setting timer to check periodical the availability of the publishing peer
-
-            return pid;
-        }
-
-        /// <summary>
         /// Callback for timerCheckPubAvailability (adjustable parameter 
         /// in settings, usually every 60 seconds). If another Peer
-        /// takes over Publishing the Task, this will be handled in this callback, too.
+        /// takes over Publishing the Task, this and many other things
+        /// will be initiated here
         /// </summary>
         /// <param name="state"></param>
         private void OnCheckPubAvailability(object sender, ElapsedEventArgs e)
         {
-            PeerId newPubId = CheckPublishersAvailability();
+            CheckPublishersAvailability2();
 
-            if (newPubId == actualPublisher)
-            {
-                // Timer will be only stopped, when OnMessageReceived-Event received 
-                // a Pong-Response from the publisher! 
-                SendMessage(actualPublisher, PubSubMessageType.Ping);
-                this.timeoutForPublishersPong.Start();
-            }
+            //PeerId newPubId = CheckPublishersAvailability();
+
+            //if (newPubId == actualPublisher)
+            //{
+            //    // Timer will be only stopped, when OnMessageReceived-Event received 
+            //    // a Pong-Response from the publisher! 
+            //    SendMessage(actualPublisher, PubSubMessageType.Ping);
+            //    this.timeoutForPublishersPong.Start();
+            //}
         }
 
         /// <summary>
@@ -359,7 +334,9 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             GuiLogging("TIMEOUT: Waiting for registering accepted message from publisher!", NotificationLevel.Debug);
             // try to register again
-            Register();
+            
+            //Register();
+            CheckPublishersAvailability2();
         }
 
         /// <summary>
@@ -368,10 +345,12 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="state"></param>
         private void OnTimeoutPublishersPong(object sender, ElapsedEventArgs e)
         {
-            GuiLogging("Publisher didn't answer on Ping in the given time span!", NotificationLevel.Info);
+            GuiLogging("Publisher didn't respond on subscribers' ping message in the given time span!", NotificationLevel.Info);
             this.timeoutForPublishersPong.Stop();
             // try to get an active publisher and re-register
-            CheckPublishersAvailability();
+
+            //CheckPublishersAvailability();
+            CheckPublishersAvailability2();
         }
 
         /// <summary>
@@ -381,7 +360,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// </summary>
         public void Stop(PubSubMessageType msgType)
         {
-            if (actualPublisher != null && msgType != PubSubMessageType.NULL)
+            if (actualPublisher != null)
                 SendMessage(actualPublisher, msgType);
 
             #region stopping all timers, if they are still active
@@ -389,7 +368,6 @@ namespace Cryptool.Plugins.PeerToPeer
             this.timeoutForPublishersPong.Stop();
             this.timeoutForPublishersRegAccept.Stop();
             this.timerSendingAliveMsg.Stop();
-            this.timerCheckPubAvailability.Start();
 
             //when Sub received a UnReg message, it haven't stop
             //the registering not possible worker, to connect to
@@ -398,7 +376,7 @@ namespace Cryptool.Plugins.PeerToPeer
             {
                 this.bolStopped = true;
 
-                this.timerRegisteringNotPossible.Stop();
+                this.timerCheckPubAvailability.Stop();
 
                 this.Started = false;
                 this.p2pControl.OnSystemMessageReceived -= p2pControl_OnSystemMessageReceived;
@@ -409,7 +387,9 @@ namespace Cryptool.Plugins.PeerToPeer
             {
                 GuiLogging("Publisher/Manager had left the network, waiting for its comeback or takeover by a new Publisher/Manager.", NotificationLevel.Info);
             }
+
             #endregion
+
             GuiLogging("All Timers were stopped successfully", NotificationLevel.Debug);
         }
 
@@ -420,3 +400,76 @@ namespace Cryptool.Plugins.PeerToPeer
         }
     }
 }
+
+
+
+//private void Register()
+//        {
+//            // because CheckPublishersAvailability checks this value, set it for the first time here...
+//            // if bolStopped = true, the Timer for Checking Publishers liveliness doesn't start
+//            this.bolStopped = false;
+//            PeerId pubId = CheckPublishersAvailability();
+//            // if DHT Entry for the task is empty, no Publisher exists at present.
+//            // The method CheckPublishersAvailability starts a Timer for this case to continous proof Publisher-DHT-Entry
+//            if (pubId == null)
+//            {
+//                this.Started = false;
+//                // if PubId is null, the Publisher isn't started!
+//                this.bolStopped = true;
+//                GuiLogging("No publisher for registering found.", NotificationLevel.Info);
+//                return;
+//            }
+
+//            // when the actual publisher differs from the new detected publisher, change it
+//            if (pubId != null && (actualPublisher != null && actualPublisher != pubId))
+//            {
+//                GuiLogging("Publisher has been changed from ID '" + actualPublisher + "' to '" + pubId + "'", NotificationLevel.Debug);
+//                actualPublisher = pubId;
+//            }
+//            SendMessage(pubId, PubSubMessageType.Register);
+//            this.timeoutForPublishersRegAccept.Start();
+//            this.started = true;
+//        }
+
+//        /// <summary>
+//        /// Returns the actual Publishers ID or null, when a publisher wasn't found in the DHT. In the second case,
+//        /// a Timer will be started, to check periodically the DHT entry.
+//        /// When the publishers entry changed the Publishers ID, a Register-message will be send to the new Publisher.
+//        /// The Timer for periodically checking the Publishers availability is also started here.
+//        /// </summary>
+//        /// <returns>the actual Publishers ID or null, when a publisher wasn't found in the DHT</returns>
+//        private PeerId CheckPublishersAvailability()
+//        {
+//            PeerId pid = DHT_CommonManagement.GetTopicsPublisherId(ref this.p2pControl, this.sTopic);
+
+//            if (pid == null)
+//            {
+//                // do nothing, because every time this method will be invoked by
+//                // the timerCheckPubAvailability-Event, the DHT entry will be checked
+//                GuiLogging("Publisher wasn't found in DHT or settings didn't stored on the right way.", NotificationLevel.Debug);
+//                return null;
+//            }
+
+//            sendAliveMessageInterval = DHT_CommonManagement.GetAliveMessageInterval(ref this.p2pControl, this.sTopic);
+
+//            if (sendAliveMessageInterval == 0)
+//            {
+//                GuiLogging("Can't find AliveMsg-Settings from Publisher for the Subscriber.", NotificationLevel.Error);
+//                return null;
+//            }
+//            this.timerSendingAliveMsg.Interval = Convert.ToDouble(sendAliveMessageInterval);
+//            this.timerSendingAliveMsg.Start();
+
+//            if (actualPublisher == null) //first time initialization
+//            {
+//                actualPublisher = pid;
+//                GuiLogging("First time received publishers ID.", NotificationLevel.Debug);
+//            }
+
+//            GuiLogging("RECEIVED: Publishers' peer ID '" + pid + "', Alive-Msg-Interval: " + sendAliveMessageInterval / 1000 + " sec!", NotificationLevel.Debug);
+
+//            this.timerCheckPubAvailability.Start();
+//            // setting timer to check periodical the availability of the publishing peer
+
+//            return pid;
+//        }
