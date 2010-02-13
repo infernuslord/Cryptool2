@@ -115,19 +115,28 @@ namespace Cryptool.Plugins.KeySearcher_IControl
 
         void keySearcher_OnBruteforcingEnded(LinkedList<KeySearcher.KeySearcher.ValueKey> top10List)
         {
-            this.dtEndProcessing = DateTime.Now;
-            // Create a new JobResult
-            TimeSpan processingTime = this.dtEndProcessing.Subtract(this.dtStartProcessing);
-            KeyPatternJobResult jobResult = 
-                new KeyPatternJobResult(this.JobId, top10List, processingTime);
-
-            GuiLogging("Ended bruteforcing JobId '" + this.JobId.ToString() + "' in " 
-                + processingTime.TotalMinutes.ToString() + " minutes",NotificationLevel.Info);
-
-            // if registered, sending the serialized Job Result
-            if (OnProcessingSuccessfullyEnded != null)
+            if (this.JobId != null || top10List != null)
             {
-                OnProcessingSuccessfullyEnded(this.JobId, jobResult.Serialize());
+                this.dtEndProcessing = DateTime.Now;
+                // Create a new JobResult
+                TimeSpan processingTime = this.dtEndProcessing.Subtract(this.dtStartProcessing);
+                KeyPatternJobResult jobResult =
+                    new KeyPatternJobResult(this.JobId, top10List, processingTime);
+
+                GuiLogging("Ended bruteforcing JobId '" + this.JobId.ToString() + "' in "
+                    + processingTime.TotalMinutes.ToString() + " minutes", NotificationLevel.Info);
+
+                // if registered, sending the serialized Job Result
+                if (OnProcessingSuccessfullyEnded != null)
+                {
+                    OnProcessingSuccessfullyEnded(this.JobId, jobResult.Serialize());
+                }
+            }
+            else
+            {
+                GuiLogging("Bruteforcing was canceled, because jobId and/or jobResult are null.", NotificationLevel.Info);
+                if (OnProcessingCanceled != null)
+                    OnProcessingCanceled(null);
             }
         }
 

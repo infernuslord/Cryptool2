@@ -674,16 +674,19 @@ namespace Cryptool.Plugins.PeerToPeer
 
         public PeerId(OverlayAddress oAddress)
         {
-            this.stringId = oAddress.ToString();
-            this.byteId = oAddress.ToByteArray();
-
-            // FNV-1 hashing
-            uint fnvHash = OFFSET_BASIS;
-            foreach (byte b in byteId)
+            if (oAddress != null)
             {
-                fnvHash = (fnvHash * PRIME) ^ b;
+                this.stringId = oAddress.ToString();
+                this.byteId = oAddress.ToByteArray();
+
+                // FNV-1 hashing
+                uint fnvHash = OFFSET_BASIS;
+                foreach (byte b in byteId)
+                {
+                    fnvHash = (fnvHash * PRIME) ^ b;
+                }
+                hashCode = (int)fnvHash;
             }
-            hashCode = (int)fnvHash;
         }
 
         /// <summary>
