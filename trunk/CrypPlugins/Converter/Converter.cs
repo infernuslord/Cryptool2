@@ -40,6 +40,8 @@ namespace Cryptool.Plugins.Converter
 
         #endregion
 
+        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
+
         #region public interfaces
 
         public Converter()
@@ -93,7 +95,20 @@ namespace Cryptool.Plugins.Converter
             [MethodImpl(MethodImplOptions.Synchronized)]
             get
             {
-                return output;
+                if (inputOne is byte[] && settings.Converter == 8)
+                {
+                    if (inputOne == null)
+                        return null;
+
+                    CryptoolStream stream = new CryptoolStream();
+                    listCryptoolStreamsOut.Add(stream);
+                    stream.OpenRead((byte[])inputOne);
+                    return stream;
+                }
+                else
+                {
+                    return output;
+                }
             }
 
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -110,11 +125,14 @@ namespace Cryptool.Plugins.Converter
 
         public void Dispose()
         {
-
+            foreach (CryptoolStream stream in listCryptoolStreamsOut)
+                stream.Close();
         }
 
         public void Execute()
         {
+            if (InputOne != null)
+                GuiLogMessage("Laufe! " + InputOne.ToString(), NotificationLevel.Debug);
 
             if (!(InputOne is int[] || InputOne is byte[] || InputOne is CryptoolStream)) 
             {
@@ -384,12 +402,14 @@ namespace Cryptool.Plugins.Converter
                 }
 
             }
+            else if (inputOne is byte[] && settings.Converter == 8)
+            {
+                OnPropertyChanged("Output");
+            }
             else
             {
                 GuiLogMessage("not yet implemented", NotificationLevel.Error);
             }
-
-
         }
         private String setText(string temp) //apply user selected presentation format
         {
