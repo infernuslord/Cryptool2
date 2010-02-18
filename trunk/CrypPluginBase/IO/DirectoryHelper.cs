@@ -46,11 +46,18 @@ namespace Cryptool.PluginBase.IO
             private set;
         }
 
+        public static string DirectorySamples
+        {
+            get;
+            private set;
+        }
+
         static DirectoryHelper()
         {
             DirectoryCrypPlugins = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, crypPlugins);
             DirectoryLocal = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), crypTool2);
             DirectoryLocalTemp = Path.Combine(DirectoryLocal, tempFiles);
+            DirectorySamples = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SampleProjects");
         }
 
         public static string GetNewTempFilePath()
