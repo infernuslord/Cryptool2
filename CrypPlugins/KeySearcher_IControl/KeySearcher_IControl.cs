@@ -115,7 +115,9 @@ namespace Cryptool.Plugins.KeySearcher_IControl
 
         void keySearcher_OnBruteforcingEnded(LinkedList<KeySearcher.KeySearcher.ValueKey> top10List)
         {
-            if (this.JobId != null || top10List != null)
+            //wacker: you need to test if BOTH conditions apply, hence &&
+            //if (this.JobId != null || top10List != null)
+            if (this.JobId != null && top10List != null)
             {
                 this.dtEndProcessing = DateTime.Now;
                 // Create a new JobResult
