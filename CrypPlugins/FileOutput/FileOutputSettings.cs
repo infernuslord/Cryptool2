@@ -233,6 +233,12 @@ namespace FileOutput
       }
     }
 
+    [TaskPane("Clear file name", "Forget the output file name", null, 2, false, DisplayLevel.Beginner, ControlType.Button)]
+    public void ClearFileName()
+    {
+        TargetFilename = null;
+    }
+
     #region INotifyPropertyChanged Members
 
     public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
