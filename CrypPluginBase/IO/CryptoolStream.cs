@@ -69,15 +69,10 @@ namespace Cryptool.PluginBase.IO
         {
           get
           {
-            try
-            {
-              if (isReadOnly) return length;
-              else return fileStream.Length;
-            }
-            catch
-            {
-              return 0;
-            }
+              if (isReadOnly || fileStream == null)
+                  return length;
+              else
+                  return fileStream.Length;
           }
         }
 
