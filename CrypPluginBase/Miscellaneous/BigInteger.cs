@@ -170,7 +170,13 @@ namespace Cryptool.PluginBase.Miscellaneous
 
 
         private uint[] data = null;             // stores bytes from the Big Integer
-        public int dataLength;                 // number of actual chars used
+        
+        /// <summary>
+        /// This returns the number of the actual chars used
+        /// WARNIG: this sees bugg, e.g. a vlue of 256 lead to dataLength = 1, which should be 2 
+        /// This happens if 256 is created with the ++ operator/ other cases not checked)
+        /// </summary>
+        public int dataLength;
 
 
         //***********************************************************************
@@ -2681,7 +2687,7 @@ namespace Cryptool.PluginBase.Miscellaneous
             int numBits = bitCount();
 
             int numBytes = numBits >> 3;
-            if ((numBits & 0x7) != 0)
+            if ((numBits == 0) || ((numBits & 0x7) != 0)) // if numbits == 0, we still need a single byte to represent zero!
                 numBytes++;
 
             byte[] result = new byte[numBytes];
