@@ -278,33 +278,26 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
             byte[] resultByte = null;
             if (jobId != null)
             {
-                // there's an error in BigInteger.getBytes() --> return null bytes, when BigInt is 0!
-                // => workaround: use jobId.dataLength, returns the right value!
-                byte[] jobIdByteLen = BitConverter.GetBytes(jobId.dataLength);
-                byte[] jobIdByte;
-                if (jobId.getBytes().Length == 0)
-                {
-                    jobIdByte = new byte[1] { 0 };
-                    resultByte = new byte[jobIdByteLen.Length + 1];
-                }
-                else
-                {
-                    jobIdByte = jobId.getBytes();
-                    resultByte = new byte[jobIdByte.Length + jobIdByteLen.Length];
-                }
-                Buffer.BlockCopy(jobIdByteLen, 0, resultByte, 0, jobIdByteLen.Length);
-                Buffer.BlockCopy(jobIdByte, 0, resultByte, jobIdByteLen.Length, jobIdByte.Length);
+                // Note, there is a Bug in BigInt: BigInt b = 256; => b.dataLength = 1 -- it should be 2!
+                // As a workarround rely on getBytes().Length (the null bytes for the BigInt 0 should be fixed now)
+                byte[] jobIdBytes = jobId.getBytes();
+                byte[] jobIdBytesLen = BitConverter.GetBytes(jobIdBytes.Length);
+              
+                resultByte = new byte[jobIdBytes.Length + jobIdBytesLen.Length];
+                
+                Buffer.BlockCopy(jobIdBytesLen, 0, resultByte, 0, jobIdBytesLen.Length);
+                Buffer.BlockCopy(jobIdBytes, 0, resultByte, jobIdBytesLen.Length, jobIdBytes.Length);
             }
             return resultByte;
         }
 
         /// <summary>
         /// Deserialized a jobId from any byte[] array. Requirement: The byte[] has
-        /// to start with a one byte JobId-Length-Information and have than enough
+        /// to start with a four byte (int32) JobId-Length-Information and have than enough
         /// bytes left to deserialize the BigInteger Value. If any bytes left after
         /// deserializing the JobId, the out value will specify this amount.
         /// </summary>
-        /// <param name="serializedJobId">The byte[] has to start with a one byte 
+        /// <param name="serializedJobId">The byte[] has to start with a four bytes (int32) 
         /// JobId-Length-Information and have than enough bytes left to deserialize 
         /// the BigInteger Value</param>
         /// <param name="bytesLeft">If any bytes left after
