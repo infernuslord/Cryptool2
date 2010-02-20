@@ -13,7 +13,7 @@ In the following sections we will describe all steps necessary in order to compi
 \section{Prerequisites}
 \label{Prerequisites}
 
-Since CrypTool 2.0 is based on Microsoft .NET 3.5, you will need a Microsoft Windows environment. (Currently no plans exist for porting this project to mono or to other platforms.) We have successfully tested with \textbf{Windows XP} and \textbf{Windows Vista}.
+Since CrypTool 2.0 is based on Microsoft .NET 3.5, you will need a Microsoft Windows environment. (Currently no plans exist for porting this project to mono or to other platforms.) We have successfully tested with \textbf{Windows XP}, \textbf{Windows Vista} and \textbf{Windows 7}.
 
 Since you are reading the developer guidlines, you probably want to develop something. Hence, you will need a development environment. In order to compile our sources you need \textbf{Microsoft Visual Studio 2008 Professional}. Please always install the latest service packs for Visual Studio. Unfortunately, our sources do not work (smoothly) with the freely available Visual Studio Express (C\#) versions. This is due to the fact that CrypWin uses a commercial component and is therefore distributed only as binary. However, the C\# Express version cannot handle a binary as a start project, and thus debugging becomes cumbersome.
 
@@ -40,7 +40,7 @@ To access the repository, you must provide a username and password. If you are a
 
 As mentioned above, in order to access the SVN repository one of the best options is \href{http://www.tortoisesvn.net/}{TortoiseSVN}. We will describe here how to use the basics of the program, although you should be able to use any SVN client in a similar fashion.
 
-First install TortoiseSVN (which unfortunately requires you to reboot your computer) and then create a directory (for instance ``CrypTool2") for storing the local working files somewhere on your computer. Right-click on this directory and select ``SVN Checkout" from the context menu. A window will appear in which you will be asked for the URL of the repository as given above. The ``Checkout directory" should already be filled in correctly with your new folder. Then just hit ok, accept the certificate (if necessary), and enter your login information as described above. Mark the checkbox for saving your credentials, or else you will be asked for them for every single file. Then hit ok, and now the whole CrypTool2 repository should be checked out into your chosen directory.
+First install TortoiseSVN (which unfortunately requires you to reboot your computer) and then create a directory (for instance ``CrypTool2") for storing the local working files somewhere on your computer. Right-click on this directory and select ``SVN Checkout" from the context menu. A window will appear in which you will be asked for the URL of the repository as given above. The ``Checkout directory" should already be filled in correctly with your new folder. Then just hit ok, accept the certificate (if necessary), and enter your login information as described above. Mark the checkbox for saving your credentials if you don't want to enter them every time you work with the repository. Then hit ok, and now the whole CrypTool2 repository should be checked out into your chosen directory.
 
 Later on, if changes have been made in the repository and you want to update your working copy, you can do this by right-clicking on any directory within the working files and choosing ``SVN Update" from the context menu. If you are a registered developer, have changed a file, and want your changes to be reflected in the repository, you should choose ``SVN Commit" from the context menu to upload your changes. Please always provide \textit{meaningful descriptions} of your updates. You should commit your sources to our SVN repository as often as you can. This will ensure your interoperability with the rest of the project for further development.
 
@@ -55,11 +55,70 @@ Please only check in clean code by using the following \textbf{ignore patterns}:
 \textit{obj bin debug release *.pdb *.suo *.exe *.dll}
 \end{center}
 
-This basically means that you should never check in compiled and user-generated files. For example, please do not check in the entire \textit{bin/} and \textit{obj/} directories that Visual Studio generates. If you want to submit a component (binary file) despite the ignore patterns you can still add \textit{*.dll} files by using the context menu and adding that file explicitly --- but please be absolutely sure that you know what you are doing.
+This basically means that you should never check in compiled and user-generated files. For example, please do not check in the entire \textit{bin/} and \textit{obj/} directories that Visual Studio generates. Note that the server will reject your commits if you try to do so. If you want to submit a component (binary file) despite the ignore patterns you can still add \textit{*.dll} files by using the context menu and add that file explicitly - but please be absolutely sure, that you know what you are doing. Additionally you need to explicitly provide a list of file names respectively directory names which shall override the ignore pattern. Example, you want to check in a file named someLib.dll, you must write a comment which looks like this:
+
+\begin{center}
+\fbox{\parbox{15cm}
+{\tt
+The lib is required by all developers, so I'm adding it explicitly to the repository.
+
+override-bad-extension: someLib.dll
+}}
+\end{center}
+
+Please note that any text after the colon and the whitespace will be treated as the file name. Please do not use quotes and do not write any text after the name. 
+
+
+\subsection*{Committing your changes}
+\label{CommitingChanges}
+
+If you have an SVN account (not anonymous access), you can commit your file changes to the public CrypTool2 repository. Choose ''SVN Commit'' from the context menu in order to upload your changes. Please always provide meaningful descriptions of your updates.
+
+You can use command words in the SVN comment to link your changes to a particular ticket. The command syntax is as follows:
+
+\begin{center}
+\fbox{\parbox{15cm}
+{\tt
+command \#1\newline
+command \#1, \#2\newline
+command \#1 \& \#2\newline
+command \#1 and \#2
+}}
+\end{center}
+
+
+You can have more than one command in a message. The following commands are supported. There is more than one spelling for each command, to make this as user-friendly as possible.
+
+\begin{center}
+\fbox{\parbox{15cm}
+{\tt
+closes, fixes:\newline
+  The specified issue numbers are closed with the contents of this
+  commit message being added to it.
+
+references, refs, addresses, re:\newline
+  The specified issue numbers are left in their current status, but
+  the contents of this commit message are added to their notes.
+}}
+\end{center}
+
+A fairly complicated example of what you can do is with a commit message of:
+
+\begin{center}
+\fbox{\parbox{15cm}
+{\tt
+Changed blah and foo to do this or that. Fixes \#10 and \#12, and refs \#12.
+}}
+\end{center}
+
+
+This will close \#10 and \#12, and add a note to \#12.
+
+
 
 \section{Compiling the sources}
 \label{CompilingTheSources}
 
 By this point you should have checked out a copy of the entire CrypTool repository. Compiling is pretty easy; just go to the \textit{trunk/} directory and open the \textbf{\textit{CrypTool 2.0.sln}} Visual Studio solution. The Visual Studio IDE should open with all the working plugins components nicely arranged. In case you are now starting Visual Studio for the first time, you will have to choose your settings. Just select either ``most common" or ``C\#" --- you can change this at any time later. On the right side is the project explorer, where you can see all the subprojects included in the solution. Look for the project \textbf{\textit{CrypWin.exe}} there. Once you have found it, right-click on it and select ``Set as StartUp-Project" from the context menu. Next, go to the menu bar and select ``Build" $\rightarrow$ ``Build Solution". Then go to ``Debug" and select ``Start Debugging" --- now CrypTool 2.0 should start for the first time with your own compiled code. Presumably you have not changed anything yet, but you now have your own build of all the components (with the exception of CrypWin and AnotherEditor, since they are available only as binaries). If the program does not compile or start correctly, please consult our \href{https://www.cryptool.org/trac/CrypTool2/wiki/FAQ}{FAQ} and let us know if you found a bug.
 
-If you are a core developer, hence somebody who can also compile CryWin and AnotherEditor, you should use the \textbf{\textit{CrypTool 2.0.sln}} solution from the \textit{trunk/CoreDeveloper/} directory (which will \textit{not} be visible to you if you are not a core developer). As a core developer, be aware that when you compile, you \textbf{change the \textit{CryWin.exe}} which is visible to everybody else. Thus, when doing a check-in, please make sure you \textit{really} want to check in a new binary.
+If you are a core developer, hence somebody who can also compile CryWin and AnotherEditor, you should use the \textbf{\textit{CrypTool 2.0.sln}} solution from the \textit{trunk/CoreDeveloper/} directory (which will \textit{not} be visible to you if you are not a core developer). As a core developer, be aware that when you compile, you \textbf{change the \textit{CryWin.exe}} which is visible to everybody else. Thus, when doing a check-in, please make sure you \textit{really} want to check in a new binary. As core developer you can also build a new setup and publish it as beta release on the website. This process is explained in the wiki: \url{https://www.cryptool.org/trac/CrypTool2/wiki/BuildSetup}.
