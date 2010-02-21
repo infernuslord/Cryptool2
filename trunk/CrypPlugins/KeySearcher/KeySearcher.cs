@@ -163,6 +163,23 @@ namespace KeySearcher
         }
         /* END: Lines above are from Arnie - 2010.01.12 */
 
+        private ValueKey top1ValueKey;
+        public virtual ValueKey Top1
+        {
+            set { top1ValueKey = value; OnPropertyChanged("Top1Message"); OnPropertyChanged("Top1Key"); }
+        }
+
+        [PropertyInfo(Direction.OutputData, "Top1 Message", "The best message found", "", DisplayLevel.Beginner)]
+        public virtual byte[] Top1Message
+        {
+            get { return top1ValueKey.decryption; }
+        }
+        [PropertyInfo(Direction.OutputData, "Top1 Key", "The best key found", "", DisplayLevel.Beginner)]
+        public virtual string Top1Key
+        {
+            get { return top1ValueKey.key; }
+        }
+
         #endregion
 
         #region IPlugin Members
@@ -728,6 +745,8 @@ namespace KeySearcher
                         {
                             if (vk.value > node.Value.value)
                             {
+                                if (node == costList.First)
+                                    Top1 = vk;
                                 costList.AddBefore(node, vk);
                                 costList.RemoveLast();
                                 value_threshold = costList.Last.Value.value;
@@ -746,6 +765,8 @@ namespace KeySearcher
                         {
                             if (vk.value < node.Value.value)
                             {
+                                if (node == costList.First)
+                                    Top1 = vk;
                                 costList.AddBefore(node, vk);
                                 costList.RemoveLast();
                                 value_threshold = costList.Last.Value.value;
