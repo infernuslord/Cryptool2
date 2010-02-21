@@ -588,8 +588,20 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <summary>
         /// Called by a Master to start decryption with ciphertext
         /// </summary>
+        /// <param name="ciphertext">encrypted text</param>
         /// <param name="key">key</param>
         /// <param name="bytesToUse">bytesToUse</param>
+        /// <returns>decrypted text</returns>
+        public byte[] Decrypt(byte[] ciphertext, byte[] key, int bytesToUse)
+        {
+            return execute(ciphertext, key, bytesToUse, 1);
+        }
+
+        /// <summary>
+        /// Called by a Master to start decryption with ciphertext
+        /// </summary>
+        /// <param name="ciphertext">encrypted text</param>
+        /// <param name="key">key</param>
         /// <returns>decrypted text</returns>
         public byte[] Decrypt(byte[] ciphertext, byte[] key)
         {
