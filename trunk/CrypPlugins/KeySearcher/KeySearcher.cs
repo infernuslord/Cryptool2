@@ -175,9 +175,13 @@ namespace KeySearcher
             get { return top1ValueKey.decryption; }
         }
         [PropertyInfo(Direction.OutputData, "Top1 Key", "The best key found", "", DisplayLevel.Beginner)]
-        public virtual string Top1Key
+        public virtual byte[] Top1Key
         {
-            get { return top1ValueKey.key; }
+            get
+            {
+                int[] a = null, b = null, c = null;
+                return ControlMaster.getKeyFromString(top1ValueKey.key, ref a, ref b, ref c);
+            }
         }
 
         #endregion
