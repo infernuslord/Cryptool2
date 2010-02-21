@@ -1127,6 +1127,11 @@ namespace Transposition
             throw new NotImplementedException();
         }
 
+        public byte[] Decrypt(byte[] ciphertext, byte[] key, int bytesToUse)
+        {
+            return Decrypt(ciphertext, key);
+        }
+
         public byte[] Decrypt(byte[] ciphertext, byte[] key)
         {
             if (plugin.Input != ciphertext)
