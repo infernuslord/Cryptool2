@@ -544,11 +544,18 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             throw new NotImplementedException();
         }
 
-        // TODO: add override with iv, mode, blocksize
         public byte[] Decrypt(byte[] ciphertext, byte[] key)
         {
+            return Decrypt(ciphertext, key, ciphertext.Length);
+        }
+
+        // TODO: add override with iv, mode, blocksize
+        public byte[] Decrypt(byte[] ciphertext, byte[] key, int bytesToUse)
+        {
             CryptoStream crypto_stream = null;
-            byte[] output = new byte[ciphertext.Length];
+            int size = bytesToUse > ciphertext.Length ? ciphertext.Length : bytesToUse;
+
+            byte[] output = new byte[size];
             
             // always recreating this instance is thread-safe, but may cost us some performance
             SymmetricAlgorithm des_algorithm  = new DESCryptoServiceProvider();
@@ -594,7 +601,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 p_decryptor = mi.Invoke(des_algorithm, Par) as ICryptoTransform;
             }
 
-            crypto_stream = new CryptoStream(new MemoryStream(ciphertext), p_decryptor, CryptoStreamMode.Read);
+            crypto_stream = new CryptoStream(new MemoryStream(ciphertext,0,size), p_decryptor, CryptoStreamMode.Read);
 
             int read, readOverall = 0;
             do

@@ -104,7 +104,7 @@ namespace KeySearcher
                 if (value != this.csEncryptedData)
                 {
                     this.csEncryptedData = value;
-                    cryptoolStreamChanged = true;
+                    this.encryptedData = GetByteFromCryptoolStream(value);
                     OnPropertyChanged("CSEncryptedData");
                 }
             }
@@ -120,7 +120,6 @@ namespace KeySearcher
                 if (value != this.encryptedData)
                 {
                     this.encryptedData = value;
-                    cryptoolStreamChanged = true;
                     OnPropertyChanged("EncryptedData");
                 }
             }
@@ -129,13 +128,11 @@ namespace KeySearcher
         /// <summary>
         /// When the Input-Slot changed, set this variable to true, so the new Stream will be transformed to byte[]
         /// </summary>
-        private bool cryptoolStreamChanged = false;
-        private byte[] encryptedByteData;
         private byte[] GetByteFromCryptoolStream(CryptoolStream cryptoolStream)
         {
-            // only transform CryptoolStream to Byte[], if there is a new CryptoolStream
-            // or decryptedByteData is Null
-            if (cryptoolStreamChanged || encryptedByteData == null)
+            byte[] encryptedByteData = null;
+
+            if (cryptoolStream != null)
             {
                 CryptoolStream cs = new CryptoolStream();
                 cs.OpenRead(cryptoolStream.FileName);
@@ -227,7 +224,7 @@ namespace KeySearcher
         public virtual void Execute()
         {
             //either byte[] CStream input or CryptoolStream Object input
-            if (this.EncryptedData != null || this.CSEncryptedData != null) //to prevent execution on initialization
+            if (this.encryptedData != null || this.csEncryptedData != null) //to prevent execution on initialization
             {
                 if (this.ControlMaster != null)
                     this.process(this.ControlMaster);
@@ -445,20 +442,29 @@ namespace KeySearcher
         {
             try
             {
-                CryptoolStream cs = new CryptoolStream();
-                if (this.CSEncryptedData == null)
+                if (this.encryptedData != null && this.encryptedData.Length > 0)
                 {
-                    cs.OpenRead(this.EncryptedData);
-                    valueKey.decryption = sender.Decrypt(this.EncryptedData, keya);
+                    valueKey.decryption = sender.Decrypt(this.encryptedData, keya, bytesToUse);
                 }
                 else
                 {
-                    cs.OpenRead(this.CSEncryptedData.FileName);
-                    byte[] byteCS = new byte[cs.Length];
-                    cs.Read(byteCS, 0, byteCS.Length);
-                    //this.CSEncryptedData.Read(byteCS, 0, byteCS.Length);
-                    valueKey.decryption = sender.Decrypt(byteCS, keya);
+                    GuiLogMessage("Can't bruteforce empty input!", NotificationLevel.Error);
+                    return false;
                 }
+                //CryptoolStream cs = new CryptoolStream();
+                //if (this.CSEncryptedData == null)
+                //{
+                //    cs.OpenRead(this.EncryptedData);
+                //    valueKey.decryption = sender.Decrypt(this.EncryptedData, keya);
+                //}
+                //else
+                //{
+                //    cs.OpenRead(this.CSEncryptedData.FileName);
+                //    byte[] byteCS = new byte[cs.Length];
+                //    cs.Read(byteCS, 0, byteCS.Length);
+                //    //this.CSEncryptedData.Read(byteCS, 0, byteCS.Length);
+                //    valueKey.decryption = sender.Decrypt(byteCS, keya);
+                //}
 
                 //valueKey.decryption = sender.Decrypt(keya, bytesToUse);
             }
@@ -859,8 +865,8 @@ namespace KeySearcher
         public void BruteforcePattern(KeyPattern pattern, byte[] encryptedData, byte[] initVector, IControlEncryption encryptControl, IControlCost costControl)
         {
             /* Begin: New stuff because of changing the IControl data flow - Arnie 2010.01.18 */
-            this.EncryptedData = encryptedData;
-            this.InitVector = initVector;
+            this.encryptedData = encryptedData;
+            this.initVector = initVector;
             /* End: New stuff because of changing the IControl data flow - Arnie 2010.01.18 */
             
             LinkedList<ValueKey> lstRet = bruteforcePattern(pattern, encryptControl);

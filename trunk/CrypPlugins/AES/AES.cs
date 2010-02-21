@@ -495,12 +495,17 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             return null;
         }
 
-       
-
         public byte[] Decrypt(byte[] ciphertext, byte[] key)
         {
+            return Decrypt(ciphertext, key, ciphertext.Length);
+        }
+
+        public byte[] Decrypt(byte[] ciphertext, byte[] key, int bytesToUse)
+        {
             CryptoStream crypto_stream = null;
-            byte[] output = new byte[ciphertext.Length];
+            int size = bytesToUse > ciphertext.Length ? ciphertext.Length : bytesToUse;
+
+            byte[] output = new byte[size];
 
 
             SymmetricAlgorithm aes_algorithm = null;
@@ -531,7 +536,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                     p_decryptor = mi.Invoke(aes_algorithm, Par) as ICryptoTransform;
                 }
 
-                crypto_stream = new CryptoStream(new MemoryStream(ciphertext), p_decryptor, CryptoStreamMode.Read);
+                crypto_stream = new CryptoStream(new MemoryStream(ciphertext, 0, size), p_decryptor, CryptoStreamMode.Read);
 
                 byte[] buffer = new byte[aes_algorithm.BlockSize / 8];
                 int bytesRead;
