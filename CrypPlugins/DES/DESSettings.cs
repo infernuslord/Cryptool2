@@ -75,12 +75,5 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         #endregion
 
-        public event StatusChangedEventHandler OnPluginStatusChanged;
-
-        private void ChangePluginIcon(int Icon)
-        {
-            if (OnPluginStatusChanged != null) OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, Icon));
-        }
-
     }
 }
