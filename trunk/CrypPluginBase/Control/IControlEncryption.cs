@@ -30,8 +30,5 @@ namespace Cryptool.PluginBase.Control
         void changeSettings(string setting, object value);
         IControlEncryption clone();
         event KeyPatternChanged keyPatternChanged;
-
-        [Obsolete("This signature doesn't pass the ciphertext, use Decrypt(byte[], byte[]) instead")]
-        byte[] Decrypt(byte[] key, int blocksize);
     }
 }

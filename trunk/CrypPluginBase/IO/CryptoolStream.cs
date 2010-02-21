@@ -106,7 +106,14 @@ namespace Cryptool.PluginBase.IO
 
                 if (deleteOnDispose)
                 {
-                    File.Delete(fileName);
+                    try
+                    {
+                        File.Delete(fileName);
+                    }
+                    catch (Exception)
+                    {
+                      //WA: Ignore ?? can't do anything since file is locked by other process and thus file remains.
+                    }
                 }
             }
         }

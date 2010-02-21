@@ -585,9 +585,15 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             return execute(key, bytesToUse, 0);
         }
 
+        /// <summary>
+        /// Called by a Master to start decryption with ciphertext
+        /// </summary>
+        /// <param name="key">key</param>
+        /// <param name="bytesToUse">bytesToUse</param>
+        /// <returns>decrypted text</returns>
         public byte[] Decrypt(byte[] ciphertext, byte[] key)
         {
-            throw new NotImplementedException();
+            return execute(ciphertext, key, ciphertext.Length, 1);
         }
 
         /// <summary>
@@ -651,17 +657,56 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <summary>
         /// Called by itself to start encryption/decryption
         /// </summary>
+        /// /// <param name="data">The data for encryption/decryption</param>
         /// <param name="key">key</param>
         /// <param name="bytesToUse">bytesToUse</param>
         /// <returns>encrypted/decrypted text</returns>
-        private byte[] execute(byte[] key, int bytesToUse, int action)
+        private byte[] execute(byte[] data, byte[] key, int bytesToUse, int action)
         {
             byte[] output;
             if (bytesToUse > 0)
                 output = new byte[bytesToUse];
             else
-                output = new byte[plugin.InputStream.Length];
+                output = new byte[data.Length];
 
+
+            System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+
+            string IVString = "00000000";
+            if (plugin.InputIV != null)
+            {
+                IVString = enc.GetString(plugin.InputIV);
+            }
+            
+            if (((SDESSettings)plugin.Settings).Mode == 0 && action == 0)
+            {
+                output = ecb.encrypt(data, key, bytesToUse);
+            }
+            else if (((SDESSettings)plugin.Settings).Mode == 1 && action == 0)
+            {
+                output = cbc.encrypt(data, key, Tools.stringToBinaryByteArray(IVString), bytesToUse);
+            }
+            else if (((SDESSettings)plugin.Settings).Mode == 0 && action == 1)
+            {
+                output = ecb.decrypt(data, key, bytesToUse);
+            }
+            else if (((SDESSettings)plugin.Settings).Mode == 1 && action == 1)
+            {
+                output = cbc.decrypt(data, key, Tools.stringToBinaryByteArray(IVString), bytesToUse);
+            }
+            return output;
+
+        }
+
+        /// <summary>
+        /// Called by itself to start encryption/decryption
+        /// </summary>
+        /// <param name="key">key</param>
+        /// <param name="bytesToUse">bytesToUse</param>
+        /// <returns>encrypted/decrypted text</returns>
+        private byte[] execute(byte[] key, int bytesToUse, int action)
+        {
+            
             if (input == null || plugin.InputChanged)
             {
                 plugin.InputChanged = false;
@@ -677,25 +722,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                     i++;
                 }
             }
-          
-            System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
-            if (((SDESSettings)plugin.Settings).Mode == 0 && action == 0)
-            {                                
-                output = ecb.encrypt(input, key, bytesToUse);
-            }
-            else if(((SDESSettings)plugin.Settings).Mode == 1 && action == 0)
-            {                
-                output = cbc.encrypt(input, key, Tools.stringToBinaryByteArray(enc.GetString(plugin.InputIV)),bytesToUse);
-            }            
-            else if(((SDESSettings)plugin.Settings).Mode == 0 && action == 1)
-            {
-                output = ecb.decrypt(input, key,bytesToUse);
-            }
-            else if (((SDESSettings)plugin.Settings).Mode == 1 && action == 1)
-            {
-                output = cbc.decrypt(input, key, Tools.stringToBinaryByteArray(enc.GetString(plugin.InputIV)), bytesToUse);
-            }   
-            return output;
+
+            return execute(input, key, bytesToUse, action);
         }
 
         #endregion

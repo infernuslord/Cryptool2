@@ -16,6 +16,7 @@ using Cryptool.CubeAttackController;
 
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
+    [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
     [PluginInfo(false, "DES", "Data Encryption Standard", "DES/DetailedDescription/Description.xaml", "DES/icon.png", "DES/Images/encrypt.png", "DES/Images/decrypt.png")]
     [EncryptionType(EncryptionType.SymmetricBlock)]
     public class DES : IEncryption
@@ -32,22 +33,44 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         private IControlEncryption controlSlave;
         #endregion
 
+
+        #region Initialisation
+        
         public DES()
         {
             this.settings = new DESSettings();
-            this.settings.OnPluginStatusChanged += settings_OnPluginStatusChanged;
         }
 
-        void settings_OnPluginStatusChanged(IPlugin sender, StatusEventArgs args)
+
+        
+
+        #endregion
+
+        #region External connection properties
+
+        [PropertyInfo(Direction.ControlSlave, "DES Slave for Cryptanalysis", "Direct access to the DES component for cryptanalysis.", "", DisplayLevel.Beginner)]
+        public IControlEncryption ControlSlave
         {
-            if(OnPluginStatusChanged != null)OnPluginStatusChanged(this, args);
+            get
+            {
+                if (controlSlave == null)
+                    controlSlave = new DESControl(this);
+                return controlSlave;
+            }
         }
 
-        public ISettings Settings
+        private IControlCubeAttack desSlave;
+        [PropertyInfo(Direction.ControlSlave, "DES Slave for cube attack", "Direct access to the DES component for usage with the cube attack plugin.", "", DisplayLevel.Beginner)]
+        public IControlCubeAttack DESSlave
         {
-            get { return this.settings; }
-            set { this.settings = (DESSettings)value; }
+            get
+            {
+                if (desSlave == null)
+                    desSlave = new CubeAttackControl(this);
+                return desSlave;
+            }
         }
+
 
         [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public CryptoolStream InputStream
@@ -71,7 +94,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Key", "Must be 8 bytes.", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Key", "The key for encryption7decryption. It must be exactly 8 bytes (64 Bits).", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public byte[] InputKey
         {
             get { return this.inputKey; }
@@ -82,7 +105,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.InputData, "IV", "IV to be used in chaining modes, must be the same as the Blocksize in bytes (8 bytes).", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "IV", "IV to be used in chaining modes, must be the same as the Blocksize in bytes (8 bytes).", null, false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public byte[] InputIV
         {
             get { return this.inputIV; }
@@ -115,177 +138,21 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        private void ConfigureAlg(SymmetricAlgorithm alg)
+        #endregion       
+
+        #region Public IPlugin Member
+
+        #region Events
+        public event StatusChangedEventHandler OnPluginStatusChanged;
+        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+        #endregion
+
+        public ISettings Settings
         {
-            //check for a valid key
-            if (this.inputKey == null)
-            {
-                //create a trivial key 
-                inputKey = new byte[8];
-                // write a warning to the ouside word
-                GuiLogMessage("WARNING - No key provided. Using 0x000..00!", NotificationLevel.Warning);
-            }
-            alg.Key = this.inputKey;
-
-            //check for a valid IV
-            if (this.inputIV == null)
-            {
-                //create a trivial key 
-                inputIV = new byte[alg.BlockSize / 8];
-               GuiLogMessage("WARNING - No IV provided. Using 0x000..00!", NotificationLevel.Warning);
-            }
-            alg.IV = this.inputIV;
-            switch (settings.Mode)
-            { //0="ECB"=default, 1="CBC", 2="CFB", 3="OFB"
-                case 1: alg.Mode = CipherMode.CBC; break;
-                case 2: alg.Mode = CipherMode.CFB; break;
-                case 3: alg.Mode = CipherMode.OFB; break;
-                default: alg.Mode = CipherMode.ECB; break;
-            }
-            switch (settings.Padding)
-            { //0="Zeros"=default, 1="None", 2="PKCS7"
-                case 1: alg.Padding = PaddingMode.None; break;
-                case 2: alg.Padding = PaddingMode.PKCS7; break;
-                case 3: alg.Padding = PaddingMode.ANSIX923; break;
-                case 4: alg.Padding = PaddingMode.ISO10126; break;
-                default: alg.Padding = PaddingMode.Zeros; break;
-            }
+            get { return this.settings; }
+            set { this.settings = (DESSettings)value; }
         }
-
-        private void checkForInputStream()
-        {
-            if (settings.Action == 0 && (inputStream == null || (inputStream != null && inputStream.Length == 0)))
-            {
-                //create some input
-                String dummystring = "Dummy string - no input provided - \"Hello DES World\" - dummy string - no input provided!";
-                this.inputStream = new CryptoolStream();
-                this.inputStream.OpenRead(this.GetPluginInfoAttribute().Caption, Encoding.Default.GetBytes(dummystring.ToCharArray()));
-                // write a warning to the ouside word
-                GuiLogMessage("WARNING - No input provided. Using dummy data. (" + dummystring + ")", NotificationLevel.Warning);
-            }
-        }
-
-        public void Execute()
-        {
-            try
-            {
-                //copy inputStream for Slave
-                if (controlSlave is object && InputStream is object && InputIV is object)
-                {
-                    CryptoolStream cs = new CryptoolStream();
-                    cs.OpenRead(inputStream.FileName); 
-                    ((DESControl)controlSlave).InputStream = cs;
-                }
-
-                process(settings.Action);
-
-                //Work with slave
-                if (controlSlave is object && InputStream is object && InputIV is object)
-                {
-                    ((DESControl)controlSlave).reset();
-                    ((DESControl)controlSlave).onStatusChanged();
-
-                }
-            }
-            finally
-            {
-                if (controlSlave is object && ((DESControl)controlSlave).InputStream is object)
-                    ((DESControl)controlSlave).closeStreams();
-            }
-        }
-
-        private void process(int action)
-        {
-            //Encrypt/Decrypt Stream
-            try
-            {
-                checkForInputStream();
-                if (inputStream == null || (inputStream != null && inputStream.Length == 0))
-                {
-                    GuiLogMessage("No input given. Not using dummy data in decrypt mode. Aborting now.", NotificationLevel.Error);
-                    return;
-                }
-
-                if (this.inputStream.CanSeek) this.inputStream.Position = 0;
-                SymmetricAlgorithm p_alg = new DESCryptoServiceProvider();
-
-                ConfigureAlg(p_alg);
-
-                ICryptoTransform p_encryptor = null;
-                switch (action)
-                {
-                    case 0:
-                        p_encryptor = p_alg.CreateEncryptor();
-                        break;
-                    case 1:
-                        p_encryptor = p_alg.CreateDecryptor();
-                        break;
-                }
-
-                outputStream = new CryptoolStream();
-                listCryptoolStreamsOut.Add(outputStream);
-                outputStream.OpenWrite(this.GetPluginInfoAttribute().Caption);
-                p_crypto_stream = new CryptoStream((Stream)inputStream, p_encryptor, CryptoStreamMode.Read);
-                byte[] buffer = new byte[p_alg.BlockSize / 8];
-                int bytesRead;
-                int position = 0;
-                GuiLogMessage("Starting encryption [Keysize=" + p_alg.KeySize.ToString() + " Bits, Blocksize=" + p_alg.BlockSize.ToString() + " Bits]", NotificationLevel.Info);
-                DateTime startTime = DateTime.Now;
-                while ((bytesRead = p_crypto_stream.Read(buffer, 0, buffer.Length)) > 0 && !stop)
-                {
-                    outputStream.Write(buffer, 0, bytesRead);
-
-                    if ((int)(inputStream.Position * 100 / inputStream.Length) > position)
-                    {
-                        position = (int)(inputStream.Position * 100 / inputStream.Length);
-                        ProgressChanged(inputStream.Position, inputStream.Length);
-                    }
-                }
-
-                p_crypto_stream.Flush();
-                outputStream.Close();
-                DateTime stopTime = DateTime.Now;
-                TimeSpan duration = stopTime - startTime;
-                if (!stop)
-                {
-                    GuiLogMessage("Encryption complete! (in: " + inputStream.Length.ToString() + " bytes, out: " + outputStream.Length.ToString() + " bytes)", NotificationLevel.Info);
-                    GuiLogMessage("Wrote data to file: " + outputStream.FileName, NotificationLevel.Info);
-                    GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
-                    OnPropertyChanged("OutputStream");
-                }
-                if (stop)
-                {
-                    GuiLogMessage("Aborted!", NotificationLevel.Info);
-                }
-            }
-            catch (CryptographicException cryptographicException)
-            {
-                p_crypto_stream = null;
-                GuiLogMessage(cryptographicException.Message, NotificationLevel.Error);
-            }
-            catch (Exception exception)
-            {
-                GuiLogMessage(exception.Message, NotificationLevel.Error);
-            }
-            finally
-            {
-                ProgressChanged(1, 1);
-            }
-        }
-
-        public void Encrypt()
-        {
-            //Encrypt Stream
-            process(0);
-        }
-
-        public void Decrypt()
-        {
-            //Decrypt Stream
-            process(1);
-        }
-
-        #region IPlugin Member
 
         public UserControl Presentation
         {
@@ -294,11 +161,27 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         public UserControl QuickWatchPresentation
         {
-          get { return null; }
+            get { return null; }
         }
 
         public void Initialize()
         {
+        }
+
+        public void Execute()
+        {
+            process(settings.Action);
+        }
+
+
+        public void Pause()
+        {
+
+        }
+
+        public void Stop()
+        {
+            this.stop = true;
         }
 
         public void Dispose()
@@ -332,15 +215,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             this.stop = false;
         }
 
-        public void Stop()
-        {
-            this.stop = true;
-        }
-
-        public bool isStopped(){
-
-            return this.stop;
-        }
+        
 
         public void PostExecution()
         {
@@ -368,59 +243,175 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         #endregion
 
-        #region IPlugin Members
+           
 
-        public event StatusChangedEventHandler OnPluginStatusChanged;
+        #region Public DES specific members
 
-        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-        public void GuiLogMessage(string message, NotificationLevel logLevel)
+        public bool isStopped()
         {
-          if (OnGuiLogNotificationOccured != null)
-          {
-            OnGuiLogNotificationOccured(this, new GuiLogEventArgs(message, this, logLevel));
-          }
-        }
 
-        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
-        private void ProgressChanged(double value, double max)
-        {
-          if (OnPluginProgressChanged != null)
-          {
-            OnPluginProgressChanged(this, new PluginProgressEventArgs(value, max));
-          }
-        }
-
-        public void Pause()
-        {
-          
+            return this.stop;
         }
 
         #endregion
 
-        [PropertyInfo(Direction.ControlSlave, "DES Slave", "Direct access to DES.", "", DisplayLevel.Beginner)]
-        public IControlEncryption ControlSlave
-        {
-          get
-          {
-              if (controlSlave == null)
-                  controlSlave = new DESControl(this);
-              return controlSlave;
-          }
-        }
 
-        private IControlCubeAttack desSlave;
-        [PropertyInfo(Direction.ControlSlave, "DES for cube attack", "Direct access to DES.", "", DisplayLevel.Beginner)]
-        public IControlCubeAttack DESSlave
+        #region Private methods
+
+        private void ConfigureAlg(SymmetricAlgorithm alg)
         {
-            get
+            //check for a valid key
+            if (this.inputKey == null)
             {
-                if (desSlave == null)
-                    desSlave = new CubeAttackControl(this);
-                return desSlave;
+                //create a trivial key 
+                inputKey = new byte[8];
+                // write a warning to the ouside word
+                GuiLogMessage("ERROR: No key provided. Using 0x000..00!", NotificationLevel.Error);
+            }
+            alg.Key = this.inputKey;
+
+            //check for a valid IV
+            if (this.inputIV == null)
+            {
+                //create a trivial key 
+                inputIV = new byte[alg.BlockSize / 8];
+                GuiLogMessage("NOTE: No IV provided. Using 0x000..00!", NotificationLevel.Info);
+            }
+            alg.IV = this.inputIV;
+            switch (settings.Mode)
+            { //0="ECB"=default, 1="CBC", 2="CFB", 3="OFB"
+                case 1: alg.Mode = CipherMode.CBC; break;
+                case 2: alg.Mode = CipherMode.CFB; break;
+                case 3: alg.Mode = CipherMode.OFB; break;
+                default: alg.Mode = CipherMode.ECB; break;
+            }
+            switch (settings.Padding)
+            { //0="Zeros"=default, 1="None", 2="PKCS7"
+                case 1: alg.Padding = PaddingMode.None; break;
+                case 2: alg.Padding = PaddingMode.PKCS7; break;
+                case 3: alg.Padding = PaddingMode.ANSIX923; break;
+                case 4: alg.Padding = PaddingMode.ISO10126; break;
+                default: alg.Padding = PaddingMode.Zeros; break;
             }
         }
+
+        private void checkForInputStream()
+        {
+            if (settings.Action == 0 && (inputStream == null || (inputStream != null && inputStream.Length == 0)))
+            {
+                //create some input
+                String dummystring = "Dummy string - no input provided - \"Hello DES World\" - dummy string - no input provided!";
+                this.inputStream = new CryptoolStream();
+                this.inputStream.OpenRead(Encoding.Default.GetBytes(dummystring.ToCharArray()));
+                // write a warning to the ouside word
+                GuiLogMessage("WARNING - No input provided. Using dummy data. (" + dummystring + ")", NotificationLevel.Warning);
+            }
+        }
+
+        private void process(int action)
+        {
+            //Encrypt/Decrypt Stream
+            try
+            {
+                checkForInputStream();
+                if (inputStream == null || (inputStream != null && inputStream.Length == 0))
+                {
+                    GuiLogMessage("No input given. Not using dummy data in decrypt mode. Aborting now.", NotificationLevel.Error);
+                    return;
+                }
+
+                if (this.inputStream.CanSeek) this.inputStream.Position = 0;
+                SymmetricAlgorithm p_alg = new DESCryptoServiceProvider();
+
+                ConfigureAlg(p_alg);
+
+                ICryptoTransform p_encryptor = null;
+                switch (action)
+                {
+                    case 0:
+                        p_encryptor = p_alg.CreateEncryptor();
+                        break;
+                    case 1:
+                        p_encryptor = p_alg.CreateDecryptor();
+                        break;
+                }
+
+                outputStream = new CryptoolStream();
+                listCryptoolStreamsOut.Add(outputStream);
+                outputStream.OpenWrite();
+                p_crypto_stream = new CryptoStream((Stream)inputStream, p_encryptor, CryptoStreamMode.Read);
+                byte[] buffer = new byte[p_alg.BlockSize / 8];
+                int bytesRead;
+                int position = 0;
+                GuiLogMessage("Starting encryption [Keysize=" + p_alg.KeySize.ToString() + " Bits, Blocksize=" + p_alg.BlockSize.ToString() + " Bits]", NotificationLevel.Info);
+                DateTime startTime = DateTime.Now;
+                while ((bytesRead = p_crypto_stream.Read(buffer, 0, buffer.Length)) > 0 && !stop)
+                {
+                    outputStream.Write(buffer, 0, bytesRead);
+
+                    if ((int)(inputStream.Position * 100 / inputStream.Length) > position)
+                    {
+                        position = (int)(inputStream.Position * 100 / inputStream.Length);
+                        ProgressChanged(inputStream.Position, inputStream.Length);
+                    }
+                }
+
+                p_crypto_stream.Flush();
+                DateTime stopTime = DateTime.Now;
+                TimeSpan duration = stopTime - startTime;
+                if (!stop)
+                {
+                    GuiLogMessage("Encryption complete! (in: " + inputStream.Length.ToString() + " bytes, out: " + outputStream.Length.ToString() + " bytes)", NotificationLevel.Info);
+                    GuiLogMessage("Wrote data to file: " + outputStream.FileName, NotificationLevel.Info);
+                    GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
+                    outputStream.Close();
+                    OnPropertyChanged("OutputStream");
+                }
+                if (stop)
+                {
+                    outputStream.Close();
+                    GuiLogMessage("Aborted!", NotificationLevel.Info);
+                }
+                ProgressChanged(1, 1);
+
+            }
+            catch (CryptographicException cryptographicException)
+            {
+                p_crypto_stream = null;
+                GuiLogMessage(cryptographicException.Message, NotificationLevel.Error);
+            }
+            catch (Exception exception)
+            {
+                GuiLogMessage(exception.Message, NotificationLevel.Error);
+            }
+            finally
+            {
+                ProgressChanged(1, 1);
+            }
+        }
+
+        private void GuiLogMessage(string message, NotificationLevel logLevel)
+        {
+            if (OnGuiLogNotificationOccured != null)
+            {
+                OnGuiLogNotificationOccured(this, new GuiLogEventArgs(message, this, logLevel));
+            }
+        }
+
+
+        private void ProgressChanged(double value, double max)
+        {
+            if (OnPluginProgressChanged != null)
+            {
+                OnPluginProgressChanged(this, new PluginProgressEventArgs(value, max));
+            }
+        }
+
+        #endregion
+
     }
 
+    
     #region DESControl : IControlCubeAttack
 
     public class CubeAttackControl : IControlCubeAttack
@@ -527,39 +518,25 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
     #endregion
 
+
+    #region DESControl : IControlEncryption
     public class DESControl : IControlEncryption
     {
         public event KeyPatternChanged keyPatternChanged;
         public event IControlStatusChangedEventHandler OnStatusChanged;
+
+        
         private DES plugin;
-        private SymmetricAlgorithm des_algorithm = null;
-        private byte[] input;
-        private Stream inputStream;
- 
-        public CryptoolStream InputStream{
-            get;set;
-        }
-
-        public void reset()
-        {
-            input = null;
-            des_algorithm = null;
-        }
-
-        public void closeStreams()
-        {
-            if (inputStream != null)
-                inputStream.Close();
-            if (InputStream != null)
-                InputStream.Close();
-        }
 
         public DESControl(DES Plugin)
         {
             this.plugin = Plugin;
+
+            // Change the padding mode to zeroes, since we want to do bruteforcing..
+            ((DESSettings)plugin.Settings).Padding = 0;
         }
 
-        #region IControlEncryption Members
+       
 
         public byte[] Encrypt(byte[] key, int blocksize)
         {
@@ -571,14 +548,26 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         public byte[] Decrypt(byte[] ciphertext, byte[] key)
         {
             CryptoStream crypto_stream = null;
-            byte[] output = new byte[8];
+            byte[] output = new byte[ciphertext.Length];
             
             // always recreating this instance is thread-safe, but may cost us some performance
             SymmetricAlgorithm des_algorithm  = new DESCryptoServiceProvider();
 
-            // TODO: this should be configurable via method signature
-            des_algorithm.Mode = CipherMode.ECB;
-            des_algorithm.Padding = PaddingMode.PKCS7;
+            switch (((DESSettings)plugin.Settings).Mode)
+            { //0="ECB"=default, 1="CBC", 2="CFB", 3="OFB"
+                case 1: des_algorithm.Mode = CipherMode.CBC; break;
+                case 2: des_algorithm.Mode = CipherMode.CFB; break;
+                case 3: des_algorithm.Mode = CipherMode.OFB; break;
+                default: des_algorithm.Mode = CipherMode.ECB; break;
+            }
+
+            // Padding for DES must always be set to zeroes
+            // other padding types lead to error while decrypting
+            // padding type of none leads to error if size does not match exactly a multiple of 8 Byte
+            des_algorithm.Padding = PaddingMode.Zeros;
+
+            // TODO: this must be passed via the interface
+            des_algorithm.IV = new byte[des_algorithm.BlockSize / 8]; // IV of 0x00..00
 
             try
             {
@@ -588,7 +577,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             {
                 //dirty hack to allow weak keys:
                 FieldInfo field = des_algorithm.GetType().GetField("KeyValue", BindingFlags.NonPublic | BindingFlags.Instance);
-                Console.WriteLine(des_algorithm.GetType());
+                //Console.WriteLine(des_algorithm.GetType());
                 field.SetValue(des_algorithm, key);
             }
 
@@ -605,7 +594,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 p_decryptor = mi.Invoke(des_algorithm, Par) as ICryptoTransform;
             }
 
-            crypto_stream = new CryptoStream(new MemoryStream(ciphertext, false), p_decryptor, CryptoStreamMode.Read);
+            crypto_stream = new CryptoStream(new MemoryStream(ciphertext), p_decryptor, CryptoStreamMode.Read);
 
             int read, readOverall = 0;
             do
@@ -615,162 +604,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             } while (read > 0 && readOverall < output.Length);
 
             return output;
-
-            //try
-            //{
-            //    des_algorithm.IV = this.plugin.InputIV;
-            //}
-            //catch
-            //{
-            //    //dirty hack to allow weak keys:
-            //    FieldInfo field = des_algorithm.GetType().GetField("IVValue", BindingFlags.NonPublic | BindingFlags.Instance);
-            //    field.SetValue(des_algorithm, this.plugin.InputIV);
-            //}
-
-            //switch (((DESSettings)plugin.Settings).Mode)
-            //{ //0="ECB"=default, 1="CBC", 2="CFB", 3="OFB"
-            //    case 1: alg.Mode = CipherMode.CBC; break;
-            //    case 2: alg.Mode = CipherMode.CFB; break;
-            //    case 3: alg.Mode = CipherMode.OFB; break;
-            //    default: alg.Mode = CipherMode.ECB; break;
-            //}
-            //switch (((DESSettings)plugin.Settings).Padding)
-            //{ //0="Zeros"=default, 1="None", 2="PKCS7"
-            //    case 1: alg.Padding = PaddingMode.None; break;
-            //    case 2: alg.Padding = PaddingMode.PKCS7; break;
-            //    case 3: alg.Padding = PaddingMode.ANSIX923; break;
-            //    case 4: alg.Padding = PaddingMode.ISO10126; break;
-            //    default: alg.Padding = PaddingMode.Zeros; break;
-            //}
-        }
-
-        [Obsolete("this signature doesn't pass the ciphertext, use Decrypt(byte[], byte[]) instead")]
-        public byte[] Decrypt(byte[] key, int blocksize)
-        {
-            int size = (int)this.InputStream.Length;
-
-            if (blocksize < size)
-                size = blocksize;
-
-            if (!(this.input is object))
-            {
-                input = new byte[size];
-                this.InputStream.Seek(0, 0);
-                for (int i = 0; i < size && i < this.InputStream.Length; i++)
-                    input[i] = (byte)this.InputStream.ReadByte();
-                inputStream = new MemoryStream(input);
-            }
-            inputStream.Seek(0, 0);
-
-            CryptoStream crypto_stream = null;
-            byte[] output = new byte[blocksize];
-
-            //Decrypt Stream
-            try
-            {
-                if (!(des_algorithm is object))
-                {
-                    des_algorithm = new DESCryptoServiceProvider();
-                }
-
-                this.ConfigureAlg(des_algorithm, key);
-
-                ICryptoTransform p_decryptor;
-                try
-                {
-                    p_decryptor = des_algorithm.CreateDecryptor();
-                }
-                catch
-                {
-                    //dirty hack to allow weak keys:
-                    MethodInfo mi = des_algorithm.GetType().GetMethod("_NewEncryptor", BindingFlags.NonPublic | BindingFlags.Instance);
-                    object[] Par = { des_algorithm.Key, des_algorithm.Mode, des_algorithm.IV, des_algorithm.FeedbackSize, 0 };
-                    p_decryptor = mi.Invoke(des_algorithm, Par) as ICryptoTransform;
-                }
-
-                crypto_stream = new CryptoStream((Stream)inputStream, p_decryptor, CryptoStreamMode.Read);
-
-                byte[] buffer = new byte[des_algorithm.BlockSize / 8];
-                int bytesRead;
-                int position = 0;
-
-                while ((bytesRead = crypto_stream.Read(buffer, 0, buffer.Length)) > 0 && !plugin.isStopped())
-                {
-                    for (int i = 0; i < bytesRead; i++)
-                    {
-                        if (position + i < output.Length)
-                        {
-                            output[position + i] = buffer[i];
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                    position += bytesRead;
-                }
-
-
-            }
-            catch (Exception exception)
-            {
-                des_algorithm = null;   // we got an exception so we do not use this object any more
-                throw exception;
-            }
-
-            return output;
-        }
-
-        [Obsolete("being used by obsolete Decrypt(byte[], int)")]
-        private void ConfigureAlg(SymmetricAlgorithm alg, byte[] key)
-        {
-            try
-            {
-                alg.Key = key;
-            }
-            catch
-            {
-                //dirty hack to allow weak keys:
-                FieldInfo field = des_algorithm.GetType().GetField("KeyValue", BindingFlags.NonPublic | BindingFlags.Instance);
-                field.SetValue(alg, key);
-            }
-
-            try
-            {
-                alg.IV = this.plugin.InputIV;
-            }
-            catch
-            {
-                //dirty hack to allow weak keys:
-                FieldInfo field = des_algorithm.GetType().GetField("IVValue", BindingFlags.NonPublic | BindingFlags.Instance);
-                field.SetValue(alg, this.plugin.InputIV);
-            }
-
-            switch (((DESSettings)plugin.Settings).Mode)
-            { //0="ECB"=default, 1="CBC", 2="CFB", 3="OFB"
-                case 1: alg.Mode = CipherMode.CBC; break;
-                case 2: alg.Mode = CipherMode.CFB; break;
-                case 3: alg.Mode = CipherMode.OFB; break;
-                default: alg.Mode = CipherMode.ECB; break;
-            }
-            switch (((DESSettings)plugin.Settings).Padding)
-            { //0="Zeros"=default, 1="None", 2="PKCS7"
-                case 1: alg.Padding = PaddingMode.None; break;
-                case 2: alg.Padding = PaddingMode.PKCS7; break;
-                case 3: alg.Padding = PaddingMode.ANSIX923; break;
-                case 4: alg.Padding = PaddingMode.ISO10126; break;
-                default: alg.Padding = PaddingMode.Zeros; break;
-            }
-
-        }
-
-        /// <summary>
-        /// Called by DES if its status changes
-        /// </summary>
-        public void onStatusChanged()
-        {
-            if (OnStatusChanged != null)
-                OnStatusChanged(this, true);
         }
 
         public string getKeyPattern()
@@ -832,24 +665,19 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         public IControlEncryption clone()
         {
             DESControl des = new DESControl(plugin);
-            CryptoolStream cs = new CryptoolStream();
-            cs.OpenRead(InputStream.FileName);
-            des.InputStream = cs;
-            des.reset();
             return des;
         }
 
         public void Dispose()
         {
-            closeStreams();
+            
         }
 
-        void IControlEncryption.changeSettings(string setting, object value)
+        public void changeSettings(string setting, object value)
         {
             throw new NotImplementedException();
         }
 
-
-        #endregion
     }
+    #endregion
 }
