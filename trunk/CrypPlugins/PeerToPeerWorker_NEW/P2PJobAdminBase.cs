@@ -111,6 +111,8 @@ namespace Cryptool.Plugins.PeerToPeer
 
         public void StopWorkerControl(PubSubMessageType msgType)
         {
+            this.IsWorking = false;
+
             if (base.Started)
             {
                 // see comment above, to know why the following lines are uncommented

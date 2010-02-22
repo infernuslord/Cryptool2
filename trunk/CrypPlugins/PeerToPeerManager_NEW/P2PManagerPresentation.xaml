@@ -3,10 +3,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
-        Background="Azure"
+        Name="MngrMain"
+        Background="LightBlue"
     MinHeight="150" MinWidth="100"
     Height="Auto" Width="Auto">
-
+    
     <Canvas Name="Canvas" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <Grid Name="Grid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <Grid.RowDefinitions>
@@ -19,7 +20,7 @@
                 <ColumnDefinition Width="139.16*" />
             </Grid.ColumnDefinitions>
 
-            <Expander Name="Expander_JobStatus" Header="Job Status Info" IsExpanded="True" FontSize="10" Background="Yellow">
+            <Expander Name="Expander_JobStatus" Header="Job Status Info" IsExpanded="True" FontSize="10">
                 <Grid Name="JobGrid">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -37,34 +38,42 @@
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
                         <Label Grid.Row="0" Grid.Column="0" FontSize="10" FontWeight="Bold" VerticalContentAlignment="Bottom" 
-                           VerticalAlignment="Bottom" HorizontalContentAlignment="Center" Width="AUTO">Total Progress:</Label>
+                           VerticalAlignment="Top" HorizontalContentAlignment="Center" >Total Progress:</Label>
                         <TextBox Name="txtProgressInPercent" Grid.Row="1" Grid.Column="0" TextAlignment="Center"
                              IsReadOnly="True" TextWrapping="WrapWithOverflow" FontSize="10" FontWeight="Bold"
-                             BorderThickness="0" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Background="Yellow"/>
+                             BorderThickness="0" VerticalContentAlignment="Top" HorizontalContentAlignment="Center"/>
+                        
+                        <Label Grid.Row="2" Grid.Column="0" FontSize="10" FontWeight="Bold" FontStyle="Italic" VerticalContentAlignment="Bottom" 
+                           VerticalAlignment="Top" HorizontalContentAlignment="Center" >Estimated end time:</Label>
+                        <TextBox Name="txtEstimatedEndTime" Text="no finished jobs" Grid.Row="3" Grid.Column="0" TextAlignment="Center"
+                             IsReadOnly="True" TextWrapping="WrapWithOverflow" FontSize="8" FontWeight="Bold"
+                             BorderThickness="0" VerticalContentAlignment="Top" HorizontalContentAlignment="Center"/>
                     </Grid>
 
-                    <Label Grid.Row="0" Grid.Column="0" FontSize="8" FontWeight="Bold" Background="Azure" VerticalAlignment="Top" Height="23" Width="AUTO">Total:</Label>
+                    <Label Grid.Row="0" Grid.Column="0" FontSize="8" FontWeight="Bold" VerticalAlignment="Top" Height="23" Width="AUTO">Total:</Label>
                     <TextBox Name="txtTotal" Grid.Row="0" Grid.Column="1" TextAlignment="Left" 
                      IsReadOnly="True" TextWrapping="WrapWithOverflow" VerticalAlignment="Top" 
                      Height="23" FontSize="8" FontWeight="Bold" BorderThickness="1" />
 
-                    <Label Grid.Row="1" Grid.Column="0" FontSize="8" Background="Bisque"  VerticalAlignment="Top" Height="23" Width="AUTO">In Progress:</Label>
+                    <Label Grid.Row="1" Grid.Column="0" FontSize="8" Background="DarkGray" VerticalAlignment="Top" Height="23" Width="AUTO">In Progress:</Label>
                     <TextBox Name="txtInProgress" Grid.Row="1" Grid.Column="1" TextAlignment="Left"
                      IsReadOnly="True" TextWrapping="WrapWithOverflow" VerticalAlignment="Top"
                      Height="23" FontSize="8" BorderThickness="1"/>
 
-                    <Label Grid.Row="2" Grid.Column="0" FontSize="8" Background="Azure" VerticalAlignment="Top" Height="23" Width="AUTO">Left:</Label>
+                    <Label Grid.Row="2" Grid.Column="0" FontSize="8" VerticalAlignment="Top" Height="23" Width="AUTO">Left:</Label>
                     <TextBox Name="txtLeft" Grid.Row="2" Grid.Column="1" TextAlignment="Left"
                      IsReadOnly="True" TextWrapping="WrapWithOverflow" VerticalAlignment="Top"
                      Height="23" FontSize="8" BorderThickness="1"/>
 
-                    <Label Grid.Row="3" Grid.Column="0" FontSize="8" FontWeight="Bold" Background="Bisque" VerticalAlignment="Top" Height="23" Width="AUTO">Finished:</Label>
+                    <Label Grid.Row="3" Grid.Column="0" FontSize="8" FontWeight="Bold" Background="DarkGray" VerticalAlignment="Top" Height="23" Width="AUTO">Finished:</Label>
                     <TextBox Name="txtFinished" Grid.Row="3" Grid.Column="1" TextAlignment="Left"
                      IsReadOnly="True" TextWrapping="WrapWithOverflow" VerticalAlignment="Top"
                      Height="23" FontSize="8" BorderThickness="1"/>
@@ -72,7 +81,7 @@
                 </Grid>
             </Expander>
 
-            <Expander Name="Expander_List" Header="Global Top 10 List" IsExpanded="True" FontSize="10" Background="AliceBlue" Grid.Row="1">
+            <Expander Name="Expander_List" Header="Global Top 10 List" IsExpanded="True" FontSize="10" Grid.Row="1">
                 <ListView Name="ListView" ItemsSource="{Binding}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" FontSize="8">
                     <ListView.View>
                         <GridView>
@@ -109,7 +118,7 @@
                 </ListView>
             </Expander>
 
-            <Expander Name="Expander_WorkerInfo" Header="Worker Info" IsExpanded="False" FontSize="10" Background="LimeGreen" Grid.Row="2">
+            <Expander Name="Expander_WorkerInfo" Header="Worker Info" IsExpanded="False" FontSize="10" Grid.Row="2">
                 <Grid Name="WorkerGrid">
                     <Grid.RowDefinitions>
                         <RowDefinition/>

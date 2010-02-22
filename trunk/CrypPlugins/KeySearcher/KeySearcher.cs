@@ -176,8 +176,13 @@ namespace KeySearcher
         {
             get
             {
-                int[] a = null, b = null, c = null;
-                return ControlMaster.getKeyFromString(top1ValueKey.key, ref a, ref b, ref c);
+                if (top1ValueKey.key != null) //added by Arnold - 2010.02.22
+                {
+                    int[] a = null, b = null, c = null;
+                    return ControlMaster.getKeyFromString(top1ValueKey.key, ref a, ref b, ref c);
+                }
+                else
+                    return null;
             }
         }
 

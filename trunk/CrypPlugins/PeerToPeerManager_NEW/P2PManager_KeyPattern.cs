@@ -61,6 +61,13 @@ namespace Cryptool.Plugins.PeerToPeer
             }
         }
 
+        /// <summary>
+        /// after starting the execution, set this value, so after receiving
+        /// a Job result, the WPF UpdateQuickWatch can use this value, without
+        /// accessing the Settings every time.
+        /// </summary>
+        private int bytesToUseForDecryption = 0;
+
         #region In and Output
 
         [PropertyInfo(Direction.InputData, "Encrypted Data", "Encrypted data out of an Encryption PlugIn", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, "")]
@@ -224,6 +231,15 @@ namespace Cryptool.Plugins.PeerToPeer
                     ((P2PManagerPresentation)QuickWatchPresentation).txtFreeWorker.Text = "" + freeWorkers;
                     ((P2PManagerPresentation)QuickWatchPresentation).txtBusyWorker.Text = "" + busyWorkers;
 
+                    /* START approximation of end time */
+                    // this value is MinValue until the first job is allocated to a worker
+                    DateTime estimateDateTime = this.p2pManager.EstimatedEndTime();
+                    if(estimateDateTime != DateTime.MaxValue)
+                    {
+                        ((P2PManagerPresentation)QuickWatchPresentation).txtEstimatedEndTime.Text = estimateDateTime.ToString();
+                    }
+                    /* END approximation of end time */
+
                     ((P2PManagerPresentation)QuickWatchPresentation).entries.Clear();
                     listNode = globalTop10List.First;
 
@@ -236,7 +252,7 @@ namespace Cryptool.Plugins.PeerToPeer
                         entry.Ranking = "" + i;
                         entry.Value = "" + Math.Round(listNode.Value.value, 3);
                         entry.Key = listNode.Value.key;
-                        entry.Text = enc.GetString(listNode.Value.decryption);
+                        entry.Text = enc.GetString(listNode.Value.decryption, 0, this.bytesToUseForDecryption);
 
                         ((P2PManagerPresentation)QuickWatchPresentation).entries.Add(entry);
                         listNode = listNode.Next;
@@ -445,6 +461,8 @@ namespace Cryptool.Plugins.PeerToPeer
                 this.p2pManager.OnNoMoreJobsLeft += new P2PManagerBase_NEW.NoMoreJobsLeft(p2pManager_OnNoMoreJobsLeft);
                 this.p2pManager.OnResultReceived += new P2PManagerBase_NEW.ResultReceived(p2pManager_OnResultReceived);
             }
+
+            this.bytesToUseForDecryption = this.settings.BytesToUse;
 
             this.p2pManager.StartManager(this.settings.TopicName, this.settings.SendAliveMessageInterval * 1000);
 

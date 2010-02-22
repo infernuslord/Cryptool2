@@ -170,7 +170,7 @@ namespace Cryptool.Plugins.PeerToPeer
                 {
                     GuiLogging("Found a Publisher/Manager with ID '" + pid.ToString() + ", so register with it.", NotificationLevel.Info);
                     SendMessage(pid, PubSubMessageType.Register);
-                    timeoutForPublishersRegAccept.Start();
+                    this.timeoutForPublishersRegAccept.Start();
                 }
                 else if (actualPublisher == pid)
                 {
@@ -185,7 +185,7 @@ namespace Cryptool.Plugins.PeerToPeer
                     GuiLogging("The Publisher/Manager had changed from '" + this.actualPublisher.ToString()
                         + "' to '" + pid.ToString() + "'. Register with the new Publisher/Manager.", NotificationLevel.Info);
                     SendMessage(pid, PubSubMessageType.Register);
-                    timeoutForPublishersRegAccept.Start();
+                    this.timeoutForPublishersRegAccept.Start();
                 }
                 this.actualPublisher = pid;
             }
@@ -314,16 +314,6 @@ namespace Cryptool.Plugins.PeerToPeer
         private void OnCheckPubAvailability(object sender, ElapsedEventArgs e)
         {
             CheckPublishersAvailability2();
-
-            //PeerId newPubId = CheckPublishersAvailability();
-
-            //if (newPubId == actualPublisher)
-            //{
-            //    // Timer will be only stopped, when OnMessageReceived-Event received 
-            //    // a Pong-Response from the publisher! 
-            //    SendMessage(actualPublisher, PubSubMessageType.Ping);
-            //    this.timeoutForPublishersPong.Start();
-            //}
         }
 
         /// <summary>
@@ -334,8 +324,6 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             GuiLogging("TIMEOUT: Waiting for registering accepted message from publisher!", NotificationLevel.Debug);
             // try to register again
-            
-            //Register();
             CheckPublishersAvailability2();
         }
 
@@ -349,7 +337,6 @@ namespace Cryptool.Plugins.PeerToPeer
             this.timeoutForPublishersPong.Stop();
             // try to get an active publisher and re-register
 
-            //CheckPublishersAvailability();
             CheckPublishersAvailability2();
         }
 
@@ -400,76 +387,3 @@ namespace Cryptool.Plugins.PeerToPeer
         }
     }
 }
-
-
-
-//private void Register()
-//        {
-//            // because CheckPublishersAvailability checks this value, set it for the first time here...
-//            // if bolStopped = true, the Timer for Checking Publishers liveliness doesn't start
-//            this.bolStopped = false;
-//            PeerId pubId = CheckPublishersAvailability();
-//            // if DHT Entry for the task is empty, no Publisher exists at present.
-//            // The method CheckPublishersAvailability starts a Timer for this case to continous proof Publisher-DHT-Entry
-//            if (pubId == null)
-//            {
-//                this.Started = false;
-//                // if PubId is null, the Publisher isn't started!
-//                this.bolStopped = true;
-//                GuiLogging("No publisher for registering found.", NotificationLevel.Info);
-//                return;
-//            }
-
-//            // when the actual publisher differs from the new detected publisher, change it
-//            if (pubId != null && (actualPublisher != null && actualPublisher != pubId))
-//            {
-//                GuiLogging("Publisher has been changed from ID '" + actualPublisher + "' to '" + pubId + "'", NotificationLevel.Debug);
-//                actualPublisher = pubId;
-//            }
-//            SendMessage(pubId, PubSubMessageType.Register);
-//            this.timeoutForPublishersRegAccept.Start();
-//            this.started = true;
-//        }
-
-//        /// <summary>
-//        /// Returns the actual Publishers ID or null, when a publisher wasn't found in the DHT. In the second case,
-//        /// a Timer will be started, to check periodically the DHT entry.
-//        /// When the publishers entry changed the Publishers ID, a Register-message will be send to the new Publisher.
-//        /// The Timer for periodically checking the Publishers availability is also started here.
-//        /// </summary>
-//        /// <returns>the actual Publishers ID or null, when a publisher wasn't found in the DHT</returns>
-//        private PeerId CheckPublishersAvailability()
-//        {
-//            PeerId pid = DHT_CommonManagement.GetTopicsPublisherId(ref this.p2pControl, this.sTopic);
-
-//            if (pid == null)
-//            {
-//                // do nothing, because every time this method will be invoked by
-//                // the timerCheckPubAvailability-Event, the DHT entry will be checked
-//                GuiLogging("Publisher wasn't found in DHT or settings didn't stored on the right way.", NotificationLevel.Debug);
-//                return null;
-//            }
-
-//            sendAliveMessageInterval = DHT_CommonManagement.GetAliveMessageInterval(ref this.p2pControl, this.sTopic);
-
-//            if (sendAliveMessageInterval == 0)
-//            {
-//                GuiLogging("Can't find AliveMsg-Settings from Publisher for the Subscriber.", NotificationLevel.Error);
-//                return null;
-//            }
-//            this.timerSendingAliveMsg.Interval = Convert.ToDouble(sendAliveMessageInterval);
-//            this.timerSendingAliveMsg.Start();
-
-//            if (actualPublisher == null) //first time initialization
-//            {
-//                actualPublisher = pid;
-//                GuiLogging("First time received publishers ID.", NotificationLevel.Debug);
-//            }
-
-//            GuiLogging("RECEIVED: Publishers' peer ID '" + pid + "', Alive-Msg-Interval: " + sendAliveMessageInterval / 1000 + " sec!", NotificationLevel.Debug);
-
-//            this.timerCheckPubAvailability.Start();
-//            // setting timer to check periodical the availability of the publishing peer
-
-//            return pid;
-//        }
