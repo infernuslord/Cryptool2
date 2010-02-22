@@ -1,13 +1,13 @@
 ﻿<UserControl x:Class="Cryptool.Plugins.PeerToPeer.P2PManagerPresentation"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
-        Name="MngrMain"
-        Background="LightBlue"
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch"
+    Name="MngrMain"
+    Background="LightBlue"
     MinHeight="150" MinWidth="100"
     Height="Auto" Width="Auto">
-    
+
     <Canvas Name="Canvas" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <Grid Name="Grid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <Grid.RowDefinitions>
@@ -48,35 +48,37 @@
                         <Label Grid.Row="0" Grid.Column="0" FontSize="10" FontWeight="Bold" VerticalContentAlignment="Bottom" 
                            VerticalAlignment="Top" HorizontalContentAlignment="Center" >Total Progress:</Label>
                         <TextBox Name="txtProgressInPercent" Grid.Row="1" Grid.Column="0" TextAlignment="Center"
-                             IsReadOnly="True" TextWrapping="WrapWithOverflow" FontSize="10" FontWeight="Bold"
-                             BorderThickness="0" VerticalContentAlignment="Top" HorizontalContentAlignment="Center"/>
-                        
+                             IsReadOnly="True" TextWrapping="WrapWithOverflow" FontSize="8" FontWeight="Bold"
+                             BorderThickness="0" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Background="Transparent"/>
+                        <!--<Label Name="txtProgressInPercent" Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Top"
+                               VerticalAlignment="Top" FontWeight="Bold" FontSize="8">0,00%</Label>-->
+
                         <Label Grid.Row="2" Grid.Column="0" FontSize="10" FontWeight="Bold" FontStyle="Italic" VerticalContentAlignment="Bottom" 
                            VerticalAlignment="Top" HorizontalContentAlignment="Center" >Estimated end time:</Label>
                         <TextBox Name="txtEstimatedEndTime" Text="no finished jobs" Grid.Row="3" Grid.Column="0" TextAlignment="Center"
                              IsReadOnly="True" TextWrapping="WrapWithOverflow" FontSize="8" FontWeight="Bold"
-                             BorderThickness="0" VerticalContentAlignment="Top" HorizontalContentAlignment="Center"/>
+                             BorderThickness="0" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Background="Transparent"/>
                     </Grid>
 
                     <Label Grid.Row="0" Grid.Column="0" FontSize="8" FontWeight="Bold" VerticalAlignment="Top" Height="23" Width="AUTO">Total:</Label>
                     <TextBox Name="txtTotal" Grid.Row="0" Grid.Column="1" TextAlignment="Left" 
                      IsReadOnly="True" TextWrapping="WrapWithOverflow" VerticalAlignment="Top" 
-                     Height="23" FontSize="8" FontWeight="Bold" BorderThickness="1" />
+                     Height="23" FontSize="8" FontWeight="Bold" BorderThickness="1" Background="Transparent" />
 
-                    <Label Grid.Row="1" Grid.Column="0" FontSize="8" Background="DarkGray" VerticalAlignment="Top" Height="23" Width="AUTO">In Progress:</Label>
+                    <Label Grid.Row="1" Grid.Column="0" FontSize="8" Background="LightGray" VerticalAlignment="Top" Height="23" Width="AUTO">In Progress:</Label>
                     <TextBox Name="txtInProgress" Grid.Row="1" Grid.Column="1" TextAlignment="Left"
-                     IsReadOnly="True" TextWrapping="WrapWithOverflow" VerticalAlignment="Top"
-                     Height="23" FontSize="8" BorderThickness="1"/>
+                     IsReadOnly="True" TextWrapping="WrapWithOverflow" VerticalAlignment="Bottom"
+                     Height="23" FontSize="8" BorderThickness="1" Background="LightGray"/>
 
                     <Label Grid.Row="2" Grid.Column="0" FontSize="8" VerticalAlignment="Top" Height="23" Width="AUTO">Left:</Label>
                     <TextBox Name="txtLeft" Grid.Row="2" Grid.Column="1" TextAlignment="Left"
                      IsReadOnly="True" TextWrapping="WrapWithOverflow" VerticalAlignment="Top"
-                     Height="23" FontSize="8" BorderThickness="1"/>
+                     Height="23" FontSize="8" BorderThickness="1" Background="Transparent" />
 
-                    <Label Grid.Row="3" Grid.Column="0" FontSize="8" FontWeight="Bold" Background="DarkGray" VerticalAlignment="Top" Height="23" Width="AUTO">Finished:</Label>
+                    <Label Grid.Row="3" Grid.Column="0" FontSize="8" FontWeight="Bold" Background="LightGray" VerticalAlignment="Top" Height="23" Width="AUTO">Finished:</Label>
                     <TextBox Name="txtFinished" Grid.Row="3" Grid.Column="1" TextAlignment="Left"
-                     IsReadOnly="True" TextWrapping="WrapWithOverflow" VerticalAlignment="Top"
-                     Height="23" FontSize="8" BorderThickness="1"/>
+                     IsReadOnly="True" TextWrapping="WrapWithOverflow" VerticalAlignment="Bottom"
+                     Height="23" FontSize="8" BorderThickness="1" Background="LightGray" />
 
                 </Grid>
             </Expander>
@@ -85,34 +87,10 @@
                 <ListView Name="ListView" ItemsSource="{Binding}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" FontSize="8">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Ranking" DisplayMemberBinding="{Binding Path=Ranking}">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Label/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Value" DisplayMemberBinding="{Binding Path=Value}">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Label/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Key" DisplayMemberBinding="{Binding Path=Key}">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Label/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Text" DisplayMemberBinding="{Binding Path=Text}">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Label/>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                            <GridViewColumn Header="Ranking" DisplayMemberBinding="{Binding Path=Ranking}"></GridViewColumn>
+                            <GridViewColumn Header="Value" DisplayMemberBinding="{Binding Path=Value}"></GridViewColumn>
+                            <GridViewColumn Header="Key" DisplayMemberBinding="{Binding Path=Key}"></GridViewColumn>
+                            <GridViewColumn Header="Text" DisplayMemberBinding="{Binding Path=Text}"></GridViewColumn>
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -133,17 +111,17 @@
                     <Label Grid.Row="0" Grid.Column="0" FontSize="8" Height="23" FontWeight="Bold">Total Amount:</Label>
                     <TextBox Name="txtTotalWorker" Grid.Row="0" Grid.Column="1" TextAlignment="Left"
                      IsReadOnly="True" TextWrapping="WrapWithOverflow" VerticalAlignment="Top"
-                     Height="23" FontSize="8" BorderThickness="1" FontWeight="Bold"/>
+                     Height="23" FontSize="8" BorderThickness="1" FontWeight="Bold" Background="Transparent"/>
 
-                    <Label Grid.Row="1" Grid.Column="0" FontSize="8" Height="23" >Free:</Label>
+                    <Label Grid.Row="1" Grid.Column="0" FontSize="8" Height="23" Background="LightGray">Free:</Label>
                     <TextBox Name="txtFreeWorker" Grid.Row="1" Grid.Column="1" TextAlignment="Left"
                      IsReadOnly="True" TextWrapping="WrapWithOverflow" VerticalAlignment="Top"
-                     Height="23" FontSize="8" BorderThickness="1"/>
+                     Height="23" FontSize="8" BorderThickness="1" Background="LightGray"/>
 
                     <Label Grid.Row="2" Grid.Column="0" FontSize="8" Height="23">Busy:</Label>
                     <TextBox Name="txtBusyWorker" Grid.Row="2" Grid.Column="1" TextAlignment="Left"
                      IsReadOnly="True" TextWrapping="WrapWithOverflow" VerticalAlignment="Top"
-                     Height="23" FontSize="8" BorderThickness="1"/>
+                     Height="23" FontSize="8" BorderThickness="1" Background="Transparent"/>
                 </Grid>
             </Expander>
         </Grid>

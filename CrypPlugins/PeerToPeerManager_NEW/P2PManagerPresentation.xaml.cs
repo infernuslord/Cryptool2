@@ -67,30 +67,16 @@ namespace Cryptool.Plugins.PeerToPeer
             this.Expander_List.Background = GetGradientGray();
         }
 
-        void Grid_LayoutUpdated(object sender, EventArgs e)
+        private void FunnyResize()
         {
-            FunnyResize();
-        }
-
-        void Canvas_LayoutUpdated(object sender, EventArgs e)
-        {
-            FunnyResize();
+            this.Canvas.RenderTransform = new ScaleTransform(this.ActualWidth / this.Grid.ActualWidth,
+                                                       this.ActualHeight / this.Grid.ActualHeight);
         }
 
         void ListView_SourceUpdated(object sender, DataTransferEventArgs e)
         {
             FunnyResize();
-        }
-
-        void ListView_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            FunnyResize();
-        }
-
-        void ListView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            FunnyResize();
-        }
+        }        
 
         void Expander_WorkerInfo_Expanded(object sender, RoutedEventArgs e)
         {
@@ -107,11 +93,6 @@ namespace Cryptool.Plugins.PeerToPeer
             FunnyResize();
         }
 
-        void P2PManagerPresentation_LayoutUpdated(object sender, EventArgs e)
-        {
-            FunnyResize();
-        }
-
         public void P2PManagerPresentation_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             FunnyResize();
@@ -119,10 +100,29 @@ namespace Cryptool.Plugins.PeerToPeer
                                                        //this.ActualHeight / this.Grid.ActualHeight);
         }
 
-        private void FunnyResize()
-        {
-            this.Canvas.RenderTransform = new ScaleTransform(this.ActualWidth / this.Grid.ActualWidth,
-                                                       this.ActualHeight / this.Grid.ActualHeight);
-        }
+        //void Grid_LayoutUpdated(object sender, EventArgs e)
+        //{
+        //    FunnyResize();
+        //}
+
+        //void Canvas_LayoutUpdated(object sender, EventArgs e)
+        //{
+        //    FunnyResize();
+        //}
+
+        //void ListView_SizeChanged(object sender, SizeChangedEventArgs e)
+        //{
+        //    FunnyResize();
+        //}
+
+        //void ListView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        //{
+        //    FunnyResize();
+        //}
+
+        //void P2PManagerPresentation_LayoutUpdated(object sender, EventArgs e)
+        //{
+        //    FunnyResize();
+        //}
     }
 }
