@@ -31,14 +31,13 @@ namespace KeySearcher
 
             for (int c = pattern.wildcardList.Count - 1; c >= 0; c--)
             {
-                //for (int k = 1; k <= c; k++)
-                for (int k = 1; k <= ((Wildcard)pattern.wildcardList[c]).size(); k++) 
-                {
-                    int d = ((Wildcard)pattern.wildcardList[c]).size();
+                int d = ((Wildcard)pattern.wildcardList[c]).size();
+                for (int k = 1; k <= d; k++)
+                {                    
                     if (d % k == 0)
                     {
                         int tmp = splittingQuotient[c];
-                        splittingQuotient[c] = d;
+                        splittingQuotient[c] = k;
                         BigInteger size = GetPartSize();
                         if ((size - partsize).abs() < (bestSize - partsize).abs())                        
                             bestSize = size;                        
