@@ -31,7 +31,8 @@ namespace KeySearcher
 
             for (int c = pattern.wildcardList.Count - 1; c >= 0; c--)
             {
-                for (int k = 1; k <= c; k++)
+                //for (int k = 1; k <= c; k++)
+                for (int k = 1; k <= ((Wildcard)pattern.wildcardList[c]).size(); k++) 
                 {
                     int d = ((Wildcard)pattern.wildcardList[c]).size();
                     if (d % k == 0)
