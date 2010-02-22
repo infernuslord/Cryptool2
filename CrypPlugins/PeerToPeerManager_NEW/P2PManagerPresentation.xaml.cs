@@ -23,6 +23,28 @@ namespace Cryptool.Plugins.PeerToPeer
     {
         public ObservableCollection<ResultEntry> entries = new ObservableCollection<ResultEntry>();
 
+        #region Different radient brushes
+
+        public LinearGradientBrush GetGradientBlue()
+        {
+            LinearGradientBrush myBrush = new LinearGradientBrush();
+            myBrush.GradientStops.Add(new GradientStop(Colors.DodgerBlue, 0.0)); //CadetBlue
+            myBrush.GradientStops.Add(new GradientStop(Colors.CornflowerBlue, 0.5));
+            myBrush.GradientStops.Add(new GradientStop(Colors.AliceBlue, 1.0));
+            return myBrush;
+        }
+
+        public LinearGradientBrush GetGradientGray()
+        {
+            LinearGradientBrush myBrush = new LinearGradientBrush();
+            myBrush.GradientStops.Add(new GradientStop(Colors.DarkGray, 0.0));
+            myBrush.GradientStops.Add(new GradientStop(Colors.Gray, 0.5));
+            myBrush.GradientStops.Add(new GradientStop(Colors.WhiteSmoke, 1.0));
+            return myBrush;
+        }
+
+        #endregion
+
         public P2PManagerPresentation()
         {
             InitializeComponent();
@@ -36,6 +58,13 @@ namespace Cryptool.Plugins.PeerToPeer
             //this.ListView.DataContextChanged += new DependencyPropertyChangedEventHandler(ListView_DataContextChanged);
             //this.ListView.SizeChanged += new SizeChangedEventHandler(ListView_SizeChanged);
             this.ListView.SourceUpdated += new EventHandler<DataTransferEventArgs>(ListView_SourceUpdated);
+
+            LinearGradientBrush blueBrush = GetGradientBlue();
+
+            this.MngrMain.Background = blueBrush;
+            this.Expander_JobStatus.Background = blueBrush;
+            this.Expander_WorkerInfo.Background = blueBrush;
+            this.Expander_List.Background = GetGradientGray();
         }
 
         void Grid_LayoutUpdated(object sender, EventArgs e)

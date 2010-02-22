@@ -105,6 +105,16 @@ namespace Cryptool.Plugins.PeerToPeer
             set { this.lAliveMessageInterval = value; }
         }
 
+        private DateTime startWorkingTime = DateTime.MinValue;
+        /// <summary>
+        /// This value will be initialized after allocating the first job to a worker.
+        /// Before initialization this is MinValue! Used for end time approximation
+        /// </summary>
+        public DateTime StartWorkingTime 
+        {
+            get { return this.startWorkingTime; } 
+        }
+
         #endregion
 
         public P2PManagerBase_NEW(IP2PControl p2pControl, IDistributableJob distributableJob) : base(p2pControl)
@@ -121,6 +131,8 @@ namespace Cryptool.Plugins.PeerToPeer
             // and a IWorkerControl-PlugIn, this Manager can start its work
             if (this.distributableJobControl != null && this.p2pControl != null)
             {
+                //set value to null, when restarting the manager
+                this.startWorkingTime = DateTime.MinValue; 
                 this.TopicName = sTopic;
                 this.AliveMesageInterval = aliveMessageInterval;
                 base.Start(this.TopicName, this.AliveMesageInterval);
@@ -343,27 +355,35 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             GuiLogging("REMOVED worker " + peerId, NotificationLevel.Info);
 
-            // push job back and remove list entries for "jobs in progress"
-            List<BigInteger> allJobsForRemovedPeer = (from k in this.jobsInProgress where k.Value == peerId select k.Key).ToList<BigInteger>();
-
-            BigInteger jobId;
-            for (int i = 0; i < allJobsForRemovedPeer.Count; i++)
+            // necessary lock, because the amount of jobs in Progress could change while traversing this list
+            lock (this.jobsInProgress)
             {
-                jobId = allJobsForRemovedPeer[i];
-                this.distributableJobControl.Push(jobId);
-                this.jobsInProgress.Remove(jobId);
-                GuiLogging("Pushed job '" + jobId.ToString() + "' back to the stack, because peer left the network.", NotificationLevel.Debug);
+                // push job back and remove list entries for "jobs in progress"
+                List<BigInteger> allJobsForRemovedPeer = (from k in this.jobsInProgress where k.Value == peerId select k.Key).ToList<BigInteger>();
+
+                BigInteger jobId;
+                for (int i = 0; i < allJobsForRemovedPeer.Count; i++)
+                {
+                    jobId = allJobsForRemovedPeer[i];
+                    this.distributableJobControl.Push(jobId);
+                    this.jobsInProgress.Remove(jobId);
+                    GuiLogging("Pushed job '" + jobId.ToString() + "' back to the stack, because peer left the network.", NotificationLevel.Debug);
+                }
             }
 
-            // Set the JobDeclined-status for all jobs of the removed peer, which are still waiting 
-            // for an acceptance information. Than remove all jobs from the "jobs waiting for acceptance info" List
-            List<BigInteger> allWaitingEntriesForRemovedPeer = (from k in this.jobsWaitingForAcceptanceInfo where k.Value == peerId select k.Key).ToList<BigInteger>();
-
-            for (int i = 0; i < allWaitingEntriesForRemovedPeer.Count; i++)
+            // necessary lock, because the amount of jobs in Progress could change while traversing this list
+            lock (this.jobsWaitingForAcceptanceInfo)
             {
-                this.distributableJobControl.JobDeclined(allWaitingEntriesForRemovedPeer[i]);
-                this.jobsWaitingForAcceptanceInfo.Remove(allWaitingEntriesForRemovedPeer[i]);
-                GuiLogging("Declined job '" + allWaitingEntriesForRemovedPeer[i].ToString() + "', because peer left the network.", NotificationLevel.Debug);
+                // Set the JobDeclined-status for all jobs of the removed peer, which are still waiting 
+                // for an acceptance information. Than remove all jobs from the "jobs waiting for acceptance info" List
+                List<BigInteger> allWaitingEntriesForRemovedPeer = (from k in this.jobsWaitingForAcceptanceInfo where k.Value == peerId select k.Key).ToList<BigInteger>();
+
+                for (int i = 0; i < allWaitingEntriesForRemovedPeer.Count; i++)
+                {
+                    this.distributableJobControl.JobDeclined(allWaitingEntriesForRemovedPeer[i]);
+                    this.jobsWaitingForAcceptanceInfo.Remove(allWaitingEntriesForRemovedPeer[i]);
+                    GuiLogging("Declined job '" + allWaitingEntriesForRemovedPeer[i].ToString() + "', because peer left the network.", NotificationLevel.Debug);
+                }
             }
 
             GetProgressInformation();
@@ -381,6 +401,10 @@ namespace Cryptool.Plugins.PeerToPeer
             List<PeerId> freePeers = ((WorkersManagement)this.peerManagement).GetAllSubscribers();
 
             GuiLogging("Trying to allocate " + freePeers.Count + " job(s) to workers.", NotificationLevel.Debug);
+
+            // set the start working time after allocating the FIRST job
+            if (this.startWorkingTime == DateTime.MinValue && freePeers.Count > 0)
+                this.startWorkingTime = DateTime.Now;
 
             foreach (PeerId worker in freePeers)
             {
@@ -444,6 +468,26 @@ namespace Cryptool.Plugins.PeerToPeer
                 OnProcessProgress(jobProgressInPercent);
 
             return jobProgressInPercent;
+        }
+
+        /// <summary>
+        /// returns the estimated end time (correlation between Start Time, Total amount of jobs and finished jobs).
+        /// When no job is finished yet, it returns an empty timespan
+        /// </summary>
+        /// <returns></returns>
+        public DateTime EstimatedEndTime()
+        {
+            DateTime retTime = DateTime.MaxValue;
+            if (this.distributableJobControl.FinishedAmount.LongValue() > 0)
+            {
+                TimeSpan bruteforcingTime = DateTime.Now.Subtract(this.StartWorkingTime);
+                double jobsPerSecond = bruteforcingTime.TotalSeconds / this.distributableJobControl.FinishedAmount.LongValue();
+                double restSeconds = jobsPerSecond * 
+                    (this.distributableJobControl.TotalAmount - this.distributableJobControl.FinishedAmount).LongValue();
+                //retTime.TotalSeconds = jobsPerSecond * (2 - (progressInPercent / 100));
+                retTime = DateTime.Now.AddSeconds(restSeconds);
+            }
+            return retTime;
         }
 
         #region Forward PeerManagement Values

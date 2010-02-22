@@ -157,6 +157,36 @@ namespace Cryptool.Plugins.PeerToPeer
                 }
             }
         }
+
+        private int bytesToUse = 128; // in hundred-thousand
+        [TaskPane("BytesToUse", "Choose the bytes to use for the decryption process and displaying decryption results"
+            , null, 4, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 32, 1024)]
+        public int BytesToUse
+        {
+            get
+            {
+                return this.bytesToUse;
+            }
+            set
+            {
+                if (value != this.bytesToUse)
+                {
+                    if (value == null || value == 0 || value < 128)
+                    {
+                        this.bytesToUse = 128;
+                    }
+                    else if (this.bytesToUse > 1024)
+                    {
+                        this.bytesToUse = 1024;
+                    }
+                    else
+                    {
+                        this.bytesToUse = value;
+                    }
+                    OnPropertyChanged("BytesToUse");
+                }
+            }
+        }
         #region INotifyPropertyChanged Members
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;

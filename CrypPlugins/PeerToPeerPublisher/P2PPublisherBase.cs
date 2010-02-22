@@ -274,6 +274,10 @@ namespace Cryptool.Plugins.PeerToPeer
                     else
                     {
                         GuiLogging("ALREADY REGISTERED peer with ID " + sender, NotificationLevel.Info);
+                        // this case only occurs, when some messages run into a misunderstanding,
+                        // but reply with a RegAccepted Msg, so the sender won't send new Reg Msgs
+                        // periodically.
+                        this.p2pControl.SendToPeer(PubSubMessageType.RegisteringAccepted, sender);
                     }
                     break;
                 case PubSubMessageType.Stop:
