@@ -28,6 +28,8 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using Cryptool.Plugins.PeerToPeer.Jobs;
 
+/*TODO: Execute: If InitVector is null, try to create a fitting InitVector with the format 0...0 */
+
 namespace Cryptool.Plugins.PeerToPeer
 {
     /// <summary>
@@ -233,10 +235,10 @@ namespace Cryptool.Plugins.PeerToPeer
 
                     /* START approximation of end time */
                     // this value is MinValue until the first job is allocated to a worker
-                    DateTime estimateDateTime = this.p2pManager.EstimatedEndTime();
-                    if(estimateDateTime != DateTime.MaxValue)
+                    DateTime estimatedDateTime = this.p2pManager.EstimatedEndTime();
+                    if(estimatedDateTime != DateTime.MaxValue)
                     {
-                        ((P2PManagerPresentation)QuickWatchPresentation).txtEstimatedEndTime.Text = estimateDateTime.ToString();
+                        ((P2PManagerPresentation)QuickWatchPresentation).txtEstimatedEndTime.Text = estimatedDateTime.ToString();
                     }
                     /* END approximation of end time */
 
@@ -395,8 +397,17 @@ namespace Cryptool.Plugins.PeerToPeer
         DistributableKeyPatternJob distributableKeyPatternJob;
         public void Execute()
         {
-            if (this.InitVector != null && this.DecryptedData != null)
+            if (this.DecryptedData != null)
+            {
+                // TODO: dirty hack because of a missing Initialization vector
+                // it can't be null, because serialization will throw an exception in this case
+                if (this.InitVector == null)
+                {
+                    this.InitVector = new byte[8]{0,0,0,0,0,0,0,0};
+                    GuiLogMessage("Initialization vector not set, so set a standard value - dirty hack!", NotificationLevel.Info);
+                }
                 this.process(this.EncryptionControl);
+            }                
         }
 
         private void process(IControlEncryption iControlEncryption)
