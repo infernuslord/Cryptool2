@@ -26,6 +26,7 @@ using System.ComponentModel;
 using Cryptool.PluginBase.Control;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading;
 namespace Cryptool.Plugins.CostFunction
 {
     [Author("Nils Kopal", "Nils.Kopal@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
@@ -340,7 +341,7 @@ namespace Cryptool.Plugins.CostFunction
         /// <param name="text">bytesToUse</param>
         /// <returns>Index of Coincidence</returns>
         public double calculateIndexOfCoincidence(byte[] text, int bytesToUse)
-        {
+        {            
             if (bytesToUse > text.Length)
                 bytesToUse = text.Length;
 
@@ -369,6 +370,20 @@ namespace Cryptool.Plugins.CostFunction
 
         }//end calculateIndexOfCoincidence
 
+
+        private int lastUsedSize = -1;
+        private double[] xlogx;
+        private Mutex prepareMutex = new Mutex();
+
+        private void prepareEntropy(int size)
+        {
+            xlogx = new double[size + 1];
+            //precomputations for fast entropy calculation	
+            xlogx[0] = 0.0;
+            for (int i = 1; i <= size; i++)
+                xlogx[i] = -1.0 * i * Math.Log(i / (double)size) / Math.Log(2.0);
+        }
+
         /// <summary>
         /// Calculates the Entropy of a given byte array 
         /// for example a German text has about 4.0629
@@ -391,7 +406,24 @@ namespace Cryptool.Plugins.CostFunction
             if (bytesToUse > text.Length)
                 bytesToUse = text.Length;
 
-            double[] n = new double[256];
+            if (lastUsedSize != bytesToUse)
+            {
+                try
+                {
+                    prepareMutex.WaitOne();
+                    if (lastUsedSize != bytesToUse)
+                    {
+                        prepareEntropy(bytesToUse);
+                        lastUsedSize = bytesToUse;
+                    }
+                }
+                finally
+                {
+                    prepareMutex.ReleaseMutex();
+                }
+            }
+
+            int[] n = new int[256];
             //count all ASCII symbols 
             int counter = 0;
             foreach (byte b in text)
@@ -405,16 +437,11 @@ namespace Cryptool.Plugins.CostFunction
             double entropy = 0;
             //calculate probabilities and sum entropy
             for (int i = 0; i < n.Length; i++)
-            {
-                double pz = n[i] / bytesToUse; //probability of character n[i]
-                if (pz > 0)
-                    entropy = entropy + pz * Math.Log(pz, 2);
-            }
+                entropy += xlogx[n[i]];
 
-            return -1 * entropy; // because of log we have negative values, but we want positive
+            return entropy / (double)bytesToUse;
 
         }//end calculateEntropy
-
 
         /// <summary>
         /// This method calculates a trigram log2 score of a given text on the basis of a given grams dictionary.
@@ -600,7 +627,7 @@ namespace Cryptool.Plugins.CostFunction
             int bytesToUse = 0;
             try
             {
-                bytesToUse = int.Parse(((CostFunctionSettings)this.plugin.Settings).BytesToUse);
+                bytesToUse = ((CostFunctionSettings)this.plugin.Settings).BytesToUseInteger;
             }
             catch (Exception ex)
             {
