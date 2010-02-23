@@ -170,7 +170,6 @@ namespace Cryptool.Plugins.PeerToPeer
                 {
                     GuiLogging("Found a Publisher/Manager with ID '" + pid.ToString() + ", so register with it.", NotificationLevel.Info);
                     SendMessage(pid, PubSubMessageType.Register);
-                    this.timeoutForPublishersRegAccept.Start();
                 }
                 else if (actualPublisher == pid)
                 {
@@ -185,7 +184,6 @@ namespace Cryptool.Plugins.PeerToPeer
                     GuiLogging("The Publisher/Manager had changed from '" + this.actualPublisher.ToString()
                         + "' to '" + pid.ToString() + "'. Register with the new Publisher/Manager.", NotificationLevel.Info);
                     SendMessage(pid, PubSubMessageType.Register);
-                    this.timeoutForPublishersRegAccept.Start();
                 }
                 this.actualPublisher = pid;
             }
@@ -225,7 +223,6 @@ namespace Cryptool.Plugins.PeerToPeer
                     GuiLogging("STOP received from publisher. Subscriber is stopped!", NotificationLevel.Warning);
                     break;
                 case PubSubMessageType.Pong:
-                    SendMessage(sender, PubSubMessageType.Register);
                     this.timeoutForPublishersPong.Stop();
                     break;
                 case PubSubMessageType.Alive:

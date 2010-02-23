@@ -84,13 +84,13 @@
             </Expander>
 
             <Expander Name="Expander_List" Header="Global Top 10 List" IsExpanded="True" FontSize="10" Grid.Row="1">
-                <ListView Name="ListView" ItemsSource="{Binding}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" FontSize="8">
+                <ListView Name="ListView" ItemsSource="{Binding}" ScrollViewer.HorizontalScrollBarVisibility="Auto"  ScrollViewer.VerticalScrollBarVisibility="Auto" FontSize="7" MaxWidth="200">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Ranking" DisplayMemberBinding="{Binding Path=Ranking}"></GridViewColumn>
                             <GridViewColumn Header="Value" DisplayMemberBinding="{Binding Path=Value}"></GridViewColumn>
                             <GridViewColumn Header="Key" DisplayMemberBinding="{Binding Path=Key}"></GridViewColumn>
-                            <GridViewColumn Header="Text" DisplayMemberBinding="{Binding Path=Text}"></GridViewColumn>
+                            <GridViewColumn Header="Text" DisplayMemberBinding="{Binding Path=Text}" ></GridViewColumn>
                         </GridView>
                     </ListView.View>
                 </ListView>

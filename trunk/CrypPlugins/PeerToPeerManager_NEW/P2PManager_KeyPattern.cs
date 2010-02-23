@@ -259,7 +259,12 @@ namespace Cryptool.Plugins.PeerToPeer
                         entry.Ranking = "" + i;
                         entry.Value = "" + Math.Round(listNode.Value.value, 3);
                         entry.Key = listNode.Value.key;
-                        entry.Text = enc.GetString(listNode.Value.decryption, 0, this.bytesToUseForDecryption);
+                        // remove all linebreaks, tabs and so on
+                        string decryptText = enc.GetString(listNode.Value.decryption, 0, this.bytesToUseForDecryption);
+                        decryptText = decryptText.Replace("\n", String.Empty);
+                        decryptText = decryptText.Replace("\t", String.Empty);
+                        decryptText = decryptText.Replace("\r", String.Empty);
+                        entry.Text = decryptText;//enc.GetString(listNode.Value.decryption, 0, this.bytesToUseForDecryption);
 
                         ((P2PManagerPresentation)QuickWatchPresentation).entries.Add(entry);
                         listNode = listNode.Next;

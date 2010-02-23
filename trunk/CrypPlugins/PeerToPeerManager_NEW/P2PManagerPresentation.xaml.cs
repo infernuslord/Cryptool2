@@ -50,6 +50,13 @@ namespace Cryptool.Plugins.PeerToPeer
             InitializeComponent();
             this.SizeChanged += new SizeChangedEventHandler(P2PManagerPresentation_SizeChanged);
             this.DataContext = entries;
+            // when expanding Expanders, resize layout
+            this.Expander_JobStatus.MouseLeftButtonUp += new MouseButtonEventHandler(Expander_JobStatus_MouseLeftButtonUp);
+            this.Expander_List.MouseLeftButtonUp += new MouseButtonEventHandler(Expander_List_MouseLeftButtonUp);
+            this.Expander_WorkerInfo.MouseLeftButtonUp += new MouseButtonEventHandler(Expander_WorkerInfo_MouseLeftButtonUp);
+
+
+            this.SourceUpdated += new EventHandler<DataTransferEventArgs>(P2PManagerPresentation_SourceUpdated);
             // when you uncomment this line, you burn 70% of the whole CPU time for Resizing this view...
             //this.LayoutUpdated += new EventHandler(P2PManagerPresentation_LayoutUpdated);
             this.Expander_JobStatus.Expanded += new RoutedEventHandler(Expander_JobStatus_Expanded);
@@ -65,6 +72,31 @@ namespace Cryptool.Plugins.PeerToPeer
             this.Expander_JobStatus.Background = blueBrush;
             this.Expander_WorkerInfo.Background = blueBrush;
             this.Expander_List.Background = GetGradientGray();
+        }
+
+        void Expander_WorkerInfo_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            FunnyResize();
+        }
+
+        void Expander_List_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            FunnyResize();
+        }
+
+        void Expander_JobStatus_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            FunnyResize();
+        }
+
+        void txtTotal_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            FunnyResize();
+        }
+
+        void P2PManagerPresentation_SourceUpdated(object sender, DataTransferEventArgs e)
+        {
+            FunnyResize();
         }
 
         private void FunnyResize()

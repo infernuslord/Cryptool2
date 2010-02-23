@@ -347,7 +347,15 @@ namespace Cryptool.Plugins.PeerToPeer
             }
             else
             {
-                AllocateJobs();
+                /* edited by Arnold - 2010.02.23 */
+                // because parallel incoming free workers could run
+                // into concurrence in this method, so some workers
+                // could get more than one job - so they have to
+                // queue the additional jobs.
+                lock (this)
+                {
+                    AllocateJobs();
+                }
             }
 
             GetProgressInformation();
@@ -413,40 +421,32 @@ namespace Cryptool.Plugins.PeerToPeer
             if (this.startWorkingTime == DateTime.MinValue && freePeers.Count > 0)
                 this.startWorkingTime = DateTime.Now;
 
-            /* edited by Arnold - 2010.02.23 */
-            // because parallel incoming free workers could run
-            // into concurrence in this method, so some workers
-            // could get more than one job - so they have to
-            // queue the additional jobs.
-            lock (freePeers)
+            foreach (PeerId worker in freePeers)
             {
-                foreach (PeerId worker in freePeers)
+                byte[] serializedNewJob = this.distributableJobControl.Pop(out temp_jobId);
+                if (serializedNewJob != null) // if this is null, there are no more JobParts on the main stack!
                 {
-                    byte[] serializedNewJob = this.distributableJobControl.Pop(out temp_jobId);
-                    if (serializedNewJob != null) // if this is null, there are no more JobParts on the main stack!
-                    {
-                        this.jobsWaitingForAcceptanceInfo.Add(temp_jobId, worker);
-                        // get actual subscriber/worker and send the new job
-                        base.p2pControl.SendToPeer(JobMessages.CreateJobPartMessage(temp_jobId, serializedNewJob), worker);
+                    this.jobsWaitingForAcceptanceInfo.Add(temp_jobId, worker);
+                    // get actual subscriber/worker and send the new job
+                    base.p2pControl.SendToPeer(JobMessages.CreateJobPartMessage(temp_jobId, serializedNewJob), worker);
 
-                        if (OnNewJobAllocated != null)
-                            OnNewJobAllocated(temp_jobId);
+                    if (OnNewJobAllocated != null)
+                        OnNewJobAllocated(temp_jobId);
 
-                        // set free worker to busy in the peerManagement class
-                        ((WorkersManagement)this.peerManagement).SetFreeWorkerToBusy(worker);
+                    // set free worker to busy in the peerManagement class
+                    ((WorkersManagement)this.peerManagement).SetFreeWorkerToBusy(worker);
 
-                        GuiLogging("Job '" + temp_jobId.ToString() + "' were sent to worker id '" + worker.ToString() + "'", NotificationLevel.Info);
-                        i++;
-                    }
-                    else
-                    {
-                        GuiLogging("No more jobs left. So wait for the last results, than close this task.", NotificationLevel.Debug);
-                        if (OnNoMoreJobsLeft != null)
-                            OnNoMoreJobsLeft();
-                    }
-                    GuiLogging(i + " Job(s) allocated to worker(s).", NotificationLevel.Debug);
-                } // end foreach
-            }
+                    GuiLogging("Job '" + temp_jobId.ToString() + "' were sent to worker id '" + worker.ToString() + "'", NotificationLevel.Info);
+                    i++;
+                }
+                else
+                {
+                    GuiLogging("No more jobs left. So wait for the last results, than close this task.", NotificationLevel.Debug);
+                    if (OnNoMoreJobsLeft != null)
+                        OnNoMoreJobsLeft();
+                }
+                GuiLogging(i + " Job(s) allocated to worker(s).", NotificationLevel.Debug);
+            } // end foreach
         }
 
         #endregion
