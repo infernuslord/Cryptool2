@@ -5,17 +5,11 @@ using System.Text;
 using System.Security.Cryptography;
 using System.Threading;
 
-namespace Cryptool.MD5Collider.Algorithm
+namespace Cryptool.Plugins.MD5Collider.Algorithm
 {
-    class StevensCollider : IMD5ColliderAlgorithm
+    class StevensCollider : MD5ColliderBase
     {
-        public byte[] FirstCollidingData { get; private set; }
-
-        public byte[] SecondCollidingData { get; private set; }
-
-        public byte[] RandomSeed { get; set; }
-
-        public void FindCollision()
+        protected override void PerformFindCollision()
         {
             IsStopped = false;
 
@@ -51,9 +45,7 @@ namespace Cryptool.MD5Collider.Algorithm
         private void dumpLittleEndianIntegers(UInt32[] sourceArray, byte[] targetArray, int targetOffset)
         {
             for (int i = 0; i < sourceArray.Length; i++)
-            {
                 dumpLittleEndianInteger(sourceArray[i], targetArray, targetOffset + i * 4);
-            }
         }
 
         private void dumpLittleEndianInteger(UInt32 integerValue, byte[] targetArray, int targetOffset)
@@ -61,6 +53,7 @@ namespace Cryptool.MD5Collider.Algorithm
             byte[] result = BitConverter.GetBytes(integerValue);
             if (!BitConverter.IsLittleEndian)
                 Array.Reverse(result);
+
             Array.Copy(result, 0, targetArray, targetOffset, 4);
         }
 
@@ -68,7 +61,6 @@ namespace Cryptool.MD5Collider.Algorithm
         {
             byte[] bytesInProperOrder = new byte[4];
             Array.Copy(bytes, bytesInProperOrder, 4);
-
             if (!BitConverter.IsLittleEndian)
                 Array.Reverse(bytesInProperOrder);
 
@@ -95,6 +87,7 @@ namespace Cryptool.MD5Collider.Algorithm
                 msg2block0[t] = msg1block0[t];
                 msg2block1[t] = msg1block1[t];
             }
+
             msg2block0[4] += (UInt32)1 << 31; msg2block0[11] += 1 << 15; msg2block0[14] += (UInt32)1 << 31;
             msg2block1[4] += (UInt32)1 << 31; msg2block1[11] -= 1 << 15; msg2block1[14] += (UInt32)1 << 31;
         }
@@ -104,6 +97,7 @@ namespace Cryptool.MD5Collider.Algorithm
             UInt32 t = seed32_1 ^ (seed32_1 << 10);
             seed32_1 = seed32_2;
             seed32_2 = (seed32_2 ^ (seed32_2 >> 10)) ^ (t ^ (t >> 13));
+
             return seed32_1;
         }
 
@@ -139,6 +133,9 @@ namespace Cryptool.MD5Collider.Algorithm
 
         void find_block0(UInt32[] block, UInt32[] IV)
         {
+            MatchProgressMax = 9;
+            MatchProgress = 0;
+
             UInt32[] Q = new UInt32[68];
             Q[0] = IV[0];
             Q[1] = IV[3];
@@ -156,11 +153,13 @@ namespace Cryptool.MD5Collider.Algorithm
             UInt32[] q9mask = new UInt32[1 << 16];
             for (UInt32 k = 0; k < q9mask.Length; ++k)
                 q9mask[k] = ((k << 1) ^ (k << 2) ^ (k << 5) ^ (k << 7) ^ (k << 8) ^ (k << 10) ^ (k << 11) ^ (k << 13)) & 0x0eb94f16;
-
+            
             while (true)
             {
                 if (IsStopped)
                     return;
+
+                MatchProgress = 1;
 
                 Q[Qoff + 1] = xrng64();
                 Q[Qoff + 3] = (xrng64() & 0xfe87bc3f) | 0x017841c0;
@@ -198,6 +197,8 @@ namespace Cryptool.MD5Collider.Algorithm
                 {
                     if (IsStopped)
                         return;
+
+                    MatchProgress = 2;
 
                     UInt32 q16 = Q[Qoff + 16];
                     UInt32 q17 = ((xrng64() & 0x3ffd7ff7) | (q16 & 0xc0008008)) ^ 0x40000000;
@@ -248,6 +249,8 @@ namespace Cryptool.MD5Collider.Algorithm
                     if (IsStopped)
                         return;
 
+                    MatchProgress = 3;
+
                     Q[Qoff + 4] = q4 ^ q4mask[counter2];
                     ++counter2;
                     MD5_REVERSE_STEP(block, Q, 5, 0x4787c62a, 12);
@@ -280,6 +283,8 @@ namespace Cryptool.MD5Collider.Algorithm
                         if (IsStopped)
                             return;
 
+                        MatchProgress = 4;
+
                         UInt32 q10 = Q[Qoff + 10] ^ (q9q10mask[counter3] & 0x60);
                         Q[Qoff + 9] = q9backup ^ (q9q10mask[counter3] & 0x2000);
                         ++counter3;
@@ -310,6 +315,8 @@ namespace Cryptool.MD5Collider.Algorithm
                             if (IsStopped)
                                 return;
 
+                            MatchProgress = 5;
+
                             UInt32 q9 = Q[Qoff + 9] ^ q9mask[counter4];
                             block[12] = tt12 - FF(Q[Qoff + 12], Q[Qoff + 11], q10) - q9;
                             UInt32 m8 = q9 - Q[Qoff + 8];
@@ -334,6 +341,8 @@ namespace Cryptool.MD5Collider.Algorithm
                                 continue;
                             c = (c << 16 | c >> 16) + d;
 
+                            MatchProgress = 6;
+
                             MD5_STEP(HH, ref b, c, d, a, block[14], 0xfde5380c, 23);
                             MD5_STEP(HH, ref a, b, c, d, block[1], 0xa4beea44, 4);
                             MD5_STEP(HH, ref d, a, b, c, block[4], 0x4bdecfa9, 11);
@@ -349,6 +358,8 @@ namespace Cryptool.MD5Collider.Algorithm
                             MD5_STEP(HH, ref b, c, d, a, block[2], 0xc4ac5665, 23);
                             if (0 != ((b ^ d) & 0x80000000))
                                 continue;
+
+                            MatchProgress = 7;
 
                             MD5_STEP(II, ref a, b, c, d, block[0], 0xf4292244, 6);
                             if (0 != ((a ^ c) >> 31)) continue;
@@ -397,6 +408,7 @@ namespace Cryptool.MD5Collider.Algorithm
                                 || ((IHV2 ^ IHV1) & 1) != 0) stevens = false;
 
                             if (!(wang || stevens)) continue;
+                            MatchProgress = 8;
 
                             UInt32[] IV1 = new UInt32[4], IV2 = new UInt32[4];
                             for (int t = 0; t < 4; ++t)
@@ -415,7 +427,10 @@ namespace Cryptool.MD5Collider.Algorithm
                                     && (IV2[1] == IV1[1] + (1 << 31) + (1 << 25))
                                     && (IV2[2] == IV1[2] + (1 << 31) + (1 << 25))
                                     && (IV2[3] == IV1[3] + (1 << 31) + (1 << 25)))
+                            {
+                                MatchProgress = 9;
                                 return;
+                            }
 
                             //if (IV2[0] != IV1[0] + (1<<31))
                             //	std::cout << "!" << std::flush;
@@ -547,6 +562,9 @@ namespace Cryptool.MD5Collider.Algorithm
 
         void find_block1_stevens_00(UInt32[] block, UInt32[] IV)
         {
+            MatchProgressMax = 5;
+            MatchProgress = 0;
+
             UInt32[] Q = new UInt32[68];
             Q[0] = IV[0];
             Q[1] = IV[3];
@@ -565,6 +583,8 @@ namespace Cryptool.MD5Collider.Algorithm
             {
                 if (IsStopped)
                     return;
+
+                MatchProgress = 1;
 
                 UInt32 aa1 = Q[Qoff] & 0x80000000;
 
@@ -604,6 +624,8 @@ namespace Cryptool.MD5Collider.Algorithm
                 {
                     if (IsStopped)
                         return;
+
+                    MatchProgress = 2;
 
                     ++counter;
 
@@ -671,6 +693,8 @@ namespace Cryptool.MD5Collider.Algorithm
                     if (IsStopped)
                         return;
 
+                    MatchProgress = 3;
+
                     UInt32 q10 = q10b | (q9q10mask[k10] & 0x08000020);
                     UInt32 m10 = RR(Q[Qoff + 11] - q10, 17);
                     UInt32 q9 = q9b | (q9q10mask[k10] & 0x00002000);
@@ -699,6 +723,8 @@ namespace Cryptool.MD5Collider.Algorithm
                     {
                         if (IsStopped)
                             return;
+
+                        MatchProgress = 4;
 
                         UInt32 a = aa, b = bb, c = cc, d = dd;
                         Q[Qoff + 9] = q9 ^ q9mask[k9];
@@ -790,7 +816,10 @@ namespace Cryptool.MD5Collider.Algorithm
                         md5_compress(IV1, block);
                         md5_compress(IV2, block2);
                         if (IV2[0] == IV1[0] && IV2[1] == IV1[1] && IV2[2] == IV1[2] && IV2[3] == IV1[3])
+                        {
+                            MatchProgress = 5;
                             return;
+                        }
 
                         //if (IV2[0] != IV1[0])
                         //		std::cout << "!" << std::flush;
@@ -801,6 +830,9 @@ namespace Cryptool.MD5Collider.Algorithm
 
         void find_block1_stevens_01(UInt32[] block, UInt32[] IV)
         {
+            MatchProgressMax = 5;
+            MatchProgress = 0;
+
             UInt32[] Q = new UInt32[68];
             Q[0] = IV[0];
             Q[1] = IV[3];
@@ -819,6 +851,8 @@ namespace Cryptool.MD5Collider.Algorithm
             {
                 if (IsStopped)
                     return;
+
+                MatchProgress = 1;
 
                 UInt32 aa1 = Q[Qoff] & 0x80000000;
 
@@ -859,6 +893,8 @@ namespace Cryptool.MD5Collider.Algorithm
                 {
                     if (IsStopped)
                         return;
+
+                    MatchProgress = 2;
 
                     ++counter;
 
@@ -927,6 +963,8 @@ namespace Cryptool.MD5Collider.Algorithm
                     if (IsStopped)
                         return;
 
+                    MatchProgress = 3;
+
                     UInt32 q10 = q10b | (q9q10mask[k10] & 0x08000030);
                     UInt32 m10 = RR(Q[Qoff + 11] - q10, 17);
                     UInt32 q9 = q9b | (q9q10mask[k10] & 0x80002000);
@@ -955,6 +993,8 @@ namespace Cryptool.MD5Collider.Algorithm
                     {
                         if (IsStopped)
                             return;
+
+                        MatchProgress = 4;
 
                         UInt32 a = aa, b = bb, c = cc, d = dd;
                         Q[Qoff + 9] = q9 ^ q9mask[k9];
@@ -1046,7 +1086,10 @@ namespace Cryptool.MD5Collider.Algorithm
                         md5_compress(IV1, block);
                         md5_compress(IV2, block2);
                         if (IV2[0] == IV1[0] && IV2[1] == IV1[1] && IV2[2] == IV1[2] && IV2[3] == IV1[3])
+                        {
+                            MatchProgress = 5;
                             return;
+                        }
 
                         //if (IV2[0] != IV1[0])
                         //		std::cout << "!" << std::flush;
@@ -1058,6 +1101,9 @@ namespace Cryptool.MD5Collider.Algorithm
 
         void find_block1_stevens_10(UInt32[] block, UInt32[] IV)
         {
+            MatchProgressMax = 5;
+            MatchProgress = 0;
+
             UInt32[] Q = new UInt32[68];
             Q[0] = IV[0];
             Q[1] = IV[3];
@@ -1071,11 +1117,13 @@ namespace Cryptool.MD5Collider.Algorithm
             UInt32[] q9mask = new UInt32[1 << 10];
             for (UInt32 k = 0; k < q9mask.Length; ++k)
                 q9mask[k] = ((k << 1) ^ (k << 2) ^ (k << 3) ^ (k << 7) ^ (k << 12) ^ (k << 15) ^ (k << 18) ^ (k << 20)) & 0x2471042a;
-
+            
             while (true)
             {
                 if (IsStopped)
                     return;
+
+                MatchProgress = 1;
 
                 UInt32 aa1 = Q[Qoff] & 0x80000000;
 
@@ -1116,6 +1164,8 @@ namespace Cryptool.MD5Collider.Algorithm
                 {
                     if (IsStopped)
                         return;
+
+                    MatchProgress = 2;
 
                     ++counter;
 
@@ -1183,6 +1233,8 @@ namespace Cryptool.MD5Collider.Algorithm
                     if (IsStopped)
                         return;
 
+                    MatchProgress = 3;
+
                     UInt32 q10 = q10b | (q9q10mask[k10] & 0x08000004);
                     UInt32 m10 = RR(Q[Qoff + 11] - q10, 17);
                     UInt32 q9 = q9b | (q9q10mask[k10] & 0x00004200);
@@ -1211,6 +1263,8 @@ namespace Cryptool.MD5Collider.Algorithm
                     {
                         if (IsStopped)
                             return;
+
+                        MatchProgress = 4;
 
                         UInt32 a = aa, b = bb, c = cc, d = dd;
                         Q[Qoff + 9] = q9 ^ q9mask[k9];
@@ -1304,7 +1358,10 @@ namespace Cryptool.MD5Collider.Algorithm
                         md5_compress(IV1, block);
                         md5_compress(IV2, block2);
                         if (IV2[0] == IV1[0] && IV2[1] == IV1[1] && IV2[2] == IV1[2] && IV2[3] == IV1[3])
+                        {
+                            MatchProgress = 5;
                             return;
+                        }
 
                         //if (IV2[0] != IV1[0])
                         //		std::cout << "!" << std::flush;
@@ -1316,6 +1373,9 @@ namespace Cryptool.MD5Collider.Algorithm
 
         void find_block1_stevens_11(UInt32[] block, UInt32[] IV)
         {
+            MatchProgressMax = 5;
+            MatchProgress = 0;
+
             UInt32[] Q = new UInt32[68];
             Q[0] = IV[0];
             Q[1] = IV[3];
@@ -1334,6 +1394,8 @@ namespace Cryptool.MD5Collider.Algorithm
             {
                 if (IsStopped)
                     return;
+
+                MatchProgress = 1;
 
                 UInt32 aa1 = Q[Qoff] & 0x80000000;
 
@@ -1374,6 +1436,8 @@ namespace Cryptool.MD5Collider.Algorithm
                 {
                     if (IsStopped)
                         return;
+
+                    MatchProgress = 2;
 
                     ++counter;
 
@@ -1442,6 +1506,8 @@ namespace Cryptool.MD5Collider.Algorithm
                     if (IsStopped)
                         return;
 
+                    MatchProgress = 3;
+
                     UInt32 q10 = q10b | (q9q10mask[k10] & 0x08000040);
                     UInt32 m10 = RR(Q[Qoff + 11] - q10, 17);
                     UInt32 q9 = q9b | (q9q10mask[k10] & 0x80000280);
@@ -1470,6 +1536,8 @@ namespace Cryptool.MD5Collider.Algorithm
                     {
                         if (IsStopped)
                             return;
+
+                        MatchProgress = 4;
 
                         UInt32 a = aa, b = bb, c = cc, d = dd;
                         Q[Qoff + 9] = q9 ^ q9mask[k9];
@@ -1563,7 +1631,10 @@ namespace Cryptool.MD5Collider.Algorithm
                         md5_compress(IV1, block);
                         md5_compress(IV2, block2);
                         if (IV2[0] == IV1[0] && IV2[1] == IV1[1] && IV2[2] == IV1[2] && IV2[3] == IV1[3])
+                        {
+                            MatchProgress = 5;
                             return;
+                        }
 
                         //if (IV2[0] != IV1[0])
                         //		std::cout << "!" << std::flush;
@@ -1575,6 +1646,9 @@ namespace Cryptool.MD5Collider.Algorithm
 
         void find_block1_wang(UInt32[] block, UInt32[] IV)
         {
+            MatchProgressMax = 6;
+            MatchProgress = 0;
+
             UInt32[] Q = new UInt32[68];
             Q[0] = IV[0];
             Q[1] = IV[3];
@@ -1596,12 +1670,13 @@ namespace Cryptool.MD5Collider.Algorithm
             UInt32[] q9mask2 = new UInt32[1 << 10];
             for (UInt32 k = 0; k < q9mask2.Length; ++k)
                 q9mask2[k] = ((k << 1) ^ (k << 7) ^ (k << 14) ^ (k << 15) ^ (k << 22)) & 0x6074041c;
-
-
+            
             while (true)
             {
                 if (IsStopped)
                     return;
+
+                MatchProgress = 1;
 
                 UInt32 aa1 = Q[Qoff] & 0x80000000;
                 UInt32 bb1 = 0x80000000 ^ aa1;
@@ -1643,6 +1718,8 @@ namespace Cryptool.MD5Collider.Algorithm
                 {
                     if (IsStopped)
                         return;
+
+                    MatchProgress = 2;
 
                     ++counter;
 
@@ -1698,6 +1775,8 @@ namespace Cryptool.MD5Collider.Algorithm
                     if (IsStopped)
                         return;
 
+                    MatchProgress = 3;
+
                     Q[Qoff + 4] = q4b ^ q4mask[counter];
                     ++counter;
                     MD5_REVERSE_STEP(block, Q, 5, 0x4787c62a, 12);
@@ -1720,6 +1799,8 @@ namespace Cryptool.MD5Collider.Algorithm
                     {
                         if (IsStopped)
                             return;
+
+                        MatchProgress = 4;
 
                         UInt32 q10 = q10b ^ q10mask[counter2];
                         UInt32 m10 = RR(Q[Qoff + 11] - q10, 17);
@@ -1750,6 +1831,8 @@ namespace Cryptool.MD5Collider.Algorithm
                         {
                             if (IsStopped)
                                 return;
+
+                            MatchProgress = 5;
 
                             UInt32 a = aa, b = bb, c = cc, d = dd;
                             Q[Qoff + 9] = q9 ^ q9mask2[k9]; ++k9;
@@ -1843,7 +1926,10 @@ namespace Cryptool.MD5Collider.Algorithm
                             md5_compress(IV1, block);
                             md5_compress(IV2, block2);
                             if (IV2[0] == IV1[0] && IV2[1] == IV1[1] && IV2[2] == IV1[2] && IV2[3] == IV1[3])
+                            {
+                                MatchProgress = 6;
                                 return;
+                            }
 
                             //if (IV2[0] != IV1[0])
                             //	std::cout << "!" << std::flush;
@@ -1855,7 +1941,7 @@ namespace Cryptool.MD5Collider.Algorithm
 
         private bool IsStopped { get; set; }
 
-        public void Stop()
+        protected override void PerformStop()
         {
             IsStopped = true;
         }
