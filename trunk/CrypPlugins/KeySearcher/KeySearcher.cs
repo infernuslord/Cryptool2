@@ -318,23 +318,29 @@ namespace KeySearcher
                         //if we are the thread with most keys left, we have to share them:
                         if (maxThread == threadid && threadStack.Count != 0)
                         {
-                            maxThreadMutex.WaitOne();
-                            if (maxThread == threadid && threadStack.Count != 0)
-                            {                                
-                                KeyPattern[] split = pattern.split();
-                                if (split != null)
+                            try
+                            {
+                                maxThreadMutex.WaitOne();
+                                if (maxThread == threadid && threadStack.Count != 0)
                                 {
-                                    patterns[threadid] = split[0];
-                                    pattern = split[0];
-                                    ThreadStackElement elem = (ThreadStackElement)threadStack.Pop();
-                                    patterns[elem.threadid] = split[1];
-                                    elem.ev.Set();    //wake the other thread up                                    
-                                    size = pattern.size();
-                                    keysLeft[threadid] = size;
-                                }                            
-                                maxThread = -1;
+                                    KeyPattern[] split = pattern.split();
+                                    if (split != null)
+                                    {
+                                        patterns[threadid] = split[0];
+                                        pattern = split[0];
+                                        ThreadStackElement elem = (ThreadStackElement)threadStack.Pop();
+                                        patterns[elem.threadid] = split[1];
+                                        elem.ev.Set();    //wake the other thread up                                    
+                                        size = pattern.size();
+                                        keysLeft[threadid] = size;
+                                    }
+                                    maxThread = -1;
+                                }
                             }
-                            maxThreadMutex.ReleaseMutex();
+                            finally
+                            {
+                                maxThreadMutex.ReleaseMutex();
+                            }
                         }
 
 
@@ -588,17 +594,23 @@ namespace KeySearcher
                 #region determination of the thread with most keys
                 if (size - keycounter > 1000)
                 {
-                    maxThreadMutex.WaitOne();
-                    BigInteger max = 0;
-                    int id = -1;
-                    for (int i = 0; i < patterns.Length; i++)
-                        if (keysleft[i] != null && keysleft[i] > max)
-                        {
-                            max = keysleft[i];
-                            id = i;
-                        }
-                    maxThread = id;
-                    maxThreadMutex.ReleaseMutex();
+                    try
+                    {
+                        maxThreadMutex.WaitOne();
+                        BigInteger max = 0;
+                        int id = -1;
+                        for (int i = 0; i < patterns.Length; i++)
+                            if (keysleft[i] != null && keysleft[i] > max)
+                            {
+                                max = keysleft[i];
+                                id = i;
+                            }
+                        maxThread = id;
+                    }
+                    finally
+                    {
+                        maxThreadMutex.ReleaseMutex();
+                    }
                 }
                 #endregion
 
