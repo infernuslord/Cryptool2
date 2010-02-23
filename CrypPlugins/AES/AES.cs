@@ -503,7 +503,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         public byte[] Decrypt(byte[] ciphertext, byte[] key, int bytesToUse)
         {
-            CryptoStream crypto_stream = null;
             int size = bytesToUse > ciphertext.Length ? ciphertext.Length : bytesToUse;
 
             int bits = -1;
@@ -526,55 +525,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             return NativeCryptography.Crypto.decryptAES(ciphertext, key, bits, size);
         }
 
-      
-
-        private void ConfigureAlg(SymmetricAlgorithm alg, byte[] key)
-        {
-            try
-            {
-                alg.Key = key;
-            }
-            catch
-            {
-                //dirty hack to allow weak keys:
-                FieldInfo field = alg.GetType().GetField("KeyValue", BindingFlags.NonPublic | BindingFlags.Instance);
-                field.SetValue(alg, key);
-            }
-
-            //try
-            //{
-            //    alg.IV = this.plugin.InputIV;
-            //}
-            //catch
-            //{
-            //    //dirty hack to allow weak keys:
-            //    FieldInfo field = aes_algorithm.GetType().GetField("IVValue", BindingFlags.NonPublic | BindingFlags.Instance);
-            //    field.SetValue(alg, this.plugin.InputIV);
-            //}
-            alg.IV = new byte[alg.BlockSize / 8];
-
-
-            switch (((AESSettings)plugin.Settings).Mode)
-            { //0="ECB"=default, 1="CBC", 2="CFB", 3="OFB"
-                case 1: alg.Mode = CipherMode.CBC; break;
-                case 2: alg.Mode = CipherMode.CFB; break;
-                case 3: alg.Mode = CipherMode.OFB; break;
-                default: alg.Mode = CipherMode.ECB; break;
-            }
-
-            alg.Padding = PaddingMode.Zeros;
-
-            //switch (((AESSettings)plugin.Settings).Padding)
-            //{ //0="Zeros"=default, 1="None", 2="PKCS7"
-            //    case 1: alg.Padding = PaddingMode.None; break;
-            //    case 2: alg.Padding = PaddingMode.PKCS7; break;
-            //    case 3: alg.Padding = PaddingMode.ANSIX923; break;
-            //    case 4: alg.Padding = PaddingMode.ISO10126; break;
-            //    default: alg.Padding = PaddingMode.Zeros; break;
-            //}
-            
-        }
-        
         public string getKeyPattern()
         {
             int bytes = 0;
