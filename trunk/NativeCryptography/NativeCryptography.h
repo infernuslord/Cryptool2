@@ -11,8 +11,9 @@ namespace NativeCryptography {
 	private:
 		static void arrayToCArray(array<unsigned char>^ a, unsigned char *ca, int length)
 		{
-			int counter;			
-			for (counter = 0; counter < Math::Min(a->Length, length); counter++)
+			int counter;
+			int l = (a->Length < length) ? a->Length : length;
+			for (counter = 0; counter < l; counter++)
 				ca[counter] = a[counter];
 			for (; counter < length; counter++)
 				ca[counter] = 0;
@@ -59,6 +60,9 @@ namespace NativeCryptography {
 
 			array<unsigned char>^ output = gcnew array<unsigned char>(length);
 			carrayToArray(output, outp, length);
+			free(inp);
+			free(outp);
+			free(ckey);
 			return output;
 		}
 	};
