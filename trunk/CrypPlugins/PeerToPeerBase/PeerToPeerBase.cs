@@ -32,6 +32,10 @@ using PeersAtPlay;
 using PeersAtPlay.Util.Logging;
 using Gears4Net;
 
+/* TODO:
+ * - Catch errors, which can occur when using the DHT (network-based errors)
+ */
+
 /* - Synchronous functions successfully tested (store, retrieve)
  * - The DHT has an integrated versioning system. When a peer wants
  *   to store data in an entry, which already holds data, the version

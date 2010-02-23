@@ -23,10 +23,15 @@ using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 
 /* TODO:
- * - Make Publisher-change possible ((de)serialize subscribers into DHT)
- * - Make Manager-change possible
+ * - Publisher-change is possible, but catch old Publishers subscriber list
+ *   isn't implemented yet ((de)serialization of the subscribers is 
+ *   implemented and tested)
+ * - Make Manager-change possible ((de)serialization of job management lists)
  * - Benchmarking the working peers 
  *   (this.distributableJobControl.SetResult() returns the TimeSpan for the result)
+ * - Insert internal Start-/Stop-Button, so Manager can stop its works without
+ *   loosing any Job-Information (this happens at present, when pressing the Stop
+ *   button of the CrypTool Workspace)
  */
 
 namespace Cryptool.Plugins.PeerToPeer
@@ -341,7 +346,9 @@ namespace Cryptool.Plugins.PeerToPeer
                     throw (new Exception("Critical error in P2PManager. Manager isn't started yet, but the workers can register... Even removing DHT entries weren't possible..."));
             }
             else
+            {
                 AllocateJobs();
+            }
 
             GetProgressInformation();
         }
@@ -406,32 +413,40 @@ namespace Cryptool.Plugins.PeerToPeer
             if (this.startWorkingTime == DateTime.MinValue && freePeers.Count > 0)
                 this.startWorkingTime = DateTime.Now;
 
-            foreach (PeerId worker in freePeers)
+            /* edited by Arnold - 2010.02.23 */
+            // because parallel incoming free workers could run
+            // into concurrence in this method, so some workers
+            // could get more than one job - so they have to
+            // queue the additional jobs.
+            lock (freePeers)
             {
-                byte[] serializedNewJob = this.distributableJobControl.Pop(out temp_jobId);
-                if (serializedNewJob != null) // if this is null, there are no more JobParts on the main stack!
+                foreach (PeerId worker in freePeers)
                 {
-                    this.jobsWaitingForAcceptanceInfo.Add(temp_jobId, worker);
-                    // get actual subscriber/worker and send the new job
-                    base.p2pControl.SendToPeer(JobMessages.CreateJobPartMessage(temp_jobId, serializedNewJob), worker);
+                    byte[] serializedNewJob = this.distributableJobControl.Pop(out temp_jobId);
+                    if (serializedNewJob != null) // if this is null, there are no more JobParts on the main stack!
+                    {
+                        this.jobsWaitingForAcceptanceInfo.Add(temp_jobId, worker);
+                        // get actual subscriber/worker and send the new job
+                        base.p2pControl.SendToPeer(JobMessages.CreateJobPartMessage(temp_jobId, serializedNewJob), worker);
 
-                    if (OnNewJobAllocated != null)
-                        OnNewJobAllocated(temp_jobId);
+                        if (OnNewJobAllocated != null)
+                            OnNewJobAllocated(temp_jobId);
 
-                    // set free worker to busy in the peerManagement class
-                    ((WorkersManagement)this.peerManagement).SetFreeWorkerToBusy(worker);
+                        // set free worker to busy in the peerManagement class
+                        ((WorkersManagement)this.peerManagement).SetFreeWorkerToBusy(worker);
 
-                    GuiLogging("Job '" + temp_jobId.ToString() + "' were sent to worker id '" + worker.ToString() + "'", NotificationLevel.Info);
-                    i++;
-                }
-                else
-                {
-                    GuiLogging("No more jobs left. So wait for the last results, than close this task.", NotificationLevel.Debug);
-                    if (OnNoMoreJobsLeft != null)
-                        OnNoMoreJobsLeft();
-                }
-                GuiLogging(i + " Job(s) allocated to worker(s).", NotificationLevel.Debug);
-            } // end foreach
+                        GuiLogging("Job '" + temp_jobId.ToString() + "' were sent to worker id '" + worker.ToString() + "'", NotificationLevel.Info);
+                        i++;
+                    }
+                    else
+                    {
+                        GuiLogging("No more jobs left. So wait for the last results, than close this task.", NotificationLevel.Debug);
+                        if (OnNoMoreJobsLeft != null)
+                            OnNoMoreJobsLeft();
+                    }
+                    GuiLogging(i + " Job(s) allocated to worker(s).", NotificationLevel.Debug);
+                } // end foreach
+            }
         }
 
         #endregion

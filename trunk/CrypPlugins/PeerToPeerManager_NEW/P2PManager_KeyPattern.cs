@@ -28,7 +28,12 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using Cryptool.Plugins.PeerToPeer.Jobs;
 
-/*TODO: Execute: If InitVector is null, try to create a fitting InitVector with the format 0...0 */
+/*TODO: 
+ * - Execute: If InitVector is null, try to create a fitting InitVector with the format 0...0 
+ * - No linebreaks in the global result list
+ * - 2 Output values (Top1-Key and Top1-Decryption)
+ * - Display the job stati in a kind of a defragmentation list
+ */
 
 namespace Cryptool.Plugins.PeerToPeer
 {
