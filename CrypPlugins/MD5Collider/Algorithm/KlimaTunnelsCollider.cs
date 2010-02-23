@@ -4,15 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
 
-namespace Cryptool.MD5Collider.Algorithm
+namespace Cryptool.Plugins.MD5Collider.Algorithm
 {
-    class KlimaTunnelsCollider : IMD5ColliderAlgorithm
+    class KlimaTunnelsCollider : MD5ColliderBase
     {
-        public byte[] FirstCollidingData { get; private set; }
-        public byte[] SecondCollidingData { get; private set; }
-        public byte[] RandomSeed { get; set; }
-
-        public void FindCollision()
+        protected override void PerformFindCollision()
         {
             byte[] seedBytedMd5 = MD5.Create().ComputeHash(RandomSeed);
             int seed = BitConverter.ToInt32(seedBytedMd5, 0) ^ BitConverter.ToInt32(seedBytedMd5, 4) ^ BitConverter.ToInt32(seedBytedMd5, 8) ^ BitConverter.ToInt32(seedBytedMd5, 12);
@@ -252,6 +248,9 @@ namespace Cryptool.MD5Collider.Algorithm
         int B1()
         {
             int i;
+
+            MatchProgressMax = 8;
+            Status = StatusConstants.FINDING_BLOCK1;
 
             UInt32[] Q = new UInt32[65], x = new UInt32[16];
             UInt32 QM0, QM1, QM2, QM3, AA0, BB0, CC0, DD0;
@@ -875,6 +874,7 @@ namespace Cryptool.MD5Collider.Algorithm
             cas1 = cas2 = cas3 = cas4 = cas5 = 0;
             for (; ; )
             {
+                MatchProgress = 1;
                 /* a1 */
                 Q[1] = rng();
                 /* d1 */
@@ -1038,6 +1038,8 @@ namespace Cryptool.MD5Collider.Algorithm
 
                 for (Q10 = 0; Q10 < 8; Q10++)//3 bits
                 {
+                    MatchProgress = 2;
+
                     Q[10] = tempq10; Q[9] = tempq9; Q[13] = tempq13; x[4] = tempx4; x[15] = tempx15;
                     Q[20] = tempq20; Q[21] = tempq21;
 
@@ -1057,6 +1059,8 @@ namespace Cryptool.MD5Collider.Algorithm
 
                     for (Q20 = 0; Q20 < 64; Q20++)//6 bits, 64
                     {
+                        MatchProgress = 3;
+
                         Q[3] = tempq3; Q[4] = tempq4; x[1] = tempx1; x[15] = tempx15;
                         Q[20] = tempq20 ^ maskQ20[Q20];
                         x[0] = RR(Q[20] - Q[19], 20) - G(Q[19], Q[18], Q[17]) - Q[16] - 0xe9b6c7aa;
@@ -1083,6 +1087,8 @@ namespace Cryptool.MD5Collider.Algorithm
 
                         for (Q13 = 0; Q13 < 4096; Q13++)//12 bits
                         {
+                            MatchProgress = 4;
+
                             Q[3] = tempq3; Q[4] = tempq4; Q[14] = tempq14;
                             Q[13] = tempq13 ^ maskQ13[Q13];
                             x[1] = RR(Q[17] - Q[16], 5) - G(Q[16], Q[15], Q[14]) - Q[13] - 0xf61e2562;
@@ -1115,6 +1121,8 @@ namespace Cryptool.MD5Collider.Algorithm
 
                             for (Q14 = 0; Q14 < 512; Q14++)
                             {
+                                MatchProgress = 5;
+
                                 constxxx = constxx + maskQ14[Q14];
                                 if ((constxxx & 0x03ffffd0) != 0) { continue; }
                                 Q[4] = (constxxx & 0x7400000a) + hQ4p;
@@ -1126,6 +1134,8 @@ namespace Cryptool.MD5Collider.Algorithm
 
                                 for (Q4 = 0; Q4 < 1; Q4++)//tunnel Q4,26 not included
                                 {
+                                    MatchProgress = 6;
+
                                     Q[4] = Q[4] ^ 0x02000000;
                                     x[4] = RR(Q[5] - Q[4], 7) - F(Q[4], Q[3], Q[2]) - Q[1] - 0xf57c0faf;
                                     Q[24] = Q[23] + RL(G(Q[23], Q[22], Q[21]) + Q[20] + x[4] + 0xe7d3fbc8, 20);
@@ -1158,6 +1168,8 @@ namespace Cryptool.MD5Collider.Algorithm
 
                                     for (Q9 = 0; Q9 < 8; Q9++)//8
                                     {
+                                        MatchProgress = 7;
+
                                         Q[9] = tempq9 ^ mask_Q9[Q9];
                                         //x[ 8] = RR(Q[ 9]-Q[ 8], 7) - F(Q[ 8],Q[ 7],Q[ 6]) - Q[ 5] - 0x698098d8;
                                         //B0a= F(Q[ 8],Q[ 7],Q[ 6]) + Q[ 5] + 0x698098d8;		
@@ -1335,6 +1347,7 @@ namespace Cryptool.MD5Collider.Algorithm
 
                                         for (i = 0; i < 4; i++) { P_IHV1[i] = IHV1[i]; P_HIHV1[i] = HIHV1[i]; }
 
+                                        MatchProgress = 8;
 
                                         while (B2() != 0) ;
                                         return 0;
@@ -1356,6 +1369,9 @@ namespace Cryptool.MD5Collider.Algorithm
             UInt32[] IHV2 = new UInt32[4], HIHV2 = new UInt32[4];
             UInt32 zavorka_Q17, zavorka_Q19, zavorka_Q20, zavorka_Q23, zavorka_Q35, zavorka_Q62;
             UInt32 i, Hi, Lo, jednicky, spolecna_maska;
+
+            Status = StatusConstants.FINDING_BLOCK2;
+            MatchProgressMax = 5;
 
             AA0 = QM3 = P_IHV1[0]; DD0 = QM2 = P_IHV1[3]; CC0 = QM1 = P_IHV1[2]; BB0 = QM0 = P_IHV1[1];
             bitI = BB0 & longmask[32];
@@ -1495,6 +1511,8 @@ namespace Cryptool.MD5Collider.Algorithm
 
             for (cq16 = 0; cq16 < longmask[26]; cq16++)
             {
+                MatchProgress = 1;
+
                 Q[1] = temp2Q1; Q[2] = temp2Q2; Q[4] = temp2Q4; Q[9] = temp2Q9;
 
                 Q[15] = (rng() & 0x00fc3ff7) + 0x7d020000;
@@ -1526,6 +1544,8 @@ namespace Cryptool.MD5Collider.Algorithm
 
                 for (cq1q2 = 0; cq1q2 < longmask[jednicky + 1]; cq1q2++)
                 {
+                    MatchProgress = 2;
+
                     Q[4] = temp2Q4; Q[9] = temp2Q9;
 
                     Q[1] = (rng() & spolecna_maska) + tQ1;
@@ -1555,6 +1575,8 @@ namespace Cryptool.MD5Collider.Algorithm
 
                     for (cq4 = 0; cq4 < 64; cq4++)
                     {
+                        MatchProgress = 3;
+
                         Hi = (cq4 & 0x00000038) << 19;
                         Lo = (cq4 & 0x00000007) << 13;
 
@@ -1570,6 +1592,8 @@ namespace Cryptool.MD5Collider.Algorithm
 
                         for (cq9 = 0; cq9 < 256; cq9++)
                         {
+                            MatchProgress = 4;
+
                             Q[9] = temp2Q9 ^ mask2Q9[cq9];
                             x[8] = RR(Q[9] - Q[8], 7) - F(Q[8], Q[7], Q[6]) - Q[5] - 0x698098d8;
                             x[9] = RR(Q[10] - Q[9], 12) - F(Q[9], Q[8], Q[7]) - Q[6] - 0x8b44f7af;
@@ -1685,6 +1709,8 @@ namespace Cryptool.MD5Collider.Algorithm
 
                             if (hash1.Union(hash2).Count() == hash1.Intersect(hash2).Count())
                             {
+                                MatchProgress = 5;
+
                                 FirstCollidingData = v1;
                                 SecondCollidingData = v2;
                                 return (0);
@@ -1697,15 +1723,9 @@ namespace Cryptool.MD5Collider.Algorithm
         }//B2
         /*=========================================================*/
 
-
-        #region IMD5ColliderAlgorithm Member
-
-
-        public void Stop()
+        protected override void PerformStop()
         {
             throw new NotImplementedException();
         }
-
-        #endregion
     }
 }

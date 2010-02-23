@@ -7,9 +7,11 @@ using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
-using Cryptool.MD5Collider.Algorithm;
+using Cryptool.Plugins.MD5Collider.Algorithm;
+using Cryptool.Plugins.MD5Collider.Presentation;
+using System.Windows.Controls;
 
-namespace Cryptool.MD5Collider
+namespace Cryptool.Plugins.MD5Collider
 {
     [Author("Holger Pretzsch", "mail@holger-pretzsch.de", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo(false, "MD5Collider", "MD5 hash collider", "MD5Collider/DetailedDescription/Description.xaml", "MD5Collider/MD5Collider.png")]
@@ -17,8 +19,14 @@ namespace Cryptool.MD5Collider
     {
         private MD5ColliderSettings settings = new MD5ColliderSettings();
         private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
+        private QuickWatchPresentationContainer quickWatchPresentation = new QuickWatchPresentationContainer();
 
-        IMD5ColliderAlgorithm collider = new StevensCollider();
+        private IMD5ColliderAlgorithm _collider;
+        private IMD5ColliderAlgorithm Collider
+        {
+            get { return _collider; }
+            set { _collider = value; quickWatchPresentation.Collider = value; }
+        }
 
         public event Cryptool.PluginBase.StatusChangedEventHandler OnPluginStatusChanged;
         public event Cryptool.PluginBase.GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
@@ -27,13 +35,22 @@ namespace Cryptool.MD5Collider
 
         public Cryptool.PluginBase.ISettings Settings { get { return settings; } }
         public System.Windows.Controls.UserControl Presentation { get { return null; } }
-        public System.Windows.Controls.UserControl QuickWatchPresentation { get { return null; } }
+        public System.Windows.Controls.UserControl QuickWatchPresentation { get { return quickWatchPresentation; } }
 
         public void PreExecution() { Dispose(); }
         public void PostExecution() { Dispose(); }
         public void Pause() { }
-        public void Stop() { collider.Stop(); }
+        public void Stop() { Collider.Stop(); }
         public void Initialize() { }
+
+        public MD5Collider()
+        {
+            Collider = new StevensCollider();
+            Collider.Status = "Waiting";
+
+            worker = new BackgroundWorker();
+            worker.DoWork += DoWork;
+        }
 
         private byte[] outputData1;
         [PropertyInfo(Direction.OutputData, "First colliding data block", "First colliding data block as byte array", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
@@ -106,21 +123,44 @@ namespace Cryptool.MD5Collider
                 OnPropertyChanged("RandomSeed");
             }
         }
+        
+        BackgroundWorker worker;
 
         public void Execute()
         {
+            DoWork(this, null);
+            return;
+
+            if (worker.IsBusy)
+                return;
+
+            worker.RunWorkerAsync();
+        }
+
+        private void GuiLogMessage(string message, NotificationLevel logLevel)
+        {
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
+        }
+
+        public void DoWork(object o, EventArgs e)
+        {
+            GuiLogMessage("DoWork()", NotificationLevel.Debug);
+            Collider.Status = "Executing";
+
             if (RandomSeed == null)
                 return;
 
             ProgressChanged(0.5, 1.0);
 
-            collider.RandomSeed = RandomSeed;
-            collider.FindCollision();
+            Collider.RandomSeed = RandomSeed;
+            Collider.FindCollision();
 
-            OutputData1 = collider.FirstCollidingData;
-            OutputData2 = collider.SecondCollidingData;
+            OutputData1 = Collider.FirstCollidingData;
+            OutputData2 = Collider.SecondCollidingData;
 
             ProgressChanged(1.0, 1.0);
+
+            Collider.Status = "Finished";
         }
 
         public void OnPropertyChanged(string name)

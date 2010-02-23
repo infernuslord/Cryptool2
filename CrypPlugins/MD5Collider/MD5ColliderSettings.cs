@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
 
-namespace Cryptool.MD5Collider
+namespace Cryptool.Plugins.MD5Collider
 {
     class MD5ColliderSettings : ISettings
     {
