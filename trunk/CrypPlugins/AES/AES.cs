@@ -33,6 +33,7 @@ using Cryptool.PluginBase.Miscellaneous;
 using System.Runtime.Remoting.Contexts;
 using Cryptool.PluginBase.Control;
 using System.Reflection;
+using NativeCryptography;
 
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
@@ -505,67 +506,24 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             CryptoStream crypto_stream = null;
             int size = bytesToUse > ciphertext.Length ? ciphertext.Length : bytesToUse;
 
-            byte[] output = new byte[size];
-
-
-            SymmetricAlgorithm aes_algorithm = null;
-
-            //Decrypt Stream
-            try
+            int bits = -1;
+            switch (((AESSettings)plugin.Settings).Keysize)
             {
-                if (!(aes_algorithm is object))
-                {
-                    if (((AESSettings)plugin.Settings).CryptoAlgorithm == 1)
-                    { aes_algorithm = new RijndaelManaged(); }
-                    else
-                    { aes_algorithm = new AesCryptoServiceProvider(); }
-                }
-
-                this.ConfigureAlg(aes_algorithm, key);
-
-                ICryptoTransform p_decryptor;
-                try
-                {
-                    p_decryptor = aes_algorithm.CreateDecryptor();
-                }
-                catch
-                {
-                    //dirty hack to allow weak keys:
-                    MethodInfo mi = aes_algorithm.GetType().GetMethod("_NewEncryptor", BindingFlags.NonPublic | BindingFlags.Instance);
-                    object[] Par = { aes_algorithm.Key, aes_algorithm.Mode, aes_algorithm.IV, aes_algorithm.FeedbackSize, 0 };
-                    p_decryptor = mi.Invoke(aes_algorithm, Par) as ICryptoTransform;
-                }
-
-                crypto_stream = new CryptoStream(new MemoryStream(ciphertext, 0, size), p_decryptor, CryptoStreamMode.Read);
-
-                byte[] buffer = new byte[aes_algorithm.BlockSize / 8];
-                int bytesRead;
-                int position = 0;
-
-                while ((bytesRead = crypto_stream.Read(buffer, 0, buffer.Length)) > 0 && !plugin.isStopped())
-                {
-                    for (int i = 0; i < bytesRead; i++)
-                    {
-                        if (position + i < output.Length)
-                        {
-                            output[position + i] = buffer[i];
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                    position += bytesRead;
-                }
-
-            }
-            catch (Exception exception)
-            {
-                aes_algorithm = null;   // we got an exception so we do not use this object any more
-                throw exception;
+                case 0:
+                    bits = 16*8;
+                    break;
+                case 1:
+                    bits = 24*8;
+                    break;
+                case 2:
+                    bits = 32*8;
+                    break;
             }
 
-            return output;
+            if (bits == -1)
+                return null;
+
+            return NativeCryptography.Crypto.decryptAES(ciphertext, key, bits, size);
         }
 
       
