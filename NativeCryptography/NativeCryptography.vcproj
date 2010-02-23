@@ -41,7 +41,9 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
+				Optimization="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
@@ -85,7 +87,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="cd &quot;$(ProjectDir)&quot;&#x0D;&#x0A;cd ..\CrypWin\bin\$(ConfigurationName)&#x0D;&#x0A;if not exist &quot;./CrypPlugins&quot; mkdir &quot;./CrypPlugins&quot;&#x0D;&#x0A;&#x0D;&#x0A;copy &quot;$(TargetDir)NativeCryptography*.*&quot; &quot;./CrypPlugins&quot;"
+				CommandLine="cd &quot;$(ProjectDir)&quot;&#x0D;&#x0A;cd ..\CrypWin\bin\$(ConfigurationName)&#x0D;&#x0A;if not exist &quot;./CrypPlugins&quot; mkdir &quot;./CrypPlugins&quot;&#x0D;&#x0A;&#x0D;&#x0A;copy &quot;$(TargetDir)NativeCryptography*.*&quot; &quot;./CrypPlugins&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -114,6 +116,9 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				Optimization="2"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -156,7 +161,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="cd &quot;$(ProjectDir)&quot;&#x0D;&#x0A;cd ..\CrypWin\bin\$(ConfigurationName)&#x0D;&#x0A;if not exist &quot;./CrypPlugins&quot; mkdir &quot;./CrypPlugins&quot;&#x0D;&#x0A;&#x0D;&#x0A;copy &quot;$(TargetDir)NativeCryptography*.*&quot; &quot;./CrypPlugins&quot;"
+				CommandLine="cd &quot;$(ProjectDir)&quot;&#x0D;&#x0A;cd ..\CrypWin\bin\$(ConfigurationName)&#x0D;&#x0A;if not exist &quot;./CrypPlugins&quot; mkdir &quot;./CrypPlugins&quot;&#x0D;&#x0A;&#x0D;&#x0A;copy &quot;$(TargetDir)NativeCryptography*.*&quot; &quot;./CrypPlugins&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>

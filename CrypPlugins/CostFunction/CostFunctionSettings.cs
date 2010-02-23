@@ -31,6 +31,7 @@ namespace Cryptool.Plugins.CostFunction
         private bool hasChanges = false;
         private int functionType;
         private String bytesToUse = "256";
+        private int bytesToUseInteger = 256;
         #endregion
         
         [TaskPane("FunctionType", "Select the type of function", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Index of coincidence", "Entropy", "Bigrams: log 2", "Bigrams: Sinkov", "Bigrams: Percentaged", "Regular Expression"})]
@@ -55,8 +56,14 @@ namespace Cryptool.Plugins.CostFunction
             set
             {
                 bytesToUse = value;
-                OnPropertyChanged("BytesToUse"); 
+                bytesToUseInteger = int.Parse(value);
+                OnPropertyChanged("BytesToUse");
             }
+        }
+
+        public int BytesToUseInteger
+        {
+            get { return bytesToUseInteger; }
         }
 
         public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
