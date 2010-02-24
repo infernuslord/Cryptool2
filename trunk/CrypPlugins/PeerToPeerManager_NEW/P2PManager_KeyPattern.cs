@@ -275,6 +275,38 @@ namespace Cryptool.Plugins.PeerToPeer
             }
         }
 
+        private void UpdateProgressChunk(BigInteger jobId, System.Windows.Media.Brush color)
+        {
+            // new Progress Chunk - Arnold 2010.02.23
+            if (jobId.LongValue() <= Int32.MaxValue)
+            {
+                int iJobId = (int)jobId.LongValue();
+                if (QuickWatchPresentation.IsVisible)
+                {
+                    ((P2PManagerPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        if (((P2PManagerPresentation)QuickWatchPresentation).PrgChunks[iJobId] != null)
+                            ((P2PManagerPresentation)QuickWatchPresentation).PrgChunks[iJobId] = color;
+                    }, null);
+                }
+            }
+        }
+
+        private void SetProgressChunkJobCount(BigInteger bigInteger)
+        {
+            if (bigInteger.LongValue() <= Int32.MaxValue)
+            {
+                int count = (int)bigInteger.LongValue();
+                if (QuickWatchPresentation.IsVisible)
+                {
+                    ((P2PManagerPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        ((P2PManagerPresentation)QuickWatchPresentation).PrgChunks.JobCount = count;
+                    }, null);
+                }
+            }
+        }
+
         #endregion
 
         void settings_OnPluginStatusChanged(IPlugin sender, StatusEventArgs args)
@@ -475,12 +507,16 @@ namespace Cryptool.Plugins.PeerToPeer
                 distributableKeyPatternJob = new DistributableKeyPatternJob
                     (kp, this.settings.KeyPatternSize * 10000, byteEncryptedData, this.InitVector);
 
+                //set progress chunk job count
+                SetProgressChunkJobCount(this.distributableKeyPatternJob.TotalAmount);
+
                 this.p2pManager = new P2PManagerBase_NEW(this.P2PControl, distributableKeyPatternJob);
                 this.p2pManager.OnGuiMessage += new P2PPublisherBase.GuiMessage(p2pManager_OnGuiMessage);
                 this.p2pManager.OnProcessProgress += new P2PManagerBase_NEW.ProcessProgress(p2pManager_OnProcessProgress);
                 this.p2pManager.OnNewJobAllocated += new P2PManagerBase_NEW.NewJobAllocated(p2pManager_OnNewJobAllocated);
                 this.p2pManager.OnNoMoreJobsLeft += new P2PManagerBase_NEW.NoMoreJobsLeft(p2pManager_OnNoMoreJobsLeft);
                 this.p2pManager.OnResultReceived += new P2PManagerBase_NEW.ResultReceived(p2pManager_OnResultReceived);
+                this.p2pManager.OnJobCanceled += new P2PManagerBase_NEW.JobCanceled(p2pManager_OnJobCanceled);
             }
 
             this.bytesToUseForDecryption = this.settings.BytesToUse;
@@ -490,8 +526,15 @@ namespace Cryptool.Plugins.PeerToPeer
             this.settings.MngStatusChanged(P2PManager_KeyPatternSettings.MngStatus.Working);
         }
 
+        void p2pManager_OnJobCanceled(BigInteger jobId)
+        {
+            UpdateProgressChunk(jobId, System.Windows.Media.Brushes.Red);
+        }
+
         void p2pManager_OnResultReceived(BigInteger jobId)
         {
+            UpdateProgressChunk(jobId, System.Windows.Media.Brushes.Green);
+
             this.settings.MngStatusChanged(P2PManager_KeyPatternSettings.MngStatus.Finished);
         }
 
@@ -502,9 +545,10 @@ namespace Cryptool.Plugins.PeerToPeer
 
         void p2pManager_OnNewJobAllocated(BigInteger jobId)
         {
+            UpdateProgressChunk(jobId, System.Windows.Media.Brushes.Yellow);
+
             this.settings.MngStatusChanged(P2PManager_KeyPatternSettings.MngStatus.Working);
         }
-
 
         #region INotifyPropertyChanged Members
 

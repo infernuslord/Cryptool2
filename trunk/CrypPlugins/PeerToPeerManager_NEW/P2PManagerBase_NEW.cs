@@ -43,6 +43,7 @@ namespace Cryptool.Plugins.PeerToPeer
         public delegate void ProcessProgress(double progressInPercent);       
         public delegate void NewJobAllocated(BigInteger jobId);
         public delegate void ResultReceived(BigInteger jobId);
+        public delegate void JobCanceled(BigInteger jobId);
         public delegate void NoMoreJobsLeft();
         public delegate void AllJobResultsReceived(BigInteger lastJobId);
         public event ProcessProgress OnProcessProgress;
@@ -55,6 +56,10 @@ namespace Cryptool.Plugins.PeerToPeer
         /// When a new job result was received (and accepted) this event is thrown
         /// </summary>
         public event ResultReceived OnResultReceived;
+        /// <summary>
+        /// is thrown when an active worker leaves the network and the jobs come back
+        /// </summary>
+        public event JobCanceled OnJobCanceled;
         /// <summary>
         /// When the last job from the DistributableJob-Stack is allocated, but
         /// the Manager is still waiting for some JobResults this event is thrown
@@ -382,6 +387,8 @@ namespace Cryptool.Plugins.PeerToPeer
                     jobId = allJobsForRemovedPeer[i];
                     this.distributableJobControl.Push(jobId);
                     this.jobsInProgress.Remove(jobId);
+                    if (OnJobCanceled != null)
+                        OnJobCanceled(jobId);
                     GuiLogging("Pushed job '" + jobId.ToString() + "' back to the stack, because peer left the network.", NotificationLevel.Debug);
                 }
             }
@@ -413,7 +420,7 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             int i = 0;
             BigInteger temp_jobId = null;
-            List<PeerId> freePeers = ((WorkersManagement)this.peerManagement).GetAllSubscribers();
+            List<PeerId> freePeers = ((WorkersManagement)this.peerManagement).GetFreeWorkers();
 
             GuiLogging("Trying to allocate " + freePeers.Count + " job(s) to workers.", NotificationLevel.Debug);
 
@@ -427,14 +434,15 @@ namespace Cryptool.Plugins.PeerToPeer
                 if (serializedNewJob != null) // if this is null, there are no more JobParts on the main stack!
                 {
                     this.jobsWaitingForAcceptanceInfo.Add(temp_jobId, worker);
+
+                    // set free worker to busy in the peerManagement class
+                    ((WorkersManagement)this.peerManagement).SetFreeWorkerToBusy(worker);
+
                     // get actual subscriber/worker and send the new job
                     base.p2pControl.SendToPeer(JobMessages.CreateJobPartMessage(temp_jobId, serializedNewJob), worker);
 
                     if (OnNewJobAllocated != null)
                         OnNewJobAllocated(temp_jobId);
-
-                    // set free worker to busy in the peerManagement class
-                    ((WorkersManagement)this.peerManagement).SetFreeWorkerToBusy(worker);
 
                     GuiLogging("Job '" + temp_jobId.ToString() + "' were sent to worker id '" + worker.ToString() + "'", NotificationLevel.Info);
                     i++;
@@ -445,8 +453,8 @@ namespace Cryptool.Plugins.PeerToPeer
                     if (OnNoMoreJobsLeft != null)
                         OnNoMoreJobsLeft();
                 }
-                GuiLogging(i + " Job(s) allocated to worker(s).", NotificationLevel.Debug);
             } // end foreach
+            GuiLogging(i + " Job(s) allocated to worker(s).", NotificationLevel.Debug);
         }
 
         #endregion

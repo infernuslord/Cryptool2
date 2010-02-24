@@ -45,7 +45,7 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
         /// already created Job from the pattern Buffer, don't increment this value. 
         /// Use the JobId existing in the KeyPatternJobPart-Element.
         /// </summary>
-        BigInteger jobIdCounter = 1;
+        BigInteger jobIdCounter = 0;
         /// <summary>
         /// main pattern stack
         /// </summary>
