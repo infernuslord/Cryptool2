@@ -21,6 +21,7 @@ using System.Text;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Collections;
 using Cryptool.Plugins.PeerToPeer.Jobs;
+using System.IO;
 
 namespace KeySearcher
 {
@@ -442,11 +443,32 @@ namespace KeySearcher
                 {
                     byte[] byteWildCard = encoder.GetBytes(wildcardKey);
                     byte[] bytePattern = encoder.GetBytes(pattern);
-                    retByte = new byte[byteWildCard.Length + bytePattern.Length + 2];
-                    retByte[0] = (byte)byteWildCard.Length;
-                    Buffer.BlockCopy(byteWildCard, 0, retByte, 1, byteWildCard.Length);
-                    retByte[byteWildCard.Length + 1] = (byte)bytePattern.Length;
-                    Buffer.BlockCopy(bytePattern, 0, retByte, byteWildCard.Length + 2, bytePattern.Length);
+                    byte[] byteWildCardLen = BitConverter.GetBytes(byteWildCard.Length);
+                    byte[] bytePatternLen = BitConverter.GetBytes(bytePattern.Length);
+                    MemoryStream memStream = new MemoryStream();
+                    try
+                    {
+                        memStream.Write(byteWildCardLen, 0, byteWildCardLen.Length);
+                        memStream.Write(byteWildCard, 0, byteWildCard.Length);
+                        memStream.Write(bytePatternLen, 0, bytePatternLen.Length);
+                        memStream.Write(bytePattern, 0, bytePattern.Length);
+                        retByte = memStream.ToArray();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    finally
+                    {
+                        memStream.Flush();
+                        memStream.Close();
+                        memStream.Dispose();
+                    }
+                    //retByte = new byte[byteWildCardLen.Length + byteWildCard.Length + bytePatternLen.Length + bytePattern.Length];
+                    //Buffer.BlockCopy(byteWildCardLen, 0, retByte, 0, byteWildCardLen.Length);
+                    //Buffer.BlockCopy(byteWildCard, 0, retByte, byteWildCard.Length, byteWildCard.Length);
+                    //retByte[byteWildCard.Length + 1] = (byte)bytePattern.Length;
+                    //Buffer.BlockCopy(bytePattern, 0, retByte, byteWildCard.Length + 2, bytePattern.Length);
                 }
                 else
                 {
@@ -472,10 +494,45 @@ namespace KeySearcher
             string wildcardKey_temp;
             string pattern_temp;
 
-            int iWildCardLen = serializedPattern[0];
-            wildcardKey_temp = encoder.GetString(serializedPattern, 1, iWildCardLen);
-            int iPatternLen = serializedPattern[iWildCardLen + 1];
-            pattern_temp = encoder.GetString(serializedPattern, iWildCardLen + 2, iPatternLen);
+            MemoryStream memStream = new MemoryStream(serializedPattern);
+            try
+            {
+                /* So i always have the same byte length for int32 values */
+                int iTest = 500;
+                int int32ByteLen = BitConverter.GetBytes(iTest).Length;
+
+                // Wildcard length and value
+                byte[] byteLen = new byte[int32ByteLen];
+                memStream.Read(byteLen, 0, byteLen.Length);
+                byte[] byteWildcard = new byte[BitConverter.ToInt32(byteLen, 0)];
+                memStream.Read(byteWildcard, 0, byteWildcard.Length);
+
+                wildcardKey_temp = encoder.GetString(byteWildcard, 0, byteWildcard.Length);
+
+
+                // Pattern length and value
+                memStream.Read(byteLen, 0, byteLen.Length);
+                byte[] bytePattern = new byte[BitConverter.ToInt32(byteLen, 0)];
+                memStream.Read(bytePattern, 0, bytePattern.Length);
+
+                pattern_temp = encoder.GetString(bytePattern, 0, bytePattern.Length);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                memStream.Flush();
+                memStream.Close();
+                memStream.Dispose();
+            }
+
+            //int iWildCardLen = serializedPattern[0];
+            //wildcardKey_temp = encoder.GetString(serializedPattern, 1, iWildCardLen);
+            //int iPatternLen = serializedPattern[iWildCardLen + 1];
+            //pattern_temp = encoder.GetString(serializedPattern, iWildCardLen + 2, iPatternLen);
 
             keyPatternToReturn = new KeyPattern(pattern_temp);
             // test extracted pattern and wildcardKey!
