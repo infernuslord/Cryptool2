@@ -43,6 +43,8 @@ namespace Cryptool.Plugins.PeerToPeer
             return myBrush;
         }
 
+        public ProgressChunks PrgChunks = new ProgressChunks();
+
         #endregion
 
         public P2PManagerPresentation()
@@ -50,46 +52,67 @@ namespace Cryptool.Plugins.PeerToPeer
             InitializeComponent();
             this.SizeChanged += new SizeChangedEventHandler(P2PManagerPresentation_SizeChanged);
             this.DataContext = entries;
-            // when expanding Expanders, resize layout
-            this.Expander_JobStatus.MouseLeftButtonUp += new MouseButtonEventHandler(Expander_JobStatus_MouseLeftButtonUp);
-            this.Expander_List.MouseLeftButtonUp += new MouseButtonEventHandler(Expander_List_MouseLeftButtonUp);
-            this.Expander_WorkerInfo.MouseLeftButtonUp += new MouseButtonEventHandler(Expander_WorkerInfo_MouseLeftButtonUp);
 
+            this.txtTotal.SizeChanged += new SizeChangedEventHandler(txtTotal_SizeChanged);
+            //this.txtTotal.TextChanged += new TextChangedEventHandler(txtTotal_TextChanged);
+
+
+            this.Expander_WorkerInfo.SizeChanged += new SizeChangedEventHandler(Expander_WorkerInfo_SizeChanged);
+            this.Expander_List.SizeChanged += new SizeChangedEventHandler(Expander_List_SizeChanged);
+            this.Expander_JobStatus.SizeChanged += new SizeChangedEventHandler(Expander_JobStatus_SizeChanged);
 
             this.SourceUpdated += new EventHandler<DataTransferEventArgs>(P2PManagerPresentation_SourceUpdated);
             // when you uncomment this line, you burn 70% of the whole CPU time for Resizing this view...
             //this.LayoutUpdated += new EventHandler(P2PManagerPresentation_LayoutUpdated);
-            this.Expander_JobStatus.Expanded += new RoutedEventHandler(Expander_JobStatus_Expanded);
-            this.Expander_List.Expanded += new RoutedEventHandler(Expander_List_Expanded);
-            this.Expander_WorkerInfo.Expanded += new RoutedEventHandler(Expander_WorkerInfo_Expanded);
-            //this.ListView.DataContextChanged += new DependencyPropertyChangedEventHandler(ListView_DataContextChanged);
-            //this.ListView.SizeChanged += new SizeChangedEventHandler(ListView_SizeChanged);
             this.ListView.SourceUpdated += new EventHandler<DataTransferEventArgs>(ListView_SourceUpdated);
 
             LinearGradientBrush blueBrush = GetGradientBlue();
+            LinearGradientBrush grayBrush = GetGradientGray();
 
             this.MngrMain.Background = blueBrush;
             this.Expander_JobStatus.Background = blueBrush;
-            this.Expander_WorkerInfo.Background = blueBrush;
-            this.Expander_List.Background = GetGradientGray();
+            
+            Expander exp_chunk = new Expander();
+            exp_chunk.Content = PrgChunks;
+            exp_chunk.Header = "Visual Job Distribution";
+            exp_chunk.FontSize = 10;
+            exp_chunk.Background = grayBrush;
+            this.PrgChunks.Width = 200;
+            this.PrgChunks.Height = 55;
+            Grid.SetRow(exp_chunk, 1);
+            this.Grid1.Children.Add(exp_chunk);
+
+            this.Expander_List.Background = blueBrush;
+            this.Expander_WorkerInfo.Background = grayBrush;
         }
 
-        void Expander_WorkerInfo_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        //void txtTotal_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    int iResult;
+        //    if (Int32.TryParse(this.txtTotal.Text, out iResult))
+        //    {
+        //        PrgChunks.JobCount = iResult;
+        //        PrgChunks[0] = Brushes.HotPink;
+        //        PrgChunks[iResult - 1] = Brushes.HotPink;
+        //    }
+        //}
+
+        void txtTotal_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             FunnyResize();
         }
 
-        void Expander_List_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        void Expander_JobStatus_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             FunnyResize();
         }
 
-        void Expander_JobStatus_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        void Expander_List_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             FunnyResize();
         }
 
-        void txtTotal_TextChanged(object sender, TextChangedEventArgs e)
+        void Expander_WorkerInfo_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             FunnyResize();
         }
@@ -101,29 +124,14 @@ namespace Cryptool.Plugins.PeerToPeer
 
         private void FunnyResize()
         {
-            this.Canvas.RenderTransform = new ScaleTransform(this.ActualWidth / this.Grid.ActualWidth,
-                                                       this.ActualHeight / this.Grid.ActualHeight);
+            this.Canvas.RenderTransform = new ScaleTransform(this.ActualWidth / this.Grid1.ActualWidth,
+                                                       this.ActualHeight / this.Grid1.ActualHeight);
         }
 
         void ListView_SourceUpdated(object sender, DataTransferEventArgs e)
         {
             FunnyResize();
         }        
-
-        void Expander_WorkerInfo_Expanded(object sender, RoutedEventArgs e)
-        {
-            FunnyResize();
-        }
-
-        void Expander_List_Expanded(object sender, RoutedEventArgs e)
-        {
-            FunnyResize();
-        }
-
-        void Expander_JobStatus_Expanded(object sender, RoutedEventArgs e)
-        {
-            FunnyResize();
-        }
 
         public void P2PManagerPresentation_SizeChanged(object sender, SizeChangedEventArgs e)
         {
