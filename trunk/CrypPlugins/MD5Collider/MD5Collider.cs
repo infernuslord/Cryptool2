@@ -118,7 +118,7 @@ namespace Cryptool.Plugins.MD5Collider
         }
 
         private byte[] prefix;
-        [PropertyInfo(Direction.InputData, "IHV", "Initial Hash Value", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Prefix", "Common prefix for colliding blocks", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public byte[] Prefix
         {
             get { return prefix; }
