@@ -95,6 +95,8 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
             set { throw new NotImplementedException(); }
         }
 
+        #endregion
+
         public DistributableKeyPatternJob(KeyPattern pattern, BigInteger partSize, byte[] encryptData, byte[] initVector)
         {
             this.EncryptData = encryptData;
@@ -108,8 +110,6 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
 
             this.GlobalResultList = new LinkedList<KeySearcher.KeySearcher.ValueKey>();
         }
-
-        #endregion
 
         #region IDistributableJob Members
 
