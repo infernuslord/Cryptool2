@@ -12,12 +12,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfApplication1
+namespace Cryptool.Plugins.PeerToPeer
 {
     /// <summary>
     /// Interaktionslogik für UserControl1.xaml
     /// </summary>
-    public partial class UserControl1 : UserControl
+    public partial class ProgressChunks : UserControl
     {
         public Brush this[int i]
         {
@@ -37,7 +37,8 @@ namespace WpfApplication1
             }
         }
 
-        private Thickness jobMargin = new Thickness(1, 1, 1, 1);
+        //private Thickness jobMargin = new Thickness(1, 1, 1, 1);
+        private Thickness jobMargin = new Thickness(0,0,0,0);
         public Thickness JobMargin 
         { 
             get 
@@ -63,23 +64,25 @@ namespace WpfApplication1
             set
             {
                 count = value;
+                root.Children.Clear();
                 Rectangle rect;
                 for (int i = 0; i < count; i++)
                 {
                     rect = new Rectangle();
-                    rect.Fill = Brushes.Gray;
+                    rect.Fill = Brushes.Red;
                     rect.Margin = JobMargin;
                     rect.Width = dynX(rect.Margin.Left);
                     rect.Height = rect.Width;
+                    rect.Stroke = Brushes.White;
+                    rect.StrokeThickness = 0.1;
                     root.Children.Add(rect);
                 }
             }
         }
 
-        public UserControl1()
+        public ProgressChunks()
         {
             InitializeComponent();
-            this.Loaded += new RoutedEventHandler(UserControl1_Loaded);
             this.SizeChanged += new SizeChangedEventHandler(UserControl1_SizeChanged);
         }
 
@@ -95,16 +98,11 @@ namespace WpfApplication1
 
         private double dynX(double margin)
         {
-            double x = Math.Sqrt(this.ActualWidth * this.ActualHeight / count) + 2 * margin;
+            double x = Math.Sqrt(this.ActualWidth * this.ActualHeight / count) - 2 * margin;
             if (x > 0)
                 return x;
             else
-                return x -= 2 * margin; 
-        }
-
-        void UserControl1_Loaded(object sender, RoutedEventArgs e)
-        {
-            JobCount = 1;
+                return x += 2 * margin; 
         }
     }
 }
