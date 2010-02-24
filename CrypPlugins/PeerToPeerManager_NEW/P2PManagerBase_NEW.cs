@@ -26,7 +26,8 @@ using Cryptool.PluginBase.Miscellaneous;
  * - Publisher-change is possible, but catch old Publishers subscriber list
  *   isn't implemented yet ((de)serialization of the subscribers is 
  *   implemented and tested)
- * - Make Manager-change possible ((de)serialization of job management lists)
+ * - Manager-change is possible, but catch job history isn't implemented yes
+ *   ((de)serialization of job management lists)
  * - Benchmarking the working peers 
  *   (this.distributableJobControl.SetResult() returns the TimeSpan for the result)
  * - Insert internal Start-/Stop-Button, so Manager can stop its works without
