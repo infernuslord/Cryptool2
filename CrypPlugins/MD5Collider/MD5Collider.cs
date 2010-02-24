@@ -47,9 +47,6 @@ namespace Cryptool.Plugins.MD5Collider
         {
             Collider = new StevensCollider();
             Collider.Status = "Waiting";
-
-            worker = new BackgroundWorker();
-            worker.DoWork += DoWork;
         }
 
         private byte[] outputData1;
@@ -113,54 +110,59 @@ namespace Cryptool.Plugins.MD5Collider
         }
 
         private byte[] randomSeed;
-        [PropertyInfo(Direction.InputData, "Random seed", "Data used for initialization of RNG", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Random seed", "Data used for initialization of RNG", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public byte[] RandomSeed
         {
             get { return randomSeed; }
-            set
-            {
-                this.randomSeed = value;
-                OnPropertyChanged("RandomSeed");
-            }
+            set { this.randomSeed = value; OnPropertyChanged("RandomSeed"); }
         }
-        
-        BackgroundWorker worker;
+
+        private byte[] prefix;
+        [PropertyInfo(Direction.InputData, "IHV", "Initial Hash Value", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        public byte[] Prefix
+        {
+            get { return prefix; }
+            set { this.prefix = value; OnPropertyChanged("Prefix"); }
+        }
+
+        public static bool testRun = true;
 
         public void Execute()
         {
-            DoWork(this, null);
-            return;
-
-            if (worker.IsBusy)
+            // TODO: EXTREMELY DIRTY IMPROVEME!
+            // This exists to prevent the plugin from frezzing Cryptool when test-running at startup
+            if (testRun)
+            {
+                testRun = false;
                 return;
-
-            worker.RunWorkerAsync();
-        }
-
-        private void GuiLogMessage(string message, NotificationLevel logLevel)
-        {
-            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
-        }
-
-        public void DoWork(object o, EventArgs e)
-        {
-            GuiLogMessage("DoWork()", NotificationLevel.Debug);
-            Collider.Status = "Executing";
-
-            if (RandomSeed == null)
-                return;
+            }
 
             ProgressChanged(0.5, 1.0);
 
             Collider.RandomSeed = RandomSeed;
+
+            if (Prefix != null)
+            {
+                if (Prefix.Length % 64 != 0)
+                {
+                    GuiLogMessage("Prefix bytes must be a multiple of 64 bytes long!", NotificationLevel.Error);
+                    return;
+                }
+
+                Collider.IHV = new IHVCalculator(Prefix).GetIHV();
+            }
+
             Collider.FindCollision();
 
             OutputData1 = Collider.FirstCollidingData;
             OutputData2 = Collider.SecondCollidingData;
 
             ProgressChanged(1.0, 1.0);
+        }
 
-            Collider.Status = "Finished";
+        private void GuiLogMessage(string message, NotificationLevel logLevel)
+        {
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
         }
 
         public void OnPropertyChanged(string name)

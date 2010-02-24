@@ -11,7 +11,8 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
     {
         public byte[] FirstCollidingData { get; protected set; }
         public byte[] SecondCollidingData { get; protected set; }
-        public byte[] RandomSeed { get; set; }
+        public byte[] RandomSeed { protected get; set; }
+        public byte[] IHV { protected get; set; }
 
         private String _status;
         public string Status { get { return _status; } set { _status = value; OnPropertyChanged("Status"); } }
@@ -93,9 +94,29 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
 
         public void FindCollision()
         {
+            CheckRandomSeed();
+            CheckIHV();
+
             StartTimer();
             PerformFindCollision();
             StopTimer();
+        }
+
+        private void CheckIHV()
+        {
+            if (IHV == null || IHV.Length != 16)
+            {
+                IHV = new byte[] { 0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF, 0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10 };
+            }
+        }
+
+        private void CheckRandomSeed()
+        {
+            if (RandomSeed == null)
+            {
+                RandomSeed = new byte[35];
+                new Random().NextBytes(RandomSeed);
+            }
         }
 
         public void Stop()
