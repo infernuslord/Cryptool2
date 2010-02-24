@@ -17,14 +17,14 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
             seed32_1 = (UInt32)(BitConverter.ToInt32(seedBytesMd5, 0) ^ BitConverter.ToInt32(seedBytesMd5, 4));
             seed32_2 = (UInt32)(BitConverter.ToInt32(seedBytesMd5, 8) ^ BitConverter.ToInt32(seedBytesMd5, 12));
 
-            UInt32[] standardIV = new UInt32[4];
-            standardIV[0] = toLittleEndianInteger(new byte[] { 0x01, 0x23, 0x45, 0x67 });
-            standardIV[1] = toLittleEndianInteger(new byte[] { 0x89, 0xAB, 0xCD, 0xEF });
-            standardIV[2] = toLittleEndianInteger(new byte[] { 0xFE, 0xDC, 0xBA, 0x98 });
-            standardIV[3] = toLittleEndianInteger(new byte[] { 0x76, 0x54, 0x32, 0x10 });
+            UInt32[] startIV = new UInt32[4];
+            startIV[0] = toLittleEndianInteger(IHV, 0);
+            startIV[1] = toLittleEndianInteger(IHV, 4);
+            startIV[2] = toLittleEndianInteger(IHV, 8);
+            startIV[3] = toLittleEndianInteger(IHV, 12);
 
             UInt32[] m1b0 = new UInt32[16], m1b1 = new UInt32[16], m2b0 = new UInt32[16], m2b1 = new UInt32[16];
-            find_collision(standardIV, m1b0, m1b1, m2b0, m2b1);
+            find_collision(startIV, m1b0, m1b1, m2b0, m2b1);
 
             if (IsStopped)
                 return;
@@ -57,14 +57,18 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
             Array.Copy(result, 0, targetArray, targetOffset, 4);
         }
 
-        private UInt32 toLittleEndianInteger(byte[] bytes)
+        private UInt32 toLittleEndianInteger(byte[] bytes, int offset)
         {
             byte[] bytesInProperOrder = new byte[4];
-            Array.Copy(bytes, bytesInProperOrder, 4);
+            Array.Copy(bytes, offset, bytesInProperOrder, 0, 4);
             if (!BitConverter.IsLittleEndian)
                 Array.Reverse(bytesInProperOrder);
 
             return BitConverter.ToUInt32(bytesInProperOrder, 0);
+        }
+        private UInt32 toLittleEndianInteger(byte[] bytes)
+        {
+            return toLittleEndianInteger(bytes, 0);
         }
 
         void find_collision(UInt32[] IV, UInt32[] msg1block0, UInt32[] msg1block1, UInt32[] msg2block0, UInt32[] msg2block1)

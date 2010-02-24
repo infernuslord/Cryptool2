@@ -59,6 +59,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithm\IHVCalculator.cs" />
     <Compile Include="Algorithm\IMD5ColliderAlgorithm.cs" />
     <Compile Include="Algorithm\KlimaTunnelsCollider.cs" />
     <Compile Include="Algorithm\MD5ColliderBase.cs" />
