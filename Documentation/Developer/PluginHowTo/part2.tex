@@ -1,29 +1,29 @@
 \chapter{Plugin Implementation}
 \label{sec:PluginImplementation}
-In this chapter we provide step-by-step instructions for implementing your own CrypTool 2.0 plugin. The given instructions refer mostly to the usage of MS Visual C\# 2008 Express Edition, hence before starting you should have a copy of \textbf{Microsoft Visual Studio 2008} or \textbf{Microsoft Visual C\# 2008 Express Edition} installed on your computer. We will use the \textbf{Caesar cipher} (also known as the \textbf{shift cipher}) for our example implemenation.
+In this chapter we provide step-by-step instructions for implementing your own CrypTool 2.0 plugin. The given instructions refer mostly to the usage of the Visual C\# Express and Visual Studio Professional 2008 editions, so before starting you should have a copy of \textbf{Microsoft Visual Studio 2008} (or \textbf{Microsoft Visual C\# 2008 Express Edition}) installed on your computer. We will use the \textbf{Caesar cipher} (also known as the \textbf{shift cipher}) for our example implemenation.
 
 \section{Creating a new project}
 \label{sec:CreatingANewProject}
 
-To begin, open Visual Studio 2008 or C\# 2008 Express Edition, go to the menu bar and select ``File"~$\rightarrow$ ``New" $\rightarrow$ ``Project\ldots ". The following window will appear:
+To begin, open Visual Studio, go to the menu bar and select ``File"~$\rightarrow$ ``New" $\rightarrow$ ``Project\ldots ". The following window will appear:
 
 \begin{figure}[h!]
 	\centering
 		\includegraphics[width=1.00\textwidth]{figures/vs_create_new_project.jpg}
-	\caption{Creating a new Visual Studio/C\# Express project.}
+	\caption{Creating a new Visual Studio project.}
 	\label{fig:vs_create_new_project}
 \end{figure}
 
-If you are using Visual Studio 2008, select \textbf{``.NET-Framework 3.5"} as the target framework; the Express Edition will automatically choose the target framework. Then choose \textbf{``Class Library"} as the default template, as this will build the project as a DLL file. Give the project a unique and meaningful name (such as ``Caesar" in our case), and choose a location to save it to. (The Express Edition will ask for a save location later when you close your project or environment). Select the subdirectory ``CrypPlugins" from your SVN trunk as the location. Finally, confirm by pressing the ``OK" button. Note that creating a new project in this manner also creates a new solution into which the project is placed.
+\noindent If you are using Visual Studio 2008, select \textbf{``.NET-Framework 3.5"} as the target framework; the Express Edition will automatically choose the target framework. Then choose \textbf{``Class Library"} as the default template, as this will build the project for your plugin as a DLL file. Give the project a unique and meaningful name (such as ``Caesar" in our case), and choose a location to save it to. (The Express Edition will ask for a save location later when you close your project or environment). Select the subdirectory ``CrypPlugins" from your SVN trunk as the location. Finally, confirm by pressing the ``OK" button. Note that creating a new project in this manner also creates a new solution into which the project is placed.
 
 \begin{figure}[h!]
 	\centering
 		\includegraphics[width=0.80\textwidth]{figures/save_solution_csharp_express.JPG}
-	\caption{The Microsoft C\# Express Edition Save Project dialog window.}
+	\caption{The Microsoft C\# Express Edition ``Save Project" dialog window.}
 	\label{fig:save_solution_csharp_express}
 \end{figure}
 
-At this point, your Visual Studio\slash C\# Express solution should look like this:
+\noindent At this point, your Visual Studio\slash C\# Express solution should look like this:
 
 \begin{figure}[h!]
 	\centering
@@ -36,7 +36,7 @@ At this point, your Visual Studio\slash C\# Express solution should look like th
 \section{Interface selection}
 \label{sec:InterfaceSelection}
 
-First we must add a reference to the CrypTool library, \textbf{\textit{CrypPluginBase.dll}}, where all the necessary CrypTool plugin interfaces are declared.
+To include our new plugin in the CrypTool program, we must first add a reference to the CrypTool library, \textbf{\textit{CrypPluginBase.dll}}, where all the necessary CrypTool plugin interfaces are declared.
 
 \begin{figure}[h!]
 	\includegraphics{figures/add_reference.jpg}
@@ -44,7 +44,7 @@ First we must add a reference to the CrypTool library, \textbf{\textit{CrypPlugi
 	\label{fig:add_reference}
 \end{figure}
 
-Right-click in the Solution Explorer on the ``Reference" item and choose ``Add Reference". A window like the following should appear:
+\noindent Right-click in the Solution Explorer on the ``Reference" item and choose ``Add Reference". A window like the following should appear:
 
 \begin{figure}[h!]
 	\centering
@@ -54,7 +54,7 @@ Right-click in the Solution Explorer on the ``Reference" item and choose ``Add R
 \end{figure}
 \clearpage
 
-Select the project ``CrypPluginBase". If you do not have the ``CrypPluginBase" source code, it is also possible to add a reference the the binary DLL. In this case browse to the path where the library file \textit{CrypPluginBase.dll} is located, e.g.\ \textit{C:\textbackslash Documents and Settings\textbackslash $<$Username$>$\textbackslash My Documents\textbackslash Visual Studio 2008\textbackslash Projects\textbackslash CrypPluginBase\textbackslash bin\textbackslash Debug} and select the library by double clicking the file or pressing the ``OK" button. (You can also select the binary DLL located in the folder where \textit{CrypWin.exe} was placed when you downloaded CrypTool2.)
+\noindent Select the project ``CrypPluginBase". If you do not have the ``CrypPluginBase" source code, it is also possible to add a reference the binary DLL. In this case browse to the path where the library file \textit{CrypPluginBase.dll} is located, e.g.\ \textit{C:\textbackslash Documents and Settings\textbackslash $<$Username$>$\textbackslash My Documents\textbackslash Visual Studio 2008\textbackslash Projects\textbackslash CrypPluginBase\textbackslash bin\textbackslash Debug} and select the library by double clicking the file or pressing the ``OK" button. (You can also select the binary DLL located in the folder where \textit{CrypWin.exe} was placed when you downloaded CrypTool2.)
 
 \begin{figure}[h!]
 	\centering
@@ -63,7 +63,7 @@ Select the project ``CrypPluginBase". If you do not have the ``CrypPluginBase" s
 	\label{fig:browse_reference}
 \end{figure}
 
-Besides CrypPluginBase you will need to add three assembly references to provide the necessary ``Windows" namespaces for the \textbf{user control} functions ``Presentation" and ``QuickWatchPresentation". This can be done in the same manner as before with the ``CrypPluginBase" but by selecting the ``.NET" tab. Select the following .NET components:
+\noindent Besides CrypPluginBase you will need to add three assembly references to provide the necessary ``Windows" namespaces for the \textbf{user control} functions ``Presentation" and ``QuickWatchPresentation". This can be done in the same manner as before with the ``CrypPluginBase" but by selecting the ``.NET" tab. Select the following .NET components:
 
 \begin{itemize}
     \item PresentationCore
@@ -72,7 +72,7 @@ Besides CrypPluginBase you will need to add three assembly references to provide
 \end{itemize}
 \clearpage
 
-Afterwards your reference tree view should look like this:
+\noindent Afterwards your reference tree view should look like this:
 
 \begin{figure}[h!]
 		\includegraphics{figures/reference_tree.jpg}
@@ -80,7 +80,7 @@ Afterwards your reference tree view should look like this:
 	\label{fig:reference_tree}
 \end{figure}
 
-If your plugin will be based on other additional libraries, you can add them in the same way.
+\noindent If your plugin will be based on other additional libraries, you can add them in the same way.
 
 \section{Modifing the project properties}
 \label{sec:ModifyTheProjectProperties}
@@ -92,7 +92,7 @@ It is important to make two small changes to your plugin's assembly data to make
 	\item Comment out the attribute ``AssemblyFileVersion".
 \end{itemize}
 
-This section of your assembly file should now look something like this:
+\noindent This section of your assembly file should now look something like this:
 
 \begin{lstlisting}
 [assembly: AssemblyVersion("2.0.*")]
@@ -116,7 +116,7 @@ When starting a new project, Visual Studio automatically creates a class which h
 \end{itemize}
 %\clearpage
 
-Both options will achieve the same results. We will guide you through the second method. First, delete ``Class1.cs".
+\noindent Both options will achieve the same results. We will guide you through the second method. First, delete ``Class1.cs".
 
 \begin{figure}[h!]
 	\centering
@@ -126,7 +126,7 @@ Both options will achieve the same results. We will guide you through the second
 \end{figure}
 \clearpage
 
-Then right-click on the project item (in our case, ``Caesar") and select ``Add $\rightarrow$ Class\ldots ":
+\noindent Then right-click on the project item (in our case, ``Caesar") and select ``Add $\rightarrow$ Class\ldots ":
 
 \begin{figure}[h]
 	\centering
@@ -136,7 +136,7 @@ Then right-click on the project item (in our case, ``Caesar") and select ``Add $
 \end{figure}
 \clearpage
 
-Finally, give your class a unique name. We will call our class ``Caesar.cs" and define it as public so that it will be available to other classes.
+\noindent Finally, give your class a unique name. We will call our class ``Caesar.cs" and define it as public so that it will be available to other classes.
 
 \begin{figure}[h!]
 	\centering
@@ -145,13 +145,15 @@ Finally, give your class a unique name. We will call our class ``Caesar.cs" and 
 	\label{fig:name_new_class}
 \end{figure}
 
+\noindent Visual Studio will automatically generate a basic code outline for the new class. In our example, we will not use the all the namespaces that are automatically imported, so you can delete the lines \texttt{using System;} and \texttt{using System.Linq;}.
+
 \subsection{Creating a settings class}
 \label{sec:CreatingASettingsClass}
 
 Add a second public class in the same way. We will call the class ``CaesarSettings". The settings class stores the necessary information about controls, captions, descriptions and default parameters (e.g.\ for key settings, alphabets, key length and type of action) to build the \textbf{TaskPane} in the CrypTool application.
 \clearpage
 
-Below is an example of what a completed TaskPane for the existing Caesar plugin in CrypTool 2 looks like:
+\noindent Below is an example of what a completed TaskPane for the existing Caesar plugin in CrypTool 2 looks like:
 
 \begin{figure}[h!]
 	\centering
@@ -180,24 +182,24 @@ Open the ``Caesar.cs" file by double clicking on it in the Solution Explorer. To
 	\item Cryptool.PluginBase.Validation --- contains interfaces for validation methods, including regular expressions.
 \end{itemize}
 
-In our example, the Caesar algorithm necessitates the inclusion of the following namespaces:
+\noindent In our example, the Caesar algorithm necessitates the inclusion of the following namespaces:
 
 \begin{itemize}
-	\item ''Cryptool.PluginBase'' --- to provide ''ISettings'' for the CaesarSettings class
-	\item ''Cryptool.PluginBase.Cryptography'' --- to provide ''IEncryption'' for the Caesar class
-	\item ''Cryptool.PluginBase.IO'' --- to provide CryptoolStream for the input and output Data
-	\item ''Cryptool.PluginBase.Miscellaneous'' --- to use the entire CrypTool event handler
+	\item Cryptool.PluginBase --- to implement ISettings in the CaesarSettings class.
+	\item Cryptool.PluginBase.Cryptography --- to implement IEncryption in the Caesar class.
+	\item Cryptool.PluginBase.IO --- to use CryptoolStream for data input and output.
+	\item Cryptool.PluginBase.Miscellaneous --- to use the CrypTool event handler.
 \end{itemize}
 
-It is important to define a new default namespace of our public class (''Caesar''). In CrypTool the default namespace is presented by ''Cryptool.[name of class]''. Therefore our namespace has to be defined as follows: ''Cryptool.Caesar''.\clearpage
+\noindent It is important to define a new default namespace for our public class (``Caesar"). In CrypTool 2.0  the standard namespace convention is \textit{Cryptool.[name of class]}. Therefore our namespace will be defined as \textit{Cryptool.Caesar}.\clearpage
 
-Up to now the source code should look as you can see below:
+\noindent At this point, the source code should look like the following:
 
 \begin{lstlisting}
 using System.Collections.Generic;
 using System.Text;
 
-//needed CrypTool namespaces
+//required CrypTool namespaces
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.IO;
@@ -210,17 +212,22 @@ namespace Cryptool.Caesar
 	}
 }
 \end{lstlisting}
-Next let your class ''Caesar'' inherit from IEncryption by inserting of the following statement:
+
+\ \\ % ugly but functional
+\noindent Next we should let the ``Caesar" class inherit from IEncryption by making the following alteration:
+
 \begin{lstlisting}
 namespace Cryptool.Caesar
 {
-	public class Caesar: IEncryption
+	public class Caesar : IEncryption
 	{
 	}
 }
 \end{lstlisting}
-\subsection{Add the interface functions for the class Caesar}
-\label{sec:AddTheInterfaceFunctionsForTheClassCaesar}
+
+\subsection{Adding interface functions for the Caesar class}
+\label{sec:AddingInterfaceFunctionsForTheCaesarClass}
+
 There is an underscore at the ''I'' in IEncryption statement. Move your mouse over it or place the cursor at it and press ''Shift+Alt+F10'' and you will see the following submenu:
 \begin{figure}[h!]
 	\centering
