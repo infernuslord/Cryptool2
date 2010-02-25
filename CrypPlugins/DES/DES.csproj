@@ -12,7 +12,7 @@
     <AssemblyName>DES</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -77,6 +77,10 @@
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NativeCryptography\NativeCryptography.vcproj">
+      <Project>{97B06ADB-43E4-4320-9AD8-D167421F0644}</Project>
+      <Name>NativeCryptography</Name>
     </ProjectReference>
     <ProjectReference Include="..\CubeAttackController\CubeAttackController.csproj">
       <Project>{2100AC2F-3F2B-48A2-AF42-87EC52C8A703}</Project>

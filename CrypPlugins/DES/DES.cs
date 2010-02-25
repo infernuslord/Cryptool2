@@ -13,6 +13,7 @@ using Cryptool.PluginBase.Control;
 using System.Reflection;
 // Reference to the CubeAttackController interface (own dll)
 using Cryptool.CubeAttackController;
+using NativeCryptography;
 
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
@@ -552,65 +553,9 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         // TODO: add override with iv, mode, blocksize
         public byte[] Decrypt(byte[] ciphertext, byte[] key, int bytesToUse)
         {
-            CryptoStream crypto_stream = null;
             int size = bytesToUse > ciphertext.Length ? ciphertext.Length : bytesToUse;
 
-            byte[] output = new byte[size];
-            
-            // always recreating this instance is thread-safe, but may cost us some performance
-            SymmetricAlgorithm des_algorithm  = new DESCryptoServiceProvider();
-
-            switch (((DESSettings)plugin.Settings).Mode)
-            { //0="ECB"=default, 1="CBC", 2="CFB", 3="OFB"
-                case 1: des_algorithm.Mode = CipherMode.CBC; break;
-                case 2: des_algorithm.Mode = CipherMode.CFB; break;
-                case 3: des_algorithm.Mode = CipherMode.OFB; break;
-                default: des_algorithm.Mode = CipherMode.ECB; break;
-            }
-
-            // Padding for DES must always be set to zeroes
-            // other padding types lead to error while decrypting
-            // padding type of none leads to error if size does not match exactly a multiple of 8 Byte
-            des_algorithm.Padding = PaddingMode.Zeros;
-
-            // TODO: this must be passed via the interface
-            des_algorithm.IV = new byte[des_algorithm.BlockSize / 8]; // IV of 0x00..00
-
-            try
-            {
-                des_algorithm.Key = key;
-            }
-            catch
-            {
-                //dirty hack to allow weak keys:
-                FieldInfo field = des_algorithm.GetType().GetField("KeyValue", BindingFlags.NonPublic | BindingFlags.Instance);
-                //Console.WriteLine(des_algorithm.GetType());
-                field.SetValue(des_algorithm, key);
-            }
-
-            ICryptoTransform p_decryptor;
-            try
-            {
-                p_decryptor = des_algorithm.CreateDecryptor();
-            }
-            catch
-            {
-                //dirty hack to allow weak keys:
-                MethodInfo mi = des_algorithm.GetType().GetMethod("_NewEncryptor", BindingFlags.NonPublic | BindingFlags.Instance);
-                object[] Par = { des_algorithm.Key, des_algorithm.Mode, des_algorithm.IV, des_algorithm.FeedbackSize, 0 };
-                p_decryptor = mi.Invoke(des_algorithm, Par) as ICryptoTransform;
-            }
-
-            crypto_stream = new CryptoStream(new MemoryStream(ciphertext,0,size), p_decryptor, CryptoStreamMode.Read);
-
-            int read, readOverall = 0;
-            do
-            {
-                read = crypto_stream.Read(output, readOverall, output.Length - readOverall);
-                readOverall += read;
-            } while (read > 0 && readOverall < output.Length);
-
-            return output;
+            return NativeCryptography.Crypto.decryptDES(ciphertext, key, size);
         }
 
         public string getKeyPattern()
