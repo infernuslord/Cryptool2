@@ -27,7 +27,7 @@ namespace NativeCryptography {
 				a[counter] = ca[counter];
 		}
 
-		static void xorBlock(int *t1, int *t2)
+		static void xorBlockAES(int *t1, int *t2)
 		{
 			t1[0] ^= t2[0];
 			t1[1] ^= t2[1];
@@ -35,8 +35,14 @@ namespace NativeCryptography {
 			t1[3] ^= t2[3];
 		}
 
+		static void xorBlockDES(int *t1, int *t2)
+		{
+			t1[0] ^= t2[0];
+			t1[1] ^= t2[1];
+		}
+
 	public:
-		static array<unsigned char>^ decryptAES(array<unsigned char>^ input, array<unsigned char>^ key, const int bits, const int length)
+		static array<unsigned char>^ decryptAES(array<unsigned char>^ input, array<unsigned char>^ key, const int bits, const int length, const int mode)
 		{
 			const int blockSize = 16;
 			int numBlocks = length / blockSize;
@@ -45,10 +51,10 @@ namespace NativeCryptography {
 
 			unsigned char* inp = (unsigned char*)malloc(numBlocks*blockSize);
 			unsigned char* outp = (unsigned char*)malloc(numBlocks*blockSize);
-			unsigned char* ckey = (unsigned char*)malloc(bits/8);
+			unsigned char ckey[32];
 
 			arrayToCArray(input, inp, numBlocks*blockSize);			
-			arrayToCArray(key, ckey, bits/8);			
+			arrayToCArray(key, ckey, bits/8);
 
 			AES_KEY aeskey;
 			AES_set_decrypt_key(ckey, bits, &aeskey);
@@ -56,18 +62,18 @@ namespace NativeCryptography {
 			for (int c = 1; c < numBlocks; c++)
 			{
 				AES_decrypt((inp+c*blockSize), outp+c*blockSize, &aeskey);
-				xorBlock((int*)(outp+c*blockSize), (int*)(inp+(c-1)*blockSize));
+				if (mode == 1)		//CBC
+					xorBlockAES((int*)(outp+c*blockSize), (int*)(inp+(c-1)*blockSize));
 			}
 
 			array<unsigned char>^ output = gcnew array<unsigned char>(length);
 			carrayToArray(output, outp, length);
 			free(inp);
-			free(outp);
-			free(ckey);
+			free(outp);			
 			return output;
 		}
 
-		static array<unsigned char>^ decryptDES(array<unsigned char>^ input, array<unsigned char>^ key, const int length)
+		static array<unsigned char>^ decryptDES(array<unsigned char>^ input, array<unsigned char>^ key, const int length, const int mode)
 		{
 			const int blockSize = 8;
 			int numBlocks = length / blockSize;
@@ -86,7 +92,9 @@ namespace NativeCryptography {
 			DES_ecb_encrypt((const_DES_cblock*)inp, (const_DES_cblock*)outp, &deskey, DES_DECRYPT);
 			for (int c = 1; c < numBlocks; c++)
 			{
-				DES_ecb_encrypt((const_DES_cblock*)(inp+c*blockSize), (const_DES_cblock*)(outp+c*blockSize), &deskey, DES_DECRYPT);							
+				DES_ecb_encrypt((const_DES_cblock*)(inp+c*blockSize), (const_DES_cblock*)(outp+c*blockSize), &deskey, DES_DECRYPT);
+				if (mode == 1)		//CBC
+					xorBlockDES((int*)(outp+c*blockSize), (int*)(inp+(c-1)*blockSize));
 			}
 
 			array<unsigned char>^ output = gcnew array<unsigned char>(length);
