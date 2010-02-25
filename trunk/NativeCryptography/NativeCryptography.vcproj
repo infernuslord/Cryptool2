@@ -216,6 +216,70 @@
 				RelativePath=".\NativeCryptography.cpp"
 				>
 			</File>
+			<Filter
+				Name="DES"
+				>
+				<File
+					RelativePath=".\DES\des_enc.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							CompileAsManaged="0"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							CompileAsManaged="0"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\DES\ecb_enc.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							CompileAsManaged="0"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							CompileAsManaged="0"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\DES\set_key.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							CompileAsManaged="0"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							CompileAsManaged="0"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -227,7 +291,33 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DES\des.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\DES\des_locl.h"
+				>
+			</File>
+			<File
 				RelativePath=".\NativeCryptography.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DES\spr.h"
 				>
 			</File>
 		</Filter>

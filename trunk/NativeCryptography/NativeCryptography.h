@@ -1,5 +1,6 @@
 #pragma once
 #include "aes_core.h"
+#include "DES/des.h"
 #include <stdlib.h>
 
 using namespace System;
@@ -63,6 +64,35 @@ namespace NativeCryptography {
 			free(inp);
 			free(outp);
 			free(ckey);
+			return output;
+		}
+
+		static array<unsigned char>^ decryptDES(array<unsigned char>^ input, array<unsigned char>^ key, const int length)
+		{
+			const int blockSize = 8;
+			int numBlocks = length / blockSize;
+			if (length % blockSize != 0)
+				numBlocks++;
+
+			unsigned char* inp = (unsigned char*)malloc(numBlocks*blockSize);
+			unsigned char* outp = (unsigned char*)malloc(numBlocks*blockSize);
+			unsigned char ckey[8];
+
+			arrayToCArray(input, inp, numBlocks*blockSize);			
+			arrayToCArray(key, ckey, 8);			
+
+			DES_key_schedule deskey;
+			DES_set_key_unchecked(&ckey, &deskey);
+			DES_ecb_encrypt((const_DES_cblock*)inp, (const_DES_cblock*)outp, &deskey, DES_DECRYPT);
+			for (int c = 1; c < numBlocks; c++)
+			{
+				DES_ecb_encrypt((const_DES_cblock*)(inp+c*blockSize), (const_DES_cblock*)(outp+c*blockSize), &deskey, DES_DECRYPT);							
+			}
+
+			array<unsigned char>^ output = gcnew array<unsigned char>(length);
+			carrayToArray(output, outp, length);
+			free(inp);
+			free(outp);			
 			return output;
 		}
 	};
