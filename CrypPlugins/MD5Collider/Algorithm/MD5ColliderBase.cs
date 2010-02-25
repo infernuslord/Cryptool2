@@ -90,6 +90,7 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
         {
             OnPropertyChanged("MatchProgressMax");
             OnPropertyChanged("MatchProgress");
+            OnPropertyChanged("CombinationsTried");
         }
 
         public void FindCollision()
@@ -101,6 +102,14 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
             PerformFindCollision();
             StopTimer();
         }
+
+        public void LogReturn(int progress)
+        {
+            MatchProgress = progress;
+            CombinationsTried++;
+        }
+
+
 
         private void CheckIHV()
         {
@@ -125,8 +134,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
             StopTimer();
         }
 
-        #region IMD5ColliderAlgorithm Member
-
         private TimeSpan _elapsedTime;
         public TimeSpan ElapsedTime
         {
@@ -134,6 +141,7 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
             set { _elapsedTime = value; OnPropertyChanged("ElapsedTime"); }
         }
 
-        #endregion
+        public long CombinationsTried { get; protected set; }
+
     }
 }

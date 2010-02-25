@@ -137,7 +137,7 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
 
         void find_block0(UInt32[] block, UInt32[] IV)
         {
-            MatchProgressMax = 9;
+            MatchProgressMax = 28;
             MatchProgress = 0;
 
             UInt32[] Q = new UInt32[68];
@@ -157,13 +157,11 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
             UInt32[] q9mask = new UInt32[1 << 16];
             for (UInt32 k = 0; k < q9mask.Length; ++k)
                 q9mask[k] = ((k << 1) ^ (k << 2) ^ (k << 5) ^ (k << 7) ^ (k << 8) ^ (k << 10) ^ (k << 11) ^ (k << 13)) & 0x0eb94f16;
-            
+
             while (true)
             {
                 if (IsStopped)
                     return;
-
-                MatchProgress = 1;
 
                 Q[Qoff + 1] = xrng64();
                 Q[Qoff + 3] = (xrng64() & 0xfe87bc3f) | 0x017841c0;
@@ -202,7 +200,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                     if (IsStopped)
                         return;
 
-                    MatchProgress = 2;
 
                     UInt32 q16 = Q[Qoff + 16];
                     UInt32 q17 = ((xrng64() & 0x3ffd7ff7) | (q16 & 0xc0008008)) ^ 0x40000000;
@@ -211,17 +208,26 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                     UInt32 q18 = GG(q17, q16, Q[Qoff + 15]) + tt18;
                     q18 = RL(q18, 9); q18 += q17;
                     if (0x00020000 != ((q18 ^ q17) & 0xa0020000))
+                    {
+                        LogReturn(1);
                         continue;
+                    }
 
                     UInt32 q19 = GG(q18, q17, q16) + tt19;
                     q19 = RL(q19, 14); q19 += q18;
                     if (0x80000000 != (q19 & 0x80020000))
+                    {
+                        LogReturn(2);
                         continue;
+                    }
 
                     UInt32 q20 = GG(q19, q18, q17) + tt20;
                     q20 = RL(q20, 20); q20 += q19;
                     if (0x00040000 != ((q20 ^ q19) & 0x80040000))
+                    {
+                        LogReturn(3);
                         continue;
+                    }
 
                     block[1] = q17 - q16; block[1] = RR(block[1], 5); block[1] -= tt17;
                     UInt32 q2 = block[1] + tt1; q2 = RL(q2, 12); q2 += Q[Qoff + 1];
@@ -238,7 +244,10 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                     break;
                 }
                 if (counter != 0)
+                {
+                    LogReturn(4);
                     continue;
+                }
 
                 UInt32 q4 = Q[Qoff + 4];
                 UInt32 q9backup = Q[Qoff + 9];
@@ -253,7 +262,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                     if (IsStopped)
                         return;
 
-                    MatchProgress = 3;
 
                     Q[Qoff + 4] = q4 ^ q4mask[counter2];
                     ++counter2;
@@ -261,7 +269,10 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                     UInt32 q21 = tt21 + block[5];
                     q21 = RL(q21, 5); q21 += Q[Qoff + 20];
                     if (0 != ((q21 ^ Q[Qoff + 20]) & 0x80020000))
+                    {
+                        LogReturn(5);
                         continue;
+                    }
 
                     Q[Qoff + 21] = q21;
                     MD5_REVERSE_STEP(block, Q, 3, 0xc1bdceee, 22);
@@ -287,7 +298,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                         if (IsStopped)
                             return;
 
-                        MatchProgress = 4;
 
                         UInt32 q10 = Q[Qoff + 10] ^ (q9q10mask[counter3] & 0x60);
                         Q[Qoff + 9] = q9backup ^ (q9q10mask[counter3] & 0x2000);
@@ -297,16 +307,33 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
 
                         UInt32 aa = Q[Qoff + 21];
                         UInt32 dd = tt22 + m10; dd = RL(dd, 9) + aa;
-                        if (0x80000000 != (dd & 0x80000000)) continue;
+                        if (0x80000000 != (dd & 0x80000000))
+                        {
+                            LogReturn(6);
+                            continue;
+                        }
 
                         UInt32 bb = Q[Qoff + 20];
                         UInt32 cc = tt23 + GG(dd, aa, bb);
-                        if (0 != (cc & 0x20000)) continue;
+                        if (0 != (cc & 0x20000))
+                        {
+                            LogReturn(7);
+                            continue;
+                        }
+
                         cc = RL(cc, 14) + dd;
-                        if (0 != (cc & 0x80000000)) continue;
+                        if (0 != (cc & 0x80000000))
+                        {
+                            LogReturn(8);
+                            continue;
+                        }
 
                         bb = tt24 + GG(cc, dd, aa); bb = RL(bb, 20) + cc;
-                        if (0 == (bb & 0x80000000)) continue;
+                        if (0 == (bb & 0x80000000))
+                        {
+                            LogReturn(9);
+                            continue;
+                        }
 
                         block[10] = m10;
                         block[13] = tt13 - q10;
@@ -319,7 +346,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                             if (IsStopped)
                                 return;
 
-                            MatchProgress = 5;
 
                             UInt32 q9 = Q[Qoff + 9] ^ q9mask[counter4];
                             block[12] = tt12 - FF(Q[Qoff + 12], Q[Qoff + 11], q10) - q9;
@@ -342,10 +368,12 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
 
                             c += HH(d, a, b) + block[11] + 0x6d9d6122;
                             if (0 != (c & (1 << 15)))
+                            {
+                                LogReturn(10);
                                 continue;
+                            }
                             c = (c << 16 | c >> 16) + d;
 
-                            MatchProgress = 6;
 
                             MD5_STEP(HH, ref b, c, d, a, block[14], 0xfde5380c, 23);
                             MD5_STEP(HH, ref a, b, c, d, block[1], 0xa4beea44, 4);
@@ -361,40 +389,102 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                             MD5_STEP(HH, ref c, d, a, b, block[15], 0x1fa27cf8, 16);
                             MD5_STEP(HH, ref b, c, d, a, block[2], 0xc4ac5665, 23);
                             if (0 != ((b ^ d) & 0x80000000))
+                            {
+                                LogReturn(11);
                                 continue;
+                            }
 
-                            MatchProgress = 7;
 
                             MD5_STEP(II, ref a, b, c, d, block[0], 0xf4292244, 6);
-                            if (0 != ((a ^ c) >> 31)) continue;
+                            if (0 != ((a ^ c) >> 31))
+                            {
+                                LogReturn(12);
+                                continue;
+                            }
                             MD5_STEP(II, ref d, a, b, c, block[7], 0x432aff97, 10);
-                            if (0 == ((b ^ d) >> 31)) continue;
+                            if (0 == ((b ^ d) >> 31))
+                            {
+                                LogReturn(13);
+                                continue;
+                            }
                             MD5_STEP(II, ref c, d, a, b, block[14], 0xab9423a7, 15);
-                            if (0 != ((a ^ c) >> 31)) continue;
+                            if (0 != ((a ^ c) >> 31))
+                            {
+                                LogReturn(14);
+                                continue;
+                            }
                             MD5_STEP(II, ref b, c, d, a, block[5], 0xfc93a039, 21);
-                            if (0 != ((b ^ d) >> 31)) continue;
+                            if (0 != ((b ^ d) >> 31))
+                            {
+                                LogReturn(15);
+                                continue;
+                            }
                             MD5_STEP(II, ref a, b, c, d, block[12], 0x655b59c3, 6);
-                            if (0 != ((a ^ c) >> 31)) continue;
+                            if (0 != ((a ^ c) >> 31))
+                            {
+                                LogReturn(16);
+                                continue;
+                            }
                             MD5_STEP(II, ref d, a, b, c, block[3], 0x8f0ccc92, 10);
-                            if (0 != ((b ^ d) >> 31)) continue;
+                            if (0 != ((b ^ d) >> 31))
+                            {
+                                LogReturn(17);
+                                continue;
+                            }
                             MD5_STEP(II, ref c, d, a, b, block[10], 0xffeff47d, 15);
-                            if (0 != ((a ^ c) >> 31)) continue;
+                            if (0 != ((a ^ c) >> 31))
+                            {
+                                LogReturn(18);
+                                continue;
+                            }
                             MD5_STEP(II, ref b, c, d, a, block[1], 0x85845dd1, 21);
-                            if (0 != ((b ^ d) >> 31)) continue;
+                            if (0 != ((b ^ d) >> 31))
+                            {
+                                LogReturn(19);
+                                continue;
+                            }
                             MD5_STEP(II, ref a, b, c, d, block[8], 0x6fa87e4f, 6);
-                            if (0 != ((a ^ c) >> 31)) continue;
+                            if (0 != ((a ^ c) >> 31))
+                            {
+                                LogReturn(20);
+                                continue;
+                            }
                             MD5_STEP(II, ref d, a, b, c, block[15], 0xfe2ce6e0, 10);
-                            if (0 != ((b ^ d) >> 31)) continue;
+                            if (0 != ((b ^ d) >> 31))
+                            {
+                                LogReturn(21);
+                                continue;
+                            }
                             MD5_STEP(II, ref c, d, a, b, block[6], 0xa3014314, 15);
-                            if (0 != ((a ^ c) >> 31)) continue;
+                            if (0 != ((a ^ c) >> 31))
+                            {
+                                LogReturn(22);
+                                continue;
+                            }
                             MD5_STEP(II, ref b, c, d, a, block[13], 0x4e0811a1, 21);
-                            if (0 == ((b ^ d) >> 31)) continue;
+                            if (0 == ((b ^ d) >> 31))
+                            {
+                                LogReturn(23);
+                                continue;
+                            }
                             MD5_STEP(II, ref a, b, c, d, block[4], 0xf7537e82, 6);
-                            if (0 != ((a ^ c) >> 31)) continue;
+                            if (0 != ((a ^ c) >> 31))
+                            {
+                                LogReturn(24);
+                                continue;
+                            }
                             MD5_STEP(II, ref d, a, b, c, block[11], 0xbd3af235, 10);
-                            if (0 != ((b ^ d) >> 31)) continue;
+                            if (0 != ((b ^ d) >> 31))
+                            {
+                                LogReturn(25);
+                                continue;
+                            }
                             MD5_STEP(II, ref c, d, a, b, block[2], 0x2ad7d2bb, 15);
-                            if (0 != ((a ^ c) >> 31)) continue;
+                            if (0 != ((a ^ c) >> 31))
+                            {
+                                LogReturn(26);
+                                continue;
+                            }
                             MD5_STEP(II, ref b, c, d, a, block[9], 0xeb86d391, 21);
 
                             UInt32 IHV1 = b + IV[1];
@@ -411,8 +501,11 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                             if ((IHV3 & (1 << 25)) != 0 || (IHV2 & (1 << 25)) != 0 || (IHV1 & (1 << 25)) != 0
                                 || ((IHV2 ^ IHV1) & 1) != 0) stevens = false;
 
-                            if (!(wang || stevens)) continue;
-                            MatchProgress = 8;
+                            if (!(wang || stevens))
+                            {
+                                LogReturn(27);
+                                continue;
+                            }
 
                             UInt32[] IV1 = new UInt32[4], IV2 = new UInt32[4];
                             for (int t = 0; t < 4; ++t)
@@ -432,7 +525,7 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                                     && (IV2[2] == IV1[2] + (1 << 31) + (1 << 25))
                                     && (IV2[3] == IV1[3] + (1 << 31) + (1 << 25)))
                             {
-                                MatchProgress = 9;
+                                LogReturn(28);
                                 return;
                             }
 
@@ -566,7 +659,7 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
 
         void find_block1_stevens_00(UInt32[] block, UInt32[] IV)
         {
-            MatchProgressMax = 5;
+            MatchProgressMax = 29;
             MatchProgress = 0;
 
             UInt32[] Q = new UInt32[68];
@@ -587,8 +680,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
             {
                 if (IsStopped)
                     return;
-
-                MatchProgress = 1;
 
                 UInt32 aa1 = Q[Qoff] & 0x80000000;
 
@@ -629,8 +720,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                     if (IsStopped)
                         return;
 
-                    MatchProgress = 2;
-
                     ++counter;
 
                     UInt32 q1 = q1a | (xrng64() & 0x7dfdf7be);
@@ -640,23 +729,44 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                     UInt32 q16 = Q[Qoff + 16];
                     UInt32 q17 = tt17 + m1;
                     q17 = RL(q17, 5) + q16;
-                    if (0x80000000 != ((q17 ^ q16) & 0x80008008)) continue;
-                    if (0 != (q17 & 0x00020000)) continue;
+                    if (0x80000000 != ((q17 ^ q16) & 0x80008008))
+                    {
+                        LogReturn(1);
+                        continue;
+                    }
+
+                    if (0 != (q17 & 0x00020000))
+                    {
+                        LogReturn(2);
+                        continue;
+                    }
 
                     UInt32 q18 = GG(q17, q16, Q[Qoff + 15]) + tt18;
                     q18 = RL(q18, 9); q18 += q17;
-                    if (0x80020000 != ((q18 ^ q17) & 0xa0020000)) continue;
+                    if (0x80020000 != ((q18 ^ q17) & 0xa0020000))
+                    {
+                        LogReturn(3);
+                        continue;
+                    }
 
                     UInt32 q19 = GG(q18, q17, q16) + tt19;
                     q19 = RL(q19, 14); q19 += q18;
-                    if (0x80000000 != (q19 & 0x80020000)) continue;
+                    if (0x80000000 != (q19 & 0x80020000))
+                    {
+                        LogReturn(4);
+                        continue;
+                    }
 
                     UInt32 m0 = q1 - Q[Qoff + 0];
                     m0 = RR(m0, 7) - tt0;
 
                     UInt32 q20 = GG(q19, q18, q17) + q16 + 0xe9b6c7aa + m0;
                     q20 = RL(q20, 20); q20 += q19;
-                    if (0x00040000 != ((q20 ^ q19) & 0x80040000)) continue;
+                    if (0x00040000 != ((q20 ^ q19) & 0x80040000))
+                    {
+                        LogReturn(5);
+                        continue;
+                    }
 
                     Q[Qoff + 1] = q1;
                     Q[Qoff + 17] = q17;
@@ -670,14 +780,21 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                     MD5_REVERSE_STEP(block, Q, 5, 0x4787c62a, 12);
                     UInt32 q21 = GG(Q[Qoff + 20], Q[Qoff + 19], Q[Qoff + 18]) + Q[Qoff + 17] + 0xd62f105d + block[5];
                     q21 = RL(q21, 5); q21 += Q[Qoff + 20];
-                    if (0 != ((q21 ^ Q[Qoff + 20]) & 0x80020000)) continue;
+                    if (0 != ((q21 ^ Q[Qoff + 20]) & 0x80020000))
+                    {
+                        LogReturn(6);
+                        continue;
+                    }
                     Q[Qoff + 21] = q21;
 
                     counter = 0;
                     break;
                 }
                 if (counter != 0)
+                {
+                    LogReturn(7);
                     continue;
+                }
 
                 UInt32 q9b = Q[Qoff + 9];
                 UInt32 q10b = Q[Qoff + 10];
@@ -697,8 +814,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                     if (IsStopped)
                         return;
 
-                    MatchProgress = 3;
-
                     UInt32 q10 = q10b | (q9q10mask[k10] & 0x08000020);
                     UInt32 m10 = RR(Q[Qoff + 11] - q10, 17);
                     UInt32 q9 = q9b | (q9q10mask[k10] & 0x00002000);
@@ -707,16 +822,32 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
 
                     UInt32 aa = Q[Qoff + 21];
                     UInt32 dd = tt22 + m10; dd = RL(dd, 9) + aa;
-                    if (0 == (dd & 0x80000000)) continue;
+                    if (0 == (dd & 0x80000000))
+                    {
+                        LogReturn(8);
+                        continue;
+                    }
 
                     UInt32 bb = Q[Qoff + 20];
                     UInt32 cc = tt23 + GG(dd, aa, bb);
-                    if (0 != (cc & 0x20000)) continue;
+                    if (0 != (cc & 0x20000))
+                    {
+                        LogReturn(9);
+                        continue;
+                    }
                     cc = RL(cc, 14) + dd;
-                    if (0 != (cc & 0x80000000)) continue;
+                    if (0 != (cc & 0x80000000))
+                    {
+                        LogReturn(10);
+                        continue;
+                    }
 
                     bb = tt24 + GG(cc, dd, aa); bb = RL(bb, 20) + cc;
-                    if (0 == (bb & 0x80000000)) continue;
+                    if (0 == (bb & 0x80000000))
+                    {
+                        LogReturn(11);
+                        continue;
+                    }
 
                     block[10] = m10;
                     Q[Qoff + 9] = q9;
@@ -727,8 +858,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                     {
                         if (IsStopped)
                             return;
-
-                        MatchProgress = 4;
 
                         UInt32 a = aa, b = bb, c = cc, d = dd;
                         Q[Qoff + 9] = q9 ^ q9mask[k9];
@@ -749,7 +878,10 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
 
                         c += HH(d, a, b) + block[11] + 0x6d9d6122;
                         if (0 != (c & (1 << 15)))
+                        {
+                            LogReturn(12);
                             continue;
+                        }
                         c = (c << 16 | c >> 16) + d;
 
                         MD5_STEP(HH, ref b, c, d, a, block[14], 0xfde5380c, 23);
@@ -766,38 +898,101 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                         MD5_STEP(HH, ref c, d, a, b, block[15], 0x1fa27cf8, 16);
                         MD5_STEP(HH, ref b, c, d, a, block[2], 0xc4ac5665, 23);
                         if (0 != ((b ^ d) & 0x80000000))
+                        {
+                            LogReturn(13);
                             continue;
+                        }
 
                         MD5_STEP(II, ref a, b, c, d, block[0], 0xf4292244, 6);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31))
+                        {
+                            LogReturn(14);
+                            continue;
+                        }
                         MD5_STEP(II, ref d, a, b, c, block[7], 0x432aff97, 10);
-                        if (0 == ((b ^ d) >> 31)) continue;
+                        if (0 == ((b ^ d) >> 31))
+                        {
+                            LogReturn(15);
+                            continue;
+                        }
                         MD5_STEP(II, ref c, d, a, b, block[14], 0xab9423a7, 15);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31))
+                        {
+                            LogReturn(16);
+                            continue;
+                        }
                         MD5_STEP(II, ref b, c, d, a, block[5], 0xfc93a039, 21);
-                        if (0 != ((b ^ d) >> 31)) continue;
+                        if (0 != ((b ^ d) >> 31))
+                        {
+                            LogReturn(17);
+                            continue;
+                        }
                         MD5_STEP(II, ref a, b, c, d, block[12], 0x655b59c3, 6);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31))
+                        {
+                            LogReturn(18);
+                            continue;
+                        }
                         MD5_STEP(II, ref d, a, b, c, block[3], 0x8f0ccc92, 10);
-                        if (0 != ((b ^ d) >> 31)) continue;
+                        if (0 != ((b ^ d) >> 31))
+                        {
+                            LogReturn(19);
+                            continue;
+                        }
                         MD5_STEP(II, ref c, d, a, b, block[10], 0xffeff47d, 15);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31))
+                        {
+                            LogReturn(20);
+                            continue;
+                        }
                         MD5_STEP(II, ref b, c, d, a, block[1], 0x85845dd1, 21);
-                        if (0 != ((b ^ d) >> 31)) continue;
+                        if (0 != ((b ^ d) >> 31))
+                        {
+                            LogReturn(21);
+                            continue;
+                        }
                         MD5_STEP(II, ref a, b, c, d, block[8], 0x6fa87e4f, 6);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31))
+                        {
+                            LogReturn(22);
+                            continue;
+                        }
                         MD5_STEP(II, ref d, a, b, c, block[15], 0xfe2ce6e0, 10);
-                        if (0 != ((b ^ d) >> 31)) continue;
+                        if (0 != ((b ^ d) >> 31))
+                        {
+                            LogReturn(23);
+                            continue;
+                        }
                         MD5_STEP(II, ref c, d, a, b, block[6], 0xa3014314, 15);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31))
+                        {
+                            LogReturn(24);
+                            continue;
+                        }
                         MD5_STEP(II, ref b, c, d, a, block[13], 0x4e0811a1, 21);
-                        if (0 == ((b ^ d) >> 31)) continue;
+                        if (0 == ((b ^ d) >> 31))
+                        {
+                            LogReturn(25);
+                            continue;
+                        }
                         MD5_STEP(II, ref  a, b, c, d, block[4], 0xf7537e82, 6);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31))
+                        {
+                            LogReturn(26);
+                            continue;
+                        }
                         MD5_STEP(II, ref d, a, b, c, block[11], 0xbd3af235, 10);
-                        if (0 != ((b ^ d) >> 31)) continue;
+                        if (0 != ((b ^ d) >> 31))
+                        {
+                            LogReturn(27);
+                            continue;
+                        }
                         MD5_STEP(II, ref c, d, a, b, block[2], 0x2ad7d2bb, 15);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31))
+                        {
+                            LogReturn(28);
+                            continue;
+                        }
                         MD5_STEP(II, ref b, c, d, a, block[9], 0xeb86d391, 21);
 
                         UInt32[] block2 = new UInt32[16];
@@ -821,7 +1016,7 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                         md5_compress(IV2, block2);
                         if (IV2[0] == IV1[0] && IV2[1] == IV1[1] && IV2[2] == IV1[2] && IV2[3] == IV1[3])
                         {
-                            MatchProgress = 5;
+                            LogReturn(29);
                             return;
                         }
 
@@ -834,7 +1029,7 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
 
         void find_block1_stevens_01(UInt32[] block, UInt32[] IV)
         {
-            MatchProgressMax = 5;
+            MatchProgressMax = 30;
             MatchProgress = 0;
 
             UInt32[] Q = new UInt32[68];
@@ -856,7 +1051,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                 if (IsStopped)
                     return;
 
-                MatchProgress = 1;
 
                 UInt32 aa1 = Q[Qoff] & 0x80000000;
 
@@ -898,7 +1092,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                     if (IsStopped)
                         return;
 
-                    MatchProgress = 2;
 
                     ++counter;
 
@@ -909,23 +1102,43 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                     UInt32 q16 = Q[Qoff + 16];
                     UInt32 q17 = tt17 + m1;
                     q17 = RL(q17, 5) + q16;
-                    if (0x80000000 != ((q17 ^ q16) & 0x80008008)) continue;
-                    if (0 != (q17 & 0x00020000)) continue;
+                    if (0x80000000 != ((q17 ^ q16) & 0x80008008))
+                    {
+                        LogReturn(1);
+                        continue;
+                    }
+                    if (0 != (q17 & 0x00020000))
+                    {
+                        LogReturn(2);
+                        continue;
+                    }
 
                     UInt32 q18 = GG(q17, q16, Q[Qoff + 15]) + tt18;
                     q18 = RL(q18, 9); q18 += q17;
-                    if (0x80020000 != ((q18 ^ q17) & 0xa0020000)) continue;
+                    if (0x80020000 != ((q18 ^ q17) & 0xa0020000))
+                    {
+                        LogReturn(3);
+                        continue;
+                    }
 
                     UInt32 q19 = GG(q18, q17, q16) + tt19;
                     q19 = RL(q19, 14); q19 += q18;
-                    if (0 != (q19 & 0x80020000)) continue;
+                    if (0 != (q19 & 0x80020000))
+                    {
+                        LogReturn(4);
+                        continue;
+                    }
 
                     UInt32 m0 = q1 - Q[Qoff + 0];
                     m0 = RR(m0, 7) - tt0;
 
                     UInt32 q20 = GG(q19, q18, q17) + q16 + 0xe9b6c7aa + m0;
                     q20 = RL(q20, 20); q20 += q19;
-                    if (0x00040000 != ((q20 ^ q19) & 0x80040000)) continue;
+                    if (0x00040000 != ((q20 ^ q19) & 0x80040000))
+                    {
+                        LogReturn(5);
+                        continue;
+                    }
 
                     Q[Qoff + 1] = q1;
                     Q[Qoff + 17] = q17;
@@ -939,15 +1152,24 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                     MD5_REVERSE_STEP(block, Q, 5, 0x4787c62a, 12);
                     UInt32 q21 = GG(Q[Qoff + 20], Q[Qoff + 19], Q[Qoff + 18]) + Q[Qoff + 17] + 0xd62f105d + block[5];
                     q21 = RL(q21, 5); q21 += Q[Qoff + 20];
-                    if (0 != ((q21 ^ Q[Qoff + 20]) & 0x80020000)) continue;
+                    if (0 != ((q21 ^ Q[Qoff + 20]) & 0x80020000))
+                    {
+                        LogReturn(6);
+                        continue;
+                    }
 
                     Q[Qoff + 21] = q21;
 
                     counter = 0;
+
+                    LogReturn(7);
                     break;
                 }
                 if (counter != 0)
+                {
+                    LogReturn(8);
                     continue;
+                }
 
                 UInt32 q9b = Q[Qoff + 9];
                 UInt32 q10b = Q[Qoff + 10];
@@ -967,7 +1189,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                     if (IsStopped)
                         return;
 
-                    MatchProgress = 3;
 
                     UInt32 q10 = q10b | (q9q10mask[k10] & 0x08000030);
                     UInt32 m10 = RR(Q[Qoff + 11] - q10, 17);
@@ -977,16 +1198,32 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
 
                     UInt32 aa = Q[Qoff + 21];
                     UInt32 dd = tt22 + m10; dd = RL(dd, 9) + aa;
-                    if (0 != (dd & 0x80000000)) continue;
+                    if (0 != (dd & 0x80000000))
+                    {
+                        LogReturn(9);
+                        continue;
+                    }
 
                     UInt32 bb = Q[Qoff + 20];
                     UInt32 cc = tt23 + GG(dd, aa, bb);
-                    if (0 != (cc & 0x20000)) continue;
+                    if (0 != (cc & 0x20000))
+                    {
+                        LogReturn(10);
+                        continue;
+                    }
                     cc = RL(cc, 14) + dd;
-                    if (0 != (cc & 0x80000000)) continue;
+                    if (0 != (cc & 0x80000000))
+                    {
+                        LogReturn(11);
+                        continue;
+                    }
 
                     bb = tt24 + GG(cc, dd, aa); bb = RL(bb, 20) + cc;
-                    if (0 == (bb & 0x80000000)) continue;
+                    if (0 == (bb & 0x80000000))
+                    {
+                        LogReturn(12);
+                        continue;
+                    }
 
                     block[10] = m10;
                     Q[Qoff + 9] = q9;
@@ -998,7 +1235,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                         if (IsStopped)
                             return;
 
-                        MatchProgress = 4;
 
                         UInt32 a = aa, b = bb, c = cc, d = dd;
                         Q[Qoff + 9] = q9 ^ q9mask[k9];
@@ -1019,7 +1255,10 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
 
                         c += HH(d, a, b) + block[11] + 0x6d9d6122;
                         if (0 != (c & (1 << 15)))
+                        {
+                            LogReturn(13);
                             continue;
+                        }
                         c = (c << 16 | c >> 16) + d;
 
                         MD5_STEP(HH, ref b, c, d, a, block[14], 0xfde5380c, 23);
@@ -1036,38 +1275,101 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                         MD5_STEP(HH, ref c, d, a, b, block[15], 0x1fa27cf8, 16);
                         MD5_STEP(HH, ref b, c, d, a, block[2], 0xc4ac5665, 23);
                         if (0 != ((b ^ d) & 0x80000000))
+                        {
+                            LogReturn(14);
                             continue;
+                        }
 
                         MD5_STEP(II, ref a, b, c, d, block[0], 0xf4292244, 6);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31))
+                        {
+                            LogReturn(15);
+                            continue;
+                        }
                         MD5_STEP(II, ref d, a, b, c, block[7], 0x432aff97, 10);
-                        if (0 == ((b ^ d) >> 31)) continue;
+                        if (0 == ((b ^ d) >> 31))
+                        {
+                            LogReturn(16);
+                            continue;
+                        }
                         MD5_STEP(II, ref c, d, a, b, block[14], 0xab9423a7, 15);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31))
+                        {
+                            LogReturn(17);
+                            continue;
+                        }
                         MD5_STEP(II, ref b, c, d, a, block[5], 0xfc93a039, 21);
-                        if (0 != ((b ^ d) >> 31)) continue;
+                        if (0 != ((b ^ d) >> 31))
+                        {
+                            LogReturn(18);
+                            continue;
+                        }
                         MD5_STEP(II, ref a, b, c, d, block[12], 0x655b59c3, 6);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31))
+                        {
+                            LogReturn(19);
+                            continue;
+                        }
                         MD5_STEP(II, ref d, a, b, c, block[3], 0x8f0ccc92, 10);
-                        if (0 != ((b ^ d) >> 31)) continue;
+                        if (0 != ((b ^ d) >> 31))
+                        {
+                            LogReturn(20);
+                            continue;
+                        }
                         MD5_STEP(II, ref c, d, a, b, block[10], 0xffeff47d, 15);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31))
+                        {
+                            LogReturn(21);
+                            continue;
+                        }
                         MD5_STEP(II, ref b, c, d, a, block[1], 0x85845dd1, 21);
-                        if (0 != ((b ^ d) >> 31)) continue;
+                        if (0 != ((b ^ d) >> 31))
+                        {
+                            LogReturn(22);
+                            continue;
+                        }
                         MD5_STEP(II, ref a, b, c, d, block[8], 0x6fa87e4f, 6);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31))
+                        {
+                            LogReturn(23);
+                            continue;
+                        }
                         MD5_STEP(II, ref d, a, b, c, block[15], 0xfe2ce6e0, 10);
-                        if (0 != ((b ^ d) >> 31)) continue;
+                        if (0 != ((b ^ d) >> 31))
+                        {
+                            LogReturn(24);
+                            continue;
+                        }
                         MD5_STEP(II, ref c, d, a, b, block[6], 0xa3014314, 15);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31))
+                        {
+                            LogReturn(25);
+                            continue;
+                        }
                         MD5_STEP(II, ref b, c, d, a, block[13], 0x4e0811a1, 21);
-                        if (0 == ((b ^ d) >> 31)) continue;
+                        if (0 == ((b ^ d) >> 31))
+                        {
+                            LogReturn(26);
+                            continue;
+                        }
                         MD5_STEP(II, ref a, b, c, d, block[4], 0xf7537e82, 6);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31))
+                        {
+                            LogReturn(27);
+                            continue;
+                        }
                         MD5_STEP(II, ref d, a, b, c, block[11], 0xbd3af235, 10);
-                        if (0 != ((b ^ d) >> 31)) continue;
+                        if (0 != ((b ^ d) >> 31))
+                        {
+                            LogReturn(28);
+                            continue;
+                        }
                         MD5_STEP(II, ref c, d, a, b, block[2], 0x2ad7d2bb, 15);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31))
+                        {
+                            LogReturn(29);
+                            continue;
+                        }
                         MD5_STEP(II, ref b, c, d, a, block[9], 0xeb86d391, 21);
 
                         UInt32[] block2 = new UInt32[16];
@@ -1091,7 +1393,7 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                         md5_compress(IV2, block2);
                         if (IV2[0] == IV1[0] && IV2[1] == IV1[1] && IV2[2] == IV1[2] && IV2[3] == IV1[3])
                         {
-                            MatchProgress = 5;
+                            LogReturn(30);
                             return;
                         }
 
@@ -1105,7 +1407,7 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
 
         void find_block1_stevens_10(UInt32[] block, UInt32[] IV)
         {
-            MatchProgressMax = 5;
+            MatchProgressMax = 30;
             MatchProgress = 0;
 
             UInt32[] Q = new UInt32[68];
@@ -1121,13 +1423,12 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
             UInt32[] q9mask = new UInt32[1 << 10];
             for (UInt32 k = 0; k < q9mask.Length; ++k)
                 q9mask[k] = ((k << 1) ^ (k << 2) ^ (k << 3) ^ (k << 7) ^ (k << 12) ^ (k << 15) ^ (k << 18) ^ (k << 20)) & 0x2471042a;
-            
+
             while (true)
             {
                 if (IsStopped)
                     return;
 
-                MatchProgress = 1;
 
                 UInt32 aa1 = Q[Qoff] & 0x80000000;
 
@@ -1169,7 +1470,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                     if (IsStopped)
                         return;
 
-                    MatchProgress = 2;
 
                     ++counter;
 
@@ -1180,23 +1480,23 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                     UInt32 q16 = Q[Qoff + 16];
                     UInt32 q17 = tt17 + m1;
                     q17 = RL(q17, 5) + q16;
-                    if (0x80000000 != ((q17 ^ q16) & 0x80008008)) continue;
-                    if (0 != (q17 & 0x00020000)) continue;
+                    if (0x80000000 != ((q17 ^ q16) & 0x80008008)) { LogReturn(1); continue; }
+                    if (0 != (q17 & 0x00020000)) { LogReturn(2); continue; }
 
                     UInt32 q18 = GG(q17, q16, Q[Qoff + 15]) + tt18;
                     q18 = RL(q18, 9); q18 += q17;
-                    if (0x80020000 != ((q18 ^ q17) & 0xa0020000)) continue;
+                    if (0x80020000 != ((q18 ^ q17) & 0xa0020000)) { LogReturn(3); continue; }
 
                     UInt32 q19 = GG(q18, q17, q16) + tt19;
                     q19 = RL(q19, 14); q19 += q18;
-                    if (0 != (q19 & 0x80020000)) continue;
+                    if (0 != (q19 & 0x80020000)) { LogReturn(4); continue; }
 
                     UInt32 m0 = q1 - Q[Qoff + 0];
                     m0 = RR(m0, 7) - tt0;
 
                     UInt32 q20 = GG(q19, q18, q17) + q16 + 0xe9b6c7aa + m0;
                     q20 = RL(q20, 20); q20 += q19;
-                    if (0x00040000 != ((q20 ^ q19) & 0x80040000)) continue;
+                    if (0x00040000 != ((q20 ^ q19) & 0x80040000)) { LogReturn(5); continue; }
 
                     Q[Qoff + 1] = q1;
                     Q[Qoff + 17] = q17;
@@ -1210,14 +1510,15 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                     MD5_REVERSE_STEP(block, Q, 5, 0x4787c62a, 12);
                     UInt32 q21 = GG(Q[Qoff + 20], Q[Qoff + 19], Q[Qoff + 18]) + Q[Qoff + 17] + 0xd62f105d + block[5];
                     q21 = RL(q21, 5); q21 += Q[Qoff + 20];
-                    if (0 != ((q21 ^ Q[Qoff + 20]) & 0x80020000)) continue;
+                    if (0 != ((q21 ^ Q[Qoff + 20]) & 0x80020000)) { LogReturn(6); continue; }
                     Q[Qoff + 21] = q21;
 
                     counter = 0;
+                    LogReturn(7);
                     break;
                 }
                 if (counter != 0)
-                    continue;
+                    { LogReturn(8); continue; }
 
                 UInt32 q9b = Q[Qoff + 9];
                 UInt32 q10b = Q[Qoff + 10];
@@ -1237,7 +1538,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                     if (IsStopped)
                         return;
 
-                    MatchProgress = 3;
 
                     UInt32 q10 = q10b | (q9q10mask[k10] & 0x08000004);
                     UInt32 m10 = RR(Q[Qoff + 11] - q10, 17);
@@ -1247,16 +1547,16 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
 
                     UInt32 aa = Q[Qoff + 21];
                     UInt32 dd = tt22 + m10; dd = RL(dd, 9) + aa;
-                    if (0 != (dd & 0x80000000)) continue;
+                    if (0 != (dd & 0x80000000)) { LogReturn(9); continue; }
 
                     UInt32 bb = Q[Qoff + 20];
                     UInt32 cc = tt23 + GG(dd, aa, bb);
-                    if (0 != (cc & 0x20000)) continue;
+                    if (0 != (cc & 0x20000)) { LogReturn(10); continue; }
                     cc = RL(cc, 14) + dd;
-                    if (0 != (cc & 0x80000000)) continue;
+                    if (0 != (cc & 0x80000000)) { LogReturn(11); continue; }
 
                     bb = tt24 + GG(cc, dd, aa); bb = RL(bb, 20) + cc;
-                    if (0 == (bb & 0x80000000)) continue;
+                    if (0 == (bb & 0x80000000)) { LogReturn(12); continue; }
 
                     block[10] = m10;
                     Q[Qoff + 9] = q9;
@@ -1268,7 +1568,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                         if (IsStopped)
                             return;
 
-                        MatchProgress = 4;
 
                         UInt32 a = aa, b = bb, c = cc, d = dd;
                         Q[Qoff + 9] = q9 ^ q9mask[k9];
@@ -1289,7 +1588,7 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
 
                         c += HH(d, a, b) + block[11] + 0x6d9d6122;
                         if (0 != (c & (1 << 15)))
-                            continue;
+                            { LogReturn(13); continue; }
                         c = (c << 16 | c >> 16) + d;
 
                         MD5_STEP(HH, ref b, c, d, a, block[14], 0xfde5380c, 23);
@@ -1306,38 +1605,38 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                         MD5_STEP(HH, ref c, d, a, b, block[15], 0x1fa27cf8, 16);
                         MD5_STEP(HH, ref b, c, d, a, block[2], 0xc4ac5665, 23);
                         if (0 != ((b ^ d) & 0x80000000))
-                            continue;
+                            { LogReturn(14); continue; }
 
                         MD5_STEP(II, ref a, b, c, d, block[0], 0xf4292244, 6);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31)) { LogReturn(15); continue; }
                         MD5_STEP(II, ref d, a, b, c, block[7], 0x432aff97, 10);
-                        if (0 == ((b ^ d) >> 31)) continue;
+                        if (0 == ((b ^ d) >> 31)) { LogReturn(16); continue; }
                         MD5_STEP(II, ref c, d, a, b, block[14], 0xab9423a7, 15);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31)) { LogReturn(17); continue; }
                         MD5_STEP(II, ref b, c, d, a, block[5], 0xfc93a039, 21);
-                        if (0 != ((b ^ d) >> 31)) continue;
+                        if (0 != ((b ^ d) >> 31)) { LogReturn(18); continue; }
                         MD5_STEP(II, ref a, b, c, d, block[12], 0x655b59c3, 6);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31)) { LogReturn(19); continue; }
                         MD5_STEP(II, ref d, a, b, c, block[3], 0x8f0ccc92, 10);
-                        if (0 != ((b ^ d) >> 31)) continue;
+                        if (0 != ((b ^ d) >> 31)) { LogReturn(20); continue; }
                         MD5_STEP(II, ref c, d, a, b, block[10], 0xffeff47d, 15);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31)) { LogReturn(21); continue; }
                         MD5_STEP(II, ref b, c, d, a, block[1], 0x85845dd1, 21);
-                        if (0 != ((b ^ d) >> 31)) continue;
+                        if (0 != ((b ^ d) >> 31)) { LogReturn(22); continue; }
                         MD5_STEP(II, ref  a, b, c, d, block[8], 0x6fa87e4f, 6);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31)) { LogReturn(23); continue; }
                         MD5_STEP(II, ref d, a, b, c, block[15], 0xfe2ce6e0, 10);
-                        if (0 != ((b ^ d) >> 31)) continue;
+                        if (0 != ((b ^ d) >> 31)) { LogReturn(24); continue; }
                         MD5_STEP(II, ref c, d, a, b, block[6], 0xa3014314, 15);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31)) { LogReturn(25); continue; }
                         MD5_STEP(II, ref b, c, d, a, block[13], 0x4e0811a1, 21);
-                        if (0 == ((b ^ d) >> 31)) continue;
+                        if (0 == ((b ^ d) >> 31)) { LogReturn(26); continue; }
                         MD5_STEP(II, ref a, b, c, d, block[4], 0xf7537e82, 6);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31)) { LogReturn(27); continue; }
                         MD5_STEP(II, ref d, a, b, c, block[11], 0xbd3af235, 10);
-                        if (0 != ((b ^ d) >> 31)) continue;
+                        if (0 != ((b ^ d) >> 31)) { LogReturn(28); continue; }
                         MD5_STEP(II, ref c, d, a, b, block[2], 0x2ad7d2bb, 15);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31)) { LogReturn(29); continue; }
                         MD5_STEP(II, ref b, c, d, a, block[9], 0xeb86d391, 21);
 
                         //std::cout << "." << std::flush;
@@ -1363,7 +1662,7 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                         md5_compress(IV2, block2);
                         if (IV2[0] == IV1[0] && IV2[1] == IV1[1] && IV2[2] == IV1[2] && IV2[3] == IV1[3])
                         {
-                            MatchProgress = 5;
+                            LogReturn(30);
                             return;
                         }
 
@@ -1377,7 +1676,7 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
 
         void find_block1_stevens_11(UInt32[] block, UInt32[] IV)
         {
-            MatchProgressMax = 5;
+            MatchProgressMax = 30;
             MatchProgress = 0;
 
             UInt32[] Q = new UInt32[68];
@@ -1399,7 +1698,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                 if (IsStopped)
                     return;
 
-                MatchProgress = 1;
 
                 UInt32 aa1 = Q[Qoff] & 0x80000000;
 
@@ -1441,7 +1739,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                     if (IsStopped)
                         return;
 
-                    MatchProgress = 2;
 
                     ++counter;
 
@@ -1452,23 +1749,23 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                     UInt32 q16 = Q[Qoff + 16];
                     UInt32 q17 = tt17 + m1;
                     q17 = RL(q17, 5) + q16;
-                    if (0x40000000 != ((q17 ^ q16) & 0xc0008008)) continue;
-                    if (0 != (q17 & 0x00020000)) continue;
+                    if (0x40000000 != ((q17 ^ q16) & 0xc0008008)) { LogReturn(1); continue; }
+                    if (0 != (q17 & 0x00020000)) { LogReturn(2); continue; }
 
                     UInt32 q18 = GG(q17, q16, Q[Qoff + 15]) + tt18;
                     q18 = RL(q18, 9); q18 += q17;
-                    if (0x80020000 != ((q18 ^ q17) & 0xa0020000)) continue;
+                    if (0x80020000 != ((q18 ^ q17) & 0xa0020000)) { LogReturn(3); continue; }
 
                     UInt32 q19 = GG(q18, q17, q16) + tt19;
                     q19 = RL(q19, 14); q19 += q18;
-                    if (0x80000000 != (q19 & 0x80020000)) continue;
+                    if (0x80000000 != (q19 & 0x80020000)) { LogReturn(4); continue; }
 
                     UInt32 m0 = q1 - Q[Qoff + 0];
                     m0 = RR(m0, 7) - tt0;
 
                     UInt32 q20 = GG(q19, q18, q17) + q16 + 0xe9b6c7aa + m0;
                     q20 = RL(q20, 20); q20 += q19;
-                    if (0x00040000 != ((q20 ^ q19) & 0x80040000)) continue;
+                    if (0x00040000 != ((q20 ^ q19) & 0x80040000)) { LogReturn(5); continue; }
 
                     Q[Qoff + 1] = q1;
                     Q[Qoff + 17] = q17;
@@ -1482,15 +1779,16 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                     MD5_REVERSE_STEP(block, Q, 5, 0x4787c62a, 12);
                     UInt32 q21 = GG(Q[Qoff + 20], Q[Qoff + 19], Q[Qoff + 18]) + Q[Qoff + 17] + 0xd62f105d + block[5];
                     q21 = RL(q21, 5); q21 += Q[Qoff + 20];
-                    if (0 != ((q21 ^ Q[Qoff + 20]) & 0x80020000)) continue;
+                    if (0 != ((q21 ^ Q[Qoff + 20]) & 0x80020000)) { LogReturn(6); continue; }
 
                     Q[Qoff + 21] = q21;
 
                     counter = 0;
+                    LogReturn(7);
                     break;
                 }
                 if (counter != 0)
-                    continue;
+                    { LogReturn(8); continue; }
 
                 UInt32 q9b = Q[Qoff + 9];
                 UInt32 q10b = Q[Qoff + 10];
@@ -1510,7 +1808,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                     if (IsStopped)
                         return;
 
-                    MatchProgress = 3;
 
                     UInt32 q10 = q10b | (q9q10mask[k10] & 0x08000040);
                     UInt32 m10 = RR(Q[Qoff + 11] - q10, 17);
@@ -1520,16 +1817,16 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
 
                     UInt32 aa = Q[Qoff + 21];
                     UInt32 dd = tt22 + m10; dd = RL(dd, 9) + aa;
-                    if (0 == (dd & 0x80000000)) continue;
+                    if (0 == (dd & 0x80000000)) { LogReturn(9); continue; }
 
                     UInt32 bb = Q[Qoff + 20];
                     UInt32 cc = tt23 + GG(dd, aa, bb);
-                    if (0 != (cc & 0x20000)) continue;
+                    if (0 != (cc & 0x20000)) { LogReturn(10); continue; }
                     cc = RL(cc, 14) + dd;
-                    if (0 != (cc & 0x80000000)) continue;
+                    if (0 != (cc & 0x80000000)) { LogReturn(11); continue; }
 
                     bb = tt24 + GG(cc, dd, aa); bb = RL(bb, 20) + cc;
-                    if (0 == (bb & 0x80000000)) continue;
+                    if (0 == (bb & 0x80000000)) { LogReturn(12); continue; }
 
                     block[10] = m10;
                     Q[Qoff + 9] = q9;
@@ -1541,7 +1838,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                         if (IsStopped)
                             return;
 
-                        MatchProgress = 4;
 
                         UInt32 a = aa, b = bb, c = cc, d = dd;
                         Q[Qoff + 9] = q9 ^ q9mask[k9];
@@ -1562,7 +1858,7 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
 
                         c += HH(d, a, b) + block[11] + 0x6d9d6122;
                         if (0 != (c & (1 << 15)))
-                            continue;
+                            { LogReturn(13); continue; }
                         c = (c << 16 | c >> 16) + d;
 
                         MD5_STEP(HH, ref b, c, d, a, block[14], 0xfde5380c, 23);
@@ -1579,38 +1875,38 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                         MD5_STEP(HH, ref c, d, a, b, block[15], 0x1fa27cf8, 16);
                         MD5_STEP(HH, ref b, c, d, a, block[2], 0xc4ac5665, 23);
                         if (0 != ((b ^ d) & 0x80000000))
-                            continue;
+                            { LogReturn(14); continue; }
 
                         MD5_STEP(II, ref a, b, c, d, block[0], 0xf4292244, 6);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31)) { LogReturn(15); continue; }
                         MD5_STEP(II, ref d, a, b, c, block[7], 0x432aff97, 10);
-                        if (0 == ((b ^ d) >> 31)) continue;
+                        if (0 == ((b ^ d) >> 31)) { LogReturn(16); continue; }
                         MD5_STEP(II, ref c, d, a, b, block[14], 0xab9423a7, 15);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31)) { LogReturn(17); continue; }
                         MD5_STEP(II, ref b, c, d, a, block[5], 0xfc93a039, 21);
-                        if (0 != ((b ^ d) >> 31)) continue;
+                        if (0 != ((b ^ d) >> 31)) { LogReturn(18); continue; }
                         MD5_STEP(II, ref a, b, c, d, block[12], 0x655b59c3, 6);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31)) { LogReturn(19); continue; }
                         MD5_STEP(II, ref d, a, b, c, block[3], 0x8f0ccc92, 10);
-                        if (0 != ((b ^ d) >> 31)) continue;
+                        if (0 != ((b ^ d) >> 31)) { LogReturn(20); continue; }
                         MD5_STEP(II, ref c, d, a, b, block[10], 0xffeff47d, 15);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31)) { LogReturn(21); continue; }
                         MD5_STEP(II, ref b, c, d, a, block[1], 0x85845dd1, 21);
-                        if (0 != ((b ^ d) >> 31)) continue;
+                        if (0 != ((b ^ d) >> 31)) { LogReturn(22); continue; }
                         MD5_STEP(II, ref a, b, c, d, block[8], 0x6fa87e4f, 6);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31)) { LogReturn(23); continue; }
                         MD5_STEP(II, ref d, a, b, c, block[15], 0xfe2ce6e0, 10);
-                        if (0 != ((b ^ d) >> 31)) continue;
+                        if (0 != ((b ^ d) >> 31)) { LogReturn(24); continue; }
                         MD5_STEP(II, ref c, d, a, b, block[6], 0xa3014314, 15);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31)) { LogReturn(25); continue; }
                         MD5_STEP(II, ref  b, c, d, a, block[13], 0x4e0811a1, 21);
-                        if (0 == ((b ^ d) >> 31)) continue;
+                        if (0 == ((b ^ d) >> 31)) { LogReturn(26); continue; }
                         MD5_STEP(II, ref  a, b, c, d, block[4], 0xf7537e82, 6);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31)) { LogReturn(27); continue; }
                         MD5_STEP(II, ref  d, a, b, c, block[11], 0xbd3af235, 10);
-                        if (0 != ((b ^ d) >> 31)) continue;
+                        if (0 != ((b ^ d) >> 31)) { LogReturn(28); continue; }
                         MD5_STEP(II, ref c, d, a, b, block[2], 0x2ad7d2bb, 15);
-                        if (0 != ((a ^ c) >> 31)) continue;
+                        if (0 != ((a ^ c) >> 31)) { LogReturn(29); continue; }
                         MD5_STEP(II, ref b, c, d, a, block[9], 0xeb86d391, 21);
 
                         //std::cout << "." << std::flush;
@@ -1636,7 +1932,7 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                         md5_compress(IV2, block2);
                         if (IV2[0] == IV1[0] && IV2[1] == IV1[1] && IV2[2] == IV1[2] && IV2[3] == IV1[3])
                         {
-                            MatchProgress = 5;
+                            LogReturn(30);
                             return;
                         }
 
@@ -1650,7 +1946,7 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
 
         void find_block1_wang(UInt32[] block, UInt32[] IV)
         {
-            MatchProgressMax = 6;
+            MatchProgressMax = 30;
             MatchProgress = 0;
 
             UInt32[] Q = new UInt32[68];
@@ -1674,13 +1970,12 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
             UInt32[] q9mask2 = new UInt32[1 << 10];
             for (UInt32 k = 0; k < q9mask2.Length; ++k)
                 q9mask2[k] = ((k << 1) ^ (k << 7) ^ (k << 14) ^ (k << 15) ^ (k << 22)) & 0x6074041c;
-            
+
             while (true)
             {
                 if (IsStopped)
                     return;
 
-                MatchProgress = 1;
 
                 UInt32 aa1 = Q[Qoff] & 0x80000000;
                 UInt32 bb1 = 0x80000000 ^ aa1;
@@ -1723,7 +2018,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                     if (IsStopped)
                         return;
 
-                    MatchProgress = 2;
 
                     ++counter;
 
@@ -1734,23 +2028,23 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                     UInt32 q16 = Q[Qoff + 16];
                     UInt32 q17 = tt17 + m1;
                     q17 = RL(q17, 5) + q16;
-                    if (0x40000000 != ((q17 ^ q16) & 0xc0008008)) continue;
-                    if (0 != (q17 & 0x00020000)) continue;
+                    if (0x40000000 != ((q17 ^ q16) & 0xc0008008)) { LogReturn(1); continue; }
+                    if (0 != (q17 & 0x00020000)) { LogReturn(2); continue; }
 
                     UInt32 q18 = GG(q17, q16, Q[Qoff + 15]) + tt18;
                     q18 = RL(q18, 9); q18 += q17;
-                    if (0x00020000 != ((q18 ^ q17) & 0xa0020000)) continue;
+                    if (0x00020000 != ((q18 ^ q17) & 0xa0020000)) { LogReturn(3); continue; }
 
                     UInt32 q19 = GG(q18, q17, q16) + tt19;
                     q19 = RL(q19, 14); q19 += q18;
-                    if (0 != (q19 & 0x80020000)) continue;
+                    if (0 != (q19 & 0x80020000)) { LogReturn(4); continue; }
 
                     UInt32 m0 = q1 - Q[Qoff + 0];
                     m0 = RR(m0, 7) - tt0;
 
                     UInt32 q20 = GG(q19, q18, q17) + q16 + 0xe9b6c7aa + m0;
                     q20 = RL(q20, 20); q20 += q19;
-                    if (0x00040000 != ((q20 ^ q19) & 0x80040000)) continue;
+                    if (0x00040000 != ((q20 ^ q19) & 0x80040000)) { LogReturn(5); continue; }
 
                     Q[Qoff + 1] = q1;
                     Q[Qoff + 17] = q17;
@@ -1763,10 +2057,11 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                     MD5_REVERSE_STEP(block, Q, 2, 0x242070db, 17);
 
                     counter = 0;
+                    LogReturn(6);
                     break;
                 }
                 if (counter != 0)
-                    continue;
+                    { LogReturn(7); continue; }
 
                 UInt32 q4b = Q[Qoff + 4];
                 UInt32 q9b = Q[Qoff + 9];
@@ -1779,14 +2074,13 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                     if (IsStopped)
                         return;
 
-                    MatchProgress = 3;
 
                     Q[Qoff + 4] = q4b ^ q4mask[counter];
                     ++counter;
                     MD5_REVERSE_STEP(block, Q, 5, 0x4787c62a, 12);
                     UInt32 q21 = tt21 + block[5];
                     q21 = RL(q21, 5); q21 += Q[Qoff + 20];
-                    if (0 != ((q21 ^ Q[Qoff + 20]) & 0x80020000)) continue;
+                    if (0 != ((q21 ^ Q[Qoff + 20]) & 0x80020000)) { LogReturn(8); continue; }
 
                     Q[Qoff + 21] = q21;
                     MD5_REVERSE_STEP(block, Q, 3, 0xc1bdceee, 22);
@@ -1804,7 +2098,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                         if (IsStopped)
                             return;
 
-                        MatchProgress = 4;
 
                         UInt32 q10 = q10b ^ q10mask[counter2];
                         UInt32 m10 = RR(Q[Qoff + 11] - q10, 17);
@@ -1815,16 +2108,16 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
 
                         UInt32 aa = Q[Qoff + 21];
                         UInt32 dd = tt22 + m10; dd = RL(dd, 9) + aa;
-                        if (0 != (dd & 0x80000000)) continue;
+                        if (0 != (dd & 0x80000000)) { LogReturn(9); continue; }
 
                         UInt32 bb = Q[Qoff + 20];
                         UInt32 cc = tt23 + GG(dd, aa, bb);
-                        if (0 != (cc & 0x20000)) continue;
+                        if (0 != (cc & 0x20000)) { LogReturn(10); continue; }
                         cc = RL(cc, 14) + dd;
-                        if (0 != (cc & 0x80000000)) continue;
+                        if (0 != (cc & 0x80000000)) { LogReturn(11); continue; }
 
                         bb = tt24 + GG(cc, dd, aa); bb = RL(bb, 20) + cc;
-                        if (0 == (bb & 0x80000000)) continue;
+                        if (0 == (bb & 0x80000000)) { LogReturn(12); continue; }
 
                         block[10] = m10;
                         Q[Qoff + 9] = q9;
@@ -1836,7 +2129,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                             if (IsStopped)
                                 return;
 
-                            MatchProgress = 5;
 
                             UInt32 a = aa, b = bb, c = cc, d = dd;
                             Q[Qoff + 9] = q9 ^ q9mask2[k9]; ++k9;
@@ -1857,7 +2149,7 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
 
                             c += HH(d, a, b) + block[11] + 0x6d9d6122;
                             if (0 == (c & (1 << 15)))
-                                continue;
+                                { LogReturn(13); continue; }
                             c = (c << 16 | c >> 16) + d;
 
                             MD5_STEP(HH, ref b, c, d, a, block[14], 0xfde5380c, 23);
@@ -1874,38 +2166,38 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                             MD5_STEP(HH, ref c, d, a, b, block[15], 0x1fa27cf8, 16);
                             MD5_STEP(HH, ref b, c, d, a, block[2], 0xc4ac5665, 23);
                             if (0 != ((b ^ d) & 0x80000000))
-                                continue;
+                                { LogReturn(14); continue; }
 
                             MD5_STEP(II, ref a, b, c, d, block[0], 0xf4292244, 6);
-                            if (0 != ((a ^ c) >> 31)) continue;
+                            if (0 != ((a ^ c) >> 31)) { LogReturn(15); continue; }
                             MD5_STEP(II, ref d, a, b, c, block[7], 0x432aff97, 10);
-                            if (0 == ((b ^ d) >> 31)) continue;
+                            if (0 == ((b ^ d) >> 31)) { LogReturn(16); continue; }
                             MD5_STEP(II, ref c, d, a, b, block[14], 0xab9423a7, 15);
-                            if (0 != ((a ^ c) >> 31)) continue;
+                            if (0 != ((a ^ c) >> 31)) { LogReturn(17); continue; }
                             MD5_STEP(II, ref b, c, d, a, block[5], 0xfc93a039, 21);
-                            if (0 != ((b ^ d) >> 31)) continue;
+                            if (0 != ((b ^ d) >> 31)) { LogReturn(18); continue; }
                             MD5_STEP(II, ref a, b, c, d, block[12], 0x655b59c3, 6);
-                            if (0 != ((a ^ c) >> 31)) continue;
+                            if (0 != ((a ^ c) >> 31)) { LogReturn(19); continue; }
                             MD5_STEP(II, ref d, a, b, c, block[3], 0x8f0ccc92, 10);
-                            if (0 != ((b ^ d) >> 31)) continue;
+                            if (0 != ((b ^ d) >> 31)) { LogReturn(20); continue; }
                             MD5_STEP(II, ref c, d, a, b, block[10], 0xffeff47d, 15);
-                            if (0 != ((a ^ c) >> 31)) continue;
+                            if (0 != ((a ^ c) >> 31)) { LogReturn(21); continue; }
                             MD5_STEP(II, ref b, c, d, a, block[1], 0x85845dd1, 21);
-                            if (0 != ((b ^ d) >> 31)) continue;
+                            if (0 != ((b ^ d) >> 31)) { LogReturn(22); continue; }
                             MD5_STEP(II, ref a, b, c, d, block[8], 0x6fa87e4f, 6);
-                            if (0 != ((a ^ c) >> 31)) continue;
+                            if (0 != ((a ^ c) >> 31)) { LogReturn(23); continue; }
                             MD5_STEP(II, ref d, a, b, c, block[15], 0xfe2ce6e0, 10);
-                            if (0 != ((b ^ d) >> 31)) continue;
+                            if (0 != ((b ^ d) >> 31)) { LogReturn(24); continue; }
                             MD5_STEP(II, ref  c, d, a, b, block[6], 0xa3014314, 15);
-                            if (0 != ((a ^ c) >> 31)) continue;
+                            if (0 != ((a ^ c) >> 31)) { LogReturn(25); continue; }
                             MD5_STEP(II, ref  b, c, d, a, block[13], 0x4e0811a1, 21);
-                            if (0 == ((b ^ d) >> 31)) continue;
+                            if (0 == ((b ^ d) >> 31)) { LogReturn(26); continue; }
                             MD5_STEP(II, ref a, b, c, d, block[4], 0xf7537e82, 6);
-                            if (0 != ((a ^ c) >> 31)) continue;
+                            if (0 != ((a ^ c) >> 31)) { LogReturn(27); continue; }
                             MD5_STEP(II, ref d, a, b, c, block[11], 0xbd3af235, 10);
-                            if (0 != ((b ^ d) >> 31)) continue;
+                            if (0 != ((b ^ d) >> 31)) { LogReturn(28); continue; }
                             MD5_STEP(II, ref c, d, a, b, block[2], 0x2ad7d2bb, 15);
-                            if (0 != ((a ^ c) >> 31)) continue;
+                            if (0 != ((a ^ c) >> 31)) { LogReturn(29); continue; }
                             MD5_STEP(II, ref b, c, d, a, block[9], 0xeb86d391, 21);
 
                             //std::cout << "." << std::flush;
@@ -1931,7 +2223,7 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
                             md5_compress(IV2, block2);
                             if (IV2[0] == IV1[0] && IV2[1] == IV1[1] && IV2[2] == IV1[2] && IV2[3] == IV1[3])
                             {
-                                MatchProgress = 6;
+                                LogReturn(30);
                                 return;
                             }
 
