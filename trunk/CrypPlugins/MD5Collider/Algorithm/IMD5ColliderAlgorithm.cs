@@ -12,6 +12,7 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
         byte[] SecondCollidingData { get; }
         byte[] RandomSeed { set; }
         byte[] IHV { set; }
+        long CombinationsTried { get; }
 
         TimeSpan ElapsedTime { get; }
 

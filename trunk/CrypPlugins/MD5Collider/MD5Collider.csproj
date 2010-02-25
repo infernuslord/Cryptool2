@@ -67,6 +67,7 @@
     <Compile Include="Algorithm\StevensCollider.cs" />
     <Compile Include="MD5Collider.cs" />
     <Compile Include="MD5ColliderSettings.cs" />
+    <Compile Include="Presentation\Converters\LongToStringWithDecimalSeparatorConverter.cs" />
     <Compile Include="Presentation\Converters\TimeSpanConverter.cs" />
     <Compile Include="Presentation\QuickWatchPresentation.xaml.cs">
       <DependentUpon>QuickWatchPresentation.xaml</DependentUpon>
