@@ -444,6 +444,8 @@ namespace Dictionary
 
         public void Dispose()
         {
+            dicValues.Clear();
+            dicValuesOld.Clear();
         }
 
         #endregion
