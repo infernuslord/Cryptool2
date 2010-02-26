@@ -555,15 +555,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         {
             int size = bytesToUse > ciphertext.Length ? ciphertext.Length : bytesToUse;
 
-            unsafe
-            {
-                fixed (byte* inp = ciphertext)
-                fixed (byte* akey = key)
-                fixed (byte* iv = IV)
-                {
-                    return NativeCryptography.Crypto.decryptDES(inp, akey, iv, size, ((DESSettings)plugin.Settings).Mode);
-                }
-            }
+            return NativeCryptography.Crypto.decryptDES(ciphertext, key, IV, size, ((DESSettings)plugin.Settings).Mode);
         }
 
         public string getKeyPattern()

@@ -522,15 +522,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             if (bits == -1)
                 return null;
 
-            unsafe
-            {
-                fixed (byte* inp = ciphertext)
-                fixed (byte* akey = key)
-                fixed (byte* iv = IV)
-                {
-                    return NativeCryptography.Crypto.decryptAES(inp, akey, iv, bits, size, ((AESSettings)plugin.Settings).Mode);
-                }
-            }
+            return NativeCryptography.Crypto.decryptAES(ciphertext, key, IV, bits, size, ((AESSettings)plugin.Settings).Mode);
         }
 
         public string getKeyPattern()

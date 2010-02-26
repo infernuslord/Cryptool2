@@ -25,21 +25,26 @@ namespace NativeCryptography {
 		}
 
 	public:
-		static array<unsigned char>^ decryptAES(unsigned char* input, unsigned char* key, unsigned char* IV, const int bits, const int length, const int mode)
+		static array<unsigned char>^ decryptAES(array<unsigned char>^ Input, array<unsigned char>^ Key, array<unsigned char>^ IV, const int bits, const int length, const int mode)
 		{
 			const int blockSize = 16;
 			int numBlocks = length / blockSize;
 			if (length % blockSize != 0)
 				numBlocks++;
 
-			unsigned char* outp = (unsigned char*)malloc(numBlocks*blockSize);
+			pin_ptr<unsigned char> input = &Input[0];
+			pin_ptr<unsigned char> key = &Key[0];
+			pin_ptr<unsigned char> iv = &IV[0];
+
+			array<unsigned char>^ output = gcnew array<unsigned char>(length);
+			pin_ptr<unsigned char> outp = &output[0];	
 
 			AES_KEY aeskey;			
 			if (mode == 2)	//CFB
 			{
 				AES_set_encrypt_key(key, bits, &aeskey);
 
-				AES_encrypt(IV, outp, &aeskey);
+				AES_encrypt(iv, outp, &aeskey);
 				xorBlockAES((int*)(outp), (int*)(input));
 
 				for (int c = 0; c < numBlocks-1; c++)
@@ -53,7 +58,7 @@ namespace NativeCryptography {
 				AES_set_decrypt_key(key, bits, &aeskey);
 				AES_decrypt(input, outp, &aeskey);
 				if (mode == 1)		//CBC
-					xorBlockAES((int*)(outp), (int*)IV);	
+					xorBlockAES((int*)(outp), (int*)iv);	
 				for (int c = 1; c < numBlocks; c++)
 				{
 					AES_decrypt((input+c*blockSize), outp+c*blockSize, &aeskey);
@@ -62,28 +67,29 @@ namespace NativeCryptography {
 				}
 			}
 
-			array<unsigned char>^ output = gcnew array<unsigned char>(length);
-			for (int c = 0; c < length; c++)
-				output[c] = outp[c];
-
 			return output;
 		}
 
-		static array<unsigned char>^ decryptDES(unsigned char* input, unsigned char* key, unsigned char* IV, const int length, const int mode)
+		static array<unsigned char>^ decryptDES(array<unsigned char>^ Input, array<unsigned char>^ Key, array<unsigned char>^ IV, const int length, const int mode)
 		{
 			const int blockSize = 8;
 			int numBlocks = length / blockSize;
 			if (length % blockSize != 0)
 				numBlocks++;
 
-			unsigned char* outp = (unsigned char*)malloc(numBlocks*blockSize);
+			pin_ptr<unsigned char> input = &Input[0];
+			pin_ptr<unsigned char> key = &Key[0];
+			pin_ptr<unsigned char> iv = &IV[0];
+
+			array<unsigned char>^ output = gcnew array<unsigned char>(length);
+			pin_ptr<unsigned char> outp = &output[0];			
 
 			DES_key_schedule deskey;
 			DES_set_key_unchecked((const_DES_cblock*)key, &deskey);
 
 			if (mode == 2)	//CFB
 			{				
-				DES_ecb_encrypt((const_DES_cblock*)IV, (const_DES_cblock*)outp, &deskey, DES_ENCRYPT);
+				DES_ecb_encrypt((const_DES_cblock*)iv, (const_DES_cblock*)outp, &deskey, DES_ENCRYPT);
 				xorBlockAES((int*)(outp), (int*)(input));
 
 				for (int c = 0; c < numBlocks-1; c++)
@@ -96,7 +102,7 @@ namespace NativeCryptography {
 			{
 				DES_ecb_encrypt((const_DES_cblock*)input, (const_DES_cblock*)outp, &deskey, DES_DECRYPT);
 				if (mode == 1)		//CBC
-					xorBlockDES((int*)(outp), (int*)IV);	
+					xorBlockDES((int*)(outp), (int*)iv);	
 				for (int c = 1; c < numBlocks; c++)
 				{
 					DES_ecb_encrypt((const_DES_cblock*)(input+c*blockSize), (const_DES_cblock*)(outp+c*blockSize), &deskey, DES_DECRYPT);
@@ -104,10 +110,6 @@ namespace NativeCryptography {
 						xorBlockDES((int*)(outp+c*blockSize), (int*)(input+(c-1)*blockSize));
 				}
 			}
-
-			array<unsigned char>^ output = gcnew array<unsigned char>(length);
-			for (int c = 0; c < length; c++)
-				output[c] = outp[c];
 
 			return output;
 		}
