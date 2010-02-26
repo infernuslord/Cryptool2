@@ -46,12 +46,24 @@ namespace NativeCryptography {
 
 	array<unsigned char>^ Crypto::decryptAESorDES(array<unsigned char>^ Input, array<unsigned char>^ Key, array<unsigned char>^ IV, const int bits, const int length, const int mode, const int blockSize, const cryptMethod method)
 	{
+		static unsigned char lastIVencrypted[16];	//optimization
+
 		int numBlocks = length / blockSize;
 		if (length % blockSize != 0)
 			numBlocks++;
 
+		bool noIV = false;
+
 		if (IV == nullptr)
-			IV = gcnew array<unsigned char>(blockSize);
+		{
+			noIV = true;
+			if (blockSize == 8)
+				IV = zeroIV8;
+			else if (blockSize == 16)
+				IV = zeroIV16;
+			else
+				return nullptr;
+		}
 
 		pin_ptr<unsigned char> input = &Input[0];
 		pin_ptr<unsigned char> key = &Key[0];
@@ -63,26 +75,67 @@ namespace NativeCryptography {
 		AES_KEY aeskey;
 		DES_key_schedule deskey;
 		if (mode == 2)	//CFB
-		{
-			array<unsigned char>^ ShiftRegister = (array<unsigned char>^)IV->Clone();
-			pin_ptr<unsigned char> shiftregister = &ShiftRegister[0];			
+		{			
 			unsigned char block[16];	//16 is enough for AES and DES
+			unsigned char shiftregister[16];
+			//works only for little endian architectures:
+			if (blockSize == 8)
+			{
+				*((unsigned int*)shiftregister) = *((unsigned int*)&iv[1]);
+				*((unsigned int*)&shiftregister[4]) = (*((unsigned int*)&iv[4]) >> 8) | ((unsigned int)(input[0]) << 24);
+			}
+			else if (blockSize == 16)
+			{
+				*((unsigned int*)shiftregister) = *((unsigned int*)&iv[1]);
+				*((unsigned int*)&shiftregister[4]) = (*((unsigned int*)&iv[4]) >> 8) | ((unsigned int)iv[8] << 24);
+				*((unsigned int*)&shiftregister[8]) = (*((unsigned int*)&iv[8]) >> 8) | ((unsigned int)iv[12] << 24);
+				*((unsigned int*)&shiftregister[12]) = (*((unsigned int*)&iv[12]) >> 8) | ((unsigned int)input[0] << 24);
+			}
+			else
+				return nullptr;
 
-			if (method == cryptMethod::methodAES) 
+			if (method == cryptMethod::methodAES)
 				AES_set_encrypt_key(key, bits, &aeskey);
-			else 
+			else
 				DES_set_key_unchecked((const_DES_cblock*)key, &deskey);
+			
+			if (IV != lastIV)
+			{
+				try{
+					lastivmutex->WaitOne();
+					if (IV != lastIV)
+					{
+						encrypt(iv, lastIVencrypted, method, &aeskey, &deskey);
+						lastIV = IV;
+					}
+				} finally
+				{
+					lastivmutex->ReleaseMutex();
+				}
+			}
+			
+			unsigned char leftmost = lastIVencrypted[0];
+			outp[0] = leftmost ^ input[0];
 
-			for (int i = 0; i < length; i++)
+			for (int i = 1; i < length; i++)
 			{
 				encrypt(shiftregister, block, method, &aeskey, &deskey);
-				unsigned char leftmost = block[0];
+				leftmost = block[0];
 				outp[i] = leftmost ^ input[i];
 				
 				//shift input[i] in register:
-				for (int c = 0; c < blockSize - 1; c++)
-					shiftregister[c] = shiftregister[c+1];
-				shiftregister[blockSize-1] = input[i];
+				if (blockSize == 8)
+				{
+					*((unsigned int*)shiftregister) = *((unsigned int*)&shiftregister[1]);
+					*((unsigned int*)&shiftregister[4]) = (*((unsigned int*)&shiftregister[4]) >> 8) | ((unsigned int)input[i] << 24);
+				}
+				else if (blockSize == 16)
+				{
+					*((unsigned int*)shiftregister) = *((unsigned int*)&shiftregister[1]);
+					*((unsigned int*)&shiftregister[4]) = (*((unsigned int*)&shiftregister[4]) >> 8) | ((unsigned int)shiftregister[8] << 24);
+					*((unsigned int*)&shiftregister[8]) = (*((unsigned int*)&shiftregister[8]) >> 8) | ((unsigned int)shiftregister[12] << 24);
+					*((unsigned int*)&shiftregister[12]) = (*((unsigned int*)&shiftregister[12]) >> 8) | ((unsigned int)input[i] << 24);
+				}
 			}
 		}
 		else	//CBC or ECB
@@ -93,7 +146,7 @@ namespace NativeCryptography {
 				DES_set_key_unchecked((const_DES_cblock*)key, &deskey);
 
 			decrypt(input, outp, method, &aeskey, &deskey);				
-			if (mode == 1)		//CBC
+			if (mode == 1 && !noIV)		//CBC
 				xorblock(outp, iv, method);	
 			for (int c = 1; c < numBlocks; c++)
 			{

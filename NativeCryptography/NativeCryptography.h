@@ -3,6 +3,7 @@
 #include "DES/des.h"
 #include <stdlib.h>
 
+using namespace System::Threading;
 using namespace System;
 
 namespace NativeCryptography {
@@ -11,7 +12,13 @@ namespace NativeCryptography {
 	{
 	private:
 		enum class cryptMethod {methodAES, methodDES};
-		
+
+		//for optimization:
+		static array<unsigned char>^ lastIV = nullptr;		
+		static array<unsigned char>^ zeroIV8 = gcnew array<unsigned char>(8);
+		static array<unsigned char>^ zeroIV16 = gcnew array<unsigned char>(16);
+		static Mutex^ lastivmutex = gcnew Mutex();
+
 		static void xorBlockAES(int *t1, int *t2);
 		static void xorBlockDES(int *t1, int *t2);
 		static void encrypt(unsigned char* in, unsigned char* out, const cryptMethod method, AES_KEY* aeskey, DES_key_schedule* deskey);
