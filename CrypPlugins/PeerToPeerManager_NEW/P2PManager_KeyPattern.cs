@@ -221,10 +221,10 @@ namespace Cryptool.Plugins.PeerToPeer
             {
                 ((P2PManagerPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {                   
-                    ((P2PManagerPresentation)QuickWatchPresentation).txtTimeInProcess.Text = "not started";
+                    //((P2PManagerPresentation)QuickWatchPresentation).txtTimeInProcess.Text = "not started";
                     ((P2PManagerPresentation)QuickWatchPresentation).txtProgressInPercent.Text = "not started";
-                    ((P2PManagerPresentation)QuickWatchPresentation).txtEstimatedEndTime.Text = "no finished jobs";
-                    ((P2PManagerPresentation)QuickWatchPresentation).PrgChunks.JobCount = 0;
+                    //((P2PManagerPresentation)QuickWatchPresentation).txtEstimatedEndTime.Text = "no finished jobs";
+                    //((P2PManagerPresentation)QuickWatchPresentation).PrgChunks.JobCount = 0;
                 }, null);
             }
         }
@@ -254,23 +254,30 @@ namespace Cryptool.Plugins.PeerToPeer
                     sbProcess = null;
 
                     // change color of jobs in progress
-                    Brush evenClr = System.Windows.Media.Brushes.LightGray;
+                    Brush evenClr = System.Windows.Media.Brushes.Black;
                     Brush oddClr = System.Windows.Media.Brushes.Yellow;
-                    if((Math.Round(processTime.TotalSeconds,0) % 2) == 0)
+                    try
                     {
-                        for (int i = 0; i < ((P2PManagerPresentation)QuickWatchPresentation).PrgChunks.JobCount; i++)
-			            {
-            			    if(((P2PManagerPresentation)QuickWatchPresentation).PrgChunks[i] == oddClr)
-                                ((P2PManagerPresentation)QuickWatchPresentation).PrgChunks[i] = evenClr;
-			            }
+                        if((Math.Round(processTime.TotalSeconds,0) % 2) == 0)
+                        {
+                            for (int i = 0; i < ((P2PManagerPresentation)QuickWatchPresentation).PrgChunks.JobCount; i++)
+			                {
+            			        if(((P2PManagerPresentation)QuickWatchPresentation).PrgChunks[i] == oddClr)
+                                    ((P2PManagerPresentation)QuickWatchPresentation).PrgChunks[i] = evenClr;
+			                }
+                        }
+                        else
+                        {
+                            for (int i = 0; i < ((P2PManagerPresentation)QuickWatchPresentation).PrgChunks.JobCount; i++)
+			                {
+            			        if(((P2PManagerPresentation)QuickWatchPresentation).PrgChunks[i] == evenClr)
+                                    ((P2PManagerPresentation)QuickWatchPresentation).PrgChunks[i] = oddClr;
+			                }
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        for (int i = 0; i < ((P2PManagerPresentation)QuickWatchPresentation).PrgChunks.JobCount; i++)
-			            {
-            			    if(((P2PManagerPresentation)QuickWatchPresentation).PrgChunks[i] == evenClr)
-                                ((P2PManagerPresentation)QuickWatchPresentation).PrgChunks[i] = oddClr;
-			            }
+                        GuiLogMessage(ex.ToString(), NotificationLevel.Warning);
                     }
                 }, null);
             }
@@ -351,8 +358,15 @@ namespace Cryptool.Plugins.PeerToPeer
                 {
                     ((P2PManagerPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        if (((P2PManagerPresentation)QuickWatchPresentation).PrgChunks[iJobId] != null)
-                            ((P2PManagerPresentation)QuickWatchPresentation).PrgChunks[iJobId] = color;
+                        try
+                        {
+                            if (((P2PManagerPresentation)QuickWatchPresentation).PrgChunks != null && ((P2PManagerPresentation)QuickWatchPresentation).PrgChunks.JobCount != 0)
+                                ((P2PManagerPresentation)QuickWatchPresentation).PrgChunks[iJobId] = color;
+                        }
+                        catch (Exception ex)
+                        {
+                            GuiLogMessage(ex.ToString(), NotificationLevel.Warning);
+                        }
                     }, null);
                 }
             }
@@ -367,7 +381,8 @@ namespace Cryptool.Plugins.PeerToPeer
                 {
                     ((P2PManagerPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        ((P2PManagerPresentation)QuickWatchPresentation).PrgChunks.JobCount = count;
+                        if(((P2PManagerPresentation)QuickWatchPresentation).PrgChunks != null)
+                            ((P2PManagerPresentation)QuickWatchPresentation).PrgChunks.JobCount = count;
                     }, null);
                 }
             }
