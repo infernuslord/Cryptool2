@@ -21,8 +21,21 @@ using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Plugins.PeerToPeer.Jobs
 {
+    public delegate void LastJobAllocated(BigInteger jobId);
+    public delegate void LastResultReceived(BigInteger jobId);
+
     public interface IDistributableJob
     {
+        /// <summary>
+        /// will be thrown after last job has been allocated
+        /// </summary>
+        event LastJobAllocated OnLastJobAllocated;
+        /// <summary>
+        /// will be thrown when last result has been received
+        /// </summary>
+        event LastResultReceived OnLastResultReceived;
+
+
         /// <summary>
         /// pops a new serialized JobPart and the JobParts' JobId.
         /// Check the returned byte array. If it is null, there

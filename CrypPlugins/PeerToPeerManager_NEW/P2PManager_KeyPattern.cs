@@ -27,6 +27,8 @@ using KeySearcher;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using Cryptool.Plugins.PeerToPeer.Jobs;
+using System.Timers;
+using System.Windows.Media;
 
 /*TODO: 
  * - Execute: If InitVector is null, try to create a fitting InitVector with the format 0...0 
@@ -206,6 +208,72 @@ namespace Cryptool.Plugins.PeerToPeer
         public UserControl Presentation
         {
             get { return QuickWatchPresentation; }
+        }
+
+        private void timerProcessingTimeReset()
+        {
+            this.timerProcessingTime.Stop();
+            this.timerProcessingTime.Close();
+            this.timerProcessingTime.Dispose();
+            this.timerProcessingTime = null;
+
+            if (QuickWatchPresentation.IsVisible)
+            {
+                ((P2PManagerPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {                   
+                    ((P2PManagerPresentation)QuickWatchPresentation).txtTimeInProcess.Text = "not started";
+                    ((P2PManagerPresentation)QuickWatchPresentation).txtProgressInPercent.Text = "not started";
+                    ((P2PManagerPresentation)QuickWatchPresentation).txtEstimatedEndTime.Text = "no finished jobs";
+                    ((P2PManagerPresentation)QuickWatchPresentation).PrgChunks.JobCount = 0;
+                }, null);
+            }
+        }
+
+        void timerProcessingTime_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if (QuickWatchPresentation.IsVisible)
+            {
+                ((P2PManagerPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    // calculate and display current processing time span
+                    TimeSpan processTime = DateTime.Now.Subtract(this.p2pManager.StartWorkingTime);
+                    StringBuilder sbProcess = new StringBuilder();
+                    if(processTime.Days != 0)
+                        sbProcess.Append(processTime.Days.ToString() + " Days ");
+                    if (processTime.Hours <= 9)
+                        sbProcess.Append("0");
+                    sbProcess.Append(processTime.Hours.ToString() + ":");
+                    if (processTime.Minutes <= 9)
+                        sbProcess.Append("0");
+                    sbProcess.Append(processTime.Minutes.ToString() + ":");
+                    if (processTime.Seconds <= 9)
+                        sbProcess.Append("0");
+                    sbProcess.Append(processTime.Seconds.ToString());
+
+                    ((P2PManagerPresentation)QuickWatchPresentation).txtTimeInProcess.Text = sbProcess.ToString() + " (hh:mm:ss)";
+                    sbProcess = null;
+
+                    // change color of jobs in progress
+                    Brush evenClr = System.Windows.Media.Brushes.LightGray;
+                    Brush oddClr = System.Windows.Media.Brushes.Yellow;
+                    if((Math.Round(processTime.TotalSeconds,0) % 2) == 0)
+                    {
+                        for (int i = 0; i < ((P2PManagerPresentation)QuickWatchPresentation).PrgChunks.JobCount; i++)
+			            {
+            			    if(((P2PManagerPresentation)QuickWatchPresentation).PrgChunks[i] == oddClr)
+                                ((P2PManagerPresentation)QuickWatchPresentation).PrgChunks[i] = evenClr;
+			            }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < ((P2PManagerPresentation)QuickWatchPresentation).PrgChunks.JobCount; i++)
+			            {
+            			    if(((P2PManagerPresentation)QuickWatchPresentation).PrgChunks[i] == evenClr)
+                                ((P2PManagerPresentation)QuickWatchPresentation).PrgChunks[i] = oddClr;
+			            }
+                    }
+                }, null);
+            }
         }
 
         private void UpdateQuickWatch(double progressInPercent)
@@ -389,6 +457,9 @@ namespace Cryptool.Plugins.PeerToPeer
 
             if (this.p2pManager != null && this.p2pManager.Started)
             {
+                //stop processTime Timer
+                timerProcessingTimeReset();
+
                 this.p2pManager.Stop(PubSubMessageType.Unregister);
                 this.settings.MngStatusChanged(P2PManager_KeyPatternSettings.MngStatus.Neutral);
                 this.p2pManager.OnGuiMessage -= p2pManager_OnGuiMessage;
@@ -515,13 +586,22 @@ namespace Cryptool.Plugins.PeerToPeer
                 this.p2pManager.OnNoMoreJobsLeft += new P2PManagerBase_NEW.NoMoreJobsLeft(p2pManager_OnNoMoreJobsLeft);
                 this.p2pManager.OnResultReceived += new P2PManagerBase_NEW.ResultReceived(p2pManager_OnResultReceived);
                 this.p2pManager.OnJobCanceled += new P2PManagerBase_NEW.JobCanceled(p2pManager_OnJobCanceled);
+                this.p2pManager.OnAllJobResultsReceived += new P2PManagerBase_NEW.AllJobResultsReceived(p2pManager_OnAllJobResultsReceived);
             }
 
             this.bytesToUseForDecryption = this.settings.BytesToUse;
 
             this.p2pManager.StartManager(this.settings.TopicName, this.settings.SendAliveMessageInterval * 1000);
 
+            //added 2010.02.26 for displaying actual processing time - this variables have to be reset when restarting manager
+            firstTimeJobAllocated = true;
+
             this.settings.MngStatusChanged(P2PManager_KeyPatternSettings.MngStatus.Working);
+        }
+
+        void p2pManager_OnAllJobResultsReceived(BigInteger lastJobId)
+        {
+            timerProcessingTimeReset();
         }
 
         void p2pManager_OnJobCanceled(BigInteger jobId)
@@ -541,8 +621,18 @@ namespace Cryptool.Plugins.PeerToPeer
             this.settings.MngStatusChanged(P2PManager_KeyPatternSettings.MngStatus.Finished);
         }
 
+
+        private bool firstTimeJobAllocated = true;
+        private System.Timers.Timer timerProcessingTime;
         void p2pManager_OnNewJobAllocated(BigInteger jobId)
         {
+            if (firstTimeJobAllocated)
+            {
+                timerProcessingTime = new System.Timers.Timer(1000);
+                timerProcessingTime.Elapsed += new ElapsedEventHandler(timerProcessingTime_Elapsed);
+                timerProcessingTime.Start();
+                firstTimeJobAllocated = false;
+            }
             UpdateProgressChunk(jobId, System.Windows.Media.Brushes.Yellow);
 
             this.settings.MngStatusChanged(P2PManager_KeyPatternSettings.MngStatus.Working);
