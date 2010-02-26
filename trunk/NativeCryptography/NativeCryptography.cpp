@@ -46,8 +46,6 @@ namespace NativeCryptography {
 
 	array<unsigned char>^ Crypto::decryptAESorDES(array<unsigned char>^ Input, array<unsigned char>^ Key, array<unsigned char>^ IV, const int bits, const int length, const int mode, const int blockSize, const cryptMethod method)
 	{
-		static unsigned char lastIVencrypted[16];	//optimization
-
 		int numBlocks = length / blockSize;
 		if (length % blockSize != 0)
 			numBlocks++;
@@ -70,7 +68,7 @@ namespace NativeCryptography {
 		pin_ptr<unsigned char> iv = &IV[0];
 
 		array<unsigned char>^ output = gcnew array<unsigned char>(length);
-		pin_ptr<unsigned char> outp = &output[0];	
+		pin_ptr<unsigned char> outp = &output[0];
 
 		AES_KEY aeskey;
 		DES_key_schedule deskey;
@@ -93,28 +91,14 @@ namespace NativeCryptography {
 			}
 			else
 				return nullptr;
-
+			
 			if (method == cryptMethod::methodAES)
 				AES_set_encrypt_key(key, bits, &aeskey);
 			else
 				DES_set_key_unchecked((const_DES_cblock*)key, &deskey);
-			
-			if (IV != lastIV)
-			{
-				try{
-					lastivmutex->WaitOne();
-					if (IV != lastIV)
-					{
-						encrypt(iv, lastIVencrypted, method, &aeskey, &deskey);
-						lastIV = IV;
-					}
-				} finally
-				{
-					lastivmutex->ReleaseMutex();
-				}
-			}
-			
-			unsigned char leftmost = lastIVencrypted[0];
+
+			encrypt(iv, block, method, &aeskey, &deskey);
+			unsigned char leftmost = block[0];
 			outp[0] = leftmost ^ input[0];
 
 			for (int i = 1; i < length; i++)
