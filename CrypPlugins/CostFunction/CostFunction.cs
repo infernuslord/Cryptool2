@@ -424,19 +424,15 @@ namespace Cryptool.Plugins.CostFunction
             }
 
             int[] n = new int[256];
-            //count all ASCII symbols 
-            int counter = 0;
-            foreach (byte b in text)
+            //count all ASCII symbols
+            for (int counter = 0; counter < bytesToUse; counter++)
             {
-                n[b]++;
-                counter++;
-                if (counter == bytesToUse)
-                    break;
+                n[text[counter]]++;
             }
 
             double entropy = 0;
             //calculate probabilities and sum entropy
-            for (int i = 0; i < n.Length; i++)
+            for (int i = 0; i < 256; i++)
                 entropy += xlogx[n[i]];
 
             return entropy / (double)bytesToUse;
