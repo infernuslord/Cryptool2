@@ -24,8 +24,8 @@ namespace Cryptool.PluginBase.Control
     public interface IControlEncryption : IControl, IDisposable
     {
         byte[] Encrypt(byte[] key, int blocksize);
-        byte[] Decrypt(byte[] ciphertext, byte[] key, int bytesToUse);
-        byte[] Decrypt(byte[] ciphertext, byte[] key);
+        byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV, int bytesToUse);
+        byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV);
         string getKeyPattern();
         byte[] getKeyFromString(string key, ref int[] arrayPointers, ref int[] arraySuccessors, ref int[] arrayUppers);
         void changeSettings(string setting, object value);

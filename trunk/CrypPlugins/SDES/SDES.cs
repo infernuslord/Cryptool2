@@ -592,7 +592,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <param name="key">key</param>
         /// <param name="bytesToUse">bytesToUse</param>
         /// <returns>decrypted text</returns>
-        public byte[] Decrypt(byte[] ciphertext, byte[] key, int bytesToUse)
+        public byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV, int bytesToUse)
         {
             return execute(ciphertext, key, bytesToUse, 1);
         }
@@ -603,7 +603,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <param name="ciphertext">encrypted text</param>
         /// <param name="key">key</param>
         /// <returns>decrypted text</returns>
-        public byte[] Decrypt(byte[] ciphertext, byte[] key)
+        public byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV)
         {
             return execute(ciphertext, key, ciphertext.Length, 1);
         }
@@ -614,7 +614,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <param name="key">key</param>
         /// <param name="bytesToUse">bytesToUse</param>
         /// <returns>decrypted text</returns>
-        public byte[] Decrypt(byte[] key, int bytesToUse)
+        public byte[] Decrypt(byte[] key, byte[] IV, int bytesToUse)
         {
             return execute(key, bytesToUse, 1);
         }

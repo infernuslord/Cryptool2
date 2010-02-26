@@ -545,13 +545,13 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             throw new NotImplementedException();
         }
 
-        public byte[] Decrypt(byte[] ciphertext, byte[] key)
+        public byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV)
         {
-            return Decrypt(ciphertext, key, ciphertext.Length);
+            return Decrypt(ciphertext, key, IV, ciphertext.Length);
         }
 
         // TODO: add override with iv, mode, blocksize
-        public byte[] Decrypt(byte[] ciphertext, byte[] key, int bytesToUse)
+        public byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV, int bytesToUse)
         {
             int size = bytesToUse > ciphertext.Length ? ciphertext.Length : bytesToUse;
 
@@ -559,8 +559,9 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             {
                 fixed (byte* inp = ciphertext)
                 fixed (byte* akey = key)
+                fixed (byte* iv = IV)
                 {
-                    return NativeCryptography.Crypto.decryptDES(inp, akey, size, ((DESSettings)plugin.Settings).Mode);
+                    return NativeCryptography.Crypto.decryptDES(inp, akey, iv, size, ((DESSettings)plugin.Settings).Mode);
                 }
             }
         }
