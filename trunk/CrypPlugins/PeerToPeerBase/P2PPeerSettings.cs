@@ -73,10 +73,9 @@ namespace Cryptool.Plugins.PeerToPeer
             this.p2pPeer.StopPeer();
          
             OnPropertyChanged("PeerStopped");
-            HasChanges = true;
         }
 
-        [TaskPane("Log internal state of peer", "Log internal state of peer", null, 4, false, DisplayLevel.Beginner, ControlType.Button)]
+        [TaskPane("Internal state dump", "Log internal state of peer", null, 4, true, DisplayLevel.Beginner, ControlType.Button)]
         public void BtnLogInternalState()
         {
             this.p2pPeer.LogInternalState();
