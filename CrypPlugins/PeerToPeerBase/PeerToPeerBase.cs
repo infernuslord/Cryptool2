@@ -218,7 +218,7 @@ namespace Cryptool.Plugins.PeerToPeer
 
             this.overlay.MessageReceived += new EventHandler<OverlayMessageEventArgs>(overlay_MessageReceived);
             this.dht.SystemJoined += new EventHandler(OnDHT_SystemJoined);
-            this.dht.SystemLeft += new EventHandler(OnDHT_SystemLeft);
+            this.dht.SystemLeft += new EventHandler<SystemLeftEventArgs>(OnDHT_SystemLeft);
 
             this.dht.Initialize(sUserName, "", sWorldName, this.overlay, this.bootstrapper, this.linkmanager, null);
         }
@@ -351,7 +351,7 @@ namespace Cryptool.Plugins.PeerToPeer
             Started = true;
         }
 
-        private void OnDHT_SystemLeft(object sender, EventArgs e)
+        private void OnDHT_SystemLeft(object sender, SystemLeftEventArgs e)
         {
             if (OnSystemLeft != null)
                 OnSystemLeft();
