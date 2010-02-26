@@ -278,7 +278,7 @@ namespace Cryptool.TextInput
     [PropertyInfo(Direction.OutputData, "Text", "Simple text to use as input for other plug-ins.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
     public string TextOutput
     {
-      [MethodImpl(MethodImplOptions.Synchronized)]
+      //[MethodImpl(MethodImplOptions.Synchronized)]
       get
       {        
         // GuiLogMessage("Got request for text...", NotificationLevel.Debug);
@@ -300,7 +300,7 @@ namespace Cryptool.TextInput
     [PropertyInfo(Direction.OutputData, "Stream", "The text input converted to memory stream.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
     public CryptoolStream StreamOutput
     {
-      [MethodImpl(MethodImplOptions.Synchronized)]
+      //[MethodImpl(MethodImplOptions.Synchronized)]
       get
       {
         byte[] arr = GetByteArray(false);
@@ -325,7 +325,7 @@ namespace Cryptool.TextInput
     [PropertyInfo(Direction.OutputData, "ByteArray", "The hex values as byte array.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
     public byte[] ByteArrayOutput
     {
-      [MethodImpl(MethodImplOptions.Synchronized)]
+      //[MethodImpl(MethodImplOptions.Synchronized)]
       get
       {
         // GuiLogMessage("Got request for ByteArray...", NotificationLevel.Debug);
@@ -387,7 +387,7 @@ namespace Cryptool.TextInput
     [PropertyInfo(Direction.OutputData, "BoolArray", "The text input converted to bool array ('0' char equals false, else true).", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
     public bool[] BoolArrayOutput
     {
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         get
         {
             // GuiLogMessage("Got request for BoolArray...", NotificationLevel.Debug);
