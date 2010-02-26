@@ -351,7 +351,7 @@ namespace TranspositionAnalyser
                                 {
                                     b[j] = Convert.ToByte(key[j]);
                                 }
-                                byte[] dec = sender.Decrypt(input, b);
+                                byte[] dec = sender.Decrypt(input, b, null);
                                 if (dec != null)
                                 {
                                     double val = costMaster.calculateCost(dec);

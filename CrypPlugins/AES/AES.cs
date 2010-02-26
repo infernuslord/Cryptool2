@@ -496,12 +496,12 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             return null;
         }
 
-        public byte[] Decrypt(byte[] ciphertext, byte[] key)
+        public byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV)
         {
-            return Decrypt(ciphertext, key, ciphertext.Length);
+            return Decrypt(ciphertext, key, IV, ciphertext.Length);
         }
 
-        public byte[] Decrypt(byte[] ciphertext, byte[] key, int bytesToUse)
+        public byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV, int bytesToUse)
         {
             int size = bytesToUse > ciphertext.Length ? ciphertext.Length : bytesToUse;
 
@@ -526,8 +526,9 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             {
                 fixed (byte* inp = ciphertext)
                 fixed (byte* akey = key)
+                fixed (byte* iv = IV)
                 {
-                    return NativeCryptography.Crypto.decryptAES(inp, akey, bits, size, ((AESSettings)plugin.Settings).Mode);
+                    return NativeCryptography.Crypto.decryptAES(inp, akey, iv, bits, size, ((AESSettings)plugin.Settings).Mode);
                 }
             }
         }

@@ -455,7 +455,7 @@ namespace KeySearcher
             {
                 if (this.encryptedData != null && this.encryptedData.Length > 0)
                 {
-                    valueKey.decryption = sender.Decrypt(this.encryptedData, keya, bytesToUse);
+                    valueKey.decryption = sender.Decrypt(this.encryptedData, keya, InitVector, bytesToUse);
                 }
                 else
                 {
