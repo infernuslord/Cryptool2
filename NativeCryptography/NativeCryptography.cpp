@@ -1,6 +1,8 @@
 // This is the main DLL file.
 
 #include "NativeCryptography.h"
+#include <stdlib.h>
+#include <string.h>
 
 namespace NativeCryptography {
 
@@ -141,6 +143,61 @@ namespace NativeCryptography {
 		}
 
 		return output;
+	}
+
+	double *xlogx = 0;
+
+	void prepareEntropy(int size)
+    {
+		if (xlogx != 0)
+			free(xlogx);
+        xlogx = (double*)malloc((size + 1)*sizeof(double));
+        //precomputations for fast entropy calculation	
+        xlogx[0] = 0.0;
+        for (int i = 1; i <= size; i++)
+			xlogx[i] = -1.0 * i * Math::Log(i / (double)size) / Math::Log(2.0);
+    }
+
+
+	double Crypto::calculateEntropy(array<unsigned char>^ text, int bytesToUse)
+	{
+        if (bytesToUse > text->Length)
+            bytesToUse = text->Length;
+		static int lastUsedSize = -1;
+
+        if (lastUsedSize != bytesToUse)
+        {
+            try
+            {
+                prepareMutex->WaitOne();
+                if (lastUsedSize != bytesToUse)
+                {
+                    prepareEntropy(bytesToUse);
+                    lastUsedSize = bytesToUse;
+                }
+            }
+            finally
+            {
+                prepareMutex->ReleaseMutex();
+            }
+        }
+
+		pin_ptr<unsigned char> t = &text[0];
+
+        int n[256];
+		memset(n,0,sizeof(n));
+        //count all ASCII symbols
+        for (int counter = 0; counter < bytesToUse; counter++)
+        {
+            n[t[counter]]++;
+        }
+
+        double entropy = 0;
+        //calculate probabilities and sum entropy
+        for (short i = 0; i < 256; i++)			
+            entropy += xlogx[n[i]];
+
+        return entropy / (double)bytesToUse;
 	}
 
 }

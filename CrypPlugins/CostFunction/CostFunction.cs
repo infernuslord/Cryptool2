@@ -403,6 +403,7 @@ namespace Cryptool.Plugins.CostFunction
         /// <returns>Entropy</returns>
         public double calculateEntropy(byte[] text, int bytesToUse)
         {
+            return NativeCryptography.Crypto.calculateEntropy(text, bytesToUse);
             if (bytesToUse > text.Length)
                 bytesToUse = text.Length;
 

@@ -1,7 +1,6 @@
 #pragma once
 #include "aes_core.h"
 #include "DES/des.h"
-#include <stdlib.h>
 
 using namespace System::Threading;
 using namespace System;
@@ -23,7 +22,12 @@ namespace NativeCryptography {
 		static void xorblock(unsigned char* t1, unsigned char* t2, const cryptMethod method);
 		static array<unsigned char>^ decryptAESorDES(array<unsigned char>^ Input, array<unsigned char>^ Key, array<unsigned char>^ IV, const int bits, const int length, const int mode, const int blockSize, const cryptMethod method);
 
+		static Mutex^ prepareMutex = gcnew Mutex();
+		
+
 	public:
+		static double calculateEntropy(array<unsigned char>^ text, int bytesToUse);
+
 		static array<unsigned char>^ decryptAES(array<unsigned char>^ Input, array<unsigned char>^ Key, array<unsigned char>^ IV, const int bits, const int length, const int mode)
 		{
 			const int blockSize = 16;
