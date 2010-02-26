@@ -126,6 +126,8 @@ namespace Cryptool.Plugins.PeerToPeer
             get { return this.startWorkingTime; } 
         }
 
+        private bool lastJobAllocated = false;
+
         #endregion
 
         public P2PManagerBase_NEW(IP2PControl p2pControl, IDistributableJob distributableJob) : base(p2pControl)
@@ -142,6 +144,8 @@ namespace Cryptool.Plugins.PeerToPeer
             // and a IWorkerControl-PlugIn, this Manager can start its work
             if (this.distributableJobControl != null && this.p2pControl != null)
             {
+                this.distributableJobControl.OnLastResultReceived += new LastResultReceived(distributableJobControl_OnLastResultReceived);
+
                 //set value to null, when restarting the manager
                 this.startWorkingTime = DateTime.MinValue; 
                 this.TopicName = sTopic;
@@ -152,6 +156,12 @@ namespace Cryptool.Plugins.PeerToPeer
             {
                 GuiLogging("Manager can't be started, because P2P-Peer- or Distributable-Job-PlugIn isn't connected with the Manager or the connection is broken...", NotificationLevel.Warning);
             }
+        }
+
+        void distributableJobControl_OnLastResultReceived(BigInteger jobId)
+        {
+            if (OnAllJobResultsReceived != null)
+                OnAllJobResultsReceived(jobId);
         }
 
         protected override void PeerCompletelyStarted()
@@ -170,6 +180,7 @@ namespace Cryptool.Plugins.PeerToPeer
             this.ManagerStarted = false;
             ((WorkersManagement)this.peerManagement).OnFreeWorkersAvailable -= peerManagement_OnFreeWorkersAvailable;
             ((WorkersManagement)this.peerManagement).OnSubscriberRemoved -= peerManagement_OnSubscriberRemoved;
+            this.distributableJobControl.OnLastResultReceived -= distributableJobControl_OnLastResultReceived;
 
             GuiLogging("P2PManager was stopped successully.", NotificationLevel.Info);
         }
@@ -271,7 +282,7 @@ namespace Cryptool.Plugins.PeerToPeer
 
                 // set busy worker to free, because he delined the job
 
-                // TODO: maybe create a "black list" for peers, who had declined this kind of Job twice...
+                // TODO: maybe create a "black list" for peers, who had declined this kind of Job twice or more...
                 ((WorkersManagement)this.peerManagement).SetBusyWorkerToFree(sender);
                 GuiLogging("JobId '" + jobId.ToString() + "' was declined by Peer '" + sender.ToString() + "'.", NotificationLevel.Info);
             }

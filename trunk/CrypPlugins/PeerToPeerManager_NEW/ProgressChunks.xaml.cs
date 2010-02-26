@@ -57,6 +57,7 @@ namespace Cryptool.Plugins.PeerToPeer
                 }
             } 
         }
+
         private int count = 1;
         public int JobCount
         {

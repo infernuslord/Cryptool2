@@ -77,6 +77,7 @@ namespace Cryptool.Plugins.PeerToPeer
             exp_chunk.Header = "Visual Job Distribution";
             exp_chunk.FontSize = 10;
             exp_chunk.Background = grayBrush;
+            exp_chunk.SizeChanged += new SizeChangedEventHandler(exp_chunk_SizeChanged);
             this.PrgChunks.Width = 200;
             this.PrgChunks.Height = 55;
             Grid.SetRow(exp_chunk, 1);
@@ -86,16 +87,10 @@ namespace Cryptool.Plugins.PeerToPeer
             this.Expander_WorkerInfo.Background = grayBrush;
         }
 
-        //void txtTotal_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    int iResult;
-        //    if (Int32.TryParse(this.txtTotal.Text, out iResult))
-        //    {
-        //        PrgChunks.JobCount = iResult;
-        //        PrgChunks[0] = Brushes.HotPink;
-        //        PrgChunks[iResult - 1] = Brushes.HotPink;
-        //    }
-        //}
+        void exp_chunk_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            FunnyResize();
+        }
 
         void txtTotal_SizeChanged(object sender, SizeChangedEventArgs e)
         {

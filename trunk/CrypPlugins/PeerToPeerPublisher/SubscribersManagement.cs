@@ -57,16 +57,20 @@ namespace Cryptool.Plugins.PeerToPeer
         public virtual bool Add(PeerId subscriberId)
         {
             bool retValue = false;
-            if (!this.checkList.ContainsKey(subscriberId))
+
+            lock (this.checkList)
             {
-                this.dateTimeNow = DateTime.Now;
-                // locking checkList instead of activeSubsList, because all other functions work on checkList, not on activeSubsList
-                lock (this.checkList)
+                if (!this.checkList.ContainsKey(subscriberId))
                 {
-                    this.checkList.Add(subscriberId, this.dateTimeNow);
-                    retValue = true;
+                    this.dateTimeNow = DateTime.Now;
+                    // locking checkList instead of activeSubsList, because all other functions work on checkList, not on activeSubsList
+                    lock (this.checkList)
+                    {
+                        this.checkList.Add(subscriberId, this.dateTimeNow);
+                        retValue = true;
+                    }
                 }
-            }
+            } // end lock
             return retValue;
 
         }
