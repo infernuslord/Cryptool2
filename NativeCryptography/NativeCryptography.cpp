@@ -64,18 +64,25 @@ namespace NativeCryptography {
 		DES_key_schedule deskey;
 		if (mode == 2)	//CFB
 		{
+			array<unsigned char>^ ShiftRegister = (array<unsigned char>^)IV->Clone();
+			pin_ptr<unsigned char> shiftregister = &ShiftRegister[0];			
+			unsigned char block[16];	//16 is enough for AES and DES
+
 			if (method == cryptMethod::methodAES) 
 				AES_set_encrypt_key(key, bits, &aeskey);
 			else 
 				DES_set_key_unchecked((const_DES_cblock*)key, &deskey);
 
-			encrypt(iv, outp, method, &aeskey, &deskey);
-			xorblock(outp, input, method);
-
-			for (int c = 0; c < numBlocks-1; c++)
+			for (int i = 0; i < length; i++)
 			{
-				encrypt(input+c*blockSize, outp+(c+1)*blockSize, method, &aeskey, &deskey);					
-				xorblock(outp+(c+1)*blockSize, input+(c+1)*blockSize, method);
+				encrypt(shiftregister, block, method, &aeskey, &deskey);
+				unsigned char leftmost = block[0];
+				outp[i] = leftmost ^ input[i];
+				
+				//shift input[i] in register:
+				for (int c = 0; c < blockSize - 1; c++)
+					shiftregister[c] = shiftregister[c+1];
+				shiftregister[blockSize-1] = input[i];
 			}
 		}
 		else	//CBC or ECB
