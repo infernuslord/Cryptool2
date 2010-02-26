@@ -165,16 +165,22 @@ namespace Cryptool.Plugins.PeerToPeer
         public void Initialize(string sUserName, string sWorldName, P2PLinkManagerType linkManagerType, P2PBootstrapperType bsType, P2POverlayType overlayType, P2PDHTType dhtType)
         {
             #region Setting LinkManager, Bootstrapper, Overlay and DHT to the specified types
+
+            Scheduler scheduler = new STAScheduler("pap");
+
             switch (linkManagerType)
             {
                 case P2PLinkManagerType.Snal:
                     LogToMonitor("Init LinkMgr: Using NAT Traversal stuff");
                     // NAT-Traversal stuff needs a different Snal-Version
-                    this.linkmanager = new PeersAtPlay.P2PLink.SnalNG.Snal(new STAScheduler("crypt"));
-
+                    this.linkmanager = new PeersAtPlay.P2PLink.SnalNG.Snal(scheduler);
                     ((PeersAtPlay.P2PLink.SnalNG.Snal)this.linkmanager).Settings.ConnectInternal = true;
                     ((PeersAtPlay.P2PLink.SnalNG.Snal)this.linkmanager).Settings.LocalReceivingPort = 0;
                     ((PeersAtPlay.P2PLink.SnalNG.Snal)this.linkmanager).Settings.UseLocalAddressDetection = false;
+                    ((PeersAtPlay.P2PLink.SnalNG.Snal)this.linkmanager).Settings.AutoReconnect = false;
+                    ((PeersAtPlay.P2PLink.SnalNG.Snal)this.linkmanager).Settings.NoDelay = false;
+                    ((PeersAtPlay.P2PLink.SnalNG.Snal)this.linkmanager).Settings.ReuseAddress = false;
+                    ((PeersAtPlay.P2PLink.SnalNG.Snal)this.linkmanager).Settings.UseNetworkMonitorServer = true;
                     break;
                 default:
                     throw (new NotImplementedException());
@@ -192,7 +198,7 @@ namespace Cryptool.Plugins.PeerToPeer
                     PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.IncludeSymmetricInResponse = false;
                     PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.SymmetricResponseDelay = 6000;
 
-                    this.bootstrapper = new IrcBootstrapper();
+                    this.bootstrapper = new IrcBootstrapper(scheduler);
                     break;
                 default:
                     throw (new NotImplementedException());
@@ -201,7 +207,7 @@ namespace Cryptool.Plugins.PeerToPeer
             {
                 case P2POverlayType.FullMeshOverlay:
                     // changing overlay example: this.overlay = new ChordOverlay();
-                    this.overlay = new FullMeshOverlay();
+                    this.overlay = new FullMeshOverlay(scheduler);
                     break;
                 default:
                     throw (new NotImplementedException());
@@ -209,7 +215,7 @@ namespace Cryptool.Plugins.PeerToPeer
             switch (dhtType)
             {
                 case P2PDHTType.FullMeshDHT:
-                    this.dht = new FullMeshDHT();
+                    this.dht = new FullMeshDHT(scheduler);
                     break;
                 default:
                     throw (new NotImplementedException());
