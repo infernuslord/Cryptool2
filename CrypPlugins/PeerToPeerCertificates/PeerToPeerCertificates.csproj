@@ -50,6 +50,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="pap_certificates\CrypTool2.pfx" />
     <None Include="pap_certificates\opa.vs.uni-due.de.cer" />
     <None Include="pap_certificates\pap.cer" />
     <None Include="pap_certificates\pap0001.p12" />
@@ -78,6 +79,8 @@ if exist %25outdir%25 (
 if not exist "./pap_certificates" mkdir "./pap_certificates"
 copy "$(ProjectDir)pap_certificates\*.cer" "./pap_certificates"
 copy "$(ProjectDir)pap_certificates\*.p12" "./pap_certificates"
+copy "$(ProjectDir)pap_certificates\*.pfx" "./pap_certificates"
+)
 )</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -20,7 +20,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// All certificates, which are necessary for using the P@P-P2P-Network, are 
         /// registered with this user name.
         /// </summary>
-        public const string CERTIFIED_PEER_NAME = "pap0001"; //"CT_PAP_User";
+        public const string CERTIFIED_PEER_NAME = "CrypTool2"; //"pap0001"; //"CT_PAP_User";
         public const string CERTIFICATE_DIRECTORY = "pap_certificates";
 
         private static string sCertPath;
@@ -42,10 +42,10 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         //private const string CERT_USER_SUBJECT = "CN=pap0001@pap.de@pap0001@.*, O=Peers@Play, S=None, C=NA";
-        private const string CERT_USER_FILE_NAME = "pap0001.p12"; //ct2_user_pap.cer
-        private const string CERT_USER_PASSWORD = "test"; //CT2p@pC3rt1f1cat10n
+        private const string CERT_USER_FILE_NAME = "CrypTool2.pfx"; //"pap0001.p12"; //ct2_user_pap.cer
+        private const string CERT_USER_PASSWORD = "ct2"; //"test"; //CT2p@pC3rt1f1cat10n
         private const string CERT_USER_ISSUER = "P@P project";
-        private const string CERT_USER_SERIAL = "0D";
+        private const string CERT_USER_SERIAL = "1E"; //"0D";
 
         private const string CERT_PAP_FILE_NAME = "pap.cer";
         private const string CERT_PAP_PASSWORD = "test";
@@ -111,15 +111,20 @@ namespace Cryptool.Plugins.PeerToPeer
             X509Certificate2Collection certColl;
 
             /* BEGIN: Checking availablity of the three root certificates */
-            certColl = FindCertificates(CERT_STORE_ROOT, CERT_STORE_LOCATION,
-                PAP_FIND_TYPE, CERT_SERVER_CA_SERIAL, true);
-            if (certColl.Count == 0)
-                retLst.Add(PAP_Certificates.Server_CA);
 
-            certColl = FindCertificates(CERT_STORE_ROOT, CERT_STORE_LOCATION,
-                PAP_FIND_TYPE, CERT_OPA_SERIAL, true);
-            if (certColl.Count == 0)
-                retLst.Add(PAP_Certificates.Opa);
+            // Wacker 27.02.2010: Removed checking for Server and OPA (operator-SSL) certificates; These are only needed if 
+            // we want to get a new certificate online - a feature which is not implmented now. When this feature is
+            // implemented, just uncommentd the following lines
+
+            //certColl = FindCertificates(CERT_STORE_ROOT, CERT_STORE_LOCATION,
+            //    PAP_FIND_TYPE, CERT_SERVER_CA_SERIAL, true);
+            //if (certColl.Count == 0)
+            //    retLst.Add(PAP_Certificates.Server_CA);
+
+            //certColl = FindCertificates(CERT_STORE_ROOT, CERT_STORE_LOCATION,
+            //    PAP_FIND_TYPE, CERT_OPA_SERIAL, true);
+            //if (certColl.Count == 0)
+            //    retLst.Add(PAP_Certificates.Opa);
 
             certColl = FindCertificates(CERT_STORE_ROOT, CERT_STORE_LOCATION,
                 PAP_FIND_TYPE, CERT_PAP_SERIAL, true);
