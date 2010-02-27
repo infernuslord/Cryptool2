@@ -215,7 +215,7 @@ namespace Cryptool.Plugins.PeerToPeer
 
                 if (CheckAndInstallPAPCertificates())
                 {
-                    this.p2pBase.Initialize(PAPCertificate.CERTIFIED_PEER_NAME, this.settings.P2PWorldName,
+                    this.p2pBase.Initialize(this.settings.P2PPeerName, this.settings.P2PWorldName,
                         (P2PLinkManagerType)this.settings.P2PLinkMngrType, (P2PBootstrapperType)this.settings.P2PBSType,
                         (P2POverlayType)this.settings.P2POverlType, (P2PDHTType)this.settings.P2PDhtType);
                     this.PeerStarted = this.p2pBase.SynchStart();

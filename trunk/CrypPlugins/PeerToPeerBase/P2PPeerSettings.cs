@@ -51,7 +51,7 @@ namespace Cryptool.Plugins.PeerToPeer
          * Only set to true for testing issues.*/
 
         //[TaskPane("Start", "Initializes and starts Peer", null, 2, false, DisplayLevel.Beginner, ControlType.Button)]
-        [TaskPane("Start", "Initializes and starts Peer", null, 2, true, DisplayLevel.Beginner, ControlType.Button)]
+        [TaskPane("Start", "Connects to the P2P-system.", null, 2, true, DisplayLevel.Beginner, ControlType.Button)]
         public void BtnStart()
         {
             if (P2PWorldName != null)
@@ -62,12 +62,12 @@ namespace Cryptool.Plugins.PeerToPeer
             {
                 PeerStatusChanged(PeerStatus.Error);
                 // can not initialize Peer, because P2PUserName and/or P2PWorldName are missing
-                throw (new Exception("You must set P2PPeerName and/or P2PWorldName, otherwise starting the peer isn't possible"));
+                throw (new Exception("You must set the P2P username and worldname, otherwise starting the peer isn't possible"));
             }
         }
 
         //[TaskPane("Stop", "Stops the Peer", null, 3, false, DisplayLevel.Beginner, ControlType.Button)]
-        [TaskPane("Stop", "Stops the Peer", null, 3, true, DisplayLevel.Beginner, ControlType.Button)]
+        [TaskPane("Stop", "Disconnects from the P2P-system", null, 3, true, DisplayLevel.Beginner, ControlType.Button)]
         public void BtnStop()
         {
             this.p2pPeer.StopPeer();
@@ -75,7 +75,7 @@ namespace Cryptool.Plugins.PeerToPeer
             OnPropertyChanged("PeerStopped");
         }
 
-        [TaskPane("Internal state dump", "Log internal state of peer", null, 4, true, DisplayLevel.Beginner, ControlType.Button)]
+        [TaskPane("Internal state dump", "Dumps the interla state of the P2P system to syslog.", "P2P Expert Settings", 0, true, DisplayLevel.Beginner, ControlType.Button)]
         public void BtnLogInternalState()
         {
             this.p2pPeer.LogInternalState();
@@ -85,21 +85,21 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region Setting-Fields
 
-        //private string p2pPeerName;
-        //[TaskPane("P2P Peer Name", "P2P Name of the Peer.", null, 0, false, DisplayLevel.Beginner, ControlType.TextBox)]
-        //public string P2PPeerName
-        //{
-        //    get { return this.p2pPeerName; }
-        //    set
-        //    {
-        //        if (value != this.p2pPeerName)
-        //        {
-        //            this.p2pPeerName = value;
-        //            OnPropertyChanged("P2PPeerName");
-        //            HasChanges = true;
-        //        }
-        //    }
-        //}
+        private string p2pPeerName = PAPCertificate.CERTIFIED_PEER_NAME;
+        [TaskPane("P2P Username", "Your username for the peers@play-system. Note that you need to have a corresponding certificate installed on your computer. If you don't know what this means, just leave the default \"CrypTool2\"-username and everything will be taken care of.", null, 0, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        public string P2PPeerName
+        {
+            get { return this.p2pPeerName; }
+            set
+            {
+                if (value != this.p2pPeerName)
+                {
+                    this.p2pPeerName = value;
+                    OnPropertyChanged("P2PPeerName");
+                    HasChanges = true;
+                }
+            }
+        }
 
         private string p2pWorldName;
         [TaskPane("P2P World", "P2P Name of the world.", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
@@ -136,7 +136,7 @@ namespace Cryptool.Plugins.PeerToPeer
         //}
 
         private bool log2Monitor = true;
-        [TaskPane("Log2Monitor", "Logs all p2p actions to the PeersAtPlay LogMonitor", "P2P Expert Settings", 1, false,
+        [TaskPane("Use syslogging", "Logs all p2p actions to the to a sylog-daemon on localhost.", "P2P Expert Settings", 1, false,
             DisplayLevel.Beginner, ControlType.CheckBox)]
         public bool Log2Monitor
         {
