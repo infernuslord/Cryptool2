@@ -5930,6 +5930,8 @@
         <member name="M:AnotherEditor.DragDrop.ProjectManager.GetPersistanceManager">
             <summary>
             Gets the persistance manager based on singleton pattern. Event subscription is done here.
+            
+            mwander 20100227: Singleton requires instance variable to be static or otherwise unique -- this is not singleton.
             </summary>
             <returns></returns>
         </member>
