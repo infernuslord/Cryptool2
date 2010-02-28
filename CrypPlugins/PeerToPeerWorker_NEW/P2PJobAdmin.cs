@@ -78,18 +78,6 @@ namespace Cryptool.Plugins.PeerToPeer
                 this.jobAdminBase.StartWorkerControl(this.settings.TopicName, this.settings.CheckPublishersAvailability * 1000, this.settings.PublishersReplyTimespan * 1000);
                 GuiLogMessage("Worker registers with Publisher!", NotificationLevel.Info);
             }
-            if (e.PropertyName == "BtnSolutionFound")
-            {
-                if (this.jobAdminBase.Started)
-                {
-                    this.jobAdminBase.SolutionFound(new byte[] { 0 });
-                    GuiLogMessage("Solution found message sent to Manager.", NotificationLevel.Info);
-                }
-                else
-                {
-                    GuiLogMessage("Worker isn't initialized, so this action isn't possible.", NotificationLevel.Info);
-                }
-            }
         }
         #endregion
 

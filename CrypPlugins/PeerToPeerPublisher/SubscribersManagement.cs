@@ -58,17 +58,14 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             bool retValue = false;
 
+            // locking checkList instead of activeSubsList, because all other functions work on checkList, not on activeSubsList
             lock (this.checkList)
             {
                 if (!this.checkList.ContainsKey(subscriberId))
                 {
                     this.dateTimeNow = DateTime.Now;
-                    // locking checkList instead of activeSubsList, because all other functions work on checkList, not on activeSubsList
-                    lock (this.checkList)
-                    {
-                        this.checkList.Add(subscriberId, this.dateTimeNow);
-                        retValue = true;
-                    }
+                    this.checkList.Add(subscriberId, this.dateTimeNow);
+                    retValue = true;
                 }
             } // end lock
             return retValue;
@@ -131,19 +128,28 @@ namespace Cryptool.Plugins.PeerToPeer
 
             lock (this.checkList)
             {
-                foreach (KeyValuePair<PeerId, DateTime> entry in this.checkList)
+                // added try/catch because checkList could be changed while iterating on it = boom!
+                try
                 {
-                    DateTime valueWithExpirationTime = entry.Value.AddMilliseconds(ExpirationTime);
+                    foreach (KeyValuePair<PeerId, DateTime> entry in this.checkList)
+                    {
+                        DateTime valueWithExpirationTime = entry.Value.AddMilliseconds(ExpirationTime);
 
-                    // if time is expired AND the ID is already in the secondChanceList --> Add to remove list
-                    if (this.dateTimeNow > valueWithExpirationTime && secondChanceList.Contains(entry.Key))
-                    {
-                        removeSubscribersFromDict.Add(entry.Key);
+                        // if time is expired AND the ID is already in the secondChanceList --> Add to remove list
+                        if (this.dateTimeNow > valueWithExpirationTime && secondChanceList.Contains(entry.Key))
+                        {
+                            removeSubscribersFromDict.Add(entry.Key);
+                        }
+                        else if (this.dateTimeNow > valueWithExpirationTime) //otherwise give a second chance
+                        {
+                            this.secondChanceList.Add(entry.Key);
+                        }
                     }
-                    else if (this.dateTimeNow > valueWithExpirationTime) //otherwise give a second chance
-                    {
-                        this.secondChanceList.Add(entry.Key);
-                    }
+                }
+                catch (Exception ex)
+                {
+                    // don't handle this case, because outdated Peers will be added to the 2ndChanceList
+                    // or will be removed the next time
                 }
             } //end lock(this.checkList)
 

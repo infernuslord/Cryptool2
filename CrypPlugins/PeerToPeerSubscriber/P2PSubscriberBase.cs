@@ -148,10 +148,10 @@ namespace Cryptool.Plugins.PeerToPeer
 
             this.Started = true;
 
-            CheckPublishersAvailability2();
+            CheckPublishersAvailability();
         }
 
-        private void CheckPublishersAvailability2()
+        private void CheckPublishersAvailability()
         {
             // retrieve publisher information from the DHT
             PeerId pid = DHT_CommonManagement.GetTopicsPublisherId(ref this.p2pControl, this.sTopic);
@@ -210,9 +210,9 @@ namespace Cryptool.Plugins.PeerToPeer
                 case PubSubMessageType.Register:
                 case PubSubMessageType.Unregister:
                     GuiLogging(msgType.ToString().ToUpper() + " received from PUBLISHER.", NotificationLevel.Debug);
-                    // continuously try to get a unregister and than re-register with publisher
+                    // continuously trying to get a unregister and than re-register with publisher
                     Stop(msgType);
-                    CheckPublishersAvailability2();
+                    CheckPublishersAvailability();
                     break;
                 case PubSubMessageType.Solution:
                     Stop(msgType);
@@ -310,7 +310,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="state"></param>
         private void OnCheckPubAvailability(object sender, ElapsedEventArgs e)
         {
-            CheckPublishersAvailability2();
+            CheckPublishersAvailability();
         }
 
         /// <summary>
@@ -321,7 +321,7 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             GuiLogging("TIMEOUT: Waiting for registering accepted message from publisher!", NotificationLevel.Debug);
             // try to register again
-            CheckPublishersAvailability2();
+            CheckPublishersAvailability();
         }
 
         /// <summary>
@@ -334,7 +334,7 @@ namespace Cryptool.Plugins.PeerToPeer
             this.timeoutForPublishersPong.Stop();
             // try to get an active publisher and re-register
 
-            CheckPublishersAvailability2();
+            CheckPublishersAvailability();
         }
 
         /// <summary>
