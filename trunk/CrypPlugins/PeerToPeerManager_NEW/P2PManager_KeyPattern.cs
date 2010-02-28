@@ -617,6 +617,8 @@ namespace Cryptool.Plugins.PeerToPeer
         void p2pManager_OnAllJobResultsReceived(BigInteger lastJobId)
         {
             timerProcessingTimeReset();
+
+            this.settings.MngStatusChanged(P2PManager_KeyPatternSettings.MngStatus.Finished);
         }
 
         void p2pManager_OnJobCanceled(BigInteger jobId)

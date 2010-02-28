@@ -7,6 +7,7 @@ using Cryptool.PluginBase.Control;
 //using System.Threading;
 using System.Timers;
 using System.IO;
+using System.Threading;
 
 /*
  * TODO:
@@ -25,7 +26,7 @@ namespace Cryptool.Plugins.PeerToPeer
         protected IP2PControl p2pControl;
         protected SubscriberManagement peerManagement;
         private string topic = String.Empty;
-        private Timer timerWaitingForAliveMsg;
+        private System.Timers.Timer timerWaitingForAliveMsg;
         
         private PeerId ownPeerId;
         /// <summary>
@@ -48,7 +49,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// Interval for waiting for other Publishers Pong in milliseconds!
         /// </summary>
         private const long INTERVAL_WAITING_FOR_OTHER_PUBS_PONG = 10000;
-        private Timer waitingForOtherPublishersPong;
+        private System.Timers.Timer waitingForOtherPublishersPong;
         /// <summary>
         /// if this value is set, you are between the TimeSpan of checking liveness of the other peer.
         /// If Timespan runs out without receiving a Pong-Msg from the other Publisher, assume its functionality
@@ -56,27 +57,32 @@ namespace Cryptool.Plugins.PeerToPeer
         private PeerId otherPublisherPeer = null;
         private bool otherPublisherHadResponded = false;
 
+        /// <summary>
+        /// counter, which counts the trials to assume publishers/managers functionality
+        /// </summary>
+        int cycleCheckCount = 0;
+
         #endregion
 
         public P2PPublisherBase(IP2PControl p2pControl)
         {
             this.p2pControl = p2pControl;
 
-            this.timerWaitingForAliveMsg = new Timer();
+            this.timerWaitingForAliveMsg = new System.Timers.Timer();
             this.timerWaitingForAliveMsg.AutoReset = true;
             this.timerWaitingForAliveMsg.Elapsed += new ElapsedEventHandler(OnWaitingForAliveMsg);
 
-            this.waitingForOtherPublishersPong = new Timer();
+            this.waitingForOtherPublishersPong = new System.Timers.Timer();
             this.waitingForOtherPublishersPong.AutoReset = false;
             this.waitingForOtherPublishersPong.Interval = INTERVAL_WAITING_FOR_OTHER_PUBS_PONG;
             this.waitingForOtherPublishersPong.Elapsed += new ElapsedEventHandler(OnWaitingForOtherPublishersPong);
         }
 
-        // Publisher-exchange extension - Arnie 2010.02.02
+        // Publisher-exchange extension - Arnie 2010.02.02        
         /// <summary>
         /// Callback function for waitingForOtherPublishersPong-object. Will be only executed, when a
         /// different Publisher-ID was found in the DHT, to check if the "old" Publisher is still
-        /// alive!
+        /// alive! When "old" Publisher is still alive, try as long as it leaves the network!
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -84,8 +90,13 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             if (this.otherPublisherHadResponded)
             {
-                GuiLogging("Can't assume functionality of an alive Publishers. So starting this workspace isn't possible!", NotificationLevel.Error);
-                Stop(PubSubMessageType.PublisherRivalryProblem);
+                //GuiLogging("Can't assume functionality of an alive Publishers. So starting this workspace isn't possible!", NotificationLevel.Error);
+                //Stop(PubSubMessageType.PublisherRivalryProblem);
+                cycleCheckCount++;
+                GuiLogging("Can't assume functionality of an alive Publishers. So waiting till the other Manager leaves the network! Cycle: " + cycleCheckCount, NotificationLevel.Warning);
+                // wait one second longer with every trial
+                Thread.Sleep(cycleCheckCount * 1000);
+                Start(this.topic, this.aliveMessageInterval);
             }
             else
             {
@@ -217,6 +228,15 @@ namespace Cryptool.Plugins.PeerToPeer
         /// the LAST message from the publisher correctly!</param>
         public virtual void Stop(PubSubMessageType msgType)
         {
+            GuiLogging("Stopping all timers.", NotificationLevel.Debug);
+
+            this.timerWaitingForAliveMsg.Stop();
+            this.waitingForOtherPublishersPong.Stop();
+
+            GuiLogging("Deregister message-received-events", NotificationLevel.Debug);
+            this.p2pControl.OnPayloadMessageReceived -= p2pControl_OnPayloadMessageReceived;
+            this.p2pControl.OnSystemMessageReceived -= p2pControl_OnSystemMessageReceived;
+
             // don't remove informations, when it occurs a rivalry problem between two
             // Publishers, because otherwise this will kill the whole topic-solution-network.
             if (this.p2pControl != null && this.p2pControl.PeerStarted() && msgType != PubSubMessageType.PublisherRivalryProblem)
@@ -232,21 +252,13 @@ namespace Cryptool.Plugins.PeerToPeer
 
                 // send unregister message to all subscribers
                 int i = SendInternalMsg(msgType);
-                GuiLogging("Unregister messages were sent to " + i.ToString() + " subscribers!", NotificationLevel.Info);
+                GuiLogging("Unregister messages were sent to " + i.ToString() + " subscribers/workers!", NotificationLevel.Info);
             }
-
-            GuiLogging("Stopping all timers.", NotificationLevel.Debug);
-
-            this.timerWaitingForAliveMsg.Stop();
-            this.waitingForOtherPublishersPong.Stop();
-
-            GuiLogging("Deregister message-received-events", NotificationLevel.Debug);
-            this.p2pControl.OnPayloadMessageReceived -= p2pControl_OnPayloadMessageReceived;
-            this.p2pControl.OnSystemMessageReceived -= p2pControl_OnSystemMessageReceived;
 
             GuiLogging("Publisher completely stopped!", NotificationLevel.Info);
 
             this.Started = false;
+            cycleCheckCount = 0;
         }
 
         #endregion

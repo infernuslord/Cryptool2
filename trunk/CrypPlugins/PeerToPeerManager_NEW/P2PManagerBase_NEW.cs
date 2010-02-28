@@ -162,6 +162,11 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             if (OnAllJobResultsReceived != null)
                 OnAllJobResultsReceived(jobId);
+
+            /* New Feature. When all JobResults are received, stop Manager, so another 
+             * Manager can replace it and then allocate Jobs to the free workers*/
+            GuiLogging("All Job results received, so deregistering from the solution network to accomodate this topic for another Manager.",NotificationLevel.Info);
+            Stop(PubSubMessageType.Unregister);
         }
 
         protected override void PeerCompletelyStarted()
