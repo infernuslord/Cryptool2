@@ -206,7 +206,11 @@ namespace WebService
             }
             if (e.PropertyName.Equals("publishKey"))
             {
-                this.publicKey = this.exportPublicKey();
+               // this.publicKey = this.exportPublicKey();
+                if (PublicKeyControl != null)
+                {
+                    PublicKeyControl.setPublicKey(this.exportPublicKey());
+                }
             }
             if (e.PropertyName.Equals("exportWSDL"))
             {   if(Control!=null)
@@ -425,6 +429,8 @@ namespace WebService
             bool signatureValid = true;
            // this.checkSchema();
             this.compiled();
+            if (this.inputString == null)
+                return;
             if (this.inputString.GetElementsByTagName("ds:Signature") != null)
             {
 
@@ -662,7 +668,7 @@ namespace WebService
 
         }
         
-        [PropertyInfo(Direction.ControlMaster,"Public-Key output", "Encryption Key",null,DisplayLevel.Beginner)]
+    //    [PropertyInfo(Direction.ControlMaster,"Public-Key output", "Encryption Key",null,DisplayLevel.Beginner)]
       public string publicKey
     {
         get
@@ -677,7 +683,17 @@ namespace WebService
         }
            
     }
-
+        private IControlPublicKey publicKeyControl;
+        [PropertyInfo(Direction.ControlMaster, "Public-Key output", "Encryption Key", null, DisplayLevel.Beginner)]
+        public IControlPublicKey PublicKeyControl
+        {
+            get { return publicKeyControl; }
+            set
+            {
+                publicKeyControl = value;
+                publicKeyControl.setPublicKey(this.publicKey);
+            }
+        }
         private IControlWsdl control;
         [PropertyInfo(Direction.ControlMaster, "WSDL output", "Web Service Description", null, DisplayLevel.Beginner)]
         public IControlWsdl Control
@@ -702,7 +718,7 @@ namespace WebService
                 OnPropertyChanged("Wsdl");
             }
         }
-        [PropertyInfo(Direction.InputData, "SOAP output", "Response from Web Service", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, "XmlOutputConverter")]
+        [PropertyInfo(Direction.OutputData, "SOAP output", "Response from Web Service", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, "XmlOutputConverter")]
         public XmlDocument OutputString
         {
             get { return this.outputString; }
