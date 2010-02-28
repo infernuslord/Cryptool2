@@ -79,14 +79,17 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <returns></returns>
         public bool Update(PeerId subscriberId)
         {
-            this.dateTimeNow = DateTime.Now;
-            if (this.checkList.ContainsKey(subscriberId))
+            lock (this.checkList)
             {
-                this.checkList[subscriberId] = this.dateTimeNow;
-                // remove subscriber from this list, because it's updated now and hence alive!
-                if (this.secondChanceList.Contains(subscriberId))
-                    this.secondChanceList.Remove(subscriberId);
-                return true;
+                this.dateTimeNow = DateTime.Now;
+                if (this.checkList.ContainsKey(subscriberId))
+                {
+                    this.checkList[subscriberId] = this.dateTimeNow;
+                    // remove subscriber from this list, because it's updated now and hence alive!
+                    if (this.secondChanceList.Contains(subscriberId))
+                        this.secondChanceList.Remove(subscriberId);
+                    return true;
+                }
             }
             return false;
         }
@@ -129,8 +132,9 @@ namespace Cryptool.Plugins.PeerToPeer
             lock (this.checkList)
             {
                 // added try/catch because checkList could be changed while iterating on it = boom!
-                try
-                {
+                // wander 20100228: should not happen anymore since Update() locks now --> commented out
+                //try
+                //{
                     foreach (KeyValuePair<PeerId, DateTime> entry in this.checkList)
                     {
                         DateTime valueWithExpirationTime = entry.Value.AddMilliseconds(ExpirationTime);
@@ -145,12 +149,12 @@ namespace Cryptool.Plugins.PeerToPeer
                             this.secondChanceList.Add(entry.Key);
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    // don't handle this case, because outdated Peers will be added to the 2ndChanceList
-                    // or will be removed the next time
-                }
+                //}
+                //catch (Exception ex)
+                //{
+                //    // don't handle this case, because outdated Peers will be added to the 2ndChanceList
+                //    // or will be removed the next time
+                //}
             } //end lock(this.checkList)
 
             foreach (PeerId removeSub in removeSubscribersFromDict)
