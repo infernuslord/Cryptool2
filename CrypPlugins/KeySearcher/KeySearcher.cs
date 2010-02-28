@@ -668,7 +668,7 @@ namespace KeySearcher
                     //can not calculate time span
                 }
 
-                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).keysPerSecond.Text = "" + doneKeys;
                     if (timeleft != new TimeSpan(-1))
@@ -711,10 +711,10 @@ namespace KeySearcher
             }//end if
 
 
-            if (!stop && QuickWatchPresentation.IsVisible)
+            else if (!stop && QuickWatchPresentation.IsVisible)
             {
 
-                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).entries.Clear();
                     linkedListNode = costList.First;                    
