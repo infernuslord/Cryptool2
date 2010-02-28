@@ -209,7 +209,7 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
             //dirty workaround because P2PJobAdmin sends the result msg twice...
             //else
             //    throw(new Exception("Received result from a job, which isn't in 'patternsInProgress' List."));
-            if (this.patternPool.Count() == 0 && this.allocatedPatterns.Count == 0 && this.patternBuffer.Count == 0)
+            if (this.patternPool.Count() == 0 && this.patternsInProgress.Count == 0 && this.allocatedPatterns.Count == 0 && this.patternBuffer.Count == 0)
             {
                 if (OnLastResultReceived != null)
                     OnLastResultReceived(jobId);

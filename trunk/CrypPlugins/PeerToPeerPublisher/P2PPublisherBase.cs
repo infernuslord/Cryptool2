@@ -93,7 +93,7 @@ namespace Cryptool.Plugins.PeerToPeer
                 //GuiLogging("Can't assume functionality of an alive Publishers. So starting this workspace isn't possible!", NotificationLevel.Error);
                 //Stop(PubSubMessageType.PublisherRivalryProblem);
                 cycleCheckCount++;
-                GuiLogging("Can't assume functionality of an alive Publishers. So waiting till the other Manager leaves the network! Cycle: " + cycleCheckCount, NotificationLevel.Warning);
+                GuiLogging("Can't assume functionality of an alive Publishers. So waiting till the other Manager leaves the network! Cycle: " + cycleCheckCount, NotificationLevel.Info);
                 // wait one second longer with every trial
                 Thread.Sleep(cycleCheckCount * 1000);
                 Start(this.topic, this.aliveMessageInterval);
