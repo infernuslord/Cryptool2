@@ -219,7 +219,7 @@ namespace Cryptool.Plugins.PeerToPeer
 
             if (QuickWatchPresentation.IsVisible)
             {
-                ((P2PManagerPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                ((P2PManagerPresentation)QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {                   
                     //((P2PManagerPresentation)QuickWatchPresentation).txtTimeInProcess.Text = "not started";
                     ((P2PManagerPresentation)QuickWatchPresentation).txtProgressInPercent.Text = "not started";
@@ -233,7 +233,7 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             if (QuickWatchPresentation.IsVisible)
             {
-                ((P2PManagerPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                ((P2PManagerPresentation)QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     // calculate and display current processing time span
                     TimeSpan processTime = DateTime.Now.Subtract(this.p2pManager.StartWorkingTime);
@@ -299,7 +299,7 @@ namespace Cryptool.Plugins.PeerToPeer
 
             if (QuickWatchPresentation.IsVisible)
             {
-                ((P2PManagerPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                ((P2PManagerPresentation)QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     ((P2PManagerPresentation)QuickWatchPresentation).txtProgressInPercent.Text = "" + Math.Round(progressInPercent, 2) + "%";
                     ((P2PManagerPresentation)QuickWatchPresentation).txtTotal.Text = "" + jobsTotalAmount.ToString();
@@ -356,7 +356,8 @@ namespace Cryptool.Plugins.PeerToPeer
                 int iJobId = (int)jobId.LongValue();
                 if (QuickWatchPresentation.IsVisible)
                 {
-                    ((P2PManagerPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    //((P2PManagerPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    ((P2PManagerPresentation)QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
                         try
                         {
@@ -379,7 +380,8 @@ namespace Cryptool.Plugins.PeerToPeer
                 int count = (int)bigInteger.LongValue();
                 if (QuickWatchPresentation.IsVisible)
                 {
-                    ((P2PManagerPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    //((P2PManagerPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    ((P2PManagerPresentation)QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
                         if(((P2PManagerPresentation)QuickWatchPresentation).PrgChunks != null)
                             ((P2PManagerPresentation)QuickWatchPresentation).PrgChunks.JobCount = count;
