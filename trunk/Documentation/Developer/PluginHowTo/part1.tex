@@ -23,6 +23,7 @@ Usually the installation of Visual Studio also installs the .NET framework. In o
 \label{AccessingSubversion}
 
 Now you will need a way of accessing and downloading the source code. In the CrypTool 2.0 project we use Subversion (SVN) for version control, and hence you need an \textbf{SVN client}, e.g.\ \textbf{TortoiseSVN} or the \textbf{svn commandline from cygwin}. It does not matter which client you use, but if you have never worked with SVN before, we suggest using \href{http://www.tortoisesvn.net/}{TortoiseSVN}, since it offers a nice Windows Explorer integration of SVN.
+\clearpage
 
 \subsection*{The CrypTool2 SVN URL}
 \label{TheCrypTool2SVNURL}
@@ -38,7 +39,22 @@ To access the repository, you must provide a username and password. If you are a
 
 As mentioned above, in order to access the SVN repository one of the best options is \href{http://www.tortoisesvn.net/}{TortoiseSVN}. We will describe here how to use the basics of the program, although you should be able to use any SVN client in a similar fashion.
 
-First install TortoiseSVN (which unfortunately requires you to reboot your computer) and then create a directory (for instance ``CrypTool2") for storing the local working files somewhere on your computer. Right-click on this directory and select ``SVN Checkout" from the context menu. A window will appear in which you will be asked for the URL of the repository as given above. The ``Checkout directory" should already be filled in correctly with your new folder. Then just hit ``OK", accept the certificate (if necessary), and enter your login information as described above. Mark the checkbox for saving your credentials if you don't want to enter them every time you work with the repository. Then hit ``OK", and now the whole CrypTool2 repository should be checked out into your chosen directory.
+\begin{figure}[h!]
+	\centering
+		\includegraphics[width=0.40\textwidth]{figures/tortoise_svn_checkout.jpg}
+	\caption{Selecting ``SVN Checkout" from the context menu after installing TortoiseSVN.}
+	\label{fig:tortoise_svn_checkout}
+\end{figure}
+
+First install TortoiseSVN (which unfortunately requires you to reboot your computer) and then create a directory (for instance ``CrypTool2") for storing the local working files somewhere on your computer. Right-click on this directory and select ``SVN Checkout" from the context menu. A window will appear in which you will be asked for the URL of the repository; use the address given above, as seen in Figure \ref{fig:tortoise_svn_checkout2}. The ``Checkout directory" should already be filled in correctly with your new folder. Then just hit ``OK", accept the certificate (if necessary), and enter your login information as described above. Mark the checkbox for saving your credentials if you don't want to enter them every time you work with the repository. Then hit ``OK", and now the whole CrypTool2 repository should be checked out into your chosen directory.
+\clearpage
+
+\begin{figure}[h!]
+	\centering
+		\includegraphics[width=0.60\textwidth]{figures/tortoise_svn_checkout2.jpg}
+	\caption{Checking out the CrypTool2 repository.}
+	\label{fig:tortoise_svn_checkout2}
+\end{figure}
 
 Later on, if changes have been made in the repository and you want to update your working copy, you can do this by right-clicking on any directory within the working files and choosing ``SVN Update" from the context menu. You should do this often to maintain a current version of the files.
 
@@ -48,6 +64,13 @@ A TortoiseSVN tutorial can be found \href{http://www.mind.ilstu.edu/research/rob
 \label{CommitingYourChanges}
 
 If you are a registered developer, you can commit your file changes to the public CrypTool2 repository. Right-click on the directory within the working files that contains your changes and select ``SVN Commit" from the context menu to upload your changes. Please always provide \textit{meaningful descriptions} of your updates. You should commit your sources to our SVN repository as often as you can to ensure your interoperability with the rest of the project, but only commit code that successfully compiles and runs!
+
+\begin{figure}[h!]
+	\centering
+		\includegraphics[width=0.40\textwidth]{figures/tortoise_svn_commit.jpg}
+	\caption{Selecting ``SVN Commit" from the context menu.}
+	\label{fig:tortoise_svn_commit}
+\end{figure}
 
 You can use command words in the SVN comment to link your changes to a particular ticket. The command syntax is as follows:
 
@@ -108,6 +131,7 @@ override-bad-extension:\ someLib.dll
 \end{center}
 
 Please note that any text after the colon and the whitespace will be treated as the file name. Therefore, do not use quotation marks and do not write any text after the file name.
+\clearpage
 
 \section{Compiling the sources}
 \label{CompilingTheSources}
