@@ -25,16 +25,16 @@ Usually the installation of Visual Studio also installs the .NET framework. In o
 Now you will need a way of accessing and downloading the source code. In the CrypTool 2.0 project we use Subversion (SVN) for version control, and hence you need an \textbf{SVN client}, e.g.\ \textbf{TortoiseSVN} or the \textbf{svn commandline from cygwin}. It does not matter which client you use, but if you have never worked with SVN before, we suggest using \href{http://www.tortoisesvn.net/}{TortoiseSVN}, since it offers a nice Windows Explorer integration of SVN.
 \clearpage
 
-\subsection*{The CrypTool2 SVN URL}
+\subsection{The CrypTool2 SVN URL}
 \label{TheCrypTool2SVNURL}
 
 Our code repository is accessable at the following URL:
 
 \url{https://www.cryptool.org/svn/CrypTool2/}
 
-To access the repository, you must provide a username and password. If you are a guest and just want to download our source code, you can use ``anonymous" as the username and an empty password. If you are a registered developer, just use your provided username and password (which should be the same as for the wiki).
+To access the repository, you must provide a username and password. If you are a guest and just want to download our source code, you can use ``anonymous'' as the username and an empty password. If you are a registered developer, just use your provided username and password (which should be the same as for the wiki).
 
-\subsection*{Accessing the repository with TortoiseSVN}
+\subsection{Accessing the repository with TortoiseSVN}
 \label{AccessingTheRepositoryWithTortoiseSVN}
 
 As mentioned above, in order to access the SVN repository one of the best options is \href{http://www.tortoisesvn.net/}{TortoiseSVN}. We will describe here how to use the basics of the program, although you should be able to use any SVN client in a similar fashion.
@@ -42,11 +42,11 @@ As mentioned above, in order to access the SVN repository one of the best option
 \begin{figure}[h!]
 	\centering
 		\includegraphics[width=0.40\textwidth]{figures/tortoise_svn_checkout.jpg}
-	\caption{Selecting ``SVN Checkout" from the context menu after installing TortoiseSVN.}
+	\caption{Selecting ``SVN Checkout'' from the context menu after installing TortoiseSVN.}
 	\label{fig:tortoise_svn_checkout}
 \end{figure}
 
-First install TortoiseSVN (which unfortunately requires you to reboot your computer) and then create a directory (for instance ``CrypTool2") for storing the local working files somewhere on your computer. Right-click on this directory and select ``SVN Checkout" from the context menu. A window will appear in which you will be asked for the URL of the repository; use the address given above, as seen in Figure \ref{fig:tortoise_svn_checkout2}. The ``Checkout directory" should already be filled in correctly with your new folder. Then just hit ``OK", accept the certificate (if necessary), and enter your login information as described above. Mark the checkbox for saving your credentials if you don't want to enter them every time you work with the repository. Then hit ``OK", and now the whole CrypTool2 repository should be checked out into your chosen directory.
+First install TortoiseSVN (which unfortunately requires you to reboot your computer) and then create a directory (for instance ``CrypTool2'') for storing the local working files somewhere on your computer. Right-click on this directory and select ``SVN Checkout'' from the context menu. A window will appear in which you will be asked for the URL of the repository; use the address given above, as seen in Figure \ref{fig:tortoise_svn_checkout2}. The ``Checkout directory'' should already be filled in correctly with your new folder. Then just hit ``OK'', accept the certificate (if necessary), and enter your login information as described above. Mark the checkbox for saving your credentials if you don't want to enter them every time you work with the repository. Then hit ``OK'', and now the whole CrypTool2 repository should be checked out into your chosen directory.
 \clearpage
 
 \begin{figure}[h!]
@@ -56,19 +56,19 @@ First install TortoiseSVN (which unfortunately requires you to reboot your compu
 	\label{fig:tortoise_svn_checkout2}
 \end{figure}
 
-Later on, if changes have been made in the repository and you want to update your working copy, you can do this by right-clicking on any directory within the working files and choosing ``SVN Update" from the context menu. You should do this often to maintain a current version of the files.
+Later on, if changes have been made in the repository and you want to update your working copy, you can do this by right-clicking on any directory within the working files and choosing ``SVN Update'' from the context menu. You should do this often to maintain a current version of the files.
 
 A TortoiseSVN tutorial can be found \href{http://www.mind.ilstu.edu/research/robots/iris4/developers/svntutorial}{here}.
 
-\subsection*{Committing your changes}
+\subsection{Committing your changes}
 \label{CommitingYourChanges}
 
-If you are a registered developer, you can commit your file changes to the public CrypTool2 repository. Right-click on the directory within the working files that contains your changes and select ``SVN Commit" from the context menu to upload your changes. Please always provide \textit{meaningful descriptions} of your updates. You should commit your sources to our SVN repository as often as you can to ensure your interoperability with the rest of the project, but only commit code that successfully compiles and runs!
+If you are a registered developer, you can commit your file changes to the public CrypTool2 repository. Right-click on the directory within the working files that contains your changes and select ``SVN Commit'' from the context menu to upload your changes. Please always provide \textit{meaningful descriptions} of your updates. You should commit your sources to our SVN repository as often as you can to ensure your interoperability with the rest of the project, but only commit code that successfully compiles and runs!
 
 \begin{figure}[h!]
 	\centering
 		\includegraphics[width=0.40\textwidth]{figures/tortoise_svn_commit.jpg}
-	\caption{Selecting ``SVN Commit" from the context menu.}
+	\caption{Selecting ``SVN Commit'' from the context menu.}
 	\label{fig:tortoise_svn_commit}
 \end{figure}
 
@@ -110,7 +110,7 @@ Changed blah and foo to do this or that.\ Fixes \#10 and \#12, and refs \#12.
 
 This will close \#10 and \#12, and add a note to \#12.
 
-\subsection*{Ignore patterns}
+\subsection{Ignore patterns}
 \label{IgnorePatterns}
 
 Please only check in proper source code by using the following \textbf{ignore patterns}:
@@ -136,8 +136,8 @@ Please note that any text after the colon and the whitespace will be treated as 
 \section{Compiling the sources}
 \label{CompilingTheSources}
 
-By this point you should have checked out a copy of the entire CrypTool repository. Compiling is pretty easy; just go to the \textit{trunk/} directory and open the \textbf{\textit{CrypTool 2.0.sln}} Visual Studio solution. The Visual Studio IDE should open with all the working plugins components nicely arranged. In case you are now starting Visual Studio for the first time, you will have to choose your settings. Just select either ``most common" or ``C\#" --- you can change this at any time later. On the right side is the project explorer, where you can see all the subprojects included in the solution. Look for the project \textbf{\textit{CrypWin.exe}} there. Once you have found it, right-click on it and select ``Set as StartUp-Project" from the context menu. Next, go to the menu bar and select ``Build" $\rightarrow$ ``Build Solution".
+By this point you should have checked out a copy of the entire CrypTool repository. Compiling is pretty easy; just go to the \textit{trunk/} directory and open the \textbf{\textit{CrypTool 2.0.sln}} Visual Studio solution. The Visual Studio IDE should open with all the working plugins components nicely arranged. In case you are now starting Visual Studio for the first time, you will have to choose your settings. Just select either ``most common'' or ``C\#'' --- you can change this at any time later. On the right side is the project explorer, where you can see all the subprojects included in the solution. Look for the project \textbf{\textit{CrypWin.exe}} there. Once you have found it, right-click on it and select ``Set as StartUp-Project'' from the context menu. Next, go to the menu bar and select ``Build'' $\rightarrow$ ``Build Solution''.
 
-Then go to ``Debug" and select ``Start Debugging". CrypTool 2.0 should now start for the first time with your own compiled code. Presumably you have not changed anything yet, but you now have your own build of all the components (with the exception of CrypWin and AnotherEditor, since they are available only as binaries). If the program does not compile or start correctly, please consult our \href{https://www.cryptool.org/trac/CrypTool2/wiki/FAQ}{FAQ} and let us know if you found a bug.
+Then go to ``Debug'' and select ``Start Debugging''. CrypTool 2.0 should now start for the first time with your own compiled code. Presumably you have not changed anything yet, but you now have your own build of all the components (with the exception of CrypWin and AnotherEditor, since they are available only as binaries). If the program does not compile or start correctly, please consult our \href{https://www.cryptool.org/trac/CrypTool2/wiki/FAQ}{FAQ} and let us know if you found a bug.
 
 If you are a \textbf{core developer}, hence somebody who can also compile CryWin and AnotherEditor, you should use the \textbf{\textit{CrypTool 2.0.sln}} solution from the \textit{trunk/CoreDeveloper/} directory (which will \textit{not} be visible to you if you are not a core developer). As a core developer, be aware that when you compile, you \textbf{change the \textit{CryWin.exe}} that is visible to everybody else. Thus, when doing a check-in, please make sure you \textit{really} want to check in a new binary. Core developers can also build a new setup and publish it as beta release on the website. This process is explained in the wiki at \url{https://www.cryptool.org/trac/CrypTool2/wiki/BuildSetup}.

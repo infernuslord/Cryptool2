@@ -5,7 +5,7 @@ In this chapter we provide step-by-step instructions for implementing your own C
 \section{Creating a new project}
 \label{sec:CreatingANewProject}
 
-To begin, open Visual Studio, go to the menu bar and select ``File"~$\rightarrow$ ``New" $\rightarrow$ ``Project\ldots ". The following window will appear:
+To begin, open Visual Studio, go to the menu bar and select ``File''~$\rightarrow$ ``New'' $\rightarrow$ ``Project\ldots ''. The following window will appear:
 
 \begin{figure}[h!]
 	\centering
@@ -14,12 +14,12 @@ To begin, open Visual Studio, go to the menu bar and select ``File"~$\rightarrow
 	\label{fig:vs_create_new_project}
 \end{figure}
 
-\noindent If you are using Visual Studio 2008, select \textbf{``.NET-Framework 3.5"} as the target framework; the Express Edition will automatically choose the target framework. Then choose \textbf{``Class Library"} as the default template, as this will build the project for your plugin as a DLL file. Give the project a unique and meaningful name (such as ``Caesar" in our case), and choose a location to save it to. (The Express Edition will ask for a save location later when you close your project or environment). Select the subdirectory ``CrypPlugins" from your SVN trunk as the location. Finally, confirm by pressing the ``OK" button. Note that creating a new project in this manner also creates a new solution into which the project is placed.
+\noindent If you are using Visual Studio 2008, select \textbf{``.NET-Framework 3.5''} as the target framework; the Express Edition will automatically choose the target framework. Then choose \textbf{``Class Library''} as the default template, as this will build the project for your plugin as a DLL file. Give the project a unique and meaningful name (such as ``Caesar'' in our case), and choose a location to save it to. (The Express Edition will ask for a save location later when you close your project or environment). Select the subdirectory ``CrypPlugins'' from your SVN trunk as the location. Finally, confirm by pressing the ``OK'' button. Note that creating a new project in this manner also creates a new solution into which the project is placed.
 
 \begin{figure}[h!]
 	\centering
 		\includegraphics[width=0.80\textwidth]{figures/save_solution_csharp_express.JPG}
-	\caption{The Visual Studio C\# Express Edition ``Save Project" dialog window.}
+	\caption{The Visual Studio C\# Express Edition ``Save Project'' dialog window.}
 	\label{fig:save_solution_csharp_express}
 \end{figure}
 
@@ -44,7 +44,7 @@ To include our new plugin in the CrypTool program, we must first add a reference
 	\label{fig:add_reference}
 \end{figure}
 
-\noindent Right-click in the Solution Explorer on the ``Reference" item and choose ``Add Reference". A window like the following should appear:
+\noindent Right-click in the Solution Explorer on the ``Reference'' item and choose ``Add Reference''. A window like the following should appear:
 
 \begin{figure}[h!]
 	\centering
@@ -54,7 +54,7 @@ To include our new plugin in the CrypTool program, we must first add a reference
 \end{figure}
 \clearpage
 
-\noindent Unless you have created your new project in the same CrypTool 2.0 solution, you probably will not be able to select the library directly as seen above in Figure \ref{fig:add_pluginbase_source}; instead you can browse for the binary DLL as seen below in Figure \ref{fig:browse_reference}. Click on the ``Browse" tab and navigate to the folder in which you downloaded the CrypTool 2 project. Within that folder, go to \textit{\textbackslash CrypPluginBase\textbackslash bin\textbackslash Debug} and select the file ``CryptPluginBase.dll". The library reference can then be added by double clicking the file or pressing the ``OK" button.
+\noindent Unless you have created your new project in the same CrypTool 2.0 solution, you probably will not be able to select the library directly as seen above in Figure \ref{fig:add_pluginbase_source}; instead you can browse for the binary DLL as seen below in Figure \ref{fig:browse_reference}. Click on the ``Browse'' tab and navigate to the folder in which you downloaded the CrypTool 2 project. Within that folder, go to \textit{\textbackslash CrypPluginBase\textbackslash bin\textbackslash Debug} and select the file ``CryptPluginBase.dll''. The library reference can then be added by double clicking the file or pressing the ``OK'' button.
 
 \begin{figure}[h!]
 	\centering
@@ -63,7 +63,7 @@ To include our new plugin in the CrypTool program, we must first add a reference
 	\label{fig:browse_reference}
 \end{figure}
 
-\noindent Besides CrypPluginBase you will need to add three Windows assembly references to provide the necessary namespaces for the \textbf{user control} functions ``Presentation" and ``QuickWatchPresentation". This can be done in a similar manner as before with the ``CrypPluginBase" reference, but by selecting the ``.NET" tab and searching for the references there. Select the following .NET components:
+\noindent Besides CrypPluginBase you will need to add three Windows assembly references to provide the necessary namespaces for the \textbf{user control} functions ``Presentation'' and ``QuickWatchPresentation''. This can be done in a similar manner as before with the ``CrypPluginBase'' reference, but by selecting the ``.NET'' tab and searching for the references there. Select the following .NET components:
 
 \begin{itemize}
     \item PresentationCore
@@ -85,11 +85,11 @@ To include our new plugin in the CrypTool program, we must first add a reference
 \section{Modifing the project properties}
 \label{sec:ModifyTheProjectProperties}
 
-It is important to make two small changes to your plugin's assembly data to make sure that it will be imported correctly into CrypTool 2. Go to the Solution Explorer and open ``AssemblyInfo.cs", which can be found in the ``Properties" folder. Make the following two changes:
+It is important to make two small changes to your plugin's assembly data to make sure that it will be imported correctly into CrypTool 2. Go to the Solution Explorer and open ``AssemblyInfo.cs'', which can be found in the ``Properties'' folder. Make the following two changes:
 
 \begin{itemize}
-	\item Change the attribute ``AssemblyVersion" to have the value ``2.0.*", and
-	\item Comment out the attribute ``AssemblyFileVersion".
+	\item Change the attribute ``AssemblyVersion'' to have the value ``2.0.*'', and
+	\item Comment out the attribute ``AssemblyFileVersion''.
 \end{itemize}
 
 \noindent This section of your assembly file should now look something like this:
@@ -102,13 +102,13 @@ It is important to make two small changes to your plugin's assembly data to make
 \section{Creating classes for the algorithm and its settings}
 \label{sec:CreatingClassesForTheAlgorithmAndItsSettings}
 
-In the next step we will create two classes. The first class will be the main driver; we will call ours ``Caesar" since that is the name of the cipher that it will implement. In our case, this class has to inherit from IEncryption because it will be an ecryption plugin. If it was instead a hash plugin, this class should inherit from IHash. The second class will be used to store setting information for the plugin, and thus we will name ours ``CaesarSettings". It will need to inherit from ISettings.
+In the next step we will create two classes. The first class will be the main driver; we will call ours ``Caesar'' since that is the name of the cipher that it will implement. In our case, this class has to inherit from IEncryption because it will be an encryption plugin. If it was instead a hash plugin, this class should inherit from IHash. The second class will be used to store setting information for the plugin, and thus we will name ours ``CaesarSettings''. It will need to inherit from ISettings.
 \clearpage
 
 \subsection{Creating a class for the algorithm}
 \label{sec:CreatingAClassForTheAlgorithm}
 
-When starting a new project, Visual Studio automatically creates a class which has the name ``Class1.cs".  Since this is a rather non-descriptive name, we will change it. In our example, it should be ``Caesar.cs". There are two ways to change the name:
+When starting a new project, Visual Studio automatically creates a class which has the name ``Class1.cs''.  Since this is a rather non-descriptive name, we will change it. In our example, it should be ``Caesar.cs''. There are two ways to change the name:
 
 \begin{itemize}
 	\item Rename the existing class, or
@@ -116,7 +116,7 @@ When starting a new project, Visual Studio automatically creates a class which h
 \end{itemize}
 %\clearpage
 
-\noindent Both options will achieve the same results. We will guide you through the second method. First, delete ``Class1.cs".
+\noindent Both options will achieve the same results. We will guide you through the second method. First, delete ``Class1.cs''.
 
 \begin{figure}[h!]
 	\centering
@@ -126,7 +126,7 @@ When starting a new project, Visual Studio automatically creates a class which h
 \end{figure}
 \clearpage
 
-\noindent Then right-click on the project item (in our case, ``Caesar") and select ``Add $\rightarrow$ Class\ldots ":
+\noindent Then right-click on the project item (in our case, ``Caesar'') and select ``Add $\rightarrow$ Class\ldots '':
 
 \begin{figure}[h]
 	\centering
@@ -136,7 +136,7 @@ When starting a new project, Visual Studio automatically creates a class which h
 \end{figure}
 \clearpage
 
-\noindent Finally, give your class a unique name. We will call our class ``Caesar.cs" and define it as public so that it will be available to other classes.
+\noindent Finally, give your class a unique name. We will call our class ``Caesar.cs'' and define it as public so that it will be available to other classes.
 
 \begin{figure}[h!]
 	\centering
@@ -150,7 +150,7 @@ When starting a new project, Visual Studio automatically creates a class which h
 \subsection{Creating a settings class}
 \label{sec:CreatingASettingsClass}
 
-Add a second public class in the same way. We will call the class ``CaesarSettings". The settings class stores the necessary information about controls, captions, descriptions and default parameters (e.g.\ for key settings, alphabets, key length and type of action) to build the \textbf{TaskPane} in the CrypTool application.
+Add a second public class in the same way. We will call the class ``CaesarSettings''. The settings class stores the necessary information about controls, captions, descriptions and default parameters (e.g.\ for key settings, alphabets, key length and type of action) to build the \textbf{TaskPane} in the CrypTool application.
 \clearpage
 
 \noindent Below is an example of what a completed TaskPane for the existing Caesar plugin in CrypTool 2 looks like:
@@ -166,11 +166,11 @@ Add a second public class in the same way. We will call the class ``CaesarSettin
 \subsection{Adding the namespaces and inheritance sources for the Caesar class}
 \label{sec:AddingTheNamespacesAndInheritanceSourcesForTheCaesarClass}
 
-Open the ``Caesar.cs" file by double clicking on it in the Solution Explorer. To include the necessary namespaces in the class header, use the ``using" statement followed by the name of the desired namespace. The CrypTool 2.0 API provides the following namespaces:
+Open the ``Caesar.cs'' file by double clicking on it in the Solution Explorer. To include the necessary namespaces in the class header, use the ``using'' statement followed by the name of the desired namespace. The CrypTool 2.0 API provides the following namespaces:
 
 \begin{itemize}
 	\item Cryptool.PluginBase --- contains interfaces such as IPlugin, IHash, and ISettings, as well as attributes, enumerations, delegates and extensions.
-	\item Cryptool.PluginBase.Analysis --- contains interfaces for cryptanalysis plugins (such as ``Stream Comparator").
+	\item Cryptool.PluginBase.Analysis --- contains interfaces for cryptanalysis plugins (such as ``Stream Comparator'').
 	\item Cryptool.PluginBase.Control --- contains global interfaces for the IControl feature for defining custom controls.
 	\item Cryptool.PluginBase.Cryptography --- contains interfaces for encryption and hash algorithms such as AES, DES and MD5.
 	\item Cryptool.PluginBase.Editor --- contains interfaces for editors that can be implemented in CrypTool 2.0, such as the default editor.
@@ -191,7 +191,7 @@ Open the ``Caesar.cs" file by double clicking on it in the Solution Explorer. To
 	\item Cryptool.PluginBase.Miscellaneous --- to use the CrypTool event handler.
 \end{itemize}
 
-\noindent It is important to define a new default namespace for our public class (``Caesar"). In CrypTool 2.0  the standard namespace convention is \textit{Cryptool.[name of class]}. Therefore our namespace will be defined as \textit{Cryptool.Caesar}.\clearpage
+\noindent It is important to define a new default namespace for our public class (``Caesar''). In CrypTool 2.0  the standard namespace convention is \textit{Cryptool.[name of class]}. Therefore our namespace will be defined as \textit{Cryptool.Caesar}.\clearpage
 
 \noindent At this point, the source code should look like the following:
 
@@ -214,7 +214,7 @@ namespace Cryptool.Caesar
 \end{lstlisting}
 
 \ \\ % ugly but functional
-\noindent Next we should let the ``Caesar" class inherit from IEncryption by making the following alteration:
+\noindent Next we should let the ``Caesar'' class inherit from IEncryption by making the following alteration:
 
 \begin{lstlisting}
 namespace Cryptool.Caesar
@@ -228,16 +228,16 @@ namespace Cryptool.Caesar
 \subsection{Adding interface functions to the Caesar class}
 \label{sec:AddingInterfaceFunctionsToTheCaesarClass}
 
-You may notice an underscore underneath the ``I" in ``IEncryption". Move your mouse over it, or place the cursor on it and press ``Shift+Alt+F10" and the following submenu should appear:
+You may notice an underscore underneath the ``I'' in ``IEncryption''. Move your mouse over it, or place the cursor on it and press ``Shift+Alt+F10'' and the following submenu should appear:
 
 \begin{figure}[h!]
 	\centering
 		\includegraphics{figures/inherit_submenu.jpg}
-	\caption{Inherit submenu}
+	\caption{An inheritance submenu.}
 	\label{fig:inherit_submenu}
 \end{figure}
 
-Select the item ``Implement interface `IEncryption'". Visual Studio will automatically generate all the interface members necessary for interaction with the CrypTool 2 core. (This step will save you a lot of typing!)
+Select the item ``Implement interface `IEncryption'\,''. Visual Studio will automatically generate all the interface members necessary for interaction with the CrypTool 2 core. (This step will save you a lot of typing!)
 \clearpage
 
 \noindent Your code should now look like this:
@@ -327,7 +327,7 @@ namespace Cryptool.Caesar
 \subsection{Adding the namespace and interfaces to the CaesarSettings class}
 \label{sec:AddingTheNamespaceAndInterfacesToTheCaesarSettingsClass}
 
-Let's now take a look at the second class in our example, ``CaesarSettings", by double-clicking on the ``CaesarSettings.cs" file in the Solution Explorer. First, we need to again include the ``Cryptool.PluginBase" namespace to the class header. Then we must let the settings class inherit from ``ISettings" in the same manner as was done with the Caesar class. Visual Studio will again automatically generate code from the CrypTool interface as seen below. (We can again remove the lines \texttt{using System;} and \texttt{using System.Linq;}, as we do not need those references.)\\
+Let's now take a look at the second class in our example, ``CaesarSettings'', by double-clicking on the ``CaesarSettings.cs'' file in the Solution Explorer. First, we need to again include the ``Cryptool.PluginBase'' namespace to the class header. Then we must let the settings class inherit from ``ISettings'' in the same manner as was done with the Caesar class. Visual Studio will again automatically generate code from the CrypTool interface as seen below. (We can again remove the lines \texttt{using System;} and \texttt{using System.Linq;}, as we do not need those references.)\\
 
 \begin{lstlisting}
 using System.Collections.Generic;
@@ -367,7 +367,7 @@ namespace Cryptool.Caesar
 \subsection{Adding controls to the CaesarSettings class}
 \label{sec:AddingControlsToTheCaesarSettingsClass}
 
-The settings class is used to populate the TaskPane in the CrypTool 2 application so that the user can modify settings at will. To meet these ends we will need to implement some controls such as buttons and text boxes. If you will be implementing an algorithm that does not have any user-defined settings (e.g. a hash function), then this class can be left empty; you will, however, still have to modify the ``HasChanges" property to avoid a ``NotImplementedException". The following code demonstrates the modifications necessary to create the backend for the TaskPane for our Caesar algorithm. You can also look at the source code of other algorithms in the subversion repository for examples of how to create the TaskPane backend.\\
+The settings class is used to populate the TaskPane in the CrypTool 2 application so that the user can modify settings at will. To meet these ends we will need to implement some controls such as buttons and text boxes. If you will be implementing an algorithm that does not have any user-defined settings (e.g. a hash function), then this class can be left empty; you will, however, still have to modify the ``HasChanges'' property to avoid a ``NotImplementedException''. The following code demonstrates the modifications necessary to create the backend for the TaskPane for our Caesar algorithm. You can also look at the source code of other algorithms in the subversion repository for examples of how to create the TaskPane backend.\\
 
 \begin{lstlisting}
 using System;
@@ -734,7 +734,7 @@ Before we go back to the code of the Caesar class, we have to add an icon to our
 
 For testing purposes you can just create a simple black and white PNG image with MS Paint or Paint.NET. The proper image size is 40x40 pixels, but since the image will be rescaled if necessary, any size is technically acceptable.
 
-Once you have saved your icon, you should add it directly to the project or to a subdirectory. In the project solution, we created a new folder named ``Images". This can be done by right-clicking on the project item (``Caesar" in our example) and selecting ``Add $\rightarrow$ New Folder". The icon can be added to this folder (or to the project directly, or to any other subdirectory) by right-clicking on the folder and selecting ``Add $\rightarrow$ Existing Item".
+Once you have saved your icon, you should add it directly to the project or to a subdirectory. In the project solution, we created a new folder named ``Images''. This can be done by right-clicking on the project item (``Caesar'' in our example) and selecting ``Add $\rightarrow$ New Folder''. The icon can be added to this folder (or to the project directly, or to any other subdirectory) by right-clicking on the folder and selecting ``Add $\rightarrow$ Existing Item''.
 
 \begin{figure}[h!]
 	\centering
@@ -744,7 +744,7 @@ Once you have saved your icon, you should add it directly to the project or to a
 \end{figure}
 \clearpage
 
-A new window will then appear. Select ``Image Files" as the file type and select your newly-created icon for your plugin.
+A new window will then appear. Select ``Image Files'' as the file type and select your newly-created icon for your plugin.
 
 \begin{figure}[h!]
 	\centering
@@ -754,7 +754,7 @@ A new window will then appear. Select ``Image Files" as the file type and select
 \end{figure}
 \clearpage
 
-Finally, we must set the icon as a ``Resource" to avoid including the icon as a separate file. Right-click on the icon and select ``Properties" as seen below.
+Finally, we must set the icon as a ``Resource'' to avoid including the icon as a separate file. Right-click on the icon and select ``Properties'' as seen below.
 
 \begin{figure}[h!]
 	\centering
@@ -763,7 +763,7 @@ Finally, we must set the icon as a ``Resource" to avoid including the icon as a 
 	\label{fig:icon_properties}
 \end{figure}
 
-In the ``Properties" panel, set the ``Build Action" to ``Resource".
+In the ``Properties'' panel, set the ``Build Action'' to ``Resource''.
 
 \begin{figure}[h!]
 	\centering
@@ -776,13 +776,13 @@ In the ``Properties" panel, set the ``Build Action" to ``Resource".
 \section{Defining the attributes of the Caesar class}
 \label{sec:DefiningTheAttributesOfTheCaesarClass}
 
-Now let's go back to the code of the Caesar class (the ``Caesar.cs" file in our example). The first thing we will do is define the attributes of our class. These attributes are used to provide additional information for the CrypTool 2.0 environment. If they are not properly defined, your plugin won't show up in the application display, even if everything else is implemented correctly.
+Now let's go back to the code of the Caesar class (the ``Caesar.cs'' file in our example). The first thing we will do is define the attributes of our class. These attributes are used to provide additional information for the CrypTool 2.0 environment. If they are not properly defined, your plugin won't show up in the application display, even if everything else is implemented correctly.
 
 Attributes are used for \textbf{declarative} programming and provide metadata that can be added to the existing .NET metadata. CrypTool provides a set of custom attributes that are used to mark the different parts of your plugin.
 
-These attributes can be defined anywhere within the ``Cryptool.Caesar" namespace, but customarily they are defined right before the class declaration.
+These attributes can be defined anywhere within the ``Cryptool.Caesar'' namespace, but customarily they are defined right before the class declaration.
 
-\subsubsection*{The \textit{[Author]} attribute}
+\subsection{The \textit{[Author]} attribute}
 \label{sec:TheAuthorAttribute}
 
 The \textit{[Author]} attribute is optional, and thus we are not required to define it. The attribute can be used to provide additional information about the plugin developer. This information will appear in the TaskPane, as for example in Figure \ref{fig:task_pane}. We will define the attribute to demonstrate how it should look in case you want to use it in your plugin.
@@ -794,7 +794,7 @@ The \textit{[Author]} attribute is optional, and thus we are not required to def
 	\label{fig:attribute_author}
 \end{figure}
 
-As can be see above, the author attribute takes four elements of type string. These elements are:
+As can be seen above, the author attribute takes four elements of type string. These elements are:
 
 \begin{itemize}
 	\item Author --- the name of the plugin developer(s).
@@ -814,7 +814,7 @@ All of these elements are optional; the developer(s) can choose what information
 %	\label{fig:attribute_author_filled}
 %\end{figure}
 
-\subsubsection*{The \textit{[PluginInfo]} attribute}
+\subsection{The \textit{[PluginInfo]} attribute}
 \label{sec:ThePluginInfoAttribute}
 
 The second attribute, \textit{[PluginInfo]}, provides necessary information about the plugin, and is therefore mandatory. This information appears in the caption and tool tip window. The attribute is defined as follows:
@@ -826,7 +826,7 @@ The second attribute, \textit{[PluginInfo]}, provides necessary information abou
 	\label{fig:attribute_plugininfo}
 \end{figure}
 
-This attribute has the following parameters:
+\noindent This attribute has the following parameters:
 
 \begin{itemize}
 	\item Resource File --- defines where to find the associated resource file, if one is to be implemented. These are used, for example, to provide multilingual support for the plugin. This element is optional.
@@ -837,89 +837,104 @@ This attribute has the following parameters:
 	\item Icons --- an array of strings to define all the paths for the icons to be used in the plugin (i.e. the plugin icon described in section \ref{sec:AddingAnIconToTheCaesarClass}). This element is mandatory.
 \end{itemize}
 
-Unused elements should be set to null or an empty string.
+\noindent Unused elements should be set to null or an empty string.
 
 (There are a few limitations and bugs that still exist in the \textit{[PluginInfo]} attribute that will be resolved in a future version. Firstly, it is possible to use the plugin without setting a caption, although this is not recommended. In the future the plugin will fail to load without a caption. Secondly, a zero-length toolTip string currently causes the toolTip to appear as an empty box in the application. Lastly, the toolTip and description do not currently support internationalization and localization.)
 
-In our example the first parameter called ''resourceFile'' has to be set to ''Cryptool.Caesar.Resource.res'' because we want to provide the plugin multilingual and want to store the labels and caption in a resource file. Otherwise ignore this element.
-\begin{figure}[h]
-	\centering
-		\includegraphics[width=1.00\textwidth]{figures/attribute_plugininfo_resourceFile.JPG}
-	\caption{Attribute PluginInfo element resourceFile}
-	\label{fig:attribute_plugininfo_resourceFile}
-\end{figure}
+In our example, the ``resourceFile'' parameter should be set to ``Cryptool.Caesar.Resource.res''. This file will be used to store the label and caption text to support multilingualism.
 
-The second parameter called ''startable'' has to be set to ''false'', because our encryption algorithm is neither an input nor generator plugin.
+%\begin{figure}[h]
+%	\centering
+%		\includegraphics[width=1.00\textwidth]{figures/attribute_plugininfo_resourceFile.JPG}
+%	\caption{Attribute PluginInfo element resourceFile}
+%	\label{fig:attribute_plugininfo_resourceFile}
+%\end{figure}
+
+The second parameter, ``startable'' should be set to ``false'', because our encryption algorithm is not an input generator plugin.
+
+%\begin{figure}[h!]
+%	\centering
+%		\includegraphics[width=1.00\textwidth]{figures/attribute_plugininfo_startable.jpg}
+%	\caption{Attribute PluginInfo startable}
+%	\label{fig:attribute_plugininfo_startable}
+%\end{figure}
+
+The next two parameters are necessary to define the plugin's name and description. Since we are using a resource file, we should place here the names of the resource fields that contain the description and caption.  (We call also just write simple text strings instead of using outsourced references.)
+
+%\begin{figure}[h!]
+%	\centering
+%		\includegraphics[width=1.00\textwidth]{figures/attribute_plugininfo_description.jpg}
+%	\caption{Attribute PluginInfo name and description}
+%	\label{fig:attribute_plugininfo_description}
+%\end{figure}
+
+The next element defines the location path of the description file. The parameter is composed in the format \textit{$<$assembly name$>$/$<$file name$>$} or, if you want to store your description files in a separate folder (as in our case), \textit{$<$assembly name$>$/$<$path$>$/$<$file name$>$}. The description file must be an XAML file. In our case, we shall create a folder named ``DetailedDescription'' in which to store our XAML file with any necessary images. Our folder structure looks as follows:
+
 \begin{figure}[h!]
 	\centering
-		\includegraphics[width=1.00\textwidth]{figures/attribute_plugininfo_startable.jpg}
-	\caption{Attribute PluginInfo startable}
-	\label{fig:attribute_plugininfo_startable}
-\end{figure}
-
-The next two parameters are needed to define the plugin's name and its description. Now that we decided to provide a resource file we have to place here the both resource field names which contains the description and captions. Otherwise just write here a simple string text:
-\begin{figure}[h!]
-	\centering
-		\includegraphics[width=1.00\textwidth]{figures/attribute_plugininfo_description.jpg}
-	\caption{Attribute PluginInfo name and description}
-	\label{fig:attribute_plugininfo_description}
-\end{figure}
-
-The next element defines the location path of the description file. The parameter is made up by $<$Assembly name$>$/$<$filename$>$ or $<$Assembly name$>$/$<$Path$>$/$<$file name$>$ if you want to store your description files in a separate folder (as seen on the icon). The description file has to be of type XAML. In our case we create a folder called ''DetailedDescription'' and store our XAML file there with the necessary images if needed. How you manage the files and folders is up to you. This folder could now look as you can see below:
-\begin{figure}[h!]
-	\centering
-		\includegraphics{figures/attribute_plugininfo_detailed_descr_path.jpg}
-	\caption{Attribute PluginInfo icon and description file path}
+		\includegraphics[width=.30\textwidth]{figures/attribute_plugininfo_detailed_descr_path.jpg}
+	\caption{The folder structure as seen in the Solution Explorer.}
 	\label{fig:attribute_plugininfo_icon_path}
 \end{figure}
 
-Accordingly the attribute parameter has to be set to:
-\begin{figure}[h!]
-	\centering
-		\includegraphics[width=1.00\textwidth]{figures/attribute_plugininfo_detailed_descr.jpg}
-	\caption{Attribute PluginInfo description file}
-	\label{fig:attribute_plugininfo_icon}
-\end{figure}
+%Accordingly the attribute parameter has to be set to:
+%\begin{figure}[h!]
+%	\centering
+%		\includegraphics[width=1.00\textwidth]{figures/attribute_plugininfo_detailed_descr.jpg}
+%	\caption{Attribute PluginInfo description file}
+%	\label{fig:attribute_plugininfo_icon}
+%\end{figure}
 
-The detailed description could now look like this in CrypTool (right click plugin icon on workspace and select ''Show description''):\clearpage
+Once a detailed description has been written in the XAML file, it can be accessed in the CrypTool 2 application by right-clicking on the plugin icon in the workspace and selecting ``Show description''.
+
 \begin{figure}[h!]
 	\centering
 		\includegraphics[width=1.00\textwidth]{figures/xaml_description.jpg}
-	\caption{XAML detailed description}
+	\caption{A detailed description provided through an XAML file.}
 	\label{fig:xaml_description}
 \end{figure}
+\clearpage
 
-The last parameter tells CrypTool the names of the provided icons. This parameter is made up by $<$Assembly name$>$/$<$file name$>$ or $<$Assembly name$>$/$<$Path$>$/$<$file name$>$.\\\\
-The most important icon is the plugin icon, which will be shown in CrypTool in the ribbon bar or navigation pane (This is the first icon in list, so you have to provide at least one icon for a plugin). As named above how to add an icon to the solution accordingly we have to tell CrypTool where to find the icon by setting this parameter as you can see below:
-\begin{figure}[h!]
-	\centering
-		\includegraphics[width=1.00\textwidth]{figures/attribute_plugininfo_icons.jpg}
-	\caption{Attribute PluginInfo icons}
-	\label{fig:attribute_plugininfo_icons}
-\end{figure}
+The last parameter tells CrypTool 2 the names of the provided icons. This parameter is an array composed of strings in the format \textit{$<$assembly name$>$/$<$file name$>$} or \textit{$<$assembly name$>$/$<$path$>$/$<$file name$>$}.
 
-You can define further icon paths if needed, by adding the path string separated by a comma. We just add here two further icons (don't forget to add the icons to your solution) to provide them for the context menu in the CrypTool workspace.\\\\
-\textit{[EncryptionType]}\\
-The third and last attribute called ''EncryptionType'' is needed to tell CrypTool which type of plugin we want to provide. CrypTool is now able to place the plugin in the right group at the navigation pane or/and ribbon bar. Therefore Caesar is a classical algorithm so we have to set the following attribute:
+The first and most important icon is the plugin icon, which will be shown in CrypTool 2 in the ribbon bar and navigation pane. Once the icon has been added to the project as described in Section \ref{sec:AddingAnIconToTheCaesarClass}, we must accordingly tell CrypTool 2 where to find the icon. This can be seen above in Figure \ref{fig:attribute_plugininfo}.
+
+%\begin{figure}[h!]
+%	\centering
+%		\includegraphics[width=1.00\textwidth]{figures/attribute_plugininfo_icons.jpg}
+%	\caption{Attribute PluginInfo icons}
+%	\label{fig:attribute_plugininfo_icons}
+%\end{figure}
+
+If your plugin will use additional icons, you should define the paths to each of them by adding the path strings to the \textit{[PluginInfo]} attribute parameter list, each separated by a comma. We have added two further icons for the context menu in the CrypTool 2 workspace. (If you do choose to add more icons, don't forget to add the icons to your solution.)
+
+\subsection{The \textit{[EncryptionType]} attribute}
+\label{sec:TheEncryptionTypeAttribute}
+
+The third and last attribute, \textit{[EncryptionType]}, is needed to tell CrypTool 2 what type of plugin we are creating. CrypTool 2 uses this information to place the plugin in the correct group in the navigation pane and ribbon bar. In our example, since Caesar is a classical algorithm, we will define the follows:
+
 \begin{figure}[h]
 	\centering
-		\includegraphics[width=1.00\textwidth]{figures/attribute_encryption_type.JPG}
-	\caption{Attribute encryption type}
+		\includegraphics[width=.90\textwidth]{figures/attribute_encryptiontype_new.jpg}
+	\caption{A fully-defined \textit{[EncryptionType]} attribute.}
 	\label{fig:attribute_encryption_type}
 \end{figure}
 
-The ''EncryptionType'' attribute can also be set as the following types:
+The possible values of the \textit{[EncryptionType]} attribute are as follows:
+
 \begin{itemize}
-	\item Asymmetric = for asymmetric encryption algorithms like RSA
-	\item Classic = for classic encryption or hash algorithms like Caesar or MD5
-	\item Hybrid = for a combination of several algorithm where the data is encrypted symmetric and the encryption key asymmetric
-	\item SymmetricBlock = for all block cipher algorithms like DES, AES or Twofish
-	\item SymmetricStream = for all stream cipher algorithms like RC4, Rabbit or SEAL
+	\item Asymmetric --- for asymmetrical encryption algorithms, such as RSA.
+	\item Classic --- for classical encryption or hash algorithms, such as Caesar or MD5.
+	\item Hybrid --- for algorithms which are actually a combination of several algorithms, such as algorithms in which the data is encrypted symmetrically and the encryption key asymmetrically.
+	\item SymmetricBlock --- for block cipher algorithms, such as DES, AES and Twofish.
+	\item SymmetricStream --- for stream cipher algorithms like RC4, Rabbit and SEAL.
 \end{itemize}
 
+\section{Defining the private variables of the settings in the Caesar class}
+\label{sec:DefiningThePrivateVariablesOfTheSettingsInTheCaesarClass}
 
-\section{Set the private variables for the settings in the class Caesar}\label{sec:SetThePrivateVariablesForTheSettingsInTheClassCaesar}
-The next step is to define some private variables needed for the settings, input and output data which could look like this:
+The next step is to define some private variables that are needed for the settings, input, and output data. In our example, this will look like the following:
+
 \begin{lstlisting}
 public class Caesar : IEncryption
 {
@@ -931,18 +946,25 @@ public class Caesar : IEncryption
 	private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
 	#endregion
 \end{lstlisting}
-Please notice if there is a sinuous line at the code you type for example at the ''CryptoolStream'' type of the variable listCryptoolStreamsOut. ''CryptoolStream'' is a data type for input and output between plugins and is able to handle large data amounts. To use the CrypTool own stream type, include the namespace ''Cryptool.PluginBase.IO'' with a ''using'' statement as explained in chapter \ref{sec:CaesarNamespacesAndInheritance}. Check the other code entries while typing and update the missing namespaces.\\
-The following private variables are being used in this example:
+
+\ \\ % ugly but functional
+If your algorithm works with longs strings of code, it is recommended to use the ``CryptoolStream'' data type. This was designed for input and output between plugins and to handle large amounts of data. To use the native CrypTool stream type, include the namespace ``Cryptool.PluginBase.IO'' with a ``using'' statement as explained in section \ref{sec:AddingTheNamespacesAndInheritanceSourcesForTheCaesarClass}.
+
+The following private variables will be used in our example:
+
 \begin{itemize}
-	\item CaesarSettings settings: required to implement the IPlugin interface properly
-	\item string inputString: sting to read the input data from
-	\item string outputString: string to save the output data
-	\item enum CaesarMode: our own definition how to select between an encryption or decryption. It's up to you how to solve your algorithm
-	\item List$<$CryptoolStream$>$ listCryptoolStreamsOut: list of all streams being created by Caesar plugin, required to perform a clean dispose
+	\item CaesarSettings settings --- required to implement the IPlugin interface properly.
+	\item string inputString --- string from which to read the input data.
+	\item string outputString --- string to which to save the output data.
+	\item enum CaesarMode --- used to select either encryption or decryption.
+	\item List$<$CryptoolStream$>$ listCryptoolStreamsOut --- a list of all streams created by the plugin, which helps to perform a clean dispose.
 \end{itemize}
-\section{Define the code of the class Caesar to fit the interface}\label{sec:DefineTheCodeOfTheClassCaesarToFitTheInterface}
-Next we have to complete our code to correctly serve the interface.\\
-First we add a constructor to our class where we can create an instance of our settings class and a function to handle events:
+
+\section{Implementing the interfaces in the Caesar class}
+\label{sec:ImplementingTheInterfacesInTheCaesarClass}
+
+The next major step is to write out our implementations of the interfaces. First we will add a constructor to our class. We will use this to create an instance of our settings class and a function to handle events:
+
 \begin{lstlisting}
 public class Caesar : IEncryption
 {
@@ -960,7 +982,10 @@ public class Caesar : IEncryption
 		this.settings.LogMessage += Caesar_LogMessage;
 	}
 \end{lstlisting}
-Secondly, we have to implement the property ''Settings'' defined in the interface:
+
+\ \\
+\indent Secondly, we must implement the ``Settings'' property declared in the interface. An outline of this property should have been automatically generated by implementing the interface (see Section \ref{sec:AddingInterfaceFunctionsToTheCaesarClass}); just edit it appropriately to communicate with your settings class as we have done here:
+
 \begin{lstlisting}
 public ISettings Settings
 {
@@ -968,54 +993,69 @@ public ISettings Settings
 	set { this.settings = (CaesarSettings)value; }
 }
 \end{lstlisting}
-Thirdly we have to define five properties with their according attributes. This step is necessary to tell CrypTool that these properties are input/output properties used for data exchange with other plugins or to provide our plugin with external data.\\
-The attribute is named ''PropertyInfo'' and consists of the following elements:
+
+\ \\
+\indent Thirdly, we must define five properties, each with an appropriate attribute. This step is necessary to tell CrypTool 2 if the properties are used for input our output and to provide the plugin with external data.
+
+The attribute that we will use for each proprerty is called \textit{[PropertyInfo]} and it consists of the following elements:
+
 \begin{itemize}
-	\item direction = defines whether this property is an input or output property, i.e. whether it reads input data or writes output data
+	\item direction --- defines whether this property is an input or output property, i.e., whether it reads input data or writes output data. The possible values are:
 	\begin{itemize}
 		\item Direction.Input
 		\item Direction.Output
 	\end{itemize}
-	\item caption = caption of the property (e.g. shown at the input on the dropped icon in the editor), see below:
+	\item caption --- the caption for the property displayed over the input of the icon after it has been placed in the editor), as seen below:
+	
 \begin{figure}[h]
 	\centering
-		\includegraphics{figures/property_caption.jpg}
-	\caption{Possible property caption}
+		\includegraphics[width=.55\textwidth]{figures/property_caption.jpg}
+	\caption{A possible property caption and toolTip.}
 	\label{fig:property_caption}
 \end{figure}
-	\item toolTip = tooltip of the property (e.g. shown at the input arrow on the dropped icon in the editor), see above
-	\item descriptionUrl = not used right now
-	\item mandatory = this flag defines whether an input is required to be connected by the user. If set to true, there has to be an input connection that provides data. If no input data is provided for mandatory input, your plugin will not be executed in the workflow chain. If set to false, connecting the input is optional. This only applies to input properties. If using Direction.Output, this flag is ignored.
-	\item hasDefaultValue = if this flag is set to true, CrypTool treats this plugin as though the input has already input data.
-	\item DisplayLevel = define in which display levels your property will be shown in CrypTool. CrypTool provides the following display levels:
+
+	\item toolTip --- the toolTip for the property displayed over the input arrow of the icon after it has been placed in the editor, as seen above.
+	\item descriptionUrl --- currently not used; fill it with null or an empty string.
+	\item mandatory --- this flag determines whether an input must be attached by the user to use the plugin. If set to true, an input connection will be required or else the plugin will not be executed in the workflow chain. If set to false, connecting an input is optional. As this only applies to input properties, if the direction has been set to ``output'', this flag will be ignored.
+	\item hasDefaultValue --- if this flag is set to true, CrypTool 2 will assume that the property has a default input value that does not require user input.
+	\item displayLevel --- determines in which display levels your property will be shown in CrypTool 2. These are used to hide more advanced item from less-experienced users; a Beginner will not see the properties marked as any other level, but a Professional will have access to everything. The display levels are as follows:
+	
 	\begin{itemize}
 		\item DisplayLevel.Beginner
 		\item DisplayLevel.Experienced
 		\item DisplayLevel.Expert
 		\item DisplayLevel.Professional
 	\end{itemize}
-	\item QuickWatchFormat = defines how the content of the property will be shown in the quick watch. CrypTool accepts the following quick watch formats:
+\clearpage
+	
+	\item quickWatchFormat --- determines how the content of the property will be shown in the quickwatch perspective. CrypTool accepts the following quickwatch formats:
+	
 	\begin{itemize}
 		\item QuickWatchFormat.Base64
 		\item QuickWatchFormat.Hex
 		\item QuickWatchFormat.None
-		\item QuickWatchFormat.Text\\
-		A quick watch in Hex could look like this:
+		\item QuickWatchFormat.Text
+	\end{itemize}
+
 \begin{figure}[h]
 	\centering
 		\includegraphics{figures/quick_watch.jpg}
-	\caption{Possible quick watch}
+	\caption{A quickwatch display in hexadecimal.}
 	\label{fig:quick_watch}
 \end{figure}
-	\end{itemize}
-	\item quickWatchConversionMethod = this string points to a conversion method; most plugins can use a ''null'' value here, because no conversion is necessary. The QuickWatch function uses system ''default'' encoding to display data. So only if your data is in some other format, like Unicode or UTF8, you have to provide the name of a conversion method as string. The method header has to look like this:
+	
+	\item quickWatchConversionMethod --- this is used to indicate a conversion method; most plugins do not ned to convert their data and thus should use a null value here. The quickwatch function uses the ``default'' system encoding to display data, so if your data is in another other format, such as Unicode or UTF-8, you should provide here the name of a conversion method as string. The method header for such a method should look something like the following:
+
 \begin{lstlisting}
 object YourMethodName(string PropertyNameToConvert)
 \end{lstlisting}
+
 \end{itemize}
-First we define the ''InputString'' property getter and setter which is needed to provide our plugin with data which has to be encrypted or decrypted:
+
+The first of the five properties that we will define is ``InputString''. This is used to provide our plugin with the data to be encrypted or decrypted:
+
 \begin{lstlisting}
-[PropertyInfo(Direction.InputData, ''Text input'', ''Input a string to be processed by the Caesar cipher'', '''', true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+[PropertyInfo(Direction.InputData, "Text input", "Input a string to be processed by the Caesar cipher", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
 public string InputString
 {
 	get { return this.inputString; }
@@ -1024,32 +1064,40 @@ public string InputString
 		if (value != inputString)
 		{
 			this.inputString = value;
-			OnPropertyChanged(''InputString'');
+			OnPropertyChanged("InputString");
 		}
 	}
 }
 \end{lstlisting}
-In the getter we return the value of the input data.\\\\
-\textit{\small Note 1: It is currently not possible to read directly from the input data stream without creating an intermediate CryptoolStream.\\\\
-\small Note 2: The naming may be confusing. The new CryptoolStream is not an output stream, but it is added to the list of output streams to enable a clean dispose afterwards. See chapter 9 below.\\\\}
-The setter checkes if the input value has changed and sets the new input data and announces the data to the CrypTool 2.0 environment by using the expression ''OnPropertyChanged($<$Property name$>$)''. For input properties this step is necessary to update the quick watch view.\\
-The output data property (which provides the encrypted or decrypted input data) could look like this:
+
+In the get method we simply return the value of the input data. The set method checks if the input value has changed, and, if so, sets the new input data and announces the change to the CrypTool 2 environment by calling the function ``OnPropertyChanged(\textit{$<$Property name$>$})''. This step is necessary for input properties to update the quickwatch view.
+\clearpage
+
+%\textit{\small Note 1: It is currently not possible to read directly from the input data stream without creating an intermediate CryptoolStream.\\\\
+%\small Note 2: The naming may be confusing. The new CryptoolStream is not an output stream, but it is added to the list of output streams to enable a clean dispose afterwards. See chapter 9 below.\\\\}
+
+The output data property (which handles the input data after it has been encrypted or decrypted) will in our example look as follows:
+
 \begin{lstlisting}
-[PropertyInfo(Direction.OutputData, ''Text output'', ''The string after processing with the Caesar cipher'', '''', false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+[PropertyInfo(Direction.OutputData, "Text output", "The string after processing with the Caesar cipher", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
 public string OutputString
 {
 	get { return this.outputString; }
 	set
 	{
 		outputString = value;
-		OnPropertyChanged(''OutputString'');
+		OnPropertyChanged("OutputString");
 	}
 }
 \end{lstlisting}
-CrypTool does not require implementing output setters, as they will never be called from outside of the plugin. Nevertheless in this example our plugin accesses the property itself, therefore we chose to implement the setter.\\
-You can also provide additional output data types if you like. For example we provide also an output data of type CryptoolStream, an input data for external alphabets and an input data for the shift value of our Caesar algorithm:
+
+\ \\
+\indent CrypTool 2 does not require implementing output set methods, as they will never be called from outside the plugin. Nevertheless, in our example the plugin accesses the property itself, and therefore we have chosen to implement the set method.
+
+You can provide additional output data types if you so desire. In our example, we will also offer output data of type CryptoolStream, input data for external alphabets, and input data for the shift value of our Caesar algorithm. Note that for the first of these, the set method is not implemented since it will never be called. We shall define these properties as follows:
+
 \begin{lstlisting}
-[PropertyInfo(Direction.OutputData, ''propStreamOutputToolTip'', ''propStreamOutputDescription'', '''', false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+[PropertyInfo(Direction.OutputData, "propStreamOutputToolTip", "propStreamOutputDescription", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
 public CryptoolStream OutputData
 {
 	get
@@ -1069,7 +1117,7 @@ public CryptoolStream OutputData
 	set { }
 }
 
-[PropertyInfo(Direction.InputData, ''External alphabet input'', ''Input a string containing the alphabet which should be used by Caesar.\nIf no alphabet is provided on this input, the internal alphabet will be used.'', '''', false, false, DisplayLevel.Expert, QuickWatchFormat.Text, null)]
+[PropertyInfo(Direction.InputData, "External alphabet input", "Input a string containing the alphabet to be used by Caesar.\nIf no alphabet is provided for this input, the internal default alphabet will be used.", "", false, false, DisplayLevel.Expert, QuickWatchFormat.Text, null)]
 public string InputAlphabet
 {
 	get { return ((CaesarSettings)this.settings).AlphabetSymbols; }
@@ -1083,7 +1131,7 @@ public string InputAlphabet
 	}
 }
 
-[PropertyInfo(Direction.InputData, ''Shift value (integer)'', ''Same setting as Shift value in Settings-Pane but as dynamic input.'', '''', false, false, DisplayLevel.Expert, QuickWatchFormat.Text, null)]
+[PropertyInfo(Direction.InputData, "Shift value (integer)", "This is the same setting as the shift value in the Settings pane but as dynamic input.", "", false, false, DisplayLevel.Expert, QuickWatchFormat.Text, null)]
 public int ShiftKey
 {
 	get { return settings.ShiftKey; }
@@ -1096,18 +1144,23 @@ public int ShiftKey
 	}
 }
 \end{lstlisting}
-This property's setter is not called and therefore not implemented.\\
-The CrypTool-API provides two methods to send messages to the CrypTool. The method ''GuiLogMessage'' is used to send messages to the CrypTool status bar. This is a nice feature to inform the user what your plugin is currently doing.
+
+\ \\
+\indent The CrypTool 2 API provides two methods to send messages from the plugin to the CrypTool 2 core: ``GuiLogMessage'' (used to send messages to the CrypTool 2 status bar) and ``OnPropertyChanged'' (used to inform the core of changes to the plugin data). The ``GuiLogMessage'' method is a nice mechanism to inform the user as to what your plugin is currently doing.
+
 \begin{figure}[h]
 	\centering
 		\includegraphics[width=1.00\textwidth]{figures/status_bar.jpg}
-	\caption{Status Bar}
+	\caption{An example status bar.}
 	\label{fig:status_bar}
-\end{figure}\\
-The method takes two parameters which are:
+\end{figure}
+\clearpage
+
+The method takes two parameters:
+
 \begin{itemize}
-	\item Message = will be shown in the status bar and is of type string
-	\item NotificationLevel = to group the messages to their alert level
+	\item Message --- the text (of type string) to be shown in the status bar.
+	\item NotificationLevel --- the type of message, that is, its alert level:
 	\begin{itemize}
 		\item NotificationLevel.Error
 		\item NotificationLevel.Warning
@@ -1115,7 +1168,9 @@ The method takes two parameters which are:
 		\item NotificationLevel.Debug
 	\end{itemize}
 \end{itemize}
-As we can recognize we have two methods named ''OnPropertyChanged'' and ''GuiLogMessage'' which are not defined. So we have to define these two methods as you can see below:
+
+Outlines of both of the related events will have been automatically generated by implementing the interface (see Section \ref{sec:AddingInterfaceFunctionsToTheCaesarClass}), but we must define appropriate methods as follows:
+
 \begin{lstlisting}
 public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 private void GuiLogMessage(string message, NotificationLevel logLevel)
@@ -1130,50 +1185,56 @@ public void OnPropertyChanged(String name)
 	EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
 }
 \end{lstlisting}
-To use the ''PropertyChangedEventHandler'' you have to include the namespace ''System.ComponentModel''.\\
-Our whole included namespaces looks now like this:
+
+\ \\
+\indent Note that to use ``PropertyChangedEventHandler'' you must include the namespace ``System.\linebreak ComponentModel''. Our collection of included namespaces should now look as follows:
+
 \begin{lstlisting}
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
-using System.Windows.Control;
+using System.Windows.Controls;
 
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 \end{lstlisting}
-\section{Complete the actual code for the class Caesar}\label{sec:CompleteTheActualCodeForTheClassCaesar}
-Up to now, the plugin is ready for the CrypTool base application to be accepted and been shown correctly in the CrypTool menu. What we need now, is the implementation of the actual algorithm in the function ''Execute()'' which is up to you as the plugin developer. CrypTool will always call first the Execute() function.If you place the whole algorithm in this function or split in other as needed is also up to you.
+\clearpage
 
-We decided to split our algorithm encryption and decryption in two separate functions, which finally call the function ProcessCaesar.
+\section{Completing the algorithmic code of the Caesar class}
+\label{sec:CompletingTheAlgorithmicCodeOfTheCaesarClass}
 
-Let us demonstrate the Execute() function, too:
+At this point, the plugin should be ready to be read by and shown correctly in the CrypTool 2 application. However, we haven't actually implemented the algorithm yet. This should be done in the ``Execute()'' function, as this is what CrypTool 2 will always call first. The actual functionality of your algorithm, as well as the structure thereof, is up to you. Note that an outline of the ``Execute()'' function will have been automatically generated by implementing the interface (see Section \ref{sec:AddingInterfaceFunctionsToTheCaesarClass}).
+
+We have chosen to split our algorithm's encryption and decryption into two separate functions, which will both ultimately call the ``ProcessCaesar()'' function. Below is our implementation of the Execute() function:
+
 \begin{lstlisting}
 private void ProcessCaesar(CaesarMode mode)
 {
 	CaesarSettings cfg = (CaesarSettings)this.settings;
-	StringBuilder output = new StringBuilder('''');
+	StringBuilder output = new StringBuilder("");
 	string alphabet = cfg.AlphabetSymbols;
 
-  // in case we want don't consider case in the alphabet, we use only capital letters, hence transform
-	// the whole alphabet to uppercase
+	// In case we are working in case-insensitive mode, we will use
+	// only capital letters, hence we must transform the whole alphabet
+	// to uppercase.
 	if (!cfg.CaseSensitiveAlphabet)
 	{
-		alphabet = cfg.AlphabetSymbols.ToUpper(); ;
+		alphabet = cfg.AlphabetSymbols.ToUpper();
 	}
 
 	if (inputString != null)
 	{
 		for (int i = 0; i < inputString.Length; i++)
 		{
-			// get plaintext char which is currently processed
+			// Get the plaintext char currently being processed.
 			char currentchar = inputString[i];
 
-			// remember if it is upper case (otherwise lowercase is assumed)
+			// Store whether it is upper case (otherwise lowercase is assumed).
 			bool uppercase = char.IsUpper(currentchar);
 
-			// get the position of the plaintext character in the alphabet
+			// Get the position of the plaintext character in the alphabet.
 			int ppos = 0;
 			if (cfg.CaseSensitiveAlphabet)
 			{
@@ -1186,8 +1247,9 @@ private void ProcessCaesar(CaesarMode mode)
 
 			if (ppos >= 0)
 			{
-				// we found the plaintext character in the alphabet, hence we do the shifting
-				int cpos = 0; ;
+				// We found the plaintext character in the alphabet,
+				// hence we will commence shifting.
+				int cpos = 0;
 				switch (mode)
 				{
 					case CaesarMode.encrypt:
@@ -1198,7 +1260,8 @@ private void ProcessCaesar(CaesarMode mode)
 						break;
 				}
 
-				// we have the position of the ciphertext character, hence just output it in the correct case
+				// We have the position of the ciphertext character,
+				// hence just output it in the correct case.
 				if (cfg.CaseSensitiveAlphabet)
 				{
 					output.Append(alphabet[cpos]);
@@ -1217,7 +1280,8 @@ private void ProcessCaesar(CaesarMode mode)
 			}
 			else
 			{
-				// the plaintext character was not found in the alphabet, hence proceed with handling unknown characters
+				// The plaintext character was not found in the alphabet,
+				// hence proceed with handling unknown characters.
 				switch ((CaesarSettings.UnknownSymbolHandlingMode)cfg.UnknownSymbolHandling)
 				{
 					case CaesarSettings.UnknownSymbolHandlingMode.Ignore:
@@ -1229,15 +1293,15 @@ private void ProcessCaesar(CaesarMode mode)
 				}
 			}
 
-			//show the progress
+			// Show the progress.
 			if (OnPluginProgressChanged != null)
 			{
 				OnPluginProgressChanged(this, new PluginProgressEventArgs(i, inputString.Length - 1));
 			}
 		}
 		outputString = output.ToString();
-		OnPropertyChanged(''OutputString'');
-		OnPropertyChanged(''OutputData'');
+		OnPropertyChanged("OutputString");
+		OnPropertyChanged("OutputData");
 	}
 }
 
@@ -1256,10 +1320,11 @@ public void Execute()
 	switch (settings.Action)
 	{
 		case 0:
-			Caesar_LogMessage(''encrypting'', NotificationLevel.Debug);
+			Caesar_LogMessage("Encrypting", NotificationLevel.Debug);
 			Encrypt();
 			break;
 		case 1:
+			Caesar_LogMessage("Decrypting", NotificationLevel.Debug);
 			Decrypt();
 			break;
 		default:
@@ -1267,9 +1332,11 @@ public void Execute()
 	}
 }
 \end{lstlisting}
-It is important to make sure that all changes of output properties will be announced to the CrypTool environment. In this example this happens by calling the setter of OutputData which in turn calls ''OnPropertyChanged'' for both output properties ''OutputData'' and ''OutputDataStream''. Instead of calling the property's setter you can as well call ''OnPropertyChanged'' directly within the ''Execute()'' method.\clearpage
-Certainly you have seen the unknown method ''ProgressChanged'' which you can use to show the current algorithm process as a progress on the plugin icon.
-To use this method you also have to declare this method to afford a successful compilation:
+
+It is important to make sure that all changes to the output properties will be announced to the CrypTool 2 environment. In our example this happens by calling the set method of OutputData, which in turn calls ``OnPropertyChanged'' for both output properties ``OutputData'' and ``OutputDataStream''. Instead of calling the property's set method you can instead call ``OnPropertyChanged'' directly within the ``Execute()'' method.\clearpage
+
+You have probably noticed that the ``ProgressChanged'' method is undefined. This can be used to show the current algorithm process as a progress bar in the plugin icon. To use this method and compile successfully, you must declare this method, as we have done for our example below:
+
 \begin{lstlisting}
 public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 private void ProgressChanged(double value, double max)
@@ -1277,8 +1344,12 @@ private void ProgressChanged(double value, double max)
 	EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
 }
 \end{lstlisting}
-\section{Perform a clean dispose}\label{sec:PerformACleanDispose}
-Be sure you have closed and cleaned all your streams after execution and when CrypTool decides to dispose the plugin instance. Though not required, we run the dispose code before execution as well:
+
+\section{Performing a clean dispose}
+\label{sec:PerformingACleanDispose}
+
+Be sure you have closed and cleaned all your streams after execution before CrypTool 2 decides to dispose the plugin instance. Though not required, we will run the disposal code before execution as well. We will expand the associated automatically generated methods (see Section \ref{sec:AddingInterfaceFunctionsToTheCaesarClass}) as follows:
+
 \begin{lstlisting}
 public void Dispose()
 {
@@ -1298,9 +1369,14 @@ public void PreExecution()
 {
 	Dispose();
 }
-\end{lstlisting}\clearpage
-\section{Finish implementation}\label{sec:FinishImplementation}
-When adding plugin instances to the CrypTool workspace, CrypTool checks whether the plugin runs without any exception. If any IPlugin method throws an exception, CrypTool will show an error and prohibit using the plugin. Therefore we have to remove the ''NotImplementedException'' from the methods ''Initialize()'', ''Pause()'' and ''Stop()''. In our example it's sufficient to provide empty implementations.
+\end{lstlisting}
+\clearpage
+
+\section{Finishing the implementation}
+\label{sec:FinishingTheImplementation}
+
+When adding plugin instances to the CrypTool 2 workspace, the application core checks whether the plugin runs without any exceptions. If any method inherited from IPlugin throws an exception, CrypTool 2 will display an error message and prohibit use of the plugin. Therefore, we must remove the ``NotImplementedException'' from the automatically generated methods ``Initialize()'', ``Pause()'' and ``Stop()''. In our example it will be sufficient to provide empty implementations.
+
 \begin{lstlisting}
 public void Initialize()
 {
@@ -1314,7 +1390,9 @@ public void Stop()
 {
 }
 \end{lstlisting}
-The methods ''Presentation()'' and ''QuickWatchPresentation()'' can be used if a plugin developer wants to provide an own visualization of the plugin algorithm which will be shown in CrypTool. Take a look at the PRESENT plugin to see how a custom visualization can be realized. For our Caesar example we don't want to implement a custom visualization, therefore we return ''null'':
+
+The methods ``Presentation()'' and ``QuickWatchPresentation()'' can be used to provide a specialized visualization of the plugin algorithm to be shown in CrypTool. Take a look at the ``PRESENT'' plugin to see how a custom visualization can be realized. For our Caesar example, we have chosen not to implement a custom visualization. Therefore we will simply return ``null'':
+
 \begin{lstlisting}
 public UserControl Presentation
 {
@@ -1326,78 +1404,105 @@ public UserControl QuickWatchPresentation
 	get { return null; }
 }
 \end{lstlisting}
-Your plugin should compile without errors at this point.\clearpage
 
-\section{Import the plugin to CrypTool and test it}\label{sec:ImportThePluginToCryptoolAndTestIt}
-After you have built the plugin, you need to move the newly created plugin DLL to a location, where CrypTool can find it. To do this, there are the following ways:
-\begin{itemize}
-	\item Copy your plugin DLL file in the folder ''CrypPlugins'' which has to be in the same folder as the CrypTool executable, called ''CrypWin.exe''. If necessary, create the folder ''CrypPlugins''.
+Your plugin should compile without errors at this point.
+\clearpage
+
+\section{Importing and testing the plugin}
+\label{sec:ImportingAndTestingThePlugin}
+
+After you have built the plugin, you need to move the newly created plugin DLL to a location where CrypTool 2 can find it. There are a few different ways to accomplish this. You can find the DLL file in \textit{\textbackslash CrypPluginBase\textbackslash bin\textbackslash Debug}.
+
+\subsection{Global storage}
+\label{sec:GlobalStorage}
+
+The first option is to copy your plugin's DLL file to the ``CrypPlugins'' folder in which the CrypTool 2 executable (``CrypWin.exe'') can be found. %If necessary, create the folder ''CrypPlugins''.
+
 \begin{figure}[h]
 	\centering
 		\includegraphics{figures/copy_dll_global_storage.jpg}
-	\caption{Copy plugin to global storage}
+	\caption{Copying the plugin to the global storage folder}
 	\label{fig:copy_dll_global_storage}
 \end{figure}
 
-This folder is called ''Global storage'' in the CrypTool architecture. Changes in this folder will take effect for all users on a multi user Windows. Finally restart CrypTool.\clearpage
+This folder is known as ``global storage'' in the CrypTool 2 architecture. Changes in this folder will affect all users on a multi-user Windows platform. You should now restart CrypTool 2.
+\clearpage
+
 \begin{figure}[h]
 	\centering
 		\includegraphics{figures/global_storage.jpg}
-	\caption{Plugins global storage}
+	\caption{Inside the CrypPlugins folder (the global storage).}
 	\label{fig:global_storage}
 \end{figure}
 
-	\item Copy your plugin DLL file in the folder ''CrypPlugins'' which is located in your home path in the folder ''ApplicationData'' and restart CrypTool.  This home folder path is called ''Custom storage'' in the CrypTool architecture. Changes in this folder will only take effect for current user.  On a German Windows XP the home folder path could look like:
-''C:\textbackslash Dokumente und Einstellungen\textbackslash $<$User$>$\textbackslash Anwendungsdaten\textbackslash CrypPlugins'' and in Vista/Windows7 the path will look like ''C:\textbackslash Users\textbackslash $<$user$>$\textbackslash Application Data\textbackslash CrypPlugins''.\clearpage
+\subsection{Custom storage}
+\label{sec:CustomStorage}
+
+The second possibility is to copy your plugin's DLL file to the ``CrypPlugins'' folder located in the ``Application Data'' folder in your home folder. In Windows XP, the home folder path should be as follows: \textit{C:\textbackslash Documents and Settings\textbackslash $<$user name$>$\textbackslash Application Data\textbackslash CrypPlugins}, and in Vista and Windows 7 the path should look like: \textit{C:\textbackslash Users\textbackslash $<$user name$>$\textbackslash Application Data\textbackslash CrypPlugins}. This home folder path is called ``custom storage'' in the CrypTool architecture. Changes in this folder will only take effect for current user. After copying the file, you must restart CrypTool 2.
+\clearpage
+
 \begin{figure}[h]
 	\centering
 		\includegraphics[width=1.00\textwidth]{figures/custom_storage.jpg}
-	\caption{Plugins custom storage}
+	\caption{The custom storage folder.}
 	\label{fig:custom_storage}
 \end{figure}
-	\item You can also import new plugins directly from the CrypTool interface. Just execute CrypWin.exe and select the ''Download Plugins'' button. An ''Open File Dialog'' will open and ask where the new plugin is located. After selecting the new plugin, CrypTool will automatically import the new plugin in the custom storage folder. With this option you will not have to restart CrypTool. All according menu entries will be updated automatically.
-Notice, that this plugin importing function only accepts \textbf{signed} plugins.
 
-\textit{\small Note: This option is a temporary solution for importing new plugins. In the future this will be done online by a web service.}\clearpage
+\subsection{Importing directly}
+\label{sec:ImportingDirectly}
 
-	\item Use post-build in your project properties to copy the DLL automatically after building it in Visual Studio with other plugins. Right-click on your plugin project and select ''Properties'':
+Alternatively, you can import new plugins directly from the CrypTool 2 interface. Just run \mbox{CrypWin.exe} and select the ``Download Plugins'' button. An ``Open File Dialog'' window will open and ask where the new plugin is located. After selecting the new plugin, CrypTool 2 will automatically import the plugin to the custom storage folder. With this option you will not have to restart the program. All corresponding menu entries will be updated automatically. Note that this import function only accepts \textbf{signed} plugins, and also that this option is just a temporary solution: in the future this will be done online by a web service.
+\clearpage
+
+\subsection{Using build settings}
+\label{sec:UsingBuildSettings}
+
+Yet another option is to use the build settings in your plugin's project properties to copy the DLL automatically after building it in Visual Studio. To set this up, right-click on your plugin project and select ``Properties'':
+
 \begin{figure}[h]
 	\centering
 		\includegraphics{figures/solution_properties.JPG}
-	\caption{Solution Properties}
+	\caption{Selecting the solution properties.}
 	\label{fig:solution_properties}
-\end{figure}\clearpage
-Select ''Build Events'':
+\end{figure}
+\clearpage
+
+\noindent Then select ``Build Events'':
+
 \begin{figure}[h]
 	\centering
 		\includegraphics{figures/post_build.JPG}
-	\caption{Build Events}
+	\caption{Setting the build events.}
 	\label{fig:post_build}
 \end{figure}
 
-Enter the following text snippet into ''Post-build event command line'':\\\\
-cd ''\$(ProjectDir)''\\
+\noindent And finally, enter the following text into ``Post-build event command line'':\\\\
+cd "\$(ProjectDir)" \\
 cd ..\textbackslash ..\textbackslash CrypWin\$(OutDir)\\
-if not exist ''./CrypPlugins'' mkdir ''./CrypPlugins''\\
-del /F /S /Q /s /q ''\fcolorbox{yellow}{yellow}{Caesar}*.*''\\
-copy ''\$(TargetDir)\fcolorbox{yellow}{yellow}{Caesar}*.*'' ''./CrypPlugins''\\\\
-You need to adapt the yellow marked field to your actual project name.
-\end{itemize}
+if not exist "./CrypPlugins" mkdir "./CrypPlugins"\\
+del /F /S /Q /s /q "\fcolorbox{yellow}{yellow}{Caesar}*.*"\\
+copy "\$(TargetDir)\fcolorbox{yellow}{yellow}{Caesar}*.*" "./CrypPlugins"\\\\
+You will need to change the marked fields to your particular plugin's name.
 
+\section{Downloading the example and template}
+\label{sec:DownloadingTheExampleAndTemplate}
 
-\section{Source code and source template}\label{sec:SourceCodeAndSourceTemplate}
-Here you can download the whole source code which was presented in this ''Howto'' as a Visual Studio \textbf{solution}:\\\\
+If you didn't download the entire CrypTool 2 source code as described in Section \ref{TheCrypTool2SVNURL}, but you want a copy of the source code for the Caesar algorithm that was used as an example in this guide, you can download it as a Visual Studio \textbf{solution} from the following location:\\\\
 \textit{username: anonymous\\
-password: not required\\}
+password:} (not required)\\
 \htmladdnormallink{https://www.cryptool.org/svn/CrypTool2/trunk/CrypPlugins/Caesar/}{https://www.cryptool.org/svn/CrypTool2/trunk/CrypPlugins/Caesar/}\\\\
-%\textit{\small Note: You should commit your sources to our subversion so often you can. This will ensure your interoperability for further development.}\\\\
-Here you can download the Visual Studio plugin \textbf{template} to begin with the development of a new CrypTool plugin:\\\\
-\htmladdnormallink{http://cryptool2.vs.uni-due.de/downloads/template/encryptionplugin.zip}{http://cryptool2.vs.uni-due.de/downloads/template/encryptionplugin.zip}\clearpage
-\section{Provide a workflow file of your plugin}\label{ProvideAWorkflowFileOfYourPlugin}
-Every plugin developer should provide a workflow file which shows his algorithm working in CrypTool2. You will automatically create a workflow file by saving your project which was created on CrypTool2 work space. Here is an example how a workflow could look like:
+We have also created a Visual Studio plugin template to help with the development of new plugins. This can be found here:\\\\
+\htmladdnormallink{http://cryptool2.vs.uni-due.de/downloads/template/encryptionplugin.zip}{http://cryptool2.vs.uni-due.de/downloads/template/encryptionplugin.zip}
+\clearpage
+
+\section{Drawing the workflow of your plugin}
+\label{DrawingTheWorkfloweOfYourPlugin}
+
+Each plugin should have an associated workflow file to show the algorithm in action in CrypTool 2. Such a file can be automatically created by simply saving a CrypTool 2 workspace project featuring your plugin. Below is a possible workflow for our Caesar example:
+
 \begin{figure}[h]
 	\centering
 		\includegraphics{figures/sample.jpg}
-	\caption{Plugin sample}
+	\caption{A sample workflow diagram for the Caesar algorithm.}
 	\label{fig:sample}
 \end{figure}
