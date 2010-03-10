@@ -95,15 +95,30 @@ namespace Cryptool.Plugins.Converter
             [MethodImpl(MethodImplOptions.Synchronized)]
             get
             {
-                if (inputOne is byte[] && settings.Converter == 8)
-                {
-                    if (inputOne == null)
-                        return null;
+                if (inputOne == null)
+                    return null;
 
-                    CryptoolStream stream = new CryptoolStream();
-                    listCryptoolStreamsOut.Add(stream);
-                    stream.OpenRead((byte[])inputOne);
-                    return stream;
+                if (settings.Converter == 8)
+                {
+                    byte[] streamData = null;
+
+                    if (inputOne is byte[])
+                        streamData = (byte[])inputOne;
+                    else if (inputOne is byte)
+                        streamData = new byte[] { (byte)inputOne };
+
+                    if (streamData != null)
+                    {
+                        CryptoolStream stream = new CryptoolStream();
+                        listCryptoolStreamsOut.Add(stream);
+                        stream.OpenRead(streamData);
+                        return stream;
+                    }
+                    else
+                    {
+                        GuiLogMessage("Conversion from " + inputOne.GetType().Name + " to Cryptoolstream is not yet implemented", NotificationLevel.Error);
+                        return null;
+                    }
                 }
                 else
                 {
@@ -134,7 +149,7 @@ namespace Cryptool.Plugins.Converter
             if (InputOne != null)
                 GuiLogMessage("Laufe! " + InputOne.ToString(), NotificationLevel.Debug);
 
-            if (!(InputOne is int[] || InputOne is byte[] || InputOne is CryptoolStream)) 
+            if (!(InputOne is int[] || InputOne is CryptoolStream))
             {
                 if (inputOne is bool)
                 {
@@ -189,7 +204,7 @@ namespace Cryptool.Plugins.Converter
                             try // can be read as int?
                             {
                                 int temp = Convert.ToInt32(inpString);
-                                
+
                                 Output = temp;
                                 ProgressChanged(100, 100);
                             }
@@ -205,7 +220,7 @@ namespace Cryptool.Plugins.Converter
                             try // can be read as short?
                             {
                                 short temp = Convert.ToInt16(inpString);
-                              
+
                                 Output = temp;
                                 ProgressChanged(100, 100);
                             }
@@ -220,7 +235,7 @@ namespace Cryptool.Plugins.Converter
                             try // can be read as byte?
                             {
                                 byte temp = Convert.ToByte(inpString);
-                               
+
                                 Output = temp;
                                 ProgressChanged(100, 100);
                             }
@@ -255,7 +270,7 @@ namespace Cryptool.Plugins.Converter
                             {
 
                                 BigInteger temp = BigInteger.parseExpression(inpString);
-                               
+
                                 Output = temp;
                                 ProgressChanged(100, 100);
                             }
@@ -282,7 +297,7 @@ namespace Cryptool.Plugins.Converter
                                     temp = BitConverter.GetBytes(tempint);
 
                                     int test = BitConverter.ToInt32(temp, 0);
-                                  
+
 
                                     Output = temp;
 
@@ -307,7 +322,7 @@ namespace Cryptool.Plugins.Converter
                                     temp = tempbigint.getBytes();
 
                                     BigInteger test = new BigInteger(temp);
-                                  
+
                                     Output = temp;
 
                                     ProgressChanged(100, 100);
@@ -318,23 +333,23 @@ namespace Cryptool.Plugins.Converter
 
                                 }
                                 try // can be read as double
-                                {   
-                                    
-                                    
-                                    
-                                        double tempDouble = Convert.ToDouble(DoubleCleanup(inpString));
-                                        byte[] temp = BitConverter.GetBytes(tempDouble);
+                                {
 
-                                        double test = BitConverter.ToDouble(temp, 0);
-                                        GuiLogMessage("Converting String to double is not safe. Digits may have been cut off " + test.ToString(), NotificationLevel.Warning);
 
-                                        Output = temp;
 
-                                        ProgressChanged(100, 100);
-                                        break;
-                                    
-                                  
-                                  
+                                    double tempDouble = Convert.ToDouble(DoubleCleanup(inpString));
+                                    byte[] temp = BitConverter.GetBytes(tempDouble);
+
+                                    double test = BitConverter.ToDouble(temp, 0);
+                                    GuiLogMessage("Converting String to double is not safe. Digits may have been cut off " + test.ToString(), NotificationLevel.Warning);
+
+                                    Output = temp;
+
+                                    ProgressChanged(100, 100);
+                                    break;
+
+
+
                                 }
                                 catch (Exception e)
                                 {
@@ -344,12 +359,12 @@ namespace Cryptool.Plugins.Converter
                                 Output = enc.GetBytes(inpString);
 
 
-                            
+
                                 ProgressChanged(100, 100);
                                 break;
-                               
-                               
-                                
+
+
+
                             }
                             else // numeric interpretation NOT selected:
                             {
@@ -373,38 +388,42 @@ namespace Cryptool.Plugins.Converter
                                     case ConverterSettings.EncodingTypes.ASCII:
                                         Output = Encoding.ASCII.GetBytes(inpString.ToCharArray());
                                         break;
-                                    case ConverterSettings.EncodingTypes.BigEndianUnicode:                              
+                                    case ConverterSettings.EncodingTypes.BigEndianUnicode:
                                         Output = Encoding.BigEndianUnicode.GetBytes(inpString.ToCharArray());
                                         break;
                                     default:
                                         Output = Encoding.Default.GetBytes(inpString.ToCharArray());
                                         break;
                                 }
-                               
 
 
-                              
+
+
                                 ProgressChanged(100, 100);
                                 break;
                             }
-                            
+
                         }
                     case 8: //cryptoolstream
                         {
-                            GuiLogMessage("Conversion to Cryptoolstream not yet implemented", NotificationLevel.Error);
+
+                            if (inputOne is byte[] || inputOne is byte)
+                            {
+                                OnPropertyChanged("Output");
+                            }
+                            else
+                            {
+                                GuiLogMessage("Conversion from " + inputOne.GetType().Name + " to Cryptoolstream is not yet implemented", NotificationLevel.Error);
+                            }
                             break;
                         }
                     default:
                         {
-                         
+
                             break;
                         }
                 }
 
-            }
-            else if (inputOne is byte[] && settings.Converter == 8)
-            {
-                OnPropertyChanged("Output");
             }
             else
             {
@@ -415,7 +434,7 @@ namespace Cryptool.Plugins.Converter
         {
             if (temp != null)
             {
-                
+
                 switch (settings.Presentation)
                 {
                     case ConverterSettings.PresentationFormat.Text:
