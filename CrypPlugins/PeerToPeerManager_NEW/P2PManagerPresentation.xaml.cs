@@ -78,7 +78,8 @@ namespace Cryptool.Plugins.PeerToPeer
             exp_chunk.FontSize = 10;
             exp_chunk.Background = grayBrush;
             exp_chunk.SizeChanged += new SizeChangedEventHandler(exp_chunk_SizeChanged);
-            this.PrgChunks.Width = 200;
+            this.PrgChunks.Width = 250;
+            //this.PrgChunks.HorizontalAlignment = HorizontalAlignment.Stretch;
             this.PrgChunks.Height = 55;
             Grid.SetRow(exp_chunk, 1);
             this.Grid1.Children.Add(exp_chunk);
