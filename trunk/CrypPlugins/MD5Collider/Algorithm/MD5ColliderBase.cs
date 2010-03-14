@@ -95,6 +95,8 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
 
         public void FindCollision()
         {
+            CombinationsTried = 0;
+
             CheckRandomSeed();
             CheckIHV();
 
