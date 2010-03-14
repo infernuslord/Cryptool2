@@ -12,8 +12,8 @@
 	</UserControl.Resources>
     <Grid>
         <displays:DataBlockDisplay Data="{Binding CurrentState.CurrentDataBlock}" Height="40" Margin="8,75,8,0" VerticalAlignment="Top" />
-        <TextBlock Margin="8,119,8,186" Name="textBlock1" Text="and start the padding process by appending one single '1' bit to the end of our data. Since we are working with octets, this is the same as adding a '10000000' octet, thus, a byte with value 0x08, to the end of our data." TextWrapping="Wrap" Style="{DynamicResource textBlockStyle}" />
-        <TextBlock Margin="8,248,8,0" x:Name="textBlock2" TextWrapping="Wrap" Height="120" VerticalAlignment="Top" Style="{DynamicResource textBlockStyle}" ><Run Text="We "/><Run Text="also "/><Run Text="append zero bytes to the data. We choose the number of zero bytes so that our resulting data length is 8 bytes short of the next multiple of 64. That way, we can append 8 bytes more and get an exact multiple of 64 as our data length."/></TextBlock>
+        <TextBlock Margin="8,119,8,186" Name="textBlock1" Text="and start the padding process by appending one single '1' bit to the end of our data. Since we are working with octets, this amounts to adding a byte with the binary value 10000000, which equals the hex value 0x80, to the end of our data." TextWrapping="Wrap" Style="{DynamicResource textBlockStyle}" />
+        <TextBlock Margin="8,248,8,0" x:Name="textBlock2" TextWrapping="Wrap" Height="120" VerticalAlignment="Top" Style="{DynamicResource textBlockStyle}" ><Run Text="After that, we append multiple zero bytes to our data. We choose the amount of zero bytes in such a way that the length of the complete data block will be 8 bytes short of the next multiple of 64. This allows us to then append 8 more bytes to the data and receive an exact multiple of 64 as our data length."/></TextBlock>
         <TextBlock Height="25" Margin="8,46,8,0" Name="textBlock3" Text="We take the incomplete block of data that we've read," TextWrapping="Wrap" VerticalAlignment="Top" Style="{DynamicResource textBlockStyle}" />
     </Grid>
 </UserControl>

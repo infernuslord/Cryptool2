@@ -8,7 +8,7 @@
     <ProjectGuid>{1137719A-7468-4DEF-84B1-77AB82049656}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cryptool.MD5</RootNamespace>
+    <RootNamespace>Cryptool.Plugins.MD5</RootNamespace>
     <AssemblyName>MD5</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -154,6 +154,9 @@
     <Compile Include="Presentation\States\UninitializedPresentation.xaml.cs">
       <DependentUpon>UninitializedPresentation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Presentation\Tooltips\DataElementSelectionTooltip.xaml.cs">
+      <DependentUpon>DataElementSelectionTooltip.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -290,6 +293,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Presentation\States\UninitializedPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\Tooltips\DataElementSelectionTooltip.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

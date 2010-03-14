@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Media.Animation;
 
 namespace Cryptool.MD5.Presentation.States
 {
@@ -22,6 +23,12 @@ namespace Cryptool.MD5.Presentation.States
         public RoundStepPresentation()
         {
             InitializeComponent();
+        }
+
+        private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (IsVisible)
+                ((Storyboard)FindResource("LineFadeStoryboard")).Begin();
         }
     }
 }
