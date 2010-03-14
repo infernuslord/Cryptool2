@@ -214,6 +214,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyPatternJob", "CrypPlugin
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NativeCryptography", "NativeCryptography\NativeCryptography.vcproj", "{97B06ADB-43E4-4320-9AD8-D167421F0644}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MD5Collider", "CrypPlugins\MD5Collider\MD5Collider.csproj", "{F5DDFE63-0904-4523-AA30-11FF5E91C362}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -1422,6 +1424,18 @@ Global
 		{97B06ADB-43E4-4320-9AD8-D167421F0644}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{97B06ADB-43E4-4320-9AD8-D167421F0644}.Release|Win32.ActiveCfg = Release|Win32
 		{97B06ADB-43E4-4320-9AD8-D167421F0644}.Release|Win32.Build.0 = Release|Win32
+		{F5DDFE63-0904-4523-AA30-11FF5E91C362}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{F5DDFE63-0904-4523-AA30-11FF5E91C362}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5DDFE63-0904-4523-AA30-11FF5E91C362}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5DDFE63-0904-4523-AA30-11FF5E91C362}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F5DDFE63-0904-4523-AA30-11FF5E91C362}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F5DDFE63-0904-4523-AA30-11FF5E91C362}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{F5DDFE63-0904-4523-AA30-11FF5E91C362}.Release|.NET.ActiveCfg = Release|Any CPU
+		{F5DDFE63-0904-4523-AA30-11FF5E91C362}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5DDFE63-0904-4523-AA30-11FF5E91C362}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5DDFE63-0904-4523-AA30-11FF5E91C362}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F5DDFE63-0904-4523-AA30-11FF5E91C362}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F5DDFE63-0904-4523-AA30-11FF5E91C362}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
