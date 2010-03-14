@@ -33,6 +33,7 @@ using Cryptool.PluginBase.Miscellaneous;
 using System.Runtime.Remoting.Contexts;
 using Cryptool.MD5.Presentation;
 using Cryptool.MD5.Algorithm;
+using System.Windows.Threading;
 
 namespace Cryptool.MD5
 {

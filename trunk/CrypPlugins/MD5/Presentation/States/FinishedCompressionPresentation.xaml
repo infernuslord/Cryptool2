@@ -14,8 +14,8 @@
 		<my:HashAccumulatorDisplay DataContext="{Binding LastState}" Height="70" Margin="8,103,8,0" VerticalAlignment="Top" />
 		<my:CompressionVariableDisplay DataContext="{Binding LastState}" Margin="8,0,8,120" d:LayoutOverrides="VerticalAlignment" Height="70" VerticalAlignment="Bottom" />
 		<my:HashAccumulatorDisplay DataContext="{Binding CurrentState}" Height="70" Margin="8,0,8,12" VerticalAlignment="Bottom"/>
-		<TextBlock Height="28" Margin="392.703,153,392.703,0" x:Name="label1" VerticalAlignment="Top" Style="{DynamicResource textBlockStyle}"><Run Text="+"/></TextBlock>
-		<TextBlock Margin="392.703,0,392.703,111" x:Name="label2" Style="{DynamicResource textBlockStyle}" Height="28" VerticalAlignment="Bottom"><Run Text="="/></TextBlock>
+		<TextBlock Margin="392.703,178,392.703,194" x:Name="label1" Style="{DynamicResource textBlockStyle}"><Run Text="+"/></TextBlock>
+		<TextBlock Margin="392.703,0,392.703,86" x:Name="label2" Style="{DynamicResource textBlockStyle}" Height="28" VerticalAlignment="Bottom"><Run Text="="/></TextBlock>
         <TextBlock Height="85" Margin="4,8,12,0" Name="textBlock2" Style="{DynamicResource textBlockStyle}" Text="We have finished with the last round of the compression function. To finish up, we take the result of the compression function's steps, our temporary variables A - D, and add them to our accumulators H1 - H4." TextWrapping="Wrap" VerticalAlignment="Top" />
     </Grid>
 </UserControl>
