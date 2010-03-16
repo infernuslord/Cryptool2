@@ -34,13 +34,13 @@ numbersep=5pt,
 tabsize=2,
 breaklines=true, % Wordwrap activated
 showstringspaces=false,
+morestring=[b]', % counts single quote pairs as strings (and thus also colors them red)
 upquote=true, % changes smart single quotes to straight ' marks
 % emph defines certain colors for specific words
-emph={double,bool,int,unsigned,char,true,false,void},
-emphstyle=\color{blue},
-emph={Assert,Test},
-emphstyle=\color{BrickRed},
-emph={[2]\using,\#define,\#ifdef,\#endif}, emphstyle={[2]\color{blue}}
+% emph={double,bool,int,unsigned,char,true,false,void},emphstyle=\color{blue},
+emph={Assert,Test}, emphstyle=\color{BrickRed},
+emph={[2]double,bool,int,unsigned,char,true,false,void,using,\#define,\#ifdef,\#endif,\#region,\#endregion},
+emphstyle={[2]\color{blue}}
 }
 
 \geometry{a4paper, portrait, left=2cm, right=2cm, top=2cm, bottom=2cm, includefoot}
