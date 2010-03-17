@@ -421,30 +421,21 @@ namespace Cryptool.Plugins.PeerToPeer
 
             if (this.p2pControl == null)
                 return;
-            if (e.PropertyName == "BtnUnregister")
+            if (e.PropertyName == "BtnStop")
             {
                 if (this.p2pManager != null && this.p2pManager.Started)
                 {
                     Stop();
                     //this.p2pManager.Stop(PubSubMessageType.Unregister);
-                    GuiLogMessage("Unregister button pressed, Publisher has stopped!", NotificationLevel.Info);
+                    GuiLogMessage("Stop button pressed, Manager has been stopped!", NotificationLevel.Info);
                 }
             }
-            if (e.PropertyName == "BtnRegister")
+            if (e.PropertyName == "BtnStart")
             {
                 if (this.p2pManager == null || !this.p2pManager.Started)
                 {
                     this.process(this.EncryptionControl);
-                    GuiLogMessage("Register button pressed, Publisher has been started!", NotificationLevel.Info);
-                }
-            }
-            if (e.PropertyName == "BtnSolutionFound")
-            {
-                if (this.p2pManager != null && this.p2pManager.Started)
-                {
-                    Stop();
-                    //this.p2pManager.Stop(PubSubMessageType.Solution);
-                    GuiLogMessage("TEST: Emulate Solution-Found-message", NotificationLevel.Info);
+                    GuiLogMessage("Start button pressed, Manager will be return job distribution!", NotificationLevel.Info);
                 }
             }
         }
@@ -589,9 +580,13 @@ namespace Cryptool.Plugins.PeerToPeer
                     return;
                 }
 
+                GuiLogMessage("Begin creating a new distributable KeyPatternJob. (" + DebugToFile.GetTimeStamp() + ")", NotificationLevel.Debug);
+
                 // create a new DistributableJob instance
                 distributableKeyPatternJob = new DistributableKeyPatternJob
                     (kp, this.settings.KeyPatternSize * 10000, byteEncryptedData, this.InitVector);
+
+                GuiLogMessage("Ended creating a new distributable KeyPatternJob. (" + DebugToFile.GetTimeStamp() + ")", NotificationLevel.Debug);
 
                 //set progress chunk job count
                 SetProgressChunkJobCount(this.distributableKeyPatternJob.TotalAmount);

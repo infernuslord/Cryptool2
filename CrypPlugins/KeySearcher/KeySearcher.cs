@@ -538,6 +538,12 @@ namespace KeySearcher
         // main entry point to the KeySearcher
         private LinkedList<ValueKey> bruteforcePattern(KeyPattern pattern, IControlEncryption sender)
         {
+            //For evaluation issues - added by Arnold 2010.03.17
+            DateTime beginBruteforcing = DateTime.Now;
+            GuiLogMessage("Start bruteforcing pattern '" + pattern.getKey() + "'", NotificationLevel.Debug);
+
+
+                        
             int maxInList = 10;
             LinkedList<ValueKey> costList = new LinkedList<ValueKey>();
             fillListWithDummies(maxInList, costList);
@@ -632,6 +638,32 @@ namespace KeySearcher
 
             if (!stop)
                 ProgressChanged(1, 1);
+
+            /* BEGIN: For evaluation issues - added by Arnold 2010.03.17 */
+            TimeSpan bruteforcingTime = DateTime.Now.Subtract(beginBruteforcing);
+            StringBuilder sbBFTime = new StringBuilder();
+            if (bruteforcingTime.Days > 0)
+                sbBFTime.Append(bruteforcingTime.Days.ToString() + " days ");
+            if (bruteforcingTime.Hours > 0)
+            {
+                if (bruteforcingTime.Hours <= 9)
+                    sbBFTime.Append("0");
+                sbBFTime.Append(bruteforcingTime.Hours.ToString() + ":");
+            }
+            if (bruteforcingTime.Minutes <= 9)
+                sbBFTime.Append("0");
+            sbBFTime.Append(bruteforcingTime.Minutes.ToString() + ":");
+            if (bruteforcingTime.Seconds <= 9)
+                sbBFTime.Append("0");
+            sbBFTime.Append(bruteforcingTime.Seconds.ToString() + "-");
+            if (bruteforcingTime.Milliseconds <= 9)
+                sbBFTime.Append("00");
+            if (bruteforcingTime.Milliseconds <= 99)
+                sbBFTime.Append("0");
+            sbBFTime.Append(bruteforcingTime.Milliseconds.ToString());
+
+            GuiLogMessage("Ended bruteforcing pattern '" + pattern.getKey() + "'. Bruteforcing TimeSpan: " + sbBFTime.ToString(), NotificationLevel.Debug);
+            /* END: For evaluation issues - added by Arnold 2010.03.17 */
 
             return costList;
         }

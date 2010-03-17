@@ -35,7 +35,6 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
         /// </summary>
         event LastResultReceived OnLastResultReceived;
 
-
         /// <summary>
         /// pops a new serialized JobPart and the JobParts' JobId.
         /// Check the returned byte array. If it is null, there
