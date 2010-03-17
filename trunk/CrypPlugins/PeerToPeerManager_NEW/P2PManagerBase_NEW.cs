@@ -154,7 +154,7 @@ namespace Cryptool.Plugins.PeerToPeer
             }
             else
             {
-                GuiLogging("Manager can't be started, because P2P-Peer- or Distributable-Job-PlugIn isn't connected with the Manager or the connection is broken...", NotificationLevel.Warning);
+                GuiLogging("Manager couldn't be started, because P2P-Peer- or Distributable-Job-PlugIn isn't connected with the Manager or the connection is broken...", NotificationLevel.Warning);
             }
         }
 
@@ -461,7 +461,7 @@ namespace Cryptool.Plugins.PeerToPeer
                     if (OnNewJobAllocated != null)
                         OnNewJobAllocated(temp_jobId);
 
-                    GuiLogging("Job '" + temp_jobId.ToString() + "' were sent to worker id '" + worker.ToString() + "'", NotificationLevel.Info);
+                    GuiLogging("Job '" + temp_jobId.ToString() + "' was sent to worker id '" + worker.ToString() + "'", NotificationLevel.Info);
                     i++;
                 }
                 else

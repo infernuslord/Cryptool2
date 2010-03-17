@@ -81,5 +81,29 @@ namespace Cryptool.Plugins.PeerToPeer
                 sw = null;
             }
         }
+
+        // method only necessary for evaluation issues
+        public static string GetTimeStamp()
+        {
+            DateTime now = DateTime.Now;
+            StringBuilder sbTimeStamp = new StringBuilder();
+
+            if (now.Hour <= 9)
+                sbTimeStamp.Append("0");
+            sbTimeStamp.Append(now.Hour.ToString() + ".");
+            if (now.Minute <= 9)
+                sbTimeStamp.Append("0");
+            sbTimeStamp.Append(now.Minute.ToString() + ".");
+            if (now.Second <= 9)
+                sbTimeStamp.Append("0");
+            sbTimeStamp.Append(now.Second.ToString() + ":");
+            if (now.Millisecond <= 9)
+                sbTimeStamp.Append("00");
+            else if (now.Millisecond <= 99)
+                sbTimeStamp.Append("0");
+            sbTimeStamp.Append(now.Millisecond.ToString());
+
+            return sbTimeStamp.ToString();
+        }
     }
 }

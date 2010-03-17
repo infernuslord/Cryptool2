@@ -360,8 +360,12 @@ namespace Cryptool.Plugins.PeerToPeer
 
         protected void GuiLogging(string sText, NotificationLevel notLev)
         {
-            if(OnGuiMessage != null)
-                OnGuiMessage(sText, notLev);
+            if (OnGuiMessage != null)
+            {
+                // for evaluation issues, DateTime is added
+                OnGuiMessage(sText + "(" + DebugToFile.GetTimeStamp() + ")", notLev);
+                //OnGuiMessage(sText, notLev);
+            }
         }
 
         #endregion 
