@@ -154,9 +154,6 @@
     <Compile Include="Presentation\States\UninitializedPresentation.xaml.cs">
       <DependentUpon>UninitializedPresentation.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Presentation\Tooltips\DataElementSelectionTooltip.xaml.cs">
-      <DependentUpon>DataElementSelectionTooltip.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -293,10 +290,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Presentation\States\UninitializedPresentation.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Presentation\Tooltips\DataElementSelectionTooltip.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
