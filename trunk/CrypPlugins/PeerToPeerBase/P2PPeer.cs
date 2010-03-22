@@ -36,10 +36,6 @@ namespace Cryptool.Plugins.PeerToPeer
         #region Variables
 
         public P2PBase p2pBase;
-        /// <summary>
-        /// dirty workaround!!!
-        /// </summary>
-        private bool bolFirstInitalisation = true;
         private P2PPeerSettings settings;
         private IP2PControl p2pSlave;
 
@@ -92,15 +88,7 @@ namespace Cryptool.Plugins.PeerToPeer
 
         public void PreExecution()
         {
-            // nicht in PreExecute möglich, da schon beim Laden von CT2 gefeuert. Input-Data werden erst NACH PreExecute gesetzt!
-            if (bolFirstInitalisation)
-            {
-                bolFirstInitalisation = false;
-            }
-            else
-            {
-                StartPeer();
-            }
+            StartPeer();
         }
 
         public void Execute()
