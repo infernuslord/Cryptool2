@@ -278,6 +278,7 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             if (!isWorking)
             {
+                base.SendRegMsg();
                 this.p2pControl.SendToPeer(JobMessages.CreateFreeWorkerStatusMessage(true), base.ActualPublisher);
                 GuiLogging("Because the last 'free worker'-Message got lost, try again.", NotificationLevel.Info);
             }
