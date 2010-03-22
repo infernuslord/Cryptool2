@@ -466,6 +466,7 @@ namespace Cryptool.Plugins.PeerToPeer
                 }
                 else
                 {
+                    //todo: insert sending "no more jobs left msg" to the free worker, so it can stop its Free-Msg-Timer
                     GuiLogging("No more jobs left. So wait for the last results, than close this task.", NotificationLevel.Debug);
                     if (OnNoMoreJobsLeft != null)
                         OnNoMoreJobsLeft();

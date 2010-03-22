@@ -261,6 +261,13 @@ namespace Cryptool.Plugins.PeerToPeer
                 OnTextArrivedFromPublisher(data, senderId);
         }
 
+        // added by Arnold - 2010.03.22
+        // so Worker can send additional reg messages, if connection got lost
+        public void SendRegMsg()
+        {
+            SendMessage(actualPublisher, PubSubMessageType.Register);
+        }
+
         private void SendMessage(PeerId pubPeerId, PubSubMessageType msgType)
         {
             switch (msgType)
