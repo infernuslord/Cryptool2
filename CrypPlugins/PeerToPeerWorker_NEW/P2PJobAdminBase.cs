@@ -21,6 +21,7 @@ using Cryptool.PluginBase.Control;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.Plugins.PeerToPeer.Jobs;
+using System.Timers;
 
 /* TWO DIFFERENT STOPPING CASE:
  * 1) When P2P-Admin is stopped, deregister WorkerControl-Events, so
@@ -57,6 +58,12 @@ namespace Cryptool.Plugins.PeerToPeer
         private IControlWorker workerControl;
 
         /// <summary>
+        /// if worker sends a "free" msg to the manager, but it doesn't react on this,
+        /// although there are some jobs to distribute...
+        /// </summary>
+        Timer timerWaitingForJobs = new Timer(5000);
+
+        /// <summary>
         /// if more than one job arrived at the same time, buffer it in this dictionary
         /// (can't happen under normal circumstances, but when it happens, we are prepared)
         /// </summary>
@@ -78,6 +85,7 @@ namespace Cryptool.Plugins.PeerToPeer
 
         public P2PJobAdminBase(IP2PControl p2pControl, IControlWorker controlWorker) : base(p2pControl)
         {
+            this.timerWaitingForJobs.Elapsed += new ElapsedEventHandler(timerWaitingForJobs_Elapsed);
             this.workerControl = controlWorker;
 
             // see comment above, to know why the following lines are commented
@@ -119,6 +127,9 @@ namespace Cryptool.Plugins.PeerToPeer
                 this.workerControl.OnProcessingCanceled -= workerControl_OnProcessingCanceled;
                 this.workerControl.OnProcessingSuccessfullyEnded -= workerControl_OnProcessingSuccessfullyEnded;
                 this.workerControl.OnInfoTextReceived -= workerControl_OnInfoTextReceived;
+
+                this.timerWaitingForJobs.Stop();
+
                 base.Stop(msgType);
 
                 // delete the waiting Job List, so after re-registering, this worker
@@ -225,6 +236,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="result">serialized Result data</param>
         private void workerControl_OnProcessingSuccessfullyEnded(BigInteger jobId, byte[] result)
         {
+            //GuiLogging("Sending job result to Manager. JobId: " + jobId.ToString() + ". Mngr-Id: '" + base.ActualPublisher.ToString() + "'.", NotificationLevel.Info);
             GuiLogging("Sending job result to Manager. JobId: " + jobId.ToString() + ". Mngr-Id: '" + base.ActualPublisher.ToString() + "'.", NotificationLevel.Info);
             this.p2pControl.SendToPeer(JobMessages.CreateJobResultMessage(jobId, result), base.ActualPublisher);
 
@@ -234,8 +246,7 @@ namespace Cryptool.Plugins.PeerToPeer
             if (OnSuccessfullyEnded != null)
                 OnSuccessfullyEnded();
 
-            CheckIfAnyJobsLeft();
-            
+            CheckIfAnyJobsLeft();   
         }
 
         private void CheckIfAnyJobsLeft()
@@ -250,6 +261,31 @@ namespace Cryptool.Plugins.PeerToPeer
                 // no more jobs in the waiting stack, so send Mngr the information, that Worker is waiting for new jobs now
                 this.p2pControl.SendToPeer(JobMessages.CreateFreeWorkerStatusMessage(true), base.ActualPublisher);
                 GuiLogging("No jobs in the 'waitingJob'-Stack, so send 'free'-information to the Manager. Mngr-Id: '" + base.ActualPublisher.ToString() + "'.", NotificationLevel.Info);
+                // If this timer elapses, it will check if the isWorking flag is true. Than it will stop the timer.
+                // Otherwise it will send a new free msg to the Manager, if the last free msg got lost
+                this.timerWaitingForJobs.Start();
+            }
+        }
+
+        // Added by Arnold - 2010.03.22
+        /// <summary>
+        /// this method is only necessary when the regular free message got lost on the way to the manager.
+        /// In this case the Worker won't get any more jobs, so it sends a free message 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void timerWaitingForJobs_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if (!isWorking)
+            {
+                this.p2pControl.SendToPeer(JobMessages.CreateFreeWorkerStatusMessage(true), base.ActualPublisher);
+                GuiLogging("Because the last 'free worker'-Message got lost, try again.", NotificationLevel.Info);
+            }
+            else
+            {
+                // when Worker is working, than the time can be stopped
+                timerWaitingForJobs.Stop();
+                GuiLogging("Next trial to send 'free worker'-Mesasge was successful, so the timer was stopped.", NotificationLevel.Info);
             }
         }
 
