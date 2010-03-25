@@ -236,14 +236,15 @@ namespace Cryptool.TextInput
 
       textInputPresentation = new TextInputPresentation();
       Presentation = textInputPresentation;
-      textInputPresentation.textBoxInputText.TextChanged += textBoxInputText_TextChanged;
     }
 
     void textBoxInputText_TextChanged(object sender, TextChangedEventArgs e)
     {
       this.NotifyUpdate();
-      settings.HasChanges = true;
+
+      // No dispatcher necessary, handler is being called from GUI component
       textInputPresentation.labelBytesCount.Content = string.Format("{0:0,0}", Encoding.Default.GetBytes(textInputPresentation.textBoxInputText.Text.ToCharArray()).Length) + " Bytes";
+      settings.Text = textInputPresentation.textBoxInputText.Text;
     }
 
     void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -309,7 +310,7 @@ namespace Cryptool.TextInput
           CryptoolStream cryptoolStream = new CryptoolStream();
           listCryptoolStreams.Add(cryptoolStream);
 
-          cryptoolStream.OpenRead(this.GetPluginInfoAttribute().Caption, arr);
+          cryptoolStream.OpenRead(arr);
           // ShowProgress(100, 100);
           // GuiLogMessage("Got request for Stream. CryptoolStream created: " + cryptoolStream.FileName, NotificationLevel.Debug);
           return cryptoolStream;
@@ -442,10 +443,14 @@ namespace Cryptool.TextInput
     public void Initialize()
     {
       if (textInputPresentation.textBoxInputText != null)
-        textInputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-        {
-          textInputPresentation.textBoxInputText.Text = settings.Text;
-        }, null);
+      {
+          textInputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+          {
+              textInputPresentation.textBoxInputText.Text = settings.Text;
+          }, null);
+      }
+
+      textInputPresentation.textBoxInputText.TextChanged += textBoxInputText_TextChanged;
     }
 
     public void Dispose()
@@ -458,11 +463,7 @@ namespace Cryptool.TextInput
 
       byteArrayOutput = null;
 
-      settings.Text = (string)textInputPresentation.textBoxInputText.Dispatcher.Invoke(
-        DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
-      {
-        return textInputPresentation.textBoxInputText.Text;
-      }, null);
+      textInputPresentation.textBoxInputText.TextChanged -= textBoxInputText_TextChanged;
     }
 
     public void Execute()
@@ -471,7 +472,7 @@ namespace Cryptool.TextInput
       ShowProgress(100, 100);
       string value = (string)this.textInputPresentation.textBoxInputText.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
       {
-        return textInputPresentation.textBoxInputText.Text;
+          return textInputPresentation.textBoxInputText.Text;
       }, textInputPresentation);
 
       if (value == null || value == string.Empty)

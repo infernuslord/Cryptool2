@@ -391,34 +391,28 @@ namespace Cryptool.VigenereAnalyser
             vaPresentation = new VAPresentation();
 
             Presentation = vaPresentation;
-            vaPresentation.textBoxInputText.TextChanged +=textBoxInputText_TextChanged;
         }
         void textBoxInputText_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            this.NotifyUpdate();
-            settings.HasChanges = true;
-            
-        }
-        public void NotifyUpdate()
         {
             settings.Text = vaPresentation.textBoxInputText.Text;
         }
         public void Initialize()
         {
             if (vaPresentation.textBoxInputText != null)
+            {
                 vaPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     vaPresentation.textBoxInputText.Text = settings.Text;
                 }, null);
+            }
+
+            vaPresentation.textBoxInputText.TextChanged += textBoxInputText_TextChanged;
         }
         public void Dispose()
         {
-            settings.Text = (string)vaPresentation.textBoxInputText.Dispatcher.Invoke(
-        DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
-        {
-            return vaPresentation.textBoxInputText.Text;
-        }, null);
+            vaPresentation.textBoxInputText.TextChanged -= textBoxInputText_TextChanged;
         }
+
         public void PreExecution()
         {
             keywordOutput = null;

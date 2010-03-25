@@ -147,8 +147,7 @@ namespace FileInput
         }
 
         /// <summary>
-        /// Close open file and save open filename to settings. Will be called when saving
-        /// workspace or when deleting an element instance from workspace.
+        /// Close open file. Will be called when deleting an element instance from workspace.
         /// </summary>
         public void Dispose()
         {
