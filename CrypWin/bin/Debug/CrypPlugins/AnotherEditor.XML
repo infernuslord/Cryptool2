@@ -3722,7 +3722,7 @@
             Base class for IDragable
             </summary>
         </member>
-        <member name="M:AnotherEditor.DragDrop.Interfaces.IDragContent.Dispose">
+        <member name="M:AnotherEditor.DragDrop.Interfaces.IDragContent.PreSave">
             <summary>
             Releases unmanaged and - optionally - managed resources. Will be called
             by execution manager before saving the class. 
@@ -3767,7 +3767,7 @@
             Initializes a new instance of the <see cref="T:AnotherEditor.DragDrop.Thumbs.DragDropContentInfoElement"/> class.
             </summary>
         </member>
-        <member name="M:AnotherEditor.DragDrop.Thumbs.DragDropContentInfoElement.Dispose">
+        <member name="M:AnotherEditor.DragDrop.Thumbs.DragDropContentInfoElement.PreSave">
             <summary>
             Writes current state to settings. 
             </summary>

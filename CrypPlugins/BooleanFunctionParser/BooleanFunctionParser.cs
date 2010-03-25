@@ -89,10 +89,6 @@ namespace Cryptool.BooleanFunctionParser
 
             booleanFunctionParserPresentation = new BooleanFunctionParserPresentation();
             Presentation = booleanFunctionParserPresentation;
-            booleanFunctionParserPresentation.textBoxInputFunction.TextChanged += textBoxInput_TextChanged;
-            booleanFunctionParserPresentation.textBoxInputData.TextChanged += textBoxInput_TextChanged;
-            booleanFunctionParserPresentation.textBoxInputFunction2.TextChanged += textBoxInput_TextChanged;
-            booleanFunctionParserPresentation.textBoxInputData2.TextChanged += textBoxInput_TextChanged;
 
             CanChangeDynamicProperty = true;
             // Thomas says:
@@ -105,7 +101,22 @@ namespace Cryptool.BooleanFunctionParser
 
         void textBoxInput_TextChanged(object sender, TextChangedEventArgs e)
         {
-            settings.HasChanges = true;
+            if (sender == booleanFunctionParserPresentation.textBoxInputFunction)
+            {
+                settings.Function = booleanFunctionParserPresentation.textBoxInputFunction.Text;
+            }
+            else if (sender == booleanFunctionParserPresentation.textBoxInputData)
+            {
+                settings.Data = booleanFunctionParserPresentation.textBoxInputData.Text;
+            }
+            else if (sender == booleanFunctionParserPresentation.textBoxInputFunction2)
+            {
+                settings.FunctionCube = booleanFunctionParserPresentation.textBoxInputFunction2.Text;
+            }
+            else if (sender == booleanFunctionParserPresentation.textBoxInputData2)
+            {
+                settings.DataCube = booleanFunctionParserPresentation.textBoxInputData2.Text;
+            }
         }
 
         [PropertyInfo(Direction.InputData, "Boolean Function f(i)", "Boolean function f(i) to compute.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
@@ -163,26 +174,10 @@ namespace Cryptool.BooleanFunctionParser
 
         public void Dispose()
         {
-            settings.Function = (string)booleanFunctionParserPresentation.textBoxInputFunction.Dispatcher.Invoke(
-                DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
-                {
-                    return booleanFunctionParserPresentation.textBoxInputFunction.Text;
-                }, null);
-            settings.Data = (string)booleanFunctionParserPresentation.textBoxInputData.Dispatcher.Invoke(
-               DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
-               {
-                   return booleanFunctionParserPresentation.textBoxInputData.Text;
-               }, null);
-            settings.FunctionCube = (string)booleanFunctionParserPresentation.textBoxInputFunction2.Dispatcher.Invoke(
-                DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
-                {
-                    return booleanFunctionParserPresentation.textBoxInputFunction2.Text;
-                }, null);
-            settings.DataCube = (string)booleanFunctionParserPresentation.textBoxInputData2.Dispatcher.Invoke(
-               DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
-               {
-                   return booleanFunctionParserPresentation.textBoxInputData2.Text;
-               }, null);
+            booleanFunctionParserPresentation.textBoxInputFunction.TextChanged -= textBoxInput_TextChanged;
+            booleanFunctionParserPresentation.textBoxInputData.TextChanged -= textBoxInput_TextChanged;
+            booleanFunctionParserPresentation.textBoxInputFunction2.TextChanged -= textBoxInput_TextChanged;
+            booleanFunctionParserPresentation.textBoxInputData2.TextChanged -= textBoxInput_TextChanged;
         }
 
         public void     Execute()
@@ -253,7 +248,13 @@ namespace Cryptool.BooleanFunctionParser
                 {
                     booleanFunctionParserPresentation.textBoxInputData2.Text = settings.DataCube;
                 }, null);
+
             booleanFunctionParserPresentation.SwitchCubeView(settings.UseBFPforCube);
+
+            booleanFunctionParserPresentation.textBoxInputFunction.TextChanged += textBoxInput_TextChanged;
+            booleanFunctionParserPresentation.textBoxInputData.TextChanged += textBoxInput_TextChanged;
+            booleanFunctionParserPresentation.textBoxInputFunction2.TextChanged += textBoxInput_TextChanged;
+            booleanFunctionParserPresentation.textBoxInputData2.TextChanged += textBoxInput_TextChanged;
         }
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
