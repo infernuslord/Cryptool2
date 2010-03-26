@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyTitle("PeerToPeerBase")]
 [assembly: AssemblyDescription("Provides accessto peers@play framework")]
-[assembly: AssemblyConfiguration("Using p@p rev4586 (patched)")]
+[assembly: AssemblyConfiguration("Using p@p rev4611")]
 [assembly: AssemblyCompany("University of Duisburg-Essen")]
 [assembly: AssemblyProduct("PeerToPeerBase")]
 [assembly: AssemblyCopyright("Copyright ©  2009")]
@@ -33,4 +33,4 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("2.0.*")]
-[assembly: AssemblyFileVersion("1.0.0.4611")]
+[assembly: AssemblyFileVersion("1.0.0.4611a")]
