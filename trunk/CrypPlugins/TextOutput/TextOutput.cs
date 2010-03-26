@@ -314,6 +314,20 @@ namespace TextOutput
           case TextOutputSettings.PresentationFormat.Base64:
             fillValue = Convert.ToBase64String(Encoding.Default.GetBytes(fillValue.ToCharArray()));
             break;
+          case TextOutputSettings.PresentationFormat.Decimal:
+            byte[] decValues = Encoding.Default.GetBytes(fillValue.ToCharArray());
+            StringBuilder sb = new StringBuilder();
+            if (decValues.Length > 0)
+            {
+              sb.Append(decValues[0]);
+              for (int i = 1; i < decValues.Length; i++)
+              {
+                sb.Append(" ");
+                sb.Append(decValues[i]);
+              }
+            }
+            fillValue = sb.ToString();
+            break;
           default:
             break;
         }
