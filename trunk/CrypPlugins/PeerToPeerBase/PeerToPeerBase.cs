@@ -174,13 +174,19 @@ namespace Cryptool.Plugins.PeerToPeer
                     LogToMonitor("Init LinkMgr: Using NAT Traversal stuff");
                     // NAT-Traversal stuff needs a different Snal-Version
                     this.linkmanager = new PeersAtPlay.P2PLink.SnalNG.Snal(scheduler);
-                    ((PeersAtPlay.P2PLink.SnalNG.Snal)this.linkmanager).Settings.ConnectInternal = true;
-                    ((PeersAtPlay.P2PLink.SnalNG.Snal)this.linkmanager).Settings.LocalReceivingPort = 0;
-                    ((PeersAtPlay.P2PLink.SnalNG.Snal)this.linkmanager).Settings.UseLocalAddressDetection = false;
-                    ((PeersAtPlay.P2PLink.SnalNG.Snal)this.linkmanager).Settings.AutoReconnect = false;
-                    ((PeersAtPlay.P2PLink.SnalNG.Snal)this.linkmanager).Settings.NoDelay = false;
-                    ((PeersAtPlay.P2PLink.SnalNG.Snal)this.linkmanager).Settings.ReuseAddress = false;
-                    ((PeersAtPlay.P2PLink.SnalNG.Snal)this.linkmanager).Settings.UseNetworkMonitorServer = true;
+
+                    PeersAtPlay.P2PLink.SnalNG.Settings settings = new PeersAtPlay.P2PLink.SnalNG.Settings();
+                    settings.LoadDefaults();
+                    settings.ConnectInternal = true;
+                    settings.LocalReceivingPort = 0;
+                    settings.UseLocalAddressDetection = false;
+                    settings.AutoReconnect = false;
+                    settings.NoDelay = false;
+                    settings.ReuseAddress = false;
+                    settings.UseNetworkMonitorServer = true;
+
+                    this.linkmanager.Settings = settings;
+
                     break;
                 default:
                     throw (new NotImplementedException());
