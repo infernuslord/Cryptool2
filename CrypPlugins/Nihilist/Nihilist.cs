@@ -1,5 +1,5 @@
 ﻿/*                              
-   Copyright 2009 Fabian Enkler
+   Copyright 2009-2010 Fabian Enkler, Matthäus Wander
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -22,6 +22,8 @@ using System.Windows.Controls;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Cryptography;
 using System.Windows;
+using System.Diagnostics;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace Nihilist
 {
@@ -30,13 +32,15 @@ namespace Nihilist
     [EncryptionType(EncryptionType.Classic)]
     public class Nihilist : IEncryption
     {
+        public const string ALPHABET = "abcdefghiklmnopqrstuvwxyz";
+
         private readonly NihilistSettings settings = new NihilistSettings();
 
         public event PropertyChangedEventHandler PropertyChanged;
 #pragma warning disable 67
         public event StatusChangedEventHandler OnPluginStatusChanged;
-        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 #pragma warning restore
+        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
         public ISettings Settings
@@ -83,98 +87,111 @@ namespace Nihilist
 
         }
 
+        // Convert byte[] indexes (0..4, 0..4) to two-digit number (11..55)
+        // 0, 0 -> 11
+        // 4, 1 -> 52
+        private byte ConvertIndexesToTwoDigit(byte[] arr)
+        {
+            Debug.Assert(arr.Length == 2);
+            return ConvertToDimensionOne(arr[0], arr[1]);
+        }
+
+        private byte ConvertToDimensionOne(byte x, byte y)
+        {
+            Debug.Assert(0 <= x && x <= 4);
+            Debug.Assert(0 <= y && y <= 4);
+
+            x++;
+            y++;
+            return (byte) (x * 10 + y);
+        }
+
+        // Convert two-digit number (11..55) to byte[] indexes (0..4, 0..4)
+        // 11 -> 0, 0
+        // 52 -> 4, 1
+        private byte[] ConvertTwoDigitToIndexes(byte z)
+        {
+            Debug.Assert(11 <= z && z <= 55, "Expected 11..55, got: " + z);
+
+            byte x = (byte)(z / 10);
+            byte y = (byte)(z % 10);
+            x--;
+            y--;
+
+            return new byte[] { x, y };
+        }
+
         public void Execute()
         {
             char[,] KeyArray;
-            var CryptMatrix = CreateCryptMatrix(out KeyArray);
-            var secondKeyByteArray = new byte[settings.SecondKeyWord.Length];
-            int Counter = 0;
-            foreach (var c in settings.SecondKeyWord.ToLower())
+            Dictionary<char, byte[]> CryptMatrix = CreateCryptMatrix(out KeyArray);
+
+            string secondKeyWord = settings.SecondKeyWord.ToLower();
+            byte[] secondKeyNumbers = new byte[secondKeyWord.Length];
+            for(int i = 0; i < secondKeyWord.Length; i++)
             {
-                byte tmpByte = byte.Parse(CryptMatrix[c].X.ToString() + CryptMatrix[c].Y.ToString());
-                secondKeyByteArray[Counter] = tmpByte;
-                Counter++;
+                char c = secondKeyWord[i];
+                secondKeyNumbers[i] = ConvertIndexesToTwoDigit(CryptMatrix[c]);
             }
-            output = new byte[input.Length];
-            int max = input.Length;
             if (settings.Action == 0)
             {
-                int i = 0;
-                int j = 0;
-                string inputString = ByteArrayToString(input);
-
-                foreach (var c in inputString.ToLower())
+                string rawInputString = ByteArrayToString(input).ToLower();
+                string inputString = StringUtil.StripUnknownSymbols(ALPHABET, rawInputString);
+                byte[] outputBytes = new byte[inputString.Length];
+                for (int i = 0; i < inputString.Length; i++)
                 {
-                    var c1 = c;
-                    if (c1 == 'j')
-                        c1 = 'i';
+                    // convert character -> two-digit number
+                    char plainChar = inputString[i];
+                    byte plainNumber = ConvertIndexesToTwoDigit(CryptMatrix[plainChar]);
 
-                    byte tmpByte = CryptMatrix.ContainsKey(c1) ? byte.Parse(CryptMatrix[c1].X.ToString() + CryptMatrix[c1].Y.ToString()) : HandleUnknownChar();
-                    tmpByte += secondKeyByteArray[j];
-                    output[i] = tmpByte;
-                    i++;
-                    j++;
-                    if (j >= secondKeyByteArray.Length)
-                        j = 0;
+                    // calculate cipher number
+                    outputBytes[i] = (byte)(plainNumber + secondKeyNumbers[i % secondKeyNumbers.Length]);
 
-                    OnProgressChanged(i+1,max);
+                    OnProgressChanged(i+1, inputString.Length);
                 }
+                this.output = outputBytes;
             }
             else
             {
-                int i = 0;
-                int j = 0;
-                foreach (byte b in input)
+                char[] outputChars = new char[input.Length];
+                for (int i = 0; i < input.Length; i++)
                 {
-                    byte tmpbyte = b;
-                    tmpbyte -= secondKeyByteArray[j];
-                    string tmpString = tmpbyte.ToString();
-                    if (tmpbyte < 255)
+                    // calculate plain number
+                    byte plainNumber = (byte)(input[i] - secondKeyNumbers[i % secondKeyNumbers.Length]);
+                    if (plainNumber < 11 || plainNumber > 55)
                     {
-                        if (tmpbyte < 10)
-                            tmpString = "0" + tmpString;
-                        int Index1 = int.Parse(tmpString[0].ToString());
-                        int Index2 = int.Parse(tmpString[1].ToString());
-                        char DecryptedChar = KeyArray[Index1, Index2];
-                        output[i] = (byte)DecryptedChar;
+                        GuiLogMessage("Plaintext two-digit-number out of range, expected 11 <= x <= 55, got: " + plainNumber + ". Wrong key?", NotificationLevel.Error);
+                        break;
                     }
-                    else
-                    {
-                        output[i] = (byte)'?';
-                    }
+                    byte[] indexes = ConvertTwoDigitToIndexes(plainNumber);
 
-                    i++;
-                    j++;
-                    if (j >= secondKeyByteArray.Length)
-                        j = 0;
-                    OnProgressChanged(i+1, max);
+                    // convert two-digit number -> character
+                    outputChars[i] = KeyArray[indexes[0], indexes[1]];
+
+                    OnProgressChanged(i+1, input.Length);
                 }
+                this.output = CharArrayToByteArray(outputChars);
             }
             OnPropertyChanged("Output");
         }
 
-        private static byte HandleUnknownChar()
+        private static string ByteArrayToString(byte[] arr)
         {
-            return 255;
+            return Encoding.Default.GetString(arr);
         }
 
-        private static string ByteArrayToString(ICollection<byte> arr)
+        private static byte[] CharArrayToByteArray(char[] arr)
         {
-            var builder = new StringBuilder(arr.Count);
-            foreach (var b in arr)
-            {
-                builder.Append((char)b);
-            }
-            return builder.ToString();
+            return Encoding.Default.GetBytes(arr);
         }
 
-        private Dictionary<char, Vector> CreateCryptMatrix(out char[,] KeyArr)
+        private Dictionary<char, byte[]> CreateCryptMatrix(out char[,] KeyArr)
         {
             var KeyArray = new char[5, 5];
             var CharDic = new HashSet<char>();
             int Row = 0;
             int Col = 0;
-            foreach (var c in settings.KeyWord.ToLower() + "abcdefghiklmnopqrstuvwxyz")
+            foreach (var c in settings.KeyWord.ToLower() + ALPHABET)
             {
                 if (!CharDic.Contains(c))
                 {
@@ -190,12 +207,12 @@ namespace Nihilist
                 }
             }
             KeyArr = KeyArray;
-            var CharPosDic = new Dictionary<char, Vector>();
-            for (int i = 0; i < KeyArray.GetLength(0); i++)
+            var CharPosDic = new Dictionary<char, byte[]>();
+            for (byte i = 0; i < KeyArray.GetLength(0); i++)
             {
-                for (int j = 0; j < KeyArray.GetLength(1); j++)
+                for (byte j = 0; j < KeyArray.GetLength(1); j++)
                 {
-                    CharPosDic.Add(KeyArray[i, j], new Vector(i, j));
+                    CharPosDic.Add(KeyArray[i, j], new byte[] { i, j });
                 }
             }
             return CharPosDic;
@@ -236,6 +253,12 @@ namespace Nihilist
         {
             if (OnPluginProgressChanged != null)
                 OnPluginProgressChanged(this, new PluginProgressEventArgs(value, max));
+        }
+
+        private void GuiLogMessage(string message, NotificationLevel logLevel)
+        {
+            if (OnGuiLogNotificationOccured != null)
+                OnGuiLogNotificationOccured(this, new GuiLogEventArgs(message, this, logLevel));
         }
     }
 }

@@ -38,7 +38,7 @@ namespace TextOutput
 
     public enum EncodingTypes { Default = 0, Unicode = 1, UTF7 = 2, UTF8 = 3, UTF32 = 4, ASCII = 5, BigEndianUnicode = 6 };
     public enum DynamicDataTypes { CryptoolStream, String, ByteArray, Boolean, Integer , Double, Object};
-    public enum PresentationFormat { Text, Hex, Base64 }
+    public enum PresentationFormat { Text, Hex, Base64, Decimal }
 
     public bool CanChangeProperty { get; set; }
 
@@ -99,8 +99,8 @@ namespace TextOutput
     /// Gets or sets the presentation format setting.
     /// </summary>
     /// <value>The presentation format setting.</value>
-    [ContextMenu("Presentation format", "Choose the format that will be used te present the input data.", 2, DisplayLevel.Experienced, ContextMenuControlType.ComboBox, null, new string[] { "Text", "Hex", "Base64" })]
-    [TaskPane("Presentation format", "Choose the format that will be used te present the input data.", null, 2, false, DisplayLevel.Experienced, ControlType.RadioButton, new string[] { "Text", "Hex", "Base64" })]
+    [ContextMenu("Presentation format", "Choose the format that will be used te present the input data.", 2, DisplayLevel.Experienced, ContextMenuControlType.ComboBox, null, new string[] { "Text", "Hex", "Base64", "Decimal" })]
+    [TaskPane("Presentation format", "Choose the format that will be used te present the input data.", null, 2, false, DisplayLevel.Experienced, ControlType.RadioButton, new string[] { "Text", "Hex", "Base64", "Decimal" })]
     public int PresentationFormatSetting
     {
       get
