@@ -56,12 +56,13 @@ namespace Cryptool.Plugins.PeerToPeer
         #endregion
 
         private IControlWorker workerControl;
+        private static int WAITING_FOR_JOBS = 5000;
 
         /// <summary>
         /// if worker sends a "free" msg to the manager, but it doesn't react on this,
         /// although there are some jobs to distribute...
         /// </summary>
-        Timer timerWaitingForJobs = new Timer(5000);
+        Timer timerWaitingForJobs = new Timer(WAITING_FOR_JOBS);
 
         /// <summary>
         /// if more than one job arrived at the same time, buffer it in this dictionary
@@ -174,6 +175,9 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             if (JobMessages.GetMessageJobType(data[0]) == MessageJobType.JobPart)
             {
+                //added by Arnold 2010.03.22
+                this.timerWaitingForJobs.Stop(); //when receiving a new job, time can be stopped
+
                 BigInteger jobId = null;
                 GuiLogging("Received a JobPart from '" + senderId.ToString() + "'", NotificationLevel.Debug);
                 byte[] serializedRawJobPartData = JobMessages.GetJobPartMessage(data, out jobId);
@@ -278,15 +282,17 @@ namespace Cryptool.Plugins.PeerToPeer
         {
             if (!isWorking)
             {
+                this.timerWaitingForJobs.Interval += 2000; // every time this event is thrown, heighten the timer interval
                 base.SendRegMsg();
                 this.p2pControl.SendToPeer(JobMessages.CreateFreeWorkerStatusMessage(true), base.ActualPublisher);
                 GuiLogging("Because the last 'free worker'-Message got lost, try again.", NotificationLevel.Info);
             }
             else
             {
+                // reset timer interval - it could be heighten in the if brace...
+                this.timerWaitingForJobs.Interval = WAITING_FOR_JOBS;
                 // when Worker is working, than the time can be stopped
-                timerWaitingForJobs.Stop();
-                GuiLogging("Next trial to send 'free worker'-Mesasge was successful, so the timer was stopped.", NotificationLevel.Info);
+                this.timerWaitingForJobs.Stop();
             }
         }
 

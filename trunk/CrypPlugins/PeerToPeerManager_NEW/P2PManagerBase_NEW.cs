@@ -231,7 +231,7 @@ namespace Cryptool.Plugins.PeerToPeer
                     HandleFreeMessage(sender, data);
                     break;
                 default:
-                    GuiLogging("Obscure Message (" + Encoding.UTF8.GetString(data) + ") received from '" + sender.ToString() + "'.", NotificationLevel.Info);
+                    GuiLogging("Obscure Message. First byte: " + Convert.ToInt32(data[0]) + ". Data: (" + Encoding.UTF8.GetString(data) + ") received from '" + sender.ToString() + "'.", NotificationLevel.Info);
                     break;
             } // end switch
             GetProgressInformation();
