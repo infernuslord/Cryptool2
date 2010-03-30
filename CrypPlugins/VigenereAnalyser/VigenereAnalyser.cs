@@ -707,7 +707,6 @@ namespace Cryptool.VigenereAnalyser
         public void PostExecution()
         {   
             frequencyStats = null;
-            Dispose();
             kasiskiInput = null;
             v = 0;
         }

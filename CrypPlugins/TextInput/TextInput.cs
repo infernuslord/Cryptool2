@@ -304,7 +304,6 @@ namespace Cryptool.TextInput
 
     public void PostExecution()
     {
-      Dispose();
     }
 
     #endregion
