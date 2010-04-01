@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * This class is based of Vlastimil Klima's implementation of his
+ * tunneling technique. It is a port of the source code provided
+ * by him as "source code version 1".
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

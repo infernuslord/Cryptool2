@@ -125,18 +125,8 @@ namespace Cryptool.Plugins.MD5Collider
             set { this.prefix = value; OnPropertyChanged("Prefix"); }
         }
 
-        public static bool testRun = true;
-
         public void Execute()
         {
-            // TODO: EXTREMELY DIRTY IMPROVEME!
-            // This exists to prevent the plugin from frezzing Cryptool when test-running at startup
-            if (testRun)
-            {
-                testRun = false;
-                return;
-            }
-
             ProgressChanged(0.5, 1.0);
 
             Collider.RandomSeed = RandomSeed;
@@ -145,7 +135,7 @@ namespace Cryptool.Plugins.MD5Collider
             {
                 if (Prefix.Length % 64 != 0)
                 {
-                    GuiLogMessage("Prefix bytes must be a multiple of 64 bytes long!", NotificationLevel.Error);
+                    GuiLogMessage("Prefixed data must be a multiple of 64 bytes long!", NotificationLevel.Error);
                     return;
                 }
 
