@@ -1,9 +1,45 @@
-﻿using System;
+﻿/*
+ * This class is based on the code of Marc Stevens'
+ * "fast collision generator", version 1.0.0.5,
+ * which is used with his permission.
+ * 
+ * The disclaimer of the original source code is below:
+ 
+Version
+=======
+version 1.0.0.5, April 2006.
+
+Copyright
+=========
+© M. Stevens, 2006. All rights reserved.
+
+Disclaimer
+==========
+This software is provided as is. Use is at the user's risk.
+No guarantee whatsoever is given on how it may function or malfunction.
+Support cannot be expected.
+This software is meant for scientific and educational purposes only.
+It is forbidden to use it for other than scientific or educational purposes.
+In particular, commercial and malicious use is not allowed.
+Further distribution of this software, by whatever means, is not allowed
+without our consent.
+This includes publication of source code or executables in printed form,
+on websites, newsgroups, CD-ROM's, etc.
+Changing the (source) code without our consent is not allowed.
+In all versions of the source code this disclaimer, the copyright
+notice and the version number should be present.
+
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
 using System.Threading;
+
+
+
 
 namespace Cryptool.Plugins.MD5Collider.Algorithm
 {
