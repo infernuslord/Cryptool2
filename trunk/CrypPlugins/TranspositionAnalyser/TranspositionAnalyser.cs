@@ -28,6 +28,7 @@ namespace TranspositionAnalyser
         private byte[] input;
         private Queue valuequeue;
         LinkedList<ValueKey> list1;
+        private TranspositionAnalyserQuickWatchPresentation myPresentation;
 
         TranspositionAnalyserSettings settings;
         #region Properties
@@ -71,7 +72,16 @@ namespace TranspositionAnalyser
         public TranspositionAnalyser()
         {
             settings = new TranspositionAnalyserSettings();
-            QuickWatchPresentation = new TranspositionAnalyserQuickWatchPresentation();
+            myPresentation = new TranspositionAnalyserQuickWatchPresentation();
+            QuickWatchPresentation = myPresentation;
+            myPresentation.doppelClick += new EventHandler(this.doppelClick);
+        }
+        
+        private void doppelClick(object sender, EventArgs e)
+        {
+            ListViewItem lvi = sender as ListViewItem;
+            ResultEntry rse = lvi.Content as ResultEntry;
+            Output = System.Text.Encoding.GetEncoding(1252).GetBytes(rse.Text);
         }
 
         private IControlEncryption controlMaster;
@@ -754,9 +764,9 @@ namespace TranspositionAnalyser
 
 
                         String dec = System.Text.Encoding.ASCII.GetString(linkedListNode.Value.decryption);
-                        if (dec.Length > 25) // Short strings need not to be cut off
+                        if (dec.Length > 2500) // Short strings need not to be cut off
                         {
-                            dec = dec.Substring(0, 25) + "...";
+                            dec = dec.Substring(0, 2500) ;
                         }
                         entry.Text = dec;
                         entry.Key = linkedListNode.Value.key;
