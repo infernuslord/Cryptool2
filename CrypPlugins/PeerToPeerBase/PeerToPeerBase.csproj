@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{A7CD30E7-5381-40CF-BB78-268EC998CCB3}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -31,41 +31,41 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bootstrapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Bootstrapper, Version=1.0.4653.2, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>dlls\Release\Bootstrapper.dll</HintPath>
+      <HintPath>..\..\External Assemblies\Bootstrapper.dll</HintPath>
     </Reference>
-    <Reference Include="CertServices, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="CertServices, Version=1.0.4653.2, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>dlls\Release\CertServices.dll</HintPath>
+      <HintPath>..\..\External Assemblies\CertServices.dll</HintPath>
     </Reference>
-    <Reference Include="FullMeshDHT, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="FullMeshDHT, Version=1.0.4653.2, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>dlls\Release\FullMeshDHT.dll</HintPath>
+      <HintPath>..\..\External Assemblies\FullMeshDHT.dll</HintPath>
     </Reference>
-    <Reference Include="FullMeshOverlay, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="FullMeshOverlay, Version=1.0.4653.2, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>dlls\Release\FullMeshOverlay.dll</HintPath>
+      <HintPath>..\..\External Assemblies\FullMeshOverlay.dll</HintPath>
     </Reference>
-    <Reference Include="Gears4Net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Gears4Net, Version=1.0.4653.2, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>dlls\Release\Gears4Net.dll</HintPath>
+      <HintPath>..\..\External Assemblies\Gears4Net.dll</HintPath>
     </Reference>
-    <Reference Include="LinkManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="LinkManager, Version=1.0.4653.2, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>dlls\Release\LinkManager.dll</HintPath>
+      <HintPath>..\..\External Assemblies\LinkManager.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>dlls\Release\log4net.dll</HintPath>
+      <HintPath>..\..\External Assemblies\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="NetGearsTCP, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="NetGearsTCP, Version=1.0.0.0, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>dlls\Release\NetGearsTCP.dll</HintPath>
+      <HintPath>..\..\External Assemblies\NetGearsTCP.dll</HintPath>
     </Reference>
-    <Reference Include="PeersAtPlayBase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="PeersAtPlayBase, Version=1.0.4653.2, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>dlls\Release\PeersAtPlayBase.dll</HintPath>
+      <HintPath>..\..\External Assemblies\PeersAtPlayBase.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -73,9 +73,9 @@
     <Reference Include="PresentationFramework">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="Stun, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Stun, Version=1.0.0.0, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>dlls\Release\Stun.dll</HintPath>
+      <HintPath>..\..\External Assemblies\Stun.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -89,9 +89,9 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Util, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Util, Version=0.0.0.0, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>dlls\Release\Util.dll</HintPath>
+      <HintPath>..\..\External Assemblies\Util.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -109,6 +109,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="icons\peer_connecting.png" />
+    <Resource Include="icons\peer_error.png" />
+    <Resource Include="icons\peer_online.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\peer_inaktiv.png" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
@@ -121,14 +129,6 @@
       <Project>{7BED5C93-30BE-47BE-BC4A-16453F5DE9EA}</Project>
       <Name>PeerToPeerCertificates</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="icons\peer_connecting.png" />
-    <Resource Include="icons\peer_error.png" />
-    <Resource Include="icons\peer_online.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="icons\peer_inaktiv.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
