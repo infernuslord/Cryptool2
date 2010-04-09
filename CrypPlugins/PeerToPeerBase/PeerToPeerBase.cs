@@ -186,6 +186,7 @@ namespace Cryptool.Plugins.PeerToPeer
                     settings.UseNetworkMonitorServer = true;
 
                     this.linkmanager.Settings = settings;
+                    this.linkmanager.ApplicationType = PeersAtPlay.Monitoring.ApplicationType.CrypTool;
 
                     break;
                 default:
