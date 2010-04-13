@@ -106,7 +106,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whirlpool", "CrypPlugins\Wh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiger", "CrypPlugins\Tiger\Tiger.csproj", "{67C393B3-1FC5-4B3D-A42B-2455B5DF4C31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSCext", "SSCext\SSCext.csproj", "{E46A6AA6-56EE-4AE5-8725-DCD07DC95527}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSCext", "CrypPlugins\SSCext\SSCext.csproj", "{E46A6AA6-56EE-4AE5-8725-DCD07DC95527}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartCard", "CrypPlugins\SmartCard\SmartCard.csproj", "{4E2D7D54-2C6B-46E2-ACFA-BDA517679AE1}"
 EndProject
@@ -212,7 +212,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeerToPeerJobAdmin", "CrypP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyPatternJob", "CrypPlugins\KeyPatternJob\KeyPatternJob.csproj", "{D726EBB6-0E54-477A-9C4C-F18848135055}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NativeCryptography", "NativeCryptography\NativeCryptography.vcproj", "{97B06ADB-43E4-4320-9AD8-D167421F0644}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NativeCryptography", "CrypPlugins\NativeCryptography\NativeCryptography.vcproj", "{97B06ADB-43E4-4320-9AD8-D167421F0644}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MD5Collider", "CrypPlugins\MD5Collider\MD5Collider.csproj", "{F5DDFE63-0904-4523-AA30-11FF5E91C362}"
 EndProject
