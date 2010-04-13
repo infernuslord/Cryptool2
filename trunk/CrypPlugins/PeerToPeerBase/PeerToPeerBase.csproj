@@ -31,41 +31,41 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bootstrapper, Version=1.0.4653.2, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
+    <Reference Include="Bootstrapper, Version=1.0.4654.4, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\External Assemblies\Bootstrapper.dll</HintPath>
+      <HintPath>..\..\AppReferences\Bootstrapper.dll</HintPath>
     </Reference>
-    <Reference Include="CertServices, Version=1.0.4653.2, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
+    <Reference Include="CertServices, Version=1.0.4654.4, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\External Assemblies\CertServices.dll</HintPath>
+      <HintPath>..\..\AppReferences\CertServices.dll</HintPath>
     </Reference>
-    <Reference Include="FullMeshDHT, Version=1.0.4653.2, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
+    <Reference Include="FullMeshDHT, Version=1.0.4654.4, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\External Assemblies\FullMeshDHT.dll</HintPath>
+      <HintPath>..\..\AppReferences\FullMeshDHT.dll</HintPath>
     </Reference>
-    <Reference Include="FullMeshOverlay, Version=1.0.4653.2, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
+    <Reference Include="FullMeshOverlay, Version=1.0.4654.4, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\External Assemblies\FullMeshOverlay.dll</HintPath>
+      <HintPath>..\..\AppReferences\FullMeshOverlay.dll</HintPath>
     </Reference>
-    <Reference Include="Gears4Net, Version=1.0.4653.2, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
+    <Reference Include="Gears4Net, Version=1.0.4654.4, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\External Assemblies\Gears4Net.dll</HintPath>
+      <HintPath>..\..\AppReferences\Gears4Net.dll</HintPath>
     </Reference>
-    <Reference Include="LinkManager, Version=1.0.4653.2, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
+    <Reference Include="LinkManager, Version=1.0.4654.4, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\External Assemblies\LinkManager.dll</HintPath>
+      <HintPath>..\..\AppReferences\LinkManager.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\External Assemblies\log4net.dll</HintPath>
+      <HintPath>..\..\AppReferences\log4net.dll</HintPath>
     </Reference>
     <Reference Include="NetGearsTCP, Version=1.0.0.0, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\External Assemblies\NetGearsTCP.dll</HintPath>
+      <HintPath>..\..\AppReferences\NetGearsTCP.dll</HintPath>
     </Reference>
-    <Reference Include="PeersAtPlayBase, Version=1.0.4653.2, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
+    <Reference Include="PeersAtPlayBase, Version=1.0.4654.4, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\External Assemblies\PeersAtPlayBase.dll</HintPath>
+      <HintPath>..\..\AppReferences\PeersAtPlayBase.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -75,7 +75,7 @@
     </Reference>
     <Reference Include="Stun, Version=1.0.0.0, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\External Assemblies\Stun.dll</HintPath>
+      <HintPath>..\..\AppReferences\Stun.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -91,7 +91,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="Util, Version=0.0.0.0, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\External Assemblies\Util.dll</HintPath>
+      <HintPath>..\..\AppReferences\Util.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
