@@ -150,8 +150,8 @@ if exist %25outdir%25 (
 	if not exist "./Data" mkdir "./Data"
 	if exist "$(TargetDir)Data" xcopy /Y /S "$(TargetDir)Data" "./Data"
 
-copy "$(ProjectDir)dlls\$(ConfigurationName)\*.pdb" "."
-copy "$(ProjectDir)dlls\$(ConfigurationName)\*.dll" "."
+copy "$(ProjectDir)..\..\AppReferences\*.*" "."
+
 )</PostBuildEvent>
   </PropertyGroup>
 </Project>
