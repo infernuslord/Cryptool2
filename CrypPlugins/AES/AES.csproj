@@ -70,7 +70,7 @@
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\NativeCryptography\NativeCryptography.vcproj">
+    <ProjectReference Include="..\NativeCryptography\NativeCryptography.vcproj">
       <Project>{97B06ADB-43E4-4320-9AD8-D167421F0644}</Project>
       <Name>NativeCryptography</Name>
     </ProjectReference>
