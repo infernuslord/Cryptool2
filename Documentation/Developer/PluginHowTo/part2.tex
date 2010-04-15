@@ -1,6 +1,16 @@
 \chapter{Plugin Implementation}
 \label{sec:PluginImplementation}
-In this chapter we provide step-by-step instructions for implementing your own CrypTool 2.0 plugin. The given instructions refer primarily to the usage of the Visual C\# Express and Visual Studio Professional 2008 editions, so before starting you should have a copy of \textbf{Microsoft Visual Studio 2008} (or \textbf{Microsoft Visual C\# 2008 Express Edition}) installed on your computer. We will use the \textbf{Caesar cipher} (also known as the \textbf{shift cipher}) as an example throughout this chapter.
+In this chapter we provide step-by-step instructions for implementing your own CrypTool 2 plugin. The given instructions refer primarily to the usage of \textbf{Microsoft Visual Studio Professional 2008}, so before starting you should have a copy of the program installed on your computer. 
+
+\section{Downloading the example and template}
+\label{sec:DownloadingTheExampleAndTemplate}
+
+We will use the \textbf{Caesar cipher} (also known as the \textbf{shift cipher}) as an example throughout this chapter. If you did not to download the entire CrypTool 2 source code as described in Section \ref{CheckingOutTheSources}, you can still get a copy of the source code for the Caesar algorithm referenced throughout this guide from the following location:\\\\
+\textit{username: anonymous\\
+password:} (not required)\\
+\url{https://www.cryptool.org/svn/CrypTool2/trunk/CrypPlugins/Caesar/}\\\\
+We have also created a Visual Studio plugin \textbf{template} to help with the development of new plugins. Using this template is strongly recommended over copying and pasting code from this document! The template can be found here:\\\\
+\url{http://cryptool2.vs.uni-due.de/downloads/template/encryptionplugin.zip}
 
 \section{Creating a new project}
 \label{sec:CreatingANewProject}
@@ -13,17 +23,9 @@ To begin, open Visual Studio, go to the menu bar and select \textit{File~$\right
 	\caption{Creating a new Visual Studio project.}
 	\label{fig:vs_create_new_project}
 \end{figure}
+\clearpage
 
-\noindent If you are using Visual Studio 2008, select \textbf{\textit{.NET-Framework 3.5}} as the target framework; the Express Edition will automatically choose the target framework. Then choose \textit{Class Library} as the default template, as this will build the project for your plugin as a DLL file. Give the project a unique and meaningful name (such as \textit{Caesar} in our case), and choose a location to save it to. (The Express Edition will ask for a save location later when you close your project or environment). Select the subdirectory \textit{CrypPlugins} from your SVN trunk as the location. Finally, confirm by pressing the \textit{OK} button. Note that creating a new project in this manner also creates a new solution into which the project is placed.
-
-\begin{figure}[h!]
-	\centering
-		\includegraphics[width=0.80\textwidth]{figures/save_solution_csharp_express.JPG}
-	\caption{The Visual Studio C\# Express Edition \textit{Save Project} dialog window.}
-	\label{fig:save_solution_csharp_express}
-\end{figure}
-
-\noindent At this point, your Visual Studio solution should look like this:
+Select \textbf{\textit{.NET-Framework 3.5}} as the target framework. Then choose \textit{Class Library} as the default template, as this will build the project for your plugin as a DLL file. Give the project a unique and meaningful name (such as \textit{Caesar} in our case), and choose a location to save it to. Select the subdirectory \textit{CrypPlugins} from your SVN trunk as the location. Finally, confirm by pressing the \textit{OK} button. Note that creating a new project in this manner also creates a new solution into which the project is placed. At this point, your Visual Studio solution should look like this:
 
 \begin{figure}[h!]
 	\centering
@@ -54,7 +56,7 @@ To include our new plugin in the CrypTool 2 application, we must first add a ref
 \end{figure}
 \clearpage
 
-Unless you have created your new project in the same CrypTool 2.0 solution, you probably will not be able to select the library directly as seen above in Figure \ref{fig:add_pluginbase_source}; instead you can browse for the binary DLL as seen below in Figure \ref{fig:browse_reference}. Click on the \textit{Browse} tab and navigate to the folder in which you downloaded the CrypTool 2 project. Within that folder, go to \textit{\textbackslash CrypPluginBase\textbackslash bin\textbackslash Debug} and select the file \textit{CrypPluginBase.dll}. The library reference can then be added by double clicking the file or pressing the \textit{OK} button.
+Unless you have created your new project in the same CrypTool 2 solution, you probably will not be able to select the library directly as seen above in Figure \ref{fig:add_pluginbase_source}; instead you can browse for the binary DLL as seen below in Figure \ref{fig:browse_reference}. Click on the \textit{Browse} tab and navigate to the folder in which you downloaded the CrypTool 2 project. Within that folder, go to \textit{\textbackslash CrypPluginBase\textbackslash bin\textbackslash Debug} and select the file \textit{CrypPluginBase.dll}. The library reference can then be added by double clicking the file or pressing the \textit{OK} button.
 
 \begin{figure}[h!]
 	\centering
@@ -1475,13 +1477,3 @@ Each plugin should have an associated workflow file to show the algorithm in act
 	\caption{A sample workflow diagram for the Caesar algorithm.}
 	\label{fig:sample}
 \end{figure}
-
-\section{Downloading the example and template}
-\label{sec:DownloadingTheExampleAndTemplate}
-
-If you chose not to download the entire CrypTool 2 source code as described in Section \ref{CheckingOutTheSources}, but you want a copy of the source code for the Caesar algorithm that was used as an example in this guide, you can download it as a Visual Studio solution from the following location:\\\\
-\textit{username: anonymous\\
-password:} (not required)\\
-\url{https://www.cryptool.org/svn/CrypTool2/trunk/CrypPlugins/Caesar/}\\\\
-We have also created a Visual Studio plugin \textbf{template} to help with the development of new plugins. This can be found here:\\\\
-\url{http://cryptool2.vs.uni-due.de/downloads/template/encryptionplugin.zip}
