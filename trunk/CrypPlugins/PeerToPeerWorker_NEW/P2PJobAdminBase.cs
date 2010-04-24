@@ -75,6 +75,14 @@ namespace Cryptool.Plugins.PeerToPeer
             get { return this.isWorking; }
             private set { this.isWorking = value; }
         }
+
+        private bool actualMngrHasNoMoreJobsLeft = false;
+        public bool ActualMngrHasNoMoreJobsLeft
+        {
+            get { return this.actualMngrHasNoMoreJobsLeft; }
+            private set{ this.actualMngrHasNoMoreJobsLeft = value;} 
+        }
+
         ///// <summary>
         ///// everytime, when start processing a new job, set
         ///// its jobId in this variable, so processing the
@@ -183,9 +191,17 @@ namespace Cryptool.Plugins.PeerToPeer
                 byte[] serializedRawJobPartData = JobMessages.GetJobPartMessage(data, out jobId);
                 StartProcessing(senderId, serializedRawJobPartData);
             }
+            else if (JobMessages.GetMessageJobType(data[0]) == MessageJobType.NoMoreJobsLeft)
+            {
+                this.ActualMngrHasNoMoreJobsLeft = true;
+                this.timerWaitingForJobs.Stop();
+                GuiLogging("Received 'no more jobs left' message from the Manager. Stopped waiting for jobs timer.", NotificationLevel.Debug);
+                // TODO: for future use maybe register to another task, because this task has no more
+                //       jobs to computate --> after registering with a new Manager, set this.ActualMngrHasNoMoreJobsLeft to true!!!
+            }
             else
             {
-                GuiLogging("Received some strange data (no JobPart) from peer '" + senderId.ToString() 
+                GuiLogging("Received some strange data (no JobPart) from peer '" + senderId.ToString()
                     + "'. Data: " + Encoding.UTF8.GetString(data), NotificationLevel.Debug);
             }
         }
@@ -262,12 +278,21 @@ namespace Cryptool.Plugins.PeerToPeer
             }
             else
             {
-                // no more jobs in the waiting stack, so send Mngr the information, that Worker is waiting for new jobs now
-                this.p2pControl.SendToPeer(JobMessages.CreateFreeWorkerStatusMessage(true), base.ActualPublisher);
-                GuiLogging("No jobs in the 'waitingJob'-Stack, so send 'free'-information to the Manager. Mngr-Id: '" + base.ActualPublisher.ToString() + "'.", NotificationLevel.Info);
-                // If this timer elapses, it will check if the isWorking flag is true. Than it will stop the timer.
-                // Otherwise it will send a new free msg to the Manager, if the last free msg got lost
-                this.timerWaitingForJobs.Start();
+                if (!this.ActualMngrHasNoMoreJobsLeft)
+                {
+                    // no more jobs in the waiting stack, so send Mngr the information, that Worker is waiting for new jobs now
+                    this.p2pControl.SendToPeer(JobMessages.CreateFreeWorkerStatusMessage(true), base.ActualPublisher);
+                    GuiLogging("No jobs in the 'waitingJob'-Stack, so send 'free'-information to the Manager. Mngr-Id: '" + base.ActualPublisher.ToString() + "'.", NotificationLevel.Info);
+                    // If this timer elapses, it will check if the isWorking flag is true. Than it will stop the timer.
+                    // Otherwise it will send a new free msg to the Manager, if the last free msg got lost
+                    this.timerWaitingForJobs.Start();
+                }
+                else
+                {
+                    GuiLogging("Worker has noticed that Manager has no more jobs left.", NotificationLevel.Debug);
+                    // TODO: for future use maybe register to another task, because this task has no more
+                    //       jobs to computate --> after registering with a new Manager, set this.ActualMngrHasNoMoreJobsLeft to true!!!
+                }
             }
         }
 

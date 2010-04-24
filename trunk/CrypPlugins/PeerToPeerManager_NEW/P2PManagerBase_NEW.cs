@@ -26,7 +26,7 @@ using Cryptool.PluginBase.Miscellaneous;
  * - Publisher-change is possible, but catch old Publishers subscriber list
  *   isn't implemented yet ((de)serialization of the subscribers is 
  *   implemented and tested)
- * - Manager-change is possible, but catch job history isn't implemented yes
+ * - Manager-change is possible, but catch job history isn't implemented yet
  *   ((de)serialization of job management lists)
  * - Benchmarking the working peers 
  *   (this.distributableJobControl.SetResult() returns the TimeSpan for the result)
@@ -166,7 +166,24 @@ namespace Cryptool.Plugins.PeerToPeer
             /* New Feature. When all JobResults are received, stop Manager, so another 
              * Manager can replace it and then allocate Jobs to the free workers*/
             GuiLogging("All Job results received, so deregistering from the solution network to accomodate this topic for another Manager.",NotificationLevel.Info);
+
+            // added by Arnie 2010.04.24
+            SendNoMoreJobsLeftMsgToAllWorkers();
+
             Stop(PubSubMessageType.Unregister);
+        }
+
+        // added by Arnie 2010.04.24
+        private void SendNoMoreJobsLeftMsgToAllWorkers()
+        {
+            int i = 0;
+            byte[] noMoreJobsLeftMsg = JobMessages.CreateNoMoreJobsLeftMessage();
+            foreach (PeerId wkr in base.peerManagement.GetAllSubscribers())
+            {
+                this.p2pControl.SendToPeer(noMoreJobsLeftMsg, wkr);
+                i++;
+            }
+            GuiLogging("Sended 'No more jobs left' messages to " + i + " workers.", NotificationLevel.Debug);
         }
 
         protected override void PeerCompletelyStarted()
@@ -466,7 +483,10 @@ namespace Cryptool.Plugins.PeerToPeer
                 }
                 else
                 {
-                    //todo: insert sending "no more jobs left msg" to the free worker, so it can stop its Free-Msg-Timer
+                    //edited by Arnie 2010.04.24
+                    //sending "no more jobs left msg" to the free worker, so it can stop its Free-Msg-Timer
+                    base.p2pControl.SendToPeer(JobMessages.CreateNoMoreJobsLeftMessage(), worker);
+
                     GuiLogging("No more jobs left. So wait for the last results, than close this task.", NotificationLevel.Debug);
                     if (OnNoMoreJobsLeft != null)
                         OnNoMoreJobsLeft();

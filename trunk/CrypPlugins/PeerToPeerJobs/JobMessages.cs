@@ -43,7 +43,12 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
         /// indicates that this message contains a JobPart (use it only for
         /// messages FROM the Manager TO the P2PJobAdmin)
         /// </summary>
-        JobPart = 203
+        JobPart = 203,
+        /// <summary>
+        /// Manager should send this msgType to all requesting 
+        /// workers, when it has no more jobs left
+        /// </summary>
+        NoMoreJobsLeft = 204
     }
 
     public static class JobMessages
@@ -266,6 +271,38 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
                 if (msg[1] == 0)
                     retValue = false;
                 else
+                    retValue = true;
+            }
+            return retValue;
+        }
+
+        // TODO: Create NoMoreJobsLeft Msg
+
+        /// <summary>
+        /// When the Manager has no more jobs left, it should send a "no more
+        /// jobs left" message to all job-requesting Workers.
+        /// </summary>
+        /// <returns>serialized "no more jobs left" message</returns>
+        public static byte[] CreateNoMoreJobsLeftMessage()
+        {
+            byte[] retValue = new byte[2];
+            retValue[0] = (byte)MessageJobType.NoMoreJobsLeft;
+            retValue[1] = 1;
+            return retValue;
+        }
+
+        /// <summary>
+        /// Only workers can receive this message type. Manager sent
+        /// this Msg, when it has no more jobs left to allocate. 
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public static bool GetNoMoreJobsLeftMessage(byte[] msg)
+        {
+            bool retValue = false;
+            if ((MessageJobType)msg[0] == MessageJobType.NoMoreJobsLeft && msg.Length == 2)
+            {
+                if (msg[1] == 1)
                     retValue = true;
             }
             return retValue;
