@@ -20,8 +20,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
 
         void Stop();
 
-        string Status { get; set; }
-
         int MatchProgressMax { get; }
         int MatchProgress { get; }
     }

@@ -45,8 +45,8 @@ namespace Cryptool.Plugins.MD5Collider
 
         public MD5Collider()
         {
-            Collider = new StevensCollider();
-            Collider.Status = "Waiting";
+            Collider = new MultiThreadedMD5Collider<StevensCollider>();
+            //Collider.Status = "Waiting";
         }
 
         private byte[] outputData1;

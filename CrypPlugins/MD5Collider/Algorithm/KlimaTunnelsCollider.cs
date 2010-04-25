@@ -256,7 +256,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
             int i;
 
             MatchProgressMax = 8;
-            Status = StatusConstants.FINDING_BLOCK1;
 
             UInt32[] Q = new UInt32[65], x = new UInt32[16];
             UInt32 QM0, QM1, QM2, QM3, AA0, BB0, CC0, DD0;
@@ -1376,7 +1375,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
             UInt32 zavorka_Q17, zavorka_Q19, zavorka_Q20, zavorka_Q23, zavorka_Q35, zavorka_Q62;
             UInt32 i, Hi, Lo, jednicky, spolecna_maska;
 
-            Status = StatusConstants.FINDING_BLOCK2;
             MatchProgressMax = 5;
 
             AA0 = QM3 = P_IHV1[0]; DD0 = QM2 = P_IHV1[3]; CC0 = QM1 = P_IHV1[2]; BB0 = QM0 = P_IHV1[1];

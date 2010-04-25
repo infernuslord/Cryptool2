@@ -14,9 +14,6 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
         public byte[] RandomSeed { protected get; set; }
         public byte[] IHV { protected get; set; }
 
-        private String _status;
-        public string Status { get { return _status; } set { _status = value; OnPropertyChanged("Status"); } }
-
         public MD5ColliderBase()
         {
             MatchProgressMax = 1;
