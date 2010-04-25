@@ -31,7 +31,7 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
             }
 
             progressUpdateTimer = new Timer();
-            progressUpdateTimer.Interval = 100;
+            progressUpdateTimer.Interval = 250;
             progressUpdateTimer.Elapsed += progressUpdateTimer_Tick;
         }
 
@@ -66,13 +66,21 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
             }
         }
 
+        private Object finishedLock = new Object();
+
         internal void SignalWorkIsFinished(IMD5ColliderAlgorithm successfulCollider)
         {
-            this.successfulCollider = successfulCollider;
-            updateProgress();
-            Stop();
+            lock (finishedLock)
+            {
+                if (this.successfulCollider == null)
+                {
+                    this.successfulCollider = successfulCollider;
+                    updateProgress();
+                    Stop();
 
-            finishedEvent.Set();
+                    finishedEvent.Set();
+                }
+            }
         }
 
         public byte[] IHV
@@ -110,6 +118,7 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
             progressUpdateTimer.Start();
 
             finishedEvent.Reset();
+            successfulCollider = null;
 
             foreach (ColliderWorkerAdapter<T> worker in workers)
                 worker.StartWork();
