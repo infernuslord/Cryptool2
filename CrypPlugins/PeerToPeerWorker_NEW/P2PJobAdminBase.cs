@@ -76,6 +76,7 @@ namespace Cryptool.Plugins.PeerToPeer
             private set { this.isWorking = value; }
         }
 
+        // added by Arnie 2010.04.24
         private bool actualMngrHasNoMoreJobsLeft = false;
         public bool ActualMngrHasNoMoreJobsLeft
         {
