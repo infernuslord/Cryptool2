@@ -528,6 +528,8 @@ uint32 factor_list_add(msieve_obj *obj, factor_list_t *list,
 	if (!mp_is_zero(new_factor) && !mp_is_one(new_factor))
 		factor_list_add_core(obj, list, new_factor);
 
+
+	factor_list_changed(list);
 	return factor_list_max_composite(list);
 }
 

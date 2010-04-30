@@ -95,12 +95,14 @@ namespace Msieve
 {
 	public delegate void showProgressDelegate(IntPtr conf, int num_relations, int max_relations);
 	public delegate void prepareSievingDelegate(IntPtr conf, int update, IntPtr core_sieve_fcn);
+	public delegate void factorListChangedDelegate(IntPtr list);
 
 	public ref struct callback_struct
 	{
 	public:
 		showProgressDelegate^ showProgress;
 		prepareSievingDelegate^ prepareSieving;
+		factorListChangedDelegate^ factorListChanged;
 	};
 
 	public ref class msieve 
@@ -115,6 +117,26 @@ namespace Msieve
 				ch[i] = (char)str[i];
 			ch[str->Length] = 0;
 			return ch;
+		}
+
+		static void copyIntToArray(array<unsigned char>^ arr, int pos, int theInt)
+		{
+			//We always use 4 bytes
+			arr[pos] = theInt & 255;
+			arr[pos+1] = (theInt >> 8) & 255;
+			arr[pos+2] = (theInt >> 16) & 255;
+			arr[pos+3] = (theInt >> 24) & 255;
+		}
+
+		static int getIntFromArray(array<unsigned char>^ arr, int pos)
+		{
+			//We always use 4 bytes
+			int res = arr[pos];
+			res |= arr[pos+1]<<8;
+			res |= arr[pos+2]<<16;
+			res |= arr[pos+3]<<24;
+			
+			return res;
 		}
 
 	public:
@@ -232,6 +254,113 @@ namespace Msieve
 			sieve_conf_t* c = (sieve_conf_t*)conf.ToPointer();
 			return IntPtr(c->obj);
 		}
+
+		static ArrayList^ getPrimeFactors(IntPtr factorList)
+		{
+			char buf[929];
+			ArrayList^ factors = gcnew ArrayList;
+			factor_list_t * factor_list = (factor_list_t *)factorList.ToPointer();
+			for (int c = 0; c < factor_list->num_factors; c++)
+			{
+				if (factor_list->final_factors[c]->type != MSIEVE_COMPOSITE)
+				{
+					char* factor = mp_sprintf(&factor_list->final_factors[c]->factor, 10, buf);
+					factors->Add(gcnew String(factor));
+				}
+			}
+
+			return factors;
+		}
+
+		static ArrayList^ getCompositeFactors(IntPtr factorList)
+		{
+			char buf[929];
+			ArrayList^ factors = gcnew ArrayList;
+			factor_list_t * factor_list = (factor_list_t *)factorList.ToPointer();
+			for (int c = 0; c < factor_list->num_factors; c++)
+			{
+				if (factor_list->final_factors[c]->type == MSIEVE_COMPOSITE)
+				{
+					char* factor = mp_sprintf(&factor_list->final_factors[c]->factor, 10, buf);
+					factors->Add(gcnew String(factor));
+				}
+			}
+
+			return factors;
+		}
+
+		//get's the current factor on which we are sieving:
+		static String^ getCurrentFactor(IntPtr conf)
+		{
+			char buf[929];
+			sieve_conf_t* c = (sieve_conf_t*)conf.ToPointer();
+			mp_t mult;
+			*((uint32*)(&mult.val[0])) = c->multiplier;
+			mult.nwords = 4;
+			mp_t n;
+			mp_div(c->n, &mult, &n);
+			char* nchar = mp_sprintf(&n, 10, buf);
+			return gcnew String(nchar);
+		}
+
+		//serialize the yield, so that you can send it over the net:
+		static array<unsigned char>^ serializeYield(IntPtr yield)
+		{
+			relationYield* y = (relationYield*)yield.ToPointer();
+			array<unsigned char>^ out = gcnew array<unsigned char>((y->yield_count)*257 + 4);
+			copyIntToArray(out, 0, y->yield_count);
+
+			for (int c = 0; c < y->yield_count; c++)
+			{
+				out[4 + c*257] = (char)(y->yield_array[c].type);
+				if (y->yield_array[c].type == 1)	//poly
+				{
+					for (int i = 0; i < 256; i++)
+						out[4 + c*257 + 1 + i] = y->yield_array[c].polybuf[i];
+				}
+				else								//relation
+				{
+					copyIntToArray(out, 4+c*257 + 1, y->yield_array[c].rel.sieve_offset);
+					copyIntToArray(out, 4+c*257 + 1 + 4, y->yield_array[c].rel.num_factors);
+					copyIntToArray(out, 4+c*257 + 1 + 8, y->yield_array[c].rel.poly_index);
+					copyIntToArray(out, 4+c*257 + 1 + 12, y->yield_array[c].rel.large_prime1);
+					copyIntToArray(out, 4+c*257 + 1 + 16, y->yield_array[c].rel.large_prime2);
+					for (int i = 0; i < 232; i++)
+						copyIntToArray(out, 4+c*257 + 1 + 20 + i*4, y->yield_array[c].rel.fb_offsets[i]);
+				}
+			}
+
+			return out;
+		}
+
+		static IntPtr deserializeYield(array<unsigned char>^ yield)
+		{
+			relationYield* y = (relationYield*)malloc(sizeof(relationYield));
+			y->yield_count = getIntFromArray(yield, 0);
+			y->yield_array = (yield_element*)malloc(sizeof(yield_element)*y->yield_count);
+			
+			for (int c = 0; c < y->yield_count; c++)
+			{
+				y->yield_array[c].type = yield[4+c*257];
+				if (y->yield_array[c].type == 1)	//poly
+				{
+					for (int i = 0; i < 256; i++)
+						y->yield_array[c].polybuf[i] = yield[4 + c*257 + 1 + i];
+				}
+				else								//relation
+				{
+					y->yield_array[c].rel.sieve_offset = getIntFromArray(yield, 4+c*257 + 1);
+					y->yield_array[c].rel.num_factors = getIntFromArray(yield, 4+c*257 + 1 + 4);
+					y->yield_array[c].rel.poly_index = getIntFromArray(yield, 4+c*257 + 1 + 8);
+					y->yield_array[c].rel.large_prime1 = getIntFromArray(yield, 4+c*257 + 1 + 12);
+					y->yield_array[c].rel.large_prime2 = getIntFromArray(yield, 4+c*257 + 1 + 16);
+					for (int i = 0; i < 232; i++)
+						y->yield_array[c].rel.fb_offsets[i] = getIntFromArray(yield, 4+c*257 + 1 + 20 + i*4);
+				}
+			}
+			
+			return IntPtr((void*)y);
+		}
 	};
 
 }
@@ -249,4 +378,9 @@ extern "C" void prepare_sieving(void* conf, int update, void* core_sieve_fcn)
 extern "C" void throwException(char* message)
 {
 	throw gcnew Exception(gcnew String(message));
+}
+
+extern "C" void factor_list_changed(factor_list_t * factor_list)
+{
+	Msieve::msieve::callbacks->factorListChanged(IntPtr(factor_list));
 }
