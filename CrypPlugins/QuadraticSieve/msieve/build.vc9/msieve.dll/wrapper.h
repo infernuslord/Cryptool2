@@ -1,7 +1,11 @@
 #pragma once
+
+//#include <common.h>
+
 void showProgress(void* conf, int num_relations, int max_relations);
 void prepare_sieving(void* conf, int update, void* core_sieve_fcn);
 void throwException(char* message);
+//void factor_list_changed(factor_list_t * factor_list);
 
 struct relation
 {
