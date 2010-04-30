@@ -92,83 +92,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="cd &quot;$(ProjectDir)&quot;&#x0D;&#x0A;cd ..\..\..\dlls\$(ConfigurationName)&#x0D;&#x0A;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.dll&quot; &quot;.&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.pdb&quot; &quot;.&quot;&#x0D;&#x0A;"
-			/>
-		</Configuration>
-		<Configuration
-			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="2"
-			InheritedPropertySheets="..\mpir_config.vsprops"
-			CharacterSet="1"
-			ManagedExtensions="1"
-			WholeProgramOptimization="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="2"
-				AdditionalIncludeDirectories="../../include;."
-				PreprocessorDefinitions="WIN32;NDEBUG"
-				RuntimeLibrary="2"
-				WarningLevel="3"
-				DebugInformationFormat="3"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				OutputFile="$(OutDir)\msieve.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(OutDir)"
-				IgnoreAllDefaultLibraries="false"
-				IgnoreDefaultLibraryNames=""
-				GenerateDebugInformation="true"
-				TargetMachine="1"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="cd &quot;$(ProjectDir)&quot;&#x0D;&#x0A;cd ..\..\..\..\..\CrypWin\bin\$(ConfigurationName)&#x0D;&#x0A;if not exist &quot;./CrypPlugins&quot; mkdir &quot;./CrypPlugins&quot;&#x0D;&#x0A;&#x0D;&#x0A;del /F /Q /q msieve*.*&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.dll&quot; &quot;./CrypPlugins&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.pdb&quot; &quot;./CrypPlugins&quot;&#x0D;&#x0A;"
+				CommandLine="cd &quot;$(ProjectDir)&quot;&#x0D;&#x0A;cd ..\..\..\dlls\$(ConfigurationName)&#x0D;&#x0A;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.dll&quot; &quot;.&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.pdb&quot; &quot;.&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -245,7 +169,83 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="cd &quot;$(ProjectDir)&quot;&#x0D;&#x0A;cd ..\..\..\..\..\CrypWin\bin\$(ConfigurationName)&#x0D;&#x0A;if not exist &quot;./CrypPlugins&quot; mkdir &quot;./CrypPlugins&quot;&#x0D;&#x0A;&#x0D;&#x0A;del /F /Q /q msieve*.*&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.dll&quot; &quot;./CrypPlugins&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.pdb&quot; &quot;./CrypPlugins&quot;&#x0D;&#x0A;"
+				CommandLine="cd &quot;$(ProjectDir)&quot;&#x0D;&#x0A;cd ..\..\..\dlls\$(ConfigurationName)&#x0D;&#x0A;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve64.dll&quot; &quot;.&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve64.pdb&quot; &quot;.&quot;"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="2"
+			InheritedPropertySheets="..\mpir_config.vsprops"
+			CharacterSet="1"
+			ManagedExtensions="1"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				AdditionalIncludeDirectories="../../include;."
+				PreprocessorDefinitions="WIN32;NDEBUG"
+				RuntimeLibrary="2"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				OutputFile="$(OutDir)\msieve.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="$(OutDir)"
+				IgnoreAllDefaultLibraries="false"
+				IgnoreDefaultLibraryNames=""
+				GenerateDebugInformation="true"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="cd &quot;$(ProjectDir)&quot;&#x0D;&#x0A;cd ..\..\..\dlls\$(ConfigurationName)&#x0D;&#x0A;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.dll&quot; &quot;.&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.pdb&quot; &quot;.&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -322,7 +322,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="cd &quot;$(ProjectDir)&quot;&#x0D;&#x0A;cd ..\..\..\..\..\CrypWin\bin\$(ConfigurationName)&#x0D;&#x0A;if not exist &quot;./CrypPlugins&quot; mkdir &quot;./CrypPlugins&quot;&#x0D;&#x0A;&#x0D;&#x0A;del /F /Q /q msieve*.*&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.dll&quot; &quot;./CrypPlugins&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve.pdb&quot; &quot;./CrypPlugins&quot;&#x0D;&#x0A;"
+				CommandLine="cd &quot;$(ProjectDir)&quot;&#x0D;&#x0A;cd ..\..\..\dlls\$(ConfigurationName)&#x0D;&#x0A;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve64.dll&quot; &quot;.&quot;&#x0D;&#x0A;copy &quot;$(TargetDir)msieve64.pdb&quot; &quot;.&quot;"
 			/>
 		</Configuration>
 	</Configurations>
