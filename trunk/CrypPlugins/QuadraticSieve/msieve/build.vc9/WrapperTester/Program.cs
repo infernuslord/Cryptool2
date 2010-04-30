@@ -37,8 +37,9 @@ namespace WrapperTester
 
             while (running)
             {
-                    Msieve.msieve.collectRelations(clone, update, core_sieve_fcn);                    
+                    Msieve.msieve.collectRelations(clone, update, core_sieve_fcn);
                     IntPtr yield = Msieve.msieve.getYield(clone);
+                    yield = Msieve.msieve.deserializeYield(Msieve.msieve.serializeYield(yield));
                     yieldqueue.Enqueue(yield);
             }
         }
@@ -59,14 +60,25 @@ namespace WrapperTester
                     running = false;                
             };
             callbacks.prepareSieving = prepareSieving;
+            callbacks.getTrivialFactorlist = delegate(IntPtr list, IntPtr obj)
+            {
+                foreach (Object o in Msieve.msieve.getPrimeFactors(list))
+                    Console.Out.WriteLine((String)o);
+                foreach (Object o in Msieve.msieve.getCompositeFactors(list))
+                    Console.Out.WriteLine((String)o);
+
+                list = Msieve.msieve.factor_mpqs(obj, (String)Msieve.msieve.getCompositeFactors(list)[0]);
+                foreach (Object o in Msieve.msieve.getPrimeFactors(list))
+                    Console.Out.WriteLine("Prim: " + (String)o);
+                foreach (Object o in Msieve.msieve.getCompositeFactors(list))
+                    Console.Out.WriteLine("Composite: " + (String)o);
+            };
             
             Msieve.msieve.initMsieve(callbacks);
 
             //ArrayList factors = Msieve.msieve.factorize("8490874917243147254909119 * 6760598565031862090687387", null);
-            ArrayList factors = Msieve.msieve.factorize("(2^300-1)/2", null);
+            Msieve.msieve.start("(2^300-1)/2", null);
             //ArrayList factors = Msieve.msieve.factorize("(2^200 - 1) / 2", null);            
-            foreach (String str in factors)
-                Console.WriteLine(str);
             Console.ReadLine();
         }
     }

@@ -133,7 +133,8 @@ static uint32 msieve_run_core(msieve_obj *obj, mp_t *n,
 	}
 
 	/* Beyond this point we use the heavy artillery. */
-	return factor_mpqs(obj, n, factor_list);
+	//return factor_mpqs(obj, n, factor_list);
+	get_trivial_factorlist(factor_list, obj);
 }
 
 /*--------------------------------------------------------------------*/
@@ -527,9 +528,7 @@ uint32 factor_list_add(msieve_obj *obj, factor_list_t *list,
 
 	if (!mp_is_zero(new_factor) && !mp_is_one(new_factor))
 		factor_list_add_core(obj, list, new_factor);
-
-
-	factor_list_changed(list);
+	
 	return factor_list_max_composite(list);
 }
 
