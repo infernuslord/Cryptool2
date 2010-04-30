@@ -1,6 +1,7 @@
 This is a modified version of msieve-1.42 (http://sourceforge.net/projects/msieve),
 which can be used in .NET.
 
+Please compile it with Visual Studio 2008.
 
 To compile this, you first have to compile mpir (MPIR is an 
 open source multiprecision integer library derived from version 4.2.1 
@@ -16,3 +17,6 @@ Edit the build.vc9\mpir_config.vsprops file to set the path to these libraries.
 
 You have to change the C-Runtimelibrary of these libraries to "Multithreaded-XX-DLL", or else you will 
 experience problems while linking msieve.
+
+
+If you encounter problems, don't hesitate to ask me (svenrech at googlemail dot com).
