@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using Cryptool.PluginBase.Cryptography;
@@ -43,6 +44,9 @@ namespace Cryptool.Plugins.CostFunction
         private String bigramInput;
         private double[,] bigramMatrix;
         private IDictionary<string, double[]> corpusGrams;
+
+        private IDictionary<string, double[]> corpusBigrams; // Used for Weighted Bigrams/Trigrams Cost function
+        private IDictionary<string, double[]> corpusTrigrams;
 
         private DataManager dataMgr = new DataManager();
         private const string DATATYPE = "transposition";
@@ -203,6 +207,10 @@ namespace Cryptool.Plugins.CostFunction
                     case 5: //regular expressions
                         this.Value = regex(bigramInput);
                         break;
+                    case 6: // Weighted Bigrams/Trigrams (used by genetic algorithm in transposition analyser
+                        this.Value = calculateWeighted(bigramInput);
+                        break;
+
                     default:
                         this.Value = -1;
                         break;
@@ -213,7 +221,8 @@ namespace Cryptool.Plugins.CostFunction
 
             }//end if
 
-        }//end Execute
+        }
+
 
 
         public void PostExecution()
@@ -287,6 +296,76 @@ namespace Cryptool.Plugins.CostFunction
         //    }
         //    return -1.0;
         //}
+        public double calculateWeighted(string input)
+        {
+
+
+            this.statistics = new Dictionary<int, IDictionary<string, double[]>>();
+            
+            if (corpusBigrams == null)
+            {
+                if (corpusTrigrams == null)
+                {
+
+                    corpusBigrams = GetStatistics(2); // Get Known Language statistics for Bigrams
+                    corpusTrigrams = GetStatistics(3); // and Trigrams
+                }
+
+            }
+            input = input.ToUpper();
+
+            /* debug foreach (KeyValuePair<string,double[]> g in corpusTrigrams)
+             {
+                 GuiLogMessage(corpusTrigrams[g.Key][0].ToString()+ " "+g.Key, NotificationLevel.Debug);
+             } */
+
+
+            Dictionary<string, double> inputBiGrams = new Dictionary<string,double>();
+            Dictionary<string, double> inputTriGrams = new Dictionary<string,double>();
+
+            // Count input Bigrams
+            foreach (string g in GramTokenizer.tokenize(input, 2, false))
+            {
+                if (inputBiGrams.ContainsKey(g))
+                {
+                    inputBiGrams[g] = inputBiGrams[g] + 1;
+                }
+                else
+                {
+                    inputBiGrams.Add(g, 0);
+                }
+            }
+            //debug
+            foreach (KeyValuePair<string, double[]> g in corpusBigrams)
+            {
+                GuiLogMessage(corpusBigrams[g.Key][0].ToString() + " " + g.Key + " " + corpusBigrams[g.Key][1].ToString(), NotificationLevel.Debug);
+            }
+            
+            // Count input TriGrams
+            foreach (string g in GramTokenizer.tokenize(input, 3, false))
+            {
+                if (inputTriGrams.ContainsKey(g))
+                {
+                    inputTriGrams[g] = inputTriGrams[g] + 1;
+                }
+                else
+                {
+                    inputTriGrams.Add(g, 0);
+                }
+            }
+
+            // First part of the equation: Sum up all [K_b (i,j) - D_b (i,j)]
+            double bigramscore = 0.0;
+            foreach (KeyValuePair<string, double[]> g in corpusBigrams)
+            {
+                // bigramscore += g.Value[1] - inputBiGrams[g]/inputBiGrams.Sum<value;
+            }
+
+            // Second part of the equation: Sum up all [K_t (i,j) - D_t (i,j)]
+            
+
+            return bigramscore;
+        }//end Execute
 
         public double regex(string input)
         {
@@ -341,7 +420,7 @@ namespace Cryptool.Plugins.CostFunction
         /// <param name="text">bytesToUse</param>
         /// <returns>Index of Coincidence</returns>
         public double calculateIndexOfCoincidence(byte[] text, int bytesToUse)
-        {            
+        {
             if (bytesToUse > text.Length)
                 bytesToUse = text.Length;
 
@@ -491,32 +570,50 @@ namespace Cryptool.Plugins.CostFunction
         {
             txtList = dataMgr.LoadDirectory(DATATYPE);
 
-            return calculateAbsolutes(txtList["2gram.txt"].DataFile.FullName);
+            return calculateAbsolutes(txtList["2gram.txt"].DataFile.FullName, length);
         }
 
-        private IDictionary<string, double[]> calculateAbsolutes(String path)
+        private IDictionary<string, double[]> calculateAbsolutes(String path, int length)
         {
 
 
             Dictionary<string, double[]> grams = new Dictionary<string, double[]>();
-
+            int checkLength;
             StreamReader reader = new StreamReader(path);
             String text = reader.ReadToEnd();
 
             text.ToUpper();
             text = Regex.Replace(text, "[^A-Z]*", "");
 
-
-            for (int i = 0; i < text.Length - 1; i++)
+            if (length == 2)
+            {
+                checkLength = text.Length - 1;
+            }
+            else
+            {
+                checkLength = text.Length - 2;
+            }
+            for (int i = 0; i < checkLength; i++)
             {
                 char a = text[i];
                 char b = text[i + 1];
-                String key = a.ToString();
-                key = key + b.ToString();
+                String key;
+                if (length == 3) // Trigrams
+                {
+                    char c = text[i + 2];
+                    key = a.ToString();
+                    key = key + b.ToString();
+                    key = key + c.ToString();
+                }
+                else // Bigrams
+                {
+                    key = a.ToString();
+                    key = key + b.ToString();
+                }
 
                 if (!grams.ContainsKey(key))
                 {
-                    grams.Add(key, new double[] { 1, 0, 0, 0 });
+                    grams.Add(key, new double[] { 1, 0, 0, 0}); 
                 }
                 else
                 {
@@ -604,6 +701,9 @@ namespace Cryptool.Plugins.CostFunction
                     return RelationOperator.LargerThen;
                 case 5: // Regular Expression
                     return RelationOperator.LargerThen;
+                case 6: // Weighted Bigrams/Trigrams
+                    return RelationOperator.LargerThen;
+
                 default:
                     throw new NotImplementedException("The value " + ((CostFunctionSettings)this.plugin.Settings).FunctionType + " is not implemented.");
             }//end switch
@@ -645,6 +745,8 @@ namespace Cryptool.Plugins.CostFunction
                     return plugin.calculateNGrams(plugin.ByteArrayToString(text), 2, 1);
                 case 5: // regular expression
                     return plugin.regex(plugin.ByteArrayToString(text));
+                case 6:
+                    return plugin.calculateWeighted(plugin.ByteArrayToString(text));
                 default:
                     throw new NotImplementedException("The value " + ((CostFunctionSettings)this.plugin.Settings).FunctionType + " is not implemented.");
             }//end switch

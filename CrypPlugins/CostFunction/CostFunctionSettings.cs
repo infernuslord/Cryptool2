@@ -34,7 +34,7 @@ namespace Cryptool.Plugins.CostFunction
         private int bytesToUseInteger = 256;
         #endregion
         
-        [TaskPane("FunctionType", "Select the type of function", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Index of coincidence", "Entropy", "Bigrams: log 2", "Bigrams: Sinkov", "Bigrams: Percentaged", "Regular Expression"})]
+        [TaskPane("FunctionType", "Select the type of function", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Index of coincidence", "Entropy", "Bigrams: log 2", "Bigrams: Sinkov", "Bigrams: Percentaged", "Regular Expression", "Weighted Bigrams/Trigrams"})]
         public int FunctionType
         {
             get { return this.functionType; }
