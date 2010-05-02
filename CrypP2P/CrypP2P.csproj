@@ -8,7 +8,7 @@
     <ProjectGuid>{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CrypP2P</RootNamespace>
+    <RootNamespace>Cryptool.P2P</RootNamespace>
     <AssemblyName>CrypP2P</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -39,6 +39,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\AppReferences\CertServices.dll</HintPath>
     </Reference>
+    <Reference Include="DevComponents.WpfRibbon, Version=4.1.0.13, Culture=neutral, PublicKeyToken=2037e151916410e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CoreDeveloper\CrypWin\DevComponents.WpfRibbon.dll</HintPath>
+    </Reference>
     <Reference Include="FullMeshDHT, Version=1.0.4654.4, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\AppReferences\FullMeshDHT.dll</HintPath>
@@ -67,6 +71,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\AppReferences\PeersAtPlayBase.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="Stun, Version=1.0.0.0, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\AppReferences\Stun.dll</HintPath>
@@ -75,6 +85,8 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -92,8 +104,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="P2PSettings.cs" />
+    <Compile Include="Worker\ConnectionWorker.cs" />
+    <Compile Include="Worker\WorkerBase.cs" />
+    <Compile Include="Internal\DHT_CommonManagement.cs" />
+    <Compile Include="Internal\IP2PControl.cs" />
+    <Compile Include="Internal\KeySearcherResult.cs" />
     <Compile Include="P2PManager.cs" />
+    <Compile Include="Helper\PAPCertificate.cs" />
+    <Compile Include="Internal\P2PBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Internal\ResponseWait.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CrypPluginBase\CrypPluginBase.csproj">
@@ -108,6 +129,13 @@
       <Project>{7BED5C93-30BE-47BE-BC4A-16453F5DE9EA}</Project>
       <Name>PeerToPeerCertificates</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="pap_certificates\CrypTool2.pfx" />
+    <None Include="pap_certificates\opa.vs.uni-due.de.cer" />
+    <None Include="pap_certificates\pap.cer" />
+    <None Include="pap_certificates\pap0001.p12" />
+    <None Include="pap_certificates\ServerCA.cer" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
