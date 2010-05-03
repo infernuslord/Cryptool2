@@ -335,11 +335,11 @@ namespace Cryptool.Plugins.CostFunction
                     inputBiGrams.Add(g, 0);
                 }
             }
-            //debug
+            /*debug
             foreach (KeyValuePair<string, double[]> g in corpusBigrams)
             {
                 GuiLogMessage(corpusBigrams[g.Key][0].ToString() + " " + g.Key + " " + corpusBigrams[g.Key][1].ToString(), NotificationLevel.Debug);
-            }
+            } */
             
             // Count input TriGrams
             foreach (string g in GramTokenizer.tokenize(input, 3, false))
@@ -354,17 +354,57 @@ namespace Cryptool.Plugins.CostFunction
                 }
             }
 
+            //Union Bigrams
+            HashSet<string> allBigrams = new HashSet<string>(inputBiGrams.Keys);
+            allBigrams.UnionWith(corpusBigrams.Keys);
+
+            //Union Trigrams
+            HashSet<string> allTrigrams = new HashSet<string>(inputTriGrams.Keys);
+            allTrigrams.UnionWith(corpusTrigrams.Keys);
+
+            // Sum of all input Bigrams absolutes
+            double sumBigrams = inputBiGrams.Values.Sum();
+
+            // Sum of all input Trigrams absolutes
+            double sumTrigrams = inputTriGrams.Values.Sum();
+
             // First part of the equation: Sum up all [K_b (i,j) - D_b (i,j)]
             double bigramscore = 0.0;
-            foreach (KeyValuePair<string, double[]> g in corpusBigrams)
+            foreach (string g in allBigrams)
             {
-                // bigramscore += g.Value[1] - inputBiGrams[g]/inputBiGrams.Sum<value;
+                if (corpusBigrams.ContainsKey(g) && inputBiGrams.ContainsKey(g))
+                {
+                    bigramscore += corpusBigrams[g][1] - inputBiGrams[g] / sumBigrams;
+                }
+                else if (!corpusBigrams.ContainsKey(g))
+                {
+                    bigramscore += 0.0 - inputBiGrams[g] / sumBigrams;
+                }
+                else if (!inputBiGrams.ContainsKey(g))
+                {
+                    bigramscore += corpusBigrams[g][1];
+                }
             }
 
             // Second part of the equation: Sum up all [K_t (i,j) - D_t (i,j)]
-            
+            double Trigramscore = 0.0;
+            foreach (string g in allTrigrams)
+            {
+                if (corpusTrigrams.ContainsKey(g) && inputTriGrams.ContainsKey(g))
+                {
+                    Trigramscore += corpusTrigrams[g][1] - inputTriGrams[g] / sumTrigrams;
+                }
+                else if (!corpusTrigrams.ContainsKey(g))
+                {
+                    Trigramscore += 0.0 - inputTriGrams[g] / sumTrigrams;
+                }
+                else if (!inputTriGrams.ContainsKey(g))
+                {
+                    Trigramscore += corpusTrigrams[g][1];
+                }
+            }
 
-            return bigramscore;
+            return 10*bigramscore+10*Trigramscore;
         }//end Execute
 
         public double regex(string input)
