@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{E3D15A1E-65D0-457A-9894-7F4E36369163}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -75,10 +75,6 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NativeCryptography, Version=1.0.3758.15482, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Debug\NativeCryptography.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -127,6 +123,10 @@
     <ProjectReference Include="..\CubeAttackController\CubeAttackController.csproj">
       <Project>{2100AC2F-3F2B-48A2-AF42-87EC52C8A703}</Project>
       <Name>CubeAttackController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NativeCryptography\NativeCryptography.vcproj">
+      <Project>{97B06ADB-43E4-4320-9AD8-D167421F0644}</Project>
+      <Name>NativeCryptography</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
