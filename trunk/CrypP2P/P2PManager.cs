@@ -108,6 +108,13 @@ namespace Cryptool.P2P
             return P2PBase.Started;
         }
 
+        public string UserInfo()
+        {
+            string userName;
+            PeerId userInfo = P2PBase.GetPeerID(out userName);
+            return userInfo + " (" + userName + ")";
+        }
+
         #region DHT operations
         // TODO add error handling, if P2P if not connected
         public static bool Store(string key, byte[] data)

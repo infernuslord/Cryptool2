@@ -65,6 +65,7 @@ namespace Cryptool.P2P.Worker
             if (P2PManager.Instance.P2PConnected())
             {
                 P2PManager.Instance.GuiLogMessage("Connection to P2P network established.", NotificationLevel.Info);
+                P2PManager.Instance.GuiLogMessage("P2P user info: " + P2PManager.Instance.UserInfo(), NotificationLevel.Debug);
                 newImage.Source = new BitmapImage(new Uri(P2PManager.P2PDisconnectImageURI, UriKind.RelativeOrAbsolute));
             }
             else
