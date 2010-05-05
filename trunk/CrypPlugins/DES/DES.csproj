@@ -102,6 +102,10 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NativeCryptography, Version=1.0.3777.33804, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\AppReferences\NativeCryptography.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -148,10 +152,6 @@
     <ProjectReference Include="..\CubeAttackController\CubeAttackController.csproj">
       <Project>{2100AC2F-3F2B-48A2-AF42-87EC52C8A703}</Project>
       <Name>CubeAttackController</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NativeCryptography\NativeCryptography.vcxproj">
-      <Project>{97B06ADB-43E4-4320-9AD8-D167421F0644}</Project>
-      <Name>NativeCryptography</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
