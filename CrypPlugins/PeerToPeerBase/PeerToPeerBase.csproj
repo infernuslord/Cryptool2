@@ -131,6 +131,9 @@
     <Reference Include="PresentationFramework">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="RUDP">
+      <HintPath>..\..\AppReferences\RUDP.dll</HintPath>
+    </Reference>
     <Reference Include="Stun">
       <HintPath>..\..\AppReferences\Stun.dll</HintPath>
     </Reference>
