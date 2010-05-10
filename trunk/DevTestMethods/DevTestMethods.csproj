@@ -136,26 +136,32 @@
     <ProjectReference Include="..\CrypCore\CrypCore.csproj">
       <Project>{FF5D473C-0716-4D3E-9078-2EBD979F94C6}</Project>
       <Name>CrypCore</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\CrypPluginBase\CrypPluginBase.csproj">
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\MD5\MD5.csproj">
       <Project>{1137719A-7468-4DEF-84B1-77AB82049656}</Project>
       <Name>MD5</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\PKCS5\PKCS5.csproj">
       <Project>{80200C92-77FC-4508-B520-D51530BE2608}</Project>
       <Name>PKCS5</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\Transposition\Transposition.csproj">
       <Project>{37D80203-C651-4396-8F5B-D67B7EC62763}</Project>
       <Name>Transposition</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\SSCext\SSCext.csproj">
       <Project>{E46A6AA6-56EE-4AE5-8725-DCD07DC95527}</Project>
       <Name>SSCext</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

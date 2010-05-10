@@ -105,6 +105,7 @@
     <Reference Include="NativeCryptography, Version=1.0.3777.33804, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\AppReferences\NativeCryptography.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -148,10 +149,12 @@
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\CubeAttackController\CubeAttackController.csproj">
       <Project>{2100AC2F-3F2B-48A2-AF42-87EC52C8A703}</Project>
       <Name>CubeAttackController</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
