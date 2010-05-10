@@ -172,18 +172,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transposition", "CrypPlugin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranspositionAnalyser", "CrypPlugins\TranspositionAnalyser\TranspositionAnalyser.csproj", "{D5B859A7-73AB-4BFE-A1FB-11BB104B210C}"
 EndProject
-Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "CrypWin", "CrypWin\bin\Debug\CrypWin.exe", "{0AFD1E1B-6503-46E0-8F53-A22058C7CEA1}"
-	ProjectSection(DebuggerProjectSystem) = preProject
-		PortSupplier = 00000000-0000-0000-0000-000000000000
-		Executable = C:\Users\saternmn\Eigene SVN Projekte\CrypTool\Build\Build\CT2\CrypWin\bin\Debug\CrypWin.exe
-		RemoteMachine = VS-SAT1
-		StartingDirectory = C:\Users\saternmn\Eigene SVN Projekte\CrypTool\Build\Build\CT2\CrypWin\bin\Debug
-		Environment = Default
-		LaunchingEngine = 00000000-0000-0000-0000-000000000000
-		LaunchSQLEngine = No
-		AttachLaunchAction = No
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleEditor", "CrypPlugins\SimpleEditor\SimpleEditor.csproj", "{C7507435-D076-406C-8F8F-0DBBDFB17D9A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeySearcher_IControl", "CrypPlugins\KeySearcher_IControl\KeySearcher_IControl.csproj", "{246DF46E-C05E-42A3-AA3D-47807FE4E929}"
@@ -217,6 +205,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypP2P", "CrypP2P\CrypP2P.csproj", "{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CrypPlugins", "CrypPlugins", "{88B851F6-9E3D-484F-A317-ECED5B98C618}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypStartup", "CrypStartup\CrypStartup.csproj", "{347B5433-A40E-4ACC-AD6B-A245509AB42E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -890,10 +880,6 @@ Global
 		{D5B859A7-73AB-4BFE-A1FB-11BB104B210C}.Release|x64.Build.0 = Release|x64
 		{D5B859A7-73AB-4BFE-A1FB-11BB104B210C}.Release|x86.ActiveCfg = Release|x86
 		{D5B859A7-73AB-4BFE-A1FB-11BB104B210C}.Release|x86.Build.0 = Release|x86
-		{0AFD1E1B-6503-46E0-8F53-A22058C7CEA1}.Debug|x64.ActiveCfg = Debug
-		{0AFD1E1B-6503-46E0-8F53-A22058C7CEA1}.Debug|x86.ActiveCfg = Debug
-		{0AFD1E1B-6503-46E0-8F53-A22058C7CEA1}.Release|x64.ActiveCfg = Debug
-		{0AFD1E1B-6503-46E0-8F53-A22058C7CEA1}.Release|x86.ActiveCfg = Debug
 		{C7507435-D076-406C-8F8F-0DBBDFB17D9A}.Debug|x64.ActiveCfg = Debug|x64
 		{C7507435-D076-406C-8F8F-0DBBDFB17D9A}.Debug|x64.Build.0 = Debug|x64
 		{C7507435-D076-406C-8F8F-0DBBDFB17D9A}.Debug|x86.ActiveCfg = Debug|x86
@@ -1014,10 +1000,17 @@ Global
 		{F5DDFE63-0904-4523-AA30-11FF5E91C362}.Release|x64.Build.0 = Release|x64
 		{F5DDFE63-0904-4523-AA30-11FF5E91C362}.Release|x86.ActiveCfg = Release|x86
 		{F5DDFE63-0904-4523-AA30-11FF5E91C362}.Release|x86.Build.0 = Release|x86
-		{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}.Debug|x64.ActiveCfg = Debug|x64
+		{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}.Debug|x86.ActiveCfg = Debug|x86
+		{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}.Debug|x86.Build.0 = Debug|x86
 		{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}.Release|x64.ActiveCfg = Release|Any CPU
 		{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}.Release|x86.ActiveCfg = Release|Any CPU
+		{347B5433-A40E-4ACC-AD6B-A245509AB42E}.Debug|x64.ActiveCfg = Debug|x86
+		{347B5433-A40E-4ACC-AD6B-A245509AB42E}.Debug|x86.ActiveCfg = Debug|x86
+		{347B5433-A40E-4ACC-AD6B-A245509AB42E}.Debug|x86.Build.0 = Debug|x86
+		{347B5433-A40E-4ACC-AD6B-A245509AB42E}.Release|x64.ActiveCfg = Release|x86
+		{347B5433-A40E-4ACC-AD6B-A245509AB42E}.Release|x86.ActiveCfg = Release|x86
+		{347B5433-A40E-4ACC-AD6B-A245509AB42E}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

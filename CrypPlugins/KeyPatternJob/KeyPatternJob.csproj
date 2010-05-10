@@ -121,14 +121,17 @@
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\KeySearcher\KeySearcher.csproj">
       <Project>{0579E099-66B2-43C3-B8A0-43CAE4895E68}</Project>
       <Name>KeySearcher</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\PeerToPeerJobs\PeerToPeerJobs.csproj">
       <Project>{F1258427-AFDF-4DF7-ABF1-758A2325F505}</Project>
       <Name>PeerToPeerJobs</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

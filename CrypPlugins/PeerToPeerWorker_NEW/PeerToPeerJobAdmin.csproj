@@ -131,18 +131,22 @@
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\PeerToPeerBase\PeerToPeerBase.csproj">
       <Project>{A7CD30E7-5381-40CF-BB78-268EC998CCB3}</Project>
       <Name>PeerToPeerBase</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\PeerToPeerJobs\PeerToPeerJobs.csproj">
       <Project>{F1258427-AFDF-4DF7-ABF1-758A2325F505}</Project>
       <Name>PeerToPeerJobs</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\PeerToPeerSubscriber\PeerToPeerSubscriber.csproj">
       <Project>{612FEE87-F51F-4BE6-81D1-F91EA4A5DD43}</Project>
       <Name>PeerToPeerSubscriber</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

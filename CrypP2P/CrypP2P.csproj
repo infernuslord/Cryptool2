@@ -78,34 +78,44 @@
   <ItemGroup>
     <Reference Include="Bootstrapper">
       <HintPath>..\AppReferences\Bootstrapper.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="CertServices">
       <HintPath>..\AppReferences\CertServices.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="DevComponents.WpfRibbon, Version=4.1.0.13, Culture=neutral, PublicKeyToken=2037e151916410e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\CoreDeveloper\CrypWin\DevComponents.WpfRibbon.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="FullMeshDHT">
       <HintPath>..\AppReferences\FullMeshDHT.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="FullMeshOverlay">
       <HintPath>..\AppReferences\FullMeshOverlay.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Gears4Net">
       <HintPath>..\AppReferences\Gears4Net.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="LinkManager">
       <HintPath>..\AppReferences\LinkManager.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\AppReferences\log4net.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="NetGearsTCP">
       <HintPath>..\AppReferences\NetGearsTCP.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PeersAtPlayBase">
       <HintPath>..\AppReferences\PeersAtPlayBase.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -115,6 +125,7 @@
     </Reference>
     <Reference Include="Stun">
       <HintPath>..\AppReferences\Stun.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -133,6 +144,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="Util">
       <HintPath>..\AppReferences\Util.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -179,14 +191,17 @@
     <ProjectReference Include="..\CrypPluginBase\CrypPluginBase.csproj">
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\KeySearcher\KeySearcher.csproj">
       <Project>{0579E099-66B2-43C3-B8A0-43CAE4895E68}</Project>
       <Name>KeySearcher</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\PeerToPeerJobs\PeerToPeerJobs.csproj">
       <Project>{F1258427-AFDF-4DF7-ABF1-758A2325F505}</Project>
       <Name>PeerToPeerJobs</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
