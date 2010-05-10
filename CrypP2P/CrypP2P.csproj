@@ -84,9 +84,16 @@
       <HintPath>..\AppReferences\CertServices.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevComponents.WpfRibbon, Version=4.1.0.13, Culture=neutral, PublicKeyToken=2037e151916410e7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\CoreDeveloper\CrypWin\DevComponents.WpfRibbon.dll</HintPath>
+    <Reference Include="DevComponents.WpfDock">
+      <HintPath>..\AppExternalReferences\DevComponents.WpfDock.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DevComponents.WpfEditors">
+      <HintPath>..\AppExternalReferences\DevComponents.WpfEditors.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DevComponents.WpfRibbon">
+      <HintPath>..\AppExternalReferences\DevComponents.WpfRibbon.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FullMeshDHT">
