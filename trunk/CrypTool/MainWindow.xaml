@@ -1,8 +1,9 @@
 ﻿<Window x:Class="CrypTool.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="525" Loaded="Window_Loaded">
     <Grid>
-        
+        <Image Height="150" HorizontalAlignment="Left" Margin="291,12,0,0" Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="200" Source="/CrypTool;component/Images/SplashScreen.png" />
+        <ListBox Height="311" HorizontalAlignment="Left" Name="listBox1" VerticalAlignment="Top" Width="198" />
     </Grid>
 </Window>
