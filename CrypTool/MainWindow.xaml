@@ -4,7 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Loaded="Window_Loaded"
         IsGlassEnabled="True"
-        Title="---------------------------FILL ME--------------------" Height="350" Width="525">
+        Title="---------------------------FILL ME--------------------" Height="550" Width="525">
     <DockPanel LastChildFill="True">
         <dc:RibbonBar DockPanel.Dock="Top" Name="AppRibbon" IsRibbonVisible="False">
             <!--CrypTool Menu-->
@@ -106,21 +106,43 @@
         <dc:OutlookBar DockPanel.Dock="Left" Header="Algorithms" DockPosition="Left">
             <dc:OutlookBar.Sections>
                 <dc:OutlookSection Header="Classic Ciphers" Image="images/01-Classic-28x26.png" Name="Classic_Ciphers">
-                    <StackPanel Name="ClassicPaneStack">
-
-                    </StackPanel>
+                    <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <StackPanel Name="ClassicPaneStack">
+                            <ListView  BorderThickness="0" Name="ClassicCiphers" Margin="8,8,8,8"></ListView>
+                        </StackPanel>
+                    </ScrollViewer>
                 </dc:OutlookSection>
 
                 <dc:OutlookSection Header="Modern Ciphers" Image="images/02-Modern-28x26.png" Name="Modern_Ciphers">
-                    <StackPanel Name="ModernPaneStack">
-
-                    </StackPanel>
+                    <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <StackPanel Name="ModernPaneStack">
+                            <dc:OdcExpander Header="Symmetric (Block and Stream)">
+                                <ListView  BorderThickness="0" Name="ModernSymmetric"></ListView>
+                            </dc:OdcExpander>
+                            <dc:OdcExpander Header="Asymmetric">
+                                <ListView  BorderThickness="0" Name="ModernAsymmetric"></ListView>
+                            </dc:OdcExpander>
+                            <dc:OdcExpander Header="Hybrid">
+                                <ListView  BorderThickness="0" Name="ModernHybrid"></ListView>
+                            </dc:OdcExpander>
+                            <dc:OdcExpander Header="Misc">
+                                <ListView  BorderThickness="0" Name="ModernMisc"></ListView>
+                            </dc:OdcExpander>
+                        </StackPanel>
+                    </ScrollViewer>
                 </dc:OutlookSection>
 
                 <dc:OutlookSection Header="Hash Functions" Image="images/03-Hash-28x26.png" Name="Hash_Functions">
-                    <StackPanel Name="HashPaneStack">
-
-                    </StackPanel>
+                    <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <StackPanel Name="HashPaneStack">
+                            <dc:OdcExpander Header="Cryptographic Hash Functions">
+                                <ListView  BorderThickness="0" Name="HashCryptographic"></ListView>
+                            </dc:OdcExpander>
+                            <dc:OdcExpander Header="Checksum">
+                                <ListView  BorderThickness="0" Name="HashChecksum"></ListView>
+                            </dc:OdcExpander>
+                        </StackPanel>
+                    </ScrollViewer>
                 </dc:OutlookSection>
 
                 <dc:OutlookSection Header="Cryptanalysis" Image="images/04-Analyse-28x26.png" Name="Cryptanalysis">
@@ -130,9 +152,28 @@
                 </dc:OutlookSection>
 
                 <dc:OutlookSection Header="Tools" Image="images/05-Tools-28x26.png" Name="Tools">
-                    <StackPanel Name="ToolPaneStack">
-
-                    </StackPanel>
+                    <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <StackPanel Name="ToolPaneStack">
+                            <dc:OdcExpander Header="Standalone">
+                                <ListView  BorderThickness="0" Name="ToolsStandalone"></ListView>
+                            </dc:OdcExpander>
+                            <dc:OdcExpander Header="Input">
+                                <ListView  BorderThickness="0" Name="ToolsInput"></ListView>
+                            </dc:OdcExpander>
+                            <dc:OdcExpander Header="Output">
+                                <ListView  BorderThickness="0" Name="ToolsOutput"></ListView>
+                            </dc:OdcExpander>
+                            <dc:OdcExpander Header="Misc">
+                                <ListView  BorderThickness="0" Name="ToolsMisc"></ListView>
+                            </dc:OdcExpander>
+                            <dc:OdcExpander Header="Throughput">
+                                <ListView  BorderThickness="0" Name="ToolsThroughput"></ListView>
+                            </dc:OdcExpander>
+                            <dc:OdcExpander Header="Generators">
+                                <ListView  BorderThickness="0" Name="ToolsGenerators"></ListView>
+                            </dc:OdcExpander>
+                        </StackPanel>
+                    </ScrollViewer>
                 </dc:OutlookSection>
 
                 <dc:OutlookSection Header="Editor Specific" Image="images/06-EditorSpec-28x26.png" Name="Editor_Specific">

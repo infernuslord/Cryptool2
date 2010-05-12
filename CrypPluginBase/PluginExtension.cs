@@ -34,6 +34,25 @@ namespace Cryptool.PluginBase
 {
     public static class PluginExtension
     {
+        public static readonly string[] Interfaces = new string[] {
+                typeof(Cryptool.PluginBase.Analysis.IDifferential).FullName,
+                typeof(Cryptool.PluginBase.Analysis.IAnalysisMisc).FullName,
+                typeof(Cryptool.PluginBase.Analysis.ISpecific).FullName,
+                typeof(Cryptool.PluginBase.Analysis.IStatistic).FullName,
+                typeof(Cryptool.PluginBase.Cryptography.IEncryption).FullName,
+                typeof(Cryptool.PluginBase.Cryptography.ICheckSumHash).FullName,
+                typeof(Cryptool.PluginBase.Cryptography.ICryptographicHash).FullName,
+                typeof(Cryptool.PluginBase.Cryptography.ICryptographyMisc).FullName,
+                typeof(Cryptool.PluginBase.Editor.IEditor).FullName,
+                typeof(Cryptool.PluginBase.Generator.IKeyGenerator).FullName,
+                typeof(Cryptool.PluginBase.Generator.IGeneratorMisc).FullName,
+                typeof(Cryptool.PluginBase.Generator.IRandomNumberGenerator).FullName,
+                typeof(Cryptool.PluginBase.IO.IInput).FullName,
+                typeof(Cryptool.PluginBase.IO.IIOMisc).FullName,
+                typeof(Cryptool.PluginBase.IO.IOutput).FullName,
+                typeof(Cryptool.PluginBase.IO.IThroughput).FullName,
+                typeof(Cryptool.PluginBase.Tool.ITool).FullName };
+
         public static event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 
         private static void GuiLogMessage(string message, NotificationLevel logLevel)
