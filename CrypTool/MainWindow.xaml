@@ -1,9 +1,169 @@
-﻿<Window x:Class="CrypTool.MainWindow"
+﻿<dc:RibbonWindow x:Class="CrypTool.MainWindow"
+        xmlns:dc="clr-namespace:Odyssey.Controls;assembly=Odyssey"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525" Loaded="Window_Loaded">
-    <Grid>
-        <Image Height="150" HorizontalAlignment="Left" Margin="291,12,0,0" Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="200" Source="/CrypTool;component/Images/SplashScreen.png" />
-        <ListBox Height="311" HorizontalAlignment="Left" Name="listBox1" VerticalAlignment="Top" Width="198" />
-    </Grid>
-</Window>
+        Loaded="Window_Loaded"
+        IsGlassEnabled="True"
+        Title="---------------------------FILL ME--------------------" Height="350" Width="525">
+    <DockPanel LastChildFill="True">
+        <dc:RibbonBar DockPanel.Dock="Top" Name="AppRibbon" IsRibbonVisible="False">
+            <!--CrypTool Menu-->
+            <dc:RibbonBar.ApplicationMenu>
+                <dc:RibbonApplicationMenu MenuButtonImage="images/ctLogo.png">
+                    <!--CrypTool Commands-->
+                    <dc:RibbonApplicationMenuItem Header="New" Image="images/File32.png"/>
+                    <dc:RibbonApplicationMenuItem Header="Open" Image="images/Open32.png"/>
+                    <dc:RibbonApplicationMenuItem Header="Save As..." Image="images/Save32.png"/>
+                    <dc:RibbonApplicationMenuItem Header="Exit CrypTool" Image="images/Exit.png"/>
+                </dc:RibbonApplicationMenu>
+            </dc:RibbonBar.ApplicationMenu>
+            <!-- End CrypTool Menu -->
+            
+            <!--Define Quick Access Toolbar-->
+            <dc:RibbonBar.QAToolBar>
+                <dc:RibbonQAToolBar>
+                    <dc:RibbonButton ToolTip="Play" SmallImage="images/play.png"/>
+                    <dc:RibbonButton ToolTip="Pause" SmallImage="images/pause.png"/>
+                    <dc:RibbonButton ToolTip="Stop" SmallImage="images/stop.png"/>
+                </dc:RibbonQAToolBar>
+            </dc:RibbonBar.QAToolBar>
+            </dc:RibbonBar>
+
+            <Border DockPanel.Dock="Top" CornerRadius="4,4,4,4" BorderBrush="#66000000" BorderThickness="0.5" Padding="5">
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0" MappingMode="RelativeToBoundingBox">
+                    <GradientStop Color="#22444444" Offset="0" />
+                    <GradientStop Color="#22EEEEEE" Offset="0.25" />
+                    <GradientStop Color="#55555555" Offset="0.25" />
+                    <GradientStop Color="#55DFEBEF" Offset="1" />
+                </LinearGradientBrush>
+            </Border.Background>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,0" Height="48">
+                <StackPanel.LayoutTransform>
+                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"></ScaleTransform>
+                </StackPanel.LayoutTransform>
+                <dc:RibbonButton LargeImage="images/File32.png" ToolTip="New File" Height="40"/>
+                    <dc:RibbonButton LargeImage="images/Open32.png" ToolTip="Open File" Height="40"/>
+                    <dc:RibbonButton LargeImage="images/Save32.png" ToolTip="Save File" Height="40"/>
+                    <dc:RibbonSeparator Height="35"></dc:RibbonSeparator>
+                    <dc:RibbonButton LargeImage="images/play.png" ToolTip="Start" Height="40"/>
+                    <dc:RibbonButton LargeImage="images/pause.png" ToolTip="Pause" Height="40"/>
+                    <dc:RibbonButton LargeImage="images/stop.png" ToolTip="Stop" Height="40"/>
+                    <dc:RibbonButton LargeImage="images/undo.png" ToolTip="Undo" Height="40"/>
+                    <dc:RibbonButton LargeImage="images/redo.png" ToolTip="Redo" Height="40"/>
+                    <dc:RibbonButton LargeImage="images/Exit.png" Click="RibbonButton_Click"></dc:RibbonButton>
+
+                    <!--<dc:RibbonDropDownButton Name="p2pButton" LargeImage="images/peer2peer-connect.png" ToolTip="Manages the integrated peer2peer connection"/>-->
+                </StackPanel>
+            </Border>
+
+        <!--<dc:RibbonGroup Title="Demo mode" ToolTip="In demo mode a selected set of samples is repeatedly executed" Name="ribbonDemoMode">
+                    <dc:RibbonButton LargeImage="images/test/play.png" Content="Play Demo" ToolTip="Select samples and start demo mode"/>
+
+                    <dc:RibbonButton LargeImage="images/test/stop.png" Content="Stop Demo" ToolTip="Stop Demo Mode"/>
+                </dc:RibbonGroup>-->
+
+
+
+        <!--RibbonTab Settings-->
+            <!--<dc:RibbonTabItem Visibility="Visible" Title="Settings" Name="ribbonTabSettings">
+
+                <dc:RibbonGroup Title="Plugins" Name="ribbonPluginManagement">
+                    <dc:RibbonButton IsEnabled="False" LargeImage="images/manageplugins.png"  Content="Manage" ToolTip="Manage you favorite plugins"/>
+                    <dc:RibbonButton IsEnabled="False" LargeImage="images/downloadplugins.png"  Content="Download" ToolTip="Download new plugins for Cryptool"/>
+                    <dc:RibbonButton Content="Load new plugins" LargeImage="images/reloadplugins.png" ToolTip="Load new Plugins"/>
+                </dc:RibbonGroup>
+
+                <dc:RibbonGroup Title="General Settings" Name="ribbonEditorManagement">
+
+                    <dc:RibbonDropDownButton Content="Plugin editor" LargeImage="images/editorSettings.png" Name="buttonDropDownEditor" ToolTip="Please choose your default plugin editor here."/>
+                    <dc:RibbonDropDownButton Content="Detail level" LargeImage="images/DetailLevel.png" Name="buttonDropDownSettingsLevel" ToolTip="Please choose detail level here.">
+                        <dc:RibbonButton Content="Beginner" SmallImage="images/Beginner.png" HorizontalAlignment="Left" Name="buttonLevelBeginner"/>
+                        <dc:RibbonButton Content="Experienced" SmallImage="images/Experienced.png" HorizontalAlignment="Left" Name="buttonLevelExperienced"/>
+                        <dc:RibbonButton Content="Professional" SmallImage="images/Professional.png" HorizontalAlignment="Left" Name="buttonLevelProfessional"/>
+
+                        <dc:RibbonButton Content="Expert" SmallImage="images/Expert.png" HorizontalAlignment="Left" Name="buttonLevelExpert"/>
+                    </dc:RibbonDropDownButton>
+
+                    <dc:RibbonButton Name="buttonRememberLastFile" LargeImage="images/Reopen32.png" Content="Reopen last file" ToolTip="Reopen last file on startup?"/>
+                </dc:RibbonGroup>
+
+            </dc:RibbonTabItem>-->
+
+        <!--StatusBar-->
+        <StatusBar Name="statusBar" DockPanel.Dock="Bottom" Height="20">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <DockPanel LastChildFill="True"/>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <Separator Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=dc:RibbonBar, ResourceId=StatusBarSeparator}}" DockPanel.Dock="Left"/>
+            <StatusBarItem VerticalAlignment="Center" Height="25" Name="statusBarItem">
+            </StatusBarItem>
+        </StatusBar>
+        
+        <!--Left Panel-->
+        <dc:OutlookBar DockPanel.Dock="Left" Header="Algorithms" DockPosition="Left">
+            <dc:OutlookBar.Sections>
+                <dc:OutlookSection Header="Classic Ciphers" Image="images/01-Classic-28x26.png" Name="Classic_Ciphers">
+                    <StackPanel Name="ClassicPaneStack">
+
+                    </StackPanel>
+                </dc:OutlookSection>
+
+                <dc:OutlookSection Header="Modern Ciphers" Image="images/02-Modern-28x26.png" Name="Modern_Ciphers">
+                    <StackPanel Name="ModernPaneStack">
+
+                    </StackPanel>
+                </dc:OutlookSection>
+
+                <dc:OutlookSection Header="Hash Functions" Image="images/03-Hash-28x26.png" Name="Hash_Functions">
+                    <StackPanel Name="HashPaneStack">
+
+                    </StackPanel>
+                </dc:OutlookSection>
+
+                <dc:OutlookSection Header="Cryptanalysis" Image="images/04-Analyse-28x26.png" Name="Cryptanalysis">
+                    <StackPanel Name="AnalaysisPaneStack">
+
+                    </StackPanel>
+                </dc:OutlookSection>
+
+                <dc:OutlookSection Header="Tools" Image="images/05-Tools-28x26.png" Name="Tools">
+                    <StackPanel Name="ToolPaneStack">
+
+                    </StackPanel>
+                </dc:OutlookSection>
+
+                <dc:OutlookSection Header="Editor Specific" Image="images/06-EditorSpec-28x26.png" Name="Editor_Specific">
+                    <StackPanel Name="EditorPaneStack">
+                        
+                    </StackPanel>
+                </dc:OutlookSection>
+
+            </dc:OutlookBar.Sections>
+        </dc:OutlookBar>
+        
+        <!--Right Panel-->
+        <dc:OutlookBar DockPanel.Dock="Right" DockPosition="Right">
+            <dc:OutlookBar.Sections>
+                <dc:OutlookSection Header="Plugin Editor" Image="images/default.png" Name="Plug_Editor">
+                    <StackPanel>
+                        <dc:OdcExpander Header="Plugin Title here" Name="Plugin_Title">
+
+                        </dc:OdcExpander>
+
+                        <dc:OdcExpander Header="Miscellaneous" Name="Plugin_Msc">
+
+                        </dc:OdcExpander>
+                    </StackPanel>
+                </dc:OutlookSection>
+            </dc:OutlookBar.Sections>
+        </dc:OutlookBar>
+        
+        <!--Editor-->
+        <Grid Name="EditorSpace">
+            <Image Height="150" HorizontalAlignment="Left" Margin="291,12,0,0" Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="200" Source="images/SplashScreen.png" />
+        </Grid>
+    </DockPanel>
+</dc:RibbonWindow>
