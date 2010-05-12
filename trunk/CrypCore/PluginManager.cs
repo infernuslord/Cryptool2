@@ -126,6 +126,8 @@ namespace Cryptool.Core
             return this.loadedTypes;
         }
 
+
+        [Obsolete("will be removed soon")]
         private int AvailablePluginsApproximation(DirectoryInfo directory)
         {
           int count = 0;

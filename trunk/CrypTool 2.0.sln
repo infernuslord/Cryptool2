@@ -208,6 +208,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CrypPlugins", "CrypPlugins"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypStartup", "CrypStartup\CrypStartup.csproj", "{347B5433-A40E-4ACC-AD6B-A245509AB42E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypTool", "CrypTool\CrypTool.csproj", "{3A40A779-9A54-4633-8A3C-CE0AD4623A85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -1011,6 +1013,14 @@ Global
 		{347B5433-A40E-4ACC-AD6B-A245509AB42E}.Release|x64.ActiveCfg = Release|x86
 		{347B5433-A40E-4ACC-AD6B-A245509AB42E}.Release|x86.ActiveCfg = Release|x86
 		{347B5433-A40E-4ACC-AD6B-A245509AB42E}.Release|x86.Build.0 = Release|x86
+		{3A40A779-9A54-4633-8A3C-CE0AD4623A85}.Debug|x64.ActiveCfg = Debug|x64
+		{3A40A779-9A54-4633-8A3C-CE0AD4623A85}.Debug|x64.Build.0 = Debug|x64
+		{3A40A779-9A54-4633-8A3C-CE0AD4623A85}.Debug|x86.ActiveCfg = Debug|x86
+		{3A40A779-9A54-4633-8A3C-CE0AD4623A85}.Debug|x86.Build.0 = Debug|x86
+		{3A40A779-9A54-4633-8A3C-CE0AD4623A85}.Release|x64.ActiveCfg = Release|x64
+		{3A40A779-9A54-4633-8A3C-CE0AD4623A85}.Release|x64.Build.0 = Release|x64
+		{3A40A779-9A54-4633-8A3C-CE0AD4623A85}.Release|x86.ActiveCfg = Release|x86
+		{3A40A779-9A54-4633-8A3C-CE0AD4623A85}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
