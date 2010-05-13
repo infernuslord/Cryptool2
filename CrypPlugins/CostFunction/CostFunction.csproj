@@ -112,6 +112,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -141,6 +142,12 @@
     <Resource Include="icon.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Data\StatisticsCorpusEN">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\StatisticsCorpusEN.metainfo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Enigma_1gram_Frequency.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -161,7 +168,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data\2gram.txt">
+    <None Include="Data\StatisticsCorpusDE">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -171,7 +178,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data\2gram.txt.metainfo" />
+    <None Include="Data\StatisticsCorpusDE.metainfo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -199,7 +208,9 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>if not exist "./Data/transposition" mkdir "./Data/transposition"
+
+copy "$(TargetDir)CostFunction*.*" "./CrypPlugins"
+copy "$(ProjectDir)Data\*.*" "./Data/transposition"</PostBuildEvent>
   </PropertyGroup>
 </Project>
