@@ -28,6 +28,7 @@ using Cryptool.PluginBase.Control;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Reflection;
 namespace Cryptool.Plugins.CostFunction
 {
     [Author("Nils Kopal", "Nils.Kopal@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
@@ -48,7 +49,7 @@ namespace Cryptool.Plugins.CostFunction
         private IDictionary<string, double[]> corpusBigrams; // Used for Weighted Bigrams/Trigrams Cost function
         private IDictionary<string, double[]> corpusTrigrams;
 
-        private DataManager dataMgr = new DataManager();
+        private DataManager dataMgr = new DataManager(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)); 
         private const string DATATYPE = "transposition";
 
         private IDictionary<String, DataFileMetaInfo> txtList;
@@ -524,8 +525,9 @@ namespace Cryptool.Plugins.CostFunction
         {
             return NativeCryptography.Crypto.calculateEntropy(text, bytesToUse);
             if (bytesToUse > text.Length)
+            
                 bytesToUse = text.Length;
-
+            
             if (lastUsedSize != bytesToUse)
             {
                 try
@@ -608,9 +610,22 @@ namespace Cryptool.Plugins.CostFunction
 
         private IDictionary<string, double[]> LoadDefaultStatistics(int length)
         {
+            
             txtList = dataMgr.LoadDirectory(DATATYPE);
+            
+            switch (this.settings.StatisticsCorpus)
+            {
+                case 0:
+                    return calculateAbsolutes(txtList["statisticscorpusde"].DataFile.FullName, length);
+                   
+                case 1:
+                    return calculateAbsolutes(txtList["statisticscorpusen"].DataFile.FullName, length);
+                case 2:
+                    return calculateAbsolutes(this.settings.customFilePath, length);
 
-            return calculateAbsolutes(txtList["2gram.txt"].DataFile.FullName, length);
+            }
+            return calculateAbsolutes(txtList["Statistics (DE)"].DataFile.FullName, length); //default
+           
         }
 
         private IDictionary<string, double[]> calculateAbsolutes(String path, int length)

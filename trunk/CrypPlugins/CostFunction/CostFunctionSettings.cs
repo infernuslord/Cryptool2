@@ -22,6 +22,9 @@ using System.ComponentModel;
 using Cryptool.PluginBase;
 using System.Collections.ObjectModel;
 using System.Windows;
+using Cryptool.PluginBase.Miscellaneous;
+
+using System.Windows.Forms;
 
 namespace Cryptool.Plugins.CostFunction
 {
@@ -32,8 +35,13 @@ namespace Cryptool.Plugins.CostFunction
         private int functionType;
         private String bytesToUse = "256";
         private int bytesToUseInteger = 256;
+
+        private static DataManager dataMgr = new DataManager();
+        private const string DATATYPE = "transposition";
+        private static IDictionary<String, DataFileMetaInfo> txtList;
+        private static string[] files;
         #endregion
-        
+    
         [TaskPane("FunctionType", "Select the type of function", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Index of coincidence", "Entropy", "Bigrams: log 2", "Bigrams: Sinkov", "Bigrams: Percentaged", "Regular Expression", "Weighted Bigrams/Trigrams"})]
         public int FunctionType
         {
@@ -66,6 +74,42 @@ namespace Cryptool.Plugins.CostFunction
             get { return bytesToUseInteger; }
         }
 
+
+        public string customFilePath;
+        public int statisticscorpus = 0;
+        [TaskPane("Text Corpus File to use", "Select a text corpus file (Default is (DE))", null, 7, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Text corpus (DE)", "Text corpus (EN)", "Custom (...)" })]
+        public int StatisticsCorpus
+        {
+            get
+            {
+              return statisticscorpus;
+            }
+            set
+            {
+                statisticscorpus = value;
+                if (statisticscorpus == 2)
+                {
+                    
+
+                    OpenFileDialog openCorpusFile = new OpenFileDialog();
+                    openCorpusFile.Title = "Select text corpus file";
+                    openCorpusFile.CheckFileExists = true;
+                    openCorpusFile.CheckPathExists = true;
+                    openCorpusFile.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+                    if (openCorpusFile.ShowDialog() == DialogResult.OK)
+                    {
+                        customFilePath = openCorpusFile.FileName;
+                    }
+                    else
+                    {
+                        statisticscorpus = 0; // Fall back to default
+                    }
+                }
+                UpdateTaskPaneVisibility();
+                OnPropertyChanged("StatisticsCorpus");
+            }
+        }
+       
         public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
 
         internal void UpdateTaskPaneVisibility()
@@ -85,6 +129,18 @@ namespace Cryptool.Plugins.CostFunction
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BytesToUse", Visibility.Visible)));
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RegEx", Visibility.Collapsed)));
             }
+
+            if (functionType.Equals(4) || functionType.Equals(2) || functionType.Equals(3) || functionType.Equals(6))
+            {
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("StatisticsCorpus", Visibility.Visible)));
+
+            }
+            else
+            {
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("StatisticsCorpus", Visibility.Collapsed)));
+                
+            }
+            
 
         }
 
