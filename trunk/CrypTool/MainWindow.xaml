@@ -30,27 +30,27 @@
             </dc:RibbonBar>
 
             <Border DockPanel.Dock="Top" CornerRadius="4,4,4,4" BorderBrush="#66000000" BorderThickness="0.5" Padding="5">
-            <Border.Background>
+            <!--<Border.Background>
                 <LinearGradientBrush EndPoint="0,1" StartPoint="0,0" MappingMode="RelativeToBoundingBox">
                     <GradientStop Color="#22444444" Offset="0" />
                     <GradientStop Color="#22EEEEEE" Offset="0.25" />
                     <GradientStop Color="#55555555" Offset="0.25" />
                     <GradientStop Color="#55DFEBEF" Offset="1" />
                 </LinearGradientBrush>
-            </Border.Background>
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,0" Height="48">
+            </Border.Background>-->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,0" Height="40">
                 <StackPanel.LayoutTransform>
-                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"></ScaleTransform>
+                    <ScaleTransform ScaleX="1" ScaleY="1"></ScaleTransform>
                 </StackPanel.LayoutTransform>
-                <dc:RibbonButton LargeImage="images/File32.png" ToolTip="New File" Height="40"/>
-                    <dc:RibbonButton LargeImage="images/Open32.png" ToolTip="Open File" Height="40"/>
-                    <dc:RibbonButton LargeImage="images/Save32.png" ToolTip="Save File" Height="40"/>
+                <dc:RibbonButton LargeImage="images/File32.png" ToolTip="New File" />
+                    <dc:RibbonButton LargeImage="images/Open32.png" ToolTip="Open File" />
+                    <dc:RibbonButton LargeImage="images/Save32.png" ToolTip="Save File" />
                     <dc:RibbonSeparator Height="35"></dc:RibbonSeparator>
-                    <dc:RibbonButton LargeImage="images/play.png" ToolTip="Start" Height="40"/>
-                    <dc:RibbonButton LargeImage="images/pause.png" ToolTip="Pause" Height="40"/>
-                    <dc:RibbonButton LargeImage="images/stop.png" ToolTip="Stop" Height="40"/>
-                    <dc:RibbonButton LargeImage="images/undo.png" ToolTip="Undo" Height="40"/>
-                    <dc:RibbonButton LargeImage="images/redo.png" ToolTip="Redo" Height="40"/>
+                    <dc:RibbonButton LargeImage="images/play.png" ToolTip="Start" />
+                    <dc:RibbonButton LargeImage="images/pause.png" ToolTip="Pause" />
+                    <dc:RibbonButton LargeImage="images/stop.png" ToolTip="Stop" />
+                    <dc:RibbonButton LargeImage="images/undo.png" ToolTip="Undo" />
+                    <dc:RibbonButton LargeImage="images/redo.png" ToolTip="Redo" />
                     <dc:RibbonButton LargeImage="images/Exit.png" Click="RibbonButton_Click"></dc:RibbonButton>
 
                     <!--<dc:RibbonDropDownButton Name="p2pButton" LargeImage="images/peer2peer-connect.png" ToolTip="Manages the integrated peer2peer connection"/>-->
@@ -146,9 +146,11 @@
                 </dc:OutlookSection>
 
                 <dc:OutlookSection Header="Cryptanalysis" Image="images/04-Analyse-28x26.png" Name="Cryptanalysis">
-                    <StackPanel Name="AnalaysisPaneStack">
+                    <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <StackPanel Name="AnalaysisPaneStack">
 
-                    </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
                 </dc:OutlookSection>
 
                 <dc:OutlookSection Header="Tools" Image="images/05-Tools-28x26.png" Name="Tools">

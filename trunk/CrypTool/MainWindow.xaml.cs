@@ -18,6 +18,7 @@ using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Tool;
 using Cryptool.PluginBase.Generator;
 using Cryptool.PluginBase.Cryptography;
+using Cryptool.PluginBase.Editor;
 
 namespace CrypTool
 {
@@ -37,12 +38,14 @@ namespace CrypTool
 
         private void RibbonButton_Click(object sender, RoutedEventArgs e)
         {
+            this.activeEditor.Open(@"C:\Users\saternmn\Eigene SVN Projekte\CrypTool\Build\Build\CT2\CrypBuild\x86\Debug\ProjectSamples\Caesar-Sample.cte");
+            
             if (SkinManager.SkinId == SkinId.OfficeBlue)
                 SkinManager.SkinId = SkinId.OfficeBlack;
             else
                 SkinManager.SkinId = SkinId.OfficeBlue;
         }
-
+        private IEditor activeEditor;
         private void LoadPlugins()
         {
             Dictionary<string, List<PluginInfo>> pluginInfos = new Dictionary<string, List<PluginInfo>>();
@@ -69,7 +72,16 @@ namespace CrypTool
                         pluginInfos[interfaceName].Add(p);
 
                         AddIt(p, interfaceName);
-                        
+
+
+                        if (interfaceName == typeof(Cryptool.PluginBase.Editor.IEditor).FullName)
+                        {
+                            this.activeEditor = (IEditor)Activator.CreateInstance(pluginType);
+                            this.EditorSpace.Children.Add(this.activeEditor.Presentation);
+                            
+
+                        }
+                            
                     }
                 }
             }
@@ -156,6 +168,8 @@ namespace CrypTool
         {
             LoadPlugins();
         }
+
+
     }
 
     public class PluginInfo
