@@ -5,15 +5,29 @@ using System.Text;
 
 namespace Cryptool.Plugins.MD5Collider.Algorithm
 {
+    /// <summary>
+    /// Calculates the IHV (intermediate hash value) from applying the MD5 compression function to a given byte array
+    /// </summary>
     class IHVCalculator
     {
+        /// <summary>
+        /// The byte array which is processed
+        /// </summary>
         private byte[] data;
 
+        /// <summary>
+        /// Constructs the calculator, specifying data to run through the compression function
+        /// </summary>
+        /// <param name="data">The data to run through the compression function, must be a multiple of 64 bytes long</param>
         public IHVCalculator(byte[] data)
         {
             this.data = data;
         }
 
+        /// <summary>
+        /// Chains the MD5 compression function with default IHV on the given input
+        /// </summary>
+        /// <returns>The resulting IHV</returns>
         public byte[] GetIHV()
         {
             int offset = 0;
@@ -32,7 +46,12 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
             return result;
         }
 
-        void md5_compress(UInt32[] ihv, UInt32[] block)
+        /// <summary>
+        /// Internally used function applying the compression function once
+        /// </summary>
+        /// <param name="ihv">IHV</param>
+        /// <param name="block">The data to compress, must be exactly 64 bytes</param>
+        private void md5_compress(UInt32[] ihv, UInt32[] block)
         {
             UInt32 a = ihv[0];
             UInt32 b = ihv[1];
@@ -110,20 +129,50 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
             ihv[3] += d;
         }
 
+        /// <summary>
+        /// Delegate for the MD5 inner round function (F / G / H / I)
+        /// </summary>
+        /// <param name="b">first parameter to inner round function</param>
+        /// <param name="c">second parameter to inner round function</param>
+        /// <param name="d">third parameter to inner round function</param>
+        /// <returns>Result of F, G, H or I</returns>
         delegate UInt32 RoundFunctionDelegate(UInt32 b, UInt32 c, UInt32 d);
 
+        /// <summary>
+        /// Performs one step of the compression function
+        /// </summary>
+        /// <param name="f">The round function to use for this step</param>
+        /// <param name="a">Accumulator variable A</param>
+        /// <param name="b">Accumulator variable B</param>
+        /// <param name="c">Accumulator variable C</param>
+        /// <param name="d">Accumulator variable D</param>
+        /// <param name="m">The part of the data used in this step</param>
+        /// <param name="ac">Addition constant used in this step</param>
+        /// <param name="rc">Rotation constant used in this step</param>
         void MD5_STEP(RoundFunctionDelegate f, ref UInt32 a, UInt32 b, UInt32 c, UInt32 d, UInt32 m, UInt32 ac, Int32 rc)
         {
             a += f(b, c, d) + m + ac;
             a = (a << rc | a >> (32 - rc)) + b;
         }
 
+        /// <summary>
+        /// Writes out an array of integers as bytes in little-endian representation
+        /// </summary>
+        /// <param name="sourceArray">Integer array to convert</param>
+        /// <param name="targetArray">Byte array to write result into</param>
+        /// <param name="targetOffset">Offset at which result is written into target array</param>
         private void dumpLittleEndianIntegers(UInt32[] sourceArray, byte[] targetArray, int targetOffset)
         {
             for (int i = 0; i < sourceArray.Length; i++)
                 dumpLittleEndianInteger(sourceArray[i], targetArray, targetOffset + i * 4);
         }
 
+        /// <summary>
+        /// Writes out one integer value as bytes in little-endian representation
+        /// </summary>
+        /// <param name="integerValue">The integer to convert</param>
+        /// <param name="targetArray">Byte array to write result into</param>
+        /// <param name="targetOffset">Offset at which result is written into target array</param>
         private void dumpLittleEndianInteger(UInt32 integerValue, byte[] targetArray, int targetOffset)
         {
             byte[] result = BitConverter.GetBytes(integerValue);
@@ -133,6 +182,12 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
             Array.Copy(result, 0, targetArray, targetOffset, 4);
         }
 
+        /// <summary>
+        /// Converts 4 bytes into an integer, assuming little-endian representation
+        /// </summary>
+        /// <param name="bytes">Array containing bytes to convert</param>
+        /// <param name="offset">Offset at which bytes to convert are located within <c>bytes</c> array</param>
+        /// <returns>The parsed integer value</returns>
         private UInt32 toLittleEndianInteger(byte[] bytes, int offset)
         {
             byte[] bytesInProperOrder = new byte[4];
@@ -142,11 +197,24 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
 
             return BitConverter.ToUInt32(bytesInProperOrder, 0);
         }
+
+        /// <summary>
+        /// Converts 4 bytes into an integer, assuming little-endian representation
+        /// </summary>
+        /// <param name="bytes">Array containing bytes to convert at offset 0</param>
+        /// <returns>The parsed integer value</returns>
         private UInt32 toLittleEndianInteger(byte[] bytes)
         {
             return toLittleEndianInteger(bytes, 0);
         }
 
+        /// <summary>
+        /// Converts a byte array to an integer array, assuming little-endian representation
+        /// </summary>
+        /// <param name="bytes">Array containing bytes to convert</param>
+        /// <param name="offset">Offset at which bytes to convert are located within <c>bytes</c> array</param>
+        /// <param name="integerCount">The number of integers to convert</param>
+        /// <returns>Array containing parsed integers</returns>
         private UInt32[] toLittleEndianIntegerArray(byte[] bytes, int offset, int integerCount)
         {
             UInt32[] result = new UInt32[integerCount];
@@ -156,21 +224,61 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
             return result;
         }
 
+        /// <summary>
+        /// Definition of inner MD5 round function F
+        /// </summary>
+        /// <param name="b">First parameter for F</param>
+        /// <param name="c">Second parameter for F</param>
+        /// <param name="d">Third parameter for F</param>
+        /// <returns>Result of F</returns>
         UInt32 FF(UInt32 b, UInt32 c, UInt32 d)
         { return d ^ (b & (c ^ d)); }
 
+        /// <summary>
+        /// Definition of inner MD5 round function G
+        /// </summary>
+        /// <param name="b">First parameter for G</param>
+        /// <param name="c">Second parameter for G</param>
+        /// <param name="d">Third parameter for G</param>
+        /// <returns>Result of G</returns>
         UInt32 GG(UInt32 b, UInt32 c, UInt32 d)
         { return c ^ (d & (b ^ c)); }
 
+        /// <summary>
+        /// Definition of inner MD5 round function H
+        /// </summary>
+        /// <param name="b">First parameter for H</param>
+        /// <param name="c">Second parameter for H</param>
+        /// <param name="d">Third parameter for H</param>
+        /// <returns>Result of H</returns>
         UInt32 HH(UInt32 b, UInt32 c, UInt32 d)
         { return b ^ c ^ d; }
 
+        /// <summary>
+        /// Definition of inner MD5 round function I
+        /// </summary>
+        /// <param name="b">First parameter for I</param>
+        /// <param name="c">Second parameter for I</param>
+        /// <param name="d">Third parameter for I</param>
+        /// <returns>Result of I</returns>
         UInt32 II(UInt32 b, UInt32 c, UInt32 d)
         { return c ^ (b | ~d); }
 
+        /// <summary>
+        /// Left-rotates an integer by the given amount of bits
+        /// </summary>
+        /// <param name="x">Integer to rotate</param>
+        /// <param name="n">Number of bit positions by which to rotate</param>
+        /// <returns>Rotated integer</returns>
         UInt32 RL(UInt32 x, int n)
         { return (x << n) | (x >> (32 - n)); }
 
+        /// <summary>
+        /// Right-rotates an integer by the given amount of bits
+        /// </summary>
+        /// <param name="x">Integer to rotate</param>
+        /// <param name="n">Number of bit positions by which to rotate</param>
+        /// <returns>Rotated integer</returns>
         UInt32 RR(UInt32 x, int n)
         { return (x >> n) | (x << (32 - n)); }
     }
