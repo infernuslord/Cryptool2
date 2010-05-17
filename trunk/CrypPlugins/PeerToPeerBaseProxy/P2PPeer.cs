@@ -183,6 +183,7 @@ namespace Cryptool.Plugins.PeerToPeerProxy
         public void StartPeer()
         {
             GuiLogMessage("Peer is already started by CrypTool!", NotificationLevel.Info);
+            P2PManager.Instance.P2PBase.OnP2PMessageReceived += new P2PBase.P2PMessageReceived(p2pBase_OnP2PMessageReceived);
         }
 
         public void StopPeer()
@@ -214,7 +215,7 @@ namespace Cryptool.Plugins.PeerToPeerProxy
             this.systemJoined = new AutoResetEvent(false);
 
             P2PManager.Instance.P2PBase.OnSystemJoined += new P2PBase.SystemJoined(p2pBase_OnSystemJoined);
-            this.p2pPeer.OnPeerMessageReceived += new P2PBase.P2PMessageReceived(p2pPeer_OnPeerMessageReceived);
+            P2PManager.Instance.OnPeerMessageReceived += new P2PBase.P2PMessageReceived(p2pPeer_OnPeerMessageReceived);
             this.OnStatusChanged += new IControlStatusChangedEventHandler(P2PPeerMaster_OnStatusChanged);
         }
 

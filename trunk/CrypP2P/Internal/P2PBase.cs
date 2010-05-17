@@ -357,7 +357,15 @@ namespace Cryptool.P2P.Internal
                  * into a deadlock, when you fire this event synchronous (normal Invoke)
                  * ATTENTION: This could change the invocation order!!! In my case 
                               no problem, but maybe in future cases... */
-                OnP2PMessageReceived.BeginInvoke(pid, e.Message.Data.PopBytes(e.Message.Data.CurrentStackSize), null, null);
+
+                // TODO: not safe: The delegate must have only one target
+                //OnP2PMessageReceived.BeginInvoke(pid, e.Message.Data.PopBytes(e.Message.Data.CurrentStackSize), null, null);
+
+                foreach (Delegate del in OnP2PMessageReceived.GetInvocationList())
+                {
+                    del.DynamicInvoke(pid, e.Message.Data.PopBytes(e.Message.Data.CurrentStackSize));
+                }
+
                 //OnP2PMessageReceived(pid, e.Message.Data.PopUTF8String());
             }
         }
