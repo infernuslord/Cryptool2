@@ -20,6 +20,7 @@ using System.Linq;
 using System.Text;
 using Cryptool.P2P.Helper;
 using Cryptool.P2P.Internal;
+using Cryptool.Plugins.PeerToPeer.Internal;
 
 namespace Cryptool.P2P
 {
@@ -37,7 +38,7 @@ namespace Cryptool.P2P
         public P2PSettings()
         {
             PeerName = PAPCertificate.CERTIFIED_PEER_NAME;
-            WorldName = "CrypTool";
+            WorldName = "CrypTool2";
             Log2Monitor = true;
             LinkManagerType = P2PLinkManagerType.Snal;
             BSType = P2PBootstrapperType.IrcBootstrapper;

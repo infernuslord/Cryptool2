@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Cryptool.Plugins.PeerToPeer;
 using Cryptool.PluginBase.Miscellaneous;
+using Cryptool.PluginBase.Control;
 
-namespace Cryptool.PluginBase.Control
+namespace Cryptool.Plugins.PeerToPeer.Internal
 {
     #region P2P Initialisation Enums
     public enum P2PLinkManagerType

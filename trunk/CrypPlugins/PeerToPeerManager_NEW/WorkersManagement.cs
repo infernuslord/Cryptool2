@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Cryptool.Plugins.PeerToPeer.Internal;
 
 /* CLASS INFORMATION
  * This class is derived from SubscriberManagement. The whole availability- and update-functionality

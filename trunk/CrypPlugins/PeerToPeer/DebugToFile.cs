@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace Cryptool.Plugins.PeerToPeer
+namespace Cryptool.Plugins.PeerToPeer.Internal
 {
     public static class DebugToFile
     {

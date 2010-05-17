@@ -22,6 +22,7 @@ using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.Plugins.PeerToPeer.Jobs;
 using System.Timers;
+using Cryptool.Plugins.PeerToPeer.Internal;
 
 /* TWO DIFFERENT STOPPING CASE:
  * 1) When P2P-Admin is stopped, deregister WorkerControl-Events, so

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using KeySearcher;
 
-namespace Cryptool.P2P.Internal
+namespace Cryptool.Plugins.PeerToPeer.Internal
 {
     public class KeySearcherResult
     {

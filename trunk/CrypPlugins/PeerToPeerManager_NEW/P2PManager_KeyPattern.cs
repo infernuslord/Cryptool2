@@ -29,6 +29,7 @@ using System.Windows.Threading;
 using Cryptool.Plugins.PeerToPeer.Jobs;
 using System.Timers;
 using System.Windows.Media;
+using Cryptool.Plugins.PeerToPeer.Internal;
 
 /*TODO: 
  * - Execute: If InitVector is null, try to create a fitting InitVector with the format 0...0 

@@ -170,14 +170,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DebugToFile.cs" />
-    <Compile Include="DHT_CommonManagement.cs" />
-    <Compile Include="IP2PControl.cs" />
-    <Compile Include="KeySearcherResult.cs" />
     <Compile Include="P2PPeerSettings.cs" />
     <Compile Include="P2PPeer.cs" />
-    <Compile Include="ResponseWait.cs" />
-    <Compile Include="PeerToPeerBase.cs" />
+    <Compile Include="P2PBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -220,6 +215,10 @@
       <Project>{7BED5C93-30BE-47BE-BC4A-16453F5DE9EA}</Project>
       <Name>PeerToPeerCertificates</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\PeerToPeer\PeerToPeer.csproj">
+      <Project>{12829116-8FAD-4D09-A0AA-D75D88F07626}</Project>
+      <Name>PeerToPeer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

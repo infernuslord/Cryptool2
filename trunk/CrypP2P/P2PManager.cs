@@ -26,6 +26,8 @@ using Cryptool.P2P.Worker;
 using DevComponents.WpfRibbon;
 using Cryptool.P2P.Helper;
 using Cryptool.P2P.Internal;
+using Cryptool.Plugins.PeerToPeer;
+using Cryptool.Plugins.PeerToPeer.Internal;
 
 namespace Cryptool.P2P
 {
@@ -50,7 +52,7 @@ namespace Cryptool.P2P
         # endregion
 
         #region Private variables
-        private P2PBase P2PBase { get; set; }
+        public P2PBase P2PBase { get; set; }
         private P2PSettings P2PSettings { get; set; }
         private ButtonDropDown P2PButton { get; set; }
         #endregion
@@ -115,9 +117,19 @@ namespace Cryptool.P2P
             return userInfo + " (" + userName + ")";
         }
 
+        public PeerId GetPeerId(out string userName)
+        {
+            return P2PBase.GetPeerID(out userName);
+        }
+
         #region DHT operations
         // TODO add error handling, if P2P if not connected
         public static bool Store(string key, byte[] data)
+        {
+            return INSTANCE.P2PBase.SynchStore(key, data);
+        }
+
+         public static bool Store(string key, string data)
         {
             return INSTANCE.P2PBase.SynchStore(key, data);
         }

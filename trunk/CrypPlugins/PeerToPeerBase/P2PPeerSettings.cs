@@ -6,6 +6,7 @@ using Cryptool.PluginBase;
 using System.ComponentModel;
 using Cryptool.PluginBase.Control;
 using System.Windows;
+using Cryptool.Plugins.PeerToPeer.Internal;
 
 namespace Cryptool.Plugins.PeerToPeer
 {

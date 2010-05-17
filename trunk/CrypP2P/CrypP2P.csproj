@@ -161,14 +161,10 @@
     <Compile Include="P2PSettings.cs" />
     <Compile Include="Worker\ConnectionWorker.cs" />
     <Compile Include="Worker\WorkerBase.cs" />
-    <Compile Include="Internal\DHT_CommonManagement.cs" />
-    <Compile Include="Internal\IP2PControl.cs" />
-    <Compile Include="Internal\KeySearcherResult.cs" />
     <Compile Include="P2PManager.cs" />
     <Compile Include="Helper\PAPCertificate.cs" />
     <Compile Include="Internal\P2PBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Internal\ResponseWait.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="pap_certificates\CrypTool2.pfx" />
@@ -205,10 +201,9 @@
       <Name>KeySearcher</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\CrypPlugins\PeerToPeerJobs\PeerToPeerJobs.csproj">
-      <Project>{F1258427-AFDF-4DF7-ABF1-758A2325F505}</Project>
-      <Name>PeerToPeerJobs</Name>
-      <Private>False</Private>
+    <ProjectReference Include="..\CrypPlugins\PeerToPeer\PeerToPeer.csproj">
+      <Project>{12829116-8FAD-4D09-A0AA-D75D88F07626}</Project>
+      <Name>PeerToPeer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

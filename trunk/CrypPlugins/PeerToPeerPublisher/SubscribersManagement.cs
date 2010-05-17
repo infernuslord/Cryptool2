@@ -5,6 +5,7 @@ using System.Text;
 using System.Collections;
 using System.IO;
 using Cryptool.PluginBase.Control;
+using Cryptool.Plugins.PeerToPeer.Internal;
 
 namespace Cryptool.Plugins.PeerToPeer
 {
