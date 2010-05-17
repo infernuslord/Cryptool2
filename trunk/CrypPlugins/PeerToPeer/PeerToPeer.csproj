@@ -119,7 +119,6 @@
     <Compile Include="DebugToFile.cs" />
     <Compile Include="DHT_CommonManagement.cs" />
     <Compile Include="IP2PControl.cs" />
-    <Compile Include="IPeer2PeerManager.cs" />
     <Compile Include="KeySearcherResult.cs" />
     <Compile Include="PeedId.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
