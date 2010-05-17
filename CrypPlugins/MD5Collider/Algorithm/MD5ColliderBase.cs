@@ -7,13 +7,35 @@ using System.Timers;
 
 namespace Cryptool.Plugins.MD5Collider.Algorithm
 {
+    /// <summary>
+    /// An abstract base class for regular implementations of <c>IMD5ColliderAlgorithm</c>
+    /// </summary>
+    /// <seealso cref="IMD5ColliderAlgorithm"/>
     abstract class MD5ColliderBase : IMD5ColliderAlgorithm
     {
+        /// <summary>
+        /// First resulting block retrievable after collision is found
+        /// </summary>
         public byte[] FirstCollidingData { get; protected set; }
+
+        /// <summary>
+        /// Second resulting block retrievable after collision is found
+        /// </summary>
         public byte[] SecondCollidingData { get; protected set; }
+
+        /// <summary>
+        /// Byte array containing arbitrary data used to initialize the RNG
+        /// </summary>
         public byte[] RandomSeed { protected get; set; }
+
+        /// <summary>
+        /// IHV (intermediate hash value) for the start of the collision, must be initialized if prefix is desired
+        /// </summary>
         public byte[] IHV { protected get; set; }
 
+        /// <summary>
+        /// Initializes progress to default values and sets up timers
+        /// </summary>
         public MD5ColliderBase()
         {
             MatchProgressMax = 1;
@@ -26,41 +48,69 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
             timer.Elapsed += new ElapsedEventHandler(timer_Tick);
         }
 
+        /// <summary>
+        /// The <c>PropertyChanged</c> event as prescribed by the <c>INotifyPropertyChanged</c> interface
+        /// </summary>
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Helper function triggering <c>PropertyChanged</c> event for given property name
+        /// </summary>
+        /// <param name="propertyName">Property for which change event should be triggerd</param>
         private void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
         }
 
-        private int _matchProgressMax;
-        public int MatchProgressMax
-        {
-            get { return _matchProgressMax; }
-            set { int old = _matchProgressMax; _matchProgressMax = value; }
-        }
+        /// <summary>
+        /// Maximum possible value for match progress
+        /// </summary>
+        public int MatchProgressMax { get; set; }
 
-        private int _matchProgress;
-        public int MatchProgress
-        {
-            get { return _matchProgress; }
-            set { int old = _matchProgress; _matchProgress = value; }
-        }
+        /// <summary>
+        /// Indicates how far conditions for a valid collision block were satisfied in last attempt
+        /// </summary>
+        public int MatchProgress { get; set; }
 
+        /// <summary>
+        /// Timer to regularily trigger a <c>PropertyChanged</c> event for public properties
+        /// </summary>
         private Timer progressUpdateTimer = new Timer();
 
+        /// <summary>
+        /// Tick event handler for the timer object <c>progressUpdateTimer</c>, calls <c>UpdateProgress</c>
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         void progressUpdateTimer_Tick(object sender, EventArgs e)
         {
             UpdateProgress();
         }
 
+        /// <summary>
+        /// Performs the collision search, to be implemented in subclasses.
+        /// </summary>
         abstract protected void PerformFindCollision();
 
+        /// <summary>
+        /// Stops the collision search, to be implemented in subclasses.
+        /// </summary>
         abstract protected void PerformStop();
 
+        /// <summary>
+        /// The time at which the search was started
+        /// </summary>
         private DateTime startTime;
 
+        /// <summary>
+        /// The timer for updating the elapsed time
+        /// </summary>
         private Timer timer = new Timer();
+
+        /// <summary>
+        /// Starts the two timers
+        /// </summary>
         private void StartTimer()
         {
             startTime = DateTime.Now;
@@ -70,11 +120,19 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
             progressUpdateTimer.Start();
         }
 
+        /// <summary>
+        /// Tick event of <c>timer</c> object, updating the elapsed time
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
         void timer_Tick(object sender, EventArgs e)
         {
             ElapsedTime = DateTime.Now - startTime;
         }
 
+        /// <summary>
+        /// Stops the two timers
+        /// </summary>
         private void StopTimer()
         {
             timer.Stop();
@@ -83,6 +141,9 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
             UpdateProgress();
         }
 
+        /// <summary>
+        /// Triggers <c>PropertyChanged</c> for progress indicator properties
+        /// </summary>
         private void UpdateProgress()
         {
             OnPropertyChanged("MatchProgressMax");
@@ -90,6 +151,9 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
             OnPropertyChanged("CombinationsTried");
         }
 
+        /// <summary>
+        /// Starts the collision search
+        /// </summary>
         public void FindCollision()
         {
             CombinationsTried = 0;
@@ -102,14 +166,19 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
             StopTimer();
         }
 
+        /// <summary>
+        /// Allows subclasses to register a return because of a failed condition
+        /// </summary>
+        /// <param name="progress">Number indicating how late the failed condition was</param>
         public void LogReturn(int progress)
         {
             MatchProgress = progress;
             CombinationsTried++;
         }
 
-
-
+        /// <summary>
+        /// Determines if a valid IHV has been given, if not, assumes the standard IHV
+        /// </summary>
         private void CheckIHV()
         {
             if (IHV == null || IHV.Length != 16)
@@ -118,6 +187,9 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
             }
         }
 
+        /// <summary>
+        /// Determines if a random seed has been given, if not, generate one
+        /// </summary>
         private void CheckRandomSeed()
         {
             if (RandomSeed == null)
@@ -127,20 +199,33 @@ namespace Cryptool.Plugins.MD5Collider.Algorithm
             }
         }
 
+
+        /// <summary>
+        /// Stops the collision search
+        /// </summary>       
         public void Stop()
         {
             PerformStop();
             StopTimer();
         }
 
+        /// <summary>
+        /// Contains the elapsed time
+        /// </summary>
         private TimeSpan _elapsedTime;
+
+        /// <summary>
+        /// Property exposing elapsed time
+        /// </summary>
         public TimeSpan ElapsedTime
         {
             get { return _elapsedTime; }
             set { _elapsedTime = value; OnPropertyChanged("ElapsedTime"); }
         }
 
+        /// <summary>
+        /// Number of conditions which have failed
+        /// </summary>
         public long CombinationsTried { get; protected set; }
-
     }
 }
