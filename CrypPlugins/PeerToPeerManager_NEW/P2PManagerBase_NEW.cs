@@ -21,6 +21,7 @@ using Cryptool.PluginBase.Control;
 using Cryptool.Plugins.PeerToPeer.Jobs;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
+using Cryptool.Plugins.PeerToPeer.Internal;
 
 /* TODO:
  * - Publisher-change is possible, but catch old Publishers subscriber list

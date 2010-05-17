@@ -23,6 +23,7 @@ using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Control;
 using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
+using Cryptool.Plugins.PeerToPeer.Internal;
 
 namespace Cryptool.Plugins.PeerToPeer
 {

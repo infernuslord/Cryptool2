@@ -5,7 +5,7 @@ using System.Text;
 using Cryptool.PluginBase.Control;
 using Cryptool.PluginBase.IO;
 
-namespace Cryptool.P2P.Internal
+namespace Cryptool.Plugins.PeerToPeer.Internal
 {
     public static class DHT_CommonManagement
     {
@@ -38,7 +38,7 @@ namespace Cryptool.P2P.Internal
         {
             PeerId pid = null;
             byte[] byteLoad = p2pControl.DHTload(sTopicName);
-            if (byteLoad != null)
+            if(byteLoad != null)
                 pid = p2pControl.GetPeerID(byteLoad);
             return pid;
         }
@@ -176,7 +176,7 @@ namespace Cryptool.P2P.Internal
         }
 
         // new stuff - Arnie 2010.02.02
-
+        
         ///// <summary>
         ///// Sets or updates the TimeStamp for the actual Publisher
         ///// </summary>

@@ -8,6 +8,7 @@ using Cryptool.PluginBase.Control;
 using System.Timers;
 using System.IO;
 using System.Threading;
+using Cryptool.Plugins.PeerToPeer.Internal;
 
 /*
  * TODO:

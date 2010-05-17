@@ -140,6 +140,10 @@
       <Name>PeerToPeerBase</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\PeerToPeer\PeerToPeer.csproj">
+      <Project>{12829116-8FAD-4D09-A0AA-D75D88F07626}</Project>
+      <Name>PeerToPeer</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ct2_p2p_sub_medium.png" />

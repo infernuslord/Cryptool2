@@ -5,6 +5,7 @@ using System.Text;
 using Cryptool.PluginBase.Control;
 using Cryptool.PluginBase;
 using System.Timers;
+using Cryptool.Plugins.PeerToPeer.Internal;
 
 /*
  * All Subscriber functions work problem-free!

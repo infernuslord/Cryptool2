@@ -24,6 +24,7 @@ using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
 using Cryptool.PluginBase.Tool;
 using Cryptool.PluginBase.Control;
+using Cryptool.Plugins.PeerToPeer.Internal;
 
 /*TODO:
  * - PAP: dht.Remove wirft Fehler - sollen Dezember abgestellt werden...
