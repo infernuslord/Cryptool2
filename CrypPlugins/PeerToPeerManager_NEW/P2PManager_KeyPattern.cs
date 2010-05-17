@@ -158,7 +158,7 @@ namespace Cryptool.Plugins.PeerToPeer
                 }
                 if (value != null)
                 {
-                    this.p2pControl = (P2PPeerMaster)value;
+                    this.p2pControl = (IP2PControl)value;
                     this.p2pControl.OnStatusChanged += new IControlStatusChangedEventHandler(P2PControl_OnStatusChanged);
                     OnPropertyChanged("P2PMaster");
                 }
