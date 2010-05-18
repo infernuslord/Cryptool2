@@ -97,16 +97,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDictionary Include="icons\peer_connecting.png" />
+    <Resource Include="icons\peer_connecting.png" />
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDictionary Include="icons\peer_error.png" />
+    <Resource Include="icons\peer_error.png" />
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDictionary Include="icons\peer_inaktiv.png" />
+    <Resource Include="icons\peer_inactive.png" />
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDictionary Include="icons\peer_online.png" />
+    <Resource Include="icons\peer_online.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CrypP2P\CrypP2P.csproj">
