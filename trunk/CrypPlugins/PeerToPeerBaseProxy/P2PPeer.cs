@@ -1,4 +1,5 @@
-﻿/* Copyright 2009 Team CrypTool (Christian Arnold), Uni Duisburg-Essen
+﻿/*
+   Copyright 2010 Paul Lelgemann, University of Duisburg-Essen
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -29,8 +30,8 @@ using Cryptool.P2P.Internal;
 
 namespace Cryptool.Plugins.PeerToPeerProxy
 {
-    [Author("Christian Arnold", "arnold@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "P2P_Peer_Proxy", "Creates a new Peer", "", "PeerToPeerBase/icons/peer_inaktiv.png", "PeerToPeerBase/icons/peer_connecting.png", "PeerToPeerBase/icons/peer_online.png", "PeerToPeerBase/icons/peer_error.png")]
+    [Author("Paul Lelgemann", "lelgemann@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
+    [PluginInfo(false, "P2P_Peer_Proxy", "Creates a new Peer. Uses the CrypTool2 built-in P2P network and can be used as a replacement for P2P_Peer.", "", "PeerToPeerBaseProxy/icons/peer_inactive.png", "PeerToPeerBaseProxy/icons/peer_connecting.png", "PeerToPeerBaseProxy/icons/peer_online.png", "PeerToPeerBaseProxy/icons/peer_error.png")]
     public class P2PPeer : IIOMisc
     {
         // to forward event from overlay/dht MessageReceived-Event from P2PBase
@@ -182,8 +183,22 @@ namespace Cryptool.Plugins.PeerToPeerProxy
 
         public void StartPeer()
         {
-            GuiLogMessage("Peer is already started by CrypTool!", NotificationLevel.Info);
+            this.settings.PeerStatusChanged(P2PPeerSettings.PeerStatus.Connecting);
             P2PManager.Instance.P2PBase.OnP2PMessageReceived += new P2PBase.P2PMessageReceived(p2pBase_OnP2PMessageReceived);
+
+            if (P2PManager.Instance.P2PConnected())
+            {
+                GuiLogMessage("P2P connected.", NotificationLevel.Info);
+                this.settings.PeerStatusChanged(P2PPeerSettings.PeerStatus.Online);
+            }
+            else
+            {
+                GuiLogMessage("P2P network must be configured and connecting using the world button.", NotificationLevel.Warning);
+                this.settings.PeerStatusChanged(P2PPeerSettings.PeerStatus.Error);
+
+                // TODO use appropriate exception / abort procedure
+                throw new ApplicationException("P2P unavailable.");
+            }
         }
 
         public void StopPeer()

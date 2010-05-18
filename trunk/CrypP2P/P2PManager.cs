@@ -24,10 +24,9 @@ using Cryptool.PluginBase.Miscellaneous;
 using System.Windows.Forms;
 using Cryptool.P2P.Worker;
 using DevComponents.WpfRibbon;
-using Cryptool.P2P.Helper;
-using Cryptool.P2P.Internal;
 using Cryptool.Plugins.PeerToPeer;
 using Cryptool.Plugins.PeerToPeer.Internal;
+using Cryptool.P2P.Internal;
 
 namespace Cryptool.P2P
 {
@@ -76,13 +75,6 @@ namespace Cryptool.P2P
             this.P2PBase = new P2PBase();
             this.P2PSettings = new P2PSettings();
             this.P2PBase.AllowLoggingToMonitor = this.P2PSettings.Log2Monitor;
-
-            // Validate certificats
-            if (!PAPCertificate.CheckAndInstallPAPCertificates())
-            {
-                GuiLogMessage("Certificates not validated, P2P might not be working!", NotificationLevel.Error);
-                return;
-            }
 
             // Register events
 

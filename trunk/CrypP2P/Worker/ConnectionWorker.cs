@@ -24,6 +24,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using Cryptool.PluginBase;
 using Cryptool.P2P.Internal;
+using Cryptool.P2P.Helper;
 
 namespace Cryptool.P2P.Worker
 {
@@ -47,6 +48,14 @@ namespace Cryptool.P2P.Worker
             if (!p2pBase.Started)
             {
                 P2PManager.Instance.GuiLogMessage("Connecting to P2P network...", NotificationLevel.Info);
+
+                // Validate certificats
+                if (!PAPCertificate.CheckAndInstallPAPCertificates())
+                {
+                    P2PManager.Instance.GuiLogMessage("Certificates not validated, P2P might not be working!", NotificationLevel.Error);
+                    return;
+                }
+
                 p2pBase.Initialize(p2pSettings);
                 p2pBase.SynchStart();
             }
