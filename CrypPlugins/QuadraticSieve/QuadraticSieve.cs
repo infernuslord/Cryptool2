@@ -60,6 +60,8 @@ namespace Cryptool.Plugins.QuadraticSieve
         private static Assembly msieveDLL;
         private static Type msieve;
         private bool userStopped = false;
+        private IntPtr factorList;
+        private ArrayList factors;
 
         #endregion
 
@@ -165,21 +167,23 @@ namespace Cryptool.Plugins.QuadraticSieve
                 Object callback_struct = Activator.CreateInstance(msieveDLL.GetType("Msieve.callback_struct"));
                 FieldInfo showProgressField = msieveDLL.GetType("Msieve.callback_struct").GetField("showProgress");
                 FieldInfo prepareSievingField = msieveDLL.GetType("Msieve.callback_struct").GetField("prepareSieving");
+                FieldInfo getTrivialFactorlistField = msieveDLL.GetType("Msieve.callback_struct").GetField("getTrivialFactorlist");
                 Delegate showProgressDel = MulticastDelegate.CreateDelegate(msieveDLL.GetType("Msieve.showProgressDelegate"), this, "showProgress");
                 Delegate prepareSievingDel = MulticastDelegate.CreateDelegate(msieveDLL.GetType("Msieve.prepareSievingDelegate"), this, "prepareSieving");
+                Delegate getTrivialFactorlistDel = MulticastDelegate.CreateDelegate(msieveDLL.GetType("Msieve.getTrivialFactorlistDelegate"), this, "getTrivialFactorlist");
                 showProgressField.SetValue(callback_struct, showProgressDel);
                 prepareSievingField.SetValue(callback_struct, prepareSievingDel);
+                getTrivialFactorlistField.SetValue(callback_struct, getTrivialFactorlistDel);
                 initMsieve.Invoke(null, new object[1] { callback_struct });
 
-                //Now factorize:
-                ArrayList factors;
+                //Now factorize:                
                 try
                 {
                     string file = Path.Combine(directoryName, "" + InputNumber + ".dat");
                     if (settings.DeleteCache && File.Exists(file))
                         File.Delete(file);
-                    MethodInfo factorize = msieve.GetMethod("factorize");
-                    factors = (ArrayList)factorize.Invoke(null, new object[] { InputNumber.ToString(), file });                    
+                    MethodInfo factorize = msieve.GetMethod("start");
+                    factorize.Invoke(null, new object[] { InputNumber.ToString(), file });
                     obj = IntPtr.Zero;
                 }
                 catch (Exception ex)
@@ -370,6 +374,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         {
             if (num_relations == -1)    //sieving finished
             {
+                showFactorList();
                 ProgressChanged(0.9, 1.0);
                 GuiLogMessage("Sieving finished", NotificationLevel.Info);
                 stopThreads();
@@ -402,6 +407,11 @@ namespace Cryptool.Plugins.QuadraticSieve
 
                 if (!sieving_started)
                 {
+                    showFactorList();
+
+                    MethodInfo getCurrentFactor = msieve.GetMethod("getCurrentFactor");
+                    //GuiLogMessage((String)(getCurrentFactor.Invoke(null, new object[] { conf })), NotificationLevel.Debug);
+
                     start_relations = num_relations;
                     start_sieving_time = DateTime.Now;
                     sieving_started = true;
@@ -415,6 +425,19 @@ namespace Cryptool.Plugins.QuadraticSieve
                     saveYield.Invoke(null, new object[] { conf, (IntPtr)yieldqueue.Dequeue() });                    
                 }                
             }
+        }
+
+        private void showFactorList()
+        {
+            MethodInfo getPrimeFactors = msieve.GetMethod("getPrimeFactors");
+            ArrayList fl = (ArrayList)(getPrimeFactors.Invoke(null, new object[] { factorList }));
+            foreach (Object o in fl)
+                GuiLogMessage("Prim Faktoren: " + (String)o, NotificationLevel.Debug);
+
+            MethodInfo getCompositeFactors = msieve.GetMethod("getCompositeFactors");
+            ArrayList fl2 = (ArrayList)(getCompositeFactors.Invoke(null, new object[] { factorList }));
+            foreach (Object o in fl2)
+                GuiLogMessage("Zusammengesetzte Faktoren: " + (String)o, NotificationLevel.Debug);
         }
 
         /// <summary>
@@ -456,6 +479,16 @@ namespace Cryptool.Plugins.QuadraticSieve
             }
         }
 
+        private void getTrivialFactorlist(IntPtr list, IntPtr obj)
+        {
+            factorList = list;
+            MethodInfo getPrimeFactors = msieve.GetMethod("getPrimeFactors");
+            factors = (ArrayList)(getPrimeFactors.Invoke(null, new object[] { factorList }));
+            GuiLogMessage("TEST", NotificationLevel.Debug);
+
+            //showFactorList();
+        }
+
         /// <summary>
         /// Helper Thread for msieve, which sieves for relations:
         /// </summary>
@@ -476,7 +509,14 @@ namespace Cryptool.Plugins.QuadraticSieve
                     MethodInfo collectRelations = msieve.GetMethod("collectRelations");
                     collectRelations.Invoke(null, new object[] { clone, update, core_sieve_fcn });
                     MethodInfo getYield = msieve.GetMethod("getYield");
-                    IntPtr yield = (IntPtr)getYield.Invoke(null, new object[] { clone });                    
+                    IntPtr yield = (IntPtr)getYield.Invoke(null, new object[] { clone });
+
+                    //Just for testing the serialize mechanism:
+                    MethodInfo serializeYield = msieve.GetMethod("serializeYield");
+                    byte[] serializedYield = (byte[])serializeYield.Invoke(null, new object[] { yield });
+                    /*MethodInfo deserializeYield = msieve.GetMethod("deserializeYield");
+                    yield = (IntPtr)deserializeYield.Invoke(null, new object[] { serializedYield });*/
+
                     yieldqueue.Enqueue(yield);
                 }
                 catch (Exception ex)

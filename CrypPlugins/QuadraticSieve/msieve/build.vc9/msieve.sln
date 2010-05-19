@@ -1,25 +1,13 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "common.lib", "common.lib\common.lib.vcproj", "{0A0DE0B6-9A9A-4B77-9F83-AEF871CDAE66}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "common.lib", "common.lib\common.lib.vcxproj", "{0A0DE0B6-9A9A-4B77-9F83-AEF871CDAE66}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpqs.lib", "mpqs.lib\mpqs.lib.vcproj", "{6CD73AB4-04F6-49B3-A45F-65D4F7A078F4}"
-	ProjectSection(ProjectDependencies) = postProject
-		{0A0DE0B6-9A9A-4B77-9F83-AEF871CDAE66} = {0A0DE0B6-9A9A-4B77-9F83-AEF871CDAE66}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpqs.lib", "mpqs.lib\mpqs.lib.vcxproj", "{6CD73AB4-04F6-49B3-A45F-65D4F7A078F4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "msieve", "msieve\msieve.vcproj", "{89995A7B-6709-40C7-ADDC-806680CE8B64}"
-	ProjectSection(ProjectDependencies) = postProject
-		{6CD73AB4-04F6-49B3-A45F-65D4F7A078F4} = {6CD73AB4-04F6-49B3-A45F-65D4F7A078F4}
-		{0A0DE0B6-9A9A-4B77-9F83-AEF871CDAE66} = {0A0DE0B6-9A9A-4B77-9F83-AEF871CDAE66}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "msieve", "msieve\msieve.vcxproj", "{89995A7B-6709-40C7-ADDC-806680CE8B64}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "msieve.dll", "msieve.dll\msieve.dll.vcproj", "{F7C0D05F-193F-49AD-B3E2-D8DFAD41805B}"
-	ProjectSection(ProjectDependencies) = postProject
-		{89995A7B-6709-40C7-ADDC-806680CE8B64} = {89995A7B-6709-40C7-ADDC-806680CE8B64}
-		{6CD73AB4-04F6-49B3-A45F-65D4F7A078F4} = {6CD73AB4-04F6-49B3-A45F-65D4F7A078F4}
-		{0A0DE0B6-9A9A-4B77-9F83-AEF871CDAE66} = {0A0DE0B6-9A9A-4B77-9F83-AEF871CDAE66}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "msieve.dll", "msieve.dll\msieve.dll.vcxproj", "{F7C0D05F-193F-49AD-B3E2-D8DFAD41805B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WrapperTester", "WrapperTester\WrapperTester.csproj", "{B66944FA-D89F-4BE8-B0BB-6E1FB4419183}"
 	ProjectSection(ProjectDependencies) = postProject
