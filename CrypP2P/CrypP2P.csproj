@@ -196,11 +196,6 @@
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\CrypPlugins\KeySearcher\KeySearcher.csproj">
-      <Project>{0579E099-66B2-43C3-B8A0-43CAE4895E68}</Project>
-      <Name>KeySearcher</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\PeerToPeer\PeerToPeer.csproj">
       <Project>{12829116-8FAD-4D09-A0AA-D75D88F07626}</Project>
       <Name>PeerToPeer</Name>
