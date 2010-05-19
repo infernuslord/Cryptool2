@@ -193,11 +193,8 @@ namespace Cryptool.Plugins.PeerToPeerProxy
             }
             else
             {
-                GuiLogMessage("P2P network must be configured and connecting using the world button.", NotificationLevel.Warning);
+                GuiLogMessage("P2P network must be configured and connecting using the world button.", NotificationLevel.Error);
                 this.settings.PeerStatusChanged(P2PPeerSettings.PeerStatus.Error);
-
-                // TODO use appropriate exception / abort procedure
-                throw new ApplicationException("P2P unavailable.");
             }
         }
 
