@@ -27,7 +27,7 @@ using Cryptool.PluginBase.IO;
 namespace Cryptool.Vigenere
 {
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo(false, "Vigenère", "Vigenère -- classic polyalphabetic substitution cipher", "Vigenere/DetailedDescription/Description.xaml",
+    [PluginInfo(false, "Vigenère", "Vigenère -- classic or autokey polyalphabetic substitution cipher", "Vigenere/DetailedDescription/Description.xaml",
       "Vigenere/Images/icon.png", "Vigenere/Images/encrypt.png", "Vigenere/Images/decrypt.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class Vigenere : IEncryption
@@ -39,7 +39,7 @@ namespace Cryptool.Vigenere
         private string inputString;
         private string outputString;
         private char[] keyword;
-        private enum VigenereMode { encrypt, decrypt };
+        private enum VigenereMode { encrypt, decrypt, autoencrypt, autodecrypt };
         private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
 
         #endregion
@@ -145,12 +145,22 @@ namespace Cryptool.Vigenere
             ProcessVigenere(VigenereMode.encrypt);
         }
 
+        public void AutoKeyEncrypt()
+        {
+            ProcessVigenere(VigenereMode.autoencrypt);
+        }
+
         /// <summary>
         /// Vigenere decryption
         /// </summary>
         public void Decrypt()
         {
             ProcessVigenere(VigenereMode.decrypt);
+        }
+
+        public void AutoKeyDecrypt()
+        {
+            ProcessVigenere(VigenereMode.autodecrypt);
         }
 
         #endregion
@@ -238,6 +248,7 @@ namespace Cryptool.Vigenere
             VigenereSettings cfg = (VigenereSettings)this.settings;
             StringBuilder output = new StringBuilder(String.Empty);
             string alphabet = cfg.AlphabetSymbols;
+            int autopos = 0;
 
             if (!cfg.CaseSensitiveAlphabet)
             {
@@ -267,24 +278,83 @@ namespace Cryptool.Vigenere
 
                     if (ppos >= 0)
                     {
+
                         //found the plaintext character in the alphabet, begin shifting
                         int cpos = 0;
                         switch (mode)
                         {
                             case VigenereMode.encrypt:
+
                                 cpos = (ppos + cfg.ShiftKey[shiftPos]) % alphabet.Length;
+
+                                //inkrement shiftPos to map inputString whith all keys
+                                //if shiftPos > ShiftKey.Length, begin again at the beginning
+                                shiftPos++;
+                                if (shiftPos >= cfg.ShiftKey.Length) shiftPos = 0;
                                 break;
+                            
                             case VigenereMode.decrypt:
+
                                 cpos = (ppos - cfg.ShiftKey[shiftPos] + alphabet.Length) % alphabet.Length;
+                                
+                                //inkrement shiftPos to map inputString whith all keys
+                                //if shiftPos > ShiftKey.Length, begin again at the beginning
+                                shiftPos++;
+                                if (shiftPos >= cfg.ShiftKey.Length) shiftPos = 0;
+                                break;
+
+                            case VigenereMode.autoencrypt:
+
+                                //key still used
+                                if (shiftPos < cfg.ShiftKey.Length)
+                                {
+                                    cpos = (ppos + cfg.ShiftKey[shiftPos]) % alphabet.Length;
+                                    shiftPos++;
+                                }
+                                else //using plaintext
+                                {
+                                    //taking the plaintextchar from the next position
+                                    int pkey = alphabet.IndexOf(char.ToUpper(inputString[autopos]));
+                                    //check if the next plaintextchar is in the alphabet
+                                    while (pkey < 0)
+                                    {
+                                        autopos++;
+                                        pkey = alphabet.IndexOf(char.ToUpper(inputString[autopos]));
+                                    }
+
+                                    cpos = (ppos + pkey) % alphabet.Length;
+                                    autopos++;
+                                }
+                                break;
+
+                            case VigenereMode.autodecrypt:
+
+                                //key still used
+                                if (shiftPos < cfg.ShiftKey.Length)
+                                {
+                                    cpos = (ppos - cfg.ShiftKey[shiftPos] + alphabet.Length) % alphabet.Length;
+                                    shiftPos++;
+                                }
+                                else //using plaintext
+                                {
+                                    outputString = output.ToString();
+
+                                    //taking the deciphered plaintextchar from the next position
+                                    int pkey = alphabet.IndexOf(char.ToUpper(outputString[autopos]));
+                                    //check if the next deciphered plaintextchar is in the alphabet
+                                    while (pkey < 0)
+                                    {
+                                        autopos++;
+                                        pkey = alphabet.IndexOf(char.ToUpper(outputString[autopos]));
+                                    }
+
+                                    cpos = (ppos - pkey + alphabet.Length) % alphabet.Length;
+                                    autopos++;
+                                }
                                 break;
                         }
 
-                        //inkrement shiftPos to map inputString whith all keys
-                        //if shiftPos > ShiftKey.Length, begin again at the beginning
-                        shiftPos++;
-                        if (shiftPos >= cfg.ShiftKey.Length)
-                            shiftPos = 0;
-
+                                                 
                         //we have the position of the ciphertext character, now we have to output it in the right case
                         if (cfg.CaseSensitiveAlphabet)
                         {
@@ -352,17 +422,42 @@ namespace Cryptool.Vigenere
 
         public void Execute()
         {
-            switch (settings.Action)
-            {
-                case 0:
-                    Encrypt();
+           switch (settings.Modus)
+           {
+               //Classic Modus
+               case 0:
+
+                    switch (settings.Action)
+                    {
+                        case 0:
+                            Encrypt();
+                            break;
+                        case 1:
+                            Decrypt();
+                            break;
+                        default:
+                            break;
+                    }
                     break;
-                case 1:
-                    Decrypt();
+
+               //Autokey Modus
+               case 1:
+
+                    switch (settings.Action)
+                    {
+                        case 0:
+                            AutoKeyEncrypt();
+                            break;
+                        case 1:
+                            AutoKeyDecrypt();
+                            break;
+                        default:
+                            break;
+                    }
                     break;
-                default:
-                    break;
+        
             }
+        
         }
 
         public void Pause()

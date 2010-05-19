@@ -86,6 +86,7 @@ namespace Cryptool.Vigenere
         #region Private variables
         private bool hasChanges;
         private int selectedAction = 0;
+        private int selectedModus = 0;
         private string upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private string lowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
         private string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -216,8 +217,23 @@ namespace Cryptool.Vigenere
         #region Algorithm settings properties (visible in the Settings pane)
 
         [PropertySaveOrder(3)]
-        [ContextMenu("Action","Select the Algorithm action",1,DisplayLevel.Beginner,ContextMenuControlType.ComboBox,new int[]{1,2},"Encrypt","Decrypt")]
-        [TaskPane("Action", "Select the Algorithm action", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt"})]
+        [ContextMenu("Modus", "Select the Algorithm action", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Classic", "Autokey")]
+        [TaskPane("Modus", "Select the Algorithm action", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Classic", "Autokey" })]
+        public int Modus
+        {
+            get { return this.selectedModus; }
+            set
+            {
+                if (value != selectedModus) HasChanges = true;
+                this.selectedModus = value;
+                OnPropertyChanged("Modus");
+            }
+        }
+
+
+        [PropertySaveOrder(4)]
+        [ContextMenu("Action","Select the Algorithm action",2,DisplayLevel.Beginner,ContextMenuControlType.ComboBox,new int[]{1,2},"Encrypt","Decrypt")]
+        [TaskPane("Action", "Select the Algorithm action", null, 2, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt"})]
         public int Action
         {
             get { return this.selectedAction; }
@@ -229,8 +245,8 @@ namespace Cryptool.Vigenere
             }
         }
 
-        [PropertySaveOrder(4)]
-        [TaskPane("Shift value (integer)", "Enter the numbers of letters to shift seperated by comma.", null, 2, false, DisplayLevel.Beginner, ControlType.TextBox, null)]
+        [PropertySaveOrder(5)]
+        [TaskPane("Shift value (integer)", "Enter the numbers of letters to shift seperated by comma.", null, 3, false, DisplayLevel.Beginner, ControlType.TextBox, null)]
         public string ShiftValue
         {
             get
@@ -247,17 +263,17 @@ namespace Cryptool.Vigenere
             set { setKeyByValue(value); }
         }
 
-        [PropertySaveOrder(5)]
-        [TaskPane("Shift key (multiple letters)", "Enter multiple letters as the key", null, 3, false, DisplayLevel.Experienced, ControlType.TextBox, null)]
+        [PropertySaveOrder(6)]
+        [TaskPane("Shift key (multiple letters)", "Enter multiple letters as the key", null, 4, false, DisplayLevel.Experienced, ControlType.TextBox, null)]
         public string ShiftChar
         {
             get { return new String(this.shiftChar); }
             set { setKeyByCharacter(value); }
         }
 
-        [PropertySaveOrder(6)]
-        [ContextMenu("Unknown symbol handling","What should be done with ecountered characters at the input which are not in the alphabet?",4,DisplayLevel.Beginner,ContextMenuControlType.ComboBox,null,"Ignore (leave unmodified)","Remove","Replace with \'?\'")]
-        [TaskPane("Unknown symbol handling", "What should be done with encountered characters at the input which are not in the alphabet?", null, 4, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Ignore (leave unmodified)", "Remove", "Replace with \'?\'" })]
+        [PropertySaveOrder(7)]
+        [ContextMenu("Unknown symbol handling","What should be done with ecountered characters at the input which are not in the alphabet?",5,DisplayLevel.Beginner,ContextMenuControlType.ComboBox,null,"Ignore (leave unmodified)","Remove","Replace with \'?\'")]
+        [TaskPane("Unknown symbol handling", "What should be done with encountered characters at the input which are not in the alphabet?", null, 5, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Ignore (leave unmodified)", "Remove", "Replace with \'?\'" })]
         public int UnknownSymbolHandling
         {
             get { return (int)this.unknowSymbolHandling; }
@@ -269,9 +285,9 @@ namespace Cryptool.Vigenere
             }
         }
 
-        [PropertySaveOrder(7)]
-        [ContextMenu("Alphabet case sensitive","Should upper and lower case be treated differently? (Should a == A)",7,DisplayLevel.Beginner,ContextMenuControlType.ComboBox,null, "Case insensitive","Case sensitive")]
-        [TaskPane("Alphabet case sensitive", "Should upper and lower case be treated differently? (Should a == A)", null, 7, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Case insensitive", "Case sensitive" })]
+        [PropertySaveOrder(8)]
+        [ContextMenu("Alphabet case sensitive","Should upper and lower case be treated differently? (Should a == A)",8,DisplayLevel.Beginner,ContextMenuControlType.ComboBox,null, "Case insensitive","Case sensitive")]
+        [TaskPane("Alphabet case sensitive", "Should upper and lower case be treated differently? (Should a == A)", null, 8, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Case insensitive", "Case sensitive" })]
         public int AlphabetCase
         {
             get { return this.caseSensitiveAlphabet; }
@@ -313,8 +329,8 @@ namespace Cryptool.Vigenere
             }
         }
 
-        [PropertySaveOrder(8)]
-        [TaskPane("Alphabet", "This is the used alphabet.", null, 6, false, DisplayLevel.Expert, ControlType.TextBox, null)]
+        [PropertySaveOrder(9)]
+        [TaskPane("Alphabet", "This is the used alphabet.", null, 7, false, DisplayLevel.Expert, ControlType.TextBox, null)]
         public string AlphabetSymbols
         {
             get { return this.alphabet; }
