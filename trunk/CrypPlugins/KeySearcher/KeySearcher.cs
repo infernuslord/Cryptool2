@@ -674,7 +674,7 @@ namespace KeySearcher
             System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
 
             LinkedListNode<ValueKey> linkedListNode;
-            ProgressChanged(Math.Pow(10, BigInteger.Log(keycounter, 10) - BigInteger.Log(size, 10)), 1.0);
+            ProgressChanged((double)(keycounter/size), 1.0);
 
             if (QuickWatchPresentation.IsVisible && doneKeys != 0 && !stop)
             {
