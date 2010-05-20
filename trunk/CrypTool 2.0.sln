@@ -214,6 +214,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeerToPeer", "CrypPlugins\P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeerToPeerBaseProxy", "CrypPlugins\PeerToPeerBaseProxy\PeerToPeerBaseProxy.csproj", "{DC146510-2069-4A1E-A39A-9773DBEA79CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VigenereAnalyser", "CrypPlugins\VigenereAnalyser\VigenereAnalyser.csproj", "{1696C227-2A99-4A14-AE81-6A8438D42D06}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1859,6 +1861,18 @@ Global
 		{DC146510-2069-4A1E-A39A-9773DBEA79CD}.Release|x64.ActiveCfg = Release|x86
 		{DC146510-2069-4A1E-A39A-9773DBEA79CD}.Release|x86.ActiveCfg = Release|x86
 		{DC146510-2069-4A1E-A39A-9773DBEA79CD}.Release|x86.Build.0 = Release|x86
+		{1696C227-2A99-4A14-AE81-6A8438D42D06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1696C227-2A99-4A14-AE81-6A8438D42D06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1696C227-2A99-4A14-AE81-6A8438D42D06}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1696C227-2A99-4A14-AE81-6A8438D42D06}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1696C227-2A99-4A14-AE81-6A8438D42D06}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1696C227-2A99-4A14-AE81-6A8438D42D06}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1696C227-2A99-4A14-AE81-6A8438D42D06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1696C227-2A99-4A14-AE81-6A8438D42D06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1696C227-2A99-4A14-AE81-6A8438D42D06}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1696C227-2A99-4A14-AE81-6A8438D42D06}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{1696C227-2A99-4A14-AE81-6A8438D42D06}.Release|x64.ActiveCfg = Release|Any CPU
+		{1696C227-2A99-4A14-AE81-6A8438D42D06}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1961,5 +1975,6 @@ Global
 		{2100AC2F-3F2B-48A2-AF42-87EC52C8A703} = {88B851F6-9E3D-484F-A317-ECED5B98C618}
 		{F5DDFE63-0904-4523-AA30-11FF5E91C362} = {88B851F6-9E3D-484F-A317-ECED5B98C618}
 		{475E8850-4D82-4C5E-AD19-5FDA82BC7576} = {88B851F6-9E3D-484F-A317-ECED5B98C618}
+		{1696C227-2A99-4A14-AE81-6A8438D42D06} = {88B851F6-9E3D-484F-A317-ECED5B98C618}
 	EndGlobalSection
 EndGlobal
