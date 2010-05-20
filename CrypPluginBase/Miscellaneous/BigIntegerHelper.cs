@@ -1,4 +1,25 @@
-﻿using System;
+﻿/*
+   Copyright 2010 Sven Rech (svenrech at cryptool dot org), University of Duisburg-Essen
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+
+/*
+ * This class provides some additional functionality for the BigInteger class.
+ * The parser stuff is written by Sven Rech and Nils Kopal.
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -174,13 +195,65 @@ namespace Cryptool.PluginBase.Miscellaneous
             return i;
         }
 
-        public static BigInteger ModInverse(BigInteger Input1, BigInteger Mod)
+        /*
+         * Returns the modulo inverse of this.  Throws ArithmeticException if
+         * the inverse does not exist.  (i.e. gcd(this, modulus) != 1)
+         * 
+         * This method is taken from the BigInteger class of
+         * Chew Keong TAN (source: http://www.codeproject.com/KB/cs/biginteger.aspx)
+         * (but modified by us)
+        */
+
+        public static BigInteger ModInverse(BigInteger input, BigInteger modulus)
         {
-            throw new NotImplementedException();
+            BigInteger[] p = { 0, 1 };
+            BigInteger[] q = new BigInteger[2];    // quotients
+            BigInteger[] r = { 0, 0 };             // remainders
+
+            int step = 0;
+
+            BigInteger a = modulus;
+            BigInteger b = input;
+
+            while (b != 0)
+            {
+                BigInteger quotient;
+                BigInteger remainder;
+
+                if (step > 1)
+                {
+                    BigInteger pval = (p[0] - (p[1] * q[0])) % modulus;
+                    p[0] = p[1];
+                    p[1] = pval;
+                }
+
+                quotient = BigInteger.DivRem(a, b, out remainder);
+
+                q[0] = q[1];
+                r[0] = r[1];
+                q[1] = quotient; r[1] = remainder;
+
+                a = b;
+                b = remainder;
+
+                step++;
+            }
+
+            if ((r[0] != 1 && r[0] != 0))
+                throw (new ArithmeticException("No inverse!"));
+
+            BigInteger result = ((p[0] - (p[1] * q[0])) % modulus);
+
+            while (result < 0)
+                result += modulus;  // get the least positive modulus
+
+            return result;
         }
 
+        
         public static bool isProbablePrime(BigInteger p)
         {
+            return true;    //TODO: Implement this!!
             throw new NotImplementedException();
         }
     }
