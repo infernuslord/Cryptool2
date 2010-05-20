@@ -19,6 +19,7 @@ using System.Linq;
 using System.Text;
 using Cryptool.Plugins.PeerToPeer.Jobs;
 using Cryptool.PluginBase.Miscellaneous;
+using System.Numerics;
 
 namespace Cryptool.PluginBase.Control
 {

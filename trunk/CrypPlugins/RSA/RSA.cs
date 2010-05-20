@@ -25,6 +25,7 @@ using System.ComponentModel;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Collections;
+using System.Numerics;
 
 namespace Cryptool.Plugins.RSA
 {
@@ -116,8 +117,8 @@ namespace Cryptool.Plugins.RSA
             
             //calculate the BigIntegers
             try{
-                if (this.InputN is object && this.InputED is object && this.InputMC is object && !stopped)    
-                    this.OutputMC = InputMC.modPow(this.InputED, this.InputN);
+                if (this.InputN != 0 && this.InputED != 0 && this.InputMC != 0 && !stopped)
+                    this.OutputMC = BigInteger.ModPow(InputMC, this.InputED, this.InputN);
             }
             catch (Exception ex)
             {
@@ -127,7 +128,7 @@ namespace Cryptool.Plugins.RSA
             //
             // RSA on Texts
             //
-            if (this.InputText is object && this.InputN is object && this.InputED is object && !stopped)
+            if (this.InputText is object && this.InputN != 0 && this.InputED != 0 && !stopped)
             {
                 DateTime startTime = DateTime.Now;
                 GuiLogMessage("starting RSA on texts", NotificationLevel.Info);
@@ -140,14 +141,14 @@ namespace Cryptool.Plugins.RSA
                 //Encryption
                 if (settings.Action == 0)
                 {
-                    blocksize_input = (int)Math.Floor(this.InputN.log(256));
-                    blocksize_output = (int)Math.Ceiling(this.InputN.log(256));
+                    blocksize_input = (int)Math.Floor(BigInteger.Log(InputN, 256));
+                    blocksize_output = (int)Math.Ceiling(BigInteger.Log(InputN, 256));
                 }
                 //Decryption
                 else
                 {
-                    blocksize_input = (int)Math.Ceiling(this.InputN.log(256));
-                    blocksize_output = (int)Math.Floor(this.InputN.log(256));
+                    blocksize_input = (int)Math.Ceiling(BigInteger.Log(InputN, 256));
+                    blocksize_output = (int)Math.Floor(BigInteger.Log(InputN, 256));
                 }
 
                 GuiLogMessage("Input blocksize = " + blocksize_input, NotificationLevel.Debug);
@@ -386,14 +387,13 @@ namespace Cryptool.Plugins.RSA
                 {
 
                     //create a big integer from a block
-                    byte[] help = new byte[blocksize_input];
+                    byte[] help = new byte[blocksize_input+1];
                     for (int j = 0; j < blocksize_input; j++)
                     {
                         if (i * blocksize_input + j < InputText.Length)
                             help[j] = InputText[i * blocksize_input + j];
                         if (stopped)
                             return;
-
                     }
                     bint = new BigInteger(help);
 
@@ -407,15 +407,15 @@ namespace Cryptool.Plugins.RSA
                     }
 
                     //here we encrypt/decrypt with rsa algorithm
-                    bint = bint.modPow(this.InputED, this.InputN);
+                    bint = BigInteger.ModPow(bint, this.InputED, this.InputN);
 
                     //create a block from the byte array of the BigInteger
-                    byte[] bytes = bint.getBytes();
+                    byte[] bytes = removeZeros(bint.ToByteArray());
                     int diff = (blocksize_output - (bytes.Length % blocksize_output)) % blocksize_output;
 
                     for (int j = 0; j < bytes.Length; j++)
                     {
-                        output[i * blocksize_output + j + diff] = bytes[j];
+                        output[i * blocksize_output + j/* + diff*/] = bytes[j];
                         if (stopped)
                             return;
                     }

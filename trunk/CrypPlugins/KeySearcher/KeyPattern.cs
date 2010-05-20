@@ -22,6 +22,7 @@ using Cryptool.PluginBase.Miscellaneous;
 using System.Collections;
 using Cryptool.Plugins.PeerToPeer.Jobs;
 using System.IO;
+using System.Numerics;
 
 namespace KeySearcher
 {

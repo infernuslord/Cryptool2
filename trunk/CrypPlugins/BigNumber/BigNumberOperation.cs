@@ -19,6 +19,7 @@ using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
+using System.Numerics;
 
 namespace Cryptool.Plugins.BigNumber
 {
@@ -29,10 +30,10 @@ namespace Cryptool.Plugins.BigNumber
 
         #region private variable
         //The variables are defined
-        private BigInteger input1 = null; 
-        private BigInteger input2 = null;
-        private BigInteger mod = null;
-        private BigInteger output = null;
+        private BigInteger input1 = 0; 
+        private BigInteger input2 = 0;
+        private BigInteger mod = 0;
+        private BigInteger output = 0;
         private BigNumberOperationSettings settings = new BigNumberOperationSettings();
 
         #endregion
@@ -152,9 +153,9 @@ namespace Cryptool.Plugins.BigNumber
 
         public void PreExecution()
         {
-            input1 = null;
-            input2 = null;
-            mod = null;
+            input1 = 0;
+            input2 = 0;
+            mod = 0;
         }
 
         /// <summary>
@@ -173,51 +174,51 @@ namespace Cryptool.Plugins.BigNumber
                     {
                         // x + y
                         case 0:
-                            if (Mod is object)
+                            if (Mod != 0)
                                 Output = (Input1 + Input2) % Mod;
                             else
                                 Output = Input1 + Input2;
                             break;
                         // x - y
                         case 1:
-                            if (Mod is object)
+                            if (Mod != 0)
                                 Output = (Input1 - Input2) % Mod;
                             else
                                 Output = Input1 - Input2;
                             break;
                         //x * y
                         case 2:
-                            if (Mod is object)
+                            if (Mod != 0)
                                 Output = (Input1 * Input2) % Mod;
                             else
                                 Output = Input1 * Input2;
                             break;
                         // x / y
                         case 3:
-                            if (Mod is object)
+                            if (Mod != 0)
                                 Output = (Input1 / Input2) % Mod;
                             else
                                 Output = Input1 / Input2;
                             break;
                         // x ^ y
                         case 4:
-                            if (Mod is object)
+                            if (Mod != 0)
                             {
                                 if (Input2 >= 0)
-                                    Output = Input1.modPow(Input2, Mod);
+                                    Output = BigInteger.ModPow(Input1, Input2, Mod);
                                 else
                                 {
-                                    Output = Input1.modInverse(Mod).modPow(-Input2, Mod);
+                                    Output = BigInteger.ModPow(BigIntegerHelper.ModInverse(Input1, Mod), -Input2, Mod);
                                 }
                             }
                             else
                             {
-                                Output = Input1.pow(Input2);
+                                Output = BigInteger.Pow(Input1, (int)Input2);
                             }
                             break;
                         // gcd(x,y)
                         case 5:
-                                Output = Input1.gcd(Input2);
+                            Output = BigInteger.GreatestCommonDivisor(Input1, Input2);
                             break;
                     }
                 }

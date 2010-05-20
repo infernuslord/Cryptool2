@@ -30,6 +30,7 @@ using Cryptool.PluginBase.Control;
 using Cryptool.Plugins.PeerToPeer;
 using Cryptool.Plugins.PeerToPeer.Jobs;
 using System.Threading;
+using System.Numerics;
 
 namespace Cryptool.Plugins.KeySearcher_IControl
 {
@@ -162,7 +163,7 @@ namespace Cryptool.Plugins.KeySearcher_IControl
 
         public bool StartProcessing(byte[] job, out BigInteger jobId)
         {
-            jobId = null; //out parameter
+            jobId = -1; //out parameter
             if (job != null)
             {
                 KeyPatternJobPart jobPart = new KeyPatternJobPart(job);

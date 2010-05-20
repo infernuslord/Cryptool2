@@ -29,6 +29,7 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using System.Windows;
 using System.Reflection;
+using System.Numerics;
 
 namespace Cryptool.Plugins.QuadraticSieve
 {
@@ -210,7 +211,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                     BigInteger[] outs = new BigInteger[factors.Count];
                     for (int i = 0; i < factors.Count; i++)
                     {
-                        outs[i] = new BigInteger((string)factors[i], 10);
+                        outs[i] = BigInteger.Parse((string)factors[i]);
                     }
                     OutputFactors = outs;
                 }

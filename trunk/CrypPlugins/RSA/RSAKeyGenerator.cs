@@ -24,7 +24,7 @@ using Cryptool.PluginBase;
 using System.ComponentModel;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-
+using System.Numerics;
 
 namespace Cryptool.Plugins.RSA
 {
@@ -170,16 +170,16 @@ namespace Cryptool.Plugins.RSA
                 case 0:
                     try
                     {
-                        p = BigInteger.parseExpression(settings.P);
-                        q = BigInteger.parseExpression(settings.Q);
-                        e = BigInteger.parseExpression(settings.E);
+                        p = BigIntegerHelper.parseExpression(settings.P);
+                        q = BigIntegerHelper.parseExpression(settings.Q);
+                        e = BigIntegerHelper.parseExpression(settings.E);
 
-                        if (!p.isProbablePrime())
+                        if (!BigIntegerHelper.isProbablePrime(p))
                         {
                             GuiLogMessage(p.ToString() + " is not prime!", NotificationLevel.Error);
                             return;
                         }
-                        if (!q.isProbablePrime())
+                        if (!BigIntegerHelper.isProbablePrime(q))
                         {
                             GuiLogMessage(q.ToString() + " is not prime!", NotificationLevel.Error);
                             return;
@@ -198,7 +198,7 @@ namespace Cryptool.Plugins.RSA
 
                     try
                     {
-                        D = e.modInverse((p - 1) * (q - 1));
+                        D = BigIntegerHelper.ModInverse(e, (p - 1) * (q - 1));
                     }
                     catch (Exception)
                     {
@@ -220,9 +220,9 @@ namespace Cryptool.Plugins.RSA
                 case 1:
                     try
                     {
-                        n = BigInteger.parseExpression(settings.N);
-                        d = BigInteger.parseExpression(settings.D);
-                        e = BigInteger.parseExpression(settings.E);
+                        n = BigIntegerHelper.parseExpression(settings.N);
+                        d = BigIntegerHelper.parseExpression(settings.D);
+                        e = BigIntegerHelper.parseExpression(settings.E);
                     }
                     catch (Exception ex)
                     {
@@ -317,7 +317,7 @@ namespace Cryptool.Plugins.RSA
                             if (this.settings.Password != "")
                                 D = new BigInteger(par.D);
                             else
-                                D = null;
+                                D = 0;
                         }
                         catch (Exception ex)
                         {

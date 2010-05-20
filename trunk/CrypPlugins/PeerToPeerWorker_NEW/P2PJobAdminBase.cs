@@ -23,6 +23,7 @@ using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.Plugins.PeerToPeer.Jobs;
 using System.Timers;
 using Cryptool.Plugins.PeerToPeer.Internal;
+using System.Numerics;
 
 /* TWO DIFFERENT STOPPING CASE:
  * 1) When P2P-Admin is stopped, deregister WorkerControl-Events, so
@@ -188,7 +189,7 @@ namespace Cryptool.Plugins.PeerToPeer
                 //added by Arnold 2010.03.22
                 this.timerWaitingForJobs.Stop(); //when receiving a new job, time can be stopped
 
-                BigInteger jobId = null;
+                BigInteger jobId = 0;
                 GuiLogging("Received a JobPart from '" + senderId.ToString() + "'", NotificationLevel.Debug);
                 byte[] serializedRawJobPartData = JobMessages.GetJobPartMessage(data, out jobId);
                 StartProcessing(senderId, serializedRawJobPartData);

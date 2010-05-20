@@ -23,6 +23,7 @@ using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase;
 using System.ComponentModel;
+using System.Numerics;
 
 namespace Cryptool.Plugins.BigNumber
 {
@@ -38,7 +39,7 @@ namespace Cryptool.Plugins.BigNumber
 
         #region Properties
 
-        private BigInteger numberOutput = null;
+        private BigInteger numberOutput = 0;
         /// <summary>
         /// The output is defined
         /// </summary>
@@ -104,7 +105,7 @@ namespace Cryptool.Plugins.BigNumber
             //The input from the taskpane is convertet to a BigNumber and is send to the output.
             try
             {
-                bi = BigInteger.parseExpression(settings.Number);                
+                bi = BigIntegerHelper.parseExpression(settings.Number);                
             }
             catch (Exception ex)
             {

@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cryptool.PluginBase.Miscellaneous;
+using System.Numerics;
 
 namespace Cryptool.Plugins.PeerToPeer.Jobs
 {
@@ -121,7 +122,7 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
         public static byte[] GetJobPartMessage(byte[] data, out BigInteger jobId)
         {
             byte[] serializedJobPart = null;
-            jobId = null;
+            jobId = -1;
             if ((MessageJobType)data[0] == MessageJobType.JobPart)
             {
                 byte[] tailBytes = new byte[data.Length - 1];
@@ -172,7 +173,7 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
         public static byte[] GetJobResult(byte[] data, out BigInteger jobId)
         {
             byte[] serializedJobResult = null;
-            jobId = null;
+            jobId = -1;
             if ((MessageJobType)data[0] == MessageJobType.JobResult)
             {
                 byte[] tailBytes = new byte[data.Length - 1];
@@ -317,7 +318,7 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
             {
                 // Note, there is a Bug in BigInt: BigInt b = 256; => b.dataLength = 1 -- it should be 2!
                 // As a workarround rely on getBytes().Length (the null bytes for the BigInt 0 should be fixed now)
-                byte[] jobIdBytes = jobId.getBytes();
+                byte[] jobIdBytes = jobId.ToByteArray();
                 byte[] jobIdBytesLen = BitConverter.GetBytes(jobIdBytes.Length);
               
                 resultByte = new byte[jobIdBytes.Length + jobIdBytesLen.Length];
@@ -345,7 +346,7 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
             // byte length of Int32
             int iInt32 = 4;
 
-            BigInteger result = null;
+            BigInteger result = -1;
             bytesLeft = serializedJobId.Length;
             if (serializedJobId != null && serializedJobId.Length > iInt32)
             {
@@ -354,7 +355,7 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
                 int bigIntLen = BitConverter.ToInt32(bigIntByteLen, 0);
                 byte[] bigIntByte = new byte[bigIntLen];
                 Buffer.BlockCopy(serializedJobId, bigIntByteLen.Length, bigIntByte, 0, bigIntByte.Length);
-                result = new BigInteger(bigIntByte, bigIntByte.Length);
+                result = new BigInteger(bigIntByte);
                 bytesLeft = serializedJobId.Length - iInt32 - bigIntByte.Length;
             }
             return result;
