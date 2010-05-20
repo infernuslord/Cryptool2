@@ -13,6 +13,7 @@ using System.Windows.Threading;
 using Cryptool.PluginBase.Miscellaneous;
 using System.IO;
 using Cryptool.PluginBase.IO;
+using System.Numerics;
 
 namespace KeySearcher
 {    
@@ -673,11 +674,11 @@ namespace KeySearcher
             System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
 
             LinkedListNode<ValueKey> linkedListNode;
-            ProgressChanged(Math.Pow(10, keycounter.log(10) - size.log(10)), 1.0);
+            ProgressChanged(Math.Pow(10, BigInteger.Log(keycounter, 10) - BigInteger.Log(size, 10)), 1.0);
 
             if (QuickWatchPresentation.IsVisible && doneKeys != 0 && !stop)
             {
-                double time = (Math.Pow(10, (size - keycounter).log(10) - doneKeys.log(10)));
+                double time = (Math.Pow(10, BigInteger.Log((size - keycounter), 10) - BigInteger.Log(doneKeys, 10)));
                 TimeSpan timeleft = new TimeSpan(-1);
 
                 try

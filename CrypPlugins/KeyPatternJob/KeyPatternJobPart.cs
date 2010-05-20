@@ -21,6 +21,7 @@ using Cryptool.Plugins.PeerToPeer.Jobs;
 using KeySearcher;
 using System.IO;
 using Cryptool.PluginBase.Miscellaneous;
+using System.Numerics;
 
 /*
  * TODO:
@@ -96,7 +97,7 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
                 memStream.Read(intBuffer, 0, intBuffer.Length);
                 byte[] jobIdByte = new byte[BitConverter.ToInt32(intBuffer, 0)];
                 memStream.Read(jobIdByte, 0, jobIdByte.Length);
-                BigInteger temp_jobId = new BigInteger(jobIdByte, jobIdByte.Length);
+                BigInteger temp_jobId = new BigInteger(jobIdByte);
                 
                 // deserialize KeyPattern
                 memStream.Read(intBuffer, 0, intBuffer.Length);
@@ -159,7 +160,7 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
             try
             {
                 // serialize JobId
-                byte[] byteJobId = this.JobId.getBytes();
+                byte[] byteJobId = this.JobId.ToByteArray();
                 byte[] jobIdLen = BitConverter.GetBytes(byteJobId.Length);
                 memStream.Write(jobIdLen, 0, jobIdLen.Length);
                 memStream.Write(byteJobId, 0, byteJobId.Length);

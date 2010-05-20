@@ -30,6 +30,7 @@ using Cryptool.Plugins.PeerToPeer.Jobs;
 using System.Timers;
 using System.Windows.Media;
 using Cryptool.Plugins.PeerToPeer.Internal;
+using System.Numerics;
 
 /*TODO: 
  * - Execute: If InitVector is null, try to create a fitting InitVector with the format 0...0 
@@ -305,7 +306,7 @@ namespace Cryptool.Plugins.PeerToPeer
                     ((P2PManagerPresentation)QuickWatchPresentation).txtProgressInPercent.Text = "" + Math.Round(progressInPercent, 2) + "%";
                     ((P2PManagerPresentation)QuickWatchPresentation).txtTotal.Text = "" + jobsTotalAmount.ToString();
                     ((P2PManagerPresentation)QuickWatchPresentation).txtInProgress.Text = "" + jobsInProgress.ToString();
-                    ((P2PManagerPresentation)QuickWatchPresentation).txtLeft.Text = "" + new BigInteger((jobsTotalAmount - jobsInProgress - jobsFinished)).ToString();
+                    ((P2PManagerPresentation)QuickWatchPresentation).txtLeft.Text = "" + (jobsTotalAmount - jobsInProgress - jobsFinished).ToString();
                     ((P2PManagerPresentation)QuickWatchPresentation).txtFinished.Text = "" + jobsFinished.ToString();
 
                     ((P2PManagerPresentation)QuickWatchPresentation).txtTotalWorker.Text = "" + (freeWorkers + busyWorkers);
@@ -352,9 +353,9 @@ namespace Cryptool.Plugins.PeerToPeer
         private void UpdateProgressChunk(BigInteger jobId, System.Windows.Media.Brush color)
         {
             // new Progress Chunk - Arnold 2010.02.23
-            if (jobId.LongValue() <= Int32.MaxValue)
+            if ((long)jobId <= Int32.MaxValue)
             {
-                int iJobId = (int)jobId.LongValue();
+                int iJobId = (int)jobId;
                 if (QuickWatchPresentation.IsVisible)
                 {
                     //((P2PManagerPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -376,9 +377,9 @@ namespace Cryptool.Plugins.PeerToPeer
 
         private void SetProgressChunkJobCount(BigInteger bigInteger)
         {
-            if (bigInteger.LongValue() <= Int32.MaxValue)
+            if ((long)bigInteger <= Int32.MaxValue)
             {
-                int count = (int)bigInteger.LongValue();
+                int count = (int)bigInteger;
                 if (QuickWatchPresentation.IsVisible)
                 {
                     //((P2PManagerPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate

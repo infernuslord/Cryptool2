@@ -22,6 +22,7 @@ using Cryptool.Plugins.PeerToPeer.Jobs;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.Plugins.PeerToPeer.Internal;
+using System.Numerics;
 
 /* TODO:
  * - Publisher-change is possible, but catch old Publishers subscriber list
@@ -281,7 +282,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="data"></param>
         private void HandleJobAcceptanceMessage(PeerId sender, byte[] data)
         {
-            BigInteger jobId = null;
+            BigInteger jobId = 0;
             if (JobMessages.GetJobAcceptanceMessage(data, out jobId))
             {
                 this.distributableJobControl.JobAccepted(jobId);
@@ -454,7 +455,7 @@ namespace Cryptool.Plugins.PeerToPeer
         private void AllocateJobs()
         {
             int i = 0;
-            BigInteger temp_jobId = null;
+            BigInteger temp_jobId = 0;
             List<PeerId> freePeers = ((WorkersManagement)this.peerManagement).GetFreeWorkers();
 
             GuiLogging("Trying to allocate " + freePeers.Count + " job(s) to workers.", NotificationLevel.Debug);
@@ -505,9 +506,9 @@ namespace Cryptool.Plugins.PeerToPeer
         private double GetProgressInformation()
         {
             double jobProgressInPercent;
-            double lFinishedAmount = (double)this.distributableJobControl.FinishedAmount.LongValue();
-            double lAllocatedAmount = (double)this.distributableJobControl.AllocatedAmount.LongValue();
-            double lTotalAmount = (double)this.distributableJobControl.TotalAmount.LongValue();
+            double lFinishedAmount = (double)(long)this.distributableJobControl.FinishedAmount;
+            double lAllocatedAmount = (double)(long)this.distributableJobControl.AllocatedAmount;
+            double lTotalAmount = (double)(long)this.distributableJobControl.TotalAmount;
 
             if (lFinishedAmount > 0 && lAllocatedAmount > 0)
             {
@@ -540,12 +541,12 @@ namespace Cryptool.Plugins.PeerToPeer
         public DateTime EstimatedEndTime()
         {
             DateTime retTime = DateTime.MaxValue;
-            if (this.distributableJobControl.FinishedAmount.LongValue() > 0)
+            if ((long)this.distributableJobControl.FinishedAmount > 0)
             {
                 TimeSpan bruteforcingTime = DateTime.Now.Subtract(this.StartWorkingTime);
-                double jobsPerSecond = bruteforcingTime.TotalSeconds / this.distributableJobControl.FinishedAmount.LongValue();
+                double jobsPerSecond = bruteforcingTime.TotalSeconds / (long)this.distributableJobControl.FinishedAmount;
                 double restSeconds = jobsPerSecond * 
-                    (this.distributableJobControl.TotalAmount - this.distributableJobControl.FinishedAmount).LongValue();
+                    (long)(this.distributableJobControl.TotalAmount - this.distributableJobControl.FinishedAmount);
                 //retTime.TotalSeconds = jobsPerSecond * (2 - (progressInPercent / 100));
                 retTime = DateTime.Now.AddSeconds(restSeconds);
             }

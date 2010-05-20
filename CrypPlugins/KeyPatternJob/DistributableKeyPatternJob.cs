@@ -19,6 +19,7 @@ using System.Linq;
 using System.Text;
 using KeySearcher;
 using Cryptool.PluginBase.Miscellaneous;
+using System.Numerics;
 
 namespace Cryptool.Plugins.PeerToPeer.Jobs
 {
@@ -119,7 +120,7 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
         public byte[] Pop(out BigInteger jobId)
         {
             byte[] serializedJob = null;
-            jobId = null;
+            jobId = -1;
 
             if (this.patternBuffer.Count > 0)
             {

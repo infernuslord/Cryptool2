@@ -20,6 +20,7 @@ using System.Text;
 using System.IO;
 using System.Reflection;
 using Cryptool.PluginBase.Miscellaneous;
+using System.Numerics;
 
 namespace Cryptool.Plugins.PeerToPeer.Jobs
 {
@@ -102,7 +103,7 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
                 int jobIdLen = BitConverter.ToInt32(readInt, 0);
                 byte[] jobIdByte = new byte[jobIdLen];
                 memStream.Read(jobIdByte, 0, jobIdByte.Length);
-                temp_jobId = new BigInteger(jobIdByte, jobIdByte.Length);
+                temp_jobId = new BigInteger(jobIdByte);
 
                 /* Deserialize Job result data */
                 //memStream.Read(readInt, 0, readInt.Length);
@@ -218,7 +219,7 @@ namespace Cryptool.Plugins.PeerToPeer.Jobs
             try
             {
                 /* Serialize jobId */
-                byte[] jobIdByte = this.JobId.getBytes();
+                byte[] jobIdByte = this.JobId.ToByteArray();
                 byte[] jobIdLen = BitConverter.GetBytes(jobIdByte.Length);
                 memStream.Write(jobIdLen, 0, jobIdLen.Length);
                 memStream.Write(jobIdByte, 0, jobIdByte.Length);

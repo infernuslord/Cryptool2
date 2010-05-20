@@ -18,6 +18,7 @@ using System;
 using Cryptool.PluginBase.Editor;
 using Cryptool.PluginBase.Control;
 using Cryptool.PluginBase.Miscellaneous;
+using System.Numerics;
 
 namespace Cryptool.PluginBase
 {

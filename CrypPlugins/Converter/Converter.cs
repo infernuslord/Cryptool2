@@ -24,6 +24,7 @@ using System.ComponentModel;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Runtime.CompilerServices;
 using Cryptool.Plugins.Converter;
+using System.Numerics;
 
 namespace Cryptool.Plugins.Converter
 {
@@ -269,7 +270,7 @@ namespace Cryptool.Plugins.Converter
                             try // can be read as biginteger?
                             {
 
-                                BigInteger temp = BigInteger.parseExpression(inpString);
+                                BigInteger temp = BigIntegerHelper.parseExpression(inpString);
 
                                 Output = temp;
                                 ProgressChanged(100, 100);
@@ -311,19 +312,8 @@ namespace Cryptool.Plugins.Converter
 
                                 try // can be read as biginteger?
                                 {
-                                    BigInteger tempbigint = new BigInteger(inpString, 10);
-
-                                    int numBits = tempbigint.bitCount();
-
-                                    int numBytes = numBits >> 3;
-                                    if ((numBits & 0x7) != 0)
-                                        numBytes++;
-                                    byte[] temp = new byte[numBytes];
-                                    temp = tempbigint.getBytes();
-
-                                    BigInteger test = new BigInteger(temp);
-
-                                    Output = temp;
+                                    BigInteger tempbigint = BigInteger.Parse(inpString);
+                                    Output = tempbigint;
 
                                     ProgressChanged(100, 100);
                                     break;

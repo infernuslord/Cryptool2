@@ -5,6 +5,7 @@ using System.Text;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Collections;
 using Cryptool.Plugins.PeerToPeer.Jobs;
+using System.Numerics;
 
 namespace KeySearcher
 {
@@ -39,7 +40,7 @@ namespace KeySearcher
                         int tmp = splittingQuotient[c];
                         splittingQuotient[c] = k;
                         BigInteger size = GetPartSize();
-                        if ((size - partsize).abs() < (bestSize - partsize).abs())                        
+                        if (BigInteger.Abs((size - partsize)) < BigInteger.Abs(bestSize - partsize))
                             bestSize = size;                        
                         else
                             splittingQuotient[c] = tmp;
@@ -164,7 +165,7 @@ namespace KeySearcher
 
         public long Count()
         {
-            return (TotalAmount() + stack.Count - counter).LongValue();
+            return (long)(TotalAmount() + stack.Count - counter);
         }
 
         public BigInteger TotalAmount()
