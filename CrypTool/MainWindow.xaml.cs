@@ -19,6 +19,7 @@ using Cryptool.PluginBase.Tool;
 using Cryptool.PluginBase.Generator;
 using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.Editor;
+using Cryptool.Core;
 
 namespace CrypTool
 {
@@ -31,6 +32,8 @@ namespace CrypTool
 
         public Dictionary<string, Type> LoadedTypes { get; set; }
 
+        public PluginManager PluginManager { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -38,7 +41,9 @@ namespace CrypTool
 
         private void RibbonButton_Click(object sender, RoutedEventArgs e)
         {
-            this.activeEditor.Open(@"C:\Users\saternmn\Eigene SVN Projekte\CrypTool\Build\Build\CT2\CrypBuild\x86\Debug\ProjectSamples\Caesar-Sample.cte");
+            this.activeEditor.PluginManager = this.PluginManager;
+
+            this.activeEditor.Open(@"C:\Users\saternmn\Eigene SVN Projekte\CrypTool\Build\Build\CT2\CrypBuild\x86\Debug\ProjectSamples\Caesar_ExhaustiveKeySearch.cte");
             
             if (SkinManager.SkinId == SkinId.OfficeBlue)
                 SkinManager.SkinId = SkinId.OfficeBlack;
@@ -76,9 +81,11 @@ namespace CrypTool
 
                         if (interfaceName == typeof(Cryptool.PluginBase.Editor.IEditor).FullName)
                         {
-                            this.activeEditor = (IEditor)Activator.CreateInstance(pluginType);
-                            this.EditorSpace.Children.Add(this.activeEditor.Presentation);
-                            
+                            if (pluginType.Name != "SimpleEditor")
+                            {
+                                this.activeEditor = (IEditor)Activator.CreateInstance(pluginType);
+                                this.Editor.Content = this.activeEditor.Presentation;
+                            }
 
                         }
                             
@@ -169,7 +176,10 @@ namespace CrypTool
             LoadPlugins();
         }
 
-
+        private void Run_Click(object sender, RoutedEventArgs e)
+        {
+            this.activeEditor.Execute();
+        }
     }
 
     public class PluginInfo

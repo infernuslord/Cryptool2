@@ -42,11 +42,11 @@
                 <StackPanel.LayoutTransform>
                     <ScaleTransform ScaleX="1" ScaleY="1"></ScaleTransform>
                 </StackPanel.LayoutTransform>
-                <dc:RibbonButton LargeImage="images/File32.png" ToolTip="New File" />
+                <dc:RibbonButton LargeImage="images/File32.png" ToolTip="New File"   />
                     <dc:RibbonButton LargeImage="images/Open32.png" ToolTip="Open File" />
                     <dc:RibbonButton LargeImage="images/Save32.png" ToolTip="Save File" />
-                    <dc:RibbonSeparator Height="35"></dc:RibbonSeparator>
-                    <dc:RibbonButton LargeImage="images/play.png" ToolTip="Start" />
+                    <dc:RibbonSeparator></dc:RibbonSeparator>
+                    <dc:RibbonButton LargeImage="images/play.png" ToolTip="Start" Click="Run_Click"   />
                     <dc:RibbonButton LargeImage="images/pause.png" ToolTip="Pause" />
                     <dc:RibbonButton LargeImage="images/stop.png" ToolTip="Stop" />
                     <dc:RibbonButton LargeImage="images/undo.png" ToolTip="Undo" />
@@ -206,7 +206,15 @@
         
         <!--Editor-->
         <Grid Name="EditorSpace">
-            <Image Height="150" HorizontalAlignment="Left" Margin="291,12,0,0" Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="200" Source="images/SplashScreen.png" />
+            
+            <TabControl >
+                <TabItem Header="AnotherEditor" Name="Editor"></TabItem>
+                <TabItem Header="SimpleEditor"></TabItem>
+                
+            </TabControl>
         </Grid>
+        
+        
+        
     </DockPanel>
 </dc:RibbonWindow>

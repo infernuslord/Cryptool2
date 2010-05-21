@@ -24,7 +24,7 @@ namespace CrypTool
             PluginManager pluginMgr = new PluginManager();
             pluginMgr.OnPluginLoaded += new CrypCorePluginLoadedHandler(OnPluginLoaded);
             Dictionary<string, Type> plugins = pluginMgr.LoadTypes(AssemblySigningRequirement.LoadAllAssemblies);
-            OpenMainWindow(plugins);
+            OpenMainWindow(plugins, pluginMgr);
         }
 
         private void OnPluginLoaded(object sender, PluginLoadedEventArgs args)
@@ -41,18 +41,19 @@ namespace CrypTool
             }
         }
 
-        private void OpenMainWindow(Dictionary<string, Type> plugins)
+        private void OpenMainWindow(Dictionary<string, Type> plugins, PluginManager mgr)
         {
 
             if (!Application.Current.Dispatcher.CheckAccess())
             {
-                Application.Current.Dispatcher.BeginInvoke(new Action<Dictionary<string, Type>>(OpenMainWindow), plugins);
+                Application.Current.Dispatcher.BeginInvoke(new Action<Dictionary<string, Type>, PluginManager>(OpenMainWindow), plugins, mgr);
             }
             else
             {
                 SplashScreen screen = (SplashScreen)this.MainWindow;
                 MainWindow wnd = new CrypTool.MainWindow();
                 wnd.LoadedTypes = plugins;
+                wnd.PluginManager = mgr;
                 Application.Current.MainWindow = wnd;
                 
                 screen.Close();
