@@ -15,32 +15,109 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel;
 using System.Text;
 using System.Threading;
-using Cryptool.PluginBase.Control;
-using Cryptool.PluginBase;
-using Cryptool.PluginBase.Miscellaneous;
-using System.ComponentModel;
-using Cryptool.PluginBase.IO;
-using Cryptool.Plugins.PeerToPeer.Internal;
+using System.Windows.Controls;
 using Cryptool.P2P;
 using Cryptool.P2P.Internal;
+using Cryptool.PluginBase;
+using Cryptool.PluginBase.Control;
+using Cryptool.PluginBase.IO;
+using Cryptool.PluginBase.Miscellaneous;
+using Cryptool.Plugins.PeerToPeer.Internal;
 
 namespace Cryptool.Plugins.PeerToPeerProxy
 {
     [Author("Paul Lelgemann", "lelgemann@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "P2P_Peer_Proxy", "Creates a new Peer. Uses the CrypTool2 built-in P2P network and can be used as a replacement for P2P_Peer.", "", "PeerToPeerBaseProxy/icons/peer_inactive.png", "PeerToPeerBaseProxy/icons/peer_connecting.png", "PeerToPeerBaseProxy/icons/peer_online.png", "PeerToPeerBaseProxy/icons/peer_error.png")]
+    [PluginInfo(false, "P2P_Peer_Proxy",
+        "Creates a new Peer. Uses the CrypTool2 built-in P2P network and can be used as a replacement for P2P_Peer.", ""
+        , "PeerToPeerBaseProxy/icons/peer_inactive.png", "PeerToPeerBaseProxy/icons/peer_connecting.png",
+        "PeerToPeerBaseProxy/icons/peer_online.png", "PeerToPeerBaseProxy/icons/peer_error.png")]
     public class P2PPeer : IIOMisc
     {
+        #region IIOMisc Members
+
+        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+
+        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
+
         // to forward event from overlay/dht MessageReceived-Event from P2PBase
         public event P2PBase.P2PMessageReceived OnPeerMessageReceived;
 
+        public void OnPropertyChanged(string name)
+        {
+            EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
+        }
+
+        private void GuiLogMessage(string p, NotificationLevel notificationLevel)
+        {
+            // for evaluation issues only
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this,
+                                       new GuiLogEventArgs(p + "(" + DebugToFile.GetTimeStamp() + ")", this,
+                                                           notificationLevel));
+            //EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(p, this, notificationLevel));
+        }
+
+        public void LogInternalState()
+        {
+            P2PManager.Instance.P2PBase.LogInternalState();
+        }
+
+        #region In and Output
+
+        [PropertyInfo(Direction.ControlSlave, "Master Peer", "One peer to rule them all", "", true, false,
+            DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public IP2PControl P2PControlSlave
+        {
+            get { return _p2PSlave ?? (_p2PSlave = new P2PPeerMaster(this)); }
+        }
+
+        #endregion
+
+        #region Start and Stop Peer
+
+        /// <summary>
+        /// Status flag for starting and stopping peer only once.
+        /// </summary>
+        public bool PeerStarted()
+        {
+            return P2PManager.Instance.P2PConnected();
+        }
+
+        public void StartPeer()
+        {
+            _settings.PeerStatusChanged(P2PPeerSettings.PeerStatus.Connecting);
+            P2PManager.Instance.P2PBase.OnP2PMessageReceived += P2PBaseOnP2PMessageReceived;
+
+            if (P2PManager.Instance.P2PConnected())
+            {
+                GuiLogMessage("P2P connected.", NotificationLevel.Info);
+                _settings.PeerStatusChanged(P2PPeerSettings.PeerStatus.Online);
+            }
+            else
+            {
+                GuiLogMessage("P2P network must be configured and connecting using the world button.",
+                              NotificationLevel.Error);
+                _settings.PeerStatusChanged(P2PPeerSettings.PeerStatus.Error);
+            }
+        }
+
+        public void StopPeer()
+        {
+            GuiLogMessage("Peer cannot be stopped, it is running in CrypTool!", NotificationLevel.Info);
+        }
+
+        #endregion Start and Stop Peer
+
         #region Variables
 
-        private P2PPeerSettings settings;
-        private IP2PControl p2pSlave;
+        private IP2PControl _p2PSlave;
+        private P2PPeerSettings _settings;
 
         #endregion
 
@@ -48,42 +125,25 @@ namespace Cryptool.Plugins.PeerToPeerProxy
 
         public P2PPeer()
         {
-            this.settings = new P2PPeerSettings(this);
-            this.settings.TaskPaneAttributeChanged += new TaskPaneAttributeChangedHandler(settings_TaskPaneAttributeChanged);
-            this.settings.OnPluginStatusChanged += new StatusChangedEventHandler(settings_OnPluginStatusChanged);
+            _settings = new P2PPeerSettings(this);
+            _settings.TaskPaneAttributeChanged += SettingsTaskPaneAttributeChanged;
+            _settings.OnPluginStatusChanged += SettingsOnPluginStatusChanged;
         }
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
-        private void settings_OnPluginStatusChanged(IPlugin sender, StatusEventArgs args)
-        {
-            if (OnPluginStatusChanged != null)
-                OnPluginStatusChanged(this, args);
-        }
-
-        // to forward event from overlay/dht MessageReceived-Event from P2PBase
-        private void p2pBase_OnP2PMessageReceived(PeerId sourceAddr, byte[] data)
-        {
-            if (OnPeerMessageReceived != null)
-                OnPeerMessageReceived(sourceAddr, data);
-        }
-
-        void settings_TaskPaneAttributeChanged(ISettings settings, TaskPaneAttributeChangedEventArgs args)
-        {
-            //throw new NotImplementedException();
-        }
 
         public ISettings Settings
         {
-            set { this.settings = (P2PPeerSettings)value; }
-            get { return this.settings; }
+            set { _settings = (P2PPeerSettings) value; }
+            get { return _settings; }
         }
 
-        public System.Windows.Controls.UserControl Presentation
+        public UserControl Presentation
         {
             get { return null; }
         }
 
-        public System.Windows.Controls.UserControl QuickWatchPresentation
+        public UserControl QuickWatchPresentation
         {
             get { return null; }
         }
@@ -121,144 +181,79 @@ namespace Cryptool.Plugins.PeerToPeerProxy
             StopPeer();
         }
 
-        #endregion
-
-        #region IPlugin Members
-
-        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-
-        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
-
-        #endregion
-
-        #region INotifyPropertyChanged Members
-
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged(string name)
+        private void SettingsOnPluginStatusChanged(IPlugin sender, StatusEventArgs args)
         {
-            EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
+            if (OnPluginStatusChanged != null)
+                OnPluginStatusChanged(this, args);
         }
 
-        public event PluginProgressChangedEventHandler OnPluginProcessChanged;
-
-        private void ProgressChanged(double value, double max)
+        // to forward event from overlay/dht MessageReceived-Event from P2PBase
+        private void P2PBaseOnP2PMessageReceived(PeerId sourceAddr, byte[] data)
         {
-            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+            if (OnPeerMessageReceived != null)
+                OnPeerMessageReceived(sourceAddr, data);
         }
 
-        private void GuiLogMessage(string p, NotificationLevel notificationLevel)
+        private static void SettingsTaskPaneAttributeChanged(ISettings settings, TaskPaneAttributeChangedEventArgs args)
         {
-            // for evaluation issues only
-            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(p + "(" + DebugToFile.GetTimeStamp() + ")", this, notificationLevel));
-            //EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(p, this, notificationLevel));
+            //throw new NotImplementedException();
         }
 
         #endregion
-
-        #region In and Output
-
-        [PropertyInfo(Direction.ControlSlave, "Master Peer", "One peer to rule them all", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-        public IP2PControl P2PControlSlave
-        {
-            get
-            {
-                if (this.p2pSlave == null)
-                    // to commit the settings of the plugin to the IControl
-                    this.p2pSlave = new P2PPeerMaster(this);
-                return this.p2pSlave;
-            }
-        }
-
-        #endregion
-
-        #region Start and Stop Peer
-        /// <summary>
-        /// Status flag for starting and stopping peer only once.
-        /// </summary>
-        public bool PeerStarted()
-        {
-            return P2PManager.Instance.P2PConnected();
-        }
-
-        public void StartPeer()
-        {
-            this.settings.PeerStatusChanged(P2PPeerSettings.PeerStatus.Connecting);
-            P2PManager.Instance.P2PBase.OnP2PMessageReceived += new P2PBase.P2PMessageReceived(p2pBase_OnP2PMessageReceived);
-
-            if (P2PManager.Instance.P2PConnected())
-            {
-                GuiLogMessage("P2P connected.", NotificationLevel.Info);
-                this.settings.PeerStatusChanged(P2PPeerSettings.PeerStatus.Online);
-            }
-            else
-            {
-                GuiLogMessage("P2P network must be configured and connecting using the world button.", NotificationLevel.Error);
-                this.settings.PeerStatusChanged(P2PPeerSettings.PeerStatus.Error);
-            }
-        }
-
-        public void StopPeer()
-        {
-
-            GuiLogMessage("Peer cannot be stopped, it is running in CrypTool!", NotificationLevel.Info);
-        }
-        #endregion Start and Stop Peer
-
-        public void LogInternalState()
-        {
-            P2PManager.Instance.P2PBase.LogInternalState();
-        }
     }
 
 
     public class P2PPeerMaster : IP2PControl
     {
-        private AutoResetEvent systemJoined;
-        private P2PPeer p2pPeer;
-        private PeerId peerID;
-        private string sPeerName;
+        private readonly Encoding _enc = Encoding.UTF8;
+        private readonly P2PPeer _p2PPeer;
+        private readonly AutoResetEvent _systemJoined;
+        private PeerId _peerId;
+        private string _sPeerName;
         // used for every encoding stuff
-        private Encoding enc = UTF8Encoding.UTF8;
 
-        public P2PPeerMaster(P2PPeer p2pPeer)
+        public P2PPeerMaster(P2PPeer p2PPeer)
         {
-            this.p2pPeer = p2pPeer;
-            this.systemJoined = new AutoResetEvent(false);
+            _p2PPeer = p2PPeer;
+            _systemJoined = new AutoResetEvent(false);
 
-            P2PManager.Instance.P2PBase.OnSystemJoined += new P2PBase.SystemJoined(p2pBase_OnSystemJoined);
-            P2PManager.Instance.OnPeerMessageReceived += new P2PBase.P2PMessageReceived(p2pPeer_OnPeerMessageReceived);
-            this.OnStatusChanged += new IControlStatusChangedEventHandler(P2PPeerMaster_OnStatusChanged);
+            P2PManager.Instance.P2PBase.OnSystemJoined += P2PBaseOnSystemJoined;
+            P2PManager.Instance.OnPeerMessageReceived += P2PPeerOnPeerMessageReceived;
+            OnStatusChanged += P2PPeerMaster_OnStatusChanged;
         }
 
         #region Events and Event-Handling
-        
-        private void p2pBase_OnSystemJoined()
-        {
-            systemJoined.Set();
-        }
 
         // to forward event from overlay MessageReceived-Event from P2PBase
         // analyzes the type of message and throws depend upon this anaysis an event
         public event P2PPayloadMessageReceived OnPayloadMessageReceived;
         public event P2PSystemMessageReceived OnSystemMessageReceived;
-        private void p2pPeer_OnPeerMessageReceived(PeerId sourceAddr, byte[] data)
+
+        public event IControlStatusChangedEventHandler OnStatusChanged;
+
+        private void P2PBaseOnSystemJoined()
+        {
+            _systemJoined.Set();
+        }
+
+        private void P2PPeerOnPeerMessageReceived(PeerId sourceAddr, byte[] data)
         {
             switch (GetMessageType(data[0])) //analyses the first byte of data (index, which represents the MessageType)
             {
                 case P2PMessageIndex.PubSub:
                     if (data.Length == 2)
                     {
-                        if(OnSystemMessageReceived != null)
+                        if (OnSystemMessageReceived != null)
                             OnSystemMessageReceived(sourceAddr, GetPubSubType(data[1]));
                     }
                     else
                     {
-                        throw (new Exception("Data seems to be from type 'PubSub', but is to long for it... Data: '" + enc.GetString(data) + "'"));
+                        throw (new Exception("Data seems to be from type 'PubSub', but is to long for it... Data: '" +
+                                             _enc.GetString(data) + "'"));
                     }
                     break;
                 case P2PMessageIndex.Payload:
-                    if(OnPayloadMessageReceived != null)
+                    if (OnPayloadMessageReceived != null)
                         OnPayloadMessageReceived(sourceAddr, GetMessagePayload(data));
                     break;
                 default:
@@ -267,7 +262,6 @@ namespace Cryptool.Plugins.PeerToPeerProxy
             }
         }
 
-        public event IControlStatusChangedEventHandler OnStatusChanged;
         private void P2PPeerMaster_OnStatusChanged(IControl sender, bool readyForExecution)
         {
             if (OnStatusChanged != null)
@@ -276,25 +270,12 @@ namespace Cryptool.Plugins.PeerToPeerProxy
 
         #endregion
 
+        #region IP2PControl Members
+
         public bool PeerStarted()
         {
-            return this.p2pPeer.PeerStarted();
+            return _p2PPeer.PeerStarted();
         }
-
-        /// <summary>
-        /// workaround method. If the PAP functions are used, but the PAP system isn't
-        /// started yet. This could happen because of the plugin hierarchy and
-        /// when a p2p-using plugin uses PAP functions in the PreExecution method,
-        /// this could run into a race condition (peer plugin not computed by the CT-system 
-        /// yet, but p2p-using plugin is already executed)
-        /// </summary>
-        /// <returns></returns>
-        private bool SystemJoinedCompletely()
-        {
-            return P2PManager.Instance.P2PConnected();
-        }
-
-        #region IP2PControl Members
 
         public bool DHTstore(string sKey, byte[] byteValue)
         {
@@ -333,26 +314,20 @@ namespace Cryptool.Plugins.PeerToPeerProxy
         {
             if (SystemJoinedCompletely())
             {
-                if (this.peerID == null)
+                if (_peerId == null)
                 {
-                    this.peerID = P2PManager.Instance.P2PBase.GetPeerID(out this.sPeerName);
+                    _peerId = P2PManager.Instance.P2PBase.GetPeerID(out _sPeerName);
                 }
-                sPeerName = this.sPeerName;
-                return this.peerID;
+                sPeerName = _sPeerName;
+                return _peerId;
             }
-            sPeerName = this.sPeerName;
+            sPeerName = _sPeerName;
             return null;
         }
 
         public PeerId GetPeerID(byte[] byteId)
         {
             return P2PManager.Instance.P2PBase.GetPeerID(byteId);
-        }
-
-        private void SendReadilyMessage(byte[] data, PeerId destinationAddress)
-        {
-            if (SystemJoinedCompletely())
-                P2PManager.Instance.P2PBase.SendToPeer(data, destinationAddress.ToByteArray());
         }
 
         // adds the P2PMessageIndex to the given byte-array
@@ -367,11 +342,14 @@ namespace Cryptool.Plugins.PeerToPeerProxy
             byte[] data = GenerateMessage(sData, P2PMessageIndex.Payload);
             SendReadilyMessage(data, destinationAddress);
         }
+
         public void SendToPeer(PubSubMessageType msgType, PeerId destinationAddress)
         {
             byte[] data = GenerateMessage(msgType);
             SendReadilyMessage(data, destinationAddress);
         }
+
+        #endregion
 
         #region Communication protocol
 
@@ -381,11 +359,11 @@ namespace Cryptool.Plugins.PeerToPeerProxy
         /// <param name="payload">payload data in bytes</param>
         /// <param name="msgIndex">type of message (system message, simple payload for a special use case, etc.)</param>
         /// <returns>the message, which is processable by the ct2/p2p system</returns>
-        private byte[] GenerateMessage(byte[] payload, P2PMessageIndex msgIndex)
+        private static byte[] GenerateMessage(byte[] payload, P2PMessageIndex msgIndex)
         {
             // first byte is the index, if it is payload or Publish/Subscriber stuff
-            byte[] retByte = new byte[1 + payload.Length];
-            retByte[0] = (byte)msgIndex;
+            var retByte = new byte[1 + payload.Length];
+            retByte[0] = (byte) msgIndex;
             payload.CopyTo(retByte, 1);
             return retByte;
         }
@@ -398,17 +376,17 @@ namespace Cryptool.Plugins.PeerToPeerProxy
         /// <returns>the message, which is processable by the ct2/p2p system</returns>
         private byte[] GenerateMessage(string sPayload, P2PMessageIndex msgIndex)
         {
-            return GenerateMessage(enc.GetBytes(sPayload), msgIndex);
+            return GenerateMessage(_enc.GetBytes(sPayload), msgIndex);
         }
 
         /// <summary>
         /// generates a ct2- and p2p-compatible and processable message
         /// </summary>
         /// <param name="pubSubData">PubSubMessageType</param>
-        /// <returns>the message, which is processable by the ct2/p2p system<</returns>
-        private byte[] GenerateMessage(PubSubMessageType pubSubData)
+        /// <returns>the message, which is processable by the ct2/p2p system</returns>
+        private static byte[] GenerateMessage(PubSubMessageType pubSubData)
         {
-            byte[] bytePubSubData = new byte[] { (byte)pubSubData };
+            var bytePubSubData = new[] {(byte) pubSubData};
             return GenerateMessage(bytePubSubData, P2PMessageIndex.PubSub);
         }
 
@@ -417,33 +395,9 @@ namespace Cryptool.Plugins.PeerToPeerProxy
         /// </summary>
         /// <param name="msgType">the FIRST byte of a raw message, received by the system</param>
         /// <returns>the message type</returns>
-        private P2PMessageIndex GetMessageType(byte msgType)
+        private static P2PMessageIndex GetMessageType(byte msgType)
         {
-            try
-            {
-                return (P2PMessageIndex)msgType;
-            }
-            catch (Exception ex)
-            {
-                throw (ex);
-            }
-        }
-
-        /// <summary>
-        /// returns the message type, e.g. PubSub or Payload message (to accelarate this process, only assign first byte of the whole array message)
-        /// </summary>
-        /// <param name="message">the whole message as an byte array</param>
-        /// <returns>the message type</returns>
-        private P2PMessageIndex GetMessageType(byte[] message)
-        {
-            try
-            {
-                return (P2PMessageIndex)message[0];
-            }
-            catch (Exception ex)
-            {
-                throw (ex);
-            }
+            return (P2PMessageIndex) msgType;
         }
 
         /// <summary>
@@ -451,11 +405,11 @@ namespace Cryptool.Plugins.PeerToPeerProxy
         /// </summary>
         /// <param name="message">the raw message, received by the system, as an byte array (with the first index byte!!!)</param>
         /// <returns>only the payload part of the message</returns>
-        private byte[] GetMessagePayload(byte[] message)
+        private static byte[] GetMessagePayload(byte[] message)
         {
             if (message.Length > 1)
             {
-                byte[] retMsg = new byte[message.Length - 1];
+                var retMsg = new byte[message.Length - 1];
                 // workaround because CopyTo doesn't work...
                 //for (int i = 0; i < message.Length-1; i++)
                 //{
@@ -469,25 +423,34 @@ namespace Cryptool.Plugins.PeerToPeerProxy
 
         #endregion
 
+        /// <summary>
+        /// workaround method. If the PAP functions are used, but the PAP system isn't
+        /// started yet. This could happen because of the plugin hierarchy and
+        /// when a p2p-using plugin uses PAP functions in the PreExecution method,
+        /// this could run into a race condition (peer plugin not computed by the CT-system 
+        /// yet, but p2p-using plugin is already executed)
+        /// </summary>
+        /// <returns></returns>
+        private static bool SystemJoinedCompletely()
+        {
+            return P2PManager.Instance.P2PConnected();
+        }
+
+        private static void SendReadilyMessage(byte[] data, PeerId destinationAddress)
+        {
+            if (SystemJoinedCompletely())
+                P2PManager.Instance.P2PBase.SendToPeer(data, destinationAddress.ToByteArray());
+        }
 
         /// <summary>
         /// Converts a string to the PubSubMessageType if possible. Otherwise return null.
         /// </summary>
-        /// <param name="sData">Data</param>
+        /// <param name="data">Data</param>
         /// <returns>PubSubMessageType if possible. Otherwise null.</returns>
-        private PubSubMessageType GetPubSubType(byte data)
+        private static PubSubMessageType GetPubSubType(byte data)
         {
             // Convert one byte data to PublishSubscribeMessageType-Enum
-            try
-            {
-                return (PubSubMessageType)data;
-            }
-            catch (Exception ex)
-            {
-                throw(ex);
-            }
+            return (PubSubMessageType) data;
         }
-
-        #endregion
     }
 }

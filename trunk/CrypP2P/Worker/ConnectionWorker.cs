@@ -15,85 +15,85 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DevComponents.WpfRibbon;
+using System.ComponentModel;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 using System.Windows.Media;
-using Cryptool.PluginBase;
-using Cryptool.P2P.Internal;
+using System.Windows.Media.Imaging;
 using Cryptool.P2P.Helper;
+using Cryptool.P2P.Internal;
+using Cryptool.PluginBase;
+using DevComponents.WpfRibbon;
 
 namespace Cryptool.P2P.Worker
 {
-    class ConnectionWorker : WorkerBase
+    internal class ConnectionWorker : WorkerBase
     {
-        P2PBase p2pBase;
-        P2PSettings p2pSettings;
-        ButtonDropDown p2pButton;
+        private readonly P2PBase _p2PBase;
+        private readonly ButtonDropDown _p2PButton;
+        private readonly P2PSettings _p2PSettings;
 
-        public ConnectionWorker(P2PBase p2pBase, P2PSettings p2pSettings, ButtonDropDown p2pButton)
+        public ConnectionWorker(P2PBase p2PBase, P2PSettings p2PSettings, ButtonDropDown p2PButton)
         {
-            this.p2pBase = p2pBase;
-            this.p2pSettings = p2pSettings;
-            this.p2pButton = p2pButton;
+            _p2PBase = p2PBase;
+            _p2PSettings = p2PSettings;
+            _p2PButton = p2PButton;
         }
 
-        protected override void PerformWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        protected override void PerformWork(object sender, DoWorkEventArgs e)
         {
             //p2pButton.IsEnabled = false;
 
-            if (!p2pBase.Started)
+            if (!_p2PBase.Started)
             {
                 P2PManager.Instance.GuiLogMessage("Connecting to P2P network...", NotificationLevel.Info);
 
                 // Validate certificats
                 if (!PAPCertificate.CheckAndInstallPAPCertificates())
                 {
-                    P2PManager.Instance.GuiLogMessage("Certificates not validated, P2P might not be working!", NotificationLevel.Error);
+                    P2PManager.Instance.GuiLogMessage("Certificates not validated, P2P might not be working!",
+                                                      NotificationLevel.Error);
                     return;
                 }
 
-                p2pBase.Initialize(p2pSettings);
-                p2pBase.SynchStart();
+                _p2PBase.Initialize(_p2PSettings);
+                _p2PBase.SynchStart();
             }
             else
             {
                 P2PManager.Instance.GuiLogMessage("Disconnecting from P2P network...", NotificationLevel.Info);
-                p2pBase.SynchStop();
+                _p2PBase.SynchStop();
             }
         }
 
-        protected override void WorkComplete(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        protected override void WorkComplete(object sender, RunWorkerCompletedEventArgs e)
         {
             // Update image according to new state
-            Image newImage = new Image();
+            var newImage = new Image();
 
             if (P2PManager.Instance.P2PConnected())
             {
                 P2PManager.Instance.GuiLogMessage("Connection to P2P network established.", NotificationLevel.Info);
-                P2PManager.Instance.GuiLogMessage("P2P user info: " + P2PManager.Instance.UserInfo(), NotificationLevel.Debug);
-                newImage.Source = new BitmapImage(new Uri(P2PManager.P2PDisconnectImageURI, UriKind.RelativeOrAbsolute));
+                P2PManager.Instance.GuiLogMessage("P2P user info: " + P2PManager.Instance.UserInfo(),
+                                                  NotificationLevel.Debug);
+                newImage.Source = new BitmapImage(new Uri(P2PManager.P2PDisconnectImageUri, UriKind.RelativeOrAbsolute));
             }
             else
             {
                 P2PManager.Instance.GuiLogMessage("Connection to P2P network terminated.", NotificationLevel.Info);
-                newImage.Source = new BitmapImage(new Uri(P2PManager.P2PConnectImageURI, UriKind.RelativeOrAbsolute));
+                newImage.Source = new BitmapImage(new Uri(P2PManager.P2PConnectImageUri, UriKind.RelativeOrAbsolute));
             }
 
             newImage.Stretch = Stretch.Uniform;
             newImage.Width = 40;
             newImage.Height = 40;
-            p2pButton.Image = newImage;
+            _p2PButton.Image = newImage;
 
-            p2pButton.IsEnabled = true;
+            _p2PButton.IsEnabled = true;
         }
 
         protected override void PrePerformWork()
         {
-            p2pButton.IsEnabled = false;
+            _p2PButton.IsEnabled = false;
         }
     }
 }

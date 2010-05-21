@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
+using System.Text;
 
 namespace Cryptool.Plugins.PeerToPeer.Internal
 {
@@ -11,15 +9,16 @@ namespace Cryptool.Plugins.PeerToPeer.Internal
         private static StreamWriter sw;
         private static string sPath = @"c:\p2p_debug";
         private static string sFileName = "p2p_debug";
-        private static string sDateTime = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString()
-            + DateTime.Now.Day.ToString() + "_" + DateTime.Now.Hour.ToString()
-            + DateTime.Now.Minute.ToString();
 
-        public static string Path 
+        private static readonly string sDateTime = DateTime.Now.Year + DateTime.Now.Month.ToString()
+                                                   + DateTime.Now.Day + "_" + DateTime.Now.Hour
+                                                   + DateTime.Now.Minute;
+
+        public static string Path
         {
             get { return sPath; }
-            private set 
-            { 
+            private set
+            {
                 // last character must not be a Backslash!
                 if (value.Substring(value.Length - 1, 1) == @"\")
                     sPath = value.Substring(0, value.Length - 2);
@@ -31,7 +30,7 @@ namespace Cryptool.Plugins.PeerToPeer.Internal
         public static string FileName
         {
             get { return sFileName; }
-            private set 
+            private set
             {
                 if (value.Substring(value.Length - 3, 1) == ".")
                     sFileName = value.Substring(0, value.Length - 3);
@@ -61,7 +60,7 @@ namespace Cryptool.Plugins.PeerToPeer.Internal
                 FileName += FileName + "_" + i;
                 i++;
             }
-            FileInfo fileInfo = new FileInfo(Path + @"\" + FileName + "_" + sDateTime + ".txt");
+            var fileInfo = new FileInfo(Path + @"\" + FileName + "_" + sDateTime + ".txt");
             sw = fileInfo.CreateText();
             return sw;
         }
@@ -75,7 +74,8 @@ namespace Cryptool.Plugins.PeerToPeer.Internal
                     sw.Flush();
                 }
                 catch (Exception ex)
-                { }
+                {
+                }
                 sw.Close();
                 sw.Dispose();
                 sw = null;
@@ -86,17 +86,17 @@ namespace Cryptool.Plugins.PeerToPeer.Internal
         public static string GetTimeStamp()
         {
             DateTime now = DateTime.Now;
-            StringBuilder sbTimeStamp = new StringBuilder();
+            var sbTimeStamp = new StringBuilder();
 
             if (now.Hour <= 9)
                 sbTimeStamp.Append("0");
-            sbTimeStamp.Append(now.Hour.ToString() + ".");
+            sbTimeStamp.Append(now.Hour + ".");
             if (now.Minute <= 9)
                 sbTimeStamp.Append("0");
-            sbTimeStamp.Append(now.Minute.ToString() + ".");
+            sbTimeStamp.Append(now.Minute + ".");
             if (now.Second <= 9)
                 sbTimeStamp.Append("0");
-            sbTimeStamp.Append(now.Second.ToString() + ":");
+            sbTimeStamp.Append(now.Second + ":");
             if (now.Millisecond <= 9)
                 sbTimeStamp.Append("00");
             else if (now.Millisecond <= 99)

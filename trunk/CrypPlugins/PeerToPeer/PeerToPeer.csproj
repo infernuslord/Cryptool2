@@ -8,7 +8,7 @@
     <ProjectGuid>{12829116-8FAD-4D09-A0AA-D75D88F07626}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cryptool.Plugins.PeerToPeer</RootNamespace>
+    <RootNamespace>Cryptool.Plugins.PeerToPeer.Internal</RootNamespace>
     <AssemblyName>PeerToPeer</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -114,66 +114,11 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bootstrapper, Version=1.0.4654.4, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\AppReferences\Bootstrapper.dll</HintPath>
-    </Reference>
-    <Reference Include="CertServices, Version=1.0.4654.4, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\AppReferences\CertServices.dll</HintPath>
-    </Reference>
-    <Reference Include="FullMeshDHT, Version=1.0.4654.4, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\AppReferences\FullMeshDHT.dll</HintPath>
-    </Reference>
-    <Reference Include="FullMeshOverlay, Version=1.0.4654.4, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\AppReferences\FullMeshOverlay.dll</HintPath>
-    </Reference>
-    <Reference Include="Gears4Net, Version=1.0.4654.4, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\AppReferences\Gears4Net.dll</HintPath>
-    </Reference>
-    <Reference Include="LinkManager, Version=1.0.4654.4, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\AppReferences\LinkManager.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\AppReferences\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="NetGearsTCP, Version=1.0.0.0, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\AppReferences\NetGearsTCP.dll</HintPath>
-    </Reference>
     <Reference Include="PeersAtPlayBase, Version=1.0.4654.4, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\AppReferences\PeersAtPlayBase.dll</HintPath>
     </Reference>
-    <Reference Include="RUDP, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\AppReferences\RUDP.dll</HintPath>
-    </Reference>
-    <Reference Include="Stun, Version=1.0.0.0, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\AppReferences\Stun.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Util, Version=0.0.0.0, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\AppReferences\Util.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DebugToFile.cs" />

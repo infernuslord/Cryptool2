@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Cryptool.PluginBase.Miscellaneous;
-using Cryptool.PluginBase.Control;
+﻿using Cryptool.PluginBase.Control;
 
 namespace Cryptool.Plugins.PeerToPeer.Internal
 {
+
     #region P2P Initialisation Enums
+
     public enum P2PLinkManagerType
     {
         Snal = 0
@@ -20,7 +17,7 @@ namespace Cryptool.Plugins.PeerToPeer.Internal
     }
 
     public enum P2POverlayType
-    { 
+    {
         FullMeshOverlay = 0
     }
 
@@ -55,7 +52,7 @@ namespace Cryptool.Plugins.PeerToPeer.Internal
         /// active liveliness-request, the other side 
         /// must respond with a pong message
         /// </summary>
-        Ping = 4, 
+        Ping = 4,
         /// <summary>
         /// adequate response to a 
         /// received ping message
@@ -94,9 +91,11 @@ namespace Cryptool.Plugins.PeerToPeer.Internal
         /// </summary>
         Payload = 1
     }
+
     #endregion
 
     public delegate void P2PPayloadMessageReceived(PeerId sender, byte[] data);
+
     public delegate void P2PSystemMessageReceived(PeerId sender, PubSubMessageType msgType);
 
     public interface IP2PControl : IControl
@@ -122,12 +121,14 @@ namespace Cryptool.Plugins.PeerToPeer.Internal
         /// don't add an index by yourselve, index will be added internally)</param>
         /// <param name="destinationAddress">the address of the destination peer</param>
         void SendToPeer(byte[] data, PeerId destinationAddress);
+
         /// <summary>
         /// Sends data to the specified peer
         /// </summary>
         /// <param name="sData">only send PAYLOAD data as a string</param>
         /// <param name="destinationAddress">the address of the destination peer</param>
         void SendToPeer(string sData, PeerId destinationAddress);
+
         /// <summary>
         /// Sends data to the specified peer
         /// </summary>

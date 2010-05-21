@@ -15,75 +15,73 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.ComponentModel;
-
+using System.Windows.Forms;
+using Cryptool.P2P.Internal;
+using Cryptool.P2P.Worker;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
-using System.Windows.Forms;
-using Cryptool.P2P.Worker;
-using DevComponents.WpfRibbon;
-using Cryptool.Plugins.PeerToPeer;
 using Cryptool.Plugins.PeerToPeer.Internal;
-using Cryptool.P2P.Internal;
+using DevComponents.WpfRibbon;
 
 namespace Cryptool.P2P
 {
     public sealed class P2PManager
     {
         #region Singleton
-        static readonly P2PManager INSTANCE = new P2PManager();
-        private P2PManager() { }
 
-        public static P2PManager Instance
+        public static readonly P2PManager Instance = new P2PManager();
+
+        private P2PManager()
         {
-            get
-            {
-                return INSTANCE;
-            }
         }
+
         #endregion
 
         # region Constants
-        public const string P2PDisconnectImageURI = "images/peer2peer-disconnect.png";
-        public const string P2PConnectImageURI = "images/peer2peer-connect.png";
+
+        public const string P2PDisconnectImageUri = "images/peer2peer-disconnect.png";
+        public const string P2PConnectImageUri = "images/peer2peer-connect.png";
+
         # endregion
 
         #region Private variables
+
         public P2PBase P2PBase { get; set; }
         private P2PSettings P2PSettings { get; set; }
         private ButtonDropDown P2PButton { get; set; }
+
         #endregion
 
         #region Events
-        public static event Cryptool.PluginBase.GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+
+        public static event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 
         // to forward event from overlay/dht MessageReceived-Event from P2PBase
         public event P2PBase.P2PMessageReceived OnPeerMessageReceived;
+
         #endregion Events
 
         /// <summary>
         /// Initialises variables and important environment settings 
         /// regarding certificates.
         /// </summary>
-        /// <param name="p2pButton">Button that can change the connection state 
+        /// <param name="p2PButton">Button that can change the connection state 
         /// and displays it by showing different images.</param>
-        public void Initialize(ButtonDropDown p2pButton)
+        public void Initialize(ButtonDropDown p2PButton)
         {
-            this.P2PButton = p2pButton;
-            this.P2PBase = new P2PBase();
-            this.P2PSettings = new P2PSettings();
-            this.P2PBase.AllowLoggingToMonitor = this.P2PSettings.Log2Monitor;
+            P2PButton = p2PButton;
+            P2PBase = new P2PBase();
+            P2PSettings = new P2PSettings();
+            P2PBase.AllowLoggingToMonitor = P2PSettings.Log2Monitor;
 
             // Register events
 
             // to forward event from overlay/dht MessageReceived-Event from P2PBase
-            this.P2PBase.OnP2PMessageReceived += new P2PBase.P2PMessageReceived(p2pBase_OnP2PMessageReceived);
+            P2PBase.OnP2PMessageReceived += p2pBase_OnP2PMessageReceived;
 
             // Register exit event to terminate P2P connection without loosing data
             // TODO check if this is correct, should be - but handler is not called (and application does not shut down), probably unrelated to this problem
-            Application.ApplicationExit += new EventHandler(HandleDisconnectByApplicationShutdown);
+            Application.ApplicationExit += HandleDisconnectByApplicationShutdown;
         }
 
         /// <summary>
@@ -114,29 +112,6 @@ namespace Cryptool.P2P
             return P2PBase.GetPeerID(out userName);
         }
 
-        #region DHT operations
-        // TODO add error handling, if P2P if not connected
-        public static bool Store(string key, byte[] data)
-        {
-            return INSTANCE.P2PBase.SynchStore(key, data);
-        }
-
-         public static bool Store(string key, string data)
-        {
-            return INSTANCE.P2PBase.SynchStore(key, data);
-        }
-
-        public static byte[] Retrieve(string key)
-        {
-            return INSTANCE.P2PBase.SynchRetrieve(key);
-        }
-
-        public static bool Remove(string key)
-        {
-            return INSTANCE.P2PBase.SynchRemove(key);
-        }
-        #endregion DHT operations
-
         // to forward event from overlay/dht MessageReceived-Event from P2PBase
         private void p2pBase_OnP2PMessageReceived(PeerId sourceAddr, byte[] data)
         {
@@ -145,7 +120,8 @@ namespace Cryptool.P2P
         }
 
         #region Framework methods
-        void HandleDisconnectByApplicationShutdown(object sender, EventArgs e)
+
+        private void HandleDisconnectByApplicationShutdown(object sender, EventArgs e)
         {
             if (P2PConnected())
             {
@@ -157,6 +133,32 @@ namespace Cryptool.P2P
         {
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, null, new GuiLogEventArgs(message, null, logLevel));
         }
+
         #endregion Framework methods
+
+        #region DHT operations
+
+        // TODO add error handling, if P2P is not connected
+        public static bool Store(string key, byte[] data)
+        {
+            return Instance.P2PBase.SynchStore(key, data);
+        }
+
+        public static bool Store(string key, string data)
+        {
+            return Instance.P2PBase.SynchStore(key, data);
+        }
+
+        public static byte[] Retrieve(string key)
+        {
+            return Instance.P2PBase.SynchRetrieve(key);
+        }
+
+        public static bool Remove(string key)
+        {
+            return Instance.P2PBase.SynchRemove(key);
+        }
+
+        #endregion DHT operations
     }
 }

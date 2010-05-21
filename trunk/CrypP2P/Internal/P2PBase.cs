@@ -15,7 +15,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using PeersAtPlay.P2PStorage.DHT;
 using PeersAtPlay.P2PStorage.FullMeshDHT;
@@ -26,8 +25,6 @@ using PeersAtPlay.P2POverlay.FullMeshOverlay;
 using PeersAtPlay.P2PLink;
 using PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper;
 using System.Threading;
-using Cryptool.PluginBase.Control;
-using System.ComponentModel;
 using PeersAtPlay;
 using PeersAtPlay.Util.Logging;
 using Gears4Net;
@@ -150,11 +147,11 @@ namespace Cryptool.P2P.Internal
 
         #region Basic P2P Methods (Init, Start, Stop) - synch and asynch
 
-        public void Initialize(P2PSettings p2pSettings)
+        public void Initialize(P2PSettings p2PSettings)
         {
-            Initialize(p2pSettings.PeerName, p2pSettings.WorldName,
-                (P2PLinkManagerType)p2pSettings.LinkManagerType, (P2PBootstrapperType)p2pSettings.BSType,
-                (P2POverlayType)p2pSettings.OverlayType, (P2PDHTType)p2pSettings.DhtType);
+            Initialize(p2PSettings.PeerName, p2PSettings.WorldName,
+                (P2PLinkManagerType)p2PSettings.LinkManagerType, (P2PBootstrapperType)p2PSettings.BsType,
+                (P2POverlayType)p2PSettings.OverlayType, (P2PDHTType)p2PSettings.DhtType);
         }
 
         /// <summary>
