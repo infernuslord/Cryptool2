@@ -131,6 +131,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FactorManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuadraticSieve.cs" />
     <Compile Include="QuadraticSievePresentation.xaml.cs">
