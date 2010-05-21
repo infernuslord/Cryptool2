@@ -114,7 +114,7 @@
     </Link>
     <PostBuildEvent>
       <Command>cd "$(ProjectDir)"
-cd ..\..\..\dlls\$(Configuration)
+cd ..\..\..\..\..\AppReferences
 
 copy "$(TargetDir)msieve.dll" "."</Command>
     </PostBuildEvent>
@@ -143,7 +143,7 @@ copy "$(TargetDir)msieve.dll" "."</Command>
     </Link>
     <PostBuildEvent>
       <Command>cd "$(ProjectDir)"
-cd ..\..\..\dlls\$(Configuration)
+cd ..\..\..\..\..\AppReferences
 
 copy "$(TargetDir)msieve64.dll" "."</Command>
     </PostBuildEvent>
@@ -168,7 +168,7 @@ copy "$(TargetDir)msieve64.dll" "."</Command>
     </Link>
     <PostBuildEvent>
       <Command>cd "$(ProjectDir)"
-cd ..\..\..\dlls\$(Configuration)
+cd ..\..\..\..\..\AppReferences
 
 copy "$(TargetDir)msieve.dll" "."</Command>
     </PostBuildEvent>
@@ -196,7 +196,7 @@ copy "$(TargetDir)msieve.dll" "."</Command>
     </Link>
     <PostBuildEvent>
       <Command>cd "$(ProjectDir)"
-cd ..\..\..\dlls\$(Configuration)
+cd ..\..\..\..\..\AppReferences
 
 copy "$(TargetDir)msieve64.dll" "."</Command>
     </PostBuildEvent>
