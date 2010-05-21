@@ -1,63 +1,60 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Cryptool.PluginBase;
-using System.ComponentModel;
-using Cryptool.PluginBase.Control;
+﻿using System.ComponentModel;
 using System.Windows;
-using Cryptool.Plugins.PeerToPeer.Internal;
-using Cryptool.Plugins.PeerToPeer;
+using Cryptool.PluginBase;
 
 namespace Cryptool.Plugins.PeerToPeerProxy
 {
-    class P2PPeerSettings : ISettings
+    internal class P2PPeerSettings : ISettings
     {
-        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        #region PeerStatus enum
 
-        private bool hasChanges = false;
-        private P2PPeer p2pPeer;
+        public enum PeerStatus
+        {
+            NotConnected = 0,
+            Connecting = 1,
+            Online = 2,
+            Error = 3
+        }
+
+        #endregion
+
+        private readonly P2PPeer p2pPeer;
 
         #region ISettings Members
 
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
-            }
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public bool HasChanges { get; set; }
 
         #endregion
 
         #region taskPane
 
-        public P2PPeerSettings (P2PPeer p2pPeer)
-	    {
-            if(TaskPaneAttributeChanged != null)
-                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnStop", Visibility.Hidden)));
+        public P2PPeerSettings(P2PPeer p2pPeer)
+        {
+            if (TaskPaneAttributeChanged != null)
+                TaskPaneAttributeChanged(this,
+                                         new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnStop",
+                                                                                                             Visibility.
+                                                                                                                 Hidden)));
             this.p2pPeer = p2pPeer;
             ChangePluginIcon(PeerStatus.NotConnected);
-	    }
+        }
 
         #endregion
 
         #region Start- and Stop-Buttons incl. functionality
 
-        [TaskPane("Internal state dump", "Dumps the interla state of the P2P system to syslog.", "P2P Expert Settings", 0, true, DisplayLevel.Beginner, ControlType.Button)]
+        [TaskPane("Internal state dump", "Dumps the interla state of the P2P system to syslog.", "P2P Expert Settings",
+            0, true, DisplayLevel.Beginner, ControlType.Button)]
         public void BtnLogInternalState()
         {
-            this.p2pPeer.LogInternalState();
+            p2pPeer.LogInternalState();
         }
 
         #endregion
 
-        #region INotifyPropertyChanged Members
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
 
         private void OnPropertyChanged(string p)
         {
@@ -67,16 +64,7 @@ namespace Cryptool.Plugins.PeerToPeerProxy
             }
         }
 
-        #endregion
-
         // Index depends on icon-position in P2PPeer-Class properties
-        public enum PeerStatus
-        {
-            NotConnected = 0,
-            Connecting = 1,
-            Online = 2,
-            Error = 3
-        }
 
         /// <summary>
         /// Changes icon of P2PPeer and visibility of the control buttons in settings
@@ -90,15 +78,15 @@ namespace Cryptool.Plugins.PeerToPeerProxy
             {
                 case PeerStatus.Online:
                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(
-                        new TaskPaneAttribteContainer("BtnStart", Visibility.Collapsed)));
+                                                       new TaskPaneAttribteContainer("BtnStart", Visibility.Collapsed)));
                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(
-                        new TaskPaneAttribteContainer("BtnStop", Visibility.Visible)));
+                                                       new TaskPaneAttribteContainer("BtnStop", Visibility.Visible)));
                     break;
                 case PeerStatus.NotConnected:
                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(
-                        new TaskPaneAttribteContainer("BtnStart", Visibility.Visible)));
+                                                       new TaskPaneAttribteContainer("BtnStart", Visibility.Visible)));
                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(
-                        new TaskPaneAttribteContainer("BtnStop", Visibility.Hidden)));
+                                                       new TaskPaneAttribteContainer("BtnStop", Visibility.Hidden)));
                     break;
                 case PeerStatus.Error:
                 case PeerStatus.Connecting:
@@ -108,10 +96,11 @@ namespace Cryptool.Plugins.PeerToPeerProxy
         }
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
+
         private void ChangePluginIcon(PeerStatus peerStatus)
         {
-            if (OnPluginStatusChanged != null) 
-                OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, (int)peerStatus));
+            if (OnPluginStatusChanged != null)
+                OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, (int) peerStatus));
         }
     }
 }

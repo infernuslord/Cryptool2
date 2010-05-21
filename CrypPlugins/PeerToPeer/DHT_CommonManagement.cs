@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using Cryptool.PluginBase.Control;
 using Cryptool.PluginBase.IO;
 
 namespace Cryptool.Plugins.PeerToPeer.Internal
@@ -38,7 +35,7 @@ namespace Cryptool.Plugins.PeerToPeer.Internal
         {
             PeerId pid = null;
             byte[] byteLoad = p2pControl.DHTload(sTopicName);
-            if(byteLoad != null)
+            if (byteLoad != null)
                 pid = p2pControl.GetPeerID(byteLoad);
             return pid;
         }
@@ -50,9 +47,10 @@ namespace Cryptool.Plugins.PeerToPeer.Internal
         /// <param name="sTopicName">the topic name on which all Peers are registered</param>
         /// <param name="aliveMessageInterval">AliveMessageInterval in milliseconds</param>
         /// <returns>true, if storing value in the DHT was successfull.</returns>
-        public static bool SetAliveMessageInterval(ref IP2PControl p2pControl, string sTopicName, long aliveMessageInterval)
+        public static bool SetAliveMessageInterval(ref IP2PControl p2pControl, string sTopicName,
+                                                   long aliveMessageInterval)
         {
-            return p2pControl.DHTstore(sTopicName + AliveMsg, System.BitConverter.GetBytes(aliveMessageInterval));
+            return p2pControl.DHTstore(sTopicName + AliveMsg, BitConverter.GetBytes(aliveMessageInterval));
         }
 
         /// <summary>
@@ -68,7 +66,7 @@ namespace Cryptool.Plugins.PeerToPeer.Internal
             long ret = 0;
             byte[] byteLoad = p2pControl.DHTload(sTopicName + AliveMsg);
             if (byteLoad != null)
-                ret = System.BitConverter.ToInt64(byteLoad, 0);
+                ret = BitConverter.ToInt64(byteLoad, 0);
             return ret;
         }
 
@@ -85,14 +83,16 @@ namespace Cryptool.Plugins.PeerToPeer.Internal
             bool encryptedTextStored = false;
             if (cStream != null && sTopicName != null && sTopicName != String.Empty && p2pControl != null)
             {
-                CryptoolStream newEncryptedData = new CryptoolStream();
+                var newEncryptedData = new CryptoolStream();
                 newEncryptedData.OpenRead(cStream.FileName);
                 if (newEncryptedData.CanRead)
                 {
                     // Convert CryptoolStream to an byte Array and store it in the DHT
                     if (newEncryptedData.Length > Int32.MaxValue)
-                        throw (new Exception("Encrypted Data are too long for this PlugIn. The maximum size of Data is " + Int32.MaxValue + "!"));
-                    byte[] byteEncryptedData = new byte[newEncryptedData.Length];
+                        throw (new Exception(
+                            "Encrypted Data are too long for this PlugIn. The maximum size of Data is " + Int32.MaxValue +
+                            "!"));
+                    var byteEncryptedData = new byte[newEncryptedData.Length];
                     int k = newEncryptedData.Read(byteEncryptedData, 0, byteEncryptedData.Length);
                     if (k < byteEncryptedData.Length)
                         throw (new Exception("Read Data are shorter than byteArrayLen"));
@@ -176,7 +176,7 @@ namespace Cryptool.Plugins.PeerToPeer.Internal
         }
 
         // new stuff - Arnie 2010.02.02
-        
+
         ///// <summary>
         ///// Sets or updates the TimeStamp for the actual Publisher
         ///// </summary>
@@ -216,4 +216,3 @@ namespace Cryptool.Plugins.PeerToPeer.Internal
         //}
     }
 }
-

@@ -80,18 +80,6 @@
       <HintPath>..\AppReferences\Bootstrapper.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="CertServices">
-      <HintPath>..\AppReferences\CertServices.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DevComponents.WpfDock">
-      <HintPath>..\AppExternalReferences\DevComponents.WpfDock.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DevComponents.WpfEditors">
-      <HintPath>..\AppExternalReferences\DevComponents.WpfEditors.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="DevComponents.WpfRibbon">
       <HintPath>..\AppExternalReferences\DevComponents.WpfRibbon.dll</HintPath>
       <Private>False</Private>
@@ -112,14 +100,6 @@
       <HintPath>..\AppReferences\LinkManager.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="log4net">
-      <HintPath>..\AppReferences\log4net.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="NetGearsTCP">
-      <HintPath>..\AppReferences\NetGearsTCP.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="PeersAtPlayBase">
       <HintPath>..\AppReferences\PeersAtPlayBase.dll</HintPath>
       <Private>False</Private>
@@ -130,25 +110,10 @@
     <Reference Include="PresentationFramework">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="Stun">
-      <HintPath>..\AppReferences\Stun.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Security" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
     <Reference Include="Util">
       <HintPath>..\AppReferences\Util.dll</HintPath>
       <Private>False</Private>

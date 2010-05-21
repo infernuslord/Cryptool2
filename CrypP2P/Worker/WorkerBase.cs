@@ -14,30 +14,25 @@
    limitations under the License.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
 
 namespace Cryptool.P2P.Worker
 {
-
-    abstract class WorkerBase
+    internal abstract class WorkerBase
     {
-        protected BackgroundWorker backgroundWorker;
+        protected BackgroundWorker BackgroundWorker;
 
-        public WorkerBase()
+        protected WorkerBase()
         {
-            backgroundWorker = new BackgroundWorker();
-            backgroundWorker.DoWork += new DoWorkEventHandler(PerformWork);
-            backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(WorkComplete);
+            BackgroundWorker = new BackgroundWorker();
+            BackgroundWorker.DoWork += PerformWork;
+            BackgroundWorker.RunWorkerCompleted += WorkComplete;
         }
 
         public void Start()
         {
             PrePerformWork();
-            backgroundWorker.RunWorkerAsync();
+            BackgroundWorker.RunWorkerAsync();
         }
 
         protected abstract void WorkComplete(object sender, RunWorkerCompletedEventArgs e);

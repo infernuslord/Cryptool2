@@ -14,10 +14,6 @@
    limitations under the License.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Cryptool.P2P.Helper;
 using Cryptool.P2P.Internal;
 using Cryptool.Plugins.PeerToPeer.Internal;
@@ -26,24 +22,24 @@ namespace Cryptool.P2P
 {
     public class P2PSettings
     {
-        public P2PBase Base { get; set; }
-        public string PeerName { get; set; }
-        public string WorldName { get; set; }
-        public bool Log2Monitor { get; set; }
-        public P2PLinkManagerType LinkManagerType { get; set; }
-        public P2PBootstrapperType BSType { get; set; }
-        public P2POverlayType OverlayType { get; set; }
-        public P2PDHTType DhtType { get; set; }
-
         public P2PSettings()
         {
             PeerName = PAPCertificate.CERTIFIED_PEER_NAME;
             WorldName = "CrypTool2";
             Log2Monitor = true;
             LinkManagerType = P2PLinkManagerType.Snal;
-            BSType = P2PBootstrapperType.IrcBootstrapper;
+            BsType = P2PBootstrapperType.IrcBootstrapper;
             OverlayType = P2POverlayType.FullMeshOverlay;
             DhtType = P2PDHTType.FullMeshDHT;
         }
+
+        public P2PBase Base { get; set; }
+        public string PeerName { get; set; }
+        public string WorldName { get; set; }
+        public bool Log2Monitor { get; set; }
+        public P2PLinkManagerType LinkManagerType { get; set; }
+        public P2PBootstrapperType BsType { get; set; }
+        public P2POverlayType OverlayType { get; set; }
+        public P2PDHTType DhtType { get; set; }
     }
 }
