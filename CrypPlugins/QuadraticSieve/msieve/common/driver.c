@@ -72,7 +72,7 @@ msieve_obj * msieve_obj_free(msieve_obj *obj) {
 }
 
 /*--------------------------------------------------------------------*/
-static uint32 msieve_run_core(msieve_obj *obj, mp_t *n, 
+uint32 msieve_run_core(msieve_obj *obj, mp_t *n, 
 				factor_list_t *factor_list) {
 
 	uint32 i;
@@ -133,8 +133,7 @@ static uint32 msieve_run_core(msieve_obj *obj, mp_t *n,
 	}
 
 	/* Beyond this point we use the heavy artillery. */
-	//return factor_mpqs(obj, n, factor_list);
-	get_trivial_factorlist(factor_list, obj);
+	return factor_mpqs(obj, n, factor_list);
 }
 
 /*--------------------------------------------------------------------*/
@@ -207,30 +206,36 @@ void msieve_run(msieve_obj *obj) {
 			goto clean_up;
 	}
 
+	//callback to inform Cryptool about the already found trivial factors:
+	get_trivial_factorlist(&factor_list, obj);
+
+
+	//The logic behind the following commented code will be processed by cryptool:
+
 	/* while forward progress is still being made */
 
-	while (1) {
-		uint32 num_factors = factor_list.num_factors;
-		status = 0;
+	//while (1) {
+	//	uint32 num_factors = factor_list.num_factors;
+	//	status = 0;
 
-		/* process the next composite factor of n. Only
-		   attempt one factorization at a time, since 
-		   the underlying list of factors could change */
+	//	/* process the next composite factor of n. Only
+	//	   attempt one factorization at a time, since 
+	//	   the underlying list of factors could change */
 
-		for (i = 0; i < num_factors; i++) {
-			final_factor_t *f = factor_list.final_factors[i];
+	//	for (i = 0; i < num_factors; i++) {
+	//		final_factor_t *f = factor_list.final_factors[i];
 
-			if (f->type == MSIEVE_COMPOSITE) {
-				mp_t new_n;
-				mp_copy(&f->factor, &new_n);
-				status = msieve_run_core(obj, &new_n,
-							&factor_list);
-				break;
-			}
-		}
-		if (status == 0 || (obj->flags & MSIEVE_FLAG_STOP_SIEVING))
-			break;
-	}
+	//		if (f->type == MSIEVE_COMPOSITE) {
+	//			mp_t new_n;
+	//			mp_copy(&f->factor, &new_n);
+	//			status = msieve_run_core(obj, &new_n,
+	//						&factor_list);
+	//			break;
+	//		}
+	//	}
+	//	if (status == 0 || (obj->flags & MSIEVE_FLAG_STOP_SIEVING))
+	//		break;
+	//}
 
 clean_up:
 	factor_list_free(&n, &factor_list, obj);

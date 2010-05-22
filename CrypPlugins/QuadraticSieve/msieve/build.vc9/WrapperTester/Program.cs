@@ -67,7 +67,7 @@ namespace WrapperTester
                 foreach (Object o in Msieve.msieve.getCompositeFactors(list))
                     Console.Out.WriteLine((String)o);
 
-                list = Msieve.msieve.factor_mpqs(obj, (String)Msieve.msieve.getCompositeFactors(list)[0]);
+                list = Msieve.msieve.msieve_run_core(obj, (String)Msieve.msieve.getCompositeFactors(list)[0]);
                 foreach (Object o in Msieve.msieve.getPrimeFactors(list))
                     Console.Out.WriteLine("Prim: " + (String)o);
                 foreach (Object o in Msieve.msieve.getCompositeFactors(list))
