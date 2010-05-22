@@ -445,7 +445,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             //add the trivial factors to the factor list:
             factorManager.AddFactors(list);
 
-            MethodInfo factor_mpqs = msieve.GetMethod("factor_mpqs");
+            MethodInfo msieve_run_core = msieve.GetMethod("msieve_run_core");
 
             //Now factorize as often as needed:
             while (!factorManager.OnlyPrimes())
@@ -454,7 +454,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 BigInteger compositeFactor = factorManager.GetCompositeFactor();
 
                 //now start quadratic sieve on it:                
-                IntPtr resultList = (IntPtr)factor_mpqs.Invoke(null, new object[2] { obj, compositeFactor.ToString() });
+                IntPtr resultList = (IntPtr)msieve_run_core.Invoke(null, new object[2] { obj, compositeFactor.ToString() });
                 factorManager.ReplaceCompositeByFactors(compositeFactor, resultList);
             }
         }

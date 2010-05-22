@@ -86,6 +86,11 @@ namespace Cryptool.Plugins.QuadraticSieve
             FactorsChanged(primeFactors, compositeFactors);
         }
 
+        private BigInteger DivideIntByFactors(BigInteger composite, IntPtr factorList)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Returns a single composite factor (or 0, if no composite factors are left).
         /// </summary>
@@ -106,6 +111,7 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         public BigInteger[] getPrimeFactors()
         {
+            primeFactors.Sort();
             return primeFactors.ToArray();
         }
 

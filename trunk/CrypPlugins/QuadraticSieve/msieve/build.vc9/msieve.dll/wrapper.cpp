@@ -22,6 +22,9 @@ extern "C" void collect_relations(sieve_conf_t *conf, uint32 target_relations, q
 extern "C" void save_relation(sieve_conf_t *conf, uint32 sieve_offset,
 		uint32 *fb_offsets, uint32 num_factors, 
 		uint32 poly_index, uint32 large_prime1, uint32 large_prime2);
+//From driver.c:
+extern "C" uint32 msieve_run_core(msieve_obj *obj, mp_t *n, 
+				factor_list_t *factor_list);
 
 //Copy a sieve configuration that can be used in a different thread:
 sieve_conf_t *copy_sieve_conf(sieve_conf_t *conf) {
@@ -276,20 +279,6 @@ namespace Msieve
 			return factors;
 		}
 
-		//get's the current factor on which we are sieving:
-		static String^ getCurrentFactor(IntPtr conf)
-		{
-			char buf[929];
-			sieve_conf_t* c = (sieve_conf_t*)conf.ToPointer();
-			mp_t mult;
-			*((uint32*)(&mult.val[0])) = c->multiplier;
-			mult.nwords = 4;
-			mp_t n;
-			mp_div(c->n, &mult, &n);
-			char* nchar = mp_sprintf(&n, 10, buf);
-			return gcnew String(nchar);
-		}
-
 		//serialize the yield, so that you can send it over the net:
 		static array<unsigned char>^ serializeYield(IntPtr yield)
 		{
@@ -350,13 +339,15 @@ namespace Msieve
 			return IntPtr((void*)y);
 		}
 
-		static IntPtr factor_mpqs(IntPtr obj, String^ n)
+		static IntPtr msieve_run_core(IntPtr obj, String^ n)
 		{
 			mp_t N;
+			msieve_obj* o = (msieve_obj*)obj.ToPointer();
 			evaluate_expression(stringToCharA(n), &N);
 			factor_list_t* factor_list = new factor_list_t;
 			factor_list_init(factor_list);
-			::factor_mpqs((msieve_obj*)obj.ToPointer(), &N, factor_list);
+			factor_list_add(o, factor_list, &N);
+			::msieve_run_core(o, &N, factor_list);
 			return IntPtr(factor_list);
 		}
 	};
