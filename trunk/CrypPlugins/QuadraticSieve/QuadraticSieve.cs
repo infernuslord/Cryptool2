@@ -142,6 +142,8 @@ namespace Cryptool.Plugins.QuadraticSieve
                     quadraticSieveQuickWatchPresentation.logging.Text = logging_message;
                     quadraticSieveQuickWatchPresentation.endTime.Text = endtime_message;
                     quadraticSieveQuickWatchPresentation.timeLeft.Text = timeLeft_message;
+                    quadraticSieveQuickWatchPresentation.factorList.Items.Clear();
+                    quadraticSieveQuickWatchPresentation.factorInfo.Content = "Searching trivial factors!";                    
                 }
                 , null);   
 
@@ -180,6 +182,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                         quadraticSieveQuickWatchPresentation.logging.Text = logging_message;
                         quadraticSieveQuickWatchPresentation.endTime.Text = endtime_message;
                         quadraticSieveQuickWatchPresentation.timeLeft.Text = timeLeft_message;
+                        quadraticSieveQuickWatchPresentation.factorInfo.Content = "";
                     }
                     , null);
 
@@ -198,6 +201,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                         quadraticSieveQuickWatchPresentation.logging.Text = logging_message;
                         quadraticSieveQuickWatchPresentation.endTime.Text = endtime_message;
                         quadraticSieveQuickWatchPresentation.timeLeft.Text = timeLeft_message;
+                        quadraticSieveQuickWatchPresentation.factorInfo.Content = "";
                     }
                     , null);
                 }
@@ -348,6 +352,10 @@ namespace Cryptool.Plugins.QuadraticSieve
             {
                 ProgressChanged(0.9, 1.0);
                 GuiLogMessage("Sieving finished", NotificationLevel.Info);
+                quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {                    
+                    quadraticSieveQuickWatchPresentation.factorInfo.Content = "Found enough relations! Please wait...";
+                }, null);
                 stopThreads();
                 yieldqueue.Clear();
             }
@@ -452,6 +460,10 @@ namespace Cryptool.Plugins.QuadraticSieve
             {
                 //get one composite factor, which we want to sieve now:
                 BigInteger compositeFactor = factorManager.GetCompositeFactor();
+                quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    quadraticSieveQuickWatchPresentation.factorInfo.Content = "Now sieving first composite factor!";
+                }, null);
 
                 //now start quadratic sieve on it:                
                 IntPtr resultList = (IntPtr)msieve_run_core.Invoke(null, new object[2] { obj, compositeFactor.ToString() });
@@ -484,8 +496,8 @@ namespace Cryptool.Plugins.QuadraticSieve
                     //Just for testing the serialize mechanism:
                     MethodInfo serializeYield = msieve.GetMethod("serializeYield");
                     byte[] serializedYield = (byte[])serializeYield.Invoke(null, new object[] { yield });
-                    /*MethodInfo deserializeYield = msieve.GetMethod("deserializeYield");
-                    yield = (IntPtr)deserializeYield.Invoke(null, new object[] { serializedYield });*/
+                    MethodInfo deserializeYield = msieve.GetMethod("deserializeYield");
+                    yield = (IntPtr)deserializeYield.Invoke(null, new object[] { serializedYield });
 
                     yieldqueue.Enqueue(yield);
                 }
@@ -535,13 +547,16 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         private void FactorsChanged(List<BigInteger> primeFactors, List<BigInteger> compositeFactors)
         {
-            GuiLogMessage("Factors Changed:", NotificationLevel.Debug);
+            quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                quadraticSieveQuickWatchPresentation.factorList.Items.Clear();
 
-            foreach (BigInteger pf in primeFactors)
-                GuiLogMessage("Prime Factor: " + pf.ToString(), NotificationLevel.Debug);
+                foreach (BigInteger pf in primeFactors)         
+                    quadraticSieveQuickWatchPresentation.factorList.Items.Add("Prime Factor: " + pf.ToString());            
 
-            foreach (BigInteger cf in compositeFactors)
-                GuiLogMessage("Composite Factor: " + cf.ToString(), NotificationLevel.Debug);
+                foreach (BigInteger cf in compositeFactors)
+                    quadraticSieveQuickWatchPresentation.factorList.Items.Add("Composite Factor: " + cf.ToString());
+            }, null);
         }
 
         /// <summary>

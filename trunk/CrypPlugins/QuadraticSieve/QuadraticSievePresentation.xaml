@@ -6,10 +6,11 @@
     Background="White"
     Name="Presentation">
     <Canvas Name="Canvas">
-    <Grid Name="Grid" Width="250" Height="100" ShowGridLines="False">
+    <Grid Name="Grid" ShowGridLines="False">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="150"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -23,9 +24,9 @@
         
         <TextBox Name="timeLeft" Grid.Row="1" TextAlignment="Center" IsReadOnly="True" TextWrapping="WrapWithOverflow" Focusable="True" BorderThickness="1" Margin="1" BorderBrush="AliceBlue" />
         <TextBox Name="endTime" Grid.Row="1" Grid.Column="1" TextAlignment="Center" IsReadOnly="True" TextWrapping="WrapWithOverflow" BorderThickness="1" Margin="1" BorderBrush="AliceBlue" />
-        <Label Grid.Row="2" FontSize="12" Grid.ColumnSpan="2" Name="Label3" Margin="1"></Label>
-        
-        <TextBox Name="logging" Grid.Row="3" Grid.ColumnSpan="2" TextAlignment="Left" IsReadOnly="True" TextWrapping="WrapWithOverflow" BorderThickness="1" Margin="1" BorderBrush="AliceBlue" />
-    </Grid>
+        <ListBox Grid.Row="2" Grid.ColumnSpan="2" Name="factorList" Canvas.Left="1" Canvas.Top="50" Height="150" Width="233" />
+        <Label Grid.Row="3" Grid.ColumnSpan="2" Content="" HorizontalAlignment="Left" Name="factorInfo" VerticalAlignment="Top" />
+        <TextBox Name="logging" Grid.Row="4" Grid.ColumnSpan="2" TextAlignment="Left" IsReadOnly="True" TextWrapping="WrapWithOverflow" BorderThickness="1" Margin="1" BorderBrush="AliceBlue" />        
+        </Grid>        
     </Canvas>
 </UserControl>
