@@ -467,6 +467,8 @@ namespace Cryptool.Plugins.QuadraticSieve
 
                 //now start quadratic sieve on it:                
                 IntPtr resultList = (IntPtr)msieve_run_core.Invoke(null, new object[2] { obj, compositeFactor.ToString() });
+                if (userStopped)
+                    return;
                 factorManager.ReplaceCompositeByFactors(compositeFactor, resultList);
             }
         }
