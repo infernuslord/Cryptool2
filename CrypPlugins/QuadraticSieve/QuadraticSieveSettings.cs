@@ -22,6 +22,7 @@ using Cryptool.PluginBase;
 using System.ComponentModel;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace QuadraticSieve
 {
@@ -32,10 +33,13 @@ namespace QuadraticSieve
         private bool hasChanges = false;
         private ObservableCollection<string> coresAvailable = new ObservableCollection<string>();
         private bool deleteCache;
+        private bool usePeer2Peer;
+        private string channel;
         #endregion
 
         #region events
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
         #endregion
 
         #region public
@@ -101,6 +105,50 @@ namespace QuadraticSieve
                     deleteCache = value;
                     hasChanges = true;
                     OnPropertyChanged("DeleteCache");
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Getter / Setter to enable/disable the use of peer2peer
+        /// </summary>
+        [TaskPane("Use Peer2Peer", "If checked, this plugin will connect to Peer2Peer network to sieve together with other clients", null, 3, false, DisplayLevel.Experienced, ControlType.CheckBox, "", null)]
+        public bool UsePeer2Peer
+        {
+            get { return usePeer2Peer; }
+            set
+            {
+                if (value != usePeer2Peer)
+                {
+                    usePeer2Peer = value;
+                    hasChanges = true;
+                    if (usePeer2Peer)
+                    {
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Channel", Visibility.Visible)));
+                    }
+                    else
+                    {
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Channel", Visibility.Collapsed)));
+                    }
+                    OnPropertyChanged("UsePeer2Peer");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Channel of the Peer2Peer network
+        /// </summary>
+        [TaskPane("Channel", "Channel of the Peer2Peer network", null, 4, false, DisplayLevel.Experienced, ControlType.TextBox, "", null)]
+        public string Channel
+        {
+            get { return channel; }
+            set
+            {
+                if (value != channel)
+                {
+                    channel = value;
+                    hasChanges = true;
+                    OnPropertyChanged("Channel");
                 }
             }
         }
