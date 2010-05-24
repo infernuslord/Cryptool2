@@ -283,26 +283,44 @@ namespace Msieve
 		static array<unsigned char>^ serializeYield(IntPtr yield)
 		{
 			relationYield* y = (relationYield*)yield.ToPointer();
-			array<unsigned char>^ out = gcnew array<unsigned char>((y->yield_count)*949 + 4);
+
+			//calculate needed size:
+			int size = 0;
+			for (int c = 0; c < y->yield_count; c++)
+			{
+				size++;	//type information
+				if (y->yield_array[c].type == 1)	//poly	(256 bytes)
+					size += 256;
+				else								//relation	((5+num_factors)*4 bytes)
+					size += (5 + y->yield_array[c].rel.num_factors)*4;
+			}
+
+			//serialize:			
+			array<unsigned char>^ out = gcnew array<unsigned char>(size + 4);
 			copyIntToArray(out, 0, y->yield_count);
+			int pos = 4;
 
 			for (int c = 0; c < y->yield_count; c++)
 			{
-				out[4 + c*949] = (char)(y->yield_array[c].type);
-				if (y->yield_array[c].type == 1)	//poly
+				out[pos++] = (char)(y->yield_array[c].type);
+				if (y->yield_array[c].type == 1)	//poly	(256 bytes)
 				{
 					for (int i = 0; i < 256; i++)
-						out[4 + c*949 + 1 + i] = y->yield_array[c].polybuf[i];
+						out[pos++] = y->yield_array[c].polybuf[i];
 				}
-				else								//relation
+				else								//relation	((5+num_factors)*4 bytes)
 				{
-					copyIntToArray(out, 4+c*949 + 1, y->yield_array[c].rel.sieve_offset);
-					copyIntToArray(out, 4+c*949 + 1 + 4, y->yield_array[c].rel.num_factors);
-					copyIntToArray(out, 4+c*949 + 1 + 8, y->yield_array[c].rel.poly_index);
-					copyIntToArray(out, 4+c*949 + 1 + 12, y->yield_array[c].rel.large_prime1);
-					copyIntToArray(out, 4+c*949 + 1 + 16, y->yield_array[c].rel.large_prime2);
-					for (int i = 0; i < 232; i++)
-						copyIntToArray(out, 4+c*949 + 1 + 20 + i*4, y->yield_array[c].rel.fb_offsets[i]);
+					copyIntToArray(out, pos, y->yield_array[c].rel.sieve_offset);
+					copyIntToArray(out, pos + 4, y->yield_array[c].rel.num_factors);
+					copyIntToArray(out, pos + 8, y->yield_array[c].rel.poly_index);
+					copyIntToArray(out, pos + 12, y->yield_array[c].rel.large_prime1);
+					copyIntToArray(out, pos + 16, y->yield_array[c].rel.large_prime2);
+					pos += 20;
+					for (int i = 0; i < y->yield_array[c].rel.num_factors; i++)
+					{
+						copyIntToArray(out, pos, y->yield_array[c].rel.fb_offsets[i]);
+						pos += 4;
+					}
 				}
 			}
 
@@ -314,25 +332,30 @@ namespace Msieve
 			relationYield* y = (relationYield*)malloc(sizeof(relationYield));
 			y->yield_count = getIntFromArray(yield, 0);
 			y->yield_array = (yield_element*)malloc(sizeof(yield_element)*y->yield_count);
+			int pos = 4;
 			
 			for (int c = 0; c < y->yield_count; c++)
 			{
-				y->yield_array[c].type = yield[4+c*949];
-				if (y->yield_array[c].type == 1)	//poly
+				y->yield_array[c].type = yield[pos++];
+				if (y->yield_array[c].type == 1)	//poly	(256 bytes)
 				{
 					for (int i = 0; i < 256; i++)
-						y->yield_array[c].polybuf[i] = yield[4 + c*949 + 1 + i];
+						y->yield_array[c].polybuf[i] = yield[pos++];
 				}
-				else								//relation
+				else								//relation	((5+num_factors)*4 bytes)
 				{
-					y->yield_array[c].rel.sieve_offset = getIntFromArray(yield, 4+c*949 + 1);
-					y->yield_array[c].rel.num_factors = getIntFromArray(yield, 4+c*949 + 1 + 4);
-					y->yield_array[c].rel.poly_index = getIntFromArray(yield, 4+c*949 + 1 + 8);
-					y->yield_array[c].rel.large_prime1 = getIntFromArray(yield, 4+c*949 + 1 + 12);
-					y->yield_array[c].rel.large_prime2 = getIntFromArray(yield, 4+c*949 + 1 + 16);
-					y->yield_array[c].rel.fb_offsets = (uint32*)malloc(sizeof(uint32) * 232);
-					for (int i = 0; i < 232; i++)
-						y->yield_array[c].rel.fb_offsets[i] = getIntFromArray(yield, 4+c*949 + 1 + 20 + i*4);
+					y->yield_array[c].rel.sieve_offset = getIntFromArray(yield, pos);
+					y->yield_array[c].rel.num_factors = getIntFromArray(yield, pos + 4);
+					y->yield_array[c].rel.poly_index = getIntFromArray(yield, pos + 8);
+					y->yield_array[c].rel.large_prime1 = getIntFromArray(yield, pos + 12);
+					y->yield_array[c].rel.large_prime2 = getIntFromArray(yield, pos + 16);
+					pos += 20;
+					y->yield_array[c].rel.fb_offsets = (uint32*)malloc(sizeof(uint32) * y->yield_array[c].rel.num_factors);
+					for (int i = 0; i < y->yield_array[c].rel.num_factors; i++)
+					{
+						y->yield_array[c].rel.fb_offsets[i] = getIntFromArray(yield, pos);
+						pos += 4;
+					}
 				}
 			}
 			
