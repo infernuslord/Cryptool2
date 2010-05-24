@@ -95,14 +95,12 @@ sieve_conf_t *copy_sieve_conf(sieve_conf_t *conf) {
 
 namespace Msieve
 {
-	public delegate void showProgressDelegate(IntPtr conf, int num_relations, int max_relations);
-	public delegate void prepareSievingDelegate(IntPtr conf, int update, IntPtr core_sieve_fcn);
+	public delegate void prepareSievingDelegate(IntPtr conf, int update, IntPtr core_sieve_fcn, int max_relations);
 	public delegate void getTrivialFactorlistDelegate(IntPtr list, IntPtr obj);
 
 	public ref struct callback_struct
 	{
 	public:
-		showProgressDelegate^ showProgress;
 		prepareSievingDelegate^ prepareSieving;
 		getTrivialFactorlistDelegate^ getTrivialFactorlist;
 	};
@@ -362,6 +360,14 @@ namespace Msieve
 			return IntPtr((void*)y);
 		}
 
+		static int getNumRelations(IntPtr conf)
+		{
+			sieve_conf_t* c = (sieve_conf_t*)conf.ToPointer();
+			return c->num_relations + 
+				c->num_cycles +
+				c->components - c->vertices;
+		}
+
 		static IntPtr msieve_run_core(IntPtr obj, String^ n)
 		{
 			mp_t N;
@@ -377,14 +383,9 @@ namespace Msieve
 
 }
 
-extern "C" void showProgress(void* conf, int num_relations, int max_relations)
-{	
-	Msieve::msieve::callbacks->showProgress(IntPtr(conf), num_relations, max_relations);
-}
-
-extern "C" void prepare_sieving(void* conf, int update, void* core_sieve_fcn)
+extern "C" void prepare_sieving(void* conf, int update, void* core_sieve_fcn, int max_relations)
 {
-	Msieve::msieve::callbacks->prepareSieving(IntPtr(conf), update, IntPtr(core_sieve_fcn));
+	Msieve::msieve::callbacks->prepareSieving(IntPtr(conf), update, IntPtr(core_sieve_fcn), max_relations);
 }
 
 extern "C" void throwException(char* message)

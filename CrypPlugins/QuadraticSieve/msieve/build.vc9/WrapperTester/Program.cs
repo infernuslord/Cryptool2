@@ -13,7 +13,7 @@ namespace WrapperTester
         private static Queue yieldqueue;
         private static bool running;
 
-        static void prepareSieving(IntPtr conf, int update, IntPtr core_sieve_fcn)
+        static void prepareSieving(IntPtr conf, int update, IntPtr core_sieve_fcn, int max_relations)
         {
             Console.WriteLine("Update: " + update);
 
@@ -47,18 +47,6 @@ namespace WrapperTester
         static void Main(string[] args)
         {            
             Msieve.callback_struct callbacks = new Msieve.callback_struct();
-            callbacks.showProgress = delegate(IntPtr conf, int num_relations, int max_relations)
-            {                
-                System.Console.WriteLine("" + num_relations + " of " + max_relations + " relations!");
-                if (num_relations != -1)
-                    while (yieldqueue != null && yieldqueue.Count != 0)
-                    {
-                        Msieve.msieve.saveYield(conf, (IntPtr)yieldqueue.Dequeue());
-                        Console.WriteLine("Get yield from queue.");
-                    }
-                else
-                    running = false;                
-            };
             callbacks.prepareSieving = prepareSieving;
             callbacks.getTrivialFactorlist = delegate(IntPtr list, IntPtr obj)
             {

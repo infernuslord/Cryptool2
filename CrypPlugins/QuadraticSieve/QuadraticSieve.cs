@@ -54,14 +54,14 @@ namespace Cryptool.Plugins.QuadraticSieve
         private BigInteger[] outputFactors;
         private bool running;
         private Queue yieldqueue;
+        private AutoResetEvent yieldEvent = new AutoResetEvent(false);
         private IntPtr obj = IntPtr.Zero;
         private volatile int threadcount = 0;
-        private DateTime start_sieving_time;
-        private bool sieving_started;
-        private int start_relations;
         private ArrayList conf_list;
         private bool userStopped = false;
         private FactorManager factorManager;
+        private PeerToPeer peerToPeer = new PeerToPeer();
+        private BigInteger sumSize = 0;
 
         private static Assembly msieveDLL = null;
         private static Type msieve = null;
@@ -74,7 +74,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        public event PluginProgressChangedEventHandler OnPluginProcessChanged;
+        public event PluginProgressChangedEventHandler OnPluginProcessChanged;        
 
         #endregion
 
@@ -122,6 +122,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// </summary>
         public void Execute()
         {
+            sumSize = 0;
             userStopped = false;
 
             if (InputNumber != 0)
@@ -338,71 +339,6 @@ namespace Cryptool.Plugins.QuadraticSieve
             if (res.Length == 0)
                 res += ts.Seconds + " seconds";
             return res;
-        }    
-
-        /// <summary>
-        /// Actualize the progress of the current sieving process
-        /// </summary>
-        /// <param name="conf"></param>
-        /// <param name="num_relations"></param>
-        /// <param name="max_relations"></param>
-        private void showProgress(IntPtr conf, int num_relations, int max_relations)
-        {
-            if (num_relations == -1)    //sieving finished
-            {
-                ProgressChanged(0.9, 1.0);
-                GuiLogMessage("Sieving finished", NotificationLevel.Info);
-                quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                {                    
-                    quadraticSieveQuickWatchPresentation.factorInfo.Content = "Found enough relations! Please wait...";
-                }, null);
-                stopThreads();
-                if (yieldqueue != null)
-                    yieldqueue.Clear();
-            }
-            else
-            {
-                if (sieving_started)
-                {
-                    TimeSpan diff = DateTime.Now - start_sieving_time;
-                    double msleft = (diff.TotalMilliseconds / (num_relations - start_relations)) * (max_relations - num_relations);
-                    if (msleft > 0)
-                    {
-                        TimeSpan ts = new TimeSpan(0, 0, 0, 0, (int)msleft);
-                        String logging_message = "Found " + num_relations + " of " + max_relations + " relations!";
-                        String timeLeft_message = showTimeSpan(ts) + " left";
-                        String endtime_message = "" + DateTime.Now.AddMilliseconds((long)msleft);
-                        
-                        GuiLogMessage(logging_message + " " + timeLeft_message + ".", NotificationLevel.Debug);
-                        quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                        {
-                            quadraticSieveQuickWatchPresentation.logging.Text = logging_message;
-                            quadraticSieveQuickWatchPresentation.timeLeft.Text = timeLeft_message;
-                            quadraticSieveQuickWatchPresentation.endTime.Text = endtime_message;
-                        }
-                        , null);
-
-                    }
-                }
-
-                if (!sieving_started)
-                {
-                    MethodInfo getCurrentFactor = msieve.GetMethod("getCurrentFactor");
-                    //GuiLogMessage((String)(getCurrentFactor.Invoke(null, new object[] { conf })), NotificationLevel.Debug);
-
-                    start_relations = num_relations;
-                    start_sieving_time = DateTime.Now;
-                    sieving_started = true;
-                }
-
-                ProgressChanged((double)num_relations / max_relations * 0.8 + 0.1, 1.0);                
-
-                while (yieldqueue.Count != 0)       //get all the results from the helper threads, and store them
-                {
-                    MethodInfo saveYield = msieve.GetMethod("saveYield");
-                    saveYield.Invoke(null, new object[] { conf, (IntPtr)yieldqueue.Dequeue() });                    
-                }                
-            }
         }
 
         /// <summary>
@@ -413,13 +349,12 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// <param name="conf">pointer to configuration</param>
         /// <param name="update">number of relations found</param>
         /// <param name="core_sieve_fcn">pointer to internal sieve function of msieve</param>
-        private void prepareSieving (IntPtr conf, int update, IntPtr core_sieve_fcn)
+        private void prepareSieving(IntPtr conf, int update, IntPtr core_sieve_fcn, int max_relations)
         {
             int threads = Math.Min(settings.CoresUsed, Environment.ProcessorCount-1);
             MethodInfo getObjFromConf = msieve.GetMethod("getObjFromConf");
             this.obj = (IntPtr)getObjFromConf.Invoke(null, new object[] { conf });            
             yieldqueue = Queue.Synchronized(new Queue());
-            sieving_started = false;
             conf_list = new ArrayList();
 
             String message = "Start sieving using " + (threads + 1) + " cores!";
@@ -434,13 +369,83 @@ namespace Cryptool.Plugins.QuadraticSieve
 
             running = true;
             //start helper threads:
-            for (int i = 0; i < threads; i++)
+            for (int i = 0; i < threads+1; i++)
             {
                 MethodInfo cloneSieveConf = msieve.GetMethod("cloneSieveConf");
                 IntPtr clone = (IntPtr)cloneSieveConf.Invoke(null, new object[] { conf });                
                 conf_list.Add(clone);
                 WaitCallback worker = new WaitCallback(MSieveJob);
                 ThreadPool.QueueUserWorkItem(worker, new object[] { clone, update, core_sieve_fcn, yieldqueue });
+            }
+
+            //manage the yields of the other threads:
+            manageYields(conf, max_relations);  //this method returns as soon as there are enough relations found
+            if (userStopped)
+                return;
+
+            //sieving is finished now, so give some informations and stop threads:
+            GuiLogMessage("Data size: " + (sumSize / 1024) / 1024 + " MB!", NotificationLevel.Debug);
+            ProgressChanged(0.9, 1.0);
+            GuiLogMessage("Sieving finished", NotificationLevel.Info);
+            quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                quadraticSieveQuickWatchPresentation.factorInfo.Content = "Found enough relations! Please wait...";
+            }, null);
+            stopThreads();
+            if (yieldqueue != null)
+                yieldqueue.Clear();
+        }
+
+        private void manageYields(IntPtr conf, int max_relations)
+        {
+            MethodInfo serializeYield = msieve.GetMethod("serializeYield");
+            MethodInfo getNumRelations = msieve.GetMethod("getNumRelations");
+            int num_relations = (int)getNumRelations.Invoke(null, new object[] { conf });
+            int start_relations = num_relations;
+            DateTime start_sieving_time = DateTime.Now;
+            MethodInfo saveYield = msieve.GetMethod("saveYield");
+
+            while (num_relations < max_relations)
+            {
+                ProgressChanged((double)num_relations / max_relations * 0.8 + 0.1, 1.0);
+                
+                yieldEvent.WaitOne();               //wait until queue is not empty
+                if (userStopped)
+                    return;
+                while (yieldqueue.Count != 0)       //get all the results from the helper threads, and store them
+                {
+                    IntPtr yield = (IntPtr)yieldqueue.Dequeue();
+                    byte[] serializedYield = (byte[])serializeYield.Invoke(null, new object[] { yield });                    
+
+                    int compressedSize = peerToPeer.put(serializedYield);
+                    sumSize += compressedSize;
+
+                    saveYield.Invoke(null, new object[] { conf, yield });
+                }
+                num_relations = (int)getNumRelations.Invoke(null, new object[] { conf });
+                showProgressPresentation(max_relations, num_relations, start_relations, start_sieving_time);
+            }            
+        }
+
+        private void showProgressPresentation(int max_relations, int num_relations, int start_relations, DateTime start_sieving_time)
+        {
+            TimeSpan diff = DateTime.Now - start_sieving_time;
+            double msleft = (diff.TotalMilliseconds / (num_relations - start_relations)) * (max_relations - num_relations);
+            if (msleft > 0)
+            {
+                TimeSpan ts = new TimeSpan(0, 0, 0, 0, (int)msleft);
+                String logging_message = "Found " + num_relations + " of " + max_relations + " relations!";
+                String timeLeft_message = showTimeSpan(ts) + " left";
+                String endtime_message = "" + DateTime.Now.AddMilliseconds((long)msleft);
+
+                GuiLogMessage(logging_message + " " + timeLeft_message + ".", NotificationLevel.Debug);
+                quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    quadraticSieveQuickWatchPresentation.logging.Text = logging_message;
+                    quadraticSieveQuickWatchPresentation.timeLeft.Text = timeLeft_message;
+                    quadraticSieveQuickWatchPresentation.endTime.Text = endtime_message;
+                }
+                , null);
             }
         }
 
@@ -496,13 +501,8 @@ namespace Cryptool.Plugins.QuadraticSieve
                     MethodInfo getYield = msieve.GetMethod("getYield");
                     IntPtr yield = (IntPtr)getYield.Invoke(null, new object[] { clone });
 
-                    //Just for testing the serialize mechanism:
-                    MethodInfo serializeYield = msieve.GetMethod("serializeYield");
-                    byte[] serializedYield = (byte[])serializeYield.Invoke(null, new object[] { yield });
-                    MethodInfo deserializeYield = msieve.GetMethod("deserializeYield");
-                    yield = (IntPtr)deserializeYield.Invoke(null, new object[] { serializedYield });
-
                     yieldqueue.Enqueue(yield);
+                    yieldEvent.Set();
                 }
                 catch (Exception ex)
                 {
@@ -511,6 +511,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                     return;
                 }                
             }
+
             MethodInfo freeSieveConf = msieve.GetMethod("freeSieveConf");
             freeSieveConf.Invoke(null, new object[] { clone });            
             threadcount--;
@@ -600,14 +601,11 @@ namespace Cryptool.Plugins.QuadraticSieve
 
             //init msieve with callbacks:
             MethodInfo initMsieve = msieve.GetMethod("initMsieve");
-            Object callback_struct = Activator.CreateInstance(msieveDLL.GetType("Msieve.callback_struct"));
-            FieldInfo showProgressField = msieveDLL.GetType("Msieve.callback_struct").GetField("showProgress");
+            Object callback_struct = Activator.CreateInstance(msieveDLL.GetType("Msieve.callback_struct"));            
             FieldInfo prepareSievingField = msieveDLL.GetType("Msieve.callback_struct").GetField("prepareSieving");
-            FieldInfo getTrivialFactorlistField = msieveDLL.GetType("Msieve.callback_struct").GetField("getTrivialFactorlist");
-            Delegate showProgressDel = MulticastDelegate.CreateDelegate(msieveDLL.GetType("Msieve.showProgressDelegate"), this, "showProgress");
+            FieldInfo getTrivialFactorlistField = msieveDLL.GetType("Msieve.callback_struct").GetField("getTrivialFactorlist");            
             Delegate prepareSievingDel = MulticastDelegate.CreateDelegate(msieveDLL.GetType("Msieve.prepareSievingDelegate"), this, "prepareSieving");
-            Delegate getTrivialFactorlistDel = MulticastDelegate.CreateDelegate(msieveDLL.GetType("Msieve.getTrivialFactorlistDelegate"), this, "getTrivialFactorlist");
-            showProgressField.SetValue(callback_struct, showProgressDel);
+            Delegate getTrivialFactorlistDel = MulticastDelegate.CreateDelegate(msieveDLL.GetType("Msieve.getTrivialFactorlistDelegate"), this, "getTrivialFactorlist");            
             prepareSievingField.SetValue(callback_struct, prepareSievingDel);
             getTrivialFactorlistField.SetValue(callback_struct, getTrivialFactorlistDel);
             initMsieve.Invoke(null, new object[1] { callback_struct });

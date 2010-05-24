@@ -652,13 +652,17 @@ static uint32 do_sieving_internal(sieve_conf_t *conf,
 	}
 
 	if (!(obj->flags & MSIEVE_FLAG_STOP_SIEVING) && num_relations < max_relations)
-		prepare_sieving(conf, update, core_sieve_fcn);
+		prepare_sieving(conf, update, core_sieve_fcn, max_relations);
+
+	num_relations = conf->num_relations + 
+				conf->num_cycles +
+				conf->components - conf->vertices;
 
 	/* sieve until at least that many relations have
 	   been found, then update the number of fulls and
 	   partials. This way we can declare sieving to be
 	   finished the moment enough relations are available */
-
+	/*
 	while (!(obj->flags & MSIEVE_FLAG_STOP_SIEVING) && 
 		num_relations < max_relations) {
 
@@ -667,8 +671,6 @@ static uint32 do_sieving_internal(sieve_conf_t *conf,
 		num_relations = conf->num_relations + 
 				conf->num_cycles +
 				conf->components - conf->vertices;
-
-		showProgress(conf, num_relations, max_relations);
 
 	    if (obj->flags & (MSIEVE_FLAG_USE_LOGFILE |
 					   	  MSIEVE_FLAG_LOG_TO_STDOUT)) {
@@ -683,9 +685,7 @@ static uint32 do_sieving_internal(sieve_conf_t *conf,
 			fflush(stderr);
 		}
 	}
-
-	if (!(obj->flags & MSIEVE_FLAG_STOP_SIEVING))
-		showProgress(conf, -1, -1);	//We finnished sieving :D 
+	*/
 
 	if (obj->flags & (MSIEVE_FLAG_USE_LOGFILE |
 	    		   MSIEVE_FLAG_LOG_TO_STDOUT))
