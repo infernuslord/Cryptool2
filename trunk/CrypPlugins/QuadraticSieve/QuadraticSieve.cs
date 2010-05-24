@@ -357,7 +357,8 @@ namespace Cryptool.Plugins.QuadraticSieve
                     quadraticSieveQuickWatchPresentation.factorInfo.Content = "Found enough relations! Please wait...";
                 }, null);
                 stopThreads();
-                yieldqueue.Clear();
+                if (yieldqueue != null)
+                    yieldqueue.Clear();
             }
             else
             {
