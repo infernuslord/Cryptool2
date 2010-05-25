@@ -49,6 +49,17 @@ namespace Cryptool.Plugins.CostFunction
         private IDictionary<string, double[]> corpusBigrams; // Used for Weighted Bigrams/Trigrams Cost function
         private IDictionary<string, double[]> corpusTrigrams;
 
+        //Fitness Weight Tables for Weighted Bigrams/Trigrams
+        private IDictionary<string, double> fwtMatthews = new Dictionary<string,double>();
+        private IDictionary<string, double> fwtAndrewJohnClark = new Dictionary<string,double>();
+        private IDictionary<string, double> fwtToemehArumugam = new Dictionary<string,double>();
+
+        private double betaMatthews = 1.0;
+        private double gammaMatthews = 1.0;
+
+        private double betaToemehArumugam = 1.0;
+        private double gammaToemehArumugam = 1.0;
+
         private DataManager dataMgr = new DataManager(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)); 
         private const string DATATYPE = "transposition";
 
@@ -196,14 +207,14 @@ namespace Cryptool.Plugins.CostFunction
                         break;
 
                     case 2: // Log 2 Bigrams
-                        this.Value = calculateNGrams(bigramInput, 2, 2);
+                        this.Value = calculateNGrams(bigramInput, 2, 2,false);
                         break;
 
                     case 3: // sinkov Bigrams
-                        this.Value = calculateNGrams(bigramInput, 2, 3);
+                        this.Value = calculateNGrams(bigramInput, 2, 3,false);
                         break;
                     case 4: //percentaged Bigrams
-                        this.Value = calculateNGrams(bigramInput, 2, 1);
+                        this.Value = calculateNGrams(bigramInput, 2, 1,false);
                         break;
                     case 5: //regular expressions
                         this.Value = regex(bigramInput);
@@ -282,6 +293,60 @@ namespace Cryptool.Plugins.CostFunction
 
         #region private methods
 
+        private void fillfwts() {
+            fwtMatthews.Add("TH", 2.0);
+            fwtMatthews.Add("HE", 1.0);
+            fwtMatthews.Add("IN", 1.0);
+            fwtMatthews.Add("ER", 1.0);
+            fwtMatthews.Add("AN", 1.0);
+            fwtMatthews.Add("ED", 1.0);
+            fwtMatthews.Add("THE", 5.0);
+            fwtMatthews.Add("ING", 5.0);
+            fwtMatthews.Add("AND", 5.0);
+            fwtMatthews.Add("EEE", -5.0);
+
+            fwtToemehArumugam.Add("EEE", -5.0);
+            fwtToemehArumugam.Add("E ", 2.0);
+            fwtToemehArumugam.Add(" T", 1.0);
+            fwtToemehArumugam.Add("HE", 1.0);
+            fwtToemehArumugam.Add("TH", 1.0);
+            fwtToemehArumugam.Add(" A", 1.0);
+            fwtToemehArumugam.Add("   ", -10.0);
+            fwtToemehArumugam.Add("ING", 5.0);
+            fwtToemehArumugam.Add("S ", 1.0);
+            fwtToemehArumugam.Add("  ", -6.0);
+            fwtToemehArumugam.Add(" TH", 5.0);
+            fwtToemehArumugam.Add("THE", 5.0);
+            fwtToemehArumugam.Add("HE ", 5.0);
+            fwtToemehArumugam.Add("AND", 5.0);
+
+            fwtToemehArumugam.Add("ARE", 5.0);
+            fwtToemehArumugam.Add("NOT", 5.0);
+        }
+
+        private void weights(string ngram, int ngramlength)
+        {
+            if (fwtMatthews.TryGetValue(ngram, out value) && ngramlength == 2)
+            {
+                betaMatthews += value;
+            }
+
+            if (fwtMatthews.TryGetValue(ngram, out value) && ngramlength == 3)
+            {
+                gammaMatthews += value;
+            }
+
+
+            if (fwtToemehArumugam.TryGetValue(ngram, out value) && ngramlength == 2)
+            {
+                betaToemehArumugam += value;
+            }
+
+            if (fwtToemehArumugam.TryGetValue(ngram, out value) && ngramlength == 3)
+            {
+                gammaToemehArumugam += value;
+            }
+        }
 
         //public double contains(string input)
         //{
@@ -300,9 +365,11 @@ namespace Cryptool.Plugins.CostFunction
         public double calculateWeighted(string input)
         {
 
+         
 
             this.statistics = new Dictionary<int, IDictionary<string, double[]>>();
-            
+
+            if (fwtMatthews == null && fwtToemehArumugam == null) { fillfwts(); }
             if (corpusBigrams == null)
             {
                 if (corpusTrigrams == null)
@@ -315,32 +382,41 @@ namespace Cryptool.Plugins.CostFunction
             }
             input = input.ToUpper();
 
-            /* debug foreach (KeyValuePair<string,double[]> g in corpusTrigrams)
-             {
-                 GuiLogMessage(corpusTrigrams[g.Key][0].ToString()+ " "+g.Key, NotificationLevel.Debug);
-             } */
+            double bigramscore = calculateNGrams(input, 2, 0, true);
+           // double trigramscore = calculateNGrams(input, 3, 0, true);
 
+            return -1.0*betaToemehArumugam * bigramscore;
 
+            /*
             Dictionary<string, double> inputBiGrams = new Dictionary<string,double>();
             Dictionary<string, double> inputTriGrams = new Dictionary<string,double>();
-
+            
             // Count input Bigrams
             foreach (string g in GramTokenizer.tokenize(input, 2, false))
             {
                 if (inputBiGrams.ContainsKey(g))
                 {
                     inputBiGrams[g] = inputBiGrams[g] + 1;
+                    if (fwtMatthews.TryGetValue(g, out value))
+                    {
+                        beta += value;
+                    }
                 }
                 else
                 {
                     inputBiGrams.Add(g, 0);
+                    if (fwtMatthews.TryGetValue(g, out value))
+                    {
+                        beta += value;
+                    }
                 }
             }
-            /*debug
+            
+             debug
             foreach (KeyValuePair<string, double[]> g in corpusBigrams)
             {
                 GuiLogMessage(corpusBigrams[g.Key][0].ToString() + " " + g.Key + " " + corpusBigrams[g.Key][1].ToString(), NotificationLevel.Debug);
-            } */
+            } 
             
             // Count input TriGrams
             foreach (string g in GramTokenizer.tokenize(input, 3, false))
@@ -354,7 +430,7 @@ namespace Cryptool.Plugins.CostFunction
                     inputTriGrams.Add(g, 0);
                 }
             }
-
+            
             //Union Bigrams
             HashSet<string> allBigrams = new HashSet<string>(inputBiGrams.Keys);
             allBigrams.UnionWith(corpusBigrams.Keys);
@@ -364,10 +440,10 @@ namespace Cryptool.Plugins.CostFunction
             allTrigrams.UnionWith(corpusTrigrams.Keys);
 
             // Sum of all input Bigrams absolutes
-            double sumBigrams = inputBiGrams.Values.Sum();
+            double sumBigrams = 0.0;
 
             // Sum of all input Trigrams absolutes
-            double sumTrigrams = inputTriGrams.Values.Sum();
+            double sumTrigrams = 0.0;
 
             // First part of the equation: Sum up all [K_b (i,j) - D_b (i,j)]
             double bigramscore = 0.0;
@@ -375,15 +451,21 @@ namespace Cryptool.Plugins.CostFunction
             {
                 if (corpusBigrams.ContainsKey(g) && inputBiGrams.ContainsKey(g))
                 {
+                    sumBigrams++;
                     bigramscore += corpusBigrams[g][1] - inputBiGrams[g] / sumBigrams;
+                    
                 }
                 else if (!corpusBigrams.ContainsKey(g))
                 {
+                    sumBigrams++;
                     bigramscore += 0.0 - inputBiGrams[g] / sumBigrams;
+                    
                 }
                 else if (!inputBiGrams.ContainsKey(g))
                 {
+                    sumBigrams++;
                     bigramscore += corpusBigrams[g][1];
+                    
                 }
             }
 
@@ -393,19 +475,27 @@ namespace Cryptool.Plugins.CostFunction
             {
                 if (corpusTrigrams.ContainsKey(g) && inputTriGrams.ContainsKey(g))
                 {
+                    sumTrigrams++;
                     Trigramscore += corpusTrigrams[g][1] - inputTriGrams[g] / sumTrigrams;
                 }
                 else if (!corpusTrigrams.ContainsKey(g))
                 {
+                    sumTrigrams++;
                     Trigramscore += 0.0 - inputTriGrams[g] / sumTrigrams;
                 }
                 else if (!inputTriGrams.ContainsKey(g))
                 {
+                    sumTrigrams++;
                     Trigramscore += corpusTrigrams[g][1];
                 }
             }
-
-            return 10*bigramscore+10*Trigramscore;
+            double total = beta * bigramscore + gamma * Trigramscore;
+            if (total != 0.0)
+            {
+                GuiLogMessage(total.ToString(), NotificationLevel.Debug);
+            }
+            return total;
+            */
         }//end Execute
 
         public double regex(string input)
@@ -568,12 +658,15 @@ namespace Cryptool.Plugins.CostFunction
         /// <param name="input">The text to be scored</param>
         /// <param name="length">n-gram length</param>
         /// <returns>The trigram score result</returns>
-        public double calculateNGrams(string input, int length, int valueSelection)
+        public double calculateNGrams(string input, int length, int valueSelection, bool weighted)
         {
             this.statistics = new Dictionary<int, IDictionary<string, double[]>>();
             double score = 0;
-            if (corpusGrams == null)
-            { corpusGrams = GetStatistics(length); }
+            if (corpusBigrams == null && length == 2)
+            { corpusBigrams = GetStatistics(length); }
+
+            if (corpusTrigrams == null && length == 3)
+            { corpusTrigrams = GetStatistics(length); }
             input = input.ToUpper();
             // FIXME: case handling?
 
@@ -584,10 +677,15 @@ namespace Cryptool.Plugins.CostFunction
                 // ensure each n-gram is counted only once
                 if (inputGrams.Add(g))
                 {
-                    if (corpusGrams.ContainsKey(g))
+                    if (corpusBigrams.ContainsKey(g) && length == 2 )
                     {
-                        score += corpusGrams[g][valueSelection];
-
+                        score += corpusBigrams[g][valueSelection];
+                        if (weighted) { weights(g, 2); }
+                    }
+                    if (corpusTrigrams.ContainsKey(g) && length == 3)
+                    {
+                        score += corpusTrigrams[g][valueSelection];
+                        if (weighted) { weights(g, 3); }
                     }
                 }
             }
@@ -793,11 +891,11 @@ namespace Cryptool.Plugins.CostFunction
                 case 1: //Entropy
                     return plugin.calculateEntropy(text, bytesToUse);
                 case 2: // Bigrams: log 2
-                    return plugin.calculateNGrams(plugin.ByteArrayToString(text), 2, 2);
+                    return plugin.calculateNGrams(plugin.ByteArrayToString(text), 2, 2, false);
                 case 3: // Bigrams: Sinkov
-                    return plugin.calculateNGrams(plugin.ByteArrayToString(text), 2, 3);
+                    return plugin.calculateNGrams(plugin.ByteArrayToString(text), 2, 3, false);
                 case 4: // Bigrams: Percentaged
-                    return plugin.calculateNGrams(plugin.ByteArrayToString(text), 2, 1);
+                    return plugin.calculateNGrams(plugin.ByteArrayToString(text), 2, 1, false);
                 case 5: // regular expression
                     return plugin.regex(plugin.ByteArrayToString(text));
                 case 6:
