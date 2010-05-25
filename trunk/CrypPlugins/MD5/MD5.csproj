@@ -114,6 +114,7 @@
     <Compile Include="Algorithm\PresentableMD5.cs" />
     <Compile Include="Algorithm\PresentableMD5State.cs" />
     <Compile Include="Presentation\Converters\BytesToStringConverter.cs" />
+    <Compile Include="Presentation\Converters\HighlightIndexToBrushConverter.cs" />
     <Compile Include="Presentation\Converters\MD5StateDescriptionToStringConverter.cs" />
     <Compile Include="Presentation\Converters\MD5StateToUserControlConverter.cs" />
     <Compile Include="Presentation\Converters\UintToLittleEndianHexStringConverter.cs" />

@@ -118,6 +118,9 @@ namespace Cryptool.MD5.Algorithm
             }
         }
 
+        /// <summary>
+        /// Absolute index of the current step, value range 0 - 63
+        /// </summary>
         public uint AbsoluteStepIndex
         {
             get
@@ -126,6 +129,9 @@ namespace Cryptool.MD5.Algorithm
             }
         }
 
+        /// <summary>
+        /// Shift constant used for current step
+        /// </summary>
         public uint ShiftConstant
         {
             get
@@ -134,11 +140,25 @@ namespace Cryptool.MD5.Algorithm
             }
         }
 
+        /// <summary>
+        /// Addition constant used for current step
+        /// </summary>
         public uint AdditionConstant
         {
             get
             {
                 return PresentableMD5.AdditionConstantTable[AbsoluteStepIndex];
+            }
+        }
+
+        /// <summary>
+        /// The index of the message part used for current step
+        /// </summary>
+        public int MessagePartIndex
+        {
+            get
+            {
+                return PresentableMD5.GetWordIndex(RoundIndex, AbsoluteStepIndex);
             }
         }
 

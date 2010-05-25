@@ -19,6 +19,6 @@
         <displays:CompressionVariableDisplay DataContext="{Binding NextState}" Margin="0,180,8,175" HorizontalAlignment="Right" Width="350" />
         <Label Margin="364,180,356,175" x:Name="label1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Style="{DynamicResource labelStyle}" Content="&gt;&gt;&gt;"/>
     	<TextBlock Margin="8,0,8,98.7" x:Name="textBlock2_Copy" TextWrapping="Wrap" Style="{DynamicResource textBlockStyle}" VerticalAlignment="Bottom" Height="35" ><Run Text="We also split our "/><Run Text="512 bit "/><Run Text="data block into 16 "/><Run Text="little-endian "/><Run Text="integers"/><Run Text=", each "/><Run Text="32 bit:"/></TextBlock>
-    	<displays:DataIntegerDisplay Margin="8,0,8,8" VerticalAlignment="Bottom" Height="86.7" DataContext="{Binding NextState.DataAsIntegers}"/>
+    	<displays:DataIntegerDisplay Margin="8,0,8,8" VerticalAlignment="Bottom" Height="86.7" DisplayedValues="{Binding NextState.DataAsIntegers}"/>
     </Grid>
 </UserControl>
