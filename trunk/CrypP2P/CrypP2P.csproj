@@ -77,10 +77,6 @@
       <HintPath>..\AppReferences\Bootstrapper.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevComponents.WpfRibbon">
-      <HintPath>..\AppExternalReferences\DevComponents.WpfRibbon.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="FullMeshDHT">
       <HintPath>..\AppReferences\FullMeshDHT.dll</HintPath>
       <Private>False</Private>

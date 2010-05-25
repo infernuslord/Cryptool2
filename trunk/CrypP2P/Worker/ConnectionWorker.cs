@@ -14,35 +14,34 @@
    limitations under the License.
 */
 
-using System;
 using System.ComponentModel;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Cryptool.P2P.Helper;
 using Cryptool.P2P.Internal;
 using Cryptool.PluginBase;
-using DevComponents.WpfRibbon;
 
 namespace Cryptool.P2P.Worker
 {
-    internal class ConnectionWorker : WorkerBase
+    public class ConnectionWorker : WorkerBase
     {
         private readonly P2PBase _p2PBase;
-        private readonly ButtonDropDown _p2PButton;
         private readonly P2PSettings _p2PSettings;
 
-        public ConnectionWorker(P2PBase p2PBase, P2PSettings p2PSettings, ButtonDropDown p2PButton)
+        public ConnectionWorker(P2PBase p2PBase, P2PSettings p2PSettings)
         {
             _p2PBase = p2PBase;
             _p2PSettings = p2PSettings;
-            _p2PButton = p2PButton;
+        }
+
+        protected override void WorkComplete(object sender, RunWorkerCompletedEventArgs e)
+        {
+            P2PManager.Instance.GuiLogMessage(
+                P2PManager.Instance.P2PConnected()
+                    ? "Connection to P2P network established."
+                    : "Connection to P2P network terminated.", NotificationLevel.Info);
         }
 
         protected override void PerformWork(object sender, DoWorkEventArgs e)
         {
-            //p2pButton.IsEnabled = false;
-
             if (!_p2PBase.Started)
             {
                 P2PManager.Instance.GuiLogMessage("Connecting to P2P network...", NotificationLevel.Info);
@@ -65,35 +64,8 @@ namespace Cryptool.P2P.Worker
             }
         }
 
-        protected override void WorkComplete(object sender, RunWorkerCompletedEventArgs e)
-        {
-            // Update image according to new state
-            var newImage = new Image();
-
-            if (P2PManager.Instance.P2PConnected())
-            {
-                P2PManager.Instance.GuiLogMessage("Connection to P2P network established.", NotificationLevel.Info);
-                P2PManager.Instance.GuiLogMessage("P2P user info: " + P2PManager.Instance.UserInfo(),
-                                                  NotificationLevel.Debug);
-                newImage.Source = new BitmapImage(new Uri(P2PManager.P2PDisconnectImageUri, UriKind.RelativeOrAbsolute));
-            }
-            else
-            {
-                P2PManager.Instance.GuiLogMessage("Connection to P2P network terminated.", NotificationLevel.Info);
-                newImage.Source = new BitmapImage(new Uri(P2PManager.P2PConnectImageUri, UriKind.RelativeOrAbsolute));
-            }
-
-            newImage.Stretch = Stretch.Uniform;
-            newImage.Width = 40;
-            newImage.Height = 40;
-            _p2PButton.Image = newImage;
-
-            _p2PButton.IsEnabled = true;
-        }
-
         protected override void PrePerformWork()
         {
-            _p2PButton.IsEnabled = false;
         }
     }
 }
