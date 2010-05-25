@@ -72,9 +72,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PeersAtPlayBase, Version=1.0.4654.4, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\AppReferences\PeersAtPlayBase.dll</HintPath>
+    <Reference Include="PeersAtPlayBase">
+      <HintPath>..\..\AppReferences\x86\PeersAtPlayBase.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
