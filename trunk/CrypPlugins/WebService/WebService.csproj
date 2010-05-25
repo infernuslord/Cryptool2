@@ -53,6 +53,8 @@
     <Optimize>false</Optimize>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
+  <ItemGroup Condition=" '$(Platform)' == 'x86' " />
+  <ItemGroup Condition=" '$(Platform)' == 'x64' " />
   <ItemGroup>
     <Reference Include="Accessibility" />
     <Reference Include="PresentationCore">

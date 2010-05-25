@@ -51,6 +51,8 @@
     <Optimize>false</Optimize>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
+  <ItemGroup Condition=" '$(Platform)' == 'x86' " />
+  <ItemGroup Condition=" '$(Platform)' == 'x64' " />
   <ItemGroup>
     <Reference Include="CrypPluginBase, Version=2.0.3554.3, Culture=neutral, PublicKeyToken=db26bd0a20dcbd5c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

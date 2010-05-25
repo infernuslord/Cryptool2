@@ -76,11 +76,19 @@
   <PropertyGroup>
     <ApplicationIcon>cryptool.ico</ApplicationIcon>
   </PropertyGroup>
-  <ItemGroup>
+  <ItemGroup Condition=" '$(Platform)' == 'x86' ">
     <Reference Include="CrypWin">
-      <HintPath>..\AppSpecialReferences\x86\CrypWin.exe</HintPath>
-      <Private>False</Private>
+      <HintPath>..\appspecialreferences\x86\crypwin.exe</HintPath>
+      <Private>True</Private>
     </Reference>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(Platform)' == 'x64' ">
+    <Reference Include="CrypWin">
+      <HintPath>..\appspecialreferences\x64\crypwin.exe</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="DevComponents.WpfDock">
       <HintPath>..\AppExternalReferences\DevComponents.WpfDock.dll</HintPath>
     </Reference>
