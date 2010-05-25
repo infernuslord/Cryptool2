@@ -30,6 +30,7 @@ namespace TranspositionAnalyser
         LinkedList<ValueKey> list1;
         private TranspositionAnalyserQuickWatchPresentation myPresentation;
         private Random rd;
+        private AutoResetEvent ars;
 
         TranspositionAnalyserSettings settings;
         #region Properties
@@ -76,6 +77,7 @@ namespace TranspositionAnalyser
             myPresentation = new TranspositionAnalyserQuickWatchPresentation();
             QuickWatchPresentation = myPresentation;
             myPresentation.doppelClick += new EventHandler(this.doppelClick);
+            ars = new AutoResetEvent(false);
         }
 
         private void doppelClick(object sender, EventArgs e)
@@ -96,9 +98,10 @@ namespace TranspositionAnalyser
                 // value.OnStatusChanged += onStatusChanged;
                 controlMaster = value;
                 OnPropertyChanged("ControlMaster");
-
             }
         }
+
+      
 
         private IControlCost costMaster;
         [PropertyInfo(Direction.ControlMaster, "Cost Master", "Used for cost calculation", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
@@ -145,8 +148,6 @@ namespace TranspositionAnalyser
             get { return settings; }
         }
 
-
-
         public UserControl Presentation
         {
             get { return null; }
@@ -192,6 +193,7 @@ namespace TranspositionAnalyser
         private Boolean stop;
         public void Stop()
         {
+            ars.Set();
             stop = true;
         }
 
@@ -230,7 +232,7 @@ namespace TranspositionAnalyser
                 switch (this.settings.Analysis_method)
                 {
                     case 0: Output = costfunction_bruteforce(sender); GuiLogMessage("Starting Brute-Force Analysis", NotificationLevel.Info); break;
-                    case 1: GuiLogMessage("Starting Analysis with crib", NotificationLevel.Info); cribAnalysis(this.crib, this.input); break;
+                    case 1: GuiLogMessage("Starting Analysis with crib", NotificationLevel.Info); cribAnalysis(sender, this.crib, this.input); break;
                     case 2: GuiLogMessage("Starting genetic analysis", NotificationLevel.Info); geneticAnalysis(sender); break;
                 }
             }
@@ -533,8 +535,11 @@ namespace TranspositionAnalyser
         }
 
         #region cribAnalysis
-        public void cribAnalysis(byte[] crib, byte[] cipher)
+
+        private List<Dingens> tablelist;
+        public void cribAnalysis(IControlEncryption sender, byte[] crib, byte[] cipher)
         {
+            
 
             if (crib != null && crib != null)
             {
@@ -544,7 +549,518 @@ namespace TranspositionAnalyser
                 }
             }
             else { GuiLogMessage("Missing crib or input!", NotificationLevel.Info); }
+
+            // tmp-
+            // ValueKey Liste list
+            // für jeden Text einen ValueKey erstellen
+            // Bsp:
+            //ValueKey tmpValue = new ValueKey();
+            //tmpValue.keyArray = key;
+            //byte[] dec = sender.Decrypt(input, tmpValue.keyArray, null);
+            //double val = costMaster.calculateCost(dec);
+
+            // Am Ende Liste von ValueKeys an update geben:
+            // updateToplist(list);
+
+            //  if (costMaster.getRelationOperator() == RelationOperator.LessThen)
+
+            ValueKey tmpValue = new ValueKey();
+            tablelist = new List<Dingens>();
+            //tmpValue.keyArray = {2;3;4};
+            //byte[] dec = sender.Decrypt(input, tmpValue.keyArray, null);
+            System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+            //String one = "ZWYXTENTEISECHICHTIGEXSITEERHEITSMITLLILUNGXANXADEEXAGENTENXXSSXINTERNENDIICHERHEITSXWENSTESYXESELERDENXDOPPXDAGENTENXINXRENXEIGENENUTEIHENXVERMDZETYXESXWIRSTURXAEUSSERTXENXVORSICHGXBEIMXUMGANHEMITXSICHERTEITSRELEVANXAMXMATERIALXINGEHALTENYERMXRAHMENXDAGXMAULWURFJXSDXWIRDXDIESTICHERHEITSLLUFEXAUFXSIGEYCONXDREIXXESETZTYXDERGSRSTEXZUGANXISCHLUESSELONSTXDIFFUSITXYXABXSOFORICWIRDXZURXSXKHERUNGXDERONOMMUNIKATINAXDASXALTEROSTIVEXKRYPTRAYSTEMXCAETG";
+            String two = "YXTENTEISEZWICHTIGEXSICHERHEITSMITTEILUNGXANXALLEXAGENTENXDESXINTERNENXSICHERHEITSDIENSTESYXESXWERDENXDOPPELAGENTENXINXDENXEIGENENXREIHENXVERMUTETYXESXWIRDZURXAEUSSERSTENXVORSICHTXBEIMXUMGANGXMITXSICHERHEITSRELEVANTEMXMATERIALXANGEHALTENYXIMXRAHMENXDERXMAULWURFJAGDXWIRDXDIEXSICHERHEITSSTUFEXAUFXSILLYCONXDREIXGESETZTYXDERXERSTEXZUGANGSSCHLUESSELXISTXDIFFUSIONYXABXSOFORTXWIRDXZURXSICHERUNGXDERXKOMMUNIKATIONXDASXALTERNATIVEXKRYPTOSYSTEMXCAETRAG";
+            //double val = costMaster.calculateCost(Input);
+            double val2 = costMaster.calculateCost(enc.GetBytes(two));
+            if (costMaster.getRelationOperator() == RelationOperator.LessThen)
+            {
+                GuiLogMessage(enc.GetString(crib), NotificationLevel.Debug);
+            }
+            
+            PermutationGenerator per = new PermutationGenerator(2);
+            cribAnalysis1(Crib, Input);
+            ars.WaitOne();
+
+            for (int i = 0; i < tablelist.Count; i++) 
+            {
+                for (int ix = 0; ix < tablelist[i].getCount();ix++ )
+                {
+                    if (tablelist[i].getSize(ix) == 0)
+                    {
+                        tablelist.Remove(tablelist[i]);
+                        i--;
+                        break;
+                        
+                    }
+                }
+            }
+            for (int i = 0; i < tablelist.Count; i++)
+            {
+                GuiLogMessage(tablelist[i].getCount()+"Kawumm", NotificationLevel.Debug);
+            }
+
+            //int[,] key = { { 1, 0, 0 }, { 2, 0, 0 }, { 3, 0, 0 }, { 6, 0, 0 }, { 4, 8, 11 }, { 12, 12, 0 }, { 10, 0, 0 }, { 4, 8, 11 }, { 7, 8, 11 }, { 5, 0, 0 }, { 8, 9, 0 }, { 8, 9, 0 } };
+            LinkedList<ValueKey> valList = new LinkedList<ValueKey>();
+            for (int x = 0; x < tablelist.Count; x++)
+            {
+                int[,] key = tablelist[x].toint();
+
+                List<List<int>> final1 = per.returnlogicper(key);
+                
+
+                for (int ix = 0; ix < final1.Count; ix++)
+                {
+                    for (int iy = 0; iy < final1[ix].Count; iy++)
+                    {
+                        int[] key2 = final1[ix].ToArray();
+                        byte[] key3 = new byte[key2.Length];
+                        for (int i = 0; i < key2.Length; i++)
+                        {
+                            key3[i] = Convert.ToByte(key2[i]);
+                        }
+                        byte[] dec = sender.Decrypt(Input, key3, null);
+                        GuiLogMessage(enc.GetString(dec), NotificationLevel.Debug);
+                        double val3 = costMaster.calculateCost(dec);
+
+                        ValueKey v = new ValueKey();
+                        v.decryption = dec;
+                        v.value = val3;
+                        v.key = "";
+                        v.keyArray = key3;
+                        valList.AddFirst(v);
+                        
+                        
+                        GuiLogMessage("" + val3, NotificationLevel.Debug);
+                        int help = final1[ix][0];
+                        final1[ix].Remove(final1[ix][0]);
+                        final1[ix].Add(help);
+
+                    }
+                }
+            }
+
+           // GuiLogMessage(""+val, NotificationLevel.Debug);
+            
+            GuiLogMessage("" + val2, NotificationLevel.Debug);
+
+            // Am Ende Liste von ValueKeys an update geben: 
+            
+            double best = Double.MinValue;
+            list1 = getDummyLinkedList(best);
+            valuequeue = Queue.Synchronized(new Queue());
+            foreach (ValueKey v in valList)
+            {
+                valuequeue.Enqueue(v);
+            }
+            list1 = valList;
+            updateToplist(valList);
+            showProgress(System.DateTime.Now, 1, 1);
+            ProgressChanged(1, 1);            
+
+            //  if (costMaster.getRelationOperator() == RelationOperator.LessThen)
+
+
         }
+
+        private void cribAnalysis(byte[] crib, byte[] cipher)
+        {
+
+            if (crib != null && crib != null)
+            {
+                foreach (int c in getKeyLength(crib, cipher))
+                {
+                    Console.WriteLine("Possible Key-Length: " + c);
+                }
+            }
+            else { Console.WriteLine("Missing crib or input!"); }
+        }
+
+        private void cribAnalysis1(byte[] crib, byte[] cipher)
+        {
+            if (crib == null || cipher == null)
+            {
+                Console.WriteLine("Crib or Cipher NULL");
+                return;
+            }
+
+            for (int keylength = 1; keylength < crib.Length; keylength++)
+            {
+                byte[,] cipherM = cipherToMatrix(keylength, cipher);
+                byte[,] cribM = cribToMatrix(keylength, crib);
+
+                // Matrix in Console zeigen
+                if (keylength == 12)
+                {
+                    int length = cipherM.Length / keylength;
+                    System.Text.Encoding enc = System.Text.Encoding.ASCII;
+                    for (int a = 0; a < keylength; a++)
+                    {
+
+                        for (int b = 0; b < length; b++)
+                        {
+                            if (cipherM[b, a] != null)
+                                Console.Write((char)cipherM[b, a]);
+                        }
+                        Console.WriteLine("");
+                    }
+                    Console.WriteLine("");
+                }
+
+                analyse1(keylength, cipherM, cribM);
+            }
+        }
+
+        private void analyse1(int keylength, byte[,] cipherMatrix, byte[,] cribMatrix)
+        {
+            int cipherMatrixLength = cipherMatrix.Length / keylength;
+            int cribMatrixHeight = cribMatrix.Length / keylength;
+
+            ArrayList all = new ArrayList();
+            Boolean found = true;
+
+
+            int end = keylength;
+            if (cribMatrixHeight > 1)
+            {
+                byte newbyte = new byte();
+                for (int i = 0; i < keylength; i++)
+                {
+                    if (cribMatrix[i, 1] == newbyte)
+                    {
+                        end = i;
+                        break;
+                    }
+                }
+            }
+
+
+            for (int x = 0; x < end; x++)
+            {
+                ArrayList c = contains(x, keylength, cipherMatrix, cribMatrix);
+                if (c == null)
+                {
+                    found = false;
+                    break;
+                }
+                else
+                {
+                    foreach (MiniCribPos m in c)
+                    {
+                        all.Add(m);
+                    }
+                }
+            }
+
+            if (found == false)
+            {
+                return;
+            }
+
+            else
+            {
+                auswertenNeu(keylength, end, all, cribMatrix, cipherMatrix);
+            }
+
+        }
+
+        private ArrayList contains(int cribColumn, int keylength, byte[,] cipherMatrix, byte[,] cribMatrix)
+        {
+            int cipherMatrixLength = cipherMatrix.Length / keylength;
+            int cribMatrixHeight = cribMatrix.Length / keylength;
+            byte newbyte = new byte();
+
+            ArrayList allFound = null;
+
+            for (int a = 0; a < keylength; a++)
+            {
+                for (int b = 0; b < cipherMatrixLength; b++)
+                {
+                    if (cribMatrix[cribColumn, 0].Equals(cipherMatrix[b, a]))
+                    {
+                        for (int y = 1; y < cribMatrixHeight; y++)
+                        {
+                            if (b + y < cipherMatrixLength)
+                            {
+                                if (cribMatrix[cribColumn, y].Equals(newbyte))
+                                {
+                                    //passendes gefunden und jetzt eintragen
+                                    MiniCribPos found = new MiniCribPos(cribColumn, b, a);
+
+                                    if (allFound == null)
+                                    {
+                                        allFound = new ArrayList();
+                                    }
+
+                                    allFound.Add(found);
+
+
+                                }
+
+                                else if (cribMatrix[cribColumn, y].Equals(cipherMatrix[b + y, a]))
+                                {
+                                    if (y == cribMatrixHeight - 1)
+                                    {
+                                        //passendes gefunden und jetzt eintragen
+                                        MiniCribPos found = new MiniCribPos(cribColumn, b, a);
+
+                                        if (allFound == null)
+                                        {
+                                            allFound = new ArrayList();
+                                        }
+
+                                        allFound.Add(found);
+                                    }
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            return allFound;
+        }
+
+        // found possible keylength with crib.
+        // trys to decrypt with crib.
+        private void auswerten(int keylength, int end, ArrayList all, byte[,] cribMatrix, byte[,] cipherMatrix)
+        {
+            Console.WriteLine("possible keylength: " + keylength);
+            // weiter analysieren (möglichen text finden)
+
+            //foreach (MiniCribPos abc in all)
+            //{
+            //    Console.WriteLine(abc.cribColumn + "(" + abc.xPos + "/" + abc.yPos + ")");
+            //}
+
+            Hashtable table = new Hashtable();
+
+            foreach (MiniCribPos abc in all)
+            {
+                if (table.ContainsKey(abc.xPos))
+                {
+                    int value = (int)table[abc.xPos];
+                    table.Remove(abc.xPos);
+                    table.Add(abc.xPos, value + 1);
+                }
+                else
+                {
+                    table.Add(abc.xPos, 1);
+                }
+            }
+
+            //höchste anzahl suchen
+            int highest = 0;
+            int amount = 0;
+
+            IDictionaryEnumerator _enumerator = table.GetEnumerator();
+            while (_enumerator.MoveNext())
+            {
+                if (((int)_enumerator.Value) > amount)
+                {
+                    amount = (int)_enumerator.Value;
+                    highest = (int)_enumerator.Key;
+                }
+            }
+            Console.WriteLine("highest pos: " + highest + " (" + amount + "x)");
+
+            // ordnen versuchen
+            Console.WriteLine("TOP:");
+            for (int a = 0; a < keylength; a++)
+            {
+                foreach (MiniCribPos m in all)
+                {
+                    if (m.xPos == highest && m.cribColumn == a)
+                    {
+                        Console.WriteLine(a + ": Zeile:" + m.yPos + " (enc)");
+                    }
+                }
+            }
+
+            Console.WriteLine("");
+            Console.WriteLine("+1");
+            for (int a = 0; a < keylength; a++)
+            {
+                foreach (MiniCribPos m in all)
+                {
+                    if (m.xPos == highest + 1 && m.cribColumn == a)
+                    {
+                        Console.WriteLine(a + "* Zeile :" + m.yPos + " (enc)");
+                    }
+                }
+            }
+
+            Console.WriteLine("");
+            Console.WriteLine("-1");
+            for (int a = 0; a < keylength; a++)
+            {
+                foreach (MiniCribPos m in all)
+                {
+                    if (m.xPos == highest - 1 && m.cribColumn == a)
+                    {
+                        Console.WriteLine(a + "* -Zeile : " + m.yPos + " (enc)");
+                    }
+                }
+            }
+            Console.WriteLine("-----------");
+
+            // Wenn MiniCribs mit nur einem Buchstaben vorhanden sind:
+            if (end < keylength)
+            {
+                int searchCol = highest;
+                Boolean searchColChanged = false;
+                for (int a = end; a < keylength; a++)
+                {
+                    byte mybte = cribMatrix[a, 0];
+                    Boolean found1 = false;
+                    for (int b = 0; b < keylength; b++)
+                    {
+                        if ((cipherMatrix[searchCol, b] == mybte))
+                        {
+                            found1 = true;
+                            Console.WriteLine(a + ": Zeile " + b + "   col:" + searchCol);
+                        }
+                    }
+                    if (!found1)
+                    {
+                        if (!searchColChanged)
+                        {
+                            searchColChanged = true;
+                            a--;
+                            searchCol++;
+                        }
+                        else
+                        {
+                            break;
+                        }
+
+                    }
+                }
+            }
+        }
+
+        private void auswertenNeu(int keylength, int end, ArrayList all, byte[,] cribMatrix, byte[,] cipherMatrix)
+        {
+            Console.WriteLine("possible keylength: " + keylength);
+            // weiter analysieren (möglichen text finden)
+
+            foreach (MiniCribPos abc in all)
+            {
+                Console.WriteLine(abc.cribColumn + "(" + abc.xPos + "/" + abc.yPos + ")");
+            }
+
+            Hashtable table = new Hashtable();
+
+            foreach (MiniCribPos abc in all)
+            {
+                if (table.ContainsKey(abc.xPos))
+                {
+                    int value = (int)table[abc.xPos];
+                    table.Remove(abc.xPos);
+                    table.Add(abc.xPos, value + 1);
+                }
+                else
+                {
+                    table.Add(abc.xPos, 1);
+                }
+            }
+
+            //höchste anzahl suchen
+            int highest = 0;
+            int amount = 0;
+
+            IDictionaryEnumerator _enumerator = table.GetEnumerator();
+            while (_enumerator.MoveNext())
+            {
+                if (((int)_enumerator.Value) > amount)
+                {
+                    amount = (int)_enumerator.Value;
+                    highest = (int)_enumerator.Key;
+                }
+            }
+            Console.WriteLine("highest: " + highest + ": " + amount + "x");
+
+            int pos = 0;
+            amount = 0;
+
+            Dingens ding = new Dingens(keylength);
+            foreach (MiniCribPos m in all)
+            {
+                if ((m.xPos == highest - 1 || m.xPos == highest || m.xPos == highest + 1))
+                {
+                    ding.add(m.cribColumn, m.yPos, m.xPos - highest);
+                }
+            }
+
+            // Wenn MiniCribs mit nur einem Buchstaben vorhanden sind:
+            if (end < keylength)
+            {
+                Boolean searchColChanged = false;
+                for (int a = end; a < keylength; a++)
+                {
+                    byte mybte = cribMatrix[a, 0];
+
+                    for (int b = 0; b < keylength; b++)
+                    {
+                        if ((cipherMatrix[highest - 1, b] == mybte))
+                        {
+                            ding.add(a, b, -1);
+                        }
+                        if ((cipherMatrix[highest, b] == mybte))
+                        {
+                            ding.add(a, b, 0);
+                        }
+                        if ((cipherMatrix[highest + 1, b] == mybte))
+                        {
+                            ding.add(a, b, +1);
+                        }
+                    }
+                }
+            }
+
+            for (int i = 0; i < keylength; i++)
+            {
+                if (ding.getSize(i) == 1)
+                {
+                    int val = ding.getColumn(i)[0].getValue();
+                    int shift = ding.getColumn(i)[0].getShift();
+
+                    for (int j = 0; j < keylength; j++)
+                    {
+                        if (i != j && ding.getSize(j) > 0)
+                        {
+                            Dingens2[] column = ding.getColumn(j);
+                            for (int a = 0; a < column.Length; a++)
+                            {
+                                if (column[a].getValue() == val)
+                                {
+                                    ding.delete(j, val);
+                                    Console.WriteLine("Delete: " + j + "/" + val + "(" + shift + ")");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            for (int i = 0; i < keylength; i++)
+            {
+                Console.WriteLine(i + " mögliche Zeilen der encMatrix: " + ding.getString(i));
+            }
+
+            tablelist.Add(ding);
+            ars.Set();
+            
+        }
+        
+        
 
         #endregion
 
@@ -831,7 +1347,7 @@ namespace TranspositionAnalyser
             {
 
                 ArrayList valList = new ArrayList();
-
+                
                 for (int i = 0; i < 12; i++)
                 {
                     byte[] rndkey = randomArray(keylength);
@@ -1194,6 +1710,161 @@ namespace TranspositionAnalyser
         public string Key { get; set; }
         public string Text { get; set; }
 
+    }
+    class MiniCribPos
+    {
+        public int cribColumn { get; set; }
+        public int xPos { get; set; }
+        public int yPos { get; set; }
+
+        public MiniCribPos(int cribColumn, int xPos, int yPos)
+        {
+            this.cribColumn = cribColumn;
+            this.xPos = xPos;
+            this.yPos = yPos;
+        }
+    }
+
+    class Dingens
+    {
+        Dingens2[,] dingens;
+        int length = 0;
+
+        public Dingens(int length)
+        {
+            this.length = length;
+            dingens = new Dingens2[length, length];
+        }
+
+        public void add(int column, int value, int shift)
+        {
+            if (column < length)
+            {
+                for (int i = 0; i < length; i++)
+                {
+                    if (dingens[column, i] == null)
+                    {
+                        dingens[column, i] = new Dingens2(value, shift);
+                        break;
+                    }
+                }
+            }
+        }
+        public int getCount()
+        {
+            return length;
+        }
+        public int getSize(int column)
+        {
+            int count = 0;
+            if (column < length)
+            {
+                for (int i = 0; i < length; i++)
+                {
+                    if (dingens[column, i] != null)
+                    {
+                        count++;
+                    }
+                }
+            }
+            return count;
+        }
+
+        public void delete(int column, int value)
+        {
+            if (column < length)
+            {
+                for (int i = 0; i < length; i++)
+                {
+                    if (dingens[column, i] != null)
+                    {
+                        if (dingens[column, i].getValue() == value)
+                        {
+
+                            dingens[column, i] = null;
+                        }
+                    }
+                }
+            }
+        }
+
+        public String getString(int column)
+        {
+            String output = "";
+            if (column < length)
+            {
+                for (int i = 0; i < length; i++)
+                {
+                    if (dingens[column, i] != null)
+                    {
+                        output = output + dingens[column, i].getValue() + "(s=" + dingens[column, i].getShift() + "),";
+                    }
+                }
+            }
+            return output;
+        }
+
+        public Dingens2[] getColumn(int column)
+        {
+            int size = 0;
+            for (int i = 0; i < length; i++)
+            {
+                if (dingens[column, i] != null) size++;
+            }
+
+            Dingens2[] columnArray = new Dingens2[size];
+            int count = 0;
+            for (int i = 0; i < length; i++)
+            {
+                if (dingens[column, i] != null) columnArray[count++] = dingens[column, i];
+            }
+            return columnArray;
+        }
+        public int[,] toint()
+        {
+            int[,] res = new int[length, length];
+            for (int i = 0; i < length; i++)
+            {
+                for (int ix = 0; ix < length; ix++)
+                {
+                    res[i, ix] = 0;
+                }
+            }
+
+            for (int i = 0; i < dingens.GetLength(0); i++)
+            {
+                for (int ix = 0; ix < dingens.GetLength(1); ix++)
+                {
+                    if (dingens[i, ix] != null)
+                    {
+                        res[i, ix] = dingens[i, ix].getValue()+1;
+                    }
+                }
+            }
+            return res;
+        }
+    }
+
+    class Dingens2
+    {
+        int value;
+        int shift;
+
+        public Dingens2(int value, int shift)
+        {
+            this.value = value;
+            this.shift = shift;
+        }
+
+        public int getValue()
+        {
+            return value;
+        }
+
+        public int getShift()
+        {
+            return shift;
+        }
     }
 
 }
