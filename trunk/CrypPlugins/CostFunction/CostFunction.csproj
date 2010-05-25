@@ -72,9 +72,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NativeCryptography, Version=1.0.3777.33804, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\AppReferences\NativeCryptography.dll</HintPath>
+    <Reference Include="NativeCryptography">
+      <HintPath>..\..\AppReferences\x86\NativeCryptography.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore">

@@ -72,6 +72,10 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PeersAtPlayBase, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\AppReferences\x86\PeersAtPlayBase.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -109,7 +113,6 @@
     <ProjectReference Include="..\PeerToPeerBase\PeerToPeerBase.csproj">
       <Project>{A7CD30E7-5381-40CF-BB78-268EC998CCB3}</Project>
       <Name>PeerToPeerBase</Name>
-      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\PeerToPeer\PeerToPeer.csproj">
       <Project>{12829116-8FAD-4D09-A0AA-D75D88F07626}</Project>

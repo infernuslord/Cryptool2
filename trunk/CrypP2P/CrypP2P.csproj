@@ -74,27 +74,39 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Bootstrapper">
-      <HintPath>..\AppReferences\Bootstrapper.dll</HintPath>
+      <HintPath>..\AppReferences\x86\Bootstrapper.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="CertServices">
+      <HintPath>..\AppReferences\x86\CertServices.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FullMeshDHT">
-      <HintPath>..\AppReferences\FullMeshDHT.dll</HintPath>
+      <HintPath>..\AppReferences\x86\FullMeshDHT.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FullMeshOverlay">
-      <HintPath>..\AppReferences\FullMeshOverlay.dll</HintPath>
+      <HintPath>..\AppReferences\x86\FullMeshOverlay.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Gears4Net">
-      <HintPath>..\AppReferences\Gears4Net.dll</HintPath>
+      <HintPath>..\AppReferences\x86\Gears4Net.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="LinkManager">
-      <HintPath>..\AppReferences\LinkManager.dll</HintPath>
+      <HintPath>..\AppReferences\x86\LinkManager.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\AppReferences\x86\log4net.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="NetGearsTCP">
+      <HintPath>..\AppReferences\x86\NetGearsTCP.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="PeersAtPlayBase">
-      <HintPath>..\AppReferences\PeersAtPlayBase.dll</HintPath>
+      <HintPath>..\AppReferences\x86\PeersAtPlayBase.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore">
@@ -103,12 +115,20 @@
     <Reference Include="PresentationFramework">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="RUDP">
+      <HintPath>..\AppReferences\x86\RUDP.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Stun">
+      <HintPath>..\AppReferences\x86\Stun.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Security" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="Util">
-      <HintPath>..\AppReferences\Util.dll</HintPath>
+      <HintPath>..\AppReferences\x86\Util.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="WindowsBase">
