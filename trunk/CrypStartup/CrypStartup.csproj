@@ -78,7 +78,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CrypWin">
-      <HintPath>..\AppSpecialReferences\CrypWin.exe</HintPath>
+      <HintPath>..\AppSpecialReferences\x86\CrypWin.exe</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="DevComponents.WpfDock">
       <HintPath>..\AppExternalReferences\DevComponents.WpfDock.dll</HintPath>
@@ -182,7 +183,7 @@
 xcopy  /E /Y "..\..\..\ProjectSamples" "$(TargetDir)ProjectSamples\"
 xcopy  /E /Y "..\..\..\AppDataStore" "$(TargetDir)AppDataStore\"
 xcopy  /E /Y "..\..\..\AppReferences" "$(TargetDir)AppReferences\"
-xcopy  /E /Y "..\..\..\AppSpecialReferences\AnotherEditor.dll" "$(TargetDir)CrypPlugins\"</PreBuildEvent>
+xcopy  /E /Y "..\..\..\AppSpecialReferences\$(Platform)\AnotherEditor.dll" "$(TargetDir)CrypPlugins\"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
