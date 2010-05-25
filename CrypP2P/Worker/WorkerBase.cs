@@ -18,9 +18,9 @@ using System.ComponentModel;
 
 namespace Cryptool.P2P.Worker
 {
-    internal abstract class WorkerBase
+    public abstract class WorkerBase
     {
-        protected BackgroundWorker BackgroundWorker;
+        public readonly BackgroundWorker BackgroundWorker;
 
         protected WorkerBase()
         {

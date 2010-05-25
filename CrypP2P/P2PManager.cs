@@ -21,7 +21,6 @@ using Cryptool.P2P.Worker;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.Plugins.PeerToPeer.Internal;
-using DevComponents.WpfRibbon;
 
 namespace Cryptool.P2P
 {
@@ -44,11 +43,10 @@ namespace Cryptool.P2P
 
         # endregion
 
-        #region Private variables
+        #region Variables
 
         public P2PBase P2PBase { get; set; }
-        private P2PSettings P2PSettings { get; set; }
-        private ButtonDropDown P2PButton { get; set; }
+        public P2PSettings P2PSettings { get; set; }
 
         #endregion
 
@@ -65,11 +63,8 @@ namespace Cryptool.P2P
         /// Initialises variables and important environment settings 
         /// regarding certificates.
         /// </summary>
-        /// <param name="p2PButton">Button that can change the connection state 
-        /// and displays it by showing different images.</param>
-        public void Initialize(ButtonDropDown p2PButton)
+        public void Initialize()
         {
-            P2PButton = p2PButton;
             P2PBase = new P2PBase();
             P2PSettings = new P2PSettings();
             P2PBase.AllowLoggingToMonitor = P2PSettings.Log2Monitor;
@@ -82,17 +77,6 @@ namespace Cryptool.P2P
             // Register exit event to terminate P2P connection without loosing data
             // TODO check if this is correct, should be - but handler is not called (and application does not shut down), probably unrelated to this problem
             Application.ApplicationExit += HandleDisconnectByApplicationShutdown;
-        }
-
-        /// <summary>
-        /// Changes the current connection state to the P2P network. 
-        /// If there is currently no connection, it will try to connect.
-        /// If a connection is present, it will disconnect.
-        /// The actual work will be done asynchronous.
-        /// </summary>
-        public void ToggleConnectionState()
-        {
-            new ConnectionWorker(P2PBase, P2PSettings, P2PButton).Start();
         }
 
         public bool P2PConnected()
@@ -125,7 +109,7 @@ namespace Cryptool.P2P
         {
             if (P2PConnected())
             {
-                new ConnectionWorker(P2PBase, P2PSettings, P2PButton).Start();
+                new ConnectionWorker(P2PBase, P2PSettings).Start();
             }
         }
 
