@@ -263,7 +263,7 @@
         </Label>
         <Cryptool_MD5_Presentation_Displays:LabelledIntegerDisplay Caption="AC" Margin="127,165.298,0,186" HorizontalAlignment="Left" Width="117.755" Value="{Binding CurrentState.AdditionConstant}"/>
         <Cryptool_MD5_Presentation_Displays:LabelledIntegerDisplay Caption="SC" Margin="127,0,0,122.646" HorizontalAlignment="Left" Width="117.755" Value="{Binding CurrentState.ShiftConstant}" VerticalAlignment="Bottom" Height="48.702"/>
-        <Cryptool_MD5_Presentation_Displays:DataIntegerDisplay Margin="12,101,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="298" Height="46"/>
+        <Cryptool_MD5_Presentation_Displays:DataIntegerDisplay Margin="12,101,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="298" Height="46" DisplayedValues="{Binding CurrentState.DataAsIntegers}" HighlightedValue="{Binding CurrentState.MessagePartIndex}"/>
         <Label Margin="12,165.298,679,186" Name="label1" VerticalContentAlignment="Center">Addition constant</Label>
         <Label Height="48.702" HorizontalAlignment="Left" Margin="12,0,0,119" Name="label2" VerticalAlignment="Bottom" VerticalContentAlignment="Center" Width="109">Shift constant</Label>
         <Label Height="28" HorizontalAlignment="Left" Margin="12,73,0,0" Name="label3" VerticalAlignment="Top" Width="298" HorizontalContentAlignment="Center">Selected part from input data block</Label>

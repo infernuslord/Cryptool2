@@ -8,6 +8,6 @@
     </UserControl.Resources>
     <Grid>
         <Label Name="label1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" Content="{Binding CurrentState.State,Converter={StaticResource md5StateDescriptionToStringConverter}}" Background="SteelBlue" Foreground="White" />
-        <Label Background="SteelBlue" Content="{Binding CurrentStateNumber}" FontSize="20" Foreground="White" HorizontalContentAlignment="Center" Name="label2" VerticalContentAlignment="Center" HorizontalAlignment="Right" Width="70" />
+        <Label Background="SteelBlue" Content="" FontSize="20" Foreground="White" HorizontalContentAlignment="Center" Name="label2" VerticalContentAlignment="Center" HorizontalAlignment="Right" Width="70" />
     </Grid>
 </UserControl>

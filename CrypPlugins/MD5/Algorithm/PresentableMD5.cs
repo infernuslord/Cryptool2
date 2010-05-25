@@ -654,8 +654,16 @@ namespace Cryptool.MD5.Algorithm
             uint stepIndex = newState.RoundIndex * 16 + newState.RoundStepIndex;
 
             // Determine which part of the data to use in this step
+            int wordIndex = GetWordIndex(newState.RoundIndex, stepIndex);
+
+            // Execute the chosen round function
+            ExecRoundFunction(newState, roundFunction, newState.DataAsIntegers[wordIndex], stepIndex);
+        }
+
+        public static int GetWordIndex(uint roundIndex, uint stepIndex)
+        {
             uint wordIndex;
-            switch (newState.RoundIndex)
+            switch (roundIndex)
             {
                 default:
                 case 0:
@@ -672,9 +680,7 @@ namespace Cryptool.MD5.Algorithm
                     break;
             }
             wordIndex %= 16;
-
-            // Execute the chosen round function
-            ExecRoundFunction(newState, roundFunction, newState.DataAsIntegers[wordIndex], stepIndex);
+            return (int)wordIndex;
         }
 
         /// <summary>
