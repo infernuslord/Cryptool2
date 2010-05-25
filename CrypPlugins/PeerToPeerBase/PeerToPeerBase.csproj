@@ -72,59 +72,112 @@
     <Optimize>false</Optimize>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
-  <ItemGroup>
+  <ItemGroup Condition=" '$(Platform)' == 'x86' ">
     <Reference Include="Bootstrapper">
-      <HintPath>..\..\AppReferences\x86\Bootstrapper.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\appreferences\x86\bootstrapper.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="CertServices">
-      <HintPath>..\..\AppReferences\x86\CertServices.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\appreferences\x86\certservices.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="FullMeshDHT">
-      <HintPath>..\..\AppReferences\x86\FullMeshDHT.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\appreferences\x86\fullmeshdht.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="FullMeshOverlay">
-      <HintPath>..\..\AppReferences\x86\FullMeshOverlay.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\appreferences\x86\fullmeshoverlay.dll</HintPath>
+      <Private>false</Private>
     </Reference>
-    <Reference Include="Gears4Net, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\AppReferences\x86\Gears4Net.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="Gears4Net">
+      <HintPath>..\..\appreferences\x86\gears4net.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="LinkManager">
-      <HintPath>..\..\AppReferences\x86\LinkManager.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\appreferences\x86\linkmanager.dll</HintPath>
+      <Private>false</Private>
     </Reference>
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=c2ce2cb84dc7c251, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\AppReferences\x86\log4net.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="log4net">
+      <HintPath>..\..\appreferences\x86\log4net.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="NetGearsTCP">
-      <HintPath>..\..\AppReferences\x86\NetGearsTCP.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\appreferences\x86\netgearstcp.dll</HintPath>
+      <Private>false</Private>
     </Reference>
-    <Reference Include="PeersAtPlayBase, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\AppReferences\x86\PeersAtPlayBase.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="PeersAtPlayBase">
+      <HintPath>..\..\appreferences\x86\peersatplaybase.dll</HintPath>
+      <Private>false</Private>
     </Reference>
+    <Reference Include="RUDP">
+      <HintPath>..\..\appreferences\x86\rudp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Stun">
+      <HintPath>..\..\appreferences\x86\stun.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Util">
+      <HintPath>..\..\appreferences\x86\util.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(Platform)' == 'x64' ">
+    <Reference Include="Bootstrapper">
+      <HintPath>..\..\appreferences\x64\bootstrapper.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="CertServices">
+      <HintPath>..\..\appreferences\x64\certservices.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="FullMeshDHT">
+      <HintPath>..\..\appreferences\x64\fullmeshdht.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="FullMeshOverlay">
+      <HintPath>..\..\appreferences\x64\fullmeshoverlay.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Gears4Net">
+      <HintPath>..\..\appreferences\x64\gears4net.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="LinkManager">
+      <HintPath>..\..\appreferences\x64\linkmanager.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\appreferences\x64\log4net.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="NetGearsTCP">
+      <HintPath>..\..\appreferences\x64\netgearstcp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="PeersAtPlayBase">
+      <HintPath>..\..\appreferences\x64\peersatplaybase.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="RUDP">
+      <HintPath>..\..\appreferences\x64\rudp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Stun">
+      <HintPath>..\..\appreferences\x64\stun.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Util">
+      <HintPath>..\..\appreferences\x64\util.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="PresentationFramework">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="RUDP">
-      <HintPath>..\..\AppReferences\x86\RUDP.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Stun">
-      <HintPath>..\..\AppReferences\x86\Stun.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -139,11 +192,6 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Util, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\AppReferences\x86\Util.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>

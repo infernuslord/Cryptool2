@@ -85,6 +85,8 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup Condition=" '$(Platform)' == 'x86' " />
+  <ItemGroup Condition=" '$(Platform)' == 'x64' " />
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="CollectionElement.cs" />

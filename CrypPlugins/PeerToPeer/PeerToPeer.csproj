@@ -71,11 +71,19 @@
     <Optimize>false</Optimize>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
-  <ItemGroup>
+  <ItemGroup Condition=" '$(Platform)' == 'x86' ">
     <Reference Include="PeersAtPlayBase">
-      <HintPath>..\..\AppReferences\x86\PeersAtPlayBase.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\appreferences\x86\peersatplaybase.dll</HintPath>
+      <Private>false</Private>
     </Reference>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(Platform)' == 'x64' ">
+    <Reference Include="PeersAtPlayBase">
+      <HintPath>..\..\appreferences\x64\peersatplaybase.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
