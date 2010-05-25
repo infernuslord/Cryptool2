@@ -62,7 +62,7 @@ namespace WebService
         private SignedXml signedXml;
         private SignatureValidator validator;
         private XmlSchemaCollection collection;
-        private string wsdl,publicRSAkey;
+        private string wsdl,publickey;
 
         public RSACryptoServiceProvider provider;
         public WebService()
@@ -206,15 +206,11 @@ namespace WebService
             }
             if (e.PropertyName.Equals("publishKey"))
             {
-               // this.publicKey = this.exportPublicKey();
-                if (PublicKeyControl != null)
-                {
-                    PublicKeyControl.setPublicKey(this.exportPublicKey());
-                }
+                PublicKey = exportPublicKey();
             }
             if (e.PropertyName.Equals("exportWSDL"))
-            {   if(Control!=null)
-                Control.setWsdl(this.Wsdl);
+            {
+                Wsdl = this.wsdlDocument;
             }
             if (e.PropertyName.Equals("MethodenStub"))
             {
@@ -544,8 +540,9 @@ namespace WebService
                                         goto Abbruch;
                                     }
                                 }
-                                else { EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Es wurden nicht alle Parameter übergeben!", this, NotificationLevel.Error));
-                                goto Abbruch;
+                                else {
+                                    EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Es wurden nicht alle Parameter übergeben!", this, NotificationLevel.Error));
+                                    goto Abbruch;
                                 
                                 }
                             }
@@ -667,57 +664,29 @@ namespace WebService
             }
 
         }
-        
-    //    [PropertyInfo(Direction.ControlMaster,"Public-Key output", "Encryption Key",null,DisplayLevel.Beginner)]
-      public string publicKey
-    {
-        get
-        {
 
-            return this.publicRSAkey;
-        
-        }
-        set 
-        { this.publicRSAkey = value;
-        OnPropertyChanged("publicKey");
-        }
-           
-    }
-        private IControlPublicKey publicKeyControl;
-        [PropertyInfo(Direction.ControlMaster, "Public-Key output", "Encryption Key", null, DisplayLevel.Beginner)]
-        public IControlPublicKey PublicKeyControl
-        {
-            get { return publicKeyControl; }
-            set
-            {
-                publicKeyControl = value;
-                publicKeyControl.setPublicKey(this.publicKey);
-            }
-        }
-        private IControlWsdl control;
-        [PropertyInfo(Direction.ControlMaster, "WSDL output", "Web Service Description", null, DisplayLevel.Beginner)]
-        public IControlWsdl Control
-        {
-            get { return control; }
-            set
-            {
-                /* Die Verbindung wurde hergestellt, Sie können ab jetzt Methoden aufrufen */
-                control = value;
-                control.setWsdl(this.wsdlDocument);
-            }
-        }
-
-      //  [PropertyInfo(Direction.ControlMaster, "WSDL output", "Web Service Description", null, DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "WSDL output", "Web Service Description", null, DisplayLevel.Beginner)]
         public XmlDocument Wsdl
         {
             get { return this.wsdlDocument; }
             set
             {
                 this.wsdlDocument = value;
-                control.setWsdl(this.wsdlDocument);
                 OnPropertyChanged("Wsdl");
             }
         }
+
+        [PropertyInfo(Direction.OutputData, "Public-Key output", "Encryption Key", null, DisplayLevel.Beginner)]
+        public string PublicKey
+        {
+            get { return this.publickey; }
+            set
+            {
+                this.publickey = value;
+                OnPropertyChanged("PublicKey");
+            }
+        }
+
         [PropertyInfo(Direction.OutputData, "SOAP output", "Response from Web Service", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, "XmlOutputConverter")]
         public XmlDocument OutputString
         {

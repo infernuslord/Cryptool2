@@ -121,53 +121,53 @@ namespace Soap
         }
 
 
-     //   [PropertyInfo(Direction.ControlSlave, "WSDL Input", "WSDL to create the soap message",null, DisplayLevel.Beginner)]
-        //public XmlDocument wsdl
-        //{
-        //    set
-        //    {
-        //         presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-        //            {
-        //        string s = xmlToString(value);
-        //        loadWSDL(s);
-        //        wsdlLoaded = true;
-                       
-        //          OnPropertyChanged("wsdl");
-        //          createInfoMessage("Received WSDL File");
-        //          createInfoMessage("Created SOAP Message");
-        //            }, null);
-        //    }
-        //    get
-        //    {
-        //        return null;
-        //    }
-        //}
-        private ControlProxy control;
-[PropertyInfo(Direction.ControlSlave, "WSDL Input", "WSDL to create the soap message",null, DisplayLevel.Beginner)]
-        public IControlWsdl Control
-{
- get
- { 
- if (control == null)
-    control = new ControlProxy (this);
-  return control;
- }
-}
+        [PropertyInfo(Direction.InputData, "WSDL Input", "WSDL to create the soap message", null, DisplayLevel.Beginner)]
+        public XmlDocument Wsdl
+        {
+            set
+            {
+                presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                   {
+                       string s = xmlToString(value);
+                       loadWSDL(s);
+                       wsdlLoaded = true;
 
-private ControlPublicKeyProxy controlPublicKeyProxy;
-        [PropertyInfo(Direction.ControlSlave, "Public-Key input", "Encryption Key",null, DisplayLevel.Beginner)]
-        public IControlPublicKey publicKey
+                       OnPropertyChanged("wsdl");
+                       createInfoMessage("Received WSDL File");
+                       createInfoMessage("Created SOAP Message");
+                   }, null);
+            }
+            get
+            {
+                return null;
+            }
+        }
+
+        [PropertyInfo(Direction.InputData, "Public-Key input", "Encryption Key",null, DisplayLevel.Beginner)]
+        public string PublicKey
         {
             get
             {
+                return this.wsPublicKey;
+            }
+            set
+            {
+                Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    if (controlPublicKeyProxy == null)
-                        controlPublicKeyProxy = new ControlPublicKeyProxy(this);
-                    return controlPublicKeyProxy;
-                }
+                    {
+                        WsPublicKey = value;
+
+                        WsRSACryptoProv.FromXmlString(wsPublicKey);
+                        gotKey = true;
+                        mySettings.gotkey = true;
+                        mySettings.wsRSAcryptoProv = WsRSACryptoProv.ToXmlString(false);
+                        OnPropertyChanged("publicKey");
+                        createInfoMessage("Public Key Received");
+                    }
+                }, null);
             }
         }
-        private XmlDocument outputString;
+
        [PropertyInfo(Direction.OutputData, "SOAP output", "Send a SOAP Message", "",true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, "XmlConverter")]
         public XmlDocument OutputString                                                                                                 
         {
@@ -780,6 +780,13 @@ private ControlPublicKeyProxy controlPublicKeyProxy;
                    break;
                 case "wsdlloaded":
                     this.wsdlLoaded = s.wsdlloaded ;
+                    break;
+                case "sendSoap":
+                    if (!send)
+                    {
+                        OnPropertyChanged("OutputString");
+                        send = true;
+                    }
                     break;
                 case "resetSoap":
                     if (this.soap != null)
@@ -1549,11 +1556,6 @@ private ControlPublicKeyProxy controlPublicKeyProxy;
 
         public void Execute()
         {
-            if (!send)
-            {
-                OnPropertyChanged("OutputString");
-                send = true;
-            }
         }
 
         public void Initialize()
@@ -1613,109 +1615,6 @@ private ControlPublicKeyProxy controlPublicKeyProxy;
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
       
-        #endregion
-    }
-    public class ControlProxy : IControlWsdl
-    {
-        private Soap plugin;
-
-        // Konstruktor
-        public ControlProxy(Soap plugin)
-        {
-            this.plugin = plugin;
-        }
-        #region IControlWsdl Member
-
-        public XmlDocument Wsdl
-        {
-            get
-            {
-                return null;
-            }
-            set
-            {
-
-            }
-        }
-
-        public void setWsdl(XmlDocument wsdlDocument)
-        {
-           plugin.Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            {
-                string s = plugin.xmlToString(wsdlDocument);
-                plugin.loadWSDL(s);
-                plugin.wsdlLoaded = true;
-
-                plugin.OnPropertyChanged("wsdl");
-               plugin.createInfoMessage("Received WSDL File");
-                plugin.createInfoMessage("Created SOAP Message");
-            }, null);
-        }
-
-        #endregion
-
-        #region IControl Member
-
-        public event IControlStatusChangedEventHandler OnStatusChanged;
-
-        #endregion
-    }
-    public class ControlPublicKeyProxy : IControlPublicKey
-    {
-        private Soap plugin;
-        public ControlPublicKeyProxy(Soap plugin)
-        {
-            this.plugin = plugin;
-        }
-
-        #region IControlPublicKey Member
-      
-        public string publicKey
-        {
-            get
-            {
-                return null;
-            }
-            set
-            {
-          
-            }
-        }
-
-        public void setPublicKey(string publicKey)
-        {
-            try
-            {
-                if (publicKey == null)
-                    return;
-                plugin.Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                {
-
-
-                    {
-                        plugin.WsPublicKey = publicKey;
-
-                        plugin.WsRSACryptoProv.FromXmlString(plugin.WsPublicKey);
-                        plugin.gotKey = true;
-                        plugin.mySettings.gotkey = true;
-                        plugin.mySettings.wsRSAcryptoProv = plugin.WsRSACryptoProv.ToXmlString(false);
-                        plugin.OnPropertyChanged("publicKey");
-                        plugin.createInfoMessage("Public Key Received");
-                    }
-                }, null);
-            }
-            catch (Exception exc)
-            {
-            }
-        }
-
-
-        #endregion
-
-        #region IControl Member
-
-        public event IControlStatusChangedEventHandler OnStatusChanged;
-
         #endregion
     }
 
