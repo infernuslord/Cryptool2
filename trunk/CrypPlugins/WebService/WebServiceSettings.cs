@@ -29,7 +29,7 @@ namespace WebService
         #endregion
         
         private string methodName;
-        [TaskPane("Methodenname", "Benennen Sie ihre Web Methode", "Konfigurieren", 1, false, DisplayLevel.Expert, ControlType.TextBox,"")]
+        [TaskPane("Methodenname", "Benennen Sie ihre Web Methode", "Konfigurieren", 1, true, DisplayLevel.Expert, ControlType.TextBox, "")]
         public string MethodName
         {
             get
@@ -44,7 +44,7 @@ namespace WebService
         }
 
         private int paramString;
-        [TaskPane("Eingabeparameter vom Typ string", "Anzahl der Parameter vom Typ string", "Konfigurieren", 3, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] {"0","1", "2"})]
+        [TaskPane("Eingabeparameter vom Typ string", "Anzahl der Parameter vom Typ string", "Konfigurieren", 3, true, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "0", "1", "2" })]
         public int String
         {
             get { return paramString; }
@@ -54,7 +54,7 @@ namespace WebService
             }
         }
         private int paramDouble;
-        [TaskPane("Eingabeparameter vom Typ double", "Anzahl der Parameter vom Typ double", "Konfigurieren", 4, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "0", "1", "2" })]
+        [TaskPane("Eingabeparameter vom Typ double", "Anzahl der Parameter vom Typ double", "Konfigurieren", 4, true, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "0", "1", "2" })]
         public int Double
         {
             get { return paramDouble; }
@@ -66,7 +66,7 @@ namespace WebService
         }
         private int integer;
       //  [ContextMenu("Eingabeparameter", "Erwartete Eingabeparameter", 0, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, "True", "False")]
-       [TaskPane("Eingabeparameter vom Typ int", "Anzahl der Parameter vom Typ int","Konfigurieren", 2, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] {"0","1","2"})]
+       [TaskPane("Eingabeparameter vom Typ int", "Anzahl der Parameter vom Typ int", "Konfigurieren", 2, true, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "0", "1", "2" })]
         public int Integer
         {
             get
@@ -81,7 +81,7 @@ namespace WebService
         }
 
        private int test;
-       [TaskPane("Rückgabeparameter", "Wählen Sie den Typen des Rückgabeparameters", "Konfigurieren", 5, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "void","int", "string", "float", "double"})]
+       [TaskPane("Rückgabeparameter", "Wählen Sie den Typen des Rückgabeparameters", "Konfigurieren", 5, true, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "void", "int", "string", "float", "double" })]
        public int Test
        {
            get
@@ -94,7 +94,7 @@ namespace WebService
                OnPropertyChanged("Test");
            }
        }
-       [TaskPane("WSDL veröffentlichen", "", "", 0, false, DisplayLevel.Beginner, ControlType.Button)]
+       [TaskPane("WSDL veröffentlichen", "", "", 0, true, DisplayLevel.Beginner, ControlType.Button)]
        public void exportWSDL()
        {
            OnPropertyChanged("exportWSDL");
@@ -109,16 +109,13 @@ namespace WebService
        //    }
        //}
 
-       [TaskPane("Öffentlichen Schlüssel bereitstellen", "Exportiert den öffentlichen Schlüssel", "Key Management", 1, false, DisplayLevel.Beginner, ControlType.Button)]
+       [TaskPane("Öffentlichen Schlüssel bereitstellen", "Exportiert den öffentlichen Schlüssel", "Key Management", 1, true, DisplayLevel.Beginner, ControlType.Button)]
        public void publishKey()
        {
            OnPropertyChanged("publishKey");
-           {
-
-           }
        }
 
-       [TaskPane("Vorgefertigte Methode", "Erstellt eine Testmethode, die zwei int Parameter entgegennimmt, diese addiert und das Ergebnis zurückgibt.","Konfigurieren", 0, false, DisplayLevel.Beginner, ControlType.Button)]
+       [TaskPane("Vorgefertigte Methode", "Erstellt eine Testmethode, die zwei int Parameter entgegennimmt, diese addiert und das Ergebnis zurückgibt.", "Konfigurieren", 0, true, DisplayLevel.Beginner, ControlType.Button)]
        public void MethodenStub()
        {
            OnPropertyChanged("MethodenStub");
@@ -126,7 +123,7 @@ namespace WebService
        }
        
        private string targetFileName;
-      [TaskPane("Target File Name","Target to write WSDL",null,0,false,DisplayLevel.Beginner,ControlType.SaveFileDialog, FileExtension="Cryptool Alphabet (*.cta)|*.cta")]
+      [TaskPane("Target File Name", "Target to write WSDL", null, 0, true, DisplayLevel.Beginner, ControlType.SaveFileDialog, FileExtension = "Cryptool Alphabet (*.cta)|*.cta")]
        public string TargetFilename
        {
            get { return targetFileName; }

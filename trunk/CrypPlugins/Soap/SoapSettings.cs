@@ -31,16 +31,20 @@ namespace Soap
             }
         }
 
-        [TaskPane("Reset Soap", "Resets the Soap Message", null, 1, false, DisplayLevel.Beginner, ControlType.Button)]
+        [TaskPane("Send Soap", "Sends the Soap Message", null, 1, true, DisplayLevel.Beginner, ControlType.Button)]
+        public void sendSoap()
+        {
+            OnPropertyChanged("sendSoap");
+        }
+
+        [TaskPane("Reset Soap", "Resets the Soap Message", null, 1, true, DisplayLevel.Beginner, ControlType.Button)]
         public void resetSoap()
         {
             OnPropertyChanged("resetSoap");
-            {
-            }
         }
 
         private string signatureAlg = "1";
-        [TaskPane("Signature Algorithm","Select the Signature Algorithm","Signature",3,false,DisplayLevel.Expert,ControlType.ComboBox,new string[] {"DSA-SHA1","RSA-SHA1"})]
+        [TaskPane("Signature Algorithm", "Select the Signature Algorithm", "Signature", 3, true, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "DSA-SHA1", "RSA-SHA1" })]
         public string SignatureAlg
         {
             get { return signatureAlg; }
@@ -52,7 +56,7 @@ namespace Soap
         }
 
         private bool sigXPathRef;
-        [TaskPane("Use a XPath-Reference", "Use XPath References to reference the signed elements", "Signature", 4, false, DisplayLevel.Expert, ControlType.CheckBox)]
+        [TaskPane("Use a XPath-Reference", "Use XPath References to reference the signed elements", "Signature", 4, true, DisplayLevel.Expert, ControlType.CheckBox)]
         public bool SigXPathRef
         {
             get { return sigXPathRef; }
@@ -64,7 +68,7 @@ namespace Soap
         }
 
         private bool sigShowSteps;
-        [TaskPane("Show Signature Steps", "Shows the single steps to create the signature", "Signature", 5, false, DisplayLevel.Expert, ControlType.CheckBox)]
+        [TaskPane("Show Signature Steps", "Shows the single steps to create the signature", "Signature", 5, true, DisplayLevel.Expert, ControlType.CheckBox)]
         public bool SigShowSteps
         {
             get { return sigShowSteps; }
@@ -77,7 +81,7 @@ namespace Soap
 
 
         private int animationSpeed = 3;
-        [TaskPane("Animationspeed", "Set the speed for animations", "Animation", 9, false, DisplayLevel.Beginner, ControlType.NumericUpDown, Cryptool.PluginBase.ValidationType.RangeInteger, 1, 5)]
+        [TaskPane("Animationspeed", "Set the speed for animations", "Animation", 9, true, DisplayLevel.Beginner, ControlType.NumericUpDown, Cryptool.PluginBase.ValidationType.RangeInteger, 1, 5)]
         public int AnimationSpeed
         {
             get
@@ -91,7 +95,7 @@ namespace Soap
             }
         }
 
-        [TaskPane("Pause Restart", "Starts or stops the animation","Animation", 7, false, DisplayLevel.Beginner, ControlType.Button)]
+        [TaskPane("Pause Restart", "Starts or stops the animation", "Animation", 7, true, DisplayLevel.Beginner, ControlType.Button)]
         public void playPause()
         {
             OnPropertyChanged("playPause");
@@ -99,7 +103,7 @@ namespace Soap
             }
         }
 
-        [TaskPane("End Animation", "Stop the animation and shows the final result", "Animation", 8, false, DisplayLevel.Beginner, ControlType.Button)]
+        [TaskPane("End Animation", "Stop the animation and shows the final result", "Animation", 8, true, DisplayLevel.Beginner, ControlType.Button)]
         public void endAnimation()
         {
             OnPropertyChanged("endAnimation");
@@ -113,7 +117,7 @@ namespace Soap
         private encryptionType encContentRadio;
 
     //    [ContextMenu("Encryption Mode", "Choose wether to encrypt the XML-Element or the content of the XML-Element", 6, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new string[] { "XML-Element", "Content of XML-Element" })]
-        [TaskPane("Encryption Mode", "Choose wether to encrypt the XML-Element or the content of the XML-Element", "Encryption", 6, false, DisplayLevel.Expert, ControlType.RadioButton, new string[] { "XML-Element", "Content of XML-Element" })]
+        [TaskPane("Encryption Mode", "Choose wether to encrypt the XML-Element or the content of the XML-Element", "Encryption", 6, true, DisplayLevel.Expert, ControlType.RadioButton, new string[] { "XML-Element", "Content of XML-Element" })]
         public int EncContentRadio
         {
             get { return (int)this.encContentRadio; }
@@ -129,7 +133,7 @@ namespace Soap
 
 
         private bool encShowSteps;
-        [TaskPane("Show Encryption Steps", "Shows the single steps to encrypt this element", "Encryption", 12, false, DisplayLevel.Expert, ControlType.CheckBox)]
+        [TaskPane("Show Encryption Steps", "Shows the single steps to encrypt this element", "Encryption", 12, true, DisplayLevel.Expert, ControlType.CheckBox)]
         public bool EncShowSteps
         {
             get { return encShowSteps; }
