@@ -246,6 +246,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// </summary>
         public void Initialize()
         {
+            settings.Initialize();
         }
 
         /// <summary>
