@@ -190,10 +190,10 @@
     <PostBuildEvent>copy   CrypStartup.exe.config CrypWin.exe.config</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>xcopy  /E /Y "..\..\..\AppExternalReferences" "$(TargetDir)AppExternalReferences\"
-xcopy  /E /Y "..\..\..\ProjectSamples" "$(TargetDir)ProjectSamples\"
+    <PreBuildEvent>xcopy  /E /Y "..\..\..\ProjectSamples" "$(TargetDir)ProjectSamples\"
 xcopy  /E /Y "..\..\..\AppDataStore" "$(TargetDir)AppDataStore\"
-xcopy  /E /Y "..\..\..\AppReferences" "$(TargetDir)AppReferences\"
+xcopy  /E /Y "..\..\..\AppReferences\$(Platform)" "$(TargetDir)AppReferences\"
+copy "..\..\..\AppReferences\*.* "$(TargetDir)AppReferences\"
 xcopy  /E /Y "..\..\..\AppSpecialReferences\$(Platform)\AnotherEditor.dll" "$(TargetDir)CrypPlugins\"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
