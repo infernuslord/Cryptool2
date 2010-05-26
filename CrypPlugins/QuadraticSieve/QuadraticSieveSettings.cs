@@ -57,6 +57,11 @@ namespace QuadraticSieve
             CoresUsed = Environment.ProcessorCount-1;
         }
 
+        public void Initialize()
+        {
+            checkAndSetVisibility();
+        }
+
         /// <summary>
         /// Getter/Setter for the amount of cores which the user wants to have used by the quadratic sieve
         /// </summary>
@@ -122,16 +127,21 @@ namespace QuadraticSieve
                 {
                     usePeer2Peer = value;
                     hasChanges = true;
-                    if (usePeer2Peer)
-                    {
-                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Channel", Visibility.Visible)));
-                    }
-                    else
-                    {
-                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Channel", Visibility.Collapsed)));
-                    }
+                    checkAndSetVisibility();
                     OnPropertyChanged("UsePeer2Peer");
                 }
+            }
+        }
+
+        private void checkAndSetVisibility()
+        {
+            if (usePeer2Peer)
+            {
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Channel", Visibility.Visible)));
+            }
+            else
+            {
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Channel", Visibility.Collapsed)));
             }
         }
 
