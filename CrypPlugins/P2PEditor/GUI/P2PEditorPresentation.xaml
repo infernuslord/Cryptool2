@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="Cryptool.P2PEditor.GUI.P2PEditorPresentation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:controls="clr-namespace:Cryptool.P2PEditor.GUI.Controls" xmlns:converter="clr-namespace:Cryptool.P2PEditor.Converters" mc:Ignorable="d" 
+             d:DesignHeight="418" d:DesignWidth="601" Name="P2PEditorControl">
+	<UserControl.Resources>
+		<converter:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+        <converter:IsBeginnerDisplayModeToVisibilityConverter x:Key="IsBeginnerDisplayModeToVisibilityConverter" />
+	</UserControl.Resources>
+	<Grid>
+        <TabControl Height="143" VerticalAlignment="Top" TabStripPlacement="Top">
+            <TabItem Header="System status">
+                <Grid>
+                    <Label Content="Connection status:" Height="28" HorizontalAlignment="Left" Margin="6,6,0,0" VerticalAlignment="Top" />
+                    <Label Content="Peer ID:" Height="28" HorizontalAlignment="Left" Margin="6,31,0,0" VerticalAlignment="Top" />
+                    <Button Content="Connect" Height="23" Margin="0,6,6,0" Name="connectButton" VerticalAlignment="Top" Click="ConnectButtonClick" HorizontalAlignment="Right" Width="75" />
+                    <Label Content="Disconnected" Height="28" HorizontalAlignment="Left" Margin="120,6,0,0" Name="connectionStatus" VerticalAlignment="Top" />
+                    <Label Content="-" Height="28" HorizontalAlignment="Left" Margin="120,31,0,0" Name="peerID" VerticalAlignment="Top" />
+                    <ProgressBar Height="16" Margin="0,31,6,0" Name="connectProgressBar" VerticalAlignment="Top" IsIndeterminate="False" IsTabStop="False" IsEnabled="False" HorizontalAlignment="Right" Width="75" Orientation="Horizontal" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Settings">
+                <Grid IsEnabled="{Binding IsP2PConnected, ElementName=P2PEditorControl, Converter={StaticResource InverseBooleanConverter}}">
+                    <Label Content="Username:" Height="30" HorizontalAlignment="Left" Margin="6,6,0,0" VerticalAlignment="Top" Width="103" />
+                    <TextBox Height="30" Margin="115,6,6,0" Name="userNameTextBox" VerticalAlignment="Top" VerticalContentAlignment="Center" IsEnabled="False" />
+                    <Label Content="World name:" Height="30" HorizontalAlignment="Left" Margin="6,42,0,0" VerticalAlignment="Top" Width="103" Visibility="{Binding DisplayLevel, ElementName=P2PEditorControl, Converter={StaticResource IsBeginnerDisplayModeToVisibilityConverter}}" />
+                    <TextBox Height="30" Margin="115,42,6,0" Name="worldNameTextBox" VerticalAlignment="Top" VerticalContentAlignment="Center" Visibility="{Binding DisplayLevel, ElementName=P2PEditorControl, Converter={StaticResource IsBeginnerDisplayModeToVisibilityConverter}}" />
+                    <Button Content="Save" Height="30" HorizontalAlignment="Left" Margin="115,76,0,0" Name="saveButton" VerticalAlignment="Top" Width="75" Click="SaveButtonClick"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <TabControl TabStripPlacement="Top" Margin="0,144,0,0" IsEnabled="{Binding IsP2PConnected, ElementName=P2PEditorControl}">
+            <TabItem Header="Active jobs">
+                <controls:JobDisplay Jobs="{Binding Jobs,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+            </TabItem>
+            <TabItem Header="New job">
+                <controls:JobCreation />                
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>
