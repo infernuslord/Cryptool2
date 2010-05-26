@@ -188,6 +188,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Internal\NotConnectedException.cs" />
     <Compile Include="P2PSettings.cs" />
     <Compile Include="Worker\ConnectionWorker.cs" />
     <Compile Include="Worker\WorkerBase.cs" />

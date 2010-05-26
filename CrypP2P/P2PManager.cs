@@ -114,24 +114,35 @@ namespace Cryptool.P2P
 
         #region DHT operations
 
-        // TODO add error handling, if P2P is not connected
         public static bool Store(string key, byte[] data)
         {
+            if (!Instance.P2PConnected())
+                throw new NotConnectedException();
+
             return Instance.P2PBase.SynchStore(key, data);
         }
 
         public static bool Store(string key, string data)
         {
+            if (!Instance.P2PConnected())
+                throw new NotConnectedException();
+           
             return Instance.P2PBase.SynchStore(key, data);
         }
 
         public static byte[] Retrieve(string key)
         {
+            if (!Instance.P2PConnected())
+                throw new NotConnectedException();
+            
             return Instance.P2PBase.SynchRetrieve(key);
         }
 
         public static bool Remove(string key)
         {
+            if (!Instance.P2PConnected())
+                throw new NotConnectedException();
+
             return Instance.P2PBase.SynchRemove(key);
         }
 
