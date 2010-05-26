@@ -591,11 +591,18 @@ namespace Cryptool.Plugins.QuadraticSieve
             {
                 string s = Directory.GetCurrentDirectory();
                 string dllname;
+                string relPath;
                 if (IntPtr.Size == 4)
+                {
                     dllname = "msieve.dll";
+                    relPath = "x86";
+                }
                 else
+                {
                     dllname = "msieve64.dll";
-                msieveDLL = Assembly.LoadFile(Directory.GetCurrentDirectory() + "\\AppReferences\\" + dllname);
+                    relPath = "x64";
+                }
+                msieveDLL = Assembly.LoadFile(Directory.GetCurrentDirectory() + "\\AppReferences\\"  + relPath + "\\" + dllname);
                 msieve = msieveDLL.GetType("Msieve.msieve");
             }
 
