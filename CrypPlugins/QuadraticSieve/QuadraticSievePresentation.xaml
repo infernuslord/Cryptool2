@@ -13,6 +13,7 @@
             <RowDefinition Height="150"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -26,7 +27,8 @@
         <TextBox Name="endTime" Grid.Row="1" Grid.Column="1" TextAlignment="Center" IsReadOnly="True" TextWrapping="WrapWithOverflow" BorderThickness="1" Margin="1" BorderBrush="AliceBlue" />
         <ListBox Grid.Row="2" Grid.ColumnSpan="2" Name="factorList" Canvas.Left="1" Canvas.Top="50" Height="150" Width="233" />
         <Label Grid.Row="3" Grid.ColumnSpan="2" Content="" HorizontalAlignment="Left" Name="factorInfo" VerticalAlignment="Top" />
-        <TextBox Name="logging" Grid.Row="4" Grid.ColumnSpan="2" TextAlignment="Left" IsReadOnly="True" TextWrapping="WrapWithOverflow" BorderThickness="1" Margin="1" BorderBrush="AliceBlue" />        
+        <Label Grid.Row="4" Grid.ColumnSpan="2" Content="" HorizontalAlignment="Left" Name="relationsInfo" VerticalAlignment="Top" />
+        <TextBox Name="logging" Grid.Row="5" Grid.ColumnSpan="2" TextAlignment="Left" IsReadOnly="True" TextWrapping="WrapWithOverflow" BorderThickness="1" Margin="1" BorderBrush="AliceBlue" />        
         </Grid>        
     </Canvas>
 </UserControl>

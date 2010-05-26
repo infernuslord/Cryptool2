@@ -32,6 +32,7 @@ using System.Reflection;
 using System.Numerics;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Cryptool.P2P;
 
 namespace Cryptool.Plugins.QuadraticSieve
 {
@@ -61,10 +62,13 @@ namespace Cryptool.Plugins.QuadraticSieve
         private bool userStopped = false;
         private FactorManager factorManager;
         private PeerToPeer peerToPeer = new PeerToPeer();
-        private BigInteger sumSize = 0;
+        private uint sumSize = 0;
+        private bool usePeer2Peer;
 
         private static Assembly msieveDLL = null;
         private static Type msieve = null;
+        private static bool alreadyInUse = false;
+        private static Mutex alreadyInUseMutex = new Mutex();
 
         #endregion
 
@@ -122,6 +126,21 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// </summary>
         public void Execute()
         {
+            if (checkInUse())
+                return;
+
+            usePeer2Peer = settings.UsePeer2Peer;
+            if (usePeer2Peer && !P2PManager.Instance.P2PConnected())
+            {
+                GuiLogMessage("No connection to Peer2Peer network. Sieving locally now!", NotificationLevel.Warning);
+                usePeer2Peer = false;
+            }
+            if (usePeer2Peer && settings.Channel.Trim() == "")
+            {
+                GuiLogMessage("No channel for Peer2Peer network specified. Sieving locally now!", NotificationLevel.Warning);
+                usePeer2Peer = false;
+            }
+
             sumSize = 0;
             userStopped = false;
 
@@ -144,7 +163,11 @@ namespace Cryptool.Plugins.QuadraticSieve
                     quadraticSieveQuickWatchPresentation.endTime.Text = endtime_message;
                     quadraticSieveQuickWatchPresentation.timeLeft.Text = timeLeft_message;
                     quadraticSieveQuickWatchPresentation.factorList.Items.Clear();
-                    quadraticSieveQuickWatchPresentation.factorInfo.Content = "Searching trivial factors!";                    
+                    quadraticSieveQuickWatchPresentation.factorInfo.Content = "Searching trivial factors!";
+                    if (usePeer2Peer)
+                        quadraticSieveQuickWatchPresentation.relationsInfo.Content = "";
+                    else
+                        quadraticSieveQuickWatchPresentation.relationsInfo.Content = "Only local sieving!";
                 }
                 , null);   
 
@@ -209,6 +232,29 @@ namespace Cryptool.Plugins.QuadraticSieve
                     
                 ProgressChanged(1, 1);
                 
+            }
+            alreadyInUse = false;
+        }
+
+        private bool checkInUse()
+        {
+            try
+            {
+                alreadyInUseMutex.WaitOne();
+                if (alreadyInUse)
+                {
+                    GuiLogMessage("QuadraticSieve plugin is only allowed to execute ones at a time due to technical restrictions.", NotificationLevel.Error);
+                    return true;
+                }
+                else
+                {
+                    alreadyInUse = true;
+                    return false;
+                }
+            }
+            finally
+            {
+                alreadyInUseMutex.ReleaseMutex();
             }
         }
         
@@ -352,6 +398,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// <param name="core_sieve_fcn">pointer to internal sieve function of msieve</param>
         private void prepareSieving(IntPtr conf, int update, IntPtr core_sieve_fcn, int max_relations)
         {
+            sumSize = 0;
             int threads = Math.Min(settings.CoresUsed, Environment.ProcessorCount-1);
             MethodInfo getObjFromConf = msieve.GetMethod("getObjFromConf");
             this.obj = (IntPtr)getObjFromConf.Invoke(null, new object[] { conf });            
@@ -363,6 +410,8 @@ namespace Cryptool.Plugins.QuadraticSieve
             quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 quadraticSieveQuickWatchPresentation.logging.Text = message;
+                if (usePeer2Peer)
+                    quadraticSieveQuickWatchPresentation.relationsInfo.Content = "";
             }
             , null);          
 
@@ -416,10 +465,13 @@ namespace Cryptool.Plugins.QuadraticSieve
                 while (yieldqueue.Count != 0)       //get all the results from the helper threads, and store them
                 {
                     IntPtr yield = (IntPtr)yieldqueue.Dequeue();
-                    byte[] serializedYield = (byte[])serializeYield.Invoke(null, new object[] { yield });                    
+                    byte[] serializedYield = (byte[])serializeYield.Invoke(null, new object[] { yield });
 
-                    int compressedSize = peerToPeer.put(serializedYield);
-                    sumSize += compressedSize;
+                    if (usePeer2Peer)
+                    {
+                        int compressedSize = peerToPeer.put(serializedYield);
+                        sumSize += (uint)compressedSize;
+                    }
 
                     saveYield.Invoke(null, new object[] { conf, yield });
                 }
@@ -448,6 +500,15 @@ namespace Cryptool.Plugins.QuadraticSieve
                 }
                 , null);
             }
+
+            if (usePeer2Peer)
+            {
+                quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    string size = ((sumSize / 1024.0) / 1024).ToString().Substring(0, 3);
+                    quadraticSieveQuickWatchPresentation.relationsInfo.Content = size + " MB compressed relation data available!";
+                }, null);
+            }
         }
 
         /// <summary>
@@ -469,7 +530,12 @@ namespace Cryptool.Plugins.QuadraticSieve
                 BigInteger compositeFactor = factorManager.GetCompositeFactor();
                 quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    quadraticSieveQuickWatchPresentation.factorInfo.Content = "Now sieving first composite factor!";
+                    String compRep;
+                    if (compositeFactor.ToString().Length < 6)
+                        compRep = compositeFactor.ToString();
+                    else
+                        compRep = compositeFactor.ToString().Substring(0, 4) + "...";
+                    quadraticSieveQuickWatchPresentation.factorInfo.Content = "Now sieving first composite factor! (" + compRep + ")";
                 }, null);
 
                 //now start quadratic sieve on it:                
@@ -592,18 +658,12 @@ namespace Cryptool.Plugins.QuadraticSieve
             {
                 string s = Directory.GetCurrentDirectory();
                 string dllname;
-                string relPath;
                 if (IntPtr.Size == 4)
-                {
                     dllname = "msieve.dll";
-                    relPath = "x86";
-                }
                 else
-                {
                     dllname = "msieve64.dll";
-                    relPath = "x64";
-                }
-                msieveDLL = Assembly.LoadFile(Directory.GetCurrentDirectory() + "\\AppReferences\\"  + relPath + "\\" + dllname);
+
+                msieveDLL = Assembly.LoadFile(Directory.GetCurrentDirectory() + "\\AppReferences\\"  + dllname);
                 msieve = msieveDLL.GetType("Msieve.msieve");
             }
 
