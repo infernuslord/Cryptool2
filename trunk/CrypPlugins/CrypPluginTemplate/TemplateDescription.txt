@@ -1,0 +1,3 @@
+CrypTool 2.0 Plugin
+
+Skeleton for new CrypTool 2.0 plugins. Attention! You must place your plugin into the CrypPlugins subfolder (see location below) or your plugin will be built into the wrong output directory.

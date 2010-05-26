@@ -1,5 +1,0 @@
-Place the zip file into the following directory: My Documents\Visual Studio 20008\Templates\Project Templates\
-Then you can select ExamplePluginCT2 as template when creating a new C# project.
-
-You should select trunk\CrypPlugins\ as location and do not create a directory for solution.
-If you select a different location, you will have to fix the reference to CrypPluginBase.

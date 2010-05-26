@@ -158,8 +158,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Converter", "CrypPlugins\Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CostFunction", "CrypPlugins\CostFunction\CostFunction.csproj", "{3C72FF93-48C2-4929-B3B2-83F165AAE636}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamplePluginCT2", "CrypPlugins\ExamplePluginCT2\ExamplePluginCT2.csproj", "{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMAC", "CrypPlugins\HMAC\HMAC.csproj", "{9DC8FE92-6839-4837-8AAA-D7456F2B288F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayIndexer", "CrypPlugins\ArrayIndexer\ArrayIndexer.csproj", "{A066F077-B078-4234-BDD4-3632C0B3C18F}"
@@ -221,6 +219,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebService", "CrypPlugins\WebService\WebService.csproj", "{4C93AC25-D344-4A35-81C8-C2A5E2C3B438}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P2PEditor", "CrypPlugins\P2PEditor\P2PEditor.csproj", "{59DEB752-BEB6-4B2B-86A9-78B150537529}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypPluginTemplate", "CrypPlugins\CrypPluginTemplate\CrypPluginTemplate.csproj", "{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -838,14 +838,6 @@ Global
 		{3C72FF93-48C2-4929-B3B2-83F165AAE636}.Release|x64.Build.0 = Release|x64
 		{3C72FF93-48C2-4929-B3B2-83F165AAE636}.Release|x86.ActiveCfg = Release|x86
 		{3C72FF93-48C2-4929-B3B2-83F165AAE636}.Release|x86.Build.0 = Release|x86
-		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Debug|x64.ActiveCfg = Debug|x64
-		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Debug|x64.Build.0 = Debug|x64
-		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Debug|x86.ActiveCfg = Debug|x86
-		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Debug|x86.Build.0 = Debug|x86
-		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Release|x64.ActiveCfg = Release|x64
-		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Release|x64.Build.0 = Release|x64
-		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Release|x86.ActiveCfg = Release|x86
-		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Release|x86.Build.0 = Release|x86
 		{9DC8FE92-6839-4837-8AAA-D7456F2B288F}.Debug|x64.ActiveCfg = Debug|x64
 		{9DC8FE92-6839-4837-8AAA-D7456F2B288F}.Debug|x64.Build.0 = Debug|x64
 		{9DC8FE92-6839-4837-8AAA-D7456F2B288F}.Debug|x86.ActiveCfg = Debug|x86
@@ -1086,6 +1078,14 @@ Global
 		{59DEB752-BEB6-4B2B-86A9-78B150537529}.Release|x64.Build.0 = Release|x64
 		{59DEB752-BEB6-4B2B-86A9-78B150537529}.Release|x86.ActiveCfg = Release|x86
 		{59DEB752-BEB6-4B2B-86A9-78B150537529}.Release|x86.Build.0 = Release|x86
+		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Debug|x64.ActiveCfg = Debug|x64
+		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Debug|x64.Build.0 = Debug|x64
+		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Debug|x86.ActiveCfg = Debug|x86
+		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Debug|x86.Build.0 = Debug|x86
+		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Release|x64.ActiveCfg = Release|x64
+		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Release|x64.Build.0 = Release|x64
+		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Release|x86.ActiveCfg = Release|x86
+		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
