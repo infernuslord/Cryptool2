@@ -32,6 +32,18 @@ namespace Cryptool.P2P
 
         private P2PManager()
         {
+            P2PBase = new P2PBase();
+            P2PSettings = new P2PSettings();
+            P2PBase.AllowLoggingToMonitor = P2PSettings.Log2Monitor;
+
+            // Register events
+
+            // to forward event from overlay/dht MessageReceived-Event from P2PBase
+            P2PBase.OnP2PMessageReceived += p2pBase_OnP2PMessageReceived;
+
+            // Register exit event to terminate P2P connection without loosing data
+            // TODO check if this is correct, should be - but handler is not called (and application does not shut down), probably unrelated to this problem
+            Application.ApplicationExit += HandleDisconnectByApplicationShutdown;
         }
 
         #endregion
@@ -58,26 +70,6 @@ namespace Cryptool.P2P
         public event P2PBase.P2PMessageReceived OnPeerMessageReceived;
 
         #endregion Events
-
-        /// <summary>
-        /// Initialises variables and important environment settings 
-        /// regarding certificates.
-        /// </summary>
-        public void Initialize()
-        {
-            P2PBase = new P2PBase();
-            P2PSettings = new P2PSettings();
-            P2PBase.AllowLoggingToMonitor = P2PSettings.Log2Monitor;
-
-            // Register events
-
-            // to forward event from overlay/dht MessageReceived-Event from P2PBase
-            P2PBase.OnP2PMessageReceived += p2pBase_OnP2PMessageReceived;
-
-            // Register exit event to terminate P2P connection without loosing data
-            // TODO check if this is correct, should be - but handler is not called (and application does not shut down), probably unrelated to this problem
-            Application.ApplicationExit += HandleDisconnectByApplicationShutdown;
-        }
 
         public bool P2PConnected()
         {

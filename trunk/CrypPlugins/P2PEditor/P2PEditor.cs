@@ -58,47 +58,38 @@ namespace Cryptool.P2PEditor
 
         public void Open(string fileName)
         {
-            throw new NotImplementedException();
         }
 
         public void Save(string fileName)
         {
-            throw new NotImplementedException();
         }
 
         public void Add(Type type)
         {
-            throw new NotImplementedException();
         }
 
         public void AddEditorSpecific(EditorSpecificPluginInfo espi)
         {
-            throw new NotImplementedException();
         }
 
         public void DeleteEditorSpecific(EditorSpecificPluginInfo espi)
         {
-            throw new NotImplementedException();
         }
 
         public void Undo()
         {
-            throw new NotImplementedException();
         }
 
         public void Redo()
         {
-            throw new NotImplementedException();
         }
 
         public void ShowHelp()
         {
-            throw new NotImplementedException();
         }
 
         public void ShowSelectedPluginDescription()
         {
-            throw new NotImplementedException();
         }
 
         public bool CanUndo
@@ -138,7 +129,7 @@ namespace Cryptool.P2PEditor
 
         public List<EditorSpecificPluginInfo> EditorSpecificPlugins
         {
-            get { throw new NotImplementedException(); }
+            get { return new List<EditorSpecificPluginInfo>(); }
         }
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
@@ -173,12 +164,10 @@ namespace Cryptool.P2PEditor
 
         public void Pause()
         {
-            throw new NotImplementedException();
         }
 
         public void Stop()
         {
-            throw new NotImplementedException();
         }
 
         public void Initialize()
