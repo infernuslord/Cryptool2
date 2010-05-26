@@ -19,6 +19,9 @@ namespace QuadraticSieve
             DeflateStream defStream = new DeflateStream(memStream, CompressionMode.Compress);
             defStream.Write(serializedYield, 0, serializedYield.Length);
             byte[] compressedYield = memStream.ToArray();
+
+
+
             return compressedYield.Length;
         }
     }
