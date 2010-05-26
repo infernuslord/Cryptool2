@@ -140,6 +140,11 @@ namespace Cryptool.Plugins.QuadraticSieve
                 GuiLogMessage("No channel for Peer2Peer network specified. Sieving locally now!", NotificationLevel.Warning);
                 usePeer2Peer = false;
             }
+            if (usePeer2Peer)
+            {
+                peerToPeer.SetChannel(settings.Channel);
+                peerToPeer.SetNumber(InputNumber);
+            }
 
             sumSize = 0;
             userStopped = false;
@@ -429,24 +434,26 @@ namespace Cryptool.Plugins.QuadraticSieve
             }
 
             //manage the yields of the other threads:
-            manageYields(conf, max_relations);  //this method returns as soon as there are enough relations found
-            if (userStopped)
-                return;
-
-            //sieving is finished now, so give some informations and stop threads:
-            GuiLogMessage("Data size: " + (sumSize / 1024) / 1024 + " MB!", NotificationLevel.Debug);
-            ProgressChanged(0.9, 1.0);
-            GuiLogMessage("Sieving finished", NotificationLevel.Info);
-            quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            if (manageYields(conf, max_relations))  //this method returns as soon as there are enough relations found
             {
-                quadraticSieveQuickWatchPresentation.factorInfo.Content = "Found enough relations! Please wait...";
-            }, null);
+                //sieving is finished now, so give some informations and stop threads:
+                ProgressChanged(0.9, 1.0);
+                GuiLogMessage("Sieving finished", NotificationLevel.Info);
+                quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    quadraticSieveQuickWatchPresentation.factorInfo.Content = "Found enough relations! Please wait...";
+                }, null);
+            }
             stopThreads();
             if (yieldqueue != null)
                 yieldqueue.Clear();
         }
 
-        private void manageYields(IntPtr conf, int max_relations)
+        /// <summary>
+        /// Manages the whole yields that are created during the sieving process by the other threads (and other peers).
+        /// Returns true, if enough relations have been found.
+        /// </summary>
+        private bool manageYields(IntPtr conf, int max_relations)
         {
             MethodInfo serializeYield = msieve.GetMethod("serializeYield");
             MethodInfo getNumRelations = msieve.GetMethod("getNumRelations");
@@ -461,15 +468,15 @@ namespace Cryptool.Plugins.QuadraticSieve
                 
                 yieldEvent.WaitOne();               //wait until queue is not empty
                 if (userStopped)
-                    return;
+                    return false;
                 while (yieldqueue.Count != 0)       //get all the results from the helper threads, and store them
                 {
-                    IntPtr yield = (IntPtr)yieldqueue.Dequeue();
-                    byte[] serializedYield = (byte[])serializeYield.Invoke(null, new object[] { yield });
+                    IntPtr yield = (IntPtr)yieldqueue.Dequeue();                    
 
                     if (usePeer2Peer)
                     {
-                        int compressedSize = peerToPeer.put(serializedYield);
+                        byte[] serializedYield = (byte[])serializeYield.Invoke(null, new object[] { yield });
+                        int compressedSize = peerToPeer.Put(serializedYield);
                         sumSize += (uint)compressedSize;
                     }
 
@@ -477,7 +484,13 @@ namespace Cryptool.Plugins.QuadraticSieve
                 }
                 num_relations = (int)getNumRelations.Invoke(null, new object[] { conf });
                 showProgressPresentation(max_relations, num_relations, start_relations, start_sieving_time);
-            }            
+
+                if (usePeer2Peer && !peerToPeer.SyncFactorManager(factorManager))   //an other peer already finished sieving
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private void showProgressPresentation(int max_relations, int num_relations, int start_relations, DateTime start_sieving_time)
@@ -521,6 +534,9 @@ namespace Cryptool.Plugins.QuadraticSieve
             //add the trivial factors to the factor list:
             factorManager.AddFactors(list);
 
+            if (usePeer2Peer)
+                peerToPeer.SyncFactorManager(factorManager);
+            
             MethodInfo msieve_run_core = msieve.GetMethod("msieve_run_core");
 
             //Now factorize as often as needed:
@@ -528,22 +544,33 @@ namespace Cryptool.Plugins.QuadraticSieve
             {
                 //get one composite factor, which we want to sieve now:
                 BigInteger compositeFactor = factorManager.GetCompositeFactor();
-                quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                {
-                    String compRep;
-                    if (compositeFactor.ToString().Length < 6)
-                        compRep = compositeFactor.ToString();
-                    else
-                        compRep = compositeFactor.ToString().Substring(0, 4) + "...";
-                    quadraticSieveQuickWatchPresentation.factorInfo.Content = "Now sieving first composite factor! (" + compRep + ")";
-                }, null);
+                showFactorInformations(compositeFactor);
+                if (usePeer2Peer)
+                    peerToPeer.SetFactor(compositeFactor);
 
                 //now start quadratic sieve on it:                
                 IntPtr resultList = (IntPtr)msieve_run_core.Invoke(null, new object[2] { obj, compositeFactor.ToString() });
                 if (userStopped)
                     return;
-                factorManager.ReplaceCompositeByFactors(compositeFactor, resultList);
+                if (!usePeer2Peer || peerToPeer.SyncFactorManager(factorManager))       //add the result list to factorManager if no other peer already updated it
+                    factorManager.ReplaceCompositeByFactors(compositeFactor, resultList);
+
+                if (usePeer2Peer)
+                    peerToPeer.SyncFactorManager(factorManager);
             }
+        }
+
+        private void showFactorInformations(BigInteger compositeFactor)
+        {
+            quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                String compRep;
+                if (compositeFactor.ToString().Length < 6)
+                    compRep = compositeFactor.ToString();
+                else
+                    compRep = compositeFactor.ToString().Substring(0, 4) + "...";
+                quadraticSieveQuickWatchPresentation.factorInfo.Content = "Now sieving first composite factor! (" + compRep + ")";
+            }, null);
         }
 
         /// <summary>

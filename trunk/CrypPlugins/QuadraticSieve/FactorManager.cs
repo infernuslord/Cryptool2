@@ -67,6 +67,42 @@ namespace Cryptool.Plugins.QuadraticSieve
         }
 
         /// <summary>
+        /// adds the factor list as composite factors
+        /// </summary>
+        public void AddCompositeFactors(List<BigInteger> factors)
+        {
+            compositeFactors.AddRange(factors);
+        }
+
+        /// <summary>
+        /// adds the factor list as prime factors
+        /// </summary>
+        public void AddPrimeFactors(List<BigInteger> factors)
+        {
+            primeFactors.AddRange(factors);
+        }
+
+        /// <summary>
+        /// uses the informations from the factorManager parameter to transform some composite factors to prime factors.
+        /// returns true if this factorManager has more informations than the parameter factorManager.
+        /// </summary>
+        public bool Synchronize(FactorManager factorManager)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Returns true if the composite list contains the param.
+        /// </summary>
+        public bool ContainsComposite(BigInteger composite)
+        {
+            foreach (BigInteger c in compositeFactors)
+                if (c == composite)
+                    return true;
+            return false;
+        }
+
+        /// <summary>
         /// replaces the composite factor "composite" by the factors of factorList.
         /// of course, factorList has to multiply up to composite.
         /// </summary>
