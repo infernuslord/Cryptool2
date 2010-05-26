@@ -90,13 +90,16 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="DevComponents.WpfDock">
-      <HintPath>..\AppExternalReferences\DevComponents.WpfDock.dll</HintPath>
+      <HintPath>..\AppReferences\DevComponents.WpfDock.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="DevComponents.WpfEditors">
-      <HintPath>..\AppExternalReferences\DevComponents.WpfEditors.dll</HintPath>
+      <HintPath>..\AppReferences\DevComponents.WpfEditors.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="DevComponents.WpfRibbon">
-      <HintPath>..\AppExternalReferences\DevComponents.WpfRibbon.dll</HintPath>
+      <HintPath>..\AppReferences\DevComponents.WpfRibbon.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
