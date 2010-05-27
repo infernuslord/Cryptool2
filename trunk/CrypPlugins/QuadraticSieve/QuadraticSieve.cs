@@ -434,16 +434,18 @@ namespace Cryptool.Plugins.QuadraticSieve
             }
 
             //manage the yields of the other threads:
-            if (manageYields(conf, max_relations))  //this method returns as soon as there are enough relations found
+            manageYields(conf, max_relations);  //this method returns as soon as there are enough relations found
+            if (userStopped)
+                return;
+
+            //sieving is finished now, so give some informations and stop threads:
+            ProgressChanged(0.9, 1.0);
+            GuiLogMessage("Sieving finished", NotificationLevel.Info);
+            quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                //sieving is finished now, so give some informations and stop threads:
-                ProgressChanged(0.9, 1.0);
-                GuiLogMessage("Sieving finished", NotificationLevel.Info);
-                quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                {
-                    quadraticSieveQuickWatchPresentation.factorInfo.Content = "Found enough relations! Please wait...";
-                }, null);
-            }
+                quadraticSieveQuickWatchPresentation.factorInfo.Content = "Found enough relations! Please wait...";
+            }, null);
+            
             stopThreads();
             if (yieldqueue != null)
                 yieldqueue.Clear();
@@ -453,9 +455,10 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// Manages the whole yields that are created during the sieving process by the other threads (and other peers).
         /// Returns true, if enough relations have been found.
         /// </summary>
-        private bool manageYields(IntPtr conf, int max_relations)
+        private void manageYields(IntPtr conf, int max_relations)
         {
             MethodInfo serializeYield = msieve.GetMethod("serializeYield");
+            MethodInfo deserializeYield = msieve.GetMethod("deserializeYield");
             MethodInfo getNumRelations = msieve.GetMethod("getNumRelations");
             int num_relations = (int)getNumRelations.Invoke(null, new object[] { conf });
             int start_relations = num_relations;
@@ -468,7 +471,8 @@ namespace Cryptool.Plugins.QuadraticSieve
                 
                 yieldEvent.WaitOne();               //wait until queue is not empty
                 if (userStopped)
-                    return false;
+                    return;
+
                 while (yieldqueue.Count != 0)       //get all the results from the helper threads, and store them
                 {
                     IntPtr yield = (IntPtr)yieldqueue.Dequeue();                    
@@ -482,15 +486,26 @@ namespace Cryptool.Plugins.QuadraticSieve
 
                     saveYield.Invoke(null, new object[] { conf, yield });
                 }
+
+                if (usePeer2Peer)
+                {
+                    Queue dhtqueue = peerToPeer.GetLoadedYieldsQueue();
+                    while (dhtqueue.Count != 0)       //get all the loaded results from the DHT, and store them
+                    {
+                        byte[] yield = (byte[])dhtqueue.Dequeue();
+                        IntPtr deserializedYield = (IntPtr)deserializeYield.Invoke(null, new object[] { yield });
+                        saveYield.Invoke(null, new object[] { conf, deserializedYield });
+                    }
+                }
+
                 num_relations = (int)getNumRelations.Invoke(null, new object[] { conf });
                 showProgressPresentation(max_relations, num_relations, start_relations, start_sieving_time);
 
                 if (usePeer2Peer && !peerToPeer.SyncFactorManager(factorManager))   //an other peer already finished sieving
                 {
-                    return false;
+                    throw new AlreadySievedException();
                 }
-            }
-            return true;
+            }            
         }
 
         private void showProgressPresentation(int max_relations, int num_relations, int start_relations, DateTime start_sieving_time)
@@ -548,15 +563,22 @@ namespace Cryptool.Plugins.QuadraticSieve
                 if (usePeer2Peer)
                     peerToPeer.SetFactor(compositeFactor);
 
-                //now start quadratic sieve on it:                
-                IntPtr resultList = (IntPtr)msieve_run_core.Invoke(null, new object[2] { obj, compositeFactor.ToString() });
-                if (userStopped)
-                    return;
-                if (!usePeer2Peer || peerToPeer.SyncFactorManager(factorManager))       //add the result list to factorManager if no other peer already updated it
-                    factorManager.ReplaceCompositeByFactors(compositeFactor, resultList);
+                try
+                {
+                    //now start quadratic sieve on it:                
+                    IntPtr resultList = (IntPtr)msieve_run_core.Invoke(null, new object[2] { obj, compositeFactor.ToString() });
+                    if (userStopped)
+                        return;
 
-                if (usePeer2Peer)
-                    peerToPeer.SyncFactorManager(factorManager);
+                    factorManager.ReplaceCompositeByFactors(compositeFactor, resultList);   //add the result list to factorManager
+
+                    if (usePeer2Peer)
+                        peerToPeer.SyncFactorManager(factorManager);
+                }
+                catch (AlreadySievedException)
+                {
+                    GuiLogMessage("Another peer already finished factorization of composite factor" + compositeFactor + ". Sieving next one...", NotificationLevel.Info);
+                }
             }
         }
 
@@ -619,6 +641,9 @@ namespace Cryptool.Plugins.QuadraticSieve
             if (conf_list != null)
             {
                 running = false;
+                if (usePeer2Peer)
+                    peerToPeer.StopLoadStoreThread();
+
                 MethodInfo stop = msieve.GetMethod("stop");
                 MethodInfo getObjFromConf = msieve.GetMethod("getObjFromConf");
                 foreach (IntPtr conf in conf_list)

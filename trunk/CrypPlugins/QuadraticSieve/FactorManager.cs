@@ -91,7 +91,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         public bool Synchronize(FactorManager factorManager)
         {
             Debug.Assert(factorManager.CalculateNumber() == this.CalculateNumber());
-            if (sameFactorization(factorManager))
+            if (SameFactorization(factorManager))
                 return false;
 
             //check if we can gain information from factorManager for our FactorList (and put these informations in our list)
@@ -101,6 +101,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 {
                     List<BigInteger> primeFactorsForComp = new List<BigInteger>();
                     List<BigInteger> compositeFactorsForComp = new List<BigInteger>();
+
                     //Let's check whether factorManager already has a factorization for comp:
                     foreach (BigInteger p in factorManager.primeFactors)
                         if (comp % p == 0)
@@ -108,6 +109,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                     foreach (BigInteger c in factorManager.compositeFactors)
                         if (comp != c && comp % c == 0)
                             compositeFactorsForComp.Add(c);
+
                     if (primeFactorsForComp.Count != 0 || compositeFactorsForComp.Count != 0)
                     {
                         ReplaceCompositeByFactors(comp, primeFactorsForComp, compositeFactorsForComp);
@@ -117,10 +119,10 @@ namespace Cryptool.Plugins.QuadraticSieve
             }
 
             //now check if our FactorList has more informations than factorManager:
-            return !sameFactorization(factorManager);
+            return !SameFactorization(factorManager);
         }
 
-        private bool sameFactorization(FactorManager factorManager)
+        private bool SameFactorization(FactorManager factorManager)
         {
             bool equalPrimes = primeFactors.Intersect(factorManager.primeFactors).Count() == 0;
             bool equalComposites = compositeFactors.Intersect(factorManager.compositeFactors).Count() == 0;
@@ -150,7 +152,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 n *= p;
             foreach (BigInteger c in compositeFactors)
                 n *= c;
-            Debug.Assert(n == compositeFactors);
+            Debug.Assert(n == composite);
             #endregion
 
             int amount = this.compositeFactors.Count(c => (c == composite));
@@ -187,11 +189,6 @@ namespace Cryptool.Plugins.QuadraticSieve
             FactorsChanged(primeFactors, compositeFactors);
         }
 
-        private BigInteger DivideIntByFactors(BigInteger composite, IntPtr factorList)
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Returns a single composite factor (or 0, if no composite factors are left).
         /// </summary>
@@ -210,6 +207,9 @@ namespace Cryptool.Plugins.QuadraticSieve
             return (compositeFactors.Count == 0);
         }
 
+        /// <summary>
+        /// Returns all prime factors in a sorted fashion.
+        /// </summary>
         public BigInteger[] getPrimeFactors()
         {
             primeFactors.Sort();
