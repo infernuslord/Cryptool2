@@ -72,6 +72,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         public void AddCompositeFactors(List<BigInteger> factors)
         {
             compositeFactors.AddRange(factors);
+            FactorsChanged(this.primeFactors, this.compositeFactors);
         }
 
         /// <summary>
@@ -80,6 +81,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         public void AddPrimeFactors(List<BigInteger> factors)
         {
             primeFactors.AddRange(factors);
+            FactorsChanged(this.primeFactors, this.compositeFactors);
         }
 
         /// <summary>
@@ -88,7 +90,41 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// </summary>
         public bool Synchronize(FactorManager factorManager)
         {
-            throw new NotImplementedException();
+            Debug.Assert(factorManager.CalculateNumber() == this.CalculateNumber());
+            if (sameFactorization(factorManager))
+                return false;
+
+            //check if we can gain information from factorManager for our FactorList (and put these informations in our list)
+            foreach (BigInteger comp in compositeFactors)
+            {
+                if (!factorManager.compositeFactors.Contains(comp))
+                {
+                    List<BigInteger> primeFactorsForComp = new List<BigInteger>();
+                    List<BigInteger> compositeFactorsForComp = new List<BigInteger>();
+                    //Let's check whether factorManager already has a factorization for comp:
+                    foreach (BigInteger p in factorManager.primeFactors)
+                        if (comp % p == 0)
+                            primeFactorsForComp.Add(p);
+                    foreach (BigInteger c in factorManager.compositeFactors)
+                        if (comp != c && comp % c == 0)
+                            compositeFactorsForComp.Add(c);
+                    if (primeFactorsForComp.Count != 0 || compositeFactorsForComp.Count != 0)
+                    {
+                        ReplaceCompositeByFactors(comp, primeFactorsForComp, compositeFactorsForComp);
+                        return Synchronize(factorManager);
+                    }
+                }
+            }
+
+            //now check if our FactorList has more informations than factorManager:
+            return !sameFactorization(factorManager);
+        }
+
+        private bool sameFactorization(FactorManager factorManager)
+        {
+            bool equalPrimes = primeFactors.Intersect(factorManager.primeFactors).Count() == 0;
+            bool equalComposites = compositeFactors.Intersect(factorManager.compositeFactors).Count() == 0;
+            return (equalPrimes && equalComposites);
         }
 
         /// <summary>
@@ -100,6 +136,35 @@ namespace Cryptool.Plugins.QuadraticSieve
                 if (c == composite)
                     return true;
             return false;
+        }
+
+        /// <summary>
+        /// replaces the composite factor "composite" by the factors of the parameters "primeFactors" and "compositeFactors".
+        /// of course, the factors have to multiply up to composite.
+        /// </summary>
+        public void ReplaceCompositeByFactors(BigInteger composite, List<BigInteger> primeFactors, List<BigInteger> compositeFactors)
+        {
+            #region debug
+            BigInteger n = 1;
+            foreach (BigInteger p in primeFactors)
+                n *= p;
+            foreach (BigInteger c in compositeFactors)
+                n *= c;
+            Debug.Assert(n == compositeFactors);
+            #endregion
+
+            int amount = this.compositeFactors.Count(c => (c == composite));
+            for (int i = 0; i < amount; i++)
+            {
+                this.primeFactors.AddRange(primeFactors);
+                this.compositeFactors.AddRange(compositeFactors);
+            }
+            int amount2 = this.compositeFactors.RemoveAll(c => (c == composite));
+            
+            Debug.Assert(amount == amount2);
+            Debug.Assert(CalculateNumber() == n);
+
+            FactorsChanged(this.primeFactors, this.compositeFactors);
         }
 
         /// <summary>
