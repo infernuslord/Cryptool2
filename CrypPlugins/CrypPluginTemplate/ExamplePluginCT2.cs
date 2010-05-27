@@ -17,13 +17,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase;
 using System.ComponentModel;
+using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
+using System.ComponentModel;
 using System.Windows.Controls;
 
-namespace Cryptool.Plugin
+namespace Cryptool.Plugins.ExamplePluginCT2
 {
     // HOWTO: Change author name, email address, organization and URL.
     [Author("Matthäus Wander", "wander@cryptool.org", "Universität Duisburg-Essen, Fachgebiet Verteilte Systeme", "http://www.vs.uni-due.de")]
