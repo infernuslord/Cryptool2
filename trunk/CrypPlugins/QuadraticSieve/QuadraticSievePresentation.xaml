@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="QuadraticSieve.QuadraticSievePresentation"
+﻿<UserControl x:Class="Cryptool.Plugins.QuadraticSieve.QuadraticSievePresentation"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     HorizontalAlignment="Stretch"
@@ -26,8 +26,22 @@
         <TextBox Name="timeLeft" Grid.Row="1" TextAlignment="Center" IsReadOnly="True" TextWrapping="WrapWithOverflow" Focusable="True" BorderThickness="1" Margin="1" BorderBrush="AliceBlue" />
         <TextBox Name="endTime" Grid.Row="1" Grid.Column="1" TextAlignment="Center" IsReadOnly="True" TextWrapping="WrapWithOverflow" BorderThickness="1" Margin="1" BorderBrush="AliceBlue" />
         <ListBox Grid.Row="2" Grid.ColumnSpan="2" Name="factorList" Canvas.Left="1" Canvas.Top="50" Height="150" Width="233" />
-        <Label Grid.Row="3" Grid.ColumnSpan="2" Content="" HorizontalAlignment="Left" Name="factorInfo" VerticalAlignment="Top" />
-        <Label Grid.Row="4" Grid.ColumnSpan="2" Content="" HorizontalAlignment="Left" Name="relationsInfo" VerticalAlignment="Top" />
+        <Label Grid.Row="3" Grid.ColumnSpan="2" Content="" HorizontalAlignment="Left" Name="factorInfo" VerticalAlignment="Top" />  
+        
+        <Expander Grid.Row="4" Grid.ColumnSpan="2" Header="Peer2Peer informations" Name="peer2peerExpander" VerticalAlignment="Top" Expanded="peer2peerExpander_Expanded">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="1" Content="" HorizontalAlignment="Stretch" Name="relationsInfo" VerticalAlignment="Bottom" />
+            </Grid>                
+        </Expander>
+        
         <TextBox Name="logging" Grid.Row="5" Grid.ColumnSpan="2" TextAlignment="Left" IsReadOnly="True" TextWrapping="WrapWithOverflow" BorderThickness="1" Margin="1" BorderBrush="AliceBlue" />        
         </Grid>        
     </Canvas>

@@ -24,7 +24,7 @@ using Cryptool.PluginBase.Miscellaneous;
 using System.Collections.ObjectModel;
 using System.Windows;
 
-namespace QuadraticSieve
+namespace Cryptool.Plugins.QuadraticSieve
 {
     class QuadraticSieveSettings : ISettings
     {
