@@ -20,7 +20,7 @@ using System.Text;
 using Cryptool.PluginBase;
 using System.ComponentModel;
 
-namespace Cryptool.Plugin
+namespace Cryptool.Plugins.ExamplePluginCT2
 {
     public class ExamplePluginCT2Settings : ISettings
     {
