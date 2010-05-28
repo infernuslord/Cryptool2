@@ -60,7 +60,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         private ArrayList conf_list;
         private bool userStopped = false;
         private FactorManager factorManager;
-        private PeerToPeer peerToPeer = new PeerToPeer();
+        private PeerToPeer peerToPeer;
         private uint sumSize = 0;
         private bool usePeer2Peer;
 
@@ -94,6 +94,8 @@ namespace Cryptool.Plugins.QuadraticSieve
             if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
 
             QuickWatchPresentation = new QuadraticSievePresentation();
+
+            peerToPeer = new PeerToPeer(quadraticSieveQuickWatchPresentation);
             
             quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {

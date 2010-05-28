@@ -25,6 +25,8 @@ using System.Numerics;
 using System.Diagnostics;
 using System.Collections;
 using System.Threading;
+using System.Windows.Threading;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Cryptool.Plugins.QuadraticSieve
 {
@@ -38,6 +40,12 @@ namespace Cryptool.Plugins.QuadraticSieve
         private Queue loadqueue;    //yields that have been loaded from the DHT
         private Thread loadStoreThread;
         private bool stopLoadStoreThread;
+        private QuadraticSievePresentation quadraticSieveQuickWatchPresentation;
+
+        public PeerToPeer(QuadraticSievePresentation presentation)
+        {
+            quadraticSieveQuickWatchPresentation = presentation;
+        }
 
         private byte[] ReadYield(int index)
         {
@@ -59,34 +67,58 @@ namespace Cryptool.Plugins.QuadraticSieve
             int loadIndex = 0;
 
             while (!stopLoadStoreThread)
-            {
-                if (loadIndex >= loadEnd)   //if we already loaded the yields up to "loadEnd", we don't have too much to do anymore, so we can slow down :)
-                    Thread.Sleep(1000);
-
+            {                
                 if (storequeue.Count != 0)  //storing has priority
                 {
                     byte[] yield = (byte[])storequeue.Dequeue();
                     P2PManager.Store(YieldIdentifier(head), yield);
                     //TODO: If versioning sytem tells us, that there is already a newer entry here, we load this value, enqueue it in loadqueue and try again with head++
+                    SetProgressYield(head, YieldStatus.Ours);
                     head++;
                     P2PManager.Store(HeadIdentifier(), head.ToString());
                     //TODO: If versioning system tells us, that there is already a newer head entry, we ignore this and don't store ours
                 }
-                else                      //if there is nothing to store, we can load the yields up to "loadEnd"
+                else                      //if there is nothing to store, we can load the yields up to "loadEnd".
                 {
                     if (loadIndex < loadEnd)
                     {
                         byte[] yield = ReadYield(loadIndex);
                         loadqueue.Enqueue(yield);
+                        SetProgressYield(loadIndex, YieldStatus.OthersLoaded);
                         loadIndex++;
+                    }
+                    else                //if there is nothing left to load, we can slow down.
+                    {
+                        Thread.Sleep(1000);
                     }
                 }
             }
         }
 
+        private void SetProgressYield(int index, YieldStatus status)
+        {
+            quadraticSieveQuickWatchPresentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                quadraticSieveQuickWatchPresentation.ProgressYields[index] = status;
+            }, null);
+        }
+
+        private void ClearProgressYields()
+        {
+            quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                quadraticSieveQuickWatchPresentation.ProgressYields.Clear();
+            }, null);
+        }
+
         private string HeadIdentifier()
         {
             return channel + "#" + factor + "HEAD";
+        }
+
+        private string FactorListIdentifier()
+        {
+            return channel + "#" + number + "FACTORLIST";
         }
 
         private string YieldIdentifier(int index)
@@ -155,9 +187,13 @@ namespace Cryptool.Plugins.QuadraticSieve
             this.factor = factor;
             Debug.Assert(this.number % this.factor == 0);
 
+            ClearProgressYields();
             byte[] h = P2PManager.Retrieve(HeadIdentifier());
             if (h != null)
+            {
                 head = int.Parse(h.ToString());
+                SetProgressYield(head, YieldStatus.OthersNotLoaded);
+            }
             else
                 head = 0;
 
@@ -172,12 +208,25 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// </summary>
         public bool SyncFactorManager(FactorManager factorManager)
         {
-            FactorManager dhtFactorManager = new FactorManager(null, null);
-            //TODO: add factors from dht to dhtFactorManager here.
+            FactorManager dhtFactorManager = null;
+            //load DHT Factor Manager:
+            byte[] dhtFactorManagerBytes = P2PManager.Retrieve(FactorListIdentifier());
+            if (dhtFactorManagerBytes != null)
+            {
+                MemoryStream memstream = new MemoryStream();
+                memstream.Write(dhtFactorManagerBytes, 0, dhtFactorManagerBytes.Length);
+                BinaryFormatter bformatter = new BinaryFormatter();
+                dhtFactorManager = (FactorManager)bformatter.Deserialize(memstream);
+            }
 
+            //Synchronize DHT Factor Manager with our Factor List
             if (dhtFactorManager == null || factorManager.Synchronize(dhtFactorManager))
             {
-                //TODO: store factorManager to DHT
+                //Our Factor Manager has more informations, so let's store it in the DHT:
+                MemoryStream memstream = new MemoryStream();
+                BinaryFormatter bformatter = new BinaryFormatter();
+                bformatter.Serialize(memstream, factorManager);
+                P2PManager.Store(FactorListIdentifier(), memstream.ToArray());
             }
 
             return factorManager.ContainsComposite(this.factor);

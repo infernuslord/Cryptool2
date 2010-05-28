@@ -26,11 +26,15 @@ using System.Diagnostics;
 
 namespace Cryptool.Plugins.QuadraticSieve
 {
+    [Serializable]
     class FactorManager
     {
         private List<BigInteger> primeFactors = new List<BigInteger>();
         private List<BigInteger> compositeFactors = new List<BigInteger>();
+
+        [NonSerialized]
         private MethodInfo getPrimeFactorsMethod;
+        [NonSerialized]
         private MethodInfo getCompositeFactorsMethod;
 
         public delegate void FactorsChangedHandler(List<BigInteger> primeFactors, List<BigInteger> compositeFactors);
