@@ -22,7 +22,7 @@ using System.Windows.Controls;
 namespace Cryptool.PluginBase
 {
     /// <summary>
-    /// All properties and methods have to be threadsafe.
+    /// See Wiki for more information: https://www.cryptool.org/trac/CrypTool2/wiki/IPluginHints
     /// </summary>
     public interface IPlugin : INotifyPropertyChanged
     {
