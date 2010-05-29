@@ -49,7 +49,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         #region private variables
 
         private readonly string directoryName;
-        private QuadraticSieveSettings settings = new QuadraticSieveSettings();
+        private QuadraticSieveSettings settings;
         private BigInteger inputNumber;
         private BigInteger[] outputFactors;
         private bool running;
@@ -90,6 +90,8 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// </summary>
         public QuadraticSieve()
         {
+            Settings = new QuadraticSieveSettings();
+
             directoryName = Path.Combine(DirectoryHelper.DirectoryLocalTemp, "msieve");
             if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
 
@@ -99,6 +101,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             
             quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
+                quadraticSieveQuickWatchPresentation.peer2peerExpander.Visibility = settings.UsePeer2Peer ? Visibility.Visible : Visibility.Collapsed;
                 quadraticSieveQuickWatchPresentation.timeLeft.Text = "?";
                 quadraticSieveQuickWatchPresentation.endTime.Text = "?";
                 quadraticSieveQuickWatchPresentation.logging.Text = "Currently not sieving.";
@@ -112,8 +115,26 @@ namespace Cryptool.Plugins.QuadraticSieve
         public Cryptool.PluginBase.ISettings Settings
         {
             get { return this.settings; }
-            set { this.settings = (QuadraticSieveSettings)value; } 
-        }           
+            set
+            {
+                this.settings = (QuadraticSieveSettings)value;
+                this.settings.PropertyChanged += new PropertyChangedEventHandler(settings_PropertyChanged);
+            }
+        }
+
+        private void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "UsePeer2Peer")
+            {
+                if (quadraticSieveQuickWatchPresentation != null)
+                {
+                    quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        quadraticSieveQuickWatchPresentation.peer2peerExpander.Visibility = settings.UsePeer2Peer ? Visibility.Visible : Visibility.Collapsed;
+                    }, null);
+                }
+            }
+        }
 
         /// <summary>
         /// Called by the environment before executing this plugin
