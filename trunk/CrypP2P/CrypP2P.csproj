@@ -189,7 +189,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Internal\NotConnectedException.cs" />
-    <Compile Include="P2PSettings.cs" />
     <Compile Include="P2PSettings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
