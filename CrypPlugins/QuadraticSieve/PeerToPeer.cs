@@ -216,7 +216,16 @@ namespace Cryptool.Plugins.QuadraticSieve
                 MemoryStream memstream = new MemoryStream();
                 memstream.Write(dhtFactorManagerBytes, 0, dhtFactorManagerBytes.Length);
                 BinaryFormatter bformatter = new BinaryFormatter();
-                dhtFactorManager = (FactorManager)bformatter.Deserialize(memstream);
+                try
+                {
+                    dhtFactorManager = (FactorManager)bformatter.Deserialize(memstream);
+                }
+                catch (System.Runtime.Serialization.SerializationException)
+                {
+                    //TODO: GuiLogMessage here
+                    P2PManager.Remove(FactorListIdentifier());
+                    return SyncFactorManager(factorManager);
+                }
             }
 
             //Synchronize DHT Factor Manager with our Factor List
