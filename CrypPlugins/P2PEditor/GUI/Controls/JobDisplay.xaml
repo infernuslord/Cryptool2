@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Cryptool.P2PEditor.GUI.Controls.JobDisplay" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" d:DesignHeight="227" d:DesignWidth="486">
+﻿<GUI:P2PUserControl x:Class="Cryptool.P2PEditor.GUI.Controls.JobDisplay" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:GUI="clr-namespace:Cryptool.P2PEditor.GUI" mc:Ignorable="d" d:DesignHeight="227" d:DesignWidth="486">
     <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200*"></ColumnDefinition>
@@ -15,11 +15,11 @@
                 <ScrollViewer Margin="74,74,6,35" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                     <Label Content="{Binding JobDescription}" />
                 </ScrollViewer>
-                <Button Content="Participate" HorizontalAlignment="Right" Margin="0,0,6,6" Name="ParticipateButton" Width="75" Height="23" VerticalAlignment="Bottom" />
+                <Button Content="Participate" HorizontalAlignment="Right" Margin="0,0,6,6" Name="ParticipateButton" Width="75" Height="23" VerticalAlignment="Bottom" Click="ParticipateButton_Click" />
                 <Button Content="Refresh" Click="RefreshButton_Click" HorizontalAlignment="Left" Margin="6,0,0,6" Name="RefreshButton" Width="75" Height="23" VerticalAlignment="Bottom" />
                 <Label Content="Date:" Height="28" HorizontalAlignment="Left" Margin="0,40,0,0" VerticalAlignment="Top" />
                 <Label Content="{Binding JobDate}" Height="28" Margin="74,40,6,0" VerticalAlignment="Top" />
             </Grid>
         </Border>
     </Grid>
-</UserControl>
+</GUI:P2PUserControl>

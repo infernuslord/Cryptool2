@@ -59,5 +59,212 @@ namespace Cryptool.P2PEditor.Resources {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Advanced settings.
+        /// </summary>
+        internal static string advanced_settings {
+            get {
+                return ResourceManager.GetString("advanced_settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bootstrapper type.
+        /// </summary>
+        internal static string bootstrapper_caption {
+            get {
+                return ResourceManager.GetString("bootstrapper_caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bootstrappe type.
+        /// </summary>
+        internal static string bootstrapper_tooltip {
+            get {
+                return ResourceManager.GetString("bootstrapper_tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connect on startup.
+        /// </summary>
+        internal static string connectOnStartup_caption {
+            get {
+                return ResourceManager.GetString("connectOnStartup_caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DHT type.
+        /// </summary>
+        internal static string dht_caption {
+            get {
+                return ResourceManager.GetString("dht_caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DHT type.
+        /// </summary>
+        internal static string dht_tooltip {
+            get {
+                return ResourceManager.GetString("dht_tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to LinkManager type.
+        /// </summary>
+        internal static string linkmanager_caption {
+            get {
+                return ResourceManager.GetString("linkmanager_caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to LinkManager type.
+        /// </summary>
+        internal static string linkmanager_tooltip {
+            get {
+                return ResourceManager.GetString("linkmanager_tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log connection state.
+        /// </summary>
+        internal static string log_connection_state_caption {
+            get {
+                return ResourceManager.GetString("log_connection_state_caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logs connection state to the GUI log. For debugging only..
+        /// </summary>
+        internal static string log_connection_state_tooltip {
+            get {
+                return ResourceManager.GetString("log_connection_state_tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Syslog.
+        /// </summary>
+        internal static string log2monitor_caption {
+            get {
+                return ResourceManager.GetString("log2monitor_caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log peer-to-peer related messages to a local syslog daemon running on port 514..
+        /// </summary>
+        internal static string log2monitor_tooltip {
+            get {
+                return ResourceManager.GetString("log2monitor_tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Establish a connection to the peer-to-peer network during CrypTool startup..
+        /// </summary>
+        internal static string onnectOnStartup_tooltip {
+            get {
+                return ResourceManager.GetString("onnectOnStartup_tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Overlay type.
+        /// </summary>
+        internal static string overlay_caption {
+            get {
+                return ResourceManager.GetString("overlay_caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Overlay type.
+        /// </summary>
+        internal static string overlay_tooltip {
+            get {
+                return ResourceManager.GetString("overlay_tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disconnect.
+        /// </summary>
+        internal static string stop_caption {
+            get {
+                return ResourceManager.GetString("stop_caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disconnect from P2P network. For debugging only..
+        /// </summary>
+        internal static string stop_tooltip {
+            get {
+                return ResourceManager.GetString("stop_tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username.
+        /// </summary>
+        internal static string username_caption {
+            get {
+                return ResourceManager.GetString("username_caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uusername for the peer-to-peer system. If this value is changed, CrypTool will ask for a certificate the first time the new name is used. When in doubt, leave the default name &quot;CrypTool2&quot;..
+        /// </summary>
+        internal static string username_tooltip {
+            get {
+                return ResourceManager.GetString("username_tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Local workspace directory.
+        /// </summary>
+        internal static string workspacePath_caption {
+            get {
+                return ResourceManager.GetString("workspacePath_caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Directory in where workspaces you participate in are saved..
+        /// </summary>
+        internal static string workspacePath_tooltip {
+            get {
+                return ResourceManager.GetString("workspacePath_tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to World name.
+        /// </summary>
+        internal static string worldname_caption {
+            get {
+                return ResourceManager.GetString("worldname_caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name of the world in the peer-to-peer system..
+        /// </summary>
+        internal static string worldname_tooltip {
+            get {
+                return ResourceManager.GetString("worldname_tooltip", resourceCulture);
+            }
+        }
     }
 }

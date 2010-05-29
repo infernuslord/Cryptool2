@@ -19,6 +19,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Controls;
 using Cryptool.Core;
+using Cryptool.P2P;
+using Cryptool.P2P.Worker;
+using Cryptool.P2PEditor.Distributed;
 using Cryptool.P2PEditor.GUI;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Editor;
@@ -28,16 +31,18 @@ namespace Cryptool.P2PEditor
     [EditorInfo("p2p")]
     [Author("Paul Lelgemann", "lelgemann@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("Cryptool.P2PEditor.Resources.Attributes", false, "P2P Interface",
-        "Control interface for the integrated P2P network.", "P2PEditor/DetailedDescription/Description.xaml",
+        "Control interface for the integrated P2P network.", null,
         "P2PEditor/images/icon.png")]
     public class P2PEditor : IEditor
     {
-        public static readonly P2PEditor Instance = new P2PEditor();
-        private DisplayLevel _displayLevel;
+        private readonly JobListManager _jobListManager;
 
         public P2PEditor()
         {
-            Presentation = new P2PEditorPresentation(this);
+            _jobListManager = new JobListManager(this);
+
+            Presentation = new P2PEditorPresentation(this, _jobListManager);
+            Settings = new P2PEditorSettings(this);
         }
 
         #region IEditor Members
@@ -54,42 +59,59 @@ namespace Cryptool.P2PEditor
 
         public void New()
         {
+            GuiLogMessage("P2PEditor: New()", NotificationLevel.Debug);
+
+            ((P2PEditorPresentation) Presentation).ShowJobCreation();
+
+            if (OnSelectedPluginChanged != null)
+            {
+                OnSelectedPluginChanged(this, new PluginChangedEventArgs(this, "P2P Configuration", DisplayPluginMode.Normal));
+            }
         }
 
         public void Open(string fileName)
         {
+            GuiLogMessage("P2PEditor: Open(" + fileName + ")", NotificationLevel.Debug);
         }
 
         public void Save(string fileName)
         {
+            GuiLogMessage("P2PEditor: Save(" + fileName + ")", NotificationLevel.Debug);
         }
 
         public void Add(Type type)
         {
+            GuiLogMessage("P2PEditor: Add(" + type + ")", NotificationLevel.Debug);
         }
 
         public void AddEditorSpecific(EditorSpecificPluginInfo espi)
         {
+            GuiLogMessage("P2PEditor: AddEditorSpecific()", NotificationLevel.Debug);
         }
 
         public void DeleteEditorSpecific(EditorSpecificPluginInfo espi)
         {
+            GuiLogMessage("P2PEditor: DeleteEditorSpecific()", NotificationLevel.Debug);
         }
 
         public void Undo()
         {
+            GuiLogMessage("P2PEditor: Undo()", NotificationLevel.Debug);
         }
 
         public void Redo()
         {
+            GuiLogMessage("P2PEditor: Redo()", NotificationLevel.Debug);
         }
 
         public void ShowHelp()
         {
+            GuiLogMessage("P2PEditor: ShowHelp()", NotificationLevel.Debug);
         }
 
         public void ShowSelectedPluginDescription()
         {
+            GuiLogMessage("P2PEditor: ShowSelectedPluginDescription()", NotificationLevel.Debug);
         }
 
         public bool CanUndo
@@ -104,11 +126,13 @@ namespace Cryptool.P2PEditor
 
         public bool CanExecute
         {
-            get { return false; }
+            get { return !P2PManager.Instance.P2PConnected() && !P2PManager.Instance.IsP2PConnecting; }
         }
 
         public bool CanStop
         {
+            // TODO design problem? when set to true, CrypWin will terminate execute Stop() (and terminate the P2P connection) when switching back to an AnotherEditor instance
+            // get { return P2PManager.Instance.P2PConnected() && !P2PManager.Instance.IsP2PConnecting; }
             get { return false; }
         }
 
@@ -117,15 +141,7 @@ namespace Cryptool.P2PEditor
             get { return false; }
         }
 
-        public DisplayLevel DisplayLevel
-        {
-            get { return _displayLevel; }
-            set
-            {
-                _displayLevel = value;
-                ((P2PEditorPresentation) Presentation).DisplayLevel = value;
-            }
-        }
+        public DisplayLevel DisplayLevel { get; set; }
 
         public List<EditorSpecificPluginInfo> EditorSpecificPlugins
         {
@@ -138,10 +154,7 @@ namespace Cryptool.P2PEditor
 
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
-        public ISettings Settings
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public ISettings Settings { get; private set; }
 
         public UserControl Presentation { get; private set; }
 
@@ -156,6 +169,14 @@ namespace Cryptool.P2PEditor
 
         public void Execute()
         {
+            RunConnectionWorker();
+        }
+
+        private void RunConnectionWorker()
+        {
+            var connectionWorker = new ConnectionWorker(P2PManager.Instance.P2PBase, P2PManager.Instance.P2PSettings);
+            connectionWorker.BackgroundWorker.RunWorkerCompleted += ((P2PEditorPresentation) Presentation).ConnectionWorkerCompleted;
+            connectionWorker.Start();
         }
 
         public void PostExecution()
@@ -168,6 +189,7 @@ namespace Cryptool.P2PEditor
 
         public void Stop()
         {
+            RunConnectionWorker();
         }
 
         public void Initialize()
@@ -194,6 +216,11 @@ namespace Cryptool.P2PEditor
 
             var args = new GuiLogEventArgs(message, this, notificationLevel) {Title = "-"};
             OnGuiLogNotificationOccured(this, args);
+        }
+
+        public void SendOpenProjectFileEvent(string filename)
+        {
+            if (OnOpenProjectFile != null) OnOpenProjectFile(this, filename);
         }
     }
 }

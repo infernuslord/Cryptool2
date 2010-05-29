@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.Serialization;
 using Cryptool.P2P;
 
@@ -17,6 +18,7 @@ namespace Cryptool.P2PEditor.Distributed
             JobGuid = (Guid) info.GetValue("JobGuid", typeof (Guid));
             JobOwner = (string) info.GetValue("JobOwner", typeof (string));
             JobDate = (DateTime) info.GetValue("JobDate", typeof (DateTime));
+            FileName = (string) info.GetValue("FileName", typeof (string));
         }
 
         public DistributedJob()
@@ -33,6 +35,8 @@ namespace Cryptool.P2PEditor.Distributed
         public String JobOwner { get; set; }
 
         public DateTime JobDate { get; set; }
+
+        private String FileName { get; set; }
 
         public String LocalFilePath
         {
@@ -65,9 +69,29 @@ namespace Cryptool.P2PEditor.Distributed
             info.AddValue("JobGuid", JobGuid);
             info.AddValue("JobOwner", P2PManager.Instance.P2PSettings.PeerName);
             info.AddValue("JobDate", DateTime.Now);
+            info.AddValue("FileName", Path.GetFileName(LocalFilePath));
         }
 
         #endregion
+
+        public void ConvertRawWorkspaceToLocalFile(byte[] rawWorkspaceData)
+        {
+            string workspacePath = P2PManager.Instance.P2PSettings.WorkspacePath;
+            if (String.IsNullOrEmpty(workspacePath) || !Directory.Exists(workspacePath))
+            {
+                throw new ArgumentOutOfRangeException(workspacePath, "Workspace path is null, empty or does not exist.");
+            }
+
+            // Avoid overwriting previous versions of this workspace or workspaces with common names by adding an integer prefix
+            LocalFilePath = Path.Combine(workspacePath, JobOwner + "_" + FileName);
+            int counter = 0;
+            while (File.Exists(LocalFilePath))
+            {
+                LocalFilePath = Path.Combine(workspacePath, counter++ + "_" + JobOwner + "_" + FileName);
+            }
+
+            File.WriteAllBytes(LocalFilePath, rawWorkspaceData);
+        }
 
         private void OnPropertyChanged(string propertyName)
         {

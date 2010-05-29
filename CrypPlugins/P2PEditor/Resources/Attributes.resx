@@ -117,4 +117,73 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="advanced_settings" xml:space="preserve">
+    <value>Advanced settings</value>
+  </data>
+  <data name="bootstrapper_caption" xml:space="preserve">
+    <value>Bootstrapper type</value>
+  </data>
+  <data name="bootstrapper_tooltip" xml:space="preserve">
+    <value>Bootstrappe type</value>
+  </data>
+  <data name="connectOnStartup_caption" xml:space="preserve">
+    <value>Connect on startup</value>
+  </data>
+  <data name="dht_caption" xml:space="preserve">
+    <value>DHT type</value>
+  </data>
+  <data name="dht_tooltip" xml:space="preserve">
+    <value>DHT type</value>
+  </data>
+  <data name="linkmanager_caption" xml:space="preserve">
+    <value>LinkManager type</value>
+  </data>
+  <data name="linkmanager_tooltip" xml:space="preserve">
+    <value>LinkManager type</value>
+  </data>
+  <data name="log2monitor_caption" xml:space="preserve">
+    <value>Syslog</value>
+  </data>
+  <data name="log2monitor_tooltip" xml:space="preserve">
+    <value>Log peer-to-peer related messages to a local syslog daemon running on port 514.</value>
+  </data>
+  <data name="log_connection_state_caption" xml:space="preserve">
+    <value>Log connection state</value>
+  </data>
+  <data name="log_connection_state_tooltip" xml:space="preserve">
+    <value>Logs connection state to the GUI log. For debugging only.</value>
+  </data>
+  <data name="onnectOnStartup_tooltip" xml:space="preserve">
+    <value>Establish a connection to the peer-to-peer network during CrypTool startup.</value>
+  </data>
+  <data name="overlay_caption" xml:space="preserve">
+    <value>Overlay type</value>
+  </data>
+  <data name="overlay_tooltip" xml:space="preserve">
+    <value>Overlay type</value>
+  </data>
+  <data name="stop_caption" xml:space="preserve">
+    <value>Disconnect</value>
+  </data>
+  <data name="stop_tooltip" xml:space="preserve">
+    <value>Disconnect from P2P network. For debugging only.</value>
+  </data>
+  <data name="username_caption" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="username_tooltip" xml:space="preserve">
+    <value>Uusername for the peer-to-peer system. If this value is changed, CrypTool will ask for a certificate the first time the new name is used. When in doubt, leave the default name "CrypTool2".</value>
+  </data>
+  <data name="workspacePath_caption" xml:space="preserve">
+    <value>Local workspace directory</value>
+  </data>
+  <data name="workspacePath_tooltip" xml:space="preserve">
+    <value>Directory in where workspaces you participate in are saved.</value>
+  </data>
+  <data name="worldname_caption" xml:space="preserve">
+    <value>World name</value>
+  </data>
+  <data name="worldname_tooltip" xml:space="preserve">
+    <value>Name of the world in the peer-to-peer system.</value>
+  </data>
 </root>

@@ -59,6 +59,7 @@ namespace Cryptool.P2P
 
         public P2PBase P2PBase { get; set; }
         public P2PSettings P2PSettings { get; set; }
+        public bool IsP2PConnecting { get; internal set; }
 
         #endregion
 
@@ -78,9 +79,40 @@ namespace Cryptool.P2P
 
         public string UserInfo()
         {
+            if (!P2PConnected())
+            {
+                return null;
+            }
+
             string userName;
-            PeerId userInfo = P2PBase.GetPeerID(out userName);
+            var userInfo = P2PBase.GetPeerID(out userName);
             return userInfo + " (" + userName + ")";
+        }
+
+        public void HandleConnectOnStartup()
+        {
+            if (P2PSettings.ConnectOnStartup && IsReadyToConnect())
+            {
+                GuiLogMessage("Connect on startup enabled. Establishing connection...", NotificationLevel.Info);
+                new ConnectionWorker(P2PBase, P2PSettings).Start();
+            }
+        }
+
+        private bool IsReadyToConnect()
+        {
+            if (String.IsNullOrEmpty(P2PSettings.PeerName))
+            {
+                GuiLogMessage("Peer-to-peer not fully configured: username missing.", NotificationLevel.Error);
+                return false;
+            }
+
+            if (String.IsNullOrEmpty(P2PSettings.WorldName))
+            {
+                GuiLogMessage("Peer-to-peer not fully configured: world name missing.", NotificationLevel.Error);
+                return false;
+            }
+
+            return true;
         }
 
         public PeerId GetPeerId(out string userName)

@@ -1,5 +1,1 @@
-﻿<FlowDocument 
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Background="White" x:Class="Cryptool.P2PEditor.DetailedDescription.c__users_paul_diplomarbeit_code_cryptool2_coredeveloper_crypplugins_p2peditor_detaileddescription_description_xaml">
-
-</FlowDocument>
+﻿<FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Background="White" />

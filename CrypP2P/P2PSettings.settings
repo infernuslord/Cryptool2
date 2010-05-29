@@ -1,0 +1,33 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Cryptool.P2P" GeneratedClassName="P2PSettings">
+  <Profiles />
+  <Settings>
+    <Setting Name="PeerName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">CrypTool2</Value>
+    </Setting>
+    <Setting Name="WorldName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">CrypTool2</Value>
+    </Setting>
+    <Setting Name="Log2Monitor" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="LinkManager" Type="Cryptool.Plugins.PeerToPeer.Internal.P2PLinkManagerType" Scope="User">
+      <Value Profile="(Default)">Snal</Value>
+    </Setting>
+    <Setting Name="Bootstrapper" Type="Cryptool.Plugins.PeerToPeer.Internal.P2PBootstrapperType" Scope="User">
+      <Value Profile="(Default)">IrcBootstrapper</Value>
+    </Setting>
+    <Setting Name="Overlay" Type="Cryptool.Plugins.PeerToPeer.Internal.P2POverlayType" Scope="User">
+      <Value Profile="(Default)">FullMeshOverlay</Value>
+    </Setting>
+    <Setting Name="Dht" Type="Cryptool.Plugins.PeerToPeer.Internal.P2PDHTType" Scope="User">
+      <Value Profile="(Default)">FullMeshDHT</Value>
+    </Setting>
+    <Setting Name="ConnectOnStartup" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="WorkspacePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>

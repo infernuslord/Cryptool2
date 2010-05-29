@@ -190,6 +190,11 @@
   <ItemGroup>
     <Compile Include="Internal\NotConnectedException.cs" />
     <Compile Include="P2PSettings.cs" />
+    <Compile Include="P2PSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>P2PSettings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Worker\ConnectionWorker.cs" />
     <Compile Include="Worker\WorkerBase.cs" />
     <Compile Include="P2PManager.cs" />
@@ -198,6 +203,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
+    <None Include="P2PSettings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>P2PSettings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="pap_certificates\CrypTool2.pfx" />
     <None Include="pap_certificates\opa.vs.uni-due.de.cer" />
     <None Include="pap_certificates\pap.cer" />
