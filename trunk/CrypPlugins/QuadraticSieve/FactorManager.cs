@@ -38,6 +38,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         private MethodInfo getCompositeFactorsMethod;
 
         public delegate void FactorsChangedHandler(List<BigInteger> primeFactors, List<BigInteger> compositeFactors);
+        [field:NonSerialized]
         public event FactorsChangedHandler FactorsChanged;
 
         public FactorManager(MethodInfo getPrimeFactors, MethodInfo getCompositeFactors)
