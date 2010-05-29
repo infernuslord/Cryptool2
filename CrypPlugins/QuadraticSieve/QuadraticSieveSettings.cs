@@ -135,6 +135,9 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         private void checkAndSetVisibility()
         {
+            if (TaskPaneAttributeChanged == null)
+                return;
+
             if (usePeer2Peer)
             {
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Channel", Visibility.Visible)));
