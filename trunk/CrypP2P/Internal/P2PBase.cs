@@ -23,13 +23,12 @@ using PeersAtPlay.P2POverlay;
 using PeersAtPlay.P2POverlay.Bootstrapper.LocalMachineBootstrapper;
 using PeersAtPlay.P2POverlay.FullMeshOverlay;
 using PeersAtPlay.P2PLink;
-using PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper;
+using PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapperV2;
 using System.Threading;
 using PeersAtPlay;
 using PeersAtPlay.Util.Logging;
 using Gears4Net;
 using Cryptool.Plugins.PeerToPeer.Internal;
-using PeersAtPlay.Util.Threading;
 
 /* TODO:
  * - Catch errors, which can occur when using the DHT (network-based errors)
@@ -150,9 +149,7 @@ namespace Cryptool.P2P.Internal
 
         public void Initialize(P2PSettings p2PSettings)
         {
-            Initialize(p2PSettings.PeerName, p2PSettings.WorldName,
-                (P2PLinkManagerType)p2PSettings.LinkManagerType, (P2PBootstrapperType)p2PSettings.BsType,
-                (P2POverlayType)p2PSettings.OverlayType, (P2PDHTType)p2PSettings.DhtType);
+            Initialize(p2PSettings.PeerName, p2PSettings.WorldName, p2PSettings.LinkManager, p2PSettings.Bootstrapper, p2PSettings.Overlay, p2PSettings.Dht);
         }
 
         /// <summary>

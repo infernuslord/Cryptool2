@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using Cryptool.P2PEditor.Distributed;
+using Cryptool.P2PEditor.Worker;
 using Cryptool.PluginBase;
 
 namespace Cryptool.P2PEditor.GUI.Controls
@@ -12,7 +13,6 @@ namespace Cryptool.P2PEditor.GUI.Controls
     /// </summary>
     public partial class JobCreation
     {
-        private BackgroundWorker _backgroundCreationWorker;
         private DistributedJob _newDistributedJob;
 
         public JobCreation()
@@ -37,7 +37,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     }
                     catch (FileNotFoundException)
                     {
-                        P2PEditor.Instance.GuiLogMessage("File not found.", NotificationLevel.Error);
+                        P2PEditor.GuiLogMessage("File not found.", NotificationLevel.Error);
                     }
                 }
             }
@@ -50,32 +50,28 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
             if (_newDistributedJob.JobDescription == null || _newDistributedJob.JobName == null)
             {
-                P2PEditor.Instance.GuiLogMessage("Please fill all fields.", NotificationLevel.Error);
+                P2PEditor.GuiLogMessage("Please fill all fields.", NotificationLevel.Error);
                 return;
             }
 
             if (!File.Exists(_newDistributedJob.LocalFilePath))
             {
                 // TODO validate that selected file contains a workspace
-                P2PEditor.Instance.GuiLogMessage("Selected workspace does not exist.", NotificationLevel.Error);
+                P2PEditor.GuiLogMessage("Selected workspace does not exist.", NotificationLevel.Error);
                 return;
             }
 
-            _backgroundCreationWorker = new BackgroundWorker();
-            _backgroundCreationWorker.DoWork += BackgroundCreationWorkerDoWork;
-            _backgroundCreationWorker.RunWorkerCompleted += BackgroundCreationWorkerCompleted;
-            _backgroundCreationWorker.RunWorkerAsync();
+            var backgroundCreationWorker = new JobCreationWorker(JobListManager, _newDistributedJob);
+            backgroundCreationWorker.RunWorkerCompleted += BackgroundCreationWorkerCompleted;
+            backgroundCreationWorker.RunWorkerAsync();
         }
 
         private void BackgroundCreationWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            P2PEditor.Instance.GuiLogMessage("Distributed job " + _newDistributedJob.JobGuid, NotificationLevel.Debug);
+            P2PEditor.GuiLogMessage("Distributed job " + _newDistributedJob.JobGuid, NotificationLevel.Debug);
             DataContext = new DistributedJob();
-        }
 
-        private void BackgroundCreationWorkerDoWork(object sender, DoWorkEventArgs e)
-        {
-            JobListManager.AddDistributedJob(_newDistributedJob);
+            P2PEditorPresentation.ShowActiveJobs();
         }
     }
 }

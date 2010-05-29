@@ -68,7 +68,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\IsBeginnerDisplayModeToVisibilityConverter.cs" />
+    <Compile Include="GUI\P2PUserControl.cs" />
+    <Compile Include="P2PEditorSettings.cs" />
     <Compile Include="DetailedDescription\Description.xaml.cs">
       <DependentUpon>Description.xaml</DependentUpon>
     </Compile>
@@ -91,8 +92,18 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Worker\JobParticipationWorker.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Worker\JobCreationWorker.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\CoreDeveloper\CrypPlugins\AnotherEditor\AnotherEditor\AnotherEditor.csproj">
+      <Project>{1EA91B9A-8961-44C9-BA87-4B60C141470C}</Project>
+      <Name>AnotherEditor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\CrypCore\CrypCore.csproj">
       <Project>{FF5D473C-0716-4D3E-9078-2EBD979F94C6}</Project>
       <Name>CrypCore</Name>
@@ -105,6 +116,10 @@
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PeerToPeer\PeerToPeer.csproj">
+      <Project>{12829116-8FAD-4D09-A0AA-D75D88F07626}</Project>
+      <Name>PeerToPeer</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Attributes.resx">
@@ -116,10 +131,10 @@
     <Resource Include="images\icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="DetailedDescription\Description.xaml">
+    <Resource Include="DetailedDescription\Description.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
+    </Resource>
     <Page Include="GUI\Controls\JobCreation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

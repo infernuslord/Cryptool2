@@ -18,11 +18,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Threading;
 using Cryptool.P2P;
-using Cryptool.P2P.Helper;
-using Cryptool.P2P.Worker;
 using Cryptool.P2PEditor.Distributed;
-using Cryptool.PluginBase;
 
 namespace Cryptool.P2PEditor.GUI
 {
@@ -44,20 +42,16 @@ namespace Cryptool.P2PEditor.GUI
                                         typeof (
                                             P2PEditorPresentation), new PropertyMetadata(false));
 
-        public static readonly DependencyProperty DisplayLevelProperty =
-            DependencyProperty.Register("DisplayLevel", typeof (DisplayLevel), typeof (P2PEditorPresentation),
-                                        new UIPropertyMetadata(DisplayLevel.Expert));
 
-        private readonly P2PEditor _p2PEditor;
-
-        public P2PEditorPresentation(P2PEditor p2PEditor)
+        public P2PEditorPresentation(P2PEditor p2PEditor, JobListManager jobListManager)
         {
-            _p2PEditor = p2PEditor;
+            P2PEditor = p2PEditor;
+            JobListManager = jobListManager;
+            P2PEditorPresentation = this;
 
             InitializeComponent();
 
             UpdateDisplay();
-            PrepareSettings();
         }
 
         public List<DistributedJob> Jobs
@@ -73,64 +67,26 @@ namespace Cryptool.P2PEditor.GUI
         }
 
 
-        public DisplayLevel DisplayLevel
+        internal void ConnectionWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            get { return (DisplayLevel) GetValue(DisplayLevelProperty); }
-            set { SetValue(DisplayLevelProperty, value); }
-        }
-
-        private void PrepareSettings()
-        {
-            userNameTextBox.Text = P2PManager.Instance.P2PSettings.PeerName;
-            worldNameTextBox.Text = P2PManager.Instance.P2PSettings.WorldName;
-        }
-
-        private void SaveButtonClick(object sender, RoutedEventArgs e)
-        {
-            P2PManager.Instance.P2PSettings.PeerName = userNameTextBox.Text;
-            P2PManager.Instance.P2PSettings.WorldName = worldNameTextBox.Text;
-            PAPCertificate.CheckAndInstallPAPCertificates();
-
-            _p2PEditor.GuiLogMessage("P2P settings saved.", NotificationLevel.Info);
-        }
-
-        private void ConnectButtonClick(object sender, RoutedEventArgs e)
-        {
-            var connectionWorker = new ConnectionWorker(P2PManager.Instance.P2PBase, P2PManager.Instance.P2PSettings);
-            connectionWorker.BackgroundWorker.RunWorkerCompleted += ConnectionWorkerCompleted;
-            ChangeStatusControls(true);
-            connectionWorker.Start();
-        }
-
-        private void ConnectionWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            UpdateDisplay();
-            ChangeStatusControls(false);
-            Jobs = JobListManager.JobList();
-        }
-
-        private void ChangeStatusControls(bool connecting)
-        {
-            connectButton.IsEnabled = !connecting;
-            connectProgressBar.IsIndeterminate = connecting;
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(UpdateDisplay));
         }
 
         private void UpdateDisplay()
         {
-            if (P2PManager.Instance.P2PConnected())
-            {
-                connectionStatus.Content = "Connected";
-                peerID.Content = P2PManager.Instance.UserInfo();
-                connectButton.Content = "Disconnect";
-                IsP2PConnected = true;
-            }
-            else
-            {
-                connectionStatus.Content = "Disconnected";
-                peerID.Content = "-";
-                connectButton.Content = "Connect";
-                IsP2PConnected = false;
-            }
+            IsP2PConnected = P2PManager.Instance.P2PConnected();
+            Jobs = JobListManager.JobList();
+        }
+
+        internal void ShowJobCreation()
+        {
+            JobTabControl.SelectedItem = JobCreationTab;
+        }
+
+        internal void ShowActiveJobs()
+        {
+            UpdateDisplay();
+            JobTabControl.SelectedItem = ActiveJobsTab;
         }
     }
 }

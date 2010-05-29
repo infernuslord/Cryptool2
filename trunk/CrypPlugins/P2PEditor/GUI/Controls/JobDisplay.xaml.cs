@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
+using System.Windows.Threading;
 using Cryptool.P2PEditor.Distributed;
+using Cryptool.P2PEditor.Worker;
+using Cryptool.PluginBase;
 
 namespace Cryptool.P2PEditor.GUI.Controls
 {
@@ -27,7 +31,35 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
+            var updateListWorker = new BackgroundWorker();
+            updateListWorker.DoWork += UpdateJobListInWorker;
+            updateListWorker.RunWorkerAsync();
+        }
+
+        void UpdateJobListInWorker(object sender, DoWorkEventArgs e)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(UpdateJobList));
+            
+        }
+
+        private void UpdateJobList()
+        {
             Jobs = JobListManager.JobList();
+        }
+
+        private void ParticipateButton_Click(object sender, RoutedEventArgs e)
+        {
+            var jobToParticipateIn = (DistributedJob) JobListBox.SelectedItem;
+
+            if (jobToParticipateIn == null)
+            {
+                return;
+            }
+
+            P2PEditor.GuiLogMessage(
+                string.Format("Participating in job {0} ({1}).", jobToParticipateIn.JobLabel, jobToParticipateIn.JobGuid),
+                NotificationLevel.Info);
+            new JobParticipationWorker(P2PEditor, JobListManager, jobToParticipateIn, Dispatcher).RunWorkerAsync();
         }
     }
 }
