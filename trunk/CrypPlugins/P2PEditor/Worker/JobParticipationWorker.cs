@@ -25,7 +25,14 @@ namespace Cryptool.P2PEditor.Worker
 
         private void JobParticipationWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            _jobListManager.CompleteDistributedJob(_jobToParticipateIn);
+            try
+            {
+                _jobListManager.CompleteDistributedJob(_jobToParticipateIn);
+            } catch(ArgumentOutOfRangeException ex)
+            {
+                _p2PEditor.GuiLogMessage("Error completing job: " + ex.Message, NotificationLevel.Error);
+                return;
+            }
 
             _p2PEditor.GuiLogMessage("Local workspace: " + _jobToParticipateIn.LocalFilePath, NotificationLevel.Debug);
             _p2PEditor.GuiLogMessage(

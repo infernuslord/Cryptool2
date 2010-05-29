@@ -90,6 +90,11 @@ namespace Cryptool.P2PEditor.Distributed
                 LocalFilePath = Path.Combine(workspacePath, counter++ + "_" + JobOwner + "_" + FileName);
             }
 
+            if (rawWorkspaceData == null || rawWorkspaceData.Length == 0)
+            {
+                throw new ArgumentOutOfRangeException(LocalFilePath, "Workspace could not be fetching using Peer-to-peer.");
+            }
+
             File.WriteAllBytes(LocalFilePath, rawWorkspaceData);
         }
 
