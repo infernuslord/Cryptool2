@@ -39,6 +39,7 @@ namespace Cryptool.P2P.Worker
                     ? "Connection to P2P network established."
                     : "Connection to P2P network terminated.", NotificationLevel.Info);
             P2PManager.Instance.IsP2PConnecting = false;
+            P2PManager.Instance.FireConnectionStatusChange();
         }
 
         protected override void PerformWork(object sender, DoWorkEventArgs e)

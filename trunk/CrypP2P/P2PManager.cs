@@ -67,10 +67,21 @@ namespace Cryptool.P2P
 
         public static event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 
+        public delegate void P2PConnectionStateChangeEventHandler(object sender, bool newState);
+        public static event P2PConnectionStateChangeEventHandler OnP2PConnectionStateChangeOccurred;
+
         // to forward event from overlay/dht MessageReceived-Event from P2PBase
         public event P2PBase.P2PMessageReceived OnPeerMessageReceived;
 
         #endregion Events
+
+        internal void FireConnectionStatusChange()
+        {
+            if (OnP2PConnectionStateChangeOccurred != null)
+            {
+                OnP2PConnectionStateChangeOccurred(this, P2PConnected());
+            }
+        }
 
         public bool P2PConnected()
         {
@@ -180,4 +191,6 @@ namespace Cryptool.P2P
 
         #endregion DHT operations
     }
+
+    
 }
