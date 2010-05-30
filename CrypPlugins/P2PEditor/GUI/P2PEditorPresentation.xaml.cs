@@ -49,9 +49,16 @@ namespace Cryptool.P2PEditor.GUI
             JobListManager = jobListManager;
             P2PEditorPresentation = this;
 
+            P2PManager.OnP2PConnectionStateChangeOccurred += P2PManager_OnP2PConnectionStateChangeOccurred;
+
             InitializeComponent();
 
             UpdateDisplay();
+        }
+
+        private void P2PManager_OnP2PConnectionStateChangeOccurred(object sender, bool newState)
+        {
+            IsP2PConnected = newState;
         }
 
         public List<DistributedJob> Jobs

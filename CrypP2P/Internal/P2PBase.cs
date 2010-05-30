@@ -468,7 +468,7 @@ namespace Cryptool.P2P.Internal
         /// <returns>True, when storing is completed!</returns>
         public bool SynchStore(string sKey, byte[] byteData)
         {
-            LogToMonitor("Begin: SynchStore. Key: " + sKey + ", " + byteData.Length + " bytes of data: " + Encoding.UTF8.GetString(byteData) + " [" + byteData.Length + " bytes]");
+            LogToMonitor("Begin: SynchStore. Key: " + sKey + ", " + byteData.Length + " bytes");
             AutoResetEvent are = new AutoResetEvent(false);
             // this method returns always a GUID to distinguish between asynchronous actions
             Guid g = this.dht.Store(OnSynchStoreCompleted, sKey, byteData);
