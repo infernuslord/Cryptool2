@@ -1,4 +1,5 @@
-﻿/* Copyright 2009 Team CrypTool (Christian Arnold), Uni Duisburg-Essen
+﻿/*
+   Copyright 2010 Paul Lelgemann, University of Duisburg-Essen
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -14,171 +15,99 @@
 */
 
 using System;
-using System.Collections.Generic;
 using System.Text;
-using PeersAtPlay.P2PStorage.DHT;
-using PeersAtPlay.P2PStorage.FullMeshDHT;
-using PeersAtPlay.P2POverlay.Bootstrapper;
+using System.Threading;
+using Cryptool.Plugins.PeerToPeer.Internal;
+using Gears4Net;
+using PeersAtPlay;
+using PeersAtPlay.Monitoring;
+using PeersAtPlay.P2PLink;
+using PeersAtPlay.P2PLink.SnalNG;
 using PeersAtPlay.P2POverlay;
+using PeersAtPlay.P2POverlay.Bootstrapper;
+using PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapperV2;
 using PeersAtPlay.P2POverlay.Bootstrapper.LocalMachineBootstrapper;
 using PeersAtPlay.P2POverlay.FullMeshOverlay;
-using PeersAtPlay.P2PLink;
-using PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapperV2;
-using System.Threading;
-using PeersAtPlay;
+using PeersAtPlay.P2PStorage.DHT;
+using PeersAtPlay.P2PStorage.FullMeshDHT;
 using PeersAtPlay.Util.Logging;
-using Gears4Net;
-using Cryptool.Plugins.PeerToPeer.Internal;
+using Settings = PeersAtPlay.P2PLink.SnalNG.Settings;
 
 /* TODO:
- * - Catch errors, which can occur when using the DHT (network-based errors)
- */
-
-/* - Synchronous functions successfully tested (store, retrieve)
- * - The DHT has an integrated versioning system. When a peer wants
- *   to store data in an entry, which already holds data, the version
- *   number will be compared with the peers' version number. If the
- *   peer hasn't read/write the entry the last time, the storing instruction
- *   will be rejected. You must first read the actual data and than you can
- *   store your data in this entry...
- * 
- * INFO:
- * - Have considered the DHT-own versioning system in the SynchStore method.
- *   If this versioning system will be abolished, the SynchStore method must
- *   be change!
- * - Everything switched to SnalNG, SimpleSnal isn't used anymore, because
- *   certification stuff runs now
- * 
- * TODO:
  * - Delete UseNatTraversal-Flag and insert CertificateCheck and CertificateSetup
  * - Testing asynchronous methods incl. EventHandlers
  */
+
 namespace Cryptool.P2P.Internal
 {
-    /* Advantages of this wrapper class:
-     * - The PeerAtPlay-Libraries are only referenced in this project
-     *   --> so they're easy to update
-     * - PeerAtPlay only works with asynchronous methods, so this class
-     *   "synchronizes" this methods.
-     * - The PeerToPeer-Layers are unimportant for CT2-Developers, so this
-     *   issue is obfuscated by this wrapper class
-     */
     /// <summary>
-    /// Wrapper class to integrate peer@play environment into CrypTool. 
-    /// This class synchronizes asynchronous methods for easier usage in CT2. For future
+    ///   Wrapper class to integrate peer@play environment into CrypTool. 
+    ///   This class synchronizes asynchronous methods for easier usage in CT2.
     /// </summary>
     public class P2PBase
     {
-        #region Delegates and Events for asynchronous p2p functions
+        #region Variables
 
-        public delegate void SystemJoined();
-        public event SystemJoined OnSystemJoined;
-
-        public delegate void SystemLeft();
-        public event SystemLeft OnSystemLeft;
-
-        public delegate void P2PMessageReceived(PeerId sourceAddr, byte[] data);
-        public event P2PMessageReceived OnP2PMessageReceived;
-
-        /// <summary>
-        /// returns true if key-value-pair is successfully stored in the DHT
-        /// </summary>
-        /// <param name="result"></param>
-        public delegate void DHTStoreCompleted(bool result);
-        public event DHTStoreCompleted OnDhtStore_Completed;
-
-        public delegate void DHTLoadCompleted(byte[] loadedData);
-        public event DHTLoadCompleted OnDhtLoad_Completed;
+        private readonly AutoResetEvent _systemJoined;
+        private readonly AutoResetEvent _systemLeft;
+        private IBootstrapper _bootstrapper;
+        private IDHT _dht;
+        private IP2PLinkManager _linkmanager;
+        private P2POverlay _overlay;
+        private IVersionedDHT _versionedDht;
 
         /// <summary>
-        /// returns true if key was found and removed successfully from the DHT
+        ///   True if system was successfully joined, false if system is COMPLETELY left
         /// </summary>
-        /// <param name="result"></param>
-        public delegate void DHTRemoveCompleted(bool result);
-        public event DHTRemoveCompleted OnDhtRemove_Completed;
+        public bool Started { get; private set; }
+
+        /// <summary>
+        ///   True if the underlying peer to peer system has been fully initialized
+        /// </summary>
+        public bool Initialized { get; private set; }
 
         #endregion
 
-        #region Variables
+        #region Delegates
 
-        private bool allowLoggingToMonitor;
-        /// <summary>
-        /// If true, all kinds of actions will be logged in the PeersAtPlay LogMonitor.
-        /// </summary>
-        public bool AllowLoggingToMonitor
-        {
-            get { return this.allowLoggingToMonitor; }
-            set { this.allowLoggingToMonitor = value; }
-        }
+        public event P2PMessageReceived OnP2PMessageReceived;
+        public delegate void P2PMessageReceived(PeerId sourceAddr, byte[] data);
 
-        private const bool ALLOW_LOGGING_TO_MONITOR = true;
+        public event SystemJoined OnSystemJoined;
+        public delegate void SystemJoined();
 
-        private bool started = false;
-        /// <summary>
-        /// True if system was successfully joined, false if system is COMPLETELY left
-        /// </summary>
-        public bool Started
-        {
-            get { return this.started; }
-            private set { this.started = value; }
-        }
-
-        private IDHT dht;
-        private IP2PLinkManager linkmanager;
-        private IBootstrapper bootstrapper;
-        private P2POverlay overlay;
-        private AutoResetEvent systemJoined;
-        private AutoResetEvent systemLeft;
-
-        /// <summary>
-        /// Dictionary for synchronizing asynchronous DHT retrieves.
-        /// Cryptool doesn't offers an asynchronous environment, so this workaround is necessary
-        /// </summary>
-        private Dictionary<Guid, ResponseWait> waitDict;
+        public event SystemLeft OnSystemLeft;
+        public delegate void SystemLeft();
 
         #endregion
 
         public P2PBase()
         {
-            this.waitDict = new Dictionary<Guid, ResponseWait>();
-            this.systemJoined = new AutoResetEvent(false);
-            this.systemLeft = new AutoResetEvent(false);
+            Started = false;
+            Initialized = false;
+
+            _systemJoined = new AutoResetEvent(false);
+            _systemLeft = new AutoResetEvent(false);
         }
 
-        #region Basic P2P Methods (Init, Start, Stop) - synch and asynch
-
-        public void Initialize(P2PSettings p2PSettings)
-        {
-            Initialize(p2PSettings.PeerName, p2PSettings.WorldName, p2PSettings.LinkManager, p2PSettings.Bootstrapper, p2PSettings.Overlay, p2PSettings.Dht);
-        }
+        #region Basic P2P Methods (Init, Start, Stop)
 
         /// <summary>
-        /// Initializing is the first step to build a new or access an existing p2p network
+        ///   Initializes the underlying peer-to-peer system with settings configured in P2PSettings. This step is required in order to be able to establish a connection.
         /// </summary>
-        /// <param name="sUserName">Choose an individual name for the user</param>
-        /// <param name="sWorldName">fundamental: two peers are only in the SAME 
-        /// P2P system, when they initialized the SAME WORLD!</param>
-        /// <param name="bolUseNatTraversal">When you want to use NAT-Traversal #
-        /// (tunneling the P2P connection through NATs and Firewalls), you have to
-        /// set this flag to true</param>
-        /// <param name="linkManagerType"></param>
-        /// <param name="bsType"></param>
-        /// <param name="overlayType"></param>
-        /// <param name="dhtType"></param>
-        public void Initialize(string sUserName, string sWorldName, P2PLinkManagerType linkManagerType, P2PBootstrapperType bsType, P2POverlayType overlayType, P2PDHTType dhtType)
+        public void Initialize()
         {
-            #region Setting LinkManager, Bootstrapper, Overlay and DHT to the specified types
-
             Scheduler scheduler = new STAScheduler("pap");
 
-            switch (linkManagerType)
+            switch (P2PSettings.Default.LinkManager)
             {
                 case P2PLinkManagerType.Snal:
                     LogToMonitor("Init LinkMgr: Using NAT Traversal stuff");
-                    // NAT-Traversal stuff needs a different Snal-Version
-                    this.linkmanager = new PeersAtPlay.P2PLink.SnalNG.Snal(scheduler);
 
-                    PeersAtPlay.P2PLink.SnalNG.Settings settings = new PeersAtPlay.P2PLink.SnalNG.Settings();
+                    // NAT-Traversal stuff needs a different Snal-Version
+                    _linkmanager = new Snal(scheduler);
+
+                    var settings = new Settings();
                     settings.LoadDefaults();
                     settings.ConnectInternal = true;
                     settings.LocalReceivingPort = 0;
@@ -188,18 +117,19 @@ namespace Cryptool.P2P.Internal
                     settings.ReuseAddress = false;
                     settings.UseNetworkMonitorServer = true;
 
-                    this.linkmanager.Settings = settings;
-                    this.linkmanager.ApplicationType = PeersAtPlay.Monitoring.ApplicationType.CrypTool;
+                    _linkmanager.Settings = settings;
+                    _linkmanager.ApplicationType = ApplicationType.CrypTool;
 
                     break;
                 default:
                     throw (new NotImplementedException());
             }
-            switch (bsType)
+
+            switch (P2PSettings.Default.Bootstrapper)
             {
                 case P2PBootstrapperType.LocalMachineBootstrapper:
-                    //LocalMachineBootstrapper = only local connection (runs only on one machine)
-                    this.bootstrapper = new LocalMachineBootstrapper();
+                    // LocalMachineBootstrapper = only local connection (runs only on one machine)
+                    _bootstrapper = new LocalMachineBootstrapper();
                     break;
                 case P2PBootstrapperType.IrcBootstrapper:
                     // setup nat traversal stuff
@@ -208,486 +138,364 @@ namespace Cryptool.P2P.Internal
                     PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.IncludeSymmetricInResponse = false;
                     PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.SymmetricResponseDelay = 6000;
 
-                    this.bootstrapper = new IrcBootstrapper(scheduler);
+                    _bootstrapper = new IrcBootstrapper(scheduler);
                     break;
                 default:
                     throw (new NotImplementedException());
             }
-            switch (overlayType)
+
+            switch (P2PSettings.Default.Overlay)
             {
                 case P2POverlayType.FullMeshOverlay:
                     // changing overlay example: this.overlay = new ChordOverlay();
-                    this.overlay = new FullMeshOverlay(scheduler);
+                    _overlay = new FullMeshOverlay(scheduler);
                     break;
                 default:
                     throw (new NotImplementedException());
             }
-            switch (dhtType)
+
+            switch (P2PSettings.Default.Dht)
             {
                 case P2PDHTType.FullMeshDHT:
-                    this.dht = new FullMeshDHT(scheduler);
+                    _dht = new FullMeshDHT(scheduler);
                     break;
                 default:
                     throw (new NotImplementedException());
             }
-            #endregion
 
-            this.overlay.MessageReceived += new EventHandler<OverlayMessageEventArgs>(overlay_MessageReceived);
-            this.dht.SystemJoined += new EventHandler(OnDHT_SystemJoined);
-            this.dht.SystemLeft += new EventHandler<SystemLeftEventArgs>(OnDHT_SystemLeft);
+            _overlay.MessageReceived += OverlayMessageReceived;
+            _dht.SystemJoined += OnDhtSystemJoined;
+            _dht.SystemLeft += OnDhtSystemLeft;
 
-            this.dht.Initialize(sUserName, "", sWorldName, this.overlay, this.bootstrapper, this.linkmanager, null);
+            _versionedDht = (IVersionedDHT) _dht;
+
+            _dht.Initialize(P2PSettings.Default.PeerName, string.Empty, P2PSettings.Default.WorldName, _overlay, 
+                            _bootstrapper, 
+                            _linkmanager, null);
+
+            Initialized = true;
         }
 
         /// <summary>
-        /// Starts the P2P System. When the given P2P world doesn't exist yet, 
-        /// inclusive creating the and bootstrapping to the P2P network.
-        /// In either case joining the P2P world.
-        /// This synchronized method returns true not before the peer has 
-        /// successfully joined the network (this may take one or two minutes).
+        ///   Starts the P2P System. When the given P2P world doesn't exist yet, 
+        ///   inclusive creating the and bootstrapping to the P2P network.
+        ///   In either case joining the P2P world.
+        ///   This synchronized method returns true not before the peer has 
+        ///   successfully joined the network (this may take one or two minutes).
         /// </summary>
+        /// <exception cref = "InvalidOperationException">When the peer-to-peer system has not been initialized. 
+        /// After validating the settings, this can be done by calling Initialize().</exception>
         /// <returns>True, if the peer has completely joined the p2p network</returns>
         public bool SynchStart()
         {
-            //Start != system joined
-            //Only starts the system asynchronous, the possible callback is useless, 
-            //because it's invoked before the peer completly joined the P2P system
-            this.dht.BeginStart(null);
-            //Wait for event SystemJoined. When it's invoked, the peer completly joined the P2P system
-            this.systemJoined.WaitOne();
+            if (!Initialized)
+            {
+                throw new InvalidOperationException("Peer-to-peer is not initialized.");
+            }
+
+            if (Started)
+            {
+                return true;
+            }
+
+            _dht.BeginStart(null);
+
+            // Wait for event SystemJoined. When it's invoked, the peer completely joined the P2P system
+            _systemJoined.WaitOne();
+
             return true;
         }
 
         /// <summary>
-        /// Disjoins the peer from the system. The P2P system survive while one peer is still in the network.
+        ///   Disconnects from the peer-to-peer system.
         /// </summary>
-        /// <returns>True, if the peer has completely disjoined the p2p network</returns>
+        /// <returns>True, if the peer has completely left the p2p network</returns>
         public bool SynchStop()
         {
-            if (this.dht != null)
-            {
-                this.dht.BeginStop(null);
-                //don't stop anything else, because BOOM
+            if (_dht == null) return false;
 
-                //wait till systemLeft Event is invoked
-                this.systemLeft.WaitOne();
-            }
+            _dht.BeginStop(null);
+
+            // wait till systemLeft Event is invoked
+            _systemLeft.WaitOne();
+
             return true;
-        }
-
-        /// <summary>
-        /// Asynchronously starting the peer. When the given P2P world doesn't 
-        /// exist yet, inclusive creating the and bootstrapping to the P2P network.
-        /// In either case joining the P2P world. To ensure that peer has successfully
-        /// joined the p2p world, catch the event OnSystemJoined.
-        /// </summary>
-        public void AsynchStart()
-        {
-            // no callback usefull, because starting and joining isn't the same
-            // everything else is done by the EventHandler OnDHT_SystemJoined
-            this.dht.BeginStart(null);
-        }
-
-        /// <summary>
-        /// Asynchronously disjoining the actual peer of the p2p system. To ensure
-        /// disjoining, catch the event OnDHT_SystemLeft.
-        /// </summary>
-        public void AsynchStop()
-        {
-            if (this.dht != null)
-            {
-                // no callback usefull.
-                // Everything else is done by the EventHandler OnDHT_SystemLeft
-                this.dht.BeginStop(null);
-            }
         }
 
         #endregion
 
+        #region Peer related method (GetPeerId, Send message to peer)
+
         /// <summary>
-        /// Get PeerName of the actual peer
+        ///   Get PeerName of the actual peer
         /// </summary>
-        /// <param name="sPeerName">out: additional peer information UserName on LinkManager</param>
+        /// <param name = "sPeerName">out: additional peer information UserName on LinkManager</param>
         /// <returns>PeerID as a String</returns>
-        public PeerId GetPeerID(out string sPeerName)
+        public PeerId GetPeerId(out string sPeerName)
         {
-            sPeerName = this.linkmanager.UserName;
-            return new PeerId(this.overlay.LocalAddress);
+            sPeerName = _linkmanager.UserName;
+            return new PeerId(_overlay.LocalAddress);
         }
 
         /// <summary>
-        /// Construct PeerId object for a specific byte[] id
+        ///   Construct PeerId object for a specific byte[] id
         /// </summary>
-        /// <param name="byteId">overlay address as byte array</param>
+        /// <param name = "byteId">overlay address as byte array</param>
         /// <returns>corresponding PeerId for given byte[] id</returns>
-        public PeerId GetPeerID(byte[] byteId)
+        public PeerId GetPeerId(byte[] byteId)
         {
             LogToMonitor("GetPeerID: Converting byte[] to PeerId-Object");
-            return new PeerId(this.overlay.GetAddress(byteId));
+            return new PeerId(_overlay.GetAddress(byteId));
         }
 
         // overlay.LocalAddress = Overlay-Peer-Address/Names
         public void SendToPeer(byte[] data, byte[] destinationPeer)
         {
             // get stack size of the pap use-data and add own use data (for optimizing Stack size)
-            int realStackSize = this.overlay.GetHeaderSize() + data.Length;
-            ByteStack stackData = new ByteStack(realStackSize);
+            var realStackSize = _overlay.GetHeaderSize() + data.Length;
 
+            var stackData = new ByteStack(realStackSize);
             stackData.Push(data);
 
-            OverlayAddress destinationAddr = this.overlay.GetAddress(destinationPeer);
-            OverlayMessage overlayMsg = new OverlayMessage(MessageReceiverType.P2PBase,
-                this.overlay.LocalAddress, destinationAddr, stackData);
-            this.overlay.Send(overlayMsg);
+            var destinationAddr = _overlay.GetAddress(destinationPeer);
+            var overlayMsg = new OverlayMessage(MessageReceiverType.P2PBase, 
+                                                _overlay.LocalAddress, destinationAddr, stackData);
+
+            _overlay.Send(overlayMsg);
         }
 
-        private void overlay_MessageReceived(object sender, OverlayMessageEventArgs e)
+        private void OverlayMessageReceived(object sender, OverlayMessageEventArgs e)
         {
-            if (OnP2PMessageReceived != null)
-            {
-                PeerId pid = new PeerId(e.Message.Source);
-                /* You have to fire this event asynchronous, because the main 
+            if (OnP2PMessageReceived == null) return;
+
+            var pid = new PeerId(e.Message.Source);
+            /* You have to fire this event asynchronous, because the main 
                  * thread will be stopped in this wrapper class for synchronizing
                  * the asynchronous stuff (AutoResetEvent) --> so this could run 
                  * into a deadlock, when you fire this event synchronous (normal Invoke)
                  * ATTENTION: This could change the invocation order!!! In my case 
                               no problem, but maybe in future cases... */
 
-                // TODO: not safe: The delegate must have only one target
-                //OnP2PMessageReceived.BeginInvoke(pid, e.Message.Data.PopBytes(e.Message.Data.CurrentStackSize), null, null);
+            // TODO: not safe: The delegate must have only one target
+            // OnP2PMessageReceived.BeginInvoke(pid, e.Message.Data.PopBytes(e.Message.Data.CurrentStackSize), null, null);
 
-                foreach (Delegate del in OnP2PMessageReceived.GetInvocationList())
-                {
-                    del.DynamicInvoke(pid, e.Message.Data.PopBytes(e.Message.Data.CurrentStackSize));
-                }
-
-                //OnP2PMessageReceived(pid, e.Message.Data.PopUTF8String());
+            foreach (var del in OnP2PMessageReceived.GetInvocationList())
+            {
+                del.DynamicInvoke(pid, e.Message.Data.PopBytes(e.Message.Data.CurrentStackSize));
             }
         }
+
+        #endregion
 
         #region Event Handling (System Joined, Left and Message Received)
 
-        private void OnDHT_SystemJoined(object sender, EventArgs e)
+        private void OnDhtSystemJoined(object sender, EventArgs e)
         {
             if (OnSystemJoined != null)
                 OnSystemJoined();
-            this.systemJoined.Set();
+
+            _systemJoined.Set();
             Started = true;
         }
 
-        private void OnDHT_SystemLeft(object sender, SystemLeftEventArgs e)
+        private void OnDhtSystemLeft(object sender, SystemLeftEventArgs e)
         {
             if (OnSystemLeft != null)
                 OnSystemLeft();
+
             // as an experiment
-            this.dht = null;
-            this.systemLeft.Set();
+            _dht = null;
+
+            _systemLeft.Set();
             Started = false;
+            Initialized = false;
 
-            LogToMonitor("OnDHT_SystemLeft has nulled the dht and setted the systemLeft Waithandle");
+            LogToMonitor("CrypP2P left the system.");
         }
 
         #endregion
 
-        /* Attention: The asynchronous methods are not tested at the moment */
-        #region Asynchronous Methods incl. Callbacks
+        #region Synchronous Methods + their Callbacks
 
         /// <summary>
-        /// Asynchronously retrieving a key from the DHT. To get value, catch 
-        /// event OnDhtLoad_Completed.
+        ///   Stores a value in the DHT at the given key
         /// </summary>
-        /// <param name="sKey">Existing key in DHT</param>
-        public void AsynchRetrieve(string sKey)
-        {
-            Guid g = this.dht.Retrieve(OnAsynchRetrieve_Completed, sKey);
-        }
-        private void OnAsynchRetrieve_Completed(RetrieveResult rr)
-        {
-            if (OnDhtLoad_Completed != null)
-            {
-                OnDhtLoad_Completed(rr.Data);
-            }
-        }
-
-        /// <summary>
-        /// Asynchronously storing a Key-Value-Pair in the DHT. To ensure that 
-        /// storing is completed, catch event OnDhtStore_Completed.
-        /// </summary>
-        /// <param name="sKey"></param>
-        /// <param name="sValue"></param>
-        public void AsynchStore(string sKey, string sValue)
-        {
-            //this.dht.Store(OnAsynchStore_Completed, sKey, UTF8Encoding.UTF8.GetBytes(sValue), IGNORE_DHT_VERSIONING_SYSTEM);
-            this.dht.Store(OnAsynchStore_Completed, sKey, UTF8Encoding.UTF8.GetBytes(sValue));
-        }
-
-        private void OnAsynchStore_Completed(StoreResult sr)
-        {
-            if (OnDhtStore_Completed != null)
-            {
-                if (sr.Status == OperationStatus.Success)
-                    OnDhtStore_Completed(true);
-                else
-                    OnDhtStore_Completed(false);
-            }
-
-        }
-
-        /// <summary>
-        /// Asynchronously removing an existing key out of the DHT. To ensure
-        /// that removing is completed, catch event OnDhtRemove_Completed.
-        /// </summary>
-        /// <param name="sKey"></param>
-        public void AsynchRemove(string sKey)
-        {
-            //this.dht.Remove(OnAsynchRemove_Completed, sKey, IGNORE_DHT_VERSIONING_SYSTEM);
-            this.dht.Remove(OnAsynchRemove_Completed, sKey);
-        }
-        private void OnAsynchRemove_Completed(RemoveResult rr)
-        {
-            if (OnDhtRemove_Completed != null)
-            {
-                if (rr.Status == OperationStatus.Success)
-                    OnDhtRemove_Completed(true);
-                else
-                    OnDhtRemove_Completed(false);
-            }
-        }
-
-        #endregion
-
-        #region Synchronous Methods incl. Callbacks
-
-        #region SynchStore incl.Callback and SecondTrialCallback
-
-        /// <summary>
-        /// Stores a value in the DHT at the given key
-        /// </summary>
-        /// <param name="sKey">Key of DHT Entry</param>
-        /// <param name="byteData">Value of DHT Entry</param>
+        /// <param name = "key">Key of DHT Entry</param>
+        /// <param name = "data">Value of DHT Entry</param>
         /// <returns>True, when storing is completed!</returns>
-        public bool SynchStore(string sKey, byte[] byteData)
+        public bool SynchStore(string key, byte[] data)
         {
-            LogToMonitor("Begin: SynchStore. Key: " + sKey + ", " + byteData.Length + " bytes");
-            AutoResetEvent are = new AutoResetEvent(false);
-            // this method returns always a GUID to distinguish between asynchronous actions
-            Guid g = this.dht.Store(OnSynchStoreCompleted, sKey, byteData);
+            var autoResetEvent = new AutoResetEvent(false);
 
-            ResponseWait rw = new ResponseWait() { WaitHandle = are, key = sKey, value = byteData };
+            // LogToMonitor("testcrash" + Encoding.UTF8.GetString(new byte[5000]));
+            LogToMonitor("Begin: SynchStore. Key: " + key + ", " + data.Length + " bytes");
 
-            waitDict.Add(g, rw);
-            //blocking till response
-            are.WaitOne();
+            var responseWait = new ResponseWait {WaitHandle = autoResetEvent, key = key, value = data};
+            _versionedDht.Store(OnSynchStoreCompleted, key, data, responseWait);
 
-            LogToMonitor("End: SynchStore. Key: " + sKey + ". Success: " + rw.success.ToString());
+            // blocking till response
+            autoResetEvent.WaitOne();
 
-            return rw.success;
+            LogToMonitor("End: SynchStore. Key: " + key + ". Success: " + responseWait.success);
+
+            return responseWait.success;
         }
 
         /// <summary>
-        /// Stores a value in the DHT at the given key
+        ///   Stores a value in the DHT at the given key
         /// </summary>
-        /// <param name="sKey">Key of DHT Entry</param>
-        /// <param name="sValue">Value of DHT Entry</param>
+        /// <param name = "key">Key of DHT Entry</param>
+        /// <param name = "value">Value of DHT Entry</param>
         /// <returns>True, when storing is completed!</returns>
-        public bool SynchStore(string sKey, string sData)
+        public bool SynchStore(string key, string value)
         {
-            return SynchStore(sKey, UTF8Encoding.UTF8.GetBytes(sData));
+            return SynchStore(key, Encoding.UTF8.GetBytes(value));
         }
-        /// <summary>
-        /// Callback for a the synchronized store method
-        /// </summary>
-        /// <param name="rr"></param>
-        private void OnSynchStoreCompleted(StoreResult sr)
-        {
-            ResponseWait rw;
-            if (this.waitDict.TryGetValue(sr.Guid, out rw))
-            {
-                // if Status == Error, than the version of the value is out of date.
-                // There is a versioning system in the DHT. So you must retrieve the
-                // key and than store the new value
-                if (sr.Status == OperationStatus.Failure)
-                {
-                    byte[] byteTemp = this.SynchRetrieve(rw.key);
-
-                    // Only try a second time. When it's still not possible, abort storing
-                    AutoResetEvent are = new AutoResetEvent(false);
-                    Guid g = this.dht.Store(OnSecondTrialStoring, rw.key, rw.value);
-                    ResponseWait rw2 = new ResponseWait() { WaitHandle = are, key = rw.key, value = rw.value };
-
-                    waitDict.Add(g, rw2);
-                    // blocking till response
-                    are.WaitOne();
-                    rw.success = rw2.success;
-                    rw.Message = rw2.Message;
-                }
-                else
-                {
-                    rw.Message = UTF8Encoding.UTF8.GetBytes(sr.Status.ToString());
-                    if (sr.Status == OperationStatus.KeyNotFound)
-                        rw.success = false;
-                    else
-                        rw.success = true;
-                }
-            }
-            //unblock WaitHandle in the synchronous method
-            rw.WaitHandle.Set();
-            // don't know if this accelerates the system...
-            this.waitDict.Remove(sr.Guid);
-        }
-
-        private void OnSecondTrialStoring(StoreResult sr)
-        {
-            ResponseWait rw;
-            if (this.waitDict.TryGetValue(sr.Guid, out rw))
-            {
-                if (sr.Status == OperationStatus.Failure)
-                {
-                    //Abort storing, because it's already the second trial
-                    rw.Message = UTF8Encoding.UTF8.GetBytes("Storing also not possible on second trial.");
-                    rw.success = false;
-                }
-                else
-                {
-                    //works the second trial, so it was the versioning system
-                    rw.success = true;
-                }
-            }
-            //unblock WaitHandle in the synchronous method
-            rw.WaitHandle.Set();
-            // don't know if this accelerates the system...
-            this.waitDict.Remove(sr.Guid);
-        }
-
-        #endregion
 
         /// <summary>
-        /// Get the value of the given DHT Key or null, if it doesn't exist.
-        /// For synchronous environments use the Synch* methods.
+        ///   Callback for a the synchronized store method
         /// </summary>
-        /// <param name="sKey">Key of DHT Entry</param>
+        /// <param name = "storeResult">retrieved data container</param>
+        private static void OnSynchStoreCompleted(StoreResult storeResult)
+        {
+            var responseWait = storeResult.AsyncState as ResponseWait;
+            if (responseWait == null)
+            {
+                LogToMonitor("Received OnSynchStoreCompleted, but ResponseWait object is missing. Discarding.");
+                return;
+            }
+
+            responseWait.success = storeResult.Status != OperationStatus.KeyNotFound;
+            responseWait.Message = Encoding.UTF8.GetBytes(storeResult.Status.ToString());
+
+            // unblock WaitHandle in the synchronous method
+            responseWait.WaitHandle.Set();
+
+            LogToMonitor("Received and handled OnSynchStoreCompleted.");
+        }
+
+        /// <summary>
+        ///   Get the value of the given DHT Key or null, if it doesn't exist.
+        /// </summary>
+        /// <param name = "key">Key of DHT Entry</param>
         /// <returns>Value of DHT Entry</returns>
-        public byte[] SynchRetrieve(string sKey)
+        public byte[] SynchRetrieve(string key)
         {
-            LogToMonitor("ThreadId (P2PBase SynchRetrieve): " + Thread.CurrentThread.ManagedThreadId.ToString());
+            LogToMonitor("Begin: SynchRetrieve. Key: " + key);
 
-            AutoResetEvent are = new AutoResetEvent(false);
-            // this method returns always a GUID to distinguish between asynchronous actions
+            var autoResetEvent = new AutoResetEvent(false);
+            var responseWait = new ResponseWait {WaitHandle = autoResetEvent, key = key};
+            _dht.Retrieve(OnSynchRetrieveCompleted, key, responseWait);
 
-            LogToMonitor("Begin: SynchRetrieve. Key: " + sKey);
-
-            Guid g = this.dht.Retrieve(OnSynchRetrieveCompleted, sKey);
-
-            ResponseWait rw = new ResponseWait() { WaitHandle = are };
-
-            waitDict.Add(g, rw);
             // blocking till response
-            are.WaitOne();
+            autoResetEvent.WaitOne();
 
-            LogToMonitor("End: SynchRetrieve. Key: " + sKey + ". Success: " + rw.success.ToString());
+            LogToMonitor("End: SynchRetrieve. Key: " + key + ". Success: " + responseWait.success);
 
-            //Rückgabe der Daten
-            return rw.Message;
+            return responseWait.Message;
         }
 
         /// <summary>
-        /// Callback for a the synchronized retrieval method
+        ///   Callback for a the synchronized retrieval method
         /// </summary>
-        /// <param name="rr"></param>
-        private void OnSynchRetrieveCompleted(RetrieveResult rr)
+        /// <param name = "retrieveResult"></param>
+        private static void OnSynchRetrieveCompleted(RetrieveResult retrieveResult)
         {
-            LogToMonitor(rr.Guid.ToString());
-
-            ResponseWait rw;
-
-            LogToMonitor("ThreadId (P2PBase retrieve callback): " + Thread.CurrentThread.ManagedThreadId.ToString());
-
-            if (this.waitDict.TryGetValue(rr.Guid, out rw))
+            var responseWait = retrieveResult.AsyncState as ResponseWait;
+            if (responseWait == null)
             {
-                // successful as long as no error occured
-                rw.success = true;
-                if (rr.Status == OperationStatus.Failure)
-                {
-                    rw.Message = null;
-                    rw.success = false;
-                }
-                else if (rr.Status == OperationStatus.KeyNotFound)
-                    rw.Message = null;
-                else
-                    rw.Message = rr.Data;
-
-                //unblock WaitHandle in the synchronous method
-                rw.WaitHandle.Set();
-                // don't know if this accelerates the system...
-                this.waitDict.Remove(rr.Guid);
+                LogToMonitor("Received OnSynchRetrieveCompleted, but ResponseWait object is missing. Discarding.");
+                return;
             }
+
+            LogToMonitor("Received retrieve callback, local ThreadId: " + Thread.CurrentThread.ManagedThreadId);
+
+            switch (retrieveResult.Status)
+            {
+                case OperationStatus.Success:
+                    responseWait.success = true;
+                    responseWait.Message = retrieveResult.Data;
+                    break;
+                case OperationStatus.KeyNotFound:
+                    responseWait.success = true;
+                    responseWait.Message = null;
+                    break;
+                default:
+                    responseWait.success = false;
+                    responseWait.Message = null;
+                    break;
+            }
+
+            // unblock WaitHandle in the synchronous method
+            responseWait.WaitHandle.Set();
+
+            LogToMonitor("Received and handled OnSynchRetrieveCompleted.");
         }
+
         /// <summary>
-        /// Removes a key/value pair out of the DHT
+        ///   Removes a key/value pair out of the DHT
         /// </summary>
-        /// <param name="sKey">Key of the DHT Entry</param>
+        /// <param name = "key">Key of the DHT Entry</param>
         /// <returns>True, when removing is completed!</returns>
-        public bool SynchRemove(string sKey)
+        public bool SynchRemove(string key)
         {
-            LogToMonitor("Begin SynchRemove. Key: " + sKey);
+            LogToMonitor("Begin SynchRemove. Key: " + key);
 
-            AutoResetEvent are = new AutoResetEvent(false);
-            // this method returns always a GUID to distinguish between asynchronous actions
-            Guid g = this.dht.Remove(OnSynchRemoveCompleted, sKey);
-            //Guid g = this.dht.Remove(OnSynchRemoveCompleted, sKey, IGNORE_DHT_VERSIONING_SYSTEM);
+            var autoResetEvent = new AutoResetEvent(false);
+            var responseWait = new ResponseWait {WaitHandle = autoResetEvent, key = key};
+            _versionedDht.Remove(OnSynchRemoveCompleted, key, responseWait);
 
-            ResponseWait rw = new ResponseWait() { WaitHandle = are };
-
-            waitDict.Add(g, rw);
             // blocking till response
-            are.WaitOne();
+            autoResetEvent.WaitOne();
 
-            LogToMonitor("Ended SynchRemove. Key: " + sKey + ". Success: " + rw.success.ToString());
+            LogToMonitor("End: SynchRemove. Key: " + key + ". Success: " + responseWait.success);
 
-            return rw.success;
+            return responseWait.success;
         }
 
         /// <summary>
-        /// Callback for a the synchronized remove method
+        ///   Callback for a the synchronized remove method
         /// </summary>
-        /// <param name="rr"></param>
-        private void OnSynchRemoveCompleted(RemoveResult rr)
+        /// <param name = "removeResult"></param>
+        private static void OnSynchRemoveCompleted(RemoveResult removeResult)
         {
-            ResponseWait rw;
-            if (this.waitDict.TryGetValue(rr.Guid, out rw))
+            var responseWait = removeResult.AsyncState as ResponseWait;
+            if (responseWait == null)
             {
-                rw.Message = UTF8Encoding.UTF8.GetBytes(rr.Status.ToString());
-
-                if (rr.Status == OperationStatus.Failure || rr.Status == OperationStatus.KeyNotFound)
-                    rw.success = false;
-                else
-                    rw.success = true;
-
-                //unblock WaitHandle in the synchronous method
-                rw.WaitHandle.Set();
-                // don't know if this accelerates the system...
-                this.waitDict.Remove(rr.Guid);
+                LogToMonitor("Received OnSynchRemoveCompleted, but ResponseWait object is missing. Discarding.");
+                return;
             }
+
+            responseWait.success = removeResult.Status == OperationStatus.Success;
+            responseWait.Message = Encoding.UTF8.GetBytes(removeResult.Status.ToString());
+
+            // unblock WaitHandle in the synchronous method
+            responseWait.WaitHandle.Set();
+
+            LogToMonitor("Received and handled OnSynchRemoveCompleted.");
         }
 
         #endregion
 
+        #region Log facility
+
         /// <summary>
-        /// To log the internal state in the Monitoring Software of P@play
+        ///   To log the internal state in the Monitoring Software of P@play
         /// </summary>
         public void LogInternalState()
         {
-            if (this.dht != null)
+            if (_dht != null)
             {
-                this.dht.LogInternalState();
+                _dht.LogInternalState();
             }
         }
 
-        public void LogToMonitor(string sTextToLog)
+        private static void LogToMonitor(string sTextToLog)
         {
-            if (AllowLoggingToMonitor)
+            if (P2PSettings.Default.Log2Monitor)
                 Log.Debug(sTextToLog);
         }
 
+        #endregion
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Cryptool.P2P;
@@ -22,7 +21,7 @@ namespace Cryptool.P2PEditor.Distributed
         {
             _p2PEditor.GuiLogMessage("Fetching DHT job list...", NotificationLevel.Debug);
 
-            if (!P2PManager.Instance.P2PConnected())
+            if (!P2PManager.Instance.IsP2PConnected())
             {
                 _p2PEditor.GuiLogMessage("P2P not connected, cannot fetch job list.", NotificationLevel.Error);
                 return new List<DistributedJob>();
@@ -47,7 +46,7 @@ namespace Cryptool.P2PEditor.Distributed
         {
             _p2PEditor.GuiLogMessage("Distributing new job...", NotificationLevel.Debug);
 
-            if (!P2PManager.Instance.P2PConnected())
+            if (!P2PManager.Instance.IsP2PConnected())
             {
                 _p2PEditor.GuiLogMessage("P2P not connected, cannot distribute job.", NotificationLevel.Error);
                 return;

@@ -33,13 +33,11 @@ namespace Cryptool.P2P
         private P2PManager()
         {
             P2PBase = new P2PBase();
-            P2PSettings = new P2PSettings();
-            P2PBase.AllowLoggingToMonitor = P2PSettings.Log2Monitor;
 
             // Register events
 
             // to forward event from overlay/dht MessageReceived-Event from P2PBase
-            P2PBase.OnP2PMessageReceived += p2pBase_OnP2PMessageReceived;
+            P2PBase.OnP2PMessageReceived += OnP2PMessageReceived;
 
             // Register exit event to terminate P2P connection without loosing data
             // TODO check if this is correct, should be - but handler is not called (and application does not shut down), probably unrelated to this problem
@@ -48,17 +46,9 @@ namespace Cryptool.P2P
 
         #endregion
 
-        # region Constants
-
-        public const string P2PDisconnectImageUri = "images/peer2peer-disconnect.png";
-        public const string P2PConnectImageUri = "images/peer2peer-connect.png";
-
-        # endregion
-
         #region Variables
 
-        public P2PBase P2PBase { get; set; }
-        public P2PSettings P2PSettings { get; set; }
+        public P2PBase P2PBase { get; private set; }
         public bool IsP2PConnecting { get; internal set; }
 
         #endregion
@@ -70,7 +60,6 @@ namespace Cryptool.P2P
         public delegate void P2PConnectionStateChangeEventHandler(object sender, bool newState);
         public static event P2PConnectionStateChangeEventHandler OnP2PConnectionStateChangeOccurred;
 
-        // to forward event from overlay/dht MessageReceived-Event from P2PBase
         public event P2PBase.P2PMessageReceived OnPeerMessageReceived;
 
         #endregion Events
@@ -79,45 +68,45 @@ namespace Cryptool.P2P
         {
             if (OnP2PConnectionStateChangeOccurred != null)
             {
-                OnP2PConnectionStateChangeOccurred(this, P2PConnected());
+                OnP2PConnectionStateChangeOccurred(this, IsP2PConnected());
             }
         }
 
-        public bool P2PConnected()
+        public bool IsP2PConnected()
         {
             return P2PBase.Started;
         }
 
         public string UserInfo()
         {
-            if (!P2PConnected())
+            if (!IsP2PConnected())
             {
                 return null;
             }
 
             string userName;
-            var userInfo = P2PBase.GetPeerID(out userName);
+            var userInfo = P2PBase.GetPeerId(out userName);
             return userInfo + " (" + userName + ")";
         }
 
         public void HandleConnectOnStartup()
         {
-            if (P2PSettings.ConnectOnStartup && IsReadyToConnect())
+            if (P2PSettings.Default.ConnectOnStartup && IsReadyToConnect())
             {
                 GuiLogMessage("Connect on startup enabled. Establishing connection...", NotificationLevel.Info);
-                new ConnectionWorker(P2PBase, P2PSettings).Start();
+                new ConnectionWorker(P2PBase).Start();
             }
         }
 
         private bool IsReadyToConnect()
         {
-            if (String.IsNullOrEmpty(P2PSettings.PeerName))
+            if (String.IsNullOrEmpty(P2PSettings.Default.PeerName))
             {
                 GuiLogMessage("Peer-to-peer not fully configured: username missing.", NotificationLevel.Error);
                 return false;
             }
 
-            if (String.IsNullOrEmpty(P2PSettings.WorldName))
+            if (String.IsNullOrEmpty(P2PSettings.Default.PeerName))
             {
                 GuiLogMessage("Peer-to-peer not fully configured: world name missing.", NotificationLevel.Error);
                 return false;
@@ -128,11 +117,11 @@ namespace Cryptool.P2P
 
         public PeerId GetPeerId(out string userName)
         {
-            return P2PBase.GetPeerID(out userName);
+            return P2PBase.GetPeerId(out userName);
         }
 
         // to forward event from overlay/dht MessageReceived-Event from P2PBase
-        private void p2pBase_OnP2PMessageReceived(PeerId sourceAddr, byte[] data)
+        private void OnP2PMessageReceived(PeerId sourceAddr, byte[] data)
         {
             if (OnPeerMessageReceived != null)
                 OnPeerMessageReceived(sourceAddr, data);
@@ -142,9 +131,9 @@ namespace Cryptool.P2P
 
         private void HandleDisconnectByApplicationShutdown(object sender, EventArgs e)
         {
-            if (P2PConnected())
+            if (IsP2PConnected())
             {
-                new ConnectionWorker(P2PBase, P2PSettings).Start();
+                new ConnectionWorker(P2PBase).Start();
             }
         }
 
@@ -157,33 +146,65 @@ namespace Cryptool.P2P
 
         #region DHT operations
 
+        /// <summary>
+        /// Stores the given data in the DHT. This method will block until a response has been received.
+        /// 
+        /// The underlying DHT is versionend. Store attempts will fail, if the latest version has not been retrieved before.
+        /// </summary>
+        /// <param name="key">key to write</param>
+        /// <param name="data">data to write</param>
+        /// <exception cref="NotConnectedException">Will be thrown if the P2P system is not connected</exception>
+        /// <returns>true if the store attempt was successful, false otherwise</returns>
         public static bool Store(string key, byte[] data)
         {
-            if (!Instance.P2PConnected())
+            if (!Instance.IsP2PConnected())
                 throw new NotConnectedException();
 
             return Instance.P2PBase.SynchStore(key, data);
         }
 
+        /// <summary>
+        /// Stores the given data in the DHT. This method will block until a response has been received.
+        /// 
+        /// The underlying DHT is versionend. Store attempts will fail, if the latest version has not been retrieved before.
+        /// </summary>
+        /// <param name="key">key to write</param>
+        /// <param name="data">data to write</param>
+        /// <exception cref="NotConnectedException">Will be thrown if the P2P system is not connected</exception>
+        /// <returns>true if the store attempt was successful, false otherwise</returns>
         public static bool Store(string key, string data)
         {
-            if (!Instance.P2PConnected())
+            if (!Instance.IsP2PConnected())
                 throw new NotConnectedException();
            
             return Instance.P2PBase.SynchStore(key, data);
         }
 
+        /// <summary>
+        /// Retrieves the latest version of a given in key from the DHT.
+        /// </summary>
+        /// <param name="key">key to retrieve</param>
+        /// <exception cref="NotConnectedException">Will be thrown if the P2P system is not connected</exception>
+        /// <returns>byte array containing the data</returns>
         public static byte[] Retrieve(string key)
         {
-            if (!Instance.P2PConnected())
+            if (!Instance.IsP2PConnected())
                 throw new NotConnectedException();
             
             return Instance.P2PBase.SynchRetrieve(key);
         }
 
+        /// <summary>
+        /// Removes a key and its data from the DHT.
+        /// 
+        /// The underlying DHT is versionend. Remove attempts will fail, if the latest version has not been retrieved before.
+        /// </summary>
+        /// <param name="key">key to remove</param>
+        /// <exception cref="NotConnectedException">Will be thrown if the P2P system is not connected</exception>
+        /// <returns>bool determining wether the attempt was successful</returns>
         public static bool Remove(string key)
         {
-            if (!Instance.P2PConnected())
+            if (!Instance.IsP2PConnected())
                 throw new NotConnectedException();
 
             return Instance.P2PBase.SynchRemove(key);

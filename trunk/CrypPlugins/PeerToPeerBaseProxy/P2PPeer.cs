@@ -86,7 +86,7 @@ namespace Cryptool.Plugins.PeerToPeerProxy
         /// </summary>
         public bool PeerStarted()
         {
-            return P2PManager.Instance.P2PConnected();
+            return P2PManager.Instance.IsP2PConnected();
         }
 
         public void StartPeer()
@@ -94,7 +94,7 @@ namespace Cryptool.Plugins.PeerToPeerProxy
             _settings.PeerStatusChanged(P2PPeerSettings.PeerStatus.Connecting);
             P2PManager.Instance.P2PBase.OnP2PMessageReceived += P2PBaseOnP2PMessageReceived;
 
-            if (P2PManager.Instance.P2PConnected())
+            if (P2PManager.Instance.IsP2PConnected())
             {
                 GuiLogMessage("P2P connected.", NotificationLevel.Info);
                 _settings.PeerStatusChanged(P2PPeerSettings.PeerStatus.Online);
@@ -279,28 +279,28 @@ namespace Cryptool.Plugins.PeerToPeerProxy
 
         public bool DHTstore(string sKey, byte[] byteValue)
         {
-            if (P2PManager.Instance.P2PConnected())
+            if (P2PManager.Instance.IsP2PConnected())
                 return P2PManager.Store(sKey, byteValue);
             return false;
         }
 
         public bool DHTstore(string sKey, string sValue)
         {
-            if (P2PManager.Instance.P2PConnected())
+            if (P2PManager.Instance.IsP2PConnected())
                 return P2PManager.Store(sKey, sValue);
             return false;
         }
 
         public byte[] DHTload(string sKey)
         {
-            if (P2PManager.Instance.P2PConnected())
+            if (P2PManager.Instance.IsP2PConnected())
                 return P2PManager.Retrieve(sKey);
             return null;
         }
 
         public bool DHTremove(string sKey)
         {
-            if (P2PManager.Instance.P2PConnected())
+            if (P2PManager.Instance.IsP2PConnected())
                 return P2PManager.Remove(sKey);
             return false;
         }
@@ -316,7 +316,7 @@ namespace Cryptool.Plugins.PeerToPeerProxy
             {
                 if (_peerId == null)
                 {
-                    _peerId = P2PManager.Instance.P2PBase.GetPeerID(out _sPeerName);
+                    _peerId = P2PManager.Instance.P2PBase.GetPeerId(out _sPeerName);
                 }
                 sPeerName = _sPeerName;
                 return _peerId;
@@ -327,7 +327,7 @@ namespace Cryptool.Plugins.PeerToPeerProxy
 
         public PeerId GetPeerID(byte[] byteId)
         {
-            return P2PManager.Instance.P2PBase.GetPeerID(byteId);
+            return P2PManager.Instance.P2PBase.GetPeerId(byteId);
         }
 
         // adds the P2PMessageIndex to the given byte-array
@@ -433,7 +433,7 @@ namespace Cryptool.Plugins.PeerToPeerProxy
         /// <returns></returns>
         private static bool SystemJoinedCompletely()
         {
-            return P2PManager.Instance.P2PConnected();
+            return P2PManager.Instance.IsP2PConnected();
         }
 
         private static void SendReadilyMessage(byte[] data, PeerId destinationAddress)

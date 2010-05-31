@@ -24,18 +24,16 @@ namespace Cryptool.P2P.Worker
     public class ConnectionWorker : WorkerBase
     {
         private readonly P2PBase _p2PBase;
-        private readonly P2PSettings _p2PSettings;
 
-        public ConnectionWorker(P2PBase p2PBase, P2PSettings p2PSettings)
+        public ConnectionWorker(P2PBase p2PBase)
         {
             _p2PBase = p2PBase;
-            _p2PSettings = p2PSettings;
         }
 
         protected override void WorkComplete(object sender, RunWorkerCompletedEventArgs e)
         {
             P2PManager.Instance.GuiLogMessage(
-                P2PManager.Instance.P2PConnected()
+                P2PManager.Instance.IsP2PConnected()
                     ? "Connection to P2P network established."
                     : "Connection to P2P network terminated.", NotificationLevel.Info);
             P2PManager.Instance.IsP2PConnecting = false;
@@ -56,7 +54,7 @@ namespace Cryptool.P2P.Worker
                     return;
                 }
 
-                _p2PBase.Initialize(_p2PSettings);
+                _p2PBase.Initialize();
                 _p2PBase.SynchStart();
             }
             else

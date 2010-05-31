@@ -67,7 +67,7 @@ namespace Cryptool.P2PEditor.Distributed
             info.AddValue("JobName", JobName);
             info.AddValue("JobDescription", JobDescription);
             info.AddValue("JobGuid", JobGuid);
-            info.AddValue("JobOwner", P2PManager.Instance.P2PSettings.PeerName);
+            info.AddValue("JobOwner", P2PSettings.Default.PeerName);
             info.AddValue("JobDate", DateTime.Now);
             info.AddValue("FileName", Path.GetFileName(LocalFilePath));
         }
@@ -76,10 +76,10 @@ namespace Cryptool.P2PEditor.Distributed
 
         public void ConvertRawWorkspaceToLocalFile(byte[] rawWorkspaceData)
         {
-            string workspacePath = P2PManager.Instance.P2PSettings.WorkspacePath;
+            string workspacePath = P2PSettings.Default.WorkspacePath;
             if (String.IsNullOrEmpty(workspacePath) || !Directory.Exists(workspacePath))
             {
-                throw new ArgumentOutOfRangeException(workspacePath, "Workspace path is null, empty or does not exist.");
+                throw new ArgumentOutOfRangeException(workspacePath, "Configured workspace directory is null, empty or does not exist.");
             }
 
             // Avoid overwriting previous versions of this workspace or workspaces with common names by adding an integer prefix
@@ -92,7 +92,7 @@ namespace Cryptool.P2PEditor.Distributed
 
             if (rawWorkspaceData == null || rawWorkspaceData.Length == 0)
             {
-                throw new ArgumentOutOfRangeException(LocalFilePath, "Workspace could not be fetching using Peer-to-peer.");
+                throw new NotSupportedException("Workspace data could not be fetching using Peer-to-peer.");
             }
 
             File.WriteAllBytes(LocalFilePath, rawWorkspaceData);
