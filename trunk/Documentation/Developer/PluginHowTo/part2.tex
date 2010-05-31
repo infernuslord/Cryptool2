@@ -9,8 +9,9 @@ We will use the \textbf{Caesar cipher} (also known as the \textbf{shift cipher})
 \textit{username: anonymous\\
 password:} (not required)\\
 \url{https://www.cryptool.org/svn/CrypTool2/trunk/CrypPlugins/Caesar/}\\\\
-We have also created a Visual Studio plugin \textbf{template} to help with the development of new plugins. Using this template is strongly recommended over copying and pasting code from this document! The template can be found here:\\\\
-\url{http://cryptool2.vs.uni-due.de/downloads/template/encryptionplugin.zip}
+We have also created a Visual Studio plugin \textbf{template} to help with the development of new plugins. Using this template is strongly recommended over copying and pasting code from this document! The template and a short readme can be found here:\\\\
+\url{http://cryptool2.vs.uni-due.de/index.php?page=33&lm=3}
+\clearpage
 
 \section{Creating a new project}
 \label{sec:CreatingANewProject}
@@ -824,7 +825,7 @@ All of these elements are optional; the developer can choose what information wi
 \subsection{The \protect\textit{[PluginInfo]} attribute}
 \label{sec:ThePluginInfoAttribute}
 
-The second attribute, \textit{[PluginInfo]}, provides necessary information about the plugin, and is therefore mandatory. This information appears in the caption and tool tip window. The attribute is defined as follows:
+The second attribute, \textit{[PluginInfo]}, provides necessary information about the plugin, and is therefore mandatory. The information defined in this attribute appears in the caption and tool tip window. The attribute is defined as follows:
 
 \begin{figure}[h]
 	\centering
@@ -836,7 +837,7 @@ The second attribute, \textit{[PluginInfo]}, provides necessary information abou
 \noindent This attribute has the following parameters:
 
 \begin{itemize}
-	\item \textit{Resource File} --- the relative path of the associated resource file (if the plugin makes use of one). These files are used primarily to provide multilingual support for the plugin. This element is optional.
+	\item \textit{Resource File} --- the relative path of the associated resource file (if the plugin makes use of one). These files are used primarily to provide multilingual support for the plugin, although this is currently a work in progress. This element is optional.
 	\item \textit{Startable} --- a flag that should be set to \texttt{true} only if the plugin is an input generator (i.e.\ if your plugin only has outputs and no inputs). In all other cases this should be set to \texttt{false}. This flag is important --- setting it incorrectly will result in unpredictable results. This element is mandatory.
 	\item \textit{Caption} --- the name of the plugin, or, if using a resource file, the name of the field in the file with the caption data. This element is mandatory.
 	\item \textit{ToolTip} --- a description of the plugin, or, if using a resource file, the name of the field in the resource file with the toolTip data. This element is optional.
@@ -846,7 +847,7 @@ The second attribute, \textit{[PluginInfo]}, provides necessary information abou
 
 \noindent Unused elements should be set to \texttt{null} or an empty string.
 
-(There are a few limitations and bugs that still exist in the \textit{[PluginInfo]} attribute that will be resolved in a future version. Firstly, it is possible to use the plugin without setting a caption, although this is not recommended. In the future the plugin will fail to load without a caption. Secondly, a zero-length toolTip string currently causes the toolTip to appear as an empty box in the application. Lastly, the toolTip and description do not currently support internationalization and localization.)
+There are a few limitations and bugs that still exist in the \textit{[PluginInfo]} attribute that will be resolved in a future version. First, it is possible to use the plugin without setting a caption, although this is not recommended, and future versions of the plugin will fail to load without a caption. Second, a zero-length toolTip string currently causes the toolTip to appear as an empty box in the application. Third, the toolTip and description do not currently support internationalization and localization. Since the precise formulation and functionality of this attribute is still being developed, it is recommended to view other plugins for examples.
 
 In our example, the \textit{resourceFile} parameter should be set to \textit{Cryptool.Caesar.Resource.res}. This file will be used to store the label and caption text to support multilingualism.
 
@@ -1121,7 +1122,7 @@ public int ShiftKey
 \subsection{Sending messages to the CrypTool 2 core}
 \label{sec:SendingMessagesToTheCrypTool2Core}
 
-The CrypTool 2 API provides two methods to send messages from the plugin to the CrypTool 2 core: \textit{GuiLogMessage} (used to send messages to the CrypTool 2 status bar) and \textit{OnPropertyChanged} (used to inform the core of changes to the plugin data). The \textit{GuiLogMessage} method is a nice mechanism to inform the user as to what your plugin is currently doing.
+The CrypTool 2 API provides two methods to send messages from the plugin to the CrypTool 2 core. \textit{GuiLogMessage} is used to send messages to the CrypTool 2 status bar. This method is a nice mechanism to inform the user as to what your plugin is currently doing. \textit{OnPropertyChanged} is used to inform the core application of changes to any plugin properties and data. This may not affect the user interface, but is important to keep the core appraised of the plugin's current state.
 
 \begin{figure}[h]
 	\centering
@@ -1392,35 +1393,36 @@ Your plugin should compile without errors at this point.
 \section{Importing and testing the plugin}
 \label{sec:ImportingAndTestingThePlugin}
 
-After you have built the plugin, you need to move the newly created plugin DLL to a location where CrypTool 2 can find it. There are a few different ways to accomplish this. First, though, you need to locate the DLL. Once you have successfully compiled the plugin, the DLL should be in \textit{\mbox{\textbackslash CrypPluginBase\textbackslash }bin\textbackslash Debug}.
+After you have built the plugin, you need to move the newly created plugin DLL to a location where CrypTool 2 can find it. There are currently a couple different ways to accomplish this. First, though, you need to locate the DLL. Once you have successfully compiled the plugin, the DLL should be in \textit{\mbox{\textbackslash CrypPluginBase\textbackslash }bin\textbackslash Debug}.
 
-\subsection{Global storage}
-\label{sec:GlobalStorage}
+% Global Storage does not currently function - but presumably will be brought back in at another time.
 
-The first option is to copy your plugin's DLL file to the \textit{CrypPlugins} folder in which the CrypTool 2 executable (\textit{CrypWin.exe}) can be found.
+%\subsection{Global storage}
+%\label{sec:GlobalStorage}
 
-\begin{figure}[h]
-	\centering
-		\includegraphics{figures/copy_dll_global_storage.jpg}
-	\caption{Copying the plugin to the global storage folder}
-	\label{fig:copy_dll_global_storage}
-\end{figure}
+%The first option is to copy your plugin's DLL file to the \textit{CrypPlugins} folder in which the CrypTool 2 %executable (\textit{CrypWin.exe}) can be found.
 
-This folder is known as ``global storage'' in the CrypTool 2 architecture. Changes in this folder will affect all users on a multi-user Windows platform. You should now restart CrypTool 2.
-\clearpage
+%\begin{figure}[h]
+%	\centering
+%		\includegraphics{figures/copy_dll_global_storage.jpg}
+%	\caption{Copying the plugin to the global storage folder}
+%	\label{fig:copy_dll_global_storage}
+%\end{figure}
 
-\begin{figure}[h]
-	\centering
-		\includegraphics{figures/global_storage.jpg}
-	\caption{Inside the CrypPlugins folder (the global storage).}
-	\label{fig:global_storage}
-\end{figure}
+%This folder is known as ``global storage'' in the CrypTool 2 architecture. Changes in this folder will affect %all users on a multi-user Windows platform. You should now restart CrypTool 2.
+%\clearpage
+
+%\begin{figure}[h]
+%	\centering
+%		\includegraphics{figures/global_storage.jpg}
+%	\caption{Inside the CrypPlugins folder (the global storage).}
+%	\label{fig:global_storage}
+%\end{figure}
 
 \subsection{Custom storage}
 \label{sec:CustomStorage}
 
-The second possibility is to copy your plugin's DLL file to the \textit{CrypPlugins} folder located in the \textit{Application Data} folder in your home folder. In Windows XP, the home folder path should be as follows: \textit{C:\textbackslash Documents and Settings\textbackslash $<$user name$>$\textbackslash Application Data\textbackslash CrypPlugins}, and in Vista and Windows 7 the path should look like: \textit{C:\textbackslash Users\textbackslash $<$user name$>$\textbackslash Application Data\textbackslash CrypPlugins}. This home folder path is called ``custom storage'' in the CrypTool architecture. Changes in this folder will only take effect for current user. After copying the file, you must restart CrypTool 2.
-\clearpage
+The first possibility is to copy your plugin's DLL file to the \textit{CrypPlugins} folder located in the \textit{Application Data} folder in your home folder. In Windows XP, the home folder path should be as follows: \textit{C:\textbackslash Documents and Settings\textbackslash $<$user name$>$\textbackslash Application Data\textbackslash CrypPlugins}, and in Vista and Windows 7 the path should look like: \textit{C:\textbackslash Users\textbackslash $<$user name$>$\textbackslash Application Data\textbackslash CrypPlugins}. This home folder path is called ``custom storage'' in the CrypTool architecture. Changes in this folder will only take effect for current user. After copying the file, you must restart CrypTool 2.
 
 \begin{figure}[h]
 	\centering
@@ -1428,17 +1430,20 @@ The second possibility is to copy your plugin's DLL file to the \textit{CrypPlug
 	\caption{The custom storage folder.}
 	\label{fig:custom_storage}
 \end{figure}
-
-\subsection{Importing directly}
-\label{sec:ImportingDirectly}
-
-Alternatively, you can import new plugins directly from the CrypTool 2 interface. Just run \mbox{CrypWin.exe} and select the \textit{Download Plugins} button. An \textit{Open File Dialog} window will open and ask where the new plugin is located. After selecting the new plugin, CrypTool 2 will automatically import the plugin to the custom storage folder. With this option you will not have to restart the program. All corresponding menu entries will be updated automatically. Note that this import function only accepts \textbf{signed} plugins, and also that this option is just a temporary solution: in the future this will be done online by a web service.
 \clearpage
+
+% Direct import is currently not supported - but presumably it will return again in some form.
+
+%\subsection{Importing directly}
+%\label{sec:ImportingDirectly}
+
+%Another option is to import new plugins directly from the CrypTool 2 interface. Just run \mbox{CrypWin.exe} and select the \textit{Download Plugins} button. An \textit{Open File Dialog} window will open and ask where the new plugin is located. After selecting the new plugin, CrypTool 2 will automatically import the plugin to the custom storage folder. With this option you will not have to restart the program. All corresponding menu entries will be updated automatically. Note that this option is just a temporary solution: in the future this will be done online by a web service.
+%\clearpage
 
 \subsection{Using build settings}
 \label{sec:UsingBuildSettings}
 
-Yet another option is to use the build settings in your plugin's project properties to copy the DLL automatically after building it in Visual Studio. To set this up, right-click on your plugin project and select \textit{Properties}:
+Alternatively, you can use the build settings in your plugin's project properties to copy the DLL automatically after building it in Visual Studio. To set this up, right-click on your plugin project and select \textit{Properties}:
 
 \begin{figure}[h]
 	\centering
@@ -1461,15 +1466,18 @@ Yet another option is to use the build settings in your plugin's project propert
 cd "\$(ProjectDir)" \\
 cd ..\textbackslash ..\textbackslash CrypWin\textbackslash bin\textbackslash Debug\\
 if not exist ".\textbackslash CrypPlugins" mkdir ".\textbackslash CrypPlugins"\\
-del /F /S /Q /s /q "\colorbox{yellow}{Caesar}*.*"\\
-copy "\$(TargetDir)\colorbox{yellow}{Caesar}*.*" ".\textbackslash CrypPlugins"\\\\
+%del /F /S /Q /s /q "\colorbox{yellow}{Caesar}*.*"\\
+%copy "\$(TargetDir)\colorbox{yellow}{Caesar}*.*" ".\textbackslash CrypPlugins"\\\\
+% Colorbox is ugly and creates spaces around the box. Highlighting via the Soul package is much better!
+del /F /S /Q /s /q "\hl{Caesar}*.*"\\
+copy "\$(TargetDir)\hl{Caesar}*.*" ".\textbackslash CrypPlugins"\\\\
 You will need to change the highlighted fields to your particular plugin's name.
 \clearpage
 
 \section{Drawing the workflow of your plugin}
 \label{DrawingTheWorkfloweOfYourPlugin}
 
-Each plugin should have an associated workflow file to show the algorithm in action in CrypTool 2. Such a file can be automatically created by simply saving a CrypTool 2 workspace project featuring your plugin. Below is a possible workflow for our Caesar example:
+Each plugin should have an associated workflow file to show the algorithm in action in CrypTool 2. These workflow files are saved with the special \textit{.cte} file extension. You can view the example files from other plugins by opening any of the files in the \textit{\textbackslash ProjectSamples} folder with CrypTool 2. Below is a sample workflow for our Caesar example:
 
 \begin{figure}[h]
 	\centering
@@ -1477,3 +1485,5 @@ Each plugin should have an associated workflow file to show the algorithm in act
 	\caption{A sample workflow diagram for the Caesar algorithm.}
 	\label{fig:sample}
 \end{figure}
+
+As your last step of development, once your plugin runs smoothly, you should also create one of these sample workflow files for your plugin. Such a file can be automatically created by simply saving a CrypTool 2 workspace project featuring your plugin. You should store the workflow file in the \textit{\textbackslash ProjectSamples} folder and make sure to commit the file to the SVN repository (see Section \ref{CommitingYourChanges}).
