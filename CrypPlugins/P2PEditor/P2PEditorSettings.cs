@@ -32,7 +32,7 @@ namespace Cryptool.P2PEditor
         public P2PEditorSettings(P2PEditor p2PEditor)
         {
             _p2PEditor = p2PEditor;
-            _settings = P2PManager.Instance.P2PSettings;
+            _settings = P2PSettings.Default;
         }
 
         #region ISettings Members
@@ -113,9 +113,9 @@ namespace Cryptool.P2PEditor
         [TaskPane("stop_caption", "stop_tooltip", null, 4, true, DisplayLevel.Beginner, ControlType.Button)]
         public void BtnStop()
         {
-            if (P2PManager.Instance.P2PConnected() && !P2PManager.Instance.IsP2PConnecting)
+            if (P2PManager.Instance.IsP2PConnected() && !P2PManager.Instance.IsP2PConnecting)
             {
-                new ConnectionWorker(P2PManager.Instance.P2PBase, P2PManager.Instance.P2PSettings).Start();
+                new ConnectionWorker(P2PManager.Instance.P2PBase).Start();
                 OnPropertyChanged("BtnStop");
             }
         }
@@ -126,7 +126,7 @@ namespace Cryptool.P2PEditor
         public void BtnLogConnectionState()
         {
             var logMsg = string.Format("Connection established: {0} / Currently connecting: {1} / Peer ID: {2}",
-                                       P2PManager.Instance.P2PConnected(), P2PManager.Instance.IsP2PConnecting,
+                                       P2PManager.Instance.IsP2PConnected(), P2PManager.Instance.IsP2PConnecting,
                                        P2PManager.Instance.UserInfo());
             _p2PEditor.GuiLogMessage(logMsg, NotificationLevel.Info);
         }
@@ -220,7 +220,7 @@ namespace Cryptool.P2PEditor
                 PropertyChanged(this, new PropertyChangedEventArgs(p));
             }
 
-            P2PManager.Instance.P2PSettings.Save();
+            P2PSettings.Default.Save();
         }
     }
 }

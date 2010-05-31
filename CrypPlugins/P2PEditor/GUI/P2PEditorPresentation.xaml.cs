@@ -63,7 +63,7 @@ namespace Cryptool.P2PEditor.GUI
 
         private void UpdateConnectionState()
         {
-            IsP2PConnected = P2PManager.Instance.P2PConnected();
+            IsP2PConnected = P2PManager.Instance.IsP2PConnected();
         }
 
         public List<DistributedJob> Jobs
@@ -86,7 +86,7 @@ namespace Cryptool.P2PEditor.GUI
 
         private void UpdateDisplay()
         {
-            IsP2PConnected = P2PManager.Instance.P2PConnected();
+            IsP2PConnected = P2PManager.Instance.IsP2PConnected();
             Jobs = JobListManager.JobList();
         }
 

@@ -126,13 +126,13 @@ namespace Cryptool.P2PEditor
 
         public bool CanExecute
         {
-            get { return !P2PManager.Instance.P2PConnected() && !P2PManager.Instance.IsP2PConnecting; }
+            get { return !P2PManager.Instance.IsP2PConnected() && !P2PManager.Instance.IsP2PConnecting; }
         }
 
         public bool CanStop
         {
             // TODO design problem? when set to true, CrypWin will terminate execute Stop() (and terminate the P2P connection) when switching back to an AnotherEditor instance
-            // get { return P2PManager.Instance.P2PConnected() && !P2PManager.Instance.IsP2PConnecting; }
+            // get { return P2PManager.Instance.IsP2PConnected() && !P2PManager.Instance.IsP2PConnecting; }
             get { return false; }
         }
 
@@ -174,7 +174,7 @@ namespace Cryptool.P2PEditor
 
         private void RunConnectionWorker()
         {
-            var connectionWorker = new ConnectionWorker(P2PManager.Instance.P2PBase, P2PManager.Instance.P2PSettings);
+            var connectionWorker = new ConnectionWorker(P2PManager.Instance.P2PBase);
             connectionWorker.BackgroundWorker.RunWorkerCompleted += ((P2PEditorPresentation) Presentation).ConnectionWorkerCompleted;
             connectionWorker.Start();
         }
