@@ -53,10 +53,13 @@ namespace Cryptool.Plugins.QuadraticSieve
             if (yield == null)
                 return null;
 
-            MemoryStream memStream = new MemoryStream();
+            MemoryStream memStream = new MemoryStream();            
             DeflateStream defStream = new DeflateStream(memStream, CompressionMode.Decompress);
-            defStream.Read(yield, 0, yield.Length);
-            byte[] decompressedYield = memStream.ToArray();
+            memStream.Write(yield, 0, yield.Length);
+            memStream.Position = 0;
+            MemoryStream memStream2 = new MemoryStream();
+            defStream.CopyTo(memStream2);
+            byte[] decompressedYield = memStream2.ToArray();
             
             return decompressedYield;
         }
@@ -75,7 +78,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                     //TODO: If versioning sytem tells us, that there is already a newer entry here, we load this value, enqueue it in loadqueue and try again with head++
                     SetProgressYield(head, YieldStatus.Ours);
                     head++;
-                    P2PManager.Store(HeadIdentifier(), head.ToString());
+                    P2PManager.Store(HeadIdentifier(), System.Text.ASCIIEncoding.ASCII.GetBytes(head.ToString()));
                     //TODO: If versioning system tells us, that there is already a newer head entry, we ignore this and don't store ours
                 }
                 else                      //if there is nothing to store, we can load the yields up to "loadEnd".
@@ -89,7 +92,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                     }
                     else                //if there is nothing left to load, we can slow down.
                     {
-                        Thread.Sleep(1000);
+                        Thread.Sleep(10000);        //wait 10 seconds
                     }
                 }
             }
@@ -190,9 +193,9 @@ namespace Cryptool.Plugins.QuadraticSieve
             ClearProgressYields();
             byte[] h = P2PManager.Retrieve(HeadIdentifier());
             if (h != null)
-            {
-                head = int.Parse(h.ToString());
-                SetProgressYield(head, YieldStatus.OthersNotLoaded);
+            {                
+                head = int.Parse(System.Text.ASCIIEncoding.ASCII.GetString(h));
+                SetProgressYield(head-1, YieldStatus.OthersNotLoaded);
             }
             else
                 head = 0;
