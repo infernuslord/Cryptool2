@@ -16,10 +16,11 @@
 \usepackage{fix-cm}
 \usepackage{textcomp}
 \usepackage[T1]{fontenc}
-
+\usepackage{color,soul}
 
 %\usepackage[automark]{scrpage2}
 %\usepackage[absolute]{textpos}
+
 
 \lstset{language=[Sharp]C, % base language is C and dialect is Sharp (C#)
 captionpos=b, % descriptions are underneath
@@ -39,7 +40,7 @@ upquote=true, % changes smart single quotes to straight ' marks
 % emph defines certain colors for specific words
 % emph={double,bool,int,unsigned,char,true,false,void},emphstyle=\color{blue},
 emph={Assert,Test}, emphstyle=\color{BrickRed},
-emph={[2]double,bool,int,unsigned,char,true,false,void,using,\#define,\#ifdef,\#endif,\#region,\#endregion},
+emph={[2]double,bool,int,unsigned,char,true,false,void,using,\# ,region,endregion},
 emphstyle={[2]\color{blue}}
 }
 
@@ -126,7 +127,7 @@ emphstyle={[2]\color{blue}}
 \date{\today}
 
 % Metadata and configuration of the pdf output:
-% Do not forget to enter the correct title, author, subject und keywords
+% Do not forget to enter the correct title, author, subject, and keywords
 
 % For screen viewing it is nice to have references marked in a slightly different
 % color than the rest of the text, since they will be hyperlinks to the
@@ -158,7 +159,8 @@ emphstyle={[2]\color{blue}}
 % in the final printout.
 \newcommand{\todo}[1]{\marginpar{\textcolor{red}{ToDo:} #1}}
 
-
+% Only prints on title page:
+\AddToShipoutPicture*{\WaterMarkPic}
 
 %\AtBeginDocument{\markboth{\@author}{\@title}}
 \begin{document}
@@ -187,7 +189,7 @@ For further information, please visit the CrypTool 2 website at  \htmladdnormall
 	\tableofcontents
     \listoffigures
 
-    \AddToShipoutPicture{\WaterMarkPic}
+%    \AddToShipoutPicture{\WaterMarkPic}
 
 	\include{part1}
 	\include{part2}
