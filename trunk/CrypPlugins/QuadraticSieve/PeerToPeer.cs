@@ -43,6 +43,9 @@ namespace Cryptool.Plugins.QuadraticSieve
         private QuadraticSievePresentation quadraticSieveQuickWatchPresentation;
         private AutoResetEvent yieldEvent;
 
+        public delegate void P2PWarningHandler(String warning);
+        public event P2PWarningHandler P2PWarning;
+
         public PeerToPeer(QuadraticSievePresentation presentation, AutoResetEvent yieldEvent)
         {
             quadraticSieveQuickWatchPresentation = presentation;
@@ -55,12 +58,12 @@ namespace Cryptool.Plugins.QuadraticSieve
             if (yield == null)
                 return null;
 
-            byte[] decompressedYield = decompressYield(yield);
+            byte[] decompressedYield = DecompressYield(yield);
             
             return decompressedYield;
         }
 
-        private static byte[] decompressYield(byte[] yield)
+        private static byte[] DecompressYield(byte[] yield)
         {
             MemoryStream memStream = new MemoryStream();
             DeflateStream defStream = new DeflateStream(memStream, CompressionMode.Decompress);
@@ -78,33 +81,40 @@ namespace Cryptool.Plugins.QuadraticSieve
             int loadEnd = head; //we know, that the DHT entries from 1 to "loadEnd" are unknown to us, so we will load these when we have no other things to do
             int loadIndex = 0;
 
-            while (!stopLoadStoreThread)
-            {                
-                if (storequeue.Count != 0)  //storing has priority
+            try
+            {
+                while (!stopLoadStoreThread)
                 {
-                    byte[] yield = (byte[])storequeue.Dequeue();
-                    P2PManager.Store(YieldIdentifier(head), yield);
-                    //TODO: If versioning sytem tells us, that there is already a newer entry here, we load this value, enqueue it in loadqueue and try again with head++
-                    SetProgressYield(head, YieldStatus.Ours);
-                    head++;
-                    P2PManager.Store(HeadIdentifier(), System.Text.ASCIIEncoding.ASCII.GetBytes(head.ToString()));
-                    //TODO: If versioning system tells us, that there is already a newer head entry, we ignore this and don't store ours
-                }
-                else                      //if there is nothing to store, we can load the yields up to "loadEnd".
-                {
-                    if (loadIndex < loadEnd)
+                    if (storequeue.Count != 0)  //storing has priority
                     {
-                        byte[] yield = ReadYield(loadIndex);
-                        loadqueue.Enqueue(yield);
-                        SetProgressYield(loadIndex, YieldStatus.OthersLoaded);
-                        loadIndex++;
-                        yieldEvent.Set();
+                        byte[] yield = (byte[])storequeue.Dequeue();
+                        P2PManager.Store(YieldIdentifier(head), yield);
+                        //TODO: If versioning sytem tells us, that there is already a newer entry here, we load this value, enqueue it in loadqueue and try again with head++
+                        SetProgressYield(head, YieldStatus.Ours);
+                        head++;
+                        P2PManager.Store(HeadIdentifier(), System.Text.ASCIIEncoding.ASCII.GetBytes(head.ToString()));
+                        //TODO: If versioning system tells us, that there is already a newer head entry, we ignore this and don't store ours
                     }
-                    else                //if there is nothing left to load, we can slow down.
+                    else                      //if there is nothing to store, we can load the yields up to "loadEnd".
                     {
-                        Thread.Sleep(10000);        //wait 10 seconds
+                        if (loadIndex < loadEnd)
+                        {
+                            byte[] yield = ReadYield(loadIndex);
+                            loadqueue.Enqueue(yield);
+                            SetProgressYield(loadIndex, YieldStatus.OthersLoaded);
+                            loadIndex++;
+                            yieldEvent.Set();
+                        }
+                        else                //if there is nothing left to load, we can slow down.
+                        {
+                            Thread.Sleep(10000);        //wait 10 seconds
+                        }
                     }
                 }
+            }
+            catch (ThreadInterruptedException)
+            {
+                return;
             }
         }
 
@@ -152,6 +162,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         public void StopLoadStoreThread()
         {
             stopLoadStoreThread = true;
+            loadStoreThread.Interrupt();
             loadStoreThread.Join();
             loadStoreThread = null;
         }
@@ -167,15 +178,18 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// </summary>
         public int Put(byte[] serializedYield)
         {
+            //Compress:
             MemoryStream memStream = new MemoryStream();
             DeflateStream defStream = new DeflateStream(memStream, CompressionMode.Compress);
             defStream.Write(serializedYield, 0, serializedYield.Length);
             defStream.Close();
             byte[] compressedYield = memStream.ToArray();
 
-            byte[] decompr = decompressYield(compressedYield);
+            //Debug stuff:
+            byte[] decompr = DecompressYield(compressedYield);
             Debug.Assert(decompr.Length == serializedYield.Length);
 
+            //store in queue, so the LoadStoreThread can store it in the DHT later:
             storequeue.Enqueue(compressedYield);
             return compressedYield.Length;
         }
@@ -239,7 +253,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 }
                 catch (System.Runtime.Serialization.SerializationException)
                 {
-                    //TODO: GuiLogMessage here
+                    P2PWarning("DHT factor list is broken!");
                     P2PManager.Remove(FactorListIdentifier());
                     return SyncFactorManager(factorManager);
                 }
