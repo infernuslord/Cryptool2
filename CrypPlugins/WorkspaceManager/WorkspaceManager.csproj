@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{949B4294-2894-43B4-BD73-E0B031F5434F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WorkspaceManager</RootNamespace>
+    <AssemblyName>WorkspaceManager</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>..\..\CrypBuild\x64\Release\CrypPlugins</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>..\..\CrypBuild\x86\Release\CrypPlugins</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>..\..\CrypBuild\x64\Debug\CrypPlugins</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>..\..\CrypBuild\x86\Debug\CrypPlugins</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup Condition=" '$(Platform)' == 'x86' " />
+  <ItemGroup Condition=" '$(Platform)' == 'x64' " />
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Execution\ExecutionEngine.cs" />
+    <Compile Include="Model\ConnectionModel.cs" />
+    <Compile Include="Model\ConnectorModel.cs" />
+    <Compile Include="Model\ModelPersistance.cs" />
+    <Compile Include="Model\PluginModel.cs" />
+    <Compile Include="Model\VisualElementModel.cs" />
+    <Compile Include="Model\WorkspaceModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="View\Container\ConntectorView.xaml.cs">
+      <DependentUpon>ConntectorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Container\PluginContainerView.xaml.cs">
+      <DependentUpon>PluginContainerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Container\WorkSpaceEditorView.xaml.cs">
+      <DependentUpon>WorkSpaceEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Converter\ConnectorBindingConverter.cs" />
+    <Compile Include="View\Converter\DragDropDataObjectToPluginConverter.cs" />
+    <Compile Include="View\Interface\IConnectable.cs" />
+    <Compile Include="View\Interface\IConnection.cs" />
+    <Compile Include="View\Interface\IDraggable.cs" />
+    <Compile Include="View\VisualComponents\CryptoLineView.cs" />
+    <Compile Include="View\VisualComponents\BottomBox.xaml.cs">
+      <DependentUpon>BottomBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WorkspaceManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CrypCore\CrypCore.csproj">
+      <Project>{FF5D473C-0716-4D3E-9078-2EBD979F94C6}</Project>
+      <Name>CrypCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
+      <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
+      <Name>CrypPluginBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CostFunction\CostFunction.csproj">
+      <Project>{3C72FF93-48C2-4929-B3B2-83F165AAE636}</Project>
+      <Name>CostFunction</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TextInput\TextInput.csproj">
+      <Project>{475E8850-4D82-4C5E-AD19-5FDA82BC7576}</Project>
+      <Name>TextInput</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="DetailedDescription\Description.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Container\ConntectorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Container\PluginContainerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Container\WorkSpaceEditorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Resource\Animations.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Resource\Brushes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Resource\Styles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\VisualComponents\BottomBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controller\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Attributes.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!--<PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)\..\AppReferences\"</PostBuildEvent>
+  </PropertyGroup>-->
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

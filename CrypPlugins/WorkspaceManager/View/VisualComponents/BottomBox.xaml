@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="WorkspaceManager.View.VisualComponents.BottomBox"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:p="clr-namespace:WorkspaceManager.Properties"
+    Width="auto" MaxWidth="600" Height="25">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resource/Brushes.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <UserControl.Effect>
+        <DropShadowEffect BlurRadius="10" Color="Black" ShadowDepth="0.5" Direction="90" Opacity="0.4"></DropShadowEffect>
+    </UserControl.Effect>
+
+    <Border Background="{StaticResource ResourceKey=BottomBoxBrushLinearBrush}" BorderBrush="#bfd0f5" BorderThickness="0.5" CornerRadius="30,30,0,0">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button ToolTip="Change Map View" Name="MapView" Content="CLICK">
+                <!--<Image Name="MapViewImg" Source="Icons/mapview.gif" HorizontalAlignment="Center" Width="20" Height="20" SnapsToDevicePixels="True" Margin="1,1,1,1"/>-->
+            </Button>
+        </StackPanel>
+    </Border>
+</UserControl>
