@@ -52,7 +52,7 @@ namespace Cryptool.P2PEditor.Distributed
                 return;
             }
 
-            List<DistributedJob> currentJobList = JobList();
+            var currentJobList = JobList();
             currentJobList.Add(distributedJob);
 
             var memoryStream = new MemoryStream();
@@ -61,13 +61,39 @@ namespace Cryptool.P2PEditor.Distributed
             bformatter.Serialize(memoryStream, currentJobList);
             P2PManager.Store(JoblistKey, memoryStream.ToArray());
 
-            byte[] workspaceData = File.ReadAllBytes(distributedJob.LocalFilePath);
+            var workspaceData = File.ReadAllBytes(distributedJob.LocalFilePath);
             _p2PEditor.GuiLogMessage(
                 "Workspace size: " + workspaceData.Length + ", storing at " + GenerateWorkspaceKey(distributedJob),
                 NotificationLevel.Debug);
             P2PManager.Store(GenerateWorkspaceKey(distributedJob), workspaceData);
 
             _p2PEditor.GuiLogMessage("Distributed job " + distributedJob.JobName, NotificationLevel.Info);
+        }
+
+        public void DeleteDistributedJob(DistributedJob distributedJobToDelete)
+        {
+            _p2PEditor.GuiLogMessage("Deleting job...", NotificationLevel.Debug);
+
+            if (!P2PManager.Instance.IsP2PConnected())
+            {
+                _p2PEditor.GuiLogMessage("P2P not connected, cannot distribute job.", NotificationLevel.Error);
+                return;
+            }
+
+            var currentJobList = JobList();
+            currentJobList.RemoveAll(x => x.JobGuid == distributedJobToDelete.JobGuid);
+
+            var memoryStream = new MemoryStream();
+            var bformatter = new BinaryFormatter();
+
+            bformatter.Serialize(memoryStream, currentJobList);
+            P2PManager.Store(JoblistKey, memoryStream.ToArray());
+
+            // Retrieve job first to satify versioned DHT
+            P2PManager.Retrieve(GenerateWorkspaceKey(distributedJobToDelete));
+            P2PManager.Remove(GenerateWorkspaceKey(distributedJobToDelete));
+
+            _p2PEditor.GuiLogMessage("Deleted distributed job " + distributedJobToDelete.JobName, NotificationLevel.Info);
         }
 
         public void CompleteDistributedJob(DistributedJob distributedJob)

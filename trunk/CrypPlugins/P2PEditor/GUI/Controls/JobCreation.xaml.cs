@@ -72,6 +72,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
             DataContext = new DistributedJob();
 
             P2PEditorPresentation.ShowActiveJobs();
+            P2PEditorPresentation.ActiveJobsControl.JobListBox.SelectedIndex = 0;
         }
     }
 }

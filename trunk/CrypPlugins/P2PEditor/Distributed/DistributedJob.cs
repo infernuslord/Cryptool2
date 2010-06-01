@@ -14,6 +14,8 @@ namespace Cryptool.P2PEditor.Distributed
         public DistributedJob()
         {
             JobGuid = Guid.NewGuid();
+            JobOwner = P2PSettings.Default.PeerName;
+            JobDate = new DateTime();
         }
 
         public Guid JobGuid { get; private set; }
