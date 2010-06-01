@@ -37,9 +37,12 @@ namespace Cryptool.P2PEditor
     {
         private readonly JobListManager _jobListManager;
 
+        private bool _initialNewHandled;
+
         public P2PEditor()
         {
             _jobListManager = new JobListManager(this);
+            _initialNewHandled = false;
 
             Presentation = new P2PEditorPresentation(this, _jobListManager);
             Settings = new P2PEditorSettings(this);
@@ -61,7 +64,14 @@ namespace Cryptool.P2PEditor
         {
             GuiLogMessage("P2PEditor: New()", NotificationLevel.Debug);
 
-            ((P2PEditorPresentation) Presentation).ShowJobCreation();
+            // Avoid switching to the add view, but allow using the new button later
+            if (!_initialNewHandled)
+            {
+                _initialNewHandled = true;
+            } else
+            {
+                ((P2PEditorPresentation)Presentation).ShowJobCreation();
+            }
 
             if (OnSelectedPluginChanged != null)
             {

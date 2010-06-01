@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Threading;
 using Cryptool.P2PEditor.Distributed;
 using Cryptool.P2PEditor.Worker;
@@ -49,6 +50,16 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
         private void ParticipateButton_Click(object sender, RoutedEventArgs e)
         {
+            ParticipateInSelectedJob();
+        }
+
+        private void ParticipateItemHandler(object sender, MouseButtonEventArgs e)
+        {
+            ParticipateInSelectedJob();
+        }
+
+        private void ParticipateInSelectedJob()
+        {
             var jobToParticipateIn = (DistributedJob) JobListBox.SelectedItem;
 
             if (jobToParticipateIn == null)
@@ -57,7 +68,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
             }
 
             P2PEditor.GuiLogMessage(
-                string.Format("Participating in job {0} ({1}).", jobToParticipateIn.JobLabel, jobToParticipateIn.JobGuid),
+                string.Format("Participating in job {0} ({1}).", jobToParticipateIn.JobName, jobToParticipateIn.JobGuid),
                 NotificationLevel.Info);
             new JobParticipationWorker(P2PEditor, JobListManager, jobToParticipateIn, Dispatcher).RunWorkerAsync();
         }

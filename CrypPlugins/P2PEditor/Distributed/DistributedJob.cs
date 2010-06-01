@@ -7,19 +7,9 @@ using Cryptool.P2P;
 namespace Cryptool.P2PEditor.Distributed
 {
     [Serializable]
-    public class DistributedJob : INotifyPropertyChanged, ISerializable
+    public class DistributedJob : INotifyPropertyChanged
     {
         [NonSerialized] private String _localFilePath;
-
-        protected DistributedJob(SerializationInfo info, StreamingContext ctxt)
-        {
-            JobName = (string) info.GetValue("JobName", typeof (string));
-            JobDescription = (string) info.GetValue("JobDescription", typeof (string));
-            JobGuid = (Guid) info.GetValue("JobGuid", typeof (Guid));
-            JobOwner = (string) info.GetValue("JobOwner", typeof (string));
-            JobDate = (DateTime) info.GetValue("JobDate", typeof (DateTime));
-            FileName = (string) info.GetValue("FileName", typeof (string));
-        }
 
         public DistributedJob()
         {
@@ -36,7 +26,7 @@ namespace Cryptool.P2PEditor.Distributed
 
         public DateTime JobDate { get; set; }
 
-        private String FileName { get; set; }
+        public String FileName { get; private set; }
 
         public String LocalFilePath
         {
@@ -45,32 +35,15 @@ namespace Cryptool.P2PEditor.Distributed
             {
                 if (value == _localFilePath) return;
                 _localFilePath = value;
+                FileName = Path.GetFileName(_localFilePath);
                 OnPropertyChanged("LocalFilePath");
             }
         }
 
-        public String JobLabel
-        {
-            get { return JobName; }
-        }
-
         #region INotifyPropertyChanged Members
 
+        [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
-
-        #endregion
-
-        #region ISerializable Members
-
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("JobName", JobName);
-            info.AddValue("JobDescription", JobDescription);
-            info.AddValue("JobGuid", JobGuid);
-            info.AddValue("JobOwner", P2PSettings.Default.PeerName);
-            info.AddValue("JobDate", DateTime.Now);
-            info.AddValue("FileName", Path.GetFileName(LocalFilePath));
-        }
 
         #endregion
 
@@ -79,7 +52,7 @@ namespace Cryptool.P2PEditor.Distributed
             string workspacePath = P2PSettings.Default.WorkspacePath;
             if (String.IsNullOrEmpty(workspacePath) || !Directory.Exists(workspacePath))
             {
-                throw new ArgumentOutOfRangeException(workspacePath, "Configured workspace directory is null, empty or does not exist.");
+                throw new ArgumentOutOfRangeException(workspacePath, "Configured local workspace directory is null, empty or does not exist.");
             }
 
             // Avoid overwriting previous versions of this workspace or workspaces with common names by adding an integer prefix
