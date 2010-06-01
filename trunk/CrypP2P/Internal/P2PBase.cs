@@ -303,12 +303,13 @@ namespace Cryptool.P2P.Internal
             if (OnSystemLeft != null)
                 OnSystemLeft();
 
-            // as an experiment
-            _dht = null;
-
-            _systemLeft.Set();
             Started = false;
             Initialized = false;
+
+            // Allow new connection to start and check for waiting / blocked tasks
+            P2PManager.Instance.IsP2PConnecting = false;
+            _systemLeft.Set();
+            _systemJoined.Set();
 
             LogToMonitor("CrypP2P left the system.");
         }

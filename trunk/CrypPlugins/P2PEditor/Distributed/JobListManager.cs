@@ -67,7 +67,7 @@ namespace Cryptool.P2PEditor.Distributed
                 NotificationLevel.Debug);
             P2PManager.Store(GenerateWorkspaceKey(distributedJob), workspaceData);
 
-            _p2PEditor.GuiLogMessage("Distributed job " + distributedJob.JobLabel, NotificationLevel.Info);
+            _p2PEditor.GuiLogMessage("Distributed job " + distributedJob.JobName, NotificationLevel.Info);
         }
 
         public void CompleteDistributedJob(DistributedJob distributedJob)

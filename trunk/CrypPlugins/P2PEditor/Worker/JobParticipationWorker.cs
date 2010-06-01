@@ -37,7 +37,7 @@ namespace Cryptool.P2PEditor.Worker
             _p2PEditor.GuiLogMessage("Local workspace: " + _jobToParticipateIn.LocalFilePath, NotificationLevel.Debug);
             _p2PEditor.GuiLogMessage(
                 string.Format("Workspace {0} ready to participate, dispatching with CrypTool...",
-                              _jobToParticipateIn.JobLabel),
+                              _jobToParticipateIn.JobName),
                 NotificationLevel.Info);
 
             _dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(DispatchOpenFileEvent));
