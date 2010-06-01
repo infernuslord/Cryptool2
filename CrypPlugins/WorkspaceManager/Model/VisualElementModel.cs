@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
 namespace WorkspaceManager.Model
 {
@@ -37,15 +38,7 @@ namespace WorkspaceManager.Model
         /// </summary>
         public event EventHandler<EventArgs> Delete;
 
-        /// <summary>
-        /// X-Coordinate of this VisualElementModel
-        /// </summary>
-        public double X { get; set; }
-
-        /// <summary>
-        /// Y-Coordinate of this VisualElementModel
-        /// </summary>
-        public double Y { get; set; }
+        public Point Position { get; set; }
 
         /// <summary>
         /// Minimum Width of this VisualElementModel

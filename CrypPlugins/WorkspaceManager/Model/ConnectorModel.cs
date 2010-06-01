@@ -151,5 +151,30 @@ namespace WorkspaceManager.Model
                 }
             }                       
         }
+
+        /// <summary>
+        /// Orientation of this Connecor
+        /// </summary>
+        public ConnectorOrientation ConnectorOrientation { get; set; }
+
+    }
+
+    /// <summary>
+    /// Enumeration for connector orientation:
+    /// 
+    ///        North
+    ///       --------
+    ///       |      |
+    /// West  |      |  East
+    ///       |      |
+    ///       --------
+    ///        South
+    /// </summary>
+    public enum ConnectorOrientation
+    {
+        North,
+        East,
+        South,
+        West
     }
 }

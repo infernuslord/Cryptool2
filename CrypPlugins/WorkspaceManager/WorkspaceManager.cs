@@ -32,6 +32,7 @@ using Cryptool.Plugins.CostFunction;
 using Cryptool.TextInput;
 using WorkspaceManager.View.Container;
 using WorkspaceManager.View.Converter;
+using System.Windows;
 
 //Disable warnings for unused or unassigned fields and events:
 #pragma warning disable 0169, 0414, 0067
@@ -161,7 +162,7 @@ namespace WorkspaceManager
         {
             if (!executing)
             {
-                PluginModel newPluginModel = WorkspaceModel.newPluginModel(10, 10, 100, 100, type);
+                PluginModel newPluginModel = WorkspaceModel.newPluginModel(new Point(10, 10), 100, 100, type);
                 GuiLogMessage("Added by double click: " + newPluginModel.Name, NotificationLevel.Info);
                 HasChanges = true;
             }

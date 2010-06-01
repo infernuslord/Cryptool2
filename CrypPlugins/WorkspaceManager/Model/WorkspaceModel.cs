@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using Cryptool.PluginBase;
 
 namespace WorkspaceManager.Model
@@ -69,18 +70,18 @@ namespace WorkspaceManager.Model
         /// <param name="height"></param>
         /// <param name="pluginType"></param>
         /// <returns></returns>
-        public PluginModel newPluginModel(double x, double y, double width, double height, Type pluginType)
+        public PluginModel newPluginModel(Point position, double width, double height, Type pluginType)
         {
             PluginModel pluginModel = new PluginModel();
             pluginModel.WorkspaceModel = this;
-            pluginModel.X = x;
-            pluginModel.Y = y;
+            pluginModel.Position = position;
             pluginModel.Width = width;
             pluginModel.Height = height;
             pluginModel.PluginType = pluginType;
             pluginModel.generateConnectors();
             pluginModel.Name = pluginType.Name;
             pluginModel.Plugin.OnGuiLogNotificationOccured += this.WorkspaceManagerEditor.GuiLogNotificationOccured;
+            pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;
             this.AllPluginModels.Add(pluginModel);
             return pluginModel;
         }
@@ -93,24 +94,8 @@ namespace WorkspaceManager.Model
         /// <returns></returns>
         public PluginModel newPluginModel(Type pluginType)
         {
-            return newPluginModel(0, 0, 0, 0, pluginType);
-        }
-
-        /// <summary>
-        /// Creates a new ConnectorModel belonging to this WorkspaceModel
-        /// </summary>
-        /// <param name="pluginModel"></param>
-        /// <param name="connectorType"></param>
-        /// <returns></returns>
-        private ConnectorModel newConnectorModel(PluginModel pluginModel, Type connectorType)
-        {
-            ConnectorModel connectorModel = new ConnectorModel();
-            connectorModel.WorkspaceModel = this;
-            connectorModel.PluginModel = pluginModel;
-            connectorModel.ConnectorType = connectorType;
-            this.AllConnectorModels.Add(connectorModel);
-            return connectorModel;
-        }
+            return newPluginModel(new Point(0, 0), 0, 0, pluginType);
+        }       
 
         /// <summary>
         /// Creates a new Connection starting at "from"-Connector going to "to"-Connector with
@@ -206,7 +191,7 @@ namespace WorkspaceManager.Model
         {
             foreach (PluginModel pluginModel in this.AllPluginModels)
             {
-                pluginModel.ExecutionState = PluginModelState.UNDEFINED;
+                pluginModel.ExecutionState = PluginModelState.Undefined;
             }
             foreach (ConnectionModel connection in this.AllConnectionModels)
             {

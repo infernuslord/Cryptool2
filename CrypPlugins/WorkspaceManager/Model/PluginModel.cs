@@ -37,7 +37,7 @@ namespace WorkspaceManager.Model
         private IPlugin plugin;
 
         [NonSerialized]
-        private PluginModelState executionstate = PluginModelState.UNDEFINED;
+        private PluginModelState executionstate = PluginModelState.Undefined;
 
         /// <summary>
         /// All ingoing connectors of this PluginModel
@@ -71,12 +71,7 @@ namespace WorkspaceManager.Model
         /// Depending on this the Plugin of this PluginModel will be instanciated
         /// </summary>        
         public Type PluginType = null;
-
-        /// <summary>
-        /// Stores if this Plugin is executable
-        /// </summary>
-        private bool executable = false;
-
+        
         /// <summary>
         /// Is the Plugin actually minimized?
         /// </summary>
@@ -122,6 +117,7 @@ namespace WorkspaceManager.Model
                         connectorModel.PluginModel = this;
                         connectorModel.IsMandatory = propertyInfoAttribute.Mandatory;
                         connectorModel.PropertyName = propertyInfoAttribute.PropertyName;
+                        connectorModel.ConnectorOrientation = ConnectorOrientation.West;
                         InputConnectors.Add(connectorModel);
                         WorkspaceModel.AllConnectorModels.Add(connectorModel);
                     }
@@ -133,6 +129,7 @@ namespace WorkspaceManager.Model
                         connectorModel.PluginModel = this;
                         connectorModel.IsMandatory = propertyInfoAttribute.Mandatory;
                         connectorModel.PropertyName = propertyInfoAttribute.PropertyName;
+                        connectorModel.ConnectorOrientation = ConnectorOrientation.East;
                         connectorModel.Outgoing = true;
                         Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
                         OutputConnectors.Add(connectorModel);
@@ -181,7 +178,7 @@ namespace WorkspaceManager.Model
         /// <returns></returns>
         public void checkExecutable()
         {
-            if(ExecutionState == PluginModelState.UNDEFINED){
+            if(ExecutionState == PluginModelState.Undefined){
 
                 mutex.WaitOne();
                 //First test if every mandatory Connector has Data
@@ -208,12 +205,21 @@ namespace WorkspaceManager.Model
                     }
                 }
 
-                ExecutionState = PluginModelState.EXECUTABLE;
+                ExecutionState = PluginModelState.Executable;
                 mutex.ReleaseMutex();
             }
             return;
         }
-        
+
+        /// <summary>
+        /// Progress of the plugin changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public void PluginProgressChanged(IPlugin sender, PluginProgressEventArgs args)
+        {
+            this.PercentageFinished = args.Value / args.Max;
+        }
     }
 
     /// <summary>
@@ -221,12 +227,12 @@ namespace WorkspaceManager.Model
     /// </summary>
     public enum PluginModelState
     {
-        UNDEFINED,
-        EXECUTABLE,
-        PRE_EXECUTING,
-        EXECUTING,
-        POST_EXECUTING,
-        TERMINATED,
-        ERROR
+        Undefined,
+        Executable,
+        PreExecuting,
+        Executing,
+        PostExecuting,
+        Terminated,
+        Error
     }
 }
