@@ -41,10 +41,12 @@ namespace Cryptool.Plugins.QuadraticSieve
         private Thread loadStoreThread;
         private bool stopLoadStoreThread;
         private QuadraticSievePresentation quadraticSieveQuickWatchPresentation;
+        private AutoResetEvent yieldEvent;
 
-        public PeerToPeer(QuadraticSievePresentation presentation)
+        public PeerToPeer(QuadraticSievePresentation presentation, AutoResetEvent yieldEvent)
         {
             quadraticSieveQuickWatchPresentation = presentation;
+            this.yieldEvent = yieldEvent;
         }
 
         private byte[] ReadYield(int index)
@@ -53,14 +55,21 @@ namespace Cryptool.Plugins.QuadraticSieve
             if (yield == null)
                 return null;
 
-            MemoryStream memStream = new MemoryStream();            
+            byte[] decompressedYield = decompressYield(yield);
+            
+            return decompressedYield;
+        }
+
+        private static byte[] decompressYield(byte[] yield)
+        {
+            MemoryStream memStream = new MemoryStream();
             DeflateStream defStream = new DeflateStream(memStream, CompressionMode.Decompress);
             memStream.Write(yield, 0, yield.Length);
             memStream.Position = 0;
             MemoryStream memStream2 = new MemoryStream();
             defStream.CopyTo(memStream2);
+            defStream.Close();
             byte[] decompressedYield = memStream2.ToArray();
-            
             return decompressedYield;
         }
 
@@ -89,6 +98,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                         loadqueue.Enqueue(yield);
                         SetProgressYield(loadIndex, YieldStatus.OthersLoaded);
                         loadIndex++;
+                        yieldEvent.Set();
                     }
                     else                //if there is nothing left to load, we can slow down.
                     {
@@ -116,7 +126,7 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         private string HeadIdentifier()
         {
-            return channel + "#" + factor + "HEAD";
+            return channel + "#" + number + "-" + factor + "HEAD";
         }
 
         private string FactorListIdentifier()
@@ -126,7 +136,7 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         private string YieldIdentifier(int index)
         {
-            return channel + "#" + factor + "!" + index;
+            return channel + "#" + number + "-" + factor + "!" + index;
         }
 
         private void StartLoadStoreThread()
@@ -160,7 +170,11 @@ namespace Cryptool.Plugins.QuadraticSieve
             MemoryStream memStream = new MemoryStream();
             DeflateStream defStream = new DeflateStream(memStream, CompressionMode.Compress);
             defStream.Write(serializedYield, 0, serializedYield.Length);
+            defStream.Close();
             byte[] compressedYield = memStream.ToArray();
+
+            byte[] decompr = decompressYield(compressedYield);
+            Debug.Assert(decompr.Length == serializedYield.Length);
 
             storequeue.Enqueue(compressedYield);
             return compressedYield.Length;

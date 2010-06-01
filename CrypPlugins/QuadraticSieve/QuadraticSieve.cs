@@ -97,7 +97,7 @@ namespace Cryptool.Plugins.QuadraticSieve
 
             QuickWatchPresentation = new QuadraticSievePresentation();
 
-            peerToPeer = new PeerToPeer(quadraticSieveQuickWatchPresentation);
+            peerToPeer = new PeerToPeer(quadraticSieveQuickWatchPresentation, yieldEvent);
             
             quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
@@ -534,7 +534,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         {
             TimeSpan diff = DateTime.Now - start_sieving_time;
             double msleft = (diff.TotalMilliseconds / (num_relations - start_relations)) * (max_relations - num_relations);
-            if (msleft > 0)
+            if (msleft > 0 && !double.IsInfinity(msleft))
             {
                 TimeSpan ts = new TimeSpan(0, 0, 0, 0, (int)msleft);
                 String logging_message = "Found " + num_relations + " of " + max_relations + " relations!";
@@ -555,7 +555,8 @@ namespace Cryptool.Plugins.QuadraticSieve
             {
                 quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    string size = ((sumSize / 1024.0) / 1024).ToString().Substring(0, 3);
+                    string s = ((sumSize / 1024.0) / 1024).ToString();
+                    string size = s.Substring(0, (s.Length < 3) ? s.Length : 3);
                     quadraticSieveQuickWatchPresentation.relationsInfo.Content = size + " MB compressed relation data available!";
                 }, null);
             }
