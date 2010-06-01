@@ -80,6 +80,8 @@ namespace Cryptool.Plugins.QuadraticSieve
         {
             int loadEnd = head; //we know, that the DHT entries from 1 to "loadEnd" are unknown to us, so we will load these when we have no other things to do
             int loadIndex = 0;
+            uint downloaded = 0;
+            uint uploaded = 0;
 
             try
             {
@@ -94,12 +96,16 @@ namespace Cryptool.Plugins.QuadraticSieve
                         head++;
                         P2PManager.Store(HeadIdentifier(), System.Text.ASCIIEncoding.ASCII.GetBytes(head.ToString()));
                         //TODO: If versioning system tells us, that there is already a newer head entry, we ignore this and don't store ours
+                        uploaded += (uint)yield.Length;
+                        ShowTransfered(downloaded, uploaded);
                     }
                     else                      //if there is nothing to store, we can load the yields up to "loadEnd".
                     {
                         if (loadIndex < loadEnd)
                         {
                             byte[] yield = ReadYield(loadIndex);
+                            downloaded += (uint)yield.Length;
+                            ShowTransfered(downloaded, uploaded);
                             loadqueue.Enqueue(yield);
                             SetProgressYield(loadIndex, YieldStatus.OthersLoaded);
                             loadIndex++;
@@ -116,6 +122,18 @@ namespace Cryptool.Plugins.QuadraticSieve
             {
                 return;
             }
+        }
+
+        private void ShowTransfered(uint downloaded, uint uploaded)
+        {
+            string s1 = ((downloaded / 1024.0) / 1024).ToString();
+            string size1 = s1.Substring(0, (s1.Length < 3) ? s1.Length : 3);
+            string s2 = ((uploaded / 1024.0) / 1024).ToString();
+            string size2 = s1.Substring(0, (s2.Length < 3) ? s2.Length : 3);
+            quadraticSieveQuickWatchPresentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {                
+                quadraticSieveQuickWatchPresentation.relationsInfo.Content = "Downloaded " + s1 + " MB! Uploaded " + s2 + " MB!";
+            }, null);
         }
 
         private void SetProgressYield(int index, YieldStatus status)
@@ -174,9 +192,8 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         /// <summary>
         /// Compresses the yield and puts it in the DHT.
-        /// Returns the compressed size
         /// </summary>
-        public int Put(byte[] serializedYield)
+        public void Put(byte[] serializedYield)
         {
             //Compress:
             MemoryStream memStream = new MemoryStream();
@@ -190,8 +207,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             Debug.Assert(decompr.Length == serializedYield.Length);
 
             //store in queue, so the LoadStoreThread can store it in the DHT later:
-            storequeue.Enqueue(compressedYield);
-            return compressedYield.Length;
+            storequeue.Enqueue(compressedYield);            
         }
 
         /// <summary>
@@ -246,6 +262,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             {
                 MemoryStream memstream = new MemoryStream();
                 memstream.Write(dhtFactorManagerBytes, 0, dhtFactorManagerBytes.Length);
+                memstream.Position = 0;
                 BinaryFormatter bformatter = new BinaryFormatter();
                 try
                 {

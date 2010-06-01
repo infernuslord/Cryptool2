@@ -61,7 +61,6 @@ namespace Cryptool.Plugins.QuadraticSieve
         private bool userStopped = false;
         private FactorManager factorManager;
         private PeerToPeer peerToPeer;
-        private uint sumSize = 0;
         private bool usePeer2Peer;
 
         private static Assembly msieveDLL = null;
@@ -168,8 +167,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 peerToPeer.SetChannel(settings.Channel);
                 peerToPeer.SetNumber(InputNumber);
             }
-
-            sumSize = 0;
+                        
             userStopped = false;
 
             if (InputNumber != 0)
@@ -426,7 +424,6 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// <param name="core_sieve_fcn">pointer to internal sieve function of msieve</param>
         private void prepareSieving(IntPtr conf, int update, IntPtr core_sieve_fcn, int max_relations)
         {
-            sumSize = 0;
             int threads = Math.Min(settings.CoresUsed, Environment.ProcessorCount-1);
             MethodInfo getObjFromConf = msieve.GetMethod("getObjFromConf");
             this.obj = (IntPtr)getObjFromConf.Invoke(null, new object[] { conf });            
@@ -503,8 +500,6 @@ namespace Cryptool.Plugins.QuadraticSieve
                     if (usePeer2Peer)
                     {
                         byte[] serializedYield = (byte[])serializeYield.Invoke(null, new object[] { yield });
-                        int compressedSize = peerToPeer.Put(serializedYield);
-                        sumSize += (uint)compressedSize;
                     }
 
                     saveYield.Invoke(null, new object[] { conf, yield });
@@ -550,16 +545,6 @@ namespace Cryptool.Plugins.QuadraticSieve
                     quadraticSieveQuickWatchPresentation.endTime.Text = endtime_message;
                 }
                 , null);
-            }
-
-            if (usePeer2Peer)
-            {
-                quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                {
-                    string s = ((sumSize / 1024.0) / 1024).ToString();
-                    string size = s.Substring(0, (s.Length < 3) ? s.Length : 3);
-                    quadraticSieveQuickWatchPresentation.relationsInfo.Content = size + " MB compressed relation data available!";
-                }, null);
             }
         }
 
