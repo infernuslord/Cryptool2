@@ -2,7 +2,7 @@
 	<Grid>
 		<TabControl TabStripPlacement="Top" Name="JobTabControl" IsEnabled="{Binding IsP2PConnected, ElementName=P2PEditorControl}">
 			<TabItem Header="Active jobs" Name="ActiveJobsTab">
-				<controls:JobDisplay Jobs="{Binding Jobs,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" />
+				<controls:JobDisplay x:Name="ActiveJobsControl" Jobs="{Binding Jobs,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" />
 			</TabItem>
 			<TabItem Header="New job" Name="JobCreationTab">
 				<controls:JobCreation />
