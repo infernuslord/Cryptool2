@@ -96,7 +96,7 @@ namespace WorkspaceManager.Execution
                     {
                         
                         //execute the plugin in a new Thread only if it is executable
-                        if (IsRunning && pluginModel.ExecutionState == PluginModelState.EXECUTABLE && !RunningPlugins.Contains(pluginModel))
+                        if (IsRunning && pluginModel.ExecutionState == PluginModelState.Executable && !RunningPlugins.Contains(pluginModel))
                         {
                             AddRunningPlugin(pluginModel);
                             ThreadPool.QueueUserWorkItem(new WaitCallback(runPlugin), pluginModel);
@@ -135,17 +135,17 @@ namespace WorkspaceManager.Execution
             //Run execution
             try
             {
-                pluginModel.ExecutionState = PluginModelState.PRE_EXECUTING;
+                pluginModel.ExecutionState = PluginModelState.PreExecuting;
                 pluginModel.Plugin.PreExecution();
-                pluginModel.ExecutionState = PluginModelState.EXECUTING;
+                pluginModel.ExecutionState = PluginModelState.Executing;
                 pluginModel.Plugin.Execute();
-                pluginModel.ExecutionState = PluginModelState.POST_EXECUTING;
+                pluginModel.ExecutionState = PluginModelState.PostExecuting;
                 pluginModel.Plugin.PostExecution();
-                pluginModel.ExecutionState = PluginModelState.TERMINATED;
+                pluginModel.ExecutionState = PluginModelState.Terminated;
             }
             catch (Exception ex)
             {
-                pluginModel.ExecutionState = PluginModelState.ERROR;
+                pluginModel.ExecutionState = PluginModelState.Error;
                 GuiLogMessage("Error during Execution of Plugin " + pluginModel.Name + ": " + ex.Message, NotificationLevel.Error);
             }
             //Remove plugin from being-executed-list so that it can be
