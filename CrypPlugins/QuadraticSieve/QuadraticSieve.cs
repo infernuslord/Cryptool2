@@ -98,6 +98,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             QuickWatchPresentation = new QuadraticSievePresentation();
 
             peerToPeer = new PeerToPeer(quadraticSieveQuickWatchPresentation, yieldEvent);
+            peerToPeer.P2PWarning += new PeerToPeer.P2PWarningHandler(peerToPeer_P2PWarning);
             
             quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
@@ -107,7 +108,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 quadraticSieveQuickWatchPresentation.logging.Text = "Currently not sieving.";
             }
             , null);
-        }                
+        }
 
         /// <summary>
         /// Getter / Setter for the settings of this plugin
@@ -753,6 +754,12 @@ namespace Cryptool.Plugins.QuadraticSieve
             getTrivialFactorlistField.SetValue(callback_struct, getTrivialFactorlistDel);
             initMsieve.Invoke(null, new object[1] { callback_struct });
         }
+
+        private void peerToPeer_P2PWarning(string warning)
+        {
+            GuiLogMessage(warning, NotificationLevel.Warning);
+        }
+
         #endregion
 
     }
