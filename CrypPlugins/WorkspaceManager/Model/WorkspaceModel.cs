@@ -80,6 +80,7 @@ namespace WorkspaceManager.Model
             pluginModel.PluginType = pluginType;
             pluginModel.generateConnectors();
             pluginModel.Name = pluginType.Name;
+            pluginModel.Plugin.OnGuiLogNotificationOccured += this.WorkspaceManagerEditor.GuiLogNotificationOccured;
             this.AllPluginModels.Add(pluginModel);
             return pluginModel;
         }
@@ -153,8 +154,9 @@ namespace WorkspaceManager.Model
                 {
                     deleteConnectorModel(outputConnector);
                 }
+                pluginModel.Plugin.Dispose();
                 return this.AllPluginModels.Remove(pluginModel);
-            }
+            }            
             return false;
         }
 
