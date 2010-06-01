@@ -33,6 +33,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             Grid grid = ((Grid)peer2peerExpander.Content);
             Grid.SetRow(progressYields, 0);
             grid.Children.Add(progressYields);
+            progressYields.MaxWidth = 200;
         }
 
         public void sizeChanged(Object sender, EventArgs eventArgs)
