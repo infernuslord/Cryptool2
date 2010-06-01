@@ -56,18 +56,7 @@ namespace WorkspaceManager
         /// </summary>
         public WorkspaceManager()
         {
-            New();            
-            
-            PluginModel cost = WorkspaceModel.newPluginModel(1, 1, 1, 1, typeof(CostFunction));
-            PluginModel text = WorkspaceModel.newPluginModel(1, 1, 1, 1, typeof(TextInput));
-            
-            ConnectorModel connCost = cost.InputConnectors[0];
-            ConnectorModel connText = text.OutputConnectors[0];
-
-            WorkspaceModel.newConnectionModel(connText, connCost, connCost.ConnectorType);
-
-            ((TextInput)text.Plugin).TextOutput = "Test";
-            
+            New();                                 
         }
 
         #region private Members
@@ -469,6 +458,17 @@ namespace WorkspaceManager
                 args.Title = "-";
                 OnGuiLogNotificationOccured(this, args);
             }
+        }
+
+        /// <summary>
+        /// GuiLogNotificationOccured
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public void GuiLogNotificationOccured(IPlugin sender, GuiLogEventArgs args)
+        {
+            if (OnGuiLogNotificationOccured != null)
+                OnGuiLogNotificationOccured(sender, args);
         }
 
         /// <summary>
