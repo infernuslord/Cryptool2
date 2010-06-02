@@ -500,6 +500,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                     if (usePeer2Peer)
                     {
                         byte[] serializedYield = (byte[])serializeYield.Invoke(null, new object[] { yield });
+                        peerToPeer.Put(serializedYield);
                     }
 
                     saveYield.Invoke(null, new object[] { conf, yield });
