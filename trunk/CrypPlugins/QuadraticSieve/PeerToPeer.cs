@@ -129,10 +129,10 @@ namespace Cryptool.Plugins.QuadraticSieve
             string s1 = ((downloaded / 1024.0) / 1024).ToString();
             string size1 = s1.Substring(0, (s1.Length < 3) ? s1.Length : 3);
             string s2 = ((uploaded / 1024.0) / 1024).ToString();
-            string size2 = s1.Substring(0, (s2.Length < 3) ? s2.Length : 3);
+            string size2 = s2.Substring(0, (s2.Length < 3) ? s2.Length : 3);
             quadraticSieveQuickWatchPresentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            {                
-                quadraticSieveQuickWatchPresentation.relationsInfo.Content = "Downloaded " + s1 + " MB! Uploaded " + s2 + " MB!";
+            {
+                quadraticSieveQuickWatchPresentation.relationsInfo.Content = "Downloaded " + size1 + " MB! Uploaded " + size2 + " MB!";
             }, null);
         }
 
