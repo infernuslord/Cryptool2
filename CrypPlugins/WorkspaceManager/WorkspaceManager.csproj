@@ -88,8 +88,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="View\Container\ConntectorView.xaml.cs">
-      <DependentUpon>ConntectorView.xaml</DependentUpon>
+    <Compile Include="View\Container\ConnectorView.xaml.cs">
+      <DependentUpon>ConnectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Container\PluginContainerView.xaml.cs">
       <DependentUpon>PluginContainerView.xaml</DependentUpon>
@@ -117,21 +117,13 @@
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CostFunction\CostFunction.csproj">
-      <Project>{3C72FF93-48C2-4929-B3B2-83F165AAE636}</Project>
-      <Name>CostFunction</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TextInput\TextInput.csproj">
-      <Project>{475E8850-4D82-4C5E-AD19-5FDA82BC7576}</Project>
-      <Name>TextInput</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="DetailedDescription\Description.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Container\ConntectorView.xaml">
+    <Page Include="View\Container\ConnectorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

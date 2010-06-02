@@ -28,8 +28,6 @@ using Cryptool.PluginBase;
 using WorkspaceManager.Model;
 using WorkspaceManager.View;
 using WorkspaceManager.Execution;
-using Cryptool.Plugins.CostFunction;
-using Cryptool.TextInput;
 using WorkspaceManager.View.Container;
 using WorkspaceManager.View.Converter;
 using System.Windows;

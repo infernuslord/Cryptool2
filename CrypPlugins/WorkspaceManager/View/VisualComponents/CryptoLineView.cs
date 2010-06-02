@@ -8,6 +8,7 @@ using System.Windows.Shapes;
 using System.Reflection;
 using System.Windows.Threading;
 using WorkspaceManager.View.Interface;
+using WorkspaceManager.Model;
 
 namespace WorkspaceManager.View.VisualComponents
 {
@@ -25,6 +26,7 @@ namespace WorkspaceManager.View.VisualComponents
 
         public static readonly DependencyProperty StartPointProperty = DependencyProperty.Register("StartPoint", typeof(Point), typeof(CryptoLineView), new FrameworkPropertyMetadata(new Point(0, 0), FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
         public static readonly DependencyProperty EndPointProperty = DependencyProperty.Register("EndPoint", typeof(Point), typeof(CryptoLineView), new FrameworkPropertyMetadata(new Point(0, 0), FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public ConnectionModel connectionModel;
 
 		#endregion
 
@@ -48,6 +50,11 @@ namespace WorkspaceManager.View.VisualComponents
         {
             Stroke = Brushes.Black;
             StrokeThickness = 2;
+        }
+
+        public CryptoLineView(ConnectionModel connectionModel) : this()
+        {
+            this.connectionModel = connectionModel;           
         }
 
 		#region Overrides

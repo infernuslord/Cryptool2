@@ -21,10 +21,10 @@ namespace WorkspaceManager.View.Container
     /// </summary>
     public partial class PluginContainerView : UserControl, IDraggable
     {
-        public event EventHandler<ConntectorViewEventArgs> OnConnectorMouseLeftButtonDown;
+        public event EventHandler<ConnectorViewEventArgs> OnConnectorMouseLeftButtonDown;
 
-        private List<ConntectorView> inputConnectorViewList = new List<ConntectorView>();
-        private List<ConntectorView> outputConnectorViewList = new List<ConntectorView>();
+        private List<ConnectorView> inputConnectorViewList = new List<ConnectorView>();
+        private List<ConnectorView> outputConnectorViewList = new List<ConnectorView>();
         private PluginModel model;
 
         public bool CanDrag { get; set; }
@@ -43,8 +43,8 @@ namespace WorkspaceManager.View.Container
             this.RenderTransform = new TranslateTransform();
             InitializeComponent();
 
-            if(model.Plugin.QuickWatchPresentation != null)
-                this.PresentationPanel.Children.Add(model.Plugin.QuickWatchPresentation);
+            if(model.PluginPresentation != null)
+                this.PresentationPanel.Children.Add(model.PluginPresentation);
         }
 
         void PluginContainerView_Loaded(object sender, RoutedEventArgs e)
@@ -53,27 +53,27 @@ namespace WorkspaceManager.View.Container
             PluginName.Content = model.PluginType.Name.ToString();
             foreach (ConnectorModel cModel in model.InputConnectors)
             {
-                AddInputConnectorView(new ConntectorView(cModel));
+                AddInputConnectorView(new ConnectorView(cModel));
             }
 
             foreach (ConnectorModel cModel in model.OutputConnectors)
             {
-                AddInputConnectorView(new ConntectorView(cModel));
+                AddInputConnectorView(new ConnectorView(cModel));
             }
         }
 
-        public void AddInputConnectorView(ConntectorView connector)
+        public void AddInputConnectorView(ConnectorView connector)
         {
-            connector.OnConnectorMouseLeftButtonDown += new EventHandler<ConntectorViewEventArgs>(connector_OnConnectorMouseLeftButtonDown);
+            connector.OnConnectorMouseLeftButtonDown += new EventHandler<ConnectorViewEventArgs>(connector_OnConnectorMouseLeftButtonDown);
             this.inputConnectorViewList.Add(connector);
             this.InputConnectorPanel.Children.Add(connector);
             this.SetAllConnectorPositionX();
         }
 
 
-        public void AddOutputConnectorView(ConntectorView connector)
+        public void AddOutputConnectorView(ConnectorView connector)
         {
-            connector.OnConnectorMouseLeftButtonDown += new EventHandler<ConntectorViewEventArgs>(connector_OnConnectorMouseLeftButtonDown);
+            connector.OnConnectorMouseLeftButtonDown += new EventHandler<ConnectorViewEventArgs>(connector_OnConnectorMouseLeftButtonDown);
             this.outputConnectorViewList.Add(connector);
             this.OutputConnectorPanel.Children.Add(connector);
             this.SetAllConnectorPositionX();
@@ -91,7 +91,7 @@ namespace WorkspaceManager.View.Container
             GeneralTransform gTransform, gTransformSec;
             Point point, relativePoint;
             double x, y;
-            foreach (ConntectorView conn in InputConnectorPanel.Children)
+            foreach (ConnectorView conn in InputConnectorPanel.Children)
             {
                 gTransform = this.InputConnectorPanel.TransformToVisual(this);
                 gTransformSec = conn.TransformToVisual(this.InputConnectorPanel);
@@ -106,7 +106,7 @@ namespace WorkspaceManager.View.Container
                 conn.PositionOnWorkSpaceY = y;
             }
 
-            foreach (ConntectorView conn in OutputConnectorPanel.Children)
+            foreach (ConnectorView conn in OutputConnectorPanel.Children)
             {
                 gTransform = this.OutputConnectorPanel.TransformToVisual(this);
                 gTransformSec = conn.TransformToVisual(this.OutputConnectorPanel);
@@ -130,7 +130,7 @@ namespace WorkspaceManager.View.Container
 
         #region Controls
 
-        void connector_OnConnectorMouseLeftButtonDown(object sender, ConntectorViewEventArgs e)
+        void connector_OnConnectorMouseLeftButtonDown(object sender, ConnectorViewEventArgs e)
         {
             if (this.OnConnectorMouseLeftButtonDown != null)
             {

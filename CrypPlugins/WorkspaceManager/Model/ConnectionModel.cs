@@ -39,7 +39,7 @@ namespace WorkspaceManager.Model
 
         /// <summary>
         /// Is the Connection active?
-        /// </summary>
+        /// </summary>        
         public bool Active { get; set; }
 
         /// <summary>
