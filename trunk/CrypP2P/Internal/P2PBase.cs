@@ -25,7 +25,7 @@ using PeersAtPlay.P2PLink;
 using PeersAtPlay.P2PLink.SnalNG;
 using PeersAtPlay.P2POverlay;
 using PeersAtPlay.P2POverlay.Bootstrapper;
-using PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapperV2;
+using PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper;
 using PeersAtPlay.P2POverlay.Bootstrapper.LocalMachineBootstrapper;
 using PeersAtPlay.P2POverlay.FullMeshOverlay;
 using PeersAtPlay.P2PStorage.DHT;
