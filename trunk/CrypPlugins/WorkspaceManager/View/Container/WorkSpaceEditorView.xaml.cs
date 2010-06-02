@@ -33,7 +33,7 @@ namespace WorkspaceManager.View.Container
         };
 
         private Point previousDragPoint = new Point();
-        private ConntectorView selectedConnector;
+        private ConnectorView selectedConnector;
         private PluginContainerView selectedPluginContainer;
         private CryptoLineView dummyLine = new CryptoLineView();
         private Point p;
@@ -70,7 +70,7 @@ namespace WorkspaceManager.View.Container
         {
             PluginContainerView shape = new PluginContainerView(model);
             shape.MouseLeave += new MouseEventHandler(shape_MouseLeave);
-            shape.OnConnectorMouseLeftButtonDown += new EventHandler<ConntectorViewEventArgs>(shape_OnConnectorMouseLeftButtonDown);
+            shape.OnConnectorMouseLeftButtonDown += new EventHandler<ConnectorViewEventArgs>(shape_OnConnectorMouseLeftButtonDown);
             shape.MouseLeftButtonDown += new MouseButtonEventHandler(shape_MouseLeftButtonDown);
             shape.MouseLeftButtonUp += new MouseButtonEventHandler(shape_MouseLeftButtonUp);
             shape.SetPosition(position);
@@ -80,11 +80,12 @@ namespace WorkspaceManager.View.Container
 
         public void AddConnection(IConnectable source, IConnectable target)
         {
-            CryptoLineView conn = new CryptoLineView();
+            ConnectionModel connectionModel = this.WorkspaceModel.newConnectionModel(((ConnectorView)source).cModel, ((ConnectorView)target).cModel, ((ConnectorView)source).cModel.ConnectorType);
+            CryptoLineView conn = new CryptoLineView(connectionModel);
             conn.SetBinding(CryptoLineView.StartPointProperty, CreateConnectorBinding(source));
             conn.SetBinding(CryptoLineView.EndPointProperty, CreateConnectorBinding(target));
             root.Children.Add(conn);
-            Canvas.SetZIndex(conn, 0);
+            Canvas.SetZIndex(conn, 0);            
         }
 
         private void AddConnectionSource(IConnectable source, CryptoLineView conn)
@@ -100,12 +101,12 @@ namespace WorkspaceManager.View.Container
 
             Binding binding = new Binding();
             binding.Source = connectable;
-            binding.Path = new PropertyPath(ConntectorView.PositionOnWorkSpaceXProperty);
+            binding.Path = new PropertyPath(ConnectorView.PositionOnWorkSpaceXProperty);
             multiBinding.Bindings.Add(binding);
 
             binding = new Binding();
             binding.Source = connectable;
-            binding.Path = new PropertyPath(ConntectorView.PositionOnWorkSpaceYProperty);
+            binding.Path = new PropertyPath(ConnectorView.PositionOnWorkSpaceYProperty);
             multiBinding.Bindings.Add(binding);
 
             binding = new Binding();
@@ -123,7 +124,7 @@ namespace WorkspaceManager.View.Container
 
         #region Controls
 
-        void shape_OnConnectorMouseLeftButtonDown(object sender, ConntectorViewEventArgs e)
+        void shape_OnConnectorMouseLeftButtonDown(object sender, ConnectorViewEventArgs e)
         {
             if (selectedConnector != null)
             {

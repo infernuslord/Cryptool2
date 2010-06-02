@@ -34,7 +34,10 @@ namespace WorkspaceManager.Model
         [NonSerialized]
         private Mutex mutex = new Mutex();
 
+        [NonSerialized]
         private bool hasData = false;
+
+        [NonSerialized]
         private object data;
 
         /// <summary>

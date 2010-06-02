@@ -146,7 +146,11 @@ namespace WorkspaceManager.Model
         {
             get
             {
-                return this.Plugin.Presentation;
+                if(this.Plugin.Presentation != null){
+                    return this.Plugin.Presentation;
+                }else{
+                    return this.Plugin.QuickWatchPresentation;
+                }
             }
         }
              
@@ -181,6 +185,8 @@ namespace WorkspaceManager.Model
             if(ExecutionState == PluginModelState.Undefined){
 
                 mutex.WaitOne();
+                
+                bool AtLeastOneInputSet = false;
                 //First test if every mandatory Connector has Data
                 foreach (ConnectorModel connectorModel in this.InputConnectors)
                 {
@@ -188,6 +194,10 @@ namespace WorkspaceManager.Model
                     {
                         mutex.ReleaseMutex();
                         return;
+                    }
+                    else if (connectorModel.HasData)
+                    {
+                        AtLeastOneInputSet = true;
                     }
 
                 }
@@ -205,7 +215,10 @@ namespace WorkspaceManager.Model
                     }
                 }
 
-                ExecutionState = PluginModelState.Executable;
+                if (AtLeastOneInputSet || this.InputConnectors.Count == 0)
+                {
+                    ExecutionState = PluginModelState.Executable;
+                }
                 mutex.ReleaseMutex();
             }
             return;

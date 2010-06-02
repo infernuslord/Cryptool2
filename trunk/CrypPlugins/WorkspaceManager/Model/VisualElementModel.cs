@@ -32,10 +32,9 @@ namespace WorkspaceManager.Model
     public abstract class VisualElementModel
     {
 
-
         /// <summary>
         /// I will be deleted
-        /// </summary>
+        /// </summary
         public event EventHandler<EventArgs> Delete;
 
         public Point Position { get; set; }

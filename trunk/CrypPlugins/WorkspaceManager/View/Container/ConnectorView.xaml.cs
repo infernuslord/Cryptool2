@@ -17,15 +17,15 @@ using System.ComponentModel;
 namespace WorkspaceManager.View.Container
 {
     /// <summary>
-    /// Interaction logic for ConntectorView.xaml
+    /// Interaction logic for ConnectorView.xaml
     /// </summary>
-    public partial class ConntectorView : UserControl, IConnectable
+    public partial class ConnectorView : UserControl, IConnectable
     {
-        public static readonly DependencyProperty PositionOnWorkSpaceXProperty = DependencyProperty.Register("PositionOnWorkSpaceX", typeof(double), typeof(ConntectorView), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
-        public static readonly DependencyProperty PositionOnWorkSpaceYProperty = DependencyProperty.Register("PositionOnWorkSpaceY", typeof(double), typeof(ConntectorView), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static readonly DependencyProperty PositionOnWorkSpaceXProperty = DependencyProperty.Register("PositionOnWorkSpaceX", typeof(double), typeof(ConnectorView), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static readonly DependencyProperty PositionOnWorkSpaceYProperty = DependencyProperty.Register("PositionOnWorkSpaceY", typeof(double), typeof(ConnectorView), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
-        public event EventHandler<ConntectorViewEventArgs> OnConnectorMouseLeftButtonDown;
-        private Model.ConnectorModel cModel;
+        public event EventHandler<ConnectorViewEventArgs> OnConnectorMouseLeftButtonDown;
+        public Model.ConnectorModel cModel;
 
         [TypeConverter(typeof(LengthConverter))]
         public double PositionOnWorkSpaceX
@@ -47,24 +47,24 @@ namespace WorkspaceManager.View.Container
             }
         }
 
-        public ConntectorView()
+        public ConnectorView()
         {
-            this.MouseLeftButtonDown += new MouseButtonEventHandler(ConntectorView_MouseLeftButtonDown);
+            this.MouseLeftButtonDown += new MouseButtonEventHandler(ConnectorView_MouseLeftButtonDown);
             InitializeComponent();
         }
 
-        public ConntectorView(Model.ConnectorModel cModel)
+        public ConnectorView(Model.ConnectorModel cModel)
         {
-            this.MouseLeftButtonDown += new MouseButtonEventHandler(ConntectorView_MouseLeftButtonDown);
+            this.MouseLeftButtonDown += new MouseButtonEventHandler(ConnectorView_MouseLeftButtonDown);
             this.cModel = cModel;
             InitializeComponent();
         }
 
-        void ConntectorView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        void ConnectorView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (this.OnConnectorMouseLeftButtonDown != null)
             {
-                this.OnConnectorMouseLeftButtonDown.Invoke(this, new ConntectorViewEventArgs { connector = this });
+                this.OnConnectorMouseLeftButtonDown.Invoke(this, new ConnectorViewEventArgs { connector = this });
             }
         }
 
@@ -74,8 +74,8 @@ namespace WorkspaceManager.View.Container
         }
     }
 
-    public class ConntectorViewEventArgs : EventArgs
+    public class ConnectorViewEventArgs : EventArgs
     {
-        public ConntectorView connector;
+        public ConnectorView connector;
     }
 }

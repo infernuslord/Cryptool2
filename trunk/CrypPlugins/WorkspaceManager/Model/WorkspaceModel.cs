@@ -114,6 +114,7 @@ namespace WorkspaceManager.Model
             from.OutputConnections.Add(connectionModel);
             to.InputConnection = connectionModel;
             connectionModel.ConnectionType = connectionType;
+            this.AllConnectionModels.Add(connectionModel);
             return connectionModel;
         }
 
