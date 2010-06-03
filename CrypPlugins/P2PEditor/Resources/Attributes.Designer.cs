@@ -115,6 +115,24 @@ namespace Cryptool.P2PEditor.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Job list refresh interval (seconds).
+        /// </summary>
+        internal static string distributedJobListRefreshInterval_caption {
+            get {
+                return ResourceManager.GetString("distributedJobListRefreshInterval_caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refreshes the the distributed job list in the given interval. A value of 0 will disable the automated process..
+        /// </summary>
+        internal static string distributedJobListRefreshInterval_tooltip {
+            get {
+                return ResourceManager.GetString("distributedJobListRefreshInterval_tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to LinkManager type.
         /// </summary>
         internal static string linkmanager_caption {
@@ -129,6 +147,24 @@ namespace Cryptool.P2PEditor.Resources {
         internal static string linkmanager_tooltip {
             get {
                 return ResourceManager.GetString("linkmanager_tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Local port.
+        /// </summary>
+        internal static string localPort_caption {
+            get {
+                return ResourceManager.GetString("localPort_caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Local port used by the framework. If set to 0, the framework will choose a random port..
+        /// </summary>
+        internal static string localPort_tooltip {
+            get {
+                return ResourceManager.GetString("localPort_tooltip", resourceCulture);
             }
         }
         

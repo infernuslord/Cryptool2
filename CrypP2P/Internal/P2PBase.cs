@@ -17,6 +17,7 @@
 using System;
 using System.Text;
 using System.Threading;
+using Cryptool.PluginBase;
 using Cryptool.Plugins.PeerToPeer.Internal;
 using Gears4Net;
 using PeersAtPlay;
@@ -25,13 +26,12 @@ using PeersAtPlay.P2PLink;
 using PeersAtPlay.P2PLink.SnalNG;
 using PeersAtPlay.P2POverlay;
 using PeersAtPlay.P2POverlay.Bootstrapper;
-using PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper;
+using PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapperV2;
 using PeersAtPlay.P2POverlay.Bootstrapper.LocalMachineBootstrapper;
 using PeersAtPlay.P2POverlay.FullMeshOverlay;
 using PeersAtPlay.P2PStorage.DHT;
 using PeersAtPlay.P2PStorage.FullMeshDHT;
 using PeersAtPlay.Util.Logging;
-using Settings = PeersAtPlay.P2PLink.SnalNG.Settings;
 
 /* TODO:
  * - Delete UseNatTraversal-Flag and insert CertificateCheck and CertificateSetup
@@ -51,10 +51,10 @@ namespace Cryptool.P2P.Internal
         private readonly AutoResetEvent _systemJoined;
         private readonly AutoResetEvent _systemLeft;
         private IBootstrapper _bootstrapper;
-        private IDHT _dht;
         private IP2PLinkManager _linkmanager;
         private P2POverlay _overlay;
-        private IVersionedDHT _versionedDht;
+        internal IDHT Dht;
+        internal IVersionedDHT VersionedDht;
 
         /// <summary>
         ///   True if system was successfully joined, false if system is COMPLETELY left
@@ -107,10 +107,10 @@ namespace Cryptool.P2P.Internal
                     // NAT-Traversal stuff needs a different Snal-Version
                     _linkmanager = new Snal(scheduler);
 
-                    var settings = new Settings();
+                    var settings = new PeersAtPlay.P2PLink.SnalNG.Settings();
                     settings.LoadDefaults();
                     settings.ConnectInternal = true;
-                    settings.LocalReceivingPort = 0;
+                    settings.LocalReceivingPort = P2PSettings.Default.LocalPort;
                     settings.UseLocalAddressDetection = false;
                     settings.AutoReconnect = false;
                     settings.NoDelay = false;
@@ -137,6 +137,9 @@ namespace Cryptool.P2P.Internal
                     PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.DelaySymmetricResponse = true;
                     PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.IncludeSymmetricInResponse = false;
                     PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.SymmetricResponseDelay = 6000;
+                    
+                    PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapperV2.Settings.DelaySymmetricResponse = true;
+                    PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapperV2.Settings.IncludeSymmetricResponse = false;
 
                     _bootstrapper = new IrcBootstrapper(scheduler);
                     break;
@@ -157,19 +160,19 @@ namespace Cryptool.P2P.Internal
             switch (P2PSettings.Default.Dht)
             {
                 case P2PDHTType.FullMeshDHT:
-                    _dht = new FullMeshDHT(scheduler);
+                    Dht = new FullMeshDHT(scheduler);
                     break;
                 default:
                     throw (new NotImplementedException());
             }
 
             _overlay.MessageReceived += OverlayMessageReceived;
-            _dht.SystemJoined += OnDhtSystemJoined;
-            _dht.SystemLeft += OnDhtSystemLeft;
+            Dht.SystemJoined += OnDhtSystemJoined;
+            Dht.SystemLeft += OnDhtSystemLeft;
 
-            _versionedDht = (IVersionedDHT) _dht;
+            VersionedDht = (IVersionedDHT) Dht;
 
-            _dht.Initialize(P2PSettings.Default.PeerName, string.Empty, P2PSettings.Default.WorldName, _overlay, 
+            Dht.Initialize(P2PSettings.Default.PeerName, string.Empty, P2PSettings.Default.WorldName, _overlay, 
                             _bootstrapper, 
                             _linkmanager, null);
 
@@ -198,7 +201,7 @@ namespace Cryptool.P2P.Internal
                 return true;
             }
 
-            _dht.BeginStart(null);
+            Dht.BeginStart(null);
 
             // Wait for event SystemJoined. When it's invoked, the peer completely joined the P2P system
             _systemJoined.WaitOne();
@@ -212,9 +215,9 @@ namespace Cryptool.P2P.Internal
         /// <returns>True, if the peer has completely left the p2p network</returns>
         public bool SynchStop()
         {
-            if (_dht == null) return false;
+            if (Dht == null) return false;
 
-            _dht.BeginStop(null);
+            Dht.BeginStop(null);
 
             // wait till systemLeft Event is invoked
             _systemLeft.WaitOne();
@@ -332,7 +335,7 @@ namespace Cryptool.P2P.Internal
             LogToMonitor("Begin: SynchStore. Key: " + key + ", " + data.Length + " bytes");
 
             var responseWait = new ResponseWait {WaitHandle = autoResetEvent, key = key, value = data};
-            _versionedDht.Store(OnSynchStoreCompleted, key, data, responseWait);
+            VersionedDht.Store(OnSynchStoreCompleted, key, data, responseWait);
 
             // blocking till response
             autoResetEvent.WaitOne();
@@ -386,7 +389,7 @@ namespace Cryptool.P2P.Internal
 
             var autoResetEvent = new AutoResetEvent(false);
             var responseWait = new ResponseWait {WaitHandle = autoResetEvent, key = key};
-            _dht.Retrieve(OnSynchRetrieveCompleted, key, responseWait);
+            Dht.Retrieve(OnSynchRetrieveCompleted, key, responseWait);
 
             // blocking till response
             autoResetEvent.WaitOne();
@@ -444,7 +447,7 @@ namespace Cryptool.P2P.Internal
 
             var autoResetEvent = new AutoResetEvent(false);
             var responseWait = new ResponseWait {WaitHandle = autoResetEvent, key = key};
-            _versionedDht.Remove(OnSynchRemoveCompleted, key, responseWait);
+            VersionedDht.Remove(OnSynchRemoveCompleted, key, responseWait);
 
             // blocking till response
             autoResetEvent.WaitOne();
@@ -485,9 +488,9 @@ namespace Cryptool.P2P.Internal
         /// </summary>
         public void LogInternalState()
         {
-            if (_dht != null)
+            if (Dht != null)
             {
-                _dht.LogInternalState();
+                Dht.LogInternalState();
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -20,9 +21,47 @@ namespace Cryptool.P2PEditor.GUI.Controls
                                                                                     typeof (List<DistributedJob>),
                                                                                     typeof (JobDisplay));
 
+        private Timer _refreshListTimer;
+
         public JobDisplay()
         {
             InitializeComponent();
+            UpdateRefreshTimerSettings(P2PManager.Instance.IsP2PConnected());
+
+            P2PManager.OnP2PConnectionStateChangeOccurred += P2PManager_OnP2PConnectionStateChangeOccurred;
+        }
+
+        void P2PManager_OnP2PConnectionStateChangeOccurred(object sender, bool newState)
+        {
+            UpdateRefreshTimerSettings(newState);
+        }
+
+        private void UpdateRefreshTimerSettings(bool isConnected)
+        {
+            if (P2PSettings.Default.DistributedJobListRefreshInterval == 0)
+            {
+                return;
+            }
+
+            if (_refreshListTimer == null)
+            {
+                _refreshListTimer = new Timer(P2PSettings.Default.DistributedJobListRefreshInterval * 1000);
+                _refreshListTimer.Elapsed += RefreshListTimerElapsed;
+            }
+
+            if (isConnected)
+            {
+                _refreshListTimer.Start();
+            }
+            else 
+            {
+                _refreshListTimer.Stop();
+            }
+        }
+
+        void RefreshListTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(UpdateJobList));
         }
 
         public List<DistributedJob> Jobs
@@ -41,7 +80,6 @@ namespace Cryptool.P2PEditor.GUI.Controls
         void UpdateJobListInWorker(object sender, DoWorkEventArgs e)
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(UpdateJobList));
-            
         }
 
         public void UpdateJobList()

@@ -78,5 +78,30 @@ namespace Cryptool.P2PEditor.Distributed
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            return Equals((DistributedJob) obj);
+        }
+
+        public bool Equals(DistributedJob obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+
+            return obj.JobGuid == JobGuid;
+        }
+
+        public override int GetHashCode()
+        {
+            return JobGuid.GetHashCode();
+        }
     }
 }

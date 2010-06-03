@@ -81,7 +81,7 @@ namespace Cryptool.P2PEditor.Distributed
             }
 
             var currentJobList = JobList();
-            currentJobList.RemoveAll(x => x.JobGuid == distributedJobToDelete.JobGuid);
+            currentJobList.Remove(distributedJobToDelete);
 
             var memoryStream = new MemoryStream();
             var bformatter = new BinaryFormatter();
