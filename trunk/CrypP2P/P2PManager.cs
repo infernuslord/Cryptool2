@@ -21,6 +21,9 @@ using Cryptool.P2P.Worker;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.Plugins.PeerToPeer.Internal;
+using PeersAtPlay;
+using PeersAtPlay.P2PStorage.DHT;
+using PeersAtPlay.Util.Threading;
 
 namespace Cryptool.P2P
 {
@@ -144,7 +147,7 @@ namespace Cryptool.P2P
 
         #endregion Framework methods
 
-        #region DHT operations
+        #region DHT operations (blocking)
 
         /// <summary>
         /// Stores the given data in the DHT. This method will block until a response has been received.
@@ -181,7 +184,7 @@ namespace Cryptool.P2P
         }
 
         /// <summary>
-        /// Retrieves the latest version of a given in key from the DHT.
+        /// Retrieves the latest version of a given in key from the DHT. This method will block until a response has been received.
         /// </summary>
         /// <param name="key">key to retrieve</param>
         /// <exception cref="NotConnectedException">Will be thrown if the P2P system is not connected</exception>
@@ -195,7 +198,7 @@ namespace Cryptool.P2P
         }
 
         /// <summary>
-        /// Removes a key and its data from the DHT.
+        /// Removes a key and its data from the DHT. This method will block until a response has been received.
         /// 
         /// The underlying DHT is versionend. Remove attempts will fail, if the latest version has not been retrieved before.
         /// </summary>
@@ -210,7 +213,64 @@ namespace Cryptool.P2P
             return Instance.P2PBase.SynchRemove(key);
         }
 
-        #endregion DHT operations
+        #endregion DHT operations (blocking)
+
+        #region DHT operations (non-blocking)
+
+        /// <summary>
+        /// Stores the given data in the DHT.
+        /// 
+        /// The underlying DHT is versionend. Store attempts will fail, if the latest version has not been retrieved before.
+        /// </summary>
+        /// <param name="callback">Callback for asynchronous call</param>
+        /// <param name="key">key to write</param>
+        /// <param name="data">data to write</param>
+        /// <param name="asyncState">Arbitrary data, which will be included in the callback parameter</param>
+        /// <exception cref="NotConnectedException">Will be thrown if the P2P system is not connected</exception>
+        /// <returns>Guid identifying the request</returns>
+        public static Guid Store(AsyncCallback<StoreResult> callback, string key, byte[] data, object asyncState)
+        {
+            if (!Instance.IsP2PConnected())
+                throw new NotConnectedException();
+
+            return Instance.P2PBase.VersionedDht.Store(callback, key, data, asyncState);
+        }
+
+        /// <summary>
+        /// Retrieves the latest version of a given in key from the DHT.
+        /// </summary>
+        /// <param name="callback">Callback for asynchronous call</param>
+        /// <param name="key">key to retrieve</param>
+        /// <param name="asyncState">Arbitrary data, which will be included in the callback parameter</param>
+        /// <exception cref="NotConnectedException">Will be thrown if the P2P system is not connected</exception>
+        /// <returns>Guid identifying the request</returns>
+        public static Guid Retrieve(AsyncCallback<RetrieveResult> callback, string key, object asyncState)
+        {
+            if (!Instance.IsP2PConnected())
+                throw new NotConnectedException();
+
+            return Instance.P2PBase.Dht.Retrieve(callback, key, asyncState);
+        }
+
+        /// <summary>
+        /// Removes a key and its data from the DHT.
+        /// 
+        /// The underlying DHT is versionend. Remove attempts will fail, if the latest version has not been retrieved before.
+        /// </summary>
+        /// <param name="callback">Callback for asynchronous call</param>
+        /// <param name="key">key to remove</param>
+        /// <param name="asyncState">Arbitrary data, which will be included in the callback parameter</param>
+        /// <exception cref="NotConnectedException">Will be thrown if the P2P system is not connected</exception>
+        /// <returns>Guid identifying the request</returns>
+        public static Guid Remove(AsyncCallback<RemoveResult> callback, string key, object asyncState)
+        {
+            if (!Instance.IsP2PConnected())
+                throw new NotConnectedException();
+
+            return Instance.P2PBase.VersionedDht.Remove(callback, key, asyncState);
+        }
+
+        #endregion DHT operations (non-blocking)
     }
 
     

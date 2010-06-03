@@ -130,5 +130,29 @@ namespace Cryptool.P2P {
                 this["WorkspacePath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int LocalPort {
+            get {
+                return ((int)(this["LocalPort"]));
+            }
+            set {
+                this["LocalPort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int DistributedJobListRefreshInterval {
+            get {
+                return ((int)(this["DistributedJobListRefreshInterval"]));
+            }
+            set {
+                this["DistributedJobListRefreshInterval"] = value;
+            }
+        }
     }
 }

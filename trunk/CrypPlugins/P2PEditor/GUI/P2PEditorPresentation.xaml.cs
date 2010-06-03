@@ -42,7 +42,6 @@ namespace Cryptool.P2PEditor.GUI
                                         typeof (
                                             P2PEditorPresentation), new PropertyMetadata(false));
 
-
         public P2PEditorPresentation(P2PEditor p2PEditor, JobListManager jobListManager)
         {
             P2PEditor = p2PEditor;

@@ -135,11 +135,23 @@
   <data name="dht_tooltip" xml:space="preserve">
     <value>DHT type</value>
   </data>
+  <data name="distributedJobListRefreshInterval_caption" xml:space="preserve">
+    <value>Job list refresh interval (seconds)</value>
+  </data>
+  <data name="distributedJobListRefreshInterval_tooltip" xml:space="preserve">
+    <value>Refreshes the the distributed job list in the given interval. A value of 0 will disable the automated process.</value>
+  </data>
   <data name="linkmanager_caption" xml:space="preserve">
     <value>LinkManager type</value>
   </data>
   <data name="linkmanager_tooltip" xml:space="preserve">
     <value>LinkManager type</value>
+  </data>
+  <data name="localPort_caption" xml:space="preserve">
+    <value>Local port</value>
+  </data>
+  <data name="localPort_tooltip" xml:space="preserve">
+    <value>Local port used by the framework. If set to 0, the framework will choose a random port.</value>
   </data>
   <data name="log2monitor_caption" xml:space="preserve">
     <value>Syslog</value>

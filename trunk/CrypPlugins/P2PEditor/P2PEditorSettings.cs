@@ -93,7 +93,23 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("connectOnStartup_caption", "onnectOnStartup_tooltip", null, 3, true, DisplayLevel.Experienced,
+        [TaskPane("distributedJobListRefreshInterval_caption", "distributedJobListRefreshInterval_tooltip", null, 3, false, DisplayLevel.Experienced,
+            ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        public int DistributedJobListRefreshInterval
+        {
+            get { return _settings.DistributedJobListRefreshInterval; }
+            set
+            {
+                if (value != _settings.DistributedJobListRefreshInterval)
+                {
+                    _settings.DistributedJobListRefreshInterval = value;
+                    OnPropertyChanged("DistributedJobListRefreshInterval");
+                    HasChanges = true;
+                }
+            }
+        }
+
+        [TaskPane("connectOnStartup_caption", "onnectOnStartup_tooltip", null, 4, true, DisplayLevel.Experienced,
             ControlType.CheckBox)]
         public bool ConnectOnStartup
         {
@@ -110,7 +126,7 @@ namespace Cryptool.P2PEditor
         }
 
         // TODO make button obsolete - stop button should be fine, but is currently not suited (see todo in P2PEditor:Stop())
-        [TaskPane("stop_caption", "stop_tooltip", null, 4, true, DisplayLevel.Beginner, ControlType.Button)]
+        [TaskPane("stop_caption", "stop_tooltip", null, 5, true, DisplayLevel.Beginner, ControlType.Button)]
         public void BtnStop()
         {
             if (P2PManager.Instance.IsP2PConnected() && !P2PManager.Instance.IsP2PConnecting)
@@ -121,7 +137,7 @@ namespace Cryptool.P2PEditor
         }
 
         // TODO make button obsolete - find appropriate display method
-        [TaskPane("log_connection_state_caption", "log_connection_state_tooltip", null, 5, true, DisplayLevel.Beginner,
+        [TaskPane("log_connection_state_caption", "log_connection_state_tooltip", null, 6, true, DisplayLevel.Beginner,
             ControlType.Button)]
         public void BtnLogConnectionState()
         {
@@ -195,7 +211,23 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("log2monitor_caption", "log2monitor_tooltip", GroupExpert, 4, false, DisplayLevel.Expert,
+        [TaskPane("localPort_caption", "localPort_tooltip", GroupExpert, 4, false, DisplayLevel.Expert,
+            ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 65535)]
+        public int LocalPort
+        {
+            get { return _settings.LocalPort; }
+            set
+            {
+                if (value != _settings.LocalPort)
+                {
+                    _settings.LocalPort = value;
+                    OnPropertyChanged("LocalPort");
+                    HasChanges = true;
+                }
+            }
+        }
+
+        [TaskPane("log2monitor_caption", "log2monitor_tooltip", GroupExpert, 5, false, DisplayLevel.Expert,
             ControlType.CheckBox)]
         public bool Log2Monitor
         {
