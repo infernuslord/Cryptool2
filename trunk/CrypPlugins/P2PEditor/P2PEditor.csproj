@@ -103,10 +103,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CoreDeveloper\CrypPlugins\AnotherEditor\AnotherEditor\AnotherEditor.csproj">
-      <Project>{1EA91B9A-8961-44C9-BA87-4B60C141470C}</Project>
-      <Name>AnotherEditor</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\CrypCore\CrypCore.csproj">
       <Project>{FF5D473C-0716-4D3E-9078-2EBD979F94C6}</Project>
       <Name>CrypCore</Name>
