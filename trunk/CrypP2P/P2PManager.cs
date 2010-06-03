@@ -21,7 +21,6 @@ using Cryptool.P2P.Worker;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.Plugins.PeerToPeer.Internal;
-using PeersAtPlay;
 using PeersAtPlay.P2PStorage.DHT;
 using PeersAtPlay.Util.Threading;
 
@@ -37,14 +36,8 @@ namespace Cryptool.P2P
         {
             P2PBase = new P2PBase();
 
-            // Register events
-
             // to forward event from overlay/dht MessageReceived-Event from P2PBase
             P2PBase.OnP2PMessageReceived += OnP2PMessageReceived;
-
-            // Register exit event to terminate P2P connection without loosing data
-            // TODO check if this is correct, should be - but handler is not called (and application does not shut down), probably unrelated to this problem
-            Application.ApplicationExit += HandleDisconnectByApplicationShutdown;
         }
 
         #endregion
@@ -131,14 +124,6 @@ namespace Cryptool.P2P
         }
 
         #region Framework methods
-
-        private void HandleDisconnectByApplicationShutdown(object sender, EventArgs e)
-        {
-            if (IsP2PConnected())
-            {
-                new ConnectionWorker(P2PBase).Start();
-            }
-        }
 
         public void GuiLogMessage(string message, NotificationLevel logLevel)
         {
@@ -271,6 +256,14 @@ namespace Cryptool.P2P
         }
 
         #endregion DHT operations (non-blocking)
+
+        public void HandleShutdown()
+        {
+            if (IsP2PConnected())
+            {
+                new ConnectionWorker(P2PBase).Start();
+            }
+        }
     }
 
     
