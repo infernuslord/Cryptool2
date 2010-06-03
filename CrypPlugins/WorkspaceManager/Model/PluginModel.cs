@@ -21,6 +21,7 @@ using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
 using System.Threading;
+using System.Windows.Controls;
 
 namespace WorkspaceManager.Model
 {
@@ -39,6 +40,8 @@ namespace WorkspaceManager.Model
         [NonSerialized]
         private PluginModelState executionstate = PluginModelState.Undefined;
 
+        private int imageIndex = 0;
+        
         /// <summary>
         /// All ingoing connectors of this PluginModel
         /// </summary>
@@ -80,7 +83,7 @@ namespace WorkspaceManager.Model
         /// <summary>
         /// The execution state of the progress of the wrapped plugin 
         /// </summary>
-        public double PercentageFinished { get; set; }
+        public double PercentageFinished { private get; set; }
 
         /// <summary>
         /// Create a new PluginModel
@@ -117,6 +120,7 @@ namespace WorkspaceManager.Model
                         connectorModel.PluginModel = this;
                         connectorModel.IsMandatory = propertyInfoAttribute.Mandatory;
                         connectorModel.PropertyName = propertyInfoAttribute.PropertyName;
+                        connectorModel.ToolTip = propertyInfoAttribute.ToolTip;
                         connectorModel.ConnectorOrientation = ConnectorOrientation.West;
                         InputConnectors.Add(connectorModel);
                         WorkspaceModel.AllConnectorModels.Add(connectorModel);
@@ -129,6 +133,7 @@ namespace WorkspaceManager.Model
                         connectorModel.PluginModel = this;
                         connectorModel.IsMandatory = propertyInfoAttribute.Mandatory;
                         connectorModel.PropertyName = propertyInfoAttribute.PropertyName;
+                        connectorModel.ToolTip = propertyInfoAttribute.ToolTip;
                         connectorModel.ConnectorOrientation = ConnectorOrientation.East;
                         connectorModel.Outgoing = true;
                         Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
@@ -140,9 +145,18 @@ namespace WorkspaceManager.Model
         }
 
         /// <summary>
+        /// Get the Image of the Plugin
+        /// </summary>
+        /// <returns></returns>
+        public Image getImage()
+        {
+            return Plugin.GetImage(imageIndex);
+        }
+
+        /// <summary>
         /// Returns the Presentation of the wrapped IPlugin
         /// </summary>
-        public System.Windows.Controls.UserControl PluginPresentation
+        public UserControl PluginPresentation
         {
             get
             {
@@ -232,6 +246,19 @@ namespace WorkspaceManager.Model
         public void PluginProgressChanged(IPlugin sender, PluginProgressEventArgs args)
         {
             this.PercentageFinished = args.Value / args.Max;
+        }
+
+        /// <summary>
+        /// Status of the plugin changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public void PluginStatusChanged(IPlugin sender, StatusEventArgs args)
+        {
+            if (args.StatusChangedMode == StatusChangedMode.ImageUpdate)
+            {
+                this.imageIndex = args.ImageIndex;
+            }
         }
     }
 
