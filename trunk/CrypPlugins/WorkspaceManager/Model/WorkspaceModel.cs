@@ -82,6 +82,7 @@ namespace WorkspaceManager.Model
             pluginModel.Name = pluginType.Name;
             pluginModel.Plugin.OnGuiLogNotificationOccured += this.WorkspaceManagerEditor.GuiLogNotificationOccured;
             pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;
+            pluginModel.Plugin.OnPluginStatusChanged += pluginModel.PluginStatusChanged;
             this.AllPluginModels.Add(pluginModel);
             return pluginModel;
         }

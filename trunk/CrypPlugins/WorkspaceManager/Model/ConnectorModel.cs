@@ -128,7 +128,12 @@ namespace WorkspaceManager.Model
         /// Name of the represented Property of the IPlugin of this ConnectorModel
         /// </summary>
         public string PropertyName{get;set;}
-        
+
+        /// <summary>
+        /// ToolTip of this Connector
+        /// </summary>
+        public string ToolTip { get; set; }
+
         /// <summary>
         /// Plugin informs the Connector that a PropertyChanged
         /// </summary>
