@@ -55,10 +55,13 @@ namespace WorkspaceManager.View.Container
         }
 
         public ConnectorView(Model.ConnectorModel cModel)
-        {
+        {                        
             this.MouseLeftButtonDown += new MouseButtonEventHandler(ConnectorView_MouseLeftButtonDown);
             this.cModel = cModel;
             InitializeComponent();
+            Color color = Model.ColorHelper.getColor(cModel.ConnectorType);
+            this.Ellipse.Fill = new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
+            this.Ellipse.ToolTip = cModel.ToolTip;
         }
 
         void ConnectorView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

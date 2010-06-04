@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d">
     <Grid>
-        <Ellipse Width="15" Height="15" Fill="Black"></Ellipse>
+        <Ellipse Width="15" Height="15" Fill="Black" Name="Ellipse"></Ellipse>
             
     </Grid>
 </UserControl>

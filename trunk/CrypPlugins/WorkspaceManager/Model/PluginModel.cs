@@ -115,7 +115,7 @@ namespace WorkspaceManager.Model
                     if (propertyInfoAttribute.Direction.Equals(Direction.InputData))
                     {
                         ConnectorModel connectorModel = new ConnectorModel();
-                        connectorModel.ConnectorType = propertyInfoAttribute.PropertyInfo.DeclaringType;
+                        connectorModel.ConnectorType = propertyInfoAttribute.PropertyInfo.PropertyType;
                         connectorModel.WorkspaceModel = WorkspaceModel;
                         connectorModel.PluginModel = this;
                         connectorModel.IsMandatory = propertyInfoAttribute.Mandatory;
@@ -128,7 +128,7 @@ namespace WorkspaceManager.Model
                     else if (propertyInfoAttribute.Direction.Equals(Direction.OutputData))
                     {
                         ConnectorModel connectorModel = new ConnectorModel();
-                        connectorModel.ConnectorType = propertyInfoAttribute.PropertyInfo.DeclaringType;
+                        connectorModel.ConnectorType = propertyInfoAttribute.PropertyInfo.PropertyType;
                         connectorModel.WorkspaceModel = WorkspaceModel;
                         connectorModel.PluginModel = this;
                         connectorModel.IsMandatory = propertyInfoAttribute.Mandatory;
