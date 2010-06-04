@@ -111,7 +111,7 @@ namespace Cryptool.P2P.Internal
                     settings.LoadDefaults();
                     settings.ConnectInternal = true;
                     settings.LocalReceivingPort = P2PSettings.Default.LocalPort;
-                    settings.UseLocalAddressDetection = false;
+                    settings.UseLocalAddressDetection = true;
                     settings.AutoReconnect = false;
                     settings.NoDelay = false;
                     settings.ReuseAddress = false;

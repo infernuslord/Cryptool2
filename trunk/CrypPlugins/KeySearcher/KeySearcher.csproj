@@ -118,11 +118,6 @@
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\PeerToPeerJobs\PeerToPeerJobs.csproj">
-      <Project>{F1258427-AFDF-4DF7-ABF1-758A2325F505}</Project>
-      <Name>PeerToPeerJobs</Name>
-      <Private>False</Private>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\icon.png" />
