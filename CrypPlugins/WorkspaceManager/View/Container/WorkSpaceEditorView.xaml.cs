@@ -126,7 +126,7 @@ namespace WorkspaceManager.View.Container
 
         void shape_OnConnectorMouseLeftButtonDown(object sender, ConnectorViewEventArgs e)
         {
-            if (selectedConnector != null)
+            if (selectedConnector != null && e.connector.cModel.ConnectorType.Name == selectedConnector.cModel.ConnectorType.Name)
             {
                 this.root.Children.Remove(dummyLine);
                 this.AddConnection(selectedConnector, e.connector);
@@ -157,14 +157,14 @@ namespace WorkspaceManager.View.Container
             if (e.LeftButton == MouseButtonState.Pressed && selectedPluginContainer != null)
             {
                 p = selectedPluginContainer.GetPosition();
-                this.selectedPluginContainer.SetPosition(new Point(p.X + (Mouse.GetPosition(sender as WorkSpaceEditorView).X - previousDragPoint.X), p.Y + (Mouse.GetPosition(sender as WorkSpaceEditorView).Y - previousDragPoint.Y)));
+                this.selectedPluginContainer.SetPosition(new Point(p.X + Mouse.GetPosition(root).X - previousDragPoint.X, p.Y + Mouse.GetPosition(root).Y - previousDragPoint.Y));
             }
 
             if (selectedConnector != null && root.Children.Contains(dummyLine))
             {
-                this.dummyLine.EndPoint = Mouse.GetPosition(sender as WorkSpaceEditorView);
+                this.dummyLine.EndPoint = Mouse.GetPosition(root);
             }
-            this.previousDragPoint = Mouse.GetPosition(sender as WorkSpaceEditorView);
+            this.previousDragPoint = Mouse.GetPosition(root);
         }
 
         void shape_MouseLeave(object sender, MouseEventArgs e)
@@ -191,7 +191,7 @@ namespace WorkspaceManager.View.Container
         {
             DragDropDataObject obj = e.Data.GetData("Cryptool.PluginBase.Editor.DragDropDataObject") as DragDropDataObject;
             if(obj != null)
-                this.AddPluginContainerView(e.GetPosition(this), WorkspaceModel.newPluginModel(DragDropDataObjectToPluginConverter.CreatePluginInstance(obj.AssemblyFullName, obj.TypeFullName)));
+                this.AddPluginContainerView(e.GetPosition(root), WorkspaceModel.newPluginModel(DragDropDataObjectToPluginConverter.CreatePluginInstance(obj.AssemblyFullName, obj.TypeFullName)));
         }
 
         void WorkSpaceEditorView_DragEnter(object sender, DragEventArgs e)

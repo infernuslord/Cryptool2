@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WorkspaceManager.View.Interface;
 using System.ComponentModel;
+using WorkspaceManager.Model;
 
 namespace WorkspaceManager.View.Container
 {
@@ -25,7 +26,7 @@ namespace WorkspaceManager.View.Container
         public static readonly DependencyProperty PositionOnWorkSpaceYProperty = DependencyProperty.Register("PositionOnWorkSpaceY", typeof(double), typeof(ConnectorView), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public event EventHandler<ConnectorViewEventArgs> OnConnectorMouseLeftButtonDown;
-        public Model.ConnectorModel cModel;
+        public ConnectorModel cModel;
 
         [TypeConverter(typeof(LengthConverter))]
         public double PositionOnWorkSpaceX

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:e="clr-namespace:WorkspaceManager.View.VisualComponents"
              xmlns:f="clr-namespace:WorkspaceManager.View.Container"
+             xmlns:p="clr-namespace:WorkspaceManager.Properties"
              AllowDrop="True"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" ClipToBounds="True">
@@ -16,26 +17,28 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Background="{StaticResource ResourceKey=EditorBackgroundLinearBrush}">
-        <Border Background="{StaticResource ResourceKey=GridBrush}">
-            <Canvas Name="root">
-                <Canvas.LayoutTransform>
-                    <TransformGroup>
-                        <ScaleTransform x:Name="EditorScale">
-                            <ScaleTransform.ScaleX>
-                                <Binding Mode="Default" Path="Value" ElementName="Slider"/>
-                            </ScaleTransform.ScaleX>
-                            <ScaleTransform.ScaleY>
-                                <Binding Mode="Default" Path="Value" ElementName="Slider"/>
-                            </ScaleTransform.ScaleY>
-                        </ScaleTransform>
-                    </TransformGroup>
-                </Canvas.LayoutTransform>
-            </Canvas>
-        </Border>
-        <DockPanel Height="auto" Width="auto">
-            <e:BottomBox DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
-            </e:BottomBox>
-        </DockPanel>
+    <Grid>
+        <Grid Background="{StaticResource ResourceKey=EditorBackgroundLinearBrush}">
+            <Border Background="{StaticResource ResourceKey=GridBrush}">
+                <Canvas Name="root">
+                    <Canvas.LayoutTransform>
+                        <TransformGroup>
+                            <ScaleTransform x:Name="Scale" ScaleX="{Binding Source={x:Static p:Settings.Default}, Path=EditScale, Mode=OneWay}" ScaleY="{Binding Source={x:Static p:Settings.Default}, Path=EditScale, Mode=OneWay}"></ScaleTransform>
+                        </TransformGroup>
+                    </Canvas.LayoutTransform>
+                </Canvas>
+            </Border>
+            <DockPanel Height="auto" Width="auto">
+                <e:BottomBox DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
+                </e:BottomBox>
+            </DockPanel>
+        </Grid>
+        
+        <Grid Width="auto" Height="auto" Name="InformationPanel" Opacity="0" Visibility="Hidden">
+            <Grid.Background>
+                <SolidColorBrush Opacity="0.55" Color="Black"/>
+            </Grid.Background>
+
+        </Grid>
     </Grid>
 </UserControl>
