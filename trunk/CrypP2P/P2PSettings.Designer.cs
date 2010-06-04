@@ -134,12 +134,12 @@ namespace Cryptool.P2P {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int LocalPort {
+        public int LocalReceivingPort {
             get {
-                return ((int)(this["LocalPort"]));
+                return ((int)(this["LocalReceivingPort"]));
             }
             set {
-                this["LocalPort"] = value;
+                this["LocalReceivingPort"] = value;
             }
         }
         
@@ -152,6 +152,18 @@ namespace Cryptool.P2P {
             }
             set {
                 this["DistributedJobListRefreshInterval"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseLocalAddressDetection {
+            get {
+                return ((bool)(this["UseLocalAddressDetection"]));
+            }
+            set {
+                this["UseLocalAddressDetection"] = value;
             }
         }
     }
