@@ -31,6 +31,7 @@ namespace Cryptool.Plugins.QuadraticSieve
     {
         private List<BigInteger> primeFactors = new List<BigInteger>();
         private List<BigInteger> compositeFactors = new List<BigInteger>();
+        private BigInteger number;
 
         [NonSerialized]
         private MethodInfo getPrimeFactorsMethod;
@@ -41,10 +42,11 @@ namespace Cryptool.Plugins.QuadraticSieve
         [field:NonSerialized]
         public event FactorsChangedHandler FactorsChanged;
 
-        public FactorManager(MethodInfo getPrimeFactors, MethodInfo getCompositeFactors)
+        public FactorManager(MethodInfo getPrimeFactors, MethodInfo getCompositeFactors, BigInteger number)
         {
             this.getPrimeFactorsMethod = getPrimeFactors;
             this.getCompositeFactorsMethod = getCompositeFactors;
+            this.number = number;
         }
 
         #region public
@@ -69,24 +71,6 @@ namespace Cryptool.Plugins.QuadraticSieve
         {
             AddFactorsWithoutFiringEvent(factorList);
             FactorsChanged(primeFactors, compositeFactors);
-        }
-
-        /// <summary>
-        /// adds the factor list as composite factors
-        /// </summary>
-        public void AddCompositeFactors(List<BigInteger> factors)
-        {
-            compositeFactors.AddRange(factors);
-            FactorsChanged(this.primeFactors, this.compositeFactors);
-        }
-
-        /// <summary>
-        /// adds the factor list as prime factors
-        /// </summary>
-        public void AddPrimeFactors(List<BigInteger> factors)
-        {
-            primeFactors.AddRange(factors);
-            FactorsChanged(this.primeFactors, this.compositeFactors);
         }
 
         /// <summary>
@@ -151,26 +135,20 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// </summary>
         public void ReplaceCompositeByFactors(BigInteger composite, List<BigInteger> primeFactors, List<BigInteger> compositeFactors)
         {
-            #region debug
-            BigInteger n = 1;
+            //Some debug stuff:
+            BigInteger comp = 1;
             foreach (BigInteger p in primeFactors)
-                n *= p;
+                comp *= p;
             foreach (BigInteger c in compositeFactors)
-                n *= c;
-            Debug.Assert(n == composite);
-            #endregion
+                comp *= c;
+            Debug.Assert(comp == composite);
 
-            int amount = this.compositeFactors.Count(c => (c == composite));
-            for (int i = 0; i < amount; i++)
-            {
-                this.primeFactors.AddRange(primeFactors);
-                this.compositeFactors.AddRange(compositeFactors);
-            }
-            int amount2 = this.compositeFactors.RemoveAll(c => (c == composite));
-            
-            Debug.Assert(amount == amount2);
-            Debug.Assert(CalculateNumber() == n);
+            //Add:
+            this.primeFactors.AddRange(primeFactors);
+            this.compositeFactors.AddRange(compositeFactors);
+            normalizeLists();
 
+            Debug.Assert(CalculateNumber() == this.number);
             FactorsChanged(this.primeFactors, this.compositeFactors);
         }
 
@@ -180,17 +158,16 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// </summary>
         public void ReplaceCompositeByFactors(BigInteger composite, IntPtr factorList)
         {
-            int amount = compositeFactors.Count(c => (c == composite));
-            for (int i = 0; i < amount; i++)
-                AddFactorsWithoutFiringEvent(factorList);
-            int amount2 = compositeFactors.RemoveAll(c => (c == composite));
-
             //Some debug stuff:
-            Debug.Assert(amount == amount2);
-            FactorManager debugFactorManager = new FactorManager(getPrimeFactorsMethod, getCompositeFactorsMethod);
+            FactorManager debugFactorManager = new FactorManager(getPrimeFactorsMethod, getCompositeFactorsMethod, composite);
             debugFactorManager.AddFactorsWithoutFiringEvent(factorList);
             Debug.Assert(debugFactorManager.CalculateNumber() == composite);
 
+            //Add:
+            AddFactorsWithoutFiringEvent(factorList);
+            normalizeLists();
+
+            Debug.Assert(CalculateNumber() == this.number);
             FactorsChanged(primeFactors, compositeFactors);
         }
 
@@ -237,6 +214,45 @@ namespace Cryptool.Plugins.QuadraticSieve
             ArrayList cf = (ArrayList)(getCompositeFactorsMethod.Invoke(null, new object[] { factorList }));
             foreach (Object o in cf)
                 compositeFactors.Add(BigInteger.Parse((string)o));
+
+            normalizeLists();
+        }
+
+        /// <summary>
+        /// Normalizes the prime and composite factor lists, i.e. after calling this method, N is the product
+        /// of the elements from both the prime and the composite factor list.
+        /// </summary>        
+        private void normalizeLists()
+        {
+            primeFactors.Sort();
+            compositeFactors.Sort();
+
+            BigInteger N = this.number;
+            List<BigInteger> pf = new List<BigInteger>();
+            List<BigInteger> cf = new List<BigInteger>();
+
+            foreach (BigInteger p in primeFactors)
+            {
+                while (N % p == 0)  //while N is divisible by p...
+                {
+                    pf.Add(p);
+                    N = N / p;
+                }
+            }
+
+            foreach (BigInteger c in compositeFactors)
+            {
+                while (N % c == 0)  //while N is divisible by c...
+                {
+                    cf.Add(c);
+                    N = N / c;
+                }
+            }
+            
+            primeFactors = pf;
+            compositeFactors = cf;
+
+            Debug.Assert(N == 1);
         }
 
         #endregion

@@ -200,7 +200,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 DateTime start_time = DateTime.Now;
 
                 initMsieveDLL();
-                factorManager = new FactorManager(msieve.GetMethod("getPrimeFactors"), msieve.GetMethod("getCompositeFactors"));
+                factorManager = new FactorManager(msieve.GetMethod("getPrimeFactors"), msieve.GetMethod("getCompositeFactors"), InputNumber);
                 factorManager.FactorsChanged += this.FactorsChanged;
 
                 //Now factorize:                
