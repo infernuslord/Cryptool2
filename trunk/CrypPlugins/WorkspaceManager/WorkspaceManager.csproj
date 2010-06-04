@@ -99,6 +99,7 @@
     </Compile>
     <Compile Include="View\Converter\ConnectorBindingConverter.cs" />
     <Compile Include="View\Converter\DragDropDataObjectToPluginConverter.cs" />
+    <Compile Include="View\Converter\ScaleToPercentageConverter.cs" />
     <Compile Include="View\Interface\IConnectable.cs" />
     <Compile Include="View\Interface\IConnection.cs" />
     <Compile Include="View\Interface\IDraggable.cs" />
@@ -166,6 +167,14 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Image\delete.png" />
+    <Resource Include="View\Image\setting.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Image\increase.png" />
+    <Resource Include="View\Image\reduce.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!--<PropertyGroup>

@@ -43,13 +43,16 @@ namespace WorkspaceManager.View.Container
             this.RenderTransform = new TranslateTransform();
             InitializeComponent();
 
-            if(model.PluginPresentation != null)
-                this.PresentationPanel.Children.Add(model.PluginPresentation);
+            if(model.Plugin.QuickWatchPresentation != null)
+                this.PresentationPanel.Children.Add(model.Plugin.QuickWatchPresentation);
         }
 
         void PluginContainerView_Loaded(object sender, RoutedEventArgs e)
         {
             //TODO: Better-> Bindings
+            Image img = model.getImage();
+            img.Stretch = Stretch.Uniform;
+            PresentationPanel.Children.Add(img);
             PluginName.Content = model.PluginType.Name.ToString();
             foreach (ConnectorModel cModel in model.InputConnectors)
             {
@@ -139,5 +142,19 @@ namespace WorkspaceManager.View.Container
         }
 
         #endregion
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.delete();
+        }
+
+        private void delete()
+        {
+            if (Parent is Panel)
+            {
+                (this.Parent as Panel).Children.Remove(this);
+                this.model.WorkspaceModel.deletePluginModel(this.model);
+            }
+        }
     }
 }

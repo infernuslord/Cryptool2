@@ -23,5 +23,15 @@ namespace WorkspaceManager.View.VisualComponents
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            SliderEditorSize.Value += 0.3;
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            SliderEditorSize.Value -= 0.3;
+        }
     }
 }
