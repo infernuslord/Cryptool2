@@ -54,7 +54,10 @@ namespace WorkspaceManager.View.VisualComponents
 
         public CryptoLineView(ConnectionModel connectionModel) : this()
         {
-            this.connectionModel = connectionModel;           
+            this.connectionModel = connectionModel;
+            Color color = Model.ColorHelper.getColor(connectionModel.ConnectionType);
+            Stroke = new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
+            StrokeThickness = 2;
         }
 
 		#region Overrides
