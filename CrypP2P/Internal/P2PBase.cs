@@ -110,8 +110,8 @@ namespace Cryptool.P2P.Internal
                     var settings = new PeersAtPlay.P2PLink.SnalNG.Settings();
                     settings.LoadDefaults();
                     settings.ConnectInternal = true;
-                    settings.LocalReceivingPort = P2PSettings.Default.LocalPort;
-                    settings.UseLocalAddressDetection = true;
+                    settings.LocalReceivingPort = P2PSettings.Default.LocalReceivingPort;
+                    settings.UseLocalAddressDetection = P2PSettings.Default.UseLocalAddressDetection;
                     settings.AutoReconnect = false;
                     settings.NoDelay = false;
                     settings.ReuseAddress = false;

@@ -144,7 +144,15 @@ namespace Cryptool.Plugins.PeerToPeer
             {
                 string sNonrelevant;
                 PeerId myPeerId = this.p2pControl.GetPeerID(out sNonrelevant);
-                GuiLogging("Started Subscriber with ID: '" + myPeerId.ToString() + "'", NotificationLevel.Info);
+
+                if (myPeerId != null)
+                {
+                    GuiLogging("Started Subscriber with ID: '" + myPeerId.ToString() + "'", NotificationLevel.Info);
+                } else
+                {
+                    GuiLogging("myPeerId not available. Aborting.", NotificationLevel.Error);
+                    return;
+                }
             }
 
             this.Started = true;

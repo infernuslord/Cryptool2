@@ -215,19 +215,35 @@ namespace Cryptool.P2PEditor
             ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 65535)]
         public int LocalPort
         {
-            get { return _settings.LocalPort; }
+            get { return _settings.LocalReceivingPort; }
             set
             {
-                if (value != _settings.LocalPort)
+                if (value != _settings.LocalReceivingPort)
                 {
-                    _settings.LocalPort = value;
+                    _settings.LocalReceivingPort = value;
                     OnPropertyChanged("LocalPort");
                     HasChanges = true;
                 }
             }
         }
 
-        [TaskPane("log2monitor_caption", "log2monitor_tooltip", GroupExpert, 5, false, DisplayLevel.Expert,
+        [TaskPane("useLocalAddressDetection_caption", "useLocalAddressDetection_tooltip", GroupExpert, 5, false, DisplayLevel.Expert,
+            ControlType.CheckBox)]
+        public bool UseLocalAddressDetection
+        {
+            get { return _settings.UseLocalAddressDetection; }
+            set
+            {
+                if (value != _settings.UseLocalAddressDetection)
+                {
+                    _settings.UseLocalAddressDetection = value;
+                    OnPropertyChanged("UseLocalAddressDetection");
+                    HasChanges = true;
+                }
+            }
+        }
+
+        [TaskPane("log2monitor_caption", "log2monitor_tooltip", GroupExpert, 6, false, DisplayLevel.Expert,
             ControlType.CheckBox)]
         public bool Log2Monitor
         {

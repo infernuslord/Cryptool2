@@ -160,7 +160,7 @@ namespace Cryptool.P2PEditor.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Local port used by the framework. If set to 0, the framework will choose a random port..
+        ///   Looks up a localized string similar to Local port used by the framework. If set to 0, the framework will choose a random port. To use a value other than 0, &quot;Use local port address detection&quot; must be set to true..
         /// </summary>
         internal static string localPort_tooltip {
             get {
@@ -246,6 +246,24 @@ namespace Cryptool.P2PEditor.Resources {
         internal static string stop_tooltip {
             get {
                 return ResourceManager.GetString("stop_tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use local port address detection.
+        /// </summary>
+        internal static string useLocalAddressDetection_caption {
+            get {
+                return ResourceManager.GetString("useLocalAddressDetection_caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Setting for nodes, where the internal and external adresses match. Setting &quot;Local port&quot; currently only works, when this is set to true..
+        /// </summary>
+        internal static string useLocalAddressDetection_tooltip {
+            get {
+                return ResourceManager.GetString("useLocalAddressDetection_tooltip", resourceCulture);
             }
         }
         
