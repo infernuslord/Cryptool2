@@ -57,6 +57,9 @@
   <ItemGroup Condition=" '$(Platform)' == 'x86' " />
   <ItemGroup Condition=" '$(Platform)' == 'x64' " />
   <ItemGroup>
+    <Reference Include="Gears4Net">
+      <HintPath>..\..\AppReferences\x86\Gears4Net.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
