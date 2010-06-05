@@ -69,7 +69,7 @@ namespace WorkspaceManager.Execution
                 foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
                 {
                     PluginProtocol pluginProtocol = new PluginProtocol(scheduler, pluginModel,this);
-                    PluginModel.PluginProtocol = pluginProtocol;
+                    pluginModel.PluginProtocol = pluginProtocol;
                     scheduler.AddProtocol(pluginProtocol);
                     pluginModel.checkExecutable(pluginProtocol);
                     pluginProtocol.Start();
@@ -159,12 +159,12 @@ namespace WorkspaceManager.Execution
             yield return Receive<MessagePreExecution>(null, this.HandlePreExecute);
             MessageExecution msg_exec = new MessageExecution();
             msg_exec.PluginModel = this.pluginModel;
-            this.BroadcastMessage(msg_exec);            
+            this.BroadcastMessageReliably(msg_exec);
             yield return Receive<MessageExecution>(null, this.HandleExecute);
             MessagePostExecution msg_post = new MessagePostExecution();
             msg_post.PluginModel = this.pluginModel;
-            this.BroadcastMessage(msg_post);    
-            yield return Receive<MessagePreExecution>(null, this.HandlePostExecute);
+            this.BroadcastMessageReliably(msg_post);
+            yield return Receive<MessagePostExecution>(null, this.HandlePostExecute);
         }
 
         /// <summary>
@@ -206,7 +206,7 @@ namespace WorkspaceManager.Execution
         /// This handler must not block, because it executes inside the thread of the scheduler.
         /// </summary>
         /// <param name="msg"></param>
-        private void HandlePostExecute(MessagePreExecution msg)
+        private void HandlePostExecute(MessagePostExecution msg)
         {
             executionEngine.GuiLogMessage("HandlePostExecute for \"" + msg.PluginModel.Name + "\"", NotificationLevel.Debug);
             msg.PluginModel.Plugin.PostExecution();

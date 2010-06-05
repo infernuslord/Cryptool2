@@ -180,7 +180,7 @@ namespace WorkspaceManager.Model
         public void checkExecutable(ProtocolBase protocolBase)
         {                            
             bool AtLeastOneInputSet = false;
-            //First test if every mandatory Connector has Data
+            //First test if every mandatory Connector has data
             foreach (ConnectorModel connectorModel in this.InputConnectors)
             {
                 if (connectorModel.IsMandatory && !connectorModel.HasData)
@@ -194,7 +194,7 @@ namespace WorkspaceManager.Model
 
             }
 
-            //Next test if every connceted Connection to each Connection is not active
+            //Next test if every connected Connection is not active
             foreach (ConnectorModel connectorModel in this.OutputConnectors)
             {
                 foreach (ConnectionModel connection in connectorModel.OutputConnections)
@@ -210,7 +210,7 @@ namespace WorkspaceManager.Model
             {
                 MessagePreExecution msg = new MessagePreExecution();
                 msg.PluginModel = this;
-                protocolBase.BroadcastMessage(msg);
+                protocolBase.BroadcastMessageReliably(msg);
             }
             return;
         }
@@ -241,6 +241,6 @@ namespace WorkspaceManager.Model
         /// <summary>
         /// 
         /// </summary>
-        public static PluginProtocol PluginProtocol { get; set; }
+        public PluginProtocol PluginProtocol { get; set; }
     }
 }
