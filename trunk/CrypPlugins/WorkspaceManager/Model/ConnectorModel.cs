@@ -30,10 +30,7 @@ namespace WorkspaceManager.Model
     /// </summary>
     [Serializable]
     public class ConnectorModel : VisualElementModel
-    {
-        [NonSerialized]
-        private Mutex mutex = new Mutex();
-
+    {       
         [NonSerialized]
         private bool hasData = false;
 
@@ -100,9 +97,7 @@ namespace WorkspaceManager.Model
 
             set 
             {   
-                mutex.WaitOne(); 
                 hasData = value; 
-                mutex.ReleaseMutex(); 
             }
         }
 
@@ -118,9 +113,7 @@ namespace WorkspaceManager.Model
 
             set
             {
-                mutex.WaitOne();
                 data = value;
-                mutex.ReleaseMutex();
             }
         }
 
@@ -141,21 +134,24 @@ namespace WorkspaceManager.Model
         /// <param name="propertyChangedEventArgs"></param>
         public void PropertyChangedOnPlugin(Object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            if(propertyChangedEventArgs.PropertyName.Equals(PropertyName) && Outgoing){
+            if(sender == this.PluginModel.Plugin && 
+                propertyChangedEventArgs.PropertyName.Equals(PropertyName) && 
+                Outgoing){
+                
                 foreach (ConnectionModel connectionModel in this.OutputConnections)
                 {
-                    while (connectionModel.To.HasData && WorkspaceModel.WorkspaceManagerEditor.isExecuting())
+                    /*while (connectionModel.To.HasData && WorkspaceModel.WorkspaceManagerEditor.isExecuting())
                     {
                         Thread.Sleep(5); 
-                    }
+                    }*/
                     connectionModel.To.Data = sender.GetType().GetProperty(propertyChangedEventArgs.PropertyName).GetValue(sender, null);
                     connectionModel.To.HasData = true;
                     connectionModel.Active = true;
-                    this.WorkspaceModel.WorkspaceManagerEditor.GuiLogMessage("PropertyChanged: " + sender.GetType().GetProperty(propertyChangedEventArgs.PropertyName),Cryptool.PluginBase.NotificationLevel.Debug);
+                    this.WorkspaceModel.WorkspaceManagerEditor.GuiLogMessage("PropertyChanged for  \"" + this.PluginModel.Name + "\" Property \"" + PropertyName + "\"", Cryptool.PluginBase.NotificationLevel.Debug);
 
                     //We changed an input on the PluginModel where "To" is belonging to so
                     //we have to check if this is executable now
-                    connectionModel.To.PluginModel.checkExecutable(PluginModel.PluginProtocol);
+                    connectionModel.To.PluginModel.checkExecutable(connectionModel.To.PluginModel.PluginProtocol);
                 }
             }                       
         }
