@@ -22,6 +22,8 @@ using System.Text;
 using Cryptool.PluginBase;
 using System.Threading;
 using System.Windows.Controls;
+using Gears4Net;
+using WorkspaceManager.Execution;
 
 namespace WorkspaceManager.Model
 {
@@ -30,16 +32,10 @@ namespace WorkspaceManager.Model
     /// </summary>
     [Serializable]
     public class PluginModel : VisualElementModel
-    {
-        [NonSerialized]
-        private Mutex mutex = new Mutex();
-
+    {       
         [NonSerialized]
         private IPlugin plugin;
-
-        [NonSerialized]
-        private PluginModelState executionstate = PluginModelState.Undefined;
-
+     
         private int imageIndex = 0;
         
         /// <summary>
@@ -176,64 +172,45 @@ namespace WorkspaceManager.Model
             //Enter some Code which calls the paint method of the IPlugin
         }
 
-        /// <summary>
-        /// The current ExecutionState of this PluginModel
-        /// </summary>
-        public PluginModelState ExecutionState{
-            get
-            {
-                return this.executionstate;
-            }
-            set
-            {
-                this.executionstate = value;
-            }
-        }
 
         /// <summary>
         /// Checks wether this PluginModel is executable or not and sets the isExecutable bool
         /// </summary>
         /// <returns></returns>
-        public void checkExecutable()
-        {
-            if(ExecutionState == PluginModelState.Undefined){
-
-                mutex.WaitOne();
-                
-                bool AtLeastOneInputSet = false;
-                //First test if every mandatory Connector has Data
-                foreach (ConnectorModel connectorModel in this.InputConnectors)
+        public void checkExecutable(ProtocolBase protocolBase)
+        {                            
+            bool AtLeastOneInputSet = false;
+            //First test if every mandatory Connector has Data
+            foreach (ConnectorModel connectorModel in this.InputConnectors)
+            {
+                if (connectorModel.IsMandatory && !connectorModel.HasData)
                 {
-                    if (connectorModel.IsMandatory && !connectorModel.HasData)
-                    {
-                        mutex.ReleaseMutex();
-                        return;
-                    }
-                    else if (connectorModel.HasData)
-                    {
-                        AtLeastOneInputSet = true;
-                    }
-
+                    return;
+                }
+                else if (connectorModel.HasData)
+                {
+                    AtLeastOneInputSet = true;
                 }
 
-                //Next test if every connceted Connection to each Connection is not active
-                foreach (ConnectorModel connectorModel in this.OutputConnectors)
-                {
-                    foreach (ConnectionModel connection in connectorModel.OutputConnections)
-                    {
-                        if (connection.Active)
-                        {                            
-                            mutex.ReleaseMutex();
-                            return;
-                        }                        
-                    }
-                }
+            }
 
-                if (AtLeastOneInputSet || this.InputConnectors.Count == 0)
+            //Next test if every connceted Connection to each Connection is not active
+            foreach (ConnectorModel connectorModel in this.OutputConnectors)
+            {
+                foreach (ConnectionModel connection in connectorModel.OutputConnections)
                 {
-                    ExecutionState = PluginModelState.Executable;
+                    if (connection.Active)
+                    {                            
+                       return;
+                    }                        
                 }
-                mutex.ReleaseMutex();
+            }
+
+            if (AtLeastOneInputSet || this.InputConnectors.Count == 0)
+            {
+                MessagePreExecution msg = new MessagePreExecution();
+                msg.PluginModel = this;
+                protocolBase.BroadcastMessage(msg);
             }
             return;
         }
@@ -260,19 +237,10 @@ namespace WorkspaceManager.Model
                 this.imageIndex = args.ImageIndex;
             }
         }
-    }
 
-    /// <summary>
-    /// Execution States of a PluginModel
-    /// </summary>
-    public enum PluginModelState
-    {
-        Undefined,
-        Executable,
-        PreExecuting,
-        Executing,
-        PostExecuting,
-        Terminated,
-        Error
+        /// <summary>
+        /// 
+        /// </summary>
+        public static PluginProtocol PluginProtocol { get; set; }
     }
 }

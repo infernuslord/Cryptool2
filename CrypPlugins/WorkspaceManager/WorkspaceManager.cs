@@ -341,10 +341,7 @@ namespace WorkspaceManager
             {
                 return;
             }
-
-            //for debug purposes. Later on this will be a setting of the new editor
-            ExecutionEngine.DebugMode = true;
-
+            
             try
             {
                 GuiLogMessage("Execute Model now!", NotificationLevel.Info);

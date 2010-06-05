@@ -190,11 +190,7 @@ namespace WorkspaceManager.Model
         /// Sets all Connections and Connectors to state nonActive/noData
         /// </summary>
         public void resetStates()
-        {
-            foreach (PluginModel pluginModel in this.AllPluginModels)
-            {
-                pluginModel.ExecutionState = PluginModelState.Undefined;
-            }
+        {            
             foreach (ConnectionModel connection in this.AllConnectionModels)
             {
                 connection.Active = false;

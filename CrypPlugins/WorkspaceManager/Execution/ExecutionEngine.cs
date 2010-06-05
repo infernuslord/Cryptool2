@@ -24,6 +24,7 @@ using System.Threading;
 using System.Collections;
 using Cryptool.PluginBase;
 using System.Reflection;
+using Gears4Net;
 
 namespace WorkspaceManager.Execution
 {
@@ -32,15 +33,9 @@ namespace WorkspaceManager.Execution
     /// </summary>
     public class ExecutionEngine
     {
-        private Hashtable RunningPlugins = Hashtable.Synchronized(new Hashtable());
         private WorkspaceManager WorkspaceManagerEditor;
-        private Mutex mutex = new Mutex();
-
-        /// <summary>
-        /// Enable/Disable the Debug Mode
-        /// </summary>
-        public bool DebugMode { get; set; }
-
+        private Scheduler scheduler;
+      
         /// <summary>
         /// Creates a new ExecutionEngine
         /// </summary>
@@ -64,115 +59,31 @@ namespace WorkspaceManager.Execution
         /// </summary>
         /// <param name="workspaceModel"></param>
         public void Execute(WorkspaceModel workspaceModel)
-        {            
-            RunningPlugins.Clear();
-            GuiLogMessage("ExecutionEngine starts", NotificationLevel.Debug);
-            ThreadPool.SetMaxThreads(1, 1);
-            ThreadPool.QueueUserWorkItem(new WaitCallback(Schedule), workspaceModel);
-        }
-
-        /// <summary>
-        /// Scheduler Thread
-        /// </summary>
-        /// <param name="stateInfo"></param>
-        public void Schedule(object stateInfo)
         {
-            WorkspaceModel workspaceModel = (WorkspaceModel)stateInfo;
             if (!IsRunning)
             {
                 IsRunning = true;
+                scheduler = new WinFormsScheduler("Scheduler");
                 workspaceModel.resetStates();
-
-                //Initially check if a plugin can be executed
+               
                 foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
                 {
-                    pluginModel.checkExecutable();
-                }
-
-                //Now start Plugins if they are executable
-                while (IsRunning)
-                {
-                    foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
-                    {
-                        
-                        //execute the plugin in a new Thread only if it is executable
-                        if (IsRunning && pluginModel.ExecutionState == PluginModelState.Executable && !RunningPlugins.Contains(pluginModel))
-                        {
-                            AddRunningPlugin(pluginModel);
-                            ThreadPool.QueueUserWorkItem(new WaitCallback(runPlugin), pluginModel);
-                        }
-                        Thread.Sleep(50);
-                    }
-                }
-                GuiLogMessage("ExecutionEngine ends", NotificationLevel.Debug);
-            }
-        }
-
-        /// <summary>
-        /// Runs a Plugin
-        /// </summary>
-        /// <param name="stateInfo"></param>
-        private void runPlugin(object stateInfo)
-        {   
-         
-            PluginModel pluginModel = (PluginModel)stateInfo;            
-            GuiLogMessage("Running Plugin " + pluginModel.Name + " now!", NotificationLevel.Debug);
-            
-            //Fill the plugins Inputs with data
-            foreach (ConnectorModel connectorModel in pluginModel.InputConnectors)
-            {
-                if (connectorModel.HasData)
-                {                    
-                    PropertyInfo propertyInfo = pluginModel.Plugin.GetType().GetProperty(connectorModel.PropertyName);
-                    GuiLogMessage("Setting for " + connectorModel.PluginModel.Name + " the value of property " + propertyInfo.Name + " to \"" + connectorModel.Data +"\"", NotificationLevel.Debug);
-                    propertyInfo.SetValue(pluginModel.Plugin, connectorModel.Data, null);    
-                    connectorModel.Data = null;
-                    connectorModel.HasData = false;
-                    connectorModel.InputConnection.Active = false;
+                    PluginProtocol pluginProtocol = new PluginProtocol(scheduler, pluginModel,this);
+                    PluginModel.PluginProtocol = pluginProtocol;
+                    scheduler.AddProtocol(pluginProtocol);
+                    pluginModel.checkExecutable(pluginProtocol);
+                    pluginProtocol.Start();
                 }
             }
-
-            //Run execution
-            try
-            {
-                pluginModel.ExecutionState = PluginModelState.PreExecuting;
-                pluginModel.Plugin.PreExecution();
-                pluginModel.ExecutionState = PluginModelState.Executing;
-                pluginModel.Plugin.Execute();
-                pluginModel.ExecutionState = PluginModelState.PostExecuting;
-                pluginModel.Plugin.PostExecution();
-                pluginModel.ExecutionState = PluginModelState.Terminated;
-            }
-            catch (Exception ex)
-            {
-                pluginModel.ExecutionState = PluginModelState.Error;
-                GuiLogMessage("Error during Execution of Plugin " + pluginModel.Name + ": " + ex.Message, NotificationLevel.Error);
-            }
-            //Remove plugin from being-executed-list so that it can be
-            //executed again
-            if (IsRunning)
-            {
-                //we only remove the plugin if we are in state running;otherwise
-                //the Stop() method will remove it
-                RemoveRunningPlugin(pluginModel);
-            }
-            GuiLogMessage("Stopped Plugin " + pluginModel.Name, NotificationLevel.Debug);
-            Thread.Sleep(15);
-        }
-
+        }      
+      
         /// <summary>
         /// Stop the execution
         /// </summary>
         public void Stop()
         {
-            mutex.WaitOne();
-            IsRunning = false;
-            foreach (PluginModel pluginModel in RunningPlugins.Keys)
-            {
-                pluginModel.Plugin.Stop();              
-            }
-            RunningPlugins.Clear();
-            mutex.ReleaseMutex();
+            scheduler.Shutdown();
+            IsRunning = false;   
         }
 
         /// <summary>
@@ -188,41 +99,117 @@ namespace WorkspaceManager.Execution
         /// </summary>
         /// <param name="message"></param>
         /// <param name="level"></param>
-        private void GuiLogMessage(string message, NotificationLevel level)
+        public void GuiLogMessage(string message, NotificationLevel level)
+        {           
+            WorkspaceManagerEditor.GuiLogMessage(message, level);
+        }            
+    }
+
+    /// <summary>
+    /// Message send to scheduler for a Plugin to trigger the PreExecution
+    /// </summary>
+    public class MessagePreExecution : MessageBase
+    {
+        public PluginModel PluginModel;
+    }
+
+    /// <summary>
+    /// Message send to scheduler for a Plugin to trigger the Execution
+    /// </summary>
+    public class MessageExecution : MessageBase
+    {
+        public PluginModel PluginModel;
+    }
+
+    /// <summary>
+    /// Message send to scheduler for a Plugin to trigger the PostExecution
+    /// </summary>
+    public class MessagePostExecution : MessageBase
+    {
+        public PluginModel PluginModel;
+    }
+
+     /// <summary>
+    /// A Protocol for a PluginModel
+    /// </summary>
+    public class PluginProtocol : ProtocolBase
+    {
+        private PluginModel pluginModel;
+        private ExecutionEngine executionEngine;
+
+        /// <summary>
+        /// Create a new protocol. Each protocol requires a scheduler which provides
+        /// a thread for execution.
+        /// </summary>
+        /// <param name="scheduler"></param>
+        public PluginProtocol(Scheduler scheduler, PluginModel pluginModel,ExecutionEngine executionEngine)
+            : base(scheduler)
         {
-            if (DebugMode || level.Equals(NotificationLevel.Error) || level.Equals(NotificationLevel.Warning))
-            {
-                WorkspaceManagerEditor.GuiLogMessage(message, level);
-            }
+            this.pluginModel = pluginModel;
+            this.executionEngine = executionEngine;
         }
 
         /// <summary>
-        /// Add a running plugin
+        /// The main function of the protocol
         /// </summary>
-        /// <param name="pluginModel"></param>
-        private void AddRunningPlugin(PluginModel pluginModel)
+        /// <param name="stateMachine"></param>
+        /// <returns></returns>
+        public override System.Collections.Generic.IEnumerator<ReceiverBase> Execute(AbstractStateMachine stateMachine)
         {
-            mutex.WaitOne();
-            if (IsRunning)
-            {
-                RunningPlugins.Add(pluginModel, pluginModel);
-            }
-            mutex.ReleaseMutex();
+            yield return Receive<MessagePreExecution>(null, this.HandlePreExecute);
+            MessageExecution msg_exec = new MessageExecution();
+            msg_exec.PluginModel = this.pluginModel;
+            this.BroadcastMessage(msg_exec);            
+            yield return Receive<MessageExecution>(null, this.HandleExecute);
+            MessagePostExecution msg_post = new MessagePostExecution();
+            msg_post.PluginModel = this.pluginModel;
+            this.BroadcastMessage(msg_post);    
+            yield return Receive<MessagePreExecution>(null, this.HandlePostExecute);
         }
 
         /// <summary>
-        /// Remove a running plugin
+        /// Handler function for a message.
+        /// This handler must not block, because it executes inside the thread of the scheduler.
         /// </summary>
-        /// <param name="pluginModel"></param>
-        private void RemoveRunningPlugin(PluginModel pluginModel)
+        /// <param name="msg"></param>
+        private void HandlePreExecute(MessagePreExecution msg)
         {
-            mutex.WaitOne();
-            if(RunningPlugins.Contains(pluginModel))
-            {
-                RunningPlugins.Remove(pluginModel);
-            }
-            mutex.ReleaseMutex();
+            executionEngine.GuiLogMessage("HandlePreExecute for \"" + msg.PluginModel.Name + "\"", NotificationLevel.Debug);
+            msg.PluginModel.Plugin.PreExecution();
         }
 
+        /// <summary>
+        /// Handler function for a message.
+        /// This handler must not block, because it executes inside the thread of the scheduler.
+        /// </summary>
+        /// <param name="msg"></param>
+        private void HandleExecute(MessageExecution msg)
+        {
+            executionEngine.GuiLogMessage("HandleExecute for \"" + msg.PluginModel.Name + "\"", NotificationLevel.Debug);
+            //Fill the plugins Inputs with data
+            foreach (ConnectorModel connectorModel in pluginModel.InputConnectors)
+            {
+                if (connectorModel.HasData)
+                {
+                    PropertyInfo propertyInfo = pluginModel.Plugin.GetType().GetProperty(connectorModel.PropertyName);
+                    propertyInfo.SetValue(pluginModel.Plugin, connectorModel.Data, null);
+                    connectorModel.Data = null;
+                    connectorModel.HasData = false;
+                    connectorModel.InputConnection.Active = false;
+                }
+            }
+            msg.PluginModel.Plugin.Execute();
+        }
+
+        /// <summary>
+        /// Handler function for a message.
+        /// This handler must not block, because it executes inside the thread of the scheduler.
+        /// </summary>
+        /// <param name="msg"></param>
+        private void HandlePostExecute(MessagePreExecution msg)
+        {
+            executionEngine.GuiLogMessage("HandlePostExecute for \"" + msg.PluginModel.Name + "\"", NotificationLevel.Debug);
+            msg.PluginModel.Plugin.PostExecution();
+        }
     }
 }

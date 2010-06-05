@@ -155,7 +155,7 @@ namespace WorkspaceManager.Model
 
                     //We changed an input on the PluginModel where "To" is belonging to so
                     //we have to check if this is executable now
-                    connectionModel.To.PluginModel.checkExecutable();
+                    connectionModel.To.PluginModel.checkExecutable(PluginModel.PluginProtocol);
                 }
             }                       
         }
