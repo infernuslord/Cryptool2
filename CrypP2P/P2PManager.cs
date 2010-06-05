@@ -34,7 +34,7 @@ namespace Cryptool.P2P
 
         private P2PManager()
         {
-            P2PBase = new P2PBase();
+            P2PBase = new P2PBase(this);
 
             // to forward event from overlay/dht MessageReceived-Event from P2PBase
             P2PBase.OnP2PMessageReceived += OnP2PMessageReceived;
