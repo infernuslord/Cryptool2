@@ -60,12 +60,6 @@ namespace Cryptool.Plugins.PeerToPeerProxy
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this,
                                        new GuiLogEventArgs(p + "(" + DebugToFile.GetTimeStamp() + ")", this,
                                                            notificationLevel));
-            //EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(p, this, notificationLevel));
-        }
-
-        public void LogInternalState()
-        {
-            P2PManager.Instance.P2PBase.LogInternalState();
         }
 
         #region In and Output
@@ -109,7 +103,8 @@ namespace Cryptool.Plugins.PeerToPeerProxy
 
         public void StopPeer()
         {
-            GuiLogMessage("Peer cannot be stopped, it is running in CrypTool!", NotificationLevel.Info);
+            P2PManager.Instance.P2PBase.OnP2PMessageReceived -= P2PBaseOnP2PMessageReceived;
+            GuiLogMessage("Removed event registration, but peer cannot be stopped, it is running in CrypTool!", NotificationLevel.Info);
         }
 
         #endregion Start and Stop Peer
@@ -125,7 +120,7 @@ namespace Cryptool.Plugins.PeerToPeerProxy
 
         public P2PPeer()
         {
-            _settings = new P2PPeerSettings(this);
+            _settings = new P2PPeerSettings();
             _settings.TaskPaneAttributeChanged += SettingsTaskPaneAttributeChanged;
             _settings.OnPluginStatusChanged += SettingsOnPluginStatusChanged;
         }
@@ -155,9 +150,6 @@ namespace Cryptool.Plugins.PeerToPeerProxy
 
         public void Execute()
         {
-            // TODO: For future use copy functionality to Execute instead of PreExecute
-            //       so we don't need the workaround anymore!!!
-            // StartPeer();
         }
 
         public void PostExecution()
@@ -196,7 +188,6 @@ namespace Cryptool.Plugins.PeerToPeerProxy
 
         private static void SettingsTaskPaneAttributeChanged(ISettings settings, TaskPaneAttributeChangedEventArgs args)
         {
-            //throw new NotImplementedException();
         }
 
         #endregion
@@ -279,30 +270,22 @@ namespace Cryptool.Plugins.PeerToPeerProxy
 
         public bool DHTstore(string sKey, byte[] byteValue)
         {
-            if (P2PManager.Instance.IsP2PConnected())
-                return P2PManager.Store(sKey, byteValue);
-            return false;
+            return P2PManager.Instance.IsP2PConnected() && P2PManager.Store(sKey, byteValue);
         }
 
         public bool DHTstore(string sKey, string sValue)
         {
-            if (P2PManager.Instance.IsP2PConnected())
-                return P2PManager.Store(sKey, sValue);
-            return false;
+            return P2PManager.Instance.IsP2PConnected() && P2PManager.Store(sKey, sValue);
         }
 
         public byte[] DHTload(string sKey)
         {
-            if (P2PManager.Instance.IsP2PConnected())
-                return P2PManager.Retrieve(sKey);
-            return null;
+            return P2PManager.Instance.IsP2PConnected() ? P2PManager.Retrieve(sKey) : null;
         }
 
         public bool DHTremove(string sKey)
         {
-            if (P2PManager.Instance.IsP2PConnected())
-                return P2PManager.Remove(sKey);
-            return false;
+            return P2PManager.Instance.IsP2PConnected() && P2PManager.Remove(sKey);
         }
 
         /// <summary>
@@ -321,6 +304,7 @@ namespace Cryptool.Plugins.PeerToPeerProxy
                 sPeerName = _sPeerName;
                 return _peerId;
             }
+
             sPeerName = _sPeerName;
             return null;
         }

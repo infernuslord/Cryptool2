@@ -180,10 +180,6 @@ namespace Cryptool.Plugins.PeerToPeer
                         + "assume its functionality.", NotificationLevel.Debug);
                     return;
                 }
-            } else
-            {
-                GuiLogging("byRead not available. Aborting.", NotificationLevel.Error);
-                return;
             }
             /* END: CHECKING WHETHER THERE HAS ALREADY EXIST ANOTHER PUBLISHER */
 
