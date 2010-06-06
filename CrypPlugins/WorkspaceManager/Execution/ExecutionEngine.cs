@@ -35,6 +35,7 @@ namespace WorkspaceManager.Execution
     {
         private WorkspaceManager WorkspaceManagerEditor;
         private Scheduler scheduler;
+        private WorkspaceModel workspaceModel;
       
         /// <summary>
         /// Creates a new ExecutionEngine
@@ -60,6 +61,8 @@ namespace WorkspaceManager.Execution
         /// <param name="workspaceModel"></param>
         public void Execute(WorkspaceModel workspaceModel)
         {
+            this.workspaceModel = workspaceModel;
+
             if (!IsRunning)
             {
                 IsRunning = true;
@@ -82,8 +85,12 @@ namespace WorkspaceManager.Execution
         /// </summary>
         public void Stop()
         {
-            scheduler.Shutdown();
-            IsRunning = false;   
+            scheduler.Shutdown();            
+            foreach(PluginModel pluginModel in workspaceModel.AllPluginModels)
+            {
+                pluginModel.Plugin.Stop();
+            }
+            IsRunning = false;
         }
 
         /// <summary>
