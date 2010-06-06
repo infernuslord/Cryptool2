@@ -62,6 +62,8 @@ namespace Cryptool.Plugins.QuadraticSieve
         private FactorManager factorManager;
         private PeerToPeer peerToPeer;
         private bool usePeer2Peer;
+        private bool useGnuplot = true;
+        private StreamWriter gnuplotFile;
 
         private static Assembly msieveDLL = null;
         private static Type msieve = null;
@@ -167,6 +169,9 @@ namespace Cryptool.Plugins.QuadraticSieve
                 peerToPeer.SetChannel(settings.Channel);
                 peerToPeer.SetNumber(InputNumber);
             }
+
+            if (useGnuplot)
+                gnuplotFile = new StreamWriter(Path.Combine(directoryName, "gnuplot.dat"), false);
                         
             userStopped = false;
 
@@ -259,6 +264,9 @@ namespace Cryptool.Plugins.QuadraticSieve
                 ProgressChanged(1, 1);
                 
             }
+            if (useGnuplot)
+                gnuplotFile.Close();
+
             alreadyInUse = false;
         }
 
@@ -546,6 +554,13 @@ namespace Cryptool.Plugins.QuadraticSieve
                     quadraticSieveQuickWatchPresentation.endTime.Text = endtime_message;
                 }
                 , null);
+            }
+
+            if (useGnuplot)
+            {
+                double percentage = (double)num_relations / max_relations;
+                double time = (DateTime.Now - start_sieving_time).TotalSeconds;
+                gnuplotFile.WriteLine("" + time + "\t\t" + percentage);
             }
         }
 
