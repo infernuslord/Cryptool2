@@ -151,7 +151,7 @@
     <value>Local port</value>
   </data>
   <data name="localPort_tooltip" xml:space="preserve">
-    <value>Local port used by the framework. If set to 0, the framework will choose a random port. To use a value other than 0, "Use local port address detection" must be set to true.</value>
+    <value>Local port used by the framework. If set to 0, the framework will choose a random port.</value>
   </data>
   <data name="log2monitor_caption" xml:space="preserve">
     <value>Syslog</value>
@@ -184,7 +184,7 @@
     <value>Use local port address detection</value>
   </data>
   <data name="useLocalAddressDetection_tooltip" xml:space="preserve">
-    <value>Setting for nodes, where the internal and external adresses match. Setting "Local port" currently only works, when this is set to true.</value>
+    <value>Setting for nodes, where the internal and external adresses match.</value>
   </data>
   <data name="username_caption" xml:space="preserve">
     <value>Username</value>
