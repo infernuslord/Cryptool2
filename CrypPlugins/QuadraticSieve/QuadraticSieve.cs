@@ -538,7 +538,15 @@ namespace Cryptool.Plugins.QuadraticSieve
         private void showProgressPresentation(int max_relations, int num_relations, int start_relations, DateTime start_sieving_time)
         {
             TimeSpan diff = DateTime.Now - start_sieving_time;
-            double msleft = (diff.TotalMilliseconds / (num_relations - start_relations)) * (max_relations - num_relations);
+            double a = -3.55504;
+            double b = 8.62296;
+            double c = -7.75103;
+            double d = 3.65871;
+            double x = (double)num_relations / max_relations;
+            double progress = a * x*x*x*x + b * x*x*x + c * x*x + d * x;
+            double totalTime = diff.TotalMilliseconds / progress;
+            double msleft = totalTime - diff.TotalMilliseconds;
+            //double msleft = (diff.TotalMilliseconds / (num_relations - start_relations)) * (max_relations - num_relations);
             if (msleft > 0 && !double.IsInfinity(msleft))
             {
                 TimeSpan ts = new TimeSpan(0, 0, 0, 0, (int)msleft);
