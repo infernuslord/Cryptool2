@@ -304,6 +304,63 @@ namespace Cryptool.Plugins.CostFunction
             fwtMatthews.Add("ING", 5.0);
             fwtMatthews.Add("AND", 5.0);
             fwtMatthews.Add("EEE", -5.0);
+            //extension:
+            fwtToemehArumugam.Add("YYY", -5.0);
+            fwtToemehArumugam.Add("BBB", -5.0);
+            fwtToemehArumugam.Add("OOO", -5.0);
+            fwtToemehArumugam.Add("III", -5.0);
+            fwtToemehArumugam.Add("UUU", -5.0);
+            fwtToemehArumugam.Add("DDD", -5.0);
+            fwtToemehArumugam.Add("JJJ", -5.0);
+            fwtToemehArumugam.Add("QQQ", -5.0);
+            fwtToemehArumugam.Add("VVV", -5.0);
+            fwtToemehArumugam.Add("GGG", -5.0);
+
+            fwtToemehArumugam.Add("KKK", -2.0);
+            fwtToemehArumugam.Add("AAA", -2.0);
+            fwtToemehArumugam.Add("CCC", -2.0);
+            fwtToemehArumugam.Add("TTT", -2.0);
+
+            fwtToemehArumugam.Add("FFF", 0.0);
+            fwtToemehArumugam.Add("SSS", 0.0);
+            fwtToemehArumugam.Add("HHH", -5.0);
+            fwtToemehArumugam.Add("MMM", -5.0);
+            fwtToemehArumugam.Add("NNN", -5.0);
+            fwtToemehArumugam.Add("PPP", 0.0);
+            fwtToemehArumugam.Add("RRR", -5.0);
+            fwtToemehArumugam.Add("ZZZ", -5.0);
+            fwtToemehArumugam.Add("XXX", 5.0);
+            fwtToemehArumugam.Add("WWW", 5.0);
+
+            fwtToemehArumugam.Add("AUI", -5.0);
+            fwtToemehArumugam.Add("UAI", -5.0);
+            fwtToemehArumugam.Add("IAU", -5.0);
+            fwtToemehArumugam.Add("AIU", -5.0);
+            fwtToemehArumugam.Add("UUU", -5.0);
+            fwtToemehArumugam.Add("WV", -5.0);
+            fwtToemehArumugam.Add("VW", -5.0);
+            fwtToemehArumugam.Add("HC", -5.0);
+            fwtToemehArumugam.Add("ZR", -5.0);
+            fwtToemehArumugam.Add("RZ", -5.0);
+            fwtToemehArumugam.Add("ZX", -5.0);
+            fwtToemehArumugam.Add("XZ", -5.0);
+            fwtToemehArumugam.Add("J ", -5.0);
+            fwtToemehArumugam.Add("X ", -5.0);
+            fwtToemehArumugam.Add("Q ", -5.0);
+            fwtToemehArumugam.Add("QC", -5.0);
+            fwtToemehArumugam.Add("QJ", -5.0);
+            fwtToemehArumugam.Add("QW", -5.0);
+            fwtToemehArumugam.Add("QZ", -5.0);
+            fwtToemehArumugam.Add("QX", -5.0);
+            fwtToemehArumugam.Add("QY", -5.0);
+            fwtToemehArumugam.Add("QE", -5.0);
+            fwtToemehArumugam.Add("QI", -5.0);
+            fwtToemehArumugam.Add("QU", -5.0);
+            fwtToemehArumugam.Add("QO", -5.0);
+            fwtToemehArumugam.Add("JX", -5.0);
+            fwtToemehArumugam.Add("QV", -5.0);
+            fwtToemehArumugam.Add("ZJ", -5.0);
+
 
             fwtToemehArumugam.Add("EEE", -5.0);
             fwtToemehArumugam.Add("E ", 2.0);
@@ -383,9 +440,11 @@ namespace Cryptool.Plugins.CostFunction
             input = input.ToUpper();
 
             double bigramscore = calculateNGrams(input, 2, 0, true);
-           // double trigramscore = calculateNGrams(input, 3, 0, true);
-
-            return -1.0*betaToemehArumugam * bigramscore;
+            double trigramscore = calculateNGrams(input, 3, 0, true);
+            //testweise
+            return 1.0*betaToemehArumugam * bigramscore +  betaToemehArumugam*trigramscore;
+            // return -(4*(betaToemehArumugam * bigramscore) + 6*(betaToemehArumugam * trigramscore));
+            //return betaToemehArumugam * bigramscore;
 
             /*
             Dictionary<string, double> inputBiGrams = new Dictionary<string,double>();
@@ -660,6 +719,7 @@ namespace Cryptool.Plugins.CostFunction
         /// <returns>The trigram score result</returns>
         public double calculateNGrams(string input, int length, int valueSelection, bool weighted)
         {
+
             this.statistics = new Dictionary<int, IDictionary<string, double[]>>();
             double score = 0;
             if (corpusBigrams == null && length == 2)
@@ -682,10 +742,13 @@ namespace Cryptool.Plugins.CostFunction
                         score += corpusBigrams[g][valueSelection];
                         if (weighted) { weights(g, 2); }
                     }
-                    if (corpusTrigrams.ContainsKey(g) && length == 3)
+                    if (length == 3 )
                     {
-                        score += corpusTrigrams[g][valueSelection];
-                        if (weighted) { weights(g, 3); }
+                        if (corpusTrigrams.ContainsKey(g))
+                        {
+                            score += corpusTrigrams[g][valueSelection];
+                            if (weighted) { weights(g, 3); }
+                        }
                     }
                 }
             }
@@ -720,9 +783,12 @@ namespace Cryptool.Plugins.CostFunction
                     return calculateAbsolutes(txtList["statisticscorpusen"].DataFile.FullName, length);
                 case 2:
                     return calculateAbsolutes(this.settings.customFilePath, length);
+                //to prevent a poss. initial-err
+                //default:
+                //    return calculateAbsolutes(txtList["statisticscorpusen"].DataFile.FullName, length);
 
             }
-            return calculateAbsolutes(txtList["Statistics (DE)"].DataFile.FullName, length); //default
+            return calculateAbsolutes(txtList["statisticscorpusde"].DataFile.FullName, length); //default
            
         }
 
