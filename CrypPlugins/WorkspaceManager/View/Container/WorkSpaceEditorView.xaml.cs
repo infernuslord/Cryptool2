@@ -90,6 +90,8 @@ namespace WorkspaceManager.View.Container
 
         private void AddConnectionSource(IConnectable source, CryptoLineView conn)
         {
+            Color color = ColorHelper.getColor((source as ConnectorView).cModel.ConnectorType);
+            conn.Stroke = new SolidColorBrush(color);
             conn.SetBinding(CryptoLineView.StartPointProperty, CreateConnectorBinding(source));
             conn.EndPoint = Mouse.GetPosition(this);
         }

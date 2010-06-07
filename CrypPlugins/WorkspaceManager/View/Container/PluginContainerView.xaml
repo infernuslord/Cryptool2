@@ -4,8 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:e="clr-namespace:WorkspaceManager.View.Container"
-             MinHeight="120" MinWidth="180"
+             MinHeight="120" MinWidth="160"
              mc:Ignorable="d">
+    <UserControl.Background>
+        <SolidColorBrush Opacity="0.01" Color="#444444"></SolidColorBrush>
+    </UserControl.Background>
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -14,39 +17,39 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <DockPanel Name="Root" LastChildFill="True">
-        <StackPanel DockPanel.Dock="Right" Name="InputConnectorPanel" Width="20"/>
-        <Border DockPanel.Dock="Left" Width="10" Height="{Binding ElementName=PresentationPanel, Path=ActualHeight}" Background="#82bbef" BorderBrush="#4c71bf" BorderThickness="1" Opacity="0.5" Margin="0,10,0,0">
-            <StackPanel Name="OutputConnectorPanel"/>
-        </Border>
-        <Border Background="{StaticResource ResourceKey=GlassBrush}" CornerRadius="7" BorderBrush="#82bbef" BorderThickness="1.3">
+        <StackPanel DockPanel.Dock="Right" Name="OutputConnectorPanel" Width="20" Height="{Binding ElementName=Window, Path=ActualHeight}" VerticalAlignment="Bottom"/>
+        <StackPanel DockPanel.Dock="Left" Name="InputConnectorPanel" Width="20" Height="{Binding ElementName=Window, Path=ActualHeight}" VerticalAlignment="Bottom"/>
+        <StackPanel DockPanel.Dock="Top" Name="ControlPanel" Visibility="Hidden" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Height="20" Width="20" Style="{StaticResource ResourceKey=SettingsPluginContainerButtonStyle}" Margin="0,0,0,0">
+                <Button.RenderTransform>
+                    <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
+                </Button.RenderTransform>
+                <Image Source="/WorkspaceManager;component/View/Image/setting.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
+            </Button>
+        
+            <Button Height="20" Width="20" Style="{StaticResource ResourceKey=DeletePluginContainerButtonStyle}" Margin="0,0,0,5" Click="Button_Click">
+                <Button.LayoutTransform>
+                    <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
+                </Button.LayoutTransform>
+                <Image Source="/WorkspaceManager;component/View/Image/delete.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
+            </Button>
+        </StackPanel>
+        
+        <!--<Border DockPanel.Dock="Bottom" Height="10" Width="{Binding ElementName=PresentationPanel, Path=ActualWidth}" Background="#82bbef" BorderBrush="#4c71bf" BorderThickness="1" Opacity="0.5" Margin="0,0,0,0">
+            <StackPanel/>
+        </Border>-->
+        
+        <Border Name="Window" Background="{StaticResource ResourceKey=GlassBrush}" CornerRadius="7" BorderBrush="#82bbef" BorderThickness="1.3">
             <Grid Name="PresentationBase" Width="Auto" Height="Auto">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="20"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Rectangle Margin="10,5,10,5" Height="10" Opacity="0.5" Fill="#82bbef"/>
-
-                <Button Panel.ZIndex="100" Height="20" Width="20" HorizontalAlignment="left" Style="{StaticResource ResourceKey=SettingsPluginContainerButtonStyle}" Margin="0,1,0,0">
-                    <Button.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform ScaleX="1.4" ScaleY="1.4"></ScaleTransform>
-                        </TransformGroup>
-                    </Button.RenderTransform>
-                    <Image Source="/WorkspaceManager;component/View/Image/setting.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
-                </Button>
                 
-                <Label Name="PluginName" FontSize="12" Margin="26,-2,0,0" FontFamily="Georgia" Foreground="WhiteSmoke" Content="test" HorizontalAlignment="left"></Label>
-                
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Height="20" Width="20" Style="{StaticResource ResourceKey=DeletePluginContainerButtonStyle}" Margin="0,0,7,0" Click="Button_Click">
-                        <Button.LayoutTransform>
-                            <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
-                        </Button.LayoutTransform>
-                        <Image Source="/WorkspaceManager;component/View/Image/delete.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
-                    </Button>
-                </StackPanel>
+                <Label Name="PluginName" FontSize="11" Margin="5,-2,0,0" FontFamily="Georgia" Foreground="WhiteSmoke" Content="test" HorizontalAlignment="left"></Label>
 
-                <Grid Grid.Row="1" Name="PresentationPanel" Width="Auto" Height="Auto" MaxHeight="50" MaxWidth="50" Margin="10,0,10,10" Background="Transparent">
+                <Grid Grid.Row="1" Name="PresentationPanel" Width="Auto" Height="Auto" MaxHeight="70" MaxWidth="70" Margin="10,0,10,10" Background="Transparent">
                     <Grid.Effect>
                         <DropShadowEffect BlurRadius="2" Color="Black" ShadowDepth="0.1" Direction="90" Opacity="0.4"></DropShadowEffect>
                     </Grid.Effect>

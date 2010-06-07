@@ -39,12 +39,24 @@ namespace WorkspaceManager.View.Container
         public PluginContainerView(PluginModel model)
         {
             Loaded += new RoutedEventHandler(PluginContainerView_Loaded);
+            this.MouseEnter += new MouseEventHandler(PluginContainerView_MouseEnter);
+            this.MouseLeave += new MouseEventHandler(PluginContainerView_MouseLeave);
             this.model = model;
             this.RenderTransform = new TranslateTransform();
             InitializeComponent();
 
             if(model.Plugin.QuickWatchPresentation != null)
                 this.PresentationPanel.Children.Add(model.Plugin.QuickWatchPresentation);
+        }
+
+        void PluginContainerView_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ControlPanel.Visibility = Visibility.Hidden;
+        }
+
+        void PluginContainerView_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ControlPanel.Visibility = Visibility.Visible;
         }
 
         void PluginContainerView_Loaded(object sender, RoutedEventArgs e)
@@ -61,7 +73,7 @@ namespace WorkspaceManager.View.Container
 
             foreach (ConnectorModel cModel in model.OutputConnectors)
             {
-                AddInputConnectorView(new ConnectorView(cModel));
+                AddOutputConnectorView(new ConnectorView(cModel));
             }
         }
 

@@ -18,7 +18,7 @@ namespace WorkspaceManager.View.VisualComponents
 
         private Point iPoint = new Point();
 
-        private static double offset = 5;
+        private static double offset = 10;
 
         #endregion
 
@@ -55,8 +55,8 @@ namespace WorkspaceManager.View.VisualComponents
         public CryptoLineView(ConnectionModel connectionModel) : this()
         {
             this.connectionModel = connectionModel;
-            Color color = Model.ColorHelper.getColor(connectionModel.ConnectionType);
-            Stroke = new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
+            Color color = ColorHelper.getColor(connectionModel.ConnectionType);
+            Stroke = new SolidColorBrush(color);
             StrokeThickness = 2;
         }
 
@@ -66,7 +66,6 @@ namespace WorkspaceManager.View.VisualComponents
 		{
 			get
 			{
-				// Create a StreamGeometry for describing the shape
 				StreamGeometry geometry = new StreamGeometry();
 				geometry.FillRule = FillRule.EvenOdd;
 
@@ -75,7 +74,6 @@ namespace WorkspaceManager.View.VisualComponents
                     internalGeometryDraw(context);
 				}
 
-				// Freeze the geometry for performance benefits
 				geometry.Freeze();
 				return geometry;
 			}
@@ -94,22 +92,23 @@ namespace WorkspaceManager.View.VisualComponents
             if (StartPoint.X != EndPoint.X &&
                 StartPoint.Y != EndPoint.Y)
             {
-                throw new ArgumentException("only 90° lines allowed");
+                return false;
             }
             if (StartPointSec.X != EndPointSec.X &&
                 StartPointSec.Y != EndPointSec.Y)
             {
-                throw new ArgumentException("only 90° lines allowed");
+                return false;
             }
 
-            // TODO: handle parallel here
-            if (false)
+            // parallel
+            if (StartPoint.X == EndPoint.X && StartPointSec.X == EndPointSec.X ||
+                StartPoint.Y == EndPoint.Y && StartPointSec.Y == EndPointSec.Y)
             {
-
-                
+                return false;
             }
             else
             {
+                // orthonogal 
                 Point up, down, left, right;
                 if (StartPoint.X == EndPoint.X)
                 {
@@ -156,39 +155,34 @@ namespace WorkspaceManager.View.VisualComponents
 			double sint = Math.Sin(theta);
 			double cost = Math.Cos(theta);
 
-			Point start = new Point(StartPoint.X, StartPoint.Y);
-            Point end = new Point(EndPoint.X, EndPoint.Y);
+            context.BeginFigure(StartPoint, true, false);
 
-            //foreach (var element in (Parent as Panel).Children)
-            //{
-            //    if (element is CLine && !element.Equals(this))
-            //    {
-            //        if (findIntersection(StartPoint, EndPoint, (element as CLine).StartPoint, (element as CLine).EndPoint))
-            //        {
-            //            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Action)delegate()
-            //            {
-            //                Ellipse ell = new Ellipse();
-            //                ell.Fill = Brushes.Red;
-            //                ell.Width = 20;
-            //                ell.Height = 20;
-            //                ell.RenderTransform = new TranslateTransform(iPoint.X - ell.Width/2, iPoint.Y - ell.Height/2);
-            //                (Parent as Panel).Children.Add(ell);
-            //            });
-
-            //            Console.WriteLine("INTERSECTION FOUND " + iPoint.ToString());
-            //        }
-            //    }
-            //}
+            foreach (var element in (Parent as Panel).Children)
+            {
+                if (element is CryptoLineView && !element.Equals(this))
+                {
+                    if (findIntersection(StartPoint, EndPoint, (element as CryptoLineView).StartPoint, (element as CryptoLineView).EndPoint))
+                    {
+                        if (StartPoint.X == EndPoint.X)
+                        {
+                            context.LineTo(new Point(iPoint.X, iPoint.Y - offset), true, true);
+                            context.QuadraticBezierTo(new Point(iPoint.X + offset, iPoint.Y), new Point(iPoint.X, iPoint.Y + offset), true, true);
+                            continue;
+                        }
+                        if (StartPoint.Y == EndPoint.Y)
+                        {
+                            context.LineTo(new Point(iPoint.X - offset, iPoint.Y), true, true);
+                            context.QuadraticBezierTo(new Point(iPoint.X, iPoint.Y + offset), new Point(iPoint.X + offset, iPoint.Y), true, true);
+                            continue;
+                        }
+                    }
+                }
+            }
 
             //Point pt3 = new Point(
             //    pt05.X + ( cost - offset * sint),
             //    pt05.Y + ( sint + offset * cost));
-
-            context.BeginFigure(start, true, false);
-            
-
-
-            context.LineTo(end, true, true);
+            context.LineTo(EndPoint, true, true);
 		}
 		
 		#endregion

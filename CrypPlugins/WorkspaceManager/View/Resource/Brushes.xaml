@@ -4,8 +4,10 @@
     <LinearGradientBrush x:Key="EditorBackgroundLinearBrush" StartPoint="0,0" EndPoint="0,1">
         <GradientBrush.GradientStops>
             <GradientStopCollection>
-                <GradientStop Color="#666666" Offset="1.0"/>
-                <GradientStop Color="#95c2fb" Offset="0.0"/>
+                <GradientStop Color="#293955" Offset="1.0"/>
+                <GradientStop Color="#3d5376" Offset="0.6"/>
+                <GradientStop Color="#3d5376" Offset="0.4"/>
+                <GradientStop Color="#293955" Offset="0.0"/>
             </GradientStopCollection>
         </GradientBrush.GradientStops>
     </LinearGradientBrush>
@@ -38,12 +40,7 @@
         </DrawingBrush.Drawing>
     </DrawingBrush>
 
-    <VisualBrush x:Key="GlassBrush">
-        <VisualBrush.Visual>
-            <Grid Background="#777777" Opacity="0.6" Width="20" Height="20">
-            </Grid>
-        </VisualBrush.Visual>
-    </VisualBrush>
+    <SolidColorBrush x:Key="GlassBrush" Opacity="0.6" Color="#444444"></SolidColorBrush>
 
     <LinearGradientBrush x:Key="BottomBoxBackgroundBrush" StartPoint="0,0" EndPoint="0,1">
         <GradientBrush.GradientStops>
