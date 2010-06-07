@@ -219,22 +219,24 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P2PEditor", "CrypPlugins\P2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypPluginTemplate", "CrypPlugins\CrypPluginTemplate\CrypPluginTemplate.csproj", "{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VigenereAutokeyAnalyser", "CrypPlugins\VigenereAutokeyAnalyser\VigenereAutokeyAnalyser.csproj", "{7186387E-0469-42C3-96A9-F9AFFB656419}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x86 = Debug|x86
 		Debug|x64 = Debug|x64
-		Release|x86 = Release|x86
+		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{347B5433-A40E-4ACC-AD6B-A245509AB42E}.Debug|x86.ActiveCfg = Debug|x86
-		{347B5433-A40E-4ACC-AD6B-A245509AB42E}.Debug|x86.Build.0 = Debug|x86
 		{347B5433-A40E-4ACC-AD6B-A245509AB42E}.Debug|x64.ActiveCfg = Debug|x64
 		{347B5433-A40E-4ACC-AD6B-A245509AB42E}.Debug|x64.Build.0 = Debug|x64
-		{347B5433-A40E-4ACC-AD6B-A245509AB42E}.Release|x86.ActiveCfg = Release|x86
-		{347B5433-A40E-4ACC-AD6B-A245509AB42E}.Release|x86.Build.0 = Release|x86
+		{347B5433-A40E-4ACC-AD6B-A245509AB42E}.Debug|x86.ActiveCfg = Debug|x86
+		{347B5433-A40E-4ACC-AD6B-A245509AB42E}.Debug|x86.Build.0 = Debug|x86
 		{347B5433-A40E-4ACC-AD6B-A245509AB42E}.Release|x64.ActiveCfg = Release|x64
 		{347B5433-A40E-4ACC-AD6B-A245509AB42E}.Release|x64.Build.0 = Release|x64
+		{347B5433-A40E-4ACC-AD6B-A245509AB42E}.Release|x86.ActiveCfg = Release|x86
+		{347B5433-A40E-4ACC-AD6B-A245509AB42E}.Release|x86.Build.0 = Release|x86
 		{25DB2B47-A457-4EC2-960B-395CE07AE093}.Debug|x64.ActiveCfg = Debug|x64
 		{25DB2B47-A457-4EC2-960B-395CE07AE093}.Debug|x64.Build.0 = Debug|x64
 		{25DB2B47-A457-4EC2-960B-395CE07AE093}.Debug|x86.ActiveCfg = Debug|x86
@@ -1083,6 +1085,14 @@ Global
 		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Release|x64.Build.0 = Release|x64
 		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Release|x86.ActiveCfg = Release|x86
 		{B300C1F7-42CB-4668-9CCB-319D6AF8E3EB}.Release|x86.Build.0 = Release|x86
+		{7186387E-0469-42C3-96A9-F9AFFB656419}.Debug|x64.ActiveCfg = Debug|x64
+		{7186387E-0469-42C3-96A9-F9AFFB656419}.Debug|x64.Build.0 = Debug|x64
+		{7186387E-0469-42C3-96A9-F9AFFB656419}.Debug|x86.ActiveCfg = Debug|x86
+		{7186387E-0469-42C3-96A9-F9AFFB656419}.Debug|x86.Build.0 = Debug|x86
+		{7186387E-0469-42C3-96A9-F9AFFB656419}.Release|x64.ActiveCfg = Release|x64
+		{7186387E-0469-42C3-96A9-F9AFFB656419}.Release|x64.Build.0 = Release|x64
+		{7186387E-0469-42C3-96A9-F9AFFB656419}.Release|x86.ActiveCfg = Release|x86
+		{7186387E-0469-42C3-96A9-F9AFFB656419}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1188,5 +1198,6 @@ Global
 		{1696C227-2A99-4A14-AE81-6A8438D42D06} = {88B851F6-9E3D-484F-A317-ECED5B98C618}
 		{C53B0D8F-CB9C-461B-8802-062F342FFC5D} = {88B851F6-9E3D-484F-A317-ECED5B98C618}
 		{4C93AC25-D344-4A35-81C8-C2A5E2C3B438} = {88B851F6-9E3D-484F-A317-ECED5B98C618}
+		{7186387E-0469-42C3-96A9-F9AFFB656419} = {88B851F6-9E3D-484F-A317-ECED5B98C618}
 	EndGlobalSection
 EndGlobal
