@@ -83,15 +83,22 @@
                     <ControlTemplate.Resources>
                         <Storyboard x:Key="Anim" RepeatBehavior="Forever">
                             <DoubleAnimation From="0" To="360" Duration="00:00:2" Storyboard.TargetName="Rotate" Storyboard.TargetProperty="Angle" />
+                            <DoubleAnimation To="2" Duration="00:00:00.15" Storyboard.TargetName="Scale" Storyboard.TargetProperty="ScaleY" />
+                            <DoubleAnimation To="2" Duration="00:00:00.15" Storyboard.TargetName="Scale" Storyboard.TargetProperty="ScaleX" />
                         </Storyboard>
                         <Storyboard x:Key="Anim2">
                             <DoubleAnimation To="360" Duration="00:00:1" DecelerationRatio="0.2" Storyboard.TargetName="Rotate" Storyboard.TargetProperty="Angle" />
+                            <DoubleAnimation To="1" Duration="00:00:00.15" Storyboard.TargetName="Scale" Storyboard.TargetProperty="ScaleY" />
+                            <DoubleAnimation To="1" Duration="00:00:00.15" Storyboard.TargetName="Scale" Storyboard.TargetProperty="ScaleX" />
                         </Storyboard>
 
                     </ControlTemplate.Resources>
                     <Border x:Name="Border">
                         <Border.RenderTransform>
-                            <RotateTransform CenterX="10" CenterY="10" x:Name="Rotate"></RotateTransform>
+                            <TransformGroup>
+                                <ScaleTransform CenterX="10" CenterY="10" x:Name="Scale"></ScaleTransform>
+                                <RotateTransform CenterX="10" CenterY="10" x:Name="Rotate"></RotateTransform>
+                            </TransformGroup>
                         </Border.RenderTransform>
                         <ContentPresenter Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" Content="{TemplateBinding Content}"></ContentPresenter>
                     </Border>

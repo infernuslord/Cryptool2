@@ -22,7 +22,7 @@ namespace WorkspaceManager.Model
         {
             if (type.FullName == "System.String")
             {                
-                return Colors.LightGray;
+                return Colors.WhiteSmoke;
             }
             else if (   type.FullName == "System.Int16" || 
                         type.FullName == "System.Int32" ||
@@ -39,11 +39,11 @@ namespace WorkspaceManager.Model
             }
             else if (type.FullName == "System.Byte" || type.FullName == "System.Byte[]")
             {
-                return Colors.DarkGreen;
+                return Colors.LightGreen;
             }
             else if (type.FullName == "System.Boolean" || type.FullName == "System.Boolean[]")
             {
-                return Colors.DarkRed;
+                return Colors.Red;
             }
             else if (type.FullName == "System.Numerics.BigInteger")
             {
