@@ -135,7 +135,7 @@ namespace WorkspaceManager.Model
                         Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
                         OutputConnectors.Add(connectorModel);
                         WorkspaceModel.AllConnectorModels.Add(connectorModel);
-                    }
+                    }                    
                 }
             }      
         }

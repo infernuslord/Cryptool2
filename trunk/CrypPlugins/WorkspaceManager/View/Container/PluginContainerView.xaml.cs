@@ -60,8 +60,10 @@ namespace WorkspaceManager.View.Container
             this.RenderTransform = new TranslateTransform();
             InitializeComponent();
 
-            if(model.Plugin.QuickWatchPresentation != null)
-                this.PresentationPanel.Children.Add(model.Plugin.QuickWatchPresentation);
+            if (model.PluginPresentation != null)
+            {
+                this.PresentationPanel.Children.Add(model.PluginPresentation);
+            }
         }
 
         void PluginContainerView_MouseLeave(object sender, MouseEventArgs e)
@@ -77,10 +79,13 @@ namespace WorkspaceManager.View.Container
         void PluginContainerView_Loaded(object sender, RoutedEventArgs e)
         {
             //TODO: Better-> Bindings
-            img = model.getImage();
-            img.Stretch = Stretch.Uniform;
-            PresentationPanel.Children.Add(img);
-            PluginName.Content = model.PluginType.Name.ToString();
+            if (model.PluginPresentation == null)
+            {
+                img = model.getImage();
+                img.Stretch = Stretch.Uniform;
+                PresentationPanel.Children.Add(img);
+                PluginName.Content = model.PluginType.Name.ToString();
+            }
             foreach (ConnectorModel Model in model.InputConnectors)
             {
                 AddInputConnectorView(new ConnectorView(Model));
@@ -201,10 +206,13 @@ namespace WorkspaceManager.View.Container
 
         public void update()
         {
-            PresentationPanel.Children.Remove(img);
-            img = model.getImage();
-            img.Stretch = Stretch.Uniform;
-            PresentationPanel.Children.Add(img);
+            if (model.PluginPresentation == null)
+            {
+                PresentationPanel.Children.Remove(img);
+                img = model.getImage();
+                img.Stretch = Stretch.Uniform;
+                PresentationPanel.Children.Add(img);
+            }
         }
 
         #endregion

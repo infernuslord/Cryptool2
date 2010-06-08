@@ -407,7 +407,10 @@ namespace WorkspaceManager
         /// </summary>
         public void Dispose()
         {
-            //to be implemented
+            if (ExecutionEngine.IsRunning)
+            {
+                ExecutionEngine.Stop();
+            }
         }
 
         #endregion
@@ -480,6 +483,15 @@ namespace WorkspaceManager
             }
         }
         #endregion GuiLogMessage, Progress
+
+        /// <summary>
+        /// Selected Plugin changed by View
+        /// </summary>
+        /// <param name="args"></param>
+        public void onSelectedPluginChanged(PluginChangedEventArgs args)
+        {
+            this.OnSelectedPluginChanged(this, args);
+        }
     }
 }
 
