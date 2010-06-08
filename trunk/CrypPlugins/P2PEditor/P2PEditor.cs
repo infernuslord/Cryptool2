@@ -19,8 +19,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Controls;
 using Cryptool.Core;
-using Cryptool.P2P;
-using Cryptool.P2P.Worker;
 using Cryptool.P2PEditor.Distributed;
 using Cryptool.P2PEditor.GUI;
 using Cryptool.PluginBase;
@@ -136,13 +134,11 @@ namespace Cryptool.P2PEditor
 
         public bool CanExecute
         {
-            get { return !P2PManager.Instance.IsP2PConnected() && !P2PManager.Instance.IsP2PConnecting; }
+            get { return false; }
         }
 
         public bool CanStop
         {
-            // TODO design problem? when set to true, CrypWin will terminate execute Stop() (and terminate the P2P connection) when switching back to an AnotherEditor instance
-            // get { return P2PManager.Instance.IsP2PConnected() && !P2PManager.Instance.IsP2PConnecting; }
             get { return false; }
         }
 
@@ -179,14 +175,6 @@ namespace Cryptool.P2PEditor
 
         public void Execute()
         {
-            RunConnectionWorker();
-        }
-
-        private void RunConnectionWorker()
-        {
-            var connectionWorker = new ConnectionWorker(P2PManager.Instance.P2PBase);
-            connectionWorker.BackgroundWorker.RunWorkerCompleted += ((P2PEditorPresentation) Presentation).ConnectionWorkerCompleted;
-            connectionWorker.Start();
         }
 
         public void PostExecution()
@@ -199,7 +187,6 @@ namespace Cryptool.P2PEditor
 
         public void Stop()
         {
-            RunConnectionWorker();
         }
 
         public void Initialize()
@@ -212,11 +199,7 @@ namespace Cryptool.P2PEditor
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public PluginManager PluginManager
-        {
-            get { return null; }
-            set { }
-        }
+        public PluginManager PluginManager { get; set; }
 
         #endregion
 

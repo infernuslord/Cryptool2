@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="advanced_settings" xml:space="preserve">
-    <value>Advanced settings</value>
-  </data>
   <data name="bootstrapper_caption" xml:space="preserve">
     <value>Bootstrapper type</value>
   </data>
@@ -141,11 +138,17 @@
   <data name="distributedJobListRefreshInterval_tooltip" xml:space="preserve">
     <value>Refreshes the the distributed job list in the given interval. A value of 0 will disable the automated process.</value>
   </data>
+  <data name="experienced_settings" xml:space="preserve">
+    <value>Experienced settings</value>
+  </data>
+  <data name="expert_settings" xml:space="preserve">
+    <value>Expert settings</value>
+  </data>
   <data name="linkmanager_caption" xml:space="preserve">
-    <value>LinkManager type</value>
+    <value>Link manager type</value>
   </data>
   <data name="linkmanager_tooltip" xml:space="preserve">
-    <value>LinkManager type</value>
+    <value>Link manager type</value>
   </data>
   <data name="localPort_caption" xml:space="preserve">
     <value>Local port</value>
@@ -174,11 +177,29 @@
   <data name="overlay_tooltip" xml:space="preserve">
     <value>Overlay type</value>
   </data>
+  <data name="start_caption" xml:space="preserve">
+    <value>Connect</value>
+  </data>
+  <data name="start_failed" xml:space="preserve">
+    <value>Cannot connect to the P2P network. You are already connected or a connection attempt is in progress.</value>
+  </data>
+  <data name="start_launched" xml:space="preserve">
+    <value>Connection to the P2P network will be established in the background.</value>
+  </data>
+  <data name="start_tooltip" xml:space="preserve">
+    <value>Connect to the P2P network.</value>
+  </data>
   <data name="stop_caption" xml:space="preserve">
     <value>Disconnect</value>
   </data>
+  <data name="stop_failed" xml:space="preserve">
+    <value>Cannot disconnect from the P2P network. You are not connected or a connection attempt is in progress.</value>
+  </data>
+  <data name="stop_launched" xml:space="preserve">
+    <value>Disconnecting from the P2P network.</value>
+  </data>
   <data name="stop_tooltip" xml:space="preserve">
-    <value>Disconnect from P2P network. For debugging only.</value>
+    <value>Disconnect from P2P network.</value>
   </data>
   <data name="transportprotocol_caption" xml:space="preserve">
     <value>Transport protocol</value>

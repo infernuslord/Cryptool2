@@ -61,15 +61,6 @@ namespace Cryptool.P2PEditor.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Advanced settings.
-        /// </summary>
-        internal static string advanced_settings {
-            get {
-                return ResourceManager.GetString("advanced_settings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Bootstrapper type.
         /// </summary>
         internal static string bootstrapper_caption {
@@ -133,7 +124,25 @@ namespace Cryptool.P2PEditor.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to LinkManager type.
+        ///   Looks up a localized string similar to Experienced settings.
+        /// </summary>
+        internal static string experienced_settings {
+            get {
+                return ResourceManager.GetString("experienced_settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expert settings.
+        /// </summary>
+        internal static string expert_settings {
+            get {
+                return ResourceManager.GetString("expert_settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Link manager type.
         /// </summary>
         internal static string linkmanager_caption {
             get {
@@ -142,7 +151,7 @@ namespace Cryptool.P2PEditor.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to LinkManager type.
+        ///   Looks up a localized string similar to Link manager type.
         /// </summary>
         internal static string linkmanager_tooltip {
             get {
@@ -232,6 +241,42 @@ namespace Cryptool.P2PEditor.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connect.
+        /// </summary>
+        internal static string start_caption {
+            get {
+                return ResourceManager.GetString("start_caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot connect to the P2P network. You are already connected or a connection attempt is in progress..
+        /// </summary>
+        internal static string start_failed {
+            get {
+                return ResourceManager.GetString("start_failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connection to the P2P network will be established in the background..
+        /// </summary>
+        internal static string start_launched {
+            get {
+                return ResourceManager.GetString("start_launched", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connect to the P2P network..
+        /// </summary>
+        internal static string start_tooltip {
+            get {
+                return ResourceManager.GetString("start_tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Disconnect.
         /// </summary>
         internal static string stop_caption {
@@ -241,7 +286,25 @@ namespace Cryptool.P2PEditor.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Disconnect from P2P network. For debugging only..
+        ///   Looks up a localized string similar to Cannot disconnect from the P2P network. You are not connected or a connection attempt is in progress..
+        /// </summary>
+        internal static string stop_failed {
+            get {
+                return ResourceManager.GetString("stop_failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disconnecting from the P2P network..
+        /// </summary>
+        internal static string stop_launched {
+            get {
+                return ResourceManager.GetString("stop_launched", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disconnect from P2P network..
         /// </summary>
         internal static string stop_tooltip {
             get {

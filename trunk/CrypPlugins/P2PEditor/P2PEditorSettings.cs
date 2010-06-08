@@ -17,6 +17,7 @@
 using System.ComponentModel;
 using Cryptool.P2P;
 using Cryptool.P2P.Worker;
+using Cryptool.P2PEditor.GUI;
 using Cryptool.PluginBase;
 using Cryptool.Plugins.PeerToPeer.Internal;
 
@@ -27,7 +28,8 @@ namespace Cryptool.P2PEditor
         private readonly P2PEditor _p2PEditor;
         private readonly P2PSettings _settings;
 
-        private const string GroupExpert = "advanced_settings";
+        private const string GroupExperienced = "experienced_settings";
+        private const string GroupExpert = "expert_settings";
 
         public P2PEditorSettings(P2PEditor p2PEditor)
         {
@@ -93,7 +95,36 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("distributedJobListRefreshInterval_caption", "distributedJobListRefreshInterval_tooltip", null, 3, false, DisplayLevel.Experienced,
+        [TaskPane("start_caption", "start_tooltip", null, 3, true, DisplayLevel.Beginner, ControlType.Button)]
+        public void ButtonStart()
+        {
+            if (!P2PManager.Instance.IsP2PConnected() && !P2PManager.Instance.IsP2PConnecting)
+            {
+                RunConnectionWorker();
+                OnPropertyChanged("ButtonStart");
+                _p2PEditor.GuiLogMessage(Resources.Attributes.start_launched, NotificationLevel.Info);
+            } else
+            {
+                _p2PEditor.GuiLogMessage(Resources.Attributes.start_failed, NotificationLevel.Warning);
+            }
+        }
+
+        [TaskPane("stop_caption", "stop_tooltip", null, 4, true, DisplayLevel.Beginner, ControlType.Button)]
+        public void ButtonStop()
+        {
+            if (P2PManager.Instance.IsP2PConnected() && !P2PManager.Instance.IsP2PConnecting)
+            {
+                RunConnectionWorker();
+                OnPropertyChanged("ButtonStop");
+                _p2PEditor.GuiLogMessage(Resources.Attributes.stop_launched, NotificationLevel.Info);
+            }
+            else
+            {
+                _p2PEditor.GuiLogMessage(Resources.Attributes.stop_failed, NotificationLevel.Warning);
+            }
+        }
+
+        [TaskPane("distributedJobListRefreshInterval_caption", "distributedJobListRefreshInterval_tooltip", GroupExperienced, 0, false, DisplayLevel.Experienced,
             ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int DistributedJobListRefreshInterval
         {
@@ -109,7 +140,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("connectOnStartup_caption", "onnectOnStartup_tooltip", null, 4, true, DisplayLevel.Experienced,
+        [TaskPane("connectOnStartup_caption", "connectOnStartup_tooltip", GroupExperienced, 1, true, DisplayLevel.Experienced,
             ControlType.CheckBox)]
         public bool ConnectOnStartup
         {
@@ -125,18 +156,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        // TODO make button obsolete - stop button should be fine, but is currently not suited (see todo in P2PEditor:Stop())
-        [TaskPane("stop_caption", "stop_tooltip", null, 5, true, DisplayLevel.Beginner, ControlType.Button)]
-        public void BtnStop()
-        {
-            if (P2PManager.Instance.IsP2PConnected() && !P2PManager.Instance.IsP2PConnecting)
-            {
-                new ConnectionWorker(P2PManager.Instance.P2PBase).Start();
-                OnPropertyChanged("BtnStop");
-            }
-        }
-
-        [TaskPane("linkmanager_caption", "linkmanager_tooltip", GroupExpert, 0, false, DisplayLevel.Professional,
+        [TaskPane("linkmanager_caption", "linkmanager_tooltip", GroupExpert, 0, false, DisplayLevel.Expert,
             ControlType.ComboBox, new[] {"Snal"})]
         public int LinkManager
         {
@@ -152,7 +172,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("bootstrapper_caption", "bootstrapper_tooltip", GroupExpert, 1, false, DisplayLevel.Professional
+        [TaskPane("bootstrapper_caption", "bootstrapper_tooltip", GroupExpert, 1, false, DisplayLevel.Expert
             , ControlType.ComboBox, new[] {"LocalMachineBootstrapper", "IrcBootstrapper"})]
         public int Bootstrapper
         {
@@ -168,7 +188,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("overlay_caption", "overlay_tooltip", GroupExpert, 2, false, DisplayLevel.Professional,
+        [TaskPane("overlay_caption", "overlay_tooltip", GroupExpert, 2, false, DisplayLevel.Expert,
             ControlType.ComboBox, new[] {"FullMeshOverlay"})]
         public int Overlay
         {
@@ -184,7 +204,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("dht_caption", "dht_tooltip", GroupExpert, 3, false, DisplayLevel.Professional,
+        [TaskPane("dht_caption", "dht_tooltip", GroupExpert, 3, false, DisplayLevel.Expert,
             ControlType.ComboBox, new[] {"FullMeshDHT"})]
         public int Dht
         {
@@ -200,7 +220,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("transportprotocol_caption", "transportprotocol_tooltip", GroupExpert, 3, false, DisplayLevel.Professional,
+        [TaskPane("transportprotocol_caption", "transportprotocol_tooltip", GroupExpert, 3, false, DisplayLevel.Expert,
             ControlType.ComboBox, new[] { "TCP", "TCP_UDP", "UDP" })]
         public int TransportProtocol
         {
@@ -274,6 +294,13 @@ namespace Cryptool.P2PEditor
             }
 
             P2PSettings.Default.Save();
+        }
+
+        private void RunConnectionWorker()
+        {
+            var connectionWorker = new ConnectionWorker(P2PManager.Instance.P2PBase);
+            connectionWorker.BackgroundWorker.RunWorkerCompleted += ((P2PEditorPresentation)_p2PEditor.Presentation).ConnectionWorkerCompleted;
+            connectionWorker.Start();
         }
     }
 }

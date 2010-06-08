@@ -6,6 +6,8 @@ namespace Cryptool.Plugins.PeerToPeerProxy
 {
     internal class P2PPeerSettings : ISettings
     {
+        private readonly P2PProxySettings _settings;
+
         #region PeerStatus enum
 
         public enum PeerStatus
@@ -30,17 +32,27 @@ namespace Cryptool.Plugins.PeerToPeerProxy
 
         public P2PPeerSettings()
         {
-            if (TaskPaneAttributeChanged != null)
-                TaskPaneAttributeChanged(this,
-                                         new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnStop",
-                                                                                                             Visibility.
-                                                                                                                 Hidden)));
             ChangePluginIcon(PeerStatus.NotConnected);
+            _settings = P2PProxySettings.Default;
         }
 
         #endregion
 
-        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
+        [TaskPane("Autoconnect P2P network", "Autoconnect to the P2P network, when the workspace is executed.", null, 0, true, DisplayLevel.Beginner,
+            ControlType.CheckBox)]
+        public bool Autoconnect
+        {
+            get { return _settings.Autoconnect; }
+            set
+            {
+                if (value != _settings.Autoconnect)
+                {
+                    _settings.Autoconnect = value;
+                    OnPropertyChanged("Autoconnect");
+                    HasChanges = true;
+                }
+            }
+        }
 
         private void OnPropertyChanged(string p)
         {
@@ -48,6 +60,8 @@ namespace Cryptool.Plugins.PeerToPeerProxy
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(p));
             }
+
+            P2PProxySettings.Default.Save();
         }
 
         /// <summary>
