@@ -235,6 +235,7 @@ namespace WorkspaceManager.Model
             if (args.StatusChangedMode == StatusChangedMode.ImageUpdate)
             {
                 this.imageIndex = args.ImageIndex;
+                this.GuiNeedsUpdate = true;
             }
         }
 
