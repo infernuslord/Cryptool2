@@ -22,10 +22,21 @@ namespace WorkspaceManager.View.Container
     public partial class PluginContainerView : UserControl, IDraggable
     {
         public event EventHandler<ConnectorViewEventArgs> OnConnectorMouseLeftButtonDown;
+        public event EventHandler<PluginContainerViewDeleteViewEventArgs> Delete;
+        public event EventHandler<PluginContainerViewSettingsViewEventArgs> ShowSettings;
 
-        private List<ConnectorView> inputConnectorViewList = new List<ConnectorView>();
-        private List<ConnectorView> outputConnectorViewList = new List<ConnectorView>();
+        private List<ConnectorView> connectorViewList;
+        public List<ConnectorView> ConnectorViewList
+        {
+            get { return connectorViewList; }
+            private set { connectorViewList = value; }
+        }
         private PluginModel model;
+        public PluginModel Model
+        {
+            get { return model; }
+            private set { model = value; }
+        }
 
         public bool CanDrag { get; set; }
 
@@ -38,7 +49,8 @@ namespace WorkspaceManager.View.Container
 
         public PluginContainerView(PluginModel model)
         {
-            Loaded += new RoutedEventHandler(PluginContainerView_Loaded);
+            this.ConnectorViewList = new List<ConnectorView>();
+            this.Loaded += new RoutedEventHandler(PluginContainerView_Loaded);
             this.MouseEnter += new MouseEventHandler(PluginContainerView_MouseEnter);
             this.MouseLeave += new MouseEventHandler(PluginContainerView_MouseLeave);
             this.model = model;
@@ -66,21 +78,21 @@ namespace WorkspaceManager.View.Container
             img.Stretch = Stretch.Uniform;
             PresentationPanel.Children.Add(img);
             PluginName.Content = model.PluginType.Name.ToString();
-            foreach (ConnectorModel cModel in model.InputConnectors)
+            foreach (ConnectorModel Model in model.InputConnectors)
             {
-                AddInputConnectorView(new ConnectorView(cModel));
+                AddInputConnectorView(new ConnectorView(Model));
             }
 
-            foreach (ConnectorModel cModel in model.OutputConnectors)
+            foreach (ConnectorModel Model in model.OutputConnectors)
             {
-                AddOutputConnectorView(new ConnectorView(cModel));
+                AddOutputConnectorView(new ConnectorView(Model));
             }
         }
 
         public void AddInputConnectorView(ConnectorView connector)
         {
             connector.OnConnectorMouseLeftButtonDown += new EventHandler<ConnectorViewEventArgs>(connector_OnConnectorMouseLeftButtonDown);
-            this.inputConnectorViewList.Add(connector);
+            this.ConnectorViewList.Add(connector);
             this.InputConnectorPanel.Children.Add(connector);
             this.SetAllConnectorPositionX();
         }
@@ -89,7 +101,7 @@ namespace WorkspaceManager.View.Container
         public void AddOutputConnectorView(ConnectorView connector)
         {
             connector.OnConnectorMouseLeftButtonDown += new EventHandler<ConnectorViewEventArgs>(connector_OnConnectorMouseLeftButtonDown);
-            this.outputConnectorViewList.Add(connector);
+            this.ConnectorViewList.Add(connector);
             this.OutputConnectorPanel.Children.Add(connector);
             this.SetAllConnectorPositionX();
         }
@@ -106,6 +118,7 @@ namespace WorkspaceManager.View.Container
             GeneralTransform gTransform, gTransformSec;
             Point point, relativePoint;
             double x, y;
+
             foreach (ConnectorView conn in InputConnectorPanel.Children)
             {
                 gTransform = this.InputConnectorPanel.TransformToVisual(this);
@@ -155,18 +168,40 @@ namespace WorkspaceManager.View.Container
 
         #endregion
 
+        private void delete()
+        {
+            if (this.Delete != null)
+            {
+                this.Delete.Invoke(this, new PluginContainerViewDeleteViewEventArgs { container = this });
+            }
+        }
+
+        private void showSettings()
+        {
+            if (this.ShowSettings != null)
+            {
+                this.ShowSettings.Invoke(this, new PluginContainerViewSettingsViewEventArgs { container = this });
+            }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            this.showSettings();
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.delete();
         }
+    }
 
-        private void delete()
-        {
-            if (Parent is Panel)
-            {
-                (this.Parent as Panel).Children.Remove(this);
-                this.model.WorkspaceModel.deletePluginModel(this.model);
-            }
-        }
+    public class PluginContainerViewDeleteViewEventArgs : EventArgs
+    {
+        public PluginContainerView container;
+    }
+
+    public class PluginContainerViewSettingsViewEventArgs : EventArgs
+    {
+        public PluginContainerView container;
     }
 }

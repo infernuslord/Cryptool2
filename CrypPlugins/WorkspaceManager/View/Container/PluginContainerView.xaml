@@ -20,7 +20,7 @@
         <StackPanel DockPanel.Dock="Right" Name="OutputConnectorPanel" Width="20" Height="{Binding ElementName=Window, Path=ActualHeight}" VerticalAlignment="Bottom"/>
         <StackPanel DockPanel.Dock="Left" Name="InputConnectorPanel" Width="20" Height="{Binding ElementName=Window, Path=ActualHeight}" VerticalAlignment="Bottom"/>
         <StackPanel DockPanel.Dock="Top" Name="ControlPanel" Visibility="Hidden" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Height="20" Width="20" Style="{StaticResource ResourceKey=SettingsPluginContainerButtonStyle}" Margin="0,0,0,0">
+            <Button Height="20" Width="20" Style="{StaticResource ResourceKey=SettingsPluginContainerButtonStyle}" Margin="0,0,0,0" Click="Button_Click_1">
                 <Button.RenderTransform>
                     <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
                 </Button.RenderTransform>

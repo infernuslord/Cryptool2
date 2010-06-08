@@ -26,7 +26,12 @@ namespace WorkspaceManager.View.Container
         public static readonly DependencyProperty PositionOnWorkSpaceYProperty = DependencyProperty.Register("PositionOnWorkSpaceY", typeof(double), typeof(ConnectorView), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public event EventHandler<ConnectorViewEventArgs> OnConnectorMouseLeftButtonDown;
-        public ConnectorModel cModel;
+        public ConnectorModel model;
+        public ConnectorModel Model
+        {
+            get { return model; }
+            private set { model = value; }
+        }
 
         [TypeConverter(typeof(LengthConverter))]
         public double PositionOnWorkSpaceX
@@ -57,9 +62,9 @@ namespace WorkspaceManager.View.Container
         public ConnectorView(Model.ConnectorModel cModel)
         {                        
             this.MouseLeftButtonDown += new MouseButtonEventHandler(ConnectorView_MouseLeftButtonDown);
-            this.cModel = cModel;
+            this.Model = cModel;
             InitializeComponent();
-            Color color = Model.ColorHelper.getColor(cModel.ConnectorType);
+            Color color = ColorHelper.getColor(cModel.ConnectorType);
             this.Ellipse.Fill = new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
             this.Ellipse.ToolTip = cModel.ToolTip;
         }

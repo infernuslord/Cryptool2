@@ -180,7 +180,10 @@ namespace WorkspaceManager.Model
         /// <param name="connectionModel"></param>
         /// <returns></returns>
         public bool deleteConnectionModel(ConnectionModel connectionModel)
-        {            
+        {
+            if (connectionModel == null)
+                return false;
+
             connectionModel.From.OutputConnections.Remove(connectionModel);
             connectionModel.To.InputConnection = null;
             return this.AllConnectionModels.Remove(connectionModel);

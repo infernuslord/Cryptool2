@@ -29,15 +29,20 @@
                 </Canvas>
             </Border>
             <DockPanel Height="auto" Width="auto">
-                <e:BottomBox DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
-                </e:BottomBox>
+                <e:BottomBox DockPanel.Dock="Bottom" VerticalAlignment="Bottom"></e:BottomBox>
             </DockPanel>
         </Grid>
         
-        <Grid Width="auto" Height="auto" Name="InformationPanel" Opacity="0" Visibility="Hidden">
+        <Grid Width="auto" Height="auto" Name="InformationPanel" Visibility="Hidden">
             <Grid.Background>
-                <SolidColorBrush Opacity="0.55" Color="Black"/>
+                <SolidColorBrush Opacity="0.45" Color="Black"/>
             </Grid.Background>
+            <Grid MinWidth="200" MaxWidth="500" MinHeight="200" MaxHeight="500">
+                <Grid.Background>
+                    <SolidColorBrush Opacity="0.8" Color="WhiteSmoke"/>
+                </Grid.Background>
+                <Button Name="CloseSettingsButton" Height="20" Width="20" Click="CloseSettingsButton_Click"></Button>
+            </Grid>
 
         </Grid>
     </Grid>
