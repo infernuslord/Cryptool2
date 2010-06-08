@@ -147,7 +147,7 @@ namespace WorkspaceManager.Model
                     connectionModel.To.Data = sender.GetType().GetProperty(propertyChangedEventArgs.PropertyName).GetValue(sender, null);
                     connectionModel.To.HasData = true;
                     connectionModel.Active = true;
-                    this.WorkspaceModel.WorkspaceManagerEditor.GuiLogMessage("PropertyChanged for  \"" + this.PluginModel.Name + "\" Property \"" + PropertyName + "\"", Cryptool.PluginBase.NotificationLevel.Debug);
+                    //this.WorkspaceModel.WorkspaceManagerEditor.GuiLogMessage("PropertyChanged for  \"" + this.PluginModel.Name + "\" Property \"" + PropertyName + "\"", Cryptool.PluginBase.NotificationLevel.Debug);
 
                     //We changed an input on the PluginModel where "To" is belonging to so
                     //we have to check if this is executable now

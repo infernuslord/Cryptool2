@@ -78,6 +78,10 @@ namespace WorkspaceManager.Execution
                 schedulers[0].AddProtocol(updateGuiProtocol);
                 updateGuiProtocol.Start();
 
+                CheckExecutableProtocol checkExecutableProtocol = new CheckExecutableProtocol(schedulers[0], workspaceModel, this);
+                schedulers[0].AddProtocol(checkExecutableProtocol);
+                checkExecutableProtocol.Start();
+
                 int counter=0;
                 foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
                 {
@@ -179,7 +183,7 @@ namespace WorkspaceManager.Execution
         /// <returns></returns>
         public override System.Collections.Generic.IEnumerator<ReceiverBase> Execute(AbstractStateMachine stateMachine)
         {
-            while (true)
+            while (this.executionEngine.IsRunning)
             {
                 yield return Timeout(1000, HandleUpdateGui);
             }
@@ -199,7 +203,7 @@ namespace WorkspaceManager.Execution
                 {
                     if (pluginModel.GuiNeedsUpdate)
                     {
-                        executionEngine.GuiLogMessage("UpdateGui for \"" + pluginModel.Name + "\"", NotificationLevel.Debug);
+                        //executionEngine.GuiLogMessage("UpdateGui for \"" + pluginModel.Name + "\"", NotificationLevel.Debug);
                         pluginModel.GuiNeedsUpdate = false;
                         pluginModel.paint();
                         if (pluginModel.UpdateableView != null)
@@ -212,7 +216,54 @@ namespace WorkspaceManager.Execution
             , null);
         }
     }
-    
+
+    /// <summary>
+    /// A Protocol for updating the GUI in time intervals
+    /// </summary>
+    public class CheckExecutableProtocol : ProtocolBase
+    {
+        private WorkspaceModel workspaceModel;
+        private ExecutionEngine executionEngine;
+
+        /// <summary>
+        /// Create a new protocol. Each protocol requires a scheduler which provides
+        /// a thread for execution.
+        /// </summary>
+        /// <param name="scheduler"></param>
+        public CheckExecutableProtocol(Scheduler scheduler, WorkspaceModel workspaceModel, ExecutionEngine executionEngine)
+            : base(scheduler)
+        {
+            this.workspaceModel = workspaceModel;
+            this.executionEngine = executionEngine;
+        }
+
+        /// <summary>
+        /// The main function of the protocol
+        /// </summary>
+        /// <param name="stateMachine"></param>
+        /// <returns></returns>
+        public override System.Collections.Generic.IEnumerator<ReceiverBase> Execute(AbstractStateMachine stateMachine)
+        {
+            while (this.executionEngine.IsRunning)
+            {
+                yield return Timeout(10, HandleCheckExecutable);
+            }
+        }
+
+        /// <summary>
+        /// Handler function for a message.
+        /// This handler must not block, because it executes inside the thread of the scheduler.
+        /// </summary>
+        /// <param name="msg"></param>
+        private void HandleCheckExecutable()
+        {
+            foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
+            {
+                pluginModel.checkExecutable(pluginModel.PluginProtocol);
+            }
+        }
+    }
+
     /// <summary>
     /// A Protocol for a PluginModel
     /// </summary>
@@ -240,7 +291,7 @@ namespace WorkspaceManager.Execution
         /// <returns></returns>
         public override System.Collections.Generic.IEnumerator<ReceiverBase> Execute(AbstractStateMachine stateMachine)
         {
-            while (true)
+            while (this.executionEngine.IsRunning)
             {
                 yield return Receive<MessagePreExecution>(null, this.HandlePreExecute);
                 MessageExecution msg_exec = new MessageExecution();
@@ -261,7 +312,7 @@ namespace WorkspaceManager.Execution
         /// <param name="msg"></param>
         private void HandlePreExecute(MessagePreExecution msg)
         {
-            executionEngine.GuiLogMessage("HandlePreExecute for \"" + msg.PluginModel.Name + "\"", NotificationLevel.Debug);
+            //executionEngine.GuiLogMessage("HandlePreExecute for \"" + msg.PluginModel.Name + "\"", NotificationLevel.Debug);
             msg.PluginModel.Plugin.PreExecution();
         }
 
@@ -272,7 +323,7 @@ namespace WorkspaceManager.Execution
         /// <param name="msg"></param>
         private void HandleExecute(MessageExecution msg)
         {
-            executionEngine.GuiLogMessage("HandleExecute for \"" + msg.PluginModel.Name + "\"", NotificationLevel.Debug);
+            //executionEngine.GuiLogMessage("HandleExecute for \"" + msg.PluginModel.Name + "\"", NotificationLevel.Debug);
             //Fill the plugins Inputs with data
             foreach (ConnectorModel connectorModel in pluginModel.InputConnectors)
             {
@@ -282,10 +333,12 @@ namespace WorkspaceManager.Execution
                     propertyInfo.SetValue(pluginModel.Plugin, connectorModel.Data, null);
                     connectorModel.Data = null;
                     connectorModel.HasData = false;
-                    connectorModel.InputConnection.Active = false;
+                    connectorModel.InputConnection.Active = false;                    
                 }
             }
+            
             msg.PluginModel.Plugin.Execute();
+                       
         }
 
         /// <summary>
@@ -295,8 +348,9 @@ namespace WorkspaceManager.Execution
         /// <param name="msg"></param>
         private void HandlePostExecute(MessagePostExecution msg)
         {
-            executionEngine.GuiLogMessage("HandlePostExecute for \"" + msg.PluginModel.Name + "\"", NotificationLevel.Debug);
+            //executionEngine.GuiLogMessage("HandlePostExecute for \"" + msg.PluginModel.Name + "\"", NotificationLevel.Debug);
             msg.PluginModel.Plugin.PostExecution();
+                      
         }
     }
 }
