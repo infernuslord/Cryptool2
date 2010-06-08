@@ -15,7 +15,7 @@
 */
 
 using System;
-using System.Windows.Forms;
+using System.IO;
 using Cryptool.P2P.Internal;
 using Cryptool.P2P.Worker;
 using Cryptool.PluginBase;
@@ -35,6 +35,7 @@ namespace Cryptool.P2P
         private P2PManager()
         {
             P2PBase = new P2PBase(this);
+            ValidateSettings();
 
             // to forward event from overlay/dht MessageReceived-Event from P2PBase
             P2PBase.OnP2PMessageReceived += OnP2PMessageReceived;
@@ -46,6 +47,7 @@ namespace Cryptool.P2P
 
         public P2PBase P2PBase { get; private set; }
         public bool IsP2PConnecting { get; internal set; }
+        public bool IsAutoconnectConsoleOptionSet { get; set; }
 
         #endregion
 
@@ -87,7 +89,10 @@ namespace Cryptool.P2P
 
         public void HandleConnectOnStartup()
         {
-            if (P2PSettings.Default.ConnectOnStartup && IsReadyToConnect())
+            var isAutoconnectConfiguredOrRequested = P2PSettings.Default.ConnectOnStartup || IsAutoconnectConsoleOptionSet;
+            var isReadyToConnect = IsReadyToConnect();
+
+            if (isReadyToConnect && isAutoconnectConfiguredOrRequested)
             {
                 GuiLogMessage("Connect on startup enabled. Establishing connection...", NotificationLevel.Info);
                 new ConnectionWorker(P2PBase).Start();
@@ -121,6 +126,17 @@ namespace Cryptool.P2P
         {
             if (OnPeerMessageReceived != null)
                 OnPeerMessageReceived(sourceAddr, data);
+        }
+
+        private static void ValidateSettings()
+        {
+            if (String.IsNullOrEmpty(P2PSettings.Default.WorkspacePath))
+            {
+                var tempForUser = Path.Combine(Path.GetTempPath(), "CrypTool2");
+                Directory.CreateDirectory(tempForUser);
+                P2PSettings.Default.WorkspacePath = tempForUser;
+                P2PSettings.Default.Save();
+            }
         }
 
         #region Framework methods

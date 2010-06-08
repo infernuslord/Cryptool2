@@ -21,6 +21,7 @@ using System.Threading;
 using System.Windows.Controls;
 using Cryptool.P2P;
 using Cryptool.P2P.Internal;
+using Cryptool.P2P.Worker;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Control;
 using Cryptool.PluginBase.IO;
@@ -80,7 +81,7 @@ namespace Cryptool.Plugins.PeerToPeerProxy
         /// </summary>
         public bool PeerStarted()
         {
-            return P2PManager.Instance.IsP2PConnected();
+            return P2PManager.Instance.IsP2PConnected() && !P2PManager.Instance.IsP2PConnecting;
         }
 
         public void StartPeer()
@@ -93,12 +94,73 @@ namespace Cryptool.Plugins.PeerToPeerProxy
                 GuiLogMessage("P2P connected.", NotificationLevel.Info);
                 _settings.PeerStatusChanged(P2PPeerSettings.PeerStatus.Online);
             }
+            else if (!P2PManager.Instance.IsP2PConnected() && P2PManager.Instance.IsP2PConnecting)
+            {
+                HandleAlreadyConnecting();
+            }
             else
             {
-                GuiLogMessage("P2P network must be configured and connecting using the world button.",
+                if (_settings.Autoconnect)
+                {
+                    HandleAutoconnect();
+                }
+                else
+                {
+                    GuiLogMessage("P2P network offline. Please check the autoconnect checkbox of the proxy plugin or connect manually first.",
+                                      NotificationLevel.Error);
+                    _settings.PeerStatusChanged(P2PPeerSettings.PeerStatus.Error);
+                    throw new ApplicationException("Workaround for wrong error handling... Workspace should be stopped now.");
+                }
+            }
+        }
+
+        private void HandleAlreadyConnecting()
+        {
+            P2PManager.OnP2PConnectionStateChangeOccurred += HandleConnectionStateChange;
+            _connectResetEvent = new AutoResetEvent(false);
+            _connectResetEvent.WaitOne();
+
+            if (P2PManager.Instance.IsP2PConnected())
+            {
+                GuiLogMessage("P2P connected.", NotificationLevel.Info);
+                _settings.PeerStatusChanged(P2PPeerSettings.PeerStatus.Online);
+            }
+            else
+            {
+                GuiLogMessage("P2P network could not be connected.",
                               NotificationLevel.Error);
                 _settings.PeerStatusChanged(P2PPeerSettings.PeerStatus.Error);
+                throw new ApplicationException("Workaround for wrong error handling... Workspace should be stopped now.");
             }
+        }
+
+        private void HandleAutoconnect()
+        {
+            P2PManager.OnP2PConnectionStateChangeOccurred += HandleConnectionStateChange;
+            _connectResetEvent = new AutoResetEvent(false);
+
+            new ConnectionWorker(P2PManager.Instance.P2PBase).Start();
+
+            _connectResetEvent.WaitOne();
+
+            if (P2PManager.Instance.IsP2PConnected())
+            {
+                GuiLogMessage("P2P network was connected due to plugin setting.",
+                              NotificationLevel.Info);
+                _settings.PeerStatusChanged(P2PPeerSettings.PeerStatus.Online);
+            }
+            else
+            {
+                GuiLogMessage("P2P network could not be connected.",
+                              NotificationLevel.Error);
+                _settings.PeerStatusChanged(P2PPeerSettings.PeerStatus.Error);
+                throw new ApplicationException("Workaround for wrong error handling... Workspace should be stopped now.");
+            }
+        }
+
+        void HandleConnectionStateChange(object sender, bool newState)
+        {
+            _connectResetEvent.Set();
         }
 
         public void StopPeer()
@@ -113,6 +175,7 @@ namespace Cryptool.Plugins.PeerToPeerProxy
 
         private IP2PControl _p2PSlave;
         private P2PPeerSettings _settings;
+        private AutoResetEvent _connectResetEvent;
 
         #endregion
 
@@ -121,7 +184,6 @@ namespace Cryptool.Plugins.PeerToPeerProxy
         public P2PPeer()
         {
             _settings = new P2PPeerSettings();
-            _settings.TaskPaneAttributeChanged += SettingsTaskPaneAttributeChanged;
             _settings.OnPluginStatusChanged += SettingsOnPluginStatusChanged;
         }
 
@@ -417,7 +479,7 @@ namespace Cryptool.Plugins.PeerToPeerProxy
         /// <returns></returns>
         private static bool SystemJoinedCompletely()
         {
-            return P2PManager.Instance.IsP2PConnected();
+            return P2PManager.Instance.IsP2PConnected() && !P2PManager.Instance.IsP2PConnecting;
         }
 
         private static void SendReadilyMessage(byte[] data, PeerId destinationAddress)

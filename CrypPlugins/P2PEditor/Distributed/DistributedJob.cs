@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
-using System.Runtime.Serialization;
 using Cryptool.P2P;
 
 namespace Cryptool.P2PEditor.Distributed
@@ -59,7 +58,7 @@ namespace Cryptool.P2PEditor.Distributed
 
             // Avoid overwriting previous versions of this workspace or workspaces with common names by adding an integer prefix
             LocalFilePath = Path.Combine(workspacePath, JobOwner + "_" + FileName);
-            int counter = 0;
+            var counter = 0;
             while (File.Exists(LocalFilePath))
             {
                 LocalFilePath = Path.Combine(workspacePath, counter++ + "_" + JobOwner + "_" + FileName);
