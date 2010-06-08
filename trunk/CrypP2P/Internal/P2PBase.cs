@@ -122,6 +122,7 @@ namespace Cryptool.P2P.Internal
                         settings.NoDelay = false;
                         settings.ReuseAddress = false;
                         settings.UseNetworkMonitorServer = true;
+                        settings.CloseConnectionAfterPingTimeout = false;
 
                         _linkmanager.Settings = settings;
                         _linkmanager.ApplicationType = ApplicationType.CrypTool;
