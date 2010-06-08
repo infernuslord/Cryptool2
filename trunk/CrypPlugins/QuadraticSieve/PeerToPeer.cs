@@ -264,6 +264,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 memstream.Write(dhtFactorManagerBytes, 0, dhtFactorManagerBytes.Length);
                 memstream.Position = 0;
                 BinaryFormatter bformatter = new BinaryFormatter();
+                bformatter.AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
                 try
                 {
                     dhtFactorManager = (FactorManager)bformatter.Deserialize(memstream);
@@ -282,6 +283,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 //Our Factor Manager has more informations, so let's store it in the DHT:
                 MemoryStream memstream = new MemoryStream();
                 BinaryFormatter bformatter = new BinaryFormatter();
+                bformatter.AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
                 bformatter.Serialize(memstream, factorManager);
                 P2PManager.Store(FactorListIdentifier(), memstream.ToArray());
             }
