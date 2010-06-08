@@ -39,6 +39,7 @@ namespace Cryptool.P2PEditor.Distributed
             var memoryStream = new MemoryStream(serialisedJobList);
 
             var bformatter = new BinaryFormatter();
+            bformatter.AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
             return (List<DistributedJob>) bformatter.Deserialize(memoryStream);
         }
 
@@ -57,6 +58,7 @@ namespace Cryptool.P2PEditor.Distributed
 
             var memoryStream = new MemoryStream();
             var bformatter = new BinaryFormatter();
+            bformatter.AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
 
             bformatter.Serialize(memoryStream, currentJobList);
             P2PManager.Store(JoblistKey, memoryStream.ToArray());
@@ -85,6 +87,7 @@ namespace Cryptool.P2PEditor.Distributed
 
             var memoryStream = new MemoryStream();
             var bformatter = new BinaryFormatter();
+            bformatter.AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
 
             bformatter.Serialize(memoryStream, currentJobList);
             P2PManager.Store(JoblistKey, memoryStream.ToArray());
