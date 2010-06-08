@@ -123,6 +123,19 @@ namespace Cryptool.P2P.Internal
                         settings.ReuseAddress = false;
                         settings.UseNetworkMonitorServer = true;
                         settings.CloseConnectionAfterPingTimeout = false;
+                        
+                        switch(P2PSettings.Default.TransportProtocol)
+                        {
+                            case P2PTransportProtocol.UDP:
+                                settings.TransportProtocol = TransportProtocol.UDP;
+                                break;
+                            case P2PTransportProtocol.TCP_UDP:
+                                settings.TransportProtocol = TransportProtocol.TCP_UDP;
+                                break;
+                            default:
+                                settings.TransportProtocol = TransportProtocol.TCP;
+                                break;
+                        }
 
                         _linkmanager.Settings = settings;
                         _linkmanager.ApplicationType = ApplicationType.CrypTool;
@@ -391,7 +404,7 @@ namespace Cryptool.P2P.Internal
                 return;
             }
 
-            responseWait.success = storeResult.Status != OperationStatus.KeyNotFound;
+            responseWait.success = storeResult.Status == OperationStatus.Success;
             responseWait.Message = Encoding.UTF8.GetBytes(storeResult.Status.ToString());
 
             // unblock WaitHandle in the synchronous method

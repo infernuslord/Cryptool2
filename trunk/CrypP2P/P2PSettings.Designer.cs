@@ -166,5 +166,17 @@ namespace Cryptool.P2P {
                 this["UseLocalAddressDetection"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("TCP")]
+        public global::Cryptool.Plugins.PeerToPeer.Internal.P2PTransportProtocol TransportProtocol {
+            get {
+                return ((global::Cryptool.Plugins.PeerToPeer.Internal.P2PTransportProtocol)(this["TransportProtocol"]));
+            }
+            set {
+                this["TransportProtocol"] = value;
+            }
+        }
     }
 }

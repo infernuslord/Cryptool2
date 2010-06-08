@@ -26,6 +26,13 @@ namespace Cryptool.Plugins.PeerToPeer.Internal
         FullMeshDHT = 0
     }
 
+    public enum P2PTransportProtocol
+    {
+        TCP = 0,
+        TCP_UDP = 1,
+        UDP = 2
+    }
+
     /// <summary>
     /// Message types for maintaining the Publish/Subscriber systems
     /// </summary>
