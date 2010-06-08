@@ -24,6 +24,7 @@ using System.Threading;
 using System.Windows.Controls;
 using Gears4Net;
 using WorkspaceManager.Execution;
+using System.Windows.Threading;
 
 namespace WorkspaceManager.Model
 {
@@ -235,7 +236,17 @@ namespace WorkspaceManager.Model
             if (args.StatusChangedMode == StatusChangedMode.ImageUpdate)
             {
                 this.imageIndex = args.ImageIndex;
-                this.GuiNeedsUpdate = true;
+                if (this.WorkspaceModel.WorkspaceManagerEditor.isExecuting())
+                {
+                    this.GuiNeedsUpdate = true;
+                }
+                else
+                {
+                    this.WorkspaceModel.WorkspaceManagerEditor.Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        this.UpdateableView.update();
+                    }, null);
+                }
             }
         }
 
