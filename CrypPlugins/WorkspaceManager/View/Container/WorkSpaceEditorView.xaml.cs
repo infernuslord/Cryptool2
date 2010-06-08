@@ -218,6 +218,8 @@ namespace WorkspaceManager.View.Container
             Canvas.SetZIndex(sender as PluginContainerView, 101);
             this.selectedPluginContainer = sender as PluginContainerView;
             this.State = EditorState.BUSY;
+            PluginChangedEventArgs args = new PluginChangedEventArgs(this.selectedPluginContainer.Model.Plugin, this.selectedPluginContainer.Model.Name, DisplayPluginMode.Normal);
+            this.Model.WorkspaceManagerEditor.onSelectedPluginChanged(args);
         }
 
         void WorkSpaceEditorView_Drop(object sender, DragEventArgs e)
