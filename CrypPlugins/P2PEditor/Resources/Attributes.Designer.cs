@@ -250,6 +250,24 @@ namespace Cryptool.P2PEditor.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Transport protocol.
+        /// </summary>
+        internal static string transportprotocol_caption {
+            get {
+                return ResourceManager.GetString("transportprotocol_caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transport protocol to use..
+        /// </summary>
+        internal static string transportprotocol_tooltip {
+            get {
+                return ResourceManager.GetString("transportprotocol_tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Use local port address detection.
         /// </summary>
         internal static string useLocalAddressDetection_caption {

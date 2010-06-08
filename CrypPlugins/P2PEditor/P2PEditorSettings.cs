@@ -136,17 +136,6 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        // TODO make button obsolete - find appropriate display method
-        [TaskPane("log_connection_state_caption", "log_connection_state_tooltip", null, 6, true, DisplayLevel.Beginner,
-            ControlType.Button)]
-        public void BtnLogConnectionState()
-        {
-            var logMsg = string.Format("Connection established: {0} / Currently connecting: {1} / Peer ID: {2}",
-                                       P2PManager.Instance.IsP2PConnected(), P2PManager.Instance.IsP2PConnecting,
-                                       P2PManager.Instance.UserInfo());
-            _p2PEditor.GuiLogMessage(logMsg, NotificationLevel.Info);
-        }
-
         [TaskPane("linkmanager_caption", "linkmanager_tooltip", GroupExpert, 0, false, DisplayLevel.Professional,
             ControlType.ComboBox, new[] {"Snal"})]
         public int LinkManager
@@ -206,6 +195,22 @@ namespace Cryptool.P2PEditor
                 {
                     _settings.Dht = (P2PDHTType) value;
                     OnPropertyChanged("Dht");
+                    HasChanges = true;
+                }
+            }
+        }
+
+        [TaskPane("transportprotocol_caption", "transportprotocol_tooltip", GroupExpert, 3, false, DisplayLevel.Professional,
+            ControlType.ComboBox, new[] { "TCP", "TCP_UDP", "UDP" })]
+        public int TransportProtocol
+        {
+            get { return (int)_settings.TransportProtocol; }
+            set
+            {
+                if ((P2PTransportProtocol)value != _settings.TransportProtocol)
+                {
+                    _settings.TransportProtocol = (P2PTransportProtocol)value;
+                    OnPropertyChanged("TransportProtocol");
                     HasChanges = true;
                 }
             }

@@ -180,6 +180,12 @@
   <data name="stop_tooltip" xml:space="preserve">
     <value>Disconnect from P2P network. For debugging only.</value>
   </data>
+  <data name="transportprotocol_caption" xml:space="preserve">
+    <value>Transport protocol</value>
+  </data>
+  <data name="transportprotocol_tooltip" xml:space="preserve">
+    <value>Transport protocol to use.</value>
+  </data>
   <data name="useLocalAddressDetection_caption" xml:space="preserve">
     <value>Use local port address detection</value>
   </data>
