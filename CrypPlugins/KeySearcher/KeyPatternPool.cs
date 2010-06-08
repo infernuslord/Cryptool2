@@ -57,10 +57,7 @@ namespace KeySearcher
             {
                 BigInteger res = 1;
                 for (int k = 0; k < pattern.wildcardList.Count; k++)
-                {
-                    Wildcard wc = ((Wildcard)pattern.wildcardList[k]);
                     res *= splittingQuotient[k];
-                }
                 return res;
             }
         }
