@@ -19,11 +19,13 @@ namespace WorkspaceManager.View.Container
     /// <summary>
     /// Interaction logic for PluginContainerView.xaml
     /// </summary>
-    public partial class PluginContainerView : UserControl, IDraggable
+    public partial class PluginContainerView : UserControl, IDraggable, IUpdateableView
     {
         public event EventHandler<ConnectorViewEventArgs> OnConnectorMouseLeftButtonDown;
         public event EventHandler<PluginContainerViewDeleteViewEventArgs> Delete;
         public event EventHandler<PluginContainerViewSettingsViewEventArgs> ShowSettings;
+
+        private Image img;
 
         private List<ConnectorView> connectorViewList;
         public List<ConnectorView> ConnectorViewList
@@ -54,6 +56,7 @@ namespace WorkspaceManager.View.Container
             this.MouseEnter += new MouseEventHandler(PluginContainerView_MouseEnter);
             this.MouseLeave += new MouseEventHandler(PluginContainerView_MouseLeave);
             this.model = model;
+            this.model.UpdateableView = this;
             this.RenderTransform = new TranslateTransform();
             InitializeComponent();
 
@@ -74,7 +77,7 @@ namespace WorkspaceManager.View.Container
         void PluginContainerView_Loaded(object sender, RoutedEventArgs e)
         {
             //TODO: Better-> Bindings
-            Image img = model.getImage();
+            img = model.getImage();
             img.Stretch = Stretch.Uniform;
             PresentationPanel.Children.Add(img);
             PluginName.Content = model.PluginType.Name.ToString();
@@ -193,6 +196,18 @@ namespace WorkspaceManager.View.Container
         {
             this.delete();
         }
+
+        #region IUpdateableView Members
+
+        public void update()
+        {
+            PresentationPanel.Children.Remove(img);
+            img = model.getImage();
+            img.Stretch = Stretch.Uniform;
+            PresentationPanel.Children.Add(img);
+        }
+
+        #endregion
     }
 
     public class PluginContainerViewDeleteViewEventArgs : EventArgs

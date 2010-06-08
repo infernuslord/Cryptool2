@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using WorkspaceManager.View.Interface;
 
 namespace WorkspaceManager.Model
 {
@@ -63,6 +64,16 @@ namespace WorkspaceManager.Model
         /// Name of this VisualElementModel
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Indicates that this Model Element needs a GUI Update
+        /// </summary>
+        public Boolean GuiNeedsUpdate { get; set; }
+
+        /// <summary>
+        /// View Element of this VisualElement
+        /// </summary>
+        public IUpdateableView UpdateableView = null;
     }
 
 }

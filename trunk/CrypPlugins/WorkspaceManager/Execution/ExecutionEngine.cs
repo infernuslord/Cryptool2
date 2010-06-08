@@ -25,6 +25,7 @@ using System.Collections;
 using Cryptool.PluginBase;
 using System.Reflection;
 using Gears4Net;
+using System.Windows.Threading;
 
 namespace WorkspaceManager.Execution
 {
@@ -34,7 +35,7 @@ namespace WorkspaceManager.Execution
     public class ExecutionEngine
     {
         private WorkspaceManager WorkspaceManagerEditor;
-        private Scheduler scheduler;
+        private Scheduler[] schedulers;
         private WorkspaceModel workspaceModel;
       
         /// <summary>
@@ -66,16 +67,26 @@ namespace WorkspaceManager.Execution
             if (!IsRunning)
             {
                 IsRunning = true;
-                scheduler = new WinFormsScheduler("Scheduler");
+
+                schedulers = new Scheduler[System.Environment.ProcessorCount*2];
+                for(int i=0;i<System.Environment.ProcessorCount*2;i++){
+                    schedulers[i] = new WinFormsScheduler("Scheduler" + i);
+                }
+
                 workspaceModel.resetStates();
-               
+                UpdateGuiProtocol updateGuiProtocol = new UpdateGuiProtocol(schedulers[0], workspaceModel, this);
+                schedulers[0].AddProtocol(updateGuiProtocol);
+                updateGuiProtocol.Start();
+
+                int counter=0;
                 foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
                 {
-                    PluginProtocol pluginProtocol = new PluginProtocol(scheduler, pluginModel,this);
+                    PluginProtocol pluginProtocol = new PluginProtocol(schedulers[counter], pluginModel,this);
                     pluginModel.PluginProtocol = pluginProtocol;
-                    scheduler.AddProtocol(pluginProtocol);
+                    schedulers[counter].AddProtocol(pluginProtocol);
                     pluginModel.checkExecutable(pluginProtocol);
                     pluginProtocol.Start();
+                    counter = (counter + 1) % (System.Environment.ProcessorCount*2);
                 }
             }
         }      
@@ -85,7 +96,12 @@ namespace WorkspaceManager.Execution
         /// </summary>
         public void Stop()
         {
-            scheduler.Shutdown();            
+            //First stop all Gears4Net Schedulers
+            foreach (Scheduler scheduler in schedulers)
+            {
+                scheduler.Shutdown();
+            }
+            //Secondly stop alle plugins
             foreach(PluginModel pluginModel in workspaceModel.AllPluginModels)
             {
                 pluginModel.Plugin.Stop();
@@ -136,7 +152,68 @@ namespace WorkspaceManager.Execution
         public PluginModel PluginModel;
     }
 
-     /// <summary>
+    /// <summary>
+    /// A Protocol for updating the GUI in time intervals
+    /// </summary>
+    public class UpdateGuiProtocol : ProtocolBase
+    {
+        private WorkspaceModel workspaceModel;
+        private ExecutionEngine executionEngine;
+
+        /// <summary>
+        /// Create a new protocol. Each protocol requires a scheduler which provides
+        /// a thread for execution.
+        /// </summary>
+        /// <param name="scheduler"></param>
+        public UpdateGuiProtocol(Scheduler scheduler, WorkspaceModel workspaceModel, ExecutionEngine executionEngine)
+            : base(scheduler)
+        {
+            this.workspaceModel = workspaceModel;
+            this.executionEngine = executionEngine;
+        }
+
+        /// <summary>
+        /// The main function of the protocol
+        /// </summary>
+        /// <param name="stateMachine"></param>
+        /// <returns></returns>
+        public override System.Collections.Generic.IEnumerator<ReceiverBase> Execute(AbstractStateMachine stateMachine)
+        {
+            while (true)
+            {
+                yield return Timeout(1000, HandleUpdateGui);
+            }
+        }
+
+        /// <summary>
+        /// Handler function for a message.
+        /// This handler must not block, because it executes inside the thread of the scheduler.
+        /// </summary>
+        /// <param name="msg"></param>
+        private void HandleUpdateGui()
+        {
+            //Get the gui Thread
+            this.workspaceModel.WorkspaceManagerEditor.Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
+                {
+                    if (pluginModel.GuiNeedsUpdate)
+                    {
+                        executionEngine.GuiLogMessage("UpdateGui for \"" + pluginModel.Name + "\"", NotificationLevel.Debug);
+                        pluginModel.GuiNeedsUpdate = false;
+                        pluginModel.paint();
+                        if (pluginModel.UpdateableView != null)
+                        {
+                            pluginModel.UpdateableView.update();
+                        }
+                    }
+                }
+            }
+            , null);
+        }
+    }
+    
+    /// <summary>
     /// A Protocol for a PluginModel
     /// </summary>
     public class PluginProtocol : ProtocolBase
@@ -163,15 +240,18 @@ namespace WorkspaceManager.Execution
         /// <returns></returns>
         public override System.Collections.Generic.IEnumerator<ReceiverBase> Execute(AbstractStateMachine stateMachine)
         {
-            yield return Receive<MessagePreExecution>(null, this.HandlePreExecute);
-            MessageExecution msg_exec = new MessageExecution();
-            msg_exec.PluginModel = this.pluginModel;
-            this.BroadcastMessageReliably(msg_exec);
-            yield return Receive<MessageExecution>(null, this.HandleExecute);
-            MessagePostExecution msg_post = new MessagePostExecution();
-            msg_post.PluginModel = this.pluginModel;
-            this.BroadcastMessageReliably(msg_post);
-            yield return Receive<MessagePostExecution>(null, this.HandlePostExecute);
+            while (true)
+            {
+                yield return Receive<MessagePreExecution>(null, this.HandlePreExecute);
+                MessageExecution msg_exec = new MessageExecution();
+                msg_exec.PluginModel = this.pluginModel;
+                this.BroadcastMessageReliably(msg_exec);
+                yield return Receive<MessageExecution>(null, this.HandleExecute);
+                MessagePostExecution msg_post = new MessagePostExecution();
+                msg_post.PluginModel = this.pluginModel;
+                this.BroadcastMessageReliably(msg_post);
+                yield return Receive<MessagePostExecution>(null, this.HandlePostExecute);
+            }
         }
 
         /// <summary>
