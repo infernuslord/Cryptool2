@@ -5,6 +5,7 @@ using System.Text;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Collections;
 using System.Numerics;
+using System.Diagnostics;
 
 namespace KeySearcher
 {
@@ -22,12 +23,74 @@ namespace KeySearcher
         private int[] splittingCounter;
         private bool end = false;
 
+#region public
+
+        public KeyPatternPool(KeyPattern pattern, BigInteger partsize)
+        {
+            this.partsize = partsize;
+            this.pattern = pattern;
+            splittingQuotient = new int[pattern.wildcardList.Count];
+            CalculateSplitting();
+            splittingCounter = new int[pattern.wildcardList.Count];
+        }
+
+        /// <summary>
+        /// The KeyPatternPool divides the initial KeyPattern into several (well ordered) sub KeyPattern parts which are disjunct.
+        /// By using the [] Operator, you can get the part at position "index".
+        /// </summary>
+        /// <param name="index">The index</param>
+        /// <returns>The sub key pattern</returns>
+        public KeyPattern this[BigInteger index]
+        {
+            get
+            {
+                return GetAtIndex(index);
+            }
+        }
+
+        /// <summary>
+        /// Returns the amount of parts that are available.
+        /// </summary>
+        public BigInteger Length
+        {
+            get
+            {
+                BigInteger res = 1;
+                for (int k = 0; k < pattern.wildcardList.Count; k++)
+                {
+                    Wildcard wc = ((Wildcard)pattern.wildcardList[k]);
+                    res *= splittingQuotient[k];
+                }
+                return res;
+            }
+        }
+
+        /// <summary>
+        /// Returns the size of one part.
+        /// </summary>
+        public BigInteger PartSize
+        {
+            get
+            {
+                BigInteger res = 1;
+                for (int k = 0; k < pattern.wildcardList.Count; k++)
+                {
+                    Wildcard wc = ((Wildcard)pattern.wildcardList[k]);
+                    res *= wc.size() / splittingQuotient[k];
+                }
+                return res;
+            }
+        }
+
+#endregion
+
+#region private
         private void CalculateSplitting()
         {
             for (int c = pattern.wildcardList.Count - 1; c >= 0; c--)
                 splittingQuotient[c] = 1;
 
-            BigInteger bestSize = GetPartSize();
+            BigInteger bestSize = PartSize;
 
             for (int c = pattern.wildcardList.Count - 1; c >= 0; c--)
             {
@@ -38,7 +101,7 @@ namespace KeySearcher
                     {
                         int tmp = splittingQuotient[c];
                         splittingQuotient[c] = k;
-                        BigInteger size = GetPartSize();
+                        BigInteger size = PartSize;
                         if (BigInteger.Abs((size - partsize)) < BigInteger.Abs(bestSize - partsize))
                             bestSize = size;                        
                         else
@@ -48,11 +111,47 @@ namespace KeySearcher
             }
         }
                 
+        /// <summary>
+        /// See this[]
+        /// </summary>
+        /// <param name="index">The index</param>
+        /// <returns>The sub key pattern</returns>
+        private KeyPattern GetAtIndex(BigInteger index)
+        {
+            //calculate the wildcard positions on which we want to split:
+            int[] splittingPositions = new int[pattern.wildcardList.Count];
+            for (int k = pattern.wildcardList.Count - 1; k >= 0; k--)
+            {
+                splittingPositions[k] = (int)(index % splittingQuotient[k]);
+                index /= splittingQuotient[k];
+            }
+            Debug.Assert(index == 0);
+
+            //split up the sub pattern parts:
+            KeyPattern subpart = new KeyPattern(pattern.GetPattern());
+            subpart.wildcardList = new ArrayList();
+            for (int k = 0; k < pattern.wildcardList.Count; k++)
+            {
+                Wildcard subwc = ((Wildcard)pattern.wildcardList[k]);
+                char[] values = new char[256];
+                int sublength = subwc.size() / splittingQuotient[k];
+                for (int i = 0; i < sublength; i++)
+                    values[i] = subwc.getChar(i + splittingPositions[k] * sublength);
+                Wildcard newwc = new Wildcard(values, sublength);
+                subpart.wildcardList.Add(newwc);
+            }
+
+            return subpart;
+        }
+
+#endregion
+
+#region TODO: Remove these methods later
+
         private bool SuccCounter()
         {
-            for (int k = pattern.wildcardList.Count-1; k >= 0; k--)
+            for (int k = pattern.wildcardList.Count - 1; k >= 0; k--)
             {
-                Wildcard wc = ((Wildcard)pattern.wildcardList[k]);
                 splittingCounter[k]++;
                 if (splittingCounter[k] >= splittingQuotient[k])
                     splittingCounter[k] = 0;
@@ -62,7 +161,6 @@ namespace KeySearcher
             return false;
         }
 
-        // added by Arnie - 2010.02.04
         public bool Contains(byte[] serializedJob)
         {
             KeyPattern deserializedPattern = new KeyPattern(serializedJob);
@@ -151,40 +249,12 @@ namespace KeySearcher
             return part;
         }
 
-        public BigInteger GetPartSize()
-        {
-            BigInteger res = 1;
-            for (int k = 0; k < pattern.wildcardList.Count; k++)
-            {
-                Wildcard wc = ((Wildcard)pattern.wildcardList[k]);
-                res *= wc.size() / splittingQuotient[k];
-            }
-            return res;
-        }
-
         public long Count()
         {
-            return (long)(TotalAmount() + stack.Count - counter);
+            return (long)(Length + stack.Count - counter);
         }
 
-        public BigInteger TotalAmount()
-        {
-            BigInteger res = 1;
-            for (int k = 0; k < pattern.wildcardList.Count; k++)
-            {
-                Wildcard wc = ((Wildcard)pattern.wildcardList[k]);
-                res *= splittingQuotient[k];
-            }
-            return res;
-        }
+#endregion
 
-        public KeyPatternPool(KeyPattern pattern, BigInteger partsize)
-        {
-            this.partsize = partsize;
-            this.pattern = pattern;
-            splittingQuotient = new int[pattern.wildcardList.Count];
-            CalculateSplitting();
-            splittingCounter = new int[pattern.wildcardList.Count];
-        }
     }
 }
