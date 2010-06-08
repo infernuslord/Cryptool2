@@ -18,6 +18,12 @@ namespace WorkspaceManager.View.VisualComponents
 
         private Point iPoint = new Point();
 
+        private ConnectionModel model;
+        public ConnectionModel Model
+        {
+            get { return model; }
+            private set { model = value; }
+        }
         private static double offset = 10;
 
         #endregion
@@ -26,7 +32,6 @@ namespace WorkspaceManager.View.VisualComponents
 
         public static readonly DependencyProperty StartPointProperty = DependencyProperty.Register("StartPoint", typeof(Point), typeof(CryptoLineView), new FrameworkPropertyMetadata(new Point(0, 0), FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
         public static readonly DependencyProperty EndPointProperty = DependencyProperty.Register("EndPoint", typeof(Point), typeof(CryptoLineView), new FrameworkPropertyMetadata(new Point(0, 0), FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
-        public ConnectionModel connectionModel;
 
 		#endregion
 
@@ -46,6 +51,8 @@ namespace WorkspaceManager.View.VisualComponents
 
 		#endregion
 
+
+
         public CryptoLineView()
         {
             Stroke = Brushes.Black;
@@ -54,7 +61,7 @@ namespace WorkspaceManager.View.VisualComponents
 
         public CryptoLineView(ConnectionModel connectionModel) : this()
         {
-            this.connectionModel = connectionModel;
+            this.Model = connectionModel;
             Color color = ColorHelper.getColor(connectionModel.ConnectionType);
             Stroke = new SolidColorBrush(color);
             StrokeThickness = 2;

@@ -181,6 +181,9 @@
     <Resource Include="View\Image\increase.png" />
     <Resource Include="View\Image\reduce.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Image\arrow.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!--<PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)\..\AppReferences\"</PostBuildEvent>
