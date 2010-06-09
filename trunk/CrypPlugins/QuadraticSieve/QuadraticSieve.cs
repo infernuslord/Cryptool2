@@ -62,7 +62,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         private FactorManager factorManager;
         private PeerToPeer peerToPeer;
         private bool usePeer2Peer;
-        private bool useGnuplot = true;
+        private bool useGnuplot = false;
         private StreamWriter gnuplotFile;
 
         private static Assembly msieveDLL = null;
