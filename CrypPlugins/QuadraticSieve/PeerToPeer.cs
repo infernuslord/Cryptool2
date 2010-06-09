@@ -58,8 +58,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             if (yield == null)
                 return null;
 
-            byte[] decompressedYield = DecompressYield(yield);
-            
+            byte[] decompressedYield = DecompressYield(yield);            
             return decompressedYield;
         }
 
@@ -78,58 +77,59 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         private void LoadStoreThreadProc()
         {
-            int loadEnd = head; //we know, that the DHT entries from 1 to "loadEnd" are unknown to us, so we will load these when we have no other things to do
             int loadIndex = 0;
             uint downloaded = 0;
             uint uploaded = 0;
+            HashSet<int> ourIndices = new HashSet<int>();   //Stores all the indices which belong to our packets
+            //Stores all the indices (together with there check date) which belong to lost packets (i.e. packets that can't be load anymore):
+            Queue<KeyValuePair<int, DateTime>> lostIndices = new Queue<KeyValuePair<int, DateTime>>();
 
             try
             {
                 while (!stopLoadStoreThread)
                 {
+                    SynchronizeHead();
+
                     if (storequeue.Count != 0)  //storing has priority
                     {
                         byte[] yield = (byte[])storequeue.Dequeue();
                         bool success = P2PManager.Store(YieldIdentifier(head), yield);
                         while (!success)
                         {
-                            downloaded = ReadAndEnqueueYield(head, downloaded, uploaded);
-                            head++;
+                            SynchronizeHead();
                             success = P2PManager.Store(YieldIdentifier(head), yield);
                         }
                         SetProgressYield(head, YieldStatus.Ours);
-
-                        //increment and store new head:
+                        ourIndices.Add(head);
+                        
                         head++;
-                        success = P2PManager.Store(HeadIdentifier(), System.Text.ASCIIEncoding.ASCII.GetBytes(head.ToString()));
-                        if (!success)
-                        {
-                            //read head and check if ours is higher:
-                            byte[] h = P2PManager.Retrieve(HeadIdentifier());
-                            if (h != null)
-                            {
-                                int dhthead = int.Parse(System.Text.ASCIIEncoding.ASCII.GetString(h));
-                                if (head > dhthead)
-                                    P2PManager.Store(HeadIdentifier(), System.Text.ASCIIEncoding.ASCII.GetBytes(head.ToString()));  //try to store again
-                            }
-                        }
 
                         //show informations about the uploaded yield:
                         uploaded += (uint)yield.Length;
                         ShowTransfered(downloaded, uploaded);
                     }
-                    else                      //if there is nothing to store, we can load the yields up to "loadEnd".
+                    else                      //if there is nothing to store, we can load the other yields.
                     {
-                        if (loadIndex < loadEnd)
-                        {
-                            downloaded = ReadAndEnqueueYield(loadIndex, downloaded, uploaded);
-                            loadIndex++;                            
-                        }
-                        else                //if there is nothing left to load, we can check if there is new data behind our local head
-                        {
-                            Thread.Sleep(10000);        //wait 10 seconds
-                        }
+                        while (ourIndices.Contains(loadIndex))
+                            loadIndex++;
 
+                        if (loadIndex < head)
+                        {
+                            downloaded = TryReadAndEnqueueYield(loadIndex, downloaded, uploaded, lostIndices);
+
+                            loadIndex++;
+                        }
+                        else
+                        {
+                            //check all lost indices which are last checked longer than 1 minutes ago:
+                            //TODO: Maybe we should throw away those indices, which have been checked more than several times.
+                            while (lostIndices.Peek().Value.CompareTo(DateTime.Now.Subtract(new TimeSpan(0,1,0))) < 0)
+                            {
+                                var e = lostIndices.Dequeue();
+                                downloaded = TryReadAndEnqueueYield(loadIndex, downloaded, uploaded, lostIndices);
+                            }
+                            Thread.Sleep(5000);    //Wait 5 seconds
+                        }
                     }
                 }
             }
@@ -137,6 +137,43 @@ namespace Cryptool.Plugins.QuadraticSieve
             {
                 return;
             }
+        }
+
+        /// <summary>
+        /// Tries to read and enqueue yield on position "loadIndex".
+        /// If it fails, it stores the index in lostIndices queue.
+        /// </summary>
+        private uint TryReadAndEnqueueYield(int loadIndex, uint downloaded, uint uploaded, Queue<KeyValuePair<int, DateTime>> lostIndices)
+        {
+            uint res = ReadAndEnqueueYield(loadIndex, downloaded, uploaded);
+            if (res != 0)
+                downloaded = res;
+            else
+            {
+                var e = new KeyValuePair<int, DateTime>(loadIndex, DateTime.Now);
+                lostIndices.Enqueue(e);
+            }
+            return downloaded;
+        }
+
+        /// <summary>
+        /// Loads head from DHT. If ours is greater, we store ours.
+        /// </summary>
+        private void SynchronizeHead()
+        {
+            byte[] h = P2PManager.Retrieve(HeadIdentifier());
+            if (h != null)
+            {
+                int dhthead = int.Parse(System.Text.ASCIIEncoding.ASCII.GetString(h));
+                if (head > dhthead)
+                {
+                    bool success = P2PManager.Store(HeadIdentifier(), System.Text.ASCIIEncoding.ASCII.GetBytes(head.ToString()));
+                    if (!success)
+                        SynchronizeHead();
+                }
+                else
+                    head = dhthead;
+            }            
         }
 
         private uint ReadAndEnqueueYield(int loadIndex, uint downloaded, uint uploaded)
@@ -304,7 +341,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                     P2PWarning("DHT factor list is broken!");
                     P2PManager.Remove(FactorListIdentifier());
                     return SyncFactorManager(factorManager);
-                }
+                }                
             }
 
             //Synchronize DHT Factor Manager with our Factor List
@@ -319,7 +356,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 if (!success)
                 {
                     Thread.Sleep(1000);
-                    SyncFactorManager(factorManager);       //Just try again
+                    return SyncFactorManager(factorManager);       //Just try again
                 }
             }
 
