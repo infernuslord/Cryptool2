@@ -125,10 +125,11 @@ namespace Cryptool.Plugins.QuadraticSieve
                             downloaded = ReadAndEnqueueYield(loadIndex, downloaded, uploaded);
                             loadIndex++;                            
                         }
-                        else                //if there is nothing left to load, we can slow down.
+                        else                //if there is nothing left to load, we can check if there is new data behind our local head
                         {
                             Thread.Sleep(10000);        //wait 10 seconds
                         }
+
                     }
                 }
             }
@@ -141,12 +142,16 @@ namespace Cryptool.Plugins.QuadraticSieve
         private uint ReadAndEnqueueYield(int loadIndex, uint downloaded, uint uploaded)
         {
             byte[] yield = ReadYield(loadIndex);
-            downloaded += (uint)yield.Length;
-            ShowTransfered(downloaded, uploaded);
-            loadqueue.Enqueue(yield);
-            SetProgressYield(loadIndex, YieldStatus.OthersLoaded);
-            yieldEvent.Set();
-            return downloaded;
+            if (yield != null)
+            {
+                downloaded += (uint)yield.Length;
+                ShowTransfered(downloaded, uploaded);
+                loadqueue.Enqueue(yield);
+                SetProgressYield(loadIndex, YieldStatus.OthersLoaded);
+                yieldEvent.Set();
+                return downloaded;
+            }
+            return 0;
         }
 
         private void ShowTransfered(uint downloaded, uint uploaded)
