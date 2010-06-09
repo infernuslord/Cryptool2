@@ -90,12 +90,31 @@ namespace Cryptool.Plugins.QuadraticSieve
                     if (storequeue.Count != 0)  //storing has priority
                     {
                         byte[] yield = (byte[])storequeue.Dequeue();
-                        P2PManager.Store(YieldIdentifier(head), yield);
-                        //TODO: If versioning sytem tells us, that there is already a newer entry here, we load this value, enqueue it in loadqueue and try again with head++
+                        bool success = P2PManager.Store(YieldIdentifier(head), yield);
+                        while (!success)
+                        {
+                            downloaded = ReadAndEnqueueYield(head, downloaded, uploaded);
+                            head++;
+                            success = P2PManager.Store(YieldIdentifier(head), yield);
+                        }
                         SetProgressYield(head, YieldStatus.Ours);
+
+                        //increment and store new head:
                         head++;
-                        P2PManager.Store(HeadIdentifier(), System.Text.ASCIIEncoding.ASCII.GetBytes(head.ToString()));
-                        //TODO: If versioning system tells us, that there is already a newer head entry, we ignore this and don't store ours
+                        success = P2PManager.Store(HeadIdentifier(), System.Text.ASCIIEncoding.ASCII.GetBytes(head.ToString()));
+                        if (!success)
+                        {
+                            //read head and check if ours is higher:
+                            byte[] h = P2PManager.Retrieve(HeadIdentifier());
+                            if (h != null)
+                            {
+                                int dhthead = int.Parse(System.Text.ASCIIEncoding.ASCII.GetString(h));
+                                if (head > dhthead)
+                                    P2PManager.Store(HeadIdentifier(), System.Text.ASCIIEncoding.ASCII.GetBytes(head.ToString()));  //try to store again
+                            }
+                        }
+
+                        //show informations about the uploaded yield:
                         uploaded += (uint)yield.Length;
                         ShowTransfered(downloaded, uploaded);
                     }
@@ -103,13 +122,8 @@ namespace Cryptool.Plugins.QuadraticSieve
                     {
                         if (loadIndex < loadEnd)
                         {
-                            byte[] yield = ReadYield(loadIndex);
-                            downloaded += (uint)yield.Length;
-                            ShowTransfered(downloaded, uploaded);
-                            loadqueue.Enqueue(yield);
-                            SetProgressYield(loadIndex, YieldStatus.OthersLoaded);
-                            loadIndex++;
-                            yieldEvent.Set();
+                            downloaded = ReadAndEnqueueYield(loadIndex, downloaded, uploaded);
+                            loadIndex++;                            
                         }
                         else                //if there is nothing left to load, we can slow down.
                         {
@@ -122,6 +136,17 @@ namespace Cryptool.Plugins.QuadraticSieve
             {
                 return;
             }
+        }
+
+        private uint ReadAndEnqueueYield(int loadIndex, uint downloaded, uint uploaded)
+        {
+            byte[] yield = ReadYield(loadIndex);
+            downloaded += (uint)yield.Length;
+            ShowTransfered(downloaded, uploaded);
+            loadqueue.Enqueue(yield);
+            SetProgressYield(loadIndex, YieldStatus.OthersLoaded);
+            yieldEvent.Set();
+            return downloaded;
         }
 
         private void ShowTransfered(uint downloaded, uint uploaded)
@@ -285,7 +310,12 @@ namespace Cryptool.Plugins.QuadraticSieve
                 BinaryFormatter bformatter = new BinaryFormatter();
                 bformatter.AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
                 bformatter.Serialize(memstream, factorManager);
-                P2PManager.Store(FactorListIdentifier(), memstream.ToArray());
+                bool success = P2PManager.Store(FactorListIdentifier(), memstream.ToArray());
+                if (!success)
+                {
+                    Thread.Sleep(1000);
+                    SyncFactorManager(factorManager);       //Just try again
+                }
             }
 
             return factorManager.ContainsComposite(this.factor);
