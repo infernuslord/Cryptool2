@@ -31,6 +31,10 @@ namespace WorkspaceManager.Execution
 {
     /// <summary>
     /// Engine to execute a model of the WorkspaceManager
+    /// This class needs a WorkspaceManager to be instantiated
+    /// To run an execution process it also needs a WorkspaceModel
+    /// 
+    /// This class uses Gears4Net to execute the plugins
     /// </summary>
     public class ExecutionEngine
     {
@@ -57,7 +61,7 @@ namespace WorkspaceManager.Execution
         }
 
         /// <summary>
-        /// Execute the current Model
+        /// Execute the given Model
         /// </summary>
         /// <param name="workspaceModel"></param>
         public void Execute(WorkspaceModel workspaceModel)
@@ -68,20 +72,31 @@ namespace WorkspaceManager.Execution
             {
                 IsRunning = true;
 
+                //Here we create n = "ProcessorsCount * 2" Gears4Net schedulers
+                //We do this, because measurements showed that we get the best performance if we
+                //use this amount of schedulers
                 schedulers = new Scheduler[System.Environment.ProcessorCount*2];
                 for(int i=0;i<System.Environment.ProcessorCount*2;i++){
                     schedulers[i] = new WinFormsScheduler("Scheduler" + i);
                 }
 
+                //We have to reset all states of PluginModels, ConnectorModels and ConnectionModels:
                 workspaceModel.resetStates();
+
+                //The UpdateGuiProtocol is a kind of "daemon" which will update the view elements if necessary
                 UpdateGuiProtocol updateGuiProtocol = new UpdateGuiProtocol(schedulers[0], workspaceModel, this);
                 schedulers[0].AddProtocol(updateGuiProtocol);
                 updateGuiProtocol.Start();
 
+                //The CheckExecutableProtocl is also a kind of "daemon" which will check from time to time if a
+                //plugin can be executed again
                 CheckExecutableProtocol checkExecutableProtocol = new CheckExecutableProtocol(schedulers[0], workspaceModel, this);
                 schedulers[0].AddProtocol(checkExecutableProtocol);
                 checkExecutableProtocol.Start();
 
+                //Here we create for each PluginModel an own PluginProtocol
+                //By using round-robin we give each protocol to another scheduler to gain
+                //a good average load balancing of the schedulers
                 int counter=0;
                 foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
                 {
@@ -96,7 +111,8 @@ namespace WorkspaceManager.Execution
         }      
       
         /// <summary>
-        /// Stop the execution
+        /// Stop the execution process:
+        /// calls shutdown on all schedulers + calls stop() on each plugin
         /// </summary>
         public void Stop()
         {
@@ -218,7 +234,7 @@ namespace WorkspaceManager.Execution
     }
 
     /// <summary>
-    /// A Protocol for updating the GUI in time intervals
+    /// A Protocol for checking if plugins are executable in time intervals
     /// </summary>
     public class CheckExecutableProtocol : ProtocolBase
     {
@@ -286,6 +302,13 @@ namespace WorkspaceManager.Execution
 
         /// <summary>
         /// The main function of the protocol
+        /// 
+        /// states are here:
+        /// 
+        ///     PreExecution -> Execution -> PostExecution
+        ///        /\                           |
+        ///         |---------------------------|
+        ///         
         /// </summary>
         /// <param name="stateMachine"></param>
         /// <returns></returns>
@@ -306,8 +329,7 @@ namespace WorkspaceManager.Execution
         }
 
         /// <summary>
-        /// Handler function for a message.
-        /// This handler must not block, because it executes inside the thread of the scheduler.
+        /// Call the pre execution function of the wrapped IPlugin
         /// </summary>
         /// <param name="msg"></param>
         private void HandlePreExecute(MessagePreExecution msg)
@@ -317,8 +339,7 @@ namespace WorkspaceManager.Execution
         }
 
         /// <summary>
-        /// Handler function for a message.
-        /// This handler must not block, because it executes inside the thread of the scheduler.
+        /// Call the execution function of the wrapped IPlugin
         /// </summary>
         /// <param name="msg"></param>
         private void HandleExecute(MessageExecution msg)
@@ -342,8 +363,7 @@ namespace WorkspaceManager.Execution
         }
 
         /// <summary>
-        /// Handler function for a message.
-        /// This handler must not block, because it executes inside the thread of the scheduler.
+        /// Call the post execution function of the wrapped IPlugin
         /// </summary>
         /// <param name="msg"></param>
         private void HandlePostExecute(MessagePostExecution msg)

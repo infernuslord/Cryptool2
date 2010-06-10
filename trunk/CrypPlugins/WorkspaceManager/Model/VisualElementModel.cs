@@ -32,11 +32,20 @@ namespace WorkspaceManager.Model
     [Serializable]
     public abstract class VisualElementModel
     {
+        /// <summary>
+        /// Called when this object is deleted
+        /// </summary
+        public event EventHandler<EventArgs> OnDelete;
 
         /// <summary>
-        /// I will be deleted
-        /// </summary
-        public event EventHandler<EventArgs> Delete;
+        /// Triggers event OnDelete
+        /// </summary>
+        public void onDelete(){
+            if(OnDelete != null){
+                EventArgs args = new EventArgs();         
+                OnDelete.Invoke(this, args);
+            }
+        }
 
         public Point Position { get; set; }
 

@@ -36,7 +36,11 @@ namespace WorkspaceManager.Model
     {       
         [NonSerialized]
         private IPlugin plugin;
-     
+        
+        /// <summary>
+        /// This is the current index of the image which should be shown
+        /// on the plugins view
+        /// </summary>
         private int imageIndex = 0;
         
         /// <summary>
@@ -51,6 +55,10 @@ namespace WorkspaceManager.Model
 
         /// <summary>
         /// The wrapped IPlugin of this PluginModel
+        /// if there is currently no plugin instance it
+        /// will automatically create one. Otherwise
+        /// this acts as singleton and returns the created
+        /// instance
         /// </summary>
         public IPlugin Plugin{
             get { 
@@ -176,12 +184,17 @@ namespace WorkspaceManager.Model
 
         /// <summary>
         /// Checks wether this PluginModel is executable or not and sets the isExecutable bool
+        /// 
+        /// There are 3 ways in that a plugin can be executable:
+        ///     1. All mandatory inputs are set + all outputs are "free"
+        ///     2. There are no mandatory inputs and at least one non-mandatory input is set + all outputs are "free"
+        ///     3. There are no inputs + all outputs are "free"
         /// </summary>
-        /// <returns></returns>
         public void checkExecutable(ProtocolBase protocolBase)
         {                            
             bool AtLeastOneInputSet = false;
             //First test if every mandatory Connector has data
+            //or one non-mandatory input has data
             foreach (ConnectorModel connectorModel in this.InputConnectors)
             {
                 if (connectorModel.IsMandatory && !connectorModel.HasData)
@@ -195,7 +208,7 @@ namespace WorkspaceManager.Model
 
             }
 
-            //Next test if every connected Connection is not active
+            //Next test if every connected output Connection is not active
             foreach (ConnectorModel connectorModel in this.OutputConnectors)
             {
                 foreach (ConnectionModel connection in connectorModel.OutputConnections)
@@ -211,7 +224,15 @@ namespace WorkspaceManager.Model
             {
                 MessagePreExecution msg = new MessagePreExecution();
                 msg.PluginModel = this;
-                protocolBase.BroadcastMessageReliably(msg);
+                
+                //protocolBase is set at Startup of the ExecutionEngine
+                //but it could be that we have an event before setting
+                //of the protocl base (triggered by user clicking on
+                //a plugins presentation (button or so))
+                if (protocolBase != null)
+                {
+                    protocolBase.BroadcastMessageReliably(msg);
+                }
             }
             return;
         }
@@ -223,7 +244,10 @@ namespace WorkspaceManager.Model
         /// <param name="args"></param>
         public void PluginProgressChanged(IPlugin sender, PluginProgressEventArgs args)
         {
+            //Calculate % of the plugins process
             this.PercentageFinished = args.Value / args.Max;
+            //Tell the ExecutionEngine that this plugin needs a gui update
+            this.GuiNeedsUpdate = true;
         }
 
         /// <summary>
@@ -236,22 +260,23 @@ namespace WorkspaceManager.Model
             if (args.StatusChangedMode == StatusChangedMode.ImageUpdate)
             {
                 this.imageIndex = args.ImageIndex;
-                if (this.WorkspaceModel.WorkspaceManagerEditor.isExecuting())
-                {
-                    this.GuiNeedsUpdate = true;
-                }
-                else
-                {
-                    this.WorkspaceModel.WorkspaceManagerEditor.Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
-                        this.UpdateableView.update();
-                    }, null);
-                }
             }
+                
+            if (this.WorkspaceModel.WorkspaceManagerEditor.isExecuting())
+            {
+                this.GuiNeedsUpdate = true;
+            }
+            else
+            {
+                this.WorkspaceModel.WorkspaceManagerEditor.Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    this.UpdateableView.update();
+                }, null);
+            }            
         }
 
         /// <summary>
-        /// 
+        /// The pluginProtocol of the current ExecutionEngine run to set/get
         /// </summary>
         public PluginProtocol PluginProtocol { get; set; }
     }

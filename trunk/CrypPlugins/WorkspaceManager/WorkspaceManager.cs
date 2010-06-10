@@ -42,7 +42,7 @@ namespace WorkspaceManager
     /// </summary>
     [EditorInfo("cwm")]
     [Author("Viktor Matkovic,Nils Kopal", "nils.kopal@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("WorkspaceManager.Resources.Attributes", false, "Workspace Manager", "Graphical plugin editor for the CrypTool workspace", "WorkspaceManager/DetailedDescription/Description.xaml",
+    [PluginInfo("WorkspaceManager.Resources.Attributes", false, "Workspace Manager", "Graphical plugin editor for the CrypTool workspace", null,
       "AnotherEditor/icon.png",
       "AnotherEditor/Images/addWorkspace.png",
       "AnotherEditor/Images/deleteWorkspace.png",
@@ -55,6 +55,7 @@ namespace WorkspaceManager
         /// </summary>
         public WorkspaceManager()
         {
+            Settings = new WorkspaceManagerSettings();
             New();                                 
         }
 
@@ -158,12 +159,12 @@ namespace WorkspaceManager
         /// <param name="type"></param>
         public void Add(Type type)
         {
-            if (!executing)
+            /*if (!executing)
             {
                 PluginModel newPluginModel = WorkspaceModel.newPluginModel(new Point(10, 10), 100, 100, type);
                 GuiLogMessage("Added by double click: " + newPluginModel.Name, NotificationLevel.Info);
                 HasChanges = true;
-            }
+            }*/
         }
 
         /// <summary>

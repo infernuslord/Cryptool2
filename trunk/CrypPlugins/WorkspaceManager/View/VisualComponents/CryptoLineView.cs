@@ -12,7 +12,7 @@ using WorkspaceManager.Model;
 
 namespace WorkspaceManager.View.VisualComponents
 {
-	public sealed class CryptoLineView : Shape, IConnection
+	public sealed class CryptoLineView : Shape, IConnection, IUpdateableView
     {
         #region Variables
 
@@ -193,5 +193,14 @@ namespace WorkspaceManager.View.VisualComponents
 		}
 		
 		#endregion
-	}
+
+        #region IUpdateableView Members
+
+        public void update()
+        {
+           
+        }
+
+        #endregion
+    }
 }

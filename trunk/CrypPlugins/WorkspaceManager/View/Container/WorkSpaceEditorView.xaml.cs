@@ -68,7 +68,7 @@ namespace WorkspaceManager.View.Container
 
         void PluginDelete(object sender, PluginContainerViewDeleteViewEventArgs e)
         {
-            for(int i = 0; i< e.container.ConnectorViewList.Count; i++)
+            /*for(int i = 0; i< e.container.ConnectorViewList.Count; i++)
             {
                 for(int j = 0; j< e.container.ConnectorViewList[i].Model.OutputConnections.Count; j++)
                 {
@@ -81,7 +81,8 @@ namespace WorkspaceManager.View.Container
                     }
                 }
                 Model.deleteConnectionModel(e.container.ConnectorViewList[i].Model.InputConnection);
-            }
+            }*/
+            Model.deletePluginModel(e.container.Model);
             root.Children.Remove(e.container);
         }
 
@@ -112,11 +113,25 @@ namespace WorkspaceManager.View.Container
         {
             ConnectionModel connectionModel = this.Model.newConnectionModel(((ConnectorView)source).Model, ((ConnectorView)target).Model, ((ConnectorView)source).Model.ConnectorType);
             CryptoLineView conn = new CryptoLineView(connectionModel);
+            connectionModel.UpdateableView = conn;
+            connectionModel.OnDelete += DeleteConnection;
             conn.SetBinding(CryptoLineView.StartPointProperty, CreateConnectorBinding(source));
             conn.SetBinding(CryptoLineView.EndPointProperty, CreateConnectorBinding(target));
             root.Children.Add(conn);
             ConnectionList.Add(conn);
             Canvas.SetZIndex(conn, 0);            
+        }
+
+        public void DeleteConnection(Object sender, EventArgs args)
+        {
+            if (sender is ConnectionModel)
+            {
+                if (((ConnectionModel)sender).UpdateableView != null)
+                {
+                    UIElement uielement = (UIElement)((ConnectionModel)sender).UpdateableView;
+                    root.Children.Remove(uielement);
+                }
+            }
         }
 
         private void AddConnectionSource(IConnectable source, CryptoLineView conn)
@@ -225,8 +240,9 @@ namespace WorkspaceManager.View.Container
         void WorkSpaceEditorView_Drop(object sender, DragEventArgs e)
         {
             DragDropDataObject obj = e.Data.GetData("Cryptool.PluginBase.Editor.DragDropDataObject") as DragDropDataObject;
+            PluginModel pluginModel = Model.newPluginModel(DragDropDataObjectToPluginConverter.CreatePluginInstance(obj.AssemblyFullName, obj.TypeFullName));
             if(obj != null)
-                this.AddPluginContainerView(e.GetPosition(root), Model.newPluginModel(DragDropDataObjectToPluginConverter.CreatePluginInstance(obj.AssemblyFullName, obj.TypeFullName)));
+                this.AddPluginContainerView(e.GetPosition(root), pluginModel);
         }
 
         void WorkSpaceEditorView_DragEnter(object sender, DragEventArgs e)
