@@ -228,6 +228,16 @@ namespace WorkspaceManager.Execution
                         }
                     }
                 }
+                foreach (ConnectionModel connectionModel in workspaceModel.AllConnectionModels)
+                {
+                    if (connectionModel.GuiNeedsUpdate)
+                    {
+                        if (connectionModel.UpdateableView != null)
+                        {
+                            connectionModel.UpdateableView.update();
+                        }
+                    }
+                }
             }
             , null);
         }
@@ -262,7 +272,7 @@ namespace WorkspaceManager.Execution
         {
             while (this.executionEngine.IsRunning)
             {
-                yield return Timeout(10, HandleCheckExecutable);
+                yield return Timeout(1, HandleCheckExecutable);
             }
         }
 
@@ -352,6 +362,8 @@ namespace WorkspaceManager.Execution
                 {
                     PropertyInfo propertyInfo = pluginModel.Plugin.GetType().GetProperty(connectorModel.PropertyName);
                     propertyInfo.SetValue(pluginModel.Plugin, connectorModel.Data, null);
+                    connectorModel.HasLastData = true;
+                    connectorModel.LastData = connectorModel.Data;
                     connectorModel.Data = null;
                     connectorModel.HasData = false;
                     connectorModel.InputConnection.Active = false;                    
