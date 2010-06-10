@@ -68,6 +68,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\ConnectivityToVisibilityConverter.cs" />
+    <Compile Include="GUI\Controls\ConnectTab.xaml.cs">
+      <DependentUpon>ConnectTab.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GUI\P2PUserControl.cs" />
     <Compile Include="P2PEditorSettings.cs" />
     <Compile Include="DetailedDescription\Description.xaml.cs">
@@ -137,6 +141,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
+    <Page Include="GUI\Controls\ConnectTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GUI\Controls\JobCreation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -154,7 +162,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="images\connected.png" />
+    <Resource Include="images\disconnected.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

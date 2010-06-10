@@ -16,8 +16,6 @@
 
 using System.ComponentModel;
 using Cryptool.P2P;
-using Cryptool.P2P.Worker;
-using Cryptool.P2PEditor.GUI;
 using Cryptool.PluginBase;
 using Cryptool.Plugins.PeerToPeer.Internal;
 
@@ -100,7 +98,6 @@ namespace Cryptool.P2PEditor
         {
             if (!P2PManager.IsConnected)
             {
-                P2PManager.ConnectionManager.OnP2PConnectionStateChangeOccurred += ((P2PEditorPresentation)_p2PEditor.Presentation).ConnectionWorkerCompleted;
                 P2PManager.Connect();
                 OnPropertyChanged("ButtonStart");
                 _p2PEditor.GuiLogMessage(Resources.Attributes.start_launched, NotificationLevel.Info);
@@ -115,7 +112,6 @@ namespace Cryptool.P2PEditor
         {
             if (P2PManager.IsConnected)
             {
-                P2PManager.ConnectionManager.OnP2PConnectionStateChangeOccurred += ((P2PEditorPresentation)_p2PEditor.Presentation).ConnectionWorkerCompleted;
                 P2PManager.Disconnect();
                 OnPropertyChanged("ButtonStop");
                 _p2PEditor.GuiLogMessage(Resources.Attributes.stop_launched, NotificationLevel.Info);

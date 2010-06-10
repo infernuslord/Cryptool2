@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Threading;
 using Cryptool.P2P;
@@ -42,6 +41,13 @@ namespace Cryptool.P2PEditor.GUI
                                         typeof (
                                             P2PEditorPresentation), new PropertyMetadata(false));
 
+        public static readonly DependencyProperty IsP2PConnectingProperty =
+            DependencyProperty.Register("IsP2PConnecting",
+                                        typeof(
+                                            Boolean),
+                                        typeof(
+                                            P2PEditorPresentation), new PropertyMetadata(false));
+
         public P2PEditorPresentation(P2PEditor p2PEditor, JobListManager jobListManager)
         {
             P2PEditor = p2PEditor;
@@ -53,11 +59,25 @@ namespace Cryptool.P2PEditor.GUI
             InitializeComponent();
 
             UpdateDisplay();
+
+            if (!P2PManager.IsConnected)
+            {
+                ShowConnectTab();
+            }
         }
 
         private void HandleChangedPeerToPeerConnectionState(object sender, bool newState)
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(UpdateConnectionState));
+
+            if (P2PManager.IsConnected)
+            {
+                ShowActiveJobs();
+            }
+            else
+            {
+                ShowConnectTab();
+            }
         }
 
         public List<DistributedJob> Jobs
@@ -72,10 +92,10 @@ namespace Cryptool.P2PEditor.GUI
             set { SetValue(IsP2PConnectedProperty, value); }
         }
 
-
-        internal void ConnectionWorkerCompleted(object sender, bool newState)
+        public Boolean IsP2PConnecting
         {
-            UpdateDisplay();
+            get { return (Boolean)GetValue(IsP2PConnectingProperty); }
+            set { SetValue(IsP2PConnectingProperty, value); }
         }
 
         private void UpdateDisplay()
@@ -84,9 +104,10 @@ namespace Cryptool.P2PEditor.GUI
             ActiveJobsControl.UpdateJobList();
         }
 
-        private void UpdateConnectionState()
+        internal void UpdateConnectionState()
         {
             IsP2PConnected = P2PManager.IsConnected;
+            IsP2PConnecting = P2PManager.IsConnecting;
         }
 
         internal void ShowJobCreation()
@@ -98,6 +119,11 @@ namespace Cryptool.P2PEditor.GUI
         {
             UpdateDisplay();
             JobTabControl.SelectedItem = ActiveJobsTab;
+        }
+
+        internal void ShowConnectTab()
+        {
+            JobTabControl.SelectedItem = ConnectTab;
         }
     }
 }
