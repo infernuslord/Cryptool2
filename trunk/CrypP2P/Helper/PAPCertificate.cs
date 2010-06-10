@@ -413,7 +413,7 @@ namespace Cryptool.P2P.Helper
             System.Reflection.Assembly assemb = System.Reflection.Assembly.GetEntryAssembly();
             string applicationDir = System.IO.Path.GetDirectoryName(assemb.Location);
             // check if all necessary certs are installed
-            P2PManager.Instance.GuiLogMessage("Check installation of all certificates, which are necessary to run the p2p system", NotificationLevel.Info);
+            P2PManager.GuiLogMessage("Validating installation of P2P certificates.", NotificationLevel.Info);
             List<PAPCertificate.PAP_Certificates> lstMissingCerts = PAPCertificate.CheckAvailabilityOfPAPCertificates(applicationDir);
             if (lstMissingCerts.Count == 0)
             {
@@ -427,24 +427,24 @@ namespace Cryptool.P2P.Helper
                 {
                     sbMissingCerts.AppendLine(Enum.GetName(typeof(PAPCertificate.PAP_Certificates), lstMissingCerts[i]));
                 }
-                P2PManager.Instance.GuiLogMessage("Following certificates are missing. They will be installed now.\n" + sbMissingCerts.ToString(), NotificationLevel.Info);
+                P2PManager.GuiLogMessage("Following certificates are missing. They will be installed now.\n" + sbMissingCerts.ToString(), NotificationLevel.Info);
 
                 // try/catch neccessary because the CT-Editor doesn't support the whole exception display process (e.g. shows only "unknown error.")
                 try
                 {
                     if (PAPCertificate.InstallMissingCertificates(lstMissingCerts, applicationDir))
                     {
-                        P2PManager.Instance.GuiLogMessage("Installation of all missing certificates was successful.", NotificationLevel.Info);
+                        P2PManager.GuiLogMessage("Installation of all missing certificates was successful.", NotificationLevel.Info);
                         retValue = true;
                     }
                     else
                     {
-                        P2PManager.Instance.GuiLogMessage("No/not all missing certificates were installed successful.", NotificationLevel.Error);
+                        P2PManager.GuiLogMessage("No/not all missing certificates were installed successful.", NotificationLevel.Error);
                     }
                 }
                 catch (Exception ex)
                 {
-                    P2PManager.Instance.GuiLogMessage("Error occured while installing certificates. Exception: " + ex.ToString(), NotificationLevel.Error);
+                    P2PManager.GuiLogMessage("Error occured while installing certificates. Exception: " + ex.ToString(), NotificationLevel.Error);
                 }
             }
             return retValue;

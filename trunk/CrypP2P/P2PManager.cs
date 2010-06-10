@@ -15,12 +15,10 @@
 */
 
 using System;
-using System.IO;
+using Cryptool.P2P.Helper;
 using Cryptool.P2P.Internal;
-using Cryptool.P2P.Worker;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
-using Cryptool.Plugins.PeerToPeer.Internal;
 using PeersAtPlay.P2PStorage.DHT;
 using PeersAtPlay.Util.Threading;
 
@@ -34,20 +32,19 @@ namespace Cryptool.P2P
 
         private P2PManager()
         {
-            P2PBase = new P2PBase(this);
-            ValidateSettings();
+            P2PBase = new P2PBase();
+            ConnectionManager = new ConnectionManager(P2PBase);
 
-            // to forward event from overlay/dht MessageReceived-Event from P2PBase
-            P2PBase.OnP2PMessageReceived += OnP2PMessageReceived;
+            SettingsHelper.ValidateSettings();
         }
 
         #endregion
 
         #region Variables
 
-        public P2PBase P2PBase { get; private set; }
-        public bool IsP2PConnecting { get; internal set; }
-        public bool IsAutoconnectConsoleOptionSet { get; set; }
+        public static ConnectionManager ConnectionManager { get; private set; }
+        public static P2PBase P2PBase { get; private set; }
+        public static bool IsAutoconnectConsoleOptionSet { get; set; }
 
         #endregion
 
@@ -55,93 +52,32 @@ namespace Cryptool.P2P
 
         public static event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 
-        public delegate void P2PConnectionStateChangeEventHandler(object sender, bool newState);
-        public static event P2PConnectionStateChangeEventHandler OnP2PConnectionStateChangeOccurred;
-
-        public event P2PBase.P2PMessageReceived OnPeerMessageReceived;
-
         #endregion Events
 
-        internal void FireConnectionStatusChange()
-        {
-            if (OnP2PConnectionStateChangeOccurred != null)
-            {
-                OnP2PConnectionStateChangeOccurred(this, IsP2PConnected());
-            }
-        }
+        #region CrypWin helper methods
 
-        public bool IsP2PConnected()
-        {
-            return P2PBase.Started;
-        }
-
-        public string UserInfo()
-        {
-            if (!IsP2PConnected())
-            {
-                return null;
-            }
-
-            string userName;
-            var userInfo = P2PBase.GetPeerId(out userName);
-            return userInfo + " (" + userName + ")";
-        }
-
-        public void HandleConnectOnStartup()
+        public static void HandleConnectOnStartup()
         {
             var isAutoconnectConfiguredOrRequested = P2PSettings.Default.ConnectOnStartup || IsAutoconnectConsoleOptionSet;
-            var isReadyToConnect = IsReadyToConnect();
+            var isReadyToConnect = ConnectionManager.IsReadyToConnect();
 
             if (isReadyToConnect && isAutoconnectConfiguredOrRequested)
             {
                 GuiLogMessage("Connect on startup enabled. Establishing connection...", NotificationLevel.Info);
-                new ConnectionWorker(P2PBase).Start();
+                ConnectionManager.Connect();
             }
         }
 
-        private bool IsReadyToConnect()
+        public static void HandleDisconnectOnShutdown()
         {
-            if (String.IsNullOrEmpty(P2PSettings.Default.PeerName))
-            {
-                GuiLogMessage("Peer-to-peer not fully configured: username missing.", NotificationLevel.Error);
-                return false;
-            }
-
-            if (String.IsNullOrEmpty(P2PSettings.Default.PeerName))
-            {
-                GuiLogMessage("Peer-to-peer not fully configured: world name missing.", NotificationLevel.Error);
-                return false;
-            }
-
-            return true;
+            Disconnect();
         }
 
-        public PeerId GetPeerId(out string userName)
-        {
-            return P2PBase.GetPeerId(out userName);
-        }
-
-        // to forward event from overlay/dht MessageReceived-Event from P2PBase
-        private void OnP2PMessageReceived(PeerId sourceAddr, byte[] data)
-        {
-            if (OnPeerMessageReceived != null)
-                OnPeerMessageReceived(sourceAddr, data);
-        }
-
-        private static void ValidateSettings()
-        {
-            if (String.IsNullOrEmpty(P2PSettings.Default.WorkspacePath))
-            {
-                var tempForUser = Path.Combine(Path.GetTempPath(), "CrypTool2");
-                Directory.CreateDirectory(tempForUser);
-                P2PSettings.Default.WorkspacePath = tempForUser;
-                P2PSettings.Default.Save();
-            }
-        }
+        #endregion
 
         #region Framework methods
 
-        public void GuiLogMessage(string message, NotificationLevel logLevel)
+        public static void GuiLogMessage(string message, NotificationLevel logLevel)
         {
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, null, new GuiLogEventArgs(message, null, logLevel));
         }
@@ -161,10 +97,10 @@ namespace Cryptool.P2P
         /// <returns>true if the store attempt was successful, false otherwise</returns>
         public static bool Store(string key, byte[] data)
         {
-            if (!Instance.IsP2PConnected())
+            if (!IsConnected)
                 throw new NotConnectedException();
 
-            return Instance.P2PBase.SynchStore(key, data);
+            return P2PBase.SynchStore(key, data);
         }
 
         /// <summary>
@@ -178,10 +114,10 @@ namespace Cryptool.P2P
         /// <returns>true if the store attempt was successful, false otherwise</returns>
         public static bool Store(string key, string data)
         {
-            if (!Instance.IsP2PConnected())
+            if (!IsConnected)
                 throw new NotConnectedException();
            
-            return Instance.P2PBase.SynchStore(key, data);
+            return P2PBase.SynchStore(key, data);
         }
 
         /// <summary>
@@ -192,10 +128,10 @@ namespace Cryptool.P2P
         /// <returns>byte array containing the data</returns>
         public static byte[] Retrieve(string key)
         {
-            if (!Instance.IsP2PConnected())
+            if (!IsConnected)
                 throw new NotConnectedException();
             
-            return Instance.P2PBase.SynchRetrieve(key);
+            return P2PBase.SynchRetrieve(key);
         }
 
         /// <summary>
@@ -208,10 +144,10 @@ namespace Cryptool.P2P
         /// <returns>bool determining wether the attempt was successful</returns>
         public static bool Remove(string key)
         {
-            if (!Instance.IsP2PConnected())
+            if (!IsConnected)
                 throw new NotConnectedException();
 
-            return Instance.P2PBase.SynchRemove(key);
+            return P2PBase.SynchRemove(key);
         }
 
         #endregion DHT operations (blocking)
@@ -231,10 +167,10 @@ namespace Cryptool.P2P
         /// <returns>Guid identifying the request</returns>
         public static Guid Store(AsyncCallback<StoreResult> callback, string key, byte[] data, object asyncState)
         {
-            if (!Instance.IsP2PConnected())
+            if (!IsConnected)
                 throw new NotConnectedException();
 
-            return Instance.P2PBase.VersionedDht.Store(callback, key, data, asyncState);
+            return P2PBase.VersionedDht.Store(callback, key, data, asyncState);
         }
 
         /// <summary>
@@ -247,10 +183,10 @@ namespace Cryptool.P2P
         /// <returns>Guid identifying the request</returns>
         public static Guid Retrieve(AsyncCallback<RetrieveResult> callback, string key, object asyncState)
         {
-            if (!Instance.IsP2PConnected())
+            if (!IsConnected)
                 throw new NotConnectedException();
 
-            return Instance.P2PBase.Dht.Retrieve(callback, key, asyncState);
+            return P2PBase.Dht.Retrieve(callback, key, asyncState);
         }
 
         /// <summary>
@@ -265,22 +201,50 @@ namespace Cryptool.P2P
         /// <returns>Guid identifying the request</returns>
         public static Guid Remove(AsyncCallback<RemoveResult> callback, string key, object asyncState)
         {
-            if (!Instance.IsP2PConnected())
+            if (!IsConnected)
                 throw new NotConnectedException();
 
-            return Instance.P2PBase.VersionedDht.Remove(callback, key, asyncState);
+            return P2PBase.VersionedDht.Remove(callback, key, asyncState);
         }
 
         #endregion DHT operations (non-blocking)
 
-        public void HandleShutdown()
-        {
-            if (IsP2PConnected())
-            {
-                new ConnectionWorker(P2PBase).Start();
-            }
-        }
-    }
+        #region Connection methods
 
-    
+        /// <summary>
+        /// Connect to the peer-to-peer network.
+        /// <see cref="ConnectionManager">OnP2PConnectionStateChangeOccurred will be fired when the connection state changes.</see>
+        /// </summary>
+        public static void Connect()
+        {
+            ConnectionManager.Connect();
+        }
+
+        /// <summary>
+        /// Disconnect from the peer-to-peer network.
+        /// <see cref="ConnectionManager">OnP2PConnectionStateChangeOccurred will be fired when the connection state changes.</see>
+        /// </summary>
+        public static void Disconnect()
+        {
+            ConnectionManager.Disconnect();
+        }
+
+        /// <summary>
+        /// Boolean which indicates, if the peer-to-peer network is currently connected and not in a connect/disconnect attempt.
+        /// </summary>
+        public static bool IsConnected
+        {
+            get { return P2PBase.IsConnected && !IsConnecting; }
+        }
+
+        /// <summary>
+        /// Boolean which indicates, if the peer-to-peer network is currently in a connect/disconnect attempt.
+        /// </summary>
+        public static bool IsConnecting
+        {
+            get { return ConnectionManager.IsConnecting; }
+        }
+
+        #endregion
+    }
 }

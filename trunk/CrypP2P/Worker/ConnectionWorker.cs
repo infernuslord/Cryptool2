@@ -14,6 +14,7 @@
    limitations under the License.
 */
 
+using System;
 using System.ComponentModel;
 using Cryptool.P2P.Helper;
 using Cryptool.P2P.Internal;
@@ -21,35 +22,37 @@ using Cryptool.PluginBase;
 
 namespace Cryptool.P2P.Worker
 {
-    public class ConnectionWorker : WorkerBase
+    internal class ConnectionWorker : WorkerBase
     {
         private readonly P2PBase _p2PBase;
+        private readonly ConnectionManager _connectionManager;
 
-        public ConnectionWorker(P2PBase p2PBase)
+        public ConnectionWorker(P2PBase p2PBase, ConnectionManager connectionManager)
         {
             _p2PBase = p2PBase;
+            _connectionManager = connectionManager;
         }
 
         protected override void WorkComplete(object sender, RunWorkerCompletedEventArgs e)
         {
-            P2PManager.Instance.GuiLogMessage(
-                P2PManager.Instance.IsP2PConnected()
+            P2PManager.GuiLogMessage(
+                _p2PBase.IsConnected
                     ? "Connection to P2P network established."
                     : "Connection to P2P network terminated.", NotificationLevel.Info);
-            P2PManager.Instance.IsP2PConnecting = false;
-            P2PManager.Instance.FireConnectionStatusChange();
+            _connectionManager.IsConnecting = false;
+            _connectionManager.FireConnectionStatusChange();
         }
 
         protected override void PerformWork(object sender, DoWorkEventArgs e)
         {
-            if (!_p2PBase.Started)
+            if (!_p2PBase.IsConnected)
             {
-                P2PManager.Instance.GuiLogMessage("Connecting to P2P network...", NotificationLevel.Info);
+                P2PManager.GuiLogMessage("Connecting to P2P network...", NotificationLevel.Info);
 
                 // Validate certificats
                 if (!PAPCertificate.CheckAndInstallPAPCertificates())
                 {
-                    P2PManager.Instance.GuiLogMessage("Certificates not validated, P2P might not be working!",
+                    P2PManager.GuiLogMessage("Certificates not validated, P2P might not be working!",
                                                       NotificationLevel.Error);
                     return;
                 }
@@ -59,14 +62,13 @@ namespace Cryptool.P2P.Worker
             }
             else
             {
-                P2PManager.Instance.GuiLogMessage("Disconnecting from P2P network...", NotificationLevel.Info);
+                P2PManager.GuiLogMessage("Disconnecting from P2P network...", NotificationLevel.Info);
                 _p2PBase.SynchStop();
             }
         }
 
         protected override void PrePerformWork()
         {
-            P2PManager.Instance.IsP2PConnecting = true;
         }
     }
 }
