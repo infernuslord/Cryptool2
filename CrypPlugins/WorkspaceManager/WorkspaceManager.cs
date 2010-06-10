@@ -31,6 +31,8 @@ using WorkspaceManager.Execution;
 using WorkspaceManager.View.Container;
 using WorkspaceManager.View.Converter;
 using System.Windows;
+using System.Windows.Threading;
+using System.Threading;
 
 //Disable warnings for unused or unassigned fields and events:
 #pragma warning disable 0169, 0414, 0067
@@ -308,7 +310,7 @@ namespace WorkspaceManager
         }
 
         /// <summary>
-        /// The Presentatio of this editor
+        /// The Presentation of this editor
         /// </summary>
         public System.Windows.Controls.UserControl Presentation
         {
@@ -346,7 +348,14 @@ namespace WorkspaceManager
             try
             {
                 GuiLogMessage("Execute Model now!", NotificationLevel.Info);
-                executing = true;                
+                executing = true;
+
+                //Get the gui Thread
+                this.WorkspaceManagerEditorView.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    this.WorkspaceManagerEditorView.root.IsEnabled = false;   
+                }
+                , null);
                 ExecutionEngine.Execute(WorkspaceModel);
             }
             catch (Exception ex)
@@ -386,6 +395,12 @@ namespace WorkspaceManager
             {
                 GuiLogMessage("Executing stopped by User!", NotificationLevel.Info);
                 ExecutionEngine.Stop();
+                //Get the gui Thread
+                this.WorkspaceManagerEditorView.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    this.WorkspaceManagerEditorView.root.IsEnabled = true;
+                }
+                , null);
             }
             catch (Exception ex)
             {

@@ -35,8 +35,14 @@ namespace WorkspaceManager.Model
         private bool hasData = false;
 
         [NonSerialized]
+        private bool hasLastData = false;
+
+        [NonSerialized]
         private object data;
 
+        [NonSerialized]
+        private object lastData;
+        
         /// <summary>
         /// The PluginModel this Connector belongs to
         /// </summary>
@@ -118,6 +124,39 @@ namespace WorkspaceManager.Model
         }
 
         /// <summary>
+        /// Does this Connector currently provides last Data?
+        /// </summary>
+        /// <returns></returns>
+        public bool HasLastData
+        {
+            get
+            {
+                return hasLastData;
+            }
+
+            set
+            {
+                hasLastData = value;
+            }
+        }
+
+        /// <summary>
+        /// LastData of this Connector
+        /// </summary>
+        public object LastData
+        {
+            get
+            {
+                return lastData;
+            }
+
+            set
+            {
+                lastData = value;
+            }
+        }
+
+        /// <summary>
         /// Name of the represented Property of the IPlugin of this ConnectorModel
         /// </summary>
         public string PropertyName{get;set;}
@@ -139,11 +178,7 @@ namespace WorkspaceManager.Model
                 Outgoing){
                 
                 foreach (ConnectionModel connectionModel in this.OutputConnections)
-                {
-                    /*while (connectionModel.To.HasData && WorkspaceModel.WorkspaceManagerEditor.isExecuting())
-                    {
-                        Thread.Sleep(5); 
-                    }*/
+                {                   
                     connectionModel.To.Data = sender.GetType().GetProperty(propertyChangedEventArgs.PropertyName).GetValue(sender, null);
                     connectionModel.To.HasData = true;
                     connectionModel.Active = true;

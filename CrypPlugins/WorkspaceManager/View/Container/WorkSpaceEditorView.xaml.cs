@@ -67,21 +67,7 @@ namespace WorkspaceManager.View.Container
         }
 
         void PluginDelete(object sender, PluginContainerViewDeleteViewEventArgs e)
-        {
-            /*for(int i = 0; i< e.container.ConnectorViewList.Count; i++)
-            {
-                for(int j = 0; j< e.container.ConnectorViewList[i].Model.OutputConnections.Count; j++)
-                {
-                    Model.deleteConnectionModel(e.container.ConnectorViewList[i].Model.OutputConnections[j]);
-                    for (int n = 0; n < ConnectionList.Count; n++)
-                    {
-                        if (ConnectionList[n].Model == e.container.ConnectorViewList[i].Model.OutputConnections[j] ||
-                            ConnectionList[n].Model == e.container.ConnectorViewList[i].Model.InputConnection)
-                            root.Children.Remove(ConnectionList[n]);
-                    }
-                }
-                Model.deleteConnectionModel(e.container.ConnectorViewList[i].Model.InputConnection);
-            }*/
+        {            
             Model.deletePluginModel(e.container.Model);
             root.Children.Remove(e.container);
         }
@@ -126,8 +112,7 @@ namespace WorkspaceManager.View.Container
         {
             if (sender is ConnectionModel)
             {
-                if (((ConnectionModel)sender).UpdateableView != null)
-                {
+                if(((ConnectionModel)sender).UpdateableView != null){
                     UIElement uielement = (UIElement)((ConnectionModel)sender).UpdateableView;
                     root.Children.Remove(uielement);
                 }
@@ -174,7 +159,7 @@ namespace WorkspaceManager.View.Container
 
         void shape_OnConnectorMouseLeftButtonDown(object sender, ConnectorViewEventArgs e)
         {
-            if (selectedConnector != null && e.connector.Model.ConnectorType.Name == selectedConnector.Model.ConnectorType.Name)
+            if (selectedConnector != null && WorkspaceModel.compatibleConnectors(selectedConnector.Model, e.connector.Model))
             {
                 this.root.Children.Remove(dummyLine);
                 this.AddConnection(selectedConnector, e.connector);
@@ -183,7 +168,7 @@ namespace WorkspaceManager.View.Container
                 return;
             }
 
-            if (selectedConnector == null)
+            if (selectedConnector == null && e.connector.Model.Outgoing)
             {
                 this.root.Children.Add(dummyLine);
                 this.selectedConnector = e.connector;

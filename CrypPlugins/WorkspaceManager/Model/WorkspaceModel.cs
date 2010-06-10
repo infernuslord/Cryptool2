@@ -20,6 +20,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using Cryptool.PluginBase;
+using System.Runtime.Serialization.Formatters.Soap;
 
 namespace WorkspaceManager.Model
 {
@@ -29,10 +30,20 @@ namespace WorkspaceManager.Model
     [Serializable]
     public class WorkspaceModel 
     {
+        [NonSerialized]
+        private WorkspaceManager workspaceManagerEditor;
+
         /// <summary>
         /// The surrounding WorkspaceManagerEditor
-        /// </summary>
-        public WorkspaceManager WorkspaceManagerEditor { get; set; }
+        /// </summary>        
+        public WorkspaceManager WorkspaceManagerEditor { 
+            get{
+                return workspaceManagerEditor;
+            }
+            set{ 
+                this.workspaceManagerEditor = value;
+            }
+        }
 
         /// <summary>
         /// All PluginModels of our Workspace Model
@@ -82,6 +93,7 @@ namespace WorkspaceManager.Model
             pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;
             pluginModel.Plugin.OnPluginStatusChanged += pluginModel.PluginStatusChanged;
             this.AllPluginModels.Add(pluginModel);
+            this.WorkspaceManagerEditor.HasChanges = true;
             return pluginModel;
         }
 
@@ -114,6 +126,7 @@ namespace WorkspaceManager.Model
             to.InputConnection = connectionModel;
             connectionModel.ConnectionType = connectionType;
             this.AllConnectionModels.Add(connectionModel);
+            this.WorkspaceManagerEditor.HasChanges = true;
             return connectionModel;
         }
 
@@ -141,6 +154,7 @@ namespace WorkspaceManager.Model
                 }
                 pluginModel.Plugin.Dispose();
                 pluginModel.onDelete();
+                this.WorkspaceManagerEditor.HasChanges = true;
                 return this.AllPluginModels.Remove(pluginModel);
             }            
             return false;
@@ -169,6 +183,7 @@ namespace WorkspaceManager.Model
                     deleteConnectionModel(connectorModel.InputConnection);
                 }
                 connectorModel.onDelete();
+                this.WorkspaceManagerEditor.HasChanges = true;
                 return this.AllConnectorModels.Remove(connectorModel);
             }
             return false;
@@ -187,6 +202,7 @@ namespace WorkspaceManager.Model
             connectionModel.From.OutputConnections.Remove(connectionModel);
             connectionModel.To.InputConnection = null;
             connectionModel.onDelete();
+            this.WorkspaceManagerEditor.HasChanges = true;
             return this.AllConnectionModels.Remove(connectionModel);
         }
 
@@ -220,6 +236,7 @@ namespace WorkspaceManager.Model
             }
             connectionModel.To = connectorModel;
             connectorModel.InputConnection = connectionModel;
+            this.WorkspaceManagerEditor.HasChanges = true;
             return true;
         }
 
@@ -233,6 +250,11 @@ namespace WorkspaceManager.Model
         /// <returns></returns>
         public static bool compatibleConnectors(ConnectorModel connectorModelA, ConnectorModel connectorModelB)
         {
+            if (!connectorModelA.Outgoing || connectorModelB.Outgoing || connectorModelB.InputConnection != null)
+            {
+                return false;
+            }
+
             if (connectorModelA.ConnectorType.Equals(connectorModelB.ConnectorType)
                 || connectorModelA.ConnectorType.BaseType.Equals(connectorModelB.ConnectorType))
             {
@@ -242,40 +264,6 @@ namespace WorkspaceManager.Model
             {
                 return false;
             }
-        }
-
-        /// <summary>
-        /// Checks wether a Connection and a Connector are compatible to be connected
-        /// They are compatible if their types are equal or the base type of the connection
-        /// is equal to the type of the connector
-        /// </summary>
-        /// <param name="connectionModel"></param>
-        /// <param name="connectorModel"></param>
-        /// <returns></returns>
-        public static bool compatibleConnectors(ConnectionModel connectionModel, ConnectorModel connectorModel)
-        {
-            if (connectionModel.ConnectionType.Equals(connectorModel.ConnectorType)
-                || connectionModel.ConnectionType.BaseType.Equals(connectorModel.ConnectorType))
-            {
-                return true;
-            }
-            else 
-            { 
-                return false; 
-            }
-        }
-
-        /// <summary>
-        /// Checks wether a Connection and a Connector are compatible to be connected
-        /// They are compatible if their types are equal or the base type of the connection
-        /// is equal to the type of the connector
-        /// </summary>
-        /// <param name="connectorModel"></param>
-        /// <param name="connectionModel"></param>
-        /// <returns></returns>
-        public static bool compatibleConnectors(ConnectorModel connectorModel, ConnectionModel connectionModel)
-        {
-            return compatibleConnectors(connectionModel, connectorModel);
-        }
+        }       
     }
 }
