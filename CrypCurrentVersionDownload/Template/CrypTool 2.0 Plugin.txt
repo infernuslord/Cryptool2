@@ -1,6 +1,0 @@
-Place the zip file into the following directory: Documents\Visual Studio 2010\Templates\Project Templates\
-Do not unpack the zip file.
-
-Then, you can add a new C# project to the CT2 solution and select CrypTool 2.0 Plugin as template.
-
-You must select trunk\CrypPlugins\ as location or the plugin will be built into the wrong directory.
