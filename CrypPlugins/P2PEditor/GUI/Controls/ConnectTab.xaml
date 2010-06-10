@@ -1,0 +1,11 @@
+﻿<GUI:P2PUserControl x:Class="Cryptool.P2PEditor.GUI.Controls.ConnectTab" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:GUI="clr-namespace:Cryptool.P2PEditor.GUI" xmlns:Converters="clr-namespace:Cryptool.P2PEditor.Converters" mc:Ignorable="d" d:DesignHeight="315" d:DesignWidth="359">
+	<GUI:P2PUserControl.Resources>
+		<Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+	</GUI:P2PUserControl.Resources>
+	<Grid>
+		<StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+			<Image Source="..\..\images\disconnected.png" Width="200" />
+            <Button Name="ConnectButton" Content="Connect" Height="38" FontFamily="Consolas" FontSize="20" Click="ConnectButtonClick" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" />
+		</StackPanel>
+    </Grid>
+</GUI:P2PUserControl>
