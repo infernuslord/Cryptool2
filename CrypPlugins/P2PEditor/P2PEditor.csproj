@@ -92,6 +92,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Worker\JobListUpdateWorker.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Worker\JobDeletionWorker.cs">
       <SubType>Component</SubType>
     </Compile>

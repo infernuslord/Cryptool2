@@ -188,6 +188,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helper\SettingsHelper.cs" />
+    <Compile Include="Internal\ConnectionManager.cs" />
     <Compile Include="Internal\NotConnectedException.cs" />
     <Compile Include="P2PSettings.Designer.cs">
       <AutoGen>True</AutoGen>

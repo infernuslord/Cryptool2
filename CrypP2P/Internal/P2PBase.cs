@@ -1,5 +1,6 @@
 ﻿/*
-   Copyright 2010 Paul Lelgemann, University of Duisburg-Essen
+   Copyright 2010 Paul Lelgemann and Christian Arnold,
+                  University of Duisburg-Essen
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -46,11 +47,8 @@ namespace Cryptool.P2P.Internal
     /// </summary>
     public class P2PBase
     {
-        private readonly P2PManager _p2PManager;
-
         #region Variables
 
-        private readonly object _connectLock = new object();
         private readonly AutoResetEvent _systemJoined;
         private readonly AutoResetEvent _systemLeft;
         private IBootstrapper _bootstrapper;
@@ -62,12 +60,12 @@ namespace Cryptool.P2P.Internal
         /// <summary>
         ///   True if system was successfully joined, false if system is COMPLETELY left
         /// </summary>
-        public bool Started { get; private set; }
+        public bool IsConnected { get; private set; }
 
         /// <summary>
         ///   True if the underlying peer to peer system has been fully initialized
         /// </summary>
-        public bool Initialized { get; private set; }
+        public bool IsInitialized { get; private set; }
 
         #endregion
 
@@ -84,12 +82,11 @@ namespace Cryptool.P2P.Internal
 
         #endregion
 
-        public P2PBase(P2PManager p2PManager)
+        public P2PBase()
         {
-            Started = false;
-            Initialized = false;
+            IsConnected = false;
+            IsInitialized = false;
 
-            _p2PManager = p2PManager;
             _systemJoined = new AutoResetEvent(false);
             _systemLeft = new AutoResetEvent(false);
         }
@@ -101,105 +98,102 @@ namespace Cryptool.P2P.Internal
         /// </summary>
         public void Initialize()
         {
-            lock (_connectLock)
+            Scheduler scheduler = new STAScheduler("pap");
+
+            switch (P2PSettings.Default.LinkManager)
             {
-                Scheduler scheduler = new STAScheduler("pap");
+                case P2PLinkManagerType.Snal:
+                    LogToMonitor("Init LinkMgr: Using NAT Traversal stuff");
 
-                switch (P2PSettings.Default.LinkManager)
-                {
-                    case P2PLinkManagerType.Snal:
-                        LogToMonitor("Init LinkMgr: Using NAT Traversal stuff");
+                    // NAT-Traversal stuff needs a different Snal-Version
+                    _linkmanager = new Snal(scheduler);
 
-                        // NAT-Traversal stuff needs a different Snal-Version
-                        _linkmanager = new Snal(scheduler);
-
-                        var settings = new PeersAtPlay.P2PLink.SnalNG.Settings();
-                        settings.LoadDefaults();
-                        settings.ConnectInternal = true;
-                        settings.LocalReceivingPort = P2PSettings.Default.LocalReceivingPort;
-                        settings.UseLocalAddressDetection = P2PSettings.Default.UseLocalAddressDetection;
-                        settings.AutoReconnect = false;
-                        settings.NoDelay = false;
-                        settings.ReuseAddress = false;
-                        settings.UseNetworkMonitorServer = true;
-                        settings.CloseConnectionAfterPingTimeout = false;
+                    var settings = new PeersAtPlay.P2PLink.SnalNG.Settings();
+                    settings.LoadDefaults();
+                    settings.ConnectInternal = true;
+                    settings.LocalReceivingPort = P2PSettings.Default.LocalReceivingPort;
+                    settings.UseLocalAddressDetection = P2PSettings.Default.UseLocalAddressDetection;
+                    settings.AutoReconnect = false;
+                    settings.NoDelay = false;
+                    settings.ReuseAddress = false;
+                    settings.UseNetworkMonitorServer = true;
+                    settings.CloseConnectionAfterPingTimeout = false;
                         
-                        switch(P2PSettings.Default.TransportProtocol)
-                        {
-                            case P2PTransportProtocol.UDP:
-                                settings.TransportProtocol = TransportProtocol.UDP;
-                                break;
-                            case P2PTransportProtocol.TCP_UDP:
-                                settings.TransportProtocol = TransportProtocol.TCP_UDP;
-                                break;
-                            default:
-                                settings.TransportProtocol = TransportProtocol.TCP;
-                                break;
-                        }
+                    switch(P2PSettings.Default.TransportProtocol)
+                    {
+                        case P2PTransportProtocol.UDP:
+                            settings.TransportProtocol = TransportProtocol.UDP;
+                            break;
+                        case P2PTransportProtocol.TCP_UDP:
+                            settings.TransportProtocol = TransportProtocol.TCP_UDP;
+                            break;
+                        default:
+                            settings.TransportProtocol = TransportProtocol.TCP;
+                            break;
+                    }
 
-                        _linkmanager.Settings = settings;
-                        _linkmanager.ApplicationType = ApplicationType.CrypTool;
+                    _linkmanager.Settings = settings;
+                    _linkmanager.ApplicationType = ApplicationType.CrypTool;
 
-                        break;
-                    default:
-                        throw (new NotImplementedException());
-                }
-
-                switch (P2PSettings.Default.Bootstrapper)
-                {
-                    case P2PBootstrapperType.LocalMachineBootstrapper:
-                        // LocalMachineBootstrapper = only local connection (runs only on one machine)
-                        _bootstrapper = new LocalMachineBootstrapper();
-                        break;
-                    case P2PBootstrapperType.IrcBootstrapper:
-                        // setup nat traversal stuff
-                        LogToMonitor("Init Bootstrapper: Using NAT Traversal stuff");
-                        PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.DelaySymmetricResponse = true;
-                        PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.IncludeSymmetricInResponse = false;
-                        PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.SymmetricResponseDelay = 6000;
-
-                        PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapperV2.Settings.DelaySymmetricResponse = true;
-                        PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapperV2.Settings.IncludeSymmetricResponse = false;
-
-                        _bootstrapper = new IrcBootstrapper(scheduler);
-                        break;
-                    default:
-                        throw (new NotImplementedException());
-                }
-
-                switch (P2PSettings.Default.Overlay)
-                {
-                    case P2POverlayType.FullMeshOverlay:
-                        // changing overlay example: this.overlay = new ChordOverlay();
-                        _overlay = new FullMeshOverlay(scheduler);
-                        break;
-                    default:
-                        throw (new NotImplementedException());
-                }
-
-                switch (P2PSettings.Default.Dht)
-                {
-                    case P2PDHTType.FullMeshDHT:
-                        Dht = new FullMeshDHT(scheduler);
-                        break;
-                    default:
-                        throw (new NotImplementedException());
-                }
-
-                _overlay.MessageReceived += OverlayMessageReceived;
-                Dht.SystemJoined += OnDhtSystemJoined;
-                Dht.SystemLeft += OnDhtSystemLeft;
-
-                VersionedDht = (IVersionedDHT) Dht;
-
-                _p2PManager.GuiLogMessage("Initializing DHT with world name " + P2PSettings.Default.WorldName,
-                                                  NotificationLevel.Info);
-                Dht.Initialize(P2PSettings.Default.PeerName, string.Empty, P2PSettings.Default.WorldName, _overlay,
-                               _bootstrapper,
-                               _linkmanager, null);
-
-                Initialized = true;
+                    break;
+                default:
+                    throw (new NotImplementedException());
             }
+
+            switch (P2PSettings.Default.Bootstrapper)
+            {
+                case P2PBootstrapperType.LocalMachineBootstrapper:
+                    // LocalMachineBootstrapper = only local connection (runs only on one machine)
+                    _bootstrapper = new LocalMachineBootstrapper();
+                    break;
+                case P2PBootstrapperType.IrcBootstrapper:
+                    // setup nat traversal stuff
+                    LogToMonitor("Init Bootstrapper: Using NAT Traversal stuff");
+                    PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.DelaySymmetricResponse = true;
+                    PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.IncludeSymmetricInResponse = false;
+                    PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.SymmetricResponseDelay = 6000;
+
+                    PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapperV2.Settings.DelaySymmetricResponse = true;
+                    PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapperV2.Settings.IncludeSymmetricResponse = false;
+
+                    _bootstrapper = new IrcBootstrapper(scheduler);
+                    break;
+                default:
+                    throw (new NotImplementedException());
+            }
+
+            switch (P2PSettings.Default.Overlay)
+            {
+                case P2POverlayType.FullMeshOverlay:
+                    // changing overlay example: this.overlay = new ChordOverlay();
+                    _overlay = new FullMeshOverlay(scheduler);
+                    break;
+                default:
+                    throw (new NotImplementedException());
+            }
+
+            switch (P2PSettings.Default.Dht)
+            {
+                case P2PDHTType.FullMeshDHT:
+                    Dht = new FullMeshDHT(scheduler);
+                    break;
+                default:
+                    throw (new NotImplementedException());
+            }
+
+            _overlay.MessageReceived += OverlayMessageReceived;
+            Dht.SystemJoined += OnDhtSystemJoined;
+            Dht.SystemLeft += OnDhtSystemLeft;
+
+            VersionedDht = (IVersionedDHT) Dht;
+
+            P2PManager.GuiLogMessage("Initializing DHT with world name " + P2PSettings.Default.WorldName,
+                                                NotificationLevel.Info);
+            Dht.Initialize(P2PSettings.Default.PeerName, string.Empty, P2PSettings.Default.WorldName, _overlay,
+                            _bootstrapper,
+                            _linkmanager, null);
+
+            IsInitialized = true;
         }
 
         /// <summary>
@@ -214,31 +208,28 @@ namespace Cryptool.P2P.Internal
         /// <returns>True, if the peer has completely joined the p2p network</returns>
         public bool SynchStart()
         {
-            lock (_connectLock)
+            if (!IsInitialized)
             {
-                if (!Initialized)
-                {
-                    throw new InvalidOperationException("Peer-to-peer is not initialized.");
-                }
+                throw new InvalidOperationException("Peer-to-peer is not initialized.");
+            }
 
-                if (Started)
-                {
-                    return true;
-                }
-
-                Dht.BeginStart(BeginStartEventHandler);
-
-                // Wait for event SystemJoined. When it's invoked, the peer completely joined the P2P system
-                _systemJoined.WaitOne();
-                _p2PManager.GuiLogMessage("System join process ended.", NotificationLevel.Debug);
-
+            if (IsConnected)
+            {
                 return true;
             }
+
+            Dht.BeginStart(BeginStartEventHandler);
+
+            // Wait for event SystemJoined. When it's invoked, the peer completely joined the P2P system
+            _systemJoined.WaitOne();
+            P2PManager.GuiLogMessage("System join process ended.", NotificationLevel.Debug);
+
+            return true;
         }
 
         private void BeginStartEventHandler(DHTEventArgs eventArgs)
         {
-            _p2PManager.GuiLogMessage("Received DHTEventArgs: " + eventArgs + ", state: " + eventArgs.State, NotificationLevel.Debug);
+            P2PManager.GuiLogMessage("Received DHTEventArgs: " + eventArgs + ", state: " + eventArgs.State, NotificationLevel.Debug);
         }
 
         /// <summary>
@@ -247,17 +238,19 @@ namespace Cryptool.P2P.Internal
         /// <returns>True, if the peer has completely left the p2p network</returns>
         public bool SynchStop()
         {
-            lock (_connectLock)
+            if (Dht == null) return false;
+
+            Dht.BeginStop(null);
+
+            if (!IsConnected)
             {
-                if (Dht == null) return false;
-
-                Dht.BeginStop(null);
-
-                // wait till systemLeft Event is invoked
-                _systemLeft.WaitOne();
-
                 return true;
             }
+
+            // wait till systemLeft Event is invoked
+            _systemLeft.WaitOne();
+
+            return true;
         }
 
         #endregion
@@ -333,7 +326,7 @@ namespace Cryptool.P2P.Internal
                 OnSystemJoined();
 
             _systemJoined.Set();
-            Started = true;
+            IsConnected = true;
         }
 
         private void OnDhtSystemLeft(object sender, SystemLeftEventArgs e)
@@ -341,11 +334,11 @@ namespace Cryptool.P2P.Internal
             if (OnSystemLeft != null)
                 OnSystemLeft();
 
-            Started = false;
-            Initialized = false;
+            IsConnected = false;
+            IsInitialized = false;
 
             // Allow new connection to start and check for waiting / blocked tasks
-            _p2PManager.IsP2PConnecting = false;
+            // TODO reset running ConnectionWorkers?
             _systemLeft.Set();
             _systemJoined.Set();
 

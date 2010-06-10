@@ -26,9 +26,9 @@ namespace Cryptool.P2PEditor.GUI.Controls
         public JobDisplay()
         {
             InitializeComponent();
-            UpdateRefreshTimerSettings(P2PManager.Instance.IsP2PConnected());
+            UpdateRefreshTimerSettings(P2PManager.IsConnected);
 
-            P2PManager.OnP2PConnectionStateChangeOccurred += P2PManager_OnP2PConnectionStateChangeOccurred;
+            P2PManager.ConnectionManager.OnP2PConnectionStateChangeOccurred += P2PManager_OnP2PConnectionStateChangeOccurred;
         }
 
         void P2PManager_OnP2PConnectionStateChangeOccurred(object sender, bool newState)
@@ -72,19 +72,32 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
-            var updateListWorker = new BackgroundWorker();
-            updateListWorker.DoWork += UpdateJobListInWorker;
-            updateListWorker.RunWorkerAsync();
-        }
-
-        void UpdateJobListInWorker(object sender, DoWorkEventArgs e)
-        {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(UpdateJobList));
+            UpdateJobList();
         }
 
         public void UpdateJobList()
         {
-            Jobs = JobListManager.JobList();
+            if (!P2PManager.IsConnected)
+            {
+                return;
+            }
+
+            P2PEditor.GuiLogMessage("Requesting new job list...", NotificationLevel.Debug);
+            var updateWorker = new JobListUpdateWorker(JobListManager);
+            updateWorker.RunWorkerCompleted += HandleRefreshedJobList;
+            updateWorker.RunWorkerAsync();
+        }
+
+        void HandleRefreshedJobList(object sender, RunWorkerCompletedEventArgs e)
+        {
+            var updateWorker = sender as JobListUpdateWorker;
+            if (updateWorker == null)
+            {
+                return;
+            }
+
+            P2PEditor.GuiLogMessage("Received new job list...", NotificationLevel.Debug);
+            Jobs = updateWorker.RefreshedJobList;
             Jobs.Reverse();
         }
 

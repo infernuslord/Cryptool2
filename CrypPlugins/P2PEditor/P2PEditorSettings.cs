@@ -98,9 +98,10 @@ namespace Cryptool.P2PEditor
         [TaskPane("start_caption", "start_tooltip", null, 3, true, DisplayLevel.Beginner, ControlType.Button)]
         public void ButtonStart()
         {
-            if (!P2PManager.Instance.IsP2PConnected() && !P2PManager.Instance.IsP2PConnecting)
+            if (!P2PManager.IsConnected)
             {
-                RunConnectionWorker();
+                P2PManager.ConnectionManager.OnP2PConnectionStateChangeOccurred += ((P2PEditorPresentation)_p2PEditor.Presentation).ConnectionWorkerCompleted;
+                P2PManager.Connect();
                 OnPropertyChanged("ButtonStart");
                 _p2PEditor.GuiLogMessage(Resources.Attributes.start_launched, NotificationLevel.Info);
             } else
@@ -112,9 +113,10 @@ namespace Cryptool.P2PEditor
         [TaskPane("stop_caption", "stop_tooltip", null, 4, true, DisplayLevel.Beginner, ControlType.Button)]
         public void ButtonStop()
         {
-            if (P2PManager.Instance.IsP2PConnected() && !P2PManager.Instance.IsP2PConnecting)
+            if (P2PManager.IsConnected)
             {
-                RunConnectionWorker();
+                P2PManager.ConnectionManager.OnP2PConnectionStateChangeOccurred += ((P2PEditorPresentation)_p2PEditor.Presentation).ConnectionWorkerCompleted;
+                P2PManager.Disconnect();
                 OnPropertyChanged("ButtonStop");
                 _p2PEditor.GuiLogMessage(Resources.Attributes.stop_launched, NotificationLevel.Info);
             }
@@ -294,13 +296,6 @@ namespace Cryptool.P2PEditor
             }
 
             P2PSettings.Default.Save();
-        }
-
-        private void RunConnectionWorker()
-        {
-            var connectionWorker = new ConnectionWorker(P2PManager.Instance.P2PBase);
-            connectionWorker.BackgroundWorker.RunWorkerCompleted += ((P2PEditorPresentation)_p2PEditor.Presentation).ConnectionWorkerCompleted;
-            connectionWorker.Start();
         }
     }
 }

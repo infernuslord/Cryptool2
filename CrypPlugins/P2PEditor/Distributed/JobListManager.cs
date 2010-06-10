@@ -21,7 +21,7 @@ namespace Cryptool.P2PEditor.Distributed
         {
             _p2PEditor.GuiLogMessage("Fetching DHT job list...", NotificationLevel.Debug);
 
-            if (!P2PManager.Instance.IsP2PConnected())
+            if (!P2PManager.IsConnected)
             {
                 _p2PEditor.GuiLogMessage("P2P not connected, cannot fetch job list.", NotificationLevel.Error);
                 return new List<DistributedJob>();
@@ -47,7 +47,7 @@ namespace Cryptool.P2PEditor.Distributed
         {
             _p2PEditor.GuiLogMessage("Distributing new job...", NotificationLevel.Debug);
 
-            if (!P2PManager.Instance.IsP2PConnected())
+            if (!P2PManager.IsConnected)
             {
                 _p2PEditor.GuiLogMessage("P2P not connected, cannot distribute job.", NotificationLevel.Error);
                 return;
@@ -76,7 +76,7 @@ namespace Cryptool.P2PEditor.Distributed
         {
             _p2PEditor.GuiLogMessage("Deleting job...", NotificationLevel.Debug);
 
-            if (!P2PManager.Instance.IsP2PConnected())
+            if (!P2PManager.IsConnected)
             {
                 _p2PEditor.GuiLogMessage("P2P not connected, cannot distribute job.", NotificationLevel.Error);
                 return;

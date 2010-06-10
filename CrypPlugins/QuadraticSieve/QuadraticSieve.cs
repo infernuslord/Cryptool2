@@ -155,7 +155,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             try
             {
                 usePeer2Peer = settings.UsePeer2Peer;
-                if (usePeer2Peer && !P2PManager.Instance.IsP2PConnected())
+                if (usePeer2Peer && !P2PManager.IsConnected)
                 {
                     GuiLogMessage("No connection to Peer2Peer network. Sieving locally now!", NotificationLevel.Warning);
                     usePeer2Peer = false;

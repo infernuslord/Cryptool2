@@ -48,7 +48,7 @@ namespace Cryptool.P2PEditor.GUI
             JobListManager = jobListManager;
             P2PEditorPresentation = this;
 
-            P2PManager.OnP2PConnectionStateChangeOccurred += HandleChangedPeerToPeerConnectionState;
+            P2PManager.ConnectionManager.OnP2PConnectionStateChangeOccurred += HandleChangedPeerToPeerConnectionState;
 
             InitializeComponent();
 
@@ -73,9 +73,9 @@ namespace Cryptool.P2PEditor.GUI
         }
 
 
-        internal void ConnectionWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        internal void ConnectionWorkerCompleted(object sender, bool newState)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(UpdateDisplay));
+            UpdateDisplay();
         }
 
         private void UpdateDisplay()
@@ -86,7 +86,7 @@ namespace Cryptool.P2PEditor.GUI
 
         private void UpdateConnectionState()
         {
-            IsP2PConnected = P2PManager.Instance.IsP2PConnected();
+            IsP2PConnected = P2PManager.IsConnected;
         }
 
         internal void ShowJobCreation()
