@@ -114,6 +114,7 @@
       <DependentUpon>BottomBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="WorkspaceManager.cs" />
+    <Compile Include="WorkspaceManagerSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CrypCore\CrypCore.csproj">

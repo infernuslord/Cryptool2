@@ -14,7 +14,6 @@
    limitations under the License.
 */
 
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +29,6 @@ namespace WorkspaceManager.Model
     [Serializable]
     public class WorkspaceModel 
     {
-
         /// <summary>
         /// The surrounding WorkspaceManagerEditor
         /// </summary>
@@ -131,17 +129,18 @@ namespace WorkspaceManager.Model
             if (this.AllPluginModels.Contains(pluginModel))
             {
                 // remove all InputConnectors belonging to this pluginModel from our WorkspaceModel
-                foreach (ConnectorModel inputConnector in pluginModel.InputConnectors)
+                foreach (ConnectorModel inputConnector in new List<ConnectorModel>(pluginModel.InputConnectors))
                 {
                     deleteConnectorModel(inputConnector);
                 }
 
                 // remove all OutputConnectors belonging to this pluginModel from our WorkspaceModel
-                foreach (ConnectorModel outputConnector in pluginModel.OutputConnectors)
+                foreach (ConnectorModel outputConnector in new List<ConnectorModel>(pluginModel.OutputConnectors))
                 {
                     deleteConnectorModel(outputConnector);
                 }
                 pluginModel.Plugin.Dispose();
+                pluginModel.onDelete();
                 return this.AllPluginModels.Remove(pluginModel);
             }            
             return false;
@@ -159,7 +158,7 @@ namespace WorkspaceManager.Model
             if(this.AllConnectorModels.Contains(connectorModel)){
 
                 //remove all output ConnectionModels belonging to this Connector from our WorkspaceModel
-                foreach (ConnectionModel outputConnection in connectorModel.OutputConnections)
+                foreach (ConnectionModel outputConnection in new List<ConnectionModel>(connectorModel.OutputConnections))
                 {
                     deleteConnectionModel(outputConnection);
                 }
@@ -169,6 +168,7 @@ namespace WorkspaceManager.Model
                 {
                     deleteConnectionModel(connectorModel.InputConnection);
                 }
+                connectorModel.onDelete();
                 return this.AllConnectorModels.Remove(connectorModel);
             }
             return false;
@@ -186,6 +186,7 @@ namespace WorkspaceManager.Model
 
             connectionModel.From.OutputConnections.Remove(connectionModel);
             connectionModel.To.InputConnection = null;
+            connectionModel.onDelete();
             return this.AllConnectionModels.Remove(connectionModel);
         }
 
@@ -193,7 +194,7 @@ namespace WorkspaceManager.Model
         /// Sets all Connections and Connectors to state nonActive/noData
         /// </summary>
         public void resetStates()
-        {            
+        {
             foreach (ConnectionModel connection in this.AllConnectionModels)
             {
                 connection.Active = false;
