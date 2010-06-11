@@ -29,7 +29,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
     [Author("Dennis Nolte", "nolte@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo(false, "VigenereAutokeyAnalyser", "Ciphertext-only attack on VigenereAutoKey encryption", null, "VigenereAutokeyAnalyser/icon.png")]
 
-    public class VigenereAutokeyAnalyser : IStatistic//IIOMisc
+    public class VigenereAutokeyAnalyser : IStatistic
     {
         #region Private Variables
 
@@ -44,6 +44,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 
         private int maxkeylength;                                   //The maximum keylength we search for
         private int keylength;                                      //One probable keylength
+        private int assumedkeylength;                               //The keylength delivered by the autokorrelation
         private int language;                                       //Frequencys we work with
         private double cSofS;                                       //One probable Ciphercolumn Sum of Squares
         private int maxfactor;                                      //One probable multiple of the keylength
@@ -90,6 +91,19 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
             }
         }
 
+        [PropertyInfo(Direction.InputData, "Keylength Input", "Enter the assumed keylength from the autokorrelationfunction here", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        public int InputKeylength
+        {
+            get
+            {
+                return assumedkeylength;
+            }
+            set
+            {
+                this.assumedkeylength = value;
+                OnPropertyChanged("InputKeylength");
+            }
+        }
 
         [PropertyInfo(Direction.OutputData, "Key Output", "The most probable autokey for the analysed ciphertext", "", DisplayLevel.Beginner)]
         public String OutputKey
@@ -165,69 +179,26 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
                 EF = expectedFrequency(language);
             }
 
+
+
+
 //-----------------------------------------------------------------------------------------------------------------
 //Analyse----------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------
 
-            for (int d = 1; d <= maxkeylength; d++)
+
+            if (InputKeylength != 0)
             {
-                completeplain = "";
-                key = "";
-                keylength = d;
-
-                maxfactor = ciphertext.Length / keylength;
-
-                for (int column = 0; column < keylength; column++)
+                assumedkeylength = InputKeylength;
+                breakAutoKey(assumedkeylength);
+            }
+            else
+            {
+                for (int d = 1; d <= maxkeylength; d++)
                 {
-                    String ciphercolumn = "";
-                    char probablekeychar = 'A';
-                    sumofsquares = 99999999999.99999999999;
-
-                    for (int i = 0; i <= maxfactor; i++)
-                    {
-                        if (column + i * keylength < ciphertext.Length)
-                        {
-                            ciphercolumn = ciphercolumn + ciphertext[column + i * keylength];
-                        }
-                    }
-
-                    ciphercolumn = ciphercolumn.ToUpper();
-
-                    for (int shift = 0; shift < alphabet.Length; shift++)
-                    {
-                        cSofS = getSumOfSquares(ciphercolumn, shift);
-
-
-                        if (cSofS < sumofsquares)
-                        {
-                            sumofsquares = cSofS;
-                            probablekeychar = alphabet[shift];
-                        }
-
-
-                    }
-
-                    completeplain = getShift(ciphercolumn, getPos(probablekeychar)); //merkt sich die entciphertecolumn
-                    key = key + probablekeychar;
-
-
-
+                    breakAutoKey(d);
                 }
-                          
-
-                IC = getIC(completeplain);
-
-                if (IC > finalIC)
-                {
-                    finalIC = IC;
-                    finalkey = key;
-                }
-
-                ProgressChanged((((double)d) / maxkeylength), 1);
-            
-            }//This keylength checked...next one
-
-
+            }           
 
             OutputKey = finalkey;
             OnPropertyChanged("OutputKey");
@@ -418,7 +389,69 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------
+//CALCULATION PART (MOST IMPORTANT METHODE)------------------------------------------------------------------------------------------------
 
+        private void breakAutoKey(int d)
+        {
+                completeplain = "";
+                key = "";
+                keylength = d;
+
+                maxfactor = ciphertext.Length / keylength;
+
+                for (int column = 0; column < keylength; column++)
+                {
+                    String ciphercolumn = "";
+                    char probablekeychar = 'A';
+                    sumofsquares = 99999999999.99999999999;
+
+                    for (int i = 0; i <= maxfactor; i++)
+                    {
+                        if (column + i * keylength < ciphertext.Length)
+                        {
+                            ciphercolumn = ciphercolumn + ciphertext[column + i * keylength];
+                        }
+                    }
+
+                    ciphercolumn = ciphercolumn.ToUpper();
+
+                    for (int shift = 0; shift < alphabet.Length; shift++)
+                    {
+                        cSofS = getSumOfSquares(ciphercolumn, shift);
+
+
+                        if (cSofS < sumofsquares)
+                        {
+                            sumofsquares = cSofS;
+                            probablekeychar = alphabet[shift];
+                        }
+
+
+                    }
+
+                    completeplain = getShift(ciphercolumn, getPos(probablekeychar)); //merkt sich die entciphertecolumn
+                    key = key + probablekeychar;
+
+
+
+                }
+
+
+                IC = getIC(completeplain);
+
+                if (IC > finalIC)
+                {
+                    finalIC = IC;
+                    finalkey = key;
+                }
+
+                ProgressChanged((((double)d) / maxkeylength), 1);       
+        }
+
+//-----------------------------------------------------------------------------------------------------------------------------------------
+ 
+        
+        
         #endregion
 
         #region Event Handling
