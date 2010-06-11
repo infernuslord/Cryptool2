@@ -35,7 +35,7 @@ namespace WorkspaceManager.View.Container
         private ConnectorView selectedConnector;
         private PluginContainerView selectedPluginContainer;
         private CryptoLineView dummyLine = new CryptoLineView();
-        private Point p;
+        private Point point;
 
         public EditorState State;
         public EditorState ConnectorState;
@@ -74,20 +74,19 @@ namespace WorkspaceManager.View.Container
 
         void WorkSpaceEditorView_Loaded(object sender, RoutedEventArgs e)
         {
-
         }
 
         public void AddPluginContainerView(Point position, PluginModel model)
         {
-            PluginContainerView shape = new PluginContainerView(model);
-            shape.Delete += new EventHandler<PluginContainerViewDeleteViewEventArgs>(PluginDelete);
-            shape.ShowSettings += new EventHandler<PluginContainerViewSettingsViewEventArgs>(shape_ShowSettings);
-            shape.OnConnectorMouseLeftButtonDown += new EventHandler<ConnectorViewEventArgs>(shape_OnConnectorMouseLeftButtonDown);
-            shape.MouseLeftButtonDown += new MouseButtonEventHandler(shape_MouseLeftButtonDown);
-            shape.MouseLeftButtonUp += new MouseButtonEventHandler(shape_MouseLeftButtonUp);
-            shape.SetPosition(position);
-            this.root.Children.Add(shape);
-            Canvas.SetZIndex(shape, 100);
+            PluginContainerView newPluginContainerView = new PluginContainerView(model);
+            newPluginContainerView.Delete += new EventHandler<PluginContainerViewDeleteViewEventArgs>(PluginDelete);
+            newPluginContainerView.ShowSettings += new EventHandler<PluginContainerViewSettingsViewEventArgs>(shape_ShowSettings);
+            newPluginContainerView.OnConnectorMouseLeftButtonDown += new EventHandler<ConnectorViewEventArgs>(shape_OnConnectorMouseLeftButtonDown);
+            newPluginContainerView.MouseLeftButtonDown += new MouseButtonEventHandler(shape_MouseLeftButtonDown);
+            newPluginContainerView.MouseLeftButtonUp += new MouseButtonEventHandler(shape_MouseLeftButtonUp);
+            newPluginContainerView.SetPosition(position);
+            this.root.Children.Add(newPluginContainerView);
+            Canvas.SetZIndex(newPluginContainerView, 100);
         }
 
         void shape_ShowSettings(object sender, PluginContainerViewSettingsViewEventArgs e)
@@ -121,7 +120,7 @@ namespace WorkspaceManager.View.Container
 
         private void AddConnectionSource(IConnectable source, CryptoLineView conn)
         {
-            Color color = ColorHelper.getColor((source as ConnectorView).Model.ConnectorType);
+            Color color = ColorHelper.GetDataColor((source as ConnectorView).Model.ConnectorType);
             conn.Stroke = new SolidColorBrush(color);
             conn.SetBinding(CryptoLineView.StartPointProperty, CreateConnectorBinding(source));
             conn.EndPoint = Mouse.GetPosition(this);
@@ -195,8 +194,8 @@ namespace WorkspaceManager.View.Container
         {
             if (e.LeftButton == MouseButtonState.Pressed && selectedPluginContainer != null)
             {
-                p = selectedPluginContainer.GetPosition();
-                this.selectedPluginContainer.SetPosition(new Point(p.X + Mouse.GetPosition(root).X - previousDragPoint.X, p.Y + Mouse.GetPosition(root).Y - previousDragPoint.Y));
+                point = selectedPluginContainer.GetPosition();
+                this.selectedPluginContainer.SetPosition(new Point(point.X + Mouse.GetPosition(root).X - previousDragPoint.X, point.Y + Mouse.GetPosition(root).Y - previousDragPoint.Y));
             }
 
             if (selectedConnector != null && root.Children.Contains(dummyLine))
