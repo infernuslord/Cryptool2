@@ -221,6 +221,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypPluginTemplate", "CrypP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VigenereAutokeyAnalyser", "CrypPlugins\VigenereAutokeyAnalyser\VigenereAutokeyAnalyser.csproj", "{7186387E-0469-42C3-96A9-F9AFFB656419}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutokorrelationFunction", "CrypPlugins\AutokorrelationFunction\AutokorrelationFunction.csproj", "{7D4A4CE5-7E4F-480B-BC8F-E1FEBE558B8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -1093,6 +1095,14 @@ Global
 		{7186387E-0469-42C3-96A9-F9AFFB656419}.Release|x64.Build.0 = Release|x64
 		{7186387E-0469-42C3-96A9-F9AFFB656419}.Release|x86.ActiveCfg = Release|x86
 		{7186387E-0469-42C3-96A9-F9AFFB656419}.Release|x86.Build.0 = Release|x86
+		{7D4A4CE5-7E4F-480B-BC8F-E1FEBE558B8B}.Debug|x64.ActiveCfg = Debug|x64
+		{7D4A4CE5-7E4F-480B-BC8F-E1FEBE558B8B}.Debug|x64.Build.0 = Debug|x64
+		{7D4A4CE5-7E4F-480B-BC8F-E1FEBE558B8B}.Debug|x86.ActiveCfg = Debug|x86
+		{7D4A4CE5-7E4F-480B-BC8F-E1FEBE558B8B}.Debug|x86.Build.0 = Debug|x86
+		{7D4A4CE5-7E4F-480B-BC8F-E1FEBE558B8B}.Release|x64.ActiveCfg = Release|x64
+		{7D4A4CE5-7E4F-480B-BC8F-E1FEBE558B8B}.Release|x64.Build.0 = Release|x64
+		{7D4A4CE5-7E4F-480B-BC8F-E1FEBE558B8B}.Release|x86.ActiveCfg = Release|x86
+		{7D4A4CE5-7E4F-480B-BC8F-E1FEBE558B8B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1199,5 +1209,6 @@ Global
 		{C53B0D8F-CB9C-461B-8802-062F342FFC5D} = {88B851F6-9E3D-484F-A317-ECED5B98C618}
 		{4C93AC25-D344-4A35-81C8-C2A5E2C3B438} = {88B851F6-9E3D-484F-A317-ECED5B98C618}
 		{7186387E-0469-42C3-96A9-F9AFFB656419} = {88B851F6-9E3D-484F-A317-ECED5B98C618}
+		{7D4A4CE5-7E4F-480B-BC8F-E1FEBE558B8B} = {88B851F6-9E3D-484F-A317-ECED5B98C618}
 	EndGlobalSection
 EndGlobal
