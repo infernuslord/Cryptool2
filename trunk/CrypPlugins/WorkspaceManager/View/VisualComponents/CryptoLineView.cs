@@ -62,7 +62,7 @@ namespace WorkspaceManager.View.VisualComponents
         public CryptoLineView(ConnectionModel connectionModel) : this()
         {
             this.Model = connectionModel;
-            Color color = ColorHelper.getColor(connectionModel.ConnectionType);
+            Color color = ColorHelper.GetDataColor(connectionModel.ConnectionType);
             Stroke = new SolidColorBrush(color);
             StrokeThickness = 2;
         }

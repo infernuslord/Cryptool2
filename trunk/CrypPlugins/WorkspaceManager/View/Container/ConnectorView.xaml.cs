@@ -64,7 +64,7 @@ namespace WorkspaceManager.View.Container
             this.MouseLeftButtonDown += new MouseButtonEventHandler(ConnectorView_MouseLeftButtonDown);
             this.Model = cModel;
             InitializeComponent();
-            Color color = ColorHelper.getColor(cModel.ConnectorType);
+            Color color = ColorHelper.GetDataColor(cModel.ConnectorType);
             this.Ellipse.Fill = new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
             this.Ellipse.ToolTip = cModel.ToolTip;
         }

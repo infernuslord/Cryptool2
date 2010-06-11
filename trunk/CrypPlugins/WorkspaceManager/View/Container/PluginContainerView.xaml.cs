@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WorkspaceManager.View.Interface;
 using WorkspaceManager.Model;
+using System.Windows.Controls.Primitives;
 
 namespace WorkspaceManager.View.Container
 {
@@ -26,6 +27,8 @@ namespace WorkspaceManager.View.Container
         public event EventHandler<PluginContainerViewSettingsViewEventArgs> ShowSettings;
 
         private Image img;
+
+        public VisualBrush VisualBrush { get; set; }
 
         private List<ConnectorView> connectorViewList;
         public List<ConnectorView> ConnectorViewList
@@ -51,14 +54,17 @@ namespace WorkspaceManager.View.Container
 
         public PluginContainerView(PluginModel model)
         {
-            this.ConnectorViewList = new List<ConnectorView>();
             this.Loaded += new RoutedEventHandler(PluginContainerView_Loaded);
             this.MouseEnter += new MouseEventHandler(PluginContainerView_MouseEnter);
             this.MouseLeave += new MouseEventHandler(PluginContainerView_MouseLeave);
+            this.ConnectorViewList = new List<ConnectorView>();
+            this.RenderTransform = new TranslateTransform();
             this.model = model;
             this.model.UpdateableView = this;
-            this.RenderTransform = new TranslateTransform();
             InitializeComponent();
+
+            Window.BorderBrush = new SolidColorBrush(ColorHelper.GetPluginTypeColor(model.PluginType));
+            PluginNamePlate.Fill = Window.BorderBrush;
 
             if (model.PluginPresentation != null)
             {
@@ -78,7 +84,6 @@ namespace WorkspaceManager.View.Container
 
         void PluginContainerView_Loaded(object sender, RoutedEventArgs e)
         {
-            //TODO: Better-> Bindings
             if (model.PluginPresentation == null)
             {
                 img = model.getImage();
@@ -216,6 +221,33 @@ namespace WorkspaceManager.View.Container
         }
 
         #endregion
+
+        private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+        {
+            Thumb t = sender as Thumb;
+
+            if (t.Cursor == Cursors.SizeWE)
+            {
+                if((this.ActualWidth + e.HorizontalChange) > 0)
+                    this.Width = this.ActualWidth + e.HorizontalChange;
+            }
+
+            if (t.Cursor == Cursors.SizeNS)
+            {
+                if((this.ActualHeight + e.VerticalChange) > 0)
+                    this.Height = this.ActualHeight + e.VerticalChange;
+            }
+
+            if (t.Cursor == Cursors.SizeNWSE)
+            {
+                if ((this.ActualHeight + e.VerticalChange) > 0)
+                    this.Height = this.ActualHeight + e.VerticalChange;
+
+                if ((this.ActualWidth + e.HorizontalChange) > 0)
+                    this.Width = this.ActualWidth + e.HorizontalChange;
+            }
+        }
+
     }
 
     public class PluginContainerViewDeleteViewEventArgs : EventArgs
