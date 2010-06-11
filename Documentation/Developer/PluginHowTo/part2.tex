@@ -1,22 +1,29 @@
 \chapter{Plugin Implementation}
 \label{sec:PluginImplementation}
-In this chapter we provide step-by-step instructions for implementing your own CrypTool 2 plugin. The given instructions refer primarily to the usage of \textbf{Microsoft Visual Studio Professional 2008}, so before starting you should have a copy of the program installed on your computer. 
+In this chapter we provide step-by-step instructions for implementing your own CrypTool 2 plugin. We assume, you have retrieved the CrypTool 2 source code from the SVN repository, have set up Visual Studio 2010 or Visual C\# 2010 Express to build CrypTool 2, and you have placed the template at the right place.
 
-\section{Downloading the example and template}
-\label{sec:DownloadingTheExampleAndTemplate}
+\section{Downloading the example}
+\label{sec:DownloadingTheExample}
 
 We will use the \textbf{Caesar cipher} (also known as the \textbf{shift cipher}) as an example throughout this chapter. If you did not to download the entire CrypTool 2 source code as described in Section \ref{CheckingOutTheSources}, you can still get a copy of the source code for the Caesar algorithm referenced throughout this guide from the following location:\\\\
 \textit{username: anonymous\\
 password:} (not required)\\
-\url{https://www.cryptool.org/svn/CrypTool2/trunk/CrypPlugins/Caesar/}\\\\
-We have also created a Visual Studio plugin \textbf{template} to help with the development of new plugins. Using this template is strongly recommended over copying and pasting code from this document! The template and a short readme can be found here:\\\\
-\url{http://cryptool2.vs.uni-due.de/index.php?page=33&lm=3}
-\clearpage
+\url{https://www.cryptool.org/svn/CrypTool2/trunk/CrypPlugins/Caesar/}
 
 \section{Creating a new project}
 \label{sec:CreatingANewProject}
 
-To begin, open Visual Studio, go to the menu bar and select \textit{File~$\rightarrow$ New $\rightarrow$ Project\ldots }. The following window will appear:
+%To begin, open Visual Studio, go to the menu bar and select \textit{File~$\rightarrow$ New $\rightarrow$ Project\ldots }. The following window will appear:
+
+XXX: update screenshot
+
+XXX: right click in solution explorer on CrypPlugins (Express: on solution), select Add, New Project
+
+XXX: select CrypTool 2 Plugin as project type
+
+XXX: enter some plugin name
+
+XXX: enter CrypPlugins as location (!!!)
 
 \begin{figure}[h!]
 	\centering
@@ -26,7 +33,7 @@ To begin, open Visual Studio, go to the menu bar and select \textit{File~$\right
 \end{figure}
 \clearpage
 
-Select \textbf{\textit{.NET-Framework 3.5}} as the target framework. Then choose \textit{Class Library} as the default template, as this will build the project for your plugin as a DLL file. Give the project a unique and meaningful name (such as \textit{Caesar} in our case), and choose a location to save it to. Select the subdirectory \textit{CrypPlugins} from your SVN trunk as the location. Finally, confirm by pressing the \textit{OK} button. Note that creating a new project in this manner also creates a new solution into which the project is placed. At this point, your Visual Studio solution should look like this:
+%Select \textbf{\textit{.NET-Framework 3.5}} as the target framework. Then choose \textit{Class Library} as the default template, as this will build the project for your plugin as a DLL file. Give the project a unique and meaningful name (such as \textit{Caesar} in our case), and choose a location to save it to. Select the subdirectory \textit{CrypPlugins} from your SVN trunk as the location. Finally, confirm by pressing the \textit{OK} button. Note that creating a new project in this manner also creates a new solution into which the project is placed. At this point, your Visual Studio solution should look like this:
 
 \begin{figure}[h!]
 	\centering
@@ -36,125 +43,17 @@ Select \textbf{\textit{.NET-Framework 3.5}} as the target framework. Then choose
 \end{figure}
 \clearpage
 
-\section{Interface selection}
-\label{sec:InterfaceSelection}
+XXX: rename files in solution explorer to something meaningful (ExamplePluginCT2.cs, ExamplePluginCT2Settings.cs)
 
-To include our new plugin in the CrypTool 2 application, we must first add a reference to the CrypTool 2 library \textbf{\textit{CrypPluginBase.dll}}, where all the necessary CrypTool 2 plugin interfaces are declared.
+XXX: rename class ExamplePluginCT2Settings to something meaningful (right-click, refactor/rename).
 
-\begin{figure}[h!]
-	\includegraphics{figures/add_reference.jpg}
-	\caption{Adding a new reference.}
-	\label{fig:add_reference}
-\end{figure}
+%In our case, this class has to inherit from \textit{IEncryption} because it will be an encryption plugin. If it was instead a hash plugin, this class should inherit from \textit{IHash}. The second class will be used to store setting information for the plugin, and thus we will name ours \textit{CaesarSettings}. It will need to inherit from \textit{ISettings}.
 
-\noindent Right-click in the Solution Explorer on the \textit{Reference} item and choose \textit{Add Reference}. A window like the following should appear:
+%When starting a new project, Visual Studio automatically creates a class named \textit{Class1.cs}. Since this is a rather non-descriptive name, we will change it. In our example, it will be \textit{Caesar.cs}.
 
-\begin{figure}[h!]
-	\centering
-		\includegraphics{figures/add_pluginbase_source.jpg}
-	\caption{Adding a reference to the CrypPluginBase source code.}
-	\label{fig:add_pluginbase_source}
-\end{figure}
-\clearpage
+%Then right-click on the project item (in our case, \textit{Caesar}) and select \textit{Add $\rightarrow$ Class\ldots }:
 
-Unless you have created your new project in the same CrypTool 2 solution, you probably will not be able to select the library directly as seen above in Figure \ref{fig:add_pluginbase_source}; instead you can browse for the binary DLL as seen below in Figure \ref{fig:browse_reference}. Click on the \textit{Browse} tab and navigate to the folder in which you downloaded the CrypTool 2 project. Within that folder, go to \textit{\textbackslash CrypPluginBase\textbackslash bin\textbackslash Debug} and select the file \textit{CrypPluginBase.dll}. The library reference can then be added by double clicking the file or pressing the \textit{OK} button.
-
-\begin{figure}[h!]
-	\centering
-		\includegraphics{figures/browse_reference.jpg}
-	\caption{Browsing for a reference.}
-	\label{fig:browse_reference}
-\end{figure}
-
-Besides CrypPluginBase you will need to add three Windows assembly references to provide the necessary namespaces for the user control functions \textit{Presentation} and \textit{QuickWatchPresentation}. This can be done in a similar manner as before with the \textit{CrypPluginBase} reference, but by selecting the \textit{.NET} tab and searching for the references there. Select the following .NET components:
-
-\textit{
-\begin{itemize}
-    \item PresentationCore
-    \item PresentationFramework
-    \item WindowsBase
-\end{itemize}}
-\clearpage
-
-\noindent After these additions, your reference tree view should look like this:
-
-\begin{figure}[h!]
-		\includegraphics{figures/reference_tree.jpg}
-	\caption{A reference tree with the essential components.}
-	\label{fig:reference_tree}
-\end{figure}
-
-\noindent If your plugin will require other additional libraries, you can add them in the same way.
-
-\section{Modifing the project properties}
-\label{sec:ModifyTheProjectProperties}
-
-It is important to make two small changes to your plugin's assembly data to make sure that it will be imported correctly into CrypTool 2. Go to the Solution Explorer and open \textit{AssemblyInfo.cs}, which can be found in the \textit{Properties} folder. Make the following two changes:
-
-\begin{itemize}
-	\item Change the attribute \textit{AssemblyVersion} to have the value "2.0.*", and
-	\item Comment out the attribute \textit{AssemblyFileVersion}.
-\end{itemize}
-
-\noindent This section of your assembly file should now look something like this:
-
-\begin{lstlisting}
-[assembly: AssemblyVersion("2.0.*")]
-//[assembly: AssemblyFileVersion("1.0.0.0")]
-\end{lstlisting}
-
-\section{Creating classes for the algorithm and its settings}
-\label{sec:CreatingClassesForTheAlgorithmAndItsSettings}
-
-In the next step we will create two classes. The first class will be the main driver; we will call ours \textit{Caesar} since that is the name of the cipher that it will implement. In our case, this class has to inherit from \textit{IEncryption} because it will be an encryption plugin. If it was instead a hash plugin, this class should inherit from \textit{IHash}. The second class will be used to store setting information for the plugin, and thus we will name ours \textit{CaesarSettings}. It will need to inherit from \textit{ISettings}.
-\clearpage
-
-\subsection{Creating a class for the algorithm}
-\label{sec:CreatingAClassForTheAlgorithm}
-
-When starting a new project, Visual Studio automatically creates a class named \textit{Class1.cs}. Since this is a rather non-descriptive name, we will change it. In our example, it will be \textit{Caesar.cs}. There are two ways to change the name:
-
-\begin{itemize}
-	\item Rename the existing class, or
-	\item Delete the existing class and create a new one.
-\end{itemize}
-%\clearpage
-
-\noindent Both options will achieve the same results. We will guide you through the second method. First, delete \textit{Class1.cs}.
-
-\begin{figure}[h!]
-	\centering
-		\includegraphics{figures/new_class.jpg}
-	\caption{Deleting a class.}
-	\label{fig:new_class}
-\end{figure}
-\clearpage
-
-\noindent Then right-click on the project item (in our case, \textit{Caesar}) and select \textit{Add $\rightarrow$ Class\ldots }:
-
-\begin{figure}[h]
-	\centering
-		\includegraphics{figures/add_new_class.jpg}
-	\caption{Adding a new class.}
-	\label{fig:add_new_class}
-\end{figure}
-\clearpage
-
-\noindent Finally, give your class a unique name. We will call our class \textit{Caesar.cs} and define it as public so that it will be available to other classes.
-
-\begin{figure}[h!]
-	\centering
-		\includegraphics[width=1.00\textwidth]{figures/name_new_class.jpg}
-	\caption{Naming the new class.}
-	\label{fig:name_new_class}
-\end{figure}
-
-Note that Visual Studio will automatically generate a very basic code outline for the new class. In our example, we will not use the all the namespaces that are automatically imported, so you can delete the line \texttt{using System.Linq;}.
-
-\subsection{Creating a settings class}
-\label{sec:CreatingASettingsClass}
-
-Add a second public class in the same way. We will call the class \textit{CaesarSettings}. The settings class will store the necessary information about controls, captions, descriptions and default parameters (e.g.\ for key settings, alphabets, key length and type of action) to build the \textbf{TaskPane} in the CrypTool application.
+%The settings class will store the necessary information about controls, captions, descriptions and default parameters (e.g.\ for key settings, alphabets, key length and type of action) to build the \textbf{TaskPane} in the CrypTool application.
 \clearpage
 
 \noindent Below is an example of what a completed TaskPane for the existing Caesar plugin in CrypTool 2 looks like:
@@ -169,6 +68,10 @@ Add a second public class in the same way. We will call the class \textit{Caesar
 
 \subsection{Adding the namespaces and inheritance sources for the Caesar class}
 \label{sec:AddingTheNamespacesAndInheritanceSourcesForTheCaesarClass}
+
+XXX: your plugin main class should inherit from some interface from the following CrypPluginBase interfaces
+
+XXX: CT2 determines by your chosen interface in which algorithm category your plugin will be shown (encryption, hash, analysis etc.)
 
 Open the \textit{Caesar.cs} file by double clicking on it in the Solution Explorer. To include the necessary namespaces in the class header, use the \texttt{using} statement followed by the name of the desired namespace. The CrypTool 2 API provides the following namespaces:
 
@@ -195,185 +98,12 @@ Open the \textit{Caesar.cs} file by double clicking on it in the Solution Explor
 	\item \textit{Cryptool.PluginBase.Miscellaneous} --- to use the CrypTool event handler.
 \end{itemize}
 
-\noindent It is important to define a new default namespace for our public class (\textit{Caesar}). In CrypTool 2  the standard namespace convention is \textit{Cryptool.[name of class]}. Therefore our namespace will be defined as \textit{Cryptool.Caesar}.\clearpage
-
-\noindent At this point, the source code should look like the following:
-
-\begin{lstlisting}
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-//required CrypTool namespaces
-using Cryptool.PluginBase;
-using Cryptool.PluginBase.Cryptography;
-using Cryptool.PluginBase.IO;
-using Cryptool.PluginBase.Miscellaneous;
-
-namespace Cryptool.Caesar
-{
-	public class Caesar
-	{
-	}
-}
-\end{lstlisting}
-
-\ \\ % ugly but functional
-\noindent Next we should let the \textit{Caesar} class inherit from \textit{IEncryption} by making the following alteration:
-
-\begin{lstlisting}
-namespace Cryptool.Caesar
-{
-	public class Caesar : IEncryption
-	{
-	}
-}
-\end{lstlisting}
-
-\subsection{Adding interface functions to the Caesar class}
-\label{sec:AddingInterfaceFunctionsToTheCaesarClass}
-
-You may notice an underscore underneath the \textit{I} in \textit{IEncryption}. Move your mouse over it, or place the cursor on it and press \textit{Shift+Alt+F10} and the following submenu should appear:
-
-\begin{figure}[h!]
-	\centering
-		\includegraphics{figures/inherit_submenu.jpg}
-	\caption{An inheritance submenu.}
-	\label{fig:inherit_submenu}
-\end{figure}
-
-Select the item \textit{Implement interface `IEncryption'}. Visual Studio will automatically generate all the interface members necessary for interaction with the CrypTool 2 core. (This step will save you a lot of typing!)
 \clearpage
-
-\noindent Your code should now look like this:
-
-\begin{lstlisting}
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-using Cryptool.PluginBase;
-using Cryptool.PluginBase.Cryptography;
-using Cryptool.PluginBase.IO;
-using Cryptool.PluginBase.Miscellaneous;
-
-namespace Cryptool.Caesar
-{
-    public class Caesar : IEncryption
-    {
-        #region IPlugin Members
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Execute()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Initialize()
-        {
-            throw new NotImplementedException();
-        }
-
-        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-
-        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
-
-        public event StatusChangedEventHandler OnPluginStatusChanged;
-
-        public void Pause()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void PostExecution()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void PreExecution()
-        {
-            throw new NotImplementedException();
-        }
-
-        public System.Windows.Controls.UserControl Presentation
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public System.Windows.Controls.UserControl QuickWatchPresentation
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public ISettings Settings
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public void Stop()
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
-
-        #region INotifyPropertyChanged Members
-
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        #endregion
-    }
-}
-\end{lstlisting}
-
-\subsection{Adding the namespace and interfaces to the CaesarSettings class}
-\label{sec:AddingTheNamespaceAndInterfacesToTheCaesarSettingsClass}
-
-Let's now take a look at the second class in our example, \textit{CaesarSettings}, by double-clicking on the \textit{CaesarSettings.cs} file in the Solution Explorer. First, we need to again include the \textit{Cryptool.PluginBase} namespace to the class header. Then we must let the settings class inherit from \textit{ISettings} in the same manner as was done with the Caesar class. Visual Studio will again automatically generate code from the CrypTool interface as seen below. (In this case, we can remove the using \texttt{System.Collections.Generic;}, \texttt{using System.Linq;}, and \texttt{using System.Text;} lines, as we will not use those references.)
-\clearpage
-
-\begin{lstlisting}
-using System;
-
-using Cryptool.PluginBase;
-
-namespace Cryptool.Caesar
-{
-    public class CaesarSettings : ISettings
-    {
-        #region ISettings Members
-
-        public bool HasChanges
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        #endregion
-
-        #region INotifyPropertyChanged Members
-
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        #endregion
-    }
-}
-\end{lstlisting}
 
 \subsection{Adding controls to the CaesarSettings class}
 \label{sec:AddingControlsToTheCaesarSettingsClass}
 
-The settings class is used to populate the TaskPane in the CrypTool 2 application so that the user can modify the plugin settings at will. Thus we will need to implement some controls, such as buttons and text boxes, to allow for the necessary interaction. If you will be implementing an algorithm that does not have any user-defined settings (i.e.\ a hash function), then this class can be left mostly empty; you will, however, still have to modify the \textit{HasChanges} property to avoid a \textit{NotImplementedException}. The following code demonstrates the modifications necessary to create the backend for the TaskPane for our Caesar algorithm. You can also look at the source code of other CrypTool 2 plugins for examples of how to create the TaskPane backend.\\
+The settings class is used to populate the TaskPane in the CrypTool 2 application so that the user can modify the plugin settings at will. Thus we will need to implement some controls, such as buttons and text boxes, to allow for the necessary interaction. If you will be implementing an algorithm that does not have any user-defined settings (i.e.\ a hash function), then this class can be left mostly empty. The following code demonstrates the modifications necessary to create the backend for the TaskPane for our Caesar algorithm. You can also look at the source code of other CrypTool 2 plugins for examples of how to create the TaskPane backend.\\
 
 \begin{lstlisting}
 using System;
@@ -1328,8 +1058,7 @@ private void ProgressChanged(double value, double max)
 \section{Performing a clean dispose}
 \label{sec:PerformingACleanDispose}
 
-Be sure you have closed and cleaned all your streams after execution before CrypTool 2 decides to dispose the plugin instance. Though not required, we will run the disposal code before execution as well. We will expand the associated automatically generated methods (see Section \ref{sec:AddingInterfaceFunctionsToTheCaesarClass}) as follows:
-
+Be sure you have closed and cleaned all your streams after execution before CrypTool 2 decides to dispose the plugin instance.
 \begin{lstlisting}
 public void Dispose()
 {
@@ -1339,139 +1068,7 @@ public void Dispose()
 	}
 	listCryptoolStreamsOut.Clear();
 }
-
-public void PostExecution()
-{
-	Dispose();
-}
-
-public void PreExecution()
-{
-	Dispose();
-}
 \end{lstlisting}
-\clearpage
-
-\section{Finishing the implementation}
-\label{sec:FinishingTheImplementation}
-
-When adding plugin instances to the CrypTool 2 workspace, the application core checks whether the plugin runs without any exceptions. If any method inherited from IPlugin throws an exception, CrypTool 2 will display an error message and prohibit use of the plugin. Therefore, we must remove the \textit{NotImplementedException} from the automatically generated methods \textit{Initialize()}, \textit{Pause()} and \textit{Stop()}. In our example it will be sufficient to provide empty implementations:
-
-\begin{lstlisting}
-public void Initialize()
-{
-}
-
-public void Pause()
-{
-}
-
-public void Stop()
-{
-}
-\end{lstlisting}
-
-\ \\
-The methods \textit{Presentation()} and \textit{QuickWatchPresentation()} can be used to provide a specialized visualization of the plugin algorithm to be shown in CrypTool 2. Take a look at the \textit{PRESENT} plugin to see how a custom visualization can be realized. For our Caesar example, we have chosen not to implement a custom visualization. Therefore we will simply return \texttt{null}:
-
-\begin{lstlisting}
-public UserControl Presentation
-{
-	get { return null; }
-}
-
-public UserControl QuickWatchPresentation
-{
-	get { return null; }
-}
-\end{lstlisting}
-
-\ \\
-Your plugin should compile without errors at this point.
-\clearpage
-
-\section{Importing and testing the plugin}
-\label{sec:ImportingAndTestingThePlugin}
-
-After you have built the plugin, you need to move the newly created plugin DLL to a location where CrypTool 2 can find it. There are currently a couple different ways to accomplish this. First, though, you need to locate the DLL. Once you have successfully compiled the plugin, the DLL should be in \textit{\mbox{\textbackslash CrypPluginBase\textbackslash }bin\textbackslash Debug}.
-
-% Global Storage does not currently function - but presumably will be brought back in at another time.
-
-%\subsection{Global storage}
-%\label{sec:GlobalStorage}
-
-%The first option is to copy your plugin's DLL file to the \textit{CrypPlugins} folder in which the CrypTool 2 %executable (\textit{CrypWin.exe}) can be found.
-
-%\begin{figure}[h]
-%	\centering
-%		\includegraphics{figures/copy_dll_global_storage.jpg}
-%	\caption{Copying the plugin to the global storage folder}
-%	\label{fig:copy_dll_global_storage}
-%\end{figure}
-
-%This folder is known as ``global storage'' in the CrypTool 2 architecture. Changes in this folder will affect %all users on a multi-user Windows platform. You should now restart CrypTool 2.
-%\clearpage
-
-%\begin{figure}[h]
-%	\centering
-%		\includegraphics{figures/global_storage.jpg}
-%	\caption{Inside the CrypPlugins folder (the global storage).}
-%	\label{fig:global_storage}
-%\end{figure}
-
-\subsection{Custom storage}
-\label{sec:CustomStorage}
-
-The first possibility is to copy your plugin's DLL file to the \textit{CrypPlugins} folder located in the \textit{Application Data} folder in your home folder. In Windows XP, the home folder path should be as follows: \textit{C:\textbackslash Documents and Settings\textbackslash $<$user name$>$\textbackslash Application Data\textbackslash CrypPlugins}, and in Vista and Windows 7 the path should look like: \textit{C:\textbackslash Users\textbackslash $<$user name$>$\textbackslash Application Data\textbackslash CrypPlugins}. This home folder path is called ``custom storage'' in the CrypTool architecture. Changes in this folder will only take effect for current user. After copying the file, you must restart CrypTool 2.
-
-\begin{figure}[h]
-	\centering
-		\includegraphics[width=1.00\textwidth]{figures/custom_storage.jpg}
-	\caption{The custom storage folder.}
-	\label{fig:custom_storage}
-\end{figure}
-\clearpage
-
-% Direct import is currently not supported - but presumably it will return again in some form.
-
-%\subsection{Importing directly}
-%\label{sec:ImportingDirectly}
-
-%Another option is to import new plugins directly from the CrypTool 2 interface. Just run \mbox{CrypWin.exe} and select the \textit{Download Plugins} button. An \textit{Open File Dialog} window will open and ask where the new plugin is located. After selecting the new plugin, CrypTool 2 will automatically import the plugin to the custom storage folder. With this option you will not have to restart the program. All corresponding menu entries will be updated automatically. Note that this option is just a temporary solution: in the future this will be done online by a web service.
-%\clearpage
-
-\subsection{Using build settings}
-\label{sec:UsingBuildSettings}
-
-Alternatively, you can use the build settings in your plugin's project properties to copy the DLL automatically after building it in Visual Studio. To set this up, right-click on your plugin project and select \textit{Properties}:
-
-\begin{figure}[h]
-	\centering
-		\includegraphics{figures/solution_properties.JPG}
-	\caption{Selecting the solution properties.}
-	\label{fig:solution_properties}
-\end{figure}
-\clearpage
-
-\noindent Then select \textit{Build Events}:
-
-\begin{figure}[h]
-	\centering
-		\includegraphics{figures/post_build.JPG}
-	\caption{Setting the build events.}
-	\label{fig:post_build}
-\end{figure}
-
-\noindent And finally, enter the following text into the \textit{Post-build event command line} field:\\\\
-cd "\$(ProjectDir)" \\
-cd ..\textbackslash ..\textbackslash CrypWin\textbackslash bin\textbackslash Debug\\
-if not exist ".\textbackslash CrypPlugins" mkdir ".\textbackslash CrypPlugins"\\
-%del /F /S /Q /s /q "\colorbox{yellow}{Caesar}*.*"\\
-%copy "\$(TargetDir)\colorbox{yellow}{Caesar}*.*" ".\textbackslash CrypPlugins"\\\\
-% Colorbox is ugly and creates spaces around the box. Highlighting via the Soul package is much better!
-del /F /S /Q /s /q "\hl{Caesar}*.*"\\
-copy "\$(TargetDir)\hl{Caesar}*.*" ".\textbackslash CrypPlugins"\\\\
-You will need to change the highlighted fields to your particular plugin's name.
 \clearpage
 
 \section{Drawing the workflow of your plugin}
