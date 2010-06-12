@@ -1,4 +1,4 @@
-\documentclass[11pt, a4paper, titlepage]{scrreprt}
+\documentclass[11pt, a4paper, titlepage, appendixprefix]{scrreprt}
 
 \usepackage[latin1]{inputenc}
 \usepackage[english]{babel}
@@ -19,7 +19,7 @@
 \usepackage{color,soul}
 
 %\usepackage[automark]{scrpage2}
-%\usepackage[absolute]{textpos}
+%\usepackage[absolute]{textpos}
 
 
 \lstset{language=[Sharp]C, % base language is C and dialect is Sharp (C#)
@@ -193,5 +193,9 @@ For further information, please visit the CrypTool 2 website at \htmladdnormalli
 
 	\include{part1}
 	\include{part2}
+	
+	\begin{appendix}
+	\include{appendix}
+	\end{appendix}
 
 \end{document}
