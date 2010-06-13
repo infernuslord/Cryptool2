@@ -565,10 +565,10 @@ namespace Cryptool.Plugins.QuadraticSieve
                 p = ApproximatedPolynom((double)num_relations / max_relations);
                 double estimatedElapsedTime = estimatedTotalTime * p;
 
-                //Calculate the time left:
+                //Calculate time left:
                 msleft = estimatedTotalTime - estimatedElapsedTime;
-                GuiLogMessage("Total: " + new TimeSpan(0, 0, 0, 0, (int)estimatedTotalTime), NotificationLevel.Info);
-                GuiLogMessage("Elapsed: " + new TimeSpan(0, 0, 0, 0, (int)estimatedElapsedTime), NotificationLevel.Info);
+                /*GuiLogMessage("Total: " + new TimeSpan(0, 0, 0, 0, (int)estimatedTotalTime), NotificationLevel.Info);
+                GuiLogMessage("Elapsed: " + new TimeSpan(0, 0, 0, 0, (int)estimatedElapsedTime), NotificationLevel.Info);*/
             }            
             
             String timeLeft_message = "very soon";
@@ -717,13 +717,16 @@ namespace Cryptool.Plugins.QuadraticSieve
         {
             if (conf_list != null)
             {
+                ArrayList cl = conf_list;
+                conf_list = null;
+
                 running = false;
                 if (usePeer2Peer)
                     peerToPeer.StopLoadStoreThread();
 
                 MethodInfo stop = msieve.GetMethod("stop");
                 MethodInfo getObjFromConf = msieve.GetMethod("getObjFromConf");
-                foreach (IntPtr conf in conf_list)
+                foreach (IntPtr conf in cl)
                     stop.Invoke(null, new object[] { getObjFromConf.Invoke(null, new object[] { conf }) });
                 GuiLogMessage("Waiting for threads to stop!", NotificationLevel.Debug);
                 while (threadcount > 0)
@@ -731,7 +734,6 @@ namespace Cryptool.Plugins.QuadraticSieve
                     Thread.Sleep(0);
                 }
                 GuiLogMessage("Threads stopped!", NotificationLevel.Debug);
-                conf_list.Clear();
             }
         }    
 
