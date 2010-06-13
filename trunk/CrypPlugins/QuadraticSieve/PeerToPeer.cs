@@ -143,7 +143,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 //Performance and alive informations:
                 if (!activePeers.Contains(ownerID))
                 {
-                    UpdatePeerPerformance(ownerID);
+                    UpdatePeerPerformanceAndAliveInformation(ownerID);
                     activePeers.Add(ownerID);
                     UpdateActivePeerInformation();
                 }
@@ -223,6 +223,8 @@ namespace Cryptool.Plugins.QuadraticSieve
 
                     SynchronizeHead();
 
+                    bool busy = false;
+
                     if (storequeue.Count != 0)  //store our packages
                     {
                         byte[] yield = (byte[])storequeue.Dequeue();
@@ -240,34 +242,38 @@ namespace Cryptool.Plugins.QuadraticSieve
                         //show informations about the uploaded yield:
                         uploaded += (uint)yield.Length;
                         ShowTransfered(downloaded, uploaded);
+                        busy = true;
                     }
-                    else                      //if there is nothing to store, we can load the other yields.
+
+                    //load the other yields:
+
+                    //skip all indices which are uploaded by us:
+                    while (ourIndices.Contains(loadIndex))
+                        loadIndex++;
+
+                    if (loadIndex < head)
                     {
-                        //skip all indices which are uploaded by us:
-                        while (ourIndices.Contains(loadIndex))
-                            loadIndex++;
-
-                        if (loadIndex < head)
-                        {
-                            downloaded = TryReadAndEnqueueYield(loadIndex, downloaded, uploaded, lostIndices);
-                            loadIndex++;
-                        }
-                        else
-                        {
-                            int count = 0;
-                            //check all lost indices which are last checked longer than 1 minutes ago:
-                            //TODO: Maybe we should throw away those indices, which have been checked more than several times.
-                            while (lostIndices.Count != 0 && lostIndices.Peek().Value.CompareTo(DateTime.Now.Subtract(new TimeSpan(0, 1, 0))) < 0)
-                            {
-                                var e = lostIndices.Dequeue();
-                                downloaded = TryReadAndEnqueueYield(loadIndex, downloaded, uploaded, lostIndices);
-                                count++;
-                            }
-
-                            if (count == 0)
-                                Thread.Sleep(5000);    //Wait 5 seconds
-                        }
+                        downloaded = TryReadAndEnqueueYield(loadIndex, downloaded, uploaded, lostIndices);
+                        loadIndex++;
+                        busy = true;
                     }
+                    
+                    //check all lost indices which are last checked longer than 2 minutes ago (but only if we have nothing else to do):
+                    if (!busy)
+                    {
+                        int count = 0;                        
+                        //TODO: Maybe we should throw away those indices, which have been checked more than several times.
+                        while (lostIndices.Count != 0 && lostIndices.Peek().Value.CompareTo(DateTime.Now.Subtract(new TimeSpan(0, 2, 0))) < 0)
+                        {
+                            var e = lostIndices.Dequeue();
+                            downloaded = TryReadAndEnqueueYield(loadIndex, downloaded, uploaded, lostIndices);
+                            count++;
+                        }
+
+                        if (count == 0)
+                            Thread.Sleep(5000);    //Wait 5 seconds
+                    }
+
                 }
             }
             catch (ThreadInterruptedException)
@@ -284,7 +290,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             }, null);
         }
 
-        private void UpdatePeerPerformance(int peerID)
+        private void UpdatePeerPerformanceAndAliveInformation(int peerID)
         {
             byte[] performancebytes = P2PManager.Retrieve(PerformanceIdentifier(peerID));
             if (performancebytes != null)
@@ -479,7 +485,7 @@ namespace Cryptool.Plugins.QuadraticSieve
 
             //store our name:
             P2PManager.Retrieve(NameIdentifier(ourID));     //just to outsmart the versioning system
-            P2PManager.Store(NameIdentifier(ourID),  System.Text.ASCIIEncoding.ASCII.GetBytes(ourName.ToCharArray())); //TODO: proper name here!
+            P2PManager.Store(NameIdentifier(ourID),  System.Text.ASCIIEncoding.ASCII.GetBytes(ourName.ToCharArray()));
 
             if (loadStoreThread != null)
                 throw new Exception("LoadStoreThread already started");
