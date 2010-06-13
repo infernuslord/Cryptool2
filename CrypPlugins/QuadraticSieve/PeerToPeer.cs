@@ -475,7 +475,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             else
                 head = 0;
 
-            SetOurID();
+            //SetOurID();
 
             //store our name:
             P2PManager.Retrieve(NameIdentifier(ourID));     //just to outsmart the versioning system
