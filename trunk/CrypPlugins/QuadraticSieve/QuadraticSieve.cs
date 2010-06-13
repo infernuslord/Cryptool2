@@ -679,6 +679,8 @@ namespace Cryptool.Plugins.QuadraticSieve
             MethodInfo getYield = msieve.GetMethod("getYield");
             MethodInfo getAmountOfRelationsInYield = msieve.GetMethod("getAmountOfRelationsInYield");
 
+            Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
+
             while (running)
             {
                 try
