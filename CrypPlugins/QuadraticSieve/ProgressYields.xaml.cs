@@ -14,74 +14,103 @@ using System.Windows.Shapes;
 
 namespace Cryptool.Plugins.QuadraticSieve
 {
-    public enum YieldStatus {Ours, OthersNotLoaded, OthersLoaded};
-
     /// <summary>
     /// Interaction logic for ProgressYields.xaml
     /// </summary>
     public partial class ProgressYields : UserControl
     {
-        public YieldStatus this[int i]
+        private int ourID;
+        private Random random = new Random();
+        private Dictionary<int, Brush> colorMap = new Dictionary<int, Brush>();     //maps user ids to their colors
+        private int peerAmount;
+
+        public delegate void AmountOfClientsChangedHandler(int amount);
+        public event AmountOfClientsChangedHandler AmountOfClientsChanged;
+
+        public void Set(int i, int id, string name)
         {
-            set 
+            if (root.Children.Count <= i)   //if no rect exists for this yield yet
             {
-                if (root.Children.Count <= i)   //if no rect exists for this yield yet
-                {
-                    //Create some rects to fill the gap:
-                    for (int c = root.Children.Count; c < i; c++)
-                        createYieldRect(c, YieldStatus.OthersNotLoaded);
-                    //create the rect:
-                    createYieldRect(i, value);
-                }
-                else
-                {
-                    SetRectToStatus(root.Children[i] as Rectangle, value);                    
-                }
+                //Create some rects to fill the gap:
+                for (int c = root.Children.Count; c < i; c++)
+                    createYieldRect(c, 0, name);
+                //create the rect:
+                createYieldRect(i, id, name);
+            }
+            else
+            {
+                SetRectToStatus(root.Children[i] as Rectangle, id, name);
             }
         }
 
         public void Clear()
         {
             root.Children.Clear();
+            peerAmount = 0;
         }
 
-        private void SetRectToStatus(Rectangle rectangle, YieldStatus value)
+        public void setOurID(int id)
+        {
+            ourID = id;
+        }
+
+        private void SetRectToStatus(Rectangle rectangle, int uploaderID, string uploaderName)
         {
             ToolTip tooltip = new ToolTip();
-            switch (value)
+            if (uploaderID == ourID)
             {
-                case YieldStatus.Ours:
-                    rectangle.Fill = Brushes.Green;
-                    tooltip.Content = "This yield was sieved by us";
-                    break;
-                case YieldStatus.OthersLoaded:
-                    rectangle.Fill = Brushes.Yellow;
-                    tooltip.Content = "This yield was sieved by others but we loaded it";
-                    break;
-                case YieldStatus.OthersNotLoaded:
-                    rectangle.Fill = Brushes.Red;
-                    tooltip.Content = "This yield was sieved by others but we didn't loaded it yet";
-                    break;
+                rectangle.Fill = Brushes.Green;
+                tooltip.Content = "This yield was sieved by us";
             }
+            else if (uploaderID == 0)
+            {
+                rectangle.Fill = Brushes.Black;
+                tooltip.Content = "This yield was sieved by an unknown user and we didn't load it yet";
+            }
+            else if (uploaderID == -1)
+            {
+                rectangle.Fill = Brushes.White;     //TODO: Proper representation here                
+                tooltip.Content = "This yield got lost";
+            }
+            else
+            {
+                rectangle.Fill = GetColor(uploaderID);
+                if (uploaderName == null)
+                    uploaderName = "other user";
+                tooltip.Content = "This yield was sieved by " + uploaderName + " but we loaded it";
+            }            
             rectangle.ToolTip = tooltip;
         }
 
-        private void createYieldRect(int c, YieldStatus yieldStatus)
+        private Brush GetColor(int uploaderID)
         {
-            Rectangle rect = new Rectangle();            
-            //rect.Margin = JobMargin;
+            if (!colorMap.ContainsKey(uploaderID))
+            {
+                peerAmount++;
+                AmountOfClientsChanged(peerAmount);
+                SolidColorBrush color = new SolidColorBrush();
+                color.Color = Color.FromRgb((byte)random.Next(256), (byte)random.Next(256), (byte)random.Next(256));
+                colorMap[uploaderID] = color;
+                return color;
+            }
+            else
+                return colorMap[uploaderID];
+        }
+
+        private void createYieldRect(int c, int id, string name)
+        {
+            Rectangle rect = new Rectangle();                        
             rect.Width = 10;
             rect.Height = rect.Width;
             rect.Stroke = Brushes.White;
             rect.StrokeThickness = 0.1;
-            SetRectToStatus(rect, yieldStatus);
+            SetRectToStatus(rect, id, name);
             root.Children.Add(rect);
         }
 
         public ProgressYields()
         {
             InitializeComponent();
-
             root.Children.Clear();
         }
     }

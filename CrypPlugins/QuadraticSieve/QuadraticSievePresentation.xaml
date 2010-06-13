@@ -33,12 +33,14 @@
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
                 <Label Grid.Row="1" Content="" HorizontalAlignment="Stretch" Name="relationsInfo" VerticalAlignment="Bottom" />
+                <Label Grid.Row="2" Content="" HorizontalAlignment="Stretch" Name="amountOfPeers" VerticalAlignment="Bottom" />
             </Grid>                
         </Expander>
         
