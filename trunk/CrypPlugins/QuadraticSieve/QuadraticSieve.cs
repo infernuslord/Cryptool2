@@ -554,11 +554,11 @@ namespace Cryptool.Plugins.QuadraticSieve
             if (usePeer2Peer)
                 globalPerformance += peerToPeer.GetP2PPerformance();
 
-            //Calculate the total time assuming that we can sieve 10 minutes with the same performance:
-            double relationsCalculatableIn10Minutes = 1000 * 60 * 1 * globalPerformance;
-            if (relationsCalculatableIn10Minutes <= max_relations)
+            //Calculate the total time assuming that we can sieve 1 minute with the same performance:
+            double relationsCalculatableIn1Minute = 1000 * 60 * 1 * globalPerformance;
+            if (relationsCalculatableIn1Minute <= max_relations)
             {
-                double p = ApproximatedPolynom(relationsCalculatableIn10Minutes / max_relations);
+                double p = ApproximatedPolynom(relationsCalculatableIn1Minute / max_relations);
                 double estimatedTotalTime = 1000 * 60 * 1 / p;
 
                 //Calculate the elapsed time assuming that we sieved with the same performance the whole time:
@@ -571,8 +571,8 @@ namespace Cryptool.Plugins.QuadraticSieve
                 GuiLogMessage("Elapsed: " + new TimeSpan(0, 0, 0, 0, (int)estimatedElapsedTime), NotificationLevel.Info);
             }            
             
-            String timeLeft_message = "";
-            String endtime_message = "";
+            String timeLeft_message = "very soon";
+            String endtime_message = "very soon";
             if (msleft > 0 && !double.IsInfinity(msleft))
             {
                 TimeSpan ts = new TimeSpan(0, 0, 0, 0, (int)msleft);
