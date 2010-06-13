@@ -360,6 +360,12 @@ namespace Msieve
 			return IntPtr((void*)y);
 		}
 
+		static int getAmountOfRelationsInYield(IntPtr yield)
+		{
+			relationYield* y = (relationYield*)yield.ToPointer();
+			return y->num_relations;
+		}
+
 		static int getNumRelations(IntPtr conf)
 		{
 			sieve_conf_t* c = (sieve_conf_t*)conf.ToPointer();

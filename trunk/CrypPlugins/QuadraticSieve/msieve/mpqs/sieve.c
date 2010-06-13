@@ -761,6 +761,9 @@ void collect_relations(sieve_conf_t *conf,
 			}
 		}
 	}
+
+	if (conf->slave)
+		conf->yield->num_relations = relations_found;
 }
 
 /*--------------------------------------------------------------------*/

@@ -64,6 +64,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         private bool usePeer2Peer;
         private bool useGnuplot = false;
         private StreamWriter gnuplotFile;
+        private double[] relationsPerMS;
 
         private static Assembly msieveDLL = null;
         private static Type msieve = null;
@@ -78,7 +79,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        public event PluginProgressChangedEventHandler OnPluginProcessChanged;        
+        public event PluginProgressChangedEventHandler OnPluginProcessChanged;
 
         #endregion
 
@@ -191,6 +192,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                     GuiLogMessage(logging_message, NotificationLevel.Info);
                     quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
+                        quadraticSieveQuickWatchPresentation.ProgressYields.Clear();
                         quadraticSieveQuickWatchPresentation.logging.Text = logging_message;
                         quadraticSieveQuickWatchPresentation.endTime.Text = endtime_message;
                         quadraticSieveQuickWatchPresentation.timeLeft.Text = timeLeft_message;
@@ -456,13 +458,14 @@ namespace Cryptool.Plugins.QuadraticSieve
 
             running = true;
             //start helper threads:
+            relationsPerMS = new double[threads + 1];
             for (int i = 0; i < threads+1; i++)
             {
                 MethodInfo cloneSieveConf = msieve.GetMethod("cloneSieveConf");
                 IntPtr clone = (IntPtr)cloneSieveConf.Invoke(null, new object[] { conf });                
                 conf_list.Add(clone);
                 WaitCallback worker = new WaitCallback(MSieveJob);
-                ThreadPool.QueueUserWorkItem(worker, new object[] { clone, update, core_sieve_fcn, yieldqueue });
+                ThreadPool.QueueUserWorkItem(worker, new object[] { clone, update, core_sieve_fcn, yieldqueue, i });
             }
 
             //manage the yields of the other threads:
@@ -532,7 +535,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 num_relations = (int)getNumRelations.Invoke(null, new object[] { conf });
                 showProgressPresentation(max_relations, num_relations, start_relations, start_sieving_time);
 
-                if (usePeer2Peer && !peerToPeer.SyncFactorManager(factorManager))   //an other peer already finished sieving
+                if (usePeer2Peer && !peerToPeer.SyncFactorManager(factorManager))   //another peer already finished sieving
                 {
                     throw new AlreadySievedException();
                 }
@@ -541,32 +544,48 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         private void showProgressPresentation(int max_relations, int num_relations, int start_relations, DateTime start_sieving_time)
         {
-            TimeSpan diff = DateTime.Now - start_sieving_time;
-            double a = -3.55504;
-            double b = 8.62296;
-            double c = -7.75103;
-            double d = 3.65871;
-            double x = (double)num_relations / max_relations;
-            double progress = a * x*x*x*x + b * x*x*x + c * x*x + d * x;
-            double totalTime = diff.TotalMilliseconds / progress;
-            double msleft = totalTime - diff.TotalMilliseconds;
-            //double msleft = (diff.TotalMilliseconds / (num_relations - start_relations)) * (max_relations - num_relations);
+            String logging_message = "Found " + num_relations + " of " + max_relations + " relations!";
+            double msleft = 0;
+
+            //calculate global performance in relations per ms:
+            double globalPerformance = 0;
+            foreach (double r in relationsPerMS)
+                globalPerformance += r;
+            if (usePeer2Peer)
+                globalPerformance += peerToPeer.GetP2PPerformance();
+
+            //Calculate the total time assuming that we can sieve 10 minutes with the same performance:
+            double relationsCalculatableIn10Minutes = 1000 * 60 * 1 * globalPerformance;
+            if (relationsCalculatableIn10Minutes <= max_relations)
+            {
+                double p = ApproximatedPolynom(relationsCalculatableIn10Minutes / max_relations);
+                double estimatedTotalTime = 1000 * 60 * 1 / p;
+
+                //Calculate the elapsed time assuming that we sieved with the same performance the whole time:
+                p = ApproximatedPolynom((double)num_relations / max_relations);
+                double estimatedElapsedTime = estimatedTotalTime * p;
+
+                //Calculate the time left:
+                msleft = estimatedTotalTime - estimatedElapsedTime;
+                GuiLogMessage("Total: " + new TimeSpan(0, 0, 0, 0, (int)estimatedTotalTime), NotificationLevel.Info);
+                GuiLogMessage("Elapsed: " + new TimeSpan(0, 0, 0, 0, (int)estimatedElapsedTime), NotificationLevel.Info);
+            }            
+            
+            String timeLeft_message = "";
+            String endtime_message = "";
             if (msleft > 0 && !double.IsInfinity(msleft))
             {
                 TimeSpan ts = new TimeSpan(0, 0, 0, 0, (int)msleft);
-                String logging_message = "Found " + num_relations + " of " + max_relations + " relations!";
-                String timeLeft_message = showTimeSpan(ts) + " left";
-                String endtime_message = "" + DateTime.Now.AddMilliseconds((long)msleft);
-
-                GuiLogMessage(logging_message + " " + timeLeft_message + ".", NotificationLevel.Debug);
-                quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                {
-                    quadraticSieveQuickWatchPresentation.logging.Text = logging_message;
-                    quadraticSieveQuickWatchPresentation.timeLeft.Text = timeLeft_message;
-                    quadraticSieveQuickWatchPresentation.endTime.Text = endtime_message;
-                }
-                , null);
+                timeLeft_message = showTimeSpan(ts) + " left";
+                endtime_message = "" + DateTime.Now.AddMilliseconds((long)msleft);
             }
+
+            quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                quadraticSieveQuickWatchPresentation.logging.Text = logging_message;
+                quadraticSieveQuickWatchPresentation.timeLeft.Text = timeLeft_message;
+                quadraticSieveQuickWatchPresentation.endTime.Text = endtime_message;
+            }, null);
 
             if (useGnuplot)
             {
@@ -574,6 +593,16 @@ namespace Cryptool.Plugins.QuadraticSieve
                 double time = (DateTime.Now - start_sieving_time).TotalSeconds;
                 gnuplotFile.WriteLine("" + time + "\t\t" + percentage);
             }
+        }
+
+        private static double ApproximatedPolynom(double x)
+        {
+            double a = -3.55504;
+            double b = 8.62296;
+            double c = -7.75103;
+            double d = 3.65871;
+            double progress = a * x * x * x * x + b * x * x * x + c * x * x + d * x;
+            return progress;
         }
 
         /// <summary>
@@ -644,15 +673,26 @@ namespace Cryptool.Plugins.QuadraticSieve
             int update = (int)parameters[1];
             IntPtr core_sieve_fcn = (IntPtr)parameters[2];
             Queue yieldqueue = (Queue)parameters[3];
+            int threadNR = (int)parameters[4];
+
+            MethodInfo collectRelations = msieve.GetMethod("collectRelations");
+            MethodInfo getYield = msieve.GetMethod("getYield");
+            MethodInfo getAmountOfRelationsInYield = msieve.GetMethod("getAmountOfRelationsInYield");
 
             while (running)
             {
                 try
                 {
-                    MethodInfo collectRelations = msieve.GetMethod("collectRelations");
-                    collectRelations.Invoke(null, new object[] { clone, update, core_sieve_fcn });
-                    MethodInfo getYield = msieve.GetMethod("getYield");
+                    //Calculate the performance of this thread:
+                    DateTime beginning = DateTime.Now;                    
+                    collectRelations.Invoke(null, new object[] { clone, update, core_sieve_fcn });                    
                     IntPtr yield = (IntPtr)getYield.Invoke(null, new object[] { clone });
+
+                    int amountOfFullRelations = (int)getAmountOfRelationsInYield.Invoke(null, new object[] { yield });
+                    relationsPerMS[threadNR] = amountOfFullRelations / (DateTime.Now - beginning).TotalMilliseconds;
+
+                    if (usePeer2Peer)
+                        peerToPeer.SetOurPerformance(relationsPerMS);
 
                     yieldqueue.Enqueue(yield);
                     yieldEvent.Set();

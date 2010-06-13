@@ -25,5 +25,6 @@ typedef struct
 {
 	int yield_count;
 	int yield_capacity;
-	struct yield_element *yield_array;	
+	struct yield_element *yield_array;
+	int num_relations;
 } relationYield;
