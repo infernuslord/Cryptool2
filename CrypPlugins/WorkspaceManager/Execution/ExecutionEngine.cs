@@ -41,7 +41,10 @@ namespace WorkspaceManager.Execution
         private WorkspaceManager WorkspaceManagerEditor;
         private Scheduler[] schedulers;
         private WorkspaceModel workspaceModel;
-      
+
+        public long CheckInterval { get; set; }
+        public long GuiUpdateInterval { get; set; }
+
         /// <summary>
         /// Creates a new ExecutionEngine
         /// </summary>
@@ -178,7 +181,7 @@ namespace WorkspaceManager.Execution
     public class UpdateGuiProtocol : ProtocolBase
     {
         private WorkspaceModel workspaceModel;
-        private ExecutionEngine executionEngine;
+        private ExecutionEngine executionEngine;      
 
         /// <summary>
         /// Create a new protocol. Each protocol requires a scheduler which provides
@@ -189,7 +192,7 @@ namespace WorkspaceManager.Execution
             : base(scheduler)
         {
             this.workspaceModel = workspaceModel;
-            this.executionEngine = executionEngine;
+            this.executionEngine = executionEngine;            
         }
 
         /// <summary>
@@ -201,7 +204,7 @@ namespace WorkspaceManager.Execution
         {
             while (this.executionEngine.IsRunning)
             {
-                yield return Timeout(1000, HandleUpdateGui);
+                yield return Timeout(this.executionEngine.GuiUpdateInterval, HandleUpdateGui);
             }
         }
 
@@ -250,7 +253,7 @@ namespace WorkspaceManager.Execution
     {
         private WorkspaceModel workspaceModel;
         private ExecutionEngine executionEngine;
-
+     
         /// <summary>
         /// Create a new protocol. Each protocol requires a scheduler which provides
         /// a thread for execution.
@@ -272,7 +275,7 @@ namespace WorkspaceManager.Execution
         {
             while (this.executionEngine.IsRunning)
             {
-                yield return Timeout(1, HandleCheckExecutable);
+                yield return Timeout(this.executionEngine.CheckInterval, HandleCheckExecutable);
             }
         }
 
@@ -288,6 +291,7 @@ namespace WorkspaceManager.Execution
                 pluginModel.checkExecutable(pluginModel.PluginProtocol);
             }
         }
+        
     }
 
     /// <summary>

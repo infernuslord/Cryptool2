@@ -55,6 +55,7 @@ namespace WorkspaceManager.View.Container
 
         public WorkSpaceEditorView(WorkspaceModel WorkspaceModel)
         {
+            this.MouseLeftButtonDown += new MouseButtonEventHandler(WorkSpaceEditorView_OnMouseLeftButtonDown);
             this.MouseLeave += new MouseEventHandler(WorkSpaceEditorView_MouseLeave);
             this.Loaded += new RoutedEventHandler(WorkSpaceEditorView_Loaded);
             this.DragEnter += new DragEventHandler(WorkSpaceEditorView_DragEnter);
@@ -156,6 +157,15 @@ namespace WorkspaceManager.View.Container
 
         #region Controls
 
+        void WorkSpaceEditorView_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!e.Handled)
+            {
+                PluginChangedEventArgs args = new PluginChangedEventArgs(this.model.WorkspaceManagerEditor, "WorkspaceManager", DisplayPluginMode.Normal);
+                this.Model.WorkspaceManagerEditor.onSelectedPluginChanged(args);
+            }
+        }
+
         void shape_OnConnectorMouseLeftButtonDown(object sender, ConnectorViewEventArgs e)
         {
             if (selectedConnector != null && WorkspaceModel.compatibleConnectors(selectedConnector.Model, e.connector.Model))
@@ -188,7 +198,7 @@ namespace WorkspaceManager.View.Container
         {
             this.selectedPluginContainer = null;
             this.State = EditorState.READY;
-        }
+        }      
 
         void WorkSpaceEditorView_MouseMove(object sender, MouseEventArgs e)
         {
@@ -219,6 +229,7 @@ namespace WorkspaceManager.View.Container
             this.State = EditorState.BUSY;
             PluginChangedEventArgs args = new PluginChangedEventArgs(this.selectedPluginContainer.Model.Plugin, this.selectedPluginContainer.Model.Name, DisplayPluginMode.Normal);
             this.Model.WorkspaceManagerEditor.onSelectedPluginChanged(args);
+            e.Handled = true;
         }
 
         void WorkSpaceEditorView_Drop(object sender, DragEventArgs e)
