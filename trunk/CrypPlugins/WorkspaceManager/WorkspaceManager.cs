@@ -356,7 +356,27 @@ namespace WorkspaceManager
                     this.WorkspaceManagerEditorView.root.IsEnabled = false;   
                 }
                 , null);
-                ExecutionEngine.Execute(WorkspaceModel);
+
+                try
+                {
+                    ExecutionEngine.CheckInterval = long.Parse(((WorkspaceManagerSettings)this.Settings).CheckInterval);
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage("Could not set CheckInterval: " + ex.Message, NotificationLevel.Warning);
+                    ExecutionEngine.CheckInterval = 10;
+                }
+
+                try
+                {
+                    ExecutionEngine.GuiUpdateInterval = long.Parse(((WorkspaceManagerSettings)this.Settings).GuiUpdateInterval);
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage("Could not set GuiUpdateInterval: " + ex.Message, NotificationLevel.Warning);
+                    ExecutionEngine.GuiUpdateInterval = 100;
+                }
+                ExecutionEngine.Execute(WorkspaceModel);               
             }
             catch (Exception ex)
             {
