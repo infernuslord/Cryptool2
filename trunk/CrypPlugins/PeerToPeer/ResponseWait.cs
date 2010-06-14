@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using PeersAtPlay.P2PStorage.DHT;
 
 namespace Cryptool.Plugins.PeerToPeer.Internal
 {
@@ -10,5 +11,6 @@ namespace Cryptool.Plugins.PeerToPeer.Internal
 
         public bool success;
         public byte[] value;
+        public OperationStatus operationStatus;
     }
 }

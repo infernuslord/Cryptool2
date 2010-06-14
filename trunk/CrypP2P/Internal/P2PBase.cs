@@ -398,12 +398,11 @@ namespace Cryptool.P2P.Internal
             }
 
             responseWait.success = storeResult.Status == OperationStatus.Success;
+            responseWait.operationStatus = storeResult.Status;
             responseWait.Message = Encoding.UTF8.GetBytes(storeResult.Status.ToString());
 
             // unblock WaitHandle in the synchronous method
             responseWait.WaitHandle.Set();
-
-            LogToMonitor("Received and handled OnSynchStoreCompleted.");
         }
 
         /// <summary>
@@ -440,8 +439,6 @@ namespace Cryptool.P2P.Internal
                 return;
             }
 
-            LogToMonitor("Received retrieve callback, local ThreadId: " + Thread.CurrentThread.ManagedThreadId);
-
             switch (retrieveResult.Status)
             {
                 case OperationStatus.Success:
@@ -458,10 +455,10 @@ namespace Cryptool.P2P.Internal
                     break;
             }
 
+            responseWait.operationStatus = retrieveResult.Status;
+
             // unblock WaitHandle in the synchronous method
             responseWait.WaitHandle.Set();
-
-            LogToMonitor("Received and handled OnSynchRetrieveCompleted.");
         }
 
         /// <summary>
@@ -498,13 +495,13 @@ namespace Cryptool.P2P.Internal
                 return;
             }
 
-            responseWait.success = removeResult.Status == OperationStatus.Success;
+            responseWait.success = removeResult.Status != OperationStatus.Failure &&
+                                   removeResult.Status != OperationStatus.VersionMismatch;
+            responseWait.operationStatus = removeResult.Status;
             responseWait.Message = Encoding.UTF8.GetBytes(removeResult.Status.ToString());
 
             // unblock WaitHandle in the synchronous method
             responseWait.WaitHandle.Set();
-
-            LogToMonitor("Received and handled OnSynchRemoveCompleted.");
         }
 
         #endregion

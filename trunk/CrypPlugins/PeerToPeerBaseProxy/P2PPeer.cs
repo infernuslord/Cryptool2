@@ -21,7 +21,6 @@ using System.Threading;
 using System.Windows.Controls;
 using Cryptool.P2P;
 using Cryptool.P2P.Internal;
-using Cryptool.P2P.Worker;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Control;
 using Cryptool.PluginBase.IO;
