@@ -59,6 +59,7 @@
   <ItemGroup>
     <Reference Include="Gears4Net">
       <HintPath>..\..\AppReferences\x86\Gears4Net.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
