@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using Cryptool.P2P;
 using Cryptool.PluginBase.Analysis;
 using Cryptool.PluginBase;
 using System.Windows.Controls;
@@ -14,6 +15,8 @@ using Cryptool.PluginBase.Miscellaneous;
 using System.IO;
 using Cryptool.PluginBase.IO;
 using System.Numerics;
+using KeySearcher.Helper;
+using KeySearcher.P2P;
 
 namespace KeySearcher
 {    
@@ -32,6 +35,8 @@ namespace KeySearcher
         private int maxThread;
         private Mutex maxThreadMutex = new Mutex();
 
+        private KeyQualityHelper _keyQualityHelper;
+
         private KeyPattern pattern = null;
         public KeyPattern Pattern
         {
@@ -47,7 +52,7 @@ namespace KeySearcher
             }
         }
 
-        private bool stop;
+        internal bool stop;
 
         #region IControlEncryption + IControlCost + InputFields
 
@@ -89,6 +94,7 @@ namespace KeySearcher
             set
             {
                 costMaster = value;
+                _keyQualityHelper = new KeyQualityHelper(costMaster);
             }
         }
 
@@ -198,12 +204,12 @@ namespace KeySearcher
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
         private KeySearcherSettings settings;
+        private AutoResetEvent _connectResetEvent;
 
         public KeySearcher()
         {
             settings = new KeySearcherSettings(this);
             QuickWatchPresentation = new KeySearcherQuickWatchPresentation();
-            
         }
 
         public ISettings Settings
@@ -230,10 +236,10 @@ namespace KeySearcher
         public virtual void Execute()
         {
             //either byte[] CStream input or CryptoolStream Object input
-            if (this.encryptedData != null || this.csEncryptedData != null) //to prevent execution on initialization
+            if (encryptedData != null || csEncryptedData != null) //to prevent execution on initialization
             {
-                if (this.ControlMaster != null)
-                    this.process(this.ControlMaster);
+                if (ControlMaster != null)
+                    process(ControlMaster);
                 else
                 {
                     GuiLogMessage("You have to connect the KeySearcher with the Decryption Control!", NotificationLevel.Warning);
@@ -532,22 +538,30 @@ namespace KeySearcher
                 return;
             }
             Pattern.WildcardKey = settings.Key;
-            bruteforcePattern(Pattern, sender);
+            this.sender = sender;
+
+            bruteforcePattern(Pattern);
         }
+
+        internal LinkedList<ValueKey> costList = new LinkedList<ValueKey>();
+        private int bytesToUse;
+        private IControlEncryption sender;
+        private DateTime beginBruteforcing;
 
         // modified by Christian Arnold 2009.12.07 - return type LinkedList (top10List)
         // main entry point to the KeySearcher
-        private LinkedList<ValueKey> bruteforcePattern(KeyPattern pattern, IControlEncryption sender)
+        private LinkedList<ValueKey> bruteforcePattern(KeyPattern pattern)
         {
             //For evaluation issues - added by Arnold 2010.03.17
-            DateTime beginBruteforcing = DateTime.Now;
+            beginBruteforcing = DateTime.Now;
             GuiLogMessage("Start bruteforcing pattern '" + pattern.getKey() + "'", NotificationLevel.Debug);
 
 
                         
             int maxInList = 10;
-            LinkedList<ValueKey> costList = new LinkedList<ValueKey>();
+            costList = new LinkedList<ValueKey>();
             fillListWithDummies(maxInList, costList);
+            valuequeue = Queue.Synchronized(new Queue());
 
             stop = false;
             if (!pattern.testWildcardKey(settings.Key))
@@ -556,7 +570,7 @@ namespace KeySearcher
                 return null;
             }
 
-            int bytesToUse = 0;
+            bytesToUse = 0;
 
             try
             {
@@ -568,10 +582,78 @@ namespace KeySearcher
                 return null;
             }
 
+            if (settings.UsePeerToPeer)
+            {
+                BruteForceWithPeerToPeerSystem();
+                return null;
+            }
+
+            return BruteForceWithLocalSystem(pattern);
+        }
+
+        private Dispatcher _dispatcher;
+
+        private void BruteForceWithPeerToPeerSystem()
+        {
+            _dispatcher = Dispatcher.CurrentDispatcher;
+            GuiLogMessage("Launching p2p based bruteforce logic...", NotificationLevel.Info);
+            ValidateConnectionToPeerToPeerSystem();
+            new P2PBruteForce(this, pattern, settings, _keyQualityHelper);
+        }
+
+
+        #region P2P connection validation
+
+        private void ValidateConnectionToPeerToPeerSystem()
+        {
+            if (P2PManager.IsConnected)
+            {
+                return;
+            }
+
+            if(settings.AutoconnectPeerToPeer)
+            {
+                HandleAutoconnect();
+            } else
+            {
+                GuiLogMessage("P2P network not connected and autoconnect disabled. Cannot compute job.",
+                              NotificationLevel.Error);
+            }
+        }
+
+        private void HandleAutoconnect()
+        {
+            P2PManager.ConnectionManager.OnP2PConnectionStateChangeOccurred += HandleConnectionStateChange;
+            _connectResetEvent = new AutoResetEvent(false);
+
+            P2PManager.Connect();
+
+            _connectResetEvent.WaitOne();
+
+            if (P2PManager.IsConnected)
+            {
+                GuiLogMessage("P2P network was connected due to plugin setting.",
+                              NotificationLevel.Info);
+            }
+            else
+            {
+                GuiLogMessage("P2P network could not be connected.",
+                              NotificationLevel.Error);
+                throw new ApplicationException("Workaround for wrong error handling... Workspace should be stopped now.");
+            }
+        }
+
+        void HandleConnectionStateChange(object sender, bool newState)
+        {
+            _connectResetEvent.Set();
+        }
+
+        #endregion
+
+        internal LinkedList<ValueKey> BruteForceWithLocalSystem(KeyPattern pattern)
+        {
             BigInteger size = pattern.size();
             KeyPattern[] patterns = splitPatternForThreads(pattern);
-
-            valuequeue = Queue.Synchronized(new Queue());
 
             BigInteger[] doneKeysA = new BigInteger[patterns.Length];
             BigInteger[] keycounters = new BigInteger[patterns.Length];
@@ -584,7 +666,7 @@ namespace KeySearcher
             {
                 Thread.Sleep(1000);
 
-                updateToplist(costList);
+                updateToplist();
 
                 #region calculate global counters from local counters
                 BigInteger keycounter = 0;
@@ -669,12 +751,12 @@ namespace KeySearcher
             return costList;
         }
 
-        private void showProgress(LinkedList<ValueKey> costList, BigInteger size, BigInteger keycounter, BigInteger doneKeys)
+        internal void showProgress(LinkedList<ValueKey> costList, BigInteger size, BigInteger keycounter, BigInteger doneKeys)
         {
             System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
 
             LinkedListNode<ValueKey> linkedListNode;
-            ProgressChanged((double)(keycounter/size), 1.0);
+            ProgressChanged((double)keycounter / (double) size, 1.0);
 
             if (QuickWatchPresentation.IsVisible && doneKeys != 0 && !stop)
             {
@@ -790,12 +872,34 @@ namespace KeySearcher
             }
         }
 
-        private void updateToplist(LinkedList<ValueKey> costList)
+        internal void IntegrateNewResults(LinkedList<ValueKey> costList)
+        {
+            foreach (var valueKey in costList)
+            {
+                if (_keyQualityHelper.IsBetter(valueKey.value, value_threshold))
+                {
+                    valuequeue.Enqueue(valueKey);
+                }
+            }
+
+            updateToplist();
+            UpdateWithShowProgress();
+        }
+
+        internal void updateToplist()
         {
             LinkedListNode<ValueKey> node;
             while (valuequeue.Count != 0)
             {
                 ValueKey vk = (ValueKey)valuequeue.Dequeue();
+
+                //if (costList.Contains(vk)) continue;
+                var result = costList.Where(valueKey => valueKey.key == vk.key);
+                if (result.Count() > 0)
+                {
+                    continue;
+                }
+
                 if (this.costMaster.getRelationOperator() == RelationOperator.LargerThen)
                 {
                     if (vk.value > costList.Last().value)
@@ -837,6 +941,11 @@ namespace KeySearcher
                     }//end if
                 }
             }
+        }
+
+        private void UpdateWithShowProgress()
+        {
+            showProgress(costList, 1, 0, 0);
         }
 
         #endregion
@@ -918,8 +1027,9 @@ namespace KeySearcher
             this.encryptedData = encryptedData;
             this.initVector = initVector;
             /* End: New stuff because of changing the IControl data flow - Arnie 2010.01.18 */
-            
-            LinkedList<ValueKey> lstRet = bruteforcePattern(pattern, encryptControl);
+
+            this.sender = encryptControl;
+            LinkedList<ValueKey> lstRet = bruteforcePattern(pattern);
             if(OnBruteforcingEnded != null)
                 OnBruteforcingEnded(lstRet);
         }

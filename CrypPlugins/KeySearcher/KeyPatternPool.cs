@@ -246,6 +246,7 @@ namespace KeySearcher
             return part;
         }
 
+        [Obsolete("Only for first version of Christian Arnolds plugin needed, use length!")]
         public long Count()
         {
             return (long)(Length + stack.Count - counter);

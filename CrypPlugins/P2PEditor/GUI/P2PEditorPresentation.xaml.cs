@@ -72,11 +72,11 @@ namespace Cryptool.P2PEditor.GUI
 
             if (P2PManager.IsConnected)
             {
-                ShowActiveJobs();
+                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(ShowActiveJobs));
             }
             else
             {
-                ShowConnectTab();
+                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(ShowConnectTab));
             }
         }
 
@@ -100,8 +100,8 @@ namespace Cryptool.P2PEditor.GUI
 
         private void UpdateDisplay()
         {
-            UpdateConnectionState();
-            ActiveJobsControl.UpdateJobList();
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(UpdateConnectionState));
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(ActiveJobsControl.UpdateJobList));
         }
 
         internal void UpdateConnectionState()

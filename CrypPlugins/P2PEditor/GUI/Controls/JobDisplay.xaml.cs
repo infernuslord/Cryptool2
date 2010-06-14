@@ -61,6 +61,11 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
         void RefreshListTimerElapsed(object sender, ElapsedEventArgs e)
         {
+            if (!IsVisible)
+            {
+                return;
+            }
+
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(UpdateJobList));
         }
 

@@ -90,7 +90,6 @@
     <Compile Include="DebugToFile.cs" />
     <Compile Include="DHT_CommonManagement.cs" />
     <Compile Include="IP2PControl.cs" />
-    <Compile Include="KeySearcherResult.cs" />
     <Compile Include="PeedId.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResponseWait.cs" />
@@ -116,11 +115,6 @@
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\KeySearcher\KeySearcher.csproj">
-      <Project>{0579E099-66B2-43C3-B8A0-43CAE4895E68}</Project>
-      <Name>KeySearcher</Name>
-      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

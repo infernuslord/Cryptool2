@@ -12,6 +12,7 @@ namespace KeySearcher
     {
         private KeySearcher keysearcher;
         private int coresUsed;
+        private const string GroupPeerToPeer = "Peer-to-Peer network";
 
         public KeySearcherSettings(KeySearcher ks)
         {
@@ -20,6 +21,8 @@ namespace KeySearcher
             for (int i = 0; i < Environment.ProcessorCount; i++)
                 CoresAvailable.Add((i + 1).ToString());
             CoresUsed = Environment.ProcessorCount - 1;
+
+            distributedJobIdentifier = Guid.NewGuid().ToString();
         }
 
         private string key;
@@ -36,6 +39,7 @@ namespace KeySearcher
                 OnPropertyChanged("Key");
                 if (!(keysearcher.Pattern != null && keysearcher.Pattern.testWildcardKey(value)))
                     keysearcher.GuiLogMessage("Wrong key pattern!", NotificationLevel.Error);
+                HasChanges = true;
             }
         }
 
@@ -60,6 +64,74 @@ namespace KeySearcher
             }
         }
 
+        private bool usePeerToPeer;
+        [TaskPane("Use Peer-to-Peer network", "Distributes the operation on available peers by using the built-in peer-to-peer network.", GroupPeerToPeer, 0, false, DisplayLevel.Beginner,
+            ControlType.CheckBox)]
+        public bool UsePeerToPeer
+        {
+            get { return usePeerToPeer; }
+            set
+            {
+                if (value != usePeerToPeer)
+                {
+                    usePeerToPeer = value;
+                    OnPropertyChanged("UsePeerToPeer");
+                    HasChanges = true;
+                }
+            }
+        }
+
+        private bool autoconnectPeerToPeer;
+        [TaskPane("Autoconnect network", "Establish a connection to the network if the workspace is started without the background connection being active.", GroupPeerToPeer, 1, false, DisplayLevel.Beginner,
+            ControlType.CheckBox)]
+        public bool AutoconnectPeerToPeer
+        {
+            get { return autoconnectPeerToPeer; }
+            set
+            {
+                if (value != autoconnectPeerToPeer)
+                {
+                    autoconnectPeerToPeer = value;
+                    OnPropertyChanged("AutoconnectPeerToPeer");
+                    HasChanges = true;
+                }
+            }
+        }
+
+        private string distributedJobIdentifier;
+        [TaskPane("Job identifier", "Arbitrary description, that allows other peers to join this calculation.", GroupPeerToPeer, 2, false, DisplayLevel.Professional,
+            ControlType.TextBox)]
+        public string DistributedJobIdentifier
+        {
+            get { return distributedJobIdentifier; }
+            set
+            {
+                if (value != distributedJobIdentifier)
+                {
+                    distributedJobIdentifier = value;
+                    OnPropertyChanged("DistributedJobIdentifier");
+                    HasChanges = true;
+                }
+            }
+        }
+
+        private int chunkSize;
+        [TaskPane("Chunk size", "Amount of keys (x 10.000), that will be calculated by one peer at a time.", GroupPeerToPeer, 3, false, DisplayLevel.Professional,
+            ControlType.NumericUpDown, ValidationType.RangeInteger, 250, int.MaxValue)]
+        public int ChunkSize
+        {
+            get { return chunkSize; }
+            set
+            {
+                if (value != chunkSize)
+                {
+                    chunkSize = value;
+                    OnPropertyChanged("ChunkSize");
+                    HasChanges = true;
+                }
+            }
+        }
+
         private ObservableCollection<string> coresAvailable = new ObservableCollection<string>();
         public ObservableCollection<string> CoresAvailable
         {
@@ -73,7 +145,7 @@ namespace KeySearcher
                 OnPropertyChanged("CoresAvailable");
             }
         }
-        
+
         #region ISettings Members
 
         private bool hasChanges;
