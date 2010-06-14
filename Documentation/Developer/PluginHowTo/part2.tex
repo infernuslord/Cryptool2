@@ -1,11 +1,11 @@
 \chapter{Plugin Implementation}
 \label{sec:PluginImplementation}
-In this chapter we provide step-by-step instructions for implementing your own CrypTool 2 plugin. We assume, you have retrieved the CrypTool 2 source code from the SVN repository, have set up Visual Studio 2010 or Visual C\# 2010 Express to build CrypTool 2, and you have placed the template at the right place.
+In this chapter we provide step-by-step instructions for implementing your own CrypTool 2 plugin. We shall assume that you have already retrieved the CrypTool 2 source code from the SVN repository, set up Visual Studio 2010 or Visual C\# 2010 Express to build CrypTool 2, and you have placed the plugin template in the right place.
 
 \section{Downloading the example}
 \label{sec:DownloadingTheExample}
 
-We will use the \textbf{Caesar cipher} (also known as the \textbf{shift cipher}) as an example throughout this chapter. If you did not to download the entire CrypTool 2 source code as described in Section \ref{CheckingOutTheSources}, you can still get a copy of the source code for the Caesar algorithm referenced throughout this guide from the following location:\\\\
+We will use the \textbf{Caesar cipher} (also known as the \textbf{shift cipher}) as an example throughout this chapter. If you have not downloaded the entire CrypTool 2 source code as described in Section \ref{CheckingOutTheSources}, you can also get a copy of just the source code for the Caesar algorithm referenced throughout this guide from the following location:\\\\
 \textit{username: anonymous\\
 password:} (not required)\\
 \url{https://www.cryptool.org/svn/CrypTool2/trunk/CrypPlugins/Caesar/}
@@ -13,18 +13,18 @@ password:} (not required)\\
 \section{Creating a new project}
 \label{sec:CreatingANewProject}
 
-Open the CrypTool 2 solution, right click in the solution explorer on \textit{CrypPlugins} (or on the top solution item, if you're using Visual C\# Express) and select \textit{Add~$\rightarrow$ New Project}. In the dialog opening up, select \textit{Visual C\# $\rightarrow$ CrypTool 2.0 Plugin} as project template and enter a unique name for your new plugin project (such as \textit{Caesar} in our case). The \textbf{next step is crucial} to ensure that your plugin will compile and run correctly: select the subdirectory \texttt{CrypPlugins\textbackslash} as location for your project (Figure~\ref{fig:vs_create_new_project}).
+Open the CrypTool 2 solution, right click in the solution explorer on \textit{CrypPlugins} (or on the top solution item, if you're using Visual C\# Express) and select \textit{Add~$\rightarrow$ New Project}. In the dialog window, select \textit{Visual C\# $\rightarrow$ CrypTool 2.0 Plugin} as project template and enter a unique name for your new plugin project (such as \textit{Caesar} in our case). The \textbf{next step is crucial} to ensure that your plugin will compile and run correctly: select the subdirectory \texttt{CrypPlugins\textbackslash} as the location of your project (Figure~\ref{fig:vs_create_new_project}).
 
-\begin{figure}
+\begin{figure}[h!]
 	\centering
 		\includegraphics{figures/vs_create_new_project.png}
 	\caption{Creating a new CrypTool 2 plugin project.}
 	\label{fig:vs_create_new_project}
 \end{figure}
 
-As the project basics are already set up in the template correctly, you should now be able to compile the new plugin. First of all, rename the two files in the solution explorer to some more meaningful filenames, for example \texttt{Caesar.cs} and \texttt{CaesarSettings.cs}.
+As the project basics are already correctly set up in the template, you should now be able to compile the new plugin. First of all, rename the two files in the solution explorer to something more meaningful, for example \texttt{Caesar.cs} and \texttt{CaesarSettings.cs}.
 
-\begin{figure}
+\begin{figure}[h!]
 	\centering
 		\includegraphics{figures/caesar_project.png}
 	\caption{Items of a new plugin project.}
@@ -34,7 +34,7 @@ As the project basics are already set up in the template correctly, you should n
 \section{Adapting the plugin skeleton}
 \label{AdaptingThePluginSkeleton}
 
-If you look into the two C\# source files (Figure~\ref{fig:caesar_project}), you will notice a lot of comments marked with the keyword \texttt{HOWTO}. These are hints, what you should change in order to adapt the plugin skeleton to your custom implementation. Most \texttt{HOWTO} hints are self-explanatory and we won't discuss all of them in detail. For example, at the top of both source files, there is a hint to enter your name and affiliation in the license boilerplate:
+If you look into the two C\# source files (Figure~\ref{fig:caesar_project}), you will notice a lot of comments marked with the keyword \texttt{HOWTO}. These are hints as to what you should change in order to adapt the plugin skeleton to your custom implementation. Most \texttt{HOWTO} hints are self-explanatory and thus we won't discuss them all in detail. For example, at the top of both source files, there is a hint to enter your name and affiliation in the license boilerplate:
 
 \begin{lstlisting}
 /* HOWTO: Change year, author name and organization.
@@ -56,6 +56,7 @@ After you have done this, remove the \texttt{HOWTO} hint:
 The next thing we will do in our example \textit{Caesar.cs} is define the attributes of our class. These attributes are used to provide necessary information for the CrypTool 2 environment. If they are not properly defined, your plugin won't show up in the application user interface, even if everything else is implemented correctly.
 
 Attributes are used for declarative programming and provide metadata that can be added to the existing .NET metadata. CrypTool 2 provides a set of custom attributes that are used to mark the different parts of your plugin. These attributes should be defined right before the class declaration.
+\clearpage
 
 \subsection{The \protect\textit{[Author]} attribute}
 \label{sec:TheAuthorAttribute}
@@ -121,10 +122,11 @@ The \textit{DescriptionURL} element defines the location path of the description
 	\caption{The folder structure as seen in the Solution Explorer.}
 	\label{fig:attribute_plugininfo_icon_path}
 \end{figure}
+\clearpage
 
-Once a detailed description has been written in the XAML file, it can be accessed in the CrypTool~2 application by right-clicking on the plugin icon in the workspace and selecting \textit{Show description} (Figure~\ref{fig:xaml_description}).
+Once a detailed description has been written in the XAML file, it can be accessed in the CrypTool~2 application by right-clicking on the plugin icon in the workspace and selecting \textit{Show description} \mbox{(Figure \ref{fig:xaml_description})}.
 
-\begin{figure}
+\begin{figure}[h!]
 	\centering
 		\includegraphics[width=1.00\textwidth]{figures/xaml_description.jpg}
 	\caption{A detailed description provided through an XAML file.}
@@ -138,14 +140,16 @@ The first and most important icon is the plugin icon, which will be shown in Cry
 If your plugin will use additional icons, you should define the paths to each of them by adding the path strings to the \textit{[PluginInfo]} attribute parameter list, each separated by a comma. We have added two further icons for the context menu in the CrypTool 2 workspace. (If you choose to add more icons, don't forget to add the icons to your solution.)
 
 \subsection{Algorithm category and the \protect\textit{[EncryptionType]} attribute}
+\label{sec:AlgorithmCategoryAndTheEncryptionTypeAttribute}
 
-In the CrypTool 2 user interface plugins are grouped by their algorithm category, for example hash algorithm, encryption algorithm and so on. To set the category, your plugin must inherit from a specific interface, like \textit{IHash} or \textit{IEncryption}. Some categories require the choice of a subcategory, which is entered as attribute\footnote{The current category system is unhandy and will be changed in future, see trac ticket \#50.}. In our example, Caesar inherits from \textit{IEncryption} and needs the attribute \textit{[EncryptionType]}.
+In the CrypTool 2 user interface plugins are grouped by their algorithm category, for example hash, encryption, and so on. To set the category, your plugin must inherit from a specific interface, like \textit{IHash} or \textit{IEncryption}. Some categories require the specification of a subcategory, which is entered as an attribute\footnote{The current category system is less than ideal and will be changed in future; see trac ticket \#50.}. In our example, Caesar inherits from \textit{IEncryption}.
 
 \begin{lstlisting}
     [EncryptionType(EncryptionType.Classic)]
     public class Caesar : IEncryption
 		{
 \end{lstlisting}
+\clearpage
 
 The possible values of the \textit{[EncryptionType]} attribute are as follows:
 
@@ -216,14 +220,15 @@ Our example makes use of the following private variables:
 \subsection{Adding controls to the CaesarSettings class}
 \label{sec:AddingControlsToTheCaesarSettingsClass}
 
-The settings class contains the necessary information about controls, captions, descriptions and default parameters (e.g.\ for key settings, alphabets, key length and type of action) to build the settings \textbf{TaskPane} in the CrypTool application. The settings class is used to populate the TaskPane in the CrypTool 2 application so that the user can modify the plugin settings at will. Thus we will need to implement some controls, such as buttons and text boxes, to allow for the necessary interaction. If you will be implementing an algorithm that does not have any user-defined settings (i.e.\ a hash function), then this class can be left mostly empty. In Appendix \ref{app:CaesarSettings} there is a full example of what a completed TaskPane and the corresponding source code for the existing Caesar plugin in CrypTool 2 looks like. You can also look at the source code of other CrypTool 2 plugins for examples of how to create the TaskPane backend.
+The settings class contains the necessary information about controls, captions, descriptions, and default parameters (for key settings, alphabets, key length, type of action, etc.) to build the settings \textbf{TaskPane} in the CrypTool application. The settings class is used to populate the TaskPane in the CrypTool 2 application so that the user can modify the plugin settings at will. Therefore, we must implement some controls, such as buttons and text boxes, to allow for the necessary interaction. If you will be implementing an algorithm that does not have any user-defined settings (such as a hash function), then this class can be left mostly empty. In Appendix \ref{app:CaesarSettings} there is a full example of what a completed TaskPane and the corresponding source code for the existing Caesar plugin in CrypTool 2 looks like. You can also look at the source code of other CrypTool 2 plugins for examples of how to create the TaskPane backend.
+\clearpage
 
 \section{Adding an icon to the Caesar class}
 \label{sec:AddingAnIconToTheCaesarClass}
 
-Before we go back to the code of the Caesar class, we add a custom icon to our project, which will be shown in the CrypTool 2 \textbf{ribbon bar} and \textbf{navigation pane}. The template has a default icon set, so you don't need to create a custom own.
+Before we go back to the code of the Caesar class, we need to add a custom icon to our project to be shown in the CrypTool 2 \textbf{ribbon bar} and \textbf{navigation pane}. The template has a default icon set, so you don't need to create your own custom set.
 
-The proper image size is 40x40 pixels, but since the image will be rescaled if necessary, any size is technically acceptable. Once you have saved your icon, you should add it directly to the project or to a subdirectory with it. In the project solution, we created a new folder named \textit{Images}. This can be done by right-clicking on the project item (\textit{Caesar} in our example) and selecting \textit{Add $\rightarrow$ New Folder}. The icon can be added to this folder (or to the project directly, or to any other subdirectory) by right-clicking on the folder and selecting \textit{Add $\rightarrow$ Existing Item}.
+The proper image size is 40x40 pixels, but since the image will be rescaled if necessary, any size is technically acceptable. Once you have saved your icon, you should add it directly to the project or to a subdirectory with it. In the project solution, create a new folder named \textit{Images}. This can be done by right-clicking on the project item (\textit{Caesar} in our example) and selecting \textit{Add $\rightarrow$ New Folder}. The icon can be added to this folder (or to the project directly, or to any other subdirectory) by right-clicking on the folder and selecting \textit{Add $\rightarrow$ Existing Item}.
 
 \begin{figure}[h!]
 	\centering
@@ -263,6 +268,7 @@ In the \textit{Properties} panel, set the \textit{Build Action} to \textit{Resou
 \clearpage
 
 \section{Input and output dockpoints}
+\label{sec:InputAndOutputDockpoints}
 
 \subsection{The input/output attributes}
 \label{sec:TheInputOutputAttributes}
@@ -418,6 +424,7 @@ public int ShiftKey
 \end{lstlisting}
 
 \section{Implementing the actual algorithm}
+\label{sec:ImplementingTheActualAlgorithm}
 
 Algorithmic processing should be done in the \textit{Execute()} function. The actual functionality of your algorithm, as well as the structure thereof, is up to you. Below is our implementation of the Caesar algorithmic processing and the \textit{Execute()} function:
 
@@ -560,6 +567,7 @@ The \textit{GuiLogMessage} method takes two parameters:
 \end{itemize}
 
 \subsection{Performing a clean dispose}
+\label{sec:PerformingACleanDispose}
 
 Be sure you have closed and cleaned all your streams after execution before CrypTool 2 decides to dispose the plugin instance. There has been some misunderstanding about the meaning of \textit{Dispose()}. Dispose will be called ultimately before object destruction. After disposal, the object will be in an undefined state.
 
@@ -586,4 +594,4 @@ Each plugin should have an associated workflow file to show the algorithm in act
 	\label{fig:sample}
 \end{figure}
 
-As your last step of development, once your plugin runs smoothly, you should also create one of these sample workflow files for your plugin. You should store the workflow file in the \texttt{ProjectSamples\textbackslash} folder and make sure to commit the file to the SVN repository (see Section \ref{CommitingYourChanges}).
+As your last step of development, once your plugin runs smoothly, you should also create one of these sample workflow files for your plugin. Such a file can be automatically created by simply saving a CrypTool 2 workspace project featuring your plugin. You should store the workflow file in the \texttt{ProjectSamples\textbackslash} folder and make sure to commit the file to the SVN repository (see Section \ref{CommitingYourChanges}).
