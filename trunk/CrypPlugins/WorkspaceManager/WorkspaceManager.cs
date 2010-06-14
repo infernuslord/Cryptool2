@@ -376,6 +376,9 @@ namespace WorkspaceManager
                     GuiLogMessage("Could not set GuiUpdateInterval: " + ex.Message, NotificationLevel.Warning);
                     ExecutionEngine.GuiUpdateInterval = 100;
                 }
+
+                ExecutionEngine.BenchmarkPlugins = ((WorkspaceManagerSettings)this.Settings).BenchmarkPlugins;
+
                 ExecutionEngine.Execute(WorkspaceModel);               
             }
             catch (Exception ex)

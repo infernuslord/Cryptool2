@@ -42,6 +42,8 @@ namespace WorkspaceManager.Execution
         private Scheduler[] schedulers;
         private WorkspaceModel workspaceModel;
 
+        public long ExecutedPluginsCounter { get; set; }
+        public bool BenchmarkPlugins { get; set; }
         public long CheckInterval { get; set; }
         public long GuiUpdateInterval { get; set; }
 
@@ -80,7 +82,7 @@ namespace WorkspaceManager.Execution
                 //use this amount of schedulers
                 schedulers = new Scheduler[System.Environment.ProcessorCount*2];
                 for(int i=0;i<System.Environment.ProcessorCount*2;i++){
-                    schedulers[i] = new WinFormsScheduler("Scheduler" + i);
+                    schedulers[i] = new STAScheduler("Scheduler" + i);
                 }
 
                 //We have to reset all states of PluginModels, ConnectorModels and ConnectionModels:
@@ -96,6 +98,14 @@ namespace WorkspaceManager.Execution
                 CheckExecutableProtocol checkExecutableProtocol = new CheckExecutableProtocol(schedulers[0], workspaceModel, this);
                 schedulers[0].AddProtocol(checkExecutableProtocol);
                 checkExecutableProtocol.Start();
+
+                //The BenchmarkProtocl counts the amount of executed plugins per seconds and writes this to debug
+                if (this.BenchmarkPlugins)
+                {
+                    BenchmarkProtocol benchmarkProtocol = new BenchmarkProtocol(schedulers[0], this.workspaceModel, this);
+                    schedulers[0].AddProtocol(benchmarkProtocol);
+                    benchmarkProtocol.Start();
+                }
 
                 //Here we create for each PluginModel an own PluginProtocol
                 //By using round-robin we give each protocol to another scheduler to gain
@@ -119,6 +129,7 @@ namespace WorkspaceManager.Execution
         /// </summary>
         public void Stop()
         {
+            IsRunning = false;
             //First stop all Gears4Net Schedulers
             foreach (Scheduler scheduler in schedulers)
             {
@@ -128,8 +139,7 @@ namespace WorkspaceManager.Execution
             foreach(PluginModel pluginModel in workspaceModel.AllPluginModels)
             {
                 pluginModel.Plugin.Stop();
-            }
-            IsRunning = false;
+            }            
         }
 
         /// <summary>
@@ -150,27 +160,11 @@ namespace WorkspaceManager.Execution
             WorkspaceManagerEditor.GuiLogMessage(message, level);
         }            
     }
-
-    /// <summary>
-    /// Message send to scheduler for a Plugin to trigger the PreExecution
-    /// </summary>
-    public class MessagePreExecution : MessageBase
-    {
-        public PluginModel PluginModel;
-    }
-
+ 
     /// <summary>
     /// Message send to scheduler for a Plugin to trigger the Execution
     /// </summary>
     public class MessageExecution : MessageBase
-    {
-        public PluginModel PluginModel;
-    }
-
-    /// <summary>
-    /// Message send to scheduler for a Plugin to trigger the PostExecution
-    /// </summary>
-    public class MessagePostExecution : MessageBase
     {
         public PluginModel PluginModel;
     }
@@ -295,6 +289,52 @@ namespace WorkspaceManager.Execution
     }
 
     /// <summary>
+    /// A Protocol for checking if plugins are executable in time intervals
+    /// </summary>
+    public class BenchmarkProtocol : ProtocolBase
+    {
+        private WorkspaceModel workspaceModel;
+        private ExecutionEngine executionEngine;
+
+        /// <summary>
+        /// Create a new protocol. Each protocol requires a scheduler which provides
+        /// a thread for execution.
+        /// </summary>
+        /// <param name="scheduler"></param>
+        public BenchmarkProtocol(Scheduler scheduler, WorkspaceModel workspaceModel, ExecutionEngine executionEngine)
+            : base(scheduler)
+        {
+            this.workspaceModel = workspaceModel;
+            this.executionEngine = executionEngine;
+        }
+
+        /// <summary>
+        /// The main function of the protocol
+        /// </summary>
+        /// <param name="stateMachine"></param>
+        /// <returns></returns>
+        public override System.Collections.Generic.IEnumerator<ReceiverBase> Execute(AbstractStateMachine stateMachine)
+        {
+            while (this.executionEngine.IsRunning)
+            {
+                yield return Timeout(1000, HandleBenchmark);
+            }
+        }
+
+        /// <summary>
+        /// Handler function for a message.
+        /// This handler must not block, because it executes inside the thread of the scheduler.
+        /// </summary>
+        /// <param name="msg"></param>
+        private void HandleBenchmark()
+        {
+            this.workspaceModel.WorkspaceManagerEditor.GuiLogMessage("Executing at about " + this.executionEngine.ExecutedPluginsCounter + " Plugins/s", NotificationLevel.Debug);
+            this.executionEngine.ExecutedPluginsCounter = 0;
+        }
+
+    }
+
+    /// <summary>
     /// A Protocol for a PluginModel
     /// </summary>
     public class PluginProtocol : ProtocolBase
@@ -330,26 +370,8 @@ namespace WorkspaceManager.Execution
         {
             while (this.executionEngine.IsRunning)
             {
-                yield return Receive<MessagePreExecution>(null, this.HandlePreExecute);
-                MessageExecution msg_exec = new MessageExecution();
-                msg_exec.PluginModel = this.pluginModel;
-                this.BroadcastMessageReliably(msg_exec);
-                yield return Receive<MessageExecution>(null, this.HandleExecute);
-                MessagePostExecution msg_post = new MessagePostExecution();
-                msg_post.PluginModel = this.pluginModel;
-                this.BroadcastMessageReliably(msg_post);
-                yield return Receive<MessagePostExecution>(null, this.HandlePostExecute);
+                yield return Receive<MessageExecution>(null, this.HandleExecute);             
             }
-        }
-
-        /// <summary>
-        /// Call the pre execution function of the wrapped IPlugin
-        /// </summary>
-        /// <param name="msg"></param>
-        private void HandlePreExecute(MessagePreExecution msg)
-        {
-            //executionEngine.GuiLogMessage("HandlePreExecute for \"" + msg.PluginModel.Name + "\"", NotificationLevel.Debug);
-            msg.PluginModel.Plugin.PreExecution();
         }
 
         /// <summary>
@@ -358,6 +380,8 @@ namespace WorkspaceManager.Execution
         /// <param name="msg"></param>
         private void HandleExecute(MessageExecution msg)
         {
+            msg.PluginModel.Plugin.PreExecution();
+
             //executionEngine.GuiLogMessage("HandleExecute for \"" + msg.PluginModel.Name + "\"", NotificationLevel.Debug);
             //Fill the plugins Inputs with data
             foreach (ConnectorModel connectorModel in pluginModel.InputConnectors)
@@ -375,18 +399,14 @@ namespace WorkspaceManager.Execution
             }
             
             msg.PluginModel.Plugin.Execute();
-                       
-        }
 
-        /// <summary>
-        /// Call the post execution function of the wrapped IPlugin
-        /// </summary>
-        /// <param name="msg"></param>
-        private void HandlePostExecute(MessagePostExecution msg)
-        {
-            //executionEngine.GuiLogMessage("HandlePostExecute for \"" + msg.PluginModel.Name + "\"", NotificationLevel.Debug);
             msg.PluginModel.Plugin.PostExecution();
-                      
+
+            if (this.executionEngine.BenchmarkPlugins)
+            {
+                this.executionEngine.ExecutedPluginsCounter++;                                
+            }
         }
+      
     }
 }

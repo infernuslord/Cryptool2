@@ -222,7 +222,7 @@ namespace WorkspaceManager.Model
 
             if (AtLeastOneInputSet || this.InputConnectors.Count == 0)
             {
-                MessagePreExecution msg = new MessagePreExecution();
+                MessageExecution msg = new MessageExecution();
                 msg.PluginModel = this;
                 
                 //protocolBase is set at Startup of the ExecutionEngine
