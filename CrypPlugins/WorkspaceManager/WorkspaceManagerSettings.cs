@@ -54,6 +54,21 @@ namespace WorkspaceManager
             }
         }
 
+        private bool benchmarkPlugins = false;
+        [TaskPane("BenchmarkPlugins", "Should the WorkspaceManager benchmark the amount of executed plugins per second?", null, 1, false, DisplayLevel.Beginner, ControlType.CheckBox)]
+        public bool BenchmarkPlugins
+        {
+            get
+            {
+                return benchmarkPlugins;
+            }
+            set
+            {
+                benchmarkPlugins = value;
+                OnPropertyChanged("BenchmarkPlugins");
+            }
+        }
+
         #endregion
 
         #region INotifyPropertyChanged Members
