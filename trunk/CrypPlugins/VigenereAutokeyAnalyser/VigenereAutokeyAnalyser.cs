@@ -62,7 +62,9 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 
         #region Data Properties
 
-
+        /// <summary>
+        /// The input for the ciphertext 
+        /// </summary>
         [PropertyInfo(Direction.InputData, "Cipher Input", "Enter your cipher here", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public String InputCipher
         {
@@ -77,6 +79,9 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
             }
         }
 
+        /// <summary>
+        /// The input for the textkorpus (optional) 
+        /// </summary>
         [PropertyInfo(Direction.InputData, "Textkorpus Input", "Enter your sample text here or choose a language from the task-pane", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public String InputKorpus
         {
@@ -91,6 +96,9 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
             }
         }
 
+        /// <summary>
+        /// The assumed keylength from the autokorrelation plugin (optional) 
+        /// </summary>
         [PropertyInfo(Direction.InputData, "Keylength Input", "Enter the assumed keylength from the autokorrelationfunction here", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public int InputKeylength
         {
@@ -105,6 +113,9 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
             }
         }
 
+        /// <summary>
+        /// The output for the key 
+        /// </summary>
         [PropertyInfo(Direction.OutputData, "Key Output", "The most probable autokey for the analysed ciphertext", "", DisplayLevel.Beginner)]
         public String OutputKey
         {
@@ -128,19 +139,11 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
             get { return settings; }
         }
 
-        /// <summary>
-        /// HOWTO: You can provide a custom (tabbed) presentation to visualize your algorithm.
-        /// Return null if you don't provide one.
-        /// </summary>
         public UserControl Presentation
         {
             get { return null; }
         }
 
-        /// <summary>
-        /// HOWTO: You can provide custom (quickwatch) presentation to visualize your algorithm.
-        /// Return null if you don't provide one.
-        /// </summary>
         public UserControl QuickWatchPresentation
         {
             get { return null; }
@@ -150,34 +153,30 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         {
         }
 
-        /// <summary>
-        /// HOWTO: Enter the algorithm you'd like to implement in this method.
-        /// </summary>
         public void Execute()
         {
+//START------------------------------------------------------------------------------------------------------------
+//Preparations for the Analyse-------------------------------------------------------------------------------------           
+            
             ProgressChanged(0, 1);
 
-//Preparations for the Analyse-------------------------------------------------------------------------------------
-
-            alphabet = settings.AlphabetSymbols;
-
-            ciphertext = InputCipher;
-
-            ciphertext = prepareForAnalyse(ciphertext);
-
-            maxkeylength = (ciphertext.Length / 40) + 1;
+            alphabet = settings.AlphabetSymbols;                //initialising the alphabet as given by the user       
             
-            language = settings.Language;
+            ciphertext = InputCipher;                           //initialising the ciphertext
+            ciphertext = prepareForAnalyse(ciphertext);         //and prepare it for the analyse (-> see private methods section)
 
-            if (textkorpus != null)
-            {
+           
+            language = settings.Language;                       //initialise what language frequencys are expected
+
+            if (textkorpus != null)                             //1)  if there's a textkorpus given us it to calculate the expected frequency...
+            {                                                   //    (-> see private methods section)
                 textkorpus = prepareForAnalyse(textkorpus);
                 EF = observedFrequency(textkorpus);
             }
-            else
+            else                                                //OR
             {
-                EF = expectedFrequency(language);
-            }
+                EF = expectedFrequency(language);               //2) just use the expected frequency from the guessed language
+            }                                                   //    (-> see private methods section)
 
 
 
@@ -187,26 +186,30 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 //-----------------------------------------------------------------------------------------------------------------
 
 
-            if (InputKeylength != 0)
-            {
+            if (InputKeylength != 0)                            //1) if the autokorrelation function has provided an assumed
+            {                                                   //   keylength break the AutokeyCipher with it...
                 assumedkeylength = InputKeylength;
                 breakAutoKey(assumedkeylength);
             }
-            else
+            else                                                //OR
             {
+                maxkeylength = (ciphertext.Length / 40) + 1;    //2) Brute force the keylength up to (ciphertext.length / 40)
                 for (int d = 1; d <= maxkeylength; d++)
                 {
-                    breakAutoKey(d);
-                }
-            }           
+                    breakAutoKey(d);                            //"BREAK AUTO KEY(KEYLENGTH)" IS THE MAIN METHODE IN FINDING THE KEY FOR A GIVEN KEYLENGTH
+                }                                               //(-> see private methods section)
+            }  
+            
+            
 
-            OutputKey = finalkey;
+            OutputKey = finalkey;                               //sending the key via output
             OnPropertyChanged("OutputKey");
 
-//-----------------------------------------------------------------------------------------------------------------
-
             ProgressChanged(1, 1);
+        
         }
+
+//EXECUTE END------------------------------------------------------------------------------------------------------
 
         public void PostExecution()
         {
@@ -234,6 +237,9 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 
 //GET IC---------------------------------------------------------------------------------------------------------------------------------
 
+        /// <summary>
+        /// Calculate the index of coincidence which is required for the sum of squares analyse
+        /// </summary>
         private double getIC(String completeplain)
         {
             OF = observedFrequency(completeplain);
@@ -252,6 +258,9 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 //---------------------------------------------------------------------------------------------------------------------------------------
 //PREPARE PART---------------------------------------------------------------------------------------------------------------------------
 
+        /// <summary>
+        /// Remove spaces and symbols not provided by the alphabet from the text
+        /// </summary>
         private String prepareForAnalyse(String c)
         {
             String prepared = "";
@@ -273,20 +282,23 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 //---------------------------------------------------------------------------------------------------------------------------------------
 //SUM OF SQUARES-------------------------------------------------------------------------------------------------------------------------
 
+        /// <summary>
+        /// The shifted coloumn with the least som of squares is most probable shifted by the correct letter.
+        /// This letter is part of the key we want to find
+        /// </summary>
         private double getSumOfSquares(String c, int s)
         {
             String shifted = "";
-            //Shiften....
-            shifted = getShift(c, s);
+            shifted = getShift(c, s);                           //"autokey shift" the whole column by the probable key-letter 
 
-            //frequency ermitteln
-            OF = observedFrequency(shifted);
+           
+            OF = observedFrequency(shifted);                    // calculate the observed frequency of the shift
 
 
             double sum = 0;
             double help;
-            //Sum ermitteln
-            for (int letter = 0; letter < alphabet.Length; letter++)
+
+            for (int letter = 0; letter < alphabet.Length; letter++)                        //Calculate the sum of squares
             {
                 help = (EF[alphabet[letter]] / 100) - OF[alphabet[letter]];
 
@@ -300,6 +312,9 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 //---------------------------------------------------------------------------------------------------------------------------------------
 //LETTER TO NUMBER----------------------------------------------------------------------------------------------------------------------
 
+        /// <summary>
+        /// Convert a the letter to an int-value that resembles his position in the given alphabet
+        /// </summary>
         private int getPos(char c)
         {
             int pos = -1;
@@ -316,6 +331,9 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 //---------------------------------------------------------------------------------------------------------------------------------------
 //SHIFT PART-----------------------------------------------------------------------------------------------------------------------------
 
+        /// <summary>
+        /// "Autokey shift" the given column by the probable key-letter 
+        /// </summary>
         private String getShift(String c, int s)
         {
             String shifted = "";
@@ -335,18 +353,22 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 
 //---------------------------------------------------------------------------------------------------------------------------------------	
 //FREQUENCY ANALYSE PHASE----------------------------------------------------------------------------------------------------------------
-       
-        
+
+        /// <summary>
+        /// Calculate the letter frequency of a provided text
+        /// </summary>
         private double[] observedFrequency(String c)
         {
-            double[] book = new double[255];    //ASCII Buch merkt sich Anzahl
+            double[] book = new double[255];                   //book resembles an ASCII Table and remembers a symbol with his ASCII value
 
-            for (int x = 0; x < c.Length; x++)	//für jeden buchstaben in er ciphercolumn
+            //count the symbols and add 1 in their ASCII Position
+            for (int x = 0; x < c.Length; x++)	
             {
                 book[(int)c[x]]++;
             }
 
-            for (int y = 0; y < book.Length; y++)  //die frequenz ermitteln
+            //calculate the frequency by dividing through the textlength
+            for (int y = 0; y < book.Length; y++)  
             {
                 book[y] = book[y] / c.Length;
             }
@@ -355,11 +377,15 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         }
 
 
+        /// <summary>
+        /// Set the expected letter frequency of a language
+        /// </summary>
         private double[] expectedFrequency(int l)
         {
-            double[] book = new double[255];    //ASCII Buch merkt sich Anzahl
+            double[] book = new double[255];                   //"ASCII-book" remembers the alphabet letters
             double[] languagefrequency;
 
+            //switch to the expected language and set its frequency
             switch (l)
             {
                 case 0: //English
@@ -379,6 +405,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
                     break;
             }
 
+            //set the frequency for the letters in the alphabet
             for (int c = 0; c < 26; c++)
             {
                 book[(int)alphabet[c]] = languagefrequency[c];
@@ -389,22 +416,26 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------
-//CALCULATION PART (MOST IMPORTANT METHODE)------------------------------------------------------------------------------------------------
+//CALCULATION PART: BREAKAUTOKEY METHODE (MOST IMPORTANT METHODE)--------------------------------------------------------------------------
 
+        /// <summary>
+        /// Find the key for a given keylength using "Least Sum of Squares" attack
+        /// </summary>
         private void breakAutoKey(int d)
         {
-                completeplain = "";
-                key = "";
-                keylength = d;
+                completeplain = "";                             //initialising completeplain, 
+                key = "";                                       //key, 
+                keylength = d;                                  //keylength 
+                maxfactor = ciphertext.Length / keylength;      //and maxfactor
 
-                maxfactor = ciphertext.Length / keylength;
-
+                //for all coloumns in a possible keylength
                 for (int column = 0; column < keylength; column++)
                 {
-                    String ciphercolumn = "";
-                    char probablekeychar = 'A';
-                    sumofsquares = 99999999999.99999999999;
+                    String ciphercolumn = "";                   //coloumn is reseted
+                    char probablekeychar = 'A';                 //probablekeychar is reseted
+                    sumofsquares = 99999999999.99999999999;     //the sum of squares is reseted
 
+                    //A new coloumns is calculated through  c1 , c1 + d , c1 + 2d , c1 + 3d etc.
                     for (int i = 0; i <= maxfactor; i++)
                     {
                         if (column + i * keylength < ciphertext.Length)
@@ -415,11 +446,12 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 
                     ciphercolumn = ciphercolumn.ToUpper();
 
+                    //for this coloumn the Sum Of Squares is calculated for each shift key...
                     for (int shift = 0; shift < alphabet.Length; shift++)
                     {
                         cSofS = getSumOfSquares(ciphercolumn, shift);
 
-
+                        //...and compared so the correct one having the least sum can be found 
                         if (cSofS < sumofsquares)
                         {
                             sumofsquares = cSofS;
@@ -429,20 +461,21 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 
                     }
 
-                    completeplain = getShift(ciphercolumn, getPos(probablekeychar)); //merkt sich die entciphertecolumn
-                    key = key + probablekeychar;
+                    completeplain = completeplain + getShift(ciphercolumn, getPos(probablekeychar)); //remembers a decrypted cipher
+                    key = key + probablekeychar;                                                     //remembers the probable key letter of this decryption
 
 
 
                 }
 
 
-                IC = getIC(completeplain);
+                IC = getIC(completeplain);                              //calculate the IC(index of coincidence)
 
+                //the decrypted cipher with the highest index of coincidence was decrypted with the correct key
                 if (IC > finalIC)
                 {
-                    finalIC = IC;
-                    finalkey = key;
+                    finalIC = IC;                                       //remember the IC
+                    finalkey = key;                                     //remember the key
                 }
 
                 ProgressChanged((((double)d) / maxkeylength), 1);       

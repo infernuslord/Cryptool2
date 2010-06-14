@@ -27,16 +27,19 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         #region Private Variables
 
         private bool hasChanges = false;
-        private int language = 0;
-        private String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        private int language = 0;                                   //Set the expected language (0: English ; 1: German ; 2: French ; 3: Spain)
+        private String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";     //The standard configuration
 
         #endregion
 
         #region TaskPane Settings
 
+        /// <summary>
+        /// Choose the language frequency to work with
+        /// </summary>
         [ContextMenu("Expected Language", "Select the language you expect the plaintext to be", 2, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new String[] { "English", "German", "French", "Spanish" })]
         [TaskPane("Expected Language", "Select the language you expect the plaintext to be", null, 2, false, DisplayLevel.Experienced, ControlType.ComboBox, new String[] { "English", "German", "French", "Spanish" })]
-        public int Language // Expected Letter Frequencies
+        public int Language // Expected letter frequencies
         {
             get { return this.language; }
             set
@@ -47,14 +50,18 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
             }
         }
 
+        /// <summary>
+        /// Choose the alphabet letters to work with
+        /// </summary>
         [TaskPane("Alphabet", "This is the used alphabet.", null, 7, false, DisplayLevel.Expert, ControlType.TextBox, null)]
         public string AlphabetSymbols
         {
             get { return this.alphabet; }
             set
             {
-                string a = removeEqualChars(value);
-                if (a.Length == 0) //cannot accept empty alphabets and will just use the standard;
+                string a = removeEqualChars(value);     //removes all char that are used twice in the alphabet
+
+                if (a.Length == 0)                      //cannot accept empty alphabets and will just use the standard;
                 {
                     
                 }
@@ -90,7 +97,10 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         #endregion
 
         #region Private methods
-        
+
+        /// <summary>
+        /// Removes all the letters in the provided alphabet that are used twice
+        /// </summary>
         private string removeEqualChars(string value)
         {
             int length = value.Length;

@@ -20,6 +20,8 @@ using System.Text;
 using Cryptool.PluginBase;
 using System.ComponentModel;
 
+//------------------------------------------------There is nothing unusual in here------------------------------------------------------------//
+
 namespace Cryptool.Plugins.AutokorrelationFunction
 {
     public class AutokorrelationFunctionSettings : ISettings

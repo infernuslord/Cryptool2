@@ -39,13 +39,16 @@ namespace Cryptool.Plugins.AutokorrelationFunction
         private int probablelength = 0;                                 //estimated keylength
         private double probablekorr = -999999.999999;                   //initialized probable korrelation of the length
         private String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";         //used alphabet
-        private double a;                                               //Found same letter counter
+        private double same;                                            //Found same letter counter
         private double[] ak;                                            // Autokorrelation Values
 
         #endregion
 
         #region Data Properties
 
+        /// <summary>
+        /// The input for the ciphertext 
+        /// </summary>
         [PropertyInfo(Direction.InputData, "Cipher Input", "Enter your cipher here", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
         public String InputCipher
         {
@@ -60,6 +63,9 @@ namespace Cryptool.Plugins.AutokorrelationFunction
             }
         }
 
+        /// <summary>
+        /// The output for the found shift value (most probable keylength) 
+        /// </summary>
         [PropertyInfo(Direction.OutputData, "Keylength Output", "The most probable keylength for the analysed ciphertext", "", DisplayLevel.Beginner)]
         public int OutputLength
         {
@@ -83,19 +89,11 @@ namespace Cryptool.Plugins.AutokorrelationFunction
             get { return settings; }
         }
 
-        /// <summary>
-        /// HOWTO: You can provide a custom (tabbed) presentation to visualize your algorithm.
-        /// Return null if you don't provide one.
-        /// </summary>
         public UserControl Presentation
         {
             get { return null; }
         }
 
-        /// <summary>
-        /// HOWTO: You can provide custom (quickwatch) presentation to visualize your algorithm.
-        /// Return null if you don't provide one.
-        /// </summary>
         public UserControl QuickWatchPresentation
         {
             get { return null; }
@@ -105,51 +103,61 @@ namespace Cryptool.Plugins.AutokorrelationFunction
         {
         }
 
-        /// <summary>
-        /// HOWTO: Enter the algorithm you'd like to implement in this method.
-        /// </summary>
         public void Execute()
         {
-            
+
+//START------------------------------------------------------------------------------------------------------------
+//Preparations for the Analyse-------------------------------------------------------------------------------------
+           
             ProgressChanged(0, 1);
 
-//-------------------------------------------------------------------------------------------------------------------------
+            cipher = InputCipher;                               //initialising the ciphertext
+            cipher = prepareForAnalyse(cipher);                 //and prepare it for the analyse (-> see private methods section)
 
-            cipher = InputCipher;
-            cipher = prepareForAnalyse(cipher);
+            ak = new double[cipher.Length];                     //initialise ak[]...there are n possible shifts where n is cipher.length
 
-            ak = new double[cipher.Length];
-		
+//-----------------------------------------------------------------------------------------------------------------
+//Analyse----------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------		
+
+            //for each possible shift value...
 		    for(int t=0; t<cipher.Length; t++)
 		    {
-			    a=0;
+			    same=0;
 			
+                //...calculate how often the letters match...
 			    for(int x=0; x<cipher.Length-t;x++)
 			    {
 				    if(cipher[x] == cipher[x+t])
 				    {
-					    a++;
+					    same++;
 				    }
 			    }
 			
-			    ak[t] = a;
+                //...and save the count for the matches at the shift position
+			    ak[t] = same;
 		    }
 		
+            //For all observed shifts...
 		    for(int y=1;y<ak.Length;y++)
 		    {
+                //find the one with the highest match count...
 			    if(ak[y] > probablekorr)
 			    {
 				    probablekorr = ak[y];
-				    probablelength = y;
+                    probablelength = y;                 //...and remember this shift value
 			    }
 		    }
 
-            OutputLength = probablelength;
+            OutputLength = probablelength;              //sending the keylength via output
             OnPropertyChanged("OutputLength");		
 		   
-//-------------------------------------------------------------------------------------------------------------------------
+
 
             ProgressChanged(1, 1);
+
+//EXECUTE END------------------------------------------------------------------------------------------------------
+        
         }
 
         public void PostExecution()
@@ -178,6 +186,9 @@ namespace Cryptool.Plugins.AutokorrelationFunction
 
 //PREPARE PART---------------------------------------------------------------------------------------------------------------------------
 
+        /// <summary>
+        /// Remove spaces and symbols not provided by the alphabet from the text
+        /// </summary>
         private String prepareForAnalyse(String c)
         {
             String prepared = "";
@@ -195,10 +206,12 @@ namespace Cryptool.Plugins.AutokorrelationFunction
         }
 
 
-
 //---------------------------------------------------------------------------------------------------------------------------------------
 //LETTER TO NUMBER----------------------------------------------------------------------------------------------------------------------
 
+        /// <summary>
+        /// Convert a the letter to an int-value that resembles his position in the given alphabet
+        /// </summary>
         private int getPos(char c)
         {
             int pos = -1;
@@ -214,7 +227,10 @@ namespace Cryptool.Plugins.AutokorrelationFunction
 
 //---------------------------------------------------------------------------------------------------------------------------------------
 
+
+
         #endregion
+
         #region Event Handling
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
