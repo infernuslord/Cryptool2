@@ -27,6 +27,9 @@ using System.Collections;
 using System.Threading;
 using System.Windows.Threading;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Management;
+using System.Security.Principal;
+using System.Security.Cryptography;
 
 namespace Cryptool.Plugins.QuadraticSieve
 {
@@ -78,9 +81,18 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         private void SetOurID()
         {
-            Random random = new Random();
-            ourID = random.Next(1, Int32.MaxValue);        //TODO: Maybe we should calculate an id based on mac address and username?
+            string username = WindowsIdentity.GetCurrent().Name;
+            string mac = GetMac();
+
+            MD5 md5 = new MD5CryptoServiceProvider();
+            byte[] idBytes = md5.ComputeHash(System.Text.ASCIIEncoding.ASCII.GetBytes(username + mac));            
+            
+            //Is it really a good idea to calculate the ID like this?
+            for (int c = 0; c < idBytes.Length; c++)            
+                ourID = ourID + (idBytes[c] << c);
+
             quadraticSieveQuickWatchPresentation.ProgressYields.setOurID(ourID);
+
             ourName = System.Net.Dns.GetHostName();
         }
 
@@ -393,6 +405,14 @@ namespace Cryptool.Plugins.QuadraticSieve
             loadStoreThread.Start();
         }
 
+        public void StopLoadStoreThread()
+        {
+            stopLoadStoreThread = true;
+            loadStoreThread.Interrupt();
+            loadStoreThread.Join();
+            loadStoreThread = null;
+        }
+
         /// <summary>
         /// Concatenates the two byte arrays a1 and a2 an returns the result array.
         /// </summary>
@@ -403,13 +423,26 @@ namespace Cryptool.Plugins.QuadraticSieve
             System.Buffer.BlockCopy(a2, 0, res, a1.Length, a2.Length);
             return res;
         }
-
-        public void StopLoadStoreThread()
+        
+        /// <summary>
+        /// Returns our MAC address
+        /// </summary>        
+        private string GetMac()
         {
-            stopLoadStoreThread = true;
-            loadStoreThread.Interrupt();
-            loadStoreThread.Join();
-            loadStoreThread = null;
+            string Mac = string.Empty;
+            ManagementClass MC = new ManagementClass("Win32_NetworkAdapter");
+            ManagementObjectCollection MOCol = MC.GetInstances();
+            foreach (ManagementObject MO in MOCol)
+                if (MO != null)
+                {
+                    if (MO["MacAddress"] != null)
+                    {
+                        Mac = MO["MACAddress"].ToString();
+                        if (Mac != string.Empty)
+                            break;
+                    }
+                }
+            return Mac;
         }
 
         public Queue GetLoadedYieldsQueue()
@@ -480,9 +513,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             }
             else
                 head = 0;
-
-            //SetOurID();
-
+            
             //store our name:
             P2PManager.Retrieve(NameIdentifier(ourID));     //just to outsmart the versioning system
             P2PManager.Store(NameIdentifier(ourID),  System.Text.ASCIIEncoding.ASCII.GetBytes(ourName.ToCharArray()));
