@@ -35,6 +35,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 
         private readonly VigenereAutokeyAnalyserSettings settings = new VigenereAutokeyAnalyserSettings();
         private String ciphertext = "";                             //The cipher to be analysed
+        private int modus;                                          //The modus to work with (Autokey or Vigenere)
         private String alphabet;                                    //The alphabet to be used
         private String key;                                         //One probable key
         private double IC;                                          //One probable index of coincidence
@@ -165,8 +166,8 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
             ciphertext = InputCipher;                           //initialising the ciphertext
             ciphertext = prepareForAnalyse(ciphertext);         //and prepare it for the analyse (-> see private methods section)
 
-           
-            language = settings.Language;                       //initialise what language frequencys are expected
+            modus = settings.Modus;                             //initialise which modus is used
+            language = settings.Language;                       //initialise which language frequencys are expected
 
             if (textkorpus != null)                             //1)  if there's a textkorpus given us it to calculate the expected frequency...
             {                                                   //    (-> see private methods section)
@@ -189,14 +190,14 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
             if (InputKeylength != 0)                            //1) if the autokorrelation function has provided an assumed
             {                                                   //   keylength break the AutokeyCipher with it...
                 assumedkeylength = InputKeylength;
-                breakAutoKey(assumedkeylength);
+                breakVigenereAutoKey(assumedkeylength);
             }
             else                                                //OR
             {
                 maxkeylength = (ciphertext.Length / 40) + 1;    //2) Brute force the keylength up to (ciphertext.length / 40)
                 for (int d = 1; d <= maxkeylength; d++)
                 {
-                    breakAutoKey(d);                            //"BREAK AUTO KEY(KEYLENGTH)" IS THE MAIN METHODE IN FINDING THE KEY FOR A GIVEN KEYLENGTH
+                    breakVigenereAutoKey(d);                    //"BREAK VIGENERE AUTO KEY(KEYLENGTH)" IS THE MAIN METHODE IN FINDING THE KEY FOR A GIVEN KEYLENGTH
                 }                                               //(-> see private methods section)
             }  
             
@@ -332,9 +333,32 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 //SHIFT PART-----------------------------------------------------------------------------------------------------------------------------
 
         /// <summary>
-        /// "Autokey shift" the given column by the probable key-letter 
+        /// Choose the decryption rule
         /// </summary>
         private String getShift(String c, int s)
+        {
+            String shifted ="";
+
+            switch (modus)
+            {
+                case 0: shifted = getAutoShift(c,s);                    //1) Decrypt the column with Autokey
+                        break;
+                                                                        //OR
+                case 1: shifted = getCaesarShift(c,s);                  
+                        break;                                          //2) Decrypt the column with Normal-Vigenere
+
+                default: shifted = getAutoShift(c,s); 
+                         break;
+            }
+
+            return shifted;
+
+        }
+
+        /// <summary>
+        /// "Autokey shift" the given column by the probable key-letter 
+        /// </summary>
+        private String getAutoShift(String c, int s)
         {
             String shifted = "";
             int gotcha = s;
@@ -343,6 +367,25 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
             {
 
                 gotcha = (getPos(c[x]) - gotcha + 26) % 26;
+                shifted = shifted + alphabet[gotcha];
+            }
+
+            return shifted;
+
+        }
+
+        /// <summary>
+        /// "Caesar shift" the given column by the probable key-letter (Used for the optional NORMAL-Vigenere Modus) 
+        /// </summary>
+        private String getCaesarShift(String c, int s)
+        {
+            String shifted = "";
+            int gotcha = 0;
+
+            for (int x = 0; x < c.Length; x++)
+            {
+
+                gotcha = (getPos(c[x]) - s + 26) % 26;
                 shifted = shifted + alphabet[gotcha];
             }
 
@@ -421,7 +464,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         /// <summary>
         /// Find the key for a given keylength using "Least Sum of Squares" attack
         /// </summary>
-        private void breakAutoKey(int d)
+        private void breakVigenereAutoKey(int d)
         {
                 completeplain = "";                             //initialising completeplain, 
                 key = "";                                       //key, 
@@ -470,6 +513,8 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 
 
                 IC = getIC(completeplain);                              //calculate the IC(index of coincidence)
+
+                GuiLogMessage(" " + IC, NotificationLevel.Info);
 
                 //the decrypted cipher with the highest index of coincidence was decrypted with the correct key
                 if (IC > finalIC)

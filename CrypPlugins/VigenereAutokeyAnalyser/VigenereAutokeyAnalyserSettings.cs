@@ -28,11 +28,28 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 
         private bool hasChanges = false;
         private int language = 0;                                   //Set the expected language (0: English ; 1: German ; 2: French ; 3: Spain)
+        private int modus = 0;                                      //Set the modus (0: Autokey ; 1: Original Vigenere)
         private String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";     //The standard configuration
 
         #endregion
 
         #region TaskPane Settings
+
+        /// <summary>
+        /// Choose the modus to work with
+        /// </summary>
+        [ContextMenu("Modus", "Select the modus you want to work with", 2, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new String[] { "Autokey", "Vigenere" })]
+        [TaskPane("Modus", "Select the modus you want to work with", null, 2, false, DisplayLevel.Experienced, ControlType.ComboBox, new String[] { "Autokey", "Vigenere" })]
+        public int Modus // Autokey or Repeatedkey
+        {
+            get { return this.modus; }
+            set
+            {
+                if (((int)value) != modus) hasChanges = true;
+                this.modus = (int)value;
+                OnPropertyChanged("Modus");
+            }
+        }
 
         /// <summary>
         /// Choose the language frequency to work with
