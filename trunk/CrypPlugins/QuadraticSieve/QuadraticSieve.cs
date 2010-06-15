@@ -104,7 +104,8 @@ namespace Cryptool.Plugins.QuadraticSieve
             
             quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                quadraticSieveQuickWatchPresentation.peer2peerExpander.Visibility = settings.UsePeer2Peer ? Visibility.Visible : Visibility.Collapsed;
+                quadraticSieveQuickWatchPresentation.peer2peer.Visibility = settings.UsePeer2Peer ? Visibility.Visible : Visibility.Collapsed;
+                quadraticSieveQuickWatchPresentation.Redraw();
                 quadraticSieveQuickWatchPresentation.timeLeft.Text = "?";
                 quadraticSieveQuickWatchPresentation.endTime.Text = "?";
                 quadraticSieveQuickWatchPresentation.logging.Text = "Currently not sieving.";
@@ -133,7 +134,8 @@ namespace Cryptool.Plugins.QuadraticSieve
                 {
                     quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        quadraticSieveQuickWatchPresentation.peer2peerExpander.Visibility = settings.UsePeer2Peer ? Visibility.Visible : Visibility.Collapsed;
+                        quadraticSieveQuickWatchPresentation.peer2peer.Visibility = settings.UsePeer2Peer ? Visibility.Visible : Visibility.Collapsed;
+                        quadraticSieveQuickWatchPresentation.Redraw();
                     }, null);
                 }
             }
@@ -709,7 +711,8 @@ namespace Cryptool.Plugins.QuadraticSieve
                 }                
             }
 
-            conf_list[threadNR] = null;
+            if (conf_list != null)
+                conf_list[threadNR] = null;
             MethodInfo freeSieveConf = msieve.GetMethod("freeSieveConf");
             freeSieveConf.Invoke(null, new object[] { clone });            
             threadcount--;
@@ -722,18 +725,17 @@ namespace Cryptool.Plugins.QuadraticSieve
         {
             if (conf_list != null)
             {
-                ArrayList cl = conf_list;
-                conf_list = null;
-
                 running = false;
                 if (usePeer2Peer)
                     peerToPeer.StopLoadStoreThread();
 
                 MethodInfo stop = msieve.GetMethod("stop");
                 MethodInfo getObjFromConf = msieve.GetMethod("getObjFromConf");
-                foreach (IntPtr conf in cl)
+                foreach (IntPtr conf in conf_list)
                     if (conf != null)
                         stop.Invoke(null, new object[] { getObjFromConf.Invoke(null, new object[] { conf }) });
+
+                conf_list = null;
 
                 GuiLogMessage("Waiting for threads to stop!", NotificationLevel.Debug);
                 while (threadcount > 0)
