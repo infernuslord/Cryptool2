@@ -639,7 +639,6 @@ namespace KeySearcher
             {
                 GuiLogMessage("P2P network could not be connected.",
                               NotificationLevel.Error);
-                throw new ApplicationException("Workaround for wrong error handling... Workspace should be stopped now.");
             }
         }
 

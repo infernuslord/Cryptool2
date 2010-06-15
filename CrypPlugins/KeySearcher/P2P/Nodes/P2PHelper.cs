@@ -98,15 +98,17 @@ namespace KeySearcher.P2P.Nodes
 
         private static void UpdateNodeFromDht(Node nodeToUpdate, BinaryReader binaryReader)
         {
-            nodeToUpdate.LeftChildFinished = binaryReader.ReadBoolean();
-            nodeToUpdate.RightChildFinished = binaryReader.ReadBoolean();
+            nodeToUpdate.LeftChildFinished = binaryReader.ReadBoolean() || nodeToUpdate.LeftChildFinished;
+            nodeToUpdate.RightChildFinished = binaryReader.ReadBoolean() || nodeToUpdate.RightChildFinished;
         }
 
         private static void UpdateLeafFromDht(Leaf nodeToUpdate, BinaryReader binaryReader)
         {
-            long readInt64 = binaryReader.ReadInt64();
-            var date = DateTime.FromBinary(readInt64);
-            nodeToUpdate.LastReservationDate = date;
+            var date = DateTime.FromBinary(binaryReader.ReadInt64());
+            if (date > nodeToUpdate.LastReservationDate)
+            {
+                nodeToUpdate.LastReservationDate = date;
+            }
         }
 
         internal static string KeyInDht(NodeBase node)
