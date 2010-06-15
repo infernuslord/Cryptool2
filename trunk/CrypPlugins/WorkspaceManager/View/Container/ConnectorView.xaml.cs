@@ -20,7 +20,7 @@ namespace WorkspaceManager.View.Container
     /// <summary>
     /// Interaction logic for ConnectorView.xaml
     /// </summary>
-    public partial class ConnectorView : UserControl, IConnectable
+    public partial class ConnectorView : UserControl, IConnectable, IUpdateableView
     {
         public static readonly DependencyProperty PositionOnWorkSpaceXProperty = DependencyProperty.Register("PositionOnWorkSpaceX", typeof(double), typeof(ConnectorView), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
         public static readonly DependencyProperty PositionOnWorkSpaceYProperty = DependencyProperty.Register("PositionOnWorkSpaceY", typeof(double), typeof(ConnectorView), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
@@ -64,7 +64,7 @@ namespace WorkspaceManager.View.Container
             this.MouseLeftButtonDown += new MouseButtonEventHandler(ConnectorView_MouseLeftButtonDown);
             this.Model = cModel;
             InitializeComponent();
-            Color color = ColorHelper.GetDataColor(cModel.ConnectorType);
+            Color color = ColorHelper.GetColor(cModel.ConnectorType);
             this.Ellipse.Fill = new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
             this.Ellipse.ToolTip = cModel.ToolTip;
         }
@@ -80,6 +80,14 @@ namespace WorkspaceManager.View.Container
         public bool CanConnect
         {
             get { throw new NotImplementedException(); }
+        }
+
+        public void update()
+        {
+            if (model.HasLastData)
+            {
+                ToolTip = model.LastData;
+            }
         }
     }
 

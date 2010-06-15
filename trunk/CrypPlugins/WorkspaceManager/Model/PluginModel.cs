@@ -88,7 +88,7 @@ namespace WorkspaceManager.Model
         /// <summary>
         /// The execution state of the progress of the wrapped plugin 
         /// </summary>
-        public double PercentageFinished { private get; set; }
+        public double PercentageFinished { get; set; }
 
         /// <summary>
         /// Create a new PluginModel
