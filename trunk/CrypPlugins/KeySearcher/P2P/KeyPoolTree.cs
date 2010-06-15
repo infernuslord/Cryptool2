@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 using KeySearcher.Helper;
+using KeySearcher.P2P.Exceptions;
 using KeySearcher.P2P.Nodes;
 
 namespace KeySearcher.P2P
@@ -116,7 +117,11 @@ namespace KeySearcher.P2P
 
         public KeyPattern CurrentPattern()
         {
-            _currentLeaf.ReserveNode();
+            if (!_currentLeaf.ReserveLeaf())
+            {
+                throw new LeafReservedException();
+            }
+
             return _patternPool[CurrentPatternId()];
         }
 

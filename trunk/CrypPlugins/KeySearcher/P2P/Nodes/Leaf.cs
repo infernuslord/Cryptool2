@@ -30,7 +30,7 @@ namespace KeySearcher.P2P.Nodes
             return this;
         }
 
-        public bool ReserveNode()
+        public bool ReserveLeaf()
         {
             LastReservationDate = DateTime.UtcNow;
             return P2PHelper.UpdateInDht(this);
