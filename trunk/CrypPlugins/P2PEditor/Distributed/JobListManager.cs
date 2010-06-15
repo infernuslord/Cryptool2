@@ -101,12 +101,6 @@ namespace Cryptool.P2PEditor.Distributed
 
         public void CompleteDistributedJob(DistributedJob distributedJob)
         {
-            if (File.Exists(distributedJob.LocalFilePath))
-            {
-                _p2PEditor.GuiLogMessage("Local file exists, cannot complete job.", NotificationLevel.Error);
-                return;
-            }
-
             distributedJob.ConvertRawWorkspaceToLocalFile(P2PManager.Retrieve(GenerateWorkspaceKey(distributedJob)));
         }
 

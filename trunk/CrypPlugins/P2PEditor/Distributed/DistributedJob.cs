@@ -66,7 +66,7 @@ namespace Cryptool.P2PEditor.Distributed
 
             if (rawWorkspaceData == null || rawWorkspaceData.Length == 0)
             {
-                throw new NotSupportedException("Workspace data could not be fetching using Peer-to-peer.");
+                throw new NotSupportedException("Workspace data could not be fetched using Peer-to-Peer system.");
             }
 
             File.WriteAllBytes(LocalFilePath, rawWorkspaceData);

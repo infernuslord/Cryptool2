@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using Cryptool.PluginBase;
 using KeySearcher.Helper;
@@ -27,11 +28,11 @@ namespace KeySearcher.P2P
                 settings.ChunkSize = 250;
             }
 
-            _patternPool = new KeyPatternPool(keyPattern, settings.ChunkSize * 10000);
+            _patternPool = new KeyPatternPool(keyPattern, new BigInteger(Math.Pow(2, settings.ChunkSize)));
             _keyPoolTree = new KeyPoolTree(_patternPool, _settings, _keySearcher, keyQualityHelper);
 
             _keySearcher.GuiLogMessage(
-                "Total amount of patterns: " + _patternPool.Length + ", each containing " + settings.ChunkSize*10000 +
+                "Total amount of patterns: " + _patternPool.Length + ", each containing " + _patternPool.PartSize +
                 " keys.", NotificationLevel.Debug);
 
             while (!_keySearcher.stop && _keyPoolTree.LocateNextPattern())

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using Cryptool.PluginBase;
 using System.ComponentModel;
@@ -23,6 +24,7 @@ namespace KeySearcher
             CoresUsed = Environment.ProcessorCount - 1;
 
             distributedJobIdentifier = Guid.NewGuid().ToString();
+            chunkSize = 21;
         }
 
         private string key;
@@ -40,6 +42,7 @@ namespace KeySearcher
                 if (!(keysearcher.Pattern != null && keysearcher.Pattern.testWildcardKey(value)))
                     keysearcher.GuiLogMessage("Wrong key pattern!", NotificationLevel.Error);
                 HasChanges = true;
+                OnPropertyChanged("TotalAmountOfChunks");
             }
         }
 
@@ -116,8 +119,8 @@ namespace KeySearcher
         }
 
         private int chunkSize;
-        [TaskPane("Chunk size", "Amount of keys (x 10.000), that will be calculated by one peer at a time.", GroupPeerToPeer, 3, false, DisplayLevel.Professional,
-            ControlType.NumericUpDown, ValidationType.RangeInteger, 250, int.MaxValue)]
+        [TaskPane("Chunk size", "Amount of keys, that will be calculated by one peer at a time. This value is the exponent of the power of two used for the chunk size.", GroupPeerToPeer, 3, false, DisplayLevel.Professional,
+            ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 1000)]
         public int ChunkSize
         {
             get { return chunkSize; }
@@ -127,8 +130,30 @@ namespace KeySearcher
                 {
                     chunkSize = value;
                     OnPropertyChanged("ChunkSize");
+                    OnPropertyChanged("TotalAmountOfChunks");
                     HasChanges = true;
                 }
+            }
+        }
+
+        [TaskPane("Amount of chunks", "Total number of chunks that must be calculated with the given chunk size.", GroupPeerToPeer, 4, false, DisplayLevel.Professional,
+            ControlType.TextBox)]
+        public double TotalAmountOfChunks
+        {
+            get {
+                if (keysearcher.Pattern == null || !keysearcher.Pattern.testWildcardKey(key) || ChunkSize == 0)
+                {
+                    return 0;
+                }
+
+                var keyPattern = new KeyPattern(keysearcher.ControlMaster.getKeyPattern());
+                keyPattern.WildcardKey = key;
+                var keyPatternPool = new KeyPatternPool(keyPattern, new BigInteger(Math.Pow(2, ChunkSize)));
+                return (double) keyPatternPool.Length;
+            }
+            set
+            {
+                OnPropertyChanged("TotalAmountOfChunks");
             }
         }
 

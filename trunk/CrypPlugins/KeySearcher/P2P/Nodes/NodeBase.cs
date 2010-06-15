@@ -59,7 +59,6 @@ namespace KeySearcher.P2P.Nodes
                 revertedResults.AddFirst(valueKey);
             }
 
-            // TODO eventuell wird nur der beste Eintrag übernommen?
             foreach (var valueKey in revertedResults)
             {
                 if (!KeyQualityHelper.IsBetter(valueKey.value, bestValue)) continue;

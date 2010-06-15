@@ -181,7 +181,6 @@ namespace Cryptool.Plugins.PeerToPeer
                     settings.ConnectInternal = true;
                     settings.LocalReceivingPort = 0;
                     settings.UseLocalAddressDetection = false;
-                    settings.AutoReconnect = false;
                     settings.NoDelay = false;
                     settings.ReuseAddress = false;
                     settings.UseNetworkMonitorServer = true;
