@@ -28,7 +28,7 @@ namespace Cryptool.P2PEditor.Worker
             try
             {
                 _jobListManager.CompleteDistributedJob(_jobToParticipateIn);
-            } catch(ArgumentOutOfRangeException ex)
+            } catch(Exception ex)
             {
                 _p2PEditor.GuiLogMessage("Error completing job: " + ex.Message, NotificationLevel.Error);
                 return;

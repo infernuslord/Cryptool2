@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
 using KeySearcher.Helper;
 using KeySearcher.P2P.Nodes;
@@ -16,6 +17,7 @@ namespace KeySearcher.P2P
         private Leaf _currentLeaf;
         private bool _skippedReservedNodes;
         private bool _useReservedNodes;
+        private BigInteger _lastPatternId;
 
         public KeyPoolTree(KeyPatternPool patternPool, KeySearcherSettings settings, KeySearcher keySearcher, KeyQualityHelper keyQualityHelper)
         {
@@ -24,9 +26,10 @@ namespace KeySearcher.P2P
 
             _p2PHelper = new P2PHelper(keySearcher);
             _skippedReservedNodes = false;
+            _lastPatternId = -1;
+
             _rootNode = NodeFactory.CreateNode(_p2PHelper, keyQualityHelper, null, 0, _patternPool.Length - 1, _settings.DistributedJobIdentifier);
 
-            _currentNode = _rootNode;
             AdvanceToFirstLeaf();
 
             if (_rootNode is Node)
@@ -40,7 +43,7 @@ namespace KeySearcher.P2P
 
         private void AdvanceToFirstLeaf()
         {
-            _currentNode = _currentNode.CalculatableNode(true);
+            _currentNode = _rootNode.CalculatableNode(false);
         }
 
         public bool LocateNextPattern()
@@ -100,7 +103,14 @@ namespace KeySearcher.P2P
             }
 
             _currentNode = nextNode.CalculatableNode(_useReservedNodes);
+
+            if (((Leaf)_currentNode).PatternId() == _lastPatternId)
+            {
+                AdvanceToFirstLeaf();
+            }
+
             _currentLeaf = (Leaf)_currentNode;
+            _lastPatternId = CurrentPatternId();
             return true;
         }
 
