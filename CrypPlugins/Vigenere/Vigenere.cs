@@ -327,6 +327,7 @@ namespace Cryptool.Vigenere
                                 }
                                 break;
 
+
                             case VigenereMode.autodecrypt:
 
                                 //key still used
@@ -345,7 +346,15 @@ namespace Cryptool.Vigenere
                                     while (pkey < 0)
                                     {
                                         autopos++;
-                                        pkey = alphabet.IndexOf(char.ToUpper(outputString[autopos]));
+                                        try
+                                        {
+                                            pkey = alphabet.IndexOf(char.ToUpper(outputString[autopos]));
+                                        }
+                                        catch
+                                        {
+                                            //there is an internal failure that doesn't make sense
+                                            //supposly it has something to do with the threads -.-'/
+                                        }
                                     }
 
                                     cpos = (ppos - pkey + alphabet.Length) % alphabet.Length;

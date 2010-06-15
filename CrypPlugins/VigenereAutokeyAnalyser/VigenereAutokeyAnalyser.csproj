@@ -98,6 +98,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutokeyPresentation.xaml.cs">
+      <DependentUpon>AutokeyPresentation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ResultEntry.cs" />
     <Compile Include="VigenereAutokeyAnalyser.cs" />
     <Compile Include="VigenereAutokeyAnalyserSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -128,6 +132,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="AutokeyPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
