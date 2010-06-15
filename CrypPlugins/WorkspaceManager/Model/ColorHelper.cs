@@ -23,7 +23,7 @@ namespace WorkspaceManager.Model
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static Color GetDataColor(Type type)
+        public static Color GetColor(Type type)
         {
             if (type.FullName == "System.String")
             {                
@@ -56,60 +56,50 @@ namespace WorkspaceManager.Model
             }
             else
             {
+                if (type.GetInterface(typeof(IEncryption).Name) != null)
+                {
+                    EncryptionTypeAttribute eta = type.GetEncryptionTypeAttribute();
+                    switch (eta.EncryptionType)
+                    {
+                        case EncryptionType.Asymmetric:
+                            return Colors.MediumSeaGreen;
+
+                        case EncryptionType.Classic:
+                            return Colors.LightBlue;
+
+                        case EncryptionType.SymmetricBlock:
+                            return Colors.LightYellow;
+
+                        case EncryptionType.SymmetricStream:
+                            return Colors.LightSteelBlue;
+
+                        case EncryptionType.Hybrid:
+                            return Colors.Khaki;
+                    }
+                }
+
+                if (type.GetInterface(typeof(IGenerator).Name) != null)
+                {
+                    return Colors.LemonChiffon;
+                }
+
+                if (type.GetInterface(typeof(IHash).Name) != null)
+                {
+                    return Colors.Orange;
+                }
+
+                if (type.GetInterface(typeof(IStatistic).Name) != null)
+                {
+                    return Colors.Violet;
+                }
+
+                if (type.GetInterface(typeof(IAnalysisMisc).Name) != null)
+                {
+                    return Colors.Turquoise;
+                }
+
                 return Colors.Black;
             }
-        }
-
-        /// <summary>
-        /// Return color from a giving PluginType
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static Color GetPluginTypeColor(Type type)
-        {
-            if (type.GetInterface(typeof(IEncryption).Name) != null)
-            {
-                EncryptionTypeAttribute eta = type.GetEncryptionTypeAttribute();
-                switch (eta.EncryptionType)
-                {
-                    case EncryptionType.Asymmetric:
-                        return Colors.MediumSeaGreen;
-
-                    case EncryptionType.Classic:
-                        return Colors.LightBlue;
-
-                    case EncryptionType.SymmetricBlock:
-                        return Colors.LightYellow;
-
-                    case EncryptionType.SymmetricStream:
-                        return Colors.LightSteelBlue;
-
-                    case EncryptionType.Hybrid:
-                        return Colors.Khaki;
-                }
-            }
-
-            if (type.GetInterface(typeof(IGenerator).Name) != null)
-            {
-                return Colors.LemonChiffon;
-            }
-
-            if (type.GetInterface(typeof(IHash).Name) != null)
-            {
-                return Colors.Orange;
-            }
-
-            if (type.GetInterface(typeof(IStatistic).Name) != null)
-            {
-                return Colors.Violet;
-            }
-
-            if (type.GetInterface(typeof(IAnalysisMisc).Name) != null)
-            {
-                return Colors.Turquoise;
-            }
-
-            return Colors.Black;
         }
     }
 }

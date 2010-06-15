@@ -40,7 +40,7 @@
         </DrawingBrush.Drawing>
     </DrawingBrush>
 
-    <SolidColorBrush x:Key="GlassBrush" Opacity="0.6" Color="#444444"></SolidColorBrush>
+    <SolidColorBrush x:Key="GlassBrush" Opacity="0.55" Color="#000000"></SolidColorBrush>
 
     <LinearGradientBrush x:Key="BottomBoxBackgroundBrush" StartPoint="0,0" EndPoint="0,1">
         <GradientBrush.GradientStops>

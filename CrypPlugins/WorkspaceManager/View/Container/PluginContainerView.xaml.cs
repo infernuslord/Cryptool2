@@ -57,14 +57,13 @@ namespace WorkspaceManager.View.Container
             this.Loaded += new RoutedEventHandler(PluginContainerView_Loaded);
             this.MouseEnter += new MouseEventHandler(PluginContainerView_MouseEnter);
             this.MouseLeave += new MouseEventHandler(PluginContainerView_MouseLeave);
+            InitializeComponent();
             this.ConnectorViewList = new List<ConnectorView>();
             this.RenderTransform = new TranslateTransform();
             this.model = model;
             this.model.UpdateableView = this;
-            InitializeComponent();
-
-            Window.BorderBrush = new SolidColorBrush(ColorHelper.GetPluginTypeColor(model.PluginType));
-            PluginNamePlate.Fill = Window.BorderBrush;
+            this.Window.BorderBrush = new SolidColorBrush(ColorHelper.GetColor(model.PluginType));
+            this.PluginNamePlate.Fill = Window.BorderBrush;
 
             if (model.PluginPresentation != null)
             {
@@ -211,6 +210,7 @@ namespace WorkspaceManager.View.Container
 
         public void update()
         {
+            ProgressBar.Value = model.PercentageFinished;
             if (model.PluginPresentation == null)
             {
                 PresentationPanel.Children.Remove(img);
@@ -245,6 +245,19 @@ namespace WorkspaceManager.View.Container
 
                 if ((this.ActualWidth + e.HorizontalChange) > 0)
                     this.Width = this.ActualWidth + e.HorizontalChange;
+            }
+
+            if ((ActualWidth > MinWidth || ActualHeight > MinHeight) && (model.PluginPresentation != null && !PresentationPanel.Children.Contains(model.PluginPresentation)))
+            {
+                PresentationPanel.Children.Clear();
+                PresentationPanel.Children.Add(model.PluginPresentation);
+            }
+            else if(PresentationPanel.Children.Contains(model.PluginPresentation))
+            {
+                PresentationPanel.Children.Clear();
+                img = model.getImage();
+                img.Stretch = Stretch.Uniform;
+                PresentationPanel.Children.Add(img);
             }
         }
 

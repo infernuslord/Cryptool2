@@ -114,6 +114,7 @@
     <Compile Include="View\VisualComponents\BottomBox.xaml.cs">
       <DependentUpon>BottomBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\VisualComponents\FromTo.cs" />
     <Compile Include="WorkspaceManager.cs" />
     <Compile Include="WorkspaceManagerSettings.cs" />
   </ItemGroup>
