@@ -33,14 +33,8 @@ namespace Cryptool.Plugins.QuadraticSieve
             Grid grid = ((Grid)peer2peerExpander.Content);
             Grid.SetRow(progressYields, 0);
             grid.Children.Add(progressYields);
-            progressYields.MaxWidth = 200;
-            progressYields.AmountOfClientsChanged += new Plugins.QuadraticSieve.ProgressYields.AmountOfClientsChangedHandler(progressYields_AmountOfClientsChanged);
-        }
-
-        void progressYields_AmountOfClientsChanged(int amount)
-        {
-            amountOfPeers.Content = "" + amount + " peers participated so far! ";
-        }
+            progressYields.MaxWidth = 200;            
+        }        
 
         public void sizeChanged(Object sender, EventArgs eventArgs)
         {
