@@ -478,6 +478,8 @@ namespace Cryptool.Plugins.QuadraticSieve
             GuiLogMessage("Sieving finished", NotificationLevel.Info);
             quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
+                quadraticSieveQuickWatchPresentation.timeLeft.Text = "";
+                quadraticSieveQuickWatchPresentation.endTime.Text = "";
                 quadraticSieveQuickWatchPresentation.factorInfo.Content = "Found enough relations! Please wait...";
             }, null);
             
@@ -707,6 +709,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 }                
             }
 
+            conf_list[threadNR] = null;
             MethodInfo freeSieveConf = msieve.GetMethod("freeSieveConf");
             freeSieveConf.Invoke(null, new object[] { clone });            
             threadcount--;
@@ -729,7 +732,9 @@ namespace Cryptool.Plugins.QuadraticSieve
                 MethodInfo stop = msieve.GetMethod("stop");
                 MethodInfo getObjFromConf = msieve.GetMethod("getObjFromConf");
                 foreach (IntPtr conf in cl)
-                    stop.Invoke(null, new object[] { getObjFromConf.Invoke(null, new object[] { conf }) });
+                    if (conf != null)
+                        stop.Invoke(null, new object[] { getObjFromConf.Invoke(null, new object[] { conf }) });
+
                 GuiLogMessage("Waiting for threads to stop!", NotificationLevel.Debug);
                 while (threadcount > 0)
                 {
