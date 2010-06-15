@@ -68,6 +68,8 @@ namespace Cryptool.Plugins.QuadraticSieve
         private double ourPerformance = 0;
         private int aliveCounter = 0;       //This is stored together with the performance in the DHT
         private string ourName;
+        private uint downloaded = 0;
+        private uint uploaded = 0;
 
         public delegate void P2PWarningHandler(String warning);
         public event P2PWarningHandler P2PWarning;        
@@ -105,6 +107,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             byte[] yield = P2PManager.Retrieve(YieldIdentifier(index));
             if (yield == null)
                 return null;
+            downloaded += (uint)yield.Length;
 
             byte[] decompressedYield = DecompressYield(yield);
 
@@ -113,9 +116,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             ownerID = BitConverter.ToInt32(idbytes, 0);
             byte[] y = new byte[decompressedYield.Length - 4];
             Array.Copy(decompressedYield, 4, y, 0, y.Length);
-
-            ownerID = -1;
-
+            
             return y;
         }
 
@@ -132,66 +133,67 @@ namespace Cryptool.Plugins.QuadraticSieve
             return decompressedYield;
         }
 
-        private uint ReadAndEnqueueYield(int loadIndex, uint downloaded, uint uploaded)
+        private bool ReadAndEnqueueYield(int loadIndex)
         {
             int ownerID;
             byte[] yield = ReadYield(loadIndex, out ownerID);
             if (yield != null)
             {
-                downloaded += (uint)yield.Length;
                 ShowTransfered(downloaded, uploaded);
                 loadqueue.Enqueue(yield);
 
-                //Progress Yield:
-                if (!nameCache.ContainsKey(ownerID))
-                {
-                    byte[] n = P2PManager.Retrieve(NameIdentifier(ownerID));
-                    if (n != null)
-                        nameCache.Add(ownerID, System.Text.ASCIIEncoding.ASCII.GetString(n));
-                }
                 string name = null;
-                if (nameCache.ContainsKey(ownerID))
-                    name = nameCache[ownerID];
+
+                if (ownerID != ourID)
+                {
+                    //Progress Yield:
+                    if (!nameCache.ContainsKey(ownerID))
+                    {
+                        byte[] n = P2PManager.Retrieve(NameIdentifier(ownerID));
+                        if (n != null)
+                            nameCache.Add(ownerID, System.Text.ASCIIEncoding.ASCII.GetString(n));
+                    }
+                    if (nameCache.ContainsKey(ownerID))
+                        name = nameCache[ownerID];
+
+                    //Performance and alive informations:
+                    if (!activePeers.Contains(ownerID))
+                    {
+                        UpdatePeerPerformanceAndAliveInformation(ownerID);
+                        activePeers.Add(ownerID);
+                        UpdateActivePeerInformation();
+                    }
+                }
+
+                //Set progress info:
                 SetProgressYield(loadIndex, ownerID, name);
 
-                //Performance and alive informations:
-                if (!activePeers.Contains(ownerID))
-                {
-                    UpdatePeerPerformanceAndAliveInformation(ownerID);
-                    activePeers.Add(ownerID);
-                    UpdateActivePeerInformation();
-                }
-
                 yieldEvent.Set();
-                return downloaded;
+                return true;
             }
-            return 0;
+            return false;
         }
 
         /// <summary>
         /// Tries to read and enqueue yield on position "loadIndex".
         /// If it fails, it stores the index in lostIndices queue.
         /// </summary>
-        private uint TryReadAndEnqueueYield(int index, uint downloaded, uint uploaded, Queue<KeyValuePair<int, DateTime>> lostIndices)
+        private void TryReadAndEnqueueYield(int index, Queue<KeyValuePair<int, DateTime>> lostIndices)
         {
-            uint res = ReadAndEnqueueYield(index, downloaded, uploaded);
-            if (res != 0)
-                downloaded = res;
-            else
+            bool succ = ReadAndEnqueueYield(index);
+            if (!succ)                
             {
                 var e = new KeyValuePair<int, DateTime>(index, DateTime.Now);
                 lostIndices.Enqueue(e);
                 SetProgressYield(index, -1, null);
             }
-
-            return downloaded;
         }
 
         private void LoadStoreThreadProc()
         {
             int loadIndex = 0;
-            uint downloaded = 0;
-            uint uploaded = 0;
+            downloaded = 0;
+            uploaded = 0;
             HashSet<int> ourIndices = new HashSet<int>();   //Stores all the indices which belong to our packets
             //Stores all the indices (together with there check date) which belong to lost packets (i.e. packets that can't be load anymore):
             Queue<KeyValuePair<int, DateTime>> lostIndices = new Queue<KeyValuePair<int, DateTime>>();
@@ -267,7 +269,7 @@ namespace Cryptool.Plugins.QuadraticSieve
 
                     if (loadIndex < head)
                     {
-                        downloaded = TryReadAndEnqueueYield(loadIndex, downloaded, uploaded, lostIndices);
+                        TryReadAndEnqueueYield(loadIndex, lostIndices);
                         loadIndex++;
                         busy = true;
                     }
@@ -275,12 +277,12 @@ namespace Cryptool.Plugins.QuadraticSieve
                     //check all lost indices which are last checked longer than 2 minutes ago (but only if we have nothing else to do):
                     if (!busy)
                     {
-                        int count = 0;                        
+                        int count = 0;
                         //TODO: Maybe we should throw away those indices, which have been checked more than several times.
                         while (lostIndices.Count != 0 && lostIndices.Peek().Value.CompareTo(DateTime.Now.Subtract(new TimeSpan(0, 2, 0))) < 0)
                         {
                             var e = lostIndices.Dequeue();
-                            downloaded = TryReadAndEnqueueYield(loadIndex, downloaded, uploaded, lostIndices);
+                            TryReadAndEnqueueYield(loadIndex, lostIndices);
                             count++;
                         }
 

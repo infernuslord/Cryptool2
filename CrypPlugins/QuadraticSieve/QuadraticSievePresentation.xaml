@@ -5,31 +5,31 @@
     VerticalAlignment="Stretch"
     Background="White"
     Name="Presentation">
-    <Canvas Name="Canvas">
-    <Grid Name="Grid" ShowGridLines="False">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="150"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+        <Canvas Name="Canvas">
+            <Grid Name="Grid" ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="150"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
         
-        <Label FontSize="12" Name="Label1" Margin="1">Probable time left :</Label>
-        <Label Grid.Column="1" FontSize="12" Name="Label2" Margin="1">Estimated end time :</Label>
+            <Label FontSize="12" Name="Label1" Margin="1">Probable time left :</Label>
+            <Label Grid.Column="1" FontSize="12" Name="Label2" Margin="1">Estimated end time :</Label>
         
-        <TextBox Name="timeLeft" Grid.Row="1" TextAlignment="Center" IsReadOnly="True" TextWrapping="WrapWithOverflow" Focusable="True" BorderThickness="1" Margin="1" BorderBrush="AliceBlue" />
-        <TextBox Name="endTime" Grid.Row="1" Grid.Column="1" TextAlignment="Center" IsReadOnly="True" TextWrapping="WrapWithOverflow" BorderThickness="1" Margin="1" BorderBrush="AliceBlue" />
-        <ListBox Grid.Row="2" Grid.ColumnSpan="2" Name="factorList" Canvas.Left="1" Canvas.Top="50" Height="150" Width="233" />
-        <Label Grid.Row="3" Grid.ColumnSpan="2" Content="" HorizontalAlignment="Left" Name="factorInfo" VerticalAlignment="Top" />  
-        
-        <Expander Grid.Row="4" Grid.ColumnSpan="2" Header="Peer2Peer informations" Name="peer2peerExpander" VerticalAlignment="Top" Expanded="peer2peerExpander_Expanded">
-            <Grid>
+            <TextBox Name="timeLeft" Grid.Row="1" TextAlignment="Center" IsReadOnly="True" TextWrapping="WrapWithOverflow" Focusable="True" BorderThickness="1" Margin="1" BorderBrush="AliceBlue" />
+            <TextBox Name="endTime" Grid.Row="1" Grid.Column="1" TextAlignment="Center" IsReadOnly="True" TextWrapping="WrapWithOverflow" BorderThickness="1" Margin="1" BorderBrush="AliceBlue" />
+            <ListBox Grid.Row="2" Grid.ColumnSpan="2" Name="factorList" Canvas.Left="1" Canvas.Top="50" Height="150" Width="233" />
+            <Label Grid.Row="3" Grid.ColumnSpan="2" Content="" HorizontalAlignment="Left" Name="factorInfo" VerticalAlignment="Top" />
+
+            <UserControl Name="peer2peer" Grid.Row="4" Grid.ColumnSpan="2">
+                <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />
@@ -41,10 +41,11 @@
 
                 <Label Grid.Row="1" Content="" HorizontalAlignment="Stretch" Name="relationsInfo" VerticalAlignment="Bottom" />
                 <Label Grid.Row="2" Content="" HorizontalAlignment="Stretch" Name="amountOfPeers" VerticalAlignment="Bottom" />
-            </Grid>                
-        </Expander>
-        
-        <TextBox Name="logging" Grid.Row="5" Grid.ColumnSpan="2" TextAlignment="Left" IsReadOnly="True" TextWrapping="WrapWithOverflow" BorderThickness="1" Margin="1" BorderBrush="AliceBlue" />        
-        </Grid>        
-    </Canvas>
+                </Grid>
+            </UserControl>
+
+            <TextBox Name="logging" Grid.Row="5" Grid.ColumnSpan="2" TextAlignment="Left" IsReadOnly="True" TextWrapping="WrapWithOverflow" BorderThickness="1" Margin="1" BorderBrush="AliceBlue" />        
+            
+            </Grid>        
+        </Canvas>
 </UserControl>

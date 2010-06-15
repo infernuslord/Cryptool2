@@ -30,10 +30,10 @@ namespace Cryptool.Plugins.QuadraticSieve
             InitializeComponent();            
             SizeChanged += sizeChanged;
 
-            Grid grid = ((Grid)peer2peerExpander.Content);
+            Grid grid = ((Grid)peer2peer.Content);
             Grid.SetRow(progressYields, 0);
             grid.Children.Add(progressYields);
-            progressYields.MaxWidth = 200;            
+            //progressYields.MaxWidth = 200;            
         }        
 
         public void sizeChanged(Object sender, EventArgs eventArgs)
@@ -42,9 +42,9 @@ namespace Cryptool.Plugins.QuadraticSieve
                                                        this.ActualHeight / this.Grid.ActualHeight);
         }
 
-        private void peer2peerExpander_Expanded(object sender, RoutedEventArgs e)
+        public void Redraw()
         {
-            //TODO: Refresh here
+            //TODO: Redraw here
         }
     }
 }
