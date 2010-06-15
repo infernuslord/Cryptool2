@@ -1,0 +1,352 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5E02857D-3D80-4C14-9D38-246135B739F4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PKCS1</RootNamespace>
+    <AssemblyName>PKCS1</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.6.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>.\BouncyCastle.Crypto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CrypPluginBase">
+      <HintPath>..\..\CrypBuild\x86\Debug\CrypPluginBase.dll</HintPath>
+    </Reference>
+    <Reference Include="Emil.GMP, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\Emil.GMP.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsFormsIntegration">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Library\BleichenbacherSignature.cs" />
+    <Compile Include="Library\MathFunctions.cs" />
+    <Compile Include="Library\Datablock.cs" />
+    <Compile Include="Library\Delegates.cs" />
+    <Compile Include="Library\Hashfunction.cs" />
+    <Compile Include="Library\HashFunctionHandler.cs" />
+    <Compile Include="Library\KuehnSignature.cs" />
+    <Compile Include="Library\NavigationCommandType.cs" />
+    <Compile Include="Library\ParameterChangeType.cs" />
+    <Compile Include="Library\RSAKeyManager.cs" />
+    <Compile Include="Library\RSASignature.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Library\RSAValidator.cs" />
+    <Compile Include="Library\Signature.cs" />
+    <Compile Include="Library\SignatureType.cs" />
+    <Compile Include="Library\SignatureHandler.cs" />
+    <Compile Include="OnlineHelp\HelpFiles\Help.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Help.resx</DependentUpon>
+    </Compile>
+    <Compile Include="OnlineHelp\OnlineHelpAccess.cs" />
+    <Compile Include="OnlineHelp\OnlineHelpActions.cs" />
+    <Compile Include="OnlineHelp\WindowOnlineHelp.xaml.cs">
+      <DependentUpon>WindowOnlineHelp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PKCS1Plugin.cs" />
+    <Compile Include="PKCS1Settings.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\lang\Navigation\Navigation.en.Designer.cs">
+      <DependentUpon>Navigation.en.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\lang\Navigation\Navigation.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Navigation.resx</DependentUpon>
+    </Compile>
+    <Compile Include="WpfControls\Components\DatablockControl.xaml.cs">
+      <DependentUpon>DatablockControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WpfControls\Components\HelpTabItem.cs" />
+    <Compile Include="WpfControls\Components\SigGenBleichenbControl.xaml.cs">
+      <DependentUpon>SigGenBleichenbControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WpfControls\Components\SigGenControl.xaml.cs">
+      <DependentUpon>SigGenControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WpfControls\Components\SigGenKuehnControl.xaml.cs">
+      <DependentUpon>SigGenKuehnControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WpfControls\Components\UserControlHelper.cs" />
+    <Compile Include="WpfControls\IPkcs1UserControl.cs" />
+    <Compile Include="WpfControls\RsaKeyGen\RsaKeyGenControl.xaml.cs">
+      <DependentUpon>RsaKeyGenControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WpfControls\SigGenFake\SigGenFakeBleichenbControl.xaml.cs">
+      <DependentUpon>SigGenFakeBleichenbControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WpfControls\SigGenFake\SigGenFakeShortControl.xaml.cs">
+      <DependentUpon>SigGenFakeShortControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WpfControls\SigGen\SigGenPkcs1Control.xaml.cs">
+      <DependentUpon>SigGenPkcs1Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WpfControls\SigVal\SigValControl.xaml.cs">
+      <DependentUpon>SigValControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WpfControls\Start\StartControl.xaml.cs">
+      <DependentUpon>StartControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WpfVisualization\Navigation\Navigation.xaml.cs">
+      <DependentUpon>Navigation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WpfVisualization\Pkcs1Control.xaml.cs">
+      <DependentUpon>Pkcs1Control.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="DetailedDescription\Description.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Page Include="OnlineHelp\WindowOnlineHelp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WpfControls\Components\DatablockControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WpfControls\Components\SigGenBleichenbControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WpfControls\Components\SigGenControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WpfControls\Components\SigGenKuehnControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WpfControls\RsaKeyGen\RsaKeyGenControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WpfControls\SigGenFake\SigGenFakeBleichenbControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WpfControls\SigGenFake\SigGenFakeShortControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WpfControls\SigGen\SigGenPkcs1Control.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WpfControls\SigVal\SigValControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WpfControls\Start\StartControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WpfResources\Brushes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WpfResources\HelpTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WpfResources\PKCS1.WpfResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WpfResources\Shared.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WpfVisualization\Navigation\Navigation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WpfVisualization\Pkcs1Control.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="OnlineHelp\HelpFiles\Help.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Help.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\lang\Navigation\Navigation.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Navigation.en.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\lang\Navigation\Navigation.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Navigation.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons\help32.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="PKCS1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="OnlineHelp\HelpFiles\de\Gen_Datablock_Tab.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Gen_PKCS1_Sig_Tab.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Gen_Bleichenb_Sig_Tab.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Gen_Kuehn_Sig_Tab.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\KeyGen_PubExponent.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\KeyGen_ModulusSize.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\StartControl.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\SigGenFakeBleichenbacher.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\SigGenFakeKuehn.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\KeyGen.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\SigGen.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\SigVal.html" />
+    <Content Include="OnlineHelp\HelpFiles\template.htm" />
+    <Content Include="WpfControls\Start.htm" />
+    <Resource Include="Resources\icons\unequal.png" />
+    <Resource Include="Resources\icons\equal.png" />
+    <Resource Include="Resources\icons\help.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
