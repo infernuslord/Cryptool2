@@ -30,11 +30,18 @@ namespace Cryptool.Plugins.QuadraticSieve
             InitializeComponent();            
             SizeChanged += sizeChanged;
 
+            ScrollViewer sviewer = new ScrollViewer();
+            sviewer.CanContentScroll = true;
+            sviewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+            sviewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+            sviewer.Content = progressYields;
             Grid grid = ((Grid)peer2peer.Content);
-            Grid.SetRow(progressYields, 0);
-            grid.Children.Add(progressYields);
-            //progressYields.MaxWidth = 200;            
-        }        
+            Grid.SetRow(sviewer, 0);
+            grid.Children.Add(sviewer);
+            sviewer.MinHeight = 100;
+            sviewer.MaxHeight = 100;
+            progressYields.MaxWidth = factorList.Width;
+        }
 
         public void sizeChanged(Object sender, EventArgs eventArgs)
         {
