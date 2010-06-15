@@ -42,6 +42,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         private String completeplain;                               //One probable mixed up plaintext
 
         private String textkorpus;                                  //Alternative to the predetermindet Frequencys in Languages
+        private String report = "";                                 //A report of all analysed keys (Optional output string)
 
         private int maxkeylength;                                   //The maximum keylength we search for
         private int keylength;                                      //One probable keylength
@@ -56,7 +57,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 
         //Reminder Section
         private String finalkey;                                    //The solution
-        private double finalIC = 0.0;                               //The IC for the solution
+        private double finalIC;                                     //The IC for the solution
         private double sumofsquares;                                //The Sum of Squares for the best solution
 
         #endregion
@@ -131,6 +132,23 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
             }
         }
 
+        /// <summary>
+        /// The output for the statistic
+        /// </summary>
+        [PropertyInfo(Direction.OutputData, "Report Output", "A text with all analysed keys and their IC values", "", DisplayLevel.Beginner)]
+        public String OutputStatistic
+        {
+            get
+            {
+                return report;
+            }
+            set
+            {
+                this.report = value;
+                OnPropertyChanged("OutputStatistic");
+            }
+        }
+
         #endregion
 
         #region IPlugin Members
@@ -162,12 +180,20 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
             ProgressChanged(0, 1);
 
             alphabet = settings.AlphabetSymbols;                //initialising the alphabet as given by the user       
+
+            if (InputCipher != null)
+            {
+                ciphertext = InputCipher;                       //initialising the ciphertext
+                ciphertext = prepareForAnalyse(ciphertext);     //and prepare it for the analyse (-> see private methods section)
+            }
             
-            ciphertext = InputCipher;                           //initialising the ciphertext
-            ciphertext = prepareForAnalyse(ciphertext);         //and prepare it for the analyse (-> see private methods section)
+
+            report = "The analysed key(s) and their IC(s): \n"; //initialise the headline of the report
 
             modus = settings.Modus;                             //initialise which modus is used
             language = settings.Language;                       //initialise which language frequencys are expected
+
+            finalIC = 0.0;                                      //initialise the highest index of coincidence to be found among all tests
 
             if (textkorpus != null)                             //1)  if there's a textkorpus given us it to calculate the expected frequency...
             {                                                   //    (-> see private methods section)
@@ -205,6 +231,9 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 
             OutputKey = finalkey;                               //sending the key via output
             OnPropertyChanged("OutputKey");
+
+            OutputStatistic = report;
+            OnPropertyChanged("OutputStatistic");
 
             ProgressChanged(1, 1);
         
@@ -272,7 +301,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
             {
                 if (getPos(c[x]) != -1)
                 {
-                    prepared = prepared + c[x];
+                    prepared += c[x];
                 }
             }
             return prepared;
@@ -367,7 +396,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
             {
 
                 gotcha = (getPos(c[x]) - gotcha + 26) % 26;
-                shifted = shifted + alphabet[gotcha];
+                shifted += alphabet[gotcha];
             }
 
             return shifted;
@@ -386,7 +415,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
             {
 
                 gotcha = (getPos(c[x]) - s + 26) % 26;
-                shifted = shifted + alphabet[gotcha];
+                shifted += alphabet[gotcha];
             }
 
             return shifted;
@@ -483,7 +512,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
                     {
                         if (column + i * keylength < ciphertext.Length)
                         {
-                            ciphercolumn = ciphercolumn + ciphertext[column + i * keylength];
+                            ciphercolumn += ciphertext[column + i * keylength];
                         }
                     }
 
@@ -504,17 +533,15 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 
                     }
 
-                    completeplain = completeplain + getShift(ciphercolumn, getPos(probablekeychar)); //remembers a decrypted cipher
-                    key = key + probablekeychar;                                                     //remembers the probable key letter of this decryption
-
-
+                    completeplain += getShift(ciphercolumn, getPos(probablekeychar)); //remembers a decrypted cipher
+                    key += probablekeychar;                                           //remembers the probable key letter of this decryption
 
                 }
 
 
                 IC = getIC(completeplain);                              //calculate the IC(index of coincidence)
 
-                GuiLogMessage(" " + IC, NotificationLevel.Info);
+                report += key + " : " + IC + "\n";                      //the report               
 
                 //the decrypted cipher with the highest index of coincidence was decrypted with the correct key
                 if (IC > finalIC)
