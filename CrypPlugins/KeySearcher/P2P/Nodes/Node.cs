@@ -14,7 +14,7 @@ namespace KeySearcher.P2P.Nodes
         public Node(P2PHelper p2PHelper, KeyQualityHelper keyQualityHelper, Node parentNode, BigInteger @from, BigInteger to, string distributedJobIdentifier)
             : base(p2PHelper, keyQualityHelper, parentNode, @from, to, distributedJobIdentifier)
         {
-            if (!LeftChildFinished && !RightChildFinished)
+            if (!LeftChildFinished || !RightChildFinished)
             {
                 FindChildNodes();
             }

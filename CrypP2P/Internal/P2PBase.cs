@@ -117,6 +117,9 @@ namespace Cryptool.P2P.Internal
                     settings.ReuseAddress = false;
                     settings.UseNetworkMonitorServer = true;
                     settings.CloseConnectionAfterPingTimeout = false;
+
+                    settings.MaximumMessageSize = 10485760;
+                    settings.IgnoreMaximumMessageSize = true;
                         
                     switch(P2PSettings.Default.TransportProtocol)
                     {
