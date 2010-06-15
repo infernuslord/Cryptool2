@@ -14,69 +14,62 @@ namespace KeySearcher.P2P.Nodes
         public Node(P2PHelper p2PHelper, KeyQualityHelper keyQualityHelper, Node parentNode, BigInteger @from, BigInteger to, string distributedJobIdentifier)
             : base(p2PHelper, keyQualityHelper, parentNode, @from, to, distributedJobIdentifier)
         {
-            if (!LeftChildFinished || !RightChildFinished)
-            {
-                FindChildNodes();
-            }
         }
 
-        private void FindChildNodes()
+        private void LoadOrUpdateChildNodes(bool ignoreReservation = false)
         {
             var middle = (From + To)/2;
-            if (_leftChild == null)
-            {
-                _leftChild = NodeFactory.CreateNode(P2PHelper, KeyQualityHelper, this, From, middle, DistributedJobIdentifier);
-            } 
-            else
-            {
-                if (!LeftChildFinished)
-                    P2PHelper.UpdateFromDht(_leftChild);
-            }
 
-            // Only load right node, if the left one is finished or reserved
-            if (LeftChildFinished || _leftChild.IsReserverd())
+            if (!LeftChildFinished)
             {
-                if (_rightChild == null)
+                if (_leftChild == null)
                 {
-                    _rightChild = NodeFactory.CreateNode(P2PHelper, KeyQualityHelper, this, middle + 1, To, DistributedJobIdentifier);
+                    _leftChild = NodeFactory.CreateNode(P2PHelper, KeyQualityHelper, this, From, middle,
+                                                        DistributedJobIdentifier);
                 }
                 else
                 {
-                    if (!RightChildFinished)
-                        P2PHelper.UpdateFromDht(_rightChild);
+                    P2PHelper.UpdateFromDht(_leftChild);
+                }
+            }
+
+            // Only load right node, if the left one is finished or reserved
+            var leftChildsReservationExistingAndNotIgnored = !LeftChildFinished && _leftChild.IsReserverd() && !ignoreReservation;
+            if ((LeftChildFinished || !leftChildsReservationExistingAndNotIgnored) && !RightChildFinished)
+            {
+                if (_rightChild == null)
+                {
+                    _rightChild = NodeFactory.CreateNode(P2PHelper, KeyQualityHelper, this, middle + 1, To,
+                                                         DistributedJobIdentifier);
+                }
+                else
+                {
+                    P2PHelper.UpdateFromDht(_rightChild);
                 }
             }
         }
 
-        public bool IsCalculated
+        public override bool IsCalculated()
         { 
-            get
-            {
-                return LeftChildFinished && RightChildFinished;
-            }
+            return LeftChildFinished && RightChildFinished;
         }
 
         public override NodeBase CalculatableNode(bool useReservedNodes)
         {
-            if (LeftChildFinished && RightChildFinished)
+            if (IsCalculated())
             {
                 return null;
             }
 
-            if (LeftChildFinished || (_leftChild.IsReserverd() && !useReservedNodes))
-            {
-                if (_rightChild == null)
-                {
-                    FindChildNodes();
-                }
+            LoadOrUpdateChildNodes(true);
 
+            if ((LeftChildFinished || (_leftChild.IsReserverd() && !useReservedNodes)) && !RightChildFinished)
+            {
                 return _rightChild.CalculatableNode(useReservedNodes);
             }
 
             return _leftChild.CalculatableNode(useReservedNodes);
         }
-
-        
 
         public void ChildFinished(NodeBase childNode)
         {
@@ -98,17 +91,22 @@ namespace KeySearcher.P2P.Nodes
 
         public override bool IsReserverd()
         {
-            if (LeftChildFinished || _leftChild.IsReserverd())
-            {
-                if (_rightChild == null)
-                {
-                    FindChildNodes();
-                }
+            LoadOrUpdateChildNodes(true);
 
+            var leftChildFinishedOrReserved = LeftChildFinished || _leftChild.IsReserverd();
+
+            if (leftChildFinishedOrReserved && !RightChildFinished)
+            {
                 return _rightChild.IsReserverd();
             }
 
-            return false;
+            return !LeftChildFinished && _leftChild.IsReserverd();
+        }
+
+        public override string ToString()
+        {
+            return base.ToString() + ", LeftChildFinished " + LeftChildFinished + ",  RightChildFinished " +
+                   RightChildFinished;
         }
     }
 }

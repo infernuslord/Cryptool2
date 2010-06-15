@@ -30,6 +30,11 @@ namespace KeySearcher.P2P.Nodes
             return this;
         }
 
+        public override bool IsCalculated()
+        {
+            return Result.Count > 0;
+        }
+
         public bool ReserveLeaf()
         {
             LastReservationDate = DateTime.UtcNow;
@@ -41,6 +46,11 @@ namespace KeySearcher.P2P.Nodes
             var dateFiveMinutesBefore = DateTime.UtcNow.Subtract(new TimeSpan(0, 5, 0));
             var isReserverd = dateFiveMinutesBefore < LastReservationDate;
             return isReserverd;
+        }
+
+        public override string ToString()
+        {
+            return base.ToString() + ", last reservation date " + LastReservationDate;
         }
     }
 }

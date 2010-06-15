@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Numerics;
 using KeySearcher.Helper;
 using KeySearcher.P2P.Exceptions;
@@ -33,13 +32,7 @@ namespace KeySearcher.P2P
 
             AdvanceToFirstLeaf();
 
-            if (_rootNode is Node)
-            {
-                _calculationFinishedOnStart = ((Node) _rootNode).IsCalculated;
-            } else
-            {
-                _calculationFinishedOnStart = _rootNode.Result.Count > 0;
-            }
+            _calculationFinishedOnStart = _rootNode.IsCalculated();
         }
 
         private void AdvanceToFirstLeaf()
@@ -49,6 +42,8 @@ namespace KeySearcher.P2P
 
         public bool LocateNextPattern()
         {
+            _useReservedNodes = false;
+            _skippedReservedNodes = false;
             var patternLocated = LocateNextPattern(false);
 
             if (!patternLocated && _skippedReservedNodes)
@@ -67,22 +62,15 @@ namespace KeySearcher.P2P
 
             if (_rootNode is Leaf)
             {
-                // Root node finished?
-                if (_rootNode.Result.Count > 0)
-                {
-                    return false;
-                }
-
                 _currentLeaf = (Leaf) _rootNode;
-                return true;
+                return _rootNode.IsCalculated();
             }
 
             var nextNode = _currentNode.ParentNode;
             while (nextNode != null)
             {
-                // TODO update required?
                 _p2PHelper.UpdateFromDht(nextNode);
-                if (nextNode.IsCalculated)
+                if (nextNode.IsCalculated())
                 {
                     nextNode = nextNode.ParentNode;
                     continue;
