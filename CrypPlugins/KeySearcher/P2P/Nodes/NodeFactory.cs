@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
+﻿using System.Numerics;
 using KeySearcher.Helper;
 
 namespace KeySearcher.P2P.Nodes
 {
-    class NodeFactory
+    static class NodeFactory
     {
         public static NodeBase CreateNode(P2PHelper p2PHelper, KeyQualityHelper keyQualityHelper, Node parentNode, BigInteger from, BigInteger to, string distributedJobIdentifier)
         {

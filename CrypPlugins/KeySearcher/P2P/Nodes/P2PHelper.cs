@@ -58,14 +58,14 @@ namespace KeySearcher.P2P.Nodes
                 return;
             }
 
+            nodeToUpdate.LastUpdate = DateTime.Now;
+
             var nodeBytes = P2PManager.Retrieve(KeyInDht(nodeToUpdate));
 
             if (nodeBytes == null)
             {
                 return;
             }
-
-            nodeToUpdate.LastUpdate = DateTime.Now;
 
             var binaryReader = new BinaryReader(new MemoryStream(nodeBytes));
 

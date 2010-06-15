@@ -16,7 +16,6 @@ namespace KeySearcher.P2P.Nodes
 
         protected internal DateTime LastUpdate;
 
-        private readonly KeySearcher _keySearcher;
         public readonly Node ParentNode;
         public LinkedList<KeySearcher.ValueKey> Result;
 
@@ -80,7 +79,7 @@ namespace KeySearcher.P2P.Nodes
             P2PManager.Retrieve(P2PHelper.KeyInDht(this));
             P2PManager.Remove(P2PHelper.KeyInDht(this));
 
-            if (ParentNode.IsCalculated)
+            if (ParentNode.IsCalculated())
             {
                 ParentNode.UpdateDht();
             }
@@ -95,5 +94,12 @@ namespace KeySearcher.P2P.Nodes
         public abstract bool IsReserverd();
 
         public abstract NodeBase CalculatableNode(bool useReservedNodes);
+
+        public abstract bool IsCalculated();
+
+        public override string ToString()
+        {
+            return "NodeBase " + GetType() + ", from " + From + " to " + To;
+        }
     }
 }
