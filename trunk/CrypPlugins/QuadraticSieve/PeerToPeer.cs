@@ -114,6 +114,8 @@ namespace Cryptool.Plugins.QuadraticSieve
             byte[] y = new byte[decompressedYield.Length - 4];
             Array.Copy(decompressedYield, 4, y, 0, y.Length);
 
+            ownerID = -1;
+
             return y;
         }
 
@@ -298,7 +300,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         {
             quadraticSieveQuickWatchPresentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                quadraticSieveQuickWatchPresentation.amountOfPeers.Content = "" + activePeers.Count + " peers active!";
+                quadraticSieveQuickWatchPresentation.amountOfPeers.Content = "" + activePeers.Count + " other peer" + (activePeers.Count!=1 ? "s" : "") + " active!";
             }, null);
         }
 
