@@ -14,8 +14,7 @@ using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 
 namespace KeySearcher
-{
-    
+{    
     /// <summary>
     /// Interaktionslogik für KeySearcherQuickWatchPresentation.xaml
     /// </summary>

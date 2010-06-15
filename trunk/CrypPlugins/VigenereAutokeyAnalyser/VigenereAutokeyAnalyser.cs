@@ -23,6 +23,9 @@ using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Windows.Controls;
 using Cryptool.PluginBase.Analysis;
+using VigenereAutokeyAnalyser;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 {
@@ -34,6 +37,8 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         #region Private Variables
 
         private readonly VigenereAutokeyAnalyserSettings settings = new VigenereAutokeyAnalyserSettings();
+        private UserControl quickWatchPresentation = new AutokeyPresentation();     //The Quickwatch to be used
+
         private String ciphertext = "";                             //The cipher to be analysed
         private int modus;                                          //The modus to work with (Autokey or Vigenere)
         private String alphabet;                                    //The alphabet to be used
@@ -42,7 +47,6 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         private String completeplain;                               //One probable mixed up plaintext
 
         private String textkorpus;                                  //Alternative to the predetermindet Frequencys in Languages
-        private String report = "";                                 //A report of all analysed keys (Optional output string)
 
         private int maxkeylength;                                   //The maximum keylength we search for
         private int keylength;                                      //One probable keylength
@@ -130,24 +134,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
                 this.finalkey = value;
                 OnPropertyChanged("OutputKey");
             }
-        }
-
-        /// <summary>
-        /// The output for the statistic
-        /// </summary>
-        [PropertyInfo(Direction.OutputData, "Report Output", "A text with all analysed keys and their IC values", "", DisplayLevel.Beginner)]
-        public String OutputStatistic
-        {
-            get
-            {
-                return report;
-            }
-            set
-            {
-                this.report = value;
-                OnPropertyChanged("OutputStatistic");
-            }
-        }
+        }     
 
         #endregion
 
@@ -160,7 +147,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 
         public UserControl Presentation
         {
-            get { return null; }
+            get { return quickWatchPresentation; }            
         }
 
         public UserControl QuickWatchPresentation
@@ -179,20 +166,21 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
             
             ProgressChanged(0, 1);
 
+            ((AutokeyPresentation)Presentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                ((AutokeyPresentation)Presentation).entries.Clear();
+            }, null);
+            
             alphabet = settings.AlphabetSymbols;                //initialising the alphabet as given by the user       
 
             if (InputCipher != null)
             {
                 ciphertext = InputCipher;                       //initialising the ciphertext
                 ciphertext = prepareForAnalyse(ciphertext);     //and prepare it for the analyse (-> see private methods section)
-            }
-            
-
-            report = "The analysed key(s) and their IC(s): \n"; //initialise the headline of the report
+            }                       
 
             modus = settings.Modus;                             //initialise which modus is used
             language = settings.Language;                       //initialise which language frequencys are expected
-
             finalIC = 0.0;                                      //initialise the highest index of coincidence to be found among all tests
 
             if (textkorpus != null)                             //1)  if there's a textkorpus given us it to calculate the expected frequency...
@@ -206,17 +194,18 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
             }                                                   //    (-> see private methods section)
 
 
-
-
 //-----------------------------------------------------------------------------------------------------------------
 //Analyse----------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------
 
 
             if (InputKeylength != 0)                            //1) if the autokorrelation function has provided an assumed
-            {                                                   //   keylength break the AutokeyCipher with it...
-                assumedkeylength = InputKeylength;
-                breakVigenereAutoKey(assumedkeylength);
+            {                                                   //   keylength break the AutokeyCipher with it... 
+                lock (this)                                     //   IMPORTANT: This is a critical Area and has to be used by only one thread 
+                {
+                    assumedkeylength = InputKeylength;
+                    breakVigenereAutoKey(assumedkeylength);
+                }
             }
             else                                                //OR
             {
@@ -226,14 +215,9 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
                     breakVigenereAutoKey(d);                    //"BREAK VIGENERE AUTO KEY(KEYLENGTH)" IS THE MAIN METHODE IN FINDING THE KEY FOR A GIVEN KEYLENGTH
                 }                                               //(-> see private methods section)
             }  
-            
-            
-
+                        
             OutputKey = finalkey;                               //sending the key via output
             OnPropertyChanged("OutputKey");
-
-            OutputStatistic = report;
-            OnPropertyChanged("OutputStatistic");
 
             ProgressChanged(1, 1);
         
@@ -280,7 +264,6 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
                 IC = IC + (OF[alphabet[x]] * OF[alphabet[x]]) / (1.0 / alphabet.Length);
             }
 
-
             return IC;
         }
 
@@ -294,7 +277,6 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         private String prepareForAnalyse(String c)
         {
             String prepared = "";
-
             c = c.ToUpper();
 
             for (int x = 0; x < c.Length; x++)
@@ -304,6 +286,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
                     prepared += c[x];
                 }
             }
+
             return prepared;
         }
 
@@ -320,10 +303,8 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         {
             String shifted = "";
             shifted = getShift(c, s);                           //"autokey shift" the whole column by the probable key-letter 
-
            
             OF = observedFrequency(shifted);                    // calculate the observed frequency of the shift
-
 
             double sum = 0;
             double help;
@@ -348,6 +329,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         private int getPos(char c)
         {
             int pos = -1;
+
             for (int i = 0; i < alphabet.Length; i++)
             {
                 if (alphabet[i] == c)
@@ -486,6 +468,25 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
             return book;
         }
 
+//-----------------------------------------------------------------------------------------------------------------------------------------	
+//QUICKWATCH PART--------------------------------------------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// Show the results in Quickwatch/Presentation
+        /// </summary>
+        private void showResult(String key, double IC)
+        {
+            ((AutokeyPresentation)Presentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                ResultEntry entry = new ResultEntry();
+                entry.Key = key;
+                entry.IC = IC.ToString();
+
+                ((AutokeyPresentation)Presentation).entries.Add(entry);
+
+            }, null);
+
+        }
 
 //-----------------------------------------------------------------------------------------------------------------------------------------
 //CALCULATION PART: BREAKAUTOKEY METHODE (MOST IMPORTANT METHODE)--------------------------------------------------------------------------
@@ -538,11 +539,9 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 
                 }
 
-
                 IC = getIC(completeplain);                              //calculate the IC(index of coincidence)
-
-                report += key + " : " + IC + "\n";                      //the report               
-
+                showResult(key, IC);                                    //show the results
+                                                
                 //the decrypted cipher with the highest index of coincidence was decrypted with the correct key
                 if (IC > finalIC)
                 {
@@ -553,10 +552,8 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
                 ProgressChanged((((double)d) / maxkeylength), 1);       
         }
 
-//-----------------------------------------------------------------------------------------------------------------------------------------
- 
-        
-        
+//-----------------------------------------------------------------------------------------------------------------------------------------       
+
         #endregion
 
         #region Event Handling
