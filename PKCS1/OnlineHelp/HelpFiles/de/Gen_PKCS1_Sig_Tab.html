@@ -1,5 +1,5 @@
 ﻿<h2>Signatur generieren</h2>
-In diesem Tab wird die komplette PKCS #1-Signatur erstellt. Die Signatur hat folgende Struktur: '00' '01' PS '00' HI HW. </br>
+In diesem Tab wird die komplette PKCS#1-Signatur erstellt. Die Signatur hat folgende Struktur: '00' '01' PS '00' HI HW. </br>
 Im Einzelnen bedeutet dies:
 <ul>
 <li>
@@ -9,8 +9,8 @@ Einleitender Nullblock (8 Bit). Dadurch wird gewährleistet dass der numerische 
 </li>
 <li>
 <strong>'01'</strong>
-Block Type. Dieser Block gibt an ob es sich um eine Verschlüsselung mit dem privaten oder öffentlichen Schlüssel handelt. 
-Da bei Signaturgenerierung mit dem privaten Schlüssel verschlüsselt wird, ist dieser Wert '01' (hexadezimale Darstellung: 0x01).
+Block Type. Dieser Block gibt an, ob es sich um eine Operation mit dem privaten oder öffentlichen Schlüssel handelt. 
+Da bei Signaturerzeugung der private Schlüssel benutzt wird, ist dieser Wert '01' (hexadezimale Darstellung: 0x01).
 </li>
 <li>
 <strong>PS</strong>
@@ -20,12 +20,12 @@ der drei Blöcke '00', '01', '00' und der Länge des <a href="help://Gen_Datablo
 </li>
 <li>
 <strong>'00'</strong>
-Nullblock. Dieser Block dient der Markierung des Ende des Paddingstrings und Anfang des Datenblocks.
+Nullblock. Dieser Block markiert das Ende des Paddingstrings und den Anfang des Datenblocks.
 </li>
 <li>
 <strong>HI</strong>
 Hash-Identifier. Der erste Teil des <a href="help://Gen_Datablock_Tab">Datenblock</a>. Hier sind Informationen wie z.B. der verwendete 
-Hashfunktion in ASN.1 codierter Form enrhalten.
+Hashfunktion in ASN.1-codierter Form enrhalten.
 </li>
 <li>
 <strong>HW</strong>
