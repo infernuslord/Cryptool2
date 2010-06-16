@@ -23,6 +23,7 @@ using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Windows.Controls;
 using Cryptool.PluginBase.Analysis;
+using System.Windows.Media;
 
 namespace Cryptool.Plugins.AutokorrelationFunction
 {
@@ -137,10 +138,11 @@ namespace Cryptool.Plugins.AutokorrelationFunction
                 //...and save the count for the matches at the shift position
 			    ak[t] = same;
 		    }
-		
+
             //For all observed shifts...
 		    for(int y=1;y<ak.Length;y++)
 		    {
+
                 //find the one with the highest match count...
 			    if(ak[y] > probablekorr)
 			    {

@@ -223,7 +223,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         
         }
 
-//EXECUTE END------------------------------------------------------------------------------------------------------
+//EXECUTE END------------------------------------------------------------------------------------------------------------
 
         public void PostExecution()
         {
@@ -395,7 +395,6 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 
             for (int x = 0; x < c.Length; x++)
             {
-
                 gotcha = (getPos(c[x]) - s + 26) % 26;
                 shifted += alphabet[gotcha];
             }
@@ -472,7 +471,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 //QUICKWATCH PART--------------------------------------------------------------------------------------------------------------------------
 
         /// <summary>
-        /// Show the results in Quickwatch/Presentation
+        /// Show the results in the Presentation
         /// </summary>
         private void showResult(String key, double IC)
         {
