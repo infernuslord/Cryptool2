@@ -152,7 +152,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 
         public UserControl QuickWatchPresentation
         {
-            get { return null; }
+            get { return quickWatchPresentation; }
         }
 
         public void PreExecution()

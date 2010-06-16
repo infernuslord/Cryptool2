@@ -4,24 +4,27 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="400"
-             Width="650"
+             d:DesignHeight="200" d:DesignWidth="210"
              HorizontalAlignment="Stretch"
              VerticalAlignment="Stretch"
-             Background="White" Visibility="Visible">
-             
-    <Grid Name="Grid">
-            <ListView Name="ListView" ItemsSource="{Binding}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" FontSize="10">
-                <ListView.View>
+             Visibility="Visible">
+
+    <Grid Name="Grid" Width="205">
+        <Grid.LayoutTransform>
+            <ScaleTransform x:Name="scaler" ScaleX="1" ScaleY="1"/>
+        </Grid.LayoutTransform>
+
+        <ListView Name="ListView" ItemsSource="{Binding}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" FontSize="10">
+            <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Analysed Key" Width="500" DisplayMemberBinding="{Binding Path=Key}">
+                    <GridViewColumn x:Name="KeyCol" Header="Analysed Key" Width="90" DisplayMemberBinding="{Binding Path=Key}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Found IC" Width="150" DisplayMemberBinding="{Binding Path=IC}">
+                    <GridViewColumn x:Name="ICCol" Header="Found IC" Width="115" DisplayMemberBinding="{Binding Path=IC}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label/>
