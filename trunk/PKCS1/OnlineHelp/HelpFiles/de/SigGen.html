@@ -1,11 +1,10 @@
 ﻿<h2>PKCS #1-Signaturgenerierung</h2>
-<strong>Um PKCS#1 Signaturen erzeugen zu können muss zuerst ein RSA-Schlüsselpaar, in der entsprechenden Maske,
- generiert werden</strong></br>
- <strong>Es muss zuerst der Datenblock generiert werden, bevor die komplette Signatur generiert werden kann!</strong>
+<strong>Um PKCS#1-Signaturen erzeugen zu können muss zuerst ein RSA-Schlüsselpaar in der entsprechenden Maske
+ erzeugt werden</strong></br>
+ <strong>Zuerst muss der Datenblock erzeugt werden, bevor die komplette Signatur generiert werden kann!</strong>
  </br></br>
-Die PKCS #1-Signaturen basieren auf dem asymetrischen Verschlüsselungsalgorithmus RSA. Daher ist es notwendig einen
-RSA-Schlüssel zu generieren.</br>
-Um eine PKCS#1-Signatur zu generieren wird zunächst wird <a href="help://Gen_Datablock_Tab">Datenblock</a> generiert. 
-Anschliessend wird der Padding-String erzeugt um die Signatur in ein spezifiziertes 
+Die PKCS#1-Signaturen basieren auf dem asymmetrischen Verschlüsselungsalgorithmus RSA. Daher ist es notwendig, einen
+RSA-Schlüssel zu erzeugen.</br>
+Um eine PKCS#1-Signatur zu erzeugen, wird zunächst der <a href="help://Gen_Datablock_Tab">Datenblock</a> generiert. 
+Anschließend wird der Padding-String erzeugt, um die Signatur in ein spezifiziertes 
 <a href="help://Gen_PKCS1_Sig_Tab">Format</a> zu bringen. Ist dies erfolgt, wird mit dem privaten Schlüssel verschlüsselt.
-
