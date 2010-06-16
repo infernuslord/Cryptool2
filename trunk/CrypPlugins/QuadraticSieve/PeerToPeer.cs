@@ -329,8 +329,9 @@ namespace Cryptool.Plugins.QuadraticSieve
                 }
                 else if (head < dhthead)
                 {
-                    head = dhthead;                    
-                    SetProgressYield(head - 1, 0, null);
+                    head = dhthead;
+                    if (head != 0)
+                        SetProgressYield(head - 1, 0, null);
                 }
             }
             else
