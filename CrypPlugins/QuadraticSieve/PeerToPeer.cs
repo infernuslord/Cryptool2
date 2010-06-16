@@ -329,8 +329,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 }
                 else if (head < dhthead)
                 {
-                    head = dhthead;
-                    headLastUpdated = DateTime.Now;
+                    head = dhthead;                    
                     SetProgressYield(head - 1, 0, null);
                 }
             }
@@ -340,6 +339,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 if (!success)
                     SynchronizeHead();
             }
+            headLastUpdated = DateTime.Now;
         }
 
         private void ShowTransfered(uint downloaded, uint uploaded)
@@ -504,15 +504,8 @@ namespace Cryptool.Plugins.QuadraticSieve
             peerPerformances = new Queue<PeerPerformanceInformations>();
             activePeers = new HashSet<int>();
 
-            //load head:
-            byte[] h = P2PManager.Retrieve(HeadIdentifier());
-            if (h != null)
-            {                
-                head = int.Parse(System.Text.ASCIIEncoding.ASCII.GetString(h));
-                SetProgressYield(head-1, 0, null);
-            }
-            else
-                head = 0;
+            head = 0;
+            SynchronizeHead();
             
             //store our name:
             P2PManager.Retrieve(NameIdentifier(ourID));     //just to outsmart the versioning system
