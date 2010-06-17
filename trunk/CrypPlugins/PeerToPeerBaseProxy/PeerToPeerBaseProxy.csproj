@@ -90,6 +90,7 @@
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\PeerToPeer\PeerToPeer.csproj">
       <Project>{12829116-8FAD-4D09-A0AA-D75D88F07626}</Project>
