@@ -12,6 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace VigenereAutokeyAnalyser
 {
@@ -21,13 +23,28 @@ namespace VigenereAutokeyAnalyser
     public partial class AutokeyPresentation : UserControl
     {
         public ObservableCollection<ResultEntry> entries = new ObservableCollection<ResultEntry>();
+        public event MouseButtonEventHandler SelectedIndexChanged; 
 
         public AutokeyPresentation()
         {
             InitializeComponent();
-            SizeChanged += sizeChanged;
+            SizeChanged += new SizeChangedEventHandler(AutokeyPresentation_SizeChanged);
+            ListView.MouseDoubleClick += new MouseButtonEventHandler(ListView_MouseDoubleClick);
             this.DataContext = entries;
             entries.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(entries_CollectionChanged);
+        }
+
+        void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (SelectedIndexChanged != null)
+            {
+                SelectedIndexChanged(sender, e);
+            }
+        }
+
+        private void AutokeyPresentation_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            updateScaling();
         }
 
         private void entries_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -68,21 +85,42 @@ namespace VigenereAutokeyAnalyser
             
         }
 
-        private void sizeChanged(Object sender, EventArgs eventArgs)
-        {
-
-            updateScaling();
-            
-            //Console.WriteLine("Width: {0}, Heigth: {1}; GridWith: {2}, GridHeight: {3}", this.Width, this.Height, this.Grid.Width, this.Grid.Height);
-            //Console.WriteLine("Actual- Width: {0}, Heigth: {1}; GridWith: {2}, GridHeight: {3}", this.ActualWidth, this.ActualHeight, this.Grid.ActualWidth, this.Grid.ActualHeight);
-            //Console.WriteLine("ListViewWidth: {0}, ListViewHeigth: {1}; ActualListViewWith: {2}, ActualListViewHeight: {3}", this.ListView.Width, this.ListView.Height, this.ListView.ActualWidth, this.ListView.ActualHeight);
-        }
-
-
         private void updateScaling()
         {
             this.scaler.ScaleX = this.ActualWidth / this.Grid.Width;
             this.scaler.ScaleY = this.scaler.ScaleX;
         }
+
+        public void selectIndex(int index)
+        {
+            this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                ListView.SelectedIndex = index;
+
+            }, null);
+
+            
+        }
+
+        public void Add(ResultEntry item)
+        {
+            this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                entries.Add(item);
+
+            }, null);
+           
+        }
+
+        public void Clear()
+        {
+            this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                entries.Clear();
+            
+            }, null);
+        }
+       
+        
     }
 }

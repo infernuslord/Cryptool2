@@ -26,6 +26,7 @@ using Cryptool.PluginBase.Analysis;
 using VigenereAutokeyAnalyser;
 using System.Windows.Threading;
 using System.Threading;
+using System.Windows.Input;
 
 namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 {
@@ -36,8 +37,8 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
     {
         #region Private Variables
 
-        private readonly VigenereAutokeyAnalyserSettings settings = new VigenereAutokeyAnalyserSettings();
-        private UserControl quickWatchPresentation = new AutokeyPresentation();     //The Quickwatch to be used
+        private readonly VigenereAutokeyAnalyserSettings settings;
+        private AutokeyPresentation quickWatchPresentation;         //The Quickwatch to be used
 
         private String ciphertext = "";                             //The cipher to be analysed
         private int modus;                                          //The modus to work with (Autokey or Vigenere)
@@ -140,6 +141,13 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 
         #region IPlugin Members
 
+        public VigenereAutokeyAnalyser()
+        {
+            settings = new VigenereAutokeyAnalyserSettings();
+            quickWatchPresentation = new AutokeyPresentation();
+            quickWatchPresentation.SelectedIndexChanged += new MouseButtonEventHandler(quickWatchPresentation_SelectedIndexChanged);
+        }
+
         public ISettings Settings
         {
             get { return settings; }
@@ -166,11 +174,8 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
             
             ProgressChanged(0, 1);
 
-            ((AutokeyPresentation)Presentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            {
-                ((AutokeyPresentation)Presentation).entries.Clear();
-            }, null);
-            
+            quickWatchPresentation.Clear();
+           
             alphabet = settings.AlphabetSymbols;                //initialising the alphabet as given by the user       
 
             if (InputCipher != null)
@@ -214,8 +219,10 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
                 {
                     breakVigenereAutoKey(d);                    //"BREAK VIGENERE AUTO KEY(KEYLENGTH)" IS THE MAIN METHODE IN FINDING THE KEY FOR A GIVEN KEYLENGTH
                 }                                               //(-> see private methods section)
-            }  
-                        
+            }
+
+            quickWatchPresentation.selectIndex((finalkey.Length) - 1);
+
             OutputKey = finalkey;                               //sending the key via output
             OnPropertyChanged("OutputKey");
 
@@ -475,16 +482,29 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         /// </summary>
         private void showResult(String key, double IC)
         {
-            ((AutokeyPresentation)Presentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            {
                 ResultEntry entry = new ResultEntry();
                 entry.Key = key;
                 entry.IC = IC.ToString();
 
-                ((AutokeyPresentation)Presentation).entries.Add(entry);
+                quickWatchPresentation.Add(entry);
+        }
 
-            }, null);
+//-----------------------------------------------------------------------------------------------------------------------------------------
+//PRESENTATION UPDATE----------------------------------------------------------------------------------------------------------------------
 
+        void quickWatchPresentation_SelectedIndexChanged(object sender, MouseButtonEventArgs e)
+        {
+            ListView lv = sender as ListView;
+            if (lv != null)
+            {
+                ResultEntry rse = lv.SelectedItem as ResultEntry;
+
+                if (rse != null)
+                {
+                    OutputKey = rse.Key;
+                    OnPropertyChanged("OutputKey");
+                }
+            }
         }
 
 //-----------------------------------------------------------------------------------------------------------------------------------------
@@ -545,7 +565,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
                 if (IC > finalIC)
                 {
                     finalIC = IC;                                       //remember the IC
-                    finalkey = key;                                     //remember the key
+                    finalkey = key;                                     //remember the key                                     
                 }
 
                 ProgressChanged((((double)d) / maxkeylength), 1);       
