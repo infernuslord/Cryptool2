@@ -33,7 +33,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             ScrollViewer sviewer = new ScrollViewer();
             sviewer.CanContentScroll = true;
             sviewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
-            sviewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+            sviewer.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
             sviewer.Content = progressYields;
             Grid grid = ((Grid)peer2peer.Content);
             Grid.SetRow(sviewer, 0);
