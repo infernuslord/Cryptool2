@@ -16,7 +16,7 @@ namespace KeySearcher.P2P.Nodes
         {
         }
 
-        private void LoadOrUpdateChildNodes(bool ignoreReservation = false)
+        private void LoadOrUpdateChildNodes()
         {
             var middle = (From + To)/2;
 
@@ -34,8 +34,7 @@ namespace KeySearcher.P2P.Nodes
             }
 
             // Only load right node, if the left one is finished or reserved
-            var leftChildsReservationExistingAndNotIgnored = !LeftChildFinished && _leftChild.IsReserverd() && !ignoreReservation;
-            if ((LeftChildFinished || !leftChildsReservationExistingAndNotIgnored) && !RightChildFinished)
+            if ((LeftChildFinished || _leftChild.IsReserverd()) && !RightChildFinished)
             {
                 if (_rightChild == null)
                 {
@@ -50,25 +49,27 @@ namespace KeySearcher.P2P.Nodes
         }
 
         public override bool IsCalculated()
-        { 
+        {
             return LeftChildFinished && RightChildFinished;
         }
 
-        public override NodeBase CalculatableNode(bool useReservedNodes)
+        public override void Reset()
         {
-            if (IsCalculated())
+            _leftChild = null;
+            _rightChild = null;
+        }
+
+        public override Leaf CalculatableLeaf(bool useReservedNodes)
+        {
+            LoadOrUpdateChildNodes();
+
+            // Left child not finished and not reserved (or reserved leafs are allowed)
+            if (!LeftChildFinished && (!_leftChild.IsReserverd() || useReservedNodes))
             {
-                return null;
+                return _leftChild.CalculatableLeaf(useReservedNodes);
             }
 
-            LoadOrUpdateChildNodes(true);
-
-            if ((LeftChildFinished || (_leftChild.IsReserverd() && !useReservedNodes)) && !RightChildFinished)
-            {
-                return _rightChild.CalculatableNode(useReservedNodes);
-            }
-
-            return _leftChild.CalculatableNode(useReservedNodes);
+            return _rightChild.CalculatableLeaf(useReservedNodes);
         }
 
         public void ChildFinished(NodeBase childNode)
@@ -88,10 +89,9 @@ namespace KeySearcher.P2P.Nodes
             }
         }
 
-
         public override bool IsReserverd()
         {
-            LoadOrUpdateChildNodes(true);
+            LoadOrUpdateChildNodes();
 
             var leftChildFinishedOrReserved = LeftChildFinished || _leftChild.IsReserverd();
 

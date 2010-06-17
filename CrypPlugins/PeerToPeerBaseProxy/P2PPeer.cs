@@ -331,22 +331,22 @@ namespace Cryptool.Plugins.PeerToPeerProxy
 
         public bool DHTstore(string sKey, byte[] byteValue)
         {
-            return P2PManager.IsConnected && P2PManager.Store(sKey, byteValue);
+            return P2PManager.IsConnected && P2PManager.Store(sKey, byteValue).IsSuccessful();
         }
 
         public bool DHTstore(string sKey, string sValue)
         {
-            return P2PManager.IsConnected && P2PManager.Store(sKey, sValue);
+            return P2PManager.IsConnected && P2PManager.Store(sKey, sValue).IsSuccessful();
         }
 
         public byte[] DHTload(string sKey)
         {
-            return P2PManager.IsConnected ? P2PManager.Retrieve(sKey) : null;
+            return P2PManager.IsConnected ? P2PManager.Retrieve(sKey).Data : null;
         }
 
         public bool DHTremove(string sKey)
         {
-            return P2PManager.IsConnected && P2PManager.Remove(sKey);
+            return P2PManager.IsConnected && P2PManager.Remove(sKey).IsSuccessful();
         }
 
         /// <summary>

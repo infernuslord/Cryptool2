@@ -350,35 +350,35 @@ namespace Cryptool.P2P.Internal
         ///   Stores a value in the DHT at the given key
         /// </summary>
         /// <param name = "key">Key of DHT Entry</param>
-        /// <param name = "data">Value of DHT Entry</param>
+        /// <param name = "value">Value of DHT Entry</param>
         /// <returns>True, when storing is completed!</returns>
-        public bool SynchStore(string key, byte[] data)
+        public RequestResult SynchStore(string key, string value)
         {
-            var autoResetEvent = new AutoResetEvent(false);
-
-            // LogToMonitor("testcrash" + Encoding.UTF8.GetString(new byte[5000]));
-            LogToMonitor("Begin: SynchStore. Key: " + key + ", " + data.Length + " bytes");
-
-            var responseWait = new ResponseWait {WaitHandle = autoResetEvent, key = key, value = data};
-            VersionedDht.Store(OnSynchStoreCompleted, key, data, responseWait);
-
-            // blocking till response
-            autoResetEvent.WaitOne();
-
-            LogToMonitor("End: SynchStore. Key: " + key + ". Success: " + responseWait.success);
-
-            return responseWait.success;
+            return SynchStore(key, Encoding.UTF8.GetBytes(value));
         }
 
         /// <summary>
         ///   Stores a value in the DHT at the given key
         /// </summary>
         /// <param name = "key">Key of DHT Entry</param>
-        /// <param name = "value">Value of DHT Entry</param>
+        /// <param name = "data">Value of DHT Entry</param>
         /// <returns>True, when storing is completed!</returns>
-        public bool SynchStore(string key, string value)
+        public RequestResult SynchStore(string key, byte[] data)
         {
-            return SynchStore(key, Encoding.UTF8.GetBytes(value));
+            var autoResetEvent = new AutoResetEvent(false);
+
+            // LogToMonitor("testcrash" + Encoding.UTF8.GetString(new byte[5000]));
+            LogToMonitor("Begin: SynchStore. Key: " + key + ", " + data.Length + " bytes");
+
+            var requestResult = new RequestResult {WaitHandle = autoResetEvent, Key = key, Data = data};
+            VersionedDht.Store(OnSynchStoreCompleted, key, data, requestResult);
+
+            // blocking till response
+            autoResetEvent.WaitOne();
+
+            LogToMonitor("End: SynchStore. Key: " + key + ". Status: " + requestResult.Status);
+
+            return requestResult;
         }
 
         /// <summary>
@@ -387,19 +387,17 @@ namespace Cryptool.P2P.Internal
         /// <param name = "storeResult">retrieved data container</param>
         private static void OnSynchStoreCompleted(StoreResult storeResult)
         {
-            var responseWait = storeResult.AsyncState as ResponseWait;
-            if (responseWait == null)
+            var requestResult = storeResult.AsyncState as RequestResult;
+            if (requestResult == null)
             {
-                LogToMonitor("Received OnSynchStoreCompleted, but ResponseWait object is missing. Discarding.");
+                LogToMonitor("Received OnSynchStoreCompleted, but RequestResult object is missing. Discarding.");
                 return;
             }
 
-            responseWait.success = storeResult.Status == OperationStatus.Success;
-            responseWait.operationStatus = storeResult.Status;
-            responseWait.Message = Encoding.UTF8.GetBytes(storeResult.Status.ToString());
+            requestResult.Parse(storeResult);
 
             // unblock WaitHandle in the synchronous method
-            responseWait.WaitHandle.Set();
+            requestResult.WaitHandle.Set();
         }
 
         /// <summary>
@@ -407,20 +405,20 @@ namespace Cryptool.P2P.Internal
         /// </summary>
         /// <param name = "key">Key of DHT Entry</param>
         /// <returns>Value of DHT Entry</returns>
-        public byte[] SynchRetrieve(string key)
+        public RequestResult SynchRetrieve(string key)
         {
             LogToMonitor("Begin: SynchRetrieve. Key: " + key);
 
             var autoResetEvent = new AutoResetEvent(false);
-            var responseWait = new ResponseWait {WaitHandle = autoResetEvent, key = key};
-            Dht.Retrieve(OnSynchRetrieveCompleted, key, responseWait);
+            var requestResult = new RequestResult() {WaitHandle = autoResetEvent, Key = key};
+            Dht.Retrieve(OnSynchRetrieveCompleted, key, requestResult);
 
             // blocking till response
             autoResetEvent.WaitOne();
 
-            LogToMonitor("End: SynchRetrieve. Key: " + key + ". Success: " + responseWait.success);
+            LogToMonitor("End: SynchRetrieve. Key: " + key + ". Status: " + requestResult.Status);
 
-            return responseWait.Message;
+            return requestResult;
         }
 
         /// <summary>
@@ -429,33 +427,17 @@ namespace Cryptool.P2P.Internal
         /// <param name = "retrieveResult"></param>
         private static void OnSynchRetrieveCompleted(RetrieveResult retrieveResult)
         {
-            var responseWait = retrieveResult.AsyncState as ResponseWait;
-            if (responseWait == null)
+            var requestResult = retrieveResult.AsyncState as RequestResult;
+            if (requestResult == null)
             {
-                LogToMonitor("Received OnSynchRetrieveCompleted, but ResponseWait object is missing. Discarding.");
+                LogToMonitor("Received OnSynchRetrieveCompleted, but RequestResult object is missing. Discarding.");
                 return;
             }
 
-            switch (retrieveResult.Status)
-            {
-                case OperationStatus.Success:
-                    responseWait.success = true;
-                    responseWait.Message = retrieveResult.Data;
-                    break;
-                case OperationStatus.KeyNotFound:
-                    responseWait.success = true;
-                    responseWait.Message = null;
-                    break;
-                default:
-                    responseWait.success = false;
-                    responseWait.Message = null;
-                    break;
-            }
-
-            responseWait.operationStatus = retrieveResult.Status;
+            requestResult.Parse(retrieveResult);
 
             // unblock WaitHandle in the synchronous method
-            responseWait.WaitHandle.Set();
+            requestResult.WaitHandle.Set();
         }
 
         /// <summary>
@@ -463,20 +445,20 @@ namespace Cryptool.P2P.Internal
         /// </summary>
         /// <param name = "key">Key of the DHT Entry</param>
         /// <returns>True, when removing is completed!</returns>
-        public bool SynchRemove(string key)
+        public RequestResult SynchRemove(string key)
         {
             LogToMonitor("Begin SynchRemove. Key: " + key);
 
             var autoResetEvent = new AutoResetEvent(false);
-            var responseWait = new ResponseWait {WaitHandle = autoResetEvent, key = key};
-            VersionedDht.Remove(OnSynchRemoveCompleted, key, responseWait);
+            var requestResult = new RequestResult { WaitHandle = autoResetEvent, Key = key };
+            VersionedDht.Remove(OnSynchRemoveCompleted, key, requestResult);
 
             // blocking till response
             autoResetEvent.WaitOne();
 
-            LogToMonitor("End: SynchRemove. Key: " + key + ". Success: " + responseWait.success);
+            LogToMonitor("End: SynchRemove. Key: " + key + ". Status: " + requestResult.Status);
 
-            return responseWait.success;
+            return requestResult;
         }
 
         /// <summary>
@@ -485,20 +467,17 @@ namespace Cryptool.P2P.Internal
         /// <param name = "removeResult"></param>
         private static void OnSynchRemoveCompleted(RemoveResult removeResult)
         {
-            var responseWait = removeResult.AsyncState as ResponseWait;
-            if (responseWait == null)
+            var requestResult = removeResult.AsyncState as RequestResult;
+            if (requestResult == null)
             {
-                LogToMonitor("Received OnSynchRemoveCompleted, but ResponseWait object is missing. Discarding.");
+                LogToMonitor("Received OnSynchRemoveCompleted, but RequestResult object is missing. Discarding.");
                 return;
             }
 
-            responseWait.success = removeResult.Status != OperationStatus.Failure &&
-                                   removeResult.Status != OperationStatus.VersionMismatch;
-            responseWait.operationStatus = removeResult.Status;
-            responseWait.Message = Encoding.UTF8.GetBytes(removeResult.Status.ToString());
+            requestResult.Parse(removeResult);
 
             // unblock WaitHandle in the synchronous method
-            responseWait.WaitHandle.Set();
+            requestResult.WaitHandle.Set();
         }
 
         #endregion
