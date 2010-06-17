@@ -1,7 +1,7 @@
 ﻿<h2>Signaturvalidierung</h2>
-Zur Validierung von PKCS#1-Signaturen werden diese Signaturen zunächst mit dem öffentlichen Schlüssel entschlüsselt.
-Die entschlüsselte Signatur sollte eine Struktur wie <a href="help://Gen_PKCS1_Sig_Tab">hier</a> beschrieben, aufweisen.
-Bei der Validierung wird als nächster Schritt der <a href="help://Gen_Datablock_Tab">Datenblock</a> ausgelesen.</br>
+Bei der Validierung einer PKCS#1-Signatur wird eine Operation mit dem öffentlichen Schlüssel durchgeführt.
+Das Ergebnis dieser Operation sollte eine Struktur aufweisen, wie <a href="help://Gen_PKCS1_Sig_Tab">hier</a> beschrieben.
+Als nächster Schritt wird der <a href="help://Gen_Datablock_Tab">Datenblock</a> ausgelesen.</br>
 Dieses Extrahieren des Datenblock kann auf eine korrekte oder auf eine fehlerhafte Art und Weise geschehen. Die fehlerhafte
 Implementierung war bis zum Entdecken des möglichen Angriffs (2006) in vielen Anwendungen zu finden.
 <ul>
