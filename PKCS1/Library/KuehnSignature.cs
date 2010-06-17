@@ -5,11 +5,18 @@ using System.Text;
 using System.IO;
 using Org.BouncyCastle.Utilities.Encoders;
 using Org.BouncyCastle.Math;
+using System.Security.Cryptography;
+using Cryptool.PluginBase;
 
 namespace PKCS1.Library
 {
-    class KuehnSignature : Signature
+    class KuehnSignature : Signature, IGuiLogMsg
     {
+        public KuehnSignature()
+        {
+            this.registerHandOff();
+        }
+
         public override void GenerateSignature()
         {
             this.m_KeyLength = RSAKeyManager.getInstance().RsaKeySize; // Länge des RSA Modulus
@@ -44,10 +51,14 @@ namespace PKCS1.Library
             int limit = 250000;
             int countLoops = 0;
 
+            SHA1Managed sha1Hash = new SHA1Managed();
+            this.SendGuiLogMsg("Signature tests started", NotificationLevel.Info);
+
             while (!isEqual && (countLoops < limit))
             {
                 //byte[] hashDigest = Hashfunction.generateHashDigest(message, hashFuncIdent); // Hashwert wird erzeugt
-                byte[] hashDigest = Hashfunction.generateHashDigest(bMessage, hashFuncIdent); // Hashwert wird erzeugt
+                //byte[] hashDigest = Hashfunction.generateHashDigest(bMessage, hashFuncIdent); // Hashwert wird erzeugt
+                byte[] hashDigest = sha1Hash.ComputeHash(bMessage);
                 Array.Copy(hashDigest, 0, A, 11 + hashIdent.Length, hashDigest.Length); // erzeugter Hashwert wird in den Datenblock kopiert
                 Array.Copy(A, 0, S, 0, A.Length); // erzeugter Datenblock wird in erzeugte Signatur S kopiert
 
@@ -77,6 +88,7 @@ namespace PKCS1.Library
                 isEqual = MathFunctions.compareByteArray(resultArray,S,45); // byte arrays vergleichen, wird in meinen Tests nicht erreicht
                 if (!isEqual)
                 {
+                    
                     byte[] tmp1 = { bMessage[iMsgLength - 3], bMessage[iMsgLength - 2], bMessage[iMsgLength - 1] };
 
                     BigInteger tmp2 = new BigInteger(tmp1);
@@ -96,6 +108,21 @@ namespace PKCS1.Library
             this.m_Signature = returnByteArray;
             this.m_bSigGenerated = true;
             this.OnRaiseSigGenEvent(SignatureType.Kuehn);
-        }     
+        }
+
+        public event GuiLogHandler OnGuiLogMsgSend;
+
+        public void registerHandOff()
+        {
+            GuiLogMsgHandOff.getInstance().registerAt(ref OnGuiLogMsgSend);
+        }
+
+        public void SendGuiLogMsg(string message, NotificationLevel logLevel)
+        {
+            if (null != OnGuiLogMsgSend)
+            {
+                OnGuiLogMsgSend(message, logLevel);
+            }
+        }
     }
 }

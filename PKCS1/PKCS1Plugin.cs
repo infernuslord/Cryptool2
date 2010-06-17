@@ -5,6 +5,7 @@ using System.Text;
 using Cryptool.PluginBase.Tool;
 using Cryptool.PluginBase;
 using PKCS1.WpfVisualization;
+using PKCS1.Library;
 
 namespace PKCS1
 {
@@ -21,6 +22,7 @@ namespace PKCS1
         public PKCS1Plugin()
         {
             this.settings = new PKCS1Settings();
+            GuiLogMsgHandOff.getInstance().OnGuiLogMsgSend += GuiLogMessage; // bei weiterleitung registrieren
         }
 
         #region EventHandler
@@ -31,6 +33,14 @@ namespace PKCS1
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
         #endregion
+
+        private void GuiLogMessage(string message, NotificationLevel logLevel)
+        {
+            if (OnGuiLogNotificationOccured != null)
+            {
+                OnGuiLogNotificationOccured(this, new GuiLogEventArgs(message, this, logLevel));
+            }
+        }
 
         #region IPlugin Member
 

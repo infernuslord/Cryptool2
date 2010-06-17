@@ -3,12 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Org.BouncyCastle.Math;
+using Cryptool.PluginBase;
 
 
 namespace PKCS1.Library
 {
-    class BleichenbacherSignature : Signature
+    class BleichenbacherSignature : Signature, IGuiLogMsg
     {
+        public BleichenbacherSignature()
+        {
+            this.registerHandOff();
+        }
+
         protected int m_dataBlockStartPos = 2072;
         public int DataBlockStartPos
         {
@@ -32,6 +38,8 @@ namespace PKCS1.Library
 
         public override void GenerateSignature()
         {
+            this.SendGuiLogMsg("Message Generation started", NotificationLevel.Info);
+
             this.m_KeyLength = RSAKeyManager.getInstance().RsaKeySize;
 
             int hashDigestLength = Hashfunction.getDigestSize() * 8; // weil Size in Byte zurückgegeben wird
@@ -193,5 +201,20 @@ namespace PKCS1.Library
             this.OnRaiseSigGenEvent(SignatureType.Bleichenbacher);
         }
         */
+
+        public event GuiLogHandler OnGuiLogMsgSend;
+
+        public void registerHandOff()
+        {
+            GuiLogMsgHandOff.getInstance().registerAt(ref OnGuiLogMsgSend);
+        }
+
+        public void SendGuiLogMsg(string message, Cryptool.PluginBase.NotificationLevel logLevel)
+        {
+            if (null != OnGuiLogMsgSend)
+            {
+                OnGuiLogMsgSend(message, logLevel);
+            }
+        }
     }
 }

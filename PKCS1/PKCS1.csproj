@@ -22,7 +22,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\CrypBuild\x86\Debug\CrypPlugins\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -81,6 +81,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Library\BleichenbacherSignature.cs" />
+    <Compile Include="Library\GuiLogMsgHandOff.cs" />
+    <Compile Include="Library\IGuiLogMsg.cs" />
     <Compile Include="Library\MathFunctions.cs" />
     <Compile Include="Library\Datablock.cs" />
     <Compile Include="Library\Delegates.cs" />
