@@ -86,6 +86,7 @@
     <ProjectReference Include="..\..\CrypP2P\CrypP2P.csproj">
       <Project>{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}</Project>
       <Name>CrypP2P</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
@@ -95,6 +96,7 @@
     <ProjectReference Include="..\PeerToPeer\PeerToPeer.csproj">
       <Project>{12829116-8FAD-4D09-A0AA-D75D88F07626}</Project>
       <Name>PeerToPeer</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
