@@ -35,6 +35,7 @@ namespace Cryptool.Plugins.AutokorrelationFunction
         #region Private Variables
 
         private readonly AutokorrelationFunctionSettings settings = new AutokorrelationFunctionSettings();
+        private AutocorrelationPresentation presentation = new AutocorrelationPresentation();
 
         private String cipher = "";                                     //The cipher to be analysed
         private int probablelength = 0;                                 //estimated keylength
@@ -92,12 +93,12 @@ namespace Cryptool.Plugins.AutokorrelationFunction
 
         public UserControl Presentation
         {
-            get { return null; }
+            get { return presentation; }
         }
 
         public UserControl QuickWatchPresentation
         {
-            get { return null; }
+            get { return presentation; }
         }
 
         public void PreExecution()
@@ -106,7 +107,10 @@ namespace Cryptool.Plugins.AutokorrelationFunction
 
         public void Execute()
         {
-
+            // testing
+            presentation.dingens.SetBackground(Brushes.Red);
+            presentation.dingens.SetHeadline("Here we go.. much to do!");
+            // testing-end
 //START------------------------------------------------------------------------------------------------------------
 //Preparations for the Analyse-------------------------------------------------------------------------------------
            
