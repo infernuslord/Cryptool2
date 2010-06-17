@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Cryptool.P2P;
@@ -27,8 +28,7 @@ namespace Cryptool.P2PEditor.Distributed
                 return new List<DistributedJob>();
             }
 
-            byte[] serialisedJobList = P2PManager.Retrieve(JoblistKey);
-
+            var serialisedJobList = P2PManager.Retrieve(JoblistKey).Data;
             if (serialisedJobList == null)
             {
                 // no job list in DHT, create empty list
@@ -101,7 +101,7 @@ namespace Cryptool.P2PEditor.Distributed
 
         public void CompleteDistributedJob(DistributedJob distributedJob)
         {
-            distributedJob.ConvertRawWorkspaceToLocalFile(P2PManager.Retrieve(GenerateWorkspaceKey(distributedJob)));
+            distributedJob.ConvertRawWorkspaceToLocalFile(P2PManager.Retrieve(GenerateWorkspaceKey(distributedJob)).Data);
         }
 
         private static string GenerateWorkspaceKey(DistributedJob distributedJob)

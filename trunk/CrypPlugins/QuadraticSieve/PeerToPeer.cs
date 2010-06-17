@@ -105,7 +105,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         private byte[] ReadYield(int index, out int ownerID)
         {
             ownerID = 0;
-            byte[] yield = P2PManager.Retrieve(YieldIdentifier(index));
+            byte[] yield = P2PManager.Retrieve(YieldIdentifier(index)).Data;
             if (yield == null)
                 return null;
             downloaded += (uint)yield.Length;
@@ -150,7 +150,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                     //Progress Yield:
                     if (!nameCache.ContainsKey(ownerID))
                     {
-                        byte[] n = P2PManager.Retrieve(NameIdentifier(ownerID));
+                        byte[] n = P2PManager.Retrieve(NameIdentifier(ownerID)).Data;
                         if (n != null)
                             nameCache.Add(ownerID, System.Text.ASCIIEncoding.ASCII.GetString(n));
                     }
@@ -224,11 +224,11 @@ namespace Cryptool.Plugins.QuadraticSieve
                     if (storequeue.Count != 0)  //store our packages
                     {
                         byte[] yield = (byte[])storequeue.Dequeue();
-                        bool success = P2PManager.Store(YieldIdentifier(head), yield);
+                        bool success = P2PManager.Store(YieldIdentifier(head), yield).IsSuccessful();
                         while (!success)
                         {
                             SynchronizeHead();
-                            success = P2PManager.Store(YieldIdentifier(head), yield);
+                            success = P2PManager.Store(YieldIdentifier(head), yield).IsSuccessful();
                         }
                         SetProgressYield(head, ourID, null);
                         ourIndices.Add(head);
@@ -288,7 +288,7 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         private void UpdatePeerPerformanceInformation(int peerID)
         {
-            byte[] performancebytes = P2PManager.Retrieve(PerformanceIdentifier(peerID));
+            byte[] performancebytes = P2PManager.Retrieve(PerformanceIdentifier(peerID)).Data;
             if (performancebytes != null)
             {
                 double performance = BitConverter.ToDouble(performancebytes, 0);
@@ -317,13 +317,13 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// </summary>
         private void SynchronizeHead()
         {
-            byte[] h = P2PManager.Retrieve(HeadIdentifier());
+            byte[] h = P2PManager.Retrieve(HeadIdentifier()).Data;
             if (h != null)
             {
                 int dhthead = int.Parse(System.Text.ASCIIEncoding.ASCII.GetString(h));
                 if (head > dhthead)
                 {
-                    bool success = P2PManager.Store(HeadIdentifier(), System.Text.ASCIIEncoding.ASCII.GetBytes(head.ToString()));
+                    bool success = P2PManager.Store(HeadIdentifier(), System.Text.ASCIIEncoding.ASCII.GetBytes(head.ToString())).IsSuccessful();
                     if (!success)
                         SynchronizeHead();
                 }
@@ -336,7 +336,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             }
             else
             {
-                bool success = P2PManager.Store(HeadIdentifier(), System.Text.ASCIIEncoding.ASCII.GetBytes(head.ToString()));
+                bool success = P2PManager.Store(HeadIdentifier(), System.Text.ASCIIEncoding.ASCII.GetBytes(head.ToString())).IsSuccessful();
                 if (!success)
                     SynchronizeHead();
             }
@@ -525,7 +525,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         {
             FactorManager dhtFactorManager = null;
             //load DHT Factor Manager:
-            byte[] dhtFactorManagerBytes = P2PManager.Retrieve(FactorListIdentifier());
+            byte[] dhtFactorManagerBytes = P2PManager.Retrieve(FactorListIdentifier()).Data;
             if (dhtFactorManagerBytes != null)
             {
                 MemoryStream memstream = new MemoryStream();
@@ -553,7 +553,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 BinaryFormatter bformatter = new BinaryFormatter();
                 bformatter.AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
                 bformatter.Serialize(memstream, factorManager);
-                bool success = P2PManager.Store(FactorListIdentifier(), memstream.ToArray());
+                bool success = P2PManager.Store(FactorListIdentifier(), memstream.ToArray()).IsSuccessful();
                 if (!success)
                 {
                     Thread.Sleep(1000);

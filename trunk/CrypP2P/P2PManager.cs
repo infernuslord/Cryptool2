@@ -95,7 +95,7 @@ namespace Cryptool.P2P
         /// <param name="data">data to write</param>
         /// <exception cref="NotConnectedException">Will be thrown if the P2P system is not connected</exception>
         /// <returns>true if the store attempt was successful, false otherwise</returns>
-        public static bool Store(string key, byte[] data)
+        public static RequestResult Store(string key, byte[] data)
         {
             if (!IsConnected)
                 throw new NotConnectedException();
@@ -112,7 +112,7 @@ namespace Cryptool.P2P
         /// <param name="data">data to write</param>
         /// <exception cref="NotConnectedException">Will be thrown if the P2P system is not connected</exception>
         /// <returns>true if the store attempt was successful, false otherwise</returns>
-        public static bool Store(string key, string data)
+        public static RequestResult Store(string key, string data)
         {
             if (!IsConnected)
                 throw new NotConnectedException();
@@ -126,7 +126,7 @@ namespace Cryptool.P2P
         /// <param name="key">key to retrieve</param>
         /// <exception cref="NotConnectedException">Will be thrown if the P2P system is not connected</exception>
         /// <returns>byte array containing the data</returns>
-        public static byte[] Retrieve(string key)
+        public static RequestResult Retrieve(string key)
         {
             if (!IsConnected)
                 throw new NotConnectedException();
@@ -142,7 +142,7 @@ namespace Cryptool.P2P
         /// <param name="key">key to remove</param>
         /// <exception cref="NotConnectedException">Will be thrown if the P2P system is not connected</exception>
         /// <returns>bool determining wether the attempt was successful</returns>
-        public static bool Remove(string key)
+        public static RequestResult Remove(string key)
         {
             if (!IsConnected)
                 throw new NotConnectedException();

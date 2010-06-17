@@ -110,7 +110,9 @@
       <DependentUpon>KeySearcherQuickWatchPresentation.xaml</DependentUpon>
     </Compile>
     <Compile Include="KeySearcherSettings.cs" />
-    <Compile Include="P2P\Exceptions\LeafReservedException.cs" />
+    <Compile Include="P2P\Exceptions\AlreadyCalculatedException.cs" />
+    <Compile Include="P2P\Exceptions\ReservationRemovedException.cs" />
+    <Compile Include="P2P\Exceptions\UpdateFailedException.cs" />
     <Compile Include="P2P\KeyPoolTree.cs" />
     <Compile Include="P2P\Nodes\Leaf.cs" />
     <Compile Include="P2P\Nodes\Node.cs" />

@@ -1,19 +1,20 @@
 ﻿using System;
 using System.IO;
 using Cryptool.P2P;
+using Cryptool.P2P.Internal;
 
 namespace KeySearcher.P2P.Nodes
 {
     class P2PHelper
     {
-        private KeySearcher _keySearcher;
+        private readonly KeySearcher _keySearcher;
 
         public P2PHelper(KeySearcher keySearcher)
         {
             _keySearcher = keySearcher;
         }
 
-        internal static bool UpdateInDht(NodeBase nodeToUpdate)
+        internal static RequestResult UpdateInDht(NodeBase nodeToUpdate)
         {
             var memoryStream = new MemoryStream();
             var binaryWriter = new BinaryWriter(memoryStream);
@@ -51,20 +52,24 @@ namespace KeySearcher.P2P.Nodes
             binaryWriter.Write(buffer);
         }
 
-        internal void UpdateFromDht(NodeBase nodeToUpdate)
+        internal RequestResult UpdateFromDht(NodeBase nodeToUpdate, bool forceUpdate = false)
         {
-            if (nodeToUpdate.LastUpdate > DateTime.Now.Subtract(new TimeSpan(0, 0, 5)))
+            //var cacheActive = nodeToUpdate.LastUpdateResult != RequestResultType.KeyNotFound;
+
+            if (!forceUpdate && nodeToUpdate.LastUpdate > DateTime.Now.Subtract(new TimeSpan(0, 0, 5)))
             {
-                return;
+                return new RequestResult { Status = RequestResultType.Success };
             }
 
             nodeToUpdate.LastUpdate = DateTime.Now;
 
-            var nodeBytes = P2PManager.Retrieve(KeyInDht(nodeToUpdate));
+            var requestResult = P2PManager.Retrieve(KeyInDht(nodeToUpdate));
+            var nodeBytes = requestResult.Data;
+            nodeToUpdate.LastUpdateResult = requestResult.Status;
 
             if (nodeBytes == null)
             {
-                return;
+                return requestResult;
             }
 
             var binaryReader = new BinaryReader(new MemoryStream(nodeBytes));
@@ -94,6 +99,8 @@ namespace KeySearcher.P2P.Nodes
             {
                 _keySearcher.IntegrateNewResults(nodeToUpdate.Result);
             }
+
+            return requestResult;
         }
 
         private static void UpdateNodeFromDht(Node nodeToUpdate, BinaryReader binaryReader)

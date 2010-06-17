@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 using KeySearcher.Helper;
+using KeySearcher.P2P.Exceptions;
 
 namespace KeySearcher.P2P.Nodes
 {
@@ -25,8 +26,13 @@ namespace KeySearcher.P2P.Nodes
             return From;
         }
 
-        public override NodeBase CalculatableNode(bool useReservedNodes)
+        public override Leaf CalculatableLeaf(bool useReservedNodes)
         {
+            if (IsCalculated())
+            {
+                throw new AlreadyCalculatedException();
+            }
+
             return this;
         }
 
@@ -35,10 +41,14 @@ namespace KeySearcher.P2P.Nodes
             return Result.Count > 0;
         }
 
+        public override void Reset()
+        {
+        }
+
         public bool ReserveLeaf()
         {
             LastReservationDate = DateTime.UtcNow;
-            return P2PHelper.UpdateInDht(this);
+            return P2PHelper.UpdateInDht(this).IsSuccessful();
         }
 
         public override bool IsReserverd()

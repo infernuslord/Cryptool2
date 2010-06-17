@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Numerics;
 using Cryptool.P2P;
+using Cryptool.P2P.Internal;
 using KeySearcher.Helper;
+using KeySearcher.P2P.Exceptions;
 
 namespace KeySearcher.P2P.Nodes
 {
@@ -15,6 +17,7 @@ namespace KeySearcher.P2P.Nodes
         protected readonly KeyQualityHelper KeyQualityHelper;
 
         protected internal DateTime LastUpdate;
+        protected internal RequestResultType LastUpdateResult;
 
         public readonly Node ParentNode;
         public LinkedList<KeySearcher.ValueKey> Result;
@@ -44,8 +47,36 @@ namespace KeySearcher.P2P.Nodes
             }
 
             // Compare with refreshed parent node
-            P2PHelper.UpdateFromDht(ParentNode);
+            var result = P2PHelper.UpdateFromDht(ParentNode, true);
+            if (!result.IsSuccessful())
+            {
+                throw new UpdateFailedException("Parent node could not be updated: " + result.Status);
+            }
 
+            IntegrateResultsIntoParent();
+            ParentNode.ChildFinished(this);
+
+            if (P2PManager.Retrieve(P2PHelper.KeyInDht(this)).Status == RequestResultType.KeyNotFound)
+            {
+                throw new ReservationRemovedException("Before updating parent node, this leaf's reservation was deleted.");
+            }
+
+            var updateResult = P2PHelper.UpdateInDht(ParentNode);
+            if (!updateResult.IsSuccessful())
+            {
+                throw new UpdateFailedException("Parent node could not be updated: " + updateResult.Status);
+            }
+
+            P2PManager.Remove(P2PHelper.KeyInDht(this));
+
+            if (ParentNode.IsCalculated())
+            {
+                ParentNode.UpdateDht();
+            }
+        }
+
+        private void IntegrateResultsIntoParent()
+        {
             var bestValue = double.MinValue;
             if (ParentNode.Result.Count > 0)
             {
@@ -72,30 +103,21 @@ namespace KeySearcher.P2P.Nodes
                     ParentNode.Result.RemoveLast();
                 }
             }
-
-            ParentNode.ChildFinished(this);
-
-            P2PHelper.UpdateInDht(ParentNode);
-            P2PManager.Retrieve(P2PHelper.KeyInDht(this));
-            P2PManager.Remove(P2PHelper.KeyInDht(this));
-
-            if (ParentNode.IsCalculated())
-            {
-                ParentNode.UpdateDht();
-            }
         }
 
         private void UpdateDhtForRootNode()
         {
-            P2PHelper.UpdateFromDht(this);
+            P2PHelper.UpdateFromDht(this, true);
             P2PHelper.UpdateInDht(this);
         }
 
         public abstract bool IsReserverd();
 
-        public abstract NodeBase CalculatableNode(bool useReservedNodes);
+        public abstract Leaf CalculatableLeaf(bool useReservedNodes);
 
         public abstract bool IsCalculated();
+
+        public abstract void Reset();
 
         public override string ToString()
         {
