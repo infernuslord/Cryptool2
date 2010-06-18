@@ -5,26 +5,26 @@ using Cryptool.P2P;
 using Cryptool.P2P.Internal;
 using KeySearcher.Helper;
 using KeySearcher.P2P.Exceptions;
+using KeySearcher.P2P.Storage;
 
-namespace KeySearcher.P2P.Nodes
+namespace KeySearcher.P2P.Tree
 {
     abstract class NodeBase
     {
         protected internal readonly BigInteger From;
         protected internal readonly BigInteger To;
         protected internal readonly string DistributedJobIdentifier;
-        protected readonly P2PHelper P2PHelper;
+        protected readonly StorageHelper StorageHelper;
         protected readonly KeyQualityHelper KeyQualityHelper;
 
         protected internal DateTime LastUpdate;
-        protected internal RequestResultType LastUpdateResult;
 
         public readonly Node ParentNode;
         public LinkedList<KeySearcher.ValueKey> Result;
 
-        protected NodeBase(P2PHelper p2PHelper, KeyQualityHelper keyQualityHelper, Node parentNode, BigInteger @from, BigInteger to, string distributedJobIdentifier)
+        protected NodeBase(StorageHelper storageHelper, KeyQualityHelper keyQualityHelper, Node parentNode, BigInteger @from, BigInteger to, string distributedJobIdentifier)
         {
-            P2PHelper = p2PHelper;
+            StorageHelper = storageHelper;
             KeyQualityHelper = keyQualityHelper;
             ParentNode = parentNode;
             From = @from;
@@ -34,7 +34,7 @@ namespace KeySearcher.P2P.Nodes
             LastUpdate = DateTime.MinValue;
             Result = new LinkedList<KeySearcher.ValueKey>();
 
-            P2PHelper.UpdateFromDht(this);
+            StorageHelper.UpdateFromDht(this);
         }
 
         protected void UpdateDht()
@@ -47,7 +47,7 @@ namespace KeySearcher.P2P.Nodes
             }
 
             // Compare with refreshed parent node
-            var result = P2PHelper.UpdateFromDht(ParentNode, true);
+            var result = StorageHelper.UpdateFromDht(ParentNode, true);
             if (!result.IsSuccessful())
             {
                 throw new UpdateFailedException("Parent node could not be updated: " + result.Status);
@@ -56,18 +56,18 @@ namespace KeySearcher.P2P.Nodes
             IntegrateResultsIntoParent();
             ParentNode.ChildFinished(this);
 
-            if (P2PManager.Retrieve(P2PHelper.KeyInDht(this)).Status == RequestResultType.KeyNotFound)
+            if (P2PManager.Retrieve(StorageHelper.KeyInDht(this)).Status == RequestResultType.KeyNotFound)
             {
                 throw new ReservationRemovedException("Before updating parent node, this leaf's reservation was deleted.");
             }
 
-            var updateResult = P2PHelper.UpdateInDht(ParentNode);
+            var updateResult = StorageHelper.UpdateInDht(ParentNode);
             if (!updateResult.IsSuccessful())
             {
                 throw new UpdateFailedException("Parent node could not be updated: " + updateResult.Status);
             }
 
-            P2PManager.Remove(P2PHelper.KeyInDht(this));
+            P2PManager.Remove(StorageHelper.KeyInDht(this));
 
             if (ParentNode.IsCalculated())
             {
@@ -107,8 +107,8 @@ namespace KeySearcher.P2P.Nodes
 
         private void UpdateDhtForRootNode()
         {
-            P2PHelper.UpdateFromDht(this, true);
-            P2PHelper.UpdateInDht(this);
+            StorageHelper.UpdateFromDht(this, true);
+            StorageHelper.UpdateInDht(this);
         }
 
         public abstract bool IsReserverd();

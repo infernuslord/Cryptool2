@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Cryptool.PluginBase.Miscellaneous;
 using System.Collections;
 using System.Numerics;
 using System.Diagnostics;
 
-namespace KeySearcher
+namespace KeySearcher.KeyPattern
 {
     /**
      * This class is able to split a KeyPattern into several disjunct parts, which are guaranteed to have equal size.

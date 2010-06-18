@@ -2,16 +2,17 @@
 using System.IO;
 using Cryptool.P2P;
 using Cryptool.P2P.Internal;
+using KeySearcher.P2P.Tree;
 
-namespace KeySearcher.P2P.Nodes
+namespace KeySearcher.P2P.Storage
 {
-    class P2PHelper
+    class StorageHelper
     {
-        private readonly KeySearcher _keySearcher;
+        private readonly KeySearcher keySearcher;
 
-        public P2PHelper(KeySearcher keySearcher)
+        public StorageHelper(KeySearcher keySearcher)
         {
-            _keySearcher = keySearcher;
+            this.keySearcher = keySearcher;
         }
 
         internal static RequestResult UpdateInDht(NodeBase nodeToUpdate)
@@ -63,7 +64,6 @@ namespace KeySearcher.P2P.Nodes
 
             var requestResult = P2PManager.Retrieve(KeyInDht(nodeToUpdate));
             var nodeBytes = requestResult.Data;
-            nodeToUpdate.LastUpdateResult = requestResult.Status;
 
             if (nodeBytes == null)
             {
@@ -95,7 +95,7 @@ namespace KeySearcher.P2P.Nodes
 
             if (resultCount > 0)
             {
-                _keySearcher.IntegrateNewResults(nodeToUpdate.Result);
+                keySearcher.IntegrateNewResults(nodeToUpdate.Result);
             }
 
             return requestResult;
@@ -118,7 +118,7 @@ namespace KeySearcher.P2P.Nodes
 
         internal static string KeyInDht(NodeBase node)
         {
-            return string.Format("p2pjob_{0}_node_{1}_{2}", node.DistributedJobIdentifier, node.From, node.To);
+            return string.Format("{0}_node_{1}_{2}", node.DistributedJobIdentifier, node.From, node.To);
         }
     }
 }

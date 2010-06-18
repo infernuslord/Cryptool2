@@ -15,15 +15,12 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using Cryptool.PluginBase.Miscellaneous;
 using System.Collections;
 using System.IO;
 using System.Numerics;
 
-namespace KeySearcher
+namespace KeySearcher.KeyPattern
 {
     public class KeyPattern
     {       

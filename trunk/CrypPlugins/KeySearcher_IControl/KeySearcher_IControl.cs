@@ -25,7 +25,6 @@ using Cryptool.PluginBase.Miscellaneous;
 using System.Windows.Controls;
 using Cryptool.PluginBase.Analysis;
 // KeyPattern kicked out of this project and will be sourced from the namespace KeySearcher
-using KeySearcher;
 using Cryptool.PluginBase.Control;
 using Cryptool.Plugins.PeerToPeer;
 using Cryptool.Plugins.PeerToPeer.Jobs;

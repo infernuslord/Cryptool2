@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Cryptool.PluginBase.Control;
 // KeyPattern kicked out of this project and will be sourced from the namespace KeySearcher
-using KeySearcher;
+using KeySearcher.KeyPattern;
 using Cryptool.Plugins.KeySearcher_IControl;
 
 namespace Cryptool.PluginBase.Control

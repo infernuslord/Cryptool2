@@ -24,6 +24,7 @@ using Cryptool.PluginBase.Control;
 using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
 using KeySearcher;
+using KeySearcher.KeyPattern;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using Cryptool.Plugins.PeerToPeer.Jobs;

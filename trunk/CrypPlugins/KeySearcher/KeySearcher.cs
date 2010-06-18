@@ -11,12 +11,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Threading;
-using Cryptool.PluginBase.Miscellaneous;
-using System.IO;
 using Cryptool.PluginBase.IO;
 using System.Numerics;
 using KeySearcher.Helper;
 using KeySearcher.P2P;
+using KeySearcher.Presentation;
 
 namespace KeySearcher
 {    
@@ -37,8 +36,8 @@ namespace KeySearcher
 
         private KeyQualityHelper _keyQualityHelper;
 
-        private KeyPattern pattern = null;
-        public KeyPattern Pattern
+        private KeyPattern.KeyPattern pattern = null;
+        public KeyPattern.KeyPattern Pattern
         {
             get
             {
@@ -71,7 +70,7 @@ namespace KeySearcher
                 }
                 if (value != null)
                 {
-                    Pattern = new KeyPattern(value.getKeyPattern());
+                    Pattern = new KeyPattern.KeyPattern(value.getKeyPattern());
                     value.keyPatternChanged += keyPatternChanged;
                     controlMaster = value;
                     OnPropertyChanged("ControlMaster");
@@ -299,7 +298,7 @@ namespace KeySearcher
         private void KeySearcherJob(object param)
         {
             object[] parameters = (object[])param;
-            KeyPattern[] patterns = (KeyPattern[])parameters[0];
+            KeyPattern.KeyPattern[] patterns = (KeyPattern.KeyPattern[])parameters[0];
             int threadid = (int)parameters[1];
             BigInteger[] doneKeysArray = (BigInteger[])parameters[2];
             BigInteger[] keycounterArray = (BigInteger[])parameters[3];
@@ -308,7 +307,7 @@ namespace KeySearcher
             int bytesToUse = (int)parameters[6];
             Stack threadStack = (Stack)parameters[7];
 
-            KeyPattern pattern = patterns[threadid];
+            KeyPattern.KeyPattern pattern = patterns[threadid];
 
             bool useKeyblocks = false;
 
@@ -330,7 +329,7 @@ namespace KeySearcher
                                 maxThreadMutex.WaitOne();
                                 if (maxThread == threadid && threadStack.Count != 0)
                                 {
-                                    KeyPattern[] split = pattern.split();
+                                    KeyPattern.KeyPattern[] split = pattern.split();
                                     if (split != null)
                                     {
                                         patterns[threadid] = split[0];
@@ -426,7 +425,7 @@ namespace KeySearcher
         #region bruteforce methods
 
         private bool bruteforceBlock(IControlEncryption sender, int bytesToUse, ref ValueKey valueKey, byte[] keya, int[] arrayPointers,
-            int[] arraySuccessors, int[] arrayUppers, int arrayPointer, ref int counter, KeyPattern pattern)
+            int[] arraySuccessors, int[] arrayUppers, int arrayPointer, ref int counter, KeyPattern.KeyPattern pattern)
         {
             byte store = keya[arrayPointers[arrayPointer]];
             while (!stop)
@@ -456,7 +455,7 @@ namespace KeySearcher
             return true;
         }
 
-        private bool decryptAndCalculate(IControlEncryption sender, int bytesToUse, ref ValueKey valueKey, byte[] keya, int counter, KeyPattern pattern)
+        private bool decryptAndCalculate(IControlEncryption sender, int bytesToUse, ref ValueKey valueKey, byte[] keya, int counter, KeyPattern.KeyPattern pattern)
         {
             try
             {
@@ -550,7 +549,7 @@ namespace KeySearcher
 
         // modified by Christian Arnold 2009.12.07 - return type LinkedList (top10List)
         // main entry point to the KeySearcher
-        private LinkedList<ValueKey> bruteforcePattern(KeyPattern pattern)
+        private LinkedList<ValueKey> bruteforcePattern(KeyPattern.KeyPattern pattern)
         {
             //For evaluation issues - added by Arnold 2010.03.17
             beginBruteforcing = DateTime.Now;
@@ -598,7 +597,8 @@ namespace KeySearcher
             _dispatcher = Dispatcher.CurrentDispatcher;
             GuiLogMessage("Launching p2p based bruteforce logic...", NotificationLevel.Info);
             ValidateConnectionToPeerToPeerSystem();
-            new P2PBruteForce(this, pattern, settings, _keyQualityHelper);
+            var bruteForceManager = new DistributedBruteForceManager(this, pattern, settings, _keyQualityHelper);
+            bruteForceManager.Execute();
         }
 
 
@@ -649,10 +649,10 @@ namespace KeySearcher
 
         #endregion
 
-        internal LinkedList<ValueKey> BruteForceWithLocalSystem(KeyPattern pattern)
+        internal LinkedList<ValueKey> BruteForceWithLocalSystem(KeyPattern.KeyPattern pattern)
         {
             BigInteger size = pattern.size();
-            KeyPattern[] patterns = splitPatternForThreads(pattern);
+            KeyPattern.KeyPattern[] patterns = splitPatternForThreads(pattern);
 
             BigInteger[] doneKeysA = new BigInteger[patterns.Length];
             BigInteger[] keycounters = new BigInteger[patterns.Length];
@@ -949,7 +949,7 @@ namespace KeySearcher
 
         #endregion
 
-        private void startThreads(IControlEncryption sender, int bytesToUse, KeyPattern[] patterns, BigInteger[] doneKeysA, BigInteger[] keycounters, BigInteger[] keysleft, Stack threadStack)
+        private void startThreads(IControlEncryption sender, int bytesToUse, KeyPattern.KeyPattern[] patterns, BigInteger[] doneKeysA, BigInteger[] keycounters, BigInteger[] keysleft, Stack threadStack)
         {
             for (int i = 0; i < patterns.Length; i++)
             {
@@ -961,15 +961,15 @@ namespace KeySearcher
             }
         }
 
-        private KeyPattern[] splitPatternForThreads(KeyPattern pattern)
+        private KeyPattern.KeyPattern[] splitPatternForThreads(KeyPattern.KeyPattern pattern)
         {
-            KeyPattern[] patterns = new KeyPattern[settings.CoresUsed + 1];
+            KeyPattern.KeyPattern[] patterns = new KeyPattern.KeyPattern[settings.CoresUsed + 1];
             if (settings.CoresUsed > 0)
             {
-                KeyPattern[] patterns2 = pattern.split();
+                KeyPattern.KeyPattern[] patterns2 = pattern.split();
                 if (patterns2 == null)
                 {
-                    patterns2 = new KeyPattern[1];
+                    patterns2 = new KeyPattern.KeyPattern[1];
                     patterns2[0] = pattern;
                     return patterns2;
                 }
@@ -987,10 +987,10 @@ namespace KeySearcher
                             max = patterns[i].size();
                             maxPattern = i;
                         }
-                    KeyPattern[] patterns3 = patterns[maxPattern].split();
+                    KeyPattern.KeyPattern[] patterns3 = patterns[maxPattern].split();
                     if (patterns3 == null)
                     {
-                        patterns3 = new KeyPattern[p+1];
+                        patterns3 = new KeyPattern.KeyPattern[p+1];
                         for (int i = 0; i <= p; i++)
                             patterns3[i] = patterns[i];
                         return patterns3;
@@ -1007,7 +1007,7 @@ namespace KeySearcher
 
         private void keyPatternChanged()
         {
-            Pattern = new KeyPattern(controlMaster.getKeyPattern());
+            Pattern = new KeyPattern.KeyPattern(controlMaster.getKeyPattern());
         }
 
         // added by Arnie - 2009.12.07
@@ -1020,7 +1020,7 @@ namespace KeySearcher
 
         // added by Arnie -2009.12.02
         // for inheritance reasons
-        public void BruteforcePattern(KeyPattern pattern, byte[] encryptedData, byte[] initVector, IControlEncryption encryptControl, IControlCost costControl)
+        public void BruteforcePattern(KeyPattern.KeyPattern pattern, byte[] encryptedData, byte[] initVector, IControlEncryption encryptControl, IControlCost costControl)
         {
             /* Begin: New stuff because of changing the IControl data flow - Arnie 2010.01.18 */
             this.encryptedData = encryptedData;

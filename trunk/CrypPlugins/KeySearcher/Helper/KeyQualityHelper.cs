@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Cryptool.PluginBase.Control;
+﻿using Cryptool.PluginBase.Control;
 
 namespace KeySearcher.Helper
 {
     class KeyQualityHelper
     {
-        private readonly IControlCost _costFunction;
+        private readonly IControlCost costFunction;
 
         public KeyQualityHelper(IControlCost costFunction)
         {
-            _costFunction = costFunction;
+            this.costFunction = costFunction;
         }
 
         public bool IsBetter(double value, double threshold)
         {
-            if (_costFunction.getRelationOperator() == RelationOperator.LargerThen)
+            if (costFunction.getRelationOperator() == RelationOperator.LargerThen)
             {
                 if (value > threshold)
                 {

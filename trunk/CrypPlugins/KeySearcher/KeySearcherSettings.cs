@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
 using Cryptool.PluginBase;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using KeySearcher.KeyPattern;
 
 namespace KeySearcher
 {
     public class KeySearcherSettings : ISettings
     {
-        private KeySearcher keysearcher;
+        private readonly KeySearcher keysearcher;
         private int coresUsed;
         private const string GroupPeerToPeer = "Peer-to-Peer network";
 
@@ -23,7 +21,6 @@ namespace KeySearcher
                 CoresAvailable.Add((i + 1).ToString());
             CoresUsed = Environment.ProcessorCount - 1;
 
-            distributedJobIdentifier = Guid.NewGuid().ToString();
             chunkSize = 21;
         }
 
@@ -101,23 +98,6 @@ namespace KeySearcher
             }
         }
 
-        private string distributedJobIdentifier;
-        [TaskPane("Job identifier", "Arbitrary description, that allows other peers to join this calculation.", GroupPeerToPeer, 2, false, DisplayLevel.Professional,
-            ControlType.TextBox)]
-        public string DistributedJobIdentifier
-        {
-            get { return distributedJobIdentifier; }
-            set
-            {
-                if (value != distributedJobIdentifier)
-                {
-                    distributedJobIdentifier = value;
-                    OnPropertyChanged("DistributedJobIdentifier");
-                    HasChanges = true;
-                }
-            }
-        }
-
         private int chunkSize;
         [TaskPane("Chunk size", "Amount of keys, that will be calculated by one peer at a time. This value is the exponent of the power of two used for the chunk size.", GroupPeerToPeer, 3, false, DisplayLevel.Professional,
             ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 1000)]
@@ -146,7 +126,7 @@ namespace KeySearcher
                     return 0;
                 }
 
-                var keyPattern = new KeyPattern(keysearcher.ControlMaster.getKeyPattern());
+                var keyPattern = new KeyPattern.KeyPattern(keysearcher.ControlMaster.getKeyPattern());
                 keyPattern.WildcardKey = key;
                 var keyPatternPool = new KeyPatternPool(keyPattern, new BigInteger(Math.Pow(2, ChunkSize)));
                 return (double) keyPatternPool.Length;
