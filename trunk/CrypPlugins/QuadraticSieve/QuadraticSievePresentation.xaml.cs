@@ -40,7 +40,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             grid.Children.Add(sviewer);
             sviewer.MinHeight = 100;
             sviewer.MaxHeight = 100;
-            progressYields.MaxWidth = factorList.Width;
+            progressYields.MaxWidth = factorList.Width - 10;
         }
 
         public void sizeChanged(Object sender, EventArgs eventArgs)
