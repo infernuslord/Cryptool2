@@ -33,6 +33,7 @@ using PeersAtPlay.P2POverlay.FullMeshOverlay;
 using PeersAtPlay.P2PStorage.DHT;
 using PeersAtPlay.P2PStorage.FullMeshDHT;
 using PeersAtPlay.Util.Logging;
+using PeersAtPlay.P2POverlay.Chord;
 
 /* TODO:
  * - Delete UseNatTraversal-Flag and insert CertificateCheck and CertificateSetup
@@ -118,8 +119,8 @@ namespace Cryptool.P2P.Internal
                     settings.UseNetworkMonitorServer = true;
                     settings.CloseConnectionAfterPingTimeout = false;
 
-                    settings.MaximumMessageSize = 10485760;
-                    settings.IgnoreMaximumMessageSize = true;
+                    settings.FragmentMessages = true;
+                    settings.FragmentMessageSize = 10*1024;
                         
                     switch(P2PSettings.Default.TransportProtocol)
                     {
@@ -165,6 +166,9 @@ namespace Cryptool.P2P.Internal
                     // changing overlay example: this.overlay = new ChordOverlay();
                     _overlay = new FullMeshOverlay(scheduler);
                     break;
+                case P2POverlayType.ChordOverlay:
+                    _overlay = new ChordNGCore(scheduler);
+                    break;
                 default:
                     throw (new NotImplementedException());
             }
@@ -173,6 +177,9 @@ namespace Cryptool.P2P.Internal
             {
                 case P2PDHTType.FullMeshDHT:
                     Dht = new FullMeshDHT(scheduler);
+                    break;
+                case P2PDHTType.ChordDHT:
+                    Dht = (IDHT) _overlay;
                     break;
                 default:
                     throw (new NotImplementedException());
