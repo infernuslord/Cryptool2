@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using KeySearcher.Helper;
+using KeySearcher.P2P.Exceptions;
 
 namespace KeySearcher.P2P.Nodes
 {
@@ -57,6 +58,8 @@ namespace KeySearcher.P2P.Nodes
         {
             _leftChild = null;
             _rightChild = null;
+            LeftChildFinished = false;
+            RightChildFinished = false;
         }
 
         public override Leaf CalculatableLeaf(bool useReservedNodes)
@@ -67,6 +70,11 @@ namespace KeySearcher.P2P.Nodes
             if (!LeftChildFinished && (!_leftChild.IsReserverd() || useReservedNodes))
             {
                 return _leftChild.CalculatableLeaf(useReservedNodes);
+            }
+
+            if (_rightChild == null)
+            {
+                throw new AlreadyCalculatedException();
             }
 
             return _rightChild.CalculatableLeaf(useReservedNodes);

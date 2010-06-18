@@ -54,8 +54,6 @@ namespace KeySearcher.P2P.Nodes
 
         internal RequestResult UpdateFromDht(NodeBase nodeToUpdate, bool forceUpdate = false)
         {
-            //var cacheActive = nodeToUpdate.LastUpdateResult != RequestResultType.KeyNotFound;
-
             if (!forceUpdate && nodeToUpdate.LastUpdate > DateTime.Now.Subtract(new TimeSpan(0, 0, 5)))
             {
                 return new RequestResult { Status = RequestResultType.Success };
