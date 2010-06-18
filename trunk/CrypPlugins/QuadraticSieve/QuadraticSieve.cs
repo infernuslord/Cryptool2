@@ -58,6 +58,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         private IntPtr obj = IntPtr.Zero;
         private volatile int threadcount = 0;
         private ArrayList conf_list;
+        private Mutex conf_listMutex = new Mutex();
         private bool userStopped = false;
         private FactorManager factorManager;
         private PeerToPeer peerToPeer;
@@ -679,43 +680,51 @@ namespace Cryptool.Plugins.QuadraticSieve
             Queue yieldqueue = (Queue)parameters[3];
             int threadNR = (int)parameters[4];
 
-            MethodInfo collectRelations = msieve.GetMethod("collectRelations");
-            MethodInfo getYield = msieve.GetMethod("getYield");
-            MethodInfo getAmountOfRelationsInYield = msieve.GetMethod("getAmountOfRelationsInYield");
-
-            Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
-
-            while (running)
+            try
             {
-                try
+                MethodInfo collectRelations = msieve.GetMethod("collectRelations");
+                MethodInfo getYield = msieve.GetMethod("getYield");
+                MethodInfo getAmountOfRelationsInYield = msieve.GetMethod("getAmountOfRelationsInYield");
+
+                Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
+
+                while (running)
                 {
-                    //Calculate the performance of this thread:
-                    DateTime beginning = DateTime.Now;                    
-                    collectRelations.Invoke(null, new object[] { clone, update, core_sieve_fcn });                    
-                    IntPtr yield = (IntPtr)getYield.Invoke(null, new object[] { clone });
+                    try
+                    {
+                        //Calculate the performance of this thread:
+                        DateTime beginning = DateTime.Now;
+                        collectRelations.Invoke(null, new object[] { clone, update, core_sieve_fcn });
+                        IntPtr yield = (IntPtr)getYield.Invoke(null, new object[] { clone });
 
-                    int amountOfFullRelations = (int)getAmountOfRelationsInYield.Invoke(null, new object[] { yield });
-                    relationsPerMS[threadNR] = amountOfFullRelations / (DateTime.Now - beginning).TotalMilliseconds;
+                        int amountOfFullRelations = (int)getAmountOfRelationsInYield.Invoke(null, new object[] { yield });
+                        relationsPerMS[threadNR] = amountOfFullRelations / (DateTime.Now - beginning).TotalMilliseconds;
 
-                    if (usePeer2Peer)
-                        peerToPeer.SetOurPerformance(relationsPerMS);
+                        if (usePeer2Peer)
+                            peerToPeer.SetOurPerformance(relationsPerMS);
 
-                    yieldqueue.Enqueue(yield);
-                    yieldEvent.Set();
+                        yieldqueue.Enqueue(yield);
+                        yieldEvent.Set();
+                    }
+                    catch (Exception ex)
+                    {
+                        GuiLogMessage("Error using msieve." + ex.Message, NotificationLevel.Error);
+                        threadcount = 0;
+                        return;
+                    }
                 }
-                catch (Exception ex)
-                {
-                    GuiLogMessage("Error using msieve." + ex.Message, NotificationLevel.Error);
-                    threadcount = 0;
-                    return;
-                }                
-            }
 
-            if (conf_list != null)
-                conf_list[threadNR] = null;
-            MethodInfo freeSieveConf = msieve.GetMethod("freeSieveConf");
-            freeSieveConf.Invoke(null, new object[] { clone });            
-            threadcount--;
+                conf_listMutex.WaitOne();
+                if (conf_list != null)
+                    conf_list[threadNR] = null;
+                MethodInfo freeSieveConf = msieve.GetMethod("freeSieveConf");
+                freeSieveConf.Invoke(null, new object[] { clone });
+                conf_listMutex.ReleaseMutex();
+            }
+            finally
+            {
+                threadcount--;
+            }
         }       
 
         /// <summary>
@@ -731,11 +740,14 @@ namespace Cryptool.Plugins.QuadraticSieve
 
                 MethodInfo stop = msieve.GetMethod("stop");
                 MethodInfo getObjFromConf = msieve.GetMethod("getObjFromConf");
+
+                conf_listMutex.WaitOne();
                 foreach (IntPtr conf in conf_list)
                     if (conf != null)
                         stop.Invoke(null, new object[] { getObjFromConf.Invoke(null, new object[] { conf }) });
 
                 conf_list = null;
+                conf_listMutex.ReleaseMutex();
 
                 GuiLogMessage("Waiting for threads to stop!", NotificationLevel.Debug);
                 while (threadcount > 0)
