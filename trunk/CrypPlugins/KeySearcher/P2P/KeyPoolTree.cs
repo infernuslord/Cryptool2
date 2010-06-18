@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Data;
-using System.Numerics;
 using Cryptool.PluginBase;
 using KeySearcher.Helper;
-using KeySearcher.P2P.Exceptions;
 using KeySearcher.P2P.Nodes;
 
 namespace KeySearcher.P2P
@@ -15,12 +12,8 @@ namespace KeySearcher.P2P
         private readonly KeySearcher _keySearcher;
         private readonly P2PHelper _p2PHelper;
         private readonly NodeBase _rootNode;
-        private bool _calculationFinishedOnStart;
         private NodeBase _currentNode;
-        private Leaf _currentLeaf;
         private bool _skippedReservedNodes;
-        private bool _useReservedNodes;
-        private BigInteger _lastPatternId;
 
         public KeyPoolTree(KeyPatternPool patternPool, KeySearcherSettings settings, KeySearcher keySearcher, KeyQualityHelper keyQualityHelper)
         {
@@ -30,13 +23,9 @@ namespace KeySearcher.P2P
 
             _p2PHelper = new P2PHelper(keySearcher);
             _skippedReservedNodes = false;
-            _useReservedNodes = false;
-            _lastPatternId = -1;
 
             _rootNode = NodeFactory.CreateNode(_p2PHelper, keyQualityHelper, null, 0, _patternPool.Length - 1, _settings.DistributedJobIdentifier);
             _currentNode = _rootNode;
-
-            _calculationFinishedOnStart = _rootNode.IsCalculated();
         }
 
         public Leaf FindNextLeaf()
@@ -51,12 +40,10 @@ namespace KeySearcher.P2P
                 _currentNode = nodeBeforeStarting;
                 foundNode = FindNextLeaf(true);
                 _currentNode = foundNode;
-                _currentLeaf = foundNode;
                 return foundNode;
             }
 
             _currentNode = foundNode;
-            _currentLeaf = foundNode;
             return foundNode;
         }
 
@@ -67,8 +54,8 @@ namespace KeySearcher.P2P
                 return null;
             }
 
-            bool isReserved = false;
-            _p2PHelper.UpdateFromDht(_currentNode);
+            var isReserved = false;
+            _p2PHelper.UpdateFromDht(_currentNode, true);
             while (_currentNode.IsCalculated() || ((isReserved = _currentNode.IsReserverd()) && !useReservedLeafs))
             {
                 if (isReserved)
@@ -86,7 +73,7 @@ namespace KeySearcher.P2P
                 }
 
                 // Update the new _currentNode
-                _p2PHelper.UpdateFromDht(_currentNode);
+                _p2PHelper.UpdateFromDht(_currentNode, true);
             }
 
             // currentNode is calculateable => find leaf
@@ -103,16 +90,13 @@ namespace KeySearcher.P2P
         internal void Reset()
         {
             _rootNode.Reset();
-            _currentNode = null;
-            _currentLeaf = null;
+            _currentNode = _rootNode;
             _skippedReservedNodes = false;
-            _useReservedNodes = false;
-            _lastPatternId = -1;
         }
 
-        public void ProcessCurrentPatternCalculationResult(LinkedList<KeySearcher.ValueKey> result)
+        public void ProcessCurrentPatternCalculationResult(Leaf currentLeaf, LinkedList<KeySearcher.ValueKey> result)
         {
-            _currentLeaf.HandleResults(result);
+            currentLeaf.HandleResults(result);
         }
     }
 }

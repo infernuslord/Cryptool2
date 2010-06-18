@@ -33,12 +33,26 @@ namespace KeySearcher.P2P
                 " keys.", NotificationLevel.Info);
 
             Leaf currentLeaf;
-            while (!_keySearcher.stop && (currentLeaf = _keyPoolTree.FindNextLeaf()) != null)
+            while (!_keySearcher.stop)
             {
+                try
+                {
+                    currentLeaf = _keyPoolTree.FindNextLeaf();
+                    if (currentLeaf == null)
+                    {
+                        break;
+                    }
+                } catch(AlreadyCalculatedException)
+                {
+                    _keySearcher.GuiLogMessage("Node was already calculated.", NotificationLevel.Warning);
+                    _keyPoolTree.Reset();
+                    continue;
+                }
+
                 if (!currentLeaf.ReserveLeaf())
                 {
                     _keySearcher.GuiLogMessage(
-                        "Pattern " + currentLeaf.PatternId() +
+                        "Pattern #" + currentLeaf.PatternId() +
                         " was reserved before it could be reserved for this CrypTool instance.",
                         NotificationLevel.Warning);
                     _keyPoolTree.Reset();
@@ -55,7 +69,7 @@ namespace KeySearcher.P2P
 
                     if (!_keySearcher.stop)
                     {
-                        _keyPoolTree.ProcessCurrentPatternCalculationResult(result);
+                        _keyPoolTree.ProcessCurrentPatternCalculationResult(currentLeaf, result);
                     }
                     else
                     {
@@ -68,7 +82,9 @@ namespace KeySearcher.P2P
                 }
                 catch(ReservationRemovedException)
                 {
-                    _keySearcher.GuiLogMessage("Reservation removed. Proceeding to first available leaf...", NotificationLevel.Warning);
+                    _keySearcher.GuiLogMessage("Reservation removed by another node (while calculating). " +
+                                               "To avoid a state in limbo, proceeding to first available leaf...",
+                                               NotificationLevel.Warning);
                     _keyPoolTree.Reset();
                     continue;
                 }
