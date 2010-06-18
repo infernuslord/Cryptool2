@@ -95,7 +95,7 @@ namespace VigenereAutokeyAnalyser
         {
             this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                ListView.SelectedIndex = index;
+                ListView.SelectedIndex = index;   
 
             }, null);
 

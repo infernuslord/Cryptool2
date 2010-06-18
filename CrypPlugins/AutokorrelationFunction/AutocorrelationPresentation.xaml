@@ -7,9 +7,18 @@
              xmlns:custom="clr-namespace:Cryptool.PluginBase.Utils.Graphics.Diagrams.Histogram;assembly=CrypPluginBase"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <custom:HistogramChart Name="dingens">
-            
+    <Grid Name="Grid" Width="300">
+        <Grid.LayoutTransform>
+            <ScaleTransform x:Name="scaler" ScaleX="1" ScaleY="1"/>
+        </Grid.LayoutTransform>
+
+        <TextBlock TextAlignment="Center" FontSize="20" Foreground="DarkBlue"  FontFamily="Academy" OpacityMask="Turquoise" Text="Shift values" Height="20" VerticalAlignment="Bottom"></TextBlock>
+
+        <custom:HistogramChart Name="histogram" Margin="0,0,0,19">                
+
         </custom:HistogramChart>
+
     </Grid>
+    
+    
 </UserControl>
