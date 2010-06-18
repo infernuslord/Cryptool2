@@ -18,12 +18,14 @@ namespace Cryptool.Plugins.PeerToPeer.Internal
 
     public enum P2POverlayType
     {
-        FullMeshOverlay = 0
+        FullMeshOverlay = 0,
+        ChordOverlay = 1
     }
 
     public enum P2PDHTType
     {
-        FullMeshDHT = 0
+        FullMeshDHT = 0,
+        ChordDHT = 1
     }
 
     public enum P2PTransportProtocol

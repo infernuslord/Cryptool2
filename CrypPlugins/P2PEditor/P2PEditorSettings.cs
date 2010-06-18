@@ -187,7 +187,7 @@ namespace Cryptool.P2PEditor
         }
 
         [TaskPane("overlay_caption", "overlay_tooltip", GroupExpert, 2, false, DisplayLevel.Expert,
-            ControlType.ComboBox, new[] {"FullMeshOverlay"})]
+            ControlType.ComboBox, new[] {"FullMeshOverlay", "ChordOverlay"})]
         public int Overlay
         {
             get { return (int) _settings.Overlay; }
@@ -203,7 +203,7 @@ namespace Cryptool.P2PEditor
         }
 
         [TaskPane("dht_caption", "dht_tooltip", GroupExpert, 3, false, DisplayLevel.Expert,
-            ControlType.ComboBox, new[] {"FullMeshDHT"})]
+            ControlType.ComboBox, new[] {"FullMeshDHT", "ChordDHT"})]
         public int Dht
         {
             get { return (int) _settings.Dht; }

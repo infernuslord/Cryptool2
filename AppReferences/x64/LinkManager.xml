@@ -1,0 +1,937 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LinkManager</name>
+    </assembly>
+    <members>
+        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.Link.#ctor(PeersAtPlay.P2PLink.LinkAddress,PeersAtPlay.P2PLink.LinkAddress,System.Net.IPEndPoint,PeersAtPlay.P2PLink.TransportProtocol,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="localAddress"></param>
+            <param name="remoteAddress"></param>
+            <param name="remoteIPEndPoint"></param>
+            <param name="transportProtocol"></param>
+            <param name="isIncoming"></param>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.Link.Send(PeersAtPlay.P2PLink.LinkMessage)">
+            <summary>
+            Send a message to communication partner
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.Link.Close">
+            <summary>
+            Closing this link
+            </summary>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.Link.ForceQuit">
+            <summary>
+            Force close 
+            </summary>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.Link.ToString">
+            <summary>
+            Return the string representaion of the current link state
+            </summary>
+            <returns>string representaion of the current link state</returns>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.Link.OnCloseMessage(Gears4Net.AbstractStateMachine,PeersAtPlay.P2PLink.SimpleSnalNG.Link.CloseMesseage)">
+            <summary>
+            Local close message
+            </summary>
+            <param name="stateMachine"></param>
+            <param name="closeMsg"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PeersAtPlay.P2PLink.SimpleSnalNG.Snal">
+            <summary>
+            Simple version of SNAL. 
+            Supports internal and external detection of the LinkAddress, TCP connections
+            </summary>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.Snal.GetHeaderSize">
+            <summary>
+            Returns the header size of a snal message
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.Snal.GetLinkInformation(PeersAtPlay.P2PLink.LinkAddress)">
+            <summary>
+            Return the link for a remote peer.
+            Returns null if no link exists!
+            </summary>
+            <param name="remoteAddress">Address</param>
+            <returns>ILink or null</returns>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.Snal.GetAllLinkInformation">
+            <summary>
+            Returns all open links
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.Snal.InternalInitialize">
+            <summary>
+            
+            </summary>
+            <param name="userName"></param>
+            <param name="worldName"></param>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.Snal.ExecuteProtocol(Gears4Net.AbstractStateMachine)">
+            <summary>
+            Gears4Net Execute method
+            </summary>
+            <param name="stateMachine"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.Snal.ToString">
+            <summary>
+            Create a string of the current status
+            </summary>
+            <returns>Current status</returns>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.Snal.OnSendPeerAliveDetail">
+            <summary>
+            Send information to the network monitor server
+            Debug feature!
+            </summary>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.Snal.OnSendPeerAliveBasic">
+            <summary>
+            Send information to the network monitor server
+            Debug feature!
+            </summary>
+        </member>
+        <member name="T:PeersAtPlay.P2PLink.SimpleSnalNG.Settings">
+            <summary>
+            SimpleSnalNG Settings
+            </summary>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.LoadDefaults">
+            <summary>
+            Set all settings to default value
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.PeerAliveIntervalBasic">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.PeerAliveIntervalDetail">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.PeerAliveIntervalFirst">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.UseOnlyOneThread">
+            <summary>
+            All Gears4Net parts using the same thread
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.ConnectionEstablishemtTimeout">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.LocalReceivingPort">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.TransportProtocol">
+            <summary>
+            Set the used transport protocol
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.UseLocalAddressDetection">
+            <summary>
+            Using a local address only. This make the P2PLinkManager working without a network connection!
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.StartMFBTypeDetectionServer">
+            <summary>
+            Start a MFBTypeDetectionServer if possible
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.MFBTypeDetectionServerPort1">
+            <summary>
+            First port for the MFBTypeDetectionServer
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.MFBTypeDetectionServerPort2">
+            <summary>
+            Second port for the MFBTypeDetectionServer
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.ReuseAddress">
+            <summary>
+            Using always the same port for incoming and outgoing connections
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.NoDelay">
+            <summary>
+            Socket option (using Nagle or not)
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.UseNetworkMonitorServer">
+            <summary>
+            Send information to the network monitor server
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.SendDetailedConnectionInformation">
+            <summary>
+            Send detailed connection information to the network monitor server
+            </summary>
+        </member>
+        <member name="T:PeersAtPlay.Networking.Security.RSAAuthentication">
+            <summary>
+            This object is available in every SNALConnection. It is instantiated with users
+            private and public key and will generate a session key.
+            
+            - De/Encrypt
+            - Hybrid cryptography
+            </summary>
+        </member>
+        <member name="T:PeersAtPlay.Networking.Security.AbstractAuthentication">
+            <summary>
+            Abstract class which should be implemented by all authentication models. The class
+            RSAAuthentication is given as an example. This class contains all variables, proper-
+            ties and methods that are used by SNALConnections for secure communication.
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.Networking.Security.AbstractAuthentication.myCertificate">
+            <summary>
+            Your own certificate containing your public key
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.Networking.Security.AbstractAuthentication.externalCertificate">
+            <summary>
+            External certificate containing external public key received as byte array
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.Networking.Security.AbstractAuthentication.encAlg">
+            <summary>
+            Stores which encryption algorythm should be used for symmetric encryption
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.Networking.Security.AbstractAuthentication.ownSessionKey">
+            <summary>
+            Your own random session key
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.Networking.Security.AbstractAuthentication.receivedSessionKey">
+            <summary>
+            Received session key
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.Networking.Security.AbstractAuthentication.sessionKey">
+            <summary>
+            Combined session key
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.Networking.Security.AbstractAuthentication.ownHMACKey">
+            <summary>
+            Your own random HMAC-Key
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.Networking.Security.AbstractAuthentication.receivedHMACKey">
+            <summary>
+            Received HMAC-Key
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.Networking.Security.AbstractAuthentication.hmacSessionKey">
+            <summary>
+            Combined HMAC-Key
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.Networking.Security.AbstractAuthentication.initVector">
+            <summary>
+            Initialisation vector
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.Networking.Security.AbstractAuthentication.csp">
+            <summary>
+            CryptoServiceProvider depending on selected algorithm
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.Networking.Security.AbstractAuthentication.encryptor">
+            <summary>
+            Encryptor
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.Networking.Security.AbstractAuthentication.decryptor">
+            <summary>
+            Decryptor
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.Networking.Security.AbstractAuthentication.keySize">
+            <summary>
+            Key size
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.Networking.Security.AbstractAuthentication.counter">
+            <summary>
+            Counter for symmetric encryption
+            </summary>
+        </member>
+        <member name="M:PeersAtPlay.Networking.Security.AbstractAuthentication.Decrypt(System.Byte[])">
+            <summary>
+            Decrypts data using the private key
+            </summary>
+            <param name="data">Encrypted data</param>
+            <returns>Decrypted data</returns>
+        </member>
+        <member name="M:PeersAtPlay.Networking.Security.AbstractAuthentication.Encrypt(System.Byte[])">
+            <summary>
+            Encrpyts data using the external public key
+            </summary>
+            <param name="data">Data to encrypt</param>
+            <returns>Encrypted data</returns>
+        </member>
+        <member name="M:PeersAtPlay.Networking.Security.AbstractAuthentication.SignData(System.Byte[])">
+            <summary>
+            Signs given data with own private key
+            </summary>
+            <param name="data">Data to sign</param>
+            <returns>Signed data</returns>
+        </member>
+        <member name="M:PeersAtPlay.Networking.Security.AbstractAuthentication.VerifySignature(System.Byte[],System.Byte[])">
+            <summary>
+            Verifies given data with given signature
+            </summary>
+            <param name="data">Data to verify</param>
+            <param name="signature">Signature to given data</param>
+            <returns>If signature is verified</returns>
+        </member>
+        <member name="M:PeersAtPlay.Networking.Security.AbstractAuthentication.CombineKeys(System.Byte[],System.Byte[])">
+            <summary>
+            Combines two keys to a new key
+            </summary>
+            <param name="keyA">A key</param>
+            <param name="keyB">Another key</param>
+            <returns>New key as combination from both given keys</returns>
+        </member>
+        <member name="M:PeersAtPlay.Networking.Security.AbstractAuthentication.CreateRandomKey(System.Byte[]@)">
+            <summary>
+            Creates a new random key if given key is not set
+            </summary>
+            <param name="key">Key to set</param>
+            <returns>Old key or new random key if key was not set</returns>
+            <exception cref="T:System.Security.Cryptography.CryptographicException"></exception>
+        </member>
+        <member name="M:PeersAtPlay.Networking.Security.AbstractAuthentication.DecryptSymmetric(System.Byte[])">
+            <summary>
+            Decrypts data using the symmetric session key
+            </summary>
+            <param name="data">Encrpyted data</param>
+            <returns>Decrypted data</returns>
+        </member>
+        <member name="M:PeersAtPlay.Networking.Security.AbstractAuthentication.EncryptSymmetric(System.Byte[])">
+            <summary>
+            Encrpyts data using the symmetric session key
+            </summary>
+            <param name="data">Data to encrpyt</param>
+            <returns>Encrypted data</returns>
+        </member>
+        <member name="M:PeersAtPlay.Networking.Security.AbstractAuthentication.ComputeHash(System.Byte[])">
+            <summary>
+            Calculates datas hash
+            </summary>
+            <param name="data">Data to hash</param>
+            <returns>HMAC hashed data</returns>
+        </member>
+        <member name="M:PeersAtPlay.Networking.Security.AbstractAuthentication.VerifyHash(System.Byte[],System.Byte[])">
+            <summary>
+            Verifies given data with given hash
+            </summary>
+            <param name="data">Data to verify</param>
+            <param name="hash">HMAC hash to given data</param>
+            <returns>If hash is verified</returns>
+        </member>
+        <member name="M:PeersAtPlay.Networking.Security.AbstractAuthentication.SetHMACKey(System.Byte[])">
+            <summary>
+            Creates the session key for hashing from own and received key as XOR combination from both keys
+            </summary>
+            <param name="externHMACKey">External received key</param>
+        </member>
+        <member name="M:PeersAtPlay.Networking.Security.AbstractAuthentication.SetSessionKey(System.Byte[])">
+            <summary>
+            Creates the session key from own and received external key as XOR combination from both keys
+            </summary>
+            <param name="externSessionKey">External received key</param>
+        </member>
+        <member name="M:PeersAtPlay.Networking.Security.AbstractAuthentication.ReceiveCertificate(System.Byte[])">
+            <summary>
+            Extracts certificate from received byte array and validates it
+            </summary>
+            <param name="cert">Received certificate as byte array</param>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="P:PeersAtPlay.Networking.Security.AbstractAuthentication.MyCertificate">
+            <summary>
+            Users certificate containing public key
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.Networking.Security.AbstractAuthentication.ExternalCertificate">
+            <summary>
+            External certificate
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.Networking.Security.AbstractAuthentication.OwnSessionKey">
+            <summary>
+            Your own random session key
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.Networking.Security.AbstractAuthentication.ReceivedSessionKey">
+            <summary>
+            Received session key
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.Networking.Security.AbstractAuthentication.SessionKey">
+            <summary>
+            Session key created from combination of own and received key
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.Networking.Security.AbstractAuthentication.OwnHMACKey">
+            <summary>
+            Your own random HMAC-Key
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.Networking.Security.AbstractAuthentication.ReceivedHMACKey">
+            <summary>
+            Received HMAC-Key
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.Networking.Security.AbstractAuthentication.HMACSessionKey">
+            <summary>
+            HMAC-Key created from combination of own and received key
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.Networking.Security.AbstractAuthentication.CSP">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:PeersAtPlay.Networking.Security.AbstractAuthentication.EncryptionAlgorithm">
+            <summary>
+            Enumeration containing available symmetric encryption algorithms
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.Networking.Security.AbstractAuthentication.EncryptionAlgorithm.Des">
+            <summary>
+            DES encryption
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.Networking.Security.AbstractAuthentication.EncryptionAlgorithm.Rijndael">
+            <summary>
+            AES encryption
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.Networking.Security.AbstractAuthentication.EncryptionAlgorithm.TripleDes">
+            <summary>
+            3DES encryption
+            </summary>
+        </member>
+        <member name="T:PeersAtPlay.Networking.Security.AbstractAuthentication.KeySize">
+            <summary>
+            Available KeySizes for symmetric encryption (Just for AES!)
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.Networking.Security.AbstractAuthentication.KeySize.WEAK">
+            <summary>
+            128 bit
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.Networking.Security.AbstractAuthentication.KeySize.NORMAL">
+            <summary>
+            192 bit
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.Networking.Security.AbstractAuthentication.KeySize.STRONG">
+            <summary>
+            256 bit
+            </summary>
+        </member>
+        <member name="M:PeersAtPlay.Networking.Security.RSAAuthentication.#ctor(System.Security.Cryptography.X509Certificates.X509Certificate2)">
+            <summary>
+            Initialises authentication with normal keysize and rijndael as encryption algorithm
+            </summary>
+            <param name="myCertificate">Users Certificate</param>
+        </member>
+        <member name="M:PeersAtPlay.Networking.Security.RSAAuthentication.#ctor(PeersAtPlay.Networking.Security.AbstractAuthentication.KeySize,System.Security.Cryptography.X509Certificates.X509Certificate2)">
+            <summary>
+            Initialises authentication with given keysize and rijndael as encryption algorithm
+            </summary>
+            <param name="keySize">Keysize to use</param>
+            <param name="myCertificate">Users certificate</param>
+        </member>
+        <member name="M:PeersAtPlay.Networking.Security.RSAAuthentication.#ctor(PeersAtPlay.Networking.Security.AbstractAuthentication.EncryptionAlgorithm,System.Security.Cryptography.X509Certificates.X509Certificate2)">
+            <summary>
+            Initialises authentication with normal keysize and given encryption algorithm
+            </summary>
+            <param name="encAlg">Encryption algorithm to use</param>
+            <param name="myCertificate">Users certificate</param>
+        </member>
+        <member name="M:PeersAtPlay.Networking.Security.RSAAuthentication.#ctor(PeersAtPlay.Networking.Security.AbstractAuthentication.KeySize,PeersAtPlay.Networking.Security.AbstractAuthentication.EncryptionAlgorithm,System.Security.Cryptography.X509Certificates.X509Certificate2)">
+            <summary>
+            Initialises authentication with given keysize and given encryption algorithm
+            </summary>
+            <param name="keySize">Keysize to use</param>
+            <param name="encAlg">Encryption algorithm to use</param>
+            <param name="myCertificate">Users certificate</param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:PeersAtPlay.Networking.Security.RSAAuthentication.SignData(System.Byte[])">
+            <summary>
+            Creates signature of given data with own certificate
+            </summary>
+            <param name="data">Data to sign</param>
+            <returns>Signature and certificate info in PKCS#7 format</returns>
+        </member>
+        <member name="M:PeersAtPlay.Networking.Security.RSAAuthentication.VerifySignature(System.Byte[],System.Byte[])">
+            <summary>
+            Verifies if given signature belongs to encrypted data using external public key
+            </summary>
+            <param name="data">Encrypted data</param>
+            <param name="signature">Datas signature</param>
+            <returns>If hash is verified or not</returns>
+        </member>
+        <member name="M:PeersAtPlay.Networking.Security.RSAAuthentication.Encrypt(System.Byte[])">
+            <summary>
+            Encrpyts data using the external certificate
+            </summary>
+            <param name="data">Data to encrypt</param>
+            <returns>Encrypted data</returns>
+        </member>
+        <member name="M:PeersAtPlay.Networking.Security.RSAAuthentication.Decrypt(System.Byte[])">
+            <summary>
+            Decrypts data using given certificate and private key
+            </summary>
+            <param name="data">Encrypted data</param>
+            <returns>Decrypted data</returns>
+        </member>
+        <member name="T:PeersAtPlay.P2PLink.SnalNG.SnalMessage">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.SnalMessage.#ctor(PeersAtPlay.P2PLink.SnalNG.SnalMessage.MessageType,System.Guid)">
+            <summary>
+            Creates a new SNALMessage of given type with bew bytestack
+            </summary>
+            <param name="type">Messagetype</param>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.SnalMessage.#ctor(PeersAtPlay.P2PLink.SnalNG.SnalMessage.MessageType,PeersAtPlay.ByteStack,System.Guid)">
+            <summary>
+            
+            </summary>
+            <param name="type"></param>
+            <param name="data"></param>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.SnalMessage.#ctor(PeersAtPlay.ByteStack)">
+            <summary>
+            
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.SnalMessage.GetByteStack">
+            <summary>
+            Serializes the SNALMessage to an byte array
+            </summary>
+            <returns>SNALMessage as byte array</returns>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.SnalMessage.ToString">
+            <summary>
+            String representation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:PeersAtPlay.P2PLink.SnalNG.Link">
+            <summary>
+            Represent a link (connection) between two peers
+            </summary>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.#ctor(PeersAtPlay.P2PLink.LinkAddress,PeersAtPlay.P2PLink.LinkAddress,System.Net.IPEndPoint,PeersAtPlay.P2PLink.TransportProtocol,System.Boolean,System.Security.Cryptography.X509Certificates.X509Certificate2,PeersAtPlay.P2PLink.SnalNG.Settings,Gears4Net.Scheduler)">
+            <summary>
+            
+            </summary>
+            <param name="localAddress"></param>
+            <param name="remoteAddress"></param> 
+            <param name="remoteIPEndPoint"></param>
+            <param name="transportProtocol"></param>
+            <param name="isIncoming"></param>
+            <param name="cert"></param>
+            <param name="scheduler"></param>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.Send(PeersAtPlay.P2PLink.LinkMessage)">
+            <summary>
+            Send a message to communication partner
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.SwitchFromOutgoingToIncoming(PeersAtPlay.P2PLink.SnalNG.SnalMessage)">
+            <summary>
+            Switched the waiting conndition from outgoing to incoming
+            </summary>
+            <param name="joinMessage"></param>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.StartClosing">
+            <summary>
+            Closing this link
+            </summary>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.HandleSNALMessage(PeersAtPlay.P2PLink.SnalNG.SnalMessage)">
+            <summary>
+            Handle incoming snal messages
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.ForceQuit">
+            <summary>
+            Force close 
+            </summary>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.ToString">
+            <summary>
+            Return the string representaion of the current link state
+            </summary>
+            <returns>string representaion of the current link state</returns>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.OnCloseMessage(Gears4Net.AbstractStateMachine,PeersAtPlay.P2PLink.SnalNG.Link.CloseMesseage)">
+            <summary>
+            Local close message
+            </summary>
+            <param name="stateMachine"></param>
+            <param name="closeMsg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.OnSnalJoinMessage(PeersAtPlay.P2PLink.SnalNG.SnalMessage)">
+            <summary>
+            Check if the received certificate is valid; if not send a DENY Message and close this connection 
+            otherwise send a ACCEPT message containing my own certificate, a session key and a hmac
+            </summary>
+            <param name="message">JOIN Message</param>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Link.StillTrying">
+            <summary>
+            If connection state is closed and still trying is set, the OnLinkStatusChanged handler ignores the LinkStatusChangedMessage
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.P2PLink.SnalNG.Snal.links">
+            <summary>
+            Contains all links (active, pending, closing, ...)
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.P2PLink.SnalNG.Snal.transportConnections">
+            <summary>
+            Contians all transport (active, pending, closing, ...) connections with RingBuffer and refercence counting
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.P2PLink.SnalNG.Snal.openNodes">
+            <summary>
+            List of open nodes (only the addresses and the actuality)
+            </summary>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Snal.#ctor(Gears4Net.Scheduler)">
+            <summary>
+            Constructor with given G4N scheduler
+            </summary>
+            <param name="scheduler"></param>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Snal.#ctor">
+            <summary>
+            Constructor without any parameter.
+            Therefore we create a new scheduler and call the first constructor with given scheduler
+            </summary>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Snal.GetHeaderSize">
+            <summary>
+            Returns the header size of a snal message
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Snal.GetLinkInformation(PeersAtPlay.P2PLink.LinkAddress)">
+            <summary>
+            Returns the link for a given remote peer.
+            Returns null if no link exists!
+            This methods call isn't Thread Safe!
+            </summary>
+            <param name="remoteAddress">Address of the peer</param>
+            <returns>Link or null</returns>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Snal.GetAllLinkInformation">
+            <summary>
+            Returns a list of all open links
+            This methods call isn't Thread Safe!
+            </summary>
+            <returns>A list of all open links</returns>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Snal.InternalInitialize">
+            <summary>
+            Internal initilaize validates the certificate and creates the MFBTypeDetection client
+            </summary>
+            <param name="userName">Username</param>
+            <param name="worldName">Worldname</param>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Snal.ToString">
+            <summary>
+            Create a string of the current status
+            </summary>
+            <returns>Current status</returns>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Snal.ExecuteProtocol(Gears4Net.AbstractStateMachine)">
+            <summary>
+            Gears4Net Execute method
+            </summary>
+            <param name="stateMachine"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Snal.OnSendPeerAliveDetail">
+            <summary>
+            Send detailed information to network monitor server
+            </summary>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Snal.OnSendPeerAliveBasic">
+            <summary>
+            Send information to network monitor server
+            </summary>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Snal.InvokeUnsuccessfulMessages(PeersAtPlay.P2PLink.LinkAddress)">
+            <summary>
+            
+            </summary>
+            <param name="address"></param>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Snal.GetOpenLinkStates">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Snal.HandleIncomingSnalMessage(PeersAtPlay.P2PLink.SnalNG.SnalMessage,PeersAtPlay.P2PLink.SnalNG.TransportMessageReceivedMessage)">
+            <summary>
+            This methods handles snal messages where we are the recipient 
+            </summary>
+            <param name="snalMsg"></param>
+            <param name="linkBuffer"></param>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Snal.Settings">
+            <summary>
+            Settings class to configure the SNAL
+            </summary>
+        </member>
+        <member name="T:PeersAtPlay.P2PLink.SnalNG.Snal.RefBuffer">
+            <summary>
+            This class combines a set of links (virtual connections) with a physical one.
+            Arriving data is pushed into a ring buffer to reconstruct the messages.
+            Each physical connection has got one ringe buffer and at least one virtual link.
+            </summary>
+        </member>
+        <member name="T:PeersAtPlay.P2PLink.SnalNG.SNALHandshake">
+            <summary>
+            Represent all data used for the snal connection handshake
+            </summary>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.SNALHandshake.PushDataOnByteStack(PeersAtPlay.ByteStack)">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:PeersAtPlay.P2PLink.SnalNG.Settings">
+            <summary>
+            SnalNG Settings
+            </summary>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Settings.LoadDefaults">
+            <summary>
+            Set all settings to default value
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.PeerAliveIntervalBasic">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.PeerAliveIntervalDetail">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.PeerAliveIntervalFirst">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.PingIntervalFirst">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.PingInterval">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.UseOnlyOneThread">
+            <summary>
+            All Gears4Net parts using the same thread
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.FragmentMessageSize">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.MaxNumberOfConcurrentMessageSending">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.FragmentMessages">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.NumberOfAutoReconnects">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.TransportProtocolTimeout">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.MessageResponseTimeout">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.HandleRequestNodesTimeout">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.DirectConnectionEstablishemtTimeout">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.RelayingConnectionEstablishemtTimeout">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.HolepunchRetries">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.RequestNodesTimeout">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.LocalReceivingPort">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.TransportProtocol">
+            <summary>
+            Set the used transport protocol
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.ConnectInternal">
+            <summary>
+            Tries to establish a connection with remote partner on the internal address
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.CloseConnectionAfterPingTimeout">
+            <summary>
+            Send detailed connection information to the network monitor server
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.UseLocalAddressDetection">
+            <summary>
+            Using a local address only. This make the P2PLinkManager working without a network connection!
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.StartMFBTypeDetectionServer">
+            <summary>
+            Start a MFBTypeDetectionServer if possible
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.MFBTypeDetectionServerPort1">
+            <summary>
+            First port for the MFBTypeDetectionServer
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.MFBTypeDetectionServerPort2">
+            <summary>
+            Second port for the MFBTypeDetectionServer
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.ReuseAddress">
+            <summary>
+            Using always the same port for incoming and outgoing connections
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.NoDelay">
+            <summary>
+            Socket option (using Nagle or not)
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.UseNetworkMonitorServer">
+            <summary>
+            Send information to the network monitor server
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.SendDetailedConnectionInformation">
+            <summary>
+            Send detailed connection information to the network monitor server
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.SendConnectionStatusChangedDirectly">
+            <summary>
+            Send detailed connection information to the network monitor server
+            </summary>
+        </member>
+        <member name="T:PeersAtPlay.P2PLink.SimpleSnalNG.SnalMessage">
+            <summary>
+            
+            
+            </summary>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.SnalMessage.#ctor(PeersAtPlay.P2PLink.SimpleSnalNG.SnalMessage.MessageType)">
+            <summary>
+            Creates a new SNALMessage of given type with bew bytestack
+            </summary>
+            <param name="type">Messagetype</param>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.SnalMessage.#ctor(PeersAtPlay.P2PLink.SimpleSnalNG.SnalMessage.MessageType,PeersAtPlay.ByteStack)">
+            <summary>
+            
+            </summary>
+            <param name="type"></param>
+            <param name="data"></param>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.SnalMessage.#ctor(PeersAtPlay.ByteStack)">
+            <summary>
+            
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.SnalMessage.GetByteStack">
+            <summary>
+            Serializes the SNALMessage to an byte array
+            </summary>
+            <returns>SNALMessage as byte array</returns>
+        </member>
+    </members>
+</doc>

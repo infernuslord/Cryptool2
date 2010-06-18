@@ -186,7 +186,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         private P2POverlayType p2pOverlayType = P2POverlayType.FullMeshOverlay;
-        [TaskPane("Overlay-Type", "Select the Overlay-Type", "P2P Expert Settings", 4, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "FullMeshOverlay" })]
+        [TaskPane("Overlay-Type", "Select the Overlay-Type", "P2P Expert Settings", 4, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "FullMeshOverlay", "ChordOverlay" })]
         public int P2POverlType
         {
             get { return (int)this.p2pOverlayType; }
@@ -202,7 +202,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         private P2PDHTType p2pDhtType = P2PDHTType.FullMeshDHT;
-        [TaskPane("DHT-Type", "Select the DHT-Type", "P2P Expert Settings", 5, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "FullMeshDHT" })]
+        [TaskPane("DHT-Type", "Select the DHT-Type", "P2P Expert Settings", 5, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "FullMeshDHT", "ChordDHT" })]
         public int P2PDhtType
         {
             get { return (int)this.p2pDhtType;  }

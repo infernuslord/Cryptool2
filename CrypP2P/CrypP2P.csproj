@@ -89,6 +89,10 @@
       <HintPath>..\appreferences\x86\fullmeshoverlay.dll</HintPath>
       <Private>false</Private>
     </Reference>
+	<Reference Include="ChordOverlay">
+      <HintPath>..\appreferences\x86\chord.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="Gears4Net">
       <HintPath>..\appreferences\x86\gears4net.dll</HintPath>
       <Private>false</Private>
@@ -137,6 +141,10 @@
     </Reference>
     <Reference Include="FullMeshOverlay">
       <HintPath>..\appreferences\x64\fullmeshoverlay.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+	<Reference Include="ChordOverlay">
+      <HintPath>..\appreferences\x64\chord.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Gears4Net">
