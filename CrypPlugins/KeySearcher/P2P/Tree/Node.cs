@@ -1,19 +1,20 @@
 ﻿using System.Numerics;
 using KeySearcher.Helper;
 using KeySearcher.P2P.Exceptions;
+using KeySearcher.P2P.Storage;
 
-namespace KeySearcher.P2P.Nodes
+namespace KeySearcher.P2P.Tree
 {
     class Node : NodeBase
     {
         internal bool LeftChildFinished;
         internal bool RightChildFinished;
 
-        private NodeBase _leftChild;
-        private NodeBase _rightChild;
+        private NodeBase leftChild;
+        private NodeBase rightChild;
 
-        public Node(P2PHelper p2PHelper, KeyQualityHelper keyQualityHelper, Node parentNode, BigInteger @from, BigInteger to, string distributedJobIdentifier)
-            : base(p2PHelper, keyQualityHelper, parentNode, @from, to, distributedJobIdentifier)
+        public Node(StorageHelper storageHelper, KeyQualityHelper keyQualityHelper, Node parentNode, BigInteger @from, BigInteger to, string distributedJobIdentifier)
+            : base(storageHelper, keyQualityHelper, parentNode, @from, to, distributedJobIdentifier)
         {
         }
 
@@ -23,28 +24,28 @@ namespace KeySearcher.P2P.Nodes
 
             if (!LeftChildFinished)
             {
-                if (_leftChild == null)
+                if (leftChild == null)
                 {
-                    _leftChild = NodeFactory.CreateNode(P2PHelper, KeyQualityHelper, this, From, middle,
+                    leftChild = NodeFactory.CreateNode(StorageHelper, KeyQualityHelper, this, From, middle,
                                                         DistributedJobIdentifier);
                 }
                 else
                 {
-                    P2PHelper.UpdateFromDht(_leftChild);
+                    StorageHelper.UpdateFromDht(leftChild);
                 }
             }
 
             // Only load right node, if the left one is finished or reserved
-            if ((LeftChildFinished || _leftChild.IsReserverd()) && !RightChildFinished)
+            if ((LeftChildFinished || leftChild.IsReserverd()) && !RightChildFinished)
             {
-                if (_rightChild == null)
+                if (rightChild == null)
                 {
-                    _rightChild = NodeFactory.CreateNode(P2PHelper, KeyQualityHelper, this, middle + 1, To,
+                    rightChild = NodeFactory.CreateNode(StorageHelper, KeyQualityHelper, this, middle + 1, To,
                                                          DistributedJobIdentifier);
                 }
                 else
                 {
-                    P2PHelper.UpdateFromDht(_rightChild);
+                    StorageHelper.UpdateFromDht(rightChild);
                 }
             }
         }
@@ -56,10 +57,8 @@ namespace KeySearcher.P2P.Nodes
 
         public override void Reset()
         {
-            _leftChild = null;
-            _rightChild = null;
-            LeftChildFinished = false;
-            RightChildFinished = false;
+            leftChild = null;
+            rightChild = null;
         }
 
         public override Leaf CalculatableLeaf(bool useReservedNodes)
@@ -67,32 +66,32 @@ namespace KeySearcher.P2P.Nodes
             LoadOrUpdateChildNodes();
 
             // Left child not finished and not reserved (or reserved leafs are allowed)
-            if (!LeftChildFinished && (!_leftChild.IsReserverd() || useReservedNodes))
+            if (!LeftChildFinished && (!leftChild.IsReserverd() || useReservedNodes))
             {
-                return _leftChild.CalculatableLeaf(useReservedNodes);
+                return leftChild.CalculatableLeaf(useReservedNodes);
             }
 
-            if (_rightChild == null)
+            if (rightChild == null)
             {
                 throw new AlreadyCalculatedException();
             }
 
-            return _rightChild.CalculatableLeaf(useReservedNodes);
+            return rightChild.CalculatableLeaf(useReservedNodes);
         }
 
         public void ChildFinished(NodeBase childNode)
         {
-            if (childNode == _leftChild)
+            if (childNode == leftChild)
             {
                 LeftChildFinished = true;
-                _leftChild = null;
+                leftChild = null;
                 return;
             }
 
-            if (childNode == _rightChild)
+            if (childNode == rightChild)
             {
                 RightChildFinished = true;
-                _rightChild = null;
+                rightChild = null;
                 return;
             }
         }
@@ -101,14 +100,14 @@ namespace KeySearcher.P2P.Nodes
         {
             LoadOrUpdateChildNodes();
 
-            var leftChildFinishedOrReserved = LeftChildFinished || _leftChild.IsReserverd();
+            var leftChildFinishedOrReserved = LeftChildFinished || leftChild.IsReserverd();
 
             if (leftChildFinishedOrReserved && !RightChildFinished)
             {
-                return _rightChild.IsReserverd();
+                return rightChild.IsReserverd();
             }
 
-            return !LeftChildFinished && _leftChild.IsReserverd();
+            return !LeftChildFinished && leftChild.IsReserverd();
         }
 
         public override string ToString()

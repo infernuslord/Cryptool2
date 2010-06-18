@@ -103,25 +103,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helper\KeyQualityHelper.cs" />
-    <Compile Include="KeyPattern.cs" />
-    <Compile Include="KeyPatternPool.cs" />
+    <Compile Include="KeyPattern\KeyPattern.cs" />
+    <Compile Include="KeyPattern\KeyPatternPool.cs" />
     <Compile Include="KeySearcher.cs" />
-    <Compile Include="KeySearcherQuickWatchPresentation.xaml.cs">
+    <Compile Include="Presentation\KeySearcherQuickWatchPresentation.xaml.cs">
       <DependentUpon>KeySearcherQuickWatchPresentation.xaml</DependentUpon>
     </Compile>
     <Compile Include="KeySearcherSettings.cs" />
     <Compile Include="P2P\Exceptions\AlreadyCalculatedException.cs" />
     <Compile Include="P2P\Exceptions\ReservationRemovedException.cs" />
     <Compile Include="P2P\Exceptions\UpdateFailedException.cs" />
-    <Compile Include="P2P\KeyPoolTree.cs" />
-    <Compile Include="P2P\Nodes\Leaf.cs" />
-    <Compile Include="P2P\Nodes\Node.cs" />
-    <Compile Include="P2P\Nodes\NodeBase.cs" />
-    <Compile Include="P2P\Nodes\NodeFactory.cs" />
-    <Compile Include="P2P\Nodes\P2PHelper.cs" />
-    <Compile Include="P2P\P2PBruteForce.cs" />
+    <Compile Include="P2P\Storage\StorageKeyGenerator.cs" />
+    <Compile Include="P2P\Tree\KeyPoolTree.cs" />
+    <Compile Include="P2P\Tree\Leaf.cs" />
+    <Compile Include="P2P\Tree\Node.cs" />
+    <Compile Include="P2P\Tree\NodeBase.cs" />
+    <Compile Include="P2P\Tree\NodeFactory.cs" />
+    <Compile Include="P2P\Storage\StorageHelper.cs" />
+    <Compile Include="P2P\DistributedBruteForceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Wildcard.cs" />
+    <Compile Include="KeyPattern\Wildcard.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CrypP2P\CrypP2P.csproj">
@@ -145,7 +146,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
-    <Page Include="KeySearcherQuickWatchPresentation.xaml">
+    <Page Include="Presentation\KeySearcherQuickWatchPresentation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <Generator>MSBuild:Compile</Generator>

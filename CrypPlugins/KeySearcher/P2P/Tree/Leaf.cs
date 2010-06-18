@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Numerics;
 using KeySearcher.Helper;
 using KeySearcher.P2P.Exceptions;
+using KeySearcher.P2P.Storage;
 
-namespace KeySearcher.P2P.Nodes
+namespace KeySearcher.P2P.Tree
 {
     class Leaf : NodeBase
     {
         internal DateTime LastReservationDate;
 
-        public Leaf(P2PHelper p2PHelper, KeyQualityHelper keyQualityHelper, Node parentNode, BigInteger id, string distributedJobIdentifier)
-            : base(p2PHelper, keyQualityHelper, parentNode, id, id, distributedJobIdentifier)
+        public Leaf(StorageHelper storageHelper, KeyQualityHelper keyQualityHelper, Node parentNode, BigInteger id, string distributedJobIdentifier)
+            : base(storageHelper, keyQualityHelper, parentNode, id, id, distributedJobIdentifier)
         {
         }
 
@@ -48,7 +49,7 @@ namespace KeySearcher.P2P.Nodes
         public bool ReserveLeaf()
         {
             LastReservationDate = DateTime.UtcNow;
-            return P2PHelper.UpdateInDht(this).IsSuccessful();
+            return StorageHelper.UpdateInDht(this).IsSuccessful();
         }
 
         public override bool IsReserverd()
