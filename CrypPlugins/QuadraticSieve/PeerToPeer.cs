@@ -36,16 +36,18 @@ namespace Cryptool.Plugins.QuadraticSieve
     class PeerToPeer
     {
         /// <summary>
-        /// This structure is used to hold all important peer performance informations in a queue
+        /// This structure is used to hold all important peer performance and alive informations in a queue
         /// </summary>
         private struct PeerPerformanceInformations
         {
             public DateTime lastChecked;
             public int peerID;
             public double performance;
+            public int lastAlive;            
 
-            public PeerPerformanceInformations(DateTime lastChecked, int peerID, double performance)
+            public PeerPerformanceInformations(DateTime lastChecked, int peerID, double performance, int lastAlive)
             {
+                this.lastAlive = lastAlive;
                 this.lastChecked = lastChecked;
                 this.peerID = peerID;
                 this.performance = performance;
@@ -56,7 +58,6 @@ namespace Cryptool.Plugins.QuadraticSieve
         private BigInteger number;
         private BigInteger factor;
         private int head;
-        private DateTime headLastUpdated;
         private Queue storequeue;   //yields to store in the DHT
         private Queue loadqueue;    //yields that have been loaded from the DHT
         private Thread loadStoreThread;
@@ -68,6 +69,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         private Queue<PeerPerformanceInformations> peerPerformances;      //A queue of performances from the different peers ordered by the date last checked.
         private HashSet<int> activePeers;                                 //A set of active peers
         private double ourPerformance = 0;
+        private int aliveCounter = 0;       //This is stored together with the performance in the DHT
         private string ourName;
         private uint downloaded = 0;
         private uint uploaded = 0;
@@ -134,7 +136,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             return decompressedYield;
         }
 
-        private bool ReadAndEnqueueYield(int loadIndex)
+        private bool ReadAndEnqueueYield(int loadIndex, bool checkAlive)
         {
             int ownerID;
             byte[] yield = ReadYield(loadIndex, out ownerID);
@@ -156,10 +158,20 @@ namespace Cryptool.Plugins.QuadraticSieve
                     }
                     if (nameCache.ContainsKey(ownerID))
                         name = nameCache[ownerID];
-
-                    //Performance informations:
-                    if (!activePeers.Contains(ownerID))
-                        UpdatePeerPerformanceInformation(ownerID);
+                                        
+                    if (checkAlive && !activePeers.Contains(ownerID))
+                    {
+                        //check performance and alive informations:
+                        byte[] performancebytes = P2PManager.Retrieve(PerformanceIdentifier(ownerID)).Data;
+                        if (performancebytes != null)
+                        {
+                            double performance = BitConverter.ToDouble(performancebytes, 0);
+                            int peerAliveCounter = BitConverter.ToInt32(performancebytes, 8);
+                            peerPerformances.Enqueue(new PeerPerformanceInformations(DateTime.Now, ownerID, performance, peerAliveCounter));
+                        }
+                        activePeers.Add(ownerID);
+                        UpdateActivePeerInformation();
+                    }
                 }
 
                 //Set progress info:
@@ -175,10 +187,10 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// Tries to read and enqueue yield on position "loadIndex".
         /// If it fails, it stores the index in lostIndices queue.
         /// </summary>
-        private void TryReadAndEnqueueYield(int index, Queue<KeyValuePair<int, DateTime>> lostIndices)
+        private void TryReadAndEnqueueYield(int index, bool checkAlive, Queue<KeyValuePair<int, DateTime>> lostIndices)
         {
-            bool succ = ReadAndEnqueueYield(index);
-            if (!succ)
+            bool succ = ReadAndEnqueueYield(index, checkAlive);
+            if (!succ)                
             {
                 var e = new KeyValuePair<int, DateTime>(index, DateTime.Now);
                 lostIndices.Enqueue(e);
@@ -194,27 +206,47 @@ namespace Cryptool.Plugins.QuadraticSieve
             HashSet<int> ourIndices = new HashSet<int>();   //Stores all the indices which belong to our packets
             //Stores all the indices (together with there check date) which belong to lost packets (i.e. packets that can't be load anymore):
             Queue<KeyValuePair<int, DateTime>> lostIndices = new Queue<KeyValuePair<int, DateTime>>();
-            double lastStoredPerformance = 0;
-            int lastStoredHead = 0;
+            double lastPerformance = 0;
+            DateTime performanceLastPut = new DateTime();
 
             try
             {
+                SynchronizeHead();
+                int startHead = head;
+
                 while (!stopLoadStoreThread)
                 {
-                    //Store our performance and our head in the DHT as soon as the performance or the head changed:
-                    if (ourPerformance != lastStoredPerformance || lastStoredHead != head)
+                    //Store our performance and our alive counter in the DHT, either if the performance changed or when the last write was more than 1 minute ago:
+                    if (ourPerformance != lastPerformance || performanceLastPut.CompareTo(DateTime.Now.Subtract(new TimeSpan(0, 1, 0))) < 0)
                     {
                         P2PManager.Retrieve(PerformanceIdentifier(ourID));      //just to outsmart the versioning system
-                        P2PManager.Store(PerformanceIdentifier(ourID), concat(BitConverter.GetBytes(ourPerformance), BitConverter.GetBytes(head)));
-                        lastStoredPerformance = ourPerformance;
-                        lastStoredHead = head;
+                        P2PManager.Store(PerformanceIdentifier(ourID), concat(BitConverter.GetBytes(ourPerformance), BitConverter.GetBytes(aliveCounter++)));
+                        lastPerformance = ourPerformance;
+                        performanceLastPut = DateTime.Now;
                     }
 
-                    //updates all peer performances which have last been checked more than 1 minute ago and check if they are still alive:
-                    while (peerPerformances.Count != 0 && peerPerformances.Peek().lastChecked.CompareTo(DateTime.Now.Subtract(new TimeSpan(0, 1, 0))) < 0)
+                    //updates all peer performances which have last been checked more than 2 minutes ago and check if they are still alive:
+                    while (peerPerformances.Count != 0 && peerPerformances.Peek().lastChecked.CompareTo(DateTime.Now.Subtract(new TimeSpan(0, 2, 0))) < 0)
                     {
                         var e = peerPerformances.Dequeue();
-                        UpdatePeerPerformanceInformation(e.peerID);
+
+                        byte[] performancebytes = P2PManager.Retrieve(PerformanceIdentifier(e.peerID)).Data;
+                        if (performancebytes != null)
+                        {
+                            double performance = BitConverter.ToDouble(performancebytes, 0);
+                            int peerAliveCounter = BitConverter.ToInt32(performancebytes, 8);
+                            if (peerAliveCounter <= e.lastAlive)
+                            {
+                                activePeers.Remove(e.peerID);
+                                UpdateActivePeerInformation();
+                            }
+                            else
+                                peerPerformances.Enqueue(new PeerPerformanceInformations(DateTime.Now, e.peerID, performance, peerAliveCounter));
+                        }
+                        else
+                        {
+                            activePeers.Remove(e.peerID);
+                        }                       
                     }
 
                     SynchronizeHead();
@@ -249,7 +281,8 @@ namespace Cryptool.Plugins.QuadraticSieve
 
                     if (loadIndex < head)
                     {
-                        TryReadAndEnqueueYield(loadIndex, lostIndices);
+                        bool checkAlive = loadIndex >= startHead;       //we don't check the peer alive informations of the packages that existed before we joined
+                        TryReadAndEnqueueYield(loadIndex, checkAlive, lostIndices);
                         loadIndex++;
                         busy = true;
                     }
@@ -262,7 +295,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                         while (lostIndices.Count != 0 && lostIndices.Peek().Value.CompareTo(DateTime.Now.Subtract(new TimeSpan(0, 2, 0))) < 0)
                         {
                             var e = lostIndices.Dequeue();
-                            TryReadAndEnqueueYield(loadIndex, lostIndices);
+                            TryReadAndEnqueueYield(loadIndex, true, lostIndices);
                             count++;
                         }
 
@@ -284,32 +317,6 @@ namespace Cryptool.Plugins.QuadraticSieve
             {
                 quadraticSieveQuickWatchPresentation.amountOfPeers.Content = "" + activePeers.Count + " other peer" + (activePeers.Count!=1 ? "s" : "") + " active!";
             }, null);
-        }
-
-        private void UpdatePeerPerformanceInformation(int peerID)
-        {
-            byte[] performancebytes = P2PManager.Retrieve(PerformanceIdentifier(peerID)).Data;
-            if (performancebytes != null)
-            {
-                double performance = BitConverter.ToDouble(performancebytes, 0);
-                int peersHead = BitConverter.ToInt32(performancebytes, 8);
-
-                //Check if peer hasn't updated its head for more than 1 minute and if so, set him inactive:
-                if (peersHead < head && headLastUpdated.CompareTo(DateTime.Now.Subtract(new TimeSpan(0, 1, 0))) < 0)
-                {
-                    activePeers.Remove(peerID);                    
-                }
-                else    //set active
-                {
-                    peerPerformances.Enqueue(new PeerPerformanceInformations(DateTime.Now, peerID, performance));
-                    activePeers.Add(peerID);
-                }
-            }
-            else
-            {
-                activePeers.Remove(peerID);
-            }
-            UpdateActivePeerInformation();
         }
 
         /// <summary>
@@ -339,8 +346,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 bool success = P2PManager.Store(HeadIdentifier(), System.Text.ASCIIEncoding.ASCII.GetBytes(head.ToString())).IsSuccessful();
                 if (!success)
                     SynchronizeHead();
-            }
-            headLastUpdated = DateTime.Now;
+            }            
         }
 
         private void ShowTransfered(uint downloaded, uint uploaded)
