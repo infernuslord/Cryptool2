@@ -24,6 +24,18 @@ namespace Cryptool.Plugins.AutokorrelationFunction
         public AutocorrelationPresentation()
         {
             InitializeComponent();
+            SizeChanged += new SizeChangedEventHandler(AutocorrelationPresentation_SizeChanged);
+        }
+
+        private void AutocorrelationPresentation_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            updateScaling();
+        }
+
+        private void updateScaling()
+        {
+            this.scaler.ScaleX = this.ActualWidth / this.Grid.Width;
+            this.scaler.ScaleY = this.scaler.ScaleX;
         }
     }
 }

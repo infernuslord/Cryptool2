@@ -24,6 +24,7 @@ using Cryptool.PluginBase.Miscellaneous;
 using System.Windows.Controls;
 using Cryptool.PluginBase.Analysis;
 using System.Windows.Media;
+using Cryptool.PluginBase.Utils.Graphics.Diagrams.Histogram;
 
 namespace Cryptool.Plugins.AutokorrelationFunction
 {
@@ -34,15 +35,19 @@ namespace Cryptool.Plugins.AutokorrelationFunction
     {
         #region Private Variables
 
-        private readonly AutokorrelationFunctionSettings settings = new AutokorrelationFunctionSettings();
-        private AutocorrelationPresentation presentation = new AutocorrelationPresentation();
+        private readonly AutokorrelationFunctionSettings settings;
+        private AutocorrelationPresentation presentation;
 
         private String cipher = "";                                     //The cipher to be analysed
         private int probablelength = 0;                                 //estimated keylength
         private double probablekorr = -999999.999999;                   //initialized probable korrelation of the length
         private String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";         //used alphabet
         private double same;                                            //Found same letter counter
+        private double average;                                         //Holds the average value of the found matches
         private double[] ak;                                            // Autokorrelation Values
+        private double[] top;
+        private HistogramElement bar;                                   
+        private HistogramDataSource data;
 
         #endregion
 
@@ -86,6 +91,14 @@ namespace Cryptool.Plugins.AutokorrelationFunction
 
         #region IPlugin Members
 
+        public AutokorrelationFunction()
+        {
+            settings = new AutokorrelationFunctionSettings();
+            presentation = new AutocorrelationPresentation();
+            HistogramElement bar = new HistogramElement(0, 0, "");
+            data = new HistogramDataSource();
+
+        }
         public ISettings Settings
         {
             get { return settings; }
@@ -107,10 +120,7 @@ namespace Cryptool.Plugins.AutokorrelationFunction
 
         public void Execute()
         {
-            // testing
-            presentation.dingens.SetBackground(Brushes.Red);
-            presentation.dingens.SetHeadline("Here we go.. much to do!");
-            // testing-end
+
 //START------------------------------------------------------------------------------------------------------------
 //Preparations for the Analyse-------------------------------------------------------------------------------------
            
@@ -120,6 +130,9 @@ namespace Cryptool.Plugins.AutokorrelationFunction
             cipher = prepareForAnalyse(cipher);                 //and prepare it for the analyse (-> see private methods section)
 
             ak = new double[cipher.Length];                     //initialise ak[]...there are n possible shifts where n is cipher.length
+
+            presentation.histogram.SetBackground(Brushes.Beige);              //sets the background colour for the quickwatch
+            presentation.histogram.SetHeadline("Autocorrelation matches");    //sets its title
 
 //-----------------------------------------------------------------------------------------------------------------
 //Analyse----------------------------------------------------------------------------------------------------------
@@ -138,15 +151,23 @@ namespace Cryptool.Plugins.AutokorrelationFunction
 					    same++;
 				    }
 			    }
-			
-                //...and save the count for the matches at the shift position
-			    ak[t] = same;
+
+                try
+                {
+                    //...and save the count for the matches at the shift position
+                    ak[t] = same;
+                }
+                catch
+                {
+                }
 		    }
 
-            //For all observed shifts...
-		    for(int y=1;y<ak.Length;y++)
-		    {
+            average = averageMatch(ak);                         //find the average value of matches
+            data.ValueCollection.Clear();
 
+            //for all observed shifts...
+		    for(int y=1;y<ak.Length;y++)
+		    {              
                 //find the one with the highest match count...
 			    if(ak[y] > probablekorr)
 			    {
@@ -154,6 +175,28 @@ namespace Cryptool.Plugins.AutokorrelationFunction
                     probablelength = y;                 //...and remember this shift value
 			    }
 		    }
+
+            //find the top 13 matches...
+            if (ak.Length > 11)
+            {
+                ak = findTopThirteen(ak);
+            }
+
+            for (int y = 1; y < ak.Length; y++)
+            {
+                if (ak[y] > -1)                         //Adds a bar into the presentation if it is higher then the average matches
+                {
+                    bar = new HistogramElement(ak[y], ak[y], "" + y);
+                    data.ValueCollection.Add(bar);
+                }
+            }
+
+            presentation.histogram.SetHeadline("Highest match count " + probablekorr + " with shift: " + probablelength);
+
+            if(data != null)
+            {
+                presentation.histogram.ShowData(data);
+            }
 
             OutputLength = probablelength;              //sending the keylength via output
             OnPropertyChanged("OutputLength");		
@@ -176,6 +219,7 @@ namespace Cryptool.Plugins.AutokorrelationFunction
 
         public void Stop()
         {
+            presentation.histogram.SetBackground(Brushes.LightGray);
         }
 
         public void Initialize()
@@ -231,9 +275,59 @@ namespace Cryptool.Plugins.AutokorrelationFunction
             return pos;
         }
 
+
 //---------------------------------------------------------------------------------------------------------------------------------------
+//AVERAGE MATCHES COUNT------------------------------------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// Calculates the average value for all matches in the autokorrelation
+        /// </summary>
+        private double averageMatch(double[] ak)
+        {
+            double average = 0;
+
+            for (int y = 0; y < ak.Length; y++)
+            {
+                average += ak[y];
+            }
+
+            average = average / ak.Length;
+
+            return average;
+        }
+
+//---------------------------------------------------------------------------------------------------------------------------------------
+//FIND TOP 13----------------------------------------------------------------------------------------------------------------------------
+
+        private double[] findTopThirteen(double[] ak)
+        {
+            double[] top = ak;
+            int thrownaway = 0;
+
+            for(int match=0; match < probablekorr; match++)
+            {
+                for(int x=0;x<ak.Length;x++)
+                {
+                    if(top[x] == match)
+                    {
+                        top[x] = -1;
+                        thrownaway++;
+                    }
+                    if(thrownaway == (ak.Length)-13)
+                    {
+                        return top;
+                    }
+
+                }
+            }
+            return top;
+        }
 
 
+
+
+
+//---------------------------------------------------------------------------------------------------------------------------------------
 
         #endregion
 
