@@ -20,6 +20,7 @@ namespace Cryptool.Plugins.QuadraticSieve
     public partial class ProgressYields : UserControl
     {
         private int ourID;
+        private ScrollViewer scrollViewer;
 
         public void Set(int i, int id, string name)
         {
@@ -124,6 +125,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             Shape shape = GetYieldShape(id);            
             root.Children.Add(shape);
             SetShapeToStatus(root.Children.Count-1, id, name);
+            scrollViewer.ScrollToBottom();
         }
 
         private Shape GetYieldShape(int id)
@@ -163,10 +165,11 @@ namespace Cryptool.Plugins.QuadraticSieve
             return shape;
         }
 
-        public ProgressYields()
+        public ProgressYields(ScrollViewer scrollViewer)
         {
             InitializeComponent();
             root.Children.Clear();
+            this.scrollViewer = scrollViewer;
         }
     }
 }

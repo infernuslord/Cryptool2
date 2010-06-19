@@ -105,8 +105,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             
             quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                quadraticSieveQuickWatchPresentation.peer2peer.Visibility = settings.UsePeer2Peer ? Visibility.Visible : Visibility.Collapsed;
-                quadraticSieveQuickWatchPresentation.Redraw();
+                quadraticSieveQuickWatchPresentation.peer2peer.Visibility = settings.UsePeer2Peer ? Visibility.Visible : Visibility.Collapsed;                
                 quadraticSieveQuickWatchPresentation.timeLeft.Text = "?";
                 quadraticSieveQuickWatchPresentation.endTime.Text = "?";
                 quadraticSieveQuickWatchPresentation.logging.Text = "Currently not sieving.";
@@ -135,8 +134,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 {
                     quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        quadraticSieveQuickWatchPresentation.peer2peer.Visibility = settings.UsePeer2Peer ? Visibility.Visible : Visibility.Collapsed;
-                        quadraticSieveQuickWatchPresentation.Redraw();
+                        quadraticSieveQuickWatchPresentation.peer2peer.Visibility = settings.UsePeer2Peer ? Visibility.Visible : Visibility.Collapsed;                        
                     }, null);
                 }
             }
@@ -734,20 +732,21 @@ namespace Cryptool.Plugins.QuadraticSieve
         {
             if (conf_list != null)
             {
-                running = false;
-                if (usePeer2Peer)
-                    peerToPeer.StopLoadStoreThread();
+                running = false;                
 
                 MethodInfo stop = msieve.GetMethod("stop");
                 MethodInfo getObjFromConf = msieve.GetMethod("getObjFromConf");
 
                 conf_listMutex.WaitOne();
-                foreach (IntPtr conf in conf_list)
+                foreach (Object conf in conf_list)
                     if (conf != null)
-                        stop.Invoke(null, new object[] { getObjFromConf.Invoke(null, new object[] { conf }) });
+                        stop.Invoke(null, new object[] { getObjFromConf.Invoke(null, new object[] { (IntPtr)conf }) });
 
                 conf_list = null;
                 conf_listMutex.ReleaseMutex();
+
+                if (usePeer2Peer)
+                    peerToPeer.StopLoadStoreThread();
 
                 GuiLogMessage("Waiting for threads to stop!", NotificationLevel.Debug);
                 while (threadcount > 0)
