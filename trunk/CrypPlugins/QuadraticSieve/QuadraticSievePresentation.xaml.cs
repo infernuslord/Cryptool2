@@ -19,7 +19,7 @@ namespace Cryptool.Plugins.QuadraticSieve
     /// </summary>
     public partial class QuadraticSievePresentation : UserControl
     {
-        private ProgressYields progressYields = new ProgressYields();
+        private ProgressYields progressYields;
         public ProgressYields ProgressYields
         {
             get { return progressYields; }
@@ -34,6 +34,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             sviewer.CanContentScroll = true;
             sviewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
             sviewer.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
+            progressYields = new ProgressYields(sviewer);
             sviewer.Content = progressYields;
             Grid grid = ((Grid)peer2peer.Content);
             Grid.SetRow(sviewer, 0);
@@ -45,13 +46,9 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         public void sizeChanged(Object sender, EventArgs eventArgs)
         {
-            this.Grid.RenderTransform = new ScaleTransform( this.ActualWidth / this.Grid.ActualWidth,
-                                                       this.ActualHeight / this.Grid.ActualHeight);
+            double scale = Math.Min((this.ActualWidth / this.Grid.ActualWidth), (this.ActualHeight / this.Grid.ActualHeight));
+            this.Grid.RenderTransform = new ScaleTransform(scale, scale);
         }
 
-        public void Redraw()
-        {
-            //TODO: Redraw here
-        }
     }
 }

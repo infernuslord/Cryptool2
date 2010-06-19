@@ -225,8 +225,8 @@ namespace Cryptool.Plugins.QuadraticSieve
                         performanceLastPut = DateTime.Now;
                     }
 
-                    //updates all peer performances which have last been checked more than 2 minutes ago and check if they are still alive:
-                    while (peerPerformances.Count != 0 && peerPerformances.Peek().lastChecked.CompareTo(DateTime.Now.Subtract(new TimeSpan(0, 2, 0))) < 0)
+                    //updates all peer performances which have last been checked more than 1 minutes and 20 seconds ago and check if they are still alive:
+                    while (peerPerformances.Count != 0 && peerPerformances.Peek().lastChecked.CompareTo(DateTime.Now.Subtract(new TimeSpan(0, 1, 20))) < 0)
                     {
                         var e = peerPerformances.Dequeue();
 
@@ -246,6 +246,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                         else
                         {
                             activePeers.Remove(e.peerID);
+                            UpdateActivePeerInformation();
                         }                       
                     }
 
