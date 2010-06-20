@@ -63,6 +63,7 @@ namespace WorkspaceManager.View.Container
         {                        
             this.MouseLeftButtonDown += new MouseButtonEventHandler(ConnectorView_MouseLeftButtonDown);
             this.Model = cModel;
+            this.Model.UpdateableView = this;
             InitializeComponent();
             Color color = ColorHelper.GetColor(cModel.ConnectorType);
             this.Ellipse.Fill = new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
@@ -84,9 +85,9 @@ namespace WorkspaceManager.View.Container
 
         public void update()
         {
-            if (model.HasLastData)
+            if (model.HasData)
             {
-                ToolTip = model.LastData;
+                ToolTip = model.Data;
             }
         }
     }

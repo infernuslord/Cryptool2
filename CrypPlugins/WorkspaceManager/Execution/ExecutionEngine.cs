@@ -44,7 +44,6 @@ namespace WorkspaceManager.Execution
 
         public long ExecutedPluginsCounter { get; set; }
         public bool BenchmarkPlugins { get; set; }
-        public long CheckInterval { get; set; }
         public long GuiUpdateInterval { get; set; }
 
         /// <summary>
@@ -93,12 +92,6 @@ namespace WorkspaceManager.Execution
                 schedulers[0].AddProtocol(updateGuiProtocol);
                 updateGuiProtocol.Start();
 
-                //The CheckExecutableProtocl is also a kind of "daemon" which will check from time to time if a
-                //plugin can be executed again
-                CheckExecutableProtocol checkExecutableProtocol = new CheckExecutableProtocol(schedulers[0], workspaceModel, this);
-                schedulers[0].AddProtocol(checkExecutableProtocol);
-                checkExecutableProtocol.Start();
-
                 //The BenchmarkProtocl counts the amount of executed plugins per seconds and writes this to debug
                 if (this.BenchmarkPlugins)
                 {
@@ -116,9 +109,17 @@ namespace WorkspaceManager.Execution
                     PluginProtocol pluginProtocol = new PluginProtocol(schedulers[counter], pluginModel,this);
                     pluginModel.PluginProtocol = pluginProtocol;
                     schedulers[counter].AddProtocol(pluginProtocol);
-                    pluginModel.checkExecutable(pluginProtocol);
+                   
                     pluginProtocol.Start();
                     counter = (counter + 1) % (System.Environment.ProcessorCount*2);
+
+                    if (pluginModel.Startable)
+                    {
+                        MessageExecution msg = new MessageExecution();
+                        msg.PluginModel = pluginModel;
+                        pluginProtocol.BroadcastMessageReliably(msg);
+
+                    }
                 }
             }
         }      
@@ -240,56 +241,9 @@ namespace WorkspaceManager.Execution
         }
     }
 
+   
     /// <summary>
-    /// A Protocol for checking if plugins are executable in time intervals
-    /// </summary>
-    public class CheckExecutableProtocol : ProtocolBase
-    {
-        private WorkspaceModel workspaceModel;
-        private ExecutionEngine executionEngine;
-     
-        /// <summary>
-        /// Create a new protocol. Each protocol requires a scheduler which provides
-        /// a thread for execution.
-        /// </summary>
-        /// <param name="scheduler"></param>
-        public CheckExecutableProtocol(Scheduler scheduler, WorkspaceModel workspaceModel, ExecutionEngine executionEngine)
-            : base(scheduler)
-        {
-            this.workspaceModel = workspaceModel;
-            this.executionEngine = executionEngine;
-        }
-
-        /// <summary>
-        /// The main function of the protocol
-        /// </summary>
-        /// <param name="stateMachine"></param>
-        /// <returns></returns>
-        public override System.Collections.Generic.IEnumerator<ReceiverBase> Execute(AbstractStateMachine stateMachine)
-        {
-            while (this.executionEngine.IsRunning)
-            {
-                yield return Timeout(this.executionEngine.CheckInterval, HandleCheckExecutable);
-            }
-        }
-
-        /// <summary>
-        /// Handler function for a message.
-        /// This handler must not block, because it executes inside the thread of the scheduler.
-        /// </summary>
-        /// <param name="msg"></param>
-        private void HandleCheckExecutable()
-        {
-            foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
-            {
-                pluginModel.checkExecutable(pluginModel.PluginProtocol);
-            }
-        }
-        
-    }
-
-    /// <summary>
-    /// A Protocol for checking if plugins are executable in time intervals
+    /// A Protocol for benchmarking
     /// </summary>
     public class BenchmarkProtocol : ProtocolBase
     {
@@ -355,14 +309,7 @@ namespace WorkspaceManager.Execution
         }
 
         /// <summary>
-        /// The main function of the protocol
-        /// 
-        /// states are here:
-        /// 
-        ///     PreExecution -> Execution -> PostExecution
-        ///        /\                           |
-        ///         |---------------------------|
-        ///         
+        /// The main function of the protocol     
         /// </summary>
         /// <param name="stateMachine"></param>
         /// <returns></returns>
@@ -388,13 +335,16 @@ namespace WorkspaceManager.Execution
             {
                 if (connectorModel.HasData)
                 {
-                    PropertyInfo propertyInfo = pluginModel.Plugin.GetType().GetProperty(connectorModel.PropertyName);
-                    propertyInfo.SetValue(pluginModel.Plugin, connectorModel.Data, null);
-                    connectorModel.HasLastData = true;
-                    connectorModel.LastData = connectorModel.Data;
-                    connectorModel.Data = null;
-                    connectorModel.HasData = false;
-                    connectorModel.InputConnection.Active = false;                    
+                    if (connectorModel.IsDynamic)
+                    {
+                        MethodInfo propertyInfo = pluginModel.Plugin.GetType().GetMethod(connectorModel.DynamicSetterName);
+                        propertyInfo.Invoke(pluginModel.Plugin, new object[]{connectorModel.PropertyName, connectorModel.Data});
+                    }
+                    else
+                    {
+                        PropertyInfo propertyInfo = pluginModel.Plugin.GetType().GetProperty(connectorModel.PropertyName);
+                        propertyInfo.SetValue(pluginModel.Plugin, connectorModel.Data, null);
+                    }
                 }
             }
             

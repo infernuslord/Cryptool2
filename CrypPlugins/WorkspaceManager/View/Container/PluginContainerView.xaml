@@ -41,7 +41,7 @@
         
         <Border Name="Window" Background="{StaticResource ResourceKey=GlassBrush}" CornerRadius="7" BorderBrush="#82bbef" BorderThickness="1.3">
             <Grid>
-                <ProgressBar Name="ProgressBar" Foreground="Green" Background="{Binding ElementName=PluginNamePlate, Path=Fill}" Opacity="0.3" >
+                <ProgressBar Name="ProgressBar" Maximum="1.0" Foreground="Green" Background="{Binding ElementName=PluginNamePlate, Path=Fill}" Opacity="0.3" >
                     <ProgressBar.Resources>
                         <ResourceDictionary Source="/PresentationFramework.Aero;v3.0.0.0;31bf3856ad364e35;component/themes/aero.normalcolor.xaml"/>
                     </ProgressBar.Resources>

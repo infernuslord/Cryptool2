@@ -20,6 +20,9 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using System.Threading;
+using Cryptool.PluginBase;
+using WorkspaceManager.View.Container;
+using System.Windows.Media;
 
 namespace WorkspaceManager.Model
 {
@@ -30,18 +33,12 @@ namespace WorkspaceManager.Model
     /// </summary>
     [Serializable]
     public class ConnectorModel : VisualElementModel
-    {       
+    {        
         [NonSerialized]
         private bool hasData = false;
 
         [NonSerialized]
-        private bool hasLastData = false;
-
-        [NonSerialized]
         private object data;
-
-        [NonSerialized]
-        private object lastData;
         
         /// <summary>
         /// The PluginModel this Connector belongs to
@@ -92,6 +89,33 @@ namespace WorkspaceManager.Model
         }
 
         /// <summary>
+        /// Is this a dynamic connector?
+        /// </summary>
+        public bool IsDynamic
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// DynamicGetterName
+        /// </summary>
+        public string DynamicGetterName
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// DynamicSetterName
+        /// </summary>
+        public string DynamicSetterName
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Does this Connector currently provides Data?
         /// </summary>
         /// <returns></returns>
@@ -121,40 +145,7 @@ namespace WorkspaceManager.Model
             {
                 data = value;
             }
-        }
-
-        /// <summary>
-        /// Does this Connector currently provides last Data?
-        /// </summary>
-        /// <returns></returns>
-        public bool HasLastData
-        {
-            get
-            {
-                return hasLastData;
-            }
-
-            set
-            {
-                hasLastData = value;
-            }
-        }
-
-        /// <summary>
-        /// LastData of this Connector
-        /// </summary>
-        public object LastData
-        {
-            get
-            {
-                return lastData;
-            }
-
-            set
-            {
-                lastData = value;
-            }
-        }
+        }       
 
         /// <summary>
         /// Name of the represented Property of the IPlugin of this ConnectorModel
@@ -178,12 +169,18 @@ namespace WorkspaceManager.Model
                 Outgoing){
                 
                 foreach (ConnectionModel connectionModel in this.OutputConnections)
-                {                   
-                    connectionModel.To.Data = sender.GetType().GetProperty(propertyChangedEventArgs.PropertyName).GetValue(sender, null);
+                {
+                    if (IsDynamic)
+                    {
+                        connectionModel.To.Data = sender.GetType().GetMethod(DynamicGetterName).Invoke(sender, new object[] { this.PropertyName });
+                    }
+                    else
+                    {
+                        connectionModel.To.Data = sender.GetType().GetProperty(propertyChangedEventArgs.PropertyName).GetValue(sender, null);
+                    }
                     connectionModel.To.HasData = true;
                     connectionModel.Active = true;
-                    //this.WorkspaceModel.WorkspaceManagerEditor.GuiLogMessage("PropertyChanged for  \"" + this.PluginModel.Name + "\" Property \"" + PropertyName + "\"", Cryptool.PluginBase.NotificationLevel.Debug);
-
+                    
                     //We changed an input on the PluginModel where "To" is belonging to so
                     //we have to check if this is executable now
                     connectionModel.To.PluginModel.checkExecutable(connectionModel.To.PluginModel.PluginProtocol);
@@ -196,6 +193,33 @@ namespace WorkspaceManager.Model
         /// </summary>
         public ConnectorOrientation ConnectorOrientation { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public void PropertyTypeChangedOnPlugin(IPlugin plugin)
+        {
+            Dictionary<string, DynamicProperty> dictionary = plugin.GetDynamicPropertyList();
+            DynamicPropertyInfoAttribute dynamicPropertyInfoAttribute = plugin.GetDynamicPropertyInfo();
+            foreach (DynamicProperty dynamicProperty in dictionary.Values)
+            {
+                
+                if (this.PropertyName == dynamicProperty.Name)
+                {
+                    if(this.InputConnection != null){
+                        this.WorkspaceModel.deleteConnectionModel(this.InputConnection);
+                    }
+                    foreach(ConnectionModel connectionModel in new List<ConnectionModel>(this.OutputConnections))
+                    {
+                        this.WorkspaceModel.deleteConnectionModel(connectionModel);
+                    }
+                    this.ConnectorType = dynamicProperty.Type;
+                    if (this.UpdateableView != null)
+                    {
+                        ((ConnectorView)this.UpdateableView).Ellipse.Fill = new SolidColorBrush(ColorHelper.GetColor(this.ConnectorType));
+                    }
+                }
+            }
+        }
     }
 
     /// <summary>

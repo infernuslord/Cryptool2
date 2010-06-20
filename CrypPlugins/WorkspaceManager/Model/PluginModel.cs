@@ -25,6 +25,8 @@ using System.Windows.Controls;
 using Gears4Net;
 using WorkspaceManager.Execution;
 using System.Windows.Threading;
+using Cryptool.PluginBase.IO;
+using System.Reflection;
 
 namespace WorkspaceManager.Model
 {
@@ -79,6 +81,11 @@ namespace WorkspaceManager.Model
         /// Depending on this the Plugin of this PluginModel will be instanciated
         /// </summary>        
         public Type PluginType = null;
+
+        /// <summary>
+        /// Is the wrapped plugin startable
+        /// </summary>
+        public bool Startable;
         
         /// <summary>
         /// Is the Plugin actually minimized?
@@ -108,15 +115,13 @@ namespace WorkspaceManager.Model
         /// Generates all Connectors of this Plugin.
         /// Warning: Before generation all "old" Connectors will be deleted
         /// </summary>
-        public void generateConnectors(){
-            
-            if (Plugin != null)
-            {
-                this.InputConnectors.Clear();
-                this.OutputConnectors.Clear();
+        public void generateConnectors()
+        {
 
+            if (Plugin != null)
+            {   
                 foreach (PropertyInfoAttribute propertyInfoAttribute in Plugin.GetProperties())
-                {                    
+                {
                     if (propertyInfoAttribute.Direction.Equals(Direction.InputData))
                     {
                         ConnectorModel connectorModel = new ConnectorModel();
@@ -144,11 +149,59 @@ namespace WorkspaceManager.Model
                         Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
                         OutputConnectors.Add(connectorModel);
                         WorkspaceModel.AllConnectorModels.Add(connectorModel);
-                    }                    
+                    }
                 }
-            }      
-        }
 
+                Dictionary<string, DynamicProperty> dictionary = Plugin.GetDynamicPropertyList();
+                if (dictionary != null)
+                {
+                    DynamicPropertyInfoAttribute dynamicPropertyInfoAttribute = Plugin.GetDynamicPropertyInfo();
+                    foreach (DynamicProperty dynamicProperty in dictionary.Values)
+                    {
+
+                        if (dynamicProperty.PInfo.Direction.Equals(Direction.InputData))
+                        {
+                            ConnectorModel connectorModel = new ConnectorModel();
+                            connectorModel.ConnectorType = dynamicProperty.Type;
+                            connectorModel.WorkspaceModel = WorkspaceModel;
+                            connectorModel.PluginModel = this;
+                            connectorModel.IsMandatory = dynamicProperty.PInfo.Mandatory;
+                            connectorModel.PropertyName = dynamicProperty.Name;                            
+                            connectorModel.ToolTip = dynamicProperty.PInfo.ToolTip;
+                            connectorModel.ConnectorOrientation = ConnectorOrientation.West;
+                            EventInfo eventinfo = Plugin.GetType().GetEvent(dynamicPropertyInfoAttribute.UpdateDynamicPropertiesEvent);
+                            connectorModel.IsDynamic = true;
+                            connectorModel.DynamicGetterName = dynamicPropertyInfoAttribute.MethodGetValue;
+                            connectorModel.DynamicSetterName = dynamicPropertyInfoAttribute.MethodSetValue;
+                            eventinfo.AddEventHandler(Plugin, new DynamicPropertiesChanged(connectorModel.PropertyTypeChangedOnPlugin));
+                            InputConnectors.Add(connectorModel);
+                            WorkspaceModel.AllConnectorModels.Add(connectorModel);
+                        }
+                        else if (dynamicProperty.PInfo.Direction.Equals(Direction.OutputData))
+                        {
+                            ConnectorModel connectorModel = new ConnectorModel();
+                            connectorModel.ConnectorType = dynamicProperty.Type;
+                            connectorModel.WorkspaceModel = WorkspaceModel;
+                            connectorModel.PluginModel = this;
+                            connectorModel.IsMandatory = dynamicProperty.PInfo.Mandatory;
+                            connectorModel.PropertyName = dynamicProperty.Name;
+                            connectorModel.ToolTip = dynamicProperty.PInfo.ToolTip;
+                            connectorModel.ConnectorOrientation = ConnectorOrientation.East;
+                            EventInfo eventinfo = Plugin.GetType().GetEvent(dynamicPropertyInfoAttribute.UpdateDynamicPropertiesEvent);
+                            eventinfo.AddEventHandler(Plugin, new DynamicPropertiesChanged(connectorModel.PropertyTypeChangedOnPlugin));
+                            connectorModel.IsDynamic = true;
+                            connectorModel.DynamicGetterName = dynamicPropertyInfoAttribute.MethodGetValue;
+                            connectorModel.DynamicSetterName = dynamicPropertyInfoAttribute.MethodSetValue;
+                            connectorModel.Outgoing = true;
+                            Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
+                            OutputConnectors.Add(connectorModel);
+                            WorkspaceModel.AllConnectorModels.Add(connectorModel);
+
+                        }
+                    }
+                }
+            }
+        }
         /// <summary>
         /// Get the Image of the Plugin
         /// </summary>
@@ -204,19 +257,6 @@ namespace WorkspaceManager.Model
                 else if (connectorModel.HasData)
                 {
                     AtLeastOneInputSet = true;
-                }
-
-            }
-
-            //Next test if every connected output Connection is not active
-            foreach (ConnectorModel connectorModel in this.OutputConnectors)
-            {
-                foreach (ConnectionModel connection in connectorModel.OutputConnections)
-                {
-                    if (connection.Active)
-                    {                            
-                       return;
-                    }                        
                 }
             }
 

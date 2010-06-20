@@ -37,22 +37,7 @@ namespace WorkspaceManager
                 guiUpdateInterval = value;
                 OnPropertyChanged("GuiUpdateInterval");
             }
-        }
-
-        private String checkInterval = "10";
-        [TaskPane("CheckInterval", "The interval the plugins should be checked for being executable.", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
-        public String CheckInterval
-        {
-            get
-            {
-                return checkInterval;
-            }
-            set
-            {
-                checkInterval = value;
-                OnPropertyChanged("CheckInterval");
-            }
-        }
+        }     
 
         private bool benchmarkPlugins = false;
         [TaskPane("BenchmarkPlugins", "Should the WorkspaceManager benchmark the amount of executed plugins per second?", null, 1, false, DisplayLevel.Beginner, ControlType.CheckBox)]

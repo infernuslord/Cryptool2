@@ -33,6 +33,7 @@ using WorkspaceManager.View.Converter;
 using System.Windows;
 using System.Windows.Threading;
 using System.Threading;
+using System.Windows.Controls;
 
 //Disable warnings for unused or unassigned fields and events:
 #pragma warning disable 0169, 0414, 0067
@@ -353,19 +354,9 @@ namespace WorkspaceManager
                 //Get the gui Thread
                 this.WorkspaceManagerEditorView.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    this.WorkspaceManagerEditorView.root.IsEnabled = false;   
+                    this.WorkspaceManagerEditorView.root.IsEnabled = false;                    
                 }
-                , null);
-
-                try
-                {
-                    ExecutionEngine.CheckInterval = long.Parse(((WorkspaceManagerSettings)this.Settings).CheckInterval);
-                }
-                catch (Exception ex)
-                {
-                    GuiLogMessage("Could not set CheckInterval: " + ex.Message, NotificationLevel.Warning);
-                    ExecutionEngine.CheckInterval = 10;
-                }
+                , null);                
 
                 try
                 {
