@@ -2,6 +2,7 @@
 using System.IO;
 using Cryptool.P2P;
 using Cryptool.P2P.Internal;
+using KeySearcher.P2P.Presentation;
 using KeySearcher.P2P.Tree;
 
 namespace KeySearcher.P2P.Storage
@@ -9,13 +10,17 @@ namespace KeySearcher.P2P.Storage
     class StorageHelper
     {
         private readonly KeySearcher keySearcher;
+        private readonly StatisticsGenerator statisticsGenerator;
+        private readonly StatusContainer statusContainer;
 
-        public StorageHelper(KeySearcher keySearcher)
+        public StorageHelper(KeySearcher keySearcher, StatisticsGenerator statisticsGenerator, StatusContainer statusContainer)
         {
             this.keySearcher = keySearcher;
+            this.statisticsGenerator = statisticsGenerator;
+            this.statusContainer = statusContainer;
         }
 
-        internal static RequestResult UpdateInDht(NodeBase nodeToUpdate)
+        internal RequestResult UpdateInDht(NodeBase nodeToUpdate)
         {
             var memoryStream = new MemoryStream();
             var binaryWriter = new BinaryWriter(memoryStream);
@@ -38,7 +43,7 @@ namespace KeySearcher.P2P.Storage
                 binaryWriter.Write(valueKey.decryption);
             }
 
-            return P2PManager.Store(KeyInDht(nodeToUpdate), memoryStream.ToArray());
+            return StoreWithStatistic(KeyInDht(nodeToUpdate), memoryStream.ToArray());
         }
 
         private static void UpdateNodeInDht(Node nodeToUpdate, BinaryWriter binaryWriter)
@@ -62,7 +67,7 @@ namespace KeySearcher.P2P.Storage
 
             nodeToUpdate.LastUpdate = DateTime.Now;
 
-            var requestResult = P2PManager.Retrieve(KeyInDht(nodeToUpdate));
+            var requestResult = RetrieveWithStatistic(KeyInDht(nodeToUpdate));
             var nodeBytes = requestResult.Data;
 
             if (nodeBytes == null)
@@ -96,6 +101,7 @@ namespace KeySearcher.P2P.Storage
             if (resultCount > 0)
             {
                 keySearcher.IntegrateNewResults(nodeToUpdate.Result);
+                statisticsGenerator.ProcessPatternResults(nodeToUpdate.Result);
             }
 
             return requestResult;
@@ -119,6 +125,27 @@ namespace KeySearcher.P2P.Storage
         internal static string KeyInDht(NodeBase node)
         {
             return string.Format("{0}_node_{1}_{2}", node.DistributedJobIdentifier, node.From, node.To);
+        }
+
+        public RequestResult RetrieveWithStatistic(string key)
+        {
+            statusContainer.RetrieveRequests++;
+            statusContainer.TotalDhtRequests++;
+            return P2PManager.Retrieve(key);
+        }
+
+        public RequestResult RemoveWithStatistic(string key)
+        {
+            statusContainer.RemoveRequests++;
+            statusContainer.TotalDhtRequests++;
+            return P2PManager.Remove(key);
+        }
+
+        public RequestResult StoreWithStatistic(string key, byte[] data)
+        {
+            statusContainer.StoreRequests++;
+            statusContainer.TotalDhtRequests++;
+            return P2PManager.Store(key, data);
         }
     }
 }

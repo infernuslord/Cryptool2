@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Collections.ObjectModel;
+using KeySearcher;
 
-namespace KeySearcher.Presentation
+namespace KeySearcherPresentation.Controls
 {    
-    public partial class KeySearcherQuickWatchPresentation : UserControl
+    public partial class LocalQuickWatchPresentation
     {        
         public ObservableCollection<ResultEntry> entries = new ObservableCollection<ResultEntry>();
 
-        public KeySearcherQuickWatchPresentation()
+        public LocalQuickWatchPresentation()
         {
             InitializeComponent();
             SizeChanged += sizeChanged;

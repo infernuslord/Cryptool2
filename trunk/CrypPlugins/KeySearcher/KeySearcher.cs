@@ -15,7 +15,8 @@ using Cryptool.PluginBase.IO;
 using System.Numerics;
 using KeySearcher.Helper;
 using KeySearcher.P2P;
-using KeySearcher.Presentation;
+using KeySearcherPresentation;
+using KeySearcherPresentation.Controls;
 
 namespace KeySearcher
 {    
@@ -34,7 +35,9 @@ namespace KeySearcher
         private int maxThread;
         private Mutex maxThreadMutex = new Mutex();
 
-        private KeyQualityHelper _keyQualityHelper;
+        private KeyQualityHelper keyQualityHelper;
+        private P2PQuickWatchPresentation p2PQuickWatchPresentation;
+        private LocalQuickWatchPresentation localQuickWatchPresentation;
 
         private KeyPattern.KeyPattern pattern = null;
         public KeyPattern.KeyPattern Pattern
@@ -93,7 +96,7 @@ namespace KeySearcher
             set
             {
                 costMaster = value;
-                _keyQualityHelper = new KeyQualityHelper(costMaster);
+                keyQualityHelper = new KeyQualityHelper(costMaster);
             }
         }
 
@@ -203,12 +206,29 @@ namespace KeySearcher
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
         private KeySearcherSettings settings;
-        private AutoResetEvent _connectResetEvent;
+        private AutoResetEvent connectResetEvent;
 
         public KeySearcher()
         {
             settings = new KeySearcherSettings(this);
-            QuickWatchPresentation = new KeySearcherQuickWatchPresentation();
+            QuickWatchPresentation = new QuickWatch();
+            localQuickWatchPresentation = ((QuickWatch) QuickWatchPresentation).LocalQuickWatchPresentation;
+            p2PQuickWatchPresentation = ((QuickWatch)QuickWatchPresentation).P2PQuickWatchPresentation;
+            p2PQuickWatchPresentation.UpdateSettings(this, settings);
+
+            settings.PropertyChanged += SettingsPropertyChanged;
+        }
+
+        void SettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            p2PQuickWatchPresentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                                                             new Action(UpdateIsP2PEnabledSetting));
+        }
+
+        void UpdateIsP2PEnabledSetting()
+        {
+            ((QuickWatch)QuickWatchPresentation).IsP2PEnabled = settings.UsePeerToPeer;
+            p2PQuickWatchPresentation.UpdateSettings(this, settings);
         }
 
         public ISettings Settings
@@ -282,8 +302,6 @@ namespace KeySearcher
         }
 
         #endregion
-
-        /* BEGIN functionality */
 
         #region whole KeySearcher functionality
 
@@ -546,6 +564,7 @@ namespace KeySearcher
         private int bytesToUse;
         private IControlEncryption sender;
         private DateTime beginBruteforcing;
+        private DistributedBruteForceManager distributedBruteForceManager;
 
         // modified by Christian Arnold 2009.12.07 - return type LinkedList (top10List)
         // main entry point to the KeySearcher
@@ -569,7 +588,7 @@ namespace KeySearcher
                 return null;
             }
 
-            bytesToUse = 0;
+            // bytesToUse = 0;
 
             try
             {
@@ -590,15 +609,13 @@ namespace KeySearcher
             return BruteForceWithLocalSystem(pattern);
         }
 
-        private Dispatcher _dispatcher;
-
         private void BruteForceWithPeerToPeerSystem()
         {
-            _dispatcher = Dispatcher.CurrentDispatcher;
             GuiLogMessage("Launching p2p based bruteforce logic...", NotificationLevel.Info);
             ValidateConnectionToPeerToPeerSystem();
-            var bruteForceManager = new DistributedBruteForceManager(this, pattern, settings, _keyQualityHelper);
-            bruteForceManager.Execute();
+            distributedBruteForceManager = new DistributedBruteForceManager(this, pattern, settings, keyQualityHelper,
+                                                                     p2PQuickWatchPresentation);
+            distributedBruteForceManager.Execute();
         }
 
 
@@ -624,11 +641,11 @@ namespace KeySearcher
         private void HandleAutoconnect()
         {
             P2PManager.ConnectionManager.OnP2PConnectionStateChangeOccurred += HandleConnectionStateChange;
-            _connectResetEvent = new AutoResetEvent(false);
+            connectResetEvent = new AutoResetEvent(false);
 
             P2PManager.Connect();
 
-            _connectResetEvent.WaitOne();
+            connectResetEvent.WaitOne();
 
             if (P2PManager.IsConnected)
             {
@@ -644,12 +661,12 @@ namespace KeySearcher
 
         void HandleConnectionStateChange(object sender, bool newState)
         {
-            _connectResetEvent.Set();
+            connectResetEvent.Set();
         }
 
         #endregion
 
-        internal LinkedList<ValueKey> BruteForceWithLocalSystem(KeyPattern.KeyPattern pattern)
+        internal LinkedList<ValueKey> BruteForceWithLocalSystem(KeyPattern.KeyPattern pattern, bool redirectResultsToStatisticsGenerator = false)
         {
             BigInteger size = pattern.size();
             KeyPattern.KeyPattern[] patterns = splitPatternForThreads(pattern);
@@ -702,7 +719,15 @@ namespace KeySearcher
                 }
                 #endregion
 
-                showProgress(costList, size, keycounter, doneKeys);
+                if (redirectResultsToStatisticsGenerator)
+                {
+                    distributedBruteForceManager.StatisticsGenerator.ShowProgress(costList, size, keycounter, doneKeys);
+                }
+                else
+                {
+                    showProgress(costList, size, keycounter, doneKeys);
+                }
+                
 
                 #region set doneKeys to 0
                 doneKeys = 0;
@@ -718,7 +743,7 @@ namespace KeySearcher
             while (threadStack.Count != 0)
                 ((ThreadStackElement)threadStack.Pop()).ev.Set();
 
-            if (!stop)
+            if (!stop && !redirectResultsToStatisticsGenerator)
                 ProgressChanged(1, 1);
 
             /* BEGIN: For evaluation issues - added by Arnold 2010.03.17 */
@@ -757,7 +782,7 @@ namespace KeySearcher
             LinkedListNode<ValueKey> linkedListNode;
             ProgressChanged((double)keycounter / (double) size, 1.0);
 
-            if (QuickWatchPresentation.IsVisible && doneKeys != 0 && !stop)
+            if (localQuickWatchPresentation.IsVisible && doneKeys != 0 && !stop)
             {
                 double time = (Math.Pow(10, BigInteger.Log((size - keycounter), 10) - BigInteger.Log(doneKeys, 10)));
                 TimeSpan timeleft = new TimeSpan(-1);
@@ -782,28 +807,28 @@ namespace KeySearcher
                     //can not calculate time span
                 }
 
-                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                localQuickWatchPresentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).keysPerSecond.Text = "" + doneKeys;
+                    localQuickWatchPresentation.keysPerSecond.Text = "" + doneKeys;
                     if (timeleft != new TimeSpan(-1))
                     {
-                        ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).timeLeft.Text = "" + timeleft;
+                        localQuickWatchPresentation.timeLeft.Text = "" + timeleft;
                         try
                         {
-                            ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "" + DateTime.Now.Add(timeleft);
+                            localQuickWatchPresentation.endTime.Text = "" + DateTime.Now.Add(timeleft);
                         }
                         catch
                         {
-                            ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "in a galaxy far, far away...";
+                            localQuickWatchPresentation.endTime.Text = "in a galaxy far, far away...";
                         }
                     }
                     else
                     {
-                        ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).timeLeft.Text = "incalculable :-)";
-                        ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "in a galaxy far, far away...";
+                        localQuickWatchPresentation.timeLeft.Text = "incalculable :-)";
+                        localQuickWatchPresentation.endTime.Text = "in a galaxy far, far away...";
                     }
 
-                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).entries.Clear();
+                    localQuickWatchPresentation.entries.Clear();
                     linkedListNode = costList.First;
                     
                     int i = 0;
@@ -817,7 +842,7 @@ namespace KeySearcher
                         entry.Key = linkedListNode.Value.key;
                         entry.Text = enc.GetString(linkedListNode.Value.decryption);
 
-                        ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).entries.Add(entry);
+                        localQuickWatchPresentation.entries.Add(entry);
                         linkedListNode = linkedListNode.Next;
                     }
                 }
@@ -825,12 +850,12 @@ namespace KeySearcher
             }//end if
 
 
-            else if (!stop && QuickWatchPresentation.IsVisible)
+            else if (!stop && localQuickWatchPresentation.IsVisible)
             {
 
-                ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                localQuickWatchPresentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).entries.Clear();
+                    localQuickWatchPresentation.entries.Clear();
                     linkedListNode = costList.First;                    
                     int i = 0;
 
@@ -844,7 +869,7 @@ namespace KeySearcher
                         entry.Key = linkedListNode.Value.key;
                         entry.Text = enc.GetString(linkedListNode.Value.decryption);
 
-                        ((KeySearcherQuickWatchPresentation)QuickWatchPresentation).entries.Add(entry);
+                        localQuickWatchPresentation.entries.Add(entry);
                         linkedListNode = linkedListNode.Next;
                     }
                 }
@@ -871,18 +896,17 @@ namespace KeySearcher
             }
         }
 
-        internal void IntegrateNewResults(LinkedList<ValueKey> costList)
+        internal void IntegrateNewResults(LinkedList<ValueKey> updatedCostList)
         {
-            foreach (var valueKey in costList)
+            foreach (var valueKey in updatedCostList)
             {
-                if (_keyQualityHelper.IsBetter(valueKey.value, value_threshold))
+                if (keyQualityHelper.IsBetter(valueKey.value, value_threshold))
                 {
                     valuequeue.Enqueue(valueKey);
                 }
             }
 
             updateToplist();
-            UpdateWithShowProgress();
         }
 
         internal void updateToplist()
@@ -940,11 +964,6 @@ namespace KeySearcher
                     }//end if
                 }
             }
-        }
-
-        private void UpdateWithShowProgress()
-        {
-            showProgress(costList, 1, 0, 0);
         }
 
         #endregion

@@ -98,6 +98,23 @@ namespace KeySearcher
             }
         }
 
+        private bool verbosePeerToPeerDisplay;
+        [TaskPane("Display verbose information", "Display verbose information about network requests in the quick watch.", GroupPeerToPeer, 2, true, DisplayLevel.Beginner,
+            ControlType.CheckBox)]
+        public bool VerbosePeerToPeerDisplay
+        {
+            get { return verbosePeerToPeerDisplay; }
+            set
+            {
+                if (value != verbosePeerToPeerDisplay)
+                {
+                    verbosePeerToPeerDisplay = value;
+                    OnPropertyChanged("VerbosePeerToPeerDisplay");
+                    HasChanges = true;
+                }
+            }
+        }
+
         private int chunkSize;
         [TaskPane("Chunk size", "Amount of keys, that will be calculated by one peer at a time. This value is the exponent of the power of two used for the chunk size.", GroupPeerToPeer, 3, false, DisplayLevel.Professional,
             ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 1000)]
@@ -113,27 +130,6 @@ namespace KeySearcher
                     OnPropertyChanged("TotalAmountOfChunks");
                     HasChanges = true;
                 }
-            }
-        }
-
-        [TaskPane("Amount of chunks", "Total number of chunks that must be calculated with the given chunk size.", GroupPeerToPeer, 4, false, DisplayLevel.Professional,
-            ControlType.TextBox)]
-        public double TotalAmountOfChunks
-        {
-            get {
-                if (keysearcher.Pattern == null || !keysearcher.Pattern.testWildcardKey(key) || ChunkSize == 0)
-                {
-                    return 0;
-                }
-
-                var keyPattern = new KeyPattern.KeyPattern(keysearcher.ControlMaster.getKeyPattern());
-                keyPattern.WildcardKey = key;
-                var keyPatternPool = new KeyPatternPool(keyPattern, new BigInteger(Math.Pow(2, ChunkSize)));
-                return (double) keyPatternPool.Length;
-            }
-            set
-            {
-                OnPropertyChanged("TotalAmountOfChunks");
             }
         }
 
