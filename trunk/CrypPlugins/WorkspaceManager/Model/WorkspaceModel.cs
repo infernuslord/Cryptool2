@@ -82,13 +82,14 @@ namespace WorkspaceManager.Model
         public PluginModel newPluginModel(Point position, double width, double height, Type pluginType)
         {
             PluginModel pluginModel = new PluginModel();
-            pluginModel.WorkspaceModel = this;
+            pluginModel.WorkspaceModel = this;            
+            pluginModel.Startable = pluginType.GetPluginInfoAttribute().Startable;
             pluginModel.Position = position;
             pluginModel.Width = width;
             pluginModel.Height = height;
-            pluginModel.PluginType = pluginType;
-            pluginModel.generateConnectors();
+            pluginModel.PluginType = pluginType;            
             pluginModel.Name = pluginType.Name;
+            pluginModel.generateConnectors();
             pluginModel.Plugin.OnGuiLogNotificationOccured += this.WorkspaceManagerEditor.GuiLogNotificationOccured;
             pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;
             pluginModel.Plugin.OnPluginStatusChanged += pluginModel.PluginStatusChanged;
@@ -254,9 +255,12 @@ namespace WorkspaceManager.Model
             {
                 return false;
             }
-
+            
             if (connectorModelA.ConnectorType.Equals(connectorModelB.ConnectorType)
-                || connectorModelA.ConnectorType.BaseType.Equals(connectorModelB.ConnectorType))
+                || connectorModelA.ConnectorType.FullName == "System.Object"
+                || connectorModelB.ConnectorType.FullName == "System.Object"
+                || connectorModelA.ConnectorType.IsSubclassOf(connectorModelB.ConnectorType)
+                || connectorModelA.ConnectorType.GetInterfaces().Contains(connectorModelB.ConnectorType))              
             {
                 return true;
             }
@@ -264,6 +268,6 @@ namespace WorkspaceManager.Model
             {
                 return false;
             }
-        }       
+        }
     }
 }
