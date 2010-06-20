@@ -187,7 +187,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <summary>
         /// Gets/Sets the key which should be used.Must be 10 bytes  (only 1 or 0 allowed).
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Key", "Must be 8 bytes (only 1 or 0 allowed).", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Key", "Must be 10 bytes (only 1 or 0 allowed).", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public byte[] InputKey
         {
             get { return this.inputKey; }
@@ -200,9 +200,9 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
         /// <summary>
-        /// Gets/Sets the Initialization Vector which should be used.Must be 10 bytes  (only 1 or 0 allowed).
+        /// Gets/Sets the Initialization Vector which should be used.Must be 8 bytes  (only 1 or 0 allowed).
         /// </summary>
-        [PropertyInfo(Direction.InputData, "IV", "IV to be used in chaining modes, must be 10 bytes (only 1 or 0 allowed).", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "IV", "IV to be used in chaining modes, must be 8 bytes (only 1 or 0 allowed).", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
         public byte[] InputIV
         {
             get { return this.inputIV; }
