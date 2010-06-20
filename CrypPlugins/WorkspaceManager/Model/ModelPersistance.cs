@@ -41,7 +41,7 @@ namespace WorkspaceManager.Model
             try
             {
                 fileStream = new FileStream(filename, FileMode.Open, FileAccess.Read);
-                BinaryFormatter binaryFormatter = new BinaryFormatter();                
+                BinaryFormatter binaryFormatter = new BinaryFormatter();             
                 return (WorkspaceModel)binaryFormatter.Deserialize(fileStream);
             }
             finally

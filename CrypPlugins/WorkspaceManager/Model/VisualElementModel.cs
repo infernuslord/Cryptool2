@@ -47,6 +47,9 @@ namespace WorkspaceManager.Model
             }
         }
 
+        /// <summary>
+        /// Current Position of this VisualElementModel
+        /// </summary>
         public Point Position { get; set; }
 
         private double minWidth=50;
@@ -104,6 +107,7 @@ namespace WorkspaceManager.Model
         /// <summary>
         /// View Element of this VisualElement
         /// </summary>
+        [NonSerialized]
         public IUpdateableView UpdateableView = null;
     }
 

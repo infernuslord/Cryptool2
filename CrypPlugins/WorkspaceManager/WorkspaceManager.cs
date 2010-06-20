@@ -59,7 +59,11 @@ namespace WorkspaceManager
         public WorkspaceManager()
         {
             Settings = new WorkspaceManagerSettings();
-            New();                                 
+            WorkspaceModel = new WorkspaceModel();
+            WorkspaceModel.WorkspaceManagerEditor = this;
+            WorkspaceManagerEditorView = new WorkSpaceEditorView(WorkspaceModel);
+            ExecutionEngine = new ExecutionEngine(this);
+            HasChanges = false;                                
         }
 
         #region private Members
@@ -111,11 +115,11 @@ namespace WorkspaceManager
         /// </summary>
         public void New()
         {
-            WorkspaceModel = new WorkspaceModel();
-            WorkspaceModel.WorkspaceManagerEditor = this;
-            WorkspaceManagerEditorView = new WorkSpaceEditorView(WorkspaceModel);
-            ExecutionEngine = new ExecutionEngine(this);
-            HasChanges = false;
+            foreach (PluginModel pluginModel in new List<PluginModel>(WorkspaceModel.AllPluginModels))
+            {
+                WorkspaceModel.deletePluginModel(pluginModel);
+            }
+            this.HasChanges = false;
         }
 
         /// <summary>
@@ -128,6 +132,8 @@ namespace WorkspaceManager
             {
                 GuiLogMessage("Loading Model: " + fileName, NotificationLevel.Info);
                 WorkspaceModel = ModelPersistance.loadModel(fileName);
+                WorkspaceModel.WorkspaceManagerEditor = this;
+                WorkspaceManagerEditorView.Model = WorkspaceModel;
                 HasChanges = false;
             }
             catch (Exception ex)
