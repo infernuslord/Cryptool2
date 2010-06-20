@@ -35,16 +35,16 @@ namespace WorkspaceManager.Model
     /// </summary>
     [Serializable]
     public class PluginModel : VisualElementModel
-    {       
+    {
+        #region privates
         [NonSerialized]
-        private IPlugin plugin;
-        
-        /// <summary>
-        /// This is the current index of the image which should be shown
-        /// on the plugins view
-        /// </summary>
+        private PluginProtocol pluginProtocol;
+        [NonSerialized]
+        private IPlugin plugin;         
         private int imageIndex = 0;
-        
+
+        #endregion privates
+
         /// <summary>
         /// All ingoing connectors of this PluginModel
         /// </summary>
@@ -113,7 +113,6 @@ namespace WorkspaceManager.Model
 
         /// <summary>
         /// Generates all Connectors of this Plugin.
-        /// Warning: Before generation all "old" Connectors will be deleted
         /// </summary>
         public void generateConnectors()
         {
@@ -234,7 +233,6 @@ namespace WorkspaceManager.Model
             //Enter some Code which calls the paint method of the IPlugin
         }
 
-
         /// <summary>
         /// Checks wether this PluginModel is executable or not and sets the isExecutable bool
         /// 
@@ -250,7 +248,7 @@ namespace WorkspaceManager.Model
             //or one non-mandatory input has data
             foreach (ConnectorModel connectorModel in this.InputConnectors)
             {
-                if (connectorModel.IsMandatory && !connectorModel.HasData)
+                if ((connectorModel.IsMandatory || connectorModel.InputConnection != null) && !connectorModel.HasData)
                 {
                     return;
                 }
@@ -260,7 +258,7 @@ namespace WorkspaceManager.Model
                 }
             }
 
-            if (AtLeastOneInputSet || this.InputConnectors.Count == 0)
+            if (AtLeastOneInputSet)
             {
                 MessageExecution msg = new MessageExecution();
                 msg.PluginModel = this;
@@ -318,6 +316,9 @@ namespace WorkspaceManager.Model
         /// <summary>
         /// The pluginProtocol of the current ExecutionEngine run to set/get
         /// </summary>
-        public PluginProtocol PluginProtocol { get; set; }
+        public PluginProtocol PluginProtocol {
+            get { return pluginProtocol; }
+            set { pluginProtocol = value;}
+        }
     }
 }

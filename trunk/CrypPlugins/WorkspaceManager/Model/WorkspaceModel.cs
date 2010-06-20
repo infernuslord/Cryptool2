@@ -35,13 +35,13 @@ namespace WorkspaceManager.Model
 
         /// <summary>
         /// The surrounding WorkspaceManagerEditor
-        /// </summary>        
+        /// </summary> 
         public WorkspaceManager WorkspaceManagerEditor { 
             get{
                 return workspaceManagerEditor;
             }
             set{ 
-                this.workspaceManagerEditor = value;
+                workspaceManagerEditor = value;
             }
         }
 

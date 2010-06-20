@@ -45,7 +45,7 @@ namespace WorkspaceManager.View.Container
         public WorkspaceModel Model
         {
             get { return model; }
-            private set { model = value; }
+            set { model = value; }
         }
 
         public WorkSpaceEditorView()
