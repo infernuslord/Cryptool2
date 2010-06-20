@@ -56,7 +56,7 @@ namespace KeySearcher.P2P.Tree
             IntegrateResultsIntoParent();
             ParentNode.ChildFinished(this);
 
-            if (P2PManager.Retrieve(StorageHelper.KeyInDht(this)).Status == RequestResultType.KeyNotFound)
+            if (StorageHelper.RetrieveWithStatistic(StorageHelper.KeyInDht(this)).Status == RequestResultType.KeyNotFound)
             {
                 throw new ReservationRemovedException("Before updating parent node, this leaf's reservation was deleted.");
             }
@@ -67,7 +67,7 @@ namespace KeySearcher.P2P.Tree
                 throw new UpdateFailedException("Parent node could not be updated: " + updateResult.Status);
             }
 
-            P2PManager.Remove(StorageHelper.KeyInDht(this));
+            StorageHelper.RemoveWithStatistic(StorageHelper.KeyInDht(this));
 
             if (ParentNode.IsCalculated())
             {

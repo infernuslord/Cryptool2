@@ -1,0 +1,125 @@
+﻿<UserControl x:Class="KeySearcherPresentation.Controls.P2PQuickWatchPresentation" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Converter="clr-namespace:KeySearcherConverter" mc:Ignorable="d" x:Name="P2PQuickWatch" d:DesignHeight="472" d:DesignWidth="400">
+	<UserControl.Resources>
+		<Converter:TrueToVisibleOrCollapsedConverter x:Key="TrueToVisibleOrCollapsedConverter" />
+        <Converter:TimeSpanToRoundedStringConverter x:Key="TimeSpanToRoundedStringConverter" />
+	</UserControl.Resources>
+	<Viewbox>
+		<Grid Width="400" Background="#C8FFFFFF">
+            <StackPanel>
+                <Border BorderBrush="Silver" BorderThickness="0,0,0,2" Visibility="{Binding IsSearchingForReservedNodes, FallbackValue=Collapsed, Converter={StaticResource TrueToVisibleOrCollapsedConverter}}">
+					<Grid Height="36" Background="#C8D1E3FF">
+						<Label Content="Calculation nearly finished: Using reserved nodes..." Height="28" HorizontalAlignment="Center" VerticalAlignment="Center" />
+					</Grid>
+				</Border>
+				<Border BorderBrush="Silver" BorderThickness="0,0,0,2">
+					<Grid Height="36">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="190" />
+							<ColumnDefinition Width="210" />
+						</Grid.ColumnDefinitions>
+						<Label Content="Total chunks:" Height="28" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Grid.Column="0" />
+						<Label Content="-" Name="TotalAmountOfChunks" Height="28" HorizontalAlignment="Left" Margin="110,6,0,0" VerticalAlignment="Top" Grid.Column="0" />
+						<Label Content="Keys per chunk:" Height="28" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Grid.Column="1" />
+						<Label Content="-" Name="KeysPerChunk" Height="28" HorizontalAlignment="Left" Margin="120,6,0,0" VerticalAlignment="Top" Grid.Column="1" />
+					</Grid>
+				</Border>
+				<Border BorderBrush="Silver" BorderThickness="0,0,0,2">
+					<Grid Height="36">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="190" />
+							<ColumnDefinition Width="210" />
+						</Grid.ColumnDefinitions>
+						<Label Content="Participants:" Height="28" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Grid.Column="0" />
+						<Label Content="{Binding TotalAmountOfParticipants, FallbackValue=-}" Height="28" HorizontalAlignment="Left" Margin="110,6,0,0" VerticalAlignment="Top" Grid.Column="0" />
+						<Label Content="Estimated finish date:" Height="28" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Grid.Column="1" />
+						<Label Content="{Binding EstimatedFinishDate, FallbackValue=-}" Height="28" HorizontalAlignment="Left" Margin="120,6,0,0" VerticalAlignment="Top" Grid.Column="1" />
+					</Grid>
+				</Border>
+				<Border BorderBrush="Silver" BorderThickness="0,0,0,2">
+					<Grid Height="102">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="190" />
+							<ColumnDefinition Width="210" />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="34" />
+							<RowDefinition Height="34" />
+							<RowDefinition Height="34" />
+						</Grid.RowDefinitions>
+						<Label Content="Local chunks:" Height="28" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Grid.Column="0" Grid.Row="0" />
+						<Label Content="{Binding LocalFinishedChunks, FallbackValue=-}" Height="28" HorizontalAlignment="Left" Margin="110,6,0,0" VerticalAlignment="Top" Grid.Column="0" Grid.Row="0" />
+						<Label Content="Current chunk:" Height="28" HorizontalAlignment="Left" Margin="0,3,0,0" VerticalAlignment="Top" Grid.Column="1" />
+						<Label Content="{Binding CurrentChunk, FallbackValue=-}" Height="28" HorizontalAlignment="Left" Margin="120,6,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.Row="0" />
+						<Label Content="Keys per second:" Height="28" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Grid.Column="0" Grid.Row="1" />
+						<Label Content="{Binding KeysPerSecond, FallbackValue=-}" Height="28" HorizontalAlignment="Left" Margin="110,6,0,0" VerticalAlignment="Top" Grid.Column="0" Grid.Row="1" />
+						<Label Content="Remaining time:" Height="28" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" />
+						<Label Content="{Binding RemainingTime, FallbackValue=-}" Height="28" HorizontalAlignment="Left" Margin="120,6,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" />
+						<ProgressBar Value="{Binding ProgressOfCurrentChunk, FallbackValue=0}" IsIndeterminate="{Binding IsCrrentProgressIndeterminate, FallbackValue=false}" Grid.ColumnSpan="2" Grid.Row="2" Height="24" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Width="400" Maximum="1" />
+					</Grid>
+				</Border>
+				<Border BorderBrush="Silver" BorderThickness="0,0,0,2" Visibility="{Binding IsVerboseEnabled, ElementName=P2PQuickWatch, Converter={StaticResource TrueToVisibleOrCollapsedConverter}}">
+					<Grid Height="136">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="190" />
+							<ColumnDefinition Width="210" />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="34" />
+							<RowDefinition Height="34" />
+							<RowDefinition Height="34" />
+							<RowDefinition Height="34" />
+						</Grid.RowDefinitions>
+						<Label Content="Total DHT requests:" Height="28" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Grid.Column="0" Grid.Row="0" />
+						<Label Content="{Binding TotalDhtRequests, FallbackValue=-}" Height="28" HorizontalAlignment="Left" Margin="110,6,0,0" VerticalAlignment="Top" Grid.Column="0" Grid.Row="0" />
+						<Label Content="Requests per chunk:" Height="28" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.Row="0" />
+						<Label Content="{Binding RequestsPerNode, FallbackValue=-}" Height="28" HorizontalAlignment="Left" Margin="120,6,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.Row="0" />
+						<Label Content="Retrieve requests:" Height="28" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Grid.Column="0" Grid.Row="1" />
+						<Label Content="{Binding RetrieveRequests, FallbackValue=-}" Height="28" HorizontalAlignment="Left" Margin="110,6,0,0" VerticalAlignment="Top" Grid.Column="0" Grid.Row="1" />
+						<Label Content="Remove requests:" Height="28" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" />
+						<Label Content="{Binding RemoveRequests, FallbackValue=-}" Height="28" HorizontalAlignment="Left" Margin="120,6,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" />
+						<Label Content="Store requests:" Height="28" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Grid.Row="2" />
+						<Label Content="{Binding StoreRequests, FallbackValue=-}" Height="28" HorizontalAlignment="Left" Margin="110,6,0,0" VerticalAlignment="Top" Grid.Row="2" />
+						<Label Content="Overhead (time):" Height="28" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Grid.Column="0" Grid.Row="3" />
+                        <Label Content="{Binding DhtOverheadInReadableTime, FallbackValue=-, Converter={StaticResource TimeSpanToRoundedStringConverter}}" Height="28" HorizontalAlignment="Left" Margin="110,6,0,0" VerticalAlignment="Top" Grid.Column="0" Grid.Row="3" />
+						<Label Content="Overhead (percent):" Height="28" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.Row="3" />
+						<Label Content="{Binding DhtOverheadInPercent, FallbackValue=-}" Height="28" HorizontalAlignment="Left" Margin="120,6,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.Row="3" />
+					</Grid>
+				</Border>
+                <ListView Name="ToplistView" Background="#C8FFFFFF" ItemsSource="{Binding TopList}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,6,0,0" Height="120">
+					<ListView.View>
+						<GridView>
+							<GridViewColumn Header="#" DisplayMemberBinding="{Binding Path=Ranking}" Width="25">
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<Label />
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+							<GridViewColumn Header="Value" DisplayMemberBinding="{Binding Path=Value}">
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<Label />
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+							<GridViewColumn Header="Text" DisplayMemberBinding="{Binding Path=Text}">
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<Label />
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+							<GridViewColumn Header="Key" DisplayMemberBinding="{Binding Path=Key}">
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<Label />
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+						</GridView>
+					</ListView.View>
+				</ListView>
+			</StackPanel>
+		</Grid>
+	</Viewbox>
+</UserControl>
