@@ -103,9 +103,11 @@ namespace WorkspaceManager.Execution
                 //Here we create for each PluginModel an own PluginProtocol
                 //By using round-robin we give each protocol to another scheduler to gain
                 //a good average load balancing of the schedulers
+                //we also initalize each plugin
                 int counter=0;
                 foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
                 {
+                    pluginModel.Plugin.PreExecution();
                     PluginProtocol pluginProtocol = new PluginProtocol(schedulers[counter], pluginModel,this);
                     pluginModel.PluginProtocol = pluginProtocol;
                     schedulers[counter].AddProtocol(pluginProtocol);
@@ -118,7 +120,6 @@ namespace WorkspaceManager.Execution
                         MessageExecution msg = new MessageExecution();
                         msg.PluginModel = pluginModel;
                         pluginProtocol.BroadcastMessageReliably(msg);
-
                     }
                 }
             }
@@ -130,17 +131,20 @@ namespace WorkspaceManager.Execution
         /// </summary>
         public void Stop()
         {
+            //First stop alle plugins
+            foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
+            {
+                pluginModel.Plugin.Stop();
+                pluginModel.Plugin.PostExecution();
+            }           
+
             IsRunning = false;
-            //First stop all Gears4Net Schedulers
+            //Secondly stop all Gears4Net Schedulers
             foreach (Scheduler scheduler in schedulers)
             {
                 scheduler.Shutdown();
             }
-            //Secondly stop alle plugins
-            foreach(PluginModel pluginModel in workspaceModel.AllPluginModels)
-            {
-                pluginModel.Plugin.Stop();
-            }            
+             
         }
 
         /// <summary>
@@ -327,8 +331,7 @@ namespace WorkspaceManager.Execution
         /// <param name="msg"></param>
         private void HandleExecute(MessageExecution msg)
         {
-            msg.PluginModel.Plugin.PreExecution();
-
+            
             //executionEngine.GuiLogMessage("HandleExecute for \"" + msg.PluginModel.Name + "\"", NotificationLevel.Debug);
             //Fill the plugins Inputs with data
             foreach (ConnectorModel connectorModel in pluginModel.InputConnectors)
@@ -348,9 +351,7 @@ namespace WorkspaceManager.Execution
                 }
             }
             
-            msg.PluginModel.Plugin.Execute();
-
-            msg.PluginModel.Plugin.PostExecution();
+            msg.PluginModel.Plugin.Execute();            
 
             if (this.executionEngine.BenchmarkPlugins)
             {

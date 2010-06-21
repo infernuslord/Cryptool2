@@ -42,8 +42,17 @@ namespace WorkspaceManager.Model
         [NonSerialized]
         private IPlugin plugin;         
         private int imageIndex = 0;
-
+        private PluginModelState state = PluginModelState.Normal;
         #endregion privates
+
+        /// <summary>
+        /// State of the Plugin
+        /// </summary>
+        
+        public PluginModelState State {
+            get { return state; } 
+            set { state = value; }
+        }
 
         /// <summary>
         /// All ingoing connectors of this PluginModel
@@ -242,13 +251,19 @@ namespace WorkspaceManager.Model
         ///     3. There are no inputs + all outputs are "free"
         /// </summary>
         public void checkExecutable(ProtocolBase protocolBase)
-        {                            
+        {
+            //We do not execute Plugins with Errors
+            if (this.State == PluginModelState.Error)
+            {
+                return;
+            }
+
             bool AtLeastOneInputSet = false;
             //First test if every mandatory Connector has data
             //or one non-mandatory input has data
             foreach (ConnectorModel connectorModel in this.InputConnectors)
             {
-                if ((connectorModel.IsMandatory || connectorModel.InputConnection != null) && !connectorModel.HasData)
+                if ((connectorModel.IsMandatory /*|| connectorModel.InputConnection != null*/) && !connectorModel.HasData)
                 {
                     return;
                 }
@@ -320,5 +335,11 @@ namespace WorkspaceManager.Model
             get { return pluginProtocol; }
             set { pluginProtocol = value;}
         }
+    }
+
+    public enum PluginModelState{
+        Normal,
+        Warning,
+        Error
     }
 }

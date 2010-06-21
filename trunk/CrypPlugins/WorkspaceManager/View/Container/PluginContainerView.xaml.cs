@@ -210,6 +210,20 @@ namespace WorkspaceManager.View.Container
 
         public void update()
         {
+            //Color the view corresponding to warning or error state
+            if (model.State == PluginModelState.Warning)
+            {
+                this.Window.Background = new SolidColorBrush(Colors.Yellow);
+            }
+            else if (model.State == PluginModelState.Error)
+            {
+                this.Window.Background = new SolidColorBrush(Colors.Red);
+            }
+            else
+            {
+                //todo: assign old color and appereance
+            }
+
             ProgressBar.Value = model.PercentageFinished;
             if (model.PluginPresentation == null)
             {
@@ -252,7 +266,7 @@ namespace WorkspaceManager.View.Container
                 PresentationPanel.Children.Clear();
                 PresentationPanel.Children.Add(model.PluginPresentation);
             }
-            else if(PresentationPanel.Children.Contains(model.PluginPresentation))
+            else if(!PresentationPanel.Children.Contains(model.PluginPresentation))
             {
                 PresentationPanel.Children.Clear();
                 img = model.getImage();

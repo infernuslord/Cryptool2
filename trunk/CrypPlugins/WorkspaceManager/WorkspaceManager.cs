@@ -34,6 +34,7 @@ using System.Windows;
 using System.Windows.Threading;
 using System.Threading;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 //Disable warnings for unused or unassigned fields and events:
 #pragma warning disable 0169, 0414, 0067
@@ -367,6 +368,11 @@ namespace WorkspaceManager
                 try
                 {
                     ExecutionEngine.GuiUpdateInterval = long.Parse(((WorkspaceManagerSettings)this.Settings).GuiUpdateInterval);
+                    if (ExecutionEngine.GuiUpdateInterval <= 0)
+                    {
+                        GuiLogMessage("GuiUpdateInterval can not be <=0; Use GuiUpdateInterval = 1", NotificationLevel.Warning);
+                        ExecutionEngine.GuiUpdateInterval = 1;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -502,6 +508,32 @@ namespace WorkspaceManager
         /// <param name="args"></param>
         public void GuiLogNotificationOccured(IPlugin sender, GuiLogEventArgs args)
         {
+            //Check if the logging event is Warning or Error and set the State of the PluginModel to
+            //the corresponding PluginModelState
+            if (args.NotificationLevel == NotificationLevel.Warning)
+            {                
+                foreach (PluginModel pluginModel in this.WorkspaceModel.AllPluginModels)
+                {
+                    if (pluginModel.Plugin == sender)
+                    {
+                        pluginModel.State = PluginModelState.Warning;
+                        pluginModel.GuiNeedsUpdate = true;
+                    }
+                }
+            }
+
+            if (args.NotificationLevel == NotificationLevel.Error)
+            {               
+                foreach (PluginModel pluginModel in this.WorkspaceModel.AllPluginModels)
+                {
+                    if (pluginModel.Plugin == sender)
+                    {
+                        pluginModel.State = PluginModelState.Error;
+                        pluginModel.GuiNeedsUpdate = true;
+                    }
+                }
+            }
+            
             if (OnGuiLogNotificationOccured != null)
                 OnGuiLogNotificationOccured(sender, args);
         }
