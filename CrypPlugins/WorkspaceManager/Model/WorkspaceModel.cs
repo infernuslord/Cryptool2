@@ -212,6 +212,10 @@ namespace WorkspaceManager.Model
         /// </summary>
         public void resetStates()
         {
+            foreach (PluginModel pluginModel in this.AllPluginModels)
+            {
+                pluginModel.State = PluginModelState.Normal;
+            }
             foreach (ConnectionModel connection in this.AllConnectionModels)
             {
                 connection.Active = false;
