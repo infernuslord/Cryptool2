@@ -31,7 +31,7 @@ using System.Windows.Input;
 namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 {
     [Author("Dennis Nolte", "nolte@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "VigenereAutokeyAnalyser", "Ciphertext-only attack on VigenereAutoKey encryption", null, "VigenereAutokeyAnalyser/icon.png")]
+    [PluginInfo(false, "VigenereAutokeyAnalyser", "Ciphertext-only attack on VigenereAutoKey encryption", "VigenereAutokeyAnalyser/DetailedDescription/Description.xaml", "VigenereAutokeyAnalyser/icon.png")]
 
     public class VigenereAutokeyAnalyser : IStatistic
     {

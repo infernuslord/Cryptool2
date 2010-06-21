@@ -1,0 +1,105 @@
+<FlowDocument PagePadding="5,0,5,0" AllowDrop="True" NumberSubstitution.CultureSource="User"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+              xmlns:misc="clr-namespace:Cryptool.PluginBase.Miscellaneous;assembly=CrypPluginBase" 
+              Background="White" 
+              Name="flowDoc"
+              ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+    
+    
+    
+    
+    <Paragraph Margin="0,0,0,0" TextAlignment="Center" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span FontWeight="Bold" FontSize="16" xml:lang="de-de">
+            <Span.TextDecorations>
+                <TextDecoration Location="Underline" />
+            </Span.TextDecorations> The Vigenere Autokey Analyser
+        </Span>
+    </Paragraph>
+
+   
+    
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        
+        <Span xml:lang="de-de"> The Vigenere Autokey Analyser is used for a ciphertext-only attack on vigenere or autokey ciphers. </Span>
+    </Paragraph>
+    <Paragraph TextAlignment="Justify">
+       <Run> (For more information on the autokey cipher have a look
+       </Run>
+       <Span Foreground="#FF0000FF" xml:lang="en-us">
+            <misc:DescriptionHyperlink NavigateUri="http://en.wikipedia.org/wiki/Autokey_cipher">here
+            </misc:DescriptionHyperlink>
+        </Span>
+        <Run>.)
+        </Run>
+    </Paragraph> 
+    
+        <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <InlineUIContainer>
+            <Image Source="/VigenereAutokeyAnalyser;Component/DetailedDescription/Images/pic3.jpg" Height="150" Width="150"/>
+        </InlineUIContainer>
+    </Paragraph>
+    
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span xml:lang="de-de"> As seen above the plugin contains of three inputs and one output. The output will deliever the most probable keyword your text was encrypted with. The plugin uses "the sum of least squares" method to find the most probable key letters fr each column of the cipher. To calculate the key only a ciphertext and a guess about the language is required. The plugin consists of three inputs. </Span>
+    </Paragraph>
+    
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span xml:lang="de-de"> The first input requires the ciphertext that needs to be analysed, however the other two inputs are optional. You can either give a textkorpus to the second input, so that the plugin can refer to a language you assume the plaintext to be, or supplie an assumed keylength that the analyser should work with. Instead of using these two optional inputs you can just select a language in the taskpane on the right side of your cryptool window: </Span>
+    </Paragraph>
+    
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <InlineUIContainer>
+            <Image Source="/VigenereAutokeyAnalyser;Component/DetailedDescription/Images/pic2.jpg" Height="300" Width="300"/>
+        </InlineUIContainer>
+    </Paragraph>
+    
+    
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span xml:lang="de-de">Just select the language you assume the original plaintext to be. Also don't forget to select between the two modes of the analyser wether you try to break an autokey or a classic vigenere cipher. The alphabet represents all characters the plaintext was most likely shifted with. Normally you don't need to change those characters. </Span>
+    </Paragraph>
+
+    
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Center" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span FontWeight="Bold" FontSize="16" xml:lang="de-de">
+            <Span.TextDecorations>
+                <TextDecoration Location="Underline" />
+        </Span.TextDecorations> Using The Vigenere Autokey Analyser Plugin </Span>
+    </Paragraph>
+
+    
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span xml:lang="de-de">After setting up the task pane options and the cipher input you can start the process.</Span>
+    </Paragraph>
+
+    
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <InlineUIContainer>
+            <Image Source="/VigenereAutokeyAnalyser;Component/DetailedDescription/Images/pic1.jpg" Height="300" Width="300"/>
+        </InlineUIContainer>
+    </Paragraph>
+
+    
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span xml:lang="de-de">The quickwatch as seen above will now represent all calculated keys if there was no keylength given. If the third input was set, there'll only one possible key be seen in here. You can now select one of the keys by double clicking them. The gray key is the most probable one as it gains the highest IC for all possible plaintexts. If your cipher wasn't encoded corecct try to use another language frequency or use your own textkorpus to help with the analysis. </Span>
+    </Paragraph>        
+    
+    
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
+    <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
+        <Span xml:lang="de-de">This plugin will try out all possible keylength up until 1/40 of your ciphertextlength if there is no keylength set at the third input. To find a most probable keylength use the autokorrelation plugin on your ciphertext and connect its output with the third input of this plugin.
+    </Span>
+    </Paragraph>
+    
+     
+</FlowDocument>
