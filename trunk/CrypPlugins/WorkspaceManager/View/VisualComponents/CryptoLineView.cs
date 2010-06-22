@@ -181,19 +181,13 @@ namespace WorkspaceManager.View.VisualComponents
                             }
                         }
                     }
+                    //result.InvalidateMeasure();
                 }
             }
 
+
+
             context.BeginFigure(StartPoint, true, false);
-            //Console.WriteLine("----------------------------------------------------------------------");
-            //foreach (FromTo fromto in pointList)
-            //{
-            //    Console.WriteLine(fromto.ToString());
-            //    foreach (var intersectPoint in fromto.Intersection)
-            //    {
-            //        Console.WriteLine("  " + intersectPoint);
-            //    }
-            //}
 
             foreach (FromTo fromTo in pointList)
             {
@@ -228,11 +222,6 @@ namespace WorkspaceManager.View.VisualComponents
                     context.LineTo(fromTo.To, true, true);
                 }
             }
-
-            //Point pt3 = new Point(
-            //    pt05.X + ( cost - offset * sint),
-            //    pt05.Y + ( sint + offset * cost));
-            //context.LineTo(EndPoint, true, true);
 		}
 
         private void makeOrthogonalPoints()

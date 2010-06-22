@@ -4,7 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:z="clr-namespace:WorkspaceManager.View.Converter"
     xmlns:p="clr-namespace:WorkspaceManager.Properties"
-    Width="auto" MaxWidth="250">
+    Width="auto">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -28,7 +28,7 @@
             <SolidColorBrush Opacity="0.01" Color="#444444"></SolidColorBrush>
         </DockPanel.Background>
         <Border Name="Main" Height="10" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" ClipToBounds="True" Background="{StaticResource ResourceKey=BottomBoxBrushLinearBrush}" BorderBrush="#bfd0f5" BorderThickness="0.5" CornerRadius="15,15,0,0">
-            <StackPanel Name="MainElementsBorder" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Collapsed">
+            <StackPanel Name="MainElementsBorder" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed">
                 <Border Margin="1,1,1,1" Opacity="0.85" CornerRadius="5,5,0,0">
                     <Label Foreground="WhiteSmoke" VerticalAlignment="Top" ContentStringFormat="{}{0:F0} %" Content="{Binding Source={x:Static p:Settings.Default}, Path=EditScale, Mode=OneWay, Converter={StaticResource ResourceKey=PercentageConverter}}" Width="42"></Label>
                 </Border>
@@ -50,13 +50,13 @@
             </StackPanel>
         </Border>
 
-        <StackPanel Orientation="Horizontal" Name="Sub" HorizontalAlignment="Center" Opacity="0.6" DockPanel.Dock="Bottom" Height="23" VerticalAlignment="Bottom" Visibility="Visible">
+        <!--<StackPanel Orientation="Horizontal" Name="Sub" HorizontalAlignment="Center" Opacity="0.6" DockPanel.Dock="Bottom" Height="23" VerticalAlignment="Bottom" Visibility="Visible">
             <StackPanel.RenderTransform>
                 <TranslateTransform></TranslateTransform>
             </StackPanel.RenderTransform>
             <Image VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,0,5,0" Source="/WorkspaceManager;component/View/Image/arrow.png" Width="14"/>
             <Image VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,2" Source="/WorkspaceManager;component/View/Image/arrow.png" Width="17"/>
             <Image VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5,0,10,0" Source="/WorkspaceManager;component/View/Image/arrow.png" Width="14"/>
-        </StackPanel>
+        </StackPanel>-->
     </DockPanel>
 </UserControl>

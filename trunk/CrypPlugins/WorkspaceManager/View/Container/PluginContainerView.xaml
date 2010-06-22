@@ -3,8 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:e="clr-namespace:WorkspaceManager.View.Container"
-             MinHeight="100" MinWidth="130" Width="130" Height="100"
+             xmlns:e="clr-namespace:WorkspaceManager.View.VisualComponents"
+             xmlns:z="clr-namespace:WorkspaceManager.View.Converter"
+             MinHeight="90" MinWidth="100" Width="100" Height="90"
              mc:Ignorable="d">
     <UserControl.Background>
         <SolidColorBrush Opacity="0.01" Color="#444444"></SolidColorBrush>
@@ -13,7 +14,9 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Resource/Styles.xaml"/>
+                <ResourceDictionary Source="../Resource/Animations.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <z:ScaleToPercentageConverter x:Key="PercentageConverter"></z:ScaleToPercentageConverter>
         </ResourceDictionary>
     </UserControl.Resources>
     <DockPanel Name="Root" LastChildFill="True">
@@ -34,36 +37,55 @@
                 <Image Source="/WorkspaceManager;component/View/Image/delete.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
             </Button>
         </StackPanel>
+        <Grid DockPanel.Dock="Top" Width="{Binding ElementName=PresentationPanel, Path=ActualWidth}" Height="10">
+            <ProgressBar Name="ProgressBarInit" Background="Black" Height="10" Width="Auto" Foreground="ForestGreen" Opacity="0.5" Maximum="1">
+                <ProgressBar.Resources>
+                    <ResourceDictionary Source="/PresentationFramework.Aero;v3.0.0.0;31bf3856ad364e35;component/themes/aero.normalcolor.xaml"/>
+                </ProgressBar.Resources>
+            </ProgressBar>
+            <Label Name="Percentage" HorizontalAlignment="Center" FontSize="9" Margin="0,-10,0,0" Foreground="WhiteSmoke" ContentStringFormat="{}{0:F0} %" Content="{Binding ElementName=ProgressBarInit,Path=Value, Mode=OneWay, Converter={StaticResource ResourceKey=PercentageConverter}}"></Label>
+        </Grid>
         
+
         <!--<Border DockPanel.Dock="Bottom" Height="10" Width="{Binding ElementName=PresentationPanel, Path=ActualWidth}" Background="#82bbef" BorderBrush="#4c71bf" BorderThickness="1" Opacity="0.5" Margin="0,0,0,0">
             <StackPanel/>
         </Border>-->
         
-        <Border Name="Window" Background="{StaticResource ResourceKey=GlassBrush}" CornerRadius="7" BorderBrush="#82bbef" BorderThickness="1.3">
+        <Border Name="Window" CornerRadius="5" BorderThickness="2" BorderBrush="Beige">
+            <Border.Background>
+                <LinearGradientBrush Opacity="1" StartPoint="0,0" EndPoint="0,1">
+                    <GradientBrush.GradientStops>
+                        <GradientStopCollection>
+                            <GradientStop x:Name="BorderGradientStop" Color="#00b4fb" Offset="0.0"/>
+                            <GradientStop x:Name="BorderGradientStopSecond" Color="#3300b4fb" Offset="1"/>
+                        </GradientStopCollection>
+                    </GradientBrush.GradientStops>
+                </LinearGradientBrush>
+            </Border.Background>
             <Grid>
-                <ProgressBar Name="ProgressBar" Maximum="1.0" Foreground="Green" Background="{Binding ElementName=PluginNamePlate, Path=Fill}" Opacity="0.3" >
-                    <ProgressBar.Resources>
-                        <ResourceDictionary Source="/PresentationFramework.Aero;v3.0.0.0;31bf3856ad364e35;component/themes/aero.normalcolor.xaml"/>
-                    </ProgressBar.Resources>
-                </ProgressBar>
-                <Thumb Name="BottomDelta" Opacity="0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Cursor="SizeNS" DragDelta="Thumb_DragDelta"></Thumb>
-                <Thumb Name="RightDelta" Opacity="0" HorizontalAlignment="Right" VerticalAlignment="Stretch" Cursor="SizeWE" DragDelta="Thumb_DragDelta" ></Thumb>
-                <Thumb Name="BottomRightDelta" Opacity="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Cursor="SizeNWSE" Height="15" Width="15" DragDelta="Thumb_DragDelta"></Thumb>
-                <Grid Name="PresentationBase" Width="Auto" Height="Auto" Margin="3">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="20"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Rectangle Name="PluginNamePlate" Margin="2.5,1.25,2.5,1.25" Height="10" Opacity="0.5" Fill="#82bbef"/>
-                
-                    <Label Name="PluginName" FontSize="11" Margin="3,-2,0,0" FontFamily="Georgia" Foreground="WhiteSmoke" Content="test" HorizontalAlignment="left"></Label>
-
-                    <Grid Grid.Row="1" Name="PresentationPanel" Width="Auto" Height="Auto" Margin="5,0,5,5" Background="Transparent">
-                        <Grid.Effect>
+                <Thumb Name="BottomDelta" IsEnabled="False" Opacity="0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Cursor="SizeNS" DragDelta="Thumb_DragDelta"></Thumb>
+                <Thumb Name="RightDelta" IsEnabled="False" Opacity="0" HorizontalAlignment="Right" VerticalAlignment="Stretch" Cursor="SizeWE" DragDelta="Thumb_DragDelta"></Thumb>
+                <Thumb Name="BottomRightDelta" IsEnabled="False" Opacity="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Cursor="SizeNWSE" Height="15" Width="15" DragDelta="Thumb_DragDelta"></Thumb>
+                <DockPanel Name="PresentationBase" Width="Auto" Height="Auto" LastChildFill="True" Margin="3">
+                    <!--<Grid Name="PluginNamePlate" DockPanel.Dock="Top" Margin="2.5,1.25,2.5,1.25" Height="17" Opacity="0.5" Background="#82bbef">
+                        <Label Name="PluginName" FontSize="11" Margin="0,-3,0,0" FontFamily="Georgia" Foreground="WhiteSmoke" Content="test" HorizontalAlignment="left"></Label>
+                    </Grid>-->
+                    <Border Name="MinMaxBorder" Height="7" DockPanel.Dock="Bottom" BorderBrush="#88FFFFFF" Background="#88444444" BorderThickness="1.7" CornerRadius="2" MouseLeftButtonDown="MinMaxBorder_MouseLeftButtonDown">
+                        <Border.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard Storyboard="{StaticResource ResourceKey=MaxMinColorAnimEnter}"/>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard Storyboard="{StaticResource ResourceKey=MaxMinColorAnimLeave}"/>
+                            </EventTrigger>
+                        </Border.Triggers>
+                    </Border>
+                    <Border Name="PresentationPanel" Width="Auto" Height="Auto" Margin="2.5,2.5,2.5,2.5" Background="Transparent">
+                        <Border.Effect>
                             <DropShadowEffect BlurRadius="2" Color="Black" ShadowDepth="0.1" Direction="90" Opacity="0.4"></DropShadowEffect>
-                        </Grid.Effect>
-                    </Grid>
-                </Grid>
+                        </Border.Effect>
+                    </Border>
+                </DockPanel>
             </Grid>
         </Border>
     </DockPanel>

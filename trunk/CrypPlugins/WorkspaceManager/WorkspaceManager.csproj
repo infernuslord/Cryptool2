@@ -110,6 +110,9 @@
     <Compile Include="View\Interface\IConnection.cs" />
     <Compile Include="View\Interface\IDraggable.cs" />
     <Compile Include="View\Interface\IUpdateableView.cs" />
+    <Compile Include="View\VisualComponents\CircularProgressBar.xaml.cs">
+      <DependentUpon>CircularProgressBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\VisualComponents\CryptoLineView.cs" />
     <Compile Include="View\VisualComponents\BottomBox.xaml.cs">
       <DependentUpon>BottomBox.xaml</DependentUpon>
@@ -162,8 +165,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\VisualComponents\CircularProgressBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Resources\Attributes.resx">
       <SubType>Designer</SubType>

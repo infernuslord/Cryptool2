@@ -52,7 +52,7 @@ namespace WorkspaceManager.Model
         /// </summary>
         public Point Position { get; set; }
 
-        private double minWidth=50;
+        private double minWidth=150;
         /// <summary>
         /// Minimum Width of this VisualElementModel
         /// </summary>
@@ -61,14 +61,14 @@ namespace WorkspaceManager.Model
             get { return minWidth; }
             set
             {
-                if (value > 50)
+                if (value > 150)
                 {
                     minWidth = value;
                 };
             }
         }
 
-        private double minHeight = 50;
+        private double minHeight = 150;
         /// <summary>
         /// Minimum Height of this VisualElementModel
         /// </summary>
@@ -77,7 +77,7 @@ namespace WorkspaceManager.Model
             get{ return minHeight; }
             set
             {
-                if (value > 50)
+                if (value > 150)
                 {
                     minHeight = value;
                 };

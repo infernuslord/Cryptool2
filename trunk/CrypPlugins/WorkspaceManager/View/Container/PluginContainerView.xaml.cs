@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WorkspaceManager.View.Interface;
 using WorkspaceManager.Model;
+using WorkspaceManager.View.VisualComponents;
 using System.Windows.Controls.Primitives;
 
 namespace WorkspaceManager.View.Container
@@ -26,9 +27,22 @@ namespace WorkspaceManager.View.Container
         public event EventHandler<PluginContainerViewDeleteViewEventArgs> Delete;
         public event EventHandler<PluginContainerViewSettingsViewEventArgs> ShowSettings;
 
-        private Image img;
+        private static double MinHeightBackup;
+        private static double MinWidthBackup;
 
-        public VisualBrush VisualBrush { get; set; }
+        private Image icon;
+        public Image Icon
+        {
+            get
+            {
+                return icon;
+            }
+            set
+            {
+                icon = value;
+                icon.Stretch = Stretch.Uniform;
+            }
+        }
 
         private List<ConnectorView> connectorViewList;
         public List<ConnectorView> ConnectorViewList
@@ -58,17 +72,17 @@ namespace WorkspaceManager.View.Container
             this.MouseEnter += new MouseEventHandler(PluginContainerView_MouseEnter);
             this.MouseLeave += new MouseEventHandler(PluginContainerView_MouseLeave);
             InitializeComponent();
+            MinHeightBackup = this.MinHeight;
+            MinWidthBackup = this.MinWidth;
             this.ConnectorViewList = new List<ConnectorView>();
             this.RenderTransform = new TranslateTransform();
             this.model = model;
             this.model.UpdateableView = this;
-            this.Window.BorderBrush = new SolidColorBrush(ColorHelper.GetColor(model.PluginType));
-            this.PluginNamePlate.Fill = Window.BorderBrush;
-
-            if (model.PluginPresentation != null)
-            {
-                this.PresentationPanel.Children.Add(model.PluginPresentation);
-            }
+            this.BorderGradientStop.Color = ColorHelper.GetColor(model.PluginType);
+            this.BorderGradientStopSecond.Color = Color.FromArgb(100, this.BorderGradientStop.Color.R, this.BorderGradientStop.Color.G, this.BorderGradientStop.Color.B);
+            this.Icon = model.getImage();
+            this.PresentationPanel.Child = this.Icon;
+            
         }
 
         void PluginContainerView_MouseLeave(object sender, MouseEventArgs e)
@@ -83,13 +97,10 @@ namespace WorkspaceManager.View.Container
 
         void PluginContainerView_Loaded(object sender, RoutedEventArgs e)
         {
-            if (model.PluginPresentation == null)
-            {
-                img = model.getImage();
-                img.Stretch = Stretch.Uniform;
-                PresentationPanel.Children.Add(img);
-                PluginName.Content = model.PluginType.Name.ToString();
-            }
+
+            PresentationPanel.Child = Icon;
+            //PluginName.Content = model.PluginType.Name.ToString();
+
             foreach (ConnectorModel Model in model.InputConnectors)
             {
                 AddInputConnectorView(new ConnectorView(Model));
@@ -224,14 +235,9 @@ namespace WorkspaceManager.View.Container
                 //todo: assign old color and appereance
             }
 
-            ProgressBar.Value = model.PercentageFinished;
-            if (model.PluginPresentation == null)
-            {
-                PresentationPanel.Children.Remove(img);
-                img = model.getImage();
-                img.Stretch = Stretch.Uniform;
-                PresentationPanel.Children.Add(img);
-            }
+            //(ProgressBarPanel.Children[0] as CircularProgressBar).Percentage = model.PercentageFinished;
+            ProgressBarInit.Value = model.PercentageFinished;
+            Icon = model.getImage();
         }
 
         #endregion
@@ -260,18 +266,36 @@ namespace WorkspaceManager.View.Container
                 if ((this.ActualWidth + e.HorizontalChange) > 0)
                     this.Width = this.ActualWidth + e.HorizontalChange;
             }
+        }
 
-            if ((ActualWidth > MinWidth || ActualHeight > MinHeight) && (model.PluginPresentation != null && !PresentationPanel.Children.Contains(model.PluginPresentation)))
+        private void MinMaxBorder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (model.PluginPresentation != null && PresentationPanel.Child is Image)
             {
-                PresentationPanel.Children.Clear();
-                PresentationPanel.Children.Add(model.PluginPresentation);
+                MinMaxBorder.BorderThickness = new Thickness(3);
+                this.MinHeight = model.MinHeight;
+                this.MinWidth = model.MinWidth;
+                this.Width = model.MinWidth;
+                this.Height = model.MinHeight;
+                BottomDelta.IsEnabled = true;
+                RightDelta.IsEnabled = true;
+                BottomRightDelta.IsEnabled = true;
+                PresentationPanel.Child = model.PluginPresentation;
+                return;
             }
-            else if(!PresentationPanel.Children.Contains(model.PluginPresentation))
+
+            if (PresentationPanel.Child is UserControl)
             {
-                PresentationPanel.Children.Clear();
-                img = model.getImage();
-                img.Stretch = Stretch.Uniform;
-                PresentationPanel.Children.Add(img);
+                MinMaxBorder.BorderThickness = new Thickness(1.7);
+                this.MinHeight = MinWidthBackup;
+                this.MinWidth = MinWidthBackup;
+                this.Width = MinWidthBackup;
+                this.Height = MinWidthBackup;
+                BottomDelta.IsEnabled = false;
+                RightDelta.IsEnabled = false;
+                BottomRightDelta.IsEnabled = false;
+                PresentationPanel.Child = this.Icon;
+                return;
             }
         }
 

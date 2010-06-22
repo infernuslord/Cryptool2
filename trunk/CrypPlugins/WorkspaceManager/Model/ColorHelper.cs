@@ -36,23 +36,23 @@ namespace WorkspaceManager.Model
                         type.FullName == "System.Int32[]" ||
                         type.FullName == "System.Int64[]")
             {
-                return Colors.SkyBlue;
+                return Colors.LightGoldenrodYellow;
             }
             else if (type.FullName == "Cryptool.PluginBase.IO.CryptoolStream")
             {
-                return Colors.Orange;
+                return Colors.LightGreen;
             }
             else if (type.FullName == "System.Byte" || type.FullName == "System.Byte[]")
             {
-                return Colors.LightGreen;
+                return Colors.LightSkyBlue;
             }
             else if (type.FullName == "System.Boolean" || type.FullName == "System.Boolean[]")
             {
-                return Colors.Red;
+                return Colors.Tomato;
             }
             else if (type.FullName == "System.Numerics.BigInteger")
             {
-                return Colors.Purple;
+                return Colors.SteelBlue;
             }
             else
             {
@@ -85,7 +85,7 @@ namespace WorkspaceManager.Model
 
                 if (type.GetInterface(typeof(IHash).Name) != null)
                 {
-                    return Colors.Orange;
+                    return Colors.Indigo;
                 }
 
                 if (type.GetInterface(typeof(IStatistic).Name) != null)
@@ -95,10 +95,10 @@ namespace WorkspaceManager.Model
 
                 if (type.GetInterface(typeof(IAnalysisMisc).Name) != null)
                 {
-                    return Colors.Turquoise;
+                    return Colors.OrangeRed;
                 }
 
-                return Colors.Black;
+                return Color.FromRgb(75,246,92);
             }
         }
     }

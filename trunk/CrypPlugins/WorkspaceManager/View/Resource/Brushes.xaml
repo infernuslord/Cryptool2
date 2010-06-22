@@ -4,10 +4,8 @@
     <LinearGradientBrush x:Key="EditorBackgroundLinearBrush" StartPoint="0,0" EndPoint="0,1">
         <GradientBrush.GradientStops>
             <GradientStopCollection>
-                <GradientStop Color="#293955" Offset="1.0"/>
-                <GradientStop Color="#3d5376" Offset="0.6"/>
-                <GradientStop Color="#3d5376" Offset="0.4"/>
-                <GradientStop Color="#293955" Offset="0.0"/>
+                <GradientStop Color="#0e0e0e" Offset="1.0"/>
+                <GradientStop Color="#555555" Offset="0.0"/>
             </GradientStopCollection>
         </GradientBrush.GradientStops>
     </LinearGradientBrush>
@@ -15,8 +13,8 @@
     <LinearGradientBrush x:Key="BottomBoxBrushLinearBrush" StartPoint="0,0" EndPoint="0,1">
         <GradientBrush.GradientStops>
             <GradientStopCollection>
-                <GradientStop Color="#AA557bda" Offset="1.0"/>
-                <GradientStop Color="#AA2e58b0" Offset="0.0"/>
+                <GradientStop Color="#AA666666" Offset="1.0"/>
+                <GradientStop Color="#AA666666" Offset="0.0"/>
             </GradientStopCollection>
         </GradientBrush.GradientStops>
     </LinearGradientBrush>
@@ -31,7 +29,7 @@
         <GradientStop Color="White" Offset="1.0" />
     </RadialGradientBrush>
 
-    <DrawingBrush x:Key="GridBrush" Viewport="0,0,10,10" ViewportUnits="Absolute" TileMode="Tile" Opacity="0.15">
+    <DrawingBrush x:Key="GridBrush" Viewport="0,0,10,10" ViewportUnits="Absolute" TileMode="Tile" Opacity="0.10">
         <DrawingBrush.Drawing>
             <DrawingGroup>
                 <GeometryDrawing Geometry="M0,0 L1,0 1,0.1, 0,0.1Z" Brush="WhiteSmoke" />
@@ -40,17 +38,15 @@
         </DrawingBrush.Drawing>
     </DrawingBrush>
 
-    <SolidColorBrush x:Key="GlassBrush" Opacity="0.55" Color="#000000"></SolidColorBrush>
-
-    <LinearGradientBrush x:Key="BottomBoxBackgroundBrush" StartPoint="0,0" EndPoint="0,1">
+    <LinearGradientBrush x:Key="GlassBrush">
         <GradientBrush.GradientStops>
             <GradientStopCollection>
-                <GradientStop Color="#FFFFFF" Offset="1.0"/>
-                <GradientStop Color="#cccccc" Offset="0.0"/>
+                <GradientStop Color="#666666" Offset="0.0"/>
+                <GradientStop Color="#77444444" Offset="1.0"/>
             </GradientStopCollection>
         </GradientBrush.GradientStops>
     </LinearGradientBrush>
-    
+
     <LinearGradientBrush x:Key="DarkBrush" StartPoint="0,0" EndPoint="0,1">
         <GradientBrush.GradientStops>
             <GradientStopCollection>
