@@ -38,7 +38,7 @@
             </Button>
         </StackPanel>
         <Grid DockPanel.Dock="Top" Width="{Binding ElementName=PresentationPanel, Path=ActualWidth}" Height="10">
-            <ProgressBar Name="ProgressBarInit" Background="Black" Height="10" Width="Auto" Foreground="ForestGreen" Opacity="0.5" Maximum="1">
+            <ProgressBar Name="ProgressBarInit" Background="Black" Height="10" Width="Auto" Foreground="ForestGreen" Opacity="1" Maximum="1">
                 <ProgressBar.Resources>
                     <ResourceDictionary Source="/PresentationFramework.Aero;v3.0.0.0;31bf3856ad364e35;component/themes/aero.normalcolor.xaml"/>
                 </ProgressBar.Resources>
