@@ -73,6 +73,9 @@ namespace Cryptool.Plugins.QuadraticSieve
         private string ourName;
         private uint downloaded = 0;
         private uint uploaded = 0;
+        private HashSet<int> ourIndices;
+        private Queue<KeyValuePair<int, DateTime>> lostIndices;
+        private int loadIndex;
 
         public delegate void P2PWarningHandler(String warning);
         public event P2PWarningHandler P2PWarning;        
@@ -197,12 +200,12 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         private void LoadStoreThreadProc()
         {
-            int loadIndex = 0;
+            loadIndex = 0;
             downloaded = 0;
             uploaded = 0;
-            HashSet<int> ourIndices = new HashSet<int>();   //Stores all the indices which belong to our packets
+            ourIndices = new HashSet<int>();   //Stores all the indices which belong to our packets
             //Stores all the indices (together with there check date) which belong to lost packets (i.e. packets that can't be load anymore):
-            Queue<KeyValuePair<int, DateTime>> lostIndices = new Queue<KeyValuePair<int, DateTime>>();
+            lostIndices = new Queue<KeyValuePair<int, DateTime>>();
             double lastPerformance = 0;
             DateTime performanceLastPut = new DateTime();
 
@@ -246,8 +249,9 @@ namespace Cryptool.Plugins.QuadraticSieve
                             UpdateActivePeerInformation();
                         }                       
                     }
-
+                                        
                     SynchronizeHead();
+                    UpdateStoreLoadQueueInformation();
 
                     bool busy = false;
 
@@ -268,6 +272,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                         //show informations about the uploaded yield:
                         uploaded += (uint)yield.Length;
                         ShowTransfered(downloaded, uploaded);
+                        UpdateStoreLoadQueueInformation();
                         busy = true;
                     }
 
@@ -282,22 +287,21 @@ namespace Cryptool.Plugins.QuadraticSieve
                         bool checkAlive = loadIndex >= startHead;       //we don't check the peer alive informations of the packages that existed before we joined
                         TryReadAndEnqueueYield(loadIndex, checkAlive, lostIndices);
                         loadIndex++;
+                        UpdateStoreLoadQueueInformation();
                         busy = true;
                     }
                     
-                    //check all lost indices which are last checked longer than 2 minutes ago (but only if we have nothing else to do):
+                    //check lost indices which are last checked longer than 2 minutes ago (but only if we have nothing else to do):
                     if (!busy)
                     {
-                        int count = 0;
                         //TODO: Maybe we should throw away those indices, which have been checked more than several times.
-                        while (lostIndices.Count != 0 && lostIndices.Peek().Value.CompareTo(DateTime.Now.Subtract(new TimeSpan(0, 2, 0))) < 0)
+                        if (lostIndices.Count != 0 && lostIndices.Peek().Value.CompareTo(DateTime.Now.Subtract(new TimeSpan(0, 2, 0))) < 0)
                         {
                             var e = lostIndices.Dequeue();
                             TryReadAndEnqueueYield(loadIndex, true, lostIndices);
-                            count++;
+                            UpdateStoreLoadQueueInformation();                            
                         }
-
-                        if (count == 0)
+                        else
                             Thread.Sleep(5000);    //Wait 5 seconds
                     }
 
@@ -315,6 +319,20 @@ namespace Cryptool.Plugins.QuadraticSieve
             {
                 quadraticSieveQuickWatchPresentation.amountOfPeers.Content = "" + activePeers.Count + " other peer" + (activePeers.Count!=1 ? "s" : "") + " active!";
             }, null);
+        }
+
+        private void UpdateStoreLoadQueueInformation()
+        {
+            if (storequeue != null && ourIndices != null && lostIndices != null)
+            {
+                quadraticSieveQuickWatchPresentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    int upload = storequeue.Count;
+                    int download = head - loadIndex - ourIndices.Count(x => x > loadIndex);
+                    int lost = this.lostIndices.Count;
+                    quadraticSieveQuickWatchPresentation.queueInformation.Content = "Queue: Upload " + upload + "! Download " + download + "! Lost " + lost + "!";
+                }, null);
+            }
         }
 
         /// <summary>
@@ -471,7 +489,9 @@ namespace Cryptool.Plugins.QuadraticSieve
             Debug.Assert(decompr.Length == serializedYield.Length);
 
             //store in queue, so the LoadStoreThread can store it in the DHT later:
-            storequeue.Enqueue(compressedYield);            
+            storequeue.Enqueue(compressedYield);
+
+            UpdateStoreLoadQueueInformation();
         }
 
         /// <summary>
