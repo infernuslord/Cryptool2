@@ -13,4 +13,12 @@
         <DoubleAnimation From="0" To="8" Duration="00:00:00.5" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"/>
     </Storyboard>
 
+    <Storyboard x:Key="MaxMinColorAnimEnter" DecelerationRatio="0.5">
+        <ColorAnimation To="#FFFFFF" Duration="00:00:00.5" Storyboard.TargetProperty="BorderBrush.Color"></ColorAnimation>
+    </Storyboard>
+
+    <Storyboard x:Key="MaxMinColorAnimLeave" DecelerationRatio="0.5">
+        <ColorAnimation To="#88FFFFFF" Duration="00:00:00.5" Storyboard.TargetProperty="BorderBrush.Color"></ColorAnimation>
+    </Storyboard>
+
 </ResourceDictionary>
