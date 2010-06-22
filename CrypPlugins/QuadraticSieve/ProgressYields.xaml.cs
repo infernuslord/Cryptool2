@@ -113,7 +113,7 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         private bool SimilarColors(Color col1, Color col2)
         {
-            const int toleratedDifference = 20;
+            const int toleratedDifference = 15;
             int diffR = Math.Abs(col1.R - col2.R);
             int diffG = Math.Abs(col1.G - col2.G);
             int diffB = Math.Abs(col1.B - col2.B);
