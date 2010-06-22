@@ -87,15 +87,12 @@ namespace Cryptool.Plugins.QuadraticSieve
         private void SetOurID()
         {
             string username = WindowsIdentity.GetCurrent().Name;
-            string mac = GetMac();
+            string mac = GetMacIdentifier();
 
             MD5 md5 = new MD5CryptoServiceProvider();
-            byte[] idBytes = md5.ComputeHash(System.Text.ASCIIEncoding.ASCII.GetBytes(username + mac));            
-            
-            //Is it really a good idea to calculate the ID like this?
-            for (int c = 0; c < idBytes.Length; c++)            
-                ourID = ourID + (idBytes[c] << c);
+            byte[] idBytes = md5.ComputeHash(System.Text.ASCIIEncoding.ASCII.GetBytes(username + mac));
 
+            ourID = BitConverter.ToInt32(idBytes, 3);
             quadraticSieveQuickWatchPresentation.ProgressYields.setOurID(ourID);
 
             ourName = System.Net.Dns.GetHostName();
@@ -433,24 +430,18 @@ namespace Cryptool.Plugins.QuadraticSieve
         }
         
         /// <summary>
-        /// Returns our MAC address
+        /// Returns an identifier that depends on the MAC addresses of this system
         /// </summary>        
-        private string GetMac()
+        private string GetMacIdentifier()
         {
-            string Mac = string.Empty;
+            string MacID = "";
             ManagementClass MC = new ManagementClass("Win32_NetworkAdapter");
             ManagementObjectCollection MOCol = MC.GetInstances();
             foreach (ManagementObject MO in MOCol)
                 if (MO != null)
-                {
                     if (MO["MacAddress"] != null)
-                    {
-                        Mac = MO["MACAddress"].ToString();
-                        if (Mac != string.Empty)
-                            break;
-                    }
-                }
-            return Mac;
+                        MacID += MO["MACAddress"].ToString();
+            return MacID;
         }
 
         public Queue GetLoadedYieldsQueue()
