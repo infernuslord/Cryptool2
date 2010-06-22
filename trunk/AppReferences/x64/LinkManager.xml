@@ -4,6 +4,13 @@
         <name>LinkManager</name>
     </assembly>
     <members>
+        <member name="M:PeersAtPlay.Transport.TcpUdpTransport.BeginConnect(PeersAtPlay.Util.Threading.AsyncCallback{PeersAtPlay.ConnectionStatusChangedEventArgs},PeersAtPlay.Transport.TransportKey)">
+            <summary>
+            Use TransportKey instead of IPEndPoint
+            </summary>
+            <param name="callBack"></param>
+            <param name="ipep"></param>
+        </member>
         <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.Link.#ctor(PeersAtPlay.P2PLink.LinkAddress,PeersAtPlay.P2PLink.LinkAddress,System.Net.IPEndPoint,PeersAtPlay.P2PLink.TransportProtocol,System.Boolean)">
             <summary>
             
