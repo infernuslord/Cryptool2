@@ -71,6 +71,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         private static Type msieve = null;
         private static bool alreadyInUse = false;
         private static Mutex alreadyInUseMutex = new Mutex();
+        private AutoResetEvent waitForConnection = new AutoResetEvent(false);
 
         #endregion
 
@@ -154,14 +155,23 @@ namespace Cryptool.Plugins.QuadraticSieve
         {
             if (checkInUse())
                 return;
+
             try
             {
                 usePeer2Peer = settings.UsePeer2Peer;
-                if (usePeer2Peer && !P2PManager.IsConnected)
+                if (usePeer2Peer && !P2PManager.IsConnected && P2PManager.IsConnecting)
+                {
+                    P2PManager.ConnectionManager.OnP2PConnectionStateChangeOccurred += HandleConnectionStateChange;
+                    GuiLogMessage("Connecting to Peer2Peer network... Please wait!", NotificationLevel.Info);
+                    waitForConnection.WaitOne();                    
+                    P2PManager.ConnectionManager.OnP2PConnectionStateChangeOccurred -= HandleConnectionStateChange;
+                }
+                else if (usePeer2Peer && !P2PManager.IsConnected)
                 {
                     GuiLogMessage("No connection to Peer2Peer network. Sieving locally now!", NotificationLevel.Warning);
                     usePeer2Peer = false;
                 }
+
                 if (usePeer2Peer && settings.Channel.Trim() == "")
                 {
                     GuiLogMessage("No channel for Peer2Peer network specified. Sieving locally now!", NotificationLevel.Warning);
@@ -275,6 +285,11 @@ namespace Cryptool.Plugins.QuadraticSieve
             {
                 alreadyInUse = false;
             }
+        }
+
+        private void HandleConnectionStateChange(object sender, bool newState)
+        {
+            waitForConnection.Set();
         }
 
         private bool checkInUse()
