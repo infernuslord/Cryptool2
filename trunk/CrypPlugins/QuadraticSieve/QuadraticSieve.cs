@@ -638,31 +638,41 @@ namespace Cryptool.Plugins.QuadraticSieve
             
             MethodInfo msieve_run_core = msieve.GetMethod("msieve_run_core");
 
-            //Now factorize as often as needed:
-            while (!factorManager.OnlyPrimes())
+            try
             {
-                //get one composite factor, which we want to sieve now:
-                BigInteger compositeFactor = factorManager.GetCompositeFactor();
-                showFactorInformations(compositeFactor);
-                if (usePeer2Peer)
-                    peerToPeer.SetFactor(compositeFactor);
-
-                try
+                //Now factorize as often as needed:
+                while (!factorManager.OnlyPrimes())
                 {
-                    //now start quadratic sieve on it:                
-                    IntPtr resultList = (IntPtr)msieve_run_core.Invoke(null, new object[2] { obj, compositeFactor.ToString() });
-                    if (userStopped)
-                        return;
-
-                    factorManager.ReplaceCompositeByFactors(compositeFactor, resultList);   //add the result list to factorManager
-
+                    //get one composite factor, which we want to sieve now:
+                    BigInteger compositeFactor = factorManager.GetCompositeFactor();
+                    showFactorInformations(compositeFactor);
                     if (usePeer2Peer)
-                        peerToPeer.SyncFactorManager(factorManager);
+                        peerToPeer.SetFactor(compositeFactor);
+
+                    try
+                    {
+                        //now start quadratic sieve on it:                
+                        IntPtr resultList = (IntPtr)msieve_run_core.Invoke(null, new object[2] { obj, compositeFactor.ToString() });
+                        if (resultList == IntPtr.Zero)
+                            throw new NotSievableException();
+
+                        if (userStopped)
+                            return;
+
+                        factorManager.ReplaceCompositeByFactors(compositeFactor, resultList);   //add the result list to factorManager
+
+                        if (usePeer2Peer)
+                            peerToPeer.SyncFactorManager(factorManager);
+                    }
+                    catch (AlreadySievedException)
+                    {
+                        GuiLogMessage("Another peer already finished factorization of composite factor" + compositeFactor + ". Sieving next one...", NotificationLevel.Info);
+                    }
                 }
-                catch (AlreadySievedException)
-                {
-                    GuiLogMessage("Another peer already finished factorization of composite factor" + compositeFactor + ". Sieving next one...", NotificationLevel.Info);
-                }
+            }
+            catch (NotSievableException)
+            {
+                GuiLogMessage("This number is not sievable by msieve (maybe input too long?)", NotificationLevel.Error);
             }
         }
 

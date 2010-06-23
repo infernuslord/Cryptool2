@@ -21,7 +21,7 @@ using System.Text;
 
 namespace Cryptool.Plugins.QuadraticSieve
 {
-    class AlreadySievedException : Exception
+    class NotSievableException : Exception
     {
     }
 }
