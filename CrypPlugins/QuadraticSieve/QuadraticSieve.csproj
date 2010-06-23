@@ -108,6 +108,7 @@
   <ItemGroup>
     <Compile Include="AlreadySievedException.cs" />
     <Compile Include="FactorManager.cs" />
+    <Compile Include="NotSievableException.cs" />
     <Compile Include="PeerToPeer.cs" />
     <Compile Include="ProgressRelationPackages.xaml.cs">
       <DependentUpon>ProgressRelationPackages.xaml</DependentUpon>

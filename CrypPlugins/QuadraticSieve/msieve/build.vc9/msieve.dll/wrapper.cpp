@@ -376,14 +376,21 @@ namespace Msieve
 
 		static IntPtr msieve_run_core(IntPtr obj, String^ n)
 		{
-			mp_t N;
-			msieve_obj* o = (msieve_obj*)obj.ToPointer();
-			evaluate_expression(stringToCharA(n), &N);
-			factor_list_t* factor_list = new factor_list_t;
-			factor_list_init(factor_list);
-			factor_list_add(o, factor_list, &N);
-			::msieve_run_core(o, &N, factor_list);
-			return IntPtr(factor_list);
+			try
+			{
+				mp_t N;
+				msieve_obj* o = (msieve_obj*)obj.ToPointer();
+				evaluate_expression(stringToCharA(n), &N);
+				factor_list_t* factor_list = new factor_list_t;
+				factor_list_init(factor_list);
+				factor_list_add(o, factor_list, &N);
+				::msieve_run_core(o, &N, factor_list);
+				return IntPtr(factor_list);
+			}
+			catch (...)
+			{
+				return IntPtr::Zero;
+			}
 		}
 	};
 
