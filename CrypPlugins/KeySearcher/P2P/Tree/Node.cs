@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using KeySearcher.Helper;
 using KeySearcher.P2P.Exceptions;
 using KeySearcher.P2P.Storage;
@@ -12,6 +13,8 @@ namespace KeySearcher.P2P.Tree
 
         private NodeBase leftChild;
         private NodeBase rightChild;
+        private bool leftChildReserved;
+        private bool rightChildReserved;
 
         public Node(StorageHelper storageHelper, KeyQualityHelper keyQualityHelper, Node parentNode, BigInteger @from, BigInteger to, string distributedJobIdentifier)
             : base(storageHelper, keyQualityHelper, parentNode, @from, to, distributedJobIdentifier)
@@ -61,12 +64,20 @@ namespace KeySearcher.P2P.Tree
             rightChild = null;
         }
 
-        public override Leaf CalculatableLeaf(bool useReservedNodes)
+        public override void UpdateCache()
         {
             LoadOrUpdateChildNodes();
 
+            leftChildReserved = LeftChildFinished || leftChild.IsReserverd();
+            rightChildReserved = RightChildFinished || (rightChild != null && rightChild.IsReserverd());
+        }
+
+        public override Leaf CalculatableLeaf(bool useReservedNodes)
+        {
+            // LoadOrUpdateChildNodes();
+
             // Left child not finished and not reserved (or reserved leafs are allowed)
-            if (!LeftChildFinished && (!leftChild.IsReserverd() || useReservedNodes))
+            if (!LeftChildFinished && (!leftChildReserved || useReservedNodes))
             {
                 return leftChild.CalculatableLeaf(useReservedNodes);
             }
@@ -85,6 +96,7 @@ namespace KeySearcher.P2P.Tree
             {
                 LeftChildFinished = true;
                 leftChild = null;
+                UpdateCache();
                 return;
             }
 
@@ -92,22 +104,40 @@ namespace KeySearcher.P2P.Tree
             {
                 RightChildFinished = true;
                 rightChild = null;
+                UpdateCache();
                 return;
             }
         }
 
         public override bool IsReserverd()
         {
-            LoadOrUpdateChildNodes();
+            // LoadOrUpdateChildNodes();
 
-            var leftChildFinishedOrReserved = LeftChildFinished || leftChild.IsReserverd();
+            // var leftChildFinishedOrReserved = LeftChildFinished || leftChildReserved;
 
-            if (leftChildFinishedOrReserved && !RightChildFinished)
+            if (LeftChildFinished && !RightChildFinished)
             {
-                return rightChild.IsReserverd();
+                return rightChildReserved;
             }
 
-            return !LeftChildFinished && leftChild.IsReserverd();
+            if (!LeftChildFinished && RightChildFinished)
+            {
+                return leftChildReserved;
+            }
+
+            if (!LeftChildFinished && !RightChildFinished && rightChildReserved)
+            {
+                return leftChildReserved;
+            }
+
+            return rightChildReserved;
+            /*
+            if (leftChildFinishedOrReserved && !RightChildFinished)
+            {
+                return rightChildReserved;
+            }
+
+            return !LeftChildFinished && leftChildReserved;*/
         }
 
         public override string ToString()

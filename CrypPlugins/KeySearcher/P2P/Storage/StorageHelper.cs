@@ -104,6 +104,7 @@ namespace KeySearcher.P2P.Storage
                 statisticsGenerator.ProcessPatternResults(nodeToUpdate.Result);
             }
 
+            nodeToUpdate.UpdateCache();
             return requestResult;
         }
 

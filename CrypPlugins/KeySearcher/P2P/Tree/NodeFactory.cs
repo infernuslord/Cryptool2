@@ -21,6 +21,7 @@ namespace KeySearcher.P2P.Tree
                 newNode = new Node(storageHelper, keyQualityHelper, parentNode, from, to, distributedJobIdentifier);
             }
 
+            newNode.UpdateCache();
             return newNode;
         }
     }
