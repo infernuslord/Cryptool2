@@ -55,6 +55,7 @@ namespace KeySearcher.P2P.Tree
 
             IntegrateResultsIntoParent();
             ParentNode.ChildFinished(this);
+            ParentNode.UpdateCache();
 
             if (StorageHelper.RetrieveWithStatistic(StorageHelper.KeyInDht(this)).Status == RequestResultType.KeyNotFound)
             {
@@ -118,6 +119,8 @@ namespace KeySearcher.P2P.Tree
         public abstract bool IsCalculated();
 
         public abstract void Reset();
+
+        public abstract void UpdateCache();
 
         public override string ToString()
         {

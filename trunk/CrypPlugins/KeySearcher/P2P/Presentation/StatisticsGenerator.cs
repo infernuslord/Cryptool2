@@ -97,7 +97,16 @@ namespace KeySearcher.P2P.Presentation
             var secondsForOneChunk = timeUsedForLatestProgress.TotalSeconds/(double) totalAmountOfParticipants;
             var remainingChunks = totalAmountOfChunks - nextChunk;
             var secondsRemaining = (double) remainingChunks*secondsForOneChunk;
-            status.EstimatedFinishDate = DateTime.Now.AddSeconds(secondsRemaining).ToString("dd.MM. HH:mm");
+
+            try
+            {
+                status.EstimatedFinishDate = DateTime.Now.AddSeconds(secondsRemaining).ToString("dd.MM. HH:mm");
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                status.EstimatedFinishDate = "~";
+            }
+
             lastDateOfGlobalStatistics = DateTime.Now;
 
             highestChunkCalculated = nextChunk;

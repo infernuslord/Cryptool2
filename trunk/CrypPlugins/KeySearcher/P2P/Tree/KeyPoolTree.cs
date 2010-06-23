@@ -70,7 +70,8 @@ namespace KeySearcher.P2P.Tree
 
             bool isReserved = false;
             storageHelper.UpdateFromDht(currentNode, true);
-            while (currentNode.IsCalculated() || ((isReserved = currentNode.IsReserverd()) && !useReservedLeafs))
+            currentNode.UpdateCache();
+            while (currentNode.IsCalculated() || (!useReservedLeafs && (isReserved = currentNode.IsReserverd())))
             {
                 if (isReserved)
                     skippedReservedNodes = true;
@@ -88,9 +89,11 @@ namespace KeySearcher.P2P.Tree
 
                 // Update the new _currentNode
                 storageHelper.UpdateFromDht(currentNode, true);
+                currentNode.UpdateCache();
             }
 
             // currentNode is calculateable => find leaf
+            currentNode.UpdateCache();
             return currentNode.CalculatableLeaf(useReservedLeafs);
         }
 

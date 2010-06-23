@@ -10,6 +10,7 @@ namespace KeySearcher.P2P.Tree
     class Leaf : NodeBase
     {
         internal DateTime LastReservationDate;
+        private bool isLeafReserved;
 
         public Leaf(StorageHelper storageHelper, KeyQualityHelper keyQualityHelper, Node parentNode, BigInteger id, string distributedJobIdentifier)
             : base(storageHelper, keyQualityHelper, parentNode, id, id, distributedJobIdentifier)
@@ -46,6 +47,12 @@ namespace KeySearcher.P2P.Tree
         {
         }
 
+        public override void UpdateCache()
+        {
+            var dateFiveMinutesBefore = DateTime.UtcNow.Subtract(new TimeSpan(0, 5, 0));
+            isLeafReserved = dateFiveMinutesBefore < LastReservationDate;
+        }
+
         public bool ReserveLeaf()
         {
             LastReservationDate = DateTime.UtcNow;
@@ -54,9 +61,7 @@ namespace KeySearcher.P2P.Tree
 
         public override bool IsReserverd()
         {
-            var dateFiveMinutesBefore = DateTime.UtcNow.Subtract(new TimeSpan(0, 5, 0));
-            var isReserverd = dateFiveMinutesBefore < LastReservationDate;
-            return isReserverd;
+            return isLeafReserved;
         }
 
         public override string ToString()
