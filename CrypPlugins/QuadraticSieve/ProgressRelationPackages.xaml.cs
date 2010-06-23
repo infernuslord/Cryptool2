@@ -15,22 +15,22 @@ using System.Windows.Shapes;
 namespace Cryptool.Plugins.QuadraticSieve
 {
     /// <summary>
-    /// Interaction logic for ProgressYields.xaml
+    /// Interaction logic for ProgressRelationPackages.xaml
     /// </summary>
-    public partial class ProgressYields : UserControl
+    public partial class ProgressRelationPackages : UserControl
     {
         private int ourID;
         private ScrollViewer scrollViewer;
 
         public void Set(int i, int id, string name)
         {
-            if (root.Children.Count <= i)   //if no shape exists for this yield yet
+            if (root.Children.Count <= i)   //if no shape exists for this relation package yet
             {
                 //Create some shapes to fill the gap:
                 for (int c = root.Children.Count; c < i; c++)
-                    CreateYieldShape(c, 0, name);
+                    CreateRelationPackageShape(c, 0, name);
                 //create the rect:
-                CreateYieldShape(i, id, name);
+                CreateRelationPackageShape(i, id, name);
             }
             else
             {
@@ -58,34 +58,34 @@ namespace Cryptool.Plugins.QuadraticSieve
                 if (!(shape is Ellipse))
                 {
                     root.Children.Remove(shape);
-                    shape = GetYieldShape(uploaderID);                    
+                    shape = GetRelationPackageShape(uploaderID);                    
                     root.Children.Insert(index, shape);
                 }
                 shape.Fill = GetColor(uploaderID);
-                tooltip.Content = "This yield was sieved by us";
+                tooltip.Content = "This relation package was sieved by us";
             }
             else if (uploaderID == 0)
             {
                 shape.Fill = Brushes.Black;
-                tooltip.Content = "This yield was sieved by an unknown user and we didn't load it yet";
+                tooltip.Content = "This relation package was sieved by an unknown user and we didn't load it yet";
             }
             else if (uploaderID == -1)
             {
                 if (!(shape is Path))
                 {
                     root.Children.Remove(shape);
-                    shape = GetYieldShape(-1);
+                    shape = GetRelationPackageShape(-1);
                     root.Children.Insert(index, shape);
                 }
                 shape.Fill = Brushes.Black;
-                tooltip.Content = "This yield got lost";
+                tooltip.Content = "This relation package got lost";
             }
             else
             {
                 shape.Fill = GetColor(uploaderID);
                 if (uploaderName == null)
                     uploaderName = "other user";
-                tooltip.Content = "This yield was sieved by " + uploaderName + " but we loaded it";
+                tooltip.Content = "This relation package was sieved by " + uploaderName + " but we loaded it";
             }            
             shape.ToolTip = tooltip;
         }
@@ -120,15 +120,15 @@ namespace Cryptool.Plugins.QuadraticSieve
             return (diffR < toleratedDifference) && (diffG < toleratedDifference) && (diffB < toleratedDifference);
         }
 
-        private void CreateYieldShape(int c, int id, string name)
+        private void CreateRelationPackageShape(int c, int id, string name)
         {
-            Shape shape = GetYieldShape(id);            
+            Shape shape = GetRelationPackageShape(id);            
             root.Children.Add(shape);
             SetShapeToStatus(root.Children.Count-1, id, name);
             scrollViewer.ScrollToBottom();
         }
 
-        private Shape GetYieldShape(int id)
+        private Shape GetRelationPackageShape(int id)
         {
             Shape shape;
             if (id == ourID)
@@ -165,7 +165,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             return shape;
         }
 
-        public ProgressYields(ScrollViewer scrollViewer)
+        public ProgressRelationPackages(ScrollViewer scrollViewer)
         {
             InitializeComponent();
             root.Children.Clear();

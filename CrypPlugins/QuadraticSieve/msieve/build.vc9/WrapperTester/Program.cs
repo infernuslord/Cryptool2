@@ -10,20 +10,20 @@ namespace WrapperTester
 {
     class Program
     {
-        private static Queue yieldqueue;
+        private static Queue relationpackagequeue;
         private static bool running;
 
         static void prepareSieving(IntPtr conf, int update, IntPtr core_sieve_fcn, int max_relations)
         {
             Console.WriteLine("Update: " + update);
 
-            yieldqueue = Queue.Synchronized(new Queue());
+            relationpackagequeue = Queue.Synchronized(new Queue());
             
             //Create a thread:
             IntPtr clone = Msieve.msieve.cloneSieveConf(conf);
             WaitCallback worker = new WaitCallback(MSieveJob);
             running = true;
-            ThreadPool.QueueUserWorkItem(worker, new object[] { clone, update, core_sieve_fcn, yieldqueue });
+            ThreadPool.QueueUserWorkItem(worker, new object[] { clone, update, core_sieve_fcn, relationpackagequeue });
         }
 
         public static void MSieveJob(object param)
@@ -33,14 +33,14 @@ namespace WrapperTester
             IntPtr clone = (IntPtr)parameters[0];
             int update = (int)parameters[1];
             IntPtr core_sieve_fcn = (IntPtr)parameters[2];
-            Queue yieldqueue = (Queue)parameters[3];
+            Queue relationpackagequeue = (Queue)parameters[3];
 
             while (running)
             {
                     Msieve.msieve.collectRelations(clone, update, core_sieve_fcn);
-                    IntPtr yield = Msieve.msieve.getYield(clone);
-                    yield = Msieve.msieve.deserializeYield(Msieve.msieve.serializeYield(yield));
-                    yieldqueue.Enqueue(yield);
+                    IntPtr relationPackage = Msieve.msieve.getRelationPackage(clone);
+                    relationPackage = Msieve.msieve.deserializeRelationPackage(Msieve.msieve.serializeRelationPackage(relationPackage));
+                    relationpackagequeue.Enqueue(relationPackage);
             }
         }
 
@@ -48,7 +48,7 @@ namespace WrapperTester
         {            
             Msieve.callback_struct callbacks = new Msieve.callback_struct();
             callbacks.prepareSieving = prepareSieving;
-            callbacks.getTrivialFactorlist = delegate(IntPtr list, IntPtr obj)
+            callbacks.putTrivialFactorlist = delegate(IntPtr list, IntPtr obj)
             {
                 foreach (Object o in Msieve.msieve.getPrimeFactors(list))
                     Console.Out.WriteLine((String)o);

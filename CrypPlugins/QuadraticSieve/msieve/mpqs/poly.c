@@ -532,15 +532,15 @@ void build_base_poly(sieve_conf_t *conf) {
 	i += sprintf(buf + i, "\n");
 
 	if (conf->slave) {
-		if (++(conf->yield->yield_count) > conf->yield->yield_capacity)
+		if (++(conf->relationPackage->package_count) > conf->relationPackage->package_capacity)
 		{
-			conf->yield->yield_capacity *= 2;			
-			conf->yield->yield_array = xrealloc(conf->yield->yield_array, sizeof(struct yield_element) * conf->yield->yield_capacity);			
+			conf->relationPackage->package_capacity *= 2;			
+			conf->relationPackage->package_array = xrealloc(conf->relationPackage->package_array, sizeof(struct package_element) * conf->relationPackage->package_capacity);			
 		}
 
-		conf->yield->yield_array[conf->yield->yield_count - 1].type = 1;
+		conf->relationPackage->package_array[conf->relationPackage->package_count - 1].type = 1;
 		for (i = 0; i < 256; i++)
-			conf->yield->yield_array[conf->yield->yield_count - 1].polybuf[i] = buf[i];
+			conf->relationPackage->package_array[conf->relationPackage->package_count - 1].polybuf[i] = buf[i];
 	}
 	else
 		savefile_write_line(&obj->savefile, buf);

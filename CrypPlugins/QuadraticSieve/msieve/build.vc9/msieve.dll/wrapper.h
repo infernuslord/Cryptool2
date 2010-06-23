@@ -14,7 +14,7 @@ struct relation
 	uint32 large_prime2;
 };
 
-struct yield_element
+struct package_element
 {
 	int type;	// 0 = relation; 1 = poly
 	struct relation rel;
@@ -23,8 +23,8 @@ struct yield_element
 
 typedef struct
 {
-	int yield_count;
-	int yield_capacity;
-	struct yield_element *yield_array;
+	int package_count;
+	int package_capacity;
+	struct package_element *package_array;
 	int num_relations;
-} relationYield;
+} RelationPackage;
