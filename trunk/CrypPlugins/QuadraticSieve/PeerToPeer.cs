@@ -58,12 +58,12 @@ namespace Cryptool.Plugins.QuadraticSieve
         private BigInteger number;
         private BigInteger factor;
         private int head;
-        private Queue storequeue;   //yields to store in the DHT
-        private Queue loadqueue;    //yields that have been loaded from the DHT
+        private Queue storequeue;   //relation packages to store in the DHT
+        private Queue loadqueue;    //relation packages that have been loaded from the DHT
         private Thread loadStoreThread;
         private bool stopLoadStoreThread;
         private QuadraticSievePresentation quadraticSieveQuickWatchPresentation;
-        private AutoResetEvent yieldEvent;
+        private AutoResetEvent newRelationPackageEvent;
         private int ourID;           //Our ID
         private Dictionary<int, string> nameCache;  //associates the ids with the names
         private Queue<PeerPerformanceInformations> peerPerformances;      //A queue of performances from the different peers ordered by the date last checked.
@@ -80,10 +80,10 @@ namespace Cryptool.Plugins.QuadraticSieve
         public delegate void P2PWarningHandler(String warning);
         public event P2PWarningHandler P2PWarning;        
 
-        public PeerToPeer(QuadraticSievePresentation presentation, AutoResetEvent yieldEvent)
+        public PeerToPeer(QuadraticSievePresentation presentation, AutoResetEvent newRelationPackageEvent)
         {
             quadraticSieveQuickWatchPresentation = presentation;
-            this.yieldEvent = yieldEvent;
+            this.newRelationPackageEvent = newRelationPackageEvent;
             SetOurID();
         }
 
@@ -96,60 +96,60 @@ namespace Cryptool.Plugins.QuadraticSieve
             byte[] idBytes = md5.ComputeHash(System.Text.ASCIIEncoding.ASCII.GetBytes(username + mac));
 
             ourID = BitConverter.ToInt32(idBytes, 3);
-            quadraticSieveQuickWatchPresentation.ProgressYields.setOurID(ourID);
+            quadraticSieveQuickWatchPresentation.ProgressRelationPackages.setOurID(ourID);
 
             ourName = System.Net.Dns.GetHostName();
         }
 
         /// <summary>
-        /// Reads yield at position "index" from DHT and returns the ownerID and the decompressed packet itself.
+        /// Reads relation package at position "index" from DHT and returns the ownerID and the decompressed packet itself.
         /// </summary>
-        private byte[] ReadYield(int index, out int ownerID)
+        private byte[] ReadRelationPackage(int index, out int ownerID)
         {
             ownerID = 0;
-            byte[] yield = P2PManager.Retrieve(YieldIdentifier(index)).Data;
-            if (yield == null)
+            byte[] relationPackage = P2PManager.Retrieve(RelationPackageIdentifier(index)).Data;
+            if (relationPackage == null)
                 return null;
-            downloaded += (uint)yield.Length;
+            downloaded += (uint)relationPackage.Length;
 
-            byte[] decompressedYield = DecompressYield(yield);
+            byte[] decompressedRelationPackage = DecompressRelationPackage(relationPackage);
 
             byte[] idbytes = new byte[4];
-            Array.Copy(decompressedYield, idbytes, 4);
+            Array.Copy(decompressedRelationPackage, idbytes, 4);
             ownerID = BitConverter.ToInt32(idbytes, 0);
-            byte[] y = new byte[decompressedYield.Length - 4];
-            Array.Copy(decompressedYield, 4, y, 0, y.Length);
+            byte[] y = new byte[decompressedRelationPackage.Length - 4];
+            Array.Copy(decompressedRelationPackage, 4, y, 0, y.Length);
             
             return y;
         }
 
-        private static byte[] DecompressYield(byte[] yield)
+        private static byte[] DecompressRelationPackage(byte[] relationPackage)
         {
             MemoryStream memStream = new MemoryStream();
             DeflateStream defStream = new DeflateStream(memStream, CompressionMode.Decompress);
-            memStream.Write(yield, 0, yield.Length);
+            memStream.Write(relationPackage, 0, relationPackage.Length);
             memStream.Position = 0;
             MemoryStream memStream2 = new MemoryStream();
             defStream.CopyTo(memStream2);
             defStream.Close();
-            byte[] decompressedYield = memStream2.ToArray();
-            return decompressedYield;
+            byte[] decompressedRelationPackage = memStream2.ToArray();
+            return decompressedRelationPackage;
         }
 
-        private bool ReadAndEnqueueYield(int loadIndex, bool checkAlive)
+        private bool ReadAndEnqueueRelationPackage(int loadIndex, bool checkAlive)
         {
             int ownerID;
-            byte[] yield = ReadYield(loadIndex, out ownerID);
-            if (yield != null)
+            byte[] relationPackage = ReadRelationPackage(loadIndex, out ownerID);
+            if (relationPackage != null)
             {
                 ShowTransfered(downloaded, uploaded);
-                loadqueue.Enqueue(yield);
+                loadqueue.Enqueue(relationPackage);
 
                 string name = null;
 
                 if (ownerID != ourID)
                 {
-                    //Progress Yield:
+                    //Progress relation package:
                     if (!nameCache.ContainsKey(ownerID))
                     {
                         byte[] n = P2PManager.Retrieve(NameIdentifier(ownerID)).Data;
@@ -175,26 +175,26 @@ namespace Cryptool.Plugins.QuadraticSieve
                 }
 
                 //Set progress info:
-                SetProgressYield(loadIndex, ownerID, name);
+                SetProgressRelationPackage(loadIndex, ownerID, name);
 
-                yieldEvent.Set();
+                newRelationPackageEvent.Set();
                 return true;
             }
             return false;
         }
 
         /// <summary>
-        /// Tries to read and enqueue yield on position "loadIndex".
+        /// Tries to read and enqueue relation package on position "loadIndex".
         /// If it fails, it stores the index in lostIndices queue.
         /// </summary>
-        private void TryReadAndEnqueueYield(int index, bool checkAlive, Queue<KeyValuePair<int, DateTime>> lostIndices)
+        private void TryReadAndEnqueueRelationPackage(int index, bool checkAlive, Queue<KeyValuePair<int, DateTime>> lostIndices)
         {
-            bool succ = ReadAndEnqueueYield(index, checkAlive);
+            bool succ = ReadAndEnqueueRelationPackage(index, checkAlive);
             if (!succ)                
             {
                 var e = new KeyValuePair<int, DateTime>(index, DateTime.Now);
                 lostIndices.Enqueue(e);
-                SetProgressYield(index, -1, null);
+                SetProgressRelationPackage(index, -1, null);
             }
         }
 
@@ -257,26 +257,26 @@ namespace Cryptool.Plugins.QuadraticSieve
 
                     if (storequeue.Count != 0)  //store our packages
                     {
-                        byte[] yield = (byte[])storequeue.Dequeue();
-                        bool success = P2PManager.Store(YieldIdentifier(head), yield).IsSuccessful();
+                        byte[] relationPackage = (byte[])storequeue.Dequeue();
+                        bool success = P2PManager.Store(RelationPackageIdentifier(head), relationPackage).IsSuccessful();
                         while (!success)
                         {
                             SynchronizeHead();
-                            success = P2PManager.Store(YieldIdentifier(head), yield).IsSuccessful();
+                            success = P2PManager.Store(RelationPackageIdentifier(head), relationPackage).IsSuccessful();
                         }
-                        SetProgressYield(head, ourID, null);
+                        SetProgressRelationPackage(head, ourID, null);
                         ourIndices.Add(head);
                         
                         head++;
 
-                        //show informations about the uploaded yield:
-                        uploaded += (uint)yield.Length;
+                        //show informations about the uploaded relation package:
+                        uploaded += (uint)relationPackage.Length;
                         ShowTransfered(downloaded, uploaded);
                         UpdateStoreLoadQueueInformation();
                         busy = true;
                     }
 
-                    //load the other yields:
+                    //load the other relation packages:
 
                     //skip all indices which are uploaded by us:
                     while (ourIndices.Contains(loadIndex))
@@ -285,7 +285,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                     if (loadIndex < head)
                     {
                         bool checkAlive = loadIndex >= startHead;       //we don't check the peer alive informations of the packages that existed before we joined
-                        TryReadAndEnqueueYield(loadIndex, checkAlive, lostIndices);
+                        TryReadAndEnqueueRelationPackage(loadIndex, checkAlive, lostIndices);
                         loadIndex++;
                         UpdateStoreLoadQueueInformation();
                         busy = true;
@@ -298,7 +298,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                         if (lostIndices.Count != 0 && lostIndices.Peek().Value.CompareTo(DateTime.Now.Subtract(new TimeSpan(0, 2, 0))) < 0)
                         {
                             var e = lostIndices.Dequeue();
-                            TryReadAndEnqueueYield(loadIndex, true, lostIndices);
+                            TryReadAndEnqueueRelationPackage(loadIndex, true, lostIndices);
                             UpdateStoreLoadQueueInformation();                            
                         }
                         else
@@ -354,7 +354,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 {
                     head = dhthead;
                     if (head != 0)
-                        SetProgressYield(head - 1, 0, null);
+                        SetProgressRelationPackage(head - 1, 0, null);
                 }
             }
             else
@@ -377,19 +377,19 @@ namespace Cryptool.Plugins.QuadraticSieve
             }, null);
         }
 
-        private void SetProgressYield(int index, int id, string name)
+        private void SetProgressRelationPackage(int index, int id, string name)
         {
             quadraticSieveQuickWatchPresentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                quadraticSieveQuickWatchPresentation.ProgressYields.Set(index, id, name);
+                quadraticSieveQuickWatchPresentation.ProgressRelationPackages.Set(index, id, name);
             }, null);
         }
 
-        private void ClearProgressYields()
+        private void ClearProgressRelationPackages()
         {
             quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                quadraticSieveQuickWatchPresentation.ProgressYields.Clear();
+                quadraticSieveQuickWatchPresentation.ProgressRelationPackages.Clear();
             }, null);
         }
 
@@ -403,7 +403,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             return channel + "#" + number + "FACTORLIST";
         }
 
-        private string YieldIdentifier(int index)
+        private string RelationPackageIdentifier(int index)
         {
             return channel + "#" + number + "-" + factor + "!" + index;
         }
@@ -462,34 +462,34 @@ namespace Cryptool.Plugins.QuadraticSieve
             return MacID;
         }
 
-        public Queue GetLoadedYieldsQueue()
+        public Queue GetLoadedRelationPackagesQueue()
         {
             return loadqueue;
         }
 
         /// <summary>
-        /// Compresses the yield and puts it in the DHT.
+        /// Compresses the relation package and puts it in the DHT.
         /// </summary>
-        public void Put(byte[] serializedYield)
+        public void Put(byte[] serializedRelationPackage)
         {
             //Add our ID:
             byte[] idbytes = BitConverter.GetBytes(ourID);
             Debug.Assert(idbytes.Length == 4);
-            serializedYield = concat(idbytes, serializedYield); ;
+            serializedRelationPackage = concat(idbytes, serializedRelationPackage); ;
 
             //Compress:
             MemoryStream memStream = new MemoryStream();
             DeflateStream defStream = new DeflateStream(memStream, CompressionMode.Compress);
-            defStream.Write(serializedYield, 0, serializedYield.Length);
+            defStream.Write(serializedRelationPackage, 0, serializedRelationPackage.Length);
             defStream.Close();
-            byte[] compressedYield = memStream.ToArray();
+            byte[] compressedRelationPackage = memStream.ToArray();
 
             //Debug stuff:
-            byte[] decompr = DecompressYield(compressedYield);
-            Debug.Assert(decompr.Length == serializedYield.Length);
+            byte[] decompr = DecompressRelationPackage(compressedRelationPackage);
+            Debug.Assert(decompr.Length == serializedRelationPackage.Length);
 
             //store in queue, so the LoadStoreThread can store it in the DHT later:
-            storequeue.Enqueue(compressedYield);
+            storequeue.Enqueue(compressedRelationPackage);
 
             UpdateStoreLoadQueueInformation();
         }
@@ -518,7 +518,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             this.factor = factor;
             Debug.Assert(this.number % this.factor == 0);
 
-            ClearProgressYields();
+            ClearProgressRelationPackages();
             nameCache = new Dictionary<int, string>();
             peerPerformances = new Queue<PeerPerformanceInformations>();
             activePeers = new HashSet<int>();

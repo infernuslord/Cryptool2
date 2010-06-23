@@ -207,7 +207,7 @@ void msieve_run(msieve_obj *obj) {
 	}
 
 	//callback to inform Cryptool about the already found trivial factors:
-	get_trivial_factorlist(&factor_list, obj);
+	put_trivial_factorlist(&factor_list, obj);
 
 
 	//The logic behind the following commented code will be processed by cryptool:

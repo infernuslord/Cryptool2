@@ -96,13 +96,13 @@ sieve_conf_t *copy_sieve_conf(sieve_conf_t *conf) {
 namespace Msieve
 {
 	public delegate void prepareSievingDelegate(IntPtr conf, int update, IntPtr core_sieve_fcn, int max_relations);
-	public delegate void getTrivialFactorlistDelegate(IntPtr list, IntPtr obj);
+	public delegate void putTrivialFactorlistDelegate(IntPtr list, IntPtr obj);
 
 	public ref struct callback_struct
 	{
 	public:
 		prepareSievingDelegate^ prepareSieving;
-		getTrivialFactorlistDelegate^ getTrivialFactorlist;
+		putTrivialFactorlistDelegate^ putTrivialFactorlist;
 	};
 
 	public ref class msieve 
@@ -186,13 +186,13 @@ namespace Msieve
 				free(c->buckets[i].list);
 			free(c->buckets);
 			free(c->modsqrt_array);
-			if (c->yield != 0)
+			if (c->relationPackage != 0)
 			{
-				for (int j = 0; j < c->yield->yield_count; j++)			
-					if (c->yield->yield_array[j].type == 0)
-						free(c->yield->yield_array->rel.fb_offsets);
-				free(c->yield->yield_array);
-				free(c->yield);
+				for (int j = 0; j < c->relationPackage->package_count; j++)			
+					if (c->relationPackage->package_array[j].type == 0)
+						free(c->relationPackage->package_array->rel.fb_offsets);
+				free(c->relationPackage->package_array);
+				free(c->relationPackage);
 			}
 			free(c);
 		}
@@ -202,38 +202,38 @@ namespace Msieve
 			collect_relations((sieve_conf_t*)conf.ToPointer(), target_relations, (qs_core_sieve_fcn)core_sieve_fcn.ToPointer());
 		}
 		
-		//get the yield in the thread of "conf" (shoudn't be the main thread):
-		static IntPtr getYield(IntPtr conf)
+		//get the relation package in the thread of "conf" (shoudn't be the main thread):
+		static IntPtr getRelationPackage(IntPtr conf)
 		{
 			sieve_conf_t* c = (sieve_conf_t*)conf.ToPointer();
 			if (!c->slave)
 				return IntPtr::Zero;
-			relationYield* yield = c->yield;
-			c->yield = 0;
-			return IntPtr((void*)yield);
+			RelationPackage* relationPackage = c->relationPackage;
+			c->relationPackage = 0;
+			return IntPtr((void*)relationPackage);
 		}
 
-		//stores the yield in the thread of "conf" (should be the main thread), and destroys the yield:
-		static void saveYield(IntPtr conf, IntPtr yield)
+		//stores the relation package in the thread of "conf" (should be the main thread), and destroys the relation package:
+		static void saveRelationPackage(IntPtr conf, IntPtr relationPackage)
 		{
 			sieve_conf_t* c = (sieve_conf_t*)conf.ToPointer();
 			if (c->slave)
 				return;			
-			relationYield* y = (relationYield*)yield.ToPointer();
+			RelationPackage* y = (RelationPackage*)relationPackage.ToPointer();
 
-			for (int j = 0; j < y->yield_count; j++)
+			for (int j = 0; j < y->package_count; j++)
 			{
-				if (y->yield_array[j].type == 1)
-					savefile_write_line(&c->obj->savefile, y->yield_array[j].polybuf);
+				if (y->package_array[j].type == 1)
+					savefile_write_line(&c->obj->savefile, y->package_array[j].polybuf);
 				else
 				{
-					relation* rel = &y->yield_array[j].rel;
+					relation* rel = &y->package_array[j].rel;
 					save_relation(c, rel->sieve_offset, rel->fb_offsets, rel->num_factors, rel->poly_index, rel->large_prime1, rel->large_prime2);
 					free(rel->fb_offsets);
 				}
 			}
 
-			free(y->yield_array);
+			free(y->package_array);
 			free(y);
 		}
 
@@ -277,46 +277,46 @@ namespace Msieve
 			return factors;
 		}
 
-		//serialize the yield, so that you can send it over the net:
-		static array<unsigned char>^ serializeYield(IntPtr yield)
+		//serialize the relation package, so that you can send it over the net:
+		static array<unsigned char>^ serializeRelationPackage(IntPtr relationPackage)
 		{
-			relationYield* y = (relationYield*)yield.ToPointer();
+			RelationPackage* y = (RelationPackage*)relationPackage.ToPointer();
 
 			//calculate needed size:
 			int size = 0;
-			for (int c = 0; c < y->yield_count; c++)
+			for (int c = 0; c < y->package_count; c++)
 			{
 				size++;	//type information
-				if (y->yield_array[c].type == 1)	//poly	(256 bytes)
+				if (y->package_array[c].type == 1)	//poly	(256 bytes)
 					size += 256;
 				else								//relation	((5+num_factors)*4 bytes)
-					size += (5 + y->yield_array[c].rel.num_factors)*4;
+					size += (5 + y->package_array[c].rel.num_factors)*4;
 			}
 
 			//serialize:			
 			array<unsigned char>^ out = gcnew array<unsigned char>(size + 4);
-			copyIntToArray(out, 0, y->yield_count);
+			copyIntToArray(out, 0, y->package_count);
 			int pos = 4;
 
-			for (int c = 0; c < y->yield_count; c++)
+			for (int c = 0; c < y->package_count; c++)
 			{
-				out[pos++] = (char)(y->yield_array[c].type);
-				if (y->yield_array[c].type == 1)	//poly	(256 bytes)
+				out[pos++] = (char)(y->package_array[c].type);
+				if (y->package_array[c].type == 1)	//poly	(256 bytes)
 				{
 					for (int i = 0; i < 256; i++)
-						out[pos++] = y->yield_array[c].polybuf[i];
+						out[pos++] = y->package_array[c].polybuf[i];
 				}
 				else								//relation	((5+num_factors)*4 bytes)
 				{
-					copyIntToArray(out, pos, y->yield_array[c].rel.sieve_offset);
-					copyIntToArray(out, pos + 4, y->yield_array[c].rel.num_factors);
-					copyIntToArray(out, pos + 8, y->yield_array[c].rel.poly_index);
-					copyIntToArray(out, pos + 12, y->yield_array[c].rel.large_prime1);
-					copyIntToArray(out, pos + 16, y->yield_array[c].rel.large_prime2);
+					copyIntToArray(out, pos, y->package_array[c].rel.sieve_offset);
+					copyIntToArray(out, pos + 4, y->package_array[c].rel.num_factors);
+					copyIntToArray(out, pos + 8, y->package_array[c].rel.poly_index);
+					copyIntToArray(out, pos + 12, y->package_array[c].rel.large_prime1);
+					copyIntToArray(out, pos + 16, y->package_array[c].rel.large_prime2);
 					pos += 20;
-					for (int i = 0; i < y->yield_array[c].rel.num_factors; i++)
+					for (int i = 0; i < y->package_array[c].rel.num_factors; i++)
 					{
-						copyIntToArray(out, pos, y->yield_array[c].rel.fb_offsets[i]);
+						copyIntToArray(out, pos, y->package_array[c].rel.fb_offsets[i]);
 						pos += 4;
 					}
 				}
@@ -325,33 +325,33 @@ namespace Msieve
 			return out;
 		}
 
-		static IntPtr deserializeYield(array<unsigned char>^ yield)
+		static IntPtr deserializeRelationPackage(array<unsigned char>^ relationPackage)
 		{
-			relationYield* y = (relationYield*)malloc(sizeof(relationYield));
-			y->yield_count = getIntFromArray(yield, 0);
-			y->yield_array = (yield_element*)malloc(sizeof(yield_element)*y->yield_count);
+			RelationPackage* y = (RelationPackage*)malloc(sizeof(relationPackage));
+			y->package_count = getIntFromArray(relationPackage, 0);
+			y->package_array = (package_element*)malloc(sizeof(package_element)*y->package_count);
 			int pos = 4;
 			
-			for (int c = 0; c < y->yield_count; c++)
+			for (int c = 0; c < y->package_count; c++)
 			{
-				y->yield_array[c].type = yield[pos++];
-				if (y->yield_array[c].type == 1)	//poly	(256 bytes)
+				y->package_array[c].type = relationPackage[pos++];
+				if (y->package_array[c].type == 1)	//poly	(256 bytes)
 				{
 					for (int i = 0; i < 256; i++)
-						y->yield_array[c].polybuf[i] = yield[pos++];
+						y->package_array[c].polybuf[i] = relationPackage[pos++];
 				}
 				else								//relation	((5+num_factors)*4 bytes)
 				{
-					y->yield_array[c].rel.sieve_offset = getIntFromArray(yield, pos);
-					y->yield_array[c].rel.num_factors = getIntFromArray(yield, pos + 4);
-					y->yield_array[c].rel.poly_index = getIntFromArray(yield, pos + 8);
-					y->yield_array[c].rel.large_prime1 = getIntFromArray(yield, pos + 12);
-					y->yield_array[c].rel.large_prime2 = getIntFromArray(yield, pos + 16);
+					y->package_array[c].rel.sieve_offset = getIntFromArray(relationPackage, pos);
+					y->package_array[c].rel.num_factors = getIntFromArray(relationPackage, pos + 4);
+					y->package_array[c].rel.poly_index = getIntFromArray(relationPackage, pos + 8);
+					y->package_array[c].rel.large_prime1 = getIntFromArray(relationPackage, pos + 12);
+					y->package_array[c].rel.large_prime2 = getIntFromArray(relationPackage, pos + 16);
 					pos += 20;
-					y->yield_array[c].rel.fb_offsets = (uint32*)malloc(sizeof(uint32) * y->yield_array[c].rel.num_factors);
-					for (int i = 0; i < y->yield_array[c].rel.num_factors; i++)
+					y->package_array[c].rel.fb_offsets = (uint32*)malloc(sizeof(uint32) * y->package_array[c].rel.num_factors);
+					for (int i = 0; i < y->package_array[c].rel.num_factors; i++)
 					{
-						y->yield_array[c].rel.fb_offsets[i] = getIntFromArray(yield, pos);
+						y->package_array[c].rel.fb_offsets[i] = getIntFromArray(relationPackage, pos);
 						pos += 4;
 					}
 				}
@@ -360,9 +360,9 @@ namespace Msieve
 			return IntPtr((void*)y);
 		}
 
-		static int getAmountOfRelationsInYield(IntPtr yield)
+		static int getAmountOfRelationsInRelationPackage(IntPtr relationPackage)
 		{
-			relationYield* y = (relationYield*)yield.ToPointer();
+			RelationPackage* y = (RelationPackage*)relationPackage.ToPointer();
 			return y->num_relations;
 		}
 
@@ -399,7 +399,7 @@ extern "C" void throwException(char* message)
 	throw gcnew Exception(gcnew String(message));
 }
 
-extern "C" void get_trivial_factorlist(factor_list_t * factor_list, msieve_obj *obj)
+extern "C" void put_trivial_factorlist(factor_list_t * factor_list, msieve_obj *obj)
 {
-	Msieve::msieve::callbacks->getTrivialFactorlist(IntPtr(factor_list), IntPtr(obj));
+	Msieve::msieve::callbacks->putTrivialFactorlist(IntPtr(factor_list), IntPtr(obj));
 }

@@ -109,8 +109,8 @@
     <Compile Include="AlreadySievedException.cs" />
     <Compile Include="FactorManager.cs" />
     <Compile Include="PeerToPeer.cs" />
-    <Compile Include="ProgressYields.xaml.cs">
-      <DependentUpon>ProgressYields.xaml</DependentUpon>
+    <Compile Include="ProgressRelationPackages.xaml.cs">
+      <DependentUpon>ProgressRelationPackages.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuadraticSieve.cs" />
@@ -141,7 +141,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
-    <Page Include="ProgressYields.xaml">
+    <Page Include="ProgressRelationPackages.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

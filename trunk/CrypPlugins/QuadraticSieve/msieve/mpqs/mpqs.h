@@ -229,7 +229,7 @@ typedef struct {
 
 	//added field:
 	int slave;
-	relationYield *yield;
+	RelationPackage *relationPackage;
 	uint32 num_derived_poly;
 } sieve_conf_t;
 

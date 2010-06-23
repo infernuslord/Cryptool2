@@ -53,8 +53,8 @@ namespace Cryptool.Plugins.QuadraticSieve
         private BigInteger inputNumber;
         private BigInteger[] outputFactors;
         private bool running;
-        private Queue yieldqueue;
-        private AutoResetEvent yieldEvent = new AutoResetEvent(false);
+        private Queue relationPackageQueue;
+        private AutoResetEvent newRelationPackageEvent = new AutoResetEvent(false);
         private IntPtr obj = IntPtr.Zero;
         private volatile int threadcount = 0;
         private ArrayList conf_list;
@@ -101,7 +101,7 @@ namespace Cryptool.Plugins.QuadraticSieve
 
             QuickWatchPresentation = new QuadraticSievePresentation();
 
-            peerToPeer = new PeerToPeer(quadraticSieveQuickWatchPresentation, yieldEvent);
+            peerToPeer = new PeerToPeer(quadraticSieveQuickWatchPresentation, newRelationPackageEvent);
             peerToPeer.P2PWarning += new PeerToPeer.P2PWarningHandler(peerToPeer_P2PWarning);
             
             quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -203,7 +203,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                     GuiLogMessage(logging_message, NotificationLevel.Info);
                     quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        quadraticSieveQuickWatchPresentation.ProgressYields.Clear();
+                        quadraticSieveQuickWatchPresentation.ProgressRelationPackages.Clear();
                         quadraticSieveQuickWatchPresentation.logging.Text = logging_message;
                         quadraticSieveQuickWatchPresentation.endTime.Text = endtime_message;
                         quadraticSieveQuickWatchPresentation.timeLeft.Text = timeLeft_message;
@@ -457,7 +457,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             int threads = Math.Min(settings.CoresUsed, Environment.ProcessorCount-1);
             MethodInfo getObjFromConf = msieve.GetMethod("getObjFromConf");
             this.obj = (IntPtr)getObjFromConf.Invoke(null, new object[] { conf });            
-            yieldqueue = Queue.Synchronized(new Queue());
+            relationPackageQueue = Queue.Synchronized(new Queue());
             conf_list = new ArrayList();
 
             String message = "Start sieving using " + (threads + 1) + " cores!";
@@ -481,11 +481,11 @@ namespace Cryptool.Plugins.QuadraticSieve
                 IntPtr clone = (IntPtr)cloneSieveConf.Invoke(null, new object[] { conf });                
                 conf_list.Add(clone);
                 WaitCallback worker = new WaitCallback(MSieveJob);
-                ThreadPool.QueueUserWorkItem(worker, new object[] { clone, update, core_sieve_fcn, yieldqueue, i });
+                ThreadPool.QueueUserWorkItem(worker, new object[] { clone, update, core_sieve_fcn, relationPackageQueue, i });
             }
 
-            //manage the yields of the other threads:
-            manageYields(conf, max_relations);  //this method returns as soon as there are enough relations found
+            //manage the relation packages of the other threads:
+            manageRelationPackages(conf, max_relations);  //this method returns as soon as there are enough relations found
             if (userStopped)
                 return;
 
@@ -500,53 +500,53 @@ namespace Cryptool.Plugins.QuadraticSieve
             }, null);
             
             stopThreads();
-            if (yieldqueue != null)
-                yieldqueue.Clear();
+            if (relationPackageQueue != null)
+                relationPackageQueue.Clear();
         }
 
         /// <summary>
-        /// Manages the whole yields that are created during the sieving process by the other threads (and other peers).
+        /// Manages the whole relation packages that are created during the sieving process by the other threads (and other peers).
         /// Returns true, if enough relations have been found.
         /// </summary>
-        private void manageYields(IntPtr conf, int max_relations)
+        private void manageRelationPackages(IntPtr conf, int max_relations)
         {
-            MethodInfo serializeYield = msieve.GetMethod("serializeYield");
-            MethodInfo deserializeYield = msieve.GetMethod("deserializeYield");
+            MethodInfo serializeRelationPackage = msieve.GetMethod("serializeRelationPackage");
+            MethodInfo deserializeRelationPackage = msieve.GetMethod("deserializeRelationPackage");
             MethodInfo getNumRelations = msieve.GetMethod("getNumRelations");
             int num_relations = (int)getNumRelations.Invoke(null, new object[] { conf });
             int start_relations = num_relations;
             DateTime start_sieving_time = DateTime.Now;
-            MethodInfo saveYield = msieve.GetMethod("saveYield");
+            MethodInfo saveRelationPackage = msieve.GetMethod("saveRelationPackage");
 
             while (num_relations < max_relations)
             {
                 ProgressChanged((double)num_relations / max_relations * 0.8 + 0.1, 1.0);
                 
-                yieldEvent.WaitOne();               //wait until queue is not empty
+                newRelationPackageEvent.WaitOne();               //wait until there is a new relation package in the queue
                 if (userStopped)
                     return;
 
-                while (yieldqueue.Count != 0)       //get all the results from the helper threads, and store them
+                while (relationPackageQueue.Count != 0)       //get all the results from the helper threads, and store them
                 {
-                    IntPtr yield = (IntPtr)yieldqueue.Dequeue();                    
+                    IntPtr relationPackage = (IntPtr)relationPackageQueue.Dequeue();                    
 
                     if (usePeer2Peer)
                     {
-                        byte[] serializedYield = (byte[])serializeYield.Invoke(null, new object[] { yield });
-                        peerToPeer.Put(serializedYield);
+                        byte[] serializedRelationPackage = (byte[])serializeRelationPackage.Invoke(null, new object[] { relationPackage });
+                        peerToPeer.Put(serializedRelationPackage);
                     }
 
-                    saveYield.Invoke(null, new object[] { conf, yield });
+                    saveRelationPackage.Invoke(null, new object[] { conf, relationPackage });
                 }
 
                 if (usePeer2Peer)
                 {
-                    Queue dhtqueue = peerToPeer.GetLoadedYieldsQueue();
+                    Queue dhtqueue = peerToPeer.GetLoadedRelationPackagesQueue();
                     while (dhtqueue.Count != 0)       //get all the loaded results from the DHT, and store them
                     {
-                        byte[] yield = (byte[])dhtqueue.Dequeue();
-                        IntPtr deserializedYield = (IntPtr)deserializeYield.Invoke(null, new object[] { yield });
-                        saveYield.Invoke(null, new object[] { conf, deserializedYield });
+                        byte[] relationPackage = (byte[])dhtqueue.Dequeue();
+                        IntPtr deserializedRelationPackage = (IntPtr)deserializeRelationPackage.Invoke(null, new object[] { relationPackage });
+                        saveRelationPackage.Invoke(null, new object[] { conf, deserializedRelationPackage });
                     }
                 }
 
@@ -628,7 +628,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// using the quadratic sieve algorithm).
         /// The method then factors all the factors that are still composite by using the quadratic sieve.
         /// </summary>
-        private void getTrivialFactorlist(IntPtr list, IntPtr obj)
+        private void putTrivialFactorlist(IntPtr list, IntPtr obj)
         {
             //add the trivial factors to the factor list:
             factorManager.AddFactors(list);
@@ -690,14 +690,14 @@ namespace Cryptool.Plugins.QuadraticSieve
             IntPtr clone = (IntPtr)parameters[0];
             int update = (int)parameters[1];
             IntPtr core_sieve_fcn = (IntPtr)parameters[2];
-            Queue yieldqueue = (Queue)parameters[3];
+            Queue relationPackageQueue = (Queue)parameters[3];
             int threadNR = (int)parameters[4];
 
             try
             {
                 MethodInfo collectRelations = msieve.GetMethod("collectRelations");
-                MethodInfo getYield = msieve.GetMethod("getYield");
-                MethodInfo getAmountOfRelationsInYield = msieve.GetMethod("getAmountOfRelationsInYield");
+                MethodInfo getRelationPackage = msieve.GetMethod("getRelationPackage");
+                MethodInfo getAmountOfRelationsInRelationPackage = msieve.GetMethod("getAmountOfRelationsInRelationPackage");
 
                 Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
 
@@ -708,16 +708,16 @@ namespace Cryptool.Plugins.QuadraticSieve
                         //Calculate the performance of this thread:
                         DateTime beginning = DateTime.Now;
                         collectRelations.Invoke(null, new object[] { clone, update, core_sieve_fcn });
-                        IntPtr yield = (IntPtr)getYield.Invoke(null, new object[] { clone });
+                        IntPtr relationPackage = (IntPtr)getRelationPackage.Invoke(null, new object[] { clone });
 
-                        int amountOfFullRelations = (int)getAmountOfRelationsInYield.Invoke(null, new object[] { yield });
+                        int amountOfFullRelations = (int)getAmountOfRelationsInRelationPackage.Invoke(null, new object[] { relationPackage });
                         relationsPerMS[threadNR] = amountOfFullRelations / (DateTime.Now - beginning).TotalMilliseconds;
 
                         if (usePeer2Peer)
                             peerToPeer.SetOurPerformance(relationsPerMS);
 
-                        yieldqueue.Enqueue(yield);
-                        yieldEvent.Set();
+                        relationPackageQueue.Enqueue(relationPackage);
+                        newRelationPackageEvent.Set();
                     }
                     catch (Exception ex)
                     {
@@ -837,11 +837,11 @@ namespace Cryptool.Plugins.QuadraticSieve
             MethodInfo initMsieve = msieve.GetMethod("initMsieve");
             Object callback_struct = Activator.CreateInstance(msieveDLL.GetType("Msieve.callback_struct"));            
             FieldInfo prepareSievingField = msieveDLL.GetType("Msieve.callback_struct").GetField("prepareSieving");
-            FieldInfo getTrivialFactorlistField = msieveDLL.GetType("Msieve.callback_struct").GetField("getTrivialFactorlist");            
+            FieldInfo putTrivialFactorlistField = msieveDLL.GetType("Msieve.callback_struct").GetField("putTrivialFactorlist");            
             Delegate prepareSievingDel = MulticastDelegate.CreateDelegate(msieveDLL.GetType("Msieve.prepareSievingDelegate"), this, "prepareSieving");
-            Delegate getTrivialFactorlistDel = MulticastDelegate.CreateDelegate(msieveDLL.GetType("Msieve.getTrivialFactorlistDelegate"), this, "getTrivialFactorlist");            
+            Delegate putTrivialFactorlistDel = MulticastDelegate.CreateDelegate(msieveDLL.GetType("Msieve.putTrivialFactorlistDelegate"), this, "putTrivialFactorlist");            
             prepareSievingField.SetValue(callback_struct, prepareSievingDel);
-            getTrivialFactorlistField.SetValue(callback_struct, getTrivialFactorlistDel);
+            putTrivialFactorlistField.SetValue(callback_struct, putTrivialFactorlistDel);
             initMsieve.Invoke(null, new object[1] { callback_struct });
         }
 
