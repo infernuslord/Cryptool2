@@ -120,6 +120,12 @@ namespace Cryptool.Plugins.Cryptography.Encryption
               {
                 CryptoolStream cs = new CryptoolStream();
                 listCryptoolStreamsOut.Add(cs);
+
+                  if (outputStream.FileName == null)
+                  {
+                      return null;
+                  }
+
                 cs.OpenRead(this.outputStream.FileName);
                 return cs;
               }

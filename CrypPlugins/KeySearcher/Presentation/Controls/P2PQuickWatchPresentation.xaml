@@ -54,7 +54,7 @@
 						<Label Content="{Binding KeysPerSecond, FallbackValue=-}" Height="28" HorizontalAlignment="Left" Margin="110,6,0,0" VerticalAlignment="Top" Grid.Column="0" Grid.Row="1" />
 						<Label Content="Remaining time:" Height="28" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" />
 						<Label Content="{Binding RemainingTime, FallbackValue=-}" Height="28" HorizontalAlignment="Left" Margin="120,6,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" />
-						<ProgressBar Value="{Binding ProgressOfCurrentChunk, FallbackValue=0}" IsIndeterminate="{Binding IsCrrentProgressIndeterminate, FallbackValue=false}" Grid.ColumnSpan="2" Grid.Row="2" Height="24" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Width="400" Maximum="1" />
+						<ProgressBar Value="{Binding ProgressOfCurrentChunk, FallbackValue=0}" IsIndeterminate="{Binding IsCurrentProgressIndeterminate, FallbackValue=false}" Grid.ColumnSpan="2" Grid.Row="2" Height="24" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Width="400" Maximum="1" />
 					</Grid>
 				</Border>
 				<Border BorderBrush="Silver" BorderThickness="0,0,0,2" Visibility="{Binding IsVerboseEnabled, ElementName=P2PQuickWatch, Converter={StaticResource TrueToVisibleOrCollapsedConverter}}">

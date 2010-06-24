@@ -22,26 +22,31 @@ namespace Cryptool.P2P.Internal
 {
     public class ConnectionManager
     {
+        #region Delegates
+
         public delegate void P2PConnectionStateChangeEventHandler(object sender, bool newState);
-        public event P2PConnectionStateChangeEventHandler OnP2PConnectionStateChangeOccurred;
 
-        private readonly object _connectLock = new object();
-        private readonly P2PBase _p2PBase;
+        #endregion
 
-        public bool IsConnecting { get; internal set; }
+        private readonly object connectLock = new object();
+        private readonly P2PBase p2PBase;
 
         public ConnectionManager(P2PBase p2PBase)
         {
-            _p2PBase = p2PBase;
+            this.p2PBase = p2PBase;
         }
+
+        public bool IsConnecting { get; internal set; }
+        public event P2PConnectionStateChangeEventHandler OnP2PConnectionStateChangeOccurred;
 
         public void Connect()
         {
-            lock (_connectLock)
+            lock (connectLock)
             {
-                if (_p2PBase.IsConnected || IsConnecting)
+                if (p2PBase.IsConnected || IsConnecting)
                 {
-                    P2PManager.GuiLogMessage("Cannot connect, already connected or connecting.", NotificationLevel.Warning);
+                    P2PManager.GuiLogMessage("Cannot connect, already connected or connecting.",
+                                             NotificationLevel.Warning);
                     return;
                 }
 
@@ -55,24 +60,25 @@ namespace Cryptool.P2P.Internal
             }
 
             P2PManager.GuiLogMessage("Dispatching connect request with ConnectionWorker.", NotificationLevel.Debug);
-            new ConnectionWorker(_p2PBase, this).Start();
+            new ConnectionWorker(p2PBase, this).Start();
         }
 
         public void Disconnect()
         {
-            lock (_connectLock)
+            lock (connectLock)
             {
-                if (!_p2PBase.IsConnected || IsConnecting)
+                if (!p2PBase.IsConnected || IsConnecting)
                 {
-                    P2PManager.GuiLogMessage("Cannot disconnect, no connection or connection attempt active.", NotificationLevel.Warning);
+                    P2PManager.GuiLogMessage("Cannot disconnect, no connection or connection attempt active.",
+                                             NotificationLevel.Warning);
                     return;
                 }
-                
+
                 IsConnecting = true;
             }
 
             P2PManager.GuiLogMessage("Dispatching disconnect request with ConnectionWorker.", NotificationLevel.Debug);
-            new ConnectionWorker(_p2PBase, this).Start();
+            new ConnectionWorker(p2PBase, this).Start();
         }
 
         public bool IsReadyToConnect()
@@ -85,7 +91,8 @@ namespace Cryptool.P2P.Internal
 
             if (String.IsNullOrEmpty(P2PSettings.Default.PeerName))
             {
-                P2PManager.GuiLogMessage("Peer-to-peer not fully configured: world name missing.", NotificationLevel.Error);
+                P2PManager.GuiLogMessage("Peer-to-peer not fully configured: world name missing.",
+                                         NotificationLevel.Error);
                 return false;
             }
 
@@ -96,7 +103,7 @@ namespace Cryptool.P2P.Internal
         {
             if (OnP2PConnectionStateChangeOccurred != null)
             {
-                OnP2PConnectionStateChangeOccurred(this, _p2PBase.IsConnected);
+                OnP2PConnectionStateChangeOccurred(this, p2PBase.IsConnected);
             }
         }
     }

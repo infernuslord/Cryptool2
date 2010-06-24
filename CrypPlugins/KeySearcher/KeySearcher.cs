@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using Cryptool.P2P;
+using Cryptool.P2P.Internal;
 using Cryptool.PluginBase.Analysis;
 using Cryptool.PluginBase;
 using System.Windows.Controls;
@@ -33,13 +34,13 @@ namespace KeySearcher
         /// the thread with the most keys left
         /// </summary>
         private int maxThread;
-        private Mutex maxThreadMutex = new Mutex();
+        private readonly Mutex maxThreadMutex = new Mutex();
 
         private KeyQualityHelper keyQualityHelper;
-        private P2PQuickWatchPresentation p2PQuickWatchPresentation;
-        private LocalQuickWatchPresentation localQuickWatchPresentation;
+        private readonly P2PQuickWatchPresentation p2PQuickWatchPresentation;
+        private readonly LocalQuickWatchPresentation localQuickWatchPresentation;
 
-        private KeyPattern.KeyPattern pattern = null;
+        private KeyPattern.KeyPattern pattern;
         public KeyPattern.KeyPattern Pattern
         {
             get
@@ -613,9 +614,18 @@ namespace KeySearcher
         {
             GuiLogMessage("Launching p2p based bruteforce logic...", NotificationLevel.Info);
             ValidateConnectionToPeerToPeerSystem();
-            distributedBruteForceManager = new DistributedBruteForceManager(this, pattern, settings, keyQualityHelper,
-                                                                     p2PQuickWatchPresentation);
-            distributedBruteForceManager.Execute();
+
+            try
+            {
+                distributedBruteForceManager = new DistributedBruteForceManager(this, pattern, settings,
+                                                                                keyQualityHelper,
+                                                                                p2PQuickWatchPresentation);
+                distributedBruteForceManager.Execute();
+            }
+            catch (NotConnectedException)
+            {
+                GuiLogMessage("P2P not connected.", NotificationLevel.Error);
+            }
         }
 
 

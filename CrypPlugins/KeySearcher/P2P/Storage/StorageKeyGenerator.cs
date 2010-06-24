@@ -13,18 +13,30 @@ namespace KeySearcher.P2P.Storage
         {
             this.keySearcher = keySearcher;
             this.settings = settings;
-            
         }
 
         public String Generate()
         {
+            var bytesToUse = keySearcher.CostMaster.getBytesToUse();
             var rawIdentifier = "P2PJOB";
             rawIdentifier += settings.ChunkSize + settings.Key;
             rawIdentifier += keySearcher.ControlMaster.GetType();
             rawIdentifier += keySearcher.CostMaster.GetType();
-            rawIdentifier += keySearcher.CostMaster.getBytesToUse();
+            rawIdentifier += bytesToUse;
             rawIdentifier += keySearcher.CostMaster.getRelationOperator();
-            rawIdentifier += Encoding.ASCII.GetString(keySearcher.EncryptedData);
+
+            if (keySearcher.InitVector != null)
+            {
+                rawIdentifier += Encoding.ASCII.GetString(keySearcher.InitVector);
+            }
+
+            var inputData = Encoding.ASCII.GetString(keySearcher.EncryptedData);
+            if (inputData.Length > bytesToUse)
+            {
+                inputData = inputData.Substring(0, bytesToUse);
+            }
+
+            rawIdentifier += inputData;
 
             var hashAlgorithm = new SHA1CryptoServiceProvider();
             var hash = hashAlgorithm.ComputeHash(Encoding.ASCII.GetBytes(rawIdentifier));
