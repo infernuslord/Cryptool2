@@ -138,6 +138,7 @@ namespace WorkspaceManager.Model
                         connectorModel.PluginModel = this;
                         connectorModel.IsMandatory = propertyInfoAttribute.Mandatory;
                         connectorModel.PropertyName = propertyInfoAttribute.PropertyName;
+                        connectorModel.Name = propertyInfoAttribute.PropertyName;
                         connectorModel.ToolTip = propertyInfoAttribute.ToolTip;
                         connectorModel.ConnectorOrientation = ConnectorOrientation.West;
                         InputConnectors.Add(connectorModel);
@@ -151,6 +152,7 @@ namespace WorkspaceManager.Model
                         connectorModel.PluginModel = this;
                         connectorModel.IsMandatory = propertyInfoAttribute.Mandatory;
                         connectorModel.PropertyName = propertyInfoAttribute.PropertyName;
+                        connectorModel.Name = propertyInfoAttribute.PropertyName;
                         connectorModel.ToolTip = propertyInfoAttribute.ToolTip;
                         connectorModel.ConnectorOrientation = ConnectorOrientation.East;
                         connectorModel.Outgoing = true;
@@ -174,7 +176,8 @@ namespace WorkspaceManager.Model
                             connectorModel.WorkspaceModel = WorkspaceModel;
                             connectorModel.PluginModel = this;
                             connectorModel.IsMandatory = dynamicProperty.PInfo.Mandatory;
-                            connectorModel.PropertyName = dynamicProperty.Name;                            
+                            connectorModel.PropertyName = dynamicProperty.Name;
+                            connectorModel.Name = dynamicProperty.Name;
                             connectorModel.ToolTip = dynamicProperty.PInfo.ToolTip;
                             connectorModel.ConnectorOrientation = ConnectorOrientation.West;
                             EventInfo eventinfo = Plugin.GetType().GetEvent(dynamicPropertyInfoAttribute.UpdateDynamicPropertiesEvent);
@@ -193,6 +196,7 @@ namespace WorkspaceManager.Model
                             connectorModel.PluginModel = this;
                             connectorModel.IsMandatory = dynamicProperty.PInfo.Mandatory;
                             connectorModel.PropertyName = dynamicProperty.Name;
+                            connectorModel.Name = dynamicProperty.Name;
                             connectorModel.ToolTip = dynamicProperty.PInfo.ToolTip;
                             connectorModel.ConnectorOrientation = ConnectorOrientation.East;
                             EventInfo eventinfo = Plugin.GetType().GetEvent(dynamicPropertyInfoAttribute.UpdateDynamicPropertiesEvent);
@@ -257,36 +261,29 @@ namespace WorkspaceManager.Model
             {
                 return;
             }
-
-            bool AtLeastOneInputSet = false;
+            
             //First test if every mandatory Connector has data
             //or one non-mandatory input has data
             foreach (ConnectorModel connectorModel in this.InputConnectors)
             {
-                if ((connectorModel.IsMandatory /*|| connectorModel.InputConnection != null*/) && !connectorModel.HasData)
+                if ((connectorModel.IsMandatory || connectorModel.InputConnections.Count > 0) && !connectorModel.HasData)
                 {
                     return;
-                }
-                else if (connectorModel.HasData)
-                {
-                    AtLeastOneInputSet = true;
-                }
+                }                
             }
 
-            if (AtLeastOneInputSet)
-            {
-                MessageExecution msg = new MessageExecution();
-                msg.PluginModel = this;
+            MessageExecution msg = new MessageExecution();
+            msg.PluginModel = this;
                 
-                //protocolBase is set at Startup of the ExecutionEngine
-                //but it could be that we have an event before setting
-                //of the protocl base (triggered by user clicking on
-                //a plugins presentation (button or so))
-                if (protocolBase != null)
-                {
-                    protocolBase.BroadcastMessageReliably(msg);
-                }
+            //protocolBase is set at Startup of the ExecutionEngine
+            //but it could be that we have an event before setting
+            //of the protocl base (triggered by user clicking on
+            //a plugins presentation (button or so))
+            if (protocolBase != null)
+            {
+                protocolBase.BroadcastMessageReliably(msg);
             }
+
             return;
         }
 

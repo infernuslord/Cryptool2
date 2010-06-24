@@ -238,6 +238,11 @@ namespace WorkspaceManager.View.Container
             //(ProgressBarPanel.Children[0] as CircularProgressBar).Percentage = model.PercentageFinished;
             ProgressBarInit.Value = model.PercentageFinished;
             Icon = model.getImage();
+
+            if (PresentationPanel.Child is Image)
+            {
+                PresentationPanel.Child = this.Icon;
+            }
         }
 
         #endregion

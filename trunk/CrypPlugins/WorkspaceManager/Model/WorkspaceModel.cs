@@ -124,7 +124,7 @@ namespace WorkspaceManager.Model
             connectionModel.From = from;
             connectionModel.To = to;
             from.OutputConnections.Add(connectionModel);
-            to.InputConnection = connectionModel;
+            to.InputConnections.Add(connectionModel);
             connectionModel.ConnectionType = connectionType;
             this.AllConnectionModels.Add(connectionModel);
             this.WorkspaceManagerEditor.HasChanges = true;
@@ -172,17 +172,18 @@ namespace WorkspaceManager.Model
             //we can only delete ConnectorModels which are part of our WorkspaceModel
             if(this.AllConnectorModels.Contains(connectorModel)){
 
+                //remove all input ConnectionModels belonging to this Connector from our WorkspaceModel
+                foreach (ConnectionModel connectionModel in new List<ConnectionModel>(connectorModel.InputConnections))
+                {
+                    deleteConnectionModel(connectionModel);
+                }
+
                 //remove all output ConnectionModels belonging to this Connector from our WorkspaceModel
                 foreach (ConnectionModel outputConnection in new List<ConnectionModel>(connectorModel.OutputConnections))
                 {
                     deleteConnectionModel(outputConnection);
                 }
-
-                //remove the input ConnectionModel belonging to this Connector from our WorkspaceModel
-                if (connectorModel.InputConnection != null)
-                {
-                    deleteConnectionModel(connectorModel.InputConnection);
-                }
+                                
                 connectorModel.onDelete();
                 this.WorkspaceManagerEditor.HasChanges = true;
                 return this.AllConnectorModels.Remove(connectorModel);
@@ -200,8 +201,8 @@ namespace WorkspaceManager.Model
             if (connectionModel == null)
                 return false;
 
-            connectionModel.From.OutputConnections.Remove(connectionModel);
-            connectionModel.To.InputConnection = null;
+            connectionModel.To.InputConnections.Remove(connectionModel);
+            connectionModel.From.OutputConnections.Remove(connectionModel);            
             connectionModel.onDelete();
             this.WorkspaceManagerEditor.HasChanges = true;
             return this.AllConnectionModels.Remove(connectionModel);
@@ -237,10 +238,10 @@ namespace WorkspaceManager.Model
         {
             if (connectionModel.To != null)
             {
-                connectionModel.To.InputConnection = null;
+                connectionModel.To.InputConnections.Remove(connectionModel);
             }
             connectionModel.To = connectorModel;
-            connectorModel.InputConnection = connectionModel;
+            connectorModel.InputConnections.Add(connectionModel);
             this.WorkspaceManagerEditor.HasChanges = true;
             return true;
         }
@@ -255,7 +256,7 @@ namespace WorkspaceManager.Model
         /// <returns></returns>
         public static bool compatibleConnectors(ConnectorModel connectorModelA, ConnectorModel connectorModelB)
         {
-            if (!connectorModelA.Outgoing || connectorModelB.Outgoing || connectorModelB.InputConnection != null)
+            if (!connectorModelA.Outgoing || connectorModelB.Outgoing)
             {
                 return false;
             }
