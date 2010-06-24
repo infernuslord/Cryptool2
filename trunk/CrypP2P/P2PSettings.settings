@@ -17,12 +17,6 @@
     <Setting Name="Bootstrapper" Type="Cryptool.Plugins.PeerToPeer.Internal.P2PBootstrapperType" Scope="User">
       <Value Profile="(Default)">IrcBootstrapper</Value>
     </Setting>
-    <Setting Name="Overlay" Type="Cryptool.Plugins.PeerToPeer.Internal.P2POverlayType" Scope="User">
-      <Value Profile="(Default)">FullMeshOverlay</Value>
-    </Setting>
-    <Setting Name="Dht" Type="Cryptool.Plugins.PeerToPeer.Internal.P2PDHTType" Scope="User">
-      <Value Profile="(Default)">FullMeshDHT</Value>
-    </Setting>
     <Setting Name="ConnectOnStartup" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
@@ -40,6 +34,9 @@
     </Setting>
     <Setting Name="TransportProtocol" Type="Cryptool.Plugins.PeerToPeer.Internal.P2PTransportProtocol" Scope="User">
       <Value Profile="(Default)">TCP</Value>
+    </Setting>
+    <Setting Name="Architecture" Type="Cryptool.Plugins.PeerToPeer.Internal.P2PArchitecture" Scope="User">
+      <Value Profile="(Default)">Chord</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -186,33 +186,17 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("overlay_caption", "overlay_tooltip", GroupExpert, 2, false, DisplayLevel.Expert,
-            ControlType.ComboBox, new[] {"FullMeshOverlay", "ChordOverlay"})]
-        public int Overlay
+        [TaskPane("architecture_caption", "architecture_tooltip", GroupExpert, 2, false, DisplayLevel.Expert,
+            ControlType.ComboBox, new[] { "FullMesh", "Chord" })]
+        public int Architecture
         {
-            get { return (int) _settings.Overlay; }
+            get { return (int)_settings.Architecture; }
             set
             {
-                if ((P2POverlayType) value != _settings.Overlay)
+                if ((P2PArchitecture)value != _settings.Architecture)
                 {
-                    _settings.Overlay = (P2POverlayType) value;
-                    OnPropertyChanged("Overlay");
-                    HasChanges = true;
-                }
-            }
-        }
-
-        [TaskPane("dht_caption", "dht_tooltip", GroupExpert, 3, false, DisplayLevel.Expert,
-            ControlType.ComboBox, new[] {"FullMeshDHT", "ChordDHT"})]
-        public int Dht
-        {
-            get { return (int) _settings.Dht; }
-            set
-            {
-                if ((P2PDHTType) value != _settings.Dht)
-                {
-                    _settings.Dht = (P2PDHTType) value;
-                    OnPropertyChanged("Dht");
+                    _settings.Architecture = (P2PArchitecture)value;
+                    OnPropertyChanged("Architecture");
                     HasChanges = true;
                 }
             }

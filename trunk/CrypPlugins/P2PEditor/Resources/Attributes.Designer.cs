@@ -61,6 +61,24 @@ namespace Cryptool.P2PEditor.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Architecture.
+        /// </summary>
+        internal static string architecture_caption {
+            get {
+                return ResourceManager.GetString("architecture_caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Architecture of the P2P network..
+        /// </summary>
+        internal static string architecture_tooltip {
+            get {
+                return ResourceManager.GetString("architecture_tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bootstrapper type.
         /// </summary>
         internal static string bootstrapper_caption {
@@ -84,24 +102,6 @@ namespace Cryptool.P2PEditor.Resources {
         internal static string connectOnStartup_caption {
             get {
                 return ResourceManager.GetString("connectOnStartup_caption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to DHT type.
-        /// </summary>
-        internal static string dht_caption {
-            get {
-                return ResourceManager.GetString("dht_caption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to DHT type.
-        /// </summary>
-        internal static string dht_tooltip {
-            get {
-                return ResourceManager.GetString("dht_tooltip", resourceCulture);
             }
         }
         
@@ -219,24 +219,6 @@ namespace Cryptool.P2PEditor.Resources {
         internal static string onnectOnStartup_tooltip {
             get {
                 return ResourceManager.GetString("onnectOnStartup_tooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Overlay type.
-        /// </summary>
-        internal static string overlay_caption {
-            get {
-                return ResourceManager.GetString("overlay_caption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Overlay type.
-        /// </summary>
-        internal static string overlay_tooltip {
-            get {
-                return ResourceManager.GetString("overlay_tooltip", resourceCulture);
             }
         }
         

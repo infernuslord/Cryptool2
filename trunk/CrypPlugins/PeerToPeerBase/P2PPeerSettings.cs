@@ -185,38 +185,21 @@ namespace Cryptool.Plugins.PeerToPeer
             }
         }
 
-        private P2POverlayType p2pOverlayType = P2POverlayType.FullMeshOverlay;
-        [TaskPane("Overlay-Type", "Select the Overlay-Type", "P2P Expert Settings", 4, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "FullMeshOverlay", "ChordOverlay" })]
-        public int P2POverlType
+        private P2PArchitecture p2pArchitecture = Internal.P2PArchitecture.FullMesh;
+        [TaskPane("Architecture", "Select the Architecture", "P2P Expert Settings", 4, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "FullMesh" })]
+        public int P2PArchitecture
         {
-            get { return (int)this.p2pOverlayType; }
+            get { return (int)this.p2pArchitecture; }
             set
             {
-                if ((P2POverlayType)value != this.p2pOverlayType)
+                if ((P2PArchitecture)value != this.p2pArchitecture)
                 {
-                    this.p2pOverlayType = (P2POverlayType)value;
-                    OnPropertyChanged("P2POverlType");
+                    this.p2pArchitecture = (P2PArchitecture)value;
+                    OnPropertyChanged("P2PArchitecture");
                     HasChanges = true;
                 }
             }
         }
-
-        private P2PDHTType p2pDhtType = P2PDHTType.FullMeshDHT;
-        [TaskPane("DHT-Type", "Select the DHT-Type", "P2P Expert Settings", 5, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "FullMeshDHT", "ChordDHT" })]
-        public int P2PDhtType
-        {
-            get { return (int)this.p2pDhtType;  }
-            set
-            {
-                if ((P2PDHTType)value != this.p2pDhtType)
-                {
-                    this.p2pDhtType = (P2PDHTType)value;
-                    OnPropertyChanged("P2PDhtType");
-                    HasChanges = true;
-                }
-            }
-        }
-
         #endregion
 
         #region INotifyPropertyChanged Members

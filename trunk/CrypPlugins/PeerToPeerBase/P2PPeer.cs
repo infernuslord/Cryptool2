@@ -208,7 +208,7 @@ namespace Cryptool.Plugins.PeerToPeer
                 {
                     this.p2pBase.Initialize(this.settings.P2PPeerName, this.settings.P2PWorldName,
                         (P2PLinkManagerType)this.settings.P2PLinkMngrType, (P2PBootstrapperType)this.settings.P2PBSType,
-                        (P2POverlayType)this.settings.P2POverlType, (P2PDHTType)this.settings.P2PDhtType);
+                        (P2PArchitecture)this.settings.P2PArchitecture);
                     this.PeerStarted = this.p2pBase.SynchStart();
 
                     if (this.PeerStarted)

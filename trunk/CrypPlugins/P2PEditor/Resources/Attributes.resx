@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="architecture_caption" xml:space="preserve">
+    <value>Architecture</value>
+  </data>
+  <data name="architecture_tooltip" xml:space="preserve">
+    <value>Architecture of the P2P network.</value>
+  </data>
   <data name="bootstrapper_caption" xml:space="preserve">
     <value>Bootstrapper type</value>
   </data>
@@ -125,12 +131,6 @@
   </data>
   <data name="connectOnStartup_caption" xml:space="preserve">
     <value>Connect on startup</value>
-  </data>
-  <data name="dht_caption" xml:space="preserve">
-    <value>DHT type</value>
-  </data>
-  <data name="dht_tooltip" xml:space="preserve">
-    <value>DHT type</value>
   </data>
   <data name="distributedJobListRefreshInterval_caption" xml:space="preserve">
     <value>Job list refresh interval (seconds)</value>
@@ -170,12 +170,6 @@
   </data>
   <data name="onnectOnStartup_tooltip" xml:space="preserve">
     <value>Establish a connection to the peer-to-peer network during CrypTool startup.</value>
-  </data>
-  <data name="overlay_caption" xml:space="preserve">
-    <value>Overlay type</value>
-  </data>
-  <data name="overlay_tooltip" xml:space="preserve">
-    <value>Overlay type</value>
   </data>
   <data name="start_caption" xml:space="preserve">
     <value>Connect</value>
