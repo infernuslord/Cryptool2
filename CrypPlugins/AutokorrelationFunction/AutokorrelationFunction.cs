@@ -29,7 +29,7 @@ using Cryptool.PluginBase.Utils.Graphics.Diagrams.Histogram;
 namespace Cryptool.Plugins.AutokorrelationFunction
 {
     [Author("Dennis Nolte", "nolte@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "AutokorrelationFunction", "Calculates the Autokorrelation of a cipher", null, "AutokorrelationFunction/icon.png")]
+    [PluginInfo(false, "AutokorrelationFunction", "Calculates the Autokorrelation of a cipher", "AutokorrelationFunction/DetailedDescription/Description.xaml", "AutokorrelationFunction/icon.png")]
 
     public class AutokorrelationFunction : IStatistic
     {
