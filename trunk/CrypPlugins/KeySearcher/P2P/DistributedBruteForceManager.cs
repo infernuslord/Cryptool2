@@ -38,15 +38,17 @@ namespace KeySearcher.P2P
                 settings.ChunkSize = 21;
             }
 
+            StopWatch = new Stopwatch();
+            status = new StatusContainer();
+            status.IsCurrentProgressIndeterminate = true;
+
             keyGenerator = new StorageKeyGenerator(keySearcher, settings);
             patternPool = new KeyPatternPool(keyPattern, new BigInteger(Math.Pow(2, settings.ChunkSize)));
-            status = new StatusContainer();
             StatisticsGenerator = new StatisticsGenerator(status, quickWatch, keySearcher, settings, this);
-            keyPoolTree = new KeyPoolTree(patternPool, this.keySearcher, keyQualityHelper, keyGenerator, status, StatisticsGenerator);
-            StopWatch = new Stopwatch();
-
             quickWatch.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(UpdateStatusContainerInQuickWatch));
 
+            keyPoolTree = new KeyPoolTree(patternPool, this.keySearcher, keyQualityHelper, keyGenerator, status, StatisticsGenerator);
+            
             keySearcher.GuiLogMessage(
                 "Total amount of patterns: " + patternPool.Length + ", each containing " + patternPool.PartSize +
                 " keys.", NotificationLevel.Info);
@@ -57,6 +59,8 @@ namespace KeySearcher.P2P
             Leaf currentLeaf;
             while (!keySearcher.stop)
             {
+                status.IsCurrentProgressIndeterminate = true;
+
                 try
                 {
                     currentLeaf = keyPoolTree.FindNextLeaf();
@@ -67,7 +71,7 @@ namespace KeySearcher.P2P
                 }
                 catch (AlreadyCalculatedException)
                 {
-                    keySearcher.GuiLogMessage("Node was already calculated.", NotificationLevel.Warning);
+                    keySearcher.GuiLogMessage("Node was already calculated.", NotificationLevel.Info);
                     keyPoolTree.Reset();
                     continue;
                 }
@@ -78,7 +82,7 @@ namespace KeySearcher.P2P
                     keySearcher.GuiLogMessage(
                         "Pattern #" + currentLeaf.PatternId() +
                         " was reserved before it could be reserved for this CrypTool instance.",
-                        NotificationLevel.Warning);
+                        NotificationLevel.Info);
                     keyPoolTree.Reset();
                     continue;
                 }
@@ -117,13 +121,13 @@ namespace KeySearcher.P2P
                 {
                     keySearcher.GuiLogMessage("Reservation removed by another node (while calculating). " +
                                               "To avoid a state in limbo, proceeding to first available leaf...",
-                                              NotificationLevel.Warning);
+                                              NotificationLevel.Info);
                     keyPoolTree.Reset();
                     continue;
                 }
                 catch (UpdateFailedException e)
                 {
-                    keySearcher.GuiLogMessage("Could not store results: " + e.Message, NotificationLevel.Warning);
+                    keySearcher.GuiLogMessage("Could not store results: " + e.Message, NotificationLevel.Info);
                     keyPoolTree.Reset();
                     continue;
                 }
@@ -134,9 +138,12 @@ namespace KeySearcher.P2P
             {
                 keySearcher.showProgress(keySearcher.costList, 1, 1, 1);
                 keySearcher.GuiLogMessage("Calculation complete.", NotificationLevel.Info);
-                status.ProgressOfCurrentChunk = 0;
-                status.IsSearchingForReservedNodes = false;
+                
             }
+
+            status.ProgressOfCurrentChunk = 0;
+            status.IsSearchingForReservedNodes = false;
+            status.IsCurrentProgressIndeterminate = false;
         }
 
         private void UpdateStatusContainerInQuickWatch()

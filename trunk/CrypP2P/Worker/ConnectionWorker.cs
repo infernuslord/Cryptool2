@@ -14,7 +14,6 @@
    limitations under the License.
 */
 
-using System;
 using System.ComponentModel;
 using Cryptool.P2P.Helper;
 using Cryptool.P2P.Internal;
@@ -24,28 +23,28 @@ namespace Cryptool.P2P.Worker
 {
     internal class ConnectionWorker : WorkerBase
     {
-        private readonly P2PBase _p2PBase;
-        private readonly ConnectionManager _connectionManager;
+        private readonly P2PBase p2PBase;
+        private readonly ConnectionManager connectionManager;
 
         public ConnectionWorker(P2PBase p2PBase, ConnectionManager connectionManager)
         {
-            _p2PBase = p2PBase;
-            _connectionManager = connectionManager;
+            this.p2PBase = p2PBase;
+            this.connectionManager = connectionManager;
         }
 
         protected override void WorkComplete(object sender, RunWorkerCompletedEventArgs e)
         {
             P2PManager.GuiLogMessage(
-                _p2PBase.IsConnected
+                p2PBase.IsConnected
                     ? "Connection to P2P network established."
                     : "Connection to P2P network terminated.", NotificationLevel.Info);
-            _connectionManager.IsConnecting = false;
-            _connectionManager.FireConnectionStatusChange();
+            connectionManager.IsConnecting = false;
+            connectionManager.FireConnectionStatusChange();
         }
 
         protected override void PerformWork(object sender, DoWorkEventArgs e)
         {
-            if (!_p2PBase.IsConnected)
+            if (!p2PBase.IsConnected)
             {
                 P2PManager.GuiLogMessage("Connecting to P2P network...", NotificationLevel.Info);
 
@@ -57,13 +56,13 @@ namespace Cryptool.P2P.Worker
                     return;
                 }
 
-                _p2PBase.Initialize();
-                _p2PBase.SynchStart();
+                p2PBase.Initialize();
+                p2PBase.SynchStart();
             }
             else
             {
                 P2PManager.GuiLogMessage("Disconnecting from P2P network...", NotificationLevel.Info);
-                _p2PBase.SynchStop();
+                p2PBase.SynchStop();
             }
         }
 

@@ -50,11 +50,11 @@ namespace Cryptool.P2P.Internal
     {
         #region Variables
 
-        private readonly AutoResetEvent _systemJoined;
-        private readonly AutoResetEvent _systemLeft;
-        private IBootstrapper _bootstrapper;
-        private IP2PLinkManager _linkmanager;
-        private P2POverlay _overlay;
+        private readonly AutoResetEvent systemJoined;
+        private readonly AutoResetEvent systemLeft;
+        private IBootstrapper bootstrapper;
+        private IP2PLinkManager linkmanager;
+        private P2POverlay overlay;
         internal IDHT Dht;
         internal IVersionedDHT VersionedDht;
 
@@ -88,8 +88,8 @@ namespace Cryptool.P2P.Internal
             IsConnected = false;
             IsInitialized = false;
 
-            _systemJoined = new AutoResetEvent(false);
-            _systemLeft = new AutoResetEvent(false);
+            systemJoined = new AutoResetEvent(false);
+            systemLeft = new AutoResetEvent(false);
         }
 
         #region Basic P2P Methods (Init, Start, Stop)
@@ -107,7 +107,7 @@ namespace Cryptool.P2P.Internal
                     LogToMonitor("Init LinkMgr: Using NAT Traversal stuff");
 
                     // NAT-Traversal stuff needs a different Snal-Version
-                    _linkmanager = new Snal(scheduler);
+                    linkmanager = new Snal(scheduler);
 
                     var settings = new PeersAtPlay.P2PLink.SnalNG.Settings();
                     settings.LoadDefaults();
@@ -135,8 +135,8 @@ namespace Cryptool.P2P.Internal
                             break;
                     }
 
-                    _linkmanager.Settings = settings;
-                    _linkmanager.ApplicationType = ApplicationType.CrypTool;
+                    linkmanager.Settings = settings;
+                    linkmanager.ApplicationType = ApplicationType.CrypTool;
 
                     break;
                 default:
@@ -147,14 +147,14 @@ namespace Cryptool.P2P.Internal
             {
                 case P2PBootstrapperType.LocalMachineBootstrapper:
                     // LocalMachineBootstrapper = only local connection (runs only on one machine)
-                    _bootstrapper = new LocalMachineBootstrapper();
+                    bootstrapper = new LocalMachineBootstrapper();
                     break;
                 case P2PBootstrapperType.IrcBootstrapper:
                     PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapperV2.Settings.DelaySymmetricResponse = true;
                     PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapperV2.Settings.IncludeSymmetricResponse = false;
                     PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapperV2.Settings.UsePeerCache = false;
 
-                    _bootstrapper = new IrcBootstrapper(scheduler);
+                    bootstrapper = new IrcBootstrapper(scheduler);
                     break;
                 default:
                     throw (new NotImplementedException());
@@ -163,18 +163,18 @@ namespace Cryptool.P2P.Internal
             switch (P2PSettings.Default.Architecture)
             {
                 case P2PArchitecture.FullMesh:
-                    _overlay = new FullMeshOverlay(scheduler);
+                    overlay = new FullMeshOverlay(scheduler);
                     Dht = new FullMeshDHT(scheduler);
                     break;
                 case P2PArchitecture.Chord:
-                    _overlay = new ChordNGCore(scheduler);
-                    Dht = (IDHT) _overlay;
+                    overlay = new ChordNGCore(scheduler);
+                    Dht = (IDHT) overlay;
                     break;
                 default:
                     throw (new NotImplementedException());
             }
 
-            _overlay.MessageReceived += OverlayMessageReceived;
+            overlay.MessageReceived += OverlayMessageReceived;
             Dht.SystemJoined += OnDhtSystemJoined;
             Dht.SystemLeft += OnDhtSystemLeft;
 
@@ -182,9 +182,9 @@ namespace Cryptool.P2P.Internal
 
             P2PManager.GuiLogMessage("Initializing DHT with world name " + P2PSettings.Default.WorldName,
                                                 NotificationLevel.Info);
-            Dht.Initialize(P2PSettings.Default.PeerName, string.Empty, P2PSettings.Default.WorldName, _overlay,
-                            _bootstrapper,
-                            _linkmanager, null);
+            Dht.Initialize(P2PSettings.Default.PeerName, string.Empty, P2PSettings.Default.WorldName, overlay,
+                            bootstrapper,
+                            linkmanager, null);
 
             IsInitialized = true;
         }
@@ -214,7 +214,7 @@ namespace Cryptool.P2P.Internal
             Dht.BeginStart(BeginStartEventHandler);
 
             // Wait for event SystemJoined. When it's invoked, the peer completely joined the P2P system
-            _systemJoined.WaitOne();
+            systemJoined.WaitOne();
             P2PManager.GuiLogMessage("System join process ended.", NotificationLevel.Debug);
 
             return true;
@@ -241,7 +241,7 @@ namespace Cryptool.P2P.Internal
             }
 
             // wait till systemLeft Event is invoked
-            _systemLeft.WaitOne();
+            systemLeft.WaitOne();
 
             return true;
         }
@@ -257,8 +257,8 @@ namespace Cryptool.P2P.Internal
         /// <returns>PeerID as a String</returns>
         public PeerId GetPeerId(out string sPeerName)
         {
-            sPeerName = _linkmanager.UserName;
-            return new PeerId(_overlay.LocalAddress);
+            sPeerName = linkmanager.UserName;
+            return new PeerId(overlay.LocalAddress);
         }
 
         /// <summary>
@@ -269,23 +269,23 @@ namespace Cryptool.P2P.Internal
         public PeerId GetPeerId(byte[] byteId)
         {
             LogToMonitor("GetPeerID: Converting byte[] to PeerId-Object");
-            return new PeerId(_overlay.GetAddress(byteId));
+            return new PeerId(overlay.GetAddress(byteId));
         }
 
         // overlay.LocalAddress = Overlay-Peer-Address/Names
         public void SendToPeer(byte[] data, byte[] destinationPeer)
         {
             // get stack size of the pap use-data and add own use data (for optimizing Stack size)
-            var realStackSize = _overlay.GetHeaderSize() + data.Length;
+            var realStackSize = overlay.GetHeaderSize() + data.Length;
 
             var stackData = new ByteStack(realStackSize);
             stackData.Push(data);
 
-            var destinationAddr = _overlay.GetAddress(destinationPeer);
+            var destinationAddr = overlay.GetAddress(destinationPeer);
             var overlayMsg = new OverlayMessage(MessageReceiverType.P2PBase, 
-                                                _overlay.LocalAddress, destinationAddr, stackData);
+                                                overlay.LocalAddress, destinationAddr, stackData);
 
-            _overlay.Send(overlayMsg);
+            overlay.Send(overlayMsg);
         }
 
         private void OverlayMessageReceived(object sender, OverlayMessageEventArgs e)
@@ -318,7 +318,7 @@ namespace Cryptool.P2P.Internal
             if (OnSystemJoined != null)
                 OnSystemJoined();
 
-            _systemJoined.Set();
+            systemJoined.Set();
             IsConnected = true;
         }
 
@@ -332,8 +332,8 @@ namespace Cryptool.P2P.Internal
 
             // Allow new connection to start and check for waiting / blocked tasks
             // TODO reset running ConnectionWorkers?
-            _systemLeft.Set();
-            _systemJoined.Set();
+            systemLeft.Set();
+            systemJoined.Set();
 
             LogToMonitor("CrypP2P left the system.");
         }

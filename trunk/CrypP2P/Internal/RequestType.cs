@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Cryptool.P2P.Internal
+﻿namespace Cryptool.P2P.Internal
 {
     public enum RequestType
     {
