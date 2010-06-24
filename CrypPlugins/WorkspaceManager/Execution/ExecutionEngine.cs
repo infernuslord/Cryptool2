@@ -26,6 +26,7 @@ using Cryptool.PluginBase;
 using System.Reflection;
 using Gears4Net;
 using System.Windows.Threading;
+using System.Runtime.Remoting.Contexts;
 
 namespace WorkspaceManager.Execution
 {
@@ -80,10 +81,10 @@ namespace WorkspaceManager.Execution
                 //We do this, because measurements showed that we get the best performance if we
                 //use this amount of schedulers
                 schedulers = new Scheduler[System.Environment.ProcessorCount*2];
-                for(int i=0;i<System.Environment.ProcessorCount*2;i++){
-                    schedulers[i] = new STAScheduler("Scheduler" + i);
+                for(int i=0;i< System.Environment.ProcessorCount*2;i++){
+                    schedulers[i] = new WorkspaceManagerScheduler("Scheduler" + i);                    
                 }
-
+               
                 //We have to reset all states of PluginModels, ConnectorModels and ConnectionModels:
                 workspaceModel.resetStates();
 
@@ -121,6 +122,11 @@ namespace WorkspaceManager.Execution
                         msg.PluginModel = pluginModel;
                         pluginProtocol.BroadcastMessageReliably(msg);
                     }
+                }
+
+                foreach (Scheduler scheduler in schedulers)
+                {
+                    ((WorkspaceManagerScheduler)scheduler).startScheduler();
                 }
             }
         }      
@@ -297,7 +303,7 @@ namespace WorkspaceManager.Execution
     /// </summary>
     public class PluginProtocol : ProtocolBase
     {
-        private PluginModel pluginModel;
+        public PluginModel PluginModel;
         private ExecutionEngine executionEngine;
 
         /// <summary>
@@ -308,7 +314,7 @@ namespace WorkspaceManager.Execution
         public PluginProtocol(Scheduler scheduler, PluginModel pluginModel,ExecutionEngine executionEngine)
             : base(scheduler)
         {
-            this.pluginModel = pluginModel;
+            this.PluginModel = pluginModel;
             this.executionEngine = executionEngine;
         }
 
@@ -321,7 +327,10 @@ namespace WorkspaceManager.Execution
         {
             while (this.executionEngine.IsRunning)
             {
-                yield return Receive<MessageExecution>(null, this.HandleExecute);             
+                yield return Receive<MessageExecution>(null, this.HandleExecute);
+                //yield return Parallel(1,new PluginWaitReceiver()) & Receive<MessageExecution>(null, this.HandleExecute);
+                //yield return new PluginWaitReceiver() + Receive<MessageExecution>(null, this.HandleExecute);
+                //yield return Parallel(1,new PluginWaitReceiver()) + Receive<MessageExecution>(null, this.HandleExecute);
             }
         }
 
@@ -331,22 +340,31 @@ namespace WorkspaceManager.Execution
         /// <param name="msg"></param>
         private void HandleExecute(MessageExecution msg)
         {
-            
             //executionEngine.GuiLogMessage("HandleExecute for \"" + msg.PluginModel.Name + "\"", NotificationLevel.Debug);
             //Fill the plugins Inputs with data
-            foreach (ConnectorModel connectorModel in pluginModel.InputConnectors)
+            foreach (ConnectorModel connectorModel in PluginModel.InputConnectors)
             {
                 if (connectorModel.HasData)
-                {
-                    if (connectorModel.IsDynamic)
+                {                   
+                    try
                     {
-                        MethodInfo propertyInfo = pluginModel.Plugin.GetType().GetMethod(connectorModel.DynamicSetterName);
-                        propertyInfo.Invoke(pluginModel.Plugin, new object[]{connectorModel.PropertyName, connectorModel.Data});
+                        if (connectorModel.IsDynamic)
+                        {
+                            MethodInfo propertyInfo = PluginModel.Plugin.GetType().GetMethod(connectorModel.DynamicSetterName);
+                            propertyInfo.Invoke(PluginModel.Plugin, new object[] { connectorModel.PropertyName, connectorModel.Data });
+                        }
+                        else
+                        {
+                            PropertyInfo propertyInfo = PluginModel.Plugin.GetType().GetProperty(connectorModel.PropertyName);
+                            propertyInfo.SetValue(PluginModel.Plugin, connectorModel.Data, null);
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        PropertyInfo propertyInfo = pluginModel.Plugin.GetType().GetProperty(connectorModel.PropertyName);
-                        propertyInfo.SetValue(pluginModel.Plugin, connectorModel.Data, null);
+                        this.PluginModel.WorkspaceModel.WorkspaceManagerEditor.GuiLogMessage("An error occured while setting value of connector \"" + connectorModel.Name + "\" of \"" + PluginModel + "\": " + ex.Message, NotificationLevel.Error);
+                        this.PluginModel.State = PluginModelState.Error;
+                        this.PluginModel.GuiNeedsUpdate = true;
+                        return;
                     }
                 }
             }
@@ -359,5 +377,143 @@ namespace WorkspaceManager.Execution
             }
         }
       
+    }
+
+    public class WorkspaceManagerScheduler : Scheduler
+    {
+        private System.Threading.AutoResetEvent wakeup = new System.Threading.AutoResetEvent(false);
+        private bool shutdown = false;
+        private System.Threading.Thread thread;
+        private Context currentContext;
+
+		public WorkspaceManagerScheduler() : this(String.Empty)
+		{
+
+		}
+
+        public WorkspaceManagerScheduler(string name)
+            : base()
+        {
+            this.currentContext = Thread.CurrentContext;
+
+            thread = new System.Threading.Thread(this.Start);
+            thread.SetApartmentState(System.Threading.ApartmentState.STA);
+			thread.Name = name;
+            
+        }
+
+        public void startScheduler()
+        {
+            thread.Start();
+        }
+
+        private void Start()
+        {
+            if (this.currentContext != Thread.CurrentContext)
+                this.currentContext.DoCallBack(Start);
+
+            // Loop forever
+            while (true)
+            {
+                this.wakeup.WaitOne();
+
+                // Loop while there are more protocols waiting
+                while (true)
+                {
+                    // Should the scheduler stop?
+                    if (this.shutdown)
+                        return;
+                    
+                    bool donotrun = false;
+                    ProtocolBase protocol = null;
+                    lock (this)
+                    {
+                        // No more protocols? -> Wait
+                        if (this.waitingProtocols.Count == 0)
+                            break;
+                        protocol = this.waitingProtocols.Dequeue();
+
+                        if (protocol is PluginProtocol)
+                        {
+                            PluginProtocol pluginProtocol = (PluginProtocol)protocol;
+                            foreach (ConnectorModel outputConnector in pluginProtocol.PluginModel.OutputConnectors)
+                            {
+                                foreach (ConnectionModel connection in outputConnector.OutputConnections)
+                                {
+                                    
+                                    if (connection.To.PluginModel.PluginProtocol.QueueLength > 0 &&
+                                        connection.To.PluginModel != pluginProtocol.PluginModel && 
+                                        donotrun == false)
+                                    {                                            
+                                        this.waitingProtocols.Enqueue(protocol);
+                                        donotrun = true;
+                                    }
+                                 
+                                }
+                            }               
+                        }
+
+                    }
+
+                    if (donotrun == false)
+                    {
+                        ProtocolStatus status = protocol.Run();
+
+                        lock (this)
+                        {
+                            switch (status)
+                            {
+                                case ProtocolStatus.Created:
+                                    System.Diagnostics.Debug.Assert(false);
+                                    break;
+                                case ProtocolStatus.Ready:
+                                    this.waitingProtocols.Enqueue(protocol);
+                                    break;
+                                case ProtocolStatus.Waiting:
+                                    break;
+                                case ProtocolStatus.Terminated:
+                                    System.Diagnostics.Debug.Assert(!this.waitingProtocols.Contains(protocol));
+                                    this.RemoveProtocol(protocol);
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public override void RemoveProtocol(ProtocolBase protocol)
+        {
+            lock (this)
+            {
+                this.protocols.Remove(protocol);
+                if (this.protocols.Count == 0)
+                    this.Shutdown();
+            }
+        }
+
+        public override void AddProtocol(ProtocolBase protocol)
+        {
+            lock (this)
+            {
+                this.protocols.Add(protocol);
+            }
+        }
+
+        public override void Wakeup(ProtocolBase protocol)
+        {
+            lock (this)
+            {
+                if (!this.waitingProtocols.Contains(protocol))
+                    this.waitingProtocols.Enqueue(protocol);
+                this.wakeup.Set();
+            }
+        }
+
+        public override void Shutdown()
+        {
+            this.shutdown = true;
+            this.wakeup.Set();
+        }
     }
 }

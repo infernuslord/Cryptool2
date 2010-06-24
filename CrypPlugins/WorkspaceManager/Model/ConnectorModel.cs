@@ -15,7 +15,6 @@
 */
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
@@ -23,11 +22,11 @@ using System.Threading;
 using Cryptool.PluginBase;
 using WorkspaceManager.View.Container;
 using System.Windows.Media;
+using System.Collections.Generic;
 
 namespace WorkspaceManager.Model
 {
     
-
     /// <summary>
     /// Class to represent the Connection between two Connector Models
     /// </summary>
@@ -36,9 +35,6 @@ namespace WorkspaceManager.Model
     {        
         [NonSerialized]
         private bool hasData = false;
-
-        [NonSerialized]
-        private object data;
         
         /// <summary>
         /// The PluginModel this Connector belongs to
@@ -56,9 +52,9 @@ namespace WorkspaceManager.Model
         public bool Outgoing { get; set; }
         
         /// <summary>
-        /// The InputConnection of this ConnectorModel
+        /// The InputConnections of this ConnectorModel
         /// </summary>
-        public ConnectionModel InputConnection { get; set; }
+        public List<ConnectionModel> InputConnections;
 
         /// <summary>
         /// The OutputConnections of this ConnectorModel
@@ -70,7 +66,8 @@ namespace WorkspaceManager.Model
         /// </summary>
         public ConnectorModel()
         {
-            this.OutputConnections = new List<ConnectionModel>();
+            this.InputConnections = new List<ConnectionModel>();
+            this.OutputConnections = new List<ConnectionModel>();            
         }
 
         /// <summary>
@@ -134,19 +131,9 @@ namespace WorkspaceManager.Model
         /// <summary>
         /// Data of this Connector
         /// </summary>
-        public object Data
-        {
-            get
-            {
-                return data;
-            }
-
-            set
-            {
-                data = value;
-            }
-        }       
-
+        [NonSerialized]
+        public object Data = null;
+        
         /// <summary>
         /// Name of the represented Property of the IPlugin of this ConnectorModel
         /// </summary>
@@ -180,9 +167,12 @@ namespace WorkspaceManager.Model
                     }
                     connectionModel.To.HasData = true;
                     connectionModel.Active = true;
-                    
-                    //We changed an input on the PluginModel where "To" is belonging to so
-                    //we have to check if this is executable now
+                }
+
+               //We changed an input on the PluginModels where "To"s are belonging to so
+                //we have to check if there are executable now
+                foreach (ConnectionModel connectionModel in this.OutputConnections)
+                {
                     connectionModel.To.PluginModel.checkExecutable(connectionModel.To.PluginModel.PluginProtocol);
                 }
             }                       
@@ -205,8 +195,8 @@ namespace WorkspaceManager.Model
                 
                 if (this.PropertyName == dynamicProperty.Name)
                 {
-                    if(this.InputConnection != null){
-                        this.WorkspaceModel.deleteConnectionModel(this.InputConnection);
+                    foreach(ConnectionModel connectionModel in new List<ConnectionModel>(InputConnections)){
+                        this.WorkspaceModel.deleteConnectionModel(connectionModel);
                     }
                     foreach(ConnectionModel connectionModel in new List<ConnectionModel>(this.OutputConnections))
                     {
