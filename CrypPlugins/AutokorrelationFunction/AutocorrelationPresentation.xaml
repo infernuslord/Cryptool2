@@ -7,10 +7,14 @@
              xmlns:custom="clr-namespace:Cryptool.PluginBase.Utils.Graphics.Diagrams.Histogram;assembly=CrypPluginBase"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid Name="Grid" Width="300">
-        <Grid.LayoutTransform>
-            <ScaleTransform x:Name="scaler" ScaleX="1" ScaleY="1"/>
-        </Grid.LayoutTransform>
+    <Viewbox>
+    
+    <Grid Name="Grid" Height="154">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="11*" />
+                <ColumnDefinition Width="143*" />
+                <ColumnDefinition Width="0*" />
+            </Grid.ColumnDefinitions>
 
         <TextBlock TextAlignment="Center" FontSize="20" Foreground="DarkBlue"  FontFamily="Academy" OpacityMask="Turquoise" Text="Shift values" Height="20" VerticalAlignment="Bottom"></TextBlock>
 
@@ -19,6 +23,7 @@
         </custom:HistogramChart>
 
     </Grid>
-    
+
+    </Viewbox>
     
 </UserControl>

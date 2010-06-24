@@ -43,9 +43,7 @@ namespace Cryptool.Plugins.AutokorrelationFunction
         private double probablekorr = -999999.999999;                   //initialized probable korrelation of the length
         private String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";         //used alphabet
         private double same;                                            //Found same letter counter
-        private double average;                                         //Holds the average value of the found matches
         private double[] ak;                                            // Autokorrelation Values
-        private double[] top;
         private HistogramElement bar;                                   
         private HistogramDataSource data;
 
@@ -162,7 +160,6 @@ namespace Cryptool.Plugins.AutokorrelationFunction
                 }
 		    }
 
-            average = averageMatch(ak);                         //find the average value of matches
             data.ValueCollection.Clear();
 
             //for all observed shifts...
@@ -277,28 +274,11 @@ namespace Cryptool.Plugins.AutokorrelationFunction
 
 
 //---------------------------------------------------------------------------------------------------------------------------------------
-//AVERAGE MATCHES COUNT------------------------------------------------------------------------------------------------------------------
-
-        /// <summary>
-        /// Calculates the average value for all matches in the autokorrelation
-        /// </summary>
-        private double averageMatch(double[] ak)
-        {
-            double average = 0;
-
-            for (int y = 0; y < ak.Length; y++)
-            {
-                average += ak[y];
-            }
-
-            average = average / ak.Length;
-
-            return average;
-        }
-
-//---------------------------------------------------------------------------------------------------------------------------------------
 //FIND TOP 13----------------------------------------------------------------------------------------------------------------------------
 
+        /// <summary>
+        /// Thirteen possible shift values with the highest match count are enough information
+        /// </summary>
         private double[] findTopThirteen(double[] ak)
         {
             double[] top = ak;
