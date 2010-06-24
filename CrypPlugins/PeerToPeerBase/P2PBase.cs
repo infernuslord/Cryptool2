@@ -163,7 +163,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <param name="bsType"></param>
         /// <param name="overlayType"></param>
         /// <param name="dhtType"></param>
-        public void Initialize(string sUserName, string sWorldName, P2PLinkManagerType linkManagerType, P2PBootstrapperType bsType, P2POverlayType overlayType, P2PDHTType dhtType)
+        public void Initialize(string sUserName, string sWorldName, P2PLinkManagerType linkManagerType, P2PBootstrapperType bsType, P2PArchitecture architecture)
         {
             #region Setting LinkManager, Bootstrapper, Overlay and DHT to the specified types
 
@@ -210,20 +210,15 @@ namespace Cryptool.Plugins.PeerToPeer
                 default:
                     throw (new NotImplementedException());
             }
-            switch (overlayType)
+            switch (architecture)
             {
-                case P2POverlayType.FullMeshOverlay:
+                case P2PArchitecture.FullMesh:
                     // changing overlay example: this.overlay = new ChordOverlay();
                     this.overlay = new FullMeshOverlay(scheduler);
-                    break;
-                default:
-                    throw (new NotImplementedException());
-            }
-            switch (dhtType)
-            {
-                case P2PDHTType.FullMeshDHT:
                     this.dht = new FullMeshDHT(scheduler);
                     break;
+                case P2PArchitecture.Chord:
+                    throw (new NotImplementedException());
                 default:
                     throw (new NotImplementedException());
             }

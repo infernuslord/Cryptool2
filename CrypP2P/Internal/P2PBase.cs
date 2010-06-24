@@ -160,25 +160,14 @@ namespace Cryptool.P2P.Internal
                     throw (new NotImplementedException());
             }
 
-            switch (P2PSettings.Default.Overlay)
+            switch (P2PSettings.Default.Architecture)
             {
-                case P2POverlayType.FullMeshOverlay:
-                    // changing overlay example: this.overlay = new ChordOverlay();
+                case P2PArchitecture.FullMesh:
                     _overlay = new FullMeshOverlay(scheduler);
-                    break;
-                case P2POverlayType.ChordOverlay:
-                    _overlay = new ChordNGCore(scheduler);
-                    break;
-                default:
-                    throw (new NotImplementedException());
-            }
-
-            switch (P2PSettings.Default.Dht)
-            {
-                case P2PDHTType.FullMeshDHT:
                     Dht = new FullMeshDHT(scheduler);
                     break;
-                case P2PDHTType.ChordDHT:
+                case P2PArchitecture.Chord:
+                    _overlay = new ChordNGCore(scheduler);
                     Dht = (IDHT) _overlay;
                     break;
                 default:

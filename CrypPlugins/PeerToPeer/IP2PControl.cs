@@ -1,4 +1,5 @@
-﻿using Cryptool.PluginBase.Control;
+﻿using System;
+using Cryptool.PluginBase.Control;
 
 namespace Cryptool.Plugins.PeerToPeer.Internal
 {
@@ -16,18 +17,12 @@ namespace Cryptool.Plugins.PeerToPeer.Internal
         IrcBootstrapper = 1
     }
 
-    public enum P2POverlayType
+    public enum P2PArchitecture
     {
-        FullMeshOverlay = 0,
-        ChordOverlay = 1
+        FullMesh = 0,
+        Chord = 1
     }
-
-    public enum P2PDHTType
-    {
-        FullMeshDHT = 0,
-        ChordDHT = 1
-    }
-
+    
     public enum P2PTransportProtocol
     {
         TCP = 0,

@@ -85,30 +85,6 @@ namespace Cryptool.P2P {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("FullMeshOverlay")]
-        public global::Cryptool.Plugins.PeerToPeer.Internal.P2POverlayType Overlay {
-            get {
-                return ((global::Cryptool.Plugins.PeerToPeer.Internal.P2POverlayType)(this["Overlay"]));
-            }
-            set {
-                this["Overlay"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("FullMeshDHT")]
-        public global::Cryptool.Plugins.PeerToPeer.Internal.P2PDHTType Dht {
-            get {
-                return ((global::Cryptool.Plugins.PeerToPeer.Internal.P2PDHTType)(this["Dht"]));
-            }
-            set {
-                this["Dht"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool ConnectOnStartup {
             get {
@@ -176,6 +152,18 @@ namespace Cryptool.P2P {
             }
             set {
                 this["TransportProtocol"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Chord")]
+        public global::Cryptool.Plugins.PeerToPeer.Internal.P2PArchitecture Architecture {
+            get {
+                return ((global::Cryptool.Plugins.PeerToPeer.Internal.P2PArchitecture)(this["Architecture"]));
+            }
+            set {
+                this["Architecture"] = value;
             }
         }
     }
