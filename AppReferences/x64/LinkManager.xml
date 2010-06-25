@@ -4,12 +4,165 @@
         <name>LinkManager</name>
     </assembly>
     <members>
-        <member name="M:PeersAtPlay.Transport.TcpUdpTransport.BeginConnect(PeersAtPlay.Util.Threading.AsyncCallback{PeersAtPlay.ConnectionStatusChangedEventArgs},PeersAtPlay.Transport.TransportKey)">
+        <member name="T:PeersAtPlay.P2PLink.SnalNG.Settings">
             <summary>
-            Use TransportKey instead of IPEndPoint
+            SnalNG Settings
             </summary>
-            <param name="callBack"></param>
-            <param name="ipep"></param>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Settings.LoadDefaults">
+            <summary>
+            Set all settings to default value
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.PeerAliveIntervalBasic">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.PeerAliveIntervalDetail">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.PeerAliveIntervalFirst">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.PingIntervalFirst">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.PingInterval">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.UseOnlyOneThread">
+            <summary>
+            All Gears4Net parts using the same thread
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.FragmentMessageSize">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.MaxNumberOfConcurrentMessageSending">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.FragmentMessages">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.NumberOfAutoReconnects">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.TransportProtocolTimeout">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.MessageResponseTimeout">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.HandleRequestNodesTimeout">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.DirectConnectionEstablishemtTimeout">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.RelayingConnectionEstablishemtTimeout">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.HolepunchRetries">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.RequestNodesTimeout">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.LocalReceivingPort">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.TransportProtocol">
+            <summary>
+            Set the used transport protocol
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.ConnectInternal">
+            <summary>
+            Tries to establish a connection with remote partner on the internal address
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.CloseConnectionAfterPingTimeout">
+            <summary>
+            Send detailed connection information to the network monitor server
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.UseLocalAddressDetection">
+            <summary>
+            Using a local address only. This make the P2PLinkManager working without a network connection!
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.StartMFBTypeDetectionServer">
+            <summary>
+            Start a MFBTypeDetectionServer if possible
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.MFBTypeDetectionServerPort1">
+            <summary>
+            First port for the MFBTypeDetectionServer
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.MFBTypeDetectionServerPort2">
+            <summary>
+            Second port for the MFBTypeDetectionServer
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.ReuseAddress">
+            <summary>
+            Using always the same port for incoming and outgoing connections
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.NoDelay">
+            <summary>
+            Socket option (using Nagle or not)
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.UseNetworkMonitorServer">
+            <summary>
+            Send information to the network monitor server
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.SendDetailedConnectionInformation">
+            <summary>
+            Send detailed connection information to the network monitor server
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.SendConnectionStatusChangedDirectly">
+            <summary>
+            Send detailed connection information to the network monitor server
+            </summary>
         </member>
         <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.Link.#ctor(PeersAtPlay.P2PLink.LinkAddress,PeersAtPlay.P2PLink.LinkAddress,System.Net.IPEndPoint,PeersAtPlay.P2PLink.TransportProtocol,System.Boolean)">
             <summary>
@@ -109,99 +262,78 @@
             Debug feature!
             </summary>
         </member>
-        <member name="T:PeersAtPlay.P2PLink.SimpleSnalNG.Settings">
+        <member name="T:PeersAtPlay.P2PLink.SnalNG.UIntSequenceComparer">
             <summary>
-            SimpleSnalNG Settings
+            A copy of ReliableUDP.SequenceComparer with uint instead of ulong. Copy/pasted
+            because C# doesn't allow sealed class constrains on generics (Grow up!).
             </summary>
         </member>
-        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.LoadDefaults">
-            <summary>
-            Set all settings to default value
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.PeerAliveIntervalBasic">
+        <member name="T:PeersAtPlay.P2PLink.SnalNG.SnalMessage">
             <summary>
             
             </summary>
         </member>
-        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.PeerAliveIntervalDetail">
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.SnalMessage.#ctor(PeersAtPlay.P2PLink.SnalNG.SnalMessage.MessageType,System.Guid)">
+            <summary>
+            Creates a new SNALMessage of given type with bew bytestack
+            </summary>
+            <param name="type">Messagetype</param>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.SnalMessage.#ctor(PeersAtPlay.P2PLink.SnalNG.SnalMessage.MessageType,PeersAtPlay.ByteStack,System.Guid)">
             <summary>
             
             </summary>
+            <param name="type"></param>
+            <param name="data"></param>
         </member>
-        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.PeerAliveIntervalFirst">
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.SnalMessage.#ctor(PeersAtPlay.ByteStack)">
             <summary>
             
             </summary>
+            <param name="data"></param>
         </member>
-        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.UseOnlyOneThread">
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.SnalMessage.GetByteStack">
             <summary>
-            All Gears4Net parts using the same thread
+            Serializes the SNALMessage to an byte array
             </summary>
+            <returns>SNALMessage as byte array</returns>
         </member>
-        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.ConnectionEstablishemtTimeout">
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.SnalMessage.ToString">
             <summary>
+            String representation
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:PeersAtPlay.P2PLink.SimpleSnalNG.SnalMessage">
+            <summary>
+            
             
             </summary>
         </member>
-        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.LocalReceivingPort">
+        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.SnalMessage.#ctor(PeersAtPlay.P2PLink.SimpleSnalNG.SnalMessage.MessageType)">
+            <summary>
+            Creates a new SNALMessage of given type with bew bytestack
+            </summary>
+            <param name="type">Messagetype</param>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.SnalMessage.#ctor(PeersAtPlay.P2PLink.SimpleSnalNG.SnalMessage.MessageType,PeersAtPlay.ByteStack)">
             <summary>
             
             </summary>
+            <param name="type"></param>
+            <param name="data"></param>
         </member>
-        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.TransportProtocol">
+        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.SnalMessage.#ctor(PeersAtPlay.ByteStack)">
             <summary>
-            Set the used transport protocol
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.UseLocalAddressDetection">
-            <summary>
-            Using a local address only. This make the P2PLinkManager working without a network connection!
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.StartMFBTypeDetectionServer">
-            <summary>
-            Start a MFBTypeDetectionServer if possible
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.MFBTypeDetectionServerPort1">
-            <summary>
-            First port for the MFBTypeDetectionServer
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.MFBTypeDetectionServerPort2">
-            <summary>
-            Second port for the MFBTypeDetectionServer
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.ReuseAddress">
-            <summary>
-            Using always the same port for incoming and outgoing connections
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.NoDelay">
-            <summary>
-            Socket option (using Nagle or not)
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.UseNetworkMonitorServer">
-            <summary>
-            Send information to the network monitor server
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.SendDetailedConnectionInformation">
-            <summary>
-            Send detailed connection information to the network monitor server
-            </summary>
-        </member>
-        <member name="T:PeersAtPlay.Networking.Security.RSAAuthentication">
-            <summary>
-            This object is available in every SNALConnection. It is instantiated with users
-            private and public key and will generate a session key.
             
-            - De/Encrypt
-            - Hybrid cryptography
             </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.SnalMessage.GetByteStack">
+            <summary>
+            Serializes the SNALMessage to an byte array
+            </summary>
+            <returns>SNALMessage as byte array</returns>
         </member>
         <member name="T:PeersAtPlay.Networking.Security.AbstractAuthentication">
             <summary>
@@ -463,6 +595,115 @@
             256 bit
             </summary>
         </member>
+        <member name="T:PeersAtPlay.P2PLink.SnalNG.SNALHandshake">
+            <summary>
+            Represent all data used for the snal connection handshake
+            </summary>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.SNALHandshake.PushDataOnByteStack(PeersAtPlay.ByteStack)">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:PeersAtPlay.P2PLink.SnalNG.Link">
+            <summary>
+            Represent a link (connection) between two peers
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.P2PLink.SnalNG.Link.sequenceNumbers">
+            <summary>
+            An array of outgoing sequence numbers; one element
+            for each priority.
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.P2PLink.SnalNG.Link.lastSeenSequenceNumbers">
+            <summary>
+            An array of incoming sequence numbers; one element
+            for each priority.
+            </summary>
+        </member>
+        <member name="F:PeersAtPlay.P2PLink.SnalNG.Link.outOfOrderMsg">
+            <summary>
+            Store out of order packets. One array element for
+            each priority.
+            </summary>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.#ctor(PeersAtPlay.P2PLink.LinkAddress,PeersAtPlay.P2PLink.LinkAddress,System.Net.IPEndPoint,PeersAtPlay.P2PLink.TransportProtocol,System.Boolean,System.Security.Cryptography.X509Certificates.X509Certificate2,PeersAtPlay.P2PLink.SnalNG.Settings,Gears4Net.Scheduler)">
+            <summary>
+            
+            </summary>
+            <param name="localAddress"></param>
+            <param name="remoteAddress"></param> 
+            <param name="remoteIPEndPoint"></param>
+            <param name="transportProtocol"></param>
+            <param name="isIncoming"></param>
+            <param name="cert"></param>
+            <param name="scheduler"></param>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.Send(PeersAtPlay.P2PLink.LinkMessage)">
+            <summary>
+            Send a message to communication partner
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.SwitchFromOutgoingToIncoming(PeersAtPlay.P2PLink.SnalNG.SnalMessage)">
+            <summary>
+            Switched the waiting conndition from outgoing to incoming
+            </summary>
+            <param name="joinMessage"></param>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.StartClosing">
+            <summary>
+            Closing this link
+            </summary>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.HandleSNALMessage(PeersAtPlay.P2PLink.SnalNG.SnalMessage)">
+            <summary>
+            Handle incoming snal messages and enforce order based on their SequenceNumber
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.ForceQuit">
+            <summary>
+            Force close 
+            </summary>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.ToString">
+            <summary>
+            Return the string representaion of the current link state
+            </summary>
+            <returns>string representaion of the current link state</returns>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.OnCloseMessage(Gears4Net.AbstractStateMachine,PeersAtPlay.P2PLink.SnalNG.Link.CloseMesseage)">
+            <summary>
+            Local close message
+            </summary>
+            <param name="stateMachine"></param>
+            <param name="closeMsg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.OnSnalJoinMessage(PeersAtPlay.P2PLink.SnalNG.SnalMessage)">
+            <summary>
+            Check if the received certificate is valid; if not send a DENY Message and close this connection 
+            otherwise send a ACCEPT message containing my own certificate, a session key and a hmac
+            </summary>
+            <param name="message">JOIN Message</param>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SnalNG.Link.StillTrying">
+            <summary>
+            If connection state is closed and still trying is set, the OnLinkStatusChanged handler ignores the LinkStatusChangedMessage
+            </summary>
+        </member>
+        <member name="T:PeersAtPlay.Networking.Security.RSAAuthentication">
+            <summary>
+            This object is available in every SNALConnection. It is instantiated with users
+            private and public key and will generate a session key.
+            
+            - De/Encrypt
+            - Hybrid cryptography
+            </summary>
+        </member>
         <member name="M:PeersAtPlay.Networking.Security.RSAAuthentication.#ctor(System.Security.Cryptography.X509Certificates.X509Certificate2)">
             <summary>
             Initialises authentication with normal keysize and rijndael as encryption algorithm
@@ -521,111 +762,89 @@
             <param name="data">Encrypted data</param>
             <returns>Decrypted data</returns>
         </member>
-        <member name="T:PeersAtPlay.P2PLink.SnalNG.SnalMessage">
+        <member name="T:PeersAtPlay.P2PLink.SimpleSnalNG.Settings">
+            <summary>
+            SimpleSnalNG Settings
+            </summary>
+        </member>
+        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.LoadDefaults">
+            <summary>
+            Set all settings to default value
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.PeerAliveIntervalBasic">
             <summary>
             
             </summary>
         </member>
-        <member name="M:PeersAtPlay.P2PLink.SnalNG.SnalMessage.#ctor(PeersAtPlay.P2PLink.SnalNG.SnalMessage.MessageType,System.Guid)">
-            <summary>
-            Creates a new SNALMessage of given type with bew bytestack
-            </summary>
-            <param name="type">Messagetype</param>
-        </member>
-        <member name="M:PeersAtPlay.P2PLink.SnalNG.SnalMessage.#ctor(PeersAtPlay.P2PLink.SnalNG.SnalMessage.MessageType,PeersAtPlay.ByteStack,System.Guid)">
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.PeerAliveIntervalDetail">
             <summary>
             
             </summary>
-            <param name="type"></param>
-            <param name="data"></param>
         </member>
-        <member name="M:PeersAtPlay.P2PLink.SnalNG.SnalMessage.#ctor(PeersAtPlay.ByteStack)">
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.PeerAliveIntervalFirst">
             <summary>
             
             </summary>
-            <param name="data"></param>
         </member>
-        <member name="M:PeersAtPlay.P2PLink.SnalNG.SnalMessage.GetByteStack">
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.UseOnlyOneThread">
             <summary>
-            Serializes the SNALMessage to an byte array
-            </summary>
-            <returns>SNALMessage as byte array</returns>
-        </member>
-        <member name="M:PeersAtPlay.P2PLink.SnalNG.SnalMessage.ToString">
-            <summary>
-            String representation
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:PeersAtPlay.P2PLink.SnalNG.Link">
-            <summary>
-            Represent a link (connection) between two peers
+            All Gears4Net parts using the same thread
             </summary>
         </member>
-        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.#ctor(PeersAtPlay.P2PLink.LinkAddress,PeersAtPlay.P2PLink.LinkAddress,System.Net.IPEndPoint,PeersAtPlay.P2PLink.TransportProtocol,System.Boolean,System.Security.Cryptography.X509Certificates.X509Certificate2,PeersAtPlay.P2PLink.SnalNG.Settings,Gears4Net.Scheduler)">
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.ConnectionEstablishemtTimeout">
             <summary>
             
             </summary>
-            <param name="localAddress"></param>
-            <param name="remoteAddress"></param> 
-            <param name="remoteIPEndPoint"></param>
-            <param name="transportProtocol"></param>
-            <param name="isIncoming"></param>
-            <param name="cert"></param>
-            <param name="scheduler"></param>
         </member>
-        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.Send(PeersAtPlay.P2PLink.LinkMessage)">
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.LocalReceivingPort">
             <summary>
-            Send a message to communication partner
-            </summary>
-            <param name="message"></param>
-        </member>
-        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.SwitchFromOutgoingToIncoming(PeersAtPlay.P2PLink.SnalNG.SnalMessage)">
-            <summary>
-            Switched the waiting conndition from outgoing to incoming
-            </summary>
-            <param name="joinMessage"></param>
-        </member>
-        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.StartClosing">
-            <summary>
-            Closing this link
+            
             </summary>
         </member>
-        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.HandleSNALMessage(PeersAtPlay.P2PLink.SnalNG.SnalMessage)">
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.TransportProtocol">
             <summary>
-            Handle incoming snal messages
-            </summary>
-            <param name="message"></param>
-        </member>
-        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.ForceQuit">
-            <summary>
-            Force close 
+            Set the used transport protocol
             </summary>
         </member>
-        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.ToString">
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.UseLocalAddressDetection">
             <summary>
-            Return the string representaion of the current link state
+            Using a local address only. This make the P2PLinkManager working without a network connection!
             </summary>
-            <returns>string representaion of the current link state</returns>
         </member>
-        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.OnCloseMessage(Gears4Net.AbstractStateMachine,PeersAtPlay.P2PLink.SnalNG.Link.CloseMesseage)">
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.StartMFBTypeDetectionServer">
             <summary>
-            Local close message
+            Start a MFBTypeDetectionServer if possible
             </summary>
-            <param name="stateMachine"></param>
-            <param name="closeMsg"></param>
-            <returns></returns>
         </member>
-        <member name="M:PeersAtPlay.P2PLink.SnalNG.Link.OnSnalJoinMessage(PeersAtPlay.P2PLink.SnalNG.SnalMessage)">
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.MFBTypeDetectionServerPort1">
             <summary>
-            Check if the received certificate is valid; if not send a DENY Message and close this connection 
-            otherwise send a ACCEPT message containing my own certificate, a session key and a hmac
+            First port for the MFBTypeDetectionServer
             </summary>
-            <param name="message">JOIN Message</param>
         </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Link.StillTrying">
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.MFBTypeDetectionServerPort2">
             <summary>
-            If connection state is closed and still trying is set, the OnLinkStatusChanged handler ignores the LinkStatusChangedMessage
+            Second port for the MFBTypeDetectionServer
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.ReuseAddress">
+            <summary>
+            Using always the same port for incoming and outgoing connections
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.NoDelay">
+            <summary>
+            Socket option (using Nagle or not)
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.UseNetworkMonitorServer">
+            <summary>
+            Send information to the network monitor server
+            </summary>
+        </member>
+        <member name="P:PeersAtPlay.P2PLink.SimpleSnalNG.Settings.SendDetailedConnectionInformation">
+            <summary>
+            Send detailed connection information to the network monitor server
             </summary>
         </member>
         <member name="F:PeersAtPlay.P2PLink.SnalNG.Snal.links">
@@ -738,207 +957,25 @@
             Each physical connection has got one ringe buffer and at least one virtual link.
             </summary>
         </member>
-        <member name="T:PeersAtPlay.P2PLink.SnalNG.SNALHandshake">
+        <member name="T:PeersAtPlay.Transport.TcpUdpTransport">
             <summary>
-            Represent all data used for the snal connection handshake
-            </summary>
-        </member>
-        <member name="M:PeersAtPlay.P2PLink.SnalNG.SNALHandshake.PushDataOnByteStack(PeersAtPlay.ByteStack)">
-            <summary>
+            A transport protocol which uses both UDP and TCP. BeginConnect will try to establish an UDP and a
+            TCP connection. Once one of them has been established successfully, ConnectionStatusChanged will
+            be invoked. If the other connection becomes established as well, TCP is prefered and UDP will be
+            closed. No ConnectionStatusChanged event will be invoked in that process.
             
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:PeersAtPlay.P2PLink.SnalNG.Settings">
-            <summary>
-            SnalNG Settings
+            MessageReceived's protoocl type is either TCP/UDP. It is up to the upper layer to distinguish these
+            messages.
             </summary>
         </member>
-        <member name="M:PeersAtPlay.P2PLink.SnalNG.Settings.LoadDefaults">
+        <member name="M:PeersAtPlay.Transport.TcpUdpTransport.innerConnectionStatusChanged(System.Object,PeersAtPlay.ConnectionStatusChangedEventArgs)">
             <summary>
-            Set all settings to default value
+            Receives ConnectionStatusChanged events from both transport protocols. If a connection is established successfully,
+            it is reported using our ConnectionStatusChanged event. Futhermore, if both a TCP and a UDP connection have been established,
+            the UDP connection will be closed.
             </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.PeerAliveIntervalBasic">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.PeerAliveIntervalDetail">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.PeerAliveIntervalFirst">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.PingIntervalFirst">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.PingInterval">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.UseOnlyOneThread">
-            <summary>
-            All Gears4Net parts using the same thread
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.FragmentMessageSize">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.MaxNumberOfConcurrentMessageSending">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.FragmentMessages">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.NumberOfAutoReconnects">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.TransportProtocolTimeout">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.MessageResponseTimeout">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.HandleRequestNodesTimeout">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.DirectConnectionEstablishemtTimeout">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.RelayingConnectionEstablishemtTimeout">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.HolepunchRetries">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.RequestNodesTimeout">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.LocalReceivingPort">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.TransportProtocol">
-            <summary>
-            Set the used transport protocol
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.ConnectInternal">
-            <summary>
-            Tries to establish a connection with remote partner on the internal address
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.CloseConnectionAfterPingTimeout">
-            <summary>
-            Send detailed connection information to the network monitor server
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.UseLocalAddressDetection">
-            <summary>
-            Using a local address only. This make the P2PLinkManager working without a network connection!
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.StartMFBTypeDetectionServer">
-            <summary>
-            Start a MFBTypeDetectionServer if possible
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.MFBTypeDetectionServerPort1">
-            <summary>
-            First port for the MFBTypeDetectionServer
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.MFBTypeDetectionServerPort2">
-            <summary>
-            Second port for the MFBTypeDetectionServer
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.ReuseAddress">
-            <summary>
-            Using always the same port for incoming and outgoing connections
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.NoDelay">
-            <summary>
-            Socket option (using Nagle or not)
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.UseNetworkMonitorServer">
-            <summary>
-            Send information to the network monitor server
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.SendDetailedConnectionInformation">
-            <summary>
-            Send detailed connection information to the network monitor server
-            </summary>
-        </member>
-        <member name="P:PeersAtPlay.P2PLink.SnalNG.Settings.SendConnectionStatusChangedDirectly">
-            <summary>
-            Send detailed connection information to the network monitor server
-            </summary>
-        </member>
-        <member name="T:PeersAtPlay.P2PLink.SimpleSnalNG.SnalMessage">
-            <summary>
-            
-            
-            </summary>
-        </member>
-        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.SnalMessage.#ctor(PeersAtPlay.P2PLink.SimpleSnalNG.SnalMessage.MessageType)">
-            <summary>
-            Creates a new SNALMessage of given type with bew bytestack
-            </summary>
-            <param name="type">Messagetype</param>
-        </member>
-        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.SnalMessage.#ctor(PeersAtPlay.P2PLink.SimpleSnalNG.SnalMessage.MessageType,PeersAtPlay.ByteStack)">
-            <summary>
-            
-            </summary>
-            <param name="type"></param>
-            <param name="data"></param>
-        </member>
-        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.SnalMessage.#ctor(PeersAtPlay.ByteStack)">
-            <summary>
-            
-            </summary>
-            <param name="data"></param>
-        </member>
-        <member name="M:PeersAtPlay.P2PLink.SimpleSnalNG.SnalMessage.GetByteStack">
-            <summary>
-            Serializes the SNALMessage to an byte array
-            </summary>
-            <returns>SNALMessage as byte array</returns>
+            <param name="sender"></param>
+            <param name="arg"></param>
         </member>
     </members>
 </doc>

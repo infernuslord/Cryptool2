@@ -117,7 +117,7 @@ namespace Cryptool.P2P.Internal
                     settings.NoDelay = false;
                     settings.ReuseAddress = false;
                     settings.UseNetworkMonitorServer = true;
-                    settings.CloseConnectionAfterPingTimeout = false;
+                    settings.CloseConnectionAfterPingTimeout = true;
 
                     settings.FragmentMessages = true;
                     settings.FragmentMessageSize = 10*1024;
