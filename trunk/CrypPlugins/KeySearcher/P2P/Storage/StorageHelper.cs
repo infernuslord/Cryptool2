@@ -132,7 +132,14 @@ namespace KeySearcher.P2P.Storage
         {
             statusContainer.RetrieveRequests++;
             statusContainer.TotalDhtRequests++;
-            return P2PManager.Retrieve(key);
+            var requestResult = P2PManager.Retrieve(key);
+
+            if (requestResult.Data != null)
+            {
+                statusContainer.RetrievedBytes += requestResult.Data.Length;
+            }
+
+            return requestResult;
         }
 
         public RequestResult RemoveWithStatistic(string key)
@@ -146,7 +153,14 @@ namespace KeySearcher.P2P.Storage
         {
             statusContainer.StoreRequests++;
             statusContainer.TotalDhtRequests++;
-            return P2PManager.Store(key, data);
+            var requestResult = P2PManager.Store(key, data);
+
+            if (requestResult.Data != null)
+            {
+                statusContainer.StoredBytes += requestResult.Data.Length;
+            }
+
+            return requestResult;
         }
     }
 }

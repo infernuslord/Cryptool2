@@ -107,8 +107,11 @@ namespace KeySearcher.P2P
                         
                         status.LocalFinishedChunks++;
                         keySearcher.GuiLogMessage(
-                        string.Format("Best match: {0} with {1}", result.First.Value.key, result.First.Value.value),
-                        NotificationLevel.Info);
+                            string.Format("Best match: {0} with {1}", result.First.Value.key, result.First.Value.value),
+                            NotificationLevel.Info);
+                        keySearcher.GuiLogMessage(
+                            string.Format("Bytes send: {0}, bytes received {1}", status.StoredBytes, status.RetrievedBytes),
+                            NotificationLevel.Debug);
                     }
                     else
                     {

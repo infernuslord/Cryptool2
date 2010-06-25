@@ -68,7 +68,7 @@ namespace KeySearcher.P2P.Tree
                 return null;
             }
 
-            bool isReserved = false;
+            var isReserved = false;
             storageHelper.UpdateFromDht(currentNode, true);
             currentNode.UpdateCache();
             while (currentNode.IsCalculated() || (!useReservedLeafs && (isReserved = currentNode.IsReserverd())))

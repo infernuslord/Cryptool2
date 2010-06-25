@@ -8,7 +8,8 @@ namespace Cryptool.P2PEditor.Distributed
     [Serializable]
     public class DistributedJob : INotifyPropertyChanged
     {
-        [NonSerialized] private String _localFilePath;
+        [NonSerialized]
+        private String localFilePath;
 
         public DistributedJob()
         {
@@ -31,12 +32,12 @@ namespace Cryptool.P2PEditor.Distributed
 
         public String LocalFilePath
         {
-            get { return _localFilePath; }
+            get { return localFilePath; }
             set
             {
-                if (value == _localFilePath) return;
-                _localFilePath = value;
-                FileName = Path.GetFileName(_localFilePath);
+                if (value == localFilePath) return;
+                localFilePath = value;
+                FileName = Path.GetFileName(localFilePath);
                 OnPropertyChanged("LocalFilePath");
             }
         }
@@ -57,11 +58,12 @@ namespace Cryptool.P2PEditor.Distributed
             }
 
             // Avoid overwriting previous versions of this workspace or workspaces with common names by adding an integer prefix
-            LocalFilePath = Path.Combine(workspacePath, JobOwner + "_" + FileName);
+            var originalFileName = FileName;
+            LocalFilePath = Path.Combine(workspacePath, JobOwner + "_" + originalFileName);
             var counter = 0;
             while (File.Exists(LocalFilePath))
             {
-                LocalFilePath = Path.Combine(workspacePath, counter++ + "_" + JobOwner + "_" + FileName);
+                LocalFilePath = Path.Combine(workspacePath, counter++ + "_" + JobOwner + "_" + originalFileName);
             }
 
             if (rawWorkspaceData == null || rawWorkspaceData.Length == 0)

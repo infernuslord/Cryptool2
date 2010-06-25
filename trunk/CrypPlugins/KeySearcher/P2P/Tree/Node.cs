@@ -74,8 +74,6 @@ namespace KeySearcher.P2P.Tree
 
         public override Leaf CalculatableLeaf(bool useReservedNodes)
         {
-            // LoadOrUpdateChildNodes();
-
             // Left child not finished and not reserved (or reserved leafs are allowed)
             if (!LeftChildFinished && (!leftChildReserved || useReservedNodes))
             {
@@ -111,10 +109,6 @@ namespace KeySearcher.P2P.Tree
 
         public override bool IsReserverd()
         {
-            // LoadOrUpdateChildNodes();
-
-            // var leftChildFinishedOrReserved = LeftChildFinished || leftChildReserved;
-
             if (LeftChildFinished && !RightChildFinished)
             {
                 return rightChildReserved;
@@ -131,13 +125,6 @@ namespace KeySearcher.P2P.Tree
             }
 
             return rightChildReserved;
-            /*
-            if (leftChildFinishedOrReserved && !RightChildFinished)
-            {
-                return rightChildReserved;
-            }
-
-            return !LeftChildFinished && leftChildReserved;*/
         }
 
         public override string ToString()
