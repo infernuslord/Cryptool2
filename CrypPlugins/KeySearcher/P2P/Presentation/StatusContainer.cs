@@ -194,6 +194,28 @@ namespace KeySearcher.P2P.Presentation
             IsSearchingForReservedNodes = false;
         }
 
+        private long storedBytes;
+        public long StoredBytes
+        {
+            get { return storedBytes; }
+            set
+            {
+                storedBytes = value;
+                OnPropertyChanged("StoredBytes");
+            }
+        }
+
+        private long retrievedBytes;
+        public long RetrievedBytes
+        {
+            get { return retrievedBytes; }
+            set
+            {
+                retrievedBytes = value;
+                OnPropertyChanged("RetrievedBytes");
+            }
+        }
+
         #region INotifyPropertyChanged Members
 
         [field: NonSerialized]
