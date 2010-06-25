@@ -39,7 +39,6 @@ namespace KeySearcher
                 if (!(keysearcher.Pattern != null && keysearcher.Pattern.testWildcardKey(value)))
                     keysearcher.GuiLogMessage("Wrong key pattern!", NotificationLevel.Error);
                 HasChanges = true;
-                OnPropertyChanged("TotalAmountOfChunks");
             }
         }
 
@@ -127,7 +126,6 @@ namespace KeySearcher
                 {
                     chunkSize = value;
                     OnPropertyChanged("ChunkSize");
-                    OnPropertyChanged("TotalAmountOfChunks");
                     HasChanges = true;
                 }
             }
