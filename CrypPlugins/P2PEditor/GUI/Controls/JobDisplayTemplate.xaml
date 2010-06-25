@@ -1,22 +1,29 @@
 ﻿<ResourceDictionary x:Class="Cryptool.P2PEditor.GUI.Controls.JobDisplayTemplate"
               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Distributed="clr-namespace:Cryptool.P2PEditor.Distributed">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Distributed="clr-namespace:Cryptool.P2PEditor.Distributed" xmlns:Converters="clr-namespace:Cryptool.P2PEditor.Converters">
 
-    <DataTemplate DataType="{x:Type Distributed:DistributedJob}" x:Key="jobDisplayTemplate">
+	<Converters:DateTimeConverter x:Key="DateTimeConverter" />
+	<DataTemplate DataType="{x:Type Distributed:DistributedJob}" x:Key="jobDisplayTemplate">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="70" />
+                <ColumnDefinition Width="75" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="130" />
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0">
-                <Label Content="Name:" Height="28" FontSize="13" FontWeight="Bold" />
-                <Label Content="Workspace:" Height="28" FontSize="11" FontWeight="Bold" />
+                <Label Content="Name" FontWeight="Bold" Height="24" />
+                <Label Content="Author:" FontWeight="Bold" FontSize="10" Height="23" />
+                <Label Content="Workspace:" FontWeight="Bold" FontSize="10" Height="23" />
             </StackPanel>
             <StackPanel Grid.Column="1">
-                <Label Content="{Binding JobName}" Height="28" FontSize="13" />
-                <Label Content="{Binding FileName}" Height="28" FontSize="11" />
+                <Label Content="{Binding JobName}" Height="24" />
+                <Label Content="{Binding JobOwner}" Height="23" FontSize="10" />
+                <Label Content="{Binding FileName}" Height="23" FontSize="10" />
             </StackPanel>
-            <Label Content="{Binding JobDescription}" Grid.ColumnSpan="2" Margin="0,50,0,0"  FontSize="11" />
+            <StackPanel Grid.Column="2" HorizontalAlignment="Right">
+                <Label Content="{Binding JobDate, Converter={StaticResource DateTimeConverter}}" VerticalAlignment="Top" FontSize="10" Height="23" />
+                <Label Content="" VerticalAlignment="Top" FontSize="10" Height="23" />
+            </StackPanel>
         </Grid>
     </DataTemplate>
     

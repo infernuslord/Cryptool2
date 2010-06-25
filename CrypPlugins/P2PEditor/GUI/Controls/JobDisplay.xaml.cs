@@ -103,7 +103,9 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
             P2PEditor.GuiLogMessage("Received new job list...", NotificationLevel.Debug);
             Jobs = updateWorker.RefreshedJobList;
-            Jobs.Reverse();
+
+            if (Jobs != null)
+                Jobs.Reverse();
         }
 
         private void ParticipateButton_Click(object sender, RoutedEventArgs e)
