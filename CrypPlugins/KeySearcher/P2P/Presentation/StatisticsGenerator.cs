@@ -115,12 +115,17 @@ namespace KeySearcher.P2P.Presentation
 
             try
             {
-                status.EstimatedFinishDate = DateTime.Now.AddSeconds(secondsRemaining).ToString("dd.MM. HH:mm");
+                var estimatedFinishDate = DateTime.Now.AddSeconds(secondsRemaining);
+                status.EstimatedFinishDate = estimatedFinishDate.ToString("g", Thread.CurrentThread.CurrentCulture);
+                status.RemainingTimeTotal = estimatedFinishDate.Subtract(DateTime.Now);
             }
             catch (ArgumentOutOfRangeException)
             {
                 status.EstimatedFinishDate = "~";
+                status.RemainingTimeTotal = new TimeSpan(-1);
             }
+
+            status.ElapsedTime = DateTime.Now.Subtract(status.StartDate);
 
             lastDateOfGlobalStatistics = DateTime.Now;
 
@@ -162,14 +167,7 @@ namespace KeySearcher.P2P.Presentation
                 //can not calculate time span
             }
 
-            if (timeleft != new TimeSpan(-1))
-            {
-                status.RemainingTime = timeleft.ToString();
-            } 
-            else
-            {
-                status.RemainingTime = "~";
-            }
+            status.RemainingTime = timeleft;
 
             ProcessResultList(bestResultList);
         }

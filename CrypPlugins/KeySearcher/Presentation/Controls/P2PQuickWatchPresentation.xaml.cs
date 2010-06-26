@@ -34,9 +34,18 @@ namespace KeySearcherPresentation.Controls
                                  {WildcardKey = keySearcherSettings.Key};
             var keysPerChunk = Math.Pow(2, keySearcherSettings.ChunkSize);
             var keyPatternPool = new KeyPatternPool(keyPattern, new BigInteger(keysPerChunk));
-            
-            TotalAmountOfChunks.Content = keyPatternPool.Length;
+
+            if (keyPatternPool.Length > 9999999999)
+            {
+                TotalAmountOfChunks.Content = keyPatternPool.Length.ToString().Substring(0, 10) + "...";
+            }
+            else
+            {
+                TotalAmountOfChunks.Content = keyPatternPool.Length;
+            }
+
             KeysPerChunk.Content = keysPerChunk;
+            TestedBits.Content = Math.Ceiling(Math.Log((double) keyPatternPool.Length*keysPerChunk, 2));
         }
     }
 }

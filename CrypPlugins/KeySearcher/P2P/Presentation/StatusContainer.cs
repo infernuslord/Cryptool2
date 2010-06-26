@@ -7,6 +7,17 @@ namespace KeySearcher.P2P.Presentation
 {
     public class StatusContainer : INotifyPropertyChanged
     {
+        private string currentOperation;
+        public string CurrentOperation
+        {
+            get { return currentOperation; }
+            set
+            {
+                currentOperation = "> " + value + " <";
+                OnPropertyChanged("CurrentOperation");
+            }
+        }
+
         private BigInteger localFinishedChunks;
         public BigInteger LocalFinishedChunks
         {
@@ -62,14 +73,47 @@ namespace KeySearcher.P2P.Presentation
             }
         }
 
-        private string remainingTime;
-        public string RemainingTime
+        private DateTime startDate;
+        public DateTime StartDate
+        {
+            get { return startDate; }
+            set
+            {
+                startDate = value;
+                OnPropertyChanged("StartDate");
+            }
+        }
+
+        private TimeSpan elapsedTime;
+        public TimeSpan ElapsedTime
+        {
+            get { return elapsedTime; }
+            set
+            {
+                elapsedTime = value;
+                OnPropertyChanged("ElapsedTime");
+            }
+        }
+
+        private TimeSpan remainingTime;
+        public TimeSpan RemainingTime
         {
             get { return remainingTime; }
             set
             {
                 remainingTime = value;
                 OnPropertyChanged("RemainingTime");
+            }
+        }
+
+        private TimeSpan remainingTimeTotal;
+        public TimeSpan RemainingTimeTotal
+        {
+            get { return remainingTimeTotal; }
+            set
+            {
+                remainingTimeTotal = value;
+                OnPropertyChanged("RemainingTimeTotal");
             }
         }
 
@@ -185,15 +229,6 @@ namespace KeySearcher.P2P.Presentation
             }
         }
 
-        public StatusContainer()
-        {
-            EstimatedFinishDate = "-";
-            DhtOverheadInPercent = "-";
-            TopList = new ObservableCollection<ResultEntry>();
-            TotalAmountOfParticipants = 1;
-            IsSearchingForReservedNodes = false;
-        }
-
         private long storedBytes;
         public long StoredBytes
         {
@@ -213,6 +248,17 @@ namespace KeySearcher.P2P.Presentation
             {
                 retrievedBytes = value;
                 OnPropertyChanged("RetrievedBytes");
+            }
+        }
+
+        private long totalBytes;
+        public long TotalBytes
+        {
+            get { return totalBytes; }
+            set
+            {
+                totalBytes = value;
+                OnPropertyChanged("TotalBytes");
             }
         }
 
@@ -236,6 +282,26 @@ namespace KeySearcher.P2P.Presentation
                 receivedBytesByLinkManager = value;
                 OnPropertyChanged("ReceivedBytesByLinkManager");
             }
+        }
+
+        private long totalBytesByLinkManager;
+        public long TotalBytesByLinkManager
+        {
+            get { return totalBytesByLinkManager; }
+            set
+            {
+                totalBytesByLinkManager = value;
+                OnPropertyChanged("TotalBytesByLinkManager");
+            }
+        }
+
+        public StatusContainer()
+        {
+            EstimatedFinishDate = "-";
+            DhtOverheadInPercent = "-";
+            TopList = new ObservableCollection<ResultEntry>();
+            TotalAmountOfParticipants = 1;
+            CurrentOperation = "Idle";
         }
 
         #region INotifyPropertyChanged Members

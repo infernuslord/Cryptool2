@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Numerics;
+using System.Threading;
 using System.Windows.Threading;
 using Cryptool.PluginBase;
 using KeySearcher.Helper;
@@ -47,15 +48,19 @@ namespace KeySearcher.P2P
             StatisticsGenerator = new StatisticsGenerator(status, quickWatch, keySearcher, settings, this);
             quickWatch.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(UpdateStatusContainerInQuickWatch));
 
+            status.CurrentOperation = "Initializing distributed key pool tree";
             keyPoolTree = new KeyPoolTree(patternPool, this.keySearcher, keyQualityHelper, keyGenerator, status, StatisticsGenerator);
             
             keySearcher.GuiLogMessage(
                 "Total amount of patterns: " + patternPool.Length + ", each containing " + patternPool.PartSize +
                 " keys.", NotificationLevel.Info);
+            status.CurrentOperation = "Ready for calculation";
         }
 
         public void Execute()
         {
+            status.StartDate = keyPoolTree.StartDate();
+
             Leaf currentLeaf;
             while (!keySearcher.stop)
             {
@@ -63,6 +68,7 @@ namespace KeySearcher.P2P
 
                 try
                 {
+                    status.CurrentOperation = "Finding next leaf to calculate";
                     currentLeaf = keyPoolTree.FindNextLeaf();
                     if (currentLeaf == null)
                     {
@@ -76,6 +82,7 @@ namespace KeySearcher.P2P
                     continue;
                 }
 
+                status.CurrentOperation = "Calculating global statistics";
                 StatisticsGenerator.CalculateGlobalStatistics(currentLeaf.PatternId());
                 if (!currentLeaf.ReserveLeaf())
                 {
@@ -91,6 +98,7 @@ namespace KeySearcher.P2P
                     "Running pattern #" + (currentLeaf.PatternId() + 1) + " of " + patternPool.Length,
                     NotificationLevel.Info);
                 status.CurrentChunk = currentLeaf.PatternId() + 1;
+                status.CurrentOperation = "Calculating pattern " + status.CurrentChunk;
 
                 try
                 {
@@ -102,6 +110,7 @@ namespace KeySearcher.P2P
 
                     if (!keySearcher.stop)
                     {
+                        status.CurrentOperation = "Processing results of calculation";
                         KeyPoolTree.ProcessCurrentPatternCalculationResult(currentLeaf, result);
                         StatisticsGenerator.ProcessPatternResults(result);
                         
@@ -109,9 +118,6 @@ namespace KeySearcher.P2P
                         keySearcher.GuiLogMessage(
                             string.Format("Best match: {0} with {1}", result.First.Value.key, result.First.Value.value),
                             NotificationLevel.Info);
-                        keySearcher.GuiLogMessage(
-                            string.Format("Bytes send: {0}, bytes received {1}", status.StoredBytes, status.RetrievedBytes),
-                            NotificationLevel.Debug);
                     }
                     else
                     {
@@ -147,6 +153,7 @@ namespace KeySearcher.P2P
             status.ProgressOfCurrentChunk = 0;
             status.IsSearchingForReservedNodes = false;
             status.IsCurrentProgressIndeterminate = false;
+            status.CurrentOperation = "Idle";
         }
 
         private void UpdateStatusContainerInQuickWatch()

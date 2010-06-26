@@ -128,6 +128,22 @@ namespace KeySearcher.P2P.Storage
             return string.Format("{0}_node_{1}_{2}", node.DistributedJobIdentifier, node.From, node.To);
         }
 
+        public DateTime StartDate(String ofJobIdentifier)
+        {
+            var key = ofJobIdentifier + "_startdate";
+            var requestResult = RetrieveWithStatistic(key);
+
+            if (requestResult.IsSuccessful() && requestResult.Data != null)
+            {
+                var startTimeUtc = DateTime.SpecifyKind(
+                    DateTime.FromBinary(BitConverter.ToInt64(requestResult.Data, 0)), DateTimeKind.Utc);
+                return startTimeUtc.ToLocalTime();
+            }
+
+            StoreWithStatistic(key, BitConverter.GetBytes((DateTime.UtcNow.ToBinary())));
+            return DateTime.Now;
+        }
+
         public RequestResult RetrieveWithStatistic(string key)
         {
             statusContainer.RetrieveRequests++;
@@ -137,6 +153,7 @@ namespace KeySearcher.P2P.Storage
             if (requestResult.Data != null)
             {
                 statusContainer.RetrievedBytes += requestResult.Data.Length;
+                statusContainer.TotalBytes += requestResult.Data.Length;
             }
 
             return requestResult;
@@ -158,6 +175,7 @@ namespace KeySearcher.P2P.Storage
             if (requestResult.Data != null)
             {
                 statusContainer.StoredBytes += requestResult.Data.Length;
+                statusContainer.TotalBytes += requestResult.Data.Length;
             }
 
             return requestResult;

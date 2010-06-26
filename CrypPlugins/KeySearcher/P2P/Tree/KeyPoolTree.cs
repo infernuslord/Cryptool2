@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Cryptool.PluginBase;
 using KeySearcher.Helper;
 using KeySearcher.KeyPattern;
@@ -15,6 +16,7 @@ namespace KeySearcher.P2P.Tree
         private readonly KeyPatternPool patternPool;
         private readonly NodeBase rootNode;
         private readonly StorageHelper storageHelper;
+        private readonly string identifier;
 
         private NodeBase currentNode;
         private bool skippedReservedNodes;
@@ -25,13 +27,19 @@ namespace KeySearcher.P2P.Tree
             this.keySearcher = keySearcher;
             this.statusContainer = statusContainer;
             this.statisticsGenerator = statisticsGenerator;
+            identifier = identifierGenerator.Generate();
 
             storageHelper = new StorageHelper(keySearcher, statisticsGenerator, statusContainer);
             skippedReservedNodes = false;
 
             rootNode = NodeFactory.CreateNode(storageHelper, keyQualityHelper, null, 0, this.patternPool.Length - 1,
-                                              identifierGenerator.Generate());
+                                              identifier);
             currentNode = rootNode;
+        }
+
+        public DateTime StartDate()
+        {
+            return storageHelper.StartDate(identifier);
         }
 
         public Leaf FindNextLeaf()
