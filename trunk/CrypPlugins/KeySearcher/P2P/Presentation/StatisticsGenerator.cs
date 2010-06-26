@@ -8,6 +8,7 @@ using System.Windows.Threading;
 using Cryptool.P2P;
 using KeySearcher.KeyPattern;
 using KeySearcherPresentation.Controls;
+using Timer = System.Timers.Timer;
 
 namespace KeySearcher.P2P.Presentation
 {
@@ -19,6 +20,8 @@ namespace KeySearcher.P2P.Presentation
         private readonly DistributedBruteForceManager distributedBruteForceManager;
         private readonly BigInteger totalAmountOfChunks;
         private readonly Stopwatch stopWatch;
+        private readonly Timer elapsedTimeTimer;
+        private readonly Timer trafficUpdateTimer;
 
         private DateTime lastDateOfGlobalStatistics;
         private BigInteger highestChunkCalculated;
@@ -43,6 +46,27 @@ namespace KeySearcher.P2P.Presentation
             totalAmountOfChunks = keyPatternPool.Length;
 
             status.PropertyChanged += StatusPropertyChanged;
+
+            elapsedTimeTimer = new Timer(1000);
+            elapsedTimeTimer.Elapsed += ElapsedTimeTimerTick;
+            elapsedTimeTimer.Start();
+
+            trafficUpdateTimer = new Timer(10000);
+            trafficUpdateTimer.Elapsed += TrafficUpdateTimerTick;
+            trafficUpdateTimer.Start();
+        }
+
+        void TrafficUpdateTimerTick(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            UpdateTrafficStatistics();
+        }
+
+        void ElapsedTimeTimerTick(object sender, EventArgs e)
+        {
+            status.ElapsedTime = DateTime.Now.Subtract(status.StartDate);
+
+            if (status.RemainingTimeTotal > new TimeSpan(0))
+                status.RemainingTimeTotal = status.RemainingTimeTotal.Subtract(TimeSpan.FromSeconds(1));
         }
 
         void StatusPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -53,12 +77,19 @@ namespace KeySearcher.P2P.Presentation
                     HandleUpdateOfOverheadTime();
                     break;
                 case "StoredBytes":
-                    status.SentBytesByLinkManager = P2PManager.P2PBase.TotalBytesSentOnAllLinks();
+                    UpdateTrafficStatistics();
                     break;
                 case "RetrievedBytes":
-                    status.ReceivedBytesByLinkManager = P2PManager.P2PBase.TotalBytesReceivedOnAllLinks();
+                    UpdateTrafficStatistics();
                     break;
             }
+        }
+
+        private void UpdateTrafficStatistics()
+        {
+            status.SentBytesByLinkManager = P2PManager.P2PBase.TotalBytesSentOnAllLinks();
+            status.ReceivedBytesByLinkManager = P2PManager.P2PBase.TotalBytesReceivedOnAllLinks();
+            status.TotalBytesByLinkManager = status.ReceivedBytesByLinkManager + status.SentBytesByLinkManager;
         }
 
         private void HandleUpdateOfOverheadTime()
@@ -71,8 +102,9 @@ namespace KeySearcher.P2P.Presentation
 
             var overheadInTicks = (double)status.DhtOverheadInReadableTime.Ticks /
                            distributedBruteForceManager.StopWatch.Elapsed.Ticks;
-            var overheadInPercent = Math.Round(overheadInTicks, 2);
-            overheadInPercent *= 100;
+            var overheadInPercent = overheadInTicks * 100;
+            overheadInPercent = Math.Round(overheadInPercent, 2);
+            
             status.DhtOverheadInPercent = overheadInPercent + " %";
         }
 
@@ -124,8 +156,6 @@ namespace KeySearcher.P2P.Presentation
                 status.EstimatedFinishDate = "~";
                 status.RemainingTimeTotal = new TimeSpan(-1);
             }
-
-            status.ElapsedTime = DateTime.Now.Subtract(status.StartDate);
 
             lastDateOfGlobalStatistics = DateTime.Now;
 

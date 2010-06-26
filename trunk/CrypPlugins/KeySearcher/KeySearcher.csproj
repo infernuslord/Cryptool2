@@ -102,10 +102,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converter\TimeSpanConverter.cs" />
+    <Compile Include="Converter\TimeSpanToStringConverter.cs" />
     <Compile Include="Converter\DateTimeConverter.cs" />
     <Compile Include="Converter\LongToSizeMetricString.cs" />
-    <Compile Include="Converter\TimeSpanToRoundedStringConverter.cs" />
     <Compile Include="Converter\TrueToVisibleOrCollapsedConverter.cs" />
     <Compile Include="Converter\FalseToVisibleConverter.cs" />
     <Compile Include="Converter\TrueToVisibleConverter.cs" />
@@ -113,6 +112,7 @@
     <Compile Include="KeyPattern\KeyPattern.cs" />
     <Compile Include="KeyPattern\KeyPatternPool.cs" />
     <Compile Include="KeySearcher.cs" />
+    <Compile Include="P2P\Helper\ConnectionHelper.cs" />
     <Compile Include="P2P\Presentation\StatisticsGenerator.cs" />
     <Compile Include="P2P\Presentation\StatusContainer.cs" />
     <Compile Include="Presentation\Controls\LocalQuickWatchPresentation.xaml.cs">
