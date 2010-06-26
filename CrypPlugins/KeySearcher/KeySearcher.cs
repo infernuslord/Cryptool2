@@ -618,7 +618,6 @@ namespace KeySearcher
         private void BruteForceWithPeerToPeerSystem()
         {
             GuiLogMessage("Launching p2p based bruteforce logic...", NotificationLevel.Info);
-            ValidateConnectionToPeerToPeerSystem();
 
             try
             {
@@ -632,54 +631,6 @@ namespace KeySearcher
                 GuiLogMessage("P2P not connected.", NotificationLevel.Error);
             }
         }
-
-
-        #region P2P connection validation
-
-        private void ValidateConnectionToPeerToPeerSystem()
-        {
-            if (P2PManager.IsConnected)
-            {
-                return;
-            }
-
-            if(settings.AutoconnectPeerToPeer)
-            {
-                HandleAutoconnect();
-            } else
-            {
-                GuiLogMessage("P2P network not connected and autoconnect disabled. Cannot compute job.",
-                              NotificationLevel.Error);
-            }
-        }
-
-        private void HandleAutoconnect()
-        {
-            P2PManager.ConnectionManager.OnP2PConnectionStateChangeOccurred += HandleConnectionStateChange;
-            connectResetEvent = new AutoResetEvent(false);
-
-            P2PManager.Connect();
-
-            connectResetEvent.WaitOne();
-
-            if (P2PManager.IsConnected)
-            {
-                GuiLogMessage("P2P network was connected due to plugin setting.",
-                              NotificationLevel.Info);
-            }
-            else
-            {
-                GuiLogMessage("P2P network could not be connected.",
-                              NotificationLevel.Error);
-            }
-        }
-
-        void HandleConnectionStateChange(object sender, bool newState)
-        {
-            connectResetEvent.Set();
-        }
-
-        #endregion
 
         internal LinkedList<ValueKey> BruteForceWithLocalSystem(KeyPattern.KeyPattern pattern, bool redirectResultsToStatisticsGenerator = false)
         {

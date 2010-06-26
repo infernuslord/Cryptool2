@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Numerics;
-using System.Threading;
 using System.Windows.Threading;
+using Cryptool.P2P;
 using Cryptool.PluginBase;
 using KeySearcher.Helper;
 using KeySearcher.KeyPattern;
 using KeySearcher.P2P.Exceptions;
+using KeySearcher.P2P.Helper;
 using KeySearcher.P2P.Presentation;
 using KeySearcher.P2P.Storage;
 using KeySearcher.P2P.Tree;
@@ -17,20 +18,23 @@ namespace KeySearcher.P2P
     internal class DistributedBruteForceManager
     {
         private readonly StorageKeyGenerator keyGenerator;
-        private readonly KeyPoolTree keyPoolTree;
         private readonly KeySearcher keySearcher;
         private readonly KeySearcherSettings settings;
+        private readonly KeyQualityHelper keyQualityHelper;
         private readonly P2PQuickWatchPresentation quickWatch;
         private readonly KeyPatternPool patternPool;
         private readonly StatusContainer status;
         internal readonly StatisticsGenerator StatisticsGenerator;
         internal readonly Stopwatch StopWatch;
 
+        private KeyPoolTree keyPoolTree;
+
         public DistributedBruteForceManager(KeySearcher keySearcher, KeyPattern.KeyPattern keyPattern, KeySearcherSettings settings,
                                             KeyQualityHelper keyQualityHelper, P2PQuickWatchPresentation quickWatch)
         {
             this.keySearcher = keySearcher;
             this.settings = settings;
+            this.keyQualityHelper = keyQualityHelper;
             this.quickWatch = quickWatch;
 
             // TODO when setting is still default (21), it is only displayed as 21 - but the settings-instance contains 0 for that key!
@@ -47,18 +51,27 @@ namespace KeySearcher.P2P
             patternPool = new KeyPatternPool(keyPattern, new BigInteger(Math.Pow(2, settings.ChunkSize)));
             StatisticsGenerator = new StatisticsGenerator(status, quickWatch, keySearcher, settings, this);
             quickWatch.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(UpdateStatusContainerInQuickWatch));
-
-            status.CurrentOperation = "Initializing distributed key pool tree";
-            keyPoolTree = new KeyPoolTree(patternPool, this.keySearcher, keyQualityHelper, keyGenerator, status, StatisticsGenerator);
-            
-            keySearcher.GuiLogMessage(
-                "Total amount of patterns: " + patternPool.Length + ", each containing " + patternPool.PartSize +
-                " keys.", NotificationLevel.Info);
-            status.CurrentOperation = "Ready for calculation";
         }
 
         public void Execute()
         {
+            status.CurrentOperation = "Initializing connection to the peer-to-peer system";
+            new ConnectionHelper(keySearcher, settings).ValidateConnectionToPeerToPeerSystem();
+
+            if (!P2PManager.IsConnected)
+            {
+                keySearcher.GuiLogMessage("Unable to use peer-to-peer system.", NotificationLevel.Error);
+                return;
+            }
+
+            status.CurrentOperation = "Initializing distributed key pool tree";
+            keyPoolTree = new KeyPoolTree(patternPool, this.keySearcher, keyQualityHelper, keyGenerator, status, StatisticsGenerator);
+
+            keySearcher.GuiLogMessage(
+                "Total amount of patterns: " + patternPool.Length + ", each containing " + patternPool.PartSize +
+                " keys.", NotificationLevel.Info);
+            status.CurrentOperation = "Ready for calculation";
+
             status.StartDate = keyPoolTree.StartDate();
 
             Leaf currentLeaf;
@@ -154,6 +167,7 @@ namespace KeySearcher.P2P
             status.IsSearchingForReservedNodes = false;
             status.IsCurrentProgressIndeterminate = false;
             status.CurrentOperation = "Idle";
+            status.RemainingTimeTotal = new TimeSpan(0);
         }
 
         private void UpdateStatusContainerInQuickWatch()
