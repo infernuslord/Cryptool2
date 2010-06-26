@@ -216,6 +216,28 @@ namespace KeySearcher.P2P.Presentation
             }
         }
 
+        private long sentBytesByLinkManager;
+        public long SentBytesByLinkManager
+        {
+            get { return sentBytesByLinkManager; }
+            set
+            {
+                sentBytesByLinkManager = value;
+                OnPropertyChanged("SentBytesByLinkManager");
+            }
+        }
+
+        private long receivedBytesByLinkManager;
+        public long ReceivedBytesByLinkManager
+        {
+            get { return receivedBytesByLinkManager; }
+            set
+            {
+                receivedBytesByLinkManager = value;
+                OnPropertyChanged("ReceivedBytesByLinkManager");
+            }
+        }
+
         #region INotifyPropertyChanged Members
 
         [field: NonSerialized]

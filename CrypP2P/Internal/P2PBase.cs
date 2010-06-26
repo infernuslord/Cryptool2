@@ -16,6 +16,7 @@
 */
 
 using System;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using Cryptool.PluginBase;
@@ -474,6 +475,20 @@ namespace Cryptool.P2P.Internal
 
             // unblock WaitHandle in the synchronous method
             requestResult.WaitHandle.Set();
+        }
+
+        #endregion
+
+        #region Statistic Methods
+
+        public long TotalBytesSentOnAllLinks()
+        {
+            return (long) linkmanager.GetAllLinkInformation().Sum(linkInformation => linkInformation.TotalBytesSent);
+        }
+
+        public long TotalBytesReceivedOnAllLinks()
+        {
+            return (long) linkmanager.GetAllLinkInformation().Sum(linkInformation => linkInformation.TotalBytesReceived);
         }
 
         #endregion
