@@ -56,6 +56,12 @@ namespace KeySearcher.P2P.Presentation
             trafficUpdateTimer.Start();
         }
 
+        public void CalculationStopped()
+        {
+            elapsedTimeTimer.Stop();
+            trafficUpdateTimer.Stop();
+        }
+
         void TrafficUpdateTimerTick(object sender, System.Timers.ElapsedEventArgs e)
         {
             UpdateTrafficStatistics();
