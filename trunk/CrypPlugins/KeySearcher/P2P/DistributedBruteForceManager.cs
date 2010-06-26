@@ -163,6 +163,7 @@ namespace KeySearcher.P2P
                 
             }
 
+            StatisticsGenerator.CalculationStopped();
             status.ProgressOfCurrentChunk = 0;
             status.IsSearchingForReservedNodes = false;
             status.IsCurrentProgressIndeterminate = false;
