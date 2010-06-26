@@ -126,8 +126,17 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                       return null;
                   }
 
-                cs.OpenRead(this.outputStream.FileName);
-                return cs;
+                  try
+                  {
+                      cs.OpenRead(this.outputStream.FileName);
+                  }
+                  catch (FileNotFoundException)
+                  {
+                      GuiLogMessage("File not found: " + outputStream.FileName, NotificationLevel.Warning);
+                      return null;
+                  }
+
+                  return cs;
               }
               return null;
             }
