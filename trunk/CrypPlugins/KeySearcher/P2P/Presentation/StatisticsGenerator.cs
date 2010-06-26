@@ -5,6 +5,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading;
 using System.Windows.Threading;
+using Cryptool.P2P;
 using KeySearcher.KeyPattern;
 using KeySearcherPresentation.Controls;
 
@@ -46,15 +47,29 @@ namespace KeySearcher.P2P.Presentation
 
         void StatusPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName != "DhtOverheadInReadableTime") return;
+            switch (e.PropertyName)
+            {
+                case "DhtOverheadInReadableTime":
+                    HandleUpdateOfOverheadTime();
+                    break;
+                case "StoredBytes":
+                    status.SentBytesByLinkManager = P2PManager.P2PBase.TotalBytesSentOnAllLinks();
+                    break;
+                case "RetrievedBytes":
+                    status.ReceivedBytesByLinkManager = P2PManager.P2PBase.TotalBytesReceivedOnAllLinks();
+                    break;
+            }
+        }
 
+        private void HandleUpdateOfOverheadTime()
+        {
             if (distributedBruteForceManager.StopWatch.Elapsed.Ticks == 0)
             {
                 status.DhtOverheadInPercent = "0 %";
                 return;
             }
 
-            var overheadInTicks = (double) status.DhtOverheadInReadableTime.Ticks/
+            var overheadInTicks = (double)status.DhtOverheadInReadableTime.Ticks /
                            distributedBruteForceManager.StopWatch.Elapsed.Ticks;
             var overheadInPercent = Math.Round(overheadInTicks, 2);
             overheadInPercent *= 100;

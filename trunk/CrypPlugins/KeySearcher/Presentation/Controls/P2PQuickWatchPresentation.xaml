@@ -2,6 +2,7 @@
 	<UserControl.Resources>
 		<Converter:TrueToVisibleOrCollapsedConverter x:Key="TrueToVisibleOrCollapsedConverter" />
         <Converter:TimeSpanToRoundedStringConverter x:Key="TimeSpanToRoundedStringConverter" />
+        <Converter:LongToSizeMetricString x:Key="LongToSizeMetricString" />
 	</UserControl.Resources>
 	<Viewbox>
 		<Grid Width="400" Background="#C8FFFFFF">
@@ -58,7 +59,7 @@
 					</Grid>
 				</Border>
 				<Border BorderBrush="Silver" BorderThickness="0,0,0,2" Visibility="{Binding IsVerboseEnabled, ElementName=P2PQuickWatch, Converter={StaticResource TrueToVisibleOrCollapsedConverter}}">
-					<Grid Height="136">
+					<Grid Height="204">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="190" />
 							<ColumnDefinition Width="210" />
@@ -68,6 +69,8 @@
 							<RowDefinition Height="34" />
 							<RowDefinition Height="34" />
 							<RowDefinition Height="34" />
+                            <RowDefinition Height="34" />
+                            <RowDefinition Height="34" />
 						</Grid.RowDefinitions>
 						<Label Content="Total DHT requests:" Height="28" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Grid.Column="0" Grid.Row="0" />
 						<Label Content="{Binding TotalDhtRequests, FallbackValue=-}" Height="28" HorizontalAlignment="Left" Margin="110,6,0,0" VerticalAlignment="Top" Grid.Column="0" Grid.Row="0" />
@@ -79,11 +82,19 @@
 						<Label Content="{Binding RemoveRequests, FallbackValue=-}" Height="28" HorizontalAlignment="Left" Margin="120,6,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" />
 						<Label Content="Store requests:" Height="28" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Grid.Row="2" />
 						<Label Content="{Binding StoreRequests, FallbackValue=-}" Height="28" HorizontalAlignment="Left" Margin="110,6,0,0" VerticalAlignment="Top" Grid.Row="2" />
-						<Label Content="Overhead (time):" Height="28" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Grid.Column="0" Grid.Row="3" />
+						<Label Content="Overhead (abs):" Height="28" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Grid.Column="0" Grid.Row="3" />
                         <Label Content="{Binding DhtOverheadInReadableTime, FallbackValue=-, Converter={StaticResource TimeSpanToRoundedStringConverter}}" Height="28" HorizontalAlignment="Left" Margin="110,6,0,0" VerticalAlignment="Top" Grid.Column="0" Grid.Row="3" />
-						<Label Content="Overhead (percent):" Height="28" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.Row="3" />
+						<Label Content="Overhead (%):" Height="28" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.Row="3" />
 						<Label Content="{Binding DhtOverheadInPercent, FallbackValue=-}" Height="28" HorizontalAlignment="Left" Margin="120,6,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.Row="3" />
-					</Grid>
+                        <Label Content="Sent (payload):" Height="28" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Grid.Column="0" Grid.Row="4" />
+                        <Label Content="{Binding StoredBytes, FallbackValue=-, Converter={StaticResource LongToSizeMetricString}}" Height="28" HorizontalAlignment="Left" Margin="110,6,0,0" VerticalAlignment="Top" Grid.Column="0" Grid.Row="4" />
+                        <Label Content="Received (payload):" Height="28" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.Row="4" />
+                        <Label Content="{Binding RetrievedBytes, FallbackValue=-, Converter={StaticResource LongToSizeMetricString}}" Height="28" HorizontalAlignment="Left" Margin="120,6,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.Row="4" />
+                        <Label Content="Sent (link):" Height="28" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Grid.Column="0" Grid.Row="5" />
+                        <Label Content="{Binding SentBytesByLinkManager, FallbackValue=-, Converter={StaticResource LongToSizeMetricString}}" Height="28" HorizontalAlignment="Left" Margin="110,6,0,0" VerticalAlignment="Top" Grid.Column="0" Grid.Row="5" />
+                        <Label Content="Received (link):" Height="28" HorizontalAlignment="Left" Margin="0,6,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.Row="5" />
+                        <Label Content="{Binding ReceivedBytesByLinkManager, FallbackValue=-, Converter={StaticResource LongToSizeMetricString}}" Height="28" HorizontalAlignment="Left" Margin="120,6,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.Row="5" />
+                    </Grid>
 				</Border>
                 <ListView Name="ToplistView" Background="#C8FFFFFF" ItemsSource="{Binding TopList}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,6,0,0" Height="120">
 					<ListView.View>
