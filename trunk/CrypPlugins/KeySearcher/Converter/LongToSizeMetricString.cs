@@ -8,10 +8,10 @@ namespace KeySearcherConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var bytes = (long)value;
+            var bytes = (long) value;
             const long scale = 1024;
             var orders = new[] { "EiB", "PiB", "TiB", "GiB", "MiB", "KiB", "Bytes" };
-            var max = (long)Math.Pow(scale, (orders.Length - 1));
+            var max = (long) Math.Pow(scale, (orders.Length - 1));
 
             foreach (var order in orders)
             {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Cryptool.P2P;
@@ -39,6 +40,8 @@ namespace KeySearcher
         private KeyQualityHelper keyQualityHelper;
         private readonly P2PQuickWatchPresentation p2PQuickWatchPresentation;
         private readonly LocalQuickWatchPresentation localQuickWatchPresentation;
+
+        private readonly Stopwatch localBruteForceStopwatch;
 
         private KeyPattern.KeyPattern pattern;
         public KeyPattern.KeyPattern Pattern
@@ -218,6 +221,8 @@ namespace KeySearcher
             p2PQuickWatchPresentation.UpdateSettings(this, settings);
 
             settings.PropertyChanged += SettingsPropertyChanged;
+
+            localBruteForceStopwatch = new Stopwatch();
         }
 
         void SettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -678,6 +683,12 @@ namespace KeySearcher
 
         internal LinkedList<ValueKey> BruteForceWithLocalSystem(KeyPattern.KeyPattern pattern, bool redirectResultsToStatisticsGenerator = false)
         {
+            if (!redirectResultsToStatisticsGenerator)
+            {
+                localQuickWatchPresentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(SetStartDate));
+                localBruteForceStopwatch.Start();
+            }
+
             BigInteger size = pattern.size();
             KeyPattern.KeyPattern[] patterns = splitPatternForThreads(pattern);
 
@@ -785,6 +796,11 @@ namespace KeySearcher
             return costList;
         }
 
+        private void SetStartDate()
+        {
+            localQuickWatchPresentation.startTime.Content = DateTime.Now.ToString("g", Thread.CurrentThread.CurrentCulture); ;
+        }
+
         internal void showProgress(LinkedList<ValueKey> costList, BigInteger size, BigInteger keycounter, BigInteger doneKeys)
         {
             System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
@@ -819,23 +835,25 @@ namespace KeySearcher
 
                 localQuickWatchPresentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    localQuickWatchPresentation.keysPerSecond.Text = "" + doneKeys;
+                    localQuickWatchPresentation.elapsedTime.Content = localBruteForceStopwatch.Elapsed;
+
+                    localQuickWatchPresentation.keysPerSecond.Content = "" + doneKeys;
                     if (timeleft != new TimeSpan(-1))
                     {
-                        localQuickWatchPresentation.timeLeft.Text = "" + timeleft;
+                        localQuickWatchPresentation.timeLeft.Content = "" + timeleft;
                         try
                         {
-                            localQuickWatchPresentation.endTime.Text = "" + DateTime.Now.Add(timeleft);
+                            localQuickWatchPresentation.endTime.Content = "" + DateTime.Now.Add(timeleft);
                         }
                         catch
                         {
-                            localQuickWatchPresentation.endTime.Text = "in a galaxy far, far away...";
+                            localQuickWatchPresentation.endTime.Content = "in a galaxy far, far away...";
                         }
                     }
                     else
                     {
-                        localQuickWatchPresentation.timeLeft.Text = "incalculable :-)";
-                        localQuickWatchPresentation.endTime.Text = "in a galaxy far, far away...";
+                        localQuickWatchPresentation.timeLeft.Content = "incalculable :-)";
+                        localQuickWatchPresentation.endTime.Content = "in a galaxy far, far away...";
                     }
 
                     localQuickWatchPresentation.entries.Clear();
