@@ -69,7 +69,8 @@ namespace KeySearcher.P2P.Presentation
 
         void ElapsedTimeTimerTick(object sender, EventArgs e)
         {
-            status.ElapsedTime = DateTime.Now.Subtract(status.StartDate);
+            if (status.StartDate != DateTime.MinValue)
+                status.ElapsedTime = DateTime.Now.Subtract(status.StartDate);
 
             if (status.RemainingTimeTotal > new TimeSpan(0))
                 status.RemainingTimeTotal = status.RemainingTimeTotal.Subtract(TimeSpan.FromSeconds(1));
@@ -159,8 +160,9 @@ namespace KeySearcher.P2P.Presentation
             }
             catch (ArgumentOutOfRangeException)
             {
-                status.EstimatedFinishDate = "~";
-                status.RemainingTimeTotal = new TimeSpan(-1);
+                status.RemainingTimeTotal = TimeSpan.MaxValue;
+                var yearsRemaining = secondsRemaining/60/60/24/365;
+                status.EstimatedFinishDate = string.Format("{0:0.00e+0} years", yearsRemaining);
             }
 
             lastDateOfGlobalStatistics = DateTime.Now;

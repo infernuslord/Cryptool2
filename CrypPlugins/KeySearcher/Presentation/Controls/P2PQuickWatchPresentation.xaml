@@ -14,13 +14,36 @@
         <Style x:Key="ValueRow3">
             <Setter Property="Label.Margin" Value="90,0,0,0" />
         </Style>
+        <Storyboard x:Key="EndgameStoryboard" RepeatBehavior="Forever">
+        	<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="EndgameGrid">
+        		<EasingColorKeyFrame KeyTime="0:0:1" Value="#C81E57B1"/>
+        		<EasingColorKeyFrame KeyTime="0:0:2" Value="#C8D1E3FF"/>
+        	</ColorAnimationUsingKeyFrames>
+        	<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="label">
+        		<EasingColorKeyFrame KeyTime="0:0:1" Value="White"/>
+        		<EasingColorKeyFrame KeyTime="0:0:2" Value="Black"/>
+        	</ColorAnimationUsingKeyFrames>
+        </Storyboard>
     </UserControl.Resources>
+	<UserControl.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded" SourceName="EndgameGrid">
+			<BeginStoryboard x:Name="EndgameStoryboard_BeginStoryboard" Storyboard="{StaticResource EndgameStoryboard}"/>
+		</EventTrigger>
+	</UserControl.Triggers>
 	<Viewbox>
 		<Grid Width="646" >
             <StackPanel>
                 <Border BorderBrush="Silver" BorderThickness="2,2,2,0" Visibility="{Binding IsSearchingForReservedNodes, FallbackValue=Collapsed, Converter={StaticResource TrueToVisibleOrCollapsedConverter}}">
-					<Grid Height="36" Background="#C8D1E3FF">
-						<Label Content="Endgame mode" Height="28" HorizontalAlignment="Center" VerticalAlignment="Center" />
+					<Grid x:Name="EndgameGrid" Height="36" Background="#C8D1E3FF" RenderTransformOrigin="0.5,0.5">
+						<Grid.RenderTransform>
+							<TransformGroup>
+								<ScaleTransform/>
+								<SkewTransform/>
+								<RotateTransform/>
+								<TranslateTransform/>
+							</TransformGroup>
+						</Grid.RenderTransform>
+						<Label x:Name="label" Content="Endgame mode" Height="28" HorizontalAlignment="Center" VerticalAlignment="Center" />
 					</Grid>
 				</Border>
 				<Border BorderBrush="Silver" BorderThickness="2,2,2,2">
