@@ -439,11 +439,12 @@ namespace Cryptool.Plugins.CostFunction
             }
             input = input.ToUpper();
 
-            double bigramscore = calculateNGrams(input, 2, 0, true);
-            double trigramscore = calculateNGrams(input, 3, 0, true);
+            double bigramscore = calculateNGrams(input, 2, 3, true); // Sinkov
+            double trigramscore = calculateNGrams(input, 3, 3, true);
             //testweise
-            return 1.0*betaToemehArumugam * bigramscore +  betaToemehArumugam*trigramscore;
-            // return -(4*(betaToemehArumugam * bigramscore) + 6*(betaToemehArumugam * trigramscore));
+            
+           // return  bigramscore + trigramscore;
+            return (betaToemehArumugam * bigramscore) + (gammaToemehArumugam * trigramscore);
             //return betaToemehArumugam * bigramscore;
 
             /*
