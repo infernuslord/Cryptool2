@@ -32,8 +32,11 @@ namespace KeySearcher.P2P.Tree
             storageHelper = new StorageHelper(keySearcher, statisticsGenerator, statusContainer);
             skippedReservedNodes = false;
 
+            statisticsGenerator.MarkStartOfNodeSearch();
             rootNode = NodeFactory.CreateNode(storageHelper, keyQualityHelper, null, 0, this.patternPool.Length - 1,
                                               identifier);
+            statisticsGenerator.MarkEndOfNodeSearch();
+
             currentNode = rootNode;
         }
 
