@@ -32,7 +32,7 @@ namespace WorkspaceManager.Model
     {        
         [NonSerialized]
         private bool hasData = false;
-        
+
         /// <summary>
         /// The PluginModel this Connector belongs to
         /// </summary>
@@ -162,8 +162,9 @@ namespace WorkspaceManager.Model
                     {
                         connectionModel.To.Data = sender.GetType().GetProperty(propertyChangedEventArgs.PropertyName).GetValue(sender, null);
                     }
-                    connectionModel.To.HasData = true;
+                    connectionModel.To.HasData = true;    
                     connectionModel.Active = true;
+                    connectionModel.GuiNeedsUpdate = true;
                 }
 
                //We changed an input on the PluginModels where "To"s are belonging to so

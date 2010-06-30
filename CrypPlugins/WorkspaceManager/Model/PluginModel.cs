@@ -42,7 +42,7 @@ namespace WorkspaceManager.Model
         [NonSerialized]
         private IPlugin plugin;         
         private int imageIndex = 0;
-        private PluginModelState state = PluginModelState.Normal;
+        private PluginModelState state = PluginModelState.Normal;        
         #endregion privates
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace WorkspaceManager.Model
         public PluginModelState State {
             get { return state; } 
             set { state = value; }
-        }
+        }     
 
         /// <summary>
         /// All ingoing connectors of this PluginModel
@@ -247,32 +247,29 @@ namespace WorkspaceManager.Model
         }
 
         /// <summary>
-        /// Checks wether this PluginModel is executable or not and sets the isExecutable bool
-        /// 
-        /// There are 3 ways in that a plugin can be executable:
-        ///     1. All mandatory inputs are set + all outputs are "free"
-        ///     2. There are no mandatory inputs and at least one non-mandatory input is set + all outputs are "free"
-        ///     3. There are no inputs + all outputs are "free"
+        /// Checks wether this PluginModel is executable and if yes it broadcasts a execution message
         /// </summary>
         public void checkExecutable(ProtocolBase protocolBase)
-        {
-            //We do not execute Plugins with Errors
-            if (this.State == PluginModelState.Error)
-            {
-                return;
-            }
-            
-            //First test if every mandatory Connector has data
-            //or one non-mandatory input has data
+        {                     
+            MessageExecution msg;            
             foreach (ConnectorModel connectorModel in this.InputConnectors)
             {
                 if ((connectorModel.IsMandatory || connectorModel.InputConnections.Count > 0) && !connectorModel.HasData)
                 {
+                    foreach (ConnectionModel connectionModel in connectorModel.InputConnections)
+                    {
+                        if (connectionModel.From.PluginModel.Startable)
+                        {                            
+                            msg = new MessageExecution();
+                            msg.PluginModel = connectionModel.From.PluginModel;
+                            connectionModel.From.PluginModel.pluginProtocol.BroadcastMessageReliably(msg);
+                        }
+                    }
                     return;
                 }                
             }
 
-            MessageExecution msg = new MessageExecution();
+            msg = new MessageExecution();
             msg.PluginModel = this;
                 
             //protocolBase is set at Startup of the ExecutionEngine

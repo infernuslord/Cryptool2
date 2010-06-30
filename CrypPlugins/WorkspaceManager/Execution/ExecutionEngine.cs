@@ -345,7 +345,7 @@ namespace WorkspaceManager.Execution
             foreach (ConnectorModel connectorModel in PluginModel.InputConnectors)
             {
                 if (connectorModel.HasData)
-                {                   
+                {
                     try
                     {
                         if (connectorModel.IsDynamic)
@@ -358,6 +358,7 @@ namespace WorkspaceManager.Execution
                             PropertyInfo propertyInfo = PluginModel.Plugin.GetType().GetProperty(connectorModel.PropertyName);
                             propertyInfo.SetValue(PluginModel.Plugin, connectorModel.Data, null);
                         }
+
                     }
                     catch (Exception ex)
                     {
@@ -366,10 +367,20 @@ namespace WorkspaceManager.Execution
                         this.PluginModel.GuiNeedsUpdate = true;
                         return;
                     }
+                    finally
+                    {
+                        connectorModel.HasData = false;
+                        connectorModel.Data = null;
+                        foreach (ConnectionModel connectionModel in connectorModel.InputConnections)
+                        {
+                            connectionModel.Active = false;
+                            connectorModel.GuiNeedsUpdate = true;
+                        }
+                    }
                 }
             }
             
-            msg.PluginModel.Plugin.Execute();            
+            msg.PluginModel.Plugin.Execute();          
 
             if (this.executionEngine.BenchmarkPlugins)
             {
@@ -397,7 +408,7 @@ namespace WorkspaceManager.Execution
             this.currentContext = Thread.CurrentContext;
 
             thread = new System.Threading.Thread(this.Start);
-            thread.SetApartmentState(System.Threading.ApartmentState.STA);
+            thread.SetApartmentState(System.Threading.ApartmentState.MTA);
 			thread.Name = name;
             
         }
@@ -431,6 +442,7 @@ namespace WorkspaceManager.Execution
                         // No more protocols? -> Wait
                         if (this.waitingProtocols.Count == 0)
                             break;
+
                         protocol = this.waitingProtocols.Dequeue();
 
                         if (protocol is PluginProtocol)
@@ -439,10 +451,9 @@ namespace WorkspaceManager.Execution
                             foreach (ConnectorModel outputConnector in pluginProtocol.PluginModel.OutputConnectors)
                             {
                                 foreach (ConnectionModel connection in outputConnector.OutputConnections)
-                                {
-                                    
-                                    if (connection.To.PluginModel.PluginProtocol.QueueLength > 0 &&
-                                        connection.To.PluginModel != pluginProtocol.PluginModel && 
+                                {                                    
+                                    if (connection.To.HasData &&
+                                        connection.To.PluginModel != pluginProtocol.PluginModel &&
                                         donotrun == false)
                                     {                                            
                                         this.waitingProtocols.Enqueue(protocol);
