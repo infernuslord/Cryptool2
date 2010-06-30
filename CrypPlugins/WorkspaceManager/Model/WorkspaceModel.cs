@@ -255,11 +255,11 @@ namespace WorkspaceManager.Model
         /// <returns></returns>
         public static bool compatibleConnectors(ConnectorModel connectorModelA, ConnectorModel connectorModelB)
         {
-            if (!connectorModelA.Outgoing || connectorModelB.Outgoing)
+            if (!connectorModelA.Outgoing || connectorModelB.Outgoing || connectorModelA.PluginModel == connectorModelB.PluginModel)
             {
                 return false;
             }
-            
+               
             if (connectorModelA.ConnectorType.Equals(connectorModelB.ConnectorType)
                 || connectorModelA.ConnectorType.FullName == "System.Object"
                 || connectorModelB.ConnectorType.FullName == "System.Object"
