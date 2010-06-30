@@ -20,7 +20,6 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using Cryptool.PluginBase;
-using System.Runtime.Serialization.Formatters.Soap;
 
 namespace WorkspaceManager.Model
 {

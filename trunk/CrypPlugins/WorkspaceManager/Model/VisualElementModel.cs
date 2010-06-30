@@ -34,7 +34,8 @@ namespace WorkspaceManager.Model
     {
         /// <summary>
         /// Called when this object is deleted
-        /// </summary
+        /// </summary>
+        [field: NonSerialized]
         public event EventHandler<EventArgs> OnDelete;
 
         /// <summary>
