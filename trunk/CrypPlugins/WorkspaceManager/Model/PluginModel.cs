@@ -258,7 +258,7 @@ namespace WorkspaceManager.Model
                 {
                     foreach (ConnectionModel connectionModel in connectorModel.InputConnections)
                     {
-                        if (connectionModel.From.PluginModel.Startable)
+                        if (connectionModel.From.PluginModel.Startable && connectionModel.From.PluginModel.PluginProtocol.QueueLength == 0)
                         {                            
                             msg = new MessageExecution();
                             msg.PluginModel = connectionModel.From.PluginModel;
@@ -276,7 +276,7 @@ namespace WorkspaceManager.Model
             //but it could be that we have an event before setting
             //of the protocl base (triggered by user clicking on
             //a plugins presentation (button or so))
-            if (protocolBase != null)
+            if (protocolBase != null && protocolBase.QueueLength == 0)
             {
                 protocolBase.BroadcastMessageReliably(msg);
             }
