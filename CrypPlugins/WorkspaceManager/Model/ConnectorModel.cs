@@ -15,14 +15,11 @@
 */
 
 using System;
-using System.Linq;
-using System.Text;
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.Threading;
+using System.Windows.Media;
 using Cryptool.PluginBase;
 using WorkspaceManager.View.Container;
-using System.Windows.Media;
-using System.Collections.Generic;
 
 namespace WorkspaceManager.Model
 {
@@ -184,8 +181,8 @@ namespace WorkspaceManager.Model
         public ConnectorOrientation ConnectorOrientation { get; set; }
 
         /// <summary>
-        /// 
-        /// </summary>
+        /// The data type of the wrapped property changes
+        /// </summary>        
         public void PropertyTypeChangedOnPlugin(IPlugin plugin)
         {
             Dictionary<string, DynamicProperty> dictionary = plugin.GetDynamicPropertyList();

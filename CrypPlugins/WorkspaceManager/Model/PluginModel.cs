@@ -70,7 +70,7 @@ namespace WorkspaceManager.Model
         /// will automatically create one. Otherwise
         /// this acts as singleton and returns the created
         /// instance
-        /// </summary>
+        /// </summary>        
         public IPlugin Plugin{
             get { 
                 if(plugin==null && PluginType != null){

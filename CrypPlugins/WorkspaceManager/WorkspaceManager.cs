@@ -125,13 +125,14 @@ namespace WorkspaceManager
 
         /// <summary>
         /// Called by clicking on the open button of CrypTool
+        /// loads a serialized model
         /// </summary>
         /// <param name="fileName"></param>
         public void Open(string fileName)
         {
             try
             {
-                GuiLogMessage("Loading Model: " + fileName, NotificationLevel.Info);
+                GuiLogMessage("Loading Model: " + fileName, NotificationLevel.Info);                
                 WorkspaceModel = ModelPersistance.loadModel(fileName);
                 WorkspaceModel.WorkspaceManagerEditor = this;
                 WorkspaceManagerEditorView.Model = WorkspaceModel;
@@ -145,7 +146,7 @@ namespace WorkspaceManager
 
         /// <summary>
         /// Called by clicking on the save button of CrypTool
-        /// Serializes the Model into an xml file
+        /// serializes the current model
         /// </summary>
         /// <param name="fileName"></param>
         public void Save(string fileName)
