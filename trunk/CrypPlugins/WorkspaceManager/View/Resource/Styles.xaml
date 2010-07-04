@@ -81,8 +81,8 @@
             <Setter.Value>
                 <ControlTemplate x:Name="TemplateBtn" TargetType="Button">
                     <ControlTemplate.Resources>
-                        <Storyboard x:Key="Anim" RepeatBehavior="Forever">
-                            <DoubleAnimation From="0" To="360" Duration="00:00:2" Storyboard.TargetName="Rotate" Storyboard.TargetProperty="Angle" />
+                        <Storyboard x:Key="Anim">
+                            <DoubleAnimation RepeatBehavior="Forever" From="0" To="360" Duration="00:00:2" Storyboard.TargetName="Rotate" Storyboard.TargetProperty="Angle" />
                             <DoubleAnimation To="2" Duration="00:00:00.15" Storyboard.TargetName="Scale" Storyboard.TargetProperty="ScaleY" />
                             <DoubleAnimation To="2" Duration="00:00:00.15" Storyboard.TargetName="Scale" Storyboard.TargetProperty="ScaleX" />
                         </Storyboard>
@@ -100,6 +100,40 @@
                                 <RotateTransform CenterX="10" CenterY="10" x:Name="Rotate"></RotateTransform>
                             </TransformGroup>
                         </Border.RenderTransform>
+                        <ContentPresenter Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" Content="{TemplateBinding Content}"></ContentPresenter>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ButtonBase.IsMouseOver" Value="true">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource ResourceKey=Anim}"></BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard Storyboard="{StaticResource ResourceKey=Anim2}"></BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="MinMaxPluginContainerButtonStyle">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate x:Name="TemplateBtn" TargetType="Button">
+                    <ControlTemplate.Resources>
+                        <Storyboard x:Key="Anim" RepeatBehavior="Forever">
+                            <DoubleAnimation To="1" Duration="00:00:1.5" Storyboard.TargetName="MouseOverEffect" Storyboard.TargetProperty="Opacity" />
+                        </Storyboard>
+                        <Storyboard x:Key="Anim2">
+                            <DoubleAnimation To="0" Duration="00:00:1.5" Storyboard.TargetName="MouseOverEffect" Storyboard.TargetProperty="Opacity" />
+                        </Storyboard>
+
+                    </ControlTemplate.Resources>
+                    <Border x:Name="Border">
+                        <Border.Effect>
+                            <DropShadowEffect x:Name="MouseOverEffect" Color="#c3edff" BlurRadius="10" ShadowDepth="0" RenderingBias="Quality" Opacity="0"></DropShadowEffect>
+                        </Border.Effect>
                         <ContentPresenter Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" Content="{TemplateBinding Content}"></ContentPresenter>
                     </Border>
                     <ControlTemplate.Triggers>

@@ -5,11 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:e="clr-namespace:WorkspaceManager.View.VisualComponents"
              xmlns:z="clr-namespace:WorkspaceManager.View.Converter"
-             MinHeight="90" MinWidth="100" Width="100" Height="90"
              mc:Ignorable="d">
-    <UserControl.Background>
-        <SolidColorBrush Opacity="0.01" Color="#444444"></SolidColorBrush>
-    </UserControl.Background>
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -20,73 +16,135 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <DockPanel Name="Root" LastChildFill="True">
-        <StackPanel DockPanel.Dock="Right" Name="OutputConnectorPanel" Width="20" Height="{Binding ElementName=Window, Path=ActualHeight}" VerticalAlignment="Bottom"/>
-        <StackPanel DockPanel.Dock="Left" Name="InputConnectorPanel" Width="20" Height="{Binding ElementName=Window, Path=ActualHeight}" VerticalAlignment="Bottom"/>
-        <StackPanel DockPanel.Dock="Top" Name="ControlPanel" Visibility="Hidden" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Height="20" Width="20" Style="{StaticResource ResourceKey=SettingsPluginContainerButtonStyle}" Margin="0,0,0,0" Click="Button_Click_1">
-                <Button.RenderTransform>
-                    <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
-                </Button.RenderTransform>
-                <Image Source="/WorkspaceManager;component/View/Image/setting.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
-            </Button>
-        
-            <Button Height="20" Width="20" Style="{StaticResource ResourceKey=DeletePluginContainerButtonStyle}" Margin="0,0,0,5" Click="Button_Click">
-                <Button.LayoutTransform>
-                    <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
-                </Button.LayoutTransform>
-                <Image Source="/WorkspaceManager;component/View/Image/delete.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
-            </Button>
-        </StackPanel>
-        <Grid DockPanel.Dock="Top" Width="{Binding ElementName=PresentationPanel, Path=ActualWidth}" Height="10">
-            <ProgressBar Name="ProgressBarInit" Background="Black" Height="10" Width="Auto" Foreground="ForestGreen" Opacity="1" Maximum="1">
-                <ProgressBar.Resources>
-                    <ResourceDictionary Source="/PresentationFramework.Aero;v3.0.0.0;31bf3856ad364e35;component/themes/aero.normalcolor.xaml"/>
-                </ProgressBar.Resources>
-            </ProgressBar>
-            <Label Name="Percentage" HorizontalAlignment="Center" FontSize="9" Margin="0,-10,0,0" Foreground="WhiteSmoke" ContentStringFormat="{}{0:F0} %" Content="{Binding ElementName=ProgressBarInit,Path=Value, Mode=OneWay, Converter={StaticResource ResourceKey=PercentageConverter}}"></Label>
-        </Grid>
-        
+        <DockPanel x:Name="PluginBase" DockPanel.Dock="Left" VerticalAlignment="Top" MinHeight="90" MinWidth="90" Width="{Binding Path=Width,Mode=TwoWay}" Height="{Binding Path=Heigth,Mode=TwoWay}">
+            <DockPanel.Background>
+                <SolidColorBrush Opacity="0.01" Color="#444444"></SolidColorBrush>
+            </DockPanel.Background>
+            <StackPanel DockPanel.Dock="Right" Name="OutputConnectorPanel" />
+            <StackPanel DockPanel.Dock="Left" Name="InputConnectorPanel" />
+            <StackPanel DockPanel.Dock="Top" Name="ControlPanel" Visibility="Visible" Opacity="0" Orientation="Horizontal" HorizontalAlignment="Right">
 
-        <!--<Border DockPanel.Dock="Bottom" Height="10" Width="{Binding ElementName=PresentationPanel, Path=ActualWidth}" Background="#82bbef" BorderBrush="#4c71bf" BorderThickness="1" Opacity="0.5" Margin="0,0,0,0">
-            <StackPanel/>
-        </Border>-->
+                <Button x:Name="ShowAllButton" Height="20" Width="20" Style="{StaticResource ResourceKey=DeletePluginContainerButtonStyle}" Margin="0,0,0,0" Click="ShowAllButton_Click">
+                    <Button.RenderTransform>
+                        <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
+                    </Button.RenderTransform>
+                    <Image Source="/WorkspaceManager;component/View/Image/showall.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
+                </Button>
+
+                <Button Height="20" Width="20" Style="{StaticResource ResourceKey=SettingsPluginContainerButtonStyle}" Margin="0,0,0,0" Click="Button_Click_1">
+                    <Button.RenderTransform>
+                        <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
+                    </Button.RenderTransform>
+                    <Image Source="/WorkspaceManager;component/View/Image/setting.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
+                </Button>
         
-        <Border Name="Window" CornerRadius="5" BorderThickness="2" BorderBrush="Beige">
+                <Button Height="20" Width="20" Style="{StaticResource ResourceKey=DeletePluginContainerButtonStyle}" Margin="0,0,0,5" Click="Button_Click">
+                    <Button.LayoutTransform>
+                        <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
+                    </Button.LayoutTransform>
+                    <Image Source="/WorkspaceManager;component/View/Image/delete.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
+                </Button>
+            </StackPanel>
+        
+            <!--<Border DockPanel.Dock="Bottom" Height="10" Width="{Binding ElementName=PresentationPanel, Path=ActualWidth}" Background="#82bbef" BorderBrush="#4c71bf" BorderThickness="1" Opacity="0.5" Margin="0,0,0,0">
+                <StackPanel/>
+            </Border>-->
+
+            <Grid Name="MainGrid">
+                <Ellipse Fill="Black" Width="10" Height="10" HorizontalAlignment="Left" VerticalAlignment="Top"></Ellipse>
+                <Grid Margin="3">
+                    
+                    <Canvas Width="auto" Height="auto">
+                        <Popup PlacementTarget="{Binding ElementName=MainGrid}" Placement="Left" x:Name="ProgressPopup" Width="45" Height="45" StaysOpen="True" IsOpen="True" AllowsTransparency="True">
+                            
+                        </Popup>
+                    </Canvas>
+                    <Border Name="Window" CornerRadius="5" BorderThickness="0" BorderBrush="Transparent" Margin="5">
+                        <Border.Background>
+                            <LinearGradientBrush Opacity="1" StartPoint="0,0" EndPoint="0,1">
+                                <GradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop x:Name="BorderGradientStop" Color="#00b4fb" Offset="0.0"/>
+                                        <GradientStop x:Name="BorderGradientStopSecond" Color="#3300b4fb" Offset="1"/>
+                                    </GradientStopCollection>
+                                </GradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="10" Direction="0" Color="Black" RenderingBias="Quality" ShadowDepth="0" ></DropShadowEffect>
+                        </Border.Effect>
+                        <Grid>
+         
+                            <Thumb Name="BottomDelta" IsEnabled="False" Opacity="0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Cursor="SizeNS" DragDelta="Thumb_DragDelta"></Thumb>
+                            <Thumb Name="RightDelta" IsEnabled="False" Opacity="0" HorizontalAlignment="Right" VerticalAlignment="Stretch" Cursor="SizeWE" DragDelta="Thumb_DragDelta"></Thumb>
+                            <Thumb Name="BottomRightDelta" IsEnabled="False" Opacity="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Cursor="SizeNWSE" Height="15" Width="15" DragDelta="Thumb_DragDelta"></Thumb>
+                        
+                            <DockPanel Name="PresentationBase" Width="Auto" Height="Auto" LastChildFill="True" Margin="5,5,5,2">
+                                <!--<Grid Name="PluginNamePlate" DockPanel.Dock="Top" Margin="2.5,1.25,2.5,1.25" Height="17" Opacity="0.5" Background="#82bbef">
+                                    <Label Name="PluginName" FontSize="11" Margin="0,-3,0,0" FontFamily="Georgia" Foreground="WhiteSmoke" Content="test" HorizontalAlignment="left"></Label>
+                                </Grid>-->
+                                <Grid Name="MinMaxGrid" DockPanel.Dock="Bottom">
+                                    <Border BorderBrush="#88ffffff" Background="#33ffffff" BorderThickness="0.5" CornerRadius="2.5"/>
+                                    <Button Style="{StaticResource ResourceKey=MinMaxPluginContainerButtonStyle}" Margin="0,0,0,0" Click="MinMaxBorder_MouseLeftButtonDown">
+                                        <Button.LayoutTransform>
+                                            <ScaleTransform x:Name="MinMaxScale" ScaleX="0.92" ScaleY="0.92"></ScaleTransform>
+                                        </Button.LayoutTransform>
+                                        <Image SnapsToDevicePixels="True" x:Name="MinMaxImage" Source="/WorkspaceManager;component/View/Image/Max.png" HorizontalAlignment="Center" Height="10" Width="28" Margin="1,1,1,1"/>
+                                    </Button>
+                                </Grid>
+                                <Border Name="PresentationPanel" Width="Auto" Height="Auto"  Background="Transparent" Margin="0,0,0,2.5"></Border>
+                            </DockPanel>
+                        </Grid>
+                    </Border>
+                    <Popup x:Name="BubblePopup" PopupAnimation="Fade" HorizontalOffset="-21" VerticalOffset="8" PlacementTarget="{Binding ElementName=ShowAllButton}" Placement="Top" StaysOpen="False" AllowsTransparency="True" Width="65" Height="65">
+                        <Grid x:Name="BubbleGrid" Margin="2">
+                            <Grid.Effect>
+                                <DropShadowEffect Opacity="0.8"></DropShadowEffect>
+                            </Grid.Effect>
+                            <Grid.LayoutTransform>
+                                <ScaleTransform ScaleX="0.6" ScaleY="0.6"></ScaleTransform>
+                            </Grid.LayoutTransform>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="40"/>
+                            </Grid.RowDefinitions>
+                            <Border Background="{StaticResource ResourceKey=BubblePopupLinearBrush}" BorderBrush="#f8f692" CornerRadius="10">
+                                <Grid Margin="6">
+                                    <ScrollViewer>
+                                        <TextBlock x:Name="Content" Foreground="#444444" FontSize="16"
+                                           Text="When the Placement  property is set to Custom, the Popup  calls a defined instance of the CustomPopupPlacementCallback  delegate. This delegate returns a set of possible points that are relative to the top left corner of the target area and the top left corner of the Popup. The Popup  placement occurs at the point that provides the best visibility." TextWrapping="Wrap"></TextBlock>
+                                    </ScrollViewer>
+                                </Grid>
+                            </Border>
+                            <Path Fill="#ffffec" Stretch="Fill" Stroke="#f8f692" HorizontalAlignment="Left" Margin="30,-1.35,0,0" Width="25" Grid.Row="1" Data="M18,154.45381 L29.999666,187.66699 40.791059,154.54395">
+                                <Path.RenderTransform>
+                                    <ScaleTransform ScaleY="0.5"></ScaleTransform>
+                                </Path.RenderTransform>
+                            </Path>
+                        </Grid>
+                    </Popup>
+                </Grid>
+            </Grid>
+        </DockPanel>
+        <Border Name="ShowAllData" Visibility="Collapsed" MaxHeight="250" MaxWidth="150" MinWidth="140" Margin="7,26,0,0" VerticalAlignment="Top" CornerRadius="{Binding ElementName=Window,Path=CornerRadius}" BorderBrush="{Binding ElementName=Window,Path=BorderBrush}" BorderThickness="{Binding ElementName=Window,Path=BorderThickness}">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="10" Direction="0" Color="Black" RenderingBias="Quality" ShadowDepth="0" ></DropShadowEffect>
+            </Border.Effect>
             <Border.Background>
-                <LinearGradientBrush Opacity="1" StartPoint="0,0" EndPoint="0,1">
+                <LinearGradientBrush Opacity="0.5" StartPoint="0,0" EndPoint="0,1">
                     <GradientBrush.GradientStops>
                         <GradientStopCollection>
-                            <GradientStop x:Name="BorderGradientStop" Color="#00b4fb" Offset="0.0"/>
-                            <GradientStop x:Name="BorderGradientStopSecond" Color="#3300b4fb" Offset="1"/>
+                            <GradientStop Color="{Binding ElementName=BorderGradientStop, Path=Color}" Offset="0.0"/>
+                            <GradientStop Color="{Binding ElementName=BorderGradientStopSecond, Path=Color}" Offset="1"/>
                         </GradientStopCollection>
                     </GradientBrush.GradientStops>
                 </LinearGradientBrush>
             </Border.Background>
-            <Grid>
-                <Thumb Name="BottomDelta" IsEnabled="False" Opacity="0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Cursor="SizeNS" DragDelta="Thumb_DragDelta"></Thumb>
-                <Thumb Name="RightDelta" IsEnabled="False" Opacity="0" HorizontalAlignment="Right" VerticalAlignment="Stretch" Cursor="SizeWE" DragDelta="Thumb_DragDelta"></Thumb>
-                <Thumb Name="BottomRightDelta" IsEnabled="False" Opacity="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Cursor="SizeNWSE" Height="15" Width="15" DragDelta="Thumb_DragDelta"></Thumb>
-                <DockPanel Name="PresentationBase" Width="Auto" Height="Auto" LastChildFill="True" Margin="3">
-                    <!--<Grid Name="PluginNamePlate" DockPanel.Dock="Top" Margin="2.5,1.25,2.5,1.25" Height="17" Opacity="0.5" Background="#82bbef">
-                        <Label Name="PluginName" FontSize="11" Margin="0,-3,0,0" FontFamily="Georgia" Foreground="WhiteSmoke" Content="test" HorizontalAlignment="left"></Label>
-                    </Grid>-->
-                    <Border Name="MinMaxBorder" Height="7" DockPanel.Dock="Bottom" BorderBrush="#88FFFFFF" Background="#88444444" BorderThickness="1.7" CornerRadius="2" MouseLeftButtonDown="MinMaxBorder_MouseLeftButtonDown">
-                        <Border.Triggers>
-                            <EventTrigger RoutedEvent="MouseEnter">
-                                <BeginStoryboard Storyboard="{StaticResource ResourceKey=MaxMinColorAnimEnter}"/>
-                            </EventTrigger>
-                            <EventTrigger RoutedEvent="MouseLeave">
-                                <BeginStoryboard Storyboard="{StaticResource ResourceKey=MaxMinColorAnimLeave}"/>
-                            </EventTrigger>
-                        </Border.Triggers>
-                    </Border>
-                    <Border Name="PresentationPanel" Width="Auto" Height="Auto" Margin="2.5,2.5,2.5,2.5" Background="Transparent">
-                        <Border.Effect>
-                            <DropShadowEffect BlurRadius="2" Color="Black" ShadowDepth="0.1" Direction="90" Opacity="0.4"></DropShadowEffect>
-                        </Border.Effect>
-                    </Border>
-                </DockPanel>
-            </Grid>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel x:Name="DataPresentationPanel" Orientation="Vertical" Margin="5">
+               
+                </StackPanel>
+            </ScrollViewer>
         </Border>
     </DockPanel>
 </UserControl>

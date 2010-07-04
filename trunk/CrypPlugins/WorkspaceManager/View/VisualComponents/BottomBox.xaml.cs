@@ -44,24 +44,18 @@ namespace WorkspaceManager.View.VisualComponents
 
         private void Main_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (Main.ActualHeight < 28)
-            {
-                //Sub.Visibility = Visibility.Collapsed;
-                Main.BeginStoryboard((this.Resources["IncrementHeigth"] as Storyboard));
-                //(this.Resources["Up"] as Storyboard).Stop(Sub);
-                MainElementsBorder.Visibility = Visibility.Visible;
-            }
+            //Sub.Visibility = Visibility.Collapsed;
+            Main.BeginStoryboard((this.Resources["IncrementHeigth"] as Storyboard));
+            //(this.Resources["Up"] as Storyboard).Stop(Sub);
+            MainElementsBorder.Visibility = Visibility.Visible;
         }
 
         private void Main_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (Main.ActualHeight == 28)
-            {
-                //Sub.Visibility = Visibility.Visible;
-                Main.BeginStoryboard((this.Resources["DecrementHeigth"] as Storyboard));
-                //Sub.BeginStoryboard((this.Resources["Up"] as Storyboard));
-                MainElementsBorder.Visibility = Visibility.Collapsed;
-            }
+            //Sub.Visibility = Visibility.Visible;
+            Main.BeginStoryboard((this.Resources["DecrementHeigth"] as Storyboard));
+            //Sub.BeginStoryboard((this.Resources["Up"] as Storyboard));
+            MainElementsBorder.Visibility = Visibility.Collapsed;
         }
     }
 }
