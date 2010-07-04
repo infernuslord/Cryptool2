@@ -21,6 +21,8 @@ using System.Text;
 using System.IO;
 using System.Xml.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Reflection;
+using Cryptool.PluginBase;
 
 namespace WorkspaceManager.Model
 {
@@ -34,15 +36,40 @@ namespace WorkspaceManager.Model
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
-        public static WorkspaceModel loadModel(string filename)
+        public static WorkspaceModel loadModel(string filename, WorkspaceManager workspaceManagerEditor)
         {
             FileStream fileStream = null;
 
             try
             {
                 fileStream = new FileStream(filename, FileMode.Open, FileAccess.Read);
-                BinaryFormatter binaryFormatter = new BinaryFormatter();             
-                return (WorkspaceModel)binaryFormatter.Deserialize(fileStream);
+                BinaryFormatter binaryFormatter = new BinaryFormatter();
+
+                WorkspaceModel workspacemodel =  (WorkspaceModel)binaryFormatter.Deserialize(fileStream);
+                workspacemodel.WorkspaceManagerEditor = workspaceManagerEditor;
+
+                foreach (PluginModel pluginModel in workspacemodel.AllPluginModels)
+                {
+                    pluginModel.Plugin.OnGuiLogNotificationOccured += workspaceManagerEditor.GuiLogNotificationOccured;
+                    pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;
+                    pluginModel.Plugin.OnPluginStatusChanged += pluginModel.PluginStatusChanged;
+                }
+                
+                foreach (ConnectorModel connectorModel in workspacemodel.AllConnectorModels)
+                {
+                    if(connectorModel.Outgoing == true){
+                        connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
+                    }
+
+                    if (connectorModel.IsDynamic == true)
+                    {
+                        DynamicPropertyInfoAttribute dynamicPropertyInfoAttribute = connectorModel.PluginModel.Plugin.GetDynamicPropertyInfo();
+                        EventInfo eventinfo = connectorModel.PluginModel.PluginType.GetEvent(dynamicPropertyInfoAttribute.UpdateDynamicPropertiesEvent);
+                        eventinfo.AddEventHandler(connectorModel.PluginModel.Plugin, new DynamicPropertiesChanged(connectorModel.PropertyTypeChangedOnPlugin));
+                    }
+                }
+
+                return workspacemodel;
             }
             finally
             {

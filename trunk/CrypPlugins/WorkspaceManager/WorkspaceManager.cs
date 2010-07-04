@@ -134,8 +134,7 @@ namespace WorkspaceManager
             {
                 New();
                 GuiLogMessage("Loading Model: " + fileName, NotificationLevel.Info);                
-                WorkspaceModel = ModelPersistance.loadModel(fileName);
-                WorkspaceModel.WorkspaceManagerEditor = this;
+                WorkspaceModel = ModelPersistance.loadModel(fileName,this);                
                 WorkspaceSpaceEditorView.Load(WorkspaceModel);
                 HasChanges = false;
             }
