@@ -103,6 +103,7 @@
     <Compile Include="View\Container\WorkSpaceEditorView.xaml.cs">
       <DependentUpon>WorkSpaceEditorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Converter\ConnectorToColorConverter.cs" />
     <Compile Include="View\Converter\ConnectorBindingConverter.cs" />
     <Compile Include="View\Converter\DragDropDataObjectToPluginConverter.cs" />
     <Compile Include="View\Converter\ScaleToPercentageConverter.cs" />
@@ -113,11 +114,17 @@
     <Compile Include="View\VisualComponents\CircularProgressBar.xaml.cs">
       <DependentUpon>CircularProgressBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\VisualComponents\CryptoLineView.cs" />
+    <Compile Include="View\VisualComponents\CryptoLineView\CryptoLineView.cs" />
     <Compile Include="View\VisualComponents\BottomBox.xaml.cs">
       <DependentUpon>BottomBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\VisualComponents\FromTo.cs" />
+    <Compile Include="View\VisualComponents\DataPresentation.xaml.cs">
+      <DependentUpon>DataPresentation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\VisualComponents\CryptoLineView\FromTo.cs" />
+    <Compile Include="View\VisualComponents\Search.xaml.cs">
+      <DependentUpon>Search.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WorkspaceManager.cs" />
     <Compile Include="WorkspaceManagerSettings.cs" />
   </ItemGroup>
@@ -169,6 +176,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\VisualComponents\DataPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\VisualComponents\Search.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Attributes.resx">
@@ -192,6 +207,17 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="View\Image\arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Image\max.png" />
+    <Resource Include="View\Image\min.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Image\showall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Image\error.png" />
+    <Resource Include="View\Image\warning.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!--<PropertyGroup>

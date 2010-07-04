@@ -4,8 +4,8 @@
     <LinearGradientBrush x:Key="EditorBackgroundLinearBrush" StartPoint="0,0" EndPoint="0,1">
         <GradientBrush.GradientStops>
             <GradientStopCollection>
-                <GradientStop Color="#0e0e0e" Offset="1.0"/>
-                <GradientStop Color="#555555" Offset="0.0"/>
+                <GradientStop Color="#333333" Offset="1.0"/>
+                <GradientStop Color="#666666" Offset="0.0"/>
             </GradientStopCollection>
         </GradientBrush.GradientStops>
     </LinearGradientBrush>
@@ -15,6 +15,33 @@
             <GradientStopCollection>
                 <GradientStop Color="#AA666666" Offset="1.0"/>
                 <GradientStop Color="#AA666666" Offset="0.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="DataPresentationLinearBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#444444" Offset="0.0"/>
+                <GradientStop Color="#55444444" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="DataPresentationNameLinearBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#555555" Offset="1.0"/>
+                <GradientStop Color="#333333" Offset="0.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="BubblePopupLinearBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#ffffb4" Offset="0.0"/>
+                <GradientStop Color="#ffffec" Offset="1.0"/>
             </GradientStopCollection>
         </GradientBrush.GradientStops>
     </LinearGradientBrush>
@@ -29,7 +56,7 @@
         <GradientStop Color="White" Offset="1.0" />
     </RadialGradientBrush>
 
-    <DrawingBrush x:Key="GridBrush" Viewport="0,0,10,10" ViewportUnits="Absolute" TileMode="Tile" Opacity="0.10">
+    <DrawingBrush x:Key="GridBrush" Viewport="0,0,10,10" ViewportUnits="Absolute" TileMode="Tile" Opacity="0.05">
         <DrawingBrush.Drawing>
             <DrawingGroup>
                 <GeometryDrawing Geometry="M0,0 L1,0 1,0.1, 0,0.1Z" Brush="WhiteSmoke" />

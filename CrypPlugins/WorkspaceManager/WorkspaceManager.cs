@@ -62,7 +62,7 @@ namespace WorkspaceManager
             Settings = new WorkspaceManagerSettings();
             WorkspaceModel = new WorkspaceModel();
             WorkspaceModel.WorkspaceManagerEditor = this;
-            WorkspaceManagerEditorView = new WorkSpaceEditorView(WorkspaceModel);
+            WorkspaceSpaceEditorView = new WorkSpaceEditorView(WorkspaceModel);
             ExecutionEngine = new ExecutionEngine(this);
             HasChanges = false;                                
         }
@@ -70,7 +70,7 @@ namespace WorkspaceManager
         #region private Members
 
         private WorkspaceModel WorkspaceModel = null;
-        private WorkSpaceEditorView WorkspaceManagerEditorView = null;
+        private WorkSpaceEditorView WorkspaceSpaceEditorView = null;
         private ExecutionEngine ExecutionEngine = null;
         private bool executing = false;
 
@@ -132,10 +132,11 @@ namespace WorkspaceManager
         {
             try
             {
+                New();
                 GuiLogMessage("Loading Model: " + fileName, NotificationLevel.Info);                
                 WorkspaceModel = ModelPersistance.loadModel(fileName);
                 WorkspaceModel.WorkspaceManagerEditor = this;
-                WorkspaceManagerEditorView.Model = WorkspaceModel;
+                WorkspaceSpaceEditorView.Load(WorkspaceModel);
                 HasChanges = false;
             }
             catch (Exception ex)
@@ -323,8 +324,8 @@ namespace WorkspaceManager
         /// </summary>
         public System.Windows.Controls.UserControl Presentation
         {
-            get {return WorkspaceManagerEditorView;}
-            set { WorkspaceManagerEditorView = (WorkSpaceEditorView)value; }
+            get {return WorkspaceSpaceEditorView;}
+            set { WorkspaceSpaceEditorView = (WorkSpaceEditorView)value; }
         }
 
         /// <summary>
@@ -360,9 +361,9 @@ namespace WorkspaceManager
                 executing = true;
 
                 //Get the gui Thread
-                this.WorkspaceManagerEditorView.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                this.WorkspaceSpaceEditorView.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    this.WorkspaceManagerEditorView.root.IsEnabled = false;                    
+                    this.WorkspaceSpaceEditorView.State = EditorState.BUSY;                   
                 }
                 , null);                
 
@@ -423,9 +424,9 @@ namespace WorkspaceManager
                 GuiLogMessage("Executing stopped by User!", NotificationLevel.Info);
                 ExecutionEngine.Stop();
                 //Get the gui Thread
-                this.WorkspaceManagerEditorView.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                this.WorkspaceSpaceEditorView.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    this.WorkspaceManagerEditorView.root.IsEnabled = true;
+                    this.WorkspaceSpaceEditorView.State = EditorState.READY;
                 }
                 , null);
             }

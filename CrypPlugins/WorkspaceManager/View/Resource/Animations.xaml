@@ -21,4 +21,12 @@
         <ColorAnimation To="#88FFFFFF" Duration="00:00:00.5" Storyboard.TargetProperty="BorderBrush.Color"></ColorAnimation>
     </Storyboard>
 
+    <Storyboard x:Key="FadeIn">
+        <DoubleAnimation To="1" Duration="00:00:00.5" Storyboard.TargetProperty="Opacity"/>
+    </Storyboard>
+
+    <Storyboard x:Key="FadeOut">
+        <DoubleAnimation To="0" Duration="00:00:00.5" Storyboard.TargetProperty="Opacity"/>
+    </Storyboard>
+
 </ResourceDictionary>

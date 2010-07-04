@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using WorkspaceManager.View.Interface;
 using System.ComponentModel;
 using WorkspaceManager.Model;
+using System.Windows.Controls.Primitives;
 
 namespace WorkspaceManager.View.Container
 {
@@ -22,8 +23,8 @@ namespace WorkspaceManager.View.Container
     /// </summary>
     public partial class ConnectorView : UserControl, IConnectable, IUpdateableView
     {
-        public static readonly DependencyProperty PositionOnWorkSpaceXProperty = DependencyProperty.Register("PositionOnWorkSpaceX", typeof(double), typeof(ConnectorView), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
-        public static readonly DependencyProperty PositionOnWorkSpaceYProperty = DependencyProperty.Register("PositionOnWorkSpaceY", typeof(double), typeof(ConnectorView), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static readonly DependencyProperty X = DependencyProperty.Register("PositionOnWorkSpaceX", typeof(double), typeof(ConnectorView), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static readonly DependencyProperty Y = DependencyProperty.Register("PositionOnWorkSpaceY", typeof(double), typeof(ConnectorView), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public event EventHandler<ConnectorViewEventArgs> OnConnectorMouseLeftButtonDown;
         public ConnectorModel model;
@@ -36,20 +37,22 @@ namespace WorkspaceManager.View.Container
         [TypeConverter(typeof(LengthConverter))]
         public double PositionOnWorkSpaceX
         {
-            get { return (double)base.GetValue(PositionOnWorkSpaceXProperty); }
+            get { return (double)base.GetValue(X); }
             set
             {
-                base.SetValue(PositionOnWorkSpaceXProperty, value);
+                ResetPopUp();
+                base.SetValue(X, value);
             }
         }
 
         [TypeConverter(typeof(LengthConverter))]
         public double PositionOnWorkSpaceY
         {
-            get { return (double)base.GetValue(PositionOnWorkSpaceYProperty); }
+            get { return (double)base.GetValue(Y); }
             set
             {
-                base.SetValue(PositionOnWorkSpaceYProperty, value);
+                ResetPopUp();
+                base.SetValue(Y, value);
             }
         }
 
@@ -59,15 +62,41 @@ namespace WorkspaceManager.View.Container
             InitializeComponent();
         }
 
-        public ConnectorView(Model.ConnectorModel cModel)
-        {                        
-            this.MouseLeftButtonDown += new MouseButtonEventHandler(ConnectorView_MouseLeftButtonDown);
-            this.Model = cModel;
-            this.Model.UpdateableView = this;
+        public ConnectorView(ConnectorModel Model)
+        {
+            setBaseControl(Model);
             InitializeComponent();
-            Color color = ColorHelper.GetColor(cModel.ConnectorType);
+ 
+            Color color = ColorHelper.GetColor(Model.ConnectorType);
             this.Ellipse.Fill = new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
-            this.Ellipse.ToolTip = cModel.ToolTip;
+            this.Ellipse.ToolTip = Model.ToolTip;
+        }
+
+        private void setBaseControl(ConnectorModel Model)
+        {
+            this.MouseLeftButtonDown += new MouseButtonEventHandler(ConnectorView_MouseLeftButtonDown);
+            this.MouseRightButtonDown += new MouseButtonEventHandler(ConnectorView_MouseRightButtonDown);
+            this.MouseRightButtonUp += new MouseButtonEventHandler(ConnectorView_MouseRightButtonUp);
+            this.MouseLeave += new MouseEventHandler(ConnectorView_MouseLeave);
+            this.Model = Model;
+            this.DataContext = Model;
+            this.Model.UpdateableView = this;
+        }
+
+        void ConnectorView_MouseLeave(object sender, MouseEventArgs e)
+        {
+            BubblePopup.StaysOpen = false;
+        }
+
+        void ConnectorView_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            BubblePopup.StaysOpen = false;
+        }
+
+        void ConnectorView_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.BubblePopup.IsOpen = true;
+            BubblePopup.StaysOpen = true;
         }
 
         void ConnectorView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -76,6 +105,12 @@ namespace WorkspaceManager.View.Container
             {
                 this.OnConnectorMouseLeftButtonDown.Invoke(this, new ConnectorViewEventArgs { connector = this });
             }
+        }
+
+        public void ResetPopUp()
+        {
+            Random random = new Random();
+            BubblePopup.PlacementRectangle = new Rect(new Point(random.NextDouble() / 1000, 0), new Size(75, 25));
         }
 
         public bool CanConnect
@@ -89,7 +124,9 @@ namespace WorkspaceManager.View.Container
             {
                 ToolTip = model.Data;
             }
+
         }
+
     }
 
     public class ConnectorViewEventArgs : EventArgs

@@ -15,6 +15,7 @@ using WorkspaceManager.View.Interface;
 using WorkspaceManager.Model;
 using WorkspaceManager.View.VisualComponents;
 using System.Windows.Controls.Primitives;
+using System.Windows.Media.Animation;
 
 namespace WorkspaceManager.View.Container
 {
@@ -23,13 +24,20 @@ namespace WorkspaceManager.View.Container
     /// </summary>
     public partial class PluginContainerView : UserControl, IDraggable, IUpdateableView
     {
-        public event EventHandler<ConnectorViewEventArgs> OnConnectorMouseLeftButtonDown;
+        #region Events
+        public event EventHandler<ConnectorViewEventArgs> ConnectorMouseLeftButtonDown;
         public event EventHandler<PluginContainerViewDeleteViewEventArgs> Delete;
         public event EventHandler<PluginContainerViewSettingsViewEventArgs> ShowSettings;
+        #endregion
 
-        private static double MinHeightBackup;
-        private static double MinWidthBackup;
+        #region Private Variables
 
+        private static double MinHeight;
+        private static double MinWidth;
+        private bool p;
+        #endregion
+
+        #region Properties
         private Image icon;
         public Image Icon
         {
@@ -50,6 +58,7 @@ namespace WorkspaceManager.View.Container
             get { return connectorViewList; }
             private set { connectorViewList = value; }
         }
+
         private PluginModel model;
         public PluginModel Model
         {
@@ -59,63 +68,27 @@ namespace WorkspaceManager.View.Container
 
         public bool CanDrag { get; set; }
 
+        #endregion
+
+        #region Contructors
         public PluginContainerView()
         {
-            this.Loaded += new RoutedEventHandler(PluginContainerView_Loaded);
-            this.RenderTransform = new TranslateTransform();
             InitializeComponent();
         }
 
         public PluginContainerView(PluginModel model)
         {
-            this.Loaded += new RoutedEventHandler(PluginContainerView_Loaded);
-            this.MouseEnter += new MouseEventHandler(PluginContainerView_MouseEnter);
-            this.MouseLeave += new MouseEventHandler(PluginContainerView_MouseLeave);
+            setBaseControl(model);
             InitializeComponent();
-            MinHeightBackup = this.MinHeight;
-            MinWidthBackup = this.MinWidth;
-            this.ConnectorViewList = new List<ConnectorView>();
-            this.RenderTransform = new TranslateTransform();
-            this.model = model;
-            this.model.UpdateableView = this;
-            this.BorderGradientStop.Color = ColorHelper.GetColor(model.PluginType);
-            this.BorderGradientStopSecond.Color = Color.FromArgb(100, this.BorderGradientStop.Color.R, this.BorderGradientStop.Color.G, this.BorderGradientStop.Color.B);
-            this.Icon = model.getImage();
-            this.PresentationPanel.Child = this.Icon;
-            
         }
+        #endregion
 
-        void PluginContainerView_MouseLeave(object sender, MouseEventArgs e)
-        {
-            ControlPanel.Visibility = Visibility.Hidden;
-        }
-
-        void PluginContainerView_MouseEnter(object sender, MouseEventArgs e)
-        {
-            ControlPanel.Visibility = Visibility.Visible;
-        }
-
-        void PluginContainerView_Loaded(object sender, RoutedEventArgs e)
-        {
-
-            PresentationPanel.Child = Icon;
-            //PluginName.Content = model.PluginType.Name.ToString();
-
-            foreach (ConnectorModel Model in model.InputConnectors)
-            {
-                AddInputConnectorView(new ConnectorView(Model));
-            }
-
-            foreach (ConnectorModel Model in model.OutputConnectors)
-            {
-                AddOutputConnectorView(new ConnectorView(Model));
-            }
-        }
-
+        #region Public Methods
         public void AddInputConnectorView(ConnectorView connector)
         {
             connector.OnConnectorMouseLeftButtonDown += new EventHandler<ConnectorViewEventArgs>(connector_OnConnectorMouseLeftButtonDown);
             this.ConnectorViewList.Add(connector);
+            this.DataPresentationPanel.Children.Add(new DataPresentation(connector));
             this.InputConnectorPanel.Children.Add(connector);
             this.SetAllConnectorPositionX();
         }
@@ -125,15 +98,39 @@ namespace WorkspaceManager.View.Container
         {
             connector.OnConnectorMouseLeftButtonDown += new EventHandler<ConnectorViewEventArgs>(connector_OnConnectorMouseLeftButtonDown);
             this.ConnectorViewList.Add(connector);
+            this.DataPresentationPanel.Children.Add(new DataPresentation(connector));
             this.OutputConnectorPanel.Children.Add(connector);
             this.SetAllConnectorPositionX();
         }
 
         public void SetPosition(Point value)
         {
-            (this.RenderTransform as TranslateTransform).X = value.X;
-            (this.RenderTransform as TranslateTransform).Y = value.Y;
+            TranslateTransform pos = (this.RenderTransform as TranslateTransform);
+            pos.X = value.X;
+            pos.Y = value.Y;
+            this.Model.Position = new Point(pos.X, pos.Y);
             this.SetAllConnectorPositionX();
+        }
+
+        public Point GetPosition()
+        {
+            return new Point((this.RenderTransform as TranslateTransform).X, (this.RenderTransform as TranslateTransform).Y);
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private void setBaseControl(PluginModel model)
+        {
+            this.Loaded += new RoutedEventHandler(PluginContainerView_Loaded);
+            this.MouseEnter += new MouseEventHandler(PluginContainerView_MouseEnter);
+            this.MouseLeave += new MouseEventHandler(PluginContainerView_MouseLeave);
+            this.Model = model;
+            this.Model.UpdateableView = this;
+            this.DataContext = Model;
+            this.ConnectorViewList = new List<ConnectorView>();
+            this.RenderTransform = new TranslateTransform();
         }
 
         private void SetAllConnectorPositionX()
@@ -171,25 +168,56 @@ namespace WorkspaceManager.View.Container
                 conn.PositionOnWorkSpaceX = x;
                 conn.PositionOnWorkSpaceY = y;
             }
-
         }
-
-        public Point GetPosition()
-        {
-            return new Point((this.RenderTransform as TranslateTransform).X, (this.RenderTransform as TranslateTransform).Y);
-        }
+        #endregion
 
         #region Controls
 
-        void connector_OnConnectorMouseLeftButtonDown(object sender, ConnectorViewEventArgs e)
+        void PluginContainerView_Loaded(object sender, RoutedEventArgs e)
         {
-            if (this.OnConnectorMouseLeftButtonDown != null)
+            MinHeight = this.PluginBase.MinHeight;
+            MinWidth = this.PluginBase.MinWidth;
+            this.BorderGradientStop.Color = ColorHelper.GetColor(this.Model.PluginType);
+            this.BorderGradientStopSecond.Color = Color.FromArgb(100, this.BorderGradientStop.Color.R, this.BorderGradientStop.Color.G, this.BorderGradientStop.Color.B);
+
+            if (this.Model.Minimized == null || this.Model.Minimized == true)
             {
-                this.OnConnectorMouseLeftButtonDown.Invoke(this, e);
+                this.Icon = this.Model.getImage();
+                this.PresentationPanel.Child = this.Icon;
+                this.Model.Minimized = true;
+            }
+            else if (this.Model.Minimized == false)
+            {
+                this.PluginBase.MinHeight = model.MinHeight;
+                this.PluginBase.MinWidth = model.MinWidth;
+                this.PluginBase.Width = model.MinWidth;
+                this.PluginBase.Height = model.MinHeight;
+                this.BottomDelta.IsEnabled = true;
+                this.RightDelta.IsEnabled = true;
+                this.BottomRightDelta.IsEnabled = true;
+                this.PresentationPanel.Child = model.PluginPresentation;
+                this.Model.Minimized = false;
+                this.MinMaxImage.Source = new BitmapImage(new Uri("/WorkspaceManager;component/View/Image/Min.png", UriKind.RelativeOrAbsolute));
+            }
+
+            foreach (ConnectorModel ConnectorModel in model.InputConnectors)
+            {
+                AddInputConnectorView(new ConnectorView(ConnectorModel));
+            }
+
+            foreach (ConnectorModel ConnectorModel in model.OutputConnectors)
+            {
+                AddOutputConnectorView(new ConnectorView(ConnectorModel));
             }
         }
 
-        #endregion
+        void connector_OnConnectorMouseLeftButtonDown(object sender, ConnectorViewEventArgs e)
+        {
+            if (this.ConnectorMouseLeftButtonDown != null)
+            {
+                this.ConnectorMouseLeftButtonDown.Invoke(this, e);
+            }
+        }
 
         private void delete()
         {
@@ -217,6 +245,91 @@ namespace WorkspaceManager.View.Container
             this.delete();
         }
 
+        void PluginContainerView_MouseLeave(object sender, MouseEventArgs e)
+        {
+            (Resources["FadeIn"] as Storyboard).Stop(ControlPanel);
+            ControlPanel.BeginStoryboard(Resources["FadeOut"] as Storyboard);
+        }
+
+        void PluginContainerView_MouseEnter(object sender, MouseEventArgs e)
+        {
+            (Resources["FadeOut"] as Storyboard).Stop(ControlPanel);
+            ControlPanel.BeginStoryboard(Resources["FadeIn"] as Storyboard);
+        }
+
+        private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+        {
+            Thumb t = sender as Thumb;
+            if (t.Cursor == Cursors.SizeWE)
+            {
+                if ((PluginBase.ActualWidth + e.HorizontalChange) > 0)
+                    PluginBase.Width = PluginBase.ActualWidth + e.HorizontalChange;
+            }
+
+            if (t.Cursor == Cursors.SizeNS)
+            {
+                if ((PluginBase.ActualHeight + e.VerticalChange) > 0)
+                    PluginBase.Height = PluginBase.ActualHeight + e.VerticalChange;
+            }
+
+            if (t.Cursor == Cursors.SizeNWSE)
+            {
+                if ((PluginBase.ActualHeight + e.VerticalChange) > 0)
+                    PluginBase.Height = PluginBase.ActualHeight + e.VerticalChange;
+
+                if ((PluginBase.ActualWidth + e.HorizontalChange) > 0)
+                    PluginBase.Width = PluginBase.ActualWidth + e.HorizontalChange;
+            }
+        }
+
+        private void MinMaxBorder_MouseLeftButtonDown(object sender, RoutedEventArgs e)
+        {
+            if (model.PluginPresentation != null && PresentationPanel.Child is Image)
+            {
+                PluginBase.MinHeight = model.MinHeight;
+                PluginBase.MinWidth = model.MinWidth;
+                PluginBase.Width = model.MinWidth;
+                PluginBase.Height = model.MinHeight;
+                BottomDelta.IsEnabled = true;
+                RightDelta.IsEnabled = true;
+                BottomRightDelta.IsEnabled = true;
+                PresentationPanel.Child = model.PluginPresentation;
+                model.Minimized = false;
+                MinMaxImage.Source = new BitmapImage(new Uri("/WorkspaceManager;component/View/Image/Min.png", UriKind.RelativeOrAbsolute));
+                return;
+            }
+
+            if (PresentationPanel.Child is UserControl)
+            {
+                PluginBase.MinHeight = MinHeight;
+                PluginBase.MinWidth = MinWidth;
+                PluginBase.Width = MinWidth;
+                PluginBase.Height = MinHeight;
+                BottomDelta.IsEnabled = false;
+                RightDelta.IsEnabled = false;
+                BottomRightDelta.IsEnabled = false;
+                PresentationPanel.Child = this.Icon;
+                MinMaxImage.Source = new BitmapImage(new Uri("/WorkspaceManager;component/View/Image/Max.png", UriKind.RelativeOrAbsolute));
+                return;
+            }
+        }
+
+        private void ShowAllButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (ShowAllData.Visibility == Visibility.Collapsed)
+            {
+                ShowAllData.Visibility = Visibility.Visible;
+                return;
+            }
+
+            if (ShowAllData.Visibility == Visibility.Visible)
+            {
+                ShowAllData.Visibility = Visibility.Collapsed;
+                return;
+            }
+        }
+        #endregion
+
         #region IUpdateableView Members
 
         public void update()
@@ -234,76 +347,16 @@ namespace WorkspaceManager.View.Container
             {
                 //todo: assign old color and appereance
             }
-
-            //(ProgressBarPanel.Children[0] as CircularProgressBar).Percentage = model.PercentageFinished;
-            ProgressBarInit.Value = model.PercentageFinished;
             Icon = model.getImage();
-
-            if (PresentationPanel.Child is Image)
-            {
-                PresentationPanel.Child = this.Icon;
-            }
         }
 
         #endregion
 
-        private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+
+        internal void LoadConnection()
         {
-            Thumb t = sender as Thumb;
-
-            if (t.Cursor == Cursors.SizeWE)
-            {
-                if((this.ActualWidth + e.HorizontalChange) > 0)
-                    this.Width = this.ActualWidth + e.HorizontalChange;
-            }
-
-            if (t.Cursor == Cursors.SizeNS)
-            {
-                if((this.ActualHeight + e.VerticalChange) > 0)
-                    this.Height = this.ActualHeight + e.VerticalChange;
-            }
-
-            if (t.Cursor == Cursors.SizeNWSE)
-            {
-                if ((this.ActualHeight + e.VerticalChange) > 0)
-                    this.Height = this.ActualHeight + e.VerticalChange;
-
-                if ((this.ActualWidth + e.HorizontalChange) > 0)
-                    this.Width = this.ActualWidth + e.HorizontalChange;
-            }
+            throw new NotImplementedException();
         }
-
-        private void MinMaxBorder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (model.PluginPresentation != null && PresentationPanel.Child is Image)
-            {
-                MinMaxBorder.BorderThickness = new Thickness(3);
-                this.MinHeight = model.MinHeight;
-                this.MinWidth = model.MinWidth;
-                this.Width = model.MinWidth;
-                this.Height = model.MinHeight;
-                BottomDelta.IsEnabled = true;
-                RightDelta.IsEnabled = true;
-                BottomRightDelta.IsEnabled = true;
-                PresentationPanel.Child = model.PluginPresentation;
-                return;
-            }
-
-            if (PresentationPanel.Child is UserControl)
-            {
-                MinMaxBorder.BorderThickness = new Thickness(1.7);
-                this.MinHeight = MinWidthBackup;
-                this.MinWidth = MinWidthBackup;
-                this.Width = MinWidthBackup;
-                this.Height = MinWidthBackup;
-                BottomDelta.IsEnabled = false;
-                RightDelta.IsEnabled = false;
-                BottomRightDelta.IsEnabled = false;
-                PresentationPanel.Child = this.Icon;
-                return;
-            }
-        }
-
     }
 
     public class PluginContainerViewDeleteViewEventArgs : EventArgs
