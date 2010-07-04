@@ -347,7 +347,12 @@ namespace WorkspaceManager.View.Container
             {
                 //todo: assign old color and appereance
             }
-            Icon = model.getImage();
+            
+            if (this.Model.Minimized == null || this.Model.Minimized == true)
+            {
+                this.Icon = model.getImage();
+                this.PresentationPanel.Child = this.Icon;
+            }
         }
 
         #endregion
