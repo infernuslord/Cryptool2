@@ -23,16 +23,16 @@ namespace Cryptool.P2PEditor
 {
     internal class P2PEditorSettings : ISettings
     {
-        private readonly P2PEditor _p2PEditor;
-        private readonly P2PSettings _settings;
+        private readonly P2PEditor p2PEditor;
+        private readonly P2PSettings settings;
 
         private const string GroupExperienced = "experienced_settings";
         private const string GroupExpert = "expert_settings";
 
         public P2PEditorSettings(P2PEditor p2PEditor)
         {
-            _p2PEditor = p2PEditor;
-            _settings = P2PSettings.Default;
+            this.p2PEditor = p2PEditor;
+            settings = P2PSettings.Default;
         }
 
         #region ISettings Members
@@ -50,12 +50,12 @@ namespace Cryptool.P2PEditor
             , null, 0, false, DisplayLevel.Beginner, ControlType.TextBox)]
         public string PeerName
         {
-            get { return _settings.PeerName; }
+            get { return settings.PeerName; }
             set
             {
-                if (value != _settings.PeerName)
+                if (value != settings.PeerName)
                 {
-                    _settings.PeerName = value;
+                    settings.PeerName = value;
                     OnPropertyChanged("PeerName");
                     HasChanges = true;
                 }
@@ -65,12 +65,12 @@ namespace Cryptool.P2PEditor
         [TaskPane("worldname_caption", "worldname_tooltip", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
         public string WorldName
         {
-            get { return _settings.WorldName; }
+            get { return settings.WorldName; }
             set
             {
-                if (value != _settings.WorldName)
+                if (value != settings.WorldName)
                 {
-                    _settings.WorldName = value;
+                    settings.WorldName = value;
                     OnPropertyChanged("WorldName");
                     HasChanges = true;
                 }
@@ -81,12 +81,12 @@ namespace Cryptool.P2PEditor
         [TaskPane("workspacePath_caption", "workspacePath_tooltip", null, 2, true, DisplayLevel.Beginner, ControlType.TextBox)]
         public string WorkspacePath
         {
-            get { return _settings.WorkspacePath; }
+            get { return settings.WorkspacePath; }
             set
             {
-                if (value != _settings.WorkspacePath)
+                if (value != settings.WorkspacePath)
                 {
-                    _settings.WorkspacePath = value;
+                    settings.WorkspacePath = value;
                     OnPropertyChanged("WorkspacePath");
                     HasChanges = true;
                 }
@@ -100,10 +100,10 @@ namespace Cryptool.P2PEditor
             {
                 P2PManager.Connect();
                 OnPropertyChanged("ButtonStart");
-                _p2PEditor.GuiLogMessage(Resources.Attributes.start_launched, NotificationLevel.Info);
+                p2PEditor.GuiLogMessage(Resources.Attributes.start_launched, NotificationLevel.Info);
             } else
             {
-                _p2PEditor.GuiLogMessage(Resources.Attributes.start_failed, NotificationLevel.Warning);
+                p2PEditor.GuiLogMessage(Resources.Attributes.start_failed, NotificationLevel.Warning);
             }
         }
 
@@ -114,11 +114,11 @@ namespace Cryptool.P2PEditor
             {
                 P2PManager.Disconnect();
                 OnPropertyChanged("ButtonStop");
-                _p2PEditor.GuiLogMessage(Resources.Attributes.stop_launched, NotificationLevel.Info);
+                p2PEditor.GuiLogMessage(Resources.Attributes.stop_launched, NotificationLevel.Info);
             }
             else
             {
-                _p2PEditor.GuiLogMessage(Resources.Attributes.stop_failed, NotificationLevel.Warning);
+                p2PEditor.GuiLogMessage(Resources.Attributes.stop_failed, NotificationLevel.Warning);
             }
         }
 
@@ -126,12 +126,12 @@ namespace Cryptool.P2PEditor
             ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int DistributedJobListRefreshInterval
         {
-            get { return _settings.DistributedJobListRefreshInterval; }
+            get { return settings.DistributedJobListRefreshInterval; }
             set
             {
-                if (value != _settings.DistributedJobListRefreshInterval)
+                if (value != settings.DistributedJobListRefreshInterval)
                 {
-                    _settings.DistributedJobListRefreshInterval = value;
+                    settings.DistributedJobListRefreshInterval = value;
                     OnPropertyChanged("DistributedJobListRefreshInterval");
                     HasChanges = true;
                 }
@@ -142,12 +142,12 @@ namespace Cryptool.P2PEditor
             ControlType.CheckBox)]
         public bool ConnectOnStartup
         {
-            get { return _settings.ConnectOnStartup; }
+            get { return settings.ConnectOnStartup; }
             set
             {
-                if (value != _settings.ConnectOnStartup)
+                if (value != settings.ConnectOnStartup)
                 {
-                    _settings.ConnectOnStartup = value;
+                    settings.ConnectOnStartup = value;
                     OnPropertyChanged("ConnectOnStartup");
                     HasChanges = true;
                 }
@@ -158,12 +158,12 @@ namespace Cryptool.P2PEditor
             ControlType.ComboBox, new[] {"Snal"})]
         public int LinkManager
         {
-            get { return (int) _settings.LinkManager; }
+            get { return (int) settings.LinkManager; }
             set
             {
-                if ((P2PLinkManagerType) value != _settings.LinkManager)
+                if ((P2PLinkManagerType) value != settings.LinkManager)
                 {
-                    _settings.LinkManager = (P2PLinkManagerType) value;
+                    settings.LinkManager = (P2PLinkManagerType) value;
                     OnPropertyChanged("LinkManager");
                     HasChanges = true;
                 }
@@ -174,12 +174,12 @@ namespace Cryptool.P2PEditor
             , ControlType.ComboBox, new[] {"LocalMachineBootstrapper", "IrcBootstrapper"})]
         public int Bootstrapper
         {
-            get { return (int) _settings.Bootstrapper; }
+            get { return (int) settings.Bootstrapper; }
             set
             {
-                if ((P2PBootstrapperType) value != _settings.Bootstrapper)
+                if ((P2PBootstrapperType) value != settings.Bootstrapper)
                 {
-                    _settings.Bootstrapper = (P2PBootstrapperType) value;
+                    settings.Bootstrapper = (P2PBootstrapperType) value;
                     OnPropertyChanged("Bootstrapper");
                     HasChanges = true;
                 }
@@ -190,12 +190,12 @@ namespace Cryptool.P2PEditor
             ControlType.ComboBox, new[] { "FullMesh", "Chord" })]
         public int Architecture
         {
-            get { return (int)_settings.Architecture; }
+            get { return (int)settings.Architecture; }
             set
             {
-                if ((P2PArchitecture)value != _settings.Architecture)
+                if ((P2PArchitecture)value != settings.Architecture)
                 {
-                    _settings.Architecture = (P2PArchitecture)value;
+                    settings.Architecture = (P2PArchitecture)value;
                     OnPropertyChanged("Architecture");
                     HasChanges = true;
                 }
@@ -206,12 +206,12 @@ namespace Cryptool.P2PEditor
             ControlType.ComboBox, new[] { "TCP", "TCP_UDP", "UDP" })]
         public int TransportProtocol
         {
-            get { return (int)_settings.TransportProtocol; }
+            get { return (int)settings.TransportProtocol; }
             set
             {
-                if ((P2PTransportProtocol)value != _settings.TransportProtocol)
+                if ((P2PTransportProtocol)value != settings.TransportProtocol)
                 {
-                    _settings.TransportProtocol = (P2PTransportProtocol)value;
+                    settings.TransportProtocol = (P2PTransportProtocol)value;
                     OnPropertyChanged("TransportProtocol");
                     HasChanges = true;
                 }
@@ -222,12 +222,12 @@ namespace Cryptool.P2PEditor
             ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 65535)]
         public int LocalPort
         {
-            get { return _settings.LocalReceivingPort; }
+            get { return settings.LocalReceivingPort; }
             set
             {
-                if (value != _settings.LocalReceivingPort)
+                if (value != settings.LocalReceivingPort)
                 {
-                    _settings.LocalReceivingPort = value;
+                    settings.LocalReceivingPort = value;
                     OnPropertyChanged("LocalPort");
                     HasChanges = true;
                 }
@@ -238,12 +238,12 @@ namespace Cryptool.P2PEditor
             ControlType.CheckBox)]
         public bool UseLocalAddressDetection
         {
-            get { return _settings.UseLocalAddressDetection; }
+            get { return settings.UseLocalAddressDetection; }
             set
             {
-                if (value != _settings.UseLocalAddressDetection)
+                if (value != settings.UseLocalAddressDetection)
                 {
-                    _settings.UseLocalAddressDetection = value;
+                    settings.UseLocalAddressDetection = value;
                     OnPropertyChanged("UseLocalAddressDetection");
                     HasChanges = true;
                 }
@@ -254,12 +254,12 @@ namespace Cryptool.P2PEditor
             ControlType.CheckBox)]
         public bool Log2Monitor
         {
-            get { return _settings.Log2Monitor; }
+            get { return settings.Log2Monitor; }
             set
             {
-                if (value != _settings.Log2Monitor)
+                if (value != settings.Log2Monitor)
                 {
-                    _settings.Log2Monitor = value;
+                    settings.Log2Monitor = value;
                     OnPropertyChanged("Log2Monitor");
                     HasChanges = true;
                 }

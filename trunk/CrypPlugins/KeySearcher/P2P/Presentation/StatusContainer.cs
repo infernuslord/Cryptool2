@@ -51,6 +51,17 @@ namespace KeySearcher.P2P.Presentation
             }
         }
 
+        private double globalProgress;
+        public double GlobalProgress
+        {
+            get { return globalProgress; }
+            set
+            {
+                globalProgress = value;
+                OnPropertyChanged("GlobalProgress");
+            }
+        }
+
         private bool isCurrentProgressIndeterminate;
         public bool IsCurrentProgressIndeterminate
         {

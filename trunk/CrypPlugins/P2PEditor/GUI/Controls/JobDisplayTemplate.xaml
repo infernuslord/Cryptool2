@@ -2,29 +2,50 @@
               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Distributed="clr-namespace:Cryptool.P2PEditor.Distributed" xmlns:Converters="clr-namespace:Cryptool.P2PEditor.Converters">
 
-	<Converters:DateTimeConverter x:Key="DateTimeConverter" />
+    <Converters:StatusToColorConverter x:Key="StatusToColorConverter" />
+	<Converters:StringEmptyToVisibilityConverter x:Key="StringEmptyToVisibilityConverter" />
+	<Converters:TrueToVisibleOrCollapsedConverter x:Key="TrueToVisibleOrCollapsedConverter" />
+    <Converters:UtcDateTimeToLocalConverter x:Key="UtcDateTimeToLocalConverter" />
 	<DataTemplate DataType="{x:Type Distributed:DistributedJob}" x:Key="jobDisplayTemplate">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="75" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="130" />
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0">
-                <Label Content="Name" FontWeight="Bold" Height="24" />
-                <Label Content="Author:" FontWeight="Bold" FontSize="10" Height="23" />
-                <Label Content="Workspace:" FontWeight="Bold" FontSize="10" Height="23" />
+        <Border BorderBrush="Silver" BorderThickness="0,0,0,1">
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="300*" />
+                        <ColumnDefinition Width="300" />
+                        <ColumnDefinition Width="140" />
+                    </Grid.ColumnDefinitions>
+                    <Label Content="{Binding Name}" FontSize="16" Grid.Column="0" />
+
+                    <Ellipse Fill="{Binding Status.CurrentStatus, Converter={StaticResource StatusToColorConverter}}" Height="18" Width="18" StrokeThickness="1" Stroke="DarkGray" Margin="0,5,105,5" Grid.Column="1" HorizontalAlignment="Right" />
+                    <ProgressBar Value="{Binding Status.Progress}" Maximum="1" Width="100" Height="20" Grid.Column="1" HorizontalAlignment="Right" />
+
+                    <Label Content="{Binding CreateDate, Converter={StaticResource UtcDateTimeToLocalConverter}}" FontSize="16" Grid.Column="2" HorizontalAlignment="Right" Foreground="DarkGray" />
+                </Grid>
+                <Grid Visibility="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}, Converter={StaticResource TrueToVisibleOrCollapsedConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="75" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <Label Content="Author:" FontSize="10" Height="23" />
+                        <Label Content="Workspace:" FontSize="10" Height="23" />
+                        <Label Content="Downloads:" FontSize="10" Height="23" />
+                        <Label Content="Participants:" FontSize="10" Height="23" />
+                        <Label Content="Start date:" FontSize="10" Height="23" />
+                        <Label Content="Description:" FontSize="10" Height="23" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <Label Content="{Binding Owner}" Height="23" FontSize="10" />
+                        <Label Content="{Binding FileName}" Height="23" FontSize="10" />
+                        <Label Content="{Binding Downloads}" Height="23" FontSize="10" />
+                        <Label Content="{Binding Status.Participants}" Height="23" FontSize="10" />
+                        <Label Content="{Binding Status.StartDate, Converter={StaticResource UtcDateTimeToLocalConverter}}" Height="23" FontSize="10" />
+                        <Label Content="{Binding Description}" Height="23" FontSize="10" />
+                    </StackPanel>
+                </Grid>
             </StackPanel>
-            <StackPanel Grid.Column="1">
-                <Label Content="{Binding JobName}" Height="24" />
-                <Label Content="{Binding JobOwner}" Height="23" FontSize="10" />
-                <Label Content="{Binding FileName}" Height="23" FontSize="10" />
-            </StackPanel>
-            <StackPanel Grid.Column="2" HorizontalAlignment="Right">
-                <Label Content="{Binding JobDate, Converter={StaticResource DateTimeConverter}}" VerticalAlignment="Top" FontSize="10" Height="23" />
-                <Label Content="" VerticalAlignment="Top" FontSize="10" Height="23" />
-            </StackPanel>
-        </Grid>
+        </Border>
     </DataTemplate>
     
 </ResourceDictionary>

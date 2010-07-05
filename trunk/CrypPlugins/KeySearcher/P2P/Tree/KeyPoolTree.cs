@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cryptool.P2PEditor.Distributed;
 using Cryptool.PluginBase;
 using KeySearcher.Helper;
 using KeySearcher.KeyPattern;
@@ -17,6 +18,8 @@ namespace KeySearcher.P2P.Tree
         private readonly NodeBase rootNode;
         private readonly StorageHelper storageHelper;
         private readonly string identifier;
+        private readonly StatusUpdater statusUpdater;
+        private readonly int updateIntervalMod;
 
         private NodeBase currentNode;
         private bool skippedReservedNodes;
@@ -30,7 +33,10 @@ namespace KeySearcher.P2P.Tree
             identifier = identifierGenerator.Generate();
 
             storageHelper = new StorageHelper(keySearcher, statisticsGenerator, statusContainer);
+            statusUpdater = new StatusUpdater(statusContainer, identifierGenerator.GenerateStatusKey());
+            UpdateStatusForNewCalculation();
             skippedReservedNodes = false;
+            updateIntervalMod = 5;
 
             statisticsGenerator.MarkStartOfNodeSearch();
             rootNode = NodeFactory.CreateNode(storageHelper, keyQualityHelper, null, 0, this.patternPool.Length - 1,
@@ -126,6 +132,27 @@ namespace KeySearcher.P2P.Tree
                                                                   LinkedList<KeySearcher.ValueKey> result)
         {
             currentLeaf.HandleResults(result);
+        }
+
+        private void UpdateStatusForNewCalculation()
+        {
+            statusUpdater.SendUpdate(DistributedJobStatus.Status.New);
+        }
+
+        public void UpdateStatusForFinishedCalculation()
+        {
+            statusUpdater.SendUpdate(DistributedJobStatus.Status.Finished);
+        }
+
+        public void UpdateStatus(Leaf currentLeaf)
+        {
+            var isHigherPatternThanBefore = (currentLeaf.PatternId() + 1) >= statisticsGenerator.HighestChunkCalculated;
+            var isLastPattern = currentLeaf.PatternId() == statisticsGenerator.TotalAmountOfChunks - 1;
+            var patternIdQualifiesForUpdate = currentLeaf.PatternId() % updateIntervalMod == 0;
+
+            if ((!isHigherPatternThanBefore || !patternIdQualifiesForUpdate) && !isLastPattern) return;
+            statusUpdater.SendUpdate();
+            keySearcher.GuiLogMessage("Updating status in DHT", NotificationLevel.Info);
         }
     }
 }

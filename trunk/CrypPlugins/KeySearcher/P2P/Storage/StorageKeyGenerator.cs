@@ -53,5 +53,10 @@ namespace KeySearcher.P2P.Storage
             var hash = hashAlgorithm.ComputeHash(Encoding.ASCII.GetBytes(rawIdentifier));
             return BitConverter.ToString(hash).Replace("-", "");
         }
+
+        public string GenerateStatusKey()
+        {
+            return Generate() + "-status";
+        }
     }
 }

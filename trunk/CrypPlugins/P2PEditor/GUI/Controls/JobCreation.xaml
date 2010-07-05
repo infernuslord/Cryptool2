@@ -6,16 +6,29 @@
              d:DesignHeight="186" d:DesignWidth="334" Loaded="UserControl_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="284*" />
-            <ColumnDefinition Width="197*" />
+            <ColumnDefinition Width="75" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Label Content="Name:" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" />
-        <TextBox Text="{Binding JobName}" Height="26" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="74,0,0,0" />
-        <TextBox Text="{Binding LocalFilePath}" Margin="74,33,34,0" Name="LocalFilePath" Grid.ColumnSpan="2" Height="28" VerticalAlignment="Top" />
-        <Button Content="..." Click="BrowseFileButton_OnClick"  Height="28" HorizontalAlignment="Right" Margin="0,34,0,0" Name="BrowseFileButton" VerticalAlignment="Top" Width="28" Grid.Column="1" />
-        <Label Content="Workspace:" Height="28" HorizontalAlignment="Left" Margin="0,34,0,0" VerticalAlignment="Top" />
-        <Label Content="Description:" Height="28" HorizontalAlignment="Left" Margin="-2,68,0,0" VerticalAlignment="Top" />
-        <TextBox Text="{Binding JobDescription}" Margin="74,70,0,36" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="2" />
-        <Button Content="Share" Click="ShareButton_Click"  Margin="0,0,0,7" Name="ShareButton" HorizontalAlignment="Right" Width="80" Grid.Column="1" Height="23" VerticalAlignment="Bottom" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="28"/>
+            <RowDefinition Height="28" />
+            <RowDefinition Height="28" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="28" />
+        </Grid.RowDefinitions>
+        
+        <Label Content="_Name:" Target="{Binding ElementName=NameField}" Grid.Row="0" Grid.Column="0" />
+        <Label Content="Status _key:" Target="{Binding ElementName=StatusKeyField}" Grid.Row="1" Grid.Column="0" />
+        <Label Content="_Workspace:" Target="{Binding ElementName=LocalFilePathButton}" Grid.Row="2" Grid.Column="0" />
+        <Label Content="_Description:" Target="{Binding ElementName=DescriptionField}" Grid.Row="3" Grid.Column="0" />
+        
+        <TextBox Text="{Binding Name}" x:Name="NameField" Grid.Row="0" Grid.Column="1" Height="24" />
+        <TextBox Text="{Binding StatusKey}" x:Name="StatusKeyField" Grid.Row="1" Grid.Column="1" Height="24" />
+        <Grid Grid.Row="2" Grid.Column="1" Height="24">
+            <TextBox Text="{Binding LocalFilePath}" Margin="0,0,34,0" />
+            <Button Content="..." Click="BrowseFileButton_OnClick" HorizontalAlignment="Right" Width="28" x:Name="LocalFilePathButton" />
+        </Grid>
+        <TextBox Text="{Binding Description}" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Grid.Row="3" Grid.Column="1" Margin="0,2,0,0" x:Name="DescriptionField" />
+        <Button Content="_Share" Click="ShareButton_Click" HorizontalAlignment="Right" Width="80" Grid.Row="4" Grid.Column="1" Height="24" />
     </Grid>
 </GUI:P2PUserControl>

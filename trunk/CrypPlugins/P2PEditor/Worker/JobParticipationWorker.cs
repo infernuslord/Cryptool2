@@ -8,17 +8,17 @@ namespace Cryptool.P2PEditor.Worker
 {
     public class JobParticipationWorker : BackgroundWorker
     {
-        private readonly P2PEditor _p2PEditor;
-        private readonly JobListManager _jobListManager;
-        private readonly DistributedJob _jobToParticipateIn;
-        private readonly Dispatcher _dispatcher;
+        private readonly P2PEditor p2PEditor;
+        private readonly JobListManager jobListManager;
+        private readonly DistributedJob jobToParticipateIn;
+        private readonly Dispatcher dispatcher;
 
         public JobParticipationWorker(P2PEditor p2PEditor, JobListManager jobListManager, DistributedJob jobToParticipateIn, Dispatcher dispatcher)
         {
-            _p2PEditor = p2PEditor;
-            _jobListManager = jobListManager;
-            _jobToParticipateIn = jobToParticipateIn;
-            _dispatcher = dispatcher;
+            this.p2PEditor = p2PEditor;
+            this.jobListManager = jobListManager;
+            this.jobToParticipateIn = jobToParticipateIn;
+            this.dispatcher = dispatcher;
 
             DoWork += JobParticipationWorker_DoWork;
         }
@@ -27,25 +27,34 @@ namespace Cryptool.P2PEditor.Worker
         {
             try
             {
-                _jobListManager.CompleteDistributedJob(_jobToParticipateIn);
-            } catch(Exception ex)
+                jobListManager.CompleteDistributedJob(jobToParticipateIn);
+            }
+            catch (Exception ex)
             {
-                _p2PEditor.GuiLogMessage("Error completing job: " + ex.Message, NotificationLevel.Error);
+                p2PEditor.GuiLogMessage("Error completing job: " + ex.Message, NotificationLevel.Error);
                 return;
             }
 
-            _p2PEditor.GuiLogMessage("Local workspace: " + _jobToParticipateIn.LocalFilePath, NotificationLevel.Debug);
-            _p2PEditor.GuiLogMessage(
+            p2PEditor.GuiLogMessage("Local workspace: " + jobToParticipateIn.LocalFilePath, NotificationLevel.Debug);
+            p2PEditor.GuiLogMessage(
                 string.Format("Workspace {0} ready to participate, dispatching with CrypTool...",
-                              _jobToParticipateIn.JobName),
+                              jobToParticipateIn.Name),
                 NotificationLevel.Info);
 
-            _dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(DispatchOpenFileEvent));
+            try
+            {
+                jobListManager.IncreaseDownloadCount(jobToParticipateIn);
+            } catch(Exception)
+            {
+                
+            }
+
+            dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(DispatchOpenFileEvent));
         }
 
         private void DispatchOpenFileEvent()
         {
-            _p2PEditor.SendOpenProjectFileEvent(_jobToParticipateIn.LocalFilePath);
+            p2PEditor.SendOpenProjectFileEvent(jobToParticipateIn.LocalFilePath);
         }
     }
 }

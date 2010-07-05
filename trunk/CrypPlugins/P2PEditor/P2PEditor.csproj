@@ -69,11 +69,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\ConnectivityToVisibilityConverter.cs" />
+    <Compile Include="Converters\StatusToColorConverter.cs" />
+    <Compile Include="Converters\StringEmptyToVisibilityConverter.cs" />
+    <Compile Include="Converters\StringNotEmptyToVisibilityConverter.cs" />
+    <Compile Include="Converters\UtcDateTimeToLocalConverter.cs" />
     <Compile Include="Converters\DateTimeConverter.cs" />
+    <Compile Include="Converters\TrueToVisibleOrCollapsedConverter.cs" />
+    <Compile Include="Distributed\DistributedJobSerializer.cs" />
+    <Compile Include="Distributed\DistributedJobStatus.cs" />
     <Compile Include="GUI\Controls\ConnectTab.xaml.cs">
       <DependentUpon>ConnectTab.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\P2PUserControl.cs" />
+    <Compile Include="GUI\ParticipateAdorner.cs" />
+    <Compile Include="Helper\DistributedStatusUpdater.cs" />
     <Compile Include="P2PEditorSettings.cs" />
     <Compile Include="DetailedDescription\Description.xaml.cs">
       <DependentUpon>Description.xaml</DependentUpon>
@@ -96,6 +105,9 @@
       <DependentUpon>Attributes.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Worker\JobListDetailsUpdateWorker.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Worker\JobListUpdateWorker.cs">
       <SubType>Component</SubType>
