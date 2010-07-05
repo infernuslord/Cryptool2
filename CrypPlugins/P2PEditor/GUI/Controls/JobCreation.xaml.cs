@@ -5,15 +5,14 @@ using System.Windows.Forms;
 using Cryptool.P2PEditor.Distributed;
 using Cryptool.P2PEditor.Worker;
 using Cryptool.PluginBase;
+using Clipboard = System.Windows.Clipboard;
+using TextDataFormat = System.Windows.TextDataFormat;
 
 namespace Cryptool.P2PEditor.GUI.Controls
 {
-    /// <summary>
-    /// Interaction logic for JobCreation.xaml
-    /// </summary>
     public partial class JobCreation
     {
-        private DistributedJob _newDistributedJob;
+        private DistributedJob newDistributedJob;
 
         public JobCreation()
         {
@@ -23,6 +22,13 @@ namespace Cryptool.P2PEditor.GUI.Controls
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             DataContext = new DistributedJob();
+
+            if (!Clipboard.ContainsText(TextDataFormat.Text)) return;
+            var clipboardData = Clipboard.GetText(TextDataFormat.Text);
+            if (clipboardData.EndsWith("-status"))
+            {
+                ((DistributedJob)DataContext).StatusKey = clipboardData;
+            }
         }
 
         private void BrowseFileButton_OnClick(object sender, RoutedEventArgs e)
@@ -46,29 +52,29 @@ namespace Cryptool.P2PEditor.GUI.Controls
         private void ShareButton_Click(object sender, RoutedEventArgs e)
         {
             // Validate input
-            _newDistributedJob = (DistributedJob) DataContext;
+            newDistributedJob = (DistributedJob) DataContext;
 
-            if (_newDistributedJob.JobDescription == null || _newDistributedJob.JobName == null)
+            if (newDistributedJob.Description == null || newDistributedJob.Name == null)
             {
                 P2PEditor.GuiLogMessage("Please fill all fields.", NotificationLevel.Error);
                 return;
             }
 
-            if (!File.Exists(_newDistributedJob.LocalFilePath))
+            if (!File.Exists(newDistributedJob.LocalFilePath))
             {
                 // TODO validate that selected file contains a workspace
                 P2PEditor.GuiLogMessage("Selected workspace does not exist.", NotificationLevel.Error);
                 return;
             }
 
-            var backgroundCreationWorker = new JobCreationWorker(JobListManager, _newDistributedJob);
+            var backgroundCreationWorker = new JobCreationWorker(JobListManager, newDistributedJob);
             backgroundCreationWorker.RunWorkerCompleted += BackgroundCreationWorkerCompleted;
             backgroundCreationWorker.RunWorkerAsync();
         }
 
         private void BackgroundCreationWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            P2PEditor.GuiLogMessage("Distributed job " + _newDistributedJob.JobGuid, NotificationLevel.Debug);
+            P2PEditor.GuiLogMessage("Distributed job " + newDistributedJob.Guid, NotificationLevel.Debug);
             DataContext = new DistributedJob();
 
             P2PEditorPresentation.ShowActiveJobs();

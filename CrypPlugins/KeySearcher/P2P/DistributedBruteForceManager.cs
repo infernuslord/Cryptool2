@@ -61,6 +61,7 @@ namespace KeySearcher.P2P
             if (!P2PManager.IsConnected)
             {
                 keySearcher.GuiLogMessage("Unable to use peer-to-peer system.", NotificationLevel.Error);
+                status.CurrentOperation = "Unable to use peer-to-peer system";
                 return;
             }
 
@@ -79,6 +80,7 @@ namespace KeySearcher.P2P
             {
                 status.IsCurrentProgressIndeterminate = true;
 
+                BigInteger displayablePatternId;
                 try
                 {
                     status.CurrentOperation = "Finding next leaf to calculate";
@@ -87,6 +89,7 @@ namespace KeySearcher.P2P
                     {
                         break;
                     }
+                    displayablePatternId = currentLeaf.PatternId() + 1;
                 }
                 catch (AlreadyCalculatedException)
                 {
@@ -95,12 +98,10 @@ namespace KeySearcher.P2P
                     continue;
                 }
 
-                status.CurrentOperation = "Calculating global statistics";
-                StatisticsGenerator.CalculateGlobalStatistics(currentLeaf.PatternId());
                 if (!currentLeaf.ReserveLeaf())
                 {
                     keySearcher.GuiLogMessage(
-                        "Pattern #" + currentLeaf.PatternId() +
+                        "Pattern #" + displayablePatternId +
                         " was reserved before it could be reserved for this CrypTool instance.",
                         NotificationLevel.Info);
                     keyPoolTree.Reset();
@@ -108,9 +109,9 @@ namespace KeySearcher.P2P
                 }
 
                 keySearcher.GuiLogMessage(
-                    "Running pattern #" + (currentLeaf.PatternId() + 1) + " of " + patternPool.Length,
+                    "Running pattern #" + displayablePatternId + " of " + patternPool.Length,
                     NotificationLevel.Info);
-                status.CurrentChunk = currentLeaf.PatternId() + 1;
+                status.CurrentChunk = displayablePatternId;
                 status.CurrentOperation = "Calculating pattern " + status.CurrentChunk;
 
                 try
@@ -126,11 +127,17 @@ namespace KeySearcher.P2P
                         status.CurrentOperation = "Processing results of calculation";
                         KeyPoolTree.ProcessCurrentPatternCalculationResult(currentLeaf, result);
                         StatisticsGenerator.ProcessPatternResults(result);
-                        
+
+                        status.CurrentOperation = "Calculating global statistics";
+                        StatisticsGenerator.CalculateGlobalStatistics(displayablePatternId);
+
                         status.LocalFinishedChunks++;
                         keySearcher.GuiLogMessage(
                             string.Format("Best match: {0} with {1}", result.First.Value.key, result.First.Value.value),
                             NotificationLevel.Info);
+
+                        status.CurrentOperation = "Updating status in DHT";
+                        keyPoolTree.UpdateStatus(currentLeaf);
                     }
                     else
                     {
@@ -160,6 +167,7 @@ namespace KeySearcher.P2P
             {
                 keySearcher.showProgress(keySearcher.costList, 1, 1, 1);
                 keySearcher.GuiLogMessage("Calculation complete.", NotificationLevel.Info);
+                keyPoolTree.UpdateStatusForFinishedCalculation();
                 
             }
 

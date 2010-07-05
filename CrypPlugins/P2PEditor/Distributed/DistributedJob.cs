@@ -5,31 +5,64 @@ using Cryptool.P2P;
 
 namespace Cryptool.P2PEditor.Distributed
 {
-    [Serializable]
     public class DistributedJob : INotifyPropertyChanged
     {
-        [NonSerialized]
-        private String localFilePath;
-
         public DistributedJob()
         {
-            JobGuid = Guid.NewGuid();
-            JobOwner = P2PSettings.Default.PeerName;
-            JobDate = DateTime.Now;
+            Guid = Guid.NewGuid();
+            Owner = P2PSettings.Default.PeerName;
+            CreateDate = DateTime.UtcNow;
         }
 
-        public Guid JobGuid { get; private set; }
+        public Guid Guid { get; set; }
 
-        public String JobName { get; set; }
+        public String Name { get; set; }
 
-        public String JobDescription { get; set; }
+        public String Description { get; set; }
 
-        public String JobOwner { get; set; }
+        public String Owner { get; set; }
 
-        public DateTime JobDate { get; set; }
+        public DateTime CreateDate { get; set; }
 
-        public String FileName { get; private set; }
+        public String FileName { get; set; }
 
+        private DistributedJobStatus status;
+        public DistributedJobStatus Status
+        {
+            get { return status; }
+            set
+            {
+                if (value == status) return;
+                status = value;
+                OnPropertyChanged("Status");
+            }
+        }
+
+        private int downloads;
+        public int Downloads
+        {
+            get { return downloads; }
+            set
+            {
+                if (value == downloads) return;
+                downloads = value;
+                OnPropertyChanged("Downloads");
+            }
+        }
+
+        private DateTime lastDownload;
+        public DateTime LastDownload
+        {
+            get { return lastDownload; }
+            set
+            {
+                if (value == lastDownload) return;
+                lastDownload = value;
+                OnPropertyChanged("LastDownload");
+            }
+        }
+
+        private String localFilePath;
         public String LocalFilePath
         {
             get { return localFilePath; }
@@ -42,16 +75,21 @@ namespace Cryptool.P2PEditor.Distributed
             }
         }
 
-        #region INotifyPropertyChanged Members
-
-        [field: NonSerialized]
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        #endregion
+        private String statusKey;
+        public String StatusKey
+        {
+            get { return statusKey; }
+            set
+            {
+                if (value == statusKey) return;
+                statusKey = value;
+                OnPropertyChanged("StatusKey");
+            }
+        }
 
         public void ConvertRawWorkspaceToLocalFile(byte[] rawWorkspaceData)
         {
-            string workspacePath = P2PSettings.Default.WorkspacePath;
+            var workspacePath = P2PSettings.Default.WorkspacePath;
             if (String.IsNullOrEmpty(workspacePath) || !Directory.Exists(workspacePath))
             {
                 throw new ArgumentOutOfRangeException(workspacePath, "Configured local workspace directory is null, empty or does not exist.");
@@ -59,11 +97,11 @@ namespace Cryptool.P2PEditor.Distributed
 
             // Avoid overwriting previous versions of this workspace or workspaces with common names by adding an integer prefix
             var originalFileName = FileName;
-            LocalFilePath = Path.Combine(workspacePath, JobOwner + "_" + originalFileName);
+            LocalFilePath = Path.Combine(workspacePath, Owner + "_" + originalFileName);
             var counter = 0;
             while (File.Exists(LocalFilePath))
             {
-                LocalFilePath = Path.Combine(workspacePath, counter++ + "_" + JobOwner + "_" + originalFileName);
+                LocalFilePath = Path.Combine(workspacePath, counter++ + "_" + Owner + "_" + originalFileName);
             }
 
             if (rawWorkspaceData == null || rawWorkspaceData.Length == 0)
@@ -74,11 +112,19 @@ namespace Cryptool.P2PEditor.Distributed
             File.WriteAllBytes(LocalFilePath, rawWorkspaceData);
         }
 
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        #endregion
+
+        #region Equals and HashCode
 
         public override bool Equals(object obj)
         {
@@ -97,12 +143,14 @@ namespace Cryptool.P2PEditor.Distributed
                 return false;
             }
 
-            return obj.JobGuid == JobGuid;
+            return obj.Guid == Guid;
         }
 
         public override int GetHashCode()
         {
-            return JobGuid.GetHashCode();
+            return Guid.GetHashCode();
         }
+
+        #endregion
     }
 }

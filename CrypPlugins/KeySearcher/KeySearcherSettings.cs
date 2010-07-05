@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Numerics;
+using System.Windows;
+using Cryptool.P2P;
 using Cryptool.PluginBase;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using KeySearcher.KeyPattern;
+using KeySearcher.P2P.Storage;
 
 namespace KeySearcher
 {
@@ -129,6 +132,23 @@ namespace KeySearcher
                     HasChanges = true;
                 }
             }
+        }
+
+        [TaskPane("Copy status key", "Copy status key to clipboard. The key can than be used to upload it together with the job using the P2PEditor.", GroupPeerToPeer, 4, true, DisplayLevel.Professional, ControlType.Button)]
+        public void StatusKeyButton()
+        {
+            if (!keysearcher.IsKeySearcherRunning)
+            {
+                keysearcher.GuiLogMessage("KeySearcher must be running to copy the status key.", NotificationLevel.Error);
+                return;
+            }
+
+            var generator = new StorageKeyGenerator(keysearcher, this);
+            var statusKey = generator.GenerateStatusKey();
+
+            Clipboard.SetDataObject(statusKey, true);
+            keysearcher.GuiLogMessage("Status key '" + statusKey + "' has been copied to clipboard.",
+                                      NotificationLevel.Info);
         }
 
         private ObservableCollection<string> coresAvailable = new ObservableCollection<string>();

@@ -37,6 +37,7 @@ namespace KeySearcher
         private int maxThread;
         private readonly Mutex maxThreadMutex = new Mutex();
 
+        public bool IsKeySearcherRunning;
         private KeyQualityHelper keyQualityHelper;
         private readonly P2PQuickWatchPresentation p2PQuickWatchPresentation;
         private readonly LocalQuickWatchPresentation localQuickWatchPresentation;
@@ -214,6 +215,7 @@ namespace KeySearcher
 
         public KeySearcher()
         {
+            IsKeySearcherRunning = false;
             settings = new KeySearcherSettings(this);
             QuickWatchPresentation = new QuickWatch();
             localQuickWatchPresentation = ((QuickWatch) QuickWatchPresentation).LocalQuickWatchPresentation;
@@ -260,6 +262,8 @@ namespace KeySearcher
         // because Encryption PlugIns were changed radical, the new StartPoint is here - Arnie 2010.01.12
         public virtual void Execute()
         {
+            IsKeySearcherRunning = true;
+
             //either byte[] CStream input or CryptoolStream Object input
             if (encryptedData != null || csEncryptedData != null) //to prevent execution on initialization
             {
@@ -282,6 +286,7 @@ namespace KeySearcher
 
         public void Stop()
         {
+            IsKeySearcherRunning = false;
             stop = true;
         }
 

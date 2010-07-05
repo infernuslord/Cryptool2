@@ -14,17 +14,17 @@ namespace KeySearcher.P2P.Presentation
 {
     class StatisticsGenerator
     {
+        public readonly BigInteger TotalAmountOfChunks;
         private readonly StatusContainer status;
         private readonly P2PQuickWatchPresentation quickWatch;
         private readonly KeySearcher keySearcher;
         private readonly DistributedBruteForceManager distributedBruteForceManager;
-        private readonly BigInteger totalAmountOfChunks;
         private readonly Stopwatch stopWatch;
         private readonly Timer elapsedTimeTimer;
         private readonly Timer trafficUpdateTimer;
 
+        public BigInteger HighestChunkCalculated;
         private DateTime lastDateOfGlobalStatistics;
-        private BigInteger highestChunkCalculated;
         private BigInteger totalRequestsAtStartOfNodeSearch;
 
         public StatisticsGenerator(StatusContainer status, P2PQuickWatchPresentation quickWatch, KeySearcher keySearcher, KeySearcherSettings settings, DistributedBruteForceManager distributedBruteForceManager)
@@ -35,7 +35,7 @@ namespace KeySearcher.P2P.Presentation
             this.distributedBruteForceManager = distributedBruteForceManager;
 
             lastDateOfGlobalStatistics = DateTime.Now;
-            highestChunkCalculated = -1;
+            HighestChunkCalculated = -1;
             stopWatch = new Stopwatch();
 
             var keyPattern = new KeyPattern.KeyPattern(keySearcher.ControlMaster.getKeyPattern())
@@ -43,7 +43,7 @@ namespace KeySearcher.P2P.Presentation
             var keysPerChunk = Math.Pow(2, settings.ChunkSize);
             var keyPatternPool = new KeyPatternPool(keyPattern, new BigInteger(keysPerChunk));
 
-            totalAmountOfChunks = keyPatternPool.Length;
+            TotalAmountOfChunks = keyPatternPool.Length;
 
             status.PropertyChanged += StatusPropertyChanged;
 
@@ -141,15 +141,15 @@ namespace KeySearcher.P2P.Presentation
 
         public void CalculateGlobalStatistics(BigInteger nextChunk)
         {
-            if (highestChunkCalculated == -1) highestChunkCalculated = nextChunk;
-            if (nextChunk <= highestChunkCalculated) return;
+            if (HighestChunkCalculated == -1) HighestChunkCalculated = nextChunk;
+            if (nextChunk <= HighestChunkCalculated) return;
 
-            var totalAmountOfParticipants = nextChunk - highestChunkCalculated;
+            var totalAmountOfParticipants = nextChunk - HighestChunkCalculated;
             status.TotalAmountOfParticipants = totalAmountOfParticipants;
 
             var timeUsedForLatestProgress = DateTime.Now.Subtract(lastDateOfGlobalStatistics);
             var secondsForOneChunk = timeUsedForLatestProgress.TotalSeconds/(double) totalAmountOfParticipants;
-            var remainingChunks = totalAmountOfChunks - nextChunk;
+            var remainingChunks = TotalAmountOfChunks - nextChunk;
             var secondsRemaining = (double) remainingChunks*secondsForOneChunk;
 
             try
@@ -167,9 +167,9 @@ namespace KeySearcher.P2P.Presentation
 
             lastDateOfGlobalStatistics = DateTime.Now;
 
-            highestChunkCalculated = nextChunk;
-            var globalProgressValue = (double) highestChunkCalculated/(double) totalAmountOfChunks;
-            keySearcher.ProgressChanged(globalProgressValue, 1);
+            HighestChunkCalculated = nextChunk;
+            status.GlobalProgress = (double) HighestChunkCalculated/(double) TotalAmountOfChunks;
+            keySearcher.ProgressChanged(status.GlobalProgress, 1);
         }
 
         public void ProcessPatternResults(LinkedList<KeySearcher.ValueKey> result)

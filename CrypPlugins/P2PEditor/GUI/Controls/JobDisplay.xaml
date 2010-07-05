@@ -11,18 +11,22 @@
             </Style>
         </ResourceDictionary>
     </GUI:P2PUserControl.Resources>
-	<Grid Background="White">
-        <ListBox x:Name="JobListBox" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Jobs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" ItemTemplate="{StaticResource jobDisplayTemplate}" Style="{StaticResource jobListDisplayStyle}" KeyUp="JobListBox_KeyUp" Margin="0,0,0,35">
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                    <EventSetter Event="MouseDoubleClick" Handler="ParticipateItemHandler"/>
-                </Style>
-            </ListBox.ItemContainerStyle>
-        </ListBox>
-        <Grid DataContext="{Binding SelectedItem,ElementName=JobListBox}">
-            <Button Content="Participate" HorizontalAlignment="Right" Margin="0,0,0,6" Name="ParticipateButton" Width="75" Height="23" VerticalAlignment="Bottom" Click="ParticipateButton_Click" />
-            <Button Content="Refresh" Click="RefreshButton_Click" Margin="0,0,0,6" Name="RefreshButton" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75" />
-            <Button Content="Delete" Click="DeleteButton_Click" Margin="0,0,81,6" Name="DeleteButton" HorizontalAlignment="Right" Width="75" Height="23" VerticalAlignment="Bottom" />
-        </Grid>
-    </Grid>
+    <AdornerDecorator>
+        <DockPanel Name="mainPane">
+            <Grid Background="White">
+                <ListBox x:Name="JobListBox" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Jobs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" ItemTemplate="{StaticResource jobDisplayTemplate}" Style="{StaticResource jobListDisplayStyle}" KeyUp="JobListBox_KeyUp" Margin="0,0,0,35">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}">
+                            <EventSetter Event="MouseDoubleClick" Handler="ParticipateItemHandler"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+                <Grid DataContext="{Binding SelectedItem,ElementName=JobListBox}">
+                    <Button Content="Participate" HorizontalAlignment="Right" Margin="0,0,0,6" Name="ParticipateButton" Width="75" Height="23" VerticalAlignment="Bottom" Click="ParticipateButton_Click" />
+                    <Button Content="Refresh" Click="RefreshButton_Click" Margin="0,0,0,6" Name="RefreshButton" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75" />
+                    <Button Content="Delete" Click="DeleteButton_Click" Margin="0,0,81,6" Name="DeleteButton" HorizontalAlignment="Right" Width="75" Height="23" VerticalAlignment="Bottom" />
+                </Grid>
+            </Grid>
+        </DockPanel>
+    </AdornerDecorator>
 </GUI:P2PUserControl>

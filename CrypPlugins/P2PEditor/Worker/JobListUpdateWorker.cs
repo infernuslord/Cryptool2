@@ -6,19 +6,19 @@ namespace Cryptool.P2PEditor.Worker
 {
     public class JobListUpdateWorker : BackgroundWorker
     {
-        private readonly JobListManager _jobListManager;
-        public List<DistributedJob> RefreshedJobList;
+        private readonly JobListManager jobListManager;
+        public ICollection<DistributedJob> RefreshedJobList;
 
         public JobListUpdateWorker(JobListManager jobListManager)
         {
-            _jobListManager = jobListManager;
+            this.jobListManager = jobListManager;
 
             DoWork += JobCreationWorker_DoWork;
         }
 
         private void JobCreationWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            RefreshedJobList = _jobListManager.JobList();
+            RefreshedJobList = jobListManager.JobList();
         }
     }
 }
