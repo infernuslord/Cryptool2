@@ -34,7 +34,6 @@ namespace KeySearcher.P2P.Tree
 
             storageHelper = new StorageHelper(keySearcher, statisticsGenerator, statusContainer);
             statusUpdater = new StatusUpdater(statusContainer, identifierGenerator.GenerateStatusKey());
-            UpdateStatusForNewCalculation();
             skippedReservedNodes = false;
             updateIntervalMod = 5;
 
@@ -134,7 +133,7 @@ namespace KeySearcher.P2P.Tree
             currentLeaf.HandleResults(result);
         }
 
-        private void UpdateStatusForNewCalculation()
+        public void UpdateStatusForNewCalculation()
         {
             statusUpdater.SendUpdate(DistributedJobStatus.Status.New);
         }
