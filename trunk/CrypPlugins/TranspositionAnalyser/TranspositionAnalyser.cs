@@ -462,6 +462,7 @@ namespace TranspositionAnalyser
         private void updateToplist(LinkedList<ValueKey> costList)
         {
             LinkedListNode<ValueKey> node;
+            
             while (valuequeue.Count != 0)
             {
                 ValueKey vk = (ValueKey)valuequeue.Dequeue();
@@ -869,7 +870,7 @@ namespace TranspositionAnalyser
                     highest = (int)_enumerator.Key;
                 }
             }
-            Console.WriteLine("highest pos: " + highest + " (" + amount + "x)");
+            //Console.WriteLine("highest pos: " + highest + " (" + amount + "x)");
 
             // ordnen versuchen
             Console.WriteLine("TOP:");
@@ -879,7 +880,7 @@ namespace TranspositionAnalyser
                 {
                     if (m.xPos == highest && m.cribColumn == a)
                     {
-                        Console.WriteLine(a + ": Zeile:" + m.yPos + " (enc)");
+                        //Console.WriteLine(a + ": Zeile:" + m.yPos + " (enc)");
                     }
                 }
             }
@@ -1042,7 +1043,7 @@ namespace TranspositionAnalyser
                                 if (column[a].getValue() == val)
                                 {
                                     ding.delete(j, val);
-                                    Console.WriteLine("Delete: " + j + "/" + val + "(" + shift + ")");
+                                    //Console.WriteLine("Delete: " + j + "/" + val + "(" + shift + ")");
                                 }
                             }
                         }
@@ -1340,12 +1341,11 @@ namespace TranspositionAnalyser
             }
             DateTime startTime = DateTime.Now;
             DateTime lastUpdate = DateTime.Now;
-
+                
             ArrayList bestOf = null;
 
             for (int it = 0; it < repeatings; it++)
             {
-
                 ArrayList valList = new ArrayList();
                 
                 for (int i = 0; i < 12; i++)
@@ -1371,64 +1371,18 @@ namespace TranspositionAnalyser
 
                 valuequeue = Queue.Synchronized(new Queue());
 
-
                 int iteration = 0;
                 while (iteration < size && !stop)
                 {
-                    //Dummy ValueKey erstellen:
-                    ValueKey highest = new ValueKey();
-
-                    // Schlechtesten 6 Keys löschen
-                    if (costMaster.getRelationOperator() == RelationOperator.LessThen)
-                    {
-                        for (int a = 0; a < 6; a++)
-                        {
-                            highest.value = int.MinValue;
-                            int pos = -1;
-                            for (int b = 0; b < valList.Count; b++)
-                            {
-                                ValueKey v = (ValueKey)valList[b];
-                                if (v.value > highest.value)
-                                {
-                                    highest = v;
-                                    pos = b;
-                                }
-                            }
-                            if (pos != -1)
-                            {
-                                valList.RemoveAt(pos);
-                            }
-                        }
-                    }
-                    //costmMaster Relation Operator == Larger Than
-                    else
-                    {
-                        for (int a = 0; a < 6; a++)
-                        {
-                            highest.value = int.MaxValue;
-                            int pos = -1;
-                            for (int b = 0; b < valList.Count; b++)
-                            {
-                                ValueKey v = (ValueKey)valList[b];
-                                if (v.value < highest.value)
-                                {
-                                    highest = v;
-                                    pos = b;
-                                }
-                            }
-                            if (pos != -1)
-                            {
-                                valList.RemoveAt(pos);
-                            }
-                        }
-                    }
+                    valList = updateValueKeyArrayList(valList, 12);
+              
 
                     //valListe sortieren
-                    ArrayList tmpList = new ArrayList(6);
+                    ArrayList tmpList = new ArrayList(12);
 
                     double best = Double.MinValue;
                     int bestpos = -1;
-                    for (int a = 0; a < 6; a++)
+                    for (int a = 0; a < 12; a++)
                     {
                         best = Double.MinValue;
                         bestpos = -1;
@@ -1631,6 +1585,7 @@ namespace TranspositionAnalyser
                         {
                             valuequeue.Enqueue(v);
                         }
+
                         updateToplist(list1);
                         showProgress(startTime, size * repeatings, it * size + iteration);
                         ProgressChanged(it*size+ iteration, size*repeatings);
@@ -1644,7 +1599,63 @@ namespace TranspositionAnalyser
                         bestOf = new ArrayList();
                     bestOf.Add(v);
                 }
+                bestOf = updateValueKeyArrayList(bestOf, 12);
             }
+        }
+
+        private ArrayList updateValueKeyArrayList(ArrayList list, int rest)
+        {
+            //Dummy ValueKey erstellen:
+            ValueKey best = new ValueKey();
+            ArrayList ret = new ArrayList();
+
+            // Schlechtesten x Keys löschen
+            if (costMaster.getRelationOperator() == RelationOperator.LessThen)
+            {
+                for (int a = 0; a < rest; a++)
+                {
+                    best.value = int.MaxValue;
+                    int pos = -1;
+                    for (int b = 0; b < list.Count; b++)
+                    {
+                        ValueKey v = (ValueKey)list[b];
+                        if (v.value < best.value)
+                        {
+                            best = v;
+                            pos = b;
+                        }
+                    }
+                    if (pos != -1)
+                    {
+                        ret.Add(list[pos]);
+                        list.RemoveAt(pos);
+                    }
+                }
+            }
+            //costmMaster Relation Operator == Larger Than
+            else
+            {
+                for (int a = 0; a < rest; a++)
+                {
+                    best.value = int.MinValue;
+                    int pos = -1;
+                    for (int b = 0; b < list.Count; b++)
+                    {
+                        ValueKey v = (ValueKey)list[b];
+                        if (v.value > best.value)
+                        {
+                            best = v;
+                            pos = b;
+                        }
+                    }
+                    if (pos != -1)
+                    {
+                        ret.Add(list[pos]);
+                        list.RemoveAt(pos);
+                    }
+                }
+            }
+            return ret;
         }
 
         private byte[] randomArray(int length)
@@ -1679,6 +1690,7 @@ namespace TranspositionAnalyser
             {
                 output[i] = Convert.ToByte(tmp[i]);
             }
+
             return output;
         }
 
