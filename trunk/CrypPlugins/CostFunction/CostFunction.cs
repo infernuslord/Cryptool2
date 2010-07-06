@@ -31,7 +31,7 @@ using System.Threading;
 using System.Reflection;
 namespace Cryptool.Plugins.CostFunction
 {
-    [Author("Nils Kopal", "Nils.Kopal@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
+    [Author("Nils Kopal, Simon Malischewski", "Nils.Kopal@cryptool.org , malischewski@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo(false, "CostFunction", "CostFunction", null, "CostFunction/icon.png")]
     public class CostFunction : IAnalysisMisc
     {
@@ -49,17 +49,14 @@ namespace Cryptool.Plugins.CostFunction
         private IDictionary<string, double[]> corpusBigrams; // Used for Weighted Bigrams/Trigrams Cost function
         private IDictionary<string, double[]> corpusTrigrams;
 
-        //Fitness Weight Tables for Weighted Bigrams/Trigrams
-        private IDictionary<string, double> fwtMatthews = new Dictionary<string,double>();
-        private IDictionary<string, double> fwtAndrewJohnClark = new Dictionary<string,double>();
-        private IDictionary<string, double> fwtToemehArumugam = new Dictionary<string,double>();
+        //Fitness Weight Table for Weighted Bigrams/Trigrams
+        private IDictionary<string, double> fwt = new Dictionary<string, double>();
 
-        private double betaMatthews = 1.0;
-        private double gammaMatthews = 1.0;
+        //Weights
+        private double beta = 1.0;
+        private double gamma = 1.0;
 
-        private double betaToemehArumugam = 1.0;
-        private double gammaToemehArumugam = 1.0;
-
+       
         private DataManager dataMgr = new DataManager(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)); 
         private const string DATATYPE = "transposition";
 
@@ -219,7 +216,7 @@ namespace Cryptool.Plugins.CostFunction
                     case 5: //regular expressions
                         this.Value = regex(bigramInput);
                         break;
-                    case 6: // Weighted Bigrams/Trigrams (used by genetic algorithm in transposition analyser
+                    case 6: // Weighted Bigrams/Trigrams (used by genetic algorithm in transposition analyser)
                         this.Value = calculateWeighted(bigramInput);
                         break;
 
@@ -293,116 +290,61 @@ namespace Cryptool.Plugins.CostFunction
 
         #region private methods
 
-        private void fillfwts() {
-            fwtMatthews.Add("TH", 2.0);
-            fwtMatthews.Add("HE", 1.0);
-            fwtMatthews.Add("IN", 1.0);
-            fwtMatthews.Add("ER", 1.0);
-            fwtMatthews.Add("AN", 1.0);
-            fwtMatthews.Add("ED", 1.0);
-            fwtMatthews.Add("THE", 5.0);
-            fwtMatthews.Add("ING", 5.0);
-            fwtMatthews.Add("AND", 5.0);
-            fwtMatthews.Add("EEE", -5.0);
-            //extension:
-            fwtToemehArumugam.Add("YYY", -5.0);
-            fwtToemehArumugam.Add("BBB", -5.0);
-            fwtToemehArumugam.Add("OOO", -5.0);
-            fwtToemehArumugam.Add("III", -5.0);
-            fwtToemehArumugam.Add("UUU", -5.0);
-            fwtToemehArumugam.Add("DDD", -5.0);
-            fwtToemehArumugam.Add("JJJ", -5.0);
-            fwtToemehArumugam.Add("QQQ", -5.0);
-            fwtToemehArumugam.Add("VVV", -5.0);
-            fwtToemehArumugam.Add("GGG", -5.0);
-
-            fwtToemehArumugam.Add("KKK", -2.0);
-            fwtToemehArumugam.Add("AAA", -2.0);
-            fwtToemehArumugam.Add("CCC", -2.0);
-            fwtToemehArumugam.Add("TTT", -2.0);
-
-            fwtToemehArumugam.Add("FFF", 0.0);
-            fwtToemehArumugam.Add("SSS", 0.0);
-            fwtToemehArumugam.Add("HHH", -5.0);
-            fwtToemehArumugam.Add("MMM", -5.0);
-            fwtToemehArumugam.Add("NNN", -5.0);
-            fwtToemehArumugam.Add("PPP", 0.0);
-            fwtToemehArumugam.Add("RRR", -5.0);
-            fwtToemehArumugam.Add("ZZZ", -5.0);
-            fwtToemehArumugam.Add("XXX", 5.0);
-            fwtToemehArumugam.Add("WWW", 5.0);
-
-            fwtToemehArumugam.Add("AUI", -5.0);
-            fwtToemehArumugam.Add("UAI", -5.0);
-            fwtToemehArumugam.Add("IAU", -5.0);
-            fwtToemehArumugam.Add("AIU", -5.0);
-            fwtToemehArumugam.Add("UUU", -5.0);
-            fwtToemehArumugam.Add("WV", -5.0);
-            fwtToemehArumugam.Add("VW", -5.0);
-            fwtToemehArumugam.Add("HC", -5.0);
-            fwtToemehArumugam.Add("ZR", -5.0);
-            fwtToemehArumugam.Add("RZ", -5.0);
-            fwtToemehArumugam.Add("ZX", -5.0);
-            fwtToemehArumugam.Add("XZ", -5.0);
-            fwtToemehArumugam.Add("J ", -5.0);
-            fwtToemehArumugam.Add("X ", -5.0);
-            fwtToemehArumugam.Add("Q ", -5.0);
-            fwtToemehArumugam.Add("QC", -5.0);
-            fwtToemehArumugam.Add("QJ", -5.0);
-            fwtToemehArumugam.Add("QW", -5.0);
-            fwtToemehArumugam.Add("QZ", -5.0);
-            fwtToemehArumugam.Add("QX", -5.0);
-            fwtToemehArumugam.Add("QY", -5.0);
-            fwtToemehArumugam.Add("QE", -5.0);
-            fwtToemehArumugam.Add("QI", -5.0);
-            fwtToemehArumugam.Add("QU", -5.0);
-            fwtToemehArumugam.Add("QO", -5.0);
-            fwtToemehArumugam.Add("JX", -5.0);
-            fwtToemehArumugam.Add("QV", -5.0);
-            fwtToemehArumugam.Add("ZJ", -5.0);
+        // Reads data directory, passes filepaths to parser
+        private void fillfwt() {
+             txtList = dataMgr.LoadDirectory(DATATYPE);
 
 
-            fwtToemehArumugam.Add("EEE", -5.0);
-            fwtToemehArumugam.Add("E ", 2.0);
-            fwtToemehArumugam.Add(" T", 1.0);
-            fwtToemehArumugam.Add("HE", 1.0);
-            fwtToemehArumugam.Add("TH", 1.0);
-            fwtToemehArumugam.Add(" A", 1.0);
-            fwtToemehArumugam.Add("   ", -10.0);
-            fwtToemehArumugam.Add("ING", 5.0);
-            fwtToemehArumugam.Add("S ", 1.0);
-            fwtToemehArumugam.Add("  ", -6.0);
-            fwtToemehArumugam.Add(" TH", 5.0);
-            fwtToemehArumugam.Add("THE", 5.0);
-            fwtToemehArumugam.Add("HE ", 5.0);
-            fwtToemehArumugam.Add("AND", 5.0);
+             switch (this.settings.weighttable)
+             {
+                 case 0:
+                     parseCSV(txtList["fwtmatthews"].DataFile.FullName);
+                     break;
+                 case 1:
+                     parseCSV(txtList["fwttoemeharumugam"].DataFile.FullName);
+                     break;
+                 case 2:
+                     parseCSV(this.settings.customfwtpath);
+                     break;
+             }
 
-            fwtToemehArumugam.Add("ARE", 5.0);
-            fwtToemehArumugam.Add("NOT", 5.0);
+
+              
+        }
+        // simple "parser" for CSV files
+        private void parseCSV(string path)
+        {
+            using (StreamReader readFile = new StreamReader(path))
+            {
+                string line;
+                string[] row;
+
+                while ((line = readFile.ReadLine()) != null)
+                {
+
+                    row = line.Split(';');
+                    if (row.Length == 2)
+                    {
+                        fwt.Add(row[0], Double.Parse(row[1]));
+                    }
+                }
+            }
+            
         }
 
         private void weights(string ngram, int ngramlength)
         {
-            if (fwtMatthews.TryGetValue(ngram, out value) && ngramlength == 2)
+            if (fwt.TryGetValue(ngram, out value) && ngramlength == 2)
             {
-                betaMatthews += value;
+                beta += value;
             }
 
-            if (fwtMatthews.TryGetValue(ngram, out value) && ngramlength == 3)
+            if (fwt.TryGetValue(ngram, out value) && ngramlength == 3)
             {
-                gammaMatthews += value;
+                gamma += value;
             }
 
 
-            if (fwtToemehArumugam.TryGetValue(ngram, out value) && ngramlength == 2)
-            {
-                betaToemehArumugam += value;
-            }
-
-            if (fwtToemehArumugam.TryGetValue(ngram, out value) && ngramlength == 3)
-            {
-                gammaToemehArumugam += value;
-            }
         }
 
         //public double contains(string input)
@@ -421,12 +363,10 @@ namespace Cryptool.Plugins.CostFunction
         //}
         public double calculateWeighted(string input)
         {
-
-         
-
+            
             this.statistics = new Dictionary<int, IDictionary<string, double[]>>();
 
-            if (fwtMatthews == null && fwtToemehArumugam == null) { fillfwts(); }
+            if (fwt == null) { fillfwt(); } 
             if (corpusBigrams == null)
             {
                 if (corpusTrigrams == null)
@@ -441,122 +381,10 @@ namespace Cryptool.Plugins.CostFunction
 
             double bigramscore = calculateNGrams(input, 2, 3, true); // Sinkov
             double trigramscore = calculateNGrams(input, 3, 3, true);
-            //testweise
+         
+            return (beta * bigramscore) + (gamma * trigramscore);
             
-           // return  bigramscore + trigramscore;
-            return (betaToemehArumugam * bigramscore) + (gammaToemehArumugam * trigramscore);
-            //return betaToemehArumugam * bigramscore;
-
-            /*
-            Dictionary<string, double> inputBiGrams = new Dictionary<string,double>();
-            Dictionary<string, double> inputTriGrams = new Dictionary<string,double>();
-            
-            // Count input Bigrams
-            foreach (string g in GramTokenizer.tokenize(input, 2, false))
-            {
-                if (inputBiGrams.ContainsKey(g))
-                {
-                    inputBiGrams[g] = inputBiGrams[g] + 1;
-                    if (fwtMatthews.TryGetValue(g, out value))
-                    {
-                        beta += value;
-                    }
-                }
-                else
-                {
-                    inputBiGrams.Add(g, 0);
-                    if (fwtMatthews.TryGetValue(g, out value))
-                    {
-                        beta += value;
-                    }
-                }
-            }
-            
-             debug
-            foreach (KeyValuePair<string, double[]> g in corpusBigrams)
-            {
-                GuiLogMessage(corpusBigrams[g.Key][0].ToString() + " " + g.Key + " " + corpusBigrams[g.Key][1].ToString(), NotificationLevel.Debug);
-            } 
-            
-            // Count input TriGrams
-            foreach (string g in GramTokenizer.tokenize(input, 3, false))
-            {
-                if (inputTriGrams.ContainsKey(g))
-                {
-                    inputTriGrams[g] = inputTriGrams[g] + 1;
-                }
-                else
-                {
-                    inputTriGrams.Add(g, 0);
-                }
-            }
-            
-            //Union Bigrams
-            HashSet<string> allBigrams = new HashSet<string>(inputBiGrams.Keys);
-            allBigrams.UnionWith(corpusBigrams.Keys);
-
-            //Union Trigrams
-            HashSet<string> allTrigrams = new HashSet<string>(inputTriGrams.Keys);
-            allTrigrams.UnionWith(corpusTrigrams.Keys);
-
-            // Sum of all input Bigrams absolutes
-            double sumBigrams = 0.0;
-
-            // Sum of all input Trigrams absolutes
-            double sumTrigrams = 0.0;
-
-            // First part of the equation: Sum up all [K_b (i,j) - D_b (i,j)]
-            double bigramscore = 0.0;
-            foreach (string g in allBigrams)
-            {
-                if (corpusBigrams.ContainsKey(g) && inputBiGrams.ContainsKey(g))
-                {
-                    sumBigrams++;
-                    bigramscore += corpusBigrams[g][1] - inputBiGrams[g] / sumBigrams;
-                    
-                }
-                else if (!corpusBigrams.ContainsKey(g))
-                {
-                    sumBigrams++;
-                    bigramscore += 0.0 - inputBiGrams[g] / sumBigrams;
-                    
-                }
-                else if (!inputBiGrams.ContainsKey(g))
-                {
-                    sumBigrams++;
-                    bigramscore += corpusBigrams[g][1];
-                    
-                }
-            }
-
-            // Second part of the equation: Sum up all [K_t (i,j) - D_t (i,j)]
-            double Trigramscore = 0.0;
-            foreach (string g in allTrigrams)
-            {
-                if (corpusTrigrams.ContainsKey(g) && inputTriGrams.ContainsKey(g))
-                {
-                    sumTrigrams++;
-                    Trigramscore += corpusTrigrams[g][1] - inputTriGrams[g] / sumTrigrams;
-                }
-                else if (!corpusTrigrams.ContainsKey(g))
-                {
-                    sumTrigrams++;
-                    Trigramscore += 0.0 - inputTriGrams[g] / sumTrigrams;
-                }
-                else if (!inputTriGrams.ContainsKey(g))
-                {
-                    sumTrigrams++;
-                    Trigramscore += corpusTrigrams[g][1];
-                }
-            }
-            double total = beta * bigramscore + gamma * Trigramscore;
-            if (total != 0.0)
-            {
-                GuiLogMessage(total.ToString(), NotificationLevel.Debug);
-            }
-            return total;
-            */
-        }//end Execute
+        }
 
         public double regex(string input)
         {
