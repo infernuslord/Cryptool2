@@ -35,7 +35,8 @@
                     <Border.Effect>
                         <DropShadowEffect BlurRadius="3" Color="Black" Direction="0" ShadowDepth="0"  Opacity="1"></DropShadowEffect>
                     </Border.Effect>
-                    
+                        <Image Source="/WorkspaceManager;component/View/Image/search.png" SnapsToDevicePixels="True" Margin="1,1,1,1" Opacity="0.3" HorizontalAlignment="Right"/>
+          
                 </Border>
             </Grid>
         </Border>

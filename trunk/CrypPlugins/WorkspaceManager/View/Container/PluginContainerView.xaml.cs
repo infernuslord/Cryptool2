@@ -316,15 +316,17 @@ namespace WorkspaceManager.View.Container
 
         private void ShowAllButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ShowAllData.Visibility == Visibility.Collapsed)
+            if (ShowAllData.Opacity == 0)
             {
-                ShowAllData.Visibility = Visibility.Visible;
+                ShowAllData.BeginStoryboard(Resources["Appear"] as Storyboard);
+              
                 return;
             }
 
-            if (ShowAllData.Visibility == Visibility.Visible)
+            if (ShowAllData.Opacity == 1)
             {
-                ShowAllData.Visibility = Visibility.Collapsed;
+                ShowAllData.BeginStoryboard(Resources["Disappear"] as Storyboard);
+                
                 return;
             }
         }
