@@ -126,7 +126,10 @@
                 </Grid>
             </Grid>
         </DockPanel>
-        <Border Name="ShowAllData" Visibility="Collapsed" MaxHeight="250" MaxWidth="150" MinWidth="140" Margin="7,26,0,0" VerticalAlignment="Top" CornerRadius="{Binding ElementName=Window,Path=CornerRadius}" BorderBrush="{Binding ElementName=Window,Path=BorderBrush}" BorderThickness="{Binding ElementName=Window,Path=BorderThickness}">
+        <Border Name="ShowAllData" Opacity="0" Panel.ZIndex="-1" Visibility="Visible" Width="125" Margin="-80,30,0,0" VerticalAlignment="Top" CornerRadius="{Binding ElementName=Window,Path=CornerRadius}" BorderBrush="{Binding ElementName=Window,Path=BorderBrush}" BorderThickness="{Binding ElementName=Window,Path=BorderThickness}">
+            <Border.RenderTransform>
+                <ScaleTransform ScaleX="0" ScaleY="0"></ScaleTransform>
+            </Border.RenderTransform>
             <Border.Effect>
                 <DropShadowEffect BlurRadius="10" Direction="0" Color="Black" RenderingBias="Quality" ShadowDepth="0" ></DropShadowEffect>
             </Border.Effect>

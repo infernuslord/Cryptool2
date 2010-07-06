@@ -29,4 +29,58 @@
         <DoubleAnimation To="0" Duration="00:00:00.5" Storyboard.TargetProperty="Opacity"/>
     </Storyboard>
 
+    <Storyboard x:Key="VisiblityCollapsed" BeginTime="00:00:00">
+        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+            <DiscreteObjectKeyFrame Value="{x:Static Visibility.Collapsed}" />
+        </ObjectAnimationUsingKeyFrames>
+    </Storyboard>
+
+    <Storyboard x:Key="VisiblityVisible" BeginTime="00:00:00.2">
+        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+            <DiscreteObjectKeyFrame Value="{x:Static Visibility.Visible}" />
+        </ObjectAnimationUsingKeyFrames>
+    </Storyboard>
+
+    <Storyboard x:Key="RollOut" AccelerationRatio="0.2" DecelerationRatio="0.2">
+        <ThicknessAnimation
+                Storyboard.TargetProperty="Margin"
+                Duration="00:00:00.2" FillBehavior="HoldEnd" To="0,30,0,0" />
+        
+        <!--<ObjectAnimationUsingKeyFrames BeginTime="00:00:01" Storyboard.TargetProperty="Visibility">
+            <DiscreteObjectKeyFrame Value="{x:Static Visibility.Visible}" />
+        </ObjectAnimationUsingKeyFrames>-->
+
+    </Storyboard>
+    
+    <Storyboard x:Key="RollBack">
+        <ThicknessAnimation
+                Storyboard.TargetProperty="Margin"
+                Duration="00:00:00.2" FillBehavior="HoldEnd" To="-80,30,0,0" />
+        
+        <!--<ObjectAnimationUsingKeyFrames BeginTime="00:00:01" Storyboard.TargetProperty="Visibility">
+            <DiscreteObjectKeyFrame Value="{x:Static Visibility.Collapsed}" />
+        </ObjectAnimationUsingKeyFrames>-->
+
+    </Storyboard>
+
+    <Storyboard x:Key="Disappear" AccelerationRatio="0.3" DecelerationRatio="0.3">
+        <DoubleAnimation To="0" Duration="00:00:00.5" Storyboard.TargetProperty="Opacity"/>
+        <DoubleAnimation To="0" Duration="00:00:00.5" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"/>
+        <DoubleAnimation To="0" Duration="00:00:00.5" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"/>
+        <ThicknessAnimation
+                Storyboard.TargetProperty="Margin"
+                Duration="00:00:00.5" FillBehavior="HoldEnd" To="-80,30,0,0" />
+    </Storyboard>
+
+    <Storyboard x:Key="Appear" AccelerationRatio="0.3" DecelerationRatio="0.3">
+        <DoubleAnimation To="1" Duration="00:00:00.5" Storyboard.TargetProperty="Opacity"/>
+        <DoubleAnimation To="1" Duration="00:00:00.5" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"/>
+        <DoubleAnimation To="1" Duration="00:00:00.5" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"/>
+        <ThicknessAnimation
+                Storyboard.TargetProperty="Margin"
+                Duration="00:00:00.5" FillBehavior="HoldEnd" To="0,30,0,0" />
+    </Storyboard>
+    
+    
+
 </ResourceDictionary>
