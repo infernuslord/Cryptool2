@@ -41,7 +41,7 @@ namespace Cryptool.Plugins.CostFunction
         private static IDictionary<String, DataFileMetaInfo> txtList;
         private static string[] files;
         #endregion
-    
+        
         [TaskPane("FunctionType", "Select the type of function", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Index of coincidence", "Entropy", "Bigrams: log 2", "Bigrams: Sinkov", "Bigrams: Percentaged", "Regular Expression", "Weighted Bigrams/Trigrams"})]
         public int FunctionType
         {
@@ -109,7 +109,39 @@ namespace Cryptool.Plugins.CostFunction
                 OnPropertyChanged("StatisticsCorpus");
             }
         }
-       
+        public string customfwtpath;
+        public int fwt = 0; //fwt = fitness weight table
+        [TaskPane("Fitness Weight Table to use", "Select a fitness weight table", null, 8, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Matthews", "Toemeh-Arumugam", "Custom Weight table (*.csv)" })]
+        public int weighttable
+        {
+            get
+            {
+                return fwt;
+            }
+            set
+            {
+                fwt = value;
+                if (fwt == 2)
+                {
+                    OpenFileDialog openfwt = new OpenFileDialog();
+                    openfwt.Title = "Select fitness weight table";
+                    openfwt.CheckFileExists = true;
+                    openfwt.CheckPathExists = true;
+                    openfwt.Filter = "csv files (*.csv)|*.csv|All files (*.*)|*.*";
+                    if (openfwt.ShowDialog() == DialogResult.OK)
+                    {
+                        customfwtpath = openfwt.FileName;
+                    }
+                    else
+                    {
+                        fwt = 0; // Fall back to default
+                    }
+                }
+                OnPropertyChanged("weighttable");
+            }
+        }
+        
+
         public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
 
         internal void UpdateTaskPaneVisibility()
@@ -133,12 +165,23 @@ namespace Cryptool.Plugins.CostFunction
             if (functionType.Equals(4) || functionType.Equals(2) || functionType.Equals(3) || functionType.Equals(6))
             {
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("StatisticsCorpus", Visibility.Visible)));
-
+                
             }
             else
             {
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("StatisticsCorpus", Visibility.Collapsed)));
                 
+                
+            }
+            if (functionType.Equals(6))
+            {
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("weighttable", Visibility.Visible)));
+
+            }
+            else
+            {
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("weighttable", Visibility.Collapsed)));
+
             }
             
 

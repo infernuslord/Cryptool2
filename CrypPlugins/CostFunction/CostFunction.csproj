@@ -124,6 +124,15 @@
     <Resource Include="icon.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Data\fwtToemehArumugam">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\fwtToemehArumugam.metainfo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\fwtMatthews.metainfo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Data\StatisticsCorpusEN">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -180,6 +189,11 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\fwtMatthews">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
