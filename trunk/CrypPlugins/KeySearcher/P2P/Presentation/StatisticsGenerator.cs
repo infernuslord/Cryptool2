@@ -139,17 +139,17 @@ namespace KeySearcher.P2P.Presentation
             status.RequestsPerNode = (status.RequestsPerNode + requestsForThisNode)/2;
         }
 
-        public void CalculateGlobalStatistics(BigInteger nextChunk)
+        public void CalculateGlobalStatistics(BigInteger currentChunkCalculated)
         {
-            if (HighestChunkCalculated == -1) HighestChunkCalculated = nextChunk;
-            if (nextChunk <= HighestChunkCalculated) return;
+            if (HighestChunkCalculated == -1) HighestChunkCalculated = currentChunkCalculated;
+            if (currentChunkCalculated < HighestChunkCalculated) return;
 
-            var totalAmountOfParticipants = nextChunk - HighestChunkCalculated;
+            var totalAmountOfParticipants = currentChunkCalculated - HighestChunkCalculated;
             status.TotalAmountOfParticipants = totalAmountOfParticipants;
 
             var timeUsedForLatestProgress = DateTime.Now.Subtract(lastDateOfGlobalStatistics);
             var secondsForOneChunk = timeUsedForLatestProgress.TotalSeconds/(double) totalAmountOfParticipants;
-            var remainingChunks = TotalAmountOfChunks - nextChunk;
+            var remainingChunks = TotalAmountOfChunks - currentChunkCalculated;
             var secondsRemaining = (double) remainingChunks*secondsForOneChunk;
 
             try
@@ -167,7 +167,7 @@ namespace KeySearcher.P2P.Presentation
 
             lastDateOfGlobalStatistics = DateTime.Now;
 
-            HighestChunkCalculated = nextChunk;
+            HighestChunkCalculated = currentChunkCalculated;
             status.GlobalProgress = (double) HighestChunkCalculated/(double) TotalAmountOfChunks;
             keySearcher.ProgressChanged(status.GlobalProgress, 1);
         }
