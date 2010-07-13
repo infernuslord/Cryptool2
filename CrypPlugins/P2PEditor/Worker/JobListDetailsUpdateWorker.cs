@@ -19,6 +19,8 @@ namespace Cryptool.P2PEditor.Worker
 
         void JobListDetailsUpdateWorker_DoWork(object sender, DoWorkEventArgs e)
         {
+            if (distributedJobs == null) return;
+
             foreach (var distributedJob in distributedJobs)
             {
                 if (CancellationPending) return;
