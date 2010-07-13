@@ -66,7 +66,7 @@ namespace KeySearcher.P2P
             }
 
             status.CurrentOperation = "Initializing distributed key pool tree";
-            keyPoolTree = new KeyPoolTree(patternPool, this.keySearcher, keyQualityHelper, keyGenerator, status, StatisticsGenerator);
+            keyPoolTree = new KeyPoolTree(patternPool, keySearcher, keyQualityHelper, keyGenerator, status, StatisticsGenerator);
 
             keySearcher.GuiLogMessage(
                 "Total amount of patterns: " + patternPool.Length + ", each containing " + patternPool.PartSize +

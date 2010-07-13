@@ -189,15 +189,15 @@ namespace KeySearcher.P2P.Presentation
             {
                 if (time / (24 * 60 * 60) <= int.MaxValue)
                 {
-                    int days = (int)(time / (24 * 60 * 60));
+                    var days = (int)(time / (24 * 60 * 60));
                     time = time - (days * 24 * 60 * 60);
-                    int hours = (int)(time / (60 * 60));
+                    var hours = (int)(time / (60 * 60));
                     time = time - (hours * 60 * 60);
-                    int minutes = (int)(time / 60);
+                    var minutes = (int)(time / 60);
                     time = time - (minutes * 60);
-                    int seconds = (int)time;
+                    var seconds = (int)time;
 
-                    timeleft = new TimeSpan(days, hours, minutes, (int)seconds, 0);
+                    timeleft = new TimeSpan(days, hours, minutes, seconds, 0);
                 }
             }
             catch
