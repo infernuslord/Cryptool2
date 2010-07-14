@@ -839,7 +839,14 @@ namespace Cryptool.Plugins.QuadraticSieve
                 else
                     dllname = "msieve64.dll";
 
-                msieveDLL = Assembly.LoadFile(Directory.GetCurrentDirectory() + "\\AppReferences\\"  + dllname);
+                
+                //DIRTY HACK:
+                String cryptool2dir = Directory.GetCurrentDirectory();
+                if (cryptool2dir.EndsWith("\\ProjectSamples"))
+                    cryptool2dir = cryptool2dir.Substring(0, cryptool2dir.Length - "\\ProjectSamples".Length);
+
+
+                msieveDLL = Assembly.LoadFile(cryptool2dir + "\\AppReferences\\"  + dllname);
                 msieve = msieveDLL.GetType("Msieve.msieve");
             }
 
