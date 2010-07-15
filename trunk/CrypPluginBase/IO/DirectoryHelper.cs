@@ -27,6 +27,7 @@ namespace Cryptool.PluginBase.IO
         private const string crypTool2 = "CrypTool2";
         private const string crypPlugins = "CrypPlugins";
         private const string tempFiles = "Temp";
+        private const string samples = "ProjectSamples";
 
         public static string DirectoryCrypPlugins
         {
@@ -52,12 +53,19 @@ namespace Cryptool.PluginBase.IO
             private set;
         }
 
+        public static string BaseDirectory
+        {
+            get;
+            private set;
+        }
+
         static DirectoryHelper()
         {
-            DirectoryCrypPlugins = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, crypPlugins);
+            BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            DirectoryCrypPlugins = Path.Combine(BaseDirectory, crypPlugins);
             DirectoryLocal = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), crypTool2);
             DirectoryLocalTemp = Path.Combine(DirectoryLocal, tempFiles);
-            DirectorySamples = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SampleProjects");
+            DirectorySamples = Path.Combine(BaseDirectory, samples);
         }
 
         public static string GetNewTempFilePath()
