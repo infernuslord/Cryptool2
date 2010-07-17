@@ -54,7 +54,9 @@ namespace PKCS1.Library
 
             while (false == isDivByThree)
             {
-                BigInteger hashDigest = new BigInteger(1, Hashfunction.generateHashDigest(Datablock.getInstance().Message, Datablock.getInstance().HashFunctionIdent));
+                byte[] bMessage =  Datablock.getInstance().Message;
+                HashFunctionIdent hashIdent = Datablock.getInstance().HashFunctionIdent;
+                BigInteger hashDigest = new BigInteger(1, Hashfunction.generateHashDigest(ref bMessage, ref hashIdent));
                 // T*2^160 + H
                 datablock = derIdent.Multiply(BigInteger.Two.Pow(hashDigestLength)).Add(hashDigest); // Datablock erstellen; T=HashFuncIdent; H=HashDigest
                 N = (BigInteger.Two.Pow(datablockLength.IntValue)).Subtract(datablock); // N muss vielfaches von 3 sein
@@ -65,7 +67,10 @@ namespace PKCS1.Library
                 }
                 else
                 {
-                    Datablock.getInstance().Message = Datablock.getInstance().Message + " ";
+                    byte[] tmp = new byte[Datablock.getInstance().Message.Length+1];
+                    Array.Copy(Datablock.getInstance().Message,tmp,Datablock.getInstance().Message.Length);
+                    Array.Copy(Encoding.ASCII.GetBytes(" "), 0, tmp, Datablock.getInstance().Message.Length, Encoding.ASCII.GetBytes(" ").Length);
+                    Datablock.getInstance().Message = tmp;
                 }
             }
 
@@ -83,7 +88,7 @@ namespace PKCS1.Library
             fakeSig = fakeSig.Add( (BigInteger.Two.Pow( startPos.IntValue )).Multiply(datablock) );
             fakeSig = fakeSig.Add( BigInteger.Two.Pow(startPos.IntValue-8).Multiply(BigInteger.ValueOf(125)) ); // add garbage
 
-            BigInteger fakeSigResult = MathFunctions.cuberoot2(fakeSig);
+            BigInteger fakeSigResult = MathFunctions.cuberoot(fakeSig);
 
             byte[] returnByteArray = new byte[this.m_KeyLength / 8]; // KeyLength is in bit
             Array.Copy(fakeSigResult.ToByteArray(), 0, returnByteArray, returnByteArray.Length - fakeSigResult.ToByteArray().Length, fakeSigResult.ToByteArray().Length);

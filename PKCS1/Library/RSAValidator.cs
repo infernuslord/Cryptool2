@@ -18,15 +18,15 @@ namespace PKCS1.Library
 
         #region verify Signatures
 
-        private bool verifySig(ISigner verifier, string message, byte[] signature)
+        private bool verifySig(ISigner verifier, byte[] message, byte[] signature)
         {            
             verifier.Init(false, RSAKeyManager.getInstance().getPubKey());            
-            byte[] messageInBytes = Encoding.ASCII.GetBytes(message);
+            byte[] messageInBytes = message;
             verifier.BlockUpdate(messageInBytes, 0, messageInBytes.Length); // update bekommt klartextnachricht als param           
             return verifier.VerifySignature(signature); // input ist verschlüsselte Nachricht
         }
 
-        public bool verifyRsaSignature(string message, byte[] signature)
+        public bool verifyRsaSignature(byte[] message, byte[] signature)
         {
             IAsymmetricBlockCipher eng = new Pkcs1Encoding(new RsaEngine());
             //IAsymmetricBlockCipher eng = new RsaEngine();
@@ -94,10 +94,10 @@ namespace PKCS1.Library
             return null;
         }
 
-        public bool verifyRsaSignatureWithFlaw(string message, byte[] signature)
+        public bool verifyRsaSignatureWithFlaw(byte[] message, byte[] signature)
         {
             BigInteger signatureBigInt = new BigInteger(1,signature);
-            byte[] messageInBytes = Encoding.ASCII.GetBytes(message);           
+            byte[] messageInBytes = message;  
 
             RsaKeyParameters pubkeyParam = (RsaKeyParameters)RSAKeyManager.getInstance().getPubKey();
             BigInteger exponent = pubkeyParam.Exponent;
@@ -132,16 +132,16 @@ namespace PKCS1.Library
                 return this.verifySigWithoutPad(block, messageInBytes, HashFunctionHandler.SHA512, 64);
             }
 
-            // MD2, Digest length: 120 Bit
+            // MD2, Digest length: 128 Bit
             if(funcIdent == HashFunctionHandler.MD2)
             {
-                return this.verifySigWithoutPad(block, messageInBytes, HashFunctionHandler.MD2, 15);
+                return this.verifySigWithoutPad(block, messageInBytes, HashFunctionHandler.MD2, 16);
             }
 
-            // MD5, Digest length: 120 Bit
+            // MD5, Digest length: 128 Bit
             if(funcIdent == HashFunctionHandler.MD5)
             {
-                return this.verifySigWithoutPad(block, messageInBytes, HashFunctionHandler.MD5, 15);
+                return this.verifySigWithoutPad(block, messageInBytes, HashFunctionHandler.MD5, 16);
             }
 
             return false;
@@ -157,7 +157,7 @@ namespace PKCS1.Library
             Array.Copy(sigWithoutPad, endOfIdent, hashDigestFromSig, 0, digestLength);
 
             IDigest hashFunctionDigest = DigestUtilities.GetDigest(hashFuncIdent.diplayName);
-            byte[] hashDigestMessage = Hashfunction.generateHashDigest(message, hashFuncIdent);
+            byte[] hashDigestMessage = Hashfunction.generateHashDigest(ref message, ref hashFuncIdent);
 
             return this.compareByteArrays(hashDigestFromSig, hashDigestMessage);
         }

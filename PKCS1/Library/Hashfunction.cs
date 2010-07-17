@@ -10,13 +10,14 @@ namespace PKCS1.Library
     class Hashfunction
     {
         private static IDigest hashFunctionDigest = DigestUtilities.GetDigest(HashFunctionHandler.SHA1.diplayName); // default SHA1
-
+        
         public static byte[] generateHashDigest(string input, HashFunctionIdent hashIdent)
         {
-            return generateHashDigest(Encoding.ASCII.GetBytes(input), hashIdent);
+            byte[] bInput = Encoding.ASCII.GetBytes(input);
+            return generateHashDigest(ref bInput, ref hashIdent);
         }
 
-        public static byte[] generateHashDigest(byte[] input, HashFunctionIdent hashIdent)
+        public static byte[] generateHashDigest(ref byte[] input, ref HashFunctionIdent hashIdent)
         {   
             hashFunctionDigest = DigestUtilities.GetDigest(hashIdent.diplayName);
             byte[] hashDigest = new byte[hashFunctionDigest.GetDigestSize()];
