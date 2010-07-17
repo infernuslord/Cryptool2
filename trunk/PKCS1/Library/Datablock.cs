@@ -41,15 +41,17 @@ namespace PKCS1.Library
         }
 
         protected byte[] m_Message = new byte[0];
-        public string Message
+        public byte[] Message
         {
             set 
             {
-                string tmpString = (string)value;
-                this.m_Message = Encoding.ASCII.GetBytes(tmpString);
+                //string tmpString = (string)value;
+                //this.m_Message = Encoding.ASCII.GetBytes(tmpString);
+                this.m_Message = value;
                 OnRaiseParamChangedEvent(ParameterChangeType.Message);
             }
-            get { return Encoding.ASCII.GetString(this.m_Message); }
+            //get { return Encoding.ASCII.GetString(this.m_Message); }
+            get { return this.m_Message; }
         }
 
         #endregion
@@ -72,7 +74,9 @@ namespace PKCS1.Library
 
         public string GetHashDigestToHexString()
         {
-            return Encoding.ASCII.GetString(Hex.Encode(Hashfunction.generateHashDigest(this.Message, this.HashFunctionIdent)));
+            byte[] bMessage = this.Message;
+            HashFunctionIdent hashIdent = this.HashFunctionIdent;
+            return Encoding.ASCII.GetString(Hex.Encode(Hashfunction.generateHashDigest(ref bMessage, ref hashIdent)));
         }
         
         #endregion

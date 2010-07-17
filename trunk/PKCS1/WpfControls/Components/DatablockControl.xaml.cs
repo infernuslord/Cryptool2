@@ -54,7 +54,7 @@ namespace PKCS1.WpfControls.Components
         {
             if (ParameterChangeType.Message == type)
             {
-                this.tbInputText.Text = Datablock.getInstance().Message;
+                this.tbInputText.Text =  Encoding.ASCII.GetString(Datablock.getInstance().Message);
                 this.tbHashDigest.Text = Datablock.getInstance().GetHashDigestToHexString();
             }
         }
@@ -104,7 +104,7 @@ namespace PKCS1.WpfControls.Components
             }
 
             // Text setzen, Hash wird automatisch generiert, da in Datablock das Event getriggert wird und hier im Handling Hashgenerierung auslöst
-            Datablock.getInstance().Message = textToHash;
+            Datablock.getInstance().Message =  Encoding.ASCII.GetBytes(textToHash);
             // Hash generieren und abfragen
             //this.tbHashDigest.Text = Datablock.getInstance().GetHashDigestToHexString();
             OnRaiseDataBlockGenerated(ParameterChangeType.DataBlock);

@@ -6,6 +6,7 @@ using Cryptool.PluginBase.Tool;
 using Cryptool.PluginBase;
 using PKCS1.WpfVisualization;
 using PKCS1.Library;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace PKCS1
 {
@@ -38,8 +39,10 @@ namespace PKCS1
         {
             if (OnGuiLogNotificationOccured != null)
             {
-                OnGuiLogNotificationOccured(this, new GuiLogEventArgs(message, this, logLevel));
+                OnGuiLogNotificationOccured(this, new GuiLogEventArgs(message, this, logLevel));                
             }
+            
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, message, logLevel); 
         }
 
         #region IPlugin Member

@@ -80,6 +80,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BigNum\BigNum.cs" />
+    <Compile Include="BigNum\BigNumDec.cs" />
     <Compile Include="Library\BleichenbacherSignature.cs" />
     <Compile Include="Library\GuiLogMsgHandOff.cs" />
     <Compile Include="Library\IGuiLogMsg.cs" />
@@ -89,6 +91,7 @@
     <Compile Include="Library\Hashfunction.cs" />
     <Compile Include="Library\HashFunctionHandler.cs" />
     <Compile Include="Library\KuehnSignature.cs" />
+    <Compile Include="Library\myFloat.cs" />
     <Compile Include="Library\NavigationCommandType.cs" />
     <Compile Include="Library\ParameterChangeType.cs" />
     <Compile Include="Library\RSAKeyManager.cs" />

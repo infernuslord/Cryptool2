@@ -20,10 +20,12 @@ namespace PKCS1.Library
 
         private byte[] getCompleteHw()
         {
-            byte[] hashIdent = Hex.Decode(Datablock.getInstance().HashFunctionIdent.DERIdent);
-            byte[] hashDigest = Hashfunction.generateHashDigest(Datablock.getInstance().Message, Datablock.getInstance().HashFunctionIdent);          
-            byte[] returnArray = new byte[hashIdent.Length + Hashfunction.getDigestSize()];
-            Array.Copy(hashIdent, 0, returnArray, 0, hashIdent.Length);
+            byte[] bDerHashIdent = Hex.Decode(Datablock.getInstance().HashFunctionIdent.DERIdent);
+            byte[] bMessage = Datablock.getInstance().Message;
+            HashFunctionIdent hashIdent = Datablock.getInstance().HashFunctionIdent;
+            byte[] hashDigest = Hashfunction.generateHashDigest(ref bMessage, ref hashIdent);          
+            byte[] returnArray = new byte[bDerHashIdent.Length + Hashfunction.getDigestSize()];
+            Array.Copy(bDerHashIdent, 0, returnArray, 0, bDerHashIdent.Length);
             Array.Copy(hashDigest, 0, returnArray, returnArray.Length - hashDigest.Length, hashDigest.Length);
 
             return returnArray;
