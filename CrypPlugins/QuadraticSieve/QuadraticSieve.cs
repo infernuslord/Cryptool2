@@ -585,8 +585,6 @@ namespace Cryptool.Plugins.QuadraticSieve
 
                 //Calculate time left:
                 msleft = estimatedTotalTime - estimatedElapsedTime;
-                /*GuiLogMessage("Total: " + new TimeSpan(0, 0, 0, 0, (int)estimatedTotalTime), NotificationLevel.Info);
-                GuiLogMessage("Elapsed: " + new TimeSpan(0, 0, 0, 0, (int)estimatedElapsedTime), NotificationLevel.Info);*/
             }            
             
             String timeLeft_message = "very soon";
@@ -596,6 +594,12 @@ namespace Cryptool.Plugins.QuadraticSieve
                 TimeSpan ts = new TimeSpan(0, 0, 0, 0, (int)msleft);
                 timeLeft_message = showTimeSpan(ts) + " left";
                 endtime_message = "" + DateTime.Now.AddMilliseconds((long)msleft);
+            }
+
+            if (globalPerformance == 0 || double.IsInfinity(msleft))
+            {
+                timeLeft_message = "?";
+                endtime_message = "?";
             }
 
             quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
