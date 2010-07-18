@@ -56,22 +56,22 @@ namespace WorkspaceManager.Model
         /// <summary>
         /// Minimum Width of this VisualElementModel
         /// </summary>
-        public double MinWidth;
+        public double MinWidth = 150;
         
         /// <summary>
         /// Minimum Height of this VisualElementModel
         /// </summary>      
-        public double MinHeight;
+        public double MinHeight = 150;
 
         /// <summary>
         /// Width of this VisualElementModel
         /// </summary>
-        public double Width;
+        public double Width = 150;
 
         /// <summary>
         /// Height of this VisualElementModel
         /// </summary>
-        public double Height;
+        public double Height = 150;
 
         /// <summary>
         /// Name of this VisualElementModel
