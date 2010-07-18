@@ -51,54 +51,32 @@ namespace WorkspaceManager.Model
         /// <summary>
         /// Current Position of this VisualElementModel
         /// </summary>
-        public Point Position { get; set; }
+        public Point Position;
 
-        private double minWidth=150;
         /// <summary>
         /// Minimum Width of this VisualElementModel
         /// </summary>
-        public double MinWidth
-        {
-            get { return minWidth; }
-            set
-            {
-                if (value > 150)
-                {
-                    minWidth = value;
-                };
-            }
-        }
-
-        private double minHeight = 150;
+        public double MinWidth;
+        
         /// <summary>
         /// Minimum Height of this VisualElementModel
-        /// </summary>
-        public double MinHeight
-        {
-            get{ return minHeight; }
-            set
-            {
-                if (value > 150)
-                {
-                    minHeight = value;
-                };
-            }
-        }
+        /// </summary>      
+        public double MinHeight;
 
         /// <summary>
         /// Width of this VisualElementModel
         /// </summary>
-        public double Width { get; set; }
+        public double Width;
 
         /// <summary>
         /// Height of this VisualElementModel
         /// </summary>
-        public double Height { get; set; }
+        public double Height;
 
         /// <summary>
         /// Name of this VisualElementModel
         /// </summary>
-        public string Name { get; set; }
+        public string Name;
 
         /// <summary>
         /// Indicates that this Model Element needs a GUI Update

@@ -20,6 +20,7 @@ using System.ComponentModel;
 using System.Windows.Media;
 using Cryptool.PluginBase;
 using WorkspaceManager.View.Container;
+using System.Reflection;
 
 namespace WorkspaceManager.Model
 {
@@ -39,10 +40,39 @@ namespace WorkspaceManager.Model
         public PluginModel PluginModel { get; set; }
 
         /// <summary>
-        /// The data type of this ConnectorModel
+        /// Name of the Connector type
         /// </summary>
-        public Type ConnectorType { get; set; }
+        private string ConnectorTypeName = null;
+        /// <summary>
+        /// Name of the Connector assembly
+        /// </summary>
+        private string ConnectorTypeAssemblyName = null;
 
+        /// <summary>
+        /// The Type of the Wrapped IPlugin of this PluginModel
+        /// Depending on this the Plugin of this PluginModel will be instanciated
+        /// </summary>        
+        public Type ConnectorType
+        {
+            get
+            {
+                if (this.ConnectorTypeName != null)
+                {
+                    Assembly assembly = Assembly.Load(ConnectorTypeAssemblyName);
+                    Type t = assembly.GetType(ConnectorTypeName);
+                    return t;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                this.ConnectorTypeName = value.FullName;
+                this.ConnectorTypeAssemblyName = value.Assembly.FullName;
+            }
+        }
         /// <summary>
         /// Is this Connector Outgoing?
         /// </summary>

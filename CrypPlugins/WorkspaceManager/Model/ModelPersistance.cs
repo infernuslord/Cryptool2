@@ -23,6 +23,7 @@ using System.Xml.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Reflection;
 using Cryptool.PluginBase;
+using XMLSerialization;
 
 namespace WorkspaceManager.Model
 {
@@ -38,46 +39,30 @@ namespace WorkspaceManager.Model
         /// <returns></returns>
         public static WorkspaceModel loadModel(string filename, WorkspaceManager workspaceManagerEditor)
         {
-            FileStream fileStream = null;
+            WorkspaceModel workspacemodel = (WorkspaceModel)XMLSerialization.XMLSerialization.Deserialize(filename);    
+            workspacemodel.WorkspaceManagerEditor = workspaceManagerEditor;
 
-            try
+            foreach (PluginModel pluginModel in workspacemodel.AllPluginModels)
             {
-                fileStream = new FileStream(filename, FileMode.Open, FileAccess.Read);
-                BinaryFormatter binaryFormatter = new BinaryFormatter();
-
-                WorkspaceModel workspacemodel =  (WorkspaceModel)binaryFormatter.Deserialize(fileStream);
-                workspacemodel.WorkspaceManagerEditor = workspaceManagerEditor;
-
-                foreach (PluginModel pluginModel in workspacemodel.AllPluginModels)
-                {
-                    pluginModel.Plugin.OnGuiLogNotificationOccured += workspaceManagerEditor.GuiLogNotificationOccured;
-                    pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;
-                    pluginModel.Plugin.OnPluginStatusChanged += pluginModel.PluginStatusChanged;
-                }
+                pluginModel.Plugin.OnGuiLogNotificationOccured += workspaceManagerEditor.GuiLogNotificationOccured;
+                pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;
+                pluginModel.Plugin.OnPluginStatusChanged += pluginModel.PluginStatusChanged;
+            }
                 
-                foreach (ConnectorModel connectorModel in workspacemodel.AllConnectorModels)
-                {
-                    if(connectorModel.Outgoing == true){
-                        connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
-                    }
-
-                    if (connectorModel.IsDynamic == true)
-                    {
-                        DynamicPropertyInfoAttribute dynamicPropertyInfoAttribute = connectorModel.PluginModel.Plugin.GetDynamicPropertyInfo();
-                        EventInfo eventinfo = connectorModel.PluginModel.PluginType.GetEvent(dynamicPropertyInfoAttribute.UpdateDynamicPropertiesEvent);
-                        eventinfo.AddEventHandler(connectorModel.PluginModel.Plugin, new DynamicPropertiesChanged(connectorModel.PropertyTypeChangedOnPlugin));
-                    }
-                }
-
-                return workspacemodel;
-            }
-            finally
+            foreach (ConnectorModel connectorModel in workspacemodel.AllConnectorModels)
             {
-                if (fileStream != null)
+                if(connectorModel.Outgoing == true){
+                    connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
+                }
+
+                if (connectorModel.IsDynamic == true)
                 {
-                    fileStream.Close();
+                    DynamicPropertyInfoAttribute dynamicPropertyInfoAttribute = connectorModel.PluginModel.Plugin.GetDynamicPropertyInfo();
+                    EventInfo eventinfo = connectorModel.PluginModel.PluginType.GetEvent(dynamicPropertyInfoAttribute.UpdateDynamicPropertiesEvent);
+                    eventinfo.AddEventHandler(connectorModel.PluginModel.Plugin, new DynamicPropertiesChanged(connectorModel.PropertyTypeChangedOnPlugin));
                 }
             }
+            return workspacemodel;          
         }
 
         /// <summary>
@@ -88,22 +73,7 @@ namespace WorkspaceManager.Model
         /// <returns></returns>
         public static void saveModel(WorkspaceModel workspaceModel, string filename)
         {
-            FileStream fileStream = null;
-
-            try
-            {
-                fileStream = new FileStream(filename, FileMode.Create, FileAccess.Write);
-                BinaryFormatter binaryFormatter = new BinaryFormatter();
-                binaryFormatter.Serialize(fileStream, workspaceModel);               
-            }                
-            finally
-            {
-                if (fileStream != null)
-                {
-                    fileStream.Flush();
-                    fileStream.Close();
-                }
-            }
+           XMLSerialization.XMLSerialization.Serialize(workspaceModel, filename);
         }
     }
 }
