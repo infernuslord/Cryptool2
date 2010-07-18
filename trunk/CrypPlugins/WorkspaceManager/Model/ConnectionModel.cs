@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 
 namespace WorkspaceManager.Model
 {
@@ -41,11 +42,41 @@ namespace WorkspaceManager.Model
         /// Is the Connection active?
         /// </summary>        
         public bool Active { get; set; }
+      
+        /// <summary>
+        /// Name of the Connection type
+        /// </summary>
+        private string ConnectionTypeName = null;
+        /// <summary>
+        /// Name of the Connection assembly
+        /// </summary>
+        private string ConnectionTypeAssemblyName = null;
 
         /// <summary>
-        /// The data type of this Connection Model
-        /// </summary>
-        public Type ConnectionType { get; set; }
+        /// The Type of the Wrapped IPlugin of this PluginModel
+        /// Depending on this the Plugin of this PluginModel will be instanciated
+        /// </summary>        
+        public Type ConnectionType
+        {
+            get
+            {
+                if (this.ConnectionTypeName != null)
+                {
+                    Assembly assembly = Assembly.Load(ConnectionTypeAssemblyName);
+                    Type t = assembly.GetType(ConnectionTypeName);
+                    return t;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                this.ConnectionTypeName = value.FullName;
+                this.ConnectionTypeAssemblyName = value.Assembly.FullName;
+            }
+        }
 
         /// <summary>
         /// The WorkspaceModel of this ConnectionModel

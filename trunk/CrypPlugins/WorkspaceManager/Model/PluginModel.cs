@@ -83,13 +83,38 @@ namespace WorkspaceManager.Model
             {
                 plugin = value;
             }
-        } 
+        }
+
+        /// <summary>
+        /// Name of the wrapped Plugins type
+        /// </summary>
+        private string PluginTypeName = null;
+        /// <summary>
+        /// Name of the wrapped Plugins assembly
+        /// </summary>
+        private string PluginTypeAssemblyName = null;
 
         /// <summary>
         /// The Type of the Wrapped IPlugin of this PluginModel
         /// Depending on this the Plugin of this PluginModel will be instanciated
         /// </summary>        
-        public Type PluginType = null;
+        public Type PluginType{
+            get{
+                if (this.PluginTypeName != null){
+                    Assembly assembly = Assembly.Load(PluginTypeAssemblyName);
+                    Type t = assembly.GetType(PluginTypeName);
+                    return t;
+                }
+                else
+                {
+                    return null;
+                }
+            } 
+            set{
+                this.PluginTypeName = value.FullName;
+                this.PluginTypeAssemblyName = value.Assembly.FullName;
+            }
+        }
 
         /// <summary>
         /// Is the wrapped plugin startable

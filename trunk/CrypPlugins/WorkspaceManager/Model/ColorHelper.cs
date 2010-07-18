@@ -24,7 +24,7 @@ namespace WorkspaceManager.Model
         /// <param name="obj"></param>
         /// <returns></returns>
         public static Color GetColor(Type type)
-        {
+        {           
             if (type.FullName == "System.String")
             {                
                 return Colors.WhiteSmoke;
