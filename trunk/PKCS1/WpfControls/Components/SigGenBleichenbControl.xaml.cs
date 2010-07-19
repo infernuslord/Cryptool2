@@ -26,16 +26,15 @@ namespace PKCS1.WpfControls.Components
         public SigGenBleichenbControl()
         {
             InitializeComponent();
-            RSAKeyManager.getInstance().RaiseKeyGeneratedEvent += handleCustomEvent; // listen
+            RSAKeyManager.Instance.RaiseKeyGeneratedEvent += handleCustomEvent; // listen
             this.handleCustomEvent(ParameterChangeType.RsaKey);
             this.loadComboDataBlocPos(24);
         }
 
         private void handleCustomEvent(ParameterChangeType type)
         {            
-
-            this.lblPublicKeyRes.Content = RSAKeyManager.getInstance().PubExponent.ToString();
-            this.lblRsaKeySizeRes.Content = RSAKeyManager.getInstance().RsaKeySize.ToString();            
+            this.lblPublicKeyRes.Content = RSAKeyManager.Instance.PubExponent.ToString();
+            this.lblRsaKeySizeRes.Content = RSAKeyManager.Instance.RsaKeySize.ToString();            
             this.loadComboDataBlocPos(24);
         }
 
@@ -59,7 +58,7 @@ namespace PKCS1.WpfControls.Components
             this.cbPosDataBlock.Items.Clear();
 
             int lengthDatablock = Datablock.getInstance().HashFunctionIdent.DERIdent.Length * 4 + Datablock.getInstance().HashFunctionIdent.digestLength + 8;
-            int end = RSAKeyManager.getInstance().RsaKeySize - lengthDatablock - start;
+            int end = RSAKeyManager.Instance.RsaKeySize - lengthDatablock - start;
 
             for( int i=start; i<= end; i+=8)
             {

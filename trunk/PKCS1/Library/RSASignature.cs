@@ -31,21 +31,23 @@ namespace PKCS1.Library
             return returnArray;
         }       
 
-        public override void GenerateSignature()
+        public override bool GenerateSignature()
         {
-            if (RSAKeyManager.getInstance().isKeyGenerated())
+            if (RSAKeyManager.Instance.isKeyGenerated())
             {
                 // RSA Schlüssellänge setzen für Methode in Oberklasse
-                this.m_KeyLength = RSAKeyManager.getInstance().RsaKeySize;
+                this.m_KeyLength = RSAKeyManager.Instance.RsaKeySize;
 
                 IAsymmetricBlockCipher signerPkcs1Enc = new Pkcs1Encoding(new RsaEngine());
-                signerPkcs1Enc.Init(true, RSAKeyManager.getInstance().getPrivKey());
+                signerPkcs1Enc.Init(true, RSAKeyManager.Instance.getPrivKey());
                 byte[] output = signerPkcs1Enc.ProcessBlock(this.getCompleteHw(), 0, this.getCompleteHw().Length);
  
                 this.m_bSigGenerated = true;
                 this.m_Signature = output;
-                this.OnRaiseSigGenEvent(SignatureType.Pkcs1);                
+                this.OnRaiseSigGenEvent(SignatureType.Pkcs1);
+                return true;
             }
+            return false;
         }
 
         #endregion //encrypted PKCS1 Signature

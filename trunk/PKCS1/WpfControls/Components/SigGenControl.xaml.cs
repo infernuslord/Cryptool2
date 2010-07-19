@@ -28,7 +28,7 @@ namespace PKCS1.WpfControls.Components
         {
             InitializeComponent();
             // zeile muss weg; Signatur muss sich bei RSAKeyManager anmelden
-            RSAKeyManager.getInstance().RaiseKeyGeneratedEvent += handleCustomEvent; // bei KeyGen-Listener anmelden 
+            RSAKeyManager.Instance.RaiseKeyGeneratedEvent += handleCustomEvent; // bei KeyGen-Listener anmelden 
             this.handleCustomEvent(ParameterChangeType.RsaKey);
         }
 
@@ -36,8 +36,8 @@ namespace PKCS1.WpfControls.Components
         {
             //this.tbResult.Text = String.Empty;
             this.tbResultEncrypted.Text = String.Empty;
-            this.lblPublicKeyRes.Content = RSAKeyManager.getInstance().PubExponent.ToString();
-            this.lblRsaKeySizeRes.Content = RSAKeyManager.getInstance().RsaKeySize.ToString();
+            this.lblPublicKeyRes.Content = RSAKeyManager.Instance.PubExponent.ToString();
+            this.lblRsaKeySizeRes.Content = RSAKeyManager.Instance.RsaKeySize.ToString();
         }
 
         private void bExecute_Click(object sender, RoutedEventArgs e)

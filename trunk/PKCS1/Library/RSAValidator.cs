@@ -20,28 +20,24 @@ namespace PKCS1.Library
 
         private bool verifySig(ISigner verifier, byte[] message, byte[] signature)
         {            
-            verifier.Init(false, RSAKeyManager.getInstance().getPubKey());            
-            byte[] messageInBytes = message;
-            verifier.BlockUpdate(messageInBytes, 0, messageInBytes.Length); // update bekommt klartextnachricht als param           
+            verifier.Init(false, RSAKeyManager.Instance.getPubKey());            
+            verifier.BlockUpdate(message, 0, message.Length); // update bekommt klartextnachricht als param
             return verifier.VerifySignature(signature); // input ist verschlüsselte Nachricht
         }
 
         public bool verifyRsaSignature(byte[] message, byte[] signature)
         {
             IAsymmetricBlockCipher eng = new Pkcs1Encoding(new RsaEngine());
-            //IAsymmetricBlockCipher eng = new RsaEngine();
-            eng.Init(false, RSAKeyManager.getInstance().getPubKey());
+            eng.Init(false, RSAKeyManager.Instance.getPubKey());
 
             try
             {
-                //byte[] messageInBytes = Encoding.ASCII.GetBytes(message);
                 byte[] data = eng.ProcessBlock(signature, 0, signature.Length);
                 funcIdent = this.extractHashFunction(Encoding.ASCII.GetString(Hex.Encode(data)));
 
                 if (null != funcIdent)
                 {
-                    string signerIdent = funcIdent.diplayName + "withRSA";
-                    ISigner verifier = SignerUtilities.GetSigner(signerIdent);
+                    ISigner verifier = SignerUtilities.GetSigner(funcIdent.diplayName + "withRSA");
                     return this.verifySig(verifier, message, signature);
                 }
             }
@@ -49,7 +45,6 @@ namespace PKCS1.Library
             {
                 return false;
             }
-
             return false;
         }
 
@@ -97,13 +92,9 @@ namespace PKCS1.Library
         public bool verifyRsaSignatureWithFlaw(byte[] message, byte[] signature)
         {
             BigInteger signatureBigInt = new BigInteger(1,signature);
-            byte[] messageInBytes = message;  
+            RsaKeyParameters pubkeyParam = (RsaKeyParameters)RSAKeyManager.Instance.getPubKey();
 
-            RsaKeyParameters pubkeyParam = (RsaKeyParameters)RSAKeyManager.getInstance().getPubKey();
-            BigInteger exponent = pubkeyParam.Exponent;
-            BigInteger modulus = pubkeyParam.Modulus;
-
-            byte[] sigDecrypted = (signatureBigInt.ModPow(exponent, modulus)).ToByteArray();
+            byte[] sigDecrypted = (signatureBigInt.ModPow(pubkeyParam.Exponent, pubkeyParam.Modulus)).ToByteArray();
             byte[] block = this.DerEncode(sigDecrypted); // hiernach steht DERIdent und hash am anfang des arrays, danach garbage
 
             funcIdent = this.extractHashFunction(Encoding.ASCII.GetString(Hex.Encode(block)));
@@ -111,37 +102,37 @@ namespace PKCS1.Library
             // SHA1, Digest length: 160 Bit
             if(funcIdent == HashFunctionHandler.SHA1)
             {
-                return this.verifySigWithoutPad(block, messageInBytes, HashFunctionHandler.SHA1, 20);
+                return this.verifySigWithoutPad(block, message, HashFunctionHandler.SHA1, 20);
             }
 
             // SHA-256, Digest length: 256 Bit
             if(funcIdent == HashFunctionHandler.SHA256)
             {
-                return this.verifySigWithoutPad(block, messageInBytes, HashFunctionHandler.SHA256, 32);
+                return this.verifySigWithoutPad(block, message, HashFunctionHandler.SHA256, 32);
             }
 
             // SHA-384, Digest length: 384 Bit
             if(funcIdent == HashFunctionHandler.SHA384)
             {
-                return this.verifySigWithoutPad(block, messageInBytes, HashFunctionHandler.SHA384, 48);
+                return this.verifySigWithoutPad(block, message, HashFunctionHandler.SHA384, 48);
             }
 
             // SHA-512, Digest length: 512 Bit
             if(funcIdent == HashFunctionHandler.SHA512)
             {
-                return this.verifySigWithoutPad(block, messageInBytes, HashFunctionHandler.SHA512, 64);
+                return this.verifySigWithoutPad(block, message, HashFunctionHandler.SHA512, 64);
             }
 
             // MD2, Digest length: 128 Bit
             if(funcIdent == HashFunctionHandler.MD2)
             {
-                return this.verifySigWithoutPad(block, messageInBytes, HashFunctionHandler.MD2, 16);
+                return this.verifySigWithoutPad(block, message, HashFunctionHandler.MD2, 16);
             }
 
             // MD5, Digest length: 128 Bit
             if(funcIdent == HashFunctionHandler.MD5)
             {
-                return this.verifySigWithoutPad(block, messageInBytes, HashFunctionHandler.MD5, 16);
+                return this.verifySigWithoutPad(block, message, HashFunctionHandler.MD5, 16);
             }
 
             return false;
@@ -165,9 +156,6 @@ namespace PKCS1.Library
         private bool compareByteArrays(byte[] input1, byte[] input2)
         {
             bool bEqual = false;
-
-            string test1 = Encoding.ASCII.GetString(Hex.Encode(input1));
-            string test2 = Encoding.ASCII.GetString(Hex.Encode(input2));
 
             if (input1.Length == input2.Length)
             {
@@ -225,7 +213,5 @@ namespace PKCS1.Library
         }
 
         #endregion // verify Signatures
-
-
     }
 }

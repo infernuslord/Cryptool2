@@ -17,9 +17,9 @@ namespace PKCS1.Library
             this.registerHandOff();
         }
 
-        public override void GenerateSignature()
+        public override bool GenerateSignature()
         {
-            this.m_KeyLength = RSAKeyManager.getInstance().RsaKeySize; // Länge des RSA Modulus
+            this.m_KeyLength = RSAKeyManager.Instance.RsaKeySize; // Länge des RSA Modulus
 
             // drei Leerzeichen an Msg anhängen
             string sMsgModifier = "   ";
@@ -45,7 +45,6 @@ namespace PKCS1.Library
             // Datenblock noch ohne Hashwert, wird in while Schleife unten hinzugefügt
 
             // byte array der kompletten Signatur, wird zuerst mit 'FF' gefüllt und dann nachher Datenblock an den Anfang kopiert
-            //byte[] S = new byte[128]; // 1024 bit
             byte[] S = new byte[this.m_KeyLength / 8];
             for (int i = A.Length; i < S.Length; i++)
             {
@@ -58,10 +57,9 @@ namespace PKCS1.Library
             int limit = 250000;
             int countLoops = 0;
 
-            //this.SendGuiLogMsg("Signature tests started", NotificationLevel.Info);
+            this.SendGuiLogMsg("Signature Generation started", NotificationLevel.Info);
             byte[] hashDigest = new byte[0]; // Hashwert wird in dieser var gespeichert
             BigInteger T = new BigInteger("0"); // hilfsvar
-            //byte[] resultArray = new byte[128]; // damit verglichen werden kann in byte array kopieren
             byte[] resultArray = new byte[this.m_KeyLength/8];
 
             while (!isEqual && (countLoops < limit))
@@ -80,10 +78,7 @@ namespace PKCS1.Library
 
                 isEqual = MathFunctions.compareByteArray(ref resultArray, ref S, significantByteLength); // byte arrays vergleichen, wird in meinen Tests nicht erreicht
                 if (!isEqual)
-                {                    
-                    //BigInteger bLast3Bytes = new BigInteger(new byte[] { bMessage[iMsgLength - 3], bMessage[iMsgLength - 2], bMessage[iMsgLength - 1] });
-                    //bLast3Bytes = bLast3Bytes.Add(BigInteger.One);
-                    //Array.Copy(bLast3Bytes.ToByteArray(), 0, bMessage, bMessage.Length - 3, 3);                    
+                {                                       
                     int value1 = bMessage[iMsgLength - 1];                                        
                     if (++value1 >= 256)
                     {
@@ -102,14 +97,23 @@ namespace PKCS1.Library
                     
                     countLoops++;
                 }
-            }           
-            Datablock.getInstance().Message = bMessage;
-            byte[] returnByteArray = new byte[this.m_KeyLength/8];
-            Array.Copy(finalSignature.ToByteArray(), 0, returnByteArray, returnByteArray.Length - finalSignature.ToByteArray().Length, finalSignature.ToByteArray().Length);
+            }
+            if (countLoops != limit)
+            {
+                Datablock.getInstance().Message = bMessage;
+                byte[] returnByteArray = new byte[this.m_KeyLength / 8];
+                Array.Copy(finalSignature.ToByteArray(), 0, returnByteArray, returnByteArray.Length - finalSignature.ToByteArray().Length, finalSignature.ToByteArray().Length);
 
-            this.m_Signature = returnByteArray;
-            this.m_bSigGenerated = true;
-            this.OnRaiseSigGenEvent(SignatureType.Kuehn);
+                this.m_Signature = returnByteArray;
+                this.m_bSigGenerated = true;
+                this.OnRaiseSigGenEvent(SignatureType.Kuehn);
+                return true;
+            }
+            else
+            {
+                this.m_bSigGenerated = false;                
+            }
+            return false;
         }
 
         public event GuiLogHandler OnGuiLogMsgSend;

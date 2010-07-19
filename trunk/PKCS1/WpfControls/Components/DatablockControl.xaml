@@ -25,12 +25,18 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>                        
                             <!-- Text aus Datei laden -->
-                            <RadioButton Grid.Row="0" IsEnabled="False" Margin="5,5,5,5" Name="rbTextfromFile" VerticalAlignment="Top" HorizontalAlignment="Left" Checked="rbTextfromFile_Checked">Text aus Datei laden</RadioButton>
-                            <TextBox Grid.Row="1" IsEnabled="False" Height="20" MinWidth="170" Margin="5,0,5,5" Name="tbInputFile" VerticalAlignment="Top" HorizontalAlignment="Left" />
-                            <Button Grid.Row="1" IsEnabled="False" Height="20" Margin="5,0,5,5" Name="button1" VerticalAlignment="Top" HorizontalAlignment="Right">Datei öffnen</Button>
-                            <!-- Text eingeben -->
+                            <RadioButton Grid.Row="0" Margin="5,5,5,5" Name="rbTextfromFile" VerticalAlignment="Top" HorizontalAlignment="Left" Checked="rbTextfromFile_Checked">Text aus Datei laden</RadioButton>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Height="20" MinWidth="270" Margin="5,0,5,5" IsReadOnly="True" Name="tbInputFile" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                            <Button Grid.Column="1" Height="20" Margin="5,0,5,5" Name="bOpenFile" VerticalAlignment="Top" HorizontalAlignment="Left" Click="bOpenFile_Click">Datei öffnen</Button>
+                        </Grid>
+                        <!-- Text eingeben -->
                             <RadioButton Grid.Row="2" Margin="5,5,5,5" Name="rbTextFromBox" HorizontalAlignment="Left" Checked="rbTextFromBox_Checked">Text eingeben</RadioButton>
-                            <TextBox Grid.Row="3" MinHeight="85" MaxWidth="400" Margin="5,0,5,5" Name="tbInputText" TextWrapping="Wrap" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" KeyUp="tbInputText_KeyUp" >Hier bitte den zu verschluesselnden Text eingeben.</TextBox>
+                            <TextBox Grid.Row="3" MinHeight="85" MaxWidth="400" Margin="5,0,5,5" Name="tbInputText" TextWrapping="Wrap" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">Hier bitte den zu signierenden Text eingeben.</TextBox>
                      </Grid>
                 </Grid>
 
@@ -42,9 +48,9 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                         <!-- Choose Hashfunction -->
-                        <Label Grid.Row="0" HorizontalAlignment="Right" Margin="5,0,5,0" Name="lblChooseHash" VerticalAlignment="Top" Width="115">Hashfunktion wählen</Label>
-                        <ComboBox Grid.Row="1" Height="20" HorizontalAlignment="Right" Margin="5,0,5,5" Name="cbHashFunc" VerticalAlignment="Top" Width="115" IsEditable="False" SelectionChanged="cbHashFunc_SelectionChanged"/>
-                        <Button Grid.Row="2" Height="25" HorizontalAlignment="Right" Margin="5,5,5,5" Name="bGenerate" VerticalAlignment="Bottom" MinWidth="100" Click="bGenerate_Click">Datenblock generieren</Button>
+                        <Label Grid.Row="0" HorizontalAlignment="Right" Margin="5,0,5,0" Name="lblChooseHash" VerticalAlignment="Top" Width="125">Hashfunktion wählen</Label>
+                        <ComboBox Grid.Row="1" Height="20" HorizontalAlignment="Right" Margin="5,0,5,5" Name="cbHashFunc" VerticalAlignment="Top" Width="125" IsEditable="False" SelectionChanged="cbHashFunc_SelectionChanged"/>
+                        <Button Grid.Row="2" Height="25" HorizontalAlignment="Right" Margin="5,5,5,5" Name="bGenerate" VerticalAlignment="Bottom" MinWidth="110" Click="bGenerate_Click">Datenblock generieren</Button>
                 </Grid>
             </Grid>
         </GroupBox>
@@ -61,10 +67,10 @@
                 </Grid.RowDefinitions>
                     <Label Grid.Row="0" Margin="0,5,0,0" Name="lblHashIdent">Hashfunktion Identifier</Label>
                     <Label Grid.Row="0" Margin="150,5,0,0" Name="lblHashIdentLength"></Label>
-                    <TextBox Grid.Row="1" Height="35" Margin="5,0,5,0" Name="tbHashIdent" TextWrapping="Wrap" MaxWidth="450" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" TextChanged="tbHashIdent_TextChanged"/>                
+                    <TextBox Grid.Row="1" Height="35" Margin="5,0,5,0" Name="tbHashIdent" IsReadOnly="True" TextWrapping="Wrap" MaxWidth="450" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" TextChanged="tbHashIdent_TextChanged"/>                
                     <Label Grid.Row="2" Margin="0,5,0,0" Name="lblHashDigest">Hashwert</Label>
                     <Label Grid.Row="2" Margin="150,5,0,0" Name="lblHashDigestLength"></Label>
-                    <TextBox Grid.Row="3" Height="35" Margin="5,0,5,0" Name="tbHashDigest" TextWrapping="Wrap" MaxWidth="450" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" TextChanged="tbHashDigest_TextChanged"/>                
+                    <TextBox Grid.Row="3" Height="35" Margin="5,0,5,0" Name="tbHashDigest" IsReadOnly="True" TextWrapping="Wrap" MaxWidth="450" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" TextChanged="tbHashDigest_TextChanged"/>                
             </Grid>
         </GroupBox>
     </Grid>
