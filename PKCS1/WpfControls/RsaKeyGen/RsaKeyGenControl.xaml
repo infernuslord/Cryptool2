@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="PKCS1.WpfControls.RsaKeyGen.RsaKeyGenControl" x:Name="This"
+﻿<UserControl x:Class="PKCS1.WpfControls.RsaKeyGen.RsaKeyGenControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:my="clr-namespace:PKCS1.WpfResources"

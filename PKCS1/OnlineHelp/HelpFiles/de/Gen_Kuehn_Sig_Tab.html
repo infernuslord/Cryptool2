@@ -1,2 +1,16 @@
 ﻿<h2>Kuehn Signatur generieren</h2>
-Hier fehlt noch Text
+In diesem Tab können Signaturen gefälscht werden nach der Methode wie sie Ulrich Kühn beschrieben hat.
+Die Signaturen ähneln denen von Bleichenbacher
+
+Position nicht wählbar sondern XX Byte als Padding werden genutzt, das kürzest mögliche. 
+Garbage == FF und nicht berechnet wie bei Bleichenbacher. Bei dieser Implementierung ist die Signatur schon 
+nach dem Kubikwurzelziehen dargestellt, daher kann der dargestellte Garbage von dem FF Schema abweichen.
+1024 Bit Signaturen möglich. 
+Solange probieren bis dass die Berechnung der dritten Wurzel und das Potenzieren das gleiche Ergebnis liefern. 
+Dabei werden nur die 46 signifikanten Bytes (von links) verglichen, da sich hier der Paddingstring, 
+Hashidentifier und Hashwert befinden. Fehlerhafte Implementierungen der Verifikation vergleichen auch nur diese
+Bytes und der Rest wird nicht beachtet.
+
+Da oft die Kubikwurzel berechnet werden muss, kann es lange dauern. (Limit von 25000 einstellbar)
+
+

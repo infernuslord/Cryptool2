@@ -1,7 +1,12 @@
-﻿<UserControl x:Class="PKCS1.WpfControls.Components.SigGenKuehnControl"
+﻿<UserControl x:Class="PKCS1.WpfControls.Components.SigGenKuehnControl" x:Name="This"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:my="clr-namespace:PKCS1.WpfResources"
+    xmlns:lib="clr-namespace:PKCS1.Library"
     VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+    <UserControl.Resources>
+        <my:ErrorsToMessageConverter x:Key="eToMConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -21,20 +26,33 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Name="lblRsaKeySize" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top">RSA-Schlüsselgröße (in Bit):</Label>
                     <Label Grid.Row="1" Name="lblPublicKey" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top">Öffentlicher Schlüssel:</Label>
+                    <Label Grid.Row="2" Name="lblIterations" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top">Anzahl an Iterationen:</Label>
                 </Grid>
                 <!-- middle -->
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Name="lblRsaKeySizeRes" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="50" MaxWidth="150"></Label>
                     <Label Grid.Row="1" Name="lblPublicKeyRes" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="50" MaxWidth="150"></Label>
+                    <TextBox Grid.Row="2" Name="tbIterations" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="50">                        
+                        <Binding ElementName="This" Path="Signature.Iterations" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <my:NumberValidationRule UpperBound="500000" LowerBound="0" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox>
+                    <TextBlock Grid.Row="3"  Foreground="Red" FontWeight="Bold" FontSize="10"
+                                Text="{Binding ElementName=tbIterations,
+                                Path=(Validation.Errors),
+                                Converter={StaticResource eToMConverter}}" />
                 </Grid>
                 <!-- right -->
                 <Grid Grid.Column="2">
