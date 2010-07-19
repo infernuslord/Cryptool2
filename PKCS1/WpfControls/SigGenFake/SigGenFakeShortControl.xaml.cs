@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using PKCS1.Library;
 
 namespace PKCS1.WpfControls.SigGenFake
 {
@@ -19,9 +20,40 @@ namespace PKCS1.WpfControls.SigGenFake
     /// </summary>
     public partial class SigGenFakeShortControl : UserControl, IPkcs1UserControl
     {
+        private bool isKeyGen = false;
+        private bool isDatablockGen = false;
+
         public SigGenFakeShortControl()
         {
             InitializeComponent();
+            RSAKeyManager.Instance.RaiseKeyGeneratedEvent += handleKeyGenerated;
+            DatablockControl3.RaiseDataBlockGenerated += handleKeyGenerated;
+
+            if (RSAKeyManager.Instance.isKeyGenerated())
+            {
+                this.tabGenSignature.IsEnabled = true;
+            }
+            else
+            {
+                this.tabGenSignature.IsEnabled = false;
+            }
+        }
+
+        private void handleKeyGenerated(ParameterChangeType type)
+        {
+            if (type == ParameterChangeType.RsaKey)
+            {
+                this.isKeyGen = true;
+            }
+            else if (type == ParameterChangeType.DataBlock)
+            {
+                this.isDatablockGen = true;
+            }
+
+            if (this.isKeyGen == true && this.isDatablockGen == true)
+            {
+                this.tabGenSignature.IsEnabled = true;
+            }
         }
 
         #region IPkcs1UserControl Member

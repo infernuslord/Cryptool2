@@ -25,6 +25,14 @@ namespace PKCS1.WpfControls.Components
         public SigGenKuehnControl()
         {
             InitializeComponent();
+            RSAKeyManager.Instance.RaiseKeyGeneratedEvent += handleCustomEvent; // listen
+            this.handleCustomEvent(ParameterChangeType.RsaKey);
+        }
+
+        private void handleCustomEvent(ParameterChangeType type)
+        {
+            this.lblPublicKeyRes.Content = RSAKeyManager.Instance.PubExponent.ToString();
+            this.lblRsaKeySizeRes.Content = RSAKeyManager.Instance.RsaKeySize.ToString();
         }
 
         private void bExecute_Click(object sender, RoutedEventArgs e)
@@ -33,23 +41,28 @@ namespace PKCS1.WpfControls.Components
 
             this.m_signature = (KuehnSignature)SignatureHandler.getInstance().getKuehnSig();
 
-            this.m_signature.GenerateSignature();
-            UserControlHelper.loadRtbColoredSig(this.rtbResult, this.m_signature.GetSignatureDecToHexString());
-            this.tbResultEncrypted.Text = this.m_signature.GetSignatureToHexString();
-
-            SignatureHandler.getInstance().setKuehnSig(this.m_signature);
+            if (this.m_signature.GenerateSignature())
+            {
+                UserControlHelper.loadRtbColoredSig(this.rtbResult, this.m_signature.GetSignatureDecToHexString());
+                this.tbResultEncrypted.Text = this.m_signature.GetSignatureToHexString();
+                SignatureHandler.getInstance().setKuehnSig(this.m_signature);
+            }
+            else
+            {
+                this.tbError.Text = "Es ist ein Fehler aufgetreten. Signatur konnte nicht erstellt werden.";
+            }
 
             Cursor = Cursors.Arrow;
         }
 
         private void tbResultEncrypted_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
+        {            
+            this.lblEncryptedSignatureLength.Content = "(Länge: " + this.tbResultEncrypted.Text.Length * 4 + " bit)";
         }
 
         private void rtbResult_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            this.lblSignatureLength.Content = "(Länge: " + UserControlHelper.GetRtbTextLength(this.rtbResult) * 4 + " bit)";
         }
     }
 }

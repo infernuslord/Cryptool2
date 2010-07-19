@@ -21,7 +21,7 @@ namespace PKCS1.Library
             set
             {
                 //TODO zulässigen Wertebereich weiter einschraenken?
-                if ((int)value > 0 && (int)value < RSAKeyManager.getInstance().RsaKeySize)
+                if ((int)value > 0 && (int)value < RSAKeyManager.Instance.RsaKeySize)
                 {
                     this.m_dataBlockStartPos = (int)value;
                 }
@@ -36,11 +36,11 @@ namespace PKCS1.Library
             }
         }
 
-        public override void GenerateSignature()
+        public override bool GenerateSignature()
         {
             this.SendGuiLogMsg("Message Generation started", NotificationLevel.Info);
 
-            this.m_KeyLength = RSAKeyManager.getInstance().RsaKeySize;
+            this.m_KeyLength = RSAKeyManager.Instance.RsaKeySize;
 
             int hashDigestLength = Hashfunction.getDigestSize() * 8; // weil Size in Byte zurückgegeben wird
             int hashIdentLength = Datablock.getInstance().HashFunctionIdent.DERIdent.Length * 4; // weil ein zeichen im string = 4 bit            
@@ -77,7 +77,7 @@ namespace PKCS1.Library
             BigInteger sigLengthWithoutZeros = BigInteger.ValueOf(this.m_KeyLength - 15); // 15 weil die ersten 15 bit 0 sind
             BigInteger startPos = BigInteger.ValueOf(this.m_dataBlockStartPos);
             BigInteger endPos = startPos.Add(datablockLength);
-            BigInteger sigLengthDivThree = sigLengthWithoutZeros.Divide(BigInteger.Three); // TODO muss Ganzzahl sein
+            BigInteger sigLengthDivThree = sigLengthWithoutZeros.Divide(BigInteger.Three);
             
             BigInteger testbeta = endPos.Subtract(BigInteger.Two.Multiply(sigLengthDivThree)).Subtract(datablockLength); // sollte 34 seinbei keylength 3072
 
@@ -96,6 +96,7 @@ namespace PKCS1.Library
             this.m_Signature = returnByteArray;
             this.m_bSigGenerated = true;
             this.OnRaiseSigGenEvent(SignatureType.Bleichenbacher);
+            return true;
         }
 
         /*

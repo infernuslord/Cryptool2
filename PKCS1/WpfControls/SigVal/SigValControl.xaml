@@ -65,9 +65,9 @@
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0">Verschlüsselte Signatur</Label>
-                <TextBox Grid.Row="1" Name="tbSignatureEnc" TextWrapping="Wrap" MaxWidth="400" MinHeight="80"  IsReadOnly="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5,5,5,5" />
+                <TextBox Grid.Row="1" Name="tbSignatureEnc" TextWrapping="Wrap" MaxWidth="450" MinHeight="80"  IsReadOnly="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5,5,5,5" />
                 <Label Grid.Row="2">Unverschlüsselte Signatur</Label>
-                <TextBox Grid.Row="3" Name="tbSignatureDec" TextWrapping="Wrap" MaxWidth="400" MinHeight="80" IsReadOnly="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5,5,5,5" />
+                <TextBox Grid.Row="3" Name="tbSignatureDec" TextWrapping="Wrap" MaxWidth="450" MinHeight="80" IsReadOnly="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5,5,5,5" />
             </Grid>
             </GroupBox>            
         </Grid>

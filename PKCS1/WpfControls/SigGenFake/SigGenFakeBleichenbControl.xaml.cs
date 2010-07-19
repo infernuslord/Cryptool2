@@ -26,10 +26,10 @@ namespace PKCS1.WpfControls.SigGenFake
         public SigGenFakeBleichenbControl()
         {
             InitializeComponent();
-            RSAKeyManager.getInstance().RaiseKeyGeneratedEvent += handleKeyGenerated;
+            RSAKeyManager.Instance.RaiseKeyGeneratedEvent += handleKeyGenerated;
             Datablockcontrol2.RaiseDataBlockGenerated += handleKeyGenerated;
 
-            if (RSAKeyManager.getInstance().isKeyGenerated())
+            if (RSAKeyManager.Instance.isKeyGenerated())
             {
                 this.tabGenSignature.IsEnabled = true;
             }
@@ -74,11 +74,6 @@ namespace PKCS1.WpfControls.SigGenFake
         }
 
         #endregion
-
-        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
 
         private void TabItem_HelpButtonClick(object sender, RoutedEventArgs e)
         {

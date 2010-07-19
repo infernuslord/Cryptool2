@@ -41,7 +41,7 @@ namespace PKCS1.WpfControls.SigVal
 
         public void Init()
         {
-            //TODO: doppeltes anmelden anders lösen?
+            //TODO: dreifaches anmelden anders lösen?
             SignatureHandler.getInstance().getSignature().RaiseSigGenEvent += handleSigGenEvent;
             SignatureHandler.getInstance().getBleichenbSig().RaiseSigGenEvent += handleSigGenEvent;
             SignatureHandler.getInstance().getKuehnSig().RaiseSigGenEvent += handleSigGenEvent;

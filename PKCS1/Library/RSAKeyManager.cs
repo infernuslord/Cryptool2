@@ -13,21 +13,24 @@ namespace PKCS1.Library
     class RSAKeyManager
     {
         #region Singleton
-        // Singleton
-        //
-        private static RSAKeyManager instance = null;
 
-        public static RSAKeyManager getInstance()
+        private static RSAKeyManager m_Instance = null;
+        public static RSAKeyManager Instance
         {
-            if (instance == null) { instance = new RSAKeyManager(); }
-            return instance;
+            get
+            {
+                if (m_Instance == null)
+                {
+                    m_Instance = new RSAKeyManager();
+                }
+                return m_Instance;
+            }
         }
 
         private RSAKeyManager()
         {
         }
-        //
-        // end Singleton
+
         #endregion
 
         public event ParamChanged RaiseKeyGeneratedEvent;
@@ -39,10 +42,10 @@ namespace PKCS1.Library
         public int RsaKeySize
         {
             set 
-            { 
+            {
                 this.m_RsaKeySize = (int)value;
                 OnRaiseKeyGenerated(ParameterChangeType.ModulusSize);
-            } // TODO validieren; welche Werte zulässig?
+            }
             get { return this.m_RsaKeySize; }
         }
 
@@ -99,7 +102,7 @@ namespace PKCS1.Library
 
         public AsymmetricKeyParameter getPubKey()
         {
-            return this.keyPair.Public;
+             return this.keyPair.Public;
         }
 
         public BigInteger getPubKeyToBigInt()
@@ -110,9 +113,8 @@ namespace PKCS1.Library
 
         public BigInteger getModulusToBigInt()
         {            
-            RsaKeyParameters pubkeyParam = (RsaKeyParameters)RSAKeyManager.getInstance().getPubKey();           
+            RsaKeyParameters pubkeyParam = (RsaKeyParameters)RSAKeyManager.Instance.getPubKey();           
             return pubkeyParam.Modulus;
         }
-
     }
 }

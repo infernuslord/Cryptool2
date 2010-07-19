@@ -78,13 +78,13 @@ namespace PKCS1.Library
         private byte[] decryptedSig()        
         {
             BigInteger SigInBigInt = new BigInteger(1,this.GetSignature());
-            BigInteger returnBigInt = SigInBigInt.ModPow(RSAKeyManager.getInstance().getPubKeyToBigInt(), RSAKeyManager.getInstance().getModulusToBigInt());
+            BigInteger returnBigInt = SigInBigInt.ModPow(RSAKeyManager.Instance.getPubKeyToBigInt(), RSAKeyManager.Instance.getModulusToBigInt());
             byte[] returnByteArray = new byte[ this.m_KeyLength/8 ]; // KeyLength is in bit
             Array.Copy(returnBigInt.ToByteArray(), 0, returnByteArray, returnByteArray.Length - returnBigInt.ToByteArray().Length, returnBigInt.ToByteArray().Length);
             return returnByteArray;
         }
 
-        public abstract void GenerateSignature();
+        public abstract bool GenerateSignature();
 
     }
 }

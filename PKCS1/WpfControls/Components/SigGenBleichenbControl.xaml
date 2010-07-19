@@ -43,7 +43,7 @@
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="*" />                        
                     </Grid.RowDefinitions>
-                    <GroupBox Grid.Row="0" Header="Struktur" Name="gbStruct" Height="40" Width="190" HorizontalAlignment="Right" VerticalAlignment="Top">
+                    <GroupBox Grid.Row="0" Header="Struktur" Name="gbStruct" Height="47" Width="200" HorizontalAlignment="Right" VerticalAlignment="Top">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" />
@@ -79,10 +79,10 @@
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Margin="0,0,0,0" Name="lblClearText">Unverschlüsselt</Label>
                 <Label Grid.Row="0" Margin="150,0,0,0" Name="lblSignatureLength"></Label>
-                <RichTextBox Grid.Row="1" Name="rtbResult" MaxWidth="400" MinHeight="80" IsReadOnly="True" Margin="5,5,5,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextChanged="rtbResult_TextChanged"></RichTextBox>
+                <RichTextBox Grid.Row="1" Name="rtbResult" MaxWidth="450" MinHeight="80" IsReadOnly="True" Margin="5,5,5,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextChanged="rtbResult_TextChanged"></RichTextBox>
                 <Label Grid.Row="2" Margin="0,0,0,0" Name="lblCipherText">Verschlüsselt</Label>
                 <Label Grid.Row="2" Margin="150,0,0,0" Name="lblEncryptedSignatureLength"></Label>
-                <TextBox Grid.Row="3" Name="tbResultEncrypted" TextWrapping="Wrap" MaxWidth="400" MinHeight="80" IsReadOnly="True" Margin="5,5,5,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextChanged="tbResultEncrypted_TextChanged"></TextBox>
+                <TextBox Grid.Row="3" Name="tbResultEncrypted" TextWrapping="Wrap" MaxWidth="450" MinHeight="80" IsReadOnly="True" Margin="5,5,5,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextChanged="tbResultEncrypted_TextChanged"></TextBox>
             </Grid>
         </GroupBox>
     </Grid>

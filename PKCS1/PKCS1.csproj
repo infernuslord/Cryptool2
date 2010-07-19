@@ -168,6 +168,8 @@
     <Compile Include="WpfControls\Start\StartControl.xaml.cs">
       <DependentUpon>StartControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WpfResources\ErrorsToMessageConverter.cs" />
+    <Compile Include="WpfResources\NumberValidationRule.cs" />
     <Compile Include="WpfVisualization\Navigation\Navigation.xaml.cs">
       <DependentUpon>Navigation.xaml</DependentUpon>
     </Compile>
