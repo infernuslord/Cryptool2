@@ -10,8 +10,15 @@ using Cryptool.PluginBase;
 
 namespace PKCS1.Library
 {
-    class KuehnSignature : Signature, IGuiLogMsg
+    public class KuehnSignature : Signature, IGuiLogMsg
     {
+        private int m_Iterations = 250000;
+        public int Iterations
+        {
+            get { return this.m_Iterations; }
+            set { this.m_Iterations = (int)value; }
+        }
+
         public KuehnSignature()
         {
             this.registerHandOff();
@@ -54,7 +61,6 @@ namespace PKCS1.Library
             BigInteger finalSignature = null;            
             int iMsgLength = bMessage.Length;
             bool isEqual = false;
-            int limit = 250000;
             int countLoops = 0;
 
             this.SendGuiLogMsg("Signature Generation started", NotificationLevel.Info);
@@ -62,7 +68,7 @@ namespace PKCS1.Library
             BigInteger T = new BigInteger("0"); // hilfsvar
             byte[] resultArray = new byte[this.m_KeyLength/8];
 
-            while (!isEqual && (countLoops < limit))
+            while (!isEqual && (countLoops < this.m_Iterations))
             {
                 hashDigest = Hashfunction.generateHashDigest(ref bMessage, ref hashFuncIdent); // Hashwert wird erzeugt
                 Array.Copy(hashDigest, 0, A, 11 + hashIdent.Length, hashDigest.Length); // erzeugter Hashwert wird in den Datenblock kopiert
@@ -98,7 +104,7 @@ namespace PKCS1.Library
                     countLoops++;
                 }
             }
-            if (countLoops != limit)
+            if (countLoops != this.m_Iterations)
             {
                 Datablock.getInstance().Message = bMessage;
                 byte[] returnByteArray = new byte[this.m_KeyLength / 8];

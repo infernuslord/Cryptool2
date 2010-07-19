@@ -21,6 +21,11 @@ namespace PKCS1.WpfControls.Components
     public partial class SigGenKuehnControl : UserControl
     {
         private KuehnSignature m_signature = new KuehnSignature();
+        public KuehnSignature Signature
+        {
+            get { return this.m_signature; }
+            set { this.m_signature = (KuehnSignature)value; }
+        }
 
         public SigGenKuehnControl()
         {
@@ -39,13 +44,13 @@ namespace PKCS1.WpfControls.Components
         {
             Cursor = Cursors.Wait;
 
-            this.m_signature = (KuehnSignature)SignatureHandler.getInstance().getKuehnSig();
+            this.Signature = (KuehnSignature)SignatureHandler.getInstance().getKuehnSig();
 
-            if (this.m_signature.GenerateSignature())
+            if (this.Signature.GenerateSignature())
             {
-                UserControlHelper.loadRtbColoredSig(this.rtbResult, this.m_signature.GetSignatureDecToHexString());
-                this.tbResultEncrypted.Text = this.m_signature.GetSignatureToHexString();
-                SignatureHandler.getInstance().setKuehnSig(this.m_signature);
+                UserControlHelper.loadRtbColoredSig(this.rtbResult, this.Signature.GetSignatureDecToHexString());
+                this.tbResultEncrypted.Text = this.Signature.GetSignatureToHexString();
+                SignatureHandler.getInstance().setKuehnSig(this.Signature);
             }
             else
             {
