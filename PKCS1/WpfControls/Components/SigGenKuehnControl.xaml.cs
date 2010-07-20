@@ -20,7 +20,7 @@ namespace PKCS1.WpfControls.Components
     /// </summary>
     public partial class SigGenKuehnControl : UserControl
     {
-        private KuehnSignature m_signature = new KuehnSignature();
+        private KuehnSignature m_signature = (KuehnSignature)SignatureHandler.getInstance().getKuehnSig();
         public KuehnSignature Signature
         {
             get { return this.m_signature; }
@@ -44,7 +44,7 @@ namespace PKCS1.WpfControls.Components
         {
             Cursor = Cursors.Wait;
 
-            this.Signature = (KuehnSignature)SignatureHandler.getInstance().getKuehnSig();
+            //this.Signature = (KuehnSignature)SignatureHandler.getInstance().getKuehnSig();
 
             if (this.Signature.GenerateSignature())
             {
@@ -54,7 +54,7 @@ namespace PKCS1.WpfControls.Components
             }
             else
             {
-                this.tbError.Text = "Es ist ein Fehler aufgetreten. Signatur konnte nicht erstellt werden.";
+                this.tbError.Text = "Signatur konnte nicht erstellt werden. Es ist das Limit an Iterationen erreicht worden.";
             }
 
             Cursor = Cursors.Arrow;
@@ -68,6 +68,15 @@ namespace PKCS1.WpfControls.Components
         private void rtbResult_TextChanged(object sender, TextChangedEventArgs e)
         {
             this.lblSignatureLength.Content = "(Länge: " + UserControlHelper.GetRtbTextLength(this.rtbResult) * 4 + " bit)";
+        }
+
+        private void btn_Help_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender == btnHelpIterations)
+            {
+                OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(PKCS1.OnlineHelp.OnlineHelpActions.Gen_Kuehn_Iterations);
+            }
+            e.Handled = true;
         }
     }
 }

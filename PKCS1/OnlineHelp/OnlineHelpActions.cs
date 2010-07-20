@@ -17,6 +17,7 @@ namespace PKCS1.OnlineHelp
         Gen_PKCS1_Sig_Tab,
         Gen_Bleichenb_Sig_Tab,
         Gen_Kuehn_Sig_Tab,
+        Gen_Kuehn_Iterations,
         KeyGen_PubExponent,
         KeyGen_ModulusSize,
         StartControl,
