@@ -1,16 +1,34 @@
 ﻿<h2>Kuehn Signatur generieren</h2>
-In diesem Tab können Signaturen gefälscht werden nach der Methode wie sie Ulrich Kühn beschrieben hat.
-Die Signaturen ähneln denen von Bleichenbacher
+In diesem Tab können gefälschte Signaturen, nach der Methode wie sie Ulrich Kühn beschrieben hat, erstellt werden.
+Die Signaturen ähneln in der Struktur denen von <a href="help://Gen_Bleichenb_Sig_Tab">Bleichenbacher</a>, machen sich jedoch die Rechenkraft von
+Computern zu nutze und sind auch auf Signaturen von 1024 Bit Länge anwendbar. Auch hier liegt folgende Struktur zugrunde: '00' '01' PS '00' HI HW GG. </br>
 
-Position nicht wählbar sondern XX Byte als Padding werden genutzt, das kürzest mögliche. 
-Garbage == FF und nicht berechnet wie bei Bleichenbacher. Bei dieser Implementierung ist die Signatur schon 
-nach dem Kubikwurzelziehen dargestellt, daher kann der dargestellte Garbage von dem FF Schema abweichen.
-1024 Bit Signaturen möglich. 
-Solange probieren bis dass die Berechnung der dritten Wurzel und das Potenzieren das gleiche Ergebnis liefern. 
-Dabei werden nur die 46 signifikanten Bytes (von links) verglichen, da sich hier der Paddingstring, 
-Hashidentifier und Hashwert befinden. Fehlerhafte Implementierungen der Verifikation vergleichen auch nur diese
-Bytes und der Rest wird nicht beachtet.
+Die Unterschiede zu den Bleichenbacher Signaturen sind im Folgenden erläutert:
+<ul>
+  <li>
+    Der Paddingstring hat eine feste Länge von acht Byte (64 Bit). Diese Länge wurde gewählt, da einige fehlerhaften Implementierungen
+    verschiedene Längen des Paddingstring voraussetzten. Maximal wurden jedoch acht Byte benötigt. Somit ist auch die Position des Hash-Identifiers (HI)
+    und des Hashwertes (HW) fix.
+  </li>
+  <li>Der angehängte Garbage wird nicht berechnet, sondern es werden einfach die restlichen Oktetts mit 'FF' (hexadezimal 0xff) aufgefüllt.</li>
+</ul>
 
-Da oft die Kubikwurzel berechnet werden muss, kann es lange dauern. (Limit von 25000 einstellbar)
+Da der Garbage (GG) nicht berechnet wird, ist eine gefälschte Signatur nicht nur durch Kubikwurzelziehen zu erlangen. Der Ansatz von Kuehn ist, dass
+man von der oben beschriebenen Struktur die Kubikwurzel zieht und das Ergebnis mit drei potenziert. Vom dem Ergebnis aus der Potenzberechnung wiederum
+vergleicht man die ersten 46 Bytes (von links) mit der zuvor erstellten Struktur. Die 46 Bytes beinhalten:
+<ul>
+  <li>'00' '01' Die führenden Oktetts - 2 Byte Länge</li>
+  <li>PS Den Paddingstring - 8 Byte Länge</li>
+  <li>'00' Das trennende Null Oktett - 1 Byte Länge</li>
+  <li>HI Den Hash-Identifier - 15 Byte Länge (SHA-1)</li>
+  <li>HW Den Hashwert - 20 Byte Länge (SHA-1)</li>
+</ul>
 
-
+Stimmen die signifikanten 46 Bytes nicht überein, werden die zu signierenden Daten abgeändert. Dadurch ergibt sich ein anderer Hashwert und es wird
+erneut die Kubikwurzel berechnet, das Ergebnis potenziert und verglichen. Somit wird getestet, ob der Hash-Identifier und der Hashwert beim
+Kubikwurzelziehen und anschließendem Potenzieren unverändert bleibt.
+Werden beim Vergleich keine Unterschiede der 46 Bytes erkannt, wird die erstellte Signatur von fehlerhaften Implementierungen als korrekt betrachtet.</br>
+Da bei jeder Iteration des Algorithmus aufwendige Berechnungen wie Kubikwurzelziehen und Hashwert berechnen durchgeführt werden, kann eine lange Laufzeit
+zustande kommen. Um dies zu begrenzen kann ein Limit an Iterationen angegeben werden (Eingabefeld "Max. Anzahl an Iterationen").</br></br>
+Die Darstellung der unverschlüsselten Signatur in diesem Tab stellt die Signatur nach dem Potenzieren der verschlüsselten Signatur dar, so dass es dazu
+kommen kann, dass der Garbage nicht wie oben beschrieben nur aus 'FF'-Oktetten bestehen.

@@ -4,21 +4,12 @@ using System.Linq;
 using System.Text;
 using Org.BouncyCastle.Math;
 
-using Emil.GMP;
-using PKCS1.BigNum;
+//using Emil.GMP;
 
 namespace PKCS1.Library
 {
     class MathFunctions
     {
-        // nur zum Test; nutzt Emil.GMP lib
-        static public BigInteger cuberoot2(BigInteger radicant)
-        {
-            BigInt test = new BigInt(radicant.ToString());
-            BigInt returnBigInt = test.Root(3);
-            return new BigInteger(returnBigInt.ToString());
-        }
-
         // Heron Algorithmus
         static public BigInteger cuberoot(BigInteger radicant)
         {
@@ -56,106 +47,6 @@ namespace PKCS1.Library
                 }
             }
             return true;
-        }
-
-
-
-        /// <summary>
-        /// Computes an approximate cube root of a number,
-        /// by using the Newton approximation for next guess.
-        /// </summary>
-        /// <param name="x">The number to compute the cube root from.</param>
-        /// <returns></returns>
-        static public BigInteger cuberoot3(BigInteger BigIntRad)
-        {
-            BigNumDec y;               // Guess
-            BigNumDec d;               // Last difference of y3 and x
-            BigNumDec l;               // The limit for optimal guess
-
-            // Check for simple cases:
-            if (BigIntRad.Equals(BigInteger.Zero))
-                return BigInteger.Zero;
-            else if (BigIntRad.Equals(BigInteger.One))
-                return BigInteger.One;
-            else if (BigIntRad.Equals(BigInteger.ValueOf(-1)))
-                return BigInteger.ValueOf(-1);
-            else
-            {
-                BigNumDec x = new BigNumDec(BigIntRad.ToString());
-
-                //l = Math.Abs(x * 1E-14);                // Set the limit appropriately
-                BigNumDec E = new BigNumDec("0.00000000000000000000000000000000000000000000000000000000000000000001");
-                l = BigNumDec.Multiply(x, E);
-                
-                // the multiplication with x (its magnitude) should
-                // ensure no infinite loops, at the cost
-                // of some precision on high numbers.
-
-                // Make initial guess:                
-                //double g = Math.Abs(x);     // Do this guess on a positive number
-                BigNumDec g = x;
-                //if (g < BigInteger.One)
-                //if (g.CompareTo(new BigNumDec(1)) < 1)
-                if( g < new BigNumDec(1))
-                    y = x;
-                //else if (g < 10)
-                //else if (g.CompareTo(new BigNumDec(10)) == -1)
-                else if( g < 10)
-                    //y = x / 3;
-                    y = BigNumDec.Divide(x,new BigNumDec(3));
-                else if (g < 20)
-                    //y = x / 6;
-                    y = BigNumDec.Divide(x,new BigNumDec(6));
-                else if (g < 50)
-                    //y = x / 10;
-                    y = BigNumDec.Divide(x,new BigNumDec(10));
-                else if (g < 100)
-                    //y = x / 20;
-                    y = BigNumDec.Divide(x,new BigNumDec(20));
-                else if (g < 1000)
-                    //y = x / 50;
-                    y = BigNumDec.Divide(x,new BigNumDec(50));
-                else if (g < 5000)
-                    //y = x / 100;
-                    y = BigNumDec.Divide(x, new BigNumDec(100));
-                //else if (g < 10000)
-                //else if (g.CompareTo(new BigNumDec(10000)) == -1)
-                else if( g < 10000)
-                    //y = x / 500;
-                    y = BigNumDec.Divide(x,new BigNumDec(500));
-                else if (g < 50000)
-                    //y = x / 1000;
-                    y = BigNumDec.Divide(x, new BigNumDec(1000));
-                else if (g < 100000)
-                    //y = x / 50000;
-                    y = BigNumDec.Divide(x, new BigNumDec(50000));
-                else
-                    //y = x / 100000;
-                    y = BigNumDec.Divide(x,new BigNumDec(100000));
-
-                // Improve guess immediately:
-                //y = ((x / (y * y)) + 2 * y) / 3;            // Newton's approx. for new guess
-                y = BigNumDec.Divide( BigNumDec.Add( BigNumDec.Divide(x, BigNumDec.Multiply(y,y)) , BigNumDec.Multiply(new BigNumDec(2),y) ), new BigNumDec(3));
-                //d = Math.Abs(y * y * y - x);                // Calculate difference
-                d = BigNumDec.Multiply( BigNumDec.Multiply(y,y), y);
-                d = BigNumDec.Subtract( d, x);
-                d.Absolute();
-                #region
-                while (l < d)
-                {
-                    //y = ((x / (y * y)) + 2 * y) / 3;        // Newton's approx. for new guess
-                    y = BigNumDec.Divide(BigNumDec.Add(BigNumDec.Divide(x, BigNumDec.Multiply(y, y)), BigNumDec.Multiply(new BigNumDec(2), y)), new BigNumDec(3));
-                    //d = Math.Abs(y * y * y - x);                // Calculate difference
-                    d = BigNumDec.Multiply(BigNumDec.Multiply(y, y), y);
-                    d = BigNumDec.Subtract(d, x);
-                    d.Absolute();
-                }
-                #endregion
-
-                string test = y.ToString();
-
-                return BigInteger.Three;
-            }
         }
 
         static public BigInteger cuberoot4(BigInteger BigIntRad, int prec)

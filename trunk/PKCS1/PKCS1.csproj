@@ -44,10 +44,6 @@
     <Reference Include="CrypPluginBase">
       <HintPath>..\..\CrypBuild\x86\Debug\CrypPluginBase.dll</HintPath>
     </Reference>
-    <Reference Include="Emil.GMP, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\Emil.GMP.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -80,8 +76,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BigNum\BigNum.cs" />
-    <Compile Include="BigNum\BigNumDec.cs" />
     <Compile Include="Library\BleichenbacherSignature.cs" />
     <Compile Include="Library\GuiLogMsgHandOff.cs" />
     <Compile Include="Library\IGuiLogMsg.cs" />
@@ -326,6 +320,9 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="OnlineHelp\HelpFiles\de\Gen_Kuehn_Iterations.html">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="OnlineHelp\HelpFiles\de\Gen_Datablock_Tab.html" />
     <Content Include="OnlineHelp\HelpFiles\de\Gen_PKCS1_Sig_Tab.html" />
     <Content Include="OnlineHelp\HelpFiles\de\Gen_Bleichenb_Sig_Tab.html">
@@ -334,16 +331,26 @@
     <Content Include="OnlineHelp\HelpFiles\de\Gen_Kuehn_Sig_Tab.html">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="OnlineHelp\HelpFiles\de\KeyGen_PubExponent.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\KeyGen_PubExponent.html">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="OnlineHelp\HelpFiles\de\KeyGen_ModulusSize.html" />
-    <Content Include="OnlineHelp\HelpFiles\de\StartControl.html" />
-    <Content Include="OnlineHelp\HelpFiles\de\SigGenFakeBleichenbacher.html" />
-    <Content Include="OnlineHelp\HelpFiles\de\SigGenFakeKuehn.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\StartControl.html">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="OnlineHelp\HelpFiles\de\SigGenFakeBleichenbacher.html">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="OnlineHelp\HelpFiles\de\SigGenFakeKuehn.html">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="OnlineHelp\HelpFiles\de\KeyGen.html" />
     <Content Include="OnlineHelp\HelpFiles\de\SigGen.html" />
     <Content Include="OnlineHelp\HelpFiles\de\SigVal.html" />
     <Content Include="OnlineHelp\HelpFiles\template.htm" />
-    <Content Include="WpfControls\Start.htm" />
+    <Content Include="WpfControls\Start.htm">
+      <SubType>Designer</SubType>
+    </Content>
     <Resource Include="Resources\icons\unequal.png" />
     <Resource Include="Resources\icons\equal.png" />
     <Resource Include="Resources\icons\help.png" />

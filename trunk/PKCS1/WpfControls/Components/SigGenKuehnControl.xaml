@@ -30,7 +30,7 @@
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Name="lblRsaKeySize" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top">RSA-Schlüsselgröße (in Bit):</Label>
                     <Label Grid.Row="1" Name="lblPublicKey" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top">Öffentlicher Schlüssel:</Label>
-                    <Label Grid.Row="2" Name="lblIterations" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top">Anzahl an Iterationen:</Label>
+                    <Label Grid.Row="2" Name="lblIterations" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top">Max. Anzahl an Iterationen:</Label>
                 </Grid>
                 <!-- middle -->
                 <Grid Grid.Column="1">
@@ -42,6 +42,7 @@
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Name="lblRsaKeySizeRes" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="50" MaxWidth="150"></Label>
                     <Label Grid.Row="1" Name="lblPublicKeyRes" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="50" MaxWidth="150"></Label>
+                    <DockPanel Grid.Row="2">
                     <TextBox Grid.Row="2" Name="tbIterations" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="50">                        
                         <Binding ElementName="This" Path="Signature.Iterations" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -49,6 +50,8 @@
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox>
+                    <Image Name="btnHelpIterations" Cursor="Hand" Source="../../Resources/icons/help.png" Width="16" Height="16" HorizontalAlignment="Right" MouseLeftButtonDown="btn_Help_MouseLeftButtonDown" />
+                    </DockPanel>
                     <TextBlock Grid.Row="3"  Foreground="Red" FontWeight="Bold" FontSize="10"
                                 Text="{Binding ElementName=tbIterations,
                                 Path=(Validation.Errors),
