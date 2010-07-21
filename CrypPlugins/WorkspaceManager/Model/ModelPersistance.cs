@@ -39,8 +39,52 @@ namespace WorkspaceManager.Model
         /// <returns></returns>
         public static WorkspaceModel loadModel(string filename, WorkspaceManager workspaceManagerEditor)
         {
-            WorkspaceModel workspacemodel = (WorkspaceModel)XMLSerialization.XMLSerialization.Deserialize(filename);    
+            PersistantModel persistantModel = (PersistantModel)XMLSerialization.XMLSerialization.Deserialize(filename);
+            WorkspaceModel workspacemodel = persistantModel.WorkspaceModel;
             workspacemodel.WorkspaceManagerEditor = workspaceManagerEditor;
+
+            foreach (PersistantPlugin persistantPlugin in persistantModel.PersistantPluginList)
+            {
+                foreach (PersistantSetting persistantSetting in persistantPlugin.PersistantSettingsList)
+                {
+
+                    PropertyInfo[] arrpInfo = persistantPlugin.PluginModel.Plugin.Settings.GetType().GetProperties();
+                    foreach (PropertyInfo pInfo in arrpInfo)
+                    {
+                        DontSaveAttribute[] dontSave = (DontSaveAttribute[])pInfo.GetCustomAttributes(typeof(DontSaveAttribute), false);
+                        if (dontSave.Length == 0)
+                        {
+                            if (pInfo.Name.Equals(persistantSetting.Name))
+                            {
+                                if (persistantSetting.Type.Equals("System.String"))
+                                {
+                                    pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings, (String)persistantSetting.Value, null);
+                                }
+                                else if (persistantSetting.Type.Equals("System.Int16"))
+                                {
+                                    pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings, System.Int16.Parse((String)persistantSetting.Value), null);
+                                }
+                                else if (persistantSetting.Type.Equals("System.Int32"))
+                                {
+                                    pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings, System.Int32.Parse((String)persistantSetting.Value), null);
+                                }
+                                else if (persistantSetting.Type.Equals("System.Int64"))
+                                {
+                                    pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings, System.Int64.Parse((String)persistantSetting.Value), null);
+                                }
+                                else if (persistantSetting.Type.Equals("System.Double"))
+                                {
+                                    pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings, System.Double.Parse((String)persistantSetting.Value), null);
+                                }
+                                else if (persistantSetting.Type.Equals("System.Boolean"))
+                                {
+                                    pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings, System.Boolean.Parse((String)persistantSetting.Value), null);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
             foreach (PluginModel pluginModel in workspacemodel.AllPluginModels)
             {
@@ -62,6 +106,7 @@ namespace WorkspaceManager.Model
                     eventinfo.AddEventHandler(connectorModel.PluginModel.Plugin, new DynamicPropertiesChanged(connectorModel.PropertyTypeChangedOnPlugin));
                 }
             }
+
             return workspacemodel;          
         }
 
@@ -73,7 +118,55 @@ namespace WorkspaceManager.Model
         /// <returns></returns>
         public static void saveModel(WorkspaceModel workspaceModel, string filename)
         {
-           XMLSerialization.XMLSerialization.Serialize(workspaceModel, filename);
+            PersistantModel persistantModel = new PersistantModel();
+            persistantModel.WorkspaceModel = workspaceModel;
+
+            //Save all Settings of each Plugin
+            foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
+            {
+                PropertyInfo[] arrpInfo = pluginModel.Plugin.Settings.GetType().GetProperties();
+
+                PersistantPlugin persistantPlugin = new PersistantPlugin();
+                persistantPlugin.PluginModel = pluginModel;
+
+                foreach (PropertyInfo pInfo in arrpInfo)
+                {
+                    DontSaveAttribute[] dontSave = (DontSaveAttribute[])pInfo.GetCustomAttributes(typeof(DontSaveAttribute), false);
+                    if (pInfo.CanWrite && dontSave.Length == 0)
+                    {
+                        PersistantSetting persistantSetting = new PersistantSetting();
+                        persistantSetting.Value = "" + pInfo.GetValue(pluginModel.Plugin.Settings, null);
+                        persistantSetting.Name = pInfo.Name;
+                        persistantSetting.Type = pInfo.PropertyType.FullName;
+                        persistantPlugin.PersistantSettingsList.Add(persistantSetting);
+                    }
+
+                }
+                persistantModel.PersistantPluginList.Add(persistantPlugin);
+            }
+            XMLSerialization.XMLSerialization.Serialize(persistantModel, filename);
         }
     }
+
+    [Serializable]
+    public class PersistantModel{
+        public WorkspaceModel WorkspaceModel{get;set;}
+        public List<PersistantPlugin> PersistantPluginList = new List<PersistantPlugin>();
+    }
+
+    [Serializable]
+    public class PersistantPlugin
+    {
+        public PluginModel PluginModel { get; set; }
+        public List<PersistantSetting> PersistantSettingsList = new List<PersistantSetting>();
+    }
+
+    [Serializable]
+    public class PersistantSetting
+    {
+        public string Name {get;set;}
+        public string Type { get; set; }
+        public string Value { get; set; }
+    }
+
 }
