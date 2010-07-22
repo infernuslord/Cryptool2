@@ -18,8 +18,8 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <Grid Background="{StaticResource ResourceKey=EditorBackgroundLinearBrush}">
-            <Border Background="{StaticResource ResourceKey=GridBrush}">
+        <Grid Background="{StaticResource ResourceKey=EditorBackgroundRadientBrush}">
+            <Border>
                 <Canvas Name="root">
                     <Canvas.LayoutTransform>
                         <TransformGroup>
@@ -33,7 +33,7 @@
             </DockPanel>
         </Grid>
         
-        <Grid Width="auto" Height="auto" Name="InformationPanel" Visibility="Hidden">
+        <Grid Width="auto" Height="auto" Name="InformationPanel" Visibility="Hidden" Opacity="0">
             <Grid.Background>
                 <SolidColorBrush Opacity="0.45" Color="Black"/>
             </Grid.Background>

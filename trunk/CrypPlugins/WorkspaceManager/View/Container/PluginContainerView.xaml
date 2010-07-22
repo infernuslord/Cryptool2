@@ -59,40 +59,75 @@
                             
                         </Popup>
                     </Canvas>
-                    <Border Name="Window" CornerRadius="5" BorderThickness="0" BorderBrush="Transparent" Margin="5">
-                        <Border.Background>
-                            <LinearGradientBrush Opacity="1" StartPoint="0,0" EndPoint="0,1">
-                                <GradientBrush.GradientStops>
-                                    <GradientStopCollection>
-                                        <GradientStop x:Name="BorderGradientStop" Color="#00b4fb" Offset="0.0"/>
-                                        <GradientStop x:Name="BorderGradientStopSecond" Color="#3300b4fb" Offset="1"/>
-                                    </GradientStopCollection>
-                                </GradientBrush.GradientStops>
-                            </LinearGradientBrush>
-                        </Border.Background>
-                        <Border.Effect>
-                            <DropShadowEffect BlurRadius="10" Direction="0" Color="Black" RenderingBias="Quality" ShadowDepth="0" ></DropShadowEffect>
-                        </Border.Effect>
+                    <Border Name="Window" BorderThickness="0" BorderBrush="Transparent" Margin="5">
                         <Grid>
-         
-                            <Thumb Name="BottomDelta" IsEnabled="False" Opacity="0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Cursor="SizeNS" DragDelta="Thumb_DragDelta"></Thumb>
-                            <Thumb Name="RightDelta" IsEnabled="False" Opacity="0" HorizontalAlignment="Right" VerticalAlignment="Stretch" Cursor="SizeWE" DragDelta="Thumb_DragDelta"></Thumb>
-                            <Thumb Name="BottomRightDelta" IsEnabled="False" Opacity="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Cursor="SizeNWSE" Height="15" Width="15" DragDelta="Thumb_DragDelta"></Thumb>
-                        
-                            <DockPanel Name="PresentationBase" Width="Auto" Height="Auto" LastChildFill="True" Margin="5,5,5,2">
-                                <!--<Grid Name="PluginNamePlate" DockPanel.Dock="Top" Margin="2.5,1.25,2.5,1.25" Height="17" Opacity="0.5" Background="#82bbef">
-                                    <Label Name="PluginName" FontSize="11" Margin="0,-3,0,0" FontFamily="Georgia" Foreground="WhiteSmoke" Content="test" HorizontalAlignment="left"></Label>
-                                </Grid>-->
-                                <Grid Name="MinMaxGrid" DockPanel.Dock="Bottom">
-                                    <Border BorderBrush="#88ffffff" Background="#33ffffff" BorderThickness="0.5" CornerRadius="2.5"/>
-                                    <Button Style="{StaticResource ResourceKey=MinMaxPluginContainerButtonStyle}" Margin="0,0,0,0" Click="MinMaxBorder_MouseLeftButtonDown">
-                                        <Button.LayoutTransform>
-                                            <ScaleTransform x:Name="MinMaxScale" ScaleX="0.92" ScaleY="0.92"></ScaleTransform>
-                                        </Button.LayoutTransform>
-                                        <Image SnapsToDevicePixels="True" x:Name="MinMaxImage" Source="/WorkspaceManager;component/View/Image/Max.png" HorizontalAlignment="Center" Height="10" Width="28" Margin="1,1,1,1"/>
-                                    </Button>
+
+                            <Thumb Panel.ZIndex="100" Name="BottomDelta" IsEnabled="False" Opacity="0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Cursor="SizeNS" DragDelta="Thumb_DragDelta" Height="2.5"></Thumb>
+                            <Thumb Panel.ZIndex="100" Name="RightDelta" IsEnabled="False" Opacity="0" HorizontalAlignment="Right" VerticalAlignment="Stretch" Cursor="SizeWE" DragDelta="Thumb_DragDelta" Width="2.5"></Thumb>
+                            <Thumb Panel.ZIndex="100" Name="BottomRightDelta" IsEnabled="False" Opacity="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Cursor="SizeNWSE" Height="5" Width="7" DragDelta="Thumb_DragDelta"></Thumb>
+
+                            <DockPanel LastChildFill="True">
+
+                                <Grid DockPanel.Dock="Right" Margin="0">
+                                    <Grid.Effect>
+                                        <DropShadowEffect Opacity="0.5" ShadowDepth="0"></DropShadowEffect>
+                                    </Grid.Effect>
+                                    <Grid.LayoutTransform>
+                                        <ScaleTransform ScaleX="0.6" ScaleY="0.6"></ScaleTransform>
+                                    </Grid.LayoutTransform>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="10"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Background="{StaticResource ResourceKey=BubblePopupLinearBrush}" HorizontalAlignment="Left" BorderBrush="#f8f692" Width="10" CornerRadius="0,5,5,0" Grid.Column="0" MouseLeftButtonDown="Border_MouseLeftButtonDown"/>
+                                    <Path Fill="#ffffec" Stretch="Fill" Stroke="#f8f692" HorizontalAlignment="Left" Grid.Column="0"  Width="25" Height="100" Data="M18,154.45381 L29.999666,187.66699 40.791059,154.54395">
+                                        <Path.LayoutTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform ScaleY="0.1"></ScaleTransform>
+                                                <RotateTransform Angle="90"></RotateTransform>
+                                            </TransformGroup>
+                                        </Path.LayoutTransform>
+                                        <Path.RenderTransform>
+                                            <TranslateTransform X="-10"></TranslateTransform>
+                                        </Path.RenderTransform>
+                                    </Path>
                                 </Grid>
-                                <Border Name="PresentationPanel" Width="Auto" Height="Auto"  Background="Transparent" Margin="0,0,0,2.5"></Border>
+
+                                <Border x:Name="DockBG" Visibility="Collapsed" Background="Black" Panel.ZIndex="-1" DockPanel.Dock="Right"></Border>
+
+                                <Border Panel.ZIndex="-1" Name="Window2" CornerRadius="5,0,0,5" BorderThickness="0" BorderBrush="Transparent" MinWidth="50">
+                                    <Border.Background>
+                                        <LinearGradientBrush Opacity="1" StartPoint="0,0" EndPoint="0,1">
+                                            <GradientBrush.GradientStops>
+                                                <GradientStopCollection>
+                                                    <GradientStop x:Name="BorderGradientStop" Color="#00b4fb" Offset="0.0"/>
+                                                    <GradientStop x:Name="BorderGradientStopSecond" Color="#3300b4fb" Offset="1"/>
+                                                </GradientStopCollection>
+                                            </GradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Border.Effect>
+                                        <DropShadowEffect BlurRadius="10" Direction="0" Color="Black" RenderingBias="Quality" ShadowDepth="0" ></DropShadowEffect>
+                                    </Border.Effect>
+                                    <Grid DockPanel.Dock="Left">
+
+                                        <DockPanel Name="PresentationBase" Width="Auto" Height="Auto" LastChildFill="True" Margin="5,5,5,2">
+                                            <!--<Grid Name="PluginNamePlate" DockPanel.Dock="Top" Margin="2.5,1.25,2.5,1.25" Height="17" Opacity="0.5" Background="#82bbef">
+                                            <Label Name="PluginName" FontSize="11" Margin="0,-3,0,0" FontFamily="Georgia" Foreground="WhiteSmoke" Content="test" HorizontalAlignment="left"></Label>
+                                        </Grid>-->
+                                            <Grid Name="MinMaxGrid" DockPanel.Dock="Bottom">
+                                                <Border BorderBrush="#88ffffff" Background="#33ffffff" BorderThickness="0.5" CornerRadius="2.5"/>
+                                                <Button Style="{StaticResource ResourceKey=MinMaxPluginContainerButtonStyle}" Margin="0,0,0,0" Click="MinMaxBorder_MouseLeftButtonDown">
+                                                    <Button.LayoutTransform>
+                                                        <ScaleTransform x:Name="MinMaxScale" ScaleX="0.92" ScaleY="0.92"></ScaleTransform>
+                                                    </Button.LayoutTransform>
+                                                    <Image SnapsToDevicePixels="True" x:Name="MinMaxImage" Source="/WorkspaceManager;component/View/Image/Max.png" HorizontalAlignment="Center" Height="10" Width="28" Margin="1,1,1,1"/>
+                                                </Button>
+                                            </Grid>
+                                            <Border Name="PresentationPanel" Width="Auto" Height="Auto"  Background="Transparent" Margin="0,0,0,2.5"></Border>
+                                        </DockPanel>
+                                    </Grid>
+                                </Border>
                             </DockPanel>
                         </Grid>
                     </Border>
@@ -108,7 +143,7 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="40"/>
                             </Grid.RowDefinitions>
-                            <Border Background="{StaticResource ResourceKey=BubblePopupLinearBrush}" BorderBrush="#f8f692" CornerRadius="10">
+                            <Border Background="{StaticResource ResourceKey=BubblePopupLinearBrush}" BorderBrush="#f8f692" CornerRadius="10" >
                                 <Grid Margin="6">
                                     <ScrollViewer>
                                         <TextBlock x:Name="Content" Foreground="#444444" FontSize="16"
