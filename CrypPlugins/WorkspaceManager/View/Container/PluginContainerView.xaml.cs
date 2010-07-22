@@ -80,6 +80,16 @@ namespace WorkspaceManager.View.Container
         {
             setBaseControl(model);
             InitializeComponent();
+
+            foreach (ConnectorModel ConnectorModel in model.InputConnectors)
+            {
+                AddInputConnectorView(new ConnectorView(ConnectorModel));
+            }
+
+            foreach (ConnectorModel ConnectorModel in model.OutputConnectors)
+            {
+                AddOutputConnectorView(new ConnectorView(ConnectorModel));
+            }
         }
         #endregion
 
@@ -88,9 +98,7 @@ namespace WorkspaceManager.View.Container
         {
             connector.OnConnectorMouseLeftButtonDown += new EventHandler<ConnectorViewEventArgs>(connector_OnConnectorMouseLeftButtonDown);
             this.ConnectorViewList.Add(connector);
-            this.DataPresentationPanel.Children.Add(new DataPresentation(connector));
             this.InputConnectorPanel.Children.Add(connector);
-            this.SetAllConnectorPositionX();
         }
 
 
@@ -98,9 +106,7 @@ namespace WorkspaceManager.View.Container
         {
             connector.OnConnectorMouseLeftButtonDown += new EventHandler<ConnectorViewEventArgs>(connector_OnConnectorMouseLeftButtonDown);
             this.ConnectorViewList.Add(connector);
-            this.DataPresentationPanel.Children.Add(new DataPresentation(connector));
             this.OutputConnectorPanel.Children.Add(connector);
-            this.SetAllConnectorPositionX();
         }
 
         public void SetPosition(Point value)
@@ -135,38 +141,45 @@ namespace WorkspaceManager.View.Container
 
         private void SetAllConnectorPositionX()
         {
-            GeneralTransform gTransform, gTransformSec;
-            Point point, relativePoint;
-            double x, y;
-
-            foreach (ConnectorView conn in InputConnectorPanel.Children)
+            try
             {
-                gTransform = this.InputConnectorPanel.TransformToVisual(this);
-                gTransformSec = conn.TransformToVisual(this.InputConnectorPanel);
+                GeneralTransform gTransform, gTransformSec;
+                Point point, relativePoint;
+                double x, y;
 
-                point = gTransform.Transform(new Point(0, 0));
-                relativePoint = gTransformSec.Transform(new Point(0, 0));
+                foreach (ConnectorView conn in InputConnectorPanel.Children)
+                {
+                    gTransform = this.InputConnectorPanel.TransformToVisual(this);
+                    gTransformSec = conn.TransformToVisual(this.InputConnectorPanel);
 
-                x = (RenderTransform as TranslateTransform).X + point.X + relativePoint.X;
-                y = (RenderTransform as TranslateTransform).Y + point.Y + relativePoint.Y;
+                    point = gTransform.Transform(new Point(0, 0));
+                    relativePoint = gTransformSec.Transform(new Point(0, 0));
 
-                conn.PositionOnWorkSpaceX = x;
-                conn.PositionOnWorkSpaceY = y;
+                    x = (RenderTransform as TranslateTransform).X + point.X + relativePoint.X;
+                    y = (RenderTransform as TranslateTransform).Y + point.Y + relativePoint.Y;
+
+                    conn.PositionOnWorkSpaceX = x;
+                    conn.PositionOnWorkSpaceY = y;
+                }
+
+                foreach (ConnectorView conn in OutputConnectorPanel.Children)
+                {
+                    gTransform = this.OutputConnectorPanel.TransformToVisual(this);
+                    gTransformSec = conn.TransformToVisual(this.OutputConnectorPanel);
+
+                    point = gTransform.Transform(new Point(0, 0));
+                    relativePoint = gTransformSec.Transform(new Point(0, 0));
+
+                    x = (RenderTransform as TranslateTransform).X + point.X + relativePoint.X;
+                    y = (RenderTransform as TranslateTransform).Y + point.Y + relativePoint.Y;
+
+                    conn.PositionOnWorkSpaceX = x;
+                    conn.PositionOnWorkSpaceY = y;
+                }
             }
-
-            foreach (ConnectorView conn in OutputConnectorPanel.Children)
+            catch (Exception e)
             {
-                gTransform = this.OutputConnectorPanel.TransformToVisual(this);
-                gTransformSec = conn.TransformToVisual(this.OutputConnectorPanel);
-
-                point = gTransform.Transform(new Point(0, 0));
-                relativePoint = gTransformSec.Transform(new Point(0, 0));
-
-                x = (RenderTransform as TranslateTransform).X + point.X + relativePoint.X;
-                y = (RenderTransform as TranslateTransform).Y + point.Y + relativePoint.Y;
-
-                conn.PositionOnWorkSpaceX = x;
-                conn.PositionOnWorkSpaceY = y;
+                Console.Out.WriteLine(e.ToString());
             }
         }
         #endregion
@@ -200,15 +213,7 @@ namespace WorkspaceManager.View.Container
                 this.MinMaxImage.Source = new BitmapImage(new Uri("/WorkspaceManager;component/View/Image/Min.png", UriKind.RelativeOrAbsolute));
             }
 
-            foreach (ConnectorModel ConnectorModel in model.InputConnectors)
-            {
-                AddInputConnectorView(new ConnectorView(ConnectorModel));
-            }
-
-            foreach (ConnectorModel ConnectorModel in model.OutputConnectors)
-            {
-                AddOutputConnectorView(new ConnectorView(ConnectorModel));
-            }
+            SetAllConnectorPositionX();
         }
 
         void connector_OnConnectorMouseLeftButtonDown(object sender, ConnectorViewEventArgs e)
@@ -270,6 +275,7 @@ namespace WorkspaceManager.View.Container
             {
                 if ((PluginBase.ActualHeight + e.VerticalChange) > 0)
                     PluginBase.Height = PluginBase.ActualHeight + e.VerticalChange;
+
             }
 
             if (t.Cursor == Cursors.SizeNWSE)
@@ -312,6 +318,13 @@ namespace WorkspaceManager.View.Container
                 MinMaxImage.Source = new BitmapImage(new Uri("/WorkspaceManager;component/View/Image/Max.png", UriKind.RelativeOrAbsolute));
                 return;
             }
+
+            foreach (ConnectorView connector in connectorViewList)
+            {
+                this.DataPresentationPanel.Children.Add(new DataPresentation(connector));
+            }
+
+            this.SetAllConnectorPositionX();
         }
 
         private void ShowAllButton_Click(object sender, RoutedEventArgs e)
@@ -360,9 +373,27 @@ namespace WorkspaceManager.View.Container
         #endregion
 
 
-        internal void LoadConnection()
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            throw new NotImplementedException();
+            if (DockBG.Visibility == Visibility.Collapsed)
+            {
+                MinWidth += DockBG.ActualWidth;
+                MinHeight += 150;
+                DockBG.Width = 150;
+                DockBG.Visibility = Visibility.Visible;
+                PluginBase.Height += 200;
+                PluginBase.Width += 150;
+            }
+            else if (DockBG.Visibility == Visibility.Visible)
+            {
+                MinWidth -= DockBG.ActualWidth;
+                MinHeight -= DockBG.ActualHeight;
+                DockBG.Width = 0;
+                DockBG.Visibility = Visibility.Collapsed;
+                PluginBase.Height -= 200;
+                PluginBase.Width -= 150;
+            }
+
         }
     }
 

@@ -51,9 +51,9 @@
         <GradientStop Color="#46567b" Offset="0.0" />
     </RadialGradientBrush>
 
-    <RadialGradientBrush x:Key="EditorBackgroundRadientBrush" GradientOrigin="0.5,0.5">
-        <GradientStop Color="Transparent" Offset="0.0" />
-        <GradientStop Color="White" Offset="1.0" />
+    <RadialGradientBrush x:Key="EditorBackgroundRadientBrush" GradientOrigin="0.5,3">
+        <GradientStop Color="#111419" Offset="1.1" />
+        <GradientStop Color="#7d98e7" Offset="0.0" />
     </RadialGradientBrush>
 
     <DrawingBrush x:Key="GridBrush" Viewport="0,0,10,10" ViewportUnits="Absolute" TileMode="Tile" Opacity="0.05">
