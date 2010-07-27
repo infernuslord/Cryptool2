@@ -106,7 +106,7 @@ namespace PKCS1.Resources.lang.Navigation {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to PKCS #1-Signatur validieren.
+        ///   Looks up a localized string similar to PKCS #1-Signatur verifizieren.
         /// </summary>
         public static string pkcs1validate {
             get {
