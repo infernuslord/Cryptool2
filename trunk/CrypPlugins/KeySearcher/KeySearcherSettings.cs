@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Numerics;
 using System.Windows;
-using Cryptool.P2P;
 using Cryptool.PluginBase;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
-using KeySearcher.KeyPattern;
 using KeySearcher.P2P.Storage;
 
 namespace KeySearcher
@@ -15,6 +12,7 @@ namespace KeySearcher
         private readonly KeySearcher keysearcher;
         private int coresUsed;
         private const string GroupPeerToPeer = "Peer-to-Peer network";
+        private const string GroupEvaluation = "Evaluation";
 
         public KeySearcherSettings(KeySearcher ks)
         {
@@ -149,6 +147,82 @@ namespace KeySearcher
             Clipboard.SetDataObject(statusKey, true);
             keysearcher.GuiLogMessage("Status key '" + statusKey + "' has been copied to clipboard.",
                                       NotificationLevel.Info);
+        }
+
+        private string evaluationHost;
+        [TaskPane("Host", "Database host with evaluation database", GroupEvaluation, 0, false, DisplayLevel.Expert, ControlType.TextBox)]
+        public String EvaluationHost
+        {
+            get
+            {
+                return evaluationHost;
+            }
+            set
+            {
+                if (value != evaluationHost)
+                {
+                    evaluationHost = value;
+                    OnPropertyChanged("EvaluationHost");
+                    HasChanges = true;
+                }
+            }
+        }
+
+        private string evaluationUser;
+        [TaskPane("User", "Username for evaluation database", GroupEvaluation, 1, false, DisplayLevel.Expert, ControlType.TextBox)]
+        public String EvaluationUser
+        {
+            get
+            {
+                return evaluationUser;
+            }
+            set
+            {
+                if (value != evaluationUser)
+                {
+                    evaluationUser = value;
+                    OnPropertyChanged("EvaluationUser");
+                    HasChanges = true;
+                }
+            }
+        }
+
+        private string evaluationPassword;
+        [TaskPane("Password", "Password for evaluation database", GroupEvaluation, 2, false, DisplayLevel.Expert, ControlType.TextBox)]
+        public String EvaluationPassword
+        {
+            get
+            {
+                return evaluationPassword;
+            }
+            set
+            {
+                if (value != evaluationPassword)
+                {
+                    evaluationPassword = value;
+                    OnPropertyChanged("EvaluationPassword");
+                    HasChanges = true;
+                }
+            }
+        }
+
+        private string evaluationDatabase;
+        [TaskPane("Database", "Name of the evaluation database", GroupEvaluation, 3, false, DisplayLevel.Expert, ControlType.TextBox)]
+        public String EvaluationDatabase
+        {
+            get
+            {
+                return evaluationDatabase;
+            }
+            set
+            {
+                if (value != evaluationDatabase)
+                {
+                    evaluationDatabase = value;
+                    OnPropertyChanged("EvaluationDatabase");
+                    HasChanges = true;
+                }
+            }
         }
 
         private ObservableCollection<string> coresAvailable = new ObservableCollection<string>();

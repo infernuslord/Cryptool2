@@ -113,6 +113,7 @@
     <Compile Include="KeyPattern\KeyPatternPool.cs" />
     <Compile Include="KeySearcher.cs" />
     <Compile Include="P2P\Helper\ConnectionHelper.cs" />
+    <Compile Include="P2P\Helper\DatabaseStatistics.cs" />
     <Compile Include="P2P\Presentation\StatisticsGenerator.cs" />
     <Compile Include="P2P\Presentation\StatusContainer.cs" />
     <Compile Include="P2P\Storage\StatusUpdater.cs" />

@@ -161,6 +161,10 @@ namespace KeySearcher.P2P
                     keyPoolTree.Reset();
                     continue;
                 }
+
+                // Push statistics to database
+                status.CurrentOperation = "Pushing statistics to evaluation database";
+                DatabaseStatistics.PushToDatabase(status, StopWatch.ElapsedMilliseconds, keyPoolTree.Identifier, settings, keySearcher);
             }
 
             // Set progress to 100%
@@ -169,7 +173,6 @@ namespace KeySearcher.P2P
                 keySearcher.showProgress(keySearcher.costList, 1, 1, 1);
                 keySearcher.GuiLogMessage("Calculation complete.", NotificationLevel.Info);
                 keyPoolTree.UpdateStatusForFinishedCalculation();
-                
             }
 
             StatisticsGenerator.CalculationStopped();
