@@ -11,13 +11,14 @@ namespace KeySearcher.P2P.Tree
 {
     internal class KeyPoolTree
     {
+        public readonly string Identifier;
+        
         private readonly KeySearcher keySearcher;
         private readonly StatusContainer statusContainer;
         private readonly StatisticsGenerator statisticsGenerator;
         private readonly KeyPatternPool patternPool;
         private readonly NodeBase rootNode;
         private readonly StorageHelper storageHelper;
-        private readonly string identifier;
         private readonly StatusUpdater statusUpdater;
         private readonly int updateIntervalMod;
 
@@ -30,7 +31,7 @@ namespace KeySearcher.P2P.Tree
             this.keySearcher = keySearcher;
             this.statusContainer = statusContainer;
             this.statisticsGenerator = statisticsGenerator;
-            identifier = identifierGenerator.Generate();
+            Identifier = identifierGenerator.Generate();
 
             storageHelper = new StorageHelper(keySearcher, statisticsGenerator, statusContainer);
             statusUpdater = new StatusUpdater(statusContainer, identifierGenerator.GenerateStatusKey());
@@ -39,7 +40,7 @@ namespace KeySearcher.P2P.Tree
 
             statisticsGenerator.MarkStartOfNodeSearch();
             rootNode = NodeFactory.CreateNode(storageHelper, keyQualityHelper, null, 0, this.patternPool.Length - 1,
-                                              identifier);
+                                              Identifier);
             statisticsGenerator.MarkEndOfNodeSearch();
 
             currentNode = rootNode;
@@ -47,7 +48,7 @@ namespace KeySearcher.P2P.Tree
 
         public DateTime StartDate()
         {
-            return storageHelper.StartDate(identifier);
+            return storageHelper.StartDate(Identifier);
         }
 
         public Leaf FindNextLeaf()

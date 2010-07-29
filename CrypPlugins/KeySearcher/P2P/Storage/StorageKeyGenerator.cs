@@ -38,16 +38,16 @@ namespace KeySearcher.P2P.Storage
                 Array.Copy(inputData, inputData, bytesToUse);
 
             rawIdentifier += Encoding.ASCII.GetString(inputData);
-
-            /*
+            
             // Add cost of input data to preserve cost master settings
             rawIdentifier += keySearcher.CostMaster.calculateCost(inputData);
 
+            /*
             // Add decrypted input data to preserve encryption settings
             var keyLength = keySearcher.Pattern.giveInputPattern().Length / 3;
             var decryptedData = keySearcher.ControlMaster.Decrypt(inputData, new byte[keyLength], new byte[8]);
             rawIdentifier += Encoding.ASCII.GetString(decryptedData);
-             */
+            */
 
             var hashAlgorithm = new SHA1CryptoServiceProvider();
             var hash = hashAlgorithm.ComputeHash(Encoding.ASCII.GetBytes(rawIdentifier));
