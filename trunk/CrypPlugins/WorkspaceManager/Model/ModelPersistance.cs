@@ -107,6 +107,39 @@ namespace WorkspaceManager.Model
                 }
             }
 
+            //restore all IControls
+            foreach (ConnectionModel connectionModel in workspacemodel.AllConnectionModels) 
+            {
+                ConnectorModel from = connectionModel.From;
+                ConnectorModel to = connectionModel.To;
+
+                if (from.IControl && to.IControl)
+                {
+                    object data = null;
+                    //Get IControl data from "to"
+                    if (to.IsDynamic)
+                    {
+                        data = to.PluginModel.Plugin.GetType().GetMethod(to.DynamicGetterName).Invoke(to.PluginModel.Plugin, new object[] { to.PropertyName });
+                    }
+                    else
+                    {
+                        data = to.PluginModel.Plugin.GetType().GetProperty(to.PropertyName).GetValue(to.PluginModel.Plugin, null);
+                    }
+
+                    //Set IControl data
+                    if (from.IsDynamic)
+                    {
+                        MethodInfo propertyInfo = from.PluginModel.Plugin.GetType().GetMethod(from.DynamicSetterName);
+                        propertyInfo.Invoke(from.PluginModel.Plugin, new object[] { from.PropertyName, data });
+                    }
+                    else
+                    {
+                        PropertyInfo propertyInfo = from.PluginModel.Plugin.GetType().GetProperty(from.PropertyName);
+                        propertyInfo.SetValue(from.PluginModel.Plugin, data, null);
+                    }
+                }
+            }
+
             return workspacemodel;          
         }
 

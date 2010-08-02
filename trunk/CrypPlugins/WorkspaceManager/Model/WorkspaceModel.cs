@@ -20,6 +20,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using Cryptool.PluginBase;
+using System.Reflection;
 
 namespace WorkspaceManager.Model
 {
@@ -125,6 +126,34 @@ namespace WorkspaceManager.Model
             from.OutputConnections.Add(connectionModel);
             to.InputConnections.Add(connectionModel);
             connectionModel.ConnectionType = connectionType;
+
+            //If we connect two IControls we have to set data directly:
+            if (from.IControl && to.IControl)
+            {
+                object data = null;
+                //Get IControl data from "to"
+                if (to.IsDynamic)
+                {
+                    data = to.PluginModel.Plugin.GetType().GetMethod(to.DynamicGetterName).Invoke(to.PluginModel.Plugin, new object[] { to.PropertyName });
+                }
+                else
+                {
+                    data = to.PluginModel.Plugin.GetType().GetProperty(to.PropertyName).GetValue(to.PluginModel.Plugin, null);
+                }
+
+                //Set IControl data
+                if (from.IsDynamic)
+                {
+                    MethodInfo propertyInfo = from.PluginModel.Plugin.GetType().GetMethod(from.DynamicSetterName);
+                    propertyInfo.Invoke(from.PluginModel.Plugin, new object[] { from.PropertyName, data });
+                }
+                else
+                {
+                    PropertyInfo propertyInfo = from.PluginModel.Plugin.GetType().GetProperty(from.PropertyName);
+                    propertyInfo.SetValue(from.PluginModel.Plugin, data, null);
+                }
+            }
+
             this.AllConnectionModels.Add(connectionModel);
             this.WorkspaceManagerEditor.HasChanges = true;
             return connectionModel;

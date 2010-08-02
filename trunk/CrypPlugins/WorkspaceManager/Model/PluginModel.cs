@@ -166,6 +166,22 @@ namespace WorkspaceManager.Model
                         connectorModel.Name = propertyInfoAttribute.PropertyName;
                         connectorModel.ToolTip = propertyInfoAttribute.ToolTip;
                         connectorModel.ConnectorOrientation = ConnectorOrientation.West;
+                        connectorModel.IControl = false;
+                        InputConnectors.Add(connectorModel);
+                        WorkspaceModel.AllConnectorModels.Add(connectorModel);
+                    }
+                    else if (propertyInfoAttribute.Direction.Equals(Direction.ControlSlave))
+                    {
+                        ConnectorModel connectorModel = new ConnectorModel();
+                        connectorModel.ConnectorType = propertyInfoAttribute.PropertyInfo.PropertyType;
+                        connectorModel.WorkspaceModel = WorkspaceModel;
+                        connectorModel.PluginModel = this;
+                        connectorModel.IsMandatory = propertyInfoAttribute.Mandatory;
+                        connectorModel.PropertyName = propertyInfoAttribute.PropertyName;
+                        connectorModel.Name = propertyInfoAttribute.PropertyName;
+                        connectorModel.ToolTip = propertyInfoAttribute.ToolTip;
+                        connectorModel.ConnectorOrientation = ConnectorOrientation.West;
+                        connectorModel.IControl = true;
                         InputConnectors.Add(connectorModel);
                         WorkspaceModel.AllConnectorModels.Add(connectorModel);
                     }
@@ -181,6 +197,24 @@ namespace WorkspaceManager.Model
                         connectorModel.ToolTip = propertyInfoAttribute.ToolTip;
                         connectorModel.ConnectorOrientation = ConnectorOrientation.East;
                         connectorModel.Outgoing = true;
+                        connectorModel.IControl = false;
+                        Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
+                        OutputConnectors.Add(connectorModel);
+                        WorkspaceModel.AllConnectorModels.Add(connectorModel);
+                    }
+                    else if (propertyInfoAttribute.Direction.Equals(Direction.ControlMaster))
+                    {
+                        ConnectorModel connectorModel = new ConnectorModel();
+                        connectorModel.ConnectorType = propertyInfoAttribute.PropertyInfo.PropertyType;
+                        connectorModel.WorkspaceModel = WorkspaceModel;
+                        connectorModel.PluginModel = this;
+                        connectorModel.IsMandatory = propertyInfoAttribute.Mandatory;
+                        connectorModel.PropertyName = propertyInfoAttribute.PropertyName;
+                        connectorModel.Name = propertyInfoAttribute.PropertyName;
+                        connectorModel.ToolTip = propertyInfoAttribute.ToolTip;
+                        connectorModel.ConnectorOrientation = ConnectorOrientation.East;
+                        connectorModel.Outgoing = true;
+                        connectorModel.IControl = true;
                         Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
                         OutputConnectors.Add(connectorModel);
                         WorkspaceModel.AllConnectorModels.Add(connectorModel);
@@ -279,7 +313,7 @@ namespace WorkspaceManager.Model
             MessageExecution msg;            
             foreach (ConnectorModel connectorModel in this.InputConnectors)
             {
-                if ((connectorModel.IsMandatory || connectorModel.InputConnections.Count > 0) && !connectorModel.HasData)
+                if (!connectorModel.IControl && (connectorModel.IsMandatory || connectorModel.InputConnections.Count > 0) && !connectorModel.HasData)
                 {
                     foreach (ConnectionModel connectionModel in connectorModel.InputConnections)
                     {
