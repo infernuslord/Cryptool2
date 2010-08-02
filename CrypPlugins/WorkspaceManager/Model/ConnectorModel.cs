@@ -49,8 +49,7 @@ namespace WorkspaceManager.Model
         private string ConnectorTypeAssemblyName = null;
 
         /// <summary>
-        /// The Type of the Wrapped IPlugin of this PluginModel
-        /// Depending on this the Plugin of this PluginModel will be instanciated
+        /// The Type of the Connector Model
         /// </summary>        
         public Type ConnectorType
         {
@@ -73,11 +72,17 @@ namespace WorkspaceManager.Model
                 this.ConnectorTypeAssemblyName = value.Assembly.FullName;
             }
         }
+
         /// <summary>
         /// Is this Connector Outgoing?
         /// </summary>
         public bool Outgoing { get; set; }
-        
+
+        /// <summary>
+        /// Is this Connector Outgoing?
+        /// </summary>
+        public bool IControl { get; set; }
+
         /// <summary>
         /// The InputConnections of this ConnectorModel
         /// </summary>

@@ -250,7 +250,6 @@ namespace WorkspaceManager.Execution
             , null);
         }
     }
-
    
     /// <summary>
     /// A Protocol for benchmarking
