@@ -170,66 +170,65 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         public void Execute()
         {
 //START------------------------------------------------------------------------------------------------------------
-//Preparations for the Analyse-------------------------------------------------------------------------------------           
-            
-            ProgressChanged(0, 1);
-
-            quickWatchPresentation.Clear();
-           
-            alphabet = settings.AlphabetSymbols;                //initialising the alphabet as given by the user       
-
+//Preparations for the Analyse-------------------------------------------------------------------------------------                    
+         
             if (InputCipher != null)
             {
-                ciphertext = InputCipher;                       //initialising the ciphertext
-                ciphertext = prepareForAnalyse(ciphertext);     //and prepare it for the analyse (-> see private methods section)
-            }                       
+                ProgressChanged(0, 1);
 
-            modus = settings.Modus;                             //initialise which modus is used
-            language = settings.Language;                       //initialise which language frequencys are expected
-            finalIC = 0.0;                                      //initialise the highest index of coincidence to be found among all tests
+                quickWatchPresentation.Clear();
+           
+                alphabet = settings.AlphabetSymbols;                //initialising the alphabet as given by the user       
 
-            if (textkorpus != null)                             //1)  if there's a textkorpus given us it to calculate the expected frequency...
-            {                                                   //    (-> see private methods section)
-                textkorpus = prepareForAnalyse(textkorpus);
-                EF = observedFrequency(textkorpus);
-            }
-            else                                                //OR
-            {
-                EF = expectedFrequency(language);               //2) just use the expected frequency from the guessed language
-            }                                                   //    (-> see private methods section)
+                ciphertext = InputCipher;                           //initialising the ciphertext
+                ciphertext = prepareForAnalyse(ciphertext);         //and prepare it for the analyse (-> see private methods section)
+                                   
 
+                modus = settings.Modus;                             //initialise which modus is used
+                language = settings.Language;                       //initialise which language frequencys are expected
+                finalIC = 0.0;                                      //initialise the highest index of coincidence to be found among all tests
+
+                if (textkorpus != null)                             //1)  if there's a textkorpus given us it to calculate the expected frequency...
+                {                                                   //    (-> see private methods section)
+                    textkorpus = prepareForAnalyse(textkorpus);
+                    EF = observedFrequency(textkorpus);
+                }
+                else                                                //OR
+                {
+                    EF = expectedFrequency(language);               //2) just use the expected frequency from the guessed language
+                }                                                   //    (-> see private methods section)
 
 //-----------------------------------------------------------------------------------------------------------------
 //Analyse----------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------------
 
-
-            if (InputKeylength != 0)                            //1) if the autokorrelation function has provided an assumed
-            {                                                   //   keylength break the AutokeyCipher with it... 
-                lock (this)                                     //   IMPORTANT: This is a critical Area and has to be used by only one thread 
-                {
-                    assumedkeylength = InputKeylength;
-                    breakVigenereAutoKey(assumedkeylength);
+                if (InputKeylength != 0)                            //1) if the autokorrelation function has provided an assumed
+                {                                                   //   keylength break the AutokeyCipher with it... 
+                    lock (this)                                     //   IMPORTANT: This is a critical Area and has to be used by only one thread 
+                    {
+                        assumedkeylength = InputKeylength;
+                        breakVigenereAutoKey(assumedkeylength);
+                    }
                 }
-            }
-            else                                                //OR
-            {
-                maxkeylength = (ciphertext.Length / 40) + 1;    //2) Brute force the keylength up to (ciphertext.length / 40)
-                for (int d = 1; d <= maxkeylength; d++)
+                else                                                //OR
                 {
-                    breakVigenereAutoKey(d);                    //"BREAK VIGENERE AUTO KEY(KEYLENGTH)" IS THE MAIN METHODE IN FINDING THE KEY FOR A GIVEN KEYLENGTH
-                }                                               //(-> see private methods section)
+                    maxkeylength = (ciphertext.Length / 40) + 1;    //2) Brute force the keylength up to (ciphertext.length / 40)
+                    for (int d = 1; d <= maxkeylength; d++)
+                    {
+                        breakVigenereAutoKey(d);                    //"BREAK VIGENERE AUTO KEY(KEYLENGTH)" IS THE MAIN METHODE IN FINDING THE KEY FOR A GIVEN KEYLENGTH
+                    }                                               //(-> see private methods section)
+                }
+
+                quickWatchPresentation.selectIndex((finalkey.Length) - 1);
+
+                OutputKey = finalkey;                               //sending the key via output
+                OnPropertyChanged("OutputKey");
             }
 
-            quickWatchPresentation.selectIndex((finalkey.Length) - 1);
-
-            OutputKey = finalkey;                               //sending the key via output
-            OnPropertyChanged("OutputKey");
 
             ProgressChanged(1, 1);
         
         }
-
 //EXECUTE END------------------------------------------------------------------------------------------------------------
 
         public void PostExecution()
@@ -331,7 +330,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 //LETTER TO NUMBER----------------------------------------------------------------------------------------------------------------------
 
         /// <summary>
-        /// Convert a the letter to an int-value that resembles his position in the given alphabet
+        /// Convert the letter to an int-value that resembles his position in the given alphabet
         /// </summary>
         private int getPos(char c)
         {
