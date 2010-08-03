@@ -30,14 +30,14 @@ namespace WorkspaceManager.Model
     /// </summary>
     [Serializable]
     public class ConnectorModel : VisualElementModel
-    {        
-        [NonSerialized]
-        private bool hasData = false;
+    {
+        #region private members
 
         /// <summary>
-        /// The PluginModel this Connector belongs to
+        /// Does this Connector Model has actually data?
         /// </summary>
-        public PluginModel PluginModel { get; set; }
+        [NonSerialized]
+        private bool hasData = false;
 
         /// <summary>
         /// Name of the Connector type
@@ -47,6 +47,15 @@ namespace WorkspaceManager.Model
         /// Name of the Connector assembly
         /// </summary>
         private string ConnectorTypeAssemblyName = null;
+
+        #endregion
+
+        #region public members
+
+        /// <summary>
+        /// The PluginModel this Connector belongs to
+        /// </summary>
+        public PluginModel PluginModel { get; set; }
 
         /// <summary>
         /// The Type of the Connector Model
@@ -99,7 +108,7 @@ namespace WorkspaceManager.Model
         public ConnectorModel()
         {
             this.InputConnections = new List<ConnectionModel>();
-            this.OutputConnections = new List<ConnectionModel>();            
+            this.OutputConnections = new List<ConnectionModel>();
         }
 
         /// <summary>
@@ -150,13 +159,14 @@ namespace WorkspaceManager.Model
         /// <returns></returns>
         public bool HasData
         {
-            get { 
-                    return hasData; 
+            get
+            {
+                return hasData;
             }
 
-            set 
-            {   
-                hasData = value; 
+            set
+            {
+                hasData = value;
             }
         }
 
@@ -165,11 +175,11 @@ namespace WorkspaceManager.Model
         /// </summary>
         [NonSerialized]
         public object Data = null;
-        
+
         /// <summary>
         /// Name of the represented Property of the IPlugin of this ConnectorModel
         /// </summary>
-        public string PropertyName{get;set;}
+        public string PropertyName { get; set; }
 
         /// <summary>
         /// ToolTip of this Connector
@@ -183,10 +193,11 @@ namespace WorkspaceManager.Model
         /// <param name="propertyChangedEventArgs"></param>
         public void PropertyChangedOnPlugin(Object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            if(sender == this.PluginModel.Plugin && 
-                propertyChangedEventArgs.PropertyName.Equals(PropertyName) && 
-                Outgoing){
-                
+            if (sender == this.PluginModel.Plugin &&
+                propertyChangedEventArgs.PropertyName.Equals(PropertyName) &&
+                Outgoing)
+            {
+
                 foreach (ConnectionModel connectionModel in this.OutputConnections)
                 {
                     if (IsDynamic)
@@ -197,24 +208,19 @@ namespace WorkspaceManager.Model
                     {
                         connectionModel.To.Data = sender.GetType().GetProperty(propertyChangedEventArgs.PropertyName).GetValue(sender, null);
                     }
-                    connectionModel.To.HasData = true;    
+                    connectionModel.To.HasData = true;
                     connectionModel.Active = true;
                     connectionModel.GuiNeedsUpdate = true;
                 }
 
-               //We changed an input on the PluginModels where "To"s are belonging to so
+                //We changed an input on the PluginModels where "To"s are belonging to so
                 //we have to check if there are executable now
                 foreach (ConnectionModel connectionModel in this.OutputConnections)
                 {
                     connectionModel.To.PluginModel.checkExecutable(connectionModel.To.PluginModel.PluginProtocol);
                 }
-            }                       
+            }
         }
-
-        /// <summary>
-        /// Orientation of this Connecor
-        /// </summary>
-        public ConnectorOrientation ConnectorOrientation { get; set; }
 
         /// <summary>
         /// The data type of the wrapped property changes
@@ -225,13 +231,14 @@ namespace WorkspaceManager.Model
             DynamicPropertyInfoAttribute dynamicPropertyInfoAttribute = plugin.GetDynamicPropertyInfo();
             foreach (DynamicProperty dynamicProperty in dictionary.Values)
             {
-                
+
                 if (this.PropertyName == dynamicProperty.Name)
                 {
-                    foreach(ConnectionModel connectionModel in new List<ConnectionModel>(InputConnections)){
+                    foreach (ConnectionModel connectionModel in new List<ConnectionModel>(InputConnections))
+                    {
                         this.WorkspaceModel.deleteConnectionModel(connectionModel);
                     }
-                    foreach(ConnectionModel connectionModel in new List<ConnectionModel>(this.OutputConnections))
+                    foreach (ConnectionModel connectionModel in new List<ConnectionModel>(this.OutputConnections))
                     {
                         this.WorkspaceModel.deleteConnectionModel(connectionModel);
                     }
@@ -243,24 +250,8 @@ namespace WorkspaceManager.Model
                 }
             }
         }
-    }
 
-    /// <summary>
-    /// Enumeration for connector orientation:
-    /// 
-    ///        North
-    ///       --------
-    ///       |      |
-    /// West  |      |  East
-    ///       |      |
-    ///       --------
-    ///        South
-    /// </summary>
-    public enum ConnectorOrientation
-    {
-        North,
-        East,
-        South,
-        West
+        #endregion
+                
     }
 }

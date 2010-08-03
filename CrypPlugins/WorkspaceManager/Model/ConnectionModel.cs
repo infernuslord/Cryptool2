@@ -28,6 +28,23 @@ namespace WorkspaceManager.Model
     [Serializable]
     public class ConnectionModel : VisualElementModel
     {
+
+        #region private members
+
+        /// <summary>
+        /// Name of the Connection type
+        /// </summary>
+        private string ConnectionTypeName = null;
+
+        /// <summary>
+        /// Name of the Connection assembly
+        /// </summary>
+        private string ConnectionTypeAssemblyName = null;
+
+        #endregion
+
+        #region public members
+
         /// <summary>
         /// The starting Point of this Connection Model
         /// </summary>
@@ -42,15 +59,6 @@ namespace WorkspaceManager.Model
         /// Is the Connection active?
         /// </summary>        
         public bool Active { get; set; }
-      
-        /// <summary>
-        /// Name of the Connection type
-        /// </summary>
-        private string ConnectionTypeName = null;
-        /// <summary>
-        /// Name of the Connection assembly
-        /// </summary>
-        private string ConnectionTypeAssemblyName = null;
 
         /// <summary>
         /// The Type of the Wrapped IPlugin of this PluginModel
@@ -82,5 +90,8 @@ namespace WorkspaceManager.Model
         /// The WorkspaceModel of this ConnectionModel
         /// </summary>
         public WorkspaceModel WorkspaceModel { get; set; }
+
+        #endregion
+
     }
 }
