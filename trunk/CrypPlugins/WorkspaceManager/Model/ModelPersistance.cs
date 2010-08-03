@@ -43,6 +43,7 @@ namespace WorkspaceManager.Model
             WorkspaceModel workspacemodel = persistantModel.WorkspaceModel;
             workspacemodel.WorkspaceManagerEditor = workspaceManagerEditor;
 
+            //restore all settings of each plugin
             foreach (PersistantPlugin persistantPlugin in persistantModel.PersistantPluginList)
             {
                 foreach (PersistantSetting persistantSetting in persistantPlugin.PersistantSettingsList)
@@ -86,13 +87,16 @@ namespace WorkspaceManager.Model
                 }
             }
 
+            //connect all listener for plugins/plugin models
             foreach (PluginModel pluginModel in workspacemodel.AllPluginModels)
             {
                 pluginModel.Plugin.OnGuiLogNotificationOccured += workspaceManagerEditor.GuiLogNotificationOccured;
+                pluginModel.Plugin.OnGuiLogNotificationOccured += pluginModel.GuiLogNotificationOccured;
                 pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;
                 pluginModel.Plugin.OnPluginStatusChanged += pluginModel.PluginStatusChanged;
             }
                 
+            //connect all listeners for connectors
             foreach (ConnectorModel connectorModel in workspacemodel.AllConnectorModels)
             {
                 if(connectorModel.Outgoing == true){
@@ -181,12 +185,20 @@ namespace WorkspaceManager.Model
         }
     }
 
+    /// <summary>
+    /// Class for persisting a workspace model
+    /// stores the model and a list of persistant plugin models
+    /// </summary>
     [Serializable]
     public class PersistantModel{
         public WorkspaceModel WorkspaceModel{get;set;}
         public List<PersistantPlugin> PersistantPluginList = new List<PersistantPlugin>();
     }
 
+    /// <summary>
+    /// Class for persisting a plugin model
+    /// stores the plugin model and a list of settings
+    /// </summary>
     [Serializable]
     public class PersistantPlugin
     {
@@ -194,6 +206,10 @@ namespace WorkspaceManager.Model
         public List<PersistantSetting> PersistantSettingsList = new List<PersistantSetting>();
     }
 
+    /// <summary>
+    /// Class for persisting settings
+    /// stores the name, the type and the value of the setting
+    /// </summary>
     [Serializable]
     public class PersistantSetting
     {

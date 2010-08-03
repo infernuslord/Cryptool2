@@ -91,6 +91,7 @@ namespace WorkspaceManager.Model
             pluginModel.Name = pluginType.Name;
             pluginModel.generateConnectors();
             pluginModel.Plugin.OnGuiLogNotificationOccured += this.WorkspaceManagerEditor.GuiLogNotificationOccured;
+            pluginModel.Plugin.OnGuiLogNotificationOccured += pluginModel.GuiLogNotificationOccured;
             pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;
             pluginModel.Plugin.OnPluginStatusChanged += pluginModel.PluginStatusChanged;
             this.AllPluginModels.Add(pluginModel);
@@ -238,12 +239,15 @@ namespace WorkspaceManager.Model
 
         /// <summary>
         /// Sets all Connections and Connectors to state nonActive/noData
+        ///      all plugins to state Normal
+        ///      deletes all stored log events
         /// </summary>
         public void resetStates()
         {
             foreach (PluginModel pluginModel in this.AllPluginModels)
             {
                 pluginModel.State = PluginModelState.Normal;
+                pluginModel.GuiLogEvents.Clear();
             }
             foreach (ConnectionModel connection in this.AllConnectionModels)
             {

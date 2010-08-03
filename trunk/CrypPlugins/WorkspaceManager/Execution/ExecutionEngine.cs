@@ -227,7 +227,6 @@ namespace WorkspaceManager.Execution
                 {
                     if (pluginModel.GuiNeedsUpdate)
                     {
-                        //executionEngine.GuiLogMessage("UpdateGui for \"" + pluginModel.Name + "\"", NotificationLevel.Debug);
                         pluginModel.GuiNeedsUpdate = false;
                         pluginModel.paint();
                         if (pluginModel.UpdateableView != null)
@@ -326,10 +325,7 @@ namespace WorkspaceManager.Execution
         {
             while (this.executionEngine.IsRunning)
             {
-                yield return Receive<MessageExecution>(null, this.HandleExecute);
-                //yield return Parallel(1,new PluginWaitReceiver()) & Receive<MessageExecution>(null, this.HandleExecute);
-                //yield return new PluginWaitReceiver() + Receive<MessageExecution>(null, this.HandleExecute);
-                //yield return Parallel(1,new PluginWaitReceiver()) + Receive<MessageExecution>(null, this.HandleExecute);
+                yield return Receive<MessageExecution>(null, this.HandleExecute);               
             }
         }
 
@@ -389,6 +385,10 @@ namespace WorkspaceManager.Execution
       
     }
 
+    /// <summary>
+    /// Gears4Net Scheduler. The scheduler only runs protocols which do not have a waiting
+    /// plugin on the protocol plugins outputs
+    /// </summary>
     public class WorkspaceManagerScheduler : Scheduler
     {
         private System.Threading.AutoResetEvent wakeup = new System.Threading.AutoResetEvent(false);
@@ -457,12 +457,10 @@ namespace WorkspaceManager.Execution
                                     {                                            
                                         this.waitingProtocols.Enqueue(protocol);
                                         donotrun = true;
-                                    }
-                                 
+                                    }                                 
                                 }
                             }               
                         }
-
                     }
 
                     if (donotrun == false)
@@ -492,6 +490,10 @@ namespace WorkspaceManager.Execution
             }
         }
 
+        /// <summary>
+        /// Removes a protocol from the internal queue
+        /// </summary>
+        /// <param name="protocol"></param>
         public override void RemoveProtocol(ProtocolBase protocol)
         {
             lock (this)
@@ -502,6 +504,10 @@ namespace WorkspaceManager.Execution
             }
         }
 
+        /// <summary>
+        /// Adds a protocol to the internal queue
+        /// </summary>
+        /// <param name="protocol"></param>
         public override void AddProtocol(ProtocolBase protocol)
         {
             lock (this)
@@ -510,6 +516,10 @@ namespace WorkspaceManager.Execution
             }
         }
 
+        /// <summary>
+        /// Wakeup this scheduler
+        /// </summary>
+        /// <param name="protocol"></param>
         public override void Wakeup(ProtocolBase protocol)
         {
             lock (this)
@@ -520,6 +530,9 @@ namespace WorkspaceManager.Execution
             }
         }
 
+        /// <summary>
+        /// Terminates the scheduler
+        /// </summary>
         public override void Shutdown()
         {
             this.shutdown = true;

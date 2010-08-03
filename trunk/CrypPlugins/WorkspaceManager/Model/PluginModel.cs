@@ -36,14 +36,27 @@ namespace WorkspaceManager.Model
     [Serializable]
     public class PluginModel : VisualElementModel
     {
-        #region privates
+        #region private members
+
         [NonSerialized]
         private PluginProtocol pluginProtocol;
         [NonSerialized]
         private IPlugin plugin;         
         private int imageIndex = 0;
-        private PluginModelState state = PluginModelState.Normal;        
-        #endregion privates
+        private PluginModelState state = PluginModelState.Normal;
+
+        /// <summary>
+        /// Name of the wrapped Plugins type
+        /// </summary>
+        private string PluginTypeName = null;
+        /// <summary>
+        /// Name of the wrapped Plugins assembly
+        /// </summary>
+        private string PluginTypeAssemblyName = null;
+        
+        #endregion
+
+        #region public members
 
         /// <summary>
         /// State of the Plugin
@@ -84,15 +97,6 @@ namespace WorkspaceManager.Model
                 plugin = value;
             }
         }
-
-        /// <summary>
-        /// Name of the wrapped Plugins type
-        /// </summary>
-        private string PluginTypeName = null;
-        /// <summary>
-        /// Name of the wrapped Plugins assembly
-        /// </summary>
-        private string PluginTypeAssemblyName = null;
 
         /// <summary>
         /// The Type of the Wrapped IPlugin of this PluginModel
@@ -165,7 +169,6 @@ namespace WorkspaceManager.Model
                         connectorModel.PropertyName = propertyInfoAttribute.PropertyName;
                         connectorModel.Name = propertyInfoAttribute.PropertyName;
                         connectorModel.ToolTip = propertyInfoAttribute.ToolTip;
-                        connectorModel.ConnectorOrientation = ConnectorOrientation.West;
                         connectorModel.IControl = false;
                         InputConnectors.Add(connectorModel);
                         WorkspaceModel.AllConnectorModels.Add(connectorModel);
@@ -180,7 +183,6 @@ namespace WorkspaceManager.Model
                         connectorModel.PropertyName = propertyInfoAttribute.PropertyName;
                         connectorModel.Name = propertyInfoAttribute.PropertyName;
                         connectorModel.ToolTip = propertyInfoAttribute.ToolTip;
-                        connectorModel.ConnectorOrientation = ConnectorOrientation.West;
                         connectorModel.IControl = true;
                         InputConnectors.Add(connectorModel);
                         WorkspaceModel.AllConnectorModels.Add(connectorModel);
@@ -195,7 +197,6 @@ namespace WorkspaceManager.Model
                         connectorModel.PropertyName = propertyInfoAttribute.PropertyName;
                         connectorModel.Name = propertyInfoAttribute.PropertyName;
                         connectorModel.ToolTip = propertyInfoAttribute.ToolTip;
-                        connectorModel.ConnectorOrientation = ConnectorOrientation.East;
                         connectorModel.Outgoing = true;
                         connectorModel.IControl = false;
                         Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
@@ -212,7 +213,6 @@ namespace WorkspaceManager.Model
                         connectorModel.PropertyName = propertyInfoAttribute.PropertyName;
                         connectorModel.Name = propertyInfoAttribute.PropertyName;
                         connectorModel.ToolTip = propertyInfoAttribute.ToolTip;
-                        connectorModel.ConnectorOrientation = ConnectorOrientation.East;
                         connectorModel.Outgoing = true;
                         connectorModel.IControl = true;
                         Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
@@ -238,8 +238,7 @@ namespace WorkspaceManager.Model
                             connectorModel.PropertyName = dynamicProperty.Name;
                             connectorModel.Name = dynamicProperty.Name;
                             connectorModel.ToolTip = dynamicProperty.PInfo.ToolTip;
-                            connectorModel.ConnectorOrientation = ConnectorOrientation.West;
-                            EventInfo eventinfo = Plugin.GetType().GetEvent(dynamicPropertyInfoAttribute.UpdateDynamicPropertiesEvent);
+                           EventInfo eventinfo = Plugin.GetType().GetEvent(dynamicPropertyInfoAttribute.UpdateDynamicPropertiesEvent);
                             connectorModel.IsDynamic = true;
                             connectorModel.DynamicGetterName = dynamicPropertyInfoAttribute.MethodGetValue;
                             connectorModel.DynamicSetterName = dynamicPropertyInfoAttribute.MethodSetValue;
@@ -257,8 +256,7 @@ namespace WorkspaceManager.Model
                             connectorModel.PropertyName = dynamicProperty.Name;
                             connectorModel.Name = dynamicProperty.Name;
                             connectorModel.ToolTip = dynamicProperty.PInfo.ToolTip;
-                            connectorModel.ConnectorOrientation = ConnectorOrientation.East;
-                            EventInfo eventinfo = Plugin.GetType().GetEvent(dynamicPropertyInfoAttribute.UpdateDynamicPropertiesEvent);
+                             EventInfo eventinfo = Plugin.GetType().GetEvent(dynamicPropertyInfoAttribute.UpdateDynamicPropertiesEvent);
                             eventinfo.AddEventHandler(Plugin, new DynamicPropertiesChanged(connectorModel.PropertyTypeChangedOnPlugin));
                             connectorModel.IsDynamic = true;
                             connectorModel.DynamicGetterName = dynamicPropertyInfoAttribute.MethodGetValue;
@@ -309,7 +307,12 @@ namespace WorkspaceManager.Model
         /// Checks wether this PluginModel is executable and if yes it broadcasts a execution message
         /// </summary>
         public void checkExecutable(ProtocolBase protocolBase)
-        {                     
+        {
+            if (!this.WorkspaceModel.WorkspaceManagerEditor.isExecuting())
+            {
+                return;
+            }
+
             MessageExecution msg;            
             foreach (ConnectorModel connectorModel in this.InputConnectors)
             {
@@ -388,8 +391,35 @@ namespace WorkspaceManager.Model
             get { return pluginProtocol; }
             set { pluginProtocol = value;}
         }
+
+        /// <summary>
+        /// All occured log events of this plugin
+        /// </summary>
+        [NonSerialized]
+        public List<GuiLogEventArgs> GuiLogEvents = new List<GuiLogEventArgs>();
+
+        /// <summary>
+        /// GuiLogNotificationOccured
+        /// saves the plugins log events and tells the gui that it needs
+        /// an update
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public void GuiLogNotificationOccured(IPlugin sender, GuiLogEventArgs args)
+        {
+            if (sender == this.plugin)
+            {
+                this.GuiLogEvents.Add(args);
+                this.GuiNeedsUpdate = true;
+            }
+        }
+
+        #endregion
     }
 
+    /// <summary>
+    /// The internal state of a Plugin Model
+    /// </summary>
     public enum PluginModelState{
         Normal,
         Warning,
