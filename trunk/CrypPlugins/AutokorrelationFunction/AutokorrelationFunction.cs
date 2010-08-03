@@ -121,83 +121,85 @@ namespace Cryptool.Plugins.AutokorrelationFunction
 
 //START------------------------------------------------------------------------------------------------------------
 //Preparations for the Analyse-------------------------------------------------------------------------------------
-           
-            ProgressChanged(0, 1);
 
-            cipher = InputCipher;                               //initialising the ciphertext
-            cipher = prepareForAnalyse(cipher);                 //and prepare it for the analyse (-> see private methods section)
-
-            ak = new double[cipher.Length];                     //initialise ak[]...there are n possible shifts where n is cipher.length
-
-            presentation.histogram.SetBackground(Brushes.Beige);              //sets the background colour for the quickwatch
-            presentation.histogram.SetHeadline("Autocorrelation matches");    //sets its title
-
-//-----------------------------------------------------------------------------------------------------------------
-//Analyse----------------------------------------------------------------------------------------------------------
-//-----------------------------------------------------------------------------------------------------------------		
-
-            //for each possible shift value...
-		    for(int t=0; t<cipher.Length; t++)
-		    {
-			    same=0;
-			
-                //...calculate how often the letters match...
-			    for(int x=0; x<cipher.Length-t;x++)
-			    {
-				    if(cipher[x] == cipher[x+t])
-				    {
-					    same++;
-				    }
-			    }
-
-                try
-                {
-                    //...and save the count for the matches at the shift position
-                    ak[t] = same;
-                }
-                catch
-                {
-                }
-		    }
-
-            data.ValueCollection.Clear();
-
-            //for all observed shifts...
-		    for(int y=1;y<ak.Length;y++)
-		    {              
-                //find the one with the highest match count...
-			    if(ak[y] > probablekorr)
-			    {
-				    probablekorr = ak[y];
-                    probablelength = y;                 //...and remember this shift value
-			    }
-		    }
-
-            //find the top 13 matches...
-            if (ak.Length > 11)
+            if (InputCipher != null)                                //Starts only if a ciphertext is set
             {
-                ak = findTopThirteen(ak);
-            }
+                ProgressChanged(0, 1);
 
-            for (int y = 1; y < ak.Length; y++)
-            {
-                if (ak[y] > -1)                         //Adds a bar into the presentation if it is higher then the average matches
+                cipher = InputCipher;                               //initialising the ciphertext
+                cipher = prepareForAnalyse(cipher);                 //and prepare it for the analyse (-> see private methods section)
+
+                ak = new double[cipher.Length];                     //initialise ak[]...there are n possible shifts where n is cipher.length
+
+                presentation.histogram.SetBackground(Brushes.Beige);              //sets the background colour for the quickwatch
+                presentation.histogram.SetHeadline("Autocorrelation matches");    //sets its title
+
+                //-----------------------------------------------------------------------------------------------------------------
+                //Analyse----------------------------------------------------------------------------------------------------------
+                //-----------------------------------------------------------------------------------------------------------------		
+
+                //for each possible shift value...
+                for (int t = 0; t < cipher.Length; t++)
                 {
-                    bar = new HistogramElement(ak[y], ak[y], "" + y);
-                    data.ValueCollection.Add(bar);
+                    same = 0;
+
+                    //...calculate how often the letters match...
+                    for (int x = 0; x < cipher.Length - t; x++)
+                    {
+                        if (cipher[x] == cipher[x + t])
+                        {
+                            same++;
+                        }
+                    }
+
+                    try
+                    {
+                        //...and save the count for the matches at the shift position
+                        ak[t] = same;
+                    }
+                    catch
+                    {
+                    }
                 }
-            }
 
-            presentation.histogram.SetHeadline("Highest match count " + probablekorr + " with shift: " + probablelength);
+                data.ValueCollection.Clear();
 
-            if(data != null)
-            {
-                presentation.histogram.ShowData(data);
-            }
+                //for all observed shifts...
+                for (int y = 1; y < ak.Length; y++)
+                {
+                    //find the one with the highest match count...
+                    if (ak[y] > probablekorr)
+                    {
+                        probablekorr = ak[y];
+                        probablelength = y;                 //...and remember this shift value
+                    }
+                }
 
-            OutputLength = probablelength;              //sending the keylength via output
-            OnPropertyChanged("OutputLength");		
-		   
+                //find the top 13 matches...
+                if (ak.Length > 11)
+                {
+                    ak = findTopThirteen(ak);
+                }
+
+                for (int y = 1; y < ak.Length; y++)
+                {
+                    if (ak[y] > -1)                         //Adds a bar into the presentation if it is higher then the average matches
+                    {
+                        bar = new HistogramElement(ak[y], ak[y], "" + y);
+                        data.ValueCollection.Add(bar);
+                    }
+                }
+
+                presentation.histogram.SetHeadline("Highest match count " + probablekorr + " with shift: " + probablelength);
+
+                if (data != null)
+                {
+                    presentation.histogram.ShowData(data);
+                }
+
+                OutputLength = probablelength;              //sending the keylength via output
+                OnPropertyChanged("OutputLength");
+            }  
 
 
             ProgressChanged(1, 1);
