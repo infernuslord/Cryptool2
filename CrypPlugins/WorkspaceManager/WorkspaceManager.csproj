@@ -119,6 +119,7 @@
     <Compile Include="View\VisualComponents\BottomBox.xaml.cs">
       <DependentUpon>BottomBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\VisualComponents\CryptoLineView\IntersectPoint.cs" />
     <Compile Include="View\VisualComponents\DataPresentation.xaml.cs">
       <DependentUpon>DataPresentation.xaml</DependentUpon>
     </Compile>

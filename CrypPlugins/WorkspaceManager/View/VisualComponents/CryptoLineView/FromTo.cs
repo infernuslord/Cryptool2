@@ -19,7 +19,7 @@ namespace WorkspaceManager.View.VisualComponents
         public DirSort DirSort { get; private set; }
         public Point From { get; private set; }
         public Point To { get; private set; }
-        public SortedSet<Point> Intersection { get; private set; }
+        public SortedSet<IntersectPoint> Intersection { get; private set; }
 
         public FromTo(Point from, Point to)
         {
@@ -41,7 +41,7 @@ namespace WorkspaceManager.View.VisualComponents
             }
             else
                 throw new Exception("90° only");
-            this.Intersection = new SortedSet<Point>(new InLineSorter(DirSort));
+            this.Intersection = new SortedSet<IntersectPoint>(new InLineSorter(DirSort));
         }
 
         public override string ToString()
@@ -51,7 +51,7 @@ namespace WorkspaceManager.View.VisualComponents
 
     }
 
-    class InLineSorter : IComparer<Point>
+    class InLineSorter : IComparer<IntersectPoint>
     {
         private DirSort dirSort;
 
@@ -65,18 +65,18 @@ namespace WorkspaceManager.View.VisualComponents
         //  Less than zero      a is less than b
         //  Zero                a equals b
         //  Greater than zero   a is greater than b
-        public int Compare(Point a, Point b)
+        public int Compare(IntersectPoint a, IntersectPoint b)
         {
             switch (dirSort)
             {
                 case DirSort.Y_ASC:
-                    return a.Y.CompareTo(b.Y);
+                    return a.Point.Y.CompareTo(b.Point.Y);
                 case DirSort.Y_DESC:
-                    return b.Y.CompareTo(a.Y);
+                    return b.Point.Y.CompareTo(a.Point.Y);
                 case DirSort.X_ASC:
-                    return a.X.CompareTo(b.X);
+                    return a.Point.X.CompareTo(b.Point.X);
                 case DirSort.X_DESC:
-                    return b.X.CompareTo(a.X);
+                    return b.Point.X.CompareTo(a.Point.X);
                 default:
                     throw new Exception("error");
             }
