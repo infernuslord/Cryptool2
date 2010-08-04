@@ -317,18 +317,23 @@ namespace WorkspaceManager.Model
             foreach (ConnectorModel connectorModel in this.InputConnectors)
             {
                 if (!connectorModel.IControl && (connectorModel.IsMandatory || connectorModel.InputConnections.Count > 0) && !connectorModel.HasData)
-                {
-                    foreach (ConnectionModel connectionModel in connectorModel.InputConnections)
-                    {
-                        if (connectionModel.From.PluginModel.Startable && connectionModel.From.PluginModel.PluginProtocol.QueueLength == 0)
-                        {                            
-                            msg = new MessageExecution();
-                            msg.PluginModel = connectionModel.From.PluginModel;
-                            connectionModel.From.PluginModel.pluginProtocol.BroadcastMessageReliably(msg);
-                        }
-                    }
+                {                   
                     return;
                 }                
+            }
+
+            foreach (ConnectorModel connectorModel in this.OutputConnectors)
+            {
+                if (!connectorModel.IControl)
+                {
+                    foreach(ConnectionModel connectionModel in connectorModel.OutputConnections)
+                    {
+                        if (connectionModel.To.HasData)
+                        {
+                            return;
+                        }
+                    }
+                }
             }
 
             msg = new MessageExecution();

@@ -362,25 +362,36 @@ namespace WorkspaceManager.Execution
                         this.PluginModel.GuiNeedsUpdate = true;
                         return;
                     }
-                    finally
-                    {
-                        connectorModel.HasData = false;
-                        connectorModel.Data = null;
-                        foreach (ConnectionModel connectionModel in connectorModel.InputConnections)
-                        {
-                            connectionModel.Active = false;
-                            connectorModel.GuiNeedsUpdate = true;
-                        }
-                    }
                 }
             }
             
-            msg.PluginModel.Plugin.Execute();          
-
+            msg.PluginModel.Plugin.Execute();
+            
             if (this.executionEngine.BenchmarkPlugins)
             {
-                this.executionEngine.ExecutedPluginsCounter++;                                
+                this.executionEngine.ExecutedPluginsCounter++;
             }
+
+            foreach (ConnectorModel connectorModel in PluginModel.InputConnectors)
+            {
+                if (connectorModel.HasData)
+                {
+
+                    connectorModel.HasData = false;
+                    connectorModel.Data = null;
+                    foreach (ConnectionModel connectionModel in connectorModel.InputConnections)
+                    {
+                        connectionModel.Active = false;
+                        connectorModel.GuiNeedsUpdate = true;
+
+                        if (!connectionModel.From.PluginModel.Startable) 
+                        {
+                            connectionModel.From.PluginModel.checkExecutable(connectionModel.From.PluginModel.PluginProtocol);
+                        }
+                    }                    
+                }
+            }
+            
         }
       
     }
@@ -434,56 +445,32 @@ namespace WorkspaceManager.Execution
                     if (this.shutdown)
                         return;
                     
-                    bool donotrun = false;
                     ProtocolBase protocol = null;
                     lock (this)
                     {
                         // No more protocols? -> Wait
                         if (this.waitingProtocols.Count == 0)
                             break;
-
-                        protocol = this.waitingProtocols.Dequeue();
-
-                        if (protocol is PluginProtocol)
-                        {
-                            PluginProtocol pluginProtocol = (PluginProtocol)protocol;
-                            foreach (ConnectorModel outputConnector in pluginProtocol.PluginModel.OutputConnectors)
-                            {
-                                foreach (ConnectionModel connection in outputConnector.OutputConnections)
-                                {                                    
-                                    if (connection.To.HasData &&
-                                        connection.To.PluginModel != pluginProtocol.PluginModel &&
-                                        donotrun == false)
-                                    {                                            
-                                        this.waitingProtocols.Enqueue(protocol);
-                                        donotrun = true;
-                                    }                                 
-                                }
-                            }               
-                        }
                     }
+                    protocol = this.waitingProtocols.Dequeue();                                           
+                    ProtocolStatus status = protocol.Run();
 
-                    if (donotrun == false)
+                    lock (this)
                     {
-                        ProtocolStatus status = protocol.Run();
-
-                        lock (this)
+                        switch (status)
                         {
-                            switch (status)
-                            {
-                                case ProtocolStatus.Created:
-                                    System.Diagnostics.Debug.Assert(false);
-                                    break;
-                                case ProtocolStatus.Ready:
-                                    this.waitingProtocols.Enqueue(protocol);
-                                    break;
-                                case ProtocolStatus.Waiting:
-                                    break;
-                                case ProtocolStatus.Terminated:
-                                    System.Diagnostics.Debug.Assert(!this.waitingProtocols.Contains(protocol));
-                                    this.RemoveProtocol(protocol);
-                                    break;
-                            }
+                            case ProtocolStatus.Created:
+                                System.Diagnostics.Debug.Assert(false);
+                                break;
+                            case ProtocolStatus.Ready:
+                                this.waitingProtocols.Enqueue(protocol);
+                                break;
+                            case ProtocolStatus.Waiting:
+                                break;
+                            case ProtocolStatus.Terminated:
+                                System.Diagnostics.Debug.Assert(!this.waitingProtocols.Contains(protocol));
+                                this.RemoveProtocol(protocol);
+                                break;
                         }
                     }
                 }
