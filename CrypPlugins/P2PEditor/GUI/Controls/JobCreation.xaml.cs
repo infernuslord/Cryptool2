@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Forms;
@@ -23,11 +24,19 @@ namespace Cryptool.P2PEditor.GUI.Controls
         {
             DataContext = new DistributedJob();
 
-            if (!Clipboard.ContainsText(TextDataFormat.Text)) return;
-            var clipboardData = Clipboard.GetText(TextDataFormat.Text);
-            if (clipboardData.EndsWith("-status"))
+            try
             {
-                ((DistributedJob)DataContext).StatusKey = clipboardData;
+                if (!Clipboard.ContainsText(TextDataFormat.Text)) return;
+
+                var clipboardData = Clipboard.GetText(TextDataFormat.Text);
+                if (clipboardData.EndsWith("-status"))
+                {
+                    ((DistributedJob) DataContext).StatusKey = clipboardData;
+                }
+            }
+            catch (OutOfMemoryException)
+            {
+                // If clipboard content is to large, no status key is available.
             }
         }
 
