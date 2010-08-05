@@ -30,6 +30,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Management;
 using System.Security.Principal;
 using System.Security.Cryptography;
+using Cryptool.P2P.Internal;
 
 namespace Cryptool.Plugins.QuadraticSieve
 {
@@ -76,6 +77,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         private HashSet<int> ourIndices;
         private Queue<KeyValuePair<int, DateTime>> lostIndices;
         private int loadIndex;
+        private AutoResetEvent waitForConnection = new AutoResetEvent(false);
 
         public delegate void P2PWarningHandler(String warning);
         public event P2PWarningHandler P2PWarning;        
@@ -85,6 +87,11 @@ namespace Cryptool.Plugins.QuadraticSieve
             quadraticSieveQuickWatchPresentation = presentation;
             this.newRelationPackageEvent = newRelationPackageEvent;
             SetOurID();
+        }
+
+        public int getActivePeers()
+        {
+            return activePeers.Count;
         }
 
         private void SetOurID()
@@ -211,106 +218,136 @@ namespace Cryptool.Plugins.QuadraticSieve
 
             try
             {
+                WaitTillConnected();
+                head = 0;
                 SynchronizeHead();
                 int startHead = head;
 
                 while (!stopLoadStoreThread)
                 {
-                    //Store our performance and our alive counter in the DHT, either if the performance changed or when the last write was more than 1 minute ago:
-                    if (ourPerformance != lastPerformance || performanceLastPut.CompareTo(DateTime.Now.Subtract(new TimeSpan(0, 1, 0))) < 0)
+                    try
                     {
-                        P2PManager.Retrieve(PerformanceIdentifier(ourID));      //just to outsmart the versioning system
-                        P2PManager.Store(PerformanceIdentifier(ourID), concat(BitConverter.GetBytes(ourPerformance), BitConverter.GetBytes(aliveCounter++)));
-                        lastPerformance = ourPerformance;
-                        performanceLastPut = DateTime.Now;
-                    }
-
-                    //updates all peer performances which have last been checked more than 1 minutes and 20 seconds ago and check if they are still alive:
-                    while (peerPerformances.Count != 0 && peerPerformances.Peek().lastChecked.CompareTo(DateTime.Now.Subtract(new TimeSpan(0, 1, 20))) < 0)
-                    {
-                        var e = peerPerformances.Dequeue();
-
-                        byte[] performancebytes = P2PManager.Retrieve(PerformanceIdentifier(e.peerID)).Data;
-                        if (performancebytes != null)
+                        //Store our performance and our alive counter in the DHT, either if the performance changed or when the last write was more than 1 minute ago:
+                        if (ourPerformance != lastPerformance || performanceLastPut.CompareTo(DateTime.Now.Subtract(new TimeSpan(0, 1, 0))) < 0)
                         {
-                            double performance = BitConverter.ToDouble(performancebytes, 0);
-                            int peerAliveCounter = BitConverter.ToInt32(performancebytes, 8);
-                            if (peerAliveCounter <= e.lastAlive)
+                            P2PManager.Retrieve(PerformanceIdentifier(ourID));      //just to outsmart the versioning system
+                            P2PManager.Store(PerformanceIdentifier(ourID), concat(BitConverter.GetBytes(ourPerformance), BitConverter.GetBytes(aliveCounter++)));
+                            lastPerformance = ourPerformance;
+                            performanceLastPut = DateTime.Now;
+                        }
+
+                        //updates all peer performances which have last been checked more than 1 minutes and 20 seconds ago and check if they are still alive:
+                        while (peerPerformances.Count != 0 && peerPerformances.Peek().lastChecked.CompareTo(DateTime.Now.Subtract(new TimeSpan(0, 1, 20))) < 0)
+                        {
+                            var e = peerPerformances.Dequeue();
+
+                            byte[] performancebytes = P2PManager.Retrieve(PerformanceIdentifier(e.peerID)).Data;
+                            if (performancebytes != null)
+                            {
+                                double performance = BitConverter.ToDouble(performancebytes, 0);
+                                int peerAliveCounter = BitConverter.ToInt32(performancebytes, 8);
+                                if (peerAliveCounter <= e.lastAlive)
+                                {
+                                    activePeers.Remove(e.peerID);
+                                    UpdateActivePeerInformation();
+                                }
+                                else
+                                    peerPerformances.Enqueue(new PeerPerformanceInformations(DateTime.Now, e.peerID, performance, peerAliveCounter));
+                            }
+                            else
                             {
                                 activePeers.Remove(e.peerID);
                                 UpdateActivePeerInformation();
+                            }                       
+                        }
+                                        
+                        SynchronizeHead();
+                        UpdateStoreLoadQueueInformation();
+
+                        bool busy = false;
+
+                        if (storequeue.Count != 0)  //store our packages
+                        {
+                            byte[] relationPackage = (byte[])storequeue.Dequeue();
+                            bool success = P2PManager.Store(RelationPackageIdentifier(head), relationPackage).IsSuccessful();
+                            while (!success)
+                            {
+                                SynchronizeHead();
+                                success = P2PManager.Store(RelationPackageIdentifier(head), relationPackage).IsSuccessful();
+                            }
+                            SetProgressRelationPackage(head, ourID, null);
+                            ourIndices.Add(head);
+                        
+                            head++;
+
+                            //show informations about the uploaded relation package:
+                            uploaded += (uint)relationPackage.Length;
+                            ShowTransfered(downloaded, uploaded);
+                            UpdateStoreLoadQueueInformation();
+                            busy = true;
+                        }
+
+                        //load the other relation packages:
+
+                        //skip all indices which are uploaded by us:
+                        while (ourIndices.Contains(loadIndex))
+                            loadIndex++;
+
+                        if (loadIndex < head)
+                        {
+                            bool checkAlive = loadIndex >= startHead;       //we don't check the peer alive informations of the packages that existed before we joined
+                            TryReadAndEnqueueRelationPackage(loadIndex, checkAlive, lostIndices);
+                            loadIndex++;
+                            UpdateStoreLoadQueueInformation();
+                            busy = true;
+                        }
+                    
+                        //check lost indices which are last checked longer than 2 minutes ago (but only if we have nothing else to do):
+                        if (!busy)
+                        {
+                            //TODO: Maybe we should throw away those indices, which have been checked more than several times.
+                            if (lostIndices.Count != 0 && lostIndices.Peek().Value.CompareTo(DateTime.Now.Subtract(new TimeSpan(0, 2, 0))) < 0)
+                            {
+                                var e = lostIndices.Dequeue();
+                                TryReadAndEnqueueRelationPackage(loadIndex, true, lostIndices);
+                                UpdateStoreLoadQueueInformation();                            
                             }
                             else
-                                peerPerformances.Enqueue(new PeerPerformanceInformations(DateTime.Now, e.peerID, performance, peerAliveCounter));
+                                Thread.Sleep(5000);    //Wait 5 seconds
                         }
-                        else
-                        {
-                            activePeers.Remove(e.peerID);
-                            UpdateActivePeerInformation();
-                        }                       
+
                     }
-                                        
-                    SynchronizeHead();
-                    UpdateStoreLoadQueueInformation();
-
-                    bool busy = false;
-
-                    if (storequeue.Count != 0)  //store our packages
+                    catch (NotConnectedException)
                     {
-                        byte[] relationPackage = (byte[])storequeue.Dequeue();
-                        bool success = P2PManager.Store(RelationPackageIdentifier(head), relationPackage).IsSuccessful();
-                        while (!success)
-                        {
-                            SynchronizeHead();
-                            success = P2PManager.Store(RelationPackageIdentifier(head), relationPackage).IsSuccessful();
-                        }
-                        SetProgressRelationPackage(head, ourID, null);
-                        ourIndices.Add(head);
-                        
-                        head++;
-
-                        //show informations about the uploaded relation package:
-                        uploaded += (uint)relationPackage.Length;
-                        ShowTransfered(downloaded, uploaded);
-                        UpdateStoreLoadQueueInformation();
-                        busy = true;
+                        WaitTillConnected();
                     }
-
-                    //load the other relation packages:
-
-                    //skip all indices which are uploaded by us:
-                    while (ourIndices.Contains(loadIndex))
-                        loadIndex++;
-
-                    if (loadIndex < head)
-                    {
-                        bool checkAlive = loadIndex >= startHead;       //we don't check the peer alive informations of the packages that existed before we joined
-                        TryReadAndEnqueueRelationPackage(loadIndex, checkAlive, lostIndices);
-                        loadIndex++;
-                        UpdateStoreLoadQueueInformation();
-                        busy = true;
-                    }
-                    
-                    //check lost indices which are last checked longer than 2 minutes ago (but only if we have nothing else to do):
-                    if (!busy)
-                    {
-                        //TODO: Maybe we should throw away those indices, which have been checked more than several times.
-                        if (lostIndices.Count != 0 && lostIndices.Peek().Value.CompareTo(DateTime.Now.Subtract(new TimeSpan(0, 2, 0))) < 0)
-                        {
-                            var e = lostIndices.Dequeue();
-                            TryReadAndEnqueueRelationPackage(loadIndex, true, lostIndices);
-                            UpdateStoreLoadQueueInformation();                            
-                        }
-                        else
-                            Thread.Sleep(5000);    //Wait 5 seconds
-                    }
-
                 }
             }
             catch (ThreadInterruptedException)
             {
                 return;
             }
+            catch (NotConnectedException)
+            {
+                WaitTillConnected();
+                LoadStoreThreadProc();
+            }
+        }
+
+        private void WaitTillConnected()
+        {
+            if (!P2PManager.IsConnected)
+            {
+                P2PManager.ConnectionManager.OnP2PConnectionStateChangeOccurred += HandleConnectionStateChange;
+                waitForConnection.WaitOne();
+                P2PManager.ConnectionManager.OnP2PConnectionStateChangeOccurred -= HandleConnectionStateChange;
+            }
+        }
+
+        private void HandleConnectionStateChange(object sender, bool newState)
+        {
+            if (newState)
+                waitForConnection.Set();
         }
 
         private void UpdateActivePeerInformation()
@@ -416,7 +453,12 @@ namespace Cryptool.Plugins.QuadraticSieve
         private string PerformanceIdentifier(int ID)
         {
             return channel + "#" + number + "-" + factor + "PERFORMANCE" + ID.ToString();
-        }   
+        }
+
+        public string StatusIdentifier()
+        {
+            return channel + "#" + number + "-status";
+        }
 
         private void StartLoadStoreThread()
         {
@@ -522,9 +564,6 @@ namespace Cryptool.Plugins.QuadraticSieve
             nameCache = new Dictionary<int, string>();
             peerPerformances = new Queue<PeerPerformanceInformations>();
             activePeers = new HashSet<int>();
-
-            head = 0;
-            SynchronizeHead();
             
             //store our name:
             P2PManager.Retrieve(NameIdentifier(ourID));     //just to outsmart the versioning system
