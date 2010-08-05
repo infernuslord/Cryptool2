@@ -19,6 +19,7 @@ using System.Windows.Media.Animation;
 
 namespace WorkspaceManager.View.Container
 {
+
     /// <summary>
     /// Interaction logic for PluginContainerView.xaml
     /// </summary>
@@ -34,7 +35,7 @@ namespace WorkspaceManager.View.Container
 
         private static double MinHeight;
         private static double MinWidth;
-        private bool p;
+
         #endregion
 
         #region Properties
@@ -81,32 +82,97 @@ namespace WorkspaceManager.View.Container
             setBaseControl(model);
             InitializeComponent();
 
+            West.Drop += new DragEventHandler(Connector_Drop);
+            East.Drop += new DragEventHandler(Connector_Drop);
+            North.Drop += new DragEventHandler(Connector_Drop);
+            South.Drop += new DragEventHandler(Connector_Drop);
+
             foreach (ConnectorModel ConnectorModel in model.InputConnectors)
             {
-                AddInputConnectorView(new ConnectorView(ConnectorModel));
+                ConnectorView connector = new ConnectorView(ConnectorModel);
+                AddConnectorView(connector);
             }
 
             foreach (ConnectorModel ConnectorModel in model.OutputConnectors)
             {
-                AddOutputConnectorView(new ConnectorView(ConnectorModel));
+                ConnectorView connector = new ConnectorView(ConnectorModel);
+                AddConnectorView(connector);
             }
         }
+
+        void Connector_Drop(object sender, DragEventArgs e)
+        {
+            StackPanel panel = sender as StackPanel;
+            if (e.Data.GetDataPresent("connector"))
+            {
+                ConnectorView connector = e.Data.GetData("connector") as ConnectorView;
+                if (panel.Children.Contains(connector))
+                    return;
+
+                switch (connector.Orientation)
+                {
+                    case ConnectorOrientation.West:
+                        this.West.Children.Remove(connector);
+                        break;
+                    case ConnectorOrientation.East:
+                        this.East.Children.Remove(connector);
+                        break;
+                    case ConnectorOrientation.North:
+                        this.North.Children.Remove(connector);
+                        break;
+                    case ConnectorOrientation.South:
+                        this.South.Children.Remove(connector);
+                        break;
+                }
+
+                switch (panel.Name)
+                {
+                    case "West":
+                        connector.Orientation = ConnectorOrientation.West;
+                        this.West.Children.Add(connector);
+                        break;
+                    case "East":
+                        connector.Orientation = ConnectorOrientation.East;
+                        this.East.Children.Add(connector);
+                        break;
+                    case "North":
+                        connector.Orientation = ConnectorOrientation.North;
+                        this.North.Children.Add(connector);
+                        break;
+                    case "South":
+                        connector.Orientation = ConnectorOrientation.South;
+                        this.South.Children.Add(connector);
+                        break;
+                }
+
+                SetAllConnectorPositionX();
+                e.Handled = true;
+            }
+        }
+
         #endregion
 
         #region Public Methods
-        public void AddInputConnectorView(ConnectorView connector)
+        public void AddConnectorView(ConnectorView connector)
         {
-            connector.OnConnectorMouseLeftButtonDown += new EventHandler<ConnectorViewEventArgs>(connector_OnConnectorMouseLeftButtonDown);
-            this.ConnectorViewList.Add(connector);
-            this.InputConnectorPanel.Children.Add(connector);
-        }
+            switch (connector.Orientation)
+            {
+                case ConnectorOrientation.West:
+                    this.West.Children.Add(connector);
+                    break;
+                case ConnectorOrientation.East:
+                    this.East.Children.Add(connector);
+                    break;
+                case ConnectorOrientation.North:
+                    this.North.Children.Add(connector);
+                    break;
+                case ConnectorOrientation.South:
+                    this.South.Children.Add(connector);
+                    break;
+            }
 
-
-        public void AddOutputConnectorView(ConnectorView connector)
-        {
             connector.OnConnectorMouseLeftButtonDown += new EventHandler<ConnectorViewEventArgs>(connector_OnConnectorMouseLeftButtonDown);
-            this.ConnectorViewList.Add(connector);
-            this.OutputConnectorPanel.Children.Add(connector);
+            connectorViewList.Add(connector);
         }
 
         public void SetPosition(Point value)
@@ -147,10 +213,10 @@ namespace WorkspaceManager.View.Container
                 Point point, relativePoint;
                 double x, y;
 
-                foreach (ConnectorView conn in InputConnectorPanel.Children)
+                foreach (ConnectorView conn in West.Children)
                 {
-                    gTransform = this.InputConnectorPanel.TransformToVisual(this);
-                    gTransformSec = conn.TransformToVisual(this.InputConnectorPanel);
+                    gTransform = this.West.TransformToVisual(this);
+                    gTransformSec = conn.TransformToVisual(this.West);
 
                     point = gTransform.Transform(new Point(0, 0));
                     relativePoint = gTransformSec.Transform(new Point(0, 0));
@@ -162,10 +228,40 @@ namespace WorkspaceManager.View.Container
                     conn.PositionOnWorkSpaceY = y;
                 }
 
-                foreach (ConnectorView conn in OutputConnectorPanel.Children)
+                foreach (ConnectorView conn in East.Children)
                 {
-                    gTransform = this.OutputConnectorPanel.TransformToVisual(this);
-                    gTransformSec = conn.TransformToVisual(this.OutputConnectorPanel);
+                    gTransform = this.East.TransformToVisual(this);
+                    gTransformSec = conn.TransformToVisual(this.East);
+
+                    point = gTransform.Transform(new Point(0, 0));
+                    relativePoint = gTransformSec.Transform(new Point(0, 0));
+
+                    x = (RenderTransform as TranslateTransform).X + point.X + relativePoint.X;
+                    y = (RenderTransform as TranslateTransform).Y + point.Y + relativePoint.Y;
+
+                    conn.PositionOnWorkSpaceX = x;
+                    conn.PositionOnWorkSpaceY = y;
+                }
+
+                foreach (ConnectorView conn in North.Children)
+                {
+                    gTransform = this.North.TransformToVisual(this);
+                    gTransformSec = conn.TransformToVisual(this.North);
+
+                    point = gTransform.Transform(new Point(0, 0));
+                    relativePoint = gTransformSec.Transform(new Point(0, 0));
+
+                    x = (RenderTransform as TranslateTransform).X + point.X + relativePoint.X;
+                    y = (RenderTransform as TranslateTransform).Y + point.Y + relativePoint.Y;
+
+                    conn.PositionOnWorkSpaceX = x;
+                    conn.PositionOnWorkSpaceY = y;
+                }
+
+                foreach (ConnectorView conn in South.Children)
+                {
+                    gTransform = this.South.TransformToVisual(this);
+                    gTransformSec = conn.TransformToVisual(this.South);
 
                     point = gTransform.Transform(new Point(0, 0));
                     relativePoint = gTransformSec.Transform(new Point(0, 0));
@@ -218,26 +314,23 @@ namespace WorkspaceManager.View.Container
 
         void connector_OnConnectorMouseLeftButtonDown(object sender, ConnectorViewEventArgs e)
         {
+            DataObject dragData = new DataObject("connector", e.connector);
+            DragDrop.DoDragDrop(e.connector.Parent, dragData, DragDropEffects.Move);
+
             if (this.ConnectorMouseLeftButtonDown != null)
-            {
                 this.ConnectorMouseLeftButtonDown.Invoke(this, e);
-            }
         }
 
         private void delete()
         {
             if (this.Delete != null)
-            {
                 this.Delete.Invoke(this, new PluginContainerViewDeleteViewEventArgs { container = this });
-            }
         }
 
         private void showSettings()
         {
             if (this.ShowSettings != null)
-            {
                 this.ShowSettings.Invoke(this, new PluginContainerViewSettingsViewEventArgs { container = this });
-            }
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -275,7 +368,6 @@ namespace WorkspaceManager.View.Container
             {
                 if ((PluginBase.ActualHeight + e.VerticalChange) > 0)
                     PluginBase.Height = PluginBase.ActualHeight + e.VerticalChange;
-
             }
 
             if (t.Cursor == Cursors.SizeNWSE)
@@ -319,10 +411,10 @@ namespace WorkspaceManager.View.Container
                 return;
             }
 
-            foreach (ConnectorView connector in connectorViewList)
-            {
-                this.DataPresentationPanel.Children.Add(new DataPresentation(connector));
-            }
+            //foreach (ConnectorView connector in connectorViewList)
+            //{
+            //    this.DataPresentationPanel.Children.Add(new DataPresentation(connector));
+            //}
 
             this.SetAllConnectorPositionX();
         }

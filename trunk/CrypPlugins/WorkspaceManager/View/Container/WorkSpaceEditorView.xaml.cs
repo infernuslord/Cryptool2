@@ -79,6 +79,7 @@ namespace WorkspaceManager.View.Container
             {
                 Model.deletePluginModel(e.container.Model);
                 root.Children.Remove(e.container);
+                Model.WorkspaceManagerEditor.HasChanges = true;
             }
         }
 
@@ -99,6 +100,7 @@ namespace WorkspaceManager.View.Container
                 newPluginContainerView.SetPosition(position);
                 this.root.Children.Add(newPluginContainerView);
                 Canvas.SetZIndex(newPluginContainerView, 100);
+                Model.WorkspaceManagerEditor.HasChanges = true;
             }
         }
 
@@ -107,7 +109,7 @@ namespace WorkspaceManager.View.Container
             this.InformationPanel.Visibility = Visibility.Visible;
         }
 
-        public void AddConnection(IConnectable source, IConnectable target)
+        public void AddConnection(ConnectorView source, ConnectorView target)
         {
             if (this.State == EditorState.READY)
             {
@@ -134,7 +136,7 @@ namespace WorkspaceManager.View.Container
             }
         }
 
-        private void AddConnectionSource(IConnectable source, CryptoLineView conn)
+        private void AddConnectionSource(ConnectorView source, CryptoLineView conn)
         {
             if (this.State == EditorState.READY)
             {
@@ -145,10 +147,11 @@ namespace WorkspaceManager.View.Container
             }
         }
 
-        private MultiBinding CreateConnectorBinding(IConnectable connectable)
+        private MultiBinding CreateConnectorBinding(ConnectorView connectable)
         {
             MultiBinding multiBinding = new MultiBinding();
             multiBinding.Converter = new ConnectorBindingConverter();
+            multiBinding.ConverterParameter = connectable;
 
             Binding binding = new Binding();
             binding.Source = connectable;
@@ -169,6 +172,7 @@ namespace WorkspaceManager.View.Container
             binding.Source = connectable;
             binding.Path = new PropertyPath(FrameworkElement.ActualWidthProperty);
             multiBinding.Bindings.Add(binding);
+
 
             return multiBinding;
         }
@@ -229,14 +233,19 @@ namespace WorkspaceManager.View.Container
             if (e.LeftButton == MouseButtonState.Pressed && selectedPluginContainer != null)
             {
                 point = selectedPluginContainer.GetPosition();
-                this.selectedPluginContainer.SetPosition(new Point(point.X + Mouse.GetPosition(root).X - previousDragPoint.X, point.Y + Mouse.GetPosition(root).Y - previousDragPoint.Y));
+                this.selectedPluginContainer.SetPosition(new Point((Math.Round((Mouse.GetPosition(root).X - previousDragPoint.X) / Properties.Settings.Default.GridScale)) * Properties.Settings.Default.GridScale,
+                                                            (Math.Round((Mouse.GetPosition(root).Y - previousDragPoint.Y) / Properties.Settings.Default.GridScale)) * Properties.Settings.Default.GridScale));
+                Model.WorkspaceManagerEditor.HasChanges = true;
+                //this.selectedPluginContainer.SetPosition(new Point((Math.Round(( Mouse.GetPosition(root).X )/Properties.Settings.Default.GridScale)) * Properties.Settings.Default.GridScale,
+                //                                            (Math.Round(( Mouse.GetPosition(root).Y ) / Properties.Settings.Default.GridScale)) * Properties.Settings.Default.GridScale));
             }
+
+
 
             if (selectedConnector != null && root.Children.Contains(dummyLine))
             {
                 this.dummyLine.EndPoint = Mouse.GetPosition(root);
             }
-            this.previousDragPoint = Mouse.GetPosition(root);
         }
 
         void shape_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -245,12 +254,25 @@ namespace WorkspaceManager.View.Container
             this.selectedPluginContainer = null;
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            SliderEditorSize.Value += 0.3;
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            SliderEditorSize.Value -= 0.3;
+        }
+
         void shape_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Canvas.SetZIndex(sender as PluginContainerView, 101);
             this.selectedPluginContainer = sender as PluginContainerView;
+            this.previousDragPoint = Mouse.GetPosition(selectedPluginContainer); 
+            Canvas.SetZIndex(selectedPluginContainer, 101);
+
             PluginChangedEventArgs args = new PluginChangedEventArgs(this.selectedPluginContainer.Model.Plugin, this.selectedPluginContainer.Model.Name, DisplayPluginMode.Normal);
             this.Model.WorkspaceManagerEditor.onSelectedPluginChanged(args);
+
             e.Handled = true;
         }
 
@@ -258,10 +280,16 @@ namespace WorkspaceManager.View.Container
         {
             if (this.State == EditorState.READY)
             {
-                DragDropDataObject obj = e.Data.GetData("Cryptool.PluginBase.Editor.DragDropDataObject") as DragDropDataObject;
-                PluginModel pluginModel = Model.newPluginModel(DragDropDataObjectToPluginConverter.CreatePluginInstance(obj.AssemblyFullName, obj.TypeFullName));
-                if (obj != null)
-                    this.AddPluginContainerView(e.GetPosition(root), pluginModel);
+                if (e.Data.GetDataPresent("Cryptool.PluginBase.Editor.DragDropDataObject"))
+                {
+                    DragDropDataObject obj = e.Data.GetData("Cryptool.PluginBase.Editor.DragDropDataObject") as DragDropDataObject;
+                    PluginModel pluginModel = Model.newPluginModel(DragDropDataObjectToPluginConverter.CreatePluginInstance(obj.AssemblyFullName, obj.TypeFullName));
+                    if (obj != null)
+                        this.AddPluginContainerView(e.GetPosition(root), pluginModel);
+                    Model.WorkspaceManagerEditor.HasChanges = true;
+                }
+                else
+                    return;
             }
         }
 
@@ -292,7 +320,7 @@ namespace WorkspaceManager.View.Container
             {
                 this.loadPluginContainerView(model);
             }
-            foreach(ConnectionModel connModel in WorkspaceModel.AllConnectionModels)
+            foreach (ConnectionModel connModel in WorkspaceModel.AllConnectionModels)
             {
                 CryptoLineView conn = new CryptoLineView(connModel);
                 connModel.UpdateableView = conn;
@@ -305,9 +333,9 @@ namespace WorkspaceManager.View.Container
                     {
                         foreach (ConnectorView connector in container.ConnectorViewList)
                         {
-                            if(connModel.From == connector.model)
+                            if (connModel.From == connector.Model)
                                 conn.SetBinding(CryptoLineView.StartPointProperty, CreateConnectorBinding(connector));
-                            else if(connModel.To == connector.model)
+                            else if (connModel.To == connector.Model)
                                 conn.SetBinding(CryptoLineView.EndPointProperty, CreateConnectorBinding(connector));
                         }
                     }
@@ -331,6 +359,14 @@ namespace WorkspaceManager.View.Container
             newPluginContainerView.SetPosition(model.Position);
             this.root.Children.Add(newPluginContainerView);
             Canvas.SetZIndex(newPluginContainerView, 100);
+        }
+
+        internal void ResetConnections()
+        {
+            foreach (CryptoLineView line in ConnectionList)
+            {
+                line.Reset();
+            }
         }
     }
 }

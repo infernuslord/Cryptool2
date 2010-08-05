@@ -29,7 +29,7 @@ namespace WorkspaceManager.View.VisualComponents
             get { return model; }
             private set { model = value; }
         }
-        private static double offset = 7.5;
+        private static double offset = 6;
 
         #endregion
 
@@ -166,14 +166,15 @@ namespace WorkspaceManager.View.VisualComponents
                    
                 if(isBetween(down.Y, up.Y, left.Y) && isBetween(left.X, right.X, up.X))
                 {
-                    if (StartPoint.Y == StartPointSec.Y && StartPoint.X > StartPointSec.X)
+                    if (StartPoint.Y == StartPointSec.Y 
+                        && (((StartPoint.X >= StartPointSec.X && StartPointSec.X >= EndPoint.X))
+                        || ((StartPoint.X <= StartPointSec.X && StartPointSec.X <= EndPoint.X))))
                     {
-                        intersectPoint = new IntersectPoint(new Point(up.X, left.Y));
-                        //intersectPoint.Mode = IntersectPointMode.InnerIntersect;
+                        intersectPoint = new IntersectPoint(new Point(up.X, left.Y), IntersectPointMode.NormalIntersect);
                     }
                     else
                     {
-                        intersectPoint = new IntersectPoint(new Point(up.X, left.Y));
+                        intersectPoint = new IntersectPoint(new Point(up.X, left.Y), IntersectPointMode.NormalIntersect);
                     }
                     return true;
                 }
@@ -213,33 +214,42 @@ namespace WorkspaceManager.View.VisualComponents
                 {
                     foreach (IntersectPoint interPoint in fromTo.Intersection)
                     {
-                        if (intersectPoint.Mode == IntersectPointMode.NormalIntersect)
+                        switch (fromTo.DirSort)
                         {
-                            switch (fromTo.DirSort)
-                            {
-                                case DirSort.X_ASC:
+                            case DirSort.X_ASC:
+                                if (intersectPoint.Mode == IntersectPointMode.NormalIntersect)
+                                {
                                     context.LineTo(new Point(interPoint.Point.X - offset, interPoint.Point.Y), true, true);
                                     context.QuadraticBezierTo(new Point(interPoint.Point.X, interPoint.Point.Y - offset), new Point(interPoint.Point.X + offset, interPoint.Point.Y), true, true);
-                                    break;
-                                case DirSort.X_DESC:
+                                }
+                                else if (intersectPoint.Mode == IntersectPointMode.InnerIntersect)
+                                {
+                                    context.LineTo(new Point(interPoint.Point.X - 4, interPoint.Point.Y), true, true);
+                                    context.QuadraticBezierTo(new Point(interPoint.Point.X, interPoint.Point.Y - 5), new Point(interPoint.Point.X + 4, interPoint.Point.Y), true, true);
+                                    context.QuadraticBezierTo(new Point(interPoint.Point.X, interPoint.Point.Y + 5), new Point(interPoint.Point.X - 4, interPoint.Point.Y), true, true);
+                                }
+                                break;
+                            case DirSort.X_DESC:
+                                if (intersectPoint.Mode == IntersectPointMode.NormalIntersect)
+                                {
                                     context.LineTo(new Point(interPoint.Point.X + offset, interPoint.Point.Y), true, true);
                                     context.QuadraticBezierTo(new Point(interPoint.Point.X, interPoint.Point.Y - offset), new Point(interPoint.Point.X - offset, interPoint.Point.Y), true, true);
-                                    break;
-                                //case DirSort.Y_ASC:
-                                //    context.LineTo(new Point(interPoint.X, interPoint.Y - offset), true, true);
-                                //    context.QuadraticBezierTo(new Point(interPoint.X + offset, interPoint.Y), new Point(interPoint.X, interPoint.Y + offset), true, true);
-                                //    break;
-                                //case DirSort.Y_DESC:
-                                //    context.LineTo(new Point(interPoint.X, interPoint.Y + offset), true, true);
-                                //    context.QuadraticBezierTo(new Point(interPoint.X + offset, interPoint.Y), new Point(interPoint.X, interPoint.Y - offset), true, true);
-                                //    break;
-                            }
-                        }
-                        else if (intersectPoint.Mode == IntersectPointMode.InnerIntersect)
-                        {
-                            context.LineTo(new Point(interPoint.Point.X - offset, interPoint.Point.Y), true, true);
-                            context.QuadraticBezierTo(new Point(interPoint.Point.X, interPoint.Point.Y - offset), new Point(interPoint.Point.X + offset, interPoint.Point.Y), true, true);
-                            context.QuadraticBezierTo(new Point(interPoint.Point.X, interPoint.Point.Y - offset), new Point(interPoint.Point.X - offset, interPoint.Point.Y), true, true);
+                                }
+                                else if (intersectPoint.Mode == IntersectPointMode.InnerIntersect)
+                                {
+                                    context.LineTo(new Point(interPoint.Point.X + 4, interPoint.Point.Y), true, true);
+                                    context.QuadraticBezierTo(new Point(interPoint.Point.X, interPoint.Point.Y - 5), new Point(interPoint.Point.X - 4, interPoint.Point.Y), true, true);
+                                    context.QuadraticBezierTo(new Point(interPoint.Point.X, interPoint.Point.Y + 5), new Point(interPoint.Point.X + 4, interPoint.Point.Y), true, true);
+                                }
+                                break;
+                            //case DirSort.Y_ASC:
+                            //    context.LineTo(new Point(interPoint.X, interPoint.Y - offset), true, true);
+                            //    context.QuadraticBezierTo(new Point(interPoint.X + offset, interPoint.Y), new Point(interPoint.X, interPoint.Y + offset), true, true);
+                            //    break;
+                            //case DirSort.Y_DESC:
+                            //    context.LineTo(new Point(interPoint.X, interPoint.Y + offset), true, true);
+                            //    context.QuadraticBezierTo(new Point(interPoint.X + offset, interPoint.Y), new Point(interPoint.X, interPoint.Y - offset), true, true);
+                            //    break;
                         }
                     }
                     context.LineTo(fromTo.To, true, true);
@@ -282,5 +292,11 @@ namespace WorkspaceManager.View.VisualComponents
         }
 
         #endregion
+
+        internal void Reset()
+        {
+            Color color = ColorHelper.GetColor(Model.ConnectionType);
+            Stroke = new SolidColorBrush(color);
+        }
     }
 }
