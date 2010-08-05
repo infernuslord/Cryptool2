@@ -219,6 +219,11 @@ namespace Cryptool.Plugins.QuadraticSieve
             try
             {
                 WaitTillConnected();
+
+                //store our name:
+                P2PManager.Retrieve(NameIdentifier(ourID));     //just to outsmart the versioning system
+                P2PManager.Store(NameIdentifier(ourID), System.Text.ASCIIEncoding.ASCII.GetBytes(ourName.ToCharArray()));
+
                 head = 0;
                 SynchronizeHead();
                 int startHead = head;
@@ -565,10 +570,6 @@ namespace Cryptool.Plugins.QuadraticSieve
             peerPerformances = new Queue<PeerPerformanceInformations>();
             activePeers = new HashSet<int>();
             
-            //store our name:
-            P2PManager.Retrieve(NameIdentifier(ourID));     //just to outsmart the versioning system
-            P2PManager.Store(NameIdentifier(ourID),  System.Text.ASCIIEncoding.ASCII.GetBytes(ourName.ToCharArray()));
-
             if (loadStoreThread != null)
                 throw new Exception("LoadStoreThread already started");
             StartLoadStoreThread();
