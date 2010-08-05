@@ -110,6 +110,7 @@
     <Compile Include="FactorManager.cs" />
     <Compile Include="NotSievableException.cs" />
     <Compile Include="PeerToPeer.cs" />
+    <Compile Include="PeerToPeerStatusUpdater.cs" />
     <Compile Include="ProgressRelationPackages.xaml.cs">
       <DependentUpon>ProgressRelationPackages.xaml</DependentUpon>
     </Compile>
@@ -130,6 +131,10 @@
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\P2PEditor\P2PEditor.csproj">
+      <Project>{59DEB752-BEB6-4B2B-86A9-78B150537529}</Project>
+      <Name>P2PEditor</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
