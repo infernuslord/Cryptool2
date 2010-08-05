@@ -51,7 +51,13 @@
             </Border>-->
 
             <Grid Name="MainGrid">
-                <Ellipse Fill="Black" Width="10" Height="10" HorizontalAlignment="Left" VerticalAlignment="Top"></Ellipse>
+                <Grid Name="ConnectorPanel" Panel.ZIndex="120">
+                    <StackPanel x:Name="West" Background="{StaticResource ResourceKey=CheatBrush}" Orientation="Vertical" HorizontalAlignment="Left" Width="22" Height="{Binding ElementName=Window, Path=ActualHeight}"></StackPanel>
+                    <StackPanel x:Name="East" Background="{StaticResource ResourceKey=CheatBrush}" Orientation="Vertical" HorizontalAlignment="Right" Width="22" Height="{Binding ElementName=Window, Path=ActualHeight}"></StackPanel>
+                    <StackPanel x:Name="North" Background="{StaticResource ResourceKey=CheatBrush}" Orientation="Horizontal" VerticalAlignment="Top" Height="22" Width="{Binding ElementName=Window, Path=ActualWidth}"></StackPanel>
+                    <StackPanel x:Name="South" Background="{StaticResource ResourceKey=CheatBrush}" Orientation="Horizontal" VerticalAlignment="Bottom" Height="22" Width="{Binding ElementName=Window, Path=ActualWidth}"></StackPanel>
+
+                </Grid>
                 <Grid Margin="3">
                     
                     <Canvas Width="auto" Height="auto">
@@ -59,7 +65,7 @@
                             
                         </Popup>
                     </Canvas>
-                    <Border Name="Window" BorderThickness="0" BorderBrush="Transparent" Margin="5">
+                    <Border Name="Window" BorderThickness="0" BorderBrush="Transparent" Margin="8">
                         <Grid>
 
                             <Thumb Panel.ZIndex="100" Name="BottomDelta" IsEnabled="False" Opacity="0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Cursor="SizeNS" DragDelta="Thumb_DragDelta" Height="2.5"></Thumb>

@@ -28,18 +28,7 @@ namespace WorkspaceManager.View.VisualComponents
 
         void BottomBox_Loaded(object sender, RoutedEventArgs e)
         {
-            if (MainElementsBorder.Visibility == Visibility.Collapsed)
-                Main_MouseLeave(null, null);
-        }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            SliderEditorSize.Value += 0.3;
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            SliderEditorSize.Value -= 0.3;
         }
 
         private void Main_MouseEnter(object sender, MouseEventArgs e)
@@ -47,7 +36,6 @@ namespace WorkspaceManager.View.VisualComponents
             //Sub.Visibility = Visibility.Collapsed;
             Main.BeginStoryboard((this.Resources["IncrementHeigth"] as Storyboard));
             //(this.Resources["Up"] as Storyboard).Stop(Sub);
-            MainElementsBorder.Visibility = Visibility.Visible;
         }
 
         private void Main_MouseLeave(object sender, MouseEventArgs e)
@@ -55,7 +43,6 @@ namespace WorkspaceManager.View.VisualComponents
             //Sub.Visibility = Visibility.Visible;
             Main.BeginStoryboard((this.Resources["DecrementHeigth"] as Storyboard));
             //Sub.BeginStoryboard((this.Resources["Up"] as Storyboard));
-            MainElementsBorder.Visibility = Visibility.Collapsed;
         }
     }
 }

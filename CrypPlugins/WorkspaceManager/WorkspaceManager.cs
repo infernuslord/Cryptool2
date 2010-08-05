@@ -365,6 +365,7 @@ namespace WorkspaceManager
                 //Get the gui Thread
                 this.WorkspaceSpaceEditorView.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
+                    this.WorkspaceSpaceEditorView.ResetConnections();
                     this.WorkspaceSpaceEditorView.State = EditorState.BUSY;                   
                 }
                 , null);                
@@ -428,6 +429,7 @@ namespace WorkspaceManager
                 //Get the gui Thread
                 this.WorkspaceSpaceEditorView.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
+                    this.WorkspaceSpaceEditorView.ResetConnections();
                     this.WorkspaceSpaceEditorView.State = EditorState.READY;
                 }
                 , null);

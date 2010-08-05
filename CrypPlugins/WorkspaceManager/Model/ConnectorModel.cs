@@ -103,6 +103,11 @@ namespace WorkspaceManager.Model
         public List<ConnectionModel> OutputConnections;
 
         /// <summary>
+        /// The Orientation of this ConnectorModel
+        /// </summary>
+        public ConnectorOrientation Orientation = ConnectorOrientation.Unset;
+
+        /// <summary>
         /// Creates a new ConnectorModel
         /// </summary>
         public ConnectorModel()
@@ -245,7 +250,7 @@ namespace WorkspaceManager.Model
                     this.ConnectorType = dynamicProperty.Type;
                     if (this.UpdateableView != null)
                     {
-                        ((ConnectorView)this.UpdateableView).Ellipse.Fill = new SolidColorBrush(ColorHelper.GetColor(this.ConnectorType));
+                        ((ConnectorView)this.UpdateableView).ConnectorRep.Fill = new SolidColorBrush(ColorHelper.GetColor(this.ConnectorType));
                     }
                 }
             }

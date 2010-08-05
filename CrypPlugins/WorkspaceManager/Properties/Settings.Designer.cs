@@ -34,5 +34,14 @@ namespace WorkspaceManager.Properties {
                 this["EditScale"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("6")]
+        public double GridScale {
+            get {
+                return ((double)(this["GridScale"]));
+            }
+        }
     }
 }

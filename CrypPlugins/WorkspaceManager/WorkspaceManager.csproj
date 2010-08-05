@@ -224,6 +224,12 @@
   <ItemGroup>
     <Resource Include="View\Image\search.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Image\bg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Image\ct.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!--<PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)\..\AppReferences\"</PostBuildEvent>

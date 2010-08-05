@@ -18,6 +18,15 @@ using System.Windows.Controls.Primitives;
 
 namespace WorkspaceManager.View.Container
 {
+    public enum ConnectorOrientation
+    {
+        North,
+        South,
+        West,
+        East,
+        Unset
+    };
+
     /// <summary>
     /// Interaction logic for ConnectorView.xaml
     /// </summary>
@@ -56,6 +65,48 @@ namespace WorkspaceManager.View.Container
             }
         }
 
+        private ConnectorOrientation orientation;
+        public ConnectorOrientation Orientation 
+        {
+            get 
+            {
+                return orientation;
+            }
+            set
+            {
+                orientation = value;
+                switch (value)
+                {
+                    case ConnectorOrientation.West:
+                        if (model.Outgoing)
+                            Rotation.Angle = 90;
+                        else
+                            Rotation.Angle = -90;
+                        break;
+                    case ConnectorOrientation.East:
+                        if (model.Outgoing)
+                            Rotation.Angle = -90;
+                        else
+                            Rotation.Angle = 90;
+                        break;
+                    case ConnectorOrientation.North:
+                        if (model.Outgoing)
+                            Rotation.Angle = 180;
+                        else
+                            Rotation.Angle = 0;
+                        break;
+                    case ConnectorOrientation.South:
+                        if (model.Outgoing)
+                            Rotation.Angle = 0;
+                        else
+                            Rotation.Angle = 180;
+                        break;
+                }
+
+                this.Model.Orientation = value;
+            }
+        }
+
         public ConnectorView()
         {
             this.MouseLeftButtonDown += new MouseButtonEventHandler(ConnectorView_MouseLeftButtonDown);
@@ -66,10 +117,26 @@ namespace WorkspaceManager.View.Container
         {
             setBaseControl(Model);
             InitializeComponent();
- 
+
+            if (Model.IsMandatory)
+            {
+                Scale.ScaleX = 1.35;
+                Scale.ScaleY = 1.35;
+            }
+
+            if (Model.Orientation == ConnectorOrientation.Unset)
+            {
+                if (model.Outgoing)
+                    this.Orientation = ConnectorOrientation.East;
+                else
+                    this.Orientation = ConnectorOrientation.West;
+            }
+            else
+                this.Orientation = Model.Orientation;
+
             Color color = ColorHelper.GetColor(Model.ConnectorType);
-            this.Ellipse.Fill = new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
-            this.Ellipse.ToolTip = Model.ToolTip;
+            this.ConnectorRep.Fill = new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
+            this.ConnectorRep.ToolTip = Model.ToolTip;
         }
 
         private void setBaseControl(ConnectorModel Model)
