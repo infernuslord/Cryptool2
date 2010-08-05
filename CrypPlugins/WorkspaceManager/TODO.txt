@@ -5,18 +5,17 @@ VIEW Es muss gespeichert werden, on ein Plugin minimiert oder maximiert ist
 VIEW Ansicht scrollbar machen
 VIEW Logging Mechanismus der einzelnen Plugins (Plugins loggen jetzt in eine interne Liste -> diese nutzen)
 VIEW IControl implementieren (als Dockins)
-VIEW Linien beim Start der Ausführung wieder in originalen Farben zeichnen
-VIEW Connectoren überarbeiten (an die richtige Position setzen, vll graphisch überarbeiten)
-VIEW Den Editor auf "HasChanges=true" setzen, sobald etwas "bewegt" wurde (damit dies vom Benutzer gespeichert werden muss)
 VIEW Multiselekt und Multimodifiy (mehrere Plugins gleichzeitig verschieben, löschen, etc)
 VIEW "Eigene Settings" implementieren
 VIEW Aktuelle Daten der Connectoren in eigener Ansicht anzeigen
 VIEW Bug - sobald auf Settings geklickt wird, "hängt sich die VIEW auf"
 VIEW "Hilfeseite" der Plugins anzeigbar machen
+VIEW Linien besser zeichnen (Algo?)
+VIEW ProgressBar
 
 MODEL Ausführungsengine bugfrei machen und optimieren
 MODEL Letzte Daten für Ansicht der Connectoren cachen
-MODEL Schleifenbug der Ausführungsengine beheben
+//MODEL Schleifenbug der Ausführungsengine beheben
 
 ALLGEMEIN Undo/Redo Funktionalität implementieren (Konzept entwerfen - Fällt meiner Meinung nach in VIEW und MODEL)
 
