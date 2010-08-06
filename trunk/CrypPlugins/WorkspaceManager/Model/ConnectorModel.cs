@@ -202,18 +202,25 @@ namespace WorkspaceManager.Model
                 propertyChangedEventArgs.PropertyName.Equals(PropertyName) &&
                 Outgoing)
             {
+                object data = null;
+                if (IsDynamic)
+                {
+                    data = sender.GetType().GetMethod(DynamicGetterName).Invoke(sender, new object[] { this.PropertyName });
+                }
+                else
+                {
+                    data = sender.GetType().GetProperty(propertyChangedEventArgs.PropertyName).GetValue(sender, null);
+                }
+
+                if (data == null)
+                {
+                    return;
+                }
 
                 foreach (ConnectionModel connectionModel in this.OutputConnections)
-                {
-                    if (IsDynamic)
-                    {
-                        connectionModel.To.Data = sender.GetType().GetMethod(DynamicGetterName).Invoke(sender, new object[] { this.PropertyName });
-                    }
-                    else
-                    {
-                        connectionModel.To.Data = sender.GetType().GetProperty(propertyChangedEventArgs.PropertyName).GetValue(sender, null);
-                    }
+                {                    
                     connectionModel.To.HasData = true;
+                    connectionModel.To.Data = data;
                     connectionModel.Active = true;
                     connectionModel.GuiNeedsUpdate = true;
                 }

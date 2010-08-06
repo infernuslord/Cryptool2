@@ -77,7 +77,8 @@ namespace WorkspaceManager.Execution
             {
                 IsRunning = true;
                 int amountSchedulers = System.Environment.ProcessorCount * 2;
-                
+                //amountSchedulers = 1;
+
                 //Here we create n = "ProcessorsCount * 2" Gears4Net schedulers
                 //We do this, because measurements showed that we get the best performance if we
                 //use this amount of schedulers
@@ -379,7 +380,6 @@ namespace WorkspaceManager.Execution
             {
                 if (connectorModel.HasData)
                 {
-
                     connectorModel.HasData = false;
                     connectorModel.Data = null;
                     foreach (ConnectionModel connectionModel in connectorModel.InputConnections)
