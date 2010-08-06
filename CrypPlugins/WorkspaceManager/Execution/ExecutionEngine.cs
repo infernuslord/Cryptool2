@@ -76,12 +76,14 @@ namespace WorkspaceManager.Execution
             if (!IsRunning)
             {
                 IsRunning = true;
-
+                int amountSchedulers = System.Environment.ProcessorCount * 2;
+                
                 //Here we create n = "ProcessorsCount * 2" Gears4Net schedulers
                 //We do this, because measurements showed that we get the best performance if we
                 //use this amount of schedulers
-                schedulers = new Scheduler[System.Environment.ProcessorCount*2];
-                for(int i=0;i< System.Environment.ProcessorCount*2;i++){
+                schedulers = new Scheduler[amountSchedulers];
+                for (int i = 0; i < amountSchedulers; i++)
+                {
                     schedulers[i] = new WorkspaceManagerScheduler("Scheduler" + i);                    
                 }
                
@@ -114,7 +116,7 @@ namespace WorkspaceManager.Execution
                     schedulers[counter].AddProtocol(pluginProtocol);
                    
                     pluginProtocol.Start();
-                    counter = (counter + 1) % (System.Environment.ProcessorCount*2);
+                    counter = (counter + 1) % (amountSchedulers);
 
                     if (pluginModel.Startable)
                     {
@@ -335,6 +337,7 @@ namespace WorkspaceManager.Execution
         /// <param name="msg"></param>
         private void HandleExecute(MessageExecution msg)
         {
+            
             //executionEngine.GuiLogMessage("HandleExecute for \"" + msg.PluginModel.Name + "\"", NotificationLevel.Debug);
             //Fill the plugins Inputs with data
             foreach (ConnectorModel connectorModel in PluginModel.InputConnectors)
@@ -364,9 +367,9 @@ namespace WorkspaceManager.Execution
                     }
                 }
             }
-            
+
             msg.PluginModel.Plugin.Execute();
-            
+
             if (this.executionEngine.BenchmarkPlugins)
             {
                 this.executionEngine.ExecutedPluginsCounter++;
@@ -384,14 +387,13 @@ namespace WorkspaceManager.Execution
                         connectionModel.Active = false;
                         connectorModel.GuiNeedsUpdate = true;
 
-                        if (!connectionModel.From.PluginModel.Startable) 
+                        if (!connectionModel.From.PluginModel.Startable || (connectionModel.From.PluginModel.Startable && connectionModel.From.PluginModel.RepeatStart))
                         {
                             connectionModel.From.PluginModel.checkExecutable(connectionModel.From.PluginModel.PluginProtocol);
                         }
-                    }                    
+                    }
                 }
-            }
-            
+            }             
         }
       
     }

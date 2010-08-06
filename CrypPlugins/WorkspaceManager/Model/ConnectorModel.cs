@@ -37,7 +37,7 @@ namespace WorkspaceManager.Model
         /// Does this Connector Model has actually data?
         /// </summary>
         [NonSerialized]
-        private bool hasData = false;
+        private volatile bool hasData = false;
 
         /// <summary>
         /// Name of the Connector type
@@ -163,7 +163,7 @@ namespace WorkspaceManager.Model
         /// </summary>
         /// <returns></returns>
         public bool HasData
-        {
+        {           
             get
             {
                 return hasData;
@@ -179,7 +179,7 @@ namespace WorkspaceManager.Model
         /// Data of this Connector
         /// </summary>
         [NonSerialized]
-        public object Data = null;
+        public volatile object Data = null;
 
         /// <summary>
         /// Name of the represented Property of the IPlugin of this ConnectorModel
