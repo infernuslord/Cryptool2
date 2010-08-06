@@ -95,7 +95,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// </summary>
         public QuadraticSieve()
         {
-            Settings = new QuadraticSieveSettings();
+            Settings = new QuadraticSieveSettings(this);
 
             directoryName = Path.Combine(DirectoryHelper.DirectoryLocalTemp, "msieve");
             if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
@@ -180,7 +180,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                     GuiLogMessage("No channel for Peer2Peer network specified. Sieving locally now!", NotificationLevel.Warning);
                     usePeer2Peer = false;
                 }
-                if (usePeer2Peer)
+                if (settings.UsePeer2Peer)
                 {
                     peerToPeer.SetChannel(settings.Channel);
                     peerToPeer.SetNumber(InputNumber);
@@ -788,7 +788,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 conf_list = null;
                 conf_listMutex.ReleaseMutex();
 
-                if (usePeer2Peer)
+                if (settings.UsePeer2Peer)
                     peerToPeer.StopLoadStoreThread();
 
                 GuiLogMessage("Waiting for threads to stop!", NotificationLevel.Debug);
@@ -823,16 +823,6 @@ namespace Cryptool.Plugins.QuadraticSieve
                 foreach (BigInteger cf in compositeFactors)
                     quadraticSieveQuickWatchPresentation.factorList.Items.Add("Composite Factor: " + cf.ToString());
             }, null);
-        }
-
-        /// <summary>
-        /// Logs a message to the CrypTool gui
-        /// </summary>
-        /// <param name="p">p</param>
-        /// <param name="notificationLevel">notificationLevel</param>
-        private void GuiLogMessage(string p, NotificationLevel notificationLevel)
-        {
-            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(p, this, notificationLevel));
         }
 
         /// <summary>
@@ -877,6 +867,30 @@ namespace Cryptool.Plugins.QuadraticSieve
         private void peerToPeer_P2PWarning(string warning)
         {
             GuiLogMessage(warning, NotificationLevel.Warning);
+        }
+
+        #endregion
+
+        #region internal
+
+        internal PeerToPeer PeerToPeer
+        {
+            get { return peerToPeer; }
+        }
+
+        internal bool Running
+        {
+            get { return running; }
+        }
+
+        /// <summary>
+        /// Logs a message to the CrypTool gui
+        /// </summary>
+        /// <param name="p">p</param>
+        /// <param name="notificationLevel">notificationLevel</param>
+        internal void GuiLogMessage(string p, NotificationLevel notificationLevel)
+        {
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(p, this, notificationLevel));
         }
 
         #endregion

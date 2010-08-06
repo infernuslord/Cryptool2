@@ -28,7 +28,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             else
                 status = DistributedJobStatus.Status.Active;
 
-            DistributedStatusUpdater.UpdateStatus(peerToPeer.StatusIdentifier(), status, peerToPeer.getActivePeers(), progress, new DateTime());
+            DistributedStatusUpdater.UpdateStatus(peerToPeer.StatusKey(), status, peerToPeer.getActivePeers(), progress, new DateTime());
         }
     }
 }
