@@ -35,6 +35,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         private bool deleteCache;
         private bool usePeer2Peer;
         private string channel;
+        private QuadraticSieve quadraticSieve;
         #endregion
 
         #region events
@@ -49,8 +50,9 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// 
         /// Also calculates the amount of cores which can be used for the quadratic sieve
         /// </summary>
-        public QuadraticSieveSettings()
+        public QuadraticSieveSettings(QuadraticSieve quadraticSieve)
         {
+            this.quadraticSieve = quadraticSieve;
             CoresAvailable.Clear();
             for (int i = 0; i < Environment.ProcessorCount; i++)
                 CoresAvailable.Add((i+1).ToString());
@@ -164,6 +166,27 @@ namespace Cryptool.Plugins.QuadraticSieve
                     OnPropertyChanged("Channel");
                 }
             }
+        }
+
+        [TaskPane("Copy status key", "Copy status key to clipboard. The key can than be used to upload it together with the job using the P2PEditor.", null, 5, true, DisplayLevel.Professional, ControlType.Button)]
+        public void StatusKeyButton()
+        {
+            if (!quadraticSieve.Running)
+            {
+                quadraticSieve.GuiLogMessage("Quadratic sieve must be running to copy the status key.", NotificationLevel.Error);
+                return;
+            }
+            if (!usePeer2Peer)
+            {
+                quadraticSieve.GuiLogMessage("You don't need the status key if you don't want to use peer2peer.", NotificationLevel.Error);
+                return;
+            }
+
+            var statusKey = quadraticSieve.PeerToPeer.StatusKey();
+
+            Clipboard.SetDataObject(statusKey, true);
+            quadraticSieve.GuiLogMessage("Status key '" + statusKey + "' has been copied to clipboard.",
+                                      NotificationLevel.Info);
         }
 
         /// <summary>

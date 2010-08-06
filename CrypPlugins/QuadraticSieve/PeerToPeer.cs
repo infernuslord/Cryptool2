@@ -460,7 +460,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             return channel + "#" + number + "-" + factor + "PERFORMANCE" + ID.ToString();
         }
 
-        public string StatusIdentifier()
+        public string StatusKey()
         {
             return channel + "#" + number + "-status";
         }
