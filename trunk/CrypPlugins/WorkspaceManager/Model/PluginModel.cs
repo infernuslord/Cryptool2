@@ -44,14 +44,7 @@ namespace WorkspaceManager.Model
         private IPlugin plugin;         
         private int imageIndex = 0;
         private PluginModelState state = PluginModelState.Normal;
-
-        /// <summary>
-        /// Name of the wrapped Plugins type
-        /// </summary>
         private string PluginTypeName = null;
-        /// <summary>
-        /// Name of the wrapped Plugins assembly
-        /// </summary>
         private string PluginTypeAssemblyName = null;
         
         #endregion
@@ -119,6 +112,12 @@ namespace WorkspaceManager.Model
                 this.PluginTypeAssemblyName = value.Assembly.FullName;
             }
         }
+
+        /// <summary>
+        /// Should this plugin may be startet again when it
+        /// is startable?
+        /// </summary>
+        public bool RepeatStart;
 
         /// <summary>
         /// Is the wrapped plugin startable

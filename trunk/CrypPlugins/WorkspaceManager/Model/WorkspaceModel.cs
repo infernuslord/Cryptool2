@@ -89,6 +89,7 @@ namespace WorkspaceManager.Model
             pluginModel.Height = height;
             pluginModel.PluginType = pluginType;            
             pluginModel.Name = pluginType.Name;
+            pluginModel.RepeatStart = false;
             pluginModel.generateConnectors();
             pluginModel.Plugin.OnGuiLogNotificationOccured += this.WorkspaceManagerEditor.GuiLogNotificationOccured;
             pluginModel.Plugin.OnGuiLogNotificationOccured += pluginModel.GuiLogNotificationOccured;
