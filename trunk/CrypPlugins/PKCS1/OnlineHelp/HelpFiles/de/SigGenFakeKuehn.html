@@ -1,0 +1,17 @@
+﻿<h2>Angriff mit kuerzeren Schlüsseln</h2>
+<strong>Um den Angriff mit kuerzeren Schlüsseln durchführen zu können, muss zuerst ein RSA-Schlüsselpaar in der entsprechenden Maske erzeugt werden</strong></br>
+<strong>Zuerst muss der Datenblock erzeugt werden, bevor die komplette Signatur generiert werden kann!</strong>
+</br>
+</br>
+Um eine gefälschte Signatur nach der Kuehn Methode zu erzeugen, wird zunächst der <a href="help://Gen_Datablock_Tab">Datenblock</a> generiert. Dies
+ist gleich zu dem Datenblock einer regulären PKCS#1-Signatur. Allerdings unterscheidet sich die <a href="help://Gen_Kuehn_Sig_Tab">Struktur</a>
+der gefälschten Signatur in folgenden Punkten:
+<ul>
+  <li>
+    Der Padding-String wird verkürzt. Somit findet sich der <a href="help://Gen_Datablock_Tab">Datenblock</a>
+    weiter links in der Signatur. Fehlerhafte Implementierungen der Validierung von Signaturen erkennen dies nicht.
+    Bei Kuehn wird die Länge des Paddingstring fix gewählt (46 Byte, wenn SHA-1 als Hashalgorithmus gewählt wird)
+  </li>
+  <li>Der ungenutzte Platz am Ende der Signatur wird mit dem sog. Garbage, aufgefüllt. Der Garbage besteht aus Oketetten mit dem Wert 'FF' 
+(hexadezimal 0xff).</li>
+</ul>

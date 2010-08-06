@@ -1,0 +1,13 @@
+﻿<h2>Bleichenbacher Angriff</h2>
+<strong>Um den Bleichenbacher Angriff durchführen zu können, muss zuerst ein RSA-Schlüsselpaar in der entsprechenden Maske erzeugt werden</strong></br>
+ <strong>Zuerst muss der Datenblock erzeugt werden, bevor die komplette Signatur generiert werden kann!</strong>
+ </br></br>
+ Um eine gefälschte Signatur zu erzeugen, wird zunächst der <a href="help://Gen_Datablock_Tab">Datenblock</a> wie in
+ einer regulären PKCS#1-Signatur generiert. Allerdings unterscheidet sich die <a href="help://Gen_Bleichenb_Sig_Tab">Struktur</a>
+ der gefälschten Signatur in folgenden Punkten:
+ <ul>
+ <li>Der Padding-String wird verkürzt. Somit findet sich der <a href="help://Gen_Datablock_Tab">Datenblock</a> 
+ weiter links in der Signatur. Fehlerhafte Implementierungen der Validierung von Signaturen erkennen dies nicht. 
+ Wie weit der Datenblock nach links verschoben wird, kann variiert werden.</li>
+ <li>Der ungenutzte Platz am Ende der Signatur wird durch willkürliche Daten, dem sog. Garbage, aufgefüllt.</li>
+ </ul>

@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="PKCS1.WpfControls.SigGen.SigGenPkcs1Control"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:comp="clr-namespace:PKCS1.WpfControls.Components"
+    VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="White">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../WpfResources/HelpTab.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <DockPanel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <TabControl Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="TabControl_SelectionChanged" Margin="0,5,0,0">
+                <comp:HelpTabItem Header="Datenblock generieren" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="tabGenDatablock" HelpButtonClick="TabItem_HelpButtonClick">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                        <comp:DatablockControl x:Name="Datablockcontrol" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                    </ScrollViewer>
+                </comp:HelpTabItem>
+                <comp:HelpTabItem Header="Signatur generieren" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="tabGenSignature" HelpButtonClick="TabItem_HelpButtonClick">                    
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                        <comp:SigGenControl x:Name="sigGen" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                    </ScrollViewer>
+                </comp:HelpTabItem>
+            </TabControl>
+        </Grid>
+    </DockPanel>
+</UserControl>
