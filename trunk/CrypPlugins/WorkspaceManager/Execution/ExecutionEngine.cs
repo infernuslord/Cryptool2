@@ -76,8 +76,7 @@ namespace WorkspaceManager.Execution
             if (!IsRunning)
             {
                 IsRunning = true;
-                int amountSchedulers = System.Environment.ProcessorCount * 2;
-                //amountSchedulers = 1;
+                int amountSchedulers = System.Environment.ProcessorCount * 2;                
 
                 //Here we create n = "ProcessorsCount * 2" Gears4Net schedulers
                 //We do this, because measurements showed that we get the best performance if we
@@ -339,38 +338,64 @@ namespace WorkspaceManager.Execution
         private void HandleExecute(MessageExecution msg)
         {
             
-            //executionEngine.GuiLogMessage("HandleExecute for \"" + msg.PluginModel.Name + "\"", NotificationLevel.Debug);
-            //Fill the plugins Inputs with data
-            foreach (ConnectorModel connectorModel in PluginModel.InputConnectors)
-            {
-                if (connectorModel.HasData)
-                {
-                    try
-                    {
-                        if (connectorModel.IsDynamic)
-                        {
-                            MethodInfo propertyInfo = PluginModel.Plugin.GetType().GetMethod(connectorModel.DynamicSetterName);
-                            propertyInfo.Invoke(PluginModel.Plugin, new object[] { connectorModel.PropertyName, connectorModel.Data });
-                        }
-                        else
-                        {
-                            PropertyInfo propertyInfo = PluginModel.Plugin.GetType().GetProperty(connectorModel.PropertyName);
-                            propertyInfo.SetValue(PluginModel.Plugin, connectorModel.Data, null);
-                        }
 
-                    }
-                    catch (Exception ex)
+            if (!msg.PluginModel.WorkspaceModel.WorkspaceManagerEditor.isExecuting())
+            {
+                return;
+            }
+
+            foreach (ConnectorModel connectorModel in msg.PluginModel.InputConnectors)
+            {
+                if (!connectorModel.IControl && (connectorModel.IsMandatory || connectorModel.InputConnections.Count > 0) && !connectorModel.HasData)
+                {
+                    return;
+                }
+            }
+
+            foreach (ConnectorModel connectorModel in msg.PluginModel.OutputConnectors)
+            {
+                if (!connectorModel.IControl)
+                {
+                    foreach (ConnectionModel connectionModel in connectorModel.OutputConnections)
                     {
-                        this.PluginModel.WorkspaceModel.WorkspaceManagerEditor.GuiLogMessage("An error occured while setting value of connector \"" + connectorModel.Name + "\" of \"" + PluginModel + "\": " + ex.Message, NotificationLevel.Error);
-                        this.PluginModel.State = PluginModelState.Error;
-                        this.PluginModel.GuiNeedsUpdate = true;
-                        return;
+                        if (connectionModel.To.HasData)
+                        {
+                            return;
+                        }
                     }
                 }
             }
 
+            //Fill the plugins Inputs with data
+            foreach (ConnectorModel connectorModel in PluginModel.InputConnectors)
+            {
+                try
+                {
+                    if (connectorModel.HasData)
+                    {
+                        if (connectorModel.IsDynamic)
+                        {
+                            MethodInfo propertyInfo = PluginModel.Plugin.GetType().GetMethod(connectorModel.DynamicSetterName);
+                            propertyInfo.Invoke(PluginModel.Plugin, new object[] { connectorModel.PropertyName, connectorModel.Data.value });
+                        }
+                        else
+                        {
+                            PropertyInfo propertyInfo = PluginModel.Plugin.GetType().GetProperty(connectorModel.PropertyName);
+                            propertyInfo.SetValue(PluginModel.Plugin, connectorModel.Data.value, null);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this.PluginModel.WorkspaceModel.WorkspaceManagerEditor.GuiLogMessage("An error occured while setting value of connector \"" + connectorModel.Name + "\" of \"" + PluginModel + "\": " + ex.Message, NotificationLevel.Error);
+                    this.PluginModel.State = PluginModelState.Error;
+                    this.PluginModel.GuiNeedsUpdate = true;
+                    return;
+                }
+            }
+            
             msg.PluginModel.Plugin.Execute();
-
+            
             if (this.executionEngine.BenchmarkPlugins)
             {
                 this.executionEngine.ExecutedPluginsCounter++;
@@ -386,14 +411,25 @@ namespace WorkspaceManager.Execution
                     {
                         connectionModel.Active = false;
                         connectorModel.GuiNeedsUpdate = true;
-
-                        if (!connectionModel.From.PluginModel.Startable || (connectionModel.From.PluginModel.Startable && connectionModel.From.PluginModel.RepeatStart))
-                        {
-                            connectionModel.From.PluginModel.checkExecutable(connectionModel.From.PluginModel.PluginProtocol);
-                        }
                     }
                 }
-            }             
+            }
+            
+            
+
+            foreach (ConnectorModel connectorModel in PluginModel.InputConnectors)
+            {
+                foreach (ConnectionModel connectionModel in connectorModel.InputConnections)
+                {
+                    if (!connectionModel.From.PluginModel.Startable || (connectionModel.From.PluginModel.Startable && connectionModel.From.PluginModel.RepeatStart))
+                    {
+                        MessageExecution message_exec = new MessageExecution();
+                        message_exec.PluginModel = connectionModel.From.PluginModel;
+                        connectionModel.From.PluginModel.PluginProtocol.BroadcastMessage(message_exec);
+                    }
+                }
+            }
+            
         }
       
     }
