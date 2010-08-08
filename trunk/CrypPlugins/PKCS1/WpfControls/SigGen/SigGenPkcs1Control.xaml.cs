@@ -30,10 +30,10 @@ namespace PKCS1.WpfControls.SigGen
         public SigGenPkcs1Control()
         {
             InitializeComponent();
-            RSAKeyManager.Instance.RaiseKeyGeneratedEvent += handleKeyGenerated;
+            RsaKey.Instance.RaiseKeyGeneratedEvent += handleKeyGenerated;
             Datablockcontrol.RaiseDataBlockGenerated += handleKeyGenerated;
 
-            if (RSAKeyManager.Instance.isKeyGenerated())
+            if (RsaKey.Instance.isKeyGenerated())
             {
                 this.tabGenSignature.IsEnabled = true;
             }

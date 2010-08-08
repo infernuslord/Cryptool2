@@ -110,23 +110,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Library\BleichenbacherSignature.cs" />
+    <Compile Include="Library\BleichenbacherSig.cs" />
     <Compile Include="Library\GuiLogMsgHandOff.cs" />
     <Compile Include="Library\IGuiLogMsg.cs" />
     <Compile Include="Library\MathFunctions.cs" />
     <Compile Include="Library\Datablock.cs" />
     <Compile Include="Library\Delegates.cs" />
     <Compile Include="Library\Hashfunction.cs" />
-    <Compile Include="Library\HashFunctionHandler.cs" />
-    <Compile Include="Library\KuehnSignature.cs" />
-    <Compile Include="Library\myFloat.cs" />
+    <Compile Include="Library\HashFuncIdentHandler.cs" />
+    <Compile Include="Library\KuehnSig.cs" />
+    <Compile Include="Library\MyFloat.cs" />
     <Compile Include="Library\NavigationCommandType.cs" />
     <Compile Include="Library\ParameterChangeType.cs" />
-    <Compile Include="Library\RSAKeyManager.cs" />
-    <Compile Include="Library\RSASignature.cs">
+    <Compile Include="Library\RsaKey.cs" />
+    <Compile Include="Library\RsaSig.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Library\RSAValidator.cs" />
+    <Compile Include="Library\SigValidator.cs" />
     <Compile Include="Library\Signature.cs" />
     <Compile Include="Library\SignatureType.cs" />
     <Compile Include="Library\SignatureHandler.cs" />

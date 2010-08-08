@@ -22,13 +22,13 @@ namespace PKCS1.WpfControls.Components
     /// </summary>
     public partial class SigGenControl : UserControl
     {
-        private RSASignature m_RSASignature;
+        private RsaSig m_RSASignature;
         
         public SigGenControl()
         {
             InitializeComponent();
-            // zeile muss weg; Signatur muss sich bei RSAKeyManager anmelden
-            RSAKeyManager.Instance.RaiseKeyGeneratedEvent += handleCustomEvent; // bei KeyGen-Listener anmelden 
+            // zeile muss weg; Signatur muss sich bei RsaKey anmelden
+            RsaKey.Instance.RaiseKeyGeneratedEvent += handleCustomEvent; // bei KeyGen-Listener anmelden 
             this.handleCustomEvent(ParameterChangeType.RsaKey);
         }
 
@@ -36,13 +36,13 @@ namespace PKCS1.WpfControls.Components
         {
             //this.tbResult.Text = String.Empty;
             this.tbResultEncrypted.Text = String.Empty;
-            this.lblPublicKeyRes.Content = RSAKeyManager.Instance.PubExponent.ToString();
-            this.lblRsaKeySizeRes.Content = RSAKeyManager.Instance.RsaKeySize.ToString();
+            this.lblPublicKeyRes.Content = RsaKey.Instance.PubExponent.ToString();
+            this.lblRsaKeySizeRes.Content = RsaKey.Instance.RsaKeySize.ToString();
         }
 
         private void bExecute_Click(object sender, RoutedEventArgs e)
         {
-            this.m_RSASignature = (RSASignature) SignatureHandler.getInstance().getSignature();
+            this.m_RSASignature = (RsaSig) SignatureHandler.getInstance().getSignature();
             this.m_RSASignature.GenerateSignature();
             //this.tbResult.Text = this.m_RSASignature.GetSignatureDecToHexString();
             UserControlHelper.loadRtbColoredSig(this.rtbResult, this.m_RSASignature.GetSignatureDecToHexString());

@@ -20,31 +20,31 @@ namespace PKCS1.WpfControls.Components
     /// </summary>
     public partial class SigGenKuehnControl : UserControl
     {
-        private KuehnSignature m_signature = (KuehnSignature)SignatureHandler.getInstance().getKuehnSig();
-        public KuehnSignature Signature
+        private KuehnSig m_signature = (KuehnSig)SignatureHandler.getInstance().getKuehnSig();
+        public KuehnSig Signature
         {
             get { return this.m_signature; }
-            set { this.m_signature = (KuehnSignature)value; }
+            set { this.m_signature = (KuehnSig)value; }
         }
 
         public SigGenKuehnControl()
         {
             InitializeComponent();
-            RSAKeyManager.Instance.RaiseKeyGeneratedEvent += handleCustomEvent; // listen
+            RsaKey.Instance.RaiseKeyGeneratedEvent += handleCustomEvent; // listen
             this.handleCustomEvent(ParameterChangeType.RsaKey);
         }
 
         private void handleCustomEvent(ParameterChangeType type)
         {
-            this.lblPublicKeyRes.Content = RSAKeyManager.Instance.PubExponent.ToString();
-            this.lblRsaKeySizeRes.Content = RSAKeyManager.Instance.RsaKeySize.ToString();
+            this.lblPublicKeyRes.Content = RsaKey.Instance.PubExponent.ToString();
+            this.lblRsaKeySizeRes.Content = RsaKey.Instance.RsaKeySize.ToString();
         }
 
         private void bExecute_Click(object sender, RoutedEventArgs e)
         {
             Cursor = Cursors.Wait;
 
-            //this.Signature = (KuehnSignature)SignatureHandler.getInstance().getKuehnSig();
+            //this.Signature = (KuehnSig)SignatureHandler.getInstance().getKuehnSig();
 
             if (this.Signature.GenerateSignature())
             {

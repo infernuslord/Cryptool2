@@ -40,7 +40,7 @@
                         </Grid.RowDefinitions>
                             <TextBox Grid.Row="0" Name="tbInputPubKey"  Margin="5,0,5,5" MinWidth="50">
                                     <TextBox.Text>
-                                    <Binding Source="{x:Static lib:RSAKeyManager.Instance}" Path="PubExponent" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding Source="{x:Static lib:RsaKey.Instance}" Path="PubExponent" UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>
                                             <my:NumberValidationRule UpperBound="20" LowerBound="0" />
                                         </Binding.ValidationRules>
@@ -49,7 +49,7 @@
                             </TextBox>                            
                             <TextBox Grid.Row="1" Name="tbInputMod" Margin="5,0,5,5" MinWidth="50">
                                 <TextBox.Text>
-                                    <Binding Source="{x:Static lib:RSAKeyManager.Instance}" Path="RsaKeySize" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding Source="{x:Static lib:RsaKey.Instance}" Path="RsaKeySize" UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>
                                             <my:NumberValidationRule UpperBound="4097" LowerBound="1023" />
                                         </Binding.ValidationRules>

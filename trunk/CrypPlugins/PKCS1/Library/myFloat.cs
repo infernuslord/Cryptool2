@@ -6,26 +6,26 @@ using Org.BouncyCastle.Math;
 
 namespace PKCS1.Library
 {
-    class myFloat
+    class MyFloat
     {
         static int prec = 1024;
         BigInteger x;
         int e;        
 
-        public myFloat(myFloat z)
+        public MyFloat(MyFloat z)
         {
             x = z.x;
             e = z.e;
         }
 
-        public myFloat()
+        public MyFloat()
         {
             x = BigInteger.ValueOf(0);
             e = 0;
         }
 
         
-        public myFloat(double d) //fehlerhaft
+        public MyFloat(double d) //fehlerhaft
         {
             if (d != 0.0)
             {
@@ -81,7 +81,7 @@ namespace PKCS1.Library
             }
         }
 
-        public static BigInteger to_ZZ(ref myFloat x)
+        public static BigInteger to_ZZ(ref MyFloat x)
         {
             BigInteger res = x.x;
             
@@ -110,7 +110,7 @@ namespace PKCS1.Library
             return res;
         }
 
-        public static void to_Float(ref myFloat res, ref BigInteger x)
+        public static void to_Float(ref MyFloat res, ref BigInteger x)
         {
             res.x = x;
             //res.e = 1024;
@@ -118,7 +118,7 @@ namespace PKCS1.Library
             res.normalize();
         }
 
-        public static void add(ref myFloat res, ref myFloat op1, ref myFloat op2)
+        public static void add(ref MyFloat res, ref MyFloat op1, ref MyFloat op2)
         {
             int d = op1.e - op2.e;
             if (d >= 0)
@@ -134,7 +134,7 @@ namespace PKCS1.Library
             res.normalize();
         }
 
-        public void sub(ref myFloat res, ref myFloat op1, ref myFloat op2)
+        public void sub(ref MyFloat res, ref MyFloat op1, ref MyFloat op2)
         {
             int d = op1.e - op2.e;
             if ( d >= 0 )
@@ -150,14 +150,14 @@ namespace PKCS1.Library
             res.normalize();
         }
 
-        public static void mul(ref myFloat res, ref myFloat op1, ref myFloat op2 )
+        public static void mul(ref MyFloat res, ref MyFloat op1, ref MyFloat op2 )
         {
             res.x = op1.x.Multiply( op2.x );
             res.e = op1.e + op2.e - prec;
             res.normalize();
         }
 
-        public static void div (ref myFloat res, ref myFloat op1, ref myFloat op2 )
+        public static void div (ref MyFloat res, ref MyFloat op1, ref MyFloat op2 )
         {
             res.x = ( op1.x.ShiftLeft( prec ) ).Divide( op2.x );
             res.e = op1.e - op2.e;
