@@ -9,7 +9,7 @@ namespace PKCS1.Library
 {
     class Hashfunction
     {
-        private static IDigest hashFunctionDigest = DigestUtilities.GetDigest(HashFunctionHandler.SHA1.diplayName); // default SHA1
+        private static IDigest hashFunctionDigest = DigestUtilities.GetDigest(HashFuncIdentHandler.SHA1.diplayName); // default SHA1
         
         public static byte[] generateHashDigest(string input, HashFunctionIdent hashIdent)
         {

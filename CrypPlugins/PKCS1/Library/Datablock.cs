@@ -29,7 +29,7 @@ namespace PKCS1.Library
 
         #region Member
 
-        private HashFunctionIdent m_hashFuncIdent = HashFunctionHandler.SHA1; // default SHA-1
+        private HashFunctionIdent m_hashFuncIdent = HashFuncIdentHandler.SHA1; // default SHA-1
         public HashFunctionIdent HashFunctionIdent
         {
             set 

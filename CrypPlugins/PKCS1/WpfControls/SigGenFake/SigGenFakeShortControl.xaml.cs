@@ -26,10 +26,10 @@ namespace PKCS1.WpfControls.SigGenFake
         public SigGenFakeShortControl()
         {
             InitializeComponent();
-            RSAKeyManager.Instance.RaiseKeyGeneratedEvent += handleKeyGenerated;
+            RsaKey.Instance.RaiseKeyGeneratedEvent += handleKeyGenerated;
             DatablockControl3.RaiseDataBlockGenerated += handleKeyGenerated;
 
-            if (RSAKeyManager.Instance.isKeyGenerated())
+            if (RsaKey.Instance.isKeyGenerated())
             {
                 this.tabGenSignature.IsEnabled = true;
             }

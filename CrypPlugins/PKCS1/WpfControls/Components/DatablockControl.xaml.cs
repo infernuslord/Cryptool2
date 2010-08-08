@@ -37,12 +37,12 @@ namespace PKCS1.WpfControls.Components
         public void Initialize()
         {
             // ComboBox befüllen
-            this.cbHashFunc.Items.Add(HashFunctionHandler.SHA1);
-            this.cbHashFunc.Items.Add(HashFunctionHandler.SHA256);
-            this.cbHashFunc.Items.Add(HashFunctionHandler.SHA384);
-            this.cbHashFunc.Items.Add(HashFunctionHandler.SHA512);
-            this.cbHashFunc.Items.Add(HashFunctionHandler.MD2);
-            this.cbHashFunc.Items.Add(HashFunctionHandler.MD5);
+            this.cbHashFunc.Items.Add(HashFuncIdentHandler.SHA1);
+            this.cbHashFunc.Items.Add(HashFuncIdentHandler.SHA256);
+            this.cbHashFunc.Items.Add(HashFuncIdentHandler.SHA384);
+            this.cbHashFunc.Items.Add(HashFuncIdentHandler.SHA512);
+            this.cbHashFunc.Items.Add(HashFuncIdentHandler.MD2);
+            this.cbHashFunc.Items.Add(HashFuncIdentHandler.MD5);
             this.cbHashFunc.SelectedIndex = 0;
 
             this.rbTextFromBox.IsChecked = true;

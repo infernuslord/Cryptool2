@@ -20,21 +20,21 @@ namespace PKCS1.WpfControls.Components
     /// </summary>
     public partial class SigGenBleichenbControl : UserControl
     {
-        private BleichenbacherSignature m_BleichSignature = new BleichenbacherSignature();
+        private BleichenbacherSig m_BleichSignature = new BleichenbacherSig();
         //private int DataBlockPos = 0;
 
         public SigGenBleichenbControl()
         {
             InitializeComponent();
-            RSAKeyManager.Instance.RaiseKeyGeneratedEvent += handleCustomEvent; // listen
+            RsaKey.Instance.RaiseKeyGeneratedEvent += handleCustomEvent; // listen
             this.handleCustomEvent(ParameterChangeType.RsaKey);
             this.loadComboDataBlocPos(24);
         }
 
         private void handleCustomEvent(ParameterChangeType type)
         {            
-            this.lblPublicKeyRes.Content = RSAKeyManager.Instance.PubExponent.ToString();
-            this.lblRsaKeySizeRes.Content = RSAKeyManager.Instance.RsaKeySize.ToString();            
+            this.lblPublicKeyRes.Content = RsaKey.Instance.PubExponent.ToString();
+            this.lblRsaKeySizeRes.Content = RsaKey.Instance.RsaKeySize.ToString();            
             this.loadComboDataBlocPos(24);
         }
 
@@ -42,7 +42,7 @@ namespace PKCS1.WpfControls.Components
         {
             Cursor = Cursors.Wait;
 
-            this.m_BleichSignature = (BleichenbacherSignature) SignatureHandler.getInstance().getBleichenbSig();
+            this.m_BleichSignature = (BleichenbacherSig) SignatureHandler.getInstance().getBleichenbSig();
             this.m_BleichSignature.DataBlockStartPos = (int)this.cbPosDataBlock.SelectedValue;
 
             this.m_BleichSignature.GenerateSignature();
@@ -58,7 +58,7 @@ namespace PKCS1.WpfControls.Components
             this.cbPosDataBlock.Items.Clear();
 
             int lengthDatablock = Datablock.getInstance().HashFunctionIdent.DERIdent.Length * 4 + Datablock.getInstance().HashFunctionIdent.digestLength + 8;
-            int end = RSAKeyManager.Instance.RsaKeySize - lengthDatablock - start;
+            int end = RsaKey.Instance.RsaKeySize - lengthDatablock - start;
 
             for( int i=start; i<= end; i+=8)
             {

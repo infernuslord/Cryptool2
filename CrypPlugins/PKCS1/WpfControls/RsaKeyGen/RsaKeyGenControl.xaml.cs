@@ -46,13 +46,13 @@ namespace PKCS1.WpfControls.RsaKeyGen
         private void btnGenRsaKey_Click(object sender, RoutedEventArgs e)
         {
             Cursor = Cursors.Wait;
-            RSAKeyManager.Instance.genRsaKeyPair(25);
+            RsaKey.Instance.genRsaKeyPair(25);
             Cursor = Cursors.Arrow;
 
-            if( RSAKeyManager.Instance.isKeyGenerated() )
+            if( RsaKey.Instance.isKeyGenerated() )
             {
-                this.tbResultModulus.Text = RSAKeyManager.Instance.getModulusToBigInt().ToString(16);
-                this.tbResultPrivKey.Text = RSAKeyManager.Instance.getPrivKeyToBigInt().ToString(16);
+                this.tbResultModulus.Text = RsaKey.Instance.getModulusToBigInt().ToString(16);
+                this.tbResultPrivKey.Text = RsaKey.Instance.getPrivKeyToBigInt().ToString(16);
             }
         }
 

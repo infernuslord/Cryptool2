@@ -24,7 +24,7 @@ namespace PKCS1.WpfControls.SigVal
     public partial class SigValControl : UserControl, IPkcs1UserControl
     {
         private bool m_bValidateCorrect = true;
-        private RSAValidator validator = null;
+        private SigValidator validator = null;
         Signature signature = null;
 
         public SigValControl()
@@ -47,7 +47,7 @@ namespace PKCS1.WpfControls.SigVal
             SignatureHandler.getInstance().getKuehnSig().RaiseSigGenEvent += handleSigGenEvent;
 
             this.rbVal.IsChecked = true;
-            this.validator = new RSAValidator();
+            this.validator = new SigValidator();
 
             this.rbSigBlei.IsEnabled = false;
             this.rbSigBlei.Content = "Bleichenbacher Signatur (noch nicht generiert)";
@@ -59,7 +59,7 @@ namespace PKCS1.WpfControls.SigVal
             
             if (SignatureHandler.getInstance().isRsaSigGenerated() )
             {
-                this.signature = (RSASignature)SignatureHandler.getInstance().getSignature();
+                this.signature = (RsaSig)SignatureHandler.getInstance().getSignature();
                 this.setEnabled();
                 this.rbSigPkcs.IsEnabled = true;
                 this.rbSigPkcs.IsChecked = true;
@@ -67,7 +67,7 @@ namespace PKCS1.WpfControls.SigVal
             }
             else if (SignatureHandler.getInstance().isBleichenbSigGenerated())
             {
-                this.signature = (BleichenbacherSignature)SignatureHandler.getInstance().getBleichenbSig();
+                this.signature = (BleichenbacherSig)SignatureHandler.getInstance().getBleichenbSig();
                 this.setEnabled();
                 this.rbSigBlei.IsEnabled = true;
                 this.rbSigBlei.IsChecked = true;
@@ -75,7 +75,7 @@ namespace PKCS1.WpfControls.SigVal
             }
             else if (SignatureHandler.getInstance().isKuehnSigGenerated())
             {
-                this.signature = (KuehnSignature)SignatureHandler.getInstance().getKuehnSig();
+                this.signature = (KuehnSig)SignatureHandler.getInstance().getKuehnSig();
                 this.setEnabled();
                 this.rbSigKuehn.IsEnabled = true;
                 this.rbSigKuehn.IsChecked = true;
@@ -91,7 +91,7 @@ namespace PKCS1.WpfControls.SigVal
         {
             if (type == SignatureType.Pkcs1)
             {
-                this.signature = (RSASignature)SignatureHandler.getInstance().getSignature();
+                this.signature = (RsaSig)SignatureHandler.getInstance().getSignature();
                 this.setEnabled();
                 this.rbSigPkcs.IsEnabled = true;
                 this.rbSigPkcs.IsChecked = true;
@@ -100,7 +100,7 @@ namespace PKCS1.WpfControls.SigVal
             }
             else if (type == SignatureType.Bleichenbacher)
             {
-                this.signature = (BleichenbacherSignature)SignatureHandler.getInstance().getBleichenbSig();
+                this.signature = (BleichenbacherSig)SignatureHandler.getInstance().getBleichenbSig();
                 this.setEnabled();
                 this.rbSigBlei.IsEnabled = true;
                 this.rbSigBlei.IsChecked = true;
@@ -109,7 +109,7 @@ namespace PKCS1.WpfControls.SigVal
             }
             else if (type == SignatureType.Kuehn)
             {
-                this.signature = (KuehnSignature)SignatureHandler.getInstance().getKuehnSig();
+                this.signature = (KuehnSig)SignatureHandler.getInstance().getKuehnSig();
                 this.setEnabled();
                 this.rbSigKuehn.IsEnabled = true;
                 this.rbSigKuehn.IsChecked = true;
@@ -217,21 +217,21 @@ namespace PKCS1.WpfControls.SigVal
         private void rbSigPkcs_Checked(object sender, RoutedEventArgs e)
         {
             this.ResultEmpty();
-            this.signature = (RSASignature)SignatureHandler.getInstance().getSignature();
+            this.signature = (RsaSig)SignatureHandler.getInstance().getSignature();
             this.setEnabled();
         }
 
         private void rbSigBlei_Checked(object sender, RoutedEventArgs e)
         {
             this.ResultEmpty();
-            this.signature = (BleichenbacherSignature)SignatureHandler.getInstance().getBleichenbSig();
+            this.signature = (BleichenbacherSig)SignatureHandler.getInstance().getBleichenbSig();
             this.setEnabled();
         }
 
         private void rbSigKuehn_Checked(object sender, RoutedEventArgs e)
         {
             this.ResultEmpty();
-            this.signature = (KuehnSignature)SignatureHandler.getInstance().getKuehnSig();
+            this.signature = (KuehnSig)SignatureHandler.getInstance().getKuehnSig();
             this.setEnabled();
         }
     }

@@ -8,9 +8,9 @@ namespace PKCS1.Library
     class SignatureHandler
     {
         private static SignatureHandler instance = null;
-        private Signature m_Signature = new RSASignature();
-        private Signature m_BleichenbSig = new BleichenbacherSignature();
-        private Signature m_KuehnSig = new KuehnSignature();
+        private Signature m_Signature = new RsaSig();
+        private Signature m_BleichenbSig = new BleichenbacherSig();
+        private Signature m_KuehnSig = new KuehnSig();
 
         private SignatureHandler()
         {
