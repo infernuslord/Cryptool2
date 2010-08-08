@@ -22,6 +22,7 @@ using Cryptool.PluginBase;
 using WorkspaceManager.View.Container;
 using System.Reflection;
 using WorkspaceManager.Execution;
+using System.Threading;
 
 namespace WorkspaceManager.Model
 {
@@ -217,13 +218,19 @@ namespace WorkspaceManager.Model
                 {
                     return;
                 }
-
+                
                 foreach (ConnectionModel connectionModel in this.OutputConnections)
                 {
+                    while ((connectionModel.To.HasData || connectionModel.To.Data != null)
+                        && this.PluginModel.WorkspaceModel.WorkspaceManagerEditor.isExecuting())
+                    {
+                        Thread.Sleep(0);
+                    }
+
                     Data Data = new Data();
                     Data.value = data;
-                    connectionModel.To.HasData = true;
                     connectionModel.To.Data = Data;
+                    connectionModel.To.HasData = true;                    
                     connectionModel.Active = true;
                     connectionModel.GuiNeedsUpdate = true;
                 }

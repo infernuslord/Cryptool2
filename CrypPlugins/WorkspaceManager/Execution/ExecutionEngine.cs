@@ -71,13 +71,12 @@ namespace WorkspaceManager.Execution
         /// <param name="workspaceModel"></param>
         public void Execute(WorkspaceModel workspaceModel)
         {
-            this.workspaceModel = workspaceModel;
-
             if (!IsRunning)
             {
                 IsRunning = true;
-                int amountSchedulers = System.Environment.ProcessorCount * 2;                
-
+                this.workspaceModel = workspaceModel;
+                int amountSchedulers = System.Environment.ProcessorCount * 2;
+ 
                 //Here we create n = "ProcessorsCount * 2" Gears4Net schedulers
                 //We do this, because measurements showed that we get the best performance if we
                 //use this amount of schedulers
@@ -303,6 +302,7 @@ namespace WorkspaceManager.Execution
     /// </summary>
     public class PluginProtocol : ProtocolBase
     {
+       
         public PluginModel PluginModel;
         private ExecutionEngine executionEngine;
 
@@ -327,7 +327,7 @@ namespace WorkspaceManager.Execution
         {
             while (this.executionEngine.IsRunning)
             {
-                yield return Receive<MessageExecution>(null, this.HandleExecute);               
+                yield return Receive<MessageExecution>(null, this.HandleExecute);                
             }
         }
 
@@ -338,20 +338,23 @@ namespace WorkspaceManager.Execution
         private void HandleExecute(MessageExecution msg)
         {
             
-
             if (!msg.PluginModel.WorkspaceModel.WorkspaceManagerEditor.isExecuting())
             {
                 return;
             }
 
+            //Check if all necessary inputs are set
             foreach (ConnectorModel connectorModel in msg.PluginModel.InputConnectors)
             {
-                if (!connectorModel.IControl && (connectorModel.IsMandatory || connectorModel.InputConnections.Count > 0) && !connectorModel.HasData)
+                if (!connectorModel.IControl && 
+                    (connectorModel.IsMandatory || connectorModel.InputConnections.Count > 0) && (!connectorModel.HasData ||
+                    connectorModel.Data==null))
                 {
                     return;
                 }
             }
 
+            //Check if all outputs are free
             foreach (ConnectorModel connectorModel in msg.PluginModel.OutputConnectors)
             {
                 if (!connectorModel.IControl)
@@ -366,12 +369,12 @@ namespace WorkspaceManager.Execution
                 }
             }
 
-            //Fill the plugins Inputs with data
+            //Fill the plugins inputs with data
             foreach (ConnectorModel connectorModel in PluginModel.InputConnectors)
             {
                 try
                 {
-                    if (connectorModel.HasData)
+                    if (connectorModel.HasData && connectorModel.Data.value != null)
                     {
                         if (connectorModel.IsDynamic)
                         {
@@ -404,9 +407,9 @@ namespace WorkspaceManager.Execution
             foreach (ConnectorModel connectorModel in PluginModel.InputConnectors)
             {
                 if (connectorModel.HasData)
-                {
-                    connectorModel.HasData = false;
+                {                    
                     connectorModel.Data = null;
+                    connectorModel.HasData = false;
                     foreach (ConnectionModel connectionModel in connectorModel.InputConnections)
                     {
                         connectionModel.Active = false;
@@ -415,23 +418,20 @@ namespace WorkspaceManager.Execution
                 }
             }
             
-            
-
             foreach (ConnectorModel connectorModel in PluginModel.InputConnectors)
             {
                 foreach (ConnectionModel connectionModel in connectorModel.InputConnections)
                 {
-                    if (!connectionModel.From.PluginModel.Startable || (connectionModel.From.PluginModel.Startable && connectionModel.From.PluginModel.RepeatStart))
+                    if (!connectionModel.From.PluginModel.Startable || 
+                        (connectionModel.From.PluginModel.Startable && connectionModel.From.PluginModel.RepeatStart))
                     {
                         MessageExecution message_exec = new MessageExecution();
                         message_exec.PluginModel = connectionModel.From.PluginModel;
                         connectionModel.From.PluginModel.PluginProtocol.BroadcastMessage(message_exec);
                     }
                 }
-            }
-            
+            }            
         }
-      
     }
 
     /// <summary>
