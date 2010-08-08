@@ -283,6 +283,7 @@ namespace WorkspaceManager.Model
         /// Checks wether a Connector and a Connector are compatible to be connected
         /// They are compatible if their types are equal or the base type of the Connector
         /// is equal to the type of the other Connector
+        /// It is false if already exists a ConnectionModel between both given ConnectorModels
         /// </summary>
         /// <param name="connectorModelA"></param>
         /// <param name="connectorModelB"></param>
@@ -292,6 +293,15 @@ namespace WorkspaceManager.Model
             if (!connectorModelA.Outgoing || connectorModelB.Outgoing || connectorModelA.PluginModel == connectorModelB.PluginModel)
             {
                 return false;
+            }
+
+            foreach(ConnectionModel connectionModel in connectorModelA.WorkspaceModel.AllConnectionModels)
+            {
+                if ((connectionModel.From == connectorModelA && connectionModel.To == connectorModelB) ||
+                   (connectionModel.From == connectorModelB && connectionModel.To == connectorModelA))
+                {
+                    return false;
+                }
             }
                
             if (connectorModelA.ConnectorType.Equals(connectorModelB.ConnectorType)

@@ -281,7 +281,7 @@ namespace WorkspaceManager.Model
 
     public class Data
     {
-        public volatile Object value;
+        public volatile object value;
     }
 
 }

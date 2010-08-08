@@ -76,7 +76,7 @@ namespace WorkspaceManager.Execution
                 IsRunning = true;
                 this.workspaceModel = workspaceModel;
                 int amountSchedulers = System.Environment.ProcessorCount * 2;
- 
+                
                 //Here we create n = "ProcessorsCount * 2" Gears4Net schedulers
                 //We do this, because measurements showed that we get the best performance if we
                 //use this amount of schedulers
@@ -301,8 +301,7 @@ namespace WorkspaceManager.Execution
     /// A Protocol for a PluginModel
     /// </summary>
     public class PluginProtocol : ProtocolBase
-    {
-       
+    {        
         public PluginModel PluginModel;
         private ExecutionEngine executionEngine;
 
@@ -398,7 +397,7 @@ namespace WorkspaceManager.Execution
             }
             
             msg.PluginModel.Plugin.Execute();
-            
+
             if (this.executionEngine.BenchmarkPlugins)
             {
                 this.executionEngine.ExecutedPluginsCounter++;
@@ -490,7 +489,8 @@ namespace WorkspaceManager.Execution
                         if (this.waitingProtocols.Count == 0)
                             break;
                     }
-                    protocol = this.waitingProtocols.Dequeue();                                           
+
+                    protocol = this.waitingProtocols.Dequeue();
                     ProtocolStatus status = protocol.Run();
 
                     lock (this)
@@ -511,6 +511,7 @@ namespace WorkspaceManager.Execution
                                 break;
                         }
                     }
+                   
                 }
             }
         }
