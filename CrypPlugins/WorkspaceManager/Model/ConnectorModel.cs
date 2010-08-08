@@ -21,6 +21,7 @@ using System.Windows.Media;
 using Cryptool.PluginBase;
 using WorkspaceManager.View.Container;
 using System.Reflection;
+using WorkspaceManager.Execution;
 
 namespace WorkspaceManager.Model
 {
@@ -179,7 +180,7 @@ namespace WorkspaceManager.Model
         /// Data of this Connector
         /// </summary>
         [NonSerialized]
-        public volatile object Data = null;
+        public volatile Data Data = null;
 
         /// <summary>
         /// Name of the represented Property of the IPlugin of this ConnectorModel
@@ -218,9 +219,11 @@ namespace WorkspaceManager.Model
                 }
 
                 foreach (ConnectionModel connectionModel in this.OutputConnections)
-                {                    
+                {
+                    Data Data = new Data();
+                    Data.value = data;
                     connectionModel.To.HasData = true;
-                    connectionModel.To.Data = data;
+                    connectionModel.To.Data = Data;
                     connectionModel.Active = true;
                     connectionModel.GuiNeedsUpdate = true;
                 }
@@ -229,7 +232,9 @@ namespace WorkspaceManager.Model
                 //we have to check if there are executable now
                 foreach (ConnectionModel connectionModel in this.OutputConnections)
                 {
-                    connectionModel.To.PluginModel.checkExecutable(connectionModel.To.PluginModel.PluginProtocol);
+                    MessageExecution msg = new MessageExecution();
+                    msg.PluginModel = connectionModel.To.PluginModel;
+                    connectionModel.To.PluginModel.PluginProtocol.BroadcastMessage(msg);
                 }
             }
         }
@@ -266,4 +271,10 @@ namespace WorkspaceManager.Model
         #endregion
                 
     }
+
+    public class Data
+    {
+        public volatile Object value;
+    }
+
 }

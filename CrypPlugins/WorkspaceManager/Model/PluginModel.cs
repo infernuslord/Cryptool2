@@ -43,6 +43,7 @@ namespace WorkspaceManager.Model
         [NonSerialized]
         private IPlugin plugin;         
         private int imageIndex = 0;
+        [NonSerialized]
         private PluginModelState state = PluginModelState.Normal;
         private string PluginTypeName = null;
         private string PluginTypeAssemblyName = null;
@@ -142,7 +143,7 @@ namespace WorkspaceManager.Model
             this.InputConnectors = new List<ConnectorModel>();
             this.OutputConnectors = new List<ConnectorModel>();
         }
-
+      
         /// <summary>
         /// The WorkspaceModel of this PluginModel
         /// </summary>
@@ -300,55 +301,7 @@ namespace WorkspaceManager.Model
         public void paint()
         {
             //Enter some Code which calls the paint method of the IPlugin
-        }
-
-        /// <summary>
-        /// Checks wether this PluginModel is executable and if yes it broadcasts a execution message
-        /// </summary>
-        public void checkExecutable(ProtocolBase protocolBase)
-        {
-            if (!this.WorkspaceModel.WorkspaceManagerEditor.isExecuting())
-            {
-                return;
-            }
-
-            MessageExecution msg;            
-            foreach (ConnectorModel connectorModel in this.InputConnectors)
-            {
-                if (!connectorModel.IControl && (connectorModel.IsMandatory || connectorModel.InputConnections.Count > 0) && !connectorModel.HasData)
-                {                   
-                    return;
-                }                
-            }
-
-            foreach (ConnectorModel connectorModel in this.OutputConnectors)
-            {
-                if (!connectorModel.IControl)
-                {
-                    foreach(ConnectionModel connectionModel in connectorModel.OutputConnections)
-                    {
-                        if (connectionModel.To.HasData)
-                        {
-                            return;
-                        }
-                    }
-                }
-            }
-
-            msg = new MessageExecution();
-            msg.PluginModel = this;
-                
-            //protocolBase is set at Startup of the ExecutionEngine
-            //but it could be that we have an event before setting
-            //of the protocl base (triggered by user clicking on
-            //a plugins presentation (button or so))
-            if (protocolBase != null && protocolBase.QueueLength == 0)
-            {
-                protocolBase.BroadcastMessageReliably(msg);
-            }
-
-            return;
-        }
+        }       
 
         /// <summary>
         /// Progress of the plugin changed
