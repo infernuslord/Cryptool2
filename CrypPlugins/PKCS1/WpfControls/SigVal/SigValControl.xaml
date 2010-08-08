@@ -15,7 +15,7 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <GroupBox Grid.Row="0" Header="Signatur validieren" Margin="0,0,0,0" Name="gbImpl">
+                <GroupBox Grid.Row="0" Header="Signatur verifizieren" Margin="0,0,0,0" Name="gbImpl">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto" />
@@ -45,7 +45,7 @@
                             <RadioButton Grid.Row="1" Name="rbVal" Margin="5,5,5,5" Checked="rbVal_Checked">Korrekt (PKCS#1 Version 2.1)</RadioButton>
                             <RadioButton Grid.Row="2" Name="rbValWithFlaw" Margin="5,5,5,5" Checked="rbValWithFlaw_Checked">Fehlerhaft (PKCS#1 Version1.5)</RadioButton>
                         </Grid>
-                        <Button Grid.Column="3" Name="bValidate" Margin="5,5,5,5" Height="25" MinWidth="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="bValidate_Click">Signatur validieren</Button>
+                        <Button Grid.Column="3" Name="bValidate" Margin="5,5,5,5" Height="25" MinWidth="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="bValidate_Click">Signatur verifizieren</Button>
                     </Grid>
                 </GroupBox>
                 <DockPanel Grid.Row="1">

@@ -119,7 +119,7 @@ namespace PKCS1.WpfVisualization
                     lblTitel.Content = "Angriff mit kürzeren Schlüsseln";
                     break;
                 case NavigationCommandType.SigVal:
-                    lblTitel.Content = "PKCS #1-Signatur validieren";
+                    lblTitel.Content = "PKCS #1-Signatur verifizieren";
                     break;
             }
         }
