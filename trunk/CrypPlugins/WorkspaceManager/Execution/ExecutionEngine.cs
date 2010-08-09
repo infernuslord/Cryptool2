@@ -326,7 +326,8 @@ namespace WorkspaceManager.Execution
         {
             while (this.executionEngine.IsRunning)
             {
-                yield return Receive<MessageExecution>(null, this.HandleExecute);                
+                yield return Receive<MessageExecution>();
+                this.HandleExecute((MessageExecution)stateMachine.CurrentMessage);
             }
         }
 
