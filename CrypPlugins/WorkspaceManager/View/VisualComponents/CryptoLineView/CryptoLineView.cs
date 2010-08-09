@@ -77,6 +77,14 @@ namespace WorkspaceManager.View.VisualComponents
             }
         }
 
+        protected override void OnMouseDown(MouseButtonEventArgs args)
+        {
+            if (args.RightButton == MouseButtonState.Pressed)
+            {
+                this.model.WorkspaceModel.deleteConnectionModel(this.model);
+            }            
+        }
+
         public CryptoLineView(ConnectionModel connectionModel) : this()
         {
             this.Model = connectionModel;
