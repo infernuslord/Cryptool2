@@ -8,6 +8,7 @@ using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Tool;
 using Primes.Bignum;
+using System.Numerics;
 
 namespace Cryptool.PrimesGenerator
 {
@@ -51,9 +52,9 @@ namespace Cryptool.PrimesGenerator
     }
 
 
-    private string m_OutputString;
-    [PropertyInfo(Direction.OutputData, "Text output", "A primenumber", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
-    public string OutputString
+    private BigInteger m_OutputString;
+    [PropertyInfo(Direction.OutputData, "BigInteger output", "A primenumber", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    public BigInteger OutputString
     {
       get { return this.m_OutputString; }
       set
@@ -134,7 +135,7 @@ namespace Cryptool.PrimesGenerator
         switch (m_Mode)
         {
           case 0:
-            OutputString = PrimesBigInteger.Random(m_Input).NextProbablePrime().ToString();
+            OutputString = BigInteger.Parse(PrimesBigInteger.Random(m_Input).NextProbablePrime().ToString());
             break;
           case 1:
             PrimesBigInteger result = PrimesBigInteger.RandomM(m_Input).NextProbablePrime();
@@ -142,7 +143,7 @@ namespace Cryptool.PrimesGenerator
             {
               result = PrimesBigInteger.RandomM(m_Input).NextProbablePrime();
             }
-            OutputString = result.ToString();
+            OutputString = BigInteger.Parse(result.ToString());
             break;
         }
       }
