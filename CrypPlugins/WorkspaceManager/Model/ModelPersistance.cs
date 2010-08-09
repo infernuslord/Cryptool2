@@ -81,6 +81,13 @@ namespace WorkspaceManager.Model
                                 {
                                     pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings, System.Boolean.Parse((String)persistantSetting.Value), null);
                                 }
+                                else if (pInfo.PropertyType.IsEnum)
+                                {
+                                    Int32 result = 0;
+                                    System.Int32.TryParse((String)persistantSetting.Value, out result);
+                                    object newEnumValue = Enum.ToObject(pInfo.PropertyType, result);
+                                    pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings,newEnumValue,null);                                   
+                                }
                             }
                         }
                     }
@@ -95,6 +102,7 @@ namespace WorkspaceManager.Model
                 pluginModel.Plugin.OnGuiLogNotificationOccured += pluginModel.GuiLogNotificationOccured;
                 pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;
                 pluginModel.Plugin.OnPluginStatusChanged += pluginModel.PluginStatusChanged;
+                pluginModel.Plugin.Settings.PropertyChanged += pluginModel.SettingsPropertyChanged;
             }
                 
             //connect all listeners for connectors
@@ -173,7 +181,14 @@ namespace WorkspaceManager.Model
                     if (pInfo.CanWrite && dontSave.Length == 0)
                     {
                         PersistantSetting persistantSetting = new PersistantSetting();
-                        persistantSetting.Value = "" + pInfo.GetValue(pluginModel.Plugin.Settings, null);
+                        if (pInfo.PropertyType.IsEnum)
+                        {
+                            persistantSetting.Value = "" + pInfo.GetValue(pluginModel.Plugin.Settings, null).GetHashCode();                            
+                        }
+                        else
+                        {
+                            persistantSetting.Value = "" + pInfo.GetValue(pluginModel.Plugin.Settings, null);
+                        }
                         persistantSetting.Name = pInfo.Name;
                         persistantSetting.Type = pInfo.PropertyType.FullName;
                         persistantPlugin.PersistantSettingsList.Add(persistantSetting);

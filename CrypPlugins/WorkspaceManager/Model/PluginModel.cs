@@ -27,6 +27,7 @@ using WorkspaceManager.Execution;
 using System.Windows.Threading;
 using Cryptool.PluginBase.IO;
 using System.Reflection;
+using System.ComponentModel;
 
 namespace WorkspaceManager.Model
 {
@@ -369,6 +370,17 @@ namespace WorkspaceManager.Model
                 this.GuiLogEvents.Add(args);
                 this.GuiNeedsUpdate = true;
             }
+        }
+
+        /// <summary>
+        /// Called if a Setting of a Plugin is changed and notifies the Editor that
+        /// there is a change
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="propertyChangedEventArgs"></param>
+        public void SettingsPropertyChanged(Object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            this.WorkspaceModel.WorkspaceManagerEditor.HasChanges = true;
         }
 
         #endregion
