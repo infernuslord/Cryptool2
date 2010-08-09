@@ -245,6 +245,11 @@ namespace XMLSerialization
             {
                 return false;
             }
+            if (o is Enum)
+            {
+                return true;
+            }
+
             return (o.GetType().IsPrimitive || o.GetType().FullName.Substring(0, 6).Equals("System"));
         }
 
