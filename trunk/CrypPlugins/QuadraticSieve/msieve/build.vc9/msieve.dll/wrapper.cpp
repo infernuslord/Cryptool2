@@ -327,7 +327,7 @@ namespace Msieve
 
 		static IntPtr deserializeRelationPackage(array<unsigned char>^ relationPackage)
 		{
-			RelationPackage* y = (RelationPackage*)malloc(sizeof(relationPackage));
+			RelationPackage* y = (RelationPackage*)malloc(sizeof(RelationPackage));
 			y->package_count = getIntFromArray(relationPackage, 0);
 			y->package_array = (package_element*)malloc(sizeof(package_element)*y->package_count);
 			int pos = 4;
