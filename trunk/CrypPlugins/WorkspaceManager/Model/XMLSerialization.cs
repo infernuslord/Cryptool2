@@ -175,7 +175,14 @@ namespace XMLSerialization
                                 writer.WriteLine("<type>" + o.GetType().FullName + "</type>");
                                 if (isPrimitive(o))
                                 {
-                                    writer.WriteLine("<value>" + o + "</value>");
+                                    if (o is Enum)
+                                    {
+                                        writer.WriteLine("<value>" + o.GetHashCode() + "</value>");
+                                    }
+                                    else
+                                    {
+                                        writer.WriteLine("<value>" + o + "</value>");
+                                    }
                                 }
                                 else
                                 {
@@ -192,7 +199,14 @@ namespace XMLSerialization
                     }
                     else if (isPrimitive(value))
                     {
-                        writer.WriteLine("<value>" + ReplaceXMLSymbols(value.ToString()) + "</value>");
+                        if (value is Enum)
+                        {
+                            writer.WriteLine("<value>" + value.GetHashCode() + "</value>");
+                        }
+                        else
+                        {
+                            writer.WriteLine("<value>" + ReplaceXMLSymbols(value.ToString()) + "</value>");
+                        }                        
                     }
                     else
                     {
@@ -463,10 +477,26 @@ namespace XMLSerialization
                         else
                         {
                             newmember = System.Activator.CreateInstance(Type.GetType(RevertXMLSymbols(membertype.InnerText)));
-                            newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
-                                BindingFlags.NonPublic |
-                                BindingFlags.Public |
-                                BindingFlags.Instance).SetValue(newObject, newmember);
+                            
+                            if (newmember is Enum)
+                            {
+                                Int32 result = 0;
+                                System.Int32.TryParse(RevertXMLSymbols(value.InnerText), out result);
+                                object newEnumValue = Enum.ToObject(Type.GetType(RevertXMLSymbols(membertype.InnerText)), result);
+
+                                newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
+                                    BindingFlags.NonPublic |
+                                    BindingFlags.Public |
+                                    BindingFlags.Instance).SetValue(newObject, newEnumValue);                                
+                            }
+                            else
+                            {
+                                newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
+                                    BindingFlags.NonPublic |
+                                    BindingFlags.Public |
+                                    BindingFlags.Instance).SetValue(newObject, newmember);
+                            }
+
                         }
                     }
                     else if (member.ChildNodes[2].Name.Equals("reference"))
