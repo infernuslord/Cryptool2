@@ -167,7 +167,7 @@ namespace TranspositionAnalyser
         public void Execute()
         {
 
-
+            
             if (this.input != null)
             {
                 if (this.ControlMaster != null && this.input != null)
@@ -1228,6 +1228,12 @@ namespace TranspositionAnalyser
             if (QuickWatchPresentation.IsVisible && !stop)
             {
                 DateTime currentTime = DateTime.Now;
+
+                TimeSpan elapsedtime = DateTime.Now.Subtract(startTime); ;
+                TimeSpan elapsedspan = new TimeSpan(elapsedtime.Days, elapsedtime.Hours, elapsedtime.Minutes, elapsedtime.Seconds, 0);
+                    
+                
+
                 TimeSpan span = currentTime.Subtract(startTime);
                 int seconds = span.Seconds;
                 int minutes = span.Minutes;
@@ -1257,19 +1263,21 @@ namespace TranspositionAnalyser
                 ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
 
-                    ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).keysPerSecond.Text = "" + keysPerSec;
+                    ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).startTime.Content = "" + startTime;
+                    ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).keysPerSecond.Content = "" + keysPerSec;
+                    
 
                     if (endTime != (new DateTime(1970, 1, 1)))
                     {
-                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).timeLeft.Text = "" + endTime.Subtract(DateTime.Now);
-
-                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "" + endTime;
+                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).timeLeft.Content = "" + endTime.Subtract(DateTime.Now);
+                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).elapsedTime.Content = "" + elapsedspan ;
+                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).endTime.Content = "" + endTime;
                     }
                     else
                     {
-                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).timeLeft.Text = "incalculable";
+                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).timeLeft.Content = "incalculable";
 
-                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).endTime.Text = "in a galaxy far, far away...";
+                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).endTime.Content = "in a galaxy far, far away...";
                     }
                     if (list1 != null)
                     {
@@ -1306,6 +1314,8 @@ namespace TranspositionAnalyser
 
             }
         }
+
+        
 
         private void geneticAnalysis(IControlEncryption sender)
         {
