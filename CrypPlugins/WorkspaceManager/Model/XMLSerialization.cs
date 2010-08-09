@@ -22,6 +22,7 @@ using System.Reflection;
 using System.IO;
 using System.Xml;
 using System.Collections;
+using System.IO.Compression;
 
 namespace XMLSerialization
 {
@@ -33,26 +34,74 @@ namespace XMLSerialization
         /// <summary>
         /// Serializes the given object and all of its members to the given file using UTF-8 encoding
         /// Works only on objects which are marked as "Serializable"
+        /// If compress==true then GZip is used for compressing
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="filename"></param>
-        public static void Serialize(object obj, string filename)
+        /// /// <param name="compress"></param>
+        public static void Serialize(object obj, string filename,bool compress = false)
         {
-            XMLSerialization.Serialize(obj, filename, Encoding.UTF8);
+            XMLSerialization.Serialize(obj, filename, Encoding.UTF8,compress);
         }
 
         /// <summary>
         /// Serializes the given object and all of its members to the given file using
         /// the given encoding
         /// Works only on objects which are marked as "Serializable"
+        /// If compress==true then GZip is used for compressing
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="filename"></param>
-        public static void Serialize(object obj, string filename,Encoding encoding)
+        /// <param name="compress"></param>
+        public static void Serialize(object obj, string filename,Encoding encoding,bool compress = false)
         {
-            StreamWriter writer = new StreamWriter(filename, false, encoding, 64);
-            XMLSerialization.Serialize(obj, writer);
-            writer.Close();
+
+            FileStream sourceFile = File.OpenWrite(filename);
+            if (compress)
+            {
+                GZipStream compStream = new GZipStream(sourceFile, CompressionMode.Compress);
+                StreamWriter writer = new StreamWriter(compStream);
+                try
+                {
+
+                    XMLSerialization.Serialize(obj, writer,compress);
+                }
+                finally
+                {
+                    if (writer != null)
+                    {
+                        writer.Close();
+                    }
+                    if (compStream != null)
+                    {
+                        compStream.Dispose();
+                    }
+                    if (sourceFile != null)
+                    {
+                        sourceFile.Close();
+                    }
+                }
+            }
+            else
+            {
+                StreamWriter writer = new StreamWriter(sourceFile);
+                try
+                {
+                    
+                    XMLSerialization.Serialize(obj, writer);
+                }
+                finally
+                {
+                    if (writer != null)
+                    {
+                        writer.Close();
+                    }                    
+                    if (sourceFile != null)
+                    {
+                        sourceFile.Close();
+                    }
+                }
+            }
         }
         /// <summary>
         /// Serializes the given object and all of its members to the given writer as xml
@@ -60,14 +109,15 @@ namespace XMLSerialization
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="writer"></param>
-        public static void Serialize(object obj, StreamWriter writer)
+        public static void Serialize(object obj, StreamWriter writer,bool compress=false)
         {
             HashSet<object> alreadySerializedObjects = new HashSet<object>();
 
-            writer.WriteLine("<?xml version=\"1.0\" encoding=\"" +  writer.Encoding.HeaderName + "\"?>");
+            writer.WriteLine("<?xml version=\"1.0\" encoding=\"" + writer.Encoding.HeaderName + "\"?>");
             writer.WriteLine("<!--");
             writer.WriteLine("     XML serialized C# Objects");
             writer.WriteLine("     File created: " + System.DateTime.Now);
+            writer.WriteLine("     File compressed: " + compress);
             writer.WriteLine("     XMLSerialization created by Nils Kopal");
             writer.WriteLine("     mailto: Nils.Kopal(AT)stud.uni-due.de");
             writer.WriteLine("-->");
@@ -266,13 +316,45 @@ namespace XMLSerialization
         /// Deserializes the given XML and returns the root as obj
         /// </summary>
         /// <param name="filename"></param>
+        /// <param name="compress"></param>
         /// <returns></returns>
-        public static object Deserialize(String filename)
+        public static object Deserialize(String filename, bool compress=false)
         {
-            XmlDocument doc = new XmlDocument();
-            doc.Load(filename);
+            FileStream sourceFile = File.OpenRead(filename);
+            XmlDocument doc = new XmlDocument(); ;
+            GZipStream compStream = null;
 
-            Dictionary<string,object> createdObjects = new Dictionary<string,object>();
+            if (compress)
+            {
+                compStream = new GZipStream(sourceFile, CompressionMode.Decompress);
+                doc.Load(compStream);
+            }
+            else
+            {
+                doc.Load(sourceFile);
+            }
+
+            try
+            {
+                return XMLSerialization.Deserialize(doc);
+            }
+            finally
+            {
+                if (compStream != null)
+                {
+                    compStream.Close();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Deserializes the given XMLDocument and returns the root as obj
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <returns></returns>
+        public static object Deserialize(XmlDocument doc)
+        {
+            Dictionary<string, object> createdObjects = new Dictionary<string, object>();
             LinkedList<object[]> links = new LinkedList<object[]>();
 
             XmlElement objects = doc.DocumentElement;
@@ -282,10 +364,10 @@ namespace XMLSerialization
                 XmlNode type = objct.ChildNodes[0];
                 XmlNode id = objct.ChildNodes[1];
                 XmlNode members = objct.ChildNodes[2];
-                
+
                 object newObject = System.Activator.CreateInstance(Type.GetType(type.InnerText));
-                createdObjects.Add(id.InnerText,newObject);
-                
+                createdObjects.Add(id.InnerText, newObject);
+
                 foreach (XmlNode member in members.ChildNodes)
                 {
                     XmlNode membername = member.ChildNodes[0];
@@ -298,7 +380,7 @@ namespace XMLSerialization
                         XmlNode value = member.ChildNodes[2];
                         if (RevertXMLSymbols(membertype.InnerText).Equals("System.String"))
                         {
-                            
+
                             newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
                                 BindingFlags.NonPublic |
                                 BindingFlags.Public |
@@ -360,14 +442,14 @@ namespace XMLSerialization
                         }
                         else if (RevertXMLSymbols(membertype.InnerText).Equals("System.Windows.Point"))
                         {
-                            string[] values = value.InnerText.Split(new char[]{';'});
-                            
+                            string[] values = value.InnerText.Split(new char[] { ';' });
+
                             double x = 0;
                             double y = 0;
                             double.TryParse(values[0], out x);
                             double.TryParse(values[1], out y);
 
-                            System.Windows.Point result = new System.Windows.Point(x,y);                            
+                            System.Windows.Point result = new System.Windows.Point(x, y);
                             newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
                                 BindingFlags.NonPublic |
                                 BindingFlags.Public |
@@ -386,13 +468,13 @@ namespace XMLSerialization
                     {
                         XmlNode reference = member.ChildNodes[2];
                         links.AddLast(new object[] { 
-                            newObject, 
-                            RevertXMLSymbols(membername.InnerText),
-                            RevertXMLSymbols(reference.InnerText),
-                            false});
+                                newObject, 
+                                RevertXMLSymbols(membername.InnerText),
+                                RevertXMLSymbols(reference.InnerText),
+                                false});
                     }
                     else if (member.ChildNodes[2].Name.Equals("list"))
-                    {                        
+                    {
                         newmember = System.Activator.CreateInstance(Type.GetType(RevertXMLSymbols(membertype.InnerText)));
                         newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
                                 BindingFlags.NonPublic |
@@ -405,10 +487,10 @@ namespace XMLSerialization
                             {
                                 XmlNode reference = entry.ChildNodes[1];
                                 links.AddLast(new object[] { 
-                                newObject, 
-                                RevertXMLSymbols(membername.InnerText),
-                                RevertXMLSymbols(reference.InnerText),
-                                true});
+                                    newObject, 
+                                    RevertXMLSymbols(membername.InnerText),
+                                    RevertXMLSymbols(reference.InnerText),
+                                    true});
                             }
                             else
                             {
@@ -417,7 +499,7 @@ namespace XMLSerialization
                                 if (RevertXMLSymbols(typ.InnerText).Equals("System.String"))
                                 {
 
-                                   ((IList)newmember).Add(RevertXMLSymbols(value.InnerText));
+                                    ((IList)newmember).Add(RevertXMLSymbols(value.InnerText));
                                 }
                                 else if (RevertXMLSymbols(typ.InnerText).Equals("System.Int16"))
                                 {
@@ -448,17 +530,18 @@ namespace XMLSerialization
                                     Char result = ' ';
                                     System.Char.TryParse(RevertXMLSymbols(value.InnerText), out result);
                                     ((IList)newmember).Add(result);
-                                }                                
+                                }
                             }
                         }
                     }
                 }
             }
 
-            foreach(object[] triple in links){
-                
+            foreach (object[] triple in links)
+            {
+
                 object obj = triple[0];
-                string membername = (string)triple[1];                
+                string membername = (string)triple[1];
                 string reference = (string)triple[2];
                 bool isList = (bool)triple[3];
                 object obj2 = null;
@@ -472,12 +555,12 @@ namespace XMLSerialization
                 {
                     if (obj != null && obj2 != null)
                     {
-                        FieldInfo fieldInfo = obj.GetType().GetField(membername, 
+                        FieldInfo fieldInfo = obj.GetType().GetField(membername,
                             BindingFlags.NonPublic |
                             BindingFlags.Public |
                             BindingFlags.Instance);
-                       
-                            fieldInfo.SetValue(obj, obj2);
+
+                        fieldInfo.SetValue(obj, obj2);
                     }
                 }
             }

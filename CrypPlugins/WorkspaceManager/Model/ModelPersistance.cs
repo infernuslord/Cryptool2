@@ -39,7 +39,7 @@ namespace WorkspaceManager.Model
         /// <returns></returns>
         public static WorkspaceModel loadModel(string filename, WorkspaceManager workspaceManagerEditor)
         {
-            PersistantModel persistantModel = (PersistantModel)XMLSerialization.XMLSerialization.Deserialize(filename);
+            PersistantModel persistantModel = (PersistantModel)XMLSerialization.XMLSerialization.Deserialize(filename,true);
             WorkspaceModel workspacemodel = persistantModel.WorkspaceModel;
             workspacemodel.WorkspaceManagerEditor = workspaceManagerEditor;
 
@@ -181,7 +181,7 @@ namespace WorkspaceManager.Model
                 }
                 persistantModel.PersistantPluginList.Add(persistantPlugin);
             }
-            XMLSerialization.XMLSerialization.Serialize(persistantModel, filename);
+            XMLSerialization.XMLSerialization.Serialize(persistantModel, filename,true);
         }
     }
 
