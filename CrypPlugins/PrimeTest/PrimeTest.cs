@@ -6,6 +6,7 @@ using Cryptool.PluginBase.Tool;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
 using Primes.Bignum;
+using System.Numerics;
 
 namespace PrimeTest
 {
@@ -97,29 +98,21 @@ namespace PrimeTest
     #endregion
 
     #region Properties
-    private string m_InputString;
+    private BigInteger m_InputNumber;
     PrimesBigInteger m_Value = null;
-    [PropertyInfo(Direction.InputData, "Text input", "Input a string that represent a natural number", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text,null)]
-    public string InputString
+    [PropertyInfo(Direction.InputData, "Text input", "Input a BigInteger", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text,null)]
+    public BigInteger InputNumber
     {
-      get { return this.m_InputString; }
+      get { return this.m_InputNumber; }
       set
       {
-        if (value != m_InputString)
+        if (value != m_InputNumber)
         {
           try
           {
-            if (!string.IsNullOrEmpty(value))
-            {
-              this.m_InputString = value;
-              m_Value = new PrimesBigInteger(m_InputString.Trim());
-              FirePropertyChangeEvent("InputString");
-            }
-            else 
-            {
-              throw new Exception();
-            }
-
+            this.m_InputNumber = value;
+            m_Value = new PrimesBigInteger(m_InputNumber.ToString());
+            FirePropertyChangeEvent("InputString");
           }
           catch 
           {
