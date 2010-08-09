@@ -56,7 +56,7 @@ namespace XMLSerialization
         public static void Serialize(object obj, string filename,Encoding encoding,bool compress = false)
         {
 
-            FileStream sourceFile = File.OpenWrite(filename);
+            FileStream sourceFile = File.Create(filename);
             if (compress)
             {
                 GZipStream compStream = new GZipStream(sourceFile, CompressionMode.Compress);

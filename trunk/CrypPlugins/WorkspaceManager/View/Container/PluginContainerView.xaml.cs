@@ -293,7 +293,7 @@ namespace WorkspaceManager.View.Container
             this.Icon.Width = 40;
             this.Icon.Height = 40;
 
-            if (this.Model.Minimized == true)
+            if (this.Model.Minimized == true || this.Model.PluginPresentation == null)
             {
                 this.PresentationPanel.Child = this.Icon;
                 this.Model.Minimized = true;
@@ -385,20 +385,7 @@ namespace WorkspaceManager.View.Container
 
         private void MinMaxBorder_MouseLeftButtonDown(object sender, RoutedEventArgs e)
         {
-            if (model.Minimized == true)
-            {
-                PluginBase.MinHeight = model.MinHeight;
-                PluginBase.MinWidth = model.MinWidth;
-                PluginBase.Width = model.MinWidth;
-                PluginBase.Height = model.MinHeight;
-                BottomDelta.IsEnabled = true;
-                RightDelta.IsEnabled = true;
-                BottomRightDelta.IsEnabled = true;
-                PresentationPanel.Child = model.PluginPresentation;                
-                model.Minimized = false;
-                MinMaxImage.Source = new BitmapImage(new Uri("/WorkspaceManager;component/View/Image/Min.png", UriKind.RelativeOrAbsolute));
-            }
-            else
+            if (model.Minimized == false || model.PluginPresentation == null)
             {
                 PluginBase.MinHeight = MinHeight;
                 PluginBase.MinWidth = MinWidth;
@@ -410,6 +397,19 @@ namespace WorkspaceManager.View.Container
                 PresentationPanel.Child = this.Icon;
                 model.Minimized = true;
                 MinMaxImage.Source = new BitmapImage(new Uri("/WorkspaceManager;component/View/Image/Max.png", UriKind.RelativeOrAbsolute));
+            }
+            else
+            {
+                PluginBase.MinHeight = model.MinHeight;
+                PluginBase.MinWidth = model.MinWidth;
+                PluginBase.Width = model.MinWidth;
+                PluginBase.Height = model.MinHeight;
+                BottomDelta.IsEnabled = true;
+                RightDelta.IsEnabled = true;
+                BottomRightDelta.IsEnabled = true;
+                PresentationPanel.Child = model.PluginPresentation;                
+                model.Minimized = false;
+                MinMaxImage.Source = new BitmapImage(new Uri("/WorkspaceManager;component/View/Image/Min.png", UriKind.RelativeOrAbsolute));
             }
 
             //foreach (ConnectorView connector in connectorViewList)
