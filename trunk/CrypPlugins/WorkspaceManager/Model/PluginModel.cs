@@ -128,7 +128,7 @@ namespace WorkspaceManager.Model
         /// <summary>
         /// Is the Plugin actually minimized?
         /// </summary>
-        public bool? Minimized { get; set; }
+        public bool Minimized { get; set; }
 
         /// <summary>
         /// The execution state of the progress of the wrapped plugin 
