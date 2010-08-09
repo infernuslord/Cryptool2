@@ -91,10 +91,11 @@ namespace WorkspaceManager.Model
             pluginModel.Name = pluginType.Name;
             pluginModel.RepeatStart = false;
             pluginModel.generateConnectors();
+            pluginModel.Plugin.Initialize();
             pluginModel.Plugin.OnGuiLogNotificationOccured += this.WorkspaceManagerEditor.GuiLogNotificationOccured;
             pluginModel.Plugin.OnGuiLogNotificationOccured += pluginModel.GuiLogNotificationOccured;
             pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;
-            pluginModel.Plugin.OnPluginStatusChanged += pluginModel.PluginStatusChanged;
+            pluginModel.Plugin.OnPluginStatusChanged += pluginModel.PluginStatusChanged;            
             this.AllPluginModels.Add(pluginModel);
             this.WorkspaceManagerEditor.HasChanges = true;
             return pluginModel;

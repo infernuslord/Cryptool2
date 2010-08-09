@@ -90,6 +90,7 @@ namespace WorkspaceManager.Model
             //connect all listener for plugins/plugin models
             foreach (PluginModel pluginModel in workspacemodel.AllPluginModels)
             {
+                pluginModel.Plugin.Initialize();
                 pluginModel.Plugin.OnGuiLogNotificationOccured += workspaceManagerEditor.GuiLogNotificationOccured;
                 pluginModel.Plugin.OnGuiLogNotificationOccured += pluginModel.GuiLogNotificationOccured;
                 pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;

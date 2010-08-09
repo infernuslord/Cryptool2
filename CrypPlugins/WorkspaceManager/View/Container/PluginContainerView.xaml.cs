@@ -284,18 +284,21 @@ namespace WorkspaceManager.View.Container
 
         void PluginContainerView_Loaded(object sender, RoutedEventArgs e)
         {
+            
             MinHeight = this.PluginBase.MinHeight;
             MinWidth = this.PluginBase.MinWidth;
             this.BorderGradientStop.Color = ColorHelper.GetColor(this.Model.PluginType);
             this.BorderGradientStopSecond.Color = Color.FromArgb(100, this.BorderGradientStop.Color.R, this.BorderGradientStop.Color.G, this.BorderGradientStop.Color.B);
+            this.Icon = this.Model.getImage();
+            this.Icon.Width = 40;
+            this.Icon.Height = 40;
 
-            if (this.Model.Minimized == null || this.Model.Minimized == true)
+            if (this.Model.Minimized == true)
             {
-                this.Icon = this.Model.getImage();
                 this.PresentationPanel.Child = this.Icon;
                 this.Model.Minimized = true;
             }
-            else if (this.Model.Minimized == false)
+            else
             {
                 this.PluginBase.MinHeight = model.MinHeight;
                 this.PluginBase.MinWidth = model.MinWidth;
@@ -308,8 +311,8 @@ namespace WorkspaceManager.View.Container
                 this.Model.Minimized = false;
                 this.MinMaxImage.Source = new BitmapImage(new Uri("/WorkspaceManager;component/View/Image/Min.png", UriKind.RelativeOrAbsolute));
             }
-
             SetAllConnectorPositionX();
+            
         }
 
         void connector_OnConnectorMouseLeftButtonDown(object sender, ConnectorViewEventArgs e)
@@ -382,7 +385,7 @@ namespace WorkspaceManager.View.Container
 
         private void MinMaxBorder_MouseLeftButtonDown(object sender, RoutedEventArgs e)
         {
-            if (model.PluginPresentation != null && PresentationPanel.Child is Image)
+            if (model.Minimized == true)
             {
                 PluginBase.MinHeight = model.MinHeight;
                 PluginBase.MinWidth = model.MinWidth;
@@ -391,13 +394,11 @@ namespace WorkspaceManager.View.Container
                 BottomDelta.IsEnabled = true;
                 RightDelta.IsEnabled = true;
                 BottomRightDelta.IsEnabled = true;
-                PresentationPanel.Child = model.PluginPresentation;
+                PresentationPanel.Child = model.PluginPresentation;                
                 model.Minimized = false;
                 MinMaxImage.Source = new BitmapImage(new Uri("/WorkspaceManager;component/View/Image/Min.png", UriKind.RelativeOrAbsolute));
-                return;
             }
-
-            if (PresentationPanel.Child is UserControl)
+            else
             {
                 PluginBase.MinHeight = MinHeight;
                 PluginBase.MinWidth = MinWidth;
@@ -407,8 +408,8 @@ namespace WorkspaceManager.View.Container
                 RightDelta.IsEnabled = false;
                 BottomRightDelta.IsEnabled = false;
                 PresentationPanel.Child = this.Icon;
+                model.Minimized = true;
                 MinMaxImage.Source = new BitmapImage(new Uri("/WorkspaceManager;component/View/Image/Max.png", UriKind.RelativeOrAbsolute));
-                return;
             }
 
             //foreach (ConnectorView connector in connectorViewList)
@@ -457,7 +458,6 @@ namespace WorkspaceManager.View.Container
             
             if (this.Model.Minimized == null || this.Model.Minimized == true)
             {
-                this.Icon = model.getImage();
                 this.PresentationPanel.Child = this.Icon;
             }
         }
