@@ -456,8 +456,11 @@ namespace WorkspaceManager.View.Container
                 //todo: assign old color and appereance
             }
             
-            if (this.Model.Minimized == null || this.Model.Minimized == true)
+            if (this.Model.Minimized == true)
             {
+                this.Icon = this.model.getImage();
+                this.Icon.Width = 40;
+                this.Icon.Height = 40;
                 this.PresentationPanel.Child = this.Icon;
             }
         }
