@@ -1,7 +1,3 @@
-VIEW Größe der Plugins auf dem Workspace muss mit gespeichert/geladen werden (Model aktualisieren, Model beim Laden abfragen)
-VIEW Plugins im minimierten Zustand (iconisiert) eine einheitsgröße geben und das ICON auf diese skalieren (im Moment
-     werden iconisierte Plugins "so groß" wie das ICON (Teileweise riesig!)
-VIEW Es muss gespeichert werden, on ein Plugin minimiert oder maximiert ist
 VIEW Ansicht scrollbar machen
 VIEW Logging Mechanismus der einzelnen Plugins (Plugins loggen jetzt in eine interne Liste -> diese nutzen)
 VIEW IControl implementieren (als Dockins)
@@ -15,8 +11,6 @@ VIEW ProgressBar
 
 MODEL Ausführungsengine bugfrei machen und optimieren
 MODEL Letzte Daten für Ansicht der Connectoren cachen
-//MODEL Schleifenbug der Ausführungsengine beheben
+MODEL Schleifenbug der Ausführungsengine beheben
 
 ALLGEMEIN Undo/Redo Funktionalität implementieren (Konzept entwerfen - Fällt meiner Meinung nach in VIEW und MODEL)
-
-
