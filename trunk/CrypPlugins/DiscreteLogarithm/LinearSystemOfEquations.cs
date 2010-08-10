@@ -64,6 +64,7 @@ namespace DiscreteLogarithm
         public int[] Solve()
         {
             //TODO: Gauss here
+            return null;
         }
 
     }
