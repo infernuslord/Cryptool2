@@ -95,7 +95,7 @@ sieve_conf_t *copy_sieve_conf(sieve_conf_t *conf) {
 
 namespace Msieve
 {
-	public delegate void prepareSievingDelegate(IntPtr conf, int update, IntPtr core_sieve_fcn, int max_relations);
+	public delegate bool prepareSievingDelegate(IntPtr conf, int update, IntPtr core_sieve_fcn, int max_relations);
 	public delegate void putTrivialFactorlistDelegate(IntPtr list, IntPtr obj);
 
 	public ref struct callback_struct
@@ -396,9 +396,9 @@ namespace Msieve
 
 }
 
-extern "C" void prepare_sieving(void* conf, int update, void* core_sieve_fcn, int max_relations)
+extern "C" int prepare_sieving(void* conf, int update, void* core_sieve_fcn, int max_relations)
 {
-	Msieve::msieve::callbacks->prepareSieving(IntPtr(conf), update, IntPtr(core_sieve_fcn), max_relations);
+	return Msieve::msieve::callbacks->prepareSieving(IntPtr(conf), update, IntPtr(core_sieve_fcn), max_relations) ? 1 : 0;
 }
 
 extern "C" void throwException(char* message)

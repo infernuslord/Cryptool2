@@ -652,7 +652,8 @@ static uint32 do_sieving_internal(sieve_conf_t *conf,
 	}
 
 	if (!(obj->flags & MSIEVE_FLAG_STOP_SIEVING) && num_relations < max_relations)
-		prepare_sieving(conf, update, core_sieve_fcn, max_relations);
+		if (!prepare_sieving(conf, update, core_sieve_fcn, max_relations))
+			return -1;
 
 	num_relations = conf->num_relations + 
 				conf->num_cycles +

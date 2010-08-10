@@ -13,7 +13,7 @@ namespace WrapperTester
         private static Queue relationpackagequeue;
         private static bool running;
 
-        static void prepareSieving(IntPtr conf, int update, IntPtr core_sieve_fcn, int max_relations)
+        static bool prepareSieving(IntPtr conf, int update, IntPtr core_sieve_fcn, int max_relations)
         {
             Console.WriteLine("Update: " + update);
 
@@ -24,6 +24,7 @@ namespace WrapperTester
             WaitCallback worker = new WaitCallback(MSieveJob);
             running = true;
             ThreadPool.QueueUserWorkItem(worker, new object[] { clone, update, core_sieve_fcn, relationpackagequeue });
+            return true;
         }
 
         public static void MSieveJob(object param)
