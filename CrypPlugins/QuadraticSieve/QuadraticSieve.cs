@@ -64,6 +64,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         private PeerToPeer peerToPeer;
         private PeerToPeerStatusUpdater peerToPeerStatusUpdater;
         private bool usePeer2Peer;
+        private bool otherPeerFinished;
         private bool useGnuplot = false;
         private StreamWriter gnuplotFile;
         private double[] relationsPerMS;
@@ -190,6 +191,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                     gnuplotFile = new StreamWriter(Path.Combine(directoryName, "gnuplot.dat"), false);
 
                 userStopped = false;
+                otherPeerFinished = false;
 
                 if (InputNumber != 0)
                 {
@@ -260,6 +262,8 @@ namespace Cryptool.Plugins.QuadraticSieve
 
                         Debug.Assert(factorManager.CalculateNumber() == InputNumber);
                         OutputFactors = factorManager.getPrimeFactors();
+
+                        ProgressChanged(1, 1);
                     }
                     else
                     {
@@ -277,9 +281,6 @@ namespace Cryptool.Plugins.QuadraticSieve
                         }
                         , null);
                     }
-
-                    ProgressChanged(1, 1);
-
                 }
                 if (useGnuplot)
                     gnuplotFile.Close();
@@ -461,60 +462,81 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// Callback method to prepare sieving
         /// Called by msieve
         /// 
-        /// </summary>
+        /// </summary>        
         /// <param name="conf">pointer to configuration</param>
         /// <param name="update">number of relations found</param>
         /// <param name="core_sieve_fcn">pointer to internal sieve function of msieve</param>
-        private void prepareSieving(IntPtr conf, int update, IntPtr core_sieve_fcn, int max_relations)
+        /// <returns>true if enough relations found, false if not</returns>
+        private bool prepareSieving(IntPtr conf, int update, IntPtr core_sieve_fcn, int max_relations)
         {
-            int threads = Math.Min(settings.CoresUsed, Environment.ProcessorCount-1);
-            MethodInfo getObjFromConf = msieve.GetMethod("getObjFromConf");
-            this.obj = (IntPtr)getObjFromConf.Invoke(null, new object[] { conf });            
-            relationPackageQueue = Queue.Synchronized(new Queue());
-            conf_list = new ArrayList();
-
-            String message = "Start sieving using " + (threads + 1) + " cores!";
-            GuiLogMessage(message, NotificationLevel.Info);
-            quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            try
             {
-                quadraticSieveQuickWatchPresentation.logging.Text = message;
-                if (usePeer2Peer)
-                    quadraticSieveQuickWatchPresentation.relationsInfo.Content = "";
+                int threads = Math.Min(settings.CoresUsed, Environment.ProcessorCount - 1);
+                MethodInfo getObjFromConf = msieve.GetMethod("getObjFromConf");
+                this.obj = (IntPtr)getObjFromConf.Invoke(null, new object[] { conf });
+                relationPackageQueue = Queue.Synchronized(new Queue());
+                conf_list = new ArrayList();
+
+                String message = "Start sieving using " + (threads + 1) + " cores!";
+                GuiLogMessage(message, NotificationLevel.Info);
+                quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    quadraticSieveQuickWatchPresentation.logging.Text = message;
+                    if (usePeer2Peer)
+                        quadraticSieveQuickWatchPresentation.relationsInfo.Content = "";
+                }
+                , null);
+
+                ProgressChanged(0.1, 1.0);
+
+                running = true;
+                //start helper threads:
+                relationsPerMS = new double[threads + 1];
+                for (int i = 0; i < threads + 1; i++)
+                {
+                    MethodInfo cloneSieveConf = msieve.GetMethod("cloneSieveConf");
+                    IntPtr clone = (IntPtr)cloneSieveConf.Invoke(null, new object[] { conf });
+                    conf_list.Add(clone);
+                    WaitCallback worker = new WaitCallback(MSieveJob);
+                    ThreadPool.QueueUserWorkItem(worker, new object[] { clone, update, core_sieve_fcn, relationPackageQueue, i });
+                }
+
+                //manage the relation packages of the other threads:
+                manageRelationPackages(conf, max_relations);  //this method returns as soon as there are enough relations found
+                if (userStopped)
+                    return false;
+
+                //sieving is finished now, so give some informations and stop threads:
+                ProgressChanged(0.9, 1.0);
+                GuiLogMessage("Sieving finished", NotificationLevel.Info);
+                quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    quadraticSieveQuickWatchPresentation.timeLeft.Text = "";
+                    quadraticSieveQuickWatchPresentation.endTime.Text = "";
+                    quadraticSieveQuickWatchPresentation.factorInfo.Content = "Found enough relations! Please wait...";
+                }, null);
+
+                if (relationPackageQueue != null)
+                    relationPackageQueue.Clear();
             }
-            , null);          
-
-            ProgressChanged(0.1, 1.0);
-
-            running = true;
-            //start helper threads:
-            relationsPerMS = new double[threads + 1];
-            for (int i = 0; i < threads+1; i++)
+            catch (AlreadySievedException)
             {
-                MethodInfo cloneSieveConf = msieve.GetMethod("cloneSieveConf");
-                IntPtr clone = (IntPtr)cloneSieveConf.Invoke(null, new object[] { conf });                
-                conf_list.Add(clone);
-                WaitCallback worker = new WaitCallback(MSieveJob);
-                ThreadPool.QueueUserWorkItem(worker, new object[] { clone, update, core_sieve_fcn, relationPackageQueue, i });
+                ProgressChanged(0.9, 1.0);
+                GuiLogMessage("Another peer already finished factorization of composite factor. Sieving next one...", NotificationLevel.Info);
+                quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    quadraticSieveQuickWatchPresentation.timeLeft.Text = "";
+                    quadraticSieveQuickWatchPresentation.endTime.Text = "";
+                    quadraticSieveQuickWatchPresentation.factorInfo.Content = "Other peer finished sieving!";
+                }, null);
+                otherPeerFinished = true;
+                return false;
             }
-
-            //manage the relation packages of the other threads:
-            manageRelationPackages(conf, max_relations);  //this method returns as soon as there are enough relations found
-            if (userStopped)
-                return;
-
-            //sieving is finished now, so give some informations and stop threads:
-            ProgressChanged(0.9, 1.0);
-            GuiLogMessage("Sieving finished", NotificationLevel.Info);
-            quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            finally
             {
-                quadraticSieveQuickWatchPresentation.timeLeft.Text = "";
-                quadraticSieveQuickWatchPresentation.endTime.Text = "";
-                quadraticSieveQuickWatchPresentation.factorInfo.Content = "Found enough relations! Please wait...";
-            }, null);
-            
-            stopThreads();
-            if (relationPackageQueue != null)
-                relationPackageQueue.Clear();
+                stopThreads();
+            }
+            return true;
         }
 
         /// <summary>
@@ -667,25 +689,24 @@ namespace Cryptool.Plugins.QuadraticSieve
                     if (settings.UsePeer2Peer)
                         peerToPeer.SetFactor(compositeFactor);
 
-                    try
+                    //now start quadratic sieve on it:                
+                    IntPtr resultList = (IntPtr)msieve_run_core.Invoke(null, new object[2] { obj, compositeFactor.ToString() });
+                    if (otherPeerFinished)
                     {
-                        //now start quadratic sieve on it:                
-                        IntPtr resultList = (IntPtr)msieve_run_core.Invoke(null, new object[2] { obj, compositeFactor.ToString() });
-                        if (resultList == IntPtr.Zero)
-                            throw new NotSievableException();
-
-                        if (userStopped)
-                            return;
-
-                        factorManager.ReplaceCompositeByFactors(compositeFactor, resultList);   //add the result list to factorManager
-
-                        if (usePeer2Peer)
-                            peerToPeer.SyncFactorManager(factorManager);
+                        otherPeerFinished = false;
+                        continue;
                     }
-                    catch (AlreadySievedException)
-                    {
-                        GuiLogMessage("Another peer already finished factorization of composite factor" + compositeFactor + ". Sieving next one...", NotificationLevel.Info);
-                    }
+
+                    if (resultList == IntPtr.Zero)
+                        throw new NotSievableException();
+
+                    if (userStopped)
+                        return;
+
+                    factorManager.ReplaceCompositeByFactors(compositeFactor, resultList);   //add the result list to factorManager
+
+                    if (usePeer2Peer)
+                        peerToPeer.SyncFactorManager(factorManager);
                 }
             }
             catch (NotSievableException)
