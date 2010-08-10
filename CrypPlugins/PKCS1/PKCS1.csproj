@@ -70,19 +70,10 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
-    <ItemGroup Condition=" '$(Platform)' == 'x86' ">
-    <Reference Include="BouncyCastle.Crypto">
-      <HintPath>..\..\AppReferences\x86\BouncyCastle.Crypto.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup Condition=" '$(Platform)' == 'x64' ">
-    <Reference Include="BouncyCastle.Crypto">
-      <HintPath>..\..\AppReferences\x64\BouncyCastle.Crypto.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-  </ItemGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.CryptoExt">
+      <HintPath>..\..\AppReferences\BouncyCastle.CryptoExt.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
