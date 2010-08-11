@@ -194,53 +194,6 @@ namespace WorkspaceManager.Model
         public string ToolTip { get; set; }
 
         /// <summary>
-        /// Plugin informs the Connector that a PropertyChanged
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="propertyChangedEventArgs"></param>
-        public void PropertyChangedOnPlugin(Object sender, PropertyChangedEventArgs propertyChangedEventArgs)
-        {
-            if (sender == this.PluginModel.Plugin &&
-                propertyChangedEventArgs.PropertyName.Equals(PropertyName) &&
-                Outgoing)
-            {
-                object data = null;
-                if (IsDynamic)
-                {
-                    data = sender.GetType().GetMethod(DynamicGetterName).Invoke(sender, new object[] { this.PropertyName });
-                }
-                else
-                {
-                    data = sender.GetType().GetProperty(propertyChangedEventArgs.PropertyName).GetValue(sender, null);
-                }
-
-                if (data == null)
-                {
-                    return;
-                }
-                
-                foreach (ConnectionModel connectionModel in this.OutputConnections)
-                {                    
-                    Data Data = new Data();
-                    Data.value = data;
-                    connectionModel.To.Data = Data;
-                    connectionModel.To.HasData = true;                    
-                    connectionModel.Active = true;
-                    connectionModel.GuiNeedsUpdate = true;
-                }
-
-                //We changed an input on the PluginModels where "To"s are belonging to so
-                //we have to check if there are executable now
-                foreach (ConnectionModel connectionModel in this.OutputConnections)
-                {
-                    MessageExecution msg = new MessageExecution();
-                    msg.PluginModel = connectionModel.To.PluginModel;
-                    connectionModel.To.PluginModel.PluginProtocol.BroadcastMessage(msg);
-                }
-            }
-        }
-
-        /// <summary>
         /// The data type of the wrapped property changes
         /// </summary>        
         public void PropertyTypeChangedOnPlugin(IPlugin plugin)

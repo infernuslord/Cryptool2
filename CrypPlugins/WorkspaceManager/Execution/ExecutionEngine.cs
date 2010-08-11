@@ -76,7 +76,7 @@ namespace WorkspaceManager.Execution
                 IsRunning = true;
                 this.workspaceModel = workspaceModel;
                 int amountSchedulers = System.Environment.ProcessorCount * 2;
-                
+
                 //Here we create n = "ProcessorsCount * 2" Gears4Net schedulers
                 //We do this, because measurements showed that we get the best performance if we
                 //use this amount of schedulers
@@ -417,7 +417,46 @@ namespace WorkspaceManager.Execution
                     }
                 }
             }
+
+            foreach (ConnectorModel connectorModel in PluginModel.OutputConnectors)
+            {
+                object data;
+
+                if (connectorModel.IsDynamic)
+                {
+                    data = connectorModel.PluginModel.Plugin.GetType().GetMethod(connectorModel.DynamicGetterName).Invoke(connectorModel.PluginModel.Plugin, new object[] { connectorModel.PropertyName });
+                }
+                else
+                {
+                    data = connectorModel.PluginModel.Plugin.GetType().GetProperty(connectorModel.PropertyName).GetValue(connectorModel.PluginModel.Plugin, null);
+                }
+
+                if (data != null)
+                {
+                    foreach (ConnectionModel connectionModel in connectorModel.OutputConnections)
+                    {
+
+                        Data Data = new Data();
+                        Data.value = data;
+                        connectionModel.To.Data = Data;
+                        connectionModel.To.HasData = true;
+                        connectionModel.Active = true;
+                        connectionModel.GuiNeedsUpdate = true;
+                    }
+                }
+            }
             
+            foreach (ConnectorModel connectorModel in PluginModel.OutputConnectors)
+            {
+                foreach (ConnectionModel connectionModel in connectorModel.OutputConnections)
+                {
+                    MessageExecution msg_exce = new MessageExecution();
+                    msg_exce.PluginModel = connectionModel.To.PluginModel;
+                    connectionModel.To.PluginModel.PluginProtocol.BroadcastMessage(msg_exce);
+                }
+            }
+
+
             foreach (ConnectorModel connectorModel in PluginModel.InputConnectors)
             {
                 foreach (ConnectionModel connectionModel in connectorModel.InputConnections)

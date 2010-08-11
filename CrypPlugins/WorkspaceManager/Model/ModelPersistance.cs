@@ -108,10 +108,6 @@ namespace WorkspaceManager.Model
             //connect all listeners for connectors
             foreach (ConnectorModel connectorModel in workspacemodel.AllConnectorModels)
             {
-                if(connectorModel.Outgoing == true){
-                    connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
-                }
-
                 if (connectorModel.IsDynamic == true)
                 {
                     DynamicPropertyInfoAttribute dynamicPropertyInfoAttribute = connectorModel.PluginModel.Plugin.GetDynamicPropertyInfo();
