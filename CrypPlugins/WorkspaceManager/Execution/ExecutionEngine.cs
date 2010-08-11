@@ -350,7 +350,17 @@ namespace WorkspaceManager.Execution
             }
 
             //3. Execute the Plugin -> call the IPlugin.Execute()
-            PluginModel.Plugin.Execute();
+            try
+            {
+                PluginModel.Plugin.Execute();
+            }
+            catch (Exception ex)
+            {
+                this.PluginModel.WorkspaceModel.WorkspaceManagerEditor.GuiLogMessage("An error occured while executing  \"" + PluginModel.Name + "\": " + ex.Message, NotificationLevel.Error);
+                this.PluginModel.State = PluginModelState.Error;
+                this.PluginModel.GuiNeedsUpdate = true;
+                return;
+            }
 
             //4. Count for the benchmark
             if (this.executionEngine.BenchmarkPlugins)
@@ -491,7 +501,7 @@ namespace WorkspaceManager.Execution
                 }
                 catch (Exception ex)
                 {
-                    this.PluginModel.WorkspaceModel.WorkspaceManagerEditor.GuiLogMessage("An error occured while setting value of connector \"" + connectorModel.Name + "\" of \"" + PluginModel + "\": " + ex.Message, NotificationLevel.Error);
+                    this.PluginModel.WorkspaceModel.WorkspaceManagerEditor.GuiLogMessage("An error occured while setting value of connector \"" + connectorModel.Name + "\" of \"" + PluginModel.Name + "\": " + ex.Message, NotificationLevel.Error);
                     this.PluginModel.State = PluginModelState.Error;
                     this.PluginModel.GuiNeedsUpdate = true;
                     return false;
