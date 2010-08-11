@@ -515,10 +515,9 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 }
 
                 //avoid unnecessary error messages because of wrong input/output streams:
+                outputStream.Flush();
                 outputStream.Close();
-                outputStream = null;
-                inputStream.Close();
-                inputStream = null;
+                inputStream.Close();                
             }
             catch (Exception exception)
             {
