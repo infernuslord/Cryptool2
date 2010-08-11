@@ -46,6 +46,7 @@ namespace WorkspaceManager.Execution
         public long ExecutedPluginsCounter { get; set; }
         public bool BenchmarkPlugins { get; set; }
         public long GuiUpdateInterval { get; set; }
+        public int SleepTime { get; set; }
 
         /// <summary>
         /// Creates a new ExecutionEngine
@@ -326,49 +327,149 @@ namespace WorkspaceManager.Execution
         {
             while (this.executionEngine.IsRunning)
             {
-                yield return Receive<MessageExecution>(null,HandleExecute);
-                //this.HandleExecute((MessageExecution)stateMachine.CurrentMessage);
+                yield return Receive<MessageExecution>(null, HandleExecute);
             }
         }
 
         /// <summary>
-        /// Call the execution function of the wrapped IPlugin
+        /// Handle an execution of a plugin
         /// </summary>
         /// <param name="msg"></param>
         private void HandleExecute(MessageExecution msg)
         {
-            
-            if (!msg.PluginModel.WorkspaceModel.WorkspaceManagerEditor.isExecuting())
+            // 1. Check if Plugin may Execute
+            if (!mayExecute(PluginModel))
             {
                 return;
             }
-            
-            //Check if all necessary inputs are set
-            foreach (ConnectorModel connectorModel in msg.PluginModel.InputConnectors)
+
+            //2. Fill all Inputs of the plugin, if this fails, stop executing the plugin
+            if (!fillInputs())
             {
-                if (!connectorModel.IControl && 
-                    (connectorModel.IsMandatory || connectorModel.InputConnections.Count > 0) && (!connectorModel.HasData ||
-                    connectorModel.Data==null))
-                {
-                    return;
-                }
+                return;
             }
 
-            //Check if all outputs are free
-            foreach (ConnectorModel connectorModel in msg.PluginModel.OutputConnectors)
+            //3. Execute the Plugin -> call the IPlugin.Execute()
+            PluginModel.Plugin.Execute();
+
+            //4. Count for the benchmark
+            if (this.executionEngine.BenchmarkPlugins)
             {
-                if (!connectorModel.IControl)
+                this.executionEngine.ExecutedPluginsCounter++;
+            }
+
+            //5. If the user wants to, sleep some time
+            if (this.executionEngine.SleepTime > 0)
+            {
+                Thread.Sleep(this.executionEngine.SleepTime);
+            }
+
+            //6. Clear all used inputs
+            clearInputs();
+
+            //7. Fill all outputs of our plugin
+            fillOutputs();
+
+            //8. Send start messages to possible executable next plugins
+            runNextPlugins();
+        }
+
+        /// <summary>
+        /// Send execute messages to possible executable next plugins
+        /// </summary>
+        private void runNextPlugins()
+        {
+            foreach (ConnectorModel connectorModel in PluginModel.OutputConnectors)
+            {
+                foreach (ConnectionModel connectionModel in connectorModel.OutputConnections)
                 {
-                    foreach (ConnectionModel connectionModel in connectorModel.OutputConnections)
+                    if (mayExecute(connectionModel.To.PluginModel))
                     {
-                        if (connectionModel.To.HasData)
-                        {
-                            return;
-                        }
+                        MessageExecution msg_exce = new MessageExecution();
+                        msg_exce.PluginModel = connectionModel.To.PluginModel;
+                        connectionModel.To.PluginModel.PluginProtocol.BroadcastMessage(msg_exce);
                     }
                 }
             }
 
+            foreach (ConnectorModel connectorModel in PluginModel.InputConnectors)
+            {
+                foreach (ConnectionModel connectionModel in connectorModel.InputConnections)
+                {
+                    if (!connectionModel.From.PluginModel.Startable ||
+                        (connectionModel.From.PluginModel.Startable && connectionModel.From.PluginModel.RepeatStart))
+                    {
+                        if (mayExecute(connectionModel.From.PluginModel))
+                        {
+                            MessageExecution message_exec = new MessageExecution();
+                            message_exec.PluginModel = connectionModel.From.PluginModel;
+                            connectionModel.From.PluginModel.PluginProtocol.BroadcastMessageReliably(message_exec);
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fill all outputs of the plugin
+        /// </summary>
+        private void fillOutputs()
+        {
+            foreach (ConnectorModel connectorModel in PluginModel.OutputConnectors)
+            {
+                object data;
+
+                if (connectorModel.IsDynamic)
+                {
+                    data = connectorModel.PluginModel.Plugin.GetType().GetMethod(connectorModel.DynamicGetterName).Invoke(connectorModel.PluginModel.Plugin, new object[] { connectorModel.PropertyName });
+                }
+                else
+                {
+                    data = connectorModel.PluginModel.Plugin.GetType().GetProperty(connectorModel.PropertyName).GetValue(connectorModel.PluginModel.Plugin, null);
+                }
+
+                if (data != null)
+                {
+                    foreach (ConnectionModel connectionModel in connectorModel.OutputConnections)
+                    {
+                        Data Data = new Data();
+                        Data.value = data;
+                        connectionModel.To.Data = Data;
+                        connectionModel.To.HasData = true;
+                        connectionModel.Active = true;
+                        connectionModel.GuiNeedsUpdate = true;
+                        connectorModel.Data = Data;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Delete all input data of inputs of the plugin
+        /// </summary>
+        private void clearInputs()
+        {
+            foreach (ConnectorModel connectorModel in PluginModel.InputConnectors)
+            {
+                if (connectorModel.HasData)
+                {
+                    connectorModel.Data = null;
+                    connectorModel.HasData = false;
+                    foreach (ConnectionModel connectionModel in connectorModel.InputConnections)
+                    {
+                        connectionModel.Active = false;
+                        connectorModel.GuiNeedsUpdate = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fill all inputs of the plugin
+        /// </summary>
+        /// <returns></returns>
+        private bool fillInputs()
+        {
             //Fill the plugins inputs with data
             foreach (ConnectorModel connectorModel in PluginModel.InputConnectors)
             {
@@ -393,83 +494,50 @@ namespace WorkspaceManager.Execution
                     this.PluginModel.WorkspaceModel.WorkspaceManagerEditor.GuiLogMessage("An error occured while setting value of connector \"" + connectorModel.Name + "\" of \"" + PluginModel + "\": " + ex.Message, NotificationLevel.Error);
                     this.PluginModel.State = PluginModelState.Error;
                     this.PluginModel.GuiNeedsUpdate = true;
-                    return;
+                    return false;
                 }
             }
-            
-            msg.PluginModel.Plugin.Execute();
+            return true;
+        }
 
-            if (this.executionEngine.BenchmarkPlugins)
+        /// <summary>
+        /// Check if the PluginModel may execute
+        /// </summary>
+        /// <param name="pluginModel"></param>
+        /// <returns></returns>
+        private bool mayExecute(PluginModel pluginModel)
+        {
+            if (!pluginModel.WorkspaceModel.WorkspaceManagerEditor.isExecuting())
             {
-                this.executionEngine.ExecutedPluginsCounter++;
+                return false;
             }
 
-            foreach (ConnectorModel connectorModel in PluginModel.InputConnectors)
+            //Check if all necessary inputs are set
+            foreach (ConnectorModel connectorModel in pluginModel.InputConnectors)
             {
-                if (connectorModel.HasData)
-                {                    
-                    connectorModel.Data = null;
-                    connectorModel.HasData = false;
-                    foreach (ConnectionModel connectionModel in connectorModel.InputConnections)
-                    {
-                        connectionModel.Active = false;
-                        connectorModel.GuiNeedsUpdate = true;
-                    }
-                }
-            }
-
-            foreach (ConnectorModel connectorModel in PluginModel.OutputConnectors)
-            {
-                object data;
-
-                if (connectorModel.IsDynamic)
+                if (!connectorModel.IControl &&
+                    (connectorModel.IsMandatory || connectorModel.InputConnections.Count > 0) && (!connectorModel.HasData ||
+                    connectorModel.Data == null))
                 {
-                    data = connectorModel.PluginModel.Plugin.GetType().GetMethod(connectorModel.DynamicGetterName).Invoke(connectorModel.PluginModel.Plugin, new object[] { connectorModel.PropertyName });
+                    return false;
                 }
-                else
-                {
-                    data = connectorModel.PluginModel.Plugin.GetType().GetProperty(connectorModel.PropertyName).GetValue(connectorModel.PluginModel.Plugin, null);
-                }
+            }
 
-                if (data != null)
+            //Check if all outputs are free
+            foreach (ConnectorModel connectorModel in pluginModel.OutputConnectors)
+            {
+                if (!connectorModel.IControl)
                 {
                     foreach (ConnectionModel connectionModel in connectorModel.OutputConnections)
                     {
-
-                        Data Data = new Data();
-                        Data.value = data;
-                        connectionModel.To.Data = Data;
-                        connectionModel.To.HasData = true;
-                        connectionModel.Active = true;
-                        connectionModel.GuiNeedsUpdate = true;
+                        if (connectionModel.To.HasData)
+                        {
+                            return false;
+                        }
                     }
                 }
             }
-            
-            foreach (ConnectorModel connectorModel in PluginModel.OutputConnectors)
-            {
-                foreach (ConnectionModel connectionModel in connectorModel.OutputConnections)
-                {
-                    MessageExecution msg_exce = new MessageExecution();
-                    msg_exce.PluginModel = connectionModel.To.PluginModel;
-                    connectionModel.To.PluginModel.PluginProtocol.BroadcastMessage(msg_exce);
-                }
-            }
-
-
-            foreach (ConnectorModel connectorModel in PluginModel.InputConnectors)
-            {
-                foreach (ConnectionModel connectionModel in connectorModel.InputConnections)
-                {
-                    if (!connectionModel.From.PluginModel.Startable || 
-                        (connectionModel.From.PluginModel.Startable && connectionModel.From.PluginModel.RepeatStart))
-                    {
-                        MessageExecution message_exec = new MessageExecution();
-                        message_exec.PluginModel = connectionModel.From.PluginModel;
-                        connectionModel.From.PluginModel.PluginProtocol.BroadcastMessageReliably(message_exec);
-                    }
-                }
-            }
+            return true;
         }
     }
 

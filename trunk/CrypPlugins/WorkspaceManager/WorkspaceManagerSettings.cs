@@ -37,7 +37,23 @@ namespace WorkspaceManager
                 guiUpdateInterval = value;
                 OnPropertyChanged("GuiUpdateInterval");
             }
+        }
+
+        private String sleepTime = "0";
+        [TaskPane("SleepTime", "The time which the execution will sleep after executing a plugin.", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        public String SleepTime
+        {
+            get
+            {
+                return sleepTime;
+            }
+            set
+            {
+                sleepTime = value;
+                OnPropertyChanged("SleepTime");
+            }
         }     
+
 
         private bool benchmarkPlugins = false;
         [TaskPane("BenchmarkPlugins", "Should the WorkspaceManager benchmark the amount of executed plugins per second?", null, 1, false, DisplayLevel.Beginner, ControlType.CheckBox)]
