@@ -385,6 +385,21 @@ namespace WorkspaceManager
                     ExecutionEngine.GuiUpdateInterval = 100;
                 }
 
+                try
+                {
+                    ExecutionEngine.SleepTime = int.Parse(((WorkspaceManagerSettings)this.Settings).SleepTime);
+                    if (ExecutionEngine.SleepTime < 0)
+                    {
+                        GuiLogMessage("SleepTime can not be <=0; Use GuiUpdateInterval = 0", NotificationLevel.Warning);
+                        ExecutionEngine.SleepTime = 0;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage("Could not set SleepTime: " + ex.Message, NotificationLevel.Warning);
+                    ExecutionEngine.GuiUpdateInterval = 0;
+                }
+
                 ExecutionEngine.BenchmarkPlugins = ((WorkspaceManagerSettings)this.Settings).BenchmarkPlugins;
 
                 ExecutionEngine.Execute(WorkspaceModel);               
