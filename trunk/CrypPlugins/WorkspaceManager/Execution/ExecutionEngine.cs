@@ -326,8 +326,8 @@ namespace WorkspaceManager.Execution
         {
             while (this.executionEngine.IsRunning)
             {
-                yield return Receive<MessageExecution>();
-                this.HandleExecute((MessageExecution)stateMachine.CurrentMessage);
+                yield return Receive<MessageExecution>(null,HandleExecute);
+                //this.HandleExecute((MessageExecution)stateMachine.CurrentMessage);
             }
         }
 
@@ -342,7 +342,7 @@ namespace WorkspaceManager.Execution
             {
                 return;
             }
-
+            
             //Check if all necessary inputs are set
             foreach (ConnectorModel connectorModel in msg.PluginModel.InputConnectors)
             {
@@ -427,16 +427,15 @@ namespace WorkspaceManager.Execution
                     {
                         MessageExecution message_exec = new MessageExecution();
                         message_exec.PluginModel = connectionModel.From.PluginModel;
-                        connectionModel.From.PluginModel.PluginProtocol.BroadcastMessage(message_exec);
+                        connectionModel.From.PluginModel.PluginProtocol.BroadcastMessageReliably(message_exec);
                     }
                 }
-            }            
+            }
         }
     }
 
     /// <summary>
-    /// Gears4Net Scheduler. The scheduler only runs protocols which do not have a waiting
-    /// plugin on the protocol plugins outputs
+    /// Gears4Net Scheduler
     /// </summary>
     public class WorkspaceManagerScheduler : Scheduler
     {

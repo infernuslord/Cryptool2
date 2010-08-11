@@ -220,13 +220,7 @@ namespace WorkspaceManager.Model
                 }
                 
                 foreach (ConnectionModel connectionModel in this.OutputConnections)
-                {
-                    while ((connectionModel.To.HasData || connectionModel.To.Data != null)
-                        && this.PluginModel.WorkspaceModel.WorkspaceManagerEditor.isExecuting())
-                    {
-                        Thread.Sleep(0);
-                    }
-
+                {                    
                     Data Data = new Data();
                     Data.value = data;
                     connectionModel.To.Data = Data;

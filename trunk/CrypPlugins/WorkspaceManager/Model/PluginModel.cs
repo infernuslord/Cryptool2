@@ -60,7 +60,7 @@ namespace WorkspaceManager.Model
         public PluginModelState State {
             get { return state; } 
             set { state = value; }
-        }     
+        }
 
         /// <summary>
         /// All ingoing connectors of this PluginModel
