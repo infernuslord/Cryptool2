@@ -6,12 +6,15 @@ using System.Windows.Data;
 
 namespace WorkspaceManager.View.Converter
 {
-    class ScaleToPercentageConverter : IValueConverter
+    class InputOutputConverter : IValueConverter
     {
-
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return Math.Round((double)value * 100, 0);
+            bool isOutgoing = (bool)value;
+            if (isOutgoing)
+                return "Output";
+            else
+                return "Input";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

@@ -97,7 +97,9 @@ namespace WorkspaceManager.View.Container
                 newPluginContainerView.ConnectorMouseLeftButtonDown += new EventHandler<ConnectorViewEventArgs>(shape_OnConnectorMouseLeftButtonDown);
                 newPluginContainerView.MouseLeftButtonDown += new MouseButtonEventHandler(shape_MouseLeftButtonDown);
                 newPluginContainerView.MouseLeftButtonUp += new MouseButtonEventHandler(shape_MouseLeftButtonUp);
-                newPluginContainerView.SetPosition(position);
+                newPluginContainerView.SetPosition(new Point((Math.Round((position.X) / Properties.Settings.Default.GridScale)) * Properties.Settings.Default.GridScale,
+                                                            (Math.Round((position.Y) / Properties.Settings.Default.GridScale)) * Properties.Settings.Default.GridScale));
+
                 this.root.Children.Add(newPluginContainerView);
                 Canvas.SetZIndex(newPluginContainerView, 100);
                 Model.WorkspaceManagerEditor.HasChanges = true;

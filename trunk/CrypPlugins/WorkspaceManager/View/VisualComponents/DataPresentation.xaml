@@ -15,21 +15,29 @@
                 <ResourceDictionary Source="../Resource/Animations.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <z:ConnectorToColorConverter x:Key="ColorConverter"></z:ConnectorToColorConverter>
+            <z:InputOutputConverter x:Key="InputOutputConverter"></z:InputOutputConverter>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid Margin="2" >
         <Border CornerRadius="6" BorderBrush="#777777" BorderThickness="1" Background="{StaticResource ResourceKey=DataPresentationLinearBrush}" Padding="3">
             <StackPanel Orientation="Vertical">
                 <Border CornerRadius="6" Background="{StaticResource ResourceKey=DataPresentationNameLinearBrush}" BorderBrush="#cea87c" MouseLeftButtonDown="Border_MouseLeftButtonDown">
-                    <TextBlock FontWeight="Bold" Padding="4" FontSize="13" Foreground="{Binding Path=Model.ConnectorType, Converter={StaticResource ResourceKey=ColorConverter}}" Text="{Binding Path=Model.ConnectorType.Name, FallbackValue=N/A}">
-                        <TextBlock.Effect>
-                            <DropShadowEffect ShadowDepth="0" BlurRadius="3"></DropShadowEffect>
-                        </TextBlock.Effect>
-                    </TextBlock>
+                    <Grid>
+                        <TextBlock FontWeight="Bold" HorizontalAlignment="Left" Padding="4" FontSize="13" Foreground="{Binding Path=Model.ConnectorType, Converter={StaticResource ResourceKey=ColorConverter}}" Text="{Binding Path=Model.ConnectorType.Name, FallbackValue=N/A}">
+                            <TextBlock.Effect>
+                                <DropShadowEffect ShadowDepth="0" BlurRadius="3"></DropShadowEffect>
+                            </TextBlock.Effect>
+                        </TextBlock>
+                        <TextBlock FontWeight="Bold" HorizontalAlignment="Right" Padding="4" FontSize="13" Foreground="WhiteSmoke" Text="{Binding Path=Model.Outgoing, Converter={StaticResource ResourceKey=InputOutputConverter}, FallbackValue=N/A}">
+                            <TextBlock.Effect>
+                                <DropShadowEffect ShadowDepth="0" BlurRadius="3"></DropShadowEffect>
+                            </TextBlock.Effect>
+                        </TextBlock>
+                    </Grid>
                 </Border>
                 <Border x:Name="DataPanel" Height="125" Visibility="Collapsed">
                     <ScrollViewer>
-                        <TextBlock FontSize="14" Name="Data" Text="{Binding Path=Model.Data, FallbackValue=N/A}" TextWrapping="Wrap"></TextBlock>
+                        <TextBlock Foreground="WhiteSmoke" FontSize="14" Name="Data" Text="N/A" TextWrapping="Wrap"></TextBlock>
                     </ScrollViewer>
                 </Border>
             </StackPanel>

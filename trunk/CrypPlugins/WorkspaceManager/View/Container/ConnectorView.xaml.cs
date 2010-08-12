@@ -109,7 +109,7 @@ namespace WorkspaceManager.View.Container
 
         public ConnectorView()
         {
-            this.MouseLeftButtonDown += new MouseButtonEventHandler(ConnectorView_MouseLeftButtonDown);
+            this.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(ConnectorView_MouseLeftButtonDown);
             InitializeComponent();
         }
 
@@ -141,9 +141,9 @@ namespace WorkspaceManager.View.Container
 
         private void setBaseControl(ConnectorModel Model)
         {
-            this.MouseLeftButtonDown += new MouseButtonEventHandler(ConnectorView_MouseLeftButtonDown);
-            this.MouseRightButtonDown += new MouseButtonEventHandler(ConnectorView_MouseRightButtonDown);
-            this.MouseRightButtonUp += new MouseButtonEventHandler(ConnectorView_MouseRightButtonUp);
+            this.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(ConnectorView_MouseLeftButtonDown);
+            this.PreviewMouseRightButtonDown += new MouseButtonEventHandler(ConnectorView_MouseRightButtonDown);
+            this.PreviewMouseRightButtonUp += new MouseButtonEventHandler(ConnectorView_MouseRightButtonUp);
             this.MouseLeave += new MouseEventHandler(ConnectorView_MouseLeave);
             this.Model = Model;
             this.DataContext = Model;

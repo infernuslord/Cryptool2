@@ -39,6 +39,14 @@ namespace WorkspaceManager.View.VisualComponents
             this.DataContext = connector;
         }
 
+        public void update()
+        {
+            if(Connector.Model.HasData)
+                Data.Text = Connector.Model.Data.value.ToString();
+
+            return;
+        }
+
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (DataPanel.Visibility == Visibility.Collapsed)

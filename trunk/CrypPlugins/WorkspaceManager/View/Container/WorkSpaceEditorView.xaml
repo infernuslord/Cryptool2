@@ -29,11 +29,11 @@
                     <ImageBrush ImageSource="/WorkspaceManager;component/View/Image/bg.png" Opacity="0.95" Stretch="UniformToFill"/>
                 </Border.Background>
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                    <Grid Name="root" Background="{StaticResource ResourceKey=GridBrush}" RenderTransformOrigin="0.5, 0.5">
-                        <Grid.LayoutTransform>
+                    <Canvas Name="root" Background="{StaticResource ResourceKey=GridBrush}" RenderTransformOrigin="0.5, 0.5">
+                        <Canvas.LayoutTransform>
                             <ScaleTransform x:Name="Scale" ScaleX="{Binding Source={x:Static p:Settings.Default}, Path=EditScale, Mode=OneWay}" ScaleY="{Binding Source={x:Static p:Settings.Default}, Path=EditScale, Mode=OneWay}"></ScaleTransform>
-                        </Grid.LayoutTransform>
-                    </Grid>
+                        </Canvas.LayoutTransform>
+                    </Canvas>
                 </ScrollViewer>
             </Border>
             <StackPanel Margin="0,0,0,0" Name="MainElementsBorder" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
