@@ -104,10 +104,16 @@
     <Compile Include="View\Container\WorkSpaceEditorView.xaml.cs">
       <DependentUpon>WorkSpaceEditorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Converter\BlurIconConverter.cs" />
     <Compile Include="View\Converter\ConnectorToColorConverter.cs" />
     <Compile Include="View\Converter\ConnectorBindingConverter.cs" />
     <Compile Include="View\Converter\DragDropDataObjectToPluginConverter.cs" />
+    <Compile Include="View\Converter\IconPanelVisibilityConverter.cs" />
+    <Compile Include="View\Converter\InputOutputConverter.cs" />
+    <Compile Include="View\Converter\NotificationLevelConverter.cs" />
+    <Compile Include="View\Converter\OptionTextCaptionConverter.cs" />
     <Compile Include="View\Converter\ScaleToPercentageConverter.cs" />
+    <Compile Include="View\Converter\ViewStateConverter.cs" />
     <Compile Include="View\Interface\IConnectable.cs" />
     <Compile Include="View\Interface\IConnection.cs" />
     <Compile Include="View\Interface\IDraggable.cs" />
@@ -124,6 +130,9 @@
       <DependentUpon>DataPresentation.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\VisualComponents\CryptoLineView\FromTo.cs" />
+    <Compile Include="View\VisualComponents\LogPresentation.xaml.cs">
+      <DependentUpon>LogPresentation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\VisualComponents\Search.xaml.cs">
       <DependentUpon>Search.xaml</DependentUpon>
     </Compile>
@@ -182,6 +191,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\VisualComponents\LogPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\VisualComponents\Search.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -229,6 +242,20 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="View\Image\ct.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Image\data.png" />
+    <Resource Include="View\Image\log.png" />
+    <Resource Include="View\Image\minimize.png" />
+    <Resource Include="View\Image\presentation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Image\left.png" />
+    <Resource Include="View\Image\right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Image\error2.png" />
+    <Resource Include="View\Image\warn.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!--<PropertyGroup>

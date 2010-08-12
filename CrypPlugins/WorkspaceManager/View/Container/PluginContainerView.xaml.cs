@@ -16,9 +16,18 @@ using WorkspaceManager.Model;
 using WorkspaceManager.View.VisualComponents;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media.Animation;
+using WorkspaceManager;
 
 namespace WorkspaceManager.View.Container
 {
+    public enum PluginViewState
+    {   
+        Min,
+        Presentation,
+        Data,
+        Log,
+        Setting
+    };
 
     /// <summary>
     /// Interaction logic for PluginContainerView.xaml
@@ -33,12 +42,40 @@ namespace WorkspaceManager.View.Container
 
         #region Private Variables
 
-        private static double MinHeight;
-        private static double MinWidth;
+        private List<UIElement> optionList = new List<UIElement>();
+        private int optionPointer = 0;
 
         #endregion
 
         #region Properties
+
+        public static readonly DependencyProperty ViewStateProperty = DependencyProperty.Register("ViewState", typeof(PluginViewState), typeof(PluginContainerView), new FrameworkPropertyMetadata(PluginViewState.Min));
+
+
+        public PluginViewState ViewState
+        {
+            get 
+            {
+                return (PluginViewState)base.GetValue(ViewStateProperty);
+            }
+            set
+            {
+                if((PluginViewState)value != PluginViewState.Min)
+                {
+                    BottomDelta.IsEnabled = true;
+                    RightDelta.IsEnabled = true;
+                    BottomRightDelta.IsEnabled = true;
+                }
+                else
+                {
+                    BottomDelta.IsEnabled = false;
+                    RightDelta.IsEnabled = false;
+                    BottomRightDelta.IsEnabled = false;
+                }
+                base.SetValue(ViewStateProperty, value);
+            }
+        }
+
         private Image icon;
         public Image Icon
         {
@@ -50,6 +87,8 @@ namespace WorkspaceManager.View.Container
             {
                 icon = value;
                 icon.Stretch = Stretch.Uniform;
+                icon.Width = 40;
+                icon.Height = 40;
             }
         }
 
@@ -81,22 +120,52 @@ namespace WorkspaceManager.View.Container
         {
             setBaseControl(model);
             InitializeComponent();
+            DataContext = this;
 
-            West.Drop += new DragEventHandler(Connector_Drop);
-            East.Drop += new DragEventHandler(Connector_Drop);
-            North.Drop += new DragEventHandler(Connector_Drop);
-            South.Drop += new DragEventHandler(Connector_Drop);
+            switch (ViewState)
+            {
+                case PluginViewState.Min:
+                    IconPanel.Child = Icon;
+                    break;
+
+                case PluginViewState.Data:
+
+                    break;
+
+                case PluginViewState.Presentation:
+
+                    break;
+
+                case PluginViewState.Setting:
+
+                    break;
+
+                case PluginViewState.Log:
+
+                    break;
+            }
+
+            West.PreviewDrop += new DragEventHandler(Connector_Drop);
+            East.PreviewDrop += new DragEventHandler(Connector_Drop);
+            North.PreviewDrop += new DragEventHandler(Connector_Drop);
+            South.PreviewDrop += new DragEventHandler(Connector_Drop);
+
+            LogPanel.Child = new LogPresentation();
+            PresentationPanel.Child = Model.PluginPresentation;
+            SettingsPanel.Child = null;
 
             foreach (ConnectorModel ConnectorModel in model.InputConnectors)
             {
                 ConnectorView connector = new ConnectorView(ConnectorModel);
                 AddConnectorView(connector);
+                DataPanel.Children.Add(new DataPresentation(connector));
             }
 
             foreach (ConnectorModel ConnectorModel in model.OutputConnectors)
             {
                 ConnectorView connector = new ConnectorView(ConnectorModel);
                 AddConnectorView(connector);
+                DataPanel.Children.Add(new DataPresentation(connector));
             }
         }
 
@@ -203,6 +272,7 @@ namespace WorkspaceManager.View.Container
             this.DataContext = Model;
             this.ConnectorViewList = new List<ConnectorView>();
             this.RenderTransform = new TranslateTransform();
+            this.Icon = this.Model.getImage();
         }
 
         private void SetAllConnectorPositionX()
@@ -285,32 +355,17 @@ namespace WorkspaceManager.View.Container
         void PluginContainerView_Loaded(object sender, RoutedEventArgs e)
         {
             
-            MinHeight = this.PluginBase.MinHeight;
-            MinWidth = this.PluginBase.MinWidth;
             this.BorderGradientStop.Color = ColorHelper.GetColor(this.Model.PluginType);
             this.BorderGradientStopSecond.Color = Color.FromArgb(100, this.BorderGradientStop.Color.R, this.BorderGradientStop.Color.G, this.BorderGradientStop.Color.B);
-            this.Icon = this.Model.getImage();
-            this.Icon.Width = 40;
-            this.Icon.Height = 40;
 
-            if (this.Model.Minimized == true || this.Model.PluginPresentation == null)
-            {
-                this.PresentationPanel.Child = this.Icon;
-                this.Model.Minimized = true;
-            }
-            else
-            {
-                this.PluginBase.MinHeight = model.MinHeight;
-                this.PluginBase.MinWidth = model.MinWidth;
-                this.PluginBase.Width = model.MinWidth;
-                this.PluginBase.Height = model.MinHeight;
-                this.BottomDelta.IsEnabled = true;
-                this.RightDelta.IsEnabled = true;
-                this.BottomRightDelta.IsEnabled = true;
-                this.PresentationPanel.Child = model.PluginPresentation;
-                this.Model.Minimized = false;
-                this.MinMaxImage.Source = new BitmapImage(new Uri("/WorkspaceManager;component/View/Image/Min.png", UriKind.RelativeOrAbsolute));
-            }
+            optionList.Add(Resources["PresentationButton"] as UIElement);
+            optionList.Add(Resources["DataButton"] as UIElement);
+            optionList.Add(Resources["LogButton"] as UIElement);
+            optionList.Add(Resources["MinimizeButton"] as UIElement);
+
+            Options.Child = optionList.ElementAt(optionPointer);
+            OptionCaption.Text = (optionList.ElementAt(optionPointer) as Button).ToolTip as String;
+
             SetAllConnectorPositionX();
             
         }
@@ -348,12 +403,17 @@ namespace WorkspaceManager.View.Container
 
         void PluginContainerView_MouseLeave(object sender, MouseEventArgs e)
         {
+            if(ViewState != PluginViewState.Min)
+                OptionPanel.Visibility = Visibility.Visible;
+            else
+                OptionPanel.Visibility = Visibility.Collapsed;
             (Resources["FadeIn"] as Storyboard).Stop(ControlPanel);
             ControlPanel.BeginStoryboard(Resources["FadeOut"] as Storyboard);
         }
 
         void PluginContainerView_MouseEnter(object sender, MouseEventArgs e)
         {
+            OptionPanel.Visibility = Visibility.Visible;
             (Resources["FadeOut"] as Storyboard).Stop(ControlPanel);
             ControlPanel.BeginStoryboard(Resources["FadeIn"] as Storyboard);
         }
@@ -385,56 +445,12 @@ namespace WorkspaceManager.View.Container
 
         private void MinMaxBorder_MouseLeftButtonDown(object sender, RoutedEventArgs e)
         {
-            if (model.Minimized == false || model.PluginPresentation == null)
-            {
-                PluginBase.MinHeight = MinHeight;
-                PluginBase.MinWidth = MinWidth;
-                PluginBase.Width = MinWidth;
-                PluginBase.Height = MinHeight;
-                BottomDelta.IsEnabled = false;
-                RightDelta.IsEnabled = false;
-                BottomRightDelta.IsEnabled = false;
-                PresentationPanel.Child = this.Icon;
-                model.Minimized = true;
-                MinMaxImage.Source = new BitmapImage(new Uri("/WorkspaceManager;component/View/Image/Max.png", UriKind.RelativeOrAbsolute));
-            }
-            else
-            {
-                PluginBase.MinHeight = model.MinHeight;
-                PluginBase.MinWidth = model.MinWidth;
-                PluginBase.Width = model.MinWidth;
-                PluginBase.Height = model.MinHeight;
-                BottomDelta.IsEnabled = true;
-                RightDelta.IsEnabled = true;
-                BottomRightDelta.IsEnabled = true;
-                PresentationPanel.Child = model.PluginPresentation;                
-                model.Minimized = false;
-                MinMaxImage.Source = new BitmapImage(new Uri("/WorkspaceManager;component/View/Image/Min.png", UriKind.RelativeOrAbsolute));
-            }
-
-            //foreach (ConnectorView connector in connectorViewList)
-            //{
-            //    this.DataPresentationPanel.Children.Add(new DataPresentation(connector));
-            //}
-
             this.SetAllConnectorPositionX();
         }
 
         private void ShowAllButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ShowAllData.Opacity == 0)
-            {
-                ShowAllData.BeginStoryboard(Resources["Appear"] as Storyboard);
-              
-                return;
-            }
 
-            if (ShowAllData.Opacity == 1)
-            {
-                ShowAllData.BeginStoryboard(Resources["Disappear"] as Storyboard);
-                
-                return;
-            }
         }
         #endregion
 
@@ -442,7 +458,23 @@ namespace WorkspaceManager.View.Container
 
         public void update()
         {
-            //Color the view corresponding to warning or error state
+            ProgressBar.Value = Model.PercentageFinished;
+
+            if (ViewState == PluginViewState.Data)
+            {
+                foreach (UIElement element in DataPanel.Children)
+                {
+                    DataPresentation data = element as DataPresentation;
+                    data.update();
+                }
+            }
+
+            if (ViewState == PluginViewState.Log)
+            {
+                LogPresentation log = LogPanel.Child as LogPresentation;
+                log.AddLogList(Model.GuiLogEvents);
+            }
+
             if (model.State == PluginModelState.Warning)
             {
                 this.Window.Background = new SolidColorBrush(Colors.Yellow);
@@ -456,39 +488,89 @@ namespace WorkspaceManager.View.Container
                 //todo: assign old color and appereance
             }
             
-            if (this.Model.Minimized == true)
-            {
-                this.Icon = this.model.getImage();
-                this.Icon.Width = 40;
-                this.Icon.Height = 40;
-                this.PresentationPanel.Child = this.Icon;
-            }
         }
 
         #endregion
 
-
-        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void OptionClickHandler(object sender, RoutedEventArgs e)
         {
-            if (DockBG.Visibility == Visibility.Collapsed)
+            Button button = sender as Button;
+            switch (button.Name)
             {
-                MinWidth += DockBG.ActualWidth;
-                MinHeight += 150;
-                DockBG.Width = 150;
-                DockBG.Visibility = Visibility.Visible;
-                PluginBase.Height += 200;
-                PluginBase.Width += 150;
-            }
-            else if (DockBG.Visibility == Visibility.Visible)
-            {
-                MinWidth -= DockBG.ActualWidth;
-                MinHeight -= DockBG.ActualHeight;
-                DockBG.Width = 0;
-                DockBG.Visibility = Visibility.Collapsed;
-                PluginBase.Height -= 200;
-                PluginBase.Width -= 150;
-            }
+                case "Left":
+                    optionPointer = (optionPointer + 1) % optionList.Count;
+                    Options.Child = optionList.ElementAt(optionPointer);
+                    OptionCaption.Text = (optionList.ElementAt(optionPointer) as Button).ToolTip as String;
+                    break;
 
+                case "Right":
+                    optionPointer = (optionPointer - 1) % optionList.Count;
+
+                    if (optionPointer < 0)
+                    {
+                        optionPointer += optionList.Count;
+                        Options.Child = optionList.ElementAt(optionPointer);
+                        OptionCaption.Text = (optionList.ElementAt(optionPointer) as Button).ToolTip as String;
+                    }
+                    else
+                    {
+                        OptionCaption.Text = (optionList.ElementAt(optionPointer) as Button).ToolTip as String;
+                        Options.Child = optionList.ElementAt(optionPointer);
+                    }
+
+                    break;
+            }
+            e.Handled = true;
+        }
+
+        private void OptionChooseHandler(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            switch (button.Name)
+            {
+                case "PresentationButton":
+                    if (PresentationPanel.Child == null)
+                    {
+                        PluginBase.Width = PluginBase.MinWidth;
+                        PluginBase.Height = PluginBase.MinHeight;
+                        ViewPanel.Visibility = Visibility.Collapsed;
+                        ViewState = PluginViewState.Min;
+                        break;
+                    }
+                    PluginBase.Width = 400;
+                    PluginBase.Height = 300;
+                    ViewPanel.Visibility = Visibility.Visible;
+                    ViewState = PluginViewState.Presentation;
+                    break;
+
+                case "DataButton":
+                    PluginBase.Width = 400;
+                    PluginBase.Height = 300;
+                    ViewPanel.Visibility = Visibility.Visible;
+                    ViewState = PluginViewState.Data;
+                    break;
+                case "LogButton":
+                    PluginBase.Width = 400;
+                    PluginBase.Height = 300;
+                    ViewPanel.Visibility = Visibility.Visible;
+                    ViewState = PluginViewState.Log;
+
+                    break;
+                case "MinimizeButton":
+                    PluginBase.Width = PluginBase.MinWidth;
+                    PluginBase.Height = PluginBase.MinHeight;
+                    ViewPanel.Visibility = Visibility.Collapsed;
+                    ViewState = PluginViewState.Min;
+                    break;
+
+                case "SettingButton":
+                    PluginBase.Width = 400;
+                    PluginBase.Height = 300;
+                    ViewPanel.Visibility = Visibility.Visible;
+                    ViewState = PluginViewState.Setting;
+                    break;
+            }
+            e.Handled = true;
         }
     }
 

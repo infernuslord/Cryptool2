@@ -76,6 +76,42 @@
         </Setter>
     </Style>
 
+    <Style TargetType="{x:Type Button}" x:Key="OptionPluginContainerButtonStyle">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate x:Name="TemplateBtn" TargetType="Button">
+                    <ControlTemplate.Resources>
+                        <Storyboard x:Key="Anim">
+                            <DoubleAnimation To="1.15" Duration="00:00:00.15" Storyboard.TargetName="Scale" Storyboard.TargetProperty="ScaleY" />
+                            <DoubleAnimation To="1.15" Duration="00:00:00.15" Storyboard.TargetName="Scale" Storyboard.TargetProperty="ScaleX" />
+                        </Storyboard>
+                        <Storyboard x:Key="Anim2">
+                            <DoubleAnimation To="1" Duration="00:00:00.15" Storyboard.TargetName="Scale" Storyboard.TargetProperty="ScaleY" />
+                            <DoubleAnimation To="1" Duration="00:00:00.15" Storyboard.TargetName="Scale" Storyboard.TargetProperty="ScaleX" />
+                        </Storyboard>
+
+                    </ControlTemplate.Resources>
+                    <Border x:Name="Border">
+                        <Border.RenderTransform>
+                            <ScaleTransform CenterX="15" CenterY="15" x:Name="Scale"></ScaleTransform>
+                        </Border.RenderTransform>
+                        <ContentPresenter Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" Content="{TemplateBinding Content}"></ContentPresenter>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ButtonBase.IsMouseOver" Value="true">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource ResourceKey=Anim}"></BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard Storyboard="{StaticResource ResourceKey=Anim2}"></BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="{x:Type Button}" x:Key="SettingsPluginContainerButtonStyle">
         <Setter Property="Template">
             <Setter.Value>
@@ -221,4 +257,20 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="ListBoxStyle" TargetType="{x:Type ListBox}">
+        <Setter Property="Margin" Value="5,5,5,0"></Setter>
+        <Setter Property="BorderBrush">
+            <Setter.Value>
+                <SolidColorBrush Color="Transparent"></SolidColorBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="MinWidth" Value="200" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="Background">
+            <Setter.Value>
+                <SolidColorBrush Color="Transparent"></SolidColorBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="WorkspaceManager.View.VisualComponents.LogPresentation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:e="clr-namespace:WorkspaceManager.View.VisualComponents"
+             xmlns:z="clr-namespace:WorkspaceManager.View.Converter"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resource/Styles.xaml"/>
+                <ResourceDictionary Source="../Resource/Animations.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <z:NotificationLevelConverter x:Key="LevelConverter"></z:NotificationLevelConverter>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <ListBox ItemsSource="{Binding}" Style="{StaticResource ListBoxStyle}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <DataTemplate.Resources>
+                        <LinearGradientBrush x:Key="LinearBrush" StartPoint="0,0" EndPoint="0,1">
+                            <GradientBrush.GradientStops>
+                                <GradientStopCollection>
+                                    <GradientStop Color="#bb2f2f2f" Offset="1.0"/>
+                                    <GradientStop Color="#66111111" Offset="0.0"/>
+                                </GradientStopCollection>
+                            </GradientBrush.GradientStops>
+                        </LinearGradientBrush>
+
+                        <SolidColorBrush x:Key="Transparent" Color="Transparent"></SolidColorBrush>
+                    </DataTemplate.Resources>
+                    <StackPanel Orientation="Vertical" Margin="5,5,5,5">
+                        <Grid Height="1" Background="#444444" Opacity="0.5"></Grid>
+                        <DockPanel Name="ItemEntry" HorizontalAlignment="Stretch" LastChildFill="True">
+                            <Grid DockPanel.Dock="Left" VerticalAlignment="Center">
+                                <Image Source="{Binding Path=Level, Converter={StaticResource ResourceKey=LevelConverter}, FallbackValue=!}" Width="35" Height="35"></Image>
+                            </Grid>
+                            <Grid>
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalAlignment="Center">
+                                    <TextBlock LineStackingStrategy="BlockLineHeight"  LineHeight="11.5" FontSize="10" FontFamily="Lucida Sans Unicode" Foreground="WhiteSmoke" Text="{Binding Path=Message}" Width="300" TextWrapping="Wrap"></TextBlock>
+                                </ScrollViewer>
+                            </Grid>
+                        </DockPanel>
+                    </StackPanel>
+
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListBoxItem}},Path=IsSelected}" Value="True">
+                            <Setter TargetName="ItemEntry" Property="Background" Value="{StaticResource ResourceKey=LinearBrush}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListBoxItem}},Path=IsSelected}" Value="False">
+                            <Setter TargetName="ItemEntry" Property="Background" Value="{StaticResource ResourceKey=Transparent}" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>
