@@ -100,7 +100,7 @@ namespace WorkspaceManager.Model
                 pluginModel.Plugin.Initialize();
                 pluginModel.Plugin.OnGuiLogNotificationOccured += workspaceManagerEditor.GuiLogNotificationOccured;
                 pluginModel.Plugin.OnGuiLogNotificationOccured += pluginModel.GuiLogNotificationOccured;
-                pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;
+                pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;                
                 pluginModel.Plugin.OnPluginStatusChanged += pluginModel.PluginStatusChanged;
                 pluginModel.Plugin.Settings.PropertyChanged += pluginModel.SettingsPropertyChanged;
             }
@@ -114,6 +114,7 @@ namespace WorkspaceManager.Model
                     EventInfo eventinfo = connectorModel.PluginModel.PluginType.GetEvent(dynamicPropertyInfoAttribute.UpdateDynamicPropertiesEvent);
                     eventinfo.AddEventHandler(connectorModel.PluginModel.Plugin, new DynamicPropertiesChanged(connectorModel.PropertyTypeChangedOnPlugin));
                 }
+                connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
             }
 
             //restore all IControls

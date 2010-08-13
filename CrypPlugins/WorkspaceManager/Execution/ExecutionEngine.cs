@@ -377,10 +377,7 @@ namespace WorkspaceManager.Execution
             //6. Clear all used inputs
             clearInputs();
 
-            //7. Fill all outputs of our plugin
-            fillOutputs();
-
-            //8. Send start messages to possible executable next plugins
+            //7. Send execute messages to possible executable next plugins
             runNextPlugins();
         }
 
@@ -388,20 +385,7 @@ namespace WorkspaceManager.Execution
         /// Send execute messages to possible executable next plugins
         /// </summary>
         private void runNextPlugins()
-        {
-            foreach (ConnectorModel connectorModel in PluginModel.OutputConnectors)
-            {
-                foreach (ConnectionModel connectionModel in connectorModel.OutputConnections)
-                {
-                    if (mayExecute(connectionModel.To.PluginModel))
-                    {
-                        MessageExecution msg_exce = new MessageExecution();
-                        msg_exce.PluginModel = connectionModel.To.PluginModel;
-                        connectionModel.To.PluginModel.PluginProtocol.BroadcastMessage(msg_exce);
-                    }
-                }
-            }
-
+        {            
             foreach (ConnectorModel connectorModel in PluginModel.InputConnectors)
             {
                 foreach (ConnectionModel connectionModel in connectorModel.InputConnections)
@@ -419,41 +403,7 @@ namespace WorkspaceManager.Execution
                 }
             }
         }
-
-        /// <summary>
-        /// Fill all outputs of the plugin
-        /// </summary>
-        private void fillOutputs()
-        {
-            foreach (ConnectorModel connectorModel in PluginModel.OutputConnectors)
-            {
-                object data;
-
-                if (connectorModel.IsDynamic)
-                {
-                    data = connectorModel.PluginModel.Plugin.GetType().GetMethod(connectorModel.DynamicGetterName).Invoke(connectorModel.PluginModel.Plugin, new object[] { connectorModel.PropertyName });
-                }
-                else
-                {
-                    data = connectorModel.PluginModel.Plugin.GetType().GetProperty(connectorModel.PropertyName).GetValue(connectorModel.PluginModel.Plugin, null);
-                }
-
-                if (data != null)
-                {
-                    foreach (ConnectionModel connectionModel in connectorModel.OutputConnections)
-                    {
-                        Data Data = new Data();
-                        Data.value = data;
-                        connectionModel.To.Data = Data;
-                        connectionModel.To.HasData = true;
-                        connectionModel.Active = true;
-                        connectionModel.GuiNeedsUpdate = true;
-                        connectorModel.Data = Data;
-                    }
-                }
-            }
-        }
-
+      
         /// <summary>
         /// Delete all input data of inputs of the plugin
         /// </summary>
