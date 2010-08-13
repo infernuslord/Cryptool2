@@ -35,6 +35,7 @@ using System.Windows.Threading;
 using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Cryptool.PluginBase.Miscellaneous;
 
 //Disable warnings for unused or unassigned fields and events:
 #pragma warning disable 0169, 0414, 0067
@@ -356,7 +357,7 @@ namespace WorkspaceManager
             {
                 return;
             }
-            
+            EventsHelper.AsynchronousPropertyChanged = false;
             try
             {
                 GuiLogMessage("Execute Model now!", NotificationLevel.Info);
@@ -436,7 +437,7 @@ namespace WorkspaceManager
             {
                 return;
             }
-
+            EventsHelper.AsynchronousPropertyChanged = true;
             try
             {
                 GuiLogMessage("Executing stopped by User!", NotificationLevel.Info);
@@ -474,6 +475,7 @@ namespace WorkspaceManager
             {
                 ExecutionEngine.Stop();
             }
+            EventsHelper.AsynchronousPropertyChanged = true;
         }
 
         #endregion

@@ -171,6 +171,7 @@ namespace WorkspaceManager.Model
                         connectorModel.Name = propertyInfoAttribute.PropertyName;
                         connectorModel.ToolTip = propertyInfoAttribute.ToolTip;
                         connectorModel.IControl = false;
+                        connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
                         InputConnectors.Add(connectorModel);
                         WorkspaceModel.AllConnectorModels.Add(connectorModel);
                     }
@@ -185,6 +186,7 @@ namespace WorkspaceManager.Model
                         connectorModel.Name = propertyInfoAttribute.PropertyName;
                         connectorModel.ToolTip = propertyInfoAttribute.ToolTip;
                         connectorModel.IControl = true;
+                        connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
                         InputConnectors.Add(connectorModel);
                         WorkspaceModel.AllConnectorModels.Add(connectorModel);
                     }
@@ -200,6 +202,7 @@ namespace WorkspaceManager.Model
                         connectorModel.ToolTip = propertyInfoAttribute.ToolTip;
                         connectorModel.Outgoing = true;
                         connectorModel.IControl = false;
+                        connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
                         OutputConnectors.Add(connectorModel);
                         WorkspaceModel.AllConnectorModels.Add(connectorModel);
                     }
@@ -215,6 +218,7 @@ namespace WorkspaceManager.Model
                         connectorModel.ToolTip = propertyInfoAttribute.ToolTip;
                         connectorModel.Outgoing = true;
                         connectorModel.IControl = true;
+                        connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
                         OutputConnectors.Add(connectorModel);
                         WorkspaceModel.AllConnectorModels.Add(connectorModel);
                     }
@@ -237,10 +241,11 @@ namespace WorkspaceManager.Model
                             connectorModel.PropertyName = dynamicProperty.Name;
                             connectorModel.Name = dynamicProperty.Name;
                             connectorModel.ToolTip = dynamicProperty.PInfo.ToolTip;
-                           EventInfo eventinfo = Plugin.GetType().GetEvent(dynamicPropertyInfoAttribute.UpdateDynamicPropertiesEvent);
+                            EventInfo eventinfo = Plugin.GetType().GetEvent(dynamicPropertyInfoAttribute.UpdateDynamicPropertiesEvent);
                             connectorModel.IsDynamic = true;
                             connectorModel.DynamicGetterName = dynamicPropertyInfoAttribute.MethodGetValue;
                             connectorModel.DynamicSetterName = dynamicPropertyInfoAttribute.MethodSetValue;
+                            connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
                             eventinfo.AddEventHandler(Plugin, new DynamicPropertiesChanged(connectorModel.PropertyTypeChangedOnPlugin));
                             InputConnectors.Add(connectorModel);
                             WorkspaceModel.AllConnectorModels.Add(connectorModel);
@@ -260,6 +265,7 @@ namespace WorkspaceManager.Model
                             connectorModel.IsDynamic = true;
                             connectorModel.DynamicGetterName = dynamicPropertyInfoAttribute.MethodGetValue;
                             connectorModel.DynamicSetterName = dynamicPropertyInfoAttribute.MethodSetValue;
+                            connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
                             connectorModel.Outgoing = true;
                             OutputConnectors.Add(connectorModel);
                             WorkspaceModel.AllConnectorModels.Add(connectorModel);
