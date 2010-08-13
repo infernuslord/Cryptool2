@@ -25,6 +25,34 @@ namespace Cryptool.PluginBase.Miscellaneous
 {
   public class EventsHelper
   {
+    
+    private static bool asynchronousPropertyChanged = true;
+    public static bool AsynchronousPropertyChanged {
+        get { return asynchronousPropertyChanged; }
+        set { asynchronousPropertyChanged = value; }
+    }
+
+    private static bool asynchronousGuiLogMessage = true;
+    public static bool AsynchronousGuiLogMessage
+    {
+        get { return asynchronousGuiLogMessage; }
+        set { asynchronousGuiLogMessage = value; }
+    }
+
+    private static bool asynchronousProgressChanged = true;
+    public static bool AsynchronousProgressChanged
+    {
+        get { return asynchronousProgressChanged; }
+        set { asynchronousProgressChanged = value; }
+    }
+
+    private static bool asynchronousStatusChanged = true;
+    public static bool AsynchronousStatusChanged
+    {
+        get { return asynchronousStatusChanged; }
+        set { asynchronousStatusChanged = value; }
+    }
+
     [MethodImpl(MethodImplOptions.NoInlining)]
     public static void GuiLogMessage(GuiLogNotificationEventHandler del, IPlugin plugin, string message)
     {
@@ -44,14 +72,25 @@ namespace Cryptool.PluginBase.Miscellaneous
       {
         return;
       }
-      Delegate[] delegates = del.GetInvocationList();      
-      AsyncCallback cleanUp = delegate(IAsyncResult asyncResult)
+      Delegate[] delegates = del.GetInvocationList();
+      if (AsynchronousGuiLogMessage)
+      {          
+          AsyncCallback cleanUp = delegate(IAsyncResult asyncResult)
+          {
+              asyncResult.AsyncWaitHandle.Close();
+          };
+          foreach (GuiLogNotificationEventHandler sink in delegates)
+          {
+              sink.BeginInvoke(plugin, args, cleanUp, null);
+          }
+      }
+      else
       {
-        asyncResult.AsyncWaitHandle.Close();
-      };
-      foreach (GuiLogNotificationEventHandler sink in delegates)
-      {
-        sink.BeginInvoke(plugin, args, cleanUp, null);        
+          
+          foreach (GuiLogNotificationEventHandler sink in delegates)
+          {
+              sink.Invoke(plugin, args);
+          }
       }
     }
 
@@ -63,13 +102,23 @@ namespace Cryptool.PluginBase.Miscellaneous
         return;
       }
       Delegate[] delegates = del.GetInvocationList();
-      AsyncCallback cleanUp = delegate(IAsyncResult asyncResult)
-      {
-        asyncResult.AsyncWaitHandle.Close();
-      };
-      foreach (PropertyChangedEventHandler sink in delegates)
-      {
-        sink.BeginInvoke(sender, args, cleanUp, null);
+      if (AsynchronousPropertyChanged)
+      {         
+          AsyncCallback cleanUp = delegate(IAsyncResult asyncResult)
+          {
+              asyncResult.AsyncWaitHandle.Close();
+          };
+          foreach (PropertyChangedEventHandler sink in delegates)
+          {
+              sink.BeginInvoke(sender, args, cleanUp, null);
+          }
+      }
+      else
+      {          
+          foreach (PropertyChangedEventHandler sink in delegates)
+          {
+              sink.Invoke(sender, args);
+          }
       }
     }
 
@@ -81,13 +130,23 @@ namespace Cryptool.PluginBase.Miscellaneous
         return;
       }
       Delegate[] delegates = del.GetInvocationList();
-      AsyncCallback cleanUp = delegate(IAsyncResult asyncResult)
+      if (AsynchronousProgressChanged)
       {
-        asyncResult.AsyncWaitHandle.Close();
-      };
-      foreach (PluginProgressChangedEventHandler sink in delegates)
+            AsyncCallback cleanUp = delegate(IAsyncResult asyncResult)
+            {
+                asyncResult.AsyncWaitHandle.Close();
+            };
+            foreach (PluginProgressChangedEventHandler sink in delegates)
+            {
+                sink.BeginInvoke(plugin, args, cleanUp, null);
+            }
+      }
+      else
       {
-        sink.BeginInvoke(plugin, args, cleanUp, null);
+          foreach (PluginProgressChangedEventHandler sink in delegates)
+          {
+              sink.Invoke(plugin, args);
+          }
       }
     }
 
@@ -99,13 +158,23 @@ namespace Cryptool.PluginBase.Miscellaneous
         return;
       }
       Delegate[] delegates = del.GetInvocationList();
-      AsyncCallback cleanUp = delegate(IAsyncResult asyncResult)
+      if (AsynchronousStatusChanged)
       {
-        asyncResult.AsyncWaitHandle.Close();
-      };
-      foreach (StatusChangedEventHandler sink in delegates)
+          AsyncCallback cleanUp = delegate(IAsyncResult asyncResult)
+          {
+              asyncResult.AsyncWaitHandle.Close();
+          };
+          foreach (StatusChangedEventHandler sink in delegates)
+          {
+              sink.BeginInvoke(plugin, args, cleanUp, null);
+          }
+      }
+      else
       {
-        sink.BeginInvoke(plugin, args, cleanUp, null);
+          foreach (StatusChangedEventHandler sink in delegates)
+          {
+              sink.Invoke(plugin, args);
+          }
       }
     }
 
