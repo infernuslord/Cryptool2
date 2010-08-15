@@ -16,6 +16,7 @@
             <z:IconPanelVisibilityConverter x:Key="VisibilityConverter"></z:IconPanelVisibilityConverter>
             <z:BlurIconConverter x:Key="BlurValueConverter"></z:BlurIconConverter>
             <z:ViewStateConverter x:Key="ViewStateConverter"></z:ViewStateConverter>
+            <z:OverlapConverter x:Key="OverlapConverter"></z:OverlapConverter>
 
             <Button x:Key="SettingButton" Name="SettingButton" ToolTip="Settings" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" Height="30" Width="30" Click="OptionChooseHandler">
                 <Image Source="/WorkspaceManager;component/View/Image/showall.png" HorizontalAlignment="Center" SnapsToDevicePixels="True">
@@ -174,12 +175,12 @@
                                         </Grid>
                                         
                                         <Grid Name="ViewPanel" Width="Auto" Height="Auto" Grid.Row="1" Visibility="Collapsed" Margin="5,0,5,5">
-                                            <Border x:Name="SettingsPanel" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=SettingsPanel}"></Border>
-                                            <Border x:Name="PresentationPanel" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=PresentationPanel}"></Border>
-                                            <Border x:Name="LogPanel" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=LogPanel}">
+                                            <Border x:Name="SettingsPanel" Panel.ZIndex="{Binding Path=ViewState, Converter={StaticResource ResourceKey=OverlapConverter}, ConverterParameter=SettingsPanel}" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=SettingsPanel}"></Border>
+                                            <Border x:Name="PresentationPanel" Panel.ZIndex="{Binding Path=ViewState, Converter={StaticResource ResourceKey=OverlapConverter}, ConverterParameter=PresentationPanel}" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=PresentationPanel}"></Border>
+                                            <Border x:Name="LogPanel" Panel.ZIndex="{Binding Path=ViewState, Converter={StaticResource ResourceKey=OverlapConverter}, ConverterParameter=LogPanel}" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=LogPanel}">
                                                 <e:LogPresentation></e:LogPresentation>
                                             </Border>
-                                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                            <ScrollViewer Panel.ZIndex="{Binding Path=ViewState, Converter={StaticResource ResourceKey=OverlapConverter}, ConverterParameter=DataPanel}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                                                 <StackPanel Orientation="Vertical" x:Name="DataPanel" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=DataPanel}"></StackPanel>
                                             </ScrollViewer>
                                         </Grid>
