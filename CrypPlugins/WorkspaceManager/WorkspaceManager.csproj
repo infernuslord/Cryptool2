@@ -260,6 +260,9 @@
     <Resource Include="View\Image\error2.png" />
     <Resource Include="View\Image\warn.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Image\play.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!--<PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)\..\AppReferences\"</PostBuildEvent>
