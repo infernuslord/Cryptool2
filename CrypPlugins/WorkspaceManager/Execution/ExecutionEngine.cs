@@ -107,15 +107,32 @@ namespace WorkspaceManager.Execution
                 //By using round-robin we give each protocol to another scheduler to gain
                 //a good average load balancing of the schedulers
                 //we also initalize each plugin
+                //It is possible that a plugin is also a PluginProtocol 
+                //if that is true we do not create a new one but use the plugin instead the created one
                 int counter=0;
                 foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
                 {
-                    pluginModel.Plugin.PreExecution();
-                    PluginProtocol pluginProtocol = new PluginProtocol(schedulers[counter], pluginModel,this);
+                    PluginProtocol pluginProtocol = null;
+
+                    if (pluginModel.Plugin is PluginProtocol)
+                    {
+                        pluginProtocol = (PluginProtocol)pluginModel.Plugin;
+                        pluginProtocol.setExecutionEngineSettings(schedulers[counter], pluginModel, this);
+                    }
+                    else
+                    {
+                        pluginProtocol = new PluginProtocol(schedulers[counter], pluginModel, this);
+                    }
+
+                    pluginModel.Plugin.PreExecution();                    
                     pluginModel.PluginProtocol = pluginProtocol;
                     schedulers[counter].AddProtocol(pluginProtocol);
-                   
-                    pluginProtocol.Start();
+
+                    if (pluginProtocol.Status == ProtocolStatus.Created || pluginProtocol.Status == ProtocolStatus.Terminated)
+                    {
+                        pluginProtocol.Start();
+                    }
+
                     counter = (counter + 1) % (amountSchedulers);
 
                     if (pluginModel.Startable)
@@ -144,7 +161,7 @@ namespace WorkspaceManager.Execution
             {
                 pluginModel.Plugin.Stop();
                 pluginModel.Plugin.PostExecution();
-            }           
+            }            
 
             IsRunning = false;
             //Secondly stop all Gears4Net Schedulers
@@ -319,6 +336,20 @@ namespace WorkspaceManager.Execution
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="scheduler"></param>
+        /// <param name="pluginModel"></param>
+        /// <param name="executionEngine"></param>
+        public void setExecutionEngineSettings(Scheduler scheduler, PluginModel pluginModel, ExecutionEngine executionEngine)
+        {
+            this.Scheduler = scheduler;
+            this.PluginModel = pluginModel;
+            this.executionEngine = executionEngine;
+        }
+
+
+        /// <summary>
         /// The main function of the protocol     
         /// </summary>
         /// <param name="stateMachine"></param>
@@ -384,7 +415,7 @@ namespace WorkspaceManager.Execution
         /// <summary>
         /// Send execute messages to possible executable next plugins
         /// </summary>
-        private void runNextPlugins()
+        public void runNextPlugins()
         {            
             foreach (ConnectorModel connectorModel in PluginModel.InputConnectors)
             {
@@ -407,7 +438,7 @@ namespace WorkspaceManager.Execution
         /// <summary>
         /// Delete all input data of inputs of the plugin
         /// </summary>
-        private void clearInputs()
+        public void clearInputs()
         {
             foreach (ConnectorModel connectorModel in PluginModel.InputConnectors)
             {
@@ -428,7 +459,7 @@ namespace WorkspaceManager.Execution
         /// Fill all inputs of the plugin
         /// </summary>
         /// <returns></returns>
-        private bool fillInputs()
+        public bool fillInputs()
         {
             //Fill the plugins inputs with data
             foreach (ConnectorModel connectorModel in PluginModel.InputConnectors)
@@ -458,6 +489,15 @@ namespace WorkspaceManager.Execution
                 }
             }
             return true;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public bool mayExecute()
+        {
+            return mayExecute(this.PluginModel);
         }
 
         /// <summary>
@@ -498,6 +538,14 @@ namespace WorkspaceManager.Execution
                 }
             }
             return true;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public ExecutionEngine ExecutionEngine
+        {
+            get { return this.executionEngine; }            
         }
     }
 
