@@ -398,7 +398,20 @@ namespace WorkspaceManager.View.Container
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.delete();
+            Button bttn = sender as Button;
+            if (bttn.Name == "play")
+            {
+                if (model.RepeatStart)
+                    model.RepeatStart = false;
+                else
+                    model.RepeatStart = true;
+                return;
+            }
+            if (bttn.Name == "del")
+            {
+                this.delete();
+                return;
+            }
         }
 
         void PluginContainerView_MouseLeave(object sender, MouseEventArgs e)
