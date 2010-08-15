@@ -102,7 +102,10 @@ namespace WorkspaceManager.Model
                 pluginModel.Plugin.OnGuiLogNotificationOccured += pluginModel.GuiLogNotificationOccured;
                 pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;                
                 pluginModel.Plugin.OnPluginStatusChanged += pluginModel.PluginStatusChanged;
-                pluginModel.Plugin.Settings.PropertyChanged += pluginModel.SettingsPropertyChanged;
+                if (pluginModel.Plugin.Settings != null)
+                {
+                    pluginModel.Plugin.Settings.PropertyChanged += pluginModel.SettingsPropertyChanged;
+                }
             }
                 
             //connect all listeners for connectors
@@ -165,34 +168,37 @@ namespace WorkspaceManager.Model
             persistantModel.WorkspaceModel = workspaceModel;
 
             //Save all Settings of each Plugin
-            foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
-            {
-                PropertyInfo[] arrpInfo = pluginModel.Plugin.Settings.GetType().GetProperties();
+            foreach (PluginModel pluginModel in workspaceModel.AllPluginModels){
 
-                PersistantPlugin persistantPlugin = new PersistantPlugin();
-                persistantPlugin.PluginModel = pluginModel;
-
-                foreach (PropertyInfo pInfo in arrpInfo)
+                if (pluginModel.Plugin.Settings != null)
                 {
-                    DontSaveAttribute[] dontSave = (DontSaveAttribute[])pInfo.GetCustomAttributes(typeof(DontSaveAttribute), false);
-                    if (pInfo.CanWrite && dontSave.Length == 0)
-                    {
-                        PersistantSetting persistantSetting = new PersistantSetting();
-                        if (pInfo.PropertyType.IsEnum)
-                        {
-                            persistantSetting.Value = "" + pInfo.GetValue(pluginModel.Plugin.Settings, null).GetHashCode();                            
-                        }
-                        else
-                        {
-                            persistantSetting.Value = "" + pInfo.GetValue(pluginModel.Plugin.Settings, null);
-                        }
-                        persistantSetting.Name = pInfo.Name;
-                        persistantSetting.Type = pInfo.PropertyType.FullName;
-                        persistantPlugin.PersistantSettingsList.Add(persistantSetting);
-                    }
+                    PropertyInfo[] arrpInfo = pluginModel.Plugin.Settings.GetType().GetProperties();
 
+                    PersistantPlugin persistantPlugin = new PersistantPlugin();
+                    persistantPlugin.PluginModel = pluginModel;
+
+                    foreach (PropertyInfo pInfo in arrpInfo)
+                    {
+                        DontSaveAttribute[] dontSave = (DontSaveAttribute[])pInfo.GetCustomAttributes(typeof(DontSaveAttribute), false);
+                        if (pInfo.CanWrite && dontSave.Length == 0)
+                        {
+                            PersistantSetting persistantSetting = new PersistantSetting();
+                            if (pInfo.PropertyType.IsEnum)
+                            {
+                                persistantSetting.Value = "" + pInfo.GetValue(pluginModel.Plugin.Settings, null).GetHashCode();
+                            }
+                            else
+                            {
+                                persistantSetting.Value = "" + pInfo.GetValue(pluginModel.Plugin.Settings, null);
+                            }
+                            persistantSetting.Name = pInfo.Name;
+                            persistantSetting.Type = pInfo.PropertyType.FullName;
+                            persistantPlugin.PersistantSettingsList.Add(persistantSetting);
+                        }
+
+                    }
+                    persistantModel.PersistantPluginList.Add(persistantPlugin);
                 }
-                persistantModel.PersistantPluginList.Add(persistantPlugin);
             }
             XMLSerialization.XMLSerialization.Serialize(persistantModel, filename,true);
         }
