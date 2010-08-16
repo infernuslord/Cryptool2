@@ -176,15 +176,19 @@ void msieve_run(msieve_obj *obj) {
 	if (mp_is_zero(&n) || mp_is_one(&n)) {
 		add_next_factor(obj, &n, MSIEVE_PRIME);
 		obj->flags |= MSIEVE_FLAG_FACTORIZATION_DONE;
+		put_trivial_factorlist(&factor_list, obj);
 		return;
 	}
 
 	/* perform trial division */
 
 	factor_list_init(&factor_list);
-	trial_factor(obj, &n, &reduced_n, &factor_list);
+	trial_factor(obj, &n, &reduced_n, &factor_list);	
 	if (mp_is_one(&reduced_n))
+	{
+		put_trivial_factorlist(&factor_list, obj);
 		goto clean_up;
+	}
 
 	/* save the remaining cofactor of n; if composite,
 	   run Pollard Rho unconditionally */
