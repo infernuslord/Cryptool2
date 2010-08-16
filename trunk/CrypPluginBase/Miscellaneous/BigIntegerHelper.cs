@@ -206,6 +206,11 @@ namespace Cryptool.PluginBase.Miscellaneous
 
         public static BigInteger ModInverse(BigInteger input, BigInteger modulus)
         {
+            if (input == 1)
+                return 1;
+            if (input == 0)
+                throw (new ArithmeticException("No inverse!"));
+
             BigInteger[] p = { 0, 1 };
             BigInteger[] q = new BigInteger[2];    // quotients
             BigInteger[] r = { 0, 0 };             // remainders
