@@ -136,6 +136,7 @@
     <Compile Include="Attributes\PropertyInfoAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Miscellaneous\Msieve.cs" />
     <Compile Include="Miscellaneous\SuperTooltip.cs" />
     <Compile Include="Miscellaneous\Tokenizer.cs" />
     <Compile Include="PluginExtension.cs" />
