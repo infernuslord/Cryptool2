@@ -105,7 +105,7 @@ namespace Cryptool.Plugins.BigNumber
             //The input from the taskpane is convertet to a BigNumber and is send to the output.
             try
             {
-                bi = BigIntegerHelper.parseExpression(settings.Number);                
+                bi = BigIntegerHelper.ParseExpression(settings.Number);                
             }
             catch (Exception ex)
             {

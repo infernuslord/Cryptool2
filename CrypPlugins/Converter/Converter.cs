@@ -270,7 +270,7 @@ namespace Cryptool.Plugins.Converter
                             try // can be read as biginteger?
                             {
 
-                                BigInteger temp = BigIntegerHelper.parseExpression(inpString);
+                                BigInteger temp = BigIntegerHelper.ParseExpression(inpString);
 
                                 Output = temp;
                                 ProgressChanged(100, 100);

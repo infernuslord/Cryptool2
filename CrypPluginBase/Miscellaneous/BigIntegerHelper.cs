@@ -38,7 +38,7 @@ namespace Cryptool.PluginBase.Miscellaneous
             public BigInteger integer;
         }
 
-        private static Stack<TOKEN> scan(string expr)
+        private static Stack<TOKEN> Scan(string expr)
         {
             TOKEN t = new TOKEN();
             int startIndex = 0;
@@ -47,7 +47,7 @@ namespace Cryptool.PluginBase.Miscellaneous
             switch (expr[0])
             {
                 case ' ':
-                    return scan(expr.Substring(1));
+                    return Scan(expr.Substring(1));
                 case '(':
                     t.ttype = TOKEN.Ttype.BRACKETOPEN;
                     startIndex = 1;
@@ -97,14 +97,14 @@ namespace Cryptool.PluginBase.Miscellaneous
                 default:
                     throw new Exception("Expression parsing failed at character " + expr[0]);
             }
-            Stack<TOKEN> st = scan(expr.Substring(startIndex));
+            Stack<TOKEN> st = Scan(expr.Substring(startIndex));
             st.Push(t);
             return st;
         }
 
         private enum Priority { ALL, POW, MULTDIV, ADDSUB };
 
-        private static BigInteger parse(Stack<TOKEN> stack, Priority priority, bool endbracket)
+        private static BigInteger Parse(Stack<TOKEN> stack, Priority priority, bool endbracket)
         {
             if (stack.Count == 0)
                 throw new Exception("Expression Parsing Error.");
@@ -129,7 +129,7 @@ namespace Cryptool.PluginBase.Miscellaneous
             }
             else if (t.ttype == TOKEN.Ttype.BRACKETOPEN)
             {
-                v = minus * parse(stack, Priority.ALL, true);
+                v = minus * Parse(stack, Priority.ALL, true);
                 stack.Pop();    //pop the closing bracket
             }
 
@@ -141,29 +141,29 @@ namespace Cryptool.PluginBase.Miscellaneous
                         if (priority == Priority.MULTDIV || priority == Priority.POW)
                             return v;
                         stack.Pop();
-                        v = v + parse(stack, Priority.ADDSUB, endbracket);
+                        v = v + Parse(stack, Priority.ADDSUB, endbracket);
                         break;
                     case TOKEN.Ttype.MINUS:
                         if (priority == Priority.MULTDIV || priority == Priority.POW)
                             return v;
                         stack.Pop();
-                        v = v - parse(stack, Priority.ADDSUB, endbracket);
+                        v = v - Parse(stack, Priority.ADDSUB, endbracket);
                         break;
                     case TOKEN.Ttype.MULTIPLY:
                         if (priority == Priority.POW)
                             return v;
                         stack.Pop();
-                        v = v * parse(stack, Priority.MULTDIV, endbracket);
+                        v = v * Parse(stack, Priority.MULTDIV, endbracket);
                         break;
                     case TOKEN.Ttype.DIVIDE:
                         if (priority == Priority.POW)
                             return v;
                         stack.Pop();
-                        v = v / parse(stack, Priority.MULTDIV, endbracket);
+                        v = v / Parse(stack, Priority.MULTDIV, endbracket);
                         break;
                     case TOKEN.Ttype.POW:
                         stack.Pop();
-                        v = BigInteger.Pow(v, (int)parse(stack, Priority.POW, endbracket));
+                        v = BigInteger.Pow(v, (int)Parse(stack, Priority.POW, endbracket));
                         break;
                     case TOKEN.Ttype.BRACKETCLOSE:
                         if (endbracket)
@@ -188,10 +188,10 @@ namespace Cryptool.PluginBase.Miscellaneous
          * 
          * throws an exception when expression is not valid or the Number gets too big
          */
-        public static BigInteger parseExpression(string expr)
+        public static BigInteger ParseExpression(string expr)
         {
-            Stack<TOKEN> stack = scan(expr);
-            BigInteger i = parse(stack, Priority.ALL, false);
+            Stack<TOKEN> stack = Scan(expr);
+            BigInteger i = Parse(stack, Priority.ALL, false);
             return i;
         }
 
@@ -258,7 +258,7 @@ namespace Cryptool.PluginBase.Miscellaneous
         #region primesBelow2000
         // primes smaller than 2000 to test the generated prime number (taken from BigInteger class written by Chew Keong TAN)
 
-        public static readonly int[] primesBelow2000 = {
+        private static readonly int[] primesBelow2000 = {
             2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97,
             101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199,
 	    211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293,
@@ -285,7 +285,7 @@ namespace Cryptool.PluginBase.Miscellaneous
         /*
          * This code is heavily inspired by the code from the BigInteger class written by Chew Keong TAN
          */
-        public static bool isProbablePrime(BigInteger thisVal)
+        public static bool IsProbablePrime(BigInteger thisVal)
         {
             thisVal = BigInteger.Abs(thisVal);
 

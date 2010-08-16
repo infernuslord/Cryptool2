@@ -170,16 +170,16 @@ namespace Cryptool.Plugins.RSA
                 case 0:
                     try
                     {
-                        p = BigIntegerHelper.parseExpression(settings.P);
-                        q = BigIntegerHelper.parseExpression(settings.Q);
-                        e = BigIntegerHelper.parseExpression(settings.E);
+                        p = BigIntegerHelper.ParseExpression(settings.P);
+                        q = BigIntegerHelper.ParseExpression(settings.Q);
+                        e = BigIntegerHelper.ParseExpression(settings.E);
 
-                        if (!BigIntegerHelper.isProbablePrime(p))
+                        if (!BigIntegerHelper.IsProbablePrime(p))
                         {
                             GuiLogMessage(p.ToString() + " is not prime!", NotificationLevel.Error);
                             return;
                         }
-                        if (!BigIntegerHelper.isProbablePrime(q))
+                        if (!BigIntegerHelper.IsProbablePrime(q))
                         {
                             GuiLogMessage(q.ToString() + " is not prime!", NotificationLevel.Error);
                             return;
@@ -220,9 +220,9 @@ namespace Cryptool.Plugins.RSA
                 case 1:
                     try
                     {
-                        n = BigIntegerHelper.parseExpression(settings.N);
-                        d = BigIntegerHelper.parseExpression(settings.D);
-                        e = BigIntegerHelper.parseExpression(settings.E);
+                        n = BigIntegerHelper.ParseExpression(settings.N);
+                        d = BigIntegerHelper.ParseExpression(settings.D);
+                        e = BigIntegerHelper.ParseExpression(settings.E);
                     }
                     catch (Exception ex)
                     {
