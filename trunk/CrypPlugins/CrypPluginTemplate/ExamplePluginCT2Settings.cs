@@ -22,6 +22,7 @@ using System.ComponentModel;
 
 namespace Cryptool.Plugins.ExamplePluginCT2
 {
+    // HOWTO: rename class (click name, press F2)
     public class ExamplePluginCT2Settings : ISettings
     {
         #region Private Variables
