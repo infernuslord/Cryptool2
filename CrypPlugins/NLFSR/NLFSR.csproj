@@ -125,6 +125,7 @@
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\MathParser\MathParser.csproj">
       <Project>{0AE1DE18-FDAA-489A-B658-80F0837E3587}</Project>
