@@ -478,9 +478,12 @@ namespace Cryptool.Plugins.QuadraticSieve
         public void StopLoadStoreThread()
         {
             stopLoadStoreThread = true;
-            loadStoreThread.Interrupt();
-            loadStoreThread.Join();
-            loadStoreThread = null;
+            if (loadStoreThread != null)
+            {
+                loadStoreThread.Interrupt();
+                loadStoreThread.Join();
+                loadStoreThread = null;
+            }
         }
 
         /// <summary>

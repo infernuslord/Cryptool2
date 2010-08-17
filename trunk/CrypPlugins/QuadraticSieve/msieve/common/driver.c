@@ -241,7 +241,7 @@ void msieve_run(msieve_obj *obj) {
 	//		break;
 	//}
 
-clean_up:
+clean_up:	
 	factor_list_free(&n, &factor_list, obj);
 	if (!(obj->flags & MSIEVE_FLAG_STOP_SIEVING))
 		obj->flags |= MSIEVE_FLAG_FACTORIZATION_DONE;
