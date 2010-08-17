@@ -121,6 +121,12 @@ namespace Cryptool.PluginBase.Miscellaneous
 
         private static void AddToFactorlist(BigInteger factor, bool prime)
         {
+            //Check if factor already in factorlist:
+            foreach (Factor f in factorlist)
+                if (f.factor == factor)
+                    return;
+
+            //Add to factorlist:
             int count = 0;
             while (currentNumber % factor == 0)
             {
