@@ -73,7 +73,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         private static Type msieve = null;
         private static bool alreadyInUse = false;
         private static Mutex alreadyInUseMutex = new Mutex();
-        private AutoResetEvent waitForConnection = new AutoResetEvent(false);        
+        private AutoResetEvent waitForConnection = new AutoResetEvent(false);
 
         #endregion
 
@@ -158,7 +158,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         {
             if (checkInUse())
                 return;
-
+            
             try
             {
                 usePeer2Peer = settings.UsePeer2Peer;
@@ -346,15 +346,14 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// Called by the environment to stop execution
         /// </summary>
         public void Stop()
-        {
-            this.userStopped = true;
+        {            
             if (obj != IntPtr.Zero)
             {
                 stopThreads();
                 MethodInfo stop = msieve.GetMethod("stop");
                 stop.Invoke(null, new object[] { obj });
             }
-
+            this.userStopped = true;
         }
 
         /// <summary>
@@ -670,6 +669,9 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// </summary>
         private void putTrivialFactorlist(IntPtr list, IntPtr obj)
         {
+            if (userStopped)
+                return;
+
             //add the trivial factors to the factor list:
             factorManager.AddFactors(list);
 
@@ -794,10 +796,11 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// </summary>
         private void stopThreads()
         {
+            if (settings.UsePeer2Peer)
+                peerToPeer.StopLoadStoreThread();
+
             if (conf_list != null)
             {
-                running = false;                
-
                 MethodInfo stop = msieve.GetMethod("stop");
                 MethodInfo getObjFromConf = msieve.GetMethod("getObjFromConf");
 
@@ -805,12 +808,11 @@ namespace Cryptool.Plugins.QuadraticSieve
                 foreach (Object conf in conf_list)
                     if (conf != null)
                         stop.Invoke(null, new object[] { getObjFromConf.Invoke(null, new object[] { (IntPtr)conf }) });
+                
+                running = false;
 
                 conf_list = null;
                 conf_listMutex.ReleaseMutex();
-
-                if (settings.UsePeer2Peer)
-                    peerToPeer.StopLoadStoreThread();
 
                 GuiLogMessage("Waiting for threads to stop!", NotificationLevel.Debug);
                 while (threadcount > 0)

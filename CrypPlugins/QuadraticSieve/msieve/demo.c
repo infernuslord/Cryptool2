@@ -177,6 +177,8 @@ msieve_factor* factor_integer(char *buf, uint32 flags,
 	if (!(g_curr_factorization->flags & MSIEVE_FLAG_FACTORIZATION_DONE)) {
 		printf("\ncurrent factorization was interrupted\n");
 		//exit(0);
+		if (g_curr_factorization)
+			msieve_obj_free(g_curr_factorization);
 		return 0;
 	}
 
@@ -214,17 +216,19 @@ msieve_factor* factor_integer(char *buf, uint32 flags,
 	*seed1 = g_curr_factorization->seed1;
 	*seed2 = g_curr_factorization->seed2;
 
+	/*factor = g_curr_factorization->factors;
+	g_curr_factorization->factors = NULL;*/
+
 	/* free the current factorization struct. The following
 	   avoids a race condition in the signal handler */
 
-	/* No, we don't ;)  */
-
-	/*obj = g_curr_factorization;
+	obj = g_curr_factorization;
 	g_curr_factorization = NULL;
-	if (obj)
-		msieve_obj_free(obj);*/
 
-	return g_curr_factorization->factors;
+	if (obj)
+		msieve_obj_free(obj);
+
+	return 0;
 }
 
 #ifdef WIN32
