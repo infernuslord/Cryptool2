@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Numerics;
 
 namespace DiscreteLogarithm
 {    
     class NotInvertibleException : Exception
     {
-        public int NotInvertibleNumber
+        public BigInteger NotInvertibleNumber
         {
             get;
             private set;
         }
 
-        public NotInvertibleException(int notInvertible)
+        public NotInvertibleException(BigInteger notInvertible)
         {
             NotInvertibleNumber = notInvertible;
         }

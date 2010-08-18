@@ -24,6 +24,8 @@ namespace DiscreteLogarithm
         public void AddEquation(BigInteger[] coefficients, BigInteger b)
         {
             Debug.Assert(coefficients.Length == size);
+            if (!MoreEquations())
+                return;
 
             BigInteger[] row = new BigInteger[coefficients.Length + 1];
             for (int c = 0; c < coefficients.Length; c++)
@@ -61,24 +63,24 @@ namespace DiscreteLogarithm
             FiniteFieldGauss gauss = new FiniteFieldGauss();
             HenselLifting hensel = new HenselLifting();
 
-            List<Msieve.Factor> modfactors = Msieve.TrivialFactorization(mod);
-            List<BigInteger[]> results;
+            List<Msieve.Factor> modfactors = Msieve.TrivialFactorization(mod);            
+            List<KeyValuePair<BigInteger[], Msieve.Factor>> results;   //Stores the partial solutions together with their factors
 
             bool tryAgain;
 
             do
             {
-                results = new List<BigInteger[]>();
+                results = new List<KeyValuePair<BigInteger[],Msieve.Factor>>();
                 tryAgain = false;
 
                 for (int i = 0; i < modfactors.Count; i++)
                 {
                     if (modfactors[i].prime)    //mod prime
                     {
-                        if (modfactors[i].count == 1)
-                            results.Add(gauss.Solve(MatrixCopy(), modfactors[i].factor));
+                        if (modfactors[i].count == 1)                            
+                            results.Add(new KeyValuePair<BigInteger[],Msieve.Factor>(gauss.Solve(MatrixCopy(), modfactors[i].factor), modfactors[i]));
                         else
-                            results.Add(hensel.Solve(MatrixCopy(), modfactors[i].factor, modfactors[i].count));
+                            results.Add(new KeyValuePair<BigInteger[],Msieve.Factor>(hensel.Solve(MatrixCopy(), modfactors[i].factor, modfactors[i].count), modfactors[i]));
                     }
                     else    //mod composite
                     {
@@ -86,7 +88,7 @@ namespace DiscreteLogarithm
                         try
                         {
                             BigInteger[] res = gauss.Solve(MatrixCopy(), modfactors[i].factor);
-                            results.Add(res);   //Yeah, we had luck :)
+                            results.Add(new KeyValuePair<BigInteger[],Msieve.Factor>(res, modfactors[i]));   //Yeah, we had luck :)
                         }
                         catch (NotInvertibleException ex)
                         {
@@ -100,13 +102,56 @@ namespace DiscreteLogarithm
                             tryAgain = true;
                             break;
                         }
+                        catch (LinearDependentException ex)
+                        {
+                            //We have to throw away one row and try again later:
+                            matrix.RemoveAt(ex.RowToDelete);
+                            return null;
+                        }
                     }
                 }
             } while (tryAgain);
 
-            //TODO: "glue" the results together
 
-            return null;
+            BigInteger[] result = new BigInteger[size];
+            //"glue" the results together:
+            for (int i = 0; i < size; i++)
+            {
+                List<KeyValuePair<BigInteger, BigInteger>> partSolItem = new List<KeyValuePair<BigInteger,BigInteger>>();
+                for (int c = 0; c < results.Count; c++)
+                {
+                    partSolItem.Add(new KeyValuePair<BigInteger, BigInteger>(results[c].Key[i], BigInteger.Pow(results[c].Value.factor, results[c].Value.count)));
+                }
+                result[i] = CRT(partSolItem);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Implementation of solutionfinding for chinese remainder theorem.
+        /// i.e. finding an x that fullfills
+        /// x = a1 (mod m1)
+        /// x = a2 (mod m2)
+        /// ...
+        /// </summary>
+        /// <param name="congruences">The congruences (a_i, m_i)</param>
+        /// <returns>the value that fits into all congruences</returns>
+        private BigInteger CRT(List<KeyValuePair<BigInteger, BigInteger>> congruences)
+        {
+            BigInteger x = 0;
+            for (int i = 0; i < congruences.Count; i++)
+            {
+                BigInteger k = 1;
+                for (int c = 0; c < congruences.Count; c++)
+                    if (c != i)
+                        k *= congruences[c].Value;
+                BigInteger r = BigIntegerHelper.ModInverse(k, congruences[i].Value);
+
+                x += congruences[i].Key * r * k;
+            }
+
+            return x;
         }
 
         /// <summary>
