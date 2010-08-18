@@ -7,5 +7,15 @@ namespace DiscreteLogarithm
 {
     class LinearDependentException : Exception
     {
+        public int RowToDelete
+        {
+            get;
+            private set;
+        }
+
+        public LinearDependentException(int rowToDelete)
+        {
+            this.RowToDelete = rowToDelete;
+        }
     }
 }
