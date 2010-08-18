@@ -261,7 +261,7 @@
         <Setter Property="Margin" Value="5,5,5,0"></Setter>
         <Setter Property="BorderBrush">
             <Setter.Value>
-                <SolidColorBrush Color="Transparent"></SolidColorBrush>
+                <SolidColorBrush Color="#555555"></SolidColorBrush>
             </Setter.Value>
         </Setter>
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -269,7 +269,14 @@
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
         <Setter Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="Transparent"></SolidColorBrush>
+                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                    <GradientBrush.GradientStops>
+                        <GradientStopCollection>
+                            <GradientStop Color="#88222222" Offset="1.0"/>
+                            <GradientStop Color="#88444444" Offset="0.5"/>
+                        </GradientStopCollection>
+                    </GradientBrush.GradientStops>
+                </LinearGradientBrush>
             </Setter.Value>
         </Setter>
     </Style>

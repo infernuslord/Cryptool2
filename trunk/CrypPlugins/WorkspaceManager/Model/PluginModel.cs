@@ -32,6 +32,12 @@ using System.ComponentModel;
 namespace WorkspaceManager.Model
 {
     /// <summary>
+    /// Log updated event
+    /// </summary>
+    public class LogUpdated : EventArgs
+    {}
+
+    /// <summary>
     /// Class to represent and wrap a IPlugin in our model graph
     /// </summary>
     [Serializable]
@@ -52,6 +58,8 @@ namespace WorkspaceManager.Model
         #endregion
 
         #region public members
+
+        public event EventHandler<LogUpdated> LogUpdated;
 
         /// <summary>
         /// State of the Plugin
@@ -362,7 +370,7 @@ namespace WorkspaceManager.Model
         /// <summary>
         /// GuiLogNotificationOccured
         /// saves the plugins log events and tells the gui that it needs
-        /// an update
+        /// an update. If the Workspace is not executing and eve
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
@@ -372,6 +380,12 @@ namespace WorkspaceManager.Model
             {
                 this.GuiLogEvents.Add(args);
                 this.GuiNeedsUpdate = true;
+            }
+
+            if (this.LogUpdated != null)
+            {
+                if(!this.WorkspaceModel.WorkspaceManagerEditor.isExecuting())
+                    this.LogUpdated.Invoke(this, new LogUpdated {});
             }
         }
 

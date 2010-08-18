@@ -177,7 +177,7 @@ namespace WorkspaceManager.View.Container
         public void ResetPopUp()
         {
             Random random = new Random();
-            BubblePopup.PlacementRectangle = new Rect(new Point(random.NextDouble() / 1000, 0), new Size(75, 25));
+            BubblePopup.PlacementRectangle = new Rect(new Point(random.NextDouble() / 1000, 0), new Size(0, 0));
         }
 
         public bool CanConnect

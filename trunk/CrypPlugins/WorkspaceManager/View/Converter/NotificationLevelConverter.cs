@@ -24,7 +24,10 @@ namespace WorkspaceManager.View.Converter
                     image = new BitmapImage(new Uri("../Image/warn.png", UriKind.RelativeOrAbsolute));
                     break;
                 case NotificationLevel.Info:
-                    image = new BitmapImage(new Uri("../Image/warn.png", UriKind.RelativeOrAbsolute));
+                    image = new BitmapImage(new Uri("../Image/info.png", UriKind.RelativeOrAbsolute));
+                    break;
+                case NotificationLevel.Debug:
+                    image = new BitmapImage(new Uri("../Image/debug.png", UriKind.RelativeOrAbsolute));
                     break;
             }
 

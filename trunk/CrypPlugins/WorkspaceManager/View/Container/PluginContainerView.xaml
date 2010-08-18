@@ -60,10 +60,12 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <DockPanel Name="Root" LastChildFill="True">
+        
         <DockPanel x:Name="PluginBase" DockPanel.Dock="Left" VerticalAlignment="Top" MinHeight="105" MinWidth="90" Width="90" Height="105">
             <DockPanel.Background>
                 <SolidColorBrush Opacity="0.01" Color="#444444"></SolidColorBrush>
             </DockPanel.Background>
+            
             <StackPanel DockPanel.Dock="Top" Name="ControlPanel" Visibility="Visible" Opacity="0" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button x:Name="play" Height="20" Width="20" Style="{StaticResource ResourceKey=DeletePluginContainerButtonStyle}" Margin="0,0,0,5" Click="Button_Click">
                     <Button.LayoutTransform>
@@ -108,12 +110,6 @@
 
                 </Grid>
                 <Grid Margin="3">
-                    
-                    <Canvas Width="auto" Height="auto">
-                        <Popup PlacementTarget="{Binding ElementName=MainGrid}" Placement="Left" x:Name="ProgressPopup" Width="45" Height="45" StaysOpen="True" IsOpen="True" AllowsTransparency="True">
-                            
-                        </Popup>
-                    </Canvas>
                     <Border Name="Window" BorderThickness="0" BorderBrush="Transparent" Margin="8">
                         <Grid>
                             <DockPanel LastChildFill="True">
@@ -145,13 +141,6 @@
                                                 </Border.Effect>
 
                                             </Border>
-                                            <Grid Height="15" VerticalAlignment="Bottom">
-                                                <ProgressBar VerticalAlignment="Bottom" x:Name="ProgressBar" Height="6" Background="White" Margin="3,0,3,3" Opacity="0.7" Foreground="ForestGreen" Maximum="1"></ProgressBar>
-                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                    <TextBlock x:Name="Percentage" FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" Text="{Binding ElementName=ProgressBar, Path=Value, Converter={StaticResource ResourceKey=PercentageConverter}, FallbackValue=error}" />
-                                                    <TextBlock FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" Text="%"/>
-                                                </StackPanel>
-                                            </Grid>
                                             <Grid x:Name="OptionPanel" Height="50" Visibility="Collapsed">
                                                 <Grid.Background>
                                                     <SolidColorBrush Color="Black" Opacity="0.5"></SolidColorBrush>
@@ -173,19 +162,19 @@
                                                         <ScaleTransform ScaleX="0.7" ScaleY="0.7"></ScaleTransform>
                                                     </StackPanel.LayoutTransform>
                                                     <Button x:Name="Left" Click="OptionClickHandler" Width="20" Height="20" Margin="0,0,5,0" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
-                                                        <Image Source="/WorkspaceManager;component/View/Image/left.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
+                                                        <Image Source="/WorkspaceManager;component/View/Image/left.png" Opacity="0.6"  HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
                                                     </Button>
                                                     <Border x:Name="Options" Visibility="{Binding ElementName=OptionPanel, Path=Visibility}">
 
                                                     </Border>
                                                     <Button x:Name="Right" Click="OptionClickHandler" Width="20" Height="20" Margin="5,0,0,0" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
-                                                        <Image Source="/WorkspaceManager;component/View/Image/right.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
+                                                        <Image Source="/WorkspaceManager;component/View/Image/right.png" Opacity="0.6" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
                                                     </Button>
                                                 </StackPanel>
                                             </Grid>
                                         </Grid>
                                         
-                                        <Grid Name="ViewPanel" Width="Auto" Height="Auto" Grid.Row="1" Visibility="Collapsed" Margin="5,0,5,5">
+                                        <Grid Name="ViewPanel" Width="Auto" Height="Auto" Grid.Row="1" Visibility="Collapsed" Margin="5,5,5,5">
                                             <Border x:Name="SettingsPanel" Panel.ZIndex="{Binding Path=ViewState, Converter={StaticResource ResourceKey=OverlapConverter}, ConverterParameter=SettingsPanel}" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=SettingsPanel}"></Border>
                                             <Border x:Name="PresentationPanel" Panel.ZIndex="{Binding Path=ViewState, Converter={StaticResource ResourceKey=OverlapConverter}, ConverterParameter=PresentationPanel}" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=PresentationPanel}"></Border>
                                             <Border x:Name="LogPanel" Panel.ZIndex="{Binding Path=ViewState, Converter={StaticResource ResourceKey=OverlapConverter}, ConverterParameter=LogPanel}" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=LogPanel}">
@@ -201,36 +190,110 @@
                             </DockPanel>
                         </Grid>
                     </Border>
-
-                    <Popup x:Name="BubblePopup" PopupAnimation="Fade" HorizontalOffset="-21" VerticalOffset="8" PlacementTarget="{Binding ElementName=ShowAllButton}" Placement="Top" StaysOpen="False" AllowsTransparency="True" Width="65" Height="65">
-                        <Grid x:Name="BubbleGrid" Margin="2">
-                            <Grid.Effect>
-                                <DropShadowEffect Opacity="0.8"></DropShadowEffect>
-                            </Grid.Effect>
-                            <Grid.LayoutTransform>
-                                <ScaleTransform ScaleX="0.6" ScaleY="0.6"></ScaleTransform>
-                            </Grid.LayoutTransform>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="40"/>
-                            </Grid.RowDefinitions>
-                            <Border Background="{StaticResource ResourceKey=BubblePopupLinearBrush}" BorderBrush="#f8f692" CornerRadius="10" >
-                                <Grid Margin="6">
-                                    <ScrollViewer>
-                                        <TextBlock x:Name="Content" Foreground="#444444" FontSize="16"
-                                           Text="When the Placement  property is set to Custom, the Popup  calls a defined instance of the CustomPopupPlacementCallback  delegate. This delegate returns a set of possible points that are relative to the top left corner of the target area and the top left corner of the Popup. The Popup  placement occurs at the point that provides the best visibility." TextWrapping="Wrap"></TextBlock>
-                                    </ScrollViewer>
-                                </Grid>
-                            </Border>
-                            <Path Fill="#ffffec" Stretch="Fill" Stroke="#f8f692" HorizontalAlignment="Left" Margin="30,-1.35,0,0" Width="25" Grid.Row="1" Data="M18,154.45381 L29.999666,187.66699 40.791059,154.54395">
-                                <Path.RenderTransform>
-                                    <ScaleTransform ScaleY="0.5"></ScaleTransform>
-                                </Path.RenderTransform>
-                            </Path>
-                        </Grid>
-                    </Popup>
                 </Grid>
             </Grid>
         </DockPanel>
+        <Popup x:Name="BubblePopup" PopupAnimation="Fade" HorizontalOffset="70" VerticalOffset="25" PlacementTarget="{Binding ElementName=ControlPanel}" Placement="Top" StaysOpen="False" AllowsTransparency="True" Width="130" Height="70">
+            <Grid x:Name="BubbleGrid" Margin="2">
+                <Grid.Effect>
+                    <DropShadowEffect Opacity="0.8"></DropShadowEffect>
+                </Grid.Effect>
+                <Grid.LayoutTransform>
+                    <ScaleTransform ScaleX="0.6" ScaleY="0.6"></ScaleTransform>
+                </Grid.LayoutTransform>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30*"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Background="{StaticResource ResourceKey=BubblePopupLinearBrush}" BorderBrush="#f8f692" HorizontalAlignment="Center" CornerRadius="10" >
+                    <StackPanel Orientation="Horizontal" Margin="6">
+                        <StackPanel.LayoutTransform>
+                            <ScaleTransform ScaleX="1.6" ScaleY="1.6"></ScaleTransform>
+                        </StackPanel.LayoutTransform>
+                        <Button Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/WorkspaceManager;component/View/Image/error2.png" SnapsToDevicePixels="True" Height="20" Width="20">
+                                    <Image.Effect>
+                                        <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
+                                    </Image.Effect>
+                                </Image>
+                                <TextBlock x:Name="ErrorCount" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/WorkspaceManager;component/View/Image/warn.png" SnapsToDevicePixels="True" Height="15" Width="15">
+                                    <Image.Effect>
+                                        <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
+                                    </Image.Effect>
+                                </Image>
+                                <TextBlock x:Name="WarningCount" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/WorkspaceManager;component/View/Image/debug.png" SnapsToDevicePixels="True" Height="15" Width="15">
+                                    <Image.Effect>
+                                        <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
+                                    </Image.Effect>
+                                </Image>
+                                <TextBlock x:Name="DebugCount" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/WorkspaceManager;component/View/Image/info.png" SnapsToDevicePixels="True" Height="15" Width="15">
+                                    <Image.Effect>
+                                        <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
+                                    </Image.Effect>
+                                </Image>
+                                <TextBlock x:Name="InfoCount" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
+                            </StackPanel>
+                        </Button>
+
+                    </StackPanel>
+                </Border>
+                <Path Fill="#ffffec" Stretch="Fill" Stroke="#f8f692" HorizontalAlignment="Left" Margin="30,-1.35,0,0" Width="25" Grid.Row="1" Data="M18,154.45381 L29.999666,187.66699 40.791059,154.54395">
+                    <Path.RenderTransform>
+                        <ScaleTransform ScaleY="0.5"></ScaleTransform>
+                    </Path.RenderTransform>
+                </Path>
+            </Grid>
+        </Popup>
+
+        <!--<Popup x:Name="ProgressPopup" PopupAnimation="Fade" HorizontalOffset="20" VerticalOffset="25" PlacementTarget="{Binding ElementName=ControlPanel}" Placement="Top" StaysOpen="True" AllowsTransparency="True" Width="70" Height="55">
+            <Grid Margin="2">
+                <Grid.Effect>
+                    <DropShadowEffect Opacity="0.8"></DropShadowEffect>
+                </Grid.Effect>
+                <Grid.LayoutTransform>
+                    <ScaleTransform ScaleX="0.6" ScaleY="0.6"></ScaleTransform>
+                </Grid.LayoutTransform>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="15*"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Background="{StaticResource ResourceKey=BubblePopupLinearBrush}" BorderBrush="#f8f692" CornerRadius="10">
+                    <Grid Height="15" VerticalAlignment="Center">
+                        <Grid.LayoutTransform>
+                            <ScaleTransform ScaleX="1.3" ScaleY="1.3"></ScaleTransform>
+                        </Grid.LayoutTransform>
+                        <ProgressBar VerticalAlignment="Bottom" x:Name="ProgressBar" Height="15" Width="45" Background="White" Opacity="1" Foreground="ForestGreen" Maximum="1"></ProgressBar>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock x:Name="Percentage" FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" Text="{Binding ElementName=ProgressBar, Path=Value, Converter={StaticResource ResourceKey=PercentageConverter}, FallbackValue=error}" />
+                            <TextBlock FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" Text="%"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <Path Fill="#ffffec" Stretch="Fill" Stroke="#f8f692" HorizontalAlignment="Left" Margin="100,-1.35,0,0" Width="25" Grid.Row="1" Data="M18,154.45381 L29.999666,187.66699 40.791059,154.54395">
+                    <Path.RenderTransform>
+                        <ScaleTransform ScaleY="0.5"></ScaleTransform>
+                    </Path.RenderTransform>
+                </Path>
+            </Grid>
+        </Popup>-->
     </DockPanel>
 </UserControl>
