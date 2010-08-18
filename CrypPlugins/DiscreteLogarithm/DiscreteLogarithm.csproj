@@ -87,8 +87,10 @@
   <ItemGroup>
     <Compile Include="FactorBase.cs" />
     <Compile Include="FiniteFieldGauss.cs" />
+    <Compile Include="HenselLifting.cs" />
     <Compile Include="LinearDependentException.cs" />
     <Compile Include="LinearSystemOfEquations.cs" />
+    <Compile Include="NotInvertibleException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DiscreteLogarithm.cs" />
     <Compile Include="DiscreteLogarithmSettings.cs" />
