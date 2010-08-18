@@ -17,6 +17,8 @@ using WorkspaceManager.View.VisualComponents;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media.Animation;
 using WorkspaceManager;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace WorkspaceManager.View.Container
 {
@@ -244,13 +246,23 @@ namespace WorkspaceManager.View.Container
             connectorViewList.Add(connector);
         }
 
+
+
+        public void ResetPopUp()
+        {
+            Random random = new Random();
+            BubblePopup.PlacementRectangle = new Rect(new Point(random.NextDouble() / 1000, 0), new Size(0, 0));
+            //ProgressPopup.PlacementRectangle = new Rect(new Point(random.NextDouble() / 1000, 0), new Size(0, 0));
+        }
+
         public void SetPosition(Point value)
         {
             TranslateTransform pos = (this.RenderTransform as TranslateTransform);
             pos.X = value.X;
             pos.Y = value.Y;
-            this.Model.Position = new Point(pos.X, pos.Y);
-            this.SetAllConnectorPositionX();
+            ResetPopUp();
+            Model.Position = new Point(pos.X, pos.Y);
+            SetAllConnectorPositionX();
         }
 
         public Point GetPosition()
@@ -269,10 +281,17 @@ namespace WorkspaceManager.View.Container
             this.MouseLeave += new MouseEventHandler(PluginContainerView_MouseLeave);
             this.Model = model;
             this.Model.UpdateableView = this;
+            this.Model.LogUpdated += new EventHandler<LogUpdated>(Model_LogUpdated);
             this.DataContext = Model;
             this.ConnectorViewList = new List<ConnectorView>();
             this.RenderTransform = new TranslateTransform();
             this.Icon = this.Model.getImage();
+        }
+
+        void Model_LogUpdated(object sender, LogUpdated e)
+        {
+            LogPresentation log = LogPanel.Child as LogPresentation;
+            log.AddLogList(Model.GuiLogEvents);
         }
 
         private void SetAllConnectorPositionX()
@@ -355,8 +374,8 @@ namespace WorkspaceManager.View.Container
         void PluginContainerView_Loaded(object sender, RoutedEventArgs e)
         {
             
-            this.BorderGradientStop.Color = ColorHelper.GetColor(this.Model.PluginType);
-            this.BorderGradientStopSecond.Color = Color.FromArgb(100, this.BorderGradientStop.Color.R, this.BorderGradientStop.Color.G, this.BorderGradientStop.Color.B);
+            BorderGradientStop.Color = ColorHelper.GetColor(this.Model.PluginType);
+            BorderGradientStopSecond.Color = Color.FromArgb(100, this.BorderGradientStop.Color.R, this.BorderGradientStop.Color.G, this.BorderGradientStop.Color.B);
 
             optionList.Add(Resources["PresentationButton"] as UIElement);
             optionList.Add(Resources["DataButton"] as UIElement);
@@ -366,8 +385,21 @@ namespace WorkspaceManager.View.Container
             Options.Child = optionList.ElementAt(optionPointer);
             OptionCaption.Text = (optionList.ElementAt(optionPointer) as Button).ToolTip as String;
 
+            LogPresentation LogView = LogPanel.Child as LogPresentation;
+            LogView.LogUpdated += new EventHandler<LogUpdated>(LogView_LogUpdated);
+
             SetAllConnectorPositionX();
             
+        }
+
+        void LogView_LogUpdated(object sender, LogUpdated e)
+        {
+            LogPresentation logView = sender as LogPresentation;
+            ErrorCount.Text = logView.ErrorCount.ToString();
+            WarningCount.Text = logView.WarningCount.ToString();
+            DebugCount.Text = logView.DebugCount.ToString();
+            InfoCount.Text = logView.InfoCount.ToString();
+            BubblePopup.IsOpen = true;
         }
 
         void connector_OnConnectorMouseLeftButtonDown(object sender, ConnectorViewEventArgs e)
@@ -461,17 +493,15 @@ namespace WorkspaceManager.View.Container
             this.SetAllConnectorPositionX();
         }
 
-        private void ShowAllButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
         #endregion
 
         #region IUpdateableView Members
 
         public void update()
         {
-            ProgressBar.Value = Model.PercentageFinished;
+
+                //ProgressPopup.IsOpen = true;
+            //ProgressBar.Value = Model.PercentageFinished;
 
             if (ViewState == PluginViewState.Data)
             {
@@ -482,7 +512,7 @@ namespace WorkspaceManager.View.Container
                 }
             }
 
-            if (ViewState == PluginViewState.Log)
+            if (Model.GuiLogEvents.Count != 0)
             {
                 LogPresentation log = LogPanel.Child as LogPresentation;
                 log.AddLogList(Model.GuiLogEvents);

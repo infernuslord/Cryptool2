@@ -16,7 +16,18 @@
             <z:NotificationLevelConverter x:Key="LevelConverter"></z:NotificationLevelConverter>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
+    <DockPanel LastChildFill="True">
+        <DockPanel.RenderTransform>
+            <TranslateTransform Y="-15"></TranslateTransform>
+        </DockPanel.RenderTransform>
+        <TextBlock DockPanel.Dock="Top" Text="Messages" FontSize="16" Foreground="WhiteSmoke" Padding="5" Panel.ZIndex="10000">
+            <TextBlock.RenderTransform>
+                <TranslateTransform Y="15"></TranslateTransform>
+            </TextBlock.RenderTransform>
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="3" ShadowDepth="0"></DropShadowEffect>
+            </TextBlock.Effect>
+        </TextBlock>
         <ListBox ItemsSource="{Binding}" Style="{StaticResource ListBoxStyle}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -32,19 +43,46 @@
 
                         <SolidColorBrush x:Key="Transparent" Color="Transparent"></SolidColorBrush>
                     </DataTemplate.Resources>
-                    <StackPanel Orientation="Vertical" Margin="5,5,5,5">
-                        <Grid Height="1" Background="#444444" Opacity="0.5"></Grid>
-                        <DockPanel Name="ItemEntry" HorizontalAlignment="Stretch" LastChildFill="True">
-                            <Grid DockPanel.Dock="Left" VerticalAlignment="Center">
-                                <Image Source="{Binding Path=Level, Converter={StaticResource ResourceKey=LevelConverter}, FallbackValue=!}" Width="35" Height="35"></Image>
-                            </Grid>
-                            <Grid>
-                                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalAlignment="Center">
-                                    <TextBlock LineStackingStrategy="BlockLineHeight"  LineHeight="11.5" FontSize="10" FontFamily="Lucida Sans Unicode" Foreground="WhiteSmoke" Text="{Binding Path=Message}" Width="300" TextWrapping="Wrap"></TextBlock>
-                                </ScrollViewer>
-                            </Grid>
-                        </DockPanel>
-                    </StackPanel>
+                    <Border BorderThickness="2">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                <GradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="#88444444" Offset="1.0"/>
+                                        <GradientStop Color="#88222222" Offset="0.5"/>
+                                    </GradientStopCollection>
+                                </GradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <StackPanel Orientation="Vertical" Margin="5,5,5,5">
+                            <StackPanel.Background>
+                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                    <GradientBrush.GradientStops>
+                                        <GradientStopCollection>
+                                            <GradientStop Color="#88222222" Offset="1.0"/>
+                                            <GradientStop Color="#88444444" Offset="0.5"/>
+                                        </GradientStopCollection>
+                                    </GradientBrush.GradientStops>
+                                </LinearGradientBrush>
+                            </StackPanel.Background>
+                            <Grid Height="1" Background="#444444" Opacity="0.5"></Grid>
+                            <DockPanel Name="ItemEntry" HorizontalAlignment="Stretch" LastChildFill="True">
+                                <Grid DockPanel.Dock="Left" VerticalAlignment="Center" Margin="3">
+                                    <Image Source="{Binding Path=Level, Converter={StaticResource ResourceKey=LevelConverter}, FallbackValue=!}" Width="35" Height="35"></Image>
+                                </Grid>
+                                <Grid DockPanel.Dock="Bottom" HorizontalAlignment="Left">
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                        <TextBlock LineStackingStrategy="BlockLineHeight"  LineHeight="11.5" FontSize="9" FontFamily="Lucida Sans Unicode" Foreground="#999999" Text="{Binding Path=Date}" TextWrapping="Wrap"></TextBlock>
+                                    </ScrollViewer>
+                                </Grid>
+                                <Grid>
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Left">
+                                        <TextBlock LineStackingStrategy="BlockLineHeight"  LineHeight="11.5" FontSize="11" FontFamily="Lucida Sans Unicode" Foreground="WhiteSmoke" Text="{Binding Path=Message}" TextWrapping="Wrap"></TextBlock>
+                                    </ScrollViewer>
+                                </Grid>
+                            </DockPanel>
+                        </StackPanel>
+                    </Border>
 
                     <DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListBoxItem}},Path=IsSelected}" Value="True">
@@ -57,5 +95,5 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-    </Grid>
+    </DockPanel>
 </UserControl>
