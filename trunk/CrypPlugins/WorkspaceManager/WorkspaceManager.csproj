@@ -80,6 +80,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\ImageModel.cs" />
+    <Compile Include="Model\TextModel.cs" />
     <Compile Include="StreamRead.cs" />
     <Compile Include="Execution\ExecutionEngine.cs" />
     <Compile Include="Model\ColorHelper.cs" />

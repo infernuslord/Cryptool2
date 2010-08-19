@@ -61,13 +61,25 @@ namespace WorkspaceManager.Model
         public List<ConnectionModel> AllConnectionModels;
 
         /// <summary>
+        /// All ImageModels of our Workspace Model
+        /// </summary>
+        public List<ImageModel> AllImageModels;
+
+        /// <summary>
+        /// All TextModels of our Workspace Model
+        /// </summary>
+        public List<TextModel> AllTextModels;
+
+        /// <summary>
         /// Creates a new Workspace Model
         /// </summary>
         public WorkspaceModel()
         { 
             this.AllPluginModels = new List<PluginModel>();
             this.AllConnectionModels = new List<ConnectionModel>();
-            this.AllConnectorModels = new List<ConnectorModel>();            
+            this.AllConnectorModels = new List<ConnectorModel>();
+            this.AllImageModels = new List<ImageModel>();
+            this.AllTextModels = new List<TextModel>(); 
         }
 
         /// <summary>
@@ -164,6 +176,52 @@ namespace WorkspaceManager.Model
             this.AllConnectionModels.Add(connectionModel);
             this.WorkspaceManagerEditor.HasChanges = true;
             return connectionModel;
+        }
+
+        /// <summary>
+        /// Creates a new ImageModel containing the under imgUri stored Image
+        /// </summary>
+        /// <param name="imgUri"></param>
+        /// <returns></returns>
+        public ImageModel newImageModel(Uri imgUri)
+        {
+            ImageModel imageModel = new ImageModel(imgUri);
+            this.AllImageModels.Add(imageModel);
+            this.WorkspaceManagerEditor.HasChanges = true;
+            return imageModel;
+        }
+
+        /// <summary>
+        /// Creates a new TextModel
+        /// </summary>
+        /// <param name="imgUri"></param>
+        /// <returns></returns>
+        public TextModel newTextModel(string text = null )
+        {
+            TextModel textModel = new TextModel(text);
+            this.AllTextModels.Add(textModel);
+            this.WorkspaceManagerEditor.HasChanges = true;
+            return textModel;
+        }
+
+        /// <summary>
+        /// Deletes the given ImageModel
+        /// </summary>
+        /// <param name="imgUri"></param>
+        /// <returns></returns>
+        public bool deleteImageModel(ImageModel imageModel)
+        {
+            return this.AllImageModels.Remove(imageModel);
+        }
+
+        /// <summary>
+        /// Deletes the given TextModel
+        /// </summary>
+        /// <param name="imgUri"></param>
+        /// <returns></returns>
+        public bool deleteTextModel(TextModel textModel)
+        {
+            return this.AllTextModels.Remove(textModel);
         }
 
         /// <summary>
