@@ -566,8 +566,6 @@ namespace WorkspaceManager.View.Container
 
         public void update()
         {
-
-            BubblePopup.IsOpen = true;
             ProgressBar.Value = Model.PercentageFinished;
 
             if (ViewState == PluginViewState.Data)

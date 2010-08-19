@@ -59,7 +59,7 @@
                 </Image>
             </Button>
 
-            <Button x:Key="MinimizeButton" Name="MinimizeButton"  ToolTip="Minimize" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" MouseEnter="SettingButton_MouseEnter" Height="30" Width="30" Click="OptionChooseHandler">
+            <Button x:Key="MinimizeButton" ToolTip="Minimize" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" MouseEnter="SettingButton_MouseEnter" Height="30" Width="30" Click="OptionChooseHandler">
                 <Image Source="/WorkspaceManager;component/View/Image/minimize.png" HorizontalAlignment="Center" SnapsToDevicePixels="True">
                     <Image.Effect>
                         <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
@@ -103,6 +103,18 @@
                 </Grid>
 
                 <StackPanel Name="ControlPanel" Visibility="Visible" Opacity="0" Orientation="Horizontal" HorizontalAlignment="Right">
+
+                    <Button Name="MinimizeButton" Height="20" Width="20" ToolTip="Minimize" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" Click="OptionChooseHandler">
+                        <Button.LayoutTransform>
+                            <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
+                        </Button.LayoutTransform>
+                        <Image Source="/WorkspaceManager;component/View/Image/minimize.png" HorizontalAlignment="Center" SnapsToDevicePixels="True">
+                            <Image.Effect>
+                                <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
+                            </Image.Effect>
+                        </Image>
+                    </Button>
+
                     <Button x:Name="play" Height="20" Width="20" Style="{StaticResource ResourceKey=DeletePluginContainerButtonStyle}" Margin="0,0,0,5" Click="Button_Click">
                         <Button.LayoutTransform>
                             <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
