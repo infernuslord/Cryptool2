@@ -70,6 +70,21 @@ namespace WorkspaceManager
             }
         }
 
+        private bool synchronousEvents = false;
+        [TaskPane("SynchronousEvents", "Should the event handling be synchronous?", null, 1, false, DisplayLevel.Beginner, ControlType.CheckBox)]
+        public bool SynchronousEvents
+        {
+            get
+            {
+                return synchronousEvents;
+            }
+            set
+            {
+                synchronousEvents = value;
+                OnPropertyChanged("SynchronousEvents");
+            }
+        }
+
         #endregion
 
         #region INotifyPropertyChanged Members
