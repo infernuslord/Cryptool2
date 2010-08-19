@@ -363,6 +363,13 @@ namespace WorkspaceManager
                 GuiLogMessage("Execute Model now!", NotificationLevel.Info);
                 executing = true;
 
+                if (((WorkspaceManagerSettings)this.Settings).SynchronousEvents)
+                {
+                    EventsHelper.AsynchronousProgressChanged = false;
+                    EventsHelper.AsynchronousGuiLogMessage = false;
+                    EventsHelper.AsynchronousStatusChanged = false;
+                }
+
                 //Get the gui Thread
                 this.WorkspaceSpaceEditorView.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
@@ -409,6 +416,12 @@ namespace WorkspaceManager
             {
                 GuiLogMessage("Exception during the execution: " + ex.Message, NotificationLevel.Error);
                 executing = false;
+                if (((WorkspaceManagerSettings)this.Settings).SynchronousEvents)
+                {
+                    EventsHelper.AsynchronousProgressChanged = true;
+                    EventsHelper.AsynchronousGuiLogMessage = true;
+                    EventsHelper.AsynchronousStatusChanged = true;
+                }
             }
         }
 
@@ -437,7 +450,16 @@ namespace WorkspaceManager
             {
                 return;
             }
+
             EventsHelper.AsynchronousPropertyChanged = true;
+
+            if (((WorkspaceManagerSettings)this.Settings).SynchronousEvents)
+            {
+                EventsHelper.AsynchronousProgressChanged = true;
+                EventsHelper.AsynchronousGuiLogMessage = true;
+                EventsHelper.AsynchronousStatusChanged = true;
+            }
+
             try
             {
                 GuiLogMessage("Executing stopped by User!", NotificationLevel.Info);

@@ -605,28 +605,34 @@ namespace WorkspaceManager.Execution
                             break;
                     }
 
-                    protocol = this.waitingProtocols.Dequeue();
-                    ProtocolStatus status = protocol.Run();
-
-                    lock (this)
+                    try
                     {
-                        switch (status)
+                        protocol = this.waitingProtocols.Dequeue();
+                        ProtocolStatus status = protocol.Run();
+
+                        lock (this)
                         {
-                            case ProtocolStatus.Created:
-                                System.Diagnostics.Debug.Assert(false);
-                                break;
-                            case ProtocolStatus.Ready:
-                                this.waitingProtocols.Enqueue(protocol);
-                                break;
-                            case ProtocolStatus.Waiting:
-                                break;
-                            case ProtocolStatus.Terminated:
-                                System.Diagnostics.Debug.Assert(!this.waitingProtocols.Contains(protocol));
-                                this.RemoveProtocol(protocol);
-                                break;
+                            switch (status)
+                            {
+                                case ProtocolStatus.Created:
+                                    System.Diagnostics.Debug.Assert(false);
+                                    break;
+                                case ProtocolStatus.Ready:
+                                    this.waitingProtocols.Enqueue(protocol);
+                                    break;
+                                case ProtocolStatus.Waiting:
+                                    break;
+                                case ProtocolStatus.Terminated:
+                                    System.Diagnostics.Debug.Assert(!this.waitingProtocols.Contains(protocol));
+                                    this.RemoveProtocol(protocol);
+                                    break;
+                            }
                         }
                     }
-                   
+                    catch (Exception ex) 
+                    {
+                        System.Diagnostics.Debug.Fail("Error during scheduling: " + ex.Message + " - " + ex.InnerException);
+                    }
                 }
             }
         }
