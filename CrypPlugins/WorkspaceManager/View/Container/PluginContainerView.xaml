@@ -17,16 +17,17 @@
             <z:BlurIconConverter x:Key="BlurValueConverter"></z:BlurIconConverter>
             <z:ViewStateConverter x:Key="ViewStateConverter"></z:ViewStateConverter>
             <z:OverlapConverter x:Key="OverlapConverter"></z:OverlapConverter>
+            <z:BlurViewStateConverter x:Key="BlurViewStateConverter"></z:BlurViewStateConverter>
 
-            <Button x:Key="SettingButton" Name="SettingButton" ToolTip="Settings" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" Height="30" Width="30" Click="OptionChooseHandler">
-                <Image Source="/WorkspaceManager;component/View/Image/showall.png" HorizontalAlignment="Center" SnapsToDevicePixels="True">
+            <Button x:Key="SettingButton" Name="SettingButton" ToolTip="Settings" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" MouseEnter="SettingButton_MouseEnter" Height="30" Width="30" Click="OptionChooseHandler">
+                <Image Source="/WorkspaceManager;component/View/Image/setting.png" HorizontalAlignment="Center" SnapsToDevicePixels="True">
                     <Image.Effect>
                         <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
                     </Image.Effect>
                 </Image>
             </Button>
 
-            <Button x:Key="LogButton" Name="LogButton" ToolTip="Notification" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" Height="30" Width="30" Click="OptionChooseHandler">
+            <Button x:Key="LogButton" Name="LogButton" ToolTip="Notification" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" MouseEnter="SettingButton_MouseEnter" Height="30" Width="30" Click="OptionChooseHandler">
                 <Image Source="/WorkspaceManager;component/View/Image/log.png" HorizontalAlignment="Center" SnapsToDevicePixels="True">
                     <Image.Effect>
                         <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
@@ -34,7 +35,15 @@
                 </Image>
             </Button>
 
-            <Button x:Key="DataButton" Name="DataButton" ToolTip="Data" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" Height="30" Width="30" Click="OptionChooseHandler">
+            <Button x:Key="MaxButton" Name="MaxButton" ToolTip="Full View" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" MouseEnter="SettingButton_MouseEnter" Height="30" Width="30" Click="OptionChooseHandler">
+                <Image Source="/WorkspaceManager;component/View/Image/max.png" HorizontalAlignment="Center" SnapsToDevicePixels="True">
+                    <Image.Effect>
+                        <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
+                    </Image.Effect>
+                </Image>
+            </Button>
+
+            <Button x:Key="DataButton" Name="DataButton" ToolTip="Data" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" MouseEnter="SettingButton_MouseEnter" Height="30" Width="30" Click="OptionChooseHandler">
                 <Image Source="/WorkspaceManager;component/View/Image/data.png" HorizontalAlignment="Center" SnapsToDevicePixels="True">
                     <Image.Effect>
                         <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
@@ -42,7 +51,7 @@
                 </Image>
             </Button>
 
-            <Button x:Key="PresentationButton" Name="PresentationButton" ToolTip="Presentation" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" Height="30" Width="30" Click="OptionChooseHandler">
+            <Button x:Key="PresentationButton" Name="PresentationButton" ToolTip="Presentation" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" MouseEnter="SettingButton_MouseEnter" Height="30" Width="30" Click="OptionChooseHandler">
                 <Image Source="/WorkspaceManager;component/View/Image/presentation.png" HorizontalAlignment="Center" SnapsToDevicePixels="True">
                     <Image.Effect>
                         <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
@@ -50,7 +59,7 @@
                 </Image>
             </Button>
 
-            <Button x:Key="MinimizeButton" Name="MinimizeButton"  ToolTip="Minimize" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" Height="30" Width="30" Click="OptionChooseHandler">
+            <Button x:Key="MinimizeButton" Name="MinimizeButton"  ToolTip="Minimize" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" MouseEnter="SettingButton_MouseEnter" Height="30" Width="30" Click="OptionChooseHandler">
                 <Image Source="/WorkspaceManager;component/View/Image/minimize.png" HorizontalAlignment="Center" SnapsToDevicePixels="True">
                     <Image.Effect>
                         <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
@@ -157,20 +166,51 @@
                                                     </TextBlock>
                                                     
                                                 </Border>
-                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="52" VerticalAlignment="Top">
-                                                    <StackPanel.LayoutTransform>
-                                                        <ScaleTransform ScaleX="0.7" ScaleY="0.7"></ScaleTransform>
-                                                    </StackPanel.LayoutTransform>
-                                                    <Button x:Name="Left" Click="OptionClickHandler" Width="20" Height="20" Margin="0,0,5,0" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
-                                                        <Image Source="/WorkspaceManager;component/View/Image/left.png" Opacity="0.6"  HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
-                                                    </Button>
-                                                    <Border x:Name="Options" Visibility="{Binding ElementName=OptionPanel, Path=Visibility}">
+                                                <StackPanel x:Name="Options" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Height="43" Visibility="{Binding ElementName=OptionPanel, Path=Visibility}">
+                                                    <Border x:Name="SlotOne">
+                                                        <Border.Effect>
+                                                            <BlurEffect Radius="{Binding Path=ViewState, Converter={StaticResource ResourceKey=BlurViewStateConverter}}"></BlurEffect>
+                                                        </Border.Effect>
+                                                        
+                                                    </Border>
+                                                    <Border x:Name="SlotTwo">
+                                                        <Border.Effect>
+                                                            <BlurEffect Radius="{Binding Path=ViewState, Converter={StaticResource ResourceKey=BlurViewStateConverter}}"></BlurEffect>
+                                                        </Border.Effect>
 
                                                     </Border>
-                                                    <Button x:Name="Right" Click="OptionClickHandler" Width="20" Height="20" Margin="5,0,0,0" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
+                                                    
+                                                    <Border x:Name="SlotThree">
+
+                                                    </Border>
+                                                    
+                                                    <Border x:Name="SlotFour">
+                                                        <Border.Effect>
+                                                            <BlurEffect Radius="{Binding Path=ViewState, Converter={StaticResource ResourceKey=BlurViewStateConverter}}"></BlurEffect>
+                                                        </Border.Effect>
+
+                                                    </Border>
+                                                    <Border x:Name="SlotFive">
+                                                        <Border.Effect>
+                                                            <BlurEffect Radius="{Binding Path=ViewState, Converter={StaticResource ResourceKey=BlurViewStateConverter}}"></BlurEffect>
+                                                        </Border.Effect>
+
+                                                    </Border>
+                                                </StackPanel>
+                                                <!--<Border x:Name="Options" VerticalAlignment="Top" HorizontalAlignment="Center" Height="39" Visibility="{Binding ElementName=OptionPanel, Path=Visibility}"></Border>-->
+                                                <DockPanel HorizontalAlignment="Center" Height="43" VerticalAlignment="Top" LastChildFill="True">
+                                                    <!--<DockPanel.LayoutTransform>
+                                                        <ScaleTransform ScaleX="0.7" ScaleY="0.7"></ScaleTransform>
+                                                    </DockPanel.LayoutTransform>-->
+                                                    <Button DockPanel.Dock="Left" x:Name="Left" Click="OptionClickHandler" Width="20" Height="20" Margin="0,0,5,0" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}}" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
+                                                        <Image Source="/WorkspaceManager;component/View/Image/left.png" Opacity="0.6"  HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
+                                                    </Button>
+
+                                                    <Button DockPanel.Dock="Right" x:Name="Right" Click="OptionClickHandler" Width="20" Height="20" Margin="5,0,0,0" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}}" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
                                                         <Image Source="/WorkspaceManager;component/View/Image/right.png" Opacity="0.6" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
                                                     </Button>
-                                                </StackPanel>
+                                                    <Grid></Grid>
+                                                </DockPanel>
                                             </Grid>
                                         </Grid>
                                         

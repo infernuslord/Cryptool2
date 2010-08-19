@@ -377,13 +377,27 @@ namespace WorkspaceManager.View.Container
             BorderGradientStop.Color = ColorHelper.GetColor(this.Model.PluginType);
             BorderGradientStopSecond.Color = Color.FromArgb(100, this.BorderGradientStop.Color.R, this.BorderGradientStop.Color.G, this.BorderGradientStop.Color.B);
 
-            optionList.Add(Resources["PresentationButton"] as UIElement);
-            optionList.Add(Resources["DataButton"] as UIElement);
-            optionList.Add(Resources["LogButton"] as UIElement);
-            optionList.Add(Resources["MinimizeButton"] as UIElement);
+            if (Model.PluginPresentation != null)
+            {
+                optionList.Add(Resources["PresentationButton"] as UIElement);
+                optionList.Add(Resources["DataButton"] as UIElement);
+                optionList.Add(Resources["LogButton"] as UIElement);
+                //optionList.Add(Resources["MinimizeButton"] as UIElement);
+                optionList.Add(Resources["MaxButton"] as UIElement);
+                optionList.Add(Resources["SettingButton"] as UIElement);
+            }
+            else 
+            {
+                //optionList.Add(Resources["PresentationButton"] as UIElement);
+                optionList.Add(Resources["DataButton"] as UIElement);
+                optionList.Add(Resources["LogButton"] as UIElement);
+                //optionList.Add(Resources["MinimizeButton"] as UIElement);
+                //optionList.Add(Resources["MaxButton"] as UIElement);
+                optionList.Add(Resources["SettingButton"] as UIElement);
+            }
 
-            Options.Child = optionList.ElementAt(optionPointer);
-            OptionCaption.Text = (optionList.ElementAt(optionPointer) as Button).ToolTip as String;
+
+            reAssambleOptions();
 
             LogPresentation LogView = LogPanel.Child as LogPresentation;
             LogView.LogUpdated += new EventHandler<LogUpdated>(LogView_LogUpdated);
@@ -400,6 +414,59 @@ namespace WorkspaceManager.View.Container
             DebugCount.Text = logView.DebugCount.ToString();
             InfoCount.Text = logView.InfoCount.ToString();
             BubblePopup.IsOpen = true;
+        }
+
+        private int optionModulo(int value)
+        {
+            int x = value % optionList.Count;
+
+            if (x < 0)
+            {
+                x += optionList.Count;
+            }
+
+            return x;
+        }
+
+        private void reAssambleOptions()
+        {
+            SlotOne.Child = null;
+            SlotTwo.Child = null;
+            SlotThree.Child = null;
+            SlotFour.Child = null;
+            SlotFive.Child = null;
+            if (Model.PluginPresentation != null)
+            {
+                SlotOne.Visibility = Visibility.Visible;
+                SlotFive.Visibility = Visibility.Visible;
+
+                SlotOne.Child = null;
+                SlotTwo.Child = null;
+                SlotThree.Child = null;
+                SlotFour.Child = null;
+                SlotFive.Child = null;
+
+                SlotOne.Child = optionList.ElementAt(optionModulo(optionPointer - 2));
+                SlotTwo.Child = optionList.ElementAt(optionModulo(optionPointer - 1));
+                SlotThree.Child = optionList.ElementAt(optionPointer);
+                SlotFour.Child = optionList.ElementAt(optionModulo(optionPointer + 1));
+                SlotFive.Child = optionList.ElementAt(optionModulo(optionPointer + 2));
+            }
+            else 
+            {
+                SlotOne.Visibility = Visibility.Collapsed;
+                SlotFive.Visibility = Visibility.Collapsed;
+
+                SlotOne.Child = null;
+                SlotTwo.Child = null;
+                SlotThree.Child = null;
+                SlotFour.Child = null;
+                SlotFive.Child = null;
+
+                SlotTwo.Child = optionList.ElementAt(optionModulo(optionPointer - 1));
+                SlotThree.Child = optionList.ElementAt(optionPointer);
+                SlotFour.Child = optionList.ElementAt(optionModulo(optionPointer + 1));
+            }
         }
 
         void connector_OnConnectorMouseLeftButtonDown(object sender, ConnectorViewEventArgs e)
@@ -541,26 +608,15 @@ namespace WorkspaceManager.View.Container
             switch (button.Name)
             {
                 case "Left":
-                    optionPointer = (optionPointer + 1) % optionList.Count;
-                    Options.Child = optionList.ElementAt(optionPointer);
+                    optionPointer = optionModulo(optionPointer + 1);
                     OptionCaption.Text = (optionList.ElementAt(optionPointer) as Button).ToolTip as String;
+                    reAssambleOptions();
                     break;
 
                 case "Right":
-                    optionPointer = (optionPointer - 1) % optionList.Count;
-
-                    if (optionPointer < 0)
-                    {
-                        optionPointer += optionList.Count;
-                        Options.Child = optionList.ElementAt(optionPointer);
-                        OptionCaption.Text = (optionList.ElementAt(optionPointer) as Button).ToolTip as String;
-                    }
-                    else
-                    {
-                        OptionCaption.Text = (optionList.ElementAt(optionPointer) as Button).ToolTip as String;
-                        Options.Child = optionList.ElementAt(optionPointer);
-                    }
-
+                    optionPointer = optionModulo(optionPointer - 1);;
+                    OptionCaption.Text = (optionList.ElementAt(optionPointer) as Button).ToolTip as String;
+                    reAssambleOptions();
                     break;
             }
             e.Handled = true;
@@ -614,6 +670,13 @@ namespace WorkspaceManager.View.Container
                     break;
             }
             e.Handled = true;
+        }
+
+        private void SettingButton_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Button btn = sender as Button;
+            OptionCaption.Text = btn.ToolTip as String;
+
         }
     }
 
