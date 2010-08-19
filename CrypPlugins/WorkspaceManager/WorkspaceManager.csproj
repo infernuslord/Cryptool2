@@ -134,11 +134,17 @@
       <DependentUpon>DataPresentation.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\VisualComponents\CryptoLineView\FromTo.cs" />
+    <Compile Include="View\VisualComponents\ImageWrapper.xaml.cs">
+      <DependentUpon>ImageWrapper.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\VisualComponents\LogPresentation.xaml.cs">
       <DependentUpon>LogPresentation.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\VisualComponents\Search.xaml.cs">
       <DependentUpon>Search.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\VisualComponents\UserContentWrapper.xaml.cs">
+      <DependentUpon>UserContentWrapper.xaml</DependentUpon>
     </Compile>
     <Compile Include="WorkspaceManager.cs" />
     <Compile Include="WorkspaceManagerSettings.cs" />
@@ -195,11 +201,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\VisualComponents\ImageWrapper.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\VisualComponents\LogPresentation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\VisualComponents\Search.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\VisualComponents\UserContentWrapper.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

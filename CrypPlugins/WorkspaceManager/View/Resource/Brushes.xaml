@@ -48,9 +48,23 @@
         </GradientBrush.GradientStops>
     </LinearGradientBrush>
 
+    <LinearGradientBrush x:Key="HelpLinearBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#444444" Offset="0.0"/>
+                <GradientStop Color="#222222" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
     <RadialGradientBrush x:Key="BottomBoxBrushRadientBrush" GradientOrigin="0.5,0.5">
         <GradientStop Color="#121923" Offset="1.0" />
         <GradientStop Color="#46567b" Offset="0.0" />
+    </RadialGradientBrush>
+
+    <RadialGradientBrush x:Key="HelpRadientBrush" GradientOrigin="0.5,0.5">
+        <GradientStop Color="#14547c" Offset="1.0" />
+        <GradientStop Color="#4e96c4" Offset="0.0" />
     </RadialGradientBrush>
 
     <RadialGradientBrush x:Key="EditorBackgroundRadientBrush" GradientOrigin="0.5,3">

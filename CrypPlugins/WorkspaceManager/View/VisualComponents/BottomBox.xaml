@@ -23,23 +23,27 @@
             <SolidColorBrush Opacity="0.01" Color="#444444"></SolidColorBrush>
         </DockPanel.Background>
         <Border Name="Main" Height="25" Width="300" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" ClipToBounds="True" Background="{StaticResource ResourceKey=BottomBoxBrushLinearBrush}" BorderBrush="#bfd0f5" BorderThickness="0.65" CornerRadius="0,0,5,5">
-            <Border Opacity="0.85" CornerRadius="0,0,0,5" Width="30" HorizontalAlignment="Left" Margin="0.65">
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                        <GradientBrush.GradientStops>
-                            <GradientStopCollection>
-                                <GradientStop Color="#0b85f8" Offset="-1"/>
-                                <GradientStop Color="#333333" Offset="1.0"/>
-                            </GradientStopCollection>
-                        </GradientBrush.GradientStops>
-                    </LinearGradientBrush>
-                </Border.Background>
-                <StackPanel HorizontalAlignment="left">
-                    <Button Height="18" Margin="5,2,5,0" Style="{StaticResource ResourceKey=ScalePluginContainerButtonStyle}">
-                        <Image VerticalAlignment="Top" Source="/WorkspaceManager;component/View/Image/ct.png"></Image>
-                    </Button>
-                </StackPanel>
-            </Border>
+            <StackPanel Orientation="Horizontal">
+                <Border Opacity="0.85" CornerRadius="0,0,0,5" HorizontalAlignment="Left" Margin="0.65">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientBrush.GradientStops>
+                                <GradientStopCollection>
+                                    <GradientStop Color="#0b85f8" Offset="-1"/>
+                                    <GradientStop Color="#333333" Offset="1.0"/>
+                                </GradientStopCollection>
+                            </GradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <StackPanel HorizontalAlignment="left" Orientation="Horizontal">
+                        <Button Height="18" Margin="5,2,5,0" Style="{StaticResource ResourceKey=ScalePluginContainerButtonStyle}">
+                            <Image VerticalAlignment="Top" Source="/WorkspaceManager;component/View/Image/ct.png"></Image>
+                        </Button>
+                    </StackPanel>
+                </Border>
+                <Button Height="18"  Margin="5,2,5,0" Style="{StaticResource ResourceKey=ScalePluginContainerButtonStyle}" Click="Button_Click" Content="Add Image" Foreground="WhiteSmoke">
+                </Button>
+            </StackPanel>
             
         </Border>
 
