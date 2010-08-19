@@ -174,14 +174,14 @@ namespace WorkspaceManager.View.VisualComponents
                     left.X = right.X;
                     right.X = swap;
                 }
-                   
+                 //check if is intersected at all
                 if(isBetween(down.Y, up.Y, left.Y) && isBetween(left.X, right.X, up.X))
                 {
-                    if (StartPoint.Y == StartPointSec.Y 
-                        && (((StartPoint.X >= StartPointSec.X && StartPointSec.X >= EndPoint.X))
-                        || ((StartPoint.X <= StartPointSec.X && StartPointSec.X <= EndPoint.X))))
+                    if (up.Y == left.Y ||
+                        down.Y == left.Y ||
+                        left.X == up.X || right.X == up.X)
                     {
-                        intersectPoint = new IntersectPoint(new Point(up.X, left.Y), IntersectPointMode.NormalIntersect);
+                        intersectPoint = new IntersectPoint(new Point(up.X, left.Y), IntersectPointMode.InnerIntersect);
                     }
                     else
                     {
@@ -228,12 +228,12 @@ namespace WorkspaceManager.View.VisualComponents
                         switch (fromTo.DirSort)
                         {
                             case DirSort.X_ASC:
-                                if (intersectPoint.Mode == IntersectPointMode.NormalIntersect)
+                                if (interPoint.Mode == IntersectPointMode.NormalIntersect)
                                 {
                                     context.LineTo(new Point(interPoint.Point.X - offset, interPoint.Point.Y), true, true);
                                     context.QuadraticBezierTo(new Point(interPoint.Point.X, interPoint.Point.Y - offset), new Point(interPoint.Point.X + offset, interPoint.Point.Y), true, true);
                                 }
-                                else if (intersectPoint.Mode == IntersectPointMode.InnerIntersect)
+                                else if (interPoint.Mode == IntersectPointMode.InnerIntersect)
                                 {
                                     context.LineTo(new Point(interPoint.Point.X - 4, interPoint.Point.Y), true, true);
                                     context.QuadraticBezierTo(new Point(interPoint.Point.X, interPoint.Point.Y - 5), new Point(interPoint.Point.X + 4, interPoint.Point.Y), true, true);
@@ -241,12 +241,12 @@ namespace WorkspaceManager.View.VisualComponents
                                 }
                                 break;
                             case DirSort.X_DESC:
-                                if (intersectPoint.Mode == IntersectPointMode.NormalIntersect)
+                                if (interPoint.Mode == IntersectPointMode.NormalIntersect)
                                 {
                                     context.LineTo(new Point(interPoint.Point.X + offset, interPoint.Point.Y), true, true);
                                     context.QuadraticBezierTo(new Point(interPoint.Point.X, interPoint.Point.Y - offset), new Point(interPoint.Point.X - offset, interPoint.Point.Y), true, true);
                                 }
-                                else if (intersectPoint.Mode == IntersectPointMode.InnerIntersect)
+                                else if (interPoint.Mode == IntersectPointMode.InnerIntersect)
                                 {
                                     context.LineTo(new Point(interPoint.Point.X + 4, interPoint.Point.Y), true, true);
                                     context.QuadraticBezierTo(new Point(interPoint.Point.X, interPoint.Point.Y - 5), new Point(interPoint.Point.X - 4, interPoint.Point.Y), true, true);

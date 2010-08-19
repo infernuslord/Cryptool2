@@ -17,6 +17,11 @@ namespace WorkspaceManager.View.Converter
             if (caption == "PresentationPanel" && state == PluginViewState.Presentation)
                 return Visibility.Visible;
 
+            if (caption == "PresentationOption" && state == PluginViewState.Presentation)
+                return Visibility.Collapsed;
+            else if (caption == "PresentationOption" && state != PluginViewState.Presentation)
+                return Visibility.Visible;
+
             if (caption == "SettingsPanel" && state == PluginViewState.Setting)
                 return Visibility.Visible;
 
@@ -31,7 +36,10 @@ namespace WorkspaceManager.View.Converter
             else if(caption == "OptionPanel" && state != PluginViewState.Min)
                 return Visibility.Visible;
 
-            return Visibility.Hidden;
+            if (caption == null && state == PluginViewState.Min)
+                return Visibility.Visible;
+
+            return Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
