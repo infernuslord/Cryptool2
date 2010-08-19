@@ -397,7 +397,7 @@ namespace Cryptool.Enigma
 
 
                     // FIXME: output all scorings
-                    LogMessage("Enigma encryption done. The resulting index of coincidences is " + analyzer.calculateScore(outputString, 1), NotificationLevel.Info);
+                    LogMessage("Enigma encryption done. The resulting index of coincidences is " + analyzer.calculateScore(outputString, 0), NotificationLevel.Info);
 
                     // "fire" the output
                     OnPropertyChanged("OutputString");
