@@ -1,22 +1,83 @@
 <FlowDocument PagePadding="5,0,5,0" AllowDrop="True" NumberSubstitution.CultureSource="User" 
-              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-              Background="White">
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+			  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			  xmlns:misc="clr-namespace:Cryptool.PluginBase.Miscellaneous;assembly=CrypPluginBase"
+			  Background="White" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
 
-  <Paragraph>
-      <Run FontWeight="Bold" FontSize="14" FontFamily="Calibri" xml:lang="de-de">
+  <Paragraph FontSize="11" FontFamily="Cambria" xml:lang="de-de">
+      
         LFSR (Linear Feedback Shift Register)
-      </Run>
+      
   </Paragraph>
-  <Paragraph>
-      <Run FontSize="11" FontFamily="Cambria" xml:lang="de-de">A linear feedback shift register (LFSR) is a shift register whose input bit is a linear function of its previous state.</Run>
+  <Paragraph FontSize="11" FontFamily="Cambria" xml:lang="de-de">
+      A linear feedback shift register (LFSR) is a shift register whose input bit is a linear function of its previous state.
   </Paragraph>
-  <Paragraph>
-      <Run FontSize="11" FontFamily="Cambria" xml:lang="de-de">The only linear functions of single bits are xor and inverse-xor; thus it is a shift register whose input bit is driven by the exclusive-or (xor) of some bits of the overall shift register value.</Run>
+  <Paragraph FontSize="11" FontFamily="Cambria" xml:lang="de-de">
+      The only linear functions of single bits are xor and inverse-xor; thus it is a shift register whose input bit is driven by the exclusive-or (xor) of some bits of the overall shift register value.
   </Paragraph>
-  <Paragraph>
-      <Run FontSize="11" FontFamily="Cambria" xml:lang="de-de">The initial value of the LFSR is called the seed, and because the operation of the register is deterministic, the stream of values produced by the register is completely determined by its current (or previous) state. Likewise, because the register has a finite number of possible states, it must eventually enter a repeating cycle. However, an LFSR with a well-chosen feedback function can produce a sequence of bits which appears random and which has a very long cycle.</Run>
+  <Paragraph FontSize="11" FontFamily="Cambria" xml:lang="de-de">
+      The initial value of the LFSR is called the seed, and because the operation of the register is deterministic, the stream of values produced by the register is completely determined by its current (or previous) state. Likewise, because the register has a finite number of possible states, it must eventually enter a repeating cycle. However, an LFSR with a well-chosen feedback function can produce a sequence of bits which appears random and which has a very long cycle.
   </Paragraph>
-  <Paragraph>
-      <Run FontSize="11" FontFamily="Cambria" xml:lang="de-de">Applications of LFSRs include generating pseudo-random numbers, pseudo-noise sequences, fast digital counters, and whitening sequences. Both hardware and software implementations of LFSRs are common.</Run>
+  <Paragraph FontSize="11" FontFamily="Cambria" xml:lang="de-de">
+      Applications of LFSRs include generating pseudo-random numbers, pseudo-noise sequences, fast digital counters, and whitening sequences. Both hardware and software implementations of LFSRs are common.
+  </Paragraph>
+  <Paragraph FontSize="11" FontFamily="Cambria" xml:lang="de-de">
+      The LFSR plugin implements the functionality of a linear feedback shift register. Given a polynomial and a seed, it computes as many output bits as set in the settings of the plugin. Additionally the plugin displays a visual live representation of the LFSR in its QuickwatchPresentation. Moreover the plugin can be stepped by an external clock.
+To get a specific internal stage the LFSR plugin also provides an additional output bit. The stage is marked orange in the QuickwatchPresentation. If all stages are needed, the plugin is able to provide a boolean array that outputs the complete state of an LFSR.
+    
+  </Paragraph>
+<Paragraph FontSize="11" FontFamily="Cambria" xml:lang="de-de">
+        Some scenarios includeing detailed walkthroughs that describe the usage of the LFSR plugin can be found here: http://cryptool2.vs.uni-due.de/downloads/howto/StreamCipherToolboxScenarios.pdf
+    </Paragraph>
+
+<Paragraph FontSize="11" FontFamily="Cambria" xml:lang="de-de">
+      Summarized, the LFSR plugin has the following in- and outputs:<LineBreak/><LineBreak/>
+<Bold>Inputs:</Bold><LineBreak/><LineBreak/>
+* String TapSequence (optional): A string containing the taps as a sequence of the c_i or as a polynomial (e.g.: 1011, which is equal to the string x^4 + x^2 + x + 1. Note, that the last 1, which is x^0, is implicitly set to 1 inside the plugin).<LineBreak/>
+* String Seed (optional): The initial binary value of all states (E.g.: 1001).<LineBreak/>
+* Boolean Clock (optional): Optional external clock signal (through CLK plugin).
+    
+  </Paragraph>
+<Paragraph FontSize="11" FontFamily="Cambria" xml:lang="de-de">
+      
+<Bold>Outputs:</Bold><LineBreak/><LineBreak/>
+* String Output: The string containing the output stream with a length of the rounds (e.g.: 1001001, assuming that seven rounds have been performed).<LineBreak/>
+* Boolean Output: Contains the current output bit as a boolean value.<LineBreak/>
+* Boolean Additional Output Bit: Outputs a specific stage of the LFSR as a boolean value.<LineBreak/>
+* Boolean[] Boolean Array Output: Outputs all stages of the LFSR. This can be used for example to build a nonlinear filter generator together with the BooleanFunctionParser plugin.<LineBreak/>
+    
+  </Paragraph>
+<Paragraph FontSize="11" FontFamily="Cambria" xml:lang="de-de">
+      The plugin has a lot of settings to fulfill the requirements of its diverse range of application. The pane of the LFSR plugin contains the following items:
+    
+  </Paragraph>
+<Paragraph FontSize="11" FontFamily="Cambria" xml:lang="de-de">
+        Settings:
+        <LineBreak/>
+        <LineBreak/>
+        * Draw LFSR (Button): Draws the QuickwatchPresentation of the LFSR, if the polynomial fits to the seed.
+        <LineBreak/>
+        * Feedback polynomial (Text): Feedback polynomial or tap sequence.
+        <LineBreak/>
+        * Seed (Text): The seed (initial state).
+        <LineBreak/>
+        * Period of LFSR (Label): Indicates the period depending on feedback polynomial and seed.
+        <LineBreak/>
+        * Do not display Quickwatch (Checkbox): Does not update the QuickwatchPresentation on runtime when it is checked to get a better performance.
+        <LineBreak/>
+        * Number of rounds (NumericUpDown): Number of output bits.
+        <LineBreak/>
+        * Save the state of the LFSR (Checkbox): Saves the current state when stopping and restarting the plugin or saving the workspace.
+        <LineBreak/>
+        * Output stages (Checkbox): Outputs all stages as a boolean array when checked.
+        <LineBreak/>
+        * Generate additional output bit (Checkbox): Outputs a specific stage when checked.
+        <LineBreak/>
+        * Additional output bit # (NumericUpDown): Defines the stage of the additional output bit.
+        <LineBreak/>
+        * Use external clock (Checkbox): Makes use of the external clock input and then clocks the LFSR only on a true input.
+        <LineBreak/>
+        * Always create output (Checkbox): Does output a bit even if the external clock is set to false. The output bit is the bit from the last round. It bit is false if we are in the first round.
+    
   </Paragraph>
 </FlowDocument>
