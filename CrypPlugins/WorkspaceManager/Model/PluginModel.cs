@@ -59,6 +59,7 @@ namespace WorkspaceManager.Model
 
         #region public members
 
+        [field: NonSerialized]
         public event EventHandler<LogUpdated> LogUpdated;
 
         /// <summary>
