@@ -20,20 +20,21 @@
             <z:BlurIconConverter x:Key="BlurIconConverter"></z:BlurIconConverter>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
-        <Grid Background="WhiteSmoke">
+    <Grid x:Name="MainGrid">
+
+        <Grid>
+            <Grid.Background>
+                <ImageBrush ImageSource="/WorkspaceManager;component/View/Image/bg.png" Opacity="0.95" Stretch="UniformToFill"/>
+            </Grid.Background>
             <Grid.Effect>
                 <BlurEffect Radius="{Binding ElementName=InformationPanel, Path=Visibility, Converter={StaticResource ResourceKey=BlurIconConverter}}"></BlurEffect>
             </Grid.Effect>
-            <DockPanel Height="auto" Width="auto" Panel.ZIndex="100">
-                <e:BottomBox DockPanel.Dock="Top" VerticalAlignment="Top"></e:BottomBox>
-            </DockPanel>
             <Border>
-                <Border.Background>
-                    <ImageBrush ImageSource="/WorkspaceManager;component/View/Image/bg.png" Opacity="0.95" Stretch="UniformToFill"/>
-                </Border.Background>
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <Canvas Name="root" Background="{StaticResource ResourceKey=GridBrush}" RenderTransformOrigin="0.5, 0.5">
+                        <Grid Width="{Binding ElementName=MainGrid, Path=ActualWidth}" Height="{Binding ElementName=MainGrid, Path=ActualHeight}">
+                            <e:UserContentWrapper></e:UserContentWrapper>
+                        </Grid>
                         <Canvas.LayoutTransform>
                             <ScaleTransform x:Name="Scale" ScaleX="{Binding Source={x:Static p:Settings.Default}, Path=EditScale, Mode=OneWay}" ScaleY="{Binding Source={x:Static p:Settings.Default}, Path=EditScale, Mode=OneWay}"></ScaleTransform>
                         </Canvas.LayoutTransform>
@@ -63,6 +64,12 @@
                     </Button>
                 </Border>
             </StackPanel>
+        </Grid>
+        
+        <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Width="100" Height="200" Visibility="Hidden">
+            <Border Background="{StaticResource ResourceKey=HelpLinearBrush}" CornerRadius="0,10,10,0" BorderBrush="#406278" BorderThickness="1.5">
+                
+            </Border>    
         </Grid>
         
         <Grid Width="auto" Height="auto" Name="InformationPanel" Visibility="Hidden">

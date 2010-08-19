@@ -17,12 +17,12 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <DockPanel LastChildFill="True">
-        <DockPanel.RenderTransform>
-            <TranslateTransform Y="-15"></TranslateTransform>
-        </DockPanel.RenderTransform>
-        <TextBlock DockPanel.Dock="Top" Text="Messages" FontSize="16" Foreground="WhiteSmoke" Padding="5" Panel.ZIndex="10000">
+        <TextBlock DockPanel.Dock="Top" Text="Messages" Foreground="WhiteSmoke" Panel.ZIndex="10000" FontSize="7">
             <TextBlock.RenderTransform>
-                <TranslateTransform Y="15"></TranslateTransform>
+                <TransformGroup>
+                    <TranslateTransform Y="0"></TranslateTransform>
+                    <ScaleTransform ScaleY="2" ScaleX="2"></ScaleTransform>
+                </TransformGroup>
             </TextBlock.RenderTransform>
             <TextBlock.Effect>
                 <DropShadowEffect BlurRadius="3" ShadowDepth="0"></DropShadowEffect>

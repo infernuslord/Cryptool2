@@ -15,11 +15,18 @@ using System.Windows.Media.Animation;
 
 namespace WorkspaceManager.View.VisualComponents
 {
+    public class ImageSelectedEventArgs : EventArgs
+    {
+        public Uri uri;
+    }
+
     /// <summary>
     /// Interaktionslogik für Settings.xaml
     /// </summary>
     public partial class BottomBox : UserControl
     {
+        public event EventHandler<ImageSelectedEventArgs> ImageSelected;
+
         public BottomBox()
         {
             this.Loaded += new RoutedEventHandler(BottomBox_Loaded);
@@ -43,6 +50,18 @@ namespace WorkspaceManager.View.VisualComponents
             //Sub.Visibility = Visibility.Visible;
             Main.BeginStoryboard((this.Resources["DecrementHeigth"] as Storyboard));
             //Sub.BeginStoryboard((this.Resources["Up"] as Storyboard));
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.OpenFileDialog diag = new System.Windows.Forms.OpenFileDialog();
+            if (diag.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                Uri uriLocal = new Uri(diag.FileName);
+
+                if (ImageSelected != null)
+                    ImageSelected.Invoke(this, new ImageSelectedEventArgs() { uri = uriLocal });
+            }
         }
     }
 }

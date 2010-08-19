@@ -676,7 +676,6 @@ namespace WorkspaceManager.View.Container
         {
             Button btn = sender as Button;
             OptionCaption.Text = btn.ToolTip as String;
-
         }
     }
 

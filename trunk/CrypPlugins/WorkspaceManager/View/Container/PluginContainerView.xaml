@@ -269,10 +269,10 @@
                     <ScaleTransform ScaleX="0.6" ScaleY="0.6"></ScaleTransform>
                 </Grid.LayoutTransform>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="30*"/>
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
-                <Border Grid.Row="0" Background="{StaticResource ResourceKey=BubblePopupLinearBrush}" BorderBrush="#f8f692" HorizontalAlignment="Center" CornerRadius="10" >
+                <Border Grid.Row="0" Background="{StaticResource ResourceKey=BubblePopupLinearBrush}" BorderBrush="#f8f692" HorizontalAlignment="Center" VerticalAlignment="Stretch" CornerRadius="10" >
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal" Margin="6">
                             <StackPanel.LayoutTransform>
@@ -285,7 +285,11 @@
                                             <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
                                         </Image.Effect>
                                     </Image>
-                                    <TextBlock x:Name="ErrorCount" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
+                                    <TextBlock x:Name="ErrorCount" VerticalAlignment="Center" FontWeight="Bold" Foreground="Red" Padding="3" FontSize="12">
+                                        <TextBlock.Effect>
+                                            <DropShadowEffect ShadowDepth="0"></DropShadowEffect>
+                                        </TextBlock.Effect>
+                                    </TextBlock>
                                 </StackPanel>
                             </Button>
 
@@ -296,7 +300,11 @@
                                             <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
                                         </Image.Effect>
                                     </Image>
-                                    <TextBlock x:Name="WarningCount" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
+                                    <TextBlock x:Name="WarningCount" VerticalAlignment="Center" FontWeight="Bold" Foreground="Yellow" Padding="3" FontSize="12">
+                                        <TextBlock.Effect>
+                                            <DropShadowEffect ShadowDepth="0"></DropShadowEffect>
+                                        </TextBlock.Effect>
+                                    </TextBlock>
                                 </StackPanel>
                             </Button>
 
@@ -307,7 +315,11 @@
                                             <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
                                         </Image.Effect>
                                     </Image>
-                                    <TextBlock x:Name="DebugCount" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
+                                    <TextBlock x:Name="DebugCount" VerticalAlignment="Center" FontWeight="Bold" Foreground="#4ad200" Padding="3" FontSize="12">
+                                        <TextBlock.Effect>
+                                            <DropShadowEffect ShadowDepth="0"></DropShadowEffect>
+                                        </TextBlock.Effect>
+                                    </TextBlock>
                                 </StackPanel>
                             </Button>
 
@@ -318,7 +330,11 @@
                                             <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
                                         </Image.Effect>
                                     </Image>
-                                    <TextBlock x:Name="InfoCount" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
+                                    <TextBlock x:Name="InfoCount" VerticalAlignment="Center" FontWeight="Bold" Foreground="#61c2ff" Padding="3" FontSize="12">
+                                        <TextBlock.Effect>
+                                            <DropShadowEffect ShadowDepth="0"></DropShadowEffect>
+                                        </TextBlock.Effect>
+                                    </TextBlock>
                                 </StackPanel>
                             </Button>
 
