@@ -406,10 +406,10 @@ namespace WorkspaceManager.Execution
             }
 
             //6. Clear all used inputs
-            clearInputs();
+            //clearInputs();
 
             //7. Send execute messages to possible executable next plugins
-            runNextPlugins();
+            //runNextPlugins();
         }
 
         /// <summary>
@@ -446,6 +446,8 @@ namespace WorkspaceManager.Execution
                 {
                     connectorModel.Data = null;
                     connectorModel.HasData = false;
+                    connectorModel.GuiNeedsUpdate = true;
+
                     foreach (ConnectionModel connectionModel in connectorModel.InputConnections)
                     {
                         connectionModel.Active = false;

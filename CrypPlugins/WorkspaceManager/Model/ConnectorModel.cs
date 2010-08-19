@@ -199,6 +199,11 @@ namespace WorkspaceManager.Model
         /// <param name="propertyChangedEventArgs"></param>
         public void PropertyChangedOnPlugin(Object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
+            if (!this.PluginModel.WorkspaceModel.WorkspaceManagerEditor.isExecuting())
+            {
+                return;
+            }
+
             if (sender == this.PluginModel.Plugin &&
                 propertyChangedEventArgs.PropertyName.Equals(PropertyName) &&
                 Outgoing)
@@ -218,9 +223,13 @@ namespace WorkspaceManager.Model
                     return;
                 }
 
+                Data Data = new Data();
+                Data.value = data;
+                this.Data = Data;
+
                 foreach (ConnectionModel connectionModel in this.OutputConnections)
                 {
-                    Data Data = new Data();
+                    Data = new Data();
                     Data.value = data;
                     connectionModel.To.Data = Data;
                     connectionModel.To.HasData = true;
@@ -235,6 +244,31 @@ namespace WorkspaceManager.Model
                     MessageExecution msg = new MessageExecution();
                     msg.PluginModel = connectionModel.To.PluginModel;
                     connectionModel.To.PluginModel.PluginProtocol.BroadcastMessage(msg);
+                }
+            }
+            else if (sender == this.PluginModel.Plugin &&
+               propertyChangedEventArgs.PropertyName.Equals(PropertyName) &&
+               !Outgoing)
+            {
+                this.Data = null;
+                this.hasData = false;
+                this.GuiNeedsUpdate = true;
+
+                foreach (ConnectionModel connectionModel in this.InputConnections)
+                {
+                    connectionModel.Active = false;
+                    connectionModel.GuiNeedsUpdate = true;
+                }
+
+                foreach (ConnectionModel connectionModel in this.InputConnections)
+                {
+                    if (!connectionModel.From.PluginModel.Startable ||
+                        (connectionModel.From.PluginModel.Startable && connectionModel.From.PluginModel.RepeatStart))
+                    {
+                        MessageExecution message_exec = new MessageExecution();
+                        message_exec.PluginModel = connectionModel.From.PluginModel;
+                        connectionModel.From.PluginModel.PluginProtocol.BroadcastMessageReliably(message_exec);
+                    }
                 }
             }
         }
