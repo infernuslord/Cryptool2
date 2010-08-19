@@ -75,22 +75,49 @@
                 <SolidColorBrush Opacity="0.01" Color="#444444"></SolidColorBrush>
             </DockPanel.Background>
             
-            <StackPanel DockPanel.Dock="Top" Name="ControlPanel" Visibility="Visible" Opacity="0" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button x:Name="play" Height="20" Width="20" Style="{StaticResource ResourceKey=DeletePluginContainerButtonStyle}" Margin="0,0,0,5" Click="Button_Click">
-                    <Button.LayoutTransform>
-                        <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
-                    </Button.LayoutTransform>
-                    <Image Source="/WorkspaceManager;component/View/Image/play.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
-                </Button>
+            <Grid DockPanel.Dock="Top">
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="{Binding ElementName=Window, Path=ActualWidth}">
+                    <Grid.RenderTransform>
+                        <TranslateTransform Y="20"></TranslateTransform>
+                    </Grid.RenderTransform>
+                    <ProgressBar VerticalAlignment="Center" x:Name="ProgressBar" Height="12" Width="Auto" Background="Black" OverridesDefaultStyle="True" Foreground="Blue" Maximum="1">
+                        <ProgressBar.OpacityMask>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="Transparent" Offset="0.0"/>
+                                        <GradientStop Color="Black" Offset="0.5"/>
+                                        <GradientStop Color="Transparent" Offset="1.0"/>
+                                    </GradientStopCollection>
+                                </GradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                        </ProgressBar.OpacityMask>
+                        <ProgressBar.Resources>
+                            <ResourceDictionary Source="/PresentationFramework.Aero;v3.0.0.0;31bf3856ad364e35;component/themes/aero.normalcolor.xaml"/>
+                        </ProgressBar.Resources>
+                    </ProgressBar>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock x:Name="Percentage" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="WhiteSmoke" Text="{Binding ElementName=ProgressBar, Path=Value, Converter={StaticResource ResourceKey=PercentageConverter}, FallbackValue=error}" />
+                        <TextBlock FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="WhiteSmoke" Text="%"/>
+                    </StackPanel>
+                </Grid>
 
-                <Button x:Name="del" Height="20" Width="20" Style="{StaticResource ResourceKey=DeletePluginContainerButtonStyle}" Margin="0,0,0,5" Click="Button_Click">
-                    <Button.LayoutTransform>
-                        <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
-                    </Button.LayoutTransform>
-                    <Image Source="/WorkspaceManager;component/View/Image/delete.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
-                </Button>
-            </StackPanel>
-            
+                <StackPanel Name="ControlPanel" Visibility="Visible" Opacity="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="play" Height="20" Width="20" Style="{StaticResource ResourceKey=DeletePluginContainerButtonStyle}" Margin="0,0,0,5" Click="Button_Click">
+                        <Button.LayoutTransform>
+                            <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
+                        </Button.LayoutTransform>
+                        <Image Source="/WorkspaceManager;component/View/Image/play.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
+                    </Button>
+
+                    <Button x:Name="del" Height="20" Width="20" Style="{StaticResource ResourceKey=DeletePluginContainerButtonStyle}" Margin="0,0,0,5" Click="Button_Click">
+                        <Button.LayoutTransform>
+                            <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
+                        </Button.LayoutTransform>
+                        <Image Source="/WorkspaceManager;component/View/Image/delete.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
             
             
             
@@ -202,11 +229,11 @@
                                                     <!--<DockPanel.LayoutTransform>
                                                         <ScaleTransform ScaleX="0.7" ScaleY="0.7"></ScaleTransform>
                                                     </DockPanel.LayoutTransform>-->
-                                                    <Button DockPanel.Dock="Left" x:Name="Left" Click="OptionClickHandler" Width="20" Height="20" Margin="0,0,5,0" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}}" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
+                                                    <Button DockPanel.Dock="Left" x:Name="Left" Click="OptionClickHandler" Width="20" Height="20" Margin="0,0,10,0" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}}" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
                                                         <Image Source="/WorkspaceManager;component/View/Image/left.png" Opacity="0.6"  HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
                                                     </Button>
 
-                                                    <Button DockPanel.Dock="Right" x:Name="Right" Click="OptionClickHandler" Width="20" Height="20" Margin="5,0,0,0" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}}" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
+                                                    <Button DockPanel.Dock="Right" x:Name="Right" Click="OptionClickHandler" Width="20" Height="20" Margin="10,0,0,0" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}}" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
                                                         <Image Source="/WorkspaceManager;component/View/Image/right.png" Opacity="0.6" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
                                                     </Button>
                                                     <Grid></Grid>
@@ -246,54 +273,56 @@
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
                 <Border Grid.Row="0" Background="{StaticResource ResourceKey=BubblePopupLinearBrush}" BorderBrush="#f8f692" HorizontalAlignment="Center" CornerRadius="10" >
-                    <StackPanel Orientation="Horizontal" Margin="6">
-                        <StackPanel.LayoutTransform>
-                            <ScaleTransform ScaleX="1.6" ScaleY="1.6"></ScaleTransform>
-                        </StackPanel.LayoutTransform>
-                        <Button Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/WorkspaceManager;component/View/Image/error2.png" SnapsToDevicePixels="True" Height="20" Width="20">
-                                    <Image.Effect>
-                                        <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
-                                    </Image.Effect>
-                                </Image>
-                                <TextBlock x:Name="ErrorCount" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
-                            </StackPanel>
-                        </Button>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal" Margin="6">
+                            <StackPanel.LayoutTransform>
+                                <ScaleTransform ScaleX="1.6" ScaleY="1.6"></ScaleTransform>
+                            </StackPanel.LayoutTransform>
+                            <Button Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/WorkspaceManager;component/View/Image/error2.png" SnapsToDevicePixels="True" Height="20" Width="20">
+                                        <Image.Effect>
+                                            <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
+                                        </Image.Effect>
+                                    </Image>
+                                    <TextBlock x:Name="ErrorCount" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
+                                </StackPanel>
+                            </Button>
 
-                        <Button Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/WorkspaceManager;component/View/Image/warn.png" SnapsToDevicePixels="True" Height="15" Width="15">
-                                    <Image.Effect>
-                                        <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
-                                    </Image.Effect>
-                                </Image>
-                                <TextBlock x:Name="WarningCount" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
-                            </StackPanel>
-                        </Button>
+                            <Button Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/WorkspaceManager;component/View/Image/warn.png" SnapsToDevicePixels="True" Height="15" Width="15">
+                                        <Image.Effect>
+                                            <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
+                                        </Image.Effect>
+                                    </Image>
+                                    <TextBlock x:Name="WarningCount" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
+                                </StackPanel>
+                            </Button>
 
-                        <Button Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/WorkspaceManager;component/View/Image/debug.png" SnapsToDevicePixels="True" Height="15" Width="15">
-                                    <Image.Effect>
-                                        <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
-                                    </Image.Effect>
-                                </Image>
-                                <TextBlock x:Name="DebugCount" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
-                            </StackPanel>
-                        </Button>
+                            <Button Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/WorkspaceManager;component/View/Image/debug.png" SnapsToDevicePixels="True" Height="15" Width="15">
+                                        <Image.Effect>
+                                            <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
+                                        </Image.Effect>
+                                    </Image>
+                                    <TextBlock x:Name="DebugCount" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
+                                </StackPanel>
+                            </Button>
 
-                        <Button Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/WorkspaceManager;component/View/Image/info.png" SnapsToDevicePixels="True" Height="15" Width="15">
-                                    <Image.Effect>
-                                        <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
-                                    </Image.Effect>
-                                </Image>
-                                <TextBlock x:Name="InfoCount" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
-                            </StackPanel>
-                        </Button>
+                            <Button Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/WorkspaceManager;component/View/Image/info.png" SnapsToDevicePixels="True" Height="15" Width="15">
+                                        <Image.Effect>
+                                            <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
+                                        </Image.Effect>
+                                    </Image>
+                                    <TextBlock x:Name="InfoCount" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
+                                </StackPanel>
+                            </Button>
 
+                        </StackPanel>
                     </StackPanel>
                 </Border>
                 <Path Fill="#ffffec" Stretch="Fill" Stroke="#f8f692" HorizontalAlignment="Left" Margin="30,-1.35,0,0" Width="25" Grid.Row="1" Data="M18,154.45381 L29.999666,187.66699 40.791059,154.54395">
