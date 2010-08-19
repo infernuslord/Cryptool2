@@ -37,6 +37,7 @@ namespace WorkspaceManager.View.Container
         private PluginContainerView selectedPluginContainer;
         private CryptoLineView dummyLine = new CryptoLineView();
         private Point point;
+        private PluginContainerView currentFullViewContainer;
 
         public EditorState State;
         public EditorState ConnectorState;
@@ -93,7 +94,7 @@ namespace WorkspaceManager.View.Container
             {
                 PluginContainerView newPluginContainerView = new PluginContainerView(model);
                 newPluginContainerView.Delete += new EventHandler<PluginContainerViewDeleteViewEventArgs>(PluginDelete);
-                newPluginContainerView.ShowSettings += new EventHandler<PluginContainerViewSettingsViewEventArgs>(shape_ShowSettings);
+                newPluginContainerView.FullScreen += new EventHandler<PluginContainerViewFullScreenViewEventArgs>(shape_FullScreen);
                 newPluginContainerView.ConnectorMouseLeftButtonDown += new EventHandler<ConnectorViewEventArgs>(shape_OnConnectorMouseLeftButtonDown);
                 newPluginContainerView.MouseLeftButtonDown += new MouseButtonEventHandler(shape_MouseLeftButtonDown);
                 newPluginContainerView.MouseLeftButtonUp += new MouseButtonEventHandler(shape_MouseLeftButtonUp);
@@ -106,9 +107,12 @@ namespace WorkspaceManager.View.Container
             }
         }
 
-        void shape_ShowSettings(object sender, PluginContainerViewSettingsViewEventArgs e)
+        void shape_FullScreen(object sender, PluginContainerViewFullScreenViewEventArgs e)
         {
             this.InformationPanel.Visibility = Visibility.Visible;
+            e.container.PresentationPanel.Child = null;
+            this.FullPresentation.Children.Add(e.container.Model.PluginPresentation);
+            this.currentFullViewContainer = e.container;
         }
 
         public void AddConnection(ConnectorView source, ConnectorView target)
@@ -311,7 +315,10 @@ namespace WorkspaceManager.View.Container
 
         private void CloseSettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            this.InformationPanel.Visibility = Visibility.Hidden;
+            this.InformationPanel.Visibility = Visibility.Collapsed;
+            this.FullPresentation.Children.Clear();
+            this.currentFullViewContainer.PresentationPanel.Child = currentFullViewContainer.Model.PluginPresentation;
+            this.currentFullViewContainer = null;
         }
 
         internal void Load(WorkspaceModel WorkspaceModel)
@@ -354,7 +361,7 @@ namespace WorkspaceManager.View.Container
             PluginContainerView newPluginContainerView = new PluginContainerView(model);
 
             newPluginContainerView.Delete += new EventHandler<PluginContainerViewDeleteViewEventArgs>(PluginDelete);
-            newPluginContainerView.ShowSettings += new EventHandler<PluginContainerViewSettingsViewEventArgs>(shape_ShowSettings);
+            newPluginContainerView.FullScreen += new EventHandler<PluginContainerViewFullScreenViewEventArgs>(shape_FullScreen);
             newPluginContainerView.ConnectorMouseLeftButtonDown += new EventHandler<ConnectorViewEventArgs>(shape_OnConnectorMouseLeftButtonDown);
             newPluginContainerView.MouseLeftButtonDown += new MouseButtonEventHandler(shape_MouseLeftButtonDown);
             newPluginContainerView.MouseLeftButtonUp += new MouseButtonEventHandler(shape_MouseLeftButtonUp);

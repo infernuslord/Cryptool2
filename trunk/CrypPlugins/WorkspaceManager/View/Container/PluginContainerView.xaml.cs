@@ -39,7 +39,7 @@ namespace WorkspaceManager.View.Container
         #region Events
         public event EventHandler<ConnectorViewEventArgs> ConnectorMouseLeftButtonDown;
         public event EventHandler<PluginContainerViewDeleteViewEventArgs> Delete;
-        public event EventHandler<PluginContainerViewSettingsViewEventArgs> ShowSettings;
+        public event EventHandler<PluginContainerViewFullScreenViewEventArgs> FullScreen;
         #endregion
 
         #region Private Variables
@@ -484,15 +484,15 @@ namespace WorkspaceManager.View.Container
                 this.Delete.Invoke(this, new PluginContainerViewDeleteViewEventArgs { container = this });
         }
 
-        private void showSettings()
+        private void showFullScreen()
         {
-            if (this.ShowSettings != null)
-                this.ShowSettings.Invoke(this, new PluginContainerViewSettingsViewEventArgs { container = this });
+            if (this.FullScreen != null)
+                this.FullScreen.Invoke(this, new PluginContainerViewFullScreenViewEventArgs { container = this });
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            this.showSettings();
+            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -567,8 +567,8 @@ namespace WorkspaceManager.View.Container
         public void update()
         {
 
-                //ProgressPopup.IsOpen = true;
-            //ProgressBar.Value = Model.PercentageFinished;
+            BubblePopup.IsOpen = true;
+            ProgressBar.Value = Model.PercentageFinished;
 
             if (ViewState == PluginViewState.Data)
             {
@@ -663,10 +663,10 @@ namespace WorkspaceManager.View.Container
                     break;
 
                 case "SettingButton":
-                    PluginBase.Width = 400;
-                    PluginBase.Height = 300;
-                    ViewPanel.Visibility = Visibility.Visible;
-                    ViewState = PluginViewState.Setting;
+                    
+                    break;
+                case "MaxButton":
+                    showFullScreen();
                     break;
             }
             e.Handled = true;
@@ -685,7 +685,7 @@ namespace WorkspaceManager.View.Container
         public PluginContainerView container;
     }
 
-    public class PluginContainerViewSettingsViewEventArgs : EventArgs
+    public class PluginContainerViewFullScreenViewEventArgs : EventArgs
     {
         public PluginContainerView container;
     }

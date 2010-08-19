@@ -17,10 +17,14 @@
                 <ResourceDictionary Source="../Resource/Animations.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <z:ScaleToPercentageConverter x:Key="PercentageConverter"></z:ScaleToPercentageConverter>
+            <z:BlurIconConverter x:Key="BlurIconConverter"></z:BlurIconConverter>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
         <Grid Background="WhiteSmoke">
+            <Grid.Effect>
+                <BlurEffect Radius="{Binding ElementName=InformationPanel, Path=Visibility, Converter={StaticResource ResourceKey=BlurIconConverter}}"></BlurEffect>
+            </Grid.Effect>
             <DockPanel Height="auto" Width="auto" Panel.ZIndex="100">
                 <e:BottomBox DockPanel.Dock="Top" VerticalAlignment="Top"></e:BottomBox>
             </DockPanel>
@@ -61,16 +65,24 @@
             </StackPanel>
         </Grid>
         
-        <Grid Width="auto" Height="auto" Name="InformationPanel" Visibility="Hidden" Opacity="0">
+        <Grid Width="auto" Height="auto" Name="InformationPanel" Visibility="Hidden">
             <Grid.Background>
-                <SolidColorBrush Opacity="0.45" Color="Black"/>
+                <SolidColorBrush Opacity="0.2" Color="Gray"/>
             </Grid.Background>
-            <Grid MinWidth="200" MaxWidth="500" MinHeight="200" MaxHeight="500">
-                <Grid.Background>
-                    <SolidColorBrush Opacity="0.8" Color="WhiteSmoke"/>
-                </Grid.Background>
-                <Button Name="CloseSettingsButton" Height="20" Width="20" Click="CloseSettingsButton_Click"></Button>
-            </Grid>
+            <DockPanel LastChildFill="True">
+                <DockPanel DockPanel.Dock="Top">
+                    <DockPanel.Background>
+                        <SolidColorBrush Color="Black" Opacity="0.3"></SolidColorBrush>
+                    </DockPanel.Background>
+                    <TextBlock DockPanel.Dock="Left" Text="Fullscreen" Foreground="WhiteSmoke" FontSize="20" Padding="5"></TextBlock>
+                    <Button DockPanel.Dock="Right" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" Name="CloseSettingsButton" Height="30" Width="30" Click="CloseSettingsButton_Click" Margin="5">
+                        <Image Source="/WorkspaceManager;component/View/Image/delete.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
+                    </Button>
+                    <Grid></Grid>
+                </DockPanel>
+
+                <Grid x:Name="FullPresentation" Margin="100"></Grid>
+            </DockPanel>
 
         </Grid>
     </Grid>
