@@ -51,7 +51,8 @@ namespace DiscreteLogarithm
              * This is because residue classes with a composite modulus is not a field, which means that not all elements
              * of this ring do have an inverse.
              * We cope with this problem by factorizing the modulus in its prime factors and solving gauss over them
-             * separately. We can use the chinese remainder theorem to get the solution we need then.
+             * separately (in the case of p^q (q>1) by using "hensel lifting").
+             * We can use the chinese remainder theorem to get the solution we need then.
              * But what happens if we aren't able to factorize the modulus completely, because this is to inefficient?
              * There is a simple trick to cope with that:
              * Try the gauss algorithm with the composite modulus. Either you have luck and it works out without a problem
@@ -194,22 +195,18 @@ namespace DiscreteLogarithm
             Console.Out.WriteLine("");
         }
 
-        /*
-        public static void Main()
+
+        /*public static void test()
         {
-            LinearSystemOfEquations l = new LinearSystemOfEquations(7, 3);
-            l.AddEquation(new int[] { 1, 2, 3 }, 4);
-            l.AddEquation(new int[] { 2, 3, 4 }, 5);
-            l.AddEquation(new int[] { 5, 4, 5 }, 6);
+            LinearSystemOfEquations l = new LinearSystemOfEquations(2*2*2*2*3*3, 3);
+            l.AddEquation(new BigInteger[] { 2, 4, 1 }, 2);
+            l.AddEquation(new BigInteger[] { 4, 3, 1 }, 0);
+            l.AddEquation(new BigInteger[] { 5, 1, 0 }, 2);
 
             BigInteger[] sol = l.Solve();
 
-            foreach (int i in sol)
-                Console.Out.WriteLine(i);
-
-            Console.In.ReadLine();
-        }
-         */
+            int a = 4;      //Set breackpoint here
+        }*/
 
     }
 }

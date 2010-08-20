@@ -16,7 +16,7 @@ namespace DiscreteLogarithm
     {
         private int size;
         private List<BigInteger[]> matrix;
-        private List<int> rowSwaps;
+        private int[] rowSwaps;
         private BigInteger mod;
 
         public BigInteger[] Solve(List<BigInteger[]> matrix, BigInteger mod)
@@ -24,7 +24,7 @@ namespace DiscreteLogarithm
             this.matrix = matrix;
             this.mod = mod;
             size = matrix.Count;
-            this.rowSwaps = new List<int>();
+            this.rowSwaps = new int[matrix.Count];
             for (int i = 0; i < matrix.Count; i++)
                 rowSwaps[i] = i;
 
@@ -58,7 +58,7 @@ namespace DiscreteLogarithm
                 {
                     if ((matrix[y][x] % mod) != 0)
                         SubAndMultiplyWithConstantRows(x, y, (matrixXXinverse * matrix[y][x]) % mod);
-                    Debug.Assert(matrix[y][x] == 0);
+                    Debug.Assert((matrix[y][x] % mod) == 0);
                 }
             }
 
@@ -80,7 +80,7 @@ namespace DiscreteLogarithm
                 {
                     if ((matrix[y][x] % mod) != 0)
                         SubAndMultiplyWithConstantRows(x, y, (matrixXXinverse * matrix[y][x]) % mod);
-                    Debug.Assert(matrix[y][x] == 0);
+                    Debug.Assert((matrix[y][x] % mod) == 0);
                 }
             }
             
@@ -90,6 +90,8 @@ namespace DiscreteLogarithm
             {
                 BigInteger matrixXXinverse = BigIntegerHelper.ModInverse(matrix[x][x], mod);
                 sol[x] = (matrixXXinverse * matrix[x][size]) % mod;
+                while (sol[x] < 0)
+                    sol[x] += mod;
             }
             return sol;
         }
@@ -112,9 +114,9 @@ namespace DiscreteLogarithm
             for (int i = 0; i < size + 1; i++)
             {
                 matrix[destIndex][i] -= (constant * matrix[srcIndex][i]) % mod;
-                while (matrix[destIndex][i] < 0)
-                    matrix[destIndex][i] += mod;
                 matrix[destIndex][i] %= mod;
+                while (matrix[destIndex][i] < 0)
+                    matrix[destIndex][i] += mod;                
             }
         }
     }

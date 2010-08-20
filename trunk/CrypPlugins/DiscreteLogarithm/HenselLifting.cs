@@ -26,14 +26,14 @@ namespace DiscreteLogarithm
             
             //create As:
             As.Add(matrix);
-            for (int i = 0; i < exp; i++)
+            for (int i = 0; i < (exp-1); i++)
             {
-                As.Add(SplitMatrix(As[i], BigInteger.Pow(mod, exp-i)));
+                As.Add(SplitMatrix(As[i], BigInteger.Pow(mod, exp-i-1)));
             }
             As.Reverse();
 
             //create bs:            
-            for (int i = 0; i <= exp; i++)
+            for (int i = 0; i < exp; i++)
             {
                 bs.Add(GetLastColumnFromMatrix(As[i]));
             }
@@ -41,24 +41,22 @@ namespace DiscreteLogarithm
             //find xs:
             List<BigInteger[]> A0 = As[0];
             BigInteger[] b = bs[0];
-            for (int i = 0; i < exp; i++)
+            for (int i = 0; i < exp-1; i++)
             {
-                SetLastColumnFromMatrix(A0, b);
-                xs[i] = gauss.Solve(A0, mod);
+                xs.Add(gauss.Solve(CreateAb(A0, b), mod));
                 
-                BigInteger[] q = ModVector(SubVectors(MultMatrixWithVector(A0, xs[i]), b), mod);
+                BigInteger[] q = DivVector(SubVectors(MultMatrixWithVector(A0, xs[i]), b), mod);
                 b = SubVectors(bs[i + 1], q);
                 for (int c = 0; c <= i; c++)
                 {
                     b = SubVectors(b, MultMatrixWithVector(As[c + 1], xs[i-c]));
                 }
-            }
-            SetLastColumnFromMatrix(A0, b);
-            xs[exp] = gauss.Solve(A0, mod);
+            }            
+            xs.Add(gauss.Solve(CreateAb(A0, b), mod));
 
             //glue xs together:
             BigInteger[] x = new BigInteger[xs[0].Length];
-            for (int i = 0; i <= exp; i++)
+            for (int i = 0; i < exp; i++)
             {
                 BigInteger p = BigInteger.Pow(mod, i);
                 for (int y = 0; y < x.Length; y++)
@@ -74,7 +72,7 @@ namespace DiscreteLogarithm
             for (int y = 0; y < matrix.Count; y++)
             {
                 res[y] = 0;
-                for (int x = 0; x < vector.Length - 1; x++)
+                for (int x = 0; x < vector.Length; x++)
                 {
                     res[y] += matrix[y][x] * vector[x];
                 }
@@ -100,12 +98,37 @@ namespace DiscreteLogarithm
             return res;
         }
 
-        private void SetLastColumnFromMatrix(List<BigInteger[]> matrix, BigInteger[] b)
+        private BigInteger[] DivVector(BigInteger[] vector, BigInteger mod)
         {
-            for (int y = 0; y < matrix.Count; y++)
+            BigInteger[] res = new BigInteger[vector.Length];
+            for (int y = 0; y < vector.Length; y++)
             {
-                matrix[y][matrix[y].Length - 1] = b[y];
+                res[y] = vector[y] / mod;
             }
+            return res;
+        }
+
+
+        /// <summary>
+        /// Creates a matrix with values of parameter "A" and the last column with values of parameter "b"
+        /// </summary>
+        /// <param name="A"></param>
+        /// <param name="b"></param>
+        /// <returns>the created matrix</returns>
+        private List<BigInteger[]> CreateAb(List<BigInteger[]> A, BigInteger[] b)
+        {
+            List<BigInteger[]> result = new List<BigInteger[]>();
+            for (int y = 0; y < A.Count; y++)
+            {
+                BigInteger[] row = new BigInteger[A[y].Length];
+                for (int x = 0; x < A[y].Length - 1; x++)
+                {
+                    row[x] = A[y][x];
+                }
+                row[A[y].Length - 1] = b[y];
+                result.Add(row);
+            }
+            return result;
         }
 
         private BigInteger[] GetLastColumnFromMatrix(List<BigInteger[]> matrix)
