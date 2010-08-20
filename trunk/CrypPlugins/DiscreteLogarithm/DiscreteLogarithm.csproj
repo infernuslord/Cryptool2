@@ -88,6 +88,7 @@
     <Compile Include="FactorBase.cs" />
     <Compile Include="FiniteFieldGauss.cs" />
     <Compile Include="HenselLifting.cs" />
+    <Compile Include="IndexCalculusMethod.cs" />
     <Compile Include="LinearDependentException.cs" />
     <Compile Include="LinearSystemOfEquations.cs" />
     <Compile Include="NotInvertibleException.cs" />

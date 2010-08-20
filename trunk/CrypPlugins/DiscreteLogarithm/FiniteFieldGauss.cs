@@ -34,7 +34,7 @@ namespace DiscreteLogarithm
                 if ((matrix[x][x] % mod) == 0)
                 {
                     int y = x + 1;
-                    while (y < size && (matrix[x][y] % mod) == 0)
+                    while (y < size && (matrix[y][x] % mod) == 0)
                         y++;
                     if (y == size)
                     {
