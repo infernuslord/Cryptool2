@@ -73,7 +73,7 @@ namespace WorkspaceManager
         private WorkspaceModel WorkspaceModel = null;
         private WorkSpaceEditorView WorkspaceSpaceEditorView = null;
         private ExecutionEngine ExecutionEngine = null;
-        private bool executing = false;
+        private volatile bool executing = false;
 
         #endregion
 
