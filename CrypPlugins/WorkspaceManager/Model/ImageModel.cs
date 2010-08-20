@@ -7,7 +7,6 @@ using System.IO;
 using System.Windows.Media;
 using System.Windows.Controls;
 
-
 namespace WorkspaceManager.Model
 {
     /// <summary>
@@ -22,7 +21,7 @@ namespace WorkspaceManager.Model
         private int stride;
 
         /// <summary>
-        /// Get the BitmapImage represented by this ImageModel
+        /// Get the Image stored by this ImageModel
         /// </summary>
         /// <returns></returns>
         public Image getImage()
@@ -33,14 +32,10 @@ namespace WorkspaceManager.Model
                 return image;
             }
 
-            image.Source = BitmapImage.Create(width,
-                          height,
-                          96,
-                          96,
-                          System.Windows.Media.PixelFormats.Bgr32,
-                          null,
-                          data,
-                          stride);
+            MemoryStream stream = new MemoryStream(this.data);
+            JpegBitmapDecoder decoder = new JpegBitmapDecoder(stream, BitmapCreateOptions.None, BitmapCacheOption.Default);
+            BitmapFrame frame = decoder.Frames.First();
+            image.Source = frame;            
             return image;
         }
 
@@ -53,6 +48,8 @@ namespace WorkspaceManager.Model
         }
         /// <summary>
         /// Instantiate a new ImageModel
+        /// Loads the image from the imgUri and converts it into a jpeg
+        /// Afterwards the data are stored in an internal byte array
         /// </summary>
         /// <param name="imageSource"></param>
         public ImageModel(Uri imgUri)
@@ -63,14 +60,12 @@ namespace WorkspaceManager.Model
             }
 
             BitmapImage bmpImage = new BitmapImage(imgUri) ;
-            height = bmpImage.PixelHeight;
-            width = bmpImage.PixelWidth;
-            PixelFormat format = bmpImage.Format;
-            stride = width * ((format.BitsPerPixel + 7) / 8);            
-            byte[] byteImage = new byte[height * stride];
-            bmpImage.CopyPixels(byteImage, stride, 0);
-
-            this.data = byteImage;
+            JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(bmpImage));
+            MemoryStream stream = new MemoryStream();
+            encoder.Save(stream);
+            this.data = stream.ToArray();
+            stream.Close();
         }
     }
 }
