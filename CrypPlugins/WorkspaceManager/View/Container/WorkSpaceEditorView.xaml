@@ -32,9 +32,7 @@
             <Border>
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <Canvas Name="root" Background="{StaticResource ResourceKey=GridBrush}" RenderTransformOrigin="0.5, 0.5">
-                        <Grid Width="{Binding ElementName=MainGrid, Path=ActualWidth}" Height="{Binding ElementName=MainGrid, Path=ActualHeight}">
-                            <e:UserContentWrapper></e:UserContentWrapper>
-                        </Grid>
+                        <Grid Name="UserControlWrapper" Width="{Binding ElementName=MainGrid, Path=ActualWidth}" Height="{Binding ElementName=MainGrid, Path=ActualHeight}"/>
                         <Canvas.LayoutTransform>
                             <ScaleTransform x:Name="Scale" ScaleX="{Binding Source={x:Static p:Settings.Default}, Path=EditScale, Mode=OneWay}" ScaleY="{Binding Source={x:Static p:Settings.Default}, Path=EditScale, Mode=OneWay}"></ScaleTransform>
                         </Canvas.LayoutTransform>
