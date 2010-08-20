@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WorkspaceManager.Model;
 
 namespace WorkspaceManager.View.VisualComponents
 {
@@ -19,15 +20,21 @@ namespace WorkspaceManager.View.VisualComponents
     /// </summary>
     public partial class UserContentWrapper : UserControl
     {
+        public WorkspaceModel Model;
         public List<ImageWrapper> ImageList { get; set; }
         public List<TextBox> TextList { get; set; }
 
-        public UserContentWrapper()
+        public UserContentWrapper(WorkspaceModel WorkspaceModel)
         {
             InitializeComponent();
             (BottomBoxParent.Child as BottomBox).ImageSelected += new EventHandler<ImageSelectedEventArgs>(UserContentWrapper_ImageSelected);
             ImageList = new List<ImageWrapper>();
             TextList = new List<TextBox>();
+            this.Model = WorkspaceModel;
+            foreach (ImageModel ImageModel in WorkspaceModel.AllImageModels)
+            {
+                AddImage(ImageModel);
+            }
         }
 
         void UserContentWrapper_ImageSelected(object sender, ImageSelectedEventArgs e)
@@ -37,7 +44,15 @@ namespace WorkspaceManager.View.VisualComponents
 
         public void AddImage(Uri imgUri, Point point)
         {
-            ImageWrapper imgWrap = new ImageWrapper(imgUri, point);
+            ImageModel model = Model.newImageModel(imgUri);
+            ImageWrapper imgWrap = new ImageWrapper(model, point);
+            ImageList.Add(imgWrap);
+            ContentRoot.Children.Add(imgWrap);
+        }
+
+        public void AddImage(ImageModel model)
+        {
+            ImageWrapper imgWrap = new ImageWrapper(model, model.Position);
             ImageList.Add(imgWrap);
             ContentRoot.Children.Add(imgWrap);
         }

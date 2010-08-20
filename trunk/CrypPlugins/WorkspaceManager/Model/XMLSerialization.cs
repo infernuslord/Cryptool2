@@ -150,7 +150,7 @@ namespace XMLSerialization
             writer.WriteLine("<object>");
             writer.WriteLine("<type>" + obj.GetType().FullName + "</type>");
             writer.WriteLine("<id>" + obj.GetHashCode() + "</id>");
-
+          
             writer.WriteLine("<members>");
 
             foreach (MemberInfo memberInfo in memberInfos)
@@ -159,12 +159,17 @@ namespace XMLSerialization
                 {
                     string type = obj.GetType().GetField(memberInfo.Name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance).FieldType.FullName;
                     object value = obj.GetType().GetField(memberInfo.Name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance).GetValue(obj);
-                    
+
                     writer.WriteLine("<member>");
-                    writer.WriteLine("<name>" + ReplaceXMLSymbols(memberInfo.Name) + "</name>");                                       
+                    writer.WriteLine("<name>" + ReplaceXMLSymbols(memberInfo.Name) + "</name>");
                     writer.WriteLine("<type>" + ReplaceXMLSymbols(type) + "</type>");
-                    
-                    if(value is System.Collections.IList)
+
+                    if (value is System.Byte[])
+                    {
+                        byte[] bytes = (byte[])value;
+                        writer.WriteLine("<value><![CDATA[" + ReplaceXMLSymbols(Convert.ToBase64String(bytes)) + "]]></value>");
+                    }
+                    else if (value is System.Collections.IList)
                     {
                         writer.WriteLine("<list>");
                         foreach (object o in (System.Collections.IList)value)
@@ -206,17 +211,16 @@ namespace XMLSerialization
                         else
                         {
                             writer.WriteLine("<value>" + ReplaceXMLSymbols(value.ToString()) + "</value>");
-                        }                        
+                        }
                     }
                     else
                     {
                         writer.WriteLine("<reference>" + value.GetHashCode() + "</reference>");
                     }
                     writer.WriteLine("</member>");
-                } 
+                }
             }
-            
-            writer.WriteLine("</members>");
+            writer.WriteLine("</members>");            
             writer.WriteLine("</object>");
             writer.Flush();
             
@@ -229,8 +233,8 @@ namespace XMLSerialization
                 {
                     string type = obj.GetType().GetField(memberInfo.Name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance).FieldType.FullName;
                     object value = obj.GetType().GetField(memberInfo.Name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance).GetValue(obj);
-
-                    if (value is System.Collections.IList)
+                    
+                    if (value is System.Collections.IList && !(value is System.Byte[]))
                     {
                         foreach (object o in (System.Collections.IList)value)
                         {
@@ -473,6 +477,15 @@ namespace XMLSerialization
                                 BindingFlags.NonPublic |
                                 BindingFlags.Public |
                                 BindingFlags.Instance).SetValue(newObject, result);
+                        }
+                        else if (RevertXMLSymbols(membertype.InnerText).Equals("System.Byte[]"))
+                        {                            
+                            byte[] bytearray = Convert.FromBase64String(value.InnerText);
+                            
+                            newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
+                                BindingFlags.NonPublic |
+                                BindingFlags.Public |
+                                BindingFlags.Instance).SetValue(newObject, bytearray);
                         }
                         else
                         {

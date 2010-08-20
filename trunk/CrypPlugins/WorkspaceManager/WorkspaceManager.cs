@@ -165,6 +165,7 @@ namespace WorkspaceManager
             {
                 GuiLogMessage("Could not save Model:" + ex.ToString(), NotificationLevel.Error);                
             }
+            
         }
 
         /// <summary>

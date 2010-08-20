@@ -57,8 +57,9 @@ namespace WorkspaceManager.View.Container
 
         public WorkSpaceEditorView(WorkspaceModel WorkspaceModel)
         {
-            setBaseControl(WorkspaceModel);
+            setBaseControl(WorkspaceModel);                        
             InitializeComponent();
+            this.UserControlWrapper.Children.Add(new UserContentWrapper(WorkspaceModel));
         }
 
         private void setBaseControl(WorkspaceModel WorkspaceModel)
@@ -324,6 +325,9 @@ namespace WorkspaceManager.View.Container
         internal void Load(WorkspaceModel WorkspaceModel)
         {
             this.Model = WorkspaceModel;
+            this.UserControlWrapper.Children.Clear();
+            UserContentWrapper UserContentWrapper = new UserContentWrapper(WorkspaceModel);
+            this.UserControlWrapper.Children.Add(UserContentWrapper);            
 
             foreach (PluginModel model in this.Model.AllPluginModels)
             {
