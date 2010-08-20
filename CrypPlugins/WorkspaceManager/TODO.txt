@@ -24,3 +24,14 @@ ALLGEMEIN [MethodImpl(MethodImplOptions.NoInlining)] rausnehmen und testen
 
 CRYPWIN Merging von allen Editorformaten beim Laden (Zeige alle datei typen an)
 CRYPWIN save soll ein Dropdown bekommen und "Save as" als Option enthalten
+
+
+IDEEN:
+
+samples integrieren
+- meta informationen, samples icon
+- xml container für alle samples
+- einfacher wizard - baum mit samples
+
+
+Druckfunktion in CrypTool einbauen
