@@ -26,6 +26,7 @@ using System.Threading;
 using System.Collections;
 using System.Numerics;
 using Cryptool.PluginBase.IO;
+using DiscreteLogarithm;
 
 namespace Cryptool.Plugins.DiscreteLogarithm
 {
