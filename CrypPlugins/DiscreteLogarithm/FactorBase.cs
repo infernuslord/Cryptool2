@@ -35,11 +35,13 @@ namespace DiscreteLogarithm
         }
 
         /**
-         * Tries to factor parameter "number" with the factor base and returns an array giving the relations.
+         * (Trial Division)
+         * Tries to factor parameter "number" with the factor base and returns an array indicating how many times each factor had to be divided.
+         * If factorization is not possible, returns null.
          **/
-        public int[] Factorize(BigInteger number)
+        public BigInteger[] Factorize(BigInteger number)
         {
-            int[] result = new int[primes.Count];
+            BigInteger[] result = new BigInteger[primes.Count];
             for (int c = 0; c < primes.Count; c++)
             {
                 while (number % primes[c] == 0)
@@ -53,6 +55,11 @@ namespace DiscreteLogarithm
                 return null;
 
             return result;
+        }
+
+        public int FactorCount()
+        {
+            return primes.Count;
         }
 
     }

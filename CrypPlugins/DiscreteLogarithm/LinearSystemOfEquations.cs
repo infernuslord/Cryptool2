@@ -24,7 +24,7 @@ namespace DiscreteLogarithm
         public void AddEquation(BigInteger[] coefficients, BigInteger b)
         {
             Debug.Assert(coefficients.Length == size);
-            if (!MoreEquations())
+            if (!NeedMoreEquations())
                 return;
 
             BigInteger[] row = new BigInteger[coefficients.Length + 1];
@@ -40,7 +40,7 @@ namespace DiscreteLogarithm
             matrix.Add(row);
         }
 
-        public bool MoreEquations()
+        public bool NeedMoreEquations()
         {
             return (matrix.Count < size);
         }
@@ -69,50 +69,55 @@ namespace DiscreteLogarithm
 
             bool tryAgain;
 
-            do
+            try
             {
-                results = new List<KeyValuePair<BigInteger[],Msieve.Factor>>();
-                tryAgain = false;
-
-                for (int i = 0; i < modfactors.Count; i++)
+            
+                do
                 {
-                    if (modfactors[i].prime)    //mod prime
-                    {
-                        if (modfactors[i].count == 1)                            
-                            results.Add(new KeyValuePair<BigInteger[],Msieve.Factor>(gauss.Solve(MatrixCopy(), modfactors[i].factor), modfactors[i]));
-                        else
-                            results.Add(new KeyValuePair<BigInteger[],Msieve.Factor>(hensel.Solve(MatrixCopy(), modfactors[i].factor, modfactors[i].count), modfactors[i]));
-                    }
-                    else    //mod composite
-                    {
-                        //Try using gauss:
-                        try
-                        {
-                            BigInteger[] res = gauss.Solve(MatrixCopy(), modfactors[i].factor);
-                            results.Add(new KeyValuePair<BigInteger[],Msieve.Factor>(res, modfactors[i]));   //Yeah, we had luck :)
-                        }
-                        catch (NotInvertibleException ex)
-                        {
-                            //We found a factor of modfactors[i]:
-                            BigInteger notInvertible = ex.NotInvertibleNumber;
-                            List<Msieve.Factor> morefactors = Msieve.TrivialFactorization(modfactors[i].factor / notInvertible);
-                            List<Msieve.Factor> morefactors2 = Msieve.TrivialFactorization(notInvertible);
-                            modfactors.RemoveAt(i);
-                            ConcatFactorLists(modfactors, morefactors);
-                            ConcatFactorLists(modfactors, morefactors2);
-                            tryAgain = true;
-                            break;
-                        }
-                        catch (LinearDependentException ex)
-                        {
-                            //We have to throw away one row and try again later:
-                            matrix.RemoveAt(ex.RowToDelete);
-                            return null;
-                        }
-                    }
-                }
-            } while (tryAgain);
+                    results = new List<KeyValuePair<BigInteger[], Msieve.Factor>>();
+                    tryAgain = false;
 
+                    for (int i = 0; i < modfactors.Count; i++)
+                    {
+                        if (modfactors[i].prime)    //mod prime
+                        {
+                            if (modfactors[i].count == 1)
+                                results.Add(new KeyValuePair<BigInteger[], Msieve.Factor>(gauss.Solve(MatrixCopy(), modfactors[i].factor), modfactors[i]));
+                            else
+                                results.Add(new KeyValuePair<BigInteger[], Msieve.Factor>(hensel.Solve(MatrixCopy(), modfactors[i].factor, modfactors[i].count), modfactors[i]));
+                        }
+                        else    //mod composite
+                        {
+                            //Try using gauss:
+                            try
+                            {
+                                BigInteger[] res = gauss.Solve(MatrixCopy(), modfactors[i].factor);
+                                results.Add(new KeyValuePair<BigInteger[], Msieve.Factor>(res, modfactors[i]));   //Yeah, we had luck :)
+                            }
+                            catch (NotInvertibleException ex)
+                            {
+                                //We found a factor of modfactors[i]:
+                                BigInteger notInvertible = ex.NotInvertibleNumber;
+                                List<Msieve.Factor> morefactors = Msieve.TrivialFactorization(modfactors[i].factor / notInvertible);
+                                List<Msieve.Factor> morefactors2 = Msieve.TrivialFactorization(notInvertible);
+                                modfactors.RemoveAt(i);
+                                ConcatFactorLists(modfactors, morefactors);
+                                ConcatFactorLists(modfactors, morefactors2);
+                                tryAgain = true;
+                                break;
+                            }
+
+                        }
+                    }
+                } while (tryAgain);
+            
+            }
+            catch (LinearDependentException ex)
+            {
+                //We have to throw away one row and try again later:
+                matrix.RemoveAt(ex.RowToDelete);
+                return null;
+            }
 
             BigInteger[] result = new BigInteger[size];
             //"glue" the results together:
