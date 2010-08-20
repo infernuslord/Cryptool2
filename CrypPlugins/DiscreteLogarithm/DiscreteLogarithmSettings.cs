@@ -32,6 +32,7 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         #region private members
 
         private bool hasChanges = false;
+        private int algorithm;
 
         #endregion
 
@@ -50,22 +51,20 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         {
         }        
 
-        /*
         /// <summary>
-        /// Getter/Setter for the action (encryption or decryption)
+        /// Getter/Setter for the algorithm
         /// </summary>
-        [ContextMenu("Action", "Do you want the input data to be encrypted or decrypted?", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Encryption", "Decryption")]
-        [TaskPane("Action", "Do you want the input data to be encrypted or decrypted?", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Encryption", "Decryption" })]
-        public int Action
+        [ContextMenu("Algorithm", "Which algorithm do you want to use?", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Enumeration", "Index-Calculus")]
+        [TaskPane("Algorithm", "Which algorithm do you want to use?", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Enumeration", "Index-Calculus" })]
+        public int Algorithm
         {
-            get { return this.action; }
+            get { return this.algorithm; }
             set
             {
-                action = value;
-                OnPropertyChanged("Action");
+                algorithm = value;
+                OnPropertyChanged("Algorithm");
             }
         }
-         */
 
         /// <summary>
         /// Did anything change on the settigns?

@@ -125,6 +125,33 @@ namespace Cryptool.Plugins.DiscreteLogarithm
                 return;
             }
 
+            switch (settings.Algorithm)
+            {
+                case 0:
+                    Enumeration();
+                    break;
+                case 1:
+                    IndexCalculus();
+                    break;
+            }
+        }
+
+        private void IndexCalculus()
+        {
+            IndexCalculusMethod ic = new IndexCalculusMethod();
+            try
+            {
+                BigInteger res = ic.DiscreteLog(inputValue, inputBase, inputMod);
+                OutputLogarithm = res;
+            }
+            catch (Exception ex)
+            {
+                GuiLogMessage("Index-Calculus error: " + ex.Message, NotificationLevel.Error);
+            }
+        }
+
+        private void Enumeration()
+        {
             BigInteger t = inputBase;
             BigInteger counter = 1;
             while (t != 1 && t != inputValue)
@@ -136,7 +163,7 @@ namespace Cryptool.Plugins.DiscreteLogarithm
                 OutputLogarithm = counter;
             else
                 GuiLogMessage("Input base not a generator of given residue class", NotificationLevel.Error);
-        }//end Execute
+        }
 
         /// <summary>
         /// Called by the environment after execution of this plugin
