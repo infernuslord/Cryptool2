@@ -42,6 +42,7 @@ namespace WorkspaceManager.Execution
         private WorkspaceManager WorkspaceManagerEditor;
         private Scheduler[] schedulers;
         private WorkspaceModel workspaceModel;
+        private volatile bool isRunning = false;
 
         public long ExecutedPluginsCounter { get; set; }
         public bool BenchmarkPlugins { get; set; }
@@ -62,8 +63,8 @@ namespace WorkspaceManager.Execution
         /// </summary>
         public bool IsRunning
         {
-            get;
-            private set;
+            get{return this.isRunning;}
+            private set{this.isRunning = value;}
         }
 
         /// <summary>
@@ -84,7 +85,8 @@ namespace WorkspaceManager.Execution
                 schedulers = new Scheduler[amountSchedulers];
                 for (int i = 0; i < amountSchedulers; i++)
                 {
-                    schedulers[i] = new WorkspaceManagerScheduler("Scheduler" + i);                    
+                    schedulers[i] = new WorkspaceManagerScheduler("WorkspaceManagerScheduler-" + i);
+                    ((WorkspaceManagerScheduler)schedulers[i]).executionEngine = this;
                 }
                
                 //We have to reset all states of PluginModels, ConnectorModels and ConnectionModels:
@@ -560,6 +562,7 @@ namespace WorkspaceManager.Execution
         private bool shutdown = false;
         private System.Threading.Thread thread;
         private Context currentContext;
+        public ExecutionEngine executionEngine = null;
 
 		public WorkspaceManagerScheduler() : this(String.Empty)
 		{
@@ -584,8 +587,10 @@ namespace WorkspaceManager.Execution
 
         private void Start()
         {
-            if (this.currentContext != Thread.CurrentContext)
-                this.currentContext.DoCallBack(Start);
+            if (this.currentContext != Thread.CurrentContext){
+                this.currentContext.DoCallBack(Start);}
+            
+            this.executionEngine.GuiLogMessage("Scheduler " + this.thread.Name + " up and running", NotificationLevel.Debug);
 
             // Loop forever
             while (true)
@@ -597,7 +602,10 @@ namespace WorkspaceManager.Execution
                 {
                     // Should the scheduler stop?
                     if (this.shutdown)
+                    {
+                        this.executionEngine.GuiLogMessage("Scheduler " + this.thread.Name + " terminated", NotificationLevel.Debug);
                         return;
+                    }
                     
                     ProtocolBase protocol = null;
                     lock (this)
