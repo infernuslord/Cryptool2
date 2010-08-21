@@ -176,7 +176,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                     usePeer2Peer = false;
                 }
 
-                if (usePeer2Peer && settings.Channel.Trim() == "")
+                if (usePeer2Peer && (settings.Channel == null ||settings.Channel.Trim() == ""))
                 {
                     GuiLogMessage("No channel for Peer2Peer network specified. Sieving locally now!", NotificationLevel.Warning);
                     usePeer2Peer = false;
@@ -831,7 +831,8 @@ namespace Cryptool.Plugins.QuadraticSieve
         private void ProgressChanged(double value, double max)
         {
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
-            peerToPeerStatusUpdater.UpdateStatus(value/max);
+            if (usePeer2Peer)
+                peerToPeerStatusUpdater.UpdateStatus(value/max);
         }
 
         private void FactorsChanged(List<BigInteger> primeFactors, List<BigInteger> compositeFactors)
