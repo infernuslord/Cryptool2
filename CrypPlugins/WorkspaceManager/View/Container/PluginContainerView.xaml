@@ -81,7 +81,7 @@
                         <TranslateTransform Y="20"></TranslateTransform>
                     </Grid.RenderTransform>
                     <ProgressBar VerticalAlignment="Center" x:Name="ProgressBar" Height="12" Width="Auto" Background="Black" OverridesDefaultStyle="True" Foreground="Blue" Maximum="1">
-                        <ProgressBar.OpacityMask>
+                        <!--<ProgressBar.OpacityMask>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                                 <GradientBrush.GradientStops>
                                     <GradientStopCollection>
@@ -94,7 +94,7 @@
                         </ProgressBar.OpacityMask>
                         <ProgressBar.Resources>
                             <ResourceDictionary Source="/PresentationFramework.Aero;v3.0.0.0;31bf3856ad364e35;component/themes/aero.normalcolor.xaml"/>
-                        </ProgressBar.Resources>
+                        </ProgressBar.Resources>-->
                     </ProgressBar>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <TextBlock x:Name="Percentage" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="WhiteSmoke" Text="{Binding ElementName=ProgressBar, Path=Value, Converter={StaticResource ResourceKey=PercentageConverter}, FallbackValue=error}" />
