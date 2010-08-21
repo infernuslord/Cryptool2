@@ -586,45 +586,52 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// </summary>
         public bool SyncFactorManager(FactorManager factorManager)
         {
-            FactorManager dhtFactorManager = null;
-            //load DHT Factor Manager:
-            byte[] dhtFactorManagerBytes = P2PManager.Retrieve(FactorListIdentifier()).Data;
-            if (dhtFactorManagerBytes != null)
+            try
             {
-                MemoryStream memstream = new MemoryStream();
-                memstream.Write(dhtFactorManagerBytes, 0, dhtFactorManagerBytes.Length);
-                memstream.Position = 0;
-                BinaryFormatter bformatter = new BinaryFormatter();
-                bformatter.AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
-                try
+                FactorManager dhtFactorManager = null;
+                //load DHT Factor Manager:
+                byte[] dhtFactorManagerBytes = P2PManager.Retrieve(FactorListIdentifier()).Data;
+                if (dhtFactorManagerBytes != null)
                 {
-                    dhtFactorManager = (FactorManager)bformatter.Deserialize(memstream);
+                    MemoryStream memstream = new MemoryStream();
+                    memstream.Write(dhtFactorManagerBytes, 0, dhtFactorManagerBytes.Length);
+                    memstream.Position = 0;
+                    BinaryFormatter bformatter = new BinaryFormatter();
+                    bformatter.AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
+                    try
+                    {
+                        dhtFactorManager = (FactorManager)bformatter.Deserialize(memstream);
+                    }
+                    catch (System.Runtime.Serialization.SerializationException)
+                    {
+                        P2PWarning("DHT factor list is broken!");
+                        P2PManager.Remove(FactorListIdentifier());
+                        return SyncFactorManager(factorManager);
+                    }
                 }
-                catch (System.Runtime.Serialization.SerializationException)
-                {
-                    P2PWarning("DHT factor list is broken!");
-                    P2PManager.Remove(FactorListIdentifier());
-                    return SyncFactorManager(factorManager);
-                }                
-            }
 
-            //Synchronize DHT Factor Manager with our Factor List
-            if (dhtFactorManager == null || factorManager.Synchronize(dhtFactorManager))
+                //Synchronize DHT Factor Manager with our Factor List
+                if (dhtFactorManager == null || factorManager.Synchronize(dhtFactorManager))
+                {
+                    //Our Factor Manager has more informations, so let's store it in the DHT:
+                    MemoryStream memstream = new MemoryStream();
+                    BinaryFormatter bformatter = new BinaryFormatter();
+                    bformatter.AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
+                    bformatter.Serialize(memstream, factorManager);
+                    bool success = P2PManager.Store(FactorListIdentifier(), memstream.ToArray()).IsSuccessful();
+                    if (!success)
+                    {
+                        Thread.Sleep(1000);
+                        return SyncFactorManager(factorManager);       //Just try again
+                    }
+                }
+
+                return factorManager.ContainsComposite(this.factor);
+            }
+            catch (NotConnectedException)
             {
-                //Our Factor Manager has more informations, so let's store it in the DHT:
-                MemoryStream memstream = new MemoryStream();
-                BinaryFormatter bformatter = new BinaryFormatter();
-                bformatter.AssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
-                bformatter.Serialize(memstream, factorManager);
-                bool success = P2PManager.Store(FactorListIdentifier(), memstream.ToArray()).IsSuccessful();
-                if (!success)
-                {
-                    Thread.Sleep(1000);
-                    return SyncFactorManager(factorManager);       //Just try again
-                }
+                return true;
             }
-
-            return factorManager.ContainsComposite(this.factor);
         }
 
         /// <summary>
