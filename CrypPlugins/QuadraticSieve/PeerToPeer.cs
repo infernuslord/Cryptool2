@@ -91,6 +91,8 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         public int getActivePeers()
         {
+            if (activePeers == null)
+                return 0;
             return activePeers.Count;
         }
 
