@@ -32,7 +32,7 @@ using System.Reflection;
 namespace Cryptool.Plugins.CostFunction
 {
     [Author("Nils Kopal, Simon Malischewski", "Nils.Kopal@cryptool.org , malischewski@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "CostFunction", "CostFunction", null, "CostFunction/icon.png")]
+    [PluginInfo(false, "CostFunction", "CostFunction", "CostFunction/DetailedDescription/Description.xaml", "CostFunction/icon.png")]
     public class CostFunction : IAnalysisMisc
     {
         #region private variables
