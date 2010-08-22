@@ -39,9 +39,9 @@
                         <Label Content="{Binding Owner}" Height="23" FontSize="10" />
                         <Label Content="{Binding FileName}" Height="23" FontSize="10" />
                         <Label Content="{Binding Downloads}" Height="23" FontSize="10" />
-                        <Label Content="{Binding Status.Participants}" Height="23" FontSize="10" />
-                        <Label Content="{Binding Status.StartDate, Converter={StaticResource UtcDateTimeToLocalConverter}}" Height="23" FontSize="10" />
-                        <Label Content="{Binding Description}" Height="23" FontSize="10" />
+                        <Label Content="{Binding Status.Participants, FallbackValue=-}" Height="23" FontSize="10" />
+                        <Label Content="{Binding Status.StartDate, Converter={StaticResource UtcDateTimeToLocalConverter}, FallbackValue=-}" Height="23" FontSize="10" />
+                        <Label Content="{Binding Description}" FontSize="10" />
                     </StackPanel>
                 </Grid>
             </StackPanel>
