@@ -39,7 +39,7 @@ namespace Cryptool.Plugins.CostFunction
         private CostFunctionSettings settings = new CostFunctionSettings();
         private byte[] inputText = null;
         private byte[] outputText = null;
-        private double value = 0;
+        private double value = 0.0;
         private Boolean stopped = true;
         private IControlCost controlSlave;
         private String bigramInput;
@@ -85,6 +85,12 @@ namespace Cryptool.Plugins.CostFunction
                 OnPropertyChanged("InputText");
             }
         }
+        #region testing
+        public void changeFunctionType(int type)
+        {
+            this.settings.changeFunctionType(type);
+        }
+        #endregion
 
         [PropertyInfo(Direction.OutputData, "Text Output", "Your Text will be send here", "", DisplayLevel.Beginner)]
         public byte[] OutputText
