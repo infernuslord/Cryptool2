@@ -90,6 +90,12 @@ namespace Cryptool.Plugins.CostFunction
         {
             this.settings.changeFunctionType(type);
         }
+
+        public void setDataPath(string path)
+        {
+            this.testing = true;
+            this.settings.customFilePath = path;
+        }
         #endregion
 
         [PropertyInfo(Direction.OutputData, "Text Output", "Your Text will be send here", "", DisplayLevel.Beginner)]
@@ -478,6 +484,7 @@ namespace Cryptool.Plugins.CostFunction
         private int lastUsedSize = -1;
         private double[] xlogx;
         private Mutex prepareMutex = new Mutex();
+        private bool testing = false;
 
         private void prepareEntropy(int size)
         {
@@ -608,7 +615,7 @@ namespace Cryptool.Plugins.CostFunction
         {
             
             txtList = dataMgr.LoadDirectory(DATATYPE);
-            
+            if (testing) { return calculateAbsolutes(this.settings.customFilePath, length); }
             switch (this.settings.StatisticsCorpus)
             {
                 case 0:
