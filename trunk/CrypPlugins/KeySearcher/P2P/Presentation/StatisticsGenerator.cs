@@ -221,7 +221,7 @@ namespace KeySearcher.P2P.Presentation
                 linkedListNode = bestResultList.First;
 
                 int i = 0;
-                while (linkedListNode != null)
+                while (linkedListNode != null && i < 10)
                 {
                     i++;
 
