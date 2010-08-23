@@ -217,6 +217,8 @@ namespace Cryptool.Plugins.CostFunction
             }
         }
 
+
+
         #endregion
 
         #region INotifyPropertyChanged Members
@@ -232,6 +234,17 @@ namespace Cryptool.Plugins.CostFunction
         }
 
         #endregion
+
+        #region testing
+        public void changeFunctionType(int type)
+        {
+                      this.functionType = type;
+                UpdateTaskPaneVisibility();
+                OnPropertyChanged("FunctionType");
+            
+        
+        }
+#endregion
     }
     
     
