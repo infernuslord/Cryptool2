@@ -96,6 +96,10 @@ namespace Cryptool.Plugins.CostFunction
             this.testing = true;
             this.settings.customFilePath = path;
         }
+        public void setRegEx(string regex)
+        {
+            this.settings.RegEx = regex;
+        }
         #endregion
 
         [PropertyInfo(Direction.OutputData, "Text Output", "Your Text will be send here", "", DisplayLevel.Beginner)]
