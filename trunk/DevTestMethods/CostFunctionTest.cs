@@ -40,7 +40,7 @@ namespace Tests
             
             testContextInstance.WriteLine(enc.GetString(cf.InputText));
             cf.changeFunctionType(0);
-            cf.PreExecution(); // MUST BE CALLED!
+            cf.PreExecution(); // important, wont work without this
             cf.Execute();
 
             Assert.AreEqual(target, cf.Value, 0.00000000000001); // Uhm. Close enough? Oo
@@ -50,7 +50,7 @@ namespace Tests
             cf.Initialize();
             cf.InputText = enc.GetBytes(input);
             cf.changeFunctionType(1);
-            cf.PreExecution(); // MUST BE CALLED!
+            cf.PreExecution(); 
             cf.Execute();
 
             Assert.AreEqual(target, cf.Value, 0.00000000000001); // Uhm. Close enough? Oo
@@ -64,14 +64,14 @@ namespace Tests
             {
                 path = System.IO.Path.GetDirectoryName(path);
             }
-            path = Path.Combine(path, "CrypBuild\\x86\\Debug\\Data\\StatisticsCorpusDE");
+            path = Path.Combine(path, "CrypBuild\\x86\\Debug\\Data\\StatisticsCorpusDE"); // TODO: not platform specific (x64/x86)
             
             this.testContextInstance.WriteLine(path);
             cf.setDataPath(path);
             cf.Initialize();
             cf.InputText = enc.GetBytes(input);
             cf.changeFunctionType(2);
-            cf.PreExecution(); // MUST BE CALLED!
+            cf.PreExecution(); 
             cf.Execute();
             testContextInstance.WriteLine(cf.Value.ToString());
             Assert.AreEqual(target, cf.Value, 0.000000000001); // Seriously what's whats up with the tolerances?
@@ -81,7 +81,7 @@ namespace Tests
             cf.Initialize();
             cf.InputText = enc.GetBytes(input);
             cf.changeFunctionType(3);
-            cf.PreExecution(); // MUST BE CALLED!
+            cf.PreExecution(); 
             cf.Execute();
             testContextInstance.WriteLine(cf.Value.ToString());
             Assert.AreEqual(target, cf.Value, 0.000000000001); // Uhm. Close enough? Oo
@@ -91,27 +91,39 @@ namespace Tests
             cf.Initialize();
             cf.InputText = enc.GetBytes(input);
             cf.changeFunctionType(4);
-            cf.PreExecution(); // MUST BE CALLED!
+            cf.PreExecution(); 
             cf.Execute();
             testContextInstance.WriteLine(cf.Value.ToString());
             Assert.AreEqual(target, cf.Value, 0.00000000000001); // Uhm. Close enough? Oo
-            /*
-            //RegEx
-            target = 4.25374598691653;
+            
+            //RegEx - Match
+            target = 1.0;
             cf.Initialize();
             cf.InputText = enc.GetBytes(input);
             cf.changeFunctionType(5);
-            cf.PreExecution(); // MUST BE CALLED!
+            cf.setRegEx("[^a-zA-Z0-9]"); // Alphanumeric string
+            cf.PreExecution(); 
             cf.Execute();
             testContextInstance.WriteLine(cf.Value.ToString());
             Assert.AreEqual(target, cf.Value, 0.00000000000001); // Uhm. Close enough? Oo
-            */
+
+            //RegEx - Match
+            target = -1.0;
+            cf.Initialize();
+            cf.InputText = enc.GetBytes(input);
+            cf.changeFunctionType(5);
+            cf.setRegEx("[0-9]"); // String = Number?
+            cf.PreExecution(); 
+            cf.Execute();
+            testContextInstance.WriteLine(cf.Value.ToString());
+            Assert.AreEqual(target, cf.Value, 0.00000000000001); // Uhm. Close enough? Oo
+
             //Weighted Bigrams/Trigrams
             target = -777.230685764826;
             cf.Initialize();
             cf.InputText = enc.GetBytes(input);
             cf.changeFunctionType(6);
-            cf.PreExecution(); // MUST BE CALLED!
+            cf.PreExecution(); 
             cf.Execute();
             testContextInstance.WriteLine(cf.Value.ToString());
             Assert.AreEqual(target, cf.Value, 0.000000000001); // Uhm. Close enough? Oo 
