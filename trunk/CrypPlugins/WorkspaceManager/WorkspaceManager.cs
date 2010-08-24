@@ -409,9 +409,25 @@ namespace WorkspaceManager
                     ExecutionEngine.GuiUpdateInterval = 0;
                 }
 
+                int schedulers=0;
+                try
+                {
+                   schedulers = int.Parse(((WorkspaceManagerSettings)this.Settings).Schedulers);
+                    if (ExecutionEngine.SleepTime < 0)
+                    {
+                        GuiLogMessage("Schedulers can not be <=0; Use Schedulers = 1", NotificationLevel.Warning);
+                        schedulers = 1;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage("Could not set Schedulers: " + ex.Message, NotificationLevel.Warning);
+                    schedulers = 1;
+                }
+
                 ExecutionEngine.BenchmarkPlugins = ((WorkspaceManagerSettings)this.Settings).BenchmarkPlugins;
 
-                ExecutionEngine.Execute(WorkspaceModel);               
+                ExecutionEngine.Execute(WorkspaceModel, schedulers);               
             }
             catch (Exception ex)
             {

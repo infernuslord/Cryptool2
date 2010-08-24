@@ -12,6 +12,11 @@ namespace WorkspaceManager
         #region ISettings Members
         private bool hasChanges = false;
 
+        public WorkspaceManagerSettings()
+        {
+            this.Schedulers = "" + System.Environment.ProcessorCount * 2;
+        }
+
         public bool HasChanges
         {
             get
@@ -52,8 +57,22 @@ namespace WorkspaceManager
                 sleepTime = value;
                 OnPropertyChanged("SleepTime");
             }
-        }     
+        }
 
+        private String schedulers = "0";
+        [TaskPane("Schedulers", "The amount of parallel gears4net schedulers.", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        public String Schedulers
+        {
+            get
+            {
+                return schedulers;
+            }
+            set
+            {
+                schedulers = value;
+                OnPropertyChanged("Schedulers");
+            }
+        }     
 
         private bool benchmarkPlugins = false;
         [TaskPane("BenchmarkPlugins", "Should the WorkspaceManager benchmark the amount of executed plugins per second?", null, 1, false, DisplayLevel.Beginner, ControlType.CheckBox)]
