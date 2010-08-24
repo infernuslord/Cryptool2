@@ -518,42 +518,48 @@ namespace Cryptool.Plugins.CostFunction
         /// <returns>Entropy</returns>
         public double calculateEntropy(byte[] text, int bytesToUse)
         {
-            return NativeCryptography.Crypto.calculateEntropy(text, bytesToUse);
-            if (bytesToUse > text.Length)
-            
-                bytesToUse = text.Length;
-            
-            if (lastUsedSize != bytesToUse)
+            switch (this.settings.entropyselect)
             {
-                try
-                {
-                    prepareMutex.WaitOne();
+                case 0:
+                    return NativeCryptography.Crypto.calculateEntropy(text, bytesToUse);
+                case 1:
+                    if (bytesToUse > text.Length)
+
+                        bytesToUse = text.Length;
+
                     if (lastUsedSize != bytesToUse)
                     {
-                        prepareEntropy(bytesToUse);
-                        lastUsedSize = bytesToUse;
+                        try
+                        {
+                            prepareMutex.WaitOne();
+                            if (lastUsedSize != bytesToUse)
+                            {
+                                prepareEntropy(bytesToUse);
+                                lastUsedSize = bytesToUse;
+                            }
+                        }
+                        finally
+                        {
+                            prepareMutex.ReleaseMutex();
+                        }
                     }
-                }
-                finally
-                {
-                    prepareMutex.ReleaseMutex();
-                }
+
+                    int[] n = new int[256];
+                    //count all ASCII symbols
+                    for (int counter = 0; counter < bytesToUse; counter++)
+                    {
+                        n[text[counter]]++;
+                    }
+
+                    double entropy = 0;
+                    //calculate probabilities and sum entropy
+                    for (int i = 0; i < 256; i++)
+                        entropy += xlogx[n[i]];
+
+                    return entropy / (double)bytesToUse;
+                default:
+                    return NativeCryptography.Crypto.calculateEntropy(text, bytesToUse);
             }
-
-            int[] n = new int[256];
-            //count all ASCII symbols
-            for (int counter = 0; counter < bytesToUse; counter++)
-            {
-                n[text[counter]]++;
-            }
-
-            double entropy = 0;
-            //calculate probabilities and sum entropy
-            for (int i = 0; i < 256; i++)
-                entropy += xlogx[n[i]];
-
-            return entropy / (double)bytesToUse;
-
         }//end calculateEntropy
 
         /// <summary>
