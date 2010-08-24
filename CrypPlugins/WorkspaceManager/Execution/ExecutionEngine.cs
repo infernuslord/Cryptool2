@@ -71,13 +71,17 @@ namespace WorkspaceManager.Execution
         /// Execute the given Model
         /// </summary>
         /// <param name="workspaceModel"></param>
-        public void Execute(WorkspaceModel workspaceModel)
+        public void Execute(WorkspaceModel workspaceModel, int amountSchedulers)
         {
             if (!IsRunning)
             {
                 IsRunning = true;
                 this.workspaceModel = workspaceModel;
-                int amountSchedulers = System.Environment.ProcessorCount * 2;
+
+                if (amountSchedulers <= 0)
+                {
+                    amountSchedulers = 1;
+                }
 
                 //Here we create n = "ProcessorsCount * 2" Gears4Net schedulers
                 //We do this, because measurements showed that we get the best performance if we
