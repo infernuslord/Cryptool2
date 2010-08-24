@@ -109,6 +109,22 @@ namespace Cryptool.Plugins.CostFunction
                 OnPropertyChanged("StatisticsCorpus");
             }
         }
+        public int entropyselect;
+        [TaskPane("Select Entropy function", "Select an Entropy function", null, 9, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "External (NativeCryptography, default)", "Internal" })]
+        public int entropy
+        {
+            get
+            {
+                return entropyselect;
+            }
+
+            set
+            {
+                entropyselect = value;
+                OnPropertyChanged("entropy");
+            }
+        }
+
         public string customfwtpath;
         public int fwt = 0; //fwt = fitness weight table
         [TaskPane("Fitness Weight Table to use", "Select a fitness weight table", null, 8, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Matthews", "Toemeh-Arumugam", "Custom Weight table (*.csv)" })]
@@ -183,8 +199,14 @@ namespace Cryptool.Plugins.CostFunction
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("weighttable", Visibility.Collapsed)));
 
             }
-            
-
+            if (functionType.Equals(1))
+            {
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("entropyselect", Visibility.Visible)));
+            }
+            else
+            {
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("entropyselect", Visibility.Collapsed)));
+            }
         }
 
 
