@@ -101,7 +101,7 @@ namespace Cryptool.Plugins.CostFunction
             this.settings.RegEx = regex;
         }
         #endregion
-
+        /* obsolete
         [PropertyInfo(Direction.OutputData, "Text Output", "Your Text will be send here", "", DisplayLevel.Beginner)]
         public byte[] OutputText
         {
@@ -115,7 +115,7 @@ namespace Cryptool.Plugins.CostFunction
                 OnPropertyChanged("OutputText");
             }
         }
-
+        */
         [PropertyInfo(Direction.OutputData, "Value", "The value of the function will be send here", "", DisplayLevel.Beginner)]
         public double Value
         {
@@ -241,7 +241,7 @@ namespace Cryptool.Plugins.CostFunction
                         break;
                 }//end switch               
 
-                this.OutputText = this.InputText;
+               
                 ProgressChanged(1, 1);
 
             }//end if
