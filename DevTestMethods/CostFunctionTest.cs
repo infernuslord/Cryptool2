@@ -31,19 +31,17 @@ namespace Tests
             double target = 7.38051470588235;
             System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding(); // String to Byte Conversion
             CostFunction cf = new CostFunction();
-
-
+            
             //Index of Conincidence
             cf.Initialize();
-
             cf.InputText = enc.GetBytes(input);
             
             testContextInstance.WriteLine(enc.GetString(cf.InputText));
             cf.changeFunctionType(0);
             cf.PreExecution(); // important, wont work without this
             cf.Execute();
-
-            Assert.AreEqual(target, cf.Value, 0.00000000000001); // Uhm. Close enough? Oo
+           
+            Assert.AreEqual(target, cf.Value, 0.00000000000001); // This _is_ close enough. => Floating point arithmetic!
 
             //Entropy
             target = 4.25374598691653;
@@ -53,8 +51,7 @@ namespace Tests
             cf.PreExecution(); 
             cf.Execute();
 
-            Assert.AreEqual(target, cf.Value, 0.00000000000001); // Uhm. Close enough? Oo
-
+            Assert.AreEqual(target, cf.Value, 0.00000000000001); 
             
             //Bigrams: log 2
             target = 265.318365029242;
@@ -74,8 +71,8 @@ namespace Tests
             cf.PreExecution(); 
             cf.Execute();
             testContextInstance.WriteLine(cf.Value.ToString());
-            Assert.AreEqual(target, cf.Value, 0.000000000001); // Seriously what's whats up with the tolerances?
-            
+            Assert.AreEqual(target, cf.Value, 0.000000000001); 
+
             //Bigrams: Sinkov
             target = -548.360297827531;
             cf.Initialize();
@@ -84,8 +81,8 @@ namespace Tests
             cf.PreExecution(); 
             cf.Execute();
             testContextInstance.WriteLine(cf.Value.ToString());
-            Assert.AreEqual(target, cf.Value, 0.000000000001); // Uhm. Close enough? Oo
-            
+            Assert.AreEqual(target, cf.Value, 0.000000000001); 
+
             //Bigrams: Percentaged
             target = 0.20132645541636;
             cf.Initialize();
@@ -94,8 +91,8 @@ namespace Tests
             cf.PreExecution(); 
             cf.Execute();
             testContextInstance.WriteLine(cf.Value.ToString());
-            Assert.AreEqual(target, cf.Value, 0.00000000000001); // Uhm. Close enough? Oo
-            
+            Assert.AreEqual(target, cf.Value, 0.00000000000001); 
+
             //RegEx - Match
             target = 1.0;
             cf.Initialize();
@@ -105,9 +102,9 @@ namespace Tests
             cf.PreExecution(); 
             cf.Execute();
             testContextInstance.WriteLine(cf.Value.ToString());
-            Assert.AreEqual(target, cf.Value, 0.00000000000001); // Uhm. Close enough? Oo
+            Assert.AreEqual(target, cf.Value, 0.00000000000001); 
 
-            //RegEx - Match
+            //RegEx - Not a Match
             target = -1.0;
             cf.Initialize();
             cf.InputText = enc.GetBytes(input);
@@ -116,7 +113,7 @@ namespace Tests
             cf.PreExecution(); 
             cf.Execute();
             testContextInstance.WriteLine(cf.Value.ToString());
-            Assert.AreEqual(target, cf.Value, 0.00000000000001); // Uhm. Close enough? Oo
+            Assert.AreEqual(target, cf.Value, 0.00000000000001);
 
             //Weighted Bigrams/Trigrams
             target = -777.230685764826;
@@ -126,7 +123,7 @@ namespace Tests
             cf.PreExecution(); 
             cf.Execute();
             testContextInstance.WriteLine(cf.Value.ToString());
-            Assert.AreEqual(target, cf.Value, 0.000000000001); // Uhm. Close enough? Oo 
+            Assert.AreEqual(target, cf.Value, 0.000000000001); 
         }
 
        
