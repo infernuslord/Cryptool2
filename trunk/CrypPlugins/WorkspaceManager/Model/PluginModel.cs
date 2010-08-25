@@ -371,12 +371,38 @@ namespace WorkspaceManager.Model
         /// <summary>
         /// GuiLogNotificationOccured
         /// saves the plugins log events and tells the gui that it needs
-        /// an update. If the Workspace is not executing and eve
+        /// an update. If the Workspace is not executing an event is invoked
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
         public void GuiLogNotificationOccured(IPlugin sender, GuiLogEventArgs args)
         {
+            switch (((WorkspaceManagerSettings)this.WorkspaceModel.WorkspaceManagerEditor.Settings).LogLevel)
+            {
+                case 3://Error
+                    if (args.NotificationLevel == NotificationLevel.Debug ||
+                        args.NotificationLevel == NotificationLevel.Info ||
+                        args.NotificationLevel == NotificationLevel.Warning)
+                    {
+                        return;
+                    }
+                    break;
+
+                case 2://Warning
+                    if (args.NotificationLevel == NotificationLevel.Debug ||
+                        args.NotificationLevel == NotificationLevel.Info)
+                    {
+                        return;
+                    }
+                    break;
+
+                case 1://Info
+                    if (args.NotificationLevel == NotificationLevel.Debug)
+                    {
+                        return;
+                    }
+                    break;
+            }
             if (sender == this.plugin)
             {
                 this.GuiLogEvents.Add(args);

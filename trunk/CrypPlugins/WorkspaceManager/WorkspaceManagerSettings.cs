@@ -104,6 +104,21 @@ namespace WorkspaceManager
             }
         }
 
+        private int logLevel = 0;
+        [TaskPane("LogLevel", "Should the event handling be synchronous?", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Debug", "Info", "Warning", "Error"})]
+        public int LogLevel
+        {
+            get
+            {
+                return logLevel;
+            }
+            set
+            {
+                logLevel = value;
+                OnPropertyChanged("LogLevel");
+            }
+        }
+
         #endregion
 
         #region INotifyPropertyChanged Members
