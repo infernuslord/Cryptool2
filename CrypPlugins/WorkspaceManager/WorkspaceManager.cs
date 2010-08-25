@@ -595,9 +595,38 @@ namespace WorkspaceManager
                     }
                 }
             }
-            
+
             if (OnGuiLogNotificationOccured != null)
+            {
+                switch (((WorkspaceManagerSettings)this.Settings).LogLevel)
+                {
+                    case 3://Error
+                        if (args.NotificationLevel == NotificationLevel.Debug ||
+                            args.NotificationLevel == NotificationLevel.Info ||
+                            args.NotificationLevel == NotificationLevel.Warning)
+                        {
+                            return;
+                        }
+                        break;
+
+                    case 2://Warning
+                        if (args.NotificationLevel == NotificationLevel.Debug ||
+                            args.NotificationLevel == NotificationLevel.Info)
+                        {
+                            return;
+                        }
+                        break;
+
+                    case 1://Info
+                        if (args.NotificationLevel == NotificationLevel.Debug)
+                        {
+                            return;
+                        }
+                        break;
+                }
                 OnGuiLogNotificationOccured(sender, args);
+            }
+                
         }
 
         /// <summary>
