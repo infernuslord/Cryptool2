@@ -243,7 +243,7 @@ namespace WorkspaceManager.Model
                 {
                     MessageExecution msg = new MessageExecution();
                     msg.PluginModel = connectionModel.To.PluginModel;
-                    connectionModel.To.PluginModel.PluginProtocol.BroadcastMessage(msg);
+                    connectionModel.To.PluginModel.PluginProtocol.BroadcastMessageReliably(msg);
                 }
             }
             else if (sender == this.PluginModel.Plugin &&

@@ -364,10 +364,23 @@ namespace WorkspaceManager.Execution
         {
             while (this.executionEngine.IsRunning)
             {
-                yield return Receive<MessageExecution>(null, HandleExecute);
+                yield return Receive<MessageExecution>(this.Filter, HandleExecute);
             }
         }
 
+        /// <summary>
+        /// Filter that checks wether the Plugin fits to the internal Plugin reference of this PluginProtocl
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        private bool Filter(MessageExecution msg)
+        {
+            if (msg.PluginModel != this.PluginModel)
+            {
+                return false;
+            }
+            return true;
+        }
         /// <summary>
         /// Handle an execution of a plugin
         /// </summary>
