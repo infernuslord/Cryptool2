@@ -10,13 +10,11 @@ VIEW Linien besser zeichnen (Algo?)
 VIEW ProgressBar
 VIEW Connector Tool Tip bitte auch Typ anzeigen (sexy machen)
 VIEW Fullscreen soll auch die Umschaltleiste anzeigen und nutzen
+VIEW IControl als eigenes Unterfenster
 
-MODEL Ausführungsengine bugfrei machen und optimieren
-MODEL Letzte Daten für Ansicht der Connectoren cachen
-MODEL ConnectorModel muss beim PropertyChanged prüfen ob ExecutionEngine läuft
-MODEL Grafiken + Textboxen ins Modell aufnehmen
+MODEL PluginModel bekommt Parent - PluginModel bekommt Childs
 
-EXECUTION ENGINE propertyChanged verbraucht eingänge
+EXECUTION ENGINE optimieren der isExecutable() mittels zählern
 
 
 ALLGEMEIN Undo/Redo Funktionalität implementieren (Konzept entwerfen - Fällt meiner Meinung nach in VIEW und MODEL)
