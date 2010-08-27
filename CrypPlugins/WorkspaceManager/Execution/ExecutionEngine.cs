@@ -429,37 +429,15 @@ namespace WorkspaceManager.Execution
 
             //7. Send execute messages to possible executable next plugins
             //runNextPlugins();
-        }
-
-        /// <summary>
-        /// Send execute messages to possible executable next plugins
-        /// </summary>
-        public void runNextPlugins()
-        {            
-            foreach (ConnectorModel connectorModel in PluginModel.InputConnectors)
-            {
-                foreach (ConnectionModel connectionModel in connectorModel.InputConnections)
-                {
-                    if (!connectionModel.From.PluginModel.Startable ||
-                        (connectionModel.From.PluginModel.Startable && connectionModel.From.PluginModel.RepeatStart))
-                    {
-                        if (mayExecute(connectionModel.From.PluginModel))
-                        {
-                            MessageExecution message_exec = new MessageExecution();
-                            message_exec.PluginModel = connectionModel.From.PluginModel;
-                            connectionModel.From.PluginModel.PluginProtocol.BroadcastMessageReliably(message_exec);
-                        }
-                    }
-                }
-            }
-        }
+        }       
       
         /// <summary>
         /// Delete all input data of inputs of the plugin
         /// </summary>
         public void clearInputs()
         {
-            foreach (ConnectorModel connectorModel in PluginModel.InputConnectors)
+            List<ConnectorModel> inputConnectors = PluginModel.InputConnectors;
+            foreach (ConnectorModel connectorModel in inputConnectors)
             {
                 if (connectorModel.HasData)
                 {
@@ -467,7 +445,8 @@ namespace WorkspaceManager.Execution
                     connectorModel.HasData = false;
                     connectorModel.GuiNeedsUpdate = true;
 
-                    foreach (ConnectionModel connectionModel in connectorModel.InputConnections)
+                    List<ConnectionModel> inputConnections = connectorModel.InputConnections;
+                    foreach (ConnectionModel connectionModel in inputConnections)
                     {
                         connectionModel.Active = false;
                         connectorModel.GuiNeedsUpdate = true;
@@ -483,7 +462,8 @@ namespace WorkspaceManager.Execution
         public bool fillInputs()
         {
             //Fill the plugins inputs with data
-            foreach (ConnectorModel connectorModel in PluginModel.InputConnectors)
+            List<ConnectorModel> inputConnectors = PluginModel.InputConnectors;
+            foreach (ConnectorModel connectorModel in inputConnectors)
             {
                 try
                 {
@@ -534,7 +514,8 @@ namespace WorkspaceManager.Execution
             }
 
             //Check if all necessary inputs are set
-            foreach (ConnectorModel connectorModel in pluginModel.InputConnectors)
+            List<ConnectorModel> inputConnectors = pluginModel.InputConnectors;
+            foreach (ConnectorModel connectorModel in inputConnectors)
             {
                 if (!connectorModel.IControl &&
                     (connectorModel.IsMandatory || connectorModel.InputConnections.Count > 0) && (!connectorModel.HasData ||
@@ -545,11 +526,13 @@ namespace WorkspaceManager.Execution
             }
 
             //Check if all outputs are free
-            foreach (ConnectorModel connectorModel in pluginModel.OutputConnectors)
+            List<ConnectorModel> outputConnectors = pluginModel.OutputConnectors;
+            foreach (ConnectorModel connectorModel in outputConnectors)
             {
                 if (!connectorModel.IControl)
                 {
-                    foreach (ConnectionModel connectionModel in connectorModel.OutputConnections)
+                    List<ConnectionModel> outputConnections = connectorModel.OutputConnections;
+                    foreach (ConnectionModel connectionModel in outputConnections)
                     {
                         if (connectionModel.To.HasData)
                         {
