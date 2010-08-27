@@ -82,7 +82,6 @@
   <ItemGroup>
     <Compile Include="Model\ImageModel.cs" />
     <Compile Include="Model\TextModel.cs" />
-    <Compile Include="StreamRead.cs" />
     <Compile Include="Execution\ExecutionEngine.cs" />
     <Compile Include="Model\ColorHelper.cs" />
     <Compile Include="Model\ConnectionModel.cs" />
@@ -98,7 +97,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="StreamGen.cs" />
     <Compile Include="View\Container\ConnectorView.xaml.cs">
       <DependentUpon>ConnectorView.xaml</DependentUpon>
     </Compile>
