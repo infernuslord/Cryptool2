@@ -181,6 +181,7 @@ namespace WorkspaceManager.Model
                         connectorModel.ToolTip = propertyInfoAttribute.ToolTip;
                         connectorModel.IControl = false;
                         connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
+                        connectorModel.Parent = this;
                         InputConnectors.Add(connectorModel);
                         WorkspaceModel.AllConnectorModels.Add(connectorModel);
                     }
@@ -196,6 +197,7 @@ namespace WorkspaceManager.Model
                         connectorModel.ToolTip = propertyInfoAttribute.ToolTip;
                         connectorModel.IControl = true;
                         connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
+                        connectorModel.Parent = this;
                         InputConnectors.Add(connectorModel);
                         WorkspaceModel.AllConnectorModels.Add(connectorModel);
                     }
@@ -212,6 +214,7 @@ namespace WorkspaceManager.Model
                         connectorModel.Outgoing = true;
                         connectorModel.IControl = false;
                         connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
+                        connectorModel.Parent = this;
                         OutputConnectors.Add(connectorModel);
                         WorkspaceModel.AllConnectorModels.Add(connectorModel);
                     }
@@ -228,6 +231,7 @@ namespace WorkspaceManager.Model
                         connectorModel.Outgoing = true;
                         connectorModel.IControl = true;
                         connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
+                        connectorModel.Parent = this;
                         OutputConnectors.Add(connectorModel);
                         WorkspaceModel.AllConnectorModels.Add(connectorModel);
                     }
@@ -255,7 +259,8 @@ namespace WorkspaceManager.Model
                             connectorModel.DynamicGetterName = dynamicPropertyInfoAttribute.MethodGetValue;
                             connectorModel.DynamicSetterName = dynamicPropertyInfoAttribute.MethodSetValue;
                             connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
-                            eventinfo.AddEventHandler(Plugin, new DynamicPropertiesChanged(connectorModel.PropertyTypeChangedOnPlugin));
+                            connectorModel.Parent = this;
+                            eventinfo.AddEventHandler(Plugin, new DynamicPropertiesChanged(connectorModel.PropertyTypeChangedOnPlugin));                            
                             InputConnectors.Add(connectorModel);
                             WorkspaceModel.AllConnectorModels.Add(connectorModel);
                         }
@@ -275,6 +280,7 @@ namespace WorkspaceManager.Model
                             connectorModel.DynamicGetterName = dynamicPropertyInfoAttribute.MethodGetValue;
                             connectorModel.DynamicSetterName = dynamicPropertyInfoAttribute.MethodSetValue;
                             connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
+                            connectorModel.Parent = this;
                             connectorModel.Outgoing = true;
                             OutputConnectors.Add(connectorModel);
                             WorkspaceModel.AllConnectorModels.Add(connectorModel);
