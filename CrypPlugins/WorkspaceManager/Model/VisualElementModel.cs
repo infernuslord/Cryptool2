@@ -88,6 +88,15 @@ namespace WorkspaceManager.Model
         /// </summary>
         [NonSerialized]
         public IUpdateableView UpdateableView = null;
-    }
 
+        private VisualElementModel parent = null;
+        /// <summary>
+        /// Get/Set the Parent of this VisualElementModel
+        /// </summary>
+        public VisualElementModel Parent
+        {
+            get { return this.parent; }
+            set { this.parent = value; }
+        }
+    }
 }
