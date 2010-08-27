@@ -227,7 +227,8 @@ namespace WorkspaceManager.Model
                 Data.value = data;
                 this.Data = Data;
 
-                foreach (ConnectionModel connectionModel in this.OutputConnections)
+                List<ConnectionModel> outputConnections = this.OutputConnections;
+                foreach (ConnectionModel connectionModel in outputConnections)
                 {
                     Data = new Data();
                     Data.value = data;
@@ -239,7 +240,7 @@ namespace WorkspaceManager.Model
 
                 //We changed an input on the PluginModels where "To"s are belonging to so
                 //we have to check if there are executable now
-                foreach (ConnectionModel connectionModel in this.OutputConnections)
+                foreach (ConnectionModel connectionModel in outputConnections)
                 {
                     MessageExecution msg = new MessageExecution();
                     msg.PluginModel = connectionModel.To.PluginModel;
@@ -254,13 +255,13 @@ namespace WorkspaceManager.Model
                 this.hasData = false;
                 this.GuiNeedsUpdate = true;
 
-                foreach (ConnectionModel connectionModel in this.InputConnections)
+                List<ConnectionModel> inputConnections = this.InputConnections;
+                foreach (ConnectionModel connectionModel in inputConnections)
                 {
                     connectionModel.Active = false;
                     connectionModel.GuiNeedsUpdate = true;
                 }
-
-                foreach (ConnectionModel connectionModel in this.InputConnections)
+                foreach (ConnectionModel connectionModel in inputConnections)
                 {
                     if (!connectionModel.From.PluginModel.Startable ||
                         (connectionModel.From.PluginModel.Startable && connectionModel.From.PluginModel.RepeatStart))

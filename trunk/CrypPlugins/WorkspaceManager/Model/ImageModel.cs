@@ -16,9 +16,6 @@ namespace WorkspaceManager.Model
     public class ImageModel : VisualElementModel
     {
         private byte[] data = null;
-        private int height;
-        private int width;
-        private int stride;
 
         /// <summary>
         /// Get the Image stored by this ImageModel
