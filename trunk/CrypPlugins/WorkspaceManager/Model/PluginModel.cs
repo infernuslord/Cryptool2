@@ -427,6 +427,26 @@ namespace WorkspaceManager.Model
             this.WorkspaceModel.WorkspaceManagerEditor.HasChanges = true;
         }
 
+        /// <summary>
+        /// Get the children of this PluginModel by iterating through all PluginModels of
+        /// the WorkSpace this PluginModel belongs to. All Plugins having this one as Parent
+        /// are returned in this list
+        /// </summary>
+        /// <returns></returns>
+        public List<PluginModel> getChildren()
+        {
+            List<PluginModel> children = new List<PluginModel>();
+          
+            foreach (PluginModel pluginModel in this.WorkspaceModel.AllPluginModels)
+            {
+                if (pluginModel.Parent == this)
+                {
+                    children.Add(pluginModel);
+                }
+            }            
+            return children;
+        }
+
         #endregion
     }
 

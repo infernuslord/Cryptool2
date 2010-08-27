@@ -102,6 +102,10 @@ namespace WorkspaceManager.Model
                 pluginModel.Plugin.OnGuiLogNotificationOccured += pluginModel.GuiLogNotificationOccured;
                 pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;                
                 pluginModel.Plugin.OnPluginStatusChanged += pluginModel.PluginStatusChanged;
+                if (pluginModel.Parent == null)
+                {
+                    pluginModel.Parent = workspacemodel;
+                }
                 if (pluginModel.Plugin.Settings != null)
                 {
                     pluginModel.Plugin.Settings.PropertyChanged += pluginModel.SettingsPropertyChanged;

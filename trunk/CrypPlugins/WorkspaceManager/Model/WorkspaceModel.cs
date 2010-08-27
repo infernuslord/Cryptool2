@@ -28,7 +28,7 @@ namespace WorkspaceManager.Model
     /// Class to represent our Workspace
     /// </summary>
     [Serializable]
-    public class WorkspaceModel 
+    public class WorkspaceModel : VisualElementModel
     {
         [NonSerialized]
         private WorkspaceManager workspaceManagerEditor;
@@ -108,10 +108,11 @@ namespace WorkspaceManager.Model
             pluginModel.Plugin.OnGuiLogNotificationOccured += pluginModel.GuiLogNotificationOccured;
             pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;
             pluginModel.Plugin.OnPluginStatusChanged += pluginModel.PluginStatusChanged;
+            pluginModel.Parent = this;
             if (pluginModel.Plugin.Settings != null)
             {
                 pluginModel.Plugin.Settings.PropertyChanged += pluginModel.SettingsPropertyChanged;
-            }
+            }            
             this.AllPluginModels.Add(pluginModel);
             this.WorkspaceManagerEditor.HasChanges = true;
             return pluginModel;
