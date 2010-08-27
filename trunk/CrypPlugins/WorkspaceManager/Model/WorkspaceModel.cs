@@ -146,6 +146,7 @@ namespace WorkspaceManager.Model
             from.OutputConnections.Add(connectionModel);
             to.InputConnections.Add(connectionModel);
             connectionModel.ConnectionType = connectionType;
+            connectionModel.Parent = this;
 
             //If we connect two IControls we have to set data directly:
             if (from.IControl && to.IControl)
@@ -189,6 +190,7 @@ namespace WorkspaceManager.Model
             ImageModel imageModel = new ImageModel(imgUri);
             this.AllImageModels.Add(imageModel);
             this.WorkspaceManagerEditor.HasChanges = true;
+            imageModel.Parent = this;
             return imageModel;
         }
 
@@ -202,6 +204,7 @@ namespace WorkspaceManager.Model
             TextModel textModel = new TextModel(text);
             this.AllTextModels.Add(textModel);
             this.WorkspaceManagerEditor.HasChanges = true;
+            textModel.Parent = this;
             return textModel;
         }
 
