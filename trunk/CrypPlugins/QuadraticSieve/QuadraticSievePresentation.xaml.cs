@@ -27,28 +27,24 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         public QuadraticSievePresentation()
         {
-            InitializeComponent();            
-            SizeChanged += sizeChanged;
+            InitializeComponent();
 
-            ScrollViewer sviewer = new ScrollViewer();
-            sviewer.CanContentScroll = true;
-            sviewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
-            sviewer.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
-            progressRelationPackages = new ProgressRelationPackages(sviewer);
-            sviewer.Content = progressRelationPackages;
-            Grid grid = ((Grid)peer2peer.Content);
-            Grid.SetRow(sviewer, 0);
-            grid.Children.Add(sviewer);
-            sviewer.MinHeight = 100;
-            sviewer.MaxHeight = 100;
-            progressRelationPackages.MaxWidth = factorList.Width - 10;
+            progressRelationPackages = new ProgressRelationPackages(peer2peerScrollViewer);
+            peer2peerScrollViewer.Content = progressRelationPackages;
+            progressRelationPackages.MaxWidth = 620 - 30;
         }
 
-        public void sizeChanged(Object sender, EventArgs eventArgs)
+        public void SelectFirstComposite()
         {
-            double scale = Math.Min((this.ActualWidth / this.Grid.ActualWidth), (this.ActualHeight / this.Grid.ActualHeight));
-            this.Grid.RenderTransform = new ScaleTransform(scale, scale);
+            foreach (String item in factorList.Items)
+            {
+                if (item.StartsWith("Composite"))
+                {
+                    factorList.SelectedItem = item;
+                    factorList.ScrollIntoView(item);
+                    return;
+                }
+            }
         }
-
     }
 }
