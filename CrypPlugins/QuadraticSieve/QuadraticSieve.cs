@@ -68,6 +68,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         private bool useGnuplot = false;
         private StreamWriter gnuplotFile;
         private double[] relationsPerMS;
+        private DateTime start_time;
 
         private static Assembly msieveDLL = null;
         private static Type msieve = null;
@@ -110,9 +111,9 @@ namespace Cryptool.Plugins.QuadraticSieve
             quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 quadraticSieveQuickWatchPresentation.peer2peer.Visibility = settings.UsePeer2Peer ? Visibility.Visible : Visibility.Collapsed;                
-                quadraticSieveQuickWatchPresentation.timeLeft.Text = "?";
-                quadraticSieveQuickWatchPresentation.endTime.Text = "?";
-                quadraticSieveQuickWatchPresentation.logging.Text = "Currently not sieving.";
+                quadraticSieveQuickWatchPresentation.timeLeft.Content = "-";
+                quadraticSieveQuickWatchPresentation.endTime.Content = "-";
+                quadraticSieveQuickWatchPresentation.coresUsed.Content = "-";
             }
             , null);
         }
@@ -201,27 +202,27 @@ namespace Cryptool.Plugins.QuadraticSieve
                         return;
                     }
 
-                    String timeLeft_message = "?";
-                    String endtime_message = "?";
-                    String logging_message = "Starting quadratic sieve, please wait!";
+                    String info_message = "Starting quadratic sieve, please wait!";
 
-                    GuiLogMessage(logging_message, NotificationLevel.Info);
+                    start_time = DateTime.Now;
+
+                    GuiLogMessage(info_message, NotificationLevel.Info);
                     quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
                         quadraticSieveQuickWatchPresentation.ProgressRelationPackages.Clear();
-                        quadraticSieveQuickWatchPresentation.logging.Text = logging_message;
-                        quadraticSieveQuickWatchPresentation.endTime.Text = endtime_message;
-                        quadraticSieveQuickWatchPresentation.timeLeft.Text = timeLeft_message;
+                        quadraticSieveQuickWatchPresentation.information.Content = info_message;
+                        quadraticSieveQuickWatchPresentation.endTime.Content = "-";
+                        quadraticSieveQuickWatchPresentation.timeLeft.Content = "-";
+                        quadraticSieveQuickWatchPresentation.elapsedTime.Content = "-";
+                        quadraticSieveQuickWatchPresentation.startTime.Content = ""+start_time;
                         quadraticSieveQuickWatchPresentation.factorList.Items.Clear();
                         quadraticSieveQuickWatchPresentation.factorInfo.Content = "Searching trivial factors!";
                         if (usePeer2Peer)
-                            quadraticSieveQuickWatchPresentation.relationsInfo.Content = "";
+                            quadraticSieveQuickWatchPresentation.localSieving.Visibility = Visibility.Hidden;
                         else
-                            quadraticSieveQuickWatchPresentation.relationsInfo.Content = "Only local sieving!";
+                            quadraticSieveQuickWatchPresentation.localSieving.Visibility = Visibility.Visible;
                     }
                     , null);
-
-                    DateTime start_time = DateTime.Now;
 
                     initMsieveDLL();
                     factorManager = new FactorManager(msieve.GetMethod("getPrimeFactors"), msieve.GetMethod("getCompositeFactors"), InputNumber);
@@ -246,16 +247,15 @@ namespace Cryptool.Plugins.QuadraticSieve
 
                     if (!userStopped)
                     {
-                        timeLeft_message = "0 seconds left";
-                        endtime_message = "" + (DateTime.Now);
-                        logging_message = "Sieving finished in " + (DateTime.Now - start_time) + "!";
+                        String timeLeft_message = "0 seconds left";
+                        String endtime_message = "" + (DateTime.Now);
 
-                        GuiLogMessage(logging_message, NotificationLevel.Info);
+                        GuiLogMessage(info_message, NotificationLevel.Info);
                         quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
-                            quadraticSieveQuickWatchPresentation.logging.Text = logging_message;
-                            quadraticSieveQuickWatchPresentation.endTime.Text = endtime_message;
-                            quadraticSieveQuickWatchPresentation.timeLeft.Text = timeLeft_message;
+                            quadraticSieveQuickWatchPresentation.information.Content = "Sieving finished!";
+                            quadraticSieveQuickWatchPresentation.endTime.Content = endtime_message;
+                            quadraticSieveQuickWatchPresentation.timeLeft.Content = timeLeft_message;
                             quadraticSieveQuickWatchPresentation.factorInfo.Content = "";
                         }
                         , null);
@@ -266,17 +266,17 @@ namespace Cryptool.Plugins.QuadraticSieve
                         ProgressChanged(1, 1);
                     }
                     else
-                    {
-                        timeLeft_message = "0 sec left";
-                        endtime_message = "Stopped";
-                        logging_message = "Stopped by user!";
+                    {                        
+                        info_message = "Stopped by user!";
 
-                        GuiLogMessage(logging_message, NotificationLevel.Info);
+                        GuiLogMessage(info_message, NotificationLevel.Info);
                         quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
-                            quadraticSieveQuickWatchPresentation.logging.Text = logging_message;
-                            quadraticSieveQuickWatchPresentation.endTime.Text = endtime_message;
-                            quadraticSieveQuickWatchPresentation.timeLeft.Text = timeLeft_message;
+                            quadraticSieveQuickWatchPresentation.information.Content = info_message;
+                            quadraticSieveQuickWatchPresentation.endTime.Content = "-";
+                            quadraticSieveQuickWatchPresentation.timeLeft.Content = "-";
+                            quadraticSieveQuickWatchPresentation.startTime.Content = "-";
+                            quadraticSieveQuickWatchPresentation.elapsedTime.Content = "-";
                             quadraticSieveQuickWatchPresentation.factorInfo.Content = "";
                         }
                         , null);
@@ -443,7 +443,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// </summary>
         /// <param name="ts"></param>
         /// <returns></returns>
-        private String showTimeSpan(TimeSpan ts)
+        private String timeSpanString(TimeSpan ts)
         {
             String res = "";
             if (ts.Days != 0)
@@ -476,13 +476,14 @@ namespace Cryptool.Plugins.QuadraticSieve
                 relationPackageQueue = Queue.Synchronized(new Queue());
                 conf_list = new ArrayList();
 
-                String message = "Start sieving using " + (threads + 1) + " cores!";
+                String message = "Sieving now!";
                 GuiLogMessage(message, NotificationLevel.Info);
                 quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    quadraticSieveQuickWatchPresentation.logging.Text = message;
+                    quadraticSieveQuickWatchPresentation.coresUsed.Content = (threads+1);
+                    quadraticSieveQuickWatchPresentation.information.Content = message;
                     if (usePeer2Peer)
-                        quadraticSieveQuickWatchPresentation.relationsInfo.Content = "";
+                        quadraticSieveQuickWatchPresentation.localSieving.Visibility = Visibility.Hidden;
                 }
                 , null);
 
@@ -510,8 +511,8 @@ namespace Cryptool.Plugins.QuadraticSieve
                 GuiLogMessage("Sieving finished", NotificationLevel.Info);
                 quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    quadraticSieveQuickWatchPresentation.timeLeft.Text = "";
-                    quadraticSieveQuickWatchPresentation.endTime.Text = "";
+                    quadraticSieveQuickWatchPresentation.timeLeft.Content = "-";
+                    quadraticSieveQuickWatchPresentation.endTime.Content = "-";
                     quadraticSieveQuickWatchPresentation.factorInfo.Content = "Found enough relations! Please wait...";
                 }, null);
 
@@ -524,8 +525,8 @@ namespace Cryptool.Plugins.QuadraticSieve
                 GuiLogMessage("Another peer already finished factorization of composite factor. Sieving next one...", NotificationLevel.Info);
                 quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    quadraticSieveQuickWatchPresentation.timeLeft.Text = "";
-                    quadraticSieveQuickWatchPresentation.endTime.Text = "";
+                    quadraticSieveQuickWatchPresentation.timeLeft.Content = "-";
+                    quadraticSieveQuickWatchPresentation.endTime.Content = "-";
                     quadraticSieveQuickWatchPresentation.factorInfo.Content = "Other peer finished sieving!";
                 }, null);
                 otherPeerFinished = true;
@@ -596,8 +597,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         }
 
         private void showProgressPresentation(int max_relations, int num_relations, int start_relations, DateTime start_sieving_time)
-        {            
-            String logging_message = "Found " + num_relations + " of " + max_relations + " relations!";
+        {
             double msleft = 0;
 
             //calculate global performance in relations per ms:
@@ -624,24 +624,27 @@ namespace Cryptool.Plugins.QuadraticSieve
             
             String timeLeft_message = "very soon";
             String endtime_message = "very soon";
+            DateTime now = DateTime.Now;
             if (msleft > 0 && !double.IsInfinity(msleft))
             {
                 TimeSpan ts = new TimeSpan(0, 0, 0, 0, (int)msleft);
-                timeLeft_message = showTimeSpan(ts) + " left";
-                endtime_message = "" + DateTime.Now.AddMilliseconds((long)msleft);
+                timeLeft_message = timeSpanString(ts) + " left";
+                endtime_message = "" + now.AddMilliseconds((long)msleft);
             }
 
             if (globalPerformance == 0 || double.IsInfinity(msleft))
             {
-                timeLeft_message = "?";
-                endtime_message = "?";
+                timeLeft_message = "-";
+                endtime_message = "-";
             }
 
             quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                quadraticSieveQuickWatchPresentation.logging.Text = logging_message;
-                quadraticSieveQuickWatchPresentation.timeLeft.Text = timeLeft_message;
-                quadraticSieveQuickWatchPresentation.endTime.Text = endtime_message;
+                quadraticSieveQuickWatchPresentation.foundRelations.Content = num_relations;
+                quadraticSieveQuickWatchPresentation.maxRelations.Content = max_relations;
+                quadraticSieveQuickWatchPresentation.timeLeft.Content = timeLeft_message;
+                quadraticSieveQuickWatchPresentation.endTime.Content = endtime_message;
+                quadraticSieveQuickWatchPresentation.elapsedTime.Content = timeSpanString(now.Subtract(start_time));
             }, null);
 
             if (useGnuplot)
@@ -722,10 +725,10 @@ namespace Cryptool.Plugins.QuadraticSieve
             quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 String compRep;
-                if (compositeFactor.ToString().Length < 6)
+                if (compositeFactor.ToString().Length < 50)
                     compRep = compositeFactor.ToString();
                 else
-                    compRep = compositeFactor.ToString().Substring(0, 4) + "...";
+                    compRep = compositeFactor.ToString().Substring(0, 48) + "...";
                 quadraticSieveQuickWatchPresentation.factorInfo.Content = "Now sieving first composite factor! (" + compRep + ")";
             }, null);
         }
@@ -846,6 +849,7 @@ namespace Cryptool.Plugins.QuadraticSieve
 
                 foreach (BigInteger cf in compositeFactors)
                     quadraticSieveQuickWatchPresentation.factorList.Items.Add("Composite Factor: " + cf.ToString());
+                quadraticSieveQuickWatchPresentation.SelectFirstComposite();
             }, null);
         }
 

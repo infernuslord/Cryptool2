@@ -217,6 +217,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             lostIndices = new Queue<KeyValuePair<int, DateTime>>();
             double lastPerformance = 0;
             DateTime performanceLastPut = new DateTime();
+            UpdateActivePeerInformation();
 
             try
             {
@@ -361,7 +362,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         {
             quadraticSieveQuickWatchPresentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                quadraticSieveQuickWatchPresentation.amountOfPeers.Content = "" + activePeers.Count + " other peer" + (activePeers.Count!=1 ? "s" : "") + " active!";
+                quadraticSieveQuickWatchPresentation.activePeers.Content = (activePeers.Count+1);
             }, null);
         }
 
@@ -374,7 +375,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                     int upload = storequeue.Count;
                     int download = head - loadIndex - ourIndices.Count(x => x > loadIndex);
                     int lost = this.lostIndices.Count;
-                    quadraticSieveQuickWatchPresentation.queueInformation.Content = "Queue: Upload " + upload + "! Download " + download + "! Lost " + lost + "!";
+                    quadraticSieveQuickWatchPresentation.queueInformation.Content = "Upload " + upload + "! Download " + download + "! Lost " + lost + "!";
                 }, null);
             }
         }
@@ -417,7 +418,8 @@ namespace Cryptool.Plugins.QuadraticSieve
             string size2 = s2.Substring(0, (s2.Length < 3) ? s2.Length : 3);
             quadraticSieveQuickWatchPresentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                quadraticSieveQuickWatchPresentation.relationsInfo.Content = "Downloaded " + size1 + " MB! Uploaded " + size2 + " MB!";
+                quadraticSieveQuickWatchPresentation.downloaded.Content = size1 + " MB";
+                quadraticSieveQuickWatchPresentation.uploaded.Content = size2 + " MB";
             }, null);
         }
 
