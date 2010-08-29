@@ -412,7 +412,7 @@ namespace WorkspaceManager
                 int schedulers=0;
                 try
                 {
-                   schedulers = int.Parse(((WorkspaceManagerSettings)this.Settings).Schedulers);
+                   schedulers = int.Parse(((WorkspaceManagerSettings)this.Settings).Threads);
                     if (ExecutionEngine.SleepTime < 0)
                     {
                         GuiLogMessage("Schedulers can not be <=0; Use Schedulers = 1", NotificationLevel.Warning);
@@ -426,6 +426,7 @@ namespace WorkspaceManager
                 }
 
                 ExecutionEngine.BenchmarkPlugins = ((WorkspaceManagerSettings)this.Settings).BenchmarkPlugins;
+                ExecutionEngine.ThreadPriority = ((WorkspaceManagerSettings)this.Settings).ThreadPriority;
 
                 ExecutionEngine.Execute(WorkspaceModel, schedulers);               
             }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
 using System.ComponentModel;
+using System.Threading;
 
 namespace WorkspaceManager
 {
@@ -14,7 +15,7 @@ namespace WorkspaceManager
 
         public WorkspaceManagerSettings()
         {
-            this.Schedulers = "" + System.Environment.ProcessorCount * 2;
+            this.Threads = "" + System.Environment.ProcessorCount;            
         }
 
         public bool HasChanges
@@ -59,20 +60,35 @@ namespace WorkspaceManager
             }
         }
 
-        private String schedulers = "0";
-        [TaskPane("Schedulers", "The amount of parallel gears4net schedulers.", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
-        public String Schedulers
+        private String threads = "0";
+        [TaskPane("Threads", "The amount of used threads for scheduling.", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        public String Threads
         {
             get
             {
-                return schedulers;
+                return threads;
             }
             set
             {
-                schedulers = value;
-                OnPropertyChanged("Schedulers");
+                threads = value;
+                OnPropertyChanged("Threads");
             }
-        }     
+        }
+
+        private int threadPriority = 4;
+        [TaskPane("ThreadPriority", "Should the event handling be synchronous?", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new String[] { "AboveNormal", "BelowNormal", "Highest", "Lowest", "Normal" })]
+        public int ThreadPriority
+        {
+            get
+            {
+                return threadPriority;
+            }
+            set
+            {
+                threadPriority = value;
+                OnPropertyChanged("ThreadPriority");
+            }
+        }  
 
         private bool benchmarkPlugins = false;
         [TaskPane("BenchmarkPlugins", "Should the WorkspaceManager benchmark the amount of executed plugins per second?", null, 1, false, DisplayLevel.Beginner, ControlType.CheckBox)]
