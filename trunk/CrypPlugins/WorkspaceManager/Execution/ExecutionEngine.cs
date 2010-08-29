@@ -40,7 +40,7 @@ namespace WorkspaceManager.Execution
     public class ExecutionEngine
     {
         private WorkspaceManager WorkspaceManagerEditor;
-        private Scheduler[] schedulers;
+        private Scheduler scheduler;
         private WorkspaceModel workspaceModel;
         private volatile bool isRunning = false;
 
@@ -48,6 +48,7 @@ namespace WorkspaceManager.Execution
         public bool BenchmarkPlugins { get; set; }
         public long GuiUpdateInterval { get; set; }
         public int SleepTime { get; set; }
+        public int ThreadPriority { get; set; }
 
         /// <summary>
         /// Creates a new ExecutionEngine
@@ -71,41 +72,33 @@ namespace WorkspaceManager.Execution
         /// Execute the given Model
         /// </summary>
         /// <param name="workspaceModel"></param>
-        public void Execute(WorkspaceModel workspaceModel, int amountSchedulers)
+        public void Execute(WorkspaceModel workspaceModel, int amountThreads)
         {
             if (!IsRunning)
             {
                 IsRunning = true;
                 this.workspaceModel = workspaceModel;
 
-                if (amountSchedulers <= 0)
+                if (amountThreads <= 0)
                 {
-                    amountSchedulers = 1;
+                    amountThreads = 1;
                 }
 
-                //Here we create n = "ProcessorsCount * 2" Gears4Net schedulers
-                //We do this, because measurements showed that we get the best performance if we
-                //use this amount of schedulers
-                schedulers = new Scheduler[amountSchedulers];
-                for (int i = 0; i < amountSchedulers; i++)
-                {
-                    schedulers[i] = new WorkspaceManagerScheduler("WorkspaceManagerScheduler-" + i);
-                    ((WorkspaceManagerScheduler)schedulers[i]).executionEngine = this;
-                }
+                scheduler = new WorkspaceManagerScheduler("WorkspaceManagerScheduler", amountThreads,this);
                
                 //We have to reset all states of PluginModels, ConnectorModels and ConnectionModels:
                 workspaceModel.resetStates();
 
                 //The UpdateGuiProtocol is a kind of "daemon" which will update the view elements if necessary
-                UpdateGuiProtocol updateGuiProtocol = new UpdateGuiProtocol(schedulers[0], workspaceModel, this);
-                schedulers[0].AddProtocol(updateGuiProtocol);
+                UpdateGuiProtocol updateGuiProtocol = new UpdateGuiProtocol(scheduler, workspaceModel, this);
+                scheduler.AddProtocol(updateGuiProtocol);
                 updateGuiProtocol.Start();
 
                 //The BenchmarkProtocl counts the amount of executed plugins per seconds and writes this to debug
                 if (this.BenchmarkPlugins)
                 {
-                    BenchmarkProtocol benchmarkProtocol = new BenchmarkProtocol(schedulers[0], this.workspaceModel, this);
-                    schedulers[0].AddProtocol(benchmarkProtocol);
+                    BenchmarkProtocol benchmarkProtocol = new BenchmarkProtocol(scheduler, this.workspaceModel, this);
+                    scheduler.AddProtocol(benchmarkProtocol);
                     benchmarkProtocol.Start();
                 }
 
@@ -118,28 +111,18 @@ namespace WorkspaceManager.Execution
                 int counter=0;
                 foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
                 {
-                    PluginProtocol pluginProtocol = null;
-
-                    if (pluginModel.Plugin is PluginProtocol)
-                    {
-                        pluginProtocol = (PluginProtocol)pluginModel.Plugin;
-                        pluginProtocol.setExecutionEngineSettings(schedulers[counter], pluginModel, this);
-                    }
-                    else
-                    {
-                        pluginProtocol = new PluginProtocol(schedulers[counter], pluginModel, this);
-                    }
-
+                    PluginProtocol pluginProtocol = new PluginProtocol(scheduler, pluginModel, this);
+                    
                     pluginModel.Plugin.PreExecution();                    
                     pluginModel.PluginProtocol = pluginProtocol;
-                    schedulers[counter].AddProtocol(pluginProtocol);
+                    scheduler.AddProtocol(pluginProtocol);
 
                     if (pluginProtocol.Status == ProtocolStatus.Created || pluginProtocol.Status == ProtocolStatus.Terminated)
                     {
                         pluginProtocol.Start();
                     }
 
-                    counter = (counter + 1) % (amountSchedulers);
+                    counter = (counter + 1) % (amountThreads);
 
                     if (pluginModel.Startable)
                     {
@@ -149,10 +132,8 @@ namespace WorkspaceManager.Execution
                     }
                 }
 
-                foreach (Scheduler scheduler in schedulers)
-                {
-                    ((WorkspaceManagerScheduler)scheduler).startScheduler();
-                }
+                ((WorkspaceManagerScheduler)scheduler).startScheduling();
+                
             }
         }      
       
@@ -171,11 +152,8 @@ namespace WorkspaceManager.Execution
 
             IsRunning = false;
             //Secondly stop all Gears4Net Schedulers
-            foreach (Scheduler scheduler in schedulers)
-            {
-                scheduler.Shutdown();
-            }
-             
+            scheduler.Shutdown();
+            
         }
 
         /// <summary>
@@ -194,7 +172,7 @@ namespace WorkspaceManager.Execution
         public void GuiLogMessage(string message, NotificationLevel level)
         {           
             WorkspaceManagerEditor.GuiLogMessage(message, level);
-        }            
+        }
     }
  
     /// <summary>
@@ -248,7 +226,8 @@ namespace WorkspaceManager.Execution
             //Get the gui Thread
             this.workspaceModel.WorkspaceManagerEditor.Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
+                List<PluginModel> pluginModels = workspaceModel.AllPluginModels;
+                foreach (PluginModel pluginModel in pluginModels)
                 {
                     if (pluginModel.GuiNeedsUpdate)
                     {
@@ -260,7 +239,8 @@ namespace WorkspaceManager.Execution
                         }
                     }
                 }
-                foreach (ConnectionModel connectionModel in workspaceModel.AllConnectionModels)
+                List<ConnectionModel> connectionModels = workspaceModel.AllConnectionModels;
+                foreach (ConnectionModel connectionModel in connectionModels)
                 {
                     if (connectionModel.GuiNeedsUpdate)
                     {
@@ -387,82 +367,48 @@ namespace WorkspaceManager.Execution
         /// <param name="msg"></param>
         private void HandleExecute(MessageExecution msg)
         {
+            // ################
             // 1. Check if Plugin may Execute
-            if (!mayExecute(PluginModel))
+            // ################
+
+            if (!msg.PluginModel.WorkspaceModel.WorkspaceManagerEditor.isExecuting())
             {
                 return;
             }
 
-            //2. Fill all Inputs of the plugin, if this fails, stop executing the plugin
-            if (!fillInputs())
-            {
-                return;
-            }
-
-            //3. Execute the Plugin -> call the IPlugin.Execute()
-            try
-            {
-                PluginModel.Plugin.Execute();
-            }
-            catch (Exception ex)
-            {
-                this.PluginModel.WorkspaceModel.WorkspaceManagerEditor.GuiLogMessage("An error occured while executing  \"" + PluginModel.Name + "\": " + ex.Message, NotificationLevel.Error);
-                this.PluginModel.State = PluginModelState.Error;
-                this.PluginModel.GuiNeedsUpdate = true;
-                return;
-            }
-
-            //4. Count for the benchmark
-            if (this.executionEngine.BenchmarkPlugins)
-            {
-                this.executionEngine.ExecutedPluginsCounter++;
-            }
-
-            //5. If the user wants to, sleep some time
-            if (this.executionEngine.SleepTime > 0)
-            {
-                Thread.Sleep(this.executionEngine.SleepTime);
-            }
-
-            //6. Clear all used inputs
-            //clearInputs();
-
-            //7. Send execute messages to possible executable next plugins
-            //runNextPlugins();
-        }       
-      
-        /// <summary>
-        /// Delete all input data of inputs of the plugin
-        /// </summary>
-        public void clearInputs()
-        {
-            List<ConnectorModel> inputConnectors = PluginModel.InputConnectors;
+            //Check if all necessary inputs are set
+            List<ConnectorModel> inputConnectors = msg.PluginModel.InputConnectors;
             foreach (ConnectorModel connectorModel in inputConnectors)
             {
-                if (connectorModel.HasData)
+                if (!connectorModel.IControl &&
+                    (connectorModel.IsMandatory || connectorModel.InputConnections.Count > 0) && !connectorModel.HasData)
                 {
-                    connectorModel.Data = null;
-                    connectorModel.HasData = false;
-                    connectorModel.GuiNeedsUpdate = true;
+                    return;
+                }
+            }
 
-                    List<ConnectionModel> inputConnections = connectorModel.InputConnections;
-                    foreach (ConnectionModel connectionModel in inputConnections)
+            //Check if all outputs are free
+            List<ConnectorModel> outputConnectors = msg.PluginModel.OutputConnectors;
+            foreach (ConnectorModel connectorModel in outputConnectors)
+            {
+                if (!connectorModel.IControl)
+                {
+                    List<ConnectionModel> outputConnections = connectorModel.OutputConnections;
+                    foreach (ConnectionModel connectionModel in outputConnections)
                     {
-                        connectionModel.Active = false;
-                        connectorModel.GuiNeedsUpdate = true;
+                        if (connectionModel.To.HasData)
+                        {
+                            return;
+                        }
                     }
                 }
             }
-        }
 
-        /// <summary>
-        /// Fill all inputs of the plugin
-        /// </summary>
-        /// <returns></returns>
-        public bool fillInputs()
-        {
+            // ################
+            //2. Fill all Inputs of the plugin, if this fails, stop executing the plugin
+            // ################
+
             //Fill the plugins inputs with data
-            List<ConnectorModel> inputConnectors = PluginModel.InputConnectors;
             foreach (ConnectorModel connectorModel in inputConnectors)
             {
                 try
@@ -486,63 +432,45 @@ namespace WorkspaceManager.Execution
                     this.PluginModel.WorkspaceModel.WorkspaceManagerEditor.GuiLogMessage("An error occured while setting value of connector \"" + connectorModel.Name + "\" of \"" + PluginModel.Name + "\": " + ex.Message, NotificationLevel.Error);
                     this.PluginModel.State = PluginModelState.Error;
                     this.PluginModel.GuiNeedsUpdate = true;
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public bool mayExecute()
-        {
-            return mayExecute(this.PluginModel);
-        }
-
-        /// <summary>
-        /// Check if the PluginModel may execute
-        /// </summary>
-        /// <param name="pluginModel"></param>
-        /// <returns></returns>
-        private bool mayExecute(PluginModel pluginModel)
-        {
-            if (!pluginModel.WorkspaceModel.WorkspaceManagerEditor.isExecuting())
-            {
-                return false;
-            }
-
-            //Check if all necessary inputs are set
-            List<ConnectorModel> inputConnectors = pluginModel.InputConnectors;
-            foreach (ConnectorModel connectorModel in inputConnectors)
-            {
-                if (!connectorModel.IControl &&
-                    (connectorModel.IsMandatory || connectorModel.InputConnections.Count > 0) && (!connectorModel.HasData ||
-                    connectorModel.Data == null))
-                {
-                    return false;
+                    return;
                 }
             }
 
-            //Check if all outputs are free
-            List<ConnectorModel> outputConnectors = pluginModel.OutputConnectors;
-            foreach (ConnectorModel connectorModel in outputConnectors)
+            // ################
+            //3. Execute the Plugin -> call the IPlugin.Execute()
+            // ################
+
+            try
             {
-                if (!connectorModel.IControl)
-                {
-                    List<ConnectionModel> outputConnections = connectorModel.OutputConnections;
-                    foreach (ConnectionModel connectionModel in outputConnections)
-                    {
-                        if (connectionModel.To.HasData)
-                        {
-                            return false;
-                        }
-                    }
-                }
+                PluginModel.Plugin.Execute();
             }
-            return true;
-        }
+            catch (Exception ex)
+            {
+                this.PluginModel.WorkspaceModel.WorkspaceManagerEditor.GuiLogMessage("An error occured while executing  \"" + PluginModel.Name + "\": " + ex.Message, NotificationLevel.Error);
+                this.PluginModel.State = PluginModelState.Error;
+                this.PluginModel.GuiNeedsUpdate = true;
+                return;
+            }
+
+            // ################
+            //4. Count for the benchmark
+            // ################
+
+            if (this.executionEngine.BenchmarkPlugins)
+            {
+                this.executionEngine.ExecutedPluginsCounter++;
+            }
+
+            // ################
+            //5. If the user wants to, sleep some time
+            // ################
+
+            if (this.executionEngine.SleepTime > 0)
+            {
+                Thread.Sleep(this.executionEngine.SleepTime);
+            }
+
+        }        
 
         /// <summary>
         /// 
@@ -560,37 +488,56 @@ namespace WorkspaceManager.Execution
     {
         private System.Threading.AutoResetEvent wakeup = new System.Threading.AutoResetEvent(false);
         private bool shutdown = false;
-        private System.Threading.Thread thread;
-        private Context currentContext;
-        public ExecutionEngine executionEngine = null;
+        private Thread[] threads;
+        public ExecutionEngine executionEngine = null;		
 
-		public WorkspaceManagerScheduler() : this(String.Empty)
-		{
-
-		}
-
-        public WorkspaceManagerScheduler(string name)
+        public WorkspaceManagerScheduler(string name, int amountThreads, ExecutionEngine executionEngine)
             : base()
         {
-            this.currentContext = Thread.CurrentContext;
+            threads = new Thread[amountThreads];
+            this.executionEngine = executionEngine;
 
-            thread = new System.Threading.Thread(this.Start);
-            thread.SetApartmentState(System.Threading.ApartmentState.MTA);
-			thread.Name = name;
+            for (int i = 0; i < threads.Length;i++ )
+            {
+                threads[i] = new Thread(this.DoScheduling);
+                threads[i].SetApartmentState(ApartmentState.MTA);
+                threads[i].Name = name + "-Thread-" + i;
+
+                switch (this.executionEngine.ThreadPriority)
+                {
+                    case 0:
+                        threads[i].Priority = ThreadPriority.AboveNormal;
+                        break;
+                    case 1:
+                        threads[i].Priority = ThreadPriority.BelowNormal;
+                        break;
+                    case 2:
+                        threads[i].Priority = ThreadPriority.Highest;
+                        break;
+                    case 3:
+                        threads[i].Priority = ThreadPriority.Lowest;
+                        break;
+                    case 4:
+                        threads[i].Priority = ThreadPriority.Normal;
+                        break;
+                }
+            }
             
         }
 
-        public void startScheduler()
+        public void startScheduling()
         {
-            thread.Start();
+            foreach (Thread thread in threads)
+            {
+                thread.Start();
+            }
         }
+       
+        private void DoScheduling()
+        {           
 
-        private void Start()
-        {
-            if (this.currentContext != Thread.CurrentContext){
-                this.currentContext.DoCallBack(Start);}
-            
-            this.executionEngine.GuiLogMessage("Scheduler " + this.thread.Name + " up and running", NotificationLevel.Debug);
+            this.executionEngine.GuiLogMessage(Thread.CurrentThread.Name + " up and running", NotificationLevel.Debug);
+            Queue<ProtocolBase> waitingProtocols = this.waitingProtocols;
 
             // Loop forever
             while (true)
@@ -603,21 +550,24 @@ namespace WorkspaceManager.Execution
                     // Should the scheduler stop?
                     if (this.shutdown)
                     {
-                        this.executionEngine.GuiLogMessage("Scheduler " + this.thread.Name + " terminated", NotificationLevel.Debug);
+                        this.executionEngine.GuiLogMessage(Thread.CurrentThread.Name + " terminated", NotificationLevel.Debug);
                         return;
                     }
-                    
+
                     ProtocolBase protocol = null;
                     lock (this)
                     {
                         // No more protocols? -> Wait
-                        if (this.waitingProtocols.Count == 0)
+                        if (waitingProtocols.Count == 0)
                             break;
                     }
 
                     try
                     {
-                        protocol = this.waitingProtocols.Dequeue();
+                        lock (this)
+                        {
+                            protocol = waitingProtocols.Dequeue();
+                        }
                         ProtocolStatus status = protocol.Run();
 
                         lock (this)
@@ -628,7 +578,7 @@ namespace WorkspaceManager.Execution
                                     System.Diagnostics.Debug.Assert(false);
                                     break;
                                 case ProtocolStatus.Ready:
-                                    this.waitingProtocols.Enqueue(protocol);
+                                    waitingProtocols.Enqueue(protocol);
                                     break;
                                 case ProtocolStatus.Waiting:
                                     break;
@@ -639,14 +589,13 @@ namespace WorkspaceManager.Execution
                             }
                         }
                     }
-                    catch (Exception ex) 
+                    catch (Exception ex)
                     {
                         System.Diagnostics.Debug.Fail("Error during scheduling: " + ex.Message + " - " + ex.InnerException);
                     }
                 }
             }
         }
-
         /// <summary>
         /// Removes a protocol from the internal queue
         /// </summary>
