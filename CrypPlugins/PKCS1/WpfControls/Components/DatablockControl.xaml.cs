@@ -14,8 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Security.Cryptography;
 using System.IO;
-using PKCS1;
 using PKCS1.Library;
+using PKCS1.Resources.lang.Gui;
 using Microsoft.Win32;
 
 
@@ -105,7 +105,7 @@ namespace PKCS1.WpfControls.Components
             }
             else
             {
-                byteToHash = Encoding.ASCII.GetBytes("Fehler!");
+                byteToHash = Encoding.ASCII.GetBytes("Error!");
             }
 
             // Text setzen, Hash wird automatisch generiert, da in Datablock das Event getriggert wird und hier im Handling Hashgenerierung auslöst
@@ -117,7 +117,7 @@ namespace PKCS1.WpfControls.Components
         {
             if(this.tbHashIdent.Text != String.Empty )
             {
-                this.lblHashIdentLength.Content = "(Länge: "+ this.tbHashIdent.Text.Length*4 +" bit)";
+                this.lblHashIdentLength.Content = "(" + DatablockCtrl.length +" "+ this.tbHashIdent.Text.Length*4 + " " + Common.bit + ")";
             }
         }
 
@@ -125,7 +125,7 @@ namespace PKCS1.WpfControls.Components
         {
             if (this.tbHashDigest.Text != String.Empty)
             {
-                this.lblHashDigestLength.Content = "(Länge: " + this.tbHashDigest.Text.Length*4 + " bit)";
+                this.lblHashDigestLength.Content = "(" + DatablockCtrl.length + " " + this.tbHashDigest.Text.Length * 4 + " " + Common.bit + ")";
             }
         }
 

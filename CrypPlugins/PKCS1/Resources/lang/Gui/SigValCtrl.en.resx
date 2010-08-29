@@ -117,31 +117,61 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="attackbleichenbacher" xml:space="preserve">
-    <value>Bleichenbacher Angriff</value>
+  <data name="sigToTest" xml:space="preserve">
+    <value>Signature to be tested:</value>
   </data>
-  <data name="attackvariant" xml:space="preserve">
-    <value>Varianten mit kürzeren Schlüsseln</value>
+  <data name="impl" xml:space="preserve">
+    <value>Implementation:</value>
   </data>
-  <data name="keygen" xml:space="preserve">
-    <value>RSA-Schlüssel erzeugen</value>
+  <data name="rsaSig" xml:space="preserve">
+    <value>PKCS#1-Signature</value>
   </data>
-  <data name="pkcs1attack" xml:space="preserve">
-    <value>Angriffe auf PKCS#1</value>
+  <data name="kuehnSig" xml:space="preserve">
+    <value>Kühn Signature</value>
   </data>
-  <data name="pkcs1gen" xml:space="preserve">
-    <value>Sichere PKCS#1-Signatur erzeugen</value>
+  <data name="implCorrect" xml:space="preserve">
+    <value>Correct (PKCS#1 Version 2.1)</value>
   </data>
-  <data name="pkcs1validate" xml:space="preserve">
-    <value>PKCS#1-Signatur verifizieren</value>
+  <data name="implFlaw" xml:space="preserve">
+    <value>With Flaw (PKCS#1 Version 1.5)</value>
   </data>
-  <data name="siggen" xml:space="preserve">
-    <value>Signaturgenerierung</value>
+  <data name="result" xml:space="preserve">
+    <value>Result:</value>
   </data>
-  <data name="sigval" xml:space="preserve">
-    <value>Signaturvalidierung</value>
+  <data name="verifySig" xml:space="preserve">
+    <value>Verify Signatur</value>
   </data>
-  <data name="startpage" xml:space="preserve">
-    <value>Startseite</value>
+  <data name="bleichenbSig" xml:space="preserve">
+    <value>Bleichenbacher Signature</value>
+  </data>
+  <data name="decSig" xml:space="preserve">
+    <value>Decrypted Signature</value>
+  </data>
+  <data name="encSig" xml:space="preserve">
+    <value>Encrypted Signature</value>
+  </data>
+  <data name="plsGenSigFirst" xml:space="preserve">
+    <value>No signature generated. Please generate a signature first.</value>
+  </data>
+  <data name="resHashNotReadable" xml:space="preserve">
+    <value>Hashalgorithm: not readable</value>
+  </data>
+  <data name="resIdentifiedHash" xml:space="preserve">
+    <value>Identified Hashalgorithm:</value>
+  </data>
+  <data name="resSigNotValid" xml:space="preserve">
+    <value>Signature not valid</value>
+  </data>
+  <data name="resSigValid" xml:space="preserve">
+    <value>Signature valid</value>
+  </data>
+  <data name="signature" xml:space="preserve">
+    <value>Signature</value>
+  </data>
+  <data name="sigNotGeneratedYet" xml:space="preserve">
+    <value>(not generated)</value>
+  </data>
+  <data name="title" xml:space="preserve">
+    <value>Verify PKCS#1-Signature</value>
   </data>
 </root>

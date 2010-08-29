@@ -13,8 +13,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Security;
-
 using PKCS1.Library;
+using PKCS1.Resources.lang.Gui;
 
 namespace PKCS1.WpfControls.SigVal
 {
@@ -50,11 +50,11 @@ namespace PKCS1.WpfControls.SigVal
             this.validator = new SigValidator();
 
             this.rbSigBlei.IsEnabled = false;
-            this.rbSigBlei.Content = "Bleichenbacher Signatur (noch nicht generiert)";
+            this.rbSigBlei.Content = SigValCtrl.bleichenbSig + " " + SigValCtrl.sigNotGeneratedYet;
             this.rbSigPkcs.IsEnabled = false;
-            this.rbSigPkcs.Content = "PKCS#1-Signatur (noch nicht generiert)";
+            this.rbSigPkcs.Content = SigValCtrl.rsaSig + " " + SigValCtrl.sigNotGeneratedYet;
             this.rbSigKuehn.IsEnabled = false;
-            this.rbSigKuehn.Content = "Kuehn Signatur (noch nicht generiert)";
+            this.rbSigKuehn.Content = SigValCtrl.kuehnSig + " " + SigValCtrl.sigNotGeneratedYet;
 
             
             if (SignatureHandler.getInstance().isRsaSigGenerated() )
@@ -63,7 +63,7 @@ namespace PKCS1.WpfControls.SigVal
                 this.setEnabled();
                 this.rbSigPkcs.IsEnabled = true;
                 this.rbSigPkcs.IsChecked = true;
-                this.rbSigPkcs.Content = "PKCS#1-Signatur";
+                this.rbSigPkcs.Content = SigValCtrl.rsaSig;
             }
             else if (SignatureHandler.getInstance().isBleichenbSigGenerated())
             {
@@ -71,7 +71,7 @@ namespace PKCS1.WpfControls.SigVal
                 this.setEnabled();
                 this.rbSigBlei.IsEnabled = true;
                 this.rbSigBlei.IsChecked = true;
-                this.rbSigBlei.Content = "Bleichenbacher Signatur";
+                this.rbSigBlei.Content = SigValCtrl.bleichenbSig;
             }
             else if (SignatureHandler.getInstance().isKuehnSigGenerated())
             {
@@ -79,7 +79,7 @@ namespace PKCS1.WpfControls.SigVal
                 this.setEnabled();
                 this.rbSigKuehn.IsEnabled = true;
                 this.rbSigKuehn.IsChecked = true;
-                this.rbSigKuehn.Content = "Kuehn Signatur";
+                this.rbSigKuehn.Content = SigValCtrl.kuehnSig;
             }
             else
             {
@@ -95,7 +95,7 @@ namespace PKCS1.WpfControls.SigVal
                 this.setEnabled();
                 this.rbSigPkcs.IsEnabled = true;
                 this.rbSigPkcs.IsChecked = true;
-                this.rbSigPkcs.Content = "PKCS#1-Signatur";
+                this.rbSigPkcs.Content = SigValCtrl.rsaSig;
                 this.ResultEmpty();
             }
             else if (type == SignatureType.Bleichenbacher)
@@ -104,7 +104,7 @@ namespace PKCS1.WpfControls.SigVal
                 this.setEnabled();
                 this.rbSigBlei.IsEnabled = true;
                 this.rbSigBlei.IsChecked = true;
-                this.rbSigBlei.Content = "Bleichenbacher Signatur";
+                this.rbSigBlei.Content = SigValCtrl.bleichenbSig;
                 this.ResultEmpty();
             }
             else if (type == SignatureType.Kuehn)
@@ -113,15 +113,15 @@ namespace PKCS1.WpfControls.SigVal
                 this.setEnabled();
                 this.rbSigKuehn.IsEnabled = true;
                 this.rbSigKuehn.IsChecked = true;
-                this.rbSigKuehn.Content = "Kuehn Signatur";
+                this.rbSigKuehn.Content = SigValCtrl.kuehnSig;
                 this.ResultEmpty();
             }
         }
 
         private void setDisabled()
         {
-            this.tbSignatureDec.Text = "keine Signatur generiert. Bitte generieren Sie zuerst eine Signatur";
-            this.tbSignatureEnc.Text = "keine Signatur generiert. Bitte generieren Sie zuerst eine Signatur";
+            this.tbSignatureDec.Text = SigValCtrl.plsGenSigFirst;
+            this.tbSignatureEnc.Text = SigValCtrl.plsGenSigFirst;
 
             this.bValidate.IsEnabled = false;
             this.rbVal.IsEnabled = false;
@@ -186,24 +186,24 @@ namespace PKCS1.WpfControls.SigVal
 
         private void ResultValid()
         {
-            this.lblResult.Content = "Signatur valide";
+            this.lblResult.Content = SigValCtrl.resSigValid; 
             this.imgResult.Source = new BitmapImage(new Uri("../../Resources/icons/equal.png", UriKind.Relative));
             this.imgResult.Visibility = Visibility.Visible;
-            this.lblHashAlgo.Content = "Erkannter Hashalgorithmus: " + this.validator.getHashFunctionName();
+            this.lblHashAlgo.Content = SigValCtrl.resIdentifiedHash + " " + this.validator.getHashFunctionName();
         }
 
         private void ResultNotValid()
         {
-            this.lblResult.Content = "Signatur nicht valide";
+            this.lblResult.Content = SigValCtrl.resSigNotValid;
             this.imgResult.Source = new BitmapImage(new Uri("../../Resources/icons/unequal.png", UriKind.Relative));
             this.imgResult.Visibility = Visibility.Visible;
             if (this.validator.getHashFunctionName() != String.Empty)
             {
-                this.lblHashAlgo.Content = "Erkannter Hashalgorithmus: " + this.validator.getHashFunctionName();
+                this.lblHashAlgo.Content = SigValCtrl.resIdentifiedHash + " " + this.validator.getHashFunctionName();
             }
             else
             {
-                this.lblHashAlgo.Content = " Hashalgorithmus: nicht auslesbar";
+                this.lblHashAlgo.Content = " " + SigValCtrl.resHashNotReadable;
             }
         }
 

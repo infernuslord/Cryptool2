@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using PKCS1.Library;
+using PKCS1.Resources.lang.Gui;
 
 namespace PKCS1.WpfControls.Components
 {
@@ -21,7 +22,6 @@ namespace PKCS1.WpfControls.Components
     public partial class SigGenBleichenbControl : UserControl
     {
         private BleichenbacherSig m_BleichSignature = new BleichenbacherSig();
-        //private int DataBlockPos = 0;
 
         public SigGenBleichenbControl()
         {
@@ -44,6 +44,7 @@ namespace PKCS1.WpfControls.Components
 
             this.m_BleichSignature = (BleichenbacherSig) SignatureHandler.getInstance().getBleichenbSig();
             this.m_BleichSignature.DataBlockStartPos = (int)this.cbPosDataBlock.SelectedValue;
+            this.m_BleichSignature.ChangeSign = this.tbChangeSign.Text;
 
             this.m_BleichSignature.GenerateSignature();
             UserControlHelper.loadRtbColoredSig(this.rtbResult, this.m_BleichSignature.GetSignatureDecToHexString());
@@ -70,17 +71,12 @@ namespace PKCS1.WpfControls.Components
 
         private void rtbResult_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.lblSignatureLength.Content = "(Länge: " + UserControlHelper.GetRtbTextLength(this.rtbResult) * 4 + " bit)";
+            this.lblSignatureLength.Content = "(" + Common.length  +": " + UserControlHelper.GetRtbTextLength(this.rtbResult) * 4 + " " + Common.bit + ")";
         }
 
         private void tbResultEncrypted_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.lblEncryptedSignatureLength.Content = "(Länge: " + this.tbResultEncrypted.Text.Length * 4 + " bit)";
-        }
-
-        private void cbPosDataBlock_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
+            this.lblEncryptedSignatureLength.Content = "(" + Common.length + ": " + this.tbResultEncrypted.Text.Length * 4 + " " + Common.bit + ")";
         }
     }
 }

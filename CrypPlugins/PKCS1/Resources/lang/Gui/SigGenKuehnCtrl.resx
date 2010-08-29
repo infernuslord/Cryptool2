@@ -117,31 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="attackbleichenbacher" xml:space="preserve">
-    <value>Bleichenbacher Angriff</value>
+  <data name="decrypted" xml:space="preserve">
+    <value>Unverschlüsselt</value>
   </data>
-  <data name="attackvariant" xml:space="preserve">
-    <value>Varianten mit kürzeren Schlüsseln</value>
+  <data name="encrypted" xml:space="preserve">
+    <value>Verschlüsselt</value>
   </data>
-  <data name="keygen" xml:space="preserve">
-    <value>RSA-Schlüssel erzeugen</value>
+  <data name="generatedSig" xml:space="preserve">
+    <value>Erzeugte Signatur</value>
   </data>
-  <data name="pkcs1attack" xml:space="preserve">
-    <value>Angriffe auf PKCS#1</value>
+  <data name="genFakeSig" xml:space="preserve">
+    <value>Gefälschte Signatur erzeugen</value>
   </data>
-  <data name="pkcs1gen" xml:space="preserve">
-    <value>Sichere PKCS#1-Signatur erzeugen</value>
+  <data name="genSig" xml:space="preserve">
+    <value>Signatur erzeugen</value>
   </data>
-  <data name="pkcs1validate" xml:space="preserve">
-    <value>PKCS#1-Signatur verifizieren</value>
+  <data name="genSigErrorMaxIter" xml:space="preserve">
+    <value>Signatur konnte nicht erstellt werden. Es ist das Limit an Iterationen erreicht worden.</value>
   </data>
-  <data name="siggen" xml:space="preserve">
-    <value>Signaturgenerierung</value>
+  <data name="maxIterations" xml:space="preserve">
+    <value>Max. Anzahl an Iterationen:</value>
   </data>
-  <data name="sigval" xml:space="preserve">
-    <value>Signaturvalidierung</value>
+  <data name="pubKey" xml:space="preserve">
+    <value>Öffentlicher Schlüssel:</value>
   </data>
-  <data name="startpage" xml:space="preserve">
-    <value>Startseite</value>
+  <data name="rsaKeySize" xml:space="preserve">
+    <value>RSA-Schlüsselgröße (in Bit):</value>
+  </data>
+  <data name="structure" xml:space="preserve">
+    <value>Struktur</value>
+  </data>
+  <data name="title" xml:space="preserve">
+    <value>Angriff mit kürzeren Schlüsseln (Kühn)</value>
   </data>
 </root>

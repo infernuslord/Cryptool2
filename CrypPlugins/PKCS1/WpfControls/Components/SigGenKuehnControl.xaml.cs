@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using PKCS1.Library;
+using PKCS1.Resources.lang.Gui;
 
 namespace PKCS1.WpfControls.Components
 {
@@ -44,8 +45,6 @@ namespace PKCS1.WpfControls.Components
         {
             Cursor = Cursors.Wait;
 
-            //this.Signature = (KuehnSig)SignatureHandler.getInstance().getKuehnSig();
-
             if (this.Signature.GenerateSignature())
             {
                 UserControlHelper.loadRtbColoredSig(this.rtbResult, this.Signature.GetSignatureDecToHexString());
@@ -54,7 +53,7 @@ namespace PKCS1.WpfControls.Components
             }
             else
             {
-                this.tbError.Text = "Signatur konnte nicht erstellt werden. Es ist das Limit an Iterationen erreicht worden.";
+                this.tbError.Text = SigGenKuehnCtrl.genSigErrorMaxIter;
             }
 
             Cursor = Cursors.Arrow;
@@ -62,12 +61,12 @@ namespace PKCS1.WpfControls.Components
 
         private void tbResultEncrypted_TextChanged(object sender, TextChangedEventArgs e)
         {            
-            this.lblEncryptedSignatureLength.Content = "(Länge: " + this.tbResultEncrypted.Text.Length * 4 + " bit)";
+            this.lblEncryptedSignatureLength.Content = "(" + Common.length + ": " + this.tbResultEncrypted.Text.Length * 4 + " " + Common.bit +")";
         }
 
         private void rtbResult_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.lblSignatureLength.Content = "(Länge: " + UserControlHelper.GetRtbTextLength(this.rtbResult) * 4 + " bit)";
+            this.lblSignatureLength.Content = "(" + Common.length + ": " + UserControlHelper.GetRtbTextLength(this.rtbResult) * 4 + " " + Common.bit + ")";
         }
 
         private void btn_Help_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

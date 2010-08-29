@@ -23,6 +23,7 @@ using PKCS1.WpfControls.RsaKeyGen;
 using PKCS1.Library;
 using PKCS1.WpfVisualization.Navigation;
 using PKCS1.WpfVisualization;
+using PKCS1.Resources.lang.Gui;
 
 
 namespace PKCS1.WpfVisualization
@@ -40,8 +41,6 @@ namespace PKCS1.WpfVisualization
         private IPkcs1UserControl m_SigGenFakeShortControl = null;
         private IPkcs1UserControl m_SigValControl = null;
 
-        //public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-
         public Pkcs1Control()
         {
             InitializeComponent();
@@ -50,15 +49,12 @@ namespace PKCS1.WpfVisualization
 
         private void Initialize()
         {
-            //ControlHandler.Dispatcher = this.Dispatcher;
             navigator.OnNavigate += Navigate;
 
             Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 Navigate(NavigationCommandType.Start);
             }, null);
-            //(m_StartControl as StartControl).OnStartpageLinkClick += new Navigate(Navigate);
-            //this.MouseRightButtonDown += new MouseButtonEventHandler(PrimesControl_MouseRightButtonDown);
         }
 
         private void Navigate(NavigationCommandType type)
@@ -104,22 +100,22 @@ namespace PKCS1.WpfVisualization
             switch (type)
             {
                 case NavigationCommandType.RsaKeyGen:
-                    lblTitel.Content = "RSA-Schlüssel generieren";
+                    lblTitel.Content = RsaKeyGenCtrl.title;                     
                     break;
                 case NavigationCommandType.Start:
-                    lblTitel.Content = "Startseite";
+                    lblTitel.Content = Common.startTitle;
                     break;
                 case NavigationCommandType.SigGen:
-                    lblTitel.Content = "PKCS #1-Signatur generieren";
+                    lblTitel.Content = SigGenRsaCtrl.title;
                     break;
                 case NavigationCommandType.SigGenFakeBleichenb:
-                    lblTitel.Content = "Bleichenbacher Angriff";
+                    lblTitel.Content = SigGenBleichenbCtrl.title;
                     break;
                 case NavigationCommandType.SigGenFakeShort:
-                    lblTitel.Content = "Angriff mit kürzeren Schlüsseln";
+                    lblTitel.Content = SigGenKuehnCtrl.title;
                     break;
                 case NavigationCommandType.SigVal:
-                    lblTitel.Content = "PKCS #1-Signatur verifizieren";
+                    lblTitel.Content = SigValCtrl.title;
                     break;
             }
         }
@@ -131,14 +127,6 @@ namespace PKCS1.WpfVisualization
 
         private void SetUserControl(IPkcs1UserControl control, int tab)
         {
-            /*if (tab >= 0)
-            {
-                try
-                {
-                    control.SetTab(tab);
-                }
-                catch { }
-            }*/
             (control as UserControl).HorizontalAlignment = HorizontalAlignment.Stretch;
             (control as UserControl).VerticalAlignment = VerticalAlignment.Stretch;
             ContentArea.Content = control as UserControl;

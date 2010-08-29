@@ -117,31 +117,35 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="attackbleichenbacher" xml:space="preserve">
-    <value>Bleichenbacher Angriff</value>
+  <data name="bitSize" xml:space="preserve">
+    <value>Modulus Bitsize:</value>
   </data>
-  <data name="attackvariant" xml:space="preserve">
-    <value>Varianten mit kürzeren Schlüsseln</value>
+  <data name="bitSizeUnit" xml:space="preserve">
+    <value>(in bit)</value>
   </data>
-  <data name="keygen" xml:space="preserve">
-    <value>RSA-Schlüssel erzeugen</value>
+  <data name="generatedKey" xml:space="preserve">
+    <value>Generated Key</value>
   </data>
-  <data name="pkcs1attack" xml:space="preserve">
-    <value>Angriffe auf PKCS#1</value>
+  <data name="genKey" xml:space="preserve">
+    <value>Generate Key</value>
   </data>
-  <data name="pkcs1gen" xml:space="preserve">
-    <value>Sichere PKCS#1-Signatur erzeugen</value>
+  <data name="genRsaKey" xml:space="preserve">
+    <value>Generate RSA-Key</value>
   </data>
-  <data name="pkcs1validate" xml:space="preserve">
-    <value>PKCS#1-Signatur verifizieren</value>
+  <data name="mod" xml:space="preserve">
+    <value>Modulus</value>
   </data>
-  <data name="siggen" xml:space="preserve">
-    <value>Signaturgenerierung</value>
+  <data name="privKey" xml:space="preserve">
+    <value>Private Key</value>
   </data>
-  <data name="sigval" xml:space="preserve">
-    <value>Signaturvalidierung</value>
+  <data name="pubKey" xml:space="preserve">
+    <value>Public Key:</value>
   </data>
-  <data name="startpage" xml:space="preserve">
-    <value>Startseite</value>
+  <data name="pubKeyComment" xml:space="preserve">
+    <value>(has to be 3, to execute attacks)</value>
+  </data>
+  <data name="title" xml:space="preserve">
+    <value>Generate RSA-Key</value>
+    <comment>title in tab, not navigation</comment>
   </data>
 </root>

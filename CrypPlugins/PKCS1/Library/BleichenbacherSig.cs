@@ -36,6 +36,19 @@ namespace PKCS1.Library
             }
         }
 
+        protected string m_changeSign = " ";
+        public string ChangeSign
+        {
+            set
+            {
+                this.m_changeSign = (string)value;
+            }
+            get
+            {
+                return this.m_changeSign;
+            }
+        }
+
         public override bool GenerateSignature()
         {
             this.SendGuiLogMsg("Message Generation started", NotificationLevel.Info);
@@ -67,9 +80,10 @@ namespace PKCS1.Library
                 }
                 else
                 {
-                    byte[] tmp = new byte[Datablock.getInstance().Message.Length+1];
+                    byte[] extSign = Encoding.ASCII.GetBytes(ChangeSign);
+                    byte[] tmp = new byte[Datablock.getInstance().Message.Length+extSign.Length];
                     Array.Copy(Datablock.getInstance().Message,tmp,Datablock.getInstance().Message.Length);
-                    Array.Copy(Encoding.ASCII.GetBytes(" "), 0, tmp, Datablock.getInstance().Message.Length, Encoding.ASCII.GetBytes(" ").Length);
+                    Array.Copy(extSign, 0, tmp, Datablock.getInstance().Message.Length,extSign.Length);
                     Datablock.getInstance().Message = tmp;
                 }
             }

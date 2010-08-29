@@ -117,31 +117,35 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="attackbleichenbacher" xml:space="preserve">
-    <value>Bleichenbacher Angriff</value>
+  <data name="bitSize" xml:space="preserve">
+    <value>Bitgröße des Modulus:</value>
   </data>
-  <data name="attackvariant" xml:space="preserve">
-    <value>Varianten mit kürzeren Schlüsseln</value>
+  <data name="bitSizeUnit" xml:space="preserve">
+    <value>(in Bit)</value>
   </data>
-  <data name="keygen" xml:space="preserve">
+  <data name="generatedKey" xml:space="preserve">
+    <value>Erzeugter Schlüssel</value>
+  </data>
+  <data name="genKey" xml:space="preserve">
+    <value>Schlüssel erzeugen</value>
+  </data>
+  <data name="genRsaKey" xml:space="preserve">
     <value>RSA-Schlüssel erzeugen</value>
   </data>
-  <data name="pkcs1attack" xml:space="preserve">
-    <value>Angriffe auf PKCS#1</value>
+  <data name="mod" xml:space="preserve">
+    <value>Modulus</value>
   </data>
-  <data name="pkcs1gen" xml:space="preserve">
-    <value>Sichere PKCS#1-Signatur erzeugen</value>
+  <data name="privKey" xml:space="preserve">
+    <value>Privater Schlüssel</value>
   </data>
-  <data name="pkcs1validate" xml:space="preserve">
-    <value>PKCS#1-Signatur verifizieren</value>
+  <data name="pubKey" xml:space="preserve">
+    <value>Öffentlicher Schlüssel:</value>
   </data>
-  <data name="siggen" xml:space="preserve">
-    <value>Signaturgenerierung</value>
+  <data name="pubKeyComment" xml:space="preserve">
+    <value>(muss 3 sein, um Angriffe durchführen zu können)</value>
   </data>
-  <data name="sigval" xml:space="preserve">
-    <value>Signaturvalidierung</value>
-  </data>
-  <data name="startpage" xml:space="preserve">
-    <value>Startseite</value>
+  <data name="title" xml:space="preserve">
+    <value>RSA-Schlüssel erzeugen</value>
+    <comment>title in tab, not navigation</comment>
   </data>
 </root>

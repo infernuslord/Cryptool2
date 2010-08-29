@@ -117,31 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="attackbleichenbacher" xml:space="preserve">
+  <data name="decrypted" xml:space="preserve">
+    <value>Unverschlüsselt</value>
+  </data>
+  <data name="encrypted" xml:space="preserve">
+    <value>Verschlüsselt</value>
+  </data>
+  <data name="generatedSig" xml:space="preserve">
+    <value>Erzeugte Signatur</value>
+  </data>
+  <data name="genSig" xml:space="preserve">
+    <value>Signatur erzeugen</value>
+  </data>
+  <data name="pubKey" xml:space="preserve">
+    <value>Öffentlicher Schlüssel:</value>
+  </data>
+  <data name="rsaKeySize" xml:space="preserve">
+    <value>RSA-Schlüsselgröße (in Bit):</value>
+  </data>
+  <data name="structure" xml:space="preserve">
+    <value>Struktur</value>
+  </data>
+  <data name="bitPos" xml:space="preserve">
+    <value>Bitposition des Datenblocks:</value>
+  </data>
+  <data name="genFakeSig" xml:space="preserve">
+    <value>Gefälschte Signatur erzeugen</value>
+  </data>
+  <data name="title" xml:space="preserve">
     <value>Bleichenbacher Angriff</value>
   </data>
-  <data name="attackvariant" xml:space="preserve">
-    <value>Varianten mit kürzeren Schlüsseln</value>
-  </data>
-  <data name="keygen" xml:space="preserve">
-    <value>RSA-Schlüssel erzeugen</value>
-  </data>
-  <data name="pkcs1attack" xml:space="preserve">
-    <value>Angriffe auf PKCS#1</value>
-  </data>
-  <data name="pkcs1gen" xml:space="preserve">
-    <value>Sichere PKCS#1-Signatur erzeugen</value>
-  </data>
-  <data name="pkcs1validate" xml:space="preserve">
-    <value>PKCS#1-Signatur verifizieren</value>
-  </data>
-  <data name="siggen" xml:space="preserve">
-    <value>Signaturgenerierung</value>
-  </data>
-  <data name="sigval" xml:space="preserve">
-    <value>Signaturvalidierung</value>
-  </data>
-  <data name="startpage" xml:space="preserve">
-    <value>Startseite</value>
+  <data name="changeSign" xml:space="preserve">
+    <value>Zeichen zur Nachrichtenänderung:</value>
   </data>
 </root>

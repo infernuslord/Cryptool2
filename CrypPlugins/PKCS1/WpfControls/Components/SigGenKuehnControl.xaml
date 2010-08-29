@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:my="clr-namespace:PKCS1.WpfResources"
     xmlns:lib="clr-namespace:PKCS1.Library"
+    xmlns:lang="clr-namespace:PKCS1.Resources.lang.Gui"
     VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
     <UserControl.Resources>
         <my:ErrorsToMessageConverter x:Key="eToMConverter" />
@@ -14,7 +15,10 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <!-- Generate Signature -->
-        <GroupBox Header="Signatur generieren" Name="gbSigGen" Grid.Row="0">
+        <GroupBox Name="gbSigGen" Grid.Row="0">
+            <GroupBox.Header>
+                <x:Static Member="lang:SigGenKuehnCtrl.genSig"></x:Static>
+            </GroupBox.Header>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
@@ -28,9 +32,12 @@
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Name="lblRsaKeySize" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top">RSA-Schlüsselgröße (in Bit):</Label>
-                    <Label Grid.Row="1" Name="lblPublicKey" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top">Öffentlicher Schlüssel:</Label>
-                    <Label Grid.Row="2" Name="lblIterations" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top">Max. Anzahl an Iterationen:</Label>
+                    <Label Grid.Row="0" Name="lblRsaKeySize" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <x:Static Member="lang:SigGenKuehnCtrl.rsaKeySize"></x:Static></Label>
+                    <Label Grid.Row="1" Name="lblPublicKey" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <x:Static Member="lang:SigGenKuehnCtrl.pubKey"></x:Static></Label>
+                    <Label Grid.Row="2" Name="lblIterations" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <x:Static Member="lang:SigGenKuehnCtrl.maxIterations"></x:Static></Label>
                 </Grid>
                 <!-- middle -->
                 <Grid Grid.Column="1">
@@ -63,7 +70,10 @@
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <GroupBox Grid.Row="0" Header="Struktur" Name="gbStruct" Height="47" Width="200" HorizontalAlignment="Right" VerticalAlignment="Top">
+                    <GroupBox Grid.Row="0" Name="gbStruct" Height="47" Width="200" HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <GroupBox.Header>
+                            <x:Static Member="lang:SigGenKuehnCtrl.structure"></x:Static>
+                        </GroupBox.Header>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" />
@@ -79,11 +89,12 @@
                             <Label Grid.Column="2" Foreground="Green">PS</Label>
                             <Label Grid.Column="3">'00'</Label>
                             <Label Grid.Column="4" Foreground="Blue">HI</Label>
-                            <Label Grid.Column="5" Foreground="Red">HW</Label>
+                            <Label Grid.Column="5" Foreground="Red">HD</Label>
                             <Label Grid.Column="6">GG</Label>
                         </Grid>
                     </GroupBox>
-                    <Button Grid.Row="1" Name="bExecute" Margin="5,5,5,5" Click="bExecute_Click" Height="25" HorizontalAlignment="Right" VerticalAlignment="Bottom" MinWidth="100">Gefälschte Signatur generieren</Button>
+                    <Button Grid.Row="1" Name="bExecute" Margin="5,5,5,5" Click="bExecute_Click" Height="25" HorizontalAlignment="Right" VerticalAlignment="Bottom" MinWidth="100">
+                        <x:Static Member="lang:SigGenKuehnCtrl.genFakeSig"></x:Static></Button>
                 </Grid>
             </Grid>
         </GroupBox>
@@ -92,7 +103,7 @@
         <TextBlock Grid.Row="1" Foreground="Red" FontWeight="Bold" FontSize="10" Name="tbError"></TextBlock>
         
         <!-- Result -->
-        <GroupBox Header="Generierte Signatur" Name="gbSigRes" Grid.Row="2" Margin="0,15,0,0">
+        <GroupBox Header="Erzeugte Signatur" Name="gbSigRes" Grid.Row="2" Margin="0,15,0,0">
             <Grid>
                 <Grid.RowDefinitions >
                     <RowDefinition Height="auto" />
@@ -100,10 +111,12 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Label Grid.Row="0" Margin="0,0,0,0" Name="lblClearText">Unverschlüsselt</Label>
+                <Label Grid.Row="0" Margin="0,0,0,0" Name="lblClearText">
+                    <x:Static Member="lang:SigGenKuehnCtrl.decrypted"></x:Static></Label>
                 <Label Grid.Row="0" Margin="150,0,0,0" Name="lblSignatureLength"></Label>
                 <RichTextBox Grid.Row="1" Name="rtbResult" MinHeight="80" IsReadOnly="True" Margin="5,5,5,5" MaxWidth="450" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" TextChanged="rtbResult_TextChanged"></RichTextBox>
-                <Label Grid.Row="2" Margin="0,0,0,0" Name="lblCipherText">Verschlüsselt</Label>
+                <Label Grid.Row="2" Margin="0,0,0,0" Name="lblCipherText">
+                    <x:Static Member="lang:SigGenKuehnCtrl.encrypted"></x:Static></Label>
                 <Label Grid.Row="2" Margin="150,0,0,0" Name="lblEncryptedSignatureLength"></Label>
                 <TextBox Grid.Row="3" Name="tbResultEncrypted" TextWrapping="Wrap" MinHeight="80" IsReadOnly="True" Margin="5,5,5,5" MaxWidth="450" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" TextChanged="tbResultEncrypted_TextChanged"></TextBox>
             </Grid>
