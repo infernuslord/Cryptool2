@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:my="clr-namespace:PKCS1.WpfResources"
     xmlns:lib="clr-namespace:PKCS1.Library"
+    xmlns:lang="clr-namespace:PKCS1.Resources.lang.Gui"
     HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
     <UserControl.Resources>
         <my:ErrorsToMessageConverter x:Key="eToMConverter" />
@@ -13,7 +14,10 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-            <GroupBox Grid.Row="0" Header="RSA-Schlüssel generieren" Margin="0,0,0,0">
+            <GroupBox Grid.Row="0" Margin="0,0,0,0">
+                <GroupBox.Header>
+                    <x:Static Member="lang:RsaKeyGenCtrl.genRsaKey"></x:Static>
+                </GroupBox.Header>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
@@ -30,8 +34,11 @@
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
-                        <Label Grid.Row="0" Margin="5,0,5,0">Öffentlicher Schlüssel:</Label>
-                        <Label Grid.Row="1" Margin="5,0,5,5">Bitgröße des Modulus:</Label>
+                            <Label Grid.Row="0" Margin="5,0,5,0">
+                                <x:Static Member="lang:RsaKeyGenCtrl.pubKey"></x:Static></Label>
+                            <Label Grid.Row="1" Margin="5,0,5,5">
+                                <x:Static Member="lang:RsaKeyGenCtrl.bitSize"></x:Static>
+                            </Label>
                     </Grid>
                     <Grid Grid.Column="1">
                         <Grid.RowDefinitions>
@@ -63,11 +70,14 @@
                             <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
                             <DockPanel Grid.Row="0">
-                                <Label Margin="5,0,5,0">(muss 3 sein, um Angriffe durchführen zu können)</Label>
+                                <Label Margin="5,0,5,0">
+                                    <x:Static Member="lang:RsaKeyGenCtrl.pubKeyComment"></x:Static></Label>
                                 <Image Name="btnHelpPubKey" Cursor="Hand" Source="../../Resources/icons/help.png" Width="16" Height="16" HorizontalAlignment="Right" MouseLeftButtonDown="btn_Help_MouseLeftButtonDown" />
                             </DockPanel>
                             <DockPanel Grid.Row="1">
-                                <Label Margin="5,0,5,5">(in Bit)</Label>
+                                <Label Margin="5,0,5,5">
+                                    <x:Static Member="lang:RsaKeyGenCtrl.bitSizeUnit"></x:Static>
+                                </Label>
                                 <Image Name="btnHelpBitSizeModulus" Cursor="Hand" Source="../../Resources/icons/help.png" Width="16" Height="16" HorizontalAlignment="Right" MouseLeftButtonDown="btn_Help_MouseLeftButtonDown" />
                             </DockPanel>
                     </Grid>
@@ -86,11 +96,16 @@
                                 Text="{Binding ElementName=tbInputMod,
                                 Path=(Validation.Errors),
                                 Converter={StaticResource eToMConverter}}" />
-                        <Button Grid.Column="2" Name="btnGenRsaKey" Click="btnGenRsaKey_Click" Height="25" MinWidth="100" VerticalAlignment="Bottom" HorizontalContentAlignment="Right">Schlüssel generieren</Button>
+                        <Button Grid.Column="2" Name="btnGenRsaKey" Click="btnGenRsaKey_Click" Height="25" MinWidth="100" VerticalAlignment="Bottom" HorizontalContentAlignment="Right">
+                            <x:Static Member="lang:RsaKeyGenCtrl.genKey"></x:Static>
+                        </Button>
                 </Grid>
             </Grid>
         </GroupBox>        
-            <GroupBox Grid.Row="1" Header="Generierter Schlüssel" Margin="0,15,0,0">
+            <GroupBox Grid.Row="1" Margin="0,15,0,0">
+                <GroupBox.Header>
+                    <x:Static Member="lang:RsaKeyGenCtrl.generatedKey"></x:Static>
+                </GroupBox.Header>
                 <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
@@ -98,10 +113,12 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-                <Label Grid.Row="0">Privater Schlüssel</Label>
+                    <Label Grid.Row="0">
+                        <x:Static Member="lang:RsaKeyGenCtrl.privKey"></x:Static></Label>
                 <Label Grid.Row="0" Margin="150,0,0,0" Name="lblPrivKeyLength"></Label>
                 <TextBox Grid.Row="1" Name="tbResultPrivKey" IsReadOnly="True" TextWrapping="Wrap" MaxWidth="450" MinHeight="80" Margin="5,0,5,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextChanged="tbResultPrivKey_TextChanged"></TextBox>
-                <Label Grid.Row="2">Modulus</Label>
+                    <Label Grid.Row="2">
+                        <x:Static Member="lang:RsaKeyGenCtrl.mod"></x:Static></Label>
                 <Label Grid.Row="2" Margin="150,0,0,0" Name="lblModulusLength"></Label>
                 <TextBox Grid.Row="3" Name="tbResultModulus" IsReadOnly="True" TextWrapping="Wrap" MaxWidth="450" MinHeight="80" Margin="5,0,5,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextChanged="tbResultModulus_TextChanged"></TextBox>
             </Grid>            

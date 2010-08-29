@@ -117,31 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="attackbleichenbacher" xml:space="preserve">
-    <value>Bleichenbacher Angriff</value>
+  <data name="chooseHashfunction" xml:space="preserve">
+    <value>Hashfunktion wählen</value>
   </data>
-  <data name="attackvariant" xml:space="preserve">
-    <value>Varianten mit kürzeren Schlüsseln</value>
+  <data name="fileLoad" xml:space="preserve">
+    <value>Datei laden</value>
   </data>
-  <data name="keygen" xml:space="preserve">
-    <value>RSA-Schlüssel erzeugen</value>
+  <data name="fileOpen" xml:space="preserve">
+    <value>Datei öffnen</value>
   </data>
-  <data name="pkcs1attack" xml:space="preserve">
-    <value>Angriffe auf PKCS#1</value>
+  <data name="genDatablock" xml:space="preserve">
+    <value>Datenblock erzeugen</value>
   </data>
-  <data name="pkcs1gen" xml:space="preserve">
-    <value>Sichere PKCS#1-Signatur erzeugen</value>
+  <data name="generatedDatablock" xml:space="preserve">
+    <value>Erzeugter Datenblock</value>
   </data>
-  <data name="pkcs1validate" xml:space="preserve">
-    <value>PKCS#1-Signatur verifizieren</value>
+  <data name="hd" xml:space="preserve">
+    <value>Hashwert (HD)</value>
   </data>
-  <data name="siggen" xml:space="preserve">
-    <value>Signaturgenerierung</value>
+  <data name="hi" xml:space="preserve">
+    <value>Hashfunktion Identifier (HI)</value>
   </data>
-  <data name="sigval" xml:space="preserve">
-    <value>Signaturvalidierung</value>
+  <data name="length" xml:space="preserve">
+    <value>Länge: </value>
   </data>
-  <data name="startpage" xml:space="preserve">
-    <value>Startseite</value>
+  <data name="textDefault" xml:space="preserve">
+    <value>Hier bitte den zu signierenden Text eingeben.</value>
+  </data>
+  <data name="textInput" xml:space="preserve">
+    <value>Text eingeben</value>
   </data>
 </root>

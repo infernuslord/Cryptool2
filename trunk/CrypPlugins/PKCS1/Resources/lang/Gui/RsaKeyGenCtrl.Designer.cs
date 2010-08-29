@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PKCS1.Resources.lang.Navigation {
+namespace PKCS1.Resources.lang.Gui {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace PKCS1.Resources.lang.Navigation {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Navigation {
+    public class RsaKeyGenCtrl {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Navigation() {
+        internal RsaKeyGenCtrl() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace PKCS1.Resources.lang.Navigation {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PKCS1.Resources.lang.Navigation.Navigation", typeof(Navigation).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PKCS1.Resources.lang.Gui.RsaKeyGenCtrl", typeof(RsaKeyGenCtrl).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,83 +61,92 @@ namespace PKCS1.Resources.lang.Navigation {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bleichenbacher Angriff.
+        ///   Looks up a localized string similar to Bitgröße des Modulus:.
         /// </summary>
-        public static string attackbleichenbacher {
+        public static string bitSize {
             get {
-                return ResourceManager.GetString("attackbleichenbacher", resourceCulture);
+                return ResourceManager.GetString("bitSize", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Varianten mit kürzeren Schlüsseln.
+        ///   Looks up a localized string similar to (in Bit).
         /// </summary>
-        public static string attackvariant {
+        public static string bitSizeUnit {
             get {
-                return ResourceManager.GetString("attackvariant", resourceCulture);
+                return ResourceManager.GetString("bitSizeUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Erzeugter Schlüssel.
+        /// </summary>
+        public static string generatedKey {
+            get {
+                return ResourceManager.GetString("generatedKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Schlüssel erzeugen.
+        /// </summary>
+        public static string genKey {
+            get {
+                return ResourceManager.GetString("genKey", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to RSA-Schlüssel erzeugen.
         /// </summary>
-        public static string keygen {
+        public static string genRsaKey {
             get {
-                return ResourceManager.GetString("keygen", resourceCulture);
+                return ResourceManager.GetString("genRsaKey", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Angriffe auf PKCS#1.
+        ///   Looks up a localized string similar to Modulus.
         /// </summary>
-        public static string pkcs1attack {
+        public static string mod {
             get {
-                return ResourceManager.GetString("pkcs1attack", resourceCulture);
+                return ResourceManager.GetString("mod", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sichere PKCS#1-Signatur erzeugen.
+        ///   Looks up a localized string similar to Privater Schlüssel.
         /// </summary>
-        public static string pkcs1gen {
+        public static string privKey {
             get {
-                return ResourceManager.GetString("pkcs1gen", resourceCulture);
+                return ResourceManager.GetString("privKey", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to PKCS#1-Signatur verifizieren.
+        ///   Looks up a localized string similar to Öffentlicher Schlüssel:.
         /// </summary>
-        public static string pkcs1validate {
+        public static string pubKey {
             get {
-                return ResourceManager.GetString("pkcs1validate", resourceCulture);
+                return ResourceManager.GetString("pubKey", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Signaturgenerierung.
+        ///   Looks up a localized string similar to (muss 3 sein, um Angriffe durchführen zu können).
         /// </summary>
-        public static string siggen {
+        public static string pubKeyComment {
             get {
-                return ResourceManager.GetString("siggen", resourceCulture);
+                return ResourceManager.GetString("pubKeyComment", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Signaturvalidierung.
+        ///   Looks up a localized string similar to RSA-Schlüssel erzeugen.
         /// </summary>
-        public static string sigval {
+        public static string title {
             get {
-                return ResourceManager.GetString("sigval", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Startseite.
-        /// </summary>
-        public static string startpage {
-            get {
-                return ResourceManager.GetString("startpage", resourceCulture);
+                return ResourceManager.GetString("title", resourceCulture);
             }
         }
     }

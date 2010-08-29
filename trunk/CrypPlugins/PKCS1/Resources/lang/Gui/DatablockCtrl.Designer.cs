@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PKCS1.Resources.lang.Navigation {
+namespace PKCS1.Resources.lang.Gui {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace PKCS1.Resources.lang.Navigation {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Navigation {
+    public class DatablockCtrl {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Navigation() {
+        internal DatablockCtrl() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace PKCS1.Resources.lang.Navigation {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PKCS1.Resources.lang.Navigation.Navigation", typeof(Navigation).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PKCS1.Resources.lang.Gui.DatablockCtrl", typeof(DatablockCtrl).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,83 +61,92 @@ namespace PKCS1.Resources.lang.Navigation {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bleichenbacher Angriff.
+        ///   Looks up a localized string similar to Hashfunktion wählen.
         /// </summary>
-        public static string attackbleichenbacher {
+        public static string chooseHashfunction {
             get {
-                return ResourceManager.GetString("attackbleichenbacher", resourceCulture);
+                return ResourceManager.GetString("chooseHashfunction", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Varianten mit kürzeren Schlüsseln.
+        ///   Looks up a localized string similar to Datei laden.
         /// </summary>
-        public static string attackvariant {
+        public static string fileLoad {
             get {
-                return ResourceManager.GetString("attackvariant", resourceCulture);
+                return ResourceManager.GetString("fileLoad", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to RSA-Schlüssel erzeugen.
+        ///   Looks up a localized string similar to Datei öffnen.
         /// </summary>
-        public static string keygen {
+        public static string fileOpen {
             get {
-                return ResourceManager.GetString("keygen", resourceCulture);
+                return ResourceManager.GetString("fileOpen", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Angriffe auf PKCS#1.
+        ///   Looks up a localized string similar to Datenblock erzeugen.
         /// </summary>
-        public static string pkcs1attack {
+        public static string genDatablock {
             get {
-                return ResourceManager.GetString("pkcs1attack", resourceCulture);
+                return ResourceManager.GetString("genDatablock", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sichere PKCS#1-Signatur erzeugen.
+        ///   Looks up a localized string similar to Erzeugter Datenblock.
         /// </summary>
-        public static string pkcs1gen {
+        public static string generatedDatablock {
             get {
-                return ResourceManager.GetString("pkcs1gen", resourceCulture);
+                return ResourceManager.GetString("generatedDatablock", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to PKCS#1-Signatur verifizieren.
+        ///   Looks up a localized string similar to Hashwert (HD).
         /// </summary>
-        public static string pkcs1validate {
+        public static string hd {
             get {
-                return ResourceManager.GetString("pkcs1validate", resourceCulture);
+                return ResourceManager.GetString("hd", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Signaturgenerierung.
+        ///   Looks up a localized string similar to Hashfunktion Identifier (HI).
         /// </summary>
-        public static string siggen {
+        public static string hi {
             get {
-                return ResourceManager.GetString("siggen", resourceCulture);
+                return ResourceManager.GetString("hi", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Signaturvalidierung.
+        ///   Looks up a localized string similar to Länge: .
         /// </summary>
-        public static string sigval {
+        public static string length {
             get {
-                return ResourceManager.GetString("sigval", resourceCulture);
+                return ResourceManager.GetString("length", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Startseite.
+        ///   Looks up a localized string similar to Hier bitte den zu signierenden Text eingeben..
         /// </summary>
-        public static string startpage {
+        public static string textDefault {
             get {
-                return ResourceManager.GetString("startpage", resourceCulture);
+                return ResourceManager.GetString("textDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text eingeben.
+        /// </summary>
+        public static string textInput {
+            get {
+                return ResourceManager.GetString("textInput", resourceCulture);
             }
         }
     }

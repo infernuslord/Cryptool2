@@ -11,9 +11,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-//using Cryptool.PluginBase.Miscellaneous;
 using PKCS1.Library;
-using Org.BouncyCastle.Math;
+using PKCS1.Resources.lang.Gui;
 
 namespace PKCS1.WpfControls.Components
 {
@@ -34,7 +33,6 @@ namespace PKCS1.WpfControls.Components
 
         private void handleCustomEvent(ParameterChangeType type)
         {
-            //this.tbResult.Text = String.Empty;
             this.tbResultEncrypted.Text = String.Empty;
             this.lblPublicKeyRes.Content = RsaKey.Instance.PubExponent.ToString();
             this.lblRsaKeySizeRes.Content = RsaKey.Instance.RsaKeySize.ToString();
@@ -44,22 +42,21 @@ namespace PKCS1.WpfControls.Components
         {
             this.m_RSASignature = (RsaSig) SignatureHandler.getInstance().getSignature();
             this.m_RSASignature.GenerateSignature();
-            //this.tbResult.Text = this.m_RSASignature.GetSignatureDecToHexString();
             UserControlHelper.loadRtbColoredSig(this.rtbResult, this.m_RSASignature.GetSignatureDecToHexString());
             this.tbResultEncrypted.Text = this.m_RSASignature.GetSignatureToHexString();
 
             // nur temp
-            SignatureHandler.getInstance().setSignature(this.m_RSASignature);
+            //SignatureHandler.getInstance().setSignature(this.m_RSASignature);
         }
 
         private void tbResultEncrypted_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.lblEncryptedSignatureLength.Content = "(Länge: " + this.tbResultEncrypted.Text.Length * 4 + " bit)";
+            this.lblEncryptedSignatureLength.Content = "(" + Common.length +": " + this.tbResultEncrypted.Text.Length * 4 + " " + Common.bit + ")";
         }
 
         private void rtbResult_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.lblSignatureLength.Content = "(Länge: " + UserControlHelper.GetRtbTextLength(this.rtbResult) * 4 + " bit)";
+            this.lblSignatureLength.Content = "(" + Common.length + ": " + UserControlHelper.GetRtbTextLength(this.rtbResult) * 4 + " " + Common.bit + ")";
         }
     }
 }

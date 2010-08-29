@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PKCS1.Resources.lang.Navigation {
+namespace PKCS1.Resources.lang.Gui {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace PKCS1.Resources.lang.Navigation {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Navigation {
+    public class Common {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Navigation() {
+        internal Common() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace PKCS1.Resources.lang.Navigation {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PKCS1.Resources.lang.Navigation.Navigation", typeof(Navigation).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PKCS1.Resources.lang.Gui.Common", typeof(Common).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,83 +61,38 @@ namespace PKCS1.Resources.lang.Navigation {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bleichenbacher Angriff.
+        ///   Looks up a localized string similar to Bit.
         /// </summary>
-        public static string attackbleichenbacher {
+        public static string bit {
             get {
-                return ResourceManager.GetString("attackbleichenbacher", resourceCulture);
+                return ResourceManager.GetString("bit", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Varianten mit kürzeren Schlüsseln.
+        ///   Looks up a localized string similar to Fehler!.
         /// </summary>
-        public static string attackvariant {
+        public static string error {
             get {
-                return ResourceManager.GetString("attackvariant", resourceCulture);
+                return ResourceManager.GetString("error", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to RSA-Schlüssel erzeugen.
+        ///   Looks up a localized string similar to Länge.
         /// </summary>
-        public static string keygen {
+        public static string length {
             get {
-                return ResourceManager.GetString("keygen", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Angriffe auf PKCS#1.
-        /// </summary>
-        public static string pkcs1attack {
-            get {
-                return ResourceManager.GetString("pkcs1attack", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sichere PKCS#1-Signatur erzeugen.
-        /// </summary>
-        public static string pkcs1gen {
-            get {
-                return ResourceManager.GetString("pkcs1gen", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to PKCS#1-Signatur verifizieren.
-        /// </summary>
-        public static string pkcs1validate {
-            get {
-                return ResourceManager.GetString("pkcs1validate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Signaturgenerierung.
-        /// </summary>
-        public static string siggen {
-            get {
-                return ResourceManager.GetString("siggen", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Signaturvalidierung.
-        /// </summary>
-        public static string sigval {
-            get {
-                return ResourceManager.GetString("sigval", resourceCulture);
+                return ResourceManager.GetString("length", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Startseite.
         /// </summary>
-        public static string startpage {
+        public static string startTitle {
             get {
-                return ResourceManager.GetString("startpage", resourceCulture);
+                return ResourceManager.GetString("startTitle", resourceCulture);
             }
         }
     }

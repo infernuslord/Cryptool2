@@ -112,34 +112,34 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="attackbleichenbacher" xml:space="preserve">
-    <value>Bleichenbacher Attack</value>
+    <value>Bleichenbacher attack</value>
   </data>
   <data name="attackvariant" xml:space="preserve">
-    <value>Variants with shorter Keys</value>
+    <value>Variants with shorter keys</value>
   </data>
   <data name="keygen" xml:space="preserve">
-    <value>Generate Key</value>
+    <value>Generate RSA-Key</value>
   </data>
   <data name="pkcs1attack" xml:space="preserve">
-    <value>Attacks on PKCS #1</value>
+    <value>Attacks on PKCS#1</value>
   </data>
   <data name="pkcs1gen" xml:space="preserve">
-    <value>generate PKCS #1-Signature</value>
+    <value>Generate secure PKCS#1 signature</value>
   </data>
   <data name="pkcs1validate" xml:space="preserve">
-    <value>validate PKCS #1-Signature</value>
+    <value>Validate PKCS#1 signature</value>
   </data>
   <data name="siggen" xml:space="preserve">
-    <value>Signature Generation</value>
+    <value>Signature generation</value>
   </data>
   <data name="sigval" xml:space="preserve">
-    <value>Signature Validation</value>
+    <value>Signature validation</value>
   </data>
   <data name="startpage" xml:space="preserve">
     <value>Startpage</value>

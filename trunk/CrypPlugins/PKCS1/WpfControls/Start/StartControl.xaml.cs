@@ -22,7 +22,6 @@ namespace PKCS1.WpfControls.Start
     /// </summary>
     public partial class StartControl : UserControl, IPkcs1UserControl
     {
-        //public event Navigate OnStartpageLinkClick;
         System.Windows.Forms.WebBrowser b;
 
         public StartControl()

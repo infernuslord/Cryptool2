@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PKCS1.Resources.lang.Navigation {
+namespace PKCS1.Resources.lang.Gui {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace PKCS1.Resources.lang.Navigation {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Navigation {
+    public class SigGenBleichenbCtrl {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Navigation() {
+        internal SigGenBleichenbCtrl() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace PKCS1.Resources.lang.Navigation {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PKCS1.Resources.lang.Navigation.Navigation", typeof(Navigation).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PKCS1.Resources.lang.Gui.SigGenBleichenbCtrl", typeof(SigGenBleichenbCtrl).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,83 +61,101 @@ namespace PKCS1.Resources.lang.Navigation {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bitposition des Datenblocks:.
+        /// </summary>
+        public static string bitPos {
+            get {
+                return ResourceManager.GetString("bitPos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zeichen zur Nachrichtenänderung:.
+        /// </summary>
+        public static string changeSign {
+            get {
+                return ResourceManager.GetString("changeSign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unverschlüsselt.
+        /// </summary>
+        public static string decrypted {
+            get {
+                return ResourceManager.GetString("decrypted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verschlüsselt.
+        /// </summary>
+        public static string encrypted {
+            get {
+                return ResourceManager.GetString("encrypted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Erzeugte Signatur.
+        /// </summary>
+        public static string generatedSig {
+            get {
+                return ResourceManager.GetString("generatedSig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gefälschte Signatur erzeugen.
+        /// </summary>
+        public static string genFakeSig {
+            get {
+                return ResourceManager.GetString("genFakeSig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Signatur erzeugen.
+        /// </summary>
+        public static string genSig {
+            get {
+                return ResourceManager.GetString("genSig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Öffentlicher Schlüssel:.
+        /// </summary>
+        public static string pubKey {
+            get {
+                return ResourceManager.GetString("pubKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RSA-Schlüsselgröße (in Bit):.
+        /// </summary>
+        public static string rsaKeySize {
+            get {
+                return ResourceManager.GetString("rsaKeySize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Struktur.
+        /// </summary>
+        public static string structure {
+            get {
+                return ResourceManager.GetString("structure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bleichenbacher Angriff.
         /// </summary>
-        public static string attackbleichenbacher {
+        public static string title {
             get {
-                return ResourceManager.GetString("attackbleichenbacher", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Varianten mit kürzeren Schlüsseln.
-        /// </summary>
-        public static string attackvariant {
-            get {
-                return ResourceManager.GetString("attackvariant", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to RSA-Schlüssel erzeugen.
-        /// </summary>
-        public static string keygen {
-            get {
-                return ResourceManager.GetString("keygen", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Angriffe auf PKCS#1.
-        /// </summary>
-        public static string pkcs1attack {
-            get {
-                return ResourceManager.GetString("pkcs1attack", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sichere PKCS#1-Signatur erzeugen.
-        /// </summary>
-        public static string pkcs1gen {
-            get {
-                return ResourceManager.GetString("pkcs1gen", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to PKCS#1-Signatur verifizieren.
-        /// </summary>
-        public static string pkcs1validate {
-            get {
-                return ResourceManager.GetString("pkcs1validate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Signaturgenerierung.
-        /// </summary>
-        public static string siggen {
-            get {
-                return ResourceManager.GetString("siggen", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Signaturvalidierung.
-        /// </summary>
-        public static string sigval {
-            get {
-                return ResourceManager.GetString("sigval", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Startseite.
-        /// </summary>
-        public static string startpage {
-            get {
-                return ResourceManager.GetString("startpage", resourceCulture);
+                return ResourceManager.GetString("title", resourceCulture);
             }
         }
     }
