@@ -61,6 +61,34 @@ namespace PKCS1.OnlineHelp.HelpFiles {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;h2&gt;Bleichenbacher Signatur Zeichen zum ändern&lt;/h2&gt;
+        ///In diesem Tab wird eine gefälschte Signatur generiert, die in ver- und entschlüsselter Form dargestellt wird. 
+        ///Eine Signatur, die von fehlerhaften Implementierungen als valide erkannt wird, hat folgende Struktur: 
+        ///&apos;00&apos; &apos;01&apos; PS &apos;00&apos; HI HW GG. &lt;/br&gt;
+        ///Im Einzelnen bedeutet dies:
+        ///.
+        /// </summary>
+        internal static string Gen_Bleichenb_BitPos {
+            get {
+                return ResourceManager.GetString("Gen_Bleichenb_BitPos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;h2&gt;Bleichenbacher Signatur Zeichen zum ändern&lt;/h2&gt;
+        ///In diesem Tab wird eine gefälschte Signatur generiert, die in ver- und entschlüsselter Form dargestellt wird. 
+        ///Eine Signatur, die von fehlerhaften Implementierungen als valide erkannt wird, hat folgende Struktur: 
+        ///&apos;00&apos; &apos;01&apos; PS &apos;00&apos; HI HW GG. &lt;/br&gt;
+        ///Im Einzelnen bedeutet dies:
+        ///.
+        /// </summary>
+        internal static string Gen_Bleichenb_ChangeSign {
+            get {
+                return ResourceManager.GetString("Gen_Bleichenb_ChangeSign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;h2&gt;Bleichenbacher Signatur generieren&lt;/h2&gt;
         ///In diesem Tab wird eine gefälschte Signatur generiert, die in ver- und entschlüsselter Form dargestellt wird. 
         ///Eine Signatur, die von fehlerhaften Implementierungen als valide erkannt wird, hat folgende Struktur: 
@@ -94,12 +122,10 @@ namespace PKCS1.OnlineHelp.HelpFiles {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;h2&gt;Kuehn Signatur generieren&lt;/h2&gt;
-        ///In diesem Tab können gefälschte Signaturen, nach der Methode wie sie Ulrich Kühn beschrieben hat, erstellt werden.
-        ///Die Signaturen ähneln in der Struktur denen von &lt;a href=&quot;help://Gen_Bleichenb_Sig_Tab&quot;&gt;Bleichenbacher&lt;/a&gt;, machen sich jedoch die Rechenkraft von
-        ///Computern zu nutze und sind auch auf Signaturen von 1024 Bit Länge anwendbar. Auch hier liegt folgende Struktur zugrunde: &apos;00&apos; &apos;01&apos; PS &apos;00&apos; HI HW GG. &lt;/br&gt;
-        ///
-        ///Die Unterschiede zu den Bleichenbacher Signaturen sind [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;h2&gt;Maximale Anzahl an Iterationen&lt;/h2&gt;
+        ///In diesem Textfeld können Sie angeben, wieviele Iterationen der Algorithmus durchlaufen soll, bevor dieser unterbrochen wird. 
+        ///Kommt der Algorithmus vorher zu einem Ergebnis endet der Durchlauf und es wird das Ergebnis präsentiert. &lt;/br&gt;
+        ///Im Durchschnitt sollte der Algorithmus ca. 131072 Iterationen brauchen (wenn SHA-1 als Hashalgorithmus gewählt wurde)..
         /// </summary>
         internal static string Gen_Kuehn_Iterations {
             get {

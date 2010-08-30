@@ -78,5 +78,18 @@ namespace PKCS1.WpfControls.Components
         {
             this.lblEncryptedSignatureLength.Content = "(" + Common.length + ": " + this.tbResultEncrypted.Text.Length * 4 + " " + Common.bit + ")";
         }
+
+        private void btn_Help_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender == btnHelpChangeSign)
+            {
+                OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(PKCS1.OnlineHelp.OnlineHelpActions.Gen_Bleichenb_ChangeSign);
+            }
+            else if (sender == btnHelpBitPos)
+            {
+                OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(PKCS1.OnlineHelp.OnlineHelpActions.Gen_Bleichenb_BitPos);
+            }
+            e.Handled = true;
+        }
     }
 }

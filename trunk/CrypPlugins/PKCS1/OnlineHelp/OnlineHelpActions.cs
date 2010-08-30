@@ -16,6 +16,8 @@ namespace PKCS1.OnlineHelp
         Gen_Datablock_Tab,
         Gen_PKCS1_Sig_Tab,
         Gen_Bleichenb_Sig_Tab,
+        Gen_Bleichenb_ChangeSign,
+        Gen_Bleichenb_BitPos,
         Gen_Kuehn_Sig_Tab,
         Gen_Kuehn_Iterations,
         KeyGen_PubExponent,
