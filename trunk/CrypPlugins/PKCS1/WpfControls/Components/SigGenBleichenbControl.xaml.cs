@@ -27,6 +27,7 @@ namespace PKCS1.WpfControls.Components
         {
             InitializeComponent();
             RsaKey.Instance.RaiseKeyGeneratedEvent += handleCustomEvent; // listen
+            Datablock.getInstance().RaiseParamChangedEvent += handleCustomEvent;
             this.handleCustomEvent(ParameterChangeType.RsaKey);
             this.loadComboDataBlocPos(24);
         }
