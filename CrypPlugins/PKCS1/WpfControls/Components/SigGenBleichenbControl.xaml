@@ -51,8 +51,14 @@
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Name="lblRsaKeySizeRes" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="50" MaxWidth="150"></Label>
                     <Label Grid.Row="1" Name="lblPublicKeyRes" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="50" MaxWidth="150"></Label>
-                    <ComboBox Grid.Row="2" Name="cbPosDataBlock" IsEditable="False" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="50" MaxWidth="150"></ComboBox>
-                    <TextBox Grid.Row="3" Name="tbChangeSign" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="50" MaxWidth="100" MaxLength="2">_</TextBox>
+                    <DockPanel Grid.Row="2" Margin="5,0,5,5">
+                        <ComboBox Name="cbPosDataBlock" IsEditable="False" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="50" MaxWidth="150"></ComboBox>
+                        <Image Name="btnHelpBitPos" Cursor="Hand" Source="../../Resources/icons/help.png" Width="16" Height="16" HorizontalAlignment="Right" MouseLeftButtonDown="btn_Help_MouseLeftButtonDown" />
+                    </DockPanel>
+                    <DockPanel Grid.Row="3" Margin="5,5,5,5">
+                        <TextBox Name="tbChangeSign"  HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="50" MaxWidth="100" MaxLength="2">_</TextBox>
+                        <Image Name="btnHelpChangeSign" Cursor="Hand" Source="../../Resources/icons/help.png" Width="16" Height="16" HorizontalAlignment="Right" MouseLeftButtonDown="btn_Help_MouseLeftButtonDown" />
+                    </DockPanel>
                 </Grid>
                 <!-- right -->
                 <Grid Grid.Column="2">

@@ -1,7 +1,7 @@
-﻿<h2>Bleichenbacher Signatur generieren</h2>
+﻿<h2>Bleichenbacher-Signatur generieren</h2>
 In diesem Tab wird eine gefälschte Signatur generiert, die in ver- und entschlüsselter Form dargestellt wird. 
 Eine Signatur, die von fehlerhaften Implementierungen als valide erkannt wird, hat folgende Struktur: 
-'00' '01' PS '00' HI HW GG. </br>
+'00' '01' PS '00' HI HD GG. </br>
 Im Einzelnen bedeutet dies:
 <ul>
 <li>
@@ -31,8 +31,8 @@ Hash-Identifier. Der erste Teil des <a href="help://Gen_Datablock_Tab">Datenbloc
 Hashfunktion in ASN.1-codierter Form enthalten.
 </li>
 <li>
-<strong>HW</strong>
-Hashwert. In dem zweiten Teil des <a href="help://Gen_Datablock_Tab">Datenblock</a> ist der generierte Hashwert enthalten.
+<strong>HD</strong>
+Hashdigest (Hashwert). In dem zweiten Teil des <a href="help://Gen_Datablock_Tab">Datenblock</a> ist der generierte Hashwert enthalten.
 </li>
 <li>
 <strong>GG</strong>

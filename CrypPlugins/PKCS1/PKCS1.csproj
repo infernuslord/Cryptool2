@@ -476,11 +476,21 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="OnlineHelp\HelpFiles\de\Gen_Bleichenb_BitPos.html">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="OnlineHelp\HelpFiles\de\Gen_Bleichenb_ChangeSign.html">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="OnlineHelp\HelpFiles\de\Gen_Kuehn_Iterations.html">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="OnlineHelp\HelpFiles\de\Gen_Datablock_Tab.html" />
-    <Content Include="OnlineHelp\HelpFiles\de\Gen_PKCS1_Sig_Tab.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Gen_Datablock_Tab.html">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="OnlineHelp\HelpFiles\de\Gen_PKCS1_Sig_Tab.html">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="OnlineHelp\HelpFiles\de\Gen_Bleichenb_Sig_Tab.html">
       <SubType>Designer</SubType>
     </Content>
@@ -490,7 +500,9 @@
     <Content Include="OnlineHelp\HelpFiles\de\KeyGen_PubExponent.html">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="OnlineHelp\HelpFiles\de\KeyGen_ModulusSize.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\KeyGen_ModulusSize.html">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="OnlineHelp\HelpFiles\de\StartControl.html">
       <SubType>Designer</SubType>
     </Content>
@@ -500,9 +512,15 @@
     <Content Include="OnlineHelp\HelpFiles\de\SigGenFakeKuehn.html">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="OnlineHelp\HelpFiles\de\KeyGen.html" />
-    <Content Include="OnlineHelp\HelpFiles\de\SigGen.html" />
-    <Content Include="OnlineHelp\HelpFiles\de\SigVal.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\KeyGen.html">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="OnlineHelp\HelpFiles\de\SigGen.html">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="OnlineHelp\HelpFiles\de\SigVal.html">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="OnlineHelp\HelpFiles\template.htm" />
     <Content Include="WpfControls\Start.htm">
       <SubType>Designer</SubType>
