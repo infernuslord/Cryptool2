@@ -199,15 +199,19 @@ namespace WorkspaceManager.Model
         /// <param name="propertyChangedEventArgs"></param>
         public void PropertyChangedOnPlugin(Object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            if (!this.PluginModel.WorkspaceModel.WorkspaceManagerEditor.isExecuting())
+            if (!this.PluginModel.WorkspaceModel.WorkspaceManagerEditor.isExecuting() ||
+                !(sender == this.PluginModel.Plugin) ||
+                !propertyChangedEventArgs.PropertyName.Equals(PropertyName))
             {
                 return;
             }
 
-            if (sender == this.PluginModel.Plugin &&
-                propertyChangedEventArgs.PropertyName.Equals(PropertyName) &&
-                Outgoing)
+            if (Outgoing)
             {
+                if (this.OutputConnections.Count == 0)
+                {
+                    return;
+                }
                 object data = null;
                 if (IsDynamic)
                 {
@@ -247,9 +251,7 @@ namespace WorkspaceManager.Model
                     connectionModel.To.PluginModel.PluginProtocol.BroadcastMessageReliably(msg);
                 }
             }
-            else if (sender == this.PluginModel.Plugin &&
-               propertyChangedEventArgs.PropertyName.Equals(PropertyName) &&
-               !Outgoing)
+            else
             {
                 this.Data = null;
                 this.hasData = false;
