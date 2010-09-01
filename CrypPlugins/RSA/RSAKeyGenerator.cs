@@ -25,6 +25,7 @@ using System.ComponentModel;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Numerics;
+using System.Diagnostics;
 
 namespace Cryptool.Plugins.RSA
 {
@@ -57,7 +58,7 @@ namespace Cryptool.Plugins.RSA
 
         #endregion
         
-        #region envents
+        #region events
 
         public event Cryptool.PluginBase.StatusChangedEventHandler OnPluginStatusChanged;
         public event Cryptool.PluginBase.GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
@@ -249,11 +250,15 @@ namespace Cryptool.Plugins.RSA
                     {
                         RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
                         RSAParameters rsaParameters = rsa.ExportParameters(true);
-                        p = new BigInteger(rsaParameters.P);
-                        q = new BigInteger(rsaParameters.Q);
-                        n = new BigInteger(rsaParameters.Modulus);
-                        e = new BigInteger(rsaParameters.Exponent);
-                        d = new BigInteger(rsaParameters.D);
+                        p = BigIntegerHelper.FromPositiveReversedByteArray(rsaParameters.P);
+                        q = BigIntegerHelper.FromPositiveReversedByteArray(rsaParameters.Q);
+                        n = BigIntegerHelper.FromPositiveReversedByteArray(rsaParameters.Modulus);
+                        Debug.Assert(BigIntegerHelper.IsProbablePrime(p));
+                        Debug.Assert(BigIntegerHelper.IsProbablePrime(q));
+                        Debug.Assert((p * q) == n);
+                        e = BigIntegerHelper.FromPositiveReversedByteArray(rsaParameters.Exponent);
+                        d = BigIntegerHelper.FromPositiveReversedByteArray(rsaParameters.D);
+                        Debug.Assert((e * d) % ((p - 1) * (q - 1)) == 1);
                     }
                     catch (Exception ex)
                     {
