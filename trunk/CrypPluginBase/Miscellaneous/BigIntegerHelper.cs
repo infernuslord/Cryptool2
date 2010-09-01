@@ -353,5 +353,19 @@ namespace Cryptool.PluginBase.Miscellaneous
             return result;
         }
 
+
+        /// <summary>
+        /// Because it is often necessary to convert a reversed byte array to a positive BigInteger, without having a the highest significant bit 
+        /// set to zero for indicating the positiveness, this method can be used.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static BigInteger FromPositiveReversedByteArray(byte[] p)
+        {
+            byte[] b = new byte[p.Length+1];      //b has one more byte than p
+            for (int i = 0; i < p.Length; i++)
+                b[i] = p[p.Length-i-1];
+            return new BigInteger(b);
+        }
     }
 }
