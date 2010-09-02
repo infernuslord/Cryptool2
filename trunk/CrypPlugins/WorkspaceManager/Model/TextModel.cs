@@ -53,7 +53,8 @@ namespace WorkspaceManager.Model
             FlowDocument flowDocument = new FlowDocument();
             TextRange textRange = new TextRange(flowDocument.ContentStart, flowDocument.ContentEnd);
             textRange.Load(memoryStream, System.Windows.DataFormats.XamlPackage);
-            rtb.Document = flowDocument;            
+            rtb.Document = flowDocument;
+            memoryStream.Close();
         }
 
         /// <summary>
