@@ -554,20 +554,16 @@ namespace WorkspaceManager.Execution
                         return;
                     }
 
-                    ProtocolBase protocol = null;
-                    lock (this)
-                    {
-                        // No more protocols? -> Wait
-                        if (waitingProtocols.Count == 0)
-                            break;
-                    }
-
                     try
                     {
+                        ProtocolBase protocol = null;
                         lock (this)
                         {
+                            if (waitingProtocols.Count == 0)
+                                break;
                             protocol = waitingProtocols.Dequeue();
                         }
+			
                         ProtocolStatus status = protocol.Run();
 
                         lock (this)
