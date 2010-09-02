@@ -182,5 +182,18 @@ namespace PKCS1.WpfControls.Components
             }
             this.testAndEnableButton();
         }
+
+        private void btn_Help_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender == btnHelpPubKey)
+            {
+                OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(PKCS1.OnlineHelp.OnlineHelpActions.KeyGen_PubExponent);
+            }
+            else if (sender == btnHelpBitSizeModulus)
+            {
+                OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(PKCS1.OnlineHelp.OnlineHelpActions.KeyGen_ModulusSize);
+            }
+            e.Handled = true;
+        }
     }
 }
