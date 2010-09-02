@@ -49,8 +49,21 @@ namespace PKCS1.Library
             get { return this.m_RsaKeySize; }
         }
 
+        private BigInteger m_Modulus = BigInteger.Zero;
+        public void setModulus(string value, int radix)
+        {
+            this.m_Modulus = new BigInteger(value,radix);
+            //this.m_RsaKeySize = this.m_Modulus.BitLength;
+        }
+
+        private BigInteger m_PrivKey = BigInteger.Zero;
+        public void setPrivKey(string value, int radix)
+        {
+            this.m_PrivKey = new BigInteger(value,radix);
+        }
+
         private BigInteger m_PubExponent = BigInteger.ValueOf(3); // default
-        public int PubExponent
+        public int PubExponent //TODO ändern in String
         {
             set 
             { 
@@ -58,6 +71,16 @@ namespace PKCS1.Library
                 OnRaiseKeyGenerated(ParameterChangeType.PublicExponent);
             }
             get { return this.m_PubExponent.IntValue; }
+        }
+
+        public void setInputParams()
+        {
+            AsymmetricKeyParameter publicKey = new RsaKeyParameters(false, this.m_Modulus, this.m_PubExponent);
+            AsymmetricKeyParameter privateKey = new RsaKeyParameters(true, this.m_Modulus, this.m_PrivKey);
+            this.keyPair = new AsymmetricCipherKeyPair(publicKey, privateKey);
+
+            this.m_bRsaKeyGenerated = true;
+            OnRaiseKeyGenerated(ParameterChangeType.RsaKey);
         }
 
         // Rsa Schlüssel generieren       

@@ -4,9 +4,6 @@
     xmlns:lib="clr-namespace:PKCS1.Library"
     xmlns:lang="clr-namespace:PKCS1.Resources.lang.Gui"
     VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-    <UserControl.Resources>
-        
-    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -49,8 +46,8 @@
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Name="lblRsaKeySizeRes" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="50" MaxWidth="150"></Label>
-                    <Label Grid.Row="1" Name="lblPublicKeyRes" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="50" MaxWidth="150"></Label>
+                    <Label Grid.Row="0" Name="lblRsaKeySizeRes" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="50" MaxWidth="150"> </Label>
+                    <Label Grid.Row="1" Name="lblPublicKeyRes" Margin="5,0,5,5" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="50" MaxWidth="150"> </Label>
                     <DockPanel Grid.Row="2" Margin="5,0,5,5">
                         <ComboBox Name="cbPosDataBlock" IsEditable="False" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="50" MaxWidth="150"></ComboBox>
                         <Image Name="btnHelpBitPos" Cursor="Hand" Source="../../Resources/icons/help.png" Width="16" Height="16" HorizontalAlignment="Right" MouseLeftButtonDown="btn_Help_MouseLeftButtonDown" />

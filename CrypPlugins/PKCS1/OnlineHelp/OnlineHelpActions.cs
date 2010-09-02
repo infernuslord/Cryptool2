@@ -22,6 +22,8 @@ namespace PKCS1.OnlineHelp
         Gen_Kuehn_Iterations,
         KeyGen_PubExponent,
         KeyGen_ModulusSize,
+        KeyGen_Tab,
+        KeyInput_Tab,
         StartControl,
         Start
     }

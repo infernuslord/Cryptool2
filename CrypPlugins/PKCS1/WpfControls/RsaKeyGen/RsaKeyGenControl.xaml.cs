@@ -12,8 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using PKCS1.Library;
-using PKCS1.WpfResources;
-
+using PKCS1.WpfControls;
+using PKCS1.WpfControls.Components;
 
 namespace PKCS1.WpfControls.RsaKeyGen
 {
@@ -24,59 +24,38 @@ namespace PKCS1.WpfControls.RsaKeyGen
     {
         public RsaKeyGenControl()
         {
-            InitializeComponent();         
+            InitializeComponent();
+        }
+
+        private void TabItem_HelpButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (sender == tabGenKey)
+            {
+                OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(PKCS1.OnlineHelp.OnlineHelpActions.KeyGen_Tab);
+            }
+            else if (sender == tabInputKey)
+            {
+                OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(PKCS1.OnlineHelp.OnlineHelpActions.KeyInput_Tab);
+            }
         }
 
         #region IPkcs1UserControl Member
 
-        public void Dispose()
+        void IPkcs1UserControl.Dispose()
         {
+            //throw new NotImplementedException();
         }
 
-        public void Init()
+        void IPkcs1UserControl.Init()
         {
+            //throw new NotImplementedException();
         }
 
-        public void SetTab(int i)
+        void IPkcs1UserControl.SetTab(int i)
         {
+            //throw new NotImplementedException();
         }
 
         #endregion
-
-        private void btnGenRsaKey_Click(object sender, RoutedEventArgs e)
-        {
-            Cursor = Cursors.Wait;
-            RsaKey.Instance.genRsaKeyPair(25);
-            Cursor = Cursors.Arrow;
-
-            if( RsaKey.Instance.isKeyGenerated() )
-            {
-                this.tbResultModulus.Text = RsaKey.Instance.getModulusToBigInt().ToString(16);
-                this.tbResultPrivKey.Text = RsaKey.Instance.getPrivKeyToBigInt().ToString(16);
-            }
-        }
-
-        private void tbResultPrivKey_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            this.lblPrivKeyLength.Content = "(Länge: " + this.tbResultPrivKey.Text.Length * 4 + " bit)";
-        }
-
-        private void tbResultModulus_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            this.lblModulusLength.Content = "(Länge: " + this.tbResultModulus.Text.Length * 4 + " bit)";
-        }
-
-        private void btn_Help_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (sender == btnHelpPubKey)
-            {
-                OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(PKCS1.OnlineHelp.OnlineHelpActions.KeyGen_PubExponent);
-            }
-            else if (sender == btnHelpBitSizeModulus)
-            {
-                OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(PKCS1.OnlineHelp.OnlineHelpActions.KeyGen_ModulusSize);
-            }
-            e.Handled = true;
-        }
     }
 }

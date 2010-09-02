@@ -159,6 +159,16 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Resources\lang\Gui\RsaKeyInputCtrl.en.Designer.cs">
+      <DependentUpon>RsaKeyInputCtrl.en.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\lang\Gui\RsaKeyInputCtrl.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RsaKeyInputCtrl.resx</DependentUpon>
+    </Compile>
     <Compile Include="Resources\lang\Gui\SigValCtrl.en.Designer.cs">
       <DependentUpon>SigValCtrl.en.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -233,6 +243,12 @@
       <DependentUpon>DatablockControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="WpfControls\Components\HelpTabItem.cs" />
+    <Compile Include="WpfControls\Components\KeyGenControl.xaml.cs">
+      <DependentUpon>KeyGenControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WpfControls\Components\KeyInputControl.xaml.cs">
+      <DependentUpon>KeyInputControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WpfControls\Components\SigGenBleichenbControl.xaml.cs">
       <DependentUpon>SigGenBleichenbControl.xaml</DependentUpon>
     </Compile>
@@ -263,6 +279,7 @@
       <DependentUpon>StartControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="WpfResources\ErrorsToMessageConverter.cs" />
+    <Compile Include="WpfResources\NumberFormatRule.cs" />
     <Compile Include="WpfResources\NumberValidationRule.cs" />
     <Compile Include="WpfVisualization\Navigation\Navigation.xaml.cs">
       <DependentUpon>Navigation.xaml</DependentUpon>
@@ -289,6 +306,14 @@
       <Generator>MSBuild:Compile</Generator>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WpfControls\Components\KeyGenControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WpfControls\Components\KeyInputControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WpfControls\Components\SigGenBleichenbControl.xaml">
       <SubType>Designer</SubType>
@@ -400,6 +425,14 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Common.en.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\lang\Gui\RsaKeyInputCtrl.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>RsaKeyInputCtrl.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\lang\Gui\RsaKeyInputCtrl.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>RsaKeyInputCtrl.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\lang\Gui\SigValCtrl.en.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SigValCtrl.en.Designer.cs</LastGenOutput>
@@ -476,6 +509,12 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="OnlineHelp\HelpFiles\de\KeyInput_Tab.html">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="OnlineHelp\HelpFiles\de\KeyGen_Tab.html">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="OnlineHelp\HelpFiles\de\Gen_Bleichenb_BitPos.html">
       <SubType>Designer</SubType>
     </Content>

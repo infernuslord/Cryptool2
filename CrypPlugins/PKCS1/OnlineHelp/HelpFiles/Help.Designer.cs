@@ -61,11 +61,9 @@ namespace PKCS1.OnlineHelp.HelpFiles {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;h2&gt;Bleichenbacher Signatur Zeichen zum ändern&lt;/h2&gt;
-        ///In diesem Tab wird eine gefälschte Signatur generiert, die in ver- und entschlüsselter Form dargestellt wird. 
-        ///Eine Signatur, die von fehlerhaften Implementierungen als valide erkannt wird, hat folgende Struktur: 
-        ///&apos;00&apos; &apos;01&apos; PS &apos;00&apos; HI HW GG. &lt;/br&gt;
-        ///Im Einzelnen bedeutet dies:
+        ///   Looks up a localized string similar to &lt;h2&gt;Bitposition des Datenblocks&lt;/h2&gt;
+        ///Bei dem &lt;a href=&quot;help://Gen_Bleichenb_Sig_Tab&quot;&gt;Bleichenbacher Angriff&lt;/a&gt; wird der &lt;a href=&quot;help://Gen_Datablock_Tab&quot;&gt;Datenblock&lt;/a&gt; an eine bestimmte Position &quot;verschoben&quot;. 
+        ///Die Position in Bit kann hier ausgewählt werden. Die Angabe bezieht sich auf den Anfang des Datenblocks, von rechts gezählt.
         ///.
         /// </summary>
         internal static string Gen_Bleichenb_BitPos {
@@ -75,11 +73,9 @@ namespace PKCS1.OnlineHelp.HelpFiles {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;h2&gt;Bleichenbacher Signatur Zeichen zum ändern&lt;/h2&gt;
-        ///In diesem Tab wird eine gefälschte Signatur generiert, die in ver- und entschlüsselter Form dargestellt wird. 
-        ///Eine Signatur, die von fehlerhaften Implementierungen als valide erkannt wird, hat folgende Struktur: 
-        ///&apos;00&apos; &apos;01&apos; PS &apos;00&apos; HI HW GG. &lt;/br&gt;
-        ///Im Einzelnen bedeutet dies:
+        ///   Looks up a localized string similar to &lt;h2&gt;Zeichen zur Nachrichtenänderung&lt;/h2&gt;
+        ///Im Rahmen der &lt;a href=&quot;help://Gen_Bleichenb_Sig_Tab&quot;&gt;Signaturerzeugung nach Bleichenbacher&lt;/a&gt;, muss unter Umständen die Ausgangsnachricht verändert werden. 
+        ///In dieser Implementierung wird ein einzelnes Zeichen angehangen. Dieses Zeichen kann hier eingegeben werden.
         ///.
         /// </summary>
         internal static string Gen_Bleichenb_ChangeSign {
@@ -89,10 +85,10 @@ namespace PKCS1.OnlineHelp.HelpFiles {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;h2&gt;Bleichenbacher Signatur generieren&lt;/h2&gt;
+        ///   Looks up a localized string similar to &lt;h2&gt;Bleichenbacher-Signatur generieren&lt;/h2&gt;
         ///In diesem Tab wird eine gefälschte Signatur generiert, die in ver- und entschlüsselter Form dargestellt wird. 
         ///Eine Signatur, die von fehlerhaften Implementierungen als valide erkannt wird, hat folgende Struktur: 
-        ///&apos;00&apos; &apos;01&apos; PS &apos;00&apos; HI HW GG. &lt;/br&gt;
+        ///&apos;00&apos; &apos;01&apos; PS &apos;00&apos; HI HD GG. &lt;/br&gt;
         ///Im Einzelnen bedeutet dies:
         ///&lt;ul&gt;
         ///&lt;li&gt;
@@ -108,12 +104,12 @@ namespace PKCS1.OnlineHelp.HelpFiles {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;h2&gt;Datenblock generieren&lt;/h2&gt;
-        ///In diesem Tab kann der Datenblock einer Signatur generiert werden. Der Datenblock besteht aus den zwei Teilen &quot;Hashfunction-Identifier&quot; und &quot;Hashwert&quot;.
+        ///In diesem Tab kann der Datenblock einer Signatur generiert werden. Der Datenblock besteht aus den zwei Teilen &quot;Hashfunction-Identifier&quot; und &quot;Hashdigest&quot; (Hashwert).
         ///&lt;ul&gt;
         ///&lt;li&gt;
         ///&lt;strong&gt;Hashfunction-Identifier&lt;br /&gt;&lt;/strong&gt;
         ///Der Hashfunction-Identifier ist ein ASN.1-codierter Datenblock, der unter anderem Informationen wie den Namen der verwendeten Hashfunktion (Algorithmidentifier), die Länge des gesamten Datenblocks, und die Länge des Hashwertes beinhaltet.&lt;/br&gt;
-        ///Die Länge und der Wert [rest of string was truncated]&quot;;.
+        ///Die Länge [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Gen_Datablock_Tab {
             get {
@@ -125,7 +121,7 @@ namespace PKCS1.OnlineHelp.HelpFiles {
         ///   Looks up a localized string similar to &lt;h2&gt;Maximale Anzahl an Iterationen&lt;/h2&gt;
         ///In diesem Textfeld können Sie angeben, wieviele Iterationen der Algorithmus durchlaufen soll, bevor dieser unterbrochen wird. 
         ///Kommt der Algorithmus vorher zu einem Ergebnis endet der Durchlauf und es wird das Ergebnis präsentiert. &lt;/br&gt;
-        ///Im Durchschnitt sollte der Algorithmus ca. 131072 Iterationen brauchen (wenn SHA-1 als Hashalgorithmus gewählt wurde)..
+        ///Im Durchschnitt sollte der Algorithmus ca. 131.072 Iterationen brauchen (wenn SHA-1 als Hashalgorithmus gewählt wurde)..
         /// </summary>
         internal static string Gen_Kuehn_Iterations {
             get {
@@ -134,12 +130,12 @@ namespace PKCS1.OnlineHelp.HelpFiles {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;h2&gt;Kuehn Signatur generieren&lt;/h2&gt;
+        ///   Looks up a localized string similar to &lt;h2&gt;Kühn-Signatur generieren&lt;/h2&gt;
         ///In diesem Tab können gefälschte Signaturen, nach der Methode wie sie Ulrich Kühn beschrieben hat, erstellt werden.
         ///Die Signaturen ähneln in der Struktur denen von &lt;a href=&quot;help://Gen_Bleichenb_Sig_Tab&quot;&gt;Bleichenbacher&lt;/a&gt;, machen sich jedoch die Rechenkraft von
-        ///Computern zu nutze und sind auch auf Signaturen von 1024 Bit Länge anwendbar. Auch hier liegt folgende Struktur zugrunde: &apos;00&apos; &apos;01&apos; PS &apos;00&apos; HI HW GG. &lt;/br&gt;
+        ///Computern zu nutze und sind auch auf Signaturen von 1024 Bit Länge anwendbar. Auch hier liegt folgende Struktur zugrunde: &apos;00&apos; &apos;01&apos; PS &apos;00&apos; HI HD GG. &lt;/br&gt;
         ///
-        ///Die Unterschiede zu den Bleichenbacher Signaturen sind [rest of string was truncated]&quot;;.
+        ///Die Unterschiede zu den Bleichenbacher-Signaturen sind  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Gen_Kuehn_Sig_Tab {
             get {
@@ -149,7 +145,7 @@ namespace PKCS1.OnlineHelp.HelpFiles {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;h2&gt;Signatur generieren&lt;/h2&gt;
-        ///In diesem Tab wird die komplette PKCS#1-Signatur erstellt. Die Signatur hat folgende Struktur: &apos;00&apos; &apos;01&apos; PS &apos;00&apos; HI HW. &lt;/br&gt;
+        ///In diesem Tab wird die komplette PKCS#1-Signatur erstellt. Die Signatur hat folgende Struktur: &apos;00&apos; &apos;01&apos; PS &apos;00&apos; HI HD. &lt;/br&gt;
         ///Im Einzelnen bedeutet dies:
         ///&lt;ul&gt;
         ///&lt;li&gt;
@@ -207,14 +203,36 @@ namespace PKCS1.OnlineHelp.HelpFiles {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;h2&gt;PKCS #1-Signaturgenerierung&lt;/h2&gt;
+        ///   Looks up a localized string similar to &lt;h2&gt;RSA-Schlüsselgenerierung&lt;/h2&gt;
+        ///Um PKCS#1-Signaturen erzeugen und validieren zu können, ist ein RSA-Schlüsselpaar notwendig. Dieses besteht aus einem privaten und einem öffentlichen Schlüssel, sowie einem sog. RSA-Modul, der bei beiden Schlüsseln gleich ist.&lt;/br&gt;
+        ///Für die hier dargestellten Angriffe auf die PKCS#1-Signaturen sind der Wert des öffentlichen Schlüssels und die Länge des Moduls (in Bit) wichtig. Diese Parameter können hier konfiguriert werden. Der öffentliche Schlüssel sowie der Modul werden [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string KeyGen_Tab {
+            get {
+                return ResourceManager.GetString("KeyGen_Tab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;h2&gt;RSA-Schlüsselgenerierung&lt;/h2&gt;
+        ///Um PKCS#1-Signaturen erzeugen und validieren zu können, ist ein RSA-Schlüsselpaar notwendig. Dieses besteht aus einem privaten und einem öffentlichen Schlüssel, sowie einem sog. RSA-Modul, der bei beiden Schlüsseln gleich ist.&lt;/br&gt;
+        ///Für die hier dargestellten Angriffe auf die PKCS#1-Signaturen sind der Wert des öffentlichen Schlüssels und die Länge des Moduls (in Bit) wichtig. Diese Parameter können hier konfiguriert werden. Der öffentliche Schlüssel sowie der Modul werden [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string KeyInput_Tab {
+            get {
+                return ResourceManager.GetString("KeyInput_Tab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;h2&gt;PKCS#1-Signaturgenerierung&lt;/h2&gt;
         ///&lt;strong&gt;Um PKCS#1-Signaturen erzeugen zu können, muss zuerst ein RSA-Schlüsselpaar in der entsprechenden Maske
         /// erzeugt werden&lt;/strong&gt;&lt;/br&gt;
         /// &lt;strong&gt;Zuerst muss der Datenblock erzeugt werden, bevor die komplette Signatur generiert werden kann!&lt;/strong&gt;
         /// &lt;/br&gt;&lt;/br&gt;
         ///Die PKCS#1-Signaturen basieren auf dem asymmetrischen Verschlüsselungsalgorithmus RSA. Daher ist es notwendig, einen
         ///RSA-Schlüssel zu erzeugen.&lt;/br&gt;
-        ///Um eine PKCS#1-Signatur zu erzeugen, wird zunächst de [rest of string was truncated]&quot;;.
+        ///Um eine PKCS#1-Signatur zu erzeugen, wird zunächst der [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SigGen {
             get {
@@ -237,13 +255,13 @@ namespace PKCS1.OnlineHelp.HelpFiles {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;h2&gt;Angriff mit kuerzeren Schlüsseln&lt;/h2&gt;
+        ///   Looks up a localized string similar to &lt;h2&gt;Angriff mit kuerzeren Schlüsseln (Kühn)&lt;/h2&gt;
         ///&lt;strong&gt;Um den Angriff mit kuerzeren Schlüsseln durchführen zu können, muss zuerst ein RSA-Schlüsselpaar in der entsprechenden Maske erzeugt werden&lt;/strong&gt;&lt;/br&gt;
         ///&lt;strong&gt;Zuerst muss der Datenblock erzeugt werden, bevor die komplette Signatur generiert werden kann!&lt;/strong&gt;
         ///&lt;/br&gt;
         ///&lt;/br&gt;
-        ///Um eine gefälschte Signatur nach der Kuehn Methode zu erzeugen, wird zunächst der &lt;a href=&quot;help://Gen_Datablock_Tab&quot;&gt;Datenblock&lt;/a&gt; generiert. Dies
-        ///ist gleich zu dem Datenblock e [rest of string was truncated]&quot;;.
+        ///Um eine gefälschte Signatur nach der Kühn Methode zu erzeugen, wird zunächst der &lt;a href=&quot;help://Gen_Datablock_Tab&quot;&gt;Datenblock&lt;/a&gt; generiert. Dies
+        ///ist gleich zu dem Datenb [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SigGenFakeKuehn {
             get {
