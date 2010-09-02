@@ -1,128 +1,42 @@
 ﻿<UserControl x:Class="PKCS1.WpfControls.RsaKeyGen.RsaKeyGenControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:my="clr-namespace:PKCS1.WpfResources"
-    xmlns:lib="clr-namespace:PKCS1.Library"
+    xmlns:comp="clr-namespace:PKCS1.WpfControls.Components"
     xmlns:lang="clr-namespace:PKCS1.Resources.lang.Gui"
-    HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
     <UserControl.Resources>
-        <my:ErrorsToMessageConverter x:Key="eToMConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../WpfResources/HelpTab.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
-    <ScrollViewer  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+
+    <DockPanel>
         <Grid>
             <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-        </Grid.RowDefinitions>
-            <GroupBox Grid.Row="0" Margin="0,0,0,0">
-                <GroupBox.Header>
-                    <x:Static Member="lang:RsaKeyGenCtrl.genRsaKey"></x:Static>
-                </GroupBox.Header>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="auto" />
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                        </Grid.RowDefinitions>
-                            <Label Grid.Row="0" Margin="5,0,5,0">
-                                <x:Static Member="lang:RsaKeyGenCtrl.pubKey"></x:Static></Label>
-                            <Label Grid.Row="1" Margin="5,0,5,5">
-                                <x:Static Member="lang:RsaKeyGenCtrl.bitSize"></x:Static>
-                            </Label>
-                    </Grid>
-                    <Grid Grid.Column="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                        </Grid.RowDefinitions>
-                            <TextBox Grid.Row="0" Name="tbInputPubKey"  Margin="5,0,5,5" MinWidth="50">
-                                    <TextBox.Text>
-                                    <Binding Source="{x:Static lib:RsaKey.Instance}" Path="PubExponent" UpdateSourceTrigger="PropertyChanged">
-                                        <Binding.ValidationRules>
-                                            <my:NumberValidationRule UpperBound="20" LowerBound="0" />
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </TextBox.Text>                                  
-                            </TextBox>                            
-                            <TextBox Grid.Row="1" Name="tbInputMod" Margin="5,0,5,5" MinWidth="50">
-                                <TextBox.Text>
-                                    <Binding Source="{x:Static lib:RsaKey.Instance}" Path="RsaKeySize" UpdateSourceTrigger="PropertyChanged">
-                                        <Binding.ValidationRules>
-                                            <my:NumberValidationRule UpperBound="4097" LowerBound="1023" />
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
-                    </Grid>
-                    <Grid Grid.Column="2">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                        </Grid.RowDefinitions>
-                            <DockPanel Grid.Row="0">
-                                <Label Margin="5,0,5,0">
-                                    <x:Static Member="lang:RsaKeyGenCtrl.pubKeyComment"></x:Static></Label>
-                                <Image Name="btnHelpPubKey" Cursor="Hand" Source="../../Resources/icons/help.png" Width="16" Height="16" HorizontalAlignment="Right" MouseLeftButtonDown="btn_Help_MouseLeftButtonDown" />
-                            </DockPanel>
-                            <DockPanel Grid.Row="1">
-                                <Label Margin="5,0,5,5">
-                                    <x:Static Member="lang:RsaKeyGenCtrl.bitSizeUnit"></x:Static>
-                                </Label>
-                                <Image Name="btnHelpBitSizeModulus" Cursor="Hand" Source="../../Resources/icons/help.png" Width="16" Height="16" HorizontalAlignment="Right" MouseLeftButtonDown="btn_Help_MouseLeftButtonDown" />
-                            </DockPanel>
-                    </Grid>
-                </Grid>
-                <Grid Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="auto" />
-                    </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0"  Foreground="Red" FontWeight="Bold" FontSize="10"
-                                Text="{Binding ElementName=tbInputPubKey,
-                                Path=(Validation.Errors),
-                                Converter={StaticResource eToMConverter}}" />
-                        <TextBlock Grid.Column="0"  Foreground="Red" FontWeight="Bold" FontSize="10"
-                                Text="{Binding ElementName=tbInputMod,
-                                Path=(Validation.Errors),
-                                Converter={StaticResource eToMConverter}}" />
-                        <Button Grid.Column="2" Name="btnGenRsaKey" Click="btnGenRsaKey_Click" Height="25" MinWidth="100" VerticalAlignment="Bottom" HorizontalContentAlignment="Right">
-                            <x:Static Member="lang:RsaKeyGenCtrl.genKey"></x:Static>
-                        </Button>
-                </Grid>
-            </Grid>
-        </GroupBox>        
-            <GroupBox Grid.Row="1" Margin="0,15,0,0">
-                <GroupBox.Header>
-                    <x:Static Member="lang:RsaKeyGenCtrl.generatedKey"></x:Static>
-                </GroupBox.Header>
-                <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                </Grid.RowDefinitions>
-                    <Label Grid.Row="0">
-                        <x:Static Member="lang:RsaKeyGenCtrl.privKey"></x:Static></Label>
-                <Label Grid.Row="0" Margin="150,0,0,0" Name="lblPrivKeyLength"></Label>
-                <TextBox Grid.Row="1" Name="tbResultPrivKey" IsReadOnly="True" TextWrapping="Wrap" MaxWidth="450" MinHeight="80" Margin="5,0,5,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextChanged="tbResultPrivKey_TextChanged"></TextBox>
-                    <Label Grid.Row="2">
-                        <x:Static Member="lang:RsaKeyGenCtrl.mod"></x:Static></Label>
-                <Label Grid.Row="2" Margin="150,0,0,0" Name="lblModulusLength"></Label>
-                <TextBox Grid.Row="3" Name="tbResultModulus" IsReadOnly="True" TextWrapping="Wrap" MaxWidth="450" MinHeight="80" Margin="5,0,5,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextChanged="tbResultModulus_TextChanged"></TextBox>
-            </Grid>            
-        </GroupBox>
-    </Grid>
-    </ScrollViewer>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <TabControl Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,5,0,0">
+                <comp:HelpTabItem HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="tabGenKey" HelpButtonClick="TabItem_HelpButtonClick">
+                    <comp:HelpTabItem.Header>
+                        <x:Static Member="lang:RsaKeyGenCtrl.genKey"></x:Static>
+                    </comp:HelpTabItem.Header>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                        <comp:KeyGenControl x:Name="KeyGenControl" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                    </ScrollViewer>
+                </comp:HelpTabItem>
+                <comp:HelpTabItem HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="tabInputKey" HelpButtonClick="TabItem_HelpButtonClick">
+                    <comp:HelpTabItem.Header>
+                        <x:Static Member="lang:RsaKeyInputCtrl.inputKey"></x:Static>
+                    </comp:HelpTabItem.Header>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                        <comp:KeyInputControl x:Name="KeyInputControl" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                    </ScrollViewer>
+                </comp:HelpTabItem>
+            </TabControl>
+
+        </Grid>
+    </DockPanel>
 </UserControl>

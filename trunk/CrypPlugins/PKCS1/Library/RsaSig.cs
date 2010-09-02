@@ -37,7 +37,7 @@ namespace PKCS1.Library
             {
                 // RSA Schlüssellänge setzen für Methode in Oberklasse
                 this.m_KeyLength = RsaKey.Instance.RsaKeySize;
-
+                
                 IAsymmetricBlockCipher signerPkcs1Enc = new Pkcs1Encoding(new RsaEngine());
                 signerPkcs1Enc.Init(true, RsaKey.Instance.getPrivKey());
                 byte[] output = signerPkcs1Enc.ProcessBlock(this.getCompleteHw(), 0, this.getCompleteHw().Length);

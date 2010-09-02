@@ -14,8 +14,6 @@ using System.Windows.Shapes;
 using PKCS1.WpfControls.Components;
 using PKCS1.WpfControls;
 using PKCS1.Library;
-//using PKCS1.Library;
-//using Cryptool.PluginBase.Miscellaneous;
 
 namespace PKCS1.WpfControls.SigGen
 {
@@ -75,14 +73,6 @@ namespace PKCS1.WpfControls.SigGen
         public void SetTab(int i)
         {
             //throw new NotImplementedException();
-        }
-
-        #endregion
-
-        #region EventHanlder
-
-        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
         }
 
         #endregion

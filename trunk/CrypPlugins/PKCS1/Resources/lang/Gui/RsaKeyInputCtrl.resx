@@ -117,59 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Gen_Bleichenb_BitPos" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\gen_bleichenb_bitpos.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="dec" xml:space="preserve">
+    <value>DEZ</value>
   </data>
-  <data name="Gen_Bleichenb_ChangeSign" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\gen_bleichenb_changesign.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="errorBitLengthShorter" xml:space="preserve">
+    <value>Die Bitlänge des eingegebenen Wertes muss kürzer als oder gleich der Schlussellänge sein!</value>
   </data>
-  <data name="Gen_Bleichenb_Sig_Tab" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\gen_bleichenb_sig_tab.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="errorInsertNumber" xml:space="preserve">
+    <value>Bitte eine Zahl eingeben!</value>
   </data>
-  <data name="Gen_Datablock_Tab" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\gen_datablock_tab.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="errorValidSignsOnly" xml:space="preserve">
+    <value>Bitte nur zulässige Zeichen eingeben!</value>
   </data>
-  <data name="Gen_Kuehn_Iterations" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\gen_kuehn_iterations.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="hex" xml:space="preserve">
+    <value>HEX</value>
   </data>
-  <data name="Gen_Kuehn_Sig_Tab" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\gen_kuehn_sig_tab.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="inputKey" xml:space="preserve">
+    <value>Schlüssel eingeben</value>
   </data>
-  <data name="Gen_PKCS1_Sig_Tab" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\gen_pkcs1_sig_tab.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="inputRsaKey" xml:space="preserve">
+    <value>RSA-Schlüssel eingeben</value>
   </data>
-  <data name="KeyGen" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\keygen.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="keyLength" xml:space="preserve">
+    <value>Schlüssellänge (in Bit)</value>
   </data>
-  <data name="KeyGen_ModulusSize" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\keygen_modulussize.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="mod" xml:space="preserve">
+    <value>Modulus</value>
   </data>
-  <data name="KeyGen_PubExponent" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\keygen_pubexponent.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="privKey" xml:space="preserve">
+    <value>Privater Schlüssel</value>
   </data>
-  <data name="KeyGen_Tab" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\keygen_tab.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="pubKey" xml:space="preserve">
+    <value>Öffentlicher Schlüssel</value>
   </data>
-  <data name="KeyInput_Tab" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\keyinput_tab.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="SigGen" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\siggen.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="SigGenFakeBleichenbacher" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\siggenfakebleichenbacher.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="SigGenFakeKuehn" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\siggenfakekuehn.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="SigVal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\sigval.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="Start" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\wpfcontrols\start.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="StartControl" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\startcontrol.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="takeInput" xml:space="preserve">
+    <value>Eingabe übernehmen</value>
   </data>
 </root>

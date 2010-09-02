@@ -17,7 +17,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             
-            <TabControl Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="TabControl_SelectionChanged" Margin="0,5,0,0">
+            <TabControl Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,5,0,0">
                 <comp:HelpTabItem HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="tabGenDatablock" HelpButtonClick="TabItem_HelpButtonClick">
                     <comp:HelpTabItem.Header>
                         <x:Static Member="lang:DatablockCtrl.genDatablock"></x:Static>
