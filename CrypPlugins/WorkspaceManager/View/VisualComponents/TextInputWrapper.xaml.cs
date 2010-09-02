@@ -54,17 +54,31 @@ namespace WorkspaceManager.View.VisualComponents
             this.Loaded += new RoutedEventHandler(TextInputWrapper_Loaded);
             this.DataContext = this;
             this.Model = model;
+            this.Model.loadRTB(this.mainRTB);
+            this.mainRTB.TextChanged += MainRTBTextChanged;
             this.Position = point;
             this.ContentParent = userContentWrapper;
-            this.RenderTransform = new TranslateTransform(point.X, point.Y);
+            this.RenderTransform = new TranslateTransform(point.X, point.Y);            
+        }
+
+        /// <summary>
+        /// Serializes the content of the RTB to the TextModel and
+        /// sets the editor to HasChanges=true
+        /// 
+        /// called if the RTB is changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void MainRTBTextChanged(object sender, TextChangedEventArgs args)
+        {
+            this.Model.saveRTB(this.mainRTB);            
         }
 
         void TextInputWrapper_Loaded(object sender, RoutedEventArgs e)
         {
             this.Width = Model.Width;
             this.Height = Model.Height;
-
-            this.ParentPanel.IsEnabled = Model.IsEnabled;
+            this.ParentPanel.IsEnabled = Model.IsEnabled;            
         }
 
         private void OverLayingControl_DragDelta_Move(object sender, DragDeltaEventArgs e)
@@ -149,7 +163,7 @@ namespace WorkspaceManager.View.VisualComponents
                 Model.Height = this.ActualHeight;
                 Model.Width = this.ActualWidth;
             }
-        }
+        }        
     }
 
     public class TextInputDeleteEventArgs : EventArgs

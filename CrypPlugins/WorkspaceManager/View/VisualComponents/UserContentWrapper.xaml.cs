@@ -109,7 +109,7 @@ namespace WorkspaceManager.View.VisualComponents
 
         public void AddText(Point point)
         {
-            TextModel model = Model.newTextModel(String.Empty);
+            TextModel model = Model.newTextModel();
             TextInputWrapper txtWrap = new TextInputWrapper(model, point, this);
             txtWrap.Delete += new EventHandler<TextInputDeleteEventArgs>(txtWrap_Delete);
             TextInputList.Add(txtWrap);
