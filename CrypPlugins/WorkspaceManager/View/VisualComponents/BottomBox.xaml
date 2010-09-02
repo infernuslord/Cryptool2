@@ -19,10 +19,7 @@
     </UserControl.Effect>
 
     <DockPanel Name="Root">
-        <DockPanel.Background>
-            <SolidColorBrush Opacity="0.01" Color="#444444"></SolidColorBrush>
-        </DockPanel.Background>
-        <Border Name="Main" Height="25" Width="300" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" ClipToBounds="True" Background="{StaticResource ResourceKey=BottomBoxBrushLinearBrush}" BorderBrush="#bfd0f5" BorderThickness="0.65" CornerRadius="0,0,5,5">
+        <Border Name="Main" Height="35" Width="300" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" ClipToBounds="True" Background="{StaticResource ResourceKey=BottomBoxBrushLinearBrush}" BorderBrush="#bfd0f5" BorderThickness="0.65" CornerRadius="0,0,5,5">
             <StackPanel Orientation="Horizontal">
                 <Border Opacity="0.85" CornerRadius="0,0,0,5" HorizontalAlignment="Left" Margin="0.65">
                     <Border.Background>
@@ -41,7 +38,18 @@
                         </Button>
                     </StackPanel>
                 </Border>
-                <Button Height="18"  Margin="5,2,5,0" Style="{StaticResource ResourceKey=ScalePluginContainerButtonStyle}" Click="Button_Click" Content="Add Image" Foreground="WhiteSmoke">
+                <Button Margin="5,0,0,0" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Name="ADDIMG" Click="Button_Click" Foreground="WhiteSmoke" Padding="10">
+                    <StackPanel Orientation="Horizontal">
+                        <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/add.png" Height="27"></Image>
+                        <TextBlock Text="Add Image" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </Button>
+
+                <Button Margin="5,0,0,0" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Name="ADDTXT" Click="Button_Click" Foreground="WhiteSmoke" Padding="10">
+                    <StackPanel Orientation="Horizontal">
+                        <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/anno.png" Height="27"></Image>
+                        <TextBlock Text="Add Text Attachment" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
                 </Button>
             </StackPanel>
             

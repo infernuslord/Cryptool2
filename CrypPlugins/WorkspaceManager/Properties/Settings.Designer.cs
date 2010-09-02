@@ -43,5 +43,17 @@ namespace WorkspaceManager.Properties {
                 return ((double)(this["GridScale"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public double FullscreenScale {
+            get {
+                return ((double)(this["FullscreenScale"]));
+            }
+            set {
+                this["FullscreenScale"] = value;
+            }
+        }
     }
 }

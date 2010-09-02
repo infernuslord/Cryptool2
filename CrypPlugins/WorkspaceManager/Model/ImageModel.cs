@@ -55,7 +55,8 @@ namespace WorkspaceManager.Model
             {
                 return;
             }
-
+            Width = 0;
+            Height = 0;
             BitmapImage bmpImage = new BitmapImage(imgUri) ;
             JpegBitmapEncoder encoder = new JpegBitmapEncoder();
             encoder.Frames.Add(BitmapFrame.Create(bmpImage));
@@ -64,5 +65,11 @@ namespace WorkspaceManager.Model
             this.data = stream.ToArray();
             stream.Close();
         }
+
+        /// <summary>
+        /// is the image enabled ?
+        /// </summary>
+        private bool isEnabled = true;
+        public bool IsEnabled { get { return isEnabled; } set { isEnabled = value; } }
     }
 }

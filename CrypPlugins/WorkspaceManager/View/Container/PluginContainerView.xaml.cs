@@ -28,7 +28,7 @@ namespace WorkspaceManager.View.Container
         Presentation,
         Data,
         Log,
-        Setting
+        Setting,
     };
 
     /// <summary>
@@ -51,6 +51,19 @@ namespace WorkspaceManager.View.Container
 
         #region Properties
 
+        public static readonly DependencyProperty IsFullscreenProperty = DependencyProperty.Register("IsFullscreen", typeof(bool), typeof(PluginContainerView));
+        public bool IsFullscreen
+        {
+            get
+            {
+                return (bool)base.GetValue(IsFullscreenProperty);
+            }
+            set
+            {
+                base.SetValue(IsFullscreenProperty, value);
+            }
+        }
+
         public static readonly DependencyProperty ViewStateProperty = DependencyProperty.Register("ViewState", typeof(PluginViewState), typeof(PluginContainerView), new FrameworkPropertyMetadata(PluginViewState.Min));
 
 
@@ -62,6 +75,43 @@ namespace WorkspaceManager.View.Container
             }
             set
             {
+
+                switch (value)
+                {
+                    case PluginViewState.Presentation:
+                        if (PresentationPanel.Child == null)
+                        {
+                            PluginBase.Width = PluginBase.MinWidth;
+                            PluginBase.Height = PluginBase.MinHeight;
+                            ViewPanel.Visibility = Visibility.Collapsed;
+                            break;
+                        }
+                        PluginBase.Width = Model.Width;
+                        PluginBase.Height = Model.Height;
+                        ViewPanel.Visibility = Visibility.Visible;
+                        break;
+
+                    case PluginViewState.Data:
+                        PluginBase.Width = Model.Width;
+                        PluginBase.Height = Model.Height;
+                        ViewPanel.Visibility = Visibility.Visible;
+                        break;
+                    case PluginViewState.Log:
+                        PluginBase.Width = Model.Width;
+                        PluginBase.Height = Model.Height;
+                        ViewPanel.Visibility = Visibility.Visible;
+                        break;
+                    case PluginViewState.Min:
+                        PluginBase.Width = PluginBase.MinWidth;
+                        PluginBase.Height = PluginBase.MinHeight;
+                        ViewPanel.Visibility = Visibility.Collapsed;
+                        break;
+
+                    case PluginViewState.Setting:
+
+                        break;
+                }
+
                 if((PluginViewState)value != PluginViewState.Min)
                 {
                     BottomDelta.IsEnabled = true;
@@ -75,6 +125,7 @@ namespace WorkspaceManager.View.Container
                     BottomRightDelta.IsEnabled = false;
                 }
                 base.SetValue(ViewStateProperty, value);
+                this.Model.ViewState = value;
             }
         }
 
@@ -91,6 +142,7 @@ namespace WorkspaceManager.View.Container
                 icon.Stretch = Stretch.Uniform;
                 icon.Width = 40;
                 icon.Height = 40;
+                IconPanel.Child = icon;
             }
         }
 
@@ -120,32 +172,11 @@ namespace WorkspaceManager.View.Container
 
         public PluginContainerView(PluginModel model)
         {
-            setBaseControl(model);
             InitializeComponent();
+            setBaseControl(model);
             DataContext = this;
 
-            switch (ViewState)
-            {
-                case PluginViewState.Min:
-                    IconPanel.Child = Icon;
-                    break;
-
-                case PluginViewState.Data:
-
-                    break;
-
-                case PluginViewState.Presentation:
-
-                    break;
-
-                case PluginViewState.Setting:
-
-                    break;
-
-                case PluginViewState.Log:
-
-                    break;
-            }
+            this.ViewState = Model.ViewState;
 
             West.PreviewDrop += new DragEventHandler(Connector_Drop);
             East.PreviewDrop += new DragEventHandler(Connector_Drop);
@@ -174,50 +205,57 @@ namespace WorkspaceManager.View.Container
         void Connector_Drop(object sender, DragEventArgs e)
         {
             StackPanel panel = sender as StackPanel;
-            if (e.Data.GetDataPresent("connector"))
+            try
             {
-                ConnectorView connector = e.Data.GetData("connector") as ConnectorView;
-                if (panel.Children.Contains(connector))
-                    return;
-
-                switch (connector.Orientation)
+                if (e.Data.GetDataPresent("connector"))
                 {
-                    case ConnectorOrientation.West:
-                        this.West.Children.Remove(connector);
-                        break;
-                    case ConnectorOrientation.East:
-                        this.East.Children.Remove(connector);
-                        break;
-                    case ConnectorOrientation.North:
-                        this.North.Children.Remove(connector);
-                        break;
-                    case ConnectorOrientation.South:
-                        this.South.Children.Remove(connector);
-                        break;
-                }
+                    ConnectorView connector = e.Data.GetData("connector") as ConnectorView;
+                    if (panel.Children.Contains(connector))
+                        return;
 
-                switch (panel.Name)
-                {
-                    case "West":
-                        connector.Orientation = ConnectorOrientation.West;
-                        this.West.Children.Add(connector);
-                        break;
-                    case "East":
-                        connector.Orientation = ConnectorOrientation.East;
-                        this.East.Children.Add(connector);
-                        break;
-                    case "North":
-                        connector.Orientation = ConnectorOrientation.North;
-                        this.North.Children.Add(connector);
-                        break;
-                    case "South":
-                        connector.Orientation = ConnectorOrientation.South;
-                        this.South.Children.Add(connector);
-                        break;
-                }
+                    switch (connector.Orientation)
+                    {
+                        case ConnectorOrientation.West:
+                            this.West.Children.Remove(connector);
+                            break;
+                        case ConnectorOrientation.East:
+                            this.East.Children.Remove(connector);
+                            break;
+                        case ConnectorOrientation.North:
+                            this.North.Children.Remove(connector);
+                            break;
+                        case ConnectorOrientation.South:
+                            this.South.Children.Remove(connector);
+                            break;
+                    }
 
-                SetAllConnectorPositionX();
-                e.Handled = true;
+                    switch (panel.Name)
+                    {
+                        case "West":
+                            connector.Orientation = ConnectorOrientation.West;
+                            this.West.Children.Add(connector);
+                            break;
+                        case "East":
+                            connector.Orientation = ConnectorOrientation.East;
+                            this.East.Children.Add(connector);
+                            break;
+                        case "North":
+                            connector.Orientation = ConnectorOrientation.North;
+                            this.North.Children.Add(connector);
+                            break;
+                        case "South":
+                            connector.Orientation = ConnectorOrientation.South;
+                            this.South.Children.Add(connector);
+                            break;
+                    }
+
+                    SetAllConnectorPositionX();
+                    e.Handled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Out.WriteLine(ex.ToString());
             }
         }
 
@@ -279,6 +317,7 @@ namespace WorkspaceManager.View.Container
             this.Loaded += new RoutedEventHandler(PluginContainerView_Loaded);
             this.MouseEnter += new MouseEventHandler(PluginContainerView_MouseEnter);
             this.MouseLeave += new MouseEventHandler(PluginContainerView_MouseLeave);
+            this.MouseDoubleClick += new MouseButtonEventHandler(PluginContainerView_MouseDoubleClick);
             this.Model = model;
             this.Model.UpdateableView = this;
             this.Model.LogUpdated += new EventHandler<LogUpdated>(Model_LogUpdated);
@@ -286,6 +325,20 @@ namespace WorkspaceManager.View.Container
             this.ConnectorViewList = new List<ConnectorView>();
             this.RenderTransform = new TranslateTransform();
             this.Icon = this.Model.getImage();
+        }
+
+        void PluginContainerView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (Model.PluginPresentation != null && !IsFullscreen)
+            {
+                ViewState = PluginViewState.Presentation;
+                showFullScreen();
+            }
+            else if(Model.PluginPresentation == null && !IsFullscreen)
+            {
+                ViewState = PluginViewState.Data;
+                showFullScreen();
+            }
         }
 
         void Model_LogUpdated(object sender, LogUpdated e)
@@ -382,21 +435,26 @@ namespace WorkspaceManager.View.Container
                 optionList.Add(Resources["PresentationButton"] as UIElement);
                 optionList.Add(Resources["DataButton"] as UIElement);
                 optionList.Add(Resources["LogButton"] as UIElement);
-                //optionList.Add(Resources["MinimizeButton"] as UIElement);
-                optionList.Add(Resources["MaxButton"] as UIElement);
                 optionList.Add(Resources["SettingButton"] as UIElement);
             }
             else 
             {
-                //optionList.Add(Resources["PresentationButton"] as UIElement);
                 optionList.Add(Resources["DataButton"] as UIElement);
                 optionList.Add(Resources["LogButton"] as UIElement);
-                //optionList.Add(Resources["MinimizeButton"] as UIElement);
-                //optionList.Add(Resources["MaxButton"] as UIElement);
                 optionList.Add(Resources["SettingButton"] as UIElement);
             }
 
-
+            if (model.RepeatStart)
+            {
+                Model.RepeatStart = false;
+                playimg.Source = new BitmapImage(new Uri("../Image/play.png", UriKind.RelativeOrAbsolute));
+            }
+            else
+            {
+                Model.RepeatStart = true;
+                playimg.Source = new BitmapImage(new Uri("../Image/pause.png", UriKind.RelativeOrAbsolute));
+            }
+                
             reAssambleOptions();
 
             LogPresentation LogView = LogPanel.Child as LogPresentation;
@@ -413,6 +471,7 @@ namespace WorkspaceManager.View.Container
             WarningCount.Text = logView.WarningCount.ToString();
             DebugCount.Text = logView.DebugCount.ToString();
             InfoCount.Text = logView.InfoCount.ToString();
+            LogReport.Text = e.log.Message;
             BubblePopup.IsOpen = true;
         }
 
@@ -449,8 +508,7 @@ namespace WorkspaceManager.View.Container
                 SlotOne.Child = optionList.ElementAt(optionModulo(optionPointer - 2));
                 SlotTwo.Child = optionList.ElementAt(optionModulo(optionPointer - 1));
                 SlotThree.Child = optionList.ElementAt(optionPointer);
-                SlotFour.Child = optionList.ElementAt(optionModulo(optionPointer + 1));
-                SlotFive.Child = optionList.ElementAt(optionModulo(optionPointer + 2));
+                SlotFour.Child = optionList.ElementAt(optionModulo(optionPointer + 1));  
             }
             else 
             {
@@ -487,12 +545,33 @@ namespace WorkspaceManager.View.Container
         private void showFullScreen()
         {
             if (this.FullScreen != null)
+            {
+                IsFullscreen = true;
                 this.FullScreen.Invoke(this, new PluginContainerViewFullScreenViewEventArgs { container = this });
+            }
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             
+        }
+
+        public void PrepareFullscreen()
+        {
+            this.ViewPanelParent.Children.Clear();
+            this.OptPanelParent.Children.Clear();
+            this.ProgressbarRoot.Children.Clear();
+        }
+
+        public void Reset()
+        {
+            if (this.IsFullscreen)
+            {
+                this.ViewPanelParent.Children.Add(ViewPanel);
+                this.OptPanelParent.Children.Add(OptionPanel);
+                this.ProgressbarRoot.Children.Add(ProgressbarParent);
+                this.IsFullscreen = false;
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -501,9 +580,15 @@ namespace WorkspaceManager.View.Container
             if (bttn.Name == "play")
             {
                 if (model.RepeatStart)
+                {
                     model.RepeatStart = false;
+                    playimg.Source = new BitmapImage(new Uri("../Image/play.png", UriKind.RelativeOrAbsolute));
+                }
                 else
+                {
                     model.RepeatStart = true;
+                    playimg.Source = new BitmapImage(new Uri("../Image/pause.png", UriKind.RelativeOrAbsolute));
+                }
                 return;
             }
             if (bttn.Name == "del")
@@ -515,17 +600,17 @@ namespace WorkspaceManager.View.Container
 
         void PluginContainerView_MouseLeave(object sender, MouseEventArgs e)
         {
-            if(ViewState != PluginViewState.Min)
-                OptionPanel.Visibility = Visibility.Visible;
-            else
-                OptionPanel.Visibility = Visibility.Collapsed;
+            //if(ViewState != PluginViewState.Min)
+            //    OptionPanel.Visibility = Visibility.Visible;
+            //else
+            //    OptionPanel.Visibility = Visibility.Collapsed;
             (Resources["FadeIn"] as Storyboard).Stop(ControlPanel);
             ControlPanel.BeginStoryboard(Resources["FadeOut"] as Storyboard);
         }
 
         void PluginContainerView_MouseEnter(object sender, MouseEventArgs e)
         {
-            OptionPanel.Visibility = Visibility.Visible;
+            //OptionPanel.Visibility = Visibility.Visible;
             (Resources["FadeOut"] as Storyboard).Stop(ControlPanel);
             ControlPanel.BeginStoryboard(Resources["FadeIn"] as Storyboard);
         }
@@ -553,6 +638,9 @@ namespace WorkspaceManager.View.Container
                 if ((PluginBase.ActualWidth + e.HorizontalChange) > 0)
                     PluginBase.Width = PluginBase.ActualWidth + e.HorizontalChange;
             }
+
+            Model.Height = PluginBase.ActualHeight;
+            Model.Width = PluginBase.ActualWidth;
         }
 
         private void MinMaxBorder_MouseLeftButtonDown(object sender, RoutedEventArgs e)
@@ -628,36 +716,26 @@ namespace WorkspaceManager.View.Container
                 case "PresentationButton":
                     if (PresentationPanel.Child == null)
                     {
-                        PluginBase.Width = PluginBase.MinWidth;
-                        PluginBase.Height = PluginBase.MinHeight;
                         ViewPanel.Visibility = Visibility.Collapsed;
                         ViewState = PluginViewState.Min;
                         break;
                     }
-                    PluginBase.Width = 400;
-                    PluginBase.Height = 300;
                     ViewPanel.Visibility = Visibility.Visible;
                     ViewState = PluginViewState.Presentation;
                     break;
 
                 case "DataButton":
-                    PluginBase.Width = 400;
-                    PluginBase.Height = 300;
-                    ViewPanel.Visibility = Visibility.Visible;
                     ViewState = PluginViewState.Data;
                     break;
                 case "LogButton":
-                    PluginBase.Width = 400;
-                    PluginBase.Height = 300;
-                    ViewPanel.Visibility = Visibility.Visible;
                     ViewState = PluginViewState.Log;
 
                     break;
                 case "MinimizeButton":
-                    PluginBase.Width = PluginBase.MinWidth;
-                    PluginBase.Height = PluginBase.MinHeight;
-                    ViewPanel.Visibility = Visibility.Collapsed;
-                    ViewState = PluginViewState.Min;
+                    if(ViewState == PluginViewState.Min)
+                        ViewState = PluginViewState.Log;
+                    else
+                        ViewState = PluginViewState.Min;
                     break;
 
                 case "SettingButton":
