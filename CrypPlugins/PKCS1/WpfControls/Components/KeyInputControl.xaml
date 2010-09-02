@@ -33,9 +33,12 @@
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
                 
-                <Label Grid.Row="0">
-                    <x:Static Member="lang:RsaKeyInputCtrl.pubKey"></x:Static>
-                </Label>
+                <DockPanel Grid.Row="0">
+                    <Label Margin="0,5,5,0" Width="120" >
+                        <x:Static Member="lang:RsaKeyInputCtrl.pubKey"></x:Static>
+                    </Label>
+                    <Image Name="btnHelpPubKey" Cursor="Hand" Source="../../Resources/icons/help.png" Width="16" Height="16" HorizontalAlignment="Left" MouseLeftButtonDown="btn_Help_MouseLeftButtonDown" />
+                </DockPanel>
                 <TextBox Grid.Row="1" Name="tbPubKey" TextWrapping="Wrap" MaxWidth="450" MinHeight="20" Margin="5,0,5,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextChanged="tbPubKey_TextChanged">
                     <TextBox.Text>
                         <Binding Source="{x:Static lib:RsaKey.Instance}" Path="PubExponent" UpdateSourceTrigger="PropertyChanged">
@@ -51,8 +54,12 @@
                                 Converter={StaticResource eToMConverter}}" />
 
 
-                <Label Grid.Row="3"  Margin="0,5,5,0">
-                    <x:Static Member="lang:RsaKeyInputCtrl.keyLength"></x:Static></Label>
+                <DockPanel Grid.Row="3">
+                    <Label Margin="0,5,5,0" Width="120">
+                        <x:Static Member="lang:RsaKeyInputCtrl.keyLength"></x:Static>
+                    </Label>
+                    <Image Name="btnHelpBitSizeModulus" Cursor="Hand" Source="../../Resources/icons/help.png" Width="16" Height="16" HorizontalAlignment="left" MouseLeftButtonDown="btn_Help_MouseLeftButtonDown" />
+                </DockPanel>
                 <TextBox Grid.Row="4" Name="tbKeyLength" TextWrapping="Wrap" MaxWidth="450" MinHeight="20" Margin="5,0,5,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <TextBox.Text>
                         <Binding Source="{x:Static lib:RsaKey.Instance}" Path="RsaKeySize" UpdateSourceTrigger="PropertyChanged">
