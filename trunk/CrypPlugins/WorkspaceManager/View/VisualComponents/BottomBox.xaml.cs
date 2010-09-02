@@ -15,17 +15,13 @@ using System.Windows.Media.Animation;
 
 namespace WorkspaceManager.View.VisualComponents
 {
-    public class ImageSelectedEventArgs : EventArgs
-    {
-        public Uri uri;
-    }
-
     /// <summary>
     /// Interaktionslogik für Settings.xaml
     /// </summary>
     public partial class BottomBox : UserControl
     {
         public event EventHandler<ImageSelectedEventArgs> ImageSelected;
+        public event EventHandler<AddTextEventArgs> AddText;
 
         public BottomBox()
         {
@@ -54,14 +50,35 @@ namespace WorkspaceManager.View.VisualComponents
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.OpenFileDialog diag = new System.Windows.Forms.OpenFileDialog();
-            if (diag.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            Button btn = sender as Button;
+            if (btn.Name == "ADDIMG")
             {
-                Uri uriLocal = new Uri(diag.FileName);
+                System.Windows.Forms.OpenFileDialog diag = new System.Windows.Forms.OpenFileDialog();
+                if (diag.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    Uri uriLocal = new Uri(diag.FileName);
 
-                if (ImageSelected != null)
-                    ImageSelected.Invoke(this, new ImageSelectedEventArgs() { uri = uriLocal });
+                    if (ImageSelected != null)
+                        ImageSelected.Invoke(this, new ImageSelectedEventArgs() { uri = uriLocal });
+                }
+                return;
+            }
+
+            if (btn.Name == "ADDTXT")
+            {
+                if (AddText != null)
+                    AddText.Invoke(this, new AddTextEventArgs());
             }
         }
     }
+
+    public class ImageSelectedEventArgs : EventArgs
+    {
+        public Uri uri;
+    }
+
+    public class AddTextEventArgs : EventArgs
+    {
+    }
+
 }

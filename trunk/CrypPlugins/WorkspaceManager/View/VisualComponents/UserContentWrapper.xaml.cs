@@ -12,9 +12,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WorkspaceManager.Model;
+using WorkspaceManager.View.Interface;
 
 namespace WorkspaceManager.View.VisualComponents
 {
+
     /// <summary>
     /// Interaction logic for UserContentWrapper.xaml
     /// </summary>
@@ -22,19 +24,58 @@ namespace WorkspaceManager.View.VisualComponents
     {
         public WorkspaceModel Model;
         public List<ImageWrapper> ImageList { get; set; }
-        public List<TextBox> TextList { get; set; }
+        public List<TextInputWrapper> TextInputList { get; set; }
 
-        public UserContentWrapper(WorkspaceModel WorkspaceModel)
+        private UserControl selectedItem;
+        public UserControl SelectedItem 
+        { 
+            get
+            {
+                return selectedItem;
+            }
+            set
+            {
+                selectedItem = value;
+                foreach (ImageWrapper img in ImageList)
+                {
+                    if (img == selectedItem)
+                        continue;
+
+                    img.IsSelected = false;
+                }
+
+                foreach (TextInputWrapper txt in TextInputList)
+                {
+                    if (txt == selectedItem)
+                        continue;
+
+                    txt.IsSelected = false;
+                }
+            } 
+        }
+
+        public UserContentWrapper(WorkspaceModel WorkspaceModel, BottomBox Box)
         {
             InitializeComponent();
-            (BottomBoxParent.Child as BottomBox).ImageSelected += new EventHandler<ImageSelectedEventArgs>(UserContentWrapper_ImageSelected);
+            Box.ImageSelected += new EventHandler<ImageSelectedEventArgs>(UserContentWrapper_ImageSelected);
+            Box.AddText += new EventHandler<AddTextEventArgs>(UserContentWrapper_AddText);
             ImageList = new List<ImageWrapper>();
-            TextList = new List<TextBox>();
-            this.Model = WorkspaceModel;
+            TextInputList = new List<TextInputWrapper>();
+            Model = WorkspaceModel;
             foreach (ImageModel ImageModel in WorkspaceModel.AllImageModels)
             {
                 AddImage(ImageModel);
             }
+
+            foreach (TextModel TextModel in WorkspaceModel.AllTextModels)
+            {
+                AddText(TextModel);
+            }
+        }
+
+        void UserContentWrapper_AddText(object sender, AddTextEventArgs e)
+        {
+            AddText(new Point(50, 50));
         }
 
         void UserContentWrapper_ImageSelected(object sender, ImageSelectedEventArgs e)
@@ -44,17 +85,57 @@ namespace WorkspaceManager.View.VisualComponents
 
         public void AddImage(Uri imgUri, Point point)
         {
-            ImageModel model = Model.newImageModel(imgUri);
-            ImageWrapper imgWrap = new ImageWrapper(model, point);
-            ImageList.Add(imgWrap);
-            ContentRoot.Children.Add(imgWrap);
+            try
+            {
+                ImageModel model = Model.newImageModel(imgUri);
+                ImageWrapper imgWrap = new ImageWrapper(model, point, this);
+                imgWrap.Delete += new EventHandler<ImageDeleteEventArgs>(imgWrap_Delete);
+                ImageList.Add(imgWrap);
+                ContentRoot.Children.Add(imgWrap);
+            }
+            catch (Exception e)
+            {
+                Console.Out.WriteLine(e.ToString());
+            }
         }
 
         public void AddImage(ImageModel model)
         {
-            ImageWrapper imgWrap = new ImageWrapper(model, model.Position);
+            ImageWrapper imgWrap = new ImageWrapper(model, model.Position, this);
+            imgWrap.Delete += new EventHandler<ImageDeleteEventArgs>(imgWrap_Delete);
             ImageList.Add(imgWrap);
             ContentRoot.Children.Add(imgWrap);
+        }
+
+        public void AddText(Point point)
+        {
+            TextModel model = Model.newTextModel(String.Empty);
+            TextInputWrapper txtWrap = new TextInputWrapper(model, point, this);
+            txtWrap.Delete += new EventHandler<TextInputDeleteEventArgs>(txtWrap_Delete);
+            TextInputList.Add(txtWrap);
+            ContentRoot.Children.Add(txtWrap);
+        }
+
+        public void AddText(TextModel model)
+        {
+            TextInputWrapper txtWrap = new TextInputWrapper(model, model.Position, this);
+            txtWrap.Delete += new EventHandler<TextInputDeleteEventArgs>(txtWrap_Delete);
+            TextInputList.Add(txtWrap);
+            ContentRoot.Children.Add(txtWrap);
+        }
+
+        void imgWrap_Delete(object sender, ImageDeleteEventArgs e)
+        {
+            ContentRoot.Children.Remove(e.img);
+            ImageList.Remove(e.img);
+            Model.deleteImageModel(e.img.Model);
+        }
+
+        void txtWrap_Delete(object sender, TextInputDeleteEventArgs e)
+        {
+            ContentRoot.Children.Remove(e.txt);
+            TextInputList.Remove(e.txt);
+            Model.deleteTextModel(e.txt.Model);
         }
     }
 }

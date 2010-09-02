@@ -28,6 +28,7 @@ using System.Windows.Threading;
 using Cryptool.PluginBase.IO;
 using System.Reflection;
 using System.ComponentModel;
+using WorkspaceManager.View.Container;
 
 namespace WorkspaceManager.Model
 {
@@ -35,7 +36,9 @@ namespace WorkspaceManager.Model
     /// Log updated event
     /// </summary>
     public class LogUpdated : EventArgs
-    {}
+    {
+        public GuiLogEventArgs log;
+    }
 
     /// <summary>
     /// Class to represent and wrap a IPlugin in our model graph
@@ -158,6 +161,11 @@ namespace WorkspaceManager.Model
         /// The WorkspaceModel of this PluginModel
         /// </summary>
         public WorkspaceModel WorkspaceModel { get; set; }
+
+        /// <summary>
+        /// Current View state
+        /// </summary>
+        public PluginViewState ViewState { get; set; }
 
         /// <summary>
         /// Generates all Connectors of this Plugin.

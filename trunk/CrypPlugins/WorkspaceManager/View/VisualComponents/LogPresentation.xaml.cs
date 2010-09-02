@@ -88,7 +88,7 @@ namespace WorkspaceManager.View.VisualComponents
                     ValueCollection.Add(new CollectionElement(element));
 
                     if (this.LogUpdated != null)
-                        this.LogUpdated.Invoke(this, new LogUpdated { });
+                        this.LogUpdated.Invoke(this, new LogUpdated { log = element });
                 }
                 list.Clear();
             }

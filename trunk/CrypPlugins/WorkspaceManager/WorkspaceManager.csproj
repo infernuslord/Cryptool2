@@ -100,6 +100,9 @@
     <Compile Include="View\Container\ConnectorView.xaml.cs">
       <DependentUpon>ConnectorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Container\IControlContainer.xaml.cs">
+      <DependentUpon>IControlContainer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Container\PluginContainerView.xaml.cs">
       <DependentUpon>PluginContainerView.xaml</DependentUpon>
     </Compile>
@@ -110,6 +113,7 @@
     <Compile Include="View\Converter\BlurViewStateConverter.cs" />
     <Compile Include="View\Converter\ConnectorToColorConverter.cs" />
     <Compile Include="View\Converter\ConnectorBindingConverter.cs" />
+    <Compile Include="View\Converter\ContextMenuFixUnfixConverter.cs" />
     <Compile Include="View\Converter\DragDropDataObjectToPluginConverter.cs" />
     <Compile Include="View\Converter\IconPanelVisibilityConverter.cs" />
     <Compile Include="View\Converter\InputOutputConverter.cs" />
@@ -117,7 +121,11 @@
     <Compile Include="View\Converter\OptionTextCaptionConverter.cs" />
     <Compile Include="View\Converter\OverlapConverter.cs" />
     <Compile Include="View\Converter\ScaleToPercentageConverter.cs" />
+    <Compile Include="View\Converter\SelectedContentBrushConverter.cs" />
+    <Compile Include="View\Converter\SelectedContentVisibilityConverter.cs" />
+    <Compile Include="View\Converter\ToolbarVisibilityConverter.cs" />
     <Compile Include="View\Converter\ViewStateConverter.cs" />
+    <Compile Include="View\Converter\ViewStateIconConverter.cs" />
     <Compile Include="View\Interface\IConnectable.cs" />
     <Compile Include="View\Interface\IConnection.cs" />
     <Compile Include="View\Interface\IDraggable.cs" />
@@ -142,6 +150,9 @@
     </Compile>
     <Compile Include="View\VisualComponents\Search.xaml.cs">
       <DependentUpon>Search.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\VisualComponents\TextInputWrapper.xaml.cs">
+      <DependentUpon>TextInputWrapper.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\VisualComponents\UserContentWrapper.xaml.cs">
       <DependentUpon>UserContentWrapper.xaml</DependentUpon>
@@ -168,6 +179,10 @@
     <Page Include="View\Container\ConnectorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Container\IControlContainer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Container\PluginContainerView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -210,6 +225,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\VisualComponents\Search.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\VisualComponents\TextInputWrapper.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -281,6 +300,38 @@
   <ItemGroup>
     <Resource Include="View\Image\debug.png" />
     <Resource Include="View\Image\info.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Image\resizeimg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Image\charactergrowfont.png" />
+    <Resource Include="View\Image\charactershrinkfont.png" />
+    <Resource Include="View\Image\editcopy.png" />
+    <Resource Include="View\Image\editcut.png" />
+    <Resource Include="View\Image\editpaste.png" />
+    <Resource Include="View\Image\editredo.png" />
+    <Resource Include="View\Image\editundo.png" />
+    <Resource Include="View\Image\fileopen.png" />
+    <Resource Include="View\Image\filesave.png" />
+    <Resource Include="View\Image\listbullets.png" />
+    <Resource Include="View\Image\listnumbering.png" />
+    <Resource Include="View\Image\paragraphcenterjustify.png" />
+    <Resource Include="View\Image\paragraphdecreaseindentation.png" />
+    <Resource Include="View\Image\paragraphfulljustify.png" />
+    <Resource Include="View\Image\paragraphincreaseindentation.png" />
+    <Resource Include="View\Image\paragraphleftjustify.png" />
+    <Resource Include="View\Image\paragraphrightjustify.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Image\add.png" />
+    <Resource Include="View\Image\anno.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Image\pause.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Image\maxi.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!--<PropertyGroup>

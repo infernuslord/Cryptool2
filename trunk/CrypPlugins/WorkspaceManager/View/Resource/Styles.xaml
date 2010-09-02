@@ -40,6 +40,28 @@
         </Setter>
     </Style>
 
+    <Style TargetType="{x:Type Button}" x:Key="BottomBoxBtnStyle">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate x:Name="TemplateBtn" TargetType="Button">
+                    <Border x:Name="Border" BorderThickness="1">
+                        <ContentPresenter Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" Content="{TemplateBinding Content}"></ContentPresenter>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" Value="#5586cede" TargetName="Border" />
+                            <Setter Property="BorderBrush" Value="#aa86cede" TargetName="Border" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Background" Value="#7786cede" TargetName="Border" />
+                            <Setter Property="BorderBrush" Value="#cc86cede" TargetName="Border" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="{x:Type Button}" x:Key="DeletePluginContainerButtonStyle">
         <Setter Property="Template">
             <Setter.Value>
@@ -75,6 +97,64 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style TargetType="{x:Type Thumb}" x:Key="ImageWrapperThumbStyle">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate x:Name="TemplateBtn" TargetType="Thumb">
+                    <StackPanel x:Name="Border" Orientation="Vertical" Background="{TemplateBinding Background}">
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel.LayoutTransform>
+                                <RotateTransform Angle="180"></RotateTransform>
+                            </StackPanel.LayoutTransform>
+                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#333333" StrokeThickness="1"></Ellipse>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel.LayoutTransform>
+                                <RotateTransform Angle="180"></RotateTransform>
+                            </StackPanel.LayoutTransform>
+                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#333333" StrokeThickness="1"></Ellipse>
+                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#333333" StrokeThickness="1"></Ellipse>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel.LayoutTransform>
+                                <RotateTransform Angle="180"></RotateTransform>
+                            </StackPanel.LayoutTransform>
+                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#333333" StrokeThickness="1"></Ellipse>
+                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#333333" StrokeThickness="1"></Ellipse>
+                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#333333" StrokeThickness="1"></Ellipse>
+                        </StackPanel>
+
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ProgressbarStyle" TargetType="{x:Type ProgressBar}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ProgressBar}">
+                    <Grid MinHeight="10" MinWidth="13">
+                        <Border 
+            Name="PART_Track" 
+            CornerRadius="5" 
+            Background="{TemplateBinding Background}"
+            BorderBrush="Transparent"
+            BorderThickness="1" />
+                        <Border 
+            Name="PART_Indicator" 
+            CornerRadius="5" 
+            Background="{TemplateBinding Foreground}" 
+            BorderBrush="Transparent" 
+            BorderThickness="1" 
+            HorizontalAlignment="Left" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 
     <Style TargetType="{x:Type Button}" x:Key="OptionPluginContainerButtonStyle">
         <Setter Property="Template">

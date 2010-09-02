@@ -7,9 +7,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <DockPanel LastChildFill="True">
-        <Border x:Name="BottomBoxParent" DockPanel.Dock="Top" HorizontalAlignment="Center" Height="auto" Width="auto" Panel.ZIndex="100">
-            <e:BottomBox DockPanel.Dock="Top" VerticalAlignment="Top"></e:BottomBox>
-        </Border>
         <Canvas x:Name="ContentRoot">
 
         </Canvas>

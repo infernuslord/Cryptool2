@@ -39,6 +39,7 @@ namespace WorkspaceManager.View.Container
         private Point point;
         private PluginContainerView currentFullViewContainer;
 
+        public UserContentWrapper UserContentWrapper { get; set; }
         public EditorState State;
         public EditorState ConnectorState;
         public List<CryptoLineView> ConnectionList = new List<CryptoLineView>();
@@ -59,12 +60,13 @@ namespace WorkspaceManager.View.Container
         {
             setBaseControl(WorkspaceModel);                        
             InitializeComponent();
-            this.UserControlWrapper.Children.Add(new UserContentWrapper(WorkspaceModel));
+            this.UserContentWrapper = new UserContentWrapper(WorkspaceModel, (BottomBoxParent.Child as BottomBox));
+            this.UserControlWrapperParent.Children.Add(UserContentWrapper);
         }
 
         private void setBaseControl(WorkspaceModel WorkspaceModel)
         {
-            this.MouseLeftButtonDown += new MouseButtonEventHandler(WorkSpaceEditorView_OnMouseLeftButtonDown);
+            //this.MouseLeftButtonDown += new MouseButtonEventHandler(WorkSpaceEditorView_OnMouseLeftButtonDown);
             this.MouseLeave += new MouseEventHandler(WorkSpaceEditorView_MouseLeave);
             this.Loaded += new RoutedEventHandler(WorkSpaceEditorView_Loaded);
             this.DragEnter += new DragEventHandler(WorkSpaceEditorView_DragEnter);
@@ -111,8 +113,12 @@ namespace WorkspaceManager.View.Container
         void shape_FullScreen(object sender, PluginContainerViewFullScreenViewEventArgs e)
         {
             this.InformationPanel.Visibility = Visibility.Visible;
-            e.container.PresentationPanel.Child = null;
-            this.FullPresentation.Children.Add(e.container.Model.PluginPresentation);
+            e.container.PrepareFullscreen();
+            this.PrstPanel.DataContext = e.container;
+            this.CtrPanel.DataContext = e.container;
+            this.CtrPanel.Children.Add(e.container.OptionPanel);
+            this.PrstPanel.Children.Add(e.container.ViewPanel);
+            this.ProgressbarPanel.Children.Add(e.container.ProgressbarParent);
             this.currentFullViewContainer = e.container;
         }
 
@@ -186,14 +192,13 @@ namespace WorkspaceManager.View.Container
 
         #region Controls
 
-        void WorkSpaceEditorView_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (!e.Handled)
-            {
-                PluginChangedEventArgs args = new PluginChangedEventArgs(this.model.WorkspaceManagerEditor, "WorkspaceManager", DisplayPluginMode.Normal);
-                this.Model.WorkspaceManagerEditor.onSelectedPluginChanged(args);
-            }
-        }
+        //void WorkSpaceEditorView_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    UserContentWrapper.SelectedItem = null;
+        //    PluginChangedEventArgs args = new PluginChangedEventArgs(this.model.WorkspaceManagerEditor, "WorkspaceManager", DisplayPluginMode.Normal);
+        //    this.Model.WorkspaceManagerEditor.onSelectedPluginChanged(args);
+        //    e.Handled = false;
+        //}
 
         void shape_OnConnectorMouseLeftButtonDown(object sender, ConnectorViewEventArgs e)
         {
@@ -220,6 +225,8 @@ namespace WorkspaceManager.View.Container
 
         void WorkSpaceEditorView_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
+            UserContentWrapper.SelectedItem = null;
+
             if (this.State == EditorState.READY)
             {
                 this.selectedConnector = null;
@@ -314,20 +321,24 @@ namespace WorkspaceManager.View.Container
 
         #endregion
 
-        private void CloseSettingsButton_Click(object sender, RoutedEventArgs e)
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.InformationPanel.Visibility = Visibility.Collapsed;
-            this.FullPresentation.Children.Clear();
-            this.currentFullViewContainer.PresentationPanel.Child = currentFullViewContainer.Model.PluginPresentation;
+            this.CtrPanel.Children.Clear();
+            this.PrstPanel.Children.Clear();
+            this.ProgressbarPanel.Children.Clear();
+            this.currentFullViewContainer.Reset();
             this.currentFullViewContainer = null;
+            this.CtrPanel.DataContext = null;
+            this.PrstPanel.DataContext = null;
         }
 
         internal void Load(WorkspaceModel WorkspaceModel)
         {
             this.Model = WorkspaceModel;
-            this.UserControlWrapper.Children.Clear();
-            UserContentWrapper UserContentWrapper = new UserContentWrapper(WorkspaceModel);
-            this.UserControlWrapper.Children.Add(UserContentWrapper);            
+            this.UserContentWrapper = new UserContentWrapper(WorkspaceModel, (BottomBoxParent.Child as BottomBox));
+            this.UserControlWrapperParent.Children.Clear();
+            this.UserControlWrapperParent.Children.Add(UserContentWrapper);            
 
             foreach (PluginModel model in this.Model.AllPluginModels)
             {
@@ -380,6 +391,25 @@ namespace WorkspaceManager.View.Container
             {
                 line.Reset();
             }
+        }
+
+        private void root_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!e.Handled)
+            {
+                PluginChangedEventArgs args = new PluginChangedEventArgs(this.model.WorkspaceManagerEditor, "WorkspaceManager", DisplayPluginMode.Normal);
+                this.Model.WorkspaceManagerEditor.onSelectedPluginChanged(args);
+            }
+        }
+
+        private void Button_Click_Full_inc(object sender, RoutedEventArgs e)
+        {
+            FullScreenScaleSlider.Value += 0.3;
+        }
+
+        private void Button_Click_Full_dec(object sender, RoutedEventArgs e)
+        {
+            FullScreenScaleSlider.Value -= 0.3;
         }
     }
 }

@@ -19,6 +19,15 @@
         </GradientBrush.GradientStops>
     </LinearGradientBrush>
 
+    <LinearGradientBrush x:Key="ProgressbarLinearGradientBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#77cf72" Offset="0.0"/>
+                <GradientStop Color="#55298130" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
     <SolidColorBrush x:Key="CheatBrush" Opacity="0.01" Color="#444444"></SolidColorBrush>
 
     <LinearGradientBrush x:Key="DataPresentationLinearBrush" StartPoint="0,0" EndPoint="0,1">

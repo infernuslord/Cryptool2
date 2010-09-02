@@ -66,12 +66,12 @@ namespace WorkspaceManager.Model
         /// <summary>
         /// Width of this VisualElementModel
         /// </summary>
-        public double Width = 150;
+        public double Width = 400;
 
         /// <summary>
         /// Height of this VisualElementModel
         /// </summary>
-        public double Height = 150;
+        public double Height = 300;
 
         /// <summary>
         /// Name of this VisualElementModel

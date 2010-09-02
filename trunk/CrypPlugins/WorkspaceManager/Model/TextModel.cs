@@ -38,5 +38,11 @@ namespace WorkspaceManager.Model
             get { return this.text; }
             set { this.text = value; }
         }
+
+        /// <summary>
+        /// is the image enabled ?
+        /// </summary>
+        private bool isEnabled = true;
+        public bool IsEnabled { get { return isEnabled; } set { isEnabled = value; } }
     }
 }
