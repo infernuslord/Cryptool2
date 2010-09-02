@@ -210,7 +210,7 @@ namespace XMLSerialization
                         }
                         else
                         {
-                            writer.WriteLine("<value>" + ReplaceXMLSymbols(value.ToString()) + "</value>");
+                            writer.WriteLine("<value><![CDATA[" + value.ToString() + "]]></value>");
                         }
                     }
                     else
@@ -407,9 +407,9 @@ namespace XMLSerialization
                             newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
                                 BindingFlags.NonPublic |
                                 BindingFlags.Public |
-                                BindingFlags.Instance).SetValue(newObject, RevertXMLSymbols(value.InnerText));
+                                BindingFlags.Instance).SetValue(newObject, value.InnerText);
                         }
-                        else if (RevertXMLSymbols(membertype.InnerText).Equals("System.Int16"))
+                        /*else if (RevertXMLSymbols(membertype.InnerText).Equals("System.Int16"))                        
                         {
                             Int16 result = 0;
                             System.Int16.TryParse(RevertXMLSymbols(value.InnerText), out result);
@@ -417,8 +417,17 @@ namespace XMLSerialization
                                 BindingFlags.NonPublic |
                                 BindingFlags.Public |
                                 BindingFlags.Instance).SetValue(newObject, result);
+                        }*/
+                        else if (RevertXMLSymbols(membertype.InnerText).Contains("System.Int"))
+                        {
+                            Int32 result = 0;
+                            System.Int32.TryParse(RevertXMLSymbols(value.InnerText), out result);
+                            newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
+                                BindingFlags.NonPublic |
+                                BindingFlags.Public |
+                                BindingFlags.Instance).SetValue(newObject, result);
                         }
-                        else if (RevertXMLSymbols(membertype.InnerText).Equals("System.Int32"))
+                        /* if (RevertXMLSymbols(membertype.InnerText).Equals("System.Int32"))
                         {
                             Int32 result = 0;
                             System.Int32.TryParse(RevertXMLSymbols(value.InnerText), out result);
@@ -435,7 +444,7 @@ namespace XMLSerialization
                                 BindingFlags.NonPublic |
                                 BindingFlags.Public |
                                 BindingFlags.Instance).SetValue(newObject, result);
-                        }
+                        }*/
                         else if (RevertXMLSymbols(membertype.InnerText).Equals("System.Double"))
                         {
                             Double result = 0;
@@ -479,9 +488,9 @@ namespace XMLSerialization
                                 BindingFlags.Instance).SetValue(newObject, result);
                         }
                         else if (RevertXMLSymbols(membertype.InnerText).Equals("System.Byte[]"))
-                        {                            
+                        {
                             byte[] bytearray = Convert.FromBase64String(value.InnerText);
-                            
+
                             newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
                                 BindingFlags.NonPublic |
                                 BindingFlags.Public |
@@ -490,7 +499,7 @@ namespace XMLSerialization
                         else
                         {
                             newmember = System.Activator.CreateInstance(Type.GetType(RevertXMLSymbols(membertype.InnerText)));
-                            
+
                             if (newmember is Enum)
                             {
                                 Int32 result = 0;
@@ -500,7 +509,7 @@ namespace XMLSerialization
                                 newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
                                     BindingFlags.NonPublic |
                                     BindingFlags.Public |
-                                    BindingFlags.Instance).SetValue(newObject, newEnumValue);                                
+                                    BindingFlags.Instance).SetValue(newObject, newEnumValue);
                             }
                             else
                             {
