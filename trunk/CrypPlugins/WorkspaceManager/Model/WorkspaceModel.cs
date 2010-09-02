@@ -108,7 +108,6 @@ namespace WorkspaceManager.Model
             pluginModel.Plugin.OnGuiLogNotificationOccured += pluginModel.GuiLogNotificationOccured;
             pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;
             pluginModel.Plugin.OnPluginStatusChanged += pluginModel.PluginStatusChanged;
-            pluginModel.Parent = this;
             if (pluginModel.Plugin.Settings != null)
             {
                 pluginModel.Plugin.Settings.PropertyChanged += pluginModel.SettingsPropertyChanged;
@@ -146,7 +145,6 @@ namespace WorkspaceManager.Model
             from.OutputConnections.Add(connectionModel);
             to.InputConnections.Add(connectionModel);
             connectionModel.ConnectionType = connectionType;
-            connectionModel.Parent = this;
 
             //If we connect two IControls we have to set data directly:
             if (from.IControl && to.IControl)
@@ -190,7 +188,6 @@ namespace WorkspaceManager.Model
             ImageModel imageModel = new ImageModel(imgUri);
             this.AllImageModels.Add(imageModel);
             this.WorkspaceManagerEditor.HasChanges = true;
-            imageModel.Parent = this;
             return imageModel;
         }
 
@@ -199,12 +196,11 @@ namespace WorkspaceManager.Model
         /// </summary>
         /// <param name="imgUri"></param>
         /// <returns></returns>
-        public TextModel newTextModel(string text = null )
+        public TextModel newTextModel()
         {
-            TextModel textModel = new TextModel(text);
+            TextModel textModel = new TextModel();
             this.AllTextModels.Add(textModel);
             this.WorkspaceManagerEditor.HasChanges = true;
-            textModel.Parent = this;
             return textModel;
         }
 

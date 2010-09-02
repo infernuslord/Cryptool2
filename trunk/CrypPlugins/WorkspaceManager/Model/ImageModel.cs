@@ -67,6 +67,11 @@ namespace WorkspaceManager.Model
         }
 
         /// <summary>
+        /// The WorkspaceModel of this ImageModel
+        /// </summary>
+        public WorkspaceModel WorkspaceModel { get; set; }
+
+        /// <summary>
         /// is the image enabled ?
         /// </summary>
         private bool isEnabled = true;
