@@ -68,9 +68,18 @@ namespace WorkspaceManager.Model
             {
                 if (this.ConnectorTypeName != null)
                 {
+                    if (ConnectorTypeName.Equals("System.Numerics.BigInteger"))
+                    {
+                        return typeof(System.Numerics.BigInteger);
+                    }
+                    if (ConnectorTypeName.Equals("System.Numerics.BigInteger[]"))
+                    {
+                        return typeof(System.Numerics.BigInteger[]);
+                    }
                     Assembly assembly = Assembly.Load(ConnectorTypeAssemblyName);
                     Type t = assembly.GetType(ConnectorTypeName);
                     return t;
+                                        
                 }
                 else
                 {

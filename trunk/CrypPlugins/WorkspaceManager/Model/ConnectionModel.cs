@@ -70,6 +70,14 @@ namespace WorkspaceManager.Model
             {
                 if (this.ConnectionTypeName != null)
                 {
+                    if (ConnectionTypeName.Equals("System.Numerics.BigInteger"))
+                    {
+                        return typeof(System.Numerics.BigInteger);
+                    }
+                    if (ConnectionTypeName.Equals("System.Numerics.BigInteger[]"))
+                    {
+                        return typeof(System.Numerics.BigInteger[]);
+                    }
                     Assembly assembly = Assembly.Load(ConnectionTypeAssemblyName);
                     Type t = assembly.GetType(ConnectionTypeName);
                     return t;
