@@ -160,6 +160,12 @@ namespace XMLSerialization
                     string type = obj.GetType().GetField(memberInfo.Name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance).FieldType.FullName;
                     object value = obj.GetType().GetField(memberInfo.Name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance).GetValue(obj);
 
+                    if (value is System.Collections.IList && value.GetType().IsGenericType)
+                    {
+                        string gentype = value.GetType().GetGenericArguments()[0].FullName;
+                        type = "System.Collections.Generic.List;" + gentype;
+                    }
+
                     writer.WriteLine("<member>");
                     writer.WriteLine("<name>" + ReplaceXMLSymbols(memberInfo.Name) + "</name>");
                     writer.WriteLine("<type>" + ReplaceXMLSymbols(type) + "</type>");
@@ -169,6 +175,37 @@ namespace XMLSerialization
                         byte[] bytes = (byte[])value;
                         writer.WriteLine("<value><![CDATA[" + ReplaceXMLSymbols(Convert.ToBase64String(bytes)) + "]]></value>");
                     }
+                    /*else if (value is System.Collections.IList && value.GetType().IsGenericType)
+                    {
+                        writer.WriteLine("<generictype>" + value.GetType().GetGenericArguments()[0].FullName + "</generictype>");
+                        writer.WriteLine("<genericlist>");
+                        foreach (object o in (System.Collections.IList)value)
+                        {
+                            if (o.GetType().IsSerializable)
+                            {
+                                
+                                writer.WriteLine("<entry>");
+                                writer.WriteLine("<type>" + o.GetType().FullName + "</type>");
+                                if (isPrimitive(o))
+                                {
+                                    if (o is Enum)
+                                    {
+                                        writer.WriteLine("<value>" + o.GetHashCode() + "</value>");
+                                    }
+                                    else
+                                    {
+                                        writer.WriteLine("<value>" + o + "</value>");
+                                    }
+                                }
+                                else
+                                {
+                                    writer.WriteLine("<reference>" + o.GetHashCode() + "</reference>");
+                                }
+                                writer.WriteLine("</entry>");
+                            }
+                        }
+                        writer.WriteLine("</genericlist>");
+                    }*/
                     else if (value is System.Collections.IList)
                     {
                         writer.WriteLine("<list>");
@@ -532,11 +569,31 @@ namespace XMLSerialization
                     }
                     else if (member.ChildNodes[2].Name.Equals("list"))
                     {
-                        newmember = System.Activator.CreateInstance(Type.GetType(RevertXMLSymbols(membertype.InnerText)));
-                        newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
-                                BindingFlags.NonPublic |
-                                BindingFlags.Public |
-                                BindingFlags.Instance).SetValue(newObject, newmember);
+                        String[] types = RevertXMLSymbols(membertype.InnerText).Split(';');
+
+                        if (types.Length == 1)
+                        {
+                            newmember = System.Activator.CreateInstance(Type.GetType(types[0]));
+                            newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
+                                    BindingFlags.NonPublic |
+                                    BindingFlags.Public |
+                                    BindingFlags.Instance).SetValue(newObject, newmember);
+                        }
+                        else if (types.Length == 2)
+                        {   //we have 2 types, that means that we have a generic list with generic type types[1]
+                            Type t = typeof(System.Collections.Generic.List<>);
+                            Type[] typeArgs = { Type.GetType(types[1]) };
+                            Type constructed = t.MakeGenericType(typeArgs);
+                            newmember = Activator.CreateInstance(constructed);
+                            newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
+                                    BindingFlags.NonPublic |
+                                    BindingFlags.Public |
+                                    BindingFlags.Instance).SetValue(newObject, newmember);
+                        }
+                        else
+                        {
+                            throw new Exception("Expected 1 or 2 types for list; But found:" + types.Length);
+                        }
 
                         foreach (XmlNode entry in member.ChildNodes[2].ChildNodes)
                         {

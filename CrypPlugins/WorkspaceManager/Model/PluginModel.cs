@@ -123,7 +123,7 @@ namespace WorkspaceManager.Model
             } 
             set{
                 this.PluginTypeName = value.FullName;
-                this.PluginTypeAssemblyName = value.Assembly.FullName;
+                this.PluginTypeAssemblyName = value.Assembly.GetName().Name;
             }
         }
 
