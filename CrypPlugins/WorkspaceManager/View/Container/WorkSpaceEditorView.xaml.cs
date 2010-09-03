@@ -296,11 +296,20 @@ namespace WorkspaceManager.View.Container
             {
                 if (e.Data.GetDataPresent("Cryptool.PluginBase.Editor.DragDropDataObject"))
                 {
-                    DragDropDataObject obj = e.Data.GetData("Cryptool.PluginBase.Editor.DragDropDataObject") as DragDropDataObject;
-                    PluginModel pluginModel = Model.newPluginModel(DragDropDataObjectToPluginConverter.CreatePluginInstance(obj.AssemblyFullName, obj.TypeFullName));
-                    if (obj != null)
-                        this.AddPluginContainerView(e.GetPosition(root), pluginModel);
-                    Model.WorkspaceManagerEditor.HasChanges = true;
+                    try
+                    {
+                        DragDropDataObject obj = e.Data.GetData("Cryptool.PluginBase.Editor.DragDropDataObject") as DragDropDataObject;
+                        PluginModel pluginModel = Model.newPluginModel(DragDropDataObjectToPluginConverter.CreatePluginInstance(obj.AssemblyFullName, obj.TypeFullName));
+                        if (obj != null)
+                            this.AddPluginContainerView(e.GetPosition(root), pluginModel);
+                        Model.WorkspaceManagerEditor.HasChanges = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        this.Model.WorkspaceManagerEditor.GuiLogMessage("Could not add Plugin to Workspace:" + ex.Message, NotificationLevel.Error);
+                        this.Model.WorkspaceManagerEditor.GuiLogMessage(ex.StackTrace, NotificationLevel.Error);
+                        return;
+                    }
                 }
                 else
                     return;

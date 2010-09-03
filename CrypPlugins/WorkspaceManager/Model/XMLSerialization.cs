@@ -174,38 +174,7 @@ namespace XMLSerialization
                     {
                         byte[] bytes = (byte[])value;
                         writer.WriteLine("<value><![CDATA[" + ReplaceXMLSymbols(Convert.ToBase64String(bytes)) + "]]></value>");
-                    }
-                    /*else if (value is System.Collections.IList && value.GetType().IsGenericType)
-                    {
-                        writer.WriteLine("<generictype>" + value.GetType().GetGenericArguments()[0].FullName + "</generictype>");
-                        writer.WriteLine("<genericlist>");
-                        foreach (object o in (System.Collections.IList)value)
-                        {
-                            if (o.GetType().IsSerializable)
-                            {
-                                
-                                writer.WriteLine("<entry>");
-                                writer.WriteLine("<type>" + o.GetType().FullName + "</type>");
-                                if (isPrimitive(o))
-                                {
-                                    if (o is Enum)
-                                    {
-                                        writer.WriteLine("<value>" + o.GetHashCode() + "</value>");
-                                    }
-                                    else
-                                    {
-                                        writer.WriteLine("<value>" + o + "</value>");
-                                    }
-                                }
-                                else
-                                {
-                                    writer.WriteLine("<reference>" + o.GetHashCode() + "</reference>");
-                                }
-                                writer.WriteLine("</entry>");
-                            }
-                        }
-                        writer.WriteLine("</genericlist>");
-                    }*/
+                    }                   
                     else if (value is System.Collections.IList)
                     {
                         writer.WriteLine("<list>");
@@ -445,16 +414,7 @@ namespace XMLSerialization
                                 BindingFlags.NonPublic |
                                 BindingFlags.Public |
                                 BindingFlags.Instance).SetValue(newObject, value.InnerText);
-                        }
-                        /*else if (RevertXMLSymbols(membertype.InnerText).Equals("System.Int16"))                        
-                        {
-                            Int16 result = 0;
-                            System.Int16.TryParse(RevertXMLSymbols(value.InnerText), out result);
-                            newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
-                                BindingFlags.NonPublic |
-                                BindingFlags.Public |
-                                BindingFlags.Instance).SetValue(newObject, result);
-                        }*/
+                        }                        
                         else if (RevertXMLSymbols(membertype.InnerText).Contains("System.Int"))
                         {
                             Int32 result = 0;
@@ -463,25 +423,7 @@ namespace XMLSerialization
                                 BindingFlags.NonPublic |
                                 BindingFlags.Public |
                                 BindingFlags.Instance).SetValue(newObject, result);
-                        }
-                        /* if (RevertXMLSymbols(membertype.InnerText).Equals("System.Int32"))
-                        {
-                            Int32 result = 0;
-                            System.Int32.TryParse(RevertXMLSymbols(value.InnerText), out result);
-                            newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
-                                BindingFlags.NonPublic |
-                                BindingFlags.Public |
-                                BindingFlags.Instance).SetValue(newObject, result);
-                        }
-                        else if (RevertXMLSymbols(membertype.InnerText).Equals("System.Int64"))
-                        {
-                            Int64 result = 0;
-                            System.Int64.TryParse(RevertXMLSymbols(value.InnerText), out result);
-                            newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
-                                BindingFlags.NonPublic |
-                                BindingFlags.Public |
-                                BindingFlags.Instance).SetValue(newObject, result);
-                        }*/
+                        }                       
                         else if (RevertXMLSymbols(membertype.InnerText).Equals("System.Double"))
                         {
                             Double result = 0;
