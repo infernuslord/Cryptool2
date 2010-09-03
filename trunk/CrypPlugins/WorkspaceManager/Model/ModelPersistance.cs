@@ -41,7 +41,7 @@ namespace WorkspaceManager.Model
         {
             PersistantModel persistantModel = (PersistantModel)XMLSerialization.XMLSerialization.Deserialize(filename,true);
             WorkspaceModel workspacemodel = persistantModel.WorkspaceModel;
-            workspacemodel.WorkspaceManagerEditor = workspaceManagerEditor;
+            workspacemodel.WorkspaceManagerEditor = workspaceManagerEditor;            
 
             //restore all settings of each plugin
             foreach (PersistantPlugin persistantPlugin in persistantModel.PersistantPluginList)
@@ -165,7 +165,7 @@ namespace WorkspaceManager.Model
         public static void saveModel(WorkspaceModel workspaceModel, string filename)
         {
             PersistantModel persistantModel = new PersistantModel();
-            persistantModel.WorkspaceModel = workspaceModel;
+            persistantModel.WorkspaceModel = workspaceModel;            
 
             //Save all Settings of each Plugin
             foreach (PluginModel pluginModel in workspaceModel.AllPluginModels){

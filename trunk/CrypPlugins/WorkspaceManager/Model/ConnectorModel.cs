@@ -80,7 +80,7 @@ namespace WorkspaceManager.Model
             set
             {
                 this.ConnectorTypeName = value.FullName;
-                this.ConnectorTypeAssemblyName = value.Assembly.FullName;
+                this.ConnectorTypeAssemblyName = value.Assembly.GetName().Name;
             }
         }
 
