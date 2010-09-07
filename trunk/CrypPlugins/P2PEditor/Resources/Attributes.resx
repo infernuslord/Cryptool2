@@ -171,6 +171,21 @@
   <data name="onnectOnStartup_tooltip" xml:space="preserve">
     <value>Establish a connection to the peer-to-peer network during CrypTool startup.</value>
   </data>
+  <data name="serverIP_caption" xml:space="preserve">
+    <value>IP</value>
+  </data>
+  <data name="serverIP_tooltip" xml:space="preserve">
+    <value>IP of the central p2p server.</value>
+  </data>
+  <data name="serverPort_caption" xml:space="preserve">
+    <value>Port</value>
+  </data>
+  <data name="serverPort_tooltip" xml:space="preserve">
+    <value>Post of the central p2p server.</value>
+  </data>
+  <data name="server_settings" xml:space="preserve">
+    <value>Server</value>
+  </data>
   <data name="start_caption" xml:space="preserve">
     <value>Connect</value>
   </data>

@@ -223,6 +223,51 @@ namespace Cryptool.P2PEditor.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Server.
+        /// </summary>
+        internal static string server_settings {
+            get {
+                return ResourceManager.GetString("server_settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IP.
+        /// </summary>
+        internal static string serverIP_caption {
+            get {
+                return ResourceManager.GetString("serverIP_caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IP of the central p2p server..
+        /// </summary>
+        internal static string serverIP_tooltip {
+            get {
+                return ResourceManager.GetString("serverIP_tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Port.
+        /// </summary>
+        internal static string serverPort_caption {
+            get {
+                return ResourceManager.GetString("serverPort_caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Post of the central p2p server..
+        /// </summary>
+        internal static string serverPort_tooltip {
+            get {
+                return ResourceManager.GetString("serverPort_tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connect.
         /// </summary>
         internal static string start_caption {
