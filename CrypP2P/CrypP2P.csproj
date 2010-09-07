@@ -89,7 +89,7 @@
       <HintPath>..\appreferences\x86\fullmeshoverlay.dll</HintPath>
       <Private>false</Private>
     </Reference>
-	<Reference Include="ChordOverlay">
+    <Reference Include="ChordOverlay">
       <HintPath>..\appreferences\x86\chord.dll</HintPath>
       <Private>false</Private>
     </Reference>
@@ -125,6 +125,10 @@
       <HintPath>..\appreferences\x86\util.dll</HintPath>
       <Private>false</Private>
     </Reference>
+	<Reference Include="PapsClient">
+      <HintPath>..\AppReferences\x86\PapsClient.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup Condition=" '$(Platform)' == 'x64' ">
     <Reference Include="Bootstrapper">
@@ -143,7 +147,7 @@
       <HintPath>..\appreferences\x64\fullmeshoverlay.dll</HintPath>
       <Private>false</Private>
     </Reference>
-	<Reference Include="ChordOverlay">
+    <Reference Include="ChordOverlay">
       <HintPath>..\appreferences\x64\chord.dll</HintPath>
       <Private>false</Private>
     </Reference>
@@ -178,6 +182,10 @@
     <Reference Include="Util">
       <HintPath>..\appreferences\x64\util.dll</HintPath>
       <Private>false</Private>
+    </Reference>
+	<Reference Include="PapsClient">
+      <HintPath>..\AppReferences\x64\PapsClient.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>

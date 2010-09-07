@@ -29,6 +29,7 @@ namespace Cryptool.P2PEditor
 
         private const string GroupExperienced = "experienced_settings";
         private const string GroupExpert = "expert_settings";
+        private const string GroupServer = "server_settings";
 
         public P2PEditorSettings(P2PEditor p2PEditor)
         {
@@ -189,7 +190,7 @@ namespace Cryptool.P2PEditor
         }
 
         [TaskPane("architecture_caption", "architecture_tooltip", GroupExpert, 2, false, DisplayLevel.Expert,
-            ControlType.ComboBox, new[] { "FullMesh", "Chord" })]
+            ControlType.ComboBox, new[] { "FullMesh", "Chord", "Server" })]
         public int Architecture
         {
             get { return (int)settings.Architecture; }
@@ -263,6 +264,37 @@ namespace Cryptool.P2PEditor
                 {
                     settings.Log2Monitor = value;
                     OnPropertyChanged("Log2Monitor");
+                    HasChanges = true;
+                }
+            }
+        }
+
+        [TaskPane("serverIP_caption", "serverIP_tooltip", GroupServer, 1, false, DisplayLevel.Expert, ControlType.TextBox)]
+        public string ServerIP
+        {
+            get { return settings.ServerIP; }
+            set
+            {
+                if (value != settings.ServerIP)
+                {
+                    settings.ServerIP = value;
+                    OnPropertyChanged("ServerIP");
+                    HasChanges = true;
+                }
+            }
+        }
+
+        [TaskPane("serverPort_caption", "serverPort_tooltip", GroupServer, 4, false, DisplayLevel.Expert,
+            ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 65535)]
+        public int ServerPort
+        {
+            get { return settings.ServerPort; }
+            set
+            {
+                if (value != settings.ServerPort)
+                {
+                    settings.ServerPort = value;
+                    OnPropertyChanged("ServerPort");
                     HasChanges = true;
                 }
             }

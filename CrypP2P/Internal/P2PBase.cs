@@ -33,6 +33,7 @@ using PeersAtPlay.P2POverlay.Bootstrapper.LocalMachineBootstrapper;
 using PeersAtPlay.P2POverlay.FullMeshOverlay;
 using PeersAtPlay.P2PStorage.DHT;
 using PeersAtPlay.P2PStorage.FullMeshDHT;
+using PeersAtPlay.PapsClient;
 using PeersAtPlay.Util.Logging;
 using PeersAtPlay.P2POverlay.Chord;
 
@@ -141,7 +142,7 @@ namespace Cryptool.P2P.Internal
 
                     break;
                 default:
-                    throw (new NotImplementedException());
+                    throw new NotImplementedException();
             }
 
             switch (P2PSettings.Default.Bootstrapper)
@@ -158,21 +159,36 @@ namespace Cryptool.P2P.Internal
                     bootstrapper = new IrcBootstrapper(scheduler);
                     break;
                 default:
-                    throw (new NotImplementedException());
+                    throw new NotImplementedException();
             }
 
-            switch (P2PSettings.Default.Architecture)
+            try
             {
-                case P2PArchitecture.FullMesh:
-                    overlay = new FullMeshOverlay(scheduler);
-                    Dht = new FullMeshDHT(scheduler);
-                    break;
-                case P2PArchitecture.Chord:
-                    overlay = new ChordNGCore(scheduler);
-                    Dht = (IDHT) overlay;
-                    break;
-                default:
-                    throw (new NotImplementedException());
+                switch (P2PSettings.Default.Architecture)
+                {
+                    case P2PArchitecture.FullMesh:
+                        overlay = new FullMeshOverlay(scheduler);
+                        Dht = new FullMeshDHT(scheduler);
+                        break;
+                    case P2PArchitecture.Chord:
+                        overlay = new ChordNGCore(scheduler);
+                        Dht = (IDHT) overlay;
+                        break;
+                    case P2PArchitecture.Server:
+                        PeersAtPlay.PapsClient.Properties.Settings.Default.ServerIP = P2PSettings.Default.ServerIP;
+                        PeersAtPlay.PapsClient.Properties.Settings.Default.ServerPort = P2PSettings.Default.ServerPort;
+                        bootstrapper = new LocalMachineBootstrapper();
+                        overlay = new PapsClientOverlay();
+                        Dht = new PapsClientDht(scheduler);
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+            catch(Exception e)
+            {
+                P2PManager.GuiLogMessage("Error initializing P2P network: " + e.Message, NotificationLevel.Error);
+                return;
             }
 
             overlay.MessageReceived += OverlayMessageReceived;
@@ -182,12 +198,11 @@ namespace Cryptool.P2P.Internal
             VersionedDht = (IVersionedDHT) Dht;
 
             P2PManager.GuiLogMessage("Initializing DHT with world name " + P2PSettings.Default.WorldName,
-                                                NotificationLevel.Info);
+                                        NotificationLevel.Info);
+            IsInitialized = true;
             Dht.Initialize(P2PSettings.Default.PeerName, string.Empty, P2PSettings.Default.WorldName, overlay,
                             bootstrapper,
                             linkmanager, null);
-
-            IsInitialized = true;
         }
 
         /// <summary>
@@ -212,11 +227,18 @@ namespace Cryptool.P2P.Internal
                 return true;
             }
 
-            Dht.BeginStart(BeginStartEventHandler);
+            try
+            {
+                Dht.BeginStart(BeginStartEventHandler);
 
-            // Wait for event SystemJoined. When it's invoked, the peer completely joined the P2P system
-            systemJoined.WaitOne();
-            P2PManager.GuiLogMessage("System join process ended.", NotificationLevel.Debug);
+                // Wait for event SystemJoined. When it's invoked, the peer completely joined the P2P system
+                systemJoined.WaitOne();
+                P2PManager.GuiLogMessage("System join process ended.", NotificationLevel.Debug);
+            }
+            catch (Exception e)
+            {
+                e.GetBaseException();
+            }
 
             return true;
         }
@@ -316,11 +338,12 @@ namespace Cryptool.P2P.Internal
 
         private void OnDhtSystemJoined(object sender, EventArgs e)
         {
+            IsConnected = true;
+
             if (OnSystemJoined != null)
                 OnSystemJoined();
 
             systemJoined.Set();
-            IsConnected = true;
         }
 
         private void OnDhtSystemLeft(object sender, SystemLeftEventArgs e)

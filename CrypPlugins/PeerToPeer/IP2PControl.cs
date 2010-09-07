@@ -20,7 +20,8 @@ namespace Cryptool.Plugins.PeerToPeer.Internal
     public enum P2PArchitecture
     {
         FullMesh = 0,
-        Chord = 1
+        Chord = 1,
+        Server = 2
     }
     
     public enum P2PTransportProtocol
