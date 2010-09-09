@@ -354,6 +354,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 stop.Invoke(null, new object[] { obj });
             }
             this.userStopped = true;
+            newRelationPackageEvent.Set();
         }
 
         /// <summary>
