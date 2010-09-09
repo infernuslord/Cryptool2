@@ -232,20 +232,20 @@ namespace Cryptool.P2PEditor.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to IP.
+        ///   Looks up a localized string similar to Host.
         /// </summary>
-        internal static string serverIP_caption {
+        internal static string serverHost_caption {
             get {
-                return ResourceManager.GetString("serverIP_caption", resourceCulture);
+                return ResourceManager.GetString("serverHost_caption", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to IP of the central p2p server..
+        ///   Looks up a localized string similar to Host of the central p2p server..
         /// </summary>
-        internal static string serverIP_tooltip {
+        internal static string serverHost_tooltip {
             get {
-                return ResourceManager.GetString("serverIP_tooltip", resourceCulture);
+                return ResourceManager.GetString("serverHost_tooltip", resourceCulture);
             }
         }
         

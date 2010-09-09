@@ -39,10 +39,10 @@
       <Value Profile="(Default)">Chord</Value>
     </Setting>
     <Setting Name="ServerPort" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">15551</Value>
+      <Value Profile="(Default)">4456</Value>
     </Setting>
-    <Setting Name="ServerIP" Type="System.String" Scope="User">
-      <Value Profile="(Default)">127.0.0.1</Value>
+    <Setting Name="ServerHost" Type="System.String" Scope="User">
+      <Value Profile="(Default)">paps.vs.uni-due.de</Value>
     </Setting>
   </Settings>
 </SettingsFile>

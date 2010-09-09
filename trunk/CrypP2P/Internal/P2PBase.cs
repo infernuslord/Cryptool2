@@ -175,7 +175,7 @@ namespace Cryptool.P2P.Internal
                         Dht = (IDHT) overlay;
                         break;
                     case P2PArchitecture.Server:
-                        PeersAtPlay.PapsClient.Properties.Settings.Default.ServerIP = P2PSettings.Default.ServerIP;
+                        PeersAtPlay.PapsClient.Properties.Settings.Default.ServerHost = P2PSettings.Default.ServerHost;
                         PeersAtPlay.PapsClient.Properties.Settings.Default.ServerPort = P2PSettings.Default.ServerPort;
                         bootstrapper = new LocalMachineBootstrapper();
                         overlay = new PapsClientOverlay();
@@ -430,7 +430,8 @@ namespace Cryptool.P2P.Internal
             LogToMonitor("Begin: SynchRetrieve. Key: " + key);
 
             var autoResetEvent = new AutoResetEvent(false);
-            var requestResult = new RequestResult() {WaitHandle = autoResetEvent, Key = key};
+            var requestResult = new RequestResult {WaitHandle = autoResetEvent, Key = key};
+
             Dht.Retrieve(OnSynchRetrieveCompleted, key, requestResult);
 
             // blocking till response
