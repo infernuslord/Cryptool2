@@ -269,16 +269,16 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("serverIP_caption", "serverIP_tooltip", GroupServer, 1, false, DisplayLevel.Expert, ControlType.TextBox)]
-        public string ServerIP
+        [TaskPane("serverHost_caption", "serverHost_tooltip", GroupServer, 1, false, DisplayLevel.Expert, ControlType.TextBox)]
+        public string ServerHost
         {
-            get { return settings.ServerIP; }
+            get { return settings.ServerHost; }
             set
             {
-                if (value != settings.ServerIP)
+                if (value != settings.ServerHost)
                 {
-                    settings.ServerIP = value;
-                    OnPropertyChanged("ServerIP");
+                    settings.ServerHost = value;
+                    OnPropertyChanged("ServerHost");
                     HasChanges = true;
                 }
             }

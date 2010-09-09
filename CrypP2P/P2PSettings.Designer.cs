@@ -169,7 +169,7 @@ namespace Cryptool.P2P {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("15551")]
+        [global::System.Configuration.DefaultSettingValueAttribute("4456")]
         public int ServerPort {
             get {
                 return ((int)(this["ServerPort"]));
@@ -181,13 +181,13 @@ namespace Cryptool.P2P {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1")]
-        public string ServerIP {
+        [global::System.Configuration.DefaultSettingValueAttribute("paps.vs.uni-due.de")]
+        public string ServerHost {
             get {
-                return ((string)(this["ServerIP"]));
+                return ((string)(this["ServerHost"]));
             }
             set {
-                this["ServerIP"] = value;
+                this["ServerHost"] = value;
             }
         }
     }
