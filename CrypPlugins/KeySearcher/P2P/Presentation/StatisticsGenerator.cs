@@ -145,7 +145,11 @@ namespace KeySearcher.P2P.Presentation
             if (currentChunkCalculated < HighestChunkCalculated) return;
 
             var totalAmountOfParticipants = currentChunkCalculated - HighestChunkCalculated;
+            if (totalAmountOfParticipants == 0)
+                totalAmountOfParticipants = 1;
+            
             status.TotalAmountOfParticipants = totalAmountOfParticipants;
+
 
             var timeUsedForLatestProgress = DateTime.Now.Subtract(lastDateOfGlobalStatistics);
             var secondsForOneChunk = timeUsedForLatestProgress.TotalSeconds/(double) totalAmountOfParticipants;

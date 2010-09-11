@@ -15,6 +15,7 @@
 */
 
 using System.ComponentModel;
+using System.Windows;
 using Cryptool.P2P;
 using Cryptool.P2PEditor.GUI;
 using Cryptool.PluginBase;
@@ -35,7 +36,33 @@ namespace Cryptool.P2PEditor
         {
             this.p2PEditor = p2PEditor;
             settings = P2PSettings.Default;
+            UpdateSettings();
         }
+
+        #region Update visibility of server group
+
+        private void UpdateSettings()
+        {
+            if (TaskPaneAttributeChanged == null)
+                return;
+
+            if (P2PSettings.Default.Architecture == P2PArchitecture.Server)
+                UpdateServerOptionVisibilitySetting(Visibility.Visible);
+            else
+                UpdateServerOptionVisibilitySetting(Visibility.Hidden);
+        }
+
+        private void UpdateServerOptionVisibilitySetting(Visibility newVisibility)
+        {
+            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ServerHost", newVisibility)));
+            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ServerPort", newVisibility)));
+        }
+
+        #endregion
+
+        #region Events
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
+        #endregion
 
         #region ISettings Members
 
@@ -199,6 +226,7 @@ namespace Cryptool.P2PEditor
                 if ((P2PArchitecture)value != settings.Architecture)
                 {
                     settings.Architecture = (P2PArchitecture)value;
+                    UpdateSettings();
                     OnPropertyChanged("Architecture");
                     HasChanges = true;
                 }

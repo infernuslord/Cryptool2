@@ -20,10 +20,10 @@ namespace Cryptool.P2PEditor.Worker
             this.jobToParticipateIn = jobToParticipateIn;
             this.dispatcher = dispatcher;
 
-            DoWork += JobParticipationWorker_DoWork;
+            DoWork += JobParticipationWorkerDoWork;
         }
 
-        private void JobParticipationWorker_DoWork(object sender, DoWorkEventArgs e)
+        private void JobParticipationWorkerDoWork(object sender, DoWorkEventArgs e)
         {
             try
             {
@@ -41,13 +41,7 @@ namespace Cryptool.P2PEditor.Worker
                               jobToParticipateIn.Name),
                 NotificationLevel.Info);
 
-            try
-            {
-                jobListManager.IncreaseDownloadCount(jobToParticipateIn);
-            } catch(Exception)
-            {
-                
-            }
+            jobListManager.IncreaseDownloadCount(jobToParticipateIn);
 
             dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(DispatchOpenFileEvent));
         }
