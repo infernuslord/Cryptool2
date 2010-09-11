@@ -14,10 +14,10 @@ namespace Cryptool.P2PEditor.Worker
             this.distributedJobs = distributedJobs;
             this.jobListManager = jobListManager;
 
-            DoWork += JobListDetailsUpdateWorker_DoWork;
+            DoWork += JobListDetailsUpdateWorkerDoWork;
         }
 
-        void JobListDetailsUpdateWorker_DoWork(object sender, DoWorkEventArgs e)
+        void JobListDetailsUpdateWorkerDoWork(object sender, DoWorkEventArgs e)
         {
             if (distributedJobs == null) return;
 

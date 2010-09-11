@@ -63,12 +63,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
         private void AttachLoadingAdorner()
         {
-            ParticipateAdorner participateAdorner = new ParticipateAdorner(mainPane);
-           /* participateAdorner.FontSize = 15;
-            loading.OverlayedText = "loading...";
-            loading.Typeface = new Typeface(FontFamily, FontStyles.Italic,
-                FontWeights.Bold, FontStretch);*/
-            Binding bind = new Binding("Participating");
+            var participateAdorner = new ParticipateAdorner(mainPane);
+            var bind = new Binding("Participating");
             bind.Source = this;
             bind.Converter = new TrueToVisibleOrCollapsedConverter();
             participateAdorner.SetBinding(VisibilityProperty, bind);
@@ -118,7 +114,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(UpdateJobList));
         }
 
-        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        private void RefreshButtonClick(object sender, RoutedEventArgs e)
         {
             UpdateJobList();
         }
@@ -147,7 +143,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
             UpdateJobDetailsTimerElapsed(null, null);
         }
 
-        private void ParticipateButton_Click(object sender, RoutedEventArgs e)
+        private void ParticipateButtonClick(object sender, RoutedEventArgs e)
         {
             ParticipateInSelectedJob();
         }
@@ -159,11 +155,10 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
         private void ParticipateInSelectedJob()
         {
-            Participating = true;
-
             var jobToParticipateIn = (DistributedJob) JobListBox.SelectedItem;
-
             if (jobToParticipateIn == null) return;
+
+            Participating = true;
 
             P2PEditor.GuiLogMessage(
                 string.Format("Preparing to participate in job {0} ({1}).", jobToParticipateIn.Name,
@@ -172,12 +167,12 @@ namespace Cryptool.P2PEditor.GUI.Controls
             new JobParticipationWorker(P2PEditor, JobListManager, jobToParticipateIn, Dispatcher).RunWorkerAsync();
         }
 
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        private void DeleteButtonClick(object sender, RoutedEventArgs e)
         {
             DeleteSelectedJob();
         }
 
-        private void JobListBox_KeyUp(object sender, KeyEventArgs e)
+        private void JobListBoxKeyUp(object sender, KeyEventArgs e)
         {
             switch (e.Key)
             {

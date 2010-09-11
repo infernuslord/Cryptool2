@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Controls;
 using Cryptool.Core;
+using Cryptool.P2P;
 using Cryptool.P2PEditor.Distributed;
 using Cryptool.P2PEditor.GUI;
 using Cryptool.PluginBase;
@@ -33,16 +34,16 @@ namespace Cryptool.P2PEditor
         "P2PEditor/images/icon.png")]
     public class P2PEditor : IEditor
     {
-        private readonly JobListManager _jobListManager;
+        private readonly JobListManager jobListManager;
 
-        private bool _initialNewHandled;
+        private bool initialNewEventHandled;
 
         public P2PEditor()
         {
-            _jobListManager = new JobListManager(this);
-            _initialNewHandled = false;
+            jobListManager = new JobListManager(this);
+            initialNewEventHandled = false;
 
-            Presentation = new P2PEditorPresentation(this, _jobListManager);
+            Presentation = new P2PEditorPresentation(this, jobListManager);
             Settings = new P2PEditorSettings(this);
         }
 
@@ -60,21 +61,20 @@ namespace Cryptool.P2PEditor
 
         public void New()
         {
-            GuiLogMessage("P2PEditor: New()", NotificationLevel.Debug);
+            if (OnSelectedPluginChanged != null)
+                OnSelectedPluginChanged(this, new PluginChangedEventArgs(this, "P2P Configuration", DisplayPluginMode.Normal));
+            
+            if (!P2PManager.IsConnected)
+            {
+                GuiLogMessage("Cannot display new job form, no connection to p2p network.", NotificationLevel.Warning);
+                return;
+            }
 
             // Avoid switching to the add view, but allow using the new button later
-            if (!_initialNewHandled)
-            {
-                _initialNewHandled = true;
-            } else
-            {
-                ((P2PEditorPresentation)Presentation).ShowJobCreation();
-            }
-
-            if (OnSelectedPluginChanged != null)
-            {
-                OnSelectedPluginChanged(this, new PluginChangedEventArgs(this, "P2P Configuration", DisplayPluginMode.Normal));
-            }
+            if (!initialNewEventHandled)
+                initialNewEventHandled = true;
+            else
+                ((P2PEditorPresentation) Presentation).ShowJobCreation();
         }
 
         public void Open(string fileName)

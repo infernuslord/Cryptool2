@@ -4,9 +4,6 @@ using Cryptool.P2P;
 
 namespace Cryptool.P2PEditor.GUI.Controls
 {
-    /// <summary>
-    /// Interaction logic for ConnectTab.xaml
-    /// </summary>
     public partial class ConnectTab
     {
         public static readonly DependencyProperty IsP2PConnectingProperty =
@@ -27,12 +24,10 @@ namespace Cryptool.P2PEditor.GUI.Controls
             InitializeComponent();
         }
 
-        private void ConnectButtonClick(object sender, System.Windows.RoutedEventArgs e)
+        private void ConnectButtonClick(object sender, RoutedEventArgs e)
         {
             if (!P2PManager.IsConnected)
-            {
                 P2PManager.Connect();
-            }
 
             ((P2PEditorPresentation) P2PEditor.Presentation).UpdateConnectionState();
         }

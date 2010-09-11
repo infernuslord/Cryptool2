@@ -13,10 +13,10 @@ namespace Cryptool.P2PEditor.Worker
             this.jobListManager = jobListManager;
             this.jobToDistribute = jobToDistribute;
 
-            DoWork += JobCreationWorker_DoWork;
+            DoWork += JobCreationWorkerDoWork;
         }
 
-        private void JobCreationWorker_DoWork(object sender, DoWorkEventArgs e)
+        private void JobCreationWorkerDoWork(object sender, DoWorkEventArgs e)
         {
             jobListManager.DeleteDistributedJob(jobToDistribute);
         }
