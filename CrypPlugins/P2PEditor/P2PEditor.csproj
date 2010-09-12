@@ -82,9 +82,6 @@
     <Compile Include="GUI\ParticipateAdorner.cs" />
     <Compile Include="Helper\DistributedStatusUpdater.cs" />
     <Compile Include="P2PEditorSettings.cs" />
-    <Compile Include="DetailedDescription\Description.xaml.cs">
-      <DependentUpon>Description.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Distributed\DistributedJob.cs" />
     <Compile Include="Distributed\JobListManager.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />

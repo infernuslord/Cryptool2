@@ -13,6 +13,9 @@
             <TabItem Header="Connect" Name="ConnectTab" Visibility="{Binding IsP2PConnected, ElementName=P2PEditorControl, Converter={StaticResource ConnectivityToVisibilityConverter}}">
                 <controls:ConnectTab IsP2PConnecting="{Binding IsP2PConnecting, ElementName=P2PEditorControl}" />
             </TabItem>
+            <TabItem Header="About" Name="AboutTab">
+                <Frame Source="../DetailedDescription/Description.xaml" />
+            </TabItem>
         </TabControl>
 	</Grid>
 </GUI:P2PUserControl>
