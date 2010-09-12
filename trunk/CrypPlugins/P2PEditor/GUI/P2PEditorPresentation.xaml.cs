@@ -125,5 +125,10 @@ namespace Cryptool.P2PEditor.GUI
         {
             JobTabControl.SelectedItem = ConnectTab;
         }
+
+        internal void ShowHelp()
+        {
+            JobTabControl.SelectedItem = AboutTab;
+        }
     }
 }

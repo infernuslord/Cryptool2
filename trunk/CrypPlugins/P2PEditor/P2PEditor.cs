@@ -114,12 +114,12 @@ namespace Cryptool.P2PEditor
 
         public void ShowHelp()
         {
-            GuiLogMessage("P2PEditor: ShowHelp()", NotificationLevel.Debug);
+            ((P2PEditorPresentation) Presentation).ShowHelp();
         }
 
         public void ShowSelectedPluginDescription()
         {
-            GuiLogMessage("P2PEditor: ShowSelectedPluginDescription()", NotificationLevel.Debug);
+            ((P2PEditorPresentation) Presentation).ShowHelp();
         }
 
         public bool CanUndo

@@ -31,5 +31,10 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
             ((P2PEditorPresentation) P2PEditor.Presentation).UpdateConnectionState();
         }
+
+        private void HelpButtonClick(object sender, RoutedEventArgs e)
+        {
+            ((P2PEditorPresentation) P2PEditor.Presentation).ShowHelp();
+        }
     }
 }

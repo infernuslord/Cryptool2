@@ -1,1 +1,46 @@
-﻿<FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Background="White" />
+﻿<FlowDocument PagePadding="5,0,5,0" AllowDrop="True" NumberSubstitution.CultureSource="User" 
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+			  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:misc="clr-namespace:Cryptool.PluginBase.Miscellaneous;assembly=CrypPluginBase"
+			  Background="White" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+
+    <Paragraph FontSize="22pt">P2PEditor - Description</Paragraph>
+    
+    <Paragraph FontSize="20pt">Introduction</Paragraph>
+    <Paragraph>
+        The P2PEditor is a special editor for CrypTool 2.0 which enables Peer-to-peer features for your CrypTool 2.0 installation. It provides an interface to plugins which can use it for Peer-to-peer related functions. The editor itself allows you to download workspaces shared by other users and provides an interface to upload new workspaces.
+    </Paragraph>
+
+    <Paragraph FontSize="20pt">About the Peer-to-peer network</Paragraph>
+    <Paragraph>
+        CrypTool 2.0 includes a version of the peers@play project, a Peer-to-peer framework developed by the Universities of Mannheim, Duisburg-Essen and Hannover. It offers a rich feature set, including bootstrapping, a link manager, different architectures (Chord, FullMesh, ...) and a distributed hash table (DHT). You can find further information in the link section.
+    </Paragraph>
+
+    <Paragraph FontSize="20pt">Getting started</Paragraph>
+    <Paragraph>
+        Your CrypTool 2.0 installation is pre-configured and allows you to join the network almost instantly. If you are unfamiliar with Peer-to-peer networks, just click the connect button, otherwise change the settings as needed. Once you are connected (this may take a few seconds), a list will display currently shared workspaces.
+    </Paragraph>
+
+    <Paragraph FontSize="20pt">Active jobs</Paragraph>
+    <Paragraph>
+        When you are connected, the "Active jobs" tab will contain a list of all shared workspaces. If you find a job which you would like to open on your computer, perform a doubleclick on it in the list or select it and press the "Participate" button. The workspace will be downloaded and the workspace will be opened using the proper editor.
+    </Paragraph>
+    <Paragraph>
+        The list will also display the status of jobs which are currently running or have been completed and are able to share the status. The status colors have the following meaning: White - no data available; Blue - job has been started, but no status data available; Orange - Some results are available, but the job is still being calculated; Green - job is complete. If you open a green job and start the workspace, you should be able to immediately retrieve the results.
+    </Paragraph>
+
+    <Paragraph FontSize="20pt">New job</Paragraph>
+    <Paragraph>
+        If you would like to share a workspace with others users, you can upload one using the "New job" tab. Enter all required fields and select a workspace file. Once you click "Share", your workspace will be uploaded into the distributed hashtable and made available for all other users.
+    </Paragraph>
+    <Paragraph>
+        You can also remove your workspaces from the list. To do this, select your job and click the "Delete" button.
+    </Paragraph>
+
+    <Paragraph FontSize="20pt">Further information</Paragraph>
+    <Paragraph>
+        <misc:DescriptionHyperlink NavigateUri="http://www.pap.vs.uni-due.de/index.php">peers@play project website</misc:DescriptionHyperlink>
+        <LineBreak/>
+        <misc:DescriptionHyperlink NavigateUri="http://en.wikipedia.org/wiki/Peer-to-peer">Peer-to-peer in wikipedia</misc:DescriptionHyperlink>
+    </Paragraph>
+</FlowDocument>

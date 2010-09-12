@@ -6,6 +6,7 @@
 		<StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
 			<Image Source="..\..\images\disconnected.png" Width="200" />
             <Button Name="ConnectButton" Content="Connect" Height="38" FontFamily="Consolas" FontSize="20" Click="ConnectButtonClick" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" />
+            <Button Name="HelpButton" Content="What's this?" Height="30" FontFamily="Consolas" FontSize="12" Margin="0,10,0,0" Click="HelpButtonClick" />
 		</StackPanel>
     </Grid>
 </GUI:P2PUserControl>
