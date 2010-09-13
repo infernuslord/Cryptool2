@@ -76,7 +76,7 @@ namespace Cryptool.P2P.Internal
             Guid = retrieveResult.Guid;
             ParseResultStatus(retrieveResult.Status);
 
-            if (Status == RequestResultType.Success)
+            if (Status == RequestResultType.Success && retrieveResult.Data != null)
                 Data = retrieveResult.Data;
         }
 

@@ -52,7 +52,7 @@ namespace Cryptool.P2P.Internal
     {
         #region Variables
 
-        private readonly AutoResetEvent systemJoined;
+        private AutoResetEvent systemJoined;
         private readonly AutoResetEvent systemLeft;
         private IBootstrapper bootstrapper;
         private IP2PLinkManager linkmanager;
@@ -201,8 +201,7 @@ namespace Cryptool.P2P.Internal
                                         NotificationLevel.Info);
             IsInitialized = true;
             Dht.Initialize(P2PSettings.Default.PeerName, string.Empty, P2PSettings.Default.WorldName, overlay,
-                            bootstrapper,
-                            linkmanager, null);
+                           bootstrapper, linkmanager, null);
         }
 
         /// <summary>
@@ -258,13 +257,11 @@ namespace Cryptool.P2P.Internal
 
             Dht.BeginStop(null);
 
-            if (!IsConnected)
-            {
-                return true;
-            }
+            if (IsConnected)
+                systemLeft.WaitOne();
 
-            // wait till systemLeft Event is invoked
-            systemLeft.WaitOne();
+            systemJoined.Reset();
+            systemLeft.Reset();
 
             return true;
         }
@@ -328,7 +325,11 @@ namespace Cryptool.P2P.Internal
 
             foreach (var del in OnP2PMessageReceived.GetInvocationList())
             {
-                del.DynamicInvoke(pid, e.Message.Data.PopBytes(e.Message.Data.CurrentStackSize));
+                var data = e.Message.Data.ToArray();
+                if (e.Message.Data.CurrentStackSize != 0)
+                    data = e.Message.Data.PopBytes(e.Message.Data.CurrentStackSize);
+
+                del.DynamicInvoke(pid, data);
             }
         }
 
@@ -388,7 +389,7 @@ namespace Cryptool.P2P.Internal
             var autoResetEvent = new AutoResetEvent(false);
 
             // LogToMonitor("testcrash" + Encoding.UTF8.GetString(new byte[5000]));
-            LogToMonitor("Begin: SynchStore. Key: " + key + ", " + data.Length + " bytes");
+            LogToMonitor("Begin: SynchStore. Key: " + key + ", " + (data != null ? data.Length : 0) + " bytes");
 
             var requestResult = new RequestResult {WaitHandle = autoResetEvent, Key = key, Data = data};
             VersionedDht.Store(OnSynchStoreCompleted, key, data, requestResult);
