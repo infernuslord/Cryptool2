@@ -144,6 +144,10 @@
       <DependentUpon>BottomBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\VisualComponents\CryptoLineView\IntersectPoint.cs" />
+    <Compile Include="View\VisualComponents\CryptoLineView\StackFrameDijkstra\AbstractPathFinder.cs" />
+    <Compile Include="View\VisualComponents\CryptoLineView\StackFrameDijkstra\Dijkstra.cs" />
+    <Compile Include="View\VisualComponents\CryptoLineView\StackFrameDijkstra\Node.cs" />
+    <Compile Include="View\VisualComponents\CryptoLineView\StackFrameDijkstra\NodeState.cs" />
     <Compile Include="View\VisualComponents\DataPresentation.xaml.cs">
       <DependentUpon>DataPresentation.xaml</DependentUpon>
     </Compile>
