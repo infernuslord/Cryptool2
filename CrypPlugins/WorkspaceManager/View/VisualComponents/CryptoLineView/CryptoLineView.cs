@@ -77,6 +77,15 @@ namespace WorkspaceManager.View.VisualComponents
             {
                 line.InvalidateVisual();
             }
+
+            Panel p = (this.Parent as Panel);
+            if (p == null)
+                return;
+            foreach (UIElement shape in p.Children)
+            {
+                if (shape is CryptoLineView)
+                    shape.InvalidateVisual();
+            }
         }
 
         protected override void OnMouseDown(MouseButtonEventArgs args)
@@ -138,7 +147,7 @@ namespace WorkspaceManager.View.VisualComponents
                 return false;
             }
 
-            // parallel
+            // parallel, also overlapping case
             if (StartPoint.X == EndPoint.X && StartPointSec.X == EndPointSec.X ||
                 StartPoint.Y == EndPoint.Y && StartPointSec.Y == EndPointSec.Y)
             {
@@ -146,7 +155,7 @@ namespace WorkspaceManager.View.VisualComponents
             }
             else
             {
-                // orthonogal 
+                // orthogonal but maybe not intersected
                 Point up, down, left, right;
                 if (StartPoint.X == EndPoint.X)
                 {
@@ -275,16 +284,7 @@ namespace WorkspaceManager.View.VisualComponents
         }
 
 
-        private bool isConnectionPossibleDebugWrapper(Point p1, Point p2)
-        {
-            bool a = isConnectionPossible(p1, p2);
-            bool b = isConnectionPossible(p2, p1);
-            if (a != b)
-            {
-                throw new Exception("State pew!");
-            }
-            return a;
-        }
+      
         private bool isConnectionPossible(Point p1, Point p2)
         {
             if (p1.X != p2.X && p1.Y != p2.Y)
@@ -381,7 +381,7 @@ namespace WorkspaceManager.View.VisualComponents
 
         private bool performOrthogonalPointConnection(Node n1, Point p2, Node n3, List<Node> nodeList)
         {
-            if (isConnectionPossibleDebugWrapper(n1.Point, p2) && isConnectionPossibleDebugWrapper(p2, n3.Point))
+            if (isConnectionPossible(n1.Point, p2) && isConnectionPossible(p2, n3.Point))
             {
                 Node n2 = new Node() { Point = p2 };
                 n1.Vertices.Add(n2);
@@ -399,7 +399,7 @@ namespace WorkspaceManager.View.VisualComponents
 
         private void performOrthogonalPointConnection(Node p1, Node p2)
         {
-            if (isConnectionPossibleDebugWrapper(p1.Point, p2.Point))
+            if (isConnectionPossible(p1.Point, p2.Point))
             {
                 p1.Vertices.Add(p2);
                 p2.Vertices.Add(p1);
@@ -431,13 +431,30 @@ namespace WorkspaceManager.View.VisualComponents
             
             // connect points
             int loopCount = nodeList.Count;
+            const int performanceTradeoffAt = 10;
+
+            LinkedList<Node> path = null;
+
             for(int i=0; i<loopCount; ++i)
             {
+                if (performanceTradeoffAt != 0 &&
+                       i == performanceTradeoffAt)
+                {
+                    StackFrameDijkstra.Dijkstra<Node> dijkstra = new StackFrameDijkstra.Dijkstra<Node>();
+                    path = dijkstra.findPath(nodeList, startNode, endNode);
+                    if (path != null)
+                    {
+                        break;
+                    }
+                }
+
                 var p1 = nodeList[i];
                 // TODO: inner loop restriction! n²-n!
                 // is k=i instead of k=0 correct?
                 for(int k=i; k<loopCount; ++k)
                 {
+                   
+
                     var p2 = nodeList[k];
                     if (p1 == p2)
                         continue;
@@ -467,8 +484,11 @@ namespace WorkspaceManager.View.VisualComponents
                 }
             }
 
-            StackFrameDijkstra.Dijkstra<Node> dijkstra = new StackFrameDijkstra.Dijkstra<Node>();
-            var path = dijkstra.findPath(nodeList, startNode, endNode);
+            if (path == null)
+            {
+                StackFrameDijkstra.Dijkstra<Node> dijkstra = new StackFrameDijkstra.Dijkstra<Node>();
+                path = dijkstra.findPath(nodeList, startNode, endNode);
+            }
 
             if (path != null)
             {
