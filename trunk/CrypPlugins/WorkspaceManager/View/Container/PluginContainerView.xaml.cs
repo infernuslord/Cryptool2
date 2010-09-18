@@ -51,6 +51,22 @@ namespace WorkspaceManager.View.Container
 
         #region Properties
 
+        public Point[] RoutingPoints
+        {
+            get
+            {
+                return new Point[] {
+                new Point((this.RenderTransform as TranslateTransform).X-1 ,(this.RenderTransform as TranslateTransform).Y-1),
+                new Point((this.RenderTransform as TranslateTransform).X + (this.ActualWidth / 2),(this.RenderTransform as TranslateTransform).Y-1),
+                new Point((this.RenderTransform as TranslateTransform).X-1,(this.RenderTransform as TranslateTransform).Y + (this.ActualHeight / 2)),
+                new Point((this.RenderTransform as TranslateTransform).X-1,(this.RenderTransform as TranslateTransform).Y + this.ActualHeight+1),
+                new Point((this.RenderTransform as TranslateTransform).X+1 + this.ActualWidth,(this.RenderTransform as TranslateTransform).Y+1),
+                new Point((this.RenderTransform as TranslateTransform).X + (this.ActualWidth / 2), (this.RenderTransform as TranslateTransform).Y + this.ActualHeight+1),
+                new Point((this.RenderTransform as TranslateTransform).X + this.ActualWidth+1, (this.RenderTransform as TranslateTransform).Y + (this.ActualHeight / 2)),
+                new Point((this.RenderTransform as TranslateTransform).X + this.ActualWidth+1, (this.RenderTransform as TranslateTransform).Y + this.ActualHeight+1)};
+            }
+        }
+
         public static readonly DependencyProperty IsFullscreenProperty = DependencyProperty.Register("IsFullscreen", typeof(bool), typeof(PluginContainerView));
         public bool IsFullscreen
         {
@@ -65,7 +81,6 @@ namespace WorkspaceManager.View.Container
         }
 
         public static readonly DependencyProperty ViewStateProperty = DependencyProperty.Register("ViewState", typeof(PluginViewState), typeof(PluginContainerView), new FrameworkPropertyMetadata(PluginViewState.Min));
-
 
         public PluginViewState ViewState
         {

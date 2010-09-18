@@ -12,6 +12,8 @@ using WorkspaceManager.Model;
 using System.Windows.Documents;
 using System.Collections.Generic;
 using System.Threading;
+using WorkspaceManager.View.Container;
+using System.Collections;
 
 namespace WorkspaceManager.View.VisualComponents
 {
@@ -272,9 +274,210 @@ namespace WorkspaceManager.View.VisualComponents
             }
         }
 
+       
+
+        private bool isConnectionPossible(Point p1, Point p2)
+        {
+            if (p1.X != p2.X && p1.Y != p2.Y)
+                throw new ArgumentException("only 90° allowed");
+
+            if (p1.Y != p2.Y)
+            {
+                Point up = p2.Y < p1.Y ? p1 : p2;
+                Point down = p2.Y < p1.Y?p2 : p1;
+
+                Panel parent = (Parent as Panel);
+                foreach (var element in parent.Children)
+                {
+                    PluginContainerView plug1 = element as PluginContainerView;
+                    if (plug1 == null)
+                        continue;
+                    Point pos = new Point((plug1.RenderTransform as TranslateTransform).X, (plug1.RenderTransform as TranslateTransform).Y);
+
+                    if (!isBetween(pos.X, pos.X + plug1.ActualWidth, up.X))
+                        continue;
+
+                    // case 1: one point is inside the plugion
+                    if (isBetween(pos.Y, pos.Y + plug1.ActualHeight, up.Y) ||
+                        isBetween(pos.Y, pos.Y + plug1.ActualHeight, down.Y))
+                    {
+                        return false;
+                    }
+
+                    // case 2: goes through
+                    if (pos.Y > up.Y && pos.Y + plug1.ActualHeight < down.Y)
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                Point left = p2.X < p1.X ? p2 : p1;
+                Point right = p2.X < p1.X ? p1 : p2; 
+
+                Panel parent = (Parent as Panel);
+                foreach (var element in parent.Children)
+                {
+                    PluginContainerView plug1 = element as PluginContainerView;
+                    if (plug1 == null)
+                        continue;
+                    Point pos = new Point((plug1.RenderTransform as TranslateTransform).X, (plug1.RenderTransform as TranslateTransform).Y);
+
+                    if (!isBetween(pos.Y, pos.Y + plug1.ActualHeight, left.Y))
+                        continue;
+
+                    // case 1: one point is inside the plugion
+                    if(isBetween(pos.X, pos.X + plug1.ActualWidth, left.X) ||
+                        isBetween(pos.X, pos.X + plug1.ActualWidth, right.X))
+                    {
+                        return false;
+                    }
+
+                    // case 2: goes through
+                    if(pos.X > left.X && pos.X + plug1.ActualWidth < right.X)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        internal class Node : StackFrameDijkstra.Node<Node>
+        {
+            public Point Point { get; set; }
+            public HashSet<Node> Vertices { get; private set; }
+            public Node()
+            {
+                Vertices = new HashSet<Node>();
+            }
+
+            public double pathCostEstimate(Node goal)
+            {
+                return 0;
+            }
+
+            public double traverseCost(Node dest)
+            {
+                if (!Vertices.Contains(dest))
+                    return Double.PositiveInfinity;
+
+                if (dest.Point.X == Point.X)
+                    return Math.Abs(dest.Point.Y - Point.Y);
+                return Math.Abs(dest.Point.X - Point.X);
+            }
+
+            public IEnumerable<Node> neighbors()
+            {
+                return Vertices;
+            }
+        }
+
+        private bool performOrthogonalPointConnection(Node n1, Point p2, Node n3, List<Node> nodeList)
+        {
+            if (isConnectionPossible(n1.Point, p2) && isConnectionPossible(p2, n3.Point))
+            {
+                Node n2 = new Node() { Point = p2 };
+                n1.Vertices.Add(n2);
+
+                n2.Vertices.Add(n1);
+                n2.Vertices.Add(n3);
+
+                n3.Vertices.Add(n2);
+
+                nodeList.Add(n2);
+                return true;
+            }
+            return false;
+        }
+
+        private void performOrthogonalPointConnection(Node p1, Node p2)
+        {
+            if (isConnectionPossible(p1.Point, p2.Point))
+            {
+                p1.Vertices.Add(p2);
+                p2.Vertices.Add(p1);
+            }
+        }
+
         private void makeOrthogonalPoints()
         {
-            if (StartPoint.X < EndPoint.X)
+            List<Node> nodeList = new List<Node>();
+            Panel parent = (Parent as Panel);
+
+            // add start and end. Index will be 0 and 1
+            Node startNode = new Node() { Point = StartPoint },
+                endNode = new Node() { Point = EndPoint };
+            nodeList.Add(startNode);
+            nodeList.Add(endNode);
+
+            foreach (var element in parent.Children)
+            {
+                if (element is PluginContainerView)
+                {
+                    PluginContainerView p1 = element as PluginContainerView;
+                    foreach (var routPoint in p1.RoutingPoints)
+                    {
+                        nodeList.Add(new Node() { Point = routPoint });
+                    }
+                }
+            }
+            
+            // connect points
+            int loopCount = nodeList.Count;
+            for(int i=0; i<loopCount; ++i)
+            {
+                var p1 = nodeList[i];
+                // TODO: inner loop restriction! n²-n!
+                // is k=i instead of k=0 correct?
+                for(int k=0; k<loopCount; ++k)
+                {
+                    var p2 = nodeList[k];
+                    if (p1 == p2)
+                        continue;
+                    if (p1.Vertices.Contains(p2))
+                        continue;
+
+                    // no helping point required?
+                    if (p1.Point.X == p2.Point.X ||
+                        p1.Point.Y == p2.Point.Y)
+                    {
+                        performOrthogonalPointConnection(p1, p2);
+                    }
+                    else
+                    {
+                        Point help1 = new Point(p1.Point.X, p2.Point.Y);
+
+                        if (!performOrthogonalPointConnection(p1, help1, p2, nodeList))
+                        {
+                            Point help2 = new Point(p2.Point.X, p1.Point.Y);
+                            performOrthogonalPointConnection(p1, help2, p2, nodeList);
+                            // optinal TODO: other possible helping points
+                        }
+                       
+                    }
+                }
+            }
+
+            StackFrameDijkstra.Dijkstra<Node> dijkstra = new StackFrameDijkstra.Dijkstra<Node>();
+            var path = dijkstra.findPath(nodeList, startNode, endNode);
+
+            if (path != null)
+            {
+                pointList.Clear();
+                Point prevPoint = StartPoint;
+
+                foreach (var i in path)
+                {
+                    Point thisPoint = i.Point;
+                    this.pointList.Add(new FromTo(prevPoint, thisPoint));
+                    prevPoint = thisPoint;
+                }
+            }
+                //Failsafe
+            else if (StartPoint.X < EndPoint.X)
             {
                 pointList.Clear();
                 pointList.Add(new FromTo(StartPoint, new Point((EndPoint.X + StartPoint.X) / 2, StartPoint.Y)));
