@@ -274,8 +274,17 @@ namespace WorkspaceManager.View.VisualComponents
             }
         }
 
-       
 
+        private bool isConnectionPossibleDebugWrapper(Point p1, Point p2)
+        {
+            bool a = isConnectionPossible(p1, p2);
+            bool b = isConnectionPossible(p2, p1);
+            if (a != b)
+            {
+                throw new Exception("State pew!");
+            }
+            return a;
+        }
         private bool isConnectionPossible(Point p1, Point p2)
         {
             if (p1.X != p2.X && p1.Y != p2.Y)
@@ -283,8 +292,8 @@ namespace WorkspaceManager.View.VisualComponents
 
             if (p1.Y != p2.Y)
             {
-                Point up = p2.Y < p1.Y ? p1 : p2;
-                Point down = p2.Y < p1.Y?p2 : p1;
+                Point up = p2.Y < p1.Y ? p2 : p1;
+                Point down = p2.Y < p1.Y?p1 : p2;
 
                 Panel parent = (Parent as Panel);
                 foreach (var element in parent.Children)
@@ -297,7 +306,7 @@ namespace WorkspaceManager.View.VisualComponents
                     if (!isBetween(pos.X, pos.X + plug1.ActualWidth, up.X))
                         continue;
 
-                    // case 1: one point is inside the plugion
+                    // case 1: one point is inside the plugin
                     if (isBetween(pos.Y, pos.Y + plug1.ActualHeight, up.Y) ||
                         isBetween(pos.Y, pos.Y + plug1.ActualHeight, down.Y))
                     {
@@ -327,7 +336,7 @@ namespace WorkspaceManager.View.VisualComponents
                     if (!isBetween(pos.Y, pos.Y + plug1.ActualHeight, left.Y))
                         continue;
 
-                    // case 1: one point is inside the plugion
+                    // case 1: one point is inside the plugin
                     if(isBetween(pos.X, pos.X + plug1.ActualWidth, left.X) ||
                         isBetween(pos.X, pos.X + plug1.ActualWidth, right.X))
                     {
@@ -354,11 +363,6 @@ namespace WorkspaceManager.View.VisualComponents
                 Vertices = new HashSet<Node>();
             }
 
-            public double pathCostEstimate(Node goal)
-            {
-                return 0;
-            }
-
             public double traverseCost(Node dest)
             {
                 if (!Vertices.Contains(dest))
@@ -377,7 +381,7 @@ namespace WorkspaceManager.View.VisualComponents
 
         private bool performOrthogonalPointConnection(Node n1, Point p2, Node n3, List<Node> nodeList)
         {
-            if (isConnectionPossible(n1.Point, p2) && isConnectionPossible(p2, n3.Point))
+            if (isConnectionPossibleDebugWrapper(n1.Point, p2) && isConnectionPossibleDebugWrapper(p2, n3.Point))
             {
                 Node n2 = new Node() { Point = p2 };
                 n1.Vertices.Add(n2);
@@ -395,7 +399,7 @@ namespace WorkspaceManager.View.VisualComponents
 
         private void performOrthogonalPointConnection(Node p1, Node p2)
         {
-            if (isConnectionPossible(p1.Point, p2.Point))
+            if (isConnectionPossibleDebugWrapper(p1.Point, p2.Point))
             {
                 p1.Vertices.Add(p2);
                 p2.Vertices.Add(p1);
@@ -432,7 +436,7 @@ namespace WorkspaceManager.View.VisualComponents
                 var p1 = nodeList[i];
                 // TODO: inner loop restriction! n²-n!
                 // is k=i instead of k=0 correct?
-                for(int k=0; k<loopCount; ++k)
+                for(int k=i; k<loopCount; ++k)
                 {
                     var p2 = nodeList[k];
                     if (p1 == p2)
@@ -448,13 +452,15 @@ namespace WorkspaceManager.View.VisualComponents
                     }
                     else
                     {
-                        Point help1 = new Point(p1.Point.X, p2.Point.Y);
+                        Point help = new Point(p1.Point.X, p2.Point.Y);
 
-                        if (!performOrthogonalPointConnection(p1, help1, p2, nodeList))
+                        if (!performOrthogonalPointConnection(p1, help, p2, nodeList))
                         {
-                            Point help2 = new Point(p2.Point.X, p1.Point.Y);
-                            performOrthogonalPointConnection(p1, help2, p2, nodeList);
-                            // optinal TODO: other possible helping points
+                            help = new Point(p2.Point.X, p1.Point.Y);
+                            if (!performOrthogonalPointConnection(p1, help, p2, nodeList))
+                            {
+                                // optional todo: double edge helping routes
+                            }
                         }
                        
                     }
