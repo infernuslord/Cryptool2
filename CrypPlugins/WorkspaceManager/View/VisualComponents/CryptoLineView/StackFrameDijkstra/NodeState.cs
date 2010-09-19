@@ -7,11 +7,11 @@ namespace WorkspaceManager.View.VisualComponents.StackFrameDijkstra
 {
     class NodeState<T> where T:Node<T> {
 
-        readonly T node;
+        public readonly T Node;
         public NodeState<T> previous{get;set;}
 
         public NodeState(T node, NodeState<T> previous) {
-            this.node = node;
+            this.Node = node;
             this.previous = previous;
         }
 
@@ -20,7 +20,7 @@ namespace WorkspaceManager.View.VisualComponents.StackFrameDijkstra
             LinkedList<T> result = new LinkedList<T>();
             NodeState<T> s = this;
             while (s != null) {
-                result.AddFirst(s.node);
+                result.AddFirst(s.Node);
                 s = s.previous;
             }
 

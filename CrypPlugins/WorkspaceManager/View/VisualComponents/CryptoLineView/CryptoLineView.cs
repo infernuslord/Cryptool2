@@ -285,73 +285,28 @@ namespace WorkspaceManager.View.VisualComponents
 
 
       
-        private bool isConnectionPossible(Point p1, Point p2)
+        private bool isConnectionPossible(Point p1, Point p2, QuadTreeLib.QuadTree<FakeNode> quadTree)
         {
             if (p1.X != p2.X && p1.Y != p2.Y)
                 throw new ArgumentException("only 90° allowed");
 
+            System.Drawing.RectangleF queryRect;
             if (p1.Y != p2.Y)
             {
                 Point up = p2.Y < p1.Y ? p2 : p1;
                 Point down = p2.Y < p1.Y?p1 : p2;
 
-                Panel parent = (Parent as Panel);
-                foreach (var element in parent.Children)
-                {
-                    PluginContainerView plug1 = element as PluginContainerView;
-                    if (plug1 == null)
-                        continue;
-                    Point pos = new Point((plug1.RenderTransform as TranslateTransform).X, (plug1.RenderTransform as TranslateTransform).Y);
-
-                    if (!isBetween(pos.X, pos.X + plug1.ActualWidth, up.X))
-                        continue;
-
-                    // case 1: one point is inside the plugin
-                    if (isBetween(pos.Y, pos.Y + plug1.ActualHeight, up.Y) ||
-                        isBetween(pos.Y, pos.Y + plug1.ActualHeight, down.Y))
-                    {
-                        return false;
-                    }
-
-                    // case 2: goes through
-                    if (pos.Y > up.Y && pos.Y + plug1.ActualHeight < down.Y)
-                    {
-                        return false;
-                    }
-                }
+                queryRect = new System.Drawing.RectangleF((float)up.X, (float)up.Y, 1, (float)(down.Y - up.Y));
             }
             else
             {
                 Point left = p2.X < p1.X ? p2 : p1;
-                Point right = p2.X < p1.X ? p1 : p2; 
+                Point right = p2.X < p1.X ? p1 : p2;
 
-                Panel parent = (Parent as Panel);
-                foreach (var element in parent.Children)
-                {
-                    PluginContainerView plug1 = element as PluginContainerView;
-                    if (plug1 == null)
-                        continue;
-                    Point pos = new Point((plug1.RenderTransform as TranslateTransform).X, (plug1.RenderTransform as TranslateTransform).Y);
-
-                    if (!isBetween(pos.Y, pos.Y + plug1.ActualHeight, left.Y))
-                        continue;
-
-                    // case 1: one point is inside the plugin
-                    if(isBetween(pos.X, pos.X + plug1.ActualWidth, left.X) ||
-                        isBetween(pos.X, pos.X + plug1.ActualWidth, right.X))
-                    {
-                        return false;
-                    }
-
-                    // case 2: goes through
-                    if(pos.X > left.X && pos.X + plug1.ActualWidth < right.X)
-                    {
-                        return false;
-                    }
-                }
+                queryRect = new System.Drawing.RectangleF((float)left.X, (float)left.Y, (float)(right.X-left.X), 1);
             }
 
-            return true;
+            return !quadTree.QueryAny(queryRect);
         }
 
         internal class Node : StackFrameDijkstra.Node<Node>
@@ -379,9 +334,9 @@ namespace WorkspaceManager.View.VisualComponents
             }
         }
 
-        private bool performOrthogonalPointConnection(Node n1, Point p2, Node n3, List<Node> nodeList)
+        private bool performOrthogonalPointConnection(Node n1, Point p2, Node n3, List<Node> nodeList, QuadTreeLib.QuadTree<FakeNode> quadTree)
         {
-            if (isConnectionPossible(n1.Point, p2) && isConnectionPossible(p2, n3.Point))
+            if (isConnectionPossible(n1.Point, p2, quadTree) && isConnectionPossible(p2, n3.Point, quadTree))
             {
                 Node n2 = new Node() { Point = p2 };
                 n1.Vertices.Add(n2);
@@ -397,15 +352,18 @@ namespace WorkspaceManager.View.VisualComponents
             return false;
         }
 
-        private void performOrthogonalPointConnection(Node p1, Node p2)
+        private void performOrthogonalPointConnection(Node p1, Node p2, QuadTreeLib.QuadTree<FakeNode> quadTree)
         {
-            if (isConnectionPossible(p1.Point, p2.Point))
+            if (isConnectionPossible(p1.Point, p2.Point, quadTree))
             {
                 p1.Vertices.Add(p2);
                 p2.Vertices.Add(p1);
             }
         }
-
+        internal class FakeNode : QuadTreeLib.IHasRect
+        {
+            public System.Drawing.RectangleF Rectangle { get; set; }
+        }
         private void makeOrthogonalPoints()
         {
             List<Node> nodeList = new List<Node>();
@@ -417,6 +375,8 @@ namespace WorkspaceManager.View.VisualComponents
             nodeList.Add(startNode);
             nodeList.Add(endNode);
 
+            QuadTreeLib.QuadTree<FakeNode> quadTree = new QuadTreeLib.QuadTree<FakeNode>(new System.Drawing.RectangleF(0,0,(float)parent.ActualWidth,(float) parent.ActualHeight));
+
             foreach (var element in parent.Children)
             {
                 if (element is PluginContainerView)
@@ -426,6 +386,10 @@ namespace WorkspaceManager.View.VisualComponents
                     {
                         nodeList.Add(new Node() { Point = routPoint });
                     }
+                    quadTree.Insert(new FakeNode() { Rectangle = new System.Drawing.RectangleF((float)(p1.RenderTransform as TranslateTransform).X,
+                                                                                                (float)(p1.RenderTransform as TranslateTransform).Y,
+                                                                                                (float)p1.ActualWidth,
+                                                                                                (float)p1.ActualHeight)});
                 }
             }
             
@@ -465,16 +429,16 @@ namespace WorkspaceManager.View.VisualComponents
                     if (p1.Point.X == p2.Point.X ||
                         p1.Point.Y == p2.Point.Y)
                     {
-                        performOrthogonalPointConnection(p1, p2);
+                        performOrthogonalPointConnection(p1, p2, quadTree);
                     }
                     else
                     {
                         Point help = new Point(p1.Point.X, p2.Point.Y);
 
-                        if (!performOrthogonalPointConnection(p1, help, p2, nodeList))
+                        if (!performOrthogonalPointConnection(p1, help, p2, nodeList, quadTree ))
                         {
                             help = new Point(p2.Point.X, p1.Point.Y);
-                            if (!performOrthogonalPointConnection(p1, help, p2, nodeList))
+                            if (!performOrthogonalPointConnection(p1, help, p2, nodeList, quadTree))
                             {
                                 // optional todo: double edge helping routes
                             }
