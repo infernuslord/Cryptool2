@@ -50,6 +50,22 @@ namespace WorkspaceManager.View.Container
 
         #region Properties
 
+        internal Point GetRoutingPoint(int routPoint)
+        {
+            switch (routPoint)
+            {
+                case 0:
+                    return new Point((this.RenderTransform as TranslateTransform).X - 1, (this.RenderTransform as TranslateTransform).Y - 1);
+                case 1:
+                    return new Point((this.RenderTransform as TranslateTransform).X - 1, (this.RenderTransform as TranslateTransform).Y + this.ActualHeight + 1);
+                case 2:
+                    return new Point((this.RenderTransform as TranslateTransform).X + 1 + this.ActualWidth, (this.RenderTransform as TranslateTransform).Y + 1);
+                case 3:
+                    return new Point((this.RenderTransform as TranslateTransform).X + this.ActualWidth + 1, (this.RenderTransform as TranslateTransform).Y + this.ActualHeight + 1);
+            }
+            return default(Point);
+        }
+
         public Point[] RoutingPoints
         {
             get
@@ -769,6 +785,7 @@ namespace WorkspaceManager.View.Container
             Button btn = sender as Button;
             OptionCaption.Text = btn.ToolTip as String;
         }
+
     }
 
     public class PluginContainerViewDeleteViewEventArgs : EventArgs

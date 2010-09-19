@@ -12,21 +12,30 @@ public class Dijkstra<T>  where T : Node<T> {
 
         public double Dist {get;set;}
 
+        private static int uniqueCounter;
+        protected readonly int uniqueIndex;
+
         public State(T node, State parent, double dist) : base(node, parent) {
             this.Dist = dist;
+            uniqueIndex = ++uniqueCounter;
+        }
+        
+        public int CompareTo(State other) {
+            int res =  Dist.CompareTo(other.Dist);
+            //if res and other is equal then apply different CompareTo() value (OrderedSet deletes any State if 
+
+            if (res == 0)
+                return uniqueIndex.CompareTo(other.uniqueIndex);
+             return res;
         }
 
-        public int CompareTo(State other) {
-            return Dist.CompareTo(other.Dist);
-        }
 
     }
     
     public LinkedList<T> findPath(IEnumerable<T> graph, T start, T goal) {
     
         Dictionary<T, State> states = new Dictionary<T, State>();
-        OrderedSet<State> unvisitedNodes = new OrderedSet<State>((a, b) => a.CompareTo(b));
-        //BinaryQueue<State, double> unvisitedNodes = new BinaryQueue<State, double>(m => m.Dist, (a,b) => a.CompareTo(b));
+        OrderedSet<State> unvisitedNodes = new OrderedSet<State>();
 
         foreach(T n in graph) {
             var state = new State(n, null, Double.PositiveInfinity);
@@ -41,7 +50,7 @@ public class Dijkstra<T>  where T : Node<T> {
         while (unvisitedNodes.Count!=0 ) {
             var visitingNode = unvisitedNodes.RemoveFirst();
 
-            if (visitingNode.Dist == Double.PositiveInfinity) {
+           if (visitingNode.Dist == Double.PositiveInfinity) {
                 break;
             }
 
@@ -51,8 +60,9 @@ public class Dijkstra<T>  where T : Node<T> {
             }
 
             foreach (T v in visitingNode.Node.neighbors()) {
-                double altPathCost = visitingNode.Dist + visitingNode.Node.traverseCost(v);
                 State vState = states[v];
+                double altPathCost = visitingNode.Dist + visitingNode.Node.traverseCost(v);
+                
                 if (altPathCost < vState.Dist) {
                     unvisitedNodes.Remove(vState);
                     vState.Dist = altPathCost;
