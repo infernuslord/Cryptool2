@@ -2,76 +2,68 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Wintellect.PowerCollections;
 
 namespace WorkspaceManager.View.VisualComponents.StackFrameDijkstra
 {
-public class Dijkstra<T > : AbstractPathFinder<T> where T : Node<T> {
+public class Dijkstra<T>  where T : Node<T> {
 
     private class State : NodeState<T>, IComparable<State> {
 
-        public double dist {get;set;}
+        public double Dist {get;set;}
 
         public State(T node, State parent, double dist) : base(node, parent) {
-            this.dist = dist;
+            this.Dist = dist;
         }
 
         public int CompareTo(State other) {
-            return (int)(dist - other.dist);
+            return Dist.CompareTo(other.Dist);
         }
 
     }
-
+    
     public LinkedList<T> findPath(IEnumerable<T> graph, T start, T goal) {
-        canceled = false;
+    
         Dictionary<T, State> states = new Dictionary<T, State>();
-        HashSet<T> Q = new HashSet<T>(graph);
+        OrderedSet<State> unvisitedNodes = new OrderedSet<State>((a, b) => a.CompareTo(b));
+        //BinaryQueue<State, double> unvisitedNodes = new BinaryQueue<State, double>(m => m.Dist, (a,b) => a.CompareTo(b));
 
         foreach(T n in graph) {
-            states.Add(n, new State(n, null, Double.PositiveInfinity));
+            var state = new State(n, null, Double.PositiveInfinity);
+            if(n.Equals(start))
+            {
+                state.Dist = 0;
+            }
+            states.Add(n, state);
+            unvisitedNodes.Add(state);
         }
 
-        states[start].dist = 0;
-        /*
-        Predicate<Map.Entry<T, State>> notVisited = new Predicate<Map.Entry<T, State>>() {
+        while (unvisitedNodes.Count!=0 ) {
+            var visitingNode = unvisitedNodes.RemoveFirst();
 
-            public boolean apply(Entry<T, State> t) {
-                return Q.contains(t.getKey());
-            }
-
-        };
-        Ordering<Map.Entry<T, State>> orderByEntryValue = Utilities.orderByEntryValue();
-        */
-        while (!(Q.Count==0 || canceled)) {
-            //Collection<Map.Entry<T, State>> inQ = Collections2.filter(states.entrySet(), notVisited);
-            var inQ = states.Where(m => Q.Contains(m.Key));
-            //TODO prefer in-place sort?
-            var uEntry = inQ.OrderBy( (a) => a.Value.dist).First();
-
-            if (uEntry.Value.dist == Double.PositiveInfinity) {
+            if (visitingNode.Dist == Double.PositiveInfinity) {
                 break;
             }
 
-            T u = uEntry.Key;
-            State state = uEntry.Value;
            
-            Q.Remove(u);
-            if (goal.Equals(u)) {
-                return state.makePath();
+            if (goal.Equals(visitingNode.Node)) {
+                return visitingNode.makePath();
             }
 
-            foreach (T v in u.neighbors()) {
-                double alt = state.dist + u.traverseCost(v);
+            foreach (T v in visitingNode.Node.neighbors()) {
+                double altPathCost = visitingNode.Dist + visitingNode.Node.traverseCost(v);
                 State vState = states[v];
-                if (alt < vState.dist) {
-                    vState.dist = alt;
-                    vState.previous = state;
+                if (altPathCost < vState.Dist) {
+                    unvisitedNodes.Remove(vState);
+                    vState.Dist = altPathCost;
+                    vState.previous = visitingNode;
+                    unvisitedNodes.Add(vState);
                 }
             }
         }
 
         return null;
     }
-
 }
 
 }

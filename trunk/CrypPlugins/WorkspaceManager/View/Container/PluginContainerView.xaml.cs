@@ -46,7 +46,6 @@ namespace WorkspaceManager.View.Container
 
         private List<UIElement> optionList = new List<UIElement>();
         private int optionPointer = 0;
-
         #endregion
 
         #region Properties
@@ -55,15 +54,15 @@ namespace WorkspaceManager.View.Container
         {
             get
             {
-                return new Point[] {
-                new Point((this.RenderTransform as TranslateTransform).X-1 ,(this.RenderTransform as TranslateTransform).Y-1),
-                //new Point((this.RenderTransform as TranslateTransform).X + (this.ActualWidth / 2),(this.RenderTransform as TranslateTransform).Y-1),
-                //new Point((this.RenderTransform as TranslateTransform).X-1,(this.RenderTransform as TranslateTransform).Y + (this.ActualHeight / 2)),
-                new Point((this.RenderTransform as TranslateTransform).X-1,(this.RenderTransform as TranslateTransform).Y + this.ActualHeight+1),
-                new Point((this.RenderTransform as TranslateTransform).X+1 + this.ActualWidth,(this.RenderTransform as TranslateTransform).Y+1),
-                //new Point((this.RenderTransform as TranslateTransform).X + (this.ActualWidth / 2), (this.RenderTransform as TranslateTransform).Y + this.ActualHeight+1),
-                //new Point((this.RenderTransform as TranslateTransform).X + this.ActualWidth+1, (this.RenderTransform as TranslateTransform).Y + (this.ActualHeight / 2)),
-                new Point((this.RenderTransform as TranslateTransform).X + this.ActualWidth+1, (this.RenderTransform as TranslateTransform).Y + this.ActualHeight+1)};
+                return  new Point[] {
+                        new Point((this.RenderTransform as TranslateTransform).X-1 ,(this.RenderTransform as TranslateTransform).Y-1),
+                        //new Point((this.RenderTransform as TranslateTransform).X + (this.ActualWidth / 2),(this.RenderTransform as TranslateTransform).Y-1),
+                        //new Point((this.RenderTransform as TranslateTransform).X-1,(this.RenderTransform as TranslateTransform).Y + (this.ActualHeight / 2)),
+                        new Point((this.RenderTransform as TranslateTransform).X-1,(this.RenderTransform as TranslateTransform).Y + this.ActualHeight+1),
+                        new Point((this.RenderTransform as TranslateTransform).X+1 + this.ActualWidth,(this.RenderTransform as TranslateTransform).Y+1),
+                        //new Point((this.RenderTransform as TranslateTransform).X + (this.ActualWidth / 2), (this.RenderTransform as TranslateTransform).Y + this.ActualHeight+1),
+                        //new Point((this.RenderTransform as TranslateTransform).X + this.ActualWidth+1, (this.RenderTransform as TranslateTransform).Y + (this.ActualHeight / 2)),
+                        new Point((this.RenderTransform as TranslateTransform).X + this.ActualWidth+1, (this.RenderTransform as TranslateTransform).Y + this.ActualHeight+1)};
             }
         }
 
@@ -656,6 +655,8 @@ namespace WorkspaceManager.View.Container
 
             Model.Height = PluginBase.ActualHeight;
             Model.Width = PluginBase.ActualWidth;
+            
+     
         }
 
         private void MinMaxBorder_MouseLeftButtonDown(object sender, RoutedEventArgs e)
