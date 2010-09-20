@@ -46,6 +46,9 @@ namespace WorkspaceManager.Model
     [Serializable]
     public class PluginModel : VisualElementModel
     {
+        [NonSerialized]
+        public MessageExecution MessageExecution = null;
+
         #region private members
 
         [NonSerialized]

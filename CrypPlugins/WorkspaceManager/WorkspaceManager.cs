@@ -64,7 +64,6 @@ namespace WorkspaceManager
             WorkspaceModel = new WorkspaceModel();
             WorkspaceModel.WorkspaceManagerEditor = this;
             WorkspaceSpaceEditorView = new WorkSpaceEditorView(WorkspaceModel);
-            ExecutionEngine = new ExecutionEngine(this);
             HasChanges = false;                                
         }
 
@@ -377,11 +376,13 @@ namespace WorkspaceManager
                     this.WorkspaceSpaceEditorView.ResetConnections();
                     this.WorkspaceSpaceEditorView.State = EditorState.BUSY;                   
                 }
-                , null);                
+                , null);
+
+                this.ExecutionEngine = new ExecutionEngine(this);
 
                 try
                 {
-                    ExecutionEngine.GuiUpdateInterval = long.Parse(((WorkspaceManagerSettings)this.Settings).GuiUpdateInterval);
+                    ExecutionEngine.GuiUpdateInterval = int.Parse(((WorkspaceManagerSettings)this.Settings).GuiUpdateInterval);
                     if (ExecutionEngine.GuiUpdateInterval <= 0)
                     {
                         GuiLogMessage("GuiUpdateInterval can not be <=0; Use GuiUpdateInterval = 1", NotificationLevel.Warning);
@@ -455,8 +456,8 @@ namespace WorkspaceManager
         /// Pause the execution
         /// </summary>
         public void Pause()
-        {
-            ExecutionEngine.Pause();
+        {   
+            //to be implemented
         }
 
         /// <summary>
@@ -496,6 +497,8 @@ namespace WorkspaceManager
                 
             }
             executing = false;
+            this.ExecutionEngine = null;
+            GC.Collect();
         }
 
         /// <summary>
@@ -511,7 +514,7 @@ namespace WorkspaceManager
         /// </summary>
         public void Dispose()
         {
-            if (ExecutionEngine.IsRunning)
+            if (ExecutionEngine != null && ExecutionEngine.IsRunning)
             {
                 ExecutionEngine.Stop();
             }

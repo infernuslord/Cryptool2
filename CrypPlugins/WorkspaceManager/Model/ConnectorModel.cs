@@ -190,7 +190,7 @@ namespace WorkspaceManager.Model
         /// Data of this Connector
         /// </summary>
         [NonSerialized]
-        public volatile Data Data = null;
+        public object Data = null;
 
         /// <summary>
         /// Name of the represented Property of the IPlugin of this ConnectorModel
@@ -236,16 +236,12 @@ namespace WorkspaceManager.Model
                     return;
                 }
 
-                Data Data = new Data();
-                Data.value = data;
-                this.Data = Data;
+                this.Data = data;
 
                 List<ConnectionModel> outputConnections = this.OutputConnections;
                 foreach (ConnectionModel connectionModel in outputConnections)
                 {
-                    Data = new Data();
-                    Data.value = data;
-                    connectionModel.To.Data = Data;
+                    connectionModel.To.Data = data;
                     connectionModel.To.HasData = true;
                     connectionModel.Active = true;
                     connectionModel.GuiNeedsUpdate = true;
@@ -255,9 +251,10 @@ namespace WorkspaceManager.Model
                 //we have to check if there are executable now
                 foreach (ConnectionModel connectionModel in outputConnections)
                 {
-                    MessageExecution msg = new MessageExecution();
-                    msg.PluginModel = connectionModel.To.PluginModel;
-                    connectionModel.To.PluginModel.PluginProtocol.BroadcastMessageReliably(msg);
+                    if (connectionModel.To.PluginModel.PluginProtocol.QueueLength == 0)
+                    {
+                        connectionModel.To.PluginModel.PluginProtocol.BroadcastMessage(connectionModel.To.PluginModel.MessageExecution);
+                    }
                 }
             }
             else
@@ -277,9 +274,10 @@ namespace WorkspaceManager.Model
                     if (!connectionModel.From.PluginModel.Startable ||
                         (connectionModel.From.PluginModel.Startable && connectionModel.From.PluginModel.RepeatStart))
                     {
-                        MessageExecution message_exec = new MessageExecution();
-                        message_exec.PluginModel = connectionModel.From.PluginModel;
-                        connectionModel.From.PluginModel.PluginProtocol.BroadcastMessageReliably(message_exec);
+                        if (connectionModel.From.PluginModel.PluginProtocol.QueueLength == 0)
+                        {
+                            connectionModel.From.PluginModel.PluginProtocol.BroadcastMessage(connectionModel.From.PluginModel.MessageExecution);
+                        }
                     }
                 }
             }
@@ -318,10 +316,4 @@ namespace WorkspaceManager.Model
         #endregion
                 
     }
-
-    public class Data
-    {
-        public volatile object value;
-    }
-
 }
