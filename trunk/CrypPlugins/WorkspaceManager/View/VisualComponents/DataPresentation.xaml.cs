@@ -42,7 +42,7 @@ namespace WorkspaceManager.View.VisualComponents
         public void update()
         {
             if(Connector.Model.HasData)
-                Data.Text = Connector.Model.Data.value.ToString();
+                Data.Text = Connector.Model.Data.ToString();
 
             return;
         }
