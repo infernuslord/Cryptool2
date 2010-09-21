@@ -3,77 +3,111 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Wintellect.PowerCollections;
+using System.Windows;
 
 namespace WorkspaceManager.View.VisualComponents.StackFrameDijkstra
 {
-public class Dijkstra<T>  where T : Node<T> {
+    public class Node : IComparable<Node>
+    {
 
-    private class State : NodeState<T>, IComparable<State> {
+        public double Dist { get; set; }
+        public Node previous { get; set; }
 
-        public double Dist {get;set;}
+        public Point Point { get; set; }
+        public HashSet<Node> Vertices { get; private set; }
+
+        public double traverseCost(Node dest)
+        {
+            if (!Vertices.Contains(dest))
+                return Double.PositiveInfinity;
+
+            if (dest.Point.X == Point.X)
+                return Math.Abs(dest.Point.Y - Point.Y);
+            return Math.Abs(dest.Point.X - Point.X);
+        }
+
+        public IEnumerable<Node> neighbors()
+        {
+            return Vertices;
+        }
+
 
         private static int uniqueCounter;
         protected readonly int uniqueIndex;
 
-        public State(T node, State parent, double dist) : base(node, parent) {
-            this.Dist = dist;
+        public Node()
+        {
+            this.Dist = Double.PositiveInfinity;
+            this.previous = null;
+            this.Vertices = new HashSet<Node>();
             uniqueIndex = ++uniqueCounter;
         }
-        
-        public int CompareTo(State other) {
-            int res =  Dist.CompareTo(other.Dist);
+
+        public int CompareTo(Node other)
+        {
+            int res = Dist.CompareTo(other.Dist);
             //if res and other is equal then apply different CompareTo() value (OrderedSet deletes any State if 
 
             if (res == 0)
                 return uniqueIndex.CompareTo(other.uniqueIndex);
-             return res;
+            return res;
         }
 
+        public LinkedList<Node> makePath()
+        {
+            LinkedList<Node> result = new LinkedList<Node>();
+            Node s = this;
+            while (s != null)
+            {
+                result.AddFirst(s);
+                s = s.previous;
+            }
+
+            return result;
+        }
 
     }
+
+    public class Dijkstra<T>  where T : Node {
+
+        public LinkedList<Node> findPath(IEnumerable<T> graph, T start, T goal) {
     
-    public LinkedList<T> findPath(IEnumerable<T> graph, T start, T goal) {
-    
-        Dictionary<T, State> states = new Dictionary<T, State>();
-        OrderedSet<State> unvisitedNodes = new OrderedSet<State>();
+            OrderedSet<T> unvisitedNodes = new OrderedSet<T>();
 
-        foreach(T n in graph) {
-            var state = new State(n, null, Double.PositiveInfinity);
-            if(n.Equals(start))
-            {
-                state.Dist = 0;
+            foreach(T n in graph) {
+                if(n.Equals(start))
+                {
+                    n.Dist = 0;
+                }
+                unvisitedNodes.Add(n);
             }
-            states.Add(n, state);
-            unvisitedNodes.Add(state);
-        }
 
-        while (unvisitedNodes.Count!=0 ) {
-            var visitingNode = unvisitedNodes.RemoveFirst();
+            while (unvisitedNodes.Count!=0 ) {
+                var visitingNode = unvisitedNodes.RemoveFirst();
 
-           if (visitingNode.Dist == Double.PositiveInfinity) {
-                break;
-            }
+               if (visitingNode.Dist == Double.PositiveInfinity) {
+                    break;
+                }
 
            
-            if (goal.Equals(visitingNode.Node)) {
-                return visitingNode.makePath();
-            }
+                if (goal.Equals(visitingNode)) {
+                    return visitingNode.makePath();
+                }
 
-            foreach (T v in visitingNode.Node.neighbors()) {
-                State vState = states[v];
-                double altPathCost = visitingNode.Dist + visitingNode.Node.traverseCost(v);
+                foreach (T v in visitingNode.neighbors()) {
+                    double altPathCost = visitingNode.Dist + visitingNode.traverseCost(v);
                 
-                if (altPathCost < vState.Dist) {
-                    unvisitedNodes.Remove(vState);
-                    vState.Dist = altPathCost;
-                    vState.previous = visitingNode;
-                    unvisitedNodes.Add(vState);
+                    if (altPathCost < v.Dist) {
+                        unvisitedNodes.Remove(v);
+                        v.Dist = altPathCost;
+                        v.previous = visitingNode;
+                        unvisitedNodes.Add(v);
+                    }
                 }
             }
-        }
 
-        return null;
+            return null;
+        }
     }
-}
 
 }
