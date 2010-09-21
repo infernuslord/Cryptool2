@@ -13,7 +13,8 @@ using System.Collections.Generic;
 #pragma warning disable 419  // Ambigious cref in XML comment
 
 // Everything should be CLS compliant.
-[assembly: CLSCompliant(true)]
+// Wander 2010-09-21: attribute will be set by setup build process automatically
+//[assembly: CLSCompliant(true)]
 
 
 namespace Wintellect.PowerCollections
