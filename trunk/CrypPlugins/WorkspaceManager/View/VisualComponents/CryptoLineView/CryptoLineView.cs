@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Threading;
 using WorkspaceManager.View.Container;
 using System.Collections;
+using WorkspaceManager.View.VisualComponents.StackFrameDijkstra;
 
 namespace WorkspaceManager.View.VisualComponents
 {
@@ -378,33 +379,6 @@ namespace WorkspaceManager.View.VisualComponents
             return !quadTree.QueryAny(queryRect);
         }
 
-        internal class Node : StackFrameDijkstra.Node<Node>
-        {
-            public Point Point { get; set; }
-            public HashSet<Node> Vertices { get; private set; }
-            public Node()
-            {
-                Vertices = new HashSet<Node>();
-            }
-
-            public double traverseCost(Node dest)
-            {
-                if (!Vertices.Contains(dest))
-                    return Double.PositiveInfinity;
-
-                if (dest.Point.X == Point.X)
-                    return Math.Abs(dest.Point.Y - Point.Y);
-                return Math.Abs(dest.Point.X - Point.X);
-            }
-
-            public IEnumerable<Node> neighbors()
-            {
-                return Vertices;
-            }
-
- 
-        }
-
         private bool performOrthogonalPointConnection(Node n1, Point p2, Node n3, List<Node> nodeList, QuadTreeLib.QuadTree<FakeNode> quadTree)
         {
             if (isConnectionPossible(n1.Point, p2, quadTree) && isConnectionPossible(p2, n3.Point, quadTree))
@@ -446,7 +420,10 @@ namespace WorkspaceManager.View.VisualComponents
             nodeList.Add(startNode);
             nodeList.Add(endNode);
 
-            QuadTreeLib.QuadTree<FakeNode> quadTree = new QuadTreeLib.QuadTree<FakeNode>(new System.Drawing.RectangleF(0,0,(float)parent.ActualWidth,(float) parent.ActualHeight));
+            float actualWidth =(float) parent.ActualWidth, actualHeight =(float) parent.ActualWidth;
+            //Consider zoom factor
+            QuadTreeLib.QuadTree<FakeNode> quadTree = new QuadTreeLib.QuadTree<FakeNode>
+                (new System.Drawing.RectangleF(-actualWidth, -actualHeight, actualWidth*5, actualHeight*5));
 
             //foreach (var element in parent.Children)
             //{
