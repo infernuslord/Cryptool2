@@ -114,8 +114,10 @@ namespace DiscreteLogarithm
             }
             catch (LinearDependentException ex)
             {
-                //We have to throw away one row and try again later:
-                matrix.RemoveAt(ex.RowToDelete);
+                //We have to throw away dependent rows and try again later:
+                Array.Sort(ex.RowsToDelete, (a, b) => (b - a));
+                foreach (int row in ex.RowsToDelete)
+                    matrix.RemoveAt(row);
                 return null;
             }
 

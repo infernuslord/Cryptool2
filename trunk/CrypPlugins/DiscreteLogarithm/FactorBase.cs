@@ -15,6 +15,9 @@ namespace DiscreteLogarithm
          **/
         public void Generate(int max)
         {
+            if (max < 0)
+                max = int.MaxValue;
+
             primes = new List<int>();
 
             /** Implementation of sieve of Eratosthenes **/
