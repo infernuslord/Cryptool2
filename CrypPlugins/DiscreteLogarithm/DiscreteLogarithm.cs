@@ -45,6 +45,7 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         private BigInteger inputBase;
         private BigInteger inputMod;
         private BigInteger outputLogarithm;
+        private bool running;
 
         #endregion
 
@@ -105,6 +106,8 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         /// </summary>
         public void Execute()
         {
+            running = true;
+
             if (inputMod.IsZero || inputMod.IsOne)
             {
                 GuiLogMessage("Input modulo not valid!", NotificationLevel.Error);
@@ -138,6 +141,7 @@ namespace Cryptool.Plugins.DiscreteLogarithm
 
         private void IndexCalculus()
         {
+            //TODO: Make index calculus method stoppable ;)
             IndexCalculusMethod ic = new IndexCalculusMethod();
             try
             {
@@ -154,11 +158,15 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         {
             BigInteger t = inputBase;
             BigInteger counter = 1;
-            while (t != 1 && t != inputValue)
+            while (t != 1 && t != inputValue && running)
             {
                 t = (t * inputBase) % inputMod;
                 counter++;
             }
+
+            if (!running)
+                return;
+
             if (t == inputValue)
                 OutputLogarithm = counter;
             else
@@ -184,6 +192,7 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         /// </summary>
         public void Stop()
         {
+            running = false;
         }
 
         /// <summary>

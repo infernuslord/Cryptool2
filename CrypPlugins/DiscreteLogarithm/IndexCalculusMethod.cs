@@ -67,9 +67,12 @@ namespace DiscreteLogarithm
         }
 
         private int GetSmoothnessBound(BigInteger mod)
-        {
+        {            
             double logm = BigInteger.Log(mod);
             int B = (int)(Math.Exp(Math.Sqrt(logm * Math.Log(logm)))/2);
+
+            if (B < 1000)
+                B = 1000;
             return B;
         }
     }

@@ -38,7 +38,10 @@ namespace DiscreteLogarithm
                         y++;
                     if (y == size)
                     {
-                        throw new LinearDependentException(rowSwaps[size-1]);
+                        int[] rowsToDelete = new int[size - (x + 1)];
+                        for (int i = x + 1; i < size; i++)
+                            rowsToDelete[i-(x+1)] = rowSwaps[i];
+                        throw new LinearDependentException(rowsToDelete);
                     }
                     SwapRows(x, y);
                 }
