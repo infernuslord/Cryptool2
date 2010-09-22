@@ -1159,7 +1159,7 @@ namespace Transposition
             return null;
         }
 
-        public byte[] getKeyFromString(string key, ref int[] arrayPointers, ref int[] arraySuccessors, ref int[] arrayUppers)
+        public byte[] getKeyFromString(string key)
         {
             return null;
         }
