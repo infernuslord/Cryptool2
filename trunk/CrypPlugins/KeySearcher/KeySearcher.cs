@@ -192,8 +192,7 @@ namespace KeySearcher
             {
                 if (top1ValueKey.key != null) //added by Arnold - 2010.02.22
                 {
-                    int[] a = null, b = null, c = null;
-                    return ControlMaster.getKeyFromString(top1ValueKey.key, ref a, ref b, ref c);
+                    return ControlMaster.getKeyFromString(top1ValueKey.key);
                 }
                 else
                     return null;
@@ -337,16 +336,13 @@ namespace KeySearcher
             Stack threadStack = (Stack)parameters[7];
 
             KeyPattern.KeyPattern pattern = patterns[threadid];
-
-            bool useKeyblocks = false;
-
+            
             try
             {
                 while (pattern != null)
                 {
                     BigInteger size = pattern.size();
                     keysLeft[threadid] = size;
-                    int nextWildcard;
 
                     do
                     {
@@ -378,20 +374,10 @@ namespace KeySearcher
                             }
                         }
 
-
                         ValueKey valueKey = new ValueKey();
-                        int blocksize = 0;
-                        nextWildcard = -3;
                         try
                         {
-                            string key = "";
-                            if (useKeyblocks)
-                                key = pattern.getKeyBlock(ref blocksize, ref nextWildcard);
-                            if (key == null)
-                                useKeyblocks = false;
-                            if (!useKeyblocks)
-                                key = pattern.getKey();
-                            valueKey.key = key;
+                            valueKey.key = pattern.getKey();
                         }
                         catch (Exception ex)
                         {
@@ -399,35 +385,16 @@ namespace KeySearcher
                             return;
                         }
 
-                        int[] arrayPointers = null;
-                        int[] arraySuccessors = null;
-                        int[] arrayUppers = null;
-                        byte[] keya = ControlMaster.getKeyFromString(valueKey.key, ref arrayPointers, ref arraySuccessors, ref arrayUppers);
-                        if (keya == null)
-                        {
-                            useKeyblocks = false;
-                            nextWildcard = -2;
-                            continue;   //try again
-                        }
+                        byte[] keya = ControlMaster.getKeyFromString(valueKey.key);
 
-                        if (arrayPointers == null)  //decrypt only one key
-                        {
-                            if (!decryptAndCalculate(sender, bytesToUse, ref valueKey, keya, 0, null))
-                                return;
-                            doneKeysArray[threadid]++;
-                            keycounterArray[threadid]++;
-                            keysLeft[threadid]--;
-                        }
-                        else  //decrypt several keys
-                        {
-                            int counter = 0;
-                            if (!bruteforceBlock(sender, bytesToUse, ref valueKey, keya, arrayPointers, arraySuccessors, arrayUppers, 0, ref counter, pattern))
-                                return;
-                            doneKeysArray[threadid] += blocksize;
-                            keycounterArray[threadid] += blocksize;
-                            keysLeft[threadid] -= blocksize;
-                        }
-                    } while (pattern.nextKey(nextWildcard) && !stop);
+                        if (!decryptAndCalculate(sender, bytesToUse, ref valueKey, keya, 0, null))
+                            return;
+
+                        doneKeysArray[threadid]++;
+                        keycounterArray[threadid]++;
+                        keysLeft[threadid]--;
+
+                    } while (pattern.nextKey() && !stop);
 
                     if (stop)
                         return;
@@ -452,37 +419,6 @@ namespace KeySearcher
         }
 
         #region bruteforce methods
-
-        private bool bruteforceBlock(IControlEncryption sender, int bytesToUse, ref ValueKey valueKey, byte[] keya, int[] arrayPointers,
-            int[] arraySuccessors, int[] arrayUppers, int arrayPointer, ref int counter, KeyPattern.KeyPattern pattern)
-        {
-            byte store = keya[arrayPointers[arrayPointer]];
-            while (!stop)
-            {
-                if (arrayPointer + 1 < arrayPointers.Length && arrayPointers[arrayPointer + 1] != -1)
-                {
-                    if (!bruteforceBlock(sender, bytesToUse, ref valueKey, keya, arrayPointers, arraySuccessors, arrayUppers, arrayPointer + 1, ref counter, pattern))
-                        return false;
-                }
-                else
-                {
-                    if (!decryptAndCalculate(sender, bytesToUse, ref valueKey, keya, counter, pattern))
-                        return false;
-                }
-
-                if (keya[arrayPointers[arrayPointer]] + arraySuccessors[arrayPointer] <= arrayUppers[arrayPointer])
-                {
-                    keya[arrayPointers[arrayPointer]] += (byte)arraySuccessors[arrayPointer];
-                    counter++;
-                }
-                else
-                    break;
-            }
-            keya[arrayPointers[arrayPointer]] = store;
-            if (stop)
-                return false;
-            return true;
-        }
 
         private bool decryptAndCalculate(IControlEncryption sender, int bytesToUse, ref ValueKey valueKey, byte[] keya, int counter, KeyPattern.KeyPattern pattern)
         {

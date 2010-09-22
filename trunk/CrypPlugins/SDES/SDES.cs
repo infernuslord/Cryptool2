@@ -637,7 +637,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public byte[] getKeyFromString(string key, ref int[] arrayPointers, ref int[] arraySuccessors, ref int[] arrayUppers)
+        public byte[] getKeyFromString(string key)
         {
             byte[] bkey = new byte[10];
             int count = 0;

@@ -258,7 +258,7 @@ namespace KeySearcher.KeyPattern
             return counter;
         }
 
-        /** used to jump to the next Key.         
+        /** used to jump to the next key.         
          * if nextWildcard == -1, we return false
          * if nextWildcard == -2, we return true
          * if nextWildcard == -3, we increase the rightmost wildcard
@@ -281,6 +281,13 @@ namespace KeySearcher.KeyPattern
             while (overflow && (wildcardCount >= 0))
                 overflow = ((Wildcard)wildcardList[wildcardCount--]).succ();
             return !overflow;
+        }
+
+        /** used to jump to the next key.
+         */
+        public bool nextKey()
+        {
+            return nextKey(-3);
         }
 
         public string getKey()
