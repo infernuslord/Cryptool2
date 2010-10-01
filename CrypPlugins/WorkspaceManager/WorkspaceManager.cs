@@ -655,6 +655,15 @@ namespace WorkspaceManager
         {
             this.OnSelectedPluginChanged(this, args);
         }
+
+        #region IEditor Members
+
+
+        public void Visible()
+        {            
+        }
+
+        #endregion
     }
 }
 

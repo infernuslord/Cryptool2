@@ -215,5 +215,14 @@ namespace Cryptool.P2PEditor
         {
             if (OnOpenProjectFile != null) OnOpenProjectFile(this, filename);
         }
+
+        #region IEditor Members
+
+
+        public void Visible()
+        {            
+        }
+
+        #endregion
     }
 }
