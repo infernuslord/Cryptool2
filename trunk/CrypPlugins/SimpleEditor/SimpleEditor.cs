@@ -263,5 +263,14 @@ namespace SimpleEditor
         }
 
         #endregion
+
+        #region IEditor Members
+
+
+        public void Visible()
+        {
+        }
+
+        #endregion
     }
 }
