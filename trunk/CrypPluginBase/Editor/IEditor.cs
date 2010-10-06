@@ -49,7 +49,7 @@ namespace Cryptool.PluginBase.Editor
         /// </summary>
         void ShowSelectedPluginDescription();
 
-        void Visible();
+        void Active();
 
         bool CanUndo { get; }
         bool CanRedo { get; }

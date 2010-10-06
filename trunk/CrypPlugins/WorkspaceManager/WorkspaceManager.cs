@@ -659,7 +659,7 @@ namespace WorkspaceManager
         #region IEditor Members
 
 
-        public void Visible()
+        public void Active()
         {            
         }
 

@@ -219,7 +219,7 @@ namespace Cryptool.P2PEditor
         #region IEditor Members
 
 
-        public void Visible()
+        public void Active()
         {            
         }
 
