@@ -50,7 +50,7 @@ namespace Cryptool.Plugins.SZ42
 
         #region TaskPane Settings
 
-        [TaskPane("Action", "Select the Algorithm action", null, 0, true, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
+        [TaskPane("Action", "Select the Algorithm action", null, 0, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
         public int Action
         {
             get
@@ -67,7 +67,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Limitation", "Select the limitation type", null, 1, true, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Chi2 One Back", "None" })]
+        [TaskPane("Limitation", "Select the limitation type", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Chi2 One Back", "None" })]
         public int Limitation
         {
             get
@@ -84,7 +84,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Wheels Pattern", "Set the wheels pattern", null, 2, true, DisplayLevel.Beginner, ControlType.TextBox, "")]
+        [TaskPane("Wheels Pattern", "Set the wheels pattern", null, 2, false, DisplayLevel.Beginner, ControlType.TextBox, "")]
         public string Pattern
         {
             get
@@ -101,7 +101,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Wheels Position", "Set the wheels position", null, 3, true, DisplayLevel.Beginner, ControlType.TextBox, "")]
+        [TaskPane("Wheels Position", "Set the wheels position", null, 3, false, DisplayLevel.Beginner, ControlType.TextBox, "")]
         public string Position
         {
             get
@@ -118,7 +118,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Input Parsed", "Set if the input is parsed or not", null, 4, true, DisplayLevel.Beginner, ControlType.CheckBox, "")]
+        [TaskPane("Input Parsed", "Set if the input is parsed or not", null, 4, false, DisplayLevel.Beginner, ControlType.CheckBox, "")]
         public bool InputParsed
         {
             get
@@ -135,7 +135,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Output Parsed", "Set if the output is parsed or not", null, 5, true, DisplayLevel.Beginner, ControlType.CheckBox, "")]
+        [TaskPane("Output Parsed", "Set if the output is parsed or not", null, 5, false, DisplayLevel.Beginner, ControlType.CheckBox, "")]
         public bool OutputParsed
         {
             get
