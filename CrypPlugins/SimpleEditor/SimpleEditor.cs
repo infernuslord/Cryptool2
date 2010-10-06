@@ -267,7 +267,7 @@ namespace SimpleEditor
         #region IEditor Members
 
 
-        public void Visible()
+        public void Active()
         {
         }
 
