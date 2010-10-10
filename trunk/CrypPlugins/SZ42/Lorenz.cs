@@ -29,9 +29,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace Cryptool.Plugins.SZ42
 {
     [Author("Wilmer Daza", "mr.wadg@gmail.com", "University of Magdalena", "http://www.unimagdalena.edu.co")]
-    //[PluginInfo(false, "Lorenz SZ42", "Represents the SZ42 Lorenz machine", null, "CrypWin/images/default.png")]
-    //[PluginInfo(false, "Lorenz SZ42", "Represents the SZ42 Lorenz machine", "SZ42/DetailedDescription/Description.xaml", "SZ42/Images/sz42.png")]
-    [PluginInfo(false, "Lorenz SZ42", "Represents the SZ42 Lorenz machine", "", "SZ42/Images/sz42.png")]
+    [PluginInfo(false, "Lorenz SZ42", "Represents the SZ42 Lorenz machine", "SZ42/DetailedDescription/Description.xaml", "SZ42/Images/sz42.png")]
     [EncryptionType(EncryptionType.Classic)]
     
     public class Lorenz : IEncryption
