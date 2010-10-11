@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="WorkspaceManager.View.VisualComponents.TaskPaneCtrl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    Height="313" Width="667">
+
+    <StackPanel Name="navPaneSettings" Orientation="Vertical" Visibility="Visible">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="0">
+                <StackPanel>
+                    <StackPanel Name="stackPanelContent" CanVerticallyScroll="True" CanHorizontallyScroll="True" />
+                </StackPanel>
+            </ScrollViewer>
+            <TextBox Grid.Row="1" Name="textBoxTooltip" IsReadOnly="True" FontWeight="Bold" BorderBrush="Transparent" TextWrapping="Wrap"></TextBox>
+        </Grid>
+    </StackPanel>
+
+</UserControl>
+
