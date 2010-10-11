@@ -146,8 +146,8 @@
             Name="PART_Indicator" 
             CornerRadius="5" 
             Background="{TemplateBinding Foreground}" 
-            BorderBrush="Transparent" 
-            BorderThickness="1" 
+            BorderBrush="#4eb34e" 
+            BorderThickness="1.5" 
             HorizontalAlignment="Left" />
                     </Grid>
                 </ControlTemplate>
