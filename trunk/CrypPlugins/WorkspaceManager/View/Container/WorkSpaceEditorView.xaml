@@ -77,8 +77,8 @@
             <Grid.Background>
                 <SolidColorBrush Opacity="0.2" Color="Gray"/>
             </Grid.Background>
-            <Grid x:Name="ProgressbarPanel">
-                
+            <Grid x:Name="ProgressbarPanel" Height="40" VerticalAlignment="Bottom">
+                <Grid x:Name="PercentageTextPanel" VerticalAlignment="Center" HorizontalAlignment="Center"></Grid>
             </Grid>
             <DockPanel LastChildFill="True">
                 <DockPanel DockPanel.Dock="Top">
@@ -119,8 +119,8 @@
                         </Button>
                     </Border>
                 </StackPanel>
-                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                    <Grid x:Name="PrstPanel" Margin="100" Panel.ZIndex="-100">
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="40">
+                    <Grid x:Name="PrstPanel" Panel.ZIndex="-100">
                         <Grid.LayoutTransform>
                             <ScaleTransform x:Name="Scale2" ScaleX="{Binding Source={x:Static p:Settings.Default}, Path=FullscreenScale, Mode=OneWay}" ScaleY="{Binding Source={x:Static p:Settings.Default}, Path=FullScreenScale, Mode=OneWay}"></ScaleTransform>
                         </Grid.LayoutTransform>

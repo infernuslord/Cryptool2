@@ -74,10 +74,6 @@ namespace WorkspaceManager.View.VisualComponents
         protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             base.OnPropertyChanged(e);
-            foreach (CryptoLineView line in UpdateList)
-            {
-                line.InvalidateVisual();
-            }
 
             Panel p = (this.Parent as Panel);
             if (p == null)

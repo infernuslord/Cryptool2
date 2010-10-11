@@ -184,6 +184,9 @@
     <Compile Include="View\VisualComponents\Search.xaml.cs">
       <DependentUpon>Search.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\VisualComponents\TaskPaneCtrl.xaml.cs">
+      <DependentUpon>TaskPaneCtrl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\VisualComponents\TextInputWrapper.xaml.cs">
       <DependentUpon>TextInputWrapper.xaml</DependentUpon>
     </Compile>
@@ -259,6 +262,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\VisualComponents\Search.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\VisualComponents\TaskPaneCtrl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

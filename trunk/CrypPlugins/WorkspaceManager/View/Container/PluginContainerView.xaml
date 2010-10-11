@@ -108,39 +108,39 @@
 
             <Grid Name="MainGrid">
                 <Grid Name="ConnectorPanel" Panel.ZIndex="11111111">
-                    <StackPanel x:Name="West" Panel.ZIndex="1111" Background="{StaticResource ResourceKey=CheatBrush}" Orientation="Vertical" HorizontalAlignment="Left" Width="20" Height="{Binding ElementName=Window, Path=ActualHeight}"></StackPanel>
+                    <StackPanel x:Name="West" Panel.ZIndex="1111" Background="{StaticResource ResourceKey=CheatBrush}" Orientation="Vertical" HorizontalAlignment="Left" Width="20" Height="{Binding ElementName=Window, Path=ActualHeight}" Margin="5,0,0,0"></StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <StackPanel Orientation="Vertical">
+                        <!--<StackPanel Orientation="Vertical">
                             <Thumb Panel.ZIndex="200" Name="RightDelta" IsEnabled="False" Opacity="0.01" HorizontalAlignment="Right" VerticalAlignment="Stretch" Cursor="SizeWE" DragDelta="Thumb_DragDelta" Width="2.5" Height="{Binding ElementName=Window, Path=ActualHeight}"></Thumb>
-                            <Thumb Panel.ZIndex="200" Name="BottomRightDelta" IsEnabled="False" Opacity="0.01" HorizontalAlignment="Right" VerticalAlignment="Bottom" Cursor="SizeNWSE" Height="5" Width="7" DragDelta="Thumb_DragDelta"></Thumb>
-                        </StackPanel>
-                        <StackPanel x:Name="East" Panel.ZIndex="11112" Background="{StaticResource ResourceKey=CheatBrush}" Orientation="Vertical" Width="18" Height="{Binding ElementName=Window, Path=ActualHeight}"></StackPanel>
+                        </StackPanel>-->
+                        <StackPanel x:Name="East" Panel.ZIndex="11112" Background="{StaticResource ResourceKey=CheatBrush}" Orientation="Vertical" Width="18" Height="{Binding ElementName=Window, Path=ActualHeight}" Margin="0,0,5,0"></StackPanel>
                     </StackPanel>
 
-                    <StackPanel x:Name="North" Panel.ZIndex="1111" Background="{StaticResource ResourceKey=CheatBrush}" Orientation="Horizontal" VerticalAlignment="Top" Height="20" Width="{Binding ElementName=Window, Path=ActualWidth}"></StackPanel>
+                    <StackPanel x:Name="North" Panel.ZIndex="1111" Background="{StaticResource ResourceKey=CheatBrush}" Orientation="Horizontal" VerticalAlignment="Top" Height="20" Width="{Binding ElementName=Window, Path=ActualWidth}" Margin="0,5,0,0"></StackPanel>
                     <StackPanel Orientation="Vertical" VerticalAlignment="Bottom">
-                        <Thumb Panel.ZIndex="200" Name="BottomDelta" IsEnabled="False" Opacity="0.01" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Cursor="SizeNS" DragDelta="Thumb_DragDelta" Height="2.5"></Thumb>
-                        <StackPanel x:Name="South" Panel.ZIndex="1111" Background="{StaticResource ResourceKey=CheatBrush}" Orientation="Horizontal" Height="18" Width="{Binding ElementName=Window, Path=ActualWidth}"></StackPanel>
+                        <!--<Thumb Panel.ZIndex="200" Name="BottomDelta" IsEnabled="False" Opacity="0.01" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Cursor="SizeNS" DragDelta="Thumb_DragDelta" Height="2.5"></Thumb>-->
+                        <StackPanel x:Name="South" Panel.ZIndex="1111" Background="{StaticResource ResourceKey=CheatBrush}" Orientation="Horizontal" Height="18" Width="{Binding ElementName=Window, Path=ActualWidth}" Margin="0,0,0,5"></StackPanel>
                     </StackPanel>
-                  
 
+                    <Thumb Panel.ZIndex="2000" Name="BottomRightDelta" Style="{StaticResource ResourceKey=ImageWrapperThumbStyle}" IsEnabled="False" Background="Transparent" Opacity="0.6" HorizontalAlignment="Right" VerticalAlignment="Bottom" Cursor="SizeNWSE" Height="15" Width="15" DragDelta="Thumb_DragDelta" Margin="0,0,17,17"></Thumb>
                 </Grid>
                 <Grid Margin="3">
                     <Border Name="Window" BorderThickness="0" BorderBrush="Transparent" Margin="8">
-                        
                         <Grid>
                             <Grid x:Name="ProgressbarRoot">
                                 <Grid x:Name="ProgressbarParent">
-                                    <ProgressBar VerticalAlignment="Stretch" Margin="0,0,0,0" x:Name="ProgressBar" Height="auto" Width="Auto" Background="Transparent" Style="{StaticResource ResourceKey=ProgressbarStyle}" Maximum="1" Foreground="{StaticResource ResourceKey=ProgressbarLinearGradientBrush}">
+                                    <ProgressBar VerticalAlignment="Stretch" Margin="0,0,0,0" x:Name="ProgressBar" Height="auto" Width="Auto" Background="Transparent" Style="{StaticResource ResourceKey=ProgressbarStyle}" Maximum="1" Foreground="ForestGreen">
                                     </ProgressBar>
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,0">
-                                        <StackPanel.RenderTransform>
-                                            <TranslateTransform Y="4"></TranslateTransform>
-                                        </StackPanel.RenderTransform>
-                                        <TextBlock x:Name="Percentage" FontFamily="IrisUPC" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="WhiteSmoke" Text="{Binding ElementName=ProgressBar, Path=Value, Converter={StaticResource ResourceKey=PercentageConverter}, FallbackValue=error}" />
-                                        <TextBlock FontSize="20" FontFamily="IrisUPC" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="WhiteSmoke" Text="%"/>
-                                    </StackPanel>
                                 </Grid>
+                            </Grid>
+                            <Grid Panel.ZIndex="1000" x:Name="ProgressPercentageRoot">
+                                <StackPanel Margin="2" x:Name="ProgressPercentage" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                                    <StackPanel.RenderTransform>
+                                        <TranslateTransform Y="4"></TranslateTransform>
+                                    </StackPanel.RenderTransform>
+                                    <TextBlock Name="Percentage" FontFamily="IrisUPC" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="WhiteSmoke" Text="{Binding ElementName=ProgressBar, Path=Value, Converter={StaticResource ResourceKey=PercentageConverter}, FallbackValue=error}" />
+                                    <TextBlock FontSize="20" FontFamily="IrisUPC" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="WhiteSmoke" Text="%"/>
+                                </StackPanel>
                             </Grid>
                             <DockPanel LastChildFill="True" Margin="5">
 
@@ -238,7 +238,9 @@
                                         <Grid x:Name="ViewPanelParent" Grid.Row="1" Margin="8.5">
                                             <Grid Name="ViewPanel" Width="Auto" Height="Auto" Visibility="Collapsed" Margin="5,5,5,5">
                                                 <Border x:Name="SettingsPanel" Panel.ZIndex="{Binding Path=ViewState, Converter={StaticResource ResourceKey=OverlapConverter}, ConverterParameter=SettingsPanel}" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=SettingsPanel}"></Border>
-                                                <Border x:Name="PresentationPanel" Panel.ZIndex="{Binding Path=ViewState, Converter={StaticResource ResourceKey=OverlapConverter}, ConverterParameter=PresentationPanel}" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=PresentationPanel}"></Border>
+                                                <Border x:Name="PresentationPanel" Panel.ZIndex="{Binding Path=ViewState, Converter={StaticResource ResourceKey=OverlapConverter}, ConverterParameter=PresentationPanel}" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=PresentationPanel}">
+                                                    
+                                                </Border>
                                                 <Border x:Name="LogPanel" Panel.ZIndex="{Binding Path=ViewState, Converter={StaticResource ResourceKey=OverlapConverter}, ConverterParameter=LogPanel}" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=LogPanel}">
                                                     <e:LogPresentation></e:LogPresentation>
                                                 </Border>

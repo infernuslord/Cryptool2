@@ -19,6 +19,7 @@ using System.Windows.Media.Animation;
 using WorkspaceManager;
 using System.Windows.Threading;
 using System.Threading;
+using Cryptool.PluginBase;
 
 namespace WorkspaceManager.View.Container
 {
@@ -29,6 +30,7 @@ namespace WorkspaceManager.View.Container
         Data,
         Log,
         Setting,
+        Description
     };
 
     /// <summary>
@@ -144,15 +146,17 @@ namespace WorkspaceManager.View.Container
 
                 if((PluginViewState)value != PluginViewState.Min)
                 {
-                    BottomDelta.IsEnabled = true;
-                    RightDelta.IsEnabled = true;
+                    //BottomDelta.IsEnabled = true;
+                    //RightDelta.IsEnabled = true;
                     BottomRightDelta.IsEnabled = true;
+                    BottomRightDelta.Visibility = Visibility.Visible;
                 }
                 else
                 {
-                    BottomDelta.IsEnabled = false;
-                    RightDelta.IsEnabled = false;
+                    //BottomDelta.IsEnabled = false;
+                    //RightDelta.IsEnabled = false;
                     BottomRightDelta.IsEnabled = false;
+                    BottomRightDelta.Visibility = Visibility.Collapsed;
                 }
                 base.SetValue(ViewStateProperty, value);
                 this.Model.ViewState = value;
@@ -456,7 +460,11 @@ namespace WorkspaceManager.View.Container
 
         void PluginContainerView_Loaded(object sender, RoutedEventArgs e)
         {
-            
+            TaskPaneCtrl Settings = new TaskPaneCtrl();
+            SettingsPanel.Child = Settings;
+            Settings.DisplayPluginSettings(Model.Plugin, Model.Plugin.GetPluginInfoAttribute().Caption, Cryptool.PluginBase.DisplayPluginMode.Normal);
+
+
             BorderGradientStop.Color = ColorHelper.GetColor(this.Model.PluginType);
             BorderGradientStopSecond.Color = Color.FromArgb(100, this.BorderGradientStop.Color.R, this.BorderGradientStop.Color.G, this.BorderGradientStop.Color.B);
 
@@ -591,6 +599,7 @@ namespace WorkspaceManager.View.Container
             this.ViewPanelParent.Children.Clear();
             this.OptPanelParent.Children.Clear();
             this.ProgressbarRoot.Children.Clear();
+            this.ProgressPercentageRoot.Children.Clear();
         }
 
         public void Reset()
@@ -600,6 +609,7 @@ namespace WorkspaceManager.View.Container
                 this.ViewPanelParent.Children.Add(ViewPanel);
                 this.OptPanelParent.Children.Add(OptionPanel);
                 this.ProgressbarRoot.Children.Add(ProgressbarParent);
+                this.ProgressPercentageRoot.Children.Add(ProgressPercentage);
                 this.IsFullscreen = false;
             }
         }
@@ -771,7 +781,7 @@ namespace WorkspaceManager.View.Container
                     break;
 
                 case "SettingButton":
-                    
+                    ViewState = PluginViewState.Setting;
                     break;
                 case "MaxButton":
                     showFullScreen();
@@ -787,6 +797,7 @@ namespace WorkspaceManager.View.Container
         }
 
     }
+
 
     public class PluginContainerViewDeleteViewEventArgs : EventArgs
     {

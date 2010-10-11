@@ -114,6 +114,7 @@ namespace WorkspaceManager.View.Container
         {
             this.InformationPanel.Visibility = Visibility.Visible;
             e.container.PrepareFullscreen();
+            this.PercentageTextPanel.Children.Add(e.container.ProgressPercentage);
             this.PrstPanel.DataContext = e.container;
             this.CtrPanel.DataContext = e.container;
             this.CtrPanel.Children.Add(e.container.OptionPanel);
@@ -336,6 +337,7 @@ namespace WorkspaceManager.View.Container
             this.CtrPanel.Children.Clear();
             this.PrstPanel.Children.Clear();
             this.ProgressbarPanel.Children.Clear();
+            this.PercentageTextPanel.Children.Clear();
             this.currentFullViewContainer.Reset();
             this.currentFullViewContainer = null;
             this.CtrPanel.DataContext = null;
