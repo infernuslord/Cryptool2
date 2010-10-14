@@ -45,7 +45,7 @@ namespace WorkspaceManager.Execution
         private Scheduler scheduler;
         private WorkspaceModel workspaceModel;
         private volatile bool isRunning = false;
-        private BenchmarkProtocol BenchmarkProtocol;
+        private BenchmarkProtocol BenchmarkProtocol = null;
 
         public volatile int ExecutedPluginsCounter = 0;
         public bool BenchmarkPlugins = false;
@@ -144,33 +144,32 @@ namespace WorkspaceManager.Execution
         /// </summary>
         public void Stop()
         {
-            try
+           
+            //First stop alle plugins
+            foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
             {
-                //First stop alle plugins
-                foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
-                {
-                    pluginModel.Plugin.Stop();
-                    pluginModel.Plugin.PostExecution();
-                }
-
-                IsRunning = false;
-                //Secondly stop all Gears4Net Schedulers
-                scheduler.Shutdown();
-
-                foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
-                {
-                    pluginModel.PluginProtocol = null;
-                }
-
-
-
-                this.WorkspaceManagerEditor = null;
-                this.workspaceModel = null;
+                pluginModel.Plugin.Stop();                   
             }
-            finally
+
+            IsRunning = false;
+            //Secondly stop all Gears4Net Schedulers
+            scheduler.Shutdown();
+
+            //call all PostExecution methods of all plugins
+            foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
             {
-                BenchmarkProtocol.CloseWriters();
+                pluginModel.Plugin.PostExecution();
             }
+
+            //remove the plugin protocol of each plugin model
+            foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
+            {
+                pluginModel.PluginProtocol = null;
+            }
+
+            this.WorkspaceManagerEditor = null;
+            this.workspaceModel = null;
+          
         }
 
         /// <summary>
@@ -280,9 +279,7 @@ namespace WorkspaceManager.Execution
     {
         private WorkspaceModel workspaceModel;
         private ExecutionEngine executionEngine;
-        private StreamWriter PerformanceWriter;
-        private StreamWriter MemoryPerformanceWriter;
-
+     
         /// <summary>
         /// Create a new protocol. Each protocol requires a scheduler which provides
         /// a thread for execution.
@@ -292,10 +289,7 @@ namespace WorkspaceManager.Execution
             : base(scheduler)
         {
             this.workspaceModel = workspaceModel;
-            this.executionEngine = executionEngine;
-            string sFilename = "benchmark_" + DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second + ".txt";
-            PerformanceWriter = new StreamWriter("plugins_" + sFilename);
-            MemoryPerformanceWriter = new StreamWriter("memory_" + sFilename);
+            this.executionEngine = executionEngine;          
         }
 
         /// <summary>
@@ -320,19 +314,9 @@ namespace WorkspaceManager.Execution
             sb.Append(this.executionEngine.ExecutedPluginsCounter); 
             sb.Append(" Plugins/s");
 
-            this.workspaceModel.WorkspaceManagerEditor.GuiLogMessage(sb.ToString(), NotificationLevel.Debug);
-            PerformanceWriter.WriteLine(this.executionEngine.ExecutedPluginsCounter);
-            PerformanceWriter.Flush();
-            MemoryPerformanceWriter.WriteLine(Process.GetCurrentProcess().WorkingSet64);
-            MemoryPerformanceWriter.Flush();
+            this.workspaceModel.WorkspaceManagerEditor.GuiLogMessage(sb.ToString(), NotificationLevel.Debug);          
             this.executionEngine.ExecutedPluginsCounter = 0;
-        }
-
-        public void CloseWriters()
-        {
-            PerformanceWriter.Close();
-            MemoryPerformanceWriter.Close();
-        }
+        }        
     }
 
     /// <summary>
@@ -519,6 +503,8 @@ namespace WorkspaceManager.Execution
         private System.Threading.AutoResetEvent wakeup = new System.Threading.AutoResetEvent(false);
         private bool shutdown = false;
         private Thread[] threads;
+        private volatile int runningThreads = 0;
+
         public ExecutionEngine executionEngine = null;		
 
         public WorkspaceManagerScheduler(string name, int amountThreads, ExecutionEngine executionEngine)
@@ -560,6 +546,10 @@ namespace WorkspaceManager.Execution
             foreach (Thread thread in threads)
             {
                 thread.Start();
+                lock (this)
+                {
+                    runningThreads++;
+                }
             }
         }
        
@@ -568,8 +558,7 @@ namespace WorkspaceManager.Execution
 
             this.executionEngine.GuiLogMessage(Thread.CurrentThread.Name + " up and running", NotificationLevel.Debug);
             Queue<ProtocolBase> waitingProtocols = this.waitingProtocols;
-            int i = 0;
-
+            
             // Loop forever
             while (true)
             {               
@@ -580,10 +569,12 @@ namespace WorkspaceManager.Execution
                 {
                     // Should the scheduler stop?
                     if (this.shutdown)
-                    {
-                        this.waitingProtocols.Clear();
-                        this.protocols.Clear();
+                    {                        
                         this.executionEngine.GuiLogMessage(Thread.CurrentThread.Name + " terminated", NotificationLevel.Debug);
+                        lock (this)
+                        {
+                            runningThreads--;
+                        }                                            
                         return;
                     }
 
@@ -620,7 +611,7 @@ namespace WorkspaceManager.Execution
                     }
                     catch (Exception ex)
                     {
-                        System.Diagnostics.Debug.Fail("Error during scheduling: " + ex.Message + " - " + ex.InnerException);
+                        this.executionEngine.GuiLogMessage("Error during scheduling: " + ex.Message + " - " + ex.InnerException,NotificationLevel.Error);
                     }
                 }
             }
@@ -672,6 +663,17 @@ namespace WorkspaceManager.Execution
         {
             this.shutdown = true;
             this.wakeup.Set();
-        }        
+
+            this.executionEngine.GuiLogMessage("Waiting for all scheduler threads to stop", NotificationLevel.Debug);
+            while (runningThreads > 0)
+            {
+                Thread.Sleep(50);
+                this.wakeup.Set();
+            }
+            this.executionEngine.GuiLogMessage("All scheduler threads stopped", NotificationLevel.Debug);
+
+            this.waitingProtocols.Clear();
+            this.protocols.Clear();            
+        }
     }
 }
