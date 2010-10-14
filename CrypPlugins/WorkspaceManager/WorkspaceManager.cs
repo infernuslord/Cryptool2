@@ -73,6 +73,7 @@ namespace WorkspaceManager
         private WorkSpaceEditorView WorkspaceSpaceEditorView = null;
         private ExecutionEngine ExecutionEngine = null;
         private volatile bool executing = false;
+        private volatile bool stopping = false;
 
         #endregion
 
@@ -465,10 +466,15 @@ namespace WorkspaceManager
         /// </summary>
         public void Stop()
         {
-            if (!executing)
+            if (!executing || stopping)
             {
                 return;
             }
+
+            stopping = true;
+
+            Thread stopThread = new Thread(new ThreadStart(waitingStop));
+            stopThread.Start(); 
 
             EventsHelper.AsynchronousPropertyChanged = true;
 
@@ -479,6 +485,14 @@ namespace WorkspaceManager
                 EventsHelper.AsynchronousStatusChanged = true;
             }
 
+                       
+        }
+
+        /// <summary>
+        /// Stops the execution engine and blocks until this work is done
+        /// </summary>
+        private void waitingStop()
+        {
             try
             {
                 GuiLogMessage("Executing stopped by User!", NotificationLevel.Info);
@@ -494,11 +508,11 @@ namespace WorkspaceManager
             catch (Exception ex)
             {
                 GuiLogMessage("Exception during the stopping of the execution: " + ex.Message, NotificationLevel.Error);
-                
             }
             executing = false;
             this.ExecutionEngine = null;
             GC.Collect();
+            stopping = false;
         }
 
         /// <summary>
