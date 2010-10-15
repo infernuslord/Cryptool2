@@ -33,6 +33,7 @@ namespace Cryptool.Plugins.PlayfairAnalysis
         private int heapSize = 5000;
         private int matrixSize = (int)supportedMatrixSizes.MatrixSize5x5;
         private int language;
+        private int useCustomStatistic;
         
         #endregion
 
@@ -69,7 +70,41 @@ namespace Cryptool.Plugins.PlayfairAnalysis
             }
         }
 
-        [TaskPane("Matrix Size", "Size of Matrix used for Encryption", null, 1, false, DisplayLevel.Beginner, ControlType.RadioButton, new string[] { "5 x 5", "6 x 6" })]
+        [TaskPane("Bigraph Statistic", "Bigraph Statistic to be used", null, 2, false, DisplayLevel.Beginner, ControlType.RadioButton, new string[] { "Default", "Custom" })]
+        public int UseCustomStatistic
+        {
+            get
+            {
+                return useCustomStatistic;
+            }
+            set
+            {
+                if (useCustomStatistic != value)
+                {
+                    if (value == 0)
+                    {
+                        if (TaskPaneAttributeChanged != null)
+                        {
+                            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("MatrixSize", Visibility.Visible)));
+                            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Language", Visibility.Visible)));
+                        }
+                    }
+                    else
+                    {
+                        if (TaskPaneAttributeChanged != null)
+                        {
+                            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("MatrixSize", Visibility.Collapsed)));
+                            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Language", Visibility.Collapsed)));
+                        }
+                    }
+
+                    useCustomStatistic = value;
+                    hasChanges = true;
+                }
+            }
+        }
+
+        [TaskPane("Matrix Size", "Size of Matrix used for Encryption", null, 3, false, DisplayLevel.Beginner, ControlType.RadioButton, new string[] { "5 x 5", "6 x 6" })]
         public int MatrixSize
         {
             get
@@ -86,7 +121,7 @@ namespace Cryptool.Plugins.PlayfairAnalysis
             }
         }
 
-        [TaskPane("Language", "Assumed Language of Ciphertext", null, 1, false, DisplayLevel.Beginner, ControlType.RadioButton, new string[] { "German", "English" })]
+        [TaskPane("Language", "Assumed Language of Ciphertext", null, 4, false, DisplayLevel.Beginner, ControlType.RadioButton, new string[] { "German", "English" })]
         public int Language
         {
             get
@@ -130,7 +165,9 @@ namespace Cryptool.Plugins.PlayfairAnalysis
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
 
+        
         protected void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)

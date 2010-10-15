@@ -129,37 +129,40 @@ namespace Cryptool.Plugins.PlayfairAnalysis
             }
         }
 
-        public static char[,] ConvertToChar(int[] matrix)
+        public static char[,] ConvertToChar(int[] matrix, string alphabet)
         {
             int matrixSize = (int)Math.Sqrt(matrix.Length);
-            char[,] matrixchar = new char[matrixSize, matrixSize];  
+            char[,] matrixChar = new char[matrixSize, matrixSize];  
           
             for (int i = 0; i < matrixSize; i++)
             {
                 for (int j = 0; j < matrixSize; j++)
                 {
+                    matrixChar[i, j] = alphabet[matrix[(i * matrixSize) + j]];
+                    /*
                     switch (matrixSize)
                     {
                         case 5:
                             if (matrix[i * 5 + j] + 'A' < 'J')
-                                matrixchar[i, j] = (char)(matrix[i * 5 + j] + 'A');
+                                matrixChar[i, j] = (char)(matrix[i * 5 + j] + 'A');
                             else
-                                matrixchar[i, j] = (char)(matrix[i * 5 + j] + 'B');
+                                matrixChar[i, j] = (char)(matrix[i * 5 + j] + 'B');
                             break;
 
                         case 6:
                             if ((matrix[i * 6 + j] + 'A' >= 'A') && (matrix[i * 6 + j] + 'A' <= 'Z'))
-                                matrixchar[i, j] = (char)(matrix[i * 6 + j] + 'A');
+                                matrixChar[i, j] = (char)(matrix[i * 6 + j] + 'A');
                             else
-                                matrixchar[i, j] = (char)(matrix[i * 6 + j] + '0' - 26);
+                                matrixChar[i, j] = (char)(matrix[i * 6 + j] + '0' - 26);
                             break;
 
                         default:
                             break;
                     }
+                    */ 
                 }                
             }
-            return matrixchar;
+            return matrixChar;
         }
 
         public static int[] ConvertToInt(char[,] matrix)

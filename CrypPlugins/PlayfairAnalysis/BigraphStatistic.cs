@@ -209,9 +209,38 @@ namespace Cryptool.Plugins.PlayfairAnalysis
                         Stat[i, j] = -10;
                 }
             }
-            
-            
 
+            return Stat;
+        }
+
+
+        public double[,] CalcLogStat(string text, string alphabet)
+        {
+            double[,] Stat = new double[(int)Math.Pow(matrixSize, 2), (int)Math.Pow(matrixSize, 2)];
+            int Pos1, Pos2;
+            int sum = 0;
+                        
+            for (int i = 0; i < text.Length - 1; i += 2)
+            {
+                Pos1 = alphabet.IndexOf(text[i]);
+                Pos2 = alphabet.IndexOf(text[i + 1]);
+
+                Stat[Pos1, Pos2]++;
+                sum++;
+            }
+                        
+            for (int i = 0; i < (int)Math.Pow(matrixSize, 2); i++)
+            {
+                for (int j = 0; j < (int)Math.Pow(matrixSize, 2); j++)
+                {
+                    if (Stat[i, j] > 0)
+                    {
+                        Stat[i, j] = Math.Log(Stat[i, j] / sum);
+                    }
+                    else
+                        Stat[i, j] = -10;
+                }
+            }
             return Stat;
         }
 
