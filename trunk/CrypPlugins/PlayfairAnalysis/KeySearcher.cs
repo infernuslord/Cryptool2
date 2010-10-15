@@ -25,6 +25,7 @@ namespace Cryptool.Plugins.PlayfairAnalysis
         string cipherText;
         string plainText;        
         int keyHeapSize;
+        string alphabet;
 
 
         public string CipherText
@@ -102,7 +103,7 @@ namespace Cryptool.Plugins.PlayfairAnalysis
             DecodingTab = new int[(int)Math.Pow(matrixSize, 2) * ((int)Math.Pow(matrixSize, 2) - 1), 2, 2];  
         }
 
-        public KeySearcher(int matrixSize, int keyHeapSize, double[,] bs, string cipherText)
+        public KeySearcher(int matrixSize, int keyHeapSize, double[,] bs, string alphabet, string cipherText)
         {
             this.matrixSize = matrixSize;
             this.keyHeapSize = keyHeapSize;            
@@ -111,6 +112,7 @@ namespace Cryptool.Plugins.PlayfairAnalysis
             CipherStat = new double[(int)Math.Pow(matrixSize, 2), (int)Math.Pow(matrixSize, 2)];
             DecodingTab = new int[(int)Math.Pow(matrixSize, 2) * ((int)Math.Pow(matrixSize, 2) - 1), 2, 2];
             this.bigraphStat = bs;
+            this.alphabet = alphabet;
         }
 
 
@@ -276,10 +278,9 @@ namespace Cryptool.Plugins.PlayfairAnalysis
         }
 
         public void Attack()
-        {
-                        
+        {                        
             BigraphStatistic CS = new BigraphStatistic(matrixSize);
-            CipherStat = CS.CalcLog(cipherText);            
+            CipherStat = CS.CalcLogStat(cipherText, alphabet);            
             int[] TestKey = new int[(int)Math.Pow(matrixSize, 2)];
             double Score2;
             int[] WorstKey = new int[(int)Math.Pow(matrixSize, 2)];
@@ -501,9 +502,7 @@ namespace Cryptool.Plugins.PlayfairAnalysis
             }
             
             
-            Key BestKeyMatrix = new Key(Key.ConvertToChar(BestKey));
-
-
+            Key BestKeyMatrix = new Key(Key.ConvertToChar(BestKey, alphabet));
 
             plainText =  Decrypt(BestKeyMatrix, cipherText);
             
