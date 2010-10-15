@@ -96,11 +96,14 @@ namespace Cryptool.Playfair
             }
             set
             {
-                if (value.ToUpper() != key) HasChanges = true;
-                this.key = value.ToUpper();
-                setKeyMatrix();
-                OnPropertyChanged("Key");
-                OnPropertyChanged("AlphabetMatrix");
+                if (value != null)
+                {
+                    if (value.ToUpper() != key) HasChanges = true;
+                    this.key = value.ToUpper();
+                    setKeyMatrix();
+                    OnPropertyChanged("Key");
+                    OnPropertyChanged("AlphabetMatrix");
+                }
             }
         }
 
