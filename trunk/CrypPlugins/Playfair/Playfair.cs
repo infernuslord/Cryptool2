@@ -25,6 +25,7 @@ using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.IO;
 using System.Windows.Controls;
 using System.ComponentModel;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Playfair
 {
@@ -328,7 +329,7 @@ namespace Cryptool.Playfair
         private int getRightNeighbour(int index)
         {
             if (index % matrixSize < matrixSize - 1) index++;
-            else if (index % matrixSize == matrixSize - 1) index = index - 4;
+            else if (index % matrixSize == matrixSize - 1) index = index - matrixSize + 1;
             else index = -1;
 
             return index;
@@ -336,7 +337,7 @@ namespace Cryptool.Playfair
 
         private int getLowerNeighbour(int index)
         {
-            if (index + 5 < settings.AlphabetMatrix.Length) index = index + matrixSize;
+            if (index + matrixSize < settings.AlphabetMatrix.Length) index = index + matrixSize;
             else index = (index + matrixSize) % settings.AlphabetMatrix.Length;
 
             return index;
@@ -379,9 +380,10 @@ namespace Cryptool.Playfair
                 else
                 {
                     if (c == 'J') sb.Append("I");
-                    if (c == 'Ä') sb.Append("A");
-                    if (c == 'Ö') sb.Append("O");
-                    if (c == 'Ü') sb.Append("U");
+                    if (c == 'Ä') sb.Append("AE");
+                    if (c == 'Ö') sb.Append("OE");
+                    if (c == 'Ü') sb.Append("UE");
+                    if (c == 'ß') sb.Append("SS");
                 }
             }
 
@@ -430,6 +432,8 @@ namespace Cryptool.Playfair
 
         public void Execute()
         {
+            ProgressChanged(0, 1);
+
             switch (settings.Action)
             {
                 case 0:
@@ -441,10 +445,21 @@ namespace Cryptool.Playfair
                 default:
                     break;
             }
+
+            ProgressChanged(1, 1);
         }
 
         public void Pause()
         {
+        }
+
+        #endregion
+
+        #region Event Handling
+
+        private void ProgressChanged(double value, double max)
+        {
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }
 
         #endregion
