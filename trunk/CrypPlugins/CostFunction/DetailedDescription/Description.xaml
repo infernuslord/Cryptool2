@@ -240,28 +240,5 @@
 
         </Run>
     </Paragraph>
-    <Paragraph
-      Margin="0,0,0,0"
-      FontFamily="Times New Roman"
-      FontSize="16"
-      TextAlignment="Left">
-        <Span
-         FontFamily="Georgia"
-         FontSize="17"
-         FontWeight="Bold"
-         Foreground="#FF15428B"
-         xml:lang="en-us">
-            <Span.TextDecorations>
-                <TextDecoration Location="Underline"/>
-            </Span.TextDecorations>
-            Usage with Transposition Analyser
-
-        </Span>
-    </Paragraph>
-    <Paragraph TextAlignment="Justify">
-        <Run>
-            For Analysis of a transposition ciphertext the &quot;Bigrams: Sinkov&quot; seemed to produce the best results. The weighted bigrams/trigrams produces better results, but has the handicap of being slower (It needs two runs for an input).
-
-        </Run>
-    </Paragraph>
+   
 </FlowDocument>
