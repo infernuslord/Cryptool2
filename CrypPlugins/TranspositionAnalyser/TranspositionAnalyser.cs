@@ -656,6 +656,7 @@ namespace TranspositionAnalyser
 
         private void cribAnalysis(IControlEncryption sender, byte[] crib, byte[] cipher)
         {
+            stop = false;
             valList = new ArrayList();
             bestlist = new ArrayList();
             valuequeue = Queue.Synchronized(new Queue());
