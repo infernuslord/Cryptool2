@@ -203,9 +203,8 @@ namespace Cryptool.Plugins.SZ42
             string[] positions, patterns;
             int i = 0;
 
-            positions = settings.Position.Split(new string[] { "," }, 12, StringSplitOptions.None);
-
-            patterns = settings.Pattern.Split(new string[] { "," }, 12, StringSplitOptions.None);
+            positions = settings.Positions;
+            patterns = settings.Patterns;
 
             foreach (Wheel wheel in machine.ChiWheels)
             {
