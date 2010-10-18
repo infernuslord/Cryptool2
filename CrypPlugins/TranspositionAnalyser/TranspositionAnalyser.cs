@@ -335,9 +335,17 @@ namespace TranspositionAnalyser
 
                 long allseconds = seconds + 60 * minutes + 60 * 60 * hours + 24 * 60 * 60 * days;
                 if (allseconds == 0) allseconds = 1;
+
+                if (allseconds == 0)
+                    allseconds = 1;
+
                 long keysPerSec = sum / allseconds;
 
                 long keystodo = (size - sum);
+
+                
+                if (keysPerSec == 0)
+                    keysPerSec = 1;
 
                 long secstodo = keystodo / keysPerSec;
 
