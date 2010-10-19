@@ -678,6 +678,13 @@ namespace WorkspaceManager
         }
 
         #endregion
+
+        #region IEditor Members
+
+
+        public event OpenTabHandler OnOpenTab;
+
+        #endregion
     }
 }
 

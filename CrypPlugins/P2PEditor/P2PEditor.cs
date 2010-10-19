@@ -224,5 +224,12 @@ namespace Cryptool.P2PEditor
         }
 
         #endregion
+
+        #region IEditor Members
+
+
+        public event OpenTabHandler OnOpenTab;
+
+        #endregion
     }
 }
