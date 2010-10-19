@@ -38,18 +38,18 @@
                         </Button>
                     </StackPanel>
                 </Border>
-                <Button Margin="5,0,0,0" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Name="ADDIMG" Click="Button_Click" Foreground="WhiteSmoke" Padding="10">
-                    <StackPanel Orientation="Horizontal">
-                        <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/add.png" Height="27"></Image>
-                        <TextBlock Text="Add Image" VerticalAlignment="Center"></TextBlock>
-                    </StackPanel>
+                <Button Margin="5,0,0,0" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Name="ADDIMG" Click="Button_Click" Foreground="WhiteSmoke">
+                    <Border CornerRadius="12" Background="{StaticResource ResourceKey=AddTextBrush}" Height="27" BorderBrush="Black" BorderThickness="1">
+                        <!--<Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/add.png" Height="27"></Image>-->
+                        <TextBlock Text="+Image" VerticalAlignment="Center" Margin="10,0,10,0" FontSize="12" FontWeight="Bold"></TextBlock>
+                    </Border>
                 </Button>
 
-                <Button Margin="5,0,0,0" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Name="ADDTXT" Click="Button_Click" Foreground="WhiteSmoke" Padding="10">
-                    <StackPanel Orientation="Horizontal">
-                        <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/anno.png" Height="27"></Image>
-                        <TextBlock Text="Add Text Attachment" VerticalAlignment="Center"></TextBlock>
-                    </StackPanel>
+                <Button Margin="5,0,0,0" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Name="ADDTXT" Click="Button_Click" Foreground="WhiteSmoke">
+                    <Border CornerRadius="12" Background="{StaticResource ResourceKey=AddImageBrush}" Height="27" BorderBrush="Black" BorderThickness="1">
+                        <!--<Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/add.png" Height="27"></Image>-->
+                        <TextBlock Text="+Text" VerticalAlignment="Center" Margin="18,0,18,0" FontSize="12" FontWeight="Bold"></TextBlock>
+                    </Border>
                 </Button>
             </StackPanel>
             

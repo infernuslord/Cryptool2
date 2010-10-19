@@ -40,6 +40,9 @@ namespace WorkspaceManager.View.VisualComponents
 
         public static readonly DependencyProperty StartPointProperty = DependencyProperty.Register("StartPoint", typeof(Point), typeof(CryptoLineView), new FrameworkPropertyMetadata(new Point(0, 0), FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
         public static readonly DependencyProperty EndPointProperty = DependencyProperty.Register("EndPoint", typeof(Point), typeof(CryptoLineView), new FrameworkPropertyMetadata(new Point(0, 0), FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
+        private ConnectionModel connectionModel;
+        private ConnectorView source;
+        private ConnectorView target;
 
 		#endregion
 
@@ -102,6 +105,14 @@ namespace WorkspaceManager.View.VisualComponents
             Color color = ColorHelper.GetColor(connectionModel.ConnectionType);
             Stroke = new SolidColorBrush(color);
             StrokeThickness = 2;
+        }
+
+        public CryptoLineView(ConnectionModel connectionModel, ConnectorView source, ConnectorView target)
+        {
+            // TODO: Complete member initialization
+            this.connectionModel = connectionModel;
+            this.source = source;
+            this.target = target;
         }
 
 		#region Overrides
@@ -243,9 +254,9 @@ namespace WorkspaceManager.View.VisualComponents
                                 }
                                 else if (interPoint.Mode == IntersectPointMode.InnerIntersect)
                                 {
-                                    context.LineTo(new Point(interPoint.Point.X - 4, interPoint.Point.Y), true, true);
-                                    context.QuadraticBezierTo(new Point(interPoint.Point.X, interPoint.Point.Y - 5), new Point(interPoint.Point.X + 4, interPoint.Point.Y), true, true);
-                                    context.QuadraticBezierTo(new Point(interPoint.Point.X, interPoint.Point.Y + 5), new Point(interPoint.Point.X - 4, interPoint.Point.Y), true, true);
+                                    context.LineTo(new Point(interPoint.Point.X - 2.5, interPoint.Point.Y), true, true);
+                                    context.QuadraticBezierTo(new Point(interPoint.Point.X, interPoint.Point.Y - 3.5), new Point(interPoint.Point.X + 2.5, interPoint.Point.Y), true, true);
+                                    context.QuadraticBezierTo(new Point(interPoint.Point.X, interPoint.Point.Y + 3.5), new Point(interPoint.Point.X - 2.5, interPoint.Point.Y), true, true);
                                 }
                                 break;
                             case DirSort.X_DESC:
@@ -256,9 +267,9 @@ namespace WorkspaceManager.View.VisualComponents
                                 }
                                 else if (interPoint.Mode == IntersectPointMode.InnerIntersect)
                                 {
-                                    context.LineTo(new Point(interPoint.Point.X + 4, interPoint.Point.Y), true, true);
-                                    context.QuadraticBezierTo(new Point(interPoint.Point.X, interPoint.Point.Y - 5), new Point(interPoint.Point.X - 4, interPoint.Point.Y), true, true);
-                                    context.QuadraticBezierTo(new Point(interPoint.Point.X, interPoint.Point.Y + 5), new Point(interPoint.Point.X + 4, interPoint.Point.Y), true, true);
+                                    context.LineTo(new Point(interPoint.Point.X + 2.5, interPoint.Point.Y), true, true);
+                                    context.QuadraticBezierTo(new Point(interPoint.Point.X, interPoint.Point.Y - 3.5), new Point(interPoint.Point.X - 2.5, interPoint.Point.Y), true, true);
+                                    context.QuadraticBezierTo(new Point(interPoint.Point.X, interPoint.Point.Y + 3.5), new Point(interPoint.Point.X + 2.5, interPoint.Point.Y), true, true);
                                 }
                                 break;
                             //case DirSort.Y_ASC:
@@ -407,132 +418,137 @@ namespace WorkspaceManager.View.VisualComponents
         }
         private void makeOrthogonalPoints()
         {
-            List<Node> nodeList = new List<Node>();
-            Panel parent = (Parent as Panel);
-
-            // add start and end. Index will be 0 and 1
-            Node startNode = new Node() { Point = StartPoint },
-                endNode = new Node() { Point = EndPoint };
-            nodeList.Add(startNode);
-            nodeList.Add(endNode);
-
-            float actualWidth =(float) parent.ActualWidth, actualHeight =(float) parent.ActualWidth;
-            //Consider zoom factor
-            QuadTreeLib.QuadTree<FakeNode> quadTree = new QuadTreeLib.QuadTree<FakeNode>
-                (new System.Drawing.RectangleF(-actualWidth, -actualHeight, actualWidth*5, actualHeight*5));
-
-            //foreach (var element in parent.Children)
-            //{
-            //    if (element is PluginContainerView)
-            //    {
-            //        PluginContainerView p1 = element as PluginContainerView;
-            //        foreach (var routPoint in p1.RoutingPoints)
-            //        {
-            //            nodeList.Add(new Node() { Point = routPoint });
-            //        }
-            //        quadTree.Insert(new FakeNode() { Rectangle = new System.Drawing.RectangleF((float)(p1.RenderTransform as TranslateTransform).X,
-            //                                                                                    (float)(p1.RenderTransform as TranslateTransform).Y,
-            //                                                                                    (float)p1.ActualWidth,
-            //                                                                                    (float)p1.ActualHeight)});
-            //    }
-            //}
-            for (int routPoint = 0; routPoint < 4; ++routPoint)
+            if (StartPointSource != null && EndPointSource != null)
             {
-                foreach (var element in parent.Children)
+                List<Node> nodeList = new List<Node>();
+                Panel parent = (Parent as Panel);
+
+                // add start and end. Index will be 0 and 1
+                Node startNode = new Node() { Point = cheat42(StartPoint , StartPointSource, 1)},
+                    endNode = new Node() { Point = cheat42(EndPoint, EndPointSource, -1) };
+                nodeList.Add(startNode);
+                nodeList.Add(endNode);
+
+                float actualWidth = (float)parent.ActualWidth, actualHeight = (float)parent.ActualWidth;
+                //Consider zoom factor
+                QuadTreeLib.QuadTree<FakeNode> quadTree = new QuadTreeLib.QuadTree<FakeNode>
+                    (new System.Drawing.RectangleF(-actualWidth, -actualHeight, actualWidth * 5, actualHeight * 5));
+
+                //foreach (var element in parent.Children)
+                //{
+                //    if (element is PluginContainerView)
+                //    {
+                //        PluginContainerView p1 = element as PluginContainerView;
+                //        foreach (var routPoint in p1.RoutingPoints)
+                //        {
+                //            nodeList.Add(new Node() { Point = routPoint });
+                //        }
+                //        quadTree.Insert(new FakeNode() { Rectangle = new System.Drawing.RectangleF((float)(p1.RenderTransform as TranslateTransform).X,
+                //                                                                                    (float)(p1.RenderTransform as TranslateTransform).Y,
+                //                                                                                    (float)p1.ActualWidth,
+                //                                                                                    (float)p1.ActualHeight)});
+                //    }
+                //}
+                for (int routPoint = 0; routPoint < 4; ++routPoint)
                 {
-                    if (element is PluginContainerView)
+                    foreach (var element in parent.Children)
                     {
-                        PluginContainerView p1 = element as PluginContainerView;
-                        nodeList.Add(new Node() { Point = p1.GetRoutingPoint(routPoint) });
-                        if (routPoint == 0)
+                        if (element is PluginContainerView)
                         {
-                            quadTree.Insert(new FakeNode()
+                            PluginContainerView p1 = element as PluginContainerView;
+                            nodeList.Add(new Node() { Point = p1.GetRoutingPoint(routPoint) });
+                            if (routPoint == 0)
                             {
-                                Rectangle = new System.Drawing.RectangleF((float)(p1.RenderTransform as TranslateTransform).X,
-                                                                           (float)(p1.RenderTransform as TranslateTransform).Y,
-                                                                           (float)p1.ActualWidth,
-                                                                           (float)p1.ActualHeight)
-                            });
+                                quadTree.Insert(new FakeNode()
+                                {
+                                    Rectangle = new System.Drawing.RectangleF((float)(p1.RenderTransform as TranslateTransform).X,
+                                                                               (float)(p1.RenderTransform as TranslateTransform).Y + (float)p1.ControlPanel.ActualHeight,
+                                                                               (float)p1.ActualWidth,
+                                                                               (float)p1.ActualHeight - (float)p1.ControlPanel.ActualHeight)
+                                });
+                            }
                         }
                     }
                 }
-            }
 
-            // connect points
-            int loopCount = nodeList.Count;
-            const int performanceTradeoffAt = 10;
+                // connect points
+                int loopCount = nodeList.Count;
+                const int performanceTradeoffAt = 10;
 
-            LinkedList<Node> path = null;
+                LinkedList<Node> path = null;
 
-            for(int i=0; i<loopCount; ++i)
-            {
-                if (performanceTradeoffAt != 0 &&
-                       i == performanceTradeoffAt)
+                for (int i = 0; i < loopCount; ++i)
+                {
+                    if (performanceTradeoffAt != 0 &&
+                           i == performanceTradeoffAt)
+                    {
+                        StackFrameDijkstra.Dijkstra<Node> dijkstra = new StackFrameDijkstra.Dijkstra<Node>();
+                        path = dijkstra.findPath(nodeList, startNode, endNode);
+                        if (path != null)
+                        {
+                            break;
+                        }
+                    }
+
+                    var p1 = nodeList[i];
+                    // TODO: inner loop restriction! n²-n!
+                    // is k=i instead of k=0 correct?
+                    for (int k = i; k < loopCount; ++k)
+                    {
+
+
+                        var p2 = nodeList[k];
+                        if (p1 == p2)
+                            continue;
+                        if (p1.Vertices.Contains(p2))
+                            continue;
+
+                        // no helping point required?
+                        if (p1.Point.X == p2.Point.X ||
+                            p1.Point.Y == p2.Point.Y)
+                        {
+                            performOrthogonalPointConnection(p1, p2, quadTree);
+                        }
+                        else
+                        {
+                            Point help = new Point(p1.Point.X, p2.Point.Y);
+
+                            if (!performOrthogonalPointConnection(p1, help, p2, nodeList, quadTree))
+                            {
+                                help = new Point(p2.Point.X, p1.Point.Y);
+                                if (!performOrthogonalPointConnection(p1, help, p2, nodeList, quadTree))
+                                {
+                                    // optional todo: double edge helping routes
+                                }
+                            }
+
+                        }
+                    }
+                }
+
+                if (path == null)
                 {
                     StackFrameDijkstra.Dijkstra<Node> dijkstra = new StackFrameDijkstra.Dijkstra<Node>();
                     path = dijkstra.findPath(nodeList, startNode, endNode);
-                    if (path != null)
-                    {
-                        break;
-                    }
                 }
 
-                var p1 = nodeList[i];
-                // TODO: inner loop restriction! n²-n!
-                // is k=i instead of k=0 correct?
-                for(int k=i; k<loopCount; ++k)
+                if (path != null)
                 {
-                   
+                    pointList.Clear();
+                    Point prevPoint = StartPoint;
 
-                    var p2 = nodeList[k];
-                    if (p1 == p2)
-                        continue;
-                    if (p1.Vertices.Contains(p2))
-                        continue;
-
-                    // no helping point required?
-                    if (p1.Point.X == p2.Point.X ||
-                        p1.Point.Y == p2.Point.Y)
+                    foreach (var i in path)
                     {
-                        performOrthogonalPointConnection(p1, p2, quadTree);
+                        Point thisPoint = i.Point;
+                        this.pointList.Add(new FromTo(prevPoint, thisPoint));
+                        prevPoint = thisPoint;
                     }
-                    else
-                    {
-                        Point help = new Point(p1.Point.X, p2.Point.Y);
-
-                        if (!performOrthogonalPointConnection(p1, help, p2, nodeList, quadTree ))
-                        {
-                            help = new Point(p2.Point.X, p1.Point.Y);
-                            if (!performOrthogonalPointConnection(p1, help, p2, nodeList, quadTree))
-                            {
-                                // optional todo: double edge helping routes
-                            }
-                        }
-                       
-                    }
+                    this.pointList.Add(new FromTo(prevPoint, EndPoint));
+                    return;
                 }
             }
-
-            if (path == null)
-            {
-                StackFrameDijkstra.Dijkstra<Node> dijkstra = new StackFrameDijkstra.Dijkstra<Node>();
-                path = dijkstra.findPath(nodeList, startNode, endNode);
-            }
-
-            if (path != null)
-            {
-                pointList.Clear();
-                Point prevPoint = StartPoint;
-
-                foreach (var i in path)
-                {
-                    Point thisPoint = i.Point;
-                    this.pointList.Add(new FromTo(prevPoint, thisPoint));
-                    prevPoint = thisPoint;
-                }
-            }
-                //Failsafe
-            else if (StartPoint.X < EndPoint.X)
+            //Failsafe
+            if (StartPoint.X < EndPoint.X)
             {
                 pointList.Clear();
                 pointList.Add(new FromTo(StartPoint, new Point((EndPoint.X + StartPoint.X) / 2, StartPoint.Y)));
@@ -549,6 +565,31 @@ namespace WorkspaceManager.View.VisualComponents
                     pointList.Add(new FromTo(new Point((StartPoint.X + EndPoint.X) / 2, EndPoint.Y), EndPoint));
                 }
             }
+        }
+
+        private static Point cheat42(Point EndPoint, ConnectorView EndPointSource, int flipper)
+        {
+            double xoffset = 0;
+            double yoffset = 0;
+            double baseoffset = 15;
+            switch (EndPointSource.Orientation)
+            {
+                case ConnectorOrientation.East:
+                    xoffset = baseoffset;
+                    break;
+                case ConnectorOrientation.West:
+                    xoffset = -baseoffset;
+                    break;
+                case ConnectorOrientation.North:
+                    yoffset = -baseoffset;
+                    break;
+                case ConnectorOrientation.South:
+                    yoffset = baseoffset;
+                    break;
+            }
+            //xoffset *= flipper;
+            //yoffset *= flipper;
+            return new Point(EndPoint.X + xoffset, EndPoint.Y + yoffset);
         }
 		
 		#endregion
@@ -567,5 +608,9 @@ namespace WorkspaceManager.View.VisualComponents
             Color color = ColorHelper.GetColor(Model.ConnectionType);
             Stroke = new SolidColorBrush(color);
         }
+
+        public ConnectorView StartPointSource { get; set; }
+
+        public ConnectorView EndPointSource { get; set; }
     }
 }

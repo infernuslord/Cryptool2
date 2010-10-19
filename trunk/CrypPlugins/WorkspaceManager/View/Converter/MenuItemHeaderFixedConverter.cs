@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
-using System.Drawing;
 
 namespace WorkspaceManager.View.Converter
 {
-    class SelectedContentBrushConverter : IValueConverter
+    class MenuItemHeaderFixedConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            bool b = (bool) value;
+            bool b = (bool)value;
             if (b)
-                return 0.4;
-
-            return 0;
+                return "unlock";
+            else
+                return "lock";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

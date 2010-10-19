@@ -36,9 +36,36 @@ namespace WorkspaceManager.View.VisualComponents
             }
         }
 
+        public static readonly DependencyProperty IsFixedProperty = DependencyProperty.Register("IsFixed", typeof(bool), typeof(TextInputWrapper));
+        public bool IsFixed
+        {
+            get
+            {
+                return (bool)base.GetValue(IsFixedProperty);
+            }
+            set
+            {
+                if (value)
+                {
+                    this.ParentPanel.IsEnabled = false;
+                    this.Model.IsEnabled = false;
+                    this.ContentParent.SelectedItem = null;
+                }
+                else
+                {
+                    this.ParentPanel.IsEnabled = true;
+                    this.Model.IsEnabled = true;
+                    this.ContentParent.SelectedItem = this;
+                }
+                base.SetValue(IsFixedProperty, value);
+            }
+        }
+
         public TextModel Model { get; set; }
         public Point Position { get; set; }
 
+        private ColorPickPopUp pop1 = new ColorPickPopUp();
+        private ColorPickPopUp pop2 = new ColorPickPopUp();
         private UserContentWrapper ContentParent;
 
         public TextInputWrapper()
@@ -58,7 +85,8 @@ namespace WorkspaceManager.View.VisualComponents
             this.mainRTB.TextChanged += MainRTBTextChanged;
             this.Position = point;
             this.ContentParent = userContentWrapper;
-            this.RenderTransform = new TranslateTransform(point.X, point.Y);            
+            this.RenderTransform = new TranslateTransform(point.X, point.Y);
+            this.IsFixed = false;
         }
 
         /// <summary>
@@ -102,21 +130,13 @@ namespace WorkspaceManager.View.VisualComponents
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
-            MenuItem item = sender as MenuItem;
-            if (this.ParentPanel.IsEnabled == true)
+            if (IsFixed)
             {
-                this.ParentPanel.IsEnabled = false;
-                this.Model.IsEnabled = false;
-                this.ContentParent.SelectedItem = null;
-                return;
+                IsFixed = false;
             }
-
-            if (this.ParentPanel.IsEnabled == false)
+            else
             {
-                this.ParentPanel.IsEnabled = true;
-                this.Model.IsEnabled = true;
-                this.ContentParent.SelectedItem = this;
-                return;
+                IsFixed = true;
             }
         }
 
@@ -163,6 +183,18 @@ namespace WorkspaceManager.View.VisualComponents
                 Model.Height = this.ActualHeight;
                 Model.Width = this.ActualWidth;
             }
+        }
+
+        private void BGColor_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            pop1.IsOpen = false;
+            pop1 = new ColorPickPopUp(sender as Rectangle) { IsOpen = true };
+        }
+
+        private void FontColor_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            pop1.IsOpen = false;
+            pop1 = new ColorPickPopUp(sender as Rectangle) { IsOpen = true };
         }        
     }
 

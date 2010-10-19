@@ -140,24 +140,18 @@ namespace WorkspaceManager.View.Container
                         break;
 
                     case PluginViewState.Setting:
+                        PluginBase.Width = Model.Width;
+                        PluginBase.Height = Model.Height;
+                        ViewPanel.Visibility = Visibility.Visible;
+                        break;
 
+                    case PluginViewState.Description:
+                        PluginBase.Width = Model.Width;
+                        PluginBase.Height = Model.Height;
+                        ViewPanel.Visibility = Visibility.Visible;
                         break;
                 }
 
-                if((PluginViewState)value != PluginViewState.Min)
-                {
-                    //BottomDelta.IsEnabled = true;
-                    //RightDelta.IsEnabled = true;
-                    BottomRightDelta.IsEnabled = true;
-                    BottomRightDelta.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    //BottomDelta.IsEnabled = false;
-                    //RightDelta.IsEnabled = false;
-                    BottomRightDelta.IsEnabled = false;
-                    BottomRightDelta.Visibility = Visibility.Collapsed;
-                }
                 base.SetValue(ViewStateProperty, value);
                 this.Model.ViewState = value;
             }
@@ -210,16 +204,18 @@ namespace WorkspaceManager.View.Container
             setBaseControl(model);
             DataContext = this;
 
-            this.ViewState = Model.ViewState;
-
             West.PreviewDrop += new DragEventHandler(Connector_Drop);
             East.PreviewDrop += new DragEventHandler(Connector_Drop);
             North.PreviewDrop += new DragEventHandler(Connector_Drop);
             South.PreviewDrop += new DragEventHandler(Connector_Drop);
 
+            handleStartable();
+
             LogPanel.Child = new LogPresentation();
             PresentationPanel.Child = Model.PluginPresentation;
-            SettingsPanel.Child = null;
+            TaskPaneCtrl Settings = new TaskPaneCtrl();
+            SettingsPanel.Child = Settings;
+            Settings.DisplayPluginSettings(Model.Plugin, Model.Plugin.GetPluginInfoAttribute().Caption, Cryptool.PluginBase.DisplayPluginMode.Normal);
 
             foreach (ConnectorModel ConnectorModel in model.InputConnectors)
             {
@@ -233,6 +229,26 @@ namespace WorkspaceManager.View.Container
                 ConnectorView connector = new ConnectorView(ConnectorModel);
                 AddConnectorView(connector);
                 DataPanel.Children.Add(new DataPresentation(connector));
+            }
+            this.ViewState = Model.ViewState;
+        }
+
+        private void handleStartable()
+        {
+            if (Model.Startable)
+                play.Visibility = Visibility.Visible;
+            else
+                play.Visibility = Visibility.Collapsed;
+
+            if (model.RepeatStart)
+            {
+                model.RepeatStart = false;
+                playimg.Source = new BitmapImage(new Uri("../Image/play.png", UriKind.RelativeOrAbsolute));
+            }
+            else
+            {
+                model.RepeatStart = true;
+                playimg.Source = new BitmapImage(new Uri("../Image/pause.png", UriKind.RelativeOrAbsolute));
             }
         }
 
@@ -460,9 +476,6 @@ namespace WorkspaceManager.View.Container
 
         void PluginContainerView_Loaded(object sender, RoutedEventArgs e)
         {
-            TaskPaneCtrl Settings = new TaskPaneCtrl();
-            SettingsPanel.Child = Settings;
-            Settings.DisplayPluginSettings(Model.Plugin, Model.Plugin.GetPluginInfoAttribute().Caption, Cryptool.PluginBase.DisplayPluginMode.Normal);
 
 
             BorderGradientStop.Color = ColorHelper.GetColor(this.Model.PluginType);
@@ -597,7 +610,7 @@ namespace WorkspaceManager.View.Container
         public void PrepareFullscreen()
         {
             this.ViewPanelParent.Children.Clear();
-            this.OptPanelParent.Children.Clear();
+            this.OptPanelParent.Children.Remove(OptionPanel);
             this.ProgressbarRoot.Children.Clear();
             this.ProgressPercentageRoot.Children.Clear();
         }
@@ -660,22 +673,22 @@ namespace WorkspaceManager.View.Container
             Thumb t = sender as Thumb;
             if (t.Cursor == Cursors.SizeWE)
             {
-                if ((PluginBase.ActualWidth + e.HorizontalChange) > 0)
+                if ((PluginBase.ActualWidth + e.HorizontalChange) > Model.MinWidth)
                     PluginBase.Width = PluginBase.ActualWidth + e.HorizontalChange;
             }
 
             if (t.Cursor == Cursors.SizeNS)
             {
-                if ((PluginBase.ActualHeight + e.VerticalChange) > 0)
+                if ((PluginBase.ActualHeight + e.VerticalChange) > Model.MinHeight)
                     PluginBase.Height = PluginBase.ActualHeight + e.VerticalChange;
             }
 
             if (t.Cursor == Cursors.SizeNWSE)
             {
-                if ((PluginBase.ActualHeight + e.VerticalChange) > 0)
+                if ((PluginBase.ActualHeight + e.VerticalChange) > Model.MinHeight)
                     PluginBase.Height = PluginBase.ActualHeight + e.VerticalChange;
 
-                if ((PluginBase.ActualWidth + e.HorizontalChange) > 0)
+                if ((PluginBase.ActualWidth + e.HorizontalChange) > Model.MinWidth)
                     PluginBase.Width = PluginBase.ActualWidth + e.HorizontalChange;
             }
 
@@ -758,21 +771,20 @@ namespace WorkspaceManager.View.Container
                 case "PresentationButton":
                     if (PresentationPanel.Child == null)
                     {
-                        ViewPanel.Visibility = Visibility.Collapsed;
                         ViewState = PluginViewState.Min;
                         break;
                     }
-                    ViewPanel.Visibility = Visibility.Visible;
                     ViewState = PluginViewState.Presentation;
                     break;
 
                 case "DataButton":
                     ViewState = PluginViewState.Data;
                     break;
+
                 case "LogButton":
                     ViewState = PluginViewState.Log;
-
                     break;
+
                 case "MinimizeButton":
                     if(ViewState == PluginViewState.Min)
                         ViewState = PluginViewState.Log;
@@ -783,6 +795,7 @@ namespace WorkspaceManager.View.Container
                 case "SettingButton":
                     ViewState = PluginViewState.Setting;
                     break;
+
                 case "MaxButton":
                     showFullScreen();
                     break;
