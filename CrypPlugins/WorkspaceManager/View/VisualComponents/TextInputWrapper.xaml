@@ -17,12 +17,14 @@
             <z:SelectedContentBrushConverter x:Key="SelectedContentBrushConverter"></z:SelectedContentBrushConverter>
             <z:ContextMenuFixUnfixConverter x:Key="ContextMenuFixUnfixConverter"></z:ContextMenuFixUnfixConverter>
             <z:ToolbarVisibilityConverter x:Key="ToolbarVisibilityConverter"></z:ToolbarVisibilityConverter>
+            <z:TransparentColorConverter x:Key="TransparentColorConverter"></z:TransparentColorConverter>
+            <z:MenuItemHeaderFixedConverter x:Key="MenuItemHeaderFixedConverter"></z:MenuItemHeaderFixedConverter>
         </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.ContextMenu>
         <ContextMenu x:Name="ContextMenu">
             <MenuItem x:Name="DeleteMenuItem" Header="Delete" Click="MenuItem_Click"></MenuItem>
-            <MenuItem x:Name="FixUnfixMenuItem" Click="MenuItem_Click_1"></MenuItem>
+            <MenuItem x:Name="FixUnfixMenuItem" Click="MenuItem_Click_1" Header="{Binding Path=IsFixed, Converter={StaticResource ResourceKey=MenuItemHeaderFixedConverter}, FallbackValue=Error}"></MenuItem>
         </ContextMenu>
     </UserControl.ContextMenu>
     <Grid>
@@ -41,13 +43,23 @@
             </Style>
         </Grid.Resources>
 
-        <Grid x:Name="ParentPanel" Panel.ZIndex="201" IsEnabledChanged="IsEnabledChanged">
+        <Grid x:Name="ParentPanel" Panel.ZIndex="201">
             <Thumb x:Name="OverLayingControl" Opacity="0.01" DragDelta="OverLayingControl_DragDelta_Move" IsEnabled="{Binding Path=IsSelected}"></Thumb>
             <Grid x:Name="root" Margin="10">
                 <DockPanel Name="mainPanel">
 
                     <!-- This tool bar contains all the editing buttons. -->
-                    <ToolBar Name="mainToolBar" Height="30" DockPanel.Dock="Top" Visibility="{Binding Path=IsSelected, Converter={StaticResource ResourceKey=ToolbarVisibilityConverter}}">
+                    <ToolBar Foreground="Black" Name="mainToolBar" Background="{StaticResource ResourceKey=ToolBarBrush}" Height="30" DockPanel.Dock="Top" Visibility="{Binding Path=IsSelected, Converter={StaticResource ResourceKey=ToolbarVisibilityConverter}}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="BG" VerticalAlignment="Center" FontSize="11"></TextBlock>
+                            <Rectangle x:Name="BGColor" Fill="White" Margin="5,0,5,0" Width="23" Height="20" Stroke="#555" StrokeThickness="0.8" MouseLeftButtonDown="BGColor_MouseLeftButtonDown"></Rectangle>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Font" VerticalAlignment="Center" FontSize="11"></TextBlock>
+                            <Rectangle x:Name="FontColor" Fill="Black" Margin="5,0,5,0" Width="23" Height="20" Stroke="#555" StrokeThickness="0.8" MouseLeftButtonDown="FontColor_MouseLeftButtonDown"></Rectangle>
+                        </StackPanel>
+
 
                         <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Cut" ToolTip="Cut">
                             <Image Source="/WorkspaceManager;component/View/Image/EditCut.png"></Image>
@@ -110,10 +122,11 @@
 
                     <!-- By default pressing tab moves focus to the next control. Setting AcceptsTab to true allows the 
            RichTextBox to accept tab characters. -->
-                    <RichTextBox x:Name="mainRTB" AcceptsTab="True"></RichTextBox>
+                    <RichTextBox x:Name="mainRTB" Foreground="{Binding ElementName=FontColor, Path=Fill, Converter={StaticResource ResourceKey=TransparentColorConverter}}" AcceptsTab="True" OverridesDefaultStyle="True" BorderBrush="Transparent" BorderThickness="0" Background="{Binding ElementName=BGColor, Path=Fill, Converter={StaticResource ResourceKey=TransparentColorConverter}}" Margin="3"></RichTextBox>
                 </DockPanel>
             </Grid>
-            <Border x:Name="Border" Margin="4.5" BorderBrush="WhiteSmoke" BorderThickness="{Binding Path=IsSelected, Converter={StaticResource ResourceKey=SelectedContentBrushConverter}, FallbackValue=1}"></Border>
+            <Border x:Name="Border" Margin="4.5"></Border>
+            <!--<Border x:Name="Border" Margin="4.5" BorderBrush="WhiteSmoke" BorderThickness="{Binding Path=IsSelected, Converter={StaticResource ResourceKey=SelectedContentBrushConverter}, FallbackValue=1}"></Border>-->
             <Thumb Margin="15" Panel.ZIndex="200" Style="{StaticResource ResourceKey=ImageWrapperThumbStyle}" Name="BottomRightDelta" Opacity="1" Visibility="{Binding Path=IsSelected, Converter={StaticResource ResourceKey=SContentVisibilityConverter}, FallbackValue=Visible}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Cursor="SizeNWSE" DragDelta="Thumb_DragDelta">
                 <Thumb.Background>
                     <SolidColorBrush Opacity="0.01" Color="Black"></SolidColorBrush>

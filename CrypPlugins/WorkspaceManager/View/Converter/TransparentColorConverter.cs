@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
-using System.Drawing;
+using System.Windows.Media;
 
 namespace WorkspaceManager.View.Converter
 {
-    class SelectedContentBrushConverter : IValueConverter
+    class TransparentColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            bool b = (bool) value;
-            if (b)
-                return 0.4;
-
-            return 0;
+            if (value is VisualBrush)
+                return Brushes.Transparent;
+            else 
+                return value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

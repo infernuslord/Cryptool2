@@ -19,8 +19,9 @@
             <z:OverlapConverter x:Key="OverlapConverter"></z:OverlapConverter>
             <z:BlurViewStateConverter x:Key="BlurViewStateConverter"></z:BlurViewStateConverter>
             <z:ViewStateIconConverter x:Key="ViewStateIconConverter"></z:ViewStateIconConverter>
+            <z:DragDeltaViewStateConverter x:Key="DragDeltaViewStateConverter"></z:DragDeltaViewStateConverter>
 
-            <Button x:Key="SettingButton" Name="SettingButton" ToolTip="Settings" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" MouseEnter="SettingButton_MouseEnter" Height="30" Width="30" Click="OptionChooseHandler">
+            <Button x:Key="SettingButton" Name="SettingButton" ToolTip="Settings" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" MouseEnter="SettingButton_MouseEnter" Height="30" Width="30" Click="OptionChooseHandler">
                 <Image Source="/WorkspaceManager;component/View/Image/setting.png" HorizontalAlignment="Center" SnapsToDevicePixels="True">
                     <Image.Effect>
                         <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
@@ -28,7 +29,7 @@
                 </Image>
             </Button>
 
-            <Button x:Key="LogButton" Name="LogButton" ToolTip="Notification" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" MouseEnter="SettingButton_MouseEnter" Height="30" Width="30" Click="OptionChooseHandler">
+            <Button x:Key="LogButton" Name="LogButton" ToolTip="Notification" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" MouseEnter="SettingButton_MouseEnter" Height="30" Width="30" Click="OptionChooseHandler">
                 <Image Source="/WorkspaceManager;component/View/Image/log.png" HorizontalAlignment="Center" SnapsToDevicePixels="True">
                     <Image.Effect>
                         <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
@@ -36,7 +37,7 @@
                 </Image>
             </Button>
 
-            <Button x:Key="MaxButton" Name="MaxButton" ToolTip="Full View" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=Fullscreen}" MouseEnter="SettingButton_MouseEnter" Height="30" Width="30" Click="OptionChooseHandler">
+            <Button x:Key="MaxButton" Name="MaxButton" ToolTip="Full View" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=Fullscreen}" MouseEnter="SettingButton_MouseEnter" Height="30" Width="30" Click="OptionChooseHandler">
                 <Image Source="/WorkspaceManager;component/View/Image/max.png" HorizontalAlignment="Center" SnapsToDevicePixels="True">
                     <Image.Effect>
                         <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
@@ -44,7 +45,7 @@
                 </Image>
             </Button>
 
-            <Button x:Key="DataButton" Name="DataButton" ToolTip="Data" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" MouseEnter="SettingButton_MouseEnter" Height="30" Width="30" Click="OptionChooseHandler">
+            <Button x:Key="DataButton" Name="DataButton" ToolTip="Data" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" MouseEnter="SettingButton_MouseEnter" Height="30" Width="30" Click="OptionChooseHandler">
                 <Image Source="/WorkspaceManager;component/View/Image/data.png" HorizontalAlignment="Center" SnapsToDevicePixels="True">
                     <Image.Effect>
                         <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
@@ -52,7 +53,7 @@
                 </Image>
             </Button>
 
-            <Button x:Key="PresentationButton" Name="PresentationButton" ToolTip="Presentation" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" MouseEnter="SettingButton_MouseEnter" Height="30" Width="30" Click="OptionChooseHandler">
+            <Button x:Key="PresentationButton" Name="PresentationButton" ToolTip="Presentation" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" MouseEnter="SettingButton_MouseEnter" Height="30" Width="30" Click="OptionChooseHandler">
                 <Image Source="/WorkspaceManager;component/View/Image/presentation.png" HorizontalAlignment="Center" SnapsToDevicePixels="True">
                     <Image.Effect>
                         <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
@@ -60,7 +61,7 @@
                 </Image>
             </Button>
 
-            <Button x:Key="MinimizeButton" ToolTip="Minimize" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" MouseEnter="SettingButton_MouseEnter" Height="30" Width="30" Click="OptionChooseHandler">
+            <Button x:Key="MinimizeButton" ToolTip="Minimize" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" MouseEnter="SettingButton_MouseEnter" Height="30" Width="30" Click="OptionChooseHandler">
                 <Image Source="/WorkspaceManager;component/View/Image/minimize.png" HorizontalAlignment="Center" SnapsToDevicePixels="True">
                     <Image.Effect>
                         <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
@@ -71,13 +72,20 @@
     </UserControl.Resources>
     <DockPanel Name="Root" LastChildFill="True">
         
-        <DockPanel x:Name="PluginBase" DockPanel.Dock="Left" VerticalAlignment="Top" MinHeight="115" MinWidth="100" Width="100" Height="115">
+        <DockPanel x:Name="PluginBase" DockPanel.Dock="Left" VerticalAlignment="Top" MinHeight="125" MinWidth="110" Width="100" Height="115">
             <DockPanel.Background>
                 <SolidColorBrush Opacity="0.01" Color="#444444"></SolidColorBrush>
             </DockPanel.Background>
             
             <Grid DockPanel.Dock="Top">
                 <StackPanel Name="ControlPanel" Visibility="Visible" Opacity="0" Orientation="Horizontal" HorizontalAlignment="Right">
+
+                    <Button x:Name="play" Height="20" Width="20" Margin="3" VerticalAlignment="Bottom" HorizontalAlignment="Left" Style="{StaticResource ResourceKey=DeletePluginContainerButtonStyle}" Click="Button_Click">
+                        <Button.LayoutTransform>
+                            <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
+                        </Button.LayoutTransform>
+                        <Image x:Name="playimg" Source="/WorkspaceManager;component/View/Image/play.png" RenderOptions.ClearTypeHint="Enabled" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
+                    </Button>
 
                     <Button Name="MinimizeButton" Height="20" Width="20" ToolTip="Minimize" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" Click="OptionChooseHandler">
                         <Button.LayoutTransform>
@@ -106,7 +114,7 @@
                 <StackPanel/>
             </Border>-->
 
-            <Grid Name="MainGrid">
+            <Grid Name="MainGrid" Margin="5.5">
                 <Grid Name="ConnectorPanel" Panel.ZIndex="11111111">
                     <StackPanel x:Name="West" Panel.ZIndex="1111" Background="{StaticResource ResourceKey=CheatBrush}" Orientation="Vertical" HorizontalAlignment="Left" Width="20" Height="{Binding ElementName=Window, Path=ActualHeight}" Margin="5,0,0,0"></StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
@@ -122,7 +130,7 @@
                         <StackPanel x:Name="South" Panel.ZIndex="1111" Background="{StaticResource ResourceKey=CheatBrush}" Orientation="Horizontal" Height="18" Width="{Binding ElementName=Window, Path=ActualWidth}" Margin="0,0,0,5"></StackPanel>
                     </StackPanel>
 
-                    <Thumb Panel.ZIndex="2000" Name="BottomRightDelta" Style="{StaticResource ResourceKey=ImageWrapperThumbStyle}" IsEnabled="False" Background="Transparent" Opacity="0.6" HorizontalAlignment="Right" VerticalAlignment="Bottom" Cursor="SizeNWSE" Height="15" Width="15" DragDelta="Thumb_DragDelta" Margin="0,0,17,17"></Thumb>
+                    <Thumb Panel.ZIndex="2000" Name="BottomRightDelta" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=DragDeltaViewStateConverter}, ConverterParameter=Visibility}" Style="{StaticResource ResourceKey=ImageWrapperThumbStyle}" IsEnabled="{Binding Path=ViewState, Converter={StaticResource ResourceKey=DragDeltaViewStateConverter}, ConverterParameter=IsEnabled}" Background="Transparent" Opacity="0.6" HorizontalAlignment="Right" VerticalAlignment="Bottom" Cursor="SizeNWSE" Height="15" Width="15" DragDelta="Thumb_DragDelta" Margin="0,0,19,19"></Thumb>
                 </Grid>
                 <Grid Margin="3">
                     <Border Name="Window" BorderThickness="0" BorderBrush="Transparent" Margin="8">
@@ -249,12 +257,6 @@
                                                 </ScrollViewer>
                                             </Grid>
                                         </Grid>
-                                        <Button x:Name="play" Height="25" Width="25" Margin="5" VerticalAlignment="Top" HorizontalAlignment="Right" Style="{StaticResource ResourceKey=DeletePluginContainerButtonStyle}" Click="Button_Click">
-                                            <Button.LayoutTransform>
-                                                <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
-                                            </Button.LayoutTransform>
-                                            <Image x:Name="playimg" Source="/WorkspaceManager;component/View/Image/play.png" RenderOptions.ClearTypeHint="Enabled" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
-                                        </Button>
                                     </Grid>
                                     
                                 </Border>

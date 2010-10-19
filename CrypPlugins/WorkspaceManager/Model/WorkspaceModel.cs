@@ -97,8 +97,8 @@ namespace WorkspaceManager.Model
             pluginModel.WorkspaceModel = this;            
             pluginModel.Startable = pluginType.GetPluginInfoAttribute().Startable;
             pluginModel.Position = position;
-            pluginModel.Width = width;
-            pluginModel.Height = height;
+            //pluginModel.Width = width;
+            //pluginModel.Height = height;
             pluginModel.PluginType = pluginType;            
             pluginModel.Name = pluginType.Name;
             pluginModel.RepeatStart = false;

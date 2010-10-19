@@ -129,6 +129,8 @@ namespace WorkspaceManager.View.Container
             {
                 ConnectionModel connectionModel = this.Model.newConnectionModel(((ConnectorView)source).Model, ((ConnectorView)target).Model, ((ConnectorView)source).Model.ConnectorType);
                 CryptoLineView conn = new CryptoLineView(connectionModel);
+                conn.StartPointSource = source;
+                conn.EndPointSource = target;
                 connectionModel.UpdateableView = conn;
                 connectionModel.OnDelete += DeleteConnection;
                 conn.SetBinding(CryptoLineView.StartPointProperty, CreateConnectorBinding(source));
@@ -369,9 +371,15 @@ namespace WorkspaceManager.View.Container
                         foreach (ConnectorView connector in container.ConnectorViewList)
                         {
                             if (connModel.From == connector.Model)
+                            {
+                                conn.StartPointSource = connector;
                                 conn.SetBinding(CryptoLineView.StartPointProperty, CreateConnectorBinding(connector));
+                            }
                             else if (connModel.To == connector.Model)
+                            {
+                                conn.EndPointSource = connector;
                                 conn.SetBinding(CryptoLineView.EndPointProperty, CreateConnectorBinding(connector));
+                            }
                         }
                     }
                 }

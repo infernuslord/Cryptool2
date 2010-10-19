@@ -120,9 +120,11 @@
     <Compile Include="View\Converter\ConnectorToColorConverter.cs" />
     <Compile Include="View\Converter\ConnectorBindingConverter.cs" />
     <Compile Include="View\Converter\ContextMenuFixUnfixConverter.cs" />
+    <Compile Include="View\Converter\DragDeltaViewStateConverter.cs" />
     <Compile Include="View\Converter\DragDropDataObjectToPluginConverter.cs" />
     <Compile Include="View\Converter\IconPanelVisibilityConverter.cs" />
     <Compile Include="View\Converter\InputOutputConverter.cs" />
+    <Compile Include="View\Converter\MenuItemHeaderFixedConverter.cs" />
     <Compile Include="View\Converter\NotificationLevelConverter.cs" />
     <Compile Include="View\Converter\OptionTextCaptionConverter.cs" />
     <Compile Include="View\Converter\OverlapConverter.cs" />
@@ -130,6 +132,7 @@
     <Compile Include="View\Converter\SelectedContentBrushConverter.cs" />
     <Compile Include="View\Converter\SelectedContentVisibilityConverter.cs" />
     <Compile Include="View\Converter\ToolbarVisibilityConverter.cs" />
+    <Compile Include="View\Converter\TransparentColorConverter.cs" />
     <Compile Include="View\Converter\ViewStateConverter.cs" />
     <Compile Include="View\Converter\ViewStateIconConverter.cs" />
     <Compile Include="View\Interface\IConnectable.cs" />
@@ -138,6 +141,10 @@
     <Compile Include="View\Interface\IUpdateableView.cs" />
     <Compile Include="View\VisualComponents\CircularProgressBar.xaml.cs">
       <DependentUpon>CircularProgressBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\VisualComponents\ColorPickPopUp.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>ColorPickPopUp.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\VisualComponents\CryptoLineView\CryptoLineView.cs" />
     <Compile Include="View\VisualComponents\BottomBox.xaml.cs">
@@ -237,6 +244,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\Resource\PublicResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Resource\Styles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -248,6 +259,10 @@
     <Page Include="View\VisualComponents\CircularProgressBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\VisualComponents\ColorPickPopUp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\VisualComponents\DataPresentation.xaml">
       <SubType>Designer</SubType>

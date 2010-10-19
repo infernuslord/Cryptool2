@@ -24,13 +24,13 @@ namespace WorkspaceManager.View.Converter
             switch (connector.Orientation)
             {
                 case ConnectorOrientation.West:
-                    return new Point(X-8 , Y + Height / 2);
+                    return new Point(X , Y + Height / 2);
                 case ConnectorOrientation.East:
-                    return new Point(X + Width +8, Y + Height / 2);
+                    return new Point(X + Width, Y + Height / 2);
                 case ConnectorOrientation.North:
-                    return new Point(X + Width / 2, Y-8);
+                    return new Point(X + Width / 2, Y);
                 case ConnectorOrientation.South:
-                    return new Point(X + Width / 2, Y + Height+8);
+                    return new Point(X + Width / 2, Y + Height);
             }
 
             return new Point(0, 0);

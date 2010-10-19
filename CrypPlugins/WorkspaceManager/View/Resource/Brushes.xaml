@@ -126,5 +126,51 @@
         </GradientBrush.GradientStops>
     </LinearGradientBrush>
 
+    <LinearGradientBrush x:Key="ToolBarBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#ddd" Offset="0.0"/>
+                <GradientStop Color="#aaa" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
 
+    <VisualBrush x:Key="transparent">
+        <VisualBrush.Visual>
+            <Canvas Name="canvas" Height="25"  Width="25">
+                <Path Stroke="Red" StrokeThickness="2">
+                    <Path.Data>
+                        <PathGeometry>
+                            <PathGeometry.Figures>
+                                <PathFigure StartPoint="0,0">
+                                    <LineSegment Point="25,25"/>
+                                </PathFigure>
+                                <PathFigure StartPoint="0,25">
+                                    <LineSegment Point="25,0"/>
+                                </PathFigure>
+                            </PathGeometry.Figures>
+                        </PathGeometry>
+                    </Path.Data>
+                </Path>
+            </Canvas>
+        </VisualBrush.Visual>
+    </VisualBrush>
+
+    <LinearGradientBrush x:Key="AddTextBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#92d60e" Offset="0.0"/>
+                <GradientStop Color="#05a339" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="AddImageBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#10548f" Offset="1.0"/>
+                <GradientStop Color="#239fcf" Offset="0.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
 </ResourceDictionary>
