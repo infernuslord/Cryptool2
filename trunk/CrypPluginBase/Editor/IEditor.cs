@@ -27,6 +27,7 @@ namespace Cryptool.PluginBase.Editor
         event ProjectTitleChangedHandler OnProjectTitleChanged;
         event OpenProjectFileHandler OnOpenProjectFile;
         event EditorSpecificPluginsChanged OnEditorSpecificPluginsChanged;
+        event OpenTabHandler OnOpenTab;
 
         void New();
         void Open(string fileName);
