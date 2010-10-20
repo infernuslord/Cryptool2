@@ -19,6 +19,7 @@ using Cryptool.PluginBase.Editor;
 using Cryptool.PluginBase.Control;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Numerics;
+using System.Windows.Controls;
 
 namespace Cryptool.PluginBase
 {
@@ -71,7 +72,7 @@ namespace Cryptool.PluginBase
   /// <summary>
   /// Used to signal crypwin that an editor wants to open a tab.
   /// </summary>  
-  public delegate void OpenTabHandler(Object content, string title);
+  public delegate TabItem OpenTabHandler(Object content, string title);
   # endregion editor delegates
 
   #region optional delegates
