@@ -200,7 +200,8 @@ namespace TranspositionAnalyser
 
         public void Initialize()
         {
-            this.settings.Analysis_method = 0;
+            this.settings.UpdateTaskPaneVisibility(); 
+
         }
 
         public void Dispose()
@@ -703,7 +704,7 @@ namespace TranspositionAnalyser
             keysLastTenSecs = new int[10];
             poskeysLastTenSecs = 0;
 
-            for (int keylength = 2; keylength <= maxKeylength; keylength++)
+            for (int keylength = 2; keylength <= maxKeylength && !stop; keylength++)
             {
                 int[] binaryKey = getDefaultBinaryKey(cipher, keylength);
                 int[] firstKey = (int[])binaryKey.Clone();
@@ -756,7 +757,7 @@ namespace TranspositionAnalyser
                         
                     }
 
-                } while (!arrayEquals(firstKey, binaryKey));
+                } while (!arrayEquals(firstKey, binaryKey)&&!stop);
             }
 
             showBestKeysCribSearch();
@@ -845,7 +846,7 @@ namespace TranspositionAnalyser
             int keyPosition = 0;
             Boolean end = false;
 
-            while (!end)
+            while (!end && !stop)
             {
                 Boolean check = true;
                 if (keyPosition == -1)
