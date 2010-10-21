@@ -940,7 +940,7 @@ namespace KeySearcher
                 }
             }
             else
-                patterns[0] = Pattern;
+                patterns[0] = pattern;
             return patterns;
         }
 
