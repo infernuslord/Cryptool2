@@ -63,6 +63,8 @@ namespace Cryptool.Plugins.CostFunction
         private IDictionary<String, DataFileMetaInfo> txtList;
         private IDictionary<int, IDictionary<string, double[]>> statistics;
 
+        private Regex regularexpression = null;
+
         #endregion
         #region internal constants
         internal const int ABSOLUTE = 0;
@@ -404,14 +406,20 @@ namespace Cryptool.Plugins.CostFunction
 
         public double regex(string input)
         {
-            if (settings.RegEx == null)
+            if (regularexpression == null || regularexpression.ToString() != settings.RegEx)
             {
-                GuiLogMessage("There is no Regular Expression to be searched for. Please insert regex in the 'Regular Expression' - Textarea", NotificationLevel.Error);
-                return new Double();
+                if (settings.RegEx == null)
+                {
+                    GuiLogMessage("There is no Regular Expression to be searched for. Please insert regex in the 'Regular Expression' - Textarea", NotificationLevel.Error);
+                    return new Double();
+                }
+                regularexpression = new Regex(settings.RegEx, RegexOptions.Compiled);
             }
+
+
             try
             {
-                Match match = Regex.Match(input, settings.RegEx);
+                Match match = regularexpression.Match(input);
                 if (match.Success)
                 {
                     return 1.0;
