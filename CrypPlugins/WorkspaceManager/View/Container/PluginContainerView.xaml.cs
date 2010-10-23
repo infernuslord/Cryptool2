@@ -20,7 +20,6 @@ using WorkspaceManager;
 using System.Windows.Threading;
 using System.Threading;
 using Cryptool.PluginBase;
-
 namespace WorkspaceManager.View.Container
 {
     public enum PluginViewState
@@ -57,13 +56,13 @@ namespace WorkspaceManager.View.Container
             switch (routPoint)
             {
                 case 0:
-                    return new Point((this.RenderTransform as TranslateTransform).X - 1, (this.RenderTransform as TranslateTransform).Y - 1);
+                    return new Point(GetPosition().X - 1, GetPosition().Y - 1);
                 case 1:
-                    return new Point((this.RenderTransform as TranslateTransform).X - 1, (this.RenderTransform as TranslateTransform).Y + this.ActualHeight + 1);
+                    return new Point(GetPosition().X - 1, GetPosition().Y + this.ActualHeight + 1);
                 case 2:
-                    return new Point((this.RenderTransform as TranslateTransform).X + 1 + this.ActualWidth, (this.RenderTransform as TranslateTransform).Y + 1);
+                    return new Point(GetPosition().X + 1 + this.PluginBase.ActualWidth, GetPosition().Y + 1);
                 case 3:
-                    return new Point((this.RenderTransform as TranslateTransform).X + this.ActualWidth + 1, (this.RenderTransform as TranslateTransform).Y + this.ActualHeight + 1);
+                    return new Point(GetPosition().X + this.PluginBase.ActualWidth + 1, GetPosition().Y + this.ActualHeight + 1);
             }
             return default(Point);
         }
@@ -73,14 +72,14 @@ namespace WorkspaceManager.View.Container
             get
             {
                 return  new Point[] {
-                        new Point((this.RenderTransform as TranslateTransform).X-1 ,(this.RenderTransform as TranslateTransform).Y-1),
+                        new Point(GetPosition().X-1 ,GetPosition().Y-1),
                         //new Point((this.RenderTransform as TranslateTransform).X + (this.ActualWidth / 2),(this.RenderTransform as TranslateTransform).Y-1),
                         //new Point((this.RenderTransform as TranslateTransform).X-1,(this.RenderTransform as TranslateTransform).Y + (this.ActualHeight / 2)),
-                        new Point((this.RenderTransform as TranslateTransform).X-1,(this.RenderTransform as TranslateTransform).Y + this.ActualHeight+1),
-                        new Point((this.RenderTransform as TranslateTransform).X+1 + this.ActualWidth,(this.RenderTransform as TranslateTransform).Y+1),
+                        new Point(GetPosition().X-1,GetPosition().Y + this.PluginBase.ActualHeight+1),
+                        new Point(GetPosition().X+1 + this.PluginBase.ActualWidth,GetPosition().Y+1),
                         //new Point((this.RenderTransform as TranslateTransform).X + (this.ActualWidth / 2), (this.RenderTransform as TranslateTransform).Y + this.ActualHeight+1),
                         //new Point((this.RenderTransform as TranslateTransform).X + this.ActualWidth+1, (this.RenderTransform as TranslateTransform).Y + (this.ActualHeight / 2)),
-                        new Point((this.RenderTransform as TranslateTransform).X + this.ActualWidth+1, (this.RenderTransform as TranslateTransform).Y + this.ActualHeight+1)};
+                        new Point(GetPosition().X + this.PluginBase.ActualWidth+1, GetPosition().Y + this.PluginBase.ActualHeight+1)};
             }
         }
 
@@ -336,26 +335,33 @@ namespace WorkspaceManager.View.Container
 
 
 
-        public void ResetPopUp()
-        {
-            Random random = new Random();
-            BubblePopup.PlacementRectangle = new Rect(new Point(random.NextDouble() / 1000, 0), new Size(0, 0));
-            //ProgressPopup.PlacementRectangle = new Rect(new Point(random.NextDouble() / 1000, 0), new Size(0, 0));
-        }
+        //public void ResetPopUp()
+        //{
+        //    Random random = new Random();
+        //    BubblePopup.PlacementRectangle = new Rect(new Point(random.NextDouble() / 1000, 0), new Size(0, 0));
+        //    //ProgressPopup.PlacementRectangle = new Rect(new Point(random.NextDouble() / 1000, 0), new Size(0, 0));
+        //}
 
         public void SetPosition(Point value)
         {
-            TranslateTransform pos = (this.RenderTransform as TranslateTransform);
-            pos.X = value.X;
-            pos.Y = value.Y;
-            ResetPopUp();
-            Model.Position = new Point(pos.X, pos.Y);
+            if (value.Y < 0)
+                Canvas.SetTop(this, 0);
+            else
+                Canvas.SetTop(this, value.Y);
+
+            if (value.X < 0)
+                Canvas.SetLeft(this, 0);
+            else
+                Canvas.SetLeft(this, value.X);
+
+            //ResetPopUp();
+            Model.Position = GetPosition();
             SetAllConnectorPositionX();
         }
 
         public Point GetPosition()
         {
-            return new Point((this.RenderTransform as TranslateTransform).X, (this.RenderTransform as TranslateTransform).Y);
+            return new Point(Canvas.GetLeft(this), Canvas.GetTop(this));
         }
 
         #endregion
@@ -413,8 +419,8 @@ namespace WorkspaceManager.View.Container
                     point = gTransform.Transform(new Point(0, 0));
                     relativePoint = gTransformSec.Transform(new Point(0, 0));
 
-                    x = (RenderTransform as TranslateTransform).X + point.X + relativePoint.X;
-                    y = (RenderTransform as TranslateTransform).Y + point.Y + relativePoint.Y;
+                    x = GetPosition().X + point.X + relativePoint.X;
+                    y = GetPosition().Y + point.Y + relativePoint.Y;
 
                     conn.PositionOnWorkSpaceX = x;
                     conn.PositionOnWorkSpaceY = y;
@@ -428,8 +434,8 @@ namespace WorkspaceManager.View.Container
                     point = gTransform.Transform(new Point(0, 0));
                     relativePoint = gTransformSec.Transform(new Point(0, 0));
 
-                    x = (RenderTransform as TranslateTransform).X + point.X + relativePoint.X;
-                    y = (RenderTransform as TranslateTransform).Y + point.Y + relativePoint.Y;
+                    x = GetPosition().X + point.X + relativePoint.X;
+                    y = GetPosition().Y + point.Y + relativePoint.Y;
 
                     conn.PositionOnWorkSpaceX = x;
                     conn.PositionOnWorkSpaceY = y;
@@ -443,8 +449,8 @@ namespace WorkspaceManager.View.Container
                     point = gTransform.Transform(new Point(0, 0));
                     relativePoint = gTransformSec.Transform(new Point(0, 0));
 
-                    x = (RenderTransform as TranslateTransform).X + point.X + relativePoint.X;
-                    y = (RenderTransform as TranslateTransform).Y + point.Y + relativePoint.Y;
+                    x = GetPosition().X + point.X + relativePoint.X;
+                    y = GetPosition().Y + point.Y + relativePoint.Y;
 
                     conn.PositionOnWorkSpaceX = x;
                     conn.PositionOnWorkSpaceY = y;
@@ -458,8 +464,8 @@ namespace WorkspaceManager.View.Container
                     point = gTransform.Transform(new Point(0, 0));
                     relativePoint = gTransformSec.Transform(new Point(0, 0));
 
-                    x = (RenderTransform as TranslateTransform).X + point.X + relativePoint.X;
-                    y = (RenderTransform as TranslateTransform).Y + point.Y + relativePoint.Y;
+                    x = GetPosition().X + point.X + relativePoint.X;
+                    y = GetPosition().Y + point.Y + relativePoint.Y;
 
                     conn.PositionOnWorkSpaceX = x;
                     conn.PositionOnWorkSpaceY = y;
@@ -476,10 +482,11 @@ namespace WorkspaceManager.View.Container
 
         void PluginContainerView_Loaded(object sender, RoutedEventArgs e)
         {
-
-
+            Color clr = ColorHelper.GetColor(this.Model.PluginType);
+            System.Drawing.Color clr2 = System.Windows.Forms.ControlPaint.Light(System.Drawing.Color.FromArgb(clr.A, clr.R, clr.G, clr.B));
+            clr = Color.FromArgb(clr2.A, clr2.R, clr2.G, clr2.B);
             BorderGradientStop.Color = ColorHelper.GetColor(this.Model.PluginType);
-            BorderGradientStopSecond.Color = Color.FromArgb(100, this.BorderGradientStop.Color.R, this.BorderGradientStop.Color.G, this.BorderGradientStop.Color.B);
+            BorderGradientStopSecond.Color = clr;
 
             if (Model.PluginPresentation != null)
             {
@@ -517,13 +524,13 @@ namespace WorkspaceManager.View.Container
 
         void LogView_LogUpdated(object sender, LogUpdated e)
         {
-            LogPresentation logView = sender as LogPresentation;
-            ErrorCount.Text = logView.ErrorCount.ToString();
-            WarningCount.Text = logView.WarningCount.ToString();
-            DebugCount.Text = logView.DebugCount.ToString();
-            InfoCount.Text = logView.InfoCount.ToString();
-            LogReport.Text = e.log.Message;
-            BubblePopup.IsOpen = true;
+            //LogPresentation logView = sender as LogPresentation;
+            //ErrorCount.Text = logView.ErrorCount.ToString();
+            //WarningCount.Text = logView.WarningCount.ToString();
+            //DebugCount.Text = logView.DebugCount.ToString();
+            //InfoCount.Text = logView.InfoCount.ToString();
+            //LogReport.Text = e.log.Message;
+            //BubblePopup.IsOpen = true;
         }
 
         private int optionModulo(int value)
@@ -659,6 +666,7 @@ namespace WorkspaceManager.View.Container
             //    OptionPanel.Visibility = Visibility.Collapsed;
             (Resources["FadeIn"] as Storyboard).Stop(ControlPanel);
             ControlPanel.BeginStoryboard(Resources["FadeOut"] as Storyboard);
+            CTextBox.BeginStoryboard(Resources["FadeOut"] as Storyboard);
         }
 
         void PluginContainerView_MouseEnter(object sender, MouseEventArgs e)
@@ -666,6 +674,7 @@ namespace WorkspaceManager.View.Container
             //OptionPanel.Visibility = Visibility.Visible;
             (Resources["FadeOut"] as Storyboard).Stop(ControlPanel);
             ControlPanel.BeginStoryboard(Resources["FadeIn"] as Storyboard);
+            CTextBox.BeginStoryboard(Resources["FadeIn"] as Storyboard);
         }
 
         private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
@@ -807,6 +816,13 @@ namespace WorkspaceManager.View.Container
         {
             Button btn = sender as Button;
             OptionCaption.Text = btn.ToolTip as String;
+        }
+
+        private void Thumb_DragDelta_1(object sender, DragDeltaEventArgs e)
+        {
+            this.SetPosition(new Point((Math.Round((Canvas.GetLeft(this) + e.HorizontalChange) / Properties.Settings.Default.GridScale)) * Properties.Settings.Default.GridScale,
+                                                            (Math.Round((Canvas.GetTop(this) + e.VerticalChange) / Properties.Settings.Default.GridScale)) * Properties.Settings.Default.GridScale));
+            Model.WorkspaceModel.WorkspaceManagerEditor.HasChanges = true;
         }
 
     }

@@ -38,6 +38,7 @@ namespace WorkspaceManager.View.Container
         private CryptoLineView dummyLine = new CryptoLineView();
         private Point point;
         private PluginContainerView currentFullViewContainer;
+        private Panel root { get { return (this.ViewBox.Content as Panel); } }
 
         public UserContentWrapper UserContentWrapper { get; set; }
         public EditorState State;
@@ -71,7 +72,6 @@ namespace WorkspaceManager.View.Container
             this.Loaded += new RoutedEventHandler(WorkSpaceEditorView_Loaded);
             this.DragEnter += new DragEventHandler(WorkSpaceEditorView_DragEnter);
             this.Drop += new DragEventHandler(WorkSpaceEditorView_Drop);
-            this.MouseMove += new MouseEventHandler(WorkSpaceEditorView_MouseMove);
             this.PreviewMouseRightButtonDown += new MouseButtonEventHandler(WorkSpaceEditorView_PreviewMouseRightButtonDown);
             this.Model = WorkspaceModel;
             this.State = EditorState.READY;
@@ -247,22 +247,8 @@ namespace WorkspaceManager.View.Container
 
         void WorkSpaceEditorView_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed && selectedPluginContainer != null)
-            {
-                point = selectedPluginContainer.GetPosition();
-                this.selectedPluginContainer.SetPosition(new Point((Math.Round((Mouse.GetPosition(root).X - previousDragPoint.X) / Properties.Settings.Default.GridScale)) * Properties.Settings.Default.GridScale,
-                                                            (Math.Round((Mouse.GetPosition(root).Y - previousDragPoint.Y) / Properties.Settings.Default.GridScale)) * Properties.Settings.Default.GridScale));
-                Model.WorkspaceManagerEditor.HasChanges = true;
-                //this.selectedPluginContainer.SetPosition(new Point((Math.Round(( Mouse.GetPosition(root).X )/Properties.Settings.Default.GridScale)) * Properties.Settings.Default.GridScale,
-                //                                            (Math.Round(( Mouse.GetPosition(root).Y ) / Properties.Settings.Default.GridScale)) * Properties.Settings.Default.GridScale));
-            }
-
-
-
-            if (selectedConnector != null && root.Children.Contains(dummyLine))
-            {
-                this.dummyLine.EndPoint = Mouse.GetPosition(root);
-            }
+            this.dummyLine.EndPoint = Mouse.GetPosition(root);
+            previousDragPoint = e.GetPosition(root);
         }
 
         void shape_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)

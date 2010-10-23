@@ -461,10 +461,10 @@ namespace WorkspaceManager.View.VisualComponents
                             {
                                 quadTree.Insert(new FakeNode()
                                 {
-                                    Rectangle = new System.Drawing.RectangleF((float)(p1.RenderTransform as TranslateTransform).X,
-                                                                               (float)(p1.RenderTransform as TranslateTransform).Y + (float)p1.ControlPanel.ActualHeight,
-                                                                               (float)p1.ActualWidth,
-                                                                               (float)p1.ActualHeight - (float)p1.ControlPanel.ActualHeight)
+                                    Rectangle = new System.Drawing.RectangleF((float)p1.GetPosition().X,
+                                                                               (float)p1.GetPosition().Y + (float)p1.ControlPanel.ActualHeight,
+                                                                               (float)p1.PluginBase.ActualWidth,
+                                                                               (float)p1.PluginBase.ActualHeight - (float)p1.ControlPanel.ActualHeight)
                                 });
                             }
                         }

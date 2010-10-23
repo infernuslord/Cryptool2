@@ -188,6 +188,7 @@
     <Compile Include="View\VisualComponents\LogPresentation.xaml.cs">
       <DependentUpon>LogPresentation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\VisualComponents\ModifiedCanvas\ModifiedCanvas.cs" />
     <Compile Include="View\VisualComponents\Search.xaml.cs">
       <DependentUpon>Search.xaml</DependentUpon>
     </Compile>
