@@ -29,6 +29,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Reflection;
+
 namespace Cryptool.Plugins.CostFunction
 {
     [Author("Nils Kopal, Simon Malischewski", "Nils.Kopal@cryptool.org , malischewski@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
@@ -63,7 +64,7 @@ namespace Cryptool.Plugins.CostFunction
         private IDictionary<String, DataFileMetaInfo> txtList;
         private IDictionary<int, IDictionary<string, double[]>> statistics;
 
-        private Regex regularexpression = null;
+        private RegEx regularexpression = null;
 
         #endregion
         #region internal constants
@@ -232,7 +233,7 @@ namespace Cryptool.Plugins.CostFunction
                         this.Value = calculateNGrams(bigramInput, 2, 1,false);
                         break;
                     case 5: //regular expressions
-                        this.Value = regex(bigramInput);
+                        this.Value = regex(array);
                         break;
                     case 6: // Weighted Bigrams/Trigrams (used by genetic algorithm in transposition analyser)
                         this.Value = calculateWeighted(bigramInput);
@@ -404,23 +405,25 @@ namespace Cryptool.Plugins.CostFunction
             
         }
 
-        public double regex(string input)
+        private string lastRegexSetting = null;
+
+        public double regex(byte[] input)
         {
-            if (regularexpression == null || regularexpression.ToString() != settings.RegEx)
+            if (regularexpression == null || lastRegexSetting != settings.RegEx)
             {
                 if (settings.RegEx == null)
                 {
                     GuiLogMessage("There is no Regular Expression to be searched for. Please insert regex in the 'Regular Expression' - Textarea", NotificationLevel.Error);
-                    return new Double();
+                    return -1.0;
                 }
-                regularexpression = new Regex(settings.RegEx, RegexOptions.Compiled);
+                regularexpression = new RegEx(settings.RegEx);
+                lastRegexSetting = settings.RegEx;
             }
-
 
             try
             {
-                Match match = regularexpression.Match(input);
-                if (match.Success)
+                bool match = regularexpression.Matches(input);
+                if (match)
                 {
                     return 1.0;
                 }
@@ -823,7 +826,7 @@ namespace Cryptool.Plugins.CostFunction
                 case 4: // Bigrams: Percentaged
                     return plugin.calculateNGrams(plugin.ByteArrayToString(text), 2, 1, false);
                 case 5: // regular expression
-                    return plugin.regex(plugin.ByteArrayToString(text));
+                    return plugin.regex(text);
                 case 6:
                     return plugin.calculateWeighted(plugin.ByteArrayToString(text));
                 default:
