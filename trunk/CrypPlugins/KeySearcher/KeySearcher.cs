@@ -590,6 +590,8 @@ namespace KeySearcher
             Stack threadStack = Stack.Synchronized(new Stack());
             startThreads(sender, bytesToUse, patterns, doneKeysA, keycounters, keysleft, threadStack);
 
+            DateTime lastTime = DateTime.Now;
+
             //update message:
             while (!stop)
             {
@@ -632,13 +634,15 @@ namespace KeySearcher
                 }
                 #endregion
 
+                long keysPerSecond = (long)((long)doneKeys/(DateTime.Now - lastTime).TotalSeconds);
+                lastTime = DateTime.Now;
                 if (redirectResultsToStatisticsGenerator)
                 {
-                    distributedBruteForceManager.StatisticsGenerator.ShowProgress(costList, size, keycounter, doneKeys);
+                    distributedBruteForceManager.StatisticsGenerator.ShowProgress(costList, size, keycounter, keysPerSecond);
                 }
                 else
                 {
-                    showProgress(costList, size, keycounter, doneKeys);
+                    showProgress(costList, size, keycounter, keysPerSecond);                    
                 }
                 
 
@@ -693,16 +697,16 @@ namespace KeySearcher
             localQuickWatchPresentation.startTime.Content = DateTime.Now.ToString("g", Thread.CurrentThread.CurrentCulture); ;
         }
 
-        internal void showProgress(LinkedList<ValueKey> costList, BigInteger size, BigInteger keycounter, BigInteger doneKeys)
+        internal void showProgress(LinkedList<ValueKey> costList, BigInteger size, BigInteger keycounter, long keysPerSecond)
         {
             System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
 
             LinkedListNode<ValueKey> linkedListNode;
             ProgressChanged((double)keycounter / (double) size, 1.0);
 
-            if (localQuickWatchPresentation.IsVisible && doneKeys != 0 && !stop)
+            if (localQuickWatchPresentation.IsVisible && keysPerSecond != 0 && !stop)
             {
-                double time = (Math.Pow(10, BigInteger.Log((size - keycounter), 10) - BigInteger.Log(doneKeys, 10)));
+                double time = (Math.Pow(10, BigInteger.Log((size - keycounter), 10) - Math.Log10(keysPerSecond)));
                 TimeSpan timeleft = new TimeSpan(-1);
 
                 try
@@ -728,8 +732,7 @@ namespace KeySearcher
                 localQuickWatchPresentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     localQuickWatchPresentation.elapsedTime.Content = localBruteForceStopwatch.Elapsed;
-
-                    localQuickWatchPresentation.keysPerSecond.Content = "" + doneKeys;
+                    localQuickWatchPresentation.keysPerSecond.Content = "" + keysPerSecond;
                     if (timeleft != new TimeSpan(-1))
                     {
                         localQuickWatchPresentation.timeLeft.Content = "" + timeleft;
