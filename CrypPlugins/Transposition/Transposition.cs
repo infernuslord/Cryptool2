@@ -1159,11 +1159,6 @@ namespace Transposition
             return null;
         }
 
-        public byte[] getKeyFromString(string key)
-        {
-            return null;
-        }
-
         public string getKeyPattern()
         {
             return null;
@@ -1178,6 +1173,11 @@ namespace Transposition
         public void changeSettings(string setting, object value)
         {
             plugin.changeSettings(setting, value);
+        }
+
+        public KeyTranslator getKeyTranslator()
+        {
+            throw new NotImplementedException();
         }
 
         public event KeyPatternChanged keyPatternChanged;

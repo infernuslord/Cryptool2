@@ -28,6 +28,7 @@ using Cryptool.PluginBase.Control;
 using System.Threading;
 using System.Windows.Threading;
 using System.Runtime.InteropServices;
+using KeySearcher.KeyPattern;
 
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
@@ -627,30 +628,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             return "[01][01][01][01][01][01][01][01][01][01]";
         }
 
-        /// <summary>
-        /// Makes a byte Array out of a String
-        /// example
-        /// "10101" -> 1,0,1,0,1
-        /// 
-        /// A 0 is interpreted as 0
-        /// any other character as 1
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public byte[] getKeyFromString(string key)
-        {
-            byte[] bkey = new byte[10];
-            int count = 0;
-            foreach (char c in key)
-                if (c == '*')
-                    return null;    //blocks not supported yet
-                else if (c == '0')
-                    bkey[count++] = 0;
-                else
-                    bkey[count++] = 1;
-            return bkey;
-        }
-
         public IControlEncryption clone()
         {
             return new SDESControl(plugin);
@@ -737,15 +714,65 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             return execute(input, key, bytesToUse, action);
         }
 
-        #endregion
-
-        #region IControlEncryption Member
-
-
         public void changeSettings(string setting, object value)
         {
 
         }
+
+        public KeyTranslator getKeyTranslator()
+        {
+            return new SDESKeyTranslator();
+        }
+
+        #endregion
+    }
+
+    class SDESKeyTranslator : KeyTranslator
+    {
+        private KeyPattern pattern;
+        private int progress = 0;
+
+        #region KeyTranslator Members
+
+        public void SetKeys(object keys)
+        {
+            if (!(keys is KeyPattern))
+                throw new Exception("Something went horribly wrong!");
+
+            pattern = (KeyPattern)keys;
+        }
+
+        public byte[] GetKey()
+        {
+            string key = pattern.getKey();
+            byte[] bkey = new byte[10];
+            int count = 0;
+            foreach (char c in key)
+                if (c == '0')
+                    bkey[count++] = 0;
+                else
+                    bkey[count++] = 1;
+            return bkey;
+        }
+
+        public bool NextKey()
+        {
+            progress++;            
+            return pattern.nextKey();
+        }
+
+        public string GetKeyRepresentation()
+        {
+            return pattern.getKey();
+        }
+
+        public int GetProgress()
+        {
+            int result = progress;
+            progress = 0;
+            return result;
+        }
+
         #endregion
     }
        

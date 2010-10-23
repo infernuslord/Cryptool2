@@ -1,5 +1,5 @@
-﻿/*
-   Copyright 2009 Thomas Schmid
+﻿/*                              
+   Copyright 2010 Sven Rech (svenrech at googlemail dot com), Uni Duisburg-Essen
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -19,18 +19,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Cryptool.PluginBase.Control
+namespace KeySearcher.KeyPattern
 {
-    public interface IControlEncryption : IControl, IDisposable
+    public class IntervalKeyMovement : KeyMovement
     {
-        byte[] Encrypt(byte[] key, int blocksize);
-        byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV, int bytesToUse);
-        byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV);
-        string getKeyPattern();
-        KeyTranslator getKeyTranslator();
+        public List<int> IntervalList
+        {
+            get;
+            private set;
+        }
 
-        void changeSettings(string setting, object value);
-        IControlEncryption clone();
-        event KeyPatternChanged keyPatternChanged;
+        public IntervalKeyMovement(List<int> intervalList)
+        {
+            this.IntervalList = intervalList;
+        }
+
     }
 }

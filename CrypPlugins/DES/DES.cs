@@ -535,9 +535,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
             // Change the padding mode to zeroes, since we want to do bruteforcing..
             ((DESSettings)plugin.Settings).Padding = 0;
-        }
-
-       
+        }       
 
         public byte[] Encrypt(byte[] key, int blocksize)
         {
@@ -564,19 +562,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 +"[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]";
         }
 
-        public byte[] getKeyFromString(string key)
-        {
-            byte[] bkey = new byte[8];
-
-            for (int i = 0; i <= 7; i++)
-            {
-                string substr = key.Substring(i * 3, 2);
-                bkey[i] = Convert.ToByte(substr, 16);
-            }
-
-            return bkey;
-        }
-
         public IControlEncryption clone()
         {
             DESControl des = new DESControl(plugin);
@@ -593,6 +578,10 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             throw new NotImplementedException();
         }
 
+        public KeyTranslator getKeyTranslator()
+        {
+            return new KeySearcher.KeyTranslators.ByteArrayKeyTranslator();
+        }
     }
     #endregion
 }

@@ -109,9 +109,13 @@
     <Compile Include="Converter\FalseToVisibleConverter.cs" />
     <Compile Include="Converter\TrueToVisibleConverter.cs" />
     <Compile Include="Helper\KeyQualityHelper.cs" />
+    <Compile Include="KeyPattern\IntervalKeyMovement.cs" />
     <Compile Include="KeyPattern\KeyPattern.cs" />
     <Compile Include="KeyPattern\KeyPatternPool.cs" />
+    <Compile Include="KeyPattern\LinearKeyMovement.cs" />
+    <Compile Include="KeyPattern\KeyMovement.cs" />
     <Compile Include="KeySearcher.cs" />
+    <Compile Include="KeyTranslators\ByteArrayKeyTranslator.cs" />
     <Compile Include="P2P\Helper\ConnectionHelper.cs" />
     <Compile Include="P2P\Helper\DatabaseStatistics.cs" />
     <Compile Include="P2P\Presentation\StatisticsGenerator.cs" />
