@@ -1,4 +1,20 @@
-﻿using System;
+﻿/*                              
+   Copyright 2009 Sven Rech, Nils Kopal, Uni Duisburg-Essen
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -190,9 +206,9 @@ namespace KeySearcher
         {
             get
             {
-                if (top1ValueKey.key != null) //added by Arnold - 2010.02.22
+                if (top1ValueKey.key != null)
                 {
-                    return ControlMaster.getKeyFromString(top1ValueKey.key);
+                    return top1ValueKey.keya;
                 }
                 else
                     return null;
@@ -344,6 +360,11 @@ namespace KeySearcher
                     BigInteger size = pattern.size();
                     keysLeft[threadid] = size;
 
+                    KeyTranslator keyTranslator = ControlMaster.getKeyTranslator();
+                    keyTranslator.SetKeys(pattern);
+
+                    bool finish = false;
+
                     do
                     {
                         //if we are the thread with most keys left, we have to share them:
@@ -359,6 +380,9 @@ namespace KeySearcher
                                     {
                                         patterns[threadid] = split[0];
                                         pattern = split[0];
+                                        keyTranslator = ControlMaster.getKeyTranslator();
+                                        keyTranslator.SetKeys(pattern);
+
                                         ThreadStackElement elem = (ThreadStackElement)threadStack.Pop();
                                         patterns[elem.threadid] = split[1];
                                         elem.ev.Set();    //wake the other thread up                                    
@@ -374,27 +398,24 @@ namespace KeySearcher
                             }
                         }
 
-                        ValueKey valueKey = new ValueKey();
-                        try
+                        for (int count = 0; count < 256 * 256; count++)
                         {
-                            valueKey.key = pattern.getKey();
+                            byte[] keya = keyTranslator.GetKey();
+
+                            if (!decryptAndCalculate(sender, bytesToUse, keya, keyTranslator))
+                                return;
+
+                            finish = !keyTranslator.NextKey();
+                            if (finish)
+                                break;
                         }
-                        catch (Exception ex)
-                        {
-                            GuiLogMessage("Could not get next key: " + ex.Message, NotificationLevel.Error);
-                            return;
-                        }
+                        int progress = keyTranslator.GetProgress();
 
-                        byte[] keya = ControlMaster.getKeyFromString(valueKey.key);
+                        doneKeysArray[threadid] += progress;
+                        keycounterArray[threadid] += progress;
+                        keysLeft[threadid] -= progress;
 
-                        if (!decryptAndCalculate(sender, bytesToUse, ref valueKey, keya, 0, null))
-                            return;
-
-                        doneKeysArray[threadid]++;
-                        keycounterArray[threadid]++;
-                        keysLeft[threadid]--;
-
-                    } while (pattern.nextKey() && !stop);
+                    } while (!finish && !stop);
 
                     if (stop)
                         return;
@@ -408,8 +429,11 @@ namespace KeySearcher
                     threadStack.Push(el);
                     GuiLogMessage("Thread waiting for new keys.", NotificationLevel.Debug);
                     el.ev.WaitOne();
-                    GuiLogMessage("Thread waking up with new keys.", NotificationLevel.Debug);
-                    pattern = patterns[threadid];
+                    if (!stop)
+                    {
+                        GuiLogMessage("Thread waking up with new keys.", NotificationLevel.Debug);
+                        pattern = patterns[threadid];
+                    }
                 }
             }
             finally
@@ -420,8 +444,10 @@ namespace KeySearcher
 
         #region bruteforce methods
 
-        private bool decryptAndCalculate(IControlEncryption sender, int bytesToUse, ref ValueKey valueKey, byte[] keya, int counter, KeyPattern.KeyPattern pattern)
+        private bool decryptAndCalculate(IControlEncryption sender, int bytesToUse, byte[] keya, KeyTranslator keyTranslator)
         {
+            ValueKey valueKey;
+
             try
             {
                 if (this.encryptedData != null && this.encryptedData.Length > 0)
@@ -433,22 +459,6 @@ namespace KeySearcher
                     GuiLogMessage("Can't bruteforce empty input!", NotificationLevel.Error);
                     return false;
                 }
-                //CryptoolStream cs = new CryptoolStream();
-                //if (this.CSEncryptedData == null)
-                //{
-                //    cs.OpenRead(this.EncryptedData);
-                //    valueKey.decryption = sender.Decrypt(this.EncryptedData, keya);
-                //}
-                //else
-                //{
-                //    cs.OpenRead(this.CSEncryptedData.FileName);
-                //    byte[] byteCS = new byte[cs.Length];
-                //    cs.Read(byteCS, 0, byteCS.Length);
-                //    //this.CSEncryptedData.Read(byteCS, 0, byteCS.Length);
-                //    valueKey.decryption = sender.Decrypt(byteCS, keya);
-                //}
-
-                //valueKey.decryption = sender.Decrypt(keya, bytesToUse);
             }
             catch (Exception ex)
             {
@@ -471,17 +481,17 @@ namespace KeySearcher
             {
                 if (valueKey.value > value_threshold)
                 {
-                    if (pattern != null)
-                        valueKey.key = pattern.getKey(counter);
-                    valuequeue.Enqueue(valueKey);
+                    valueKey.key = keyTranslator.GetKeyRepresentation();
+                    valueKey.keya = (byte[])keya.Clone();
+                    valuequeue.Enqueue(valueKey);                    
                 }
             }
             else
             {
                 if (valueKey.value < value_threshold)
                 {
-                    if (pattern != null)
-                        valueKey.key = pattern.getKey(counter);
+                    valueKey.key = keyTranslator.GetKeyRepresentation();
+                    valueKey.keya = (byte[])keya.Clone();                 
                     valuequeue.Enqueue(valueKey);
                 }
             }
@@ -513,15 +523,11 @@ namespace KeySearcher
         private DateTime beginBruteforcing;
         private DistributedBruteForceManager distributedBruteForceManager;
 
-        // modified by Christian Arnold 2009.12.07 - return type LinkedList (top10List)
         // main entry point to the KeySearcher
         private LinkedList<ValueKey> bruteforcePattern(KeyPattern.KeyPattern pattern)
         {
-            //For evaluation issues - added by Arnold 2010.03.17
             beginBruteforcing = DateTime.Now;
             GuiLogMessage("Start bruteforcing pattern '" + pattern.getKey() + "'", NotificationLevel.Debug);
-
-
                         
             int maxInList = 10;
             costList = new LinkedList<ValueKey>();
@@ -1000,6 +1006,7 @@ namespace KeySearcher
             public double value;
             public String key;
             public byte[] decryption;
+            public byte[] keya;
         };
     }
 

@@ -19,6 +19,7 @@ using System.Text;
 using System.Collections;
 using System.IO;
 using System.Numerics;
+using System.Collections.Generic;
 
 namespace KeySearcher.KeyPattern
 {
@@ -258,7 +259,7 @@ namespace KeySearcher.KeyPattern
             return counter;
         }
 
-        /** used to jump to the next key.         
+        /* used to jump to the next key.         
          * if nextWildcard == -1, we return false
          * if nextWildcard == -2, we return true
          * if nextWildcard == -3, we increase the rightmost wildcard
@@ -277,9 +278,11 @@ namespace KeySearcher.KeyPattern
                 wildcardCount = wildcardList.Count - 1;
             else
                 wildcardCount = nextWildcard;
-            bool overflow = ((Wildcard)wildcardList[wildcardCount--]).succ();            
+            
+            bool overflow = ((Wildcard)wildcardList[wildcardCount--]).succ();
             while (overflow && (wildcardCount >= 0))
                 overflow = ((Wildcard)wildcardList[wildcardCount--]).succ();
+
             return !overflow;
         }
 
@@ -288,6 +291,25 @@ namespace KeySearcher.KeyPattern
         public bool nextKey()
         {
             return nextKey(-3);
+        }
+
+        /// <summary>
+        /// Moves the key "add" steps further.
+        /// So, addKey(1) would behave the same as nextKey().
+        /// </summary>
+        /// <param name="add"></param>
+        /// <returns>false, if there are no keys left</returns>
+        public bool addKey(int add)
+        {
+            int i = wildcardList.Count - 1;
+            int carry = add;
+
+            while (carry != 0 && i >= 0)
+            {
+                carry = ((Wildcard)wildcardList[i--]).add(carry);
+            }
+
+            return (i >= 0);
         }
 
         public string getKey()
@@ -337,56 +359,113 @@ namespace KeySearcher.KeyPattern
             return new string(r);
         }
 
-        public string getKeyBlock(ref int blocksize, ref int nextWildcard)
+        /// <summary>
+        /// Returns the progress of each relevant wildcard.
+        /// </summary>
+        /// <returns></returns>
+        internal int[] getWildcardProgress()
         {
-            const int MAXSIZE = 65536;
-            //find out how many wildcards we can group together:
-            blocksize = 1;
-            int pointer;
-            for (pointer = wildcardList.Count - 1; pointer >= 0; pointer--)
+            int arraySize = 0;
+            foreach (Wildcard wc in this.wildcardList)
+                if (wc.getLength() > 1)
+                    arraySize++;
+
+            int[] result = new int[arraySize];
+
+            int i = 0;
+            for (int c = 0; c < wildcardList.Count; c++)
             {
-                Wildcard wc = (Wildcard)wildcardList[pointer];
-                if (wc.isSplit || wc.count() != 0 || blocksize * wc.size() > MAXSIZE)
-                    break;
-                else
-                    blocksize *= wc.size();
+                if (((Wildcard)this.wildcardList[c]).getLength() > 1)
+                    result[i++] = ((Wildcard)wildcardList[c]).count();
             }
 
-            if (pointer >= wildcardList.Count)
-                return null;
+            return result;
+        }
 
-            nextWildcard = pointer;
+        /// <summary>
+        /// returns the "movements" of the key, i.e. how each relevant wildcard has to be "rotated" to produce the next key.
+        /// </summary>
+        /// <returns></returns>
+        public KeyMovement[] getKeyMovements()
+        {
+            KeyPattern fullKeyPattern = new KeyPattern(pattern);
+            fullKeyPattern.WildcardKey = pattern;
 
-            //generate key:
-            string res = "";
-            int wildcardCount = 0;
-            int i = 0;
-            while (i < pattern.Length)
+            int arraySize = 0;
+            foreach (Wildcard wc in this.wildcardList)
+                if (wc.getLength() > 1)
+                    arraySize++;
+
+            KeyMovement[] result = new KeyMovement[arraySize];
+
+            int c = 0;
+            for (int i = 0; i < wildcardList.Count; i++)
             {
-                if (pattern[i] != '[')
-                    res += pattern[i++];
-                else
+                if (((Wildcard)this.wildcardList[i]).getLength() > 1)
                 {
-                    if (pointer < wildcardCount)
-                        res += "*";
-                    else
-                    {
-                        Wildcard wc = (Wildcard)wildcardList[wildcardCount++];
-                        res += wc.getChar();
-                    }
-                    while (pattern[i++] != ']') ;
+                    result[c] = getWildcardMovement((Wildcard)this.wildcardList[i], (Wildcard)fullKeyPattern.wildcardList[i]);
+                    c++;
                 }
             }
-            return res;
-        }        
 
-         /*
-         * ARNIES SANDKASTEN - ALLE FOLGENDEN METHODEN SIND FÜR DIE VERTEILTE VERWENDUNG
-         * DES KEYPATTERNS NOTWENDIG ODER ABER EINFACH UM DAS KEYPATTERN SCHÖN ALS
-         * GUILOGMESSAGE AUSGEBEN ZU KÖNNEN ;-)
-         */
+            return result;
+        }
 
-        // Added by Arnold - 2010.02.04
+        /// <summary>
+        /// Compares "wildcard" with "fullwildcard" and returns the movement of "wildcard", i.e. which intervals exists between the elements of "wildcard".        
+        /// </summary>
+        /// <param name="wildcard"></param>
+        /// <param name="fullwildcard"></param>
+        /// <returns>The movements</returns>
+        private KeyMovement getWildcardMovement(Wildcard wildcard, Wildcard fullwildcard)
+        {
+            //check if linear:
+            int a;
+            int b;
+
+
+            int i = 0;
+            while (fullwildcard.getChars()[i] != wildcard.getChars()[0])
+                i++;
+
+            b = i;
+            i++;
+
+            while (fullwildcard.getChars()[i] != wildcard.getChars()[1])
+                i++;
+
+            a = i-b;
+            
+            bool linear = true;
+            for (int c = 0; c < wildcard.getLength(); c++)
+            {
+                if (fullwildcard.getChars()[c * a + b] != wildcard.getChars()[c])
+                {
+                    linear = false;
+                    break;
+                }
+            }
+
+            if (linear)
+            {
+                return new LinearKeyMovement(a, b, wildcard.getLength());
+            }
+
+            //not linear, so just list the intervals:
+            List<int> intervalList = new List<int>();
+
+            for (int c = 0; c < wildcard.getLength(); c++)
+            {
+                for (int x = 0; x < fullwildcard.getLength(); x++)
+                {
+                    if (fullwildcard.getChars()[x] == wildcard.getChars()[c])
+                        intervalList.Add(x);
+                }
+            }
+
+            return new IntervalKeyMovement(intervalList);
+        }
+
         public KeyPattern(byte[] serializedPattern)
         {
             KeyPattern deserializedPattern = Deserialize(serializedPattern);
@@ -398,7 +477,6 @@ namespace KeySearcher.KeyPattern
                 throw new Exception("Invalid byte[] representation of KeyPattern!");
         }
 
-        //added by Christian Arnold - 2009.12.02
         /// <summary>
         /// returns type, key and pattern. If you want to get only the pattern for processing use GetPattern-method!
         /// </summary>
@@ -411,7 +489,6 @@ namespace KeySearcher.KeyPattern
                 return "Type: KeySearcher.KeyPattern. KeyPattern isn't initialized correctly, Pattern: '" + this.pattern + "'";
         }
 
-        //added by Christian Arnold - 2009.12.03
         /// <summary>
         /// returns ONLY the pattern as a string!
         /// </summary>

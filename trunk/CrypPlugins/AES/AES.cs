@@ -559,38 +559,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             return pattern;
         }
 
-        public byte[] getKeyFromString(string key)
-        {
-            int bytes = 0;
-            switch (((AESSettings)plugin.Settings).Keysize)
-            {
-                case 0:
-                    bytes = 16;
-                    break;
-                case 1:
-                    bytes = 24;
-                    break;
-                case 2:
-                    bytes = 32;
-                    break;
-            }
-
-            byte[] bkey = new byte[bytes];
-            for (int i = 0; i < bytes; i++)
-            {
-                try
-                {
-                    string substr = key.Substring(i * 3, 2);
-                    bkey[i] = Convert.ToByte(substr, 16);
-                }
-                catch (Exception ex)
-                {
-                    return null;
-                }
-            }
-            return bkey;
-        }
-
         public IControlEncryption clone()
         {
             AESControl aes = new AESControl(plugin);
@@ -601,14 +569,13 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         {
         }
 
-        #endregion
-
-        #region IControlEncryption Member
-
-
         public void changeSettings(string setting, object value)
         {
-            
+        }
+
+        public KeyTranslator getKeyTranslator()
+        {
+            return new KeySearcher.KeyTranslators.ByteArrayKeyTranslator();
         }
 
         #endregion

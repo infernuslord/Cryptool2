@@ -109,6 +109,7 @@
     <Compile Include="Attributes\AuthorAttribute.cs" />
     <Compile Include="Control\IControlCost.cs" />
     <Compile Include="Control\IControlEncryption.cs" />
+    <Compile Include="Control\KeyTranslator.cs" />
     <Compile Include="IO\CStream.cs" />
     <Compile Include="IO\CStreamReader.cs" />
     <Compile Include="IO\CStreamWriter.cs" />

@@ -1,4 +1,20 @@
-﻿namespace KeySearcher.KeyPattern
+﻿/*                              
+   Copyright 2009 Sven Rech (svenrech at googlemail dot com), Uni Duisburg-Essen
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+
+namespace KeySearcher.KeyPattern
 {
     internal class Wildcard
     {
@@ -102,6 +118,23 @@
             return false;
         }
 
+        /// <summary>
+        /// Adds "add" to the counter and returns the carry.
+        /// </summary>
+        /// <param name="add">The carry</param>
+        /// <returns></returns>
+        public int add(int add)
+        {
+            counter += add;
+            if (counter >= length)
+            {
+                int result = counter / length;
+                counter %= length;
+                return result;
+            }
+            return 0;
+        }
+
         public int size()
         {
             return length;
@@ -172,6 +205,16 @@
                     return false;
             }
             return true;
+        }
+
+        internal int getLength()
+        {
+            return length;
+        }
+
+        internal char[] getChars()
+        {
+            return values;
         }
     }
 }
