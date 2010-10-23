@@ -62,43 +62,43 @@ namespace WorkspaceManager.Model
                     switch (eta.EncryptionType)
                     {
                         case EncryptionType.Asymmetric:
-                            return Colors.MediumSeaGreen;
+                            return (Color)ColorConverter.ConvertFromString("#7089a2");
 
                         case EncryptionType.Classic:
-                            return Colors.LightBlue;
+                            return (Color)ColorConverter.ConvertFromString("#b8c881");
 
                         case EncryptionType.SymmetricBlock:
-                            return Colors.LightYellow;
+                            return (Color)ColorConverter.ConvertFromString("#d49090");
 
                         case EncryptionType.SymmetricStream:
-                            return Colors.LightSteelBlue;
+                            return (Color)ColorConverter.ConvertFromString("#94bc8a");
 
                         case EncryptionType.Hybrid:
-                            return Colors.Khaki;
+                            return (Color)ColorConverter.ConvertFromString("#d49090");
                     }
                 }
 
                 if (type.GetInterface(typeof(IGenerator).Name) != null)
                 {
-                    return Colors.LemonChiffon;
+                    return (Color)ColorConverter.ConvertFromString("#8abc94");
                 }
 
                 if (type.GetInterface(typeof(IHash).Name) != null)
                 {
-                    return Colors.Indigo;
+                    return (Color)ColorConverter.ConvertFromString("#8abbbc");
                 }
 
                 if (type.GetInterface(typeof(IStatistic).Name) != null)
                 {
-                    return Colors.Violet;
+                    return (Color)ColorConverter.ConvertFromString("#8c8abc");
                 }
 
                 if (type.GetInterface(typeof(IAnalysisMisc).Name) != null)
                 {
-                    return Colors.OrangeRed;
+                    return (Color)ColorConverter.ConvertFromString("#bc8aac");
                 }
 
-                return Color.FromRgb(75,246,92);
+                return (Color)ColorConverter.ConvertFromString("#a3d090");
             }
         }
     }

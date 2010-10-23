@@ -119,10 +119,7 @@ namespace WorkspaceManager.View.Container
             InitializeComponent();
 
             if (Model.IsMandatory)
-            {
-                Scale.ScaleX = 1.35;
-                Scale.ScaleY = 1.35;
-            }
+                ConnectorRep.Stroke = Brushes.OrangeRed;
 
             if (Model.Orientation == ConnectorOrientation.Unset)
             {

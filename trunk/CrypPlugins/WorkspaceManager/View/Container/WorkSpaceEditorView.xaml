@@ -31,12 +31,14 @@
             </Grid.Effect>
             <Border>
                 <Grid>
-                    <Canvas Name="root" Background="{StaticResource ResourceKey=GridBrush}" RenderTransformOrigin="0.5, 0.5" MouseLeftButtonDown="root_MouseLeftButtonDown">
-                        <Grid Name="UserControlWrapperParent" Width="{Binding ElementName=MainGrid, Path=ActualWidth}" Height="{Binding ElementName=MainGrid, Path=ActualHeight}"/>
-                        <Canvas.LayoutTransform>
-                            <ScaleTransform x:Name="Scale" ScaleX="{Binding Source={x:Static p:Settings.Default}, Path=EditScale, Mode=OneWay}" ScaleY="{Binding Source={x:Static p:Settings.Default}, Path=EditScale, Mode=OneWay}"></ScaleTransform>
-                        </Canvas.LayoutTransform>
-                    </Canvas>
+                    <ScrollViewer x:Name="ViewBox" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <e:ModifiedCanvas Background="{StaticResource ResourceKey=GridBrush}" RenderTransformOrigin="0.5, 0.5" MouseLeftButtonDown="root_MouseLeftButtonDown" MouseMove="WorkSpaceEditorView_MouseMove">
+                            <Grid Name="UserControlWrapperParent" Width="{Binding ElementName=MainGrid, Path=ActualWidth}" Height="{Binding ElementName=MainGrid, Path=ActualHeight}"/>
+                            <e:ModifiedCanvas.LayoutTransform>
+                                <ScaleTransform x:Name="RootScale" ScaleX="{Binding Source={x:Static p:Settings.Default}, Path=EditScale, Mode=OneWay}" ScaleY="{Binding Source={x:Static p:Settings.Default}, Path=EditScale, Mode=OneWay}"></ScaleTransform>
+                            </e:ModifiedCanvas.LayoutTransform>
+                        </e:ModifiedCanvas>
+                    </ScrollViewer>
                     <Border x:Name="BottomBoxParent" VerticalAlignment="Top">
                         <e:BottomBox></e:BottomBox>
                     </Border>
