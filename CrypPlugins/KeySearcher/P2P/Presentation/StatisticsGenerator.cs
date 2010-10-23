@@ -181,12 +181,12 @@ namespace KeySearcher.P2P.Presentation
             ProcessResultList(result);
         }
 
-        public void ShowProgress(LinkedList<KeySearcher.ValueKey> bestResultList, BigInteger keysInThisChunk, BigInteger keysFinishedInThisChunk, BigInteger keysPerSecond)
+        public void ShowProgress(LinkedList<KeySearcher.ValueKey> bestResultList, BigInteger keysInThisChunk, BigInteger keysFinishedInThisChunk, long keysPerSecond)
         {
             status.ProgressOfCurrentChunk = (double) keysFinishedInThisChunk/(double) keysInThisChunk;
             status.KeysPerSecond = keysPerSecond;
 
-            var time = (Math.Pow(10, BigInteger.Log((keysInThisChunk - keysFinishedInThisChunk), 10) - BigInteger.Log(keysPerSecond, 10)));
+            var time = (Math.Pow(10, BigInteger.Log((keysInThisChunk - keysFinishedInThisChunk), 10) - Math.Log10(keysPerSecond)));
             var timeleft = new TimeSpan(-1);
 
             try
