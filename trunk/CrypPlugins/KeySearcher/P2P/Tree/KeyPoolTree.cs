@@ -25,6 +25,8 @@ namespace KeySearcher.P2P.Tree
         private NodeBase currentNode;
         private bool skippedReservedNodes;
 
+        private enum SearchOption { UseReservedLeafs, SkipReservedLeafs }
+
         public KeyPoolTree(KeyPatternPool patternPool, KeySearcher keySearcher, KeyQualityHelper keyQualityHelper, StorageKeyGenerator identifierGenerator, StatusContainer statusContainer, StatisticsGenerator statisticsGenerator)
         {
             this.patternPool = patternPool;
@@ -53,11 +55,14 @@ namespace KeySearcher.P2P.Tree
 
         public Leaf FindNextLeaf()
         {
+            // REMOVEME uncommenting the next line will cause a search for the next free pattern starting from the root node - for every leaf!
+            //Reset();
+
             statusContainer.IsSearchingForReservedNodes = false;
             statisticsGenerator.MarkStartOfNodeSearch();
 
             var nodeBeforeStarting = currentNode;
-            var foundNode = FindNextLeaf(false);
+            var foundNode = FindNextLeaf(SearchOption.SkipReservedLeafs);
 
             if (foundNode == null && skippedReservedNodes)
             {
@@ -65,7 +70,7 @@ namespace KeySearcher.P2P.Tree
 
                 currentNode = nodeBeforeStarting;
                 statusContainer.IsSearchingForReservedNodes = true;
-                foundNode = FindNextLeaf(true);
+                foundNode = FindNextLeaf(SearchOption.UseReservedLeafs);
                 currentNode = foundNode;
 
                 statisticsGenerator.MarkEndOfNodeSearch();
@@ -78,14 +83,14 @@ namespace KeySearcher.P2P.Tree
             return foundNode;
         }
 
-        private Leaf FindNextLeaf(bool useReservedLeafs)
+        private Leaf FindNextLeaf(SearchOption useReservedLeafsOption)
         {
             if (currentNode == null)
-            {
                 return null;
-            }
 
             var isReserved = false;
+            var useReservedLeafs = useReservedLeafsOption == SearchOption.UseReservedLeafs;
+
             storageHelper.UpdateFromDht(currentNode, true);
             currentNode.UpdateCache();
             while (currentNode.IsCalculated() || (!useReservedLeafs && (isReserved = currentNode.IsReserverd())))
