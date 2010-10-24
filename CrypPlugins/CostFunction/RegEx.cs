@@ -51,11 +51,14 @@ namespace Cryptool.Plugins.CostFunction
                 throw new ParseException("Error occurred while parsing the regular expression!");
             }
 
-            //make epsilon transitions superfluous:
-            nfa.RemoveEpsilonTransitions();
+            if (nfa != null)
+            {
+                //make epsilon transitions superfluous:
+                nfa.RemoveEpsilonTransitions();
 
-            //convert NFA to DFA:
-            transitionMatrix = nfa.GetDFATransitionMatrix(out startIndex);
+                //convert NFA to DFA:
+                transitionMatrix = nfa.GetDFATransitionMatrix(out startIndex);
+            }
         }
 
         /// <summary>
@@ -64,7 +67,10 @@ namespace Cryptool.Plugins.CostFunction
         /// <param name="input"></param>
         /// <returns></returns>
         public bool Matches(byte[] input)
-        {            
+        {
+            if (transitionMatrix == null)
+                return false;
+
             int state = startIndex;
 
             foreach (byte i in input)
