@@ -164,7 +164,14 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 string.Format("Preparing to participate in job {0} ({1}).", jobToParticipateIn.Name,
                               jobToParticipateIn.Guid),
                 NotificationLevel.Info);
-            new JobParticipationWorker(P2PEditor, JobListManager, jobToParticipateIn, Dispatcher).RunWorkerAsync();
+            var jobParticipationWorker = new JobParticipationWorker(P2PEditor, JobListManager, jobToParticipateIn, Dispatcher);
+            jobParticipationWorker.RunWorkerCompleted +=JobParticipationWorkerRunWorkerCompleted;
+            jobParticipationWorker.RunWorkerAsync();
+        }
+
+        private void JobParticipationWorkerRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            Participating = false;
         }
 
         private void DeleteButtonClick(object sender, RoutedEventArgs e)
