@@ -14,6 +14,7 @@
    limitations under the License.
 */
 
+using System;
 namespace KeySearcher.KeyPattern
 {
     internal class Wildcard
@@ -53,6 +54,8 @@ namespace KeySearcher.KeyPattern
                     i++;
                 }
             }
+
+            Array.Sort(values, 0, length);
         }
 
         public Wildcard(Wildcard wc)
