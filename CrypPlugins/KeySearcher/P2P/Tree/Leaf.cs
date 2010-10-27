@@ -13,6 +13,10 @@ namespace KeySearcher.P2P.Tree
         private bool isLeafReserved;
         private const int RESERVATIONTIMEOUT = 30;
 
+        // TODO add client identifier
+        //internal int ClientIdentifier;
+
+
         public Leaf(StorageHelper storageHelper, KeyQualityHelper keyQualityHelper, Node parentNode, BigInteger id, string distributedJobIdentifier)
             : base(storageHelper, keyQualityHelper, parentNode, id, id, distributedJobIdentifier)
         {

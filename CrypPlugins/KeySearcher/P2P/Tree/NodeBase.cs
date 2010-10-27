@@ -57,6 +57,7 @@ namespace KeySearcher.P2P.Tree
             ParentNode.ChildFinished(this);
             ParentNode.UpdateCache();
 
+            // TODO add check, if we retrieved our lock (e.g. by comparing the lock date or the future client identifier
             if (StorageHelper.RetrieveWithStatistic(StorageHelper.KeyInDht(this)).Status == RequestResultType.KeyNotFound)
             {
                 throw new ReservationRemovedException("Before updating parent node, this leaf's reservation was deleted.");
