@@ -19,10 +19,10 @@ namespace Cryptool.Plugins.QuadraticSieve
     /// </summary>
     public partial class ProgressRelationPackages : UserControl
     {
-        private int ourID;
+        private long ourID;
         private ScrollViewer scrollViewer;
 
-        public void Set(int i, int id, string name)
+        public void Set(int i, long id, string name)
         {
             if (root.Children.Count <= i)   //if no shape exists for this relation package yet
             {
@@ -43,12 +43,12 @@ namespace Cryptool.Plugins.QuadraticSieve
             root.Children.Clear();
         }
 
-        public void setOurID(int id)
+        public void setOurID(long id)
         {
             ourID = id;
         }
 
-        private void SetShapeToStatus(int index, int uploaderID, string uploaderName)
+        private void SetShapeToStatus(int index, long uploaderID, string uploaderName)
         {
             ToolTip tooltip = new ToolTip();
             Shape shape = root.Children[index] as Shape;
@@ -90,10 +90,10 @@ namespace Cryptool.Plugins.QuadraticSieve
             shape.ToolTip = tooltip;
         }
 
-        private Brush GetColor(int uploaderID)
+        private Brush GetColor(long uploaderID)
         {            
             SolidColorBrush color = new SolidColorBrush();
-            Random random = new Random(uploaderID);
+            Random random = new Random((int)uploaderID);
 
             bool ok;
             do
@@ -120,7 +120,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             return (diffR < toleratedDifference) && (diffG < toleratedDifference) && (diffB < toleratedDifference);
         }
 
-        private void CreateRelationPackageShape(int c, int id, string name)
+        private void CreateRelationPackageShape(int c, long id, string name)
         {
             Shape shape = GetRelationPackageShape(id);            
             root.Children.Add(shape);
@@ -128,7 +128,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             scrollViewer.ScrollToBottom();
         }
 
-        private Shape GetRelationPackageShape(int id)
+        private Shape GetRelationPackageShape(long id)
         {
             Shape shape;
             if (id == ourID)
