@@ -56,6 +56,9 @@ namespace KeySearcher.P2P.Storage
         {
             var buffer = nodeToUpdate.LastReservationDate.ToBinary();
             binaryWriter.Write(buffer);
+            
+            // TODO write client identification to binaryWriter, e.g.
+            // binaryWriter.Write("id here from some other method");
         }
 
         internal RequestResult UpdateFromDht(NodeBase nodeToUpdate, bool forceUpdate = false)
@@ -121,6 +124,18 @@ namespace KeySearcher.P2P.Storage
             {
                 nodeToUpdate.LastReservationDate = date;
             }
+
+            // TODO read leaf from reader, e.g.
+            /*
+            try
+            {
+                nodeToUpdate.ClientIdentifier = binaryReader.ReadString();
+            } catch (IOException)
+            {
+                // client id not available, use default
+                nodeToUpdate.ClientIdentifier = "-1";
+            }
+            */
         }
 
         internal static string KeyInDht(NodeBase node)

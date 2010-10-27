@@ -99,6 +99,8 @@ namespace KeySearcher.P2P
                     continue;
                 }
 
+                // TODO if reserve returns successfully, start timer to update our reserveration every few minutes
+                // if we cannot reacquire our lock in the timer, calculation must be aborted
                 if (!currentLeaf.ReserveLeaf())
                 {
                     keySearcher.GuiLogMessage(
