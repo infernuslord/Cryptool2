@@ -65,7 +65,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         private bool stopLoadStoreThread;
         private QuadraticSievePresentation quadraticSieveQuickWatchPresentation;
         private AutoResetEvent newRelationPackageEvent;
-        private int ourID;           //Our ID
+        private long ourID;           //Our ID
         private Dictionary<int, string> nameCache;  //associates the ids with the names
         private Queue<PeerPerformanceInformations> peerPerformances;      //A queue of performances from the different peers ordered by the date last checked.
         private HashSet<int> activePeers;                                 //A set of active peers
@@ -98,16 +98,9 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         private void SetOurID()
         {
-            string username = WindowsIdentity.GetCurrent().Name;
-            string mac = GetMacIdentifier();
-
-            MD5 md5 = new MD5CryptoServiceProvider();
-            byte[] idBytes = md5.ComputeHash(System.Text.ASCIIEncoding.ASCII.GetBytes(username + mac));
-
-            ourID = BitConverter.ToInt32(idBytes, 3);
+            ourID = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
             quadraticSieveQuickWatchPresentation.ProgressRelationPackages.setOurID(ourID);
-
-            ourName = System.Net.Dns.GetHostName();
+            ourName = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetHostName();
         }
 
         /// <summary>
@@ -423,7 +416,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             }, null);
         }
 
-        private void SetProgressRelationPackage(int index, int id, string name)
+        private void SetProgressRelationPackage(int index, long id, string name)
         {
             quadraticSieveQuickWatchPresentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
@@ -454,12 +447,12 @@ namespace Cryptool.Plugins.QuadraticSieve
             return channel + "#" + number + "-" + factor + "!" + index;
         }
 
-        private string NameIdentifier(int ID)
+        private string NameIdentifier(long ID)
         {
             return channel + "#" + number + "NAME" + ID.ToString();
         }
 
-        private string PerformanceIdentifier(int ID)
+        private string PerformanceIdentifier(long ID)
         {
             return channel + "#" + number + "-" + factor + "PERFORMANCE" + ID.ToString();
         }
@@ -501,20 +494,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             return res;
         }
         
-        /// <summary>
-        /// Returns an identifier that depends on the MAC addresses of this system
-        /// </summary>        
-        private string GetMacIdentifier()
-        {
-            string MacID = "";
-            ManagementClass MC = new ManagementClass("Win32_NetworkAdapter");
-            ManagementObjectCollection MOCol = MC.GetInstances();
-            foreach (ManagementObject MO in MOCol)
-                if (MO != null)
-                    if (MO["MacAddress"] != null)
-                        MacID += MO["MACAddress"].ToString();
-            return MacID;
-        }
+
 
         public Queue GetLoadedRelationPackagesQueue()
         {
