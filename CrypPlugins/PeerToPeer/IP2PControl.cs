@@ -21,7 +21,8 @@ namespace Cryptool.Plugins.PeerToPeer.Internal
     {
         FullMesh = 0,
         Chord = 1,
-        Server = 2
+        Server = 2,
+        SQLDB = 3
     }
     
     public enum P2PTransportProtocol

@@ -125,7 +125,7 @@
       <HintPath>..\appreferences\x86\util.dll</HintPath>
       <Private>false</Private>
     </Reference>
-	<Reference Include="PapsClient">
+    <Reference Include="PapsClient">
       <HintPath>..\AppReferences\x86\PapsClient.dll</HintPath>
       <Private>False</Private>
     </Reference>
@@ -183,12 +183,15 @@
       <HintPath>..\appreferences\x64\util.dll</HintPath>
       <Private>false</Private>
     </Reference>
-	<Reference Include="PapsClient">
+    <Reference Include="PapsClient">
       <HintPath>..\AppReferences\x64\PapsClient.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="MySQLDHT">
+      <HintPath>..\AppReferences\x64\MySQLDHT.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
