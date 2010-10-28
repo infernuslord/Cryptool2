@@ -36,6 +36,7 @@ using PeersAtPlay.P2PStorage.FullMeshDHT;
 using PeersAtPlay.PapsClient;
 using PeersAtPlay.Util.Logging;
 using PeersAtPlay.P2POverlay.Chord;
+using PeersAtPlay.P2PStorage.MySqlDHT;
 
 /* TODO:
  * - Delete UseNatTraversal-Flag and insert CertificateCheck and CertificateSetup
@@ -101,7 +102,8 @@ namespace Cryptool.P2P.Internal
         /// </summary>
         public void Initialize()
         {
-            Scheduler scheduler = new STAScheduler("pap");
+            Scheduler scheduler = new STAScheduler("pap_snal");
+            Scheduler scheduler_2 = new STAScheduler("pap_mysql");
 
             switch (P2PSettings.Default.LinkManager)
             {
@@ -179,7 +181,10 @@ namespace Cryptool.P2P.Internal
                         PeersAtPlay.PapsClient.Properties.Settings.Default.ServerPort = P2PSettings.Default.ServerPort;
                         bootstrapper = new LocalMachineBootstrapper();
                         overlay = new PapsClientOverlay();
-                        Dht = new PapsClientDht(scheduler);
+                        Dht = new PapsClientDht(scheduler_2);
+                        break;
+                    case P2PArchitecture.SQLDB:
+                        Dht = new MySqlDHT(scheduler_2);
                         break;
                     default:
                         throw new NotImplementedException();
@@ -191,7 +196,10 @@ namespace Cryptool.P2P.Internal
                 return;
             }
 
-            overlay.MessageReceived += OverlayMessageReceived;
+            if (overlay != null)
+            {
+                overlay.MessageReceived += OverlayMessageReceived;
+            }
             Dht.SystemJoined += OnDhtSystemJoined;
             Dht.SystemLeft += OnDhtSystemLeft;
 
