@@ -12,9 +12,7 @@ namespace KeySearcher.P2P.Tree
         internal DateTime LastReservationDate;
         private bool isLeafReserved;
         private const int RESERVATIONTIMEOUT = 30;
-        //--------------------------------------------------------------------------------------------
-        private long clientIdentifier = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
-        //--------------------------------------------------------------------------------------------
+        private long clientIdentifier = -1;
 
         public Leaf(StorageHelper storageHelper, KeyQualityHelper keyQualityHelper, Node parentNode, BigInteger id, string distributedJobIdentifier)
             : base(storageHelper, keyQualityHelper, parentNode, id, id, distributedJobIdentifier)
@@ -60,10 +58,24 @@ namespace KeySearcher.P2P.Tree
         public bool ReserveLeaf()
         {
             LastReservationDate = DateTime.UtcNow;
+            clientIdentifier = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
             return StorageHelper.UpdateInDht(this).IsSuccessful();
         }
 
-        public override bool IsReserverd()
+        public void GiveLeaveFree()
+        {
+            StorageHelper.UpdateFromDht((this));
+            //Only give leaf free, if the reservation is still ours:
+            if (clientIdentifier == Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID())
+            {
+                LastReservationDate = new DateTime(0);
+                clientIdentifier = -1;
+                isLeafReserved = false;
+                StorageHelper.UpdateInDht(this);
+            }
+        }
+
+        public override bool IsReserved()
         {
             return isLeafReserved;
         }

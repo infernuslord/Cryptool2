@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
 using System.Windows.Threading;
@@ -12,6 +13,7 @@ using KeySearcher.P2P.Presentation;
 using KeySearcher.P2P.Storage;
 using KeySearcher.P2P.Tree;
 using KeySearcherPresentation.Controls;
+using System.Timers;
 
 namespace KeySearcher.P2P
 {
@@ -111,6 +113,12 @@ namespace KeySearcher.P2P
                     continue;
                 }
 
+                var reservationTimer = new Timer {Interval = 5*60*1000};    //Every 5 minutes
+                reservationTimer.Elapsed += new ElapsedEventHandler(delegate
+                                                                        {
+                                                                            currentLeaf.ReserveLeaf();
+                                                                        });
+
                 keySearcher.GuiLogMessage(
                     "Running pattern #" + displayablePatternId + " of " + patternPool.Length,
                     NotificationLevel.Info);
@@ -119,11 +127,22 @@ namespace KeySearcher.P2P
 
                 try
                 {
+                    LinkedList<KeySearcher.ValueKey> result;
+
                     status.IsCurrentProgressIndeterminate = false;
                     StopWatch.Start();
-                    var result = keySearcher.BruteForceWithLocalSystem(patternPool[currentLeaf.PatternId()], true);
-                    StopWatch.Stop();
-                    status.IsCurrentProgressIndeterminate = true;
+                    reservationTimer.Start();
+                    try
+                    {
+                        result = keySearcher.BruteForceWithLocalSystem(patternPool[currentLeaf.PatternId()], true);
+                    }
+                    finally
+                    {
+                        reservationTimer.Stop();
+                        reservationTimer.Dispose();
+                        StopWatch.Stop();
+                        status.IsCurrentProgressIndeterminate = true;
+                    }
 
                     if (!keySearcher.stop)
                     {
@@ -147,6 +166,7 @@ namespace KeySearcher.P2P
                         keySearcher.GuiLogMessage("Brute force was stopped, not saving results...",
                                                   NotificationLevel.Info);
                         status.ProgressOfCurrentChunk = 0;
+                        currentLeaf.GiveLeaveFree();
                     }
                 }
                 catch (ReservationRemovedException)

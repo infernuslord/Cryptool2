@@ -39,7 +39,7 @@ namespace KeySearcher.P2P.Tree
             }
 
             // Only load right node, if the left one is finished or reserved
-            if ((LeftChildFinished || leftChild.IsReserverd()) && !RightChildFinished)
+            if ((LeftChildFinished || leftChild.IsReserved()) && !RightChildFinished)
             {
                 if (rightChild == null)
                 {
@@ -68,8 +68,8 @@ namespace KeySearcher.P2P.Tree
         {
             LoadOrUpdateChildNodes();
 
-            leftChildReserved = LeftChildFinished || leftChild.IsReserverd();
-            rightChildReserved = RightChildFinished || (rightChild != null && rightChild.IsReserverd());
+            leftChildReserved = LeftChildFinished || leftChild.IsReserved();
+            rightChildReserved = RightChildFinished || (rightChild != null && rightChild.IsReserved());
         }
 
         public override Leaf CalculatableLeaf(bool useReservedNodes)
@@ -107,7 +107,7 @@ namespace KeySearcher.P2P.Tree
             }
         }
 
-        public override bool IsReserverd()
+        public override bool IsReserved()
         {
             if (LeftChildFinished && !RightChildFinished)
             {
