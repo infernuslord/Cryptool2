@@ -24,7 +24,7 @@ using PeersAtPlay.P2POverlay;
 using PeersAtPlay.P2POverlay.Bootstrapper.LocalMachineBootstrapper;
 using PeersAtPlay.P2POverlay.FullMeshOverlay;
 using PeersAtPlay.P2PLink;
-using PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper;
+using PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapperV2;
 using System.Threading;
 using Cryptool.PluginBase.Control;
 using System.ComponentModel;
@@ -201,9 +201,9 @@ namespace Cryptool.Plugins.PeerToPeer
                 case P2PBootstrapperType.IrcBootstrapper:
                     // setup nat traversal stuff
                     LogToMonitor("Init Bootstrapper: Using NAT Traversal stuff");
-                    PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.DelaySymmetricResponse = true;
-                    PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.IncludeSymmetricInResponse = false;
-                    PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapper.Settings.SymmetricResponseDelay = 6000;
+                    PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapperV2.Settings.DelaySymmetricResponse = true;
+                    PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapperV2.Settings.IncludeSymmetricResponse = false;
+                    PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapperV2.Settings.DelaySymmetricResponseTime = 6000;
 
                     this.bootstrapper = new IrcBootstrapper(scheduler);
                     break;
