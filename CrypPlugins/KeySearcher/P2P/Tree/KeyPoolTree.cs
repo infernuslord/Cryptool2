@@ -93,7 +93,7 @@ namespace KeySearcher.P2P.Tree
 
             storageHelper.UpdateFromDht(currentNode, true);
             currentNode.UpdateCache();
-            while (currentNode.IsCalculated() || (!useReservedLeafs && (isReserved = currentNode.IsReserverd())))
+            while (currentNode.IsCalculated() || (!useReservedLeafs && (isReserved = currentNode.IsReserved())))
             {
                 if (isReserved)
                     skippedReservedNodes = true;

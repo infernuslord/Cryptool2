@@ -113,7 +113,7 @@ namespace KeySearcher.P2P.Tree
             StorageHelper.UpdateInDht(this);
         }
 
-        public abstract bool IsReserverd();
+        public abstract bool IsReserved();
 
         public abstract Leaf CalculatableLeaf(bool useReservedNodes);
 
