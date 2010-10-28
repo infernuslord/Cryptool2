@@ -41,7 +41,7 @@ namespace Cryptool.P2PEditor
 
         #region Update visibility of server group
 
-        private void UpdateSettings()
+        public void UpdateSettings()
         {
             if (TaskPaneAttributeChanged == null)
                 return;
