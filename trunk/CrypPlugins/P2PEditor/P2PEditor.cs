@@ -191,6 +191,7 @@ namespace Cryptool.P2PEditor
 
         public void Initialize()
         {
+            ((P2PEditorSettings)Settings).UpdateSettings();
         }
 
         public void Dispose()
