@@ -129,6 +129,9 @@
       <HintPath>..\AppReferences\x86\PapsClient.dll</HintPath>
       <Private>False</Private>
     </Reference>
+	<Reference Include="MySQLDHT">
+      <HintPath>..\AppReferences\x86\MySQLDHT.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup Condition=" '$(Platform)' == 'x64' ">
     <Reference Include="Bootstrapper">
@@ -187,11 +190,11 @@
       <HintPath>..\AppReferences\x64\PapsClient.dll</HintPath>
       <Private>False</Private>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="MySQLDHT">
+	<Reference Include="MySQLDHT">
       <HintPath>..\AppReferences\x64\MySQLDHT.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
