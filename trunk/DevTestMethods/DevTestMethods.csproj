@@ -128,6 +128,7 @@
     <ProjectReference Include="..\CrypPlugins\CostFunction\CostFunction.csproj">
       <Project>{3C72FF93-48C2-4929-B3B2-83F165AAE636}</Project>
       <Name>CostFunction</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\MD5\MD5.csproj">
       <Project>{1137719A-7468-4DEF-84B1-77AB82049656}</Project>
