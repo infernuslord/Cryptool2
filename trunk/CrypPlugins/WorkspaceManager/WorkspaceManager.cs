@@ -139,7 +139,7 @@ namespace WorkspaceManager
                 WorkspaceModel = ModelPersistance.loadModel(fileName,this);                
                 WorkspaceSpaceEditorView.Load(WorkspaceModel);
                 HasChanges = false;
-                this.OnProjectTitleChanged.BeginInvoke(this, fileName, null, null);
+                this.OnProjectTitleChanged.BeginInvoke(this, System.IO.Path.GetFileName(fileName), null, null);
             }
             catch (Exception ex)
             {
@@ -159,7 +159,7 @@ namespace WorkspaceManager
                 GuiLogMessage("Saving Model: " + fileName, NotificationLevel.Info);
                 ModelPersistance.saveModel(this.WorkspaceModel, fileName);
                 HasChanges = false;
-                this.OnProjectTitleChanged.BeginInvoke(this, fileName, null, null);
+                this.OnProjectTitleChanged.BeginInvoke(this, System.IO.Path.GetFileName(fileName), null, null);
             }
             catch (Exception ex)
             {
