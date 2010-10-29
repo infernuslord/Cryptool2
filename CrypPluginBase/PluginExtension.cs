@@ -399,19 +399,26 @@ namespace Cryptool.PluginBase
             GuiLogMessage(exception.Message, NotificationLevel.Error);
             return keyword;
           }
-        }        
+        }
+
+        private static Dictionary<string, FlowDocument> descriptionDocumentCache = new Dictionary<string, FlowDocument>();
 
         public static FlowDocument GetDescriptionDocument(this IPlugin plugin)
         {
           try
           {
             string description = plugin.GetPluginInfoAttribute().DescriptionUrl;
+            if (descriptionDocumentCache.ContainsKey(description))
+                return descriptionDocumentCache[description];
+
             if (description != null && description != string.Empty && description != "")
             {
               int sIndex = description.IndexOf('/');
               if (sIndex == -1) return null;
               XamlReader xaml = new XamlReader();
-              return (FlowDocument)xaml.LoadAsync(Application.GetResourceStream(new Uri(string.Format("pack://application:,,,/{0};component/{1}", description.Substring(0, sIndex), description.Substring(sIndex + 1)))).Stream);
+              var result = (FlowDocument)xaml.LoadAsync(Application.GetResourceStream(new Uri(string.Format("pack://application:,,,/{0};component/{1}", description.Substring(0, sIndex), description.Substring(sIndex + 1)))).Stream);
+              descriptionDocumentCache.Add(description, result);
+              return result;
             }
             return null;
           }
