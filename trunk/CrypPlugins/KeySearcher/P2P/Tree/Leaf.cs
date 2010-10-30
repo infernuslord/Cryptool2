@@ -62,7 +62,7 @@ namespace KeySearcher.P2P.Tree
             return StorageHelper.UpdateInDht(this).IsSuccessful();
         }
 
-        public void GiveLeaveFree()
+        public void GiveLeafFree()
         {
             StorageHelper.UpdateFromDht((this));
             //Only give leaf free, if the reservation is still ours:

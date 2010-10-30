@@ -117,6 +117,10 @@ namespace KeySearcher.P2P
                 reservationTimer.Elapsed += new ElapsedEventHandler(delegate
                                                                         {
                                                                             currentLeaf.ReserveLeaf();
+                                                                            var message = string.Format("Rereserving pattern #{0}", displayablePatternId);
+                                                                            keySearcher.GuiLogMessage(message, NotificationLevel.Info);
+                                                                            status.CurrentOperation = message;
+
                                                                         });
 
                 keySearcher.GuiLogMessage(
@@ -166,7 +170,10 @@ namespace KeySearcher.P2P
                         keySearcher.GuiLogMessage("Brute force was stopped, not saving results...",
                                                   NotificationLevel.Info);
                         status.ProgressOfCurrentChunk = 0;
-                        currentLeaf.GiveLeaveFree();
+                        currentLeaf.GiveLeafFree();
+                        var message = string.Format("Removed reservation of pattern #{0}", displayablePatternId);
+                        keySearcher.GuiLogMessage(message, NotificationLevel.Info);
+                        status.CurrentOperation = message;
                     }
                 }
                 catch (ReservationRemovedException)
