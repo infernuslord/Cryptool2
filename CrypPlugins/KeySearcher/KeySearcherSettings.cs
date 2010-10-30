@@ -4,6 +4,7 @@ using Cryptool.PluginBase;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using KeySearcher.P2P.Storage;
+using OpenCLNet;
 
 namespace KeySearcher
 {
@@ -13,16 +14,30 @@ namespace KeySearcher
         private int coresUsed;
         private const string GroupPeerToPeer = "Peer-to-Peer network";
         private const string GroupEvaluation = "Evaluation";
+        private const string GroupOpenCL = "OpenCL";
 
-        public KeySearcherSettings(KeySearcher ks)
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
+
+        public KeySearcherSettings(KeySearcher ks, OpenCLManager oclManager)
         {
             keysearcher = ks;
+
+            devicesAvailable.Clear();
+            if (oclManager != null)
+                foreach (var device in oclManager.Context.Devices)
+                    devicesAvailable.Add(device.Vendor + ":" + device.Name);
+
             CoresAvailable.Clear();
             for (int i = 0; i < Environment.ProcessorCount; i++)
                 CoresAvailable.Add((i + 1).ToString());
             CoresUsed = Environment.ProcessorCount - 1;
 
             chunkSize = 21;
+        }
+
+        public void Initialize()
+        {
+            OpenCLGroupVisiblity();
         }
 
         private string key;
@@ -224,6 +239,86 @@ namespace KeySearcher
                 }
             }
         }
+
+        #region OpenCL
+
+        private bool useOpenCL;
+        [TaskPane("Use OpenCL", "If checked, an OpenCL device is used for bruteforcing.",
+            GroupOpenCL, 1, false, DisplayLevel.Experienced, ControlType.CheckBox)]
+        public bool UseOpenCL
+        {
+            get { return useOpenCL; }
+            set
+            {
+                if (value != useOpenCL)
+                {
+                    useOpenCL = value;
+                    hasChanges = true;
+                    OnPropertyChanged("UseOpenCL");
+
+                    DeviceVisibility();
+                }
+            }
+        }
+
+        private void DeviceVisibility()
+        {
+            if (TaskPaneAttributeChanged == null)
+                return;
+
+            Visibility visibility = UseOpenCL ? Visibility.Visible : Visibility.Collapsed;
+            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("OpenCLDevice", visibility)));
+        }
+
+        private void OpenCLGroupVisiblity()
+        {
+            if (TaskPaneAttributeChanged == null)
+                return;
+
+            if (DevicesAvailable.Count == 0)
+            {
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("OpenCLDevice", Visibility.Collapsed)));
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("UseOpenCL", Visibility.Collapsed)));
+            }
+            else
+            {
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("OpenCLDevice", Visibility.Visible)));
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("UseOpenCL", Visibility.Visible)));
+                DeviceVisibility();
+            }
+        }
+
+        private int openCLDevice;
+        [TaskPane("OpenCL Device", "Choose the OpenCL you want to use.", GroupOpenCL, 2, false, DisplayLevel.Experienced, ControlType.DynamicComboBox, new string[] { "DevicesAvailable" })]
+        public int OpenCLDevice
+        {
+            get { return this.openCLDevice; }
+            set
+            {
+                if (value != this.openCLDevice)
+                {
+                    this.openCLDevice = value;
+                    OnPropertyChanged("OpenCLDevice");
+                    HasChanges = true;
+                }
+            }
+        }
+
+        private ObservableCollection<string> devicesAvailable = new ObservableCollection<string>();
+        public ObservableCollection<string> DevicesAvailable
+        {
+            get { return devicesAvailable; }
+            set
+            {
+                if (value != devicesAvailable)
+                {
+                    devicesAvailable = value;
+                }
+                OnPropertyChanged("DevicesAvailable");
+            }
+        }
+
+        #endregion
 
         private ObservableCollection<string> coresAvailable = new ObservableCollection<string>();
         public ObservableCollection<string> CoresAvailable

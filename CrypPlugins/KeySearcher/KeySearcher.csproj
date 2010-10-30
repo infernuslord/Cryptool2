@@ -156,6 +156,10 @@
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\Libs\OpenCLNet\OpenCLNet.csproj">
+      <Project>{0946E1A6-5488-4711-AD10-D54D6A5D2F32}</Project>
+      <Name>OpenCLNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\P2PEditor\P2PEditor.csproj">
       <Project>{59DEB752-BEB6-4B2B-86A9-78B150537529}</Project>
       <Name>P2PEditor</Name>
