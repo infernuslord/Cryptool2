@@ -408,7 +408,7 @@ namespace Cryptool.PluginBase
           try
           {
             string description = plugin.GetPluginInfoAttribute().DescriptionUrl;
-            if (descriptionDocumentCache.ContainsKey(description))
+            if (description != null && descriptionDocumentCache.ContainsKey(description))
                 return descriptionDocumentCache[description];
 
             if (description != null && description != string.Empty && description != "")
