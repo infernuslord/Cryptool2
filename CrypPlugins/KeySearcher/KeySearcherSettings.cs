@@ -242,6 +242,13 @@ namespace KeySearcher
 
         #region OpenCL
 
+        [TaskPane("No OpenCL available", null, GroupOpenCL, 1, false, DisplayLevel.Experienced, ControlType.TextBoxReadOnly)]
+        public string NoOpenCL
+        {
+            get { return "No OpenCL Device available!"; }
+            set {}
+        }
+
         private bool useOpenCL;
         [TaskPane("Use OpenCL", "If checked, an OpenCL device is used for bruteforcing.",
             GroupOpenCL, 1, false, DisplayLevel.Experienced, ControlType.CheckBox)]
@@ -279,11 +286,13 @@ namespace KeySearcher
             {
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("OpenCLDevice", Visibility.Collapsed)));
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("UseOpenCL", Visibility.Collapsed)));
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("NoOpenCL", Visibility.Visible)));
             }
             else
             {
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("OpenCLDevice", Visibility.Visible)));
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("UseOpenCL", Visibility.Visible)));
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("NoOpenCL", Visibility.Collapsed)));
                 DeviceVisibility();
             }
         }
