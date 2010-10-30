@@ -672,6 +672,8 @@ namespace KeySearcher
                     break;
             }//end while
 
+            showProgress(costList, 1, 1, 1);
+
             //wake up all sleeping threads, so they can stop:
             while (threadStack.Count != 0)
                 ((ThreadStackElement)threadStack.Pop()).ev.Set();

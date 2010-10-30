@@ -41,8 +41,11 @@ namespace Cryptool.Plugins.CostFunction
             private set;
         }
 
-        public RegEx(string regex)
+        public RegEx(string regex, bool caseSensitiv)
         {
+            if (caseSensitiv)
+                regex = regex.ToLower();
+
             //convert regex to NFA:
             int index = -1;
             NFA nfa = RegexToNFA(regex, ref index);
@@ -58,6 +61,19 @@ namespace Cryptool.Plugins.CostFunction
 
                 //convert NFA to DFA:
                 transitionMatrix = nfa.GetDFATransitionMatrix(out startIndex);
+
+                //manipulate transition matrix to make it case sensitiv:
+                if (caseSensitiv)
+                {
+                    for (int x = 0; x < transitionMatrix.Length; x++)
+                    {
+                        for (int y = 0; y <= ('Z' - 'A'); y++)
+                            transitionMatrix[x][(byte)(y + 'A')] = transitionMatrix[x][(byte)(y + 'a')];
+                        transitionMatrix[x][(byte)('Ä')] = transitionMatrix[x][(byte)('ä')];
+                        transitionMatrix[x][(byte)('Ö')] = transitionMatrix[x][(byte)('ö')];
+                        transitionMatrix[x][(byte)('Ü')] = transitionMatrix[x][(byte)('ü')];
+                    }
+                }
             }
         }
 

@@ -41,7 +41,12 @@ namespace Cryptool.Plugins.CostFunction
         private static IDictionary<String, DataFileMetaInfo> txtList;
         private static string[] files;
         #endregion
-        
+
+        public void Initialize()
+        {
+            UpdateTaskPaneVisibility();
+        }
+
         [TaskPane("FunctionType", "Select the type of function", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Index of coincidence", "Entropy", "Bigrams: log 2", "Bigrams: Sinkov", "Bigrams: Percentaged", "Regular Expression", "Weighted Bigrams/Trigrams"})]
         public int FunctionType
         {
@@ -171,11 +176,13 @@ namespace Cryptool.Plugins.CostFunction
             {
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BytesToUse", Visibility.Visible)));
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RegEx", Visibility.Visible)));
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CaseInsensitiv", Visibility.Visible)));
             }
             else
             {
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BytesToUse", Visibility.Visible)));
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RegEx", Visibility.Collapsed)));
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CaseInsensitiv", Visibility.Collapsed)));
             }
 
             if (functionType.Equals(4) || functionType.Equals(2) || functionType.Equals(3) || functionType.Equals(6))
@@ -211,7 +218,7 @@ namespace Cryptool.Plugins.CostFunction
 
 
         private string regEx;
-        [TaskPane("Regular Expression:", "Regular Expression match", null, 5, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("Regular Expression", "Regular Expression match", null, 5, false, DisplayLevel.Beginner, ControlType.TextBox)]
         public String RegEx
         {
             get
@@ -222,6 +229,22 @@ namespace Cryptool.Plugins.CostFunction
             {
                 regEx = value;
                 OnPropertyChanged("RegEx");
+            }
+        }
+
+        private bool caseInsensitiv;
+        [TaskPane("Case Insensitiv", "If checked, the regular expression will be used in a case insensitiv manner.", null, 6, false, DisplayLevel.Beginner, ControlType.CheckBox)]
+        public bool CaseInsensitiv
+        {
+            get { return caseInsensitiv; }
+            set
+            {
+                if (value != caseInsensitiv)
+                {
+                    caseInsensitiv = value;
+                    hasChanges = true;
+                    OnPropertyChanged("CaseInsensitiv");
+                }
             }
         }
 
