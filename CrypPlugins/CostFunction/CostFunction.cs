@@ -270,7 +270,7 @@ namespace Cryptool.Plugins.CostFunction
 
         public void Initialize()
         {
-
+            settings.Initialize();
         }
 
         public void Dispose()
@@ -405,19 +405,21 @@ namespace Cryptool.Plugins.CostFunction
             
         }
 
-        private string lastRegexSetting = null;
+        private string lastRegex = null;
+        private bool lastCaseInsensitiv;
 
         public double regex(byte[] input)
         {
-            if (regularexpression == null || lastRegexSetting != settings.RegEx)
+            if (regularexpression == null || lastRegex != settings.RegEx || lastCaseInsensitiv != settings.CaseInsensitiv)
             {
                 if (settings.RegEx == null)
                 {
                     GuiLogMessage("There is no Regular Expression to be searched for. Please insert regex in the 'Regular Expression' - Textarea", NotificationLevel.Error);
                     return -1.0;
                 }
-                regularexpression = new RegEx(settings.RegEx);
-                lastRegexSetting = settings.RegEx;
+                regularexpression = new RegEx(settings.RegEx, settings.CaseInsensitiv);
+                lastRegex = settings.RegEx;
+                lastCaseInsensitiv = settings.CaseInsensitiv;
             }
 
             try
