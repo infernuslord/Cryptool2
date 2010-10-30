@@ -62,7 +62,13 @@ namespace KeySearcher.P2P.Tree
             statisticsGenerator.MarkStartOfNodeSearch();
 
             var nodeBeforeStarting = currentNode;
+            keySearcher.GuiLogMessage("Calling FindNextLeaf(SearchOption.SkipReservedLeafs) now!", NotificationLevel.Debug);
             var foundNode = FindNextLeaf(SearchOption.SkipReservedLeafs);
+            keySearcher.GuiLogMessage("Returned from FindNextLeaf(SearchOption.SkipReservedLeafs)...", NotificationLevel.Debug);
+            if (foundNode == null)
+                keySearcher.GuiLogMessage("FindNextLeaf(SearchOption.SkipReservedLeafs) returned null!", NotificationLevel.Debug);
+            if (skippedReservedNodes)
+                keySearcher.GuiLogMessage("FindNextLeaf(SearchOption.SkipReservedLeafs) skipped reserved nodes!", NotificationLevel.Debug);
 
             if (foundNode == null && skippedReservedNodes)
             {
@@ -86,34 +92,48 @@ namespace KeySearcher.P2P.Tree
         private Leaf FindNextLeaf(SearchOption useReservedLeafsOption)
         {
             if (currentNode == null)
+            {
+                keySearcher.GuiLogMessage("Inside FindNextLeaf: currentNode is null!", NotificationLevel.Debug);
                 return null;
+            }
 
             var isReserved = false;
             var useReservedLeafs = useReservedLeafsOption == SearchOption.UseReservedLeafs;
 
+            keySearcher.GuiLogMessage("Inside FindNextLeaf: updating currentNode now!", NotificationLevel.Debug);
             storageHelper.UpdateFromDht(currentNode, true);
             currentNode.UpdateCache();
+            keySearcher.GuiLogMessage("Inside FindNextLeaf: Now entering while loop!", NotificationLevel.Debug);
             while (currentNode.IsCalculated() || (!useReservedLeafs && (isReserved = currentNode.IsReserved())))
             {
                 if (isReserved)
+                {
+                    keySearcher.GuiLogMessage("Inside FindNextLeaf: currentNode was reserved!", NotificationLevel.Debug);
                     skippedReservedNodes = true;
+                }
+                if (currentNode.IsCalculated())
+                    keySearcher.GuiLogMessage("Inside FindNextLeaf: currentNode is already calculated!", NotificationLevel.Debug);
 
                 // Current node is calculated or reserved, 
                 // move one node up and update it
+                keySearcher.GuiLogMessage("Inside FindNextLeaf: set currentNode to its own parent!", NotificationLevel.Debug);
                 currentNode = currentNode.ParentNode;
 
                 // Root node calculated => everything finished
                 if (currentNode == null)
                 {
+                    keySearcher.GuiLogMessage("Inside FindNextLeaf: parent was null, so set currentNode to rootNode!", NotificationLevel.Debug);
                     currentNode = rootNode;
                     return null;
                 }
 
+                keySearcher.GuiLogMessage("Inside FindNextLeaf: updating currentNode now!", NotificationLevel.Debug);
                 // Update the new _currentNode
                 storageHelper.UpdateFromDht(currentNode, true);
                 currentNode.UpdateCache();
             }
 
+            keySearcher.GuiLogMessage("Inside FindNextLeaf: Exiting loop! Updating currentNode!", NotificationLevel.Debug);
             // currentNode is calculateable => find leaf
             currentNode.UpdateCache();
             return currentNode.CalculatableLeaf(useReservedLeafs);
