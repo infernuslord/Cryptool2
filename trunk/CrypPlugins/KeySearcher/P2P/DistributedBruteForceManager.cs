@@ -116,11 +116,12 @@ namespace KeySearcher.P2P
                 var reservationTimer = new Timer {Interval = 5*60*1000};    //Every 5 minutes
                 reservationTimer.Elapsed += new ElapsedEventHandler(delegate
                                                                         {
-                                                                            currentLeaf.ReserveLeaf();
+                                                                            var oldMessage = status.CurrentOperation;
                                                                             var message = string.Format("Rereserving pattern #{0}", displayablePatternId);
                                                                             keySearcher.GuiLogMessage(message, NotificationLevel.Info);
                                                                             status.CurrentOperation = message;
-
+                                                                            currentLeaf.ReserveLeaf();
+                                                                            status.CurrentOperation = oldMessage;
                                                                         });
 
                 keySearcher.GuiLogMessage(

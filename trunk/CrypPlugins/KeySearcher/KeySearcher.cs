@@ -35,6 +35,7 @@ using KeySearcher.Helper;
 using KeySearcher.P2P;
 using KeySearcherPresentation;
 using KeySearcherPresentation.Controls;
+using OpenCLNet;
 
 namespace KeySearcher
 {    
@@ -57,6 +58,8 @@ namespace KeySearcher
         private KeyQualityHelper keyQualityHelper;
         private readonly P2PQuickWatchPresentation p2PQuickWatchPresentation;
         private readonly LocalQuickWatchPresentation localQuickWatchPresentation;
+
+        private OpenCLManager oclManager = null;
 
         private readonly Stopwatch localBruteForceStopwatch;
 
@@ -231,7 +234,13 @@ namespace KeySearcher
         public KeySearcher()
         {
             IsKeySearcherRunning = false;
-            settings = new KeySearcherSettings(this);
+            if (OpenCL.NumberOfPlatforms > 0)
+            {
+                oclManager = new OpenCLManager();
+                oclManager.CreateDefaultContext(0, DeviceType.ALL);
+            }
+
+            settings = new KeySearcherSettings(this, oclManager);
             QuickWatchPresentation = new QuickWatch();
             localQuickWatchPresentation = ((QuickWatch) QuickWatchPresentation).LocalQuickWatchPresentation;
             p2PQuickWatchPresentation = ((QuickWatch)QuickWatchPresentation).P2PQuickWatchPresentation;
@@ -307,6 +316,7 @@ namespace KeySearcher
 
         public void Initialize()
         {
+            settings.Initialize();
         }
 
         public void Dispose()
