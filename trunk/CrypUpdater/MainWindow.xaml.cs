@@ -20,40 +20,14 @@ namespace CrypUpdater
     public partial class MainWindow : Window
     {
 
-        internal bool restartFailed = false;
-
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, RoutedEventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            button1.IsEnabled = false;
-
-            if (!restartFailed)
-            {
-                if (App.CryptoolExePath != null)
-                {
-                    try
-                    {
-                        System.Diagnostics.Process.Start(App.CryptoolExePath);
-                        Application.Current.Shutdown();
-                    }
-                    catch (Exception)
-                    {
-                        restartFailed = true;
-                        textBlock1.Text = "Error occurred while restarting CT2! Try again later.";
-                        button1.IsEnabled = true;
-                    }
-                }
-                
-            }
-            else
-            {
-                Application.Current.Shutdown();
-            }
-
+            e.Cancel = false;
         }
 
     }

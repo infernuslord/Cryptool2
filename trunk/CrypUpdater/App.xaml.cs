@@ -45,15 +45,36 @@ namespace CrypUpdater
                 CryptoolProcessID = Convert.ToInt32(e.Args[3]);
                 p = Process.GetProcessById(CryptoolProcessID);
 
-                if (p.WaitForExit(1000 * 20))
+                if (p.WaitForExit(1000 * 30))
                 {
                     UnpackZip(ZipFilePath, CryptoolFolderPath);
                 }
                 else
                 {
-                    m.restartFailed = true;
-                    m.textBlock1.Text = "Timeout: CT2 failed to shut down, click OK to close.";
-                    m.button1.IsEnabled = true;
+                    MessageBoxButton b = MessageBoxButton.OKCancel;
+                    string caption = "Timeout error";
+                    MessageBoxResult result;
+                    result = MessageBox.Show("CrypTool 2.0 failed to shut down. Kill the process to proceed?", caption, b);
+                    if (result == MessageBoxResult.OK)
+                    {
+                        try
+                        {
+                            p.Kill();
+                            p.WaitForExit();
+                            UnpackZip(ZipFilePath, CryptoolFolderPath);
+                        }
+                        catch (Exception)
+                        {
+                            UnpackZip(ZipFilePath, CryptoolFolderPath);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Update failed. Cryptool 2.0 will be restarted.");
+                        RestartCryptool();
+                    }
+                    
+
                 }
 
             }
@@ -61,27 +82,48 @@ namespace CrypUpdater
             {
                 if (CryptoolExePath != null)
                 {
-                    m.textBlock1.Text = "Wrong parameters, click OK to restart CT2!";               
+                    MessageBox.Show("Update failed. Cryptool 2.0 will be restarted.", "Error");
+                    RestartCryptool();
                 }
                 else
                 {
-                    m.restartFailed = true;
-                    m.textBlock1.Text = "Wrong parameters, click OK to close.";
+                    UpdateFailure();
                 }
-                
-                m.button1.IsEnabled = true;
             }
             catch (FormatException) // no id was parsable 
             {
-                m.restartFailed = true;
-                m.textBlock1.Text = "Wrong parameters, click OK to close.";
-                m.button1.IsEnabled = true;
+                UpdateFailure();
             }
             catch (ArgumentException) // the invoking process has already exited (no such process with this id exists)
             {
                 UnpackZip(ZipFilePath, CryptoolFolderPath);
             }
 
+        }
+
+        private static void UpdateFailure()
+        {
+            MessageBox.Show("Update failed, wrong parameters!", "Error");
+            Application.Current.Shutdown();
+        }
+
+        private static void RestartCryptool()
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(CryptoolExePath);
+                Application.Current.Shutdown();
+            }
+            catch (Exception)
+            {
+                MessageBoxButton bu = MessageBoxButton.OK;
+                string caption2 = "Error";
+                MessageBoxResult res = MessageBox.Show("CrypTool 2.0 could not be restarted! Try again later.", caption2, bu);
+                if (res == MessageBoxResult.OK)
+                {
+                    Application.Current.Shutdown();
+                }
+            }
         }
 
 
@@ -96,8 +138,6 @@ namespace CrypUpdater
                     int i = 0;
                     int progress = 0;
 
-                    m.textBlock1.Text = "Processing update...";
-
                     foreach (ZipEntry e in zip)
                     {
                         e.Extract(CryptoolFolderPath, ExtractExistingFileAction.OverwriteSilently);
@@ -106,15 +146,14 @@ namespace CrypUpdater
                         UpdateProgress(progress);
                     }
 
-                    m.textBlock1.Text = "Update successful, click OK to restart CT2!";
-                    m.button1.IsEnabled = true;
+                    RestartCryptool();
 
                 }
             }
             catch (Exception)
             {
-                m.textBlock1.Text = "Update failed: File path not accessible, click OK to restart CT2!";
-                m.button1.IsEnabled = true;
+                MessageBox.Show("Update failed. Cryptool 2.0 will be restarted.", "Error");
+                RestartCryptool();
             }
 
         }
@@ -126,7 +165,6 @@ namespace CrypUpdater
                 m.progressBar1.Value = progress;
             }, null);
         }
-
 
     }
 }
