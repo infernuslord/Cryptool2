@@ -27,7 +27,7 @@ namespace CrypUpdater
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            e.Cancel = false;
+            e.Cancel = true;
         }
 
     }
