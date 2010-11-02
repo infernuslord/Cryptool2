@@ -157,7 +157,7 @@ namespace Cryptool.Core
                 currentPosition++;
                 try
                 {
-                    Assembly asm = Assembly.LoadFile(fileInfo.FullName);
+                    Assembly asm = Assembly.Load(fileInfo.FullName);
                     
                     string key = GetAssemblyKey(asm.FullName, state);
                     if (key == null)
