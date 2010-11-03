@@ -432,13 +432,20 @@ namespace WorkspaceManager.Execution
                     {
                         if (connectorModel.IsDynamic)
                         {
-                            MethodInfo propertyInfo = PluginModel.Plugin.GetType().GetMethod(connectorModel.DynamicSetterName);
-                            propertyInfo.Invoke(PluginModel.Plugin, new object[] { connectorModel.PropertyName, connectorModel.Data });
+                        
+                            if(connectorModel.method == null)
+                            {
+                                connectorModel.method = PluginModel.Plugin.GetType().GetMethod(connectorModel.DynamicSetterName);
+                            }
+                            connectorModel.method.Invoke(PluginModel.Plugin, new object[] { connectorModel.PropertyName, connectorModel.Data });
                         }
                         else
                         {
-                            PropertyInfo propertyInfo = PluginModel.Plugin.GetType().GetProperty(connectorModel.PropertyName);
-                            propertyInfo.SetValue(PluginModel.Plugin, connectorModel.Data, null);
+                            if (connectorModel.property == null)
+                            {
+                                connectorModel.property = PluginModel.Plugin.GetType().GetProperty(connectorModel.PropertyName);
+                            }
+                            connectorModel.property.SetValue(PluginModel.Plugin, connectorModel.Data, null);
                         }
                     }
                 }
