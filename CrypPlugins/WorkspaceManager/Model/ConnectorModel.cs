@@ -40,7 +40,7 @@ namespace WorkspaceManager.Model
         /// </summary>
         [NonSerialized]
         private volatile bool hasData = false;
-
+       
         /// <summary>
         /// Name of the Connector type
         /// </summary>
@@ -53,6 +53,20 @@ namespace WorkspaceManager.Model
         #endregion
 
         #region public members
+
+        /// <summary>
+        /// The method to get/set the value of the input/output represented by this connectorModel
+        /// This is needed, if we have a dynamic input/output
+        /// </summary>
+        [NonSerialized]
+        public MethodInfo method = null;
+
+        /// <summary>
+        /// The property of the plugin behind this connectorModel
+        /// </summary>      
+        [NonSerialized]
+        public PropertyInfo property = null;
+
 
         /// <summary>
         /// The PluginModel this Connector belongs to
@@ -224,11 +238,20 @@ namespace WorkspaceManager.Model
                 object data = null;
                 if (IsDynamic)
                 {
-                    data = sender.GetType().GetMethod(DynamicGetterName).Invoke(sender, new object[] { this.PropertyName });
+                    if (method == null)
+                    {
+                        method = sender.GetType().GetMethod(DynamicGetterName);
+                    }
+                    data = method.Invoke(sender, new object[] { this.PropertyName });
+                   
                 }
                 else
                 {
-                    data = sender.GetType().GetProperty(propertyChangedEventArgs.PropertyName).GetValue(sender, null);
+                    if (property == null)
+                    {
+                        property = sender.GetType().GetProperty(propertyChangedEventArgs.PropertyName);
+                    }
+                    data = property.GetValue(sender, null);
                 }
 
                 if (data == null)
