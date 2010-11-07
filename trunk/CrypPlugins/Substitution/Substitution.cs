@@ -50,7 +50,7 @@ namespace Cryptool.Substitution
         /// </summary>
         public Substitution()
         {
-            this.settings = new SubstitutionSettings();
+            this.settings = new SubstitutionSettings(this);
             ((SubstitutionSettings)(this.settings)).LogMessage += Substitution_LogMessage;
         }
 
@@ -312,6 +312,12 @@ namespace Cryptool.Substitution
 
         #endregion
 
+        public void GuiLogMessage(string message, NotificationLevel loglevel)
+        {
+            if (OnGuiLogNotificationOccured != null)
+                OnGuiLogNotificationOccured(this, new GuiLogEventArgs(message, this, loglevel));
+        }
+
         #region IPlugin members
 
         public void Initialize()
@@ -401,6 +407,15 @@ namespace Cryptool.Substitution
 
         public void Execute()
         {
+            foreach (char c in settings.KeyValue)
+            {
+                if (!settings.AlphabetSymbols.Contains(c))
+                {
+                    GuiLogMessage("Key contains characters that are not part of the alphabet!", NotificationLevel.Error);
+                    return;
+                }
+            }
+
             switch (settings.Action)
             {
                 case 0:

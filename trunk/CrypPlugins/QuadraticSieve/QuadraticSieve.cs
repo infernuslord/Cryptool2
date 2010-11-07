@@ -628,7 +628,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             DateTime now = DateTime.Now;
             if (msleft > 0 && !double.IsInfinity(msleft))
             {
-                TimeSpan ts = new TimeSpan(0, 0, 0, 0, (int)msleft);
+                TimeSpan ts = new TimeSpan((long)(msleft * TimeSpan.TicksPerMillisecond));
                 timeLeft_message = timeSpanString(ts) + " left";
                 endtime_message = "" + now.AddMilliseconds((long)msleft);
             }
