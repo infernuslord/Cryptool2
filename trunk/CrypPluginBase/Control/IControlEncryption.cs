@@ -27,7 +27,8 @@ namespace Cryptool.PluginBase.Control
         byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV, int bytesToUse);
         byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV);
         string getKeyPattern();
-        KeyTranslator getKeyTranslator();
+        IKeyTranslator getKeyTranslator();
+        string GetOpenCLCode(int decryptionLength);
 
         void changeSettings(string setting, object value);
         IControlEncryption clone();

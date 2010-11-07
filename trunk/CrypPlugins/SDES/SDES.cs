@@ -714,12 +714,17 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             return execute(input, key, bytesToUse, action);
         }
 
+        public string GetOpenCLCode(int decryptionLength)
+        {
+            return null;
+        }
+
         public void changeSettings(string setting, object value)
         {
 
         }
 
-        public KeyTranslator getKeyTranslator()
+        public IKeyTranslator getKeyTranslator()
         {
             return new SDESKeyTranslator();
         }
@@ -727,7 +732,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         #endregion
     }
 
-    class SDESKeyTranslator : KeyTranslator
+    class SDESKeyTranslator : IKeyTranslator
     {
         private KeyPattern pattern;
         private int progress = 0;
@@ -766,11 +771,26 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             return pattern.getKey();
         }
 
+        public string GetKeyRepresentation(int add)
+        {
+            return pattern.getKey(add);
+        }
+
         public int GetProgress()
         {
             int result = progress;
             progress = 0;
             return result;
+        }
+
+        public string ModifyOpenCLCode(string code, int maxKeys)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool NextOpenCLBatch()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

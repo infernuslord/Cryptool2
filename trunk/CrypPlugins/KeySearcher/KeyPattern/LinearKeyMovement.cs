@@ -24,7 +24,7 @@ namespace KeySearcher.KeyPattern
     /// <summary>
     /// This class represents key movements which can be described by A*x+B
     /// </summary>
-    public class LinearKeyMovement : KeyMovement
+    public class LinearKeyMovement : IKeyMovement
     {
         public int A
         {
@@ -49,6 +49,11 @@ namespace KeySearcher.KeyPattern
             this.A = a;
             this.B = b;
             this.UpperBound = upperBound;
+        }
+
+        public int Count()
+        {
+            return UpperBound;
         }
     }
 }

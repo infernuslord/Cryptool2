@@ -573,12 +573,17 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             
         }
 
+        public string GetOpenCLCode(int decryptionLength)
+        {
+            return null;
+        }
+
         public void changeSettings(string setting, object value)
         {
             throw new NotImplementedException();
         }
 
-        public KeyTranslator getKeyTranslator()
+        public IKeyTranslator getKeyTranslator()
         {
             return new KeySearcher.KeyTranslators.ByteArrayKeyTranslator();
         }

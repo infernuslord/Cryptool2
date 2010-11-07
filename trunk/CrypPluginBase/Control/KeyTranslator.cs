@@ -21,7 +21,7 @@ using System.Text;
 
 namespace Cryptool.PluginBase.Control
 {
-    public interface KeyTranslator
+    public interface IKeyTranslator
     {
         /// <summary>
         /// The parameter "keys" determines the keys this KeyTranslator should iterate over.
@@ -48,6 +48,8 @@ namespace Cryptool.PluginBase.Control
         /// <returns>string representation of the current key</returns>
         string GetKeyRepresentation();
 
+        string GetKeyRepresentation(int add);
+
         /// <summary>
         /// Returns the amount of keys that where given by the "nextKey()" method after "getProgress()" was called last time.
         /// This method should have the side-effect, that the progress is synchronized with the underlying keypattern.
@@ -56,6 +58,20 @@ namespace Cryptool.PluginBase.Control
         /// <returns>The progress</returns>
         int GetProgress();
 
-        //TODO: Add OpenCL stuff here
+        /// <summary>
+        /// This method modifies the given OpenCL code, so that the returning code includes
+        /// the key movement stuff.
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="maxKeys"></param>
+        /// <returns></returns>
+        string ModifyOpenCLCode(string code, int maxKeys);
+
+        /// <summary>
+        /// Like "NextKey()", but jumps over a whole key batch that can be processed by the generated OpenCL code
+        /// in one step.
+        /// </summary>
+        /// <returns></returns>
+        bool NextOpenCLBatch();
     }
 }

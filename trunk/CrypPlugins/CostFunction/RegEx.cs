@@ -78,6 +78,51 @@ namespace Cryptool.Plugins.CostFunction
         }
 
         /// <summary>
+        /// This method modifies the given OpenCL code, so that the returning code includes
+        /// the costfunction RegEx calculations.
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="bytesToUse"></param>
+        /// <returns></returns>
+        public string ModifyOpenCLCode(string code, int bytesToUse)
+        {
+            if (transitionMatrix == null)
+            {
+                //return false:
+                return code.Replace("$$COSTFUNCTIONDECLARATIONS$$", "").Replace("$$COSTFUNCTIONINITIALIZE$$", "goto resultcalculation;")
+                    .Replace("$$COSTFUNCTIONCALCULATE$$", "").Replace("$$COSTFUNCTIONRESULTCALCULATION$$", "result = -1;");
+            }
+
+            //declaration code:
+            string declaration = string.Format("__constant int transitionMatrix[{0}] = {{ \n", transitionMatrix.Length * 256);
+            foreach (var row in transitionMatrix)
+            {
+                foreach (var i in row)
+                {
+                    declaration += i + ", ";
+                }
+            }
+            declaration = declaration.Substring(0, declaration.Length - 2);
+            declaration += " }; \n";
+            declaration += string.Format("__constant int NOTRANSITION = {0}; \n", int.MaxValue);
+
+            code = code.Replace("$$COSTFUNCTIONDECLARATIONS$$", declaration);
+
+            //initialization code:
+            code = code.Replace("$$COSTFUNCTIONINITIALIZE$$", string.Format("int state = {0}; \n", startIndex));
+
+            //calculation code:
+            code = code.Replace("$$COSTFUNCTIONCALCULATE$$", "int absState = state >= 0 ? state : ~state; \n"
+                + "state = transitionMatrix[absState*256+c]; \n"
+                + "if (state == NOTRANSITION) goto resultcalculation; \n");
+
+            //result calculation code:
+            code = code.Replace("$$COSTFUNCTIONRESULTCALCULATION$$", "if (state < 0) result = 1.0; else result = -1.0;");
+
+            return code;
+        }
+
+        /// <summary>
         /// Matches input with the given regex.
         /// </summary>
         /// <param name="input"></param>
