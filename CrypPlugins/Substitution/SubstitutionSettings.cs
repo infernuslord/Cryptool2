@@ -90,8 +90,14 @@ namespace Cryptool.Substitution
         private string keyValue;
         private UnknownSymbolHandlingMode unknowSymbolHandling = UnknownSymbolHandlingMode.Ignore;
         private int caseSensitiveAlphabet = 0; //0=case insensitive, 1 = case sensitive
+        private Substitution substitution;
 
         #endregion
+
+        public SubstitutionSettings(Substitution substitution)
+        {
+            this.substitution = substitution;
+        }
 
         #region Private methods
 
@@ -117,6 +123,12 @@ namespace Cryptool.Substitution
 
         private void setCipherAlphabet(string value)
         {
+            foreach (char c in value)
+            {
+                if (!alphabet.Contains(c))
+                    substitution.GuiLogMessage("Key contains characters that are not part of the alphabet!", NotificationLevel.Error);
+            }
+
             try
             {
                 string a = null;
@@ -197,7 +209,7 @@ namespace Cryptool.Substitution
         {
             get { return this.keyValue; }
             set 
-            { 
+            {
                 this.keyValue = value;
                 setCipherAlphabet(keyValue);
                 OnPropertyChanged("KeyValue");
