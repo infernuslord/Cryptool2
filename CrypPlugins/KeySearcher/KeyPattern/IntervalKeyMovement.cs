@@ -21,7 +21,7 @@ using System.Text;
 
 namespace KeySearcher.KeyPattern
 {
-    public class IntervalKeyMovement : KeyMovement
+    public class IntervalKeyMovement : IKeyMovement
     {
         public List<int> IntervalList
         {
@@ -34,5 +34,9 @@ namespace KeySearcher.KeyPattern
             this.IntervalList = intervalList;
         }
 
+        public int Count()
+        {
+            return IntervalList.Count;
+        }
     }
 }

@@ -1170,12 +1170,17 @@ namespace Transposition
                 OnStatusChanged(this, true);
         }
 
+        public string GetOpenCLCode(int decryptionLength)
+        {
+            return null;
+        }
+
         public void changeSettings(string setting, object value)
         {
             plugin.changeSettings(setting, value);
         }
 
-        public KeyTranslator getKeyTranslator()
+        public IKeyTranslator getKeyTranslator()
         {
             throw new NotImplementedException();
         }

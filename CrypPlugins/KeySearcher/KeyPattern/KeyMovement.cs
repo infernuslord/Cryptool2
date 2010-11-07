@@ -21,8 +21,8 @@ using System.Text;
 
 namespace KeySearcher.KeyPattern
 {
-    public interface KeyMovement
+    public interface IKeyMovement
     {
-
+        int Count();
     }
 }

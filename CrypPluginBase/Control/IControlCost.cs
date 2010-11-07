@@ -45,6 +45,14 @@ namespace Cryptool.PluginBase.Control
       /// <returns>cost</returns>
       double calculateCost(byte[] text);
 
+      /// <summary>
+      /// This method modifies the given OpenCL code, so that the returning code includes
+      /// the costfunction calculations.
+      /// </summary>
+      /// <param name="code"></param>
+      /// <returns></returns>
+      string ModifyOpenCLCode(string code);
+
       int getBytesToUse();
   }
 }

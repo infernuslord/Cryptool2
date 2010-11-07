@@ -27,14 +27,16 @@ namespace KeySearcher.KeyTranslators
     /// Implements a simple translator for bytearray keys that are represented by the pattern "[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-...".
     /// Is used by AES and DES.
     /// </summary>
-    public class ByteArrayKeyTranslator : KeyTranslator
+    public class ByteArrayKeyTranslator : IKeyTranslator
     {
         private int progress = 0;
         private KeyPattern.KeyPattern pattern;
         private int[] movementStatus;
         private byte[] keya;
         private int[] movementPointers;
-        private KeyMovement[] keyMovements;
+        private IKeyMovement[] keyMovements;
+        private int openCLIndex = -1;
+        private int openCLSize;
 
         #region KeyTranslator Members
 
@@ -97,7 +99,7 @@ namespace KeySearcher.KeyTranslators
                 keya[c] = keya2[c];
 
             for (int x = 0; x < movementStatus.Length - 1; x++)
-                setWildcard(x);
+                SetWildcard(x);
         }
 
         public byte[] GetKey()
@@ -108,25 +110,28 @@ namespace KeySearcher.KeyTranslators
         public bool NextKey()
         {
             int i = movementStatus.Length - 1;
+            progress++;
+            return IncrementMovementStatus(i);
+        }
 
-            movementStatus[i]++;
+        private bool IncrementMovementStatus(int index)
+        {
+            movementStatus[index]++;
             
-            while (i >= 0 && !wildcardInRange(i))
+            while (index >= 0 && !WildcardInRange(index))
             {                
-                movementStatus[i] = 0;
-                setWildcard(i);
+                movementStatus[index] = 0;
+                SetWildcard(index);
 
-                i--;
-                if (i >= 0)
-                    movementStatus[i]++;          
+                index--;
+                if (index >= 0)
+                    movementStatus[index]++;          
             }
 
-            if (i >= 0)
-                setWildcard(i);
+            if (index >= 0)
+                SetWildcard(index);
 
-            progress++;
-
-            return i >= 0;
+            return index >= 0;
         }
 
         public string GetKeyRepresentation()
@@ -134,11 +139,16 @@ namespace KeySearcher.KeyTranslators
             return pattern.getKey(progress);
         }
 
+        public string GetKeyRepresentation(int add)
+        {
+            return pattern.getKey(add);
+        }
+
         /// <summary>
         /// Sets wildcard i in keya to the current progress
         /// </summary>
         /// <param name="i">the wildcard index</param>
-        private void setWildcard(int i)
+        private void SetWildcard(int i)
         {
             int index = movementPointers[i] / 2;
             byte mask;
@@ -154,12 +164,12 @@ namespace KeySearcher.KeyTranslators
                 shift = 0;
             }
 
-            keya[index] = (byte)((keya[index] & mask) | (calcWildcard(i) << shift));
+            keya[index] = (byte)((keya[index] & mask) | (CalcWildcard(i) << shift));
         }
 
-        private int calcWildcard(int i)
+        private int CalcWildcard(int i)
         {
-            KeyMovement mov = keyMovements[i];
+            IKeyMovement mov = keyMovements[i];
             if (mov is LinearKeyMovement)
             {
                 return movementStatus[i] * (mov as LinearKeyMovement).A + (mov as LinearKeyMovement).B;
@@ -172,9 +182,9 @@ namespace KeySearcher.KeyTranslators
             throw new Exception("Movement not implemented!");
         }
 
-        private bool wildcardInRange(int i)
+        private bool WildcardInRange(int i)
         {
-            KeyMovement mov = keyMovements[i];
+            IKeyMovement mov = keyMovements[i];
             if (mov is LinearKeyMovement)
             {
                 return movementStatus[i] < (mov as LinearKeyMovement).UpperBound;
@@ -194,6 +204,92 @@ namespace KeySearcher.KeyTranslators
 
             progress = 0;
             return result;
+        }
+
+        public string ModifyOpenCLCode(string code, int maxKeys)
+        {
+            string[] byteReplaceStrings = new string[32];
+            for (int i = 0; i < 32; i++)
+                byteReplaceStrings[i] = "$$ADDKEYBYTE"+i+"$$";
+            
+            //Find out how many wildcards/keys we can bruteforce at once:
+            int j = movementStatus.Length - 1;
+            int size = 1;
+            while ((size < maxKeys) && (j >= 0) && (movementStatus[j] == 0))
+                size *= keyMovements[j--].Count();
+
+            if (size < 256)
+                return null;    //it's futile to use OpenCL for so few keys
+
+            //generate the key movement string:
+            string[] movementStrings = new string[32];
+            string addVariable = "add";
+            for (int x = movementStatus.Length - 1; x > j; x--)
+            {
+                string movStr = string.Format("({0}%{1})", addVariable, keyMovements[x].Count());;
+
+                if (keyMovements[x] is LinearKeyMovement)
+                {
+                    var lkm = keyMovements[x] as LinearKeyMovement;
+                    movStr = string.Format("({0}*{1}+{2})", lkm.A, movStr, lkm.B);
+                }
+                else if (keyMovements[x] is IntervalKeyMovement)
+                {
+                    var ikm = keyMovements[x] as IntervalKeyMovement;
+
+                    //declare the invterval array:
+                    string s = string.Format("__constant int ikm{0}[{1}] = {{", x, ikm.Count());
+                    foreach (var c in ikm.IntervalList)
+                        s += c + ", ";
+                    s = s.Substring(0, s.Length - 2);
+                    s += "}; \n";
+                    code = code.Replace("$$MOVEMENTDECLARATIONS$$", s + "\n$$MOVEMENTDECLARATIONS$$");
+
+                    movStr = string.Format("ikm{0}[{1}]", x, movStr);
+                }
+                else
+                {
+                    throw new Exception("Key Movement not supported for OpenCL.");
+                }
+
+                if (movementPointers[x] % 2 == 0)
+                    movStr = "(" + movStr + " << 4)";
+                else
+                    movStr = "(" + movStr + ")";
+
+                addVariable = "(" + addVariable + "/" + keyMovements[x].Count() + ")";
+
+                int keyIndex = movementPointers[x]/2;
+                if (movementStrings[keyIndex] != null)
+                    movementStrings[keyIndex] += " | " + movStr;
+                else
+                    movementStrings[keyIndex] = movStr;
+            }
+
+            //put movement strings in code:
+            for (int y = 0; y < movementStrings.Length; y++)
+                code = code.Replace(byteReplaceStrings[y], movementStrings[y] ?? "0");
+
+            code = code.Replace("$$MOVEMENTDECLARATIONS$$", "");
+
+            //progress:
+            openCLIndex = j;
+            openCLSize = size;
+
+            return code;
+        }
+
+        public bool NextOpenCLBatch()
+        {
+            if (openCLIndex > -1)
+            {
+                progress += openCLSize;
+                return IncrementMovementStatus(openCLIndex);
+            }
+            else
+            {
+                throw new Exception("This method can only be called if OpenCL code was generated!");
+            }
         }
 
         #endregion

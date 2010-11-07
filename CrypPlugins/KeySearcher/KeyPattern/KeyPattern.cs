@@ -386,7 +386,7 @@ namespace KeySearcher.KeyPattern
         /// returns the "movements" of the key, i.e. how each relevant wildcard has to be "rotated" to produce the next key.
         /// </summary>
         /// <returns></returns>
-        public KeyMovement[] getKeyMovements()
+        public IKeyMovement[] getKeyMovements()
         {
             KeyPattern fullKeyPattern = new KeyPattern(pattern);
             fullKeyPattern.WildcardKey = pattern;
@@ -396,7 +396,7 @@ namespace KeySearcher.KeyPattern
                 if (wc.getLength() > 1)
                     arraySize++;
 
-            KeyMovement[] result = new KeyMovement[arraySize];
+            IKeyMovement[] result = new IKeyMovement[arraySize];
 
             int c = 0;
             for (int i = 0; i < wildcardList.Count; i++)
@@ -417,7 +417,7 @@ namespace KeySearcher.KeyPattern
         /// <param name="wildcard"></param>
         /// <param name="fullwildcard"></param>
         /// <returns>The movements</returns>
-        private KeyMovement getWildcardMovement(Wildcard wildcard, Wildcard fullwildcard)
+        private IKeyMovement getWildcardMovement(Wildcard wildcard, Wildcard fullwildcard)
         {
             //check if linear:
             int a;

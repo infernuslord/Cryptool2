@@ -569,11 +569,87 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         {
         }
 
+        public string GetOpenCLCode(int decryptionLength)
+        {
+            string opencl = Properties.Resources.AESOpenCL;
+
+            int bits = -1;
+            switch (((AESSettings)plugin.Settings).Keysize)
+            {
+                case 0:
+                    bits = 16 * 8;
+                    break;
+                case 1:
+                    bits = 24 * 8;
+                    break;
+                case 2:
+                    bits = 32 * 8;
+                    break;
+            }
+            if (bits == -1)
+                return null;
+
+            opencl = opencl.Replace("$$BITS$$", "" + bits);
+
+            string decryptionCode = "";
+            int blocks = decryptionLength / 16;
+            if (blocks >= 1)
+            {
+                decryptionCode = AddOpenCLBlockDecryption(decryptionCode, 16);
+
+                if (blocks > 1)
+                {
+                    decryptionCode += string.Format("for (int b = 1; b < {0}; b++) \n {{ \n ", blocks);
+                    decryptionCode = AddOpenCLBlockDecryptionWithMode(decryptionCode, 16, "b");
+                    decryptionCode += "}\n";
+                }
+            }
+
+            if (decryptionLength % 16 != 0)
+            {
+                if (blocks == 0)
+                    decryptionCode = AddOpenCLBlockDecryption(decryptionCode, decryptionLength % 16);
+                else
+                    decryptionCode = AddOpenCLBlockDecryptionWithMode(decryptionCode, decryptionLength % 16, ""+blocks);
+            }
+
+            opencl = opencl.Replace("$$AESDECRYPT$$", decryptionCode);
+
+            return opencl;
+        }
+
+        private string AddOpenCLBlockDecryption(string decryptionCode, int size)
+        {
+            decryptionCode += "AES_decrypt(inn, block, &(key)); \n " + string.Format("for (int i = 0; i < {0}; i++) \n ", size)
+                              + "{ \n unsigned char c = block[i]; \n "
+                              + "$$COSTFUNCTIONCALCULATE$$ \n } \n";
+            return decryptionCode;
+        }
+
+        private string AddOpenCLBlockDecryptionWithMode(string decryptionCode, int size, string block)
+        {
+            decryptionCode += string.Format("AES_decrypt((inn+{0}*16), block, &(key)); \n ", block)
+                              + string.Format("for (int i = 0; i < {0}; i++) \n {{ \n ", size);
+            switch (((AESSettings) plugin.Settings).Mode)
+            {
+                case 0: //ECB
+                    decryptionCode += "unsigned char c = block[i]; \n";
+                    break;
+                case 1: //CBC
+                    decryptionCode += string.Format("unsigned char c = block[i] ^ (inn+({0}-1)*16)[i]; \n", block);
+                    break;
+                case 2: //CFB
+                    throw new NotImplementedException("CFB for OpenCL is not implemented!"); //not supported
+            }
+            decryptionCode += "$$COSTFUNCTIONCALCULATE$$ \n } \n";
+            return decryptionCode;
+        }
+
         public void changeSettings(string setting, object value)
         {
         }
 
-        public KeyTranslator getKeyTranslator()
+        public IKeyTranslator getKeyTranslator()
         {
             return new KeySearcher.KeyTranslators.ByteArrayKeyTranslator();
         }

@@ -370,7 +370,7 @@ namespace KeySearcher
                     BigInteger size = pattern.size();
                     keysLeft[threadid] = size;
 
-                    KeyTranslator keyTranslator = ControlMaster.getKeyTranslator();
+                    IKeyTranslator keyTranslator = ControlMaster.getKeyTranslator();
                     keyTranslator.SetKeys(pattern);
 
                     bool finish = false;
@@ -454,7 +454,7 @@ namespace KeySearcher
 
         #region bruteforce methods
 
-        private bool decryptAndCalculate(IControlEncryption sender, int bytesToUse, byte[] keya, KeyTranslator keyTranslator)
+        private bool decryptAndCalculate(IControlEncryption sender, int bytesToUse, byte[] keya, IKeyTranslator keyTranslator)
         {
             ValueKey valueKey;
 
@@ -708,6 +708,41 @@ namespace KeySearcher
             /* END: For evaluation issues - added by Arnold 2010.03.17 */
 
             return costList;
+        }
+
+        private string CreateOpenCLBruteForceCode(KeyPattern.KeyPattern keyPattern)
+        {
+            try
+            {
+                string code = sender.GetOpenCLCode(CostMaster.getBytesToUse());
+                if (code == null)
+                    throw new Exception("OpenCL not supported in this configuration!");
+
+                //put cost function stuff into code:
+                code = costMaster.ModifyOpenCLCode(code);
+
+                //put input to be bruteforced into code:
+                string inputarray = string.Format("__constant unsigned char inn[{0}] = {{ \n", CostMaster.getBytesToUse());
+                for (int i = 0; i < CostMaster.getBytesToUse(); i++)
+                {
+                    inputarray += String.Format("0x{0:X2}, ", this.encryptedData[i]);
+                }
+                inputarray = inputarray.Substring(0, inputarray.Length - 2);
+                inputarray += "}; \n";
+                code = code.Replace("$$INPUTARRAY$$", inputarray);
+
+                //put key movement of pattern into code:
+                IKeyTranslator keyTranslator = ControlMaster.getKeyTranslator();
+                keyTranslator.SetKeys(pattern);
+                code = keyTranslator.ModifyOpenCLCode(code, 256*256);
+
+                return code;
+            }
+            catch (Exception ex)
+            {
+                GuiLogMessage("Error trying to generate OpenCL code: " + ex.Message, NotificationLevel.Error);
+                return null;
+            }
         }
 
         private void SetStartDate()

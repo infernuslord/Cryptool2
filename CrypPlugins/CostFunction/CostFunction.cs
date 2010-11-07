@@ -753,6 +753,78 @@ namespace Cryptool.Plugins.CostFunction
             this.plugin = plugin;
         }
 
+        public string ModifyOpenCLCode(string code)
+        {
+            int bytesToUse = 0;
+            try
+            {
+                bytesToUse = ((CostFunctionSettings)this.plugin.Settings).BytesToUseInteger;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Entered bytesToUse is not an integer: " + ex.Message);
+            }
+
+            switch (((CostFunctionSettings)this.plugin.Settings).FunctionType)
+            {
+                case 0: //Index of coincidence 
+                    return ModifyOpenCLCodeIndexOfCoincidence(code, bytesToUse);
+                case 1: //Entropy
+                    return ModifyOpenCLCodeEntropy(code, bytesToUse);
+                case 5: // Regular Expression
+                    var regex = new RegEx(((CostFunctionSettings)this.plugin.Settings).RegEx, ((CostFunctionSettings)this.plugin.Settings).CaseInsensitiv);
+                    return regex.ModifyOpenCLCode(code, bytesToUse);
+                default:
+                    throw new NotImplementedException("The value " + ((CostFunctionSettings)this.plugin.Settings).FunctionType + " is not implemented for OpenCL.");
+            }//end switch
+        }
+
+        private string ModifyOpenCLCodeEntropy(string code, int bytesToUse)
+        {
+            //declaration code:
+            float[] xlogx = new float[bytesToUse + 1];
+            xlogx[0] = 0.0f;
+            for (int i = 1; i <= bytesToUse; i++)
+                xlogx[i] = (float) (-1.0f * i * Math.Log(i / (float)bytesToUse) / Math.Log(2.0));
+
+            string declaration = string.Format("__constant float xlogx[{0}] = {{ \n", bytesToUse + 1);
+            foreach (float xlx in xlogx)
+            {
+                declaration += xlx.ToString(System.Globalization.CultureInfo.InvariantCulture) + ", ";
+            }
+            declaration = declaration.Substring(0, declaration.Length - 2);
+            declaration += " }; \n";
+
+            code = code.Replace("$$COSTFUNCTIONDECLARATIONS$$", declaration);
+
+            //initialization code:
+            code = code.Replace("$$COSTFUNCTIONINITIALIZE$$", "unsigned char distr[256]; \n for (int c = 0; c < 256; c++) \n distr[c]=0; \n");
+
+            //calculation code:
+            code = code.Replace("$$COSTFUNCTIONCALCULATE$$", "distr[c]++;");
+
+            //result calculation code:
+            code = code.Replace("$$COSTFUNCTIONRESULTCALCULATION$$", "int i = 0; \n " 
+                + "while (i<256) { \n "
+                + "result += xlogx[distr[i++]]; \n "
+                + "result += xlogx[distr[i++]]; \n "
+                + "result += xlogx[distr[i++]]; \n "
+                + "result += xlogx[distr[i++]]; \n "
+                + "result += xlogx[distr[i++]]; \n "
+                + "result += xlogx[distr[i++]]; \n "
+                + "result += xlogx[distr[i++]]; \n "
+                + "result += xlogx[distr[i++]]; \n " 
+                + "} \n "
+                + string.Format("result /= {0}f;", bytesToUse));
+
+            return code;
+        }
+
+        private string ModifyOpenCLCodeIndexOfCoincidence(string code, int bytesToUse)
+        {
+            throw new NotImplementedException("Index of coincidence is not implemented for OpenCL yet (will follow soon).");
+        }
+
         public int getBytesToUse()
         {
             try
