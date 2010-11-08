@@ -70,7 +70,8 @@ namespace Cryptool.PluginBase
         Debug,
         Info,
         Warning,
-        Error
+        Error,
+        Balloon
     }
 
     public enum ValidationType
