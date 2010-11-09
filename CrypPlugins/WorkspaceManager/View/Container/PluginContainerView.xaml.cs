@@ -537,6 +537,9 @@ namespace WorkspaceManager.View.Container
             clr = Color.FromArgb(clr2.A, clr2.R, clr2.G, clr2.B);
             BorderGradientStop.Color = clr;
             BorderGradientStopSecond.Color = clr;
+            clr2 = System.Windows.Forms.ControlPaint.LightLight(System.Windows.Forms.ControlPaint.LightLight(System.Drawing.Color.FromArgb(clr.A, clr.R, clr.G, clr.B)));
+            clr = Color.FromArgb(clr2.A, clr2.R, clr2.G, clr2.B);
+            BG.Background = new SolidColorBrush(clr);
 
             if (Model.PluginPresentation != null)
             {
@@ -618,8 +621,8 @@ namespace WorkspaceManager.View.Container
             }
             else 
             {
-                SlotOne.Visibility = Visibility.Collapsed;
-                SlotFive.Visibility = Visibility.Collapsed;
+                //SlotOne.Visibility = Visibility.Collapsed;
+                //SlotFive.Visibility = Visibility.Collapsed;
 
                 SlotOne.Child = null;
                 SlotTwo.Child = null;

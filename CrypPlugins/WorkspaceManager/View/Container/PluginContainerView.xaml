@@ -179,7 +179,7 @@
                                         <!--<Border.Effect>
                                             <DropShadowEffect BlurRadius="10" Direction="0" Color="Black" RenderingBias="Quality" ShadowDepth="0" ></DropShadowEffect>
                                         </Border.Effect>-->
-                                        <Grid Background="{StaticResource ResourceKey=NormalBrush2}" Margin="2">
+                                        <Grid x:Name="BG" Background="{StaticResource ResourceKey=NormalBrush2}" Margin="2">
                                             <StackPanel Orientation="Vertical">
                                                 <StackPanel.LayoutTransform>
                                                     <ScaleTransform ScaleX="0.9" ScaleY="0.9"></ScaleTransform>
@@ -219,7 +219,7 @@
                                         
                                                 <Grid>
                                                     <Grid.RowDefinitions>
-                                                        <RowDefinition Height="70"/>
+                                                        <RowDefinition Height="67"/>
                                                         <RowDefinition Height="*"/>
                                                     </Grid.RowDefinitions>
                                                     <Grid x:Name="OptPanelParent" Grid.Row="0">

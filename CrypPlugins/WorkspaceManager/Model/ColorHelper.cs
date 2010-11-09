@@ -35,7 +35,7 @@ namespace WorkspaceManager.Model
                     switch (eta.EncryptionType)
                     {
                         case EncryptionType.Asymmetric:
-                            return (Color)ColorConverter.ConvertFromString("#7089a2");
+                            return (Color)ColorConverter.ConvertFromString("#6789a2");
 
                         case EncryptionType.Classic:
                             return (Color)ColorConverter.ConvertFromString("#b8c881");
