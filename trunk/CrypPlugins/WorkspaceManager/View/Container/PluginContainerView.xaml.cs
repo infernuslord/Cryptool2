@@ -166,12 +166,15 @@ namespace WorkspaceManager.View.Container
             }
             set
             {
-                icon = value;
-                icon.Stretch = Stretch.Uniform;
-                icon.Width = 45;
-                icon.Height = 45;
-                IconPanel.Child = icon;
-                icon.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+                if (value != null && icon != value)
+                {
+                    icon = value;
+                    icon.Stretch = Stretch.Uniform;
+                    icon.Width = 45;
+                    icon.Height = 45;
+                    IconPanel.Child = icon;
+                    icon.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+                }
             }
         }
 
@@ -267,13 +270,12 @@ namespace WorkspaceManager.View.Container
 
             if (model.RepeatStart)
             {
-                model.RepeatStart = false;
-                playimg.Source = new BitmapImage(new Uri("../Image/play.png", UriKind.RelativeOrAbsolute));
+                playimg.Source = new BitmapImage(new Uri("../Image/play.png", UriKind.RelativeOrAbsolute));                
+                
             }
             else
             {
-                model.RepeatStart = true;
-                playimg.Source = new BitmapImage(new Uri("../Image/pause.png", UriKind.RelativeOrAbsolute));
+                playimg.Source = new BitmapImage(new Uri("../Image/pause.png", UriKind.RelativeOrAbsolute));             
             }
         }
 
@@ -552,12 +554,10 @@ namespace WorkspaceManager.View.Container
 
             if (model.RepeatStart)
             {
-                Model.RepeatStart = false;
                 playimg.Source = new BitmapImage(new Uri("../Image/play.png", UriKind.RelativeOrAbsolute));
             }
             else
             {
-                Model.RepeatStart = true;
                 playimg.Source = new BitmapImage(new Uri("../Image/pause.png", UriKind.RelativeOrAbsolute));
             }
                 
@@ -682,12 +682,12 @@ namespace WorkspaceManager.View.Container
                 if (model.RepeatStart)
                 {
                     model.RepeatStart = false;
-                    playimg.Source = new BitmapImage(new Uri("../Image/play.png", UriKind.RelativeOrAbsolute));
+                    playimg.Source = new BitmapImage(new Uri("../Image/pause.png", UriKind.RelativeOrAbsolute));
                 }
                 else
                 {
                     model.RepeatStart = true;
-                    playimg.Source = new BitmapImage(new Uri("../Image/pause.png", UriKind.RelativeOrAbsolute));
+                    playimg.Source = new BitmapImage(new Uri("../Image/play.png", UriKind.RelativeOrAbsolute));
                 }
                 return;
             }
@@ -768,7 +768,11 @@ namespace WorkspaceManager.View.Container
             {
                 //todo: assign old color and appereance
             }
-            
+
+            //perhaps the icon changed so we have to update it
+            //the property will do nothing if the icon is the same as the old one
+            this.Icon = model.getImage();
+
         }
 
         #endregion

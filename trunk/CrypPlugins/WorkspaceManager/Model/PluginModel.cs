@@ -434,7 +434,7 @@ namespace WorkspaceManager.Model
         /// <param name="sender"></param>
         /// <param name="propertyChangedEventArgs"></param>
         public void SettingsPropertyChanged(Object sender, PropertyChangedEventArgs propertyChangedEventArgs)
-        {
+        {            
             this.WorkspaceModel.WorkspaceManagerEditor.HasChanges = true;
         }        
 
