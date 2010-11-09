@@ -84,7 +84,7 @@ namespace WorkspaceManager.View.VisualComponents
 
         private void ClearCurrentChildren()
         {
-            stackPanelContent.Children.Clear();
+            //stackPanelContent.Children.Clear();
         }
 
         private bool isChangeable = true;
@@ -494,6 +494,7 @@ namespace WorkspaceManager.View.VisualComponents
                             stackPanelInputControl.Children.Add(inputControl);
                         }
                         inputControl = stackPanelInputControl;
+                        stackPanelContent.Children.Add(stackPanelInputControl);
                     }
 
                     if (bInfo.SettingFormat != null)

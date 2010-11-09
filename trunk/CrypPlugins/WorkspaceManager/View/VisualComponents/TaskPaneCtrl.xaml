@@ -7,16 +7,13 @@
     <StackPanel Name="navPaneSettings" Orientation="Vertical" Visibility="Visible">
 
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
-                    <StackPanel Name="stackPanelContent" CanVerticallyScroll="True" CanHorizontallyScroll="True" />
+                    <StackPanel Name="stackPanelContent" CanVerticallyScroll="True" CanHorizontallyScroll="True" >
+                    </StackPanel>
+                    <TextBox  Name="textBoxTooltip" IsReadOnly="True" FontWeight="Bold" BorderBrush="Transparent" TextWrapping="Wrap"></TextBox>
                 </StackPanel>
             </ScrollViewer>
-            <TextBox Grid.Row="1" Name="textBoxTooltip" IsReadOnly="True" FontWeight="Bold" BorderBrush="Transparent" TextWrapping="Wrap"></TextBox>
         </Grid>
     </StackPanel>
 

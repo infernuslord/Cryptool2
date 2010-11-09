@@ -74,24 +74,27 @@ namespace WorkspaceManager.View.Container
         void bottomBox_FitToScreen(object sender, FitToScreenEventArgs e)
         {
 
-            if (root.DesiredSize.Height < ViewBoxParent.ActualHeight)
-                Properties.Settings.Default.EditScale = ViewBoxParent.ActualHeight / root.DesiredSize.Height;
-
-            if (root.DesiredSize.Width < ViewBoxParent.ActualWidth)
-                Properties.Settings.Default.EditScale = ViewBoxParent.ActualWidth / root.DesiredSize.Width;
-            this.UpdateLayout();
-            if (root.ActualWidth > root.ActualHeight)
+            if (root.Children.Count != 0)
             {
-                this.UpdateLayout();
-                Properties.Settings.Default.EditScale = ViewBoxParent.ActualWidth / root.ActualWidth;
-                return;
-            }
-            else if (root.ActualWidth < root.ActualHeight)
-            {
+                if (root.DesiredSize.Height < ViewBoxParent.ActualHeight)
+                    Properties.Settings.Default.EditScale = ViewBoxParent.ActualHeight / root.DesiredSize.Height;
 
+                if (root.DesiredSize.Width < ViewBoxParent.ActualWidth)
+                    Properties.Settings.Default.EditScale = ViewBoxParent.ActualWidth / root.DesiredSize.Width;
                 this.UpdateLayout();
-                Properties.Settings.Default.EditScale = ViewBoxParent.ActualHeight / root.ActualHeight ;
-                return;
+                if (root.ActualWidth > root.ActualHeight)
+                {
+                    this.UpdateLayout();
+                    Properties.Settings.Default.EditScale = ViewBoxParent.ActualWidth / root.ActualWidth;
+                    return;
+                }
+                else if (root.ActualWidth < root.ActualHeight)
+                {
+
+                    this.UpdateLayout();
+                    Properties.Settings.Default.EditScale = ViewBoxParent.ActualHeight / root.ActualHeight;
+                    return;
+                } 
             }
         }
 

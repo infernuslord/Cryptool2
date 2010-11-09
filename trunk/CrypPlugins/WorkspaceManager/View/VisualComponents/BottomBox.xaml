@@ -22,15 +22,15 @@
         <Border Name="Main" Height="35"  DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" ClipToBounds="True" Background="{StaticResource ResourceKey=BlueRadientBrush}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
 
-                <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Name="F2S" Click="Button_Click" Foreground="WhiteSmoke">
+                <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="Fit to Screen" Name="F2S" Click="Button_Click" Foreground="WhiteSmoke">
                     <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/f2s-small.png" Width="30" Height="30"></Image>
                 </Button>
 
-                <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Name="ADDIMG" Click="Button_Click" Foreground="WhiteSmoke">
+                <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="Add Image to Workspace" Name="ADDIMG" Click="Button_Click" Foreground="WhiteSmoke">
                     <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/addimg-small.png" Width="30" Height="30"></Image>
                 </Button>
 
-                <Button Margin="5,0,0,0" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Name="ADDTXT" Click="Button_Click" Foreground="WhiteSmoke">
+                <Button Margin="5,0,0,0" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="Add Text to Workspace" Name="ADDTXT" Click="Button_Click" Foreground="WhiteSmoke">
                     <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/addtxt-small.png" Width="30" Height="30"></Image>
                 </Button>
 
