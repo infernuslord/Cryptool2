@@ -20,6 +20,7 @@
             <z:BlurViewStateConverter x:Key="BlurViewStateConverter"></z:BlurViewStateConverter>
             <z:ViewStateIconConverter x:Key="ViewStateIconConverter"></z:ViewStateIconConverter>
             <z:DragDeltaViewStateConverter x:Key="DragDeltaViewStateConverter"></z:DragDeltaViewStateConverter>
+            <z:ConnectorPanelHeightWidthConverter x:Key="ConnectorPanelHeightWidthConverter"></z:ConnectorPanelHeightWidthConverter>
 
             <Button x:Key="SettingButton" Name="SettingButton" ToolTip="Settings" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Height="30" Width="30" MouseEnter="SettingButton_MouseEnter" Click="OptionChooseHandler">
                 <Image Source="/WorkspaceManager;component/View/Image/setting.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Height="30" Width="30">
@@ -52,13 +53,13 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <DockPanel Name="Root" LastChildFill="True">
-        
-        <DockPanel x:Name="PluginBase" DockPanel.Dock="Top" HorizontalAlignment="Left" MinHeight="125" MinWidth="110" Width="100" Height="115">
+
+        <DockPanel x:Name="PluginBase" DockPanel.Dock="Top" HorizontalAlignment="Left" MinHeight="130" MinWidth="130" Width="130" Height="130">
             <DockPanel.Background>
                 <SolidColorBrush Opacity="0.01" Color="#444444"></SolidColorBrush>
             </DockPanel.Background>
             
-            <Grid DockPanel.Dock="Top">
+            <!--<Grid DockPanel.Dock="Top">
                 <StackPanel Name="ControlPanel" Visibility="Visible" Opacity="0" Orientation="Horizontal" HorizontalAlignment="Right">
 
                     <Button x:Name="play" Height="20" Width="20" Margin="3" VerticalAlignment="Bottom" HorizontalAlignment="Left" Style="{StaticResource ResourceKey=DeletePluginContainerButtonStyle}" Click="Button_Click">
@@ -86,7 +87,7 @@
                         <Image Source="/WorkspaceManager;component/View/Image/delete.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
                     </Button>
                 </StackPanel>
-            </Grid>
+            </Grid>-->
             
             
             
@@ -97,18 +98,41 @@
 
             <Grid Name="MainGrid" Margin="5.5">
                 <Grid Name="ConnectorPanel" Panel.ZIndex="11111111">
-                    <StackPanel x:Name="West" Panel.ZIndex="1111" Background="{StaticResource ResourceKey=CheatBrush}" Orientation="Vertical" HorizontalAlignment="Left" Width="20" Height="{Binding ElementName=Window, Path=ActualHeight}" Margin="5,0,0,0"></StackPanel>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <!--<StackPanel Orientation="Vertical">
-                            <Thumb Panel.ZIndex="200" Name="RightDelta" IsEnabled="False" Opacity="0.01" HorizontalAlignment="Right" VerticalAlignment="Stretch" Cursor="SizeWE" DragDelta="Thumb_DragDelta" Width="2.5" Height="{Binding ElementName=Window, Path=ActualHeight}"></Thumb>
-                        </StackPanel>-->
-                        <StackPanel x:Name="East" Panel.ZIndex="11112" Background="{StaticResource ResourceKey=CheatBrush}" Orientation="Vertical" Width="18" Height="{Binding ElementName=Window, Path=ActualHeight}" Margin="0,0,5,0"></StackPanel>
+                    <StackPanel x:Name="West" Background="{StaticResource ResourceKey=CheatBrush}" Panel.ZIndex="11112"  Orientation="Vertical" HorizontalAlignment="Left" Width="20" Margin="5,0,0,0">
+                        <StackPanel.Height>
+                            <MultiBinding Converter="{StaticResource ConnectorPanelHeightWidthConverter}"  ConverterParameter="H">
+                                <Binding ElementName="InnerWindow" Path="ActualHeight"/>
+                                <Binding ElementName="North" Path="ActualHeight"/>
+                            </MultiBinding>
+                        </StackPanel.Height>
                     </StackPanel>
 
-                    <StackPanel x:Name="North" Panel.ZIndex="1111" Background="{StaticResource ResourceKey=CheatBrush}" Orientation="Horizontal" VerticalAlignment="Top" Height="20" Width="{Binding ElementName=Window, Path=ActualWidth}" Margin="0,5,0,0"></StackPanel>
-                    <StackPanel Orientation="Vertical" VerticalAlignment="Bottom">
-                        <!--<Thumb Panel.ZIndex="200" Name="BottomDelta" IsEnabled="False" Opacity="0.01" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Cursor="SizeNS" DragDelta="Thumb_DragDelta" Height="2.5"></Thumb>-->
-                        <StackPanel x:Name="South" Panel.ZIndex="1111" Background="{StaticResource ResourceKey=CheatBrush}" Orientation="Horizontal" Height="18" Width="{Binding ElementName=Window, Path=ActualWidth}" Margin="0,0,0,5"></StackPanel>
+                    <StackPanel x:Name="East" Background="{StaticResource ResourceKey=CheatBrush}" Orientation="Vertical" Width="18" Margin="0,0,5,0" Panel.ZIndex="11112" HorizontalAlignment="Right">
+                        <StackPanel.Height>
+                            <MultiBinding Converter="{StaticResource ConnectorPanelHeightWidthConverter}"  ConverterParameter="H">
+                                <Binding ElementName="InnerWindow" Path="ActualHeight"/>
+                                <Binding ElementName="North" Path="ActualHeight"/>
+                            </MultiBinding>
+                        </StackPanel.Height>
+                    </StackPanel>
+
+                    <StackPanel x:Name="North" Background="{StaticResource ResourceKey=CheatBrush}" Panel.ZIndex="11112" Orientation="Horizontal" VerticalAlignment="Top" Height="18" Margin="0,5,0,0" >
+                        <StackPanel.Width>
+                            <MultiBinding Converter="{StaticResource ConnectorPanelHeightWidthConverter}"  ConverterParameter="W">
+                                <Binding ElementName="InnerWindow" Path="ActualWidth"/>
+                                <Binding ElementName="East" Path="ActualWidth"/>
+                            </MultiBinding>
+                        </StackPanel.Width>
+                    </StackPanel>
+
+                    <StackPanel x:Name="South" Background="{StaticResource ResourceKey=CheatBrush}" Orientation="Horizontal" Height="18" Panel.ZIndex="11112" VerticalAlignment="Bottom" Margin="0,0,0,5">
+                        <StackPanel.Width>
+                            <MultiBinding Converter="{StaticResource ConnectorPanelHeightWidthConverter}"  ConverterParameter="W">
+                                <Binding ElementName="InnerWindow" Path="ActualWidth"/>
+                                <Binding ElementName="East" Path="ActualWidth"/>
+     
+                            </MultiBinding>
+                        </StackPanel.Width>
                     </StackPanel>
 
                     <Thumb Panel.ZIndex="2000" Name="BottomRightDelta" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=DragDeltaViewStateConverter}, ConverterParameter=Visibility}" Style="{StaticResource ResourceKey=ImageWrapperThumbStyle}" IsEnabled="{Binding Path=ViewState, Converter={StaticResource ResourceKey=DragDeltaViewStateConverter}, ConverterParameter=IsEnabled}" Background="Transparent" Opacity="0.6" HorizontalAlignment="Right" VerticalAlignment="Bottom" Cursor="SizeNWSE" Height="15" Width="15" DragDelta="Thumb_DragDelta" Margin="0,0,19,19"></Thumb>
@@ -123,147 +147,171 @@
                                 </Grid>
                             </Grid>
                             <Grid Panel.ZIndex="1000" x:Name="ProgressPercentageRoot">
-                                <StackPanel Margin="2" x:Name="ProgressPercentage" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                                <StackPanel Margin="-13" x:Name="ProgressPercentage" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Bottom">
                                     <StackPanel.RenderTransform>
                                         <TranslateTransform Y="7"></TranslateTransform>
                                     </StackPanel.RenderTransform>
-                                    <TextBlock Name="Percentage" FontFamily="IrisUPC" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="WhiteSmoke" Text="{Binding ElementName=ProgressBar, Path=Value, Converter={StaticResource ResourceKey=PercentageConverter}, FallbackValue=error}" >
+                                    <TextBlock Name="Percentage" FontFamily="IrisUPC" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="ExtraBold" Foreground="#333" Text="{Binding ElementName=ProgressBar, Path=Value, Converter={StaticResource ResourceKey=PercentageConverter}, FallbackValue=error}" >
                                         <TextBlock.Effect>
-                                            <DropShadowEffect Direction="0" BlurRadius="2" ShadowDepth="0"></DropShadowEffect>
+                                            <DropShadowEffect Direction="0" BlurRadius="3" ShadowDepth="0" Color="White"></DropShadowEffect>
                                         </TextBlock.Effect>
                                     </TextBlock>
-                                    <TextBlock FontSize="20" FontFamily="IrisUPC" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="WhiteSmoke" Text="%">
+                                    <TextBlock FontSize="20" FontFamily="IrisUPC" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="ExtraBold" Foreground="Black" Text="%">
                                         <TextBlock.Effect>
-                                            <DropShadowEffect Direction="0" BlurRadius="2" ShadowDepth="0"></DropShadowEffect>
+                                            <DropShadowEffect Direction="0" BlurRadius="3" ShadowDepth="0" Color="White"></DropShadowEffect>
                                         </TextBlock.Effect>
                                     </TextBlock>
                                 </StackPanel>
                             </Grid>
-                            <DockPanel LastChildFill="True" Margin="5">
+                            <DockPanel Name="InnerWindow" LastChildFill="True" Margin="5">
                                 <Border CornerRadius="5,5,5,5" BorderThickness="1.2">
-                                    <Border.BorderBrush>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                            <GradientStop Color="#333333" Offset="0.0" />
-                                            <GradientStop Color="#5d80a2" Offset="1.0" />
+                                    <Border.Background>
+                                        <LinearGradientBrush Opacity="1" StartPoint="0,0" EndPoint="0,1">
+                                            <GradientBrush.GradientStops>
+                                                <GradientStopCollection>
+                                                    <GradientStop x:Name="BorderGradientStop" Offset="0.0"/>
+                                                    <GradientStop x:Name="BorderGradientStopSecond" Offset="0.1"/>
+                                                </GradientStopCollection>
+                                            </GradientBrush.GradientStops>
                                         </LinearGradientBrush>
-                                    </Border.BorderBrush>
+                                    </Border.Background>
                                     <Border Panel.ZIndex="-1" Name="Window2" CornerRadius="5,5,5,5" BorderThickness="0.8" MinWidth="50">
-                                        <Border.BorderBrush>
-                                            <SolidColorBrush Color="#111111"></SolidColorBrush>
-                                        </Border.BorderBrush>
-                                        <Border.Background>
-                                            <LinearGradientBrush Opacity="1" StartPoint="0,0" EndPoint="0,1">
-                                                <GradientBrush.GradientStops>
-                                                    <GradientStopCollection>
-                                                        <GradientStop x:Name="BorderGradientStop" Offset="0.0"/>
-                                                        <GradientStop x:Name="BorderGradientStopSecond" Offset="1"/>
-                                                    </GradientStopCollection>
-                                                </GradientBrush.GradientStops>
-                                            </LinearGradientBrush>
-                                        </Border.Background>
                                         <!--<Border.Effect>
                                             <DropShadowEffect BlurRadius="10" Direction="0" Color="Black" RenderingBias="Quality" ShadowDepth="0" ></DropShadowEffect>
                                         </Border.Effect>-->
-                                    
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="60"/>
-                                                <RowDefinition Height="*"/>
-                                            </Grid.RowDefinitions>
-                                            <Grid x:Name="OptPanelParent" Grid.Row="0">
-                                                <Border x:Name="IconPanel" Visibility="{Binding ElementName=ViewPanel, Path=Visibility, Converter={StaticResource ResourceKey=VisibilityConverter}}">
-                                                    <!--<Border.Effect>
-                                                        <BlurEffect Radius="{Binding ElementName=OptionPanel, Path=Visibility, Converter={StaticResource ResourceKey=BlurValueConverter}}"></BlurEffect>
-                                                    </Border.Effect>-->
-
-                                                </Border>
-                                                <Thumb DragDelta="Thumb_DragDelta_1" Style="{StaticResource ResourceKey=NormalThumbStyle}"/>
-                                                <Grid x:Name="OptionPanel" Height="50" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=OptionPanel}">
+                                        <Grid Background="{StaticResource ResourceKey=NormalBrush2}" Margin="2">
+                                            <StackPanel Orientation="Vertical">
+                                                <StackPanel.LayoutTransform>
+                                                    <ScaleTransform ScaleX="0.9" ScaleY="0.9"></ScaleTransform>
+                                                </StackPanel.LayoutTransform>
+                                                <Grid DockPanel.Dock="Top">
                                                     <Grid.Background>
-                                                        <SolidColorBrush Color="Black" Opacity="0.3"></SolidColorBrush>
+                                                        <SolidColorBrush Color="{Binding ElementName=BorderGradientStop, Path=Color}" Opacity="0.7"></SolidColorBrush>
                                                     </Grid.Background>
-                                                
-                                                    <!---->
-                                                    
-                                                    <!-->-->
-                                                
-                                                    <Border Height="13" VerticalAlignment="Bottom">
-                                                        <Border.Background>
-                                                            <SolidColorBrush Color="Black" Opacity="0.1"></SolidColorBrush>
-                                                        </Border.Background>
+                                                    <StackPanel Name="ControlPanel" Visibility="Visible" Opacity="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="3">
 
-                                                        <TextBlock Name="OptionCaption" Foreground="WhiteSmoke" FontWeight="Bold" FontSize="8" HorizontalAlignment="Center" Margin="0,0,10,0">
-                                                            <TextBlock.RenderTransform>
-                                                                <ScaleTransform ScaleX="1.2" ScaleY="1.2"></ScaleTransform>
-                                                            </TextBlock.RenderTransform>
-                                                        </TextBlock>
-                                                    
-                                                    </Border>
-                                                    <Thumb DragDelta="Thumb_DragDelta_1" Style="{StaticResource ResourceKey=NormalThumbStyle}"/>
-                                                    <StackPanel x:Name="Options" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Height="43" Visibility="{Binding ElementName=OptionPanel, Path=Visibility}">
-                                                        <Border x:Name="SlotOne">
-                                                            <Border.Effect>
-                                                                <BlurEffect Radius="{Binding Path=ViewState, Converter={StaticResource ResourceKey=BlurViewStateConverter}}"></BlurEffect>
-                                                            </Border.Effect>
-                                                        
-                                                        </Border>
-                                                        <Border x:Name="SlotTwo">
-                                                            <Border.Effect>
-                                                                <BlurEffect Radius="{Binding Path=ViewState, Converter={StaticResource ResourceKey=BlurViewStateConverter}}"></BlurEffect>
-                                                            </Border.Effect>
+                                                        <Button x:Name="play" Height="20" Width="20"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Click="Button_Click">
+                                                            <Button.LayoutTransform>
+                                                                <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
+                                                            </Button.LayoutTransform>
+                                                            <Image x:Name="playimg" Source="/WorkspaceManager;component/View/Image/play.png" RenderOptions.ClearTypeHint="Enabled" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
+                                                        </Button>
 
-                                                        </Border>
-                                                    
-                                                        <Border x:Name="SlotThree">
+                                                        <Button Name="MinimizeButton" Height="20" Width="20" ToolTip="Minimize" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Click="OptionChooseHandler">
+                                                            <Button.LayoutTransform>
+                                                                <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
+                                                            </Button.LayoutTransform>
+                                                            <Image Source="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateIconConverter}}" HorizontalAlignment="Center" SnapsToDevicePixels="True">
+                                                                <Image.Effect>
+                                                                    <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
+                                                                </Image.Effect>
+                                                            </Image>
+                                                        </Button>
 
-                                                        </Border>
-                                                    
-                                                        <Border x:Name="SlotFour">
-                                                            <Border.Effect>
-                                                                <BlurEffect Radius="{Binding Path=ViewState, Converter={StaticResource ResourceKey=BlurViewStateConverter}}"></BlurEffect>
-                                                            </Border.Effect>
-
-                                                        </Border>
-                                                        <Border x:Name="SlotFive">
-                                                            <Border.Effect>
-                                                                <BlurEffect Radius="{Binding Path=ViewState, Converter={StaticResource ResourceKey=BlurViewStateConverter}}"></BlurEffect>
-                                                            </Border.Effect>
-
-                                                        </Border>
+                                                        <Button x:Name="del" Height="20" Width="20" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Click="Button_Click">
+                                                            <Button.LayoutTransform>
+                                                                <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
+                                                            </Button.LayoutTransform>
+                                                            <Image Source="/WorkspaceManager;component/View/Image/delete.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
+                                                        </Button>
                                                     </StackPanel>
-                                                    <!--<Border x:Name="Options" VerticalAlignment="Top" HorizontalAlignment="Center" Height="39" Visibility="{Binding ElementName=OptionPanel, Path=Visibility}"></Border>-->
-                                                    <DockPanel HorizontalAlignment="Center" Height="43" VerticalAlignment="Top" LastChildFill="True">
-                                                        <!--<DockPanel.LayoutTransform>
-                                                            <ScaleTransform ScaleX="0.7" ScaleY="0.7"></ScaleTransform>
-                                                        </DockPanel.LayoutTransform>-->
-                                                        <Button DockPanel.Dock="Left" x:Name="Left" Click="OptionClickHandler" Width="20" Height="20" Margin="0,0,10,0" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}}" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
-                                                            <Image Source="/WorkspaceManager;component/View/Image/left.png" Opacity="0.6"  HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
-                                                        </Button>
-
-                                                        <Button DockPanel.Dock="Right" x:Name="Right" Click="OptionClickHandler" Width="20" Height="20" Margin="10,0,0,0" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}}" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
-                                                            <Image Source="/WorkspaceManager;component/View/Image/right.png" Opacity="0.6" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
-                                                        </Button>
-                                                        <Grid></Grid>
-                                                    </DockPanel>
                                                 </Grid>
-                                            </Grid>
-
-                                            <Grid x:Name="ViewPanelParent" Grid.Row="1" Margin="8.5">
-                                                <Grid Name="ViewPanel" Width="Auto" Height="Auto" Visibility="Collapsed" Margin="5,5,5,5">
-                                                    <Border x:Name="SettingsPanel" Panel.ZIndex="{Binding Path=ViewState, Converter={StaticResource ResourceKey=OverlapConverter}, ConverterParameter=SettingsPanel}" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=SettingsPanel}"></Border>
-                                                    <Border x:Name="PresentationPanel" Panel.ZIndex="{Binding Path=ViewState, Converter={StaticResource ResourceKey=OverlapConverter}, ConverterParameter=PresentationPanel}" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=PresentationPanel}">
+                                        
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="70"/>
+                                                        <RowDefinition Height="*"/>
+                                                    </Grid.RowDefinitions>
+                                                    <Grid x:Name="OptPanelParent" Grid.Row="0">
+                                                        <Border Margin="2" x:Name="IconPanel" Visibility="{Binding ElementName=ViewPanel, Path=Visibility, Converter={StaticResource ResourceKey=VisibilityConverter}}" ></Border>
+                                                        <Thumb DragDelta="Thumb_DragDelta_1" Style="{StaticResource ResourceKey=NormalThumbStyle}"/>
+                                                        <Grid x:Name="OptionPanel" Height="50" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=OptionPanel}">
+                                                            <Grid.Background>
+                                                                <SolidColorBrush Color="Black" Opacity="0.3"></SolidColorBrush>
+                                                            </Grid.Background>
+                                                
+                                                            <!---->
                                                     
-                                                    </Border>
-                                                    <Border x:Name="LogPanel" Panel.ZIndex="{Binding Path=ViewState, Converter={StaticResource ResourceKey=OverlapConverter}, ConverterParameter=LogPanel}" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=LogPanel}">
-                                                        <e:LogPresentation></e:LogPresentation>
-                                                    </Border>
-                                                    <ScrollViewer Panel.ZIndex="{Binding Path=ViewState, Converter={StaticResource ResourceKey=OverlapConverter}, ConverterParameter=DataPanel}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                                        <StackPanel Orientation="Vertical" x:Name="DataPanel" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=DataPanel}"></StackPanel>
-                                                    </ScrollViewer>
+                                                            <!-->-->
+                                                
+                                                            <Border Height="13" VerticalAlignment="Bottom">
+                                                                <Border.Background>
+                                                                    <SolidColorBrush Color="Black" Opacity="0.1"></SolidColorBrush>
+                                                                </Border.Background>
+
+                                                                <TextBlock Name="OptionCaption" Foreground="WhiteSmoke" FontWeight="Bold" FontSize="8" HorizontalAlignment="Center" Margin="0,0,10,0">
+                                                                    <TextBlock.RenderTransform>
+                                                                        <ScaleTransform ScaleX="1.2" ScaleY="1.2"></ScaleTransform>
+                                                                    </TextBlock.RenderTransform>
+                                                                </TextBlock>
+                                                    
+                                                            </Border>
+                                                            <Thumb DragDelta="Thumb_DragDelta_1" Style="{StaticResource ResourceKey=NormalThumbStyle}"/>
+                                                            <StackPanel x:Name="Options" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Height="43" Visibility="{Binding ElementName=OptionPanel, Path=Visibility}">
+                                                                <Border x:Name="SlotOne">
+                                                                    <Border.Effect>
+                                                                        <BlurEffect Radius="{Binding Path=ViewState, Converter={StaticResource ResourceKey=BlurViewStateConverter}}"></BlurEffect>
+                                                                    </Border.Effect>
+                                                        
+                                                                </Border>
+                                                                <Border x:Name="SlotTwo">
+                                                                    <Border.Effect>
+                                                                        <BlurEffect Radius="{Binding Path=ViewState, Converter={StaticResource ResourceKey=BlurViewStateConverter}}"></BlurEffect>
+                                                                    </Border.Effect>
+
+                                                                </Border>
+                                                    
+                                                                <Border x:Name="SlotThree">
+
+                                                                </Border>
+                                                    
+                                                                <Border x:Name="SlotFour">
+                                                                    <Border.Effect>
+                                                                        <BlurEffect Radius="{Binding Path=ViewState, Converter={StaticResource ResourceKey=BlurViewStateConverter}}"></BlurEffect>
+                                                                    </Border.Effect>
+
+                                                                </Border>
+                                                                <Border x:Name="SlotFive">
+                                                                    <Border.Effect>
+                                                                        <BlurEffect Radius="{Binding Path=ViewState, Converter={StaticResource ResourceKey=BlurViewStateConverter}}"></BlurEffect>
+                                                                    </Border.Effect>
+
+                                                                </Border>
+                                                            </StackPanel>
+                                                            <!--<Border x:Name="Options" VerticalAlignment="Top" HorizontalAlignment="Center" Height="39" Visibility="{Binding ElementName=OptionPanel, Path=Visibility}"></Border>-->
+                                                            <DockPanel HorizontalAlignment="Center" Height="43" VerticalAlignment="Top" LastChildFill="True">
+                                                                <!--<DockPanel.LayoutTransform>
+                                                                    <ScaleTransform ScaleX="0.7" ScaleY="0.7"></ScaleTransform>
+                                                                </DockPanel.LayoutTransform>-->
+                                                                <Button DockPanel.Dock="Left" x:Name="Left" Click="OptionClickHandler" Width="20" Height="20" Margin="0,0,10,0" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}}" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
+                                                                    <Image Source="/WorkspaceManager;component/View/Image/left.png" Opacity="0.6"  HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
+                                                                </Button>
+
+                                                                <Button DockPanel.Dock="Right" x:Name="Right" Click="OptionClickHandler" Width="20" Height="20" Margin="10,0,0,0" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}}" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
+                                                                    <Image Source="/WorkspaceManager;component/View/Image/right.png" Opacity="0.6" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
+                                                                </Button>
+                                                                <Grid></Grid>
+                                                            </DockPanel>
+                                                        </Grid>
+                                                    </Grid>
+
+                                                    <Grid x:Name="ViewPanelParent" Grid.Row="1" Margin="3" Background="{StaticResource ResourceKey=NormalBrush2}">
+                                                        <Grid Name="ViewPanel" Width="Auto" Height="Auto" Visibility="Collapsed" Margin="5,5,5,5">
+                                                            <Border x:Name="SettingsPanel" Panel.ZIndex="{Binding Path=ViewState, Converter={StaticResource ResourceKey=OverlapConverter}, ConverterParameter=SettingsPanel}" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=SettingsPanel}"></Border>
+                                                            <Border x:Name="PresentationPanel" Panel.ZIndex="{Binding Path=ViewState, Converter={StaticResource ResourceKey=OverlapConverter}, ConverterParameter=PresentationPanel}" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=PresentationPanel}">
+                                                    
+                                                            </Border>
+                                                            <Border x:Name="LogPanel" Panel.ZIndex="{Binding Path=ViewState, Converter={StaticResource ResourceKey=OverlapConverter}, ConverterParameter=LogPanel}" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=LogPanel}">
+                                                                <e:LogPresentation></e:LogPresentation>
+                                                            </Border>
+                                                            <ScrollViewer Panel.ZIndex="{Binding Path=ViewState, Converter={StaticResource ResourceKey=OverlapConverter}, ConverterParameter=DataPanel}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                                                <StackPanel Orientation="Vertical" x:Name="DataPanel" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=DataPanel}"></StackPanel>
+                                                            </ScrollViewer>
+                                                        </Grid>
+                                                    </Grid>
                                                 </Grid>
-                                            </Grid>
+                                            </StackPanel>
                                         </Grid>
-                                    
                                     </Border>
                                 </Border>
                             </DockPanel>
@@ -272,7 +320,7 @@
                 </Grid>
             </Grid>
         </DockPanel>
-        <TextBox x:Name="CTextBox" DockPanel.Dock="Bottom" Foreground="WhiteSmoke" FontSize="14" Opacity="0" HorizontalAlignment="Left" Style="{StaticResource ResourceKey=BasicTextBoxStyle}" Width="120" Margin="40,0,0,0" FontFamily="Palatino"></TextBox>
+        <TextBox x:Name="CTextBox" DockPanel.Dock="Bottom" Foreground="Black" FontSize="14" Opacity="0" HorizontalAlignment="Left" Style="{StaticResource ResourceKey=BasicTextBoxStyle}" Width="120" Margin="40,0,0,0" FontFamily="Palatino"></TextBox>
         
         
         <!--<Popup x:Name="BubblePopup" PopupAnimation="Fade" HorizontalOffset="-50" VerticalOffset="25" PlacementTarget="{Binding ElementName=ControlPanel}" Placement="Top" StaysOpen="False" AllowsTransparency="True" Width="300" Height="120">

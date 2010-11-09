@@ -13,55 +13,52 @@
             <z:ScaleToPercentageConverter x:Key="PercentageConverter"></z:ScaleToPercentageConverter>
         </ResourceDictionary>
     </UserControl.Resources>
-    
-    <UserControl.Effect>
-        <DropShadowEffect BlurRadius="10" Color="Black" ShadowDepth="0.5" Direction="90" Opacity="1"></DropShadowEffect>
-    </UserControl.Effect>
+    <UserControl.LayoutTransform>
+        <ScaleTransform ScaleX="0.85" ScaleY="0.85"></ScaleTransform>
+    </UserControl.LayoutTransform>
 
-    <DockPanel Name="Root">
-        <Border Name="Main" Height="35" Width="300" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" ClipToBounds="True" Background="{StaticResource ResourceKey=BottomBoxBrushLinearBrush}" BorderBrush="#bfd0f5" BorderThickness="0.65" CornerRadius="0,0,5,5">
-            <StackPanel Orientation="Horizontal">
-                <Border Opacity="0.85" CornerRadius="0,0,0,5" HorizontalAlignment="Left" Margin="0.65">
-                    <Border.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                            <GradientBrush.GradientStops>
-                                <GradientStopCollection>
-                                    <GradientStop Color="#0b85f8" Offset="-1"/>
-                                    <GradientStop Color="#333333" Offset="1.0"/>
-                                </GradientStopCollection>
-                            </GradientBrush.GradientStops>
-                        </LinearGradientBrush>
-                    </Border.Background>
-                    <StackPanel HorizontalAlignment="left" Orientation="Horizontal">
-                        <Button Height="18" Margin="5,2,5,0" Style="{StaticResource ResourceKey=ScalePluginContainerButtonStyle}">
-                            <Image VerticalAlignment="Top" Source="/WorkspaceManager;component/View/Image/ct.png"></Image>
-                        </Button>
-                    </StackPanel>
-                </Border>
-                <Button Margin="5,0,0,0" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Name="ADDIMG" Click="Button_Click" Foreground="WhiteSmoke">
-                    <Border CornerRadius="12" Background="{StaticResource ResourceKey=AddTextBrush}" Height="27" BorderBrush="Black" BorderThickness="1">
-                        <!--<Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/add.png" Height="27"></Image>-->
-                        <TextBlock Text="+Image" VerticalAlignment="Center" Margin="10,0,10,0" FontSize="12" FontWeight="Bold"></TextBlock>
-                    </Border>
+    <DockPanel Name="Root" HorizontalAlignment="Stretch">
+        <Border DockPanel.Dock="Top" Background="Black" Height="1"></Border>
+        <Border Name="Main" Height="35"  DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" ClipToBounds="True" Background="{StaticResource ResourceKey=BlueRadientBrush}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+
+                <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Name="F2S" Click="Button_Click" Foreground="WhiteSmoke">
+                    <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/f2s-small.png" Width="30" Height="30"></Image>
+                </Button>
+
+                <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Name="ADDIMG" Click="Button_Click" Foreground="WhiteSmoke">
+                    <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/addimg-small.png" Width="30" Height="30"></Image>
                 </Button>
 
                 <Button Margin="5,0,0,0" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Name="ADDTXT" Click="Button_Click" Foreground="WhiteSmoke">
-                    <Border CornerRadius="12" Background="{StaticResource ResourceKey=AddImageBrush}" Height="27" BorderBrush="Black" BorderThickness="1">
-                        <!--<Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/add.png" Height="27"></Image>-->
-                        <TextBlock Text="+Text" VerticalAlignment="Center" Margin="18,0,18,0" FontSize="12" FontWeight="Bold"></TextBlock>
-                    </Border>
+                    <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/addtxt-small.png" Width="30" Height="30"></Image>
                 </Button>
+
+                <StackPanel DockPanel.Dock="Bottom" Margin="0,0,0,0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <StackPanel.LayoutTransform>
+                        <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
+                    </StackPanel.LayoutTransform>
+                    <Border Margin="1,1,1,1" Opacity="0.85" CornerRadius="5,5,0,0">
+                        <Label Foreground="Black" FontWeight="ExtraBold" VerticalAlignment="Top" FontSize="18" ContentStringFormat="{}{0:F0} %" Content="{Binding Source={x:Static p:Settings.Default}, Path=EditScale, Mode=OneWay, Converter={StaticResource ResourceKey=PercentageConverter}}"></Label>
+                    </Border>
+                    <Border Margin="1,1,1,1" Opacity="0.85" CornerRadius="5,5,0,0">
+                        <Button Height="18" Margin="5,2,5,0" Style="{StaticResource ResourceKey=ScalePluginContainerButtonStyle}" Click="Button_Click_Full_dec">
+                            <Image VerticalAlignment="Top" Source="/WorkspaceManager;component/View/Image/reduce.png" Width="18" Height="18"></Image>
+                        </Button>
+                    </Border>
+                    <Border Margin="1,1,1,1" Opacity="0.85" CornerRadius="5,5,0,0">
+                        <Slider x:Name="FullScreenScaleSlider" Ticks="1,2" TickPlacement="BottomRight" Style="{StaticResource ResourceKey=SliderStyle}"
+                                Minimum="0.1" Maximum="5" Width="100" Height="22"
+                                Value="{Binding Source={x:Static p:Settings.Default}, Path=EditScale, Mode=TwoWay}"/>
+                    </Border>
+                    <Border Margin="1,1,1,1" Opacity="0.85" CornerRadius="5,5,0,0">
+                        <Button Height="18" Margin="5,2,5,0" Style="{StaticResource ResourceKey=ScalePluginContainerButtonStyle}" Click="Button_Click_Full_inc">
+                            <Image VerticalAlignment="Top" Source="/WorkspaceManager;component/View/Image/increase.png" Width="18" Height="18"></Image>
+                        </Button>
+                    </Border>
+                </StackPanel>
             </StackPanel>
             
         </Border>
-
-        <!--<StackPanel Orientation="Horizontal" Name="Sub" HorizontalAlignment="Center" Opacity="0.6" DockPanel.Dock="Bottom" Height="23" VerticalAlignment="Bottom" Visibility="Visible">
-            <StackPanel.RenderTransform>
-                <TranslateTransform></TranslateTransform>
-            </StackPanel.RenderTransform>
-            <Image VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,0,5,0" Source="/WorkspaceManager;component/View/Image/arrow.png" Width="14"/>
-            <Image VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,2" Source="/WorkspaceManager;component/View/Image/arrow.png" Width="17"/>
-            <Image VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5,0,10,0" Source="/WorkspaceManager;component/View/Image/arrow.png" Width="14"/>
-        </StackPanel>-->
     </DockPanel>
 </UserControl>

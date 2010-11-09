@@ -32,6 +32,8 @@ namespace WorkspaceManager.View.Container
     /// 
     public partial class WorkSpaceEditorView : UserControl
     {
+        private double prevX = 0, prevY = 0;
+        private bool IsDragStarted;
         private Point previousDragPoint = new Point();
         private ConnectorView selectedConnector;
         private PluginContainerView selectedPluginContainer;
@@ -39,6 +41,7 @@ namespace WorkspaceManager.View.Container
         private Point point;
         private PluginContainerView currentFullViewContainer;
         private Panel root { get { return (this.ViewBox.Content as Panel); } }
+        private BottomBox bottomBox { get { return (BottomBoxParent.Child as BottomBox); } }
 
         public UserContentWrapper UserContentWrapper { get; set; }
         public EditorState State;
@@ -61,8 +64,35 @@ namespace WorkspaceManager.View.Container
         {
             setBaseControl(WorkspaceModel);                        
             InitializeComponent();
-            this.UserContentWrapper = new UserContentWrapper(WorkspaceModel, (BottomBoxParent.Child as BottomBox));
-            this.UserControlWrapperParent.Children.Add(UserContentWrapper);
+            ViewBox.DataContext = root;
+            this.bottomBox.FitToScreen += new EventHandler<FitToScreenEventArgs>(bottomBox_FitToScreen);
+            this.UserContentWrapper = new UserContentWrapper(WorkspaceModel, bottomBox);
+            this.UserControlWrapperParent.Children.Clear();
+            this.UserControlWrapperParent.Children.Add(UserContentWrapper);       
+        }
+
+        void bottomBox_FitToScreen(object sender, FitToScreenEventArgs e)
+        {
+
+            if (root.DesiredSize.Height < ViewBoxParent.ActualHeight)
+                Properties.Settings.Default.EditScale = ViewBoxParent.ActualHeight / root.DesiredSize.Height;
+
+            if (root.DesiredSize.Width < ViewBoxParent.ActualWidth)
+                Properties.Settings.Default.EditScale = ViewBoxParent.ActualWidth / root.DesiredSize.Width;
+            this.UpdateLayout();
+            if (root.ActualWidth > root.ActualHeight)
+            {
+                this.UpdateLayout();
+                Properties.Settings.Default.EditScale = ViewBoxParent.ActualWidth / root.ActualWidth;
+                return;
+            }
+            else if (root.ActualWidth < root.ActualHeight)
+            {
+
+                this.UpdateLayout();
+                Properties.Settings.Default.EditScale = ViewBoxParent.ActualHeight / root.ActualHeight ;
+                return;
+            }
         }
 
         private void setBaseControl(WorkspaceModel WorkspaceModel)
@@ -98,9 +128,9 @@ namespace WorkspaceManager.View.Container
                 PluginContainerView newPluginContainerView = new PluginContainerView(model);
                 newPluginContainerView.Delete += new EventHandler<PluginContainerViewDeleteViewEventArgs>(PluginDelete);
                 newPluginContainerView.FullScreen += new EventHandler<PluginContainerViewFullScreenViewEventArgs>(shape_FullScreen);
-                newPluginContainerView.ConnectorMouseLeftButtonDown += new EventHandler<ConnectorViewEventArgs>(shape_OnConnectorMouseLeftButtonDown);
                 newPluginContainerView.MouseLeftButtonDown += new MouseButtonEventHandler(shape_MouseLeftButtonDown);
                 newPluginContainerView.MouseLeftButtonUp += new MouseButtonEventHandler(shape_MouseLeftButtonUp);
+                newPluginContainerView.ConnectorMouseLeftButtonDown += new EventHandler<ConnectorViewEventArgs>(shape_OnConnectorMouseLeftButtonDown);
                 newPluginContainerView.SetPosition(new Point((Math.Round((position.X) / Properties.Settings.Default.GridScale)) * Properties.Settings.Default.GridScale,
                                                             (Math.Round((position.Y) / Properties.Settings.Default.GridScale)) * Properties.Settings.Default.GridScale));
 
@@ -109,6 +139,7 @@ namespace WorkspaceManager.View.Container
                 Model.WorkspaceManagerEditor.HasChanges = true;
             }
         }
+
 
         void shape_FullScreen(object sender, PluginContainerViewFullScreenViewEventArgs e)
         {
@@ -257,16 +288,6 @@ namespace WorkspaceManager.View.Container
             this.selectedPluginContainer = null;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            SliderEditorSize.Value += 0.3;
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            SliderEditorSize.Value -= 0.3;
-        }
-
         void shape_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.selectedPluginContainer = sender as PluginContainerView;
@@ -334,10 +355,7 @@ namespace WorkspaceManager.View.Container
 
         internal void Load(WorkspaceModel WorkspaceModel)
         {
-            this.Model = WorkspaceModel;
-            this.UserContentWrapper = new UserContentWrapper(WorkspaceModel, (BottomBoxParent.Child as BottomBox));
-            this.UserControlWrapperParent.Children.Clear();
-            this.UserControlWrapperParent.Children.Add(UserContentWrapper);            
+            this.Model = WorkspaceModel;   
 
             foreach (PluginModel model in this.Model.AllPluginModels)
             {
@@ -407,14 +425,16 @@ namespace WorkspaceManager.View.Container
             }
         }
 
-        private void Button_Click_Full_inc(object sender, RoutedEventArgs e)
+        private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
-            FullScreenScaleSlider.Value += 0.3;
+            double y = e.VerticalChange, x = e.HorizontalChange;
+
+            ViewBox.ScrollToHorizontalOffset(x);
+            ViewBox.ScrollToVerticalOffset(y);
         }
 
-        private void Button_Click_Full_dec(object sender, RoutedEventArgs e)
+        private void Thumb_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
         {
-            FullScreenScaleSlider.Value -= 0.3;
         }
     }
 }

@@ -41,6 +41,7 @@ namespace WorkspaceManager.View.Container
         public event EventHandler<ConnectorViewEventArgs> ConnectorMouseLeftButtonDown;
         public event EventHandler<PluginContainerViewDeleteViewEventArgs> Delete;
         public event EventHandler<PluginContainerViewFullScreenViewEventArgs> FullScreen;
+        public event EventHandler<ConnectorPanelDropEventArgs> ConnectorPanelDrop;
         #endregion
 
         #region Private Variables
@@ -167,9 +168,10 @@ namespace WorkspaceManager.View.Container
             {
                 icon = value;
                 icon.Stretch = Stretch.Uniform;
-                icon.Width = 40;
-                icon.Height = 40;
+                icon.Width = 45;
+                icon.Height = 45;
                 IconPanel.Child = icon;
+                icon.VerticalAlignment = System.Windows.VerticalAlignment.Center;
             }
         }
 
@@ -204,9 +206,20 @@ namespace WorkspaceManager.View.Container
             DataContext = this;
 
             West.PreviewDrop += new DragEventHandler(Connector_Drop);
+            West.PreviewDragEnter += new DragEventHandler(West_PreviewDragEnter);
+            West.PreviewDragLeave += new DragEventHandler(South_PreviewDragLeave);
+
             East.PreviewDrop += new DragEventHandler(Connector_Drop);
+            East.PreviewDragEnter += new DragEventHandler(West_PreviewDragEnter);
+            East.PreviewDragLeave += new DragEventHandler(South_PreviewDragLeave);
+
             North.PreviewDrop += new DragEventHandler(Connector_Drop);
+            North.PreviewDragEnter += new DragEventHandler(West_PreviewDragEnter);
+            North.PreviewDragLeave += new DragEventHandler(South_PreviewDragLeave);
+
             South.PreviewDrop += new DragEventHandler(Connector_Drop);
+            South.PreviewDragEnter += new DragEventHandler(West_PreviewDragEnter);
+            South.PreviewDragLeave += new DragEventHandler(South_PreviewDragLeave);
 
             handleStartable();
 
@@ -230,6 +243,19 @@ namespace WorkspaceManager.View.Container
                 DataPanel.Children.Add(new DataPresentation(connector));
             }
             this.ViewState = Model.ViewState;
+        }
+
+        void South_PreviewDragLeave(object sender, DragEventArgs e)
+        {
+            StackPanel sp = sender as StackPanel;
+            sp.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00100000"));
+
+        }
+
+        void West_PreviewDragEnter(object sender, DragEventArgs e)
+        {
+            StackPanel sp = sender as StackPanel;
+            sp.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#55FFFFFF"));
         }
 
         private void handleStartable()
@@ -297,14 +323,18 @@ namespace WorkspaceManager.View.Container
                             this.South.Children.Add(connector);
                             break;
                     }
-
-                    SetAllConnectorPositionX();
-                    e.Handled = true;
                 }
             }
             catch (Exception ex)
             {
                 Console.Out.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                SetAllConnectorPositionX();
+                panel.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00100000"));
+
+                e.Handled = true;
             }
         }
 
@@ -329,8 +359,28 @@ namespace WorkspaceManager.View.Container
                     break;
             }
 
-            connector.OnConnectorMouseLeftButtonDown += new EventHandler<ConnectorViewEventArgs>(connector_OnConnectorMouseLeftButtonDown);
+            //connector.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(connector_PreviewMouseLeftButtonDown);
+            connector.MouseUp += new MouseButtonEventHandler(connector_MouseUp);
+            connector.MouseLeave += new MouseEventHandler(connector_MouseLeave);
             connectorViewList.Add(connector);
+        }
+
+        void connector_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            ConnectorView connector = (sender as ConnectorView);
+            if (e.ButtonState == MouseButtonState.Released)
+                if (ConnectorMouseLeftButtonDown != null)
+                    ConnectorMouseLeftButtonDown.Invoke(this, new ConnectorViewEventArgs() { connector = connector });
+        }
+
+        void connector_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                ConnectorView connector = (sender as ConnectorView);
+                DataObject dragData = new DataObject("connector", connector);
+                DragDrop.DoDragDrop(connector.Parent, dragData, DragDropEffects.Move);
+            }
         }
 
 
@@ -371,8 +421,6 @@ namespace WorkspaceManager.View.Container
         private void setBaseControl(PluginModel model)
         {
             this.Loaded += new RoutedEventHandler(PluginContainerView_Loaded);
-            this.MouseEnter += new MouseEventHandler(PluginContainerView_MouseEnter);
-            this.MouseLeave += new MouseEventHandler(PluginContainerView_MouseLeave);
             this.MouseDoubleClick += new MouseButtonEventHandler(PluginContainerView_MouseDoubleClick);
             this.Model = model;
             this.Model.UpdateableView = this;
@@ -483,9 +531,9 @@ namespace WorkspaceManager.View.Container
         void PluginContainerView_Loaded(object sender, RoutedEventArgs e)
         {
             Color clr = ColorHelper.GetColor(this.Model.PluginType);
-            System.Drawing.Color clr2 = System.Windows.Forms.ControlPaint.Light(System.Drawing.Color.FromArgb(clr.A, clr.R, clr.G, clr.B));
+            System.Drawing.Color clr2 = System.Windows.Forms.ControlPaint.Dark(System.Drawing.Color.FromArgb(clr.A, clr.R, clr.G, clr.B));
             clr = Color.FromArgb(clr2.A, clr2.R, clr2.G, clr2.B);
-            BorderGradientStop.Color = ColorHelper.GetColor(this.Model.PluginType);
+            BorderGradientStop.Color = clr;
             BorderGradientStopSecond.Color = clr;
 
             if (Model.PluginPresentation != null)
@@ -585,14 +633,6 @@ namespace WorkspaceManager.View.Container
             }
         }
 
-        void connector_OnConnectorMouseLeftButtonDown(object sender, ConnectorViewEventArgs e)
-        {
-            DataObject dragData = new DataObject("connector", e.connector);
-            DragDrop.DoDragDrop(e.connector.Parent, dragData, DragDropEffects.Move);
-
-            if (this.ConnectorMouseLeftButtonDown != null)
-                this.ConnectorMouseLeftButtonDown.Invoke(this, e);
-        }
 
         private void delete()
         {
@@ -656,25 +696,6 @@ namespace WorkspaceManager.View.Container
                 this.delete();
                 return;
             }
-        }
-
-        void PluginContainerView_MouseLeave(object sender, MouseEventArgs e)
-        {
-            //if(ViewState != PluginViewState.Min)
-            //    OptionPanel.Visibility = Visibility.Visible;
-            //else
-            //    OptionPanel.Visibility = Visibility.Collapsed;
-            (Resources["FadeIn"] as Storyboard).Stop(ControlPanel);
-            ControlPanel.BeginStoryboard(Resources["FadeOut"] as Storyboard);
-            CTextBox.BeginStoryboard(Resources["FadeOut"] as Storyboard);
-        }
-
-        void PluginContainerView_MouseEnter(object sender, MouseEventArgs e)
-        {
-            //OptionPanel.Visibility = Visibility.Visible;
-            (Resources["FadeOut"] as Storyboard).Stop(ControlPanel);
-            ControlPanel.BeginStoryboard(Resources["FadeIn"] as Storyboard);
-            CTextBox.BeginStoryboard(Resources["FadeIn"] as Storyboard);
         }
 
         private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
@@ -809,7 +830,6 @@ namespace WorkspaceManager.View.Container
                     showFullScreen();
                     break;
             }
-            e.Handled = true;
         }
 
         private void SettingButton_MouseEnter(object sender, MouseEventArgs e)
@@ -827,6 +847,8 @@ namespace WorkspaceManager.View.Container
 
     }
 
+    public class ConnectorPanelDropEventArgs : EventArgs
+    { }
 
     public class PluginContainerViewDeleteViewEventArgs : EventArgs
     {

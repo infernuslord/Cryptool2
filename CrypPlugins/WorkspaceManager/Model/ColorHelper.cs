@@ -9,6 +9,9 @@ using System.Reflection;
 using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.Analysis;
 using Cryptool.PluginBase.Generator;
+using Cryptool.PluginBase.IO;
+using System.IO;
+using Cryptool.PluginBase.Control;
 
 namespace WorkspaceManager.Model
 {
@@ -25,37 +28,7 @@ namespace WorkspaceManager.Model
         /// <returns></returns>
         public static Color GetColor(Type type)
         {           
-            if (type.FullName == "System.String")
-            {                
-                return Colors.WhiteSmoke;
-            }
-            else if (   type.FullName == "System.Int16" || 
-                        type.FullName == "System.Int32" ||
-                        type.FullName == "System.Int64" || 
-                        type.FullName == "System.Int16[]" || 
-                        type.FullName == "System.Int32[]" ||
-                        type.FullName == "System.Int64[]")
-            {
-                return Colors.LightGoldenrodYellow;
-            }
-            else if (type.FullName == "Cryptool.PluginBase.IO.CryptoolStream")
-            {
-                return Colors.LightGreen;
-            }
-            else if (type.FullName == "System.Byte" || type.FullName == "System.Byte[]")
-            {
-                return Colors.LightSkyBlue;
-            }
-            else if (type.FullName == "System.Boolean" || type.FullName == "System.Boolean[]")
-            {
-                return Colors.Tomato;
-            }
-            else if (type.FullName == "System.Numerics.BigInteger")
-            {
-                return Colors.SteelBlue;
-            }
-            else
-            {
+
                 if (type.GetInterface(typeof(IEncryption).Name) != null)
                 {
                     EncryptionTypeAttribute eta = type.GetEncryptionTypeAttribute();
@@ -99,7 +72,23 @@ namespace WorkspaceManager.Model
                 }
 
                 return (Color)ColorConverter.ConvertFromString("#a3d090");
-            }
+            
+        }
+
+        public static Color GetLineColor(Type type)
+        {
+            if (typeof(int).Equals(type) || typeof(int[]).Equals(type)) return Colors.Aqua;
+            if (typeof(byte[]).Equals(type) || typeof(byte[]).Equals(type)) return Colors.ForestGreen;
+            if (typeof(double).Equals(type) || typeof(double[]).Equals(type)) return Colors.Blue;
+            if (typeof(bool).Equals(type) || typeof(bool[]).Equals(type)) return Colors.Maroon;
+
+            if (typeof(CryptoolStream).Equals(type)) return Colors.Orange;
+            if (typeof(Stream).Equals(type) || typeof(CStream).Equals(type)) return Colors.DarkOrange;
+            if (typeof(string).Equals(type) || typeof(string[]).Equals(type)) return Colors.Gray;
+
+            if (typeof(object).Equals(type)) return Colors.MediumPurple;
+            if (typeof(BigInteger).Equals(type)) return Colors.Black;
+            return Colors.Black;
         }
     }
 }
