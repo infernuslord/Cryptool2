@@ -22,6 +22,7 @@ namespace WorkspaceManager.View.VisualComponents
     {
         public event EventHandler<ImageSelectedEventArgs> ImageSelected;
         public event EventHandler<AddTextEventArgs> AddText;
+        public event EventHandler<FitToScreenEventArgs> FitToScreen;
 
         public BottomBox()
         {
@@ -32,6 +33,16 @@ namespace WorkspaceManager.View.VisualComponents
         void BottomBox_Loaded(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void Button_Click_Full_inc(object sender, RoutedEventArgs e)
+        {
+            FullScreenScaleSlider.Value += 0.3;
+        }
+
+        private void Button_Click_Full_dec(object sender, RoutedEventArgs e)
+        {
+            FullScreenScaleSlider.Value -= 0.3;
         }
 
         private void Main_MouseEnter(object sender, MouseEventArgs e)
@@ -69,6 +80,13 @@ namespace WorkspaceManager.View.VisualComponents
                 if (AddText != null)
                     AddText.Invoke(this, new AddTextEventArgs());
             }
+
+
+            if (btn.Name == "F2S")
+            {
+                if (FitToScreen != null)
+                    FitToScreen.Invoke(this, new FitToScreenEventArgs());
+            }
         }
     }
 
@@ -78,6 +96,10 @@ namespace WorkspaceManager.View.VisualComponents
     }
 
     public class AddTextEventArgs : EventArgs
+    {
+    }
+
+    public class FitToScreenEventArgs : EventArgs
     {
     }
 

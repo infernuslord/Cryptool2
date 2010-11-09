@@ -49,7 +49,6 @@ namespace WorkspaceManager.View.Container
             get { return (double)base.GetValue(X); }
             set
             {
-                ResetPopUp();
                 base.SetValue(X, value);
             }
         }
@@ -60,7 +59,6 @@ namespace WorkspaceManager.View.Container
             get { return (double)base.GetValue(Y); }
             set
             {
-                ResetPopUp();
                 base.SetValue(Y, value);
             }
         }
@@ -109,14 +107,13 @@ namespace WorkspaceManager.View.Container
 
         public ConnectorView()
         {
-            this.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(ConnectorView_MouseLeftButtonDown);
             InitializeComponent();
         }
 
         public ConnectorView(ConnectorModel Model)
         {
-            setBaseControl(Model);
             InitializeComponent();
+            setBaseControl(Model);
 
             if (Model.IsMandatory)
                 ConnectorRep.Stroke = Brushes.OrangeRed;
@@ -131,51 +128,59 @@ namespace WorkspaceManager.View.Container
             else
                 this.Orientation = Model.Orientation;
 
-            Color color = ColorHelper.GetColor(Model.ConnectorType);
+            Color color = ColorHelper.GetLineColor(Model.ConnectorType);
             this.ConnectorRep.Fill = new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
             this.ConnectorRep.ToolTip = Model.ToolTip;
         }
 
+        void ConnectorView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            //if (this.OnConnectorMouseLeftButtonDown != null)
+            //{
+            //    this.OnConnectorMouseLeftButtonDown.Invoke(this, new ConnectorViewEventArgs { connector = this });
+            //}
+        }
+
         private void setBaseControl(ConnectorModel Model)
         {
-            this.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(ConnectorView_MouseLeftButtonDown);
-            this.PreviewMouseRightButtonDown += new MouseButtonEventHandler(ConnectorView_MouseRightButtonDown);
-            this.PreviewMouseRightButtonUp += new MouseButtonEventHandler(ConnectorView_MouseRightButtonUp);
-            this.MouseLeave += new MouseEventHandler(ConnectorView_MouseLeave);
+            //this.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(ConnectorView_MouseLeftButtonDown);
+            //this.PreviewMouseRightButtonDown += new MouseButtonEventHandler(ConnectorView_MouseRightButtonDown);
+            //this.PreviewMouseRightButtonUp += new MouseButtonEventHandler(ConnectorView_MouseRightButtonUp);
+            //this.MouseLeave += new MouseEventHandler(ConnectorView_MouseLeave);
             this.Model = Model;
             this.DataContext = Model;
             this.Model.UpdateableView = this;
         }
 
-        void ConnectorView_MouseLeave(object sender, MouseEventArgs e)
-        {
-            BubblePopup.StaysOpen = false;
-        }
+        //void ConnectorView_MouseLeave(object sender, MouseEventArgs e)
+        //{
+        //    BubblePopup.StaysOpen = false;
+        //}
 
-        void ConnectorView_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            BubblePopup.StaysOpen = false;
-        }
+        //void ConnectorView_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    BubblePopup.StaysOpen = false;
+        //}
 
-        void ConnectorView_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            this.BubblePopup.IsOpen = true;
-            BubblePopup.StaysOpen = true;
-        }
+        //void ConnectorView_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    this.BubblePopup.IsOpen = true;
+        //    BubblePopup.StaysOpen = true;
+        //}
 
-        void ConnectorView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (this.OnConnectorMouseLeftButtonDown != null)
-            {
-                this.OnConnectorMouseLeftButtonDown.Invoke(this, new ConnectorViewEventArgs { connector = this });
-            }
-        }
+        //void ConnectorView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    if (this.OnConnectorMouseLeftButtonDown != null)
+        //    {
+        //        this.OnConnectorMouseLeftButtonDown.Invoke(this, new ConnectorViewEventArgs { connector = this });
+        //    }
+        //}
 
-        public void ResetPopUp()
-        {
-            Random random = new Random();
-            BubblePopup.PlacementRectangle = new Rect(new Point(random.NextDouble() / 1000, 0), new Size(0, 0));
-        }
+        //public void ResetPopUp()
+        //{
+        //    Random random = new Random();
+        //    BubblePopup.PlacementRectangle = new Rect(new Point(random.NextDouble() / 1000, 0), new Size(0, 0));
+        //}
 
         public bool CanConnect
         {

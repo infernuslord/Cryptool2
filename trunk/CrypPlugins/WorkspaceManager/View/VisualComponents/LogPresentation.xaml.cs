@@ -69,6 +69,7 @@ namespace WorkspaceManager.View.VisualComponents
 
         public void AddLogList(List<GuiLogEventArgs> list)
         {
+            
             try
             {
                 foreach (GuiLogEventArgs element in list)

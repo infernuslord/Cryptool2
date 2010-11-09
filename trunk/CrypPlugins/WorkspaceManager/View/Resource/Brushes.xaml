@@ -117,11 +117,20 @@
         </GradientBrush.GradientStops>
     </LinearGradientBrush>
 
-    <LinearGradientBrush x:Key="NormalBrush" StartPoint="0,0" EndPoint="0,1">
+    <LinearGradientBrush x:Key="MainElementBorderBrush" StartPoint="0,0" EndPoint="0,1">
         <GradientBrush.GradientStops>
             <GradientStopCollection>
-                <GradientStop Color="#FFF" Offset="0.0"/>
-                <GradientStop Color="#CCC" Offset="1.0"/>
+                <GradientStop Color="#EEE" Offset="0.0"/>
+                <GradientStop Color="#AAA" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="MainElementBorderBrushRevert" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#EEE" Offset="1.0"/>
+                <GradientStop Color="#AAA" Offset="0.0"/>
             </GradientStopCollection>
         </GradientBrush.GradientStops>
     </LinearGradientBrush>
@@ -156,21 +165,30 @@
         </VisualBrush.Visual>
     </VisualBrush>
 
-    <LinearGradientBrush x:Key="AddTextBrush" StartPoint="0,0" EndPoint="0,1">
+    <RadialGradientBrush x:Key="BlueRadientBrush" RadiusX="0.5" RadiusY="1.7" Center="0.524,1.7" GradientOrigin="0.524,1.7">
+        <GradientStop Color="#276396" Offset="1.0" />
+        <GradientStop Color="#8bc9ff" Offset="0" />
+    </RadialGradientBrush>
+
+
+    <LinearGradientBrush x:Key="BlueGradientBrush" StartPoint="0,0" EndPoint="0,1">
         <GradientBrush.GradientStops>
             <GradientStopCollection>
-                <GradientStop Color="#92d60e" Offset="0.0"/>
-                <GradientStop Color="#05a339" Offset="1.0"/>
+                <GradientStop Color="#3310548f" Offset="1.0"/>
+                <GradientStop Color="#33239fcf" Offset="0.0"/>
             </GradientStopCollection>
         </GradientBrush.GradientStops>
     </LinearGradientBrush>
 
-    <LinearGradientBrush x:Key="AddImageBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Color="#10548f" Offset="1.0"/>
-                <GradientStop Color="#239fcf" Offset="0.0"/>
-            </GradientStopCollection>
-        </GradientBrush.GradientStops>
-    </LinearGradientBrush>
+
+    <RadialGradientBrush x:Key="NormalBrush" RadiusX="1" RadiusY="2.8" Center="0.524,1.2" GradientOrigin="0.524,1.2">
+        <GradientStop Color="#999" Offset="1.0" />
+        <GradientStop Color="#EEE" Offset="0" />
+    </RadialGradientBrush>
+
+    <RadialGradientBrush x:Key="NormalBrush2" RadiusX="1.5" RadiusY="2.8" Center="0.524,1.2" GradientOrigin="0.524,1.2">
+        <GradientStop Color="#bbb" Offset="1.0" />
+        <GradientStop Color="#EEE" Offset="0" />
+    </RadialGradientBrush>
+
 </ResourceDictionary>

@@ -117,6 +117,7 @@
     </Compile>
     <Compile Include="View\Converter\BlurIconConverter.cs" />
     <Compile Include="View\Converter\BlurViewStateConverter.cs" />
+    <Compile Include="View\Converter\ConnectorPanelHeightWidthConverter.cs" />
     <Compile Include="View\Converter\ConnectorToColorConverter.cs" />
     <Compile Include="View\Converter\ConnectorBindingConverter.cs" />
     <Compile Include="View\Converter\ContextMenuFixUnfixConverter.cs" />
@@ -389,6 +390,14 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="View\Image\maxi.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Image\addimg-big.png" />
+    <Resource Include="View\Image\addimg-small.png" />
+    <Resource Include="View\Image\addtxt-big.png" />
+    <Resource Include="View\Image\addtxt-small.png" />
+    <Resource Include="View\Image\f2s-small.png" />
+    <Resource Include="View\Image\f2s.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!--<PropertyGroup>
