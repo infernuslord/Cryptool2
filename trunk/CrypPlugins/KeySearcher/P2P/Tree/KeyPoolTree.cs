@@ -53,6 +53,13 @@ namespace KeySearcher.P2P.Tree
             return storageHelper.StartDate(Identifier);
         }
 
+        //---------------------------------------------------
+        public long SubmitterID()
+        {
+            return storageHelper.SubmitterID(Identifier);
+        }
+        //----------------------------------------------------
+
         public Leaf FindNextLeaf()
         {
             // REMOVEME uncommenting the next line will cause a search for the next free pattern starting from the root node - for every leaf!
