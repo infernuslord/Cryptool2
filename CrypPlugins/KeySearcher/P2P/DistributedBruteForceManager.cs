@@ -76,6 +76,10 @@ namespace KeySearcher.P2P
             status.CurrentOperation = "Ready for calculation";
 
             status.StartDate = keyPoolTree.StartDate();
+            //----------------------------------------------
+            status.JobSubmitterID = keyPoolTree.SubmitterID();
+            //-----------------------------------------------
+
             keyPoolTree.UpdateStatusForNewCalculation();
 
             Leaf currentLeaf;

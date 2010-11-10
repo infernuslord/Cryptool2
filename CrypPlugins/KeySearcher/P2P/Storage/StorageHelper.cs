@@ -168,6 +168,23 @@ namespace KeySearcher.P2P.Storage
             return DateTime.Now;
         }
 
+        //------------------------------------------------------------------------
+        public long SubmitterID(String ofJobIdentifier)
+        {
+            var key = ofJobIdentifier + "_submitterid";
+            var requestResult = RetrieveWithStatistic(key);
+
+            if (requestResult.IsSuccessful() && requestResult.Data != null)
+            {
+                var submitterid = BitConverter.ToInt64(requestResult.Data, 0);
+                return submitterid;
+            }
+
+            StoreWithStatistic(key, BitConverter.GetBytes(Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID()));
+            return Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
+        }
+        //---------------------------------------------------------------------------
+
         public RequestResult RetrieveWithStatistic(string key)
         {
             statusContainer.RetrieveRequests++;

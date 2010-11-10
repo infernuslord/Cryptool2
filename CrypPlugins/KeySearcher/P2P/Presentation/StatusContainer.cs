@@ -95,6 +95,19 @@ namespace KeySearcher.P2P.Presentation
             }
         }
 
+        //----------------------------------
+        private long jobSubmitterID;
+        public long JobSubmitterID
+        {
+            get { return jobSubmitterID; }
+            set
+            {
+                jobSubmitterID = value;
+                OnPropertyChanged("JobSubmitterID");
+            }
+        }
+        //-----------------------------------
+
         private TimeSpan elapsedTime;
         public TimeSpan ElapsedTime
         {
