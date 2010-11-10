@@ -147,9 +147,9 @@ namespace NativeCryptography {
 
 	array<unsigned char>^ Crypto::encryptAESorDES(array<unsigned char>^ Input, array<unsigned char>^ Key, array<unsigned char>^ IV, const int bits, const int length, const int mode, const int blockSize, const cryptMethod method)
 	{
-		int numBlocks = length / blockSize;
+		int numBlocks = length / blockSize;		
 		if (length % blockSize != 0)
-			numBlocks++;
+			throw gcnew System::Exception("Input must be multiple of " + blockSize);
 
 		bool noIV = false;
 
@@ -171,57 +171,19 @@ namespace NativeCryptography {
 		array<unsigned char>^ output = gcnew array<unsigned char>(length);
 		pin_ptr<unsigned char> outp = &output[0];
 
+		array<unsigned char>^ block = nullptr;
+		pin_ptr<unsigned char> blockp = nullptr;
+		if (mode == 1)
+		{
+			block = gcnew array<unsigned char>(blockSize);
+			blockp = &block[0];
+		}		
+
 		AES_KEY aeskey;
 		DES_key_schedule deskey;
 		if (mode == 2)	//CFB
 		{			
-			unsigned char block[16];	//16 is enough for AES and DES
-			unsigned char shiftregister[16];
-			//works only for little endian architectures:
-			if (blockSize == 8)
-			{
-				*((unsigned int*)shiftregister) = *((unsigned int*)&iv[1]);
-				*((unsigned int*)&shiftregister[4]) = (*((unsigned int*)&iv[4]) >> 8) | ((unsigned int)(input[0]) << 24);
-			}
-			else if (blockSize == 16)
-			{
-				*((unsigned int*)shiftregister) = *((unsigned int*)&iv[1]);
-				*((unsigned int*)&shiftregister[4]) = (*((unsigned int*)&iv[4]) >> 8) | ((unsigned int)iv[8] << 24);
-				*((unsigned int*)&shiftregister[8]) = (*((unsigned int*)&iv[8]) >> 8) | ((unsigned int)iv[12] << 24);
-				*((unsigned int*)&shiftregister[12]) = (*((unsigned int*)&iv[12]) >> 8) | ((unsigned int)input[0] << 24);
-			}
-			else
-				return nullptr;
-			
-			if (method == cryptMethod::methodAES)
-				AES_set_encrypt_key(key, bits, &aeskey);
-			else
-				DES_set_key_unchecked((const_DES_cblock*)key, &deskey);
-
-			encrypt(iv, block, method, &aeskey, &deskey);
-			unsigned char leftmost = block[0];
-			outp[0] = leftmost ^ input[0];
-
-			for (int i = 1; i < length; i++)
-			{
-				encrypt(shiftregister, block, method, &aeskey, &deskey);
-				leftmost = block[0];
-				outp[i] = leftmost ^ input[i];
-				
-				//shift input[i] in register:
-				if (blockSize == 8)
-				{
-					*((unsigned int*)shiftregister) = *((unsigned int*)&shiftregister[1]);
-					*((unsigned int*)&shiftregister[4]) = (*((unsigned int*)&shiftregister[4]) >> 8) | ((unsigned int)input[i] << 24);
-				}
-				else if (blockSize == 16)
-				{
-					*((unsigned int*)shiftregister) = *((unsigned int*)&shiftregister[1]);
-					*((unsigned int*)&shiftregister[4]) = (*((unsigned int*)&shiftregister[4]) >> 8) | ((unsigned int)shiftregister[8] << 24);
-					*((unsigned int*)&shiftregister[8]) = (*((unsigned int*)&shiftregister[8]) >> 8) | ((unsigned int)shiftregister[12] << 24);
-					*((unsigned int*)&shiftregister[12]) = (*((unsigned int*)&shiftregister[12]) >> 8) | ((unsigned int)input[i] << 24);
-				}
-			}
+			throw gcnew System::Exception("Encrypting CFB not supported (yet?)");
 		}
 		else	//CBC or ECB
 		{
@@ -229,15 +191,28 @@ namespace NativeCryptography {
 				AES_set_encrypt_key(key, bits, &aeskey);
 			else
 				DES_set_key_unchecked((const_DES_cblock*)key, &deskey);
-
-			encrypt(input, outp, method, &aeskey, &deskey);				
+						
 			if (mode == 1 && !noIV)		//CBC
-				xorblock(outp, iv, method);	
+			{				
+				for (int d = 0; d < blockSize; d++)
+					block[d] = input[d];
+				xorblock(blockp, iv, method);
+				encrypt(blockp, outp, method, &aeskey, &deskey);
+			}
+			else
+				encrypt(input, outp, method, &aeskey, &deskey);
+
 			for (int c = 1; c < numBlocks; c++)
 			{
-				encrypt(input+c*blockSize, outp+c*blockSize, method, &aeskey, &deskey);
 				if (mode == 1)		//CBC
-					xorblock(outp+c*blockSize, input+(c-1)*blockSize, method);				
+				{
+					for (int d = 0; d < blockSize; d++)
+						block[d] = input[c*blockSize+d];
+					xorblock(blockp, outp+(c-1)*blockSize, method);
+					encrypt(blockp, outp+c*blockSize, method, &aeskey, &deskey);
+				}
+				else
+					encrypt(input+c*blockSize, outp+c*blockSize, method, &aeskey, &deskey);
 			}
 		}
 
