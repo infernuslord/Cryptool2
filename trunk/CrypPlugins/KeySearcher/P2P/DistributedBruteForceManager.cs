@@ -46,7 +46,7 @@ namespace KeySearcher.P2P
             }
 
             StopWatch = new Stopwatch();
-            status = new StatusContainer();
+            status = new StatusContainer(keySearcher);
             status.IsCurrentProgressIndeterminate = true;
 
             keyGenerator = new StorageKeyGenerator(keySearcher, settings);
