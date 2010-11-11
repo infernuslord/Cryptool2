@@ -102,9 +102,12 @@ namespace Cryptool.P2PEditor.Distributed
                 return;
             }
 
-            var binaryReader = new BinaryReader(new MemoryStream(result.Data));
-            distributedJob.Downloads = binaryReader.ReadInt32();
-            distributedJob.LastDownload = DateTime.FromBinary(binaryReader.ReadInt64());
+            if (result.Data != null)
+            {
+                var binaryReader = new BinaryReader(new MemoryStream(result.Data));
+                distributedJob.Downloads = binaryReader.ReadInt32();
+                distributedJob.LastDownload = DateTime.FromBinary(binaryReader.ReadInt64());
+            }
         }
 
         public void RetrieveCurrentStatus(DistributedJob distributedJob)

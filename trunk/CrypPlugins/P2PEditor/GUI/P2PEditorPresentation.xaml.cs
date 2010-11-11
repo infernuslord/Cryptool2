@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Threading;
 using Cryptool.P2P;
+using Cryptool.P2P.Internal;
 using Cryptool.P2PEditor.Distributed;
 
 namespace Cryptool.P2PEditor.GUI
@@ -55,6 +56,13 @@ namespace Cryptool.P2PEditor.GUI
             P2PEditorPresentation = this;
 
             P2PManager.ConnectionManager.OnP2PConnectionStateChangeOccurred += HandleChangedPeerToPeerConnectionState;
+
+            //We need this, because for a strange reason, the OnP2PConnectionStateChangeOccurred event is not triggered when reconnecting:
+            P2PManager.P2PBase.OnSystemJoined += new P2PBase.SystemJoined(delegate
+                                                                              {
+                                                                                  HandleChangedPeerToPeerConnectionState
+                                                                                      (null, true);
+                                                                              });
 
             InitializeComponent();
 

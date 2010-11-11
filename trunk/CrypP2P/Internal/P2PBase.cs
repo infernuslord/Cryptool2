@@ -357,9 +357,6 @@ namespace Cryptool.P2P.Internal
 
         private void OnDhtSystemLeft(object sender, SystemLeftEventArgs e)
         {
-            if (OnSystemLeft != null)
-                OnSystemLeft();
-
             IsConnected = false;
             IsInitialized = false;
 
@@ -369,6 +366,9 @@ namespace Cryptool.P2P.Internal
             systemJoined.Set();
 
             LogToMonitor("CrypP2P left the system.");
+
+            if (OnSystemLeft != null)
+                OnSystemLeft();
         }
 
         #endregion

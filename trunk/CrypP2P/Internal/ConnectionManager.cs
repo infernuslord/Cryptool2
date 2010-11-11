@@ -15,6 +15,7 @@
 */
 
 using System;
+using System.Threading;
 using Cryptool.P2P.Worker;
 using Cryptool.PluginBase;
 
@@ -30,10 +31,33 @@ namespace Cryptool.P2P.Internal
 
         private readonly object connectLock = new object();
         private readonly P2PBase p2PBase;
+        private DateTime lastConnectionAttempt;
 
         public ConnectionManager(P2PBase p2PBase)
         {
             this.p2PBase = p2PBase;
+
+            bool reconnecting = false;
+            p2PBase.OnSystemLeft += new P2PBase.SystemLeft(delegate
+                                                               {
+                                                                   //Enforce a minimum of 2 seconds between each connection attempt:
+                                                                   if ((lastConnectionAttempt - DateTime.Now).TotalSeconds < 2)
+                                                                       Thread.Sleep(2000);
+
+                                                                   P2PManager.GuiLogMessage("Lost P2P Connection. Try reconnecting...",
+                                                                        NotificationLevel.Error);
+                                                                   reconnecting = true;
+                                                                   this.Connect();
+                                                               });
+            p2PBase.OnSystemJoined += new P2PBase.SystemJoined(delegate
+                                                                   {
+                                                                       if (p2PBase.IsConnected && reconnecting)
+                                                                       {
+                                                                           P2PManager.GuiLogMessage("Successfully reconnected!",
+                                                                                NotificationLevel.Balloon);
+                                                                           reconnecting = false;
+                                                                       }
+                                                                   });
         }
 
         public bool IsConnecting { get; internal set; }
@@ -43,6 +67,8 @@ namespace Cryptool.P2P.Internal
         {
             lock (connectLock)
             {
+                lastConnectionAttempt = DateTime.Now;
+
                 if (p2PBase.IsConnected || IsConnecting)
                 {
                     P2PManager.GuiLogMessage("Cannot connect, already connected or connecting.",
