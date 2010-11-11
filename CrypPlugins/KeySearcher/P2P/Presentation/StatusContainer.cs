@@ -2,11 +2,13 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Numerics;
+using Cryptool.PluginBase;
 
 namespace KeySearcher.P2P.Presentation
 {
     public class StatusContainer : INotifyPropertyChanged
     {
+        private KeySearcher keySearcher;
         private string currentOperation;
         public string CurrentOperation
         {
@@ -15,6 +17,7 @@ namespace KeySearcher.P2P.Presentation
             {
                 currentOperation = "> " + value + " <";
                 OnPropertyChanged("CurrentOperation");
+                keySearcher.GuiLogMessage(value, NotificationLevel.Balloon);
             }
         }
 
@@ -319,8 +322,9 @@ namespace KeySearcher.P2P.Presentation
             }
         }
 
-        public StatusContainer()
+        public StatusContainer(KeySearcher keySearcher)
         {
+            this.keySearcher = keySearcher;
             EstimatedFinishDate = "-";
             DhtOverheadInPercent = "-";
             TopList = new ObservableCollection<ResultEntry>();
