@@ -739,6 +739,18 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         #region KeyTranslator Members
 
+        public byte[] GetKeyFromRepresentation(string representation)
+        {
+            byte[] bkey = new byte[10];
+            int count = 0;
+            foreach (char c in representation)
+                if (c == '0')
+                    bkey[count++] = 0;
+                else
+                    bkey[count++] = 1;
+            return bkey;
+        }
+
         public void SetKeys(object keys)
         {
             if (!(keys is KeyPattern))
@@ -750,14 +762,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         public byte[] GetKey()
         {
             string key = pattern.getKey();
-            byte[] bkey = new byte[10];
-            int count = 0;
-            foreach (char c in key)
-                if (c == '0')
-                    bkey[count++] = 0;
-                else
-                    bkey[count++] = 1;
-            return bkey;
+            return GetKeyFromRepresentation(key);
         }
 
         public bool NextKey()

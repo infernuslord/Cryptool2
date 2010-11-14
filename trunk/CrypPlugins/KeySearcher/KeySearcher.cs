@@ -16,6 +16,7 @@
 
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Cryptool.P2P;
@@ -237,6 +238,10 @@ namespace KeySearcher
             if (OpenCL.NumberOfPlatforms > 0)
             {
                 oclManager = new OpenCLManager();
+                oclManager.AttemptUseBinaries = false;
+                oclManager.AttemptUseSource = true;
+                oclManager.RequireImageSupport = false;
+                oclManager.BuildOptions = "";
                 oclManager.CreateDefaultContext(0, DeviceType.ALL);
             }
 
@@ -360,65 +365,46 @@ namespace KeySearcher
             IControlEncryption sender = (IControlEncryption)parameters[5];
             int bytesToUse = (int)parameters[6];
             Stack threadStack = (Stack)parameters[7];
+            bool useOpenCL = (bool)parameters[8];
 
-            KeyPattern.KeyPattern pattern = patterns[threadid];
-            
+            KeySearcherOpenCLCode keySearcherOpenCLCode = null;
+            if (useOpenCL)
+                keySearcherOpenCLCode = new KeySearcherOpenCLCode(encryptedData, sender, CostMaster, 256 * 64);
+
             try
             {
-                while (pattern != null)
+                while (patterns[threadid] != null)
                 {
-                    BigInteger size = pattern.size();
+                    BigInteger size = patterns[threadid].size();
                     keysLeft[threadid] = size;
-
+                    
                     IKeyTranslator keyTranslator = ControlMaster.getKeyTranslator();
-                    keyTranslator.SetKeys(pattern);
+                    keyTranslator.SetKeys(patterns[threadid]);
 
                     bool finish = false;
 
                     do
                     {
                         //if we are the thread with most keys left, we have to share them:
-                        if (maxThread == threadid && threadStack.Count != 0)
+                        keyTranslator = ShareKeys(patterns, threadid, keysLeft, keyTranslator, threadStack);
+
+                        if (!useOpenCL)         //CPU
+                        {
+                            finish = BruteforceCPU(keyTranslator, sender, bytesToUse);
+                        }
+                        else                    //OpenCL
                         {
                             try
                             {
-                                maxThreadMutex.WaitOne();
-                                if (maxThread == threadid && threadStack.Count != 0)
-                                {
-                                    KeyPattern.KeyPattern[] split = pattern.split();
-                                    if (split != null)
-                                    {
-                                        patterns[threadid] = split[0];
-                                        pattern = split[0];
-                                        keyTranslator = ControlMaster.getKeyTranslator();
-                                        keyTranslator.SetKeys(pattern);
-
-                                        ThreadStackElement elem = (ThreadStackElement)threadStack.Pop();
-                                        patterns[elem.threadid] = split[1];
-                                        elem.ev.Set();    //wake the other thread up                                    
-                                        size = pattern.size();
-                                        keysLeft[threadid] = size;
-                                    }
-                                    maxThread = -1;
-                                }
+                                finish = BruteforceOpenCL(keySearcherOpenCLCode, keyTranslator, sender, bytesToUse);
                             }
-                            finally
+                            catch (Exception)
                             {
-                                maxThreadMutex.ReleaseMutex();
+                                useOpenCL = false;
+                                continue;
                             }
                         }
-
-                        for (int count = 0; count < 256 * 256; count++)
-                        {
-                            byte[] keya = keyTranslator.GetKey();
-
-                            if (!decryptAndCalculate(sender, bytesToUse, keya, keyTranslator))
-                                return;
-
-                            finish = !keyTranslator.NextKey();
-                            if (finish)
-                                break;
-                        }
+                        
                         int progress = keyTranslator.GetProgress();
 
                         doneKeysArray[threadid] += progress;
@@ -431,24 +417,132 @@ namespace KeySearcher
                         return;
 
                     //Let's wait until another thread is willing to share with us:
-                    pattern = null;
-                    ThreadStackElement el = new ThreadStackElement();
-                    el.ev = new AutoResetEvent(false);
-                    el.threadid = threadid;
-                    patterns[threadid] = null;
-                    threadStack.Push(el);
-                    GuiLogMessage("Thread waiting for new keys.", NotificationLevel.Debug);
-                    el.ev.WaitOne();
-                    if (!stop)
-                    {
-                        GuiLogMessage("Thread waking up with new keys.", NotificationLevel.Debug);
-                        pattern = patterns[threadid];
-                    }
+                    WaitForNewPattern(patterns, threadid, threadStack);
                 }
             }
             finally
             {
                 sender.Dispose();
+            }
+        }
+
+        private unsafe bool BruteforceOpenCL(KeySearcherOpenCLCode keySearcherOpenCLCode, IKeyTranslator keyTranslator, IControlEncryption sender, int bytesToUse)
+        {
+            float[] costArray = new float[keySearcherOpenCLCode.GetBruteforceBlock()];
+            try
+            {
+                Kernel bruteforceKernel = keySearcherOpenCLCode.GetBruteforceKernel(oclManager, keyTranslator);
+                int deviceIndex = settings.OpenCLDevice;
+                
+                Mem costs = oclManager.Context.CreateBuffer(MemFlags.READ_ONLY, costArray.Length * 4);
+                IntPtr[] globalWorkSize = { (IntPtr)keySearcherOpenCLCode.GetBruteforceBlock() };
+
+                Mem userKey;
+                var key = keyTranslator.GetKey();
+                fixed (byte* ukp = key)
+                    userKey = oclManager.Context.CreateBuffer(MemFlags.USE_HOST_PTR, key.Length, new IntPtr((void*)ukp));
+
+                bruteforceKernel.SetArg(0, userKey);
+                bruteforceKernel.SetArg(1, costs);
+
+                oclManager.CQ[deviceIndex].EnqueueNDRangeKernel(bruteforceKernel, 1, null, globalWorkSize, null);
+                oclManager.CQ[deviceIndex].EnqueueBarrier();
+
+                Event e;
+                fixed (float* costa = costArray)
+                    oclManager.CQ[deviceIndex].EnqueueReadBuffer(costs, true, 0, costArray.Length * 4, new IntPtr((void*)costa), 0, null, out e);
+
+                e.Wait();
+                costs.Dispose();
+            }
+            catch (Exception ex)
+            {
+                GuiLogMessage(ex.Message, NotificationLevel.Error);
+                GuiLogMessage("Bruteforcing with OpenCL failed! Using CPU instead.", NotificationLevel.Error);
+                throw new Exception("Bruteforcing with OpenCL failed!");
+            }
+
+            //Check results:
+            var op = this.costMaster.getRelationOperator();
+            for (int i = 0; i < costArray.Length; i++)
+            {
+                float cost = costArray[i];
+                if (((op == RelationOperator.LargerThen) && (cost > value_threshold))
+                    || (op == RelationOperator.LessThen) && (cost < value_threshold))
+                {
+                    ValueKey valueKey = new ValueKey {value = cost, key = keyTranslator.GetKeyRepresentation(i)};
+                    valueKey.keya = keyTranslator.GetKeyFromRepresentation(valueKey.key);
+                    valueKey.decryption = sender.Decrypt(this.encryptedData, valueKey.keya, InitVector, bytesToUse);
+                    valuequeue.Enqueue(valueKey);
+                }
+            }
+
+            return !keyTranslator.NextOpenCLBatch();
+        }
+
+        private bool BruteforceCPU(IKeyTranslator keyTranslator, IControlEncryption sender, int bytesToUse)
+        {
+            bool finish = false;
+            for (int count = 0; count < 256 * 256; count++)
+            {
+                byte[] keya = keyTranslator.GetKey();
+
+                if (!decryptAndCalculate(sender, bytesToUse, keya, keyTranslator))
+                    throw new Exception("Bruteforcing not possible!");
+
+                finish = !keyTranslator.NextKey();
+                if (finish)
+                    break;
+            }
+            return finish;
+        }
+
+        private IKeyTranslator ShareKeys(KeyPattern.KeyPattern[] patterns, int threadid, BigInteger[] keysLeft, IKeyTranslator keyTranslator, Stack threadStack)
+        {
+            BigInteger size;
+            if (maxThread == threadid && threadStack.Count != 0)
+            {
+                try
+                {
+                    maxThreadMutex.WaitOne();
+                    if (maxThread == threadid && threadStack.Count != 0)
+                    {
+                        KeyPattern.KeyPattern[] split = patterns[threadid].split();
+                        if (split != null)
+                        {
+                            patterns[threadid] = split[0];
+                            keyTranslator = ControlMaster.getKeyTranslator();
+                            keyTranslator.SetKeys(patterns[threadid]);
+
+                            ThreadStackElement elem = (ThreadStackElement)threadStack.Pop();
+                            patterns[elem.threadid] = split[1];
+                            elem.ev.Set();    //wake the other thread up                                    
+                            size = patterns[threadid].size();
+                            keysLeft[threadid] = size;
+                        }
+                        maxThread = -1;
+                    }
+                }
+                finally
+                {
+                    maxThreadMutex.ReleaseMutex();
+                }
+            }
+            return keyTranslator;
+        }
+
+        private void WaitForNewPattern(KeyPattern.KeyPattern[] patterns, int threadid, Stack threadStack)
+        {
+            ThreadStackElement el = new ThreadStackElement();
+            el.ev = new AutoResetEvent(false);
+            el.threadid = threadid;
+            patterns[threadid] = null;
+            threadStack.Push(el);
+            GuiLogMessage("Thread waiting for new keys.", NotificationLevel.Debug);
+            el.ev.WaitOne();
+            if (!stop)
+            {
+                GuiLogMessage("Thread waking up with new keys.", NotificationLevel.Debug);
             }
         }
 
@@ -599,12 +693,17 @@ namespace KeySearcher
 
             BigInteger size = pattern.size();
             KeyPattern.KeyPattern[] patterns = splitPatternForThreads(pattern);
+            if (patterns == null || patterns.Length == 0)
+            {
+                GuiLogMessage("No ressources to BruteForce available. Check the KeySearcher settings!", NotificationLevel.Error);
+                throw new Exception("No ressources to BruteForce available. Check the KeySearcher settings!");
+            }
 
             BigInteger[] doneKeysA = new BigInteger[patterns.Length];
             BigInteger[] keycounters = new BigInteger[patterns.Length];
             BigInteger[] keysleft = new BigInteger[patterns.Length];
             Stack threadStack = Stack.Synchronized(new Stack());
-            startThreads(sender, bytesToUse, patterns, doneKeysA, keycounters, keysleft, threadStack);
+            StartThreads(sender, bytesToUse, patterns, doneKeysA, keycounters, keysleft, threadStack);
 
             DateTime lastTime = DateTime.Now;
 
@@ -710,40 +809,7 @@ namespace KeySearcher
             return costList;
         }
 
-        private string CreateOpenCLBruteForceCode(KeyPattern.KeyPattern keyPattern)
-        {
-            try
-            {
-                string code = sender.GetOpenCLCode(CostMaster.getBytesToUse());
-                if (code == null)
-                    throw new Exception("OpenCL not supported in this configuration!");
 
-                //put cost function stuff into code:
-                code = costMaster.ModifyOpenCLCode(code);
-
-                //put input to be bruteforced into code:
-                string inputarray = string.Format("__constant unsigned char inn[{0}] = {{ \n", CostMaster.getBytesToUse());
-                for (int i = 0; i < CostMaster.getBytesToUse(); i++)
-                {
-                    inputarray += String.Format("0x{0:X2}, ", this.encryptedData[i]);
-                }
-                inputarray = inputarray.Substring(0, inputarray.Length - 2);
-                inputarray += "}; \n";
-                code = code.Replace("$$INPUTARRAY$$", inputarray);
-
-                //put key movement of pattern into code:
-                IKeyTranslator keyTranslator = ControlMaster.getKeyTranslator();
-                keyTranslator.SetKeys(pattern);
-                code = keyTranslator.ModifyOpenCLCode(code, 256*256);
-
-                return code;
-            }
-            catch (Exception ex)
-            {
-                GuiLogMessage("Error trying to generate OpenCL code: " + ex.Message, NotificationLevel.Error);
-                return null;
-            }
-        }
 
         private void SetStartDate()
         {
@@ -944,22 +1010,33 @@ namespace KeySearcher
 
         #endregion
 
-        private void startThreads(IControlEncryption sender, int bytesToUse, KeyPattern.KeyPattern[] patterns, BigInteger[] doneKeysA, BigInteger[] keycounters, BigInteger[] keysleft, Stack threadStack)
+        private void StartThreads(IControlEncryption sender, int bytesToUse, KeyPattern.KeyPattern[] patterns, BigInteger[] doneKeysA, BigInteger[] keycounters, BigInteger[] keysleft, Stack threadStack)
         {
             for (int i = 0; i < patterns.Length; i++)
             {
                 WaitCallback worker = new WaitCallback(KeySearcherJob);
                 doneKeysA[i] = new BigInteger();
                 keycounters[i] = new BigInteger();
-                //ThreadPool.QueueUserWorkItem(worker, new object[] { patterns, i, doneKeysA, keycounters, keysleft, sender.clone(), bytesToUse, threadStack });
-                ThreadPool.QueueUserWorkItem(worker, new object[] { patterns, i, doneKeysA, keycounters, keysleft, sender, bytesToUse, threadStack });
+                bool useOpenCL = false;
+
+                if (settings.UseOpenCL && (i == patterns.Length - 1))     //Last thread is the OpenCL thread
+                    useOpenCL = true;
+
+                ThreadPool.QueueUserWorkItem(worker, new object[] { patterns, i, doneKeysA, keycounters, keysleft, sender, bytesToUse, threadStack, useOpenCL });
             }
         }
 
         private KeyPattern.KeyPattern[] splitPatternForThreads(KeyPattern.KeyPattern pattern)
         {
-            KeyPattern.KeyPattern[] patterns = new KeyPattern.KeyPattern[settings.CoresUsed + 1];
-            if (settings.CoresUsed > 0)
+            int threads = settings.CoresUsed;
+            if (settings.UseOpenCL)
+                threads++;
+
+            if (threads < 1)
+                return null;
+
+            KeyPattern.KeyPattern[] patterns = new KeyPattern.KeyPattern[threads];
+            if (threads > 1)
             {
                 KeyPattern.KeyPattern[] patterns2 = pattern.split();
                 if (patterns2 == null)
@@ -971,7 +1048,8 @@ namespace KeySearcher
                 patterns[0] = patterns2[0];
                 patterns[1] = patterns2[1];
                 int p = 1;
-                int threads = settings.CoresUsed - 1;
+                threads -= 2;
+
                 while (threads > 0)
                 {
                     int maxPattern = -1;
