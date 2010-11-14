@@ -852,7 +852,7 @@ namespace KeySearcher
                 localQuickWatchPresentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     localQuickWatchPresentation.elapsedTime.Content = localBruteForceStopwatch.Elapsed;
-                    localQuickWatchPresentation.keysPerSecond.Content = "" + keysPerSecond;
+                    localQuickWatchPresentation.keysPerSecond.Content = String.Format("{0:N}", keysPerSecond);
                     if (timeleft != new TimeSpan(-1))
                     {
                         localQuickWatchPresentation.timeLeft.Content = "" + timeleft;
