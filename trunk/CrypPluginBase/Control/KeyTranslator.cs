@@ -81,5 +81,11 @@ namespace Cryptool.PluginBase.Control
         /// </summary>
         /// <returns></returns>
         bool NextOpenCLBatch();
+
+        /// <summary>
+        /// Gets the opencl batch size.
+        /// </summary>
+        /// <returns></returns>
+        int GetOpenCLBatchSize();
     }
 }

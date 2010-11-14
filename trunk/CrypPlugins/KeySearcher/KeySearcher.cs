@@ -428,14 +428,15 @@ namespace KeySearcher
 
         private unsafe bool BruteforceOpenCL(KeySearcherOpenCLCode keySearcherOpenCLCode, IKeyTranslator keyTranslator, IControlEncryption sender, int bytesToUse)
         {
-            float[] costArray = new float[keySearcherOpenCLCode.GetBruteforceBlock()];
+            float[] costArray = null;
             try
             {
                 Kernel bruteforceKernel = keySearcherOpenCLCode.GetBruteforceKernel(oclManager, keyTranslator);
+                costArray = new float[keyTranslator.GetOpenCLBatchSize()];
                 int deviceIndex = settings.OpenCLDevice;
                 
                 Mem costs = oclManager.Context.CreateBuffer(MemFlags.READ_ONLY, costArray.Length * 4);
-                IntPtr[] globalWorkSize = { (IntPtr)keySearcherOpenCLCode.GetBruteforceBlock() };
+                IntPtr[] globalWorkSize = { (IntPtr)keyTranslator.GetOpenCLBatchSize() };
 
                 Mem userKey;
                 var key = keyTranslator.GetKey();
