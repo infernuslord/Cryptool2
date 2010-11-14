@@ -13,18 +13,18 @@ namespace KeySearcher
         private byte[] encryptedData;
         private IControlCost controlCost;
         private IControlEncryption encryptionController;
-        private int bruteforceBlock;
+        private int maxKeys;
 
         private IKeyTranslator keyTranslatorOfCode = null;
         private string openCLCode = null;
         private Kernel openCLKernel = null;
 
-        public KeySearcherOpenCLCode(byte[] encryptedData, IControlEncryption encryptionController, IControlCost controlCost, int bruteforceBlock)
+        public KeySearcherOpenCLCode(byte[] encryptedData, IControlEncryption encryptionController, IControlCost controlCost, int maxKeys)
         {
             this.encryptedData = encryptedData;
             this.encryptionController = encryptionController;
             this.controlCost = controlCost;
-            this.bruteforceBlock = bruteforceBlock;
+            this.maxKeys = maxKeys;
         }
 
         private string CreateOpenCLBruteForceCode(IKeyTranslator keyTranslator)
@@ -56,15 +56,15 @@ namespace KeySearcher
             code = code.Replace("$$INPUTARRAY$$", inputarray);
 
             //put key movement of pattern into code:
-            code = keyTranslator.ModifyOpenCLCode(code, bruteforceBlock);
+            code = keyTranslator.ModifyOpenCLCode(code, maxKeys);
 
             keyTranslatorOfCode = keyTranslator;
             this.openCLCode = code;
 
-            ////Test:
-            //System.IO.TextWriter tw = new System.IO.StreamWriter(@"C:\Users\sven\Test\test.txt");
-            //tw.Write(code);
-            //tw.Close();
+            //Test:
+            System.IO.TextWriter tw = new System.IO.StreamWriter(@"C:\Users\sven\Test\test.txt");
+            tw.Write(code);
+            tw.Close();
 
             return code;
         }
@@ -87,11 +87,6 @@ namespace KeySearcher
             {
                 throw new Exception("An error occured when trying to compile OpenCL code: " + ex.Message);
             }
-        }
-
-        public int GetBruteforceBlock()
-        {
-            return bruteforceBlock;
         }
     }
 }

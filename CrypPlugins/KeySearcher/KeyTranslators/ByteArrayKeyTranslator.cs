@@ -313,6 +313,11 @@ namespace KeySearcher.KeyTranslators
             }
         }
 
+        public int GetOpenCLBatchSize()
+        {
+            return openCLSize;
+        }
+
         #endregion
 
     }

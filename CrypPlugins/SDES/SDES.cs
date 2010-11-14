@@ -798,6 +798,11 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             throw new NotImplementedException();
         }
 
+        public int GetOpenCLBatchSize()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
        
