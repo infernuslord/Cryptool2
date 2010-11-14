@@ -61,10 +61,10 @@ namespace KeySearcher
             keyTranslatorOfCode = keyTranslator;
             this.openCLCode = code;
 
-            //Test:
-            System.IO.TextWriter tw = new System.IO.StreamWriter(@"C:\Users\sven\Test\test.txt");
-            tw.Write(code);
-            tw.Close();
+            ////Test:
+            //System.IO.TextWriter tw = new System.IO.StreamWriter(@"C:\Users\sven\Test\test.txt");
+            //tw.Write(code);
+            //tw.Close();
 
             return code;
         }
