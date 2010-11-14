@@ -241,6 +241,8 @@ namespace KeySearcher
                 oclManager.AttemptUseBinaries = false;
                 oclManager.AttemptUseSource = true;
                 oclManager.RequireImageSupport = false;
+                var directoryName = Path.Combine(DirectoryHelper.DirectoryLocalTemp, "KeySearcher");
+                oclManager.BinaryPath = Path.Combine(directoryName, "openclbin");
                 oclManager.BuildOptions = "";
                 oclManager.CreateDefaultContext(0, DeviceType.ALL);
             }
