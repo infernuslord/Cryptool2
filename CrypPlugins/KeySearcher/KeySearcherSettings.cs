@@ -28,7 +28,7 @@ namespace KeySearcher
                     devicesAvailable.Add(device.Vendor + ":" + device.Name);
 
             CoresAvailable.Clear();
-            for (int i = 0; i < Environment.ProcessorCount; i++)
+            for (int i = -1; i < Environment.ProcessorCount; i++)
                 CoresAvailable.Add((i + 1).ToString());
             CoresUsed = Environment.ProcessorCount - 1;
 

@@ -171,7 +171,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="OpenCL\AESOpenCL.cl" />
+    <Resource Include="OpenCL\AESOpenCL.cl" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -35,10 +35,28 @@ namespace KeySearcher.KeyTranslators
         private byte[] keya;
         private int[] movementPointers;
         private IKeyMovement[] keyMovements;
-        private int openCLIndex = -1;
-        private int openCLSize;
+        private int openCLIndex;
+        private int openCLSize = 0;
 
         #region KeyTranslator Members
+
+        public byte[] GetKeyFromRepresentation(string representation)
+        {
+            byte[] bkey = new byte[keya.Length];
+            for (int i = 0; i < bkey.Length; i++)
+            {
+                try
+                {
+                    string substr = representation.Substring(i * 3, 2);
+                    bkey[i] = Convert.ToByte(substr, 16);
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+            }
+            return bkey;
+        }
 
         public void SetKeys(object keys)
         {
@@ -116,6 +134,9 @@ namespace KeySearcher.KeyTranslators
 
         private bool IncrementMovementStatus(int index)
         {
+            if (index < 0)
+                return false;
+
             movementStatus[index]++;
             
             while (index >= 0 && !WildcardInRange(index))
@@ -268,7 +289,7 @@ namespace KeySearcher.KeyTranslators
 
             //put movement strings in code:
             for (int y = 0; y < movementStrings.Length; y++)
-                code = code.Replace(byteReplaceStrings[y], movementStrings[y] ?? "0");
+                code = code.Replace(byteReplaceStrings[y], movementStrings[y] != null ? ("("+movementStrings[y]+")") : "0");
 
             code = code.Replace("$$MOVEMENTDECLARATIONS$$", "");
 
@@ -281,7 +302,7 @@ namespace KeySearcher.KeyTranslators
 
         public bool NextOpenCLBatch()
         {
-            if (openCLIndex > -1)
+            if (openCLSize > 0)
             {
                 progress += openCLSize;
                 return IncrementMovementStatus(openCLIndex);

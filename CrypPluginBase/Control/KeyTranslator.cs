@@ -24,6 +24,14 @@ namespace Cryptool.PluginBase.Control
     public interface IKeyTranslator
     {
         /// <summary>
+        /// This method returns the byte array key which is represented by the given parameter string.
+        /// This method is completely stateless.
+        /// </summary>
+        /// <param name="representation"></param>
+        /// <returns></returns>
+        byte[] GetKeyFromRepresentation(string representation);
+
+        /// <summary>
         /// The parameter "keys" determines the keys this KeyTranslator should iterate over.
         /// The parameter is almost always a KeyPattern.
         /// </summary>

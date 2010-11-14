@@ -89,8 +89,8 @@ namespace Cryptool.Plugins.CostFunction
             if (transitionMatrix == null)
             {
                 //return false:
-                return code.Replace("$$COSTFUNCTIONDECLARATIONS$$", "").Replace("$$COSTFUNCTIONINITIALIZE$$", "goto resultcalculation;")
-                    .Replace("$$COSTFUNCTIONCALCULATE$$", "").Replace("$$COSTFUNCTIONRESULTCALCULATION$$", "result = -1;");
+                return code.Replace("$$COSTFUNCTIONDECLARATIONS$$", "").Replace("$$COSTFUNCTIONINITIALIZE$$", "results[x] = -1.0f; return;")
+                    .Replace("$$COSTFUNCTIONCALCULATE$$", "").Replace("$$COSTFUNCTIONRESULTCALCULATION$$", "result = -1.0f;");
             }
 
             //declaration code:
@@ -112,12 +112,12 @@ namespace Cryptool.Plugins.CostFunction
             code = code.Replace("$$COSTFUNCTIONINITIALIZE$$", string.Format("int state = {0}; \n", startIndex));
 
             //calculation code:
-            code = code.Replace("$$COSTFUNCTIONCALCULATE$$", "int absState = state >= 0 ? state : ~state; \n"
+            code = code.Replace("$$COSTFUNCTIONCALCULATE$$", "int absState = ((state >= 0) ? state : ~state); \n"
                 + "state = transitionMatrix[absState*256+c]; \n"
-                + "if (state == NOTRANSITION) goto resultcalculation; \n");
+                + "if (state == NOTRANSITION) { results[x] = -1.0f; return;} \n");
 
             //result calculation code:
-            code = code.Replace("$$COSTFUNCTIONRESULTCALCULATION$$", "if (state < 0) result = 1.0; else result = -1.0;");
+            code = code.Replace("$$COSTFUNCTIONRESULTCALCULATION$$", "if (state < 0) result = 1.0f; else result = -1.0f;");
 
             return code;
         }

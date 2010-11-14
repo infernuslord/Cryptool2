@@ -499,17 +499,17 @@ namespace Cryptool.Plugins.CostFunction
 
 
         private int lastUsedSize = -1;
-        private double[] xlogx;
+        private float[] xlogx;
         private Mutex prepareMutex = new Mutex();
         private bool testing = false;
 
         private void prepareEntropy(int size)
         {
-            xlogx = new double[size + 1];
+            xlogx = new float[size + 1];
             //precomputations for fast entropy calculation	
-            xlogx[0] = 0.0;
+            xlogx[0] = 0.0f;
             for (int i = 1; i <= size; i++)
-                xlogx[i] = -1.0 * i * Math.Log(i / (double)size) / Math.Log(2.0);
+                xlogx[i] = (float) (-1.0f * i * Math.Log(i / (double)size) / Math.Log(2.0));
         }
 
         /// <summary>
@@ -815,7 +815,7 @@ namespace Cryptool.Plugins.CostFunction
                 + "result += xlogx[distr[i++]]; \n "
                 + "result += xlogx[distr[i++]]; \n " 
                 + "} \n "
-                + string.Format("result /= {0}f;", bytesToUse));
+                + string.Format("result /= {0}.0f;", bytesToUse));
 
             return code;
         }

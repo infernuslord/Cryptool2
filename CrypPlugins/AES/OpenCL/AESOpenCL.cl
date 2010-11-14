@@ -619,13 +619,13 @@ int AES_set_encrypt_key(global unsigned char *userKey, const int bits, private A
 		key->rounds = 14;
 
 	rk[0] = GETU32(userKey     );
-	rk[0] += $$ADDKEYBYTE0$$ | ($$ADDKEYBYTE1$$ << 8) | ($$ADDKEYBYTE2$$ << 16) |($$ADDKEYBYTE3$$ << 24);
+	rk[0] += $$ADDKEYBYTE3$$ | ($$ADDKEYBYTE2$$ << 8) | ($$ADDKEYBYTE1$$ << 16) |($$ADDKEYBYTE0$$ << 24);
 	rk[1] = GETU32(userKey +  4);
-	rk[1] += $$ADDKEYBYTE4$$ | ($$ADDKEYBYTE5$$ << 8) | ($$ADDKEYBYTE6$$ << 16) |($$ADDKEYBYTE7$$ << 24);
+	rk[1] += $$ADDKEYBYTE7$$ | ($$ADDKEYBYTE6$$ << 8) | ($$ADDKEYBYTE5$$ << 16) |($$ADDKEYBYTE4$$ << 24);
 	rk[2] = GETU32(userKey +  8);
-	rk[2] += $$ADDKEYBYTE8$$ | ($$ADDKEYBYTE9$$ << 8) | ($$ADDKEYBYTE10$$ << 16) |($$ADDKEYBYTE11$$ << 24);
+	rk[2] += $$ADDKEYBYTE11$$ | ($$ADDKEYBYTE10$$ << 8) | ($$ADDKEYBYTE9$$ << 16) |($$ADDKEYBYTE8$$ << 24);
 	rk[3] = GETU32(userKey + 12);
-	rk[3] += $$ADDKEYBYTE12$$ | ($$ADDKEYBYTE13$$ << 8) | ($$ADDKEYBYTE14$$ << 16) |($$ADDKEYBYTE15$$ << 24);
+	rk[3] += $$ADDKEYBYTE15$$ | ($$ADDKEYBYTE14$$ << 8) | ($$ADDKEYBYTE13$$ << 16) |($$ADDKEYBYTE12$$ << 24);
 	if (bits == 128) {
 		while (1) {
 			temp  = rk[3];
@@ -645,9 +645,9 @@ int AES_set_encrypt_key(global unsigned char *userKey, const int bits, private A
 		}
 	}
 	rk[4] = GETU32(userKey + 16);
-	rk[4] += $$ADDKEYBYTE16$$ | ($$ADDKEYBYTE17$$ << 8) | ($$ADDKEYBYTE18$$ << 16) |($$ADDKEYBYTE19$$ << 24);
+	rk[4] += $$ADDKEYBYTE19$$ | ($$ADDKEYBYTE18$$ << 8) | ($$ADDKEYBYTE17$$ << 16) |($$ADDKEYBYTE16$$ << 24);
 	rk[5] = GETU32(userKey + 20);
-	rk[5] += $$ADDKEYBYTE20$$ | ($$ADDKEYBYTE21$$ << 8) | ($$ADDKEYBYTE22$$ << 16) |($$ADDKEYBYTE23$$ << 24);
+	rk[5] += $$ADDKEYBYTE23$$ | ($$ADDKEYBYTE22$$ << 8) | ($$ADDKEYBYTE21$$ << 16) |($$ADDKEYBYTE20$$ << 24);
 	if (bits == 192) {
 		while (1) {
 			temp = rk[ 5];
@@ -669,9 +669,9 @@ int AES_set_encrypt_key(global unsigned char *userKey, const int bits, private A
 		}
 	}
 	rk[6] = GETU32(userKey + 24);
-	rk[6] += $$ADDKEYBYTE24$$ | ($$ADDKEYBYTE25$$ << 8) | ($$ADDKEYBYTE26$$ << 16) |($$ADDKEYBYTE27$$ << 24);
+	rk[6] += $$ADDKEYBYTE27$$ | ($$ADDKEYBYTE26$$ << 8) | ($$ADDKEYBYTE25$$ << 16) |($$ADDKEYBYTE24$$ << 24);
 	rk[7] = GETU32(userKey + 28);
-	rk[7] += $$ADDKEYBYTE28$$ | ($$ADDKEYBYTE29$$ << 8) | ($$ADDKEYBYTE30$$ << 16) |($$ADDKEYBYTE31$$ << 24);
+	rk[7] += $$ADDKEYBYTE31$$ | ($$ADDKEYBYTE30$$ << 8) | ($$ADDKEYBYTE29$$ << 16) |($$ADDKEYBYTE28$$ << 24);
 	if (bits == 256) {
 		while (1) {
 			temp = rk[ 7];
@@ -882,7 +882,7 @@ void AES_decrypt(constant unsigned char *in, private unsigned char *out, private
 
 kernel void bruteforceKernel(global unsigned char *userKey, global float *results)
 {
-	size_t x = get_global_id(1) * get_global_size(0) + get_global_id(0);	
+	size_t x = get_global_id(0);
 	
 	AES_KEY key;	
 	AES_set_decrypt_key(userKey, $$BITS$$, &(key), x);
@@ -894,7 +894,6 @@ kernel void bruteforceKernel(global unsigned char *userKey, global float *result
 	private unsigned char block[16];
 	$$AESDECRYPT$$
 	
-resultcalculation:
 	//calculate result here:
 	float result = 0.0f;
 	$$COSTFUNCTIONRESULTCALCULATION$$
