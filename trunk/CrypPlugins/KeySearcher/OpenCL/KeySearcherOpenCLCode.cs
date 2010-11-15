@@ -10,6 +10,7 @@ namespace KeySearcher
 {
     class KeySearcherOpenCLCode
     {
+        private readonly KeySearcher keySearcher;
         private byte[] encryptedData;
         private IControlCost controlCost;
         private IControlEncryption encryptionController;
@@ -19,8 +20,9 @@ namespace KeySearcher
         private string openCLCode = null;
         private Kernel openCLKernel = null;
 
-        public KeySearcherOpenCLCode(byte[] encryptedData, IControlEncryption encryptionController, IControlCost controlCost, int maxKeys)
+        public KeySearcherOpenCLCode(KeySearcher keySearcher, byte[] encryptedData, IControlEncryption encryptionController, IControlCost controlCost, int maxKeys)
         {
+            this.keySearcher = keySearcher;
             this.encryptedData = encryptedData;
             this.encryptionController = encryptionController;
             this.controlCost = controlCost;
@@ -60,12 +62,7 @@ namespace KeySearcher
 
             keyTranslatorOfCode = keyTranslator;
             this.openCLCode = code;
-
-            ////Test:
-            //System.IO.TextWriter tw = new System.IO.StreamWriter(@"C:\Users\sven\Test\test.txt");
-            //tw.Write(code);
-            //tw.Close();
-
+            
             return code;
         }
 
@@ -80,6 +77,7 @@ namespace KeySearcher
             try
             {
                 var program = oclManager.CompileSource(CreateOpenCLBruteForceCode(keyTranslator));
+                keySearcher.GuiLogMessage(string.Format("Using OpenCL with {0} threads.", keyTranslator.GetOpenCLBatchSize()), NotificationLevel.Info);
                 openCLKernel = program.CreateKernel("bruteforceKernel");
                 return openCLKernel;
             }

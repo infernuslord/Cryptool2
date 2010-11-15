@@ -371,7 +371,7 @@ namespace KeySearcher
 
             KeySearcherOpenCLCode keySearcherOpenCLCode = null;
             if (useOpenCL)
-                keySearcherOpenCLCode = new KeySearcherOpenCLCode(encryptedData, sender, CostMaster, 256 * 64);
+                keySearcherOpenCLCode = new KeySearcherOpenCLCode(this, encryptedData, sender, CostMaster, 256 * 64);
 
             try
             {
