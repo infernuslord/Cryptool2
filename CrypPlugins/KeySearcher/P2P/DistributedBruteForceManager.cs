@@ -104,6 +104,13 @@ namespace KeySearcher.P2P
                     keyPoolTree.Reset();
                     continue;
                 }
+                catch (KeySearcherStopException)  //Fullstopfunction
+                {
+                    keySearcher.GuiLogMessage("Keysearcher Fullstop.", NotificationLevel.Error);
+                    keySearcher.GuiLogMessage("Please Update your Version.", NotificationLevel.Error);
+                    keySearcher.stop = true;
+                    return;
+                }
 
                 // TODO if reserve returns successfully, start timer to update our reserveration every few minutes
                 // if we cannot reacquire our lock in the timer, calculation must be aborted

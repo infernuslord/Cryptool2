@@ -125,6 +125,7 @@
     <Compile Include="P2P\Helper\DatabaseStatistics.cs" />
     <Compile Include="P2P\Presentation\StatisticsGenerator.cs" />
     <Compile Include="P2P\Presentation\StatusContainer.cs" />
+    <Compile Include="P2P\Exceptions\KeySearcherStopException.cs" />
     <Compile Include="P2P\Storage\StatusUpdater.cs" />
     <Compile Include="Presentation\Controls\LocalQuickWatchPresentation.xaml.cs">
       <DependentUpon>LocalQuickWatchPresentation.xaml</DependentUpon>
