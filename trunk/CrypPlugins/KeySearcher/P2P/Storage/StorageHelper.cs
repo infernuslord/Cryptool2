@@ -13,6 +13,9 @@ namespace KeySearcher.P2P.Storage
         private readonly StatisticsGenerator statisticsGenerator;
         private readonly StatusContainer statusContainer;
 
+        //VERSIONNUMBER: Important. Set it +1 manually everytime the length of the MemoryStream Changes
+        private const int version = 1;
+
         public StorageHelper(KeySearcher keySearcher, StatisticsGenerator statisticsGenerator, StatusContainer statusContainer)
         {
             this.keySearcher = keySearcher;
@@ -42,6 +45,13 @@ namespace KeySearcher.P2P.Storage
                 binaryWriter.Write(valueKey.decryption.Length);
                 binaryWriter.Write(valueKey.decryption);
             }
+            
+            //TODO: Versionnumber write
+            //-----------------------------------------------------
+            //binaryWriter.Write(version);
+            //-----------------------------------------------------
+            
+            //TODO: Hash Table write;
 
             return StoreWithStatistic(KeyInDht(nodeToUpdate), memoryStream.ToArray());
         }
@@ -102,6 +112,32 @@ namespace KeySearcher.P2P.Storage
                 nodeToUpdate.Result.AddLast(newResult);
             }
 
+            //-------------------------------------------------------------------------------------------
+            //AFTER CHANGING THE FOLLOWING PART INCREASE THE VERSION-NUMBER AT THE TOP OF THIS CLASS!
+            //-------------------------------------------------------------------------------------------
+            //TODO: Versionnumber read
+            /*
+            try
+            {
+                //If you're already at the end of the stream ignore the version
+                if (binaryReader.BaseStream.Length != binaryReader.BaseStream.Position)
+                {
+                    int versionInUse = binaryReader.ReadInt32();
+                    //Check if a newer Version is in use
+                    if (versionInUse > version)
+                    {
+                        throw new KeySearcherStopException();
+                    }
+                    //TODO: Hashtable read
+                }
+            }
+            catch(Exception)
+            {
+                throw new KeySearcherStopException();
+            }
+
+            //----------------------------------------------------------------------------------
+            */
             if (resultCount > 0)
             {
                 keySearcher.IntegrateNewResults(nodeToUpdate.Result);
