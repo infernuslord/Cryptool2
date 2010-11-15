@@ -666,25 +666,13 @@ namespace TranspositionAnalyser
 
             int maxKeylength = settings.CribSearchKeylength;
 
-            if (maxKeylength <= 1)
-            {
-                GuiLogMessage("Keylength must be greater than 1", NotificationLevel.Error);
-                return;
-            }
-
-            if (maxKeylength > crib.Length)
-            {
-                GuiLogMessage("Crib must be longer than maximum keylength", NotificationLevel.Error);
-                return;
-            }
-
             if (crib == null)
             {
                 GuiLogMessage("crib == null", NotificationLevel.Error);
                 return;
             }
 
-            if (cipher== null)
+            if (cipher == null)
             {
                 GuiLogMessage("cipher == null", NotificationLevel.Error);
                 return;
@@ -696,16 +684,33 @@ namespace TranspositionAnalyser
                 return;
             }
 
+            if (maxKeylength < 1)
+            {
+                GuiLogMessage("Keylength must be greater than 1", NotificationLevel.Error);
+                return;
+            }
+
+            if (maxKeylength > crib.Length)
+            {
+                GuiLogMessage("Crib must be longer than maximum keylength", NotificationLevel.Error);
+                return;
+            }
+
+
+
             for (int keylength = 2; keylength <= maxKeylength; keylength++)
             {
                 sumBinKeys += binomial_iter(keylength, cipher.Length % keylength);
             }
+
+            GuiLogMessage("KEYS INSG: " + sumBinKeys,NotificationLevel.Debug);
 
             keysLastTenSecs = new int[10];
             poskeysLastTenSecs = 0;
 
             for (int keylength = 2; keylength <= maxKeylength && !stop; keylength++)
             {
+                GuiLogMessage("Keylength: " + keylength, NotificationLevel.Debug);
                 int[] binaryKey = getDefaultBinaryKey(cipher, keylength);
                 int[] firstKey = (int[])binaryKey.Clone();
 
@@ -715,20 +720,24 @@ namespace TranspositionAnalyser
                     binKeysPerSec++;
                     byte[,] cipherMatrix = cipherToMatrix(cipher, binaryKey);
                     byte[,] cribMatrix = cribToMatrix(crib, keylength);
-                    ArrayList possibleList = analysis(sender, cipher, cipherMatrix, cribMatrix, keylength);
 
-                    Boolean eq;
-                    foreach (int[] k in possibleList)
+                    if(possibleCribForCipher(cipherMatrix,cribMatrix,keylength))
                     {
-                        eq = false;
-                        foreach (int[] kbest in bestlist)
+                        ArrayList possibleList = analysis(sender, cipher, cipherMatrix, cribMatrix, keylength);
+
+                        Boolean eq;
+                        foreach (int[] k in possibleList)
                         {
-                            if (arrayEquals(k, kbest))
-                                eq = true;
-                        }
-                        if (!eq)
-                        {
-                            addToBestList(sender, k);
+                            eq = false;
+                            foreach (int[] kbest in bestlist)
+                            {
+                                if (arrayEquals(k, kbest))
+                                    eq = true;
+                            }
+                            if (!eq)
+                            {
+                                addToBestList(sender, k);
+                            }
                         }
                     }
 
@@ -753,8 +762,6 @@ namespace TranspositionAnalyser
                         lastUpdate = DateTime.Now;
                         showProgress(starttime, sumBinKeys, countBinKeys);
                         ProgressChanged(countBinKeys, sumBinKeys);
-
-                        
                     }
 
                 } while (!arrayEquals(firstKey, binaryKey)&&!stop);
@@ -929,7 +936,13 @@ namespace TranspositionAnalyser
                         byte[] cipherCol = getColumn(cipherMatrix, key[keyPosition], key.Length);
                         byte[] cribCol = getColumn(cribMatrix, keyPosition, key.Length);
 
-                        if (containsAndCheckCribPosition(cipherCol, cribCol, 0))
+                        int startSearchAt = 0;
+                        if (searchPosition != -1)
+                        {
+                            startSearchAt = searchPosition;
+                        }
+
+                        if (containsAndCheckCribPosition(cipherCol, cribCol, startSearchAt))
                             keyPosition++;
 
                         if (keyPosition == key.Length)
@@ -963,7 +976,16 @@ namespace TranspositionAnalyser
 
         Boolean containsAndCheckCribPosition(byte[] one, byte[] two, int startSearchAt)
         {
-            for (int i = startSearchAt; i < one.Length; i++)
+            int max = one.Length - 1;
+
+            if (searchPosition != -1)
+            {
+                max = startSearchAt + 2;
+                if (max >= one.Length)
+                    max = startSearchAt;
+            }
+
+            for (int i = startSearchAt; i <= max; i++)
             {
                 if (one[i] == two[0])
                 {
@@ -972,14 +994,6 @@ namespace TranspositionAnalyser
                         if (i + j >= one.Length)
                         {
                             break;
-                        }
-                        if (searchPosition != -1)
-                        {
-                            // höchstens 2 Positionen nach links oder rechts
-                            if (Math.Sqrt((searchPosition - i) * (searchPosition - i)) > 2)
-                            {
-                                break;
-                            }
                         }
 
                         if (two[j].Equals(new byte()))
@@ -990,6 +1004,7 @@ namespace TranspositionAnalyser
                             }
                             return true;
                         }
+
                         else
                         {
                             if (one[i + j] != two[j])
@@ -1003,6 +1018,42 @@ namespace TranspositionAnalyser
                                 {
                                     searchPosition = i;
                                 }
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        Boolean contains(byte[] one, byte[] two)
+        {
+            for (int i = 0; i < one.Length; i++)
+            {
+                if (one[i] == two[0])
+                {
+                    for (int j = 1; j < two.Length; j++)
+                    {
+                        if (i + j >= one.Length)
+                        {
+                            break;
+                        }
+
+                        if (two[j].Equals(new byte()))
+                        {
+                            if (searchPosition == -1)
+                            {
+                                searchPosition = i;
+                            }
+                            return true;
+                        }
+
+                        else
+                        {
+                            if (one[i + j] != two[j])
+                            {
+                                break;
+                            }
                             return true;
                         }
                     }
@@ -1147,6 +1198,34 @@ namespace TranspositionAnalyser
             return cribMatrix;
         }
 
+        private Boolean possibleCribForCipher(byte[,] cipher, byte[,] crib, int keylength)
+        {
+            Boolean found;
+
+
+            for(int i=0; i<keylength; i++)
+            {
+                byte[] cribCol = getColumn(crib,i,keylength);
+                found = false;
+
+                for(int j=0; j< keylength; j++)
+                {
+                    byte[] cipherCol = getColumn(cipher, j, keylength);
+
+                    if (contains(cipherCol, cribCol))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                    return false;
+            }
+
+            return true;
+        }
+
         private void showProgressCribAnalysis(DateTime startTime, long size, long sum, long keysPerSec)
         {
             LinkedListNode<ValueKey> linkedListNode;
@@ -1251,6 +1330,9 @@ namespace TranspositionAnalyser
         }
 
         #endregion
+
+
+
 
         #region genetic analysis
 
