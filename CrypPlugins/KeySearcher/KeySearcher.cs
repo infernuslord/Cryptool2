@@ -54,6 +54,7 @@ namespace KeySearcher
         /// </summary>
         private int maxThread;
         private readonly Mutex maxThreadMutex = new Mutex();
+        private ArrayList threadsStopEvents;
 
         public bool IsKeySearcherRunning;
         private KeyQualityHelper keyQualityHelper;
@@ -358,6 +359,9 @@ namespace KeySearcher
 
         private void KeySearcherJob(object param)
         {
+            AutoResetEvent stopEvent = new AutoResetEvent(false);
+            threadsStopEvents.Add(stopEvent);
+
             object[] parameters = (object[])param;
             KeyPattern.KeyPattern[] patterns = (KeyPattern.KeyPattern[])parameters[0];
             int threadid = (int)parameters[1];
@@ -425,6 +429,7 @@ namespace KeySearcher
             finally
             {
                 sender.Dispose();
+                stopEvent.Set();
             }
         }
 
@@ -437,7 +442,7 @@ namespace KeySearcher
                 costArray = new float[keyTranslator.GetOpenCLBatchSize()];
                 int deviceIndex = settings.OpenCLDevice;
                 
-                Mem costs = oclManager.Context.CreateBuffer(MemFlags.READ_ONLY, costArray.Length * 4);
+                Mem costs = oclManager.Context.CreateBuffer(MemFlags.READ_WRITE, costArray.Length * 4);
                 IntPtr[] globalWorkSize = { (IntPtr)keyTranslator.GetOpenCLBatchSize() };
 
                 Mem userKey;
@@ -706,6 +711,7 @@ namespace KeySearcher
             BigInteger[] keycounters = new BigInteger[patterns.Length];
             BigInteger[] keysleft = new BigInteger[patterns.Length];
             Stack threadStack = Stack.Synchronized(new Stack());
+            threadsStopEvents = ArrayList.Synchronized(new ArrayList());
             StartThreads(sender, bytesToUse, patterns, doneKeysA, keycounters, keysleft, threadStack);
 
             DateTime lastTime = DateTime.Now;
@@ -779,6 +785,12 @@ namespace KeySearcher
             //wake up all sleeping threads, so they can stop:
             while (threadStack.Count != 0)
                 ((ThreadStackElement)threadStack.Pop()).ev.Set();
+
+            //wait until all threads finished:
+            foreach (AutoResetEvent stopEvent in threadsStopEvents)
+            {
+                stopEvent.WaitOne();
+            }
 
             if (!stop && !redirectResultsToStatisticsGenerator)
                 ProgressChanged(1, 1);
