@@ -227,7 +227,7 @@ namespace KeySearcher.KeyTranslators
             return result;
         }
 
-        public string ModifyOpenCLCode(string code, int approximateNumberOfKeys)
+        public string ModifyOpenCLCode(string code, int maxKeys)
         {
             string[] byteReplaceStrings = new string[32];
             for (int i = 0; i < 32; i++)
@@ -235,12 +235,12 @@ namespace KeySearcher.KeyTranslators
             
             //Find out how many wildcards/keys we can bruteforce at once:
             int j = movementStatus.Length - 1;
-            long size = 1;
-            while ((j >= 0) && ((size * keyMovements[j].Count()) <= approximateNumberOfKeys) && (movementStatus[j] == 0))
+            int size = 1;
+            while ((size < maxKeys) && (j >= 0) && (movementStatus[j] == 0))
                 size *= keyMovements[j--].Count();
 
             if (size < 256)
-                throw new Exception("Amount of keys to small to process with OpenCL.");    //it's futile to use OpenCL for so few keys
+                return null;    //it's futile to use OpenCL for so few keys
 
             //generate the key movement string:
             string[] movementStrings = new string[32];
@@ -295,7 +295,7 @@ namespace KeySearcher.KeyTranslators
 
             //progress:
             openCLIndex = j;
-            openCLSize = (int)size;
+            openCLSize = size;
 
             return code;
         }
