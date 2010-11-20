@@ -295,6 +295,8 @@ namespace WorkspaceManager
             set;
         }
 
+        public bool ReadOnly { get; set; }
+
         #endregion
 
         #region IPlugin Members

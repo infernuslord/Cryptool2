@@ -154,6 +154,8 @@ namespace Cryptool.P2PEditor
             get { return new List<EditorSpecificPluginInfo>(); }
         }
 
+        public bool ReadOnly { get; set; }
+
         public event StatusChangedEventHandler OnPluginStatusChanged;
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
