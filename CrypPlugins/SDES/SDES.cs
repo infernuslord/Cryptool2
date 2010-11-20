@@ -788,7 +788,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             return result;
         }
 
-        public string ModifyOpenCLCode(string code, int approximateNumberOfKeys)
+        public string ModifyOpenCLCode(string code, int maxKeys)
         {
             throw new NotImplementedException();
         }

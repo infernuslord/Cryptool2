@@ -14,19 +14,19 @@ namespace KeySearcher
         private byte[] encryptedData;
         private IControlCost controlCost;
         private IControlEncryption encryptionController;
-        private int approximateNumberOfKeys;
+        private int maxKeys;
 
         private IKeyTranslator keyTranslatorOfCode = null;
         private string openCLCode = null;
         private Kernel openCLKernel = null;
 
-        public KeySearcherOpenCLCode(KeySearcher keySearcher, byte[] encryptedData, IControlEncryption encryptionController, IControlCost controlCost, int approximateNumberOfKeys)
+        public KeySearcherOpenCLCode(KeySearcher keySearcher, byte[] encryptedData, IControlEncryption encryptionController, IControlCost controlCost, int maxKeys)
         {
             this.keySearcher = keySearcher;
             this.encryptedData = encryptedData;
             this.encryptionController = encryptionController;
             this.controlCost = controlCost;
-            this.approximateNumberOfKeys = approximateNumberOfKeys;
+            this.maxKeys = maxKeys;
         }
 
         private string CreateOpenCLBruteForceCode(IKeyTranslator keyTranslator)
@@ -58,7 +58,7 @@ namespace KeySearcher
             code = code.Replace("$$INPUTARRAY$$", inputarray);
 
             //put key movement of pattern into code:
-            code = keyTranslator.ModifyOpenCLCode(code, approximateNumberOfKeys);
+            code = keyTranslator.ModifyOpenCLCode(code, maxKeys);
 
             keyTranslatorOfCode = keyTranslator;
             this.openCLCode = code;

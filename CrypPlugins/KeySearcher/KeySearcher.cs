@@ -370,12 +370,8 @@ namespace KeySearcher
             bool useOpenCL = (bool)parameters[8];
 
             KeySearcherOpenCLCode keySearcherOpenCLCode = null;
-            KeySearcherOpenCLSubbatchOptimizer keySearcherOpenCLSubbatchOptimizer = null;
             if (useOpenCL)
-            {
-                keySearcherOpenCLCode = new KeySearcherOpenCLCode(this, encryptedData, sender, CostMaster, 256 * 256 * 256 * 16);
-                keySearcherOpenCLSubbatchOptimizer = new KeySearcherOpenCLSubbatchOptimizer(oclManager.CQ[settings.OpenCLDevice].Device.MaxWorkItemSizes.Aggregate(1, (x, y) => (x * (int)y)));
-            }
+                keySearcherOpenCLCode = new KeySearcherOpenCLCode(this, encryptedData, sender, CostMaster, 256 * 64);
 
             try
             {
@@ -402,7 +398,7 @@ namespace KeySearcher
                         {
                             try
                             {
-                                finish = BruteforceOpenCL(keySearcherOpenCLCode, keySearcherOpenCLSubbatchOptimizer, keyTranslator, sender, bytesToUse, parameters);
+                                finish = BruteforceOpenCL(keySearcherOpenCLCode, keyTranslator, sender, bytesToUse);
                             }
                             catch (Exception)
                             {
@@ -413,12 +409,9 @@ namespace KeySearcher
                         
                         int progress = keyTranslator.GetProgress();
 
-                        if (!useOpenCL)
-                        {
-                            doneKeysArray[threadid] += progress;
-                            keycounterArray[threadid] += progress;
-                            keysLeft[threadid] -= progress;
-                        }
+                        doneKeysArray[threadid] += progress;
+                        keycounterArray[threadid] += progress;
+                        keysLeft[threadid] -= progress;
 
                     } while (!finish && !stop);
 
@@ -435,58 +428,34 @@ namespace KeySearcher
             }
         }
 
-        private unsafe bool BruteforceOpenCL(KeySearcherOpenCLCode keySearcherOpenCLCode, KeySearcherOpenCLSubbatchOptimizer keySearcherOpenCLSubbatchOptimizer, IKeyTranslator keyTranslator, IControlEncryption sender, int bytesToUse, object[] parameters)
+        private unsafe bool BruteforceOpenCL(KeySearcherOpenCLCode keySearcherOpenCLCode, IKeyTranslator keyTranslator, IControlEncryption sender, int bytesToUse)
         {
-            int threadid = (int)parameters[1];
-            BigInteger[] doneKeysArray = (BigInteger[])parameters[2];
-            BigInteger[] keycounterArray = (BigInteger[])parameters[3];
-            BigInteger[] keysLeft = (BigInteger[])parameters[4];
+            float[] costArray = null;
             try
             {
                 Kernel bruteforceKernel = keySearcherOpenCLCode.GetBruteforceKernel(oclManager, keyTranslator);
-                
+                costArray = new float[keyTranslator.GetOpenCLBatchSize()];
                 int deviceIndex = settings.OpenCLDevice;
                 
+                Mem costs = oclManager.Context.CreateBuffer(MemFlags.READ_ONLY, costArray.Length * 4);
+                IntPtr[] globalWorkSize = { (IntPtr)keyTranslator.GetOpenCLBatchSize() };
+
                 Mem userKey;
                 var key = keyTranslator.GetKey();
                 fixed (byte* ukp = key)
                     userKey = oclManager.Context.CreateBuffer(MemFlags.USE_HOST_PTR, key.Length, new IntPtr((void*)ukp));
 
                 bruteforceKernel.SetArg(0, userKey);
-
-                int subbatches = keySearcherOpenCLSubbatchOptimizer.GetAmountOfSubbatches(keyTranslator);
-                GuiLogMessage(string.Format("Now using {0} subbatches", subbatches), NotificationLevel.Info);
-
-                int subbatchSize = keyTranslator.GetOpenCLBatchSize() / subbatches;
-                float[] costArray = new float[subbatchSize];
-                Mem costs = oclManager.Context.CreateBuffer(MemFlags.READ_WRITE, costArray.Length * 4);
                 bruteforceKernel.SetArg(1, costs);
 
-                IntPtr[] globalWorkSize = { (IntPtr)subbatchSize };
+                oclManager.CQ[deviceIndex].EnqueueNDRangeKernel(bruteforceKernel, 1, null, globalWorkSize, null);
+                oclManager.CQ[deviceIndex].EnqueueBarrier();
 
-                keySearcherOpenCLSubbatchOptimizer.BeginMeasurement();
+                Event e;
+                fixed (float* costa = costArray)
+                    oclManager.CQ[deviceIndex].EnqueueReadBuffer(costs, true, 0, costArray.Length * 4, new IntPtr((void*)costa), 0, null, out e);
 
-                for (int i = 0; i < subbatches; i++)
-                {
-                    bruteforceKernel.SetArg(2, i * subbatchSize);
-                    oclManager.CQ[deviceIndex].EnqueueNDRangeKernel(bruteforceKernel, 1, null, globalWorkSize, null);
-                    oclManager.CQ[deviceIndex].EnqueueBarrier();
-
-                    Event e;
-                    fixed (float* costa = costArray)
-                        oclManager.CQ[deviceIndex].EnqueueReadBuffer(costs, true, 0, costArray.Length * 4, new IntPtr((void*)costa), 0, null, out e);
-
-                    e.Wait();
-
-                    checkOpenCLResults(keyTranslator, costArray, sender, bytesToUse, i * subbatchSize);
-
-                    doneKeysArray[threadid] += subbatchSize;
-                    keycounterArray[threadid] += subbatchSize;
-                    keysLeft[threadid] -= subbatchSize;
-                }
-
-                keySearcherOpenCLSubbatchOptimizer.EndMeasurement();
-
+                e.Wait();
                 costs.Dispose();
             }
             catch (Exception ex)
@@ -496,11 +465,7 @@ namespace KeySearcher
                 throw new Exception("Bruteforcing with OpenCL failed!");
             }
 
-            return !keyTranslator.NextOpenCLBatch();
-        }
-
-        private void checkOpenCLResults(IKeyTranslator keyTranslator, float[] costArray, IControlEncryption sender, int bytesToUse, int add)
-        {
+            //Check results:
             var op = this.costMaster.getRelationOperator();
             for (int i = 0; i < costArray.Length; i++)
             {
@@ -508,12 +473,14 @@ namespace KeySearcher
                 if (((op == RelationOperator.LargerThen) && (cost > value_threshold))
                     || (op == RelationOperator.LessThen) && (cost < value_threshold))
                 {
-                    ValueKey valueKey = new ValueKey { value = cost, key = keyTranslator.GetKeyRepresentation(i + add) };
+                    ValueKey valueKey = new ValueKey {value = cost, key = keyTranslator.GetKeyRepresentation(i)};
                     valueKey.keya = keyTranslator.GetKeyFromRepresentation(valueKey.key);
                     valueKey.decryption = sender.Decrypt(this.encryptedData, valueKey.keya, InitVector, bytesToUse);
                     valuequeue.Enqueue(valueKey);
                 }
             }
+
+            return !keyTranslator.NextOpenCLBatch();
         }
 
         private bool BruteforceCPU(IKeyTranslator keyTranslator, IControlEncryption sender, int bytesToUse)
@@ -746,7 +713,7 @@ namespace KeySearcher
             //update message:
             while (!stop)
             {
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
 
                 updateToplist();
 
