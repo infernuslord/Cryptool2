@@ -97,7 +97,7 @@ namespace KeySearcher
         {
             var thisduration = DateTime.Now - begin;
 
-            if (Math.Abs((thisduration - lastDuration).Milliseconds) > TOLERANCE)
+            if (Math.Abs((thisduration - lastDuration).TotalMilliseconds) > TOLERANCE)
             {
                 if (lastDuration > thisduration)
                 {
