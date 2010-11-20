@@ -70,5 +70,10 @@ namespace Cryptool.PluginBase.Editor
         /// </summary>
         /// <value>The editor specific plugins.</value>        
         List<EditorSpecificPluginInfo> EditorSpecificPlugins { get; }
+
+        /// <summary>
+        /// Gets or sets the readOnly propability of an editor i.e. if something on the workspace can be changed.
+        /// </summary>
+        bool ReadOnly { get; set; }
     }
 }

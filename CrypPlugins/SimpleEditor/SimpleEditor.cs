@@ -163,6 +163,8 @@ namespace SimpleEditor
             get { return new List<EditorSpecificPluginInfo>(); }
         }
 
+        public bool ReadOnly { get; set; }
+
         public bool CanStop
         {
             get { return false; }
