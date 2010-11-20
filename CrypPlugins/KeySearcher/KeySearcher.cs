@@ -459,7 +459,7 @@ namespace KeySearcher
 
                 int subbatchSize = keyTranslator.GetOpenCLBatchSize() / subbatches;
                 float[] costArray = new float[subbatchSize];
-                Mem costs = oclManager.Context.CreateBuffer(MemFlags.READ_ONLY, costArray.Length * 4);
+                Mem costs = oclManager.Context.CreateBuffer(MemFlags.READ_WRITE, costArray.Length * 4);
                 bruteforceKernel.SetArg(1, costs);
 
                 IntPtr[] globalWorkSize = { (IntPtr)subbatchSize };
