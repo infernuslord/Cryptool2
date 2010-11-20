@@ -236,7 +236,7 @@ namespace KeySearcher.KeyTranslators
             //Find out how many wildcards/keys we can bruteforce at once:
             int j = movementStatus.Length - 1;
             long size = 1;
-            while (((size * keyMovements[j].Count()) <= approximateNumberOfKeys) && (j >= 0) && (movementStatus[j] == 0))
+            while ((j >= 0) && ((size * keyMovements[j].Count()) <= approximateNumberOfKeys) && (movementStatus[j] == 0))
                 size *= keyMovements[j--].Count();
 
             if (size < 256)
