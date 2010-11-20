@@ -16,6 +16,7 @@
 
 using System;
 using System.Threading;
+using System.Windows.Threading;
 using Cryptool.P2P.Worker;
 using Cryptool.PluginBase;
 
@@ -32,6 +33,7 @@ namespace Cryptool.P2P.Internal
         private readonly object connectLock = new object();
         private readonly P2PBase p2PBase;
         private DateTime lastConnectionAttempt;
+        private Dispatcher guiLogDispatcher = null;
 
         public ConnectionManager(P2PBase p2PBase)
         {
@@ -48,13 +50,19 @@ namespace Cryptool.P2P.Internal
                                                                         NotificationLevel.Error);
                                                                    reconnecting = true;
                                                                    this.Connect();
+                                                                   guiLogDispatcher = Dispatcher.CurrentDispatcher;
                                                                });
             p2PBase.OnSystemJoined += new P2PBase.SystemJoined(delegate
                                                                    {
                                                                        if (p2PBase.IsConnected && reconnecting)
                                                                        {
-                                                                           P2PManager.GuiLogMessage("Successfully reconnected!",
-                                                                                NotificationLevel.Balloon);
+                                                                           //TODO: This doesn't work. GuiLogMessage will never be shown:
+                                                                           if (guiLogDispatcher != null)
+                                                                                guiLogDispatcher.Invoke(DispatcherPriority.Send, (SendOrPostCallback)delegate
+                                                                                {
+                                                                                    P2PManager.GuiLogMessage("Successfully reconnected!",
+                                                                                        NotificationLevel.Balloon);
+                                                                                }, null);
                                                                            reconnecting = false;
                                                                        }
                                                                    });

@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
+using System.Threading;
 using System.Windows.Threading;
 using Cryptool.P2P;
+using Cryptool.P2P.Internal;
 using Cryptool.PluginBase;
 using KeySearcher.Helper;
 using KeySearcher.KeyPattern;
@@ -14,6 +16,7 @@ using KeySearcher.P2P.Storage;
 using KeySearcher.P2P.Tree;
 using KeySearcherPresentation.Controls;
 using System.Timers;
+using Timer = System.Timers.Timer;
 
 namespace KeySearcher.P2P
 {
@@ -30,6 +33,7 @@ namespace KeySearcher.P2P
         internal readonly Stopwatch StopWatch;
 
         private KeyPoolTree keyPoolTree;
+        private AutoResetEvent systemJoinEvent = new AutoResetEvent(false);
 
         public DistributedBruteForceManager(KeySearcher keySearcher, KeyPattern.KeyPattern keyPattern, KeySearcherSettings settings,
                                             KeyQualityHelper keyQualityHelper, P2PQuickWatchPresentation quickWatch)
@@ -124,6 +128,7 @@ namespace KeySearcher.P2P
                     continue;
                 }
 
+                bool reservationRemoved = false;
                 var reservationTimer = new Timer {Interval = 5*60*1000};    //Every 5 minutes
                 reservationTimer.Elapsed += new ElapsedEventHandler(delegate
                                                                         {
@@ -131,7 +136,22 @@ namespace KeySearcher.P2P
                                                                             var message = string.Format("Rereserving pattern #{0}", displayablePatternId);
                                                                             keySearcher.GuiLogMessage(message, NotificationLevel.Info);
                                                                             status.CurrentOperation = message;
-                                                                            currentLeaf.ReserveLeaf();
+                                                                            try
+                                                                            {
+                                                                                if (!currentLeaf.ReserveLeaf())
+                                                                                {
+                                                                                    keySearcher.GuiLogMessage("Rereserving pattern failed! Skipping to next pattern!", 
+                                                                                        NotificationLevel.Warning);
+                                                                                    reservationRemoved = true;
+                                                                                    keySearcher.stop = true;
+                                                                                }
+                                                                            }
+                                                                            catch (Cryptool.P2P.Internal.NotConnectedException)
+                                                                            {
+                                                                                keySearcher.GuiLogMessage("Rereserving pattern failed, because there is no connection!",
+                                                                                        NotificationLevel.Warning);
+                                                                                //TODO: Register OnSystemJoined event to rereserve pattern immediately after reconnect
+                                                                            }
                                                                             status.CurrentOperation = oldMessage;
                                                                         });
 
@@ -151,6 +171,11 @@ namespace KeySearcher.P2P
                     try
                     {
                         result = keySearcher.BruteForceWithLocalSystem(patternPool[currentLeaf.PatternId()], true);
+                        if (reservationRemoved)
+                        {
+                            keySearcher.stop = false;
+                            throw new ReservationRemovedException("");
+                        }
                     }
                     finally
                     {
@@ -162,6 +187,15 @@ namespace KeySearcher.P2P
 
                     if (!keySearcher.stop)
                     {
+                        if (!P2PManager.IsConnected)
+                        {
+                            status.CurrentOperation = "Connection lost! Waiting for reconnection to store the results!";
+                            keySearcher.GuiLogMessage(status.CurrentOperation, NotificationLevel.Info);
+                            
+                            P2PManager.P2PBase.OnSystemJoined += new P2PBase.SystemJoined(P2PBase_OnSystemJoined);
+                            systemJoinEvent.WaitOne();
+                        }
+
                         status.CurrentOperation = "Processing results of calculation";
                         KeyPoolTree.ProcessCurrentPatternCalculationResult(currentLeaf, result);
                         StatisticsGenerator.ProcessPatternResults(result);
@@ -222,6 +256,12 @@ namespace KeySearcher.P2P
             status.IsCurrentProgressIndeterminate = false;
             status.CurrentOperation = "Idle";
             status.RemainingTimeTotal = new TimeSpan(0);
+        }
+
+        void P2PBase_OnSystemJoined()
+        {
+            P2PManager.P2PBase.OnSystemJoined -= P2PBase_OnSystemJoined;
+            systemJoinEvent.Set();
         }
 
         private void UpdateStatusContainerInQuickWatch()
