@@ -20,6 +20,7 @@ using WorkspaceManager;
 using System.Windows.Threading;
 using System.Threading;
 using Cryptool.PluginBase;
+using System.ComponentModel;
 namespace WorkspaceManager.View.Container
 {
     public enum PluginViewState
@@ -51,6 +52,29 @@ namespace WorkspaceManager.View.Container
         #endregion
 
         #region Properties
+
+        public static readonly DependencyProperty X = DependencyProperty.Register("PositionOnWorkSpaceX", typeof(double), typeof(ConnectorView), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static readonly DependencyProperty Y = DependencyProperty.Register("PositionOnWorkSpaceY", typeof(double), typeof(ConnectorView), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
+
+        [TypeConverter(typeof(LengthConverter))]
+        public double PositionOnWorkSpaceX
+        {
+            get { return (double)base.GetValue(X); }
+            set
+            {
+                base.SetValue(X, value);
+            }
+        }
+
+        [TypeConverter(typeof(LengthConverter))]
+        public double PositionOnWorkSpaceY
+        {
+            get { return (double)base.GetValue(Y); }
+            set
+            {
+                base.SetValue(Y, value);
+            }
+        }
 
         internal Point GetRoutingPoint(int routPoint)
         {
@@ -154,6 +178,7 @@ namespace WorkspaceManager.View.Container
 
                 base.SetValue(ViewStateProperty, value);
                 this.Model.ViewState = value;
+                this.UpdateLayout();
             }
         }
 
@@ -234,14 +259,14 @@ namespace WorkspaceManager.View.Container
 
             foreach (ConnectorModel ConnectorModel in model.InputConnectors)
             {
-                ConnectorView connector = new ConnectorView(ConnectorModel);
+                ConnectorView connector = new ConnectorView(ConnectorModel, this);
                 AddConnectorView(connector);
                 DataPanel.Children.Add(new DataPresentation(connector));
             }
 
             foreach (ConnectorModel ConnectorModel in model.OutputConnectors)
             {
-                ConnectorView connector = new ConnectorView(ConnectorModel);
+                ConnectorView connector = new ConnectorView(ConnectorModel, this);
                 AddConnectorView(connector);
                 DataPanel.Children.Add(new DataPresentation(connector));
             }
@@ -287,7 +312,7 @@ namespace WorkspaceManager.View.Container
                 if (e.Data.GetDataPresent("connector"))
                 {
                     ConnectorView connector = e.Data.GetData("connector") as ConnectorView;
-                    if (panel.Children.Contains(connector))
+                    if (panel.Children.Contains(connector) || connector.Parent != this)
                         return;
 
                     switch (connector.Orientation)
@@ -333,7 +358,6 @@ namespace WorkspaceManager.View.Container
             }
             finally
             {
-                SetAllConnectorPositionX();
                 panel.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00100000"));
 
                 e.Handled = true;
@@ -406,9 +430,10 @@ namespace WorkspaceManager.View.Container
             else
                 Canvas.SetLeft(this, value.X);
 
-            //ResetPopUp();
-            Model.Position = GetPosition();
-            SetAllConnectorPositionX();
+            Point p = GetPosition();
+            Model.Position = p;
+            PositionOnWorkSpaceX = p.X;
+            PositionOnWorkSpaceY = p.Y;
         }
 
         public Point GetPosition()
@@ -431,6 +456,7 @@ namespace WorkspaceManager.View.Container
             this.ConnectorViewList = new List<ConnectorView>();
             this.RenderTransform = new TranslateTransform();
             this.Icon = this.Model.getImage();
+            this.PluginName.Text = model.Plugin.GetPluginInfoAttribute().Caption;
         }
 
         void PluginContainerView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -453,79 +479,6 @@ namespace WorkspaceManager.View.Container
             log.AddLogList(Model.GuiLogEvents);
         }
 
-        private void SetAllConnectorPositionX()
-        {
-            try
-            {
-                GeneralTransform gTransform, gTransformSec;
-                Point point, relativePoint;
-                double x, y;
-
-                foreach (ConnectorView conn in West.Children)
-                {
-                    gTransform = this.West.TransformToVisual(this);
-                    gTransformSec = conn.TransformToVisual(this.West);
-
-                    point = gTransform.Transform(new Point(0, 0));
-                    relativePoint = gTransformSec.Transform(new Point(0, 0));
-
-                    x = GetPosition().X + point.X + relativePoint.X;
-                    y = GetPosition().Y + point.Y + relativePoint.Y;
-
-                    conn.PositionOnWorkSpaceX = x;
-                    conn.PositionOnWorkSpaceY = y;
-                }
-
-                foreach (ConnectorView conn in East.Children)
-                {
-                    gTransform = this.East.TransformToVisual(this);
-                    gTransformSec = conn.TransformToVisual(this.East);
-
-                    point = gTransform.Transform(new Point(0, 0));
-                    relativePoint = gTransformSec.Transform(new Point(0, 0));
-
-                    x = GetPosition().X + point.X + relativePoint.X;
-                    y = GetPosition().Y + point.Y + relativePoint.Y;
-
-                    conn.PositionOnWorkSpaceX = x;
-                    conn.PositionOnWorkSpaceY = y;
-                }
-
-                foreach (ConnectorView conn in North.Children)
-                {
-                    gTransform = this.North.TransformToVisual(this);
-                    gTransformSec = conn.TransformToVisual(this.North);
-
-                    point = gTransform.Transform(new Point(0, 0));
-                    relativePoint = gTransformSec.Transform(new Point(0, 0));
-
-                    x = GetPosition().X + point.X + relativePoint.X;
-                    y = GetPosition().Y + point.Y + relativePoint.Y;
-
-                    conn.PositionOnWorkSpaceX = x;
-                    conn.PositionOnWorkSpaceY = y;
-                }
-
-                foreach (ConnectorView conn in South.Children)
-                {
-                    gTransform = this.South.TransformToVisual(this);
-                    gTransformSec = conn.TransformToVisual(this.South);
-
-                    point = gTransform.Transform(new Point(0, 0));
-                    relativePoint = gTransformSec.Transform(new Point(0, 0));
-
-                    x = GetPosition().X + point.X + relativePoint.X;
-                    y = GetPosition().Y + point.Y + relativePoint.Y;
-
-                    conn.PositionOnWorkSpaceX = x;
-                    conn.PositionOnWorkSpaceY = y;
-                }
-            }
-            catch (Exception e)
-            {
-                Console.Out.WriteLine(e.ToString());
-            }
-        }
         #endregion
 
         #region Controls
@@ -533,11 +486,11 @@ namespace WorkspaceManager.View.Container
         void PluginContainerView_Loaded(object sender, RoutedEventArgs e)
         {
             Color clr = ColorHelper.GetColor(this.Model.PluginType);
-            System.Drawing.Color clr2 = System.Windows.Forms.ControlPaint.Dark(System.Drawing.Color.FromArgb(clr.A, clr.R, clr.G, clr.B));
+            System.Drawing.Color clr2 = System.Drawing.Color.FromArgb(clr.A, clr.R, clr.G, clr.B);
             clr = Color.FromArgb(clr2.A, clr2.R, clr2.G, clr2.B);
             BorderGradientStop.Color = clr;
             BorderGradientStopSecond.Color = clr;
-            clr2 = System.Windows.Forms.ControlPaint.LightLight(System.Windows.Forms.ControlPaint.LightLight(System.Drawing.Color.FromArgb(clr.A, clr.R, clr.G, clr.B)));
+            clr2 = System.Windows.Forms.ControlPaint.Light(System.Windows.Forms.ControlPaint.LightLight(System.Drawing.Color.FromArgb(clr.A, clr.R, clr.G, clr.B)));
             clr = Color.FromArgb(clr2.A, clr2.R, clr2.G, clr2.B);
             BG.Background = new SolidColorBrush(clr);
 
@@ -568,8 +521,6 @@ namespace WorkspaceManager.View.Container
 
             LogPresentation LogView = LogPanel.Child as LogPresentation;
             LogView.LogUpdated += new EventHandler<LogUpdated>(LogView_LogUpdated);
-
-            SetAllConnectorPositionX();
             
         }
 
@@ -733,7 +684,7 @@ namespace WorkspaceManager.View.Container
 
         private void MinMaxBorder_MouseLeftButtonDown(object sender, RoutedEventArgs e)
         {
-            this.SetAllConnectorPositionX();
+           
         }
 
         #endregion

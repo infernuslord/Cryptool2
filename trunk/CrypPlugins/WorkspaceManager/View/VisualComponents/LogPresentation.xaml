@@ -6,7 +6,7 @@
              xmlns:e="clr-namespace:WorkspaceManager.View.VisualComponents"
              xmlns:z="clr-namespace:WorkspaceManager.View.Converter"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="700" Background="Transparent">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -18,86 +18,75 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="26" />
+            <RowDefinition Height="45" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <!--<ToolBar Grid.Row="0" Height="26" Name="toolBarListViewFilter" VerticalAlignment="Top" Background="Transparent">
-            <ToggleButton IsChecked="True" Height="20" HorizontalAlignment="Left" Name="buttonError" VerticalAlignment="Center" ClickMode="Press" Click="buttonError_Click" Padding="0" ToolTip="Hide Errors">
+        <ToolBar BorderBrush="#999" BorderThickness="1" Grid.Row="0" Height="45" Name="toolBarListViewFilter" VerticalAlignment="Top" Background="{StaticResource ResourceKey=NormalBrush2}">
+            <ToggleButton IsChecked="True" Height="30" HorizontalAlignment="Left" Name="buttonError" VerticalAlignment="Center" ClickMode="Press" Click="buttonError_Click" Padding="0" ToolTip="Hide Errors">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="16" />
+                        <ColumnDefinition Width="30" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    
+                    <Image Grid.Column="0" Source="/WorkspaceManager;component/View/Image/error2.png" Height="30" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
                     <TextBlock Name="textBlockErrosCount" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4, 0, 4, 0">0</TextBlock>
                     <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="0,0,5,0">Errors</TextBlock>
                 </Grid>
             </ToggleButton>
             <Separator/>
-            <ToggleButton IsChecked="True" Height="20" HorizontalAlignment="Left" Name="buttonWarning" VerticalAlignment="Center" ClickMode="Press" Click="buttonWarning_Click" Padding="0" ToolTip="Hide Warnings">
+            <ToggleButton IsChecked="True" Height="30" HorizontalAlignment="Left" Name="buttonWarning" VerticalAlignment="Center" ClickMode="Press" Click="buttonWarning_Click" Padding="0" ToolTip="Hide Warnings">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="16" />
+                        <ColumnDefinition Width="30" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    
+                    <Image Grid.Column="0" Source="/WorkspaceManager;component/View/Image/warn.png" Height="30" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
                     <TextBlock Name="textBlockWarningsCount" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4, 0, 4, 0">0</TextBlock>
                     <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="0,0,5,0">Warnings</TextBlock>
                 </Grid>
             </ToggleButton>
             <Separator/>
-            <ToggleButton IsChecked="True" Height="20" HorizontalAlignment="Left" Name="buttonInfo" VerticalAlignment="Center" ClickMode="Press" Click="buttonInfo_Click" Padding="0" ToolTip="Hide Infos">
+            <ToggleButton IsChecked="True" Height="30" HorizontalAlignment="Left" Name="buttonInfo" VerticalAlignment="Center" ClickMode="Press" Click="buttonInfo_Click" Padding="0" ToolTip="Hide Infos">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="16" />
+                        <ColumnDefinition Width="30" />
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    
+                    <Image Grid.Column="0" Source="/WorkspaceManager;component/View/Image/Info.png" Height="30" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
                     <TextBlock Name="textBlockInfosCount" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4, 0, 4, 0">0</TextBlock>
                     <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="0,0,5,0">Infos</TextBlock>
                 </Grid>
             </ToggleButton>
             <Separator/>
-            <ToggleButton IsChecked="False" Height="20" HorizontalAlignment="Left" Name="buttonDebug" VerticalAlignment="Center" ClickMode="Press" Click="buttonDebug_Click" Padding="0" ToolTip="Show Debugs">
+            <ToggleButton IsChecked="False" Height="30" HorizontalAlignment="Left" Name="buttonDebug" VerticalAlignment="Center" ClickMode="Press" Click="buttonDebug_Click" Padding="0" ToolTip="Show Debugs">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="16" />
+                        <ColumnDefinition Width="30" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    
+                    <Image Grid.Column="0" Source="/WorkspaceManager;component/View/Image/debug.png" Height="25" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
                     <TextBlock Name="textBlockDebugsCount" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4, 0, 4, 0">0</TextBlock>
                     <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="0,0,5,0">Debugs</TextBlock>
                 </Grid>
             </ToggleButton>
             <Separator/>
-            <Button Height="20" Click="ButtonDeleteMessages_Click" ToolTip="Clear LogWindow">
+            <Button Height="30" Click="ButtonDeleteMessages_Click" ToolTip="Clear LogWindow">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="16" />
+                        <ColumnDefinition Width="30" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    
+                    <Image Grid.Column="0" Source="/WorkspaceManager;component/View/Image/delete.png" Height="21" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
                     <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="5,0,5,0">Delete all messages</TextBlock>
                 </Grid>
             </Button>
             <Separator/>
-            <Button Height="20" Click="ButtonExportToHTML_Click" ToolTip="Export to HTML">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="16" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    
-                    <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="5,0,5,0">Export to HTML</TextBlock>
-                </Grid>
-            </Button>
-        </ToolBar>-->
-        <ListView Name="listViewLogList" Grid.Row="1"
-                          ItemsSource="{Binding}" Style="{StaticResource ListBoxStyle}">
+        </ToolBar>
+        <ListView Name="listViewLogList" Grid.Row="1" ItemsSource="{Binding}" Style="{StaticResource ListBoxStyle}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <DataTemplate.Resources>

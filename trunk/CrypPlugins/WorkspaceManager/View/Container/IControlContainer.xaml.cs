@@ -101,25 +101,25 @@ namespace WorkspaceManager.View.Container
             multiBinding.Converter = new ConnectorBindingConverter();
             multiBinding.ConverterParameter = connectable;
 
-            Binding binding = new Binding();
-            binding.Source = connectable;
-            binding.Path = new PropertyPath(ConnectorView.X);
-            multiBinding.Bindings.Add(binding);
+            //Binding binding = new Binding();
+            //binding.Source = connectable;
+            //binding.Path = new PropertyPath(ConnectorView.X);
+            //multiBinding.Bindings.Add(binding);
 
-            binding = new Binding();
-            binding.Source = connectable;
-            binding.Path = new PropertyPath(ConnectorView.Y);
-            multiBinding.Bindings.Add(binding);
+            //binding = new Binding();
+            //binding.Source = connectable;
+            //binding.Path = new PropertyPath(ConnectorView.Y);
+            //multiBinding.Bindings.Add(binding);
 
-            binding = new Binding();
-            binding.Source = connectable;
-            binding.Path = new PropertyPath(FrameworkElement.ActualHeightProperty);
-            multiBinding.Bindings.Add(binding);
+            //binding = new Binding();
+            //binding.Source = connectable;
+            //binding.Path = new PropertyPath(FrameworkElement.ActualHeightProperty);
+            //multiBinding.Bindings.Add(binding);
 
-            binding = new Binding();
-            binding.Source = connectable;
-            binding.Path = new PropertyPath(FrameworkElement.ActualWidthProperty);
-            multiBinding.Bindings.Add(binding);
+            //binding = new Binding();
+            //binding.Source = connectable;
+            //binding.Path = new PropertyPath(FrameworkElement.ActualWidthProperty);
+            //multiBinding.Bindings.Add(binding);
 
 
             return multiBinding;

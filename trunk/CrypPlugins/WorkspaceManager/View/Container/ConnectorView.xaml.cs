@@ -32,8 +32,6 @@ namespace WorkspaceManager.View.Container
     /// </summary>
     public partial class ConnectorView : UserControl, IConnectable, IUpdateableView
     {
-        public static readonly DependencyProperty X = DependencyProperty.Register("PositionOnWorkSpaceX", typeof(double), typeof(ConnectorView), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
-        public static readonly DependencyProperty Y = DependencyProperty.Register("PositionOnWorkSpaceY", typeof(double), typeof(ConnectorView), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public event EventHandler<ConnectorViewEventArgs> OnConnectorMouseLeftButtonDown;
         public ConnectorModel model;
@@ -41,26 +39,6 @@ namespace WorkspaceManager.View.Container
         {
             get { return model; }
             private set { model = value; }
-        }
-
-        [TypeConverter(typeof(LengthConverter))]
-        public double PositionOnWorkSpaceX
-        {
-            get { return (double)base.GetValue(X); }
-            set
-            {
-                base.SetValue(X, value);
-            }
-        }
-
-        [TypeConverter(typeof(LengthConverter))]
-        public double PositionOnWorkSpaceY
-        {
-            get { return (double)base.GetValue(Y); }
-            set
-            {
-                base.SetValue(Y, value);
-            }
         }
 
         private ConnectorOrientation orientation;
@@ -105,15 +83,18 @@ namespace WorkspaceManager.View.Container
             }
         }
 
+        public PluginContainerView Parent { get; set; }
+
         public ConnectorView()
         {
             InitializeComponent();
         }
 
-        public ConnectorView(ConnectorModel Model)
+        public ConnectorView(ConnectorModel Model, PluginContainerView Parent)
         {
             InitializeComponent();
             setBaseControl(Model);
+            this.Parent = Parent;
 
             if (Model.IsMandatory)
                 ConnectorRep.Stroke = Brushes.OrangeRed;
@@ -131,6 +112,30 @@ namespace WorkspaceManager.View.Container
             Color color = ColorHelper.GetLineColor(Model.ConnectorType);
             this.ConnectorRep.Fill = new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
             this.ConnectorRep.ToolTip = Model.ToolTip;
+        }
+
+        public Point GetPositionOnWorkspace()
+        {
+            GeneralTransform gTransform, gTransformSec;
+            Point point, relativePoint;
+            StackPanel currentSp = null;
+
+            if (Parent.West.Children.Contains(this))
+                currentSp = Parent.West;
+            if (Parent.East.Children.Contains(this))
+                currentSp = Parent.East;
+            if (Parent.North.Children.Contains(this))
+                currentSp = Parent.North;
+            if (Parent.South.Children.Contains(this))
+                currentSp = Parent.South;
+
+            gTransform = currentSp.TransformToVisual(Parent);
+            gTransformSec = this.TransformToVisual(currentSp);
+
+            point = gTransform.Transform(new Point(0, 0));
+            relativePoint = gTransformSec.Transform(new Point(0, 0));
+            Point result = new Point(Parent.GetPosition().X + point.X + relativePoint.X, Parent.GetPosition().Y + point.Y + relativePoint.Y);
+            return result;
         }
 
         void ConnectorView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
