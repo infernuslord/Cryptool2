@@ -12,6 +12,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WorkspaceManager.View.Container;
+using System.Collections.ObjectModel;
+using System.Windows.Threading;
+using System.Collections;
+using System.ComponentModel;
 
 namespace WorkspaceManager.View.VisualComponents
 {
@@ -20,47 +24,84 @@ namespace WorkspaceManager.View.VisualComponents
     /// </summary>
     public partial class DataPresentation : UserControl
     {
-        public ConnectorView Connector { get; set; }
+        private ObservableCollection<CollectionElement> valueCollection;
+        public ObservableCollection<CollectionElement> ValueCollection
+        {
+            get { return valueCollection; }
+            set { valueCollection = value; }
+        }
 
         public DataPresentation()
         {
             InitializeComponent();
+            valueCollection = new ObservableCollection<CollectionElement>();
+            listViewLogList.DataContext = ValueCollection;
+            DataContext = this;
         }
 
-        public DataPresentation(ConnectorView connector)
+        public DataPresentation(List<ConnectorView> list)
         {
-            setBaseControl(connector);
             InitializeComponent();
-        }
+            valueCollection = new ObservableCollection<CollectionElement>();
+            listViewLogList.DataContext = ValueCollection;
+            listViewLogList.SelectionChanged += new SelectionChangedEventHandler(listViewLogList_SelectionChanged);
 
-        private void setBaseControl(ConnectorView connector)
-        {
-            this.Connector = connector;
-            this.DataContext = connector;
-        }
-
-        public void update()
-        {
-            if(Connector.Model.HasData)
-                Data.Text = Connector.Model.Data.ToString();
-
-            return;
-        }
-
-        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (DataPanel.Visibility == Visibility.Collapsed)
+            foreach (ConnectorView connector in list)
             {
-                DataPanel.Visibility = Visibility.Visible;
+                ValueCollection.Add(new CollectionElement(connector, DataBox));
+            }
+        }
+
+        void listViewLogList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count == 0)
                 return;
+                
+            IList collection = (IList)e.AddedItems;
+            var list = collection.Cast<View.VisualComponents.DataPresentation.CollectionElement>();
+
+            list.First().Start();
+            if(list.First().Connector.model.Outgoing)
+                Input.Text = "Connector Type: Output";
+            else
+                Input.Text = "Connector Type: Input";
+        }
+
+        public class CollectionElement : ItemsControl
+        {
+            private String data;
+            public String Data { get { return data; } set { Block.Text = value; data = value; } }
+            public String Caption { get; set; }
+            private DispatcherTimer timer = new DispatcherTimer();
+            public ConnectorView Connector { get; set; }
+            public TextBlock Block { get; set; }
+
+            public CollectionElement(ConnectorView element, TextBlock textBlock)
+            {
+                Connector = element;
+                this.Block = textBlock;
+                Caption = element.Model.ConnectorType.Name;
+                timer.Interval = new TimeSpan(0, 0, 5);
+                timer.Tick +=new EventHandler(timer_Tick);
             }
 
-            if (DataPanel.Visibility == Visibility.Visible)
+            public void Start()
             {
-                DataPanel.Visibility = Visibility.Collapsed;
-                return;
+                timer.Start();
+                if (Connector.model.Data != null)
+                    Data = Connector.model.Data.ToString();
             }
 
+            public void Stop()
+            {
+                timer.Stop();
+            }
+
+            void timer_Tick(object sender, EventArgs e)
+            {
+                if (Connector.model.Data != null)
+                    Data = Connector.model.Data.ToString();
+            }
         }
     }
 }

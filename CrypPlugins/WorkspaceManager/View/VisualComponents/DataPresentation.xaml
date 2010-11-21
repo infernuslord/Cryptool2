@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:z="clr-namespace:WorkspaceManager.View.Converter"
-             mc:Ignorable="d" >
+             mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="500">
     <UserControl.LayoutTransform>
         <ScaleTransform ScaleX="0.7" ScaleY="0.7"></ScaleTransform>
     </UserControl.LayoutTransform>
@@ -18,29 +18,34 @@
             <z:InputOutputConverter x:Key="InputOutputConverter"></z:InputOutputConverter>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Margin="2" >
-        <Border CornerRadius="6" BorderBrush="#777777" BorderThickness="1" Background="{StaticResource ResourceKey=DataPresentationLinearBrush}" Padding="3">
-            <StackPanel Orientation="Vertical">
-                <Border CornerRadius="6" Background="{StaticResource ResourceKey=DataPresentationNameLinearBrush}" BorderBrush="#cea87c" MouseLeftButtonDown="Border_MouseLeftButtonDown">
-                    <Grid>
-                        <TextBlock FontWeight="Bold" HorizontalAlignment="Left" Padding="4" FontSize="13" Foreground="{Binding Path=Model.ConnectorType, Converter={StaticResource ResourceKey=ColorConverter}}" Text="{Binding Path=Model.ConnectorType.Name, FallbackValue=N/A}">
-                            <TextBlock.Effect>
-                                <DropShadowEffect ShadowDepth="0" BlurRadius="3"></DropShadowEffect>
-                            </TextBlock.Effect>
-                        </TextBlock>
-                        <TextBlock FontWeight="Bold" HorizontalAlignment="Right" Padding="4" FontSize="13" Foreground="WhiteSmoke" Text="{Binding Path=Model.Outgoing, Converter={StaticResource ResourceKey=InputOutputConverter}, FallbackValue=N/A}">
-                            <TextBlock.Effect>
-                                <DropShadowEffect ShadowDepth="0" BlurRadius="3"></DropShadowEffect>
-                            </TextBlock.Effect>
-                        </TextBlock>
-                    </Grid>
-                </Border>
-                <Border x:Name="DataPanel" Height="125" Visibility="Collapsed">
-                    <ScrollViewer>
-                        <TextBlock Foreground="WhiteSmoke" FontSize="14" Name="Data" Text="N/A" TextWrapping="Wrap"></TextBlock>
-                    </ScrollViewer>
-                </Border>
+    <DockPanel LastChildFill="True">
+        <Border CornerRadius="2" BorderBrush="#777777" BorderThickness="1" Background="{StaticResource ResourceKey=NormalBrush}" Padding="3" DockPanel.Dock="Top" Height="50">
+            <ListView Background="Transparent" Name="listViewLogList" ItemsSource="{Binding}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border x:Name="ItemEntry" Margin="1" BorderThickness="1" BorderBrush="#AAFFFFFF" Background="#55FFFFFF">
+                            <StackPanel Orientation="Horizontal" Margin="2">
+                                <TextBlock Text="{Binding Path=Caption}" FontSize="17" Margin="2"></TextBlock>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"></StackPanel>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+        </Border>
+        <Border DockPanel.Dock="Bottom" CornerRadius="2" Background="#33FFFFFF">
+            <StackPanel>
+                <TextBlock x:Name="Input" FontSize="18" Text="Connector Type: N/A"></TextBlock> 
             </StackPanel>
         </Border>
-    </Grid>
+        <Border CornerRadius="2" BorderBrush="#777777" BorderThickness="1" Background="#22123456" Padding="3">
+            <Grid>
+                <TextBlock x:Name="DataBox" Foreground="White" FontSize="23"></TextBlock>
+            </Grid>
+        </Border>
+    </DockPanel>
 </UserControl>

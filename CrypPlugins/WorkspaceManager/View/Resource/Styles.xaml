@@ -116,22 +116,22 @@
                             <StackPanel.LayoutTransform>
                                 <RotateTransform Angle="180"></RotateTransform>
                             </StackPanel.LayoutTransform>
-                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#666666" StrokeThickness="1"></Ellipse>
+                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#444" StrokeThickness="1"></Ellipse>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <StackPanel.LayoutTransform>
                                 <RotateTransform Angle="180"></RotateTransform>
                             </StackPanel.LayoutTransform>
-                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#666666" StrokeThickness="1"></Ellipse>
-                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#666666" StrokeThickness="1"></Ellipse>
+                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#444" StrokeThickness="1"></Ellipse>
+                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#444" StrokeThickness="1"></Ellipse>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <StackPanel.LayoutTransform>
                                 <RotateTransform Angle="180"></RotateTransform>
                             </StackPanel.LayoutTransform>
-                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#666666" StrokeThickness="1"></Ellipse>
-                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#666666" StrokeThickness="1"></Ellipse>
-                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#666666" StrokeThickness="1"></Ellipse>
+                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#444" StrokeThickness="1"></Ellipse>
+                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#444" StrokeThickness="1"></Ellipse>
+                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#444" StrokeThickness="1"></Ellipse>
                         </StackPanel>
 
                     </StackPanel>

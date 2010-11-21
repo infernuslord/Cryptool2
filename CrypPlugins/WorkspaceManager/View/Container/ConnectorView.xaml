@@ -40,13 +40,24 @@
                 </Path>
             </Grid>
         </Popup>-->
-        <Path Name="ConnectorRep" Margin="1,1,1,1" Fill="Black" Stretch="Fill" Stroke="#373e43" StrokeThickness="1" Width="10" Height="15" Data="M18,154.45381 L29.999666,187.66699 40.791059,154.54395 16.89,154.54395 L29.999666,187.66699">
-            <Path.LayoutTransform>
-                <TransformGroup>
-                    <ScaleTransform x:Name="Scale"></ScaleTransform>
-                    <RotateTransform x:Name="Rotation"></RotateTransform>
-                </TransformGroup>
-            </Path.LayoutTransform>
-        </Path>
+        <Grid>
+            <Path Name="ConnectorRep" Margin="1,1,1,1" Fill="Black" Stretch="Fill" HorizontalAlignment="Center" Panel.ZIndex="100" VerticalAlignment="Center" Stroke="#373e43" StrokeThickness="1" Width="10" Height="15" Data="M18,154.45381 L29.999666,187.66699 40.791059,154.54395 16.89,154.54395 L29.999666,187.66699">
+                <Path.LayoutTransform>
+                    <TransformGroup>
+                        <ScaleTransform x:Name="Scale"></ScaleTransform>
+                        <RotateTransform x:Name="Rotation"></RotateTransform>
+                    </TransformGroup>
+                </Path.LayoutTransform>
+            </Path>
+            <Path Name="Bold" Margin="1,1,1,1" Fill="Black" Stretch="Fill" Stroke="#373e43" StrokeThickness="1" Width="10" Height="15" Data="M18,154.45381 L29.999666,187.66699 40.791059,154.54395 16.89,154.54395 L29.999666,187.66699">
+                <Path.LayoutTransform>
+                    <TransformGroup>
+                        <ScaleTransform x:Name="ScaleBold"></ScaleTransform>
+                        <RotateTransform Angle="{Binding ElementName=Rotation, Path=Angle}"></RotateTransform>
+                    </TransformGroup>
+
+                </Path.LayoutTransform>
+            </Path>
+        </Grid>
     </Border>
 </UserControl>
