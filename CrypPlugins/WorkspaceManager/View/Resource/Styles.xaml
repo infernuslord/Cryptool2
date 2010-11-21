@@ -49,12 +49,12 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Background" Value="#5586cede" TargetName="Border" />
-                            <Setter Property="BorderBrush" Value="#aa86cede" TargetName="Border" />
+                            <Setter Property="Background" Value="#55222222" TargetName="Border" />
+                            <Setter Property="BorderBrush" Value="#aa222222" TargetName="Border" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter Property="Background" Value="#7786cede" TargetName="Border" />
-                            <Setter Property="BorderBrush" Value="#cc86cede" TargetName="Border" />
+                            <Setter Property="Background" Value="#77222222" TargetName="Border" />
+                            <Setter Property="BorderBrush" Value="#cc222222" TargetName="Border" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -403,7 +403,7 @@
         <Setter Property="Margin" Value="5,5,5,0"></Setter>
         <Setter Property="BorderBrush">
             <Setter.Value>
-                <SolidColorBrush Color="#555555"></SolidColorBrush>
+                <SolidColorBrush Color="#55FFFFFF"></SolidColorBrush>
             </Setter.Value>
         </Setter>
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -414,8 +414,8 @@
                 <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                     <GradientBrush.GradientStops>
                         <GradientStopCollection>
-                            <GradientStop Color="#88222222" Offset="1.0"/>
-                            <GradientStop Color="#88444444" Offset="0.5"/>
+                            <GradientStop Color="#11555555" Offset="0.0"/>
+                            <GradientStop Color="#55444444" Offset="1"/>
                         </GradientStopCollection>
                     </GradientBrush.GradientStops>
                 </LinearGradientBrush>

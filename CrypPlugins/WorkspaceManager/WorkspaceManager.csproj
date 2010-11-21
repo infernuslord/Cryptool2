@@ -117,6 +117,7 @@
     </Compile>
     <Compile Include="View\Converter\BlurIconConverter.cs" />
     <Compile Include="View\Converter\BlurViewStateConverter.cs" />
+    <Compile Include="View\Converter\CaptionWidthConverter.cs" />
     <Compile Include="View\Converter\ConnectorPanelHeightWidthConverter.cs" />
     <Compile Include="View\Converter\ConnectorToColorConverter.cs" />
     <Compile Include="View\Converter\ConnectorBindingConverter.cs" />

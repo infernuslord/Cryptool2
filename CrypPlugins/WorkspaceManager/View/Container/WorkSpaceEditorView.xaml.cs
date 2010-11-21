@@ -32,13 +32,10 @@ namespace WorkspaceManager.View.Container
     /// 
     public partial class WorkSpaceEditorView : UserControl
     {
-        private double prevX = 0, prevY = 0;
-        private bool IsDragStarted;
         private Point previousDragPoint = new Point();
         private ConnectorView selectedConnector;
         private PluginContainerView selectedPluginContainer;
         private CryptoLineView dummyLine = new CryptoLineView();
-        private Point point;
         private PluginContainerView currentFullViewContainer;
         private Panel root { get { return (this.ViewBox.Content as Panel); } }
         private BottomBox bottomBox { get { return (BottomBoxParent.Child as BottomBox); } }
@@ -204,13 +201,13 @@ namespace WorkspaceManager.View.Container
             multiBinding.ConverterParameter = connectable;
 
             Binding binding = new Binding();
-            binding.Source = connectable;
-            binding.Path = new PropertyPath(ConnectorView.X);
+            binding.Source = connectable.Parent;
+            binding.Path = new PropertyPath(PluginContainerView.X);
             multiBinding.Bindings.Add(binding);
 
             binding = new Binding();
-            binding.Source = connectable;
-            binding.Path = new PropertyPath(ConnectorView.Y);
+            binding.Source = connectable.Parent;
+            binding.Path = new PropertyPath(PluginContainerView.Y);
             multiBinding.Bindings.Add(binding);
 
             binding = new Binding();
@@ -223,6 +220,25 @@ namespace WorkspaceManager.View.Container
             binding.Path = new PropertyPath(FrameworkElement.ActualWidthProperty);
             multiBinding.Bindings.Add(binding);
 
+            binding = new Binding();
+            binding.Source = connectable.Parent.West;
+            binding.Path = new PropertyPath(FrameworkElement.ActualHeightProperty);
+            multiBinding.Bindings.Add(binding);
+
+            binding = new Binding();
+            binding.Source = connectable.Parent.East;
+            binding.Path = new PropertyPath(FrameworkElement.ActualHeightProperty);
+            multiBinding.Bindings.Add(binding);
+
+            binding = new Binding();
+            binding.Source = connectable.Parent.North;
+            binding.Path = new PropertyPath(FrameworkElement.ActualWidthProperty);
+            multiBinding.Bindings.Add(binding);
+
+            binding = new Binding();
+            binding.Source = connectable.Parent.South;
+            binding.Path = new PropertyPath(FrameworkElement.ActualWidthProperty);
+            multiBinding.Bindings.Add(binding);
 
             return multiBinding;
         }

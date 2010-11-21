@@ -16,11 +16,11 @@ namespace WorkspaceManager.View.Converter
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             ConnectorView connector = (ConnectorView)parameter;
-            double X = System.Convert.ToDouble(values[0]);
-            double Y = System.Convert.ToDouble(values[1]);
+            Point p = connector.GetPositionOnWorkspace();
+            double X = p.X;
+            double Y = p.Y;
             double Height = System.Convert.ToDouble(values[2]);
             double Width = System.Convert.ToDouble(values[3]);
-
             switch (connector.Orientation)
             {
                 case ConnectorOrientation.West:

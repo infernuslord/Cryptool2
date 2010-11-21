@@ -181,14 +181,18 @@
     </LinearGradientBrush>
 
 
-    <RadialGradientBrush x:Key="NormalBrush" RadiusX="1" RadiusY="2.8" Center="0.524,1.2" GradientOrigin="0.524,1.2">
-        <GradientStop Color="#96c4ec" Offset="1.0" />
-        <GradientStop Color="#FFF" Offset="0" />
+    <RadialGradientBrush x:Key="NormalBrush" RadiusX="1.1" RadiusY="2.8" Center="0.524,1.2" GradientOrigin="0.524,1.2">
+        <GradientStop Color="#add3f5" Offset="0.0" />
+        <GradientStop Color="#293955" Offset="1" />
     </RadialGradientBrush>
 
-    <RadialGradientBrush x:Key="NormalBrush2" RadiusX="1.5" RadiusY="2.8" Center="0.524,1.2" GradientOrigin="0.524,1.2">
-        <GradientStop Color="#DDD" Offset="1.0" />
-        <GradientStop Color="#FFF" Offset="0" />
-    </RadialGradientBrush>
+    <LinearGradientBrush x:Key="NormalBrush2" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#77EEEEEE" Offset="1.0"/>
+                <GradientStop Color="#77CCCCCC" Offset="0.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
 
 </ResourceDictionary>
