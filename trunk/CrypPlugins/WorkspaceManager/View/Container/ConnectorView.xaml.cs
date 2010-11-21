@@ -97,7 +97,11 @@ namespace WorkspaceManager.View.Container
             this.Parent = Parent;
 
             if (Model.IsMandatory)
-                ConnectorRep.Stroke = Brushes.OrangeRed;
+            {
+                ConnectorRep.Stroke = Brushes.White;
+                Scale.ScaleX = 0.8;
+                Scale.ScaleY = 0.7;
+            }
 
             if (Model.Orientation == ConnectorOrientation.Unset)
             {
@@ -116,26 +120,33 @@ namespace WorkspaceManager.View.Container
 
         public Point GetPositionOnWorkspace()
         {
-            GeneralTransform gTransform, gTransformSec;
-            Point point, relativePoint;
-            StackPanel currentSp = null;
+            try
+            {
+                GeneralTransform gTransform, gTransformSec;
+                Point point, relativePoint;
+                StackPanel currentSp = null;
 
-            if (Parent.West.Children.Contains(this))
-                currentSp = Parent.West;
-            if (Parent.East.Children.Contains(this))
-                currentSp = Parent.East;
-            if (Parent.North.Children.Contains(this))
-                currentSp = Parent.North;
-            if (Parent.South.Children.Contains(this))
-                currentSp = Parent.South;
+                if (Parent.West.Children.Contains(this))
+                    currentSp = Parent.West;
+                if (Parent.East.Children.Contains(this))
+                    currentSp = Parent.East;
+                if (Parent.North.Children.Contains(this))
+                    currentSp = Parent.North;
+                if (Parent.South.Children.Contains(this))
+                    currentSp = Parent.South;
 
-            gTransform = currentSp.TransformToVisual(Parent);
-            gTransformSec = this.TransformToVisual(currentSp);
+                gTransform = currentSp.TransformToVisual(Parent);
+                gTransformSec = this.TransformToVisual(currentSp);
 
-            point = gTransform.Transform(new Point(0, 0));
-            relativePoint = gTransformSec.Transform(new Point(0, 0));
-            Point result = new Point(Parent.GetPosition().X + point.X + relativePoint.X, Parent.GetPosition().Y + point.Y + relativePoint.Y);
-            return result;
+                point = gTransform.Transform(new Point(0, 0));
+                relativePoint = gTransformSec.Transform(new Point(0, 0));
+                Point result = new Point(Parent.GetPosition().X + point.X + relativePoint.X, Parent.GetPosition().Y + point.Y + relativePoint.Y);
+                return result;
+            }
+            catch (Exception)
+            {
+                return new Point(0, 0);
+            }
         }
 
         void ConnectorView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

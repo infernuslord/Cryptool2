@@ -122,6 +122,7 @@
     <Compile Include="View\Converter\ConnectorToColorConverter.cs" />
     <Compile Include="View\Converter\ConnectorBindingConverter.cs" />
     <Compile Include="View\Converter\ContextMenuFixUnfixConverter.cs" />
+    <Compile Include="View\Converter\CurrentItemConverter.cs" />
     <Compile Include="View\Converter\DragDeltaViewStateConverter.cs" />
     <Compile Include="View\Converter\DragDropDataObjectToPluginConverter.cs" />
     <Compile Include="View\Converter\IconPanelVisibilityConverter.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="View\Converter\SelectedContentVisibilityConverter.cs" />
     <Compile Include="View\Converter\ToolbarVisibilityConverter.cs" />
     <Compile Include="View\Converter\TransparentColorConverter.cs" />
+    <Compile Include="View\Converter\ViewStateCaptionConverter.cs" />
     <Compile Include="View\Converter\ViewStateConverter.cs" />
     <Compile Include="View\Converter\ViewStateIconConverter.cs" />
     <Compile Include="View\Interface\IConnectable.cs" />

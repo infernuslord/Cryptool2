@@ -53,8 +53,8 @@ namespace WorkspaceManager.View.Container
 
         #region Properties
 
-        public static readonly DependencyProperty X = DependencyProperty.Register("PositionOnWorkSpaceX", typeof(double), typeof(ConnectorView), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
-        public static readonly DependencyProperty Y = DependencyProperty.Register("PositionOnWorkSpaceY", typeof(double), typeof(ConnectorView), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static readonly DependencyProperty X = DependencyProperty.Register("PositionOnWorkSpaceX", typeof(double), typeof(PluginContainerView), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static readonly DependencyProperty Y = DependencyProperty.Register("PositionOnWorkSpaceY", typeof(double), typeof(PluginContainerView), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         [TypeConverter(typeof(LengthConverter))]
         public double PositionOnWorkSpaceX
@@ -261,15 +261,15 @@ namespace WorkspaceManager.View.Container
             {
                 ConnectorView connector = new ConnectorView(ConnectorModel, this);
                 AddConnectorView(connector);
-                DataPanel.Children.Add(new DataPresentation(connector));
             }
 
             foreach (ConnectorModel ConnectorModel in model.OutputConnectors)
             {
                 ConnectorView connector = new ConnectorView(ConnectorModel, this);
                 AddConnectorView(connector);
-                DataPanel.Children.Add(new DataPresentation(connector));
             }
+
+            DataPanel.Children.Add(new DataPresentation(connectorViewList));
             this.ViewState = Model.ViewState;
         }
 
@@ -695,15 +695,6 @@ namespace WorkspaceManager.View.Container
         {
             ProgressBar.Value = Model.PercentageFinished;
 
-            if (ViewState == PluginViewState.Data)
-            {
-                foreach (UIElement element in DataPanel.Children)
-                {
-                    DataPresentation data = element as DataPresentation;
-                    data.update();
-                }
-            }
-
             if (Model.GuiLogEvents.Count != 0)
             {
                 LogPresentation log = LogPanel.Child as LogPresentation;
@@ -792,8 +783,7 @@ namespace WorkspaceManager.View.Container
 
         private void SettingButton_MouseEnter(object sender, MouseEventArgs e)
         {
-            Button btn = sender as Button;
-            OptionCaption.Text = btn.ToolTip as String;
+            
         }
 
         private void Thumb_DragDelta_1(object sender, DragDeltaEventArgs e)

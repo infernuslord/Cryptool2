@@ -22,6 +22,7 @@
             <z:DragDeltaViewStateConverter x:Key="DragDeltaViewStateConverter"></z:DragDeltaViewStateConverter>
             <z:ConnectorPanelHeightWidthConverter x:Key="ConnectorPanelHeightWidthConverter"></z:ConnectorPanelHeightWidthConverter>
             <z:CaptionWidthConverter x:Key="CaptionWidthConverter"></z:CaptionWidthConverter>
+            <z:ViewStateCaptionConverter x:Key="ViewStateCaptionConverter"></z:ViewStateCaptionConverter>
 
             <Button x:Key="SettingButton" Name="SettingButton" ToolTip="Settings" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Height="30" Width="30" MouseEnter="SettingButton_MouseEnter" Click="OptionChooseHandler">
                 <Image Source="/WorkspaceManager;component/View/Image/setting.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Height="30" Width="30">
@@ -55,7 +56,7 @@
     </UserControl.Resources>
     <DockPanel Name="Root" LastChildFill="True">
 
-        <DockPanel x:Name="PluginBase" DockPanel.Dock="Top" HorizontalAlignment="Left" MinHeight="130" MinWidth="130" Width="130" Height="130">
+        <DockPanel x:Name="PluginBase" DockPanel.Dock="Top" HorizontalAlignment="Left" MinHeight="125" MinWidth="125" Width="125" Height="125">
             <DockPanel.Background>
                 <SolidColorBrush Opacity="0.01" Color="#444444"></SolidColorBrush>
             </DockPanel.Background>
@@ -136,7 +137,7 @@
                         </StackPanel.Width>
                     </StackPanel>
 
-                    <Thumb Panel.ZIndex="2000" Name="BottomRightDelta" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=DragDeltaViewStateConverter}, ConverterParameter=Visibility}" Style="{StaticResource ResourceKey=ImageWrapperThumbStyle}" IsEnabled="{Binding Path=ViewState, Converter={StaticResource ResourceKey=DragDeltaViewStateConverter}, ConverterParameter=IsEnabled}" Background="Transparent" Opacity="0.6" HorizontalAlignment="Right" VerticalAlignment="Bottom" Cursor="SizeNWSE" Height="15" Width="15" DragDelta="Thumb_DragDelta" Margin="0,0,19,19"></Thumb>
+                    <Thumb Panel.ZIndex="2000" Name="BottomRightDelta" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=DragDeltaViewStateConverter}, ConverterParameter=Visibility}" Style="{StaticResource ResourceKey=ImageWrapperThumbStyle}" IsEnabled="{Binding Path=ViewState, Converter={StaticResource ResourceKey=DragDeltaViewStateConverter}, ConverterParameter=IsEnabled}" Background="Transparent" Opacity="0.6" HorizontalAlignment="Right" VerticalAlignment="Bottom" Cursor="SizeNWSE" Height="15" Width="15" DragDelta="Thumb_DragDelta" Margin="0,0,25,25"></Thumb>
                 </Grid>
                 <Grid Margin="3">
                     <Border Name="Window" BorderThickness="0" BorderBrush="Transparent" Margin="8">
@@ -191,27 +192,27 @@
                                                             <SolidColorBrush Color="{Binding ElementName=BorderGradientStop, Path=Color}" Opacity="0.7"></SolidColorBrush>
                                                         </Grid.Background>
                                                         <DockPanel x:Name="WindowBar">
-                                                            <StackPanel DockPanel.Dock="Right" Name="ControlPanel" Visibility="Visible" Opacity="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="3">
+                                                            <StackPanel DockPanel.Dock="Right" Name="ControlPanel" Visibility="Visible" Opacity="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0">
 
-                                                                <Button x:Name="play" Height="20" Width="20"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Click="Button_Click">
+                                                                <Button x:Name="play" Height="19" Width="20"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Click="Button_Click">
                                                                     <Button.LayoutTransform>
                                                                         <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
                                                                     </Button.LayoutTransform>
-                                                                    <Image x:Name="playimg" Source="/WorkspaceManager;component/View/Image/play.png" RenderOptions.ClearTypeHint="Enabled" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
+                                                                    <Image x:Name="playimg" Source="/WorkspaceManager;component/View/Image/play.png" RenderOptions.ClearTypeHint="Enabled" HorizontalAlignment="Left" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
                                                                 </Button>
 
-                                                                <Button Name="MinimizeButton" Height="20" Width="20" ToolTip="Minimize" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Click="OptionChooseHandler">
+                                                                <Button Name="MinimizeButton" Height="19" Width="20" ToolTip="Minimize" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Click="OptionChooseHandler">
                                                                     <Button.LayoutTransform>
                                                                         <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
                                                                     </Button.LayoutTransform>
-                                                                    <Image Source="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateIconConverter}}" HorizontalAlignment="Center" SnapsToDevicePixels="True">
+                                                                    <Image Source="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateIconConverter}}" HorizontalAlignment="Left" SnapsToDevicePixels="True">
                                                                         <Image.Effect>
                                                                             <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
                                                                         </Image.Effect>
                                                                     </Image>
                                                                 </Button>
 
-                                                                <Button x:Name="del" Height="20" Width="20" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Click="Button_Click">
+                                                                <Button x:Name="del" Height="19" Width="20" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Click="Button_Click">
                                                                     <Button.LayoutTransform>
                                                                         <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
                                                                     </Button.LayoutTransform>
@@ -245,7 +246,7 @@
                                                                         <SolidColorBrush Color="Black" Opacity="0.1"></SolidColorBrush>
                                                                     </Border.Background>
 
-                                                                    <TextBlock Name="OptionCaption" Foreground="WhiteSmoke" FontWeight="Bold" FontSize="8" HorizontalAlignment="Center" Margin="0,0,10,0">
+                                                                    <TextBlock Name="OptionCaption" Foreground="WhiteSmoke" FontWeight="Bold" FontSize="9" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,10,0" Text="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateCaptionConverter}}">
                                                                         <TextBlock.RenderTransform>
                                                                             <ScaleTransform ScaleX="1.2" ScaleY="1.2"></ScaleTransform>
                                                                         </TextBlock.RenderTransform>
@@ -313,9 +314,9 @@
                                                                 <Border x:Name="LogPanel" Panel.ZIndex="{Binding Path=ViewState, Converter={StaticResource ResourceKey=OverlapConverter}, ConverterParameter=LogPanel}" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=LogPanel}">
                                                                     <e:LogPresentation></e:LogPresentation>
                                                                 </Border>
-                                                                <ScrollViewer Panel.ZIndex="{Binding Path=ViewState, Converter={StaticResource ResourceKey=OverlapConverter}, ConverterParameter=DataPanel}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                                                    <StackPanel Orientation="Vertical" x:Name="DataPanel" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=DataPanel}"></StackPanel>
-                                                                </ScrollViewer>
+                                                                <Border Panel.ZIndex="{Binding Path=ViewState, Converter={StaticResource ResourceKey=OverlapConverter}, ConverterParameter=DataPanel}">
+                                                                    <Grid x:Name="DataPanel" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=DataPanel}"></Grid>
+                                                                </Border>
                                                             </Grid>
                                                         </Grid>
                                                     </DockPanel>
