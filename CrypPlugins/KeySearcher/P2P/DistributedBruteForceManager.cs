@@ -138,13 +138,14 @@ namespace KeySearcher.P2P
                                                                             status.CurrentOperation = message;
                                                                             try
                                                                             {
-                                                                                if (!currentLeaf.ReserveLeaf())
-                                                                                {
-                                                                                    keySearcher.GuiLogMessage("Rereserving pattern failed! Skipping to next pattern!", 
-                                                                                        NotificationLevel.Warning);
-                                                                                    reservationRemoved = true;
-                                                                                    keySearcher.stop = true;
-                                                                                }
+                                                                                currentLeaf.ReserveLeaf();
+                                                                                //if (!currentLeaf.ReserveLeaf())
+                                                                                //{
+                                                                                //    keySearcher.GuiLogMessage("Rereserving pattern failed! Skipping to next pattern!", 
+                                                                                //        NotificationLevel.Warning);
+                                                                                //    reservationRemoved = true;
+                                                                                //    keySearcher.stop = true;
+                                                                                //}
                                                                             }
                                                                             catch (Cryptool.P2P.Internal.NotConnectedException)
                                                                             {
