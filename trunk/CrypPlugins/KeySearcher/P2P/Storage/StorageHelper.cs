@@ -44,12 +44,7 @@ namespace KeySearcher.P2P.Storage
                 binaryWriter.Write(valueKey.value);
                 binaryWriter.Write(valueKey.decryption.Length);
                 binaryWriter.Write(valueKey.decryption);
-            }
-            
-            //TODO: Versionnumber write
-            //-----------------------------------------------------
-            //binaryWriter.Write(version);
-            //-----------------------------------------------------
+            }                        
             
             //TODO: Hash Table write;
 
@@ -64,6 +59,11 @@ namespace KeySearcher.P2P.Storage
 
         private static void UpdateLeafInDht(Leaf nodeToUpdate, BinaryWriter binaryWriter)
         {
+            //TODO: Versionnumber write
+            //-----------------------------------------------------
+            //binaryWriter.Write('V');
+            //binaryWriter.Write(version);
+            //-----------------------------------------------------
             var buffer = nodeToUpdate.LastReservationDate.ToBinary();
             binaryWriter.Write(buffer);
             
@@ -111,33 +111,17 @@ namespace KeySearcher.P2P.Storage
                                     };
                 nodeToUpdate.Result.AddLast(newResult);
             }
-
+            
             //-------------------------------------------------------------------------------------------
             //AFTER CHANGING THE FOLLOWING PART INCREASE THE VERSION-NUMBER AT THE TOP OF THIS CLASS!
             //-------------------------------------------------------------------------------------------
-            //TODO: Versionnumber read
             /*
-            try
+            if (binaryReader.BaseStream.Length != binaryReader.BaseStream.Position)
             {
-                //If you're already at the end of the stream ignore the version
-                if (binaryReader.BaseStream.Length != binaryReader.BaseStream.Position)
-                {
-                    int versionInUse = binaryReader.ReadInt32();
-                    //Check if a newer Version is in use
-                    if (versionInUse > version)
-                    {
-                        throw new KeySearcherStopException();
-                    }
-                    //TODO: Hashtable read
-                }
+                //TODO: Hashtable read
             }
-            catch(Exception)
-            {
-                throw new KeySearcherStopException();
-            }
-
-            //----------------------------------------------------------------------------------
             */
+
             if (resultCount > 0)
             {
                 keySearcher.IntegrateNewResults(nodeToUpdate.Result);
@@ -156,13 +140,17 @@ namespace KeySearcher.P2P.Storage
 
         private static void UpdateLeafFromDht(Leaf nodeToUpdate, BinaryReader binaryReader)
         {
+            //---------------------------------------------------------------------------------
+            //TODO: Versionnumber read
+            //CheckVersion(binaryReader);
+            //----------------------------------------------------------------------------------
+            
             var date = DateTime.FromBinary(binaryReader.ReadInt64());
             if (date > nodeToUpdate.LastReservationDate)
             {
                 nodeToUpdate.LastReservationDate = date;
             }
             
-            //----------------------------------------------------------------
             try
             {
                 if (binaryReader.BaseStream.Length - binaryReader.BaseStream.Position >= 8)
@@ -179,7 +167,6 @@ namespace KeySearcher.P2P.Storage
                 // client id not available, use default
                 nodeToUpdate.setClientIdentifier(-1);
             }
-            //----------------------------------------------------------------
             
         }
 
@@ -187,6 +174,33 @@ namespace KeySearcher.P2P.Storage
         {
             return string.Format("{0}_node_{1}_{2}", node.DistributedJobIdentifier, node.From, node.To);
         }
+
+        //----------------------------------------------------------------------------
+        public static void CheckVersion(BinaryReader binaryReader)
+        {
+            /*
+            try
+            {
+                //Checking in theres a version in the stream
+                if (binaryReader.PeekChar().Equals('V'))
+                {
+                    //Reading the char and the versionnumber
+                    binaryReader.ReadChar();
+                    int versionInUse = binaryReader.ReadInt32();
+                    //Check if a newer Version is in use
+                    if (versionInUse > version)
+                    {
+                        throw new KeySearcherStopException();
+                    }
+                }
+            }
+            catch(Exception)
+            {
+                throw new KeySearcherStopException();
+            }
+            */
+        }
+        //-----------------------------------------------------------------------------
 
         public DateTime StartDate(String ofJobIdentifier)
         {
@@ -204,7 +218,6 @@ namespace KeySearcher.P2P.Storage
             return DateTime.Now;
         }
 
-        //------------------------------------------------------------------------
         public long SubmitterID(String ofJobIdentifier)
         {
             var key = ofJobIdentifier + "_submitterid";
@@ -219,7 +232,6 @@ namespace KeySearcher.P2P.Storage
             StoreWithStatistic(key, BitConverter.GetBytes(Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID()));
             return Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
         }
-        //---------------------------------------------------------------------------
 
         public RequestResult RetrieveWithStatistic(string key)
         {
