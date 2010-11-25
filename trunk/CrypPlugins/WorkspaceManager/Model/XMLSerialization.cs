@@ -25,6 +25,7 @@ using System.Collections;
 using System.IO.Compression;
 using Cryptool.PluginBase;
 using WorkspaceManager;
+using System.Windows;
 
 namespace XMLSerialization
 {
@@ -192,9 +193,15 @@ namespace XMLSerialization
                                     {
                                         writer.WriteLine("<value>" + o.GetHashCode() + "</value>");
                                     }
+                                    else if(o is Point)
+                                    {
+                                        Point p = (Point) o;
+                                        writer.WriteLine("<value><![CDATA[" + p.X + ";" + p.Y + "]]></value>");
+
+                                    }
                                     else
                                     {
-                                        writer.WriteLine("<value>" + o + "</value>");
+                                        writer.WriteLine("<value><![CDATA[" + o + "]]></value>");
                                     }
                                 }
                                 else
@@ -215,6 +222,11 @@ namespace XMLSerialization
                         if (value is Enum)
                         {
                             writer.WriteLine("<value>" + value.GetHashCode() + "</value>");
+                        }
+                        else if(value is Point)
+                        {
+                            Point p = (Point)value;
+                            writer.WriteLine("<value><![CDATA[" + p.X + ";" + p.Y + "]]></value>");   
                         }
                         else
                         {
@@ -461,6 +473,11 @@ namespace XMLSerialization
                             else if (RevertXMLSymbols(membertype.InnerText).Equals("System.Windows.Point"))
                             {
                                 string[] values = value.InnerText.Split(new char[] {';'});
+
+                                if(values.Length != 2)
+                                {
+                                    throw new Exception("Can not create a Point with " + values.Length + " Coordinates!");
+                                }
 
                                 double x = 0;
                                 double y = 0;
