@@ -39,7 +39,7 @@ namespace WorkspaceManager.Model
         /// <returns></returns>
         public static WorkspaceModel loadModel(string filename, WorkspaceManager workspaceManagerEditor)
         {
-            PersistantModel persistantModel = (PersistantModel)XMLSerialization.XMLSerialization.Deserialize(filename,true);
+            PersistantModel persistantModel = (PersistantModel)XMLSerialization.XMLSerialization.Deserialize(filename,true,workspaceManagerEditor);
             WorkspaceModel workspacemodel = persistantModel.WorkspaceModel;
             workspacemodel.WorkspaceManagerEditor = workspaceManagerEditor;            
 
@@ -52,43 +52,56 @@ namespace WorkspaceManager.Model
                     PropertyInfo[] arrpInfo = persistantPlugin.PluginModel.Plugin.Settings.GetType().GetProperties();
                     foreach (PropertyInfo pInfo in arrpInfo)
                     {
-                        DontSaveAttribute[] dontSave = (DontSaveAttribute[])pInfo.GetCustomAttributes(typeof(DontSaveAttribute), false);
-                        if (dontSave.Length == 0)
+                        try
                         {
-                            if (pInfo.Name.Equals(persistantSetting.Name))
+                            DontSaveAttribute[] dontSave =
+                                (DontSaveAttribute[]) pInfo.GetCustomAttributes(typeof (DontSaveAttribute), false);
+                            if (dontSave.Length == 0)
                             {
-                                if (persistantSetting.Type.Equals("System.String"))
+                                if (pInfo.Name.Equals(persistantSetting.Name))
                                 {
-                                    pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings, (String)persistantSetting.Value, null);
-                                }
-                                else if (persistantSetting.Type.Equals("System.Int16"))
-                                {
-                                    pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings, System.Int16.Parse((String)persistantSetting.Value), null);
-                                }
-                                else if (persistantSetting.Type.Equals("System.Int32"))
-                                {
-                                    pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings, System.Int32.Parse((String)persistantSetting.Value), null);
-                                }
-                                else if (persistantSetting.Type.Equals("System.Int64"))
-                                {
-                                    pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings, System.Int64.Parse((String)persistantSetting.Value), null);
-                                }
-                                else if (persistantSetting.Type.Equals("System.Double"))
-                                {
-                                    pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings, System.Double.Parse((String)persistantSetting.Value), null);
-                                }
-                                else if (persistantSetting.Type.Equals("System.Boolean"))
-                                {
-                                    pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings, System.Boolean.Parse((String)persistantSetting.Value), null);
-                                }
-                                else if (pInfo.PropertyType.IsEnum)
-                                {
-                                    Int32 result = 0;
-                                    System.Int32.TryParse((String)persistantSetting.Value, out result);
-                                    object newEnumValue = Enum.ToObject(pInfo.PropertyType, result);
-                                    pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings,newEnumValue,null);                                   
+                                    if (persistantSetting.Type.Equals("System.String"))
+                                    {
+                                        pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings,
+                                                       (String) persistantSetting.Value, null);
+                                    }
+                                    else if (persistantSetting.Type.Equals("System.Int16"))
+                                    {
+                                        pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings,
+                                                       System.Int16.Parse((String) persistantSetting.Value), null);
+                                    }
+                                    else if (persistantSetting.Type.Equals("System.Int32"))
+                                    {
+                                        pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings,
+                                                       System.Int32.Parse((String) persistantSetting.Value), null);
+                                    }
+                                    else if (persistantSetting.Type.Equals("System.Int64"))
+                                    {
+                                        pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings,
+                                                       System.Int64.Parse((String) persistantSetting.Value), null);
+                                    }
+                                    else if (persistantSetting.Type.Equals("System.Double"))
+                                    {
+                                        pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings,
+                                                       System.Double.Parse((String) persistantSetting.Value), null);
+                                    }
+                                    else if (persistantSetting.Type.Equals("System.Boolean"))
+                                    {
+                                        pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings,
+                                                       System.Boolean.Parse((String) persistantSetting.Value), null);
+                                    }
+                                    else if (pInfo.PropertyType.IsEnum)
+                                    {
+                                        Int32 result = 0;
+                                        System.Int32.TryParse((String) persistantSetting.Value, out result);
+                                        object newEnumValue = Enum.ToObject(pInfo.PropertyType, result);
+                                        pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings, newEnumValue, null);
+                                    }
                                 }
                             }
+                        }catch(Exception ex)
+                        {
+                            workspaceManagerEditor.GuiLogMessage("Could not restore the setting \"" + persistantSetting.Name + "\" of plugin \"" + persistantPlugin.PluginModel.Name + "\" because of:" + ex.Message,NotificationLevel.Warning);
                         }
                     }
                 }
@@ -97,7 +110,14 @@ namespace WorkspaceManager.Model
             //connect all listener for plugins/plugin models
             foreach (PluginModel pluginModel in workspacemodel.AllPluginModels)
             {
-                pluginModel.Plugin.Initialize();
+                try
+                {
+                    pluginModel.Plugin.Initialize();
+                }
+                catch(Exception ex)
+                {
+                    workspaceManagerEditor.GuiLogMessage("Error while initializing \"" + pluginModel.Name + "\". Surely plugin will not work well. Error was:" + ex.Message,NotificationLevel.Error);
+                }
                 pluginModel.Plugin.OnGuiLogNotificationOccured += workspaceManagerEditor.GuiLogNotificationOccured;
                 pluginModel.Plugin.OnGuiLogNotificationOccured += pluginModel.GuiLogNotificationOccured;
                 pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;                
@@ -125,31 +145,40 @@ namespace WorkspaceManager.Model
             {
                 ConnectorModel from = connectionModel.From;
                 ConnectorModel to = connectionModel.To;
-
-                if (from.IControl && to.IControl)
+                try
                 {
-                    object data = null;
-                    //Get IControl data from "to"
-                    if (to.IsDynamic)
+                    if (from.IControl && to.IControl)
                     {
-                        data = to.PluginModel.Plugin.GetType().GetMethod(to.DynamicGetterName).Invoke(to.PluginModel.Plugin, new object[] { to.PropertyName });
-                    }
-                    else
-                    {
-                        data = to.PluginModel.Plugin.GetType().GetProperty(to.PropertyName).GetValue(to.PluginModel.Plugin, null);
-                    }
+                        object data = null;
+                        //Get IControl data from "to"
+                        if (to.IsDynamic)
+                        {
+                            data =
+                                to.PluginModel.Plugin.GetType().GetMethod(to.DynamicGetterName).Invoke(
+                                    to.PluginModel.Plugin, new object[] {to.PropertyName});
+                        }
+                        else
+                        {
+                            data =
+                                to.PluginModel.Plugin.GetType().GetProperty(to.PropertyName).GetValue(
+                                    to.PluginModel.Plugin, null);
+                        }
 
-                    //Set IControl data
-                    if (from.IsDynamic)
-                    {
-                        MethodInfo propertyInfo = from.PluginModel.Plugin.GetType().GetMethod(from.DynamicSetterName);
-                        propertyInfo.Invoke(from.PluginModel.Plugin, new object[] { from.PropertyName, data });
+                        //Set IControl data
+                        if (from.IsDynamic)
+                        {
+                            MethodInfo propertyInfo = from.PluginModel.Plugin.GetType().GetMethod(from.DynamicSetterName);
+                            propertyInfo.Invoke(from.PluginModel.Plugin, new object[] {from.PropertyName, data});
+                        }
+                        else
+                        {
+                            PropertyInfo propertyInfo = from.PluginModel.Plugin.GetType().GetProperty(from.PropertyName);
+                            propertyInfo.SetValue(from.PluginModel.Plugin, data, null);
+                        }
                     }
-                    else
-                    {
-                        PropertyInfo propertyInfo = from.PluginModel.Plugin.GetType().GetProperty(from.PropertyName);
-                        propertyInfo.SetValue(from.PluginModel.Plugin, data, null);
-                    }
+                }catch(Exception ex)
+                {
+                    workspaceManagerEditor.GuiLogMessage("Error while restoring IControl Connection between \"" + from.PluginModel.Name + "\" to \"" + to.PluginModel.Name + "\". Workspace surely will not work well. Error was:" + ex.Message, NotificationLevel.Error);
                 }
             }
 

@@ -23,6 +23,8 @@ using System.IO;
 using System.Xml;
 using System.Collections;
 using System.IO.Compression;
+using Cryptool.PluginBase;
+using WorkspaceManager;
 
 namespace XMLSerialization
 {
@@ -346,8 +348,9 @@ namespace XMLSerialization
         /// </summary>
         /// <param name="filename"></param>
         /// <param name="compress"></param>
+        /// <param name="workspaceManager"></param>
         /// <returns></returns>
-        public static object Deserialize(String filename, bool compress=false)
+        public static object Deserialize(String filename, bool compress=false,WorkspaceManager.WorkspaceManager workspaceManager = null)
         {
             FileStream sourceFile = File.OpenRead(filename);
             XmlDocument doc = new XmlDocument(); ;
@@ -365,7 +368,7 @@ namespace XMLSerialization
 
             try
             {
-                return XMLSerialization.Deserialize(doc);
+                return XMLSerialization.Deserialize(doc,workspaceManager);
             }
             finally
             {
@@ -380,8 +383,9 @@ namespace XMLSerialization
         /// Deserializes the given XMLDocument and returns the root as obj
         /// </summary>
         /// <param name="doc"></param>
+        /// <param name="workspaceManager"></param>
         /// <returns></returns>
-        public static object Deserialize(XmlDocument doc)
+        public static object Deserialize(XmlDocument doc, WorkspaceManager.WorkspaceManager workspaceManager = null)
         {
             Dictionary<string, object> createdObjects = new Dictionary<string, object>();
             LinkedList<object[]> links = new LinkedList<object[]>();
@@ -404,190 +408,211 @@ namespace XMLSerialization
 
                     object newmember;
 
-                    if (member.ChildNodes[2].Name.Equals("value"))
+                    try
                     {
-                        XmlNode value = member.ChildNodes[2];
-                        if (RevertXMLSymbols(membertype.InnerText).Equals("System.String"))
+                        if (member.ChildNodes[2].Name.Equals("value"))
                         {
 
-                            newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
-                                BindingFlags.NonPublic |
-                                BindingFlags.Public |
-                                BindingFlags.Instance).SetValue(newObject, value.InnerText);
-                        }                        
-                        else if (RevertXMLSymbols(membertype.InnerText).Contains("System.Int"))
-                        {
-                            Int32 result = 0;
-                            System.Int32.TryParse(RevertXMLSymbols(value.InnerText), out result);
-                            newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
-                                BindingFlags.NonPublic |
-                                BindingFlags.Public |
-                                BindingFlags.Instance).SetValue(newObject, result);
-                        }                       
-                        else if (RevertXMLSymbols(membertype.InnerText).Equals("System.Double"))
-                        {
-                            Double result = 0;
-                            System.Double.TryParse(RevertXMLSymbols(value.InnerText), out result);
-                            newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
-                                BindingFlags.NonPublic |
-                                BindingFlags.Public |
-                                BindingFlags.Instance).SetValue(newObject, result);
-                        }
-                        else if (RevertXMLSymbols(membertype.InnerText).Equals("System.Char"))
-                        {
-                            Char result = ' ';
-                            System.Char.TryParse(RevertXMLSymbols(value.InnerText), out result);
-                            newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
-                                BindingFlags.NonPublic |
-                                BindingFlags.Public |
-                                BindingFlags.Instance).SetValue(newObject, result);
-                        }
-                        else if (RevertXMLSymbols(membertype.InnerText).Equals("System.Boolean"))
-                        {
-                            Boolean result = false;
-                            System.Boolean.TryParse(RevertXMLSymbols(value.InnerText), out result);
-                            newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
-                                BindingFlags.NonPublic |
-                                BindingFlags.Public |
-                                BindingFlags.Instance).SetValue(newObject, result);
-                        }
-                        else if (RevertXMLSymbols(membertype.InnerText).Equals("System.Windows.Point"))
-                        {
-                            string[] values = value.InnerText.Split(new char[] { ';' });
+                            XmlNode value = member.ChildNodes[2];
+                            if (RevertXMLSymbols(membertype.InnerText).Equals("System.String"))
+                            {
 
-                            double x = 0;
-                            double y = 0;
-                            double.TryParse(values[0], out x);
-                            double.TryParse(values[1], out y);
-
-                            System.Windows.Point result = new System.Windows.Point(x, y);
-                            newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
-                                BindingFlags.NonPublic |
-                                BindingFlags.Public |
-                                BindingFlags.Instance).SetValue(newObject, result);
-                        }
-                        else if (RevertXMLSymbols(membertype.InnerText).Equals("System.Byte[]"))
-                        {
-                            byte[] bytearray = Convert.FromBase64String(value.InnerText);
-
-                            newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
-                                BindingFlags.NonPublic |
-                                BindingFlags.Public |
-                                BindingFlags.Instance).SetValue(newObject, bytearray);
-                        }
-                        else
-                        {
-                            newmember = System.Activator.CreateInstance(Type.GetType(RevertXMLSymbols(membertype.InnerText)));
-
-                            if (newmember is Enum)
+                                newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
+                                                             BindingFlags.NonPublic |
+                                                             BindingFlags.Public |
+                                                             BindingFlags.Instance).SetValue(newObject, value.InnerText);
+                            }
+                            else if (RevertXMLSymbols(membertype.InnerText).Contains("System.Int"))
                             {
                                 Int32 result = 0;
                                 System.Int32.TryParse(RevertXMLSymbols(value.InnerText), out result);
-                                object newEnumValue = Enum.ToObject(Type.GetType(RevertXMLSymbols(membertype.InnerText)), result);
+                                newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
+                                                             BindingFlags.NonPublic |
+                                                             BindingFlags.Public |
+                                                             BindingFlags.Instance).SetValue(newObject, result);
+                            }
+                            else if (RevertXMLSymbols(membertype.InnerText).Equals("System.Double"))
+                            {
+                                Double result = 0;
+                                System.Double.TryParse(RevertXMLSymbols(value.InnerText), out result);
+                                newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
+                                                             BindingFlags.NonPublic |
+                                                             BindingFlags.Public |
+                                                             BindingFlags.Instance).SetValue(newObject, result);
+                            }
+                            else if (RevertXMLSymbols(membertype.InnerText).Equals("System.Char"))
+                            {
+                                Char result = ' ';
+                                System.Char.TryParse(RevertXMLSymbols(value.InnerText), out result);
+                                newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
+                                                             BindingFlags.NonPublic |
+                                                             BindingFlags.Public |
+                                                             BindingFlags.Instance).SetValue(newObject, result);
+                            }
+                            else if (RevertXMLSymbols(membertype.InnerText).Equals("System.Boolean"))
+                            {
+                                Boolean result = false;
+                                System.Boolean.TryParse(RevertXMLSymbols(value.InnerText), out result);
+                                newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
+                                                             BindingFlags.NonPublic |
+                                                             BindingFlags.Public |
+                                                             BindingFlags.Instance).SetValue(newObject, result);
+                            }
+                            else if (RevertXMLSymbols(membertype.InnerText).Equals("System.Windows.Point"))
+                            {
+                                string[] values = value.InnerText.Split(new char[] {';'});
+
+                                double x = 0;
+                                double y = 0;
+                                double.TryParse(values[0], out x);
+                                double.TryParse(values[1], out y);
+
+                                System.Windows.Point result = new System.Windows.Point(x, y);
+                                newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
+                                                             BindingFlags.NonPublic |
+                                                             BindingFlags.Public |
+                                                             BindingFlags.Instance).SetValue(newObject, result);
+                            }
+                            else if (RevertXMLSymbols(membertype.InnerText).Equals("System.Byte[]"))
+                            {
+                                byte[] bytearray = Convert.FromBase64String(value.InnerText);
 
                                 newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
-                                    BindingFlags.NonPublic |
-                                    BindingFlags.Public |
-                                    BindingFlags.Instance).SetValue(newObject, newEnumValue);
+                                                             BindingFlags.NonPublic |
+                                                             BindingFlags.Public |
+                                                             BindingFlags.Instance).SetValue(newObject, bytearray);
                             }
                             else
                             {
-                                newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
-                                    BindingFlags.NonPublic |
-                                    BindingFlags.Public |
-                                    BindingFlags.Instance).SetValue(newObject, newmember);
-                            }
+                                newmember =
+                                    System.Activator.CreateInstance(Type.GetType(RevertXMLSymbols(membertype.InnerText)));
 
-                        }
-                    }
-                    else if (member.ChildNodes[2].Name.Equals("reference"))
-                    {
-                        XmlNode reference = member.ChildNodes[2];
-                        links.AddLast(new object[] { 
-                                newObject, 
-                                RevertXMLSymbols(membername.InnerText),
-                                RevertXMLSymbols(reference.InnerText),
-                                false});
-                    }
-                    else if (member.ChildNodes[2].Name.Equals("list"))
-                    {
-                        String[] types = RevertXMLSymbols(membertype.InnerText).Split(';');
-
-                        if (types.Length == 1)
-                        {
-                            newmember = System.Activator.CreateInstance(Type.GetType(types[0]));
-                            newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
-                                    BindingFlags.NonPublic |
-                                    BindingFlags.Public |
-                                    BindingFlags.Instance).SetValue(newObject, newmember);
-                        }
-                        else if (types.Length == 2)
-                        {   //we have 2 types, that means that we have a generic list with generic type types[1]
-                            Type t = typeof(System.Collections.Generic.List<>);
-                            Type[] typeArgs = { Type.GetType(types[1]) };
-                            Type constructed = t.MakeGenericType(typeArgs);
-                            newmember = Activator.CreateInstance(constructed);
-                            newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
-                                    BindingFlags.NonPublic |
-                                    BindingFlags.Public |
-                                    BindingFlags.Instance).SetValue(newObject, newmember);
-                        }
-                        else
-                        {
-                            throw new Exception("Expected 1 or 2 types for list; But found:" + types.Length);
-                        }
-
-                        foreach (XmlNode entry in member.ChildNodes[2].ChildNodes)
-                        {
-                            if (entry.ChildNodes[1].Name.Equals("reference"))
-                            {
-                                XmlNode reference = entry.ChildNodes[1];
-                                links.AddLast(new object[] { 
-                                    newObject, 
-                                    RevertXMLSymbols(membername.InnerText),
-                                    RevertXMLSymbols(reference.InnerText),
-                                    true});
-                            }
-                            else
-                            {
-                                XmlNode typ = entry.ChildNodes[1];
-                                XmlNode value = entry.ChildNodes[1];
-                                if (RevertXMLSymbols(typ.InnerText).Equals("System.String"))
-                                {
-
-                                    ((IList)newmember).Add(RevertXMLSymbols(value.InnerText));
-                                }
-                                else if (RevertXMLSymbols(typ.InnerText).Equals("System.Int16"))
-                                {
-                                    Int16 result = 0;
-                                    System.Int16.TryParse(RevertXMLSymbols(value.InnerText), out result);
-                                    ((IList)newmember).Add(result);
-                                }
-                                else if (RevertXMLSymbols(typ.InnerText).Equals("System.Int32"))
+                                if (newmember is Enum)
                                 {
                                     Int32 result = 0;
                                     System.Int32.TryParse(RevertXMLSymbols(value.InnerText), out result);
-                                    ((IList)newmember).Add(result);
+                                    object newEnumValue =
+                                        Enum.ToObject(Type.GetType(RevertXMLSymbols(membertype.InnerText)), result);
+
+                                    newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
+                                                                 BindingFlags.NonPublic |
+                                                                 BindingFlags.Public |
+                                                                 BindingFlags.Instance).SetValue(newObject, newEnumValue);
                                 }
-                                else if (RevertXMLSymbols(typ.InnerText).Equals("System.Int64"))
+                                else
                                 {
-                                    Int64 result = 0;
-                                    System.Int64.TryParse(RevertXMLSymbols(value.InnerText), out result);
-                                    ((IList)newmember).Add(result);
+                                    newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
+                                                                 BindingFlags.NonPublic |
+                                                                 BindingFlags.Public |
+                                                                 BindingFlags.Instance).SetValue(newObject, newmember);
                                 }
-                                else if (RevertXMLSymbols(typ.InnerText).Equals("System.Double"))
+
+                            }
+                        }
+                        else if (member.ChildNodes[2].Name.Equals("reference"))
+                        {
+                            XmlNode reference = member.ChildNodes[2];
+                            links.AddLast(new object[]
+                                              {
+                                                  newObject,
+                                                  RevertXMLSymbols(membername.InnerText),
+                                                  RevertXMLSymbols(reference.InnerText),
+                                                  false
+                                              });
+                        }
+                        else if (member.ChildNodes[2].Name.Equals("list"))
+                        {
+                            String[] types = RevertXMLSymbols(membertype.InnerText).Split(';');
+
+                            if (types.Length == 1)
+                            {
+                                newmember = System.Activator.CreateInstance(Type.GetType(types[0]));
+                                newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
+                                                             BindingFlags.NonPublic |
+                                                             BindingFlags.Public |
+                                                             BindingFlags.Instance).SetValue(newObject, newmember);
+                            }
+                            else if (types.Length == 2)
+                            {
+                                //we have 2 types, that means that we have a generic list with generic type types[1]
+                                Type t = typeof (System.Collections.Generic.List<>);
+                                Type[] typeArgs = {Type.GetType(types[1])};
+                                Type constructed = t.MakeGenericType(typeArgs);
+                                newmember = Activator.CreateInstance(constructed);
+                                newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
+                                                             BindingFlags.NonPublic |
+                                                             BindingFlags.Public |
+                                                             BindingFlags.Instance).SetValue(newObject, newmember);
+                            }
+                            else
+                            {
+                                throw new Exception("Expected 1 or 2 types for list; But found:" + types.Length);
+                            }
+
+                            foreach (XmlNode entry in member.ChildNodes[2].ChildNodes)
+                            {
+                                if (entry.ChildNodes[1].Name.Equals("reference"))
                                 {
-                                    Double result = 0;
-                                    System.Double.TryParse(RevertXMLSymbols(value.InnerText), out result);
-                                    ((IList)newmember).Add(result);
+                                    XmlNode reference = entry.ChildNodes[1];
+                                    links.AddLast(new object[]
+                                                      {
+                                                          newObject,
+                                                          RevertXMLSymbols(membername.InnerText),
+                                                          RevertXMLSymbols(reference.InnerText),
+                                                          true
+                                                      });
                                 }
-                                else if (RevertXMLSymbols(typ.InnerText).Equals("System.Char"))
+                                else
                                 {
-                                    Char result = ' ';
-                                    System.Char.TryParse(RevertXMLSymbols(value.InnerText), out result);
-                                    ((IList)newmember).Add(result);
+                                    XmlNode typ = entry.ChildNodes[1];
+                                    XmlNode value = entry.ChildNodes[1];
+                                    if (RevertXMLSymbols(typ.InnerText).Equals("System.String"))
+                                    {
+
+                                        ((IList) newmember).Add(RevertXMLSymbols(value.InnerText));
+                                    }
+                                    else if (RevertXMLSymbols(typ.InnerText).Equals("System.Int16"))
+                                    {
+                                        Int16 result = 0;
+                                        System.Int16.TryParse(RevertXMLSymbols(value.InnerText), out result);
+                                        ((IList) newmember).Add(result);
+                                    }
+                                    else if (RevertXMLSymbols(typ.InnerText).Equals("System.Int32"))
+                                    {
+                                        Int32 result = 0;
+                                        System.Int32.TryParse(RevertXMLSymbols(value.InnerText), out result);
+                                        ((IList) newmember).Add(result);
+                                    }
+                                    else if (RevertXMLSymbols(typ.InnerText).Equals("System.Int64"))
+                                    {
+                                        Int64 result = 0;
+                                        System.Int64.TryParse(RevertXMLSymbols(value.InnerText), out result);
+                                        ((IList) newmember).Add(result);
+                                    }
+                                    else if (RevertXMLSymbols(typ.InnerText).Equals("System.Double"))
+                                    {
+                                        Double result = 0;
+                                        System.Double.TryParse(RevertXMLSymbols(value.InnerText), out result);
+                                        ((IList) newmember).Add(result);
+                                    }
+                                    else if (RevertXMLSymbols(typ.InnerText).Equals("System.Char"))
+                                    {
+                                        Char result = ' ';
+                                        System.Char.TryParse(RevertXMLSymbols(value.InnerText), out result);
+                                        ((IList) newmember).Add(result);
+                                    }
                                 }
                             }
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        if(workspaceManager != null)
+                        {
+                            workspaceManager.GuiLogMessage("Cold not deserialize model element \"" + membername.InnerText + "\" of type \"" + membertype.InnerText + "\" because of:" + ex.Message,NotificationLevel.Warning);
+                        }else
+                        {
+                            Console.WriteLine("Cold not deserialize model element \"" + membername.InnerText + "\" of type \"" + membertype.InnerText + "\" because of:" + ex.Message);
                         }
                     }
                 }
@@ -603,20 +628,34 @@ namespace XMLSerialization
                 object obj2 = null;
                 createdObjects.TryGetValue(reference, out obj2);
 
-                if (isList)
+                try
                 {
-                    ((IList)obj.GetType().GetField(membername).GetValue(obj)).Add(obj2);
-                }
-                else
-                {
-                    if (obj != null && obj2 != null)
+                    if (isList)
                     {
-                        FieldInfo fieldInfo = obj.GetType().GetField(membername,
-                            BindingFlags.NonPublic |
-                            BindingFlags.Public |
-                            BindingFlags.Instance);
+                        ((IList) obj.GetType().GetField(membername).GetValue(obj)).Add(obj2);
+                    }
+                    else
+                    {
+                        if (obj != null && obj2 != null)
+                        {
+                            FieldInfo fieldInfo = obj.GetType().GetField(membername,
+                                                                         BindingFlags.NonPublic |
+                                                                         BindingFlags.Public |
+                                                                         BindingFlags.Instance);
 
-                        fieldInfo.SetValue(obj, obj2);
+                            fieldInfo.SetValue(obj, obj2);
+                        }
+                    }
+                }
+                catch(Exception ex)
+                {
+                    if (workspaceManager != null)
+                    {
+                        workspaceManager.GuiLogMessage("Cold not restore reference beteen model element \"" + membername + "\" and its reference with id \"" + reference + "\" because of:" + ex.Message, NotificationLevel.Warning);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Cold not restore reference beteen model element \"" + membername + "\" and its reference with id \"" + reference + "\" because of:" + ex.Message);
                     }
                 }
             }
