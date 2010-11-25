@@ -34,6 +34,7 @@ namespace Cryptool.P2P.Internal
         private readonly P2PBase p2PBase;
         private DateTime lastConnectionAttempt;
         private Dispatcher guiLogDispatcher = null;
+        private bool disconnected = false;
 
         public ConnectionManager(P2PBase p2PBase)
         {
@@ -42,6 +43,9 @@ namespace Cryptool.P2P.Internal
             bool reconnecting = false;
             p2PBase.OnSystemLeft += new P2PBase.SystemLeft(delegate
                                                                {
+                                                                   if (disconnected)
+                                                                       return;
+
                                                                    //Enforce a minimum of 2 seconds between each connection attempt:
                                                                    if ((lastConnectionAttempt - DateTime.Now).TotalSeconds < 2)
                                                                        Thread.Sleep(2000);
@@ -75,6 +79,7 @@ namespace Cryptool.P2P.Internal
         {
             lock (connectLock)
             {
+                disconnected = false;
                 lastConnectionAttempt = DateTime.Now;
 
                 if (p2PBase.IsConnected || IsConnecting)
@@ -101,6 +106,7 @@ namespace Cryptool.P2P.Internal
         {
             lock (connectLock)
             {
+                disconnected = true;
                 if (!p2PBase.IsConnected || IsConnecting)
                 {
                     P2PManager.GuiLogMessage("Cannot disconnect, no connection or connection attempt active.",
