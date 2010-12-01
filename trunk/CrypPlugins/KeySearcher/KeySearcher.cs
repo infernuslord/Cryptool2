@@ -839,10 +839,11 @@ namespace KeySearcher
                 }
 
                 //show OpenCL keys/sec:
+                var ratio = (double) openCLdoneKeys/(double) doneKeys;
                 ((QuickWatch)QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     ((QuickWatch)QuickWatchPresentation).OpenCLPresentation.keysPerSecond.Content = String.Format("{0:N}", openCLKeysPerSecond);
-                    ((QuickWatch)QuickWatchPresentation).OpenCLPresentation.ratio.Content = String.Format("{0:P}", (double)openCLdoneKeys / (double)doneKeys);
+                    ((QuickWatch)QuickWatchPresentation).OpenCLPresentation.ratio.Content = String.Format("{0:P}", ratio);
                 }, null);
                 
 
