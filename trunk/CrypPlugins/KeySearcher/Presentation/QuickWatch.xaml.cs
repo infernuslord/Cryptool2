@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using KeySearcherPresentation.Controls;
 
 namespace KeySearcherPresentation
 {
@@ -30,6 +31,35 @@ namespace KeySearcherPresentation
         {
             get { return (Boolean)GetValue(IsP2PEnabledProperty); }
             set { SetValue(IsP2PEnabledProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsOpenCLEnabledProperty =
+            DependencyProperty.Register("IsOpenCLEnabled",
+                                typeof(
+                                    Boolean),
+                                typeof(
+                                    QuickWatch), new PropertyMetadata(false));
+
+        public Boolean IsOpenCLEnabled
+        {
+            get { return (Boolean)GetValue(IsOpenCLEnabledProperty); }
+            set
+            {
+                SetValue(IsOpenCLEnabledProperty, value);
+                P2PQuickWatchPresentation.IsOpenCLEnabled = value;
+                LocalQuickWatchPresentation.IsOpenCLEnabled = value;
+            }
+        }
+
+        public OpenCLPresentation OpenCLPresentation
+        {
+            get
+            {
+                if (IsP2PEnabled)
+                    return P2PQuickWatchPresentation.OpenCLPresentation;
+                else
+                    return LocalQuickWatchPresentation.OpenCLPresentation;
+            }
         }
 
         public QuickWatch()

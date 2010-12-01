@@ -77,7 +77,7 @@ namespace KeySearcher
             try
             {
                 var program = oclManager.CompileSource(CreateOpenCLBruteForceCode(keyTranslator));
-                keySearcher.GuiLogMessage(string.Format("Using OpenCL with {0} threads.", keyTranslator.GetOpenCLBatchSize()), NotificationLevel.Info);
+                //keySearcher.GuiLogMessage(string.Format("Using OpenCL with (virtually) {0} threads.", keyTranslator.GetOpenCLBatchSize()), NotificationLevel.Info);
                 openCLKernel = program.CreateKernel("bruteforceKernel");
                 return openCLKernel;
             }
