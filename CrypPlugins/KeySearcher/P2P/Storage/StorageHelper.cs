@@ -2,6 +2,8 @@
 using System.IO;
 using Cryptool.P2P;
 using Cryptool.P2P.Internal;
+using Cryptool.PluginBase;
+using KeySearcher.P2P.Exceptions;
 using KeySearcher.P2P.Presentation;
 using KeySearcher.P2P.Tree;
 
@@ -96,7 +98,14 @@ namespace KeySearcher.P2P.Storage
                 UpdateNodeFromDht((Node) nodeToUpdate, binaryReader);
             } else
             {
-                UpdateLeafFromDht((Leaf) nodeToUpdate, binaryReader);
+                try
+                {
+                    UpdateLeafFromDht((Leaf)nodeToUpdate, binaryReader);
+                }
+                catch(KeySearcherStopException)
+                {
+                    throw new KeySearcherStopException();
+                }
             }
 
             // Load results
@@ -140,11 +149,18 @@ namespace KeySearcher.P2P.Storage
 
         private static void UpdateLeafFromDht(Leaf nodeToUpdate, BinaryReader binaryReader)
         {
-            //---------------------------------------------------------------------------------
-            //TODO: Versionnumber read
-            //CheckVersion(binaryReader);
-            //----------------------------------------------------------------------------------
-            
+            try
+            {
+                //---------------------------------------------------------------------------------
+                //TODO: Versionnumber read
+                //CheckVersion(binaryReader);
+                //----------------------------------------------------------------------------------            
+            }
+            catch (KeySearcherStopException)
+            {
+                throw new KeySearcherStopException();
+            }
+                
             var date = DateTime.FromBinary(binaryReader.ReadInt64());
             if (date > nodeToUpdate.LastReservationDate)
             {
@@ -176,16 +192,16 @@ namespace KeySearcher.P2P.Storage
         }
 
         //----------------------------------------------------------------------------
-        public static void CheckVersion(BinaryReader binaryReader)
-        {
-            /*
+        private static void CheckVersion(BinaryReader binaryReader)
+        {           
             try
             {
-                //Checking in theres a version in the stream
-                if (binaryReader.PeekChar().Equals('V'))
+                //Checking if there's a version in the stream
+                int vers = binaryReader.PeekChar();
+                if (vers == 86)
                 {
                     //Reading the char and the versionnumber
-                    binaryReader.ReadChar();
+                    char magic = binaryReader.ReadChar();
                     int versionInUse = binaryReader.ReadInt32();
                     //Check if a newer Version is in use
                     if (versionInUse > version)
@@ -194,11 +210,11 @@ namespace KeySearcher.P2P.Storage
                     }
                 }
             }
-            catch(Exception)
+            catch(KeySearcherStopException)
             {
                 throw new KeySearcherStopException();
             }
-            */
+            
         }
         //-----------------------------------------------------------------------------
 

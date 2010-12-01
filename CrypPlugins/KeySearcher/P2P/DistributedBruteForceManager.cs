@@ -72,7 +72,18 @@ namespace KeySearcher.P2P
             }
 
             status.CurrentOperation = "Initializing distributed key pool tree";
-            keyPoolTree = new KeyPoolTree(patternPool, keySearcher, keyQualityHelper, keyGenerator, status, StatisticsGenerator);
+            try
+            {
+                keyPoolTree = new KeyPoolTree(patternPool, keySearcher, keyQualityHelper, keyGenerator, status, StatisticsGenerator);
+            }
+            catch (KeySearcherStopException)
+            {
+                status.CurrentOperation = "PLEASE UPDATE";
+                keySearcher.GuiLogMessage("Keysearcher Fullstop.Please Update your Version.", NotificationLevel.Error);
+                keySearcher.Stop();
+                throw new KeySearcherStopException();
+            }
+            
 
             keySearcher.GuiLogMessage(
                 "Total amount of patterns: " + patternPool.Length + ", each containing " + patternPool.PartSize +
@@ -110,9 +121,9 @@ namespace KeySearcher.P2P
                 }
                 catch (KeySearcherStopException)  //Fullstopfunction
                 {
-                    keySearcher.GuiLogMessage("Keysearcher Fullstop.", NotificationLevel.Error);
-                    keySearcher.GuiLogMessage("Please Update your Version.", NotificationLevel.Error);
-                    keySearcher.stop = true;
+                    keySearcher.GuiLogMessage("Keysearcher Fullstop.Please Update your Version.", NotificationLevel.Debug);
+                    keyPoolTree.Reset();
+                    keySearcher.Stop();
                     return;
                 }
 
@@ -236,6 +247,13 @@ namespace KeySearcher.P2P
                     keySearcher.GuiLogMessage("Could not store results: " + e.Message, NotificationLevel.Info);
                     keyPoolTree.Reset();
                     continue;
+                }
+                catch (KeySearcherStopException)  //Fullstopfunction
+                {
+                    keySearcher.GuiLogMessage("Keysearcher Fullstop.Please Update your Version.", NotificationLevel.Debug);
+                    keyPoolTree.Reset();
+                    keySearcher.Stop();
+                    return;
                 }
 
                 // Push statistics to database

@@ -64,7 +64,14 @@ namespace KeySearcher.P2P.Tree
 
         public void GiveLeafFree()
         {
-            StorageHelper.UpdateFromDht((this));
+            try
+            {
+                StorageHelper.UpdateFromDht((this));
+            }
+            catch (KeySearcherStopException)
+            {
+                throw new KeySearcherStopException();
+            }          
             //Only give leaf free, if the reservation is still ours:
             if (clientIdentifier == Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID())
             {
