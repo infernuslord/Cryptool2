@@ -880,12 +880,12 @@ void AES_decrypt(constant unsigned char *in, private unsigned char *out, private
 	PUTU32(out + 12, s3);
 }
 
-kernel void bruteforceKernel(global unsigned char *userKey, global float *results)
+kernel void bruteforceKernel(global unsigned char *userKey, global float *results, int add)
 {
 	size_t x = get_global_id(0);
 	
 	AES_KEY key;	
-	AES_set_decrypt_key(userKey, $$BITS$$, &(key), x);
+	AES_set_decrypt_key(userKey, $$BITS$$, &(key), (x+add));
 
 	//possibility for cost function to initialize some stuff here:
 	$$COSTFUNCTIONINITIALIZE$$

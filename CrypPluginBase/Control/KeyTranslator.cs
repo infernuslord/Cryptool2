@@ -71,9 +71,9 @@ namespace Cryptool.PluginBase.Control
         /// the key movement stuff.
         /// </summary>
         /// <param name="code"></param>
-        /// <param name="maxKeys"></param>
+        /// <param name="approximateNumberOfKeys"></param>
         /// <returns></returns>
-        string ModifyOpenCLCode(string code, int maxKeys);
+        string ModifyOpenCLCode(string code, int approximateNumberOfKeys);
 
         /// <summary>
         /// Like "NextKey()", but jumps over a whole key batch that can be processed by the generated OpenCL code
