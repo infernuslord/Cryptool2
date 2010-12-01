@@ -35,11 +35,6 @@ namespace Cryptool.Plugins.CostFunction
         private int functionType;
         private String bytesToUse = "256";
         private int bytesToUseInteger = 256;
-
-        private static DataManager dataMgr = new DataManager();
-        private const string DATATYPE = "transposition";
-        private static IDictionary<String, DataFileMetaInfo> txtList;
-        private static string[] files;
         #endregion
 
         public void Initialize()

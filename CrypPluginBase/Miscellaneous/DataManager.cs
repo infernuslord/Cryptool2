@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Reflection;
+using Cryptool.PluginBase.IO;
 
 namespace Cryptool.PluginBase.Miscellaneous
 {
@@ -28,21 +29,13 @@ namespace Cryptool.PluginBase.Miscellaneous
 
         private const string MetaSuffix = ".metainfo";
 
-        private readonly string customDataStore;
-
         private readonly string globalDataStore;
 
         public DataManager()
         {
-            this.customDataStore = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), DataDirecory);
-            this.globalDataStore = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), DataDirecory);
+            this.globalDataStore = Path.Combine(DirectoryHelper.DirectoryCrypPlugins, DataDirecory);
         }
 
-        public DataManager(string customDataStore)
-        {
-            this.customDataStore = Path.Combine(customDataStore, DataDirecory);
-            this.globalDataStore = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), DataDirecory);
-        }
         /// <summary>
         /// Maps filename to metainfo.
         /// </summary>
@@ -52,16 +45,8 @@ namespace Cryptool.PluginBase.Miscellaneous
         {
             Dictionary<string, DataFileMetaInfo> filesDict = new Dictionary<string, DataFileMetaInfo>();
 
-            
-            DirectoryInfo dir;
-            if (customDataStore != null)
-            {
-                dir = new DirectoryInfo(Path.Combine(customDataStore, datatype));
-            }
-            else
-            {
-                dir = new DirectoryInfo(Path.Combine(globalDataStore, datatype));
-            }
+            // TODO: enable custom data store
+            DirectoryInfo dir = new DirectoryInfo(Path.Combine(globalDataStore, datatype));
             if (dir.Exists)
             {
                 // TODO: read subdirectories
@@ -71,8 +56,6 @@ namespace Cryptool.PluginBase.Miscellaneous
 
             return filesDict;
         }
-
-
 
         private void LoadFiles(DirectoryInfo dir, Dictionary<string, DataFileMetaInfo> filesDict)
         {
