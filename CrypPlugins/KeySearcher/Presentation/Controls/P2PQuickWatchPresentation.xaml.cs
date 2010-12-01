@@ -21,6 +21,17 @@ namespace KeySearcherPresentation.Controls
             InitializeComponent();
         }
 
+        public static readonly DependencyProperty IsOpenCLEnabledProperty =
+            DependencyProperty.Register("IsOpenCLEnabled",
+                        typeof(Boolean),
+                        typeof(P2PQuickWatchPresentation), new PropertyMetadata(false));
+
+        public Boolean IsOpenCLEnabled
+        {
+            get { return (Boolean)GetValue(IsOpenCLEnabledProperty); }
+            set { SetValue(IsOpenCLEnabledProperty, value); }
+        }
+
         public void UpdateSettings(KeySearcher.KeySearcher keySearcher, KeySearcherSettings keySearcherSettings)
         {
             IsVerboseEnabled = keySearcherSettings.VerbosePeerToPeerDisplay;

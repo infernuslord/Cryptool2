@@ -128,6 +128,9 @@
     <Compile Include="P2P\Presentation\StatusContainer.cs" />
     <Compile Include="P2P\Exceptions\KeySearcherStopException.cs" />
     <Compile Include="P2P\Storage\StatusUpdater.cs" />
+    <Compile Include="Presentation\Controls\OpenCLPresentation.xaml.cs">
+      <DependentUpon>OpenCLPresentation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\Controls\LocalQuickWatchPresentation.xaml.cs">
       <DependentUpon>LocalQuickWatchPresentation.xaml</DependentUpon>
     </Compile>
@@ -177,6 +180,10 @@
     <Resource Include="Images\icon.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Presentation\Controls\OpenCLPresentation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Presentation\Controls\P2PQuickWatchPresentation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
