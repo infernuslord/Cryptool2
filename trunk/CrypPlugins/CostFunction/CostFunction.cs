@@ -58,7 +58,7 @@ namespace Cryptool.Plugins.CostFunction
         private double gamma = 1.0;
 
        
-        private DataManager dataMgr = new DataManager(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)); 
+        private DataManager dataMgr = new DataManager(); 
         private const string DATATYPE = "transposition";
 
         private IDictionary<String, DataFileMetaInfo> txtList;
