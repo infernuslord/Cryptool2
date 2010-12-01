@@ -468,10 +468,19 @@ namespace WorkspaceManager.Execution
             }
             catch (Exception ex)
             {
-                this.PluginModel.WorkspaceModel.WorkspaceManagerEditor.GuiLogMessage("An error occured while executing  \"" + PluginModel.Name + "\": " + ex.Message, NotificationLevel.Error);
-                this.PluginModel.State = PluginModelState.Error;
-                this.PluginModel.GuiNeedsUpdate = true;
-                return;
+                if (ex.Message.Equals("Exception of type 'KeySearcher.P2P.Exceptions.KeySearcherStopException' was thrown."))
+                {
+                    //KeysearcherStopExceptions need to shutdown the sheduler. Otherwise the process would start over and over again.
+                    this.Stop();
+                    return;
+                }
+                else
+                {
+                    this.PluginModel.WorkspaceModel.WorkspaceManagerEditor.GuiLogMessage("An error occured while executing  \"" + PluginModel.Name + "\": " + ex.Message, NotificationLevel.Error);
+                    this.PluginModel.State = PluginModelState.Error;
+                    this.PluginModel.GuiNeedsUpdate = true;
+                    return;
+                }
             }
 
             // ################

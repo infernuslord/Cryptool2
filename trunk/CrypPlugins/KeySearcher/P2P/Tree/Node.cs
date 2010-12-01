@@ -23,34 +23,41 @@ namespace KeySearcher.P2P.Tree
 
         private void LoadOrUpdateChildNodes()
         {
-            var middle = (From + To)/2;
-
-            if (!LeftChildFinished)
+            try
             {
-                if (leftChild == null)
+                var middle = (From + To) / 2;
+
+                if (!LeftChildFinished)
                 {
-                    leftChild = NodeFactory.CreateNode(StorageHelper, KeyQualityHelper, this, From, middle,
-                                                        DistributedJobIdentifier);
+                    if (leftChild == null)
+                    {
+                        leftChild = NodeFactory.CreateNode(StorageHelper, KeyQualityHelper, this, From, middle,
+                                                            DistributedJobIdentifier);
+                    }
+                    else
+                    {
+                        StorageHelper.UpdateFromDht(leftChild);
+                    }
                 }
-                else
+
+                // Only load right node, if the left one is finished or reserved
+                if ((LeftChildFinished || leftChild.IsReserved()) && !RightChildFinished)
                 {
-                    StorageHelper.UpdateFromDht(leftChild);
+                    if (rightChild == null)
+                    {
+                        rightChild = NodeFactory.CreateNode(StorageHelper, KeyQualityHelper, this, middle + 1, To,
+                                                             DistributedJobIdentifier);
+                    }
+                    else
+                    {
+                        StorageHelper.UpdateFromDht(rightChild);
+                    }
                 }
             }
-
-            // Only load right node, if the left one is finished or reserved
-            if ((LeftChildFinished || leftChild.IsReserved()) && !RightChildFinished)
+            catch (KeySearcherStopException)
             {
-                if (rightChild == null)
-                {
-                    rightChild = NodeFactory.CreateNode(StorageHelper, KeyQualityHelper, this, middle + 1, To,
-                                                         DistributedJobIdentifier);
-                }
-                else
-                {
-                    StorageHelper.UpdateFromDht(rightChild);
-                }
-            }
+                throw new KeySearcherStopException();
+            }                
         }
 
         public override bool IsCalculated()
@@ -66,7 +73,14 @@ namespace KeySearcher.P2P.Tree
 
         public override void UpdateCache()
         {
-            LoadOrUpdateChildNodes();
+            try
+            {
+                LoadOrUpdateChildNodes();
+            }
+            catch (KeySearcherStopException)
+            {
+                throw new KeySearcherStopException();
+            }
 
             leftChildReserved = LeftChildFinished || leftChild.IsReserved();
             rightChildReserved = RightChildFinished || (rightChild != null && rightChild.IsReserved());
