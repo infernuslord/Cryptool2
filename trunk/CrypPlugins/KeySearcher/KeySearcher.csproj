@@ -119,6 +119,7 @@
     <Compile Include="KeyPattern\LinearKeyMovement.cs" />
     <Compile Include="KeyPattern\KeyMovement.cs" />
     <Compile Include="KeySearcher.cs" />
+    <Compile Include="OpenCL\KeySearcherOpenCLSubbatchOptimizer.cs" />
     <Compile Include="KeyTranslators\ByteArrayKeyTranslator.cs" />
     <Compile Include="OpenCL\KeySearcherOpenCLCode.cs" />
     <Compile Include="P2P\Helper\ConnectionHelper.cs" />
