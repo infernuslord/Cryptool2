@@ -381,7 +381,7 @@ namespace KeySearcher
             if (useOpenCL)
             {
                 keySearcherOpenCLCode = new KeySearcherOpenCLCode(this, encryptedData, sender, CostMaster, 256 * 256 * 256 * 16);
-                keySearcherOpenCLSubbatchOptimizer = new KeySearcherOpenCLSubbatchOptimizer(oclManager.CQ[settings.OpenCLDevice].Device.MaxWorkItemSizes.Aggregate(1, (x, y) => (x * (int)y)) / 2);
+                keySearcherOpenCLSubbatchOptimizer = new KeySearcherOpenCLSubbatchOptimizer(oclManager.CQ[settings.OpenCLDevice].Device.MaxWorkItemSizes.Aggregate(1, (x, y) => (x * (int)y)) / 8);
                 ((QuickWatch)QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     openCLPresentationMutex.WaitOne();
@@ -835,8 +835,15 @@ namespace KeySearcher
                 }
                 else
                 {
-                    showProgress(costList, size, keycounter, keysPerSecond, openCLKeysPerSecond, (double)openCLdoneKeys / (double)doneKeys);
+                    showProgress(costList, size, keycounter, keysPerSecond);
                 }
+
+                //show OpenCL keys/sec:
+                ((QuickWatch)QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    ((QuickWatch)QuickWatchPresentation).OpenCLPresentation.keysPerSecond.Content = String.Format("{0:N}", openCLKeysPerSecond);
+                    ((QuickWatch)QuickWatchPresentation).OpenCLPresentation.ratio.Content = String.Format("{0:P}", (double)openCLdoneKeys / (double)doneKeys);
+                }, null);
                 
 
                 #region set doneKeys to 0
@@ -852,7 +859,7 @@ namespace KeySearcher
                     break;
             }//end while
 
-            showProgress(costList, 1, 1, 1, 1, 1);
+            showProgress(costList, 1, 1, 1);
 
             //wake up all sleeping threads, so they can stop:
             while (threadStack.Count != 0)
@@ -903,7 +910,7 @@ namespace KeySearcher
             localQuickWatchPresentation.startTime.Content = DateTime.Now.ToString("g", Thread.CurrentThread.CurrentCulture); ;
         }
 
-        internal void showProgress(LinkedList<ValueKey> costList, BigInteger size, BigInteger keycounter, long keysPerSecond, long openCLkeysPerSecond, double openclRatio)
+        internal void showProgress(LinkedList<ValueKey> costList, BigInteger size, BigInteger keycounter, long keysPerSecond)
         {
             System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
 
@@ -977,8 +984,6 @@ namespace KeySearcher
                 }
                 , null);
             }//end if
-
-
             else if (!stop && localQuickWatchPresentation.IsVisible)
             {
 
@@ -1004,14 +1009,6 @@ namespace KeySearcher
                 }
                 , null);
             }
-
-            //show openCL keys/sec:
-            ((QuickWatch)QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
-                        ((QuickWatch)QuickWatchPresentation).OpenCLPresentation.keysPerSecond.Content = String.Format("{0:N}", openCLkeysPerSecond);
-                        ((QuickWatch)QuickWatchPresentation).OpenCLPresentation.ratio.Content = String.Format("{0:P}", openclRatio);
-                    }, null);
-
         }
 
         #region For TopList

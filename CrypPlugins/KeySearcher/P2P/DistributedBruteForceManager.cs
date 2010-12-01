@@ -264,7 +264,7 @@ namespace KeySearcher.P2P
             // Set progress to 100%
             if (!keySearcher.stop && keyPoolTree.IsCalculationFinished())
             {
-                keySearcher.showProgress(keySearcher.costList, 1, 1, 1, 1, 1);
+                keySearcher.showProgress(keySearcher.costList, 1, 1, 1);
                 keySearcher.GuiLogMessage("Calculation complete.", NotificationLevel.Info);
                 keyPoolTree.UpdateStatusForFinishedCalculation();
             }
