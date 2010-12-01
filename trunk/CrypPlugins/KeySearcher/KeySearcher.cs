@@ -298,13 +298,6 @@ namespace KeySearcher
         {
             IsKeySearcherRunning = true;
 
-            ((QuickWatch)QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            {
-                openCLPresentationMutex.WaitOne();
-                ((QuickWatch)QuickWatchPresentation).OpenCLPresentation.AmountOfDevices = 0;
-                openCLPresentationMutex.ReleaseMutex();
-            }, null);
-
             //either byte[] CStream input or CryptoolStream Object input
             if (encryptedData != null || csEncryptedData != null) //to prevent execution on initialization
             {
@@ -480,7 +473,7 @@ namespace KeySearcher
                 fixed (byte* ukp = key)
                     userKey = oclManager.Context.CreateBuffer(MemFlags.USE_HOST_PTR, key.Length, new IntPtr((void*)ukp));
 
-                bruteforceKernel.SetArg(0, userKey);
+               
 
                 int subbatches = keySearcherOpenCLSubbatchOptimizer.GetAmountOfSubbatches(keyTranslator);
                 int subbatchSize = keyTranslator.GetOpenCLBatchSize() / subbatches;
@@ -493,7 +486,7 @@ namespace KeySearcher
                 
                 float[] costArray = new float[subbatchSize];
                 Mem costs = oclManager.Context.CreateBuffer(MemFlags.READ_WRITE, costArray.Length * 4);
-                bruteforceKernel.SetArg(1, costs);
+                
 
                 IntPtr[] globalWorkSize = { (IntPtr)subbatchSize };
 
@@ -501,6 +494,8 @@ namespace KeySearcher
 
                 for (int i = 0; i < subbatches; i++)
                 {
+                    bruteforceKernel.SetArg(0, userKey);
+                    bruteforceKernel.SetArg(1, costs);
                     bruteforceKernel.SetArg(2, i * subbatchSize);
                     oclManager.CQ[deviceIndex].EnqueueNDRangeKernel(bruteforceKernel, 1, null, globalWorkSize, null);
                     oclManager.CQ[deviceIndex].EnqueueBarrier();
@@ -755,6 +750,13 @@ namespace KeySearcher
 
         internal LinkedList<ValueKey> BruteForceWithLocalSystem(KeyPattern.KeyPattern pattern, bool redirectResultsToStatisticsGenerator = false)
         {
+            ((QuickWatch)QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                openCLPresentationMutex.WaitOne();
+                ((QuickWatch)QuickWatchPresentation).OpenCLPresentation.AmountOfDevices = 0;
+                openCLPresentationMutex.ReleaseMutex();
+            }, null);
+
             if (!redirectResultsToStatisticsGenerator)
             {
                 localQuickWatchPresentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(SetStartDate));
