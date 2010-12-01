@@ -21,6 +21,10 @@ namespace KeySearcher.P2P.Tree
 
         public readonly Node ParentNode;
         public LinkedList<KeySearcher.ValueKey> Result;
+        //------------------------------------------------------------
+        //Wanted: String Avatarname = ???;
+        //public Dictionary<String, Dictionary<long, int>> Activity;
+        //------------------------------------------------------------
 
         protected NodeBase(StorageHelper storageHelper, KeyQualityHelper keyQualityHelper, Node parentNode, BigInteger @from, BigInteger to, string distributedJobIdentifier)
         {
@@ -105,6 +109,7 @@ namespace KeySearcher.P2P.Tree
                     ParentNode.Result.RemoveLast();
                 }
             }
+            //TODO Dictionary update into parentnode
         }
 
         private void UpdateDhtForRootNode()

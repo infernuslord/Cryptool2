@@ -48,7 +48,7 @@ namespace KeySearcher.P2P.Storage
                 binaryWriter.Write(valueKey.decryption);
             }                        
             
-            //TODO: Hash Table write;
+            //TODO: Dictionary write;
 
             return StoreWithStatistic(KeyInDht(nodeToUpdate), memoryStream.ToArray());
         }
@@ -127,7 +127,7 @@ namespace KeySearcher.P2P.Storage
             /*
             if (binaryReader.BaseStream.Length != binaryReader.BaseStream.Position)
             {
-                //TODO: Hashtable read
+                //TODO: Dictionary read
             }
             */
 
