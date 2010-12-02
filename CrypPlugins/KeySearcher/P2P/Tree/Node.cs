@@ -73,14 +73,7 @@ namespace KeySearcher.P2P.Tree
 
         public override void UpdateCache()
         {
-            try
-            {
-                LoadOrUpdateChildNodes();
-            }
-            catch (KeySearcherStopException)
-            {
-                throw new KeySearcherStopException();
-            }
+            LoadOrUpdateChildNodes();
 
             leftChildReserved = LeftChildFinished || leftChild.IsReserved();
             rightChildReserved = RightChildFinished || (rightChild != null && rightChild.IsReserved());

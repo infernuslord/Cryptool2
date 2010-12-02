@@ -122,6 +122,7 @@ namespace KeySearcher.P2P
                 catch (KeySearcherStopException)  //Fullstopfunction
                 {
                     keySearcher.GuiLogMessage("Keysearcher Fullstop.Please Update your Version.", NotificationLevel.Debug);
+                    status.CurrentOperation = "PLEASE UPDATE";
                     keyPoolTree.Reset();
                     keySearcher.Stop();
                     return;
@@ -251,6 +252,7 @@ namespace KeySearcher.P2P
                 catch (KeySearcherStopException)  //Fullstopfunction
                 {
                     keySearcher.GuiLogMessage("Keysearcher Fullstop.Please Update your Version.", NotificationLevel.Debug);
+                    status.CurrentOperation = "PLEASE UPDATE";
                     keyPoolTree.Reset();
                     keySearcher.Stop();
                     return;

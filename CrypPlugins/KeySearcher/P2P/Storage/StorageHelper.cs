@@ -98,14 +98,7 @@ namespace KeySearcher.P2P.Storage
                 UpdateNodeFromDht((Node) nodeToUpdate, binaryReader);
             } else
             {
-                try
-                {
-                    UpdateLeafFromDht((Leaf)nodeToUpdate, binaryReader);
-                }
-                catch(KeySearcherStopException)
-                {
-                    throw new KeySearcherStopException();
-                }
+                UpdateLeafFromDht((Leaf)nodeToUpdate, binaryReader);
             }
 
             // Load results
@@ -149,17 +142,10 @@ namespace KeySearcher.P2P.Storage
 
         private static void UpdateLeafFromDht(Leaf nodeToUpdate, BinaryReader binaryReader)
         {
-            try
-            {
-                //---------------------------------------------------------------------------------
-                //TODO: Versionnumber read
-                //CheckVersion(binaryReader);
-                //----------------------------------------------------------------------------------            
-            }
-            catch (KeySearcherStopException)
-            {
-                throw new KeySearcherStopException();
-            }
+            //---------------------------------------------------------------------------------
+            //TODO: Versionnumber read
+            //CheckVersion(binaryReader);
+            //----------------------------------------------------------------------------------            
                 
             var date = DateTime.FromBinary(binaryReader.ReadInt64());
             if (date > nodeToUpdate.LastReservationDate)

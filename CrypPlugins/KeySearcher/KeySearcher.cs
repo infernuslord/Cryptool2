@@ -34,6 +34,7 @@ using Cryptool.PluginBase.IO;
 using System.Numerics;
 using KeySearcher.Helper;
 using KeySearcher.P2P;
+using KeySearcher.P2P.Exceptions;
 using KeySearcherPresentation;
 using KeySearcherPresentation.Controls;
 using OpenCLNet;
@@ -82,6 +83,8 @@ namespace KeySearcher
         }
 
         internal bool stop;
+
+        internal bool update;
 
         #region IControlEncryption + IControlCost + InputFields
 
@@ -291,6 +294,7 @@ namespace KeySearcher
 
         public void PreExecution()
         {
+            update = false;
         }
 
         // because Encryption PlugIns were changed radical, the new StartPoint is here - Arnie 2010.01.12
@@ -733,18 +737,31 @@ namespace KeySearcher
 
         private void BruteForceWithPeerToPeerSystem()
         {
-            GuiLogMessage("Launching p2p based bruteforce logic...", NotificationLevel.Info);
+            if (!update)
+            {
+                GuiLogMessage("Launching p2p based bruteforce logic...", NotificationLevel.Info);
 
-            try
-            {
-                distributedBruteForceManager = new DistributedBruteForceManager(this, pattern, settings,
-                                                                                keyQualityHelper,
-                                                                                p2PQuickWatchPresentation);
-                distributedBruteForceManager.Execute();
+                try
+                {
+                    distributedBruteForceManager = new DistributedBruteForceManager(this, pattern, settings,
+                                                                                    keyQualityHelper,
+                                                                                    p2PQuickWatchPresentation);
+                    distributedBruteForceManager.Execute();
+                }
+                catch (NotConnectedException)
+                {
+                    GuiLogMessage("P2P not connected.", NotificationLevel.Error);
+                }
+                catch (KeySearcherStopException)
+                {
+                    update = true;
+                    return;
+                }
             }
-            catch (NotConnectedException)
+            else
             {
-                GuiLogMessage("P2P not connected.", NotificationLevel.Error);
+                GuiLogMessage("Keysearcher Fullstop.Please Update your Version.", NotificationLevel.Error);
+                Thread.Sleep(3000);
             }
         }
 
