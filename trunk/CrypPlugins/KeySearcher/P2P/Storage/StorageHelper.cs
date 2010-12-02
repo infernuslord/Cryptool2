@@ -61,17 +61,11 @@ namespace KeySearcher.P2P.Storage
 
         private static void UpdateLeafInDht(Leaf nodeToUpdate, BinaryWriter binaryWriter)
         {
-            //TODO: Versionnumber write
-            //-----------------------------------------------------
-            //binaryWriter.Write('V');
-            //binaryWriter.Write(version);
-            //-----------------------------------------------------
+            binaryWriter.Write('V');
+            binaryWriter.Write(version);
             var buffer = nodeToUpdate.LastReservationDate.ToBinary();
             binaryWriter.Write(buffer);
-            
-            //--------------------------------------------------------------------------------
             binaryWriter.Write(nodeToUpdate.getClientIdentifier());
-            //--------------------------------------------------------------------------------
         }
 
         internal RequestResult UpdateFromDht(NodeBase nodeToUpdate, bool forceUpdate = false)
@@ -142,11 +136,8 @@ namespace KeySearcher.P2P.Storage
 
         private static void UpdateLeafFromDht(Leaf nodeToUpdate, BinaryReader binaryReader)
         {
-            //---------------------------------------------------------------------------------
-            //TODO: Versionnumber read
-            //CheckVersion(binaryReader);
-            //----------------------------------------------------------------------------------            
-                
+            CheckVersion(binaryReader);
+               
             var date = DateTime.FromBinary(binaryReader.ReadInt64());
             if (date > nodeToUpdate.LastReservationDate)
             {
