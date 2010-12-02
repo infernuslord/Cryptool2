@@ -37,6 +37,7 @@ using PeersAtPlay.PapsClient;
 using PeersAtPlay.Util.Logging;
 using PeersAtPlay.P2POverlay.Chord;
 using PeersAtPlay.P2PStorage.MySqlDHT;
+using PeersAtPlay.P2PStorage.WebDHT;
 
 /* TODO:
  * - Delete UseNatTraversal-Flag and insert CertificateCheck and CertificateSetup
@@ -185,6 +186,9 @@ namespace Cryptool.P2P.Internal
                         break;
                     case P2PArchitecture.SQLDB:
                         Dht = new MySqlDHT(scheduler_2);
+                        break;
+                    case P2PArchitecture.WebDHT:
+                        Dht = new WebDHT(scheduler_2);
                         break;
                     default:
                         throw new NotImplementedException();
