@@ -217,7 +217,7 @@ namespace Cryptool.P2PEditor
         }
 
         [TaskPane("architecture_caption", "architecture_tooltip", GroupExpert, 2, false, DisplayLevel.Expert,
-            ControlType.ComboBox, new[] { "FullMesh", "Chord", "Server" , "SQLDB" })]
+            ControlType.ComboBox, new[] { "FullMesh", "Chord", "Server" , "SQLDB" , "WebDHT" })]
         public int Architecture
         {
             get { return (int)settings.Architecture; }

@@ -133,6 +133,10 @@
       <HintPath>..\AppReferences\x86\MySQLDHT.dll</HintPath>
       <Private>False</Private>
     </Reference>
+	<Reference Include="WebDHT">
+      <HintPath>..\AppReferences\x86\WebDHT.dll</HintPath>
+	  <Private>False</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup Condition=" '$(Platform)' == 'x64' ">
     <Reference Include="Bootstrapper">
@@ -193,6 +197,10 @@
     </Reference>
     <Reference Include="MySQLDHT">
       <HintPath>..\AppReferences\x64\MySQLDHT.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+	<Reference Include="WebDHT">
+      <HintPath>..\AppReferences\x64\WebDHT.dll</HintPath>
 	  <Private>False</Private>
     </Reference>
   </ItemGroup>
