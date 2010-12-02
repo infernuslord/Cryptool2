@@ -11,6 +11,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace CrypUpdater
 {
@@ -23,6 +25,14 @@ namespace CrypUpdater
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        internal void UpdateProgress(double progress)
+        {
+            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                progressBar1.Value = progress;
+            }, null);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
