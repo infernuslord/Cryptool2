@@ -150,7 +150,9 @@ namespace KeySearcher.P2P
                                                                             status.CurrentOperation = message;
                                                                             try
                                                                             {
-                                                                                currentLeaf.ReserveLeaf();
+                                                                                if (!currentLeaf.ReserveLeaf())
+                                                                                    keySearcher.GuiLogMessage("Rereserving pattern failed!", NotificationLevel.Warning);
+
                                                                                 //if (!currentLeaf.ReserveLeaf())
                                                                                 //{
                                                                                 //    keySearcher.GuiLogMessage("Rereserving pattern failed! Skipping to next pattern!", 
