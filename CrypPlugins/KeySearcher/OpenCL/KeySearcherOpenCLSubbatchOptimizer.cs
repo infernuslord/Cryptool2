@@ -19,10 +19,12 @@ namespace KeySearcher
         private bool lastStepIncrease;
         private const long TOLERANCE = 500;
         private readonly int maxNumberOfThreads;
+        private int openCLMode;
 
-        public KeySearcherOpenCLSubbatchOptimizer(int maxNumberOfThreads)
+        public KeySearcherOpenCLSubbatchOptimizer(int openCLMode, int maxNumberOfThreads)
         {
             this.maxNumberOfThreads = maxNumberOfThreads;
+            this.openCLMode = openCLMode;
         }
 
         public int GetAmountOfSubbatches(IKeyTranslator keyTranslator)
@@ -30,7 +32,7 @@ namespace KeySearcher
             if (this.keyTranslator != keyTranslator)
             {
                 this.keyTranslator = keyTranslator;
-                
+
                 //Find factors of OpenCL batch size:
                 List<Msieve.Factor> factors = Msieve.TrivialFactorization(keyTranslator.GetOpenCLBatchSize());
                 amountOfSubbatchesFactors = new List<int>();
@@ -47,6 +49,9 @@ namespace KeySearcher
                 lastDuration = TimeSpan.MaxValue;
                 optimisticDecrease = false;
                 lastStepIncrease = false;
+
+                if (openCLMode == 1)    //normal load
+                    DecreaseAmountOfSubbatches();
             }
 
             return amountOfSubbatches;
@@ -95,6 +100,9 @@ namespace KeySearcher
 
         public void EndMeasurement()
         {
+            if (openCLMode != 2)
+                return;
+
             var thisduration = DateTime.Now - begin;
 
             if (Math.Abs((thisduration - lastDuration).TotalMilliseconds) > TOLERANCE)

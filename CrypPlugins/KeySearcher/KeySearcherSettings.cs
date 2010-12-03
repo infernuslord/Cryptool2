@@ -298,7 +298,7 @@ namespace KeySearcher
         }
 
         private int openCLDevice;
-        [TaskPane("OpenCL Device", "Choose the OpenCL you want to use.", GroupOpenCL, 2, false, DisplayLevel.Experienced, ControlType.DynamicComboBox, new string[] { "DevicesAvailable" })]
+        [TaskPane("OpenCL Device", "Choose the OpenCL device you want to use.", GroupOpenCL, 2, false, DisplayLevel.Experienced, ControlType.DynamicComboBox, new string[] { "DevicesAvailable" })]
         public int OpenCLDevice
         {
             get { return this.openCLDevice; }
@@ -308,6 +308,22 @@ namespace KeySearcher
                 {
                     this.openCLDevice = value;
                     OnPropertyChanged("OpenCLDevice");
+                    HasChanges = true;
+                }
+            }
+        }
+
+        private int openCLMode = 1;
+        [TaskPane("OpenCL Mode", "Choose the OpenCL mode you want to use.", GroupOpenCL, 3, false, DisplayLevel.Experienced, ControlType.RadioButton, new string[] { "Low Load", "Normal Load", "High Load (use with caution)" })]
+        public int OpenCLMode
+        {
+            get { return this.openCLMode; }
+            set
+            {
+                if (value != this.openCLMode)
+                {
+                    this.openCLMode = value;
+                    OnPropertyChanged("OpenCLMode");
                     HasChanges = true;
                 }
             }
