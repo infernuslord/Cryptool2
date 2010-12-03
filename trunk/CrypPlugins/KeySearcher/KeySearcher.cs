@@ -251,6 +251,10 @@ namespace KeySearcher
                 oclManager.BuildOptions = "";
                 oclManager.CreateDefaultContext(0, DeviceType.ALL);
             }
+            else
+            {
+                settings.UseOpenCL = false;
+            }
 
             settings = new KeySearcherSettings(this, oclManager);
             QuickWatchPresentation = new QuickWatch();
@@ -259,6 +263,7 @@ namespace KeySearcher
             p2PQuickWatchPresentation.UpdateSettings(this, settings);
 
             settings.PropertyChanged += SettingsPropertyChanged;
+            ((QuickWatch)QuickWatchPresentation).IsOpenCLEnabled = settings.UseOpenCL;
 
             localBruteForceStopwatch = new Stopwatch();
         }
@@ -266,10 +271,10 @@ namespace KeySearcher
         void SettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             p2PQuickWatchPresentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                                                             new Action(UpdateIsP2PEnabledSetting));
+                                                             new Action(UpdateQuickwatchSettings));
         }
 
-        void UpdateIsP2PEnabledSetting()
+        void UpdateQuickwatchSettings()
         {
             ((QuickWatch)QuickWatchPresentation).IsP2PEnabled = settings.UsePeerToPeer;
             ((QuickWatch)QuickWatchPresentation).IsOpenCLEnabled = settings.UseOpenCL;
@@ -483,8 +488,8 @@ namespace KeySearcher
                 int subbatchSize = keyTranslator.GetOpenCLBatchSize() / subbatches;
                 ((QuickWatch) QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback) delegate
                                                                     {
-                                                                        ((QuickWatch)QuickWatchPresentation).OpenCLPresentation.batches.Content = subbatches;
-                                                                        ((QuickWatch)QuickWatchPresentation).OpenCLPresentation.threads.Content = subbatchSize;
+                                                                        //((QuickWatch)QuickWatchPresentation).OpenCLPresentation.batches.Content = subbatches;
+                                                                        ((QuickWatch)QuickWatchPresentation).OpenCLPresentation.workItems.Content = subbatchSize;
                                                                     }, null);
                 GuiLogMessage(string.Format("Now using {0} subbatches", subbatches), NotificationLevel.Info);
                 
@@ -859,7 +864,8 @@ namespace KeySearcher
                 var ratio = (double) openCLdoneKeys/(double) doneKeys;
                 ((QuickWatch)QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    ((QuickWatch)QuickWatchPresentation).OpenCLPresentation.keysPerSecond.Content = String.Format("{0:N}", openCLKeysPerSecond);
+                    ((QuickWatch)QuickWatchPresentation).OpenCLPresentation.keysPerSecondOpenCL.Content = String.Format("{0:N}", openCLKeysPerSecond);
+                    ((QuickWatch)QuickWatchPresentation).OpenCLPresentation.keysPerSecondCPU.Content = String.Format("{0:N}", (keysPerSecond - openCLKeysPerSecond));
                     ((QuickWatch)QuickWatchPresentation).OpenCLPresentation.ratio.Content = String.Format("{0:P}", ratio);
                 }, null);
                 
