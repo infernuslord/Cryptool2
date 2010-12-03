@@ -306,6 +306,7 @@ namespace KeySearcher
         public virtual void Execute()
         {
             IsKeySearcherRunning = true;
+            localBruteForceStopwatch.Reset();
 
             //either byte[] CStream input or CryptoolStream Object input
             if (encryptedData != null || csEncryptedData != null) //to prevent execution on initialization
@@ -390,7 +391,7 @@ namespace KeySearcher
             if (useOpenCL)
             {
                 keySearcherOpenCLCode = new KeySearcherOpenCLCode(this, encryptedData, sender, CostMaster, 256 * 256 * 256 * 16);
-                keySearcherOpenCLSubbatchOptimizer = new KeySearcherOpenCLSubbatchOptimizer(oclManager.CQ[settings.OpenCLDevice].Device.MaxWorkItemSizes.Aggregate(1, (x, y) => (x * (int)y)) / 8);
+                keySearcherOpenCLSubbatchOptimizer = new KeySearcherOpenCLSubbatchOptimizer(settings.OpenCLMode, oclManager.CQ[settings.OpenCLDevice].Device.MaxWorkItemSizes.Aggregate(1, (x, y) => (x * (int)y)) / 8);
                 ((QuickWatch)QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     openCLPresentationMutex.WaitOne();
@@ -482,20 +483,16 @@ namespace KeySearcher
                 fixed (byte* ukp = key)
                     userKey = oclManager.Context.CreateBuffer(MemFlags.USE_HOST_PTR, key.Length, new IntPtr((void*)ukp));
 
-               
-
                 int subbatches = keySearcherOpenCLSubbatchOptimizer.GetAmountOfSubbatches(keyTranslator);
                 int subbatchSize = keyTranslator.GetOpenCLBatchSize() / subbatches;
                 ((QuickWatch) QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback) delegate
                                                                     {
-                                                                        //((QuickWatch)QuickWatchPresentation).OpenCLPresentation.batches.Content = subbatches;
                                                                         ((QuickWatch)QuickWatchPresentation).OpenCLPresentation.workItems.Content = subbatchSize;
                                                                     }, null);
-                GuiLogMessage(string.Format("Now using {0} subbatches", subbatches), NotificationLevel.Info);
+                //GuiLogMessage(string.Format("Now using {0} subbatches", subbatches), NotificationLevel.Info);
                 
                 float[] costArray = new float[subbatchSize];
                 Mem costs = oclManager.Context.CreateBuffer(MemFlags.READ_WRITE, costArray.Length * 4);
-                
 
                 IntPtr[] globalWorkSize = { (IntPtr)subbatchSize };
 
