@@ -27,6 +27,14 @@ namespace Cryptool.P2P.Internal
         #region Delegates
 
         public delegate void P2PConnectionStateChangeEventHandler(object sender, bool newState);
+        public delegate void P2PTryConnectingStateChangeEventHandler(object sender, bool newState);
+
+        #endregion
+
+        #region Events
+
+        public event P2PConnectionStateChangeEventHandler OnP2PConnectionStateChangeOccurred;
+        public event P2PTryConnectingStateChangeEventHandler OnP2PTryConnectingStateChangeOccurred;
 
         #endregion
 
@@ -72,8 +80,18 @@ namespace Cryptool.P2P.Internal
                                                                    });
         }
 
-        public bool IsConnecting { get; internal set; }
-        public event P2PConnectionStateChangeEventHandler OnP2PConnectionStateChangeOccurred;
+        private bool isConnecting;
+        public bool IsConnecting { 
+            get { return isConnecting; } 
+            internal set
+            {
+                isConnecting = value;
+                if (OnP2PTryConnectingStateChangeOccurred != null)
+                {
+                    OnP2PTryConnectingStateChangeOccurred(this, isConnecting);
+                }
+            }
+        }
 
         public void Connect()
         {
