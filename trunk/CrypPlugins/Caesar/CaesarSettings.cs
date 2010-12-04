@@ -339,29 +339,5 @@ namespace Cryptool.Caesar
         }
 
         #endregion
-
-        #region TaskPaneAttributeChanged-Sample
-        /// <summary>
-        /// This event is just used here for sample reasons
-        /// </summary>
-        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
-
-        [TaskPane("Enable/Disable sensitivity", "This setting is just a sample and shows how to enable / disable a setting.", "AttributeChangedSample", 8, false, DisplayLevel.Beginner, ControlType.Button)]
-        public void EnableDisableSesitivity()
-        {
-          if (TaskPaneAttributeChanged!= null)
-          {
-            sensitivityEnabled = !sensitivityEnabled;
-            if (sensitivityEnabled)
-            {              
-              TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("AlphabetCase", Visibility.Visible)));
-            }
-            else
-            {
-              TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("AlphabetCase", Visibility.Collapsed)));
-            }
-          }
-        }
-        #endregion TaskPaneAttributeChanged-Sample
     }
 }
