@@ -398,6 +398,7 @@ namespace KeySearcher
                     ((QuickWatch)QuickWatchPresentation).OpenCLPresentation.AmountOfDevices++;
                     openCLPresentationMutex.ReleaseMutex();
                 }, null);
+                Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
             }
 
             try
