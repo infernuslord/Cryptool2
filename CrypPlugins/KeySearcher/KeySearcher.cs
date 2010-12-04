@@ -498,31 +498,39 @@ namespace KeySearcher
 
                 keySearcherOpenCLSubbatchOptimizer.BeginMeasurement();
 
-                for (int i = 0; i < subbatches; i++)
+                try
                 {
-                    bruteforceKernel.SetArg(0, userKey);
-                    bruteforceKernel.SetArg(1, costs);
-                    bruteforceKernel.SetArg(2, i * subbatchSize);
-                    oclManager.CQ[deviceIndex].EnqueueNDRangeKernel(bruteforceKernel, 1, null, globalWorkSize, null);
-                    oclManager.CQ[deviceIndex].EnqueueBarrier();
+                    for (int i = 0; i < subbatches; i++)
+                    {
+                        bruteforceKernel.SetArg(0, userKey);
+                        bruteforceKernel.SetArg(1, costs);
+                        bruteforceKernel.SetArg(2, i * subbatchSize);
+                        oclManager.CQ[deviceIndex].EnqueueNDRangeKernel(bruteforceKernel, 1, null, globalWorkSize, null);
+                        oclManager.CQ[deviceIndex].EnqueueBarrier();
 
-                    Event e;
-                    fixed (float* costa = costArray)
-                        oclManager.CQ[deviceIndex].EnqueueReadBuffer(costs, true, 0, costArray.Length * 4, new IntPtr((void*)costa), 0, null, out e);
+                        Event e;
+                        fixed (float* costa = costArray)
+                            oclManager.CQ[deviceIndex].EnqueueReadBuffer(costs, true, 0, costArray.Length * 4, new IntPtr((void*)costa), 0, null, out e);
 
-                    e.Wait();
+                        e.Wait();
 
-                    checkOpenCLResults(keyTranslator, costArray, sender, bytesToUse, i * subbatchSize);
+                        checkOpenCLResults(keyTranslator, costArray, sender, bytesToUse, i * subbatchSize);
 
-                    doneKeysArray[threadid] += subbatchSize;
-                    openCLDoneKeysArray[threadid] += subbatchSize;
-                    keycounterArray[threadid] += subbatchSize;
-                    keysLeft[threadid] -= subbatchSize;
+                        doneKeysArray[threadid] += subbatchSize;
+                        openCLDoneKeysArray[threadid] += subbatchSize;
+                        keycounterArray[threadid] += subbatchSize;
+                        keysLeft[threadid] -= subbatchSize;
+
+                        if (stop)
+                            return false;
+                    }
+
+                    keySearcherOpenCLSubbatchOptimizer.EndMeasurement();
                 }
-
-                keySearcherOpenCLSubbatchOptimizer.EndMeasurement();
-
-                costs.Dispose();
+                finally
+                {
+                    costs.Dispose();
+                }
             }
             catch (Exception ex)
             {
