@@ -60,7 +60,7 @@ namespace WorkspaceManager
         /// </summary>
         public WorkspaceManager()
         {
-            Settings = new WorkspaceManagerSettings();
+            Settings = new WorkspaceManagerSettings(this);
             WorkspaceModel = new WorkspaceModel();
             WorkspaceModel.WorkspaceManagerEditor = this;
             WorkspaceSpaceEditorView = new WorkSpaceEditorView(WorkspaceModel);
@@ -112,6 +112,11 @@ namespace WorkspaceManager
         public event EditorSpecificPluginsChanged OnEditorSpecificPluginsChanged;
 
         /// <summary>
+        /// Current filename
+        /// </summary>
+        public string CurrentFilename { private set; get; }
+
+        /// <summary>
         /// Called by clicking on the new button of CrypTool
         /// Creates a new Model
         /// </summary>
@@ -122,6 +127,7 @@ namespace WorkspaceManager
                 WorkspaceModel.deletePluginModel(pluginModel);
             }
             this.HasChanges = false;
+            CurrentFilename = "unnamed project";
             this.OnProjectTitleChanged.BeginInvoke(this, "unnamed project", null, null);
         }
 
@@ -140,6 +146,7 @@ namespace WorkspaceManager
                 WorkspaceSpaceEditorView.Load(WorkspaceModel);
                 HasChanges = false;
                 this.OnProjectTitleChanged.BeginInvoke(this, System.IO.Path.GetFileName(fileName), null, null);
+                CurrentFilename = fileName;
             }
             catch (Exception ex)
             {
@@ -160,6 +167,7 @@ namespace WorkspaceManager
                 ModelPersistance.saveModel(this.WorkspaceModel, fileName);
                 HasChanges = false;
                 this.OnProjectTitleChanged.BeginInvoke(this, System.IO.Path.GetFileName(fileName), null, null);
+                CurrentFilename = fileName;
             }
             catch (Exception ex)
             {
