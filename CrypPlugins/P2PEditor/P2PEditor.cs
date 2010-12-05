@@ -112,6 +112,11 @@ namespace Cryptool.P2PEditor
             GuiLogMessage("P2PEditor: Redo()", NotificationLevel.Debug);
         }
 
+        public void Print()
+        {
+            throw new NotImplementedException();
+        }
+
         public void ShowHelp()
         {
             ((P2PEditorPresentation) Presentation).ShowHelp();
@@ -143,6 +148,11 @@ namespace Cryptool.P2PEditor
         }
 
         public bool HasChanges
+        {
+            get { return false; }
+        }
+
+        public bool CanPrint
         {
             get { return false; }
         }

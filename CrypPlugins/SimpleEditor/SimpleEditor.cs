@@ -129,6 +129,11 @@ namespace SimpleEditor
         {
         }
 
+        public void Print()
+        {
+            throw new NotImplementedException();
+        }
+
         public void ShowHelp()
         {
         }
@@ -150,6 +155,11 @@ namespace SimpleEditor
         public bool CanExecute
         {
             get { return true; }
+        }
+
+        public bool CanPrint
+        {
+            get { return false; }
         }
 
         public DisplayLevel DisplayLevel
