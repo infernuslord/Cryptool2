@@ -38,6 +38,7 @@ namespace Cryptool.PluginBase.Editor
         void DeleteEditorSpecific(EditorSpecificPluginInfo espi);
         void Undo();
         void Redo();
+        void Print();
         
         /// <summary>
         /// Temp. extension to show help page if the tutorial-pdf-file is not available and
@@ -57,6 +58,7 @@ namespace Cryptool.PluginBase.Editor
         bool CanExecute { get; }
         bool CanStop { get; }
         bool HasChanges { get; }
+        bool CanPrint { get; }
 
         /// <summary>
         /// Gets or sets the display level. Can be reverted using the OnChangeDisplayLevel event.

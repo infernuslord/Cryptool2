@@ -225,6 +225,11 @@ namespace WorkspaceManager
             //to be implemented
         }
 
+        public void Print()
+        {
+            ((WorkspaceManagerSettings)Settings).PrintWorkspace();
+        }
+
         /// <summary>
         /// Show the Help site
         /// </summary>
@@ -282,6 +287,11 @@ namespace WorkspaceManager
         {
             get;
             set;
+        }
+
+        public bool CanPrint
+        {
+            get { return true; }
         }
 
         /// <summary>
