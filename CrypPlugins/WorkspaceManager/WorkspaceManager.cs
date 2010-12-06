@@ -230,6 +230,21 @@ namespace WorkspaceManager
             //to be implemented
         }
 
+        public void Cut()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Copy()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Paste()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Print()
         {
             try
@@ -329,6 +344,21 @@ namespace WorkspaceManager
         {
             get;
             set;
+        }
+
+        public bool CanCut
+        {
+            get { return false; }
+        }
+
+        public bool CanCopy
+        {
+            get { return false; }
+        }
+
+        public bool CanPaste
+        {
+            get { return false; }
         }
 
         /// <summary>

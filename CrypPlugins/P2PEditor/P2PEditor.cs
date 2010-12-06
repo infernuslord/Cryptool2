@@ -112,6 +112,21 @@ namespace Cryptool.P2PEditor
             GuiLogMessage("P2PEditor: Redo()", NotificationLevel.Debug);
         }
 
+        public void Cut()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Copy()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Paste()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Print()
         {
             throw new NotImplementedException();
@@ -133,6 +148,21 @@ namespace Cryptool.P2PEditor
         }
 
         public bool CanRedo
+        {
+            get { return false; }
+        }
+
+        public bool CanCut
+        {
+            get { return false; }
+        }
+
+        public bool CanCopy
+        {
+            get { return false; }
+        }
+
+        public bool CanPaste
         {
             get { return false; }
         }
