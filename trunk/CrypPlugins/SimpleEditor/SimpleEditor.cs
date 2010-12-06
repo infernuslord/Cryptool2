@@ -129,6 +129,21 @@ namespace SimpleEditor
         {
         }
 
+        public void Cut()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Copy()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Paste()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Print()
         {
             throw new NotImplementedException();
@@ -148,6 +163,21 @@ namespace SimpleEditor
         }
 
         public bool CanRedo
+        {
+            get { return false; }
+        }
+
+        public bool CanCut
+        {
+            get { return false; }
+        }
+
+        public bool CanCopy
+        {
+            get { return false; }
+        }
+
+        public bool CanPaste
         {
             get { return false; }
         }

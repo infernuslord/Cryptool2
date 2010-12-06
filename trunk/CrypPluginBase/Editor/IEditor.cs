@@ -38,6 +38,9 @@ namespace Cryptool.PluginBase.Editor
         void DeleteEditorSpecific(EditorSpecificPluginInfo espi);
         void Undo();
         void Redo();
+        void Cut();
+        void Copy();
+        void Paste();
         void Print();
         
         /// <summary>
@@ -55,6 +58,9 @@ namespace Cryptool.PluginBase.Editor
 
         bool CanUndo { get; }
         bool CanRedo { get; }
+        bool CanCut { get; }
+        bool CanCopy { get; }
+        bool CanPaste { get; }
         bool CanExecute { get; }
         bool CanStop { get; }
         bool HasChanges { get; }
