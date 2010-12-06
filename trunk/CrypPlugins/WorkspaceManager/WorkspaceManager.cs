@@ -36,6 +36,11 @@ using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Cryptool.PluginBase.Miscellaneous;
+using WorkspaceManager.View.VisualComponents;
+using System.Windows.Media.Imaging;
+using System.Printing;
+using System.Windows.Documents;
+using System.Windows.Markup;
 
 //Disable warnings for unused or unassigned fields and events:
 #pragma warning disable 0169, 0414, 0067
@@ -227,7 +232,65 @@ namespace WorkspaceManager
 
         public void Print()
         {
-            ((WorkspaceManagerSettings)Settings).PrintWorkspace();
+            try
+            {
+                const int factor = 4;
+                ModifiedCanvas control = (ModifiedCanvas)((WorkSpaceEditorView)this.Presentation).ViewBox.Content;
+                PrintDialog dialog = new PrintDialog();
+                dialog.PageRangeSelection = PageRangeSelection.AllPages;
+                dialog.UserPageRangeEnabled = true;
+
+                Nullable<Boolean> print = dialog.ShowDialog();
+                if (print == true)
+                {
+                    this.GuiLogMessage("Printing document \"" + this.CurrentFilename + "\" now", NotificationLevel.Info);
+                    
+                    PrintCapabilities capabilities = dialog.PrintQueue.GetPrintCapabilities(dialog.PrintTicket);
+                    System.Windows.Size pageSize = new System.Windows.Size(dialog.PrintableAreaWidth, dialog.PrintableAreaHeight);
+                    System.Windows.Size visibleSize = new System.Windows.Size(capabilities.PageImageableArea.ExtentWidth, capabilities.PageImageableArea.ExtentHeight);
+
+                    FixedDocument fixedDoc = new FixedDocument();
+                    control.Measure(new System.Windows.Size(double.PositiveInfinity, double.PositiveInfinity));
+                    control.Arrange(new Rect(new System.Windows.Point(0, 0), control.DesiredSize));
+                    System.Windows.Size size = control.DesiredSize;
+                    
+                    RenderTargetBitmap bmp = new RenderTargetBitmap((int)size.Width * factor, (int)size.Height * factor, 96 * factor, 96 * factor, PixelFormats.Pbgra32);
+                    bmp.Render(control);
+
+
+                    double xOffset = 0;
+                    double yOffset = 0;
+                    while (xOffset < size.Width)
+                    {
+                        yOffset = 0;
+                        while (yOffset < size.Height)
+                        {
+                            PageContent pageContent = new PageContent();
+                            FixedPage page = new FixedPage();
+                            ((IAddChild)pageContent).AddChild(page);
+                            fixedDoc.Pages.Add(pageContent);
+                            page.Width = pageSize.Width;
+                            page.Height = pageSize.Height;
+                            int width = (xOffset + visibleSize.Width) > size.Width ? (int)(size.Width - xOffset) : (int)visibleSize.Width;
+                            int height = (yOffset + visibleSize.Height) > size.Height ? (int)(size.Height - yOffset) : (int)visibleSize.Height;
+                            System.Windows.Controls.Image croppedImage = new System.Windows.Controls.Image();                            
+                            CroppedBitmap cb = new CroppedBitmap(bmp, new Int32Rect((int)xOffset * factor, (int)yOffset *factor, width * factor, height * factor));
+                            croppedImage.Source = cb;
+                            croppedImage.Width = width;
+                            croppedImage.Height = height;
+                            page.Children.Add(croppedImage);
+                            yOffset += visibleSize.Height;
+                        }
+                        xOffset += visibleSize.Width;
+                    }
+                    dialog.PrintDocument(fixedDoc.DocumentPaginator, "WorkspaceManager_" + this.CurrentFilename);
+                    this.GuiLogMessage("Printed \"" + fixedDoc.DocumentPaginator.PageCount + "\" pages of document \"" + this.CurrentFilename + "\"", NotificationLevel.Info);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.GuiLogMessage("Exception while printing: " + ex.Message, NotificationLevel.Error);
+            }
         }
 
         /// <summary>
