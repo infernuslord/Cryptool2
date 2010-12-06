@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Markup;
 using System.IO;
+using WorkspaceManager.Properties;
 
 namespace WorkspaceManager
 {
@@ -37,107 +38,107 @@ namespace WorkspaceManager
             }
         }
 
-        private String guiUpdateInterval = "100";
-        [TaskPane("GuiUpdateInterval", "The interval the gui should be updated in miliseconds.", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
+       [TaskPane("GuiUpdateInterval", "The interval the gui should be updated in miliseconds.", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
         public String GuiUpdateInterval
         {
             get
             {
-                return guiUpdateInterval;
+                return Settings.Default.GuiUpdateInterval;
             }
             set
             {
-                guiUpdateInterval = value;
+                Settings.Default.GuiUpdateInterval = value;
+                Settings.Default.Save();
                 OnPropertyChanged("GuiUpdateInterval");
             }
         }
 
-        private String sleepTime = "0";
         [TaskPane("SleepTime", "The time which the execution will sleep after executing a plugin.", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
         public String SleepTime
         {
             get
             {
-                return sleepTime;
+                return Settings.Default.SleepTime;
             }
             set
             {
-                sleepTime = value;
+                Settings.Default.SleepTime = value;
+                Settings.Default.Save();
                 OnPropertyChanged("SleepTime");
             }
         }
 
-        private String threads = "0";
         [TaskPane("Threads", "The amount of used threads for scheduling.", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
         public String Threads
         {
             get
             {
-                return threads;
+                return Settings.Default.Threads;
             }
             set
             {
-                threads = value;
+                Settings.Default.Threads = value;
+                Settings.Default.Save();
                 OnPropertyChanged("Threads");
             }
         }
 
-        private int threadPriority = 4;
         [TaskPane("ThreadPriority", "Should the event handling be synchronous?", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new String[] { "AboveNormal", "BelowNormal", "Highest", "Lowest", "Normal" })]
         public int ThreadPriority
         {
             get
             {
-                return threadPriority;
+                return Settings.Default.ThreadPriority;
             }
             set
             {
-                threadPriority = value;
+                Settings.Default.ThreadPriority = value;
+                Settings.Default.Save();
                 OnPropertyChanged("ThreadPriority");
             }
         }  
 
-        private bool benchmarkPlugins = false;
         [TaskPane("BenchmarkPlugins", "Should the WorkspaceManager benchmark the amount of executed plugins per second?", null, 1, false, DisplayLevel.Beginner, ControlType.CheckBox)]
         public bool BenchmarkPlugins
         {
             get
             {
-                return benchmarkPlugins;
+                return Settings.Default.BenchmarkPlugins;
             }
             set
             {
-                benchmarkPlugins = value;
+                Settings.Default.BenchmarkPlugins = value;
+                Settings.Default.Save();
                 OnPropertyChanged("BenchmarkPlugins");
             }
         }
 
-        private bool synchronousEvents = false;
         [TaskPane("SynchronousEvents", "Should the event handling be synchronous?", null, 1, false, DisplayLevel.Beginner, ControlType.CheckBox)]
         public bool SynchronousEvents
         {
             get
             {
-                return synchronousEvents;
+                return Settings.Default.SynchronousEvents;
             }
             set
             {
-                synchronousEvents = value;
+                Settings.Default.SynchronousEvents = value;
+                Settings.Default.Save();
                 OnPropertyChanged("SynchronousEvents");
             }
         }
 
-        private int logLevel = 0;
         [TaskPane("LogLevel", "Should the event handling be synchronous?", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Debug", "Info", "Warning", "Error"})]
         public int LogLevel
         {
             get
             {
-                return logLevel;
+                return Settings.Default.LogLevel;
             }
             set
             {
-                logLevel = value;
+                Settings.Default.LogLevel = value;
+                Settings.Default.Save();
                 OnPropertyChanged("LogLevel");
             }
         }
