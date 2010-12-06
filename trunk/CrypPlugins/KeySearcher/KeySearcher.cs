@@ -240,6 +240,7 @@ namespace KeySearcher
         public KeySearcher()
         {
             IsKeySearcherRunning = false;
+            settings = new KeySearcherSettings(this, oclManager);
             if (OpenCL.NumberOfPlatforms > 0)
             {
                 oclManager = new OpenCLManager();
@@ -255,8 +256,7 @@ namespace KeySearcher
             {
                 settings.UseOpenCL = false;
             }
-
-            settings = new KeySearcherSettings(this, oclManager);
+            
             QuickWatchPresentation = new QuickWatch();
             localQuickWatchPresentation = ((QuickWatch) QuickWatchPresentation).LocalQuickWatchPresentation;
             p2PQuickWatchPresentation = ((QuickWatch)QuickWatchPresentation).P2PQuickWatchPresentation;
