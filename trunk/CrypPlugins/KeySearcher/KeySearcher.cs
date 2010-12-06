@@ -240,7 +240,7 @@ namespace KeySearcher
         public KeySearcher()
         {
             IsKeySearcherRunning = false;
-            settings = new KeySearcherSettings(this, oclManager);
+            
             if (OpenCL.NumberOfPlatforms > 0)
             {
                 oclManager = new OpenCLManager();
@@ -252,7 +252,10 @@ namespace KeySearcher
                 oclManager.BuildOptions = "";
                 oclManager.CreateDefaultContext(0, DeviceType.ALL);
             }
-            else
+
+            settings = new KeySearcherSettings(this, oclManager);
+
+            if (OpenCL.NumberOfPlatforms == 0)
             {
                 settings.UseOpenCL = false;
             }
