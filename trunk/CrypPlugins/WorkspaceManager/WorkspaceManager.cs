@@ -234,6 +234,10 @@ namespace WorkspaceManager
         {
             try
             {
+                Matrix m = PresentationSource.FromVisual(Application.Current.MainWindow).CompositionTarget.TransformToDevice;
+                double dx = m.M11 * 96;
+                double dy = m.M22 * 96;
+                this.GuiLogMessage("dx=" + dx + " dy=" + dy, NotificationLevel.Debug);
                 const int factor = 4;
                 ModifiedCanvas control = (ModifiedCanvas)((WorkSpaceEditorView)this.Presentation).ViewBox.Content;
                 PrintDialog dialog = new PrintDialog();
@@ -253,8 +257,8 @@ namespace WorkspaceManager
                     control.Measure(new System.Windows.Size(double.PositiveInfinity, double.PositiveInfinity));
                     control.Arrange(new Rect(new System.Windows.Point(0, 0), control.DesiredSize));
                     System.Windows.Size size = control.DesiredSize;
-                    
-                    RenderTargetBitmap bmp = new RenderTargetBitmap((int)size.Width * factor, (int)size.Height * factor, 96 * factor, 96 * factor, PixelFormats.Pbgra32);
+
+                    RenderTargetBitmap bmp = new RenderTargetBitmap((int)size.Width * factor, (int)size.Height * factor, dx * factor, dy * factor, PixelFormats.Pbgra32);
                     bmp.Render(control);
 
 
