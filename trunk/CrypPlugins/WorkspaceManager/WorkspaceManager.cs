@@ -245,6 +245,11 @@ namespace WorkspaceManager
             throw new NotImplementedException();
         }
 
+        public void Remove()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Print()
         {
             try
@@ -357,6 +362,11 @@ namespace WorkspaceManager
         }
 
         public bool CanPaste
+        {
+            get { return false; }
+        }
+
+        public bool CanRemove
         {
             get { return false; }
         }

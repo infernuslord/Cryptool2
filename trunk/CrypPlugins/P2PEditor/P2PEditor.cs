@@ -127,6 +127,11 @@ namespace Cryptool.P2PEditor
             throw new NotImplementedException();
         }
 
+        public void Remove()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Print()
         {
             throw new NotImplementedException();
@@ -163,6 +168,11 @@ namespace Cryptool.P2PEditor
         }
 
         public bool CanPaste
+        {
+            get { return false; }
+        }
+
+        public bool CanRemove
         {
             get { return false; }
         }

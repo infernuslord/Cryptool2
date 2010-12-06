@@ -144,6 +144,11 @@ namespace SimpleEditor
             throw new NotImplementedException();
         }
 
+        public void Remove()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Print()
         {
             throw new NotImplementedException();
@@ -178,6 +183,11 @@ namespace SimpleEditor
         }
 
         public bool CanPaste
+        {
+            get { return false; }
+        }
+
+        public bool CanRemove
         {
             get { return false; }
         }
