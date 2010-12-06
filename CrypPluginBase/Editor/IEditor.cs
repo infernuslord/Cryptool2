@@ -41,6 +41,7 @@ namespace Cryptool.PluginBase.Editor
         void Cut();
         void Copy();
         void Paste();
+        void Remove();
         void Print();
         
         /// <summary>
@@ -61,6 +62,7 @@ namespace Cryptool.PluginBase.Editor
         bool CanCut { get; }
         bool CanCopy { get; }
         bool CanPaste { get; }
+        bool CanRemove { get; }
         bool CanExecute { get; }
         bool CanStop { get; }
         bool HasChanges { get; }
