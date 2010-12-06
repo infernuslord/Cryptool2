@@ -15,7 +15,14 @@ namespace CrypStartup
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             Cryptool.CrypWin.MainWindow wnd = new Cryptool.CrypWin.MainWindow();
-            wnd.Show();
+            try
+            {
+                wnd.Show();
+            }
+            catch (Exception)
+            {
+                //This window has already been closed
+            }
         }
     }
 }
