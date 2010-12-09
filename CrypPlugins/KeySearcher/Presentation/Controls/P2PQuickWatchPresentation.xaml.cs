@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using KeySearcher;
 using KeySearcher.KeyPattern;
+using System.Globalization;
 
 namespace KeySearcherPresentation.Controls
 {
@@ -15,6 +16,8 @@ namespace KeySearcherPresentation.Controls
             get { return (Boolean)GetValue(IsVerboseEnabledProperty); }
             set { SetValue(IsVerboseEnabledProperty, value); }
         }
+
+        public NumberFormatInfo nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
 
         public P2PQuickWatchPresentation()
         {

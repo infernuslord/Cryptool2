@@ -114,7 +114,8 @@
 						<Label Content="Finished chunks:" Grid.Column="1" Grid.Row="0" />
                         <Label Content="{Binding LocalFinishedChunks, FallbackValue=-}" Style="{StaticResource ValueRow1}" Grid.Column="1" Grid.Row="0" />
                         <Label Content="Keys / sec:" Grid.Column="2" Grid.Row="0" />
-                        <Label Content="{Binding KeysPerSecond, FallbackValue=-}" Style="{StaticResource ValueRow2}" Grid.Column="2" Grid.Row="0" />
+                        <Label Name="keysPerSecond" Style="{StaticResource ValueRow2}" Grid.Column="2" Grid.Row="0" />
+                        <TextBlock Text="{Binding KeysPerSecond, StringFormat=' {0:0,0}', FallbackValue=-}" Style="{StaticResource ValueRow2}" Grid.Column="2" Grid.Row="0" />
                         <Label Content="Current chunk:" Grid.Column="3" />
                         <Label Content="{Binding CurrentChunk, FallbackValue=-}" Style="{StaticResource ValueRow3}" Grid.Column="3" Grid.Row="0" />
                         <Grid  Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1">
