@@ -254,11 +254,6 @@ namespace KeySearcher
             }
 
             settings = new KeySearcherSettings(this, oclManager);
-
-            if (OpenCL.NumberOfPlatforms == 0)
-            {
-                settings.UseOpenCL = false;
-            }
             
             QuickWatchPresentation = new QuickWatch();
             localQuickWatchPresentation = ((QuickWatch) QuickWatchPresentation).LocalQuickWatchPresentation;
@@ -266,7 +261,7 @@ namespace KeySearcher
             p2PQuickWatchPresentation.UpdateSettings(this, settings);
 
             settings.PropertyChanged += SettingsPropertyChanged;
-            ((QuickWatch)QuickWatchPresentation).IsOpenCLEnabled = settings.UseOpenCL;
+            ((QuickWatch)QuickWatchPresentation).IsOpenCLEnabled = (settings.DeviceSettings.Count(x => x.useDevice) > 0);
 
             localBruteForceStopwatch = new Stopwatch();
         }
@@ -280,7 +275,7 @@ namespace KeySearcher
         void UpdateQuickwatchSettings()
         {
             ((QuickWatch)QuickWatchPresentation).IsP2PEnabled = settings.UsePeerToPeer;
-            ((QuickWatch)QuickWatchPresentation).IsOpenCLEnabled = settings.UseOpenCL;
+            ((QuickWatch)QuickWatchPresentation).IsOpenCLEnabled = (settings.DeviceSettings.Count(x => x.useDevice) > 0);
             p2PQuickWatchPresentation.UpdateSettings(this, settings);
         }
 
@@ -387,14 +382,16 @@ namespace KeySearcher
             IControlEncryption sender = (IControlEncryption)parameters[6];
             int bytesToUse = (int)parameters[7];
             Stack threadStack = (Stack)parameters[8];
-            bool useOpenCL = (bool)parameters[9];
+            var openCLDeviceSettings = (KeySearcherSettings.OpenCLDeviceSettings)parameters[9];
 
             KeySearcherOpenCLCode keySearcherOpenCLCode = null;
             KeySearcherOpenCLSubbatchOptimizer keySearcherOpenCLSubbatchOptimizer = null;
-            if (useOpenCL)
+            if (openCLDeviceSettings != null)
             {
                 keySearcherOpenCLCode = new KeySearcherOpenCLCode(this, encryptedData, sender, CostMaster, 256 * 256 * 256 * 16);
-                keySearcherOpenCLSubbatchOptimizer = new KeySearcherOpenCLSubbatchOptimizer(settings.OpenCLMode, oclManager.CQ[settings.OpenCLDevice].Device.MaxWorkItemSizes.Aggregate(1, (x, y) => (x * (int)y)) / 8);
+                keySearcherOpenCLSubbatchOptimizer = new KeySearcherOpenCLSubbatchOptimizer(openCLDeviceSettings.mode, 
+                        oclManager.CQ[openCLDeviceSettings.index].Device.MaxWorkItemSizes.Aggregate(1, (x, y) => (x * (int)y)) / 8);
+
                 ((QuickWatch)QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     openCLPresentationMutex.WaitOne();
@@ -421,7 +418,7 @@ namespace KeySearcher
                         //if we are the thread with most keys left, we have to share them:
                         keyTranslator = ShareKeys(patterns, threadid, keysLeft, keyTranslator, threadStack);
 
-                        if (!useOpenCL)         //CPU
+                        if (openCLDeviceSettings == null)         //CPU
                         {
                             finish = BruteforceCPU(keyTranslator, sender, bytesToUse);
                         }
@@ -433,7 +430,7 @@ namespace KeySearcher
                             }
                             catch (Exception)
                             {
-                                useOpenCL = false;
+                                openCLDeviceSettings.useDevice = false;
                                 ((QuickWatch)QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                                 {
                                     openCLPresentationMutex.WaitOne();
@@ -446,7 +443,7 @@ namespace KeySearcher
                         
                         int progress = keyTranslator.GetProgress();
 
-                        if (!useOpenCL)
+                        if (openCLDeviceSettings == null)
                         {
                             doneKeysArray[threadid] += progress;
                             keycounterArray[threadid] += progress;
@@ -476,11 +473,12 @@ namespace KeySearcher
             BigInteger[] openCLDoneKeysArray = (BigInteger[])parameters[3];
             BigInteger[] keycounterArray = (BigInteger[])parameters[4];
             BigInteger[] keysLeft = (BigInteger[])parameters[5];
+            var openCLDeviceSettings = (KeySearcherSettings.OpenCLDeviceSettings)parameters[9];
             try
             {
                 Kernel bruteforceKernel = keySearcherOpenCLCode.GetBruteforceKernel(oclManager, keyTranslator);
-                
-                int deviceIndex = settings.OpenCLDevice;
+
+                int deviceIndex = openCLDeviceSettings.index;
                 
                 Mem userKey;
                 var key = keyTranslator.GetKey();
@@ -1137,26 +1135,38 @@ namespace KeySearcher
 
         private void StartThreads(IControlEncryption sender, int bytesToUse, KeyPattern.KeyPattern[] patterns, BigInteger[] doneKeysA, BigInteger[] openCLDoneKeysA, BigInteger[] keycounters, BigInteger[] keysleft, Stack threadStack)
         {
-            for (int i = 0; i < patterns.Length; i++)
+            //First start the opencl threads:
+            int i = 0;
+            foreach (var ds in settings.DeviceSettings)
+            {
+                if (ds.useDevice)
+                {
+                    WaitCallback worker = new WaitCallback(KeySearcherJob);
+                    doneKeysA[i] = new BigInteger();
+                    openCLDoneKeysA[i] = new BigInteger();
+                    keycounters[i] = new BigInteger();
+
+                    ThreadPool.QueueUserWorkItem(worker, new object[] { patterns, i, doneKeysA, openCLDoneKeysA, keycounters, keysleft, sender, bytesToUse, threadStack, ds });
+                    i++;
+                }
+            }
+
+            //Then the CPU threads:
+            for (; i < patterns.Length; i++)
             {
                 WaitCallback worker = new WaitCallback(KeySearcherJob);
                 doneKeysA[i] = new BigInteger();
                 openCLDoneKeysA[i] = new BigInteger();
                 keycounters[i] = new BigInteger();
-                bool useOpenCL = false;
 
-                if (settings.UseOpenCL && (i == patterns.Length - 1))     //Last thread is the OpenCL thread
-                    useOpenCL = true;
-
-                ThreadPool.QueueUserWorkItem(worker, new object[] { patterns, i, doneKeysA, openCLDoneKeysA, keycounters, keysleft, sender, bytesToUse, threadStack, useOpenCL });
+                ThreadPool.QueueUserWorkItem(worker, new object[] { patterns, i, doneKeysA, openCLDoneKeysA, keycounters, keysleft, sender, bytesToUse, threadStack, null });
             }
         }
 
         private KeyPattern.KeyPattern[] splitPatternForThreads(KeyPattern.KeyPattern pattern)
         {
             int threads = settings.CoresUsed;
-            if (settings.UseOpenCL)
-                threads++;
+            threads += settings.DeviceSettings.Count(x => x.useDevice); 
 
             if (threads < 1)
                 return null;

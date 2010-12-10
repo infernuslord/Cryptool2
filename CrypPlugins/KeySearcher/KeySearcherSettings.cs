@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using Cryptool.PluginBase;
 using System.ComponentModel;
@@ -16,6 +17,23 @@ namespace KeySearcher
         private const string GroupEvaluation = "Evaluation";
         private const string GroupOpenCL = "OpenCL";
 
+        public class OpenCLDeviceSettings
+        {
+            public string name;
+            public int index;
+            public bool useDevice;
+            public int mode;
+        }
+
+        private List<OpenCLDeviceSettings> deviceSettings = new List<OpenCLDeviceSettings>();
+        public List<OpenCLDeviceSettings> DeviceSettings
+        {
+            get
+            {
+                return deviceSettings;
+            }
+        }
+
         public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
 
         public KeySearcherSettings(KeySearcher ks, OpenCLManager oclManager)
@@ -23,9 +41,15 @@ namespace KeySearcher
             keysearcher = ks;
 
             devicesAvailable.Clear();
+            int c = 0;
             if (oclManager != null)
                 foreach (var device in oclManager.Context.Devices)
-                    devicesAvailable.Add(device.Vendor + ":" + device.Name);
+                {
+                    string deviceName = device.Vendor + ":" + device.Name;
+                    deviceSettings.Add(new OpenCLDeviceSettings() {name = deviceName, index = c, mode = 1, useDevice = false});
+                    devicesAvailable.Add(deviceName);
+                    c++;
+                }
 
             CoresAvailable.Clear();
             for (int i = -1; i < Environment.ProcessorCount; i++)
@@ -249,35 +273,6 @@ namespace KeySearcher
             set {}
         }
 
-        private bool useOpenCL;
-        [TaskPane("Use OpenCL", "If checked, an OpenCL device is used for bruteforcing.",
-            GroupOpenCL, 1, false, DisplayLevel.Experienced, ControlType.CheckBox)]
-        public bool UseOpenCL
-        {
-            get { return useOpenCL; }
-            set
-            {
-                if (value != useOpenCL)
-                {
-                    useOpenCL = value;
-                    hasChanges = true;
-                    OnPropertyChanged("UseOpenCL");
-
-                    DeviceVisibility();
-                }
-            }
-        }
-
-        private void DeviceVisibility()
-        {
-            if (TaskPaneAttributeChanged == null)
-                return;
-
-            Visibility visibility = UseOpenCL ? Visibility.Visible : Visibility.Collapsed;
-            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("OpenCLDevice", visibility)));
-            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("OpenCLMode", visibility)));
-        }
-
         private void OpenCLGroupVisiblity()
         {
             if (TaskPaneAttributeChanged == null)
@@ -296,12 +291,11 @@ namespace KeySearcher
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("OpenCLMode", Visibility.Visible)));
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("UseOpenCL", Visibility.Visible)));
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("NoOpenCL", Visibility.Collapsed)));
-                DeviceVisibility();
             }
         }
 
         private int openCLDevice;
-        [TaskPane("OpenCL Device", "Choose the OpenCL device you want to use.", GroupOpenCL, 2, false, DisplayLevel.Experienced, ControlType.DynamicComboBox, new string[] { "DevicesAvailable" })]
+        [TaskPane("OpenCL Device", "Choose the OpenCL device you want to use.", GroupOpenCL, 1, false, DisplayLevel.Experienced, ControlType.DynamicComboBox, new string[] { "DevicesAvailable" })]
         public int OpenCLDevice
         {
             get { return this.openCLDevice; }
@@ -310,22 +304,40 @@ namespace KeySearcher
                 if (value != this.openCLDevice)
                 {
                     this.openCLDevice = value;
+                    UseOpenCL = deviceSettings[value].useDevice;
+                    OpenCLMode = deviceSettings[value].mode;
                     OnPropertyChanged("OpenCLDevice");
                     HasChanges = true;
                 }
             }
         }
 
-        private int openCLMode = 1;
+        [TaskPane("Use selected device", "If checked, the selected OpenCL device is used for bruteforcing.",
+            GroupOpenCL, 2, false, DisplayLevel.Experienced, ControlType.CheckBox)]
+        public bool UseOpenCL
+        {
+            get { return deviceSettings[OpenCLDevice].useDevice; }
+            set
+            {
+                if (value != deviceSettings[OpenCLDevice].useDevice)
+                {
+                    deviceSettings[OpenCLDevice].useDevice = value;
+                    hasChanges = true;
+                    OnPropertyChanged("UseOpenCL");
+                    //DeviceVisibility();
+                }
+            }
+        }
+
         [TaskPane("OpenCL Mode", "Choose the OpenCL mode you want to use.", GroupOpenCL, 3, false, DisplayLevel.Experienced, ControlType.RadioButton, new string[] { "Low Load", "Normal Load", "High Load (use with caution)" })]
         public int OpenCLMode
         {
-            get { return this.openCLMode; }
+            get { return deviceSettings[OpenCLDevice].mode; }
             set
             {
-                if (value != this.openCLMode)
+                if (value != deviceSettings[OpenCLDevice].mode)
                 {
-                    this.openCLMode = value;
+                    deviceSettings[OpenCLDevice].mode = value;
                     OnPropertyChanged("OpenCLMode");
                     HasChanges = true;
                 }
