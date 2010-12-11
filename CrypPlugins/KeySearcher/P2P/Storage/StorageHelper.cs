@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Cryptool.P2P;
 using Cryptool.P2P.Internal;
@@ -49,6 +50,30 @@ namespace KeySearcher.P2P.Storage
             }                        
             
             //TODO: Dictionary write;
+//----------------------------------------------------------------------------------
+/*  
+            //Creating a copy of the activity dictionary
+            Dictionary<String, Dictionary<long, int>> copyAct = nodeToUpdate.Activity;
+
+            //Write number of avatarnames
+            binaryWriter.Write(copyAct.Keys.Count);
+            foreach (string avatar in copyAct.Keys)
+            {
+                Dictionary<long, int> maschCopy = copyAct[avatar];
+                //write avatarname
+                binaryWriter.Write(avatar);
+                //write the number of maschines for this avatar
+                binaryWriter.Write(copyAct[avatar].Keys.Count);
+
+                foreach (long maschID in copyAct[avatar].Keys)
+                {
+                    //write the maschines and their patterncount
+                    binaryWriter.Write(maschID);
+                    binaryWriter.Write(maschCopy[maschID]);
+                }
+            }
+*/
+//----------------------------------------------------------------------------------)
 
             return StoreWithStatistic(KeyInDht(nodeToUpdate), memoryStream.ToArray());
         }
