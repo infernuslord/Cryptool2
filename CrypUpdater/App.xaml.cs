@@ -8,7 +8,9 @@ using System.Windows;
 using System.Collections;
 using System.Threading;
 using System.Windows.Threading;
+using System.IO;
 using Ionic.Zip;
+using System.ComponentModel;
 
 
 namespace CrypUpdater
@@ -50,9 +52,12 @@ namespace CrypUpdater
 
                 if (p.WaitForExit(1000 * 30))
                 {
-                    unwantedProcesses = FindCrypToolProcesses(CryptoolExePath);
+                    unwantedProcesses = FindCrypToolProcesses(CryptoolFolderPath);
                     if (unwantedProcesses.Count == 0)
+                    {
                         UnpackZip(ZipFilePath, CryptoolFolderPath);
+                        RestartCryptool();
+                    }
                     else
                     {
                         AskForLicenseToKill();
@@ -71,9 +76,12 @@ namespace CrypUpdater
                         {
                             p.Kill();
                             p.WaitForExit();
-                            unwantedProcesses = FindCrypToolProcesses(CryptoolExePath);
+                            unwantedProcesses = FindCrypToolProcesses(CryptoolFolderPath);
                             if (unwantedProcesses.Count == 0)
+                            {
                                 UnpackZip(ZipFilePath, CryptoolFolderPath);
+                                RestartCryptool();
+                            }
                             else
                             {
                                 AskForLicenseToKill();
@@ -81,9 +89,12 @@ namespace CrypUpdater
                         }
                         catch (Exception)
                         {
-                            unwantedProcesses = FindCrypToolProcesses(CryptoolExePath);
+                            unwantedProcesses = FindCrypToolProcesses(CryptoolFolderPath);
                             if (unwantedProcesses.Count == 0)
+                            {
                                 UnpackZip(ZipFilePath, CryptoolFolderPath);
+                                RestartCryptool();
+                            }
                             else
                             {
                                 AskForLicenseToKill();
@@ -118,9 +129,12 @@ namespace CrypUpdater
             }
             catch (ArgumentException) // the invoking process has already exited (no such process with this id exists)
             {
-                unwantedProcesses = FindCrypToolProcesses(CryptoolExePath);
+                unwantedProcesses = FindCrypToolProcesses(CryptoolFolderPath);
                 if (unwantedProcesses.Count == 0)
+                {
                     UnpackZip(ZipFilePath, CryptoolFolderPath);
+                    RestartCryptool();
+                }
                 else
                 {
                     AskForLicenseToKill();
@@ -154,6 +168,7 @@ namespace CrypUpdater
             {
                 KillOtherProcesses(unwantedProcesses);
                 UnpackZip(ZipFilePath, CryptoolFolderPath);
+                RestartCryptool();
             }
             else
             {
@@ -213,8 +228,10 @@ namespace CrypUpdater
 
             try
             {
+
                 using (ZipFile zip = ZipFile.Read(ZipFilePath))
                 {
+
                     int count = zip.Entries.Count;
                     int i = 0;
                     int progress = 0;
@@ -227,27 +244,33 @@ namespace CrypUpdater
                         m.UpdateProgress(progress);
                     }
 
-                    RestartCryptool();
-
                 }
+
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                MessageBox.Show("Update failed. CrypTool 2.0 will be restarted.", "Error");
+                MessageBox.Show("Extraction failed: "+e.Message+". CrypTool 2.0 will be restarted.", "Error");
                 RestartCryptool();
             }
 
         }
 
 
-        private List<Process> FindCrypToolProcesses(string cryptoolExePath)
+        private List<Process> FindCrypToolProcesses(string cryptoolFolderPath)
         {
             List<Process> processList = new List<Process>();
 
-            foreach (Process p in Process.GetProcesses())
+            try
             {
-                if (p.ProcessName == "CrypStartup" && p.MainModule.FileName == cryptoolExePath)
-                    processList.Add(p);
+                foreach (Process p in Process.GetProcesses())
+                {
+                    if (Path.GetDirectoryName(p.MainModule.FileName) == cryptoolFolderPath)
+                        processList.Add(p);
+                }
+            }
+            catch (Win32Exception)
+            {
+                //32 bit updater cannot check for 64 bit processes
             }
 
             return processList;
