@@ -16,6 +16,7 @@ namespace KeySearcher
         private const string GroupPeerToPeer = "Peer-to-Peer network";
         private const string GroupEvaluation = "Evaluation";
         private const string GroupOpenCL = "OpenCL";
+        private const string GroupExternalClient = "External Client";
 
         public class OpenCLDeviceSettings
         {
@@ -316,15 +317,20 @@ namespace KeySearcher
             GroupOpenCL, 2, false, DisplayLevel.Experienced, ControlType.CheckBox)]
         public bool UseOpenCL
         {
-            get { return deviceSettings[OpenCLDevice].useDevice; }
+            get
+            {
+                if (deviceSettings.Count > OpenCLDevice)
+                    return deviceSettings[OpenCLDevice].useDevice;
+                else
+                    return false;
+            }
             set
             {
-                if (value != deviceSettings[OpenCLDevice].useDevice)
+                if ((deviceSettings.Count > OpenCLDevice) && (value != deviceSettings[OpenCLDevice].useDevice))
                 {
                     deviceSettings[OpenCLDevice].useDevice = value;
                     hasChanges = true;
                     OnPropertyChanged("UseOpenCL");
-                    //DeviceVisibility();
                 }
             }
         }
@@ -332,10 +338,16 @@ namespace KeySearcher
         [TaskPane("OpenCL Mode", "Choose the OpenCL mode you want to use.", GroupOpenCL, 3, false, DisplayLevel.Experienced, ControlType.RadioButton, new string[] { "Low Load", "Normal Load", "High Load (use with caution)" })]
         public int OpenCLMode
         {
-            get { return deviceSettings[OpenCLDevice].mode; }
+            get
+            {
+                if (deviceSettings.Count > OpenCLDevice)
+                    return deviceSettings[OpenCLDevice].mode;
+                else
+                    return 0;
+            }
             set
             {
-                if (value != deviceSettings[OpenCLDevice].mode)
+                if ((deviceSettings.Count > OpenCLDevice) && (value != deviceSettings[OpenCLDevice].mode))
                 {
                     deviceSettings[OpenCLDevice].mode = value;
                     OnPropertyChanged("OpenCLMode");
@@ -355,6 +367,43 @@ namespace KeySearcher
                     devicesAvailable = value;
                 }
                 OnPropertyChanged("DevicesAvailable");
+            }
+        }
+
+        #endregion
+
+        #region external client
+
+        private bool useExternalClient = false;
+        [TaskPane("Use external client", "If checked, external clients are allowed to connect to this CrypTool 2.0 instance to support the bruteforce process.", 
+            GroupExternalClient, 1, false, DisplayLevel.Experienced, ControlType.CheckBox)]
+        public bool UseExternalClient
+        {
+            get { return useExternalClient; }
+            set
+            {
+                if (value != useExternalClient)
+                {
+                    useExternalClient = value;
+                    hasChanges = true;
+                    OnPropertyChanged("UseExternalClient");
+                }
+            }
+        }
+
+        private int port = 6234;
+        [TaskPane("Port", "Port on which to listen for external clients.", GroupExternalClient, 2, false, DisplayLevel.Experienced, ControlType.TextBox)]
+        public int Port
+        {
+            get { return port; }
+            set
+            {
+                if (value != port)
+                {
+                    port = value;
+                    hasChanges = true;
+                    OnPropertyChanged("Port");
+                }
             }
         }
 
