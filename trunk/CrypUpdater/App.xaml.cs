@@ -262,13 +262,28 @@ namespace CrypUpdater
 
             try
             {
-                foreach (Process p in Process.GetProcesses())
+                Process[] p1 = Process.GetProcessesByName("CrypStartup");
+                foreach (Process p in p1)
                 {
                     if (Path.GetDirectoryName(p.MainModule.FileName) == cryptoolFolderPath)
                         processList.Add(p);
                 }
             }
-            catch (Win32Exception)
+            catch (Exception)
+            {
+                //32 bit updater cannot check for 64 bit processes
+            }
+
+            try
+            {
+                Process[] p2 = Process.GetProcessesByName("CrypWin");
+                foreach (Process p in p2)
+                {
+                    if (Path.GetDirectoryName(p.MainModule.FileName) == cryptoolFolderPath)
+                        processList.Add(p);
+                }
+            }
+            catch (Exception)
             {
                 //32 bit updater cannot check for 64 bit processes
             }
