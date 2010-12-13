@@ -29,7 +29,7 @@ namespace KeySearcher
             this.approximateNumberOfKeys = approximateNumberOfKeys;
         }
 
-        private string CreateOpenCLBruteForceCode(IKeyTranslator keyTranslator)
+        public string CreateOpenCLBruteForceCode(IKeyTranslator keyTranslator)
         {
             if (keyTranslatorOfCode == keyTranslator)
             {
