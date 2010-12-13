@@ -22,6 +22,9 @@ namespace KeySearcher.P2P.Tree
         public void HandleResults(LinkedList<KeySearcher.ValueKey> result)
         {
             Result = result;
+//-------------------------------------------------------------------------------
+//          UpdateActivity();
+//-------------------------------------------------------------------------------
             UpdateDht();
         }
 

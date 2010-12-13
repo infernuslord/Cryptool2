@@ -25,7 +25,7 @@ namespace KeySearcher.P2P.Tree
 //-----------------------------------------------------------------------------------
 /*
         //Dictionary Tests
-        String Avatarname = "ct2";
+        public String Avatarname = "ct2";
         public Dictionary<String, Dictionary<long, int>> Activity;
 */ 
 //-----------------------------------------------------------------------------------
@@ -41,6 +41,7 @@ namespace KeySearcher.P2P.Tree
 
             LastUpdate = DateTime.MinValue;
             Result = new LinkedList<KeySearcher.ValueKey>();
+//            Activity = new Dictionary<string, Dictionary<long, int>>();
 
             StorageHelper.UpdateFromDht(this);
         }
@@ -165,7 +166,15 @@ namespace KeySearcher.P2P.Tree
             StorageHelper.UpdateFromDht(this, true);
             StorageHelper.UpdateInDht(this);
         }
-
+//-------------------------------------------------------------------------------------------------------
+/*
+        protected void UpdateActivity()
+        {
+            Dictionary<long, int> Maschine = new Dictionary<long, int> { { Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID(), 1 } };
+            Activity.Add(Avatarname, Maschine);
+        }
+*/
+//--------------------------------------------------------------------------------------------------------
         public abstract bool IsReserved();
 
         public abstract Leaf CalculatableLeaf(bool useReservedNodes);
