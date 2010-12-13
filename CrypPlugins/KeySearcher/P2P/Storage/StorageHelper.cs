@@ -63,9 +63,9 @@ namespace KeySearcher.P2P.Storage
                 //write avatarname
                 binaryWriter.Write(avatar);
                 //write the number of maschines for this avatar
-                binaryWriter.Write(copyAct[avatar].Keys.Count);
+                binaryWriter.Write(maschCopy.Keys.Count);
 
-                foreach (long maschID in copyAct[avatar].Keys)
+                foreach (long maschID in maschCopy.Keys)
                 {
                     //write the maschines and their patterncount
                     binaryWriter.Write(maschID);
@@ -136,13 +136,32 @@ namespace KeySearcher.P2P.Storage
             //-------------------------------------------------------------------------------------------
             //AFTER CHANGING THE FOLLOWING PART INCREASE THE VERSION-NUMBER AT THE TOP OF THIS CLASS!
             //-------------------------------------------------------------------------------------------
-            /*
-            if (binaryReader.BaseStream.Length != binaryReader.BaseStream.Position)
-            {
-                //TODO: Dictionary read
-            }
-            */
+//----------------------------------------------------------------------------------------
+/*
+            //TODO: Dictionary read
+            if (binaryReader.BaseStream.Length != (binaryReader.BaseStream.Position+1))
+            {  
+                //Reading the number of avatarnames
+                int avatarcount = binaryReader.ReadInt32();
+                for(int i=0; i<avatarcount;i++)
+                {
+                    //Reading the avatarname and the maschine-count for this name
+                    string avatarname = binaryReader.ReadString();
+                    int maschcount = binaryReader.ReadInt32();
+                    Dictionary<long, int> readMaschcount = new Dictionary<long, int>();
 
+                    for(int j=0;j<maschcount;j++)
+                    {
+                        //reading the IDs and patterncount
+                        long maschID = binaryReader.ReadInt64();
+                        int count = binaryReader.ReadInt32();
+                        readMaschcount.Add(maschID,count);
+                    }
+                    nodeToUpdate.Activity.Add(avatarname,readMaschcount);                   
+                }               
+            }
+*/
+//---------------------------------------------------------------------------------------------                        
             if (resultCount > 0)
             {
                 keySearcher.IntegrateNewResults(nodeToUpdate.Result);
@@ -193,7 +212,6 @@ namespace KeySearcher.P2P.Storage
             return string.Format("{0}_node_{1}_{2}", node.DistributedJobIdentifier, node.From, node.To);
         }
 
-        //----------------------------------------------------------------------------
         private static void CheckVersion(BinaryReader binaryReader)
         {           
             try
@@ -218,7 +236,6 @@ namespace KeySearcher.P2P.Storage
             }
             
         }
-        //-----------------------------------------------------------------------------
 
         public DateTime StartDate(String ofJobIdentifier)
         {
