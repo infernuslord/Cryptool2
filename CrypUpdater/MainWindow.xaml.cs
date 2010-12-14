@@ -32,7 +32,7 @@ namespace CrypUpdater
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 progressBar1.Value = progress;
-            }, null);
+            }, progress);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
