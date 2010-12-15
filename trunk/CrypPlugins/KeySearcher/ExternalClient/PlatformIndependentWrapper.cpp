@@ -33,6 +33,11 @@ void PlatformIndependentWrapper::WriteInt(int32_t i)
     WriteArray((char*)(&networked), 4);
 }
 
+void PlatformIndependentWrapper::WriteFloat(float f)
+{
+    WriteArray((char*)(&f), 4);
+}
+
 void PlatformIndependentWrapper::ReadArray(char* buf, int num)
 {
     int rec = 0;

@@ -17,6 +17,8 @@
 #include "Job.h"
 #include "Cryptool.h"
 
+Cryptool cryptool;
+
 std::string getIdentificationStr()
 {
     std::stringstream out;
@@ -41,14 +43,25 @@ void GetJobsAndPostResults(PlatformIndependentWrapper wrapper)
                     Job j;
                     j.Guid = wrapper.ReadString();
                     j.Src = wrapper.ReadString();
-                    j.Input= wrapper.ReadString();
+                    j.KeySize = wrapper.ReadInt();
+                    j.Key = new char[j.KeySize];
+                    wrapper.ReadArray(j.Key, j.KeySize);
+                    j.LargerThen = (wrapper.ReadInt() ? true : false);
+                    j.Size = wrapper.ReadInt();
+                    j.ResultSize = wrapper.ReadInt();
                     printf("Got new job! guid=%s\n", j.Guid.c_str());
 
-                    doOpenCLJob(j);
+                    JobResult res = cryptool.doOpenCLJob(j);
 
+		    //send results back:
                     wrapper.WriteInt(ClientOpcodes::JOB_RESULT);
                     wrapper.WriteString(j.Guid);
-                    wrapper.WriteString("not founds anythings :(");
+                    wrapper.WriteInt(res.ResultList.size());
+                    for (std::list<std::pair<float, int> >::iterator it = res.ResultList.begin(); it != res.ResultList.end(); it++)
+                    {
+                        wrapper.WriteInt(it->first);
+                        wrapper.WriteFloat(it->second);
+                    }
                 }
                 break;
         }
