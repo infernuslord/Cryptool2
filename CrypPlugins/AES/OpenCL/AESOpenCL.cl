@@ -604,7 +604,7 @@ int AES_set_encrypt_key(global unsigned char *userKey, const int bits, private A
    	int i = 0;
 	u32 temp;
 
-	if (!userKey || !key)
+	if ((userKey == 0) || (key == 0))
 		return -1;
 	if (bits != 128 && bits != 192 && bits != 256)
 		return -2;
