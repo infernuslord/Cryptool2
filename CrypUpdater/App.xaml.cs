@@ -250,7 +250,6 @@ namespace CrypUpdater
             catch (Exception e)
             {
                 MessageBox.Show("Extraction failed: "+e.Message+". CrypTool 2.0 will be restarted.", "Error");
-                RestartCryptool();
             }
 
         }
