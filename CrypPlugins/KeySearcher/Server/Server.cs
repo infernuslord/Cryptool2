@@ -59,6 +59,7 @@ class CryptoolServer
             wrapped.WriteInt((int)ServerOpcodes.NEW_JOB);
             wrapped.WriteString(j.Guid);
             wrapped.WriteString(j.Src);
+            wrapped.WriteInt(j.Key.Length);
             wrapped.WriteBytes(j.Key);
             wrapped.WriteInt(j.LargerThen ? 1 : 0);
             wrapped.WriteInt(j.Size);
