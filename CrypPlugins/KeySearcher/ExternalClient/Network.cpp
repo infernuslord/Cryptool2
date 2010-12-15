@@ -17,7 +17,7 @@
 #include "Job.h"
 #include "Cryptool.h"
 
-Cryptool cryptool;
+Cryptool* cryptool = 0;
 
 std::string getIdentificationStr()
 {
@@ -30,6 +30,9 @@ std::string getIdentificationStr()
 
 void GetJobsAndPostResults(PlatformIndependentWrapper wrapper)
 {
+    if (cryptool == 0)
+        cryptool = new Cryptool();
+
     wrapper.WriteInt(ClientOpcodes::HELLO);
     wrapper.WriteString(getIdentificationStr());
 
@@ -51,7 +54,7 @@ void GetJobsAndPostResults(PlatformIndependentWrapper wrapper)
                     j.ResultSize = wrapper.ReadInt();
                     printf("Got new job! guid=%s\n", j.Guid.c_str());
 
-                    JobResult res = cryptool.doOpenCLJob(j);
+                    JobResult res = cryptool->doOpenCLJob(j);
 
 		    //send results back:
                     wrapper.WriteInt(ClientOpcodes::JOB_RESULT);
