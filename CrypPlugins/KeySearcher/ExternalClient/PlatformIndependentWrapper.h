@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 
 class SocketException
@@ -19,6 +21,7 @@ class PlatformIndependentWrapper
 
         int32_t ReadInt();
         void WriteInt(int32_t);
+        void WriteFloat(float);
 
         void ReadArray(char* buf, int len);
         void WriteArray(const char* buf, int num);
