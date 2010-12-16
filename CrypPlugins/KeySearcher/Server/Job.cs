@@ -21,5 +21,5 @@ public class JobInput : JobBase
 
 public class JobResult : JobBase
 {
-    public SortedDictionary<float, int> ResultList {get;set;}
+    public List<KeyValuePair<float, int>> ResultList {get;set;}
 }

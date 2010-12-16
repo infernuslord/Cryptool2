@@ -246,6 +246,7 @@ namespace KeySearcher
         private int externalKeysProcessed;
         private EndPoint externalClientConnected;
         private AutoResetEvent waitForExternalClientToFinish = new AutoResetEvent(false);
+        private DateTime assignTime;
         #endregion
 
         public KeySearcher()
@@ -759,9 +760,9 @@ namespace KeySearcher
                     cryptoolServer = new CryptoolServer();
                     externalClientConnected = null;
                     cryptoolServer.Port = settings.Port;
-                    cryptoolServer.OnJobCompleted += new CryptoolServer.JobCompletedDelegate(server_OnJobCompleted);
-                    cryptoolServer.OnClientConnected += new CryptoolServer.ClientConnectedDelegate(server_OnClientConnected);
-                    cryptoolServer.OnClientDisconnected += new CryptoolServer.ClientDisconnectedDelegate(cryptoolServer_OnClientDisconnected);
+                    cryptoolServer.OnJobCompleted += server_OnJobCompleted;
+                    cryptoolServer.OnClientConnected += server_OnClientConnected;
+                    cryptoolServer.OnClientDisconnected += cryptoolServer_OnClientDisconnected;
                     serverThread = new Thread(new ThreadStart(delegate
                                                                       {
                                                                           cryptoolServer.Run();
@@ -782,6 +783,10 @@ namespace KeySearcher
                 if (stop && serverThread != null)
                 {
                     //stop server here!
+                    serverThread.Interrupt();
+                    cryptoolServer.OnJobCompleted -= server_OnJobCompleted;
+                    cryptoolServer.OnClientConnected -= server_OnClientConnected;
+                    cryptoolServer.OnClientDisconnected -= cryptoolServer_OnClientDisconnected;
                 }
             }
         }
@@ -1028,11 +1033,14 @@ namespace KeySearcher
             j.LargerThen = (costMaster.getRelationOperator() == RelationOperator.LargerThen);
             j.Size = externalKeyTranslator.GetOpenCLBatchSize();
             j.ResultSize = 10;
+            GuiLogMessage(string.Format("Assigning new job with Guid {0} to client!", j.Guid), NotificationLevel.Info);
             cryptoolServer.SendJob(j, client);
+            assignTime = DateTime.Now;
         }
 
         void server_OnJobCompleted(System.Net.EndPoint client, JobResult jr)
         {
+            GuiLogMessage(string.Format("Client returned result of job with Guid {0}!", jr.Guid), NotificationLevel.Info);
             //check:
             var op = this.costMaster.getRelationOperator();
             foreach (var res in jr.ResultList)
@@ -1050,8 +1058,11 @@ namespace KeySearcher
             updateToplist();
 
             //progress:
-            externalKeysProcessed += externalKeyTranslator.GetProgress();
-            showProgress(costList, pattern.size(), externalKeysProcessed, 1);
+            externalKeyTranslator.NextOpenCLBatch();
+            int progress = externalKeyTranslator.GetProgress();
+            externalKeysProcessed += progress;
+            int keysPerSec = (int)(progress / (DateTime.Now - assignTime).TotalSeconds);
+            showProgress(costList, pattern.size(), externalKeysProcessed, keysPerSec);
 
             if (externalKeysProcessed != pattern.size())
             {
