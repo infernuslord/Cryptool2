@@ -83,6 +83,17 @@ Cryptool::Cryptool()
         devices[i].getInfo(CL_DEVICE_OPENCL_C_VERSION, &out);
         printf("version c: %s\n", out.c_str());
     }
+
+    // results
+    costs = cl::Buffer(*context, CL_MEM_WRITE_ONLY, sizeof(float)*subbatch, NULL, &err);
+
+    if(err != CL_SUCCESS)
+    {
+        std::cerr << "Failed allocate to costsbuffer(" << err << ")\n";
+        throw new std::exception();
+    }
+    
+    localCosts = new float[subbatch];
 }
 
 void Cryptool::buildKernel(const Job& j)
@@ -163,50 +174,19 @@ JobResult Cryptool::doOpenCLJob(const Job& j)
         throw new std::exception();
     }
 
-    // results
-    cl::Buffer costs = cl::Buffer(*context, CL_MEM_WRITE_ONLY, sizeof(float)*j.ResultSize, NULL, &err);
-
-    if(err != CL_SUCCESS)
-    {
-        std::cerr << "Failed allocate to entropybuffer(" << err << ")\n";
-        throw new std::exception();
-    }
-
-    //execute:
-    std::cout<<"Running CL program\n";
-    enqueueKernel(queue, j.Size, keybuffer, costs);
-
-    err = queue.finish();
-    if (err != CL_SUCCESS) {
-        std::cerr << "Event::wait() failed (" << err << ")\n";
-        throw new std::exception();
-    }
-
-    std::cout<<"Done Passed!\n";
-
-    float* localCosts = new float[j.ResultSize];
-
-    queue.enqueueReadBuffer(costs, 1, 0, sizeof(float)*j.ResultSize, localCosts);
-
-    //check results:
-    JobResult res;
     res.ResultList.resize(j.ResultSize);
     initTop(res.ResultList, j.LargerThen);
 
-    for(int i=0; i<j.Size; ++i)
-    {
-std::cout << localCosts[i] << std::endl;
-        std::list<std::pair<float, int> >::iterator it = isInTop(res.ResultList, localCosts[i], j.LargerThen);
-        if (it != res.ResultList.end())
-            pushInTop(res.ResultList, it, localCosts[i], i);
-    }
+    //execute:
+    std::cout<<"Running CL program with " << j.Size << " calculations!\n";
+    enqueueKernel(queue, j.Size, keybuffer, costs, j);
+
+    std::cout<<"Done!\n";
 
     return res;
 }
 
-const int subbatch = 256;
-
-void Cryptool::enqueueSubbatch(cl::CommandQueue& queue, cl::Buffer& keybuffer, cl::Buffer& costs, cl::NDRange offset, cl::NDRange worksize)
+void Cryptool::enqueueSubbatch(cl::CommandQueue& queue, cl::Buffer& keybuffer, cl::Buffer& costs, int add, int length, const Job& j)
 {
 	cl_int err;
 
@@ -222,13 +202,13 @@ void Cryptool::enqueueSubbatch(cl::CommandQueue& queue, cl::Buffer& keybuffer, c
 		throw new std::exception();
 	}
 
-	err = kernel->setArg(2, 0);
+	err = kernel->setArg(2, add);
 	if (err != CL_SUCCESS) {
 		std::cerr << "Kernel::setArg() failed (" << err << ")\n";
 		throw new std::exception();
 	}
 
-	err = queue.enqueueNDRangeKernel(*kernel, offset, worksize, cl::NullRange);
+	err = queue.enqueueNDRangeKernel(*kernel, cl::NullRange, cl::NDRange(length), cl::NullRange);
 
 	if (err != CL_SUCCESS) {
 		std::cerr << "CommandQueue::enqueueNDRangeKernel()" \
@@ -241,20 +221,35 @@ void Cryptool::enqueueSubbatch(cl::CommandQueue& queue, cl::Buffer& keybuffer, c
 		std::cerr << "Event::wait() failed (" << err << ")\n";
 		throw new std::exception();
 	}
+
+	queue.enqueueReadBuffer(costs, 1, 0, sizeof(float)*length, localCosts);
+	err = queue.finish();
+	if (err != CL_SUCCESS) {
+		std::cerr << "Event::wait() failed (" << err << ")\n";
+		throw new std::exception();
+	}
+
+	//check results:
+	for(int i=0; i<length; ++i)
+	{
+		//std::cout << localCosts[i] << std::endl;
+		std::list<std::pair<float, int> >::iterator it = isInTop(res.ResultList, localCosts[i], j.LargerThen);
+		if (it != res.ResultList.end())
+			pushInTop(res.ResultList, it, localCosts[i], i+add);
+	}
 }
 
-void Cryptool::enqueueKernel(cl::CommandQueue& queue, int size, cl::Buffer& keybuffer, cl::Buffer& costs)
+void Cryptool::enqueueKernel(cl::CommandQueue& queue, int size, cl::Buffer& keybuffer, cl::Buffer& costs, const Job& j)
 {
     for (int i = 0; i < (size/subbatch); i++)
     {
-	enqueueSubbatch(queue, keybuffer, costs, cl::NDRange(i*subbatch), cl::NDRange(subbatch));
-	std::cout << i << " von " << (size/subbatch) << std::endl;
+	enqueueSubbatch(queue, keybuffer, costs, i*subbatch, subbatch, j);
     }
 
     int remain = (size%subbatch);
     if (remain != 0)
     {
-	enqueueSubbatch(queue, keybuffer, costs, cl::NDRange(size-remain), cl::NDRange(remain));
+	enqueueSubbatch(queue, keybuffer, costs, size-remain, remain, j);
     }
 }
 

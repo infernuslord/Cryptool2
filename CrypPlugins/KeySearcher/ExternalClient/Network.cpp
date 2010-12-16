@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <arpa/inet.h>
 #include <sys/sysctl.h>
+#include <iostream>
 
 #include <sys/types.h>
 #include <sys/sysctl.h>
@@ -62,8 +63,8 @@ void GetJobsAndPostResults(PlatformIndependentWrapper wrapper)
                     wrapper.WriteInt(res.ResultList.size());
                     for (std::list<std::pair<float, int> >::iterator it = res.ResultList.begin(); it != res.ResultList.end(); it++)
                     {
-                        wrapper.WriteInt(it->first);
-                        wrapper.WriteFloat(it->second);
+                        wrapper.WriteInt(it->second);
+                        wrapper.WriteFloat(it->first);
                     }
                 }
                 break;
