@@ -26,23 +26,33 @@ class CryptoolServer
     ///</summary>
     public void Run()
     {
-        var tcpListener = new TcpListener(IPAddress.Any, Port);
-        tcpListener.Start();
-        Console.WriteLine("Listening for client on port "+Port);
-        while(true)
+        TcpListener tcpListener = null;
+        try
         {
-            TcpClient client = tcpListener.AcceptTcpClient();
-            Console.WriteLine("Got connection from "+client);
-            lock(connectedClients)
+            tcpListener = new TcpListener(IPAddress.Any, Port);
+            tcpListener.Start();
+            Console.WriteLine("Listening for client on port " + Port);
+            while (true)
             {
-                connectedClients.Add(client.Client.RemoteEndPoint, client);
+                TcpClient client = tcpListener.AcceptTcpClient();
+                Console.WriteLine("Got connection from " + client);
+                lock (connectedClients)
+                {
+                    connectedClients.Add(client.Client.RemoteEndPoint, client);
+                }
+                Thread clientThread = new Thread(new ParameterizedThreadStart(HandleClient));
+                clientThread.Start(client);
             }
-            Thread clientThread = new Thread(new ParameterizedThreadStart(HandleClient));
-            clientThread.Start(client);
         }
+        catch (ThreadInterruptedException)
+        {
+        }
+
+        tcpListener.Stop();
+        foreach(var client in connectedClients)
+            client.Value.Close();
     }
-
-
+    
     public void SendJob(JobInput j, EndPoint i)
     {
         TcpClient client = null;
@@ -90,13 +100,13 @@ class CryptoolServer
                     case ClientOpcodes.JOB_RESULT:
                         {
                             var jobGuid = wrapped.ReadString();
-                            var resultList = new SortedDictionary<float, int>();
+                            var resultList = new List<KeyValuePair<float, int>>();
                             var resultListLength = wrapped.ReadInt();
                             for (int c = 0; c < resultListLength; c++)
                             {
                                 var key = wrapped.ReadInt();
                                 var cost = wrapped.ReadFloat();
-                                resultList.Add(cost, key);
+                                resultList.Add(new KeyValuePair<float, int>(cost, key));
                             }
 
                             JobResult rs = new JobResult();
