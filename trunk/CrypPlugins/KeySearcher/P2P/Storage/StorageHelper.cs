@@ -17,7 +17,7 @@ namespace KeySearcher.P2P.Storage
         private readonly StatusContainer statusContainer;
 
         //VERSIONNUMBER: Important. Set it +1 manually everytime the length of the MemoryStream Changes
-        private const int version = 1;
+        private const int version = 2;
 
         public StorageHelper(KeySearcher keySearcher, StatisticsGenerator statisticsGenerator, StatusContainer statusContainer)
         {
@@ -49,9 +49,7 @@ namespace KeySearcher.P2P.Storage
                 binaryWriter.Write(valueKey.decryption);
             }                        
             
-            //TODO: Dictionary write;
-//----------------------------------------------------------------------------------
-/*  
+ 
             //Creating a copy of the activity dictionary
             Dictionary<String, Dictionary<long, int>> copyAct = nodeToUpdate.Activity;
 
@@ -72,8 +70,6 @@ namespace KeySearcher.P2P.Storage
                     binaryWriter.Write(maschCopy[maschID]);
                 }
             }
-*/
-//----------------------------------------------------------------------------------)
 
             return StoreWithStatistic(KeyInDht(nodeToUpdate), memoryStream.ToArray());
         }
@@ -133,13 +129,9 @@ namespace KeySearcher.P2P.Storage
                 nodeToUpdate.Result.AddLast(newResult);
             }
             
-            //-------------------------------------------------------------------------------------------
-            //AFTER CHANGING THE FOLLOWING PART INCREASE THE VERSION-NUMBER AT THE TOP OF THIS CLASS!
-            //-------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------
-/*
-            //TODO: Dictionary read
-            if (binaryReader.BaseStream.Length != (binaryReader.BaseStream.Position+1))
+
+
+            if (binaryReader.BaseStream.Length != binaryReader.BaseStream.Position)
             {  
                 //Reading the number of avatarnames
                 int avatarcount = binaryReader.ReadInt32();
@@ -157,14 +149,24 @@ namespace KeySearcher.P2P.Storage
                         int count = binaryReader.ReadInt32();
                         readMaschcount.Add(maschID,count);
                     }
-                    nodeToUpdate.Activity.Add(avatarname,readMaschcount);                   
+                    if (nodeToUpdate.Activity.ContainsKey(avatarname))
+                    {
+                        nodeToUpdate.Activity[avatarname] = readMaschcount;
+                    }
+                    else
+                    {
+                        nodeToUpdate.Activity.Add(avatarname, readMaschcount);                      
+                    }
                 }               
             }
-*/
-//---------------------------------------------------------------------------------------------                        
+
+//-------------------------------------------------------------------------------------------
+//AFTER CHANGING THE FOLLOWING PART INCREASE THE VERSION-NUMBER AT THE TOP OF THIS CLASS!
+//-------------------------------------------------------------------------------------------
+                       
             if (resultCount > 0)
             {
-                keySearcher.IntegrateNewResults(nodeToUpdate.Result);
+                keySearcher.IntegrateNewResults(nodeToUpdate.Result,nodeToUpdate.Activity, nodeToUpdate.DistributedJobIdentifier);
                 statisticsGenerator.ProcessPatternResults(nodeToUpdate.Result);
             }
 

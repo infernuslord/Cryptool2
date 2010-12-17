@@ -91,9 +91,7 @@ namespace KeySearcher.P2P
             status.CurrentOperation = "Ready for calculation";
 
             status.StartDate = keyPoolTree.StartDate();
-            //----------------------------------------------
             status.JobSubmitterID = keyPoolTree.SubmitterID();
-            //-----------------------------------------------
 
             keyPoolTree.UpdateStatusForNewCalculation();
 
@@ -210,7 +208,7 @@ namespace KeySearcher.P2P
                             P2PManager.P2PBase.OnSystemJoined += new P2PBase.SystemJoined(P2PBase_OnSystemJoined);
                             systemJoinEvent.WaitOne();
                         }
-
+                        keySearcher.SetInitialized(true);
                         status.CurrentOperation = "Processing results of calculation";
                         KeyPoolTree.ProcessCurrentPatternCalculationResult(currentLeaf, result);
                         StatisticsGenerator.ProcessPatternResults(result);
