@@ -514,7 +514,7 @@ namespace KeySearcher
                 float[] costArray = new float[subbatchSize];
                 Mem costs = oclManager.Context.CreateBuffer(MemFlags.READ_WRITE, costArray.Length * 4);
 
-                IntPtr[] globalWorkSize = { (IntPtr)subbatchSize };
+                IntPtr[] globalWorkSize = { (IntPtr)subbatchSize, (IntPtr)1 };
 
                 keySearcherOpenCLSubbatchOptimizer.BeginMeasurement();
 
@@ -525,7 +525,7 @@ namespace KeySearcher
                         bruteforceKernel.SetArg(0, userKey);
                         bruteforceKernel.SetArg(1, costs);
                         bruteforceKernel.SetArg(2, i * subbatchSize);
-                        oclManager.CQ[deviceIndex].EnqueueNDRangeKernel(bruteforceKernel, 1, null, globalWorkSize, null);
+                        oclManager.CQ[deviceIndex].EnqueueNDRangeKernel(bruteforceKernel, 2, null, globalWorkSize, null);
                         oclManager.CQ[deviceIndex].EnqueueBarrier();
 
                         Event e;
