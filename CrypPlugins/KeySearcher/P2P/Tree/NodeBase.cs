@@ -22,13 +22,10 @@ namespace KeySearcher.P2P.Tree
         public readonly Node ParentNode;
         public LinkedList<KeySearcher.ValueKey> Result;
 
-//-----------------------------------------------------------------------------------
-/*
         //Dictionary Tests
-        public String Avatarname = "ct2";
+        public String Avatarname = "CrypTool2";
         public Dictionary<String, Dictionary<long, int>> Activity;
-*/ 
-//-----------------------------------------------------------------------------------
+        protected bool integrated;
 
         protected NodeBase(StorageHelper storageHelper, KeyQualityHelper keyQualityHelper, Node parentNode, BigInteger @from, BigInteger to, string distributedJobIdentifier)
         {
@@ -41,7 +38,8 @@ namespace KeySearcher.P2P.Tree
 
             LastUpdate = DateTime.MinValue;
             Result = new LinkedList<KeySearcher.ValueKey>();
-//            Activity = new Dictionary<string, Dictionary<long, int>>();
+            Activity = new Dictionary<string, Dictionary<long, int>>();
+            integrated = false;
 
             StorageHelper.UpdateFromDht(this);
         }
@@ -115,50 +113,54 @@ namespace KeySearcher.P2P.Tree
                 }
             }
 
-//Integration of the Dictionary into the ParentNode
-//-------------------------------------------------------------------------------------------------------
-/*
-            //Collection of all avatarnames in activity of this node
-            Dictionary<String, Dictionary<long, int>>.KeyCollection keyColl = Activity.Keys;
 
-            foreach (string avname in keyColl)
+            //Integration of the Dictionary into the ParentNode
+            if(!integrated)
             {
-                //taking the dictionary in this avatarname
-                Dictionary<long, int> MaschCount = Activity[avname];
+                //Collection of all avatarnames in activity of this node
+                Dictionary<String, Dictionary<long, int>>.KeyCollection keyColl = Activity.Keys;
 
-                //collecting der maschinID's for this avatarname
-                Dictionary<long, int>.KeyCollection maschColl = MaschCount.Keys;
-
-                //if the avatarname already exists in the parentnode.activity
-                if (ParentNode.Activity.ContainsKey(avname))
+                foreach (string avname in keyColl)
                 {
-                    foreach (long id in maschColl)
+                    //taking the dictionary in this avatarname
+                    Dictionary<long, int> MaschCount = Activity[avname];
+
+                    //collecting der maschinID's for this avatarname
+                    Dictionary<long, int>.KeyCollection maschColl = MaschCount.Keys;
+
+                    //if the avatarname already exists in the parentnode.activity
+                    if (ParentNode.Activity.ContainsKey(avname))
                     {
-                        //get the parent maschcount for this avatarname
-                        Dictionary<long, int> ParentMaschCount = ParentNode.Activity[avname];
-
-                        //if the id of the Maschine already exists for this avatarname
-                        if (ParentMaschCount.ContainsKey(id))
+                        foreach (long id in maschColl)
                         {
-                            ParentMaschCount[id] = ParentMaschCount[id] + MaschCount[id];
+                            //get the parent maschcount for this avatarname
+                            Dictionary<long, int> ParentMaschCount = ParentNode.Activity[avname];
 
-                            ParentNode.Activity[avname] = ParentMaschCount;
-                        }
-                        else
-                        {
-                            //add a new id,count value for this avatarname
-                            ParentNode.Activity[avname].Add(id, MaschCount[id]);
+                            //if the id of the Maschine already exists for this avatarname
+                            if (ParentMaschCount.ContainsKey(id))
+                            {
+                                ParentMaschCount[id] = ParentMaschCount[id] + MaschCount[id];
+
+                                ParentNode.Activity[avname] = ParentMaschCount;
+                            }
+                            else
+                            {
+                                //add a new id,count value for this avatarname
+                                ParentNode.Activity[avname].Add(id, MaschCount[id]);
+                            }
                         }
                     }
+                    else
+                    {
+                        //add the maschinecount dictionary to this avatarname
+                        ParentNode.Activity[avname] = MaschCount;
+                    }
                 }
-                else
-                {   //add the maschinecount dictionary to this avatarname
-                    ParentNode.Activity[avname] = MaschCount;
-                }                
-            }
-*/
-//------------------------------------------------------------------------------------------------------
-            
+                //Integration of this node was already done
+                integrated = true;
+           
+            }//end if
+         
         }
 
         private void UpdateDhtForRootNode()
@@ -166,15 +168,16 @@ namespace KeySearcher.P2P.Tree
             StorageHelper.UpdateFromDht(this, true);
             StorageHelper.UpdateInDht(this);
         }
-//-------------------------------------------------------------------------------------------------------
-/*
+
         protected void UpdateActivity()
         {
             Dictionary<long, int> Maschine = new Dictionary<long, int> { { Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID(), 1 } };
-            Activity.Add(Avatarname, Maschine);
+            if (!Activity.ContainsKey(Avatarname))
+            {
+                Activity.Add(Avatarname, Maschine);
+            }
         }
-*/
-//--------------------------------------------------------------------------------------------------------
+
         public abstract bool IsReserved();
 
         public abstract Leaf CalculatableLeaf(bool useReservedNodes);

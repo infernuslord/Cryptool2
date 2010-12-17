@@ -48,6 +48,11 @@ namespace KeySearcher
     public class KeySearcher : IAnalysisMisc
     {
         /// <summary>
+        /// used for creating the UserStatistics
+        /// </summary>
+        private Dictionary<string, Dictionary<long, int>> statistic;
+        private bool initialized;
+        /// <summary>
         /// used for creating the TopList
         /// </summary>
         private Queue valuequeue;
@@ -732,6 +737,9 @@ namespace KeySearcher
             fillListWithDummies(maxInList, costList);
             valuequeue = Queue.Synchronized(new Queue());
 
+            statistic = new Dictionary<string, Dictionary<long, int>>();
+            initialized = false;
+
             stop = false;
             if (!pattern.testWildcardKey(settings.Key))
             {
@@ -1201,7 +1209,12 @@ namespace KeySearcher
             }
         }
 
-        internal void IntegrateNewResults(LinkedList<ValueKey> updatedCostList)
+        public void SetInitialized(bool ini)
+        {
+            this.initialized = ini;
+        }
+
+        internal void IntegrateNewResults(LinkedList<ValueKey> updatedCostList, Dictionary<string, Dictionary<long, int>> updatedStatistics, string dataIdentifier)
         {
             foreach (var valueKey in updatedCostList)
             {
@@ -1211,7 +1224,59 @@ namespace KeySearcher
                 }
             }
 
+            foreach (string avname in updatedStatistics.Keys)
+            {
+                //taking the dictionary in this avatarname
+                Dictionary<long, int> MaschCount = updatedStatistics[avname];
+
+                //if the avatarname already exists in the statistics
+                if (statistic.ContainsKey(avname))
+                {
+                    foreach (long id in MaschCount.Keys)
+                    {
+                        //get the statistic maschcount for this avatarname
+                        Dictionary<long, int> statMaschCount = statistic[avname];
+                        
+                        //if the id of the Maschine already exists for this avatarname
+                        if (statMaschCount.ContainsKey(id))
+                        {
+                            if (!initialized || ((MaschCount[id] == 1) && (MaschCount.Keys.Count == 1)))
+                            {
+                                statMaschCount[id] = statMaschCount[id] + MaschCount[id];
+                                statistic[avname] = statMaschCount;
+                            }
+                        }
+                        else
+                        {
+                            //add a new id,count value for this avatarname
+                            statistic[avname].Add(id, MaschCount[id]);
+                        }
+                    }
+                }
+                else
+                {
+                    //add the maschinecount dictionary to this avatarname
+                    statistic[avname] = MaschCount;
+                }
+            }
+            WriteStatistics(dataIdentifier);
             updateToplist();
+        }
+
+        //Write the User Statistics to an external csv-document
+        internal void WriteStatistics(String dataIdentifier)
+        {
+            using (StreamWriter sw = new StreamWriter(string.Format("{0}\\UserRanking{1}.csv", DirectoryHelper.DirectoryLocal, dataIdentifier)))
+            {
+                sw.WriteLine("Avatarname" + ";" + "MaschinenID" + ";" + "Anzahl Pattern");
+                foreach (string avatar in statistic.Keys)
+                {
+                    foreach(long mID in statistic[avatar].Keys)
+                    {
+                        sw.WriteLine(avatar + ";" + mID.ToString() + ";" + statistic[avatar][mID].ToString());
+                    }
+                }
+            }
         }
 
         internal void updateToplist()
