@@ -208,7 +208,7 @@ void Cryptool::enqueueSubbatch(cl::CommandQueue& queue, cl::Buffer& keybuffer, c
 		throw new std::exception();
 	}
 
-	err = queue.enqueueNDRangeKernel(*kernel, cl::NullRange, cl::NDRange(length), cl::NullRange);
+	err = queue.enqueueNDRangeKernel(*kernel, cl::NullRange, cl::NDRange(256, 256), cl::NullRange);
 
 	if (err != CL_SUCCESS) {
 		std::cerr << "CommandQueue::enqueueNDRangeKernel()" \

@@ -13,7 +13,7 @@ class Cryptool
 	cl::Buffer costs;
 	float* localCosts;
 
-	static const int subbatch = 256;
+	static const int subbatch = 256*256;
 
 	void buildKernel(const Job& j);
 	void enqueueKernel(cl::CommandQueue& queue, int size, cl::Buffer& keybuffer, cl::Buffer& costs, const Job& j);
