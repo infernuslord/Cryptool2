@@ -107,11 +107,19 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Attributes.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resources\settingsRes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>settingsRes.resx</DependentUpon>
+    </Compile>
     <Compile Include="Wizard.cs" />
     <Compile Include="WizardControl.xaml.cs">
       <DependentUpon>WizardControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="WizardSettings.cs" />
+    <Compile Include="WizardSettingsTab.xaml.cs">
+      <DependentUpon>WizardSettingsTab.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CrypCore\CrypCore.csproj">
@@ -132,6 +140,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Attributes.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\settingsRes.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>settingsRes.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -142,6 +154,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="WizardControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WizardSettingsTab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
