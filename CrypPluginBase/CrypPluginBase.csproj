@@ -108,6 +108,7 @@
     <Compile Include="Attributes\SettingsFormatAttribute.cs" />
     <Compile Include="Attributes\ContextMenuAttribute.cs" />
     <Compile Include="Attributes\AuthorAttribute.cs" />
+    <Compile Include="Attributes\SettingsTabAttribute.cs" />
     <Compile Include="Control\IControlCost.cs" />
     <Compile Include="Control\IControlEncryption.cs" />
     <Compile Include="Control\KeyTranslator.cs" />
