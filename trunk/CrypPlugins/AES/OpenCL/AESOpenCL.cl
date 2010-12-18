@@ -882,7 +882,7 @@ void AES_decrypt(constant unsigned char *in, private unsigned char *out, private
 
 kernel void bruteforceKernel(global unsigned char *userKey, global float *results, int add)
 {
-	size_t x = get_global_id(0)+get_global_id(1)*get_global_size(0);
+	size_t x = get_global_id(0)+get_global_id(1)*get_global_size(0)+get_global_id(2)*get_global_size(1)*get_global_size(0);
 	
 	AES_KEY key;	
 	AES_set_decrypt_key(userKey, $$BITS$$, &(key), (x+add));
