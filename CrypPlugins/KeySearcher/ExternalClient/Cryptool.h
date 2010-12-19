@@ -12,6 +12,8 @@ class Cryptool
 	JobResult res;
 	cl::Buffer costs;
 	float* localCosts;
+    bool compareLargerThan;
+    int resultSize;
 
 	static const int subbatch = 256*256*256;
 

@@ -5,6 +5,12 @@
 #include <SDKCommon.hpp>
 #include <SDKApplication.hpp>
 
+#ifdef _OPENMP
+#include <omp.h>
+#else
+#warning No OpenMP support. Expect performance impacts.
+#endif
+
 #define __NO_STD_VECTOR
 #define __NO_STD_STRING
 
@@ -174,6 +180,8 @@ JobResult Cryptool::doOpenCLJob(const Job& j)
         throw new std::exception();
     }
 
+    this->compareLargerThan = j.LargerThen;
+    this->resultSize = j.ResultSize;
     res.ResultList.resize(j.ResultSize);
     initTop(res.ResultList, j.LargerThen);
 
@@ -228,7 +236,36 @@ void Cryptool::enqueueSubbatch(cl::CommandQueue& queue, cl::Buffer& keybuffer, c
 		std::cerr << "Event::wait() failed (" << err << ")\n";
 		throw new std::exception();
 	}
-
+#ifdef _OPENMP
+#pragma omp parallel
+    {
+        std::list<std::pair<float, int> > localtop;
+        int eachChunk = length/omp_get_num_threads();
+        int from = omp_get_thread_num()*eachChunk;
+        int to = from + eachChunk;
+        if(omp_get_thread_num() == omp_get_num_threads()-1)
+        {
+            to = length;
+        }
+        for(int i=from; i<to; ++i)
+        {
+            std::list<std::pair<float, int> >::iterator it = isInTop(localtop, localCosts[i], j.LargerThen);
+            if (it != localtop.end() || it == localtop.begin())
+                pushInTop(localtop, it, localCosts[i], i+add);
+        }
+        // merge it
+#pragma omp critical
+        {
+            std::list<std::pair<float, int> >::iterator itr;
+            for(itr = localtop.begin(); itr != localtop.end(); ++itr)
+            {
+                std::list<std::pair<float, int> >::iterator posInGlobalList = isInTop(res.ResultList, itr->first, j.LargerThen);
+                if (posInGlobalList != res.ResultList.end())
+                    pushInTop(res.ResultList, posInGlobalList, itr->first, itr->second);
+            }
+        }
+    }
+#else
 	//check results:
 	for(int i=0; i<length; ++i)
 	{
@@ -237,6 +274,7 @@ void Cryptool::enqueueSubbatch(cl::CommandQueue& queue, cl::Buffer& keybuffer, c
 		if (it != res.ResultList.end())
 			pushInTop(res.ResultList, it, localCosts[i], i+add);
 	}
+#endif
 }
 
 void Cryptool::enqueueKernel(cl::CommandQueue& queue, int size, cl::Buffer& keybuffer, cl::Buffer& costs, const Job& j)
@@ -255,18 +293,26 @@ void Cryptool::enqueueKernel(cl::CommandQueue& queue, int size, cl::Buffer& keyb
 
 void Cryptool::pushInTop(std::list<std::pair<float, int> >& top, std::list<std::pair<float, int> >::iterator it, float val, int k) {
 	top.insert(it, std::pair<float, int>(val, k));
-	top.pop_back();
+    if(top.size() > this->resultSize)
+        top.pop_back();
 }
 
 std::list<std::pair<float, int> >::iterator Cryptool::isInTop(std::list<std::pair<float, int> >& top, float val, bool LargerThen) {
-        if (LargerThen)
+    if (top.size() == 0)
+        return top.begin();
+
+	if (LargerThen)
 	{
+		if(top.size() > 0 && val <= top.rbegin()->first)
+			return top.end();
 		for (std::list<std::pair<float, int> >::iterator k = top.begin(); k != top.end(); k++)
 			if (val > k->first)
 				return k;
 	}
 	else
 	{
+		if(top.size() > 0 && val >= top.rbegin()->first)
+			return top.end();
 		for (std::list<std::pair<float, int> >::iterator k = top.begin(); k != top.end(); k++)
 			if (val < k->first)
 				return k;
