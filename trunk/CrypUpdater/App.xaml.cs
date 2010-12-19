@@ -11,6 +11,8 @@ using System.Windows.Threading;
 using System.IO;
 using Ionic.Zip;
 using System.ComponentModel;
+using System.Security.AccessControl;
+using System.Security.Principal;
 
 
 namespace CrypUpdater
@@ -22,15 +24,12 @@ namespace CrypUpdater
     {
 
         private MainWindow m;
-
+        private bool mayrestart = false;
         internal static string CryptoolExePath;
-
         private string ZipFilePath;
-
         private string CryptoolFolderPath;
-
+        private int CryptoolProcessID;
         private Process p;
-
         private List<Process> unwantedProcesses = new List<Process>();
 
 
@@ -38,9 +37,6 @@ namespace CrypUpdater
         {
 
             m = new CrypUpdater.MainWindow();
-            m.Show();
-            int CryptoolProcessID;
-            
 
             try
             {
@@ -48,6 +44,7 @@ namespace CrypUpdater
                 CryptoolFolderPath = e.Args[1];
                 CryptoolExePath = e.Args[2];
                 CryptoolProcessID = Convert.ToInt32(e.Args[3]);
+                mayrestart = Convert.ToBoolean(e.Args[4]);
                 p = Process.GetProcessById(CryptoolProcessID);
 
                 if (p.WaitForExit(1000 * 30))
@@ -56,7 +53,6 @@ namespace CrypUpdater
                     if (unwantedProcesses.Count == 0)
                     {
                         UnpackZip(ZipFilePath, CryptoolFolderPath);
-                        RestartCryptool();
                     }
                     else
                     {
@@ -80,7 +76,6 @@ namespace CrypUpdater
                             if (unwantedProcesses.Count == 0)
                             {
                                 UnpackZip(ZipFilePath, CryptoolFolderPath);
-                                RestartCryptool();
                             }
                             else
                             {
@@ -93,7 +88,6 @@ namespace CrypUpdater
                             if (unwantedProcesses.Count == 0)
                             {
                                 UnpackZip(ZipFilePath, CryptoolFolderPath);
-                                RestartCryptool();
                             }
                             else
                             {
@@ -104,9 +98,7 @@ namespace CrypUpdater
                     else
                     {
                         MessageBox.Show("Update failed. CrypTool 2.0 will be restarted.");
-                        RestartCryptool();
                     }
-                    
 
                 }
 
@@ -116,14 +108,13 @@ namespace CrypUpdater
                 if (CryptoolExePath != null)
                 {
                     MessageBox.Show("Update failed. CrypTool 2.0 will be restarted.", "Error");
-                    RestartCryptool();
                 }
                 else
                 {
                     UpdateFailure();
                 }
             }
-            catch (FormatException) // no id was parsable 
+            catch (FormatException) // no id or mayrestart was parsable 
             {
                 UpdateFailure();
             }
@@ -133,13 +124,17 @@ namespace CrypUpdater
                 if (unwantedProcesses.Count == 0)
                 {
                     UnpackZip(ZipFilePath, CryptoolFolderPath);
-                    RestartCryptool();
                 }
                 else
                 {
                     AskForLicenseToKill();
                 }
             }
+
+            if(mayrestart)
+                RestartCryptool();
+            else
+                App.Current.Shutdown();
 
         }
 
@@ -168,12 +163,10 @@ namespace CrypUpdater
             {
                 KillOtherProcesses(unwantedProcesses);
                 UnpackZip(ZipFilePath, CryptoolFolderPath);
-                RestartCryptool();
             }
             else
             {
                 MessageBox.Show("Update failed. CrypTool 2.0 will be restarted.");
-                RestartCryptool();
             }
         }
 
@@ -193,7 +186,6 @@ namespace CrypUpdater
             catch (Exception)
             {
                 MessageBox.Show("Update failed. Not able to remove remaining CrypTool 2.0 instances.", "Error");
-                RestartCryptool();
             }
         }
 
@@ -228,6 +220,7 @@ namespace CrypUpdater
 
             try
             {
+                DirectorySecurity ds = Directory.GetAccessControl(CryptoolFolderPath);
 
                 using (ZipFile zip = ZipFile.Read(ZipFilePath))
                 {
@@ -239,12 +232,32 @@ namespace CrypUpdater
                     foreach (ZipEntry e in zip)
                     {
                         e.Extract(CryptoolFolderPath, ExtractExistingFileAction.OverwriteSilently);
+                        m.Show();
                         i++;
                         progress = i * 100 / count;
                         m.UpdateProgress(progress);
                     }
 
                 }
+
+            }
+            catch (UnauthorizedAccessException)
+            {
+
+                WindowsPrincipal pricipal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
+
+                if (!pricipal.IsInRole(WindowsBuiltInRole.Administrator))
+                {
+                    ProcessStartInfo psi = new ProcessStartInfo("CrypUpdater.exe", "\"" + ZipFilePath + "\" " + "\"" + CryptoolFolderPath + "\" " + "\"" + CryptoolExePath + "\" " + "\"" + CryptoolProcessID + "\" \"" + Boolean.FalseString + "\"");
+                    psi.UseShellExecute = true;
+                    psi.Verb = "runas";
+                    psi.WorkingDirectory = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+                    Process cu = Process.Start(psi);
+                    cu.WaitForExit();
+                }
+                else
+                    MessageBox.Show("Extraction failed: CrypTool 2.0 will be restarted.", "Error");
+
 
             }
             catch (Exception e)
