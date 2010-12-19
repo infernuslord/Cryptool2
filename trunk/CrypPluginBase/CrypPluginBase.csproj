@@ -140,6 +140,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Miscellaneous\Msieve.cs" />
+    <Compile Include="Miscellaneous\SLocExtension.cs" />
     <Compile Include="Miscellaneous\SuperTooltip.cs" />
     <Compile Include="Miscellaneous\Tokenizer.cs" />
     <Compile Include="Miscellaneous\UniqueIdentifier.cs" />
