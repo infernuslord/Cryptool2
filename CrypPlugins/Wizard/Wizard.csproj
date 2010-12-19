@@ -140,6 +140,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Attributes.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\settingsRes.de-DE.resx" />
     <EmbeddedResource Include="Resources\settingsRes.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>settingsRes.Designer.cs</LastGenOutput>
