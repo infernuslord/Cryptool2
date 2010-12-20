@@ -24,7 +24,7 @@ namespace KeySearcher.P2P.Tree
 
         //Dictionary Tests
         public String Avatarname = "CrypTool2";
-        public Dictionary<String, Dictionary<long, int>> Activity;
+        public Dictionary<String, Dictionary<long, Information>> Activity;
         protected bool integrated;
 
         protected NodeBase(StorageHelper storageHelper, KeyQualityHelper keyQualityHelper, Node parentNode, BigInteger @from, BigInteger to, string distributedJobIdentifier)
@@ -38,7 +38,7 @@ namespace KeySearcher.P2P.Tree
 
             LastUpdate = DateTime.MinValue;
             Result = new LinkedList<KeySearcher.ValueKey>();
-            Activity = new Dictionary<string, Dictionary<long, int>>();
+            Activity = new Dictionary<string, Dictionary<long, Information>>();
             integrated = false;
 
             StorageHelper.UpdateFromDht(this);
@@ -118,15 +118,15 @@ namespace KeySearcher.P2P.Tree
             if(!integrated)
             {
                 //Collection of all avatarnames in activity of this node
-                Dictionary<String, Dictionary<long, int>>.KeyCollection keyColl = Activity.Keys;
+                Dictionary<String, Dictionary<long, Information>>.KeyCollection keyColl = Activity.Keys;
 
                 foreach (string avname in keyColl)
                 {
                     //taking the dictionary in this avatarname
-                    Dictionary<long, int> MaschCount = Activity[avname];
+                    Dictionary<long, Information> MaschCount = Activity[avname];
 
                     //collecting der maschinID's for this avatarname
-                    Dictionary<long, int>.KeyCollection maschColl = MaschCount.Keys;
+                    Dictionary<long, Information>.KeyCollection maschColl = MaschCount.Keys;
 
                     //if the avatarname already exists in the parentnode.activity
                     if (ParentNode.Activity.ContainsKey(avname))
@@ -134,12 +134,14 @@ namespace KeySearcher.P2P.Tree
                         foreach (long id in maschColl)
                         {
                             //get the parent maschcount for this avatarname
-                            Dictionary<long, int> ParentMaschCount = ParentNode.Activity[avname];
+                            Dictionary<long, Information> ParentMaschCount = ParentNode.Activity[avname];
 
                             //if the id of the Maschine already exists for this avatarname
                             if (ParentMaschCount.ContainsKey(id))
                             {
-                                ParentMaschCount[id] = ParentMaschCount[id] + MaschCount[id];
+                                ParentMaschCount[id].Count = ParentMaschCount[id].Count + MaschCount[id].Count;
+                                ParentMaschCount[id].Hostname = MaschCount[id].Hostname;
+                                ParentMaschCount[id].Date = MaschCount[id].Date;
 
                                 ParentNode.Activity[avname] = ParentMaschCount;
                             }
@@ -171,7 +173,7 @@ namespace KeySearcher.P2P.Tree
 
         protected void UpdateActivity()
         {
-            Dictionary<long, int> Maschine = new Dictionary<long, int> { { Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID(), 1 } };
+            var Maschine = new Dictionary<long, Information> { { Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID(), new Information() { Count = 1, Hostname = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetHostName(),Date = DateTime.UtcNow } } };
             if (!Activity.ContainsKey(Avatarname))
             {
                 Activity.Add(Avatarname, Maschine);
