@@ -42,7 +42,14 @@ using KeySearcherPresentation.Controls;
 using OpenCLNet;
 
 namespace KeySearcher
-{    
+{
+    public class Information
+    {
+        public int Count { get; set; }
+        public string Hostname { get; set; }
+        public DateTime Date { get; set; }
+    } 
+
     [Author("Sven Rech, Nils Kopal, Raoul Falk, Dennis Nolte", "rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo(false, "KeySearcher", "Bruteforces a decryption algorithm.", "KeySearcher/DetailedDescription/Description.xaml", "KeySearcher/Images/icon.png")]
     public class KeySearcher : IAnalysisMisc
@@ -50,8 +57,10 @@ namespace KeySearcher
         /// <summary>
         /// used for creating the UserStatistics
         /// </summary>
-        private Dictionary<string, Dictionary<long, int>> statistic;
+        private Dictionary<string, Dictionary<long, Information>> statistic;
         private bool initialized;
+
+
         /// <summary>
         /// used for creating the TopList
         /// </summary>
@@ -737,7 +746,7 @@ namespace KeySearcher
             fillListWithDummies(maxInList, costList);
             valuequeue = Queue.Synchronized(new Queue());
 
-            statistic = new Dictionary<string, Dictionary<long, int>>();
+            statistic = new Dictionary<string, Dictionary<long, Information>>();
             initialized = false;
 
             stop = false;
@@ -1214,7 +1223,7 @@ namespace KeySearcher
             this.initialized = ini;
         }
 
-        internal void IntegrateNewResults(LinkedList<ValueKey> updatedCostList, Dictionary<string, Dictionary<long, int>> updatedStatistics, string dataIdentifier)
+        internal void IntegrateNewResults(LinkedList<ValueKey> updatedCostList, Dictionary<string, Dictionary<long, Information>> updatedStatistics, string dataIdentifier)
         {
             foreach (var valueKey in updatedCostList)
             {
@@ -1227,7 +1236,7 @@ namespace KeySearcher
             foreach (string avname in updatedStatistics.Keys)
             {
                 //taking the dictionary in this avatarname
-                Dictionary<long, int> MaschCount = updatedStatistics[avname];
+                Dictionary<long, Information> MaschCount = updatedStatistics[avname];
 
                 //if the avatarname already exists in the statistics
                 if (statistic.ContainsKey(avname))
@@ -1235,14 +1244,16 @@ namespace KeySearcher
                     foreach (long id in MaschCount.Keys)
                     {
                         //get the statistic maschcount for this avatarname
-                        Dictionary<long, int> statMaschCount = statistic[avname];
+                        Dictionary<long, Information> statMaschCount = statistic[avname];
                         
                         //if the id of the Maschine already exists for this avatarname
                         if (statMaschCount.ContainsKey(id))
                         {
-                            if (!initialized || ((MaschCount[id] == 1) && (MaschCount.Keys.Count == 1)))
+                            if (!initialized || ((MaschCount[id].Count == 1) && (MaschCount.Keys.Count == 1)))
                             {
-                                statMaschCount[id] = statMaschCount[id] + MaschCount[id];
+                                statMaschCount[id].Count = statMaschCount[id].Count + MaschCount[id].Count;
+                                statMaschCount[id].Hostname = MaschCount[id].Hostname;
+                                statMaschCount[id].Date = MaschCount[id].Date;
                                 statistic[avname] = statMaschCount;
                             }
                         }
@@ -1268,12 +1279,12 @@ namespace KeySearcher
         {
             using (StreamWriter sw = new StreamWriter(string.Format("{0}\\UserRanking{1}.csv", DirectoryHelper.DirectoryLocal, dataIdentifier)))
             {
-                sw.WriteLine("Avatarname" + ";" + "MaschinenID" + ";" + "Anzahl Pattern");
+                sw.WriteLine("Avatarname" + ";" + "MaschinenID" + ";" + "Hostname" + ";"+ "Anzahl Pattern" + ";" + "Last Update");
                 foreach (string avatar in statistic.Keys)
                 {
                     foreach(long mID in statistic[avatar].Keys)
                     {
-                        sw.WriteLine(avatar + ";" + mID.ToString() + ";" + statistic[avatar][mID].ToString());
+                        sw.WriteLine(avatar + ";" + mID.ToString() + ";" + statistic[avatar][mID].Hostname + ";" + statistic[avatar][mID].Count + ";" + statistic[avatar][mID].Date);
                     }
                 }
             }

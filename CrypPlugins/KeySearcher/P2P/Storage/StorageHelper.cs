@@ -17,7 +17,8 @@ namespace KeySearcher.P2P.Storage
         private readonly StatusContainer statusContainer;
 
         //VERSIONNUMBER: Important. Set it +1 manually everytime the length of the MemoryStream Changes
-        private const int version = 2;
+        private const int version = 3;
+        private static int oldVersionFlag = 0;
 
         public StorageHelper(KeySearcher keySearcher, StatisticsGenerator statisticsGenerator, StatusContainer statusContainer)
         {
@@ -51,13 +52,13 @@ namespace KeySearcher.P2P.Storage
             
  
             //Creating a copy of the activity dictionary
-            Dictionary<String, Dictionary<long, int>> copyAct = nodeToUpdate.Activity;
+            var copyAct = nodeToUpdate.Activity;
 
             //Write number of avatarnames
             binaryWriter.Write(copyAct.Keys.Count);
             foreach (string avatar in copyAct.Keys)
             {
-                Dictionary<long, int> maschCopy = copyAct[avatar];
+                var maschCopy = copyAct[avatar];
                 //write avatarname
                 binaryWriter.Write(avatar);
                 //write the number of maschines for this avatar
@@ -67,7 +68,9 @@ namespace KeySearcher.P2P.Storage
                 {
                     //write the maschines and their patterncount
                     binaryWriter.Write(maschID);
-                    binaryWriter.Write(maschCopy[maschID]);
+                    binaryWriter.Write(maschCopy[maschID].Count); //int 32
+                    binaryWriter.Write(maschCopy[maschID].Hostname); //String
+                    binaryWriter.Write(maschCopy[maschID].Date.ToBinary()); //DateTime
                 }
             }
 
@@ -140,14 +143,30 @@ namespace KeySearcher.P2P.Storage
                     //Reading the avatarname and the maschine-count for this name
                     string avatarname = binaryReader.ReadString();
                     int maschcount = binaryReader.ReadInt32();
-                    Dictionary<long, int> readMaschcount = new Dictionary<long, int>();
-
-                    for(int j=0;j<maschcount;j++)
+                    var readMaschcount = new Dictionary<long, Information>();
+                    
+                    //previous versions didn't had the Information
+                    if (oldVersionFlag < version)
                     {
-                        //reading the IDs and patterncount
-                        long maschID = binaryReader.ReadInt64();
-                        int count = binaryReader.ReadInt32();
-                        readMaschcount.Add(maschID,count);
+                        for (int j = 0; j < maschcount; j++)
+                        {
+                            //reading the IDs and patterncount
+                            long maschID = binaryReader.ReadInt64();
+                            int count = binaryReader.ReadInt32();
+                            readMaschcount.Add(maschID, new Information(){Count = count, Hostname = "Unknown", Date = DateTime.MinValue});
+                        }
+                    }
+                    else
+                    {
+                        for (int j = 0; j < maschcount; j++)
+                        {
+                            //reading the IDs and patterncount
+                            long maschID = binaryReader.ReadInt64();
+                            int count = binaryReader.ReadInt32();
+                            string host = binaryReader.ReadString();
+                            var date = DateTime.FromBinary(binaryReader.ReadInt64());
+                            readMaschcount.Add(maschID, new Information() {Count = count, Hostname = host, Date = date});
+                        }
                     }
                     if (nodeToUpdate.Activity.ContainsKey(avatarname))
                     {
@@ -166,7 +185,7 @@ namespace KeySearcher.P2P.Storage
                        
             if (resultCount > 0)
             {
-                keySearcher.IntegrateNewResults(nodeToUpdate.Result,nodeToUpdate.Activity, nodeToUpdate.DistributedJobIdentifier);
+                keySearcher.IntegrateNewResults(nodeToUpdate.Result, nodeToUpdate.Activity, nodeToUpdate.DistributedJobIdentifier);
                 statisticsGenerator.ProcessPatternResults(nodeToUpdate.Result);
             }
 
@@ -225,6 +244,7 @@ namespace KeySearcher.P2P.Storage
                     //Reading the char and the versionnumber
                     char magic = binaryReader.ReadChar();
                     int versionInUse = binaryReader.ReadInt32();
+                    oldVersionFlag = versionInUse;
                     //Check if a newer Version is in use
                     if (versionInUse > version)
                     {
