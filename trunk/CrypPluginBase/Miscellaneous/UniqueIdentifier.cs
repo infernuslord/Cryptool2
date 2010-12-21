@@ -21,8 +21,10 @@ namespace Cryptool.PluginBase.Miscellaneous
 
             MD5 md5 = new MD5CryptoServiceProvider();
             byte[] idBytes = md5.ComputeHash(System.Text.ASCIIEncoding.ASCII.GetBytes(username + mac));
+            long ID = BitConverter.ToInt64(idBytes, 0);
+            ID = Math.Abs(ID);
 
-            return BitConverter.ToInt64(idBytes, 0);
+            return ID;
         }
 
         /// <summary>

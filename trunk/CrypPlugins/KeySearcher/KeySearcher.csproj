@@ -149,6 +149,9 @@
     <Compile Include="Presentation\Controls\P2PQuickWatchPresentation.xaml.cs">
       <DependentUpon>P2PQuickWatchPresentation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Presentation\Controls\StatisticsPresentation.xaml.cs">
+      <DependentUpon>StatisticsPresentation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\QuickWatch.xaml.cs">
       <DependentUpon>QuickWatch.xaml</DependentUpon>
     </Compile>
@@ -189,6 +192,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Presentation\Controls\P2PQuickWatchPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\Controls\StatisticsPresentation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
