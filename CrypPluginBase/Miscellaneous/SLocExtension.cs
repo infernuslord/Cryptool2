@@ -52,7 +52,7 @@ namespace Cryptool.PluginBase.Miscellaneous
             }
             catch (Exception ex)
             {
-                return "Exception: " + ex.Message;
+                return Key;
             }
         }
 
