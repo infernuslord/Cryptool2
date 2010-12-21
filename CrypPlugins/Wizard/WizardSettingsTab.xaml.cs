@@ -18,7 +18,7 @@ namespace Wizard
     /// <summary>
     /// Interaction logic for WizardSettingsTab.xaml
     /// </summary>
-    [SettingsTab("Wizard.Resources.settingsRes", "WizardSettings", "/EditorSettings/")]
+    [SettingsTab("Wizard.Resources.settingsRes", "WizardSettings", "/MainSettings/")]
     public partial class WizardSettingsTab : UserControl
     {
         public WizardSettingsTab(Style settingsStyle)
