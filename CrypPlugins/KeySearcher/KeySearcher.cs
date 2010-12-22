@@ -1239,13 +1239,17 @@ namespace KeySearcher
                         //ID of the statistic (has to be always positive)
                         var mID = Math.Abs(id);
                         //if the id of the Maschine already exists for this avatarname
-                        if (statMaschCount.ContainsKey(mID))
+                        if (statMaschCount.ContainsKey(id))
                         {
                             if (!initialized || ((MaschCount[id].Count == 1) && (MaschCount.Keys.Count == 1)))
                             {
-                                statMaschCount[mID].Count = statMaschCount[mID].Count + MaschCount[id].Count;
+                                statMaschCount[mID].Count = statMaschCount[id].Count + MaschCount[id].Count;
                                 statMaschCount[mID].Hostname = MaschCount[id].Hostname;
                                 statMaschCount[mID].Date = MaschCount[id].Date;
+                                if (id < 0)
+                                {
+                                    statMaschCount.Remove(id);
+                                }
                                 statistic[avname] = statMaschCount;
                             }
                         }
