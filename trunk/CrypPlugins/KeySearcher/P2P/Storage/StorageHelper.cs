@@ -182,9 +182,6 @@ namespace KeySearcher.P2P.Storage
                             //reading the IDs and patterncount
                             long maschID = binaryReader.ReadInt64();
                             int count = binaryReader.ReadInt32();
-
-                            var a = binaryReader.BaseStream.Length;
-                            var b = binaryReader.BaseStream.Position;
                             string host = binaryReader.ReadString();
                         
                             var date = DateTime.FromBinary(binaryReader.ReadInt64());
