@@ -159,23 +159,6 @@ namespace KeySearcher.P2P.Storage
                     int maschcount = binaryReader.ReadInt32();
                     var readMaschcount = new Dictionary<long, Information>();
                     
-                    /*//previous version 2 didn't had the Information
-                    if (oldVersionFlag < 3)
-                    {
-                        for (int j = 0; j < maschcount; j++)
-                        {
-                            //reading the IDs and patterncount
-                            long maschID = binaryReader.ReadInt64();
-                            int count = binaryReader.ReadInt32();
-                            if (maschID > 0)
-                            {
-                                readMaschcount.Add(maschID, new Information(){Count = count, Hostname = "Unknown", Date = DateTime.MinValue});
-                            }
-                        }
-                    }
-                    else
-                    {
-                     */
                     for (int j = 0; j < maschcount; j++)
                     {
                         //reading the IDs and patterncount
