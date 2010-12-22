@@ -170,8 +170,10 @@ namespace KeySearcher.P2P.Storage
                             //reading the IDs and patterncount
                             long maschID = binaryReader.ReadInt64();
                             int count = binaryReader.ReadInt32();
-
-                            readMaschcount.Add(maschID, new Information(){Count = count, Hostname = "Unknown", Date = DateTime.MinValue});
+                            if (maschID > 0)
+                            {
+                                readMaschcount.Add(maschID, new Information(){Count = count, Hostname = "Unknown", Date = DateTime.MinValue});
+                            }
                         }
                     }
                     else
@@ -181,10 +183,13 @@ namespace KeySearcher.P2P.Storage
                             //reading the IDs and patterncount
                             long maschID = binaryReader.ReadInt64();
                             int count = binaryReader.ReadInt32();
-                            string host = binaryReader.ReadString();
-                        
+                            string host = binaryReader.ReadString();  
                             var date = DateTime.FromBinary(binaryReader.ReadInt64());
-                            readMaschcount.Add(maschID, new Information() {Count = count, Hostname = host, Date = date});
+
+                            if (maschID > 0)
+                            {
+                                readMaschcount.Add(maschID, new Information() {Count = count, Hostname = host, Date = date});
+                            }
                         }
                     }
                     if (nodeToUpdate.Activity.ContainsKey(avatarname))
