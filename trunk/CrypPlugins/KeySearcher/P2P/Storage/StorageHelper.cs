@@ -17,12 +17,13 @@ namespace KeySearcher.P2P.Storage
         private readonly StatusContainer statusContainer;
 
         //VERSIONNUMBER: Important. Set it +1 manually everytime the length of the MemoryStream Changes
-        private const int version = 3;
+        private const int version = 4;
         /*
         -----------------------------Versionnumber Changelog---------------------------------------------
-        |   Version 1: Added the Versionnumber to the Stream
+        |   Version 1: Added the Versionnumber to the Stream (Leafs)
         |   Version 2: Added the first User Statistics (Avatar,ID,Count) to the Stream
         |   Version 3: Added version question (in front of results) + more statistic information (hostname,date) to the Stream
+        |   Version 4: Reorganisation of the DHT structure. Update fully working now + features from previous versions available
         -------------------------------------------------------------------------------------------------
          */
 
@@ -62,8 +63,7 @@ namespace KeySearcher.P2P.Storage
                 binaryWriter.Write(valueKey.decryption.Length);
                 binaryWriter.Write(valueKey.decryption);
             }                        
-            
- 
+             
             //Creating a copy of the activity dictionary
             var copyAct = nodeToUpdate.Activity;
 
@@ -86,7 +86,6 @@ namespace KeySearcher.P2P.Storage
                     binaryWriter.Write(maschCopy[maschID].Date.ToBinary()); //DateTime
                 }
             }
-
             return StoreWithStatistic(KeyInDht(nodeToUpdate), memoryStream.ToArray());
         }
 
@@ -124,10 +123,10 @@ namespace KeySearcher.P2P.Storage
             }
 
             var binaryReader = new BinaryReader(new MemoryStream(nodeBytes));
-//---------------------------------------------------------------------------------------
-            //TODO: VersionCheck!
-            var oldVersionFlag = CheckVersion(binaryReader);
-//----------------------------------------------------------------------------------------
+
+            //oldVersionFlag will be used to garantee further changes in the Stream
+            var oldVersionFlag = CheckNodeVersion(binaryReader);
+
             if (nodeToUpdate is Node)
             {
                 UpdateNodeFromDht((Node) nodeToUpdate, binaryReader);
@@ -149,8 +148,6 @@ namespace KeySearcher.P2P.Storage
                 nodeToUpdate.Result.AddLast(newResult);
             }
             
-
-
             if (binaryReader.BaseStream.Length != binaryReader.BaseStream.Position)
             {  
                 //Reading the number of avatarnames
@@ -162,7 +159,7 @@ namespace KeySearcher.P2P.Storage
                     int maschcount = binaryReader.ReadInt32();
                     var readMaschcount = new Dictionary<long, Information>();
                     
-                    //previous version 2 didn't had the Information
+                    /*//previous version 2 didn't had the Information
                     if (oldVersionFlag < 3)
                     {
                         for (int j = 0; j < maschcount; j++)
@@ -178,20 +175,18 @@ namespace KeySearcher.P2P.Storage
                     }
                     else
                     {
-                        for (int j = 0; j < maschcount; j++)
-                        {
-                            //reading the IDs and patterncount
-                            long maschID = binaryReader.ReadInt64();
-                            int count = binaryReader.ReadInt32();
-                            string host = binaryReader.ReadString();  
-                            var date = DateTime.FromBinary(binaryReader.ReadInt64());
-
-                            if (maschID > 0)
-                            {
-                                readMaschcount.Add(maschID, new Information() {Count = count, Hostname = host, Date = date});
-                            }
-                        }
+                     */
+                    for (int j = 0; j < maschcount; j++)
+                    {
+                        //reading the IDs and patterncount
+                        long maschID = binaryReader.ReadInt64();
+                        int count = binaryReader.ReadInt32();
+                        string host = binaryReader.ReadString();  
+                        var date = DateTime.FromBinary(binaryReader.ReadInt64());
+                        readMaschcount.Add(maschID, new Information() {Count = count, Hostname = host, Date = date});
+                        
                     }
+                    
                     if (nodeToUpdate.Activity.ContainsKey(avatarname))
                     {
                         nodeToUpdate.Activity[avatarname] = readMaschcount;
@@ -259,7 +254,7 @@ namespace KeySearcher.P2P.Storage
             {
                 //Checking if there's a version in the stream
                 int vers = binaryReader.PeekChar();
-                if (vers == 86 || vers ==87) //V infront of a Leaf and W infront of a Node
+                if (vers == 86) //V infront of a Leaf
                 {
                     //Reading the char and the versionnumber
                     char magic = binaryReader.ReadChar();
@@ -273,14 +268,42 @@ namespace KeySearcher.P2P.Storage
                 }
                 else
                 {
-                    return -1;
+                    return 0;
                 }
             }
             catch(KeySearcherStopException)
             {
                 throw new KeySearcherStopException();
+            }            
+        }
+
+        private static int CheckNodeVersion(BinaryReader binaryReader)
+        {
+            try
+            {
+                //Checking if there's a version in the stream
+                int vers = binaryReader.PeekChar();
+                if (vers == 87) //W infront of a Node
+                {
+                    //Reading the char and the versionnumber
+                    char magic = binaryReader.ReadChar();
+                    int versionInUse = binaryReader.ReadInt32();
+                    //Check if a newer Version is in use
+                    if (versionInUse > version)
+                    {
+                        throw new KeySearcherStopException();
+                    }
+                    return versionInUse;
+                }
+                else
+                {
+                    return 0;
+                }
             }
-            
+            catch (KeySearcherStopException)
+            {
+                throw new KeySearcherStopException();
+            }
         }
 
         public DateTime StartDate(String ofJobIdentifier)
