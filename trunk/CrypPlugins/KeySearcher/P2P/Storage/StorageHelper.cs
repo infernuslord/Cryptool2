@@ -167,11 +167,10 @@ namespace KeySearcher.P2P.Storage
                     {
                         for (int j = 0; j < maschcount; j++)
                         {
-                            var a = binaryReader.BaseStream.Length;
-                            var b = binaryReader.BaseStream.Position;
                             //reading the IDs and patterncount
                             long maschID = binaryReader.ReadInt64();
                             int count = binaryReader.ReadInt32();
+
                             readMaschcount.Add(maschID, new Information(){Count = count, Hostname = "Unknown", Date = DateTime.MinValue});
                         }
                     }
