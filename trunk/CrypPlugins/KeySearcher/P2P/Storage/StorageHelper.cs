@@ -18,7 +18,13 @@ namespace KeySearcher.P2P.Storage
 
         //VERSIONNUMBER: Important. Set it +1 manually everytime the length of the MemoryStream Changes
         private const int version = 3;
-        private static int oldVersionFlag = 0;
+        /*
+        -----------------------------Versionnumber Changelog---------------------------------------------
+        |   Version 1: Added the Versionnumber to the Stream
+        |   Version 2: Added the first User Statistics (Avatar,ID,Count) to the Stream
+        |   Version 3: Added version question (in front of results) + more statistic information (hostname,date) to the Stream
+        -------------------------------------------------------------------------------------------------
+         */
 
         public StorageHelper(KeySearcher keySearcher, StatisticsGenerator statisticsGenerator, StatusContainer statusContainer)
         {
@@ -27,10 +33,17 @@ namespace KeySearcher.P2P.Storage
             this.statusContainer = statusContainer;
         }
 
+        //-------------------------------------------------------------------------------------------
+        //AFTER CHANGING THE FOLLOWING METHODS INCREASE THE VERSION-NUMBER AT THE TOP OF THIS CLASS!
+        //-------------------------------------------------------------------------------------------
         internal RequestResult UpdateInDht(NodeBase nodeToUpdate)
         {
             var memoryStream = new MemoryStream();
             var binaryWriter = new BinaryWriter(memoryStream);
+
+            //TODO: Append Updater Version
+            binaryWriter.Write('V');
+            binaryWriter.Write(version);  
 
             if (nodeToUpdate is Node)
             {
@@ -94,6 +107,7 @@ namespace KeySearcher.P2P.Storage
 
         internal RequestResult UpdateFromDht(NodeBase nodeToUpdate, bool forceUpdate = false)
         {
+
             if (!forceUpdate && nodeToUpdate.LastUpdate > DateTime.Now.Subtract(new TimeSpan(0, 0, 5)))
             {
                 return new RequestResult { Status = RequestResultType.Success };
@@ -110,7 +124,10 @@ namespace KeySearcher.P2P.Storage
             }
 
             var binaryReader = new BinaryReader(new MemoryStream(nodeBytes));
-
+//---------------------------------------------------------------------------------------
+            //TODO: VersionCheck!
+            var oldVersionFlag = CheckVersion(binaryReader);
+//----------------------------------------------------------------------------------------
             if (nodeToUpdate is Node)
             {
                 UpdateNodeFromDht((Node) nodeToUpdate, binaryReader);
@@ -145,11 +162,13 @@ namespace KeySearcher.P2P.Storage
                     int maschcount = binaryReader.ReadInt32();
                     var readMaschcount = new Dictionary<long, Information>();
                     
-                    //previous versions didn't had the Information
-                    if (oldVersionFlag < version)
+                    //previous version 2 didn't had the Information
+                    if (oldVersionFlag < 3)
                     {
                         for (int j = 0; j < maschcount; j++)
                         {
+                            var a = binaryReader.BaseStream.Length;
+                            var b = binaryReader.BaseStream.Position;
                             //reading the IDs and patterncount
                             long maschID = binaryReader.ReadInt64();
                             int count = binaryReader.ReadInt32();
@@ -163,7 +182,11 @@ namespace KeySearcher.P2P.Storage
                             //reading the IDs and patterncount
                             long maschID = binaryReader.ReadInt64();
                             int count = binaryReader.ReadInt32();
+
+                            var a = binaryReader.BaseStream.Length;
+                            var b = binaryReader.BaseStream.Position;
                             string host = binaryReader.ReadString();
+                        
                             var date = DateTime.FromBinary(binaryReader.ReadInt64());
                             readMaschcount.Add(maschID, new Information() {Count = count, Hostname = host, Date = date});
                         }
@@ -178,10 +201,6 @@ namespace KeySearcher.P2P.Storage
                     }
                 }               
             }
-
-//-------------------------------------------------------------------------------------------
-//AFTER CHANGING THE FOLLOWING PART INCREASE THE VERSION-NUMBER AT THE TOP OF THIS CLASS!
-//-------------------------------------------------------------------------------------------
                        
             if (resultCount > 0)
             {
@@ -201,7 +220,7 @@ namespace KeySearcher.P2P.Storage
 
         private static void UpdateLeafFromDht(Leaf nodeToUpdate, BinaryReader binaryReader)
         {
-            CheckVersion(binaryReader);
+            var oldVersionFlag = CheckVersion(binaryReader);
                
             var date = DateTime.FromBinary(binaryReader.ReadInt64());
             if (date > nodeToUpdate.LastReservationDate)
@@ -233,7 +252,7 @@ namespace KeySearcher.P2P.Storage
             return string.Format("{0}_node_{1}_{2}", node.DistributedJobIdentifier, node.From, node.To);
         }
 
-        private static void CheckVersion(BinaryReader binaryReader)
+        private static int CheckVersion(BinaryReader binaryReader)
         {           
             try
             {
@@ -244,12 +263,16 @@ namespace KeySearcher.P2P.Storage
                     //Reading the char and the versionnumber
                     char magic = binaryReader.ReadChar();
                     int versionInUse = binaryReader.ReadInt32();
-                    oldVersionFlag = versionInUse;
                     //Check if a newer Version is in use
                     if (versionInUse > version)
                     {
                         throw new KeySearcherStopException();
                     }
+                    return versionInUse;
+                }
+                else
+                {
+                    return -1;
                 }
             }
             catch(KeySearcherStopException)
