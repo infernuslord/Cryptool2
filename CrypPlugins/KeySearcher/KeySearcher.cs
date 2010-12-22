@@ -43,13 +43,6 @@ using OpenCLNet;
 
 namespace KeySearcher
 {
-    public class Information
-    {
-        public int Count { get; set; }
-        public string Hostname { get; set; }
-        public DateTime Date { get; set; }
-    } 
-
     [Author("Sven Rech, Nils Kopal, Raoul Falk, Dennis Nolte", "rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo(false, "KeySearcher", "Bruteforces a decryption algorithm.", "KeySearcher/DetailedDescription/Description.xaml", "KeySearcher/Images/icon.png")]
     public class KeySearcher : IAnalysisMisc
@@ -59,8 +52,6 @@ namespace KeySearcher
         /// </summary>
         private Dictionary<string, Dictionary<long, Information>> statistic;
         private bool initialized;
-
-
         /// <summary>
         /// used for creating the TopList
         /// </summary>
@@ -1279,7 +1270,7 @@ namespace KeySearcher
         {
             using (StreamWriter sw = new StreamWriter(string.Format("{0}\\UserRanking{1}.csv", DirectoryHelper.DirectoryLocal, dataIdentifier)))
             {
-                sw.WriteLine("Avatarname" + ";" + "MaschinenID" + ";" + "Hostname" + ";"+ "Anzahl Pattern" + ";" + "Last Update");
+                sw.WriteLine("Avatarname" + ";" + "MaschineID" + ";" + "Hostname" + ";"+ "Pattern Count" + ";" + "Last Update");
                 foreach (string avatar in statistic.Keys)
                 {
                     foreach(long mID in statistic[avatar].Keys)
@@ -1496,6 +1487,14 @@ namespace KeySearcher
         public string Value { get; set; }
         public string Key { get; set; }
         public string Text { get; set; }
-
     }
+    /// <summary>
+    /// Represents one entry in our statistic list
+    /// </summary>
+    public class Information
+    {
+        public int Count { get; set; }
+        public string Hostname { get; set; }
+        public DateTime Date { get; set; }
+    } 
 }
