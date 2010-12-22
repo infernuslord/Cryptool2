@@ -155,44 +155,57 @@ namespace Cryptool.PluginBase
         /// <param name="regEx">The reg ex.</param>
         /// <param name="controlValues">The control values used to display in ComboBox.</param>              
         /// helpAnchor
-        public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, DisplayLevel displayLevel, ControlType controlType, params string[] controlValues)
+        public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, ControlType controlType, params string[] controlValues)
         {
             this.caption = caption;
             this.toolTip = toolTip;
             this.groupName = groupName;
             this.Order = order;              
-            this.DisplayLevel = displayLevel;
+//            this.DisplayLevel = displayLevel;
             this.ControlType = controlType;            
             this.ControlValues = controlValues;
             this.ChangeableWhileExecuting = changeableWhileExecuting;
         }
 
+        [Obsolete("DisplayLevel is no longer used, see #122")]
+        public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, DisplayLevel displayLevel, ControlType controlType, params string[] controlValues)
+            : this(caption, toolTip, groupName, order, changeableWhileExecuting, controlType, controlValues)
+        {
+        }
+
+
         /// <summary>
         /// Regex validation and ControlType.TextBox
         /// </summary>
-        public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, DisplayLevel displayLevel, ControlType controlType, ValidationType validationType, string regularExpression)
+        public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, ControlType controlType, ValidationType validationType, string regularExpression)
         {
           this.caption = caption;
           this.toolTip = toolTip;
           this.groupName = groupName;
           this.Order = order;
-          this.DisplayLevel = displayLevel;          
+//          this.DisplayLevel = displayLevel;          
           this.ControlType = controlType;          
           this.ValidationType = validationType;
           this.RegularExpression = regularExpression;
           this.ChangeableWhileExecuting = changeableWhileExecuting;
         }
+
+        [Obsolete("DisplayLevel is no longer used, see #122")]
+        public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, DisplayLevel displayLevel, ControlType controlType, ValidationType validationType, string regularExpression)
+            : this(caption, toolTip, groupName, order, changeableWhileExecuting, controlType, validationType, regularExpression)
+        {
+        }
         
         /// <summary>
         /// NumericUpDown int.
         /// </summary>
-        public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, DisplayLevel displayLevel, ControlType controlType, ValidationType validationType, int integerMinValue, int integerMaxValue)
+        public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, ControlType controlType, ValidationType validationType, int integerMinValue, int integerMaxValue)
         {
           this.caption = caption;
           this.toolTip = toolTip;
           this.groupName = groupName;
           this.Order = order;
-          this.DisplayLevel = displayLevel;
+//          this.DisplayLevel = displayLevel;
           this.ControlType = controlType;
           this.ValidationType = validationType;
           this.IntegerMinValue = integerMinValue;
@@ -200,16 +213,22 @@ namespace Cryptool.PluginBase
           this.ChangeableWhileExecuting = changeableWhileExecuting;
         }
 
+        [Obsolete("DisplayLevel is no longer used, see #122")]
+        public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, DisplayLevel displayLevel, ControlType controlType, ValidationType validationType, int integerMinValue, int integerMaxValue)
+            : this(caption, toolTip, groupName, order, changeableWhileExecuting, controlType, validationType, integerMinValue, integerMaxValue)
+        {
+        }
+
         /// <summary>
         /// NumericUpDown double.
         /// </summary>
-        public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, DisplayLevel displayLevel, ControlType controlType, ValidationType validationType, double doubleMinValue, double doubleMaxValue)
+        public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting,  ControlType controlType, ValidationType validationType, double doubleMinValue, double doubleMaxValue)
         {
           this.caption = caption;
           this.toolTip = toolTip;
           this.groupName = groupName;
           this.Order = order;
-          this.DisplayLevel = displayLevel;
+//          this.DisplayLevel = displayLevel;
           this.ControlType = controlType;
           this.ValidationType = validationType;
           this.DoubleMinValue = doubleMinValue;
@@ -217,20 +236,32 @@ namespace Cryptool.PluginBase
           this.ChangeableWhileExecuting = changeableWhileExecuting;
         }
 
+        [Obsolete("DisplayLevel is no longer used, see #122")]
+        public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, DisplayLevel displayLevel, ControlType controlType, ValidationType validationType, double doubleMinValue, double doubleMaxValue)
+            : this(caption, toolTip, groupName, order, changeableWhileExecuting, controlType, validationType, doubleMinValue, doubleMaxValue)
+        {
+        }
+
         /// <summary>
         /// Slider
         /// </summary>
-        public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, DisplayLevel displayLevel, ControlType controlType, double doubleMinValue, double doubleMaxValue)
+        public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, ControlType controlType, double doubleMinValue, double doubleMaxValue)
         {
           this.caption = caption;
           this.toolTip = toolTip;
           this.groupName = groupName;
           this.Order = order;
-          this.DisplayLevel = displayLevel;
+//          this.DisplayLevel = displayLevel;
           this.ControlType = controlType;          
           this.DoubleMinValue = doubleMinValue;
           this.DoubleMaxValue = doubleMaxValue;
           this.ChangeableWhileExecuting = changeableWhileExecuting;
+        }
+
+        [Obsolete("DisplayLevel is no longer used, see #122")]
+        public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, DisplayLevel displayLevel, ControlType controlType, double doubleMinValue, double doubleMaxValue)
+            :this(caption, toolTip, groupName, order, changeableWhileExecuting, controlType, doubleMinValue, doubleMaxValue)
+        {
         }
 
         /// <summary>
@@ -241,15 +272,21 @@ namespace Cryptool.PluginBase
         /// <param name="order">The order.</param>
         /// <param name="displayLevel">The display level.</param>
         /// <param name="controlType">Type of the control should be button in this construcor.</param>
-        public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, DisplayLevel displayLevel, ControlType controlType)
+        public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, ControlType controlType)
         {
           this.caption = caption;
           this.toolTip = toolTip;
           this.groupName = groupName;
           this.Order = order;
-          this.DisplayLevel = displayLevel;
+//          this.DisplayLevel = displayLevel;
           this.ControlType = controlType;
           this.ChangeableWhileExecuting = changeableWhileExecuting;
+        }
+
+        [Obsolete("DisplayLevel is no longer used, see #122")]
+        public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, DisplayLevel displayLevel, ControlType controlType)
+            :this(caption, toolTip, groupName, order, changeableWhileExecuting, controlType)
+        {
         }
     }
 }
