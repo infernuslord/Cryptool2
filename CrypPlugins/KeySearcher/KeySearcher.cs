@@ -1237,12 +1237,7 @@ namespace KeySearcher
                         //get the statistic maschcount for this avatarname
                         Dictionary<long, Information> statMaschCount = statistic[avname];
                         //ID of the statistic (has to be always positive)
-                        var mID = id;
-                        if(id < 0)
-                        {
-                            mID = id * (-1);
-                        }
-
+                        var mID = Math.Abs(id);
                         //if the id of the Maschine already exists for this avatarname
                         if (statMaschCount.ContainsKey(mID))
                         {
