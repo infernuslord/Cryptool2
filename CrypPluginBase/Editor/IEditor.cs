@@ -22,7 +22,6 @@ namespace Cryptool.PluginBase.Editor
 {
     public interface IEditor : IPlugin, IApplication
     {
-        event ChangeDisplayLevelHandler OnChangeDisplayLevel;
         event SelectedPluginChangedHandler OnSelectedPluginChanged;
         event ProjectTitleChangedHandler OnProjectTitleChanged;
         event OpenProjectFileHandler OnOpenProjectFile;
@@ -67,12 +66,6 @@ namespace Cryptool.PluginBase.Editor
         bool CanStop { get; }
         bool HasChanges { get; }
         bool CanPrint { get; }
-
-        /// <summary>
-        /// Gets or sets the display level. Can be reverted using the OnChangeDisplayLevel event.
-        /// </summary>
-        /// <value>The display level.</value>
-        DisplayLevel DisplayLevel { get; set; }
 
         /// <summary>
         /// Gets the editor specific plugins, e.g. connector plugins to build subworkspace and the

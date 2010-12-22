@@ -27,6 +27,7 @@ namespace Cryptool.PluginBase
         ControlMaster
     }
 
+    [Obsolete("DisplayLevel is no longer used, see #122")]
     public enum DisplayLevel
     {
         Beginner,

@@ -94,11 +94,6 @@ namespace WorkspaceManager
         /// <summary>
         /// 
         /// </summary>
-        public event ChangeDisplayLevelHandler OnChangeDisplayLevel;
-
-        /// <summary>
-        /// 
-        /// </summary>
         public event SelectedPluginChangedHandler OnSelectedPluginChanged;
 
         /// <summary>
@@ -399,16 +394,6 @@ namespace WorkspaceManager
         public bool CanPrint
         {
             get { return true; }
-        }
-
-        /// <summary>
-        /// DisplayLevel
-        /// </summary>
-        public DisplayLevel DisplayLevel
-        {
-            get;
-            set;
-            
         }
 
         /// <summary>

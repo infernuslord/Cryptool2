@@ -49,8 +49,6 @@ namespace Cryptool.P2PEditor
 
         #region IEditor Members
 
-        public event ChangeDisplayLevelHandler OnChangeDisplayLevel;
-
         public event SelectedPluginChangedHandler OnSelectedPluginChanged;
 
         public event ProjectTitleChangedHandler OnProjectTitleChanged;
@@ -196,8 +194,6 @@ namespace Cryptool.P2PEditor
         {
             get { return false; }
         }
-
-        public DisplayLevel DisplayLevel { get; set; }
 
         public List<EditorSpecificPluginInfo> EditorSpecificPlugins
         {
