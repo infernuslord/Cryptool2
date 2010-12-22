@@ -58,8 +58,6 @@ namespace SimpleEditor
 
         #region IEditor Members
 
-        public event ChangeDisplayLevelHandler OnChangeDisplayLevel;
-
         public event SelectedPluginChangedHandler OnSelectedPluginChanged;
 
         public event ProjectTitleChangedHandler OnProjectTitleChanged;
@@ -200,12 +198,6 @@ namespace SimpleEditor
         public bool CanPrint
         {
             get { return false; }
-        }
-
-        public DisplayLevel DisplayLevel
-        {
-            get;
-            set;
         }
 
         public List<EditorSpecificPluginInfo> EditorSpecificPlugins

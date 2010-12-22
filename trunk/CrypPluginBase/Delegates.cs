@@ -48,11 +48,6 @@ namespace Cryptool.PluginBase
   public delegate void SelectedPluginChangedHandler(IEditor editor, PluginChangedEventArgs pce);
 
   /// <summary>
-  /// Used by editor plugins to send DisplayLevel of loaded workspace to the CrypWin.
-  /// </summary>
-  public delegate void ChangeDisplayLevelHandler(IEditor editor, ChangeDisplayLevelEventArgs args);
-
-  /// <summary>
   /// Used by editor plugins to send current project title to CrypWin.
   /// </summary>
   public delegate void ProjectTitleChangedHandler(IEditor editor, string newProjectTitle);

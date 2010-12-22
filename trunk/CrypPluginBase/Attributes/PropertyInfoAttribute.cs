@@ -58,7 +58,7 @@ namespace Cryptool.PluginBase
         public readonly string DescriptionUrl;
         public readonly Direction Direction;
         public readonly bool Mandatory;        
-        public readonly DisplayLevel DisplayLevel;        
+        public readonly DisplayLevel DisplayLevel;
         public QuickWatchFormat QuickWatchFormat;
         public string PropertyName; // will be set in extension-method
         public PropertyInfo PropertyInfo { get; set; } // will be set in extension-method
@@ -98,19 +98,31 @@ namespace Cryptool.PluginBase
         /// <param name="displayLevel">The display level.</param>
         /// <param name="quickWatchFormat">The quick watch format.</param>
         /// <param name="quickWatchConversion">Methodname of converstion method.</param>
-        public PropertyInfoAttribute(Direction direction, string caption, string toolTip, string descriptionUrl, bool mandatory, bool hasDefaultValue, DisplayLevel displayLevel, QuickWatchFormat quickWatchFormat, string quickWatchConversionMethod)
+        public PropertyInfoAttribute(Direction direction, string caption, string toolTip, string descriptionUrl, bool mandatory, bool hasDefaultValue, QuickWatchFormat quickWatchFormat, string quickWatchConversionMethod)
         {
             this.caption = caption == null ? "" : caption;
             this.toolTip = toolTip == null ? "" : toolTip;
             this.DescriptionUrl = descriptionUrl == null ? "" : descriptionUrl;
             this.Direction = direction;
             this.Mandatory = mandatory;
-            this.DisplayLevel = displayLevel;
+//            this.DisplayLevel = displayLevel;
             this.QuickWatchFormat = quickWatchFormat;
             this.QuickWatchConversionMethod = quickWatchConversionMethod;
             this.HasDefaultValue = hasDefaultValue;
         }
 
+        public PropertyInfoAttribute(Direction direction, string caption, string toolTip, string descriptionUrl)
+            : this(direction, caption, toolTip, descriptionUrl, false, false, QuickWatchFormat.None, null)
+        {
+        }
+
+        [Obsolete("DisplayLevel is no longer used, see #122")]
+        public PropertyInfoAttribute(Direction direction, string caption, string toolTip, string descriptionUrl, bool mandatory, bool hasDefaultValue, DisplayLevel displayLevel, QuickWatchFormat quickWatchFormat, string quickWatchConversionMethod)
+            : this(direction, caption, toolTip, descriptionUrl, mandatory, hasDefaultValue, quickWatchFormat, quickWatchConversionMethod)
+        {
+        }
+
+        [Obsolete("DisplayLevel is no longer used, see #122")]
         public PropertyInfoAttribute(Direction direction, string caption, string toolTip, string descriptionUrl, DisplayLevel displayLevel) 
           : this (direction, caption, toolTip, descriptionUrl, false, false, displayLevel, QuickWatchFormat.None, null)
         {

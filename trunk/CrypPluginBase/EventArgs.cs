@@ -102,18 +102,6 @@ namespace Cryptool.PluginBase
     }
   }
 
-  public class ChangeDisplayLevelEventArgs : EventArgs
-  {
-    public readonly DisplayLevel NewDisplayLevel;
-    public readonly IEditor Editor;
-
-    public ChangeDisplayLevelEventArgs(IEditor editor, DisplayLevel newDisplayLevel)
-    {
-      this.NewDisplayLevel = newDisplayLevel;
-      this.Editor = editor;
-    }
-  }
-
   public class ProjectTitleChangedEventArgs : EventArgs
   {
     public readonly string Title;

@@ -20,7 +20,6 @@ namespace Wizard
         public event StatusChangedEventHandler OnPluginStatusChanged;
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
-        public event ChangeDisplayLevelHandler OnChangeDisplayLevel;
         public event SelectedPluginChangedHandler OnSelectedPluginChanged;
         public event ProjectTitleChangedHandler OnProjectTitleChanged;
         public event OpenProjectFileHandler OnOpenProjectFile;
@@ -211,9 +210,6 @@ namespace Wizard
         {
             get { return false; }
         }
-
-        public DisplayLevel DisplayLevel
-        { get; set; }
 
         public List<EditorSpecificPluginInfo> EditorSpecificPlugins { get; set; }
 
