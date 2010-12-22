@@ -42,7 +42,7 @@ namespace KeySearcher.P2P.Storage
             var binaryWriter = new BinaryWriter(memoryStream);
 
             //TODO: Append Updater Version
-            binaryWriter.Write('V');
+            binaryWriter.Write('W');
             binaryWriter.Write(version);  
 
             if (nodeToUpdate is Node)
@@ -259,7 +259,7 @@ namespace KeySearcher.P2P.Storage
             {
                 //Checking if there's a version in the stream
                 int vers = binaryReader.PeekChar();
-                if (vers == 86)
+                if (vers == 86 || vers ==87) //V infront of a Leaf and W infront of a Node
                 {
                     //Reading the char and the versionnumber
                     char magic = binaryReader.ReadChar();
