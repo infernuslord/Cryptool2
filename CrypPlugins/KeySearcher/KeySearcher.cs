@@ -1236,22 +1236,28 @@ namespace KeySearcher
                     {
                         //get the statistic maschcount for this avatarname
                         Dictionary<long, Information> statMaschCount = statistic[avname];
-                        
+                        //ID of the statistic (has to be always positive)
+                        var mID = id;
+                        if(id < 0)
+                        {
+                            mID = id * (-1);
+                        }
+
                         //if the id of the Maschine already exists for this avatarname
-                        if (statMaschCount.ContainsKey(id))
+                        if (statMaschCount.ContainsKey(mID))
                         {
                             if (!initialized || ((MaschCount[id].Count == 1) && (MaschCount.Keys.Count == 1)))
                             {
-                                statMaschCount[id].Count = statMaschCount[id].Count + MaschCount[id].Count;
-                                statMaschCount[id].Hostname = MaschCount[id].Hostname;
-                                statMaschCount[id].Date = MaschCount[id].Date;
+                                statMaschCount[mID].Count = statMaschCount[mID].Count + MaschCount[id].Count;
+                                statMaschCount[mID].Hostname = MaschCount[id].Hostname;
+                                statMaschCount[mID].Date = MaschCount[id].Date;
                                 statistic[avname] = statMaschCount;
                             }
                         }
                         else
                         {
-                            //add a new id,count value for this avatarname
-                            statistic[avname].Add(id, MaschCount[id]);
+                            //add a new id,information value for this avatarname
+                            statistic[avname].Add(mID, MaschCount[id]);
                         }
                     }
                 }
