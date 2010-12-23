@@ -87,37 +87,153 @@ namespace Cryptool.TextInput
       GuiLogMessage(message, loglevel);
     }
 
+    private string GetInputString()
+    {
+        return (string)this.textInputPresentation.textBoxInputText.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
+        {
+            return textInputPresentation.textBoxInputText.Text;
+        }, textInputPresentation);
+    }
+
+      private byte[] ConvertHexStringToByteArray(string input)
+      {
+          if (String.IsNullOrEmpty(input))
+              return new byte[0];
+
+          StringBuilder cleanHexString = new StringBuilder();
+
+          //cleanup the input
+          foreach (char c in input)
+          {
+              if (Uri.IsHexDigit(c))
+                  cleanHexString.Append(c);
+          }
+
+          int numberChars = cleanHexString.Length;
+
+          if (numberChars < 2) // Need at least 2 chars to make one byte
+              return new byte[0];
+
+          byte[] bytes = new byte[numberChars / 2];
+
+          for (int i = 0; i < numberChars-1; i += 2)
+          {
+              bytes[i / 2] = Convert.ToByte(cleanHexString.ToString().Substring(i, 2), 16);
+          }
+          return bytes;
+      }
+
+      private string ConvertBytesToString(byte[] data)
+      {
+          switch (settings.Encoding)
+          {
+              case TextInputSettings.EncodingTypes.Unicode:
+                  return Encoding.Unicode.GetString(data);
+                  break;
+              case TextInputSettings.EncodingTypes.UTF7:
+                  return Encoding.UTF7.GetString(data);
+                  break;
+              case TextInputSettings.EncodingTypes.UTF8:
+                  return Encoding.UTF8.GetString(data);
+                  break;
+              case TextInputSettings.EncodingTypes.UTF32:
+                  return Encoding.UTF32.GetString(data);
+                  break;
+              case TextInputSettings.EncodingTypes.ASCII:
+                  return Encoding.ASCII.GetString(data);
+                  break;
+              case TextInputSettings.EncodingTypes.BigEndianUnicode:
+                  return Encoding.BigEndianUnicode.GetString(data);
+                  break;
+              default:
+                  return Encoding.Default.GetString(data);
+          }
+      }
+
+      private byte[] ConvertStringToByteArray(string inputString)
+      {
+          if (String.IsNullOrEmpty(inputString))
+          {
+              return new byte[0];
+          }
+
+          // here conversion happens        
+          switch (settings.Encoding)
+          {
+              case TextInputSettings.EncodingTypes.Default:
+                  return Encoding.Default.GetBytes(inputString);
+              case TextInputSettings.EncodingTypes.Unicode:
+                  return Encoding.Unicode.GetBytes(inputString);
+              case TextInputSettings.EncodingTypes.UTF7:
+                  return Encoding.UTF7.GetBytes(inputString);
+              case TextInputSettings.EncodingTypes.UTF8:
+                  return Encoding.UTF8.GetBytes(inputString);
+              case TextInputSettings.EncodingTypes.UTF32:
+                  return Encoding.UTF32.GetBytes(inputString);
+              case TextInputSettings.EncodingTypes.ASCII:
+                  return Encoding.ASCII.GetBytes(inputString);
+              case TextInputSettings.EncodingTypes.BigEndianUnicode:
+                  return Encoding.BigEndianUnicode.GetBytes(inputString);
+              default:
+                  return Encoding.Default.GetBytes(inputString);
+          }
+      }
+
+      private bool[] ConvertByteArrayToBoolArray(byte[] input)
+      {
+          bool[] output = new bool[input.Length];
+
+          for (int i = 0; i < output.Length; i++)
+          {
+              output[i] = input[i] != 0x00;
+          }
+
+          return output;
+      }
+
     # region Properties
 
-    [PropertyInfo(Direction.OutputData, "Text", "Simple text to use as input for other plug-ins.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.OutputData, "Text", "Simple text to use as input for other plug-ins.", "", true, false, QuickWatchFormat.None, null)]
     public string TextOutput
     {
-      //[MethodImpl(MethodImplOptions.Synchronized)]
       get
-      {        
-        // GuiLogMessage("Got request for text...", NotificationLevel.Debug);
-        string ret = (string)this.textInputPresentation.textBoxInputText.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
-        {          
-          return textInputPresentation.textBoxInputText.Text;
-        }, textInputPresentation);
-        
-        if (ret == null || ret == string.Empty)
-        {
-          GuiLogMessage("Text: No text provided. Returning null", NotificationLevel.Debug);
-          return null;
-        }
-        return ret;
+      {
+          string inputString = GetInputString();
+
+          switch(settings.InputFormatSetting)
+          {
+              case TextInputSettings.InputFormat.Hex:
+                  {
+                      byte[] data = ConvertHexStringToByteArray(inputString);
+                      return ConvertBytesToString(data);
+                  }
+              case TextInputSettings.InputFormat.Base64:
+                  {
+                      try
+                      {
+                          byte[] data = Convert.FromBase64String(inputString);
+                          return ConvertBytesToString(data);
+                      }
+                      catch (FormatException e)
+                      {
+                          GuiLogMessage("Invalid Base64 format", NotificationLevel.Warning);
+                          return string.Empty;
+                      }
+                  }
+              default: // includes InputFormat.Text
+                  return inputString;
+          }
+          
       }
       set { }
     }
 
-    [PropertyInfo(Direction.OutputData, "Stream", "The text input converted to memory stream.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.OutputData, "Stream", "The text input converted to memory stream.", "", true, false, QuickWatchFormat.None, null)]
     public CryptoolStream StreamOutput
     {
-      //[MethodImpl(MethodImplOptions.Synchronized)]
       get
       {
-        byte[] arr = GetByteArray(false);
+        byte[] arr = ByteArrayOutput;
         if (arr != null)
         {
           CryptoolStream cryptoolStream = new CryptoolStream();
@@ -135,111 +251,70 @@ namespace Cryptool.TextInput
       set { } // readonly
     }
 
-    private byte[] byteArrayOutput;
-    [PropertyInfo(Direction.OutputData, "ByteArray", "The hex values as byte array.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.OutputData, "ByteArray", "The hex values as byte array.", "", true, false, QuickWatchFormat.None, null)]
     public byte[] ByteArrayOutput
     {
-      //[MethodImpl(MethodImplOptions.Synchronized)]
       get
       {
-        // GuiLogMessage("Got request for ByteArray...", NotificationLevel.Debug);
-        byteArrayOutput = GetByteArray(true);
-        if (byteArrayOutput == null)
-        {
-          GuiLogMessage("ByteArray: No input provided. Returning null", NotificationLevel.Debug);
-          return null;
-        }
-        return byteArrayOutput;
+          string inputString = GetInputString();
+
+          switch (settings.InputFormatSetting)
+          {
+              case TextInputSettings.InputFormat.Hex:
+                  return ConvertHexStringToByteArray(inputString);
+              case TextInputSettings.InputFormat.Base64:
+                  try
+                  {
+                      return Convert.FromBase64String(inputString);
+                  } catch(FormatException e)
+                  {
+                      GuiLogMessage("Invalid Base64 format", NotificationLevel.Warning);
+                      return new byte[0];
+                  }
+              default: // includes InputFormat.Text
+                  return ConvertStringToByteArray(inputString);
+          }
       }
       set { } // readonly
     }
 
-    public byte[] GetByteArray(bool showMessage)
-    {
-        string data = (string)this.textInputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
-        {
-            return textInputPresentation.textBoxInputText.Text;
-        }, null);
-
-        if ((data != null) && (data.Length != 0))
-        {
-            // here conversion happens        
-            switch (settings.Encoding)
-            {
-                case TextInputSettings.EncodingTypes.Default:
-                    byteArrayOutput = Encoding.Default.GetBytes(data.ToCharArray());
-                    break;
-                case TextInputSettings.EncodingTypes.Unicode:
-                    byteArrayOutput = Encoding.Unicode.GetBytes(data.ToCharArray());
-                    break;
-                case TextInputSettings.EncodingTypes.UTF7:
-                    byteArrayOutput = Encoding.UTF7.GetBytes(data.ToCharArray());
-                    break;
-                case TextInputSettings.EncodingTypes.UTF8:
-                    byteArrayOutput = Encoding.UTF8.GetBytes(data.ToCharArray());
-                    break;
-                case TextInputSettings.EncodingTypes.UTF32:
-                    byteArrayOutput = Encoding.UTF32.GetBytes(data.ToCharArray());
-                    break;
-                case TextInputSettings.EncodingTypes.ASCII:
-                    byteArrayOutput = Encoding.ASCII.GetBytes(data.ToCharArray());
-                    break;
-                case TextInputSettings.EncodingTypes.BigEndianUnicode:
-                    byteArrayOutput = Encoding.BigEndianUnicode.GetBytes(data.ToCharArray());
-                    break;
-                default:
-                    byteArrayOutput = Encoding.Default.GetBytes(data.ToCharArray());
-                    break;
-            }
-            return byteArrayOutput;
-        }
-
-        return null;
-    }
-
-    private bool[] boolArrayOutput;
-    [PropertyInfo(Direction.OutputData, "BoolArray", "The text input converted to bool array ('0' char equals false, else true).", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.OutputData, "BoolArray", "The text input converted to bool array ('0' char or 0x00 equals false, else true).", "", true, false, QuickWatchFormat.None, null)]
     public bool[] BoolArrayOutput
     {
-        //[MethodImpl(MethodImplOptions.Synchronized)]
         get
         {
-            // GuiLogMessage("Got request for BoolArray...", NotificationLevel.Debug);
-            boolArrayOutput = GetBoolArray(true);
-            if (boolArrayOutput == null)
+            string inputString = GetInputString();
+
+            switch(settings.InputFormatSetting)
             {
-                GuiLogMessage("BoolArray: No input provided. Returning null", NotificationLevel.Debug);
-                return null;
+                case TextInputSettings.InputFormat.Hex:
+                    {
+                        byte[] data = ConvertHexStringToByteArray(inputString);
+                        return ConvertByteArrayToBoolArray(data);
+                    }
+                case TextInputSettings.InputFormat.Base64:
+                    {
+                        try
+                        {
+                            byte[] data = Convert.FromBase64String(inputString);
+                            return ConvertByteArrayToBoolArray(data);
+                        }
+                        catch (FormatException e)
+                        {
+                            GuiLogMessage("Invalid Base64 format", NotificationLevel.Warning);
+                            return new bool[0];
+                        }
+                    }
+                default: // includes InputFormat.Text
+                    bool[] output = new bool[inputString.Length];
+                    for(int i = 0; i < output.Length; i++)
+                    {
+                        output[i] = inputString[i] != '0';
+                    }
+                    return output;
             }
-            return boolArrayOutput;
         }
         set { } // readonly
-    }
-
-    public bool[] GetBoolArray(bool showMessage)
-    {
-        string data = (string)this.textInputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
-        {
-            return textInputPresentation.textBoxInputText.Text;
-        }, null);
-
-        if ((data != null) && (data.Length != 0))
-        {
-            // convert data into char array
-            char[] dataCharArray = data.ToCharArray();
-
-            boolArrayOutput = new bool[data.Length];
-
-            for (int i = 0; i < data.Length; i++)
-            {
-               boolArrayOutput[i] = (Convert.ToInt64(dataCharArray[i]) == 48) ? false : true;
-               //if (Convert.ToInt64(dataCharArray[i]) == 48) boolArrayOutput[i] = false; else boolArrayOutput[i] = true;
-            }
-
-            return boolArrayOutput;
-        }
-
-        return null;
     }
 
     #endregion
@@ -274,8 +349,6 @@ namespace Cryptool.TextInput
       }
       listCryptoolStreams.Clear();
 
-      byteArrayOutput = null;
-
       textInputPresentation.textBoxInputText.TextChanged -= textBoxInputText_TextChanged;
     }
 
@@ -298,7 +371,6 @@ namespace Cryptool.TextInput
 
     public void PreExecution()
     {
-      byteArrayOutput = null;
       // textInputPresentation.labelBytesCount.Content = "0 Bytes";
     }
 

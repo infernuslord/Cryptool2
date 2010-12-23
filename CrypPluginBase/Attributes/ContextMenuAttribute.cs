@@ -35,19 +35,24 @@ namespace Cryptool.PluginBase
         /// <param name="caption">The caption is not used right now and may be removed in future versions.</param>
         /// <param name="toolTip">The tool tip is used for all entries.</param>
         /// <param name="order">The order.</param>
-        /// <param name="displayLevel">The display level.</param>
         /// <param name="controlType">Type of the control.</param>
         /// <param name="arrImagesForControlValues">Image indexes for the control values. Can be null if no images should be used.</param>
         /// <param name="controlValues">Strings for the context menu entries.</param>
-        public ContextMenuAttribute(string caption, string toolTip, int order, DisplayLevel displayLevel, ContextMenuControlType controlType, int[] arrImagesForControlValues, params string[] controlValues)
+        public ContextMenuAttribute(string caption, string toolTip, int order, ContextMenuControlType controlType, int[] arrImagesForControlValues, params string[] controlValues)
         {
             this.Caption = caption;
             this.ToolTip = toolTip;
             this.Order = order;            
-            this.DisplayLevel = displayLevel;
+//            this.DisplayLevel = displayLevel;
             this.ControlType = controlType;
             this.ControlValues = controlValues;
             this.ArrImagesForControlValues = arrImagesForControlValues;
+        }
+
+        [Obsolete("DisplayLevel is no longer used, see #122")]
+        public ContextMenuAttribute(string caption, string toolTip, int order, DisplayLevel displayLevel, ContextMenuControlType controlType, int[] arrImagesForControlValues, params string[] controlValues)
+            : this(caption, toolTip, order, controlType, arrImagesForControlValues, controlValues)
+        {
         }
     }
 }
