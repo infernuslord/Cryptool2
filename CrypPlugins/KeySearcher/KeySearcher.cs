@@ -248,7 +248,7 @@ namespace KeySearcher
         private CryptoolServer cryptoolServer;
         private KeySearcherOpenCLCode externalKeySearcherOpenCLCode;
         private IKeyTranslator externalKeyTranslator;
-        private int externalKeysProcessed;
+        private BigInteger externalKeysProcessed;
         private EndPoint externalClientConnected;
         private AutoResetEvent waitForExternalClientToFinish = new AutoResetEvent(false);
         private DateTime assignTime;
@@ -725,6 +725,7 @@ namespace KeySearcher
         private IControlEncryption sender;
         private DateTime beginBruteforcing;
         private DistributedBruteForceManager distributedBruteForceManager;
+        private BigInteger keysInThisChunk;
 
         // main entry point to the KeySearcher
         private LinkedList<ValueKey> bruteforcePattern(KeyPattern.KeyPattern pattern)
@@ -844,6 +845,8 @@ namespace KeySearcher
                 localBruteForceStopwatch.Start();
             }
 
+            keysInThisChunk = pattern.size();
+
             if (settings.UseExternalClient)
             {
                 GuiLogMessage("Only using external client to bruteforce!", NotificationLevel.Info);
@@ -862,7 +865,6 @@ namespace KeySearcher
             }
             else
             {
-                BigInteger size = pattern.size();
                 KeyPattern.KeyPattern[] patterns = splitPatternForThreads(pattern);
                 if (patterns == null || patterns.Length == 0)
                 {
@@ -899,11 +901,11 @@ namespace KeySearcher
                         keycounter += kc;
                     #endregion
 
-                    if (keycounter > size)
+                    if (keycounter > keysInThisChunk)
                         GuiLogMessage("There must be an error, because we bruteforced too much keys...", NotificationLevel.Error);
 
                     #region determination of the thread with most keys
-                    if (size - keycounter > 1000)
+                    if (keysInThisChunk - keycounter > 1000)
                     {
                         try
                         {
@@ -930,11 +932,11 @@ namespace KeySearcher
                     lastTime = DateTime.Now;
                     if (redirectResultsToStatisticsGenerator)
                     {
-                        distributedBruteForceManager.StatisticsGenerator.ShowProgress(costList, size, keycounter, keysPerSecond);
+                        distributedBruteForceManager.StatisticsGenerator.ShowProgress(costList, keysInThisChunk, keycounter, keysPerSecond);
                     }
                     else
                     {
-                        showProgress(costList, size, keycounter, keysPerSecond);
+                        showProgress(costList, keysInThisChunk, keycounter, keysPerSecond);
                     }
 
                     //show OpenCL keys/sec:
@@ -956,7 +958,7 @@ namespace KeySearcher
                         openCLDoneKeysA[i] = 0;
                     #endregion
 
-                    if (keycounter >= size)
+                    if (keycounter >= keysInThisChunk)
                         break;
                 }//end while
 
@@ -1070,9 +1072,18 @@ namespace KeySearcher
             int progress = externalKeyTranslator.GetProgress();
             externalKeysProcessed += progress;
             int keysPerSec = (int)(progress / (DateTime.Now - assignTime).TotalSeconds);
-            showProgress(costList, pattern.size(), externalKeysProcessed, keysPerSec);
 
-            if (externalKeysProcessed != pattern.size())
+            QuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                                                                                    {
+                                                                                        if (!((QuickWatch)QuickWatchPresentation).IsP2PEnabled)
+                                                                                            showProgress(costList, keysInThisChunk, externalKeysProcessed, keysPerSec);
+                                                                                        else
+                                                                                            distributedBruteForceManager.StatisticsGenerator.ShowProgress(costList,
+                                                                                                             keysInThisChunk, externalKeysProcessed, keysPerSec);
+                                                                                    }, null);
+
+
+            if (externalKeysProcessed != keysInThisChunk)
             {
                 AssignJobToClient(client, null);
             }
