@@ -1,6 +1,8 @@
 #pragma once
 
 #include <CL/cl.hpp>
+#include <time.h>
+
 #include "Job.h"
 
 class Cryptool
@@ -14,6 +16,7 @@ class Cryptool
 	float* localCosts;
     bool compareLargerThan;
     int resultSize;
+    clock_t lastSubbatchCompleted;
 
 	static const int subbatch = 256*256*256;
 
