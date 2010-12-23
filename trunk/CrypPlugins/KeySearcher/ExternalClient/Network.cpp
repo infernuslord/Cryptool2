@@ -82,13 +82,14 @@ void networkThread(sockaddr_in serv_addr, int port)
         printf("ERROR opening socket\n");
         return;
     }
-    printf("Connecting established\n");
+
     if (connect(sockfd, (sockaddr*)&serv_addr, sizeof(serv_addr)) < 0)
     {
         printf("Couldn't connect\n");
         close(sockfd);
         return;
     }
+    printf("Connection established\n");
 
     try{
         PlatformIndependentWrapper w(sockfd);

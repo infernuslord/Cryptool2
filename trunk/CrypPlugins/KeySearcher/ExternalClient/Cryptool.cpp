@@ -100,6 +100,10 @@ Cryptool::Cryptool()
     }
     
     localCosts = new float[subbatch];
+    lastSubbatchCompleted = clock();
+
+    // required for thousand/million separator in printf
+    setlocale(LC_ALL,"");
 }
 
 void Cryptool::buildKernel(const Job& j)
@@ -281,13 +285,18 @@ void Cryptool::enqueueKernel(cl::CommandQueue& queue, int size, cl::Buffer& keyb
 {
     for (int i = 0; i < (size/subbatch); i++)
     {
-	enqueueSubbatch(queue, keybuffer, costs, i*subbatch, subbatch, j);
+        enqueueSubbatch(queue, keybuffer, costs, i*subbatch, subbatch, j);
+
+        clock_t now = clock();
+        clock_t timeDiff = now - lastSubbatchCompleted;
+        lastSubbatchCompleted = now;
+        printf("% .2f%% done. %'u keys/sec\n", ((i+1)*subbatch)/(float)size*100, (unsigned int)(subbatch/(timeDiff/(float)CLOCKS_PER_SEC)));
     }
 
     int remain = (size%subbatch);
     if (remain != 0)
     {
-	enqueueSubbatch(queue, keybuffer, costs, size-remain, remain, j);
+        enqueueSubbatch(queue, keybuffer, costs, size-remain, remain, j);
     }
 }
 
