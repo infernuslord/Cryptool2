@@ -16,6 +16,11 @@
 
 #include "Cryptool.h"
 
+unsigned long DiffMicSec(timeval & start, timeval & end)
+{
+    return (end.tv_sec - start.tv_sec)*1000000 + (end.tv_usec - start.tv_usec);
+}
+
 Cryptool::Cryptool()
 {
     cl_int err;
@@ -100,7 +105,8 @@ Cryptool::Cryptool()
     }
     
     localCosts = new float[subbatch];
-    lastSubbatchCompleted = clock();
+
+    gettimeofday(&lastSubbatchCompleted, NULL);
 
     // required for thousand/million separator in printf
     setlocale(LC_ALL,"");
@@ -159,6 +165,7 @@ void Cryptool::buildKernel(const Job& j)
 
 JobResult Cryptool::doOpenCLJob(const Job& j)
 {
+    res.Guid = j.Guid;
     cl_int err;
 
     buildKernel(j);
@@ -200,6 +207,8 @@ JobResult Cryptool::doOpenCLJob(const Job& j)
 
 void Cryptool::enqueueSubbatch(cl::CommandQueue& queue, cl::Buffer& keybuffer, cl::Buffer& costs, int add, int length, const Job& j)
 {
+    timeval openCLStart;
+    gettimeofday(&openCLStart, NULL);
 	cl_int err;
 
 	err = kernel->setArg(0, keybuffer);
@@ -240,6 +249,9 @@ void Cryptool::enqueueSubbatch(cl::CommandQueue& queue, cl::Buffer& keybuffer, c
 		std::cerr << "Event::wait() failed (" << err << ")\n";
 		throw new std::exception();
 	}
+
+    timeval openCLEnd;
+    gettimeofday(&openCLEnd, NULL);
 #ifdef _OPENMP
 #pragma omp parallel
     {
@@ -279,6 +291,15 @@ void Cryptool::enqueueSubbatch(cl::CommandQueue& queue, cl::Buffer& keybuffer, c
 			pushInTop(res.ResultList, it, localCosts[i], i+add);
 	}
 #endif
+
+    timeval finishedSubbatch;
+    gettimeofday(&finishedSubbatch, NULL);
+
+    unsigned long totalMic= DiffMicSec(openCLStart, finishedSubbatch);
+
+    printf("Completed a subbatch in %.3f seconds. %.2f%% spent on OpenCL, %.2f%% on sorting.\n",
+            (float)totalMic/1000000, DiffMicSec(openCLStart, openCLEnd)/(float)totalMic*100, DiffMicSec(openCLEnd, finishedSubbatch)/(float)totalMic*100);
+
 }
 
 void Cryptool::enqueueKernel(cl::CommandQueue& queue, int size, cl::Buffer& keybuffer, cl::Buffer& costs, const Job& j)
@@ -287,10 +308,11 @@ void Cryptool::enqueueKernel(cl::CommandQueue& queue, int size, cl::Buffer& keyb
     {
         enqueueSubbatch(queue, keybuffer, costs, i*subbatch, subbatch, j);
 
-        clock_t now = clock();
-        clock_t timeDiff = now - lastSubbatchCompleted;
+        timeval now;
+        gettimeofday(&now, NULL);
+        unsigned long timeDiffMicroSec = (now.tv_sec - lastSubbatchCompleted.tv_sec)*1000000 + (now.tv_usec - lastSubbatchCompleted.tv_usec);
         lastSubbatchCompleted = now;
-        printf("% .2f%% done. %'u keys/sec\n", ((i+1)*subbatch)/(float)size*100, (unsigned int)(subbatch/(timeDiff/(float)CLOCKS_PER_SEC)));
+        printf("% .2f%% done. %'u keys/sec\n", ((i+1)*subbatch)/(float)size*100, (unsigned int)(subbatch/((float)timeDiffMicroSec/1000000)));
     }
 
     int remain = (size%subbatch);

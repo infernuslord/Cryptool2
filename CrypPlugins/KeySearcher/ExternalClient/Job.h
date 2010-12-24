@@ -16,5 +16,6 @@ class Job
 class JobResult
 {
     public:
+        std::string Guid;
         std::list<std::pair<float, int> > ResultList;
 };

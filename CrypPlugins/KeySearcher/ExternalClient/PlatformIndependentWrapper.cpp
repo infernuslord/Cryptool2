@@ -47,7 +47,7 @@ void PlatformIndependentWrapper::ReadArray(char* buf, int num)
         offset += rec;
     } while(rec > 0 && offset< num);
 
-    if(rec < 0)
+    if(rec <= 0)
     {
         throw SocketException();
     }
@@ -55,5 +55,9 @@ void PlatformIndependentWrapper::ReadArray(char* buf, int num)
 
 void PlatformIndependentWrapper::WriteArray(const char* buf, int num)
 {
-    write(this->sockfd, buf, num);
+    if(write(this->sockfd, buf, num)!=num)
+    {
+        printf("failed to write :(\n");
+        throw SocketException();
+    }
 }
