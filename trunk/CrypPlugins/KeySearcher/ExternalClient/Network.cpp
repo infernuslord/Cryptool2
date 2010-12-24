@@ -7,6 +7,7 @@
 #include <arpa/inet.h>
 #include <sys/sysctl.h>
 #include <iostream>
+#include <queue>
 
 #include <sys/types.h>
 #include <sys/sysctl.h>
@@ -29,7 +30,22 @@ std::string getIdentificationStr()
     return out.str();
 }
 
-void GetJobsAndPostResults(PlatformIndependentWrapper wrapper)
+
+void writeJobResult(PlatformIndependentWrapper& wrapper, JobResult& result)
+{
+    wrapper.WriteInt(ClientOpcodes::JOB_RESULT);
+    wrapper.WriteString(result.Guid);
+    wrapper.WriteInt(result.ResultList.size());
+    for (std::list<std::pair<float, int> >::iterator it = result.ResultList.begin(); it != result.ResultList.end(); ++it)
+    {
+        wrapper.WriteInt(it->second);
+        wrapper.WriteFloat(it->first);
+    }
+}
+
+// Queue of completed jobs
+std::queue<JobResult> finishedJobs;
+void GetJobsAndPostResults(PlatformIndependentWrapper& wrapper)
 {
     if (cryptool == 0)
         cryptool = new Cryptool();
@@ -37,6 +53,12 @@ void GetJobsAndPostResults(PlatformIndependentWrapper wrapper)
     wrapper.WriteInt(ClientOpcodes::HELLO);
     wrapper.WriteString(getIdentificationStr());
 
+    while(!finishedJobs.empty())
+    {
+        printf("Trying to send %u finished job%s\n", finishedJobs.size(), finishedJobs.size()>1?"s":"");
+        writeJobResult(wrapper, finishedJobs.front());
+        finishedJobs.pop();
+    }
     // loop will be escaped by wrapper exceptions
     while(true)
     {
@@ -56,15 +78,13 @@ void GetJobsAndPostResults(PlatformIndependentWrapper wrapper)
                     printf("Got new job! guid=%s\n", j.Guid.c_str());
 
                     JobResult res = cryptool->doOpenCLJob(j);
-
 		    //send results back:
-                    wrapper.WriteInt(ClientOpcodes::JOB_RESULT);
-                    wrapper.WriteString(j.Guid);
-                    wrapper.WriteInt(res.ResultList.size());
-                    for (std::list<std::pair<float, int> >::iterator it = res.ResultList.begin(); it != res.ResultList.end(); it++)
+                    try {
+                        writeJobResult(wrapper, res);
+                    }catch(SocketException e)
                     {
-                        wrapper.WriteInt(it->second);
-                        wrapper.WriteFloat(it->first);
+                        printf("Exception while writing results :(\n");
+                        throw e;
                     }
                 }
                 break;
