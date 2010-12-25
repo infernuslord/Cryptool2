@@ -101,7 +101,7 @@ Cryptool::Cryptool()
     if(err != CL_SUCCESS)
     {
         std::cerr << "Failed allocate to costsbuffer(" << err << ")\n";
-        throw new std::exception();
+        throw std::exception();
     }
     
     localCosts = new float[subbatch];
@@ -121,7 +121,7 @@ void Cryptool::buildKernel(const Job& j)
         else
         {
             std::cout << "Source transmission failure!" << std::endl;
-            throw new std::exception();
+            throw std::exception();
         }
     }
 
@@ -133,7 +133,7 @@ void Cryptool::buildKernel(const Job& j)
     cl::Program program = cl::Program(*context, sources, &err);
     if (err != CL_SUCCESS) {
         std::cerr << "Program::Program() failed (" << err << ")\n";
-        throw new std::exception();
+        throw std::exception();
     }
 
     err = program.build(devices);
@@ -150,7 +150,7 @@ void Cryptool::buildKernel(const Job& j)
         }
 
         std::cerr << "Program::build() failed (" << err << ")\n";
-        throw new std::exception();
+        throw std::exception();
     }
 
     if (kernel != 0)
@@ -159,7 +159,7 @@ void Cryptool::buildKernel(const Job& j)
     kernel = new cl::Kernel(program, "bruteforceKernel", &err);
     if (err != CL_SUCCESS) {
         std::cerr << "Kernel::Kernel() failed (" << err << ")\n";
-        throw new std::exception();
+        throw std::exception();
     }
 }
 
@@ -173,7 +173,7 @@ JobResult Cryptool::doOpenCLJob(const Job& j)
     cl::CommandQueue queue(*context, devices[0], 0, &err);
     if (err != CL_SUCCESS) {
         std::cerr << "CommandQueue::CommandQueue() failed (" << err << ")\n";
-        throw new std::exception();
+        throw std::exception();
     }
 
     // key
@@ -181,14 +181,14 @@ JobResult Cryptool::doOpenCLJob(const Job& j)
     if(err != CL_SUCCESS)
     {
         std::cerr << "Failed to allocate keybuffer(" << err << ")\n";
-        throw new std::exception();
+        throw std::exception();
     }
 
     err = queue.enqueueWriteBuffer(keybuffer, 1, 0, j.KeySize*sizeof(float), j.Key);
     if(err != CL_SUCCESS)
     {
         std::cerr << "Failed write to keybuffer(" << err << ")\n";
-        throw new std::exception();
+        throw std::exception();
     }
 
     this->compareLargerThan = j.LargerThen;
@@ -214,19 +214,19 @@ void Cryptool::enqueueSubbatch(cl::CommandQueue& queue, cl::Buffer& keybuffer, c
 	err = kernel->setArg(0, keybuffer);
 	if (err != CL_SUCCESS) {
 		std::cerr << "Kernel::setArg() failed (" << err << ")\n";
-		throw new std::exception();
+		throw std::exception();
 	}
 
 	err = kernel->setArg(1, costs);
 	if (err != CL_SUCCESS) {
 		std::cerr << "Kernel::setArg() failed (" << err << ")\n";
-		throw new std::exception();
+		throw std::exception();
 	}
 
 	err = kernel->setArg(2, add);
 	if (err != CL_SUCCESS) {
 		std::cerr << "Kernel::setArg() failed (" << err << ")\n";
-		throw new std::exception();
+		throw std::exception();
 	}
 
 	err = queue.enqueueNDRangeKernel(*kernel, cl::NullRange, cl::NDRange(256, 256, 256), cl::NullRange);
@@ -234,20 +234,20 @@ void Cryptool::enqueueSubbatch(cl::CommandQueue& queue, cl::Buffer& keybuffer, c
 	if (err != CL_SUCCESS) {
 		std::cerr << "CommandQueue::enqueueNDRangeKernel()" \
 		    " failed (" << err << ")\n";
-		throw new std::exception();
+		throw std::exception();
 	}
 
 	err = queue.finish();
 	if (err != CL_SUCCESS) {
 		std::cerr << "Event::wait() failed (" << err << ")\n";
-		throw new std::exception();
+		throw std::exception();
 	}
 
 	queue.enqueueReadBuffer(costs, 1, 0, sizeof(float)*length, localCosts);
 	err = queue.finish();
 	if (err != CL_SUCCESS) {
 		std::cerr << "Event::wait() failed (" << err << ")\n";
-		throw new std::exception();
+		throw std::exception();
 	}
 
     timeval openCLEnd;
