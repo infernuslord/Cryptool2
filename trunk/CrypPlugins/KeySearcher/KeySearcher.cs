@@ -1273,6 +1273,7 @@ namespace KeySearcher
                 }
             }
             WriteStatistics(dataIdentifier);
+            ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.Statistics = statistic;
             updateToplist();
         }
 
