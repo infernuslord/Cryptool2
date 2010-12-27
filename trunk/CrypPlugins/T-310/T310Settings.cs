@@ -40,10 +40,6 @@ namespace Cryptool.Plugins.T310
 
         #region TaskPane Settings
 
-        /// <summary>
-        /// HOWTO: This is an example for a setting entity shown in the settings pane on the right of the CT2 main window.
-        /// This example setting uses a number field input, but there are many more input types available, see ControlType enumeration.
-        /// </summary>
         [TaskPane("Mode", "Encrypt or decrypt", null, 1, false, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
         public ModeEnum Mode
         {

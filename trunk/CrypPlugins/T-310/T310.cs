@@ -41,10 +41,6 @@ namespace Cryptool.Plugins.T310
         private readonly T310Settings settings = new T310Settings();
         private Random rand = new Random();
 
-        // Schlüssel bit Array
-        private bool[] s1_bit = new bool[120];
-        private bool[] s2_bit = new bool[120];
-
         #endregion
 
         #region Data Properties
@@ -56,8 +52,8 @@ namespace Cryptool.Plugins.T310
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "Key", "Enter key as binary data", null)]
-        public byte[] Key
+        [PropertyInfo(Direction.InputData, "Key", "Enter key as binary data", null, false, false, QuickWatchFormat.Hex, null)]
+        public byte[] InputKey
         {
             get;
             set;
@@ -65,6 +61,13 @@ namespace Cryptool.Plugins.T310
 
         [PropertyInfo(Direction.OutputData, "Output data", "Resulting ciphertext (when encrypting) or plaintext (when decrypting)", null)]
         public byte[] OutputData
+        {
+            get;
+            set;
+        }
+
+        [PropertyInfo(Direction.OutputData, "Key", "The key being used in binary", null)]
+        public byte[] OutputKey
         {
             get;
             set;
@@ -95,22 +98,319 @@ namespace Cryptool.Plugins.T310
 
         public void Execute()
         {
+            bool[] s1_bit, s2_bit;
+            byte[] keyBinary;
+
             ProgressChanged(0, 1);
 
-            // TODO: convert key to bool array
-            if (settings.Mode == ModeEnum.Encrypt)
+            if (InputKey != null && InputKey.Length > 0)
             {
-                encrypt(InputData);
+                keyBinary = InputKey;
             }
             else
             {
-                decrypt(InputData);
+                GuiLogMessage("No input key given, generating new one", NotificationLevel.Debug);
+                keyBinary = generateKey();
+            }
+
+            if (!KeyCheck(keyBinary, out s1_bit, out s2_bit))
+            {
+                GuiLogMessage("Invalid key", NotificationLevel.Error);
+                return;
+            }
+
+            OutputKey = keyBinary;
+            OnPropertyChanged("OutputKey");
+
+            if (settings.Mode == ModeEnum.Encrypt)
+            {
+                encrypt(InputData, ref s1_bit, ref s2_bit);
+            }
+            else
+            {
+                decrypt(InputData, ref s1_bit, ref s2_bit);
             }
 
             ProgressChanged(1, 1);
         }
 
-        private void encrypt(byte[] by_array_eingabe)
+        /* Schlüsselkarte erzeugen */
+        private byte[] generateKey()
+        {
+            byte[] keyBinary = new byte[30];
+            uint ui_Keycheck;
+
+            do
+            {
+                keyBinary[0] = (byte)rand.Next(255);
+                keyBinary[1] = (byte)rand.Next(255);
+                keyBinary[2] = (byte)rand.Next(255);
+                ui_Keycheck = (uint) keyBinary[2];
+                ui_Keycheck <<= 8;
+                ui_Keycheck += (uint) keyBinary[1];
+                ui_Keycheck <<= 8;
+                ui_Keycheck += (uint) keyBinary[0];
+            } while (!KeyParity(ui_Keycheck));
+            do
+            {
+                keyBinary[3] = (byte)rand.Next(255);
+                keyBinary[4] = (byte)rand.Next(255);
+                keyBinary[5] = (byte)rand.Next(255);
+                ui_Keycheck = (uint)keyBinary[5];
+                ui_Keycheck <<= 8;
+                ui_Keycheck += (uint)keyBinary[4];
+                ui_Keycheck <<= 8;
+                ui_Keycheck += (uint)keyBinary[3];
+            } while (!KeyParity(ui_Keycheck));
+            do
+            {
+                keyBinary[6] = (byte)rand.Next(255);
+                keyBinary[7] = (byte)rand.Next(255);
+                keyBinary[8] = (byte)rand.Next(255);
+                ui_Keycheck = (uint)keyBinary[8];
+                ui_Keycheck <<= 8;
+                ui_Keycheck += (uint)keyBinary[7];
+                ui_Keycheck <<= 8;
+                ui_Keycheck += (uint)keyBinary[6];
+            } while (!KeyParity(ui_Keycheck));
+            do
+            {
+                keyBinary[9] = (byte)rand.Next(255);
+                keyBinary[10] = (byte)rand.Next(255);
+                keyBinary[11] = (byte)rand.Next(255);
+                ui_Keycheck = (uint)keyBinary[11];
+                ui_Keycheck <<= 8;
+                ui_Keycheck += (uint)keyBinary[10];
+                ui_Keycheck <<= 8;
+                ui_Keycheck += (uint)keyBinary[9];
+            } while (!KeyParity(ui_Keycheck));
+            do
+            {
+                keyBinary[12] = (byte)rand.Next(255);
+                keyBinary[13] = (byte)rand.Next(255);
+                keyBinary[14] = (byte)rand.Next(255);
+                ui_Keycheck = (uint)keyBinary[14];
+                ui_Keycheck <<= 8;
+                ui_Keycheck += (uint)keyBinary[13];
+                ui_Keycheck <<= 8;
+                ui_Keycheck += (uint)keyBinary[12];
+            } while (!KeyParity(ui_Keycheck));
+
+            do
+            {
+                keyBinary[15] = (byte)rand.Next(255);
+                keyBinary[16] = (byte)rand.Next(255);
+                keyBinary[17] = (byte)rand.Next(255);
+                ui_Keycheck = (uint)keyBinary[17];
+                ui_Keycheck <<= 8;
+                ui_Keycheck += (uint)keyBinary[16];
+                ui_Keycheck <<= 8;
+                ui_Keycheck += (uint)keyBinary[15];
+            } while (!KeyParity(ui_Keycheck));
+            do
+            {
+                keyBinary[18] = (byte)rand.Next(255);
+                keyBinary[19] = (byte)rand.Next(255);
+                keyBinary[20] = (byte)rand.Next(255);
+                ui_Keycheck = (uint)keyBinary[20];
+                ui_Keycheck <<= 8;
+                ui_Keycheck += (uint)keyBinary[19];
+                ui_Keycheck <<= 8;
+                ui_Keycheck += (uint)keyBinary[18];
+            } while (!KeyParity(ui_Keycheck));
+            do
+            {
+                keyBinary[21] = (byte)rand.Next(255);
+                keyBinary[22] = (byte)rand.Next(255);
+                keyBinary[23] = (byte)rand.Next(255);
+                ui_Keycheck = (uint)keyBinary[23];
+                ui_Keycheck <<= 8;
+                ui_Keycheck += (uint)keyBinary[22];
+                ui_Keycheck <<= 8;
+                ui_Keycheck += (uint)keyBinary[21];
+            } while (!KeyParity(ui_Keycheck));
+            do
+            {
+                keyBinary[24] = (byte)rand.Next(255);
+                keyBinary[25] = (byte)rand.Next(255);
+                keyBinary[26] = (byte)rand.Next(255);
+                ui_Keycheck = (uint)keyBinary[26];
+                ui_Keycheck <<= 8;
+                ui_Keycheck += (uint)keyBinary[25];
+                ui_Keycheck <<= 8;
+                ui_Keycheck += (uint)keyBinary[24];
+            } while (!KeyParity(ui_Keycheck));
+            do
+            {
+                keyBinary[27] = (byte)rand.Next(255);
+                keyBinary[28] = (byte)rand.Next(255);
+                keyBinary[29] = (byte)rand.Next(255);
+                ui_Keycheck = (uint)keyBinary[29];
+                ui_Keycheck <<= 8;
+                ui_Keycheck += (uint)keyBinary[28];
+                ui_Keycheck <<= 8;
+                ui_Keycheck += (uint)keyBinary[27];
+            } while (!KeyParity(ui_Keycheck));
+
+            return keyBinary;
+
+//            string s_Kenngruppe = "";
+//            for (byte b_FsKg = 0; b_FsKg < 5; ++b_FsKg)
+//            {
+//                byte b_FsRand = 0;
+//                do
+//                {
+//                    b_FsRand = (byte)(0x1f & (byte)rand_myZufall.Next());
+//                } while (b_FsRand > 0x18);
+//                s_Kenngruppe += (char)(0x61 + b_FsRand);
+//            }
+//            mTB_Kenngruppe.Text = s_Kenngruppe;
+        }
+
+        private bool KeyCheck(byte[] keyBinary, out bool[] s1_bit, out bool[] s2_bit)
+        {
+            s1_bit = new bool[120];
+            s2_bit = new bool[120];
+
+            uint[] key1Quinary = new uint[5];
+            uint[] key2Quinary = new uint[5];
+
+            uint i_Keycheck = (uint) keyBinary[2];
+            i_Keycheck <<= 8;
+            i_Keycheck += (uint) keyBinary[1];
+            i_Keycheck <<= 8;
+            i_Keycheck += (uint) keyBinary[0];
+            if (!KeyParity(i_Keycheck)) return false;
+            key1Quinary[0] = i_Keycheck;
+            // anzahl der 1 "H" ungerade!
+            i_Keycheck = (uint) keyBinary[5];
+            i_Keycheck <<= 8;
+            i_Keycheck += (uint) keyBinary[4];
+            i_Keycheck <<= 8;
+            i_Keycheck += (uint) keyBinary[3];
+            if (!KeyParity(i_Keycheck)) return false;
+            // anzahl der 1 "H" ungerade!
+            key1Quinary[1] = i_Keycheck;
+            i_Keycheck = (uint) keyBinary[8];
+            i_Keycheck <<= 8;
+            i_Keycheck += (uint) keyBinary[7];
+            i_Keycheck <<= 8;
+            i_Keycheck += (uint) keyBinary[6];
+            if (!KeyParity(i_Keycheck)) return false;
+            // anzahl der 1 "H" ungerade!
+            key1Quinary[2] = i_Keycheck;
+            i_Keycheck = (uint) keyBinary[11];
+            i_Keycheck <<= 8;
+            i_Keycheck += (uint) keyBinary[10];
+            i_Keycheck <<= 8;
+            i_Keycheck += (uint) keyBinary[9];
+            if (!KeyParity(i_Keycheck)) return false;
+            // anzahl der 1 "H" ungerade!
+            key1Quinary[3] = i_Keycheck;
+            i_Keycheck = (uint) keyBinary[14];
+            i_Keycheck <<= 8;
+            i_Keycheck += (uint) keyBinary[13];
+            i_Keycheck <<= 8;
+            i_Keycheck += (uint) keyBinary[12];
+            if (!KeyParity(i_Keycheck)) return false;
+            // anzahl der 1 "H" ungerade!
+            key1Quinary[4] = i_Keycheck;
+            S_fuellen(ref s1_bit, key1Quinary[0], 1, 1);
+            S_fuellen(ref s1_bit, key1Quinary[1], 1, 2);
+            S_fuellen(ref s1_bit, key1Quinary[2], 1, 3);
+            S_fuellen(ref s1_bit, key1Quinary[3], 1, 4);
+            S_fuellen(ref s1_bit, key1Quinary[4], 1, 5);
+            i_Keycheck = (uint) keyBinary[17];
+            i_Keycheck <<= 8;
+            i_Keycheck += (uint) keyBinary[16];
+            i_Keycheck <<= 8;
+            i_Keycheck += (uint) keyBinary[15];
+            if (!KeyParity(i_Keycheck)) return false;
+            // anzahl der 1 "H" ungerade!
+            key2Quinary[0] = i_Keycheck;
+            i_Keycheck = (uint) keyBinary[20];
+            i_Keycheck <<= 8;
+            i_Keycheck += (uint) keyBinary[19];
+            i_Keycheck <<= 8;
+            i_Keycheck += (uint) keyBinary[18];
+            if (!KeyParity(i_Keycheck)) return false;
+            // anzahl der 1 "H" ungerade!
+            key2Quinary[1] = i_Keycheck;
+            i_Keycheck = (uint) keyBinary[23];
+            i_Keycheck <<= 8;
+            i_Keycheck += (uint) keyBinary[22];
+            i_Keycheck <<= 8;
+            i_Keycheck += (uint) keyBinary[21];
+            if (!KeyParity(i_Keycheck)) return false;
+            // anzahl der 1 "H" ungerade!
+            key2Quinary[2] = i_Keycheck;
+            i_Keycheck = (uint) keyBinary[26];
+            i_Keycheck <<= 8;
+            i_Keycheck += (uint) keyBinary[25];
+            i_Keycheck <<= 8;
+            i_Keycheck += (uint) keyBinary[24];
+            if (!KeyParity(i_Keycheck)) return false;
+            // anzahl der 1 "H" ungerade!
+            key2Quinary[3] = i_Keycheck;
+            i_Keycheck = (uint) keyBinary[29];
+            i_Keycheck <<= 8;
+            i_Keycheck += (uint) keyBinary[28];
+            i_Keycheck <<= 8;
+            i_Keycheck += (uint) keyBinary[27];
+            if (!KeyParity(i_Keycheck)) return false;
+            // anzahl der 1 "H" ungerade!
+            key2Quinary[4] = i_Keycheck;
+            S_fuellen(ref s2_bit, key2Quinary[0], 1, 1);
+            S_fuellen(ref s2_bit, key2Quinary[1], 1, 2);
+            S_fuellen(ref s2_bit, key2Quinary[2], 1, 3);
+            S_fuellen(ref s2_bit, key2Quinary[3], 1, 4);
+            S_fuellen(ref s2_bit, key2Quinary[4], 1, 5);
+//            if (mTB_Kenngruppe.Text.Length < 5) return false;
+//            for (byte b_text = 0; b_text < 5; ++b_text)
+//                if ((mTB_Kenngruppe.Text[b_text] > 0x7a) || (mTB_Kenngruppe.Text[b_text] < 0x61))
+//                {                                     // wenn kleiner 'A' oder größer 'Z'
+//                    mTB_Kenngruppe.Clear();
+//                    return false;
+//                }
+            return true;
+        }
+
+        /* Key1-5, 6-10 ... ungerade */
+        private bool KeyParity(uint i_TeilKey)
+        {
+            int i_shiftRegister = 1;                         // Maske
+            bool bo_MaskSum = false;                         // speichern des Zwischenergebnisses
+
+            for (byte b_count = 0; b_count < 24; ++b_count)  // die 24 bit des Schlüssels
+            {
+                if ((i_TeilKey & i_shiftRegister) > 0)      //Schlüsselbit AND Maske
+                {
+                    if (bo_MaskSum)                         // war das erbnis schon true?  ( XOR Funktion einmal anders )
+                        bo_MaskSum = false;
+                    else
+                        bo_MaskSum = true;
+                }
+                i_shiftRegister <<= 1;                       // schieben der Maske in die entsprechende Position
+            }
+            return bo_MaskSum;
+        }
+
+        /* S1 und S2 Bitfeld füllen */
+        private void S_fuellen(ref bool[] keyBits, uint ui_Teilschluessel, byte b_Snummer, byte b_Teilnr)
+        {
+            byte b_index;
+            int i_temp;
+            uint ui_schiebe = 1;
+
+            for (b_index = 0; b_index < 24; ++b_index)
+            {
+                i_temp = (b_Teilnr - 1) * 24 + b_index;
+                keyBits[i_temp] = (ui_Teilschluessel & ui_schiebe) > 0 ? true : false;
+                ui_schiebe <<= 1;
+            }
+        }
+
+        private void encrypt(byte[] by_array_eingabe, ref bool[] s1_bit, ref bool[] s2_bit)
         {
             using (MemoryStream streamAusgabe = new MemoryStream())
             {
@@ -152,40 +452,40 @@ namespace Cryptool.Plugins.T310
                 {
                     System.Threading.Thread.Sleep(10);
                     b_temp = (byte)((0xf8 & by_array_eingabe[int_zaehler]) >> 3);                   // byte No. 1
-                    streamAusgabe.WriteByte(verschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge), b_temp));  // bit 7 ... 3
+                    streamAusgabe.WriteByte(verschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge, ref s1_bit, ref s2_bit), b_temp));  // bit 7 ... 3
 
                     b_temp = (byte)((0x07 & by_array_eingabe[int_zaehler]) << 2);                    // bit 2 ... 0 
                     ++int_zaehler;                                             // byte No. 2
                     if (int_zaehler == by_array_eingabe.Length) int_zaehler = by_array_eingabe.Length - 1;
                     b_temp |= (byte)(by_array_eingabe[int_zaehler] >> 6);                   // bit 7, 6
-                    streamAusgabe.WriteByte(verschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge), b_temp));
+                    streamAusgabe.WriteByte(verschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge, ref s1_bit, ref s2_bit), b_temp));
 
                     b_temp = (byte)((0x3e & by_array_eingabe[int_zaehler]) >> 1);
-                    streamAusgabe.WriteByte(verschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge), b_temp));
+                    streamAusgabe.WriteByte(verschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge, ref s1_bit, ref s2_bit), b_temp));
 
                     b_temp = (byte)((0x01 & by_array_eingabe[int_zaehler]) << 4);
                     ++int_zaehler;                                              // byte No. 3
                     if (int_zaehler == by_array_eingabe.Length) int_zaehler = by_array_eingabe.Length - 1;
                     b_temp |= (byte)((0xf0 & by_array_eingabe[int_zaehler]) >> 4);
-                    streamAusgabe.WriteByte(verschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge), b_temp));
+                    streamAusgabe.WriteByte(verschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge, ref s1_bit, ref s2_bit), b_temp));
 
                     b_temp = (byte)((0x0f & by_array_eingabe[int_zaehler]) << 1);
                     ++int_zaehler;                                             // byte 4;
                     if (int_zaehler == by_array_eingabe.Length) int_zaehler = by_array_eingabe.Length - 1;
                     b_temp |= (byte)(by_array_eingabe[int_zaehler] >> 7);
-                    streamAusgabe.WriteByte(verschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge), b_temp));
+                    streamAusgabe.WriteByte(verschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge, ref s1_bit, ref s2_bit), b_temp));
 
                     b_temp = (byte)((0x7c & by_array_eingabe[int_zaehler]) >> 2);
-                    streamAusgabe.WriteByte(verschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge), b_temp));
+                    streamAusgabe.WriteByte(verschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge, ref s1_bit, ref s2_bit), b_temp));
 
                     b_temp = (byte)((0x03 & by_array_eingabe[int_zaehler]) << 3);
                     ++int_zaehler;                                              // byte 5
                     if (int_zaehler == by_array_eingabe.Length) int_zaehler = by_array_eingabe.Length - 1;
                     b_temp |= (byte)((0xe0 & by_array_eingabe[int_zaehler]) >> 5);
-                    streamAusgabe.WriteByte(verschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge), b_temp));
+                    streamAusgabe.WriteByte(verschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge, ref s1_bit, ref s2_bit), b_temp));
 
                     b_temp = (byte)(0x1f & by_array_eingabe[int_zaehler]);
-                    streamAusgabe.WriteByte(verschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge), b_temp));
+                    streamAusgabe.WriteByte(verschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge, ref s1_bit, ref s2_bit), b_temp));
                     ++int_zaehler;                                              // byte 6 erhöhe für schleif
                     // Warten auf Anzeigenaktualisierung
                     //                Application.DoEvents();
@@ -198,16 +498,17 @@ namespace Cryptool.Plugins.T310
             }
         }
 
-        private void decrypt(byte[] by_array_eingabe)
+        private void decrypt(byte[] by_array_eingabe, ref bool[] s1_bit, ref bool[] s2_bit)
         {
             using (MemoryStream streamAusgabe = new MemoryStream())
             {
                 ulong ul_startfolge = 0ul;
                 ulong ul_syncronfolge = 0ul;
 
-                if (!((by_array_eingabe[0] == 0x19) & (by_array_eingabe[1] == 0x19) & (by_array_eingabe[2] == 0x19) & (by_array_eingabe[3] == 0x19) & (by_array_eingabe[20] == 0x0f) & (by_array_eingabe[21] == 0x0f) & (by_array_eingabe[22] == 0x0f) & (by_array_eingabe[23] == 0x0f)))
+                if (by_array_eingabe.Length < 24 ||
+                !((by_array_eingabe[0] == 0x19) & (by_array_eingabe[1] == 0x19) & (by_array_eingabe[2] == 0x19) & (by_array_eingabe[3] == 0x19) & (by_array_eingabe[20] == 0x0f) & (by_array_eingabe[21] == 0x0f) & (by_array_eingabe[22] == 0x0f) & (by_array_eingabe[23] == 0x0f)))
                 {
-                    GuiLogMessage("Synchronfolge falsch", NotificationLevel.Error);
+                    GuiLogMessage("Can't decrypt, invalid input sequence", NotificationLevel.Error);
 
 //                    pB_c.Visible = false;
 //                    MessageBox.Show();
@@ -230,7 +531,7 @@ namespace Cryptool.Plugins.T310
                 }
                 if (ul_syncronfolge != Syncronfolge(ul_startfolge))
                 {
-                    GuiLogMessage("Synchronfolge falsch", NotificationLevel.Error);
+                    GuiLogMessage("Can't decrypt, invalid input sequence", NotificationLevel.Error);
 
 //                    pB_c.Visible = false;
 //                    MessageBox.Show("Synchronfolge falsch");
@@ -250,21 +551,21 @@ namespace Cryptool.Plugins.T310
                 byte b_temp0, b_temp1, b_temp2, b_temp3, b_temp4, b_temp5, b_temp6, b_temp7, b_tempX;
                 while (int_ent < by_array_eingabe.Length - 1)
                 {
-                    b_temp0 = entschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge), by_array_eingabe[int_ent]);
+                    b_temp0 = entschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge, ref s1_bit, ref s2_bit), by_array_eingabe[int_ent]);
                     ++int_ent;
-                    b_temp1 = entschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge), by_array_eingabe[int_ent]);
+                    b_temp1 = entschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge, ref s1_bit, ref s2_bit), by_array_eingabe[int_ent]);
                     ++int_ent;
-                    b_temp2 = entschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge), by_array_eingabe[int_ent]);
+                    b_temp2 = entschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge, ref s1_bit, ref s2_bit), by_array_eingabe[int_ent]);
                     ++int_ent;
-                    b_temp3 = entschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge), by_array_eingabe[int_ent]);
+                    b_temp3 = entschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge, ref s1_bit, ref s2_bit), by_array_eingabe[int_ent]);
                     ++int_ent;
-                    b_temp4 = entschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge), by_array_eingabe[int_ent]);
+                    b_temp4 = entschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge, ref s1_bit, ref s2_bit), by_array_eingabe[int_ent]);
                     ++int_ent;
-                    b_temp5 = entschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge), by_array_eingabe[int_ent]);
+                    b_temp5 = entschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge, ref s1_bit, ref s2_bit), by_array_eingabe[int_ent]);
                     ++int_ent;
-                    b_temp6 = entschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge), by_array_eingabe[int_ent]);
+                    b_temp6 = entschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge, ref s1_bit, ref s2_bit), by_array_eingabe[int_ent]);
                     ++int_ent;
-                    b_temp7 = entschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge), by_array_eingabe[int_ent]);
+                    b_temp7 = entschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge, ref s1_bit, ref s2_bit), by_array_eingabe[int_ent]);
                     ++int_ent;
 
                     // ProgressBar anzeigen
@@ -439,7 +740,7 @@ namespace Cryptool.Plugins.T310
         }
 
         /* Schlüsselgenerator ablauf, Schrittkette, Automat, Batch, im Start-Stopp Betrieb */
-        private uint Wurm(ref bool[] bo_U_Vektor, ref ulong ul_syncronfolge)
+        private uint Wurm(ref bool[] bo_U_Vektor, ref ulong ul_syncronfolge, ref bool[] s1_bit, ref bool[] s2_bit)
         {
             byte b_fsBit = 0;
             uint ui_wurmBit = 0;
