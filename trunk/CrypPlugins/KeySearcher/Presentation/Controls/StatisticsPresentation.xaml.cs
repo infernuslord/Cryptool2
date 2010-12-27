@@ -92,7 +92,6 @@ namespace KeySearcherPresentation.Controls
                 statistics = value;
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                                                 {
-                                                    //statisticsTree.DataContext = null;
                                                     statisticsTree.DataContext = Statistics;
                                                     statisticsTree.Items.Refresh();
                                                 }, null);
