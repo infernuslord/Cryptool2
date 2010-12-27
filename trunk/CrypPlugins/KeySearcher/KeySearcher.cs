@@ -1224,6 +1224,10 @@ namespace KeySearcher
         {
             this.initialized = ini;
         }
+        public Dictionary<string, Dictionary<long, Information>> GetStatistics()
+        {
+            return statistic;
+        }
 
         internal void IntegrateNewResults(LinkedList<ValueKey> updatedCostList, Dictionary<string, Dictionary<long, Information>> updatedStatistics, string dataIdentifier)
         {
@@ -1272,6 +1276,7 @@ namespace KeySearcher
                     statistic[avname] = MaschCount;
                 }
             }
+            
             WriteStatistics(dataIdentifier);
             ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.Statistics = statistic;
             updateToplist();
