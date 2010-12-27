@@ -18,10 +18,16 @@
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="200" />
+                                    <ColumnDefinition Width="5" />
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="5" />                                    
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <ProgressBar Value="{Binding Path=Value.Count, Mode=OneTime,Converter={StaticResource ResourceKey=InformationToProgressConverter2}}" Grid.Column="0" Maximum="1" />
-                                <TextBlock Text="{Binding Path=Value.Hostname}" Grid.Column="1"/>
+                                <ProgressBar Value="{Binding Path=Value.Count, Mode=OneTime, Converter={StaticResource ResourceKey=InformationToProgressConverter2}}" Grid.Column="0" Maximum="1" />
+                                <TextBlock Text="Chunks: " Grid.Column="2"/>
+                                <TextBlock Text="{Binding Path=Value.Count, StringFormat=\{0\,-5\}}" Grid.Column="3"/>
+                                <TextBlock Text="{Binding Path=Value.Hostname}" Grid.Column="5"/>
                             </Grid>
                         </HierarchicalDataTemplate>
                     </HierarchicalDataTemplate.ItemTemplate>
@@ -29,10 +35,11 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="5" />
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>                        
                         <ProgressBar Value="{Binding Path=Value, Mode=OneTime, Converter={StaticResource ResourceKey=InformationToProgressConverter}}" Grid.Column="0" Maximum="1" />
-                        <TextBlock Text="{Binding Path=Key}" Grid.Column="1"/>
+                        <TextBlock Text="{Binding Path=Key}" Grid.Column="2"/>                        
                     </Grid>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
