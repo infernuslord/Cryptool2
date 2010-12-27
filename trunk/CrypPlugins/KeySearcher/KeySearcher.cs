@@ -1275,8 +1275,7 @@ namespace KeySearcher
                     //add the maschinecount dictionary to this avatarname
                     statistic[avname] = MaschCount;
                 }
-            }
-            
+            }          
             WriteStatistics(dataIdentifier);
             ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.Statistics = statistic;
             updateToplist();
@@ -1285,14 +1284,33 @@ namespace KeySearcher
         //Write the User Statistics to an external csv-document
         internal void WriteStatistics(String dataIdentifier)
         {
-            using (StreamWriter sw = new StreamWriter(string.Format("{0}\\UserRanking{1}.csv", DirectoryHelper.DirectoryLocal, dataIdentifier)))
+            if (settings.CsvPath == null)
             {
-                sw.WriteLine("Avatarname" + ";" + "MaschineID" + ";" + "Hostname" + ";"+ "Pattern Count" + ";" + "Last Update");
-                foreach (string avatar in statistic.Keys)
+                //using the default save folder %APPDATA%\Local\Cryptool2
+                using (StreamWriter sw = new StreamWriter(string.Format("{0}\\UserRanking{1}.csv", DirectoryHelper.DirectoryLocal, dataIdentifier)))
                 {
-                    foreach(long mID in statistic[avatar].Keys)
+                    sw.WriteLine("Avatarname" + ";" + "MaschineID" + ";" + "Hostname" + ";" + "Pattern Count" + ";" + "Last Update");
+                    foreach (string avatar in statistic.Keys)
                     {
-                        sw.WriteLine(avatar + ";" + mID.ToString() + ";" + statistic[avatar][mID].Hostname + ";" + statistic[avatar][mID].Count + ";" + statistic[avatar][mID].Date);
+                        foreach (long mID in statistic[avatar].Keys)
+                        {
+                            sw.WriteLine(avatar + ";" + mID.ToString() + ";" + statistic[avatar][mID].Hostname + ";" + statistic[avatar][mID].Count + ";" + statistic[avatar][mID].Date);
+                        }
+                    }
+                }
+            }
+            else 
+            {
+                //using the chosen csv file
+                using (StreamWriter sw = new StreamWriter(settings.CsvPath))
+                {
+                    sw.WriteLine("Avatarname" + ";" + "MaschineID" + ";" + "Hostname" + ";" + "Pattern Count" + ";" + "Last Update");
+                    foreach (string avatar in statistic.Keys)
+                    {
+                        foreach (long mID in statistic[avatar].Keys)
+                        {
+                            sw.WriteLine(avatar + ";" + mID.ToString() + ";" + statistic[avatar][mID].Hostname + ";" + statistic[avatar][mID].Count + ";" + statistic[avatar][mID].Date);
+                        }
                     }
                 }
             }
