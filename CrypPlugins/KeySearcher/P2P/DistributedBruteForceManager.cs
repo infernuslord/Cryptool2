@@ -92,8 +92,10 @@ namespace KeySearcher.P2P
 
             status.StartDate = keyPoolTree.StartDate();
             status.JobSubmitterID = keyPoolTree.SubmitterID();
+            status.LocalFinishedChunks = FindLocalPatterns();
 
             keyPoolTree.UpdateStatusForNewCalculation();
+            keySearcher.SetInitialized(true);
 
             Leaf currentLeaf;
             while (!keySearcher.stop)
@@ -208,7 +210,6 @@ namespace KeySearcher.P2P
                             P2PManager.P2PBase.OnSystemJoined += new P2PBase.SystemJoined(P2PBase_OnSystemJoined);
                             systemJoinEvent.WaitOne();
                         }
-                        keySearcher.SetInitialized(true);
                         status.CurrentOperation = "Processing results of calculation";
                         KeyPoolTree.ProcessCurrentPatternCalculationResult(currentLeaf, result);
                         StatisticsGenerator.ProcessPatternResults(result);
@@ -277,6 +278,22 @@ namespace KeySearcher.P2P
             status.IsCurrentProgressIndeterminate = false;
             status.CurrentOperation = "Idle";
             status.RemainingTimeTotal = new TimeSpan(0);
+        }
+
+        private int FindLocalPatterns()
+        {
+            String myAvatar = "CrypTool2";
+            long myID = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
+            Dictionary<string, Dictionary<long, Information>> myStats = keySearcher.GetStatistics();
+
+            if(myStats.ContainsKey(myAvatar))
+            {
+                if(myStats[myAvatar].ContainsKey(myID))
+                {
+                    return myStats[myAvatar][myID].Count;
+                }
+            }
+            return 0;
         }
 
         void P2PBase_OnSystemJoined()
