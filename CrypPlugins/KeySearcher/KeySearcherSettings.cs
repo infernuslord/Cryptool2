@@ -13,10 +13,12 @@ namespace KeySearcher
     {
         private readonly KeySearcher keysearcher;
         private int coresUsed;
+        private string csvPath;
         private const string GroupPeerToPeer = "Peer-to-Peer network";
         private const string GroupEvaluation = "Evaluation";
         private const string GroupOpenCL = "OpenCL";
         private const string GroupExternalClient = "External Client";
+        private const String GroupStatisticPath = "Statistic Save Path";
 
         public class OpenCLDeviceSettings
         {
@@ -407,6 +409,36 @@ namespace KeySearcher
             }
         }
 
+        #endregion
+
+        #region csv path
+        /// <summary>
+        /// Getter/Setter for the csv file
+        /// </summary>
+        [TaskPane("Select the Comma-Seperated-Values file", "Select the folder and csv file you want to use.", GroupStatisticPath, 1, false, DisplayLevel.Beginner, ControlType.SaveFileDialog, FileExtension = "Comma Seperated Values (*.csv)|*.csv")]
+        public string CsvPath
+        {
+            get { return csvPath; }
+            set
+            {
+                if (value != csvPath)
+                {
+                    csvPath = value;
+                    HasChanges = true;
+                    OnPropertyChanged("CsvPath");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Button to "reset" the csv file. That means it will not appear any more in the text field
+        /// </summary>
+        [TaskPane("Default file", "Use the default folder %APPDATA%\\Local\\CrypTool2", GroupStatisticPath, 2, false, DisplayLevel.Beginner, ControlType.Button)]
+        public void DefaultPath()
+        {
+            csvPath = null;
+            OnPropertyChanged("CsvPath");
+        }
         #endregion
 
         private ObservableCollection<string> coresAvailable = new ObservableCollection<string>();
