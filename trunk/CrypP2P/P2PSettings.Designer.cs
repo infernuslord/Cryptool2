@@ -145,18 +145,6 @@ namespace Cryptool.P2P {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("TCP")]
-        public global::Cryptool.Plugins.PeerToPeer.Internal.P2PTransportProtocol TransportProtocol {
-            get {
-                return ((global::Cryptool.Plugins.PeerToPeer.Internal.P2PTransportProtocol)(this["TransportProtocol"]));
-            }
-            set {
-                this["TransportProtocol"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Chord")]
         public global::Cryptool.Plugins.PeerToPeer.Internal.P2PArchitecture Architecture {
             get {

@@ -51,8 +51,8 @@ namespace Cryptool.Plugins.PeerToPeer
         /** ATTENTION: Change property changeableWhileExecuting to false for the Start and Stop Button.
          * Only set to true for testing issues.*/
 
-        //[TaskPane("Start", "Initializes and starts Peer", null, 2, false, DisplayLevel.Beginner, ControlType.Button)]
-        [TaskPane("Start", "Connects to the P2P-system.", null, 2, true, DisplayLevel.Beginner, ControlType.Button)]
+        //[TaskPane("Start", "Initializes and starts Peer", null, 2, false, ControlType.Button)]
+        [TaskPane("Start", "Connects to the P2P-system.", null, 2, true, ControlType.Button)]
         public void BtnStart()
         {
             if (P2PWorldName != null)
@@ -67,8 +67,8 @@ namespace Cryptool.Plugins.PeerToPeer
             }
         }
 
-        //[TaskPane("Stop", "Stops the Peer", null, 3, false, DisplayLevel.Beginner, ControlType.Button)]
-        [TaskPane("Stop", "Disconnects from the P2P-system", null, 3, true, DisplayLevel.Beginner, ControlType.Button)]
+        //[TaskPane("Stop", "Stops the Peer", null, 3, false, ControlType.Button)]
+        [TaskPane("Stop", "Disconnects from the P2P-system", null, 3, true, ControlType.Button)]
         public void BtnStop()
         {
             this.p2pPeer.StopPeer();
@@ -76,7 +76,7 @@ namespace Cryptool.Plugins.PeerToPeer
             OnPropertyChanged("PeerStopped");
         }
 
-        [TaskPane("Internal state dump", "Dumps the interla state of the P2P system to syslog.", "P2P Expert Settings", 0, true, DisplayLevel.Beginner, ControlType.Button)]
+        [TaskPane("Internal state dump", "Dumps the interla state of the P2P system to syslog.", "P2P Expert Settings", 0, true, ControlType.Button)]
         public void BtnLogInternalState()
         {
             this.p2pPeer.LogInternalState();
@@ -87,7 +87,7 @@ namespace Cryptool.Plugins.PeerToPeer
         #region Setting-Fields
 
         private string p2pPeerName = PAPCertificate.CERTIFIED_PEER_NAME;
-        [TaskPane("P2P Username", "Your username for the peers@play-system. Note that you need to have a corresponding certificate installed on your computer. If you don't know what this means, just leave the default \"CrypTool2\"-username and everything will be taken care of.", null, 0, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("P2P Username", "Your username for the peers@play-system. Note that you need to have a corresponding certificate installed on your computer. If you don't know what this means, just leave the default \"CrypTool2\"-username and everything will be taken care of.", null, 0, false, ControlType.TextBox)]
         public string P2PPeerName
         {
             get { return this.p2pPeerName; }
@@ -103,7 +103,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         private string p2pWorldName;
-        [TaskPane("P2P World", "P2P Name of the world.", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("P2P World", "P2P Name of the world.", null, 1, false, ControlType.TextBox)]
         public string P2PWorldName
         {
             get { return this.p2pWorldName; }
@@ -121,7 +121,7 @@ namespace Cryptool.Plugins.PeerToPeer
         //private bool p2pUseNatTraversal = false;
         //[TaskPane("Use NAT Traversal", "Activate/Deactivate NAT-Traversal (tunneling connections through NATs " +
         //    "and Firewalls, necessary to work in different networks in the same world)", "P2P Expert Settings", 0, false, 
-        //    DisplayLevel.Beginner, ControlType.CheckBox)]
+        //    ControlType.CheckBox)]
         //public bool P2PUseNatTraversal
         //{
         //    get { return this.p2pUseNatTraversal; }
@@ -137,8 +137,7 @@ namespace Cryptool.Plugins.PeerToPeer
         //}
 
         private bool log2Monitor = true;
-        [TaskPane("Use syslogging", "Logs all p2p actions to the to a sylog-daemon on localhost.", "P2P Expert Settings", 1, false,
-            DisplayLevel.Beginner, ControlType.CheckBox)]
+        [TaskPane("Use syslogging", "Logs all p2p actions to the to a sylog-daemon on localhost.", "P2P Expert Settings", 1, false, ControlType.CheckBox)]
         public bool Log2Monitor
         {
             get { return this.log2Monitor; }
@@ -154,7 +153,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         private P2PLinkManagerType p2pLinkManagerType = P2PLinkManagerType.Snal;
-        [TaskPane("LinkManager-Type", "Select the LinkManager-Type", "P2P Expert Settings", 2, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Snal" })]
+        [TaskPane("LinkManager-Type", "Select the LinkManager-Type", "P2P Expert Settings", 2, false, ControlType.ComboBox, new string[] { "Snal" })]
         public int P2PLinkMngrType
         {
             get { return (int)this.p2pLinkManagerType; }
@@ -170,7 +169,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         private P2PBootstrapperType p2pBSType = P2PBootstrapperType.LocalMachineBootstrapper;
-        [TaskPane("Bootstrapper-Type", "Select the Bootstrapper-Type", "P2P Expert Settings", 3, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "LocalMachineBootstrapper", "IrcBootstrapper" })]
+        [TaskPane("Bootstrapper-Type", "Select the Bootstrapper-Type", "P2P Expert Settings", 3, false, ControlType.ComboBox, new string[] { "LocalMachineBootstrapper", "IrcBootstrapper", "DnsBootstrapper" })]
         public int P2PBSType
         {
             get { return (int)this.p2pBSType; }
@@ -186,7 +185,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         private P2PArchitecture p2pArchitecture = Internal.P2PArchitecture.FullMesh;
-        [TaskPane("Architecture", "Select the Architecture", "P2P Expert Settings", 4, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "FullMesh" })]
+        [TaskPane("Architecture", "Select the Architecture", "P2P Expert Settings", 4, false, ControlType.ComboBox, new string[] { "FullMesh" })]
         public int P2PArchitecture
         {
             get { return (int)this.p2pArchitecture; }

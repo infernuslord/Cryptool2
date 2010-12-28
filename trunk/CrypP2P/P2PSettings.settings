@@ -32,9 +32,6 @@
     <Setting Name="UseLocalAddressDetection" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="TransportProtocol" Type="Cryptool.Plugins.PeerToPeer.Internal.P2PTransportProtocol" Scope="User">
-      <Value Profile="(Default)">TCP</Value>
-    </Setting>
     <Setting Name="Architecture" Type="Cryptool.Plugins.PeerToPeer.Internal.P2PArchitecture" Scope="User">
       <Value Profile="(Default)">Chord</Value>
     </Setting>

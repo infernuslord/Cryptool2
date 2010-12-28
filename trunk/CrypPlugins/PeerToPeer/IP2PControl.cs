@@ -14,7 +14,8 @@ namespace Cryptool.Plugins.PeerToPeer.Internal
     public enum P2PBootstrapperType
     {
         LocalMachineBootstrapper = 0,
-        IrcBootstrapper = 1
+        IrcBootstrapper = 1,
+        DnsBootstrapper = 2
     }
 
     public enum P2PArchitecture

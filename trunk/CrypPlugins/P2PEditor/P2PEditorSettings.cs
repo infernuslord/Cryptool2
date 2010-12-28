@@ -233,22 +233,6 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("transportprotocol_caption", "transportprotocol_tooltip", GroupExpert, 3, false, DisplayLevel.Expert,
-            ControlType.ComboBox, new[] { "TCP", "TCP_UDP", "UDP" })]
-        public int TransportProtocol
-        {
-            get { return (int)settings.TransportProtocol; }
-            set
-            {
-                if ((P2PTransportProtocol)value != settings.TransportProtocol)
-                {
-                    settings.TransportProtocol = (P2PTransportProtocol)value;
-                    OnPropertyChanged("TransportProtocol");
-                    HasChanges = true;
-                }
-            }
-        }
-
         [TaskPane("localPort_caption", "localPort_tooltip", GroupExpert, 4, false, DisplayLevel.Expert,
             ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 65535)]
         public int LocalPort

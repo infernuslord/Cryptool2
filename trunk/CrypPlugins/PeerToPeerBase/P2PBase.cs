@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using PeersAtPlay.P2POverlay.Bootstrapper.DnsBootstrapper;
 using PeersAtPlay.P2PStorage.DHT;
 using PeersAtPlay.P2PStorage.FullMeshDHT;
 using PeersAtPlay.P2POverlay.Bootstrapper;
@@ -206,6 +207,9 @@ namespace Cryptool.Plugins.PeerToPeer
                     PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapperV2.Settings.DelaySymmetricResponseTime = 6000;
 
                     this.bootstrapper = new IrcBootstrapper(scheduler);
+                    break;
+                case P2PBootstrapperType.DnsBootstrapper:
+                    this.bootstrapper = new DnsBootstrapper();
                     break;
                 default:
                     throw (new NotImplementedException());
