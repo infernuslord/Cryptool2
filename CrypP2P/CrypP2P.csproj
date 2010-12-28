@@ -77,6 +77,10 @@
       <HintPath>..\appreferences\x86\bootstrapper.dll</HintPath>
       <Private>false</Private>
     </Reference>
+	<Reference Include="CertificateLibrary">
+      <HintPath>..\appreferences\x86\certificatelibrary.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="CertServices">
       <HintPath>..\appreferences\x86\certservices.dll</HintPath>
       <Private>false</Private>
@@ -137,6 +141,10 @@
   <ItemGroup Condition=" '$(Platform)' == 'x64' ">
     <Reference Include="Bootstrapper">
       <HintPath>..\appreferences\x64\bootstrapper.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+	<Reference Include="CertificateLibrary">
+      <HintPath>..\appreferences\x64\certificatelibrary.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="CertServices">
