@@ -101,10 +101,6 @@
       <HintPath>..\..\appreferences\x86\log4net.dll</HintPath>
       <Private>false</Private>
     </Reference>
-    <Reference Include="NetGearsTCP">
-      <HintPath>..\..\appreferences\x86\netgearstcp.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
     <Reference Include="PeersAtPlayBase">
       <HintPath>..\..\appreferences\x86\peersatplaybase.dll</HintPath>
       <Private>false</Private>
@@ -149,10 +145,6 @@
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\appreferences\x64\log4net.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="NetGearsTCP">
-      <HintPath>..\..\appreferences\x64\netgearstcp.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="PeersAtPlayBase">

@@ -28,6 +28,7 @@ using PeersAtPlay.P2PLink;
 using PeersAtPlay.P2PLink.SnalNG;
 using PeersAtPlay.P2POverlay;
 using PeersAtPlay.P2POverlay.Bootstrapper;
+using PeersAtPlay.P2POverlay.Bootstrapper.DnsBootstrapper;
 using PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapperV2;
 using PeersAtPlay.P2POverlay.Bootstrapper.LocalMachineBootstrapper;
 using PeersAtPlay.P2POverlay.FullMeshOverlay;
@@ -126,19 +127,6 @@ namespace Cryptool.P2P.Internal
 
                     settings.FragmentMessages = true;
                     settings.FragmentMessageSize = 10*1024;
-                        
-                    switch(P2PSettings.Default.TransportProtocol)
-                    {
-                        case P2PTransportProtocol.UDP:
-                            settings.TransportProtocol = TransportProtocol.UDP;
-                            break;
-                        case P2PTransportProtocol.TCP_UDP:
-                            settings.TransportProtocol = TransportProtocol.TCP_UDP;
-                            break;
-                        default:
-                            settings.TransportProtocol = TransportProtocol.TCP;
-                            break;
-                    }
 
                     linkmanager.Settings = settings;
                     linkmanager.ApplicationType = ApplicationType.CrypTool;
@@ -160,6 +148,9 @@ namespace Cryptool.P2P.Internal
                     PeersAtPlay.P2POverlay.Bootstrapper.IrcBootstrapperV2.Settings.UsePeerCache = false;
 
                     bootstrapper = new IrcBootstrapper(scheduler);
+                    break;
+                case P2PBootstrapperType.DnsBootstrapper:
+                    bootstrapper = new DnsBootstrapper();
                     break;
                 default:
                     throw new NotImplementedException();

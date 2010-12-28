@@ -157,7 +157,7 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region In and Output
 
-        [PropertyInfo(Direction.ControlSlave, "Master Peer", "One peer to rule them all", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.ControlSlave, "Master Peer", "One peer to rule them all", "", true, false, QuickWatchFormat.Text, null)]
         public IP2PControl P2PControlSlave
         {
             get
