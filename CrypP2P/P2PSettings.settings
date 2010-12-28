@@ -41,5 +41,8 @@
     <Setting Name="ServerHost" Type="System.String" Scope="User">
       <Value Profile="(Default)">paps.vs.uni-due.de</Value>
     </Setting>
+    <Setting Name="Password" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

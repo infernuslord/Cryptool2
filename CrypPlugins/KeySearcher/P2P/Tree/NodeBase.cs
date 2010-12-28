@@ -22,8 +22,10 @@ namespace KeySearcher.P2P.Tree
         public readonly Node ParentNode;
         public LinkedList<KeySearcher.ValueKey> Result;
 
-        //Dictionary Tests
-        public String Avatarname = "CrypTool2";
+        //Dictionary Tests        
+        //public String Avatarname = "CrypTool2";
+        public String Avatarname = P2PSettings.Default.PeerName;
+        
         public Dictionary<String, Dictionary<long, Information>> Activity;
         protected bool integrated;
 

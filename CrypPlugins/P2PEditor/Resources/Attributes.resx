@@ -171,6 +171,12 @@
   <data name="onnectOnStartup_tooltip" xml:space="preserve">
     <value>Establish a connection to the peer-to-peer network during CrypTool startup.</value>
   </data>
+  <data name="password_caption" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="password_tooltip" xml:space="preserve">
+    <value>Password of your Peers@Play certificate</value>
+  </data>
   <data name="serverHost_caption" xml:space="preserve">
     <value>Host</value>
   </data>

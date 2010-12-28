@@ -77,7 +77,7 @@
       <HintPath>..\appreferences\x86\bootstrapper.dll</HintPath>
       <Private>false</Private>
     </Reference>
-	<Reference Include="CertificateLibrary">
+    <Reference Include="CertificateLibrary">
       <HintPath>..\appreferences\x86\certificatelibrary.dll</HintPath>
       <Private>false</Private>
     </Reference>
@@ -143,7 +143,7 @@
       <HintPath>..\appreferences\x64\bootstrapper.dll</HintPath>
       <Private>false</Private>
     </Reference>
-	<Reference Include="CertificateLibrary">
+    <Reference Include="CertificateLibrary">
       <HintPath>..\appreferences\x64\certificatelibrary.dll</HintPath>
       <Private>false</Private>
     </Reference>
@@ -226,6 +226,7 @@
     <Compile Include="Internal\RequestResult.cs" />
     <Compile Include="Internal\RequestResultType.cs" />
     <Compile Include="Internal\RequestType.cs" />
+    <Compile Include="P2PSettings.cs" />
     <Compile Include="P2PSettings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>

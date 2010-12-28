@@ -203,7 +203,7 @@ namespace Cryptool.P2P.Internal
             P2PManager.GuiLogMessage("Initializing DHT with world name " + P2PSettings.Default.WorldName,
                                         NotificationLevel.Info);
             IsInitialized = true;
-            Dht.Initialize(P2PSettings.Default.PeerName, string.Empty, P2PSettings.Default.WorldName, overlay,
+            Dht.Initialize(P2PSettings.Default.PeerName, P2PSettings.Default.Password, P2PSettings.Default.WorldName, overlay,
                            bootstrapper, linkmanager, null);
         }
 
