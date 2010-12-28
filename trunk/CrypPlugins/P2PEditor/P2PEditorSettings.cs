@@ -91,7 +91,24 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("worldname_caption", "worldname_tooltip", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("password_caption",
+            "password_tooltip"
+            , null, 1, false, DisplayLevel.Beginner, ControlType.TextBoxHidden)]
+        public string Password
+        {
+            get { return settings.Password; }
+            set
+            {
+                if (value != settings.Password)
+                {
+                    settings.Password = value;
+                    OnPropertyChanged("Password");
+                    HasChanges = true;
+                }
+            }
+        }
+
+        [TaskPane("worldname_caption", "worldname_tooltip", null, 2, false, DisplayLevel.Beginner, ControlType.TextBox)]
         public string WorldName
         {
             get { return settings.WorldName; }
@@ -107,7 +124,7 @@ namespace Cryptool.P2PEditor
         }
 
         // TODO New ControlType needed to choose dialogs? OpenFileDialog not fitting.
-        [TaskPane("workspacePath_caption", "workspacePath_tooltip", null, 2, true, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("workspacePath_caption", "workspacePath_tooltip", null, 3, true, DisplayLevel.Beginner, ControlType.TextBox)]
         public string WorkspacePath
         {
             get { return settings.WorkspacePath; }
