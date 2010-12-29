@@ -10,6 +10,7 @@ using PeersAtPlay.CertificateLibrary.Network;
 using System.Threading;
 using PeersAtPlay.CertificateLibrary.Util;
 using System.Windows.Threading;
+using System.Windows.Media.Animation;
 
 namespace Cryptool.P2PEditor.GUI.Controls
 {
@@ -22,8 +23,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
             InitializeComponent();
         }
 
-        private void Retrieve_Click(object sender, RoutedEventArgs e)
-        {
+        private void Request_Click(object sender, RoutedEventArgs e)
+        {            
             if (!Verification.IsValidAvatar(this.UsernameField.Text))
             {
                 System.Windows.MessageBox.Show("Username is not valid.", "Username is not valid");                
@@ -56,8 +57,9 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 this.ConfirmField.Password = "";
                 this.PasswordField.Focus();
                 return;
-            }         
-
+            }
+            
+            WorldIconRotating = true;
             Thread thread = new Thread(new ParameterizedThreadStart(RetrieveCertificate));
             object[] array = new object[3];
             array[0] = this.UsernameField.Text;
@@ -91,7 +93,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     System.Windows.MessageBox.Show("Certificate not yet authorized", "Certificate not yet authorized");
                 });
 
-                certificateClient.CertificateReceived += CertificateReceived;                
+                certificateClient.CertificateReceived += CertificateReceived;
 
                 certificateClient.InvalidCertificateRequest += InvalidCertificateRequest;
 
@@ -108,7 +110,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 certificateClient.NewProtocolVersion += new EventHandler<EventArgs>(delegate
                 {
                     System.Windows.MessageBox.Show("The protocol of the certificate server is different from the clients one. Please update.", "Protocol mismatch");
-                });               
+                });
 
                 certificateClient.RequestCertificate(username,
                                                      email,
@@ -119,24 +121,39 @@ namespace Cryptool.P2PEditor.GUI.Controls
             {
                 System.Windows.MessageBox.Show("An exception occured: " + ex.Message, "Exception occured");
             }
+            finally
+            {
+                WorldIconRotating = false;
+            }
         }
 
         public void InvalidCertificateRequest(object sender, InvalidRequestEventArgs args)
         {
-            switch(args.ErrorType){
-                case RespondType.AvatarAlreadyExists:
-                    System.Windows.MessageBox.Show("The username already exists. Please chose another one.", "Username already exists");
-                    break;                
-                case RespondType.EmailAlreadyExists:
-                    System.Windows.MessageBox.Show("The email already exists. Please chose another ones.", "Email already exists");
-                    break;
-                case RespondType.AvatarEmailAlreadyExists:
-                    System.Windows.MessageBox.Show("The username and email already exist but the entered password was wrong. Either enter a new username and email combination or enter the correct password to receive the certificate again", "Username and email already exist");
-                    break;
-                default:
-                    System.Windows.MessageBox.Show("Invalid certificate request: " + args.ErrorType, "Invalid certificate request");
-                    break;
-            }            
+            try
+            {
+                switch (args.ErrorType)
+                {
+                    case RespondType.AvatarAlreadyExists:
+                        System.Windows.MessageBox.Show("The username already exists. Please chose another one.", "Username already exists");
+                        break;
+                    case RespondType.EmailAlreadyExists:
+                        System.Windows.MessageBox.Show("The email already exists. Please chose another ones.", "Email already exists");
+                        break;
+                    case RespondType.AvatarEmailAlreadyExists:
+                        System.Windows.MessageBox.Show("The username and email already exist but the entered password was wrong. Either enter a new username and email combination or enter the correct password to receive the certificate again", "Username and email already exist");
+                        break;
+                    default:
+                        System.Windows.MessageBox.Show("Invalid certificate request: " + args.ErrorType, "Invalid certificate request");
+                        break;
+                }
+            }
+            catch (Exception) 
+            { 
+            }
+            finally
+            {
+                WorldIconRotating = false;
+            } 
         }
 
         public void CertificateReceived(object sender, CertificateReceivedEventArgs args)
@@ -159,6 +176,38 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 System.Windows.MessageBox.Show("Could not save the received certificate to your AppData folder:\n\n" +
                        (ex.GetBaseException() != null && ex.GetBaseException().Message != null ? ex.GetBaseException().Message : ex.Message),
                        "Error while saving the certificate");
+            }
+            finally
+            {
+                WorldIconRotating = false;
+            }
+        }
+
+        private bool worldIconRotating = false;
+        public bool WorldIconRotating
+        {
+            get { return worldIconRotating; }
+            set
+            {
+                worldIconRotating = value;
+                try
+                {
+                    this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        Storyboard storyboard = (Storyboard)FindResource("AnimateWorldIcon");
+                        if (worldIconRotating)
+                        {
+                            storyboard.Begin();
+                        }
+                        else
+                        {
+                            storyboard.Stop();
+                        }
+                    }, null);
+                }
+                catch (Exception)
+                {                    
+                }
             }
         }
     }
