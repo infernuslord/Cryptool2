@@ -13,7 +13,7 @@
             <TabItem Header="Connect" Name="ConnectTab" Visibility="{Binding IsP2PConnected, ElementName=P2PEditorControl, Converter={StaticResource ConnectivityToVisibilityConverter}}">
                 <controls:ConnectTab IsP2PConnecting="{Binding IsP2PConnecting, ElementName=P2PEditorControl}" />
             </TabItem>
-            <TabItem Header="Get new Certificate" Name="GetNewCertificateTab" Visibility="{Binding IsP2PConnected, ElementName=P2PEditorControl, Converter={StaticResource ConnectivityToVisibilityConverter}}">
+            <TabItem Header="Get a certificate!" Name="GetNewCertificateTab">
                 <controls:GetNewCertificate />
             </TabItem>
             <TabItem Header="About" Name="AboutTab">
