@@ -51,9 +51,19 @@
     <Optimize>false</Optimize>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
-  <ItemGroup Condition=" '$(Platform)' == 'x86' " />
-  <ItemGroup Condition=" '$(Platform)' == 'x64' " />
-  <ItemGroup>
+  <ItemGroup Condition=" '$(Platform)' == 'x86' ">
+    <Reference Include="CertificateLibrary">
+      <HintPath>..\..\AppReferences\x86\CertificateLibrary.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(Platform)' == 'x64' ">
+    <Reference Include="CertificateLibrary">
+      <HintPath>..\..\AppReferences\x64\CertificateLibrary.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>    
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -61,6 +71,7 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.XML" />
@@ -77,6 +88,9 @@
     <Compile Include="Distributed\DistributedJobStatus.cs" />
     <Compile Include="GUI\Controls\ConnectTab.xaml.cs">
       <DependentUpon>ConnectTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Controls\GetNewCertificate.xaml.cs">
+      <DependentUpon>GetNewCertificate.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\P2PUserControl.cs" />
     <Compile Include="GUI\ParticipateAdorner.cs" />
@@ -156,6 +170,10 @@
     <Page Include="GUI\Controls\ConnectTab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\Controls\GetNewCertificate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="GUI\Controls\JobCreation.xaml">
       <SubType>Designer</SubType>

@@ -47,15 +47,6 @@ namespace Cryptool.P2P.Worker
             if (!p2PBase.IsConnected)
             {
                 P2PManager.GuiLogMessage("Connecting to P2P network...", NotificationLevel.Info);
-
-                // Validate certificats
-                if (!PAPCertificate.CheckAndInstallPAPCertificates())
-                {
-                    P2PManager.GuiLogMessage("Certificates not validated, P2P might not be working!",
-                                                      NotificationLevel.Error);
-                    return;
-                }
-
                 p2PBase.Initialize();
                 p2PBase.SynchStart();
             }
