@@ -282,7 +282,8 @@ namespace KeySearcher.P2P
 
         private int FindLocalPatterns()
         {
-            String myAvatar = "CrypTool2";
+            //String myAvatar = "CrypTool2";
+            String myAvatar = P2PSettings.Default.PeerName;
             long myID = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
             Dictionary<string, Dictionary<long, Information>> myStats = keySearcher.GetStatistics();
 
