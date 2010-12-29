@@ -36,6 +36,7 @@
         <PasswordBox x:Name="PasswordField" Grid.Row="3" Grid.Column="1" Height="24" />
         <PasswordBox x:Name="ConfirmField" Grid.Row="4" Grid.Column="1" Height="24" />
         <Button Name="RequestButton" Content="_Request" HorizontalAlignment="Right" Width="80" Grid.Row="5" Grid.Column="1" Height="24" Click="Request_Click" Margin="0,15,12,31" />
+        <Label Name="RequestLabel" Content="Requesting certificate..." Visibility="Hidden" Target="{Binding ElementName=ConfirmField}" Grid.Row="5" Margin="0,19,173,27" HorizontalAlignment="Right" Width="151" Grid.Column="1" FontWeight="Bold" />
         <Image Name="WorldIcon" Source="..\..\images\connected.png" Grid.Column="1" Margin="302,0,92,0" Grid.Row="5" RenderTransformOrigin="0.5,0.5">
             <Image.RenderTransform>
                 <RotateTransform x:Name="WorldIconImageRotate"/>

@@ -24,7 +24,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
         }
 
         private void Request_Click(object sender, RoutedEventArgs e)
-        {            
+        {
             if (!Verification.IsValidAvatar(this.UsernameField.Text))
             {
                 System.Windows.MessageBox.Show("Username is not valid.", "Username is not valid");                
@@ -59,7 +59,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 return;
             }
             
-            WorldIconRotating = true;
+            Requesting = true;
             Thread thread = new Thread(new ParameterizedThreadStart(RetrieveCertificate));
             object[] array = new object[3];
             array[0] = this.UsernameField.Text;
@@ -117,13 +117,17 @@ namespace Cryptool.P2PEditor.GUI.Controls
                                                      WorldName,
                                                      password);
             }
+            catch (NetworkException nex)
+            {
+                System.Windows.MessageBox.Show("There was a communication problem with the server: " + nex.Message + "\n" + "Please try again later"  , "Communication problem");
+            }
             catch (Exception ex)
             {
                 System.Windows.MessageBox.Show("An exception occured: " + ex.Message, "Exception occured");
             }
             finally
             {
-                WorldIconRotating = false;
+                Requesting = false;                
             }
         }
 
@@ -152,7 +156,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
             }
             finally
             {
-                WorldIconRotating = false;
+                Requesting = false;
             } 
         }
 
@@ -179,28 +183,32 @@ namespace Cryptool.P2PEditor.GUI.Controls
             }
             finally
             {
-                WorldIconRotating = false;
+                Requesting = false;
             }
         }
 
-        private bool worldIconRotating = false;
-        public bool WorldIconRotating
+        private bool requesting = false;
+        public bool Requesting
         {
-            get { return worldIconRotating; }
+            get { return requesting; }
             set
             {
-                worldIconRotating = value;
+                requesting = value;
                 try
                 {
                     this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
                         Storyboard storyboard = (Storyboard)FindResource("AnimateWorldIcon");
-                        if (worldIconRotating)
+                        if (requesting)
                         {
+                            this.RequestLabel.Visibility = System.Windows.Visibility.Visible;
+                            this.RequestButton.IsEnabled = false;
                             storyboard.Begin();
                         }
                         else
                         {
+                            this.RequestLabel.Visibility = System.Windows.Visibility.Hidden;
+                            this.RequestButton.IsEnabled = true;
                             storyboard.Stop();
                         }
                     }, null);
