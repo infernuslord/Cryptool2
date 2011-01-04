@@ -21,6 +21,10 @@ using System.Text;
 using System.Windows;
 using Cryptool.PluginBase;
 using System.Reflection;
+using System.Collections.ObjectModel;
+using WorkspaceManager.View.Container;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace WorkspaceManager.Model
 {
@@ -36,12 +40,44 @@ namespace WorkspaceManager.Model
         /// <summary>
         /// The surrounding WorkspaceManagerEditor
         /// </summary> 
-        public WorkspaceManager WorkspaceManagerEditor { 
-            get{
+        public WorkspaceManager WorkspaceManagerEditor
+        {
+            get
+            {
                 return workspaceManagerEditor;
             }
-            set{ 
+            set
+            {
                 workspaceManagerEditor = value;
+            }
+        }
+
+        /// <summary>
+        /// The surrounding WorkspaceManagerEditor
+        /// </summary> 
+        public WorkSpaceEditorView WorkspaceEditor
+        {
+            get
+            {
+                return (WorkSpaceEditorView)workspaceManagerEditor.Presentation;
+            }
+        }
+
+        [NonSerialized]
+        private ObservableCollection<PluginContainerView> selectedPluginsList;
+
+        /// <summary>
+        /// Selected Collection of Plugin's
+        /// </summary> 
+        public ObservableCollection<PluginContainerView> SelectedPluginsList
+        {
+            get
+            {
+                return selectedPluginsList;
+            }
+            set
+            {
+                selectedPluginsList = value;
             }
         }
 
@@ -74,12 +110,13 @@ namespace WorkspaceManager.Model
         /// Creates a new Workspace Model
         /// </summary>
         public WorkspaceModel()
-        { 
+        {
+            this.SelectedPluginsList = new ObservableCollection<PluginContainerView>();
             this.AllPluginModels = new List<PluginModel>();
             this.AllConnectionModels = new List<ConnectionModel>();
             this.AllConnectorModels = new List<ConnectorModel>();
             this.AllImageModels = new List<ImageModel>();
-            this.AllTextModels = new List<TextModel>(); 
+            this.AllTextModels = new List<TextModel>();
         }
 
         /// <summary>

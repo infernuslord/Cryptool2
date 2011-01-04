@@ -107,8 +107,8 @@
     <Compile Include="View\Container\ConnectorView.xaml.cs">
       <DependentUpon>ConnectorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Container\IControlContainer.xaml.cs">
-      <DependentUpon>IControlContainer.xaml</DependentUpon>
+    <Compile Include="View\Container\IControlPlaceHolder.xaml.cs">
+      <DependentUpon>IControlPlaceHolder.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Container\PluginContainerView.xaml.cs">
       <DependentUpon>PluginContainerView.xaml</DependentUpon>
@@ -128,10 +128,12 @@
     <Compile Include="View\Converter\DragDropDataObjectToPluginConverter.cs" />
     <Compile Include="View\Converter\IconPanelVisibilityConverter.cs" />
     <Compile Include="View\Converter\InputOutputConverter.cs" />
+    <Compile Include="View\Converter\IsMouseOverColorConverter.cs" />
     <Compile Include="View\Converter\MenuItemHeaderFixedConverter.cs" />
     <Compile Include="View\Converter\NotificationLevelConverter.cs" />
     <Compile Include="View\Converter\OptionTextCaptionConverter.cs" />
     <Compile Include="View\Converter\OverlapConverter.cs" />
+    <Compile Include="View\Converter\PluginModelImageConverter.cs" />
     <Compile Include="View\Converter\ScaleToPercentageConverter.cs" />
     <Compile Include="View\Converter\SelectedContentBrushConverter.cs" />
     <Compile Include="View\Converter\SelectedContentVisibilityConverter.cs" />
@@ -194,6 +196,7 @@
       <DependentUpon>LogPresentation.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\VisualComponents\ModifiedCanvas\ModifiedCanvas.cs" />
+    <Compile Include="View\VisualComponents\ObservableDictionary.cs" />
     <Compile Include="View\VisualComponents\Search.xaml.cs">
       <DependentUpon>Search.xaml</DependentUpon>
     </Compile>
@@ -230,7 +233,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Container\IControlContainer.xaml">
+    <Page Include="View\Container\IControlPlaceHolder.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

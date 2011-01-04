@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="WorkspaceManager.View.Container.IControlPlaceHolder"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:e="clr-namespace:WorkspaceManager.View.VisualComponents"
+             xmlns:z="clr-namespace:WorkspaceManager.View.Converter"
+             xmlns:y="clr-namespace:WorkspaceManager.View.Container"
+             mc:Ignorable="d" Width="25" Height="25">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resource/Styles.xaml"/>
+                <ResourceDictionary Source="../Resource/Animations.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <z:PluginModelImageConverter x:Key="PluginModelImageConverter"></z:PluginModelImageConverter>
+            <SolidColorBrush x:Key="Color" Color="Black"></SolidColorBrush>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <UserControl.ContextMenu>
+        <ContextMenu>
+            <MenuItem Click="MenuItem_Click">Delete</MenuItem>
+        </ContextMenu>
+    </UserControl.ContextMenu>
+    <Grid>
+        <Path Data="M 20 20 L 0 20 L 0 0" Stroke="{StaticResource ResourceKey=Color}" StrokeThickness="9" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="20" Height="20">
+            <Path.LayoutTransform>
+                <TransformGroup>
+                    <RotateTransform Angle="270"></RotateTransform>
+                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"></ScaleTransform>
+                </TransformGroup>
+            </Path.LayoutTransform>
+        </Path>
+        <Path Data="M 20 20 L 0 20 L 0 0" Stroke="{StaticResource ResourceKey=Color}" StrokeThickness="9" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="20" Height="20">
+            <Path.LayoutTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"></ScaleTransform>
+                </TransformGroup>
+            </Path.LayoutTransform>
+        </Path>
+        <Path Data="M 20 20 L 0 20 L 0 0" Stroke="{StaticResource ResourceKey=Color}" StrokeThickness="9"  HorizontalAlignment="Right" VerticalAlignment="Top" Width="20" Height="20">
+            <Path.LayoutTransform>
+                <TransformGroup>
+                    <RotateTransform Angle="180"></RotateTransform>
+                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"></ScaleTransform>
+                </TransformGroup>
+            </Path.LayoutTransform>
+        </Path>
+        <Path Data="M 20 20 L 0 20 L 0 0" Stroke="{StaticResource ResourceKey=Color}" StrokeThickness="9"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="20" Height="20">
+            <Path.LayoutTransform>
+                <TransformGroup>
+                    <RotateTransform Angle="90"></RotateTransform>
+                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"></ScaleTransform>
+                </TransformGroup>
+            </Path.LayoutTransform>
+        </Path>
+        <Rectangle Fill="{Binding Mode=OneWay,Converter={StaticResource ResourceKey=PluginModelImageConverter}}" RadiusX="60" RadiusY="60" x:Name="bg" Panel.ZIndex="-1"></Rectangle>
+    </Grid>
+</UserControl>

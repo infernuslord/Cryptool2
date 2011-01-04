@@ -18,6 +18,8 @@ using WorkspaceManager.Model;
 using Cryptool.PluginBase.Editor;
 using Cryptool.Core;
 using Cryptool.PluginBase;
+using System.Collections.ObjectModel;
+using System.Windows.Threading;
 
 namespace WorkspaceManager.View.Container
 {
@@ -32,13 +34,18 @@ namespace WorkspaceManager.View.Container
     /// 
     public partial class WorkSpaceEditorView : UserControl
     {
+
+        private Point? lastCenterPositionOnTarget;
+        private Point? lastMousePositionOnTarget;
+        private Point? lastDragPoint;
         private Point previousDragPoint = new Point();
         private ConnectorView selectedConnector;
         private PluginContainerView selectedPluginContainer;
         private CryptoLineView dummyLine = new CryptoLineView();
         private PluginContainerView currentFullViewContainer;
-        private Panel root { get { return (this.ViewBox.Content as Panel); } }
+        private Panel root { get { return (this.scrollViewer.Content as Panel); } }
         private BottomBox bottomBox { get { return (BottomBoxParent.Child as BottomBox); } }
+        public bool IsKeyMultiKeyDown;
 
         public UserContentWrapper UserContentWrapper { get; set; }
         public EditorState State;
@@ -61,43 +68,231 @@ namespace WorkspaceManager.View.Container
         {
             setBaseControl(WorkspaceModel);                        
             InitializeComponent();
-            ViewBox.DataContext = root;
+            CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
+
+            scrollViewer.DataContext = root;
+            scrollViewer.ScrollChanged += OnScrollViewerScrollChanged;
+            scrollViewer.PreviewMouseLeftButtonUp += OnMouseLeftButtonUp;
+            scrollViewer.PreviewMouseWheel += OnPreviewMouseWheel;
+
             this.bottomBox.FitToScreen += new EventHandler<FitToScreenEventArgs>(bottomBox_FitToScreen);
             this.UserContentWrapper = new UserContentWrapper(WorkspaceModel, bottomBox);
             this.UserControlWrapperParent.Children.Clear();
             this.UserControlWrapperParent.Children.Add(UserContentWrapper);       
         }
 
+        void OnMouseMove(object sender, MouseEventArgs e)
+        {
+            if (lastDragPoint.HasValue)
+            {
+                Point posNow = e.GetPosition(scrollViewer);
+
+                double dX = posNow.X - lastDragPoint.Value.X;
+                double dY = posNow.Y - lastDragPoint.Value.Y;
+
+                lastDragPoint = posNow;
+
+                scrollViewer.ScrollToHorizontalOffset(scrollViewer.HorizontalOffset - dX);
+                scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - dY);
+            }
+        }
+
+        private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+        {
+            scrollViewer.ScrollToHorizontalOffset(scrollViewer.HorizontalOffset - e.HorizontalChange);
+            scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - e.VerticalChange);
+            scrollViewer.Cursor = Cursors.SizeAll;
+        }
+
+        void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            lastMousePositionOnTarget = Mouse.GetPosition(scrollViewer);
+
+            if (e.Delta > 0)
+            {
+                Properties.Settings.Default.EditScale += 0.2;
+            }
+            if (e.Delta < 0)
+            {
+                Properties.Settings.Default.EditScale -= 0.2;
+            }
+
+            e.Handled = true;
+        }
+
+        void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            scrollViewer.Cursor = Cursors.Arrow;
+            scrollViewer.ReleaseMouseCapture();
+            lastDragPoint = null;
+        }
+
+        void OnScrollViewerScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            if (e.ExtentHeightChange != 0 || e.ExtentWidthChange != 0)
+            {
+                Point? targetBefore = null;
+                Point? targetNow = null;
+
+                if (!lastMousePositionOnTarget.HasValue)
+                {
+                    if (lastCenterPositionOnTarget.HasValue)
+                    {
+                        var centerOfViewport = new Point(scrollViewer.ViewportWidth / 2,
+                                                         scrollViewer.ViewportHeight / 2);
+                        Point centerOfTargetNow =
+                              scrollViewer.TranslatePoint(centerOfViewport, scrollViewer);
+
+                        targetBefore = lastCenterPositionOnTarget;
+                        targetNow = centerOfTargetNow;
+                    }
+                }
+                else
+                {
+                    targetBefore = lastMousePositionOnTarget;
+                    targetNow = Mouse.GetPosition(scrollViewer);
+
+                    lastMousePositionOnTarget = null;
+                }
+
+                if (targetBefore.HasValue)
+                {
+                    double dXInTargetPixels = targetNow.Value.X - targetBefore.Value.X;
+                    double dYInTargetPixels = targetNow.Value.Y - targetBefore.Value.Y;
+
+                    double multiplicatorX = e.ExtentWidth / scrollViewer.Width;
+                    double multiplicatorY = e.ExtentHeight / scrollViewer.Height;
+
+                    double newOffsetX = scrollViewer.HorizontalOffset -
+                                        dXInTargetPixels * multiplicatorX;
+                    double newOffsetY = scrollViewer.VerticalOffset -
+                                        dYInTargetPixels * multiplicatorY;
+
+                    if (double.IsNaN(newOffsetX) || double.IsNaN(newOffsetY))
+                    {
+                        return;
+                    }
+
+                    scrollViewer.ScrollToHorizontalOffset(newOffsetX);
+                    scrollViewer.ScrollToVerticalOffset(newOffsetY);
+                }
+            }
+        }
+
+        void CompositionTarget_Rendering(object sender, EventArgs e)
+        {
+            if ((Keyboard.GetKeyStates(Key.LeftCtrl) & KeyStates.Down) > 0)
+            {
+                IsKeyMultiKeyDown = true;
+            }
+            else
+                IsKeyMultiKeyDown = false;
+
+            if ((Keyboard.GetKeyStates(Key.LeftCtrl) & Keyboard.GetKeyStates(Key.C) & KeyStates.Down) > 0)
+            {
+                Copy();
+            }
+
+            if ((Keyboard.GetKeyStates(Key.LeftCtrl) & Keyboard.GetKeyStates(Key.V) & KeyStates.Down) > 0)
+            {
+                Paste();
+            }
+        }
+
+        public void Copy()
+        {
+            if (IsMouseOver)
+            {
+                List<PluginModel> list = new List<PluginModel>();
+                foreach (PluginContainerView plugin in Model.SelectedPluginsList)
+                {
+                    list.Add(plugin.Model);
+                }
+
+                PluginCopyWrapper w = new PluginCopyWrapper(list.ToArray());
+                Clipboard.SetData("PluginCopy", w);
+                var v = Clipboard.GetData("PluginCopy");
+            }
+        }
+
+        public void Paste()
+        {
+            if (IsMouseOver)
+            {
+                PluginCopyWrapper v = (PluginCopyWrapper)Clipboard.GetData("PluginCopy");
+
+                if (!(v is PluginCopyWrapper))
+                    return;
+
+                foreach (PluginModel model in v.Model)
+                {
+                    //this.loadPluginContainerView(model);
+                    model.WorkspaceModel = this.Model;
+                    model.generateConnectors();
+                    this.AddPluginContainerView(model.Position, model);
+                }
+
+                //foreach (ConnectionModel connModel in Model.AllConnectionModels)
+                //{
+                //    CryptoLineView conn = new CryptoLineView(connModel);
+                //    connModel.UpdateableView = conn;
+                //    connModel.OnDelete += DeleteConnection;
+
+                //    foreach (UIElement element in root.Children)
+                //    {
+                //        PluginContainerView container = element as PluginContainerView;
+                //        if (container != null)
+                //        {
+                //            foreach (ConnectorView connector in container.ConnectorViewList)
+                //            {
+                //                if (connModel.From == connector.Model)
+                //                {
+                //                    conn.StartPointSource = connector;
+                //                    conn.SetBinding(CryptoLineView.StartPointProperty, CreateConnectorBinding(connector));
+                //                }
+                //                else if (connModel.To == connector.Model)
+                //                {
+                //                    conn.EndPointSource = connector;
+                //                    conn.SetBinding(CryptoLineView.EndPointProperty, CreateConnectorBinding(connector));
+                //                }
+                //            }
+                //        }
+                //    }
+
+                //    root.Children.Add(conn);
+                //    ConnectionList.Add(conn);
+                //    Canvas.SetZIndex(conn, 0);
+                //}
+            }
+        }
+
+        
+
         void bottomBox_FitToScreen(object sender, FitToScreenEventArgs e)
         {
 
-            if (root.Children.Count != 0)
+            if (scrollViewer.ScrollableWidth > 0 || scrollViewer.ScrollableHeight > 0)
             {
-                if (root.DesiredSize.Height < ViewBoxParent.ActualHeight)
-                    Properties.Settings.Default.EditScale = ViewBoxParent.ActualHeight / root.DesiredSize.Height;
-
-                if (root.DesiredSize.Width < ViewBoxParent.ActualWidth)
-                    Properties.Settings.Default.EditScale = ViewBoxParent.ActualWidth / root.DesiredSize.Width;
-                this.UpdateLayout();
-                if (root.ActualWidth > root.ActualHeight)
+                while (Properties.Settings.Default.EditScale > Properties.Settings.Default.MinScale && (scrollViewer.ScrollableHeight > 0 || scrollViewer.ScrollableWidth > 0))
                 {
-                    this.UpdateLayout();
-                    Properties.Settings.Default.EditScale = ViewBoxParent.ActualWidth / root.ActualWidth;
-                    return;
+                    Properties.Settings.Default.EditScale -= 0.02;
+                    scrollViewer.UpdateLayout();
                 }
-                else if (root.ActualWidth < root.ActualHeight)
+            }
+            else
+            {
+                while (Properties.Settings.Default.EditScale < Properties.Settings.Default.MaxScale && scrollViewer.ScrollableHeight == 0 && scrollViewer.ScrollableWidth == 0)
                 {
-
-                    this.UpdateLayout();
-                    Properties.Settings.Default.EditScale = ViewBoxParent.ActualHeight / root.ActualHeight;
-                    return;
-                } 
+                    Properties.Settings.Default.EditScale += 0.02;
+                    scrollViewer.UpdateLayout();
+                }
+                if (scrollViewer.ScrollableHeight > 0 || scrollViewer.ScrollableWidth > 0)
+                    Properties.Settings.Default.EditScale -= 0.02;
             }
         }
 
         private void setBaseControl(WorkspaceModel WorkspaceModel)
         {
-            //this.MouseLeftButtonDown += new MouseButtonEventHandler(WorkSpaceEditorView_OnMouseLeftButtonDown);
             this.MouseLeave += new MouseEventHandler(WorkSpaceEditorView_MouseLeave);
             this.Loaded += new RoutedEventHandler(WorkSpaceEditorView_Loaded);
             this.DragEnter += new DragEventHandler(WorkSpaceEditorView_DragEnter);
@@ -374,14 +569,27 @@ namespace WorkspaceManager.View.Container
 
         internal void Load(WorkspaceModel WorkspaceModel)
         {
-            this.Model = WorkspaceModel;   
+            this.Model = WorkspaceModel;
 
             foreach (PluginModel model in this.Model.AllPluginModels)
             {
-                this.loadPluginContainerView(model);
+                bool skip = false;
+                foreach (ConnectorModel connModel in model.InputConnectors)
+                {
+                    if (connModel.IControl && connModel.InputConnections.Count > 0)
+                    {
+                        skip = true;
+                        break;
+                    }
+                }
+                if(!skip)
+                    this.loadPluginContainerView(model);
             }
             foreach (ConnectionModel connModel in WorkspaceModel.AllConnectionModels)
             {
+                if (connModel.To.IControl)
+                    continue;
+
                 CryptoLineView conn = new CryptoLineView(connModel);
                 connModel.UpdateableView = conn;
                 connModel.OnDelete += DeleteConnection;
@@ -444,16 +652,19 @@ namespace WorkspaceManager.View.Container
             }
         }
 
-        private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
-        {
-            double y = e.VerticalChange, x = e.HorizontalChange;
-
-            ViewBox.ScrollToHorizontalOffset(x);
-            ViewBox.ScrollToVerticalOffset(y);
-        }
-
         private void Thumb_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
         {
+        }
+    }
+
+    [Serializable]
+    public class PluginCopyWrapper
+    {
+        public PluginModel[] Model { get; private set; }
+
+        public PluginCopyWrapper(PluginModel[] model)
+        {
+            this.Model = model;
         }
     }
 }

@@ -195,4 +195,13 @@
         </GradientBrush.GradientStops>
     </LinearGradientBrush>
 
+    <LinearGradientBrush x:Key="ICBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#777" Offset="1.0"/>
+                <GradientStop Color="#888" Offset="0.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
 </ResourceDictionary>
