@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- This is the XML file defining the analyzation categories a user can select from. -->
+
+<step>
+
+  <!-- This is the step's headline. It should be a short, but precise instruction of what the user is supposed to do. -->
+  <headline lang="en" >Choose between individual procedures</headline>
+
+  <!-- Hash Functions Category -->
+  <category id ="Hash" image="somepath">
+    <name lang="en" >Hash Functions</name>
+    <description lang="en" >
+      Select hash functions to work with.
+    </description>
+  </category>
+
+  <!-- Prime Number Operations Category -->
+  <category id ="Prime" image="somepath">
+    <name lang="en" >Prime Number Operations</name>
+    <description lang="en" >
+      Select a prime numer operation to work with.
+    </description>
+  </category>
+
+  <!-- Key Exchange Category -->
+  <category id ="Key" image="somepath">
+    <name lang="en" >Key Exchange</name>
+    <description lang="en" >
+      Select a key exchange algorithm to work with.
+    </description>
+  </category>
+
+</step>
