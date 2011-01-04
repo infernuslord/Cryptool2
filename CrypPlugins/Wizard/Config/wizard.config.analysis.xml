@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- This is the XML file defining the analyzation categories a user can select from. -->
+
+<step>
+
+  <!-- This is the step's headline. It should be a short, but precise instruction of what the user is supposed to do. -->
+  <headline lang="en" >Choose between classic or modern encryption to analyse</headline>
+
+  <!-- Classic Encryption Category -->
+  <category id ="ClassicEn" image="somepath">
+    <name lang="en" >Classic Encryption</name>
+    <description lang="en" >
+      Select a classic encryption to analyze.
+    </description>
+  </category>
+
+  <!-- Modern Encryption Category -->
+  <category id ="ModernEn" image="somepath">
+    <name lang="en" >Modern Encryption</name>
+    <description lang="en" >
+      Select a modern encryption to analyze.
+    </description>
+  </category>
+
+</step>

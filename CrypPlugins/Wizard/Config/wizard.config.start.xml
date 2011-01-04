@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- This is the entry XML file defining the first categories a user can select from (the first step). -->
+
+<step>
+
+  <!-- This is the step's headline. It should be a short, but precise instruction of what the user is supposed to do. -->
+  <headline lang="en" >Choose your task</headline>
+  
+  <!-- Encryption/Decryption Category -->
+  <category id ="EnDeCrypt" image="somepath">
+    <name lang="en" >Encryption/Decryption</name>
+    <description lang="en" >
+      Select an algorithm to encrypt plaintext or to decrypt ciphertext.
+    </description>
+    <file resource="wizard.config.enDe.xml" />
+  </category>
+
+  <!-- Cryptanalysis Category -->
+  <category id ="Analysis" image="somepath">
+    <name lang="en" >Cryptanalysis</name>
+    <description lang="en" >
+      Select a specific algorithm to analyze.
+    </description>
+    <file resource="wizard.config.analysis.xml" />
+  </category>
+
+  <!-- Individual Procedures Category -->
+  <category id ="Indiv" image="somepath">
+    <name lang="en" >Individual Procedures</name>
+    <description lang="en" >
+      Select from individual procedures like hash functions, prime number operations, or key exchange.
+    </description>
+    <file resource="wizard.config.indiv.xml" />
+  </category>
+  
+</step>
+
