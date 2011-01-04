@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- This is the XML file defining the classic encryption/decryption categories a user can select from. -->
+
+<step>
+
+  <!-- This is the step's headline. It should be a short, but precise instruction of what the user is supposed to do. -->
+  <headline lang="en" >Choose between symmetric or asymmetric encryption/decryption</headline>
+
+  <!-- Symmetric Encryption/Decryption Category -->
+  <category id ="Sym" image="somepath">
+    <name lang="en" >Symmetric Encryption/Decryption</name>
+    <description lang="en" >
+      Select a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext.
+    </description>
+  </category>
+
+  <!-- Asymmetric Encryption/Decryption Category -->
+  <category id ="Asym" image="somepath">
+    <name lang="en" >Asymmetric</name>
+    <description lang="en" >
+      Select an asymmetric modern algorithm to encrypt plaintext or to decrypt ciphertext.
+    </description>
+  </category>
+
+</step>

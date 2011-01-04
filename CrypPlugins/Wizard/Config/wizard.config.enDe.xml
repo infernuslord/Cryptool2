@@ -21,6 +21,7 @@
     <description lang="en" >
       Select a modern algorithm to encrypt plaintext or to decrypt ciphertext.
     </description>
+    <file resource="wizard.config.modernEnDe.xml" />
   </category>
 
 </step>
