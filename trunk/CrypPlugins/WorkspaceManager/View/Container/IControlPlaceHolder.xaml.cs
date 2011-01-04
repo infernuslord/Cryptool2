@@ -79,6 +79,7 @@ namespace WorkspaceManager.View.Container
         void IControlPlaceHolder_Loaded(object sender, RoutedEventArgs e)
         {
             bg.DataContext = PluginModel;
+            this.ToolTip = Model.Name;
         }
 
         void IControlPlaceHolder_MouseLeave(object sender, MouseEventArgs e)
@@ -104,7 +105,16 @@ namespace WorkspaceManager.View.Container
                         DragDropDataObject obj = e.Data.GetData("Cryptool.PluginBase.Editor.DragDropDataObject") as DragDropDataObject;
                         PluginModel pluginModel = this.Model.WorkspaceModel.newPluginModel(DragDropDataObjectToPluginConverter.CreatePluginInstance(obj.AssemblyFullName, obj.TypeFullName));
                         if (obj != null)
-                            this.PluginModel = pluginModel;
+                        {
+                            foreach (ConnectorModel mod in pluginModel.InputConnectors)
+                            {
+                                if (mod.IControl && mod.ConnectorType.Name == Model.ConnectorType.Name)
+                                {
+                                    this.PluginModel = pluginModel;
+                                    break;
+                                }
+                            }
+                        }
 
                         this.Model.WorkspaceModel.WorkspaceManagerEditor.HasChanges = true;
                     }
