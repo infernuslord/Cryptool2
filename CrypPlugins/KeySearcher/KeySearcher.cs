@@ -1284,7 +1284,7 @@ namespace KeySearcher
         //Write the User Statistics to an external csv-document
         internal void WriteStatistics(String dataIdentifier)
         {
-            if (settings.CsvPath == null)
+            if (settings.CsvPath == "")
             {
                 //using the default save folder %APPDATA%\Local\Cryptool2
                 using (StreamWriter sw = new StreamWriter(string.Format("{0}\\UserRanking{1}.csv", DirectoryHelper.DirectoryLocal, dataIdentifier)))

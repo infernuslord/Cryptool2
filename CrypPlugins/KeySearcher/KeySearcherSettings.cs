@@ -13,7 +13,7 @@ namespace KeySearcher
     {
         private readonly KeySearcher keysearcher;
         private int coresUsed;
-        private string csvPath;
+        private string csvPath = "";
         private const string GroupPeerToPeer = "Peer-to-Peer network";
         private const string GroupEvaluation = "Evaluation";
         private const string GroupOpenCL = "OpenCL";
@@ -436,7 +436,7 @@ namespace KeySearcher
         [TaskPane("Default file", "Use the default folder %APPDATA%\\Local\\CrypTool2", GroupStatisticPath, 2, false, DisplayLevel.Beginner, ControlType.Button)]
         public void DefaultPath()
         {
-            csvPath = null;
+            csvPath = "";
             OnPropertyChanged("CsvPath");
         }
         #endregion
