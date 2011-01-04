@@ -21,6 +21,8 @@ using System.Windows.Threading;
 using System.Threading;
 using Cryptool.PluginBase;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
+using Cryptool.PluginBase.Control;
 namespace WorkspaceManager.View.Container
 {
     public enum PluginViewState
@@ -76,6 +78,35 @@ namespace WorkspaceManager.View.Container
             }
         }
 
+        public static readonly DependencyProperty IsSelectedDependencyProperty = DependencyProperty.Register("IsSelected", typeof(bool), typeof(PluginContainerView), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
+
+        [TypeConverter(typeof(bool))]
+        public bool IsSelected
+        {
+            get { return (bool)base.GetValue(IsSelectedDependencyProperty); }
+            set
+            {
+                base.SetValue(IsSelectedDependencyProperty, value);
+            }
+        }
+
+        public Visibility ICPanelVisibility
+        {
+            get { return (Visibility)GetValue(ICPanelVisibilityProperty); }
+            set
+            {
+                SetValue(ICPanelVisibilityProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty ICPanelVisibilityProperty =
+           DependencyProperty.Register(
+           "ICPanelVisibility",
+           typeof(Visibility),
+           typeof(PluginContainerView),
+           new UIPropertyMetadata(Visibility.Collapsed, null));
+
+
         internal Point GetRoutingPoint(int routPoint)
         {
             switch (routPoint)
@@ -120,6 +151,11 @@ namespace WorkspaceManager.View.Container
                 base.SetValue(IsFullscreenProperty, value);
             }
         }
+
+        private ObservableCollection<ModelWrapper> iCCollection = new ObservableCollection<ModelWrapper>();
+
+        public ObservableCollection<ModelWrapper> ICCollection
+        { get { return iCCollection; } }
 
         public static readonly DependencyProperty ViewStateProperty = DependencyProperty.Register("ViewState", typeof(PluginViewState), typeof(PluginContainerView), new FrameworkPropertyMetadata(PluginViewState.Min));
 
@@ -259,18 +295,49 @@ namespace WorkspaceManager.View.Container
 
             foreach (ConnectorModel ConnectorModel in model.InputConnectors)
             {
+                if (ConnectorModel.IControl)
+                    continue;
+
                 ConnectorView connector = new ConnectorView(ConnectorModel, this);
                 AddConnectorView(connector);
             }
 
             foreach (ConnectorModel ConnectorModel in model.OutputConnectors)
             {
+                if (ConnectorModel.IControl)
+                {
+                    PluginModel pm = null;
+                    if (ConnectorModel.OutputConnections.Count > 0)
+                    {
+                        pm = ConnectorModel.OutputConnections[0].To.PluginModel;
+                    }
+
+                    ICCollection.Add(new ModelWrapper(ConnectorModel, pm));
+                    continue;
+                }
                 ConnectorView connector = new ConnectorView(ConnectorModel, this);
                 AddConnectorView(connector);
             }
 
+            if (ICCollection.Count == 0)
+                IC.Visibility = Visibility.Collapsed;
+            
             DataPanel.Children.Add(new DataPresentation(connectorViewList));
             this.ViewState = Model.ViewState;
+        }
+
+        static bool IsSubclassOfRawGeneric(Type generic, Type toCheck)
+        {
+            while (toCheck != typeof(object))
+            {
+                var cur = toCheck.IsGenericType ? toCheck.GetGenericTypeDefinition() : toCheck;
+                if (generic == cur)
+                {
+                    return true;
+                }
+                toCheck = toCheck.BaseType;
+            }
+            return false;
         }
 
         void South_PreviewDragLeave(object sender, DragEventArgs e)
@@ -457,6 +524,39 @@ namespace WorkspaceManager.View.Container
             this.RenderTransform = new TranslateTransform();
             this.Icon = this.Model.getImage();
             this.PluginName.Text = model.Plugin.GetPluginInfoAttribute().Caption;
+            this.CTextBox.Text = Model.Name;
+            this.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(PluginContainerView_MouseLeftButtonDown);
+            //this.MouseEnter += new MouseEventHandler(PluginContainerView_MouseEnter);
+            //this.MouseLeave += new MouseEventHandler(PluginContainerView_MouseLeave);
+        }
+
+        //void PluginContainerView_MouseLeave(object sender, MouseEventArgs e)
+        //{
+        //    IsMouseOver = false;
+        //}
+
+        //void PluginContainerView_MouseEnter(object sender, MouseEventArgs e)
+        //{
+        //    IsMouseOver = true;
+        //}
+
+        void PluginContainerView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!Model.WorkspaceModel.SelectedPluginsList.Contains(this) && Model.WorkspaceModel.WorkspaceEditor.IsKeyMultiKeyDown)
+            {
+                Model.WorkspaceModel.SelectedPluginsList.Add(this);
+                IsSelected = true;
+            }
+            else if (!Model.WorkspaceModel.WorkspaceEditor.IsKeyMultiKeyDown)
+            {
+                foreach (PluginContainerView plugin in Model.WorkspaceModel.SelectedPluginsList)
+                {
+                    plugin.IsSelected = false;
+                }
+                Model.WorkspaceModel.SelectedPluginsList.Clear();
+                Model.WorkspaceModel.SelectedPluginsList.Add(this);
+                IsSelected = true;
+            }
         }
 
         void PluginContainerView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -788,11 +888,30 @@ namespace WorkspaceManager.View.Container
 
         private void Thumb_DragDelta_1(object sender, DragDeltaEventArgs e)
         {
-            this.SetPosition(new Point((Math.Round((Canvas.GetLeft(this) + e.HorizontalChange) / Properties.Settings.Default.GridScale)) * Properties.Settings.Default.GridScale,
-                                                            (Math.Round((Canvas.GetTop(this) + e.VerticalChange) / Properties.Settings.Default.GridScale)) * Properties.Settings.Default.GridScale));
+            foreach (PluginContainerView plugin in Model.WorkspaceModel.SelectedPluginsList)
+            {
+                plugin.SetPosition(new Point((Math.Round((Canvas.GetLeft(plugin) + e.HorizontalChange) / Properties.Settings.Default.GridScale)) * Properties.Settings.Default.GridScale,
+                                                                (Math.Round((Canvas.GetTop(plugin) + e.VerticalChange) / Properties.Settings.Default.GridScale)) * Properties.Settings.Default.GridScale));
+
+                if (plugin.GetPosition().X == 0 || plugin.GetPosition().Y == 0)
+                    break;
+            }
+
             Model.WorkspaceModel.WorkspaceManagerEditor.HasChanges = true;
         }
 
+        private void CTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Model.Name = CTextBox.Text;
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            if (ICPanelVisibility == Visibility.Visible)
+                ICPanelVisibility = Visibility.Collapsed;
+            else if (ICPanelVisibility == Visibility.Collapsed)
+                ICPanelVisibility = Visibility.Visible;
+        }
     }
 
     public class ConnectorPanelDropEventArgs : EventArgs
@@ -806,5 +925,19 @@ namespace WorkspaceManager.View.Container
     public class PluginContainerViewFullScreenViewEventArgs : EventArgs
     {
         public PluginContainerView container;
+    }
+
+    public class ModelWrapper
+    {
+        public PluginModel pm { get; private set; }
+
+        public ModelWrapper(ConnectorModel model, PluginModel pm)
+        {
+            // TODO: Complete member initialization
+            this.Model = model;
+            this.pm = pm;
+        }
+
+        public ConnectorModel Model { get; private set; }
     }
 }

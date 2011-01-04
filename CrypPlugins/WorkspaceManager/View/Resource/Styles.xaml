@@ -218,37 +218,17 @@
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-        <Setter Property="MinWidth" Value="120"/>
-        <Setter Property="MinHeight" Value="20"/>
         <Setter Property="AllowDrop" Value="true"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBoxBase}">
-                    <Border 
-          Name="Border"
-          CornerRadius="5" 
-          Padding="2"
-          Background="Transparent"
-          BorderThickness="1" >
-                        <Border.BorderBrush>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                <GradientBrush.GradientStops>
-                                    <GradientStopCollection>
-                                        <GradientStop Color="#99FFFFFF" Offset="0.0"/>
-                                        <GradientStop Color="Transparent" Offset="1.0"/>
-                                    </GradientStopCollection>
-                                </GradientBrush.GradientStops>
-                            </LinearGradientBrush>
-                        </Border.BorderBrush>
+                   
+                    <DockPanel LastChildFill="True">
+                        <Rectangle DockPanel.Dock="Left" Fill="#555" Width="1" Height="auto"></Rectangle>
+                        <Rectangle DockPanel.Dock="Top" Fill="#555" Height="1" Width="auto"></Rectangle>
                         <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Property="Background" Value="{StaticResource DisabledBackgroundBrush}"/>
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DisabledBackgroundBrush}"/>
-                            <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
+                    </DockPanel>
+                   
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

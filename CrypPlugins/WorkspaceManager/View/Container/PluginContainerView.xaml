@@ -5,6 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:e="clr-namespace:WorkspaceManager.View.VisualComponents"
              xmlns:z="clr-namespace:WorkspaceManager.View.Converter"
+             xmlns:y="clr-namespace:WorkspaceManager.View.Container"
+             xmlns:g="clr-namespace:WorkspaceManager.Model"
+             
              mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -23,6 +26,7 @@
             <z:ConnectorPanelHeightWidthConverter x:Key="ConnectorPanelHeightWidthConverter"></z:ConnectorPanelHeightWidthConverter>
             <z:CaptionWidthConverter x:Key="CaptionWidthConverter"></z:CaptionWidthConverter>
             <z:ViewStateCaptionConverter x:Key="ViewStateCaptionConverter"></z:ViewStateCaptionConverter>
+            <z:IsMouseOverColorConverter x:Key="IsMouseOverColorConverter"></z:IsMouseOverColorConverter>
 
             <Button x:Key="SettingButton" Name="SettingButton" ToolTip="Settings" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Height="30" Width="30" MouseEnter="SettingButton_MouseEnter" Click="OptionChooseHandler">
                 <Image Source="/WorkspaceManager;component/View/Image/setting.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Height="30" Width="30">
@@ -60,44 +64,6 @@
             <DockPanel.Background>
                 <SolidColorBrush Opacity="0.01" Color="#444444"></SolidColorBrush>
             </DockPanel.Background>
-            
-            <!--<Grid DockPanel.Dock="Top">
-                <StackPanel Name="ControlPanel" Visibility="Visible" Opacity="0" Orientation="Horizontal" HorizontalAlignment="Right">
-
-                    <Button x:Name="play" Height="20" Width="20" Margin="3" VerticalAlignment="Bottom" HorizontalAlignment="Left" Style="{StaticResource ResourceKey=DeletePluginContainerButtonStyle}" Click="Button_Click">
-                        <Button.LayoutTransform>
-                            <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
-                        </Button.LayoutTransform>
-                        <Image x:Name="playimg" Source="/WorkspaceManager;component/View/Image/play.png" RenderOptions.ClearTypeHint="Enabled" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
-                    </Button>
-
-                    <Button Name="MinimizeButton" Height="20" Width="20" ToolTip="Minimize" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" Click="OptionChooseHandler">
-                        <Button.LayoutTransform>
-                            <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
-                        </Button.LayoutTransform>
-                        <Image Source="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateIconConverter}}" HorizontalAlignment="Center" SnapsToDevicePixels="True">
-                            <Image.Effect>
-                                <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
-                            </Image.Effect>
-                        </Image>
-                    </Button>
-
-                    <Button x:Name="del" Height="20" Width="20" Style="{StaticResource ResourceKey=DeletePluginContainerButtonStyle}" Margin="0,0,0,5" Click="Button_Click">
-                        <Button.LayoutTransform>
-                            <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
-                        </Button.LayoutTransform>
-                        <Image Source="/WorkspaceManager;component/View/Image/delete.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
-                    </Button>
-                </StackPanel>
-            </Grid>-->
-            
-            
-            
-        
-            <!--<Border DockPanel.Dock="Bottom" Height="10" Width="{Binding ElementName=PresentationPanel, Path=ActualWidth}" Background="#82bbef" BorderBrush="#4c71bf" BorderThickness="1" Opacity="0.5" Margin="0,0,0,0">
-                <StackPanel/>
-            </Border>-->
-
             <Grid Name="MainGrid" Margin="5.5">
                 <Grid Name="ConnectorPanel" Panel.ZIndex="11111111">
                     <StackPanel x:Name="West" Background="{StaticResource ResourceKey=CheatBrush}" Panel.ZIndex="11112"  Orientation="Vertical" HorizontalAlignment="Left" Width="20" Margin="5,0,0,0">
@@ -149,16 +115,16 @@
                                 </Grid>
                             </Grid>
                             <Grid Panel.ZIndex="1000" x:Name="ProgressPercentageRoot">
-                                <StackPanel Margin="-13" x:Name="ProgressPercentage" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                                <StackPanel Margin="6" x:Name="ProgressPercentage" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Bottom">
                                     <StackPanel.RenderTransform>
                                         <TranslateTransform Y="7"></TranslateTransform>
                                     </StackPanel.RenderTransform>
-                                    <TextBlock Name="Percentage" FontFamily="IrisUPC" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="ExtraBold" Foreground="#333" Text="{Binding ElementName=ProgressBar, Path=Value, Converter={StaticResource ResourceKey=PercentageConverter}, FallbackValue=error}" >
+                                    <TextBlock Name="Percentage" FontFamily="Tahoma" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="ExtraBold" Foreground="#aa000000" Text="{Binding ElementName=ProgressBar, Path=Value, Converter={StaticResource ResourceKey=PercentageConverter}, FallbackValue=error}" >
                                         <TextBlock.Effect>
                                             <DropShadowEffect Direction="0" BlurRadius="3" ShadowDepth="0" Color="White"></DropShadowEffect>
                                         </TextBlock.Effect>
                                     </TextBlock>
-                                    <TextBlock FontSize="20" FontFamily="IrisUPC" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="ExtraBold" Foreground="Black" Text="%">
+                                    <TextBlock FontSize="20" FontFamily="IrisUPC" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="ExtraBold" Foreground="#aa000000" Text="%">
                                         <TextBlock.Effect>
                                             <DropShadowEffect Direction="0" BlurRadius="3" ShadowDepth="0" Color="White"></DropShadowEffect>
                                         </TextBlock.Effect>
@@ -166,7 +132,13 @@
                                 </StackPanel>
                             </Grid>
                             <DockPanel Name="InnerWindow" LastChildFill="True" Margin="5">
-                                <Border CornerRadius="5,5,5,5" BorderThickness="0.9" BorderBrush="#444444">
+                                <Border CornerRadius="5,5,5,5" BorderThickness="1.3">
+                                    <Border.BorderBrush>
+                                        <MultiBinding Converter="{StaticResource IsMouseOverColorConverter}">
+                                            <Binding Path="IsMouseOver"/>
+                                            <Binding Path="IsSelected"/>
+                                        </MultiBinding>
+                                    </Border.BorderBrush>
                                     <Border CornerRadius="5,5,5,5" BorderThickness="1.2">
                                         <Border.Background>
                                             <LinearGradientBrush Opacity="1" StartPoint="0,0" EndPoint="0,1">
@@ -232,7 +204,35 @@
                                                         <Border Background="#22888888" Panel.ZIndex="-1001"/>
                                                     </Grid>
                                         
-                                                    <DockPanel DockPanel.Dock="Top" LastChildFill="True">
+                                                    <DockPanel DockPanel.Dock="Top" LastChildFill="True" >
+                                                        <DockPanel x:Name="IC" DockPanel.Dock="Top" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=OptionPanel}">
+                                                            <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding Path=ICCollection}" Visibility="{Binding Path=ICPanelVisibility}">
+                                                                <ItemsControl.ItemsPanel>
+                                                                    <ItemsPanelTemplate>
+                                                                        <WrapPanel Background="#77FFFFFF" Width="auto" Height="35" HorizontalAlignment="Center"/>
+                                                                    </ItemsPanelTemplate>
+                                                                </ItemsControl.ItemsPanel>
+                                                                <ItemsControl.ItemTemplate>
+                                                                    <DataTemplate DataType="{x:Type y:ModelWrapper}">
+                                                                        <y:IControlPlaceHolder Model="{Binding Path=Model}" PluginModel="{Binding Path=pm}" Margin="5"></y:IControlPlaceHolder>
+                                                                    </DataTemplate>
+                                                                </ItemsControl.ItemTemplate>
+                                                                <!--<ItemsControl.ItemContainerStyle>
+                                                                    <Style>
+                                                                        <Setter Property="Canvas.Top" Value="{Binding Path=Y}" />
+                                                                        <Setter Property="Canvas.Left" Value="{Binding Path=X}" />
+                                                                    </Style>
+                                                                </ItemsControl.ItemContainerStyle>-->
+                                                            </ItemsControl>
+                                                            <Border Background="{StaticResource ResourceKey=ICBrush}">
+                                                                <Button Content="»" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Click_2">
+                                                                    <Button.LayoutTransform>
+                                                                        <RotateTransform Angle="-90"></RotateTransform>
+                                                                    </Button.LayoutTransform>
+                                                                </Button>
+                                                            </Border>
+                                                        </DockPanel>
+
                                                         <Grid x:Name="OptPanelParent" DockPanel.Dock="Top">
                                                             <Border Margin="0,10,0,0" x:Name="IconPanel" Visibility="{Binding ElementName=ViewPanel, Path=Visibility, Converter={StaticResource ResourceKey=VisibilityConverter}}" ></Border>
                                                             <Thumb DragDelta="Thumb_DragDelta_1" Style="{StaticResource ResourceKey=NormalThumbStyle}"/>
@@ -331,7 +331,7 @@
                 </Grid>
             </Grid>
         </DockPanel>
-        <TextBox x:Name="CTextBox" DockPanel.Dock="Bottom" Foreground="Black" FontSize="14" Opacity="0" HorizontalAlignment="Left" Style="{StaticResource ResourceKey=BasicTextBoxStyle}" Width="120" Margin="40,0,0,0" FontFamily="Palatino"></TextBox>
+        <TextBox x:Name="CTextBox" DockPanel.Dock="Bottom" Foreground="Black" FontSize="12" Opacity="0.5" HorizontalAlignment="Left" TextChanged="CTextBox_TextChanged" Style="{StaticResource ResourceKey=BasicTextBoxStyle}" Width="120" Height="18" Margin="0,-10,0,0" FontFamily="Palatino"></TextBox>
         
         
         <!--<Popup x:Name="BubblePopup" PopupAnimation="Fade" HorizontalOffset="-50" VerticalOffset="25" PlacementTarget="{Binding ElementName=ControlPanel}" Placement="Top" StaysOpen="False" AllowsTransparency="True" Width="300" Height="120">

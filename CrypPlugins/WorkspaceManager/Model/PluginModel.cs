@@ -175,6 +175,8 @@ namespace WorkspaceManager.Model
         /// </summary>
         public void generateConnectors()
         {
+            InputConnectors.Clear();
+            OutputConnectors.Clear();
 
             if (Plugin != null)
             {   

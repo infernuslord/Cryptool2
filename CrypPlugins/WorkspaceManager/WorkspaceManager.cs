@@ -227,22 +227,22 @@ namespace WorkspaceManager
 
         public void Cut()
         {
-            throw new NotImplementedException();
+           
         }
 
         public void Copy()
         {
-            throw new NotImplementedException();
+            
         }
 
         public void Paste()
         {
-            throw new NotImplementedException();
+            
         }
 
         public void Remove()
         {
-            throw new NotImplementedException();
+            
         }
 
         public void Print()
@@ -254,7 +254,7 @@ namespace WorkspaceManager
                 double dy = m.M22 * 96;
                 this.GuiLogMessage("dx=" + dx + " dy=" + dy, NotificationLevel.Debug);
                 const int factor = 4;
-                ModifiedCanvas control = (ModifiedCanvas)((WorkSpaceEditorView)this.Presentation).ViewBox.Content;
+                ModifiedCanvas control = (ModifiedCanvas)((WorkSpaceEditorView)this.Presentation).scrollViewer.Content;
                 PrintDialog dialog = new PrintDialog();
                 dialog.PageRangeSelection = PageRangeSelection.AllPages;
                 dialog.UserPageRangeEnabled = true;
@@ -786,7 +786,8 @@ namespace WorkspaceManager
 
 
         public void Active()
-        {            
+        {
+            var b = true;
         }
 
         #endregion

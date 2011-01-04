@@ -20,66 +20,69 @@
             <z:BlurIconConverter x:Key="BlurIconConverter"></z:BlurIconConverter>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid x:Name="MainGrid">
+    <ContentControl x:Name="Main" Background="Aqua">
+        <Grid x:Name="MainGrid">
 
-        <Grid Background="{StaticResource ResourceKey=NormalBrush}">
-            <!--<Grid.Background>
+            <Grid Background="{StaticResource ResourceKey=NormalBrush}">
+                <!--<Grid.Background>
                 <ImageBrush ImageSource="/WorkspaceManager;component/View/Image/bg.png" Opacity="0.95" Stretch="UniformToFill"/>
             </Grid.Background>-->
-            <Grid.Effect>
-                <BlurEffect Radius="{Binding ElementName=InformationPanel, Path=Visibility, Converter={StaticResource ResourceKey=BlurIconConverter}}"></BlurEffect>
-            </Grid.Effect>
-            <Border>
-                <Grid Name="ViewBoxParent">
-                    <ScrollViewer x:Name="ViewBox" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                        <e:ModifiedCanvas RenderTransformOrigin="0.5, 0.5" MouseLeftButtonDown="root_MouseLeftButtonDown" MouseMove="WorkSpaceEditorView_MouseMove">
-                            <Thumb Style="{StaticResource ResourceKey=NormalThumbStyle}" DragDelta="Thumb_DragDelta" DragStarted="Thumb_DragStarted" Width="{Binding Path=ActualWidth}" Height="{Binding Path=ActualHeight}"></Thumb>
-                            <Grid Name="UserControlWrapperParent" Width="{Binding Path=ActualWidth}" Height="{Binding Path=ActualHeight}"/>
-                            <e:ModifiedCanvas.LayoutTransform>
-                                <ScaleTransform x:Name="RootScale" ScaleX="{Binding Source={x:Static p:Settings.Default}, Path=EditScale, Mode=OneWay}" ScaleY="{Binding Source={x:Static p:Settings.Default}, Path=EditScale, Mode=OneWay}"></ScaleTransform>
-                            </e:ModifiedCanvas.LayoutTransform>
-                        </e:ModifiedCanvas>
-                    </ScrollViewer>
-                    
-                    <Border x:Name="BottomBoxParent" VerticalAlignment="Bottom">
-                        <e:BottomBox></e:BottomBox>
-                    </Border>
-                </Grid>
-            </Border>
-        </Grid>
+                <Grid.Effect>
+                    <BlurEffect Radius="{Binding ElementName=InformationPanel, Path=Visibility, Converter={StaticResource ResourceKey=BlurIconConverter}}"></BlurEffect>
+                </Grid.Effect>
+                <Border>
+                    <DockPanel Name="ViewBoxParent" LastChildFill="True">
+                        <Border x:Name="BottomBoxParent" DockPanel.Dock="Bottom">
+                            <e:BottomBox></e:BottomBox>
+                        </Border>
+                        <ScrollViewer x:Name="scrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                            <e:ModifiedCanvas RenderTransformOrigin="0.5, 0.5" MouseLeftButtonDown="root_MouseLeftButtonDown" MouseMove="WorkSpaceEditorView_MouseMove">
+                                <Thumb Style="{StaticResource ResourceKey=NormalThumbStyle}" DragDelta="Thumb_DragDelta" DragStarted="Thumb_DragStarted" Width="{Binding Path=ActualWidth}" Height="{Binding Path=ActualHeight}"></Thumb>
+                                <Grid Name="UserControlWrapperParent" Width="{Binding Path=ActualWidth}" Height="{Binding Path=ActualHeight}"/>
+                                <e:ModifiedCanvas.LayoutTransform>
+                                    <ScaleTransform x:Name="RootScale" ScaleX="{Binding Source={x:Static p:Settings.Default}, Path=EditScale, Mode=OneWay}" ScaleY="{Binding Source={x:Static p:Settings.Default}, Path=EditScale, Mode=OneWay}"></ScaleTransform>
+                                </e:ModifiedCanvas.LayoutTransform>
+                            </e:ModifiedCanvas>
+                        </ScrollViewer>
 
-        <Grid Width="auto" Height="auto" Name="InformationPanel" Visibility="Hidden">
-            <Grid.Background>
-                <SolidColorBrush Opacity="0.2" Color="Gray"/>
-            </Grid.Background>
-            <Grid x:Name="ProgressbarPanel" Height="40" VerticalAlignment="Bottom">
-                <Grid x:Name="PercentageTextPanel" VerticalAlignment="Center" HorizontalAlignment="Center"></Grid>
+                    </DockPanel>
+                </Border>
             </Grid>
-            <DockPanel LastChildFill="True">
-                <DockPanel DockPanel.Dock="Top">
-                    <DockPanel.Background>
-                        <SolidColorBrush Color="Black" Opacity="0.3"></SolidColorBrush>
-                    </DockPanel.Background>
-                    <TextBlock DockPanel.Dock="Left" Text="Fullscreen" Foreground="WhiteSmoke" FontSize="20" Padding="5"></TextBlock>
-                    <Button DockPanel.Dock="Right" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" Name="CloseSettingsButton" Height="30" Width="30" Click="CloseButton_Click" Margin="5">
-                        <Image Source="/WorkspaceManager;component/View/Image/delete.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
-                    </Button>
-                    <Grid></Grid>
-                </DockPanel>
-                <Grid DockPanel.Dock="Top" x:Name="CtrPanel" HorizontalAlignment="Stretch" Width="auto">
-                    <Grid.Background>
-                        <SolidColorBrush Color="Gray" Opacity="0.1"></SolidColorBrush>
-                    </Grid.Background>
-                </Grid>
-                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="40">
-                    <Grid x:Name="PrstPanel" Panel.ZIndex="-100">
-                        <Grid.LayoutTransform>
-                            <ScaleTransform x:Name="Scale2" ScaleX="{Binding Source={x:Static p:Settings.Default}, Path=FullscreenScale, Mode=OneWay}" ScaleY="{Binding Source={x:Static p:Settings.Default}, Path=FullScreenScale, Mode=OneWay}"></ScaleTransform>
-                        </Grid.LayoutTransform>
-                    </Grid>
-                </ScrollViewer>
-            </DockPanel>
 
+            <Grid Width="auto" Height="auto" Name="InformationPanel" Visibility="Hidden">
+                <Grid.Background>
+                    <SolidColorBrush Opacity="0.2" Color="Gray"/>
+                </Grid.Background>
+                <Grid x:Name="ProgressbarPanel" Height="40" VerticalAlignment="Bottom">
+                    <Grid x:Name="PercentageTextPanel" VerticalAlignment="Center" HorizontalAlignment="Center"></Grid>
+                </Grid>
+                <DockPanel LastChildFill="True">
+                    <DockPanel DockPanel.Dock="Top">
+                        <DockPanel.Background>
+                            <SolidColorBrush Color="Black" Opacity="0.3"></SolidColorBrush>
+                        </DockPanel.Background>
+                        <TextBlock DockPanel.Dock="Left" Text="Fullscreen" Foreground="WhiteSmoke" FontSize="20" Padding="5"></TextBlock>
+                        <Button DockPanel.Dock="Right" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" Name="CloseSettingsButton" Height="30" Width="30" Click="CloseButton_Click" Margin="5">
+                            <Image Source="/WorkspaceManager;component/View/Image/delete.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
+                        </Button>
+                        <Grid></Grid>
+                    </DockPanel>
+                    <Grid DockPanel.Dock="Top" x:Name="CtrPanel" HorizontalAlignment="Stretch" Width="auto">
+                        <Grid.Background>
+                            <SolidColorBrush Color="Gray" Opacity="0.1"></SolidColorBrush>
+                        </Grid.Background>
+                    </Grid>
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="40">
+                        <Grid x:Name="PrstPanel" Panel.ZIndex="-100">
+                            <Grid.LayoutTransform>
+                                <ScaleTransform x:Name="Scale2" ScaleX="{Binding Source={x:Static p:Settings.Default}, Path=FullscreenScale, Mode=OneWay}" ScaleY="{Binding Source={x:Static p:Settings.Default}, Path=FullScreenScale, Mode=OneWay}"></ScaleTransform>
+                            </Grid.LayoutTransform>
+                        </Grid>
+                    </ScrollViewer>
+                </DockPanel>
+
+            </Grid>
         </Grid>
-    </Grid>
+    </ContentControl>
+
 </UserControl>
