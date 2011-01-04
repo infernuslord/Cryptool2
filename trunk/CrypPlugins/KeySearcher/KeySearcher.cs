@@ -1248,7 +1248,7 @@ namespace KeySearcher
             {
                 //taking the dictionary in this avatarname
                 Dictionary<long, Information> MaschCount = updatedStatistics[avname];
-
+                
                 //if the avatarname already exists in the statistics
                 if (statistic.ContainsKey(avname))
                 {
@@ -1280,8 +1280,11 @@ namespace KeySearcher
                     //add the maschinecount dictionary to this avatarname
                     statistic[avname] = MaschCount;
                 }
+
+                statistic[avname] = statistic[avname].OrderByDescending((x) => x.Value.Count).ToDictionary(x => x.Key, y => y.Value);
             }          
             WriteStatistics(dataIdentifier);
+
             ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.Statistics = statistic;
             updateToplist();
         }

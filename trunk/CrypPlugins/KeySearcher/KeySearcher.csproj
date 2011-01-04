@@ -124,6 +124,7 @@
     <Compile Include="OpenCL\KeySearcherOpenCLCode.cs" />
     <Compile Include="P2P\Helper\ConnectionHelper.cs" />
     <Compile Include="P2P\Helper\DatabaseStatistics.cs" />
+    <Compile Include="P2P\Helper\WidthConverter.cs" />
     <Compile Include="P2P\Presentation\StatisticsGenerator.cs" />
     <Compile Include="P2P\Presentation\StatusContainer.cs" />
     <Compile Include="P2P\Exceptions\KeySearcherStopException.cs" />
