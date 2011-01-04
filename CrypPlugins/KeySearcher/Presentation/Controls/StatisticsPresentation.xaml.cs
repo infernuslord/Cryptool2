@@ -30,8 +30,33 @@ namespace KeySearcherPresentation.Controls
             if (StatisticsPresentation != null)
             {
                 double allCount = (StatisticsPresentation.Statistics).Sum(i => i.Value.Sum(j => j.Value.Count));
-                double vCount = ((Dictionary<long, Information>) value).Sum(i => i.Value.Count);
-                return vCount/allCount;
+                double vCount = ((Dictionary<long, Information>)value).Sum(i => i.Value.Count);
+                return vCount / allCount;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    [ValueConversion(typeof(string), typeof(Double))]
+    class ChunkSumConverter : IValueConverter
+    {
+        public StatisticsPresentation StatisticsPresentation { get; set; }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (StatisticsPresentation != null)
+            {
+                string key = (string) value;
+                var data = (StatisticsPresentation.Statistics)[key];
+                return data.Sum(i => i.Value.Count);
             }
             else
             {
@@ -79,6 +104,10 @@ namespace KeySearcherPresentation.Controls
             InitializeComponent();
             ((InformationToProgressConverter)Resources["InformationToProgressConverter"]).StatisticsPresentation = this;
             ((InformationToProgressConverter2)Resources["InformationToProgressConverter2"]).StatisticsPresentation = this;
+            ((ChunkSumConverter)Resources["ChunkSumConverter"]).StatisticsPresentation = this;
+
+
+
 
             //statisticsTree.Items.SortDescriptions.Add(new SortDescription("ItemTemplate.VisualTree.Children[0].Value", ListSortDirection.Ascending));
         }
@@ -91,9 +120,10 @@ namespace KeySearcherPresentation.Controls
             {
                 statistics = value;
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                                                {
-                                                    statisticsTree.DataContext = Statistics;
-                                                    statisticsTree.Items.Refresh();
+                                               {
+                                                   var orderedstats = statistics.OrderByDescending((x) => x.Value.Sum((z) => z.Value.Count));
+                                                   statisticsTree.DataContext = orderedstats;
+                                                   statisticsTree.Items.Refresh();
                                                 }, null);
 
             }
