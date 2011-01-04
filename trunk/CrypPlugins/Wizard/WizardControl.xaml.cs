@@ -25,6 +25,7 @@ namespace Wizard
 
         private string culture = System.Globalization.CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
         private const string configXMLPath = "Wizard.Config.wizard.config.start.xml";
+        private const string defaultLang = "en";
         private XElement wizardConfigXML;
 
         public WizardControl()
@@ -44,7 +45,7 @@ namespace Wizard
             InitializeComponent();
         }
 
-        // Generate the full XML tree for the wizard 
+        // generate the full XML tree for the wizard (recursive)
         private void GenerateXML(XElement xml)
         {
             try
@@ -66,21 +67,19 @@ namespace Wizard
                                     string path = "Wizard.Config." + att.Value;
                                     Stream fileStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(path);
                                     XElement sub = XElement.Load(fileStream);
+                                    GenerateXML(sub);
                                     IEnumerable<XElement> elems = sub.Elements();
                                     if (elems.Any())
                                     {
                                         foreach (XElement ele in elems)
                                         {
                                             cat.Add(ele);
-                                        } 
+                                        }
                                     }
                                 }
                             }
                         }
-
-                        GenerateXML(cat);
-
-                    } 
+                    }
                 }
 
                 wizardConfigXML = xml;

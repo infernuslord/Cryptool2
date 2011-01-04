@@ -172,11 +172,20 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Config\wizard.config.enDe.xml" />
+    <EmbeddedResource Include="Config\wizard.config.enDe.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Config\wizard.config.analysis.xml" />
-    <EmbeddedResource Include="Config\wizard.config.indiv.xml" />
+    <EmbeddedResource Include="Config\wizard.config.indiv.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Config\wizard.config.modernEnDe.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
