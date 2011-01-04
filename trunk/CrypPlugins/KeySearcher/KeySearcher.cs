@@ -1228,6 +1228,11 @@ namespace KeySearcher
         {
             return statistic;
         }
+        public void ResetStatistics()
+        {
+            statistic = null;
+            statistic = new Dictionary<string, Dictionary<long, Information>>();
+        }
 
         internal void IntegrateNewResults(LinkedList<ValueKey> updatedCostList, Dictionary<string, Dictionary<long, Information>> updatedStatistics, string dataIdentifier)
         {
