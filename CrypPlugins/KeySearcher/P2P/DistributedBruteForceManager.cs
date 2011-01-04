@@ -72,34 +72,29 @@ namespace KeySearcher.P2P
             }
 
             status.CurrentOperation = "Initializing distributed key pool tree";
-            try
-            {
-                keyPoolTree = new KeyPoolTree(patternPool, keySearcher, keyQualityHelper, keyGenerator, status, StatisticsGenerator);
-            }
-            catch (KeySearcherStopException)
-            {
-                status.CurrentOperation = "PLEASE UPDATE";
-                keySearcher.GuiLogMessage("Keysearcher Fullstop.Please Update your Version.", NotificationLevel.Error);
-                keySearcher.Stop();
-                throw new KeySearcherStopException();
-            }
+            InitializeTree();
             
-
-            keySearcher.GuiLogMessage(
-                "Total amount of patterns: " + patternPool.Length + ", each containing " + patternPool.PartSize +
-                " keys.", NotificationLevel.Info);
-            status.CurrentOperation = "Ready for calculation";
-
-            status.StartDate = keyPoolTree.StartDate();
-            status.JobSubmitterID = keyPoolTree.SubmitterID();
-            status.LocalFinishedChunks = FindLocalPatterns();
-
-            keyPoolTree.UpdateStatusForNewCalculation();
-            keySearcher.SetInitialized(true);
-
+            bool statupdate = false;
             Leaf currentLeaf;
+            var statisticTimer = new Timer { Interval = 30 * 60 * 1000 };    //Update of the statistics after every 30 minutes
+            statisticTimer.Start();
+
             while (!keySearcher.stop)
             {
+                if(statupdate)
+                {
+                    statisticTimer.Stop();
+                    statisticTimer.Dispose();
+                    keyPoolTree.Reset();
+                    keySearcher.ResetStatistics();
+                    keySearcher.SetInitialized(false);
+                    status.CurrentOperation = "Updating statistic";
+                    InitializeTree();
+                    statupdate = false;
+                    statisticTimer = new Timer { Interval = 30 * 60 * 1000 };
+                    statisticTimer.Start();
+                }
+
                 status.IsCurrentProgressIndeterminate = true;
 
                 BigInteger displayablePatternId;
@@ -169,6 +164,11 @@ namespace KeySearcher.P2P
                                                                             }
                                                                             status.CurrentOperation = oldMessage;
                                                                         });
+
+                statisticTimer.Elapsed += new ElapsedEventHandler(delegate
+                                                                      {
+                                                                          statupdate = true;
+                                                                      });
 
                 keySearcher.GuiLogMessage(
                     "Running pattern #" + displayablePatternId + " of " + patternPool.Length,
@@ -277,6 +277,8 @@ namespace KeySearcher.P2P
             status.IsSearchingForReservedNodes = false;
             status.IsCurrentProgressIndeterminate = false;
             status.CurrentOperation = "Idle";
+            statisticTimer.Stop();
+            statisticTimer.Dispose();
             status.RemainingTimeTotal = new TimeSpan(0);
         }
 
@@ -295,6 +297,34 @@ namespace KeySearcher.P2P
                 }
             }
             return 0;
+        }
+
+        private void InitializeTree()
+        {
+            try
+            {
+                keyPoolTree = new KeyPoolTree(patternPool, keySearcher, keyQualityHelper, keyGenerator, status, StatisticsGenerator);
+            }
+            catch (KeySearcherStopException)
+            {
+                status.CurrentOperation = "PLEASE UPDATE";
+                keySearcher.GuiLogMessage("Keysearcher Fullstop.Please Update your Version.", NotificationLevel.Error);
+                keySearcher.Stop();
+                throw new KeySearcherStopException();
+            }
+
+
+            keySearcher.GuiLogMessage(
+                "Total amount of patterns: " + patternPool.Length + ", each containing " + patternPool.PartSize +
+                " keys.", NotificationLevel.Info);
+            status.CurrentOperation = "Ready for calculation";
+
+            status.StartDate = keyPoolTree.StartDate();
+            status.JobSubmitterID = keyPoolTree.SubmitterID();
+            status.LocalFinishedChunks = FindLocalPatterns();
+
+            keyPoolTree.UpdateStatusForNewCalculation();
+            keySearcher.SetInitialized(true);
         }
 
         void P2PBase_OnSystemJoined()
