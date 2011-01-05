@@ -88,7 +88,7 @@ namespace KeySearcher.P2P.Tree
 
         private void IntegrateResultsIntoParent()
         {
-            var bestValue = double.MinValue;
+            var bestValue = KeyQualityHelper.WorstValue();
             if (ParentNode.Result.Count > 0)
             {
                 bestValue = ParentNode.Result.First.Value.value;

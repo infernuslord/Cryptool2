@@ -11,6 +11,18 @@ namespace KeySearcher.Helper
             this.costFunction = costFunction;
         }
 
+        public double WorstValue()
+        {
+            if (costFunction.getRelationOperator() == RelationOperator.LargerThen)
+            {
+                return double.MinValue;
+            }
+            else
+            {
+                return double.MaxValue;
+            }
+        }
+
         public bool IsBetter(double value, double threshold)
         {
             if (costFunction.getRelationOperator() == RelationOperator.LargerThen)
