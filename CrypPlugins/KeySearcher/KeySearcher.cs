@@ -51,6 +51,7 @@ namespace KeySearcher
         /// used for creating the UserStatistics
         /// </summary>
         private Dictionary<string, Dictionary<long, Information>> statistic;
+        private Dictionary<long, Maschinfo> maschinehierarchie;
         private bool initialized;
         /// <summary>
         /// used for creating the TopList
@@ -739,6 +740,7 @@ namespace KeySearcher
             valuequeue = Queue.Synchronized(new Queue());
 
             statistic = new Dictionary<string, Dictionary<long, Information>>();
+            maschinehierarchie = new Dictionary<long, Maschinfo>();
             initialized = false;
 
             stop = false;
@@ -1224,14 +1226,18 @@ namespace KeySearcher
         {
             this.initialized = ini;
         }
+
         public Dictionary<string, Dictionary<long, Information>> GetStatistics()
         {
             return statistic;
         }
+
         public void ResetStatistics()
         {
             statistic = null;
             statistic = new Dictionary<string, Dictionary<long, Information>>();
+            maschinehierarchie = null;
+            maschinehierarchie = new Dictionary<long, Maschinfo>();
         }
 
         internal void IntegrateNewResults(LinkedList<ValueKey> updatedCostList, Dictionary<string, Dictionary<long, Information>> updatedStatistics, string dataIdentifier)
@@ -1280,12 +1286,16 @@ namespace KeySearcher
                     //add the maschinecount dictionary to this avatarname
                     statistic[avname] = MaschCount;
                 }
-
                 statistic[avname] = statistic[avname].OrderByDescending((x) => x.Value.Count).ToDictionary(x => x.Key, y => y.Value);
-            }          
+            }
+            GenerateMaschineStats();
             WriteStatistics(dataIdentifier);
 
             ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.Statistics = statistic;
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//TODO "maschinehierarchie" in Quickwatch einfügen. Bereits sortiert ;-) Sum = Anzahl Chunks total ; Hostname = Computername ; Users = String mit Avatarnamen der User dieses Rechners
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
             updateToplist();
         }
 
@@ -1322,6 +1332,57 @@ namespace KeySearcher
                     }
                 }
             }
+
+            /*
+            //For testing purpose. This writes the Maschinestatistics to the main folder if no different path was chosen--------
+            if (settings.CsvPath == "")
+            {
+                //using the default save folder %APPDATA%\Local\Cryptool2
+                using (StreamWriter sw = new StreamWriter(string.Format("{0}\\Maschine{1}.csv", DirectoryHelper.DirectoryLocal, dataIdentifier)))
+                {
+                    sw.WriteLine("Maschineid" + ";" + "Name" + ";" + "Sum" + ";" + "Users");
+
+                        foreach (long mID in maschinehierarchie.Keys)
+                        {
+                            sw.WriteLine(mID + ";" + maschinehierarchie[mID].Hostname + ";" + maschinehierarchie[mID].Sum + ";" + maschinehierarchie[mID].Users);
+                        }
+                    
+                }
+            }
+            //-------------
+            */
+             
+        }
+
+        internal void GenerateMaschineStats()
+        {
+            maschinehierarchie = null;
+            maschinehierarchie = new Dictionary<long, Maschinfo>();
+
+            foreach (string avatar in statistic.Keys)
+            {
+                Dictionary<long, Information> Maschines = statistic[avatar];
+
+                //add the maschine count to the maschinestatistics
+                foreach (long mid in Maschines.Keys)
+                {
+                    //if the maschine exists in maschinestatistic add it to the sum
+                    if (maschinehierarchie.ContainsKey(mid))
+                    {
+
+                        maschinehierarchie[mid].Sum = maschinehierarchie[mid].Sum + Maschines[mid].Count;
+                        maschinehierarchie[mid].Hostname = Maschines[mid].Hostname;
+                        maschinehierarchie[mid].Users = maschinehierarchie[mid].Users + avatar + ", ";
+                    }
+                    else
+                    {
+                        //else make a new entry
+                        maschinehierarchie.Add(mid, new Maschinfo() { Sum = Maschines[mid].Count , Hostname = Maschines[mid].Hostname , Users = "" + avatar + ", "});
+                    }
+                }
+            }
+
+            maschinehierarchie = maschinehierarchie.OrderByDescending((x) => x.Value.Sum).ToDictionary(x => x.Key, y => y.Value);
         }
 
         internal void updateToplist()
@@ -1539,5 +1600,14 @@ namespace KeySearcher
         public int Count { get; set; }
         public string Hostname { get; set; }
         public DateTime Date { get; set; }
+    }
+    /// <summary>
+    /// Represents one entry in our maschine statistic list
+    /// </summary>
+    public class Maschinfo
+    {
+        public int Sum { get; set; }
+        public string Hostname { get; set; }
+        public string Users { get; set; }
     } 
 }
