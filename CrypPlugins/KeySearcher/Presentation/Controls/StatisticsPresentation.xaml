@@ -9,6 +9,7 @@
     <UserControl.Resources>
         <Controls:InformationToProgressConverter x:Key="InformationToProgressConverter"/>
         <Controls:InformationToProgressConverter2 x:Key="InformationToProgressConverter2"/>
+        <Controls:MachineSumToProgressConverter x:Key="MachineSumToProgressConverter"/>
         <Controls:ChunkSumConverter x:Key="ChunkSumConverter"></Controls:ChunkSumConverter>
         <g:WidthConverter x:Key="WidthConverter"></g:WidthConverter>
         <AlternationConverter x:Key="TeamsBackgroundConverter">
@@ -18,48 +19,65 @@
         </AlternationConverter>
     </UserControl.Resources>
     
-    <Grid>
-        <TreeView HorizontalAlignment="Stretch" Name="statisticsTree" VerticalAlignment="Stretch" ItemsSource="{Binding}" AlternationCount="3">
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Path=Value}">
-                    <HierarchicalDataTemplate.ItemTemplate>
-                        <HierarchicalDataTemplate ItemsSource="{Binding}">
-                            <StackPanel Orientation="Horizontal" Margin="1">
-                                <!--<Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="200" />
-                                    <ColumnDefinition Width="5" />
-                                    <ColumnDefinition/>                                   
-                                </Grid.ColumnDefinitions>-->
-                                <Grid>
-                                    <ProgressBar Foreground="{Binding RelativeSource={RelativeSource FindAncestor,  AncestorLevel=2, AncestorType={x:Type TreeViewItem}},Path=(ItemsControl.AlternationIndex),Converter={StaticResource ResourceKey=TeamsBackgroundConverter}}" Value="{Binding Path=Value.Count, Mode=OneTime, Converter={StaticResource ResourceKey=InformationToProgressConverter2}}" Width="{Binding ElementName=statisticsTree, Path=ActualWidth, Converter={StaticResource ResourceKey=WidthConverter}}" Maximum="1" />
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <TextBlock Text="Chunks: "/>
-                                        <TextBlock Text="{Binding Path=Value.Count, StringFormat=\{0\,-5\}}"/>
-                                    </StackPanel>
-                                </Grid>
-                                <TextBlock Text="{Binding Path=Value.Hostname}" Grid.Column="3"/>
-                            </StackPanel>
-                        </HierarchicalDataTemplate>
-                    </HierarchicalDataTemplate.ItemTemplate>
+    <TabControl>
+        <TabItem Header="Users">
+            <TreeView HorizontalAlignment="Stretch" Name="statisticsTree" VerticalAlignment="Stretch" ItemsSource="{Binding}" AlternationCount="3">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Path=Value}">
+                        <HierarchicalDataTemplate.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Margin="1">
+                                    <Grid>
+                                        <ProgressBar Foreground="{Binding RelativeSource={RelativeSource FindAncestor,  AncestorLevel=2, AncestorType={x:Type TreeViewItem}},Path=(ItemsControl.AlternationIndex),Converter={StaticResource ResourceKey=TeamsBackgroundConverter}}" Value="{Binding Path=Value.Count, Mode=OneTime, Converter={StaticResource ResourceKey=InformationToProgressConverter2}}" Width="{Binding ElementName=statisticsTree, Path=ActualWidth, Converter={StaticResource ResourceKey=WidthConverter}}" Maximum="1" />
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Text="Chunks: "/>
+                                            <TextBlock Text="{Binding Path=Value.Count, StringFormat=\{0\,-5\}}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    <TextBlock Text="{Binding Path=Value.Hostname}" Grid.Column="3"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </HierarchicalDataTemplate.ItemTemplate>
 
 
-                    <StackPanel Orientation="Horizontal" Margin="1">
-                        <!--<Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="200" />
-                                    <ColumnDefinition Width="5" />
-                                    <ColumnDefinition/>                                   
-                                </Grid.ColumnDefinitions>-->
-                        <Grid>
-                            <ProgressBar x:Name="Bar" Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeViewItem}},Path=(ItemsControl.AlternationIndex),Converter={StaticResource ResourceKey=TeamsBackgroundConverter}}" Value="{Binding Path=Value, Mode=OneTime, Converter={StaticResource ResourceKey=InformationToProgressConverter}}" Width="{Binding ElementName=statisticsTree, Path=ActualWidth, Converter={StaticResource ResourceKey=WidthConverter}}" Maximum="1" />
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <TextBlock Text="Chunks: "/>
-                                <TextBlock Text="{Binding Path=Key, Converter={StaticResource ResourceKey=ChunkSumConverter}, StringFormat=\{0\,-5\}}"/>
-                            </StackPanel>
-                        </Grid>
-                        <TextBlock Text="{Binding Path=Key}"/>
-                    </StackPanel>
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
-        </TreeView>
-    </Grid>
+                        <StackPanel Orientation="Horizontal" Margin="1">
+                            <Grid>
+                                <ProgressBar x:Name="Bar" Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeViewItem}},Path=(ItemsControl.AlternationIndex),Converter={StaticResource ResourceKey=TeamsBackgroundConverter}}" Value="{Binding Path=Value, Mode=OneTime, Converter={StaticResource ResourceKey=InformationToProgressConverter}}" Width="{Binding ElementName=statisticsTree, Path=ActualWidth, Converter={StaticResource ResourceKey=WidthConverter}}" Maximum="1" />
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <TextBlock Text="Chunks: "/>
+                                    <TextBlock Text="{Binding Path=Key, Converter={StaticResource ResourceKey=ChunkSumConverter}, StringFormat=\{0\,-5\}}"/>
+                                </StackPanel>
+                            </Grid>
+                            <TextBlock Text="{Binding Path=Key}"/>
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+        </TabItem>
+        
+        <TabItem Header="Machines">
+            <TreeView HorizontalAlignment="Stretch" Name="machineTree" VerticalAlignment="Stretch" ItemsSource="{Binding}" AlternationCount="3">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Path=Value}">
+                        <!--<HierarchicalDataTemplate.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=Users}"/>
+                            </DataTemplate>
+                        </HierarchicalDataTemplate.ItemTemplate>-->
+                        
+                        <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding Path=Key}">
+                            <Grid>
+                                <ProgressBar Value="{Binding Path=Value.Sum, Mode=OneTime, Converter={StaticResource ResourceKey=MachineSumToProgressConverter}}" Width="{Binding ElementName=machineTree, Path=ActualWidth, Converter={StaticResource ResourceKey=WidthConverter}}" Maximum="1" />
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <TextBlock Text="Chunks: "/>
+                                    <TextBlock Text="{Binding Path=Value.Sum,StringFormat=\{0\,-5\}}"/>
+                                </StackPanel>
+                            </Grid>
+                            <TextBlock Text="{Binding Path=Value.Hostname}"/>
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+        </TabItem>
+    </TabControl>
 </UserControl>
