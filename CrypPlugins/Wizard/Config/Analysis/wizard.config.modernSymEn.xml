@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- This is the XML file defining the modern symmetric encryption categories a user can select from. -->
+
+<step>
+
+  <!-- This is the step's headline. It should be a short, but precise instruction of what the user is supposed to do. -->
+  <headline lang="en" >Choose between different modern symmetric encryption algorithms</headline>
+
+  <!-- This is the description's headline. -->
+  <desc lang="en" >Description</desc>
+
+  <!-- AES Item -->
+  <item id="AESEn" image="imagepath" >
+    <name lang="en" >AES</name>
+    <description lang="en" >
+      AES is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
+    </description>
+  </item>
+
+  <!-- DES Item -->
+  <item id="DESEn" image="imagepath" >
+    <name lang="en" >DES</name>
+    <description lang="en" >
+      DES is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
+    </description>
+  </item>
+
+  <!-- SDES Item -->
+  <item id="SDESEn" image="imagepath" >
+    <name lang="en" >SDES</name>
+    <description lang="en" >
+      SDES is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
+    </description>
+  </item>
+
+  <!-- Twofish Item -->
+  <item id="TwoEn" image="imagepath" >
+    <name lang="en" >Twofish</name>
+    <description lang="en" >
+      Twofish is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
+    </description>
+  </item>
+
+  <!-- Trivium Item -->
+  <item id="TriEn" image="imagepath" >
+    <name lang="en" >Trivium</name>
+    <description lang="en" >
+      Trivium is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
+    </description>
+  </item>
+
+  <!-- TEA Item -->
+  <item id="TEAEn" image="imagepath" >
+    <name lang="en" >TEA</name>
+    <description lang="en" >
+      TEA is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
+    </description>
+  </item>
+
+</step>

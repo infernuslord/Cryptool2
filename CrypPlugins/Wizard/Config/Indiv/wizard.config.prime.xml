@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- This is the XML file defining the prime number operations a user can select from. -->
+
+<step>
+
+  <!-- This is the step's headline. It should be a short, but precise instruction of what the user is supposed to do. -->
+  <headline lang="en" >Choose between different prime number operations</headline>
+
+  <!-- This is the description's headline. -->
+  <desc lang="en" >Description</desc>
+
+  <!-- Factorization Item -->
+  <item id="Factorization" image="imagepath" >
+    <name lang="en" >Prime Number Factorization</name>
+    <description lang="en" >
+      Select to factorize prime numbers.
+    </description>
+  </item>
+
+  <!-- Generation Item -->
+  <item id="Generation" image="imagepath" >
+    <name lang="en" >Prime Number Generation</name>
+    <description lang="en" >
+      Select to generate prime numbers.
+    </description>
+  </item>
+
+  <!-- Test Item -->
+  <item id="Test" image="imagepath" >
+    <name lang="en" >Prime Number Test</name>
+    <description lang="en" >
+      Select to test numbers for being prime.
+    </description>
+  </item>
+
+</step>

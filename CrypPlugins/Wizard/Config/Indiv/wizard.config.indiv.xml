@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
-<!-- This is the XML file defining the analyzation categories a user can select from. -->
+<!-- This is the XML file defining the individual procedures categories a user can select from. -->
 
 <step>
 
@@ -16,6 +16,7 @@
     <description lang="en" >
       Select hash functions to work with.
     </description>
+    <file resource="Wizard.Config.Indiv.wizard.config.hash.xml" />
   </category>
 
   <!-- Prime Number Operations Category -->
@@ -24,6 +25,7 @@
     <description lang="en" >
       Select a prime numer operation to work with.
     </description>
+    <file resource="Wizard.Config.Indiv.wizard.config.prime.xml" />
   </category>
 
   <!-- Key Exchange Category -->
@@ -32,6 +34,20 @@
     <description lang="en" >
       Select a key exchange algorithm to work with.
     </description>
+
+    <!-- This is the step's headline. It should be a short, but precise instruction of what the user is supposed to do. -->
+    <headline lang="en" >Choose between different key exchange algorithms</headline>
+
+    <!-- This is the description's headline. -->
+    <desc lang="en" >Description</desc>
+
+    <!-- Diffie Hellman Item -->
+    <item id="Diffie" image="imagepath" >
+      <name lang="en" >Diffie Hellman</name>
+      <description lang="en" >
+        Diffie Hellman is a key exchange algorithm... (add instead some really helpful text).
+      </description>
+    </item>
   </category>
 
 </step>
