@@ -45,6 +45,31 @@ namespace KeySearcherPresentation.Controls
         }
     }
 
+    [ValueConversion(typeof(Dictionary<long, Information>), typeof(Double))]
+    class MachineSumToProgressConverter : IValueConverter
+    {
+        public StatisticsPresentation StatisticsPresentation { get; set; }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (StatisticsPresentation != null)
+            {
+                double allCount = (StatisticsPresentation.MachineHierarchy).Sum(i => i.Value.Sum);
+                double vCount = (int)value;
+                return vCount / allCount;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     [ValueConversion(typeof(string), typeof(Double))]
     class ChunkSumConverter : IValueConverter
     {
@@ -105,11 +130,7 @@ namespace KeySearcherPresentation.Controls
             ((InformationToProgressConverter)Resources["InformationToProgressConverter"]).StatisticsPresentation = this;
             ((InformationToProgressConverter2)Resources["InformationToProgressConverter2"]).StatisticsPresentation = this;
             ((ChunkSumConverter)Resources["ChunkSumConverter"]).StatisticsPresentation = this;
-
-
-
-
-            //statisticsTree.Items.SortDescriptions.Add(new SortDescription("ItemTemplate.VisualTree.Children[0].Value", ListSortDirection.Ascending));
+            ((MachineSumToProgressConverter)Resources["MachineSumToProgressConverter"]).StatisticsPresentation = this;
         }
 
         private Dictionary<string, Dictionary<long, Information>> statistics = null;
@@ -126,6 +147,22 @@ namespace KeySearcherPresentation.Controls
                                                    statisticsTree.Items.Refresh();
                                                 }, null);
 
+            }
+        }
+
+        private Dictionary<long, Maschinfo> machineHierarchy = null;
+        public Dictionary<long, Maschinfo> MachineHierarchy
+        {
+            get { return machineHierarchy; }
+            set
+            { 
+                machineHierarchy = value;
+                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                                                {
+                                                    var orderedstats = machineHierarchy.OrderByDescending((x) => x.Value.Sum);
+                                                    machineTree.DataContext = orderedstats;
+                                                    machineTree.Items.Refresh();
+                                                }, null);
             }
         }
     }

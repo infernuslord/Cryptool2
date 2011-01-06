@@ -1291,9 +1291,11 @@ namespace KeySearcher
             GenerateMaschineStats();
             WriteStatistics(dataIdentifier);
 
-            ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.Statistics = statistic;
+            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Statistics = statistic;
+            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.MachineHierarchy = maschinehierarchie;
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //TODO "maschinehierarchie" in Quickwatch einfügen. Bereits sortiert ;-) Sum = Anzahl Chunks total ; Hostname = Computername ; Users = String mit Avatarnamen der User dieses Rechners
+//Anmerkung: Dictionaries lassen sich nicht sortieren.
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
             updateToplist();
