@@ -16,7 +16,7 @@
     <description lang="en" >
       Select an algorithm to encrypt plaintext or to decrypt ciphertext.
     </description>
-    <file resource="wizard.config.enDe.xml" />
+    <file resource="Wizard.Config.EnDeCrypt.wizard.config.enDe.xml" />
   </category>
 
   <!-- Cryptanalysis Category -->
@@ -25,7 +25,7 @@
     <description lang="en" >
       Select a specific algorithm to analyze.
     </description>
-    <file resource="wizard.config.analysis.xml" />
+    <file resource="Wizard.Config.Analysis.wizard.config.analysis.xml" />
   </category>
 
   <!-- Individual Procedures Category -->
@@ -34,7 +34,7 @@
     <description lang="en" >
       Select from individual procedures like hash functions, prime number operations, or key exchange.
     </description>
-    <file resource="wizard.config.indiv.xml" />
+    <file resource="Wizard.Config.Indiv.wizard.config.indiv.xml" />
   </category>
   
 </step>
