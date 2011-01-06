@@ -5,7 +5,7 @@
 <step>
 
   <!-- This is the step's headline. It should be a short, but precise instruction of what the user is supposed to do. -->
-  <headline lang="en" >Choose between classic or modern encryption to analyse</headline>
+  <headline lang="en" >Choose between classic or modern encryption</headline>
 
   <!-- This is the description's headline. -->
   <desc lang="en" >Description</desc>
@@ -24,6 +24,7 @@
     <description lang="en" >
       Select a modern encryption to analyze.
     </description>
+    <file resource="Wizard.Config.Analysis.wizard.config.modernEn.xml" />
   </category>
 
 </step>

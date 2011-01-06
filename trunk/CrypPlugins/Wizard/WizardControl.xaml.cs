@@ -66,7 +66,7 @@ namespace Wizard
                                 XAttribute att = element.Attribute("resource");
                                 if (att != null)
                                 {
-                                    string path = "Wizard.Config." + att.Value;
+                                    string path = att.Value;
                                     Stream fileStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(path);
                                     XElement sub = XElement.Load(fileStream);
                                     GenerateXML(sub);

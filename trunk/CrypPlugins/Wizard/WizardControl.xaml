@@ -27,7 +27,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <Label Name="descHeader" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+                    <Label Name="descHeader" HorizontalAlignment="Center" VerticalAlignment="Stretch" FontSize="14" />
                     <TextBlock Name="description" TextWrapping="Wrap" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Left" Grid.Row="1" />
                 </Grid>
             </Grid>

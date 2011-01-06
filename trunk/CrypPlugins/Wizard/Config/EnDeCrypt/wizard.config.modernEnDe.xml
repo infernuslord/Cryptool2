@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
-<!-- This is the XML file defining the classic encryption/decryption categories a user can select from. -->
+<!-- This is the XML file defining the modern encryption/decryption categories a user can select from. -->
 
 <step>
 
@@ -20,7 +20,7 @@
 
   <!-- Asymmetric Encryption/Decryption Category -->
   <category id ="Asym" image="somepath">
-    <name lang="en" >Asymmetric</name>
+    <name lang="en" >Asymmetric Encryption/Decryption</name>
     <description lang="en" >
       Select an asymmetric modern algorithm to encrypt plaintext or to decrypt ciphertext.
     </description>

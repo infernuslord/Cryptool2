@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- This is the XML file defining the mordern encryption categories a user can select from. -->
+
+<step>
+
+  <!-- This is the step's headline. It should be a short, but precise instruction of what the user is supposed to do. -->
+  <headline lang="en" >Choose between symmetric or asymmetric encryption</headline>
+
+  <!-- This is the description's headline. -->
+  <desc lang="en" >Description</desc>
+
+  <!-- Symmetric Encryption Category -->
+  <category id ="SymAn" image="somepath">
+    <name lang="en" >Symmetric Encryption</name>
+    <description lang="en" >
+      Select a symmetric modern algorithm to analyze.
+    </description>
+  </category>
+
+  <!-- Asymmetric Encryption Category -->
+  <category id ="AsymAn" image="somepath">
+    <name lang="en" >Asymmetric Encryption</name>
+    <description lang="en" >
+      Select an asymmetric modern algorithm to analyze.
+    </description>
+  </category>
+
+</step>
