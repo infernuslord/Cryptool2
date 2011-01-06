@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- This is the XML file defining the hash functions a user can select from. -->
+
+<step>
+
+  <!-- This is the step's headline. It should be a short, but precise instruction of what the user is supposed to do. -->
+  <headline lang="en" >Choose between different hash functions</headline>
+
+  <!-- This is the description's headline. -->
+  <desc lang="en" >Description</desc>
+
+  <!-- MD5 Item -->
+  <item id="MD5" image="imagepath" >
+    <name lang="en" >MD5</name>
+    <description lang="en" >
+      MD5 is a hash function... (add instead some really helpful text).
+    </description>
+  </item>
+
+  <!-- SHA Item -->
+  <item id="SHA" image="imagepath" >
+    <name lang="en" >SHA</name>
+    <description lang="en" >
+      SHA is a hash function... (add instead some really helpful text).
+    </description>
+  </item>
+
+  <!-- RIPEMD160 Item -->
+  <item id="RIPEMD160" image="imagepath" >
+    <name lang="en" >RIPEMD160</name>
+    <description lang="en" >
+      RIPEMD160 is a hash function... (add instead some really helpful text).
+    </description>
+  </item>
+
+  <!-- Tiger Item -->
+  <item id="Tiger" image="imagepath" >
+    <name lang="en" >Tiger</name>
+    <description lang="en" >
+      Tiger is a hash function... (add instead some really helpful text).
+    </description>
+  </item>
+
+  <!-- Whirlpool Item -->
+  <item id="Whirlpool" image="imagepath" >
+    <name lang="en" >Whirlpool</name>
+    <description lang="en" >
+      Whirlpool is a hash function... (add instead some really helpful text).
+    </description>
+  </item>
+
+</step>

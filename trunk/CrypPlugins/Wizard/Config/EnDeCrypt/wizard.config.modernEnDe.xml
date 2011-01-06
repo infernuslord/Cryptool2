@@ -16,6 +16,7 @@
     <description lang="en" >
       Select a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext.
     </description>
+    <file resource="Wizard.Config.EnDeCrypt.wizard.config.modernSymEnDe.xml" />
   </category>
 
   <!-- Asymmetric Encryption/Decryption Category -->
@@ -24,6 +25,20 @@
     <description lang="en" >
       Select an asymmetric modern algorithm to encrypt plaintext or to decrypt ciphertext.
     </description>
+
+    <!-- This is the step's headline. It should be a short, but precise instruction of what the user is supposed to do. -->
+    <headline lang="en" >Choose between different asymmetric encryption/decryption algorithms</headline>
+
+    <!-- This is the description's headline. -->
+    <desc lang="en" >Description</desc>
+    
+    <!-- RSA Item -->
+    <item id="RSA" image="imagepath" >
+      <name lang="en" >RSA</name>
+      <description lang="en" >
+        RSA is an asymmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
+      </description>
+    </item>
   </category>
 
 </step>

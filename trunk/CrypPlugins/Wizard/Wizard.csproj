@@ -171,13 +171,38 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Config\EnDeCrypt\wizard.config.classicEnDe.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Config\Analysis\wizard.config.analysis.xml" />
     <EmbeddedResource Include="Config\Analysis\wizard.config.modernEn.xml" />
-    <EmbeddedResource Include="Config\EnDeCrypt\wizard.config.enDe.xml" />
+    <EmbeddedResource Include="Config\EnDeCrypt\wizard.config.enDe.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Config\EnDeCrypt\wizard.config.modernEnDe.xml" />
-    <EmbeddedResource Include="Config\Indiv\wizard.config.indiv.xml" />
+    <EmbeddedResource Include="Config\Indiv\wizard.config.indiv.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Config\EnDeCrypt\wizard.config.modernSymEnDe.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Config\Analysis\wizard.config.classicEn.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Config\Analysis\wizard.config.modernSymEn.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Config\Indiv\wizard.config.hash.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Config\Indiv\wizard.config.prime.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

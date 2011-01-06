@@ -126,7 +126,7 @@ namespace Wizard
             IEnumerable<XElement> items = element.Elements("item");
 
             if (items.Any())
-                categories.Union(items);
+                categories = categories.Union(items);
 
             if (categories.Any())
             {

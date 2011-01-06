@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- This is the XML file defining the classic encryption categories a user can select from. -->
+
+<step>
+
+  <!-- This is the step's headline. It should be a short, but precise instruction of what the user is supposed to do. -->
+  <headline lang="en" >Choose between different classic encryption algorithms</headline>
+
+  <!-- This is the description's headline. -->
+  <desc lang="en" >Description</desc>
+
+  <!-- Caesar Item -->
+  <item id ="CaesarEn" image="somepath">
+    <name lang="en" >Caesar</name>
+    <description lang="en" >
+      Caesar is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
+    </description>
+  </item>
+
+  <!-- Vigenère Item -->
+  <item id ="VigenereEn" image="somepath">
+    <name lang="en" >Vigenère</name>
+    <description lang="en" >
+      Vigenère is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
+    </description>
+  </item>
+
+  <!-- Substitution Item -->
+  <item id ="SubstitutionEn" image="somepath">
+    <name lang="en" >Substitution</name>
+    <description lang="en" >
+      Substitution is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
+    </description>
+  </item>
+
+  <!-- Enigma Item -->
+  <item id ="EnigmaEn" image="somepath">
+    <name lang="en" >Enigma</name>
+    <description lang="en" >
+      Enigma is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
+    </description>
+  </item>
+
+  <!-- Playfair Item -->
+  <item id ="PlayfairEn" image="somepath">
+    <name lang="en" >Playfair</name>
+    <description lang="en" >
+      Playfair is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
+    </description>
+  </item>
+
+  <!-- ADFGVX Item -->
+  <item id ="ADFGVXEn" image="somepath">
+    <name lang="en" >ADFGVX</name>
+    <description lang="en" >
+      ADFGVX is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
+    </description>
+  </item>
+
+  <!-- XOR Item -->
+  <item id ="XOREn" image="somepath">
+    <name lang="en" >XOR</name>
+    <description lang="en" >
+      XOR is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
+    </description>
+  </item>
+
+  <!-- Vernam Item -->
+  <item id ="VernamEn" image="somepath">
+    <name lang="en" >Vernam</name>
+    <description lang="en" >
+      Vernam is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
+    </description>
+  </item>
+
+  <!-- Transposition Item -->
+  <item id ="TranspositionEn" image="somepath">
+    <name lang="en" >Transposition</name>
+    <description lang="en" >
+      Transposition is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
+    </description>
+  </item>
+
+  <!-- Scytale Item -->
+  <item id ="ScytaleEn" image="somepath">
+    <name lang="en" >Scytale</name>
+    <description lang="en" >
+      Scytale is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
+    </description>
+  </item>
+
+</step>
