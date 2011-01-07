@@ -177,7 +177,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Config\Analysis\wizard.config.analysis.xml" />
+    <EmbeddedResource Include="Config\Analysis\wizard.config.analysis.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Config\Analysis\wizard.config.modernEn.xml" />
     <EmbeddedResource Include="Config\EnDeCrypt\wizard.config.enDe.xml">
       <SubType>Designer</SubType>
@@ -203,6 +205,50 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Config\Indiv\wizard.config.prime.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Calc.png" />
+    <Resource Include="Images\EnDeCrypt.png" />
+    <Resource Include="Images\Indiv.png" />
+    <Resource Include="Images\Key.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Analyse.png" />
+    <Resource Include="Images\Classic.png" />
+    <Resource Include="Images\Hash.png" />
+    <Resource Include="Images\Modern.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ADFGVX.png" />
+    <Resource Include="Images\AES.png" />
+    <Resource Include="Images\Caesar.png" />
+    <Resource Include="Images\DES.png" />
+    <Resource Include="Images\Enigma.png" />
+    <Resource Include="Images\MD5.png" />
+    <Resource Include="Images\Playfair.png" />
+    <Resource Include="Images\Primes.png" />
+    <Resource Include="Images\RIPEMD160.png" />
+    <Resource Include="Images\RSA.png" />
+    <Resource Include="Images\Scytale.png" />
+    <Resource Include="Images\SDES.png" />
+    <Resource Include="Images\SHA.png" />
+    <Resource Include="Images\Substitution.png" />
+    <Resource Include="Images\TEA.png" />
+    <Resource Include="Images\Tiger.png" />
+    <Resource Include="Images\Transposition.png" />
+    <Resource Include="Images\Trivium.png" />
+    <Resource Include="Images\Twofish.png" />
+    <Resource Include="Images\Vernam.png" />
+    <Resource Include="Images\Vigenere.png" />
+    <Resource Include="Images\Whirlpool.png" />
+    <Resource Include="Images\XOR.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\RC2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Asym.png" />
+    <Resource Include="Images\Sym.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

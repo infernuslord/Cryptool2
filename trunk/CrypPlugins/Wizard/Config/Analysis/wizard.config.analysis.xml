@@ -11,7 +11,7 @@
   <desc lang="en" >Description</desc>
 
   <!-- Classic Encryption Category -->
-  <category id ="ClassicEn" image="somepath">
+  <category id ="ClassicEn" image="Classic">
     <name lang="en" >Classic Encryption</name>
     <description lang="en" >
       Select a classic encryption to analyze.
@@ -20,7 +20,7 @@
   </category>
 
   <!-- Modern Encryption Category -->
-  <category id ="ModernEn" image="somepath">
+  <category id ="ModernEn" image="Modern">
     <name lang="en" >Modern Encryption</name>
     <description lang="en" >
       Select a modern encryption to analyze.

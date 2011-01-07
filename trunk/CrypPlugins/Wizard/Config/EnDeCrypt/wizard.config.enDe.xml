@@ -11,7 +11,7 @@
   <desc lang="en" >Description</desc>
 
   <!-- Classic Encryption/Decryption Category -->
-  <category id ="Classic" image="somepath">
+  <category id ="Classic" image="Classic">
     <name lang="en" >Classic Encryption/Decryption</name>
     <description lang="en" >
       Select a classic algorithm to encrypt plaintext or to decrypt ciphertext.
@@ -20,7 +20,7 @@
   </category>
 
   <!-- Modern Encryption/Decryption Category -->
-  <category id ="Modern" image="somepath">
+  <category id ="Modern" image="Modern">
     <name lang="en" >Modern Encryption/Decryption</name>
     <description lang="en" >
       Select a modern algorithm to encrypt plaintext or to decrypt ciphertext.

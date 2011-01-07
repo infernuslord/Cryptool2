@@ -11,7 +11,7 @@
   <desc lang="en" >Description</desc>
 
   <!-- Caesar Item -->
-  <item id ="Caesar" image="somepath">
+  <item id ="Caesar" image="Caesar">
     <name lang="en" >Caesar</name>
     <description lang="en" >
       Caesar is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -19,7 +19,7 @@
   </item>
 
   <!-- Vigenère Item -->
-  <item id ="Vigenere" image="somepath">
+  <item id ="Vigenere" image="Vigenere">
     <name lang="en" >Vigenère</name>
     <description lang="en" >
       Vigenère is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -27,7 +27,7 @@
   </item>
 
   <!-- Substitution Item -->
-  <item id ="Substitution" image="somepath">
+  <item id ="Substitution" image="Substitution">
     <name lang="en" >Substitution</name>
     <description lang="en" >
       Substitution is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -35,7 +35,7 @@
   </item>
 
   <!-- Enigma Item -->
-  <item id ="Enigma" image="somepath">
+  <item id ="Enigma" image="Enigma">
     <name lang="en" >Enigma</name>
     <description lang="en" >
       Enigma is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -43,7 +43,7 @@
   </item>
 
   <!-- Playfair Item -->
-  <item id ="Playfair" image="somepath">
+  <item id ="Playfair" image="Playfair">
     <name lang="en" >Playfair</name>
     <description lang="en" >
       Playfair is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -51,7 +51,7 @@
   </item>
 
   <!-- ADFGVX Item -->
-  <item id ="ADFGVX" image="somepath">
+  <item id ="ADFGVX" image="ADFGVX">
     <name lang="en" >ADFGVX</name>
     <description lang="en" >
       ADFGVX is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -59,7 +59,7 @@
   </item>
 
   <!-- XOR Item -->
-  <item id ="XOR" image="somepath">
+  <item id ="XOR" image="XOR">
     <name lang="en" >XOR</name>
     <description lang="en" >
       XOR is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -67,7 +67,7 @@
   </item>
 
   <!-- Vernam Item -->
-  <item id ="Vernam" image="somepath">
+  <item id ="Vernam" image="Vernam">
     <name lang="en" >Vernam</name>
     <description lang="en" >
       Vernam is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -75,7 +75,7 @@
   </item>
 
   <!-- Transposition Item -->
-  <item id ="Transposition" image="somepath">
+  <item id ="Transposition" image="Transposition">
     <name lang="en" >Transposition</name>
     <description lang="en" >
       Transposition is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -83,7 +83,7 @@
   </item>
 
   <!-- Scytale Item -->
-  <item id ="Scytale" image="somepath">
+  <item id ="Scytale" image="Scytale">
     <name lang="en" >Scytale</name>
     <description lang="en" >
       Scytale is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).

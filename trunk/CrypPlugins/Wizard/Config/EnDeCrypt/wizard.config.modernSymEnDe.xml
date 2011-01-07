@@ -11,7 +11,7 @@
   <desc lang="en" >Description</desc>
 
   <!-- AES Item -->
-  <item id="AESEnDe" image="imagepath" >
+  <item id="AESEnDe" image="AES" >
     <name lang="en" >AES</name>
     <description lang="en" >
       AES is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -19,7 +19,7 @@
   </item>
 
   <!-- DES Item -->
-  <item id="DESEnDe" image="imagepath" >
+  <item id="DESEnDe" image="DES" >
     <name lang="en" >DES</name>
     <description lang="en" >
       DES is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -27,7 +27,7 @@
   </item>
 
   <!-- SDES Item -->
-  <item id="SDESEnDe" image="imagepath" >
+  <item id="SDESEnDe" image="SDES" >
     <name lang="en" >SDES</name>
     <description lang="en" >
       SDES is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -35,7 +35,7 @@
   </item>
 
   <!-- Twofish Item -->
-  <item id="Two" image="imagepath" >
+  <item id="Two" image="Twofish" >
     <name lang="en" >Twofish</name>
     <description lang="en" >
       Twofish is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -43,7 +43,7 @@
   </item>
 
   <!-- Trivium Item -->
-  <item id="Tri" image="imagepath" >
+  <item id="Tri" image="Trivium" >
     <name lang="en" >Trivium</name>
     <description lang="en" >
       Trivium is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -51,10 +51,18 @@
   </item>
 
   <!-- TEA Item -->
-  <item id="TEA" image="imagepath" >
+  <item id="TEA" image="TEA" >
     <name lang="en" >TEA</name>
     <description lang="en" >
       TEA is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
+    </description>
+  </item>
+
+  <!-- RC2 Item -->
+  <item id="RC2" image="RC2" >
+    <name lang="en" >RC2</name>
+    <description lang="en" >
+      RC2 is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </item>
 

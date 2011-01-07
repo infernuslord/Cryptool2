@@ -11,7 +11,7 @@
   <desc lang="en" >Description</desc>
 
   <!-- Symmetric Encryption Category -->
-  <category id ="SymAn" image="somepath">
+  <category id ="SymAn" image="Sym">
     <name lang="en" >Symmetric Encryption</name>
     <description lang="en" >
       Select a symmetric modern algorithm to analyze.
@@ -20,7 +20,7 @@
   </category>
 
   <!-- Asymmetric Encryption Category -->
-  <category id ="AsymAn" image="somepath">
+  <category id ="AsymAn" image="Asym">
     <name lang="en" >Asymmetric Encryption</name>
     <description lang="en" >
       Select an asymmetric modern algorithm to analyze.
@@ -33,7 +33,7 @@
     <desc lang="en" >Description</desc>
     
     <!-- RSA Item -->
-    <item id="RSAEn" image="imagepath" >
+    <item id="RSAEn" image="RSA" >
       <name lang="en" >RSA</name>
       <description lang="en" >
         RSA is an asymmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
