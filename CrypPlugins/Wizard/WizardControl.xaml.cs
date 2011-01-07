@@ -16,6 +16,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Threading;
 using System.Threading;
+using System.Collections;
 
 namespace Wizard
 {
@@ -133,18 +134,29 @@ namespace Wizard
                 foreach (XElement ele in categories)
                 {
                     Label l = new Label();
+                    Image i = new Image();
+                    StackPanel sp = new StackPanel();
+
                     l.Height = 30;
                     XElement label = FindElementInElement(ele, "name");
                     if (label != null)
                         l.Content = label.Value;
 
-                    //Image i = new Image(); TODO
+                    i.Width = 26;
+                    string image = (string)ele.Attribute("image");
+                    if (image != null)
+                    {
+                        ImageSource ims = (ImageSource)TryFindResource(image);
+                        if (ims != null)
+                        {
+                            i.Source = ims;
+                            sp.Children.Add(i);
+                        }
+                    }
 
-                    StackPanel sp = new StackPanel();
                     sp.VerticalAlignment = VerticalAlignment.Stretch;
                     sp.HorizontalAlignment = HorizontalAlignment.Stretch;
                     sp.Orientation = Orientation.Horizontal;
-                    //add image
                     sp.Children.Add(l);
 
                     RadioButton rb = new RadioButton();

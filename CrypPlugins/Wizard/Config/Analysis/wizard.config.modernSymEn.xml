@@ -11,7 +11,7 @@
   <desc lang="en" >Description</desc>
 
   <!-- AES Item -->
-  <item id="AESEn" image="imagepath" >
+  <item id="AESEn" image="AES" >
     <name lang="en" >AES</name>
     <description lang="en" >
       AES is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -19,7 +19,7 @@
   </item>
 
   <!-- DES Item -->
-  <item id="DESEn" image="imagepath" >
+  <item id="DESEn" image="DES" >
     <name lang="en" >DES</name>
     <description lang="en" >
       DES is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -27,7 +27,7 @@
   </item>
 
   <!-- SDES Item -->
-  <item id="SDESEn" image="imagepath" >
+  <item id="SDESEn" image="SDES" >
     <name lang="en" >SDES</name>
     <description lang="en" >
       SDES is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -35,7 +35,7 @@
   </item>
 
   <!-- Twofish Item -->
-  <item id="TwoEn" image="imagepath" >
+  <item id="TwoEn" image="Twofish" >
     <name lang="en" >Twofish</name>
     <description lang="en" >
       Twofish is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -43,7 +43,7 @@
   </item>
 
   <!-- Trivium Item -->
-  <item id="TriEn" image="imagepath" >
+  <item id="TriEn" image="Trivium" >
     <name lang="en" >Trivium</name>
     <description lang="en" >
       Trivium is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -51,7 +51,7 @@
   </item>
 
   <!-- TEA Item -->
-  <item id="TEAEn" image="imagepath" >
+  <item id="TEAEn" image="TEA" >
     <name lang="en" >TEA</name>
     <description lang="en" >
       TEA is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).

@@ -5,6 +5,42 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
+    <UserControl.Resources>
+        <BitmapImage x:Key="Analyse" UriSource="Images/Analyse.png"/>
+        <BitmapImage x:Key="Classic" UriSource="Images/Classic.png"/>
+        <BitmapImage x:Key="Modern" UriSource="Images/Modern.png"/>
+        <BitmapImage x:Key="Indiv" UriSource="Images/Indiv.png"/>
+        <BitmapImage x:Key="Calc" UriSource="Images/Calc.png"/>
+        <BitmapImage x:Key="EnDeCrypt" UriSource="Images/EnDeCrypt.png"/>
+        <BitmapImage x:Key="Key" UriSource="Images/Key.png"/>
+        <BitmapImage x:Key="Hash" UriSource="Images/Hash.png"/>
+        <BitmapImage x:Key="ADFGVX" UriSource="Images/ADFGVX.png"/>
+        <BitmapImage x:Key="AES" UriSource="Images/AES.png"/>
+        <BitmapImage x:Key="DES" UriSource="Images/DES.png"/>
+        <BitmapImage x:Key="Enigma" UriSource="Images/Enigma.png"/>
+        <BitmapImage x:Key="MD5" UriSource="Images/MD5.png"/>
+        <BitmapImage x:Key="Playfair" UriSource="Images/Playfair.png"/>
+        <BitmapImage x:Key="Primes" UriSource="Images/Primes.png"/>
+        <BitmapImage x:Key="RIPEMD160" UriSource="Images/RIPEMD160.png"/>
+        <BitmapImage x:Key="RSA" UriSource="Images/RSA.png"/>
+        <BitmapImage x:Key="Scytale" UriSource="Images/Scytale.png"/>
+        <BitmapImage x:Key="SDES" UriSource="Images/SDES.png"/>
+        <BitmapImage x:Key="SHA" UriSource="Images/SHA.png"/>
+        <BitmapImage x:Key="Substitution" UriSource="Images/Substitution.png"/>
+        <BitmapImage x:Key="TEA" UriSource="Images/TEA.png"/>
+        <BitmapImage x:Key="Tiger" UriSource="Images/Tiger.png"/>
+        <BitmapImage x:Key="Transposition" UriSource="Images/Transposition.png"/>
+        <BitmapImage x:Key="Trivium" UriSource="Images/Trivium.png"/>
+        <BitmapImage x:Key="Twofish" UriSource="Images/Twofish.png"/>
+        <BitmapImage x:Key="Vernam" UriSource="Images/Vernam.png"/>
+        <BitmapImage x:Key="Vigenere" UriSource="Images/Vigenere.png"/>
+        <BitmapImage x:Key="Whirlpool" UriSource="Images/Whirlpool.png"/>
+        <BitmapImage x:Key="XOR" UriSource="Images/XOR.png"/>
+        <BitmapImage x:Key="RC2" UriSource="Images/RC2.png"/>
+        <BitmapImage x:Key="Caesar" UriSource="Images/Caesar.png"/>
+        <BitmapImage x:Key="Sym" UriSource="Images/Sym.png"/>
+        <BitmapImage x:Key="Asym" UriSource="Images/Asym.png"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

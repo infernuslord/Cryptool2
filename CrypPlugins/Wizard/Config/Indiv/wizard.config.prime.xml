@@ -11,7 +11,7 @@
   <desc lang="en" >Description</desc>
 
   <!-- Factorization Item -->
-  <item id="Factorization" image="imagepath" >
+  <item id="Factorization" image="Primes" >
     <name lang="en" >Prime Number Factorization</name>
     <description lang="en" >
       Select to factorize prime numbers.
@@ -19,7 +19,7 @@
   </item>
 
   <!-- Generation Item -->
-  <item id="Generation" image="imagepath" >
+  <item id="Generation" image="Primes" >
     <name lang="en" >Prime Number Generation</name>
     <description lang="en" >
       Select to generate prime numbers.
@@ -27,7 +27,7 @@
   </item>
 
   <!-- Test Item -->
-  <item id="Test" image="imagepath" >
+  <item id="Test" image="Primes" >
     <name lang="en" >Prime Number Test</name>
     <description lang="en" >
       Select to test numbers for being prime.
