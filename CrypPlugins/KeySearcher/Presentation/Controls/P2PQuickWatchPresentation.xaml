@@ -43,7 +43,7 @@
 								<TranslateTransform/>
 							</TransformGroup>
 						</Grid.RenderTransform>
-						<Label x:Name="label" Content="Endgame mode" Height="28" HorizontalAlignment="Center" VerticalAlignment="Center" />
+						<Label x:Name="label" Content="{Loc Endgame_Mode_}" Height="28" HorizontalAlignment="Center" VerticalAlignment="Center" />
 					</Grid>
 				</Border>
 				<Border BorderBrush="Silver" BorderThickness="2,2,2,2">
@@ -58,13 +58,13 @@
                             <ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>
                         <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Grid.Column="0" Background="#FF5C5CFF">
-                            <Label Content="Static" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
+                            <Label Content="{Loc Static_}" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
                         </Border>
-                        <Label Content="Total chunks:" VerticalAlignment="Center" Grid.Column="1" />
+                        <Label Content="{Loc Total_Chunks_}" VerticalAlignment="Center" Grid.Column="1" />
                         <Label Content="-" Name="TotalAmountOfChunks" Style="{StaticResource ValueRow1}" VerticalAlignment="Center" Grid.Column="1" />
-                        <Label Content="Keys per chunk:" VerticalAlignment="Center" Grid.Column="2" />
+                        <Label Content="{Loc Keys_Per_Chunk_}" VerticalAlignment="Center" Grid.Column="2" />
                         <Label Content="-" Name="KeysPerChunk" Style="{StaticResource ValueRow2}" VerticalAlignment="Center" Grid.Column="2" />
-                        <Label Content="Tested bits:" VerticalAlignment="Center" Grid.Column="3" />
+                        <Label Content="{Loc Tested_Bits_}" VerticalAlignment="Center" Grid.Column="3" />
                         <Label Content="-" Name="TestedBits" Style="{StaticResource ValueRow3}" VerticalAlignment="Center" Grid.Column="3" />
 					</Grid>
 				</Border>
@@ -83,15 +83,15 @@
                         <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Background="#FF099BA7" Grid.Column="0" Grid.RowSpan="2">
                             <Label Content="Global" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
                         </Border>
-						<Label Content="Participants:" Grid.Column="1" />
+                        <Label Content="{Loc Participants_}" Grid.Column="1" />
                         <Label Content="{Binding TotalAmountOfParticipants, FallbackValue=-}" Style="{StaticResource ValueRow1}" Grid.Column="1" />
-                        <Label Content="Start:" Grid.Column="2" />
+                        <Label Content="{Loc Start_}" Grid.Column="2" />
                         <Label Content="{Binding StartDate, FallbackValue=-, Converter={StaticResource DateTimeConverter}}" Style="{StaticResource ValueRow2}" Grid.Column="2" />
-                        <Label Content="End:" HorizontalAlignment="Left" Grid.Column="3" />
+                        <Label Content="{Loc End_}" HorizontalAlignment="Left" Grid.Column="3" />
                         <Label Content="{Binding EstimatedFinishDate, FallbackValue=-}" Style="{StaticResource ValueRow3}" Grid.Column="3" />
-                        <Label Content="Elapsed:" Grid.Column="2" Grid.Row="2" />
+                        <Label Content="{Loc Elapsed_}" Grid.Column="2" Grid.Row="2" />
                         <Label Content="{Binding ElapsedTime, FallbackValue=-, Converter={StaticResource TimeSpanToStringConverter}}" Style="{StaticResource ValueRow2}" Grid.Column="2" Grid.Row="2" />
-                        <Label Content="Remaining:" Grid.Column="3" Grid.Row="2" />
+                        <Label Content="{Loc Remaining_}" Grid.Column="3" Grid.Row="2" />
                         <Label Content="{Binding RemainingTimeTotal, FallbackValue=-, Converter={StaticResource TimeSpanToStringConverter}}" Style="{StaticResource ValueRow3}" Grid.Column="3" Grid.Row="2" />
                     </Grid>
 				</Border>
@@ -109,14 +109,14 @@
                             <RowDefinition Height="26" />
 						</Grid.RowDefinitions>
                         <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Background="#FFE56B00" Grid.Column="0" Grid.RowSpan="3">
-                            <Label Content="Local" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
+                            <Label Content="{Loc Local_}" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
                         </Border>
-						<Label Content="Finished chunks:" Grid.Column="1" Grid.Row="0" />
+                        <Label Content="{Loc Finished_Chunks_}" Grid.Column="1" Grid.Row="0" />
                         <Label Content="{Binding LocalFinishedChunks, FallbackValue=-}" Style="{StaticResource ValueRow1}" Grid.Column="1" Grid.Row="0" />
-                        <Label Content="Keys / sec:" Grid.Column="2" Grid.Row="0" />
+                        <Label Content="{Loc Keys_Sec_}" Grid.Column="2" Grid.Row="0" />
                         <Label Name="keysPerSecond" Style="{StaticResource ValueRow2}" Grid.Column="2" Grid.Row="0" />
                         <TextBlock Text="{Binding KeysPerSecond, StringFormat=' {0:0,0}', FallbackValue=-}" Style="{StaticResource ValueRow2}" Grid.Column="2" Grid.Row="0" />
-                        <Label Content="Current chunk:" Grid.Column="3" />
+                        <Label Content="{Loc Current_Chunk_}" Grid.Column="3" />
                         <Label Content="{Binding CurrentChunk, FallbackValue=-}" Style="{StaticResource ValueRow3}" Grid.Column="3" Grid.Row="0" />
                         <Grid  Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1">
                             <ProgressBar Value="{Binding ProgressOfCurrentChunk, FallbackValue=0}" IsIndeterminate="{Binding IsCurrentProgressIndeterminate, FallbackValue=false}" Maximum="1" />
@@ -142,21 +142,21 @@
                             <RowDefinition Height="26" />
                         </Grid.RowDefinitions>
                         <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Background="#FF8309A7" Grid.Column="0" Grid.RowSpan="3">
-                            <Label Content="Requests" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
+                            <Label Content="{Loc Requests_}" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
                         </Border>
-                        <Label Content="Store:" Grid.Column="1" Grid.Row="0" />
+                        <Label Content="{Loc Store_}" Grid.Column="1" Grid.Row="0" />
                         <Label Content="{Binding StoreRequests, FallbackValue=-}" Style="{StaticResource ValueRow1}" Grid.Column="1" Grid.Row="0" />
-                        <Label Content="Retrieve:" Grid.Column="2" Grid.Row="0" />
+                        <Label Content="{Loc Retrieve_}" Grid.Column="2" Grid.Row="0" />
                         <Label Content="{Binding RetrieveRequests, FallbackValue=-}" Style="{StaticResource ValueRow2}" Grid.Column="2" Grid.Row="0" />
-                        <Label Content="Remove:" Grid.Column="3" Grid.Row="0" />
+                        <Label Content="{Loc Remove_}" Grid.Column="3" Grid.Row="0" />
                         <Label Content="{Binding RemoveRequests, FallbackValue=-}" Style="{StaticResource ValueRow3}" Grid.Column="3" Grid.Row="0" />
-                        <Label Content="Total:" Grid.Column="2" Grid.Row="1" />
+                        <Label Content="{Loc Total_}" Grid.Column="2" Grid.Row="1" />
                         <Label Content="{Binding TotalDhtRequests, FallbackValue=-}" Style="{StaticResource ValueRow2}" Grid.Column="2" Grid.Row="1" />
-                        <Label Content="Per chunk:" Grid.Column="3" Grid.Row="1" />
+                        <Label Content="{Loc Per_Chunk_}" Grid.Column="3" Grid.Row="1" />
                         <Label Content="{Binding RequestsPerNode, FallbackValue=-}" Style="{StaticResource ValueRow3}" Grid.Column="3" Grid.Row="1" />
-                        <Label Content="Overhead (abs):" Grid.Column="2" Grid.Row="2" />
+                        <Label Content="{Loc Overhead_Abs_}" Grid.Column="2" Grid.Row="2" />
                         <Label Content="{Binding DhtOverheadInReadableTime, FallbackValue=-, Converter={StaticResource TimeSpanToStringConverter}}" Style="{StaticResource ValueRow2}" Grid.Column="2" Grid.Row="2" />
-                        <Label Content="Overhead (%):" Grid.Column="3" Grid.Row="2" />
+                        <Label Content="{Loc Overhead_Perc_}" Grid.Column="3" Grid.Row="2" />
                         <Label Content="{Binding DhtOverheadInPercent, FallbackValue=-}" Style="{StaticResource ValueRow3}" Grid.Column="3" Grid.Row="2" />
                     </Grid>
                 </Border>
@@ -173,19 +173,19 @@
                             <RowDefinition Height="26" />
 						</Grid.RowDefinitions>
                         <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Background="#FF525252" Grid.Column="0" Grid.RowSpan="3">
-                            <Label Content="Traffic" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
+                            <Label Content="{Loc Traffic_}" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
                         </Border>
-                        <Label Content="Sent (payload):" Grid.Column="1" Grid.Row="0" />
+                        <Label Content="{Loc Sent_Payload_}" Grid.Column="1" Grid.Row="0" />
                         <Label Content="{Binding StoredBytes, FallbackValue=-, Converter={StaticResource LongToSizeMetricString}}" Style="{StaticResource ValueRow1}" Grid.Column="1" Grid.Row="0" />
-                        <Label Content="Received (payload):" Grid.Column="2" Grid.Row="0" />
+                        <Label Content="{Loc Received_Payload_}" Grid.Column="2" Grid.Row="0" />
                         <Label Content="{Binding RetrievedBytes, FallbackValue=-, Converter={StaticResource LongToSizeMetricString}}" Style="{StaticResource ValueRow2}" Grid.Column="2" Grid.Row="0" />
-                        <Label Content="Total (payload):" Grid.Column="3" Grid.Row="0" />
+                        <Label Content="{Loc Total_Payload_}" Grid.Column="3" Grid.Row="0" />
                         <Label Content="{Binding TotalBytes, FallbackValue=-, Converter={StaticResource LongToSizeMetricString}}" Style="{StaticResource ValueRow3}" Grid.Column="3" Grid.Row="0" />
-                        <Label Content="Sent (link):" Grid.Column="1" Grid.Row="1" />
+                        <Label Content="{Loc Sent_Link_}" Grid.Column="1" Grid.Row="1" />
                         <Label Content="{Binding SentBytesByLinkManager, FallbackValue=-, Converter={StaticResource LongToSizeMetricString}}" Style="{StaticResource ValueRow1}"  Grid.Column="1" Grid.Row="1" />
-                        <Label Content="Received (link):" Grid.Column="2" Grid.Row="2" />
+                        <Label Content="{Loc Received_Link_}" Grid.Column="2" Grid.Row="2" />
                         <Label Content="{Binding ReceivedBytesByLinkManager, FallbackValue=-, Converter={StaticResource LongToSizeMetricString}}" Style="{StaticResource ValueRow2}" Grid.Column="2" Grid.Row="1" />
-                        <Label Content="Total (link):" Grid.Column="3" Grid.Row="2" />
+                        <Label Content="{Loc Total_Link_}" Grid.Column="3" Grid.Row="2" />
                         <Label Content="{Binding TotalBytesByLinkManager, FallbackValue=-, Converter={StaticResource LongToSizeMetricString}}" Style="{StaticResource ValueRow3}" Grid.Column="3" Grid.Row="1" />
                     </Grid>
 				</Border>
@@ -196,7 +196,7 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Background="#FF479308" Grid.Column="0">
-                            <Label Content="Top Ten" FontSize="11" HorizontalAlignment="Center" Foreground="White" Width="50" />
+                            <Label Content="{Loc Top_Ten_}" FontSize="11" HorizontalAlignment="Center" Foreground="White" Width="50" />
                         </Border>
                         <ListView Name="ToplistView" Background="#AFE2FFCE" ItemsSource="{Binding TopList}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"  Height="120" Grid.Column="1">
                             <ListView.View>

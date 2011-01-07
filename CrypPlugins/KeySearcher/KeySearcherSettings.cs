@@ -5,6 +5,7 @@ using Cryptool.PluginBase;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using KeySearcher.P2P.Storage;
+using KeySearcher.Properties;
 using OpenCLNet;
 
 namespace KeySearcher
@@ -80,7 +81,7 @@ namespace KeySearcher
                 key = value;
                 OnPropertyChanged("Key");
                 if (!(keysearcher.Pattern != null && keysearcher.Pattern.testWildcardKey(value)))
-                    keysearcher.GuiLogMessage("Wrong key pattern!", NotificationLevel.Error);
+                    keysearcher.GuiLogMessage(Resources.Wrong_key_pattern_, NotificationLevel.Error);
                 HasChanges = true;
             }
         }
@@ -179,7 +180,7 @@ namespace KeySearcher
         {
             if (!keysearcher.IsKeySearcherRunning)
             {
-                keysearcher.GuiLogMessage("KeySearcher must be running to copy the status key.", NotificationLevel.Error);
+                keysearcher.GuiLogMessage(Resources.KeySearcher_must_be_running_to_copy_the_status_key_, NotificationLevel.Error);
                 return;
             }
 
@@ -187,7 +188,7 @@ namespace KeySearcher
             var statusKey = generator.GenerateStatusKey();
 
             Clipboard.SetDataObject(statusKey, true);
-            keysearcher.GuiLogMessage("Status key '" + statusKey + "' has been copied to clipboard.",
+            keysearcher.GuiLogMessage(string.Format(Resources.Status_key___0___has_been_copied_to_clipboard_, statusKey),
                                       NotificationLevel.Info);
         }
 
@@ -272,7 +273,7 @@ namespace KeySearcher
         [TaskPane("No OpenCL available", null, GroupOpenCL, 1, false, DisplayLevel.Experienced, ControlType.TextBoxReadOnly)]
         public string NoOpenCL
         {
-            get { return "No OpenCL Device available!"; }
+            get { return Resources.No_OpenCL_Device_available_; }
             set {}
         }
 

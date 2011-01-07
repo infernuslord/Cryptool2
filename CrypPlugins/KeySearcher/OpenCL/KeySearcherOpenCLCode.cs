@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Control;
+using KeySearcher.Properties;
 using OpenCLNet;
 
 namespace KeySearcher
@@ -83,7 +84,7 @@ namespace KeySearcher
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occured when trying to compile OpenCL code: " + ex.Message);
+                throw new Exception(Resources.An_error_occured_when_trying_to_compile_OpenCL_code__ + ex.Message);
             }
         }
     }

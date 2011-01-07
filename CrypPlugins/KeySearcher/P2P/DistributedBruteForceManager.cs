@@ -15,6 +15,7 @@ using KeySearcher.P2P.Presentation;
 using KeySearcher.P2P.Storage;
 using KeySearcher.P2P.Tree;
 using KeySearcherPresentation.Controls;
+using KeySearcher.Properties;
 using System.Timers;
 using Timer = System.Timers.Timer;
 
@@ -61,17 +62,17 @@ namespace KeySearcher.P2P
 
         public void Execute()
         {
-            status.CurrentOperation = "Initializing connection to the peer-to-peer system";
+            status.CurrentOperation = Resources.Initializing_connection_to_the_peer_to_peer_system;
             new ConnectionHelper(keySearcher, settings).ValidateConnectionToPeerToPeerSystem();
 
             if (!P2PManager.IsConnected)
             {
-                keySearcher.GuiLogMessage("Unable to use peer-to-peer system.", NotificationLevel.Error);
-                status.CurrentOperation = "Unable to use peer-to-peer system";
+                keySearcher.GuiLogMessage(Resources.Unable_to_use_peer_to_peer_system_, NotificationLevel.Error);
+                status.CurrentOperation = Resources.Unable_to_use_peer_to_peer_system_;
                 return;
             }
 
-            status.CurrentOperation = "Initializing distributed key pool tree";
+            status.CurrentOperation = Resources.Initializing_distributed_key_pool_tree;
             InitializeTree();
             
             bool statupdate = false;
@@ -88,7 +89,7 @@ namespace KeySearcher.P2P
                     keyPoolTree.Reset();
                     keySearcher.ResetStatistics();
                     keySearcher.SetInitialized(false);
-                    status.CurrentOperation = "Updating statistic";
+                    status.CurrentOperation = Resources.Updating_statistic;
                     InitializeTree();
                     statupdate = false;
                     statisticTimer = new Timer { Interval = 30 * 60 * 1000 };
@@ -100,7 +101,7 @@ namespace KeySearcher.P2P
                 BigInteger displayablePatternId;
                 try
                 {
-                    status.CurrentOperation = "Finding next leaf to calculate";
+                    status.CurrentOperation = Resources.Finding_next_leaf_to_calculate;
                     currentLeaf = keyPoolTree.FindNextLeaf();
                     if (currentLeaf == null)
                     {
@@ -110,14 +111,14 @@ namespace KeySearcher.P2P
                 }
                 catch (AlreadyCalculatedException)
                 {
-                    keySearcher.GuiLogMessage("Node was already calculated.", NotificationLevel.Info);
+                    keySearcher.GuiLogMessage(Resources.Node_was_already_calculated_, NotificationLevel.Info);
                     keyPoolTree.Reset();
                     continue;
                 }
                 catch (KeySearcherStopException)  //Fullstopfunction
                 {
-                    keySearcher.GuiLogMessage("Keysearcher Fullstop.Please Update your Version.", NotificationLevel.Debug);
-                    status.CurrentOperation = "PLEASE UPDATE";
+                    keySearcher.GuiLogMessage(Resources.Keysearcher_Fullstop__Please_Update_your_Version_, NotificationLevel.Debug);
+                    status.CurrentOperation = Resources.PLEASE_UPDATE;
                     keyPoolTree.Reset();
                     keySearcher.Stop();
                     return;
@@ -128,8 +129,7 @@ namespace KeySearcher.P2P
                 if (!currentLeaf.ReserveLeaf())
                 {
                     keySearcher.GuiLogMessage(
-                        "Pattern #" + displayablePatternId +
-                        " was reserved before it could be reserved for this CrypTool instance.",
+                        string.Format(Resources.Pattern___0__was_reserved_before_it_could_be_reserved_for_this_CrypTool_instance_, displayablePatternId),
                         NotificationLevel.Info);
                     keyPoolTree.Reset();
                     continue;
@@ -140,13 +140,13 @@ namespace KeySearcher.P2P
                 reservationTimer.Elapsed += new ElapsedEventHandler(delegate
                                                                         {
                                                                             var oldMessage = status.CurrentOperation;
-                                                                            var message = string.Format("Rereserving pattern #{0}", displayablePatternId);
+                                                                            var message = string.Format(Resources.Rereserving_pattern___0_, displayablePatternId);
                                                                             keySearcher.GuiLogMessage(message, NotificationLevel.Info);
                                                                             status.CurrentOperation = message;
                                                                             try
                                                                             {
                                                                                 if (!currentLeaf.ReserveLeaf())
-                                                                                    keySearcher.GuiLogMessage("Rereserving pattern failed!", NotificationLevel.Warning);
+                                                                                    keySearcher.GuiLogMessage(Resources.Rereserving_pattern_failed_, NotificationLevel.Warning);
 
                                                                                 //if (!currentLeaf.ReserveLeaf())
                                                                                 //{
@@ -158,7 +158,7 @@ namespace KeySearcher.P2P
                                                                             }
                                                                             catch (Cryptool.P2P.Internal.NotConnectedException)
                                                                             {
-                                                                                keySearcher.GuiLogMessage("Rereserving pattern failed, because there is no connection!",
+                                                                                keySearcher.GuiLogMessage(Resources.Rereserving_pattern_failed__because_there_is_no_connection_,
                                                                                         NotificationLevel.Warning);
                                                                                 //TODO: Register OnSystemJoined event to rereserve pattern immediately after reconnect
                                                                             }
@@ -171,10 +171,10 @@ namespace KeySearcher.P2P
                                                                       });
 
                 keySearcher.GuiLogMessage(
-                    "Running pattern #" + displayablePatternId + " of " + patternPool.Length,
+                    string.Format(Resources.Running_pattern___0__of__1_, displayablePatternId, patternPool.Length),
                     NotificationLevel.Info);
                 status.CurrentChunk = displayablePatternId;
-                status.CurrentOperation = "Calculating pattern " + status.CurrentChunk;
+                status.CurrentOperation = Resources.Calculating_pattern_ + status.CurrentChunk;
 
                 try
                 {
@@ -204,63 +204,62 @@ namespace KeySearcher.P2P
                     {
                         if (!P2PManager.IsConnected)
                         {
-                            status.CurrentOperation = "Connection lost! Waiting for reconnection to store the results!";
+                            status.CurrentOperation = Resources.Connection_lost__Waiting_for_reconnection_to_store_the_results_;
                             keySearcher.GuiLogMessage(status.CurrentOperation, NotificationLevel.Info);
                             
                             P2PManager.P2PBase.OnSystemJoined += new P2PBase.SystemJoined(P2PBase_OnSystemJoined);
                             systemJoinEvent.WaitOne();
                         }
-                        status.CurrentOperation = "Processing results of calculation";
+                        status.CurrentOperation = Resources.Processing_results_of_calculation;
                         KeyPoolTree.ProcessCurrentPatternCalculationResult(currentLeaf, result);
                         StatisticsGenerator.ProcessPatternResults(result);
 
-                        status.CurrentOperation = "Calculating global statistics";
+                        status.CurrentOperation = Resources.Calculating_global_statistics;
                         StatisticsGenerator.CalculateGlobalStatistics(displayablePatternId);
 
                         status.LocalFinishedChunks++;
                         keySearcher.GuiLogMessage(
-                            string.Format("Best match: {0} with {1}", result.First.Value.key, result.First.Value.value),
+                            string.Format(Resources.Best_match___0__with__1_, result.First.Value.key, result.First.Value.value),
                             NotificationLevel.Info);
 
-                        status.CurrentOperation = "Updating status in DHT";
+                        status.CurrentOperation = Resources.Updating_status_in_DHT;
                         keyPoolTree.UpdateStatus(currentLeaf);
                     }
                     else
                     {
-                        keySearcher.GuiLogMessage("Brute force was stopped, not saving results...",
+                        keySearcher.GuiLogMessage(Resources.Brute_force_was_stopped__not_saving_results___,
                                                   NotificationLevel.Info);
                         status.ProgressOfCurrentChunk = 0;
                         currentLeaf.GiveLeafFree();
-                        var message = string.Format("Removed reservation of pattern #{0}", displayablePatternId);
+                        var message = string.Format(Resources.Removed_reservation_of_pattern___0_, displayablePatternId);
                         keySearcher.GuiLogMessage(message, NotificationLevel.Info);
                         status.CurrentOperation = message;
                     }
                 }
                 catch (ReservationRemovedException)
                 {
-                    keySearcher.GuiLogMessage("Reservation removed by another node (while calculating). " +
-                                              "To avoid a state in limbo, proceeding to first available leaf...",
+                    keySearcher.GuiLogMessage(Resources.Reservation_removed_by_another_node__while_calculating___To_avoid_a_state_in_limbo__proceeding_to_first_available_leaf___,
                                               NotificationLevel.Info);
                     keyPoolTree.Reset();
                     continue;
                 }
                 catch (UpdateFailedException e)
                 {
-                    keySearcher.GuiLogMessage("Could not store results: " + e.Message, NotificationLevel.Info);
+                    keySearcher.GuiLogMessage(Resources.Could_not_store_results__ + e.Message, NotificationLevel.Info);
                     keyPoolTree.Reset();
                     continue;
                 }
                 catch (KeySearcherStopException)  //Fullstopfunction
                 {
-                    keySearcher.GuiLogMessage("Keysearcher Fullstop.Please Update your Version.", NotificationLevel.Debug);
-                    status.CurrentOperation = "PLEASE UPDATE";
+                    keySearcher.GuiLogMessage(Resources.Keysearcher_Fullstop__Please_Update_your_Version_, NotificationLevel.Debug);
+                    status.CurrentOperation = Resources.PLEASE_UPDATE;
                     keyPoolTree.Reset();
                     keySearcher.Stop();
                     return;
                 }
 
                 // Push statistics to database
-                status.CurrentOperation = "Pushing statistics to evaluation database";
+                status.CurrentOperation = Resources.Pushing_statistics_to_evaluation_database;
                 DatabaseStatistics.PushToDatabase(status, StopWatch.ElapsedMilliseconds, keyPoolTree.Identifier, settings, keySearcher);
             }
 
@@ -268,7 +267,7 @@ namespace KeySearcher.P2P
             if (!keySearcher.stop && keyPoolTree.IsCalculationFinished())
             {
                 keySearcher.showProgress(keySearcher.costList, 1, 1, 1);
-                keySearcher.GuiLogMessage("Calculation complete.", NotificationLevel.Info);
+                keySearcher.GuiLogMessage(Resources.Calculation_complete_, NotificationLevel.Info);
                 keyPoolTree.UpdateStatusForFinishedCalculation();
             }
 
@@ -307,17 +306,16 @@ namespace KeySearcher.P2P
             }
             catch (KeySearcherStopException)
             {
-                status.CurrentOperation = "PLEASE UPDATE";
-                keySearcher.GuiLogMessage("Keysearcher Fullstop.Please Update your Version.", NotificationLevel.Error);
+                status.CurrentOperation = Resources.PLEASE_UPDATE;
+                keySearcher.GuiLogMessage(Resources.Keysearcher_Fullstop__Please_Update_your_Version_, NotificationLevel.Error);
                 keySearcher.Stop();
                 throw new KeySearcherStopException();
             }
 
 
             keySearcher.GuiLogMessage(
-                "Total amount of patterns: " + patternPool.Length + ", each containing " + patternPool.PartSize +
-                " keys.", NotificationLevel.Info);
-            status.CurrentOperation = "Ready for calculation";
+                string.Format(Resources.Total_amount_of_patterns___0___each_containing__1__keys_, patternPool.Length, patternPool.PartSize), NotificationLevel.Info);
+            status.CurrentOperation = Resources.Ready_for_calculation;
 
             status.StartDate = keyPoolTree.StartDate();
             status.JobSubmitterID = keyPoolTree.SubmitterID();

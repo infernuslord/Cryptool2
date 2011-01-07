@@ -27,19 +27,19 @@
                     <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Background="#FF3B8EA4" Grid.Column="0" Grid.RowSpan="3">
                         <Label Content="OpenCL" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
                     </Border>
-                    
-                    <Label Content="Keys/sec (OpenCL):" Grid.Column="1" Grid.Row="0" />
+
+                    <Label Content="{Loc Keys_sec_OpenCL_}" Grid.Column="1" Grid.Row="0" />
                     <Label Name="keysPerSecondOpenCL" Style="{StaticResource ValueRow2}" Grid.Column="1" Grid.Row="0" />
-                    <Label Content="Keys/sec (CPU):" Grid.Column="2" Grid.Row="0" />
+                    <Label Content="{Loc Keys_sec_CPU_}" Grid.Column="2" Grid.Row="0" />
                     <Label Name="keysPerSecondCPU" Style="{StaticResource ValueRow2}" Grid.Column="2" Grid.Row="0" />
                     
-                    <Label Content="Devices:" Grid.Column="1" Grid.Row="1" />
+                    <Label Content="{Loc Devices_}" Grid.Column="1" Grid.Row="1" />
                     <Label Name="devices" Style="{StaticResource ValueRow2}" Grid.Column="1" Grid.Row="1" />
-                    
-                    <Label Content="Work Items:" Grid.Column="2" Grid.Row="1" />
+
+                    <Label Content="{Loc Work_Items_}" Grid.Column="2" Grid.Row="1" />
                     <Label Name="workItems" Style="{StaticResource ValueRow2}" Grid.Column="2" Grid.Row="1" />
                     
-                    <Label Content="Ratio:" Grid.Column="1" Grid.Row="2" />
+                    <Label Content="{Loc Ration_}" Grid.Column="1" Grid.Row="2" />
                     <Label Name="ratio" Style="{StaticResource ValueRow2}" Grid.Column="1" Grid.Row="2" />
                 </Grid>
             </Border>            

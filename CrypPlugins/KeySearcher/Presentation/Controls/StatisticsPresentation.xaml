@@ -20,7 +20,7 @@
     </UserControl.Resources>
     
     <TabControl>
-        <TabItem Header="Users">
+        <TabItem Header="{Loc _Users_}">
             <TreeView HorizontalAlignment="Stretch" Name="statisticsTree" VerticalAlignment="Stretch" ItemsSource="{Binding}" AlternationCount="3">
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding Path=Value}">
@@ -44,7 +44,7 @@
                             <Grid>
                                 <ProgressBar x:Name="Bar" Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeViewItem}},Path=(ItemsControl.AlternationIndex),Converter={StaticResource ResourceKey=TeamsBackgroundConverter}}" Value="{Binding Path=Value, Mode=OneTime, Converter={StaticResource ResourceKey=InformationToProgressConverter}}" Width="{Binding ElementName=statisticsTree, Path=ActualWidth, Converter={StaticResource ResourceKey=WidthConverter}}" Maximum="1" />
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <TextBlock Text="Chunks: "/>
+                                    <TextBlock Text="{Loc Chunks_}"/>
                                     <TextBlock Text="{Binding Path=Key, Converter={StaticResource ResourceKey=ChunkSumConverter}, StringFormat=\{0\,-5\}}"/>
                                 </StackPanel>
                             </Grid>
@@ -55,7 +55,7 @@
             </TreeView>
         </TabItem>
         
-        <TabItem Header="Machines">
+        <TabItem Header="{Loc _Machines_}">
             <TreeView HorizontalAlignment="Stretch" Name="machineTree" VerticalAlignment="Stretch" ItemsSource="{Binding}" AlternationCount="3">
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding Path=Value}">
@@ -69,7 +69,7 @@
                             <Grid>
                                 <ProgressBar Value="{Binding Path=Value.Sum, Mode=OneTime, Converter={StaticResource ResourceKey=MachineSumToProgressConverter}}" Width="{Binding ElementName=machineTree, Path=ActualWidth, Converter={StaticResource ResourceKey=WidthConverter}}" Maximum="1" />
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <TextBlock Text="Chunks: "/>
+                                    <TextBlock Text="{Loc Chunks_}"/>
                                     <TextBlock Text="{Binding Path=Value.Sum,StringFormat=\{0\,-5\}}"/>
                                 </StackPanel>
                             </Grid>

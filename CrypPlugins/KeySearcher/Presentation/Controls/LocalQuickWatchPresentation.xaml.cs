@@ -6,7 +6,8 @@ using System.Collections.ObjectModel;
 using KeySearcher;
 
 namespace KeySearcherPresentation.Controls
-{    
+{
+    [Cryptool.PluginBase.Attributes.Localization("KeySearcher.Properties.Resources")]
     public partial class LocalQuickWatchPresentation
     {        
         public ObservableCollection<ResultEntry> entries = new ObservableCollection<ResultEntry>();

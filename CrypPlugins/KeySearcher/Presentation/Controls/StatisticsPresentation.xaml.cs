@@ -19,7 +19,56 @@ using KeySearcher;
 
 namespace KeySearcherPresentation.Controls
 {
+    /// <summary>
+    /// Interaction logic for StatisticsPresentation.xaml
+    /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("KeySearcher.Properties.Resources")]
+    public partial class StatisticsPresentation : UserControl
+    {
+        public StatisticsPresentation()
+        {
+            InitializeComponent();
+            ((InformationToProgressConverter)Resources["InformationToProgressConverter"]).StatisticsPresentation = this;
+            ((InformationToProgressConverter2)Resources["InformationToProgressConverter2"]).StatisticsPresentation = this;
+            ((ChunkSumConverter)Resources["ChunkSumConverter"]).StatisticsPresentation = this;
+            ((MachineSumToProgressConverter)Resources["MachineSumToProgressConverter"]).StatisticsPresentation = this;
+        }
 
+        private Dictionary<string, Dictionary<long, Information>> statistics = null;
+        public Dictionary<string, Dictionary<long, Information>> Statistics
+        {
+            get { return statistics; }
+            set
+            {
+                statistics = value;
+                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                                               {
+                                                   var orderedstats = statistics.OrderByDescending((x) => x.Value.Sum((z) => z.Value.Count));
+                                                   statisticsTree.DataContext = orderedstats;
+                                                   statisticsTree.Items.Refresh();
+                                                }, null);
+
+            }
+        }
+
+        private Dictionary<long, Maschinfo> machineHierarchy = null;
+        public Dictionary<long, Maschinfo> MachineHierarchy
+        {
+            get { return machineHierarchy; }
+            set
+            { 
+                machineHierarchy = value;
+                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                                                {
+                                                    var orderedstats = machineHierarchy.OrderByDescending((x) => x.Value.Sum);
+                                                    machineTree.DataContext = orderedstats;
+                                                    machineTree.Items.Refresh();
+                                                }, null);
+            }
+        }
+    }
+
+    #region Converters
     [ValueConversion(typeof(Dictionary<long, Information>), typeof(Double))]
     class InformationToProgressConverter : IValueConverter
     {
@@ -79,7 +128,7 @@ namespace KeySearcherPresentation.Controls
         {
             if (StatisticsPresentation != null)
             {
-                string key = (string) value;
+                string key = (string)value;
                 var data = (StatisticsPresentation.Statistics)[key];
                 return data.Sum(i => i.Value.Count);
             }
@@ -118,52 +167,6 @@ namespace KeySearcherPresentation.Controls
             throw new NotImplementedException();
         }
     }
+    #endregion
 
-    /// <summary>
-    /// Interaction logic for StatisticsPresentation.xaml
-    /// </summary>
-    public partial class StatisticsPresentation : UserControl
-    {
-        public StatisticsPresentation()
-        {
-            InitializeComponent();
-            ((InformationToProgressConverter)Resources["InformationToProgressConverter"]).StatisticsPresentation = this;
-            ((InformationToProgressConverter2)Resources["InformationToProgressConverter2"]).StatisticsPresentation = this;
-            ((ChunkSumConverter)Resources["ChunkSumConverter"]).StatisticsPresentation = this;
-            ((MachineSumToProgressConverter)Resources["MachineSumToProgressConverter"]).StatisticsPresentation = this;
-        }
-
-        private Dictionary<string, Dictionary<long, Information>> statistics = null;
-        public Dictionary<string, Dictionary<long, Information>> Statistics
-        {
-            get { return statistics; }
-            set
-            {
-                statistics = value;
-                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                                               {
-                                                   var orderedstats = statistics.OrderByDescending((x) => x.Value.Sum((z) => z.Value.Count));
-                                                   statisticsTree.DataContext = orderedstats;
-                                                   statisticsTree.Items.Refresh();
-                                                }, null);
-
-            }
-        }
-
-        private Dictionary<long, Maschinfo> machineHierarchy = null;
-        public Dictionary<long, Maschinfo> MachineHierarchy
-        {
-            get { return machineHierarchy; }
-            set
-            { 
-                machineHierarchy = value;
-                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                                                {
-                                                    var orderedstats = machineHierarchy.OrderByDescending((x) => x.Value.Sum);
-                                                    machineTree.DataContext = orderedstats;
-                                                    machineTree.Items.Refresh();
-                                                }, null);
-            }
-        }
-    }
 }

@@ -39,6 +39,7 @@ using KeySearcher.P2P;
 using KeySearcher.P2P.Exceptions;
 using KeySearcherPresentation;
 using KeySearcherPresentation.Controls;
+using KeySearcher.Properties;
 using OpenCLNet;
 
 namespace KeySearcher
@@ -331,7 +332,7 @@ namespace KeySearcher
                     process(ControlMaster);
                 else
                 {
-                    GuiLogMessage("You have to connect the KeySearcher with the Decryption Control!", NotificationLevel.Warning);
+                    GuiLogMessage(Resources.You_have_to_connect_the_KeySearcher_with_the_Decryption_Control_, NotificationLevel.Warning);
                 }
             }
         }
@@ -732,7 +733,7 @@ namespace KeySearcher
         private LinkedList<ValueKey> bruteforcePattern(KeyPattern.KeyPattern pattern)
         {
             beginBruteforcing = DateTime.Now;
-            GuiLogMessage("Start bruteforcing pattern '" + pattern.getKey() + "'", NotificationLevel.Debug);
+            GuiLogMessage(Resources.Start_bruteforcing_pattern__ + pattern.getKey() + "'", NotificationLevel.Debug);
                         
             int maxInList = 10;
             costList = new LinkedList<ValueKey>();
@@ -746,7 +747,7 @@ namespace KeySearcher
             stop = false;
             if (!pattern.testWildcardKey(settings.Key))
             {
-                GuiLogMessage("Wrong key pattern!", NotificationLevel.Error);
+                GuiLogMessage(Resources.Wrong_key_pattern_, NotificationLevel.Error);
                 return null;
             }
 
@@ -758,7 +759,7 @@ namespace KeySearcher
             }
             catch (Exception ex)
             {
-                GuiLogMessage("Bytes used not valid: " + ex.Message, NotificationLevel.Error);
+                GuiLogMessage(Resources.Bytes_used_not_valid__ + ex.Message, NotificationLevel.Error);
                 return null;
             }
 
@@ -767,7 +768,7 @@ namespace KeySearcher
             {
                 if (settings.UseExternalClient)
                 {
-                    GuiLogMessage("Waiting for external client!", NotificationLevel.Info);
+                    GuiLogMessage(Resources.Waiting_for_external_client_, NotificationLevel.Info);
                     cryptoolServer = new CryptoolServer();
                     externalClientConnected = null;
                     cryptoolServer.Port = settings.Port;
@@ -806,7 +807,7 @@ namespace KeySearcher
         {
             if (!update)
             {
-                GuiLogMessage("Launching p2p based bruteforce logic...", NotificationLevel.Info);
+                GuiLogMessage(Resources.Launching_p2p_based_bruteforce_logic___, NotificationLevel.Info);
 
                 try
                 {
@@ -817,7 +818,7 @@ namespace KeySearcher
                 }
                 catch (NotConnectedException)
                 {
-                    GuiLogMessage("P2P not connected.", NotificationLevel.Error);
+                    GuiLogMessage(Resources.P2P_not_connected_, NotificationLevel.Error);
                 }
                 catch (KeySearcherStopException)
                 {
@@ -827,7 +828,7 @@ namespace KeySearcher
             }
             else
             {
-                GuiLogMessage("Keysearcher Fullstop.Please Update your Version.", NotificationLevel.Error);
+                GuiLogMessage(Resources.Keysearcher_Fullstop__Please_Update_your_Version_, NotificationLevel.Error);
                 Thread.Sleep(3000);
             }
         }
@@ -851,7 +852,7 @@ namespace KeySearcher
 
             if (settings.UseExternalClient)
             {
-                GuiLogMessage("Only using external client to bruteforce!", NotificationLevel.Info);
+                GuiLogMessage(Resources.Only_using_external_client_to_bruteforce_, NotificationLevel.Info);
                 lock (this)
                 {
                     externalKeySearcherOpenCLCode = new KeySearcherOpenCLCode(this, encryptedData, sender, CostMaster,
@@ -870,7 +871,7 @@ namespace KeySearcher
                 KeyPattern.KeyPattern[] patterns = splitPatternForThreads(pattern);
                 if (patterns == null || patterns.Length == 0)
                 {
-                    GuiLogMessage("No ressources to BruteForce available. Check the KeySearcher settings!", NotificationLevel.Error);
+                    GuiLogMessage(Resources.No_ressources_to_BruteForce_available__Check_the_KeySearcher_settings_, NotificationLevel.Error);
                     throw new Exception("No ressources to BruteForce available. Check the KeySearcher settings!");
                 }
 
@@ -904,7 +905,7 @@ namespace KeySearcher
                     #endregion
 
                     if (keycounter > keysInThisChunk)
-                        GuiLogMessage("There must be an error, because we bruteforced too much keys...", NotificationLevel.Error);
+                        GuiLogMessage(Resources.There_must_be_an_error__because_we_bruteforced_too_much_keys___, NotificationLevel.Error);
 
                     #region determination of the thread with most keys
                     if (keysInThisChunk - keycounter > 1000)
@@ -985,7 +986,7 @@ namespace KeySearcher
             TimeSpan bruteforcingTime = DateTime.Now.Subtract(beginBruteforcing);
             StringBuilder sbBFTime = new StringBuilder();
             if (bruteforcingTime.Days > 0)
-                sbBFTime.Append(bruteforcingTime.Days.ToString() + " days ");
+                sbBFTime.Append(bruteforcingTime.Days.ToString() + Resources._days_);
             if (bruteforcingTime.Hours > 0)
             {
                 if (bruteforcingTime.Hours <= 9)
@@ -1004,7 +1005,7 @@ namespace KeySearcher
                 sbBFTime.Append("0");
             sbBFTime.Append(bruteforcingTime.Milliseconds.ToString());
 
-            GuiLogMessage("Ended bruteforcing pattern '" + pattern.getKey() + "'. Bruteforcing TimeSpan: " + sbBFTime.ToString(), NotificationLevel.Debug);
+            GuiLogMessage(Resources.Ended_bruteforcing_pattern__ + pattern.getKey() + Resources.___Bruteforcing_TimeSpan__ + sbBFTime.ToString(), NotificationLevel.Debug);
             /* END: For evaluation issues - added by Arnold 2010.03.17 */
 
             return costList;
@@ -1014,7 +1015,7 @@ namespace KeySearcher
 
         void cryptoolServer_OnClientDisconnected(EndPoint client)
         {
-            GuiLogMessage("Client disconnected!", NotificationLevel.Info);
+            GuiLogMessage(Resources.Client_disconnected_, NotificationLevel.Info);
             externalClientConnected = null;
         }
 
@@ -1025,12 +1026,12 @@ namespace KeySearcher
                 if (externalClientConnected == null)
                 {
                     externalClientConnected = client;
-                    GuiLogMessage(string.Format("Client {0} connected!", identification), NotificationLevel.Info);
+                    GuiLogMessage(string.Format(Resources.Client__0__connected_, identification), NotificationLevel.Info);
                     AssignJobToClient(client, externalKeySearcherOpenCLCode.CreateOpenCLBruteForceCode(externalKeyTranslator));
                 }
                 else
                 {
-                    GuiLogMessage("Client tried to connect, but only one client allowed!", NotificationLevel.Info);
+                    GuiLogMessage(Resources.Client_tried_to_connect__but_only_one_client_allowed_, NotificationLevel.Info);
                 }
             }
         }
@@ -1045,14 +1046,14 @@ namespace KeySearcher
             j.LargerThen = (costMaster.getRelationOperator() == RelationOperator.LargerThen);
             j.Size = externalKeyTranslator.GetOpenCLBatchSize();
             j.ResultSize = 10;
-            GuiLogMessage(string.Format("Assigning new job with Guid {0} to client!", j.Guid), NotificationLevel.Info);
+            GuiLogMessage(string.Format(Resources.Assigning_new_job_with_Guid__0__to_client_, j.Guid), NotificationLevel.Info);
             cryptoolServer.SendJob(j, client);
             assignTime = DateTime.Now;
         }
 
         void server_OnJobCompleted(System.Net.EndPoint client, JobResult jr)
         {
-            GuiLogMessage(string.Format("Client returned result of job with Guid {0}!", jr.Guid), NotificationLevel.Info);
+            GuiLogMessage(string.Format(Resources.Client_returned_result_of_job_with_Guid__0__, jr.Guid), NotificationLevel.Info);
             //check:
             var op = this.costMaster.getRelationOperator();
             foreach (var res in jr.ResultList)
@@ -1147,13 +1148,13 @@ namespace KeySearcher
                         }
                         catch
                         {
-                            localQuickWatchPresentation.endTime.Content = "in a galaxy far, far away...";
+                            localQuickWatchPresentation.endTime.Content = Resources.in_a_galaxy_far__far_away___;
                         }
                     }
                     else
                     {
-                        localQuickWatchPresentation.timeLeft.Content = "incalculable :-)";
-                        localQuickWatchPresentation.endTime.Content = "in a galaxy far, far away...";
+                        localQuickWatchPresentation.timeLeft.Content = Resources.incalculable____;
+                        localQuickWatchPresentation.endTime.Content = Resources.in_a_galaxy_far__far_away___;
                     }
 
                     localQuickWatchPresentation.entries.Clear();
@@ -1212,7 +1213,7 @@ namespace KeySearcher
                 valueKey.value = double.MaxValue;
             else
                 valueKey.value = double.MinValue;
-            valueKey.key = "dummykey";
+            valueKey.key = Resources.dummykey;
             valueKey.decryption = new byte[0];
             value_threshold = valueKey.value;
             LinkedListNode<ValueKey> node = costList.AddFirst(valueKey);
