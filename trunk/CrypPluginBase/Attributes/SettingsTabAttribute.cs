@@ -25,13 +25,11 @@ namespace Cryptool.PluginBase.Attributes
     [AttributeUsage(AttributeTargets.Class)]
     public class SettingsTabAttribute : Attribute
     {
-        public string ResourceFile { get; private set; }
         public string Caption { get; private set; }
         public string Address { get; private set; }
 
-        public SettingsTabAttribute(string resourceFile, string caption, string address)
+        public SettingsTabAttribute(string caption, string address)
         {
-            ResourceFile = resourceFile;
             Caption = caption;
             Address = address;
         }

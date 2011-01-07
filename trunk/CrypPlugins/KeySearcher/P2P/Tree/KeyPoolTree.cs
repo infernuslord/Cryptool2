@@ -7,6 +7,7 @@ using KeySearcher.KeyPattern;
 using KeySearcher.P2P.Exceptions;
 using KeySearcher.P2P.Presentation;
 using KeySearcher.P2P.Storage;
+using KeySearcher.Properties;
 
 namespace KeySearcher.P2P.Tree
 {
@@ -199,7 +200,7 @@ namespace KeySearcher.P2P.Tree
 
             if ((!isHigherPatternThanBefore || !patternIdQualifiesForUpdate) && !isLastPattern) return;
             statusUpdater.SendUpdate();
-            keySearcher.GuiLogMessage("Updating status in DHT", NotificationLevel.Info);
+            keySearcher.GuiLogMessage(Resources.Updating_status_in_DHT, NotificationLevel.Info);
         }
     }
 }

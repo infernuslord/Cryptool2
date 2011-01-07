@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using Cryptool.P2P;
 using Cryptool.PluginBase;
+using KeySearcher.Properties;
 
 namespace KeySearcher.P2P.Helper
 {
@@ -29,7 +30,7 @@ namespace KeySearcher.P2P.Helper
             }
             else
             {
-                keySearcher.GuiLogMessage("P2P network not connected and autoconnect disabled. Cannot compute job.",
+                keySearcher.GuiLogMessage(Resources.P2P_network_not_connected_and_autoconnect_disabled__Cannot_compute_job_,
                                           NotificationLevel.Error);
             }
         }
@@ -45,12 +46,12 @@ namespace KeySearcher.P2P.Helper
 
             if (P2PManager.IsConnected)
             {
-                keySearcher.GuiLogMessage("P2P network was connected due to plugin setting.",
+                keySearcher.GuiLogMessage(Resources.P2P_network_was_connected_due_to_plugin_setting_,
                                           NotificationLevel.Info);
             }
             else
             {
-                keySearcher.GuiLogMessage("P2P network could not be connected.",
+                keySearcher.GuiLogMessage(Resources.P2P_network_could_not_be_connected_,
                                           NotificationLevel.Error);
             }
         }

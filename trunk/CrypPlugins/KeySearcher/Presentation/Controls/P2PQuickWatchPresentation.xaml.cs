@@ -8,6 +8,7 @@ using System.Globalization;
 
 namespace KeySearcherPresentation.Controls
 {
+    [Cryptool.PluginBase.Attributes.Localization("KeySearcher.Properties.Resources")]
     public partial class P2PQuickWatchPresentation : UserControl
     {
         public static readonly DependencyProperty IsVerboseEnabledProperty = DependencyProperty.Register("IsVerboseEnabled", typeof(Boolean), typeof(P2PQuickWatchPresentation), new PropertyMetadata(false));

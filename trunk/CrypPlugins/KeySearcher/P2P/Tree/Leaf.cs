@@ -4,6 +4,7 @@ using System.Numerics;
 using KeySearcher.Helper;
 using KeySearcher.P2P.Exceptions;
 using KeySearcher.P2P.Storage;
+using KeySearcher.Properties;
 
 namespace KeySearcher.P2P.Tree
 {
@@ -83,7 +84,7 @@ namespace KeySearcher.P2P.Tree
 
         public override string ToString()
         {
-            return base.ToString() + ", last reservation date " + LastReservationDate;
+            return base.ToString() + Resources.__last_reservation_date_ + LastReservationDate;
         }
 
         public long getClientIdentifier()

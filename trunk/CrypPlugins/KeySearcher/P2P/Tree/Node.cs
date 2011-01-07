@@ -3,6 +3,7 @@ using System.Numerics;
 using KeySearcher.Helper;
 using KeySearcher.P2P.Exceptions;
 using KeySearcher.P2P.Storage;
+using KeySearcher.Properties;
 
 namespace KeySearcher.P2P.Tree
 {
@@ -136,7 +137,7 @@ namespace KeySearcher.P2P.Tree
 
         public override string ToString()
         {
-            return base.ToString() + ", LeftChildFinished " + LeftChildFinished + ",  RightChildFinished " +
+            return base.ToString() + Resources.__LeftChildFinished_ + LeftChildFinished + Resources.___RightChildFinished_ +
                    RightChildFinished;
         }
     }
