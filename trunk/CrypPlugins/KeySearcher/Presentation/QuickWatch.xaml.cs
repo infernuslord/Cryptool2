@@ -18,6 +18,7 @@ namespace KeySearcherPresentation
     /// <summary>
     /// Interaction logic for QuickWatch.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("KeySearcher.Properties.Resources")]
     public partial class QuickWatch : UserControl
     {
         public static readonly DependencyProperty IsP2PEnabledProperty =
