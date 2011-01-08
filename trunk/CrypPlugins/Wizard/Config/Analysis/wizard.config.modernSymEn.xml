@@ -5,55 +5,55 @@
 <step>
 
   <!-- This is the step's headline. It should be a short, but precise instruction of what the user is supposed to do. -->
-  <headline lang="en" >Choose between different modern symmetric encryption algorithms</headline>
+  <headline lang="en-US" >Choose between different modern symmetric encryption algorithms</headline>
 
   <!-- This is the description's headline. -->
-  <desc lang="en" >Description</desc>
+  <desc lang="en-US" >Description</desc>
 
   <!-- AES Item -->
   <item id="AESEn" image="AES" >
-    <name lang="en" >AES</name>
-    <description lang="en" >
+    <name lang="en-US" >AES</name>
+    <description lang="en-US" >
       AES is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </item>
 
   <!-- DES Item -->
   <item id="DESEn" image="DES" >
-    <name lang="en" >DES</name>
-    <description lang="en" >
+    <name lang="en-US" >DES</name>
+    <description lang="en-US" >
       DES is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </item>
 
   <!-- SDES Item -->
   <item id="SDESEn" image="SDES" >
-    <name lang="en" >SDES</name>
-    <description lang="en" >
+    <name lang="en-US" >SDES</name>
+    <description lang="en-US" >
       SDES is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </item>
 
   <!-- Twofish Item -->
   <item id="TwoEn" image="Twofish" >
-    <name lang="en" >Twofish</name>
-    <description lang="en" >
+    <name lang="en-US" >Twofish</name>
+    <description lang="en-US" >
       Twofish is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </item>
 
   <!-- Trivium Item -->
   <item id="TriEn" image="Trivium" >
-    <name lang="en" >Trivium</name>
-    <description lang="en" >
+    <name lang="en-US" >Trivium</name>
+    <description lang="en-US" >
       Trivium is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </item>
 
   <!-- TEA Item -->
   <item id="TEAEn" image="TEA" >
-    <name lang="en" >TEA</name>
-    <description lang="en" >
+    <name lang="en-US" >TEA</name>
+    <description lang="en-US" >
       TEA is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </item>

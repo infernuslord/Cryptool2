@@ -59,5 +59,32 @@ namespace Wizard.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Abort ähnelt.
+        /// </summary>
+        public static string AbortButton {
+            get {
+                return ResourceManager.GetString("AbortButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Back ähnelt.
+        /// </summary>
+        public static string BackButton {
+            get {
+                return ResourceManager.GetString("BackButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Next ähnelt.
+        /// </summary>
+        public static string NextButton {
+            get {
+                return ResourceManager.GetString("NextButton", resourceCulture);
+            }
+        }
     }
 }

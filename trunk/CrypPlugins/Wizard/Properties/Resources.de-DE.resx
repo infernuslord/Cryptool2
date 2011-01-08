@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AbortButton" xml:space="preserve">
-    <value>Abort</value>
+    <value>Verwerfen</value>
   </data>
   <data name="BackButton" xml:space="preserve">
-    <value>Back</value>
+    <value>Zurück</value>
   </data>
   <data name="NextButton" xml:space="preserve">
-    <value>Next</value>
+    <value>Weiter</value>
   </data>
 </root>

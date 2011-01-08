@@ -23,11 +23,12 @@ namespace Wizard
     /// <summary>
     /// Interaction logic for WizardControl.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("Wizard.Properties.Resources")]
     public partial class WizardControl : UserControl
     {
 
         private const string configXMLPath = "Wizard.Config.wizard.config.start.xml";
-        private const string defaultLang = "en";
+        private const string defaultLang = "en-US";
         private XElement wizardConfigXML;
 
         public WizardControl()
@@ -110,8 +111,6 @@ namespace Wizard
 
             nextButton.IsEnabled = false;
 
-            string currentLang = System.Globalization.CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
-
             //set headline
             XElement headline = FindElementInElement(element, "headline");
             if (headline != null)
@@ -185,7 +184,7 @@ namespace Wizard
         //finds elements according to the current language
         private XElement FindElementInElement(XElement element, string xname)
         {
-            string currentLang = System.Globalization.CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+            string currentLang = System.Globalization.CultureInfo.CurrentCulture.Name;
             XElement foundElement = null;
 
             IEnumerable<XElement> descriptions = element.Elements(xname);

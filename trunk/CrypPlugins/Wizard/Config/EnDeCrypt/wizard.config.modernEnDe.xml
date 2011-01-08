@@ -5,15 +5,15 @@
 <step>
 
   <!-- This is the step's headline. It should be a short, but precise instruction of what the user is supposed to do. -->
-  <headline lang="en" >Choose between symmetric or asymmetric encryption/decryption</headline>
+  <headline lang="en-US" >Choose between symmetric or asymmetric encryption/decryption</headline>
 
   <!-- This is the description's headline. -->
-  <desc lang="en" >Description</desc>
+  <desc lang="en-US" >Description</desc>
 
   <!-- Symmetric Encryption/Decryption Category -->
   <category id ="Sym" image="Sym">
-    <name lang="en" >Symmetric Encryption/Decryption</name>
-    <description lang="en" >
+    <name lang="en-US" >Symmetric Encryption/Decryption</name>
+    <description lang="en-US" >
       Select a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext.
     </description>
     <file resource="Wizard.Config.EnDeCrypt.wizard.config.modernSymEnDe.xml" />
@@ -21,21 +21,21 @@
 
   <!-- Asymmetric Encryption/Decryption Category -->
   <category id ="Asym" image="Asym">
-    <name lang="en" >Asymmetric Encryption/Decryption</name>
-    <description lang="en" >
+    <name lang="en-US" >Asymmetric Encryption/Decryption</name>
+    <description lang="en-US" >
       Select an asymmetric modern algorithm to encrypt plaintext or to decrypt ciphertext.
     </description>
 
     <!-- This is the step's headline. It should be a short, but precise instruction of what the user is supposed to do. -->
-    <headline lang="en" >Choose between different asymmetric encryption/decryption algorithms</headline>
+    <headline lang="en-US" >Choose between different asymmetric encryption/decryption algorithms</headline>
 
     <!-- This is the description's headline. -->
-    <desc lang="en" >Description</desc>
+    <desc lang="en-US" >Description</desc>
     
     <!-- RSA Item -->
     <item id="RSA" image="RSA" >
-      <name lang="en" >RSA</name>
-      <description lang="en" >
+      <name lang="en-US" >RSA</name>
+      <description lang="en-US" >
         RSA is an asymmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
       </description>
     </item>

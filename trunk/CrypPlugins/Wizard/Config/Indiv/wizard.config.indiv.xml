@@ -8,12 +8,12 @@
   <headline lang="en" >Choose between individual procedures</headline>
 
   <!-- This is the description's headline. -->
-  <desc lang="en" >Description</desc>
+  <desc lang="en-US" >Description</desc>
 
   <!-- Hash Functions Category -->
   <category id ="Hash" image="Hash">
-    <name lang="en" >Hash Functions</name>
-    <description lang="en" >
+    <name lang="en-US" >Hash Functions</name>
+    <description lang="en-US" >
       Select hash functions to work with.
     </description>
     <file resource="Wizard.Config.Indiv.wizard.config.hash.xml" />
@@ -21,8 +21,8 @@
 
   <!-- Prime Number Operations Category -->
   <category id ="Prime" image="Primes">
-    <name lang="en" >Prime Number Operations</name>
-    <description lang="en" >
+    <name lang="en-US" >Prime Number Operations</name>
+    <description lang="en-US" >
       Select a prime numer operation to work with.
     </description>
     <file resource="Wizard.Config.Indiv.wizard.config.prime.xml" />
@@ -30,21 +30,21 @@
 
   <!-- Key Exchange Category -->
   <category id ="Key" image="Key">
-    <name lang="en" >Key Exchange</name>
-    <description lang="en" >
+    <name lang="en-US" >Key Exchange</name>
+    <description lang="en-US" >
       Select a key exchange algorithm to work with.
     </description>
 
     <!-- This is the step's headline. It should be a short, but precise instruction of what the user is supposed to do. -->
-    <headline lang="en" >Choose between different key exchange algorithms</headline>
+    <headline lang="en-US" >Choose between different key exchange algorithms</headline>
 
     <!-- This is the description's headline. -->
-    <desc lang="en" >Description</desc>
+    <desc lang="en-US" >Description</desc>
 
     <!-- Diffie Hellman Item -->
     <item id="Diffie" image="Key" >
-      <name lang="en" >Diffie Hellman</name>
-      <description lang="en" >
+      <name lang="en-US" >Diffie Hellman</name>
+      <description lang="en-US" >
         Diffie Hellman is a key exchange algorithm... (add instead some really helpful text).
       </description>
     </item>
