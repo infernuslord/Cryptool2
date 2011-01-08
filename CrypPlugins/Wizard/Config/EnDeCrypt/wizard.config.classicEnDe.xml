@@ -5,87 +5,87 @@
 <step>
 
   <!-- This is the step's headline. It should be a short, but precise instruction of what the user is supposed to do. -->
-  <headline lang="en" >Choose between different classic encryption/decryption algorithms</headline>
+  <headline lang="en-US" >Choose between different classic encryption/decryption algorithms</headline>
 
   <!-- This is the description's headline. -->
-  <desc lang="en" >Description</desc>
+  <desc lang="en-US" >Description</desc>
 
   <!-- Caesar Item -->
   <item id ="Caesar" image="Caesar">
-    <name lang="en" >Caesar</name>
-    <description lang="en" >
+    <name lang="en-US" >Caesar</name>
+    <description lang="en-US" >
       Caesar is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </item>
 
   <!-- Vigenère Item -->
   <item id ="Vigenere" image="Vigenere">
-    <name lang="en" >Vigenère</name>
-    <description lang="en" >
+    <name lang="en-US" >Vigenère</name>
+    <description lang="en-US" >
       Vigenère is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </item>
 
   <!-- Substitution Item -->
   <item id ="Substitution" image="Substitution">
-    <name lang="en" >Substitution</name>
-    <description lang="en" >
+    <name lang="en-US" >Substitution</name>
+    <description lang="en-US" >
       Substitution is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </item>
 
   <!-- Enigma Item -->
   <item id ="Enigma" image="Enigma">
-    <name lang="en" >Enigma</name>
-    <description lang="en" >
+    <name lang="en-US" >Enigma</name>
+    <description lang="en-US" >
       Enigma is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </item>
 
   <!-- Playfair Item -->
   <item id ="Playfair" image="Playfair">
-    <name lang="en" >Playfair</name>
-    <description lang="en" >
+    <name lang="en-US" >Playfair</name>
+    <description lang="en-US" >
       Playfair is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </item>
 
   <!-- ADFGVX Item -->
   <item id ="ADFGVX" image="ADFGVX">
-    <name lang="en" >ADFGVX</name>
-    <description lang="en" >
+    <name lang="en-US" >ADFGVX</name>
+    <description lang="en-US" >
       ADFGVX is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </item>
 
   <!-- XOR Item -->
   <item id ="XOR" image="XOR">
-    <name lang="en" >XOR</name>
-    <description lang="en" >
+    <name lang="en-US" >XOR</name>
+    <description lang="en-US" >
       XOR is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </item>
 
   <!-- Vernam Item -->
   <item id ="Vernam" image="Vernam">
-    <name lang="en" >Vernam</name>
-    <description lang="en" >
+    <name lang="en-US" >Vernam</name>
+    <description lang="en-US" >
       Vernam is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </item>
 
   <!-- Transposition Item -->
   <item id ="Transposition" image="Transposition">
-    <name lang="en" >Transposition</name>
-    <description lang="en" >
+    <name lang="en-US" >Transposition</name>
+    <description lang="en-US" >
       Transposition is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </item>
 
   <!-- Scytale Item -->
   <item id ="Scytale" image="Scytale">
-    <name lang="en" >Scytale</name>
-    <description lang="en" >
+    <name lang="en-US" >Scytale</name>
+    <description lang="en-US" >
       Scytale is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </item>

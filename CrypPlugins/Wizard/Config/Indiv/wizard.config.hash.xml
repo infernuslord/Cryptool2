@@ -5,23 +5,23 @@
 <step>
 
   <!-- This is the step's headline. It should be a short, but precise instruction of what the user is supposed to do. -->
-  <headline lang="en" >Choose between different hash functions</headline>
+  <headline lang="en-US" >Choose between different hash functions</headline>
 
   <!-- This is the description's headline. -->
-  <desc lang="en" >Description</desc>
+  <desc lang="en-US" >Description</desc>
 
   <!-- MD5 Item -->
   <item id="MD5" image="MD5" >
-    <name lang="en" >MD5</name>
-    <description lang="en" >
+    <name lang="en-US" >MD5</name>
+    <description lang="en-US" >
       MD5 is a hash function... (add instead some really helpful text).
     </description>
   </item>
 
   <!-- SHA Item -->
   <item id="SHA" image="SHA" >
-    <name lang="en" >SHA</name>
-    <description lang="en" >
+    <name lang="en-US" >SHA</name>
+    <description lang="en-US" >
       SHA is a hash function... (add instead some really helpful text).
     </description>
   </item>
@@ -29,23 +29,23 @@
   <!-- RIPEMD160 Item -->
   <item id="RIPEMD160" image="RIPEMD160" >
     <name lang="en" >RIPEMD160</name>
-    <description lang="en" >
+    <description lang="en-US" >
       RIPEMD160 is a hash function... (add instead some really helpful text).
     </description>
   </item>
 
   <!-- Tiger Item -->
   <item id="Tiger" image="Tiger" >
-    <name lang="en" >Tiger</name>
-    <description lang="en" >
+    <name lang="en-US" >Tiger</name>
+    <description lang="en-US" >
       Tiger is a hash function... (add instead some really helpful text).
     </description>
   </item>
 
   <!-- Whirlpool Item -->
   <item id="Whirlpool" image="Whirlpool" >
-    <name lang="en" >Whirlpool</name>
-    <description lang="en" >
+    <name lang="en-US" >Whirlpool</name>
+    <description lang="en-US" >
       Whirlpool is a hash function... (add instead some really helpful text).
     </description>
   </item>

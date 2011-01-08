@@ -5,15 +5,15 @@
 <step>
 
   <!-- This is the step's headline. It should be a short, but precise instruction of what the user is supposed to do. -->
-  <headline lang="en" >Choose between classic or modern encryption</headline>
+  <headline lang="en-US" >Choose between classic or modern encryption</headline>
 
   <!-- This is the description's headline. -->
-  <desc lang="en" >Description</desc>
+  <desc lang="en-US" >Description</desc>
 
   <!-- Classic Encryption Category -->
   <category id ="ClassicEn" image="Classic">
-    <name lang="en" >Classic Encryption</name>
-    <description lang="en" >
+    <name lang="en-US" >Classic Encryption</name>
+    <description lang="en-US" >
       Select a classic encryption to analyze.
     </description>
     <file resource="Wizard.Config.Analysis.wizard.config.classicEn.xml" />
@@ -21,8 +21,8 @@
 
   <!-- Modern Encryption Category -->
   <category id ="ModernEn" image="Modern">
-    <name lang="en" >Modern Encryption</name>
-    <description lang="en" >
+    <name lang="en-US" >Modern Encryption</name>
+    <description lang="en-US" >
       Select a modern encryption to analyze.
     </description>
     <file resource="Wizard.Config.Analysis.wizard.config.modernEn.xml" />

@@ -5,24 +5,30 @@
 <step>
 
   <!-- This is the step's headline. It should be a short, but precise instruction of what the user is supposed to do. -->
-  <headline lang="en" >Choose between classic or modern encryption/decryption</headline>
+  <headline lang="en-US" >Choose between classic or modern encryption/decryption</headline>
+  <headline lang="de-DE" >Wählen Sie zwischen klassischer oder moderner Verschlüsselung/Entschlüsselung</headline>
 
   <!-- This is the description's headline. -->
-  <desc lang="en" >Description</desc>
+  <desc lang="en-US" >Description</desc>
+  <desc lang="de-DE" >Beschreibung</desc>
 
   <!-- Classic Encryption/Decryption Category -->
   <category id ="Classic" image="Classic">
-    <name lang="en" >Classic Encryption/Decryption</name>
-    <description lang="en" >
+    <name lang="en-US" >Classic Encryption/Decryption</name>
+    <name lang="de-DE" >Klassische Verschlüsselung/Entschlüsselung</name>
+    <description lang="en-US" >
       Select a classic algorithm to encrypt plaintext or to decrypt ciphertext.
+    </description>
+    <description lang="de-DE" >
+      Wählen Sie einen klassischen Algorithmus, um Klartext zu verschlüsseln oder chiffrierten Text zu entschlüsseln.
     </description>
     <file resource="Wizard.Config.EnDeCrypt.wizard.config.classicEnDe.xml" />
   </category>
 
   <!-- Modern Encryption/Decryption Category -->
   <category id ="Modern" image="Modern">
-    <name lang="en" >Modern Encryption/Decryption</name>
-    <description lang="en" >
+    <name lang="en-US" >Modern Encryption/Decryption</name>
+    <description lang="en-US" >
       Select a modern algorithm to encrypt plaintext or to decrypt ciphertext.
     </description>
     <file resource="Wizard.Config.EnDeCrypt.wizard.config.modernEnDe.xml" />
