@@ -45,7 +45,7 @@ using OpenCLNet;
 namespace KeySearcher
 {
     [Author("Sven Rech, Nils Kopal, Raoul Falk, Dennis Nolte", "rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "KeySearcher", "Bruteforces a decryption algorithm.", "KeySearcher/DetailedDescription/Description.xaml", "KeySearcher/Images/icon.png")]
+    [PluginInfo("KeySearcher.Properties.Resources", false, "pluginName", "pluginToolTip", "KeySearcher/DetailedDescription/Description.xaml", "KeySearcher/Images/icon.png")]
     public class KeySearcher : IAnalysisMisc
     {
         /// <summary>
@@ -100,7 +100,7 @@ namespace KeySearcher
         #region IControlEncryption Members
 
         private IControlEncryption controlMaster;
-        [PropertyInfo(Direction.ControlMaster, "Control Master", "Used for bruteforcing", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.ControlMaster, "Control_Master", "ControlMasterDesc", "", DisplayLevel.Beginner)]
         public IControlEncryption ControlMaster
         {
             get { return controlMaster; }
@@ -128,7 +128,7 @@ namespace KeySearcher
         #region IControlCost Members
 
         private IControlCost costMaster;
-        [PropertyInfo(Direction.ControlMaster, "Cost Master", "Used for cost calculation", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.ControlMaster, "Cost_Master", "CostMasterDesc", "", DisplayLevel.Beginner)]
         public IControlCost CostMaster
         {
             get { return costMaster; }
@@ -143,7 +143,7 @@ namespace KeySearcher
 
         /* BEGIN: following lines are from Arnie - 2010.01.12 */
         CryptoolStream csEncryptedData;
-        [PropertyInfo(Direction.InputData, "CS Encrypted Data", "Encrypted data out of an Encryption PlugIn", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, "")]
+        [PropertyInfo(Direction.InputData, "CS_Encrypted_Data", "csEncryptedDataDesc", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, "")]
         public virtual CryptoolStream CSEncryptedData
         {
             get { return this.csEncryptedData; }
@@ -159,7 +159,7 @@ namespace KeySearcher
         }
 
         byte[] encryptedData;
-        [PropertyInfo(Direction.InputData,"Encrypted Data","Encrypted data out of an Encryption PlugIn","",false,false,DisplayLevel.Beginner,QuickWatchFormat.Hex,"")]
+        [PropertyInfo(Direction.InputData,"Encrypted_Data","EcryptedDataDesc","",false,false,DisplayLevel.Beginner,QuickWatchFormat.Hex,"")]
         public virtual byte[] EncryptedData 
         {
             get { return this.encryptedData; }
@@ -193,7 +193,7 @@ namespace KeySearcher
         }
 
         byte[] initVector;
-        [PropertyInfo(Direction.InputData, "Initialization Vector", "Initialization vector with which the data were encrypted", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Initialization_Vector", "InitVecDesc", "", DisplayLevel.Beginner)]
         public virtual byte[] InitVector
         {
             get { return this.initVector; }
@@ -214,12 +214,12 @@ namespace KeySearcher
             set { top1ValueKey = value; OnPropertyChanged("Top1Message"); OnPropertyChanged("Top1Key"); }
         }
 
-        [PropertyInfo(Direction.OutputData, "Top1 Message", "The best message found", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Top1_Message", "top1MesDesc", "", DisplayLevel.Beginner)]
         public virtual byte[] Top1Message
         {
             get { return top1ValueKey.decryption; }
         }
-        [PropertyInfo(Direction.OutputData, "Top1 Key", "The best key found", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Top1_Key", "Top1KeyDesc", "", DisplayLevel.Beginner)]
         public virtual byte[] Top1Key
         {
             get

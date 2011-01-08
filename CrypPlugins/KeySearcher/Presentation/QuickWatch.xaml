@@ -9,13 +9,13 @@
 		<Converter:TrueToVisibleConverter x:Key="TrueToVisibleConverter" />
 	</UserControl.Resources>
     <TabControl>
-        <TabItem Header="Progress">
+        <TabItem Header="{Loc Progress}">
             <Grid>
                 <Controls:LocalQuickWatchPresentation x:Name="LocalQuickWatchPresentation" Visibility="{Binding IsP2PEnabled, ElementName=QuickWatchControl, Converter={StaticResource FalseToVisibleConverter}}" />
                 <Controls:P2PQuickWatchPresentation x:Name="P2PQuickWatchPresentation" Visibility="{Binding IsP2PEnabled, ElementName=QuickWatchControl, Converter={StaticResource TrueToVisibleConverter}}" />
             </Grid>
         </TabItem>
-        <TabItem Header="Statistics">
+        <TabItem Header="{Loc Statistics}">
             <Controls:StatisticsPresentation x:Name="StatisticsPresentation"/>
         </TabItem>
     </TabControl>    

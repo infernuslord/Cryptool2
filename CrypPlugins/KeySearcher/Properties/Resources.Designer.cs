@@ -142,6 +142,24 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Autoconnect network.
+        /// </summary>
+        internal static string AutoconnectSettings {
+            get {
+                return ResourceManager.GetString("AutoconnectSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Establish a connection to the network if the workspace is started without the background connection being active..
+        /// </summary>
+        internal static string AutoconnectSettingsDesc {
+            get {
+                return ResourceManager.GetString("AutoconnectSettingsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Best match: {0} with {1}.
         /// </summary>
         internal static string Best_match___0__with__1_ {
@@ -205,6 +223,24 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Chunk size.
+        /// </summary>
+        internal static string ChunkSizeSettings {
+            get {
+                return ResourceManager.GetString("ChunkSizeSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Amount of keys, that will be calculated by one peer at a time. This value is the exponent of the power of two used for the chunk size..
+        /// </summary>
+        internal static string ChunkSizeSettingsDesc {
+            get {
+                return ResourceManager.GetString("ChunkSizeSettingsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Client {0} connected!.
         /// </summary>
         internal static string Client__0__connected_ {
@@ -250,11 +286,119 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Control Master.
+        /// </summary>
+        internal static string Control_Master {
+            get {
+                return ResourceManager.GetString("Control_Master", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Used for bruteforcing.
+        /// </summary>
+        internal static string ControlMasterDesc {
+            get {
+                return ResourceManager.GetString("ControlMasterDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy status key.
+        /// </summary>
+        internal static string CopyStatusKeySettings {
+            get {
+                return ResourceManager.GetString("CopyStatusKeySettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy status key to clipboard. The key can than be used to upload it together with the job using the P2PEditor..
+        /// </summary>
+        internal static string CopyStatusKeySettingsDesc {
+            get {
+                return ResourceManager.GetString("CopyStatusKeySettingsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CoresUsed.
+        /// </summary>
+        internal static string CoresUsedSettings {
+            get {
+                return ResourceManager.GetString("CoresUsedSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose how many cores should be used.
+        /// </summary>
+        internal static string CoresUsedSettingsDesc {
+            get {
+                return ResourceManager.GetString("CoresUsedSettingsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cost Master.
+        /// </summary>
+        internal static string Cost_Master {
+            get {
+                return ResourceManager.GetString("Cost_Master", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Used for cost calculation.
+        /// </summary>
+        internal static string CostMasterDesc {
+            get {
+                return ResourceManager.GetString("CostMasterDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not store results: .
         /// </summary>
         internal static string Could_not_store_results__ {
             get {
                 return ResourceManager.GetString("Could_not_store_results__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CS Encrypted Data.
+        /// </summary>
+        internal static string CS_Encrypted_Data {
+            get {
+                return ResourceManager.GetString("CS_Encrypted_Data", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Encrypted data out of an Encryption PlugIn.
+        /// </summary>
+        internal static string csEncryptedDataDesc {
+            get {
+                return ResourceManager.GetString("csEncryptedDataDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select the Comma-Seperated-Values file.
+        /// </summary>
+        internal static string CSVPathSettings {
+            get {
+                return ResourceManager.GetString("CSVPathSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select the folder and csv file you want to use..
+        /// </summary>
+        internal static string CSVPathSettingsDesc {
+            get {
+                return ResourceManager.GetString("CSVPathSettingsDesc", resourceCulture);
             }
         }
         
@@ -268,11 +412,65 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Database.
+        /// </summary>
+        internal static string DatabaseSettings {
+            get {
+                return ResourceManager.GetString("DatabaseSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name of the evaluation database.
+        /// </summary>
+        internal static string DatabaseSettingsDesc {
+            get {
+                return ResourceManager.GetString("DatabaseSettingsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default file.
+        /// </summary>
+        internal static string DefaultPathSettings {
+            get {
+                return ResourceManager.GetString("DefaultPathSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use the default folder %APPDATA%\\Local\\CrypTool2.
+        /// </summary>
+        internal static string DefaultPathSettingsDesc {
+            get {
+                return ResourceManager.GetString("DefaultPathSettingsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Devices:.
         /// </summary>
         internal static string Devices_ {
             get {
                 return ResourceManager.GetString("Devices_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display verbose information.
+        /// </summary>
+        internal static string DisplayVerboseInformationSettings {
+            get {
+                return ResourceManager.GetString("DisplayVerboseInformationSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display verbose information about network requests in the quick watch..
+        /// </summary>
+        internal static string DisplayVerboseInformationSettingsDesc {
+            get {
+                return ResourceManager.GetString("DisplayVerboseInformationSettingsDesc", resourceCulture);
             }
         }
         
@@ -286,11 +484,29 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Encrypted data out of an Encryption PlugIn.
+        /// </summary>
+        internal static string EcryptedDataDesc {
+            get {
+                return ResourceManager.GetString("EcryptedDataDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Elapsed:.
         /// </summary>
         internal static string Elapsed_ {
             get {
                 return ResourceManager.GetString("Elapsed_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Encrypted Data.
+        /// </summary>
+        internal static string Encrypted_Data {
+            get {
+                return ResourceManager.GetString("Encrypted_Data", resourceCulture);
             }
         }
         
@@ -340,6 +556,69 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Evaluation.
+        /// </summary>
+        internal static string GroupEvaluation {
+            get {
+                return ResourceManager.GetString("GroupEvaluation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to External Client.
+        /// </summary>
+        internal static string GroupExternalClient {
+            get {
+                return ResourceManager.GetString("GroupExternalClient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OpenCL.
+        /// </summary>
+        internal static string GroupOpenCL {
+            get {
+                return ResourceManager.GetString("GroupOpenCL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Peer-to-Peer network.
+        /// </summary>
+        internal static string GroupPeerToPeer {
+            get {
+                return ResourceManager.GetString("GroupPeerToPeer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Statistic Save Path.
+        /// </summary>
+        internal static string GroupStatisticPath {
+            get {
+                return ResourceManager.GetString("GroupStatisticPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Host.
+        /// </summary>
+        internal static string HostSettings {
+            get {
+                return ResourceManager.GetString("HostSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Database host with evaluation database.
+        /// </summary>
+        internal static string HostSettingsDesc {
+            get {
+                return ResourceManager.GetString("HostSettingsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to in a galaxy far, far away....
         /// </summary>
         internal static string in_a_galaxy_far__far_away___ {
@@ -358,6 +637,15 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Initialization Vector.
+        /// </summary>
+        internal static string Initialization_Vector {
+            get {
+                return ResourceManager.GetString("Initialization_Vector", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Initializing connection to the peer-to-peer system.
         /// </summary>
         internal static string Initializing_connection_to_the_peer_to_peer_system {
@@ -372,6 +660,15 @@ namespace KeySearcher.Properties {
         internal static string Initializing_distributed_key_pool_tree {
             get {
                 return ResourceManager.GetString("Initializing_distributed_key_pool_tree", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Initialization vector with which the data were encrypted.
+        /// </summary>
+        internal static string InitVecDesc {
+            get {
+                return ResourceManager.GetString("InitVecDesc", resourceCulture);
             }
         }
         
@@ -430,6 +727,24 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Key.
+        /// </summary>
+        internal static string KeySettings {
+            get {
+                return ResourceManager.GetString("KeySettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Key pattern used to bruteforce.
+        /// </summary>
+        internal static string KeySettingsDesc {
+            get {
+                return ResourceManager.GetString("KeySettingsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Launching p2p based bruteforce logic....
         /// </summary>
         internal static string Launching_p2p_based_bruteforce_logic___ {
@@ -475,11 +790,56 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No OpenCL available.
+        /// </summary>
+        internal static string NoOpenCLSettings {
+            get {
+                return ResourceManager.GetString("NoOpenCLSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Only using external client to bruteforce!.
         /// </summary>
         internal static string Only_using_external_client_to_bruteforce_ {
             get {
                 return ResourceManager.GetString("Only_using_external_client_to_bruteforce_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OpenCL Device.
+        /// </summary>
+        internal static string OpenCLDeviceSettings {
+            get {
+                return ResourceManager.GetString("OpenCLDeviceSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose the OpenCL device you want to use..
+        /// </summary>
+        internal static string OpenCLDeviceSettingsDesc {
+            get {
+                return ResourceManager.GetString("OpenCLDeviceSettingsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OpenCL Mode.
+        /// </summary>
+        internal static string OpenCLModeSettings {
+            get {
+                return ResourceManager.GetString("OpenCLModeSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose the OpenCL mode you want to use..
+        /// </summary>
+        internal static string OpenCLModeSettingsDesc {
+            get {
+                return ResourceManager.GetString("OpenCLModeSettingsDesc", resourceCulture);
             }
         }
         
@@ -547,6 +907,24 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        internal static string PasswordSettings {
+            get {
+                return ResourceManager.GetString("PasswordSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password for evaluation database.
+        /// </summary>
+        internal static string PasswordSettingsDesc {
+            get {
+                return ResourceManager.GetString("PasswordSettingsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pattern #{0} was reserved before it could be reserved for this CrypTool instance..
         /// </summary>
         internal static string Pattern___0__was_reserved_before_it_could_be_reserved_for_this_CrypTool_instance_ {
@@ -575,11 +953,56 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to KeySearcher.
+        /// </summary>
+        internal static string pluginName {
+            get {
+                return ResourceManager.GetString("pluginName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bruteforces a decryption algorithm..
+        /// </summary>
+        internal static string pluginToolTip {
+            get {
+                return ResourceManager.GetString("pluginToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Port.
+        /// </summary>
+        internal static string PortSettings {
+            get {
+                return ResourceManager.GetString("PortSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Port on which to listen for external clients..
+        /// </summary>
+        internal static string PortSettingsDesc {
+            get {
+                return ResourceManager.GetString("PortSettingsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Processing results of calculation.
         /// </summary>
         internal static string Processing_results_of_calculation {
             get {
                 return ResourceManager.GetString("Processing_results_of_calculation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Progress.
+        /// </summary>
+        internal static string Progress {
+            get {
+                return ResourceManager.GetString("Progress", resourceCulture);
             }
         }
         
@@ -702,6 +1125,24 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reset.
+        /// </summary>
+        internal static string ResetSettings {
+            get {
+                return ResourceManager.GetString("ResetSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset Key.
+        /// </summary>
+        internal static string ResetSettingsDesc {
+            get {
+                return ResourceManager.GetString("ResetSettingsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Retrieve:.
         /// </summary>
         internal static string Retrieve_ {
@@ -765,6 +1206,15 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Statistics.
+        /// </summary>
+        internal static string Statistics {
+            get {
+                return ResourceManager.GetString("Statistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Status key &apos;{0}&apos; has been copied to clipboard..
         /// </summary>
         internal static string Status_key___0___has_been_copied_to_clipboard_ {
@@ -806,6 +1256,42 @@ namespace KeySearcher.Properties {
         internal static string Top_Ten_ {
             get {
                 return ResourceManager.GetString("Top_Ten_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Top1 Key.
+        /// </summary>
+        internal static string Top1_Key {
+            get {
+                return ResourceManager.GetString("Top1_Key", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Top1 Message.
+        /// </summary>
+        internal static string Top1_Message {
+            get {
+                return ResourceManager.GetString("Top1_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The best key found.
+        /// </summary>
+        internal static string Top1KeyDesc {
+            get {
+                return ResourceManager.GetString("Top1KeyDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The best message found.
+        /// </summary>
+        internal static string top1MesDesc {
+            get {
+                return ResourceManager.GetString("top1MesDesc", resourceCulture);
             }
         }
         
@@ -887,6 +1373,78 @@ namespace KeySearcher.Properties {
         internal static string Updating_status_in_DHT {
             get {
                 return ResourceManager.GetString("Updating_status_in_DHT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use external client.
+        /// </summary>
+        internal static string UseExternalClientSettings {
+            get {
+                return ResourceManager.GetString("UseExternalClientSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If checked, external clients are allowed to connect to this CrypTool 2.0 instance to support the bruteforce process..
+        /// </summary>
+        internal static string UseExternalClientSettingsDesc {
+            get {
+                return ResourceManager.GetString("UseExternalClientSettingsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Peer-to-Peer network.
+        /// </summary>
+        internal static string UseP2PSettings {
+            get {
+                return ResourceManager.GetString("UseP2PSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Distributes the operation on available peers by using the built-in peer-to-peer network..
+        /// </summary>
+        internal static string UseP2PSettingsDesc {
+            get {
+                return ResourceManager.GetString("UseP2PSettingsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User.
+        /// </summary>
+        internal static string UserSettings {
+            get {
+                return ResourceManager.GetString("UserSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username for evaluation database.
+        /// </summary>
+        internal static string UserSettingsDesc {
+            get {
+                return ResourceManager.GetString("UserSettingsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use selected device.
+        /// </summary>
+        internal static string UseSelectedDeviceSettings {
+            get {
+                return ResourceManager.GetString("UseSelectedDeviceSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If checked, the selected OpenCL device is used for bruteforcing..
+        /// </summary>
+        internal static string UseSelectedDeviceSettingsDesc {
+            get {
+                return ResourceManager.GetString("UseSelectedDeviceSettingsDesc", resourceCulture);
             }
         }
         
