@@ -60,8 +60,8 @@ namespace KeySearcherPresentation.Controls
                 machineHierarchy = value;
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                                                 {
-                                                    var orderedstats = machineHierarchy.OrderByDescending((x) => x.Value.Sum);
-                                                    machineTree.DataContext = orderedstats;
+                                                    //var orderedstats = machineHierarchy.OrderByDescending((x) => x.Value.Sum);
+                                                    machineTree.DataContext = machineHierarchy;
                                                     machineTree.Items.Refresh();
                                                 }, null);
             }

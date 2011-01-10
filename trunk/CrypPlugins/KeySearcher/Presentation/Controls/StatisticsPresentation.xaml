@@ -26,7 +26,7 @@
                     <HierarchicalDataTemplate ItemsSource="{Binding Path=Value}">
                         <HierarchicalDataTemplate.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal" Margin="1">
+                                <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding Path=Value.Date}">
                                     <Grid>
                                         <ProgressBar Foreground="{Binding RelativeSource={RelativeSource FindAncestor,  AncestorLevel=2, AncestorType={x:Type TreeViewItem}},Path=(ItemsControl.AlternationIndex),Converter={StaticResource ResourceKey=TeamsBackgroundConverter}}" Value="{Binding Path=Value.Count, Mode=OneTime, Converter={StaticResource ResourceKey=InformationToProgressConverter2}}" Width="{Binding ElementName=statisticsTree, Path=ActualWidth, Converter={StaticResource ResourceKey=WidthConverter}}" Maximum="1" />
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -65,7 +65,7 @@
                             </DataTemplate>
                         </HierarchicalDataTemplate.ItemTemplate>-->
                         
-                        <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding Path=Key}">
+                        <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding Path=Value.Users}">
                             <Grid>
                                 <ProgressBar Value="{Binding Path=Value.Sum, Mode=OneTime, Converter={StaticResource ResourceKey=MachineSumToProgressConverter}}" Width="{Binding ElementName=machineTree, Path=ActualWidth, Converter={StaticResource ResourceKey=WidthConverter}}" Maximum="1" />
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
