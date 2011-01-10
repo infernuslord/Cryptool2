@@ -132,6 +132,23 @@ namespace WorkspaceManager
         }
 
         /// <summary>
+        /// Open the given model in the editor
+        /// </summary>
+        /// <param name="fileName"></param>
+        public void Open(WorkspaceModel model)
+        {
+            try
+            {
+                New();
+                WorkspaceSpaceEditorView.Load(model);                
+            }
+            catch (Exception ex)
+            {
+                GuiLogMessage("Could not open Model:" + ex.ToString(), NotificationLevel.Error);
+            }
+        }
+        
+        /// <summary>
         /// Called by clicking on the open button of CrypTool
         /// loads a serialized model
         /// </summary>
