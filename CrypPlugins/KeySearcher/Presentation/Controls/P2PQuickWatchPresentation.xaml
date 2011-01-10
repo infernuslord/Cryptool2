@@ -229,6 +229,34 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
+                                    <GridViewColumn Header="User" DisplayMemberBinding="{Binding Path=User}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Time" DisplayMemberBinding="{Binding Path=Time}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Hostname" DisplayMemberBinding="{Binding Path=Maschname}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="MID" DisplayMemberBinding="{Binding Path=Maschid}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
                                 </GridView>
                             </ListView.View>
                         </ListView>

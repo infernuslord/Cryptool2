@@ -241,6 +241,12 @@ namespace KeySearcher.P2P.Presentation
                         plainText = plainText.Substring(0, 30) + "...";
 
                     entry.Text = plainText;
+                    //-------
+                    entry.User = "Unknown";
+                    entry.Time = DateTime.MinValue;
+                    entry.Maschid = 666;
+                    entry.Maschname = "Devil";
+                    //-------
 
                     status.TopList.Add(entry);
                     linkedListNode = linkedListNode.Next;
