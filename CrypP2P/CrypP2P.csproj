@@ -34,37 +34,18 @@
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
-    <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>..\CrypBuild\x64\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <DefineConstants>TRACE</DefineConstants>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
-    <OutputPath>..\CrypBuild\x86\Release</OutputPath>
+    <OutputPath>..\CrypBuild\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <DefineConstants>TRACE</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
-    <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>..\CrypBuild\x64\Debug</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
-    <OutputPath>..\CrypBuild\x86\Debug</OutputPath>
+    <OutputPath>..\CrypBuild\Debug</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DebugSymbols>true</DebugSymbols>
@@ -72,139 +53,71 @@
     <Optimize>false</Optimize>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
-  <ItemGroup Condition=" '$(Platform)' == 'x86' ">
-    <Reference Include="Bootstrapper">
-      <HintPath>..\appreferences\x86\bootstrapper.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="CertificateLibrary">
-      <HintPath>..\appreferences\x86\certificatelibrary.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="CertServices">
-      <HintPath>..\appreferences\x86\certservices.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="FullMeshDHT">
-      <HintPath>..\appreferences\x86\fullmeshdht.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="FullMeshOverlay">
-      <HintPath>..\appreferences\x86\fullmeshoverlay.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="ChordOverlay">
-      <HintPath>..\appreferences\x86\chord.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Gears4Net">
-      <HintPath>..\appreferences\x86\gears4net.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="LinkManager">
-      <HintPath>..\appreferences\x86\linkmanager.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="log4net">
-      <HintPath>..\appreferences\x86\log4net.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="PeersAtPlayBase">
-      <HintPath>..\appreferences\x86\peersatplaybase.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="RUDP">
-      <HintPath>..\appreferences\x86\rudp.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Stun">
-      <HintPath>..\appreferences\x86\stun.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Util">
-      <HintPath>..\appreferences\x86\util.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="PapsClient">
-      <HintPath>..\AppReferences\x86\PapsClient.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MySQLDHT">
-      <HintPath>..\AppReferences\x86\MySQLDHT.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="WebDHT">
-      <HintPath>..\AppReferences\x86\WebDHT.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup Condition=" '$(Platform)' == 'x64' ">
-    <Reference Include="Bootstrapper">
-      <HintPath>..\appreferences\x64\bootstrapper.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="CertificateLibrary">
-      <HintPath>..\appreferences\x64\certificatelibrary.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="CertServices">
-      <HintPath>..\appreferences\x64\certservices.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="FullMeshDHT">
-      <HintPath>..\appreferences\x64\fullmeshdht.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="FullMeshOverlay">
-      <HintPath>..\appreferences\x64\fullmeshoverlay.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="ChordOverlay">
-      <HintPath>..\appreferences\x64\chord.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Gears4Net">
-      <HintPath>..\appreferences\x64\gears4net.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="LinkManager">
-      <HintPath>..\appreferences\x64\linkmanager.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="log4net">
-      <HintPath>..\appreferences\x64\log4net.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="PeersAtPlayBase">
-      <HintPath>..\appreferences\x64\peersatplaybase.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="RUDP">
-      <HintPath>..\appreferences\x64\rudp.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Stun">
-      <HintPath>..\appreferences\x64\stun.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Util">
-      <HintPath>..\appreferences\x64\util.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="PapsClient">
-      <HintPath>..\AppReferences\x64\PapsClient.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MySQLDHT">
-      <HintPath>..\AppReferences\x64\MySQLDHT.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="WebDHT">
-      <HintPath>..\AppReferences\x64\WebDHT.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
   <ItemGroup>
+      <Reference Include="Bootstrapper">
+      <HintPath>..\appreferences\bootstrapper.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="CertificateLibrary">
+      <HintPath>..\appreferences\certificatelibrary.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="CertServices">
+      <HintPath>..\appreferences\certservices.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="FullMeshDHT">
+      <HintPath>..\appreferences\fullmeshdht.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="FullMeshOverlay">
+      <HintPath>..\appreferences\fullmeshoverlay.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="ChordOverlay">
+      <HintPath>..\appreferences\chord.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Gears4Net">
+      <HintPath>..\appreferences\gears4net.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="LinkManager">
+      <HintPath>..\appreferences\linkmanager.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\appreferences\log4net.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="PeersAtPlayBase">
+      <HintPath>..\appreferences\peersatplaybase.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="RUDP">
+      <HintPath>..\appreferences\rudp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Stun">
+      <HintPath>..\appreferences\stun.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Util">
+      <HintPath>..\appreferences\util.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="PapsClient">
+      <HintPath>..\AppReferences\PapsClient.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MySQLDHT">
+      <HintPath>..\AppReferences\MySQLDHT.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="WebDHT">
+      <HintPath>..\AppReferences\WebDHT.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>

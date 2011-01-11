@@ -548,7 +548,7 @@ namespace Cryptool.Plugins.T310
 
                 // hier jetzt Bytes holen und dechiffrieren
                 int int_ent = 24;
-                byte b_temp0, b_temp1, b_temp2, b_temp3, b_temp4, b_temp5, b_temp6, b_temp7, b_tempX;
+                byte b_temp0, b_temp1, b_temp2, b_temp3, b_temp4, b_temp5, b_temp6, b_temp7;
                 while (int_ent < by_array_eingabe.Length - 1)
                 {
                     b_temp0 = entschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge, ref s1_bit, ref s2_bit), by_array_eingabe[int_ent]);
