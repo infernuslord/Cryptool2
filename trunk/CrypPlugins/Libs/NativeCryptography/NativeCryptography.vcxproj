@@ -138,7 +138,7 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y /F "$(TargetDir)$(TargetFileName)" "..\..\..\AppReferences\x86\"</Command>
+      <Command>xcopy /Y /F "$(TargetDir)$(TargetFileName)" "..\..\..\AppReferences"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -196,7 +196,8 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y /F "$(TargetDir)$(TargetFileName)" "..\..\..\AppReferences\x64\"</Command>
+      <Command>mkdir ..\..\..\AppReferences\x64
+xcopy /Y /F "$(TargetDir)$(TargetFileName)" "..\..\..\AppReferences\x64\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
