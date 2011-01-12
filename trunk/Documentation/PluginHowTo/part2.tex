@@ -296,14 +296,6 @@ The attribute that we will use for each proprerty is called \textit{[PropertyInf
 	\item \textit{descriptionUrl} --- currently not used; fill it with \texttt{null} or an empty string.
 	\item \textit{mandatory} --- this flag determines whether an input must be attached by the user to use the plugin. If set to \texttt{true}, an input connection will be required or else the plugin will not be executed in the workflow chain. If set to \texttt{false}, connecting an input is optional. As this only applies to input properties, if the direction has been set to \texttt{Direction.Output}, this flag will be ignored.
 	\item \textit{hasDefaultValue} --- if this flag is set to \texttt{true}, CrypTool 2 will assume that the property has a default input value that does not require user input.
-	\item \textit{displayLevel} --- determines in which display levels your property will be shown in CrypTool~2. These are used to hide more advanced item from less-experienced users; a beginner using the corresponding display level will not see the properties marked as any other level, but a professional using the appropriate display level will have access to everything. These levels are as follows:
-	
-	\begin{itemize}
-		\item \texttt{DisplayLevel.Beginner}
-		\item \texttt{DisplayLevel.Experienced}
-		\item \texttt{DisplayLevel.Expert}
-		\item \texttt{DisplayLevel.Professional}
-	\end{itemize}
 	
 	\item \textit{quickWatchFormat} --- determines how the content of the property will be shown in the quickwatch perspective. CrypTool 2 accepts the following quickwatch formats:
 	
@@ -335,7 +327,7 @@ object YourMethodName(string PropertyNameToConvert)
 The first of the five properties that we will define is \textit{InputString}. This is used to provide our plugin with the data to be encrypted or decrypted:
 
 \begin{lstlisting}
-[PropertyInfo(Direction.InputData, "Text input", "Input a string to be processed by the Caesar cipher", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+[PropertyInfo(Direction.InputData, "Text input", "Input a string to be processed by the Caesar cipher", "", true, false, QuickWatchFormat.Text, null)]
 public string InputString
 {
 	get { return this.inputString; }
@@ -357,7 +349,7 @@ In the get method we simply return the value of the input data. The set method c
 %\small Note 2: The naming may be confusing. The new CryptoolStream is not an output stream, but it is added to the list of output streams to enable a clean dispose afterwards. See chapter 9 below.\\\\}
 
 \begin{lstlisting}
-[PropertyInfo(Direction.OutputData, "Text output", "The string after processing with the Caesar cipher", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+[PropertyInfo(Direction.OutputData, "Text output", "The string after processing with the Caesar cipher", "", false, false, QuickWatchFormat.Text, null)]
 public string OutputString
 {
 	get { return this.outputString; }
@@ -375,7 +367,7 @@ public string OutputString
 You can provide additional output data types if you so desire. In our example, we will also offer output data of type \textit{CryptoolStream}, input data for external alphabets, and input data for the shift value of our Caesar algorithm. Note that for the first of these, the set method is not implemented since it will never be called. We shall define these properties as follows:
 
 \begin{lstlisting}
-[PropertyInfo(Direction.OutputData, "CryptoolStream output", "The raw CryptoolStream data after processing with the Caesar cipher", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+[PropertyInfo(Direction.OutputData, "CryptoolStream output", "The raw CryptoolStream data after processing with the Caesar cipher", "", false, false, QuickWatchFormat.Text, null)]
 public CryptoolStream OutputData
 {
 	get
@@ -395,7 +387,7 @@ public CryptoolStream OutputData
 	set { }
 }
 
-[PropertyInfo(Direction.InputData, "External alphabet input", "Input a string containing the alphabet to be used by Caesar.\nIf no alphabet is provided for this input, the internal default alphabet will be used.", "", false, false, DisplayLevel.Expert, QuickWatchFormat.Text, null)]
+[PropertyInfo(Direction.InputData, "External alphabet input", "Input a string containing the alphabet to be used by Caesar.\nIf no alphabet is provided for this input, the internal default alphabet will be used.", "", false, false, QuickWatchFormat.Text, null)]
 public string InputAlphabet
 {
 	get { return ((CaesarSettings)this.settings).AlphabetSymbols; }
@@ -409,7 +401,7 @@ public string InputAlphabet
 	}
 }
 
-[PropertyInfo(Direction.InputData, "Shift value (integer)", "This is the same setting as the shift value in the Settings pane but as dynamic input.", "", false, false, DisplayLevel.Expert, QuickWatchFormat.Text, null)]
+[PropertyInfo(Direction.InputData, "Shift value (integer)", "This is the same setting as the shift value in the Settings pane but as dynamic input.", "", false, false, QuickWatchFormat.Text, null)]
 public int ShiftKey
 {
 	get { return settings.ShiftKey; }
