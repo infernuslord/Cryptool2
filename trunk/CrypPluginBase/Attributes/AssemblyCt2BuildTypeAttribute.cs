@@ -22,5 +22,10 @@ namespace Cryptool.PluginBase.Attributes
         {
             this.BuildType = type;
         }
+
+        public AssemblyCt2BuildTypeAttribute(int type)
+        {
+            this.BuildType = (Ct2BuildType) type;
+        }
     }
 }
