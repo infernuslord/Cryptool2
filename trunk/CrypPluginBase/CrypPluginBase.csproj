@@ -83,6 +83,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\AssemblyCt2BuildTypeAttribute.cs" />
     <Compile Include="Attributes\DontSaveAttribute.cs" />
     <Compile Include="Attributes\LocalizationAttribute.cs" />
     <Compile Include="Attributes\SettingsFormatAttribute.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="IO\CStreamWriter.cs" />
     <Compile Include="IO\DirectoryHelper.cs" />
     <Compile Include="Miscellaneous\BigIntegerHelper.cs" />
+    <Compile Include="Miscellaneous\AssemblyHelper.cs" />
     <Compile Include="Miscellaneous\DataManager.cs" />
     <Compile Include="IApplication.cs" />
     <Compile Include="Attributes\RibbonBarAttribute.cs" />
