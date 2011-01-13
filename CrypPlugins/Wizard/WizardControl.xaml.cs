@@ -28,6 +28,7 @@ namespace Wizard
     {
 
         private List<string> choicePath = new List<string>();
+        private SolidColorBrush selectionBrush = new SolidColorBrush();
         private const string configXMLPath = "Wizard.Config.wizard.config.start.xml";
         private const string defaultLang = "en-US";
         private XElement wizardConfigXML;
@@ -46,6 +47,9 @@ namespace Wizard
             {
                 
             }
+
+            selectionBrush.Color = Color.FromArgb(255, 200, 220, 245);
+
             InitializeComponent();
             SetupPage(wizardConfigXML);
         }
@@ -133,17 +137,21 @@ namespace Wizard
             {
                 foreach (XElement ele in categories)
                 {
+                    ContentControl c = new ContentControl();
                     Label l = new Label();
                     Image i = new Image();
                     StackPanel sp = new StackPanel();
+                    c.Content = sp;
+                    c.VerticalAlignment = VerticalAlignment.Stretch;
 
                     l.Height = 30;
+                    l.HorizontalAlignment = HorizontalAlignment.Stretch;
                     XElement label = FindElementInElement(ele, "name");
                     if (label != null)
                         l.Content = label.Value;
 
                     i.Width = 26;
-                    string image = (string)ele.Attribute("image");
+                    string image = ele.Attribute("image").Value;
                     if (image != null)
                     {
                         ImageSource ims = (ImageSource)TryFindResource(image);
@@ -160,22 +168,23 @@ namespace Wizard
                     sp.Children.Add(l);
 
                     RadioButton rb = new RadioButton();
-                    string id = (string)ele.Attribute("id");
+                    string id = ele.Attribute("id").Value;
                     if (id != null)
                         rb.Name = id;
+                    rb.Checked += rb_Checked;
+                    rb.HorizontalAlignment = HorizontalAlignment.Stretch;
+                    rb.VerticalAlignment = VerticalAlignment.Stretch;
+                    rb.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+                    rb.Content = c;
+                    rb.Tag = ele;
+
+                    radioButtonStackPanel.Children.Add(rb);
                     if (choicePath.Count > 0 && id == choicePath.Last())
                     {
                         choicePath.RemoveAt(choicePath.IndexOf(choicePath.Last()));
                         rb.IsChecked = true;
                         nextButton.IsEnabled = true;
                     }
-                    rb.HorizontalAlignment = HorizontalAlignment.Stretch;
-                    rb.HorizontalContentAlignment = HorizontalAlignment.Left;
-                    rb.Checked += rb_Checked;
-                    rb.Content = sp;
-                    rb.Tag = ele;
-
-                    radioButtonStackPanel.Children.Add(rb);
                 }
             }
 
@@ -183,12 +192,31 @@ namespace Wizard
 
         void rb_Checked(object sender, RoutedEventArgs e)
         {
+            ResetBackground();
             RadioButton b = (RadioButton)sender;
+            ContentControl c = (ContentControl)b.Content;
+            StackPanel sp = (StackPanel)c.Content;
+            sp.Background = selectionBrush;
             XElement ele = (XElement)b.Tag;
             XElement desc = FindElementInElement(ele, "description");
             if (desc != null)
                 description.Text = desc.Value;
+            descScroll.Background = selectionBrush;
             nextButton.IsEnabled = true;
+        }
+
+        private void ResetBackground()
+        {
+            UIElement[] uiea = new UIElement[radioButtonStackPanel.Children.Count];
+            radioButtonStackPanel.Children.CopyTo(uiea, 0);
+            foreach (UIElement uie in uiea)
+            {
+                RadioButton b = (RadioButton)uie;
+                ContentControl c = (ContentControl)b.Content;
+                StackPanel sp = (StackPanel)c.Content;
+                sp.Background = Brushes.Transparent;
+            }
+            descScroll.Background = Brushes.Transparent;
         }
 
         //finds elements according to the current language
@@ -216,6 +244,7 @@ namespace Wizard
 
         private void nextButton_Click(object sender, RoutedEventArgs e)
         {
+            ResetBackground();
             UIElement[] uiea = new UIElement[radioButtonStackPanel.Children.Count];
             radioButtonStackPanel.Children.CopyTo(uiea, 0);
             foreach (UIElement uie in uiea)
@@ -234,6 +263,7 @@ namespace Wizard
 
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
+            ResetBackground();
             UIElement[] uiea = new UIElement[radioButtonStackPanel.Children.Count];
             radioButtonStackPanel.Children.CopyTo(uiea, 0);
             if (uiea.Length > 0)
@@ -252,6 +282,7 @@ namespace Wizard
 
         private void abortButton_Click(object sender, RoutedEventArgs e)
         {
+            ResetBackground();
             radioButtonStackPanel.Children.Clear();
             choicePath.Clear();
             description.Text = "";

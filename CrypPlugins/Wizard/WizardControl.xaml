@@ -47,17 +47,17 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Label HorizontalAlignment="Center" Name="taskHeader" VerticalAlignment="Top" FontSize="18" />
+        <Label HorizontalAlignment="Center" Name="taskHeader" VerticalAlignment="Top" FontSize="18" Margin="10"/>
         <Grid HorizontalAlignment="Stretch" Name="grid1" VerticalAlignment="Stretch" Grid.Row="1" >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-            <ScrollViewer  HorizontalAlignment="Stretch" VerticalAlignment="Top" VerticalScrollBarVisibility="Hidden" >
-                <StackPanel Name="radioButtonStackPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="15" />
+            <ScrollViewer  HorizontalAlignment="Stretch" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto" Name="radioButtonScroll" >
+                <StackPanel Name="radioButtonStackPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
             </ScrollViewer>
-            <ScrollViewer  HorizontalAlignment="Stretch" VerticalAlignment="Top" VerticalScrollBarVisibility="Hidden" Grid.Column="1">
-                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+            <ScrollViewer Name="descScroll" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" Grid.Column="1" >
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinHeight="{Binding ElementName=radioButtonScroll, Path=ActualHeight}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -66,7 +66,7 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Label Name="descHeader" HorizontalAlignment="Center" VerticalAlignment="Stretch" FontSize="14" />
-                    <TextBlock Name="description" TextWrapping="Wrap" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Left" Grid.Row="1" />
+                    <TextBlock Name="description" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Left" Grid.Row="1" />
                 </Grid>
             </ScrollViewer>
         </Grid>
