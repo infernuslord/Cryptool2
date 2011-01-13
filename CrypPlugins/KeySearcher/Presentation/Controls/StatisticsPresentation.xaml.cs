@@ -31,6 +31,7 @@ namespace KeySearcherPresentation.Controls
             ((InformationToProgressConverter)Resources["InformationToProgressConverter"]).StatisticsPresentation = this;
             ((InformationToProgressConverter2)Resources["InformationToProgressConverter2"]).StatisticsPresentation = this;
             ((ChunkSumConverter)Resources["ChunkSumConverter"]).StatisticsPresentation = this;
+            ((StringLengthConverter)Resources["StringLengthConverter"]).StatisticsPresentation = this;
             ((MachineSumToProgressConverter)Resources["MachineSumToProgressConverter"]).StatisticsPresentation = this;
         }
 
@@ -135,6 +136,38 @@ namespace KeySearcherPresentation.Controls
             else
             {
                 return 0;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    [ValueConversion(typeof(string), typeof(string))]
+    class StringLengthConverter : IValueConverter
+    {
+        public StatisticsPresentation StatisticsPresentation { get; set; }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (StatisticsPresentation != null)
+            {
+                string name = (string)value;
+                
+                if(name.Length < 13)
+                {
+                    return name;
+                }
+                else
+                {
+                    return string.Format("{0}...", name.Substring(0, 9));
+                }
+            }
+            else
+            {
+                return "";
             }
         }
 
