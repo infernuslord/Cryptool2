@@ -84,7 +84,7 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region In and Output
 
-        [PropertyInfo(Direction.ControlMaster, "Working Master", "Connect a WorkingMaster-PlugIn", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.ControlMaster, "Working Master", "Connect a WorkingMaster-PlugIn", "", true, false, QuickWatchFormat.Text, null)]
         public IControlWorker WorkerControl
         {
             get
@@ -101,7 +101,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <summary>
         /// Catches the completely configurated, initialized and joined P2P object from the P2PPeer-Slave-PlugIn.
         /// </summary>
-        [PropertyInfo(Direction.ControlMaster, "P2P Master", "Input the P2P-Peer-PlugIn", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.ControlMaster, "P2P Master", "Input the P2P-Peer-PlugIn", "", true, false, QuickWatchFormat.Text, null)]
         public IP2PControl P2PControl
         {
             get

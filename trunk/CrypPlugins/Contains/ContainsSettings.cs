@@ -38,8 +38,8 @@ namespace Contains
     }
 
 
-    [ContextMenu("Search Type", "Select search method.", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new string[] { "Hashtable" })]
-    [TaskPane("Search Type", "Select search method.", "", 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Hashtable" })]
+    [ContextMenu("Search Type", "Select search method.", 1, ContextMenuControlType.ComboBox, null, new string[] { "Hashtable" })]
+    [TaskPane("Search Type", "Select search method.", "", 1, false, ControlType.ComboBox, new string[] { "Hashtable" })]
     public int SearchSetting
     {
       get { return (int)search; }
@@ -55,7 +55,7 @@ namespace Contains
     }
 
     private int hits = 1;
-    [TaskPane("Number of hits to find.", "Search-method needs to find n-hits to return true.", null, 2, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, int.MaxValue)]
+    [TaskPane("Number of hits to find.", "Search-method needs to find n-hits to return true.", null, 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, int.MaxValue)]
     public int Hits
     {
       get { return this.hits; }
@@ -71,7 +71,7 @@ namespace Contains
     }
 
     private string delimiter = " ";
-    [TaskPaneAttribute("Delimiter Input String", "The delimiter for the input text to split up the words.", null, 3, false, DisplayLevel.Experienced, ControlType.TextBox, ValidationType.RegEx, "^(.){0,1}$")] // [a-zA-Z]|[0-9]|\\s
+    [TaskPaneAttribute("Delimiter Input String", "The delimiter for the input text to split up the words.", null, 3, false, ControlType.TextBox, ValidationType.RegEx, "^(.){0,1}$")] // [a-zA-Z]|[0-9]|\\s
     public string DelimiterInputString
     {
       get { return this.delimiterDictionary; }
@@ -87,7 +87,7 @@ namespace Contains
     }
 
     private string delimiterDictionary = " ";
-    [TaskPaneAttribute("Delimiter Dictionary", "The delimiter for the dictionary to split up the words.", null, 4, false, DisplayLevel.Experienced, ControlType.TextBox, ValidationType.RegEx, "^(.){0,1}$")] // [a-zA-Z]|[0-9]|\\s
+    [TaskPaneAttribute("Delimiter Dictionary", "The delimiter for the dictionary to split up the words.", null, 4, false, ControlType.TextBox, ValidationType.RegEx, "^(.){0,1}$")] // [a-zA-Z]|[0-9]|\\s
     public string DelimiterDictionary
     {
       get { return this.delimiterDictionary; }
@@ -103,8 +103,8 @@ namespace Contains
     }
 
     private bool toLower;
-    [ContextMenu("All words to lower", "yes / no", 5, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, "All words to lower")]
-    [TaskPaneAttribute("All words to lower", "yes / no.", "", 5, false, DisplayLevel.Beginner, ControlType.CheckBox, null)]
+    [ContextMenu("All words to lower", "yes / no", 5, ContextMenuControlType.CheckBox, null, "All words to lower")]
+    [TaskPaneAttribute("All words to lower", "yes / no.", "", 5, false, ControlType.CheckBox, null)]
     public bool ToLower
     {
       get { return toLower; }
@@ -120,8 +120,8 @@ namespace Contains
     }
 
     private bool hitPercentFromInputString = false;
-    [ContextMenu("Hits as percent value", "Hits value is interpreted as percent value based on input string.", 6, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, "Hits as percent value")]
-    [TaskPaneAttribute("Hits as percent value", "Hits value is interpreted as percent value based on input string.", "", 6, false, DisplayLevel.Expert, ControlType.CheckBox, null)]
+    [ContextMenu("Hits as percent value", "Hits value is interpreted as percent value based on input string.", 6, ContextMenuControlType.CheckBox, null, "Hits as percent value")]
+    [TaskPaneAttribute("Hits as percent value", "Hits value is interpreted as percent value based on input string.", "", 6, false, ControlType.CheckBox, null)]
     public bool HitPercentFromInputString
     {
       get { return hitPercentFromInputString; }
@@ -137,8 +137,8 @@ namespace Contains
     }
 
     private bool countWordsOnlyOnce = true;
-    [ContextMenu("Count each word only once", "Count each word only once (even if the same word appears several times)", 7, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, "Count each word only once.")]
-    [TaskPaneAttribute("Count each word only once", "Count each word only once (even if the same word appears several times)", "", 7, false, DisplayLevel.Expert, ControlType.CheckBox, null)]
+    [ContextMenu("Count each word only once", "Count each word only once (even if the same word appears several times)", 7, ContextMenuControlType.CheckBox, null, "Count each word only once.")]
+    [TaskPaneAttribute("Count each word only once", "Count each word only once (even if the same word appears several times)", "", 7, false, ControlType.CheckBox, null)]
     public bool CountWordsOnlyOnce
     {
       get { return countWordsOnlyOnce; }

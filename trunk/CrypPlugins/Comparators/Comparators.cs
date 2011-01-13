@@ -69,7 +69,7 @@ namespace Cryptool.Plugins.Comparators
             get { return null; }
         }
 
-        [PropertyInfo(Direction.InputData, "Input one", "Input one.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Input one", "Input one.", "", true, false, QuickWatchFormat.Text, null)]
         public IComparable InputOne
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -85,7 +85,7 @@ namespace Cryptool.Plugins.Comparators
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Input two", "Input two.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Input two", "Input two.", "", true, false, QuickWatchFormat.Text, null)]
         public IComparable InputTwo
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -101,7 +101,7 @@ namespace Cryptool.Plugins.Comparators
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Output", "Output.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Output", "Output.", "", true, false, QuickWatchFormat.Text, null)]
         public bool Output
         {
             [MethodImpl(MethodImplOptions.Synchronized)]

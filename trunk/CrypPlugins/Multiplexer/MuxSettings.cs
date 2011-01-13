@@ -54,8 +54,8 @@ namespace Multiplexer
     }
 
     private int defaultValue;
-    [ContextMenu("Default value", "Select the default start value", 0, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, "True", "False")]
-    [TaskPane("Default value", "Select the default start value", null, 0, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "True", "False" })]
+    [ContextMenu("Default value", "Select the default start value", 0, ContextMenuControlType.ComboBox, null, "True", "False")]
+    [TaskPane("Default value", "Select the default start value", null, 0, false, ControlType.ComboBox, new string[] { "True", "False" })]
     public int DefaultValue
     {
       get { return this.defaultValue; }
@@ -96,7 +96,7 @@ namespace Multiplexer
       }
     }
     
-    [TaskPane("Type", "Select DataType of plugin.", "", 2, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "CryptoolStream", "string", "byte[]", "boolean", "int" } )]
+    [TaskPane("Type", "Select DataType of plugin.", "", 2, false, ControlType.ComboBox, new string[] { "CryptoolStream", "string", "byte[]", "boolean", "int" } )]
     public int DataType
     {
       get { return (int)CurrentDataType; }

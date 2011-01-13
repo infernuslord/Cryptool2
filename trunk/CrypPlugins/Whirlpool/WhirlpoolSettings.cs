@@ -41,7 +41,7 @@ namespace Whirlpool
     ///// length of calculated hash in bits
     ///// </summary>
     //private int length = 256;
-    //[TaskPane("Length", "Hash Length, the hash length in bits, must be a multiple of 8.", "", 2, false, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RangeInteger, -64, 2048)]
+    //[TaskPane("Length", "Hash Length, the hash length in bits, must be a multiple of 8.", "", 2, false, ControlType.TextBox, ValidationType.RangeInteger, -64, 2048)]
     //public int Length
     //{
     //    get

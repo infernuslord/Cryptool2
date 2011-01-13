@@ -53,7 +53,7 @@ namespace ClipboardInput
 
 
     private string data;
-    // [QuickWatch(QuickWatchFormat.Text, DisplayLevel.Beginner, null)]
+    // [QuickWatch(QuickWatchFormat.Text, null)]
     public string Data
     {
       get { return data; }
@@ -77,7 +77,7 @@ namespace ClipboardInput
     }
 
     #region Interface
-    [PropertyInfo(Direction.OutputData, "Clipboard data stream", "Stream of data recieved from clipboard", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "Clipboard data stream", "Stream of data recieved from clipboard", "", true, false, QuickWatchFormat.Text, null)]
     public CryptoolStream StreamOutput
     {
       get

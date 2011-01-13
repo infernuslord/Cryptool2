@@ -69,7 +69,7 @@ namespace Cryptool.Appender
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Input", "Input objects to be appended", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Input", "Input objects to be appended", "", true, false, QuickWatchFormat.Text, null)]
         public object Input
         {
             get
@@ -84,7 +84,7 @@ namespace Cryptool.Appender
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Appended Output", "Output after appending the inputs", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Appended Output", "Output after appending the inputs", "", false, false, QuickWatchFormat.Text, null)]
         public String Output
         {
             [MethodImpl(MethodImplOptions.Synchronized)]

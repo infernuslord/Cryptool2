@@ -16,8 +16,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         private int mode = 0; //0="ECB", 1="CBC", 2="CFB", 3="OFB"
         private int padding = 0; //0="Zeros"=default, 1="None", 2="PKCS7", 3="ANSIX923", 4="ISO10126
 
-        [ContextMenu("Action","Do you want the input data to be encrypted or decrypted?",1,DisplayLevel.Beginner,ContextMenuControlType.ComboBox,new int[] {1,2},"Encrypt","Decrypt")]
-        [TaskPane("Action", "Do you want the input data to be encrypted or decrypted?", null, 1, false, DisplayLevel.Beginner,ControlType.ComboBox, new string[] {"Encrypt","Decrypt"})]
+        [ContextMenu("Action","Do you want the input data to be encrypted or decrypted?",1,ContextMenuControlType.ComboBox,new int[] {1,2},"Encrypt","Decrypt")]
+        [TaskPane("Action", "Do you want the input data to be encrypted or decrypted?", null, 1, false,ControlType.ComboBox, new string[] {"Encrypt","Decrypt"})]
         public int Action
         {
             get { return this.action; }
@@ -29,8 +29,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [ContextMenu("Chaining mode","Select the block cipher mode of operation.",2,DisplayLevel.Beginner,ContextMenuControlType.ComboBox, null, new string[] {"Electronic Code Book (ECB)","Cipher Block Chaining (CBC)","Cipher Feedback (CFB)"})]
-        [TaskPane("Chaining mode", "Select the block cipher mode of operation.","", 2, false, DisplayLevel.Experienced, ControlType.ComboBox, new string[] {"Electronic Code Book (ECB)","Cipher Block Chaining (CBC)","Cipher Feedback (CFB)"})]
+        [ContextMenu("Chaining mode","Select the block cipher mode of operation.",2,ContextMenuControlType.ComboBox, null, new string[] {"Electronic Code Book (ECB)","Cipher Block Chaining (CBC)","Cipher Feedback (CFB)"})]
+        [TaskPane("Chaining mode", "Select the block cipher mode of operation.","", 2, false, ControlType.ComboBox, new string[] {"Electronic Code Book (ECB)","Cipher Block Chaining (CBC)","Cipher Feedback (CFB)"})]
         public int Mode
         {
             get { return this.mode; }
@@ -42,8 +42,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [ContextMenu("Padding mode","Select a mode to fill partial data blocks.",3, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null,"Zeros","None","PKCS7","ANSIX923","ISO10126")]
-        [TaskPane("Padding mode", "Select a mode to fill partial data blocks.", "", 3, false, DisplayLevel.Experienced,ControlType.ComboBox, new String[]{"Zeros","None","PKCS7","ANSIX923","ISO10126"})]
+        [ContextMenu("Padding mode","Select a mode to fill partial data blocks.",3, ContextMenuControlType.ComboBox, null,"Zeros","None","PKCS7","ANSIX923","ISO10126")]
+        [TaskPane("Padding mode", "Select a mode to fill partial data blocks.", "", 3, false,ControlType.ComboBox, new String[]{"Zeros","None","PKCS7","ANSIX923","ISO10126"})]
         public int Padding
         {
             get { return this.padding; }

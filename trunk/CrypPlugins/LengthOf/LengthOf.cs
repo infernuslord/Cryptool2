@@ -55,7 +55,7 @@ namespace Cryptool.Plugins.LengthOf
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Object Input", "Input your Object here", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Object Input", "Input your Object here", "", true, false, QuickWatchFormat.Text, null)]
         public object ObjInput
         {
             get
@@ -69,7 +69,7 @@ namespace Cryptool.Plugins.LengthOf
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Integer Output", "The Length of your Object will be send here", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Integer Output", "The Length of your Object will be send here", "")]
         public int OutputLen
         {
             get

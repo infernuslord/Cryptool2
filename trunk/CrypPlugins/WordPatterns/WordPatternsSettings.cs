@@ -20,7 +20,7 @@ namespace WordPatterns
 
         private Case caseSelection = Case.Insensitive;
 
-        [TaskPane("Case sensitivity", "Choose whether uppercase/lowercase should be treated as different (case sensitive) or equal (case insensitive)", "", 1, false, DisplayLevel.Expert, ControlType.ComboBox)]
+        [TaskPane("Case sensitivity", "Choose whether uppercase/lowercase should be treated as different (case sensitive) or equal (case insensitive)", "", 1, false, ControlType.ComboBox)]
         public Case CaseSelection
         {
             get { return caseSelection; }

@@ -29,7 +29,7 @@ namespace NumberGenerator
     #region taskPane
 
     private int integerStartValue;
-    [TaskPane("Start value", "Integer value to start from.", null, 0, true, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+    [TaskPane("Start value", "Integer value to start from.", null, 0, true, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
     public int IntegerStartValue
     {
       get { return this.integerStartValue; }

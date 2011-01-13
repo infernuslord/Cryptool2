@@ -15,8 +15,8 @@ namespace FriedmanTest
         private int kappa = 0; //0="English", 1="German", 2="French", 3="Spanish", 4="Italian",5="Portugeese"
         #region ISettings Members
 
-        [ContextMenu("Kappa plain-text", "Select the language to be analysed", 2, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new String[] { "English", "German", "French", "Spanish", "Italian", "Portugeese" })]
-        [TaskPane("Kappa plain-text", "Select the language to be analysed", null, 2, false, DisplayLevel.Experienced, ControlType.ComboBox, new String[] { "English", "German", "French", "Spanish", "Italian", "Portugeese" })]
+        [ContextMenu("Kappa plain-text", "Select the language to be analysed", 2, ContextMenuControlType.ComboBox, null, new String[] { "English", "German", "French", "Spanish", "Italian", "Portugeese" })]
+        [TaskPane("Kappa plain-text", "Select the language to be analysed", null, 2, false, ControlType.ComboBox, new String[] { "English", "German", "French", "Spanish", "Italian", "Portugeese" })]
         public int Kappa
         {
             get { return this.kappa; }

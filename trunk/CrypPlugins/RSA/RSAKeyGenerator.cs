@@ -72,7 +72,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Sets the N of the public/private key
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "N", "N", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "N", "N", "")]
         public BigInteger N
         {
             get
@@ -89,7 +89,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Sets the E of the public key
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "E", "public exponent", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "E", "public exponent", "")]
         public BigInteger E
         {
             get
@@ -106,7 +106,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Sets the D of the private key
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "D", "private exponent", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "D", "private exponent", "")]
         public BigInteger D
         {
             get

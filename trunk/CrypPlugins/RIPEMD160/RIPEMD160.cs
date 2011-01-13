@@ -54,8 +54,8 @@ namespace RIPEMD160
             set { this.settings = (RIPEMD160Settings)value; }
         }
 
-        // [QuickWatch(QuickWatchFormat.Hex, DisplayLevel.Beginner, null)]
-        [PropertyInfo(Direction.InputData, "Input stream", "Input data to be hashed", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        // [QuickWatch(QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Input stream", "Input data to be hashed", "", true, false, QuickWatchFormat.Hex, null)]
         public CryptoolStream InputData
         {
             get 
@@ -79,8 +79,8 @@ namespace RIPEMD160
             }
         }
 
-        // [QuickWatch(QuickWatchFormat.Hex, DisplayLevel.Beginner, null)]
-        [PropertyInfo(Direction.OutputData, "Hashed value", "Output data of the hashed value as Stream", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        // [QuickWatch(QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "Hashed value", "Output data of the hashed value as Stream", "", true, false, QuickWatchFormat.Hex, null)]
         public CryptoolStream OutputDataStream
         {
           get
@@ -97,8 +97,8 @@ namespace RIPEMD160
           set { } // readonly
         }
 
-        // [QuickWatch(QuickWatchFormat.Hex, DisplayLevel.Beginner, null)]
-        [PropertyInfo(Direction.OutputData, "Hashed value", "Output data of the hashed value as byte array", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        // [QuickWatch(QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "Hashed value", "Output data of the hashed value as byte array", "", false, false, QuickWatchFormat.Hex, null)]
         public byte[] OutputData
         {
           get { return this.outputData; }

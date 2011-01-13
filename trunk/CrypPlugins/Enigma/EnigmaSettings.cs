@@ -222,10 +222,10 @@ namespace Cryptool.Enigma
         #region Taskpane settings
 
         [ContextMenu("Enigma model", "Please select which Enigma model you want to use. This settings influences available rotors and their inner cabling.", 
-            0, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, 
+            0, ContextMenuControlType.ComboBox, null, 
             new string[] { "Commercial Enigma A/B - since 1924", "Commercial Enigma D", "Reichsbahn (Rocket) - since 1941", "Enigma I / M3", "M4 (Shark)", "K-Model", "G (Defense model)" })]
         [TaskPane("Enigma model", "Please select which Enigma model you want to use. This settings influences the available rotors and their inner cabling.", 
-            null, 0, false, DisplayLevel.Beginner, ControlType.ComboBox,
+            null, 0, false, ControlType.ComboBox,
             new string[] { "Enigma A/B - since 1924", "Enigma D", "Reichsbahn (Rocket) - since 1941", "Enigma I / M3", "M4 (Shark)", "K-Model", "G (Defense model)" })]
         [PropertySaveOrder(1)]
         public int Model
@@ -318,7 +318,7 @@ namespace Cryptool.Enigma
 
 
         [TaskPane("Key (Initial rotor setting)", "Please provide the initial rotor setting for each rotor, e.g. ABCD. Note that the slowest rotor is on the left and the fastest rotor is on the right. Only the Enigma M4 \"Shark\" uses four rotors.",
-            null, 1, false, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RegEx, "^([A-Z]|[a-z]){3,4}$")]
+            null, 1, false, ControlType.TextBox, ValidationType.RegEx, "^([A-Z]|[a-z]){3,4}$")]
         public string Key
         {
             get { return this.key; }
@@ -332,7 +332,7 @@ namespace Cryptool.Enigma
 
 
         [TaskPane("Operation mode", "Select the mode of operation for this Enigma simulator. Note that all Enigmas since Enigma D are working with a reflector and therefore there is not difference between encrypting an decrypting.",
-            null, 2, false, DisplayLevel.Beginner, ControlType.DynamicComboBox, new string[] { "ActionStrings" })]
+            null, 2, false, ControlType.DynamicComboBox, new string[] { "ActionStrings" })]
         [PropertySaveOrder(9)]
         public int Action
         {
@@ -365,10 +365,10 @@ namespace Cryptool.Enigma
         #region Text options
 
         [ContextMenu("Unknown symbol handling", "What should be done with encountered characters at the input which are not in the alphabet?", 
-            3, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, 
+            3, ContextMenuControlType.ComboBox, null, 
             new string[] { "Ignore (leave unmodified)", "Remove", "Replace with \'X\'" })]
         [TaskPane("Unknown symbol handling", "What should be done with encountered characters at the input which are not in the alphabet?", 
-            "Text options", 3, false, DisplayLevel.Expert, ControlType.ComboBox, 
+            "Text options", 3, false, ControlType.ComboBox, 
             new string[] { "Ignore (leave unmodified)", "Remove", "Replace with \'X\'" })]
         public int UnknownSymbolHandling
         {
@@ -382,10 +382,10 @@ namespace Cryptool.Enigma
         }
 
         [ContextMenu("Case handling", "What should be done with upper and lower case letters?", 
-            4, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, 
+            4, ContextMenuControlType.ComboBox, null, 
             new string[] { "Preserve case", "Convert to upper", "Convert to lower" })]
         [TaskPane("Case handling", "What should be done with upper and lower case letters?", 
-            "Text options", 4, false, DisplayLevel.Expert, ControlType.ComboBox, 
+            "Text options", 4, false, ControlType.ComboBox, 
             new string[] { "Preserve case", "Convert to upper", "Convert to lower" })]
         public int CaseHandling
         {
@@ -403,7 +403,7 @@ namespace Cryptool.Enigma
         #region Analysis options
 
         [TaskPane("Analyze key (initial rotor pos.)", "If checked, the analysis tries to detect the correct key. If unchecked, the value from \"Key\" is used.",
-            "Analysis options", 6, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+            "Analysis options", 6, false, ControlType.CheckBox, "", null)]
         public bool AnalyzeKey
         {
             get { return analyzeKey; }
@@ -419,7 +419,7 @@ namespace Cryptool.Enigma
         }
 
         [TaskPane("Analyze used rotors", "If checked, the analysis tries to detect the correct rotors and their positions. If unchecked, the values from the rotor settings are used.",
-            "Analysis options", 7, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+            "Analysis options", 7, false, ControlType.CheckBox, "", null)]
         public bool AnalyzeRotors
         {
             get { return analyzeRotors; }
@@ -436,7 +436,7 @@ namespace Cryptool.Enigma
 
         [SettingsFormat(1,"Normal","Normal")]
         [TaskPane("Include rotor I", "Check if rotor I should be included when analyzing rotors.",
-            "Analysis options", 7, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+            "Analysis options", 7, false, ControlType.CheckBox, "", null)]
         public bool AnalysisUseRotorI
         {
             get { return analysisUseRotorI; }
@@ -453,7 +453,7 @@ namespace Cryptool.Enigma
 
         [SettingsFormat(1, "Normal", "Normal")]
         [TaskPane("Include rotor II", "Check if rotor II should be included when analyzing rotors.",
-            "Analysis options", 7, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+            "Analysis options", 7, false, ControlType.CheckBox, "", null)]
         public bool AnalysisUseRotorII
         {
             get { return analysisUseRotorII; }
@@ -470,7 +470,7 @@ namespace Cryptool.Enigma
 
         [SettingsFormat(1, "Normal", "Normal")]
         [TaskPane("Include rotor III", "Check if rotor III should be included when analyzing rotors.",
-            "Analysis options", 7, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+            "Analysis options", 7, false, ControlType.CheckBox, "", null)]
         public bool AnalysisUseRotorIII
         {
             get { return analysisUseRotorIII; }
@@ -487,7 +487,7 @@ namespace Cryptool.Enigma
 
         [SettingsFormat(1, "Normal", "Normal")]
         [TaskPane("Include rotor IV", "Check if rotor IV should be included when analyzing rotors.",
-            "Analysis options", 7, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+            "Analysis options", 7, false, ControlType.CheckBox, "", null)]
         public bool AnalysisUseRotorIV
         {
             get { return analysisUseRotorIV; }
@@ -505,7 +505,7 @@ namespace Cryptool.Enigma
 
         [SettingsFormat(1, "Normal", "Normal")]
         [TaskPane("Include rotor V", "Check if rotor V should be included when analyzing rotors.",
-            "Analysis options", 7, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+            "Analysis options", 7, false, ControlType.CheckBox, "", null)]
         public bool AnalysisUseRotorV
         {
             get { return analysisUseRotorV; }
@@ -522,7 +522,7 @@ namespace Cryptool.Enigma
 
         [SettingsFormat(1, "Normal", "Normal")]
         [TaskPane("Include rotor VI", "Check if rotor VI should be included when analyzing rotors.",
-            "Analysis options", 7, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+            "Analysis options", 7, false, ControlType.CheckBox, "", null)]
         public bool AnalysisUseRotorVI
         {
             get { return analysisUseRotorVI; }
@@ -540,7 +540,7 @@ namespace Cryptool.Enigma
 
         [SettingsFormat(1, "Normal", "Normal")]
         [TaskPane("Include rotor VII", "Check if rotor VII should be included when analyzing rotors.",
-            "Analysis options", 7, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+            "Analysis options", 7, false, ControlType.CheckBox, "", null)]
         public bool AnalysisUseRotorVII
         {
             get { return analysisUseRotorVII; }
@@ -558,7 +558,7 @@ namespace Cryptool.Enigma
 
         [SettingsFormat(1, "Normal", "Normal")]
         [TaskPane("Include rotor VIII", "Check if rotor VIII should be included when analyzing rotors.",
-            "Analysis options", 7, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+            "Analysis options", 7, false, ControlType.CheckBox, "", null)]
         public bool AnalysisUseRotorVIII
         {
             get { return analysisUseRotorVIII; }
@@ -575,7 +575,7 @@ namespace Cryptool.Enigma
 
 
         [TaskPane("Analyze rings settings", "If checked, the analysis tries to detect the correct rings settings. If unchecked, the values from the ring settings are used.",
-            "Analysis options", 8, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+            "Analysis options", 8, false, ControlType.CheckBox, "", null)]
         public bool AnalyzeRings
         {
             get { return analyzeRings; }
@@ -590,7 +590,7 @@ namespace Cryptool.Enigma
             }
         }
 
-        [TaskPane("Rotor/Ring/Key search method", "Which method should be used to assess the best rotor configuration?", "Analysis options", 8, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Index of coincidence", "log2-bigram", "log2-trigram", "Sinkov unigram", "Sinkov bigram", "Unigram entropy" })]
+        [TaskPane("Rotor/Ring/Key search method", "Which method should be used to assess the best rotor configuration?", "Analysis options", 8, false, ControlType.ComboBox, new string[] { "Index of coincidence", "log2-bigram", "log2-trigram", "Sinkov unigram", "Sinkov bigram", "Unigram entropy" })]
         public int KeySearchMethod
         {
             get { return this.keySearchMethod; }
@@ -606,7 +606,7 @@ namespace Cryptool.Enigma
         }
 
         [TaskPane("Analyze plugs", "If checked, the analysis tries to detect the correct plug settings. If unchecked, the values from the plugboard are used.",
-            "Analysis options", 9, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+            "Analysis options", 9, false, ControlType.CheckBox, "", null)]
         public bool AnalyzePlugs
         {
             get { return analyzePlugs; }
@@ -622,7 +622,7 @@ namespace Cryptool.Enigma
         }
        
         [TaskPane("Max. plugs searched", "Select how many plugs should be searched at most. Note that the search algorithm might return less plugs - this number is just an upper limit", 
-            "Analysis options", 9, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 26)]
+            "Analysis options", 9, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 26)]
         public int MaxSearchedPlugs
         {
             get { return this.maxSearchedPlugs; }
@@ -637,7 +637,7 @@ namespace Cryptool.Enigma
             }
         }
 
-        [TaskPane("Plug search method", "Which method should be used to assess the best plugboard configuration?", "Analysis options", 9, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Index of coincidence", "log2-bigram", "log2-trigram", "Sinkov unigram", "Sinkov bigram", "Unigram entropy" })]
+        [TaskPane("Plug search method", "Which method should be used to assess the best plugboard configuration?", "Analysis options", 9, false, ControlType.ComboBox, new string[] { "Index of coincidence", "log2-bigram", "log2-trigram", "Sinkov unigram", "Sinkov bigram", "Unigram entropy" })]
         public int PlugSearchMethod
         {
             get { return this.plugSearchMethod; }
@@ -657,7 +657,7 @@ namespace Cryptool.Enigma
         #region Used rotor settings
 
         [TaskPane("Rotor 1 (fastest/right)", "Select the used rotor on the right (fastest) position.",
-            "Used rotors", 10, false, DisplayLevel.Beginner, ControlType.DynamicComboBox, new string[] { "RotorAStrings" })]
+            "Used rotors", 10, false, ControlType.DynamicComboBox, new string[] { "RotorAStrings" })]
         public int Rotor1
         {
             get { return this.rotor1; }
@@ -671,7 +671,7 @@ namespace Cryptool.Enigma
         }
 
         [TaskPane("Rotor 2", "Select the used rotor on the second position.",
-            "Used rotors", 11, false, DisplayLevel.Beginner, ControlType.DynamicComboBox, new string[] { "RotorAStrings" })]
+            "Used rotors", 11, false, ControlType.DynamicComboBox, new string[] { "RotorAStrings" })]
         public int Rotor2
         {
             get { return this.rotor2; }
@@ -685,7 +685,7 @@ namespace Cryptool.Enigma
         }
 
         [TaskPane("Rotor 3", "Select the used rotor on the third position.",
-            "Used rotors", 12, false, DisplayLevel.Beginner, ControlType.DynamicComboBox, new string[] { "RotorAStrings" })]
+            "Used rotors", 12, false, ControlType.DynamicComboBox, new string[] { "RotorAStrings" })]
         public int Rotor3
         {
             get { return this.rotor3; }
@@ -699,7 +699,7 @@ namespace Cryptool.Enigma
         }
 
         [TaskPane("Rotor 4 (slowest/left)", "Select the used rotor on the forth position. If you want to use only three rotors, select none here.",
-            "Used rotors", 13, false, DisplayLevel.Beginner, ControlType.DynamicComboBox, new string[] { "RotorBStrings" })]
+            "Used rotors", 13, false, ControlType.DynamicComboBox, new string[] { "RotorBStrings" })]
         public int Rotor4
         {
             get { return this.rotor4; }
@@ -713,7 +713,7 @@ namespace Cryptool.Enigma
 
 
         [TaskPane("Reflector", "Select the used reflector. If you don't want to use a reflector, select none here.",
-            "Used rotors", 14, false, DisplayLevel.Beginner, ControlType.DynamicComboBox, new string[] { "ReflectorStrings" })]
+            "Used rotors", 14, false, ControlType.DynamicComboBox, new string[] { "ReflectorStrings" })]
         public int Reflector
         {
             get { return this.reflector; }
@@ -777,7 +777,7 @@ namespace Cryptool.Enigma
 
         #region Used ring settings
 
-        [TaskPane("Ring 1 (right)", "Select the the offset for ring 1", "Ring settings", 20, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger,1,26)]
+        [TaskPane("Ring 1 (right)", "Select the the offset for ring 1", "Ring settings", 20, false, ControlType.NumericUpDown, ValidationType.RangeInteger,1,26)]
         public int Ring1
         {
             get { return ring1; }
@@ -792,7 +792,7 @@ namespace Cryptool.Enigma
             }
         }
 
-        [TaskPane("Ring 2", "Select the the offset for ring 2", "Ring settings", 21, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 26)]
+        [TaskPane("Ring 2", "Select the the offset for ring 2", "Ring settings", 21, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 26)]
         public int Ring2
         {
             get { return ring2; }
@@ -807,7 +807,7 @@ namespace Cryptool.Enigma
             }
         }
 
-        [TaskPane("Ring 3", "Select the the offset for ring 3", "Ring settings", 22, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 26)]
+        [TaskPane("Ring 3", "Select the the offset for ring 3", "Ring settings", 22, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 26)]
         public int Ring3
         {
             get { return ring3; }
@@ -822,7 +822,7 @@ namespace Cryptool.Enigma
             }
         }
 
-        [TaskPane("Ring 4 (left)", "Select the the offset for ring 4", "Ring settings", 23, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 26)]
+        [TaskPane("Ring 4 (left)", "Select the the offset for ring 4", "Ring settings", 23, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 26)]
         public int Ring4
         {
             get { return ring4; }
@@ -841,14 +841,14 @@ namespace Cryptool.Enigma
 
         #region Plugboard settings
 
-        [TaskPane("Plugboard substitution", "Displays the current substitution", "Plugboard", 30, false, DisplayLevel.Beginner, ControlType.TextBoxReadOnly)]
+        [TaskPane("Plugboard substitution", "Displays the current substitution", "Plugboard", 30, false, ControlType.TextBoxReadOnly)]
         public string PlugBoard
         {
             get { return plugBoard.ToString(); }
             set { }
         }
 
-        [TaskPane("Involutoric", "The mapping and the inverse mapping are the same. As an example if A mapps to X, also X is mapped to A", "Plugboard", 31, false, DisplayLevel.Expert, ControlType.CheckBox, "", null)]
+        [TaskPane("Involutoric", "The mapping and the inverse mapping are the same. As an example if A mapps to X, also X is mapped to A", "Plugboard", 31, false, ControlType.CheckBox, "", null)]
         public bool Involutoric
         {
             get { return involutoricPlugBoard; }
@@ -864,7 +864,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Eins")]
-        [TaskPane("A=", "Select the letter for connecting this plug.", "Plugboard", 40, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("A=", "Select the letter for connecting this plug.", "Plugboard", 40, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardA
         {
@@ -873,7 +873,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Eins")]
-        [TaskPane("B=", "Select the letter for connecting this plug.", "Plugboard", 41, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("B=", "Select the letter for connecting this plug.", "Plugboard", 41, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardB
         {
@@ -882,7 +882,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Eins")]
-        [TaskPane("C=", "Select the letter for connecting this plug.", "Plugboard", 42, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("C=", "Select the letter for connecting this plug.", "Plugboard", 42, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardC
         {
@@ -891,7 +891,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("D=", "Select the letter for connecting this plug.", "Plugboard", 43, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("D=", "Select the letter for connecting this plug.", "Plugboard", 43, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardD
         {
@@ -900,7 +900,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("E=", "Select the letter for connecting this plug.", "Plugboard", 44, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("E=", "Select the letter for connecting this plug.", "Plugboard", 44, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardE
         {
@@ -909,7 +909,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("F=", "Select the letter for connecting this plug.", "Plugboard", 45, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("F=", "Select the letter for connecting this plug.", "Plugboard", 45, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardF
         {
@@ -918,7 +918,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Drei")]
-        [TaskPane("G=", "Select the letter for connecting this plug.", "Plugboard", 46, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("G=", "Select the letter for connecting this plug.", "Plugboard", 46, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardG
         {
@@ -927,7 +927,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Drei")]
-        [TaskPane("H=", "Select the letter for connecting this plug.", "Plugboard", 47, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("H=", "Select the letter for connecting this plug.", "Plugboard", 47, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardH
         {
@@ -936,7 +936,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Drei")]
-        [TaskPane("I=", "Select the letter for connecting this plug.", "Plugboard", 48, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("I=", "Select the letter for connecting this plug.", "Plugboard", 48, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardI
         {
@@ -945,7 +945,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Vier")]
-        [TaskPane("J=", "Select the letter for connecting this plug.", "Plugboard", 49, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("J=", "Select the letter for connecting this plug.", "Plugboard", 49, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardJ
         {
@@ -954,7 +954,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Vier")]
-        [TaskPane("K=", "Select the letter for connecting this plug.", "Plugboard", 50, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("K=", "Select the letter for connecting this plug.", "Plugboard", 50, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardK
         {
@@ -963,7 +963,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Vier")]
-        [TaskPane("L=", "Select the letter for connecting this plug.", "Plugboard", 51, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("L=", "Select the letter for connecting this plug.", "Plugboard", 51, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardL
         {
@@ -972,7 +972,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Fuenf")]
-        [TaskPane("M=", "Select the letter for connecting this plug.", "Plugboard", 52, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("M=", "Select the letter for connecting this plug.", "Plugboard", 52, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardM
         {
@@ -981,7 +981,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Fuenf")]
-        [TaskPane("N=", "Select the letter for connecting this plug.", "Plugboard", 53, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("N=", "Select the letter for connecting this plug.", "Plugboard", 53, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardN
         {
@@ -990,7 +990,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Fuenf")]
-        [TaskPane("O=", "Select the letter for connecting this plug.", "Plugboard", 54, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("O=", "Select the letter for connecting this plug.", "Plugboard", 54, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardO
         {
@@ -999,7 +999,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Sechs")]
-        [TaskPane("P=", "Select the letter for connecting this plug.", "Plugboard", 55, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("P=", "Select the letter for connecting this plug.", "Plugboard", 55, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardP
         {
@@ -1008,7 +1008,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Sechs")]
-        [TaskPane("Q=", "Select the letter for connecting this plug.", "Plugboard", 56, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("Q=", "Select the letter for connecting this plug.", "Plugboard", 56, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardQ
         {
@@ -1017,7 +1017,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Sechs")]
-        [TaskPane("R=", "Select the letter for connecting this plug.", "Plugboard", 57, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("R=", "Select the letter for connecting this plug.", "Plugboard", 57, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardR
         {
@@ -1026,7 +1026,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Sieben")]
-        [TaskPane("S=", "Select the letter for connecting this plug.", "Plugboard", 58, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("S=", "Select the letter for connecting this plug.", "Plugboard", 58, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardS
         {
@@ -1035,7 +1035,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Sieben")]
-        [TaskPane("T=", "Select the letter for connecting this plug.", "Plugboard", 59, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("T=", "Select the letter for connecting this plug.", "Plugboard", 59, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardT
         {
@@ -1044,7 +1044,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Sieben")]
-        [TaskPane("U=", "Select the letter for connecting this plug.", "Plugboard", 60, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("U=", "Select the letter for connecting this plug.", "Plugboard", 60, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardU
         {
@@ -1053,7 +1053,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Acht")]
-        [TaskPane("V=", "Select the letter for connecting this plug.", "Plugboard", 61, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("V=", "Select the letter for connecting this plug.", "Plugboard", 61, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardV
         {
@@ -1062,7 +1062,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto","*", "Acht")]
-        [TaskPane("W=", "Select the letter for connecting this plug.", "Plugboard", 62, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("W=", "Select the letter for connecting this plug.", "Plugboard", 62, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardW
         {
@@ -1071,7 +1071,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal,"Auto","*" ,"Acht")]
-        [TaskPane("X=", "Select the letter for connecting this plug.", "Plugboard", 63, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("X=", "Select the letter for connecting this plug.", "Plugboard", 63, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardX
         {
@@ -1080,7 +1080,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Neun")]
-        [TaskPane("Y=", "Select the letter for connecting this plug.", "Plugboard", 64, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("Y=", "Select the letter for connecting this plug.", "Plugboard", 64, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardY
         {
@@ -1089,7 +1089,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(1, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Neun")]
-        [TaskPane("Z=", "Select the letter for connecting this plug.", "Plugboard", 65, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("Z=", "Select the letter for connecting this plug.", "Plugboard", 65, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardZ
         {
@@ -1098,7 +1098,7 @@ namespace Cryptool.Enigma
         }
 
 
-        [TaskPane("Remove all plugs", "By pressing this button the plugboard is reset to its empty state, i.e. all plugs are removed", "Plugboard", 70, false, DisplayLevel.Beginner, ControlType.Button)]
+        [TaskPane("Remove all plugs", "By pressing this button the plugboard is reset to its empty state, i.e. all plugs are removed", "Plugboard", 70, false, ControlType.Button)]
         public void ResetPlugboard()
         {
             plugBoard = new StringBuilder("ABCDEFGHIJKLMNOPQRSTUVWXYZ");

@@ -38,7 +38,7 @@ namespace Cryptool.Plugins.KeySearcher_IControl
         }
 
         //private string key;
-        //[TaskPane("Key", "Key pattern used to bruteforce", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        //[TaskPane("Key", "Key pattern used to bruteforce", null, 1, false, ControlType.TextBox)]
         //public String Key
         //{
         //    get
@@ -54,14 +54,14 @@ namespace Cryptool.Plugins.KeySearcher_IControl
         //    }
         //}
 
-        //[TaskPane("Reset", "Reset Key", null, 2, false, DisplayLevel.Beginner, ControlType.Button)]
+        //[TaskPane("Reset", "Reset Key", null, 2, false, ControlType.Button)]
         //public void Reset()
         //{
 
         //    Key = keysearcher.Pattern.giveInputPattern();
         //}
         
-        [TaskPane("CoresUsed", "Choose how many cores should be used", null, 3, false, DisplayLevel.Beginner, ControlType.DynamicComboBox, new string[] { "CoresAvailable" })]
+        [TaskPane("CoresUsed", "Choose how many cores should be used", null, 3, false, ControlType.DynamicComboBox, new string[] { "CoresAvailable" })]
         public int CoresUsed
         {
             get { return this.coresUsed; }

@@ -91,7 +91,7 @@ namespace Cryptool.BooleanFunctionParser
 
         public int countOfInputsOld; 
         private int countOfInputs = 1;
-        [TaskPane("Number of inputs", "How many inputs do you need?", null, 0, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        [TaskPane("Number of inputs", "How many inputs do you need?", null, 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int CountOfInputs
         {
             get { return this.countOfInputs; }
@@ -138,7 +138,7 @@ namespace Cryptool.BooleanFunctionParser
             }
         }
 
-        /*[TaskPane("Evaluate function", "", null, 2, false, DisplayLevel.Beginner, ControlType.Button)]
+        /*[TaskPane("Evaluate function", "", null, 2, false, ControlType.Button)]
         public void evalFunction()
         {
             OnPropertyChanged("evalFunction");

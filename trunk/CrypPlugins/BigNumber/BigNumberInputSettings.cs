@@ -28,7 +28,7 @@ namespace Cryptool.Plugins.BigNumber
     {
         #region Number
         private String number = "1";
-        [TaskPane("Number", "The number this component should output.", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("Number", "The number this component should output.", null, 1, false, ControlType.TextBox)]
         public String Number
         {
             get 

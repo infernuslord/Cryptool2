@@ -64,8 +64,8 @@ namespace Cryptool.Vernam
         #region Algorithm settings properties (visible in the settings pane)
 
         [PropertySaveOrder(1)]
-        [ContextMenu("Action","Select the Algorithm action",1,DisplayLevel.Beginner,ContextMenuControlType.ComboBox,new int[] {1,2},"Encrypt","Decrypt")]
-        [TaskPane("Action", "Select the Algorithm action", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt"})]
+        [ContextMenu("Action","Select the Algorithm action",1,ContextMenuControlType.ComboBox,new int[] {1,2},"Encrypt","Decrypt")]
+        [TaskPane("Action", "Select the Algorithm action", null, 1, false, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt"})]
         public int Action
         {
             get { return this.selectedAction; }

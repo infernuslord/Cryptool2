@@ -29,8 +29,8 @@ namespace Nihilist
         }
 
         private Actions action = Actions.Encrypt;
-        [ContextMenu("Action", "Select the Algorithm action", 0, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new[] { "Encrypt", "Decrypt" })]
-        [TaskPane("Action", "Select the Algorithm action", null, 0, false, DisplayLevel.Beginner, ControlType.ComboBox, new[] { "Encrypt", "Decrypt" })]
+        [ContextMenu("Action", "Select the Algorithm action", 0, ContextMenuControlType.ComboBox, null, new[] { "Encrypt", "Decrypt" })]
+        [TaskPane("Action", "Select the Algorithm action", null, 0, false, ControlType.ComboBox, new[] { "Encrypt", "Decrypt" })]
         public int Action
         {
             get { return (int)action; }
@@ -49,7 +49,7 @@ namespace Nihilist
         }
 
         private string keyWord = string.Empty;
-        [TaskPane("Keyword", "This is the key used to en/decrypt.", null, 0, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("Keyword", "This is the key used to en/decrypt.", null, 0, false, ControlType.TextBox)]
         public string KeyWord
         {
             get { return keyWord; }
@@ -61,7 +61,7 @@ namespace Nihilist
         }
 
         private string secondKeyWord = string.Empty;
-        [TaskPane("Second Keyword", "This is the second key used to en/decrypt.", null, 0, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("Second Keyword", "This is the second key used to en/decrypt.", null, 0, false, ControlType.TextBox)]
         public string SecondKeyWord
         {
             get { return secondKeyWord; }

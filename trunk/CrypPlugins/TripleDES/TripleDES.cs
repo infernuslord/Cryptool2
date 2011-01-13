@@ -48,7 +48,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             set { this.settings = (TripleDESSettings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted", null, true, false, DisplayLevel.Beginner,QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted", null, true, false,QuickWatchFormat.Hex, null)]
         public CryptoolStream InputStream
         {
             get
@@ -70,7 +70,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Key", "Must be 16 or 24 bytes.", null, true, false, DisplayLevel.Beginner,QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Key", "Must be 16 or 24 bytes.", null, true, false,QuickWatchFormat.Hex, null)]
         public byte[] InputKey
         {
             get { return this.inputKey; }
@@ -81,7 +81,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.InputData, "IV", "IV to be used in chaining modes, must be the same as the Blocksize in bytes (8 bytes).", null, true, false, DisplayLevel.Professional, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "IV", "IV to be used in chaining modes, must be the same as the Blocksize in bytes (8 bytes).", null, true, false, QuickWatchFormat.Hex, null)]
         public byte[] InputIV
         {
             get { return this.inputIV; }
@@ -93,7 +93,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }
 
-        [PropertyInfo(Direction.OutputData, "Output stream", "Encrypted or decrypted output data", null, true, false, DisplayLevel.Beginner,QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "Output stream", "Encrypted or decrypted output data", null, true, false,QuickWatchFormat.Hex, null)]
         public CryptoolStream OutputStream
         {
             get

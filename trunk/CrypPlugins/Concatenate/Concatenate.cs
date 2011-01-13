@@ -132,14 +132,14 @@ namespace Concatenate
     {
       DicDynamicProperties.Add(name,
         new DynamicProperty(name, getCurrentType(),
-          new PropertyInfoAttribute(Direction.InputData, name, toolTip, "", false, true, DisplayLevel.Beginner, getQuickWatchFormat(), null)));
+          new PropertyInfoAttribute(Direction.InputData, name, toolTip, "", false, true, getQuickWatchFormat(), null)));
     }
 
     private void AddOutput(string name)
     {
       DicDynamicProperties.Add(name,
         new DynamicProperty(name, getCurrentType(),
-          new PropertyInfoAttribute(Direction.OutputData, name, "", "", false, false, DisplayLevel.Beginner, getQuickWatchFormat(), null)));
+          new PropertyInfoAttribute(Direction.OutputData, name, "", "", false, false, getQuickWatchFormat(), null)));
     }
 
     [MethodImpl(MethodImplOptions.Synchronized)]

@@ -47,7 +47,7 @@ namespace Gate
         private Object inputMonitor = new Object();
         private Object controlMonitor = new Object();
 
-        [PropertyInfo(Direction.InputData, "Input", "Input object of any type", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Input", "Input object of any type", null, true, false, QuickWatchFormat.Text, null)]
         public object InputObject
         {
             get
@@ -62,7 +62,7 @@ namespace Gate
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Control", "Controls whether to open gate", null, false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Control", "Controls whether to open gate", null, false, false, QuickWatchFormat.Text, null)]
         public bool Control
         {
             get
@@ -78,7 +78,7 @@ namespace Gate
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Output", "Output object", null, DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Output", "Output object", null)]
         public object OutputObject
         {
             get

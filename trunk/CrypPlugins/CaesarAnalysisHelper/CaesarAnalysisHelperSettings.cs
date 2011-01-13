@@ -34,8 +34,8 @@ namespace Cryptool.CaesarAnalysisHelper
 
         private Language Lang = Language.German;
 
-        [ContextMenu("Language", "The Language", 0, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new[] { "German", "English", "French", "Spanish" })]
-        [TaskPane("Language", "The text's language.", null, 0, false, DisplayLevel.Beginner, ControlType.ComboBox, new[] { "German", "English", "French", "Spanish" })]
+        [ContextMenu("Language", "The Language", 0, ContextMenuControlType.ComboBox, null, new[] { "German", "English", "French", "Spanish" })]
+        [TaskPane("Language", "The text's language.", null, 0, false, ControlType.ComboBox, new[] { "German", "English", "French", "Spanish" })]
         public int TextLanguage
         {
             get

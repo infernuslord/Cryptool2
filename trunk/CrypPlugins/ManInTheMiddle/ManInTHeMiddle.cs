@@ -109,7 +109,7 @@ namespace ManInTheMiddle
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(text, this, NotificationLevel.Info));
         }
 
-        [PropertyInfo(Direction.OutputData, "SOAP Output", "Output a modified SOAP message to be processed by the Web Service", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, "XmlConverter")]
+        [PropertyInfo(Direction.OutputData, "SOAP Output", "Output a modified SOAP message to be processed by the Web Service", "", true, false, QuickWatchFormat.Text, "XmlConverter")]
          public XmlDocument OutputString
         {
             get {
@@ -135,7 +135,7 @@ namespace ManInTheMiddle
             }
         }
 
-        [PropertyInfo(Direction.InputData, "SOAP Input", "Input from a Web-Service Client", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, "XmlOutputConverter")]
+        [PropertyInfo(Direction.InputData, "SOAP Input", "Input from a Web-Service Client", "", false, false, QuickWatchFormat.Text, "XmlOutputConverter")]
         public XmlDocument InputString
         {
             get { return this.inputSoap; }
@@ -149,7 +149,7 @@ namespace ManInTheMiddle
             }
         }
 
-        [PropertyInfo(Direction.InputData, "SOAP Input", "Soap Message response from a Web-Service", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, "XmlOutputConverter")]
+        [PropertyInfo(Direction.InputData, "SOAP Input", "Soap Message response from a Web-Service", "", false, false, QuickWatchFormat.Text, "XmlOutputConverter")]
         public XmlDocument InputAnswer
         {
             get { return this.inputAnswer; }
@@ -160,7 +160,7 @@ namespace ManInTheMiddle
             }
         }
 
-        [PropertyInfo(Direction.ControlSlave, "WSDL Input", "WSDL to create the soap message",null, DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.ControlSlave, "WSDL Input", "WSDL to create the soap message",null)]
         public XmlDocument wsdlInput
         {
             get { return this.wsdl; }

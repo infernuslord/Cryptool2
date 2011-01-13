@@ -34,7 +34,7 @@ namespace TranspositionAnalyser
 
         TranspositionAnalyserSettings settings;
         #region Properties
-        [PropertyInfo(Direction.InputData, "Input", "Input data for Analysis", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Input", "Input data for Analysis", "", true, false, QuickWatchFormat.Text, null)]
         public Byte[] Input
         {
             get
@@ -50,7 +50,7 @@ namespace TranspositionAnalyser
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Crib", "Crib input", "Crib for Analysis", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Crib", "Crib input", "Crib for Analysis", false, false, QuickWatchFormat.Text, null)]
         public Byte[] Crib
         {
             get
@@ -89,7 +89,7 @@ namespace TranspositionAnalyser
         }
 
         private IControlEncryption controlMaster;
-        [PropertyInfo(Direction.ControlMaster, "Control Master", "Used for bruteforcing", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.ControlMaster, "Control Master", "Used for bruteforcing", "", false, false, QuickWatchFormat.None, null)]
         public IControlEncryption ControlMaster
         {
 
@@ -105,7 +105,7 @@ namespace TranspositionAnalyser
 
 
         private IControlCost costMaster;
-        [PropertyInfo(Direction.ControlMaster, "Cost Master", "Used for cost calculation", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.ControlMaster, "Cost Master", "Used for cost calculation", "", false, false, QuickWatchFormat.None, null)]
         public IControlCost CostMaster
         {
             get { return costMaster; }
@@ -116,7 +116,7 @@ namespace TranspositionAnalyser
         }
 
         private byte[] output;
-        [PropertyInfo(Direction.OutputData, "Output", "output", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Output", "output", "")]
         public byte[] Output
         {
             get

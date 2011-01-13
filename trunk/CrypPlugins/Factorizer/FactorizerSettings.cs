@@ -45,7 +45,7 @@ namespace Factorizer
     }
     private long m_BruteForceLimit;
 
-    [TaskPane("Upper Limit for \nBruteForce Factorization", "Upper Limit for \nBruteForce Factorization", "Brute-Force Factorization", 0, false, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RangeInteger, 100, 1000000)]
+    [TaskPane("Upper Limit for \nBruteForce Factorization", "Upper Limit for \nBruteForce Factorization", "Brute-Force Factorization", 0, false, ControlType.TextBox, ValidationType.RangeInteger, 100, 1000000)]
     public long BruteForceLimit
     {
       get { return m_BruteForceLimit; }

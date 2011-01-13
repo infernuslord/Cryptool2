@@ -28,8 +28,8 @@ namespace Splitter
   {
 
     private int fireOnValue;
-    [ContextMenu("Fire on true/false", "Fire next word on true/flase input", 0, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, "True", "False")]
-    [TaskPane("Fire on true/false", "Fire next word on true/flase input", null, 0, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "True", "False" })]
+    [ContextMenu("Fire on true/false", "Fire next word on true/flase input", 0, ContextMenuControlType.ComboBox, null, "True", "False")]
+    [TaskPane("Fire on true/false", "Fire next word on true/flase input", null, 0, false, ControlType.ComboBox, new string[] { "True", "False" })]
     public int FireOnValue
     {
       get { return this.fireOnValue; }
@@ -45,7 +45,7 @@ namespace Splitter
     }
 
     private string delimiterDictionary = " ";
-    [TaskPaneAttribute("Delimiter Dictionary", "The delimiter for the dictionary to split up the words.", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RegEx, "^(.){0,1}$")]
+    [TaskPaneAttribute("Delimiter Dictionary", "The delimiter for the dictionary to split up the words.", null, 1, false, ControlType.TextBox, ValidationType.RegEx, "^(.){0,1}$")]
     public string DelimiterDictionary
     {
       get { return this.delimiterDictionary; }

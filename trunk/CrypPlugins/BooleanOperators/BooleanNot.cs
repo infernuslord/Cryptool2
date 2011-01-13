@@ -43,7 +43,7 @@ namespace Cryptool.Plugins.BooleanOperators
             this.settings = new BooleanNotSettings();
         }
 
-        [PropertyInfo(Direction.InputData, "Input", "input", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Input", "input", "")]
         public Boolean Input
         {
             get
@@ -57,7 +57,7 @@ namespace Cryptool.Plugins.BooleanOperators
             }            
         }
 
-        [PropertyInfo(Direction.OutputData, "Output", "output negated", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Output", "output negated", "")]
         public Boolean Output
         {
             get

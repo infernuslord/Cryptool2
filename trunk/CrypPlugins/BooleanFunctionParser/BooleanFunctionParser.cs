@@ -119,7 +119,7 @@ namespace Cryptool.BooleanFunctionParser
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Boolean Function f(i)", "Boolean function f(i) to compute.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Boolean Function f(i)", "Boolean function f(i) to compute.", "", false, false, QuickWatchFormat.Text, null)]
         public String InputFunction
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -133,7 +133,7 @@ namespace Cryptool.BooleanFunctionParser
             }
         }
 
-        /*[PropertyInfo(Direction.InputData, "Function Variable One (i_1.j)", "Input a boolean value to be processed by the function", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        /*[PropertyInfo(Direction.InputData, "Function Variable One (i_1.j)", "Input a boolean value to be processed by the function", "", false, true, QuickWatchFormat.Text, null)]
         public bool[] InputOne
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -155,7 +155,7 @@ namespace Cryptool.BooleanFunctionParser
          */
 
 
-        [PropertyInfo(Direction.OutputData, "Function output", "Output after procesing the given function.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Function output", "Output after procesing the given function.", "", false, false, QuickWatchFormat.Text, null)]
         public bool Output
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -785,7 +785,7 @@ namespace Cryptool.BooleanFunctionParser
             if (name == null || name == string.Empty) name = "Input " + inputs;
             DicDynamicProperties.Add(name,
               new DynamicProperty(name, typeof(bool[]),
-                new PropertyInfoAttribute(Direction.InputData, name, toolTip, "", false, true, DisplayLevel.Beginner, QuickWatchFormat.None, null))
+                new PropertyInfoAttribute(Direction.InputData, name, toolTip, "", false, true, QuickWatchFormat.None, null))
             );
         }
 
@@ -891,7 +891,7 @@ namespace Cryptool.BooleanFunctionParser
         #region IControl
 
         private IControlCubeAttack bfpSlave;
-        [PropertyInfo(Direction.ControlSlave, "BFP Slave", "Direct access to BFP.", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.ControlSlave, "BFP Slave", "Direct access to BFP.", "")]
         public IControlCubeAttack BFPSlave
         {
             get

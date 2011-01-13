@@ -69,7 +69,7 @@ namespace Cryptool.Trivium
             set { this.settings = (TriviumSettings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted.", "", true, false, QuickWatchFormat.Hex, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -80,7 +80,7 @@ namespace Cryptool.Trivium
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Key", "Must be 10 bytes (80 bit) in Hex.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Key", "Must be 10 bytes (80 bit) in Hex.", "", true, false, QuickWatchFormat.Hex, null)]
         public string InputKey
         {
             get { return this.inputKey; }
@@ -91,7 +91,7 @@ namespace Cryptool.Trivium
             }
         }
 
-        [PropertyInfo(Direction.InputData, "IV", "Must be 10 bytes (80 bit) in Hex.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "IV", "Must be 10 bytes (80 bit) in Hex.", "", true, false, QuickWatchFormat.Hex, null)]
         public string InputIV
         {
             get { return this.inputIV; }
@@ -102,7 +102,7 @@ namespace Cryptool.Trivium
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Output stream", "Encrypted or decrypted output data", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "Output stream", "Encrypted or decrypted output data", "", true, false, QuickWatchFormat.Hex, null)]
         public string OutputString
         {
             get { return this.outputString; }
@@ -651,7 +651,7 @@ namespace Cryptool.Trivium
         #region IControl
 
         private IControlCubeAttack triviumSlave;
-        [PropertyInfo(Direction.ControlSlave, "Trivium Slave", "Direct access to Trivium.", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.ControlSlave, "Trivium Slave", "Direct access to Trivium.", "")]
         public IControlCubeAttack TriviumSlave
         {
             get

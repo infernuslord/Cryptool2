@@ -66,7 +66,7 @@ namespace Cryptool.Plugins.BooleanOperators
         }
 
 
-        [PropertyInfo(Direction.OutputData, "Output", "Output", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.OutputData, "Output", "Output", "", false, false, QuickWatchFormat.None, null)]
         public Boolean Output
         {
             get

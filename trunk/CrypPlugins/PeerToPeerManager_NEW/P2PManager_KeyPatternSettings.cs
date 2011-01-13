@@ -60,7 +60,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         private string sTopic = "NewTopic";
-        [TaskPane("Topic Name", "Choose a topic name with which all subscribers can register.", null, 0, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("Topic Name", "Choose a topic name with which all subscribers can register.", null, 0, false, ControlType.TextBox)]
         public string TopicName
         {
             get { return this.sTopic; }
@@ -76,7 +76,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         /* FOR TESTING ISSUES */
-        [TaskPane("Stop", "Click here to Stop the Manager pro-active with all formely registered Workers!", "Control region", 0, true, DisplayLevel.Beginner, ControlType.Button)]
+        [TaskPane("Stop", "Click here to Stop the Manager pro-active with all formely registered Workers!", "Control region", 0, true, ControlType.Button)]
         public void BtnStop()
         {
             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnSolutionFound", Visibility.Collapsed)));
@@ -84,7 +84,7 @@ namespace Cryptool.Plugins.PeerToPeer
             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnStart", Visibility.Visible)));
             OnPropertyChanged("BtnStop");
         }
-        [TaskPane("Start", "Click here to (Re)Start the Manager; it will be return with the last status!", "Control region", 1, true, DisplayLevel.Beginner, ControlType.Button)]
+        [TaskPane("Start", "Click here to (Re)Start the Manager; it will be return with the last status!", "Control region", 1, true, ControlType.Button)]
         public void BtnStart()
         {
             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnSolutionFound", Visibility.Visible)));
@@ -96,7 +96,7 @@ namespace Cryptool.Plugins.PeerToPeer
 
         private long sendAliveMessageInterval = 60;
         [TaskPane("Alive Message Interval (in seconds)", "In which interval do you wish to receive Alive-Messages from your Subscribers?"
-            , "Subscriber Properties", 1, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 10, 3600)]
+            , "Subscriber Properties", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 10, 3600)]
         public long SendAliveMessageInterval
         {
             get
@@ -114,7 +114,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         private string key;
-        [TaskPane("Key", "Key pattern used to bruteforce", null, 2, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("Key", "Key pattern used to bruteforce", null, 2, false, ControlType.TextBox)]
         public String Key
         {
             get
@@ -133,7 +133,7 @@ namespace Cryptool.Plugins.PeerToPeer
 
         private int keyPatternSize = 120; // in hundred-thousand
         [TaskPane("KeyPatternSize", "Choose the Size of the specific sub-KeyPattern (in hundred-thousand steps)"
-            , null, 3, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 80, 1000)]
+            , null, 3, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 80, 1000)]
         public int KeyPatternSize
         {
             get
@@ -152,7 +152,7 @@ namespace Cryptool.Plugins.PeerToPeer
 
         private int bytesToUse = 128; // in hundred-thousand
         [TaskPane("BytesToUse", "Choose the bytes to use for the decryption process and displaying decryption results"
-            , null, 4, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 32, 1024)]
+            , null, 4, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 32, 1024)]
         public int BytesToUse
         {
             get

@@ -213,7 +213,7 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         /// <summary>
         /// Gets/Sets the value x in b^log_b(x) = x
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Input value", "Enter your input value here", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Input value", "Enter your input value here", "")]
         public BigInteger InputValue
         {
             get
@@ -230,7 +230,7 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         /// <summary>
         /// Gets/Sets the base b in b^log_b(x) = x
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Input base/generator", "Enter your base/generator here", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Input base/generator", "Enter your base/generator here", "")]
         public BigInteger InputBase
         {
             get
@@ -247,7 +247,7 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         /// <summary>
         /// Gets/Sets the modulo value for the used residue class
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Input modulo", "Enter your modulo here", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Input modulo", "Enter your modulo here", "")]
         public BigInteger InputMod
         {
             get
@@ -264,7 +264,7 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         /// <summary>
         /// Gets/Sets the calculated discrete logarithm
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "discrete logarithm output", "Get the result here!", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "discrete logarithm output", "Get the result here!", "")]
         public BigInteger OutputLogarithm
         {
             get

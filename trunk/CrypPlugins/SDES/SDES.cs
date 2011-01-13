@@ -114,7 +114,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <summary>
         /// Gets/Sets the input of the SDES plugin (the text which should be encrypted/decrypted)
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted", null, true, false, QuickWatchFormat.Hex, null)]
         public CryptoolStream InputStream
         {
             get 
@@ -151,7 +151,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <summary>
         /// Gets/Sets the output of the SDES plugin (the text which is encrypted/decrypted)
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "Output stream", "Encrypted or decrypted output data", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "Output stream", "Encrypted or decrypted output data", null, true, false, QuickWatchFormat.Hex, null)]
         public CryptoolStream OutputStream
         {
             get
@@ -188,7 +188,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <summary>
         /// Gets/Sets the key which should be used.Must be 10 bytes  (only 1 or 0 allowed).
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Key", "Must be 10 bytes (only 1 or 0 allowed).", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Key", "Must be 10 bytes (only 1 or 0 allowed).", null, true, false, QuickWatchFormat.Hex, null)]
         public byte[] InputKey
         {
             get { return this.inputKey; }
@@ -203,7 +203,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <summary>
         /// Gets/Sets the Initialization Vector which should be used.Must be 8 bytes  (only 1 or 0 allowed).
         /// </summary>
-        [PropertyInfo(Direction.InputData, "IV", "IV to be used in chaining modes, must be 8 bytes (only 1 or 0 allowed).", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "IV", "IV to be used in chaining modes, must be 8 bytes (only 1 or 0 allowed).", null, true, false, QuickWatchFormat.Hex, null)]
         public byte[] InputIV
         {
             get { return this.inputIV; }
@@ -362,7 +362,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <summary>
         /// Sets/Gets the ControlSlave of this plugin
         /// </summary>
-        [PropertyInfo(Direction.ControlSlave, "SDES Slave", "Direct access to SDES.", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.ControlSlave, "SDES Slave", "Direct access to SDES.", "")]
         public IControlEncryption ControlSlave
         {
             get

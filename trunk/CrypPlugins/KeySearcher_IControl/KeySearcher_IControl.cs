@@ -38,7 +38,7 @@ namespace Cryptool.Plugins.KeySearcher_IControl
     public class KeySearcher_IControl : KeySearcher.KeySearcher, IAnalysisMisc
     {
         //only change: mandatory = false!!!
-        [PropertyInfo(Direction.InputData, "Encrypted Data", "Encrypted data out of an Encryption PlugIn", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, "")]
+        [PropertyInfo(Direction.InputData, "Encrypted Data", "Encrypted data out of an Encryption PlugIn", "", false, false, QuickWatchFormat.Hex, "")]
         public override byte[] EncryptedData
         {
             get
@@ -52,7 +52,7 @@ namespace Cryptool.Plugins.KeySearcher_IControl
         }
 
         //only change: mandatory = false!!!
-        [PropertyInfo(Direction.InputData, "Initialization Vector", "Initialization vector with which the data were encrypted", "",false,false, DisplayLevel.Beginner,QuickWatchFormat.Hex,"")]
+        [PropertyInfo(Direction.InputData, "Initialization Vector", "Initialization vector with which the data were encrypted", "",false,false,QuickWatchFormat.Hex,"")]
         public override byte[] InitVector
         {
             get
@@ -68,7 +68,7 @@ namespace Cryptool.Plugins.KeySearcher_IControl
         #region IKeySearcherControl Members
 
         private IControlWorker controlWorker;
-        [PropertyInfo(Direction.ControlSlave, "Master Worker", "For distributed job processing", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.ControlSlave, "Master Worker", "For distributed job processing", "", true, false, QuickWatchFormat.Text, null)]
         public IControlWorker ControlWorker
         {
             get

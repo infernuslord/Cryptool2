@@ -152,10 +152,10 @@ namespace PKCS5
     /// <summary>
     /// Encoding property used in the Settings pane. 
     /// </summary>
-    [ContextMenu("String encoding", "Choose the expected encoding of strings (input & output).", 1, DisplayLevel.Experienced, ContextMenuControlType.ComboBox, null, 
+    [ContextMenu("String encoding", "Choose the expected encoding of strings (input & output).", 1, ContextMenuControlType.ComboBox, null, 
       new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
     [TaskPane("String encoding", "Choose the expected encoding of strings (input & output).", 
-      null, 1, false, DisplayLevel.Experienced, ControlType.RadioButton, 
+      null, 1, false, ControlType.RadioButton, 
       new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
     public int EncodingSetting
     {

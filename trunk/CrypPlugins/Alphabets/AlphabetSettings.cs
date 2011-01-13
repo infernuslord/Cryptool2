@@ -56,8 +56,8 @@ namespace Cryptool.Alphabets
             }
         }
 
-        [ContextMenu("Uppercase/Lowercase", "Use uppercase, lowercase letters", 0, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new string[] { "Uppercase", "Lowercase", "Both" })]
-        [TaskPane("Uppercase/Lowercase", "Use uppercase, lowercase letters", null, 2, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Uppercase", "Lowercase", "Both" })]
+        [ContextMenu("Uppercase/Lowercase", "Use uppercase, lowercase letters", 0, ContextMenuControlType.ComboBox, null, new string[] { "Uppercase", "Lowercase", "Both" })]
+        [TaskPane("Uppercase/Lowercase", "Use uppercase, lowercase letters", null, 2, false, ControlType.ComboBox, new string[] { "Uppercase", "Lowercase", "Both" })]
         public int UpperLowerCaseLetters
         {
             get { return (int)this.upperLowerCaseLetter; }
@@ -69,8 +69,8 @@ namespace Cryptool.Alphabets
             }
         }
 
-        [ContextMenu("Space", "Use space", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new string[] { "Yes", "No" })]
-        [TaskPane("Space", "Use space", null, 3, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Yes", "No" })]
+        [ContextMenu("Space", "Use space", 1, ContextMenuControlType.ComboBox, null, new string[] { "Yes", "No" })]
+        [TaskPane("Space", "Use space", null, 3, false, ControlType.ComboBox, new string[] { "Yes", "No" })]
         public int SpaceSensitivity
         {
             get { return (int)this.spaceSensitivity; }
@@ -82,8 +82,8 @@ namespace Cryptool.Alphabets
             }
         }
 
-        [ContextMenu("Numerals", "Use numerals", 2, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new string[] { "Yes", "No" })]
-        [TaskPane("Numerals", "Use numerals", null, 4, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Yes", "No" })]
+        [ContextMenu("Numerals", "Use numerals", 2, ContextMenuControlType.ComboBox, null, new string[] { "Yes", "No" })]
+        [TaskPane("Numerals", "Use numerals", null, 4, false, ControlType.ComboBox, new string[] { "Yes", "No" })]
         public int Numerals
         {
             get { return (int)this.numerals; }
@@ -95,8 +95,8 @@ namespace Cryptool.Alphabets
             }
         }
 
-        [ContextMenu("Punctuation", "Use punctations", 3, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new string[] { "Yes", "No" })]
-        [TaskPane("Punctuation", "Use punctations", null, 5, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Yes", "No" })]
+        [ContextMenu("Punctuation", "Use punctations", 3, ContextMenuControlType.ComboBox, null, new string[] { "Yes", "No" })]
+        [TaskPane("Punctuation", "Use punctations", null, 5, false, ControlType.ComboBox, new string[] { "Yes", "No" })]
         public int Punctuation
         {
             get { return (int)this.punctuation; }
@@ -109,7 +109,7 @@ namespace Cryptool.Alphabets
         }
 
         private string openFilename;
-        [TaskPane("Filename", "Select a file with an alphabet.", null, 1, false, DisplayLevel.Beginner, ControlType.OpenFileDialog, FileExtension = "Cryptool Alphabet (*.cta)|*.cta")]
+        [TaskPane("Filename", "Select a file with an alphabet.", null, 1, false, ControlType.OpenFileDialog, FileExtension = "Cryptool Alphabet (*.cta)|*.cta")]
         public string OpenFilename
         {
           get { return openFilename; }
@@ -126,7 +126,7 @@ namespace Cryptool.Alphabets
 
         public string TargetFilenameSuggestion { get; set; }
         private string targetFilename;
-        [TaskPane("Target FileName", "File to write alphabet into.", null, 1, false, DisplayLevel.Beginner, ControlType.SaveFileDialog, FileExtension = "Cryptool Alphabet (*.cta)|*.cta")]
+        [TaskPane("Target FileName", "File to write alphabet into.", null, 1, false, ControlType.SaveFileDialog, FileExtension = "Cryptool Alphabet (*.cta)|*.cta")]
         public string TargetFilename
         {
           get { return targetFilename; }

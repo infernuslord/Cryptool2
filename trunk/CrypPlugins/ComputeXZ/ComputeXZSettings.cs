@@ -36,7 +36,7 @@ namespace Cryptool.ComputeXZ
                 OnPropertyChanged("OutputSetting");
             }
         }
-        [TaskPane("OutputTypes of XZ", "Choose Outputtype of th sets XZ", null, 2, false, DisplayLevel.Experienced, ControlType.RadioButton, new string[] { "Display in TextOutput ", "Input of other Plug-in", "both" })]
+        [TaskPane("OutputTypes of XZ", "Choose Outputtype of th sets XZ", null, 2, false, ControlType.RadioButton, new string[] { "Display in TextOutput ", "Input of other Plug-in", "both" })]
         public int OutputSetting
         {
             get
@@ -50,7 +50,7 @@ namespace Cryptool.ComputeXZ
                 OnPropertyChanged("OutputSetting");
             }
         }
-        [TaskPane("Outputs Z", "express a sets of output Z to determine the set XZ to output", null, 3, false, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RegEx, null)]
+        [TaskPane("Outputs Z", "express a sets of output Z to determine the set XZ to output", null, 3, false, ControlType.TextBox, ValidationType.RegEx, null)]
         public string SetOfOutputs
         {
             get { return this.outputs; }

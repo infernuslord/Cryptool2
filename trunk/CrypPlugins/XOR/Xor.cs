@@ -65,7 +65,7 @@ namespace Cryptool.XOR
             set { this.settings = (XORSettings)value; }
         }
 
-        [PropertyInfo(Direction.OutputData, "Stream output", "The string after processing with the Xor cipher is converted to a stream. Default encoding is used.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Stream output", "The string after processing with the Xor cipher is converted to a stream. Default encoding is used.", "", false, false, QuickWatchFormat.Text, null)]
         public CryptoolStream OutputData
         {
             get
@@ -85,7 +85,7 @@ namespace Cryptool.XOR
             set { }
         }
 
-        [PropertyInfo(Direction.InputData, "Text input", "Input a string to be processed by the Xor cipher", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Text input", "Input a string to be processed by the Xor cipher", "", true, false, QuickWatchFormat.Text, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -99,7 +99,7 @@ namespace Cryptool.XOR
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Key input", "Input a key string", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Key input", "Input a key string", "", false, false, QuickWatchFormat.Text, null)]
         public string Key
         {
             get { return this.key; }
@@ -112,7 +112,7 @@ namespace Cryptool.XOR
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Text output", "The string after processing with the Xor cipher", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Text output", "The string after processing with the Xor cipher", "", false, false, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }

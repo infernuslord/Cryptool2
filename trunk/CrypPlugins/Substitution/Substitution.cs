@@ -63,7 +63,7 @@ namespace Cryptool.Substitution
             set { this.settings = (SubstitutionSettings)value; }
         }
 
-        [PropertyInfo(Direction.OutputData, "Stream output","The string after processing with the Substitution cipher is converted to a stream. Default encoding is used.", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Stream output","The string after processing with the Substitution cipher is converted to a stream. Default encoding is used.", null, true, false, QuickWatchFormat.Text, null)]
         public CryptoolStream OutputData
         {
             get
@@ -83,7 +83,7 @@ namespace Cryptool.Substitution
             set { }
         }
 
-        [PropertyInfo(Direction.InputData, "Text input","Input a string to be processed by the Substitution cipher", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Text input","Input a string to be processed by the Substitution cipher", null, true, false, QuickWatchFormat.Text, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -97,7 +97,7 @@ namespace Cryptool.Substitution
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Text output", "The string after processing with the Substitution cipher", null, true, false, DisplayLevel.Beginner,QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Text output", "The string after processing with the Substitution cipher", null, true, false,QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }
@@ -108,7 +108,7 @@ namespace Cryptool.Substitution
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Plaintext Alphabet","Input a string containing the plaintext-alphabet which should be used by Substitution.\nIf no alphabet is provided on the input, the internal alphabet will be used.", null, false, false, DisplayLevel.Expert, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Plaintext Alphabet","Input a string containing the plaintext-alphabet which should be used by Substitution.\nIf no alphabet is provided on the input, the internal alphabet will be used.", null, false, false, QuickWatchFormat.Text, null)]
         public string InputAlphabet
         {
             get { return ((SubstitutionSettings)this.settings).AlphabetSymbols; }
@@ -122,7 +122,7 @@ namespace Cryptool.Substitution
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Key (or substitution/cipher alphabet)","Same setting as key value in settings. \nIf you use a key shorter than the plaintext-alphabet, \nthe remaining characters of the cipher-alphabet will be filled up \naccording to the setting in the plug-ins settings pane. \nIf your key has the same length as the plaintext-alphabet, \nyou can perform the most general monoalphabetic substitution.", null, false, false,DisplayLevel.Expert, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Key (or substitution/cipher alphabet)","Same setting as key value in settings. \nIf you use a key shorter than the plaintext-alphabet, \nthe remaining characters of the cipher-alphabet will be filled up \naccording to the setting in the plug-ins settings pane. \nIf your key has the same length as the plaintext-alphabet, \nyou can perform the most general monoalphabetic substitution.", null, false, false, QuickWatchFormat.Text, null)]
         public string KeyValue
         {
             get { return settings.KeyValue; }

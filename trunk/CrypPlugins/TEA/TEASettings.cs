@@ -41,16 +41,16 @@ namespace Cryptool.TEA
         private int version = 0; //0="TEA"=default, 1="XTEA, 2=XXTEA"
         private int rounds = 64;
 
-        [ContextMenu("Action","Do you want the input data to be encrypted or decrypted?",1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 1, 2}, "Encrypt","Decrypt")]
-        [TaskPane("Action", "Do you want the input data to be encrypted or decrypted?", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
+        [ContextMenu("Action","Do you want the input data to be encrypted or decrypted?",1, ContextMenuControlType.ComboBox, new int[] { 1, 2}, "Encrypt","Decrypt")]
+        [TaskPane("Action", "Do you want the input data to be encrypted or decrypted?", null, 1, false, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
         public int Action
         {
             get { return this.action; }
             set { this.action = (int)value; }
         }
 
-        [ContextMenu("Padding mode", "Select a mode to fill partial data blocks.", 3, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, "Zeros", "None", "PKCS7")]
-        [TaskPane("Padding Mode", "Select a mode to fill partial data blocks.", "", 3, false, DisplayLevel.Experienced, ControlType.ComboBox, new String[] { "Zeros", "None", "PKCS7" })]
+        [ContextMenu("Padding mode", "Select a mode to fill partial data blocks.", 3, ContextMenuControlType.ComboBox, null, "Zeros", "None", "PKCS7")]
+        [TaskPane("Padding Mode", "Select a mode to fill partial data blocks.", "", 3, false, ControlType.ComboBox, new String[] { "Zeros", "None", "PKCS7" })]
         public int Padding
         {
             get { return this.padding; }
@@ -62,8 +62,8 @@ namespace Cryptool.TEA
             }
         }
 
-        [ContextMenu("TEA version", "Select the version of TEA you want to use.", 4, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, "TEA", "XTEA", "XXTEA")]
-        [TaskPane("TEA version", "Select the version of TEA you want to use.", "", 4, false, DisplayLevel.Experienced, ControlType.ComboBox, new String[] { "TEA (1994)", "XTEA (1997)", "XXTEA (1998)" })]
+        [ContextMenu("TEA version", "Select the version of TEA you want to use.", 4, ContextMenuControlType.ComboBox, null, "TEA", "XTEA", "XXTEA")]
+        [TaskPane("TEA version", "Select the version of TEA you want to use.", "", 4, false, ControlType.ComboBox, new String[] { "TEA (1994)", "XTEA (1997)", "XXTEA (1998)" })]
         public int Version
         {
             get { return this.version; }
@@ -75,7 +75,7 @@ namespace Cryptool.TEA
             }
         }
 
-        [TaskPane("Number of rounds", "This applies only to XTEA. Default are 64 rounds.", "Rounds", 5, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        [TaskPane("Number of rounds", "This applies only to XTEA. Default are 64 rounds.", "Rounds", 5, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int Rounds
         {
             get { return this.rounds; }

@@ -130,8 +130,8 @@ namespace Cryptool.ADFGVX
 
         #region Algorithm settings properties (visible in the Settings pane)
 
-        [ContextMenu("Action", "Select the Algorithm action", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Encrypt", "Decrypt")]
-        [TaskPane("Action","Select the Algorithm action",null,1,false,DisplayLevel.Beginner,ControlType.ComboBox, new string[] {"Encrypt","Decrypt"})]
+        [ContextMenu("Action", "Select the Algorithm action", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Encrypt", "Decrypt")]
+        [TaskPane("Action","Select the Algorithm action",null,1,false,ControlType.ComboBox, new string[] {"Encrypt","Decrypt"})]
         public int Action
         {
             get
@@ -146,7 +146,7 @@ namespace Cryptool.ADFGVX
             }
         }
 
-        [TaskPane("Substitution matrix","The matrixed used for encryption/decryption",null,2,false,DisplayLevel.Beginner,ControlType.TextBox,"")]
+        [TaskPane("Substitution matrix","The matrixed used for encryption/decryption",null,2,false,ControlType.TextBox,"")]
         public string SubstitutionMatrix
         {
             get{return this.substitutionMatrix;}
@@ -159,7 +159,7 @@ namespace Cryptool.ADFGVX
             }
         }
 
-        [TaskPane("Standard Matrix","Create default matrix",null,3,false,DisplayLevel.Beginner,ControlType.Button,"")]
+        [TaskPane("Standard Matrix","Create default matrix",null,3,false,ControlType.Button,"")]
         public void StandardMatrix()
         {
             if (SubstitutionMatrix != lowerAlphabet)
@@ -171,7 +171,7 @@ namespace Cryptool.ADFGVX
             }
         }
 
-        [TaskPane("Random Matrix","Create random matrix",null,4,false,DisplayLevel.Beginner,ControlType.Button,"")]
+        [TaskPane("Random Matrix","Create random matrix",null,4,false,ControlType.Button,"")]
         public void RandomMatrix()
         {
             Random rand = new Random();
@@ -194,7 +194,7 @@ namespace Cryptool.ADFGVX
             substitutionPass = string.Empty;
         }
 
-        [TaskPane("Substitution password","Enter the string of the substitution matrix",null,5,false,DisplayLevel.Expert,ControlType.TextBox,"")]
+        [TaskPane("Substitution password","Enter the string of the substitution matrix",null,5,false,ControlType.TextBox,"")]
         public string SubstitutionPass
         {
             get { return this.substitutionPass; }
@@ -208,7 +208,7 @@ namespace Cryptool.ADFGVX
         }
 
         [TaskPane("Transpositon password","Transposition password can contain any string of characters. Redundant or invalid characters will be removed before de- or encryption.",
-            null,6,false,DisplayLevel.Beginner,ControlType.TextBox,"")]
+            null,6,false,ControlType.TextBox,"")]
         public string TranspositionPass
         {
             get { return this.transPass; }
@@ -221,7 +221,7 @@ namespace Cryptool.ADFGVX
             }
         }
 
-        [TaskPane("Clean transposition password","Transposition password, with removed non alphabet character und duplicates",null,7,false,DisplayLevel.Beginner,ControlType.TextBoxReadOnly,"")]
+        [TaskPane("Clean transposition password","Transposition password, with removed non alphabet character und duplicates",null,7,false,ControlType.TextBoxReadOnly,"")]
         public string CleanTranspositionPass
         {
             get { return this.cleanTransPass; }
@@ -232,8 +232,8 @@ namespace Cryptool.ADFGVX
             }
         }
 
-        [ContextMenu("Unknown symbol handling", "What should be done with encountered characters at the input which are not in the alphabet?", 8, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "Remove (remove non alphabet characters)", "Replace (e.g. Ü=UE)" })]
-        [TaskPane("Unknown symbol handling", "What should be done with encountered characters at the input which are not in the alphabet?", null, 8, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Remove (remove non alphabet characters)", "Replace (e.g. Ü=UE)" })]
+        [ContextMenu("Unknown symbol handling", "What should be done with encountered characters at the input which are not in the alphabet?", 8, ContextMenuControlType.ComboBox, null, new string[] { "Remove (remove non alphabet characters)", "Replace (e.g. Ü=UE)" })]
+        [TaskPane("Unknown symbol handling", "What should be done with encountered characters at the input which are not in the alphabet?", null, 8, false, ControlType.ComboBox, new string[] { "Remove (remove non alphabet characters)", "Replace (e.g. Ü=UE)" })]
         public int UnknownSymbolHandling
         {
             get { return (int)this.unknownSymbolHandling; }
@@ -245,8 +245,8 @@ namespace Cryptool.ADFGVX
             }
         }
 
-        [ContextMenu("Alphabet case", "Transform the alphabet and input data to upper or lower case", 9, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "Upper case", "Lower case" })]
-        [TaskPane("Alphabet case", "Transfer the alphabet and input data to upper or lower case", null, 9, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Upper case", "Lower case" })]
+        [ContextMenu("Alphabet case", "Transform the alphabet and input data to upper or lower case", 9, ContextMenuControlType.ComboBox, null, new string[] { "Upper case", "Lower case" })]
+        [TaskPane("Alphabet case", "Transfer the alphabet and input data to upper or lower case", null, 9, false, ControlType.ComboBox, new string[] { "Upper case", "Lower case" })]
         public int AlphabetCase
         {
             get { return this.caseSensitiveAlphabet; }

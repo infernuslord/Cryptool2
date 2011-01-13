@@ -40,7 +40,7 @@ namespace Cryptool.Plugins.ArrayIndexer
 
         #region In and Out properties
 
-        [PropertyInfo(Direction.InputData, "Array Input", "The input object has to be an array type", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Array Input", "The input object has to be an array type", "", true, false, QuickWatchFormat.Text, null)]
         public Array ObjInput
         {
             get
@@ -54,7 +54,7 @@ namespace Cryptool.Plugins.ArrayIndexer
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Index of Array", "Indexes of an array begin always with 0. Example: If you have an array of the length 8, you can index the values 0 to 7", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Index of Array", "Indexes of an array begin always with 0. Example: If you have an array of the length 8, you can index the values 0 to 7", "")]
         public int ArrayIndex
         {
             get
@@ -69,7 +69,7 @@ namespace Cryptool.Plugins.ArrayIndexer
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Content of the chosen index of the array", "Content with the array-specific data type", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Content of the chosen index of the array", "Content with the array-specific data type", "")]
         public object ObjOutput
         {
             get

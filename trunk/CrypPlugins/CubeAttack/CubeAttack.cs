@@ -1152,7 +1152,7 @@ namespace Cryptool.CubeAttack
         #region IControlEncryption Members 
 
         private IControlCubeAttack cubeattackBlackbox;
-        [PropertyInfo(Direction.ControlMaster, "Master for CubeAttack", "Master for CubeAttack", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.ControlMaster, "Master for CubeAttack", "Master for CubeAttack", "")]
         public IControlCubeAttack CubeattackBlackbox
         {
             get { return cubeattackBlackbox; }

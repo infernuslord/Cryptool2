@@ -67,7 +67,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             set { this.settings = (AESSettings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted", "", true, false, QuickWatchFormat.Hex, null)]
         public CryptoolStream InputStream
         {
             get 
@@ -89,7 +89,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Key", "The provided key should be 16, 24 or 32 bytes, dependig on the settings. Too short/long keys will be extended/truncated!", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Key", "The provided key should be 16, 24 or 32 bytes, dependig on the settings. Too short/long keys will be extended/truncated!", "", true, false, QuickWatchFormat.Hex, null)]
         public byte[] InputKey
         {
             get { return this.inputKey; }
@@ -100,7 +100,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.InputData, "IV", "The initialisation vector (IV) which is used in chaining modes. It always must be the same as the blocksize.", "", false, false, DisplayLevel.Professional, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "IV", "The initialisation vector (IV) which is used in chaining modes. It always must be the same as the blocksize.", "", false, false, QuickWatchFormat.Hex, null)]
         public byte[] InputIV
         {
             get { return this.inputIV; }
@@ -111,7 +111,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Output stream", "Encrypted or decrypted output data", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "Output stream", "Encrypted or decrypted output data", "", true, false, QuickWatchFormat.Hex, null)]
         public CryptoolStream OutputStream
         {
             get 
@@ -476,7 +476,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         #endregion
 
         private IControlEncryption controlSlave;
-        [PropertyInfo(Direction.ControlSlave, "AES Slave", "AES Slave", "", DisplayLevel.Experienced)]
+        [PropertyInfo(Direction.ControlSlave, "AES Slave", "AES Slave", "")]
         public IControlEncryption ControlSlave
         {
           get 

@@ -72,7 +72,7 @@ namespace Cryptool.Plugins.SubByteArrayCryptoolStream
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }
 
-        [PropertyInfo(Direction.InputData, "Input ByteArray", "Input ByteArray", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Input ByteArray", "Input ByteArray", "", true, false, QuickWatchFormat.Hex, null)]
         public byte[] InputDataBytes
         {
             get
@@ -90,7 +90,7 @@ namespace Cryptool.Plugins.SubByteArrayCryptoolStream
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Start Index of ByteArray", "Start Index of ByteArray", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Start Index of ByteArray", "Start Index of ByteArray", "", false, false, QuickWatchFormat.Text, null)]
         public int Start
         {
             get { return this.settings.Start; }
@@ -100,7 +100,7 @@ namespace Cryptool.Plugins.SubByteArrayCryptoolStream
                 this.settings.GetTaskPaneAttributeChanged();
             }
         }
-        [PropertyInfo(Direction.InputData, "End Index of ByteArray", "End Index of ByteArray", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "End Index of ByteArray", "End Index of ByteArray", "", false, false, QuickWatchFormat.Text, null)]
         public int End
         {
             get { return this.settings.End; }
@@ -112,7 +112,7 @@ namespace Cryptool.Plugins.SubByteArrayCryptoolStream
         }
 
 
-        [PropertyInfo(Direction.OutputData, "Resulting ByteArray", "Resulting ByteArray", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "Resulting ByteArray", "Resulting ByteArray", "", false, false, QuickWatchFormat.Hex, null)]
         public byte[] OutputData
         {
             get

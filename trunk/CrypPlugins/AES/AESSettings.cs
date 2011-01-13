@@ -36,8 +36,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         private int mode = 0; //0="ECB", 1="CBC", 2="CFB", 3="OFB"
         private int padding = 0; ////0="Zeros"=default, 1="None", 2="PKCS7" , 3="ANSIX923", 4="ISO10126"
 
-        [ContextMenu("Cryptographic algorithm", "Select which symmetric cipher you want to use", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, "Advanced Encryption Standard (AES)", "Rijndael")]
-        [TaskPane("Cryptographic algorithm", "Select which symmetric cipher you want to use", "", 0, false, DisplayLevel.Experienced, ControlType.ComboBox, new string[] { "Advanced Encryption Standard (AES)", "Rijndael" })]
+        [ContextMenu("Cryptographic algorithm", "Select which symmetric cipher you want to use", 1, ContextMenuControlType.ComboBox, null, "Advanced Encryption Standard (AES)", "Rijndael")]
+        [TaskPane("Cryptographic algorithm", "Select which symmetric cipher you want to use", "", 0, false, ControlType.ComboBox, new string[] { "Advanced Encryption Standard (AES)", "Rijndael" })]
         public int CryptoAlgorithm
         {
             get { return this.cryptoAlgorithm; }
@@ -66,8 +66,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [ContextMenu("Action", "Do you want the input data to be encrypted or decrypted?", 2, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Encrypt", "Decrypt")]
-        [TaskPane("Action", "Do you want the input data to be encrypted or decrypted?", "", 2, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
+        [ContextMenu("Action", "Do you want the input data to be encrypted or decrypted?", 2, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Encrypt", "Decrypt")]
+        [TaskPane("Action", "Do you want the input data to be encrypted or decrypted?", "", 2, false, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
         public int Action
         {
             get { return this.action; }
@@ -80,8 +80,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
 
-        [ContextMenu("Keysize", "Select the key size. Note that providing a longer key will result in cutting the overlapping bytes, providing a shorter key will result in filling up with zeroes.", 3, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, "128 Bits", "192 Bits", "256 Bits")]
-        [TaskPane("Keysize", "Select the key size. Note that providing a longer key will result in cutting the overlapping bytes, providing a shorter key will result in filling up with zeroes.", "", 3, false, DisplayLevel.Beginner, ControlType.ComboBox, new String[] { "128 Bits", "192 Bits", "256 Bits" })]
+        [ContextMenu("Keysize", "Select the key size. Note that providing a longer key will result in cutting the overlapping bytes, providing a shorter key will result in filling up with zeroes.", 3, ContextMenuControlType.ComboBox, null, "128 Bits", "192 Bits", "256 Bits")]
+        [TaskPane("Keysize", "Select the key size. Note that providing a longer key will result in cutting the overlapping bytes, providing a shorter key will result in filling up with zeroes.", "", 3, false, ControlType.ComboBox, new String[] { "128 Bits", "192 Bits", "256 Bits" })]
         public int Keysize
         {
             get { return this.keysize; }
@@ -94,8 +94,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
 
-        [ContextMenu("Blocksize", "Select the block size (applies only to Rijndael)", 4, DisplayLevel.Experienced, ContextMenuControlType.ComboBox, null, "128 Bits", "192 Bits", "256 Bits")]
-        [TaskPane("Blocksize", "Select the block size (applies only to Rijndael)", "", 4, false, DisplayLevel.Experienced, ControlType.ComboBox, new String[] { "128 Bits", "192 Bits", "256 Bits" })]
+        [ContextMenu("Blocksize", "Select the block size (applies only to Rijndael)", 4, ContextMenuControlType.ComboBox, null, "128 Bits", "192 Bits", "256 Bits")]
+        [TaskPane("Blocksize", "Select the block size (applies only to Rijndael)", "", 4, false, ControlType.ComboBox, new String[] { "128 Bits", "192 Bits", "256 Bits" })]
         public int Blocksize
         {
             get { return this.blocksize; }
@@ -112,8 +112,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [ContextMenu("Chaining mode", "Select the block cipher mode of operation.", 5, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new String[] { "Electronic Code Book (ECB)", "Cipher Block Chaining (CBC)", "Cipher Feedback (CFB)" })]
-        [TaskPane("Chaining mode", "Select the block cipher mode of operation.", "", 5, false, DisplayLevel.Experienced, ControlType.ComboBox, new String[] { "Electronic Code Book (ECB)", "Cipher Block Chaining (CBC)", "Cipher Feedback (CFB)" })]
+        [ContextMenu("Chaining mode", "Select the block cipher mode of operation.", 5, ContextMenuControlType.ComboBox, null, new String[] { "Electronic Code Book (ECB)", "Cipher Block Chaining (CBC)", "Cipher Feedback (CFB)" })]
+        [TaskPane("Chaining mode", "Select the block cipher mode of operation.", "", 5, false, ControlType.ComboBox, new String[] { "Electronic Code Book (ECB)", "Cipher Block Chaining (CBC)", "Cipher Feedback (CFB)" })]
         public int Mode
         {
             get { return this.mode; }
@@ -125,8 +125,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [ContextMenu("Padding mode", "Select a mode to fill partial data blocks.", 6, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, "Zeros", "None", "PKCS7", "ANSIX923", "ISO10126")]
-        [TaskPane("Padding mode", "Select a mode to fill partial data blocks.", "", 6, false, DisplayLevel.Experienced, ControlType.ComboBox, new String[] { "Zeros", "None", "PKCS7", "ANSIX923", "ISO10126" })]
+        [ContextMenu("Padding mode", "Select a mode to fill partial data blocks.", 6, ContextMenuControlType.ComboBox, null, "Zeros", "None", "PKCS7", "ANSIX923", "ISO10126")]
+        [TaskPane("Padding mode", "Select a mode to fill partial data blocks.", "", 6, false, ControlType.ComboBox, new String[] { "Zeros", "None", "PKCS7", "ANSIX923", "ISO10126" })]
         public int Padding
         {
             get { return this.padding; }

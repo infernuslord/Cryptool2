@@ -19,7 +19,7 @@ namespace Cryptool.Plugins.Shifter
         #endregion
 
         #region taskpane
-        [TaskPane("Operator", "Choose to shift left or right", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "left", "right"})]
+        [TaskPane("Operator", "Choose to shift left or right", null, 1, false, ControlType.ComboBox, new string[] { "left", "right"})]
         public int Operand
         {
             get { return this.operand; }
@@ -44,7 +44,7 @@ namespace Cryptool.Plugins.Shifter
             }
         }
 
-        [TaskPane("Amount", "Choose how often", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("Amount", "Choose how often", null, 1, false, ControlType.TextBox)]
         public int Amount
         {
             get { return this.amount; }

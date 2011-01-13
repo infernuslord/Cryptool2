@@ -52,7 +52,7 @@ namespace Cryptool.Plugins.Variable
 
         #region Properties
 
-        [PropertyInfo(Direction.OutputData, "Variable Load Object", "Object to be loaded from the corresponding variable", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Variable Load Object", "Object to be loaded from the corresponding variable", "")]
         public object VariableLoadObject
         {
             get

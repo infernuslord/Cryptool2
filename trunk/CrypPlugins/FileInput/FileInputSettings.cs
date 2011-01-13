@@ -52,7 +52,7 @@ namespace FileInput
     }
 
     private string openFilename;
-    [TaskPane("Filename", "Select the file you want to open.", null, 1, false, DisplayLevel.Beginner, ControlType.OpenFileDialog, FileExtension="All Files (*.*)|*.*")]
+    [TaskPane("Filename", "Select the file you want to open.", null, 1, false, ControlType.OpenFileDialog, FileExtension="All Files (*.*)|*.*")]
     public string OpenFilename
     {
       get { return openFilename; }
@@ -67,7 +67,7 @@ namespace FileInput
       }
     }
 
-    [TaskPane("Close file", "Close file", null, 2, false, DisplayLevel.Beginner, ControlType.Button)]
+    [TaskPane("Close file", "Close file", null, 2, false, ControlType.Button)]
     public void CloseFile()
     {
       OpenFilename = null;

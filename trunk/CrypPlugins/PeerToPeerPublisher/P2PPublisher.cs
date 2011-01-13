@@ -109,7 +109,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <summary>
         /// Catches the completely configurated, initialized and joined P2P object from the P2PPeer-Slave-PlugIn.
         /// </summary>
-        [PropertyInfo(Direction.ControlMaster,"P2P Slave","Input the P2P-Peer-PlugIn","",true,false,DisplayLevel.Beginner,QuickWatchFormat.Text,null)]
+        [PropertyInfo(Direction.ControlMaster,"P2P Slave","Input the P2P-Peer-PlugIn","",true,false,QuickWatchFormat.Text,null)]
         public IP2PControl P2PControl 
         {
             get
@@ -141,7 +141,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         private string sInputvalue;
-        [PropertyInfo(Direction.InputData, "Publish-String", "Publish this string to all DHT Subscribers", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Publish-String", "Publish this string to all DHT Subscribers", "", true, false, QuickWatchFormat.Text, null)]
         public string Inputvalue
         {
             get

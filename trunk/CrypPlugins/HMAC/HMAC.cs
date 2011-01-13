@@ -59,7 +59,7 @@ namespace Cryptool.HMAC
             set { this.settings = (HMACSettings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "Input stream", "Input data to be processed", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Input stream", "Input data to be processed", "", true, false, QuickWatchFormat.Hex, null)]
         public CryptoolStream InputData
         {
 
@@ -82,7 +82,7 @@ namespace Cryptool.HMAC
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Key", "Message digest key", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Key", "Message digest key", "", true, false, QuickWatchFormat.Hex, null)]
         public byte[] Key
         {
             get
@@ -97,7 +97,7 @@ namespace Cryptool.HMAC
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Digested value", "Digested value as stream", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "Digested value", "Digested value as stream", "", false, false, QuickWatchFormat.Hex, null)]
         public CryptoolStream OutputDataStream
         {
             get
@@ -119,7 +119,7 @@ namespace Cryptool.HMAC
             set { } // readonly
         }
 
-        [PropertyInfo(Direction.OutputData, "Digested value", "Digested value as byte array", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "Digested value", "Digested value as byte array", "", false, false, QuickWatchFormat.Hex, null)]
         public byte[] OutputData
         {
             get

@@ -18,7 +18,7 @@ namespace RegularExpressions
         #region taskpane
         
         private String patternValue;
-        [TaskPane("RegexPattern", "Pattern to be replaced.", null, 0, false, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RegEx, null)]
+        [TaskPane("RegexPattern", "Pattern to be replaced.", null, 0, false, ControlType.TextBox, ValidationType.RegEx, null)]
         public String PatternValue
         {
             get { return this.patternValue; }
@@ -34,7 +34,7 @@ namespace RegularExpressions
         }
 
         private String replaceValue;
-        [TaskPane("Replacement", "Word to replace the pattern.", null, 0, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("Replacement", "Word to replace the pattern.", null, 0, false, ControlType.TextBox)]
         public String ReplaceValue
         {
             get { return this.replaceValue; }

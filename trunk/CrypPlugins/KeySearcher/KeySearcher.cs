@@ -100,7 +100,7 @@ namespace KeySearcher
         #region IControlEncryption Members
 
         private IControlEncryption controlMaster;
-        [PropertyInfo(Direction.ControlMaster, "Control_Master", "ControlMasterDesc", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.ControlMaster, "Control_Master", "ControlMasterDesc", "")]
         public IControlEncryption ControlMaster
         {
             get { return controlMaster; }
@@ -128,7 +128,7 @@ namespace KeySearcher
         #region IControlCost Members
 
         private IControlCost costMaster;
-        [PropertyInfo(Direction.ControlMaster, "Cost_Master", "CostMasterDesc", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.ControlMaster, "Cost_Master", "CostMasterDesc", "")]
         public IControlCost CostMaster
         {
             get { return costMaster; }
@@ -143,7 +143,7 @@ namespace KeySearcher
 
         /* BEGIN: following lines are from Arnie - 2010.01.12 */
         CryptoolStream csEncryptedData;
-        [PropertyInfo(Direction.InputData, "CS_Encrypted_Data", "csEncryptedDataDesc", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, "")]
+        [PropertyInfo(Direction.InputData, "CS_Encrypted_Data", "csEncryptedDataDesc", "", false, false, QuickWatchFormat.Hex, "")]
         public virtual CryptoolStream CSEncryptedData
         {
             get { return this.csEncryptedData; }
@@ -159,7 +159,7 @@ namespace KeySearcher
         }
 
         byte[] encryptedData;
-        [PropertyInfo(Direction.InputData,"Encrypted_Data","EcryptedDataDesc","",false,false,DisplayLevel.Beginner,QuickWatchFormat.Hex,"")]
+        [PropertyInfo(Direction.InputData,"Encrypted_Data","EcryptedDataDesc","",false,false,QuickWatchFormat.Hex,"")]
         public virtual byte[] EncryptedData 
         {
             get { return this.encryptedData; }
@@ -193,7 +193,7 @@ namespace KeySearcher
         }
 
         byte[] initVector;
-        [PropertyInfo(Direction.InputData, "Initialization_Vector", "InitVecDesc", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Initialization_Vector", "InitVecDesc", "")]
         public virtual byte[] InitVector
         {
             get { return this.initVector; }
@@ -214,12 +214,12 @@ namespace KeySearcher
             set { top1ValueKey = value; OnPropertyChanged("Top1Message"); OnPropertyChanged("Top1Key"); }
         }
 
-        [PropertyInfo(Direction.OutputData, "Top1_Message", "top1MesDesc", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Top1_Message", "top1MesDesc", "")]
         public virtual byte[] Top1Message
         {
             get { return top1ValueKey.decryption; }
         }
-        [PropertyInfo(Direction.OutputData, "Top1_Key", "Top1KeyDesc", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Top1_Key", "Top1KeyDesc", "")]
         public virtual byte[] Top1Key
         {
             get

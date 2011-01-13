@@ -59,8 +59,8 @@ namespace Concatenate
       }
     }
 
-    [ContextMenu("Type", "Select DataType of plugin.", 0, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new string[] { "CryptoolStream", "string", "byte[]", "boolean", "int" })]
-    [TaskPane("Type", "Select DataType of plugin.", "", 0, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "CryptoolStream", "string", "byte[]", "boolean", "int" })]
+    [ContextMenu("Type", "Select DataType of plugin.", 0, ContextMenuControlType.ComboBox, null, new string[] { "CryptoolStream", "string", "byte[]", "boolean", "int" })]
+    [TaskPane("Type", "Select DataType of plugin.", "", 0, false, ControlType.ComboBox, new string[] { "CryptoolStream", "string", "byte[]", "boolean", "int" })]
     public int DataType
     {
       get { return (int)CurrentDataType; }

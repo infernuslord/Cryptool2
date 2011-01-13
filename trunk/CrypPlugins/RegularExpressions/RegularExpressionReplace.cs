@@ -126,7 +126,7 @@ namespace RegularExpressions
         #endregion
 
         #region properties
-        [PropertyInfo(Direction.InputData, "Input String", "", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Input String", "", "", true, false, QuickWatchFormat.Text, null)]
         public String Input
         {
             get { return this.input; }
@@ -140,7 +140,7 @@ namespace RegularExpressions
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Output String", "", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Output String", "", "")]
         public String Output
         {
             get { return this.output; }

@@ -64,7 +64,7 @@ namespace KeySearcher
         }
 
         private string key;
-        [TaskPane("KeySettings", "KeySettingsDesc", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("KeySettings", "KeySettingsDesc", null, 1, false, ControlType.TextBox)]
         public String Key
         {
             get
@@ -81,13 +81,13 @@ namespace KeySearcher
             }
         }
 
-        [TaskPane("ResetSettings", "ResetSettingsDesc", null, 2, false, DisplayLevel.Beginner, ControlType.Button)]
+        [TaskPane("ResetSettings", "ResetSettingsDesc", null, 2, false, ControlType.Button)]
         public void Reset()
         {
             Key = keysearcher.Pattern.giveInputPattern();
         }
         
-        [TaskPane("CoresUsedSettings", "CoresUsedSettingsDesc", null, 3, false, DisplayLevel.Beginner, ControlType.DynamicComboBox, new string[] { "CoresAvailable" })]
+        [TaskPane("CoresUsedSettings", "CoresUsedSettingsDesc", null, 3, false, ControlType.DynamicComboBox, new string[] { "CoresAvailable" })]
         public int CoresUsed
         {
             get { return this.coresUsed; }
@@ -103,7 +103,7 @@ namespace KeySearcher
         }
 
         private bool usePeerToPeer;
-        [TaskPane("UseP2PSettings", "UseP2PSettingsDesc", "GroupPeerToPeer", 0, false, DisplayLevel.Beginner,
+        [TaskPane("UseP2PSettings", "UseP2PSettingsDesc", "GroupPeerToPeer", 0, false,
             ControlType.CheckBox)]
         public bool UsePeerToPeer
         {
@@ -120,7 +120,7 @@ namespace KeySearcher
         }
 
         private bool autoconnectPeerToPeer;
-        [TaskPane("AutoconnectSettings", "AutoconnectSettingsDesc", "GroupPeerToPeer", 1, false, DisplayLevel.Beginner,
+        [TaskPane("AutoconnectSettings", "AutoconnectSettingsDesc", "GroupPeerToPeer", 1, false,
             ControlType.CheckBox)]
         public bool AutoconnectPeerToPeer
         {
@@ -137,7 +137,7 @@ namespace KeySearcher
         }
 
         private bool verbosePeerToPeerDisplay;
-        [TaskPane("DisplayVerboseInformationSettings", "DisplayVerboseInformationSettingsDesc", "GroupPeerToPeer", 2, true, DisplayLevel.Beginner,
+        [TaskPane("DisplayVerboseInformationSettings", "DisplayVerboseInformationSettingsDesc", "GroupPeerToPeer", 2, true,
             ControlType.CheckBox)]
         public bool VerbosePeerToPeerDisplay
         {
@@ -154,7 +154,7 @@ namespace KeySearcher
         }
 
         private int chunkSize;
-        [TaskPane("ChunkSizeSettings", "ChunkSizeSettingsDesc", "GroupPeerToPeer", 3, false, DisplayLevel.Professional,
+        [TaskPane("ChunkSizeSettings", "ChunkSizeSettingsDesc", "GroupPeerToPeer", 3, false,
             ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 1000)]
         public int ChunkSize
         {
@@ -170,7 +170,7 @@ namespace KeySearcher
             }
         }
 
-        [TaskPane("CopyStatusKeySettings", "CopyStatusKeySettingsDesc", "GroupPeerToPeer", 4, true, DisplayLevel.Professional, ControlType.Button)]
+        [TaskPane("CopyStatusKeySettings", "CopyStatusKeySettingsDesc", "GroupPeerToPeer", 4, true, ControlType.Button)]
         public void StatusKeyButton()
         {
             if (!keysearcher.IsKeySearcherRunning)
@@ -188,7 +188,7 @@ namespace KeySearcher
         }
 
         private string evaluationHost;
-        [TaskPane("HostSettings", "HostSettingsDesc", "GroupEvaluation", 0, false, DisplayLevel.Expert, ControlType.TextBox)]
+        [TaskPane("HostSettings", "HostSettingsDesc", "GroupEvaluation", 0, false, ControlType.TextBox)]
         public String EvaluationHost
         {
             get
@@ -207,7 +207,7 @@ namespace KeySearcher
         }
 
         private string evaluationUser;
-        [TaskPane("UserSettings", "UserSettingsDesc", "GroupEvaluation", 1, false, DisplayLevel.Expert, ControlType.TextBox)]
+        [TaskPane("UserSettings", "UserSettingsDesc", "GroupEvaluation", 1, false, ControlType.TextBox)]
         public String EvaluationUser
         {
             get
@@ -226,7 +226,7 @@ namespace KeySearcher
         }
 
         private string evaluationPassword;
-        [TaskPane("PasswordSettings", "PasswordSettingsDesc", "GroupEvaluation", 2, false, DisplayLevel.Expert, ControlType.TextBox)]
+        [TaskPane("PasswordSettings", "PasswordSettingsDesc", "GroupEvaluation", 2, false, ControlType.TextBox)]
         public String EvaluationPassword
         {
             get
@@ -245,7 +245,7 @@ namespace KeySearcher
         }
 
         private string evaluationDatabase;
-        [TaskPane("DatabaseSettings", "DatabaseSettingsDesc", "GroupEvaluation", 3, false, DisplayLevel.Expert, ControlType.TextBox)]
+        [TaskPane("DatabaseSettings", "DatabaseSettingsDesc", "GroupEvaluation", 3, false, ControlType.TextBox)]
         public String EvaluationDatabase
         {
             get
@@ -265,7 +265,7 @@ namespace KeySearcher
 
         #region OpenCL
 
-        [TaskPane("NoOpenCLSettings", null, "GroupOpenCL", 1, false, DisplayLevel.Experienced, ControlType.TextBoxReadOnly)]
+        [TaskPane("NoOpenCLSettings", null, "GroupOpenCL", 1, false, ControlType.TextBoxReadOnly)]
         public string NoOpenCL
         {
             get { return Resources.No_OpenCL_Device_available_; }
@@ -294,7 +294,7 @@ namespace KeySearcher
         }
 
         private int openCLDevice;
-        [TaskPane("OpenCLDeviceSettings", "OpenCLDeviceSettingsDesc", "GroupOpenCL", 1, false, DisplayLevel.Experienced, ControlType.DynamicComboBox, new string[] { "DevicesAvailable" })]
+        [TaskPane("OpenCLDeviceSettings", "OpenCLDeviceSettingsDesc", "GroupOpenCL", 1, false, ControlType.DynamicComboBox, new string[] { "DevicesAvailable" })]
         public int OpenCLDevice
         {
             get { return this.openCLDevice; }
@@ -312,7 +312,7 @@ namespace KeySearcher
         }
 
         [TaskPane("UseSelectedDeviceSettings", "UseSelectedDeviceSettingsDesc",
-            "GroupOpenCL", 2, false, DisplayLevel.Experienced, ControlType.CheckBox)]
+            "GroupOpenCL", 2, false, ControlType.CheckBox)]
         public bool UseOpenCL
         {
             get
@@ -333,7 +333,7 @@ namespace KeySearcher
             }
         }
 
-        [TaskPane("OpenCLModeSettings", "OpenCLModeSettingsDesc", "GroupOpenCL", 3, false, DisplayLevel.Experienced, ControlType.RadioButton, new string[] { "Low Load", "Normal Load", "High Load (use with caution)" })]
+        [TaskPane("OpenCLModeSettings", "OpenCLModeSettingsDesc", "GroupOpenCL", 3, false, ControlType.RadioButton, new string[] { "Low Load", "Normal Load", "High Load (use with caution)" })]
         public int OpenCLMode
         {
             get
@@ -374,7 +374,7 @@ namespace KeySearcher
 
         private bool useExternalClient = false;
         [TaskPane("UseExternalClientSettings", "UseExternalClientSettingsDesc", 
-            "GroupExternalClient", 1, false, DisplayLevel.Experienced, ControlType.CheckBox)]
+            "GroupExternalClient", 1, false, ControlType.CheckBox)]
         public bool UseExternalClient
         {
             get { return useExternalClient; }
@@ -390,7 +390,7 @@ namespace KeySearcher
         }
 
         private int port = 6234;
-        [TaskPane("PortSettings", "PortSettingsDesc", "GroupExternalClient", 2, false, DisplayLevel.Experienced, ControlType.TextBox)]
+        [TaskPane("PortSettings", "PortSettingsDesc", "GroupExternalClient", 2, false, ControlType.TextBox)]
         public int Port
         {
             get { return port; }
@@ -411,7 +411,7 @@ namespace KeySearcher
         /// <summary>
         /// Getter/Setter for the csv file
         /// </summary>
-        [TaskPane("CSVPathSettings", "CSVPathSettings", "GroupStatisticPath", 1, false, DisplayLevel.Beginner, ControlType.SaveFileDialog, FileExtension = "Comma Seperated Values (*.csv)|*.csv")]
+        [TaskPane("CSVPathSettings", "CSVPathSettings", "GroupStatisticPath", 1, false, ControlType.SaveFileDialog, FileExtension = "Comma Seperated Values (*.csv)|*.csv")]
         public string CsvPath
         {
             get { return csvPath; }
@@ -429,7 +429,7 @@ namespace KeySearcher
         /// <summary>
         /// Button to "reset" the csv file. That means it will not appear any more in the text field
         /// </summary>
-        [TaskPane("DefaultPathSettings", "DefaultPathSettingsDesc", "GroupStatisticPath", 2, false, DisplayLevel.Beginner, ControlType.Button)]
+        [TaskPane("DefaultPathSettings", "DefaultPathSettingsDesc", "GroupStatisticPath", 2, false, ControlType.Button)]
         public void DefaultPath()
         {
             csvPath = "";

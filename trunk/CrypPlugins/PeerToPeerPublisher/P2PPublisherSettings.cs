@@ -44,7 +44,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         private string sTopic = "NewTopic";
-        [TaskPane("Topic Name","Choose a topic name with which all subscribers can register.",null,0,false,DisplayLevel.Beginner,ControlType.TextBox)]
+        [TaskPane("Topic Name","Choose a topic name with which all subscribers can register.",null,0,false,ControlType.TextBox)]
         public string TopicName 
         {
             get { return this.sTopic; }
@@ -60,7 +60,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         /* FOR TESTING ISSUES */
-        [TaskPane("Unregister", "Click here to Unregister the publisher from all registered subscribers!", "Control region", 0, true, DisplayLevel.Beginner, ControlType.Button)]
+        [TaskPane("Unregister", "Click here to Unregister the publisher from all registered subscribers!", "Control region", 0, true, ControlType.Button)]
         public void BtnUnregister()
         {
             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnSolutionFound", Visibility.Collapsed)));
@@ -68,7 +68,7 @@ namespace Cryptool.Plugins.PeerToPeer
             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnRegister", Visibility.Visible)));
             OnPropertyChanged("BtnUnregister");
         }
-        [TaskPane("Register", "Click here to Register the publisher pro-active with all formely registered subscribers!", "Control region", 1, true, DisplayLevel.Beginner, ControlType.Button)]
+        [TaskPane("Register", "Click here to Register the publisher pro-active with all formely registered subscribers!", "Control region", 1, true, ControlType.Button)]
         public void BtnRegister()
         {
             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnSolutionFound", Visibility.Visible)));
@@ -76,7 +76,7 @@ namespace Cryptool.Plugins.PeerToPeer
             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnUnregister", Visibility.Visible)));
             OnPropertyChanged("BtnRegister");
         }
-        [TaskPane("Solution found", "TESTING: Emulate solution-found-case!", "Control region", 2, true, DisplayLevel.Beginner, ControlType.Button)]
+        [TaskPane("Solution found", "TESTING: Emulate solution-found-case!", "Control region", 2, true, ControlType.Button)]
         public void BtnSolutionFound()
         {
             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnSolutionFound", Visibility.Collapsed)));
@@ -85,7 +85,7 @@ namespace Cryptool.Plugins.PeerToPeer
             OnPropertyChanged("BtnSolutionFound");
         }
 
-        [TaskPane("Ser/Deser Test", "Click here to test serialization/deserialization of PeerManagementList!", "Serialization Test", 0, true, DisplayLevel.Beginner, ControlType.Button)]
+        [TaskPane("Ser/Deser Test", "Click here to test serialization/deserialization of PeerManagementList!", "Serialization Test", 0, true, ControlType.Button)]
         public void BtnSerDeser()
         {
             OnPropertyChanged("BtnSerDeser");
@@ -94,7 +94,7 @@ namespace Cryptool.Plugins.PeerToPeer
 
         private int sendAliveMessageInterval = 60;
         [TaskPane("Alive Message Interval (in seconds)","In which interval do you wish to receive Alive-Messages from your Subscribers?"
-            ,"Subscriber Properties",0,false,DisplayLevel.Beginner,ControlType.NumericUpDown, ValidationType.RangeInteger, 10, 3600)]
+            ,"Subscriber Properties",0,false,ControlType.NumericUpDown, ValidationType.RangeInteger, 10, 3600)]
         public int SendAliveMessageInterval 
         {
             get 
