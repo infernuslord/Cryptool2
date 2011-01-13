@@ -118,16 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="An_error_occured_when_trying_to_compile_OpenCL_code__" xml:space="preserve">
-    <value>Ein Fehler trat auf beim Versuch OpenCL Code zu kompilieren: </value>
+    <value>Ein Fehler trat beim Kompilieren von OpenCL-Code auf: </value>
   </data>
   <data name="Assigning_new_job_with_Guid__0__to_client_" xml:space="preserve">
-    <value>Weise neuen Job mit Guid {0} dem Client zu!</value>
+    <value>Weise dem Client neuen Job mit Guid {0} zu!</value>
   </data>
   <data name="Best_match___0__with__1_" xml:space="preserve">
     <value>Bester Treffer: {0} mit {1}</value>
   </data>
   <data name="Brute_force_was_stopped__not_saving_results___" xml:space="preserve">
-    <value>Rohe Gewalt wurde gestoppt, speichere Resultate nicht...</value>
+    <value>Erschöpfende Suche wurde gestoppt, speichere Resultate nicht...</value>
   </data>
   <data name="Bytes_used_not_valid__" xml:space="preserve">
     <value>Benutzte Bytes nicht valide: </value>
@@ -136,19 +136,19 @@
     <value>Berechne globale Statistiken</value>
   </data>
   <data name="Calculating_pattern_" xml:space="preserve">
-    <value>Berechne Muster </value>
+    <value>Berechne Suchraum </value>
   </data>
   <data name="Calculation_complete_" xml:space="preserve">
     <value>Berechnung vollständig.</value>
   </data>
   <data name="Chunks_" xml:space="preserve">
-    <value>Stücke:</value>
+    <value>Blöcke:</value>
   </data>
   <data name="Client_disconnected_" xml:space="preserve">
     <value>Client getrennt!</value>
   </data>
   <data name="Client_returned_result_of_job_with_Guid__0__" xml:space="preserve">
-    <value>Client berichtet Ergebnis des Job mit Guid {0}!</value>
+    <value>Client berichtet Ergebnis des Jobs mit Guid {0}!</value>
   </data>
   <data name="Client_tried_to_connect__but_only_one_client_allowed_" xml:space="preserve">
     <value>Client versuchte zu verbinden, aber nur ein Client erlaubt!</value>
@@ -160,10 +160,10 @@
     <value>Verbindung verloren! Warte auf Neuverbindung um Resultate zu speichern!</value>
   </data>
   <data name="ControlMasterDesc" xml:space="preserve">
-    <value>Benutzt für rohe Gewalt</value>
+    <value>Benutzt für erschöpfende Suche</value>
   </data>
   <data name="Control_Master" xml:space="preserve">
-    <value>Kontrolmeister</value>
+    <value>Master</value>
   </data>
   <data name="CostMasterDesc" xml:space="preserve">
     <value>Für Kostenkalkulation verwendet</value>
@@ -175,22 +175,22 @@
     <value>Konnte Resultate nicht speichern: </value>
   </data>
   <data name="csEncryptedDataDesc" xml:space="preserve">
-    <value>Verschlüsselte Daten aus einem Verschlüsselungs Plug-In</value>
+    <value>Verschlüsselte Daten aus einer Verschlüsselungsfunktion</value>
   </data>
   <data name="CS_Encrypted_Data" xml:space="preserve">
     <value>CS Verschlüsselte Daten</value>
   </data>
   <data name="Current_Chunk_" xml:space="preserve">
-    <value>Derzeitiges Stück:</value>
+    <value>Derzeitiger Block:</value>
   </data>
   <data name="Devices_" xml:space="preserve">
     <value>Geräte:</value>
   </data>
   <data name="dummykey" xml:space="preserve">
-    <value>Dummer Schlüssel</value>
+    <value>Schlüsselplatzhalter</value>
   </data>
   <data name="EcryptedDataDesc" xml:space="preserve">
-    <value>Verschlüsselte Daten aus einem Verschlüsselungs Plug-In</value>
+    <value>Verschlüsselte Daten aus einer Verschlüsselungsfunktion</value>
   </data>
   <data name="Elapsed_" xml:space="preserve">
     <value>Vergangen:</value>
@@ -199,19 +199,19 @@
     <value>Verschlüsselte Daten</value>
   </data>
   <data name="Ended_bruteforcing_pattern__" xml:space="preserve">
-    <value>Beendete rohe Gewalt gegen Muster '</value>
+    <value>Beendete erschöpfende Suche gegen Suchraum '</value>
   </data>
   <data name="Endgame_Mode_" xml:space="preserve">
-    <value>Endspiel Modus</value>
+    <value>Endmodus</value>
   </data>
   <data name="End_" xml:space="preserve">
     <value>Ende:</value>
   </data>
   <data name="Finding_next_leaf_to_calculate" xml:space="preserve">
-    <value>Suche nächstes Blatt zum berechnen</value>
+    <value>Suche nächsten Block zum Berechnen</value>
   </data>
   <data name="Finished_Chunks_" xml:space="preserve">
-    <value>Fertige Stücke:</value>
+    <value>Fertige Blöcke:</value>
   </data>
   <data name="incalculable____" xml:space="preserve">
     <value>unberechenbar :-)</value>
@@ -220,25 +220,25 @@
     <value>Initialisierungsvektor</value>
   </data>
   <data name="Initializing_connection_to_the_peer_to_peer_system" xml:space="preserve">
-    <value>Initialisiere Verbindung zum Peer-to-Peer System</value>
+    <value>Initialisiere Verbindung zum Netzwerk</value>
   </data>
   <data name="Initializing_distributed_key_pool_tree" xml:space="preserve">
-    <value>Initialisiere verteilten Schlüsselgrubenbaum</value>
+    <value>Initialisiere verteilten Schlüsselbaum</value>
   </data>
   <data name="InitVecDesc" xml:space="preserve">
-    <value>Initialisierungsvektor mit dem die Daten verschlüsselt wurden</value>
+    <value>Initialisierungsvektor, mit dem die Daten verschlüsselt wurden</value>
   </data>
   <data name="in_a_galaxy_far__far_away___" xml:space="preserve">
-    <value>In einer Galaxy weit, weit weg...</value>
+    <value>In einer weit, weit entfernten Galaxis...</value>
   </data>
   <data name="Keysearcher_Fullstop__Please_Update_your_Version_" xml:space="preserve">
-    <value>Keysearcher Vollstopp. Bitte aktualisieren Sie Ihre Version.</value>
+    <value>KeySearcher gestoppt. Bitte aktualisieren Sie Ihre Version.</value>
   </data>
   <data name="KeySearcher_must_be_running_to_copy_the_status_key_" xml:space="preserve">
-    <value>Schlüsselsucher muss laufen um den Statusschlüssel zu kopieren.</value>
+    <value>KeySearcher muss ausgeführt werden, um den Statusschlüssel zu kopieren.</value>
   </data>
   <data name="Keys_Per_Chunk_" xml:space="preserve">
-    <value>Schlüssel pro Stück:</value>
+    <value>Schlüssel pro Block:</value>
   </data>
   <data name="Keys_Sec_" xml:space="preserve">
     <value>Schlüssel / Sek:</value>
@@ -250,64 +250,64 @@
     <value>Schlüssel/Sek (OpenCL):</value>
   </data>
   <data name="Launching_p2p_based_bruteforce_logic___" xml:space="preserve">
-    <value>Starte p2p basierte rohe Gewalt Logik...</value>
+    <value>Starte Logik der verteilten Schlüsselsuche...</value>
   </data>
   <data name="Local_" xml:space="preserve">
     <value>Lokal</value>
   </data>
   <data name="Node_was_already_calculated_" xml:space="preserve">
-    <value>Knoten wurde schon berechnet.</value>
+    <value>Block wurde bereits berechnet.</value>
   </data>
   <data name="No_OpenCL_Device_available_" xml:space="preserve">
-    <value>Kein OpenCL Gerät verfügbar!</value>
+    <value>Kein OpenCL-Gerät verfügbar!</value>
   </data>
   <data name="No_ressources_to_BruteForce_available__Check_the_KeySearcher_settings_" xml:space="preserve">
-    <value>Keine Ressourcen für rohe Gewalt verfügbar. Überprüfen Sie die Schlüsselsucher Einstellungen!</value>
+    <value>Kann erschöpfende Suche nicht starten. Überprüfen Sie die KeySearcher-Einstellungen!</value>
   </data>
   <data name="Only_using_external_client_to_bruteforce_" xml:space="preserve">
-    <value>Benutze nur externen Client für rohe Gewalt!</value>
+    <value>Benutze nur externen Client für erschöpfende Suche!</value>
   </data>
   <data name="Overhead_Abs_" xml:space="preserve">
-    <value>Unkosten (Abs):</value>
+    <value>Verwaltungskosten (Abs):</value>
   </data>
   <data name="Overhead_Perc_" xml:space="preserve">
-    <value>Unkosten (%):</value>
+    <value>Verwaltungskosten (%):</value>
   </data>
   <data name="P2P_network_could_not_be_connected_" xml:space="preserve">
-    <value>P2P Netzwerk konnte nicht verbunden werden.</value>
+    <value>Konnte nicht zum Netzwerk verbinden.</value>
   </data>
   <data name="P2P_network_not_connected_and_autoconnect_disabled__Cannot_compute_job_" xml:space="preserve">
-    <value>P2P Netzwerk nicht verbunden und autoverbindung abgeschaltet. Kann Job nicht berechnen.</value>
+    <value>Nicht zum Netzwerk verbunden, automatisches Verbinden abgeschaltet. Kann Job nicht berechnen.</value>
   </data>
   <data name="P2P_network_was_connected_due_to_plugin_setting_" xml:space="preserve">
-    <value>P2P Netzwerk wurde wegen Plug-In Einstellungen verbunden.</value>
+    <value>Verbindung zum Netzwerk automatisch aufgebaut.</value>
   </data>
   <data name="P2P_not_connected_" xml:space="preserve">
-    <value>P2P nicht verbunden.</value>
+    <value>Netzwerk nicht verbunden.</value>
   </data>
   <data name="Participants_" xml:space="preserve">
     <value>Teilnehmer:</value>
   </data>
   <data name="Pattern___0__was_reserved_before_it_could_be_reserved_for_this_CrypTool_instance_" xml:space="preserve">
-    <value>Muster #{0} wurde reserviert bevor es für diese CrypTool Instanz reserviert werden konnte.</value>
+    <value>Suchraum #{0} wurde bereits von einem anderen Teilnehmer reserviert.</value>
   </data>
   <data name="Per_Chunk_" xml:space="preserve">
-    <value>Pro Stück:</value>
+    <value>Pro Block:</value>
   </data>
   <data name="PLEASE_UPDATE" xml:space="preserve">
     <value>BITTE AKTUALISIEREN</value>
   </data>
   <data name="pluginName" xml:space="preserve">
-    <value>Schlüsselsucher</value>
+    <value>KeySearcher</value>
   </data>
   <data name="pluginToolTip" xml:space="preserve">
-    <value>Bearbeitet einen Entschlüsselungsalgorithmus mit roher Gewalt.</value>
+    <value>Führt eine erschöpfende Suche nach dem richtigen Schlüssel durch.</value>
   </data>
   <data name="Processing_results_of_calculation" xml:space="preserve">
-    <value>Werte Resultate der Berechnung aus</value>
+    <value>Werte Ergebnis der Berechnung aus</value>
   </data>
   <data name="Pushing_statistics_to_evaluation_database" xml:space="preserve">
-    <value>Drücke Statistiken in die Evaluationsdatenbank</value>
+    <value>Füge Statistiken der Evaluationsdatenbank hinzu</value>
   </data>
   <data name="Ration_" xml:space="preserve">
     <value>Rate:</value>
@@ -325,7 +325,7 @@
     <value>Verbleibend:</value>
   </data>
   <data name="Removed_reservation_of_pattern___0_" xml:space="preserve">
-    <value>Entfernte Reservierung von Muster #{0}</value>
+    <value>Entfernte Reservierung von Suchraum #{0}</value>
   </data>
   <data name="Remove_" xml:space="preserve">
     <value>Entfernte:</value>
@@ -334,22 +334,22 @@
     <value>Anfragen</value>
   </data>
   <data name="Rereserving_pattern_failed_" xml:space="preserve">
-    <value>Neureservierung des Musters fehlgeschlagen!</value>
+    <value>Erneute Reservierung des Suchraums fehlgeschlagen!</value>
   </data>
   <data name="Rereserving_pattern_failed__because_there_is_no_connection_" xml:space="preserve">
-    <value>Neureservierung des Musters fehlgeschlagen, weil keine Verbindung existiert!</value>
+    <value>Erneute Reservierung des Suchraums fehlgeschlagen, weil keine Verbindung besteht!</value>
   </data>
   <data name="Rereserving_pattern___0_" xml:space="preserve">
-    <value>Neureservierung des Musters #{0}</value>
+    <value>Erneute Reservierung des Suchraums #{0}</value>
   </data>
   <data name="Reservation_removed_by_another_node__while_calculating___To_avoid_a_state_in_limbo__proceeding_to_first_available_leaf___" xml:space="preserve">
-    <value>Neureservierung von einem anderen Knoten entfernt (während der Berechnung). To avoid a state in limbo, proceeding to first available leaf...</value>
+    <value>Reservierung wurde während der Berechnung von einem anderen Teilnehmer entfernt. Suche nach freiem Block...</value>
   </data>
   <data name="Retrieve_" xml:space="preserve">
     <value>Empfangen:</value>
   </data>
   <data name="Running_pattern___0__of__1_" xml:space="preserve">
-    <value>Starte Muster #{0} von {1}</value>
+    <value>Berechne Suchraum #{0} von {1}</value>
   </data>
   <data name="Sent_Link_" xml:space="preserve">
     <value>Gesendet (Link):</value>
@@ -361,13 +361,13 @@
     <value>Start:</value>
   </data>
   <data name="Start_bruteforcing_pattern__" xml:space="preserve">
-    <value>Starte mit roher Gewalt auf Muster '</value>
+    <value>Starte erschöpfende Suche im Suchraum '</value>
   </data>
   <data name="Static_" xml:space="preserve">
     <value>Statisch</value>
   </data>
   <data name="Status_key___0___has_been_copied_to_clipboard_" xml:space="preserve">
-    <value>Status Schlüssel '{0}' wurde in die Zwischenablage kopiert.</value>
+    <value>Statusschlüssel '{0}' wurde in die Zwischenablage kopiert.</value>
   </data>
   <data name="Store_" xml:space="preserve">
     <value>Gespeichert:</value>
@@ -376,7 +376,7 @@
     <value>Getestete Bits:</value>
   </data>
   <data name="There_must_be_an_error__because_we_bruteforced_too_much_keys___" xml:space="preserve">
-    <value>Es muss ein Fehler aufgetreten sein, weil wir zu viele Schlüssel probiert haben...</value>
+    <value>Fehler durch inkonsistente Anzahl von berechneten Schlüsseln...</value>
   </data>
   <data name="Top1KeyDesc" xml:space="preserve">
     <value>Der beste gefundene Schlüssel</value>
@@ -394,25 +394,25 @@
     <value>Beste</value>
   </data>
   <data name="Total_" xml:space="preserve">
-    <value>Total:</value>
+    <value>Gesamt:</value>
   </data>
   <data name="Total_amount_of_patterns___0___each_containing__1__keys_" xml:space="preserve">
-    <value>Total Anzahl an Muster: {0}, jedes enthält {1} Schlüssel.</value>
+    <value>Gesamtanzahl an Blöcken: {0}, jeder enthält {1} Schlüssel.</value>
   </data>
   <data name="Total_Chunks_" xml:space="preserve">
-    <value>Anzahl Stücke:</value>
+    <value>Anzahl Blöcke:</value>
   </data>
   <data name="Total_Link_" xml:space="preserve">
-    <value>Total (Link):</value>
+    <value>Gesamt (Link):</value>
   </data>
   <data name="Total_Payload_" xml:space="preserve">
-    <value>Total (Nutzlast):</value>
+    <value>Gesamt (Nutzlast):</value>
   </data>
   <data name="Traffic_" xml:space="preserve">
-    <value>Verkehr</value>
+    <value>Netzwerkaufkommen</value>
   </data>
   <data name="Unable_to_use_peer_to_peer_system_" xml:space="preserve">
-    <value>Nicht in der Lage Peer-to-Peer System zu benutzen.</value>
+    <value>Konnte die verteilte Berechnung nicht durchführen.</value>
   </data>
   <data name="Updating_statistic" xml:space="preserve">
     <value>Aktualisiere Statistik</value>
@@ -424,22 +424,22 @@
     <value>Warte auf externen Client!</value>
   </data>
   <data name="Work_Items_" xml:space="preserve">
-    <value>Arbeistobjekte:</value>
+    <value>Blöcke:</value>
   </data>
   <data name="Wrong_key_pattern_" xml:space="preserve">
-    <value>Falsches Schlüsselmuster!</value>
+    <value>Falsches Suchraummuster!</value>
   </data>
   <data name="You_have_to_connect_the_KeySearcher_with_the_Decryption_Control_" xml:space="preserve">
-    <value>Sie müssen den Schlüsselsucher mit der Entschlüsselungskontrolle verbinden!</value>
+    <value>Sie müssen dem KeySearcher eine Entschlüsselungsfunktion hinzufügen!</value>
   </data>
   <data name="_days_" xml:space="preserve">
     <value> Tage </value>
   </data>
   <data name="_Machines_" xml:space="preserve">
-    <value>Maschinen</value>
+    <value>Rechner</value>
   </data>
   <data name="_Users_" xml:space="preserve">
-    <value>Benutzer</value>
+    <value>Teilnehmer</value>
   </data>
   <data name="__last_reservation_date_" xml:space="preserve">
     <value>, letztes Reservierungsdatum </value>
@@ -448,58 +448,58 @@
     <value>, LeftChildFinished </value>
   </data>
   <data name="___Bruteforcing_TimeSpan__" xml:space="preserve">
-    <value>'. Rohe Gewalt Zeitspanne: </value>
+    <value>'. Laufzeit der erschöpfenden Suche: </value>
   </data>
   <data name="___RightChildFinished_" xml:space="preserve">
     <value>,  RightChildFinished </value>
   </data>
   <data name="AutoconnectSettings" xml:space="preserve">
-    <value>Automatisches Neuverbinden</value>
+    <value>Automatisch verbinden</value>
   </data>
   <data name="AutoconnectSettingsDesc" xml:space="preserve">
-    <value>Baue eine Verbindung zum Netzwerk auf wenn der Arbeitsbereich ohne aktive Hintergrundverbindung gestartet wird.</value>
+    <value>Soll automatisch eine Verbindung zum verteilten Rechennetzwerk aufgebaut werden?</value>
   </data>
   <data name="ChunkSizeSettings" xml:space="preserve">
-    <value>Stückgröße</value>
+    <value>Blockgröße</value>
   </data>
   <data name="ChunkSizeSettingsDesc" xml:space="preserve">
-    <value>Anzahl an Schlüssel die von einem Peer zu einem Zeitpunkt berechnet werden. Dieser Wert ist der Exponent des Quadrats der Stückgröße.</value>
+    <value>Anzahl an Schlüsseln, die von einem Peer zu einem Zeitpunkt berechnet werden. Dieser Wert ist der Exponent des Quadrats der Blockgröße.</value>
   </data>
   <data name="CopyStatusKeySettings" xml:space="preserve">
     <value>Kopiere Statusschlüssel</value>
   </data>
   <data name="CopyStatusKeySettingsDesc" xml:space="preserve">
-    <value>Copy status key to clipboard. The key can than be used to upload it together with the job using the P2PEditor.</value>
+    <value>Kopiere Statusschlüssel in die Zwischenablage. Der Schlüssel kann zum Upload der Projektdatei im Netzwerkmanager verwendet werden.</value>
   </data>
   <data name="CoresUsedSettings" xml:space="preserve">
     <value>Benutzte Kerne</value>
   </data>
   <data name="CoresUsedSettingsDesc" xml:space="preserve">
-    <value>Choose how many cores should be used</value>
+    <value>Wie viele CPU-Kerne sollen verwendet werden?</value>
   </data>
   <data name="CSVPathSettings" xml:space="preserve">
-    <value>Select the Comma-Seperated-Values file</value>
+    <value>Auswahl der CSV-Datei</value>
   </data>
   <data name="CSVPathSettingsDesc" xml:space="preserve">
-    <value>Select the folder and csv file you want to use.</value>
+    <value>Wählen Sie Pfad und CSV-Datei aus.</value>
   </data>
   <data name="DatabaseSettings" xml:space="preserve">
     <value>Datenbank</value>
   </data>
   <data name="DatabaseSettingsDesc" xml:space="preserve">
-    <value>Name of the evaluation database</value>
+    <value>Name der Evaluationsdatenbank</value>
   </data>
   <data name="DefaultPathSettings" xml:space="preserve">
-    <value>Standard Datei</value>
+    <value>Standardpfad</value>
   </data>
   <data name="DefaultPathSettingsDesc" xml:space="preserve">
-    <value>Use the default folder %APPDATA%\\Local\\CrypTool2</value>
+    <value>Soll der Standardpfad %APPDATA%\\Local\\CrypTool2 verwendet werden?</value>
   </data>
   <data name="DisplayVerboseInformationSettings" xml:space="preserve">
-    <value>Display verbose information</value>
+    <value>Ausführliche Informationen</value>
   </data>
   <data name="DisplayVerboseInformationSettingsDesc" xml:space="preserve">
-    <value>Display verbose information about network requests in the quick watch.</value>
+    <value>Sollen ausführliche Informationen über Netzwerkanfragen angezeigt werden?</value>
   </data>
   <data name="GroupEvaluation" xml:space="preserve">
     <value>Evaluation</value>
@@ -511,7 +511,7 @@
     <value>OpenCL</value>
   </data>
   <data name="GroupPeerToPeer" xml:space="preserve">
-    <value>Peer-to-Peer Netzwerk</value>
+    <value>Netzwerk</value>
   </data>
   <data name="GroupStatisticPath" xml:space="preserve">
     <value>Statistik Speicherpfad</value>
@@ -520,70 +520,70 @@
     <value>Host</value>
   </data>
   <data name="HostSettingsDesc" xml:space="preserve">
-    <value>Database host with evaluation database</value>
+    <value>Hostname der Evaluationsdatenbank</value>
   </data>
   <data name="KeySettings" xml:space="preserve">
     <value>Schlüssel</value>
   </data>
   <data name="KeySettingsDesc" xml:space="preserve">
-    <value>Schlüssel der für die rohe Gewalt genutzt wird</value>
+    <value>Schlüssel, der für die erschöpfende Suche verwendet wird</value>
   </data>
   <data name="NoOpenCLSettings" xml:space="preserve">
     <value>Kein OpenCL verfügbar</value>
   </data>
   <data name="OpenCLDeviceSettings" xml:space="preserve">
-    <value>OpenCL Gerät</value>
+    <value>OpenCL-Gerät</value>
   </data>
   <data name="OpenCLDeviceSettingsDesc" xml:space="preserve">
-    <value>Choose the OpenCL device you want to use.</value>
+    <value>Wählen Sie das zu verwendende OpenCL-Geräte.</value>
   </data>
   <data name="OpenCLModeSettings" xml:space="preserve">
-    <value>OpenCL Modus</value>
+    <value>OpenCL-Modus</value>
   </data>
   <data name="OpenCLModeSettingsDesc" xml:space="preserve">
-    <value>Choose the OpenCL mode you want to use.</value>
+    <value>Wählen Sie, welcher OpenCL-Modus verwendet werden soll.</value>
   </data>
   <data name="PasswordSettings" xml:space="preserve">
     <value>Passwort</value>
   </data>
   <data name="PasswordSettingsDesc" xml:space="preserve">
-    <value>Password for evaluation database</value>
+    <value>Passwort für die Evaluationsdatenbank</value>
   </data>
   <data name="PortSettings" xml:space="preserve">
     <value>Port</value>
   </data>
   <data name="PortSettingsDesc" xml:space="preserve">
-    <value>Port on which to listen for external clients.</value>
+    <value>Auf welchem Port soll auf Anfragen von externen Clients gehorcht werden?</value>
   </data>
   <data name="ResetSettings" xml:space="preserve">
     <value>Reset</value>
   </data>
   <data name="ResetSettingsDesc" xml:space="preserve">
-    <value>Reset Key</value>
+    <value>Reset Schlüssel</value>
   </data>
   <data name="UseExternalClientSettings" xml:space="preserve">
-    <value>Benutze externen Client</value>
+    <value>Verwende externen Client</value>
   </data>
   <data name="UseExternalClientSettingsDesc" xml:space="preserve">
-    <value>If checked, external clients are allowed to connect to this CrypTool 2.0 instance to support the bruteforce process.</value>
+    <value>Soll ein Port geöffnet werden, um externen Clients die Verbindung zu ermöglichen? Externe Clients sind direkt an der Schlüsselsuche beteiligt und können diese beschleunigen, aber auch manipulieren.</value>
   </data>
   <data name="UseP2PSettings" xml:space="preserve">
-    <value>Use Peer-to-Peer Netzwerk</value>
+    <value>Verwende Netzwerk</value>
   </data>
   <data name="UseP2PSettingsDesc" xml:space="preserve">
-    <value>Distributes the operation on available peers by using the built-in peer-to-peer network.</value>
+    <value>Soll die Aufgabe im Netzwerk verteilt werden, um die gemeinsame Rechenkraft zu nutzen?</value>
   </data>
   <data name="UserSettings" xml:space="preserve">
-    <value>Benutzer</value>
+    <value>Teilnehmer</value>
   </data>
   <data name="UserSettingsDesc" xml:space="preserve">
-    <value>Username for evaluation database</value>
+    <value>Benutzername für die Evaluationsdatenbank</value>
   </data>
   <data name="UseSelectedDeviceSettings" xml:space="preserve">
     <value>Benutze ausgewähltes Gerät</value>
   </data>
   <data name="UseSelectedDeviceSettingsDesc" xml:space="preserve">
-    <value>If checked, the selected OpenCL device is used for bruteforcing.</value>
+    <value>Soll das ausgewählte OpenCL-Geräte zur Schlüsselsuche verwendet werden?</value>
   </data>
 	<data name="Progress" xml:space="preserve">
     <value>Fortschritt</value>
