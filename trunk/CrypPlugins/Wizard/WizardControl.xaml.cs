@@ -27,6 +27,7 @@ namespace Wizard
     public partial class WizardControl : UserControl
     {
 
+        private List<string> choicePath = new List<string>();
         private const string configXMLPath = "Wizard.Config.wizard.config.start.xml";
         private const string defaultLang = "en-US";
         private XElement wizardConfigXML;
@@ -159,6 +160,15 @@ namespace Wizard
                     sp.Children.Add(l);
 
                     RadioButton rb = new RadioButton();
+                    string id = (string)ele.Attribute("id");
+                    if (id != null)
+                        rb.Name = id;
+                    if (choicePath.Count > 0 && id == choicePath.Last())
+                    {
+                        choicePath.RemoveAt(choicePath.IndexOf(choicePath.Last()));
+                        rb.IsChecked = true;
+                        nextButton.IsEnabled = true;
+                    }
                     rb.HorizontalAlignment = HorizontalAlignment.Stretch;
                     rb.HorizontalContentAlignment = HorizontalAlignment.Left;
                     rb.Checked += rb_Checked;
@@ -213,6 +223,7 @@ namespace Wizard
                 RadioButton b = (RadioButton)uie;
                 if (b.IsChecked != null && (bool)b.IsChecked)
                 {
+                    choicePath.Add(b.Name);
                     radioButtonStackPanel.Children.Clear();
                     description.Text = "";
                     SetupPage((XElement)b.Tag);
@@ -242,6 +253,7 @@ namespace Wizard
         private void abortButton_Click(object sender, RoutedEventArgs e)
         {
             radioButtonStackPanel.Children.Clear();
+            choicePath.Clear();
             description.Text = "";
             SetupPage(wizardConfigXML);
         }
